@@ -1,0 +1,9 @@
+Src/_ReSharper.Bowerbird2
+Src/Bowerbird.Core/bin
+Src/Bowerbird.Core/obj
+Src/Bowerbird.Web/bin
+Src/Bowerbird.Web/obj
+Src/Bowerbird.Website/bin
+Src/Bowerbird.Website/obj
+Src/Bowerbird.Website/Logs
+*.csproj.user

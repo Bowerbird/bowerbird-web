@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bowerbird.Core", "Bowerbird
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bowerbird.Web", "Bowerbird.Web\Bowerbird.Web.csproj", "{32CE4221-21E5-48E9-BA54-E0908FD5B80A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bowerbird.Website", "Bowerbird.Website2\Bowerbird.Website.csproj", "{4E89BE11-AE0B-4A9E-B423-87B5A6261C0E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bowerbird.Website", "Bowerbird.Website\Bowerbird.Website.csproj", "{4E89BE11-AE0B-4A9E-B423-87B5A6261C0E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
