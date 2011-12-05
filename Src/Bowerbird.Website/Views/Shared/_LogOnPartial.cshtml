@@ -1,4 +1,4 @@
-﻿@if(Request.IsAuthenticated) {
+﻿@*@if(Request.IsAuthenticated) {
     
     // Tame our user name a little bit...
     var display = Context.User.Identity.Name;
@@ -14,3 +14,4 @@ else {
     <text>[ @Html.ActionLink("Log On", "LogOn", "Account") ]</text>
 
 }
+*@

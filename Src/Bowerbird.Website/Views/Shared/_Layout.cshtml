@@ -3,102 +3,109 @@
 <!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
 <!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
 <!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
 <head>
-  <meta charset="utf-8" />
-
-  <!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame 
+    <meta charset="utf-8" />
+    <!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame 
        Remove this if you use the .htaccess -->
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-
-  <title>@Page.Title</title>
-  <meta name="description" content="" />
-  <meta name="author" content="" />
-  
-  <!--  Mobile viewport optimized: j.mp/bplateviewport -->
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- CSS : implied media="all" -->
-  @* More info about SquishIt from http://www.codethinked.com/squishit-the-friendly-aspnet-javascript-and-css-squisher *@
-  @Html.Raw(SquishIt.Framework.Bundle.Css()
-                                     .Add("~/css/normalize.css")
-                                     .Add("~/css/site.css")
-                                     .Add("~/css/media.css")
-                                     //.ForceRelease() // Test it out with minification
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>@Page.Title</title>
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <!--  Mobile viewport optimized: j.mp/bplateviewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- CSS : implied media="all" -->
+    @* More info about SquishIt from http://www.codethinked.com/squishit-the-friendly-aspnet-javascript-and-css-squisher *@
+    @Html.Raw(SquishIt.Framework.Bundle.Css()
+                                     .Add(@Url.Stylesheet("normalize.css"))
+                                     .Add(@Url.Stylesheet("site.css"))
+                                     .Add(@Url.Stylesheet("media.css"))
+                                     .Add(@Url.Stylesheet("theme/jquery-ui-1.8.16.custom.css"))
+            //.ForceRelease() // Test it out with minification
                                      .Render("~/css/style_#.css"))
-
-  @RenderSection("HeadContent", false)
- 
-  <!-- More ideas for your <head> here: h5bp.com/docs/#head-Tips -->
-
-  <!-- All JavaScript at the bottom, except for Modernizr and Respond.
+    <link href='http://fonts.googleapis.com/css?family=Merriweather:300,400,700,900' rel='stylesheet' type='text/css'>
+    @RenderSection("header", false)
+    <!-- More ideas for your <head> here: h5bp.com/docs/#head-Tips -->
+    <!-- All JavaScript at the bottom, except for Modernizr and Respond.
        Modernizr enables HTML5 elements & feature detects; Respond is a polyfill for min/max-width CSS3 Media Queries
        For optimal performance, use a custom Modernizr build: www.modernizr.com/download/ -->
-  <script src="@Url.Content("~/js/libs/modernizr-2.0.min.js")"></script>
-  <script src="@Url.Content("~/js/libs/respond.min.js")"></script>
+    <script type="text/javascript" src="@Url.JavaScriptLib("modernizr-2.0.min.js")"></script>
+    <script type="text/javascript" src="@Url.JavaScriptLib("respond.min.js")"></script>
 </head>
-
 <body>
-  <div id="container">
+    <div id="container">
         <header id="header">
-            <div id="title">
-                <h1>MotherEffin HTML5 App</h1>
+            <div id="header-title">Bowerbird</div>
+            <div id="main-menu-items">
+                <div id="main-menu">
+                    <ul>
+                        <li>@Html.ActionLink("Observations", "Index", "Observation")</li> 
+                        <li>@Html.ActionLink("People", "Index", "User")</li>
+                        <li>@Html.ActionLink("Groups", "Index", "Group")</li>
+                    </ul>
+                </div>
+                <div id="search-menu">
+                    <div id="search-box">
+                        <input type="text" value="" placeholder="Search for observations, people and groups" />
+                    </div>
+                </div>
             </div>
-
-            <div id="logindisplay">
-                &nbsp;
-                @* We aren't requiring a log on, put something here if you want one. *@                
-            </div>
-
-            <div id="menucontainer">
-                <ul id="menu">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
+            <div id="account-menu">
+                @*<ul>
+                    <li>Sign In</li>
+                    <li>Register</li>
+                </ul>*@
+                <ul>
+                    <li><span>@Html.ActionLink("Login", "login", "account")</span></li>
+                    @*<li><span><img src="../img/avatar.jpg" alt="" /></span> <a href="#">Frank Radocaj</a></li>*@
                 </ul>
-
             </div>
         </header>
-
-        <div id="main" role="main">
-            @RenderBody()            
+        <div id="main">
+            @RenderBody()
         </div>
-
         <footer id="footer">
-        </footer>    
-  </div> <!--! end of #container -->
-
-  <!-- JavaScript at the bottom for fast page loading -->
-
-  <!-- Grab Google CDN's jQuery. fall back to local if necessary -->
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
-  <script>      window.jQuery || document.write("<script src='@Url.Content("~/js/libs/jquery-1.6.1.min.js")'>\x3C/script>")</script>
-  
-  @* Add other javascript files here if you want them squished on release *@
-  @Html.Raw(SquishIt.Framework.Bundle.JavaScript()
-                                     .Add("~/js/plugins.js")
-                                     .Add("~/js/script.js")
-                                     .Render("~/js/script_#.js"))
-
-  <!-- ADDED: Page Level script sections -->
-  @RenderSection("ScriptSection", false)  
-  
-  <!--[if lt IE 7 ]>
-    <script src="@Url.Content("~/js/libs/dd_belatedpng.js")"></script>
+            <!-- stuff -->
+        </footer>
+    </div> 
+    <!--! end of #container -->
+    <!-- JavaScript at the bottom for fast page loading -->
+    <!-- Grab Google CDN's jQuery. fall back to local if necessary -->
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+    <script type="text/javascript">      window.jQuery || document.write("<script type='text/javascript' src='@Url.JavaScriptLib("jquery-1.6.2.min.js")'>\x3C/script>")</script>
+    @* Add other javascript files here if you want them squished on release *@
+    @Html.Raw(SquishIt.Framework.Bundle.JavaScript()
+            .Add(@Url.JavaScript("plugins.js"))
+            //.Add(@Url.JavaScript("Dialog.js"))
+            //.Add(@Url.JavaScriptLib("jquery.unobtrusive-ajax.min.js"))
+            //.Add(@Url.JavaScriptLib("jquery.validate.min.js"))
+            //.Add(@Url.JavaScriptLib("jquery.validate.unobtrusive.min.js"))
+            //.Add(@Url.JavaScriptLib("jquery-ui-1.8.16.custom.min.js"))
+            .Add(@Url.JavaScriptLib("jquery.tmpl.js"))
+            .Add(@Url.JavaScriptLib("json2.js"))
+            .Add(@Url.JavaScriptLib("underscore-min.js"))
+            .Add(@Url.JavaScriptLib("backbone-min.js"))
+            .Render("~/js/script_#.js"))
+    <!-- ADDED: Page Level script sections -->
+    @RenderSection("script", false)
+    <!--[if lt IE 7]>
+    <script type="text/javascript" src="@Url.JavaScriptLib("dd_belatedpng.js")"></script>
     <script>DD_belatedPNG.fix('img, .png_bg'); // Fix any <img> or .png_bg bg-images. Also, please read goo.gl/mZiyb </script>
-  <![endif]-->
-
-  <!-- mathiasbynens.be/notes/async-analytics-snippet Change UA-XXXXX-X to be your site's ID -->
-  <!-- Commented out until you deploy -->
-  @*<script>
+    <![endif]-->
+    <!--[if lte IE 9]> 
+    <script type="text/javascript" src="@Url.JavaScriptLib("ie-set_timeout.js")"></script> 
+    <![endif]-->
+    <!-- mathiasbynens.be/notes/async-analytics-snippet Change UA-XXXXX-X to be your site's ID -->
+    <!-- Commented out until you deploy -->
+    @*<script type="text/javascript">
       var _gaq = [['_setAccount', 'UA-XXXXX-X'], ['_trackPageview']];
       (function (d, t) {
           var g = d.createElement(t), s = d.getElementsByTagName(t)[0]; g.async = 1;
           g.src = ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js';
           s.parentNode.insertBefore(g, s)
       } (document, 'script'));
-  </script>*@  
+  </script>*@
 </body>
 </html>
-
-
-
