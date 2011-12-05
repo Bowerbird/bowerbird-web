@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F71840F1-86D3-460B-B49A-7770CD7E06E4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Bowerbird.Core</RootNamespace>
+    <AssemblyName>Bowerbird.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\..\Lib\MicrosoftServiceLocator\1.0.0.0\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Abstractions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\RavenDB\Build531\Client\Raven.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Client.Lightweight, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\RavenDB\Build531\Client\Raven.Client.Lightweight.dll</HintPath>
+    </Reference>
+    <Reference Include="SignalR">
+      <HintPath>..\..\Lib\SignalR\Trunk\SignalR.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CommandHandlers\SetupSystemCommandHandler.cs" />
+    <Compile Include="Commands\SetupSystemCommand.cs" />
+    <Compile Include="Entities\Activity.cs" />
+    <Compile Include="Entities\Comment.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Entities\DenormalisedReferences\EnumerableDenormalisedNamedEntityReference.cs" />
+    <Compile Include="Entities\DenormalisedReferences\DenormalisedObservationReference.cs" />
+    <Compile Include="Entities\ProjectMember.cs" />
+    <Compile Include="Entities\DenormalisedReferences\DenormalisedNamedEntityReference.cs" />
+    <Compile Include="Entities\ObservationNote.cs" />
+    <Compile Include="Events\EntityCreatedEvent.cs" />
+    <Compile Include="Events\EntityUpdatedEvent.cs" />
+    <Compile Include="CommandHandlerNotFoundException.cs" />
+    <Compile Include="CommandHandlers\UserCreateCommandHandler.cs" />
+    <Compile Include="CommandHandlers\ObservationUpdateCommandHandler.cs" />
+    <Compile Include="CommandHandlers\ObservationCreateCommandHandler.cs" />
+    <Compile Include="CommandHandlers\ICommandHandler.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="CommandProcessor.cs" />
+    <Compile Include="Commands\CommandBase.cs" />
+    <Compile Include="Commands\UserCreateCommand.cs" />
+    <Compile Include="Commands\MediaResourceCreateCommand.cs" />
+    <Compile Include="Commands\ObservationUpdateCommand.cs" />
+    <Compile Include="Commands\ObservationCreateCommand.cs" />
+    <Compile Include="Commands\ICommand.cs" />
+    <Compile Include="DesignByContract\AssertionException.cs" />
+    <Compile Include="DesignByContract\Check.cs" />
+    <Compile Include="DesignByContract\DesignByContractException.cs" />
+    <Compile Include="DesignByContract\InvariantException.cs" />
+    <Compile Include="DesignByContract\PostconditionException.cs" />
+    <Compile Include="DesignByContract\PreconditionException.cs" />
+    <Compile Include="Entities\DenormalisedReferences\DenormalisedUserReference.cs" />
+    <Compile Include="Entities\Entity.cs" />
+    <Compile Include="Entities\IEntity.cs" />
+    <Compile Include="Entities\MediaResource.cs" />
+    <Compile Include="Entities\MediaResources\ImageMediaResource.cs" />
+    <Compile Include="Entities\Observation.cs" />
+    <Compile Include="Entities\Organisation.cs" />
+    <Compile Include="Entities\Permission.cs" />
+    <Compile Include="Entities\Post.cs" />
+    <Compile Include="Entities\Project.cs" />
+    <Compile Include="Entities\Role.cs" />
+    <Compile Include="Entities\Team.cs" />
+    <Compile Include="Entities\TeamMember.cs" />
+    <Compile Include="Entities\User.cs" />
+    <Compile Include="EventHandlers\LogActivity.cs" />
+    <Compile Include="EventProcessor.cs" />
+    <Compile Include="Events\IDomainEvent.cs" />
+    <Compile Include="EventHandlers\IEventHandler.cs" />
+    <Compile Include="EventHandlers\SendWelcomeEmail.cs" />
+    <Compile Include="Events\UserLoggedInEvent.cs" />
+    <Compile Include="ICommandProcessor.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\DefaultRepository.cs" />
+    <Compile Include="Repositories\RepositoryBase.cs" />
+    <Compile Include="Repositories\IRepository.cs" />
+    <Compile Include="Tasks\IUserTasks.cs" />
+    <Compile Include="Tasks\ITasks.cs" />
+    <Compile Include="Tasks\UserTasks.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

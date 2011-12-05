@@ -1,0 +1,23 @@
+﻿@model ProjectCreateViewModel
+
+@using (Html.BeginForm("Create", "Project", FormMethod.Post))
+{
+    <div>
+        Create a Project
+    </div>
+    <div>
+        <div id="validation-result"></div>
+        <div>
+            @Html.LabelFor(x => x.Name)
+            <br />
+            @Html.TextBoxFor(x => x.Name)
+            @Html.ValidationMessageFor(x => x.Name)
+        </div>
+        <div>
+            @Html.LabelFor(x => x.MissionStatement)
+            <br />
+            @Html.TextBoxFor(x => x.MissionStatement)
+            @Html.ValidationMessageFor(x => x.MissionStatement)
+        </div>
+    </div>
+}

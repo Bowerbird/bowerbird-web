@@ -1,0 +1,25 @@
+﻿@model Bowerbird.Web.ViewModels.AccountLogin
+
+@{
+    ViewBag.Title = "Login";
+}
+
+<h2>Login</h2>
+
+@using (Html.BeginForm()) 
+{
+    <fieldset>
+        <legend>Login Details</legend>
+
+    @Html.LabelFor(x => x.Username)
+    @Html.TextBoxFor(x => x.Username)
+
+    <label for="password">Password</label>
+    @Html.Password("password")
+
+    @Html.CheckBoxFor(x => x.RememberMe)
+
+    <input type="submit" value="Login" />
+
+    </fieldset>
+}

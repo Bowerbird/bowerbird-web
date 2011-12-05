@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{32CE4221-21E5-48E9-BA54-E0908FD5B80A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Bowerbird.Web</RootNamespace>
+    <AssemblyName>Bowerbird.Web</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CommonServiceLocator.NinjectAdapter">
+      <HintPath>..\..\Lib\Ninject\2.2.1.0\CommonServiceLocator.NinjectAdapter.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\..\Lib\log4net\1.2.11\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\MicrosoftServiceLocator\1.0.0.0\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="MvcContrib">
+      <HintPath>..\..\Lib\MVCContrib\MvcContrib.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject">
+      <HintPath>..\..\Lib\Ninject\2.2.1.0\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Extensions.Conventions">
+      <HintPath>..\..\Lib\Ninject\2.2.1.0\Ninject.Extensions.Conventions.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Web.Mvc">
+      <HintPath>..\..\Lib\Ninject\2.2.1.0\Ninject.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Abstractions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\RavenDB\Build499\Raven.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Client.Lightweight, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\RavenDB\Build499\Raven.Client.Lightweight.dll</HintPath>
+    </Reference>
+    <Reference Include="SignalR">
+      <HintPath>..\..\Lib\SignalR\Trunk\SignalR.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Config\BowerbirdHttpApplication.cs" />
+    <Compile Include="Config\Constants.cs" />
+    <Compile Include="Config\CommandHandlerProvider.cs" />
+    <Compile Include="Config\IUserContext.cs" />
+    <Compile Include="Config\NinjectBindModule.cs" />
+    <Compile Include="Config\NinjectValidatorFactory.cs" />
+    <Compile Include="Config\RavenSessionProvider.cs" />
+    <Compile Include="Config\RavenDocumentStoreProvider.cs" />
+    <Compile Include="Config\RouteRegistrar.cs" />
+    <Compile Include="Config\UserContext.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\HomeController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Controllers\ObservationController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Hubs\ActivityHub.cs" />
+    <Compile Include="IViewModelRepository.cs" />
+    <Compile Include="ViewModelFactories\AccountLoginFactory.cs" />
+    <Compile Include="ViewModels\DefaultViewModel.cs" />
+    <Compile Include="ViewModelFactories\DefaultViewModelFactory.cs" />
+    <Compile Include="ViewModelRepository.cs" />
+    <Compile Include="ViewModels\AccountLogin.cs" />
+    <Compile Include="ViewModels\AccountLoginInput.cs" />
+    <Compile Include="ViewModels\UserCreateInput.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Extensions\UrlHelperExtensions.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModelFactories\HomeIndexFactory.cs" />
+    <Compile Include="ViewModelFactories\IViewModelFactory.cs" />
+    <Compile Include="ViewModelFactories\IPagedListFactory.cs" />
+    <Compile Include="ViewModels\HomeIndex.cs" />
+    <Compile Include="ViewModels\HomeIndexInput.cs" />
+    <Compile Include="ViewModels\ObservationCreateInput.cs" />
+    <Compile Include="ViewModels\Paging\PagedList.cs" />
+    <Compile Include="ViewModelFactories\ViewModelFactoryBase.cs" />
+    <Compile Include="ViewModelFactories\UserObservationsFactory.cs" />
+    <Compile Include="Config\TransactionAttribute.cs" />
+    <Compile Include="ViewModels\IViewModel.cs" />
+    <Compile Include="ViewModelFactories\PagedListFactory.cs" />
+    <Compile Include="ViewModels\Paging\PagedListItem.cs" />
+    <Compile Include="ViewModels\Paging\PageNumber.cs" />
+    <Compile Include="ViewModels\ObservationListInput.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Bowerbird.Core\Bowerbird.Core.csproj">
+      <Project>{F71840F1-86D3-460B-B49A-7770CD7E06E4}</Project>
+      <Name>Bowerbird.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

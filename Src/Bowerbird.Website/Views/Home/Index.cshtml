@@ -1,0 +1,12 @@
+﻿@model Bowerbird.Web.ViewModels.PagedList<Bowerbird.Core.Entities.Observation>
+
+@{
+	Page.Title = "Home Page";
+}
+
+@Html.ActionLink("Create Observation", "create", "observation")
+
+@foreach (var pagedItem in Model)
+{
+    @pagedItem.PageObject.Title <br />
+}
