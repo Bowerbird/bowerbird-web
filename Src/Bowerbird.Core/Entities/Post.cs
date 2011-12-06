@@ -27,7 +27,7 @@ namespace Bowerbird.Core.Entities
             Check.RequireNotNullOrWhitespace(message, "message");
 
             User = createdByUser;
-            SubmittedOn = DateTime.Now;
+            PostedOn = DateTime.Now;
 
             SetDetails(
                 subject,
@@ -42,7 +42,7 @@ namespace Bowerbird.Core.Entities
 
         public DenormalisedUserReference User { get; private set; }
 
-        public DateTime SubmittedOn { get; private set; }
+        public DateTime PostedOn { get; private set; }
 
         public string Subject { get; private set; }
 

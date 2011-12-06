@@ -11,7 +11,7 @@ using Bowerbird.Core.DesignByContract;
 
 namespace Bowerbird.Web.Hubs
 {
-    public class ActivityHub : Hub, IEventHandler<UserLoggedInEvent>
+    public class ActivityHub : Hub, IEventHandler<UserLoggedInEvent>, IEventHandler<EntityCreatedEvent<Observation>>
     {
 
         #region Members
@@ -46,6 +46,11 @@ namespace Bowerbird.Web.Hubs
         void IEventHandler<UserLoggedInEvent>.Handle(UserLoggedInEvent args)
         {
             Clients.onUserLoggedIn(args.User);
+        }
+
+        void IEventHandler<EntityCreatedEvent<Observation>>.Handle(EntityCreatedEvent<Observation> args)
+        {
+            Clients.observationCreated(args.Entity);
         }
 
         #endregion      

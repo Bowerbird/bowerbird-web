@@ -5,6 +5,7 @@ using Bowerbird.Core.Commands;
 using Bowerbird.Core.CommandHandlers;
 using System.Collections.Generic;
 using System;
+using Bowerbird.Core.DesignByContract;
 
 namespace Bowerbird.Core
 {
@@ -13,9 +14,19 @@ namespace Bowerbird.Core
 
         #region Members
 
+        private readonly IServiceLocator _serviceLocator;
+
         #endregion
 
         #region Constructors
+
+        public CommandProcessor(
+            IServiceLocator serviceLocator)
+        {
+            Check.RequireNotNull(serviceLocator, "serviceLocator");
+
+            _serviceLocator = serviceLocator;
+        }
 
         #endregion
 
@@ -29,7 +40,7 @@ namespace Bowerbird.Core
         {
             Validator.ValidateObject(command, new ValidationContext(command, null, null), true);
 
-            var handlers = ServiceLocator.Current.GetAllInstances<ICommandHandler<TCommand>>();
+            var handlers = _serviceLocator.GetAllInstances<ICommandHandler<TCommand>>();
             if (handlers == null || !handlers.Any())
             {
                 throw new CommandHandlerNotFoundException(typeof(TCommand));
@@ -45,7 +56,7 @@ namespace Bowerbird.Core
         {
             Validator.ValidateObject(command, new ValidationContext(command, null, null), true);
 
-            var handlers = ServiceLocator.Current.GetAllInstances<ICommandHandler<TCommand, TResult>>();
+            var handlers = _serviceLocator.GetAllInstances<ICommandHandler<TCommand, TResult>>();
             if (handlers == null || !handlers.Any())
             {
                 throw new CommandHandlerNotFoundException(typeof(TCommand));

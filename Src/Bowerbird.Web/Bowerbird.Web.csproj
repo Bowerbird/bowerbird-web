@@ -41,17 +41,21 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\MicrosoftServiceLocator\1.0.0.0\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
     <Reference Include="MvcContrib">
       <HintPath>..\..\Lib\MVCContrib\MvcContrib.dll</HintPath>
     </Reference>
-    <Reference Include="Ninject">
-      <HintPath>..\..\Lib\Ninject\2.2.1.0\Ninject.dll</HintPath>
+    <Reference Include="Ninject, Version=2.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.2.2.1.4\lib\net40-Full\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="Ninject.Extensions.Conventions">
       <HintPath>..\..\Lib\Ninject\2.2.1.0\Ninject.Extensions.Conventions.dll</HintPath>
     </Reference>
-    <Reference Include="Ninject.Web.Mvc">
-      <HintPath>..\..\Lib\Ninject\2.2.1.0\Ninject.Web.Mvc.dll</HintPath>
+    <Reference Include="Ninject.Web.Mvc, Version=2.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.MVC3.2.2.2.0\lib\net40-Full\Ninject.Web.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Abstractions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -63,6 +67,9 @@
     </Reference>
     <Reference Include="SignalR">
       <HintPath>..\..\Lib\SignalR\Trunk\SignalR.dll</HintPath>
+    </Reference>
+    <Reference Include="SignalR.Ninject">
+      <HintPath>..\..\Lib\SignalR\Trunk\SignalR.Ninject.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -77,13 +84,18 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WebActivator, Version=1.4.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WebActivator.1.4.4\lib\net40\WebActivator.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\WebsiteBootstrapper.cs" />
     <Compile Include="Config\BowerbirdHttpApplication.cs" />
     <Compile Include="Config\Constants.cs" />
     <Compile Include="Config\CommandHandlerProvider.cs" />
     <Compile Include="Config\IUserContext.cs" />
-    <Compile Include="Config\NinjectBindModule.cs" />
+    <Compile Include="Config\BowerbirdNinjectModule.cs" />
     <Compile Include="Config\NinjectValidatorFactory.cs" />
     <Compile Include="Config\RavenSessionProvider.cs" />
     <Compile Include="Config\RavenDocumentStoreProvider.cs" />
@@ -125,7 +137,9 @@
     <Compile Include="ViewModels\Paging\PageNumber.cs" />
     <Compile Include="ViewModels\ObservationListInput.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bowerbird.Core\Bowerbird.Core.csproj">
       <Project>{F71840F1-86D3-460B-B49A-7770CD7E06E4}</Project>
