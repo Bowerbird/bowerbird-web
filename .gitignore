@@ -16,3 +16,4 @@ _ReSharper.*/
 packages/*
 msbuild.log
 PublishProfiles/
+[Ll]ogs/
