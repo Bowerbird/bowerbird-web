@@ -213,7 +213,6 @@
     <Content Include="css\normalize.css" />
     <Content Include="demo\elements.html" />
     <Content Include="favicon.ico" />
-    <Content Include="Global.asax" />
     <Content Include="js\libs\dd_belatedpng.js" />
     <Content Include="js\plugins.js" />
     <Content Include="robots.txt" />

@@ -13,6 +13,7 @@ using Bowerbird.Web.ViewModelFactories;
 using Bowerbird.Web.ViewModels;
 using Bowerbird.Core.EventHandlers;
 using Bowerbird.Core.Tasks;
+using Bowerbird.Core.Entities;
 
 namespace Bowerbird.Web.Config
 {
@@ -47,7 +48,7 @@ namespace Bowerbird.Web.Config
 
             Kernel.Scan(x =>
             {
-                x.FromAssemblyContaining(typeof(ICommandHandler<>));
+                x.FromAssemblyContaining(typeof(User));
                 x.FromCallingAssembly();
 
                 x.BindingGenerators.Add(new GenericBindingGenerator(typeof(ICommandHandler<>)));

@@ -11,6 +11,7 @@ using Bowerbird.Web.ViewModels;
 using Bowerbird.Core.Entities;
 using Bowerbird.Web.Config;
 using Bowerbird.Core.Tasks;
+using Bowerbird.Core.CommandHandlers;
 
 namespace Bowerbird.Web.Controllers
 {
@@ -75,6 +76,8 @@ namespace Bowerbird.Web.Controllers
         {
             if (_userTasks.AreCredentialsValid(accountLoginInput.Username, accountLoginInput.Password))
             {
+                _commandProcessor.Process<UserUpdateLastLoginCommand>(MakeUserUpdateLastLoginCommand(accountLoginInput));
+
                 _userContext.SignUserIn(accountLoginInput.Username, accountLoginInput.RememberMe);
 
                 return RedirectToAction("loggingin", new { returnUrl = accountLoginInput.ReturnUrl });
@@ -112,6 +115,14 @@ namespace Bowerbird.Web.Controllers
         public ActionResult LogoutSuccess()
         {
             return View(_viewModelRepository.Load<DefaultViewModel>());
+        }
+
+        private UserUpdateLastLoginCommand MakeUserUpdateLastLoginCommand(AccountLoginInput accountLoginInput)
+        {
+            return new UserUpdateLastLoginCommand()
+            {
+                Username = accountLoginInput.Username
+            };
         }
 
         //[HttpGet]

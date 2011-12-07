@@ -37,7 +37,7 @@ namespace Bowerbird.Core.Entities.DenormalisedReferences
         {
             return new DenormalisedNamedEntityReference<T>
             {
-                Id = namedEntity.Id,
+                Id = namedEntity.Id, 
                 Name = namedEntity.Name
             };
         }
@@ -46,3 +46,4 @@ namespace Bowerbird.Core.Entities.DenormalisedReferences
 
     }
 }
+  

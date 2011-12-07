@@ -55,7 +55,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandHandlers\UserLoggedInCommandHandler.cs" />
     <Compile Include="CommandHandlers\SetupSystemCommandHandler.cs" />
+    <Compile Include="Commands\UserUpdateLastLoginCommand.cs" />
     <Compile Include="Commands\SetupSystemCommand.cs" />
     <Compile Include="Entities\Activity.cs" />
     <Compile Include="Entities\Comment.cs">
@@ -63,6 +65,7 @@
     </Compile>
     <Compile Include="Entities\DenormalisedReferences\EnumerableDenormalisedNamedEntityReference.cs" />
     <Compile Include="Entities\DenormalisedReferences\DenormalisedObservationReference.cs" />
+    <Compile Include="Entities\MediaResources\OtherMediaResource.cs" />
     <Compile Include="Entities\ProjectMember.cs" />
     <Compile Include="Entities\DenormalisedReferences\DenormalisedNamedEntityReference.cs" />
     <Compile Include="Entities\ObservationNote.cs" />
@@ -102,11 +105,10 @@
     <Compile Include="Entities\Team.cs" />
     <Compile Include="Entities\TeamMember.cs" />
     <Compile Include="Entities\User.cs" />
-    <Compile Include="EventHandlers\LogActivity.cs" />
     <Compile Include="EventProcessor.cs" />
     <Compile Include="Events\IDomainEvent.cs" />
     <Compile Include="EventHandlers\IEventHandler.cs" />
-    <Compile Include="EventHandlers\SendWelcomeEmail.cs" />
+    <Compile Include="EventHandlers\SendWelcomeEmailEventHandler.cs" />
     <Compile Include="Events\UserLoggedInEvent.cs" />
     <Compile Include="ICommandProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

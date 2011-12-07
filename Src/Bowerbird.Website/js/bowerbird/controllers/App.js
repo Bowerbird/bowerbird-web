@@ -320,7 +320,7 @@ window.Bowerbird.Views.FormWorkspace = Bowerbird.Views.Workspace.extend({
     },
 
     save: function () {
-        this.model.set({ "title": "hello", "description": "hello", "address": "hello" });
+        this.model.set({ "title": $("#title").attr("value"), "description": "hello", "address": "hello" });
 
         window.observations.add(this.model);
 

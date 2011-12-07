@@ -8,7 +8,7 @@ using Bowerbird.Core.Entities;
 
 namespace Bowerbird.Core.EventHandlers
 {
-    public class SendWelcomeEmail : IEventHandler<EntityCreatedEvent<User>>
+    public class SendWelcomeEmailEventHandler : IEventHandler<EntityCreatedEvent<User>>
     {
 
         #region Members

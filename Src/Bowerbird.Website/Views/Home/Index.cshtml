@@ -203,12 +203,24 @@
         window.activityHub = $.connection.activityHub;
 
         window.activityHub.onUserLoggedIn = function (user) {
-            alert(user.Id);
+            //alert(user.Id);
         };
 
         window.activityHub.observationCreated = function (observation) {
-            alert(observation.Id);
+            //alert(observation.Id);
         };
+
+        window.activityHub.activityOccurred = function (activity) {
+            if (activity.Type == "userloggedin") { 
+                alert(activity.Type + " - " + activity.Data.Id);
+            }
+            if (activity.Type == "observationcreated") {
+                alert(activity.Type + " - " + activity.Data.Title);
+            }
+        };
+
+        $.connection.hub.start(function () {
+        });
 
         window.bowerbirdApp = new Bowerbird.AppRouter();
         Backbone.history.start({ pushState: false });

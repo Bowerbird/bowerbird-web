@@ -30,7 +30,8 @@ namespace Bowerbird.Core.Entities
             string taxonomy,
             string tags,
             IDictionary<string, string> descriptions,
-            IDictionary<string, string> references)
+            IDictionary<string, string> references,
+            string notes)
             : this()
         {
             Check.RequireNotNull(createdByUser, "createdByUser");
@@ -48,7 +49,8 @@ namespace Bowerbird.Core.Entities
                 taxonomy,
                 tags,
                 descriptions,
-                references);
+                references,
+                notes);
 
             EventProcessor.Raise(new EntityCreatedEvent<ObservationNote>(this, createdByUser));
         }
@@ -75,6 +77,8 @@ namespace Bowerbird.Core.Entities
 
         public Dictionary<string, string> References { get; private set; }
 
+        public string Notes { get; private set; }
+
         #endregion
 
         #region Methods
@@ -85,7 +89,7 @@ namespace Bowerbird.Core.Entities
             References = new Dictionary<string, string>();
         }
 
-        protected void SetDetails(string commonName, string scientificName, string taxonomy, string tags, IDictionary<string, string> descriptions, IDictionary<string, string> references)
+        protected void SetDetails(string commonName, string scientificName, string taxonomy, string tags, IDictionary<string, string> descriptions, IDictionary<string, string> references, string notes)
         {
             CommonName = commonName;
             ScientificName = scientificName;
@@ -95,7 +99,7 @@ namespace Bowerbird.Core.Entities
             References = references.ToDictionary(x => x.Key, x => x.Value);
         }
 
-        public ObservationNote UpdateDetails(User updatedByUser, string commonName, string scientificName, string taxonomy, string tags, IDictionary<string, string> descriptions, IDictionary<string, string> references)
+        public ObservationNote UpdateDetails(User updatedByUser, string commonName, string scientificName, string taxonomy, string tags, IDictionary<string, string> descriptions, IDictionary<string, string> references, string notes)
         {
             Check.RequireNotNull(updatedByUser, "updatedByUser");
             Check.RequireNotNull(descriptions, "descriptions");
@@ -107,7 +111,8 @@ namespace Bowerbird.Core.Entities
                 taxonomy,
                 tags,
                 descriptions,
-                references);
+                references,
+                notes);
 
             EventProcessor.Raise(new EntityUpdatedEvent<ObservationNote>(this, updatedByUser));
 

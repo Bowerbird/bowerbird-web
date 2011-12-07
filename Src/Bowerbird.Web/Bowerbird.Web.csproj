@@ -90,7 +90,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\WebsiteBootstrapper.cs" />
+    <Compile Include="App_Start\Bootstrapper.cs" />
     <Compile Include="Config\BowerbirdHttpApplication.cs" />
     <Compile Include="Config\Constants.cs" />
     <Compile Include="Config\CommandHandlerProvider.cs" />
@@ -109,6 +109,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="EventHandlers\NotifyActivityEventHandlerBase.cs" />
+    <Compile Include="EventHandlers\NotifyActivityUserLoggedInEventHandler.cs" />
+    <Compile Include="EventHandlers\NotifyActivityObservationCreatedEventHandler.cs" />
     <Compile Include="Hubs\ActivityHub.cs" />
     <Compile Include="IViewModelRepository.cs" />
     <Compile Include="ViewModelFactories\AccountLoginFactory.cs" />
@@ -146,6 +149,7 @@
       <Name>Bowerbird.Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

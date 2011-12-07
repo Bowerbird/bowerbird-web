@@ -14,20 +14,20 @@ using log4net.Config;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-[assembly: WebActivator.PreApplicationStartMethod(typeof(WebsiteBootstrapper), "Start")]
-[assembly: WebActivator.PostApplicationStartMethod(typeof(WebsiteBootstrapper), "Setup")]
-[assembly: WebActivator.ApplicationShutdownMethodAttribute(typeof(WebsiteBootstrapper), "Stop")]
+[assembly: WebActivator.PreApplicationStartMethod(typeof(Bowerbird.Web.App_Start.Bootstrapper), "PreStart")]
+[assembly: WebActivator.PostApplicationStartMethod(typeof(Bowerbird.Web.App_Start.Bootstrapper), "PostStart")]
+[assembly: WebActivator.ApplicationShutdownMethodAttribute(typeof(Bowerbird.Web.App_Start.Bootstrapper), "Stop")]
 
 namespace Bowerbird.Web.App_Start
 {
-    public static class WebsiteBootstrapper
+    public static class Bootstrapper
     {
         private static readonly NinjectBootstrapper _ninjectBootstrapper = new NinjectBootstrapper();
 
         /// <summary>
         /// Starts the application
         /// </summary>
-        public static void Start()
+        public static void PreStart()
         {
             DynamicModuleUtility.RegisterModule(typeof(OnePerRequestModule));
             DynamicModuleUtility.RegisterModule(typeof(HttpApplicationInitializationModule));
@@ -37,7 +37,7 @@ namespace Bowerbird.Web.App_Start
         /// <summary>
         /// Sets up the application ready for use
         /// </summary>
-        public static void Setup()
+        public static void PostStart()
         {
             EventProcessor.ServiceLocator = ServiceLocator.Current;
 
