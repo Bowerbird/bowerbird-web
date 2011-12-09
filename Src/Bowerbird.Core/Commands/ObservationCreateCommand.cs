@@ -25,9 +25,9 @@ namespace Bowerbird.Core.Commands
 
         public DateTime ObservedOn { get; set; }
 
-        public float Latitude { get; set; }
+        public string Latitude { get; set; }
 
-        public float Longitude { get; set; }
+        public string Longitude { get; set; }
 
         public string Address { get; set; }
 

@@ -179,7 +179,23 @@ namespace Bowerbird.Core.Entities
             return this;
         }
 
+        public User IncrementFlaggedItemsOwned()
+        {
+            FlaggedItemsOwned++;
+
+            return this;
+        }
+
+        public User IncrementFlagsRaised()
+        {
+            FlagsRaised++;
+
+            return this;
+        }
+
         #endregion
 
+
+        
     }
 }

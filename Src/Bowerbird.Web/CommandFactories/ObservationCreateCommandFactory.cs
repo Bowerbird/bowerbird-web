@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Bowerbird.Core.Commands;
+﻿using Bowerbird.Core.Commands;
 using Bowerbird.Web.ViewModels;
 
 namespace Bowerbird.Web.CommandFactories

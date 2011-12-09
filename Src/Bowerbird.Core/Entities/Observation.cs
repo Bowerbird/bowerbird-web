@@ -28,8 +28,8 @@ namespace Bowerbird.Core.Entities
             User createdByUser,
             string title, 
             DateTime observedOn,
-            float latitude, 
-            float longitude, 
+            string latitude, 
+            string longitude, 
             string address,
             bool isIdentificationRequired,
             string observationCategory,
@@ -67,9 +67,9 @@ namespace Bowerbird.Core.Entities
 
         public DateTime SubmittedOn { get; private set; }
                
-        public float Latitude { get; private set; }
+        public string Latitude { get; private set; }
                
-        public float Longitude { get; private set; }
+        public string Longitude { get; private set; }
                
         public string Address { get; private set; }
                
@@ -88,7 +88,7 @@ namespace Bowerbird.Core.Entities
             MediaResources = new List<MediaResource>();
         }
 
-        private void SetDetails(string title, DateTime observedOn, float latitude, float longitude, string address, bool isIdentificationRequired, string observationCategory, IEnumerable<MediaResource> mediaResources)
+        private void SetDetails(string title, DateTime observedOn, string latitude, string longitude, string address, bool isIdentificationRequired, string observationCategory, IEnumerable<MediaResource> mediaResources)
         {
             Title = title;
             ObservedOn = observedOn;
@@ -100,7 +100,7 @@ namespace Bowerbird.Core.Entities
             MediaResources = mediaResources.ToList();
         }
 
-        public Observation UpdateDetails(User updatedByUser, string title, DateTime observedOn, float latitude, float longitude, string address, bool isIdentificationRequired, string observationCategory, IEnumerable<MediaResource> mediaResources)
+        public Observation UpdateDetails(User updatedByUser, string title, DateTime observedOn, string latitude, string longitude, string address, bool isIdentificationRequired, string observationCategory, IEnumerable<MediaResource> mediaResources)
         {
             Check.RequireNotNull(updatedByUser, "updatedByUser");
             Check.RequireNotNull(mediaResources, "mediaResources");
