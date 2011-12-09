@@ -8,7 +8,7 @@ using Bowerbird.Core.Events;
 
 namespace Bowerbird.Core.Entities
 {
-    public class ProjectMember : Member
+    public class GlobalMember : Member
     {
 
         #region Members
@@ -17,31 +17,24 @@ namespace Bowerbird.Core.Entities
 
         #region Constructors
 
-        protected ProjectMember()
+        protected GlobalMember()
             : base()
         {
             InitMembers();
         }
 
-        public ProjectMember(
-            User createdByUser,
-            Project project,
+        public GlobalMember(
             User user,
             IEnumerable<Role> roles)
             : base(
             user,
             roles)
         {
-            Check.RequireNotNull(project, "project");
-
-            EventProcessor.Raise(new EntityCreatedEvent<ProjectMember>(this, createdByUser));
         }
 
         #endregion
 
         #region Properties
-
-        public DenormalisedNamedEntityReference<Project> Project { get; private set; }
 
         #endregion
 
@@ -51,10 +44,8 @@ namespace Bowerbird.Core.Entities
         {
         }
 
-        private void SetDetails(Project project, User user)
+        private new void SetDetails(User user)
         {
-            Project = project;
-
             base.SetDetails(user);
         }
 

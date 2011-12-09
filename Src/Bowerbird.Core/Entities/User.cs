@@ -15,6 +15,7 @@ namespace Bowerbird.Core.Entities
         #region Members
 
         private const string _constantSalt = "nf@hskdhI&%dynm^&%";
+        private GlobalMember _globalMember;
 
         #endregion
 
@@ -49,7 +50,7 @@ namespace Bowerbird.Core.Entities
                 lastName,
                 description);
 
-            Roles = roles.Select(x => (DenormalisedNamedEntityReference<Role>)x).ToList();
+            _globalMember = new GlobalMember(this, roles);
 
             EventProcessor.Raise(new EntityCreatedEvent<User>(this, this));
         }
@@ -78,7 +79,11 @@ namespace Bowerbird.Core.Entities
 
         public int FlagsRaised { get; private set; }
 
-        public List<DenormalisedNamedEntityReference<Role>> Roles { get; private set; }
+        public List<DenormalisedNamedEntityReference<Role>> Roles 
+        {
+            get { return _globalMember.Roles; }
+            private set { _globalMember.AddRoles(value); }
+        }
 
         #endregion
 
@@ -86,7 +91,7 @@ namespace Bowerbird.Core.Entities
 
         private void InitMembers()
         {
-            Roles = new List<DenormalisedNamedEntityReference<Role>>();
+            _globalMember = new GlobalMember(this, new List<Role>());
         }
 
         private string GetHashedPassword(string password)
@@ -160,24 +165,16 @@ namespace Bowerbird.Core.Entities
             return this;
         }
 
-        public User AddRole(User updatedByUser, Role role)
+        public User AddRole(Role role)
         {
-            Check.RequireNotNull(updatedByUser, "updatedByUser");
-            Check.RequireNotNull(role, "role");
-
-            if (Roles.All(x => x.Id != role.Id))
-            {
-                Roles.Add((DenormalisedNamedEntityReference<Role>)role);
-            }
+            _globalMember.AddRole(role);
 
             return this;
         }
 
-        public User RemoveRole(User updatedByUser, string roleId)
+        public User RemoveRole(string roleId)
         {
-            Check.RequireNotNull(updatedByUser, "updatedByUser");
-
-            Roles.RemoveAll(x => x.Id == roleId);
+            _globalMember.RemoveRole(roleId);
 
             return this;
         }

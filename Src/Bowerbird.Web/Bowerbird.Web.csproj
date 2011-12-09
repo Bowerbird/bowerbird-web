@@ -34,6 +34,12 @@
     <Reference Include="CommonServiceLocator.NinjectAdapter">
       <HintPath>..\..\Lib\Ninject\2.2.1.0\CommonServiceLocator.NinjectAdapter.dll</HintPath>
     </Reference>
+    <Reference Include="FluentValidation, Version=3.2.0.0, Culture=neutral, PublicKeyToken=a82054b837897c66, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.3.2.0.0\lib\Net40\FluentValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidation.Mvc">
+      <HintPath>..\packages\FluentValidation.MVC3.3.2.0.0\lib\Net40\FluentValidation.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="log4net">
       <HintPath>..\..\Lib\log4net\1.2.11\log4net.dll</HintPath>
     </Reference>
@@ -91,6 +97,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\Bootstrapper.cs" />
+    <Compile Include="CommandFactories\ICommandFactory.cs" />
+    <Compile Include="CommandFactories\ObservationCreateCommandFactory.cs" />
     <Compile Include="Config\BowerbirdHttpApplication.cs" />
     <Compile Include="Config\Constants.cs" />
     <Compile Include="Config\CommandHandlerProvider.cs" />
@@ -109,10 +117,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="CommandBuilder.cs" />
     <Compile Include="EventHandlers\NotifyActivityEventHandlerBase.cs" />
     <Compile Include="EventHandlers\NotifyActivityUserLoggedInEventHandler.cs" />
     <Compile Include="EventHandlers\NotifyActivityObservationCreatedEventHandler.cs" />
     <Compile Include="Hubs\ActivityHub.cs" />
+    <Compile Include="ICommandBuilder.cs" />
     <Compile Include="IViewModelRepository.cs" />
     <Compile Include="ViewModelFactories\AccountLoginFactory.cs" />
     <Compile Include="ViewModels\DefaultViewModel.cs" />

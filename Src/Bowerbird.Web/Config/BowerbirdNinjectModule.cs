@@ -14,6 +14,7 @@ using Bowerbird.Web.ViewModels;
 using Bowerbird.Core.EventHandlers;
 using Bowerbird.Core.Tasks;
 using Bowerbird.Core.Entities;
+using Bowerbird.Web.CommandFactories;
 
 namespace Bowerbird.Web.Config
 {
@@ -55,6 +56,7 @@ namespace Bowerbird.Web.Config
                 x.BindingGenerators.Add(new GenericBindingGenerator(typeof(IViewModelFactory<,>)));
                 x.BindingGenerators.Add(new GenericBindingGenerator(typeof(IViewModelFactory<>)));
                 x.BindingGenerators.Add(new GenericBindingGenerator(typeof(IEventHandler<>)));
+                x.BindingGenerators.Add(new GenericBindingGenerator(typeof(ICommandFactory<,>)));
                 x.BindingGenerators.Add(new DefaultBindingGenerator());
             });
         }

@@ -1,15 +1,7 @@
 ﻿<!doctype html>
-<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
-<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!-->
 <html class="no-js" lang="en">
-<!--<![endif]-->
 <head>
     <meta charset="utf-8" />
-    <!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame 
-       Remove this if you use the .htaccess -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <title>@Page.Title</title>
     <meta name="description" content="" />
@@ -20,9 +12,8 @@
     @* More info about SquishIt from http://www.codethinked.com/squishit-the-friendly-aspnet-javascript-and-css-squisher *@
     @Html.Raw(SquishIt.Framework.Bundle.Css()
                                      .Add(@Url.Stylesheet("normalize.css"))
-                                     .Add(@Url.Stylesheet("site.css"))
-                                     .Add(@Url.Stylesheet("media.css"))
-                                     .Add(@Url.Stylesheet("theme/jquery-ui-1.8.16.custom.css"))
+                                     //.Add(@Url.Stylesheet("site.css"))
+                                     //.Add(@Url.Stylesheet("media.css"))
             //.ForceRelease() // Test it out with minification
                                      .Render("~/css/style_#.css"))
     <link href='http://fonts.googleapis.com/css?family=Merriweather:300,400,700,900' rel='stylesheet' type='text/css'>
@@ -41,25 +32,28 @@
             <div id="main-menu-items">
                 <div id="main-menu">
                     <ul>
-                        <li>@Html.ActionLink("Observations", "Index", "Observation")</li> 
-                        <li>@Html.ActionLink("People", "Index", "User")</li>
-                        <li>@Html.ActionLink("Groups", "Index", "Group")</li>
+                        <li>@Html.ActionLink("Observations", "index", "observation")</li> 
+                        <li>@Html.ActionLink("People", "index", "user")</li>
+                        <li>@Html.ActionLink("Groups", "index", "group")</li>
                     </ul>
                 </div>
                 <div id="search-menu">
                     <div id="search-box">
-                        <input type="text" value="" placeholder="Search for observations, people and groups" />
+                        <label for="search">Search</label> <input type="text" value="" name="search" id="search" placeholder="Search for observations, people and groups" />
                     </div>
                 </div>
             </div>
             <div id="account-menu">
-                @*<ul>
-                    <li>Sign In</li>
-                    <li>Register</li>
-                </ul>*@
                 <ul>
-                    <li><span>@Html.ActionLink("Login", "login", "account")</span></li>
-                    @*<li><span><img src="../img/avatar.jpg" alt="" /></span> <a href="#">Frank Radocaj</a></li>*@
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li><img src="/img/avatar.jpg" alt="" /> @Html.ActionLink(User.Identity.Name, "index", "user", new { User.Identity.Name }, null)</li>
+                }
+                else
+                {
+                    <li>@Html.ActionLink("Login", "login", "account")</li>
+                    <li>@Html.ActionLink("Register", "register", "account")</li>
+                }
                 </ul>
             </div>
         </header>
@@ -71,7 +65,6 @@
         </footer>
     </div> 
     <!--! end of #container -->
-    <!-- JavaScript at the bottom for fast page loading -->
     <!-- Grab Google CDN's jQuery. fall back to local if necessary -->
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
     <script type="text/javascript">      window.jQuery || document.write("<script type='text/javascript' src='@Url.JavaScriptLib("jquery-1.6.2.min.js")'>\x3C/script>")</script>
@@ -90,15 +83,10 @@
             .Render("~/js/script_#.js"))
     <!-- ADDED: Page Level script sections -->
     @RenderSection("script", false)
-    <!--[if lt IE 7]>
-    <script type="text/javascript" src="@Url.JavaScriptLib("dd_belatedpng.js")"></script>
-    <script>DD_belatedPNG.fix('img, .png_bg'); // Fix any <img> or .png_bg bg-images. Also, please read goo.gl/mZiyb </script>
-    <![endif]-->
     <!--[if lte IE 9]> 
     <script type="text/javascript" src="@Url.JavaScriptLib("ie-set_timeout.js")"></script> 
     <![endif]-->
     <!-- mathiasbynens.be/notes/async-analytics-snippet Change UA-XXXXX-X to be your site's ID -->
-    <!-- Commented out until you deploy -->
     @*<script type="text/javascript">
       var _gaq = [['_setAccount', 'UA-XXXXX-X'], ['_trackPageview']];
       (function (d, t) {

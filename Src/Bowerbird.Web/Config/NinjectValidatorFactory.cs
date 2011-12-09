@@ -1,47 +1,47 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using FluentValidation;
-//using Ninject.Planning.Bindings;
+﻿using System;
+using Ninject;
+using FluentValidation;
+using Microsoft.Practices.ServiceLocation;
+using System.Collections.Generic;
+using Ninject.Planning.Bindings;
 
-//namespace Ninject.Web.Mvc.FluentValidation
-//{
-//    /// <summary>
-//    /// Validation factory that uses ninject to create validators  
-//    /// </summary>
-//    public class NinjectValidatorFactory : ValidatorFactoryBase
-//    {
-//        /// <summary>
-//        /// Initializes a new instance of the <see cref="NinjectValidatorFactory"/> class.
-//        /// </summary>
-//        /// <param name="kernel">The kernel.</param>
-//        public NinjectValidatorFactory(IKernel kernel)
-//        {
-//            Kernel = kernel;
-//        }
+namespace Bowerbird.Web.Config
+{
+    public class NinjectValidatorFactory : ValidatorFactoryBase
+    {
 
-//        /// <summary>
-//        /// Gets or sets the kernel.
-//        /// </summary>
-//        /// <value>The kernel.</value>
-//        private IKernel Kernel
-//        {
-//            get;
-//            set;
-//        }
+        #region Members
 
-//        /// <summary>
-//        /// Creates an instance of a validator with the given type using ninject.
-//        /// </summary>
-//        /// <param name="validatorType">Type of the validator.</param>
-//        /// <returns>The newly created validator</returns>
-//        public override IValidator CreateInstance(Type validatorType)
-//        {
-//            if (((IList<IBinding>)Kernel.GetBindings(validatorType)).Count == 0)
-//            {
-//                return null;
-//            }
+        private IKernel _kernel;
 
-//            return Kernel.Get(validatorType) as IValidator;
-//        }
-//    }
-//}
+        #endregion
+
+        #region Constructors
+
+        public NinjectValidatorFactory(IKernel kernel)
+        {
+            _kernel = kernel;
+        }
+
+        #endregion
+
+        #region Properties
+
+        #endregion
+
+        #region Methods
+
+        public override IValidator CreateInstance(Type validatorType)
+        {
+            if (((IList<IBinding>)_kernel.GetBindings(validatorType)).Count == 0)
+            {
+                return null;
+            }
+
+            return _kernel.Get(validatorType) as IValidator;
+        }
+
+        #endregion      
+
+    }
+}

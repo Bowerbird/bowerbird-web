@@ -1,8 +1,8 @@
 ﻿<div>
-    @using (Html.BeginForm("Create", "Observation", FormMethod.Post))
+    @using (Html.BeginForm("create", "observation", FormMethod.Post))
     {
         <fieldset>
-            <legend>Add New Observation</legend>
+            <legend>Create Observation</legend>
             <div>
                 <div>
                     <label for="title">Title</label>
@@ -13,48 +13,30 @@
             </div>
             <div>
                 <div>
-                    <label for="description">Description</label>
-                </div>
-                <div>
-                    <input type="text" id="description" name="description" />
-                </div>
-            </div>
-            <div>
-                <div>
                     <label for="address">Address</label>
                 </div>
                 <div>
                     <input type="text" id="address" name="address" />
                 </div>
             </div>
+            <div>
+                <div>
+                    <label for="latitude">Latitude</label>
+                </div>
+                <div>
+                    <input type="text" id="latitude" name="latitude" />
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label for="longitude">Longitude</label>
+                </div>
+                <div>
+                    <input type="text" id="longitude" name="longitude" />
+                </div>
+            </div>
         </fieldset>
         <div>
-            <div id="validation-result"></div>
-    @*        <div>
-                @Html.LabelFor(x => x.Description)
-                <br />
-                @Html.TextBoxFor(x => x.Description)
-                @Html.ValidationMessageFor(x => x.Description)
-            </div>
-            <div>
-                @Html.LabelFor(x => x.Address)
-                <br />
-                @Html.TextBoxFor(x => x.Address)
-                @Html.ValidationMessageFor(x => x.Address)
-            </div>
-            <div>
-                @Html.LabelFor(x => x.Latitude)
-                <br />
-                @Html.TextBoxFor(x => x.Latitude)
-                @Html.ValidationMessageFor(x => x.Latitude)
-            </div>
-            <div>
-                @Html.LabelFor(x => x.Longitude)
-                <br />
-                @Html.TextBoxFor(x => x.Longitude)
-                @Html.ValidationMessageFor(x => x.Longitude)
-            </div>*@
-
             <input type="button" value="Save" id="save" />
             <input type="button" value="Cancel" id="cancel" />
         </div>

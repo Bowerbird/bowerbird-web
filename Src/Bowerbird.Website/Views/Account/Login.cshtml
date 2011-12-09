@@ -10,16 +10,16 @@
 {
     <fieldset>
         <legend>Login Details</legend>
+        <div>
+            @Html.LabelFor(x => x.Username)
+            @Html.TextBoxFor(x => x.Username)
 
-    @Html.LabelFor(x => x.Username)
-    @Html.TextBoxFor(x => x.Username)
+            <label for="password">Password</label>
+            @Html.Password("password")
 
-    <label for="password">Password</label>
-    @Html.Password("password")
-
-    @Html.CheckBoxFor(x => x.RememberMe)
-
-    <input type="submit" value="Login" />
-
+            @Html.LabelFor(x => x.RememberMe, "Remember Me")
+            @Html.CheckBoxFor(x => x.RememberMe)
+        </div>
+        <input type="submit" value="Login" />
     </fieldset>
 }

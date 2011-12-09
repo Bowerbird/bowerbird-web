@@ -19,17 +19,21 @@ namespace Bowerbird.Web.Controllers
         #region Members
 
         private readonly ICommandProcessor _commandProcessor;
+        private readonly ICommandBuilder _commandBuilder;
 
         #endregion
 
         #region Constructors
 
         public ObservationController(
-            ICommandProcessor commandProcessor)
+            ICommandProcessor commandProcessor,
+            ICommandBuilder commandBuilder)
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
+            Check.RequireNotNull(commandBuilder, "commandBuilder");
 
             _commandProcessor = commandProcessor;
+            _commandBuilder = commandBuilder;
         }
 
         #endregion
@@ -47,42 +51,29 @@ namespace Bowerbird.Web.Controllers
         }
 
         [Transaction]
-        [HttpPost]
+        [HttpPost] 
         public ActionResult Create(ObservationCreateInput observationCreateInput)
         {
-            _commandProcessor.Process(MakeObservationCreateCommand(observationCreateInput));
+            _commandProcessor.Process(
+                _commandBuilder.Build<ObservationCreateInput, ObservationCreateCommand>(
+                    observationCreateInput, 
+                    x => x.Username = User.Identity.Name));
 
-            return Json("success", JsonRequestBehavior.AllowGet);
+            return Json("success"); // TODO: Return something more meaningful?
         }
 
         [Transaction]
         [HttpPut]
         public ActionResult Update(ObservationCreateInput observationCreateInput)
         {
-            _commandProcessor.Process(MakeObservationCreateCommand(observationCreateInput));
-
-            return Json("success", JsonRequestBehavior.AllowGet);
+            throw new NotImplementedException();
         }
 
         [Transaction]
         [HttpDelete]
         public ActionResult Delete(ObservationCreateInput observationCreateInput)
         {
-            _commandProcessor.Process(MakeObservationCreateCommand(observationCreateInput));
-
-            return Json("success", JsonRequestBehavior.AllowGet);
-        }
-
-        private ObservationCreateCommand MakeObservationCreateCommand(ObservationCreateInput observationCreateInput)
-        {
-            return new ObservationCreateCommand()
-            {
-                Title = observationCreateInput.Title,
-                Latitude = observationCreateInput.Latitude,
-                Longitude = observationCreateInput.Longitude,
-                Address = observationCreateInput.Address,
-                Username = "frankr"
-            };
+            throw new NotImplementedException();
         }
 
         #endregion      

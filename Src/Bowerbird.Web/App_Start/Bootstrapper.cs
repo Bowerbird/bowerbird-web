@@ -13,6 +13,7 @@ using Bowerbird.Core;
 using log4net.Config;
 using System.Web.Mvc;
 using System.Web.Routing;
+using FluentValidation.Mvc;
 
 [assembly: WebActivator.PreApplicationStartMethod(typeof(Bowerbird.Web.App_Start.Bootstrapper), "PreStart")]
 [assembly: WebActivator.PostApplicationStartMethod(typeof(Bowerbird.Web.App_Start.Bootstrapper), "PostStart")]
@@ -46,16 +47,14 @@ namespace Bowerbird.Web.App_Start
             ViewEngines.Engines.Clear();
             ViewEngines.Engines.Add(new RazorViewEngine());
 
-            //FluentValidationModelValidatorProvider.Configure(x => x.ValidatorFactory = new NinjectValidatorFactory(Kernel));
-
             //ModelValidatorProviders.Providers.Add(new ClientDataTypeModelValidatorProvider());
 
-            //ModelValidatorProviders.Providers.Add(new FluentValidationModelValidatorProvider(new NinjectValidatorFactory(Kernel))); 
+            //ModelValidatorProviders.Providers.Add(new FluentValidationModelValidatorProvider(new NinjectValidatorFactory(ServiceLocator.Current))); 
 
-            DataAnnotationsModelValidatorProvider.AddImplicitRequiredAttributeForValueTypes = false;
+            //DataAnnotationsModelValidatorProvider.AddImplicitRequiredAttributeForValueTypes = false;
 
             AreaRegistration.RegisterAllAreas();
-
+             
             RouteRegistrar.RegisterRoutesTo(RouteTable.Routes);
 
             //IndexCreation.CreateIndexes(typeof(ImageTags_GroupByTagName).Assembly, documentStore);
@@ -91,6 +90,8 @@ namespace Bowerbird.Web.App_Start
             ServiceLocator.SetLocatorProvider(() => new NinjectServiceLocator(kernel));
             
             SignalR.Infrastructure.DependencyResolver.SetResolver(new SignalR.Ninject.NinjectDependencyResolver(kernel));
+
+            //FluentValidationModelValidatorProvider.Configure(x => x.ValidatorFactory = new NinjectValidatorFactory(ServiceLocator.Current));
         }
     }
 }
