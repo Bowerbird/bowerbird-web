@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Entities;
 using Bowerbird.Core.Entities.DenormalisedReferences;
@@ -29,6 +30,24 @@ namespace Bowerbird.Core.Test.Entities
         }
 
         [Test]
+        public void User_Constructor_Populates_Id_Field()
+        {
+            var user = new User(
+                    FakeValues.KeyString,
+                    FakeValues.Password,
+                    FakeValues.Email,
+                    FakeValues.FirstName,
+                    FakeValues.LastName,
+                    FakeValues.Description,
+                    TestRoles());
+
+            var expected = FakeValues.KeyString;
+            var actual = user.Id;
+
+            Assert.AreEqual(actual, expected);
+        }
+
+        [Test]
         public void User_Constructor_With_Null_Password_Throws_DesignByContractException()
         {
             Assert.IsTrue(
@@ -41,6 +60,25 @@ namespace Bowerbird.Core.Test.Entities
                     FakeValues.LastName,
                     FakeValues.Description,
                     TestRoles())));
+        }
+
+        [Test]
+        public void User_Constructor_Populates_Password_Field()
+        {
+            var user = new User(
+                    FakeValues.KeyString,
+                    FakeValues.Password,
+                    FakeValues.Email,
+                    FakeValues.FirstName,
+                    FakeValues.LastName,
+                    FakeValues.Description,
+                    TestRoles());
+
+
+            var actual = user.ValidatePassword(FakeValues.Password);
+            var expected = true;
+
+            Assert.AreEqual(actual, expected);
         }
 
         [Test]
@@ -59,6 +97,24 @@ namespace Bowerbird.Core.Test.Entities
         }
 
         [Test]
+        public void User_Constructor_Populates_Email_Field()
+        {
+            var user = new User(
+                    FakeValues.KeyString,
+                    FakeValues.Password,
+                    FakeValues.Email,
+                    FakeValues.FirstName,
+                    FakeValues.LastName,
+                    FakeValues.Description,
+                    TestRoles());
+
+            var expected = FakeValues.Email;
+            var actual = user.Email;
+
+            Assert.AreEqual(actual, expected);
+        }
+
+        [Test]
         public void User_Constructor_With_Null_FirstName_Throws_DesignByContractException()
         {
             Assert.IsTrue(
@@ -71,6 +127,24 @@ namespace Bowerbird.Core.Test.Entities
                     FakeValues.LastName,
                     FakeValues.Description,
                     TestRoles())));
+        }
+
+        [Test]
+        public void User_Constructor_Populates_FirstName_Field()
+        {
+            var user = new User(
+                                FakeValues.KeyString,
+                                FakeValues.Password,
+                                FakeValues.Email,
+                                FakeValues.FirstName,
+                                FakeValues.LastName,
+                                FakeValues.Description,
+                                TestRoles());
+
+            var expected = FakeValues.FirstName;
+            var actual = user.FirstName;
+
+            Assert.AreEqual(actual, expected);
         }
 
         [Test]
@@ -87,7 +161,26 @@ namespace Bowerbird.Core.Test.Entities
                     FakeValues.Description,
                     TestRoles())));
         }
+        
+        [Test]
+        public void User_Constructor_Populates_LastName_Field()
+        {
+            var user = new User(
+                                FakeValues.KeyString,
+                                FakeValues.Password,
+                                FakeValues.Email,
+                                FakeValues.FirstName,
+                                FakeValues.LastName,
+                                FakeValues.Description,
+                                TestRoles());
 
+            var expected = FakeValues.LastName;
+            var actual = user.LastName;
+
+            Assert.AreEqual(actual, expected);
+        }
+
+        [Test]
         public void User_Constructor_With_Null_Description_Throws_DesignByContractException()
         {
             Assert.IsTrue(
@@ -103,6 +196,24 @@ namespace Bowerbird.Core.Test.Entities
         }
 
         [Test]
+        public void User_Constructor_Populates_Description_Field()
+        {
+            var user = new User(
+                                FakeValues.KeyString,
+                                FakeValues.Password,
+                                FakeValues.Email,
+                                FakeValues.FirstName,
+                                FakeValues.LastName,
+                                FakeValues.Description,
+                                TestRoles());
+
+            var expected = FakeValues.Description;
+            var actual = user.Description;
+
+            Assert.AreEqual(actual, expected);
+        }
+
+        [Test]
         public void User_Constructor_With_Null_TestRoles_Throws_DesignByContractException()
         {
             Assert.IsTrue(
@@ -115,6 +226,35 @@ namespace Bowerbird.Core.Test.Entities
                     FakeValues.LastName,
                     FakeValues.Description,
                     null)));
+        }
+
+        [Test]
+        public void User_Constructor_Populates_Roles_Field()
+        {
+            var user = new User(
+                                FakeValues.KeyString,
+                                FakeValues.Password,
+                                FakeValues.Email,
+                                FakeValues.FirstName,
+                                FakeValues.LastName,
+                                FakeValues.Description,
+                                TestRoles());
+
+            IEnumerable<Role> roles = TestRoles();
+
+            var expected = roles.Count();
+            var actual = user.Roles.Count;
+
+            Assert.AreEqual(actual, expected);
+
+            foreach (var role in user.Roles)
+            {
+                var derivedFromRole = roles.Where(x => x.Id == role.Id).FirstOrDefault();
+
+                Assert.AreEqual(role.Id, derivedFromRole.Id);
+
+                Assert.AreEqual(role.Name, derivedFromRole.Name);
+            }
         }
 
         #endregion

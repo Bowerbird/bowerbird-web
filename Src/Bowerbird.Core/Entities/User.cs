@@ -195,7 +195,5 @@ namespace Bowerbird.Core.Entities
 
         #endregion
 
-
-        
     }
 }

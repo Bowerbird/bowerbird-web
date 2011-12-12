@@ -13,6 +13,7 @@ namespace Bowerbird.Core.Test.CommandHandlers
     {
         private Mock<IRepository<Observation>> _mockObservationRepository;
         private Mock<IRepository<User>> _mockUserRepository;
+        private Mock<User> _mockUserEntity;
         private ICommandHandler<ObservationCreateCommand> _observationCreateCommandHandler;
 
         [SetUp]
@@ -20,7 +21,7 @@ namespace Bowerbird.Core.Test.CommandHandlers
         {
             _mockObservationRepository = new Mock<IRepository<Observation>>();
             _mockUserRepository = new Mock<IRepository<User>>();
-
+            _mockUserEntity = new Mock<User>();
             _observationCreateCommandHandler = new ObservationCreateCommandHandler(
                 _mockObservationRepository.Object,
                 _mockUserRepository.Object);
@@ -55,11 +56,26 @@ namespace Bowerbird.Core.Test.CommandHandlers
 
         #region Property tests
 
-
         #endregion
 
         #region Method tests
 
+        [Test]
+        public void ObservationCreateCommandHandler_Handle_Passing_Null_ObservationCreateCommandHandle_Throws_DesignByContractException()
+        {
+            Assert.IsTrue(
+                Throws.Exception<DesignByContractException>(
+                    () => _observationCreateCommandHandler.Handle(null)
+                ));
+        }
+
+        [Test]
+        public void ObservationCreateCommandHandler_Handle_Passing_ObservationCreateCommand_Calls_ObservationRepository_Add()
+        {
+            //_mockUserRepository.Setup(x => x.Load(It.IsAny<string>())).Returns(_mockUserEntity.Object);
+
+            
+        }
 
         #endregion
 
