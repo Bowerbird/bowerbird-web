@@ -6,15 +6,15 @@ using Bowerbird.Core.Entities;
 
 namespace Bowerbird.Core.Repositories
 {
-    public interface IRepository<TEntity> where TEntity : IEntity
+    public interface IRepository<T>
     {
-        TEntity Load(string id);
+        T Load(string id);
 
-        IEnumerable<TEntity> Load(IEnumerable<string> ids);
+        IEnumerable<T> Load(IEnumerable<string> ids);
 
-        void Add(TEntity entity);
+        void Add(T entity);
 
-        void Remove(TEntity entity);
+        void Remove(T entity);
 
         void SaveChanges();
 

@@ -29,7 +29,7 @@ namespace Bowerbird.Core.Entities
             Check.RequireNotNullOrWhitespace(description, "description");
             Check.RequireNotNull(permissions, "permissions");
 
-            SetDetails(
+            SetDetails(   
                 id,
                 name,
                 description,

@@ -60,9 +60,13 @@
     <Compile Include="Commands\UserUpdateLastLoginCommand.cs" />
     <Compile Include="Commands\SetupSystemCommand.cs" />
     <Compile Include="Entities\Activity.cs" />
+    <Compile Include="Entities\BaseObject.cs" />
+    <Compile Include="Entities\BaseObjectEqualityComparer.cs" />
     <Compile Include="Entities\Comment.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Entities\DomainSignatureAttribute.cs" />
+    <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\GlobalMember.cs" />
     <Compile Include="Entities\DenormalisedReferences\DenormalisedObservationReference.cs" />
     <Compile Include="Entities\MediaResources\OtherMediaResource.cs" />
@@ -70,6 +74,7 @@
     <Compile Include="Entities\ProjectMember.cs" />
     <Compile Include="Entities\DenormalisedReferences\DenormalisedNamedEntityReference.cs" />
     <Compile Include="Entities\ObservationNote.cs" />
+    <Compile Include="Entities\ValueObject.cs" />
     <Compile Include="Events\EntityCreatedEvent.cs" />
     <Compile Include="Events\EntityUpdatedEvent.cs" />
     <Compile Include="CommandHandlerNotFoundException.cs" />
@@ -93,8 +98,6 @@
     <Compile Include="DesignByContract\PostconditionException.cs" />
     <Compile Include="DesignByContract\PreconditionException.cs" />
     <Compile Include="Entities\DenormalisedReferences\DenormalisedUserReference.cs" />
-    <Compile Include="Entities\Entity.cs" />
-    <Compile Include="Entities\IEntity.cs" />
     <Compile Include="Entities\MediaResource.cs" />
     <Compile Include="Entities\MediaResources\ImageMediaResource.cs" />
     <Compile Include="Entities\Observation.cs" />

@@ -7,7 +7,7 @@ using Raven.Client;
 
 namespace Bowerbird.Core.Repositories
 {
-    public class DefaultRepository<TEntity> : RepositoryBase<TEntity> where TEntity : IEntity
+    public class DefaultRepository<T> : RepositoryBase<T>
     {
 
         #region Members

@@ -7,7 +7,6 @@ using Bowerbird.Core.Entities;
 namespace Bowerbird.Core.Events
 {
     public class EntityUpdatedEvent<T> : IDomainEvent
-        where T : IEntity
     {
 
         #region Members

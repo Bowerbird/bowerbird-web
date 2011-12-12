@@ -7,7 +7,7 @@ using Bowerbird.Core.Entities;
 
 namespace Bowerbird.Core.Repositories
 {
-    public abstract class RepositoryBase<TEntity> : IRepository<TEntity> where TEntity : IEntity
+    public abstract class RepositoryBase<T> : IRepository<T>
     {
 
         #region Members
@@ -31,22 +31,22 @@ namespace Bowerbird.Core.Repositories
 
         #region Methods
 
-        public TEntity Load(string id)
+        public T Load(string id)
         {
-            return _documentSession.Load<TEntity>(id);
+            return _documentSession.Load<T>(id);
         }
 
-        public IEnumerable<TEntity> Load(IEnumerable<string> ids)
+        public IEnumerable<T> Load(IEnumerable<string> ids)
         {
-            return _documentSession.Load<TEntity>(ids);
+            return _documentSession.Load<T>(ids);
         }
 
-        public void Add(TEntity entity)
+        public void Add(T entity)
         {
             _documentSession.Store(entity);
         }
 
-        public void Remove(TEntity entity)
+        public void Remove(T entity)
         {
             _documentSession.Delete(entity);
         }

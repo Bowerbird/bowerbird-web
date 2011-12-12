@@ -19,8 +19,8 @@ namespace Bowerbird.Web.Config
 
         protected override IDocumentSession CreateInstance(IContext ctx)
         {
-            Debug.Write("IDocumentSession Created");
-            return _documentStore.OpenSession("bowerbird_dev");
+            //Debug.Write("IDocumentSession Created");
+            return _documentStore.OpenSession("bowerbird_dev"); // TODO: Move into config file
         }
     }
 }
