@@ -16,21 +16,24 @@ namespace Bowerbird.Web.Test.App_Start
     public class BootstrapperTest
     {
 
-        #region Members
+        #region Test Infrastructure
 
         private static readonly NinjectBootstrapper _ninjectBootstrapper = new NinjectBootstrapper();
 
         private static IKernel _kernel;
 
-        #endregion
-
-        #region Initialize
-
         [SetUp]
-        public void Kickstart()
+        public void TestInitialize()
         {
             _ninjectBootstrapper.Initialize(CreateKernel);
         }
+
+        [TearDown]
+        public void TestCleanup() { }
+
+        #endregion
+
+        #region Test Helpers
 
         private static IKernel CreateKernel()
         {

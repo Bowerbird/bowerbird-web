@@ -1,19 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Raven.Client;
-using Bowerbird.Core.Entities;
-using Bowerbird.Web.ViewModels;
-using Raven.Client.Linq;
-using Bowerbird.Core.DesignByContract;
+﻿/* Bowerbird V1 
 
+ Licensed under MIT 1.1 Public License
+
+ Developers: 
+ * Frank Radocaj : frank@radocaj.com
+ * Hamish Crittenden : hamish.crittenden@gmail.com
+ 
+ Project Manager: 
+ * Ken Walker : kwalker@museum.vic.gov.au
+ 
+ Funded by:
+ * Atlas of Living Australia
+ 
+*/
+				
 namespace Bowerbird.Web.ViewModelFactories
 {
+    #region Namespaces
+
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+
+    using Raven.Client;
+    using Raven.Client.Linq;
+
+    using Bowerbird.Core.Entities;
+    using Bowerbird.Web.ViewModels;
+    using Bowerbird.Core.DesignByContract;
+
+    #endregion
+
     public class HomeIndexFactory : ViewModelFactoryBase<HomeIndexInput, HomeIndex>
     {
 
-        #region Members
+        #region Fields
 
         private readonly IPagedListFactory _pagedListFactory;
 

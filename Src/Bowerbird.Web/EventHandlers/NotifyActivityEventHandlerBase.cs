@@ -33,6 +33,10 @@ namespace Bowerbird.Web.EventHandlers
 
         protected void Notify(string type, User user, object data)
         {
+            Check.RequireNotNullOrWhitespace(type, "type");
+            Check.RequireNotNull(user, "user");
+            Check.RequireNotNull(data, "data");
+
             var activity = new Activity(
                 type,
                 user,

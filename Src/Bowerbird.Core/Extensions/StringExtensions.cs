@@ -17,6 +17,7 @@ namespace Bowerbird.Core.Extensions
                 ).IsMatch(emailAddress);
         }
 
+        //public static string FormatWith(this string text, string param1)
         public static string FormatWith(this string text, string param1)
         {
             Check.Ensure(text.Contains("{0}"), "string was not in propper format");

@@ -47,6 +47,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\Moq\4.0.10827\Moq.dll</HintPath>
     </Reference>
+    <Reference Include="Moq.Contrib">
+      <HintPath>..\..\Lib\Moq\4.0.10827\Moq.Contrib.dll</HintPath>
+    </Reference>
     <Reference Include="Ninject, Version=2.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Ninject.2.2.1.4\lib\net40-Full\Ninject.dll</HintPath>
@@ -58,6 +61,21 @@
     <Reference Include="nunit.framework, Version=2.5.10.11092, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\NUnit\2.5.10.11092\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Client.Embedded, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\RavenDB\Build531\EmbeddedClient\Raven.Client.Embedded.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Client.Lightweight, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\RavenDB\Build531\Client\Raven.Client.Lightweight.dll</HintPath>
+    </Reference>
+    <Reference Include="Rhino.Mocks">
+      <HintPath>..\packages\RhinoMocks.3.6\lib\Rhino.Mocks.dll</HintPath>
+    </Reference>
+    <Reference Include="SignalR, Version=0.3.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\SignalR\Trunk\SignalR.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -74,13 +92,13 @@
     <Compile Include="App_Start\BootstrapperTest.cs" />
     <Compile Include="Config\UserContextTest.cs" />
     <Compile Include="Controllers\AccountControllerTest.cs" />
+    <Compile Include="EventHandlers\NotifyActivityEventHandlerBaseTest.cs" />
+    <Compile Include="Extensions\StringExtensionsTest.cs" />
+    <Compile Include="Hubs\ActivityHubTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModelFactories\HomeIndexFactoryTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="EventHandlers\" />
-    <Folder Include="Extensions\" />
-    <Folder Include="Hubs\" />
-    <Folder Include="ViewModelFactories\" />
     <Folder Include="ViewModels\" />
   </ItemGroup>
   <ItemGroup>

@@ -42,6 +42,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\RavenDB\Build531\Client\Raven.Client.Lightweight.dll</HintPath>
     </Reference>
+    <Reference Include="Rhino.Mocks">
+      <HintPath>..\packages\RhinoMocks.3.6\lib\Rhino.Mocks.dll</HintPath>
+    </Reference>
     <Reference Include="SignalR">
       <HintPath>..\..\Lib\SignalR\Trunk\SignalR.dll</HintPath>
     </Reference>
@@ -126,7 +129,9 @@
     <Compile Include="Tasks\ITasks.cs" />
     <Compile Include="Tasks\UserTasks.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -9,6 +9,14 @@ namespace Bowerbird.Core.Test.Extensions
     public class StringExtensionsTest
     {
 
+        #region Infrastructure
+
+        #endregion
+
+        #region Helpers
+
+        #endregion
+
         #region Constructor tests
 
 
@@ -70,11 +78,6 @@ namespace Bowerbird.Core.Test.Extensions
         {
             Assert.IsTrue("def".PrependWith("abc").Equals("abcdef"));
         }
-
-        #endregion
-
-        #region Helpers
-
 
         #endregion
 

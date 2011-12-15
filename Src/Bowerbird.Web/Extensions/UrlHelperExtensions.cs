@@ -1,5 +1,6 @@
 ﻿using System.Configuration;
 using System.Web.Mvc;
+using Bowerbird.Core;
 
 namespace Bowerbird.Web.Extensions
 {

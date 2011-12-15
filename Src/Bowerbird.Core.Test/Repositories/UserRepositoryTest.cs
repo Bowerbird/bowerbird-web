@@ -1,31 +1,78 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Bowerbird.Core.Entities;
-using Bowerbird.Test.Utils;
-using NUnit.Framework;
-using Raven.Client;
-using Raven.Client.Linq;
+﻿/* Bowerbird V1 
+
+ Licensed under MIT 1.1 Public License
+
+ Developers: 
+ * Frank Radocaj : frank@radocaj.com
+ * Hamish Crittenden : hamish.crittenden@gmail.com
+ 
+ Project Manager: 
+ * Ken Walker : kwalker@museum.vic.gov.au
+ 
+ Funded by:
+ * Atlas of Living Australia
+ 
+*/
 
 namespace Bowerbird.Core.Test.Repositories
 {
-    [TestFixture]
-    public class UserRepositoryTest
+    #region Namespaces
+
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using NUnit.Framework;
+    using Raven.Client;
+    using Raven.Client.Linq;
+
+    using Bowerbird.Core.Entities;
+    using Bowerbird.Test.Utils;
+
+    #endregion
+
+    [TestFixture] public class UserRepositoryTest
     {
 
-        #region Infrastructure
+        #region Test Infrastructure
 
         private IDocumentStore _store;
         
-        [SetUp]
-        public void TestInitialize()
+        [SetUp] public void TestInitialize()
         {
             _store = DocumentStoreHelper.TestDocumentStore();
         }
 
-        [TearDown]
-        public void TestCleanUp()
+        [TearDown] public void TestCleanUp()
         {
             _store = null;
+        }
+
+        #endregion
+
+        #region Test Helpers
+
+        private static IEnumerable<Role> TestRoles()
+        {
+            return new List<Role>()
+            {
+                new Role
+                (
+                    "Member",
+                    "Member role",
+                    "Member description",
+                    TestPermissions()
+                )
+            };
+        }
+
+        private static IEnumerable<Permission> TestPermissions()
+        {
+            return new List<Permission>
+            {
+                new Permission("Read", "Read permission", "Read description"),
+                new Permission("Write", "Write permission", "Write description")
+            };
+
         }
 
         #endregion
@@ -40,8 +87,7 @@ namespace Bowerbird.Core.Test.Repositories
 
         #region Method tests
 
-        [Test]
-        public void UserRepository_Can_Save_User_Record()
+        [Test] public void UserRepository_Can_Save_User_Record()
         {
             User userWrite, userRead;
 
@@ -75,33 +121,5 @@ namespace Bowerbird.Core.Test.Repositories
 
         #endregion
 
-        #region Helpers
-
-        private static IEnumerable<Role> TestRoles()
-        {
-            return new List<Role>()
-            {
-                new Role
-                (
-                    "Member",
-                    "Member role",
-                    "Member description",
-                    TestPermissions()
-                )
-            };
-        }
-
-        private static IEnumerable<Permission> TestPermissions()
-        {
-            return new List<Permission>
-            {
-                new Permission("Read", "Read permission", "Read description"),
-                new Permission("Write", "Write permission", "Write description")
-            };
-
-        }
-
-        #endregion
-				
     }
 }

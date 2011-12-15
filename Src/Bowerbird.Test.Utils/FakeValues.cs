@@ -215,5 +215,20 @@ namespace Bowerbird.Test.Utils
         /// </summary>
         public static string Category { get { return "fake category"; } }
 
+        /// <summary>
+        /// value: "fake activity"
+        /// </summary>
+        public static string ActivityType { get { return "fake activity"; } }
+
+        /// <summary>
+        /// value: 1
+        /// </summary>
+        public static int Page { get { return 1; } }
+        
+        /// <summary>
+        /// value: 10
+        /// </summary>
+        public static int PageSize { get { return 10; } }
+
     }
 }
