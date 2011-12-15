@@ -3,7 +3,7 @@ using System;
 
 namespace Bowerbird.Core.Entities
 {
-    public abstract class MediaResource
+    public abstract class MediaResource : Entity
     {
 
         #region Members
@@ -33,8 +33,6 @@ namespace Bowerbird.Core.Entities
 
         #region Properties
 
-        public Guid Id { get; private set; }
-
         public string OriginalFileName { get; private set; }
 
         public string FileFormat { get; private set; }
@@ -47,7 +45,7 @@ namespace Bowerbird.Core.Entities
 
         private void SetDetails(string originalFileName, string fileFormat, string description)
         {
-            Id = Guid.NewGuid();
+            Id = Guid.NewGuid().ToString();
             OriginalFileName = originalFileName;
             FileFormat = fileFormat;
             Description = description;

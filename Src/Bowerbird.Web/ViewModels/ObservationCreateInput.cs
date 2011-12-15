@@ -22,13 +22,19 @@ namespace Bowerbird.Web.ViewModels
         public string Address { get; set; }
 
         public string Description { get; set; }
+
+        public bool IsIdentificationRequired { get; set; }
         
         public string Latitude { get; set; }
         
         public string Longitude { get; set; }
         
         public string Title { get; set; }
-        
+
+        public string ObservationCategory { get; set; }
+
+        public DateTime ObservedOn { get; set; }
+
         public string Username { get; set; }
         
         public List<string> MediaResources { get; set; }

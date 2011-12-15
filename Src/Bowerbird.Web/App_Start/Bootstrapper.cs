@@ -31,7 +31,9 @@ namespace Bowerbird.Web.App_Start
         public static void PreStart()
         {
             DynamicModuleUtility.RegisterModule(typeof(OnePerRequestModule));
+
             DynamicModuleUtility.RegisterModule(typeof(HttpApplicationInitializationModule));
+            
             _ninjectBootstrapper.Initialize(CreateKernel);
         }
 
@@ -45,6 +47,7 @@ namespace Bowerbird.Web.App_Start
             XmlConfigurator.Configure();
 
             ViewEngines.Engines.Clear();
+
             ViewEngines.Engines.Add(new RazorViewEngine());
 
             //ModelValidatorProviders.Providers.Add(new ClientDataTypeModelValidatorProvider());
@@ -75,7 +78,9 @@ namespace Bowerbird.Web.App_Start
         private static IKernel CreateKernel()
         {
             var kernel = new StandardKernel();
+
             RegisterServices(kernel);
+            
             return kernel;
         }
 

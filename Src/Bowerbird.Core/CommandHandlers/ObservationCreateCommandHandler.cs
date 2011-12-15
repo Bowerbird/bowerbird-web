@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Bowerbird.Core.Commands;
+using Bowerbird.Core.Extensions;
 using Bowerbird.Core.Repositories;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Entities;
@@ -13,6 +14,7 @@ namespace Bowerbird.Core.CommandHandlers
 
         private readonly IRepository<Observation> _observationRepository;
         private readonly IRepository<User> _userRepository;
+        private readonly IRepository<MediaResource> _mediaResourceRepository;
 
         #endregion
 
@@ -20,10 +22,16 @@ namespace Bowerbird.Core.CommandHandlers
 
         public ObservationCreateCommandHandler(
             IRepository<Observation> observationRepository,
-            IRepository<User> userRepository)
+            IRepository<User> userRepository,
+            IRepository<MediaResource> mediaResourceRepository)
         {
+            Check.RequireNotNull(observationRepository, "observationRepository");
+            Check.RequireNotNull(userRepository, "userRepository");
+            Check.RequireNotNull(mediaResourceRepository, "mediaResourceRepository");
+
             _observationRepository = observationRepository;
             _userRepository = userRepository;
+            _mediaResourceRepository = mediaResourceRepository;
         }
 
         #endregion
@@ -39,7 +47,7 @@ namespace Bowerbird.Core.CommandHandlers
             Check.RequireNotNull(observationCreateCommand, "observationCreateCommand");
 
             var observation = new Observation(
-                _userRepository.Load("users/" + observationCreateCommand.Username),
+                _userRepository.Load(observationCreateCommand.Username),
                 observationCreateCommand.Title,
                 observationCreateCommand.ObservedOn,
                 observationCreateCommand.Latitude,
@@ -47,7 +55,9 @@ namespace Bowerbird.Core.CommandHandlers
                 observationCreateCommand.Address,
                 observationCreateCommand.IsIdentificationRequired,
                 observationCreateCommand.ObservationCategory,
-                new List<MediaResource>()); // TODO: Load media resources
+                observationCreateCommand.MediaResources.IsNotNullAndHasItems()
+                    ? _mediaResourceRepository.Load(observationCreateCommand.MediaResources)
+                    : new List<MediaResource>());
 
             _observationRepository.Add(observation);
         }

@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using Bowerbird.Core.Extensions;
 
 namespace Bowerbird.Core.DesignByContract
 {
@@ -313,5 +314,25 @@ namespace Bowerbird.Core.DesignByContract
         {
             Require(!string.IsNullOrWhiteSpace(@string), variableName + " may not be null or empty string");
         }
+
+        /// <summary>
+        /// Precondition check - should run regardless of preprocessor directives.
+        /// </summary>
+        public static void RequireValidEmail(string @string, string variableName)
+        {
+            Require(!string.IsNullOrWhiteSpace(@string) && @string.IsValidEmailAddress(), variableName + " must be valid email address");
+        }
+
+        /// <summary>
+        /// Precondition check - Should not be able to enter a future date.
+        /// 
+        /// This is a lenient function to allow for time zone difference as we are not strictly applying UTC or source timezones to calculate validity so instead
+        /// using a window of two days to assume date validity
+        /// </summary>
+        public static void RequireValidBowerbirdDate(DateTime @date, string variableName)
+        {
+            Require(!(@date > DateTime.Now.AddDays(2)), variableName + " must not be a future date");
+        }
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Bowerbird.Core.Commands;
+using Bowerbird.Core.DesignByContract;
 using Bowerbird.Web.ViewModels;
 
 namespace Bowerbird.Web.CommandFactories
@@ -22,12 +23,19 @@ namespace Bowerbird.Web.CommandFactories
 
         public ObservationCreateCommand Make(ObservationCreateInput observationCreateInput)
         {
+            Check.RequireNotNull(observationCreateInput, "observationCreateInput");
+
             return new ObservationCreateCommand()
             {
                 Title = observationCreateInput.Title,
                 Latitude = observationCreateInput.Latitude,
                 Longitude = observationCreateInput.Longitude,
-                Address = observationCreateInput.Address
+                Address = observationCreateInput.Address,
+                IsIdentificationRequired = observationCreateInput.IsIdentificationRequired,
+                MediaResources = observationCreateInput.MediaResources,
+                ObservationCategory = observationCreateInput.ObservationCategory,
+                ObservedOn = observationCreateInput.ObservedOn,
+                Username = observationCreateInput.Username
             };
         }
 

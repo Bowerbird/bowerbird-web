@@ -15,7 +15,6 @@ namespace Bowerbird.Core.Entities
         #region Members
 
         private const string _constantSalt = "nf@hskdhI&%dynm^&%";
-        //private GlobalMember _globalMember;
 
         #endregion
 
@@ -37,6 +36,7 @@ namespace Bowerbird.Core.Entities
             IEnumerable<Role> roles) 
             : this() 
         {
+            Check.RequireNotNullOrWhitespace(id, "id");
             Check.RequireNotNull(roles, "roles");
 
             Id = "users/" + id;
@@ -50,8 +50,7 @@ namespace Bowerbird.Core.Entities
                 lastName,
                 description);
 
-            //_globalMember = new GlobalMember(this, roles);
-            Memberships.Add(new GlobalMember(this, roles));
+            AddMembership(new GlobalMember(this, roles));
 
             EventProcessor.Raise(new EntityCreatedEvent<User>(this, this));
         }
@@ -80,12 +79,6 @@ namespace Bowerbird.Core.Entities
 
         public int FlagsRaised { get; private set; }
 
-        //public List<DenormalisedNamedEntityReference<Role>> Roles 
-        //{
-        //    get { return _globalMember.Roles; }
-        //    private set { _globalMember.AddRoles(value); }
-        //}
-
         public List<DenormalisedMemberReference> Memberships { get; private set; }
 
         #endregion
@@ -94,7 +87,6 @@ namespace Bowerbird.Core.Entities
 
         private void InitMembers()
         {
-            //_globalMember = new GlobalMember(this, new List<Role>());
             Memberships = new List<DenormalisedMemberReference>();
         }
 
@@ -129,6 +121,8 @@ namespace Bowerbird.Core.Entities
 
         public User UpdateEmail(string email)
         {
+            Check.RequireValidEmail(email, "email");
+
             Email = email;
 
             return this;
@@ -169,32 +163,23 @@ namespace Bowerbird.Core.Entities
             return this;
         }
 
-        //public User AddRole(Role role)
-        //{
-        //    _globalMember.AddRole(role);
-
-        //    return this;
-        //}
-
-        //public User RemoveRole(string roleId)
-        //{
-        //    _globalMember.RemoveRole(roleId);
-
-        //    return this;
-        //}
-
         public User AddMembership(Member member)
         {
+            Check.RequireNotNull(member, "member");
+
             if (Memberships.All(x => x.Type != member.GetType().Name.ToLower() && x.Id != member.Id))
             {
                 Memberships.Add(member);
             }
-
+            
             return this;
         }
 
         public User RemoveMembership(string memberType, string memberId)
         {
+            Check.RequireNotNullOrWhitespace(memberType, "memberType");
+            Check.RequireNotNullOrWhitespace(memberId, "memberId");
+
             Memberships.RemoveAll(x => x.Type == memberType && x.Id == memberId);
 
             return this;

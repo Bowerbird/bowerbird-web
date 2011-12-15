@@ -1,18 +1,34 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Bowerbird.Core.Entities;
-using Bowerbird.Core.Extensions;
+using Bowerbird.Test.Utils;
 using NUnit.Framework;
+using Raven.Client;
 using Raven.Client.Linq;
-using Raven.Client.Document;
-using Raven.Storage.Esent;
-using Raven.Storage.Managed;
 
 namespace Bowerbird.Core.Test.Repositories
 {
     [TestFixture]
-    public class UserRepositoryTest : RepositoryBaseTest
+    public class UserRepositoryTest
     {
+
+        #region Infrastructure
+
+        private IDocumentStore _store;
+        
+        [SetUp]
+        public void TestInitialize()
+        {
+            _store = DocumentStoreHelper.TestDocumentStore();
+        }
+
+        [TearDown]
+        public void TestCleanUp()
+        {
+            _store = null;
+        }
+
+        #endregion
 
         #region Constructor tests
 
@@ -27,25 +43,34 @@ namespace Bowerbird.Core.Test.Repositories
         [Test]
         public void UserRepository_Can_Save_User_Record()
         {
+            User userWrite, userRead;
+
             using (var session = _store.OpenSession())
             {
-                var userWrite = new User(
-                    FakeValues.KeyString, 
-                    FakeValues.Password, 
-                    FakeValues.Email, 
+                userWrite = new User(
+                    FakeValues.KeyString,
+                    FakeValues.Password,
+                    FakeValues.Email,
                     FakeValues.FirstName,
-                    FakeValues.LastName, 
-                    FakeValues.Description, 
+                    FakeValues.LastName,
+                    FakeValues.Description,
                     TestRoles()
                     );
 
                 session.Store(userWrite);
                 session.SaveChanges();
-
-                var userRead = session.Query<User>().Where(x => x.Id == userWrite.Id).FirstOrDefault();
-
-                Assert.AreEqual(userWrite, userRead);
             }
+
+            using (var session = _store.OpenSession())
+            {
+                userRead = session
+                    .Query<User>()
+                    .Where(x => x.Id == userWrite.Id)
+                    .FirstOrDefault();
+            }
+
+            // TODO: Implement equality overloading to pass this assertion.. 
+            Assert.AreEqual(userWrite, userRead);
         }
 
         #endregion

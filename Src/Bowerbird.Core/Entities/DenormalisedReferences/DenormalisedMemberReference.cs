@@ -32,10 +32,28 @@ namespace Bowerbird.Core.Entities.DenormalisedReferences
         {
             return new DenormalisedMemberReference
             {
-                Type = member.GetType().Name.ToLower(),
-                Id = member is TeamMember ? ((TeamMember)member).Team.Id : ((ProjectMember)member).Project.Id,
+                Type = SetMemberType(member),
+                Id = SetMemberId(member),
                 Roles = member.Roles.Select(x => x.Id)
             };
+        }
+
+        private static string SetMemberId(Member member)
+        {
+            if (member is TeamMember) return ((TeamMember) member).Team.Id;
+
+            if (member is ProjectMember) return ((ProjectMember) member).Project.Id;
+
+            return member.Id;
+        }
+
+        private static string SetMemberType(Member member)
+        {
+            if (member is TeamMember) return "teammember";
+
+            if (member is ProjectMember) return "projectmember";
+
+            return "globalmember";
         }
 
         #endregion

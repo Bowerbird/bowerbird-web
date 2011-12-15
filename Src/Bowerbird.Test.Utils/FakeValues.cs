@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Bowerbird.Core.Test
+namespace Bowerbird.Test.Utils
 {
     public static class FakeValues
     {
@@ -131,14 +131,14 @@ namespace Bowerbird.Core.Test
         public static string Taxonomy { get { return "fake taxonomy"; } }
 
         /// <summary>
-        /// value: 35.158
+        /// value: "35.158"
         /// </summary>
-        public static float Latitude { get { return 35.158f; } }
+        public static string Latitude { get { return "35.158"; } }
 
         /// <summary>
-        /// value: -26.478598
+        /// value: "-26.478598"
         /// </summary>
-        public static float Longitude { get { return -26.478598f; } }
+        public static string Longitude { get { return "-26.478598"; } }
 
         /// <summary>
         /// value: "fake street, fake suburb, fake state"
@@ -149,6 +149,11 @@ namespace Bowerbird.Core.Test
         /// value: "Jpeg"
         /// </summary>
         public static string FileFormat { get { return "Jpeg"; } }
+
+        /// <summary>
+        /// value: {"1","2","3","4"}
+        /// </summary>
+        public static List<string> StringList { get { return new List<string>() { "1", "2", "3", "4" }; } }
 
         /// <summary>
         /// value: {1,2,3,4}

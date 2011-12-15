@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using Bowerbird.Core;
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.Commands;
-using Bowerbird.Web.ViewModelFactories;
 using Bowerbird.Web.ViewModels;
-using Bowerbird.Core.Entities;
 using Bowerbird.Web.Config;
 using Bowerbird.Core.Tasks;
 using Bowerbird.Core.CommandHandlers;
@@ -57,7 +50,7 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Login()
         {
-            if (User.Identity.IsAuthenticated)
+            if (_userContext.IsUserAuthenticated())
             {
                 return RedirectToAction("index", "home");
             }

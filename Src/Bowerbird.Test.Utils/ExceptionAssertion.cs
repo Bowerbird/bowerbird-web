@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Bowerbird.Core.Test
+namespace Bowerbird.Test.Utils
 {
-    public static class Throws
+    public static class BowerbirdThrows
     {
         public static bool Exception<T>(Action method)
         {

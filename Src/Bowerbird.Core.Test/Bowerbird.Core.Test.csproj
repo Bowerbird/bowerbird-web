@@ -82,23 +82,24 @@
     <Compile Include="Commands\ObservationCreateCommandTest.cs" />
     <Compile Include="DesignByContract\CheckTest.cs" />
     <Compile Include="Entities\UserTest.cs" />
-    <Compile Include="ExceptionAssertion.cs" />
+    <Compile Include="EventHandlers\SendWelcomeEmailEventHandlerTest.cs" />
+    <Compile Include="Extensions\CollectionExtensionsTest.cs" />
     <Compile Include="Extensions\StringExtensionsTest.cs" />
-    <Compile Include="FakeValues.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\RepositoryBaseTest.cs" />
     <Compile Include="Repositories\UserRepositoryTest.cs" />
-    <Compile Include="TestHelpers.cs" />
+    <Compile Include="Tasks\UserTasksTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="EventHandlers\" />
     <Folder Include="Events\" />
-    <Folder Include="Tasks\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bowerbird.Core\Bowerbird.Core.csproj">
       <Project>{F71840F1-86D3-460B-B49A-7770CD7E06E4}</Project>
       <Name>Bowerbird.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bowerbird.Test.Utils\Bowerbird.Test.Utils.csproj">
+      <Project>{E372C4B3-14CE-4D15-84F4-2F9E4750BC5F}</Project>
+      <Name>Bowerbird.Test.Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -4,6 +4,9 @@ using System.Linq;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Entities;
 using Bowerbird.Core.Entities.DenormalisedReferences;
+using Bowerbird.Core.Extensions;
+using Bowerbird.Test.Utils;
+using Moq;
 using NUnit.Framework;
 
 namespace Bowerbird.Core.Test.Entities
@@ -18,7 +21,7 @@ namespace Bowerbird.Core.Test.Entities
         public void User_Constructor_With_Null_Id_Throws_DesignByContractException()
         {
             Assert.IsTrue(
-                Throws.Exception<DesignByContractException>(
+                BowerbirdThrows.Exception<DesignByContractException>(
                 () => new User(
                     null,
                     FakeValues.Password,
@@ -27,6 +30,21 @@ namespace Bowerbird.Core.Test.Entities
                     FakeValues.LastName,
                     FakeValues.Description,
                     TestRoles())));
+        }
+
+        [Test]
+        public void User_Constructor_With_Null_Roles_Throws_DesignByContractException()
+        {
+            Assert.IsTrue(
+                BowerbirdThrows.Exception<DesignByContractException>(
+                () => new User(
+                    FakeValues.KeyString,
+                    FakeValues.Password,
+                    FakeValues.Email,
+                    FakeValues.FirstName,
+                    FakeValues.LastName,
+                    FakeValues.Description,
+                    null)));
         }
 
         [Test]
@@ -41,25 +59,10 @@ namespace Bowerbird.Core.Test.Entities
                     FakeValues.Description,
                     TestRoles());
 
-            var expected = FakeValues.KeyString;
+            var expected = FakeValues.KeyString.PrependWith("users/");
             var actual = user.Id;
 
             Assert.AreEqual(actual, expected);
-        }
-
-        [Test]
-        public void User_Constructor_With_Null_Password_Throws_DesignByContractException()
-        {
-            Assert.IsTrue(
-                Throws.Exception<DesignByContractException>(
-                () => new User(
-                    FakeValues.KeyString,
-                    null,
-                    FakeValues.Email,
-                    FakeValues.FirstName,
-                    FakeValues.LastName,
-                    FakeValues.Description,
-                    TestRoles())));
         }
 
         [Test]
@@ -82,21 +85,6 @@ namespace Bowerbird.Core.Test.Entities
         }
 
         [Test]
-        public void User_Constructor_With_Null_Email_Throws_DesignByContractException()
-        {
-            Assert.IsTrue(
-                Throws.Exception<DesignByContractException>(
-                () => new User(
-                    FakeValues.KeyString,
-                    FakeValues.Password,
-                    null,
-                    FakeValues.FirstName,
-                    FakeValues.LastName,
-                    FakeValues.Description,
-                    TestRoles())));
-        }
-
-        [Test]
         public void User_Constructor_Populates_Email_Field()
         {
             var user = new User(
@@ -115,21 +103,6 @@ namespace Bowerbird.Core.Test.Entities
         }
 
         [Test]
-        public void User_Constructor_With_Null_FirstName_Throws_DesignByContractException()
-        {
-            Assert.IsTrue(
-                Throws.Exception<DesignByContractException>(
-                () => new User(
-                    FakeValues.KeyString,
-                    FakeValues.Password,
-                    FakeValues.Email,
-                    null,
-                    FakeValues.LastName,
-                    FakeValues.Description,
-                    TestRoles())));
-        }
-
-        [Test]
         public void User_Constructor_Populates_FirstName_Field()
         {
             var user = new User(
@@ -145,21 +118,6 @@ namespace Bowerbird.Core.Test.Entities
             var actual = user.FirstName;
 
             Assert.AreEqual(actual, expected);
-        }
-
-        [Test]
-        public void User_Constructor_With_Null_LastName_Throws_DesignByContractException()
-        {
-            Assert.IsTrue(
-                Throws.Exception<DesignByContractException>(
-                () => new User(
-                    FakeValues.KeyString,
-                    FakeValues.Password,
-                    FakeValues.Email,
-                    FakeValues.FirstName,
-                    null,
-                    FakeValues.Description,
-                    TestRoles())));
         }
         
         [Test]
@@ -181,21 +139,6 @@ namespace Bowerbird.Core.Test.Entities
         }
 
         [Test]
-        public void User_Constructor_With_Null_Description_Throws_DesignByContractException()
-        {
-            Assert.IsTrue(
-                Throws.Exception<DesignByContractException>(
-                () => new User(
-                    FakeValues.KeyString,
-                    FakeValues.Password,
-                    FakeValues.Email,
-                    FakeValues.FirstName,
-                    FakeValues.LastName,
-                    null,
-                    TestRoles())));
-        }
-
-        [Test]
         public void User_Constructor_Populates_Description_Field()
         {
             var user = new User(
@@ -214,23 +157,10 @@ namespace Bowerbird.Core.Test.Entities
         }
 
         [Test]
-        public void User_Constructor_With_Null_TestRoles_Throws_DesignByContractException()
+        public void User_Constructor_Populates_Membership_As_GlobalMembership_With_Roles_Field()
         {
-            Assert.IsTrue(
-                Throws.Exception<DesignByContractException>(
-                () => new User(
-                    FakeValues.KeyString,
-                    FakeValues.Password,
-                    FakeValues.Email,
-                    FakeValues.FirstName,
-                    FakeValues.LastName,
-                    FakeValues.Description,
-                    null)));
-        }
-
-        [Test]
-        public void User_Constructor_Populates_Memberships_Field()
-        {
+            var roles = TestRoles();
+            
             var user = new User(
                                 FakeValues.KeyString,
                                 FakeValues.Password,
@@ -238,9 +168,7 @@ namespace Bowerbird.Core.Test.Entities
                                 FakeValues.FirstName,
                                 FakeValues.LastName,
                                 FakeValues.Description,
-                                TestRoles());
-
-            IEnumerable<Role> roles = TestRoles();
+                                roles);
 
             Assert.IsTrue(user.Memberships.Count == 1);
 
@@ -361,7 +289,7 @@ namespace Bowerbird.Core.Test.Entities
         public void User_UpdateEmail_WithInValidEmail_Throws_DesignByContractException()
         {
             Assert.IsTrue(
-                Throws.Exception<DesignByContractException>(
+                BowerbirdThrows.Exception<DesignByContractException>(
                     () => TestUser()
                     .UpdateEmail(FakeValues.InvalidEmail)
                 ));
@@ -397,7 +325,8 @@ namespace Bowerbird.Core.Test.Entities
                 testUser
                 .WaitForASecond() //ensure not same clock-cycle
                 .UpdateLastLoggedIn()
-                .LastLoggedIn.IsMoreRecentThan(initialLastLoggedIn)
+                .LastLoggedIn
+                .IsMoreRecentThan(initialLastLoggedIn)
                 );
         }
 
@@ -421,19 +350,39 @@ namespace Bowerbird.Core.Test.Entities
         [Test]
         public void User_AddMemebership_Passing_Role_Adds_Membership()
         {
-            Assert.AreEqual(
-                TestUser()
-                .AddMembership(new TeamMember(TestUser(), new Moq.Mock<Team>().Object, TestUser(), TestRoles()))
-                .Memberships
-                .Count,
-                TestUser().Memberships.Count + 1);
+            var user = TestUser();
+
+            var userMembershipCount_PriorToAddingMember = user.Memberships.Count;
+
+            user.AddMembership(new TeamMember(
+                                   TestUser(),
+                                   new Mock<Team>().Object,
+                                   TestUser(),
+                                   TestRoles()));
+
+            var expected = userMembershipCount_PriorToAddingMember + 1;
+            var actual = user.Memberships.Count;
+
+            Assert.AreEqual(actual, expected);
+
+            //Assert.AreEqual(
+            //    TestUser()
+            //    .AddMembership(new TeamMember(
+            //        TestUser(), 
+            //        new Mock<Team>().Object, 
+            //        TestUser(), 
+            //        TestRoles())
+            //        )
+            //    .Memberships
+            //    .Count,
+            //    TestUser().Memberships.Count + 1);
         }
 
         [Test]
         public void User_AddMembership_Passing_InvalidValid_Memebership_DesignByContractException()
         {
             Assert.IsTrue(
-                Throws.Exception<DesignByContractException>(
+                BowerbirdThrows.Exception<DesignByContractException>(
                     () => TestUser()
                         .AddMembership(
                             null
@@ -442,11 +391,13 @@ namespace Bowerbird.Core.Test.Entities
         }
 
         [Test]
-        public void User_RemoveMembership_Passing_MembershipId_Removes_Membership()
+        public void User_RemoveMembership_Passing_MemberType_And_MembershipId_Removes_Membership()
         {
             Assert.AreEqual(
                 TestUser()
-                .RemoveMembership("teammember", TestUser().Memberships[0].Id)
+                .RemoveMembership(
+                    TestUser().Memberships[0].Type, 
+                    TestUser().Memberships[0].Id)
                 .Memberships
                 .Count,
                 TestUser().Memberships.Count - 1
@@ -454,12 +405,13 @@ namespace Bowerbird.Core.Test.Entities
         }
 
         [Test]
-        public void User_RemoveMembership_Passing_InvalidValid_MembershipId_Removes_Membership()
+        public void User_RemoveMembership_Passing_InvalidValid_MemberId_Throws_DesignByContractException()
         {
             var user = TestUser()
-                        .RemoveMembership(
-                            "teammember", string.Empty
-                        );
+                .RemoveMembership(
+                    "teammember", 
+                    string.Empty
+                );
 
             Assert.AreEqual(
                 TestUser().Memberships.Count,
@@ -467,11 +419,26 @@ namespace Bowerbird.Core.Test.Entities
         }
 
         [Test]
+        public void User_RemoveRole_Passing_InvalidValid_MemberType_Throws_DesignByContractException()
+        {
+            Assert.IsTrue(
+                BowerbirdThrows.Exception<DesignByContractException>(
+                    () =>
+                    TestUser()
+                        .RemoveMembership(
+                            string.Empty,
+                            TestUser().Memberships[0].Id
+                        )
+                    ));
+        }
+
+        [Test]
         public void User_IncrementFlagsRaised_DoesInFact_ImplementFlagsRaised()
         {
             Assert.AreEqual(
                 TestUser()
-                .IncrementFlagsRaised(),
+                .IncrementFlagsRaised()
+                .FlagsRaised,
                 TestUser().FlagsRaised + 1
                 );
         }
@@ -481,7 +448,8 @@ namespace Bowerbird.Core.Test.Entities
         {
             Assert.AreEqual(
                 TestUser()
-                .IncrementFlaggedItemsOwned(),
+                .IncrementFlaggedItemsOwned()
+                .FlaggedItemsOwned,
                 TestUser().FlaggedItemsOwned + 1
                 );
         }

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.ComponentModel.DataAnnotations;
 
 namespace Bowerbird.Core.Commands
@@ -14,6 +12,11 @@ namespace Bowerbird.Core.Commands
         #endregion
 
         #region Constructors
+
+        public ObservationCreateCommand()
+        {
+            InitMembers();
+        }
 
         #endregion
 
@@ -35,9 +38,9 @@ namespace Bowerbird.Core.Commands
 
         public string ObservationCategory { get; set; }
 
-        public List<string> MediaResources { get; set; }
+        public virtual List<string> MediaResources { get; set; }
 
-        public string Username { get; set; }
+        public virtual string Username { get; set; }
 
         #endregion
 
@@ -46,6 +49,11 @@ namespace Bowerbird.Core.Commands
         public override ICollection<ValidationResult> ValidationResults()
         {
             throw new NotImplementedException();
+        }
+
+        private void InitMembers()
+        {
+            MediaResources = new List<string>();
         }
 
         #endregion

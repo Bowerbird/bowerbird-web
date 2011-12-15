@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Bowerbird.Core.Extensions;
 using Bowerbird.Core.Repositories;
 using Bowerbird.Core.Entities;
 using Bowerbird.Core.DesignByContract;
@@ -36,21 +37,25 @@ namespace Bowerbird.Core.Tasks
 
         #region Methods
 
-        public bool AreCredentialsValid(string username, string password)
+        public bool AreCredentialsValid(string identifier, string password)
         {
-            string id = "users/" + username;
-            var user = _documentSession.Query<User>().Where(x => x.Id == id).First();
+            Check.RequireNotNullOrWhitespace(identifier, "identifier");
+            
+            Check.RequireNotNullOrWhitespace(password, "password");
+
+            var user = _documentSession
+                .Query<User>()
+                .Where(x => x.Id == identifier.PrependWith("users/"))
+                .FirstOrDefault();
 
             return user != null && user.ValidatePassword(password);
         }
 
-        public bool IsUsernameAvailable(string username)
-        {
-            return _documentSession.Query<User>().Where(x => x.Id == username).SingleOrDefault() == null;
-        }
 
         public bool IsEmailAvailable(string email)
         {
+            Check.RequireNotNullOrWhitespace(email, "email");
+
             return _documentSession.Query<User>().Where(x => x.Email == email).SingleOrDefault() == null;
         }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Bowerbird.Core.Commands;
+using Bowerbird.Test.Utils;
 using NUnit.Framework;
 
 namespace Bowerbird.Core.Test.Commands

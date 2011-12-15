@@ -1,0 +1,2 @@
+stash@{0}: WIP on master: 73b1d1e Removed old JS files; Refactored Member* classes into Member hierarchy; Rereferenced FluentValidation; Implemented CommandFactory and CommandBuilder
+stash@{1}: On master: work in progress for tests

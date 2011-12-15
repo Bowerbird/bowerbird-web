@@ -1,4 +1,5 @@
 ﻿using Bowerbird.Core.DesignByContract;
+using Bowerbird.Test.Utils;
 using NUnit.Framework;
 
 namespace Bowerbird.Core.Test.DesignByContract
@@ -24,7 +25,7 @@ namespace Bowerbird.Core.Test.DesignByContract
         public void Check_RequireNotNullOrWhiteSpace_Passing_TestString_Does_Not_Throw_DesignByContractException()
         {
             Assert.IsFalse(
-                Throws.Exception<DesignByContractException>(() =>
+                BowerbirdThrows.Exception<DesignByContractException>(() =>
                     Check.RequireNotNullOrWhitespace("teststring", "teststring")
                 ));
         }
@@ -33,7 +34,7 @@ namespace Bowerbird.Core.Test.DesignByContract
         public void Check_RequireNotNullOrWhiteSpace_Passing_EmptyString_Throws_DesignByContractException()
         {
             Assert.IsTrue(
-                Throws.Exception<DesignByContractException>(() =>
+                BowerbirdThrows.Exception<DesignByContractException>(() =>
                     Check.RequireNotNullOrWhitespace(string.Empty, "teststring")
                 ));
         }
@@ -42,7 +43,7 @@ namespace Bowerbird.Core.Test.DesignByContract
         public void Check_RequireNotNullOrWhiteSpace_Passing_NullString_Throws_DesignByContractException()
         {
             Assert.IsTrue(
-                Throws.Exception<DesignByContractException>(() =>
+                BowerbirdThrows.Exception<DesignByContractException>(() =>
                     Check.RequireNotNullOrWhitespace(null, "teststring")
                 ));
         }
@@ -51,7 +52,7 @@ namespace Bowerbird.Core.Test.DesignByContract
         public void Check_RequireNotNullOrWhiteSpace_Passing_WhitespaceString_Throws_DesignByContractException()
         {
             Assert.IsTrue(
-                Throws.Exception<DesignByContractException>(() =>
+                BowerbirdThrows.Exception<DesignByContractException>(() =>
                     Check.RequireNotNullOrWhitespace("  ", "teststring")
                 ));
         }
@@ -60,8 +61,8 @@ namespace Bowerbird.Core.Test.DesignByContract
         public void Check_RequireValidEmail_Passing_A_ValidEmail_Does_Not_Throw_DesignByContractException()
         {
             Assert.IsFalse(
-                Throws.Exception<DesignByContractException>(() =>
-                    Check.RequireNotNullOrWhitespace(FakeValues.Email, "email")
+                BowerbirdThrows.Exception<DesignByContractException>(() =>
+                    Check.RequireValidEmail(FakeValues.Email, "email")
                 ));
         }
 
@@ -69,8 +70,8 @@ namespace Bowerbird.Core.Test.DesignByContract
         public void Check_RequireValidEmail_Passing_An_InValid_Email_Throws_DesignByContractException()
         {
             Assert.IsTrue(
-                Throws.Exception<DesignByContractException>(() =>
-                    Check.RequireNotNullOrWhitespace(FakeValues.InvalidEmail, "email")
+                BowerbirdThrows.Exception<DesignByContractException>(() =>
+                    Check.RequireValidEmail(FakeValues.InvalidEmail, "email")
                 ));
         }
 
@@ -78,8 +79,8 @@ namespace Bowerbird.Core.Test.DesignByContract
         public void Check_RequireValidEmail_Passing_An_Empty_String_Throws_DesignByContractException()
         {
             Assert.IsTrue(
-                Throws.Exception<DesignByContractException>(() =>
-                    Check.RequireNotNullOrWhitespace(string.Empty, "email")
+                BowerbirdThrows.Exception<DesignByContractException>(() =>
+                    Check.RequireValidEmail(string.Empty, "email")
                 ));
         }
 

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VisualState xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ShowCheckBoxes="false">
+  <TopNode>[0-1000]C:\Projects\bowerbird.web\Src\bowerbird-web.nunit</TopNode>
+  <SelectedNode>[0-1085]Bowerbird.Core.Test.Entities.UserTest.User_AddMemebership_Passing_Role_Adds_Membership</SelectedNode>
+  <ExcludeCategories>false</ExcludeCategories>
+  <Nodes>
+    <Node UniqueName="[0-1000]C:\Projects\bowerbird.web\Src\bowerbird-web.nunit" Expanded="true" />
+    <Node UniqueName="[0-1092]C:\Projects\bowerbird.web\Src\Bowerbird.Core.Test\bin\Debug\Bowerbird.Core.Test.dll" Expanded="true" />
+    <Node UniqueName="[0-1093]Bowerbird" Expanded="true" />
+    <Node UniqueName="[0-1094]Bowerbird.Core" Expanded="true" />
+    <Node UniqueName="[0-1095]Bowerbird.Core.Test" Expanded="true" />
+    <Node UniqueName="[0-1099]Bowerbird.Core.Test.CommandHandlers" Expanded="true" />
+    <Node UniqueName="[0-1018]Bowerbird.Core.Test.CommandHandlers.ObservationCreateCommandHandlerTest" Expanded="true" />
+    <Node UniqueName="[0-1101]Bowerbird.Core.Test.Commands" Expanded="true" />
+    <Node UniqueName="[0-1036]Bowerbird.Core.Test.Commands.ObservationCreateCommandTest" Expanded="true" />
+    <Node UniqueName="[0-1102]Bowerbird.Core.Test.DesignByContract" Expanded="true" />
+    <Node UniqueName="[0-1048]Bowerbird.Core.Test.DesignByContract.CheckTest" Expanded="true" />
+    <Node UniqueName="[0-1103]Bowerbird.Core.Test.Entities" Expanded="true" />
+    <Node UniqueName="[0-1056]Bowerbird.Core.Test.Entities.UserTest" Expanded="true" />
+    <Node UniqueName="[0-1098]Bowerbird.Core.Test.EventHandlers" Expanded="true" />
+    <Node UniqueName="[0-1006]Bowerbird.Core.Test.EventHandlers.SendWelcomeEmailEventHandlerTest" Expanded="true" />
+    <Node UniqueName="[0-1097]Bowerbird.Core.Test.Extensions" Expanded="true" />
+    <Node UniqueName="[0-1002]Bowerbird.Core.Test.Extensions.CollectionExtensionsTest" Expanded="true" />
+    <Node UniqueName="[0-1009]Bowerbird.Core.Test.Extensions.StringExtensionsTest" Expanded="true" />
+    <Node UniqueName="[0-1096]Bowerbird.Core.Test.Repositories" Expanded="true" />
+    <Node UniqueName="[0-1000]Bowerbird.Core.Test.Repositories.UserRepositoryTest" Expanded="true" />
+    <Node UniqueName="[0-1100]Bowerbird.Core.Test.Tasks" Expanded="true" />
+    <Node UniqueName="[0-1027]Bowerbird.Core.Test.Tasks.UserTasksTest" Expanded="true" />
+  </Nodes>
+</VisualState>

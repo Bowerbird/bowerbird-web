@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using Bowerbird.Core.DesignByContract;
 
 namespace Bowerbird.Core.Extensions
 {
@@ -18,6 +19,8 @@ namespace Bowerbird.Core.Extensions
 
         public static string FormatWith(this string text, string param1)
         {
+            Check.Ensure(text.Contains("{0}"), "string was not in propper format");
+
             return string.Format(text, param1);
         }
 

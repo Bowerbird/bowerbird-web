@@ -115,6 +115,7 @@
     <Compile Include="EventHandlers\IEventHandler.cs" />
     <Compile Include="EventHandlers\SendWelcomeEmailEventHandler.cs" />
     <Compile Include="Events\UserLoggedInEvent.cs" />
+    <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="ICommandProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
