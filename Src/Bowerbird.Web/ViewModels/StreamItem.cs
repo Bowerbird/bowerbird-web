@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Bowerbird.Core.Entities;
 
 namespace Bowerbird.Web.ViewModels
 {
-    public class HomeIndex : IViewModel
+    public class StreamItem
     {
 
         #region Members
@@ -19,7 +18,11 @@ namespace Bowerbird.Web.ViewModels
 
         #region Properties
 
-        public PagedList<StreamItem> StreamItems { get; set; }
+        public string Type { get; set; }
+
+        public DateTime SubmittedOn { get; set; }
+
+        public object Item { get; set; }
 
         #endregion
 

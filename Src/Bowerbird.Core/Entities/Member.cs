@@ -85,10 +85,7 @@ namespace Bowerbird.Core.Entities
 
         public Member RemoveRole(string roleId)
         {
-            if (Roles.Any(x => x.Id == roleId))
-            {
-                Roles.RemoveAll(x => x.Id == roleId);
-            }
+            Roles.RemoveAll(x => x.Id == roleId);
 
             return this;
         }

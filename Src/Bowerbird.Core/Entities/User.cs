@@ -15,7 +15,7 @@ namespace Bowerbird.Core.Entities
         #region Members
 
         private const string _constantSalt = "nf@hskdhI&%dynm^&%";
-        private GlobalMember _globalMember;
+        //private GlobalMember _globalMember;
 
         #endregion
 
@@ -50,7 +50,8 @@ namespace Bowerbird.Core.Entities
                 lastName,
                 description);
 
-            _globalMember = new GlobalMember(this, roles);
+            //_globalMember = new GlobalMember(this, roles);
+            Memberships.Add(new GlobalMember(this, roles));
 
             EventProcessor.Raise(new EntityCreatedEvent<User>(this, this));
         }
@@ -79,11 +80,13 @@ namespace Bowerbird.Core.Entities
 
         public int FlagsRaised { get; private set; }
 
-        public List<DenormalisedNamedEntityReference<Role>> Roles 
-        {
-            get { return _globalMember.Roles; }
-            private set { _globalMember.AddRoles(value); }
-        }
+        //public List<DenormalisedNamedEntityReference<Role>> Roles 
+        //{
+        //    get { return _globalMember.Roles; }
+        //    private set { _globalMember.AddRoles(value); }
+        //}
+
+        public List<DenormalisedMemberReference> Memberships { get; private set; }
 
         #endregion
 
@@ -91,7 +94,8 @@ namespace Bowerbird.Core.Entities
 
         private void InitMembers()
         {
-            _globalMember = new GlobalMember(this, new List<Role>());
+            //_globalMember = new GlobalMember(this, new List<Role>());
+            Memberships = new List<DenormalisedMemberReference>();
         }
 
         private string GetHashedPassword(string password)
@@ -165,16 +169,33 @@ namespace Bowerbird.Core.Entities
             return this;
         }
 
-        public User AddRole(Role role)
+        //public User AddRole(Role role)
+        //{
+        //    _globalMember.AddRole(role);
+
+        //    return this;
+        //}
+
+        //public User RemoveRole(string roleId)
+        //{
+        //    _globalMember.RemoveRole(roleId);
+
+        //    return this;
+        //}
+
+        public User AddMembership(Member member)
         {
-            _globalMember.AddRole(role);
+            if (Memberships.All(x => x.Type != member.GetType().Name.ToLower() && x.Id != member.Id))
+            {
+                Memberships.Add(member);
+            }
 
             return this;
         }
 
-        public User RemoveRole(string roleId)
+        public User RemoveMembership(string memberType, string memberId)
         {
-            _globalMember.RemoveRole(roleId);
+            Memberships.RemoveAll(x => x.Type == memberType && x.Id == memberId);
 
             return this;
         }

@@ -5,6 +5,8 @@ using System.Text;
 using System.Web;
 using System.Web.Security;
 using Bowerbird.Web.Config;
+using SignalR.Hubs;
+using Bowerbird.Web.Hubs;
 
 namespace Bowerbird.Web.Config
 {
@@ -74,6 +76,11 @@ namespace Bowerbird.Web.Config
         public void SignUserOut()
         {
             FormsAuthentication.SignOut();
+        }
+
+        public dynamic GetChannel()
+        {
+            return Hub.GetClients<ActivityHub>();
         }
 
         private void AddCookie(string name, string value, string domain)

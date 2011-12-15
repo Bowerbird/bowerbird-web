@@ -46,17 +46,38 @@ namespace Bowerbird.Web.ViewModelFactories
             //int requestedPageSize = pageSize < 1 || pageSize > 30 ? 10 : pageSize;
             //int requestedPage = page < 1 ? 1 : page;
 
-            var results = DocumentSession
+            var streamItems = new List<StreamItem>();
+
+            // Observations
+            streamItems.AddRange(DocumentSession
                 .Query<Observation>()
                 .Statistics(out stats)
+                //.Where(x => x.Teams.In(subscription.Teams) || x.Projects.In(subscription.Projects) || x.User.Id == homeIndexInput.Username)
                 .Where(x => x.User.Id == homeIndexInput.Username)
+                .OrderByDescending(x => x.SubmittedOn)
                 .Skip(homeIndexInput.Page)
                 .Take(homeIndexInput.PageSize)
-                .ToArray(); // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
+                .Select(x => new StreamItem() { Type = "observation", SubmittedOn = x.SubmittedOn, Item = x }) // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
+                .ToList());
+
+            // Posts
+            streamItems.AddRange(DocumentSession
+                .Query<Post>()
+                .OrderByDescending(x => x.PostedOn)
+                .Skip(homeIndexInput.Page)
+                .Take(homeIndexInput.PageSize)
+                .Select(x => new StreamItem() { Type = "post", SubmittedOn = x.PostedOn, Item = x }) // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
+                .ToList());
+
+            // Get number required based on page size
+            streamItems = streamItems
+                .OrderByDescending(x => x.SubmittedOn)
+                .Take(homeIndexInput.PageSize)
+                .ToList();
 
             return new HomeIndex()
             {
-                Observations = _pagedListFactory.Make(homeIndexInput.Page, homeIndexInput.PageSize, stats.TotalResults, results, null)
+                StreamItems = _pagedListFactory.Make(homeIndexInput.Page, homeIndexInput.PageSize, stats.TotalResults, streamItems, null)
             };
         }
 

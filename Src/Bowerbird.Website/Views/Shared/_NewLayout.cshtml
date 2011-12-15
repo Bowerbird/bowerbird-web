@@ -12,7 +12,7 @@
     @* More info about SquishIt from http://www.codethinked.com/squishit-the-friendly-aspnet-javascript-and-css-squisher *@
     @Html.Raw(SquishIt.Framework.Bundle.Css()
                                      .Add(@Url.Stylesheet("normalize.css"))
-                                     //.Add(@Url.Stylesheet("site.css"))
+                                     .Add(@Url.Stylesheet("site.css"))
                                      //.Add(@Url.Stylesheet("media.css"))
             //.ForceRelease() // Test it out with minification
                                      .Render("~/css/style_#.css"))
@@ -28,26 +28,24 @@
 <body>
     <div id="container">
         <header id="header">
-            <div id="header-title">Bowerbird</div>
-            <div id="main-menu-items">
-                <div id="main-menu">
-                    <ul>
-                        <li>@Html.ActionLink("Observations", "index", "observation")</li> 
-                        <li>@Html.ActionLink("People", "index", "user")</li>
-                        <li>@Html.ActionLink("Groups", "index", "group")</li>
-                    </ul>
-                </div>
-                <div id="search-menu">
-                    <div id="search-box">
-                        <label for="search">Search</label> <input type="text" value="" name="search" id="search" placeholder="Search for observations, people and groups" />
-                    </div>
+            <div id="main-title">Bowerbird</div>
+            <div id="main-menu">
+                <ul>
+                    <li>@Html.ActionLink("Observations", "index", "observation")</li> 
+                    <li>@Html.ActionLink("People", "index", "user")</li>
+                    <li>@Html.ActionLink("Groups", "index", "group")</li>
+                </ul>
+            </div>
+            <div id="search-menu">
+                <div id="search-box">
+                    <label for="search">Search</label> <input type="text" value="" name="search" id="search" placeholder="Search for observations, people and groups" />
                 </div>
             </div>
             <div id="account-menu">
                 <ul>
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <li><img src="/img/avatar.jpg" alt="" /> @Html.ActionLink(User.Identity.Name, "index", "user", new { User.Identity.Name }, null)</li>
+                    <li><img src="/img/avatar.jpg" alt="" /> @Html.ActionLink(User.Identity.Name, "index", "home")</li>
                 }
                 else
                 {
@@ -61,7 +59,7 @@
             @RenderBody()
         </div>
         <footer id="footer">
-            <!-- stuff -->
+
         </footer>
     </div> 
     <!--! end of #container -->

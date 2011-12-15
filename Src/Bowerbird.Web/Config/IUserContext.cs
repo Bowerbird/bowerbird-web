@@ -20,5 +20,7 @@ namespace Bowerbird.Web.Config
 
         void SignUserOut();
 
+        dynamic GetChannel();
+
     }
 }

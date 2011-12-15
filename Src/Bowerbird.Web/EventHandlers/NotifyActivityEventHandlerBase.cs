@@ -7,8 +7,8 @@ using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Entities;
 using Bowerbird.Core.Repositories;
 using Bowerbird.Core.EventHandlers;
-using SignalR.Hubs;
 using Bowerbird.Web.Hubs;
+using Bowerbird.Web.Config;
 
 namespace Bowerbird.Web.EventHandlers
 {
@@ -17,9 +17,19 @@ namespace Bowerbird.Web.EventHandlers
 
         #region Members
 
+        private readonly IUserContext _userContext;
+
         #endregion
 
         #region Constructors
+
+        protected NotifyActivityEventHandlerBase(
+            IUserContext userContext)
+        {
+            Check.RequireNotNull(userContext, "userContext");
+
+            _userContext = userContext;
+        }
 
         #endregion
 
@@ -36,7 +46,7 @@ namespace Bowerbird.Web.EventHandlers
                 user,
                 data);
 
-            var clients = Hub.GetClients<ActivityHub>();
+            var clients = _userContext.GetChannel();
 
             clients.activityOccurred(activity);
         }

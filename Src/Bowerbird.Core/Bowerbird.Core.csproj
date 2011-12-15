@@ -65,6 +65,7 @@
     <Compile Include="Entities\Comment.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Entities\DenormalisedReferences\DenormalisedMemberReference.cs" />
     <Compile Include="Entities\DomainSignatureAttribute.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\GlobalMember.cs" />

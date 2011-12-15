@@ -130,6 +130,7 @@
     <Compile Include="ViewModelRepository.cs" />
     <Compile Include="ViewModels\AccountLogin.cs" />
     <Compile Include="ViewModels\AccountLoginInput.cs" />
+    <Compile Include="ViewModels\StreamItem.cs" />
     <Compile Include="ViewModels\UserCreateInput.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\UrlHelperExtensions.cs" />

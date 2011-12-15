@@ -8,190 +8,53 @@
     <div class="filter-group" id="default-filters">
         <div class="filter-group-title">Me</div>
         <ul>
-            <li><a href="/#/user/stream/all" class="user-all">Home</a></li>
+            <li><a href="/#/user/stream/all" class="user-stream">Home</a></li>
+            <li><a href="/#/user/favourites" class="user-favourites">Favourites</a></li>
+            <li><a href="/#/user/favourites" class="user-favourites">My Observations</a></li>
         </ul>
     </div>
     <div class="filter-group" id="collaborations-filters">
-        <div class="filter-group-title">Groups</div>
+        <div class="filter-group-title">Teams</div>
         <ul>
-            <li><a href="/#/team/butterflies-of-aus/stream/all" class="butterflies-of-aus"><img alt="" src="../img/test-thumb-3.jpg"> Butteflies of Austra...</a></li>
+@*            <li><a href="/#/team/butterflies-of-aus/stream/all" class="butterflies-of-aus"><img alt="" src="../img/test-thumb-3.jpg"> Butteflies of Austra...</a></li>
             <li><a href="/#/project/butterfly-workshop/stream/all" class="butterfly-workshop"><img alt="" src="../img/test-thumb-2.jpg"> Butterfly Workshop</a></li>
-            <li><a href="/#/team/mushroom-hunters/stream/all" class="mushroom-hunters"><img alt="" src="../img/test-thumb-2.jpg"> Mushroom Hunters</a></li>
+            <li><a href="/#/team/mushroom-hunters/stream/all" class="mushroom-hunters"><img alt="" src="../img/test-thumb-2.jpg"> Mushroom Hunters</a></li>*@
         </ul>
+        <div class="filter-group-options">
+            <ul>
+                <li><a href="#">Find Teams</a></li>
+                <li><a href="#">Start New Team</a></li>
+            </ul>
+        </div>
     </div>
     <div class="filter-group" id="watch-lists">
-        <div class="filter-group-title">Watching</div>
+        <div class="filter-group-title">Watches</div>
         <ul>
-            <li><a href="/#/watch/123/stream/all">Bees</a></li>
+@*            <li><a href="/#/watch/123/stream/all">Bees</a></li>
             <li><a href="/#/watch/124/stream/all">Butterflies</a></li>
-            <li><a href="/#/watch/125/stream/all">Red Things</a></li>
+            <li><a href="/#/watch/125/stream/all">Red Things</a></li>*@
         </ul>
+        <div class="filter-group-options">
+            <ul>
+                <li><a href="#">Create New Watch</a></li>
+            </ul>
+        </div>
     </div>
 </div>
 <div id="workspace-column"></div>
-<div id="feature-column">
-    <div class="filter-group">
-        <input type="button" id="new-post-buttton" class="themed-button" value="New Post..." />
-        <input type="button" id="new-project-buttton" class="themed-button" value="New Projects..." />
-        <input type="button" id="edit-group-details-button" class="themed-button" value="Edit Group Details" />
-        <input type="button" id="edit-group-users-buttton" class="themed-button" value="Edit Group Users" />
-        <input type="button" id="moderate-content-buttton" class="themed-button" value="Moderate Content" />
-    </div>
-</div>
-
 @section script {
-<script type="text/x-jquery-tmpl" id="workspace-stream-template">
-        <div>
-            <div id="selected-filter">
-            <div id="selected-filter-contents">
-                <div id="selected-filter-photo">
-                    <img src="../img/test-thumb-2.jpg" alt="" />
-                </div>
-                <div id="selected-filter-details">
-                    <h1>${key}</h1>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla auctor urna eu risus interdum commodo. Suspendisse ac diam at magna lobortis tristique. Duis sed nibh eu quam pretium mollis. Nullam vel lacus massa, non dignissim sem. Proin ipsum lorem, rutrum at dictum et, aliquam ac lacus. Donec eget felis purus, commodo tristique tellus.</p>
-                </div>
-            </div>
-            <div id="selected-filter-actions">
-                <a id="create-observation">New Observation...</a>
-            </div>
-            <div id="selected-filter-nav">
-                <ul>
-                    <li class="selected"><a href="#" class="themed-button">Everything</a></li><!--
-                    //--><li><a href="#" class="themed-button">Observations</a></li><!--
-                    //--><li><a href="#" class="themed-button">Needs Id</a></li><!--
-                    //--><li><a href="#" class="themed-button">Map</a></li>
-                </ul>
-            </div>
-        </div>
-            <div id="timeline">
-            <!-- Observation example -->
-            <div class="timeline-item">
-                <div class="timeline-item-user">
-                    <div class="timeline-item-user-avatar">
-                        <img src="../img/avatar.jpg" alt="" />
-                    </div>
-                </div>
-                <div class="timeline-item-details">
-                    <div class="timeline-item-summary">
-                        <div class="timeline-item-summary-heading">Dr Ken Walker made an observation</div>
-                        <div class="timeline-item-summary-date">August 28th</div>
-                    </div>
-                    <div class="timeline-item-body timeline-item-observation">
-                        <div class="timeline-item-observation-summary">
-                            <div class="timeline-item-observation-name">Variegated Fritillary Butterfly</div>
-                            <div class="timeline-item-observation-scientific-name">Euptoieta Claudia</div>
-                        </div>
-                        <div class="timeline-item-observation-photos">
-                            <div class="timeline-item-observation-photo-preview">
-                                <img src="../img/test-thumb-3.jpg" alt="" />
-                            </div>
-                            <div class="timeline-item-observation-photo-slides"></div>
-                            <div class="timeline-item-observation-photo-thumbnails">
-                                <img src="../img/test-thumb-4.jpg" alt="" />
-                                <img src="../img/test-thumb.jpg" alt="" />
-                                <img src="../img/test-thumb.jpg" alt="" />
-                                <img src="../img/test-thumb.jpg" alt="" />
-                                <img src="../img/test-thumb.jpg" alt="" />
-                                <img src="../img/test-thumb.jpg" alt="" />
-                            </div>
-                        </div>
-                        <div class="timeline-item-observation-description">
-                            <div class="timeline-item-observation-location"></div>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla auctor urna eu risus interdum commodo. Suspendisse ac diam at magna lobortis tristique. Duis sed nibh eu quam pretium mollis. Nullam vel lacus massa, non dignissim sem. Proin ipsum lorem, rutrum at dictum et, aliquam ac lacus. Donec eget felis purus, commodo tristique tellus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla auctor urna eu risus interdum commodo. Suspendisse ac diam at magna lobortis tristique. Duis sed nibh eu quam pretium mollis. Nullam vel lacus massa, non dignissim sem. Proin ipsum lorem, rutrum at dictum et, aliquam ac lacus. Donec eget felis purus, commodo tristique tellus.
-                        </div>
-                        <div class="timeline-item-observation-tags">
-                            <a href="#">buttefly</a>, <a href="#">orange</a>, <a href="#">brushfoots</a>, <a href="#">violets</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Comment example -->
-            <div class="timeline-item">
-                <div class="timeline-item-user">
-                    <div class="timeline-item-user-avatar">
-                        <img src="../img/avatar.jpg" alt="" />
-                    </div>
-                </div>
-                <div class="timeline-item-details">
-                    <div class="timeline-item-summary">
-                        <div class="timeline-item-summary-heading">Dr Ken Walker commented on Variegated Fritillary Butterfly</div>
-                        <div class="timeline-item-summary-date">August 28th</div>
-                    </div>
-                    <div class="timeline-item-body timeline-item-observation-comment">
-                        <div class="timeline-item-comment-details">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla auctor urna eu risus interdum commodo. Suspendisse ac diam at magna lobortis tristique. Duis sed nibh eu quam pretium mollis. Nullam vel lacus massa, non dignissim sem. Proin ipsum lorem, rutrum at dictum et, aliquam ac lacus. Donec eget felis purus, commodo tristique tellus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        </div>
-                        <div class="timeline-item-brief-observation-details">
-                            <div class="timeline-item-brief-observation-summary">
-                                <div class="timeline-item-brief-observation-name">Variegated Fritillary Butterfly</div>
-                                <div class="timeline-item-brief-observation-scientific-name">Euptoieta Claudia</div>
-                            </div>
-                            <div class="timeline-item-brief-observation-photos">
-                                <img src="../img/test-thumb.jpg" alt="" />
-                                <img src="../img/test-thumb.jpg" alt="" />
-                                <img src="../img/test-thumb.jpg" alt="" />
-                                <img src="../img/test-thumb.jpg" alt="" />
-                            </div>
-                            <div class="timeline-item-brief-observation-description">
-                                <div class="timeline-item-brief-observation-location"></div>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla auctor urna eu risus interdum commodo. Suspendisse ac diam at magna lobortis tristique. Duis sed nibh eu quam pretium mollis. Nullam vel lacus massa, non dignissim sem. Proin ipsum lorem, rutrum at dictum et, aliquam ac lacus. Donec eget felis purus, commodo tristique tellus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla auctor urna eu risus interdum commodo. Suspendisse ac diam at magna lobortis tristique. Duis sed nibh eu quam pretium mollis. Nullam vel lacus massa, non dignissim sem. Proin ipsum lorem, rutrum at dictum et, aliquam ac lacus. Donec eget felis purus, commodo tristique tellus.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Identification example -->
-            <div class="timeline-item">
-                <div class="timeline-item-user">
-                    <div class="timeline-item-user-avatar">
-                        <img src="../img/avatar.jpg" alt="" />
-                    </div>
-                </div>
-                <div class="timeline-item-details">
-                    <div class="timeline-item-summary">
-                        <div class="timeline-item-summary-heading">Dr Ken Walker made an identification</div>
-                        <div class="timeline-item-summary-date">August 28th</div>
-                    </div>
-                    <div class="timeline-item-body timeline-item-identification">
-                        <div class="timeline-item-identification-details">
-                            <div class="timeline-item-identification-name">Variegated Fritillary Butterfly</div>
-                            <div class="timeline-item-identification-scientific-name">Euptoieta Claudia</div>
-                            <div class="timeline-item-identification-vote">
-		                        <div class="timeline-item-identification-vote-options">
-                                    <input type="button" class="themed-button" value="Agree" />
-                                    <input type="button" class="themed-button" value="Disagree" />
-		                        </div>
-                                <div class="timeline-item-identification-vote-count">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="timeline-item-comment-details">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla auctor urna eu risus interdum commodo. Suspendisse ac diam at magna lobortis tristique. Duis sed nibh eu quam pretium mollis. Nullam vel lacus massa, non dignissim sem. Proin ipsum lorem, rutrum at dictum et, aliquam ac lacus. Donec eget felis purus, commodo tristique tellus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        </div>
-                        <div class="timeline-item-brief-observation-details">
-                            <div class="timeline-item-brief-observation-summary">
-                                <div class="timeline-item-brief-observation-name">Variegated Fritillary Butterfly</div>
-                                <div class="timeline-item-brief-observation-scientific-name">Euptoieta Claudia</div>
-                            </div>
-                            <div class="timeline-item-brief-observation-photos">
-                                <img src="../img/test-thumb.jpg" alt="" />
-                                <img src="../img/test-thumb.jpg" alt="" />
-                                <img src="../img/test-thumb.jpg" alt="" />
-                                <img src="../img/test-thumb.jpg" alt="" />
-                            </div>
-                            <div class="timeline-item-brief-observation-description">
-                                <div class="timeline-item-brief-observation-location"></div>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla auctor urna eu risus interdum commodo. Suspendisse ac diam at magna lobortis tristique. Duis sed nibh eu quam pretium mollis. Nullam vel lacus massa, non dignissim sem. Proin ipsum lorem, rutrum at dictum et, aliquam ac lacus. Donec eget felis purus, commodo tristique tellus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla auctor urna eu risus interdum commodo. Suspendisse ac diam at magna lobortis tristique. Duis sed nibh eu quam pretium mollis. Nullam vel lacus massa, non dignissim sem. Proin ipsum lorem, rutrum at dictum et, aliquam ac lacus. Donec eget felis purus, commodo tristique tellus.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<script type="text/x-jquery-tmpl" id="stream-template">
+    <div id="selected-filter"></div>
+    <div id="stream"></div>
 </script>
 <script type="text/x-jquery-tmpl" id="workspace-form-create-observation-template">
     @Html.Partial("_ObservationCreate")
+</script>
+<script type="text/x-jquery-tmpl" id="selected-filter-details-template">
+    @Html.Partial("_SelectedFilterDetails")
+</script>
+<script type="text/x-jquery-tmpl" id="stream-observation-item-template">
+    @Html.Partial("_StreamObservationItem")
 </script>
 <script type="text/javascript" src="@Url.JavaScriptFile("app.js")"></script>
 <script type="text/javascript" src="@Url.JavaScriptLib("jquery.signalR.min.js")"></script>

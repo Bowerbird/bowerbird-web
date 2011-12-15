@@ -9,6 +9,7 @@ using Bowerbird.Core.Repositories;
 using Bowerbird.Core.EventHandlers;
 using SignalR.Hubs;
 using Bowerbird.Web.Hubs;
+using Bowerbird.Web.Config;
 
 namespace Bowerbird.Web.EventHandlers
 {
@@ -21,6 +22,12 @@ namespace Bowerbird.Web.EventHandlers
 
         #region Constructors
 
+        public NotifyActivityObservationCreatedEventHandler(
+            IUserContext userContext)
+            : base(userContext)
+        {
+        }
+
         #endregion
 
         #region Properties
@@ -32,6 +39,8 @@ namespace Bowerbird.Web.EventHandlers
         public void Handle(EntityCreatedEvent<Observation> observationCreatedEvent)
         {
             Check.RequireNotNull(observationCreatedEvent, "observationCreatedEvent");
+
+            // TODO: Find all users that need to be notified of this new observation
 
             Notify(
                 "observationcreated",

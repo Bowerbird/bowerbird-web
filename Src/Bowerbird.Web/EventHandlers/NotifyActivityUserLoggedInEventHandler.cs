@@ -9,6 +9,7 @@ using Bowerbird.Core.Repositories;
 using Bowerbird.Core.EventHandlers;
 using SignalR.Hubs;
 using Bowerbird.Web.Hubs;
+using Bowerbird.Web.Config;
 
 namespace Bowerbird.Web.EventHandlers
 {
@@ -20,6 +21,12 @@ namespace Bowerbird.Web.EventHandlers
         #endregion
 
         #region Constructors
+
+        public NotifyActivityUserLoggedInEventHandler(
+            IUserContext userContext)
+            : base(userContext)
+        {
+        }
 
         #endregion
 

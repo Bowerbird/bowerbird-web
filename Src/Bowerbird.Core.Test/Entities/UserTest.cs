@@ -229,7 +229,7 @@ namespace Bowerbird.Core.Test.Entities
         }
 
         [Test]
-        public void User_Constructor_Populates_Roles_Field()
+        public void User_Constructor_Populates_Memberships_Field()
         {
             var user = new User(
                                 FakeValues.KeyString,
@@ -242,18 +242,18 @@ namespace Bowerbird.Core.Test.Entities
 
             IEnumerable<Role> roles = TestRoles();
 
+            Assert.IsTrue(user.Memberships.Count == 1);
+
             var expected = roles.Count();
-            var actual = user.Roles.Count;
+            var actual = user.Memberships[0].Roles.Count();
 
             Assert.AreEqual(actual, expected);
 
-            foreach (var role in user.Roles)
+            foreach (var role in user.Memberships[0].Roles)
             {
-                var derivedFromRole = roles.Where(x => x.Id == role.Id).FirstOrDefault();
+                var derivedFromRole = roles.Where(x => x.Id == role).FirstOrDefault();
 
-                Assert.AreEqual(role.Id, derivedFromRole.Id);
-
-                Assert.AreEqual(role.Name, derivedFromRole.Name);
+                Assert.AreEqual(role, derivedFromRole.Id);
             }
         }
 
@@ -322,9 +322,9 @@ namespace Bowerbird.Core.Test.Entities
         }
 
         [Test]
-        public void User_Roles_Is_ListOf_DenormalisedNamedEntityReference_AsGeneric_Role()
+        public void User_Memeberships_Is_ListOf_DenormalisedNamedEntityReference_AsGeneric_Membership()
         {
-            Assert.IsInstanceOf<List<DenormalisedNamedEntityReference<Role>>>(TestUser().Roles);
+            Assert.IsInstanceOf<List<DenormalisedMemberReference>>(TestUser().Memberships);
         }
 
         #endregion
@@ -419,52 +419,51 @@ namespace Bowerbird.Core.Test.Entities
         }
 
         [Test]
-        public void User_AddRole_Passing_Role_Adds_Role()
+        public void User_AddMemebership_Passing_Role_Adds_Membership()
         {
             Assert.AreEqual(
                 TestUser()
-                .AddRole(new Role("testRole", "Test Role", "Test Role", TestPermissions()))
-                .Roles
+                .AddMembership(new TeamMember(TestUser(), new Moq.Mock<Team>().Object, TestUser(), TestRoles()))
+                .Memberships
                 .Count,
-                TestUser().Roles.Count + 1
-                );
+                TestUser().Memberships.Count + 1);
         }
 
         [Test]
-        public void User_AddRole_Passing_InvalidValid_Role_DesignByContractException()
+        public void User_AddMembership_Passing_InvalidValid_Memebership_DesignByContractException()
         {
             Assert.IsTrue(
                 Throws.Exception<DesignByContractException>(
                     () => TestUser()
-                        .AddRole(
+                        .AddMembership(
                             null
                             )
                     ));
         }
 
         [Test]
-        public void User_RemoveRole_Passing_RoleId_Removes_Role()
+        public void User_RemoveMembership_Passing_MembershipId_Removes_Membership()
         {
             Assert.AreEqual(
                 TestUser()
-                .RemoveRole(TestUser().Roles[0].Id)
-                .Roles
+                .RemoveMembership("teammember", TestUser().Memberships[0].Id)
+                .Memberships
                 .Count,
-                TestUser().Roles.Count - 1
+                TestUser().Memberships.Count - 1
                 );
         }
 
         [Test]
-        public void User_RemoveRole_Passing_InvalidValid_RoleId_Adds_Role()
+        public void User_RemoveMembership_Passing_InvalidValid_MembershipId_Removes_Membership()
         {
-            Assert.IsTrue(
-                Throws.Exception<DesignByContractException>(
-                    () =>
-                    TestUser()
-                        .RemoveRole(
-                            string.Empty
-                        )
-                    ));
+            var user = TestUser()
+                        .RemoveMembership(
+                            "teammember", string.Empty
+                        );
+
+            Assert.AreEqual(
+                TestUser().Memberships.Count,
+                user.Memberships.Count);
         }
 
         [Test]

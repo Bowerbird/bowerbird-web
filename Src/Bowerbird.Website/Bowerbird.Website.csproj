@@ -188,15 +188,11 @@
     </Content>
     <Content Include="Views\Observation\Index.cshtml" />
     <Content Include="Views\Shared\_ObservationCreate.cshtml" />
-    <Content Include="Views\Shared\_GroupCreate.cshtml" />
-    <Content Include="Views\Shared\_CommentCreate.cshtml" />
-    <Content Include="Views\Shared\_IdentificationCreate.cshtml" />
-    <Content Include="Views\Shared\_ProjectCreate.cshtml" />
-    <Content Include="Views\Shared\_PostCreate.cshtml" />
-    <Content Include="Views\Shared\_mediaResourceCreate.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\_NewLayout.cshtml" />
     <Content Include="Views\Home\Copy of Index.cshtml" />
+    <Content Include="Views\Shared\_SelectedFilterDetails.cshtml" />
+    <Content Include="Views\Shared\_StreamObservationItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="404.html" />

@@ -38,7 +38,7 @@ namespace Bowerbird.Core
                     }
                 }
             }
-        }
+        } 
 
         public static void Register<T>(Action<T> callback) where T : IDomainEvent
         {
