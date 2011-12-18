@@ -90,7 +90,7 @@ namespace Bowerbird.Web.Test.ViewModelFactories
 
         #region Method tests
 
-        [Test] public void HomeIndexFactory_Make_Passing_HomeIndexInput_Returns_HomeIndex()
+        [Test,Ignore] public void HomeIndexFactory_Make_Passing_HomeIndexInput_Returns_HomeIndex()
         {
             var homeIndexInput = new
             {

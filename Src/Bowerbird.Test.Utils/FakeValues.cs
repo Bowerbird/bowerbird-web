@@ -230,5 +230,9 @@ namespace Bowerbird.Test.Utils
         /// </summary>
         public static int PageSize { get { return 10; } }
 
+        /// <summary>
+        /// value: new object()
+        /// </summary>
+        public static object Object { get { return new object(); } }
     }
 }

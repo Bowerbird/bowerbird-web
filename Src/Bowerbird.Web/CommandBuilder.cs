@@ -34,6 +34,8 @@ namespace Bowerbird.Web
 
         public TCommand Build<TInput, TCommand>(TInput input, Action<TCommand> setup = null)
         {
+            Check.RequireNotNull(input, "input");
+
             var commandFactory = _serviceLocator.GetInstance<ICommandFactory<TInput, TCommand>>();
 
             if (commandFactory == null)

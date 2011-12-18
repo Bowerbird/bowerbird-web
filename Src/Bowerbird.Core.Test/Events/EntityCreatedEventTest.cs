@@ -1,35 +1,49 @@
-﻿using System.Collections.Generic;
-using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.Entities;
-using Bowerbird.Core.Events;
-using Bowerbird.Test.Utils;
-using NUnit.Framework;
+﻿/* Bowerbird V1 
+
+ Licensed under MIT 1.1 Public License
+
+ Developers: 
+ * Frank Radocaj : frank@radocaj.com
+ * Hamish Crittenden : hamish.crittenden@gmail.com
+ 
+ Project Manager: 
+ * Ken Walker : kwalker@museum.vic.gov.au
+ 
+ Funded by:
+ * Atlas of Living Australia
+ 
+*/
 
 namespace Bowerbird.Core.Test.Events
 {
-    [TestFixture]
-    public class EntityCreatedEventTest
+    #region Namespaces
+
+    using System.Collections.Generic;
+
+    using NUnit.Framework;
+    using Moq;
+
+    using Bowerbird.Core.DesignByContract;
+    using Bowerbird.Core.Entities;
+    using Bowerbird.Core.Events;
+    using Bowerbird.Test.Utils;
+
+    #endregion
+
+    [TestFixture] public class EntityCreatedEventTest
     {
 
-        #region Infrastructure
+        #region Test Infrastructure
 
-        [SetUp]
-        public void TestInitialize()
-        {
+        [SetUp] public void TestInitialize(){ }
 
-        }
-
-        [TearDown]
-        public void TestCleanup()
-        {
-
-        }
+        [TearDown] public void TestCleanup(){ }
 
         #endregion
 
-        #region Helpers
+        #region Test Helpers
 
-        private class ProxyDomainEvent : IEntity
+        private class ProxyDomainEvent : IDomainEvent
         {
             public string Id
             {
@@ -92,16 +106,14 @@ namespace Bowerbird.Core.Test.Events
 
         #region Constructor tests
 
-        [Test]
-        public void EntityCreatedEvent_Constructor_Passing_Null_Entity_Throws_DesignByContractException()
+        [Test] public void EntityCreatedEvent_Constructor_Passing_Null_Entity_Throws_DesignByContractException()
         {
             Assert.IsTrue(
                     BowerbirdThrows.Exception<DesignByContractException>(
                         () => new EntityCreatedEvent<ProxyDomainEvent>(null, TestUser()) ));
         }
 
-        [Test]
-        public void EntityCreatedEvent_Constructor_Passing_Null_User_Throws_DesignByContractException()
+        [Test] public void EntityCreatedEvent_Constructor_Passing_Null_User_Throws_DesignByContractException()
         {
             Assert.IsTrue(
                     BowerbirdThrows.Exception<DesignByContractException>(
@@ -111,6 +123,27 @@ namespace Bowerbird.Core.Test.Events
         #endregion
 
         #region Property tests
+
+        [Test] public void EntityCreatedEvent_Entity_Is_Specified_Generic_Type()
+        {
+            var domainEvent = new EntityCreatedEvent<ProxyDomainEvent>(
+                new ProxyDomainEvent(),
+                TestUser()
+                );
+
+            Assert.IsInstanceOf<ProxyDomainEvent>(domainEvent.Entity);
+        }
+
+        [Test]
+        public void EntityCreatedEvent_User_Is_A_User()
+        {
+            var domainEvent = new EntityCreatedEvent<ProxyDomainEvent>(
+                new ProxyDomainEvent(),
+                TestUser()
+                );
+
+            Assert.IsInstanceOf<User>(domainEvent.CreatedByUser);
+        }
 
         #endregion
 
