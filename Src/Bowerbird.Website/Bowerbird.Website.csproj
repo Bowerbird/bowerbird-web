@@ -117,7 +117,12 @@
     <Content Include="demo\test_tubes.png" />
     <Content Include="GenericErrorPage.html" />
     <Content Include="humans.txt" />
+    <Content Include="img\avatar-1.png" />
+    <Content Include="img\avatar-2.png" />
+    <Content Include="img\avatar-3.png" />
+    <Content Include="img\avatar-4.png" />
     <Content Include="img\avatar.jpg" />
+    <Content Include="img\background.png" />
     <Content Include="img\beige_paper.png" />
     <Content Include="img\bgnoise.gif" />
     <Content Include="img\brushed_alu_dark.png" />
@@ -126,11 +131,13 @@
     <Content Include="img\concrete_wall.png" />
     <Content Include="img\crossed_stripes.png" />
     <Content Include="img\diagonal-noise.png" />
+    <Content Include="img\dragonfly.png" />
     <Content Include="img\logo.png" />
     <Content Include="img\map.png" />
     <Content Include="img\polaroid.png" />
     <Content Include="img\rubber_grip.png" />
     <Content Include="img\speech-bubble-pointer.png" />
+    <Content Include="img\team-avatar-1.png" />
     <Content Include="img\test-thumb-2.jpg" />
     <Content Include="img\test-thumb-3.jpg" />
     <Content Include="img\test-thumb-4.jpg" />

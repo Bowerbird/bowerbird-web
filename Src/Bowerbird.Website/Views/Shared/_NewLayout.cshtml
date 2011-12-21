@@ -24,35 +24,39 @@
        For optimal performance, use a custom Modernizr build: www.modernizr.com/download/ -->
     <script type="text/javascript" src="@Url.JavaScriptLib("modernizr-2.0.min.js")"></script>
     <script type="text/javascript" src="@Url.JavaScriptLib("respond.min.js")"></script>
+    <script type="text/javascript" src="http://use.typekit.com/ovj4mpo.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
 </head>
 <body>
     <div id="container">
         <header id="header">
-            <div id="main-title">Bowerbird</div>
-            <div id="main-menu">
-                <ul>
-                    <li>@Html.ActionLink("Observations", "index", "observation")</li> 
-                    <li>@Html.ActionLink("People", "index", "user")</li>
-                    <li>@Html.ActionLink("Groups", "index", "group")</li>
-                </ul>
-            </div>
-            <div id="search-menu">
-                <div id="search-box">
-                    <label for="search">Search</label> <input type="text" value="" name="search" id="search" placeholder="Search for observations, people and groups" />
+            <div>
+                <div id="main-title">Bowerbird</div>
+                <div id="main-menu">
+                    <ul>
+                        <li>@Html.ActionLink("Observations", "index", "observation")</li> 
+                        <li>@Html.ActionLink("People", "index", "user")</li>
+                        <li>@Html.ActionLink("Groups", "index", "group")</li>
+                    </ul>
                 </div>
-            </div>
-            <div id="account-menu">
-                <ul>
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <li><img src="/img/avatar.jpg" alt="" /> @Html.ActionLink(User.Identity.Name, "index", "home")</li>
-                }
-                else
-                {
-                    <li>@Html.ActionLink("Login", "login", "account")</li>
-                    <li>@Html.ActionLink("Register", "register", "account")</li>
-                }
-                </ul>
+                <div id="account-menu">
+                    <ul>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li><img src="/img/avatar.jpg" alt="" /> @Html.ActionLink(User.Identity.Name, "index", "home")</li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Login", "login", "account")</li>
+                        <li>@Html.ActionLink("Register", "register", "account")</li>
+                    }
+                    </ul>
+                </div>
+                <div id="search-menu">
+                    <div>
+                        <label for="search">Search</label> <input type="text" value="" name="search" id="search" placeholder="Search for observations, people and groups" />
+                    </div>
+                </div>
             </div>
         </header>
         <div id="main">

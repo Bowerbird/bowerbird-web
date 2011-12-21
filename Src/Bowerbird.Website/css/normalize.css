@@ -34,7 +34,7 @@ html { font-size: 100%; -webkit-tap-highlight-color: rgba(0,0,0,0); -webkit-text
 
 body { margin: 0; font-size: 13px; line-height: 1.231; }
 
-body, button, input, select, textarea { font-family: Merriweather, Georgia, serif; color: #222; }
+body, button, input, select, textarea { font-family: open-sans,sans-serif; color: #222; }
 
 /* 
  * These selection declarations have to be separate
@@ -42,8 +42,8 @@ body, button, input, select, textarea { font-family: Merriweather, Georgia, seri
  * Also: hot pink!
  */
 
-::-moz-selection { background: #fe57a1; color: #fff; text-shadow: none; }
-::selection { background: #fe57a1; color: #fff; text-shadow: none; }
+::-moz-selection { background: #0080ff; color: #fff; text-shadow: none; }
+::selection { background: #0080ff; color: #fff; text-shadow: none; }
 
 
 /* =============================================================================
