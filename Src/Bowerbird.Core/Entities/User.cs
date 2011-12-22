@@ -135,7 +135,7 @@ namespace Bowerbird.Core.Entities
             return this;
         }
 
-        public User UpdateDetails(string firstName, string lastName, string description)
+        public virtual User UpdateDetails(string firstName, string lastName, string description)
         {
             SetDetails(
                 firstName,

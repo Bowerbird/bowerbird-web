@@ -1,21 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Bowerbird.Core.Commands;
-using Bowerbird.Core.Repositories;
-using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.Entities;
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+
+ Developers: 
+ * Frank Radocaj : frank@radocaj.com
+ * Hamish Crittenden : hamish.crittenden@gmail.com
+ 
+ Project Manager: 
+ * Ken Walker : kwalker@museum.vic.gov.au
+ 
+ Funded by:
+ * Atlas of Living Australia
+ 
+*/
 
 namespace Bowerbird.Core.CommandHandlers
 {
+    #region Namespaces
+
+    using Bowerbird.Core.Commands;
+    using Bowerbird.Core.Repositories;
+    using Bowerbird.Core.DesignByContract;
+    using Bowerbird.Core.Entities;
+
+    #endregion
+
     public class ObservationUpdateCommandHandler : ICommandHandler<ObservationUpdateCommand>
     {
-
         #region Members
 
         private readonly IRepository<Observation> _observationRepository;
         private readonly IRepository<User> _userRepsitory;
+        private readonly IRepository<MediaResource> _mediaResourceRepsitory;
 
         #endregion
 
@@ -23,10 +37,12 @@ namespace Bowerbird.Core.CommandHandlers
 
         public ObservationUpdateCommandHandler(
             IRepository<Observation> observationRepository,
-            IRepository<User> userRepsitory)
+            IRepository<User> userRepsitory,
+            IRepository<MediaResource> mediaResourceRepsitory)
         {
             _observationRepository = observationRepository;
             _userRepsitory = userRepsitory;
+            _mediaResourceRepsitory = mediaResourceRepsitory;
         }
 
         #endregion
@@ -52,12 +68,11 @@ namespace Bowerbird.Core.CommandHandlers
                 observationUpdateCommand.Address,
                 observationUpdateCommand.IsIdentificationRequired,
                 observationUpdateCommand.ObservationCategory,
-                null); // TODO: Load media resources
+                _mediaResourceRepsitory.Load(observationUpdateCommand.MediaResources));
 
             _observationRepository.Add(observation);
         }
 
         #endregion      
-      
     }
 }
