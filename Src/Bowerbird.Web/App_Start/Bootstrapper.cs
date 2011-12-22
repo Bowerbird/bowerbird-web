@@ -5,12 +5,11 @@ using Ninject.Web.Mvc;
 using NinjectBootstrapper = Ninject.Web.Mvc.Bootstrapper;
 using Bowerbird.Web.Config;
 using Microsoft.Practices.ServiceLocation;
-using CommonServiceLocator.NinjectAdapter;
+using NinjectAdapter;
 using SignalR.Infrastructure;
 using SignalR.Ninject;
 using Bowerbird.Web.App_Start;
 using Bowerbird.Core;
-using log4net.Config;
 using System.Web.Mvc;
 using System.Web.Routing;
 using FluentValidation.Mvc;
@@ -44,7 +43,7 @@ namespace Bowerbird.Web.App_Start
         {
             EventProcessor.ServiceLocator = ServiceLocator.Current;
 
-            XmlConfigurator.Configure();
+            //XmlConfigurator.Configure();
 
             ViewEngines.Engines.Clear();
 

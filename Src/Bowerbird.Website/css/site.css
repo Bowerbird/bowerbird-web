@@ -124,13 +124,12 @@
 }
 #sidebar .filter-group-title
 {
-    background-color: #AEC8E2;
+    background-color: #9EC3E8;
     color: #FFFFFF;
-    font-weight: 600;
-    height: 23px;
-    line-height: 22px;
+    font-weight: 700;
+    line-height: 26px;
     padding-left: 12px;
-    text-shadow: 0 1px 0 #4070A0;
+    text-shadow: 0 -1px 0 #4070A0;
     text-transform: uppercase;
 }
 #sidebar .filter-group ul
@@ -197,7 +196,7 @@
     vertical-align: top;
     width: 800px;
 }
-/* selected filter group summary */
+/* selected filter group */
 #selected-filter-group
 {
     background-color: #FFFFFF;
@@ -265,6 +264,7 @@
     box-shadow: 0 1px 2px 0 #143658 inset;
     margin-bottom: 20px;
     padding-bottom: 10px;
+    position: relative;
 }
 #stream #load-more
 {
@@ -291,11 +291,42 @@
     text-shadow: 0 1px 0 #FFFFFF;
     text-transform: uppercase;
 }
+#stream > ul
+{
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    right: 20px;
+    top: 12px;
+}
+#stream > ul li
+{
+    background-color: rgba(105, 151, 197, 0.2);
+    border-radius: 8px 8px 8px 8px;
+    box-shadow: 0 -1px 0 #6997C5;
+    color: #4379B0;
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 10px;
+    padding: 3px 12px 5px;
+    text-shadow: 0 1px 0 #FFFFFF;
+    text-transform: uppercase;
+    margin-left: 15px;
+}
+#stream #stream-items
+{
+    padding-bottom: 10px;
+}
 /* stream item */
 #stream .stream-item
 {
-    margin: 0 auto 10px;
+    margin: 20px auto 0;
     width: 760px;
+}
+#stream .stream-item:first-child
+{
+    margin: 0 auto 0;
 }
 #stream .stream-item > div
 {
@@ -303,19 +334,19 @@
     border-radius: 4px 4px 4px 4px;
     box-shadow: 0 1px 2px 0 #5071a6;
 }
-#stream .stream-item .summary
+#stream .stream-item .summary-large
 {
     border-bottom: 1px solid #CFDDEB;
     height: 46px;
 }
-#stream .stream-item .summary img
+#stream .stream-item .summary-large img
 {
     border-radius: 4px 0 0 0;
     float: left;
     height: 46px;
     width: 46px;
 }
-#stream .stream-item .summary .description
+#stream .stream-item .summary-large .description
 {
     color: #133A68;
     display: inline;
@@ -326,10 +357,63 @@
     padding-left: 7px;
     vertical-align: top;
 }
-#stream .stream-item .summary .description span
+#stream .stream-item .summary-large .description span
 {
     color: #8C8C8C;
     font-size: 13px;
+}
+#stream .stream-item .summary-comment
+{
+    height: 30px;
+    padding: 15px 15px 0;
+}
+#stream .stream-item .summary-comment img
+{
+    border-radius: 4px 0 0 0;
+    float: left;
+    height: 30px;
+    width: 30px;
+}
+#stream .stream-item .summary-comment .description
+{
+    color: #133A68;
+    display: inline;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 30px;
+    margin: 0;
+    padding-left: 7px;
+    vertical-align: top;
+}
+#stream .stream-item .summary-comment .description span
+{
+    color: #8C8C8C;
+    font-size: 12px;
+}
+#stream .stream-item .heading
+{
+    background-color: #9EC3E8;
+    color: #FFFFFF;
+    font-weight: 700;
+    line-height: 26px;
+    padding-left: 12px;
+    text-shadow: 0 -1px 0 #4070A0;
+    text-transform: uppercase;
+}
+#stream .stream-item .discussion .comment
+{
+    border-bottom: 1px solid #CFDDEB;
+}
+#stream .stream-item .discussion .comment:last-child
+{
+    border-bottom: none;
+}
+#stream .stream-item .discussion .comment > p
+{
+    color: #606060;
+    font-size: 13px;
+    margin: 0;
+    padding: 0 50px 17px;
 }
 /* stream observation item */
 #stream .observation .details
@@ -405,13 +489,6 @@
     display: block;
     font-weight: 500;
 }
-#stream .observation .details .projects
-{
-    font-size: 14px;
-    font-weight: 600;
-    margin: 0;
-    padding-top: 20px;
-}
 #stream .observation .projects
 {
     color: #133A68;
@@ -419,32 +496,20 @@
     font-size: 14px;
     font-weight: 600;
 }
-#stream .observation .projects > div
-{
-    background-color: #AEC8E2;
-    color: #FFFFFF;
-    font-size: 13px;
-    font-weight: 600;
-    height: 23px;
-    line-height: 22px;
-    margin-bottom: 15px;
-    padding-left: 12px;
-    text-shadow: 0 1px 0 #4070A0;
-    text-transform: uppercase;
-}
+
 #stream .observation .projects ul
 {
     margin: 0;
-    padding: 0;
+    padding: 15px 0 0;
 }
 #stream .observation .projects li
 {
     display: inline;
 }
-#stream .observation .relationships .projects a
+#stream .observation .projects a
 {
 }
-#stream .observation .relationships .projects a img
+#stream .observation .projects a img
 {
     height: 78px;
     margin-right: 9px;
@@ -529,20 +594,68 @@
     background-color: #3B9CFF;
     color: #FFFFFF;
 }
-#stream .observation .discussion .heading
+/* stream post item */
+#stream .post .details h2
 {
-    background-color: #AEC8E2;
-    color: #FFFFFF;
+    font-size: 29px;
     font-weight: 600;
-    height: 23px;
-    line-height: 22px;
-    padding-left: 12px;
-    text-shadow: 0 1px 0 #4070A0;
-    text-transform: uppercase;
-    font-size: 13px;
+    letter-spacing: -1px;
+    margin: 0;
+    padding: 10px 15px;
 }
-#stream .observation .discussion .comment
+#stream .post .details div p
 {
+    color: #133A68;
+    font-size: 13px;
+    font-weight: 500;
+    margin: 0 15px 15px;
+}
+#stream .post .details div ul
+{
+}
+#stream .post .details div li
+{
+    color: #133A68;
+}
+#stream .post .details div a,
+#stream .post .details div a:active,
+#stream .post .details div a:visited,
+#stream .post .details div a:hover
+{
+    color: #3B9CFF;
+}
+#stream .post .details div strong
+{
+    font-weight: 600;
+}
+#stream .post .details div em
+{
+    font-style: italic;
+}
+#stream .post .attachments
+{
+    color: #133A68;
+    padding-bottom: 15px;
+    font-size: 14px;
+    font-weight: 600;
+}
+#stream .post .attachments ul
+{
+    margin: 0;
+    padding: 15px 0 0;
+}
+#stream .post .attachments li
+{
+    display: inline;
+}
+#stream .post .attachments a
+{
+}
+#stream .post .attachments a img
+{
+    height: 78px;
+    margin-right: 9px;
+    width: 78px;
 }
 /* activity */
 #activity

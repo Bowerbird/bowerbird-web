@@ -26,7 +26,7 @@ namespace Bowerbird.Web.Test.App_Start
     using NinjectBootstrapper = Ninject.Web.Mvc.Bootstrapper;
     using Microsoft.Practices.ServiceLocation;
     using NUnit.Framework;
-    using CommonServiceLocator.NinjectAdapter;
+    using NinjectAdapter;
     
     using Bowerbird.Test.Utils;
     using Bowerbird.Core.CommandHandlers;

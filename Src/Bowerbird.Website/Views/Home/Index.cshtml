@@ -57,17 +57,22 @@
         <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras in metus at nunc cursus rhoncus. Etiam eleifend accumsan urna et aliquam. Nullam ultrices eros eu leo dignissim non pellentesque sapien congue. Integer blandit neque eget libero tristique ultrices. Donec adipiscing cursus orci at semper. Suspendisse arcu diam, dapibus id scelerisque vel, sagittis quis dolor. Praesent sed consectetur justo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras in metus at nunc cursus rhoncus. Etiam eleifend accumsan urna et aliquam. Nullam ultrices eros eu leo dignissim non pellentesque sapien congue. Integer blandit neque eget libero tristique ultrices. Donec adipiscing cursus orci at semper. Suspendisse arcu diam, dapibus id scelerisque vel, sagittis quis dolor. Praesent sed consectetur justo.</p>
     </div>
     <div id="stream">
-@*        <div id="load-more">
+        @*<div id="load-more">
             3 new observations & 2 posts
         </div>*@
         <h2>Team Activity</h2>
-        <div class="stream-item observation">
-            <div>
-                <div class="summary">
+        <ul>
+            <li>Latest activity first</li>
+            <li>All activity</li>
+        </ul>
+        <div id="stream-items">
+            <div class="stream-item observation">
+                <div>
+                    <div class="summary-large">
                     <img src="../img/avatar.jpg" alt="" />
                     <p class="description">Ken Walker made an observation <span>3 days ago</span></p>
                 </div>
-                <div class="details">
+                    <div class="details">
                     <h2>Variegated Fritillary Butterfly</h2>
                     <div class="images">
                         <img src="../img/dragonfly.png" alt="" />
@@ -94,9 +99,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="notes">
+                    <div class="notes">
                     <div class="note">
-                        <div class="summary">
+                        <div class="summary-large">
                             <img src="../img/avatar.jpg" alt="" />
                             <p class="description">Jane Smith made notes on this observation <span>3 days ago</span></p>
                         </div>
@@ -136,7 +141,7 @@
                         </div>
                     </div>
                     <div class="note">
-                        <div class="summary">
+                        <div class="summary-large">
                             <img src="../img/avatar.jpg" alt="" />
                             <p class="description">Jane Smith made notes on this observation <span>3 days ago</span></p>
                         </div>
@@ -185,26 +190,95 @@
                         </div>
                     </div>
                 </div>
-                <div class="discussion">
+                    <div class="discussion">
                     <div class="heading">Discussion</div>
                     <div class="comment">
-                        <div class="summary">
-                            <img src="../img/avatar.jpg" alt="" /> Jill Summers commented on the observation
+                        <div class="summary-comment">
+                            <img src="../img/avatar.jpg" alt="" /> <p class="description">Jill Summers commented on the observation <span>1 day ago</span></p>
                         </div>
                         <p>
                             I think I know the species. I saw one of these in the Amazon last year. Awesome photo. Kthxbye!
                         </p>
                     </div>
+                    <div class="comment">
+                        <div class="summary-comment">
+                            <img src="../img/avatar.jpg" alt="" /> <p class="description">Jill Summers commented on the observation <span>1 day ago</span></p>
+                        </div>
+                        <p>
+                            I think I know the species. I saw one of these in the Amazon last year. Awesome photo. Kthxbye! I think I know the species. I saw one of these in the Amazon last year. Awesome photo. Kthxbye! I think I know the species. I saw one of these in the Amazon last year. Awesome photo. Kthxbye! I think I know the species. I saw one of these in the Amazon last year. Awesome photo. Kthxbye! I think I know the species. I saw one of these in the Amazon last year. Awesome photo. Kthxbye! I think I know the species. I saw one of these in the Amazon last year. Awesome photo. Kthxbye!
+                        </p>
+                    </div>
                 </div>
-                <div class="relationships">
                     <div class="projects">
-                        <div>Projects</div>
+                    <div class="heading">Projects</div>
+                    <ul>
+                        <li><a href="#"><img alt="" src="../img/avatar-1.png"></a></li>
+                        <li><a href="#"><img alt="" src="../img/avatar-3.png"></a></li>
+                        <li><a href="#"><img alt="" src="../img/avatar-4.png"></a></li>
+                    </ul>
+                </div>
+                    <div class="projects">
+                    <div class="heading">Related Observations</div>
+                    <ul>
+                        <li><a href="#"><img alt="" src="../img/avatar-1.png"></a></li>
+                        <li><a href="#"><img alt="" src="../img/avatar-3.png"></a></li>
+                        <li><a href="#"><img alt="" src="../img/avatar-4.png"></a></li>
+                    </ul>
+                </div>
+                </div>
+            </div>
+            <div class="stream-item post">
+                <div>
+                    <div class="summary-large">
+                    <img src="../img/avatar.jpg" alt="" />
+                    <p class="description">Ken Walker posted a notice <span>3 days ago</span></p>
+                </div>
+                    <div class="details">
+                    <h2>December meeting agenda</h2>
+                    <div>
+                        <p>
+                            Lorem ipsum dolor sit amet, <a href="#">consectetur adipiscing elit</a>. Cras in metus at nunc cursus rhoncus. Etiam eleifend accumsan urna et aliquam. Nullam ultrices eros eu leo dignissim non pellentesque sapien congue. Integer blandit neque eget libero tristique ultrices. Donec adipiscing cursus orci at semper.
+                        </p>
+                        <p>
+                            Etiam eleifend accumsan urna et aliquam. <strong>Nullam ultrices</strong> eros eu leo dignissim non pellentesque sapien congue. Integer blandit neque eget libero tristique ultrices. Donec adipiscing cursus orci at semper.
+                        </p>
+                        <ul>
+                            <li>First point</li>
+                            <li>Nullam ultrices <a href="#">eros eu leo dignissim</a> non pellentesque sapien congue</li>
+                            <li>Etiam eleifend accumsan urna et aliquam</li>
+                        </ul>
+                        <p>
+                            Lorem ipsum dolor sit amet, <em>consectetur adipiscing elit</em>. Cras in metus at nunc cursus rhoncus.
+                        </p>
+                    </div>
+                </div>
+                    <div class="attachments">
+                        <div class="heading">Attachments</div>
                         <ul>
                             <li><a href="#"><img alt="" src="../img/avatar-1.png"></a></li>
                             <li><a href="#"><img alt="" src="../img/avatar-3.png"></a></li>
                             <li><a href="#"><img alt="" src="../img/avatar-4.png"></a></li>
                         </ul>
                     </div>
+                    <div class="discussion">
+                    <div class="heading">Discussion</div>
+                    <div class="comment">
+                        <div class="summary-comment">
+                            <img src="../img/avatar.jpg" alt="" /> <p class="description">Jill Summers commented on the observation <span>1 day ago</span></p>
+                        </div>
+                        <p>
+                            I think I know the species. I saw one of these in the Amazon last year. Awesome photo. Kthxbye!
+                        </p>
+                    </div>
+                    <div class="comment">
+                        <div class="summary-comment">
+                            <img src="../img/avatar.jpg" alt="" /> <p class="description">Jill Summers commented on the observation <span>1 day ago</span></p>
+                        </div>
+                        <p>
+                            I think I know the species. I saw one of these in the Amazon last year. Awesome photo. Kthxbye! I think I know the species. I saw one of these in the Amazon last year. Awesome photo. Kthxbye! I think I know the species. I saw one of these in the Amazon last year. Awesome photo. Kthxbye! I think I know the species. I saw one of these in the Amazon last year. Awesome photo. Kthxbye! I think I know the species. I saw one of these in the Amazon last year. Awesome photo. Kthxbye! I think I know the species. I saw one of these in the Amazon last year. Awesome photo. Kthxbye!
+                        </p>
+                    </div>
+                </div>
                 </div>
             </div>
         </div>
