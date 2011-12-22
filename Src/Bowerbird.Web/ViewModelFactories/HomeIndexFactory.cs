@@ -18,10 +18,8 @@ namespace Bowerbird.Web.ViewModelFactories
 {
     #region Namespaces
 
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
 
     using Raven.Client;
     using Raven.Client.Linq;
@@ -63,6 +61,8 @@ namespace Bowerbird.Web.ViewModelFactories
 
         public override HomeIndex Make(HomeIndexInput homeIndexInput)
         {
+            Check.RequireNotNull(homeIndexInput, "homeIndexInput");
+
             RavenQueryStatistics stats;
 
             //int requestedPageSize = pageSize < 1 || pageSize > 30 ? 10 : pageSize;
@@ -75,7 +75,7 @@ namespace Bowerbird.Web.ViewModelFactories
                 .Query<Observation>()
                 .Statistics(out stats)
                 //.Where(x => x.Teams.In(subscription.Teams) || x.Projects.In(subscription.Projects) || x.User.Id == homeIndexInput.Username)
-                .Where(x => x.User.Id == homeIndexInput.Username)
+                .Where(x => x.User.Id == homeIndexInput.UserId)
                 .OrderByDescending(x => x.SubmittedOn)
                 .Skip(homeIndexInput.Page)
                 .Take(homeIndexInput.PageSize)

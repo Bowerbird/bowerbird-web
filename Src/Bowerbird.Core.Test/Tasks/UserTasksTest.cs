@@ -1,19 +1,39 @@
-﻿using System.Collections.Generic;
-using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.Entities;
-using Bowerbird.Core.Extensions;
-using Bowerbird.Core.Tasks;
-using Bowerbird.Test.Utils;
-using NUnit.Framework;
-using Raven.Client;
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
+ Developers: 
+ * Frank Radocaj : frank@radocaj.com
+ * Hamish Crittenden : hamish.crittenden@gmail.com
+ 
+ Project Manager: 
+ * Ken Walker : kwalker@museum.vic.gov.au
+ 
+ Funded by:
+ * Atlas of Living Australia
+ 
+*/
+				
 namespace Bowerbird.Core.Test.Tasks
 {
+    #region Namespaces
+
+    using System.Collections.Generic;
+
+    using NUnit.Framework;
+    using Raven.Client;
+
+    using Bowerbird.Core.DesignByContract;
+    using Bowerbird.Core.Entities;
+    using Bowerbird.Core.Extensions;
+    using Bowerbird.Core.Tasks;
+    using Bowerbird.Test.Utils;
+
+    #endregion
+
     [TestFixture]
     public class UserTasksTest
     {
 
-        #region Infrastructure
+        #region Test Infrastructure
 
         private IDocumentStore _store;
 
@@ -31,7 +51,7 @@ namespace Bowerbird.Core.Test.Tasks
 
         #endregion
 
-        #region Helpers
+        #region Test Helpers
 
         /// <summary>
         /// Id: "abc"
@@ -88,56 +108,39 @@ namespace Bowerbird.Core.Test.Tasks
 
         #region Constructor tests
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void UserTasks_Constructor_Passing_Null_DocumentSession_Throws_DesignByContractException()
         {
-            Assert.IsTrue(
-                BowerbirdThrows.Exception<DesignByContractException>(
-                () => new UserTasks(null)));
+            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new UserTasks(null)));
         }
 
         #endregion
 
         #region Property tests
 
-
         #endregion
 
         #region Method tests
 
-        [Test]
+        [Test, Category(TestCategories.Integration), Category(TestCategories.Persistance)]
         public void UserTasks_AreCredentialsValid_Passing_Empty_Username_Throws_DesignByContractException()
         {
             using (var session = _store.OpenSession())
             {
-                Assert.IsTrue(
-                    BowerbirdThrows.Exception<DesignByContractException>(
-                        () =>
-                        new UserTasks(session)
-                            .AreCredentialsValid(
-                                string.Empty,
-                                FakeValues.Password
-                            )));
+                Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() =>new UserTasks(session).AreCredentialsValid(string.Empty,FakeValues.Password)));
             }
         }
 
-        [Test]
+        [Test, Category(TestCategories.Integration), Category(TestCategories.Persistance)]
         public void UserTasks_AreCredentialsValid_Passing_Empty_Password_Throws_DesignByContractException()
         {
             using (var session = _store.OpenSession())
             {
-                Assert.IsTrue(
-                    BowerbirdThrows.Exception<DesignByContractException>(
-                        () =>
-                        new UserTasks(session)
-                            .AreCredentialsValid(
-                                FakeValues.UserName,
-                                string.Empty
-                            )));
+                Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() =>new UserTasks(session).AreCredentialsValid(FakeValues.UserName,string.Empty)));
             }
         }
 
-        [Test]
+        [Test, Category(TestCategories.Integration), Category(TestCategories.Persistance)]
         public void UserTasks_AreCredentialsValid_Passing_Valid_Username_And_Password_Returns_True()
         {
             using (var session = _store.OpenSession())
@@ -149,14 +152,11 @@ namespace Bowerbird.Core.Test.Tasks
 
             using (var session = _store.OpenSession())
             {
-                Assert.IsTrue(
-                    new UserTasks(session)
-                    .AreCredentialsValid(FakeValues.KeyString, FakeValues.Password)
-                );
+                Assert.IsTrue(new UserTasks(session).AreCredentialsValid(FakeValues.KeyString, FakeValues.Password));
             }
         }
 
-        [Test]
+        [Test, Category(TestCategories.Integration), Category(TestCategories.Persistance)]
         public void UserTasks_AreCredentialsValid_Passing_InValid_Username_And_Password_Returns_True()
         {
             using (var session = _store.OpenSession())
@@ -168,41 +168,29 @@ namespace Bowerbird.Core.Test.Tasks
 
             using (var session = _store.OpenSession())
             {
-                Assert.IsFalse(
-                    new UserTasks(session)
-                    .AreCredentialsValid(FakeValues.KeyString.AppendWith("blah"), FakeValues.Password)
-                );
+                Assert.IsFalse(new UserTasks(session).AreCredentialsValid(FakeValues.KeyString.AppendWith("blah"), FakeValues.Password));
             }
         }
 
-        [Test]
+        [Test, Category(TestCategories.Integration), Category(TestCategories.Persistance)]
         public void UserTasks_IsEmailAvailable_Passing_Empty_Email_Throws_DesignByContractException()
         {
             using (var session = _store.OpenSession())
             {
-                Assert.IsTrue(
-                    BowerbirdThrows.Exception<DesignByContractException>(
-                        () =>
-                        new UserTasks(session)
-                            .IsEmailAvailable(
-                                string.Empty
-                            )));
+                Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() =>new UserTasks(session).IsEmailAvailable(string.Empty)));
             }
         }
 
-        [Test]
+        [Test, Category(TestCategories.Integration), Category(TestCategories.Persistance)]
         public void UserTasks_IsEmailAvailable_Passing_Available_Email_Returns_True()
         {
             using (var session = _store.OpenSession())
             {
-                Assert.IsTrue(
-                    new UserTasks(session)
-                    .IsEmailAvailable(FakeValues.Email)
-                );
+                Assert.IsTrue(new UserTasks(session).IsEmailAvailable(FakeValues.Email));
             }
         }
 
-        [Test]
+        [Test, Category(TestCategories.Integration), Category(TestCategories.Persistance)]
         public void UserTasks_IsEmailAvailable_Passing_Existing_Email_Returns_False()
         {
             using (var session = _store.OpenSession())
@@ -214,10 +202,7 @@ namespace Bowerbird.Core.Test.Tasks
 
             using (var session = _store.OpenSession())
             {
-                Assert.IsFalse(
-                    new UserTasks(session)
-                    .IsEmailAvailable(FakeValues.Email)
-                );
+                Assert.IsFalse(new UserTasks(session).IsEmailAvailable(FakeValues.Email));
             }
         }
 

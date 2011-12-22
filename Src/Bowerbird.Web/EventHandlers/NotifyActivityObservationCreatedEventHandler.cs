@@ -1,21 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Bowerbird.Core.Events;
-using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.Entities;
-using Bowerbird.Core.Repositories;
-using Bowerbird.Core.EventHandlers;
-using SignalR.Hubs;
-using Bowerbird.Web.Hubs;
-using Bowerbird.Web.Config;
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
+ Developers: 
+ * Frank Radocaj : frank@radocaj.com
+ * Hamish Crittenden : hamish.crittenden@gmail.com
+ 
+ Project Manager: 
+ * Ken Walker : kwalker@museum.vic.gov.au
+ 
+ Funded by:
+ * Atlas of Living Australia
+ 
+*/
+				
 namespace Bowerbird.Web.EventHandlers
 {
+    #region Namespaces
+
+    using Bowerbird.Core.Events;
+    using Bowerbird.Core.DesignByContract;
+    using Bowerbird.Core.Entities;
+    using Bowerbird.Core.EventHandlers;
+    using Bowerbird.Web.Config;
+
+    #endregion
+
     public class NotifyActivityObservationCreatedEventHandler : NotifyActivityEventHandlerBase, IEventHandler<EntityCreatedEvent<Observation>>
     {
-
         #region Members
 
         #endregion
@@ -49,6 +59,5 @@ namespace Bowerbird.Web.EventHandlers
         }
 
         #endregion
-
     }
 }

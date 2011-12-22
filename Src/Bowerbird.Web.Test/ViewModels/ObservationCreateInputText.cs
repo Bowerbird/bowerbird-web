@@ -30,18 +30,20 @@ namespace Bowerbird.Web.Test.ViewModels
 
     #endregion
 
-    [TestFixture]
+    [TestFixture] 
     public class ObservationCreateInputTest
     {
-        #region Infrastructure
+        #region Test Infrastructure
 
-        [SetUp] public void TestInitialize() { }
+        [SetUp] 
+        public void TestInitialize() { }
 
-        [TearDown] public void TestCleanup() { }
+        [TearDown] 
+        public void TestCleanup() { }
 
         #endregion
 
-        #region Helpers
+        #region Test Helpers
 
         #endregion
 
@@ -51,42 +53,50 @@ namespace Bowerbird.Web.Test.ViewModels
 
         #region Property tests
 
-        [Test] public void ObservationCreateInput_Address_Is_A_String()
+        [Test, Category(TestCategories.Unit)] 
+        public void ObservationCreateInput_Address_Is_A_String()
         {
             Assert.IsInstanceOf<string>(new ObservationCreateInput() { Address = FakeValues.Address }.Address );
         }
 
-        [Test] public void ObservationCreateInput_Latitude_Is_A_String() 
+        [Test, Category(TestCategories.Unit)] 
+        public void ObservationCreateInput_Latitude_Is_A_String() 
         {
             Assert.IsInstanceOf<string>(new ObservationCreateInput() { Latitude = FakeValues.Latitude }.Latitude); 
         }
 
-        [Test] public void ObservationCreateInput_Longitude_Is_A_String()
+        [Test, Category(TestCategories.Unit)] 
+        public void ObservationCreateInput_Longitude_Is_A_String()
         {
             Assert.IsInstanceOf<string>(new ObservationCreateInput() { Longitude = FakeValues.Longitude }.Longitude);
         }
 
-        [Test] public void ObservationCreateInput_Title_Is_A_String()
+        [Test, Category(TestCategories.Unit)] 
+        public void ObservationCreateInput_Title_Is_A_String()
         {
             Assert.IsInstanceOf<string>(new ObservationCreateInput() { Title = FakeValues.Title }.Title);
         }
 
-        [Test] public void ObservationCreateInput_ObservationCategory_Is_A_String()
+        [Test, Category(TestCategories.Unit)] 
+        public void ObservationCreateInput_ObservationCategory_Is_A_String()
         {
             Assert.IsInstanceOf<string>(new ObservationCreateInput() { ObservationCategory = FakeValues.Category }.ObservationCategory );
         }
 
-        [Test] public void ObservationCreateInput_ObservedOn_Is_A_DateTime()
+        [Test, Category(TestCategories.Unit)] 
+        public void ObservationCreateInput_ObservedOn_Is_A_DateTime()
         {
             Assert.IsInstanceOf<DateTime>(new ObservationCreateInput() { ObservedOn = FakeValues.CreatedDateTime }.ObservedOn);
         }
 
-        [Test] public void ObservationCreateInput_Username_Is_A_String()
+        [Test, Category(TestCategories.Unit)] 
+        public void ObservationCreateInput_Username_Is_A_String()
         {
             Assert.IsInstanceOf<string>(new ObservationCreateInput() { Username = FakeValues.UserName }.Username );
         }
 
-        [Test] public void ObservationCreateInput_MediaResources_Is_A_String_List()
+        [Test, Category(TestCategories.Unit)] 
+        public void ObservationCreateInput_MediaResources_Is_A_String_List()
         {
             Assert.IsInstanceOf<List<string>>(new ObservationCreateInput() { MediaResources = FakeValues.StringList }.MediaResources );
         }
@@ -96,6 +106,5 @@ namespace Bowerbird.Web.Test.ViewModels
         #region Method tests
 
         #endregion
-
     }
 }

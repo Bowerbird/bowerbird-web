@@ -1,73 +1,67 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
-using Bowerbird.Core.CommandHandlers;
-using Bowerbird.Core.Commands;
-using Bowerbird.Web.Config;
-using Ninject;
-using NinjectBootstrapper = Ninject.Web.Mvc.Bootstrapper;
-using Microsoft.Practices.ServiceLocation;
-using NUnit.Framework;
-using CommonServiceLocator.NinjectAdapter;
+﻿/* Bowerbird V1 
+
+ Licensed under MIT 1.1 Public License
+
+ Developers: 
+ * Frank Radocaj : frank@radocaj.com
+ * Hamish Crittenden : hamish.crittenden@gmail.com
+ 
+ Project Manager: 
+ * Ken Walker : kwalker@museum.vic.gov.au
+ 
+ Funded by:
+ * Atlas of Living Australia
+ 
+*/
 
 namespace Bowerbird.Web.Test.App_Start
 {
+    #region Namespaces
+
+    using System;
+    using System.Linq;
+    using System.Reflection;
+    
+    using Ninject;
+    using NinjectBootstrapper = Ninject.Web.Mvc.Bootstrapper;
+    using Microsoft.Practices.ServiceLocation;
+    using NUnit.Framework;
+    using CommonServiceLocator.NinjectAdapter;
+    
+    using Bowerbird.Test.Utils;
+    using Bowerbird.Core.CommandHandlers;
+    using Bowerbird.Core.Commands;
+    using Bowerbird.Web.Config;
+
+    #endregion
+
     [TestFixture]
     public class BootstrapperTest
     {
 
         #region Test Infrastructure
 
-        private static readonly NinjectBootstrapper _ninjectBootstrapper = new NinjectBootstrapper();
-
-        private static IKernel _kernel;
-
-        [SetUp]
+        [SetUp] 
         public void TestInitialize()
         {
-            _ninjectBootstrapper.Initialize(CreateKernel);
+            BootstrapperHelper.Startup();
         }
 
-        [TearDown]
-        public void TestCleanup() { }
+        [TearDown] 
+        public void TestCleanup()
+        {
+            BootstrapperHelper.Shutdown();
+        }
 
         #endregion
 
         #region Test Helpers
 
-        private static IKernel CreateKernel()
-        {
-            _kernel = new StandardKernel();
-
-            RegisterServices(_kernel);
-
-            return _kernel;
-        }
-
-        private static void RegisterServices(IKernel kernel)
-        {
-            kernel.Load(new BowerbirdNinjectModule());
-
-            ServiceLocator.SetLocatorProvider(() => new NinjectServiceLocator(kernel));
-        }
-
         #endregion
 
         #region CommandHandlers
 
-        [Test]
-        public void Bootstrapper_NinjectModule_Binds_ObservationCreateCommand_To_ObservationCreateCommandHandler()
-        {
-            Assert.IsTrue(
-                _kernel
-                    .GetBindings(typeof (ICommandHandler<ObservationCreateCommand>))
-                    .FirstOrDefault()
-                    .Service
-                    .GetInterfaces()
-                    .Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(ICommandHandler<ObservationCreateCommand>)));
-        }
-
-        #endregion  
+        #endregion
 
     }
 }

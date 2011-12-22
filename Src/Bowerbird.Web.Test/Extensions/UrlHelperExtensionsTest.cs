@@ -1,6 +1,4 @@
-﻿/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -14,7 +12,7 @@
  
 */
 
-namespace Bowerbird.Web.Test.ViewModels
+namespace Bowerbird.Web.Test.Extensions
 {
     #region Namespaces
 
@@ -25,18 +23,24 @@ namespace Bowerbird.Web.Test.ViewModels
 
     using NUnit.Framework;
 
-    using Bowerbird.Web.ViewModels;
-    using Bowerbird.Test.Utils;
-
     #endregion
 
-    [TestFixture] public class DefaultViewModelTest
+    [TestFixture] 
+    public class UrlHelperExtensionsTest
     {
         #region Test Infrastructure
 
-        [SetUp] public void TestInitialize() { }
+        [SetUp] 
+        public void TestInitialize()
+        {
 
-        [TearDown] public void TestCleanup() { }
+        }
+
+        [TearDown] 
+        public void TestCleanup()
+        {
+
+        }
 
         #endregion
 
@@ -54,6 +58,6 @@ namespace Bowerbird.Web.Test.ViewModels
 
         #region Method tests
 
-        #endregion
+        #endregion					
     }
 }

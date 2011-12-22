@@ -41,17 +41,24 @@ namespace Bowerbird.Web.ViewModelFactories
 
         public override PagedList<Observation> Make(ObservationListInput observationListInput)
         {
+            Check.RequireNotNull(observationListInput, "observationListInput");
+
             RavenQueryStatistics stats;
 
             var results = DocumentSession
                 .Query<Observation>()
                 .Statistics(out stats)
-                .Where(x => x.User.Id == observationListInput.Username)
+                .Where(x => x.User.Id == observationListInput.UserId)
                 .Skip(observationListInput.Page)
                 .Take(observationListInput.PageSize)
                 .ToArray(); // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
 
-            return _pagedListFactory.Make(observationListInput.Page, observationListInput.PageSize, stats.TotalResults, results, null);
+            return _pagedListFactory.Make(
+                observationListInput.Page, 
+                observationListInput.PageSize, 
+                stats.TotalResults, 
+                results, 
+                null);
         }
 
         #endregion      

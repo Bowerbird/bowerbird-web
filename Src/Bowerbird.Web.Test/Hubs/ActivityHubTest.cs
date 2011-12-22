@@ -1,38 +1,54 @@
-﻿#region Namespaces
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using NUnit.Framework;
-using Moq;
-using Raven.Client;
-using SignalR.Hubs;
-
-using Bowerbird.Core;
-using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.Entities;
-using Bowerbird.Web.Hubs;
-using Bowerbird.Test.Utils;
-
-#endregion
-
+ Developers: 
+ * Frank Radocaj : frank@radocaj.com
+ * Hamish Crittenden : hamish.crittenden@gmail.com
+ 
+ Project Manager: 
+ * Ken Walker : kwalker@museum.vic.gov.au
+ 
+ Funded by:
+ * Atlas of Living Australia
+ 
+*/
+				
 namespace Bowerbird.Web.Test.Hubs
 {
-    [TestFixture] public class ActivityHubTest
-    {
+    #region Namespaces
 
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+
+    using NUnit.Framework;
+    using Moq;
+    using Raven.Client;
+    using SignalR.Hubs;
+
+    using Bowerbird.Core;
+    using Bowerbird.Core.DesignByContract;
+    using Bowerbird.Core.Entities;
+    using Bowerbird.Web.Hubs;
+    using Bowerbird.Test.Utils;
+
+    #endregion
+
+    [TestFixture] 
+    public class ActivityHubTest
+    {
         #region Test Infrastructure
 
         private Mock<IDocumentSession> _mockDocumentSession;
 
-        [SetUp] public void TestInitialize() 
+        [SetUp] 
+        public void TestInitialize() 
         {
             _mockDocumentSession = new Mock<IDocumentSession>();
         }
 
-        [TearDown] public void TestCleanup() { }
+        [TearDown] 
+        public void TestCleanup() { }
 
         #endregion
 
@@ -93,11 +109,10 @@ namespace Bowerbird.Web.Test.Hubs
 
         #region Constructor Tests
 
-        [Test] public void ActivityHub_Constructor_With_Null_DocumentSession_Throws_DesignByContractException()
+        [Test, Category(TestCategories.Unit)] 
+        public void ActivityHub_Constructor_With_Null_DocumentSession_Throws_DesignByContractException()
         {
-            Assert.IsTrue(
-                    BowerbirdThrows.Exception<DesignByContractException>(
-                        () => new ActivityHub(null)));
+            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new ActivityHub(null)));
         }
 
         #endregion
@@ -108,14 +123,12 @@ namespace Bowerbird.Web.Test.Hubs
 
         #region Method Tests
 
-        [Test] public void ActivityHub_StartActivityStream_Throws_NotImplementedException()
+        [Test, Category(TestCategories.Unit)] 
+        public void ActivityHub_StartActivityStream_Throws_NotImplementedException()
         {
-            Assert.IsTrue(
-                    BowerbirdThrows.Exception<NotImplementedException>(
-                        () => new ActivityHub(_mockDocumentSession.Object).StartActivityStream()));
+            Assert.IsTrue(BowerbirdThrows.Exception<NotImplementedException>(() => new ActivityHub(_mockDocumentSession.Object).StartActivityStream()));
         }
 
         #endregion
-
     }
 }

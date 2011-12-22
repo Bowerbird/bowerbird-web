@@ -30,18 +30,20 @@ namespace Bowerbird.Web.Test.ViewModels
 
     #endregion
 
-    [TestFixture]
+    [TestFixture] 
     public class HomeIndexInputTest
     {
-        #region Infrastructure
+        #region Test Infrastructure
 
-        [SetUp] public void TestInitialize() { }
+        [SetUp] 
+        public void TestInitialize() { }
 
-        [TearDown] public void TestCleanup() { }
+        [TearDown] 
+        public void TestCleanup() { }
 
         #endregion
 
-        #region Helpers
+        #region Test Helpers
 
         #endregion
 
@@ -51,19 +53,22 @@ namespace Bowerbird.Web.Test.ViewModels
 
         #region Property tests
 
-        [Test] public void HomeIndexInput_Username_Is_A_String()
+        [Test, Category(TestCategories.Unit)] 
+        public void HomeIndexInput_Username_Is_A_String()
         {
-            Assert.IsInstanceOf<string>(new HomeIndexInput() { Username = FakeValues.UserName }.Username);
+            Assert.IsInstanceOf<string>(new HomeIndexInput() { UserId = "users/abc" }.UserId);
         }
 
-        [Test] public void HomeIndexInput_Pagesize_Is_An_Int()
+        [Test, Category(TestCategories.Unit)] 
+        public void HomeIndexInput_Pagesize_Is_An_Int()
         {
-            Assert.IsInstanceOf<string>(new HomeIndexInput() { PageSize = FakeValues.PageSize }.PageSize);
+            Assert.IsInstanceOf<int>(new HomeIndexInput() { PageSize = FakeValues.PageSize }.PageSize);
         }
 
-        [Test] public void HomeIndexInput_Page_Is_An_Int()
+        [Test, Category(TestCategories.Unit)] 
+        public void HomeIndexInput_Page_Is_An_Int()
         {
-            Assert.IsInstanceOf<string>(new HomeIndexInput() { Page = FakeValues.Page }.Page);
+            Assert.IsInstanceOf<int>(new HomeIndexInput() { Page = FakeValues.Page }.Page);
         }
 
         #endregion
@@ -71,6 +76,5 @@ namespace Bowerbird.Web.Test.ViewModels
         #region Method tests
 
         #endregion
-
     }
 }

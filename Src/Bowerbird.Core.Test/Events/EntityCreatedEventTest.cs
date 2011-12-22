@@ -30,14 +30,16 @@ namespace Bowerbird.Core.Test.Events
 
     #endregion
 
-    [TestFixture] public class EntityCreatedEventTest
+    [TestFixture] 
+    public class EntityCreatedEventTest
     {
-
         #region Test Infrastructure
 
-        [SetUp] public void TestInitialize(){ }
+        [SetUp] 
+        public void TestInitialize(){ }
 
-        [TearDown] public void TestCleanup(){ }
+        [TearDown] 
+        public void TestCleanup(){ }
 
         #endregion
 
@@ -106,43 +108,32 @@ namespace Bowerbird.Core.Test.Events
 
         #region Constructor tests
 
-        [Test] public void EntityCreatedEvent_Constructor_Passing_Null_Entity_Throws_DesignByContractException()
+        [Test, Category(TestCategories.Unit)] 
+        public void EntityCreatedEvent_Constructor_Passing_Null_Entity_Throws_DesignByContractException()
         {
-            Assert.IsTrue(
-                    BowerbirdThrows.Exception<DesignByContractException>(
-                        () => new EntityCreatedEvent<ProxyDomainEvent>(null, TestUser()) ));
+            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new EntityCreatedEvent<ProxyDomainEvent>(null, TestUser()) ));
         }
 
-        [Test] public void EntityCreatedEvent_Constructor_Passing_Null_User_Throws_DesignByContractException()
+        [Test, Category(TestCategories.Unit)] 
+        public void EntityCreatedEvent_Constructor_Passing_Null_User_Throws_DesignByContractException()
         {
-            Assert.IsTrue(
-                    BowerbirdThrows.Exception<DesignByContractException>(
-                        () => new EntityCreatedEvent<ProxyDomainEvent>(new ProxyDomainEvent(), null)));
+            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new EntityCreatedEvent<ProxyDomainEvent>(new ProxyDomainEvent(), null)));
         }
 
         #endregion
 
         #region Property tests
 
-        [Test] public void EntityCreatedEvent_Entity_Is_Specified_Generic_Type()
+        [Test, Category(TestCategories.Unit)] 
+        public void EntityCreatedEvent_Entity_Is_Specified_Generic_Type()
         {
-            var domainEvent = new EntityCreatedEvent<ProxyDomainEvent>(
-                new ProxyDomainEvent(),
-                TestUser()
-                );
-
-            Assert.IsInstanceOf<ProxyDomainEvent>(domainEvent.Entity);
+            Assert.IsInstanceOf<ProxyDomainEvent>(new EntityCreatedEvent<ProxyDomainEvent>(new ProxyDomainEvent(), TestUser()).Entity);
         }
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void EntityCreatedEvent_User_Is_A_User()
         {
-            var domainEvent = new EntityCreatedEvent<ProxyDomainEvent>(
-                new ProxyDomainEvent(),
-                TestUser()
-                );
-
-            Assert.IsInstanceOf<User>(domainEvent.CreatedByUser);
+            Assert.IsInstanceOf<User>(new EntityCreatedEvent<ProxyDomainEvent>(new ProxyDomainEvent(), TestUser()).CreatedByUser);
         }
 
         #endregion
@@ -150,6 +141,5 @@ namespace Bowerbird.Core.Test.Events
         #region Method tests
 
         #endregion					
-				
     }
 }

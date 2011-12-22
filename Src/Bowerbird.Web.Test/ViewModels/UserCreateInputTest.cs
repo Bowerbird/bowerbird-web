@@ -30,20 +30,17 @@ namespace Bowerbird.Web.Test.ViewModels
 
     #endregion
 
-    [TestFixture]
-    public class UserCreateInputTest
+    [TestFixture] public class UserCreateInputTest
     {
-        #region Infrastructure
+        #region Test Infrastructure
 
-        [SetUp]
-        public void TestInitialize() { }
+        [SetUp] public void TestInitialize() { }
 
-        [TearDown]
-        public void TestCleanup() { }
+        [TearDown] public void TestCleanup() { }
 
         #endregion
 
-        #region Helpers
+        #region Test Helpers
 
         #endregion
 
@@ -53,7 +50,8 @@ namespace Bowerbird.Web.Test.ViewModels
 
         #region Property tests
 
-        [Test]public void UserCreatedInput_Username_Is_A_String()
+        [Test, Category(TestCategories.Unit)]
+        public void UserCreatedInput_Username_Is_A_String()
         {
             Assert.IsInstanceOf<string>(new UserCreateInput() { Username = FakeValues.UserName }.Username );
         }
@@ -63,6 +61,5 @@ namespace Bowerbird.Web.Test.ViewModels
         #region Method tests
 
         #endregion
-
     }
 }

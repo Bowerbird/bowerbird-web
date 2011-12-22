@@ -30,20 +30,17 @@ namespace Bowerbird.Web.Test.ViewModels
 
     #endregion
 
-    [TestFixture]
-    public class ObservationListInputTest
+    [TestFixture] public class ObservationListInputTest
     {
-        #region Infrastructure
+        #region Test Infrastructure
 
-        [SetUp]
-        public void TestInitialize() { }
+        [SetUp] public void TestInitialize() { }
 
-        [TearDown]
-        public void TestCleanup() { }
+        [TearDown] public void TestCleanup() { }
 
         #endregion
 
-        #region Helpers
+        #region Test Helpers
 
         #endregion
 
@@ -53,22 +50,22 @@ namespace Bowerbird.Web.Test.ViewModels
 
         #region Property tests
 
-        [Test]
+        [Test, Category(TestCategories.Unit)] 
         public void ObservationListInput_Username_Is_A_String()
         {
-            Assert.IsInstanceOf<string>(new ObservationListInput() { Username = FakeValues.UserName }.Username);
+            Assert.IsInstanceOf<string>(new ObservationListInput() { UserId = FakeValues.UserName }.UserId);
         }
 
-        [Test]
+        [Test, Category(TestCategories.Unit)] 
         public void ObservationListInput_Pagesize_Is_An_Int()
         {
-            Assert.IsInstanceOf<string>(new ObservationListInput() { PageSize = FakeValues.PageSize }.PageSize);
+            Assert.IsInstanceOf<int>(new ObservationListInput() { PageSize = FakeValues.PageSize }.PageSize);
         }
 
-        [Test]
+        [Test, Category(TestCategories.Unit)] 
         public void ObservationListInput_Page_Is_An_Int()
         {
-            Assert.IsInstanceOf<string>(new ObservationListInput() { Page = FakeValues.Page }.Page);
+            Assert.IsInstanceOf<int>(new ObservationListInput() { Page = FakeValues.Page }.Page);
         }
 
         #endregion
@@ -76,6 +73,5 @@ namespace Bowerbird.Web.Test.ViewModels
         #region Method tests
 
         #endregion
-
     }
 }

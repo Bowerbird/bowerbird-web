@@ -1,12 +1,32 @@
-﻿using System.Configuration;
-using System.Web.Mvc;
-using Bowerbird.Core;
+﻿/* Bowerbird V1 
 
+ Licensed under MIT 1.1 Public License
+
+ Developers: 
+ * Frank Radocaj : frank@radocaj.com
+ * Hamish Crittenden : hamish.crittenden@gmail.com
+ 
+ Project Manager: 
+ * Ken Walker : kwalker@museum.vic.gov.au
+ 
+ Funded by:
+ * Atlas of Living Australia
+ 
+*/
+				
 namespace Bowerbird.Web.Extensions
 {
+    #region Namespaces
+
+    using System.Configuration;
+    using System.Web.Mvc;
+
+    using Bowerbird.Core.Extensions;
+
+    #endregion
+
     public static class UrlHelperExtensions
     {
-
         /// <summary>
         /// Load an image file from the default img folder
         /// </summary>

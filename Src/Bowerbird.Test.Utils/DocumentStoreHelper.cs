@@ -1,4 +1,5 @@
 ﻿using Raven.Client;
+using Raven.Client.Document;
 using Raven.Client.Embedded;
 
 namespace Bowerbird.Test.Utils
@@ -13,7 +14,15 @@ namespace Bowerbird.Test.Utils
                 RunInMemory = true
             }
             .Initialize();
+        }
 
+        public static IDocumentStore LocalhostDocumentStore()
+        {
+            return new DocumentStore()
+                       {
+                           ConnectionStringName = "bowerbird-test"
+                       }
+                .Initialize();
         }
 
     }

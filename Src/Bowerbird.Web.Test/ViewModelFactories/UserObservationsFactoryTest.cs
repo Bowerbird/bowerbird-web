@@ -37,25 +37,24 @@ namespace Bowerbird.Web.Test.ViewModelFactories
     #endregion
 
     [TestFixture] 
-    public class HomeIndexFactoryTest
+    public class UserObservationsFactoryTest
     {
-
         #region Test Infrastructure
 
         private IDocumentStore _store;
-        private Mock<IPagedListFactory> _mockPagedListFactory;
+        private IPagedListFactory _pagedListFactory;
 
         [SetUp] 
         public void TestInitialize()
         {
             _store = DocumentStoreHelper.TestDocumentStore();
-            _mockPagedListFactory = new Mock<IPagedListFactory>();
+            _pagedListFactory = new PagedListFactory();
         }
 
         [TearDown] 
         public void TestCleanup()
         {
-            _store = null;
+
         }
 
         #endregion
@@ -68,18 +67,10 @@ namespace Bowerbird.Web.Test.ViewModelFactories
             session.SaveChanges();
         }
 
-        private static void GenerateObservations(IDocumentSession session, User user, int count)
-        {
-            for (int i = 0; i < count; i++ )
-                session.Store(CreateFakeObservation(user, i));
-            
-            session.SaveChanges();
-        }
-
-        private static void GeneratePosts(IDocumentSession session, User user, int count)
+        private static void SaveObservations(IDocumentSession session, User user, int count)
         {
             for (int i = 0; i < count; i++)
-                session.Store(CreateFakePost(user));
+                session.Store(CreateFakeObservation(user, i));
 
             session.SaveChanges();
         }
@@ -94,13 +85,8 @@ namespace Bowerbird.Web.Test.ViewModelFactories
                 FakeValues.Address,
                 FakeValues.IsTrue,
                 FakeValues.Category,
-                new List<MediaResource>(){new ImageMediaResource(FakeValues.Filename, FakeValues.FileFormat, FakeValues.Description,100,100)}
+                new List<MediaResource>() { new ImageMediaResource(FakeValues.Filename, FakeValues.FileFormat, FakeValues.Description, 100, 100) }
                 );
-        }
-
-        private static Post CreateFakePost(User user)
-        {
-            return new Post(user, FakeValues.Subject, FakeValues.Message);
         }
 
         private static User TestUser()
@@ -145,13 +131,13 @@ namespace Bowerbird.Web.Test.ViewModelFactories
         #region Constructor tests
 
         [Test, Category(TestCategories.Unit)] 
-        public void HomeIndexFactory_Constructor_Passing_Null_DocumentSession_Throws_DesignByContractException()
+        public void UserObservationsFactory_Constructor_Passing_Null_DocumentSession_Throws_DesignByContractException()
         {
             Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new HomeIndexFactory(null,new Mock<IPagedListFactory>().Object)));
         }
 
         [Test, Category(TestCategories.Unit)] 
-        public void HomeIndexFactory_Constructor_Passing_Null_PagedListFactory_Throws_DesignByContractException()
+        public void UserObservationsFactory_Constructor_Passing_Null_PagedListFactory_Throws_DesignByContractException()
         {
             Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new HomeIndexFactory(new Mock<IDocumentSession>().Object,null)));
         }
@@ -165,49 +151,36 @@ namespace Bowerbird.Web.Test.ViewModelFactories
         #region Method tests
 
         [Test, Category(TestCategories.Unit)] 
-        public void HomeIndexFactory_Make_Passing_Null_HomeIndexInput_Throws_DesignByContractException()
+        public void UserObservationsFactory_Make_Passing_Null_ObservationListInput_Throws_DesignByContractException()
         {
-            using (var session = _store.OpenSession())
-            {
-                Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new HomeIndexFactory(session,_mockPagedListFactory.Object).Make(null)));
-            }
-
+            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new UserObservationsFactory(new Mock<IDocumentSession>().Object,new Mock<IPagedListFactory>().Object).Make(null)));
         }
 
-        /// <summary>
-        /// Requires User, Observations and Posts to be injected into RavenDB
-        /// </summary>
-        [Test, Category(TestCategories.Persistance)] 
-        public void HomeIndexFactory_Make_Passing_HomeIndexInput_Returns_HomeIndex()
+        [Test, Category(TestCategories.Unit)] 
+        public void UserObservationsFactory_Make_Passing_ObservationListInput_Returns_PagedList_Of_Observations()
         {
-            var recordCount = 15;
-
-            var homeIndexInput = new HomeIndexInput()
-            {
-                Page = FakeValues.Page,
-                PageSize = FakeValues.PageSize,
-                UserId = "users/abc"
-            };
-
             var user = TestUser();
+
+            var observationListInput = new ObservationListInput()
+                                           {
+                                               Page = FakeValues.Page,
+                                               PageSize = FakeValues.PageSize,
+                                               UserId = "users/abc"
+                                           };
 
             using (var session = _store.OpenSession())
             {
+                var userObservationsFactory = new UserObservationsFactory(session, _pagedListFactory);
+
                 SaveUser(session, user);
-                GenerateObservations(session, user, recordCount);
-                GeneratePosts(session, user, recordCount);
+                SaveObservations(session, user, FakeValues.PageSize);
 
-                var homeIndexFactory = new HomeIndexFactory(session, new PagedListFactory());
+                var observations = userObservationsFactory.Make(observationListInput);
 
-                var homeIndex = homeIndexFactory.Make(homeIndexInput);
-
-                Assert.AreEqual(homeIndex.StreamItems.PageSize, FakeValues.PageSize);
-                Assert.AreEqual(homeIndex.StreamItems.PagedListItems.Count(), homeIndex.StreamItems.PageSize);
+                Assert.AreEqual(observations.TotalResultCount, FakeValues.PageSize);
             }
-
         }
 
         #endregion					
-				
     }
 }

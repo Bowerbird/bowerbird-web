@@ -1,16 +1,34 @@
-﻿using System.Web.Mvc;
-using Bowerbird.Core;
-using Bowerbird.Core.DesignByContract;
-using Bowerbird.Web.ViewModels;
-using Bowerbird.Web.Config;
-using Bowerbird.Core.Tasks;
-using Bowerbird.Core.CommandHandlers;
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+
+ Developers: 
+ * Frank Radocaj : frank@radocaj.com
+ * Hamish Crittenden : hamish.crittenden@gmail.com
+ 
+ Project Manager: 
+ * Ken Walker : kwalker@museum.vic.gov.au
+ 
+ Funded by:
+ * Atlas of Living Australia
+ 
+*/
 
 namespace Bowerbird.Web.Controllers
 {
+    #region Namespaces
+
+    using System.Web.Mvc;
+
+    using Bowerbird.Core;
+    using Bowerbird.Core.DesignByContract;
+    using Bowerbird.Web.ViewModels;
+    using Bowerbird.Web.Config;
+    using Bowerbird.Core.Tasks;
+    using Bowerbird.Core.CommandHandlers;
+
+    #endregion
+
     public class AccountController : Controller
     {
-
         #region Members
 
         private readonly ICommandProcessor _commandProcessor;
@@ -67,6 +85,8 @@ namespace Bowerbird.Web.Controllers
         [ValidateInput(false)]
         public ActionResult Login(AccountLoginInput accountLoginInput)
         {
+            Check.RequireNotNull(accountLoginInput, "accountLoginInput");
+
             if (_userTasks.AreCredentialsValid(accountLoginInput.Username, accountLoginInput.Password))
             {
                 _commandProcessor.Process<UserUpdateLastLoginCommand>(MakeUserUpdateLastLoginCommand(accountLoginInput));
@@ -149,6 +169,5 @@ namespace Bowerbird.Web.Controllers
         //}
 
         #endregion
-
     }
 }

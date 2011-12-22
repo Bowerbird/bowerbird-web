@@ -17,7 +17,7 @@ namespace Bowerbird.Core.Test.Entities
 
         #region Constructor tests
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void User_Constructor_With_Null_Id_Throws_DesignByContractException()
         {
             Assert.IsTrue(
@@ -32,7 +32,7 @@ namespace Bowerbird.Core.Test.Entities
                     TestRoles())));
         }
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void User_Constructor_With_Null_Roles_Throws_DesignByContractException()
         {
             Assert.IsTrue(
@@ -47,7 +47,7 @@ namespace Bowerbird.Core.Test.Entities
                     null)));
         }
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void User_Constructor_Populates_Id_Field()
         {
             var user = new User(
@@ -65,7 +65,7 @@ namespace Bowerbird.Core.Test.Entities
             Assert.AreEqual(actual, expected);
         }
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void User_Constructor_Populates_Password_Field()
         {
             var user = new User(
@@ -84,7 +84,7 @@ namespace Bowerbird.Core.Test.Entities
             Assert.AreEqual(actual, expected);
         }
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void User_Constructor_Populates_Email_Field()
         {
             var user = new User(
@@ -102,7 +102,7 @@ namespace Bowerbird.Core.Test.Entities
             Assert.AreEqual(actual, expected);
         }
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void User_Constructor_Populates_FirstName_Field()
         {
             var user = new User(
@@ -120,7 +120,7 @@ namespace Bowerbird.Core.Test.Entities
             Assert.AreEqual(actual, expected);
         }
         
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void User_Constructor_Populates_LastName_Field()
         {
             var user = new User(
@@ -138,7 +138,7 @@ namespace Bowerbird.Core.Test.Entities
             Assert.AreEqual(actual, expected);
         }
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void User_Constructor_Populates_Description_Field()
         {
             var user = new User(
@@ -156,7 +156,7 @@ namespace Bowerbird.Core.Test.Entities
             Assert.AreEqual(actual, expected);
         }
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void User_Constructor_Populates_Membership_As_GlobalMembership_With_Roles_Field()
         {
             var roles = TestRoles();
@@ -189,67 +189,67 @@ namespace Bowerbird.Core.Test.Entities
 
         #region Property tests
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void User_Email_Is_TypeOf_String()
         {
             Assert.IsInstanceOf<string>(TestUser().Email);
         }
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void User_FirstName_Is_TypeOf_String()
         {
             Assert.IsInstanceOf<string>(TestUser().FirstName);
         }
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void User_LastName_Is_TypeOf_String()
         {
             Assert.IsInstanceOf<string>(TestUser().LastName);
         }
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void User_Description_Is_TypeOf_String()
         {
             Assert.IsInstanceOf<string>(TestUser().Description);
         }
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void User_PasswordSalt_Is_TypeOf_Guid()
         {
             Assert.IsInstanceOf<Guid>(TestUser().PasswordSalt);
         }
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void User_HashedPassword_Is_TypeOf_String()
         {
             Assert.IsInstanceOf<string>(TestUser().HashedPassword);
         }
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void User_LastLoggedIn_Is_TypeOf_DateTime()
         {
             Assert.IsInstanceOf<DateTime>(TestUser().LastLoggedIn);
         }
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void User_ResetPasswordKey_Is_TypeOf_String()
         {
             Assert.IsInstanceOf<string>(TestUser().ResetPasswordKey);
         }
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void User_FlaggedItemsOwned_Is_TypeOf_Int()
         {
             Assert.IsInstanceOf<int>(TestUser().FlaggedItemsOwned);
         }
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void User_FlagsRaised_Is_TypeOf_Int()
         {
             Assert.IsInstanceOf<int>(TestUser().FlagsRaised);
         }
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void User_Memeberships_Is_ListOf_DenormalisedNamedEntityReference_AsGeneric_Membership()
         {
             Assert.IsInstanceOf<List<DenormalisedMemberReference>>(TestUser().Memberships);
@@ -259,7 +259,7 @@ namespace Bowerbird.Core.Test.Entities
 
         #region Method tests
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void User_ValidPassword_WithValidPassword_Returns_True()
         {
             Assert.IsTrue(
@@ -267,7 +267,7 @@ namespace Bowerbird.Core.Test.Entities
                 .ValidatePassword(FakeValues.Password));
         }
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void User_ValidPassword_WithInValidPassword_Returns_False()
         {
             Assert.IsFalse(
@@ -275,7 +275,7 @@ namespace Bowerbird.Core.Test.Entities
                 .ValidatePassword(FakeValues.InvalidPassword));
         }
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void User_UpdateEmail_WithValidEmail_Updates_Email()
         {
             Assert.IsTrue(
@@ -285,7 +285,7 @@ namespace Bowerbird.Core.Test.Entities
                 .Equals("new@email.com"));
         }
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void User_UpdateEmail_WithInValidEmail_Throws_DesignByContractException()
         {
             Assert.IsTrue(
@@ -295,7 +295,7 @@ namespace Bowerbird.Core.Test.Entities
                 ));
         }
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void User_UpdatePassword_Then_Validate_With_New_Password_Returns_True()
         {
             Assert.IsTrue(
@@ -305,7 +305,7 @@ namespace Bowerbird.Core.Test.Entities
                 );
         }
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void User_UpdatePassword_Then_Validate_With_Old_Password_Returns_False()
         {
             Assert.IsFalse(
@@ -315,7 +315,7 @@ namespace Bowerbird.Core.Test.Entities
                 );
         }
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void User_UpdateLastLoggedIn_Increases_LastLoggedIn()
         {
             var testUser = TestUser();
@@ -330,7 +330,7 @@ namespace Bowerbird.Core.Test.Entities
                 );
         }
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void User_UpdateResetPasswordKey_DoesInFact_UpdateResetPasswordKey()
         {
             var testUser = TestUser();
@@ -347,7 +347,7 @@ namespace Bowerbird.Core.Test.Entities
                 );
         }
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void User_AddMemebership_Passing_Role_Adds_Membership()
         {
             var user = TestUser();
@@ -378,7 +378,7 @@ namespace Bowerbird.Core.Test.Entities
             //    TestUser().Memberships.Count + 1);
         }
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void User_AddMembership_Passing_InvalidValid_Memebership_DesignByContractException()
         {
             Assert.IsTrue(
@@ -390,7 +390,7 @@ namespace Bowerbird.Core.Test.Entities
                     ));
         }
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void User_RemoveMembership_Passing_MemberType_And_MembershipId_Removes_Membership()
         {
             Assert.AreEqual(
@@ -404,7 +404,7 @@ namespace Bowerbird.Core.Test.Entities
                 );
         }
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void User_RemoveMembership_Passing_InvalidValid_MemberId_Throws_DesignByContractException()
         {
             var user = TestUser()
@@ -418,7 +418,7 @@ namespace Bowerbird.Core.Test.Entities
                 user.Memberships.Count);
         }
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void User_RemoveRole_Passing_InvalidValid_MemberType_Throws_DesignByContractException()
         {
             Assert.IsTrue(
@@ -432,7 +432,7 @@ namespace Bowerbird.Core.Test.Entities
                     ));
         }
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void User_IncrementFlagsRaised_DoesInFact_ImplementFlagsRaised()
         {
             Assert.AreEqual(
@@ -443,7 +443,7 @@ namespace Bowerbird.Core.Test.Entities
                 );
         }
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void User_IncrementFlaggedItemsOwned_DoesInFact_ImplementFlaggedItemsOwned()
         {
             Assert.AreEqual(

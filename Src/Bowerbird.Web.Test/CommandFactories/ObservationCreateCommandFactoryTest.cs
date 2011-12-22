@@ -1,25 +1,63 @@
-﻿using Bowerbird.Core.DesignByContract;
-using Bowerbird.Test.Utils;
-using Bowerbird.Web.ViewModels;
-using NUnit.Framework;
-using Bowerbird.Web.CommandFactories;
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+
+ Developers: 
+ * Frank Radocaj : frank@radocaj.com
+ * Hamish Crittenden : hamish.crittenden@gmail.com
+ 
+ Project Manager: 
+ * Ken Walker : kwalker@museum.vic.gov.au
+ 
+ Funded by:
+ * Atlas of Living Australia
+ 
+*/
 
 namespace Bowerbird.Web.Test.CommandFactories
 {
+    #region Namespaces
+
+    using Bowerbird.Core.DesignByContract;
+    using Bowerbird.Test.Utils;
+    using Bowerbird.Web.ViewModels;
+    using NUnit.Framework;
+    using Bowerbird.Web.CommandFactories;
+
+    #endregion
 
     [TestFixture]
     public class ObservationCreateCommandFactoryTest
     {
-        
-        [Test]
+        #region Test Infrastructure
+
+        [SetUp]
+        public void TestInitialize() { }
+
+        [TearDown]
+        public void TestCleanup() { }
+
+        #endregion
+
+        #region Test Helpers
+
+        #endregion
+
+        #region Constructor tests
+
+        #endregion
+
+        #region Property tests
+
+        #endregion
+
+        #region Method tests
+
+        [Test, Category(TestCategories.Unit)]
         public void ObservationCreateCommandFactory_Make_Passing_Null_ObservationCreateInput_ThrowsDesignByContractException()
         {
-            Assert.IsTrue(
-                BowerbirdThrows.Exception<DesignByContractException>(
-                () => new ObservationCreateCommandFactory().Make(null)));
+            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new ObservationCreateCommandFactory().Make(null)));
         }
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void ObservationCreateCommandFactory_Make_Passing_ObservationCreateInput_Returns_Populated_ObservationCreateCommand()
         {
             var observationCreateCommandFactory = new ObservationCreateCommandFactory();
@@ -49,6 +87,9 @@ namespace Bowerbird.Web.Test.CommandFactories
             Assert.AreEqual(observationCreateInput.ObservedOn, observationCreateCommand.ObservedOn);
             Assert.AreEqual(observationCreateInput.Username, observationCreateCommand.Username);
         }
+
+        #endregion 
+
     }
 
 }

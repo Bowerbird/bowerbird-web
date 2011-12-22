@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Practices.ServiceLocation;
 using Bowerbird.Web.ViewModelFactories;
 using Bowerbird.Core.DesignByContract;
@@ -37,6 +34,8 @@ namespace Bowerbird.Web
 
         public TViewModel Load<TInput, TViewModel>(TInput input)
         {
+            Check.RequireNotNull(input, "input");
+
             var viewModelFactory = _serviceLocator.GetInstance<IViewModelFactory<TInput, TViewModel>>();
 
             if (viewModelFactory == null)

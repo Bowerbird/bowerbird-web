@@ -30,18 +30,20 @@ namespace Bowerbird.Web.Test.ViewModels
 
     #endregion
 
-    [TestFixture]
+    [TestFixture] 
     public class HomeIndexTest
     {
-        #region Infrastructure
+        #region Test Infrastructure
 
-        [SetUp] public void TestInitialize() { }
+        [SetUp] 
+        public void TestInitialize() { }
 
-        [TearDown] public void TestCleanup() { }
+        [TearDown] 
+        public void TestCleanup() { }
 
         #endregion
 
-        #region Helpers
+        #region Test Helpers
 
         #endregion
 
@@ -51,7 +53,8 @@ namespace Bowerbird.Web.Test.ViewModels
 
         #region Property tests
         
-        [Test] public void HomeIndexInput_Pagesize_Is_An_Int()
+        [Test, Category(TestCategories.Unit)] 
+        public void HomeIndexInput_Pagesize_Is_An_Int()
         {
             Assert.IsInstanceOf<PagedList<StreamItem>>(new HomeIndex() { StreamItems = new PagedList<StreamItem>() }.StreamItems);
         }
@@ -61,6 +64,5 @@ namespace Bowerbird.Web.Test.ViewModels
         #region Method tests
 
         #endregion
-
     }
 }

@@ -1,13 +1,32 @@
-﻿using System;
-using Microsoft.Practices.ServiceLocation;
-using Bowerbird.Core.DesignByContract;
-using Bowerbird.Web.CommandFactories;
+﻿/* Bowerbird V1 
+
+ Licensed under MIT 1.1 Public License
+
+ Developers: 
+ * Frank Radocaj : frank@radocaj.com
+ * Hamish Crittenden : hamish.crittenden@gmail.com
+ 
+ Project Manager: 
+ * Ken Walker : kwalker@museum.vic.gov.au
+ 
+ Funded by:
+ * Atlas of Living Australia
+ 
+*/
 
 namespace Bowerbird.Web
 {
+    #region Namespaces
+
+    using System;
+    using Microsoft.Practices.ServiceLocation;
+    using Bowerbird.Core.DesignByContract;
+    using Bowerbird.Web.CommandFactories;
+
+    #endregion
+
     public class CommandBuilder : ICommandBuilder
     {
-
         #region Members
 
         private readonly IServiceLocator _serviceLocator;
@@ -16,8 +35,7 @@ namespace Bowerbird.Web
 
         #region Constructors
 
-        public CommandBuilder(
-            IServiceLocator serviceLocator)
+        public CommandBuilder(IServiceLocator serviceLocator)
         {
             Check.RequireNotNull(serviceLocator, "serviceLocator");
 
@@ -54,6 +72,5 @@ namespace Bowerbird.Web
         }
 
         #endregion      
-      
     }
 }

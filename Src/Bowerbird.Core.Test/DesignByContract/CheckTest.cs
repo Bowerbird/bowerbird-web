@@ -1,95 +1,91 @@
-﻿using Bowerbird.Core.DesignByContract;
-using Bowerbird.Test.Utils;
-using NUnit.Framework;
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+
+ Developers: 
+ * Frank Radocaj : frank@radocaj.com
+ * Hamish Crittenden : hamish.crittenden@gmail.com
+ 
+ Project Manager: 
+ * Ken Walker : kwalker@museum.vic.gov.au
+ 
+ Funded by:
+ * Atlas of Living Australia
+ 
+*/
 
 namespace Bowerbird.Core.Test.DesignByContract
 {
+    #region Namespaces
+
+    using Bowerbird.Core.DesignByContract;
+    using Bowerbird.Test.Utils;
+    using NUnit.Framework;
+
+    #endregion
+
     // TODO: Incomplete Test
     [TestFixture]
     public class CheckTest
     {
+        #region Test Infrastructure
+
+        #endregion
+
+        #region Test Helpers
+
+        #endregion
 
         #region Constructor tests
-
 
         #endregion
 
         #region Property tests
 
-
         #endregion
 
         #region Method tests
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void Check_RequireNotNullOrWhiteSpace_Passing_TestString_Does_Not_Throw_DesignByContractException()
         {
-            Assert.IsFalse(
-                BowerbirdThrows.Exception<DesignByContractException>(() =>
-                    Check.RequireNotNullOrWhitespace("teststring", "teststring")
-                ));
+            Assert.IsFalse(BowerbirdThrows.Exception<DesignByContractException>(() =>Check.RequireNotNullOrWhitespace("teststring", "teststring")));
         }
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void Check_RequireNotNullOrWhiteSpace_Passing_EmptyString_Throws_DesignByContractException()
         {
-            Assert.IsTrue(
-                BowerbirdThrows.Exception<DesignByContractException>(() =>
-                    Check.RequireNotNullOrWhitespace(string.Empty, "teststring")
-                ));
+            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() =>Check.RequireNotNullOrWhitespace(string.Empty, "teststring")));
         }
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void Check_RequireNotNullOrWhiteSpace_Passing_NullString_Throws_DesignByContractException()
         {
-            Assert.IsTrue(
-                BowerbirdThrows.Exception<DesignByContractException>(() =>
-                    Check.RequireNotNullOrWhitespace(null, "teststring")
-                ));
+            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() =>Check.RequireNotNullOrWhitespace(null, "teststring")));
         }
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void Check_RequireNotNullOrWhiteSpace_Passing_WhitespaceString_Throws_DesignByContractException()
         {
-            Assert.IsTrue(
-                BowerbirdThrows.Exception<DesignByContractException>(() =>
-                    Check.RequireNotNullOrWhitespace("  ", "teststring")
-                ));
+            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() =>Check.RequireNotNullOrWhitespace("  ", "teststring")));
         }
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void Check_RequireValidEmail_Passing_A_ValidEmail_Does_Not_Throw_DesignByContractException()
         {
-            Assert.IsFalse(
-                BowerbirdThrows.Exception<DesignByContractException>(() =>
-                    Check.RequireValidEmail(FakeValues.Email, "email")
-                ));
+            Assert.IsFalse(BowerbirdThrows.Exception<DesignByContractException>(() =>Check.RequireValidEmail(FakeValues.Email, "email")));
         }
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void Check_RequireValidEmail_Passing_An_InValid_Email_Throws_DesignByContractException()
         {
-            Assert.IsTrue(
-                BowerbirdThrows.Exception<DesignByContractException>(() =>
-                    Check.RequireValidEmail(FakeValues.InvalidEmail, "email")
-                ));
+            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() =>Check.RequireValidEmail(FakeValues.InvalidEmail, "email")));
         }
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void Check_RequireValidEmail_Passing_An_Empty_String_Throws_DesignByContractException()
         {
-            Assert.IsTrue(
-                BowerbirdThrows.Exception<DesignByContractException>(() =>
-                    Check.RequireValidEmail(string.Empty, "email")
-                ));
+            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() =>Check.RequireValidEmail(string.Empty, "email")));
         }
 
         #endregion
-
-        #region Helpers
-
-
-        #endregion
-
     }
 }

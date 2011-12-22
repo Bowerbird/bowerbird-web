@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Bowerbird.Core.DesignByContract;
 using Bowerbird.Web.ViewModels;
 using Raven.Client;
 
@@ -32,6 +29,8 @@ namespace Bowerbird.Web.ViewModelFactories
 
         public override AccountLogin Make(AccountLoginInput accountLoginInput)
         {
+            Check.RequireNotNull(accountLoginInput, "accountLoginInput");
+
             return new AccountLogin()
             {
                 Username = accountLoginInput.Username,

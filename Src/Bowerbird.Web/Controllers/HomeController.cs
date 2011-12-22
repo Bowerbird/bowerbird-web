@@ -47,7 +47,7 @@ namespace Bowerbird.Web.Controllers
         public ActionResult Index(HomeIndexInput homeIndexInput)
         {
             // HACK
-            homeIndexInput.Username = "frankr";
+            homeIndexInput.UserId = "frankr";
             homeIndexInput.Page = 1;
             homeIndexInput.PageSize = 10;
 

@@ -1,20 +1,36 @@
-﻿using System.Security.Principal;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.Routing;
-using System.Web.SessionState;
-using Bowerbird.Test.Utils;
-using Bowerbird.Web.Config;
-using Moq;
-using NUnit.Framework;
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+
+ Developers: 
+ * Frank Radocaj : frank@radocaj.com
+ * Hamish Crittenden : hamish.crittenden@gmail.com
+ 
+ Project Manager: 
+ * Ken Walker : kwalker@museum.vic.gov.au
+ 
+ Funded by:
+ * Atlas of Living Australia
+ 
+*/
 
 namespace Bowerbird.Web.Test.Config
 {
+    #region Namespaces
+
+    using System.Security.Principal;
+    using System.Web;
+
+    using Moq;
+    using NUnit.Framework;
+
+    using Bowerbird.Test.Utils;
+    using Bowerbird.Web.Config;
+    
+    #endregion
+
     [TestFixture]
     public class UserContextTest
     {
-
-        #region Infrastructure
+        #region Test Infrastructure
 
         [SetUp]
         public void TestInitialize()
@@ -30,7 +46,7 @@ namespace Bowerbird.Web.Test.Config
 
         #endregion
 
-        #region Helpers
+        #region Test Helpers
 
         private class AuthenticatedUserContext : UserContext
         {
@@ -102,7 +118,6 @@ namespace Bowerbird.Web.Test.Config
 
         #region Constructor tests
 
-
         #endregion
 
         #region Property tests
@@ -111,19 +126,18 @@ namespace Bowerbird.Web.Test.Config
 
         #region Method tests
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void UserContext_IsUserAuthenticated_Having_Authenticated_Context_Returns_True()
         {
             Assert.IsTrue(new AuthenticatedUserContext().IsUserAuthenticated());
         }
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void UserContext_IsUserAuthenticated_Having_UnAuthenticated_Context_Returns_False()
         {
             Assert.IsTrue(new AnonymousUserContext().IsUserAuthenticated());
         }
 
         #endregion
-
     }
 }							

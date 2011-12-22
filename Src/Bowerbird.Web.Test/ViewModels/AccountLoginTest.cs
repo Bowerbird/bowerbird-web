@@ -30,23 +30,20 @@ namespace Bowerbird.Web.Test.ViewModels
 
     #endregion
 
-    [TestFixture] public class AccountLoginTest
+    [TestFixture] 
+    public class AccountLoginTest
     {
-	    #region Infrastructure
+	    #region Test Infrastructure
 
-	    [SetUp] public void TestInitialize()
-	    {
+	    [SetUp] 
+        public void TestInitialize() { }
 
-	    }
-
-	    [TearDown] public void TestCleanup()
-	    {
-
-	    }
+        [TearDown] 
+        public void TestCleanup() { }
 					
 	    #endregion
 					
-	    #region Helpers
+	    #region Test Helpers
 					
 	    #endregion
 					
@@ -56,17 +53,20 @@ namespace Bowerbird.Web.Test.ViewModels
 
 	    #region Property tests
 
-        [Test] public void AccountLogin_Username_Is_A_String()
+        [Test, Category(TestCategories.Unit)] 
+        public void AccountLogin_Username_Is_A_String()
         {
             Assert.IsInstanceOf<string>(new AccountLogin() { Username = FakeValues.UserName }.Username);
         }
 
-        [Test] public void AccountLogin_RememberMe_Is_A_Bool()
+        [Test, Category(TestCategories.Unit)] 
+        public void AccountLogin_RememberMe_Is_A_Bool()
         {
             Assert.IsInstanceOf<bool>(new AccountLogin() { RememberMe = FakeValues.IsTrue }.RememberMe);
         }
 
-        [Test] public void AccountLogin_ReturnUrl_Is_A_String()
+        [Test, Category(TestCategories.Unit)] 
+        public void AccountLogin_ReturnUrl_Is_A_String()
         {
             Assert.IsInstanceOf<string>(new AccountLogin() { ReturnUrl = FakeValues.Website }.ReturnUrl);
         }
@@ -76,6 +76,5 @@ namespace Bowerbird.Web.Test.ViewModels
 	    #region Method tests
 					
 	    #endregion					
-    
     }
 }

@@ -1,14 +1,34 @@
-﻿using System.Collections.Generic;
-using Bowerbird.Test.Utils;
-using NUnit.Framework;
-using Bowerbird.Core.Extensions;
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+
+ Developers: 
+ * Frank Radocaj : frank@radocaj.com
+ * Hamish Crittenden : hamish.crittenden@gmail.com
+ 
+ Project Manager: 
+ * Ken Walker : kwalker@museum.vic.gov.au
+ 
+ Funded by:
+ * Atlas of Living Australia
+ 
+*/
 
 namespace Bowerbird.Core.Test.Extensions
 {
+    #region Namespaces
+
+    using System;
+    using System.Collections.Generic;
+    using Bowerbird.Test.Utils;
+    
+    using NUnit.Framework;
+    
+    using Bowerbird.Core.Extensions;
+
+    #endregion
+
     [TestFixture]
     public class CollectionExtensionsTest
     {
-
         #region Infrastructure
 
         [SetUp]
@@ -38,7 +58,7 @@ namespace Bowerbird.Core.Test.Extensions
 
         #region Method tests
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void CollectionExtensions_IsNotNullAndHasItems_Passing_Null_Collection_Returns_False()
         {
             Assert.IsFalse(
@@ -47,7 +67,7 @@ namespace Bowerbird.Core.Test.Extensions
                 .IsNotNullAndHasItems());
         }
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void CollectionExtensions_IsNotNullAndHasItems_Passing_Empty_Collection_Returns_False()
         {
             Assert.IsFalse(
@@ -55,7 +75,7 @@ namespace Bowerbird.Core.Test.Extensions
                 .IsNotNullAndHasItems());
         }
 
-        [Test]
+        [Test, Category(TestCategories.Unit)]
         public void CollectionExtensions_IsNotNullAndHasItems_Passing_Collection_Having_Items_Returns_False()
         {
             Assert.IsTrue(
@@ -63,7 +83,19 @@ namespace Bowerbird.Core.Test.Extensions
                 .IsNotNullAndHasItems());
         }
 
-        #endregion					
+        [Test, Category(TestCategories.Unit)]
+        public void CollectionExtensions_GetEnumeratorCount_Passing_Collection_Returns_Count()
+        {
+            var objects = new List<object>();
 
+            for(var i = 1; i <= 100; i++)
+            {
+                objects.Add(new {Id = i, Tag = Guid.NewGuid()});
+            }
+
+            Assert.AreEqual(objects.Count, objects.GetEnumeratorCount());
+        }
+
+        #endregion					
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿
 namespace Bowerbird.Web.ViewModels
 {
     public class ObservationListInput : IViewModel
@@ -18,7 +14,7 @@ namespace Bowerbird.Web.ViewModels
 
         #region Properties
 
-        public string Username { get; set; }
+        public string UserId { get; set; }
 
         public int Page { get; set; }
 

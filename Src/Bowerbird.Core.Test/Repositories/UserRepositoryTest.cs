@@ -30,19 +30,22 @@ namespace Bowerbird.Core.Test.Repositories
 
     #endregion
 
-    [TestFixture] public class UserRepositoryTest
+    [TestFixture] 
+    public class UserRepositoryTest
     {
 
         #region Test Infrastructure
 
         private IDocumentStore _store;
         
-        [SetUp] public void TestInitialize()
+        [SetUp] 
+        public void TestInitialize()
         {
             _store = DocumentStoreHelper.TestDocumentStore();
         }
 
-        [TearDown] public void TestCleanUp()
+        [TearDown] 
+        public void TestCleanUp()
         {
             _store = null;
         }
@@ -87,7 +90,8 @@ namespace Bowerbird.Core.Test.Repositories
 
         #region Method tests
 
-        [Test] public void UserRepository_Can_Save_User_Record()
+        [Test, Category(TestCategories.Persistance)] 
+        public void UserRepository_Can_Save_User_Record()
         {
             User userWrite, userRead;
 

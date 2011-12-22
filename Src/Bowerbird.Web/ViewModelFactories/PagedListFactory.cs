@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Bowerbird.Web.ViewModels;
 using Bowerbird.Core.DesignByContract;
 
@@ -32,7 +31,12 @@ namespace Bowerbird.Web.ViewModelFactories
             };
         }
 
-        public PagedList<T> Make<T>(int page, int pageSize, int totalResultCount, IEnumerable<T> pageObjects, IDictionary<int, string> namedPages)
+        public PagedList<T> Make<T>(
+            int page, 
+            int pageSize, 
+            int totalResultCount, 
+            IEnumerable<T> pageObjects, 
+            IDictionary<int, string> namedPages)
         {
             Check.RequireNotNull(pageObjects, "pageObjects");
 
@@ -48,7 +52,11 @@ namespace Bowerbird.Web.ViewModelFactories
             };
         }
 
-        private List<PageNumber> MakeAllPageNumbers(int page, int pageSize, int totalResultCount, IDictionary<int, string> namedPages)
+        private List<PageNumber> MakeAllPageNumbers(
+            int page, 
+            int pageSize, 
+            int totalResultCount, 
+            IDictionary<int, string> namedPages)
         {
             List<PageNumber> allPageNumbers = new List<PageNumber>();
 
@@ -80,7 +88,12 @@ namespace Bowerbird.Web.ViewModelFactories
             return allPageNumbers;
         }
 
-        private PageNumber MakePageNumber(int pageNumber, int pageStartNumber, int pageEndNumber, int requestedPageStartNumber, string name)
+        private PageNumber MakePageNumber(
+            int pageNumber, 
+            int pageStartNumber, 
+            int pageEndNumber, 
+            int requestedPageStartNumber, 
+            string name)
         {
             return new PageNumber(pageNumber,
                                     pageStartNumber,
@@ -89,7 +102,11 @@ namespace Bowerbird.Web.ViewModelFactories
                                     name);
         }
 
-        private IList<PagedListItem<T>> MakePagedListItems<T>(int page, int pageSize, IEnumerable<T> pageObjects, IList<PageNumber> allPageNumbers)
+        private IList<PagedListItem<T>> MakePagedListItems<T>(
+            int page, 
+            int pageSize, 
+            IEnumerable<T> pageObjects, 
+            IList<PageNumber> allPageNumbers)
         {
             List<PagedListItem<T>> pagedListItems = new List<PagedListItem<T>>();
 
@@ -113,7 +130,10 @@ namespace Bowerbird.Web.ViewModelFactories
             return pagedListItems;
         }
 
-        private PagedListItem<T> MakePagedListItem<T>(PageNumber pageNumber, int pageObjectPosition, T pageObject)
+        private PagedListItem<T> MakePagedListItem<T>(
+            PageNumber pageNumber, 
+            int pageObjectPosition, 
+            T pageObject)
         {
             return new PagedListItem<T>(
                 pageNumber,

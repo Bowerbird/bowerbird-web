@@ -1,12 +1,31 @@
-using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.Entities;
-using Bowerbird.Web.Config;
+/* Bowerbird V1 
+
+ Licensed under MIT 1.1 Public License
+
+ Developers: 
+ * Frank Radocaj : frank@radocaj.com
+ * Hamish Crittenden : hamish.crittenden@gmail.com
+ 
+ Project Manager: 
+ * Ken Walker : kwalker@museum.vic.gov.au
+ 
+ Funded by:
+ * Atlas of Living Australia
+ 
+*/
 
 namespace Bowerbird.Web.EventHandlers
 {
+    #region Namespaces
+
+    using Bowerbird.Core.DesignByContract;
+    using Bowerbird.Core.Entities;
+    using Bowerbird.Web.Config;
+
+    #endregion
+
     public abstract class NotifyActivityEventHandlerBase
     {
-
         #region Members
 
         private readonly IUserContext _userContext;
@@ -48,6 +67,5 @@ namespace Bowerbird.Web.EventHandlers
         }
 
         #endregion
-         
     }
 }
