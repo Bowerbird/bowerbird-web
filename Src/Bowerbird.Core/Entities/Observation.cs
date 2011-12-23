@@ -100,7 +100,7 @@ namespace Bowerbird.Core.Entities
             MediaResources = mediaResources.ToList();
         }
 
-        public Observation UpdateDetails(User updatedByUser, string title, DateTime observedOn, string latitude, string longitude, string address, bool isIdentificationRequired, string observationCategory, IEnumerable<MediaResource> mediaResources)
+        public virtual Observation UpdateDetails(User updatedByUser, string title, DateTime observedOn, string latitude, string longitude, string address, bool isIdentificationRequired, string observationCategory, IEnumerable<MediaResource> mediaResources)
         {
             Check.RequireNotNull(updatedByUser, "updatedByUser");
             Check.RequireNotNull(mediaResources, "mediaResources");

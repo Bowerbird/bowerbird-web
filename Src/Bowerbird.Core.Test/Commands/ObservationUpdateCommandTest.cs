@@ -27,7 +27,7 @@ namespace Bowerbird.Core.Test.Commands
     #endregion
 
     [TestFixture]
-    public class ObservationCreateCommandTest
+    public class ObservationUpdateCommandTest
     {
         #region Test Infrastructure
 
@@ -41,9 +41,9 @@ namespace Bowerbird.Core.Test.Commands
 
         #region Test Helpers
 
-        private static ObservationCreateCommand TestObservationCreateCommand()
+        private static ObservationUpdateCommand TestObservationUpdateCommand()
         {
-            return new ObservationCreateCommand()
+            return new ObservationUpdateCommand()
             {
                 Address = FakeValues.Address,
                 Id = FakeValues.KeyString,
@@ -73,72 +73,72 @@ namespace Bowerbird.Core.Test.Commands
 
         [Test]
         [Category(TestCategories.Unit)]
-        public void ObservationCreateCommand_Id_Is_TypeOf_String()
+        public void ObservationUpdateCommand_Id_Is_TypeOf_String()
         {
-            Assert.IsInstanceOf<string>(TestObservationCreateCommand().Id);
+            Assert.IsInstanceOf<string>(TestObservationUpdateCommand().Id);
         }
 
         [Test]
         [Category(TestCategories.Unit)]
-        public void ObservationCreateCommand_Title_Is_TypeOf_String()
+        public void ObservationUpdateCommand_Title_Is_TypeOf_String()
         {
-            Assert.IsInstanceOf<string>(TestObservationCreateCommand().Title);
+            Assert.IsInstanceOf<string>(TestObservationUpdateCommand().Title);
         }
 
         [Test]
         [Category(TestCategories.Unit)]
-        public void ObservationCreateCommand_ObservedOn_Is_TypeOf_DateTime()
+        public void ObservationUpdateCommand_ObservedOn_Is_TypeOf_DateTime()
         {
-            Assert.IsInstanceOf<DateTime>(TestObservationCreateCommand().ObservedOn);
+            Assert.IsInstanceOf<DateTime>(TestObservationUpdateCommand().ObservedOn);
         }
 
         [Test]
         [Category(TestCategories.Unit)]
-        public void ObservationCreateCommand_Latitude_Is_TypeOf_String()
+        public void ObservationUpdateCommand_Latitude_Is_TypeOf_String()
         {
-            Assert.IsInstanceOf<string>(TestObservationCreateCommand().Latitude);
+            Assert.IsInstanceOf<string>(TestObservationUpdateCommand().Latitude);
         }
 
         [Test]
         [Category(TestCategories.Unit)]
-        public void ObservationCreateCommand_Longitude_Is_TypeOf_String()
+        public void ObservationUpdateCommand_Longitude_Is_TypeOf_String()
         {
-            Assert.IsInstanceOf<string>(TestObservationCreateCommand().Longitude);
+            Assert.IsInstanceOf<string>(TestObservationUpdateCommand().Longitude);
         }
 
         [Test]
         [Category(TestCategories.Unit)]
-        public void ObservationCreateCommand_Address_Is_TypeOf_String()
+        public void ObservationUpdateCommand_Address_Is_TypeOf_String()
         {
-            Assert.IsInstanceOf<string>(TestObservationCreateCommand().Address);
+            Assert.IsInstanceOf<string>(TestObservationUpdateCommand().Address);
         }
 
         [Test]
         [Category(TestCategories.Unit)]
-        public void ObservationCreateCommand_IsIdentificationRequired_Is_TypeOf_Bool()
+        public void ObservationUpdateCommand_IsIdentificationRequired_Is_TypeOf_Bool()
         {
-            Assert.IsInstanceOf<bool>(TestObservationCreateCommand().IsIdentificationRequired);
+            Assert.IsInstanceOf<bool>(TestObservationUpdateCommand().IsIdentificationRequired);
         }
 
         [Test]
         [Category(TestCategories.Unit)]
-        public void ObservationCreateCommand_ObservationCategory_Is_TypeOf_String()
+        public void ObservationUpdateCommand_ObservationCategory_Is_TypeOf_String()
         {
-            Assert.IsInstanceOf<string>(TestObservationCreateCommand().ObservationCategory);
+            Assert.IsInstanceOf<string>(TestObservationUpdateCommand().ObservationCategory);
         }
 
         [Test]
         [Category(TestCategories.Unit)]
-        public void ObservationCreateCommand_MediaResources_Is_TypeOf_ListOfStrings()
+        public void ObservationUpdateCommand_MediaResources_Is_TypeOf_ListOfStrings()
         {
-            Assert.IsInstanceOf<List<string>>(TestObservationCreateCommand().MediaResources);
+            Assert.IsInstanceOf<List<string>>(TestObservationUpdateCommand().MediaResources);
         }
 
         [Test]
         [Category(TestCategories.Unit)]
-        public void ObservationCreateCommand_Username_Is_TypeOf_String()
+        public void ObservationUpdateCommand_Username_Is_TypeOf_String()
         {
-            Assert.IsInstanceOf<string>(TestObservationCreateCommand().Username);
+            Assert.IsInstanceOf<string>(TestObservationUpdateCommand().Username);
         }
 
         #endregion
@@ -147,11 +147,11 @@ namespace Bowerbird.Core.Test.Commands
 
         [Test]
         [Category(TestCategories.Unit)]
-        public void ObservationCreateCommand_ValidationResults_WithInvalidInput_RaisesValidationError()
+        public void ObservationUpdateCommand_ValidationResults_WithInvalidInput_RaisesValidationError()
         {
-            Assert.IsTrue(BowerbirdThrows.Exception<NotImplementedException>(() => new ObservationCreateCommand().ValidationResults()));
+            Assert.IsTrue(BowerbirdThrows.Exception<NotImplementedException>(() => new ObservationUpdateCommand().ValidationResults()));
         }
 
-        #endregion
+        #endregion 
     }
 }

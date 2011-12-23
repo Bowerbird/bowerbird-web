@@ -19,7 +19,7 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Properties
 
-        public string Username { get; set; }
+        public string UserId { get; set; }
 
         #endregion
 
