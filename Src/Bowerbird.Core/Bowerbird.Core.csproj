@@ -76,6 +76,7 @@
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\GlobalMember.cs" />
     <Compile Include="Entities\DenormalisedReferences\DenormalisedObservationReference.cs" />
+    <Compile Include="Entities\IAssignableId.cs" />
     <Compile Include="Entities\MediaResources\OtherMediaResource.cs" />
     <Compile Include="Entities\Member.cs" />
     <Compile Include="Entities\ProjectMember.cs" />

@@ -17,3 +17,4 @@ packages/
 msbuild.log
 PublishProfiles/
 [Ll]ogs/
+*.Publish.xml

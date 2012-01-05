@@ -4,8 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Xml.Serialization;
 using System.ComponentModel.DataAnnotations;
-
-//using Newtonsoft.Json;
+using Bowerbird.Core.Extensions;
 
 namespace Bowerbird.Core.Entities
 {
@@ -14,7 +13,7 @@ namespace Bowerbird.Core.Entities
     ///     http://devlicio.us/blogs/billy_mccafferty/archive/2007/04/25/using-equals-gethashcode-effectively.aspx
     /// </summary>
     //[Serializable]
-    public abstract class Entity : BaseObject
+    public abstract class Entity : BaseObject, IAssignableId
     {
         /// <summary>
         ///     To help ensure hashcode uniqueness, a carefully selected random number multiplier 
@@ -136,5 +135,11 @@ namespace Bowerbird.Core.Entities
             Validator.TryValidateObject(this, new ValidationContext(this, null, null), validationResults, true);
             return validationResults;
         }
+
+        void IAssignableId.SetIdTo(string prefix, string assignedId)
+        {
+            Id = prefix.AppendWith("/").AppendWith(assignedId);
+        }
+
     }
 }
