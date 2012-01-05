@@ -74,6 +74,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -83,7 +84,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandHandlers\ObservationCreateCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\ObservationUpdateCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\UserCreateCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\UserLoggedInCommandHandlerTest.cs" />
+    <Compile Include="Commands\MediaResourceCreateCommandTest.cs" />
     <Compile Include="Commands\ObservationCreateCommandTest.cs" />
+    <Compile Include="Commands\ObservationUpdateCommandTest.cs" />
+    <Compile Include="Commands\UserCreateCommandTest.cs" />
     <Compile Include="DesignByContract\CheckTest.cs" />
     <Compile Include="Entities\UserTest.cs" />
     <Compile Include="EventHandlers\SendWelcomeEmailEventHandlerTest.cs" />

@@ -42,7 +42,6 @@ namespace Bowerbird.Core.Test.CommandHandlers
         private Mock<Observation> _mockObservation;
         private Mock<User> _mockUser;
         private Mock<IEnumerable<MediaResource>> _mockMediaResources;
-        private Mock<ObservationUpdateCommand> _mockObservationUpdateCommand;
         private ObservationUpdateCommandHandler _observationUpdateCommandHandler;
 
         [SetUp]
@@ -54,7 +53,6 @@ namespace Bowerbird.Core.Test.CommandHandlers
             _mockObservation = new Mock<Observation>();
             _mockUser = new Mock<User>();
             _mockMediaResources = new Mock<IEnumerable<MediaResource>>();
-            _mockObservationUpdateCommand = new Mock<ObservationUpdateCommand>();
             _observationUpdateCommandHandler = new ObservationUpdateCommandHandler(_mockObservationRepository.Object,_mockUserRepository.Object, _mockMediaResourceRepository.Object);
         }
 
@@ -164,17 +162,17 @@ namespace Bowerbird.Core.Test.CommandHandlers
         {
             _mockUserRepository.Setup(x => x.Load(It.IsAny<string>())).Returns(_mockUser.Object);
             _mockObservationRepository.Setup(x => x.Load(It.IsAny<string>())).Returns(_mockObservation.Object);
-            //_mockObservation.Setup(x => x.UpdateDetails(
-            //    It.IsAny<User>(),
-            //    It.IsAny<string>(),
-            //    It.IsAny<DateTime>(),
-            //    It.IsAny<string>(),
-            //    It.IsAny<string>(),
-            //    It.IsAny<string>(),
-            //    It.IsAny<bool>(),
-            //    It.IsAny<string>(),
-            //    It.IsAny<List<MediaResource>>())
-            //    ).Returns(_mockObservation.Object);
+            _mockObservation.Setup(x => x.UpdateDetails(
+                It.IsAny<User>(),
+                It.IsAny<string>(),
+                It.IsAny<DateTime>(),
+                It.IsAny<string>(),
+                It.IsAny<string>(),
+                It.IsAny<string>(),
+                It.IsAny<bool>(),
+                It.IsAny<string>(),
+                It.IsAny<List<MediaResource>>())
+                ).Returns(_mockObservation.Object);
 
             _observationUpdateCommandHandler.Handle(TestObservationUpdateCommand());
 

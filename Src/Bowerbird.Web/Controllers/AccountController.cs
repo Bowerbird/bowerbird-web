@@ -134,7 +134,7 @@ namespace Bowerbird.Web.Controllers
         {
             return new UserUpdateLastLoginCommand()
             {
-                Username = accountLoginInput.Username
+                UserId = accountLoginInput.Username
             };
         }
 

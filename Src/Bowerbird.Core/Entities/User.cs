@@ -147,7 +147,7 @@ namespace Bowerbird.Core.Entities
             return this;
         }
 
-        public User UpdateLastLoggedIn()
+        public virtual User UpdateLastLoggedIn()
         {
             LastLoggedIn = DateTime.Now;
 

@@ -61,7 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandHandlers\UserLoggedInCommandHandler.cs" />
+    <Compile Include="CommandHandlers\UserUpdateLastLoginCommandHandler.cs" />
     <Compile Include="CommandHandlers\SetupSystemCommandHandler.cs" />
     <Compile Include="Commands\UserUpdateLastLoginCommand.cs" />
     <Compile Include="Commands\SetupSystemCommand.cs" />
