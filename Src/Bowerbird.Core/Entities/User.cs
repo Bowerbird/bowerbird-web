@@ -39,7 +39,7 @@ namespace Bowerbird.Core.Entities
             Check.RequireNotNullOrWhitespace(id, "id");
             Check.RequireNotNull(roles, "roles");
 
-            Id = "users/" + id;
+            ((IAssignableId)this).SetIdTo("users", id);
             Email = email;
             PasswordSalt = Guid.NewGuid();
             HashedPassword = GetHashedPassword(password);
@@ -197,11 +197,6 @@ namespace Bowerbird.Core.Entities
             FlagsRaised++;
 
             return this;
-        }
-
-        private bool MembersContains(Member member)
-        {
-            return Memberships.SingleOrDefault(x => x.Type == member.GetType().Name.ToLower() && x.Id == member.Id) != null;
         }
 
         #endregion
