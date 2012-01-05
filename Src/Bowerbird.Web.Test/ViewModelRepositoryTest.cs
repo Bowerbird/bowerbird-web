@@ -62,7 +62,7 @@ namespace Bowerbird.Web.Test
 
         #region Constructor tests
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void ViewModelRepository_Constructor_Passing_Null_ServiceLocator_Throws_DesignByContractException()
         {
             Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new CommandBuilder(null)));
@@ -76,13 +76,15 @@ namespace Bowerbird.Web.Test
 
         #region Method tests
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test]
+        [Category(TestCategory.Unit)] 
         public void ViewModelRepository_Load_Having_InputViewModel_And_ReturnViewModel_Passing_Null_Input_Throws_DesignByContractException()
         {
             Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new ViewModelRepository(ServiceLocator.Current).Load<HomeIndexInput, HomeIndex>(null)));
         }
 
-        [Test, Category(TestCategories.Integration)] 
+        [Test]
+        [Category(TestCategory.Integration)] 
         public void ViewModelRepository_Load_Having_InputViewModel_And_ReturnViewModel_With_ServiceLocator_Return_Null_Throws_Exception()
         {
             IViewModelFactory<HomeIndexInput, HomeIndex> factory = null;
@@ -91,8 +93,9 @@ namespace Bowerbird.Web.Test
 
             Assert.IsTrue(BowerbirdThrows.Exception<Exception>(() => new ViewModelRepository(_mockServiceLocator.Object).Load<HomeIndexInput, HomeIndex>(new HomeIndexInput())));
         }
-  
-        [Test, Category(TestCategories.Integration)] 
+
+        [Test]
+        [Category(TestCategory.Integration)] 
         public void ViewModelRepository_Load_Having_ReturnViewModel_With_ServiceLocator_Return_Null_Throws_Exception()
         {
             IViewModelFactory<HomeIndex> factory = null;
@@ -102,7 +105,8 @@ namespace Bowerbird.Web.Test
             Assert.IsTrue(BowerbirdThrows.Exception<Exception>(() => new ViewModelRepository(_mockServiceLocator.Object).Load<HomeIndex>()));
         }
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test]
+        [Category(TestCategory.Unit)] 
         public void ViewModelRepository_Load_Having_InputViewModel_And_ReturnViewModel_Passing_InputViewModel_Returns_ViewModel()
         {
             var repository = new ViewModelRepository(ServiceLocator.Current);
@@ -110,7 +114,8 @@ namespace Bowerbird.Web.Test
             Assert.IsInstanceOf<HomeIndex>(repository.Load<HomeIndexInput, HomeIndex>(new HomeIndexInput()));
         }
 
-        [Test, Category(TestCategories.Integration)] 
+        [Test]
+        [Category(TestCategory.Integration)] 
         public void ViewModelRepository_Load_Having_InputViewModel_And_ReturnViewModel_Calls_ViewModelFactory_Make()
         {
             var factory = new Mock<IViewModelFactory<HomeIndex>>();
@@ -123,16 +128,23 @@ namespace Bowerbird.Web.Test
             factory.Verify(x => x.Make(), Times.Once());
         }
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test]
+        [Category(TestCategory.Unit)] 
         public void ViewModelRepository_Load_Having_ReturnViewModel_Returns_ViewModel()
         {
-            var repository = new ViewModelRepository(ServiceLocator.Current);
+            var factory = new Mock<IViewModelFactory<HomeIndex>>();
+            factory.Setup(x => x.Make()).Returns(new HomeIndex());
 
-            Assert.IsInstanceOf<HomeIndex>(repository.Load<HomeIndex>());
+            _mockServiceLocator.Setup(x => x.GetInstance<IViewModelFactory<HomeIndex>>()).Returns(factory.Object);
+
+            var model = new ViewModelRepository(_mockServiceLocator.Object).Load<HomeIndex>();
+
+            //factory.Verify(x => x.Make(), Times.Once());
+            Assert.IsInstanceOf<HomeIndex>(model);
         }
 
-
-        [Test, Category(TestCategories.Integration)]
+        [Test]
+        [Category(TestCategory.Integration)]
         public void ViewModelRepository_Load_Having_ReturnViewModel_Calls_ViewModelFactory_Make()
         {
             var factory = new Mock<IViewModelFactory<HomeIndexInput,HomeIndex>>();

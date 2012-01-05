@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Entities;
 
 namespace Bowerbird.Core.Events
@@ -18,6 +15,8 @@ namespace Bowerbird.Core.Events
         public UserLoggedInEvent(
             User user)
         {
+            Check.RequireNotNull(user, "user");
+
             User = user;
         }
 

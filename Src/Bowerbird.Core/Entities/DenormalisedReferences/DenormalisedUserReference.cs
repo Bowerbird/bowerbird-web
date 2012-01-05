@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿
+using Bowerbird.Core.DesignByContract;
 
 namespace Bowerbird.Core.Entities.DenormalisedReferences
 {
@@ -32,6 +30,8 @@ namespace Bowerbird.Core.Entities.DenormalisedReferences
 
         public static implicit operator DenormalisedUserReference(User user)
         {
+            Check.RequireNotNull(user, "user");
+
             return new DenormalisedUserReference
             {
                 Id = user.Id,

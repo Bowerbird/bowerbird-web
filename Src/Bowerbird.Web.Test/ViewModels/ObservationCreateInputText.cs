@@ -53,49 +53,49 @@ namespace Bowerbird.Web.Test.ViewModels
 
         #region Property tests
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void ObservationCreateInput_Address_Is_A_String()
         {
             Assert.IsInstanceOf<string>(new ObservationCreateInput() { Address = FakeValues.Address }.Address );
         }
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void ObservationCreateInput_Latitude_Is_A_String() 
         {
             Assert.IsInstanceOf<string>(new ObservationCreateInput() { Latitude = FakeValues.Latitude }.Latitude); 
         }
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void ObservationCreateInput_Longitude_Is_A_String()
         {
             Assert.IsInstanceOf<string>(new ObservationCreateInput() { Longitude = FakeValues.Longitude }.Longitude);
         }
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void ObservationCreateInput_Title_Is_A_String()
         {
             Assert.IsInstanceOf<string>(new ObservationCreateInput() { Title = FakeValues.Title }.Title);
         }
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void ObservationCreateInput_ObservationCategory_Is_A_String()
         {
             Assert.IsInstanceOf<string>(new ObservationCreateInput() { ObservationCategory = FakeValues.Category }.ObservationCategory );
         }
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void ObservationCreateInput_ObservedOn_Is_A_DateTime()
         {
             Assert.IsInstanceOf<DateTime>(new ObservationCreateInput() { ObservedOn = FakeValues.CreatedDateTime }.ObservedOn);
         }
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void ObservationCreateInput_Username_Is_A_String()
         {
             Assert.IsInstanceOf<string>(new ObservationCreateInput() { Username = FakeValues.UserName }.Username );
         }
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void ObservationCreateInput_MediaResources_Is_A_String_List()
         {
             Assert.IsInstanceOf<List<string>>(new ObservationCreateInput() { MediaResources = FakeValues.StringList }.MediaResources );

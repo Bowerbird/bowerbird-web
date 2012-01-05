@@ -108,7 +108,7 @@ namespace Bowerbird.Core.Test.Tasks
 
         #region Constructor tests
 
-        [Test, Category(TestCategories.Unit)]
+        [Test, Category(TestCategory.Unit)]
         public void UserTasks_Constructor_Passing_Null_DocumentSession_Throws_DesignByContractException()
         {
             Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new UserTasks(null)));
@@ -122,7 +122,7 @@ namespace Bowerbird.Core.Test.Tasks
 
         #region Method tests
 
-        [Test, Category(TestCategories.Integration), Category(TestCategories.Persistance)]
+        [Test, Category(TestCategory.Integration), Category(TestCategory.Persistance)]
         public void UserTasks_AreCredentialsValid_Passing_Empty_Username_Throws_DesignByContractException()
         {
             using (var session = _store.OpenSession())
@@ -131,7 +131,7 @@ namespace Bowerbird.Core.Test.Tasks
             }
         }
 
-        [Test, Category(TestCategories.Integration), Category(TestCategories.Persistance)]
+        [Test, Category(TestCategory.Integration), Category(TestCategory.Persistance)]
         public void UserTasks_AreCredentialsValid_Passing_Empty_Password_Throws_DesignByContractException()
         {
             using (var session = _store.OpenSession())
@@ -140,7 +140,7 @@ namespace Bowerbird.Core.Test.Tasks
             }
         }
 
-        [Test, Category(TestCategories.Integration), Category(TestCategories.Persistance)]
+        [Test, Category(TestCategory.Integration), Category(TestCategory.Persistance)]
         public void UserTasks_AreCredentialsValid_Passing_Valid_Username_And_Password_Returns_True()
         {
             using (var session = _store.OpenSession())
@@ -156,7 +156,7 @@ namespace Bowerbird.Core.Test.Tasks
             }
         }
 
-        [Test, Category(TestCategories.Integration), Category(TestCategories.Persistance)]
+        [Test, Category(TestCategory.Integration), Category(TestCategory.Persistance)]
         public void UserTasks_AreCredentialsValid_Passing_InValid_Username_And_Password_Returns_True()
         {
             using (var session = _store.OpenSession())
@@ -172,7 +172,7 @@ namespace Bowerbird.Core.Test.Tasks
             }
         }
 
-        [Test, Category(TestCategories.Integration), Category(TestCategories.Persistance)]
+        [Test, Category(TestCategory.Integration), Category(TestCategory.Persistance)]
         public void UserTasks_IsEmailAvailable_Passing_Empty_Email_Throws_DesignByContractException()
         {
             using (var session = _store.OpenSession())
@@ -181,7 +181,7 @@ namespace Bowerbird.Core.Test.Tasks
             }
         }
 
-        [Test, Category(TestCategories.Integration), Category(TestCategories.Persistance)]
+        [Test, Category(TestCategory.Integration), Category(TestCategory.Persistance)]
         public void UserTasks_IsEmailAvailable_Passing_Available_Email_Returns_True()
         {
             using (var session = _store.OpenSession())
@@ -190,7 +190,7 @@ namespace Bowerbird.Core.Test.Tasks
             }
         }
 
-        [Test, Category(TestCategories.Integration), Category(TestCategories.Persistance)]
+        [Test, Category(TestCategory.Integration), Category(TestCategory.Persistance)]
         public void UserTasks_IsEmailAvailable_Passing_Existing_Email_Returns_False()
         {
             using (var session = _store.OpenSession())

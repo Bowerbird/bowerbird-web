@@ -234,5 +234,11 @@ namespace Bowerbird.Test.Utils
         /// value: new object()
         /// </summary>
         public static object Object { get { return new object(); } }
+
+        /// <summary>
+        /// value: "fake notes"
+        /// </summary>
+        public static string Notes { get { return "fake notes"; } }
+
     }
 }

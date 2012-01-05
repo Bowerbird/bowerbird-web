@@ -69,7 +69,7 @@ namespace Bowerbird.Core.Test.CommandHandlers
         #region Constructor tests
 
         [Test]
-        [Category(TestCategories.Unit)]
+        [Category(TestCategory.Unit)]
         public void UserUpdateLastLoginCommandHandler_Constructor_Passing_Null_UserRepository_Throws_DesignByContractException()
         {
             Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new UserUpdateLastLoginCommandHandler(null)));
@@ -84,14 +84,14 @@ namespace Bowerbird.Core.Test.CommandHandlers
         #region Method tests
 
         [Test]
-        [Category(TestCategories.Unit)]
+        [Category(TestCategory.Unit)]
         public void UserUpdateLastLoginCommandHandler_Handle_Passing_Null_UserUpdateLastLoginCommand_Throws_DesignByContractException()
         {
             Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new UserUpdateLastLoginCommandHandler(_mockUserRepository.Object).Handle(null)));
         }
 
         [Test]
-        [Category(TestCategories.Integration)]
+        [Category(TestCategory.Integration)]
         public void UserUpdateLastLoginCommandHandler_Handle_Passing_UserUpdateLastLoginCommand_Calls_UserRepository_Load()
         {
             _mockUserRepository.Setup(x => x.Load(It.IsAny<string>())).Returns(_mockUser.Object);
@@ -102,7 +102,7 @@ namespace Bowerbird.Core.Test.CommandHandlers
         }
 
         [Test]
-        [Category(TestCategories.Integration)]
+        [Category(TestCategory.Integration)]
         public void UserUpdateLastLoginCommandHandler_Handle_Passing_UserUpdateLastLoginCommand_Calls_UserRepository_Add()
         {
             _mockUserRepository.Setup(x => x.Load(It.IsAny<string>())).Returns(_mockUser.Object);
@@ -114,7 +114,7 @@ namespace Bowerbird.Core.Test.CommandHandlers
         }
 
         [Test]
-        [Category(TestCategories.Integration)]
+        [Category(TestCategory.Integration)]
         public void UserUpdateLastLoginCommandHandler_Handle_Passing_UserUpdateLastLoginCommand_Calls_User_UpdateLastLoggedIn()
         {
             _mockUser.Setup(x => x.UpdateLastLoggedIn()).Verifiable();

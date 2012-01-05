@@ -53,19 +53,19 @@ namespace Bowerbird.Web.Test.ViewModels
 
 	    #region Property tests
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void AccountLogin_Username_Is_A_String()
         {
             Assert.IsInstanceOf<string>(new AccountLogin() { Username = FakeValues.UserName }.Username);
         }
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void AccountLogin_RememberMe_Is_A_Bool()
         {
             Assert.IsInstanceOf<bool>(new AccountLogin() { RememberMe = FakeValues.IsTrue }.RememberMe);
         }
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void AccountLogin_ReturnUrl_Is_A_String()
         {
             Assert.IsInstanceOf<string>(new AccountLogin() { ReturnUrl = FakeValues.Website }.ReturnUrl);

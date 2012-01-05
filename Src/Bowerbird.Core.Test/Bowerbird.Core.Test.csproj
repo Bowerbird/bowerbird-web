@@ -33,6 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.Contrib.0.3\lib\Moq.dll</HintPath>
     </Reference>
@@ -86,15 +90,41 @@
     <Compile Include="CommandHandlers\ObservationCreateCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\ObservationUpdateCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\UserCreateCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\UserLoggedInCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\UserUpdateLastLoginCommandHandlerTest.cs" />
+    <Compile Include="CommandProcessorTest.cs" />
     <Compile Include="Commands\MediaResourceCreateCommandTest.cs" />
     <Compile Include="Commands\ObservationCreateCommandTest.cs" />
     <Compile Include="Commands\ObservationUpdateCommandTest.cs" />
     <Compile Include="Commands\UserCreateCommandTest.cs" />
+    <Compile Include="Commands\UserUpdateLastLoginCommandTest.cs" />
     <Compile Include="DesignByContract\CheckTest.cs" />
+    <Compile Include="Entities\ActivityTest.cs" />
+    <Compile Include="Entities\CommentTest.cs" />
+    <Compile Include="Entities\DenormalisedReferences\DenormalisedMemberReferenceTest.cs" />
+    <Compile Include="Entities\DenormalisedReferences\DenormalisedNamedEntityReferenceTest.cs" />
+    <Compile Include="Entities\DenormalisedReferences\DenormalisedObservationReferenceTest.cs" />
+    <Compile Include="Entities\DenormalisedReferences\DenormalisedUserReferenceTest.cs" />
+    <Compile Include="Entities\GlobalMemberTest.cs" />
+    <Compile Include="Entities\MediaResources\ImageMediaResourceTest.cs" />
+    <Compile Include="Entities\MediaResources\OtherMediaResourceTest.cs" />
+    <Compile Include="Entities\MediaResourceTest.cs" />
+    <Compile Include="Entities\MemberTest.cs" />
+    <Compile Include="Entities\ObservationNoteTest.cs" />
+    <Compile Include="Entities\ObservationTest.cs" />
+    <Compile Include="Entities\OrganisationTest.cs" />
+    <Compile Include="Entities\PermissionTest.cs" />
+    <Compile Include="Entities\PostTest.cs" />
+    <Compile Include="Entities\ProjectMemberTest.cs" />
+    <Compile Include="Entities\ProjectTest.cs" />
+    <Compile Include="Entities\RoleTest.cs" />
+    <Compile Include="Entities\TeamMemberTest.cs" />
+    <Compile Include="Entities\TeamTest.cs" />
     <Compile Include="Entities\UserTest.cs" />
+    <Compile Include="Entities\ValueObjectTest.cs" />
     <Compile Include="EventHandlers\SendWelcomeEmailEventHandlerTest.cs" />
     <Compile Include="Events\EntityCreatedEventTest.cs" />
+    <Compile Include="Events\EntityUpdatedEventTest.cs" />
+    <Compile Include="Events\UserLoggedInEventTest.cs" />
     <Compile Include="Extensions\CollectionExtensionsTest.cs" />
     <Compile Include="Extensions\StringExtensionsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -114,6 +144,7 @@
       <Name>Bowerbird.Test.Utils</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

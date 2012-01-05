@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VisualState xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ShowCheckBoxes="false">
+  <TopNode>[0-1000]C:\Projects\bowerbird.web\Src\Bowerbird.sln</TopNode>
+  <SelectedNode>[0-1000]C:\Projects\bowerbird.web\Src\Bowerbird.sln</SelectedNode>
+  <ExcludeCategories>false</ExcludeCategories>
+  <Nodes>
+    <Node UniqueName="[0-1000]C:\Projects\bowerbird.web\Src\Bowerbird.sln" Expanded="true" />
+    <Node UniqueName="[0-1321]Bowerbird" Expanded="true" />
+    <Node UniqueName="[0-1322]Bowerbird.Core" Expanded="true" />
+    <Node UniqueName="[0-1323]Bowerbird.Core.Test" Expanded="true" />
+    <Node UniqueName="[0-1225]Bowerbird.Core.Test.DesignByContract.CheckTest" Expanded="true" />
+    <Node UniqueName="[0-1216]Bowerbird.Core.Test.Entities.DenormalisedReferences.DenormalisedMemberReferenceTest" Expanded="true" />
+    <Node UniqueName="[0-1290]Bowerbird.Core.Test.Events.EntityUpdatedEventTest" Expanded="true" />
+    <Node UniqueName="[0-1156]Bowerbird" Expanded="true" />
+    <Node UniqueName="[0-1157]Bowerbird.Web" Expanded="true" />
+    <Node UniqueName="[0-1158]Bowerbird.Web.Test" Expanded="true" />
+    <Node UniqueName="[0-1091]Bowerbird.Web.Test.Config.UserContextTest" Expanded="true" />
+    <Node UniqueName="[0-1160]Bowerbird.Web.Test.EventHandlers" Expanded="true" />
+    <Node UniqueName="[0-1072]Bowerbird.Web.Test.EventHandlers.NotifyActivityObservationCreatedEventHandlerTest" Expanded="true" />
+    <Node UniqueName="[0-1129]Bowerbird.Web.Test.ViewModelRepositoryTest" Expanded="true" />
+    <Node UniqueName="[0-1164]Bowerbird.Web.Test.ViewModels.Paging" Expanded="true" />
+  </Nodes>
+</VisualState>

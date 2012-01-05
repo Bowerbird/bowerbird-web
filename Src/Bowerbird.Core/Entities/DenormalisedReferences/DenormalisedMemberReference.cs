@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using Bowerbird.Core.DesignByContract;
 
 namespace Bowerbird.Core.Entities.DenormalisedReferences
 {
@@ -30,22 +29,24 @@ namespace Bowerbird.Core.Entities.DenormalisedReferences
 
         public static implicit operator DenormalisedMemberReference(Member member)
         {
+            Check.RequireNotNull(member, "member");
+
             return new DenormalisedMemberReference
             {
                 Type = SetMemberType(member),
-                Id = SetMemberId(member),
+                Id = member.Id,
                 Roles = member.Roles.Select(x => x.Id)
             };
         }
 
-        private static string SetMemberId(Member member)
-        {
-            if (member is TeamMember) return ((TeamMember) member).Team.Id;
+        //private static string SetMemberId(Member member)
+        //{
+        //    if (member is TeamMember) return ((TeamMember) member).Team.Id;
 
-            if (member is ProjectMember) return ((ProjectMember) member).Project.Id;
+        //    if (member is ProjectMember) return ((ProjectMember) member).Project.Id;
 
-            return member.Id;
-        }
+        //    return member.Id;
+        //}
 
         private static string SetMemberType(Member member)
         {

@@ -56,7 +56,7 @@ namespace Bowerbird.Web.Test.ViewModelFactories
 
         #region Constructor tests
 
-        [Test, Category(TestCategories.Unit)]
+        [Test, Category(TestCategory.Unit)]
         public void DefaultViewModelFactory_Constructor_Passing_Null_DocumentSession_Throws_DesignByContractException()
         {
             Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new DefaultViewModelFactory(null)));
@@ -70,7 +70,7 @@ namespace Bowerbird.Web.Test.ViewModelFactories
 
         #region Method tests
 
-        [Test, Category(TestCategories.Unit)]
+        [Test, Category(TestCategory.Unit)]
         public void DefaultViewModelFactory_Make_Returns_DefaultViewModel()
         {
             var defaultViewModel = new DefaultViewModelFactory(new Mock<IDocumentSession>().Object).Make();

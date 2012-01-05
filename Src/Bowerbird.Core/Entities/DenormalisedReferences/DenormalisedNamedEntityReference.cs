@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Bowerbird.Core.DesignByContract;
 
 namespace Bowerbird.Core.Entities.DenormalisedReferences
 {
@@ -35,6 +36,8 @@ namespace Bowerbird.Core.Entities.DenormalisedReferences
 
         public static implicit operator DenormalisedNamedEntityReference<T>(T namedEntity)
         {
+            Check.RequireNotNull(namedEntity, "namedEntity");
+
             return new DenormalisedNamedEntityReference<T>
             {
                 Id = namedEntity.Id, 

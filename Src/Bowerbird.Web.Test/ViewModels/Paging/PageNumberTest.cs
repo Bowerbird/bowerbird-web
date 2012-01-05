@@ -65,7 +65,7 @@ namespace Bowerbird.Web.Test.ViewModels.Paging
 
         #region Constructor tests
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void PageNumber_Constructor_Sets_Properties()
         {
             var pageNumber = new PageNumber(
@@ -86,31 +86,31 @@ namespace Bowerbird.Web.Test.ViewModels.Paging
 
         #region Property tests
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void PageNumber_Name_Is_A_String()
         {
             Assert.IsInstanceOf<string>(TestPageNumber().Name);
         }
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void PageNumber_Number_Is_An_Int()
         {
             Assert.IsInstanceOf<int>(TestPageNumber().Number);
         }
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void PageNumber_PageEndNumber_Is_An_Int()
         {
             Assert.IsInstanceOf<int>(TestPageNumber().PageEndNumber);
         }
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void PageNumber_PageStartNumber_Is_An_Int()
         {
             Assert.IsInstanceOf<int>(TestPageNumber().PageStartNumber);
         }
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void PageNumber_Selected_Is_A_Bool()
         {
             Assert.IsInstanceOf<bool>(TestPageNumber().Selected);

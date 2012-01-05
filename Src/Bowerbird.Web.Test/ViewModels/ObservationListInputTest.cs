@@ -50,19 +50,19 @@ namespace Bowerbird.Web.Test.ViewModels
 
         #region Property tests
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void ObservationListInput_Username_Is_A_String()
         {
             Assert.IsInstanceOf<string>(new ObservationListInput() { UserId = FakeValues.UserName }.UserId);
         }
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void ObservationListInput_Pagesize_Is_An_Int()
         {
             Assert.IsInstanceOf<int>(new ObservationListInput() { PageSize = FakeValues.PageSize }.PageSize);
         }
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void ObservationListInput_Page_Is_An_Int()
         {
             Assert.IsInstanceOf<int>(new ObservationListInput() { Page = FakeValues.Page }.Page);

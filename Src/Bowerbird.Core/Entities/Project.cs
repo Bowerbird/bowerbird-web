@@ -1,5 +1,4 @@
 using Bowerbird.Core.DesignByContract;
-using System;
 using Bowerbird.Core.Events;
 using Bowerbird.Core.Entities.DenormalisedReferences;
 
@@ -26,6 +25,8 @@ namespace Bowerbird.Core.Entities
             : this()
         {
             Check.RequireNotNull(createdByUser, "createdByUser");
+            Check.RequireNotNullOrWhitespace(name, "name");
+            Check.RequireNotNullOrWhitespace(description, "description");
 
             SetDetails(
                 name,
@@ -55,6 +56,8 @@ namespace Bowerbird.Core.Entities
         public Project UpdateDetails(User updatedByUser, string name, string description)
         {
             Check.RequireNotNull(updatedByUser, "updatedByUser");
+            Check.RequireNotNullOrWhitespace(name, "name");
+            Check.RequireNotNullOrWhitespace(description, "description");
 
             SetDetails(
                 name,

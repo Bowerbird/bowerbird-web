@@ -90,7 +90,7 @@ namespace Bowerbird.Core.Test.Repositories
 
         #region Method tests
 
-        [Test, Category(TestCategories.Persistance)] 
+        [Test, Category(TestCategory.Persistance)] 
         public void UserRepository_Can_Save_User_Record()
         {
             User userWrite, userRead;

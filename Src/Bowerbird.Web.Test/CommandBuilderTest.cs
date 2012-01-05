@@ -86,10 +86,13 @@ namespace Bowerbird.Web.Test
 
         #region Constructor tests
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test]
+        [Category(TestCategory.Unit)] 
         public void CommandBuilder_Constructor_Passing_Null_ServiceLocator_Throws_DesignByContractException()
         {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new CommandBuilder(null)));
+            Assert.IsTrue(
+                BowerbirdThrows.Exception<DesignByContractException>(() => 
+                    new CommandBuilder(null)));
         }
 
         #endregion
@@ -100,13 +103,17 @@ namespace Bowerbird.Web.Test
 
         #region Method tests
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test]
+        [Category(TestCategory.Unit)] 
         public void CommandBuilder_Build_Passing_Null_Input_Throws_DesignByContractException()
         {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => _commandBuilder.Build<object, object>(null, x => TestCommandAction())));
+            Assert.IsTrue(
+                BowerbirdThrows.Exception<DesignByContractException>(() => 
+                    _commandBuilder.Build<object, object>(null, x => TestCommandAction())));
         }
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test]
+        [Category(TestCategory.Unit)] 
         public void CommandBuilder_Build_Passing_Input_And_Having_ServiceLocator_Not_Find_Instance_Throws_Exception()
         {
             var input = TestObservationCreateInput();
@@ -115,10 +122,13 @@ namespace Bowerbird.Web.Test
 
             _mockServiceLocator.Setup(x => x.GetInstance<ICommandFactory<ObservationCreateInput, ObservationCreateCommand>>()).Returns(commandFactory);
 
-            Assert.IsTrue(BowerbirdThrows.Exception<Exception>(() =>_commandBuilder.Build<ObservationCreateInput, ObservationCreateCommand>(input, x => x.IsIdentificationRequired = FakeValues.IsFalse)));
+            Assert.IsTrue(
+                BowerbirdThrows.Exception<Exception>(() =>
+                    _commandBuilder.Build<ObservationCreateInput, ObservationCreateCommand>(input, x => x.IsIdentificationRequired = FakeValues.IsFalse)));
         }
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test]
+        [Category(TestCategory.Unit)] 
         public void CommandBuilder_Build_Passing_Input_And_Null_Action_Returns_Command()
         {
             var input = TestObservationCreateInput();
@@ -132,7 +142,8 @@ namespace Bowerbird.Web.Test
             Assert.IsInstanceOf<ObservationCreateCommand>(command);
         }
 
-        [Test, Category(TestCategories.Integration)]
+        [Test]
+        [Category(TestCategory.Integration)]
         public void CommandBuilder_Build_Calls_Factory_Make()
         {
             var input = TestObservationCreateInput();
@@ -146,7 +157,8 @@ namespace Bowerbird.Web.Test
             mockCommandFactory.Verify(x => x.Make(It.IsAny<ObservationCreateInput>()), Times.Once());
         }
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test]
+        [Category(TestCategory.Unit)] 
         public void CommandBuilder_Build_Passing_Input_And_Action_Invokes_Action()
         {
             var input = TestObservationCreateInput();

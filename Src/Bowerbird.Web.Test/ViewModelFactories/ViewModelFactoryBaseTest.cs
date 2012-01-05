@@ -84,13 +84,13 @@ namespace Bowerbird.Web.Test.ViewModelFactories
 
         #region Constructor tests
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void ViewModelFactoryBase_SubClass_Having_Input_Output_Constructor_Passing_Null_DocumentSession_Throws_DesignByContractException()
         {
              Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new ProxyViewModelFactoryWithInputOutput<object, object>(null)));
         }
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void ViewModelFactoryBase_SubClass_Having_Output_Constructor_Passing_Null_DocumentSession_Throws_DesignByContractException()
         {
              Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new ProxyViewModelFactoryWithOutput<object>(null)));
@@ -100,13 +100,13 @@ namespace Bowerbird.Web.Test.ViewModelFactories
 
         #region Property tests
 
-        [Test, Category(TestCategories.Unit)]
+        [Test, Category(TestCategory.Unit)]
         public void ViewModelFactoryBase_SubClass_Having_Input_And_Output_DocumentSession_Is_A_IDocumentSession()
         {
             Assert.IsInstanceOf<IDocumentSession>(new ProxyViewModelFactoryWithInputOutput<object, object>(_mockDocumentSession.Object).DocumentSession);
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test, Category(TestCategory.Unit)]
         public void ViewModelFactoryBase_SubClass_Having_Output_DocumentSession_Is_A_IDocumentSession()
         {
             Assert.IsInstanceOf<IDocumentSession>(new ProxyViewModelFactoryWithOutput<object>(_mockDocumentSession.Object).DocumentSession);

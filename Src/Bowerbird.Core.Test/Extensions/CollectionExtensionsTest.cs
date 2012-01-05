@@ -58,7 +58,7 @@ namespace Bowerbird.Core.Test.Extensions
 
         #region Method tests
 
-        [Test, Category(TestCategories.Unit)]
+        [Test, Category(TestCategory.Unit)]
         public void CollectionExtensions_IsNotNullAndHasItems_Passing_Null_Collection_Returns_False()
         {
             Assert.IsFalse(
@@ -67,7 +67,7 @@ namespace Bowerbird.Core.Test.Extensions
                 .IsNotNullAndHasItems());
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test, Category(TestCategory.Unit)]
         public void CollectionExtensions_IsNotNullAndHasItems_Passing_Empty_Collection_Returns_False()
         {
             Assert.IsFalse(
@@ -75,7 +75,7 @@ namespace Bowerbird.Core.Test.Extensions
                 .IsNotNullAndHasItems());
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test, Category(TestCategory.Unit)]
         public void CollectionExtensions_IsNotNullAndHasItems_Passing_Collection_Having_Items_Returns_False()
         {
             Assert.IsTrue(
@@ -83,7 +83,7 @@ namespace Bowerbird.Core.Test.Extensions
                 .IsNotNullAndHasItems());
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test, Category(TestCategory.Unit)]
         public void CollectionExtensions_GetEnumeratorCount_Passing_Collection_Returns_Count()
         {
             var objects = new List<object>();

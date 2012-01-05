@@ -14,7 +14,7 @@
 				
 namespace Bowerbird.Test.Utils
 {
-    public static class TestCategories
+    public static class TestCategory
     {
         public const string Integration = "Integration";
 

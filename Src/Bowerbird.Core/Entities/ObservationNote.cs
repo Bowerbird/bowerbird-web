@@ -9,7 +9,6 @@ namespace Bowerbird.Core.Entities
 {
     public class ObservationNote : Entity
     {
-
         #region Fields
 
         #endregion
@@ -95,6 +94,7 @@ namespace Bowerbird.Core.Entities
             ScientificName = scientificName;
             Taxonomy = taxonomy;
             Tags = tags;
+            Notes = notes;
             Descriptions = descriptions.ToDictionary(x => x.Key, x => x.Value);
             References = references.ToDictionary(x => x.Key, x => x.Value);
         }
@@ -120,6 +120,5 @@ namespace Bowerbird.Core.Entities
         }
 
         #endregion
-
     }
 }

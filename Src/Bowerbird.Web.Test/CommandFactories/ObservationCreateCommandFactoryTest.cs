@@ -51,13 +51,13 @@ namespace Bowerbird.Web.Test.CommandFactories
 
         #region Method tests
 
-        [Test, Category(TestCategories.Unit)]
+        [Test, Category(TestCategory.Unit)]
         public void ObservationCreateCommandFactory_Make_Passing_Null_ObservationCreateInput_ThrowsDesignByContractException()
         {
             Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new ObservationCreateCommandFactory().Make(null)));
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test, Category(TestCategory.Unit)]
         public void ObservationCreateCommandFactory_Make_Passing_ObservationCreateInput_Returns_Populated_ObservationCreateCommand()
         {
             var observationCreateCommandFactory = new ObservationCreateCommandFactory();

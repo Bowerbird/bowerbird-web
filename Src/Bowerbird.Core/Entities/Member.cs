@@ -1,16 +1,13 @@
-﻿using System.Linq;
-using System.Collections;
+﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Entities.DenormalisedReferences;
-using System;
-using Bowerbird.Core.Events;
 
 namespace Bowerbird.Core.Entities
 {
     public abstract class Member : Entity
     {
-
         #region Members
 
         #endregion
@@ -33,6 +30,10 @@ namespace Bowerbird.Core.Entities
 
             SetDetails(
                 user);
+
+            #if DEBUG
+                Id = (new Random(System.DateTime.Now.Millisecond)).Next().ToString();
+            #endif
 
             Roles = roles.Select(x => (DenormalisedNamedEntityReference<Role>)x).ToList();
         }
@@ -99,6 +100,5 @@ namespace Bowerbird.Core.Entities
         }
 
         #endregion
-
     }
 }

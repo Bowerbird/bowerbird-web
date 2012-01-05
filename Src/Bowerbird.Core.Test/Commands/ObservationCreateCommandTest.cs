@@ -72,70 +72,70 @@ namespace Bowerbird.Core.Test.Commands
         #region Property tests
 
         [Test]
-        [Category(TestCategories.Unit)]
+        [Category(TestCategory.Unit)]
         public void ObservationCreateCommand_Id_Is_TypeOf_String()
         {
             Assert.IsInstanceOf<string>(TestObservationCreateCommand().Id);
         }
 
         [Test]
-        [Category(TestCategories.Unit)]
+        [Category(TestCategory.Unit)]
         public void ObservationCreateCommand_Title_Is_TypeOf_String()
         {
             Assert.IsInstanceOf<string>(TestObservationCreateCommand().Title);
         }
 
         [Test]
-        [Category(TestCategories.Unit)]
+        [Category(TestCategory.Unit)]
         public void ObservationCreateCommand_ObservedOn_Is_TypeOf_DateTime()
         {
             Assert.IsInstanceOf<DateTime>(TestObservationCreateCommand().ObservedOn);
         }
 
         [Test]
-        [Category(TestCategories.Unit)]
+        [Category(TestCategory.Unit)]
         public void ObservationCreateCommand_Latitude_Is_TypeOf_String()
         {
             Assert.IsInstanceOf<string>(TestObservationCreateCommand().Latitude);
         }
 
         [Test]
-        [Category(TestCategories.Unit)]
+        [Category(TestCategory.Unit)]
         public void ObservationCreateCommand_Longitude_Is_TypeOf_String()
         {
             Assert.IsInstanceOf<string>(TestObservationCreateCommand().Longitude);
         }
 
         [Test]
-        [Category(TestCategories.Unit)]
+        [Category(TestCategory.Unit)]
         public void ObservationCreateCommand_Address_Is_TypeOf_String()
         {
             Assert.IsInstanceOf<string>(TestObservationCreateCommand().Address);
         }
 
         [Test]
-        [Category(TestCategories.Unit)]
+        [Category(TestCategory.Unit)]
         public void ObservationCreateCommand_IsIdentificationRequired_Is_TypeOf_Bool()
         {
             Assert.IsInstanceOf<bool>(TestObservationCreateCommand().IsIdentificationRequired);
         }
 
         [Test]
-        [Category(TestCategories.Unit)]
+        [Category(TestCategory.Unit)]
         public void ObservationCreateCommand_ObservationCategory_Is_TypeOf_String()
         {
             Assert.IsInstanceOf<string>(TestObservationCreateCommand().ObservationCategory);
         }
 
         [Test]
-        [Category(TestCategories.Unit)]
+        [Category(TestCategory.Unit)]
         public void ObservationCreateCommand_MediaResources_Is_TypeOf_ListOfStrings()
         {
             Assert.IsInstanceOf<List<string>>(TestObservationCreateCommand().MediaResources);
         }
 
         [Test]
-        [Category(TestCategories.Unit)]
+        [Category(TestCategory.Unit)]
         public void ObservationCreateCommand_Username_Is_TypeOf_String()
         {
             Assert.IsInstanceOf<string>(TestObservationCreateCommand().Username);
@@ -146,8 +146,8 @@ namespace Bowerbird.Core.Test.Commands
         #region Method tests
 
         [Test]
-        [Category(TestCategories.Unit)]
-        public void ObservationCreateCommand_ValidationResults_WithInvalidInput_RaisesValidationError()
+        [Category(TestCategory.Unit)]
+        public void ObservationCreateCommand_ValidationResults_Throws_NotImplementedException()
         {
             Assert.IsTrue(BowerbirdThrows.Exception<NotImplementedException>(() => new ObservationCreateCommand().ValidationResults()));
         }

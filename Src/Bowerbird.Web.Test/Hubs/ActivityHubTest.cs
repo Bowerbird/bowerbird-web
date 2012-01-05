@@ -109,7 +109,7 @@ namespace Bowerbird.Web.Test.Hubs
 
         #region Constructor Tests
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void ActivityHub_Constructor_With_Null_DocumentSession_Throws_DesignByContractException()
         {
             Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new ActivityHub(null)));
@@ -123,7 +123,7 @@ namespace Bowerbird.Web.Test.Hubs
 
         #region Method Tests
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void ActivityHub_StartActivityStream_Throws_NotImplementedException()
         {
             Assert.IsTrue(BowerbirdThrows.Exception<NotImplementedException>(() => new ActivityHub(_mockDocumentSession.Object).StartActivityStream()));

@@ -114,7 +114,7 @@ namespace Bowerbird.Web.Test.EventHandlers
 
         #region Constructor Tests
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void NotifyActivityEventHandler_Constructor_Passing_Null_UserContext_Throws_DesignByContractException()
         {
             Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new ProxyNotifyActivityEventHandler(null)));
@@ -128,25 +128,35 @@ namespace Bowerbird.Web.Test.EventHandlers
 
         #region Method Tests
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test]
+        [Category(TestCategory.Unit)] 
         public void NotifyActivityEventHandler_Notify_Passing_Empty_Type_Throws_DesignByContractException()
         {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new ProxyNotifyActivityEventHandler(_mockUserContext.Object).Notify(string.Empty, TestUser(), new object())));
+            Assert.IsTrue(
+                BowerbirdThrows.Exception<DesignByContractException>(() => 
+                    new ProxyNotifyActivityEventHandler(_mockUserContext.Object).Notify(string.Empty, TestUser(), new object())));
         }
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test]
+        [Category(TestCategory.Unit)] 
         public void NotifyActivityEventHandler_Notify_Passing_Null_User_Throws_DesignByContractException()
         {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new ProxyNotifyActivityEventHandler(_mockUserContext.Object).Notify(FakeValues.ActivityType, null, new object())));
+            Assert.IsTrue(
+                BowerbirdThrows.Exception<DesignByContractException>(() => 
+                    new ProxyNotifyActivityEventHandler(_mockUserContext.Object).Notify(FakeValues.ActivityType, null, new object())));
         }
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test]
+        [Category(TestCategory.Unit)] 
         public void NotifyActivityEventHandler_Notify_Passing_Null_Data_Throws_DesignByContractException()
         {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new ProxyNotifyActivityEventHandler(_mockUserContext.Object).Notify(FakeValues.ActivityType, TestUser(), null)));
+            Assert.IsTrue(
+                BowerbirdThrows.Exception<DesignByContractException>(() => 
+                    new ProxyNotifyActivityEventHandler(_mockUserContext.Object).Notify(FakeValues.ActivityType, TestUser(), null)));
         }
 
-        [Test, Category(TestCategories.Integration)] 
+        [Test,Ignore]
+        [Category(TestCategory.Integration)] 
         public void NotifyActivityEventHandler_Notify_Calls_UserContext_GetChannel()
         { 
             var clients = new

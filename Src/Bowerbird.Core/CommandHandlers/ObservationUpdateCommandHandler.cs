@@ -40,6 +40,10 @@ namespace Bowerbird.Core.CommandHandlers
             IRepository<User> userRepsitory,
             IRepository<MediaResource> mediaResourceRepsitory)
         {
+            Check.RequireNotNull(observationRepository, "observationRepository");
+            Check.RequireNotNull(userRepsitory, "userRepsitory");
+            Check.RequireNotNull(mediaResourceRepsitory, "mediaResourceRepsitory");
+
             _observationRepository = observationRepository;
             _userRepsitory = userRepsitory;
             _mediaResourceRepsitory = mediaResourceRepsitory;

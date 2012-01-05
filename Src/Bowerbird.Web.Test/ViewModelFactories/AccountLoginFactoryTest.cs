@@ -36,7 +36,7 @@ namespace Bowerbird.Web.Test.ViewModelFactories
 
         #region Constructor tests
 
-        [Test, Category(TestCategories.Unit)]
+        [Test, Category(TestCategory.Unit)]
         public void AccountLoginFactory_Constructor_Passing_Null_DocumentSession_Throws_DesignByContractException()
         {
             Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new AccountLoginFactory(null)));
@@ -50,13 +50,13 @@ namespace Bowerbird.Web.Test.ViewModelFactories
 
         #region Method tests
 
-        [Test, Category(TestCategories.Unit)]
+        [Test, Category(TestCategory.Unit)]
         public void AccountLoginFactory_Make_Passing_Null_AccountLoginInput_Throws_DesignByContractException()
         {
             Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() =>new AccountLoginFactory(_mockDocumentSession.Object).Make(null)));
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test, Category(TestCategory.Unit)]
         public void AccountLoginFactory_Make_Passing_AccountLoginInput_Returns_AccountLogin()
         {
             var accountLoginInput = new AccountLoginInput()

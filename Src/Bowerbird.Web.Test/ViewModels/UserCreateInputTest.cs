@@ -50,7 +50,7 @@ namespace Bowerbird.Web.Test.ViewModels
 
         #region Property tests
 
-        [Test, Category(TestCategories.Unit)]
+        [Test, Category(TestCategory.Unit)]
         public void UserCreatedInput_Username_Is_A_String()
         {
             Assert.IsInstanceOf<string>(new UserCreateInput() { Username = FakeValues.UserName }.Username );

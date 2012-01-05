@@ -1,4 +1,5 @@
-﻿using Bowerbird.Core.Entities;
+﻿using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.Entities;
 
 namespace Bowerbird.Core.Events
 {
@@ -15,6 +16,9 @@ namespace Bowerbird.Core.Events
             T entity,
             User user)
         {
+            Check.RequireNotNull(entity, "entity");
+            Check.RequireNotNull(user, "user");
+
             Entity = entity;
             User = user;
         }

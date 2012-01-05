@@ -53,7 +53,7 @@ namespace Bowerbird.Web.Test.ViewModels
 
         #region Property tests
         
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void HomeIndexInput_Pagesize_Is_An_Int()
         {
             Assert.IsInstanceOf<PagedList<StreamItem>>(new HomeIndex() { StreamItems = new PagedList<StreamItem>() }.StreamItems);

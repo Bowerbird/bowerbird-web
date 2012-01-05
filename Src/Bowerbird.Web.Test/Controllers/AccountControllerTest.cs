@@ -72,25 +72,25 @@ namespace Bowerbird.Web.Test.Controllers
 
         #region Constructor tests
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void AccountController_Constructor_With_Null_CommandProcessor_Throws_DesignByContractException()
         {
             Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new AccountController(null,_mockViewModelRepository.Object,_mockUserTasks.Object,_mockUserContext.Object)));
         }
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void AccountController_Constructor_With_Null_ViewModelRepository_Throws_DesignByContractException()
         {
             Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new AccountController(_mockCommandProcessor.Object,null,_mockUserTasks.Object,_mockUserContext.Object)));
         }
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void AccountController_Constructor_With_Null_UserTasks_Throws_DesignByContractException()
         {
             Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new AccountController(_mockCommandProcessor.Object,_mockViewModelRepository.Object,null,_mockUserContext.Object)));
         }
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void AccountController_Constructor_With_Null_UserContext_Throws_DesignByContractException()
         {
             Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new AccountController(_mockCommandProcessor.Object,_mockViewModelRepository.Object,_mockUserTasks.Object,null)));
@@ -104,7 +104,7 @@ namespace Bowerbird.Web.Test.Controllers
 
         #region Method tests
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void AccountController_HttpGet_Login_Having_Unauthenticated_User_And_No_Cookie_Returns_Login_With_Empty_AccounLogin_ViewModel()
         {
             var accountLogin = new AccountLogin() { Username = string.Empty };
@@ -121,7 +121,7 @@ namespace Bowerbird.Web.Test.Controllers
             Assert.IsTrue(((AccountLogin)viewModel).Username.Equals(string.Empty));
         }
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void AccountController_HttpGet_Login_Having_Unauthenticated_User_And_Cookie_Returns_Login_With_AccounLogin_ViewModel_Having_Username()
         {
             var mockAccountLogin = new AccountLogin() { Username = FakeValues.UserName };
@@ -139,7 +139,7 @@ namespace Bowerbird.Web.Test.Controllers
             Assert.IsTrue(((AccountLogin)viewModel).Username.Equals(FakeValues.UserName));
         }
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void AccountController_HttpGet_Login_Having_Authenticated_User_Redirects_User_To_Home_Index()
         {
             var mockHomeIndex = new HomeIndex() {StreamItems = new PagedList<StreamItem>()};
@@ -153,13 +153,13 @@ namespace Bowerbird.Web.Test.Controllers
             Assert.IsTrue(response.RouteValues["action"].Equals("index"));
         }
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void AccountController_HttpPost_Login_Passing_Null_AccountLoginInput_Throws_DesignByContractException()
         {
             Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => _controller.Login(null)));
         }
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void AccountController_HttpPost_Login_Passing_Invalid_Credentials_Returns_Login_View()
         {
             var accountLogin = new AccountLogin() { Username = string.Empty };
@@ -175,7 +175,7 @@ namespace Bowerbird.Web.Test.Controllers
             Assert.IsInstanceOf<AccountLogin>(viewModel);
         }
 
-        [Test, Category(TestCategories.Integration)]
+        [Test, Category(TestCategory.Integration)]
         public void AccountController_HttpPost_Login_Passing_Invalid_Credentials_Loads_LoginViewModel()
         {
             var accountLogin = new AccountLogin() { Username = string.Empty };
@@ -189,7 +189,7 @@ namespace Bowerbird.Web.Test.Controllers
             _mockViewModelRepository.Verify(x => x.Load<AccountLoginInput, AccountLogin>(accountLoginInput), Times.Once());
         }
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void AccountController_HttpPost_Login_Passing_Valid_Credentials_Processes_LastLogin_SignsUserIn_And_Redirects_To_Url()
         {
             var returnUrl = "stuff";
@@ -207,7 +207,7 @@ namespace Bowerbird.Web.Test.Controllers
             Assert.AreEqual(returnUrl, ((RedirectToRouteResult)result).RouteValues["returnUrl"].ToString());
         }
 
-        [Test, Category(TestCategories.Integration)]
+        [Test, Category(TestCategory.Integration)]
         public void AccountController_HttpPost_Login_Passing_Valid_Credentials_Processes_UserUpdateLastLoginCommand_And_Calls_SignUserIn()
         {
             _mockUserTasks.Setup(x => x.AreCredentialsValid(It.IsAny<string>(), It.IsAny<string>())).Returns(FakeValues.IsTrue);
@@ -218,7 +218,7 @@ namespace Bowerbird.Web.Test.Controllers
             _mockCommandProcessor.Verify(x => x.Process<UserUpdateLastLoginCommand>(It.IsAny<UserUpdateLastLoginCommand>()), Times.Once());
         }
 
-        [Test, Category(TestCategories.Integration)]
+        [Test, Category(TestCategory.Integration)]
         public void AccountController_LoggingIn_Calls_UserContext_HasUserNameCookieValue()
         {
             _mockUserContext.Setup(x => x.HasUsernameCookieValue()).Returns(false);
@@ -228,7 +228,7 @@ namespace Bowerbird.Web.Test.Controllers
             _mockUserContext.Verify(x => x.HasUsernameCookieValue(), Times.Once());
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test, Category(TestCategory.Unit)]
         public void AccountController_LoggingIn_Not_Having_Cookie_RedirectsTo_Login()
         {
             _mockUserContext.Setup(x => x.HasUsernameCookieValue()).Returns(false);
@@ -239,7 +239,7 @@ namespace Bowerbird.Web.Test.Controllers
             Assert.AreEqual("login", ((RedirectToRouteResult)result).RouteValues["action"].ToString());
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test, Category(TestCategory.Unit)]
         public void AccountController_LoggingIn_Having_Cookie_With_ReturnUrl_RedirectsTo_ReturnUrl()
         {
             _mockUserContext.Setup(x => x.HasUsernameCookieValue()).Returns(true);
@@ -251,7 +251,7 @@ namespace Bowerbird.Web.Test.Controllers
             Assert.AreEqual("home", ((RedirectToRouteResult)result).RouteValues["controller"].ToString());
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test, Category(TestCategory.Unit)]
         public void AccountController_LoggingIn_Having_Cookie_Without_ReturnUrl_RedirectsTo_Home_Index()
         {
             _mockUserContext.Setup(x => x.HasUsernameCookieValue()).Returns(true);
@@ -262,7 +262,7 @@ namespace Bowerbird.Web.Test.Controllers
             Assert.AreEqual(FakeValues.Website, ((RedirectResult)result).Url);
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test, Category(TestCategory.Unit)]
         public void AccountController_Logout_RedirectsTo_Logoutsuccess()
         {
             var result = _controller.Logout();
@@ -271,7 +271,7 @@ namespace Bowerbird.Web.Test.Controllers
             Assert.AreEqual("logoutsuccess", ((RedirectToRouteResult)result).RouteValues["action"].ToString());
         }
 
-        [Test, Category(TestCategories.Integration)]
+        [Test, Category(TestCategory.Integration)]
         public void AccountController_Logout_Calls_UserContext_SignUserOut()
         {
             var result = _controller.Logout();
@@ -279,7 +279,7 @@ namespace Bowerbird.Web.Test.Controllers
             _mockUserContext.Verify(x => x.SignUserOut(), Times.Once());
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test, Category(TestCategory.Unit)]
         public void AccountController_LogoutSuccess_Returns_DefaultViewModel()
         {
             _mockViewModelRepository.Setup(x => x.Load<DefaultViewModel>()).Returns(new DefaultViewModel());
@@ -291,7 +291,7 @@ namespace Bowerbird.Web.Test.Controllers
             Assert.IsInstanceOf<DefaultViewModel>(viewModel);
         }
 
-        [Test, Category(TestCategories.Integration)]
+        [Test, Category(TestCategory.Integration)]
         public void AccountController_LogoutSuccess_Calls_ViewModelRepository_Load()
         {
             _mockViewModelRepository.Setup(x => x.Load<DefaultViewModel>()).Returns(new DefaultViewModel());

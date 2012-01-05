@@ -50,19 +50,19 @@ namespace Bowerbird.Web.Test.ViewModels
 
         #region Property tests
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void StreamItem_Type_Is_A_String()
         {
             Assert.IsInstanceOf<string>(new StreamItem() { Type = FakeValues.KeyString }.Type);            
         }
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void StreamItem_SubmittedOn_Is_A_DateTime()
         {
             Assert.IsInstanceOf<DateTime>(new StreamItem() { SubmittedOn = FakeValues.CreatedDateTime }.SubmittedOn);
         }
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void StreamItem_Item_Is_An_Object()
         {
             Assert.IsInstanceOf<object>(new StreamItem() { Item = FakeValues.Object }.Item);

@@ -1,17 +1,18 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Collections.Generic;
+
 using Microsoft.Practices.ServiceLocation;
+
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.CommandHandlers;
-using System.Collections.Generic;
-using System;
 using Bowerbird.Core.DesignByContract;
 
 namespace Bowerbird.Core
 {
     public class CommandProcessor : ICommandProcessor
     {
-
         #region Members
 
         private readonly IServiceLocator _serviceLocator;
@@ -38,9 +39,12 @@ namespace Bowerbird.Core
 
         public void Process<TCommand>(TCommand command) where TCommand : ICommand
         {
+            Check.RequireNotNull(command, "command");
+
             Validator.ValidateObject(command, new ValidationContext(command, null, null), true);
 
             var handlers = _serviceLocator.GetAllInstances<ICommandHandler<TCommand>>();
+
             if (handlers == null || !handlers.Any())
             {
                 throw new CommandHandlerNotFoundException(typeof(TCommand));
@@ -54,9 +58,12 @@ namespace Bowerbird.Core
 
         public IEnumerable<TResult> Process<TCommand, TResult>(TCommand command) where TCommand : ICommand
         {
+            Check.RequireNotNull(command, "command");
+
             Validator.ValidateObject(command, new ValidationContext(command, null, null), true);
 
             var handlers = _serviceLocator.GetAllInstances<ICommandHandler<TCommand, TResult>>();
+
             if (handlers == null || !handlers.Any())
             {
                 throw new CommandHandlerNotFoundException(typeof(TCommand));
@@ -70,6 +77,8 @@ namespace Bowerbird.Core
 
         public void Process<TCommand, TResult>(TCommand command, Action<TResult> resultHandler) where TCommand : ICommand
         {
+            Check.RequireNotNull(command, "command");
+
             foreach (var result in Process<TCommand, TResult>(command))
             {
                 resultHandler(result);
@@ -77,6 +86,5 @@ namespace Bowerbird.Core
         }
 
         #endregion      
-     
     }
 }

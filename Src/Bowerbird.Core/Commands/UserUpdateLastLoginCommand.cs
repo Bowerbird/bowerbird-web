@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.ComponentModel.DataAnnotations;
 using Bowerbird.Core.Commands;
 
 namespace Bowerbird.Core.CommandHandlers
@@ -25,7 +24,7 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Methods
 
-        public override ICollection<System.ComponentModel.DataAnnotations.ValidationResult> ValidationResults()
+        public override ICollection<ValidationResult> ValidationResults()
         {
             throw new NotImplementedException();
         }

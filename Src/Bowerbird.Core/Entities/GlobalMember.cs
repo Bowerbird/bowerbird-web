@@ -1,16 +1,10 @@
-﻿using System.Linq;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.Entities.DenormalisedReferences;
-using System;
-using Bowerbird.Core.Events;
 
 namespace Bowerbird.Core.Entities
 {
     public class GlobalMember : Member
     {
-
         #region Members
 
         #endregion
@@ -50,6 +44,5 @@ namespace Bowerbird.Core.Entities
         }
 
         #endregion
-
     }
 }

@@ -167,7 +167,7 @@ namespace Bowerbird.Core.Entities
         {
             Check.RequireNotNull(member, "member");
 
-            if (Memberships.All(x => x.Type != member.GetType().Name.ToLower() && x.Id != member.Id))
+            if (Memberships.All(x => (x.Type != member.GetType().Name.ToLower() && x.Id != member.Id)))
             {
                 Memberships.Add(member);
             }
@@ -197,6 +197,11 @@ namespace Bowerbird.Core.Entities
             FlagsRaised++;
 
             return this;
+        }
+
+        private bool MembersContains(Member member)
+        {
+            return Memberships.SingleOrDefault(x => x.Type == member.GetType().Name.ToLower() && x.Id == member.Id) != null;
         }
 
         #endregion

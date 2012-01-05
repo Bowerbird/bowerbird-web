@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Bowerbird.Core.Commands;
+﻿using Bowerbird.Core.Commands;
 using Bowerbird.Core.Repositories;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Entities;
-using Bowerbird.Core.Events;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -26,6 +21,9 @@ namespace Bowerbird.Core.CommandHandlers
             IRepository<User> userRepository,
             IRepository<Role> roleRepository)
         {
+            Check.RequireNotNull(userRepository, "userRepository");
+            Check.RequireNotNull(roleRepository, "roleRepository");
+
             _userRepository = userRepository;
             _roleRepository = roleRepository;
         }

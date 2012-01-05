@@ -74,7 +74,7 @@ namespace Bowerbird.Web.Test.ViewModels.Paging
 
         #region Constructor tests
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void PagedListItem_Constructor_Sets_Properties()
         {
             var pageObject = new object();
@@ -95,19 +95,19 @@ namespace Bowerbird.Web.Test.ViewModels.Paging
 
         #region Property tests
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void PagedListItem_PageNumber_Is_A_PageNumber()
         {
             Assert.IsInstanceOf<PageNumber>(TestPagedListItem().PageNumber);
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test, Category(TestCategory.Unit)]
         public void PagedListItem_Position_Is_An_Int()
         {
             Assert.IsInstanceOf<int>(TestPagedListItem().Position);
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test, Category(TestCategory.Unit)]
         public void PagedListItem_When_Typed_As_An_Object_Has_PageObject_Of_Type_Object()
         {
             Assert.IsInstanceOf<object>(TestPagedListItem().PageObject);

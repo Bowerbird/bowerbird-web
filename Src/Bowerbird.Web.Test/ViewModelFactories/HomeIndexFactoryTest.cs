@@ -144,13 +144,13 @@ namespace Bowerbird.Web.Test.ViewModelFactories
 
         #region Constructor tests
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void HomeIndexFactory_Constructor_Passing_Null_DocumentSession_Throws_DesignByContractException()
         {
             Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new HomeIndexFactory(null,new Mock<IPagedListFactory>().Object)));
         }
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void HomeIndexFactory_Constructor_Passing_Null_PagedListFactory_Throws_DesignByContractException()
         {
             Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new HomeIndexFactory(new Mock<IDocumentSession>().Object,null)));
@@ -164,7 +164,7 @@ namespace Bowerbird.Web.Test.ViewModelFactories
 
         #region Method tests
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void HomeIndexFactory_Make_Passing_Null_HomeIndexInput_Throws_DesignByContractException()
         {
             using (var session = _store.OpenSession())
@@ -177,7 +177,7 @@ namespace Bowerbird.Web.Test.ViewModelFactories
         /// <summary>
         /// Requires User, Observations and Posts to be injected into RavenDB
         /// </summary>
-        [Test, Category(TestCategories.Persistance)] 
+        [Test, Category(TestCategory.Persistance)] 
         public void HomeIndexFactory_Make_Passing_HomeIndexInput_Returns_HomeIndex()
         {
             var recordCount = 15;

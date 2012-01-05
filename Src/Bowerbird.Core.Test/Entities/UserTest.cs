@@ -1,23 +1,57 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.Entities;
-using Bowerbird.Core.Entities.DenormalisedReferences;
-using Bowerbird.Core.Extensions;
-using Bowerbird.Test.Utils;
-using Moq;
-using NUnit.Framework;
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
+ Developers: 
+ * Frank Radocaj : frank@radocaj.com
+ * Hamish Crittenden : hamish.crittenden@gmail.com
+ 
+ Project Manager: 
+ * Ken Walker : kwalker@museum.vic.gov.au
+ 
+ Funded by:
+ * Atlas of Living Australia
+ 
+*/
+				
 namespace Bowerbird.Core.Test.Entities
 {
+    #region Namespaces
+
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using Moq;
+    using NUnit.Framework;
+    
+    using Bowerbird.Core.DesignByContract;
+    using Bowerbird.Core.Entities;
+    using Bowerbird.Core.Entities.DenormalisedReferences;
+    using Bowerbird.Core.Extensions;
+    using Bowerbird.Test.Utils;
+
+    #endregion
+
     [TestFixture]
     public class UserTest
     {
+        #region Test Infrastructure
+
+        [SetUp]
+        public void TestInitialize() { }
+
+        [TearDown]
+        public void TestCleanup() { }
+
+        #endregion
+
+        #region Test Helpers
+
+        #endregion
 
         #region Constructor tests
 
-        [Test, Category(TestCategories.Unit)]
+        [Test]
+        [Category(TestCategory.Unit)]
         public void User_Constructor_With_Null_Id_Throws_DesignByContractException()
         {
             Assert.IsTrue(
@@ -29,10 +63,11 @@ namespace Bowerbird.Core.Test.Entities
                     FakeValues.FirstName,
                     FakeValues.LastName,
                     FakeValues.Description,
-                    TestRoles())));
+                    FakeObjects.TestRoles())));
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test]
+        [Category(TestCategory.Unit)]
         public void User_Constructor_With_Null_Roles_Throws_DesignByContractException()
         {
             Assert.IsTrue(
@@ -47,17 +82,18 @@ namespace Bowerbird.Core.Test.Entities
                     null)));
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test]
+        [Category(TestCategory.Unit)]
         public void User_Constructor_Populates_Id_Field()
         {
             var user = new User(
-                    FakeValues.KeyString,
-                    FakeValues.Password,
-                    FakeValues.Email,
-                    FakeValues.FirstName,
-                    FakeValues.LastName,
-                    FakeValues.Description,
-                    TestRoles());
+                FakeValues.KeyString,
+                FakeValues.Password,
+                FakeValues.Email,
+                FakeValues.FirstName,
+                FakeValues.LastName,
+                FakeValues.Description,
+                FakeObjects.TestRoles());
 
             var expected = FakeValues.KeyString.PrependWith("users/");
             var actual = user.Id;
@@ -65,18 +101,18 @@ namespace Bowerbird.Core.Test.Entities
             Assert.AreEqual(actual, expected);
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test]
+        [Category(TestCategory.Unit)]
         public void User_Constructor_Populates_Password_Field()
         {
             var user = new User(
-                    FakeValues.KeyString,
-                    FakeValues.Password,
-                    FakeValues.Email,
-                    FakeValues.FirstName,
-                    FakeValues.LastName,
-                    FakeValues.Description,
-                    TestRoles());
-
+                FakeValues.KeyString,
+                FakeValues.Password,
+                FakeValues.Email,
+                FakeValues.FirstName,
+                FakeValues.LastName,
+                FakeValues.Description,
+                FakeObjects.TestRoles());
 
             var actual = user.ValidatePassword(FakeValues.Password);
             var expected = true;
@@ -84,17 +120,18 @@ namespace Bowerbird.Core.Test.Entities
             Assert.AreEqual(actual, expected);
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test]
+        [Category(TestCategory.Unit)]
         public void User_Constructor_Populates_Email_Field()
         {
             var user = new User(
-                    FakeValues.KeyString,
-                    FakeValues.Password,
-                    FakeValues.Email,
-                    FakeValues.FirstName,
-                    FakeValues.LastName,
-                    FakeValues.Description,
-                    TestRoles());
+                FakeValues.KeyString,
+                FakeValues.Password,
+                FakeValues.Email,
+                FakeValues.FirstName,
+                FakeValues.LastName,
+                FakeValues.Description,
+                FakeObjects.TestRoles());
 
             var expected = FakeValues.Email;
             var actual = user.Email;
@@ -102,17 +139,18 @@ namespace Bowerbird.Core.Test.Entities
             Assert.AreEqual(actual, expected);
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test]
+        [Category(TestCategory.Unit)]
         public void User_Constructor_Populates_FirstName_Field()
         {
             var user = new User(
-                                FakeValues.KeyString,
-                                FakeValues.Password,
-                                FakeValues.Email,
-                                FakeValues.FirstName,
-                                FakeValues.LastName,
-                                FakeValues.Description,
-                                TestRoles());
+                FakeValues.KeyString,
+                FakeValues.Password,
+                FakeValues.Email,
+                FakeValues.FirstName,
+                FakeValues.LastName,
+                FakeValues.Description,
+                FakeObjects.TestRoles());
 
             var expected = FakeValues.FirstName;
             var actual = user.FirstName;
@@ -120,17 +158,18 @@ namespace Bowerbird.Core.Test.Entities
             Assert.AreEqual(actual, expected);
         }
         
-        [Test, Category(TestCategories.Unit)]
+        [Test]
+        [Category(TestCategory.Unit)]
         public void User_Constructor_Populates_LastName_Field()
         {
             var user = new User(
-                                FakeValues.KeyString,
-                                FakeValues.Password,
-                                FakeValues.Email,
-                                FakeValues.FirstName,
-                                FakeValues.LastName,
-                                FakeValues.Description,
-                                TestRoles());
+                FakeValues.KeyString,
+                FakeValues.Password,
+                FakeValues.Email,
+                FakeValues.FirstName,
+                FakeValues.LastName,
+                FakeValues.Description,
+                FakeObjects.TestRoles());
 
             var expected = FakeValues.LastName;
             var actual = user.LastName;
@@ -138,17 +177,18 @@ namespace Bowerbird.Core.Test.Entities
             Assert.AreEqual(actual, expected);
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test]
+        [Category(TestCategory.Unit)]
         public void User_Constructor_Populates_Description_Field()
         {
             var user = new User(
-                                FakeValues.KeyString,
-                                FakeValues.Password,
-                                FakeValues.Email,
-                                FakeValues.FirstName,
-                                FakeValues.LastName,
-                                FakeValues.Description,
-                                TestRoles());
+                FakeValues.KeyString,
+                FakeValues.Password,
+                FakeValues.Email,
+                FakeValues.FirstName,
+                FakeValues.LastName,
+                FakeValues.Description,
+                FakeObjects.TestRoles());
 
             var expected = FakeValues.Description;
             var actual = user.Description;
@@ -156,19 +196,20 @@ namespace Bowerbird.Core.Test.Entities
             Assert.AreEqual(actual, expected);
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test]
+        [Category(TestCategory.Unit)]
         public void User_Constructor_Populates_Membership_As_GlobalMembership_With_Roles_Field()
         {
-            var roles = TestRoles();
-            
+            var roles = FakeObjects.TestRoles();
+
             var user = new User(
-                                FakeValues.KeyString,
-                                FakeValues.Password,
-                                FakeValues.Email,
-                                FakeValues.FirstName,
-                                FakeValues.LastName,
-                                FakeValues.Description,
-                                roles);
+                FakeValues.KeyString,
+                FakeValues.Password,
+                FakeValues.Email,
+                FakeValues.FirstName,
+                FakeValues.LastName,
+                FakeValues.Description,
+                roles);
 
             Assert.IsTrue(user.Memberships.Count == 1);
 
@@ -189,136 +230,149 @@ namespace Bowerbird.Core.Test.Entities
 
         #region Property tests
 
-        [Test, Category(TestCategories.Unit)]
+        [Test]
+        [Category(TestCategory.Unit)]
         public void User_Email_Is_TypeOf_String()
         {
-            Assert.IsInstanceOf<string>(TestUser().Email);
+            Assert.IsInstanceOf<string>(FakeObjects.TestUser().Email);
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test]
+        [Category(TestCategory.Unit)]
         public void User_FirstName_Is_TypeOf_String()
         {
-            Assert.IsInstanceOf<string>(TestUser().FirstName);
+            Assert.IsInstanceOf<string>(FakeObjects.TestUser().FirstName);
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test]
+        [Category(TestCategory.Unit)]
         public void User_LastName_Is_TypeOf_String()
         {
-            Assert.IsInstanceOf<string>(TestUser().LastName);
+            Assert.IsInstanceOf<string>(FakeObjects.TestUser().LastName);
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test]
+        [Category(TestCategory.Unit)]
         public void User_Description_Is_TypeOf_String()
         {
-            Assert.IsInstanceOf<string>(TestUser().Description);
+            Assert.IsInstanceOf<string>(FakeObjects.TestUser().Description);
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test]
+        [Category(TestCategory.Unit)]
         public void User_PasswordSalt_Is_TypeOf_Guid()
         {
-            Assert.IsInstanceOf<Guid>(TestUser().PasswordSalt);
+            Assert.IsInstanceOf<Guid>(FakeObjects.TestUser().PasswordSalt);
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test]
+        [Category(TestCategory.Unit)]
         public void User_HashedPassword_Is_TypeOf_String()
         {
-            Assert.IsInstanceOf<string>(TestUser().HashedPassword);
+            Assert.IsInstanceOf<string>(FakeObjects.TestUser().HashedPassword);
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test]
+        [Category(TestCategory.Unit)]
         public void User_LastLoggedIn_Is_TypeOf_DateTime()
         {
-            Assert.IsInstanceOf<DateTime>(TestUser().LastLoggedIn);
+            Assert.IsInstanceOf<DateTime>(FakeObjects.TestUser().LastLoggedIn);
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test]
+        [Category(TestCategory.Unit)]
         public void User_ResetPasswordKey_Is_TypeOf_String()
         {
-            Assert.IsInstanceOf<string>(TestUser().ResetPasswordKey);
+            Assert.IsInstanceOf<string>(FakeObjects.TestUser().ResetPasswordKey);
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test]
+        [Category(TestCategory.Unit)]
         public void User_FlaggedItemsOwned_Is_TypeOf_Int()
         {
-            Assert.IsInstanceOf<int>(TestUser().FlaggedItemsOwned);
+            Assert.IsInstanceOf<int>(FakeObjects.TestUser().FlaggedItemsOwned);
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test]
+        [Category(TestCategory.Unit)]
         public void User_FlagsRaised_Is_TypeOf_Int()
         {
-            Assert.IsInstanceOf<int>(TestUser().FlagsRaised);
+            Assert.IsInstanceOf<int>(FakeObjects.TestUser().FlagsRaised);
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test]
+        [Category(TestCategory.Unit)]
         public void User_Memeberships_Is_ListOf_DenormalisedNamedEntityReference_AsGeneric_Membership()
         {
-            Assert.IsInstanceOf<List<DenormalisedMemberReference>>(TestUser().Memberships);
+            Assert.IsInstanceOf<List<DenormalisedMemberReference>>(FakeObjects.TestUser().Memberships);
         }
 
         #endregion
 
         #region Method tests
 
-        [Test, Category(TestCategories.Unit)]
+        [Test]
+        [Category(TestCategory.Unit)]
         public void User_ValidPassword_WithValidPassword_Returns_True()
         {
-            Assert.IsTrue(
-                TestUser()
-                .ValidatePassword(FakeValues.Password));
+            Assert.IsTrue(FakeObjects.TestUser().ValidatePassword(FakeValues.Password));
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test]
+        [Category(TestCategory.Unit)]
         public void User_ValidPassword_WithInValidPassword_Returns_False()
         {
-            Assert.IsFalse(
-                TestUser()
-                .ValidatePassword(FakeValues.InvalidPassword));
+            Assert.IsFalse(FakeObjects.TestUser().ValidatePassword(FakeValues.InvalidPassword));
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test]
+        [Category(TestCategory.Unit)]
         public void User_UpdateEmail_WithValidEmail_Updates_Email()
         {
-            Assert.IsTrue(
-                TestUser()
+            Assert.IsTrue(FakeObjects.TestUser()
                 .UpdateEmail("new@email.com")
                 .Email
                 .Equals("new@email.com"));
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test]
+        [Category(TestCategory.Unit)]
         public void User_UpdateEmail_WithInValidEmail_Throws_DesignByContractException()
         {
             Assert.IsTrue(
                 BowerbirdThrows.Exception<DesignByContractException>(
-                    () => TestUser()
+                    () => FakeObjects.TestUser()
                     .UpdateEmail(FakeValues.InvalidEmail)
                 ));
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test]
+        [Category(TestCategory.Unit)]
         public void User_UpdatePassword_Then_Validate_With_New_Password_Returns_True()
         {
             Assert.IsTrue(
-                TestUser()
+                FakeObjects.TestUser()
                 .UpdatePassword("newpassword")
                 .ValidatePassword("newpassword")
                 );
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test]
+        [Category(TestCategory.Unit)]
         public void User_UpdatePassword_Then_Validate_With_Old_Password_Returns_False()
         {
             Assert.IsFalse(
-                TestUser()
+                FakeObjects.TestUser()
                 .UpdatePassword("newpassword")
                 .ValidatePassword(FakeValues.Password)
                 );
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test]
+        [Category(TestCategory.Unit)]
         public void User_UpdateLastLoggedIn_Increases_LastLoggedIn()
         {
-            var testUser = TestUser();
+            var testUser = FakeObjects.TestUser();
             var initialLastLoggedIn = testUser.LastLoggedIn;
 
             Assert.IsTrue(
@@ -330,10 +384,11 @@ namespace Bowerbird.Core.Test.Entities
                 );
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test]
+        [Category(TestCategory.Unit)]
         public void User_UpdateResetPasswordKey_DoesInFact_UpdateResetPasswordKey()
         {
-            var testUser = TestUser();
+            var testUser = FakeObjects.TestUser();
 
             var passwordUpdateKey = testUser
                 .UpdateResetPasswordKey()
@@ -347,169 +402,127 @@ namespace Bowerbird.Core.Test.Entities
                 );
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test]
+        [Category(TestCategory.Unit)]
         public void User_AddMemebership_Passing_Role_Adds_Membership()
         {
-            var user = TestUser();
+            var user = FakeObjects.TestUser();
 
-            var userMembershipCount_PriorToAddingMember = user.Memberships.Count;
+            var expected = user.Memberships.Count + 1;
 
-            user.AddMembership(new TeamMember(
-                                   TestUser(),
-                                   new Mock<Team>().Object,
-                                   TestUser(),
-                                   TestRoles()));
+            var teamMember = new TeamMember(
+                                   user,
+                                   new Team(user, FakeValues.Name, FakeValues.Description, FakeValues.Website),
+                                   user,
+                                   FakeObjects.TestRoles());
 
-            var expected = userMembershipCount_PriorToAddingMember + 1;
+            ((IAssignableId)teamMember).SetIdTo("teammember", (new Random(System.DateTime.Now.Millisecond)).Next().ToString());
+
+            user.AddMembership(teamMember);
+
             var actual = user.Memberships.Count;
 
             Assert.AreEqual(actual, expected);
-
-            //Assert.AreEqual(
-            //    TestUser()
-            //    .AddMembership(new TeamMember(
-            //        TestUser(), 
-            //        new Mock<Team>().Object, 
-            //        TestUser(), 
-            //        TestRoles())
-            //        )
-            //    .Memberships
-            //    .Count,
-            //    TestUser().Memberships.Count + 1);
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test]
+        [Category(TestCategory.Unit)]
+        public void User_AddMemebership_With_ExistingMembership_Doesnt_Add_Membership()
+        {
+            var user = FakeObjects.TestUser();
+
+            var expected = user.Memberships.Count + 1;
+
+            var teamMember = new TeamMember(
+                                   user,
+                                   new Team(user, FakeValues.Name, FakeValues.Description, FakeValues.Website),
+                                   user,
+                                   FakeObjects.TestRoles());
+
+            ((IAssignableId)teamMember).SetIdTo("teammember", (new Random(System.DateTime.Now.Millisecond)).Next().ToString());
+
+            user.AddMembership(teamMember);
+            user.AddMembership(teamMember);
+            
+            var actual = user.Memberships.Count;
+
+            Assert.AreEqual(actual, expected);
+        }
+
+        [Test]
+        [Category(TestCategory.Unit)]
         public void User_AddMembership_Passing_InvalidValid_Memebership_DesignByContractException()
         {
             Assert.IsTrue(
                 BowerbirdThrows.Exception<DesignByContractException>(
-                    () => TestUser()
+                    () => FakeObjects.TestUser()
                         .AddMembership(
                             null
                             )
                     ));
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test]
+        [Category(TestCategory.Unit)]
         public void User_RemoveMembership_Passing_MemberType_And_MembershipId_Removes_Membership()
         {
-            Assert.AreEqual(
-                TestUser()
-                .RemoveMembership(
-                    TestUser().Memberships[0].Type, 
-                    TestUser().Memberships[0].Id)
-                .Memberships
-                .Count,
-                TestUser().Memberships.Count - 1
-                );
+            var user = FakeObjects.TestUser();
+
+            var expected = user.Memberships.Count - 1;
+
+            user.RemoveMembership(user.Memberships[0].Type, user.Memberships[0].Id);
+
+            var actual = user.Memberships.Count;
+
+            Assert.AreEqual(expected, actual);
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test]
+        [Category(TestCategory.Unit)]
         public void User_RemoveMembership_Passing_InvalidValid_MemberId_Throws_DesignByContractException()
         {
-            var user = TestUser()
-                .RemoveMembership(
-                    "teammember", 
-                    string.Empty
-                );
-
-            Assert.AreEqual(
-                TestUser().Memberships.Count,
-                user.Memberships.Count);
+            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => FakeObjects.TestUser().RemoveMembership("teammember", string.Empty)));
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test]
+        [Category(TestCategory.Unit)]
         public void User_RemoveRole_Passing_InvalidValid_MemberType_Throws_DesignByContractException()
         {
             Assert.IsTrue(
                 BowerbirdThrows.Exception<DesignByContractException>(
                     () =>
-                    TestUser()
+                    FakeObjects.TestUser()
                         .RemoveMembership(
                             string.Empty,
-                            TestUser().Memberships[0].Id
+                            FakeObjects.TestUser().Memberships[0].Id
                         )
                     ));
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test]
+        [Category(TestCategory.Unit)]
         public void User_IncrementFlagsRaised_DoesInFact_ImplementFlagsRaised()
         {
             Assert.AreEqual(
-                TestUser()
+                FakeObjects.TestUser()
                 .IncrementFlagsRaised()
                 .FlagsRaised,
-                TestUser().FlagsRaised + 1
+                FakeObjects.TestUser().FlagsRaised + 1
                 );
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test]
+        [Category(TestCategory.Unit)]
         public void User_IncrementFlaggedItemsOwned_DoesInFact_ImplementFlaggedItemsOwned()
         {
             Assert.AreEqual(
-                TestUser()
+                FakeObjects.TestUser()
                 .IncrementFlaggedItemsOwned()
                 .FlaggedItemsOwned,
-                TestUser().FlaggedItemsOwned + 1
+                FakeObjects.TestUser().FlaggedItemsOwned + 1
                 );
         }
 
         #endregion
-
-        #region Helpers
-
-        /// <summary>
-        /// Id: "abc"
-        /// Password: "password"
-        /// Email: "padil@padil.gov.au"
-        /// FirstName: "first name"
-        /// LastName: "last name"
-        /// Description: "description"
-        /// Roles: "Member"
-        /// </summary>
-        /// <returns></returns>
-        private static User TestUser()
-        {
-            return new User(
-                FakeValues.KeyString,
-                FakeValues.Password,
-                FakeValues.Email,
-                FakeValues.FirstName,
-                FakeValues.LastName,
-                FakeValues.Description,
-                TestRoles()
-            )
-            .UpdateLastLoggedIn()
-            .UpdateResetPasswordKey()
-            .IncrementFlaggedItemsOwned()
-            .IncrementFlagsRaised();
-        }
-
-        private static IEnumerable<Role> TestRoles()
-        {
-            return new List<Role>()
-            {
-                new Role
-                (
-                    "Member",
-                    "Member role",
-                    "Member description",
-                    TestPermissions()
-                )
-            };
-        }
-
-        private static IEnumerable<Permission> TestPermissions()
-        {
-            return new List<Permission>
-            {
-                new Permission("Read", "Read permission", "Read description"),
-                new Permission("Write", "Write permission", "Write description")
-            };
-
-        }
-
-        #endregion
-
     }
 }

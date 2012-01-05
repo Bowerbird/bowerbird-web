@@ -85,21 +85,21 @@ namespace Bowerbird.Core.Test.CommandHandlers
         #region Constructor tests
 
         [Test]
-        [Category(TestCategories.Unit)]
+        [Category(TestCategory.Unit)]
         public void ObservationUpdateCommandHandler_Constructor_Passing_Null_ObservationRepository_Throws_DesignByContractException()
         {
             Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new ObservationUpdateCommandHandler(null, _mockUserRepository.Object, _mockMediaResourceRepository.Object)));
         }
 
         [Test]
-        [Category(TestCategories.Unit)]
+        [Category(TestCategory.Unit)]
         public void ObservationUpdateCommandHandler_Constructor_Passing_Null_UserRepository_Throws_DesignByContractException()
         {
             Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new ObservationUpdateCommandHandler(_mockObservationRepository.Object, null, _mockMediaResourceRepository.Object)));
         }
 
         [Test]
-        [Category(TestCategories.Unit)]
+        [Category(TestCategory.Unit)]
         public void ObservationUpdateCommandHandler_Constructor_Passing_Null_MediaResourceRepository_Throws_DesignByContractException()
         {
             Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new ObservationUpdateCommandHandler(_mockObservationRepository.Object, _mockUserRepository.Object, null)));
@@ -114,17 +114,19 @@ namespace Bowerbird.Core.Test.CommandHandlers
         #region Method tests
 
         [Test]
-        [Category(TestCategories.Unit)]
+        [Category(TestCategory.Unit)]
         public void ObservationUpdateCommandHandler_Handle_Passing_Null_ObservationUpdateCommand_Throws_DesignByContractException()
         {
             Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => _observationUpdateCommandHandler.Handle(null)));
         }
 
         [Test]
-        [Category(TestCategories.Integration)]
+        [Category(TestCategory.Integration)]
         public void ObservationUpdateCommandHandler_Handle_Calls_UserRepository_Load()
         {
             _mockUserRepository.Setup(x => x.Load(It.IsAny<string>())).Returns(_mockUser.Object);
+            _mockObservationRepository.Setup(x => x.Load(It.IsAny<string>())).Returns(_mockObservation.Object);
+            _mockMediaResourceRepository.Setup(x => x.Load(It.IsAny<List<string>>())).Returns(_mockMediaResources.Object);
 
             _observationUpdateCommandHandler.Handle(TestObservationUpdateCommand());
 
@@ -132,7 +134,7 @@ namespace Bowerbird.Core.Test.CommandHandlers
         }
 
         [Test]
-        [Category(TestCategories.Integration)]
+        [Category(TestCategory.Integration)]
         public void ObservationUpdateCommandHandler_Handle_Calls_ObservationRepository_Load_And_Add()
         {
             _mockObservationRepository.Setup(x => x.Load(It.IsAny<string>())).Returns(_mockObservation.Object);
@@ -145,10 +147,11 @@ namespace Bowerbird.Core.Test.CommandHandlers
         }
 
         [Test]
-        [Category(TestCategories.Integration)]
+        [Category(TestCategory.Integration)]
         public void ObservationUpdateCommandHandler_Handle_Calls_MediaResourceRepository_Load()
         {
             _mockMediaResourceRepository.Setup(x => x.Load(It.IsAny<IEnumerable<string>>())).Returns(_mockMediaResources.Object);
+            _mockObservationRepository.Setup(x => x.Load(It.IsAny<string>())).Returns(_mockObservation.Object);
             _mockUserRepository.Setup(x => x.Load(It.IsAny<string>())).Returns(_mockUser.Object);
 
             _observationUpdateCommandHandler.Handle(TestObservationUpdateCommand());
@@ -157,7 +160,7 @@ namespace Bowerbird.Core.Test.CommandHandlers
         }
 
         [Test]
-        [Category(TestCategories.Integration)]
+        [Category(TestCategory.Integration)]
         public void ObservationUpdateCommandHandler_Handle_Calls_Observation_UpdateDetails()
         {
             _mockUserRepository.Setup(x => x.Load(It.IsAny<string>())).Returns(_mockUser.Object);

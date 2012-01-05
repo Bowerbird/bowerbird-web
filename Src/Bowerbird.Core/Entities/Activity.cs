@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Bowerbird.Core.DesignByContract;
 
 namespace Bowerbird.Core.Entities
 {
@@ -25,6 +23,10 @@ namespace Bowerbird.Core.Entities
             object data)
             : base()
         {
+            Check.RequireNotNullOrWhitespace(type, "type");
+            Check.RequireNotNull(user, "user");
+            Check.RequireNotNull(data, "data");
+
             SetDetails(
                 type,
                 user,

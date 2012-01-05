@@ -28,14 +28,13 @@ namespace Bowerbird.Core
                 }
             }
 
-            if (actions != null)
+            if (actions == null) return;
+
+            foreach (var action in actions)
             {
-                foreach (var action in actions)
+                if (action is Action<T>)
                 {
-                    if (action is Action<T>)
-                    {
-                       ((Action<T>)action)(args);
-                    }
+                    ((Action<T>)action)(args);
                 }
             }
         } 

@@ -1,5 +1,5 @@
-﻿using Bowerbird.Core.DesignByContract;
-using System;
+﻿using System;
+using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Events;
 using Bowerbird.Core.Entities.DenormalisedReferences;
 
@@ -24,11 +24,17 @@ namespace Bowerbird.Core.Entities
             : this()
         {
             Check.RequireNotNull(createdByUser, "createdByUser");
+            Check.RequireNotNullOrWhitespace(name, "name");
+            Check.RequireNotNullOrWhitespace(description, "description");
 
             SetDetails(
                 name,
                 description,
                 website);
+
+            #if DEBUG
+                Id = (new Random(System.DateTime.Now.Millisecond)).Next().ToString();
+            #endif
 
             EventProcessor.Raise(new EntityCreatedEvent<Team>(this, createdByUser));
         }
@@ -57,6 +63,8 @@ namespace Bowerbird.Core.Entities
         public Team UpdateDetails(User updatedByUser, string name, string description, string website)
         {
             Check.RequireNotNull(updatedByUser, "updatedByUser");
+            Check.RequireNotNullOrWhitespace(name, "name");
+            Check.RequireNotNullOrWhitespace(description, "description");
 
             SetDetails(
                 name,

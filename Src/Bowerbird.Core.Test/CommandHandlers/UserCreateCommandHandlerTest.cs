@@ -16,7 +16,6 @@ namespace Bowerbird.Core.Test.CommandHandlers
 {
     #region Namespaces
 
-    using System;
     using System.Linq;
     using System.Collections.Generic;
 
@@ -126,14 +125,14 @@ namespace Bowerbird.Core.Test.CommandHandlers
         #region Constructor tests
 
         [Test]
-        [Category(TestCategories.Unit)]
+        [Category(TestCategory.Unit)]
         public void UserCreateCommandHandler_Constructor_Passing_Null_UserRepository_Throws_DesignByContractException()
         {
             Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new UserCreateCommandHandler(null, _mockRoleRepository.Object)));
         }
 
         [Test]
-        [Category(TestCategories.Unit)]
+        [Category(TestCategory.Unit)]
         public void UserCreateCommandHandler_Constructor_Passing_Null_RoleRepository_Throws_DesignByContractException()
         {
             Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new UserCreateCommandHandler(_mockUserRepository.Object, null)));
@@ -148,14 +147,14 @@ namespace Bowerbird.Core.Test.CommandHandlers
         #region Method tests
 
         [Test]
-        [Category(TestCategories.Unit)]
+        [Category(TestCategory.Unit)]
         public void UserCreateCommandHandler_Handle_Passing_Null_UserCreateCommand_Throws_DesignByContractException()
         {
             Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new UserCreateCommandHandler(_mockUserRepository.Object, _mockRoleRepository.Object).Handle(null)));
         }
 
         [Test]
-        [Category(TestCategories.Integration)]
+        [Category(TestCategory.Integration)]
         public void UserCreateCommandHandler_Handle_Passing_UserCreateCommand_Calls_RoleRepository_Load()
         {
             _mockRoleRepository.Setup(x => x.Load(It.IsAny<IEnumerable<string>>())).Returns(TestRoles());
@@ -166,7 +165,7 @@ namespace Bowerbird.Core.Test.CommandHandlers
         }
 
         [Test]
-        [Category(TestCategories.Integration)]
+        [Category(TestCategory.Integration)]
         public void UserCreateCommandHandler_Handle_Passing_UserCreateCommand_Calls_UserRepository_Add()
         {
             _mockUserRepository.Setup(x => x.Add(It.IsAny<User>())).Verifiable();

@@ -79,43 +79,43 @@ namespace Bowerbird.Web.Test.ViewModels.Paging
 
         #region Property tests
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void PagedList_PagedListItems_Is_An_Enumerable_PagedListItem_Of_Specified_Type()
         {
             Assert.IsInstanceOf<IEnumerable<PagedListItem<object>>>(new PagedList<object>().PagedListItems);
         }
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void PagedList_PageSize_Is_An_Int()
         {
             Assert.IsInstanceOf<int>(new PagedList<object>() { PageSize = FakeValues.Number }.PageSize);
         }
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void PagedList_TotalResultCount_Is_An_Int()
         {
             Assert.IsInstanceOf<int>(new PagedList<object>() { TotalResultCount = FakeValues.Number }.TotalResultCount);
         }
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void PagedList_AllPageNumbers_Is_A_List_Of_PageNumbers()
         {
             Assert.IsInstanceOf<List<PageNumber>>(new PagedList<object>() {AllPageNumbers = Pages()}.AllPageNumbers);
         }
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void PagedList_PreviousPageNumber_Is_A_PageNumber()
         {
             Assert.IsInstanceOf<PageNumber>(new PagedList<object>() { AllPageNumbers = Pages(), TotalResultCount = 30 }.PreviousPageNumber);
         }
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void PagedList_NextPageNumber_Is_A_PageNumber()
         {
             Assert.IsInstanceOf<PageNumber>(new PagedList<object>() { AllPageNumbers = Pages(), TotalResultCount = 30}.NextPageNumber);
         }
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void PagedList_SelectedPageNumber_Is_A_PageNumber()
         {
             Assert.IsInstanceOf<PageNumber>(new PagedList<object>() { AllPageNumbers = Pages(), TotalResultCount = 30 }.SelectedPageNumber);

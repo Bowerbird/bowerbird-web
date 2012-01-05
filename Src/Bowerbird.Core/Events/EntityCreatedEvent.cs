@@ -5,7 +5,6 @@ namespace Bowerbird.Core.Events
 {
     public class EntityCreatedEvent<T> : IDomainEvent
     {
-
         #region Members
 
         #endregion
@@ -36,6 +35,5 @@ namespace Bowerbird.Core.Events
         #region Methods
 
         #endregion
-
     }
 }

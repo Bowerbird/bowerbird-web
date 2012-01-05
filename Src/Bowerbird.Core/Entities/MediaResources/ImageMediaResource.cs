@@ -1,8 +1,9 @@
-﻿namespace Bowerbird.Core.Entities.MediaResources
+﻿using Bowerbird.Core.DesignByContract;
+
+namespace Bowerbird.Core.Entities.MediaResources
 {
     public class ImageMediaResource : MediaResource
     {
-
         #region Members
 
         #endregion
@@ -20,8 +21,11 @@
             : base(
             originalFileName,
             fileFormat,
-            description) 
+            description)
         {
+            Check.RequireGreaterThanZero(width, "width");
+            Check.RequireGreaterThanZero(height, "height");
+
             SetDetails(
                 width,
                 height);
@@ -46,6 +50,5 @@
         }
 
         #endregion      
-      
     }
 }

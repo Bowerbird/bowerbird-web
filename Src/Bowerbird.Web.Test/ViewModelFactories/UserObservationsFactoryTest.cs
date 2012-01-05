@@ -130,13 +130,13 @@ namespace Bowerbird.Web.Test.ViewModelFactories
 
         #region Constructor tests
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void UserObservationsFactory_Constructor_Passing_Null_DocumentSession_Throws_DesignByContractException()
         {
             Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new HomeIndexFactory(null,new Mock<IPagedListFactory>().Object)));
         }
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void UserObservationsFactory_Constructor_Passing_Null_PagedListFactory_Throws_DesignByContractException()
         {
             Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new HomeIndexFactory(new Mock<IDocumentSession>().Object,null)));
@@ -150,13 +150,13 @@ namespace Bowerbird.Web.Test.ViewModelFactories
 
         #region Method tests
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void UserObservationsFactory_Make_Passing_Null_ObservationListInput_Throws_DesignByContractException()
         {
             Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new UserObservationsFactory(new Mock<IDocumentSession>().Object,new Mock<IPagedListFactory>().Object).Make(null)));
         }
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void UserObservationsFactory_Make_Passing_ObservationListInput_Returns_PagedList_Of_Observations()
         {
             var user = TestUser();

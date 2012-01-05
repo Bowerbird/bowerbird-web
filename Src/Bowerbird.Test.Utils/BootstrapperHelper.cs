@@ -1,4 +1,5 @@
-﻿using Microsoft.Web.Infrastructure.DynamicModuleHelper;
+﻿using System;
+using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Ninject;
 using Ninject.Web.Mvc;
 using NinjectBootstrapper = Ninject.Web.Mvc.Bootstrapper;
@@ -21,7 +22,11 @@ namespace Bowerbird.Test.Utils
         {
             _ninjectBootstrapper = new NinjectBootstrapper();
 
-            _ninjectBootstrapper.Initialize(CreateKernel);
+            try
+            {
+                _ninjectBootstrapper.Initialize(CreateKernel);
+            }
+            catch { /* catches error on second test run - needs investigation */ }
 
             PostStart();
         }
@@ -31,6 +36,8 @@ namespace Bowerbird.Test.Utils
             _ninjectBootstrapper.ShutDown();
 
             _ninjectBootstrapper.MakeNull<NinjectBootstrapper>();
+
+            _ninjectBootstrapper = null;
         }
 
         /// <summary>
@@ -42,7 +49,7 @@ namespace Bowerbird.Test.Utils
 
             DynamicModuleUtility.RegisterModule(typeof(HttpApplicationInitializationModule));
 
-            _ninjectBootstrapper.Initialize(CreateKernel);
+            //_ninjectBootstrapper.Initialize(CreateKernel);
         }
 
         /// <summary>

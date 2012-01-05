@@ -45,95 +45,40 @@ namespace Bowerbird.Core.Test.Events
 
         #region Test Helpers
 
-        private class ProxyDomainEvent : IDomainEvent
-        {
-            public string Id
-            {
-                get { return FakeValues.KeyString; }
-            }
-        }
-
-        /// <summary>
-        /// Id: "abc"
-        /// Password: "password"
-        /// Email: "padil@padil.gov.au"
-        /// FirstName: "first name"
-        /// LastName: "last name"
-        /// Description: "description"
-        /// Roles: "Member"
-        /// </summary>
-        /// <returns></returns>
-        private static User TestUser()
-        {
-            return new User(
-                FakeValues.KeyString,
-                FakeValues.Password,
-                FakeValues.Email,
-                FakeValues.FirstName,
-                FakeValues.LastName,
-                FakeValues.Description,
-                TestRoles()
-            )
-            .UpdateLastLoggedIn()
-            .UpdateResetPasswordKey()
-            .IncrementFlaggedItemsOwned()
-            .IncrementFlagsRaised();
-        }
-
-        private static IEnumerable<Role> TestRoles()
-        {
-            return new List<Role>()
-            {
-                new Role
-                (
-                    "Member",
-                    "Member role",
-                    "Member description",
-                    TestPermissions()
-                )
-            };
-        }
-
-        private static IEnumerable<Permission> TestPermissions()
-        {
-            return new List<Permission>
-            {
-                new Permission("Read", "Read permission", "Read description"),
-                new Permission("Write", "Write permission", "Write description")
-            };
-
-        }
-
         #endregion
 
         #region Constructor tests
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test]
+        [Category(TestCategory.Unit)] 
         public void EntityCreatedEvent_Constructor_Passing_Null_Entity_Throws_DesignByContractException()
         {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new EntityCreatedEvent<ProxyDomainEvent>(null, TestUser()) ));
+            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new EntityCreatedEvent<ProxyObjects.ProxyDomainEvent>(null, FakeObjects.TestUser()) ));
         }
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test]
+        [Category(TestCategory.Unit)] 
         public void EntityCreatedEvent_Constructor_Passing_Null_User_Throws_DesignByContractException()
         {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new EntityCreatedEvent<ProxyDomainEvent>(new ProxyDomainEvent(), null)));
+            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new EntityCreatedEvent<ProxyObjects.ProxyDomainEvent>(new ProxyObjects.ProxyDomainEvent(), null)));
         }
 
         #endregion
 
         #region Property tests
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test]
+        [Category(TestCategory.Unit)] 
         public void EntityCreatedEvent_Entity_Is_Specified_Generic_Type()
         {
-            Assert.IsInstanceOf<ProxyDomainEvent>(new EntityCreatedEvent<ProxyDomainEvent>(new ProxyDomainEvent(), TestUser()).Entity);
+            Assert.IsInstanceOf<ProxyObjects.ProxyDomainEvent>(new EntityCreatedEvent<ProxyObjects.ProxyDomainEvent>(new ProxyObjects.ProxyDomainEvent(), FakeObjects.TestUser()).Entity);
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test]
+        [Category(TestCategory.Unit)]
         public void EntityCreatedEvent_User_Is_A_User()
         {
-            Assert.IsInstanceOf<User>(new EntityCreatedEvent<ProxyDomainEvent>(new ProxyDomainEvent(), TestUser()).CreatedByUser);
+            Assert.IsInstanceOf<User>(new EntityCreatedEvent<ProxyObjects.ProxyDomainEvent>(new ProxyObjects.ProxyDomainEvent(), FakeObjects.TestUser()).CreatedByUser);
         }
 
         #endregion

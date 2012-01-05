@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Entities.DenormalisedReferences;
 using Bowerbird.Core.Events;
@@ -10,7 +7,6 @@ namespace Bowerbird.Core.Entities
 {
     public class Comment : Entity
     {
-
         #region Members
 
         #endregion
@@ -28,6 +24,7 @@ namespace Bowerbird.Core.Entities
             Check.RequireNotNullOrWhitespace(message, "message");
 
             SubmittedOn = DateTime.Now;
+            User = createdByUser;
 
             SetDetails(
                 message,
@@ -72,6 +69,5 @@ namespace Bowerbird.Core.Entities
         }
 
         #endregion      
-      
     }
 }

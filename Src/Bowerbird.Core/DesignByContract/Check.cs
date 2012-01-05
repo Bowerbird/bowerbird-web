@@ -334,5 +334,10 @@ namespace Bowerbird.Core.DesignByContract
             Require(!(@date > DateTime.Now.AddDays(2)), variableName + " must not be a future date");
         }
 
+        public static void RequireGreaterThanZero(int number, string variableName)
+        {
+            Require(number > 0, variableName + " must be greater than zero");
+        }
+
     }
 }

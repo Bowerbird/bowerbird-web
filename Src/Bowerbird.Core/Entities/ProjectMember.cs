@@ -1,16 +1,13 @@
-﻿using System.Linq;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Entities.DenormalisedReferences;
-using System;
 using Bowerbird.Core.Events;
 
 namespace Bowerbird.Core.Entities
 {
     public class ProjectMember : Member
     {
-
         #region Members
 
         #endregion
@@ -32,7 +29,14 @@ namespace Bowerbird.Core.Entities
             user,
             roles)
         {
-            Check.RequireNotNull(project, "project");
+            Check.RequireNotNull(createdByUser, "createdByUser");
+            Check.RequireNotNull(project, "project");            
+
+            SetDetails(project, user);
+
+            #if DEBUG
+                Id = (new Random(System.DateTime.Now.Millisecond)).Next().ToString();
+            #endif
 
             EventProcessor.Raise(new EntityCreatedEvent<ProjectMember>(this, createdByUser));
         }
@@ -59,6 +63,5 @@ namespace Bowerbird.Core.Entities
         }
 
         #endregion
-
     }
 }

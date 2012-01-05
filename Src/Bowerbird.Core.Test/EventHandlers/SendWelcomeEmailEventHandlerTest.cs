@@ -59,7 +59,7 @@ namespace Bowerbird.Core.Test.EventHandlers
 
         #region Method tests
 
-        [Test, Category(TestCategories.Unit)]
+        [Test, Category(TestCategory.Unit)]
         public void SendWelcomeEmailEventHandler_Handle_Passing_Null_UserCreatedEvent_Throws_DesignByContractException()
         {
             Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() =>new SendWelcomeEmailEventHandler().Handle(null)));

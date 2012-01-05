@@ -17,7 +17,6 @@ namespace Bowerbird.Core.Entities
     //[Serializable]
     public abstract class ValueObject : BaseObject
     {
-
         public static bool operator ==(ValueObject valueObject1, ValueObject valueObject2)
         {
             if ((object)valueObject1 == null)

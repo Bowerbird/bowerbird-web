@@ -49,14 +49,14 @@ namespace Bowerbird.Core.Test.Commands
         #region Property tests
 
         [Test]
-        [Category(TestCategories.Unit)]
+        [Category(TestCategory.Unit)]
         public void MediaResourceCreateCommand_Type_Is_TypeOf_String()
         {
             Assert.IsInstanceOf<string>(new MediaResourceCreateCommand() {Type = FakeValues.Title}.Type);
         }
 
         [Test]
-        [Category(TestCategories.Unit)]
+        [Category(TestCategory.Unit)]
         public void MediaResourceCreateCommand_OriginalFileName_Is_TypeOf_String()
         {
             Assert.IsInstanceOf<string>(new MediaResourceCreateCommand() {OriginalFilename = FakeValues.Filename}.OriginalFilename);
@@ -67,8 +67,8 @@ namespace Bowerbird.Core.Test.Commands
         #region Method tests
 
         [Test]
-        [Category(TestCategories.Unit)]
-        public void MediaResourceCreateCommand_ValidationResults_WithInvalidInput_RaisesValidationError()
+        [Category(TestCategory.Unit)]
+        public void MediaResourceCreateCommand_ValidationResults_Throws_NotImplementedException()
         {
             Assert.IsTrue(BowerbirdThrows.Exception<NotImplementedException>(() => new MediaResourceCreateCommand().ValidationResults()));
         }

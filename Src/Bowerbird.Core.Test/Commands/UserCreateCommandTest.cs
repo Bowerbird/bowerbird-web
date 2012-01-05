@@ -63,9 +63,65 @@ namespace Bowerbird.Core.Test.Commands
 
         #region Property tests
 
+        [Test]
+        [Category(TestCategory.Unit)]
+        public void UserCreateCommand_Description_Is_TypeOf_String()
+        {
+            Assert.IsInstanceOf<string>(TestUserCreateCommand().Description);
+        }
+
+        [Test]
+        [Category(TestCategory.Unit)]
+        public void UserCreateCommand_Email_Is_TypeOf_String()
+        {
+            Assert.IsInstanceOf<string>(TestUserCreateCommand().Email);
+        }
+
+        [Test]
+        [Category(TestCategory.Unit)]
+        public void UserCreateCommand_FirstName_Is_TypeOf_String()
+        {
+            Assert.IsInstanceOf<string>(TestUserCreateCommand().FirstName);
+        }
+
+        [Test]
+        [Category(TestCategory.Unit)]
+        public void UserCreateCommand_LastName_Is_TypeOf_String()
+        {
+            Assert.IsInstanceOf<string>(TestUserCreateCommand().LastName);
+        }
+
+        [Test]
+        [Category(TestCategory.Unit)]
+        public void UserCreateCommand_Password_Is_TypeOf_String()
+        {
+            Assert.IsInstanceOf<string>(TestUserCreateCommand().Password);
+        }
+
+        [Test]
+        [Category(TestCategory.Unit)]
+        public void UserCreateCommand_Roles_Is_TypeOf_List_String()
+        {
+            Assert.IsInstanceOf<List<string>>(TestUserCreateCommand().Roles);
+        }
+
+        [Test]
+        [Category(TestCategory.Unit)]
+        public void UserCreateCommand_Username_Is_TypeOf_String()
+        {
+            Assert.IsInstanceOf<string>(TestUserCreateCommand().Username);
+        }
+
         #endregion
 
         #region Method tests
+
+        [Test]
+        [Category(TestCategory.Unit)]
+        public void UserCreateCommand_ValidationResults_Throws_NotImplementedException()
+        {
+            Assert.IsTrue(BowerbirdThrows.Exception<NotImplementedException>(() => new UserCreateCommand().ValidationResults()));
+        }
 
         #endregion 
     }

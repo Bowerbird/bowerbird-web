@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Bowerbird.Core.Commands;
-using Bowerbird.Core.Repositories;
+﻿using Bowerbird.Core.Repositories;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Entities;
-using Bowerbird.Core.Events;
 
 namespace Bowerbird.Core.CommandHandlers
 {

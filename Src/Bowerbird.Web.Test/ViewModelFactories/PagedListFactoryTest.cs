@@ -56,7 +56,7 @@ namespace Bowerbird.Web.Test.ViewModelFactories
 
         #region Method tests
 
-        [Test, Category(TestCategories.Unit)] 
+        [Test, Category(TestCategory.Unit)] 
         public void PagedListFactory_Make_With_Type_Object_Returns_PagedList_Of_Type_Object()
         {
             var pagedListFactory = new PagedListFactory();
@@ -66,7 +66,7 @@ namespace Bowerbird.Web.Test.ViewModelFactories
             Assert.IsTrue(pagedList.GetType().Equals(typeof(PagedList<object>)));
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test, Category(TestCategory.Unit)]
         public void PagedListFactory_Make_Returns_PagedList_Having_TotalResultCount_Of_Zero()
         {
             var pagedListFactory = new PagedListFactory();
@@ -76,7 +76,7 @@ namespace Bowerbird.Web.Test.ViewModelFactories
             Assert.AreEqual(pagedList.TotalResultCount, 0);
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test, Category(TestCategory.Unit)]
         public void PagedListFactory_Make_Passing_Null_PageObjects_Throws_DesignByContractException()
         {
             Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(
@@ -91,7 +91,7 @@ namespace Bowerbird.Web.Test.ViewModelFactories
                             ));
         }
 
-        [Test, Category(TestCategories.Unit)]
+        [Test, Category(TestCategory.Unit)]
         public void PagedListFactory_Make_Passing_PageObjects_Returns_PagedList_With_Specified_Size_And_Count()
         {
             List<object> pageItems = CreatePageItems();
