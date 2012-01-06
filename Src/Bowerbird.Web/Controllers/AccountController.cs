@@ -130,22 +130,14 @@ namespace Bowerbird.Web.Controllers
             return View(_viewModelRepository.Load<DefaultViewModel>());
         }
 
-        private UserUpdateLastLoginCommand MakeUserUpdateLastLoginCommand(AccountLoginInput accountLoginInput)
+        [HttpGet]
+        public ActionResult Register()
         {
-            return new UserUpdateLastLoginCommand()
-            {
-                UserId = accountLoginInput.Username
-            };
+            return View(_viewModelRepository.Load<AccountRegisterInput>());
         }
 
-        //[HttpGet]
-        //public ActionResult Register()
-        //{
-        //    throw new NotImplementedException();
-        //}
-
         //[HttpPost]
-        //public ActionResult Register(AccountRegisterViewModel accountRegisterViewModel)
+        //public ActionResult Register(AccountRegisterInput accountRegisterInput)
         //{
         //    if (_userCreateCommandValidator.IsValid(accountRegisterViewModel))
         //    {
@@ -167,6 +159,14 @@ namespace Bowerbird.Web.Controllers
 
         //    return View(registerSuccessViewModel);
         //}
+
+        private UserUpdateLastLoginCommand MakeUserUpdateLastLoginCommand(AccountLoginInput accountLoginInput)
+        {
+            return new UserUpdateLastLoginCommand()
+            {
+                UserId = accountLoginInput.Username
+            };
+        }
 
         #endregion
     }

@@ -301,6 +301,20 @@ namespace Bowerbird.Web.Test.Controllers
             _mockViewModelRepository.Verify(x => x.Load<DefaultViewModel>(), Times.Once());
         }
 
+        [Test, Category(TestCategory.Unit)]
+        public void AccountController_HttpGet_Register_Returns_AccountRegisterViewModel()
+        {
+            var accountRegister = new AccountRegister();
+
+            _mockViewModelRepository.Setup(x => x.Load<AccountRegister>()).Returns(accountRegister);
+
+            _controller.Register();
+
+            var viewModel = _controller.ViewData.Model;
+
+            Assert.IsInstanceOf<AccountRegister>(viewModel);
+        }
+
         #endregion
     }
 }

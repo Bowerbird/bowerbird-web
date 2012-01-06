@@ -125,6 +125,8 @@
     <Compile Include="ICommandBuilder.cs" />
     <Compile Include="IViewModelRepository.cs" />
     <Compile Include="ViewModelFactories\AccountLoginFactory.cs" />
+    <Compile Include="ViewModels\AccountRegisterInput.cs" />
+    <Compile Include="ViewModels\AccountRegister.cs" />
     <Compile Include="ViewModels\DefaultViewModel.cs" />
     <Compile Include="ViewModelFactories\DefaultViewModelFactory.cs" />
     <Compile Include="ViewModelRepository.cs" />

@@ -18,3 +18,5 @@ msbuild.log
 PublishProfiles/
 [Ll]ogs/
 *.Publish.xml
+TestResult.xml
+*.VisualState.xml
