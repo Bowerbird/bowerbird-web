@@ -13,7 +13,7 @@ using Bowerbird.Web.ViewModelFactories;
 using Bowerbird.Web.ViewModels;
 using Bowerbird.Core.EventHandlers;
 using Bowerbird.Core.Tasks;
-using Bowerbird.Core.Entities;
+using Bowerbird.Core.DomainModels;
 using Bowerbird.Web.CommandFactories;
 
 namespace Bowerbird.Web.Config

@@ -31,8 +31,8 @@ namespace Bowerbird.Web.Test.ViewModels.Paging
     using Bowerbird.Web.ViewModelFactories;
     using Bowerbird.Test.Utils;
     using Bowerbird.Core.DesignByContract;
-    using Bowerbird.Core.Entities;
-    using Bowerbird.Core.Entities.MediaResources;
+    using Bowerbird.Core.DomainModels;
+    using Bowerbird.Core.DomainModels.MediaResources;
 
     #endregion
 

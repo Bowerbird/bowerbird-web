@@ -21,7 +21,7 @@ namespace Bowerbird.Core.Test.Events
     using Bowerbird.Test.Utils;
     using Bowerbird.Core.DesignByContract;
     using Bowerbird.Core.Events;
-    using Bowerbird.Core.Entities;
+    using Bowerbird.Core.DomainModels;
 
     #endregion
 

@@ -1,5 +1,5 @@
 ﻿using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.Entities;
+using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Core.Events
 {

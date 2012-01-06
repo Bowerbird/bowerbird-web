@@ -18,13 +18,13 @@ namespace Bowerbird.Web.EventHandlers
 
     using Bowerbird.Core.Events;
     using Bowerbird.Core.DesignByContract;
-    using Bowerbird.Core.Entities;
+    using Bowerbird.Core.DomainModels;
     using Bowerbird.Core.EventHandlers;
     using Bowerbird.Web.Config;
 
     #endregion
 
-    public class NotifyActivityObservationCreatedEventHandler : NotifyActivityEventHandlerBase, IEventHandler<EntityCreatedEvent<Observation>>
+    public class NotifyActivityObservationCreatedEventHandler : NotifyActivityEventHandlerBase, IEventHandler<DomainModelCreatedEvent<Observation>>
     {
         #region Members
 
@@ -46,7 +46,7 @@ namespace Bowerbird.Web.EventHandlers
 
         #region Methods
 
-        public void Handle(EntityCreatedEvent<Observation> observationCreatedEvent)
+        public void Handle(DomainModelCreatedEvent<Observation> observationCreatedEvent)
         {
             Check.RequireNotNull(observationCreatedEvent, "observationCreatedEvent");
 
@@ -55,7 +55,7 @@ namespace Bowerbird.Web.EventHandlers
             Notify(
                 "observationcreated",
                 observationCreatedEvent.CreatedByUser,
-                observationCreatedEvent.Entity);
+                observationCreatedEvent.DomainModel);
         }
 
         #endregion

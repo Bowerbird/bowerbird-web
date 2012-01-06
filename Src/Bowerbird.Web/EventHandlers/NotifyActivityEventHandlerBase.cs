@@ -19,7 +19,7 @@ namespace Bowerbird.Web.EventHandlers
     #region Namespaces
 
     using Bowerbird.Core.DesignByContract;
-    using Bowerbird.Core.Entities;
+    using Bowerbird.Core.DomainModels;
     using Bowerbird.Web.Config;
 
     #endregion

@@ -22,7 +22,7 @@ namespace Bowerbird.Core.Test.Tasks
     using Raven.Client;
 
     using Bowerbird.Core.DesignByContract;
-    using Bowerbird.Core.Entities;
+    using Bowerbird.Core.DomainModels;
     using Bowerbird.Core.Extensions;
     using Bowerbird.Core.Tasks;
     using Bowerbird.Test.Utils;

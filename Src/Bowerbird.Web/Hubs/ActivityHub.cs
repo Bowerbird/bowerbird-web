@@ -24,7 +24,7 @@ namespace Bowerbird.Web.Hubs
     using SignalR.Hubs;
     using Raven.Client;
 
-    using Bowerbird.Core.Entities;
+    using Bowerbird.Core.DomainModels;
     using Bowerbird.Core.EventHandlers;
     using Bowerbird.Core.Events;
     using Bowerbird.Core.DesignByContract;

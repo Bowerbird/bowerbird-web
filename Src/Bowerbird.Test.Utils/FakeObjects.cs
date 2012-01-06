@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Bowerbird.Core.Entities;
+using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Test.Utils
 {

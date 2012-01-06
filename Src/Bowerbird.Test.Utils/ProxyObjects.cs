@@ -5,7 +5,7 @@ using System.Linq;
 using Bowerbird.Core.CommandHandlers;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.Entities;
+using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Events;
 
 namespace Bowerbird.Test.Utils
@@ -120,7 +120,7 @@ namespace Bowerbird.Test.Utils
                 [DomainSignature] attribute. The domain signature of a value object includes all
                 of the properties of the object by convention; consequently, adding [DomainSignature]
                 to the properties of a value object's properties is misleading and should be removed. 
-                Alternatively, you can inherit from Entity if that fits your needs better.";
+                Alternatively, you can inherit from DomainModel if that fits your needs better.";
 
                 Check.Require(
                     !invalidlyDecoratedProperties.Any(),

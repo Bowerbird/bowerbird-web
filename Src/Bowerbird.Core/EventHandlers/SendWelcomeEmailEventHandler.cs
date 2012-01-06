@@ -1,11 +1,11 @@
 ﻿using System;
 using Bowerbird.Core.Events;
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.Entities;
+using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Core.EventHandlers
 {
-    public class SendWelcomeEmailEventHandler : IEventHandler<EntityCreatedEvent<User>>
+    public class SendWelcomeEmailEventHandler : IEventHandler<DomainModelCreatedEvent<User>>
     {
 
         #region Members
@@ -22,11 +22,11 @@ namespace Bowerbird.Core.EventHandlers
 
         #region Methods
 
-        public void Handle(EntityCreatedEvent<User> userCreatedEvent)
+        public void Handle(DomainModelCreatedEvent<User> userCreatedEvent)
         {
             Check.RequireNotNull(userCreatedEvent, "userCreatedEvent");
 
-            Console.Write("send welcome email to: {0}", userCreatedEvent.Entity.Email);
+            Console.Write("send welcome email to: {0}", userCreatedEvent.DomainModel.Email);
         }
 
         #endregion      

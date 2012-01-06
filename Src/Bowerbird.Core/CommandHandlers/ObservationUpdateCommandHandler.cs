@@ -19,7 +19,7 @@ namespace Bowerbird.Core.CommandHandlers
     using Bowerbird.Core.Commands;
     using Bowerbird.Core.Repositories;
     using Bowerbird.Core.DesignByContract;
-    using Bowerbird.Core.Entities;
+    using Bowerbird.Core.DomainModels;
 
     #endregion
 

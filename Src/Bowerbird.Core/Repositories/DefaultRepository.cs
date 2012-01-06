@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Bowerbird.Core.Entities;
+using Bowerbird.Core.DomainModels;
 using Raven.Client;
 
 namespace Bowerbird.Core.Repositories

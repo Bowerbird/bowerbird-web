@@ -25,7 +25,7 @@ namespace Bowerbird.Core.Test.CommandHandlers
     using Bowerbird.Core.CommandHandlers;
     using Bowerbird.Core.Commands;
     using Bowerbird.Core.DesignByContract;
-    using Bowerbird.Core.Entities;
+    using Bowerbird.Core.DomainModels;
     using Bowerbird.Core.Repositories;
     using Bowerbird.Test.Utils;
     
@@ -39,7 +39,7 @@ namespace Bowerbird.Core.Test.CommandHandlers
         private Mock<IRepository<Observation>> _mockObservationRepository;
         private Mock<IRepository<User>> _mockUserRepository;
         private Mock<IRepository<MediaResource>> _mockMediaResourceRepository;
-        private Mock<User> _mockUserEntity;
+        private Mock<User> _mockUserDomainModel;
         private Mock<ObservationCreateCommand> _mockObservationCreateCommand;
         private ICommandHandler<ObservationCreateCommand> _observationCreateCommandHandler;
 
@@ -49,7 +49,7 @@ namespace Bowerbird.Core.Test.CommandHandlers
             _mockObservationRepository = new Mock<IRepository<Observation>>();
             _mockUserRepository = new Mock<IRepository<User>>();
             _mockMediaResourceRepository = new Mock<IRepository<MediaResource>>();
-            _mockUserEntity = new Mock<User>();
+            _mockUserDomainModel = new Mock<User>();
             _mockObservationCreateCommand = new Mock<ObservationCreateCommand>();
             _observationCreateCommandHandler = new ObservationCreateCommandHandler(
                 _mockObservationRepository.Object,
@@ -119,7 +119,7 @@ namespace Bowerbird.Core.Test.CommandHandlers
         [Category(TestCategory.Unit)]
         public void ObservationCreateCommandHandler_Handle_Passing_ObservationCreateCommand_Calls_ObservationRepository_Add()
         {
-            _mockUserRepository.Setup(x => x.Load(It.IsAny<string>())).Returns(_mockUserEntity.Object);
+            _mockUserRepository.Setup(x => x.Load(It.IsAny<string>())).Returns(_mockUserDomainModel.Object);
             _mockObservationCreateCommand.Setup(x => x.Username).Returns(FakeValues.UserName);
 
             _observationCreateCommandHandler.Handle(_mockObservationCreateCommand.Object);
@@ -131,7 +131,7 @@ namespace Bowerbird.Core.Test.CommandHandlers
         [Category(TestCategory.Integration)]
         public void ObservationCreateCommandHandler_Handle_Passing_ObservationCreateCommand_Calls_UserRepository_Load()
         {
-            _mockUserRepository.Setup(x => x.Load(It.IsAny<string>())).Returns(_mockUserEntity.Object);
+            _mockUserRepository.Setup(x => x.Load(It.IsAny<string>())).Returns(_mockUserDomainModel.Object);
             _mockObservationCreateCommand.Setup(x => x.Username).Returns(FakeValues.UserName);
 
             _observationCreateCommandHandler.Handle(_mockObservationCreateCommand.Object);
@@ -143,7 +143,7 @@ namespace Bowerbird.Core.Test.CommandHandlers
         [Category(TestCategory.Integration)]
         public void ObservationCreateCommandHandler_Handle_Passing_ObservationCreateCommand_With_MediaResources_Calls_MediaResourceRepository_Load()
         {
-            _mockUserRepository.Setup(x => x.Load(It.IsAny<string>())).Returns(_mockUserEntity.Object);
+            _mockUserRepository.Setup(x => x.Load(It.IsAny<string>())).Returns(_mockUserDomainModel.Object);
             _mockObservationCreateCommand.Setup(x => x.Username).Returns(FakeValues.UserName);
             _mockObservationCreateCommand.Setup(x => x.MediaResources).Returns(TestMediaResourceIds());
             _mockMediaResourceRepository.Setup(x => x.Load(It.IsAny<IEnumerable<string>>())).Returns(TestMediaResources());
@@ -157,7 +157,7 @@ namespace Bowerbird.Core.Test.CommandHandlers
         [Category(TestCategory.Integration)]
         public void ObservationCreateCommandHandler_Handle_Passing_ObservationCreateCommand_Without_MediaResources_DoesNotCall_MediaResourceRepository_Load()
         {
-            _mockUserRepository.Setup(x => x.Load(It.IsAny<string>())).Returns(_mockUserEntity.Object);
+            _mockUserRepository.Setup(x => x.Load(It.IsAny<string>())).Returns(_mockUserDomainModel.Object);
             _mockObservationCreateCommand.Setup(x => x.Username).Returns(FakeValues.UserName);
 
             _observationCreateCommandHandler.Handle(_mockObservationCreateCommand.Object);

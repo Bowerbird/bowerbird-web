@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Bowerbird.Core.Extensions;
 using Bowerbird.Core.Repositories;
-using Bowerbird.Core.Entities;
+using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.DesignByContract;
 using Raven.Client;
 

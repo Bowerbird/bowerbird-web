@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Bowerbird.Core;
 using Bowerbird.Core.Commands;
-using Bowerbird.Core.Entities;
+using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Web.ViewModels;
 using Bowerbird.Web.ViewModelFactories;
