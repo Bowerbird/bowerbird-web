@@ -34,10 +34,6 @@ namespace Bowerbird.Core.Entities
 
             SetDetails(project, user);
 
-            #if DEBUG
-                Id = (new Random(System.DateTime.Now.Millisecond)).Next().ToString();
-            #endif
-
             EventProcessor.Raise(new EntityCreatedEvent<ProjectMember>(this, createdByUser));
         }
 

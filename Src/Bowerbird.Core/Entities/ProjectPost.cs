@@ -1,55 +1,41 @@
-using System;
-using System.ComponentModel.DataAnnotations;
-using Bowerbird.Common.Utils;
+using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.Entities.DenormalisedReferences;
+using Bowerbird.Core.Events;
 
 namespace Bowerbird.Core.Entities
 {
-    public class ProjectPost : EntityBase
+    public class ProjectPost : Post
     {
-
         #region Members
 
         #endregion
 
         #region Constructors
 
-        /// <summary>
-        /// Nhibernate required constructor
-        /// </summary>
         protected ProjectPost() : base() { }
 
         public ProjectPost(
             Project project,
-            Post post,
-            User editor
+            User createdByUser,
+            string subject,
+            string message
             )
-            : base()
+            : base(createdByUser,
+            subject,
+            message)
         {
-            Contract.RequireNotNull(project, "project");
-            Contract.RequireNotNull(post, "post");
-            Contract.RequireNotNull(editor, "editor");
+            Check.RequireNotNull(project, "project");
 
             Project = project;
-            Post = post;
-            CreatedByUser = editor;
-            CreatedDateTime = DateTime.Now;
+
+            EventProcessor.Raise(new EntityCreatedEvent<ProjectPost>(this, createdByUser));
         }
 
         #endregion
 
         #region Properties
 
-        [Required]
-        public virtual Project Project { get; set; }
-
-        [Required]
-        public virtual Post Post { get; set; }
-
-        [Required]
-        public virtual User CreatedByUser { get; set; }
-
-        [Required]
-        public virtual DateTime CreatedDateTime { get; set; }
+        public DenormalisedNamedEntityReference<Project> Project { get; private set; }
 
         #endregion
 
