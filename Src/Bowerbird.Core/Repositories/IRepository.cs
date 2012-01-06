@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Bowerbird.Core.Entities;
+using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Core.Repositories
 {
@@ -12,9 +12,9 @@ namespace Bowerbird.Core.Repositories
 
         IEnumerable<T> Load(IEnumerable<string> ids);
 
-        void Add(T entity);
+        void Add(T domainModel);
 
-        void Remove(T entity);
+        void Remove(T domainModel);
 
         void SaveChanges();
 

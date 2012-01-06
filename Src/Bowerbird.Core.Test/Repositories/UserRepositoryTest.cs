@@ -25,7 +25,7 @@ namespace Bowerbird.Core.Test.Repositories
     using Raven.Client;
     using Raven.Client.Linq;
 
-    using Bowerbird.Core.Entities;
+    using Bowerbird.Core.DomainModels;
     using Bowerbird.Test.Utils;
 
     #endregion

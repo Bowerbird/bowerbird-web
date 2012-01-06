@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Raven.Client;
-using Bowerbird.Core.Entities;
+using Bowerbird.Core.DomainModels;
 using Bowerbird.Web.ViewModels;
 using Raven.Client.Linq;
 using Bowerbird.Core.DesignByContract;

@@ -24,7 +24,7 @@ namespace Bowerbird.Web.ViewModelFactories
     using Raven.Client;
     using Raven.Client.Linq;
 
-    using Bowerbird.Core.Entities;
+    using Bowerbird.Core.DomainModels;
     using Bowerbird.Web.ViewModels;
     using Bowerbird.Core.DesignByContract;
 

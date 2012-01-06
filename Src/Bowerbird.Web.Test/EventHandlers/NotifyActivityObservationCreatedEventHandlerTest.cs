@@ -22,7 +22,7 @@ namespace Bowerbird.Web.Test.EventHandlers
     using Moq;
 
     using Bowerbird.Core.DesignByContract;
-    using Bowerbird.Core.Entities;
+    using Bowerbird.Core.DomainModels;
     using Bowerbird.Web.Config;
     using Bowerbird.Web.EventHandlers;
     using Bowerbird.Test.Utils;

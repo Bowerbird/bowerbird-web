@@ -6,7 +6,7 @@ using Raven.Client.Document;
 using Raven.Client;
 using Ninject.Activation;
 using Raven.Client.Extensions;
-using Bowerbird.Core.Entities;
+using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Web.Config
 {
@@ -20,18 +20,18 @@ namespace Bowerbird.Web.Config
             documentStore.Conventions.FindIdentityProperty =
                                 prop =>
                                     // My custom ID for a given class.
-                                    //(prop.DeclaringType.IsSubclassOf(typeof(EntityWithId)) && prop.Name == "Id")
+                                    //(prop.DeclaringType.IsSubclassOf(typeof(DomainModelWithId)) && prop.Name == "Id")
                                     //(prop.DeclaringType == typeof(Role) && prop.Name == "Id")
                                     //|| (prop.DeclaringType == typeof(Permission) && prop.Name == "Id")
                                     // Default to general purpose.
                                     //prop.Name == "Id";
                                     prop.Name == "Id";
 
-            //documentStore.Conventions.DocumentKeyGenerator = entity =>
+            //documentStore.Conventions.DocumentKeyGenerator = domainModel =>
             //{
-            //    string collectionName = entity.GetType().Name.ToLower() + "s";
+            //    string collectionName = domainModel.GetType().Name.ToLower() + "s";
 
-            //    if (!(entity is User))
+            //    if (!(domainModel is User))
             //    {
             //        collectionName += "/";
             //    }

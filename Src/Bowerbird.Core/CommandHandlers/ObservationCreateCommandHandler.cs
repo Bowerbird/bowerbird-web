@@ -3,7 +3,7 @@ using Bowerbird.Core.Commands;
 using Bowerbird.Core.Extensions;
 using Bowerbird.Core.Repositories;
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.Entities;
+using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Core.CommandHandlers
 {

@@ -26,7 +26,7 @@ namespace Bowerbird.Core.Test.CommandHandlers
     using Bowerbird.Core.Commands;
     using Bowerbird.Core.CommandHandlers;
     using Bowerbird.Core.DesignByContract;
-    using Bowerbird.Core.Entities;
+    using Bowerbird.Core.DomainModels;
     using Bowerbird.Core.Repositories;
     using Bowerbird.Test.Utils;
 

@@ -30,7 +30,7 @@ namespace Bowerbird.Web.Test.Config
     using Bowerbird.Core.Commands;
     using Bowerbird.Web.CommandFactories;
     using Bowerbird.Web.ViewModels;
-    using Bowerbird.Core.Entities;
+    using Bowerbird.Core.DomainModels;
     using Bowerbird.Core.EventHandlers;
     using Bowerbird.Core.Events;
     using Bowerbird.Web.EventHandlers;
@@ -107,9 +107,9 @@ namespace Bowerbird.Web.Test.Config
         #region Event Handlers
 
         [Test, Category(TestCategory.Unit)] 
-        public void BowerbirdNinjectModule_Binds_NotifyActiviyObservationCreatedEventHandler_To_EntityCreatedEvent_Having_Observation()
+        public void BowerbirdNinjectModule_Binds_NotifyActiviyObservationCreatedEventHandler_To_DomainModelCreatedEvent_Having_Observation()
         {
-            Assert.IsInstanceOf<NotifyActivityObservationCreatedEventHandler>(ServiceLocator.Current.GetInstance<IEventHandler<EntityCreatedEvent<Observation>>>());
+            Assert.IsInstanceOf<NotifyActivityObservationCreatedEventHandler>(ServiceLocator.Current.GetInstance<IEventHandler<DomainModelCreatedEvent<Observation>>>());
         }
 
         [Test, Category(TestCategory.Unit)]

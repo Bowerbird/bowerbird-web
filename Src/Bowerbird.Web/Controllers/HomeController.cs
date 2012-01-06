@@ -8,7 +8,7 @@ using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Commands;
 using Bowerbird.Web.ViewModelFactories;
 using Bowerbird.Web.ViewModels;
-using Bowerbird.Core.Entities;
+using Bowerbird.Core.DomainModels;
 using Bowerbird.Web.Config;
 
 namespace Bowerbird.Web.Controllers

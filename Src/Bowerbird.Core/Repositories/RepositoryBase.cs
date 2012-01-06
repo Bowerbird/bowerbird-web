@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Raven.Client;
-using Bowerbird.Core.Entities;
+using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Core.Repositories
 {
@@ -41,14 +41,14 @@ namespace Bowerbird.Core.Repositories
             return _documentSession.Load<T>(ids);
         }
 
-        public void Add(T entity)
+        public void Add(T domainModel)
         {
-            _documentSession.Store(entity);
+            _documentSession.Store(domainModel);
         }
 
-        public void Remove(T entity)
+        public void Remove(T domainModel)
         {
-            _documentSession.Delete(entity);
+            _documentSession.Delete(domainModel);
         }
 
         public void SaveChanges()
