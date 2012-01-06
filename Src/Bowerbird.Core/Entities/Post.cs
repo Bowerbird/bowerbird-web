@@ -26,8 +26,8 @@ namespace Bowerbird.Core.Entities
             Check.RequireNotNullOrWhitespace(subject, "subject");
             Check.RequireNotNullOrWhitespace(message, "message");
 
-            User = createdByUser;
             PostedOn = DateTime.Now;
+            User = createdByUser;
 
             SetDetails(
                 subject,

@@ -12,8 +12,6 @@
  
 */
 
-using Bowerbird.Core.DesignByContract;
-
 namespace Bowerbird.Core.Test.Entities
 {
     #region Namespaces
@@ -25,6 +23,7 @@ namespace Bowerbird.Core.Test.Entities
     using Bowerbird.Core.Entities;
     using Bowerbird.Test.Utils;
     using Bowerbird.Core.Entities.DenormalisedReferences;
+    using Bowerbird.Core.DesignByContract;
 
     #endregion
 

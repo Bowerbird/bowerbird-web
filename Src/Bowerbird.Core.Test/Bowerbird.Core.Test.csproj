@@ -115,6 +115,7 @@
     <Compile Include="Entities\PermissionTest.cs" />
     <Compile Include="Entities\PostTest.cs" />
     <Compile Include="Entities\ProjectMemberTest.cs" />
+    <Compile Include="Entities\ProjectPost.cs" />
     <Compile Include="Entities\ProjectTest.cs" />
     <Compile Include="Entities\RoleTest.cs" />
     <Compile Include="Entities\TeamMemberTest.cs" />

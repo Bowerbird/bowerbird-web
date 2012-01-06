@@ -82,6 +82,7 @@
     <Compile Include="Entities\ProjectMember.cs" />
     <Compile Include="Entities\DenormalisedReferences\DenormalisedNamedEntityReference.cs" />
     <Compile Include="Entities\ObservationNote.cs" />
+    <Compile Include="Entities\ProjectPost.cs" />
     <Compile Include="Entities\ValueObject.cs" />
     <Compile Include="Events\EntityCreatedEvent.cs" />
     <Compile Include="Events\EntityUpdatedEvent.cs" />
