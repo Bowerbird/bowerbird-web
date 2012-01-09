@@ -72,7 +72,7 @@ namespace Bowerbird.Web.Test.CommandFactories
                 MediaResources = FakeValues.StringList,
                 ObservationCategory = FakeValues.Category,
                 ObservedOn = FakeValues.CreatedDateTime,
-                Username = FakeValues.UserName
+                UserId = FakeValues.UserId
             };
 
             var observationCreateCommand = observationCreateCommandFactory.Make(observationCreateInput);
@@ -85,7 +85,7 @@ namespace Bowerbird.Web.Test.CommandFactories
             Assert.AreEqual(observationCreateInput.MediaResources, observationCreateCommand.MediaResources);
             Assert.AreEqual(observationCreateInput.ObservationCategory, observationCreateCommand.ObservationCategory);
             Assert.AreEqual(observationCreateInput.ObservedOn, observationCreateCommand.ObservedOn);
-            Assert.AreEqual(observationCreateInput.Username, observationCreateCommand.Username);
+            Assert.AreEqual(observationCreateInput.UserId, observationCreateCommand.UserId);
         }
 
         #endregion 

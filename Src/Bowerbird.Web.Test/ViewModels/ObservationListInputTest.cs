@@ -53,7 +53,7 @@ namespace Bowerbird.Web.Test.ViewModels
         [Test, Category(TestCategory.Unit)] 
         public void ObservationListInput_Username_Is_A_String()
         {
-            Assert.IsInstanceOf<string>(new ObservationListInput() { UserId = FakeValues.UserName }.UserId);
+            Assert.IsInstanceOf<string>(new ObservationListInput() { UserId = FakeValues.UserId }.UserId);
         }
 
         [Test, Category(TestCategory.Unit)] 

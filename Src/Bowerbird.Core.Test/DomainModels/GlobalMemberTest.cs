@@ -53,7 +53,6 @@ namespace Bowerbird.Core.Test.DomainModels
         private static User TestUser()
         {
             return new User(
-                FakeValues.KeyString,
                 FakeValues.Password,
                 FakeValues.Email,
                 FakeValues.FirstName,

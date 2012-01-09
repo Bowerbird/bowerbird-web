@@ -35,7 +35,7 @@ namespace Bowerbird.Web.CommandFactories
                 MediaResources = observationCreateInput.MediaResources,
                 ObservationCategory = observationCreateInput.ObservationCategory,
                 ObservedOn = observationCreateInput.ObservedOn,
-                Username = observationCreateInput.Username
+                UserId = observationCreateInput.UserId
             };
         }
 

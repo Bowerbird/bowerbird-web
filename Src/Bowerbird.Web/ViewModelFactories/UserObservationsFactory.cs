@@ -10,7 +10,7 @@ using Bowerbird.Core.DesignByContract;
 
 namespace Bowerbird.Web.ViewModelFactories
 {
-    public class UserObservationsFactory : ViewModelFactoryBase<ObservationListInput, PagedList<Observation>>
+    public class UserObservationsFactory : ViewModelFactoryBase, IViewModelFactory<ObservationListInput, PagedList<Observation>>
     {
 
         #region Members
@@ -39,7 +39,7 @@ namespace Bowerbird.Web.ViewModelFactories
 
         #region Methods
 
-        public override PagedList<Observation> Make(ObservationListInput observationListInput)
+        public PagedList<Observation> Make(ObservationListInput observationListInput)
         {
             Check.RequireNotNull(observationListInput, "observationListInput");
 

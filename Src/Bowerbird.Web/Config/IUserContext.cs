@@ -10,13 +10,13 @@ namespace Bowerbird.Web.Config
 
         bool IsUserAuthenticated();
 
-        string GetAuthenticatedUsername();
+        string GetAuthenticatedUserId();
 
-        bool HasUsernameCookieValue();
+        bool HasEmailCookieValue();
 
-        string GetUsernameCookieValue();
+        string GetEmailCookieValue();
 
-        void SignUserIn(string username, bool keepUserLoggedIn);
+        void SignUserIn(string email, bool keepUserLoggedIn);
 
         void SignUserOut();
 

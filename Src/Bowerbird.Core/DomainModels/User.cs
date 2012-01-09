@@ -27,7 +27,6 @@ namespace Bowerbird.Core.DomainModels
         }
 
         public User(
-            string id,
             string password,
             string email,
             string firstName, 
@@ -36,10 +35,8 @@ namespace Bowerbird.Core.DomainModels
             IEnumerable<Role> roles) 
             : this() 
         {
-            Check.RequireNotNullOrWhitespace(id, "id");
             Check.RequireNotNull(roles, "roles");
 
-            ((IAssignableId)this).SetIdTo("users", id);
             Email = email;
             PasswordSalt = Guid.NewGuid();
             HashedPassword = GetHashedPassword(password);

@@ -67,7 +67,6 @@ namespace Bowerbird.Web.Test.Hubs
         private static User TestUser()
         {
             return new User(
-                FakeValues.KeyString,
                 FakeValues.Password,
                 FakeValues.Email,
                 FakeValues.FirstName,

@@ -76,7 +76,7 @@ namespace Bowerbird.Core.Test.CommandHandlers
                            ObservationCategory = FakeValues.Category,
                            ObservedOn = FakeValues.CreatedDateTime,
                            Title = FakeValues.Title,
-                           Username = FakeValues.UserName
+                           UserId = FakeValues.UserId
                        };
         }
 

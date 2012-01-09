@@ -12,6 +12,8 @@
  
 */
 
+using Bowerbird.Core.Commands;
+
 namespace Bowerbird.Web.Controllers
 {
     #region Namespaces
@@ -73,12 +75,7 @@ namespace Bowerbird.Web.Controllers
                 return RedirectToAction("index", "home");
             }
 
-            var accountLoginInput = new AccountLoginInput()
-            {
-                Username = _userContext.HasUsernameCookieValue() ? _userContext.GetUsernameCookieValue() : string.Empty
-            };
-
-            return View(_viewModelRepository.Load<AccountLoginInput, AccountLogin>(accountLoginInput));
+            return View(_viewModelRepository.Load<AccountLogin>());
         }
 
         [HttpPost]
@@ -87,11 +84,11 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(accountLoginInput, "accountLoginInput");
 
-            if (_userTasks.AreCredentialsValid(accountLoginInput.Username, accountLoginInput.Password))
+            if (_userTasks.AreCredentialsValid(accountLoginInput.Email, accountLoginInput.Password))
             {
-                _commandProcessor.Process<UserUpdateLastLoginCommand>(MakeUserUpdateLastLoginCommand(accountLoginInput));
+                _commandProcessor.Process(MakeUserUpdateLastLoginCommand(accountLoginInput));
 
-                _userContext.SignUserIn(accountLoginInput.Username, accountLoginInput.RememberMe);
+                _userContext.SignUserIn(accountLoginInput.Email, accountLoginInput.RememberMe);
 
                 return RedirectToAction("loggingin", new { returnUrl = accountLoginInput.ReturnUrl });
             }
@@ -101,7 +98,7 @@ namespace Bowerbird.Web.Controllers
 
         public ActionResult LoggingIn(string returnUrl)
         {
-            if (!_userContext.HasUsernameCookieValue())
+            if (!_userContext.HasEmailCookieValue())
             {
                 // User attempted to login without cookies enabled
                 return RedirectToAction("login");
@@ -133,38 +130,43 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Register()
         {
-            return View(_viewModelRepository.Load<AccountRegisterInput>());
+            return View(_viewModelRepository.Load<AccountRegister>());
         }
 
-        //[HttpPost]
-        //public ActionResult Register(AccountRegisterInput accountRegisterInput)
-        //{
-        //    if (_userCreateCommandValidator.IsValid(accountRegisterViewModel))
-        //    {
-        //        _commandProcessor.Process<IUserCreateCommand>(accountRegisterViewModel);
+        [HttpPost]
+        public ActionResult Register(AccountRegisterInput accountRegisterInput)
+        {
+            if (ModelState.IsValid)
+            {
+                _commandProcessor.Process(MakeUserCreateCommand(accountRegisterInput));
 
-        //        return RedirectToAction("RegisterSuccess");
-        //    }
+                return RedirectToAction("registersuccess", "account");
+            }
 
-        //    _accountRegisterViewModelBuilder.Build(accountRegisterViewModel);
+            return View(_viewModelRepository.Load<AccountRegisterInput, AccountRegister>(accountRegisterInput));
+        }
 
-        //    return View(accountRegisterViewModel);
-        //}
-
-        //public ActionResult RegisterSuccess()
-        //{
-        //    var registerSuccessViewModel = _emptyViewModelFactory.Make();
-
-        //    _viewModelBaseBuilder.Build(registerSuccessViewModel);
-
-        //    return View(registerSuccessViewModel);
-        //}
+        public ActionResult RegisterSuccess()
+        {
+            return View(_viewModelRepository.Load<DefaultViewModel>());
+        }
 
         private UserUpdateLastLoginCommand MakeUserUpdateLastLoginCommand(AccountLoginInput accountLoginInput)
         {
             return new UserUpdateLastLoginCommand()
             {
-                UserId = accountLoginInput.Username
+                Email = accountLoginInput.Email
+            };
+        }
+
+        private UserCreateCommand MakeUserCreateCommand(AccountRegisterInput accountRegisterInput)
+        {
+            return new UserCreateCommand()
+            {
+                FirstName = accountRegisterInput.FirstName,
+                LastName = accountRegisterInput.LastName,
+                Email = accountRegisterInput.Email,
+                Password = accountRegisterInput.Password
             };
         }
 

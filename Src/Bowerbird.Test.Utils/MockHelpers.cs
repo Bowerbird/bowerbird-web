@@ -66,7 +66,7 @@ namespace Bowerbird.Test.Utils
             var mockIdentity = new Mock<IIdentity>();
 
             mockIdentity.Setup(id => id.IsAuthenticated).Returns(true);
-            mockIdentity.Setup(id => id.Name).Returns(FakeValues.UserName);
+            mockIdentity.Setup(id => id.Name).Returns(FakeValues.Email);
 
             return mockIdentity;
         }

@@ -56,11 +56,11 @@ namespace Bowerbird.Web.Test.ViewModelFactories
 
         #region Test Helpers
 
-        private class ProxyViewModelFactoryWithInputOutput<TInput,TOutput> : ViewModelFactoryBase<TInput,TOutput> where TOutput : new()
+        private class ProxyViewModelFactoryWithInputOutput<TInput,TOutput> : ViewModelFactoryBase, IViewModelFactory<TInput, TOutput> where TOutput : new()
         {
             public ProxyViewModelFactoryWithInputOutput(IDocumentSession session):base(session){ }
 
-            public override TOutput  Make(TInput input)
+            public TOutput  Make(TInput input)
             {
                 return new TOutput();
             }
@@ -68,11 +68,11 @@ namespace Bowerbird.Web.Test.ViewModelFactories
             public new IDocumentSession DocumentSession{ get { return base.DocumentSession; } }
         }
 
-        private class ProxyViewModelFactoryWithOutput<TOutput> : ViewModelFactoryBase<TOutput> where TOutput : new()
+        private class ProxyViewModelFactoryWithOutput<TOutput> : ViewModelFactoryBase, IViewModelFactory<TOutput> where TOutput : new()
         {
             public ProxyViewModelFactoryWithOutput(IDocumentSession session):base(session){ }
 
-            public override TOutput Make()
+            public TOutput Make()
             {
  	            return new TOutput();
             }

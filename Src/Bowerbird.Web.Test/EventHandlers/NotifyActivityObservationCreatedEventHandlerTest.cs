@@ -66,7 +66,6 @@ namespace Bowerbird.Web.Test.EventHandlers
         private static User TestUser()
         {
             return new User(
-                FakeValues.KeyString,
                 FakeValues.Password,
                 FakeValues.Email,
                 FakeValues.FirstName,

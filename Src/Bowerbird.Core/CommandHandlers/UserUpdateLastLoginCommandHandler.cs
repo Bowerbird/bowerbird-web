@@ -34,7 +34,7 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(userUpdateLastLoginCommand, "userUpdateLastLoginCommand");
 
-            var user = _userRepository.Load("users/" + userUpdateLastLoginCommand.UserId);
+            var user = _userRepository.Load("users/" + userUpdateLastLoginCommand.Email); // HACK: This won't work!
 
             user.UpdateLastLoggedIn();
 

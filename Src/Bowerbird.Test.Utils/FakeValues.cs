@@ -36,11 +36,6 @@ namespace Bowerbird.Test.Utils
         public static string LastName { get { return "last name"; } }
 
         /// <summary>
-        /// value: "username"
-        /// </summary>
-        public static string UserName { get { return "username"; } }
-
-        /// <summary>
         /// value: "fake name"
         /// </summary>
         public static string Name { get { return "fake name"; } }
@@ -98,7 +93,7 @@ namespace Bowerbird.Test.Utils
         /// <summary>
         /// value: 123456
         /// </summary>
-        public static int UserId { get { return 123546; } }
+        public static string UserId { get { return "users/123546"; } }
 
         /// <summary>
         /// value: true

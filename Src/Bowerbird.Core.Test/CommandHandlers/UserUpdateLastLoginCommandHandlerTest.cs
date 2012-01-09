@@ -60,7 +60,7 @@ namespace Bowerbird.Core.Test.CommandHandlers
         {
             return new UserUpdateLastLoginCommand()
                        {
-                           UserId = FakeValues.KeyString
+                           Email = FakeValues.Email
                        };
         }
 

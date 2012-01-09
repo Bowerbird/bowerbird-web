@@ -3,9 +3,7 @@ namespace Bowerbird.Core.Tasks
 {
     public interface IUserTasks : ITasks
     {
-        bool AreCredentialsValid(string identifier, string password);
-
-        //bool IsUsernameAvailable(string username);
+        bool AreCredentialsValid(string email, string password);
 
         bool IsEmailAvailable(string email);
     }

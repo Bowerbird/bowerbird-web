@@ -78,7 +78,7 @@ namespace Bowerbird.Web.Test
                 ObservationCategory = FakeValues.Category,
                 ObservedOn = FakeValues.CreatedDateTime,
                 Title = FakeValues.Title,
-                Username = FakeValues.UserName
+                UserId = FakeValues.UserId
             };
         }
 

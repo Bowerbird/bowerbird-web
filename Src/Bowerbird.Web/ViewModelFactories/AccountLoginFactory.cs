@@ -1,22 +1,29 @@
 ﻿using Bowerbird.Core.DesignByContract;
+using Bowerbird.Web.Config;
 using Bowerbird.Web.ViewModels;
 using Raven.Client;
 
 namespace Bowerbird.Web.ViewModelFactories
 {
-    public class AccountLoginFactory : ViewModelFactoryBase<AccountLoginInput, AccountLogin>
+    public class AccountLoginFactory : ViewModelFactoryBase, IViewModelFactory<AccountLoginInput, AccountLogin>, IViewModelFactory<AccountLogin>
     {
 
         #region Members
+
+        private readonly IUserContext _userContext;
 
         #endregion
 
         #region Constructors
 
         public AccountLoginFactory(
+            IUserContext userContext,
             IDocumentSession documentSession)
             : base(documentSession)
         {
+            Check.RequireNotNull(userContext, "userContext");
+
+            _userContext = userContext;
         }
 
         #endregion
@@ -27,13 +34,21 @@ namespace Bowerbird.Web.ViewModelFactories
 
         #region Methods
 
-        public override AccountLogin Make(AccountLoginInput accountLoginInput)
+        public AccountLogin Make()
+        {
+            return new AccountLogin()
+                       {
+                           Email = _userContext.HasEmailCookieValue() ? _userContext.GetEmailCookieValue() : string.Empty
+                       };
+        }
+
+        public AccountLogin Make(AccountLoginInput accountLoginInput)
         {
             Check.RequireNotNull(accountLoginInput, "accountLoginInput");
 
             return new AccountLogin()
             {
-                Username = accountLoginInput.Username,
+                Email = accountLoginInput.Email,
                 RememberMe = accountLoginInput.RememberMe,
                 ReturnUrl = accountLoginInput.ReturnUrl
             };

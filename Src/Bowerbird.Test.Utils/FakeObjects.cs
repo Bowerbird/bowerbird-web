@@ -8,7 +8,6 @@ namespace Bowerbird.Test.Utils
         public static User TestUser()
         {
             return new User(
-                FakeValues.KeyString,
                 FakeValues.Password,
                 FakeValues.Email,
                 FakeValues.FirstName,

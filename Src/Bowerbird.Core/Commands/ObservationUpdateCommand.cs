@@ -35,7 +35,7 @@ namespace Bowerbird.Core.Commands
 
         public List<string> MediaResources { get; set; }
 
-        public string Username { get; set; }
+        public string UserId { get; set; }
 
         #endregion
 

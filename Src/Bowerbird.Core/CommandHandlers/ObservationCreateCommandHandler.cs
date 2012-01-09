@@ -47,7 +47,7 @@ namespace Bowerbird.Core.CommandHandlers
             Check.RequireNotNull(observationCreateCommand, "observationCreateCommand");
 
             var observation = new Observation(
-                _userRepository.Load(observationCreateCommand.Username),
+                _userRepository.Load(observationCreateCommand.UserId),
                 observationCreateCommand.Title,
                 observationCreateCommand.ObservedOn,
                 observationCreateCommand.Latitude,

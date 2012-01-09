@@ -52,28 +52,11 @@ namespace Bowerbird.Core.Test.DomainModels
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void User_Constructor_With_Null_Id_Throws_DesignByContractException()
-        {
-            Assert.IsTrue(
-                BowerbirdThrows.Exception<DesignByContractException>(
-                () => new User(
-                    null,
-                    FakeValues.Password,
-                    FakeValues.Email,
-                    FakeValues.FirstName,
-                    FakeValues.LastName,
-                    FakeValues.Description,
-                    FakeObjects.TestRoles())));
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
         public void User_Constructor_With_Null_Roles_Throws_DesignByContractException()
         {
             Assert.IsTrue(
                 BowerbirdThrows.Exception<DesignByContractException>(
                 () => new User(
-                    FakeValues.KeyString,
                     FakeValues.Password,
                     FakeValues.Email,
                     FakeValues.FirstName,
@@ -84,29 +67,9 @@ namespace Bowerbird.Core.Test.DomainModels
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void User_Constructor_Populates_Id_Field()
-        {
-            var user = new User(
-                FakeValues.KeyString,
-                FakeValues.Password,
-                FakeValues.Email,
-                FakeValues.FirstName,
-                FakeValues.LastName,
-                FakeValues.Description,
-                FakeObjects.TestRoles());
-
-            var expected = FakeValues.KeyString.PrependWith("users/");
-            var actual = user.Id;
-
-            Assert.AreEqual(actual, expected);
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
         public void User_Constructor_Populates_Password_Field()
         {
             var user = new User(
-                FakeValues.KeyString,
                 FakeValues.Password,
                 FakeValues.Email,
                 FakeValues.FirstName,
@@ -125,7 +88,6 @@ namespace Bowerbird.Core.Test.DomainModels
         public void User_Constructor_Populates_Email_Field()
         {
             var user = new User(
-                FakeValues.KeyString,
                 FakeValues.Password,
                 FakeValues.Email,
                 FakeValues.FirstName,
@@ -144,7 +106,6 @@ namespace Bowerbird.Core.Test.DomainModels
         public void User_Constructor_Populates_FirstName_Field()
         {
             var user = new User(
-                FakeValues.KeyString,
                 FakeValues.Password,
                 FakeValues.Email,
                 FakeValues.FirstName,
@@ -163,7 +124,6 @@ namespace Bowerbird.Core.Test.DomainModels
         public void User_Constructor_Populates_LastName_Field()
         {
             var user = new User(
-                FakeValues.KeyString,
                 FakeValues.Password,
                 FakeValues.Email,
                 FakeValues.FirstName,
@@ -182,7 +142,6 @@ namespace Bowerbird.Core.Test.DomainModels
         public void User_Constructor_Populates_Description_Field()
         {
             var user = new User(
-                FakeValues.KeyString,
                 FakeValues.Password,
                 FakeValues.Email,
                 FakeValues.FirstName,
@@ -203,7 +162,6 @@ namespace Bowerbird.Core.Test.DomainModels
             var roles = FakeObjects.TestRoles();
 
             var user = new User(
-                FakeValues.KeyString,
                 FakeValues.Password,
                 FakeValues.Email,
                 FakeValues.FirstName,

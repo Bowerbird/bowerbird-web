@@ -92,7 +92,6 @@ namespace Bowerbird.Web.Test.ViewModelFactories
         private static User TestUser()
         {
             return new User(
-                    FakeValues.KeyString,
                     FakeValues.Password,
                     FakeValues.Email,
                     FakeValues.FirstName,
@@ -161,19 +160,22 @@ namespace Bowerbird.Web.Test.ViewModelFactories
         {
             var user = TestUser();
 
-            var observationListInput = new ObservationListInput()
-                                           {
-                                               Page = FakeValues.Page,
-                                               PageSize = FakeValues.PageSize,
-                                               UserId = "users/abc"
-                                           };
-
             using (var session = _store.OpenSession())
             {
                 var userObservationsFactory = new UserObservationsFactory(session, _pagedListFactory);
 
                 SaveUser(session, user);
+
+                var userId = user.Id;
+
                 SaveObservations(session, user, FakeValues.PageSize);
+
+                var observationListInput = new ObservationListInput()
+                {
+                    Page = FakeValues.Page,
+                    PageSize = FakeValues.PageSize,
+                    UserId = userId
+                };
 
                 var observations = userObservationsFactory.Make(observationListInput);
 

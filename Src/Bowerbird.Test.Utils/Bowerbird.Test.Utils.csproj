@@ -97,6 +97,7 @@
     <Compile Include="ProxyObjects.cs" />
     <Compile Include="TestCategory.cs" />
     <Compile Include="UtilityHelpers.cs" />
+    <Compile Include="ValidationHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

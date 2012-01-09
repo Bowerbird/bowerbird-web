@@ -41,7 +41,6 @@ namespace Bowerbird.Core.CommandHandlers
             Check.RequireNotNull(userCreateCommand, "userCreateCommand");
 
             var user = new User(
-                userCreateCommand.Username,
                 userCreateCommand.Password,
                 userCreateCommand.Email,
                 userCreateCommand.FirstName,

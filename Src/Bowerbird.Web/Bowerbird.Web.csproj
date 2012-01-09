@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DataAnnotationsExtensions">
+      <HintPath>..\packages\DataAnnotationsExtensions.1.0.0.0\lib\NETFramework40\DataAnnotationsExtensions.dll</HintPath>
+    </Reference>
     <Reference Include="FluentValidation, Version=3.2.0.0, Culture=neutral, PublicKeyToken=a82054b837897c66, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentValidation.3.2.0.0\lib\Net40\FluentValidation.dll</HintPath>
     </Reference>
@@ -125,6 +128,7 @@
     <Compile Include="ICommandBuilder.cs" />
     <Compile Include="IViewModelRepository.cs" />
     <Compile Include="ViewModelFactories\AccountLoginFactory.cs" />
+    <Compile Include="ViewModelFactories\AccountRegisterFactory.cs" />
     <Compile Include="ViewModels\AccountRegisterInput.cs" />
     <Compile Include="ViewModels\AccountRegister.cs" />
     <Compile Include="ViewModels\DefaultViewModel.cs" />
@@ -133,7 +137,6 @@
     <Compile Include="ViewModels\AccountLogin.cs" />
     <Compile Include="ViewModels\AccountLoginInput.cs" />
     <Compile Include="ViewModels\StreamItem.cs" />
-    <Compile Include="ViewModels\UserCreateInput.cs" />
     <Compile Include="Extensions\UrlHelperExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModelFactories\HomeIndexFactory.cs" />

@@ -57,7 +57,7 @@ namespace Bowerbird.Web.Controllers
             _commandProcessor.Process(
                 _commandBuilder.Build<ObservationCreateInput, ObservationCreateCommand>(
                     observationCreateInput, 
-                    x => x.Username = User.Identity.Name));
+                    x => x.UserId = User.Identity.Name));
 
             return Json("success"); // TODO: Return something more meaningful?
         }

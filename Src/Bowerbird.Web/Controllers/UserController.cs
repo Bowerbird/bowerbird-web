@@ -41,22 +41,6 @@ namespace Bowerbird.Web.Controllers
 
         #region Methods
 
-        [Transaction]
-        public ActionResult Create(UserCreateInput userCreateInput)
-        {
-            _commandProcessor.Process(MakeUserCreateCommand(userCreateInput));
-
-            return Json("success", JsonRequestBehavior.AllowGet);
-        }
-
-        private UserCreateCommand MakeUserCreateCommand(UserCreateInput userCreateInput)
-        {
-            return new UserCreateCommand()
-            {
-                Username = userCreateInput.Username
-            };
-        }
-
         #endregion
 
     }

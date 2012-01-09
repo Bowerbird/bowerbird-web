@@ -54,7 +54,7 @@ namespace Bowerbird.Core.Test.Commands
                 ObservationCategory = FakeValues.Category,
                 ObservedOn = FakeValues.CreatedDateTime,
                 Title = FakeValues.Title,
-                Username = FakeValues.UserName
+                UserId = FakeValues.UserId
             };
         }
 
@@ -136,9 +136,9 @@ namespace Bowerbird.Core.Test.Commands
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void ObservationCreateCommand_Username_Is_TypeOf_String()
+        public void ObservationCreateCommand_UserId_Is_TypeOf_String()
         {
-            Assert.IsInstanceOf<string>(TestObservationCreateCommand().Username);
+            Assert.IsInstanceOf<string>(TestObservationCreateCommand().UserId);
         }
 
         #endregion

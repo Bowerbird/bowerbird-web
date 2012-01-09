@@ -68,7 +68,6 @@ namespace Bowerbird.Core.Test.CommandHandlers
         private static User TestUser()
         {
             return new User(
-                FakeValues.KeyString,
                 FakeValues.Password,
                 FakeValues.Email,
                 FakeValues.FirstName,
@@ -115,8 +114,7 @@ namespace Bowerbird.Core.Test.CommandHandlers
                            FirstName = FakeValues.FirstName,
                            LastName = FakeValues.LastName,
                            Password = FakeValues.Password,
-                           Roles = TestRoles().Select(x => x.Id).ToList(),
-                           Username = FakeValues.UserName
+                           Roles = TestRoles().Select(x => x.Id).ToList()
                        };
         }
 

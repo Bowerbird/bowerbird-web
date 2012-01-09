@@ -204,6 +204,7 @@
     <Content Include="Views\Home\Copy of Index.cshtml" />
     <Content Include="Views\Shared\_SelectedFilterDetails.cshtml" />
     <Content Include="Views\Shared\_StreamObservationItem.cshtml" />
+    <Content Include="Views\Account\RegisterSuccess.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="404.html" />

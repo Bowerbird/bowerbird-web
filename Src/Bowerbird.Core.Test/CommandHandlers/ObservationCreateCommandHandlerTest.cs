@@ -120,7 +120,7 @@ namespace Bowerbird.Core.Test.CommandHandlers
         public void ObservationCreateCommandHandler_Handle_Passing_ObservationCreateCommand_Calls_ObservationRepository_Add()
         {
             _mockUserRepository.Setup(x => x.Load(It.IsAny<string>())).Returns(_mockUserDomainModel.Object);
-            _mockObservationCreateCommand.Setup(x => x.Username).Returns(FakeValues.UserName);
+            _mockObservationCreateCommand.SetupGet(x => x.UserId).Returns(FakeValues.UserId);
 
             _observationCreateCommandHandler.Handle(_mockObservationCreateCommand.Object);
 
@@ -132,7 +132,7 @@ namespace Bowerbird.Core.Test.CommandHandlers
         public void ObservationCreateCommandHandler_Handle_Passing_ObservationCreateCommand_Calls_UserRepository_Load()
         {
             _mockUserRepository.Setup(x => x.Load(It.IsAny<string>())).Returns(_mockUserDomainModel.Object);
-            _mockObservationCreateCommand.Setup(x => x.Username).Returns(FakeValues.UserName);
+            _mockObservationCreateCommand.SetupGet(x => x.UserId).Returns(FakeValues.UserId);
 
             _observationCreateCommandHandler.Handle(_mockObservationCreateCommand.Object);
 
@@ -144,7 +144,7 @@ namespace Bowerbird.Core.Test.CommandHandlers
         public void ObservationCreateCommandHandler_Handle_Passing_ObservationCreateCommand_With_MediaResources_Calls_MediaResourceRepository_Load()
         {
             _mockUserRepository.Setup(x => x.Load(It.IsAny<string>())).Returns(_mockUserDomainModel.Object);
-            _mockObservationCreateCommand.Setup(x => x.Username).Returns(FakeValues.UserName);
+            _mockObservationCreateCommand.Setup(x => x.UserId).Returns(FakeValues.UserId);
             _mockObservationCreateCommand.Setup(x => x.MediaResources).Returns(TestMediaResourceIds());
             _mockMediaResourceRepository.Setup(x => x.Load(It.IsAny<IEnumerable<string>>())).Returns(TestMediaResources());
 
@@ -158,7 +158,7 @@ namespace Bowerbird.Core.Test.CommandHandlers
         public void ObservationCreateCommandHandler_Handle_Passing_ObservationCreateCommand_Without_MediaResources_DoesNotCall_MediaResourceRepository_Load()
         {
             _mockUserRepository.Setup(x => x.Load(It.IsAny<string>())).Returns(_mockUserDomainModel.Object);
-            _mockObservationCreateCommand.Setup(x => x.Username).Returns(FakeValues.UserName);
+            _mockObservationCreateCommand.Setup(x => x.UserId).Returns(FakeValues.UserId);
 
             _observationCreateCommandHandler.Handle(_mockObservationCreateCommand.Object);
 

@@ -64,7 +64,7 @@ namespace Bowerbird.Core.CommandHandlers
             var observation = _observationRepository.Load(observationUpdateCommand.Id);
 
             observation.UpdateDetails(
-                _userRepsitory.Load(observationUpdateCommand.Username),
+                _userRepsitory.Load(observationUpdateCommand.UserId),
                 observationUpdateCommand.Title,
                 observationUpdateCommand.ObservedOn,
                 observationUpdateCommand.Latitude,

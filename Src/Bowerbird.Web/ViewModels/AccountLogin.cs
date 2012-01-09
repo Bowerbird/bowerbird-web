@@ -26,7 +26,7 @@ namespace Bowerbird.Web.ViewModels
 
         #region Properties
 
-        public string Username { get; set; }
+        public string Email { get; set; }
 
         public bool RememberMe { get; set; }
 

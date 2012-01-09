@@ -89,10 +89,10 @@ namespace Bowerbird.Web.Test.ViewModels
             Assert.IsInstanceOf<DateTime>(new ObservationCreateInput() { ObservedOn = FakeValues.CreatedDateTime }.ObservedOn);
         }
 
-        [Test, Category(TestCategory.Unit)] 
-        public void ObservationCreateInput_Username_Is_A_String()
+        [Test, Category(TestCategory.Unit)]
+        public void ObservationCreateInput_UserId_Is_A_String()
         {
-            Assert.IsInstanceOf<string>(new ObservationCreateInput() { Username = FakeValues.UserName }.Username );
+            Assert.IsInstanceOf<string>(new ObservationCreateInput() { UserId = FakeValues.UserId }.UserId);
         }
 
         [Test, Category(TestCategory.Unit)] 

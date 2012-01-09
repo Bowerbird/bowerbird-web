@@ -65,7 +65,7 @@ namespace Bowerbird.Web.Controllers
             {
                 Title = "test",
                 Address = "aaa",
-                Username = "frankr",
+                UserId = "frankr",
                 ObservedOn = DateTime.Now,
                 ObservationCategory = "sdsd",
                 MediaResources = new List<string>()
@@ -75,7 +75,7 @@ namespace Bowerbird.Web.Controllers
             {
                 Title = "test",
                 Address = "aaa",
-                Username = "frankr",
+                UserId = "frankr",
                 ObservedOn = DateTime.Now,
                 ObservationCategory = "sdsd",
                 MediaResources = new List<string>()
@@ -85,7 +85,7 @@ namespace Bowerbird.Web.Controllers
             {
                 Title = "test",
                 Address = "aaa",
-                Username = "frankr",
+                UserId = "frankr",
                 ObservedOn = DateTime.Now,
                 ObservationCategory = "sdsd",
                 MediaResources = new List<string>()

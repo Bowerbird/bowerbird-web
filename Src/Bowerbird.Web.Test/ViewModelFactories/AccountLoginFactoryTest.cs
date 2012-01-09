@@ -1,5 +1,6 @@
 ﻿using Bowerbird.Core.DesignByContract;
 using Bowerbird.Test.Utils;
+using Bowerbird.Web.Config;
 using Bowerbird.Web.ViewModelFactories;
 using Bowerbird.Web.ViewModels;
 using Moq;
@@ -14,11 +15,13 @@ namespace Bowerbird.Web.Test.ViewModelFactories
             
         #region Infrastructure
 
+        private Mock<IUserContext> _mockUserContext;
         private Mock<IDocumentSession> _mockDocumentSession;
 
         [SetUp]
         public void TestInitialize()
         {
+            _mockUserContext = new Mock<IUserContext>();
             _mockDocumentSession = new Mock<IDocumentSession>();
         }
 
@@ -37,9 +40,15 @@ namespace Bowerbird.Web.Test.ViewModelFactories
         #region Constructor tests
 
         [Test, Category(TestCategory.Unit)]
+        public void AccountLoginFactory_Constructor_Passing_Null_UserContext_Throws_DesignByContractException()
+        {
+            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new AccountLoginFactory(null, new Mock<IDocumentSession>().Object)));
+        }
+
+        [Test, Category(TestCategory.Unit)]
         public void AccountLoginFactory_Constructor_Passing_Null_DocumentSession_Throws_DesignByContractException()
         {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new AccountLoginFactory(null)));
+            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new AccountLoginFactory(_mockUserContext.Object, null)));
         }
 
         #endregion
@@ -53,7 +62,7 @@ namespace Bowerbird.Web.Test.ViewModelFactories
         [Test, Category(TestCategory.Unit)]
         public void AccountLoginFactory_Make_Passing_Null_AccountLoginInput_Throws_DesignByContractException()
         {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() =>new AccountLoginFactory(_mockDocumentSession.Object).Make(null)));
+            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new AccountLoginFactory(_mockUserContext.Object, _mockDocumentSession.Object).Make(null)));
         }
 
         [Test, Category(TestCategory.Unit)]
@@ -61,14 +70,14 @@ namespace Bowerbird.Web.Test.ViewModelFactories
         {
             var accountLoginInput = new AccountLoginInput()
                                         {
-                                            Username = FakeValues.UserName,
+                                            Email = FakeValues.Email,
                                             RememberMe = FakeValues.IsTrue,
                                             ReturnUrl = FakeValues.Website
                                         };
 
-            var accountLogin = new AccountLoginFactory(_mockDocumentSession.Object).Make(accountLoginInput);
+            var accountLogin = new AccountLoginFactory(_mockUserContext.Object, _mockDocumentSession.Object).Make(accountLoginInput);
 
-            Assert.AreEqual(accountLoginInput.Username, accountLogin.Username);
+            Assert.AreEqual(accountLoginInput.Email, accountLogin.Email);
             Assert.AreEqual(accountLoginInput.RememberMe, accountLogin.RememberMe);
             Assert.AreEqual(accountLoginInput.ReturnUrl, accountLogin.ReturnUrl);
         }

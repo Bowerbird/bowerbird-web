@@ -54,9 +54,9 @@ namespace Bowerbird.Web.Test.ViewModels
         #region Property tests
 
         [Test, Category(TestCategory.Unit)] 
-        public void AccountLogin_Username_Is_A_String()
+        public void AccountLogin_Email_Is_A_String()
         {
-            Assert.IsInstanceOf<string>(new AccountLoginInput() { Username = FakeValues.UserName }.Username);
+            Assert.IsInstanceOf<string>(new AccountLoginInput() { Email = FakeValues.Email }.Email);
         }
 
         [Test, Category(TestCategory.Unit)] 

@@ -30,7 +30,7 @@ namespace Bowerbird.Web.ViewModelFactories
 
     #endregion
 
-    public class HomeIndexFactory : ViewModelFactoryBase<HomeIndexInput, HomeIndex>
+    public class HomeIndexFactory : ViewModelFactoryBase, IViewModelFactory<HomeIndexInput, HomeIndex>
     {
 
         #region Fields
@@ -59,7 +59,7 @@ namespace Bowerbird.Web.ViewModelFactories
 
         #region Methods
 
-        public override HomeIndex Make(HomeIndexInput homeIndexInput)
+        public HomeIndex Make(HomeIndexInput homeIndexInput)
         {
             Check.RequireNotNull(homeIndexInput, "homeIndexInput");
 

@@ -40,7 +40,7 @@ namespace Bowerbird.Core.Commands
 
         public virtual List<string> MediaResources { get; set; }
 
-        public virtual string Username { get; set; }
+        public virtual string UserId { get; set; }
 
         #endregion
 

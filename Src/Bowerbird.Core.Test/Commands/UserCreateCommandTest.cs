@@ -50,8 +50,7 @@ namespace Bowerbird.Core.Test.Commands
                            FirstName = FakeValues.FirstName,
                            LastName = FakeValues.LastName,
                            Password = FakeValues.Password,
-                           Roles = new List<string>(){"Member"},
-                           Username = FakeValues.UserName
+                           Roles = new List<string>(){"Member"}
                        };
         }
 
@@ -103,13 +102,6 @@ namespace Bowerbird.Core.Test.Commands
         public void UserCreateCommand_Roles_Is_TypeOf_List_String()
         {
             Assert.IsInstanceOf<List<string>>(TestUserCreateCommand().Roles);
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void UserCreateCommand_Username_Is_TypeOf_String()
-        {
-            Assert.IsInstanceOf<string>(TestUserCreateCommand().Username);
         }
 
         #endregion

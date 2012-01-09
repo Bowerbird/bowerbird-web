@@ -32,22 +32,22 @@ namespace Bowerbird.Web.Config
             return HttpContext.Current.User.Identity.IsAuthenticated;
         }
 
-        public string GetAuthenticatedUsername()
+        public string GetAuthenticatedUserId()
         {
             return HttpContext.Current.User.Identity.Name;
         }
 
-        public bool HasUsernameCookieValue()
+        public bool HasEmailCookieValue()
         {
-            return GetCookie(Constants.UsernameCookieName) != null;
+            return GetCookie(Constants.EmailCookieName) != null;
         }
 
-        public string GetUsernameCookieValue()
+        public string GetEmailCookieValue()
         {
-            return GetCookie(Constants.UsernameCookieName).Value;
+            return GetCookie(Constants.EmailCookieName).Value;
         }
 
-        public void SignUserIn(string username, bool keepUserLoggedIn)
+        public void SignUserIn(string email, bool keepUserLoggedIn)
         {
             TimeSpan sessionExpiryDuration;
 
@@ -62,15 +62,15 @@ namespace Bowerbird.Web.Config
                 sessionExpiryDuration = new TimeSpan(3, 0, 0);
             }
 
-            var authTicket = new FormsAuthenticationTicket(username, keepUserLoggedIn, Convert.ToInt32(sessionExpiryDuration.TotalMinutes)); // Must be less than cookie expiration, whic we have set to 100 years
+            var authTicket = new FormsAuthenticationTicket(email, keepUserLoggedIn, Convert.ToInt32(sessionExpiryDuration.TotalMinutes)); // Must be less than cookie expiration, whic we have set to 100 years
 
             string encryptedTicket = FormsAuthentication.Encrypt(authTicket);
 
             // Add the forms auth session cookie to log user in
             AddCookie(FormsAuthentication.FormsCookieName, encryptedTicket, string.Empty);
 
-            // Add the username into cookie for reference on next login
-            AddCookie(Constants.UsernameCookieName, username, string.Empty);
+            // Add the email into cookie for reference on next login
+            AddCookie(Constants.EmailCookieName, email, string.Empty);
         }
 
         public void SignUserOut()

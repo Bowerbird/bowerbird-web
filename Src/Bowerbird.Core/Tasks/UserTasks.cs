@@ -37,15 +37,14 @@ namespace Bowerbird.Core.Tasks
 
         #region Methods
 
-        public bool AreCredentialsValid(string identifier, string password)
+        public bool AreCredentialsValid(string email, string password)
         {
-            Check.RequireNotNullOrWhitespace(identifier, "identifier");
-            
+            Check.RequireNotNullOrWhitespace(email, "email");
             Check.RequireNotNullOrWhitespace(password, "password");
 
             var user = _documentSession
                 .Query<User>()
-                .Where(x => x.Id == identifier.PrependWith("users/"))
+                .Where(x => x.Email == email)
                 .FirstOrDefault();
 
             return user != null && user.ValidatePassword(password);

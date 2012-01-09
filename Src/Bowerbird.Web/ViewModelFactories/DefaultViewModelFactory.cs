@@ -3,7 +3,7 @@ using Raven.Client;
 
 namespace Bowerbird.Web.ViewModelFactories
 {
-    public class DefaultViewModelFactory : ViewModelFactoryBase<DefaultViewModel>
+    public class DefaultViewModelFactory : ViewModelFactoryBase, IViewModelFactory<DefaultViewModel>
     {
 
         #region Members
@@ -26,7 +26,7 @@ namespace Bowerbird.Web.ViewModelFactories
 
         #region Methods
 
-        public override DefaultViewModel Make()
+        public DefaultViewModel Make()
         {
             return new DefaultViewModel();
         }

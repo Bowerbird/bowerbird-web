@@ -66,7 +66,6 @@ namespace Bowerbird.Core.Test.Tasks
         private static User TestUser()
         {
             return new User(
-                FakeValues.KeyString,
                 FakeValues.Password,
                 FakeValues.Email,
                 FakeValues.FirstName,
@@ -136,12 +135,12 @@ namespace Bowerbird.Core.Test.Tasks
         {
             using (var session = _store.OpenSession())
             {
-                Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() =>new UserTasks(session).AreCredentialsValid(FakeValues.UserName,string.Empty)));
+                Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() =>new UserTasks(session).AreCredentialsValid(FakeValues.UserId,string.Empty)));
             }
         }
 
         [Test, Category(TestCategory.Integration), Category(TestCategory.Persistance)]
-        public void UserTasks_AreCredentialsValid_Passing_Valid_Username_And_Password_Returns_True()
+        public void UserTasks_AreCredentialsValid_Passing_Valid_Email_And_Password_Returns_True()
         {
             using (var session = _store.OpenSession())
             {
@@ -152,7 +151,7 @@ namespace Bowerbird.Core.Test.Tasks
 
             using (var session = _store.OpenSession())
             {
-                Assert.IsTrue(new UserTasks(session).AreCredentialsValid(FakeValues.KeyString, FakeValues.Password));
+                Assert.IsTrue(new UserTasks(session).AreCredentialsValid(FakeValues.Email, FakeValues.Password));
             }
         }
 

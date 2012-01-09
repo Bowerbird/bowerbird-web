@@ -117,11 +117,11 @@ namespace Bowerbird.Core.CommandHandlers
             Roles.Add(role);
         }
 
-        private void AddUser(string username, string password, string email, string firstname, string lastname, params string[] roleIds)
+        private void AddUser(string password, string email, string firstname, string lastname, params string[] roleIds)
         {
             var roles = Roles.Where(x => roleIds.Any(y => x.Id == "roles/" + y));
 
-            var user = new User(username, password, email, firstname, lastname, string.Empty, roles);
+            var user = new User(password, email, firstname, lastname, string.Empty, roles);
 
             _userRepository.Add(user);
 

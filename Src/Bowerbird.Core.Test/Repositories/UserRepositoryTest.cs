@@ -98,7 +98,6 @@ namespace Bowerbird.Core.Test.Repositories
             using (var session = _store.OpenSession())
             {
                 userWrite = new User(
-                    FakeValues.KeyString,
                     FakeValues.Password,
                     FakeValues.Email,
                     FakeValues.FirstName,

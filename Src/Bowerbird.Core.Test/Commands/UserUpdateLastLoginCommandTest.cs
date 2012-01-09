@@ -52,7 +52,7 @@ namespace Bowerbird.Core.Test.Commands
         [Category(TestCategory.Unit)]
         public void UserUpdateLastLoginCommand_UserId_Is_TypeOf_String()
         {
-            Assert.IsInstanceOf<string>(new UserUpdateLastLoginCommand() { UserId = FakeValues.KeyString }.UserId );
+            Assert.IsInstanceOf<string>(new UserUpdateLastLoginCommand() { Email = FakeValues.Email }.Email );
         }
 
         #endregion
