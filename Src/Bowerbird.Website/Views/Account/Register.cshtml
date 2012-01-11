@@ -5,3 +5,24 @@
 }
 
 <h2>Register</h2>
+
+@using (Html.BeginForm()) 
+{
+    <fieldset>
+        <legend>Register Details</legend>
+        <div>
+            @Html.LabelFor(x => x.FirstName)
+            @Html.TextBoxFor(x => x.FirstName)
+
+            @Html.LabelFor(x => x.LastName)
+            @Html.TextBoxFor(x => x.LastName)
+            
+            @Html.LabelFor(x => x.Email)
+            @Html.TextBoxFor(x => x.Email)
+            
+            <label for="password">Password</label>
+            @Html.Password("password")
+        </div>
+        <input type="submit" value="Register" />
+    </fieldset>
+}
