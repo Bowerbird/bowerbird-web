@@ -13,6 +13,7 @@
 */
 
 using System.ComponentModel.DataAnnotations;
+using Bowerbird.Web.Validators;
 using DataAnnotationsExtensions;
 
 namespace Bowerbird.Web.ViewModels
@@ -37,9 +38,11 @@ namespace Bowerbird.Web.ViewModels
 
         [Required(ErrorMessage = "Please enter your email address")]
         [Email(ErrorMessage = "Please enter a valid email address")]
+        [UniqueEmail(ErrorMessage = "The email address already exists, please enter another email address")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Please enter a password")]
+        [StringLength(1000, MinimumLength = 6, ErrorMessage = "Passwords must be at least 6 characters in length")]
         public string Password { get; set; }
 
         #endregion

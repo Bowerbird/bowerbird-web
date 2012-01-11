@@ -15,6 +15,7 @@
 */
 
 using System.ComponentModel.DataAnnotations;
+using DataAnnotationsExtensions;
 
 namespace Bowerbird.Web.Test.ViewModels
 {
@@ -29,6 +30,8 @@ namespace Bowerbird.Web.Test.ViewModels
 
     using Bowerbird.Web.ViewModels;
     using Bowerbird.Test.Utils;
+    using Raven.Client;
+    using Bowerbird.Web.Validators;
 
     #endregion
 
@@ -37,11 +40,19 @@ namespace Bowerbird.Web.Test.ViewModels
     {
         #region Test Infrastructure
 
-        [SetUp] 
-        public void TestInitialize() { }
+        private IDocumentStore _store;
 
-        [TearDown] 
-        public void TestCleanup() { }
+        [SetUp]
+        public void TestInitialize()
+        {
+            _store = DocumentStoreHelper.TestDocumentStore();
+        }
+
+        [TearDown]
+        public void TestCleanup()
+        {
+            _store = null;
+        }
 
         #endregion
 
@@ -84,88 +95,95 @@ namespace Bowerbird.Web.Test.ViewModels
         #region Method tests
 
         [Test, Category(TestCategory.Unit)]
-        public void AccountRegisterInput_FirstName_Is_Invalid_When_Empty()
+        public void AccountRegisterInput_FirstName_Is_Required()
         {
-            var accountRegisterInput = new AccountRegisterInput()
-                                           {
-                                               FirstName = string.Empty,
-                                               LastName = FakeValues.LastName,
-                                               Email = FakeValues.Email,
-                                               Password = FakeValues.Password
-                                           };
+            var propertyInfo = typeof(AccountRegisterInput).GetProperty("FirstName");
 
-            var validationResults = ValidationHelper.ValidateModel(accountRegisterInput);
+            var attribute = propertyInfo
+                .GetCustomAttributes(typeof(RequiredAttribute), false)
+                .Cast<RequiredAttribute>()
+                .FirstOrDefault();
 
-            Assert.IsTrue(validationResults.Count == 1);
-            Assert.IsTrue(validationResults[0].MemberNames.First() == "FirstName");
+            Assert.NotNull(attribute);
         }
 
         [Test, Category(TestCategory.Unit)]
-        public void AccountRegisterInput_LastName_Is_Invalid_When_Empty()
+        public void AccountRegisterInput_LastName_Is_Required()
         {
-            var accountRegisterInput = new AccountRegisterInput()
-            {
-                FirstName = FakeValues.FirstName,
-                LastName = string.Empty,
-                Email = FakeValues.Email,
-                Password = FakeValues.Password
-            };
+            var propertyInfo = typeof(AccountRegisterInput).GetProperty("LastName");
 
-            var validationResults = ValidationHelper.ValidateModel(accountRegisterInput);
+            var attribute = propertyInfo
+                .GetCustomAttributes(typeof(RequiredAttribute), false)
+                .Cast<RequiredAttribute>()
+                .FirstOrDefault();
 
-            Assert.IsTrue(validationResults.Count == 1);
-            Assert.IsTrue(validationResults[0].MemberNames.First() == "LastName");
+            Assert.NotNull(attribute);
         }
 
         [Test, Category(TestCategory.Unit)]
-        public void AccountRegisterInput_Email_Is_Invalid_When_Empty()
+        public void AccountRegisterInput_Email_Is_Required()
         {
-            var accountRegisterInput = new AccountRegisterInput()
-            {
-                FirstName = FakeValues.FirstName,
-                LastName = FakeValues.LastName,
-                Email = string.Empty,
-                Password = FakeValues.Password
-            };
+            var propertyInfo = typeof(AccountRegisterInput).GetProperty("Email");
 
-            var validationResults = ValidationHelper.ValidateModel(accountRegisterInput);
+            var attribute = propertyInfo
+                .GetCustomAttributes(typeof(RequiredAttribute), false)
+                .Cast<RequiredAttribute>()
+                .FirstOrDefault();
 
-            Assert.IsTrue(validationResults.Count == 1);
-            Assert.IsTrue(validationResults[0].MemberNames.First() == "Email");
+            Assert.NotNull(attribute);
         }
 
         [Test, Category(TestCategory.Unit)]
-        public void AccountRegisterInput_Email_Is_Invalid_When_WrongEmailFormat()
+        public void AccountRegisterInput_Email_Must_Be_Valid_Format()
         {
-            var accountRegisterInput = new AccountRegisterInput()
-            {
-                FirstName = FakeValues.FirstName,
-                LastName = FakeValues.LastName,
-                Email = FakeValues.InvalidEmail,
-                Password = FakeValues.Password
-            };
+            var propertyInfo = typeof(AccountRegisterInput).GetProperty("Email");
 
-            var validationResults = ValidationHelper.ValidateModel(accountRegisterInput);
+            var attribute = propertyInfo
+                .GetCustomAttributes(typeof(EmailAttribute), false)
+                .Cast<EmailAttribute>()
+                .FirstOrDefault();
 
-            Assert.IsTrue(validationResults.Count == 1);
-            Assert.IsTrue(validationResults[0].MemberNames.First() == "Email");
+            Assert.NotNull(attribute);
         }
 
         [Test, Category(TestCategory.Unit)]
-        public void AccountRegisterInput_Password_Is_Invalid_When_Empty()
+        public void AccountRegisterInput_Email_Must_Be_Unique()
         {
-            var accountRegisterInput = new AccountRegisterInput()
-            {
-                FirstName = FakeValues.FirstName,
-                LastName = FakeValues.LastName,
-                Email = FakeValues.Email,
-                Password = string.Empty
-            };
+            var propertyInfo = typeof(AccountRegisterInput).GetProperty("Email");
 
-            var validationResults = ValidationHelper.ValidateModel(accountRegisterInput);
+            var attribute = propertyInfo
+                .GetCustomAttributes(typeof(UniqueEmailAttribute), false)
+                .Cast<UniqueEmailAttribute>()
+                .FirstOrDefault();
 
-            Assert.IsTrue(validationResults.Count == 1);
-            Assert.IsTrue(validationResults[0].MemberNames.First() == "Password");
+            Assert.NotNull(attribute);
+        }
+
+        [Test, Category(TestCategory.Unit)]
+        public void AccountRegisterInput_Password_Is_Required()
+        {
+            var propertyInfo = typeof(AccountRegisterInput).GetProperty("Password");
+
+            var attribute = propertyInfo
+                .GetCustomAttributes(typeof(RequiredAttribute), false)
+                .Cast<RequiredAttribute>()
+                .FirstOrDefault();
+
+            Assert.NotNull(attribute);
+        }
+
+        [Test, Category(TestCategory.Unit)]
+        public void AccountRegisterInput_Password_Must_Be_Greater_Than_Six_Characters()
+        {
+            var propertyInfo = typeof(AccountRegisterInput).GetProperty("Password");
+
+            var attribute = propertyInfo
+                .GetCustomAttributes(typeof(StringLengthAttribute), false)
+                .Cast<StringLengthAttribute>()
+                .FirstOrDefault();
+
+            Assert.NotNull(attribute);
+            Assert.AreEqual(6, attribute.MinimumLength);
         }
 
         #endregion					
