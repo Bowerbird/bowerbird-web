@@ -58,8 +58,10 @@ namespace Bowerbird.Core.Test.DomainModels
                     new ProjectPost(
                         null,
                         FakeObjects.TestUser(),
+                        FakeValues.CreatedDateTime,
                         FakeValues.Subject,
-                        FakeValues.Message
+                        FakeValues.Message,
+                        new List<MediaResource>()
                         )));
         }
 
@@ -71,16 +73,20 @@ namespace Bowerbird.Core.Test.DomainModels
                     new ProjectPost(
                         FakeObjects.TestProject(),
                         FakeObjects.TestUser(),
+                        FakeValues.CreatedDateTime,
                         FakeValues.Subject,
-                        FakeValues.Message
-                        );
+                        FakeValues.Message,
+                        new List<MediaResource>(){new ProxyObjects.ProxyMediaResource(FakeValues.Filename,FakeValues.FileFormat, FakeValues.Description)});
 
             var id = (new Random(DateTime.Now.Millisecond)).Next().ToString();
             ((IAssignableId)projectPost).SetIdTo("projectpost", id);
 
             Assert.AreEqual(projectPost.Id, id.PrependWith("projectpost/"));
             Assert.AreEqual(projectPost.Message, FakeValues.Message);
-            Assert.AreEqual(projectPost.PostedOn.Day, DateTime.Now.Day);
+            Assert.AreEqual(projectPost.PostedOn, FakeValues.CreatedDateTime);
+            Assert.AreEqual(projectPost.MediaResources[0].OriginalFileName, FakeValues.Filename);
+            Assert.AreEqual(projectPost.MediaResources[0].FileFormat, FakeValues.FileFormat);
+            Assert.AreEqual(projectPost.MediaResources[0].Description, FakeValues.Description);
         }
 
         #endregion

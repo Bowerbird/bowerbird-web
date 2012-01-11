@@ -8,14 +8,14 @@ namespace Bowerbird.Core.CommandHandlers
     {
         #region Members
 
-        private readonly IRepository<User> _userRepository;
+        private readonly IDefaultRepository<User> _userRepository;
 
         #endregion
 
         #region Constructors
 
         public UserUpdateLastLoginCommandHandler(
-            IRepository<User> userRepository)
+            IDefaultRepository<User> userRepository)
         {
             Check.RequireNotNull(userRepository, "userRepository");
 

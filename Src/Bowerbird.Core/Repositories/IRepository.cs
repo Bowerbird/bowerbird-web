@@ -8,9 +8,9 @@ namespace Bowerbird.Core.Repositories
 {
     public interface IRepository<T>
     {
-        T Load(string id);
+        //T Load(string id);
 
-        IEnumerable<T> Load(IEnumerable<string> ids);
+        //IEnumerable<T> Load(IEnumerable<string> ids);
 
         void Add(T domainModel);
 

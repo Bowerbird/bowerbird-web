@@ -49,7 +49,7 @@ namespace Bowerbird.Core.Test.DomainModels
 
         private static Post TestPost()
         {
-            return new Post(FakeObjects.TestUser(), FakeValues.Subject, FakeValues.Message);
+            return new Post(FakeObjects.TestUser(), FakeValues.CreatedDateTime, FakeValues.Subject, FakeValues.Message, new List<MediaResource>());
         }
 
         #endregion
@@ -60,28 +60,40 @@ namespace Bowerbird.Core.Test.DomainModels
         [Category(TestCategory.Unit)]
         public void Post_Constructor_Passing_Null_User_Throws_DesignByContractException()
         {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new Post(null, FakeValues.Subject, FakeValues.Message)));
+            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new Post(null, FakeValues.CreatedDateTime, FakeValues.Subject, FakeValues.Message, new List<MediaResource>())));
         }
 
         [Test]
         [Category(TestCategory.Unit)]
         public void Post_Constructor_Passing_Empty_Subject_Throws_DesignByContractException()
         {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new Post(FakeObjects.TestUser(), string.Empty, FakeValues.Message)));
+            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new Post(FakeObjects.TestUser(), FakeValues.CreatedDateTime, string.Empty, FakeValues.Message, new List<MediaResource>())));
         }
 
         [Test]
         [Category(TestCategory.Unit)]
         public void Post_Constructor_Passing_Empty_Message_Throws_DesignByContractException()
         {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new Post(FakeObjects.TestUser(), FakeValues.Subject, string.Empty)));
+            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new Post(FakeObjects.TestUser(), FakeValues.CreatedDateTime, FakeValues.Subject, string.Empty, new List<MediaResource>())));
+        }
+
+        [Test]
+        [Category(TestCategory.Unit)]
+        public void Post_Constructor_Passing_Empty_MediaResources_Throws_DesignByContractException()
+        {
+            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new Post(FakeObjects.TestUser(), FakeValues.CreatedDateTime, FakeValues.Subject, FakeValues.Message, null)));
         }
 
         [Test]
         [Category(TestCategory.Unit)]
         public void Post_Constructor_Populates_Properties_With_Values()
         {
-            var testPost = new Post(FakeObjects.TestUser(), FakeValues.Subject, FakeValues.Message);
+            var testPost = new Post(
+                FakeObjects.TestUser(),
+                FakeValues.CreatedDateTime,
+                FakeValues.Subject,
+                FakeValues.Message,
+                new List<MediaResource>() {new ProxyObjects.ProxyMediaResource(FakeValues.Filename,FakeValues.FileFormat,FakeValues.Description)});
 
             Assert.AreEqual(testPost.User.Id, FakeObjects.TestUser().Id);
             Assert.AreEqual(testPost.User.FirstName, FakeObjects.TestUser().FirstName);
@@ -89,7 +101,10 @@ namespace Bowerbird.Core.Test.DomainModels
             Assert.AreEqual(testPost.User.Email, FakeObjects.TestUser().Email);
             Assert.AreEqual(testPost.Subject, FakeValues.Subject);
             Assert.AreEqual(testPost.Message, FakeValues.Message);
-            Assert.AreEqual(testPost.PostedOn.Day, DateTime.Now.Day);
+            Assert.AreEqual(testPost.PostedOn, FakeValues.CreatedDateTime);
+            Assert.AreEqual(testPost.MediaResources[0].Description, FakeValues.Description);
+            Assert.AreEqual(testPost.MediaResources[0].OriginalFileName, FakeValues.Filename);
+            Assert.AreEqual(testPost.MediaResources[0].FileFormat, FakeValues.FileFormat);
         }
 
         #endregion
@@ -137,10 +152,14 @@ namespace Bowerbird.Core.Test.DomainModels
             testPost.UpdateDetails(
                 FakeObjects.TestUser(),
                 FakeValues.Subject.AppendWith(additionalString),
-                FakeValues.Message.AppendWith(additionalString));
+                FakeValues.Message.AppendWith(additionalString),
+                new List<MediaResource>(){new ProxyObjects.ProxyMediaResource(FakeValues.Filename,FakeValues.FileFormat,FakeValues.Description)});
 
             Assert.AreEqual(testPost.Subject, FakeValues.Subject.AppendWith(additionalString));
             Assert.AreEqual(testPost.Message, FakeValues.Message.AppendWith(additionalString));
+            Assert.AreEqual(testPost.MediaResources[0].Description, FakeValues.Description);
+            Assert.AreEqual(testPost.MediaResources[0].FileFormat, FakeValues.FileFormat);
+            Assert.AreEqual(testPost.MediaResources[0].OriginalFileName, FakeValues.Filename);
         }
 
         #endregion

@@ -6,7 +6,6 @@ namespace Bowerbird.Core.DomainModels
 {
     public class Project : DomainModel, INamedDomainModel
     {
-
         #region Members
 
         #endregion
@@ -69,6 +68,5 @@ namespace Bowerbird.Core.DomainModels
         }
 
         #endregion
-
     }
 }

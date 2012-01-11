@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Events;
 using System;
@@ -7,7 +8,6 @@ namespace Bowerbird.Core.DomainModels
 {
     public class Post : DomainModel
     {
-
         #region Members
 
         #endregion
@@ -18,20 +18,24 @@ namespace Bowerbird.Core.DomainModels
 
         public Post(
             User createdByUser,
+            DateTime timestamp,
             string subject,
-            string message)
+            string message,
+            IList<MediaResource> mediaResources)
             : this()
         {
             Check.RequireNotNull(createdByUser, "createdByUser");
             Check.RequireNotNullOrWhitespace(subject, "subject");
             Check.RequireNotNullOrWhitespace(message, "message");
+            Check.RequireNotNull(mediaResources, "mediaResources");
 
-            PostedOn = DateTime.Now;
+            PostedOn = timestamp;
             User = createdByUser;
 
             SetDetails(
                 subject,
-                message);
+                message,
+                mediaResources);
 
             EventProcessor.Raise(new DomainModelCreatedEvent<Post>(this, createdByUser));
         }
@@ -48,23 +52,27 @@ namespace Bowerbird.Core.DomainModels
 
         public string Message { get; private set; }
 
+        public IList<MediaResource> MediaResources { get; private set; }
+
         #endregion
 
         #region Methods
 
-        private void SetDetails(string subject, string message)
+        private void SetDetails(string subject, string message, IList<MediaResource> mediaResources)
         {
             Subject = subject;
             Message = message;
+            MediaResources = mediaResources;
         }
 
-        public Post UpdateDetails(User updatedByUser, string subject, string message)
+        public Post UpdateDetails(User updatedByUser, string subject, string message, IList<MediaResource> mediaResources)
         {
             Check.RequireNotNull(updatedByUser, "updatedByUser");
 
             SetDetails(
                 subject,
-                message);
+                message,
+                mediaResources);
 
             EventProcessor.Raise(new DomainModelUpdatedEvent<Post>(this, updatedByUser));
 
@@ -72,6 +80,5 @@ namespace Bowerbird.Core.DomainModels
         }
 
         #endregion
-
     }
 }

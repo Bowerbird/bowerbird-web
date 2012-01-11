@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
 using Bowerbird.Core.Events;
@@ -17,12 +19,16 @@ namespace Bowerbird.Core.DomainModels
         public ProjectPost(
             Project project,
             User createdByUser,
+            DateTime timestamp,
             string subject,
-            string message
+            string message,
+            IList<MediaResource> mediaResources
             )
             : base(createdByUser,
+            timestamp,
             subject,
-            message)
+            message,
+            mediaResources)
         {
             Check.RequireNotNull(project, "project");
 
@@ -42,6 +48,5 @@ namespace Bowerbird.Core.DomainModels
         #region Methods
 
         #endregion
-
     }
 }
