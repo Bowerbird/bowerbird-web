@@ -127,6 +127,7 @@
     <Compile Include="Hubs\ActivityHub.cs" />
     <Compile Include="ICommandBuilder.cs" />
     <Compile Include="IViewModelRepository.cs" />
+    <Compile Include="Validators\UniqueEmailAttribute.cs" />
     <Compile Include="ViewModelFactories\AccountLoginFactory.cs" />
     <Compile Include="ViewModelFactories\AccountRegisterFactory.cs" />
     <Compile Include="ViewModels\AccountRegisterInput.cs" />

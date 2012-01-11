@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Bowerbird.Core.DomainModels;
+﻿using System.Collections.Generic;
 using Raven.Client;
 
 namespace Bowerbird.Core.Repositories
 {
-    public class DefaultRepository<T> : RepositoryBase<T>
+    
+    public class DefaultRepository<T> : RepositoryBase<T>, IDefaultRepository<T>
     {
 
         #region Members
@@ -28,6 +25,16 @@ namespace Bowerbird.Core.Repositories
         #endregion
 
         #region Methods
+
+        public T Load(string id)
+        {
+            return _documentSession.Load<T>(id);
+        }
+
+        public IEnumerable<T> Load(IEnumerable<string> ids)
+        {
+            return _documentSession.Load<T>(ids);
+        }
 
         #endregion      
       

@@ -193,8 +193,26 @@ namespace Bowerbird.Web.Test.Controllers
             _mockViewModelRepository.Verify(x => x.Load<AccountLoginInput, AccountLogin>(accountLoginInput), Times.Once());
         }
 
+        [Test, Category(TestCategory.Unit)]
+        public void AccountController_HttpPost_Login_Passing_Valid_Credentials_Signs_User_In_And_Updates_Last_Logged_In_And_Redirects_To_Logging_In_Action()
+        {
+            var accountLoginInput = new AccountLoginInput() { Email = FakeValues.Email, Password = FakeValues.Password };
+
+            _mockUserTasks.Setup(x => x.AreCredentialsValid(It.IsAny<string>(), It.IsAny<string>())).Returns(FakeValues.IsTrue);
+            _mockCommandProcessor.Setup(x => x.Process<UserUpdateLastLoginCommand>(It.IsAny<UserUpdateLastLoginCommand>()));
+
+            var result = _controller.Login(accountLoginInput);
+
+            _mockUserContext.Verify(x => x.SignUserIn(It.IsAny<string>(), It.IsAny<bool>()), Times.Once());
+            _mockCommandProcessor.Verify(x => x.Process<UserUpdateLastLoginCommand>(It.IsAny<UserUpdateLastLoginCommand>()), Times.Once());
+
+            Assert.IsInstanceOf<RedirectToRouteResult>(result);
+            Assert.IsTrue(((RedirectToRouteResult)result).RouteValues.ContainsKey("action"));
+            Assert.AreEqual("loggingin", ((RedirectToRouteResult)result).RouteValues["action"].ToString());
+        }
+
         [Test, Category(TestCategory.Unit)] 
-        public void AccountController_HttpPost_Login_Passing_Valid_Credentials_Processes_LastLogin_SignsUserIn_And_Redirects_To_Url()
+        public void AccountController_HttpPost_Login_Passing_Valid_Credentials_And_ReturnUrl_Redirects_To_Url()
         {
             var returnUrl = "stuff";
             var accountLoginInput = new AccountLoginInput() { Email = FakeValues.Email, Password = FakeValues.Password, ReturnUrl = returnUrl };
@@ -209,27 +227,6 @@ namespace Bowerbird.Web.Test.Controllers
             Assert.AreEqual("loggingin", ((RedirectToRouteResult)result).RouteValues["action"].ToString());
             Assert.IsTrue(((RedirectToRouteResult) result).RouteValues.ContainsKey("returnUrl"));
             Assert.AreEqual(returnUrl, ((RedirectToRouteResult)result).RouteValues["returnUrl"].ToString());
-        }
-
-        [Test, Category(TestCategory.Integration)]
-        public void AccountController_HttpPost_Login_Passing_Valid_Credentials_Processes_UserUpdateLastLoginCommand_And_Calls_SignUserIn()
-        {
-            _mockUserTasks.Setup(x => x.AreCredentialsValid(It.IsAny<string>(), It.IsAny<string>())).Returns(FakeValues.IsTrue);
-            
-            _controller.Login(new AccountLoginInput() { Email = FakeValues.Email, Password = FakeValues.Password });
-
-            _mockUserContext.Verify(x => x.SignUserIn(It.IsAny<string>(), It.IsAny<bool>()), Times.Once());
-            _mockCommandProcessor.Verify(x => x.Process<UserUpdateLastLoginCommand>(It.IsAny<UserUpdateLastLoginCommand>()), Times.Once());
-        }
-
-        [Test, Category(TestCategory.Integration)]
-        public void AccountController_LoggingIn_Calls_UserContext_HasUserNameCookieValue()
-        {
-            _mockUserContext.Setup(x => x.HasEmailCookieValue()).Returns(false);
-
-            var result = _controller.LoggingIn(string.Empty);
-
-            _mockUserContext.Verify(x => x.HasEmailCookieValue(), Times.Once());
         }
 
         [Test, Category(TestCategory.Unit)]
@@ -295,16 +292,6 @@ namespace Bowerbird.Web.Test.Controllers
             Assert.IsInstanceOf<DefaultViewModel>(viewModel);
         }
 
-        [Test, Category(TestCategory.Integration)]
-        public void AccountController_LogoutSuccess_Calls_ViewModelRepository_Load()
-        {
-            _mockViewModelRepository.Setup(x => x.Load<DefaultViewModel>()).Returns(new DefaultViewModel());
-
-            _controller.LogoutSuccess();
-
-            _mockViewModelRepository.Verify(x => x.Load<DefaultViewModel>(), Times.Once());
-        }
-
         [Test, Category(TestCategory.Unit)]
         public void AccountController_HttpGet_Register_Returns_AccountRegisterViewModel()
         {
@@ -358,7 +345,7 @@ namespace Bowerbird.Web.Test.Controllers
                 .Setup(x => x.Load<AccountRegisterInput, AccountRegister>(It.IsAny<AccountRegisterInput>()))
                 .Returns(FakeViewModels.MakeAccountRegister());
 
-            _controller.ModelState.AddModelError("email", "Please enter your email address");
+            _controller.ModelState.AddModelError("something", "invalid model state");
 
             var result = _controller.Register(accountRegisterInput);
 

@@ -44,8 +44,6 @@ namespace Bowerbird.Web.Test
         [SetUp] 
         public void TestInitialize()
         {
-            BootstrapperHelper.Startup();
-
             _mockServiceLocator = new Mock<IServiceLocator>();
 
             _commandBuilder = new CommandBuilder(_mockServiceLocator.Object);
@@ -54,8 +52,7 @@ namespace Bowerbird.Web.Test
         [TearDown] 
         public void TestCleanup()
         {
-            BootstrapperHelper.Shutdown();
-        }
+ }
 
         #endregion
 
@@ -133,9 +130,13 @@ namespace Bowerbird.Web.Test
         {
             var input = TestObservationCreateInput();
 
-            var commandFactory = ServiceLocator.Current.GetInstance<ICommandFactory<ObservationCreateInput, ObservationCreateCommand>>();
+            var mockCommandFactory = new Mock<ICommandFactory<ObservationCreateInput, ObservationCreateCommand>>();
 
-            _mockServiceLocator.Setup(x => x.GetInstance<ICommandFactory<ObservationCreateInput, ObservationCreateCommand>>()).Returns(commandFactory);
+            mockCommandFactory
+                .Setup(x => x.Make(It.IsAny<ObservationCreateInput>()))
+                .Returns(new ObservationCreateCommand());
+
+            _mockServiceLocator.Setup(x => x.GetInstance<ICommandFactory<ObservationCreateInput, ObservationCreateCommand>>()).Returns(mockCommandFactory.Object);
 
             var command = _commandBuilder.Build<ObservationCreateInput, ObservationCreateCommand>(input, null);
 
@@ -159,17 +160,26 @@ namespace Bowerbird.Web.Test
 
         [Test]
         [Category(TestCategory.Unit)] 
-        public void CommandBuilder_Build_Passing_Input_And_Action_Invokes_Action()
+        public void CommandBuilder_Build_Passing_Input_And_Action_Invokes_Action_And_Sets_Property()
         {
             var input = TestObservationCreateInput();
 
-            var commandFactory = ServiceLocator.Current.GetInstance<ICommandFactory<ObservationCreateInput, ObservationCreateCommand>>();
+            var mockCommandFactory = new Mock<ICommandFactory<ObservationCreateInput, ObservationCreateCommand>>();
 
-            _mockServiceLocator.Setup(x => x.GetInstance<ICommandFactory<ObservationCreateInput, ObservationCreateCommand>>()).Returns(commandFactory);
+            var fakeCommand = new ObservationCreateCommand()
+                              {
+                                  IsIdentificationRequired = false
+                              };
 
-            var command = _commandBuilder.Build<ObservationCreateInput, ObservationCreateCommand>(input, x => x.IsIdentificationRequired = !x.IsIdentificationRequired);
+            mockCommandFactory
+                .Setup(x => x.Make(It.IsAny<ObservationCreateInput>()))
+                .Returns(fakeCommand);
 
-            Assert.AreNotEqual(input.IsIdentificationRequired, command.IsIdentificationRequired);
+            _mockServiceLocator.Setup(x => x.GetInstance<ICommandFactory<ObservationCreateInput, ObservationCreateCommand>>()).Returns(mockCommandFactory.Object);
+
+            var command = _commandBuilder.Build<ObservationCreateInput, ObservationCreateCommand>(input, x => x.IsIdentificationRequired = true);
+
+            Assert.AreEqual(true, command.IsIdentificationRequired);
         }
 
         #endregion					

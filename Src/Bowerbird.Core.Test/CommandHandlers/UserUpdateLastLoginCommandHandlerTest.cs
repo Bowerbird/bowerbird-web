@@ -37,14 +37,14 @@ namespace Bowerbird.Core.Test.CommandHandlers
     {
         #region Test Infrastructure
 
-        private Mock<IRepository<User>> _mockUserRepository;
+        private Mock<IDefaultRepository<User>> _mockUserRepository;
         private Mock<User> _mockUser;
         private UserUpdateLastLoginCommandHandler _userUpdateLastLoginCommandHandler;
 
         [SetUp]
         public void TestInitialize()
         {
-            _mockUserRepository = new Mock<IRepository<User>>();  
+            _mockUserRepository = new Mock<IDefaultRepository<User>>();  
             _mockUser = new Mock<User>();
             _userUpdateLastLoginCommandHandler = new UserUpdateLastLoginCommandHandler(_mockUserRepository.Object);
         }

@@ -12,7 +12,7 @@ namespace Bowerbird.Core.Repositories
 
         #region Members
 
-        private IDocumentSession _documentSession;
+        protected IDocumentSession _documentSession;
 
         #endregion
 
@@ -30,16 +30,6 @@ namespace Bowerbird.Core.Repositories
         #endregion
 
         #region Methods
-
-        public T Load(string id)
-        {
-            return _documentSession.Load<T>(id);
-        }
-
-        public IEnumerable<T> Load(IEnumerable<string> ids)
-        {
-            return _documentSession.Load<T>(ids);
-        }
 
         public void Add(T domainModel)
         {

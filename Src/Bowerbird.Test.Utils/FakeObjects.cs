@@ -56,7 +56,7 @@ namespace Bowerbird.Test.Utils
 
         public static Post TestPost()
         {
-            return new Post(TestUser(), FakeValues.Subject, FakeValues.Message);
+            return new Post(TestUser(), FakeValues.CreatedDateTime, FakeValues.Subject, FakeValues.Message, new List<MediaResource>());
         }
 
     }

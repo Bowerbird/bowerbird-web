@@ -1,61 +1,53 @@
 using System;
-using System.ComponentModel.DataAnnotations;
-using Bowerbird.Common.Utils;
+using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.DomainModels.DenormalisedReferences;
 
-namespace Bowerbird.Core.Entities
+namespace Bowerbird.Core.DomainModels
 {
-    public class ProjectObservation : EntityBase
+    public class ProjectObservation : DomainModel
     {
-
         #region Members
 
         #endregion
 
         #region Constructors
 
-        /// <summary>
-        /// Nhibernate required constructor
-        /// </summary>
         protected ProjectObservation() : base() { }
 
         public ProjectObservation(
-            Project project
-            ,Observation observation
-            ,User editor
+            User createdByUser,
+            DateTime timestamp,
+            Project project,
+            Observation observation
             )
             : base()
         {
-            Contract.RequireNotNull(project, "project");
-            Contract.RequireNotNull(observation, "observation");
-            Contract.RequireNotNull(editor, "editor");
+            Check.RequireNotNull(createdByUser, "createdByUser");
+            Check.RequireNotNull(project, "project");
+            Check.RequireNotNull(observation, "observation");
 
             Project = project;
             Observation = observation;
-            CreatedByUser = editor;
-            CreatedDateTime = DateTime.Now;
+            CreatedByUser = createdByUser;
+            CreatedDateTime = timestamp;
         }
 
         #endregion
 
         #region Properties
 
-        [Required]
-        public virtual Project Project { get; set; }
+        public DenormalisedNamedDomainModelReference<Project> Project { get; set; }
 
-        [Required]
-        public virtual Observation Observation { get; set; }
-        
-        [Required]
-        public virtual User CreatedByUser { get; set; }
+        public DenormalisedObservationReference Observation { get; set; }
 
-        [Required]
-        public virtual DateTime CreatedDateTime { get; set; }
+        public DenormalisedUserReference CreatedByUser { get; set; }
+
+        public DateTime CreatedDateTime { get; set; }
 
         #endregion
 
         #region Methods
 
         #endregion
-
     }
 }
