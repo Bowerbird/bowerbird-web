@@ -39,6 +39,7 @@ namespace Bowerbird.Core.DomainModels
             Check.RequireNotNull(createdByUser, "createdByUser");
             Check.RequireNotNull(mediaResources, "mediaResources");
 
+            Id = "observations/";
             User = createdByUser;
             SubmittedOn = DateTime.Now;
 

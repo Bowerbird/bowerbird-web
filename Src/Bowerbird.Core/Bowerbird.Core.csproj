@@ -149,13 +149,7 @@
     <Compile Include="ICommandProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ProjectMemberRepositoryExtensions.cs" />
-    <Compile Include="Repositories\UserRepository.cs" />
-    <Compile Include="Repositories\IUserRepository.cs" />
-    <Compile Include="Repositories\DefaultRepository.cs" />
-    <Compile Include="Repositories\IDefaultRepository.cs" />
-    <Compile Include="Repositories\IProjectMemberRepository.cs" />
-    <Compile Include="Repositories\ProjectMemberRepository.cs" />
-    <Compile Include="Repositories\RepositoryBase.cs" />
+    <Compile Include="Repositories\Repository.cs" />
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\UserRepositoryExtensions.cs" />
     <Compile Include="Services\EmailService.cs" />

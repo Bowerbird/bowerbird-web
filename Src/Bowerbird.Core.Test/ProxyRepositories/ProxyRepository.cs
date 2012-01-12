@@ -15,6 +15,8 @@ namespace Bowerbird.Core.Test.ProxyRepositories
 
         protected IRepository<T> _repository;
 
+        private Action<T> _onAdd;
+
         #endregion
 
         #region Constructors
@@ -50,6 +52,8 @@ namespace Bowerbird.Core.Test.ProxyRepositories
         public void Add(T domainModel)
         {
             _repository.Add(domainModel);
+
+            _onAdd(domainModel);
         }
 
         public void Add(IEnumerable<T> domainModels)
@@ -70,6 +74,11 @@ namespace Bowerbird.Core.Test.ProxyRepositories
         public void SaveChanges()
         {
             _repository.SaveChanges();
+        }
+
+        public void NotifyOnAdd(Action<T> onAdd)
+        {
+            _onAdd = onAdd;
         }
 
         #endregion      

@@ -46,7 +46,6 @@ namespace Bowerbird.Core.Test.Commands
             return new ObservationCreateCommand()
             {
                 Address = FakeValues.Address,
-                Id = FakeValues.KeyString,
                 IsIdentificationRequired = FakeValues.IsTrue,
                 Latitude = FakeValues.Latitude.ToString(),
                 Longitude = FakeValues.Longitude.ToString(),
@@ -70,13 +69,6 @@ namespace Bowerbird.Core.Test.Commands
         #endregion
 
         #region Property tests
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void ObservationCreateCommand_Id_Is_TypeOf_String()
-        {
-            Assert.IsInstanceOf<string>(TestObservationCreateCommand().Id);
-        }
 
         [Test]
         [Category(TestCategory.Unit)]

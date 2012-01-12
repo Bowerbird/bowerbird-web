@@ -11,7 +11,10 @@
  * Atlas of Living Australia
  
 */
-				
+
+using Bowerbird.Core.Test.ProxyRepositories;
+using Raven.Client;
+
 namespace Bowerbird.Core.Test.CommandHandlers
 {
     #region Namespaces
@@ -36,44 +39,23 @@ namespace Bowerbird.Core.Test.CommandHandlers
     {
         #region Test Infrastructure
 
-        private Mock<IRepository<Observation>> _mockObservationRepository;
-        private Mock<IRepository<User>> _mockUserRepository;
-        private Mock<IRepository<MediaResource>> _mockMediaResourceRepository;
-        private Mock<User> _mockUserDomainModel;
-        private Mock<ObservationCreateCommand> _mockObservationCreateCommand;
-        private ICommandHandler<ObservationCreateCommand> _observationCreateCommandHandler;
-
+        private IDocumentStore _store;
+            
         [SetUp]
         public void TestInitialize()
         {
-            _mockObservationRepository = new Mock<IRepository<Observation>>();
-            _mockUserRepository = new Mock<IRepository<User>>();
-            _mockMediaResourceRepository = new Mock<IRepository<MediaResource>>();
-            _mockUserDomainModel = new Mock<User>();
-            _mockObservationCreateCommand = new Mock<ObservationCreateCommand>();
-            _observationCreateCommandHandler = new ObservationCreateCommandHandler(
-                _mockObservationRepository.Object,
-                _mockUserRepository.Object,
-                _mockMediaResourceRepository.Object);
+            _store = DocumentStoreHelper.TestDocumentStore();
         }
 
         [TearDown]
-        public void TestCleanup() { }
+        public void TestCleanup()
+        {
+            _store = null;
+        }
 
         #endregion
 
         #region Test Helpers
-
-        private static IEnumerable<MediaResource> TestMediaResources()
-        {
-            return new List<MediaResource>() { new ProxyObjects.ProxyMediaResource(FakeValues.Filename, FakeValues.FileFormat, FakeValues.Description) };
-        }
-
-        private static List<string> TestMediaResourceIds()
-        {
-            return new List<string>() { Guid.NewGuid().ToString() };
-        }
-
 
         #endregion
 
@@ -83,21 +65,33 @@ namespace Bowerbird.Core.Test.CommandHandlers
         [Category(TestCategory.Unit)]
         public void ObservationCreateCommandHandler_Constructor_With_Null_ObservationRepository_Throws_DesignByContractException()
         {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new ObservationCreateCommandHandler(null,_mockUserRepository.Object,_mockMediaResourceRepository.Object)));
+            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() =>
+                new ObservationCreateCommandHandler(null,
+                                                    new Mock<IRepository<User>>().Object,
+                                                    new Mock<IRepository<MediaResource>>().Object)
+                ));
         }
 
         [Test]
         [Category(TestCategory.Unit)]
         public void ObservationCreateCommandHandler_Constructor_With_Null_UserRepository_Throws_DesignByContractException()
         {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new ObservationCreateCommandHandler(_mockObservationRepository.Object,null,_mockMediaResourceRepository.Object)));
+            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() =>
+                new ObservationCreateCommandHandler(new Mock<IRepository<Observation>>().Object,
+                                                    null,
+                                                    new Mock<IRepository<MediaResource>>().Object)
+                ));
         }
 
         [Test]
         [Category(TestCategory.Unit)]
         public void ObservationCreateCommandHandler_Constructor_With_Null_MediaResourceRepository_Throws_DesignByContractException()
         {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new ObservationCreateCommandHandler(_mockObservationRepository.Object,_mockUserRepository.Object,null)));
+            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() =>
+                new ObservationCreateCommandHandler(new Mock<IRepository<Observation>>().Object,
+                                                    new Mock<IRepository<User>>().Object,
+                                                    null)
+                ));
         }
 
         #endregion
@@ -112,57 +106,49 @@ namespace Bowerbird.Core.Test.CommandHandlers
         [Category(TestCategory.Unit)]
         public void ObservationCreateCommandHandler_Handle_Passing_Null_ObservationCreateCommandHandle_Throws_DesignByContractException()
         {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => _observationCreateCommandHandler.Handle(null)));
+            var handler = new ObservationCreateCommandHandler(new Mock<IRepository<Observation>>().Object,
+                                                              new Mock<IRepository<User>>().Object,
+                                                              new Mock<IRepository<MediaResource>>().Object);
+
+            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => handler.Handle(null)));
         }
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void ObservationCreateCommandHandler_Handle_Passing_ObservationCreateCommand_Calls_ObservationRepository_Add()
+        public void ObservationCreateCommandHandler_Handle_Passing_ObservationCreateCommand_Saves_New_Observation()
         {
-            _mockUserRepository.Setup(x => x.Load(It.IsAny<string>())).Returns(_mockUserDomainModel.Object);
-            _mockObservationCreateCommand.SetupGet(x => x.UserId).Returns(FakeValues.UserId);
+            Observation result = null;
 
-            _observationCreateCommandHandler.Handle(_mockObservationCreateCommand.Object);
+            using (var session = _store.OpenSession())
+            {
+                var repository = new Repository<Observation>(session);
+                var proxyRepository = new ProxyRepository<Observation>(repository);
+                var mockUserRepository = new Mock<IRepository<User>>();
 
-            _mockObservationRepository.Verify(x => x.Add(It.IsAny<Observation>()), Times.Once());
-        }
+                proxyRepository.NotifyOnAdd(x => result = x);
 
-        [Test]
-        [Category(TestCategory.Integration)]
-        public void ObservationCreateCommandHandler_Handle_Passing_ObservationCreateCommand_Calls_UserRepository_Load()
-        {
-            _mockUserRepository.Setup(x => x.Load(It.IsAny<string>())).Returns(_mockUserDomainModel.Object);
-            _mockObservationCreateCommand.SetupGet(x => x.UserId).Returns(FakeValues.UserId);
+                mockUserRepository
+                    .Setup(x => x.Load(It.IsAny<string>()))
+                    .Returns(FakeObjects.TestUserWithId);
 
-            _observationCreateCommandHandler.Handle(_mockObservationCreateCommand.Object);
+                var observationCreateCommandHandler = new ObservationCreateCommandHandler(proxyRepository, mockUserRepository.Object, new Repository<MediaResource>(session));
 
-            _mockUserRepository.Verify(x => x.Load(It.IsAny<string>()), Times.Once());
-        }
+                observationCreateCommandHandler.Handle(new ObservationCreateCommand()
+                {
+                    Address = FakeValues.Address,
+                    IsIdentificationRequired = false,
+                    Latitude = FakeValues.Latitude,
+                    Longitude = FakeValues.Longitude,
+                    ObservationCategory = FakeValues.Category,
+                    ObservedOn = FakeValues.CreatedDateTime,
+                    Title = FakeValues.Title,
+                    UserId = FakeValues.UserId
+                });
 
-        [Test]
-        [Category(TestCategory.Integration)]
-        public void ObservationCreateCommandHandler_Handle_Passing_ObservationCreateCommand_With_MediaResources_Calls_MediaResourceRepository_Load()
-        {
-            _mockUserRepository.Setup(x => x.Load(It.IsAny<string>())).Returns(_mockUserDomainModel.Object);
-            _mockObservationCreateCommand.Setup(x => x.UserId).Returns(FakeValues.UserId);
-            _mockObservationCreateCommand.Setup(x => x.MediaResources).Returns(TestMediaResourceIds());
-            _mockMediaResourceRepository.Setup(x => x.Load(It.IsAny<IEnumerable<string>>())).Returns(TestMediaResources());
+                session.SaveChanges();
+            }
 
-            _observationCreateCommandHandler.Handle(_mockObservationCreateCommand.Object);
-
-            _mockMediaResourceRepository.Verify(x => x.Load(It.IsAny<IEnumerable<string>>()), Times.Once());
-        }
-
-        [Test]
-        [Category(TestCategory.Integration)]
-        public void ObservationCreateCommandHandler_Handle_Passing_ObservationCreateCommand_Without_MediaResources_DoesNotCall_MediaResourceRepository_Load()
-        {
-            _mockUserRepository.Setup(x => x.Load(It.IsAny<string>())).Returns(_mockUserDomainModel.Object);
-            _mockObservationCreateCommand.Setup(x => x.UserId).Returns(FakeValues.UserId);
-
-            _observationCreateCommandHandler.Handle(_mockObservationCreateCommand.Object);
-
-            _mockMediaResourceRepository.Verify(x => x.Load(It.IsAny<IEnumerable<string>>()), Times.Never());
+            Assert.IsNotNull(result);
         }
 
         #endregion

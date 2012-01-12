@@ -22,8 +22,6 @@ namespace Bowerbird.Core.Commands
 
         #region Properties
 
-        public string Id { get; set; }
-
         public string Title { get; set; }
 
         public DateTime ObservedOn { get; set; }
