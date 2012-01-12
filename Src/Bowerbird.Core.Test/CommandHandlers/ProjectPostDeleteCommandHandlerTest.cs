@@ -38,14 +38,14 @@ namespace Bowerbird.Core.Test.CommandHandlers
     {
         #region Test Infrastructure
 
-        private Mock<IDefaultRepository<ProjectPost>> _mockProjectPostRepository;
+        private Mock<IRepository<ProjectPost>> _mockProjectPostRepository;
         private ProjectPostDeleteCommandHandler _projectPostDeleteCommandHandler;
         private Mock<ProjectPost> _mockProjectPost;
 
         [SetUp]
         public void TestInitialize()
         {
-            _mockProjectPostRepository = new Mock<IDefaultRepository<ProjectPost>>();
+            _mockProjectPostRepository = new Mock<IRepository<ProjectPost>>();
             _mockProjectPost = new Mock<ProjectPost>();
             _projectPostDeleteCommandHandler = new ProjectPostDeleteCommandHandler(_mockProjectPostRepository.Object);
         }

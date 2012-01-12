@@ -70,11 +70,10 @@ namespace Bowerbird.Core.Test.Tasks
                 FakeValues.Email,
                 FakeValues.FirstName,
                 FakeValues.LastName,
-                FakeValues.Description,
                 TestRoles()
             )
             .UpdateLastLoggedIn()
-            .UpdateResetPasswordKey()
+            .UpdateResetPasswordKey(FakeValues.KeyString)
             .IncrementFlaggedItemsOwned()
             .IncrementFlagsRaised();
         }
@@ -172,25 +171,25 @@ namespace Bowerbird.Core.Test.Tasks
         }
 
         [Test, Category(TestCategory.Integration), Category(TestCategory.Persistance)]
-        public void UserTasks_IsEmailAvailable_Passing_Empty_Email_Throws_DesignByContractException()
+        public void UserTasks_EmailExists_Passing_Empty_Email_Throws_DesignByContractException()
         {
             using (var session = _store.OpenSession())
             {
-                Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() =>new UserTasks(session).IsEmailAvailable(string.Empty)));
+                Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new UserTasks(session).EmailExists(string.Empty)));
             }
         }
 
         [Test, Category(TestCategory.Integration), Category(TestCategory.Persistance)]
-        public void UserTasks_IsEmailAvailable_Passing_Available_Email_Returns_True()
+        public void UserTasks_EmailExists_Passing_Available_Email_Returns_False()
         {
             using (var session = _store.OpenSession())
             {
-                Assert.IsTrue(new UserTasks(session).IsEmailAvailable(FakeValues.Email));
+                Assert.IsFalse(new UserTasks(session).EmailExists(FakeValues.Email));
             }
         }
 
         [Test, Category(TestCategory.Integration), Category(TestCategory.Persistance)]
-        public void UserTasks_IsEmailAvailable_Passing_Existing_Email_Returns_False()
+        public void UserTasks_EmailExists_Passing_Existing_Email_Returns_True()
         {
             using (var session = _store.OpenSession())
             {
@@ -201,7 +200,7 @@ namespace Bowerbird.Core.Test.Tasks
 
             using (var session = _store.OpenSession())
             {
-                Assert.IsFalse(new UserTasks(session).IsEmailAvailable(FakeValues.Email));
+                Assert.IsTrue(new UserTasks(session).EmailExists(FakeValues.Email));
             }
         }
 

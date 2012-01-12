@@ -2,34 +2,35 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Raven.Client;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Repositories;
+using Raven.Client;
 
-namespace Bowerbird.Core.Repositories
+namespace Bowerbird.Core.Test.ProxyRepositories
 {
-    public class Repository<T> : IRepository<T>
+    public class ProxyRepository<T> : IRepository<T>
     {
 
         #region Members
 
-        private IDocumentSession _documentSession;
+        protected IRepository<T> _repository;
 
         #endregion
 
         #region Constructors
 
-        public Repository(IDocumentSession documentSession)
+        public ProxyRepository(IRepository<T> repository)
         {
-            _documentSession = documentSession;
+            _repository = repository;
         }
 
         #endregion
 
         #region Properties
 
-        public IDocumentSession Session
+        public Raven.Client.IDocumentSession Session
         {
-            get { return _documentSession; }
+            get { return _repository.Session; }
         }
 
         #endregion
@@ -38,46 +39,40 @@ namespace Bowerbird.Core.Repositories
 
         public T Load(string id)
         {
-            return _documentSession.Load<T>(id);
+            return _repository.Load(id);
         }
 
         public IEnumerable<T> Load(IEnumerable<string> ids)
         {
-            return _documentSession.Load<T>(ids);
+            return _repository.Load(ids);
         }
 
         public void Add(T domainModel)
         {
-            _documentSession.Store(domainModel);
+            _repository.Add(domainModel);
         }
 
         public void Add(IEnumerable<T> domainModels)
         {
-            foreach (var domainModel in domainModels)
-            {
-                Add(domainModel);
-            }
+            _repository.Add(domainModels);
         }
 
         public void Remove(T domainModel)
         {
-            _documentSession.Delete(domainModel);
+            _repository.Remove(domainModel);
         }
 
         public void Remove(IEnumerable<T> domainModels)
         {
-            foreach (var domainModel in domainModels)
-            {
-                Remove(domainModel);
-            }
+            _repository.Remove(domainModels);
         }
 
         public void SaveChanges()
         {
-            _documentSession.SaveChanges();
+            _repository.SaveChanges();
         }
 
         #endregion      
-     
+      
     }
 }

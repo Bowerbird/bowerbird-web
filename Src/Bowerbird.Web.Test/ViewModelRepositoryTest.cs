@@ -38,20 +38,14 @@ namespace Bowerbird.Web.Test
     {
         #region Infrastructure
 
-        private Mock<IServiceLocator> _mockServiceLocator;
-
         [SetUp] 
         public void TestInitialize()
         {
-            _mockServiceLocator = new Mock<IServiceLocator>();
-
-            BootstrapperHelper.Startup();
         }
 
         [TearDown] 
         public void TestCleanup()
         {
-            BootstrapperHelper.Shutdown();            
         }
 
         #endregion
@@ -80,7 +74,7 @@ namespace Bowerbird.Web.Test
         [Category(TestCategory.Unit)] 
         public void ViewModelRepository_Load_Having_InputViewModel_And_ReturnViewModel_Passing_Null_Input_Throws_DesignByContractException()
         {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new ViewModelRepository(ServiceLocator.Current).Load<HomeIndexInput, HomeIndex>(null)));
+            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new ViewModelRepository(new Mock<IServiceLocator>().Object).Load<HomeIndexInput, HomeIndex>(null)));
         }
 
         [Test]
@@ -89,9 +83,11 @@ namespace Bowerbird.Web.Test
         {
             IViewModelFactory<HomeIndexInput, HomeIndex> factory = null;
 
-            _mockServiceLocator.Setup(x => x.GetInstance<IViewModelFactory<HomeIndexInput, HomeIndex>>()).Returns(factory);
+            var mockServiceLocator = new Mock<IServiceLocator>();
 
-            Assert.IsTrue(BowerbirdThrows.Exception<Exception>(() => new ViewModelRepository(_mockServiceLocator.Object).Load<HomeIndexInput, HomeIndex>(new HomeIndexInput())));
+            mockServiceLocator.Setup(x => x.GetInstance<IViewModelFactory<HomeIndexInput, HomeIndex>>()).Returns(factory);
+
+            Assert.IsTrue(BowerbirdThrows.Exception<Exception>(() => new ViewModelRepository(mockServiceLocator.Object).Load<HomeIndexInput, HomeIndex>(new HomeIndexInput())));
         }
 
         [Test]
@@ -100,32 +96,34 @@ namespace Bowerbird.Web.Test
         {
             IViewModelFactory<HomeIndex> factory = null;
 
-            _mockServiceLocator.Setup(x => x.GetInstance<IViewModelFactory<HomeIndex>>()).Returns(factory);
+            var mockServiceLocator = new Mock<IServiceLocator>();
 
-            Assert.IsTrue(BowerbirdThrows.Exception<Exception>(() => new ViewModelRepository(_mockServiceLocator.Object).Load<HomeIndex>()));
+            mockServiceLocator.Setup(x => x.GetInstance<IViewModelFactory<HomeIndex>>()).Returns(factory);
+
+            Assert.IsTrue(BowerbirdThrows.Exception<Exception>(() => new ViewModelRepository(mockServiceLocator.Object).Load<HomeIndex>()));
         }
 
         [Test]
         [Category(TestCategory.Unit)] 
         public void ViewModelRepository_Load_Having_InputViewModel_And_ReturnViewModel_Passing_InputViewModel_Returns_ViewModel()
         {
-            var repository = new ViewModelRepository(ServiceLocator.Current);
+            var mockServiceLocator = new Mock<IServiceLocator>();
 
-            Assert.IsInstanceOf<HomeIndex>(repository.Load<HomeIndexInput, HomeIndex>(new HomeIndexInput()));
-        }
+            var mockViewModelFactory = new Mock<IViewModelFactory<HomeIndexInput, HomeIndex>>();
 
-        [Test]
-        [Category(TestCategory.Integration)] 
-        public void ViewModelRepository_Load_Having_InputViewModel_And_ReturnViewModel_Calls_ViewModelFactory_Make()
-        {
-            var factory = new Mock<IViewModelFactory<HomeIndex>>();
-            factory.Setup(x => x.Make()).Returns(new HomeIndex());
+            mockServiceLocator
+                .Setup(x => x.GetInstance<IViewModelFactory<HomeIndexInput, HomeIndex>>())
+                .Returns(mockViewModelFactory.Object);
 
-            _mockServiceLocator.Setup(x => x.GetInstance<IViewModelFactory<HomeIndex>>()).Returns(factory.Object);
+            mockViewModelFactory
+                .Setup(x => x.Make(It.IsAny<HomeIndexInput>()))
+                .Returns(new HomeIndex());
 
-            var model = new ViewModelRepository(_mockServiceLocator.Object).Load<HomeIndex>();
+            var repository = new ViewModelRepository(mockServiceLocator.Object);
 
-            factory.Verify(x => x.Make(), Times.Once());
+            var result = repository.Load<HomeIndexInput, HomeIndex>(new HomeIndexInput());
+
+            Assert.IsInstanceOf<HomeIndex>(result);
         }
 
         [Test]
@@ -135,26 +133,13 @@ namespace Bowerbird.Web.Test
             var factory = new Mock<IViewModelFactory<HomeIndex>>();
             factory.Setup(x => x.Make()).Returns(new HomeIndex());
 
-            _mockServiceLocator.Setup(x => x.GetInstance<IViewModelFactory<HomeIndex>>()).Returns(factory.Object);
+            var mockServiceLocator = new Mock<IServiceLocator>();
 
-            var model = new ViewModelRepository(_mockServiceLocator.Object).Load<HomeIndex>();
+            mockServiceLocator.Setup(x => x.GetInstance<IViewModelFactory<HomeIndex>>()).Returns(factory.Object);
 
-            //factory.Verify(x => x.Make(), Times.Once());
+            var model = new ViewModelRepository(mockServiceLocator.Object).Load<HomeIndex>();
+
             Assert.IsInstanceOf<HomeIndex>(model);
-        }
-
-        [Test]
-        [Category(TestCategory.Integration)]
-        public void ViewModelRepository_Load_Having_ReturnViewModel_Calls_ViewModelFactory_Make()
-        {
-            var factory = new Mock<IViewModelFactory<HomeIndexInput,HomeIndex>>();
-            factory.Setup(x => x.Make(It.IsAny<HomeIndexInput>())).Returns(new HomeIndex());
-
-            _mockServiceLocator.Setup(x => x.GetInstance<IViewModelFactory<HomeIndexInput,HomeIndex>>()).Returns(factory.Object);
-
-            var model = new ViewModelRepository(_mockServiceLocator.Object).Load<HomeIndexInput,HomeIndex>(new HomeIndexInput());
-
-            factory.Verify(x => x.Make(It.IsAny<HomeIndexInput>()), Times.Once());
         }
 
         #endregion

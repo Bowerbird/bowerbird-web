@@ -12,13 +12,31 @@ namespace Bowerbird.Test.Utils
                 FakeValues.Email,
                 FakeValues.FirstName,
                 FakeValues.LastName,
-                FakeValues.Description,
                 TestRoles()
-            )
-            .UpdateLastLoggedIn()
-            .UpdateResetPasswordKey()
-            .IncrementFlaggedItemsOwned()
-            .IncrementFlagsRaised();
+                )
+                .UpdateLastLoggedIn()
+                .UpdateResetPasswordKey(FakeValues.KeyString)
+                .IncrementFlaggedItemsOwned()
+                .IncrementFlagsRaised();
+        }
+
+        public static User TestUserWithId()
+        {
+            User user = new User(
+                FakeValues.Password,
+                FakeValues.Email,
+                FakeValues.FirstName,
+                FakeValues.LastName,
+                TestRoles()
+                )
+                .UpdateLastLoggedIn()
+                .UpdateResetPasswordKey(FakeValues.KeyString)
+                .IncrementFlaggedItemsOwned()
+                .IncrementFlagsRaised();
+
+            ((IAssignableId)user).SetIdTo("users", FakeValues.UserId);
+
+            return user;
         }
 
         public static IEnumerable<Role> TestRoles()
@@ -49,6 +67,15 @@ namespace Bowerbird.Test.Utils
             return new Project(TestUser(), FakeValues.Name, FakeValues.Description);
         }
 
+        public static Project TestProjectWithId()
+        {
+            Project project =  new Project(TestUser(), FakeValues.Name, FakeValues.Description);
+
+            ((IAssignableId)project).SetIdTo("projects", FakeValues.KeyString);
+
+            return project;
+        }
+
         public static Team TestTeam()
         {
             return new Team(TestUser(), FakeValues.Name, FakeValues.Description, FakeValues.Website);
@@ -57,6 +84,15 @@ namespace Bowerbird.Test.Utils
         public static Post TestPost()
         {
             return new Post(TestUser(), FakeValues.CreatedDateTime, FakeValues.Subject, FakeValues.Message, new List<MediaResource>());
+        }
+
+        public static ProjectMember TestProjectMember()
+        {
+            return new ProjectMember(
+                FakeObjects.TestUser(),
+                FakeObjects.TestProjectWithId(),
+                FakeObjects.TestUserWithId(),
+                FakeObjects.TestRoles());
         }
 
     }

@@ -51,11 +51,14 @@ namespace Bowerbird.Core.Tasks
         }
 
 
-        public bool IsEmailAvailable(string email)
+        public bool EmailExists(string email)
         {
             Check.RequireNotNullOrWhitespace(email, "email");
 
-            return _documentSession.Query<User>().Where(x => x.Email == email).SingleOrDefault() == null;
+            return _documentSession
+                .Query<User>()
+                .Where(x => x.Email == email)
+                .SingleOrDefault() != null;
         }
 
         #endregion      

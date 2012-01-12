@@ -12,6 +12,9 @@
  
 */
 
+using Bowerbird.Core.Test.ProxyRepositories;
+using Raven.Client;
+
 namespace Bowerbird.Core.Test.CommandHandlers
 {
     #region Namespaces
@@ -37,31 +40,29 @@ namespace Bowerbird.Core.Test.CommandHandlers
     {
         #region Test Infrastructure
 
-        private Mock<IDefaultRepository<User>> _mockUserRepository;
-        private Mock<User> _mockUser;
-        private UserUpdateLastLoginCommandHandler _userUpdateLastLoginCommandHandler;
+        private IDocumentStore _store;
 
         [SetUp]
         public void TestInitialize()
         {
-            _mockUserRepository = new Mock<IDefaultRepository<User>>();  
-            _mockUser = new Mock<User>();
-            _userUpdateLastLoginCommandHandler = new UserUpdateLastLoginCommandHandler(_mockUserRepository.Object);
+            _store = DocumentStoreHelper.TestDocumentStore();
         }
 
         [TearDown]
-        public void TestCleanup() { }
+        public void TestCleanup()
+        {
+            _store = null;
+        }
 
         #endregion
 
         #region Test Helpers
 
-        private UserUpdateLastLoginCommand TestUserUpdateLastLoginCommand()
+        private UserUpdateLastLoginCommandHandler TestUserUpdateLastLoginCommandHandler(IDocumentSession documentSession)
         {
-            return new UserUpdateLastLoginCommand()
-                       {
-                           Email = FakeValues.Email
-                       };
+            var repository = new Repository<User>(documentSession);
+            var proxyUserRepository = new ProxyUserRepository(repository);
+            return new UserUpdateLastLoginCommandHandler(proxyUserRepository);
         }
 
         #endregion
@@ -87,42 +88,44 @@ namespace Bowerbird.Core.Test.CommandHandlers
         [Category(TestCategory.Unit)]
         public void UserUpdateLastLoginCommandHandler_Handle_Passing_Null_UserUpdateLastLoginCommand_Throws_DesignByContractException()
         {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new UserUpdateLastLoginCommandHandler(_mockUserRepository.Object).Handle(null)));
+            var userUpdateLastLoginCommandHandler = new UserUpdateLastLoginCommandHandler(new Mock<IRepository<User>>().Object);
+
+            Assert.IsTrue(
+                BowerbirdThrows.Exception<DesignByContractException>(() =>
+                    userUpdateLastLoginCommandHandler.Handle(null)));
         }
 
         [Test]
         [Category(TestCategory.Integration)]
-        public void UserUpdateLastLoginCommandHandler_Handle_Passing_UserUpdateLastLoginCommand_Calls_UserRepository_Load()
+        public void UserUpdateLastLoginCommandHandler_Handle_Passing_UserUpdateLastLoginCommand_Updates_User_LastLoggedIn_Property()
         {
-            _mockUserRepository.Setup(x => x.Load(It.IsAny<string>())).Returns(_mockUser.Object);
+            DateTime originalValue;
+            DateTime newValue;
 
-            _userUpdateLastLoginCommandHandler.Handle(TestUserUpdateLastLoginCommand());
+            using (var session = _store.OpenSession())
+            {
+                var user = FakeObjects.TestUserWithId();
+                user.UpdateLastLoggedIn();
+                originalValue = user.LastLoggedIn;
 
-            _mockUserRepository.Verify(x => x.Load(It.IsAny<string>()), Times.Once());
-        }
+                session.Store(user);
 
-        [Test]
-        [Category(TestCategory.Integration)]
-        public void UserUpdateLastLoginCommandHandler_Handle_Passing_UserUpdateLastLoginCommand_Calls_UserRepository_Add()
-        {
-            _mockUserRepository.Setup(x => x.Load(It.IsAny<string>())).Returns(_mockUser.Object);
-            _mockUserRepository.Setup(x => x.Add(It.IsAny<User>())).Verifiable();
+                session.SaveChanges();
 
-            _userUpdateLastLoginCommandHandler.Handle(TestUserUpdateLastLoginCommand());
+                var userUpdateLastLoginCommandHandler = TestUserUpdateLastLoginCommandHandler(session);
 
-            _mockUserRepository.Verify(x => x.Add(It.IsAny<User>()), Times.Once());
-        }
+                userUpdateLastLoginCommandHandler.Handle(new UserUpdateLastLoginCommand()
+                       {
+                           Email = FakeValues.Email
+                       });
 
-        [Test]
-        [Category(TestCategory.Integration)]
-        public void UserUpdateLastLoginCommandHandler_Handle_Passing_UserUpdateLastLoginCommand_Calls_User_UpdateLastLoggedIn()
-        {
-            _mockUser.Setup(x => x.UpdateLastLoggedIn()).Verifiable();
-            _mockUserRepository.Setup(x => x.Load(It.IsAny<string>())).Returns(_mockUser.Object);
+                session.SaveChanges();
 
-            _userUpdateLastLoginCommandHandler.Handle(TestUserUpdateLastLoginCommand());
+                newValue = session.Load<User>("users/" + FakeValues.UserId).LastLoggedIn;
+            }
 
-            _mockUser.Verify(x => x.UpdateLastLoggedIn(), Times.Once());
+            Assert.AreNotEqual(originalValue, newValue);
+            Assert.Greater(newValue, originalValue);
         }
 
         #endregion 

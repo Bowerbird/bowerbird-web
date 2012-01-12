@@ -9,16 +9,16 @@ namespace Bowerbird.Core.CommandHandlers
     {
         #region Fields
 
-        private IDefaultRepository<Project> _projectRepository;
-        private IDefaultRepository<User> _userRepository;
+        private IRepository<Project> _projectRepository;
+        private IRepository<User> _userRepository;
 
         #endregion
 
         #region Constructors
 
         public ProjectUpdateCommandHandler(
-            IDefaultRepository<Project> projectRepository,
-            IDefaultRepository<User> userRepository
+            IRepository<Project> projectRepository,
+            IRepository<User> userRepository
             )
         {
             Check.RequireNotNull(projectRepository, "projectRepository");

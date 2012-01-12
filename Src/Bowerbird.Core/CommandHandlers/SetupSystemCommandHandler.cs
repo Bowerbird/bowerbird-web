@@ -15,18 +15,18 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Members
 
-        private readonly IDefaultRepository<User> _userRepository;
-        private readonly IDefaultRepository<Role> _roleRepository;
-        private readonly IDefaultRepository<Permission> _permissionRepository;
+        private readonly IRepository<User> _userRepository;
+        private readonly IRepository<Role> _roleRepository;
+        private readonly IRepository<Permission> _permissionRepository;
 
         #endregion
 
         #region Constructors
 
         public SetupSystemCommandHandler(
-            IDefaultRepository<User> userRepository,
-            IDefaultRepository<Role> roleRepository,
-            IDefaultRepository<Permission> permissionRepository)
+            IRepository<User> userRepository,
+            IRepository<Role> roleRepository,
+            IRepository<Permission> permissionRepository)
         {
             _userRepository = userRepository;
             _roleRepository = roleRepository;
@@ -121,7 +121,7 @@ namespace Bowerbird.Core.CommandHandlers
         {
             var roles = Roles.Where(x => roleIds.Any(y => x.Id == "roles/" + y));
 
-            var user = new User(password, email, firstname, lastname, string.Empty, roles);
+            var user = new User(password, email, firstname, lastname, roles);
 
             _userRepository.Add(user);
 

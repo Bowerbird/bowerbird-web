@@ -110,7 +110,6 @@ namespace Bowerbird.Web.Test.ViewModelFactories
                     FakeValues.Email,
                     FakeValues.FirstName,
                     FakeValues.LastName,
-                    FakeValues.Description,
                     TestRoles()
                     );
         }

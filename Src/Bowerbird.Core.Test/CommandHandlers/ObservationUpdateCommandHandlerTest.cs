@@ -36,9 +36,9 @@ namespace Bowerbird.Core.Test.CommandHandlers
     {
         #region Test Infrastructure
 
-        private Mock<IDefaultRepository<Observation>> _mockObservationRepository;
-        private Mock<IDefaultRepository<User>> _mockUserRepository;
-        private Mock<IDefaultRepository<MediaResource>> _mockMediaResourceRepository;
+        private Mock<IRepository<Observation>> _mockObservationRepository;
+        private Mock<IRepository<User>> _mockUserRepository;
+        private Mock<IRepository<MediaResource>> _mockMediaResourceRepository;
         private Mock<Observation> _mockObservation;
         private Mock<User> _mockUser;
         private Mock<IEnumerable<MediaResource>> _mockMediaResources;
@@ -47,9 +47,9 @@ namespace Bowerbird.Core.Test.CommandHandlers
         [SetUp]
         public void TestInitialize()
         {
-            _mockObservationRepository = new Mock<IDefaultRepository<Observation>>();
-            _mockUserRepository = new Mock<IDefaultRepository<User>>();
-            _mockMediaResourceRepository = new Mock<IDefaultRepository<MediaResource>>();
+            _mockObservationRepository = new Mock<IRepository<Observation>>();
+            _mockUserRepository = new Mock<IRepository<User>>();
+            _mockMediaResourceRepository = new Mock<IRepository<MediaResource>>();
             _mockObservation = new Mock<Observation>();
             _mockUser = new Mock<User>();
             _mockMediaResources = new Mock<IEnumerable<MediaResource>>();

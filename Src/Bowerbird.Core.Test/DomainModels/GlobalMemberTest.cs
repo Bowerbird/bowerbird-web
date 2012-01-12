@@ -57,11 +57,10 @@ namespace Bowerbird.Core.Test.DomainModels
                 FakeValues.Email,
                 FakeValues.FirstName,
                 FakeValues.LastName,
-                FakeValues.Description,
                 TestRoles()
             )
             .UpdateLastLoggedIn()
-            .UpdateResetPasswordKey()
+            .UpdateResetPasswordKey(FakeValues.KeyString)
             .IncrementFlaggedItemsOwned()
             .IncrementFlagsRaised();
         }

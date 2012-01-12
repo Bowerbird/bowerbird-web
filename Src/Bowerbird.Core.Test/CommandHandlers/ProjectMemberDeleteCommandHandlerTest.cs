@@ -12,6 +12,9 @@
  
 */
 
+using Bowerbird.Core.Test.ProxyRepositories;
+using Raven.Client;
+
 namespace Bowerbird.Core.Test.CommandHandlers
 {
     #region Namespaces
@@ -34,22 +37,30 @@ namespace Bowerbird.Core.Test.CommandHandlers
     {
         #region Test Infrastructure
 
-        private Mock<IProjectMemberRepository> _mockProjectMemberRepository;
-        private ProjectMemberDeleteCommandHandler _projectMemberDeleteCommandHandler;
+        private IDocumentStore _store;
 
         [SetUp]
         public void TestInitialize()
         {
-            _mockProjectMemberRepository = new Mock<IProjectMemberRepository>();
-            _projectMemberDeleteCommandHandler = new ProjectMemberDeleteCommandHandler(_mockProjectMemberRepository.Object);
+            _store = DocumentStoreHelper.TestDocumentStore();
         }
 
         [TearDown]
-        public void TestCleanup() { }
+        public void TestCleanup()
+        {
+            _store = null;
+        }
 
         #endregion
 
         #region Test Helpers
+
+        private ProjectMemberDeleteCommandHandler TestProjectMemberDeleteCommandHandler(IDocumentSession documentSession)
+        {
+            var repository = new Repository<ProjectMember>(documentSession);
+            var proxyProjectMemberRepository = new ProxyProjectMemberRepository(repository);
+            return new ProjectMemberDeleteCommandHandler(proxyProjectMemberRepository);
+        }
 
         #endregion
 
@@ -76,42 +87,42 @@ namespace Bowerbird.Core.Test.CommandHandlers
         [Category(TestCategory.Unit)]
         public void ProjectMemberDeleteCommandHandler_Handle_Passing_Null_ProjectMemberDeleteCommand_Throws_DesignByContractException()
         {
+            var projectMemberDeleteCommandHandler = new ProjectMemberDeleteCommandHandler(new Mock<IRepository<ProjectMember>>().Object);
+
             Assert.IsTrue(
                 BowerbirdThrows.Exception<DesignByContractException>(() =>
-                    _projectMemberDeleteCommandHandler.Handle(null)));
+                    projectMemberDeleteCommandHandler.Handle(null)));
         }
 
         [Test]
-        [Category(TestCategory.Unit)]
-        public void ProjectMemberDeleteCommandHandler_Handle_Calls_ProjectMemberRepository_Load()
+        [Category(TestCategory.Integration)]
+        public void ProjectMemberDeleteCommandHandler_Handle_Deletes_ProjectMember()
         {
-            _mockProjectMemberRepository.Setup(x => x.Load(It.IsAny<string>(), It.IsAny<string>())).Verifiable();
+            ProjectMember result = null;
 
-            _projectMemberDeleteCommandHandler.Handle(new ProjectMemberDeleteCommand()
-                                                          {
-                                                              DeletedByUserId = FakeValues.UserId,
-                                                              ProjectId = FakeValues.KeyString,
-                                                              UserId = FakeValues.UserId
-                                                          });
-
-            _mockProjectMemberRepository.Verify(x => x.Load(It.IsAny<string>(), It.IsAny<string>()), Times.Once());
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void ProjectMemberDeleteCommandHandler_Handle_Calls_ProjectMemberRepository_Remove()
-        {
-            _mockProjectMemberRepository.Setup(x => x.Load(It.IsAny<string>(), It.IsAny<string>())).Verifiable();
-            _mockProjectMemberRepository.Setup(x => x.Remove(It.IsAny<ProjectMember>())).Verifiable();
-
-            _projectMemberDeleteCommandHandler.Handle(new ProjectMemberDeleteCommand()
+            using (var session = _store.OpenSession())
             {
-                DeletedByUserId = FakeValues.UserId,
-                ProjectId = FakeValues.KeyString,
-                UserId = FakeValues.UserId
-            });
+                var projectMember = FakeObjects.TestProjectMember();
 
-            _mockProjectMemberRepository.Verify(x => x.Remove(It.IsAny<ProjectMember>()), Times.Once());
+                session.Store(projectMember);
+
+                session.SaveChanges();
+
+                var projectMemberDeleteCommandHandler = TestProjectMemberDeleteCommandHandler(session);
+
+                projectMemberDeleteCommandHandler.Handle(new ProjectMemberDeleteCommand()
+                                                              {
+                                                                  DeletedByUserId = FakeValues.UserId,
+                                                                  ProjectId = FakeValues.KeyString,
+                                                                  UserId = FakeValues.UserId
+                                                              });
+
+                session.SaveChanges();
+
+                result = session.Load<ProjectMember>(projectMember.Id);
+            }
+
+            Assert.IsNull(result);
         }
 
         #endregion 

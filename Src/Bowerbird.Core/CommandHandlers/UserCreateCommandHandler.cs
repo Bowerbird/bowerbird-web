@@ -10,16 +10,16 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Members
 
-        private readonly IDefaultRepository<User> _userRepository;
-        private readonly IDefaultRepository<Role> _roleRepository;
+        private readonly IRepository<User> _userRepository;
+        private readonly IRepository<Role> _roleRepository;
 
         #endregion
 
         #region Constructors
 
         public UserCreateCommandHandler(
-            IDefaultRepository<User> userRepository,
-            IDefaultRepository<Role> roleRepository)
+            IRepository<User> userRepository,
+            IRepository<Role> roleRepository)
         {
             Check.RequireNotNull(userRepository, "userRepository");
             Check.RequireNotNull(roleRepository, "roleRepository");
@@ -45,7 +45,6 @@ namespace Bowerbird.Core.CommandHandlers
                 userCreateCommand.Email,
                 userCreateCommand.FirstName,
                 userCreateCommand.LastName,
-                userCreateCommand.Description,
                 _roleRepository.Load(userCreateCommand.Roles));
 
             _userRepository.Add(user);

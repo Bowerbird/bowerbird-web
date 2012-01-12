@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandHandlers\UserRequestPasswordResetCommandHandler.cs" />
     <Compile Include="CommandHandlers\ProjectCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\ProjectDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\ProjectObservationCreateCommandHandler.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="CommandHandlers\ProjectMemberDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\UserUpdateLastLoginCommandHandler.cs" />
     <Compile Include="CommandHandlers\SetupSystemCommandHandler.cs" />
+    <Compile Include="Commands\UserRequestPasswordResetCommand.cs" />
     <Compile Include="Commands\ProjectCreateCommand.cs" />
     <Compile Include="Commands\ProjectDeleteCommand.cs" />
     <Compile Include="Commands\ProjectObservationCreateCommand.cs" />
@@ -146,12 +148,19 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="ICommandProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\ProjectMemberRepositoryExtensions.cs" />
+    <Compile Include="Repositories\UserRepository.cs" />
+    <Compile Include="Repositories\IUserRepository.cs" />
     <Compile Include="Repositories\DefaultRepository.cs" />
     <Compile Include="Repositories\IDefaultRepository.cs" />
     <Compile Include="Repositories\IProjectMemberRepository.cs" />
     <Compile Include="Repositories\ProjectMemberRepository.cs" />
     <Compile Include="Repositories\RepositoryBase.cs" />
     <Compile Include="Repositories\IRepository.cs" />
+    <Compile Include="Repositories\UserRepositoryExtensions.cs" />
+    <Compile Include="Services\EmailService.cs" />
+    <Compile Include="Services\IEmailService.cs" />
+    <Compile Include="Services\IService.cs" />
     <Compile Include="Tasks\IUserTasks.cs" />
     <Compile Include="Tasks\ITasks.cs" />
     <Compile Include="Tasks\UserTasks.cs" />

@@ -1,42 +1,42 @@
-﻿using System.Collections.Generic;
-using Raven.Client;
+﻿//using System.Collections.Generic;
+//using Raven.Client;
 
-namespace Bowerbird.Core.Repositories
-{
+//namespace Bowerbird.Core.Repositories
+//{
     
-    public class DefaultRepository<T> : RepositoryBase<T>, IDefaultRepository<T>
-    {
+//    public class DefaultRepository<T> : RepositoryBase<T>, IRepository<T>
+//    {
 
-        #region Members
+//        #region Members
 
-        #endregion
+//        #endregion
 
-        #region Constructors
+//        #region Constructors
 
-        public DefaultRepository(IDocumentSession documentSession)
-            : base(documentSession)
-        {
-        }
+//        public DefaultRepository(IDocumentSession documentSession)
+//            : base(documentSession)
+//        {
+//        }
 
-        #endregion
+//        #endregion
 
-        #region Properties
+//        #region Properties
 
-        #endregion
+//        #endregion
 
-        #region Methods
+//        #region Methods
 
-        public T Load(string id)
-        {
-            return _documentSession.Load<T>(id);
-        }
+//        public T Load(string id)
+//        {
+//            return _documentSession.Load<T>(id);
+//        }
 
-        public IEnumerable<T> Load(IEnumerable<string> ids)
-        {
-            return _documentSession.Load<T>(ids);
-        }
+//        public IEnumerable<T> Load(IEnumerable<string> ids)
+//        {
+//            return _documentSession.Load<T>(ids);
+//        }
 
-        #endregion      
+//        #endregion      
       
-    }
-}
+//    }
+//}

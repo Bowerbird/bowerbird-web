@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
+﻿//using System.Collections.Generic;
 
-namespace Bowerbird.Core.Repositories
-{
-    public interface IDefaultRepository<T> : IRepository<T>
-    {
+//namespace Bowerbird.Core.Repositories
+//{
+//    public interface IRepository<T> : IRepository<T>
+//    {
 
-        T Load(string id);
+//        T Load(string id);
 
-        IEnumerable<T> Load(IEnumerable<string> ids);
+//        IEnumerable<T> Load(IEnumerable<string> ids);
 
-    }
-}
+//    }
+//}

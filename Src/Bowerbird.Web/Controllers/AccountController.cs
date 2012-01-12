@@ -1,4 +1,6 @@
-﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 
+
+ Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -12,6 +14,7 @@
  
 */
 
+using System;
 using Bowerbird.Core.Commands;
 
 namespace Bowerbird.Web.Controllers
@@ -134,6 +137,7 @@ namespace Bowerbird.Web.Controllers
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult Register(AccountRegisterInput accountRegisterInput)
         {
             if (ModelState.IsValid)
@@ -149,6 +153,28 @@ namespace Bowerbird.Web.Controllers
         public ActionResult RegisterSuccess()
         {
             return View(_viewModelRepository.Load<DefaultViewModel>());
+        }
+
+        [HttpGet]
+        public ActionResult RequestPasswordReset()
+        {
+            return View(_viewModelRepository.Load<AccountRequestPasswordReset>());
+        }
+
+        [HttpPost]
+        public ActionResult RequestPasswordReset(AccountRequestPasswordResetInput accountRequestPasswordResetInput)
+        {
+            if(ModelState.IsValid)
+            {
+                if (_userTasks.EmailExists(accountRequestPasswordResetInput.Email))
+                {
+                    throw new NotImplementedException();
+                }
+
+                ModelState.AddModelError("something", "The specified email could not be found. Please check the email and try again.");
+            }
+
+            return View(_viewModelRepository.Load<AccountRequestPasswordResetInput, AccountRequestPasswordReset>(accountRequestPasswordResetInput));
         }
 
         private UserUpdateLastLoginCommand MakeUserUpdateLastLoginCommand(AccountLoginInput accountLoginInput)

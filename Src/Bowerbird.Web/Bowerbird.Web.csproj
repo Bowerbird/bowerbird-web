@@ -119,6 +119,9 @@
     <Compile Include="Controllers\ObservationController.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ViewModelFactories\AccountRequestPasswordResetFactory.cs" />
+    <Compile Include="ViewModels\AccountRequestPasswordReset.cs" />
+    <Compile Include="ViewModels\AccountRequestPasswordResetInput.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="CommandBuilder.cs" />
     <Compile Include="EventHandlers\NotifyActivityEventHandlerBase.cs" />

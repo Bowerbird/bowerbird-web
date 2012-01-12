@@ -27,18 +27,18 @@ namespace Bowerbird.Core.CommandHandlers
     {
         #region Members
 
-        private readonly IDefaultRepository<Observation> _observationRepository;
-        private readonly IDefaultRepository<User> _userRepsitory;
-        private readonly IDefaultRepository<MediaResource> _mediaResourceRepsitory;
+        private readonly IRepository<Observation> _observationRepository;
+        private readonly IRepository<User> _userRepsitory;
+        private readonly IRepository<MediaResource> _mediaResourceRepsitory;
 
         #endregion
 
         #region Constructors
 
         public ObservationUpdateCommandHandler(
-            IDefaultRepository<Observation> observationRepository,
-            IDefaultRepository<User> userRepsitory,
-            IDefaultRepository<MediaResource> mediaResourceRepsitory)
+            IRepository<Observation> observationRepository,
+            IRepository<User> userRepsitory,
+            IRepository<MediaResource> mediaResourceRepsitory)
         {
             Check.RequireNotNull(observationRepository, "observationRepository");
             Check.RequireNotNull(userRepsitory, "userRepsitory");

@@ -34,19 +34,19 @@ namespace Bowerbird.Core.Test.CommandHandlers
     {
         #region Test Infrastructure
 
-        private Mock<IDefaultRepository<Project>> _mockProjectRepository;
-        private Mock<IDefaultRepository<ProjectPost>> _mockProjectPostRepository;
-        private Mock<IDefaultRepository<User>> _mockUserRepository;
-        private Mock<IDefaultRepository<MediaResource>> _mockMediaResourceRepository;
+        private Mock<IRepository<Project>> _mockProjectRepository;
+        private Mock<IRepository<ProjectPost>> _mockProjectPostRepository;
+        private Mock<IRepository<User>> _mockUserRepository;
+        private Mock<IRepository<MediaResource>> _mockMediaResourceRepository;
         private ProjectPostCreateCommandHandler _projectPostCreateCommandHandler;
 
         [SetUp]
         public void TestInitialize()
         {
-            _mockProjectRepository = new Mock<IDefaultRepository<Project>>();
-            _mockProjectPostRepository = new Mock<IDefaultRepository<ProjectPost>>();
-            _mockUserRepository = new Mock<IDefaultRepository<User>>();
-            _mockMediaResourceRepository = new Mock<IDefaultRepository<MediaResource>>();
+            _mockProjectRepository = new Mock<IRepository<Project>>();
+            _mockProjectPostRepository = new Mock<IRepository<ProjectPost>>();
+            _mockUserRepository = new Mock<IRepository<User>>();
+            _mockMediaResourceRepository = new Mock<IRepository<MediaResource>>();
             _projectPostCreateCommandHandler = new ProjectPostCreateCommandHandler(
                 _mockProjectRepository.Object,
                 _mockProjectPostRepository.Object,

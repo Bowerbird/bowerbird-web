@@ -31,7 +31,6 @@ namespace Bowerbird.Core.DomainModels
             string email,
             string firstName, 
             string lastName,
-            string description,
             IEnumerable<Role> roles) 
             : this() 
         {
@@ -45,7 +44,7 @@ namespace Bowerbird.Core.DomainModels
             SetDetails(
                 firstName,
                 lastName,
-                description);
+                string.Empty);
 
             AddMembership(new GlobalMember(this, roles));
 
@@ -153,9 +152,11 @@ namespace Bowerbird.Core.DomainModels
             return this;
         }
 
-        public User UpdateResetPasswordKey()
+        public User UpdateResetPasswordKey(string resetPasswordKey)
         {
-            ResetPasswordKey = Guid.NewGuid().ToString();
+            Check.RequireNotNullOrWhitespace(resetPasswordKey, "resetPasswordKey");
+
+            ResetPasswordKey = resetPasswordKey;
 
             return this;
         }

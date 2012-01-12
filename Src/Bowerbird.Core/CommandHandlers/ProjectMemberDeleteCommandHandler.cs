@@ -1,5 +1,6 @@
 ﻿using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Repositories;
 
 namespace Bowerbird.Core.CommandHandlers
@@ -8,14 +9,14 @@ namespace Bowerbird.Core.CommandHandlers
     {
         #region Fields
 
-        private readonly IProjectMemberRepository _projectMemberRepository;
+        private readonly IRepository<ProjectMember> _projectMemberRepository;
  
         #endregion
 
         #region Constructors
 
         public ProjectMemberDeleteCommandHandler(
-            IProjectMemberRepository projectMemberRepository
+            IRepository<ProjectMember> projectMemberRepository
             )
         {
             Check.RequireNotNull(projectMemberRepository, "projectMemberRepository");
@@ -28,7 +29,7 @@ namespace Bowerbird.Core.CommandHandlers
         #region Properties
 
         #endregion
-
+         
         #region Methods
 
         public void Handle(ProjectMemberDeleteCommand projectMemberDeleteCommand)

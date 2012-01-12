@@ -138,7 +138,7 @@ namespace Bowerbird.Core.DomainModels
 
         void IAssignableId.SetIdTo(string prefix, string assignedId)
         {
-            Id = prefix.AppendWith("/").AppendWith(assignedId);
+            Id = string.Format("{0}/{1}", prefix, assignedId);
         }
 
     }

@@ -9,14 +9,14 @@ namespace Bowerbird.Core.CommandHandlers
     {
         #region Fields
 
-        private readonly IDefaultRepository<ProjectPost> _projectPostRepository;
+        private readonly IRepository<ProjectPost> _projectPostRepository;
 
         #endregion
 
         #region Constructors
 
         public ProjectPostDeleteCommandHandler(
-            IDefaultRepository<ProjectPost> projectPostRepository
+            IRepository<ProjectPost> projectPostRepository
             )
         {
             Check.RequireNotNull(projectPostRepository, "projectPostRepository");

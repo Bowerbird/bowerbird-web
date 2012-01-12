@@ -8,14 +8,14 @@ namespace Bowerbird.Core.CommandHandlers
     {
         #region Members
 
-        private readonly IDefaultRepository<User> _userRepository;
+        private readonly IRepository<User> _userRepository;
 
         #endregion
 
         #region Constructors
 
         public UserUpdateLastLoginCommandHandler(
-            IDefaultRepository<User> userRepository)
+            IRepository<User> userRepository)
         {
             Check.RequireNotNull(userRepository, "userRepository");
 
@@ -34,7 +34,7 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(userUpdateLastLoginCommand, "userUpdateLastLoginCommand");
 
-            var user = _userRepository.Load("users/" + userUpdateLastLoginCommand.Email); // HACK: This won't work!
+            var user = _userRepository.LoadByEmail(userUpdateLastLoginCommand.Email);
 
             user.UpdateLastLoggedIn();
 

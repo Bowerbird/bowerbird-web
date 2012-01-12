@@ -10,20 +10,20 @@ namespace Bowerbird.Core.CommandHandlers
     {
         #region Fields
 
-        private readonly IDefaultRepository<User> _userRepository;
-        private readonly IDefaultRepository<ProjectPost> _projectPostRepository;
-        private readonly IDefaultRepository<Project> _projectRepository;
-        private readonly IDefaultRepository<MediaResource> _mediaResourceRepository;
+        private readonly IRepository<User> _userRepository;
+        private readonly IRepository<ProjectPost> _projectPostRepository;
+        private readonly IRepository<Project> _projectRepository;
+        private readonly IRepository<MediaResource> _mediaResourceRepository;
 
         #endregion
 
         #region Constructors
 
         public ProjectPostCreateCommandHandler(
-            IDefaultRepository<Project> projectRepository,
-            IDefaultRepository<ProjectPost> projectPostRepository,
-            IDefaultRepository<User> userRepository,
-            IDefaultRepository<MediaResource> mediaResourceRepository
+            IRepository<Project> projectRepository,
+            IRepository<ProjectPost> projectPostRepository,
+            IRepository<User> userRepository,
+            IRepository<MediaResource> mediaResourceRepository
             )
         {
             Check.RequireNotNull(userRepository, "userRepository");

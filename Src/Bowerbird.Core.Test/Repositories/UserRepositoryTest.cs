@@ -102,7 +102,6 @@ namespace Bowerbird.Core.Test.Repositories
                     FakeValues.Email,
                     FakeValues.FirstName,
                     FakeValues.LastName,
-                    FakeValues.Description,
                     TestRoles()
                     );
 

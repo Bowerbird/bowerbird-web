@@ -93,7 +93,7 @@ namespace Bowerbird.Test.Utils
         /// <summary>
         /// value: 123456
         /// </summary>
-        public static string UserId { get { return "users/123546"; } }
+        public static string UserId { get { return "123546"; } }
 
         /// <summary>
         /// value: true

@@ -61,7 +61,6 @@ namespace Bowerbird.Core.Test.DomainModels
                     FakeValues.Email,
                     FakeValues.FirstName,
                     FakeValues.LastName,
-                    FakeValues.Description,
                     null)));
         }
 
@@ -74,7 +73,6 @@ namespace Bowerbird.Core.Test.DomainModels
                 FakeValues.Email,
                 FakeValues.FirstName,
                 FakeValues.LastName,
-                FakeValues.Description,
                 FakeObjects.TestRoles());
 
             var actual = user.ValidatePassword(FakeValues.Password);
@@ -92,7 +90,6 @@ namespace Bowerbird.Core.Test.DomainModels
                 FakeValues.Email,
                 FakeValues.FirstName,
                 FakeValues.LastName,
-                FakeValues.Description,
                 FakeObjects.TestRoles());
 
             var expected = FakeValues.Email;
@@ -110,7 +107,6 @@ namespace Bowerbird.Core.Test.DomainModels
                 FakeValues.Email,
                 FakeValues.FirstName,
                 FakeValues.LastName,
-                FakeValues.Description,
                 FakeObjects.TestRoles());
 
             var expected = FakeValues.FirstName;
@@ -128,29 +124,10 @@ namespace Bowerbird.Core.Test.DomainModels
                 FakeValues.Email,
                 FakeValues.FirstName,
                 FakeValues.LastName,
-                FakeValues.Description,
                 FakeObjects.TestRoles());
 
             var expected = FakeValues.LastName;
             var actual = user.LastName;
-
-            Assert.AreEqual(actual, expected);
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void User_Constructor_Populates_Description_Field()
-        {
-            var user = new User(
-                FakeValues.Password,
-                FakeValues.Email,
-                FakeValues.FirstName,
-                FakeValues.LastName,
-                FakeValues.Description,
-                FakeObjects.TestRoles());
-
-            var expected = FakeValues.Description;
-            var actual = user.Description;
 
             Assert.AreEqual(actual, expected);
         }
@@ -166,7 +143,6 @@ namespace Bowerbird.Core.Test.DomainModels
                 FakeValues.Email,
                 FakeValues.FirstName,
                 FakeValues.LastName,
-                FakeValues.Description,
                 roles);
 
             Assert.IsTrue(user.Memberships.Count == 1);
@@ -348,16 +324,15 @@ namespace Bowerbird.Core.Test.DomainModels
         {
             var testUser = FakeObjects.TestUser();
 
-            var passwordUpdateKey = testUser
-                .UpdateResetPasswordKey()
+            var originalValue = testUser
+                .UpdateResetPasswordKey(FakeValues.KeyString)
                 .ResetPasswordKey;
 
-            Assert.IsFalse(
-                testUser
-                .UpdateResetPasswordKey()
-                .ResetPasswordKey
-                .Equals(passwordUpdateKey)
-                );
+            var newValue = testUser
+                .UpdateResetPasswordKey(FakeValues.KeyString + "abc")
+                .ResetPasswordKey;
+
+            Assert.AreNotEqual(originalValue, newValue);
         }
 
         [Test]

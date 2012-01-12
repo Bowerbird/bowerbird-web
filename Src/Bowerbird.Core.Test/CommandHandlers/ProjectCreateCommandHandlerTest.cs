@@ -32,15 +32,15 @@ namespace Bowerbird.Core.Test.CommandHandlers
     {
         #region Test Infrastructure
 
-        private Mock<IDefaultRepository<Project>> _mockProjectRepository;
-        private Mock<IDefaultRepository<User>> _mockUserRepository;
+        private Mock<IRepository<Project>> _mockProjectRepository;
+        private Mock<IRepository<User>> _mockUserRepository;
         private ProjectCreateCommandHandler _projectCreateCommandHandler;
 
         [SetUp]
         public void TestInitialize()
         {
-            _mockProjectRepository = new Mock<IDefaultRepository<Project>>();
-            _mockUserRepository = new Mock<IDefaultRepository<User>>();
+            _mockProjectRepository = new Mock<IRepository<Project>>();
+            _mockUserRepository = new Mock<IRepository<User>>();
             _projectCreateCommandHandler = new ProjectCreateCommandHandler(
                 _mockProjectRepository.Object,
                 _mockUserRepository.Object
