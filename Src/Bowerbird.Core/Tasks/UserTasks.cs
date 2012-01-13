@@ -15,18 +15,18 @@ namespace Bowerbird.Core.Tasks
 
         #region Members
 
-        private readonly IDocumentSession _documentSession;
+        private readonly IRepository<User> _userRepository;
 
         #endregion
 
         #region Constructors
 
         public UserTasks(
-            IDocumentSession documentSession)
+            IRepository<User> userRepository)
         {
-            Check.RequireNotNull(documentSession, "documentSession");
+            Check.RequireNotNull(userRepository, "userRepository");
 
-            _documentSession = documentSession;
+            _userRepository = userRepository;
         }
 
         #endregion
@@ -42,23 +42,21 @@ namespace Bowerbird.Core.Tasks
             Check.RequireNotNullOrWhitespace(email, "email");
             Check.RequireNotNullOrWhitespace(password, "password");
 
-            var user = _documentSession
-                .Query<User>()
-                .Where(x => x.Email == email)
-                .FirstOrDefault();
+            var user = _userRepository.LoadByEmail(email);
 
             return user != null && user.ValidatePassword(password);
         }
-
 
         public bool EmailExists(string email)
         {
             Check.RequireNotNullOrWhitespace(email, "email");
 
-            return _documentSession
-                .Query<User>()
-                .Where(x => x.Email == email)
-                .SingleOrDefault() != null;
+            return _userRepository.LoadByEmail(email) != null;
+        }
+
+        public bool ResetPasswordKeyExists(string resetPasswordKey)
+        {
+            return _userRepository.LoadByResetPasswordKey(resetPasswordKey) != null;
         }
 
         #endregion      

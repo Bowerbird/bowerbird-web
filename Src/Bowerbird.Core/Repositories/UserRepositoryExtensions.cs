@@ -32,6 +32,15 @@ namespace Bowerbird.Core.Repositories
                 .FirstOrDefault();
         }
 
+        public static User LoadByResetPasswordKey(this IRepository<User> repository, string resetPasswordKey)
+        {
+            return repository
+                .Session
+                .Query<User>()
+                .Where(x => x.ResetPasswordKey == resetPasswordKey)
+                .FirstOrDefault();
+        }
+
         #endregion      
       
     }

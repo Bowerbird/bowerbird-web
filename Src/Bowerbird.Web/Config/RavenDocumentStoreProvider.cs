@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.Services;
 using Raven.Client.Document;
 using Raven.Client;
 using Ninject.Activation;
@@ -12,10 +14,34 @@ namespace Bowerbird.Web.Config
 {
     public class RavenDocumentStoreProvider : Provider<IDocumentStore>
     {
+
+        #region Members
+
+        private readonly IConfigService _configService;
+
+        #endregion
+
+        #region Constructors
+
+        public RavenDocumentStoreProvider(
+            IConfigService configService)
+        {
+            Check.RequireNotNull(configService, "configService");
+
+            _configService = configService;
+        }
+
+        #endregion
+
+        #region Properties
+
+        #endregion
+
+        #region Methods
+
         protected override IDocumentStore CreateInstance(IContext ctx)
         {
             var documentStore = new DocumentStore { ConnectionStringName = "bowerbird" };
-
 
             documentStore.Conventions.FindIdentityProperty =
                                 prop =>
@@ -27,23 +53,14 @@ namespace Bowerbird.Web.Config
                                     //prop.Name == "Id";
                                     prop.Name == "Id";
 
-            //documentStore.Conventions.DocumentKeyGenerator = domainModel =>
-            //{
-            //    string collectionName = domainModel.GetType().Name.ToLower() + "s";
-
-            //    if (!(domainModel is User))
-            //    {
-            //        collectionName += "/";
-            //    }
-
-            //    return collectionName;
-            //};
-
             documentStore.Initialize();
 
-            documentStore.DatabaseCommands.EnsureDatabaseExists("bowerbird_dev"); // TODO: Move into config file
+            documentStore.DatabaseCommands.EnsureDatabaseExists(_configService.GetDatabaseName());
 
             return documentStore;
         }
+
+        #endregion      
+
     }
 }

@@ -124,6 +124,9 @@
     <Compile Include="Controllers\ProjectObservationController.cs" />
     <Compile Include="Controllers\ProjectPostController.cs" />
     <Compile Include="ViewModelFactories\AccountRequestPasswordResetFactory.cs" />
+    <Compile Include="ViewModelFactories\AccountResetPasswordFactory.cs" />
+    <Compile Include="ViewModels\AccountChangePasswordInput.cs" />
+    <Compile Include="ViewModels\AccountRegister.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="CommandBuilder.cs" />
     <Compile Include="EventHandlers\NotifyActivityEventHandlerBase.cs" />
@@ -135,6 +138,11 @@
     <Compile Include="Validators\UniqueEmailAttribute.cs" />
     <Compile Include="ViewModelFactories\AccountLoginFactory.cs" />
     <Compile Include="ViewModelFactories\AccountRegisterFactory.cs" />
+    <Compile Include="ViewModels\AccountRegisterInput.cs" />
+    <Compile Include="ViewModels\AccountRequestPasswordReset.cs" />
+    <Compile Include="ViewModels\AccountRequestPasswordResetInput.cs" />
+    <Compile Include="ViewModels\AccountResetPassword.cs" />
+    <Compile Include="ViewModels\AccountResetPasswordInput.cs" />
     <Compile Include="ViewModelFactories\DefaultViewModelFactory.cs" />
     <Compile Include="ViewModelFactories\ObservationIndexFactory.cs" />
     <Compile Include="ViewModelFactories\ProjectIndexFactory.cs" />
@@ -154,21 +162,7 @@
     <Compile Include="ViewModels\AccountLoginInput.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ViewModels\AccountRegister.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ViewModels\AccountRegisterInput.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ViewModels\AccountRequestPasswordReset.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ViewModels\AccountRequestPasswordResetInput.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ViewModels\DefaultViewModel.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="ViewModels\DefaultViewModel.cs" />
     <Compile Include="ViewModels\HomeIndex.cs">
       <SubType>Code</SubType>
     </Compile>

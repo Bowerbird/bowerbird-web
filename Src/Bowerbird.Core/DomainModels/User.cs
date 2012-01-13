@@ -125,9 +125,14 @@ namespace Bowerbird.Core.DomainModels
             return this;
         }
 
+        /// <summary>
+        /// Update password and set resetpasswordkey to null
+        /// </summary>
         public User UpdatePassword(string password)
         {
             HashedPassword = GetHashedPassword(password);
+
+            ResetPasswordKey = null; // Set to null indicating password is not resettable
 
             return this;
         }
@@ -153,11 +158,11 @@ namespace Bowerbird.Core.DomainModels
             return this;
         }
 
-        public User UpdateResetPasswordKey(string resetPasswordKey)
+        public User RequestPasswordReset()
         {
-            Check.RequireNotNullOrWhitespace(resetPasswordKey, "resetPasswordKey");
+            ResetPasswordKey = Guid.NewGuid().ToString();
 
-            ResetPasswordKey = resetPasswordKey;
+            EventProcessor.Raise(new RequestPasswordResetEvent(){ User = this });
 
             return this;
         }

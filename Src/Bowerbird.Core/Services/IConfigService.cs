@@ -7,8 +7,14 @@ using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Core.Services
 {
-    public interface IEmailService : IService
+    public interface IConfigService : IService
     {
-        void SendMailMessage(MailMessage mailMessage);
+        string GetEmailServerName();
+
+        string GetMediaRootUri();
+
+        string GetMediaRootPath();
+
+        string GetDatabaseName();
     }
 }

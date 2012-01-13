@@ -217,9 +217,9 @@ namespace Bowerbird.Core.Test.DomainModels
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void User_ResetPasswordKey_Is_TypeOf_String()
+        public void User_ResetPasswordKey_Is_TypeOf_String_Null()
         {
-            Assert.IsInstanceOf<string>(FakeObjects.TestUser().ResetPasswordKey);
+            Assert.IsNull(FakeObjects.TestUser().ResetPasswordKey);
         }
 
         [Test]
@@ -327,14 +327,26 @@ namespace Bowerbird.Core.Test.DomainModels
             var testUser = FakeObjects.TestUser();
 
             var originalValue = testUser
-                .UpdateResetPasswordKey(FakeValues.KeyString)
                 .ResetPasswordKey;
 
             var newValue = testUser
-                .UpdateResetPasswordKey(FakeValues.KeyString + "abc")
+                .RequestPasswordReset()
                 .ResetPasswordKey;
 
             Assert.AreNotEqual(originalValue, newValue);
+            Assert.IsInstanceOf<string>(newValue);
+        }
+
+        [Test]
+        [Category(TestCategory.Unit)]
+        public void User_RequestPasswordReset_Then_UpdatePassword_Sets_ResetPasswordKey_To_Null()
+        {
+            var result = FakeObjects
+                .TestUser()
+                .RequestPasswordReset()
+                .UpdatePassword("newpassword");
+
+            Assert.IsNull(result.ResetPasswordKey);
         }
 
         [Test]
