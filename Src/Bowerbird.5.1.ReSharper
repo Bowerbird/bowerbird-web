@@ -1,0 +1,17 @@
+<Configuration>
+  <SharedSolutionTemplateManager>
+    <FileTemplates>
+      <Template uid="8df6a7af-e54c-4bae-9144-cd180a7da6eb" shortcut="" description="DomainModel" text="/* Bowerbird V1 &#xD;&#xA;&#xD;&#xA; Licensed under MIT 1.1 Public License&#xD;&#xA;&#xD;&#xA; Developers: &#xD;&#xA; * Frank Radocaj : frank@radocaj.com&#xD;&#xA; * Hamish Crittenden : hamish.crittenden@gmail.com&#xD;&#xA; &#xD;&#xA; Project Manager: &#xD;&#xA; * Ken Walker : kwalker@museum.vic.gov.au&#xD;&#xA; &#xD;&#xA; Funded by:&#xD;&#xA; * Atlas of Living Australia&#xD;&#xA; &#xD;&#xA;*/&#xD;&#xA;&#xD;&#xA;namespace Bowerbird.Core.DomainModels&#xD;&#xA;{&#xD;&#xA;	#region Namespaces&#xD;&#xA;&#xD;&#xA;	using System.Collections.Generic;&#xD;&#xA;	using Bowerbird.Core.DesignByContract;&#xD;&#xA;	using Bowerbird.Core.Events;&#xD;&#xA;	using System;&#xD;&#xA;	using Bowerbird.Core.DomainModels.DenormalisedReferences;&#xD;&#xA;&#xD;&#xA;	#endregion&#xD;&#xA;&#xD;&#xA;    public class $CLASS$ : DomainModel&#xD;&#xA;    {&#xD;&#xA;        #region Members&#xD;&#xA;&#xD;&#xA;        #endregion&#xD;&#xA;&#xD;&#xA;        #region Constructors&#xD;&#xA;&#xD;&#xA;        protected $CLASS$() : base() { }&#xD;&#xA;&#xD;&#xA;        public $CLASS$(&#xD;&#xA;            User createdByUser&#xD;&#xA;            //,DateTime timestamp&#xD;&#xA;			)&#xD;&#xA;            : this()&#xD;&#xA;        {&#xD;&#xA;            Check.RequireNotNull(createdByUser, &quot;createdByUser&quot;);&#xD;&#xA;&#xD;&#xA;            //PostedOn = timestamp;&#xD;&#xA;            User = createdByUser;&#xD;&#xA;&#xD;&#xA;            SetDetails(&#xD;&#xA;            );&#xD;&#xA;&#xD;&#xA;            EventProcessor.Raise(new DomainModelCreatedEvent&lt;$CLASS$&gt;(this, createdByUser));&#xD;&#xA;        }&#xD;&#xA;&#xD;&#xA;        #endregion&#xD;&#xA;&#xD;&#xA;        #region Properties&#xD;&#xA;&#xD;&#xA;        public DenormalisedUserReference User { get; private set; }&#xD;&#xA;&#xD;&#xA;        #endregion&#xD;&#xA;&#xD;&#xA;        #region Methods&#xD;&#xA;&#xD;&#xA;        private void SetDetails()&#xD;&#xA;        {&#xD;&#xA;            &#xD;&#xA;        }&#xD;&#xA;&#xD;&#xA;        public $CLASS$ UpdateDetails(&#xD;&#xA;			User updatedByUser&#xD;&#xA;			)&#xD;&#xA;        {&#xD;&#xA;            Check.RequireNotNull(updatedByUser, &quot;updatedByUser&quot;);&#xD;&#xA;&#xD;&#xA;            SetDetails(&#xD;&#xA;			);&#xD;&#xA;&#xD;&#xA;            EventProcessor.Raise(new DomainModelUpdatedEvent&lt;$CLASS$&gt;(this, updatedByUser));&#xD;&#xA;&#xD;&#xA;            return this;&#xD;&#xA;        }&#xD;&#xA;&#xD;&#xA;        #endregion&#xD;&#xA;    }&#xD;&#xA;}" reformat="True" shortenQualifiedReferences="False">
+        <Categories />
+        <Variables>
+          <Variable name="CLASS" expression="" initialRange="0" />
+        </Variables>
+        <CustomProperties>
+          <Property key="FileName" value="DomainModel" />
+          <Property key="Extension" value="cs" />
+          <Property key="ValidateFileName" value="True" />
+        </CustomProperties>
+      </Template>
+    </FileTemplates>
+  </SharedSolutionTemplateManager>
+</Configuration>

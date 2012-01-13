@@ -12,6 +12,8 @@
  
 */
 
+using Bowerbird.Core.DomainModels.Members;
+
 namespace Bowerbird.Core.Test.DomainModels.DenormalisedReferences
 {
     #region Namespaces

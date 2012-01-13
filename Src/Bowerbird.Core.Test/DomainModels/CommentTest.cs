@@ -51,8 +51,8 @@ namespace Bowerbird.Core.Test.DomainModels
         public void Comment_Constructor_Passing_Empty_User_Throws_DesignByContractException()
         {
             Assert.IsTrue(
-                BowerbirdThrows.Exception<DesignByContractException>(
-                    () => new Comment(null,FakeValues.Message)));
+                BowerbirdThrows.Exception<DesignByContractException>(() => 
+                    new Comment(null,FakeValues.CreatedDateTime, FakeValues.Message)));
         }
 
         [Test]
@@ -60,8 +60,8 @@ namespace Bowerbird.Core.Test.DomainModels
         public void Comment_Constructor_Passing_Empty_Message_Throws_DesignByContractException()
         {
             Assert.IsTrue(
-                BowerbirdThrows.Exception<DesignByContractException>(
-                    () => new Comment(FakeObjects.TestUser(),string.Empty)));
+                BowerbirdThrows.Exception<DesignByContractException>(() =>
+                    new Comment(null, FakeValues.CreatedDateTime, string.Empty)));
         }
 
         [Test]
@@ -71,6 +71,7 @@ namespace Bowerbird.Core.Test.DomainModels
             var testUser = FakeObjects.TestUser();
             var testComment = new Comment(
                 testUser, 
+                FakeValues.CreatedDateTime,
                 FakeValues.Comment);
 
             Assert.AreEqual(testComment.User.Id, testUser.Id);
@@ -78,7 +79,7 @@ namespace Bowerbird.Core.Test.DomainModels
             Assert.AreEqual(testComment.User.LastName, testUser.LastName);
             Assert.AreEqual(testComment.User.Email, testUser.Email);
             Assert.AreEqual(testComment.EditedOn.Day, DateTime.Now.Day);
-            Assert.AreEqual(testComment.SubmittedOn.Day, DateTime.Now.Day);
+            Assert.AreEqual(testComment.CommentedOn.Day, DateTime.Now.Day);
             Assert.AreEqual(testComment.Message, FakeValues.Comment);
         }
 
@@ -93,6 +94,7 @@ namespace Bowerbird.Core.Test.DomainModels
             Assert.IsInstanceOf<DenormalisedUserReference>(
                 new Comment(
                     FakeObjects.TestUser(), 
+                    FakeValues.CreatedDateTime,
                     FakeValues.Message)
                     .User);
         }
@@ -103,9 +105,10 @@ namespace Bowerbird.Core.Test.DomainModels
         {
             Assert.IsInstanceOf<DateTime>(
                 new Comment(
-                    FakeObjects.TestUser(), 
+                    FakeObjects.TestUser(),
+                    FakeValues.CreatedDateTime,
                     FakeValues.Message)
-                    .SubmittedOn);
+                    .CommentedOn);
         }
 
         [Test]
@@ -114,7 +117,8 @@ namespace Bowerbird.Core.Test.DomainModels
         {
             Assert.IsInstanceOf<DateTime>(
                 new Comment(
-                    FakeObjects.TestUser(), 
+                    FakeObjects.TestUser(),
+                    FakeValues.CreatedDateTime,
                     FakeValues.Message)
                     .EditedOn);
         }
@@ -125,7 +129,8 @@ namespace Bowerbird.Core.Test.DomainModels
         {
             Assert.IsInstanceOf<string>(
                 new Comment(
-                    FakeObjects.TestUser(), 
+                    FakeObjects.TestUser(),
+                    FakeValues.CreatedDateTime,
                     FakeValues.Message)
                     .Message);
         }

@@ -1,4 +1,5 @@
 ﻿using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.DomainModels.Members;
 using Bowerbird.Core.Repositories;
 
 namespace Bowerbird.Core.Test.ProxyRepositories

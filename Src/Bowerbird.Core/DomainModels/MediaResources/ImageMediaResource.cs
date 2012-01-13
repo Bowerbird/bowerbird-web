@@ -1,4 +1,5 @@
-﻿using Bowerbird.Core.DesignByContract;
+﻿using System;
+using Bowerbird.Core.DesignByContract;
 
 namespace Bowerbird.Core.DomainModels.MediaResources
 {
@@ -13,12 +14,16 @@ namespace Bowerbird.Core.DomainModels.MediaResources
         protected ImageMediaResource() : base() { }
 
         public ImageMediaResource(
+            User createdByUser,
+            DateTime uploadedOn,
             string originalFileName,
             string fileFormat,
             string description,
             int width,
             int height) 
             : base(
+            createdByUser,
+            uploadedOn,
             originalFileName,
             fileFormat,
             description)
@@ -42,6 +47,11 @@ namespace Bowerbird.Core.DomainModels.MediaResources
         #endregion
 
         #region Methods
+
+        public new void UpdateDetails(string description)
+        {
+            base.UpdateDetails(description);
+        }
 
         private void SetDetails(int width, int height)
         {

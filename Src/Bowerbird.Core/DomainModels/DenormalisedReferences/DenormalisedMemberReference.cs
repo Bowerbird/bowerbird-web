@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.DomainModels.Members;
 
 namespace Bowerbird.Core.DomainModels.DenormalisedReferences
 {

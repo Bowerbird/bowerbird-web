@@ -46,21 +46,42 @@ namespace Bowerbird.Core.Test.DomainModels.MediaResources
         [Category(TestCategory.Unit)]
         public void ImageMediaResource_Constructor_Passing_Width_NotGreaterThanZero_Throws_DesignByContractException()
         {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new ImageMediaResource(FakeValues.Filename, FakeValues.FileFormat, FakeValues.Description, 0, FakeValues.Number)));
+            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new ImageMediaResource(
+                FakeObjects.TestUser(),
+                FakeValues.CreatedDateTime,
+                FakeValues.Filename, 
+                FakeValues.FileFormat, 
+                FakeValues.Description, 
+                0, 
+                FakeValues.Number)));
         }
 
         [Test]
         [Category(TestCategory.Unit)]
         public void ImageMediaResource_Constructor_Passing_Height_NotGreaterThanZero_Throws_DesignByContractException()
         {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new ImageMediaResource(FakeValues.Filename, FakeValues.FileFormat, FakeValues.Description, FakeValues.Number, 0)));
+            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new ImageMediaResource(
+                FakeObjects.TestUser(),
+                FakeValues.CreatedDateTime, 
+                FakeValues.Filename, 
+                FakeValues.FileFormat, 
+                FakeValues.Description, 
+                FakeValues.Number, 
+                0)));
         }
 
         [Test]
         [Category(TestCategory.Unit)]
         public void ImageMediaResource_Constructor_Populates_Property_Values()
         {
-            var testMediaResource = new ImageMediaResource(FakeValues.Filename, FakeValues.FileFormat, FakeValues.Description, FakeValues.Number, FakeValues.Number);
+            var testMediaResource = new ImageMediaResource(
+                FakeObjects.TestUser(),
+                FakeValues.CreatedDateTime, 
+                FakeValues.Filename, 
+                FakeValues.FileFormat, 
+                FakeValues.Description, 
+                FakeValues.Number, 
+                FakeValues.Number);
 
             Assert.AreEqual(testMediaResource.OriginalFileName, FakeValues.Filename);
             Assert.AreEqual(testMediaResource.FileFormat, FakeValues.FileFormat);
@@ -77,14 +98,28 @@ namespace Bowerbird.Core.Test.DomainModels.MediaResources
         [Category(TestCategory.Unit)]
         public void ImageMediaResource_Width_Is_TypeOf_Int()
         {
-            Assert.IsInstanceOf<int>(new ImageMediaResource(FakeValues.Filename, FakeValues.FileFormat, FakeValues.Description, FakeValues.Number, FakeValues.Number).Width);
+            Assert.IsInstanceOf<int>(new ImageMediaResource(
+                FakeObjects.TestUser(),
+                FakeValues.CreatedDateTime, 
+                FakeValues.Filename, 
+                FakeValues.FileFormat, 
+                FakeValues.Description, 
+                FakeValues.Number, 
+                FakeValues.Number).Width);
         }
 
         [Test]
         [Category(TestCategory.Unit)]
         public void ImageMediaResource_Height_Is_TypeOf_Int()
         {
-            Assert.IsInstanceOf<int>(new ImageMediaResource(FakeValues.Filename, FakeValues.FileFormat, FakeValues.Description, FakeValues.Number, FakeValues.Number).Height);
+            Assert.IsInstanceOf<int>(new ImageMediaResource(
+                FakeObjects.TestUser(),
+                FakeValues.CreatedDateTime, 
+                FakeValues.Filename, 
+                FakeValues.FileFormat, 
+                FakeValues.Description, 
+                FakeValues.Number, 
+                FakeValues.Number).Height);
         }
 
         #endregion

@@ -55,7 +55,11 @@ namespace Bowerbird.Test.Utils
         public class ProxyMediaResource : MediaResource
         {
             public ProxyMediaResource(string originalFileName, string fileFormat, string description)
-                : base(originalFileName, fileFormat, description) { }
+                : base(FakeObjects.TestUser(),
+                FakeValues.CreatedDateTime,
+                originalFileName, 
+                fileFormat, 
+                description) { }
         }
 
         public class ProxyMember : Member

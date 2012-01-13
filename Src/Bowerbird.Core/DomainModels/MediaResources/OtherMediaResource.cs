@@ -1,4 +1,6 @@
-﻿namespace Bowerbird.Core.DomainModels.MediaResources
+﻿using System;
+
+namespace Bowerbird.Core.DomainModels.MediaResources
 {
     /// <summary>
     /// Removed reference to width and height. Does not fit for all types of Other Media..ie sound files, pdf etc.
@@ -18,14 +20,15 @@
 
         protected OtherMediaResource() : base() { }
 
-        public OtherMediaResource(
-            string originalFileName
-            ,string fileFormat
-            ,string description
-            //,int width
-            //,int height
+        public OtherMediaResource(User createdByUser,
+            DateTime uploadedOn,
+            string originalFileName,
+            string fileFormat,
+            string description
             ) 
             : base(
+            createdByUser,
+            uploadedOn,
             originalFileName,
             fileFormat,
             description) 

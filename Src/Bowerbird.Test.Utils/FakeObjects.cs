@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.DomainModels.Members;
 
 namespace Bowerbird.Test.Utils
 {

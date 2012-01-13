@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.DomainModels.Members;
 using Raven.Client;
 
 namespace Bowerbird.Core.Repositories

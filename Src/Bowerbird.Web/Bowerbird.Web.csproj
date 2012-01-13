@@ -119,9 +119,11 @@
     <Compile Include="Controllers\ObservationController.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controllers\ProjectController.cs" />
+    <Compile Include="Controllers\ProjectMemberController.cs" />
+    <Compile Include="Controllers\ProjectObservationController.cs" />
+    <Compile Include="Controllers\ProjectPostController.cs" />
     <Compile Include="ViewModelFactories\AccountRequestPasswordResetFactory.cs" />
-    <Compile Include="ViewModels\AccountRequestPasswordReset.cs" />
-    <Compile Include="ViewModels\AccountRequestPasswordResetInput.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="CommandBuilder.cs" />
     <Compile Include="EventHandlers\NotifyActivityEventHandlerBase.cs" />
@@ -133,31 +135,83 @@
     <Compile Include="Validators\UniqueEmailAttribute.cs" />
     <Compile Include="ViewModelFactories\AccountLoginFactory.cs" />
     <Compile Include="ViewModelFactories\AccountRegisterFactory.cs" />
-    <Compile Include="ViewModels\AccountRegisterInput.cs" />
-    <Compile Include="ViewModels\AccountRegister.cs" />
-    <Compile Include="ViewModels\DefaultViewModel.cs" />
     <Compile Include="ViewModelFactories\DefaultViewModelFactory.cs" />
+    <Compile Include="ViewModelFactories\ObservationIndexFactory.cs" />
+    <Compile Include="ViewModelFactories\ProjectIndexFactory.cs" />
     <Compile Include="ViewModelRepository.cs" />
-    <Compile Include="ViewModels\AccountLogin.cs" />
-    <Compile Include="ViewModels\AccountLoginInput.cs" />
-    <Compile Include="ViewModels\StreamItem.cs" />
     <Compile Include="Extensions\UrlHelperExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModelFactories\HomeIndexFactory.cs" />
     <Compile Include="ViewModelFactories\IViewModelFactory.cs" />
     <Compile Include="ViewModelFactories\IPagedListFactory.cs" />
-    <Compile Include="ViewModels\HomeIndex.cs" />
-    <Compile Include="ViewModels\HomeIndexInput.cs" />
-    <Compile Include="ViewModels\ObservationCreateInput.cs" />
-    <Compile Include="ViewModels\Paging\PagedList.cs" />
     <Compile Include="ViewModelFactories\ViewModelFactoryBase.cs" />
     <Compile Include="ViewModelFactories\UserObservationsFactory.cs" />
     <Compile Include="Config\TransactionAttribute.cs" />
-    <Compile Include="ViewModels\IViewModel.cs" />
     <Compile Include="ViewModelFactories\PagedListFactory.cs" />
-    <Compile Include="ViewModels\Paging\PagedListItem.cs" />
-    <Compile Include="ViewModels\Paging\PageNumber.cs" />
-    <Compile Include="ViewModels\ObservationListInput.cs" />
+    <Compile Include="ViewModels\AccountLogin.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModels\AccountLoginInput.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModels\AccountRegister.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModels\AccountRegisterInput.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModels\AccountRequestPasswordReset.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModels\AccountRequestPasswordResetInput.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModels\DefaultViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModels\HomeIndex.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModels\HomeIndexInput.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModels\IViewModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModels\ObservationCreateInput.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModels\ObservationDeleteInput.cs" />
+    <Compile Include="ViewModels\ObservationIndex.cs" />
+    <Compile Include="ViewModels\ObservationIndexInput.cs" />
+    <Compile Include="ViewModels\ObservationListInput.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModels\ObservationUpdateInput.cs" />
+    <Compile Include="ViewModels\Paging\PagedList.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModels\Paging\PagedListItem.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModels\Paging\PageNumber.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ViewModels\ProjectCreateInput.cs" />
+    <Compile Include="ViewModels\ProjectDeleteInput.cs" />
+    <Compile Include="ViewModels\ProjectIndex.cs" />
+    <Compile Include="ViewModels\ProjectIndexInput.cs" />
+    <Compile Include="ViewModels\ProjectMemberCreateInput.cs" />
+    <Compile Include="ViewModels\ProjectMemberDeleteInput.cs" />
+    <Compile Include="ViewModels\ProjectObservationCreateInput.cs" />
+    <Compile Include="ViewModels\ProjectObservationDeleteInput.cs" />
+    <Compile Include="ViewModels\ProjectPostCreateInput.cs" />
+    <Compile Include="ViewModels\ProjectPostDeleteInput.cs" />
+    <Compile Include="ViewModels\ProjectPostUpdateInput.cs" />
+    <Compile Include="ViewModels\ProjectUpdateInput.cs" />
+    <Compile Include="ViewModels\StreamItem.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

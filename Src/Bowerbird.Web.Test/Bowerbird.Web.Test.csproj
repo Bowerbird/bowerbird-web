@@ -111,6 +111,11 @@
     <Compile Include="Config\BowerbirdNinjectModuleTest.cs" />
     <Compile Include="Config\UserContextTest.cs" />
     <Compile Include="Controllers\AccountControllerTest.cs" />
+    <Compile Include="Controllers\ObservationControllerTest.cs" />
+    <Compile Include="Controllers\ProjectControllerTest.cs" />
+    <Compile Include="Controllers\ProjectMemberControllerTest.cs" />
+    <Compile Include="Controllers\ProjectObservationControllerTest.cs" />
+    <Compile Include="Controllers\ProjectPostControllerTest.cs" />
     <Compile Include="EventHandlers\NotifyActivityEventHandlerBaseTest.cs" />
     <Compile Include="EventHandlers\NotifyActivityObservationCreatedEventHandlerTest.cs" />
     <Compile Include="EventHandlers\NotifyActivityUserLoggedInEventHandlerTest.cs" />
@@ -127,19 +132,6 @@
     <Compile Include="ViewModelFactories\UserObservationsFactoryTest.cs" />
     <Compile Include="ViewModelFactories\ViewModelFactoryBaseTest.cs" />
     <Compile Include="ViewModelRepositoryTest.cs" />
-    <Compile Include="ViewModels\AccountLoginInputTest.cs" />
-    <Compile Include="ViewModels\AccountLoginTest.cs" />
-    <Compile Include="ViewModels\AccountRegisterInputTest.cs" />
-    <Compile Include="ViewModels\AccountRegisterTest.cs" />
-    <Compile Include="ViewModels\DefaultViewModelTest.cs" />
-    <Compile Include="ViewModels\HomeIndexInputTest.cs" />
-    <Compile Include="ViewModels\HomeIndexTest.cs" />
-    <Compile Include="ViewModels\ObservationCreateInputText.cs" />
-    <Compile Include="ViewModels\ObservationListInputTest.cs" />
-    <Compile Include="ViewModels\Paging\PagedListItemTest.cs" />
-    <Compile Include="ViewModels\Paging\PagedListTest.cs" />
-    <Compile Include="ViewModels\Paging\PageNumberTest.cs" />
-    <Compile Include="ViewModels\StreamItemTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

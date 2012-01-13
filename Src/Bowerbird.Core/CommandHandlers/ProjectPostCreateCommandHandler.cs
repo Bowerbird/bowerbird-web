@@ -2,6 +2,7 @@
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.DomainModels.Posts;
 using Bowerbird.Core.Repositories;
 
 namespace Bowerbird.Core.CommandHandlers

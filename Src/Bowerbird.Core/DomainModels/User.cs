@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Bowerbird.Core.DesignByContract;
 using System.Security.Cryptography;
+using Bowerbird.Core.DomainModels.Members;
 using Bowerbird.Core.Events;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
 

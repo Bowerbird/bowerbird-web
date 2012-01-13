@@ -17,18 +17,19 @@ namespace Bowerbird.Core.DomainModels
 
         public Comment(
             User createdByUser,
+            DateTime commentedOn,
             string message)
             : this()
         {
             Check.RequireNotNull(createdByUser, "createdByUser");
             Check.RequireNotNullOrWhitespace(message, "message");
 
-            SubmittedOn = DateTime.Now;
+            CommentedOn = commentedOn;
             User = createdByUser;
 
             SetDetails(
                 message,
-                SubmittedOn);
+                CommentedOn);
 
             EventProcessor.Raise(new DomainModelCreatedEvent<Comment>(this, createdByUser));
         }
@@ -39,7 +40,7 @@ namespace Bowerbird.Core.DomainModels
 
         public DenormalisedUserReference User { get; private set; }
 
-        public DateTime SubmittedOn { get; private set; }
+        public DateTime CommentedOn { get; private set; }
 
         public DateTime EditedOn { get; private set; }
 

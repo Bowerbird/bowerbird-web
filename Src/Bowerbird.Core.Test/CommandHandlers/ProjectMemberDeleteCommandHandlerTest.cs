@@ -12,6 +12,7 @@
  
 */
 
+using Bowerbird.Core.DomainModels.Members;
 using Bowerbird.Core.Test.ProxyRepositories;
 using Raven.Client;
 

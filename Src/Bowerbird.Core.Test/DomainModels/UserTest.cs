@@ -11,7 +11,9 @@
  * Atlas of Living Australia
  
 */
-				
+
+using Bowerbird.Core.DomainModels.Members;
+
 namespace Bowerbird.Core.Test.DomainModels
 {
     #region Namespaces

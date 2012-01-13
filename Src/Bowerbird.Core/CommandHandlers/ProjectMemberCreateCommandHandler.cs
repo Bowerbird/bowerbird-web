@@ -1,25 +1,57 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Bowerbird.Core.Commands;
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+
+ Developers: 
+ * Frank Radocaj : frank@radocaj.com
+ * Hamish Crittenden : hamish.crittenden@gmail.com
+ 
+ Project Manager: 
+ * Ken Walker : kwalker@museum.vic.gov.au
+ 
+ Funded by:
+ * Atlas of Living Australia
+ 
+*/
+
+using Bowerbird.Core.DomainModels.Members;
 
 namespace Bowerbird.Core.CommandHandlers
 {
+    #region Namespaces
+
+    using System;
+    using Bowerbird.Core.Commands;
+    using Bowerbird.Core.DesignByContract;
+    using Bowerbird.Core.DomainModels;
+    using Bowerbird.Core.Repositories;
+
+    #endregion
+
     public class ProjectMemberCreateCommandHandler : ICommandHandler<ProjectMemberCreateCommand>
     {
         #region Fields
 
+        private readonly IRepository<ProjectMember> _projectMemberRepository;
+        private readonly IRepository<User> _userRepository;
 
         #endregion
 
         #region Constructors
 
+        public ProjectMemberCreateCommandHandler(
+            IRepository<ProjectMember> projectMemberRepository
+            ,IRepository<User> userRepository
+            )
+        {
+            Check.RequireNotNull(projectMemberRepository, "projectMemberRepository");
+            Check.RequireNotNull(userRepository, "userRepository");
+
+            _projectMemberRepository = projectMemberRepository;
+            _userRepository = userRepository;
+        }
 
         #endregion
 
         #region Properties
-
 
         #endregion
 

@@ -94,7 +94,14 @@ namespace Bowerbird.Web.Test.ViewModelFactories
                 FakeValues.Address,
                 FakeValues.IsTrue,
                 FakeValues.Category,
-                new List<MediaResource>(){new ImageMediaResource(FakeValues.Filename, FakeValues.FileFormat, FakeValues.Description,100,100)}
+                new List<MediaResource>(){new ImageMediaResource(
+                    FakeObjects.TestUser(),
+                    FakeValues.CreatedDateTime,
+                    FakeValues.Filename, 
+                    FakeValues.FileFormat, 
+                    FakeValues.Description,
+                    100,
+                    100)}
                 );
         }
 
