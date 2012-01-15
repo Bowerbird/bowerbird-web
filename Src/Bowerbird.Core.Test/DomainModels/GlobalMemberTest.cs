@@ -62,7 +62,6 @@ namespace Bowerbird.Core.Test.DomainModels
                 TestRoles()
             )
             .UpdateLastLoggedIn()
-            .UpdateResetPasswordKey(FakeValues.KeyString)
             .IncrementFlaggedItemsOwned()
             .IncrementFlagsRaised();
         }

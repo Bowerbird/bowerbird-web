@@ -206,6 +206,8 @@
     <Content Include="Views\Shared\_StreamObservationItem.cshtml" />
     <Content Include="Views\Account\RegisterSuccess.cshtml" />
     <Content Include="Views\Account\RequestPasswordReset.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Account\ChangePassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="404.html" />

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Bowerbird.Core.Config;
 using Bowerbird.Core.Services;
 using Ninject.Modules;
 using Raven.Client;

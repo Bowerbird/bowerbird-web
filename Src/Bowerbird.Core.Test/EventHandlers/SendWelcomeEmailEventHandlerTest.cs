@@ -11,7 +11,10 @@
  * Atlas of Living Australia
  
 */
-				
+
+using Bowerbird.Core.Services;
+using Moq;
+
 namespace Bowerbird.Core.Test.EventHandlers
 {
     #region Namespaces
@@ -62,13 +65,7 @@ namespace Bowerbird.Core.Test.EventHandlers
         [Test, Category(TestCategory.Unit)]
         public void SendWelcomeEmailEventHandler_Handle_Passing_Null_UserCreatedEvent_Throws_DesignByContractException()
         {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() =>new SendWelcomeEmailEventHandler().Handle(null)));
-        }
-
-        [Test, Ignore]
-        public void SendWelcomeEmailEventHandler_Handle_Passing_UserCreatedEvent_DoesStuffYetDefined()
-        {
-            
+            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new SendWelcomeEmailEventHandler(new Mock<IEmailService>().Object).Handle(null)));
         }
 
         #endregion					

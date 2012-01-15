@@ -11,11 +11,12 @@
     <fieldset>
         <legend>Login Details</legend>
         <div>
-            @Html.LabelFor(x => x.Username)
-            @Html.TextBoxFor(x => x.Username)
+            @Html.LabelFor(x => x.Email)
+            @Html.TextBoxFor(x => x.Email)
 
             <label for="password">Password</label>
             @Html.Password("password")
+            <p>@Html.ActionLink("I've forgotten my password", "requestpasswordreset", "account")</p>
 
             @Html.LabelFor(x => x.RememberMe, "Remember Me")
             @Html.CheckBoxFor(x => x.RememberMe)

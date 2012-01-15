@@ -1,7 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
+using Bowerbird.Core.Config;
+using Bowerbird.Core.DomainModels;
+using FluentEmail;
 
 namespace Bowerbird.Core.Services
 {
@@ -22,12 +27,16 @@ namespace Bowerbird.Core.Services
 
         #region Methods
 
-        public void SendEmail(object email)
+        public void SendMailMessage(MailMessage mailMessage)
         {
-            throw new NotImplementedException();
+            var emailServerName = ((BowerbirdEmailConfigurationSection)ConfigurationManager.GetSection("bowerbird/email")).ServerName;
+
+            var smtpClient = new SmtpClient(emailServerName);
+
+            smtpClient.SendAsync(mailMessage, null);
         }
 
-        #endregion      
+        #endregion
      
     }
 }

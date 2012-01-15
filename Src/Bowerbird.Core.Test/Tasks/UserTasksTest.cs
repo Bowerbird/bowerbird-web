@@ -11,7 +11,11 @@
  * Atlas of Living Australia
  
 */
-				
+
+using Bowerbird.Core.Repositories;
+using Bowerbird.Core.Test.ProxyRepositories;
+using Moq;
+
 namespace Bowerbird.Core.Test.Tasks
 {
     #region Namespaces
@@ -53,55 +57,6 @@ namespace Bowerbird.Core.Test.Tasks
 
         #region Test Helpers
 
-        /// <summary>
-        /// Id: "abc"
-        /// Password: "password"
-        /// Email: "padil@padil.gov.au"
-        /// FirstName: "first name"
-        /// LastName: "last name"
-        /// Description: "description"
-        /// Roles: "Member"
-        /// </summary>
-        /// <returns></returns>
-        private static User TestUser()
-        {
-            return new User(
-                FakeValues.Password,
-                FakeValues.Email,
-                FakeValues.FirstName,
-                FakeValues.LastName,
-                TestRoles()
-            )
-            .UpdateLastLoggedIn()
-            .UpdateResetPasswordKey(FakeValues.KeyString)
-            .IncrementFlaggedItemsOwned()
-            .IncrementFlagsRaised();
-        }
-
-        private static IEnumerable<Role> TestRoles()
-        {
-            return new List<Role>()
-            {
-                new Role
-                (
-                    "Member",
-                    "Member role",
-                    "Member description",
-                    TestPermissions()
-                )
-            };
-        }
-
-        private static IEnumerable<Permission> TestPermissions()
-        {
-            return new List<Permission>
-            {
-                new Permission("Read", "Read permission", "Read description"),
-                new Permission("Write", "Write permission", "Write description")
-            };
-
-        }
-
         #endregion
 
         #region Constructor tests
@@ -125,7 +80,7 @@ namespace Bowerbird.Core.Test.Tasks
         {
             using (var session = _store.OpenSession())
             {
-                Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() =>new UserTasks(session).AreCredentialsValid(string.Empty,FakeValues.Password)));
+                Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() =>new UserTasks(new Mock<IRepository<User>>().Object).AreCredentialsValid(string.Empty,FakeValues.Password)));
             }
         }
 
@@ -134,7 +89,7 @@ namespace Bowerbird.Core.Test.Tasks
         {
             using (var session = _store.OpenSession())
             {
-                Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() =>new UserTasks(session).AreCredentialsValid(FakeValues.UserId,string.Empty)));
+                Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new UserTasks(new Mock<IRepository<User>>().Object).AreCredentialsValid(FakeValues.UserId, string.Empty)));
             }
         }
 
@@ -143,14 +98,16 @@ namespace Bowerbird.Core.Test.Tasks
         {
             using (var session = _store.OpenSession())
             {
-                session.Store(TestUser());
+                session.Store(FakeObjects.TestUser());
 
                 session.SaveChanges();
             }
 
             using (var session = _store.OpenSession())
             {
-                Assert.IsTrue(new UserTasks(session).AreCredentialsValid(FakeValues.Email, FakeValues.Password));
+                var repository = new Repository<User>(session);
+                var proxyRepository = new ProxyUserRepository(repository);
+                Assert.IsTrue(new UserTasks(proxyRepository).AreCredentialsValid(FakeValues.Email, FakeValues.Password));
             }
         }
 
@@ -159,14 +116,16 @@ namespace Bowerbird.Core.Test.Tasks
         {
             using (var session = _store.OpenSession())
             {
-                session.Store(TestUser());
+                session.Store(FakeObjects.TestUser());
 
                 session.SaveChanges();
             }
 
             using (var session = _store.OpenSession())
             {
-                Assert.IsFalse(new UserTasks(session).AreCredentialsValid(FakeValues.KeyString.AppendWith("blah"), FakeValues.Password));
+                var repository = new Repository<User>(session);
+                var proxyRepository = new ProxyUserRepository(repository);
+                Assert.IsFalse(new UserTasks(proxyRepository).AreCredentialsValid(FakeValues.KeyString.AppendWith("blah"), FakeValues.Password));
             }
         }
 
@@ -175,7 +134,7 @@ namespace Bowerbird.Core.Test.Tasks
         {
             using (var session = _store.OpenSession())
             {
-                Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new UserTasks(session).EmailExists(string.Empty)));
+                Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new UserTasks(new Mock<IRepository<User>>().Object).EmailExists(string.Empty)));
             }
         }
 
@@ -184,7 +143,9 @@ namespace Bowerbird.Core.Test.Tasks
         {
             using (var session = _store.OpenSession())
             {
-                Assert.IsFalse(new UserTasks(session).EmailExists(FakeValues.Email));
+                var repository = new Repository<User>(session);
+                var proxyRepository = new ProxyUserRepository(repository);
+                Assert.IsFalse(new UserTasks(proxyRepository).EmailExists(FakeValues.Email));
             }
         }
 
@@ -193,14 +154,16 @@ namespace Bowerbird.Core.Test.Tasks
         {
             using (var session = _store.OpenSession())
             {
-                session.Store(TestUser());
+                session.Store(FakeObjects.TestUser());
 
                 session.SaveChanges();
             }
 
             using (var session = _store.OpenSession())
             {
-                Assert.IsTrue(new UserTasks(session).EmailExists(FakeValues.Email));
+                var repository = new Repository<User>(session);
+                var proxyRepository = new ProxyUserRepository(repository);
+                Assert.IsTrue(new UserTasks(proxyRepository).EmailExists(FakeValues.Email));
             }
         }
 

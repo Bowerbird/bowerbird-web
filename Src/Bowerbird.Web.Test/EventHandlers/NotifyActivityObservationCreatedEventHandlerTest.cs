@@ -73,7 +73,6 @@ namespace Bowerbird.Web.Test.EventHandlers
                 TestRoles()
             )
             .UpdateLastLoggedIn()
-            .UpdateResetPasswordKey(FakeValues.KeyString)
             .IncrementFlaggedItemsOwned()
             .IncrementFlagsRaised();
         }

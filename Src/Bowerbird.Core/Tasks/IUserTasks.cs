@@ -6,5 +6,7 @@ namespace Bowerbird.Core.Tasks
         bool AreCredentialsValid(string email, string password);
 
         bool EmailExists(string email);
+
+        bool ResetPasswordKeyExists(string resetPasswordKey);
     }
 }

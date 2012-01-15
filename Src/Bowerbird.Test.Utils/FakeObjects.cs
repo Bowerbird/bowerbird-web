@@ -16,7 +16,6 @@ namespace Bowerbird.Test.Utils
                 TestRoles()
                 )
                 .UpdateLastLoggedIn()
-                .UpdateResetPasswordKey(FakeValues.KeyString)
                 .IncrementFlaggedItemsOwned()
                 .IncrementFlagsRaised();
         }
@@ -31,7 +30,6 @@ namespace Bowerbird.Test.Utils
                 TestRoles()
                 )
                 .UpdateLastLoggedIn()
-                .UpdateResetPasswordKey(FakeValues.KeyString)
                 .IncrementFlaggedItemsOwned()
                 .IncrementFlagsRaised();
 

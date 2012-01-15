@@ -53,7 +53,10 @@ namespace Bowerbird.Core.Test.ProxyRepositories
         {
             _repository.Add(domainModel);
 
-            _onAdd(domainModel);
+            if (_onAdd != null)
+            {
+                _onAdd(domainModel);
+            }
         }
 
         public void Add(IEnumerable<T> domainModels)

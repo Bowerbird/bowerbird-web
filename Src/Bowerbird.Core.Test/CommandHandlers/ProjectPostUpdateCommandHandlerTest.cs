@@ -38,7 +38,7 @@ namespace Bowerbird.Core.Test.CommandHandlers
 
         //private Mock<IDefaultRepository<User>> _mockUserRepository;
         //private Mock<User> _mockUser;
-        private ProjectPostUpdateCommandHandler _commandHandler;
+        //private ProjectPostUpdateCommandHandler _commandHandler;
 
         [SetUp]
         public void TestInitialize()

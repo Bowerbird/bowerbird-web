@@ -74,7 +74,6 @@ namespace Bowerbird.Web.Test.Hubs
                 TestRoles()
             )
             .UpdateLastLoggedIn()
-            .UpdateResetPasswordKey(FakeValues.KeyString)
             .IncrementFlaggedItemsOwned()
             .IncrementFlagsRaised();
         }

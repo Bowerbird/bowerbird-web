@@ -10,21 +10,17 @@ namespace Bowerbird.Core.CommandHandlers
         #region Members
 
         private readonly IRepository<User> _userRepository;
-        private readonly IEmailService _emailService;
 
         #endregion
 
         #region Constructors
 
         public UserRequestPasswordResetCommandHandler(
-            IRepository<User> userRepository,
-            IEmailService emailService)
+            IRepository<User> userRepository)
         {
             Check.RequireNotNull(userRepository, "userRepository");
-            Check.RequireNotNull(emailService, "emailService");
 
             _userRepository = userRepository;
-            _emailService = emailService;
         }
 
         #endregion
@@ -41,11 +37,9 @@ namespace Bowerbird.Core.CommandHandlers
 
             var user = _userRepository.LoadByEmail(userRequestPasswordResetCommand.Email);
 
-            user.UpdateResetPasswordKey(userRequestPasswordResetCommand.ResetPasswordKey);
+            user.RequestPasswordReset();
 
             _userRepository.Add(user);
-
-            _emailService.SendEmail(user);
         }
 
         #endregion      

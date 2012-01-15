@@ -177,6 +177,51 @@ namespace Bowerbird.Web.Controllers
             return View(_viewModelRepository.Load<AccountRequestPasswordResetInput, AccountRequestPasswordReset>(accountRequestPasswordResetInput));
         }
 
+        [HttpGet]
+        public ActionResult ResetPassword(AccountResetPasswordInput accountResetPasswordInput)
+        {
+            if (!_userTasks.ResetPasswordKeyExists(accountResetPasswordInput.ResetPasswordKey))
+            {
+                ModelState.AddModelError("something", "The password reset is not valid. Please try again.");
+            }
+
+            return View(_viewModelRepository.Load<AccountResetPasswordInput, AccountResetPassword>(accountResetPasswordInput));
+        }
+
+        [HttpPost]
+        public ActionResult SubmitResetPassword(AccountResetPasswordInput accountResetPasswordInput)
+        {
+            if (ModelState.IsValid)
+            {
+                _commandProcessor.Process(MakeUserUpdatePasswordCommand(accountResetPasswordInput));
+
+                return RedirectToAction("index", "home");
+            }
+
+            return View("ResetPassword", _viewModelRepository.Load<AccountResetPasswordInput, AccountResetPassword>(accountResetPasswordInput));
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult ChangePassword()
+        {
+            return View(_viewModelRepository.Load<DefaultViewModel>());
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult ChangePassword(AccountChangePasswordInput accountChangePasswordInput)
+        {
+            if (ModelState.IsValid)
+            {
+                _commandProcessor.Process(MakeUserUpdatePasswordCommand(accountChangePasswordInput));
+
+                return RedirectToAction("index", "home");
+            }
+
+            return View(_viewModelRepository.Load<DefaultViewModel>());
+        }
+
         private UserUpdateLastLoginCommand MakeUserUpdateLastLoginCommand(AccountLoginInput accountLoginInput)
         {
             return new UserUpdateLastLoginCommand()
@@ -193,6 +238,24 @@ namespace Bowerbird.Web.Controllers
                 LastName = accountRegisterInput.LastName,
                 Email = accountRegisterInput.Email,
                 Password = accountRegisterInput.Password
+            };
+        }
+
+        private UserUpdatePasswordCommand MakeUserUpdatePasswordCommand(AccountResetPasswordInput accountResetPasswordInput)
+        {
+            return new UserUpdatePasswordCommand()
+            {
+                ResetPasswordKey = accountResetPasswordInput.ResetPasswordKey,
+                Password = accountResetPasswordInput.Password
+            };
+        }
+
+        private UserUpdatePasswordCommand MakeUserUpdatePasswordCommand(AccountChangePasswordInput accountChangePasswordInput)
+        {
+            return new UserUpdatePasswordCommand()
+            {
+                UserId = _userContext.GetAuthenticatedUserId(),
+                Password = accountChangePasswordInput.Password
             };
         }
 
