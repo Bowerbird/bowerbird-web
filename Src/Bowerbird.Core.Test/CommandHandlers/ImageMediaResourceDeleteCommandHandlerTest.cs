@@ -80,7 +80,7 @@ namespace Bowerbird.Core.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void ImageMediaResourceDeleteCommandHandler_Constructor_Passing_Null_SOMETHING_Throws_DesignByContractException()
+        public void ImageMediaResourceDeleteCommandHandler_Constructor_Passing_Null_ImageMediaResourceRepository_Throws_DesignByContractException()
         {
             Assert.IsTrue(
                 BowerbirdThrows.Exception<DesignByContractException>(() =>

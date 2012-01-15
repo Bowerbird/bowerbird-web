@@ -21,11 +21,12 @@ namespace Bowerbird.Core.Test.CommandHandlers
 
     using NUnit.Framework;
     using Moq;
+    using Raven.Client;
 
     using Bowerbird.Core.Commands;
     using Bowerbird.Core.CommandHandlers;
     using Bowerbird.Core.DesignByContract;
-    using Bowerbird.Core.DomainModels;
+    using Bowerbird.Core.DomainModels.Comments;
     using Bowerbird.Core.Repositories;
     using Bowerbird.Test.Utils;
 
@@ -50,6 +51,13 @@ namespace Bowerbird.Core.Test.CommandHandlers
 
         #region Test Helpers
 
+        private ObservationCommentDeleteCommandHandler TestObservationCommentDeleteCommandHandler(IDocumentSession session)
+        {
+            return new ObservationCommentDeleteCommandHandler(
+                new Repository<ObservationComment>(session)
+                );
+        }
+
         private ObservationCommentDeleteCommand TestObservationCommentDeleteCommand()
         {
             return new ObservationCommentDeleteCommand()
@@ -66,7 +74,7 @@ namespace Bowerbird.Core.Test.CommandHandlers
         [Category(TestCategory.Unit)]
         public void ObservationCommentDeleteCommandHandler_Constructor_Passing_Null_Something_Throws_DesignByContractException()
         {
-            //Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new ObservationCommentDeleteCommandHandler(null)));
+            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new ObservationCommentDeleteCommandHandler(null)));
         }
 
         #endregion
@@ -79,9 +87,20 @@ namespace Bowerbird.Core.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void ObservationCommentDeleteCommandHandler_Handle_Passing_Null_ObservationCommentDelete_Throws_DesignByContractException()
+        public void ObservationCommentDeleteCommandHandler_Handle_Passing_Null_ObservationCommentDeleteCommand_Throws_DesignByContractException()
         {
-            //Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => _commandHandler.Handle(null)));
+            var commandHandler = new ObservationCommentDeleteCommandHandler(new Mock<IRepository<ObservationComment>>().Object);
+
+            Assert.IsTrue(
+                BowerbirdThrows.Exception<DesignByContractException>(() => 
+                    commandHandler.Handle(null)));
+        }
+
+        [Test]
+        [Category(TestCategory.Unit)]
+        public void ObservationCommentDeleteCommandHandler_Handle_Deletes_ObservationComment()
+        {
+
         }
 
         #endregion

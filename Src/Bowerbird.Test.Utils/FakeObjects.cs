@@ -96,5 +96,24 @@ namespace Bowerbird.Test.Utils
                 FakeObjects.TestRoles());
         }
 
+        public static Observation TestObservationWithId()
+        {
+            var observation = new Observation(
+                TestUserWithId(),
+                FakeValues.Title,
+                FakeValues.CreatedDateTime,
+                FakeValues.Latitude,
+                FakeValues.Longitude,
+                FakeValues.Address,
+                FakeValues.IsTrue,
+                FakeValues.Category,
+                new List<MediaResource>()
+                );
+
+            ((IAssignableId)observation).SetIdTo("observationcomments", FakeValues.KeyString);
+
+            return observation;
+        }
+
     }
 }

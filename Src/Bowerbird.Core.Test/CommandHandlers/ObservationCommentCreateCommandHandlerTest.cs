@@ -16,8 +16,7 @@ namespace Bowerbird.Core.Test.CommandHandlers
 {
     #region Namespaces
 
-    using System;
-    using System.Collections.Generic;
+    using System.Linq;
 
     using NUnit.Framework;
     using Moq;
@@ -30,6 +29,7 @@ namespace Bowerbird.Core.Test.CommandHandlers
     using Bowerbird.Core.Repositories;
     using Bowerbird.Test.Utils;
     using Bowerbird.Core.DomainModels.Comments;
+    using Bowerbird.Core.Extensions;
 
     #endregion
 
@@ -69,7 +69,10 @@ namespace Bowerbird.Core.Test.CommandHandlers
         {
             return new ObservationCommentCreateCommand()
                        {
-
+                           Comment = FakeValues.Comment,
+                           CommentedOn = FakeValues.CreatedDateTime,
+                           ObservationId = FakeValues.KeyString.PrependWith("observationcomments/"),
+                           UserId = FakeValues.UserId.PrependWith("users/")
                        };
         }
 
@@ -133,6 +136,39 @@ namespace Bowerbird.Core.Test.CommandHandlers
             Assert.IsTrue(
                 BowerbirdThrows.Exception<DesignByContractException>(() => 
                     commandHandler.Handle(null)));
+        }
+
+        [Test]
+        [Category(TestCategory.Persistance)]
+        public void ObservationCommentCreateCommandHandler_Handle_Creates_ObservationComment()
+        {
+            using (var session = _store.OpenSession())
+            {
+                session.Store(FakeObjects.TestUserWithId());
+                session.Store(FakeObjects.TestObservationWithId());
+                
+                session.SaveChanges();
+                
+                var observationCommentCreateCommandHandler = TestObservationCommentCreateCommandHandler(session);
+                var command = TestObservationCommentCreateCommand();
+                observationCommentCreateCommandHandler.Handle(command);
+                session.SaveChanges();
+
+                var observationComment =
+                     _store.OpenSession().Query<ObservationComment>().Where(
+                        x => x.Observation.Id == FakeValues.KeyString.PrependWith("observationcomments/")).FirstOrDefault();
+
+                //session.Store(new ObservationComment(
+                //    FakeObjects.TestUserWithId(),
+                //    FakeObjects.TestObservationWithId(),
+                //    FakeValues.CreatedDateTime,
+                //    FakeValues.Comment
+                //    ));
+
+                Assert.AreEqual(observationComment.CommentedOn, command.CommentedOn);
+                Assert.AreEqual(observationComment.Message, command.Comment);
+                Assert.AreEqual(observationComment.Observation.Id, command.ObservationId);
+            }
         }
 
         #endregion
