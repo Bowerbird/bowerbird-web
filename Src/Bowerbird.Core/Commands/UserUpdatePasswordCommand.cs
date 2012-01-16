@@ -18,8 +18,6 @@ namespace Bowerbird.Core.Commands
 
         #region Properties
 
-        public string ResetPasswordKey { get; set; }
-
         public string UserId { get; set; }
     
         public string Password { get; set; }

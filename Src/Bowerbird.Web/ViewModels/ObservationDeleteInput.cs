@@ -14,7 +14,7 @@
 
 namespace Bowerbird.Web.ViewModels
 {
-    public class ObservationDeleteInput : IViewModel
+    public class ObservationDeleteInput
     {
         #region Members
 

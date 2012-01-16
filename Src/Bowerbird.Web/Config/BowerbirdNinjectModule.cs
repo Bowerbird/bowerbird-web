@@ -47,6 +47,7 @@ namespace Bowerbird.Web.Config
 
             // Transient scope
             Bind<IServiceLocator>().ToMethod(x => ServiceLocator.Current);
+            Bind(typeof(IRepository<>)).To(typeof(Repository<>));
 
             Kernel.Scan(x =>
             {
@@ -59,7 +60,6 @@ namespace Bowerbird.Web.Config
                 x.BindingGenerators.Add(new GenericBindingGenerator(typeof(IEventHandler<>)));
                 x.BindingGenerators.Add(new GenericBindingGenerator(typeof(ICommandFactory<,>)));
                 x.BindingGenerators.Add(new GenericBindingGenerator(typeof(IRepository<>)));
-                x.BindingGenerators.Add(new GenericBindingGenerator(typeof(IService)));
                 x.BindingGenerators.Add(new DefaultBindingGenerator());
             });
         }

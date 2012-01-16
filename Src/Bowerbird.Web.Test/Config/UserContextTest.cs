@@ -12,6 +12,8 @@
  
 */
 
+using Bowerbird.Core.Tasks;
+
 namespace Bowerbird.Web.Test.Config
 {
     #region Namespaces
@@ -52,7 +54,8 @@ namespace Bowerbird.Web.Test.Config
         {
             private HttpContextBase HttpContext { get; set; }
 
-            public AuthenticatedUserContext()
+            public AuthenticatedUserContext(IUserTasks userTasks)
+                : base(userTasks)
             {
                 HttpContext = MockAuthenticatedHttpContext().Object;
             }
@@ -62,7 +65,8 @@ namespace Bowerbird.Web.Test.Config
         {
             private HttpContextBase HttpContext { get; set; }
 
-            public AnonymousUserContext()
+            public AnonymousUserContext(IUserTasks userTasks)
+                : base(userTasks)
             {
                 HttpContext = MockAnonymousHttpContext().Object;
             }
@@ -130,14 +134,14 @@ namespace Bowerbird.Web.Test.Config
         [Category(TestCategory.Unit)]
         public void UserContext_IsUserAuthenticated_Having_Authenticated_Context_Returns_True()
         {
-            Assert.IsTrue(new AuthenticatedUserContext().IsUserAuthenticated());
+            Assert.IsTrue(new AuthenticatedUserContext(new Mock<IUserTasks>().Object).IsUserAuthenticated());
         }
 
         [Test, Ignore]
         [Category(TestCategory.Unit)]
         public void UserContext_IsUserAuthenticated_Having_UnAuthenticated_Context_Returns_False()
         {
-            Assert.IsTrue(new AnonymousUserContext().IsUserAuthenticated());
+            Assert.IsTrue(new AnonymousUserContext(new Mock<IUserTasks>().Object).IsUserAuthenticated());
         }
 
         #endregion

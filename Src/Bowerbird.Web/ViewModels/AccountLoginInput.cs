@@ -11,7 +11,9 @@
  * Atlas of Living Australia
  
 */
-				
+
+using System.ComponentModel.DataAnnotations;
+
 namespace Bowerbird.Web.ViewModels
 {
     public class AccountLoginInput
@@ -26,8 +28,10 @@ namespace Bowerbird.Web.ViewModels
 
         #region Properties
 
+        [Required(ErrorMessage = "Please enter your email address")]
         public string Email { get; set; }
 
+        [Required(ErrorMessage = "Please enter your password")]
         public string Password { get; set; }
 
         public bool RememberMe { get; set; }

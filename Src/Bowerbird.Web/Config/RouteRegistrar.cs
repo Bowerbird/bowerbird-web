@@ -15,6 +15,11 @@ namespace Bowerbird.Web.Config
                 new { favicon = @"(.*/)?favicon.ico(/.*)?" });
 
             routes.MapRoute(
+                "account-resetpassword",
+                "account/resetpassword/{resetpasswordkey}",
+                new {controller = "account", action = "resetpassword", resetpasswordkey = UrlParameter.Optional});
+
+            routes.MapRoute(
                 "observation-list", 
                 "observation/{id}",
                 new { controller = "observation", action = "list", id = UrlParameter.Optional },

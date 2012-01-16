@@ -6,7 +6,7 @@ using Bowerbird.Core.Commands;
 
 namespace Bowerbird.Web.ViewModels
 {
-    public class ObservationCreateInput : IViewModel
+    public class ObservationCreateInput
     {
 
         #region Members

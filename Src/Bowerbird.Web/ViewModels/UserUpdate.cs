@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
-using Bowerbird.Web.Validators;
 
 namespace Bowerbird.Web.ViewModels
 {
-    
-    public class AccountResetPasswordInput
+    public class UserUpdate : IViewModel
     {
 
         #region Members
@@ -21,8 +18,13 @@ namespace Bowerbird.Web.ViewModels
 
         #region Properties
 
-        [ValidResetPasswordKeyRequest(ErrorMessage = "The password reset request is not valid")]
-        public string ResetPasswordKey { get; set; }
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
+        public string Email { get; set; }
+
+        public string Description { get; set; }
 
         #endregion
 

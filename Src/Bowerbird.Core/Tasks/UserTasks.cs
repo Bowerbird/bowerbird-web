@@ -39,25 +39,38 @@ namespace Bowerbird.Core.Tasks
 
         public bool AreCredentialsValid(string email, string password)
         {
-            Check.RequireNotNullOrWhitespace(email, "email");
-            Check.RequireNotNullOrWhitespace(password, "password");
-
             var user = _userRepository.LoadByEmail(email);
 
             return user != null && user.ValidatePassword(password);
         }
 
-        public bool EmailExists(string email)
+        public string GetEmailByResetPasswordKey(string resetPasswordKey)
+        {
+            Check.RequireNotNullOrWhitespace(resetPasswordKey, "resetPasswordKey");
+
+            var user = _userRepository.LoadByResetPasswordKey(resetPasswordKey);
+
+            return user.Email;
+        }
+
+        public string GetUserIdByResetPasswordKey(string resetPasswordKey)
+        {
+            Check.RequireNotNullOrWhitespace(resetPasswordKey, "resetPasswordKey");
+
+            var user = _userRepository.LoadByResetPasswordKey(resetPasswordKey);
+
+            return user.Id;
+        }
+
+        public string GetUserIdByEmail(string email)
         {
             Check.RequireNotNullOrWhitespace(email, "email");
 
-            return _userRepository.LoadByEmail(email) != null;
-        }
+            var user = _userRepository.LoadByEmail(email);
 
-        public bool ResetPasswordKeyExists(string resetPasswordKey)
-        {
-            return _userRepository.LoadByResetPasswordKey(resetPasswordKey) != null;
+            return user.Id;
         }
+        
 
         #endregion      
       

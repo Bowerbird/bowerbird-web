@@ -15,6 +15,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using Bowerbird.Core.Commands;
 
 namespace Bowerbird.Web.Controllers
@@ -83,11 +84,13 @@ namespace Bowerbird.Web.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
+        [Transaction]
         public ActionResult Login(AccountLoginInput accountLoginInput)
         {
             Check.RequireNotNull(accountLoginInput, "accountLoginInput");
 
-            if (_userTasks.AreCredentialsValid(accountLoginInput.Email, accountLoginInput.Password))
+            if (ModelState.IsValid &&
+                _userTasks.AreCredentialsValid(accountLoginInput.Email, accountLoginInput.Password))
             {
                 _commandProcessor.Process(MakeUserUpdateLastLoginCommand(accountLoginInput));
 
@@ -95,6 +98,8 @@ namespace Bowerbird.Web.Controllers
 
                 return RedirectToAction("loggingin", new { returnUrl = accountLoginInput.ReturnUrl });
             }
+            
+            ModelState.AddModelError("", "");
 
             return View(_viewModelRepository.Load<AccountLoginInput, AccountLogin>(accountLoginInput));
         }
@@ -138,21 +143,19 @@ namespace Bowerbird.Web.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
+        [Transaction]
         public ActionResult Register(AccountRegisterInput accountRegisterInput)
         {
             if (ModelState.IsValid)
             {
                 _commandProcessor.Process(MakeUserCreateCommand(accountRegisterInput));
 
-                return RedirectToAction("registersuccess", "account");
+                _userContext.SignUserIn(accountRegisterInput.Email.ToLower(), false);
+
+                return RedirectToAction("index", "home");
             }
 
             return View(_viewModelRepository.Load<AccountRegisterInput, AccountRegister>(accountRegisterInput));
-        }
-
-        public ActionResult RegisterSuccess()
-        {
-            return View(_viewModelRepository.Load<DefaultViewModel>());
         }
 
         [HttpGet]
@@ -162,38 +165,41 @@ namespace Bowerbird.Web.Controllers
         }
 
         [HttpPost]
+        [Transaction]
         public ActionResult RequestPasswordReset(AccountRequestPasswordResetInput accountRequestPasswordResetInput)
         {
             if(ModelState.IsValid)
             {
-                if (_userTasks.EmailExists(accountRequestPasswordResetInput.Email))
-                {
-                    throw new NotImplementedException();
-                }
+                _commandProcessor.Process(MakeUserRequestPasswordResetCommand(accountRequestPasswordResetInput));
 
-                ModelState.AddModelError("something", "The specified email could not be found. Please check the email and try again.");
+                return RedirectToAction("requestpasswordresetsuccess", "account");
             }
 
             return View(_viewModelRepository.Load<AccountRequestPasswordResetInput, AccountRequestPasswordReset>(accountRequestPasswordResetInput));
         }
 
+        public ActionResult RequestPasswordResetSuccess()
+        {
+            return View(_viewModelRepository.Load<DefaultViewModel>());
+        }
+
         [HttpGet]
         public ActionResult ResetPassword(AccountResetPasswordInput accountResetPasswordInput)
         {
-            if (!_userTasks.ResetPasswordKeyExists(accountResetPasswordInput.ResetPasswordKey))
-            {
-                ModelState.AddModelError("something", "The password reset is not valid. Please try again.");
-            }
-
             return View(_viewModelRepository.Load<AccountResetPasswordInput, AccountResetPassword>(accountResetPasswordInput));
         }
 
         [HttpPost]
-        public ActionResult SubmitResetPassword(AccountResetPasswordInput accountResetPasswordInput)
+        [Transaction]
+        public ActionResult ResetPassword(AccountResetPasswordInput accountResetPasswordInput, AccountChangePasswordInput accountChangePasswordInput)
         {
             if (ModelState.IsValid)
             {
-                _commandProcessor.Process(MakeUserUpdatePasswordCommand(accountResetPasswordInput));
+                string email = _userTasks.GetEmailByResetPasswordKey(accountResetPasswordInput.ResetPasswordKey);
+
+                _commandProcessor.Process(MakeUserUpdatePasswordCommand(accountResetPasswordInput, accountChangePasswordInput));
+
+                _userContext.SignUserIn(email, false);
 
                 return RedirectToAction("index", "home");
             }
@@ -210,6 +216,7 @@ namespace Bowerbird.Web.Controllers
 
         [HttpPost]
         [Authorize]
+        [Transaction]
         public ActionResult ChangePassword(AccountChangePasswordInput accountChangePasswordInput)
         {
             if (ModelState.IsValid)
@@ -237,26 +244,35 @@ namespace Bowerbird.Web.Controllers
                 FirstName = accountRegisterInput.FirstName,
                 LastName = accountRegisterInput.LastName,
                 Email = accountRegisterInput.Email,
-                Password = accountRegisterInput.Password
+                Password = accountRegisterInput.Password,
+                Roles = new [] { "globalmember" }
             };
         }
 
-        private UserUpdatePasswordCommand MakeUserUpdatePasswordCommand(AccountResetPasswordInput accountResetPasswordInput)
+        private UserUpdatePasswordCommand MakeUserUpdatePasswordCommand(AccountResetPasswordInput accountResetPasswordInput, AccountChangePasswordInput accountChangePasswordInput)
         {
             return new UserUpdatePasswordCommand()
-            {
-                ResetPasswordKey = accountResetPasswordInput.ResetPasswordKey,
-                Password = accountResetPasswordInput.Password
-            };
+                       {
+                           UserId = _userTasks.GetUserIdByResetPasswordKey(accountResetPasswordInput.ResetPasswordKey),
+                           Password = accountChangePasswordInput.Password
+                       };
         }
 
         private UserUpdatePasswordCommand MakeUserUpdatePasswordCommand(AccountChangePasswordInput accountChangePasswordInput)
         {
             return new UserUpdatePasswordCommand()
-            {
-                UserId = _userContext.GetAuthenticatedUserId(),
-                Password = accountChangePasswordInput.Password
-            };
+                       {
+                           UserId = _userContext.GetAuthenticatedUserId(),
+                           Password = accountChangePasswordInput.Password
+                       };
+        }
+
+        private UserRequestPasswordResetCommand MakeUserRequestPasswordResetCommand(AccountRequestPasswordResetInput accountRequestPasswordResetInput)
+        {
+            return new UserRequestPasswordResetCommand()
+                       {
+                           Email = accountRequestPasswordResetInput.Email
+                       };
         }
 
         #endregion

@@ -1,17 +1,17 @@
-﻿@model Bowerbird.Web.ViewModels.AccountRegister
+﻿@model Bowerbird.Web.ViewModels.UserUpdate
 
 @{
-    ViewBag.Title = "Register";
+    ViewBag.Title = "Update Profile";
 }
 
-<h2>Register</h2>
+<h2>Update Profile</h2>
 
 @using (Html.BeginForm()) 
 {
-    @Html.ValidationSummary(true, "There were some problems with your registration.")
+    @Html.ValidationSummary(true, "There were some problems with your profile details.")
 
     <fieldset>
-        <legend>Register Details</legend>
+        <legend>Profile Details</legend>
         <div>
             @Html.LabelFor(x => x.FirstName)
             @Html.TextBoxFor(x => x.FirstName)
@@ -25,10 +25,10 @@
             @Html.TextBoxFor(x => x.Email)
             @Html.ValidationMessageFor(x => x.Email)
             
-            @Html.Label("password", "Password")
-            @Html.Password("password")
-            @Html.ValidationMessage("password")
+            @Html.LabelFor(x => x.Description)
+            @Html.TextBoxFor(x => x.Description)
+            @Html.ValidationMessageFor(x => x.Description)
         </div>
-        <input type="submit" value="Register" />
+        <input type="submit" value="Save" />
     </fieldset>
 }

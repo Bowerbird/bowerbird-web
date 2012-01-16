@@ -1,9 +1,12 @@
 ﻿using System;
+using System.IO;
 using System.Net.Mail;
+using System.Reflection;
 using Bowerbird.Core.Config;
 using Bowerbird.Core.Events;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Extensions;
 using Bowerbird.Core.Services;
 using FluentEmail;
 
@@ -15,17 +18,21 @@ namespace Bowerbird.Core.EventHandlers
         #region Members
 
         private readonly IEmailService _emailService;
+        private readonly IConfigService _configService;
 
         #endregion
 
         #region Constructors
 
         public SendWelcomeEmailEventHandler(
-            IEmailService emailService)
+            IEmailService emailService,
+            IConfigService configService)
         {
             Check.RequireNotNull(emailService, "emailService");
+            Check.RequireNotNull(configService, "configService");
 
             _emailService = emailService;
+            _configService = configService;
         }
 
         #endregion
@@ -41,10 +48,10 @@ namespace Bowerbird.Core.EventHandlers
             Check.RequireNotNull(userCreatedEvent, "userCreatedEvent");
 
             var message = Email
-                .From("fradocaj@museum.vic.gov.au", "Bowerbird")
+                .From(_configService.GetEmailAdminAccount(), "Bowerbird")
                 .To(userCreatedEvent.DomainModel.Email)
                 .Subject("Bowerbird account verification")
-                .UsingTemplate("Dear @Model.FirstName,\n\nWelcome to Bowerbird!\n\nTo verify that you email address is valid, please click on the link below, or copy and paste it into your web browser:\n\nhttp://www.bowerbird.org.au/account/verify/3748EE7667GTUUDd889sdjuudhhd77\n\nRegards,\nThe Bowerbird Team\n", userCreatedEvent.DomainModel)
+                .UsingTemplateFromResource("WelcomeEmail", new { userCreatedEvent.DomainModel.FirstName })
                 .Message;
 
             _emailService.SendMailMessage(message);

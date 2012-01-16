@@ -1,7 +1,7 @@
 ﻿
 namespace Bowerbird.Web.ViewModels
 {
-    public class HomeIndexInput : IViewModel
+    public class HomeIndexInput
     {
 
         #region Members

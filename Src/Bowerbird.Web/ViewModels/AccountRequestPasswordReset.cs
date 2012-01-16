@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using DataAnnotationsExtensions;
-
-namespace Bowerbird.Web.ViewModels
+﻿namespace Bowerbird.Web.ViewModels
 {
     public class AccountRequestPasswordReset : IViewModel
     {

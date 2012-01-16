@@ -44,7 +44,17 @@ namespace Bowerbird.Core.Services
 
         public string GetDatabaseName()
         {
-            return ((BowerbirdDocumentStoreConfigurationSection)ConfigurationManager.GetSection("bowerbird/databaseName")).DatabaseName;
+            return ((BowerbirdDocumentStoreConfigurationSection)ConfigurationManager.GetSection("bowerbird/documentStore")).DatabaseName;
+        }
+
+        public string GetEmailAdminAccount()
+        {
+            return ((BowerbirdEmailConfigurationSection)ConfigurationManager.GetSection("bowerbird/email")).AdminAccount;
+        }
+
+        public string GetEmailResetPasswordUri()
+        {
+            return ((BowerbirdEmailConfigurationSection)ConfigurationManager.GetSection("bowerbird/email")).ResetPasswordUri;
         }
 
         #endregion

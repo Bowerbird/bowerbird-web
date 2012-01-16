@@ -76,24 +76,6 @@ namespace Bowerbird.Core.Test.Tasks
         #region Method tests
 
         [Test, Category(TestCategory.Integration), Category(TestCategory.Persistance)]
-        public void UserTasks_AreCredentialsValid_Passing_Empty_Username_Throws_DesignByContractException()
-        {
-            using (var session = _store.OpenSession())
-            {
-                Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() =>new UserTasks(new Mock<IRepository<User>>().Object).AreCredentialsValid(string.Empty,FakeValues.Password)));
-            }
-        }
-
-        [Test, Category(TestCategory.Integration), Category(TestCategory.Persistance)]
-        public void UserTasks_AreCredentialsValid_Passing_Empty_Password_Throws_DesignByContractException()
-        {
-            using (var session = _store.OpenSession())
-            {
-                Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new UserTasks(new Mock<IRepository<User>>().Object).AreCredentialsValid(FakeValues.UserId, string.Empty)));
-            }
-        }
-
-        [Test, Category(TestCategory.Integration), Category(TestCategory.Persistance)]
         public void UserTasks_AreCredentialsValid_Passing_Valid_Email_And_Password_Returns_True()
         {
             using (var session = _store.OpenSession())
@@ -130,31 +112,27 @@ namespace Bowerbird.Core.Test.Tasks
         }
 
         [Test, Category(TestCategory.Integration), Category(TestCategory.Persistance)]
-        public void UserTasks_EmailExists_Passing_Empty_Email_Throws_DesignByContractException()
+        public void UserTasks_GetEmailByResetPasswordKey_Passing_Empty_ResetPasswordKey_Throws_DesignByContractException()
         {
             using (var session = _store.OpenSession())
             {
-                Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new UserTasks(new Mock<IRepository<User>>().Object).EmailExists(string.Empty)));
+                Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new UserTasks(new Mock<IRepository<User>>().Object).GetEmailByResetPasswordKey(string.Empty)));
             }
         }
 
         [Test, Category(TestCategory.Integration), Category(TestCategory.Persistance)]
-        public void UserTasks_EmailExists_Passing_Available_Email_Returns_False()
+        public void UserTasks_GetEmailByResetPasswordKey_Passing_Valid_ResetPasswordKey_Returns_Email()
         {
-            using (var session = _store.OpenSession())
-            {
-                var repository = new Repository<User>(session);
-                var proxyRepository = new ProxyUserRepository(repository);
-                Assert.IsFalse(new UserTasks(proxyRepository).EmailExists(FakeValues.Email));
-            }
-        }
+            string resetPasswordKey = null;
 
-        [Test, Category(TestCategory.Integration), Category(TestCategory.Persistance)]
-        public void UserTasks_EmailExists_Passing_Existing_Email_Returns_True()
-        {
             using (var session = _store.OpenSession())
             {
-                session.Store(FakeObjects.TestUser());
+                var user = FakeObjects.TestUser();
+                user.RequestPasswordReset();
+
+                resetPasswordKey = user.ResetPasswordKey;
+
+                session.Store(user);
 
                 session.SaveChanges();
             }
@@ -163,7 +141,10 @@ namespace Bowerbird.Core.Test.Tasks
             {
                 var repository = new Repository<User>(session);
                 var proxyRepository = new ProxyUserRepository(repository);
-                Assert.IsTrue(new UserTasks(proxyRepository).EmailExists(FakeValues.Email));
+
+                string result = new UserTasks(proxyRepository).GetEmailByResetPasswordKey(resetPasswordKey);
+
+                Assert.AreEqual(FakeValues.Email, result);
             }
         }
 

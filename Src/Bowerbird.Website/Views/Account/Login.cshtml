@@ -8,14 +8,19 @@
 
 @using (Html.BeginForm()) 
 {
+    @Html.ValidationSummary(true, "Sorry, we couldn't verify your email and password.")
+
     <fieldset>
         <legend>Login Details</legend>
         <div>
             @Html.LabelFor(x => x.Email)
             @Html.TextBoxFor(x => x.Email)
+            @Html.ValidationMessageFor(x => x.Email)
 
-            <label for="password">Password</label>
+            @Html.Label("password", "Password")
             @Html.Password("password")
+            @Html.ValidationMessage("Password")
+
             <p>@Html.ActionLink("I've forgotten my password", "requestpasswordreset", "account")</p>
 
             @Html.LabelFor(x => x.RememberMe, "Remember Me")

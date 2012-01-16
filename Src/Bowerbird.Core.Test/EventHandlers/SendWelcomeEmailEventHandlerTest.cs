@@ -65,7 +65,7 @@ namespace Bowerbird.Core.Test.EventHandlers
         [Test, Category(TestCategory.Unit)]
         public void SendWelcomeEmailEventHandler_Handle_Passing_Null_UserCreatedEvent_Throws_DesignByContractException()
         {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new SendWelcomeEmailEventHandler(new Mock<IEmailService>().Object).Handle(null)));
+            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new SendWelcomeEmailEventHandler(new Mock<IEmailService>().Object, new Mock<IConfigService>().Object).Handle(null)));
         }
 
         #endregion					

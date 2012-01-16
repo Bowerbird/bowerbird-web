@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Text;
 using Bowerbird.Core.Config;
+using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using FluentEmail;
 
@@ -15,9 +16,19 @@ namespace Bowerbird.Core.Services
             
         #region Members
 
+        private readonly IConfigService _configService;
+
         #endregion
 
         #region Constructors
+
+        public EmailService(
+            IConfigService configService)
+        {
+            Check.RequireNotNull(configService, "configService");
+
+            _configService = configService;
+        }
 
         #endregion
 
@@ -29,9 +40,7 @@ namespace Bowerbird.Core.Services
 
         public void SendMailMessage(MailMessage mailMessage)
         {
-            var emailServerName = ((BowerbirdEmailConfigurationSection)ConfigurationManager.GetSection("bowerbird/email")).ServerName;
-
-            var smtpClient = new SmtpClient(emailServerName);
+            var smtpClient = new SmtpClient();
 
             smtpClient.SendAsync(mailMessage, null);
         }
