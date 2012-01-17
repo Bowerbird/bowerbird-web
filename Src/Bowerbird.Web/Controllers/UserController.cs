@@ -20,6 +20,7 @@ namespace Bowerbird.Web.Controllers
 
         private readonly ICommandProcessor _commandProcessor;
         private readonly IViewModelRepository _viewModelRepository;
+        private readonly IUserContext _userContext;
 
         #endregion
 
@@ -27,13 +28,16 @@ namespace Bowerbird.Web.Controllers
 
         public UserController(
             ICommandProcessor commandProcessor,
-            IViewModelRepository viewModelRepository)
+            IViewModelRepository viewModelRepository,
+            IUserContext userContext)
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
             Check.RequireNotNull(viewModelRepository, "viewModelRepository");
+            Check.RequireNotNull(userContext, "userContext");
 
             _commandProcessor = commandProcessor;
             _viewModelRepository = viewModelRepository;
+            _userContext = userContext;
         }
 
         #endregion
@@ -48,7 +52,8 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult Update()
         {
-            return View(_viewModelRepository.Load<UserUpdate>());
+            //return View(_viewModelRepository.Load<IdInput, UserUpdate>(new IdInput(){ Id =  _userContext.GetAuthenticatedUserId() }));
+            return View(_viewModelRepository.Load<IdInput, UserUpdate>(new IdInput(){ Id = _userContext.GetAuthenticatedUserId() }));
         }
 
         [HttpPost]

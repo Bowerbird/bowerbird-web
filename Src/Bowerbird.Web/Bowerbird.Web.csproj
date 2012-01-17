@@ -165,6 +165,7 @@
     <Compile Include="ViewModels\AccountLoginInput.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ViewModels\IdInput.cs" />
     <Compile Include="ViewModels\UserUpdateInput.cs" />
     <Compile Include="ViewModels\DefaultViewModel.cs" />
     <Compile Include="ViewModels\HomeIndex.cs">

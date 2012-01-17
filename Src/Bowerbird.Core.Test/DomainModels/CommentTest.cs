@@ -77,7 +77,6 @@ namespace Bowerbird.Core.Test.DomainModels
             Assert.AreEqual(testComment.User.Id, testUser.Id);
             Assert.AreEqual(testComment.User.FirstName, testUser.FirstName);
             Assert.AreEqual(testComment.User.LastName, testUser.LastName);
-            Assert.AreEqual(testComment.User.Email, testUser.Email);
             Assert.AreEqual(testComment.EditedOn.Day, DateTime.Now.Day);
             Assert.AreEqual(testComment.CommentedOn.Day, DateTime.Now.Day);
             Assert.AreEqual(testComment.Message, FakeValues.Comment);

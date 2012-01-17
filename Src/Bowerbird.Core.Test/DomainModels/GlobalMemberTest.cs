@@ -104,7 +104,6 @@ namespace Bowerbird.Core.Test.DomainModels
 
             Assert.AreEqual(testMember.Roles.Select(x => x.Id).ToList(), testRoles.Select(x => x.Id).ToList());
             Assert.AreEqual(testMember.Roles.Select(x => x.Name).ToList(), testRoles.Select(x => x.Name).ToList());
-            Assert.AreEqual(testMember.User.Email, testUser.Email);
             Assert.AreEqual(testMember.User.FirstName, testUser.FirstName);
             Assert.AreEqual(testMember.User.LastName, testUser.LastName);
             Assert.AreEqual(testMember.User.Id, testUser.Id);

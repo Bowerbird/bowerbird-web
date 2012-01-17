@@ -70,7 +70,6 @@ namespace Bowerbird.Core.Test.DomainModels.DenormalisedReferences
             Assert.AreEqual(normalisedUser.Id, denormalisedUser.Id);
             Assert.AreEqual(normalisedUser.FirstName, denormalisedUser.FirstName);
             Assert.AreEqual(normalisedUser.LastName, denormalisedUser.LastName);
-            Assert.AreEqual(normalisedUser.Email, denormalisedUser.Email);
         }
 
         [Test]

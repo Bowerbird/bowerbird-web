@@ -1,10 +1,12 @@
 ﻿using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.DomainModels;
 using Bowerbird.Web.ViewModels;
 using Raven.Client;
+using System.Linq;
 
 namespace Bowerbird.Web.ViewModelFactories
 {
-    public class UserUpdateFactory : ViewModelFactoryBase, IViewModelFactory<UserUpdateInput, UserUpdate>, IViewModelFactory<UserUpdate>
+    public class UserUpdateFactory : ViewModelFactoryBase, IViewModelFactory<UserUpdateInput, UserUpdate>, IViewModelFactory<IdInput, UserUpdate>
     {
 
         #region Members
@@ -27,9 +29,17 @@ namespace Bowerbird.Web.ViewModelFactories
 
         #region Methods
 
-        public UserUpdate Make()
+        public UserUpdate Make(IdInput idInput)
         {
-            return new UserUpdate();
+            var user = DocumentSession.Load<User>(idInput.Id);
+
+            return new UserUpdate()
+                       {
+                           FirstName = user.FirstName,
+                           LastName = user.LastName,
+                           Email = user.Email,
+                           Description = user.Description
+                       };
         }
 
         public UserUpdate Make(UserUpdateInput userUpdateInput)

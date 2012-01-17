@@ -22,8 +22,6 @@ namespace Bowerbird.Core.DomainModels.DenormalisedReferences
 
         public string LastName { get; private set; }
 
-        public string Email { get; private set; }
-
         #endregion
 
         #region Methods
@@ -36,8 +34,7 @@ namespace Bowerbird.Core.DomainModels.DenormalisedReferences
             {
                 Id = user.Id,
                 FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email
+                LastName = user.LastName
             };
         }
 

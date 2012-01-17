@@ -98,7 +98,6 @@ namespace Bowerbird.Core.Test.DomainModels
             Assert.AreEqual(testPost.User.Id, FakeObjects.TestUser().Id);
             Assert.AreEqual(testPost.User.FirstName, FakeObjects.TestUser().FirstName);
             Assert.AreEqual(testPost.User.LastName, FakeObjects.TestUser().LastName);
-            Assert.AreEqual(testPost.User.Email, FakeObjects.TestUser().Email);
             Assert.AreEqual(testPost.Subject, FakeValues.Subject);
             Assert.AreEqual(testPost.Message, FakeValues.Message);
             Assert.AreEqual(testPost.PostedOn, FakeValues.CreatedDateTime);

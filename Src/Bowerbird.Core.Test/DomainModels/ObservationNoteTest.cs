@@ -151,7 +151,6 @@ namespace Bowerbird.Core.Test.DomainModels
             Assert.AreEqual(testObservation.Observation.Title, TestObservation().Title);
             Assert.AreEqual(testObservation.User.FirstName, FakeObjects.TestUser().FirstName);
             Assert.AreEqual(testObservation.User.LastName, FakeObjects.TestUser().LastName);
-            Assert.AreEqual(testObservation.User.Email, FakeObjects.TestUser().Email);
             Assert.AreEqual(testObservation.User.Id, FakeObjects.TestUser().Id);
             Assert.AreEqual(testObservation.Descriptions, TestDescriptions());
             Assert.AreEqual(testObservation.References, TestReferences());
