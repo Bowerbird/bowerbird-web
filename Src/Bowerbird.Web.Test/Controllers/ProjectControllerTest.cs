@@ -41,6 +41,8 @@ namespace Bowerbird.Web.Test.Controllers
 
         private Mock<ICommandProcessor> _mockCommandProcessor;
         private Mock<IViewModelRepository> _mockViewModelRepository;
+        private Mock<IUserTasks> _mockUserTasks;
+        private Mock<IUserContext> _mockUserContext;
         private ProjectController _controller;
 
         [SetUp]
@@ -48,9 +50,13 @@ namespace Bowerbird.Web.Test.Controllers
         {
             _mockCommandProcessor = new Mock<ICommandProcessor>();
             _mockViewModelRepository = new Mock<IViewModelRepository>();
+            _mockUserTasks = new Mock<IUserTasks>();
+            _mockUserContext = new Mock<IUserContext>();
             _controller = new ProjectController(
                 _mockCommandProcessor.Object,
-                _mockViewModelRepository.Object);
+                _mockViewModelRepository.Object,
+                _mockUserTasks.Object,
+                _mockUserContext.Object);
         }
 
         [TearDown]
@@ -72,7 +78,11 @@ namespace Bowerbird.Web.Test.Controllers
         {
             Assert.IsTrue(
                 BowerbirdThrows.Exception<DesignByContractException>(
-                    () => new ProjectController(null, _mockViewModelRepository.Object)));
+                    () => new ProjectController(
+                        null, 
+                        _mockViewModelRepository.Object,
+                        _mockUserTasks.Object,
+                        _mockUserContext.Object)));
         }
 
         [Test]
@@ -81,7 +91,37 @@ namespace Bowerbird.Web.Test.Controllers
         {
             Assert.IsTrue(
                 BowerbirdThrows.Exception<DesignByContractException>(
-                    () => new ProjectController(_mockCommandProcessor.Object, null)));
+                    () => new ProjectController(
+                        _mockCommandProcessor.Object,
+                        null,
+                        _mockUserTasks.Object,
+                        _mockUserContext.Object)));
+        }
+
+        [Test]
+        [Category(TestCategory.Unit)]
+        public void Project_Constructor_With_Null_UserTasks_Throws_DesignByContractException()
+        {
+            Assert.IsTrue(
+                BowerbirdThrows.Exception<DesignByContractException>(
+                    () => new ProjectController(
+                        _mockCommandProcessor.Object,
+                        _mockViewModelRepository.Object,
+                        null,
+                        _mockUserContext.Object)));
+        }
+
+        [Test]
+        [Category(TestCategory.Unit)]
+        public void Project_Constructor_With_Null_UserContext_Throws_DesignByContractException()
+        {
+            Assert.IsTrue(
+                BowerbirdThrows.Exception<DesignByContractException>(
+                    () => new ProjectController(
+                        _mockCommandProcessor.Object,
+                        _mockViewModelRepository.Object,
+                        _mockUserTasks.Object,
+                        null)));
         }
 
         #endregion

@@ -72,6 +72,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandHandlers\ObservationNoteCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\UserUpdatePasswordCommandHandler.cs" />
     <Compile Include="CommandHandlers\ImageMediaResourceDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\ImageMediaResourceCreateCommandHandler.cs" />
@@ -80,7 +81,6 @@
     <Compile Include="CommandHandlers\ObservationCommentDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\ObservationCommentUpdateCommandHandler.cs" />
     <Compile Include="CommandHandlers\ObservationDeleteCommandHandler.cs" />
-    <Compile Include="CommandHandlers\ObservationNoteCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\ObservationNoteDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\ObservationNoteUpdateCommandHandler.cs" />
     <Compile Include="CommandHandlers\PostCommentCreateCommandHandler.cs" />

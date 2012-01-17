@@ -22,6 +22,8 @@ namespace Bowerbird.Core.Commands
     
         public string Password { get; set; }
 
+        public string ResetPasswordKey { get; set; }
+
         #endregion
 
         #region Methods
@@ -37,5 +39,6 @@ namespace Bowerbird.Core.Commands
         {
             throw new NotImplementedException();
         }
+
     }
 }

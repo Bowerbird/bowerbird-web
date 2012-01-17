@@ -36,7 +36,17 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(userUpdatePasswordCommand, "userUpdatePasswordCommand");
 
-            var user = _userRepository.Load(userUpdatePasswordCommand.UserId);
+            User user = null;
+
+            if (!string.IsNullOrWhiteSpace(userUpdatePasswordCommand.ResetPasswordKey))
+            {
+                user = _userRepository.LoadByResetPasswordKey(userUpdatePasswordCommand.ResetPasswordKey);
+            }
+
+            if(!string.IsNullOrWhiteSpace(userUpdatePasswordCommand.UserId))
+            {
+                user = _userRepository.Load(userUpdatePasswordCommand.UserId);
+            }
 
             user.UpdatePassword(userUpdatePasswordCommand.Password);
 
