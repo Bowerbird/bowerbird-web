@@ -135,7 +135,6 @@ namespace Bowerbird.Core.Test.CommandHandlers
                 Assert.AreEqual(testObservationComment.User.Id, observationComment.User.Id);
                 Assert.AreEqual(testObservationComment.User.FirstName, observationComment.User.FirstName);
                 Assert.AreEqual(testObservationComment.User.LastName, observationComment.User.LastName);
-                Assert.AreEqual(testObservationComment.User.Email, observationComment.User.Email);
                 Assert.AreEqual(testObservationComment.CommentedOn, observationComment.CommentedOn);
 
                 var observationCommentDeleteCommandHandler = TestObservationCommentDeleteCommandHandler(session);
