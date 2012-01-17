@@ -1,0 +1,30 @@
+﻿<div>
+    @using (Html.BeginForm("create", "project", FormMethod.Post))
+    {
+        @Html.ValidationSummary(true, "Please correct the errors and try again.")
+
+        <fieldset>
+            <legend>Create Project</legend>
+            <div>
+                <div>
+                    <label for="name">Name</label>
+                </div>
+                <div>
+                    <input type="text" id="name" name="name" />
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label for="description">Description</label>
+                </div>
+                <div>
+                    <input type="text" id="description" name="description" />
+                </div>
+            </div>
+        </fieldset>
+        <div>
+            <input type="button" value="Save" id="save" />
+            <input type="button" value="Cancel" id="cancel" />
+        </div>
+    }
+</div>

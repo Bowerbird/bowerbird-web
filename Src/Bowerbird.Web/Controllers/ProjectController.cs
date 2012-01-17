@@ -79,6 +79,7 @@ namespace Bowerbird.Web.Controllers
         }
 
         [Transaction]
+        [Authorize]
         [HttpPost]
         public ActionResult Create(ProjectCreateInput createInput)
         {
@@ -88,6 +89,7 @@ namespace Bowerbird.Web.Controllers
         }
 
         [Transaction]
+        [Authorize]
         [HttpPut]
         public ActionResult Update(ProjectUpdateInput updateInput)
         {
@@ -97,6 +99,7 @@ namespace Bowerbird.Web.Controllers
         }
 
         [Transaction]
+        [Authorize]
         [HttpDelete]
         public ActionResult Delete(ProjectDeleteInput deleteInput)
         {
@@ -113,7 +116,7 @@ namespace Bowerbird.Web.Controllers
             {
                 Description = createInput.Description,
                 Name = createInput.Name,
-                UserId = createInput.UserId
+                UserId = _userContext.GetAuthenticatedUserId()
             };
         }
 
@@ -123,7 +126,8 @@ namespace Bowerbird.Web.Controllers
 
             return new ProjectDeleteCommand()
             {
-                Id = deleteInput.ProjectId
+                Id = deleteInput.ProjectId,
+                UserId = _userContext.GetAuthenticatedUserId()
             };
         }
 
@@ -133,7 +137,7 @@ namespace Bowerbird.Web.Controllers
             {
                 Description = updateInput.Description,
                 Name = updateInput.Name,
-                UserId = updateInput.UserId
+                UserId = _userContext.GetAuthenticatedUserId()
             };
         }
 

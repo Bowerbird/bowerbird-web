@@ -12,6 +12,7 @@
  
 */
 
+using System.Collections.Generic;
 using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Web.ViewModels
@@ -35,6 +36,8 @@ namespace Bowerbird.Web.ViewModels
 
         public Project Project { get; set; }
 
+        public List<Observation> Observations { get; set; }
+         
         #endregion
 
         #region Methods

@@ -134,9 +134,17 @@ namespace Bowerbird.Web.Test.Controllers
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Project_()
+        public void Project_Index_Returns_ProjectIndex_ViewModel()
         {
+            _mockViewModelRepository
+                .Setup(x => x.Load<ProjectIndexInput, ProjectIndex>(It.IsAny<ProjectIndexInput>()))
+                .Returns(new ProjectIndex());
 
+            _controller.Index(new ProjectIndexInput());
+
+            var viewModel = _controller.ViewData.Model;
+
+            Assert.IsInstanceOf<HomeIndex>(viewModel);
         }
 
         #endregion

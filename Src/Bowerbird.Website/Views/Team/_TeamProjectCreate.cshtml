@@ -1,0 +1,31 @@
+﻿<div>
+    @using (Html.BeginForm("CreateProject", "team", FormMethod.Post))
+    {
+        <fieldset>
+            <legend>Team Project</legend>
+            <div>
+                <div>
+                    <label for="name">Name</label>
+                </div>
+                <div>
+                    <input type="text" id="name" name="name" />
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label for="description">Description</label>
+                </div>
+                <div>
+                    <input type="text" id="description" name="description" />
+                </div>
+            </div>
+        </fieldset>
+        <div>
+            <input type="hidden" value="projectteamid" />
+            <input type="hidden" value="administrators" />
+            <input type="hidden" value="members" />
+            <input type="button" value="Save" id="save" />
+            <input type="button" value="Cancel" id="cancel" />
+        </div>
+    }
+</div>

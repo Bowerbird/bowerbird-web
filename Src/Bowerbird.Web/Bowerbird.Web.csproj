@@ -123,6 +123,7 @@
     <Compile Include="Controllers\ProjectMemberController.cs" />
     <Compile Include="Controllers\ProjectObservationController.cs" />
     <Compile Include="Controllers\ProjectPostController.cs" />
+    <Compile Include="Controllers\TeamController.cs" />
     <Compile Include="Validators\ValidResetPasswordKeyRequestAttribute.cs" />
     <Compile Include="Validators\ValidEmailAttribute.cs" />
     <Compile Include="ViewModelFactories\AccountRequestPasswordResetFactory.cs" />
@@ -166,6 +167,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModels\IdInput.cs" />
+    <Compile Include="ViewModels\TeamProjectCreateInput.cs" />
     <Compile Include="ViewModels\UserUpdateInput.cs" />
     <Compile Include="ViewModels\DefaultViewModel.cs" />
     <Compile Include="ViewModels\HomeIndex.cs">

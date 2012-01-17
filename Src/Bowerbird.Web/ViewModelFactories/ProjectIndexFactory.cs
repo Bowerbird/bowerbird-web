@@ -18,11 +18,9 @@ namespace Bowerbird.Web.ViewModelFactories
 {
     #region Namespaces
 
-    using System.Collections.Generic;
     using System.Linq;
 
     using Raven.Client;
-    using Raven.Client.Linq;
 
     using Bowerbird.Core.DomainModels;
     using Bowerbird.Web.ViewModels;
@@ -62,9 +60,22 @@ namespace Bowerbird.Web.ViewModelFactories
         {
             Check.RequireNotNull(input, "input");
 
+            var projectObservations = DocumentSession
+                .Query<ProjectObservation>()
+                .Customize(x => x.Include(input.ProjectId))
+                .Where(x => x.Project.Id == input.ProjectId)
+                .ToList();
+
+            var observations = DocumentSession
+                .Load<Observation>(projectObservations.Select(x => x.Id))
+                .ToList();
+
             return new ProjectIndex()
             {
-                Project = DocumentSession.Load<Project>(input.ProjectId)
+                Project = DocumentSession
+                    .Load<Project>(input.ProjectId),
+
+                Observations = observations
             };
         }
 

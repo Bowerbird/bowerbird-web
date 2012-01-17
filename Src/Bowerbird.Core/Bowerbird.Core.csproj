@@ -108,6 +108,7 @@
     <Compile Include="CommandHandlers\ProjectMemberDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\UserUpdateLastLoginCommandHandler.cs" />
     <Compile Include="CommandHandlers\SetupSystemCommandHandler.cs" />
+    <Compile Include="Commands\TeamProjectCreateCommand.cs" />
     <Compile Include="Commands\UserUpdateCommand.cs" />
     <Compile Include="Commands\ImageMediaResourceCreateCommand.cs" />
     <Compile Include="Commands\ImageMediaResourceDeleteCommand.cs" />
