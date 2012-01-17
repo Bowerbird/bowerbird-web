@@ -21,7 +21,7 @@ namespace Bowerbird.Web.ViewModels
 
     #endregion
 
-    public class ObservationUpdateInput : IViewModel
+    public class ObservationUpdateInput
     {
         #region Members
 

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Bowerbird.Web.ViewModels
 {
-    public class ProjectCreateInput : IViewModel
+    public class ProjectCreateInput
     {
         #region Members
 

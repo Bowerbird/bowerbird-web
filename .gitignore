@@ -10,6 +10,7 @@ deploy/*
 *.cache
 *.docstates
 _ReSharper.*
+*.ReSharper
 *.csproj.user
 *[Rr]e[Ss]harper.user
 _ReSharper.*/

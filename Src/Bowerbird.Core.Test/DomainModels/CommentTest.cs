@@ -71,7 +71,7 @@ namespace Bowerbird.Core.Test.DomainModels
             var testUser = FakeObjects.TestUser();
             var testComment = new Comment(
                 testUser, 
-                FakeValues.CreatedDateTime,
+                DateTime.Now,
                 FakeValues.Comment);
 
             Assert.AreEqual(testComment.User.Id, testUser.Id);

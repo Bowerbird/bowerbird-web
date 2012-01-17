@@ -16,5 +16,9 @@ namespace Bowerbird.Core.Services
         string GetMediaRootPath();
 
         string GetDatabaseName();
+
+        string GetEmailAdminAccount();
+
+        string GetEmailResetPasswordUri();
     }
 }

@@ -20,8 +20,6 @@ namespace Bowerbird.Core.CommandHandlers
 
         public string Email { get; set; }
 
-        public string ResetPasswordKey { get; set; }
-
         #endregion
 
         #region Methods

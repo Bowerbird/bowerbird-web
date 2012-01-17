@@ -123,8 +123,11 @@
     <Compile Include="Controllers\ProjectMemberController.cs" />
     <Compile Include="Controllers\ProjectObservationController.cs" />
     <Compile Include="Controllers\ProjectPostController.cs" />
+    <Compile Include="Validators\ValidResetPasswordKeyRequestAttribute.cs" />
+    <Compile Include="Validators\ValidEmailAttribute.cs" />
     <Compile Include="ViewModelFactories\AccountRequestPasswordResetFactory.cs" />
     <Compile Include="ViewModelFactories\AccountResetPasswordFactory.cs" />
+    <Compile Include="ViewModelFactories\UserUpdateFactory.cs" />
     <Compile Include="ViewModels\AccountChangePasswordInput.cs" />
     <Compile Include="ViewModels\AccountRegister.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -162,6 +165,7 @@
     <Compile Include="ViewModels\AccountLoginInput.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ViewModels\UserUpdateInput.cs" />
     <Compile Include="ViewModels\DefaultViewModel.cs" />
     <Compile Include="ViewModels\HomeIndex.cs">
       <SubType>Code</SubType>
@@ -206,6 +210,7 @@
     <Compile Include="ViewModels\StreamItem.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ViewModels\UserUpdate.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

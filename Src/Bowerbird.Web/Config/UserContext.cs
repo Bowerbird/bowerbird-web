@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Security;
+using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.Tasks;
 using Bowerbird.Web.Config;
 using SignalR.Hubs;
 using Bowerbird.Web.Hubs;
@@ -15,9 +17,19 @@ namespace Bowerbird.Web.Config
 
         #region Members
 
+        private readonly IUserTasks _userTasks;
+
         #endregion
 
         #region Constructors
+
+        public UserContext(
+            IUserTasks userTasks)
+        {
+            Check.RequireNotNull(userTasks, "userTasks");
+
+            _userTasks = userTasks;
+        }
 
         #endregion
 
@@ -62,7 +74,7 @@ namespace Bowerbird.Web.Config
                 sessionExpiryDuration = new TimeSpan(3, 0, 0);
             }
 
-            var authTicket = new FormsAuthenticationTicket(email, keepUserLoggedIn, Convert.ToInt32(sessionExpiryDuration.TotalMinutes)); // Must be less than cookie expiration, whic we have set to 100 years
+            var authTicket = new FormsAuthenticationTicket(_userTasks.GetUserIdByEmail(email), keepUserLoggedIn, Convert.ToInt32(sessionExpiryDuration.TotalMinutes)); // Must be less than cookie expiration, whic we have set to 100 years
 
             string encryptedTicket = FormsAuthentication.Encrypt(authTicket);
 

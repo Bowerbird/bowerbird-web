@@ -313,8 +313,8 @@ namespace Bowerbird.Web.Test.Controllers
             var result =_controller.Register(FakeViewModels.MakeAccountRegisterInput());
 
             Assert.IsInstanceOf<RedirectToRouteResult>(result);
-            Assert.AreEqual("registersuccess", ((RedirectToRouteResult)result).RouteValues["action"].ToString());
-            Assert.AreEqual("account", ((RedirectToRouteResult)result).RouteValues["controller"].ToString());
+            Assert.AreEqual("index", ((RedirectToRouteResult)result).RouteValues["action"].ToString());
+            Assert.AreEqual("home", ((RedirectToRouteResult)result).RouteValues["controller"].ToString());
         }
 
         [Test, Category(TestCategory.Integration)]
@@ -354,19 +354,6 @@ namespace Bowerbird.Web.Test.Controllers
             Assert.IsInstanceOf<ViewResult>(result);
             Assert.IsInstanceOf<AccountRegister>(viewModel);
             _mockCommandProcessor.Verify(x => x.Process(It.IsAny<UserCreateCommand>()), Times.Never());
-        }
-
-        [Test, Category(TestCategory.Unit)]
-        public void AccountController_HttpGet_RegisterSuccess_Returns_DefaultViewModel()
-        {
-            _mockViewModelRepository.Setup(x => x.Load<DefaultViewModel>()).Returns(new DefaultViewModel());
-
-            var result = _controller.RegisterSuccess();
-
-            var viewModel = _controller.ViewData.Model;
-
-            Assert.IsInstanceOf<ViewResult>(result);
-            Assert.IsInstanceOf<DefaultViewModel>(viewModel);
         }
 
         #endregion

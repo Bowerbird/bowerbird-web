@@ -1,7 +1,7 @@
 ﻿
 namespace Bowerbird.Web.ViewModels
 {
-    public class ObservationListInput : IViewModel
+    public class ObservationListInput
     {
 
         #region Members

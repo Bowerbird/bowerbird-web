@@ -30,6 +30,32 @@ namespace Bowerbird.Core.Config
             }
         }
 
+        [ConfigurationProperty("adminAccount", DefaultValue = "", IsRequired = true, IsKey = false)]
+        public string AdminAccount
+        {
+            get
+            {
+                return (string)this["adminAccount"];
+            }
+            set
+            {
+                this["adminAccount"] = value;
+            }
+        }
+
+        [ConfigurationProperty("resetPasswordUri", DefaultValue = "", IsRequired = true, IsKey = false)]
+        public string ResetPasswordUri
+        {
+            get
+            {
+                return (string)this["resetPasswordUri"];
+            }
+            set
+            {
+                this["resetPasswordUri"] = value;
+            }
+        }
+
         #endregion
 
         #region Methods

@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Bowerbird.Core.Commands
 {
-    public class UserCreateCommand : CommandBase
+    public class UserUpdateCommand : CommandBase
     {
 
         #region Members
@@ -26,10 +26,6 @@ namespace Bowerbird.Core.Commands
         public string LastName { get; set; }
 
         public string Description { get; set; }
-
-        public string Password { get; set; }
-
-        public IEnumerable<string> Roles { get; set; }
 
         #endregion
 

@@ -14,7 +14,7 @@
 
 namespace Bowerbird.Web.ViewModels
 {
-    public class ProjectIndexInput : IViewModel
+    public class ProjectIndexInput
     {
         #region Members
 
