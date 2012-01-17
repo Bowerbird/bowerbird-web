@@ -61,6 +61,15 @@ namespace Bowerbird.Core.CommandHandlers
         public void Handle(ObservationCommentUpdateCommand command)
         {
             Check.RequireNotNull(command, "command");
+
+            var observationComment = _observationCommentRepository
+                .Load(command.Id)
+                .UpdateCommentMessage(
+                    _userRepository.Load(command.UserId),
+                    command.UpdatedOn,
+                    command.Comment);
+
+            _observationCommentRepository.Add(observationComment);
         }
 
         #endregion

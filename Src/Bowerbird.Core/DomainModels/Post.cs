@@ -6,7 +6,7 @@ using Bowerbird.Core.DomainModels.DenormalisedReferences;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public class Post : DomainModel
+    public abstract class Post : DomainModel
     {
         #region Members
 
@@ -16,7 +16,7 @@ namespace Bowerbird.Core.DomainModels
 
         protected Post() : base() { }
 
-        public Post(
+        protected Post(
             User createdByUser,
             DateTime timestamp,
             string subject,

@@ -12,17 +12,17 @@
  
 */
 
+using Bowerbird.Core.Commands;
+using Bowerbird.Core.Test.ProxyRepositories;
+using Raven.Client;
+
 namespace Bowerbird.Core.Test.CommandHandlers
 {
     #region Namespaces
 
-    using System;
-    using System.Collections.Generic;
-
     using NUnit.Framework;
     using Moq;
 
-    using Bowerbird.Core.Commands;
     using Bowerbird.Core.CommandHandlers;
     using Bowerbird.Core.DesignByContract;
     using Bowerbird.Core.DomainModels;
@@ -36,27 +36,23 @@ namespace Bowerbird.Core.Test.CommandHandlers
     {
         #region Test Infrastructure
 
+        private IDocumentStore _store;
+
         [SetUp]
         public void TestInitialize()
         {
+            _store = DocumentStoreHelper.TestDocumentStore();
         }
 
         [TearDown]
         public void TestCleanup()
         {
+            _store = null;
         }
 
         #endregion
 
         #region Test Helpers
-
-        private ObservationNoteCreateCommand TestObservationNoteCreateCommand()
-        {
-            return new ObservationNoteCreateCommand()
-                       {
-
-                       };
-        }
 
         #endregion
 
@@ -64,9 +60,38 @@ namespace Bowerbird.Core.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void ObservationNoteCreateCommandHandler_Constructor_Passing_Null_Something_Throws_DesignByContractException()
+        public void ObservationNoteCreateCommandHandler_Constructor_Passing_Null_UserRepository_Throws_DesignByContractException()
         {
-            //Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new ObservationNoteCreateCommandHandler(null)));
+            Assert.IsTrue(
+                BowerbirdThrows.Exception<DesignByContractException>(() =>
+                    new ObservationNoteCreateCommandHandler(
+                        null,
+                        new Mock<IRepository<Observation>>().Object,
+                        new Mock<IRepository<ObservationNote>>().Object)));
+        }
+
+        [Test]
+        [Category(TestCategory.Unit)]
+        public void ObservationNoteCreateCommandHandler_Constructor_Passing_Null_ObservationRepository_Throws_DesignByContractException()
+        {
+            Assert.IsTrue(
+                BowerbirdThrows.Exception<DesignByContractException>(() =>
+                    new ObservationNoteCreateCommandHandler(
+                        new Mock<IRepository<User>>().Object,
+                        null,
+                        new Mock<IRepository<ObservationNote>>().Object)));
+        }
+
+        [Test]
+        [Category(TestCategory.Unit)]
+        public void ObservationNoteCreateCommandHandler_Constructor_Passing_Null_ObservationNoteRepository_Throws_DesignByContractException()
+        {
+            Assert.IsTrue(
+                BowerbirdThrows.Exception<DesignByContractException>(() =>
+                    new ObservationNoteCreateCommandHandler(
+                        new Mock<IRepository<User>>().Object,
+                        new Mock<IRepository<Observation>>().Object,
+                        null)));
         }
 
         #endregion
@@ -81,7 +106,58 @@ namespace Bowerbird.Core.Test.CommandHandlers
         [Category(TestCategory.Unit)]
         public void ObservationNoteCreateCommandHandler_Handle_Passing_Null_ObservationNoteCreate_Throws_DesignByContractException()
         {
-            //Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => _commandHandler.Handle(null)));
+            Assert.IsTrue(
+                BowerbirdThrows.Exception<DesignByContractException>(() =>
+                    new ObservationNoteCreateCommandHandler(
+                        new Mock<IRepository<User>>().Object, 
+                        new Mock<IRepository<Observation>>().Object,
+                        new Mock<IRepository<ObservationNote>>().Object)
+                        .Handle(null)));
+        }
+
+        [Test]
+        [Category(TestCategory.Persistance)]
+        public void ObservationCommentCreateCommandHandler_Handle_Creates_ObservationComment()
+        {
+            ObservationNote result = null;
+
+            using (var session = _store.OpenSession())
+            {
+                var repository = new Repository<ObservationNote>(session);
+                var proxyRepository = new ProxyRepository<ObservationNote>(repository);
+                var mockUserRepository = new Mock<IRepository<User>>();
+                var mockObservationRepository = new Mock<IRepository<Observation>>();
+
+                proxyRepository.NotifyOnAdd(x => result = x);
+
+                mockUserRepository
+                    .Setup(x => x.Load(It.IsAny<string>()))
+                    .Returns(FakeObjects.TestUserWithId);
+
+                mockObservationRepository
+                    .Setup(x => x.Load(It.IsAny<string>()))
+                    .Returns(FakeObjects.TestObservationWithId);
+
+                var observationNoteCreateCommandHandler = new ObservationNoteCreateCommandHandler(
+                    mockUserRepository.Object,
+                    mockObservationRepository.Object,
+                    proxyRepository
+                    );
+
+                observationNoteCreateCommandHandler.Handle(new ObservationNoteCreateCommand()
+                {
+                    CommonName = FakeValues.CommonName,
+                    ScientificName = FakeValues.ScientificName,
+                    Taxonomy = FakeValues.Taxonomy,
+                    Tags = FakeValues.Tags,
+                    SubmittedOn = FakeValues.CreatedDateTime,
+                    Notes = FakeValues.Notes
+                });
+
+                session.SaveChanges();
+            }
+
+            Assert.IsNotNull(result);
         }
 
         #endregion

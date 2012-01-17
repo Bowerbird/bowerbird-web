@@ -26,6 +26,8 @@ namespace Bowerbird.Core.Commands
 
         public string ObservationId { get; set; }
 
+        public DateTime CreatedDateTime { get; set; }
+
         #endregion
 
         #region Methods

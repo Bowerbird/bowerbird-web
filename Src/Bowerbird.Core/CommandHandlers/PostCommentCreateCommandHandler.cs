@@ -14,8 +14,6 @@
  
 */
 
-using Bowerbird.Core.DomainModels.Comments;
-
 namespace Bowerbird.Core.CommandHandlers
 {
     #region Namespaces
@@ -24,6 +22,7 @@ namespace Bowerbird.Core.CommandHandlers
     using Bowerbird.Core.DesignByContract;
     using Bowerbird.Core.DomainModels;
     using Bowerbird.Core.Repositories;
+    using Bowerbird.Core.DomainModels.Comments;
 
     #endregion
 
@@ -32,6 +31,7 @@ namespace Bowerbird.Core.CommandHandlers
         #region Fields
 
         private readonly IRepository<User> _userRepository;
+        private readonly IRepository<Post> _postRepository;
         private readonly IRepository<PostComment> _postCommentRepository;
 
         #endregion
@@ -40,13 +40,16 @@ namespace Bowerbird.Core.CommandHandlers
 
         public PostCommentCreateCommandHandler(
              IRepository<User> userRepository
+            ,IRepository<Post> postRepository
             , IRepository<PostComment> postCommentRepository
             )
         {
             Check.RequireNotNull(userRepository, "userRepository");
+            Check.RequireNotNull(postRepository, "postRepository");
             Check.RequireNotNull(postCommentRepository, "postCommentRepository");
 
             _userRepository = userRepository;
+            _postRepository = postRepository;
             _postCommentRepository = postCommentRepository;
         }
 
@@ -61,9 +64,17 @@ namespace Bowerbird.Core.CommandHandlers
         public void Handle(PostCommentCreateCommand command)
         {
             Check.RequireNotNull(command, "command");
+
+            var postComment = new PostComment(
+                _userRepository.Load(command.UserId),
+                _postRepository.Load(command.PostId),
+                command.PostedOn,
+                command.Message
+                );
+
+            _postCommentRepository.Add(postComment);
         }
 
         #endregion
-
     }
 }

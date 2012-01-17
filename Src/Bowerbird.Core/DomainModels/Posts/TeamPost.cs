@@ -1,6 +1,4 @@
-/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -14,19 +12,19 @@
  
 */
 
-using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.Events;
-using Bowerbird.Core.DomainModels.DenormalisedReferences;
-
 namespace Bowerbird.Core.DomainModels.Posts
 {
     #region Namespaces
 
-    
+    using System;
+    using System.Collections.Generic;
+    using Bowerbird.Core.DesignByContract;
+    using Bowerbird.Core.Events;
+    using Bowerbird.Core.DomainModels.DenormalisedReferences;
 
     #endregion
 
-    public class TeamPost : DomainModel
+    public class TeamPost : Post
     {
         #region Members
 
@@ -39,18 +37,23 @@ namespace Bowerbird.Core.DomainModels.Posts
         }
 
         public TeamPost(
-            User createdByUser
-            //,DateTime timestamp
+            Team team,
+            User createdByUser,
+            DateTime postedOn,
+            string subject,
+            string message,
+            IList<MediaResource> mediaResources
             )
-            : this()
+            : base(createdByUser,
+            postedOn,
+            subject,
+            message,
+            mediaResources)
         {
             Check.RequireNotNull(createdByUser, "createdByUser");
+            Check.RequireNotNull(team, "team");
 
-            //PostedOn = timestamp;
-            User = createdByUser;
-
-            SetDetails(
-                );
+            Team = team;
 
             EventProcessor.Raise(new DomainModelCreatedEvent<TeamPost>(this, createdByUser));
         }
@@ -59,24 +62,27 @@ namespace Bowerbird.Core.DomainModels.Posts
 
         #region Properties
 
-        public DenormalisedUserReference User { get; private set; }
+        public DenormalisedNamedDomainModelReference<Team> Team { get; private set; }
 
         #endregion
 
         #region Methods
 
-        private void SetDetails()
-        {
-
-        }
-
         public TeamPost UpdateDetails(
-            User updatedByUser
+            User updatedByUser,
+            DateTime updatedOn,
+            string message,
+            string subject,
+            IList<MediaResource> mediaResources
             )
         {
             Check.RequireNotNull(updatedByUser, "updatedByUser");
 
-            SetDetails(
+            UpdateDetails(
+                updatedByUser,
+                message,
+                subject,
+                mediaResources
                 );
 
             EventProcessor.Raise(new DomainModelUpdatedEvent<TeamPost>(this, updatedByUser));

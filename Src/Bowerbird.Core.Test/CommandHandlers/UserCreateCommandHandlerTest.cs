@@ -11,22 +11,23 @@
  * Atlas of Living Australia
  
 */
-				
+
 namespace Bowerbird.Core.Test.CommandHandlers
 {
     #region Namespaces
 
-    using System.Linq;
     using System.Collections.Generic;
 
     using NUnit.Framework;
     using Moq;
+    using Raven.Client;
 
     using Bowerbird.Core.Commands;
     using Bowerbird.Core.CommandHandlers;
     using Bowerbird.Core.DesignByContract;
     using Bowerbird.Core.DomainModels;
     using Bowerbird.Core.Repositories;
+    using Bowerbird.Core.Test.ProxyRepositories;
     using Bowerbird.Test.Utils;
 
     #endregion
@@ -36,85 +37,23 @@ namespace Bowerbird.Core.Test.CommandHandlers
     {
         #region Test Infrastructure
 
-        private Mock<IRepository<User>> _mockUserRepository;
-        private Mock<IRepository<Role>> _mockRoleRepository;
-        private UserCreateCommandHandler _userCreateCommandHandler;
+        private IDocumentStore _store;
 
         [SetUp]
         public void TestInitialize()
         {
-            _mockUserRepository = new Mock<IRepository<User>>();
-            _mockRoleRepository = new Mock<IRepository<Role>>();
-            _userCreateCommandHandler = new UserCreateCommandHandler(_mockUserRepository.Object,_mockRoleRepository.Object);
+            _store = DocumentStoreHelper.TestDocumentStore();
         }
 
         [TearDown]
-        public void TestCleanup() { }
+        public void TestCleanup()
+        {
+            _store = null;
+        }
 
         #endregion
 
         #region Test Helpers
-
-        /// <summary>
-        /// Id: "abc"
-        /// Password: "password"
-        /// Email: "padil@padil.gov.au"
-        /// FirstName: "first name"
-        /// LastName: "last name"
-        /// Description: "description"
-        /// Roles: "Member"
-        /// </summary>
-        /// <returns></returns>
-        private static User TestUser()
-        {
-            return new User(
-                FakeValues.Password,
-                FakeValues.Email,
-                FakeValues.FirstName,
-                FakeValues.LastName,
-                TestRoles()
-            )
-            .UpdateLastLoggedIn()
-            .IncrementFlaggedItemsOwned()
-            .IncrementFlagsRaised();
-        }
-
-        private static IEnumerable<Role> TestRoles()
-        {
-            return new List<Role>()
-            {
-                new Role
-                (
-                    "Member",
-                    "Member role",
-                    "Member description",
-                    TestPermissions()
-                )
-            };
-        }
-
-        private static IEnumerable<Permission> TestPermissions()
-        {
-            return new List<Permission>
-            {
-                new Permission("Read", "Read permission", "Read description"),
-                new Permission("Write", "Write permission", "Write description")
-            };
-
-        }
-
-        private static UserCreateCommand TestUserCreateCommand()
-        {
-            return new UserCreateCommand()
-                       {
-                           Description = FakeValues.Description,
-                           Email = FakeValues.Email,
-                           FirstName = FakeValues.FirstName,
-                           LastName = FakeValues.LastName,
-                           Password = FakeValues.Password,
-                           Roles = TestRoles().Select(x => x.Id).ToList()
-                       };
-        }
 
         #endregion
 
@@ -124,14 +63,22 @@ namespace Bowerbird.Core.Test.CommandHandlers
         [Category(TestCategory.Unit)]
         public void UserCreateCommandHandler_Constructor_Passing_Null_UserRepository_Throws_DesignByContractException()
         {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new UserCreateCommandHandler(null, _mockRoleRepository.Object)));
+            Assert.IsTrue(
+                BowerbirdThrows.Exception<DesignByContractException>(() => 
+                    new UserCreateCommandHandler(
+                        null, 
+                        new Mock<IRepository<Role>>().Object)));
         }
 
         [Test]
         [Category(TestCategory.Unit)]
         public void UserCreateCommandHandler_Constructor_Passing_Null_RoleRepository_Throws_DesignByContractException()
         {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new UserCreateCommandHandler(_mockUserRepository.Object, null)));
+            Assert.IsTrue(
+                BowerbirdThrows.Exception<DesignByContractException>(() => new 
+                    UserCreateCommandHandler(
+                        new Mock<IRepository<User>>().Object, 
+                        null)));
         }
 
         #endregion
@@ -144,31 +91,53 @@ namespace Bowerbird.Core.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void UserCreateCommandHandler_Handle_Passing_Null_UserCreateCommand_Throws_DesignByContractException()
+        public void UserCreateCommandHandler_Handle_Passing_Null_Command_Throws_DesignByContractException()
         {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new UserCreateCommandHandler(_mockUserRepository.Object, _mockRoleRepository.Object).Handle(null)));
+            Assert.IsTrue(
+                BowerbirdThrows.Exception<DesignByContractException>(() => 
+                    new UserCreateCommandHandler(
+                        new Mock<IRepository<User>>().Object, 
+                        new Mock<IRepository<Role>>().Object)
+                        .Handle(null)));
         }
 
         [Test]
         [Category(TestCategory.Integration)]
-        public void UserCreateCommandHandler_Handle_Passing_UserCreateCommand_Calls_RoleRepository_Load()
+        public void UserCreateCommandHandler_Handle_Creates_User()
         {
-            _mockRoleRepository.Setup(x => x.Load(It.IsAny<IEnumerable<string>>())).Returns(TestRoles());
+            User result = null;
 
-            _userCreateCommandHandler.Handle(TestUserCreateCommand());
+            using (var session = _store.OpenSession())
+            {
+                var repository = new Repository<User>(session);
+                var proxyRepository = new ProxyRepository<User>(repository);
+                var mockRoleRepository = new Mock<IRepository<Role>>();
+                
+                proxyRepository.NotifyOnAdd(x => result = x);
 
-            _mockRoleRepository.Verify(x => x.Load(It.IsAny<IEnumerable<string>>()), Times.Once());
-        }
+                mockRoleRepository
+                    .Setup(x => x.Load(It.IsAny<List<string>>()))
+                    .Returns(FakeObjects.TestRoles);
 
-        [Test]
-        [Category(TestCategory.Integration)]
-        public void UserCreateCommandHandler_Handle_Passing_UserCreateCommand_Calls_UserRepository_Add()
-        {
-            _mockUserRepository.Setup(x => x.Add(It.IsAny<User>())).Verifiable();
+                var userCreateCommandHandler = new UserCreateCommandHandler(
+                    proxyRepository,
+                    mockRoleRepository.Object
+                    );
 
-            _userCreateCommandHandler.Handle(TestUserCreateCommand());
+                userCreateCommandHandler.Handle(new UserCreateCommand()
+                {
+                    Roles = FakeValues.StringList,
+                    Description = FakeValues.Description,
+                    Email = FakeValues.Email,
+                    FirstName = FakeValues.FirstName,
+                    LastName = FakeValues.LastName,
+                    Password = FakeValues.Password
+                }); 
 
-            _mockUserRepository.Verify(x => x.Add(It.IsAny<User>()), Times.Once());
+                session.SaveChanges();
+            }
+
+            Assert.IsNotNull(result);
         }
 
         #endregion 

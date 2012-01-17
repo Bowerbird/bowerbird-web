@@ -16,8 +16,6 @@ namespace Bowerbird.Core.Test.CommandHandlers
 {
     #region Namespaces
 
-    using System.Linq;
-
     using NUnit.Framework;
     using Moq;
     using Raven.Client;
@@ -29,7 +27,7 @@ namespace Bowerbird.Core.Test.CommandHandlers
     using Bowerbird.Core.Repositories;
     using Bowerbird.Test.Utils;
     using Bowerbird.Core.DomainModels.Comments;
-    using Bowerbird.Core.Extensions;
+    using Bowerbird.Core.Test.ProxyRepositories;
 
     #endregion
 
@@ -55,26 +53,6 @@ namespace Bowerbird.Core.Test.CommandHandlers
         #endregion
 
         #region Test Helpers
-
-        private ObservationCommentCreateCommandHandler TestObservationCommentCreateCommandHandler(IDocumentSession session)
-        {
-            return new ObservationCommentCreateCommandHandler(
-                new Repository<User>(session),
-                new Repository<Observation>(session),
-                new Repository<ObservationComment>(session)
-                );
-        }
-
-        private ObservationCommentCreateCommand TestObservationCommentCreateCommand()
-        {
-            return new ObservationCommentCreateCommand()
-                       {
-                           Comment = FakeValues.Comment,
-                           CommentedOn = FakeValues.CreatedDateTime,
-                           ObservationId = FakeValues.KeyString.PrependWith("observationcomments/"),
-                           UserId = FakeValues.UserId.PrependWith("users/")
-                       };
-        }
 
         #endregion
 
@@ -126,7 +104,7 @@ namespace Bowerbird.Core.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void ObservationCommentCreateCommandHandler_Handle_Passing_Null_ObservationCommentCreate_Throws_DesignByContractException()
+        public void ObservationCommentCreateCommandHandler_Handle_Passing_Null_Command_Throws_DesignByContractException()
         {
             var commandHandler = new ObservationCommentCreateCommandHandler(
                 new Mock<IRepository<User>>().Object,
@@ -142,33 +120,43 @@ namespace Bowerbird.Core.Test.CommandHandlers
         [Category(TestCategory.Persistance)]
         public void ObservationCommentCreateCommandHandler_Handle_Creates_ObservationComment()
         {
+            ObservationComment result = null;
+
             using (var session = _store.OpenSession())
             {
-                session.Store(FakeObjects.TestUserWithId());
-                session.Store(FakeObjects.TestObservationWithId());
-                
+                var repository = new Repository<ObservationComment>(session);
+                var proxyRepository = new ProxyRepository<ObservationComment>(repository);
+                var mockUserRepository = new Mock<IRepository<User>>();
+                var mockObservationRepository = new Mock<IRepository<Observation>>();
+
+                proxyRepository.NotifyOnAdd(x => result = x);
+
+                mockUserRepository
+                    .Setup(x => x.Load(It.IsAny<string>()))
+                    .Returns(FakeObjects.TestUserWithId);
+
+                mockObservationRepository
+                    .Setup(x => x.Load(It.IsAny<string>()))
+                    .Returns(FakeObjects.TestObservationWithId);
+
+                var observationCommentCreateCommandHandler = new ObservationCommentCreateCommandHandler(
+                    mockUserRepository.Object,
+                    mockObservationRepository.Object,
+                    proxyRepository
+                    );
+
+                observationCommentCreateCommandHandler.Handle(new ObservationCommentCreateCommand()
+                {
+                    Comment = FakeValues.Comment,
+                    CommentedOn = FakeValues.CreatedDateTime,
+                    ObservationId = FakeValues.KeyString,
+                    UserId = FakeValues.UserId
+                });
+
                 session.SaveChanges();
-                
-                var observationCommentCreateCommandHandler = TestObservationCommentCreateCommandHandler(session);
-                var command = TestObservationCommentCreateCommand();
-                observationCommentCreateCommandHandler.Handle(command);
-                session.SaveChanges();
-
-                var observationComment =
-                     _store.OpenSession().Query<ObservationComment>().Where(
-                        x => x.Observation.Id == FakeValues.KeyString.PrependWith("observationcomments/")).FirstOrDefault();
-
-                //session.Store(new ObservationComment(
-                //    FakeObjects.TestUserWithId(),
-                //    FakeObjects.TestObservationWithId(),
-                //    FakeValues.CreatedDateTime,
-                //    FakeValues.Comment
-                //    ));
-
-                Assert.AreEqual(observationComment.CommentedOn, command.CommentedOn);
-                Assert.AreEqual(observationComment.Message, command.Comment);
-                Assert.AreEqual(observationComment.Observation.Id, command.ObservationId);
             }
+
+            Assert.IsNotNull(result);
         }
 
         #endregion

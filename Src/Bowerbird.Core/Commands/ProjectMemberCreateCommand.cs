@@ -14,6 +14,11 @@ namespace Bowerbird.Core.Commands
 
         #region Constructors
 
+        public ProjectMemberCreateCommand()
+        {
+            InitMembers();
+        }
+
         #endregion
 
         #region Properties
@@ -24,6 +29,8 @@ namespace Bowerbird.Core.Commands
 
         public string CreatedByUserId { get; set; }
 
+        public List<string> Roles { get; set; }
+
         #endregion
 
         #region Methods
@@ -31,6 +38,11 @@ namespace Bowerbird.Core.Commands
         public override ICollection<ValidationResult> ValidationResults()
         {
             throw new NotImplementedException();
+        }
+
+        private void InitMembers()
+        {
+            Roles = new List<string>();
         }
 
         #endregion

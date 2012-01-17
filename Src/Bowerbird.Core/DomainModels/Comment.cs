@@ -5,7 +5,7 @@ using Bowerbird.Core.Events;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public class Comment : DomainModel
+    public abstract class Comment : DomainModel
     {
         #region Members
 
@@ -15,7 +15,7 @@ namespace Bowerbird.Core.DomainModels
 
         protected Comment() : base() { }
 
-        public Comment(
+        protected Comment(
             User createdByUser,
             DateTime commentedOn,
             string message)
@@ -31,7 +31,7 @@ namespace Bowerbird.Core.DomainModels
                 message,
                 CommentedOn);
 
-            EventProcessor.Raise(new DomainModelCreatedEvent<Comment>(this, createdByUser));
+            //EventProcessor.Raise(new DomainModelCreatedEvent<Comment>(this, createdByUser));
         }
 
         #endregion
@@ -56,15 +56,15 @@ namespace Bowerbird.Core.DomainModels
             EditedOn = editedOn;
         }
 
-        private Comment UpdateDetails(User updatedByUser, string message)
+        protected Comment UpdateDetails(User updatedByUser, DateTime editedOn, string message)
         {
             Check.RequireNotNull(updatedByUser, "updatedByUser");
 
             SetDetails(
                 message,
-                DateTime.Now);
+                editedOn);
 
-            EventProcessor.Raise(new DomainModelUpdatedEvent<Comment>(this, updatedByUser));
+            //EventProcessor.Raise(new DomainModelUpdatedEvent<Comment>(this, updatedByUser));
 
             return this;
         }

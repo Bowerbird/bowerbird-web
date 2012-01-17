@@ -17,6 +17,7 @@ namespace Bowerbird.Core.Test.CommandHandlers
     #region Namespaces
 
     using System;
+    using System.Linq;
     using System.Collections.Generic;
 
     using NUnit.Framework;
@@ -37,14 +38,18 @@ namespace Bowerbird.Core.Test.CommandHandlers
     {
         #region Test Infrastructure
 
+        private IDocumentStore _store;
+
         [SetUp]
         public void TestInitialize()
         {
+            _store = DocumentStoreHelper.TestDocumentStore();
         }
 
         [TearDown]
         public void TestCleanup()
         {
+            _store = null;
         }
 
         #endregion
@@ -58,11 +63,12 @@ namespace Bowerbird.Core.Test.CommandHandlers
                 );
         }
 
-        private ObservationCommentDeleteCommand TestObservationCommentDeleteCommand()
+        private ObservationCommentDeleteCommand TestObservationCommentDeleteCommand(ObservationComment observationComment)
         {
             return new ObservationCommentDeleteCommand()
                        {
-
+                          Id = observationComment.Id,
+                          UserId = observationComment.User.Id
                        };
         }
 
@@ -72,7 +78,7 @@ namespace Bowerbird.Core.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void ObservationCommentDeleteCommandHandler_Constructor_Passing_Null_Something_Throws_DesignByContractException()
+        public void ObservationCommentDeleteCommandHandler_Constructor_Passing_Null_ObservationCommentRepository_Throws_DesignByContractException()
         {
             Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new ObservationCommentDeleteCommandHandler(null)));
         }
@@ -100,7 +106,51 @@ namespace Bowerbird.Core.Test.CommandHandlers
         [Category(TestCategory.Unit)]
         public void ObservationCommentDeleteCommandHandler_Handle_Deletes_ObservationComment()
         {
+            var testUser = FakeObjects.TestUserWithId();
+            var testObservation = FakeObjects.TestObservationWithId();
+            var testObservationComment = new ObservationComment(
+                testUser,
+                testObservation,
+                FakeValues.CreatedDateTime,
+                FakeValues.Comment
+                );
 
+            using (var session = _store.OpenSession())
+            {
+                session.Store(testUser);
+                session.Store(testObservation);
+                session.Store(testObservationComment);
+                
+                session.SaveChanges();
+
+                var observationComment = _store.OpenSession()
+                    .Query<ObservationComment>()
+                    .Where(x => x.User.Id == testUser.Id)
+                    .FirstOrDefault();
+
+                Assert.IsNotNull(observationComment);
+                Assert.AreEqual(testObservationComment.Message, observationComment.Message);
+                Assert.AreEqual(testObservationComment.Observation.Id, observationComment.Observation.Id);
+                Assert.AreEqual(testObservationComment.Observation.Title, observationComment.Observation.Title);
+                Assert.AreEqual(testObservationComment.User.Id, observationComment.User.Id);
+                Assert.AreEqual(testObservationComment.User.FirstName, observationComment.User.FirstName);
+                Assert.AreEqual(testObservationComment.User.LastName, observationComment.User.LastName);
+                Assert.AreEqual(testObservationComment.User.Email, observationComment.User.Email);
+                Assert.AreEqual(testObservationComment.CommentedOn, observationComment.CommentedOn);
+
+                var observationCommentDeleteCommandHandler = TestObservationCommentDeleteCommandHandler(session);
+
+                observationCommentDeleteCommandHandler.Handle(TestObservationCommentDeleteCommand(observationComment));
+
+                session.SaveChanges();
+
+                observationComment = _store.OpenSession()
+                    .Query<ObservationComment>()
+                    .Where(x => x.User.Id == testUser.Id)
+                    .FirstOrDefault();
+
+                Assert.IsNull(observationComment);
+            }
         }
 
         #endregion

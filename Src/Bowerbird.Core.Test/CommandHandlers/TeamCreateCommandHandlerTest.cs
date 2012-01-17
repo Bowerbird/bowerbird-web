@@ -21,6 +21,7 @@ namespace Bowerbird.Core.Test.CommandHandlers
 
     using NUnit.Framework;
     using Moq;
+    using Raven.Client;
 
     using Bowerbird.Core.Commands;
     using Bowerbird.Core.CommandHandlers;
@@ -28,6 +29,7 @@ namespace Bowerbird.Core.Test.CommandHandlers
     using Bowerbird.Core.DomainModels;
     using Bowerbird.Core.Repositories;
     using Bowerbird.Test.Utils;
+    using Bowerbird.Core.Test.ProxyRepositories;
 
     #endregion
 
@@ -36,27 +38,23 @@ namespace Bowerbird.Core.Test.CommandHandlers
     {
         #region Test Infrastructure
 
+        private IDocumentStore _store;
+
         [SetUp]
         public void TestInitialize()
         {
+            _store = DocumentStoreHelper.TestDocumentStore();
         }
 
         [TearDown]
         public void TestCleanup()
         {
+            _store = null;
         }
 
         #endregion
 
         #region Test Helpers
-
-        private TeamCreateCommand TestTeamCreateCommand()
-        {
-            return new TeamCreateCommand()
-                       {
-
-                       };
-        }
 
         #endregion
 
@@ -64,9 +62,20 @@ namespace Bowerbird.Core.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void TeamCreateCommandHandler_Constructor_Passing_Null_Something_Throws_DesignByContractException()
+        public void TeamCreateCommandHandler_Constructor_Passing_Null_TeamRepository_Throws_DesignByContractException()
         {
-           // Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new TeamCreateCommandHandler(null)));
+            Assert.IsTrue(
+                BowerbirdThrows.Exception<DesignByContractException>(() => 
+                    new TeamCreateCommandHandler(null, new Mock<IRepository<User>>().Object)));
+        }
+
+        [Test]
+        [Category(TestCategory.Unit)]
+        public void TeamCreateCommandHandler_Constructor_Passing_Null_UserRepository_Throws_DesignByContractException()
+        {
+            Assert.IsTrue(
+                BowerbirdThrows.Exception<DesignByContractException>(() =>
+                    new TeamCreateCommandHandler(new Mock<IRepository<Team>>().Object,null)));
         }
 
         #endregion
@@ -79,9 +88,52 @@ namespace Bowerbird.Core.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void TeamCreateCommandHandler_Handle_Passing_Null_TeamCreate_Throws_DesignByContractException()
+        public void TeamCreateCommandHandler_Handle_Passing_Null_Command_Throws_DesignByContractException()
         {
-        //    Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => _commandHandler.Handle(null)));
+            Assert.IsTrue(
+                BowerbirdThrows.Exception<DesignByContractException>(() =>
+                    new TeamCreateCommandHandler(
+                        new Mock<IRepository<Team>>().Object,
+                        new Mock<IRepository<User>>().Object)
+                        .Handle(null)
+                        ));
+        }
+
+        [Test]
+        [Category(TestCategory.Persistance)]
+        public void TeamCreateCommandHandler_Handle_Creates_Team()
+        {
+            Team result = null;
+
+            using (var session = _store.OpenSession())
+            {
+                var repository = new Repository<Team>(session);
+                var proxyRepository = new ProxyRepository<Team>(repository);
+                var mockUserRepository = new Mock<IRepository<User>>();
+
+                proxyRepository.NotifyOnAdd(x => result = x);
+
+                mockUserRepository
+                    .Setup(x => x.Load(It.IsAny<string>()))
+                    .Returns(FakeObjects.TestUserWithId);
+
+                var teamCreateCommandHandler = new TeamCreateCommandHandler(
+                    proxyRepository,
+                    mockUserRepository.Object
+                    );
+
+                teamCreateCommandHandler.Handle(new TeamCreateCommand()
+                {
+                    UserId = FakeValues.UserId,
+                    Description = FakeValues.Description,
+                    Name = FakeValues.Name,
+                    Website = FakeValues.Website
+                });
+
+                session.SaveChanges();
+            }
+
+            Assert.IsNotNull(result);
         }
 
         #endregion

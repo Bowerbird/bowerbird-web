@@ -57,6 +57,8 @@ namespace Bowerbird.Core.CommandHandlers
         public void Handle(ObservationCommentDeleteCommand command)
         {
             Check.RequireNotNull(command, "command");
+
+            _observationCommentRepository.Remove(_observationCommentRepository.Load(command.Id));
         }
 
         #endregion

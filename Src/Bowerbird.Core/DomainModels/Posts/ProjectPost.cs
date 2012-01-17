@@ -47,6 +47,27 @@ namespace Bowerbird.Core.DomainModels.Posts
 
         #region Methods
 
+        public ProjectPost UpdateDetails(User updatedByUser,
+            DateTime updatedOn,
+            string message,
+            string subject,
+            IList<MediaResource> mediaResources
+            )
+        {
+            Check.RequireNotNull(updatedByUser, "updatedByUser");
+
+            UpdateDetails(
+                updatedByUser,
+                message,
+                subject,
+                mediaResources
+                );
+
+            EventProcessor.Raise(new DomainModelUpdatedEvent<ProjectPost>(this, updatedByUser));
+
+            return this;
+        }
+
         #endregion
     }
 }

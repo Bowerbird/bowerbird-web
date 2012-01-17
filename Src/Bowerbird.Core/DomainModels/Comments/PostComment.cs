@@ -1,6 +1,4 @@
-/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -14,19 +12,18 @@
  
 */
 
-using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.Events;
-using Bowerbird.Core.DomainModels.DenormalisedReferences;
-
 namespace Bowerbird.Core.DomainModels.Comments
 {
     #region Namespaces
 
-    
+    using System;
+
+    using Bowerbird.Core.DesignByContract;
+    using Bowerbird.Core.Events;
 
     #endregion
 
-    public class PostComment : DomainModel
+    public class PostComment : Comment
     {
         #region Members
 
@@ -40,17 +37,17 @@ namespace Bowerbird.Core.DomainModels.Comments
 
         public PostComment(
             User createdByUser
-            //,DateTime timestamp
+            , Post post
+            , DateTime commentedOn
+            ,string message
             )
-            : this()
+            : base(createdByUser,
+            commentedOn,
+            message)
         {
             Check.RequireNotNull(createdByUser, "createdByUser");
 
-            //PostedOn = timestamp;
-            User = createdByUser;
-
-            SetDetails(
-                );
+            Post = post;
 
             EventProcessor.Raise(new DomainModelCreatedEvent<PostComment>(this, createdByUser));
         }
@@ -59,24 +56,24 @@ namespace Bowerbird.Core.DomainModels.Comments
 
         #region Properties
 
-        public DenormalisedUserReference User { get; private set; }
+        public Post Post { get; private set; }
 
         #endregion
 
         #region Methods
 
-        private void SetDetails()
-        {
-
-        }
-
-        public PostComment UpdateDetails(
-            User updatedByUser
+        public PostComment UpdateCommentDetails(
+            User updatedByUser,
+            DateTime updatedOn,
+            string message
             )
         {
             Check.RequireNotNull(updatedByUser, "updatedByUser");
 
-            SetDetails(
+            UpdateDetails(
+                updatedByUser,
+                updatedOn,
+                message
                 );
 
             EventProcessor.Raise(new DomainModelUpdatedEvent<PostComment>(this, updatedByUser));

@@ -12,8 +12,6 @@
  
 */
 
-using Bowerbird.Core.DomainModels.Members;
-
 namespace Bowerbird.Core.CommandHandlers
 {
     #region Namespaces
@@ -22,6 +20,7 @@ namespace Bowerbird.Core.CommandHandlers
     using Bowerbird.Core.DesignByContract;
     using Bowerbird.Core.DomainModels;
     using Bowerbird.Core.Repositories;
+    using Bowerbird.Core.DomainModels.Members;
 
     #endregion
 
@@ -32,6 +31,7 @@ namespace Bowerbird.Core.CommandHandlers
         private readonly IRepository<Team> _teamRepository;
         private readonly IRepository<TeamMember> _teamMemberRepository;
         private readonly IRepository<User> _userRepository;
+        private readonly IRepository<Role> _roleRepository;
 
         #endregion
 
@@ -41,15 +41,18 @@ namespace Bowerbird.Core.CommandHandlers
             IRepository<Team> teamRepository
             ,IRepository<TeamMember> teamMemberRepository
             ,IRepository<User> userRepository
+            ,IRepository<Role> roleRepository
             )
         {
             Check.RequireNotNull(teamRepository, "teamRepository");
             Check.RequireNotNull(teamMemberRepository, "teamMemberRepository");
             Check.RequireNotNull(userRepository, "userRepository");
+            Check.RequireNotNull(roleRepository, "roleRepository");
 
             _teamRepository = teamRepository;
             _teamMemberRepository = teamMemberRepository;
             _userRepository = userRepository;
+            _roleRepository = roleRepository;
         }
 
         #endregion
@@ -63,6 +66,15 @@ namespace Bowerbird.Core.CommandHandlers
         public void Handle(TeamMemberCreateCommand command)
         {
             Check.RequireNotNull(command, "command");
+
+            var teamMember = new TeamMember(
+                _userRepository.Load(command.CreatedByUserId),
+                _teamRepository.Load(command.TeamId),
+                _userRepository.Load(command.UserId),
+                _roleRepository.Load(command.Roles)
+                );
+
+            _teamMemberRepository.Add(teamMember);
         }
 
         #endregion

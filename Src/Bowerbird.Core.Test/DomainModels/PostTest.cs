@@ -49,7 +49,7 @@ namespace Bowerbird.Core.Test.DomainModels
 
         private static Post TestPost()
         {
-            return new Post(FakeObjects.TestUser(), FakeValues.CreatedDateTime, FakeValues.Subject, FakeValues.Message, new List<MediaResource>());
+            return new ProxyObjects.ProxyPost(FakeObjects.TestUser(), FakeValues.CreatedDateTime, FakeValues.Subject, FakeValues.Message, new List<MediaResource>());
         }
 
         #endregion
@@ -60,35 +60,35 @@ namespace Bowerbird.Core.Test.DomainModels
         [Category(TestCategory.Unit)]
         public void Post_Constructor_Passing_Null_User_Throws_DesignByContractException()
         {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new Post(null, FakeValues.CreatedDateTime, FakeValues.Subject, FakeValues.Message, new List<MediaResource>())));
+            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new ProxyObjects.ProxyPost(null, FakeValues.CreatedDateTime, FakeValues.Subject, FakeValues.Message, new List<MediaResource>())));
         }
 
         [Test]
         [Category(TestCategory.Unit)]
         public void Post_Constructor_Passing_Empty_Subject_Throws_DesignByContractException()
         {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new Post(FakeObjects.TestUser(), FakeValues.CreatedDateTime, string.Empty, FakeValues.Message, new List<MediaResource>())));
+            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new ProxyObjects.ProxyPost(FakeObjects.TestUser(), FakeValues.CreatedDateTime, string.Empty, FakeValues.Message, new List<MediaResource>())));
         }
 
         [Test]
         [Category(TestCategory.Unit)]
         public void Post_Constructor_Passing_Empty_Message_Throws_DesignByContractException()
         {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new Post(FakeObjects.TestUser(), FakeValues.CreatedDateTime, FakeValues.Subject, string.Empty, new List<MediaResource>())));
+            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new ProxyObjects.ProxyPost(FakeObjects.TestUser(), FakeValues.CreatedDateTime, FakeValues.Subject, string.Empty, new List<MediaResource>())));
         }
 
         [Test]
         [Category(TestCategory.Unit)]
         public void Post_Constructor_Passing_Empty_MediaResources_Throws_DesignByContractException()
         {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new Post(FakeObjects.TestUser(), FakeValues.CreatedDateTime, FakeValues.Subject, FakeValues.Message, null)));
+            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new ProxyObjects.ProxyPost(FakeObjects.TestUser(), FakeValues.CreatedDateTime, FakeValues.Subject, FakeValues.Message, null)));
         }
 
         [Test]
         [Category(TestCategory.Unit)]
         public void Post_Constructor_Populates_Properties_With_Values()
         {
-            var testPost = new Post(
+            var testPost = new ProxyObjects.ProxyPost(
                 FakeObjects.TestUser(),
                 FakeValues.CreatedDateTime,
                 FakeValues.Subject,

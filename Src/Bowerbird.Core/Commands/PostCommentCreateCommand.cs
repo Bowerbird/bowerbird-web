@@ -41,6 +41,14 @@ namespace Bowerbird.Core.Commands
 
         #region Properties
 
+        public string UserId { get; set; }
+
+        public string PostId { get; set; }
+
+        public DateTime PostedOn { get; set; }
+
+        public string Message { get; set; }
+
         #endregion
 
         #region Methods

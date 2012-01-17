@@ -12,8 +12,6 @@
  
 */
 
-using Bowerbird.Core.DomainModels.Members;
-
 namespace Bowerbird.Core.CommandHandlers
 {
     #region Namespaces
@@ -23,6 +21,7 @@ namespace Bowerbird.Core.CommandHandlers
     using Bowerbird.Core.DesignByContract;
     using Bowerbird.Core.DomainModels;
     using Bowerbird.Core.Repositories;
+    using Bowerbird.Core.DomainModels.Members;
 
     #endregion
 
@@ -32,6 +31,8 @@ namespace Bowerbird.Core.CommandHandlers
 
         private readonly IRepository<ProjectMember> _projectMemberRepository;
         private readonly IRepository<User> _userRepository;
+        private readonly IRepository<Project> _projectRepository;
+        private readonly IRepository<Role> _roleRepository;
 
         #endregion
 
@@ -40,13 +41,19 @@ namespace Bowerbird.Core.CommandHandlers
         public ProjectMemberCreateCommandHandler(
             IRepository<ProjectMember> projectMemberRepository
             ,IRepository<User> userRepository
+            ,IRepository<Project> projectRepository
+            ,IRepository<Role> roleRepository
             )
         {
             Check.RequireNotNull(projectMemberRepository, "projectMemberRepository");
             Check.RequireNotNull(userRepository, "userRepository");
+            Check.RequireNotNull(projectRepository, "projectRepository");
+            Check.RequireNotNull(roleRepository, "roleRepository");
 
             _projectMemberRepository = projectMemberRepository;
             _userRepository = userRepository;
+            _projectRepository = projectRepository;
+            _roleRepository = roleRepository;
         }
 
         #endregion
@@ -57,9 +64,18 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Methods
 
-        public void Handle(ProjectMemberCreateCommand projectUserCreateCommand)
+        public void Handle(ProjectMemberCreateCommand command)
         {
-            throw new NotImplementedException();
+            Check.RequireNotNull(command, "command");
+
+            var projectMember = new ProjectMember(
+                _userRepository.Load(command.CreatedByUserId),
+                _projectRepository.Load(command.ProjectId),
+                _userRepository.Load(command.UserId),
+                _roleRepository.Load(command.Roles)
+                );
+
+            _projectMemberRepository.Add(projectMember);
         }
 
         #endregion

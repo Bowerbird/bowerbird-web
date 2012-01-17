@@ -57,6 +57,15 @@ namespace Bowerbird.Core.CommandHandlers
         public void Handle(TeamCreateCommand command)
         {
             Check.RequireNotNull(command, "command");
+
+            var team = new Team(
+                _userRepository.Load(command.UserId)
+                , command.Name
+                , command.Description
+                , command.Website
+                );
+
+            _teamRepository.Add(team);
         }
 
         #endregion

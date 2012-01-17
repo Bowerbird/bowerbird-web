@@ -41,6 +41,26 @@ namespace Bowerbird.Core.Commands
 
         #region Properties
 
+        public string UserId { get; set; }
+
+        public string ObservationId { get; set; }
+
+        public DateTime SubmittedOn { get; set; }
+
+        public string ScientificName { get; set; }
+
+        public string CommonName { get; set; }
+
+        public string Taxonomy { get; set; }
+
+        public string Tags { get; set; }
+
+        public Dictionary<string, string> Descriptions { get; set; }
+
+        public Dictionary<string, string> References { get; set; }
+
+        public string Notes { get; set; }
+
         #endregion
 
         #region Methods
@@ -52,6 +72,9 @@ namespace Bowerbird.Core.Commands
 
         private void InitMembers()
         {
+            Descriptions = new Dictionary<string, string>();
+
+            References = new Dictionary<string, string>();
         }
 
         #endregion

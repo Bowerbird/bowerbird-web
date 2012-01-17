@@ -12,7 +12,7 @@
  
 */
 
-using Bowerbird.Core.DomainModels.Posts;
+using Bowerbird.Core.Test.ProxyRepositories;
 
 namespace Bowerbird.Core.Test.CommandHandlers
 {
@@ -22,6 +22,7 @@ namespace Bowerbird.Core.Test.CommandHandlers
 
     using NUnit.Framework;
     using Moq;
+    using Raven.Client;
 
     using Bowerbird.Core.CommandHandlers;
     using Bowerbird.Core.DesignByContract;
@@ -29,6 +30,7 @@ namespace Bowerbird.Core.Test.CommandHandlers
     using Bowerbird.Core.DomainModels;
     using Bowerbird.Core.Repositories;
     using Bowerbird.Core.Commands;
+    using Bowerbird.Core.DomainModels.Posts;
 
     #endregion
 
@@ -36,29 +38,19 @@ namespace Bowerbird.Core.Test.CommandHandlers
     {
         #region Test Infrastructure
 
-        private Mock<IRepository<Project>> _mockProjectRepository;
-        private Mock<IRepository<ProjectPost>> _mockProjectPostRepository;
-        private Mock<IRepository<User>> _mockUserRepository;
-        private Mock<IRepository<MediaResource>> _mockMediaResourceRepository;
-        private ProjectPostCreateCommandHandler _projectPostCreateCommandHandler;
+        private IDocumentStore _store;
 
         [SetUp]
         public void TestInitialize()
         {
-            _mockProjectRepository = new Mock<IRepository<Project>>();
-            _mockProjectPostRepository = new Mock<IRepository<ProjectPost>>();
-            _mockUserRepository = new Mock<IRepository<User>>();
-            _mockMediaResourceRepository = new Mock<IRepository<MediaResource>>();
-            _projectPostCreateCommandHandler = new ProjectPostCreateCommandHandler(
-                _mockProjectRepository.Object,
-                _mockProjectPostRepository.Object,
-                _mockUserRepository.Object,
-                _mockMediaResourceRepository.Object
-                );
+            _store = DocumentStoreHelper.TestDocumentStore();
         }
 
         [TearDown]
-        public void TestCleanup() { }
+        public void TestCleanup()
+        {
+            _store = null;
+        }
 
         #endregion
 
@@ -70,56 +62,56 @@ namespace Bowerbird.Core.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void ProjectPostCreateCommandHandler_Constructor_Passing_Null_Project_Repository_Throws_DesignByContractException()
+        public void ProjectPostCreateCommandHandler_Constructor_Passing_Null_ProjectRepository_Throws_DesignByContractException()
         {
             Assert.IsTrue(
                 BowerbirdThrows.Exception<DesignByContractException>(() =>
                     new ProjectPostCreateCommandHandler(
                         null,
-                        _mockProjectPostRepository.Object,
-                        _mockUserRepository.Object,
-                        _mockMediaResourceRepository.Object
+                        new Mock<IRepository<ProjectPost>>().Object,
+                        new Mock<IRepository<User>>().Object,
+                        new Mock<IRepository<MediaResource>>().Object
                         )));
         }
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void ProjectPostCreateCommandHandler_Constructor_Passing_Null_ProjectPost_Repository_Throws_DesignByContractException()
+        public void ProjectPostCreateCommandHandler_Constructor_Passing_Null_ProjectPostRepository_Throws_DesignByContractException()
         {
             Assert.IsTrue(
                 BowerbirdThrows.Exception<DesignByContractException>(() =>
                     new ProjectPostCreateCommandHandler(
-                        _mockProjectRepository.Object,
+                        new Mock<IRepository<Project>>().Object,
                         null,
-                        _mockUserRepository.Object,
-                        _mockMediaResourceRepository.Object
+                        new Mock<IRepository<User>>().Object,
+                        new Mock<IRepository<MediaResource>>().Object
                         )));
         }
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void ProjectPostCreateCommandHandler_Constructor_Passing_Null_User_Repository_Throws_DesignByContractException()
+        public void ProjectPostCreateCommandHandler_Constructor_Passing_Null_UserRepository_Throws_DesignByContractException()
         {
             Assert.IsTrue(
                 BowerbirdThrows.Exception<DesignByContractException>(() =>
                     new ProjectPostCreateCommandHandler(
-                        _mockProjectRepository.Object,
-                        _mockProjectPostRepository.Object,
+                        new Mock<IRepository<Project>>().Object,
+                        new Mock<IRepository<ProjectPost>>().Object,
                         null,
-                        _mockMediaResourceRepository.Object
+                        new Mock<IRepository<MediaResource>>().Object
                         )));
         }
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void ProjectPostCreateCommandHandler_Constructor_Passing_Null_MediaResource_Repository_Throws_DesignByContractException()
+        public void ProjectPostCreateCommandHandler_Constructor_Passing_Null_MediaResourceRepository_Throws_DesignByContractException()
         {
             Assert.IsTrue(
                 BowerbirdThrows.Exception<DesignByContractException>(() =>
                     new ProjectPostCreateCommandHandler(
-                        _mockProjectRepository.Object,
-                        _mockProjectPostRepository.Object,
-                        _mockUserRepository.Object,
+                        new Mock<IRepository<Project>>().Object,
+                        new Mock<IRepository<ProjectPost>>().Object,
+                        new Mock<IRepository<User>>().Object,
                         null
                         )));
         }
@@ -134,105 +126,68 @@ namespace Bowerbird.Core.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void ProjectPostCreateCommandHandler_Handle_Passing_Null_ProjectPostCreateCommand_Throws_DesignByContractException()
+        public void ProjectPostCreateCommandHandler_Handle_Passing_Null_Command_Throws_DesignByContractException()
         {
             Assert.IsTrue(
                 BowerbirdThrows.Exception<DesignByContractException>(() =>
-                    _projectPostCreateCommandHandler.Handle(null)));
+                    new ProjectPostCreateCommandHandler(
+                        new Mock<IRepository<Project>>().Object,
+                        new Mock<IRepository<ProjectPost>>().Object,
+                        new Mock<IRepository<User>>().Object,
+                        new Mock<IRepository<MediaResource>>().Object)
+                        .Handle(null)));
         }
 
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void ProjectPostCreateCommandHandler_Handle_Calls_ProjectRepository_Load()
-        {
-            _mockProjectRepository.Setup(x => x.Load(It.IsAny<string>())).Returns(new Mock<Project>().Object);
-            _mockUserRepository.Setup(x => x.Load(It.IsAny<string>())).Returns(new Mock<User>().Object);
-            _mockMediaResourceRepository.Setup(x => x.Load(It.IsAny<List<string>>())).Returns(new Mock<List<MediaResource>>().Object);
-
-            var projectPostCreateCommand = new ProjectPostCreateCommand()
-            {
-                UserId = FakeValues.UserId,
-                Timestamp = FakeValues.CreatedDateTime,
-                Message = FakeValues.Message,
-                ProjectId = FakeValues.KeyString,
-                Subject = FakeValues.Subject,
-                MediaResources = new List<string>()
-            };
-
-            _projectPostCreateCommandHandler.Handle(projectPostCreateCommand);
-
-            _mockProjectRepository.Verify(x => x.Load(It.IsAny<string>()), Times.Once());
-        }
 
         [Test]
-        [Category(TestCategory.Unit)]
-        public void ProjectPostCreateCommandHandler_Handle_Calls_UserRepository_Load()
+        [Category(TestCategory.Persistance)]
+        public void ObservationCommentCreateCommandHandler_Handle_Creates_ObservationComment()
         {
-            _mockProjectRepository.Setup(x => x.Load(It.IsAny<string>())).Returns(new Mock<Project>().Object);
-            _mockUserRepository.Setup(x => x.Load(It.IsAny<string>())).Returns(new Mock<User>().Object);
-            _mockMediaResourceRepository.Setup(x => x.Load(It.IsAny<List<string>>())).Returns(new Mock<List<MediaResource>>().Object);
+            ProjectPost result = null;
 
-            var projectPostCreateCommand = new ProjectPostCreateCommand()
+            using (var session = _store.OpenSession())
             {
-                UserId = FakeValues.UserId,
-                Timestamp = FakeValues.CreatedDateTime,
-                Message = FakeValues.Message,
-                ProjectId = FakeValues.KeyString,
-                Subject = FakeValues.Subject,
-                MediaResources = new List<string>()
-            };
+                var repository = new Repository<ProjectPost>(session);
+                var proxyRepository = new ProxyRepository<ProjectPost>(repository);
+                var mockUserRepository = new Mock<IRepository<User>>();
+                var mockProjectRepository = new Mock<IRepository<Project>>();
+                var mockMediaResourceRepository = new Mock<IRepository<MediaResource>>();
 
-            _projectPostCreateCommandHandler.Handle(projectPostCreateCommand);
+                proxyRepository.NotifyOnAdd(x => result = x);
 
-            _mockUserRepository.Verify(x => x.Load(It.IsAny<string>()), Times.Once());
-        }
+                mockUserRepository
+                    .Setup(x => x.Load(It.IsAny<string>()))
+                    .Returns(FakeObjects.TestUserWithId);
 
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void ProjectPostCreateCommandHandler_Handle_Calls_ProjectPostRepository_Add()
-        {
-            _mockProjectRepository.Setup(x => x.Load(It.IsAny<string>())).Returns(new Mock<Project>().Object);
-            _mockUserRepository.Setup(x => x.Load(It.IsAny<string>())).Returns(new Mock<User>().Object);
-            _mockProjectPostRepository.Setup(x => x.Add(It.IsAny<ProjectPost>())).Verifiable();
-            _mockMediaResourceRepository.Setup(x => x.Load(It.IsAny<List<string>>())).Returns(new Mock<List<MediaResource>>().Object);
+                mockProjectRepository
+                    .Setup(x => x.Load(It.IsAny<string>()))
+                    .Returns(FakeObjects.TestProject);
 
-            var projectPostCreateCommand = new ProjectPostCreateCommand()
-            {
-                UserId = FakeValues.UserId,
-                Timestamp = FakeValues.CreatedDateTime,
-                Message = FakeValues.Message,
-                ProjectId = FakeValues.KeyString,
-                Subject = FakeValues.Subject,
-                MediaResources = new List<string>()
-            };
+                mockMediaResourceRepository
+                    .Setup(x => x.Load(It.IsAny<List<string>>()))
+                    .Returns(new List<MediaResource>(){new ProxyObjects.ProxyMediaResource(FakeValues.Filename, FakeValues.FileFormat,FakeValues.Description)});
 
-            _projectPostCreateCommandHandler.Handle(projectPostCreateCommand);
+                var projectPostCreateCommandHandler = new ProjectPostCreateCommandHandler(
+                    mockProjectRepository.Object,
+                    proxyRepository,
+                    mockUserRepository.Object,
+                    mockMediaResourceRepository.Object
+                    );
 
-            _mockProjectPostRepository.Verify(x => x.Add(It.IsAny<ProjectPost>()), Times.Once());
-        }
+                projectPostCreateCommandHandler.Handle(new ProjectPostCreateCommand()
+                {
+                    UserId = FakeValues.UserId,
+                    MediaResources = FakeValues.StringList,
+                    Message = FakeValues.Message,
+                    ProjectId = FakeValues.KeyString,
+                    Subject = FakeValues.Subject,
+                    Timestamp = FakeValues.CreatedDateTime
+                });
 
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void ProjectPostCreateCommandHandler_Handle_Calls_MediaResourceRepository_Add()
-        {
-            _mockProjectRepository.Setup(x => x.Load(It.IsAny<string>())).Returns(new Mock<Project>().Object);
-            _mockUserRepository.Setup(x => x.Load(It.IsAny<string>())).Returns(new Mock<User>().Object);
-            _mockProjectPostRepository.Setup(x => x.Add(It.IsAny<ProjectPost>())).Verifiable();
-            _mockMediaResourceRepository.Setup(x => x.Load(It.IsAny<List<string>>())).Returns(new Mock<List<MediaResource>>().Object);
+                session.SaveChanges();
+            }
 
-            var projectPostCreateCommand = new ProjectPostCreateCommand()
-            {
-                UserId = FakeValues.UserId,
-                Timestamp = FakeValues.CreatedDateTime,
-                Message = FakeValues.Message,
-                ProjectId = FakeValues.KeyString,
-                Subject = FakeValues.Subject,
-                MediaResources = new List<string>()
-            };
-
-            _projectPostCreateCommandHandler.Handle(projectPostCreateCommand);
-
-            _mockMediaResourceRepository.Verify(x => x.Load(It.IsAny<List<string>>()), Times.Once());
+            Assert.IsNotNull(result);
         }
 
         #endregion 

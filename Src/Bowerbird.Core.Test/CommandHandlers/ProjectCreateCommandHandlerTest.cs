@@ -18,6 +18,7 @@ namespace Bowerbird.Core.Test.CommandHandlers
 
     using NUnit.Framework;
     using Moq;
+    using Raven.Client;
 
     using Bowerbird.Core.CommandHandlers;
     using Bowerbird.Core.DesignByContract;
@@ -25,6 +26,7 @@ namespace Bowerbird.Core.Test.CommandHandlers
     using Bowerbird.Core.Repositories;
     using Bowerbird.Core.Commands;
     using Bowerbird.Test.Utils;
+    using Bowerbird.Core.Test.ProxyRepositories;
 
     #endregion
 
@@ -32,23 +34,19 @@ namespace Bowerbird.Core.Test.CommandHandlers
     {
         #region Test Infrastructure
 
-        private Mock<IRepository<Project>> _mockProjectRepository;
-        private Mock<IRepository<User>> _mockUserRepository;
-        private ProjectCreateCommandHandler _projectCreateCommandHandler;
+        private IDocumentStore _store;
 
         [SetUp]
         public void TestInitialize()
         {
-            _mockProjectRepository = new Mock<IRepository<Project>>();
-            _mockUserRepository = new Mock<IRepository<User>>();
-            _projectCreateCommandHandler = new ProjectCreateCommandHandler(
-                _mockProjectRepository.Object,
-                _mockUserRepository.Object
-                );
+            _store = DocumentStoreHelper.TestDocumentStore();
         }
 
         [TearDown]
-        public void TestCleanup() { }
+        public void TestCleanup()
+        {
+            _store = null;
+        }
 
         #endregion
 
@@ -64,7 +62,7 @@ namespace Bowerbird.Core.Test.CommandHandlers
         {
             Assert.IsTrue(
                 BowerbirdThrows.Exception<DesignByContractException>(()=>
-                    new ProjectCreateCommandHandler(null,_mockUserRepository.Object)));
+                    new ProjectCreateCommandHandler(null, new Mock<IRepository<User>>().Object)));
         }
 
         [Test]
@@ -73,7 +71,7 @@ namespace Bowerbird.Core.Test.CommandHandlers
         {
             Assert.IsTrue(
                 BowerbirdThrows.Exception<DesignByContractException>(() =>
-                    new ProjectCreateCommandHandler(_mockProjectRepository.Object, null)));
+                    new ProjectCreateCommandHandler(new Mock<IRepository<Project>>().Object, null)));
         }
 
         #endregion
@@ -90,30 +88,47 @@ namespace Bowerbird.Core.Test.CommandHandlers
         {
             Assert.IsTrue(
                 BowerbirdThrows.Exception<DesignByContractException>(() =>
-                    _projectCreateCommandHandler.Handle(null)));
+                    new ProjectCreateCommandHandler(
+                        new Mock<IRepository<Project>>().Object, 
+                        new Mock<IRepository<User>>().Object)
+                            .Handle(null)));
         }
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void ProjectCreateCommandHandler_Handle_Calls_UserRepository_Load()
+        public void ProjectCreateCommandHandler_Handle_Creates_Project()
         {
-            _mockUserRepository.Setup(x => x.Load(It.IsAny<string>())).Returns(new Mock<User>().Object);
+            Project result = null;
 
-            _projectCreateCommandHandler.Handle(new ProjectCreateCommand(){ Description = FakeValues.Description, Name = FakeValues.Name, UserId = FakeValues.UserId});
+            using (var session = _store.OpenSession())
+            {
+                var repository = new Repository<Project>(session);
+                var proxyRepository = new ProxyRepository<Project>(repository);
+                var mockUserRepository = new Mock<IRepository<User>>();
 
-            _mockUserRepository.Verify(x => x.Load(It.IsAny<string>()), Times.Once());
-        }
+                proxyRepository.NotifyOnAdd(x => result = x);
 
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void ProjectCreateCommandHandler_Handle_Calls_ProjectRepository_Add()
-        {
-            _mockUserRepository.Setup(x => x.Load(It.IsAny<string>())).Returns(new Mock<User>().Object);
-            _mockProjectRepository.Setup(x => x.Add(It.IsAny<Project>())).Verifiable();
+                mockUserRepository
+                    .Setup(x => x.Load(It.IsAny<string>()))
+                    .Returns(FakeObjects.TestUserWithId);
 
-            _projectCreateCommandHandler.Handle(new ProjectCreateCommand() { Description = FakeValues.Description, Name = FakeValues.Name, UserId = FakeValues.UserId });
+                
+                var observationCommentCreateCommandHandler = new ProjectCreateCommandHandler(
+                    proxyRepository,
+                    mockUserRepository.Object
+                    );
 
-            _mockProjectRepository.Verify(x => x.Add(It.IsAny<Project>()), Times.Once());
+                observationCommentCreateCommandHandler.Handle(new ProjectCreateCommand()
+                {
+                    UserId = FakeValues.UserId,
+                    Description = FakeValues.Description,
+                    Name = FakeValues.Name
+                });
+
+                session.SaveChanges();
+            }
+
+            Assert.IsNotNull(result);
         }
 
         #endregion 

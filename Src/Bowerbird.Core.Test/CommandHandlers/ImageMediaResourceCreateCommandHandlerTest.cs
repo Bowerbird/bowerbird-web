@@ -12,6 +12,8 @@
  
 */
 
+using Bowerbird.Core.Test.ProxyRepositories;
+
 namespace Bowerbird.Core.Test.CommandHandlers
 {
     #region Namespace
@@ -55,28 +57,6 @@ namespace Bowerbird.Core.Test.CommandHandlers
         #endregion
 
         #region Test Helpers
-
-        private ImageMediaResourceCreateCommandHandler TestImageMediaResourceCreateCommandHandler(IDocumentSession session)
-        {
-            return new ImageMediaResourceCreateCommandHandler(
-                new Repository<User>(session),
-                new Repository<ImageMediaResource>(session)
-                );
-        }
-
-        private ImageMediaResourceCreateCommand TestImageMediaResourceCreateCommand()
-        {
-            return new ImageMediaResourceCreateCommand()
-                       {
-                           Description = FakeValues.Description,
-                           FileFormat = FakeValues.FileFormat,
-                           OriginalFileName = FakeValues.Filename,
-                           OriginalHeight = FakeValues.Number,
-                           OriginalWidth = FakeValues.Number,
-                           UploadedOn = FakeValues.CreatedDateTime,
-                           UserId = FakeValues.UserId.PrependWith("users/")
-                       };
-        }
 
         #endregion
 
@@ -129,35 +109,40 @@ namespace Bowerbird.Core.Test.CommandHandlers
         [Category(TestCategory.Persistance)]
         public void ImageMediaResourceCreateCommandHandler_Handle_Creates_ImageMediaResource()
         {
+            ImageMediaResource result = null;
+
             using (var session = _store.OpenSession())
             {
-                session.Store(FakeObjects.TestUserWithId());
+                var repository = new Repository<ImageMediaResource>(session);
+                var proxyRepository = new ProxyRepository<ImageMediaResource>(repository);
+                var mockUserRepository = new Mock<IRepository<User>>();
+
+                proxyRepository.NotifyOnAdd(x => result = x);
+
+                mockUserRepository
+                    .Setup(x => x.Load(It.IsAny<string>()))
+                    .Returns(FakeObjects.TestUserWithId);
+
+                var imageMediaResourceCreateCommandHandler = new ImageMediaResourceCreateCommandHandler(
+                    mockUserRepository.Object,
+                    proxyRepository
+                    );
+
+                imageMediaResourceCreateCommandHandler.Handle(new ImageMediaResourceCreateCommand()
+                {
+                    Description = FakeValues.Description,
+                    FileFormat = FakeValues.FileFormat,
+                    OriginalFileName = FakeValues.Filename,
+                    OriginalHeight = FakeValues.Number,
+                    OriginalWidth = FakeValues.Number,
+                    UploadedOn = FakeValues.CreatedDateTime,
+                    UserId = FakeValues.UserId
+                });
 
                 session.SaveChanges();
-
-                var mediaResourceCreateCommandHandler = TestImageMediaResourceCreateCommandHandler(session);
-
-                mediaResourceCreateCommandHandler.Handle(TestImageMediaResourceCreateCommand());
-
-                session.SaveChanges();
-
-                DenormalisedUserReference user = FakeObjects.TestUserWithId();
-
-                var imageResource =
-                    _store.OpenSession().Query<ImageMediaResource>().Where(
-                        x => x.CreatedByUser.Id == FakeValues.UserId.PrependWith("users/")).FirstOrDefault();
-
-                Assert.AreEqual(imageResource.Description, FakeValues.Description);
-                Assert.AreEqual(imageResource.FileFormat, FakeValues.FileFormat);
-                Assert.AreEqual(imageResource.OriginalFileName, FakeValues.Filename);
-                Assert.AreEqual(imageResource.Height, FakeValues.Number);
-                Assert.AreEqual(imageResource.Width, FakeValues.Number);
-                Assert.AreEqual(imageResource.UploadedOn, FakeValues.CreatedDateTime);
-                Assert.AreEqual(imageResource.CreatedByUser.Id, user.Id);
-                Assert.AreEqual(imageResource.CreatedByUser.FirstName, user.FirstName);
-                Assert.AreEqual(imageResource.CreatedByUser.LastName, user.LastName);
-                Assert.AreEqual(imageResource.CreatedByUser.Email, user.Email);
             }
+
+            Assert.IsNotNull(result);
         }
 
         #endregion 

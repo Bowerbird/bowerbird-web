@@ -57,8 +57,8 @@ namespace Bowerbird.Test.Utils
             public ProxyMediaResource(string originalFileName, string fileFormat, string description)
                 : base(FakeObjects.TestUser(),
                 FakeValues.CreatedDateTime,
-                originalFileName, 
-                fileFormat, 
+                originalFileName,
+                fileFormat,
                 description) { }
         }
 
@@ -71,6 +71,14 @@ namespace Bowerbird.Test.Utils
                 : base(user, roles)
             {
 
+            }
+        }
+
+        public class ProxyPost : Post
+        {
+            public ProxyPost(User createdByUser, DateTime createdDateTime, string subject, string message, List<MediaResource> mediaResources)
+                : base(createdByUser, createdDateTime, subject, message, mediaResources)
+            {
             }
         }
 

@@ -107,7 +107,7 @@ namespace Bowerbird.Web.Test.ViewModelFactories
 
         private static Post CreateFakePost(User user)
         {
-            return new Post(user, FakeValues.CreatedDateTime, FakeValues.Subject, FakeValues.Message, new List<MediaResource>());
+            return new ProxyObjects.ProxyPost(user, FakeValues.CreatedDateTime, FakeValues.Subject, FakeValues.Message, new List<MediaResource>());
         }
 
         private static User TestUser()

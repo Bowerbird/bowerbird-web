@@ -41,6 +41,14 @@ namespace Bowerbird.Core.Commands
 
         #region Properties
 
+        public string UserId { get; set; }
+
+        public string Name { get; set; }
+
+        public string Description { get; set; }
+
+        public string Website { get; set; }
+
         #endregion
 
         #region Methods

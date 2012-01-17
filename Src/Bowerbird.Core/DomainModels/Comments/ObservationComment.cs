@@ -40,20 +40,18 @@ namespace Bowerbird.Core.DomainModels.Comments
         public ObservationComment(
             User createdByUser
             ,Observation observation
-            ,DateTime timestamp
+            ,DateTime commentedOn
             ,string comment
             )
             : base(
             createdByUser,
-            timestamp,
+            commentedOn,
             comment
             )
         {
             Check.RequireNotNull(observation, "observation");
 
-            SetDetails(
-                observation
-                );
+            Observation = observation;
 
             EventProcessor.Raise(new DomainModelCreatedEvent<ObservationComment>(this, createdByUser));
         }
@@ -68,24 +66,24 @@ namespace Bowerbird.Core.DomainModels.Comments
 
         #region Methods
 
-        private void SetDetails(Observation observation)
+        public ObservationComment UpdateCommentMessage(
+            User updatedByUser,
+            DateTime updatedOn,
+            string message
+            )
         {
-            Observation = observation;
+            Check.RequireNotNull(updatedByUser, "updatedByUser");
+
+            UpdateDetails(
+                updatedByUser,
+                updatedOn,
+                message
+                );
+
+            EventProcessor.Raise(new DomainModelUpdatedEvent<ObservationComment>(this, updatedByUser));
+
+            return this;
         }
-
-        //public ObservationComment UpdateDetails(
-        //    User updatedByUser
-        //    )
-        //{
-        //    Check.RequireNotNull(updatedByUser, "updatedByUser");
-
-        //    SetDetails(
-        //        );
-
-        //    EventProcessor.Raise(new DomainModelUpdatedEvent<ObservationComment>(this, updatedByUser));
-
-        //    return this;
-        //}
 
         #endregion
     }
