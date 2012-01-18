@@ -103,15 +103,17 @@
     <Compile Include="Config\BowerbirdHttpApplication.cs" />
     <Compile Include="Config\Constants.cs" />
     <Compile Include="Config\CommandHandlerProvider.cs" />
+    <Compile Include="Config\ApiAreaRegistration.cs" />
     <Compile Include="Config\IUserContext.cs" />
     <Compile Include="Config\BowerbirdNinjectModule.cs" />
+    <Compile Include="Config\MembersAreaRegistration.cs" />
     <Compile Include="Config\NinjectValidatorFactory.cs" />
     <Compile Include="Config\RavenSessionProvider.cs" />
     <Compile Include="Config\RavenDocumentStoreProvider.cs" />
     <Compile Include="Config\RouteRegistrar.cs" />
     <Compile Include="Config\UserContext.cs" />
     <Compile Include="Controllers\Members\AccountController.cs" />
-    <Compile Include="Controllers\HomeController.cs">
+    <Compile Include="Controllers\Members\HomeController.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controllers\Members\ObservationController.cs">
@@ -126,9 +128,6 @@
     <Compile Include="Controllers\TeamController.cs" />
     <Compile Include="Validators\ValidResetPasswordKeyRequestAttribute.cs" />
     <Compile Include="Validators\ValidEmailAttribute.cs" />
-    <Compile Include="ViewModelFactories\AccountRequestPasswordResetFactory.cs" />
-    <Compile Include="ViewModelFactories\AccountResetPasswordFactory.cs" />
-    <Compile Include="ViewModelFactories\UserUpdateFactory.cs" />
     <Compile Include="ViewModels\Members\AccountChangePasswordInput.cs" />
     <Compile Include="ViewModels\Public\AccountRegister.cs" />
     <Compile Include="Controllers\Members\UserController.cs" />
@@ -138,8 +137,6 @@
     <Compile Include="Hubs\ActivityHub.cs" />
     <Compile Include="IViewModelRepository.cs" />
     <Compile Include="Validators\UniqueEmailAttribute.cs" />
-    <Compile Include="ViewModelFactories\AccountLoginFactory.cs" />
-    <Compile Include="ViewModelFactories\AccountRegisterFactory.cs" />
     <Compile Include="ViewModels\Public\AccountRegisterInput.cs" />
     <Compile Include="ViewModels\Public\AccountRequestPasswordReset.cs" />
     <Compile Include="ViewModels\Public\AccountRequestPasswordResetInput.cs" />
@@ -151,7 +148,6 @@
     <Compile Include="ViewModelRepository.cs" />
     <Compile Include="Extensions\UrlHelperExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModelFactories\HomeIndexFactory.cs" />
     <Compile Include="ViewModelFactories\IViewModelFactory.cs" />
     <Compile Include="ViewModelFactories\IPagedListFactory.cs" />
     <Compile Include="ViewModelFactories\ViewModelFactoryBase.cs" />
@@ -170,10 +166,10 @@
     <Compile Include="ViewModels\TeamProjectCreateInput.cs" />
     <Compile Include="ViewModels\Members\UserUpdateInput.cs" />
     <Compile Include="ViewModels\Shared\DefaultViewModel.cs" />
-    <Compile Include="ViewModels\HomeIndex.cs">
+    <Compile Include="ViewModels\Members\HomeIndex.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ViewModels\HomeIndexInput.cs">
+    <Compile Include="ViewModels\Members\HomeIndexInput.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModels\IViewModel.cs">

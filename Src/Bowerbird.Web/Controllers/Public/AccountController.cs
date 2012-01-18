@@ -20,6 +20,7 @@ using Bowerbird.Core.Commands;
 using Bowerbird.Web.ViewModels.Members;
 using Bowerbird.Web.ViewModels.Public;
 using Bowerbird.Web.ViewModels.Shared;
+using Raven.Client;
 
 namespace Bowerbird.Web.Controllers.Public
 {
@@ -41,9 +42,9 @@ namespace Bowerbird.Web.Controllers.Public
         #region Members
 
         private readonly ICommandProcessor _commandProcessor;
-        private readonly IViewModelRepository _viewModelRepository;
         private readonly IUserTasks _userTasks;
         private readonly IUserContext _userContext;
+        private readonly IDocumentSession _documentSession;
 
         #endregion
 
@@ -51,19 +52,19 @@ namespace Bowerbird.Web.Controllers.Public
 
         public AccountController(
             ICommandProcessor commandProcessor,
-            IViewModelRepository viewModelRepository,
             IUserTasks userTasks,
-            IUserContext userContext)
+            IUserContext userContext,
+            IDocumentSession documentSession)
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
-            Check.RequireNotNull(viewModelRepository, "viewModelRepository");
             Check.RequireNotNull(userTasks, "userTasks");
             Check.RequireNotNull(userContext, "userContext");
+            Check.RequireNotNull(documentSession, "documentSession");
 
             _commandProcessor = commandProcessor;
-            _viewModelRepository = viewModelRepository;
             _userTasks = userTasks;
             _userContext = userContext;
+            _documentSession = documentSession;
         }
 
         #endregion
@@ -82,7 +83,7 @@ namespace Bowerbird.Web.Controllers.Public
                 return RedirectToAction("index", "home");
             }
 
-            return View(_viewModelRepository.Load<AccountLogin>());
+            return View(MakeAccountLogin());
         }
 
         [HttpPost]
@@ -104,7 +105,7 @@ namespace Bowerbird.Web.Controllers.Public
             
             ModelState.AddModelError("", "");
 
-            return View(_viewModelRepository.Load<AccountLoginInput, AccountLogin>(accountLoginInput));
+            return View(MakeAccountLogin(accountLoginInput));
         }
 
         public ActionResult LoggingIn(string returnUrl)
@@ -135,13 +136,13 @@ namespace Bowerbird.Web.Controllers.Public
 
         public ActionResult LogoutSuccess()
         {
-            return View(_viewModelRepository.Load<DefaultViewModel>());
+            return View(new DefaultViewModel());
         }
 
         [HttpGet]
         public ActionResult Register()
         {
-            return View(_viewModelRepository.Load<AccountRegister>());
+            return View(MakeAccountRegister());
         }
 
         [HttpPost]
@@ -158,13 +159,13 @@ namespace Bowerbird.Web.Controllers.Public
                 return RedirectToAction("index", "home");
             }
 
-            return View(_viewModelRepository.Load<AccountRegisterInput, AccountRegister>(accountRegisterInput));
+            return View(MakeAccountRegister(accountRegisterInput));
         }
 
         [HttpGet]
         public ActionResult RequestPasswordReset()
         {
-            return View(_viewModelRepository.Load<AccountRequestPasswordReset>());
+            return View(MakeAccountRequestPasswordReset());
         }
 
         [HttpPost]
@@ -178,18 +179,18 @@ namespace Bowerbird.Web.Controllers.Public
                 return RedirectToAction("requestpasswordresetsuccess", "account");
             }
 
-            return View(_viewModelRepository.Load<AccountRequestPasswordResetInput, AccountRequestPasswordReset>(accountRequestPasswordResetInput));
+            return View(MakeAccountRequestPasswordReset(accountRequestPasswordResetInput));
         }
 
         public ActionResult RequestPasswordResetSuccess()
         {
-            return View(_viewModelRepository.Load<DefaultViewModel>());
+            return View(new DefaultViewModel());
         }
 
         [HttpGet]
         public ActionResult ResetPassword(AccountResetPasswordInput accountResetPasswordInput)
         {
-            return View(_viewModelRepository.Load<AccountResetPasswordInput, AccountResetPassword>(accountResetPasswordInput));
+            return View(MakeAccountResetPassword(accountResetPasswordInput));
         }
 
         [HttpPost]
@@ -207,7 +208,7 @@ namespace Bowerbird.Web.Controllers.Public
                 return RedirectToAction("index", "home");
             }
 
-            return View("ResetPassword", _viewModelRepository.Load<AccountResetPasswordInput, AccountResetPassword>(accountResetPasswordInput));
+            return View(MakeAccountResetPassword(accountResetPasswordInput));
         }
 
         private UserUpdateLastLoginCommand MakeUserUpdateLastLoginCommand(AccountLoginInput accountLoginInput)
@@ -245,6 +246,60 @@ namespace Bowerbird.Web.Controllers.Public
                        {
                            Email = accountRequestPasswordResetInput.Email
                        };
+        }
+
+        private AccountLogin MakeAccountLogin()
+        {
+            return new AccountLogin()
+            {
+                Email = _userContext.HasEmailCookieValue() ? _userContext.GetEmailCookieValue() : string.Empty
+            };
+        }
+
+        private AccountLogin MakeAccountLogin(AccountLoginInput accountLoginInput)
+        {
+            return new AccountLogin()
+            {
+                Email = accountLoginInput.Email,
+                RememberMe = accountLoginInput.RememberMe,
+                ReturnUrl = accountLoginInput.ReturnUrl
+            };
+        }
+
+        private AccountRegister MakeAccountRegister()
+        {
+            return new AccountRegister();
+        }
+
+        private AccountRegister MakeAccountRegister(AccountRegisterInput accountRegisterInput)
+        {
+            return new AccountRegister()
+            {
+                FirstName = accountRegisterInput.FirstName,
+                LastName = accountRegisterInput.LastName,
+                Email = accountRegisterInput.Email
+            };
+        }
+
+        private AccountRequestPasswordReset MakeAccountRequestPasswordReset()
+        {
+            return new AccountRequestPasswordReset();
+        }
+
+        private AccountRequestPasswordReset MakeAccountRequestPasswordReset(AccountRequestPasswordResetInput accountRequestPasswordResetInput)
+        {
+            return new AccountRequestPasswordReset()
+            {
+                Email = accountRequestPasswordResetInput.Email
+            };
+        }
+
+        private AccountResetPassword MakeAccountResetPassword(AccountResetPasswordInput accountResetPasswordInput)
+        {
+            return new AccountResetPassword()
+            {
+                ResetPasswordKey = accountResetPasswordInput.ResetPasswordKey
+            };
         }
 
         #endregion

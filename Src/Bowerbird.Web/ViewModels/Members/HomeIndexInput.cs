@@ -1,5 +1,5 @@
 ﻿
-namespace Bowerbird.Web.ViewModels
+namespace Bowerbird.Web.ViewModels.Members
 {
     public class HomeIndexInput
     {

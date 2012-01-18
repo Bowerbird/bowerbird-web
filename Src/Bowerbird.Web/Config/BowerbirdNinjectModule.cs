@@ -47,7 +47,6 @@ namespace Bowerbird.Web.Config
 
             // Transient scope
             Bind<IServiceLocator>().ToMethod(x => ServiceLocator.Current);
-            Bind(typeof(IRepository<>)).To(typeof(Repository<>));
 
             Kernel.Scan(x =>
             {
@@ -55,14 +54,9 @@ namespace Bowerbird.Web.Config
                 x.FromCallingAssembly();
 
                 x.BindingGenerators.Add(new GenericBindingGenerator(typeof(ICommandHandler<>)));
-                x.BindingGenerators.Add(new GenericBindingGenerator(typeof(IViewModelFactory<>)));
-                x.BindingGenerators.Add(new GenericBindingGenerator(typeof(IViewModelFactory<,>)));
                 x.BindingGenerators.Add(new GenericBindingGenerator(typeof(IEventHandler<>)));
-                x.BindingGenerators.Add(new GenericBindingGenerator(typeof(IRepository<>)));
                 x.BindingGenerators.Add(new DefaultBindingGenerator());
             });
-
-            Bind<IViewModelFactory<UserUpdateInput, UserUpdate>>().To<UserUpdateFactory>(); // HACK: Bug in Ninject.Extensions.Convensions that does not allow binding of one impl to many interface bindings, means that i have to add a specific binding here.
         }
 
         #endregion

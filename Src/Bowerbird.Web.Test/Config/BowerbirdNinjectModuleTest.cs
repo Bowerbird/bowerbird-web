@@ -72,29 +72,6 @@ namespace Bowerbird.Web.Test.Config
 
         #region Method tests
 
-        #region ViewModel Factories
-
-        [Test, Category(TestCategory.Unit), Ignore] 
-        public void BowerbirdNinjectModule_Binds_HomeIndexFactory_To_IViewModelFactory_Having_HomeIndexInput_And_HomeIndex()
-        {
-            Assert.IsInstanceOf<HomeIndexFactory>(ServiceLocator.Current.GetInstance<IViewModelFactory<HomeIndexInput, HomeIndex>>());
-        }
-
-        /// <summary>
-        /// TODO: Work out why this puppy aint working...
-        /// </summary>
-        [Test, Ignore]
-        public void BowerbirdNinjectModule_Binds_HomeIndexFactory_To_IViewModelFactory_Having_HomeIndex()
-        {
-            var viewModelFactory = ServiceLocator.Current.GetInstance<IViewModelFactory<HomeIndex>>();
-
-            var type = viewModelFactory.GetType().ToString();
-
-            Assert.IsInstanceOf<HomeIndexFactory>(ServiceLocator.Current.GetInstance<IViewModelFactory<HomeIndex>>());
-        }
-
-        #endregion
-
         #region Event Handlers
 
         [Test, Category(TestCategory.Unit), Ignore] 

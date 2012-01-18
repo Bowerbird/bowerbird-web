@@ -207,7 +207,7 @@
     <Content Include="Views\Shared\_ObservationCreate.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\_NewLayout.cshtml" />
-    <Content Include="Views\Home\Copy of Index.cshtml" />
+    <Content Include="Areas\Members\Views\Home\Copy of Index.cshtml" />
     <Content Include="Views\Shared\_SelectedFilterDetails.cshtml" />
     <Content Include="Views\Shared\_StreamObservationItem.cshtml" />
     <Content Include="Views\Account\RequestPasswordResetSuccess.cshtml" />
@@ -219,6 +219,7 @@
     <Content Include="Views\Project\_ProjectCreate.cshtml" />
     <Content Include="Views\Team\_TeamProjectCreate.cshtml" />
     <Content Include="Views\Observation\Index.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="404.html" />
@@ -235,7 +236,7 @@
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Areas\Members\Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_LogOnPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />

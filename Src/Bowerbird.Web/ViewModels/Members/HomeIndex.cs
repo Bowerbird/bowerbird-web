@@ -5,7 +5,7 @@ using System.Text;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Web.ViewModels.Shared;
 
-namespace Bowerbird.Web.ViewModels
+namespace Bowerbird.Web.ViewModels.Members
 {
     public class HomeIndex : IViewModel
     {
