@@ -1,9 +1,27 @@
-﻿using System.Collections.Generic;
-using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.DomainModels.Members;
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+
+ Developers: 
+ * Frank Radocaj : frank@radocaj.com
+ * Hamish Crittenden : hamish.crittenden@gmail.com
+ 
+ Project Manager: 
+ * Ken Walker : kwalker@museum.vic.gov.au
+ 
+ Funded by:
+ * Atlas of Living Australia
+ 
+*/
 
 namespace Bowerbird.Test.Utils
 {
+    #region Namespaces
+
+    using System.Collections.Generic;
+    using Bowerbird.Core.DomainModels;
+    using Bowerbird.Core.DomainModels.Members;
+
+    #endregion
+
     public class FakeObjects
     {
         public static User TestUser()

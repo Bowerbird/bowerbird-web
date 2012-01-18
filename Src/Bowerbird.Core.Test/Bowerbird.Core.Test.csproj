@@ -123,10 +123,6 @@
       <Project>{F71840F1-86D3-460B-B49A-7770CD7E06E4}</Project>
       <Name>Bowerbird.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Bowerbird.Test.Utils\Bowerbird.Test.Utils.csproj">
-      <Project>{E372C4B3-14CE-4D15-84F4-2F9E4750BC5F}</Project>
-      <Name>Bowerbird.Test.Utils</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

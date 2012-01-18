@@ -1,9 +1,9 @@
 ﻿using System;
+using Bowerbird.Web.Config;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Ninject;
 using Ninject.Web.Mvc;
 using NinjectBootstrapper = Ninject.Web.Mvc.Bootstrapper;
-using Bowerbird.Web.Config;
 using Microsoft.Practices.ServiceLocation;
 using NinjectAdapter;
 using SignalR.Infrastructure;

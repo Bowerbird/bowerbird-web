@@ -16,7 +16,6 @@ namespace Bowerbird.Web.Controllers
 {
     #region Namespaces
 
-    using System;
     using System.Web.Mvc;
 
     using Bowerbird.Core;
@@ -33,7 +32,6 @@ namespace Bowerbird.Web.Controllers
         #region Members
 
         private readonly ICommandProcessor _commandProcessor;
-        private readonly IViewModelRepository _viewModelRepository;
         private readonly IUserTasks _userTasks;
         private readonly IUserContext _userContext;
 
@@ -43,17 +41,14 @@ namespace Bowerbird.Web.Controllers
 
         public ProjectController(
             ICommandProcessor commandProcessor,
-            IViewModelRepository viewModelRepository,
             IUserTasks userTasks,
             IUserContext userContext)
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
-            Check.RequireNotNull(viewModelRepository, "viewModelRepository");
             Check.RequireNotNull(userTasks, "userTasks");
             Check.RequireNotNull(userContext, "userContext");
 
             _commandProcessor = commandProcessor;
-            _viewModelRepository = viewModelRepository;
             _userTasks = userTasks;
             _userContext = userContext;
         }
@@ -72,11 +67,11 @@ namespace Bowerbird.Web.Controllers
             return Json("success", JsonRequestBehavior.AllowGet);
         }
 
-        [HttpGet]
-        public ActionResult Index(ProjectIndexInput indexInput)
-        {
-            return View(_viewModelRepository.Load<ProjectIndexInput, ProjectIndex>(indexInput));
-        }
+        //[HttpGet]
+        //public ActionResult Index(ProjectIndexInput indexInput)
+        //{
+        //    //return View(_viewModelRepository.Load<ProjectIndexInput, ProjectIndex>(indexInput));
+        //}
 
         [Transaction]
         [Authorize]

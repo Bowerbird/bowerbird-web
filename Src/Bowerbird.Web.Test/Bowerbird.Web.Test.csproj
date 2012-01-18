@@ -134,10 +134,6 @@
       <Project>{F71840F1-86D3-460B-B49A-7770CD7E06E4}</Project>
       <Name>Bowerbird.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Bowerbird.Test.Utils\Bowerbird.Test.Utils.csproj">
-      <Project>{E372C4B3-14CE-4D15-84F4-2F9E4750BC5F}</Project>
-      <Name>Bowerbird.Test.Utils</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Bowerbird.Web\Bowerbird.Web.csproj">
       <Project>{32CE4221-21E5-48E9-BA54-E0908FD5B80A}</Project>
       <Name>Bowerbird.Web</Name>
