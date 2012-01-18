@@ -131,5 +131,23 @@ namespace Bowerbird.Test.Utils
             return observation;
         }
 
+        public static Observation TestObservationWithId(string id)
+        {
+            var observation = new Observation(
+                TestUserWithId(),
+                FakeValues.Title,
+                FakeValues.CreatedDateTime,
+                FakeValues.Latitude,
+                FakeValues.Longitude,
+                FakeValues.Address,
+                FakeValues.IsTrue,
+                FakeValues.Category,
+                new List<MediaResource>()
+                );
+
+            ((IAssignableId)observation).SetIdTo("observationcomments", id);
+
+            return observation;
+        }
     }
 }

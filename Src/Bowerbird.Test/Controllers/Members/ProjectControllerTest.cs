@@ -12,30 +12,22 @@
  
 */
 
+using Bowerbird.Core;
 using Bowerbird.Test.Utils;
+using Bowerbird.Web.Config;
+using Bowerbird.Web.Controllers.Members;
+using Moq;
+using NUnit.Framework;
 using Raven.Client;
 
 namespace Bowerbird.Test.Controllers.Members
 {
-    #region Namespaces
-
-    using NUnit.Framework;
-    using Moq;
-
-    using Bowerbird.Core;
-    using Bowerbird.Core.Tasks;
-    using Bowerbird.Web.Controllers.Members;
-    using Bowerbird.Web.Config;
-
-    #endregion
-
     [TestFixture]
     public class ProjectControllerTest
     {
         #region Test Infrastructure
 
         private Mock<ICommandProcessor> _mockCommandProcessor;
-        private Mock<IUserTasks> _mockUserTasks;
         private Mock<IUserContext> _mockUserContext;
         private ProjectController _controller;
         private IDocumentStore _documentStore;
@@ -45,11 +37,9 @@ namespace Bowerbird.Test.Controllers.Members
         {
             _documentStore = DocumentStoreHelper.TestDocumentStore();
             _mockCommandProcessor = new Mock<ICommandProcessor>();
-            _mockUserTasks = new Mock<IUserTasks>();
             _mockUserContext = new Mock<IUserContext>();
             _controller = new ProjectController(
                 _mockCommandProcessor.Object,
-                _mockUserTasks.Object,
                 _mockUserContext.Object,
                 _documentStore.OpenSession());
         }

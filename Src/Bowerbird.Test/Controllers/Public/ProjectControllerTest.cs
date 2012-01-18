@@ -12,24 +12,18 @@
  
 */
 
+using System;
+using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Extensions;
+using Bowerbird.Test.Utils;
+using Bowerbird.Web.Controllers.Public;
+using Bowerbird.Web.ViewModels.Public;
+using Bowerbird.Web.ViewModels.Shared;
+using NUnit.Framework;
+using Raven.Client;
+
 namespace Bowerbird.Test.Controllers.Public
 {
-    #region Namespaces
-
-    using System;
-
-    using NUnit.Framework;
-    using Raven.Client;
-
-    using Utils;
-    using Web.Controllers.Public;
-    using Core.DomainModels;
-    using Core.Extensions;
-    using Web.ViewModels.Public;
-    using Web.ViewModels.Shared;
-
-    #endregion
-
     [TestFixture]
     public class ProjectControllerTest
     {

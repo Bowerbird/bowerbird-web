@@ -12,34 +12,26 @@
  
 */
 
+using System.Linq;
+using System.Web.Mvc;
+using Bowerbird.Core;
+using Bowerbird.Core.Commands;
+using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.DomainModels;
+using Bowerbird.Web.Config;
+using Bowerbird.Web.ViewModels;
+using Bowerbird.Web.ViewModels.Members;
+using Bowerbird.Web.ViewModels.Shared;
+using Raven.Client;
+using Raven.Client.Linq;
+
 namespace Bowerbird.Web.Controllers.Members
 {
-    #region Namespaces
-
-    using System.Web.Mvc;
-    using System.Linq;
-
-    using Raven.Client;
-    using Raven.Client.Linq;
-    
-    using Core;
-    using Core.Commands;
-    using Core.DesignByContract;
-    using ViewModels;
-    using Config;
-    using Core.Tasks;
-    using Core.DomainModels;
-    using ViewModels.Shared;
-    using ViewModels.Members;
-
-    #endregion
-
     public class ProjectController : Controller
     {
         #region Members
 
         private readonly ICommandProcessor _commandProcessor;
-        private readonly IUserTasks _userTasks;
         private readonly IUserContext _userContext;
         private readonly IDocumentSession _documentSession;
 
@@ -49,17 +41,14 @@ namespace Bowerbird.Web.Controllers.Members
 
         public ProjectController(
             ICommandProcessor commandProcessor,
-            IUserTasks userTasks,
             IUserContext userContext,
             IDocumentSession documentSession)
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
-            Check.RequireNotNull(userTasks, "userTasks");
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(documentSession, "documentSession");
 
             _commandProcessor = commandProcessor;
-            _userTasks = userTasks;
             _userContext = userContext;
             _documentSession = documentSession;
         }

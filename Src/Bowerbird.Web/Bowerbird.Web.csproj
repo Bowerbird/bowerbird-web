@@ -119,16 +119,18 @@
     <Compile Include="Controllers\Members\ObservationController.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Controllers\ProjectController.cs" />
+    <Compile Include="Controllers\Members\ProjectController.cs" />
     <Compile Include="Controllers\ProjectMemberController.cs" />
     <Compile Include="Controllers\ProjectObservationController.cs" />
     <Compile Include="Controllers\ProjectPostController.cs" />
     <Compile Include="Controllers\Public\AccountController.cs" />
     <Compile Include="Controllers\Public\ObservationController.cs" />
+    <Compile Include="Controllers\Public\ProjectController.cs" />
     <Compile Include="Controllers\TeamController.cs" />
     <Compile Include="Validators\ValidResetPasswordKeyRequestAttribute.cs" />
     <Compile Include="Validators\ValidEmailAttribute.cs" />
     <Compile Include="ViewModels\Members\AccountChangePasswordInput.cs" />
+    <Compile Include="ViewModels\Members\ProjectIndex.cs" />
     <Compile Include="ViewModels\Public\AccountRegister.cs" />
     <Compile Include="Controllers\Members\UserController.cs" />
     <Compile Include="EventHandlers\NotifyActivityEventHandlerBase.cs" />
@@ -157,6 +159,7 @@
     </Compile>
     <Compile Include="ViewModels\Members\ObservationList.cs" />
     <Compile Include="ViewModels\Public\ObservationIndex.cs" />
+    <Compile Include="ViewModels\Public\ProjectIndex.cs" />
     <Compile Include="ViewModels\Shared\IdInput.cs" />
     <Compile Include="ViewModels\TeamProjectCreateInput.cs" />
     <Compile Include="ViewModels\Members\UserUpdateInput.cs" />
@@ -180,7 +183,6 @@
     <Compile Include="ViewModels\Members\ObservationUpdateInput.cs" />
     <Compile Include="ViewModels\ProjectCreateInput.cs" />
     <Compile Include="ViewModels\ProjectDeleteInput.cs" />
-    <Compile Include="ViewModels\ProjectIndex.cs" />
     <Compile Include="ViewModels\ProjectIndexInput.cs" />
     <Compile Include="ViewModels\ProjectMemberCreateInput.cs" />
     <Compile Include="ViewModels\ProjectMemberDeleteInput.cs" />
