@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Bowerbird.Web.ViewModels;
+using Bowerbird.Web.ViewModels.Shared;
 
 namespace Bowerbird.Web.ViewModelFactories
 {

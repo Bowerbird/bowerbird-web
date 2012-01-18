@@ -53,22 +53,6 @@ namespace Bowerbird.Core.Test.DomainModels
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void ProjectPost_Constructor_Passing_Null_Project_Throws_DesignByContractException()
-        {
-            Assert.IsTrue(
-                BowerbirdThrows.Exception<DesignByContractException>(() =>
-                    new ProjectPost(
-                        null,
-                        FakeObjects.TestUser(),
-                        FakeValues.CreatedDateTime,
-                        FakeValues.Subject,
-                        FakeValues.Message,
-                        new List<MediaResource>()
-                        )));
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
         public void ProjectPost_Constructor_Populates_Properties_With_Passed_Values()
         {
             var projectPost = 
@@ -90,10 +74,6 @@ namespace Bowerbird.Core.Test.DomainModels
             Assert.AreEqual(projectPost.MediaResources[0].FileFormat, FakeValues.FileFormat);
             Assert.AreEqual(projectPost.MediaResources[0].Description, FakeValues.Description);
         }
-
-        #endregion
-
-        #region Property tests
 
         #endregion
 

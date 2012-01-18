@@ -1,4 +1,5 @@
 ﻿using Bowerbird.Web.ViewModels;
+using Bowerbird.Web.ViewModels.Shared;
 using Raven.Client;
 
 namespace Bowerbird.Web.ViewModelFactories

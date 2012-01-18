@@ -45,10 +45,6 @@ namespace Bowerbird.Core.Test.DomainModels
 
         #endregion
 
-        #region Property tests
-
-        #endregion
-
         #region Method tests
 
         #endregion

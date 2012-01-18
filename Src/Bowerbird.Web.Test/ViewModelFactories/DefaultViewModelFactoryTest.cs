@@ -14,6 +14,8 @@
  
 */
 
+using Bowerbird.Web.ViewModels.Shared;
+
 namespace Bowerbird.Web.Test.ViewModelFactories
 {
     #region Namespaces

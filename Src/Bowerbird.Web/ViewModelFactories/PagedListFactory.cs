@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Bowerbird.Web.ViewModels;
 using Bowerbird.Core.DesignByContract;
+using Bowerbird.Web.ViewModels.Shared;
 
 namespace Bowerbird.Web.ViewModelFactories
 {

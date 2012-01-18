@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.Extensions;
 using Bowerbird.Core.Repositories;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Raven.Client;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -12,26 +14,18 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Members
 
-        private readonly IRepository<Observation> _observationRepository;
-        private readonly IRepository<User> _userRepository;
-        private readonly IRepository<MediaResource> _mediaResourceRepository;
+        private readonly IDocumentSession _documentSession;
 
         #endregion
 
         #region Constructors
 
         public ObservationCreateCommandHandler(
-            IRepository<Observation> observationRepository,
-            IRepository<User> userRepository,
-            IRepository<MediaResource> mediaResourceRepository)
+            IDocumentSession documentSession)
         {
-            Check.RequireNotNull(observationRepository, "observationRepository");
-            Check.RequireNotNull(userRepository, "userRepository");
-            Check.RequireNotNull(mediaResourceRepository, "mediaResourceRepository");
+            Check.RequireNotNull(documentSession, "documentSession");
 
-            _observationRepository = observationRepository;
-            _userRepository = userRepository;
-            _mediaResourceRepository = mediaResourceRepository;
+            _documentSession = documentSession;
         }
 
         #endregion
@@ -47,7 +41,7 @@ namespace Bowerbird.Core.CommandHandlers
             Check.RequireNotNull(observationCreateCommand, "observationCreateCommand");
 
             var observation = new Observation(
-                _userRepository.Load(observationCreateCommand.UserId),
+                _documentSession.Load<User>(observationCreateCommand.UserId),
                 observationCreateCommand.Title,
                 observationCreateCommand.ObservedOn,
                 observationCreateCommand.Latitude,
@@ -56,10 +50,10 @@ namespace Bowerbird.Core.CommandHandlers
                 observationCreateCommand.IsIdentificationRequired,
                 observationCreateCommand.ObservationCategory,
                 observationCreateCommand.MediaResources.IsNotNullAndHasItems()
-                    ? _mediaResourceRepository.Load(observationCreateCommand.MediaResources)
+                    ? _documentSession.Load<MediaResource>(observationCreateCommand.MediaResources).ToList()
                     : new List<MediaResource>());
 
-            _observationRepository.Add(observation);
+            _documentSession.Store(observation);
         }
 
         #endregion      

@@ -48,51 +48,6 @@ namespace Bowerbird.Core.Test.DomainModels.MediaResources
 
         #region Constructor tests
 
-        //[Test]
-        //[Category(TestCategories.Unit)]
-        //public void OtherMediaResource_Constructor_Passing_Width_NotGreaterThanZero_Throws_DesignByContractException()
-        //{
-        //    Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new OtherMediaResource(FakeValues.Filename, FakeValues.FileFormat, FakeValues.Description, 0, FakeValues.Number)));
-        //}
-
-        //[Test]
-        //[Category(TestCategories.Unit)]
-        //public void OtherMediaResource_Constructor_Passing_Height_NotGreaterThanZero_Throws_DesignByContractException()
-        //{
-        //    Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new OtherMediaResource(FakeValues.Filename, FakeValues.FileFormat, FakeValues.Description, FakeValues.Number, 0)));
-        //}
-
-        //[Test]
-        //[Category(TestCategories.Unit)]
-        //public void OtherMediaResource_Constructor_Populates_Property_Values()
-        //{
-        //    var testMediaResource = new OtherMediaResource(FakeValues.Filename, FakeValues.FileFormat, FakeValues.Description, FakeValues.Number, FakeValues.Number);
-
-        //    Assert.AreEqual(testMediaResource.OriginalFileName, FakeValues.Filename);
-        //    Assert.AreEqual(testMediaResource.FileFormat, FakeValues.FileFormat);
-        //    Assert.AreEqual(testMediaResource.Description, FakeValues.Description);
-        //    Assert.AreEqual(testMediaResource.Width, FakeValues.Number);
-        //    Assert.AreEqual(testMediaResource.Height, FakeValues.Number);
-        //}
-
-        #endregion
-
-        #region Property tests
-
-        //[Test]
-        //[Category(TestCategories.Unit)]
-        //public void OtherMediaResource_Width_Is_TypeOf_Int()
-        //{
-        //    Assert.IsInstanceOf<int>(new OtherMediaResource(FakeValues.Filename, FakeValues.FileFormat, FakeValues.Description, FakeValues.Number, FakeValues.Number).Width);
-        //}
-
-        //[Test]
-        //[Category(TestCategories.Unit)]
-        //public void OtherMediaResource_Height_Is_TypeOf_Int()
-        //{
-        //    Assert.IsInstanceOf<int>(new OtherMediaResource(FakeValues.Filename, FakeValues.FileFormat, FakeValues.Description, FakeValues.Number, FakeValues.Number).Height);
-        //}
-
         #endregion
 
         #region Method tests

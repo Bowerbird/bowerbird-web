@@ -110,34 +110,6 @@ namespace Bowerbird.Core.Test.DomainModels
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void ObservationNote_Constructor_Passing_Null_User_Throws_DesignByContractException()
-        {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new ObservationNote(null, TestObservation(), FakeValues.CommonName, FakeValues.ScientificName, FakeValues.Taxonomy, FakeValues.Tags, TestDescriptions(), TestReferences(), FakeValues.Notes)));
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void ObservationNote_Constructor_Passing_Null_Observation_Throws_DesignByContractException()
-        {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new ObservationNote(FakeObjects.TestUser(), null, FakeValues.CommonName, FakeValues.ScientificName, FakeValues.Taxonomy, FakeValues.Tags, TestDescriptions(), TestReferences(), FakeValues.Notes)));
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void ObservationNote_Constructor_Passing_Null_Descriptions_Throws_DesignByContractException()
-        {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new ObservationNote(FakeObjects.TestUser(), TestObservation(), FakeValues.CommonName, FakeValues.ScientificName, FakeValues.Taxonomy, FakeValues.Tags, null, TestReferences(), FakeValues.Notes)));
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void ObservationNote_Constructor_Passing_Null_References_Throws_DesignByContractException()
-        {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new ObservationNote(FakeObjects.TestUser(), TestObservation(), FakeValues.CommonName, FakeValues.ScientificName, FakeValues.Taxonomy, FakeValues.Tags, TestDescriptions(), null, FakeValues.Notes)));
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
         public void ObservationNote_Constructor_Sets_Property_Values()
         {
             var testObservation = TestObservationNote();
@@ -158,108 +130,7 @@ namespace Bowerbird.Core.Test.DomainModels
 
         #endregion
 
-        #region Property tests
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void ObservationNote_User_Is_OfType_DenormalisedUserReference()
-        {
-            Assert.IsInstanceOf<DenormalisedUserReference>(TestObservationNote().User);
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void ObservationNote_Observation_Is_OfType_DenormalisedObservationReference()
-        {
-            Assert.IsInstanceOf<DenormalisedObservationReference>(TestObservationNote().Observation);
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void ObservationNote_Descriptions_Is_OfType_Dictionary_Of_String_String()
-        {
-            Assert.IsInstanceOf<Dictionary<string,string>>(TestObservationNote().Descriptions);
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void ObservationNote_References_Is_OfType_Dictionary_Of_String_String()
-        {
-            Assert.IsInstanceOf<Dictionary<string, string>>(TestObservationNote().References);
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void ObservationNote_CommonName_Is_OfType_String()
-        {
-            Assert.IsInstanceOf<string>(TestObservationNote().CommonName);
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void ObservationNote_ScientificName_Is_OfType_String()
-        {
-            Assert.IsInstanceOf<string>(TestObservationNote().ScientificName);
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void ObservationNote_Taxonomy_Is_OfType_String()
-        {
-            Assert.IsInstanceOf<string>(TestObservationNote().Taxonomy);
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void ObservationNote_Tags_Is_OfType_String()
-        {
-            Assert.IsInstanceOf<string>(TestObservationNote().Tags);
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void ObservationNote_Notes_Is_OfType_String()
-        {
-            Assert.IsInstanceOf<string>(TestObservationNote().Notes);
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void ObservationNote_SubmittedOn_Is_OfType_DateTime()
-        {
-            Assert.IsInstanceOf<DateTime>(TestObservationNote().SubmittedOn);
-        }
-
-        #endregion
-
         #region Method tests
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void ObservationNote_UpdateDetails_Passing_Null_User_Throws_DesignByContractException()
-        {
-            var testObservationNote = TestObservationNote();
-
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => testObservationNote.UpdateDetails(null, FakeValues.CommonName, FakeValues.ScientificName, FakeValues.Taxonomy, FakeValues.Tags, TestDescriptions(), TestReferences(), FakeValues.Notes)));
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void ObservationNote_UpdateDetails_Passing_Null_Descriptions_Throws_DesignByContractException()
-        {
-            var testObservationNote = TestObservationNote();
-
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => testObservationNote.UpdateDetails(FakeObjects.TestUser(), FakeValues.CommonName, FakeValues.ScientificName, FakeValues.Taxonomy, FakeValues.Tags, null, TestReferences(), FakeValues.Notes)));
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void ObservationNote_UpdateDetails_Passing_Null_References_Throws_DesignByContractException()
-        {
-            var testObservationNote = TestObservationNote();
-
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => testObservationNote.UpdateDetails(FakeObjects.TestUser(), FakeValues.CommonName, FakeValues.ScientificName, FakeValues.Taxonomy, FakeValues.Tags, TestDescriptions(), null, FakeValues.Notes)));
-        }
 
         [Test]
         [Category(TestCategory.Unit)]

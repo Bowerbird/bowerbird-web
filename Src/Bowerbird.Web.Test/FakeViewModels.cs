@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Bowerbird.Test.Utils;
 using Bowerbird.Web.ViewModels;
+using Bowerbird.Web.ViewModels.Public;
 
 namespace Bowerbird.Web.Test
 {

@@ -1,6 +1,7 @@
 ﻿using Bowerbird.Core.DesignByContract;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.ViewModels;
+using Bowerbird.Web.ViewModels.Public;
 using Raven.Client;
 
 namespace Bowerbird.Web.ViewModelFactories

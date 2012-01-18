@@ -14,6 +14,9 @@
  
 */
 
+using Bowerbird.Web.ViewModels.Members;
+using Bowerbird.Web.ViewModels.Shared;
+
 namespace Bowerbird.Web.ViewModelFactories
 {
     #region Namespaces
@@ -30,7 +33,7 @@ namespace Bowerbird.Web.ViewModelFactories
 
     #endregion
 
-    public class ObservationIndexFactory : ViewModelFactoryBase, IViewModelFactory<ObservationIndexInput, ObservationIndex>
+    public class ObservationIndexFactory : ViewModelFactoryBase, IViewModelFactory<IdInput, ObservationIndex>
     {
         #region Fields
 
@@ -58,13 +61,13 @@ namespace Bowerbird.Web.ViewModelFactories
 
         #region Methods
 
-        public ObservationIndex Make(ObservationIndexInput input)
+        public ObservationIndex Make(IdInput input)
         {
             Check.RequireNotNull(input, "input");
 
-            return new ObservationIndex()
+            return new ObservationIndex
             {
-                Observation = DocumentSession.Load<Observation>(input.ObservationId)
+                Observation = DocumentSession.Load<Observation>(input.Id)
             };
         }
 

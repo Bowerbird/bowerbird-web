@@ -58,34 +58,6 @@ namespace Bowerbird.Core.Test.DomainModels
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Post_Constructor_Passing_Null_User_Throws_DesignByContractException()
-        {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new ProxyObjects.ProxyPost(null, FakeValues.CreatedDateTime, FakeValues.Subject, FakeValues.Message, new List<MediaResource>())));
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void Post_Constructor_Passing_Empty_Subject_Throws_DesignByContractException()
-        {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new ProxyObjects.ProxyPost(FakeObjects.TestUser(), FakeValues.CreatedDateTime, string.Empty, FakeValues.Message, new List<MediaResource>())));
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void Post_Constructor_Passing_Empty_Message_Throws_DesignByContractException()
-        {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new ProxyObjects.ProxyPost(FakeObjects.TestUser(), FakeValues.CreatedDateTime, FakeValues.Subject, string.Empty, new List<MediaResource>())));
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void Post_Constructor_Passing_Empty_MediaResources_Throws_DesignByContractException()
-        {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new ProxyObjects.ProxyPost(FakeObjects.TestUser(), FakeValues.CreatedDateTime, FakeValues.Subject, FakeValues.Message, null)));
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
         public void Post_Constructor_Populates_Properties_With_Values()
         {
             var testPost = new ProxyObjects.ProxyPost(
@@ -104,38 +76,6 @@ namespace Bowerbird.Core.Test.DomainModels
             Assert.AreEqual(testPost.MediaResources[0].Description, FakeValues.Description);
             Assert.AreEqual(testPost.MediaResources[0].OriginalFileName, FakeValues.Filename);
             Assert.AreEqual(testPost.MediaResources[0].FileFormat, FakeValues.FileFormat);
-        }
-
-        #endregion
-
-        #region Property tests
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void Post_User_Is_OfType_DenormalisedUserReference()
-        {
-            Assert.IsInstanceOf<DenormalisedUserReference>(TestPost().User);
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void Post_Subject_Is_OfType_String()
-        {
-            Assert.IsInstanceOf<string>(TestPost().Subject);
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void Post_Message_Is_OfType_String()
-        {
-            Assert.IsInstanceOf<string>(TestPost().Message);
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void Post_PostedOn_Is_OfType_DateTime()
-        {
-            Assert.IsInstanceOf<DateTime>(TestPost().PostedOn);
         }
 
         #endregion

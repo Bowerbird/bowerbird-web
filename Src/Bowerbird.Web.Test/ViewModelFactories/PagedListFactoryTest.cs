@@ -6,6 +6,7 @@ using Bowerbird.Core.Extensions;
 using Bowerbird.Test.Utils;
 using Bowerbird.Web.ViewModelFactories;
 using Bowerbird.Web.ViewModels;
+using Bowerbird.Web.ViewModels.Shared;
 using NUnit.Framework;
 
 namespace Bowerbird.Web.Test.ViewModelFactories

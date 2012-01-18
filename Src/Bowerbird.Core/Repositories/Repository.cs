@@ -77,7 +77,7 @@ namespace Bowerbird.Core.Repositories
             _documentSession.SaveChanges();
         }
 
-        #endregion      
-     
+        #endregion
+
     }
 }

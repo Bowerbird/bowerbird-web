@@ -56,65 +56,6 @@ namespace Bowerbird.Core.Test.DomainModels
 
         #region Constructor tests
 
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void ProjectObservation_Constructor_Passing_Null_User_Throws_DesignByContractException()
-        {
-            Assert.IsTrue(
-                BowerbirdThrows.Exception<DesignByContractException>(() =>
-                    new ProjectObservation(null,DateTime.Now,new Mock<Project>().Object,new Mock<Observation>().Object)));
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void ProjectObservation_Constructor_Passing_Null_Project_Throws_DesignByContractException()
-        {
-            Assert.IsTrue(
-                BowerbirdThrows.Exception<DesignByContractException>(() =>
-                    new ProjectObservation(new Mock<User>().Object,DateTime.Now,null,new Mock<Observation>().Object)));
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void ProjectObservation_Constructor_Passing_Null_Observation_Throws_DesignByContractException()
-        {
-            Assert.IsTrue(
-                BowerbirdThrows.Exception<DesignByContractException>(() =>
-                    new ProjectObservation(new Mock<User>().Object,DateTime.Now,new Mock<Project>().Object,null)));
-        }
-
-        #endregion
-
-        #region Property tests
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void ProjectObservation_Project_Is_TypeOf_DenormalisedNamedModelReference_Of_Project()
-        {
-            Assert.IsInstanceOf<DenormalisedNamedDomainModelReference<Project>>(TestProjectObservation().Project);
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void ProjectObservation_Observation_Is_TypeOf_DenormalisedObservationReference_Of_Project()
-        {
-            Assert.IsInstanceOf<DenormalisedObservationReference>(TestProjectObservation().Observation);
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void ProjectObservation_User_Is_TypeOf_DenormalisedUserReference()
-        {
-            Assert.IsInstanceOf<DenormalisedUserReference>(TestProjectObservation().CreatedByUser);
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void ProjectObservation_CreatedDateTime_Is_TypeOf_DateTime()
-        {
-            Assert.IsInstanceOf<DateTime>(TestProjectObservation().CreatedDateTime);
-        }
-
         #endregion
 
         #region Method tests

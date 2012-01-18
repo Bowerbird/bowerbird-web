@@ -28,6 +28,6 @@ namespace Bowerbird.Core.Repositories
         //T GetFirst();
         //T GetUnique(Func<T, bool> where);
         //IList<T> GetRestictedList(Func<T, bool> where);
-  
+
     }
 }

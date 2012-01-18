@@ -1,0 +1,101 @@
+﻿<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>@Page.Title</title>
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <!--  Mobile viewport optimized: j.mp/bplateviewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- CSS : implied media="all" -->
+    @* More info about SquishIt from http://www.codethinked.com/squishit-the-friendly-aspnet-javascript-and-css-squisher *@
+    @Html.Raw(SquishIt.Framework.Bundle.Css()
+                                     .Add(@Url.Stylesheet("normalize.css"))
+                                     .Add(@Url.Stylesheet("site.css"))
+                                     //.Add(@Url.Stylesheet("media.css"))
+            //.ForceRelease() // Test it out with minification
+                                     .Render("~/css/style_#.css"))
+    <link href='http://fonts.googleapis.com/css?family=Merriweather:300,400,700,900' rel='stylesheet' type='text/css'>
+    @RenderSection("header", false)
+    <!-- More ideas for your <head> here: h5bp.com/docs/#head-Tips -->
+    <!-- All JavaScript at the bottom, except for Modernizr and Respond.
+       Modernizr enables HTML5 elements & feature detects; Respond is a polyfill for min/max-width CSS3 Media Queries
+       For optimal performance, use a custom Modernizr build: www.modernizr.com/download/ -->
+    <script type="text/javascript" src="@Url.JavaScriptLib("modernizr-2.0.min.js")"></script>
+    <script type="text/javascript" src="@Url.JavaScriptLib("respond.min.js")"></script>
+    <script type="text/javascript" src="http://use.typekit.com/ovj4mpo.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+</head>
+<body>
+    <div id="container">
+        <header id="header">
+            <div>
+                <div id="main-title">Bowerbird</div>
+                <div id="main-menu">
+                    <ul>
+                        <li>@Html.ActionLink("Observations", "index", "observation")</li> 
+                        <li>@Html.ActionLink("People", "index", "user")</li>
+                        <li>@Html.ActionLink("Groups", "index", "group")</li>
+                    </ul>
+                </div>
+                <div id="account-menu">
+                    <ul>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li><img src="/img/avatar.jpg" alt="" /> @Html.ActionLink(User.Identity.Name, "index", "home")</li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Login", "login", "account")</li>
+                        <li>@Html.ActionLink("Register", "register", "account")</li>
+                    }
+                    </ul>
+                </div>
+                <div id="search-menu">
+                    <div>
+                        <label for="search">Search</label> <input type="text" value="" name="search" id="search" placeholder="Search for observations, people and groups" />
+                    </div>
+                </div>
+            </div>
+        </header>
+        <div id="main">
+            @RenderBody()
+        </div>
+        <footer id="footer">
+
+        </footer>
+    </div> 
+    <!--! end of #container -->
+    <!-- Grab Google CDN's jQuery. fall back to local if necessary -->
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+    <script type="text/javascript">      window.jQuery || document.write("<script type='text/javascript' src='@Url.JavaScriptLib("jquery-1.6.2.min.js")'>\x3C/script>")</script>
+    @* Add other javascript files here if you want them squished on release *@
+    @Html.Raw(SquishIt.Framework.Bundle.JavaScript()
+            //.Add(@Url.JavaScript("plugins.js"))
+            //.Add(@Url.JavaScript("Dialog.js"))
+            //.Add(@Url.JavaScriptLib("jquery.unobtrusive-ajax.min.js"))
+            //.Add(@Url.JavaScriptLib("jquery.validate.min.js"))
+            //.Add(@Url.JavaScriptLib("jquery.validate.unobtrusive.min.js"))
+            //.Add(@Url.JavaScriptLib("jquery-ui-1.8.16.custom.min.js"))
+            .Add(@Url.JavaScriptLib("jquery.tmpl.js"))
+            .Add(@Url.JavaScriptLib("json2.js"))
+            .Add(@Url.JavaScriptLib("underscore-min.js"))
+            .Add(@Url.JavaScriptLib("backbone-min.js"))
+            .Render("~/js/script_#.js"))
+    <!-- ADDED: Page Level script sections -->
+    @RenderSection("script", false)
+    <!--[if lte IE 9]> 
+    <script type="text/javascript" src="@Url.JavaScriptLib("ie-set_timeout.js")"></script> 
+    <![endif]-->
+    <!-- mathiasbynens.be/notes/async-analytics-snippet Change UA-XXXXX-X to be your site's ID -->
+    @*<script type="text/javascript">
+      var _gaq = [['_setAccount', 'UA-XXXXX-X'], ['_trackPageview']];
+      (function (d, t) {
+          var g = d.createElement(t), s = d.getElementsByTagName(t)[0]; g.async = 1;
+          g.src = ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js';
+          s.parentNode.insertBefore(g, s)
+      } (document, 'script'));
+  </script>*@
+</body>
+</html>

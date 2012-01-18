@@ -56,12 +56,6 @@ namespace Bowerbird.Web.Test
 
         #region Constructor tests
 
-        [Test, Category(TestCategory.Unit)] 
-        public void ViewModelRepository_Constructor_Passing_Null_ServiceLocator_Throws_DesignByContractException()
-        {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new CommandBuilder(null)));
-        }
-
         #endregion
 
         #region Property tests

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using Bowerbird.Core.Config;
 using Bowerbird.Core.Services;
+using Bowerbird.Web.ViewModels.Members;
 using Ninject.Modules;
 using Raven.Client;
 using Bowerbird.Core;
@@ -16,7 +17,6 @@ using Bowerbird.Web.ViewModels;
 using Bowerbird.Core.EventHandlers;
 using Bowerbird.Core.Tasks;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Web.CommandFactories;
 
 namespace Bowerbird.Web.Config
 {
@@ -55,13 +55,14 @@ namespace Bowerbird.Web.Config
                 x.FromCallingAssembly();
 
                 x.BindingGenerators.Add(new GenericBindingGenerator(typeof(ICommandHandler<>)));
-                x.BindingGenerators.Add(new GenericBindingGenerator(typeof(IViewModelFactory<,>)));
                 x.BindingGenerators.Add(new GenericBindingGenerator(typeof(IViewModelFactory<>)));
+                x.BindingGenerators.Add(new GenericBindingGenerator(typeof(IViewModelFactory<,>)));
                 x.BindingGenerators.Add(new GenericBindingGenerator(typeof(IEventHandler<>)));
-                x.BindingGenerators.Add(new GenericBindingGenerator(typeof(ICommandFactory<,>)));
                 x.BindingGenerators.Add(new GenericBindingGenerator(typeof(IRepository<>)));
                 x.BindingGenerators.Add(new DefaultBindingGenerator());
             });
+
+            Bind<IViewModelFactory<UserUpdateInput, UserUpdate>>().To<UserUpdateFactory>(); // HACK: Bug in Ninject.Extensions.Convensions that does not allow binding of one impl to many interface bindings, means that i have to add a specific binding here.
         }
 
         #endregion

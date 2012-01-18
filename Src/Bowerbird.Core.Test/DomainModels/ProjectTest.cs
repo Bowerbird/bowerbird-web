@@ -61,27 +61,6 @@ namespace Bowerbird.Core.Test.DomainModels
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Project_Constructor_Passing_Null_User_Throws_DesignByContractException()
-        {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new Project(null, FakeValues.Name, FakeValues.Description)));
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void Project_Constructor_Passing_Empty_Name_Throws_DesignByContractException()
-        {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new Project(FakeObjects.TestUser(), string.Empty, FakeValues.Description)));
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void Project_Constructor_Passing_Empty_Description_Throws_DesignByContractException()
-        {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new Project(FakeObjects.TestUser(), FakeValues.Name, string.Empty)));
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
         public void Project_Constructor_Populates_Properties_With_Values()
         {
             var testProject = new Project(FakeObjects.TestUser(), FakeValues.Name, FakeValues.Description);
@@ -92,53 +71,8 @@ namespace Bowerbird.Core.Test.DomainModels
 
         #endregion
 
-        #region Property tests
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void Project_Name_Is_OfType_String()
-        {
-            Assert.IsInstanceOf<string>(TestProject().Name);
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void Project_Description_Is_OfType_String()
-        {
-            Assert.IsInstanceOf<string>(TestProject().Description);
-        }
-
-        #endregion
-
         #region Method tests
 
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void Project_UpdateDetails_Passing_Null_User_Throws_DesignByContractException()
-        {
-            var testProject = TestProject();
-
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => testProject.UpdateDetails(null, FakeValues.Name, FakeValues.Description)));
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void Project_UpdateDetails_Passing_Empty_Name_Throws_DesignByContractException()
-        {
-            var testProject = TestProject();
-
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => testProject.UpdateDetails(FakeObjects.TestUser(), string.Empty, FakeValues.Description)));
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void Project_UpdateDetails_Passing_Empty_Description_Throws_DesignByContractException()
-        {
-            var testProject = TestProject();
-
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => testProject.UpdateDetails(FakeObjects.TestUser(), FakeValues.Name, string.Empty)));
-        }
-        
         [Test]
         [Category(TestCategory.Unit)]
         public void Project_UpdateDetails_Populates_Properties_With_Values()

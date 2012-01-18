@@ -12,6 +12,8 @@
  
 */
 
+using Bowerbird.Web.Controllers.Members;
+
 namespace Bowerbird.Web.Test.Controllers
 {
     #region Namespaces

@@ -1,12 +1,14 @@
 ﻿using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Web.ViewModels;
+using Bowerbird.Web.ViewModels.Members;
+using Bowerbird.Web.ViewModels.Shared;
 using Raven.Client;
 using System.Linq;
 
 namespace Bowerbird.Web.ViewModelFactories
 {
-    public class UserUpdateFactory : ViewModelFactoryBase, IViewModelFactory<UserUpdateInput, UserUpdate>, IViewModelFactory<IdInput, UserUpdate>
+    public class UserUpdateFactory : ViewModelFactoryBase, IViewModelFactory<IdInput, UserUpdate>, IViewModelFactory<UserUpdateInput, UserUpdate>
     {
 
         #region Members

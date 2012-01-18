@@ -164,87 +164,6 @@ namespace Bowerbird.Core.Test.DomainModels
 
         #endregion
 
-        #region Property tests
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void User_Email_Is_TypeOf_String()
-        {
-            Assert.IsInstanceOf<string>(FakeObjects.TestUser().Email);
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void User_FirstName_Is_TypeOf_String()
-        {
-            Assert.IsInstanceOf<string>(FakeObjects.TestUser().FirstName);
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void User_LastName_Is_TypeOf_String()
-        {
-            Assert.IsInstanceOf<string>(FakeObjects.TestUser().LastName);
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void User_Description_Is_TypeOf_String()
-        {
-            Assert.IsInstanceOf<string>(FakeObjects.TestUser().Description);
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void User_PasswordSalt_Is_TypeOf_Guid()
-        {
-            Assert.IsInstanceOf<Guid>(FakeObjects.TestUser().PasswordSalt);
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void User_HashedPassword_Is_TypeOf_String()
-        {
-            Assert.IsInstanceOf<string>(FakeObjects.TestUser().HashedPassword);
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void User_LastLoggedIn_Is_TypeOf_DateTime()
-        {
-            Assert.IsInstanceOf<DateTime>(FakeObjects.TestUser().LastLoggedIn);
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void User_ResetPasswordKey_Is_TypeOf_String_Null()
-        {
-            Assert.IsNull(FakeObjects.TestUser().ResetPasswordKey);
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void User_FlaggedItemsOwned_Is_TypeOf_Int()
-        {
-            Assert.IsInstanceOf<int>(FakeObjects.TestUser().FlaggedItemsOwned);
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void User_FlagsRaised_Is_TypeOf_Int()
-        {
-            Assert.IsInstanceOf<int>(FakeObjects.TestUser().FlagsRaised);
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void User_Memeberships_Is_ListOf_DenormalisedNamedDomainModelReference_AsGeneric_Membership()
-        {
-            Assert.IsInstanceOf<List<DenormalisedMemberReference>>(FakeObjects.TestUser().Memberships);
-        }
-
-        #endregion
-
         #region Method tests
 
         [Test]
@@ -269,17 +188,6 @@ namespace Bowerbird.Core.Test.DomainModels
                 .UpdateEmail("new@email.com")
                 .Email
                 .Equals("new@email.com"));
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void User_UpdateEmail_WithInValidEmail_Throws_DesignByContractException()
-        {
-            Assert.IsTrue(
-                BowerbirdThrows.Exception<DesignByContractException>(
-                    () => FakeObjects.TestUser()
-                    .UpdateEmail(FakeValues.InvalidEmail)
-                ));
         }
 
         [Test]
@@ -394,19 +302,6 @@ namespace Bowerbird.Core.Test.DomainModels
             var actual = user.Memberships.Count;
 
             Assert.AreEqual(actual, expected);
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void User_AddMembership_Passing_InvalidValid_Memebership_DesignByContractException()
-        {
-            Assert.IsTrue(
-                BowerbirdThrows.Exception<DesignByContractException>(
-                    () => FakeObjects.TestUser()
-                        .AddMembership(
-                            null
-                            )
-                    ));
         }
 
         [Test]

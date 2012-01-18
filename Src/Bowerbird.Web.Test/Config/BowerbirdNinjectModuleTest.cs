@@ -14,6 +14,8 @@
  
 */
 
+using Bowerbird.Web.ViewModels.Members;
+
 namespace Bowerbird.Web.Test.Config
 {
     #region Namespaces
@@ -28,7 +30,6 @@ namespace Bowerbird.Web.Test.Config
     using Bowerbird.Test.Utils;
     using Bowerbird.Core.DesignByContract;
     using Bowerbird.Core.Commands;
-    using Bowerbird.Web.CommandFactories;
     using Bowerbird.Web.ViewModels;
     using Bowerbird.Core.DomainModels;
     using Bowerbird.Core.EventHandlers;
@@ -70,16 +71,6 @@ namespace Bowerbird.Web.Test.Config
         #endregion
 
         #region Method tests
-
-        #region Command Factories
-
-        [Test, Category(TestCategory.Unit), Ignore] 
-        public void BowerbirdNinjectModule_Binds_ObservationCreateCommandFactory_To_ICommandFactory_Having_ObservationCreateInput_And_ObservationCreateCommand()
-        {
-            Assert.IsInstanceOf<ObservationCreateCommandFactory>(ServiceLocator.Current.GetInstance<ICommandFactory<ObservationCreateInput, ObservationCreateCommand>>());
-        }
-
-        #endregion
 
         #region ViewModel Factories
 

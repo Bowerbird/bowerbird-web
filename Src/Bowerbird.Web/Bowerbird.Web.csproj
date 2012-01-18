@@ -100,8 +100,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\Bootstrapper.cs" />
-    <Compile Include="CommandFactories\ICommandFactory.cs" />
-    <Compile Include="CommandFactories\ObservationCreateCommandFactory.cs" />
     <Compile Include="Config\BowerbirdHttpApplication.cs" />
     <Compile Include="Config\Constants.cs" />
     <Compile Include="Config\CommandHandlerProvider.cs" />
@@ -112,41 +110,41 @@
     <Compile Include="Config\RavenDocumentStoreProvider.cs" />
     <Compile Include="Config\RouteRegistrar.cs" />
     <Compile Include="Config\UserContext.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Members\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Controllers\ObservationController.cs">
+    <Compile Include="Controllers\Members\ObservationController.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controllers\ProjectController.cs" />
     <Compile Include="Controllers\ProjectMemberController.cs" />
     <Compile Include="Controllers\ProjectObservationController.cs" />
     <Compile Include="Controllers\ProjectPostController.cs" />
+    <Compile Include="Controllers\Public\AccountController.cs" />
+    <Compile Include="Controllers\Public\ObservationController.cs" />
     <Compile Include="Controllers\TeamController.cs" />
     <Compile Include="Validators\ValidResetPasswordKeyRequestAttribute.cs" />
     <Compile Include="Validators\ValidEmailAttribute.cs" />
     <Compile Include="ViewModelFactories\AccountRequestPasswordResetFactory.cs" />
     <Compile Include="ViewModelFactories\AccountResetPasswordFactory.cs" />
     <Compile Include="ViewModelFactories\UserUpdateFactory.cs" />
-    <Compile Include="ViewModels\AccountChangePasswordInput.cs" />
-    <Compile Include="ViewModels\AccountRegister.cs" />
-    <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="CommandBuilder.cs" />
+    <Compile Include="ViewModels\Members\AccountChangePasswordInput.cs" />
+    <Compile Include="ViewModels\Public\AccountRegister.cs" />
+    <Compile Include="Controllers\Members\UserController.cs" />
     <Compile Include="EventHandlers\NotifyActivityEventHandlerBase.cs" />
     <Compile Include="EventHandlers\NotifyActivityUserLoggedInEventHandler.cs" />
     <Compile Include="EventHandlers\NotifyActivityObservationCreatedEventHandler.cs" />
     <Compile Include="Hubs\ActivityHub.cs" />
-    <Compile Include="ICommandBuilder.cs" />
     <Compile Include="IViewModelRepository.cs" />
     <Compile Include="Validators\UniqueEmailAttribute.cs" />
     <Compile Include="ViewModelFactories\AccountLoginFactory.cs" />
     <Compile Include="ViewModelFactories\AccountRegisterFactory.cs" />
-    <Compile Include="ViewModels\AccountRegisterInput.cs" />
-    <Compile Include="ViewModels\AccountRequestPasswordReset.cs" />
-    <Compile Include="ViewModels\AccountRequestPasswordResetInput.cs" />
-    <Compile Include="ViewModels\AccountResetPassword.cs" />
-    <Compile Include="ViewModels\AccountResetPasswordInput.cs" />
+    <Compile Include="ViewModels\Public\AccountRegisterInput.cs" />
+    <Compile Include="ViewModels\Public\AccountRequestPasswordReset.cs" />
+    <Compile Include="ViewModels\Public\AccountRequestPasswordResetInput.cs" />
+    <Compile Include="ViewModels\Public\AccountResetPassword.cs" />
+    <Compile Include="ViewModels\Public\AccountResetPasswordInput.cs" />
     <Compile Include="ViewModelFactories\DefaultViewModelFactory.cs" />
     <Compile Include="ViewModelFactories\ObservationIndexFactory.cs" />
     <Compile Include="ViewModelFactories\ProjectIndexFactory.cs" />
@@ -157,19 +155,21 @@
     <Compile Include="ViewModelFactories\IViewModelFactory.cs" />
     <Compile Include="ViewModelFactories\IPagedListFactory.cs" />
     <Compile Include="ViewModelFactories\ViewModelFactoryBase.cs" />
-    <Compile Include="ViewModelFactories\UserObservationsFactory.cs" />
+    <Compile Include="ViewModelFactories\ObservationListFactory.cs" />
     <Compile Include="Config\TransactionAttribute.cs" />
     <Compile Include="ViewModelFactories\PagedListFactory.cs" />
-    <Compile Include="ViewModels\AccountLogin.cs">
+    <Compile Include="ViewModels\Public\AccountLogin.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ViewModels\AccountLoginInput.cs">
+    <Compile Include="ViewModels\Public\AccountLoginInput.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ViewModels\IdInput.cs" />
+    <Compile Include="ViewModels\Members\ObservationList.cs" />
+    <Compile Include="ViewModels\Public\ObservationIndex.cs" />
+    <Compile Include="ViewModels\Shared\IdInput.cs" />
     <Compile Include="ViewModels\TeamProjectCreateInput.cs" />
-    <Compile Include="ViewModels\UserUpdateInput.cs" />
-    <Compile Include="ViewModels\DefaultViewModel.cs" />
+    <Compile Include="ViewModels\Members\UserUpdateInput.cs" />
+    <Compile Include="ViewModels\Shared\DefaultViewModel.cs" />
     <Compile Include="ViewModels\HomeIndex.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -179,23 +179,22 @@
     <Compile Include="ViewModels\IViewModel.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ViewModels\ObservationCreateInput.cs">
+    <Compile Include="ViewModels\Members\ObservationCreateInput.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ViewModels\ObservationDeleteInput.cs" />
-    <Compile Include="ViewModels\ObservationIndex.cs" />
-    <Compile Include="ViewModels\ObservationIndexInput.cs" />
-    <Compile Include="ViewModels\ObservationListInput.cs">
+    <Compile Include="ViewModels\Members\ObservationDeleteInput.cs" />
+    <Compile Include="ViewModels\Members\ObservationIndex.cs" />
+    <Compile Include="ViewModels\Members\ObservationListInput.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ViewModels\ObservationUpdateInput.cs" />
-    <Compile Include="ViewModels\Paging\PagedList.cs">
+    <Compile Include="ViewModels\Members\ObservationUpdateInput.cs" />
+    <Compile Include="ViewModels\Shared\PagedList.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ViewModels\Paging\PagedListItem.cs">
+    <Compile Include="ViewModels\Shared\PagedListItem.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ViewModels\Paging\PageNumber.cs">
+    <Compile Include="ViewModels\Shared\PageNumber.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModels\ProjectCreateInput.cs" />
@@ -213,7 +212,7 @@
     <Compile Include="ViewModels\StreamItem.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ViewModels\UserUpdate.cs" />
+    <Compile Include="ViewModels\Members\UserUpdate.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -224,7 +223,10 @@
       <Name>Bowerbird.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Controllers\Api\" />
+    <Folder Include="ViewModels\Api\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -62,27 +62,6 @@ namespace Bowerbird.Core.Test.DomainModels
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Team_Constructor_Passing_Null_User_Throws_DesignByContractException()
-        {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new Team(null, FakeValues.Name, FakeValues.Description, FakeValues.Website)));
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void Team_Constructor_Passing_Empty_Name_Throws_DesignByContractException()
-        {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new Team(FakeObjects.TestUser(), string.Empty, FakeValues.Description, FakeValues.Website)));
-        }
-        
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void Team_Constructor_Passing_Empty_Description_Throws_DesignByContractException()
-        {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new Team(FakeObjects.TestUser(), FakeValues.Name, string.Empty, FakeValues.Website)));
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
         public void Team_Constructor_Populates_Property_Values()
         {
             var testTeam = new Team(FakeObjects.TestUser(), FakeValues.Name, FakeValues.Description, FakeValues.Website);
@@ -94,59 +73,7 @@ namespace Bowerbird.Core.Test.DomainModels
 
         #endregion
 
-        #region Property tests
-        
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void Team_Name_Is_OfType_String()
-        {
-            Assert.IsInstanceOf<string>(TestTeam().Name);
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void Team_Description_Is_OfType_String()
-        {
-            Assert.IsInstanceOf<string>(TestTeam().Description);
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void Team_Website_Is_OfType_String()
-        {
-            Assert.IsInstanceOf<string>(TestTeam().Website);
-        }
-
-        #endregion
-
         #region Method tests
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void Team_UpdateDetails_Passing_Null_User_Throws_DesignByContractException()
-        {
-            var testTeam = TestTeam();
-
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => testTeam.UpdateDetails(null, FakeValues.Name, FakeValues.Description, FakeValues.Website)));
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void Team_UpdateDetails_Passing_Empty_Name_Throws_DesignByContractException()
-        {
-            var testTeam = TestTeam();
-
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => testTeam.UpdateDetails(FakeObjects.TestUser(), string.Empty, FakeValues.Description, FakeValues.Website)));
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void Team_UpdateDetails_Passing_Empty_Description_Throws_DesignByContractException()
-        {
-            var testTeam = TestTeam();
-
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => testTeam.UpdateDetails(FakeObjects.TestUser(), FakeValues.Name, string.Empty, FakeValues.Website)));
-        }
 
         [Test]
         [Category(TestCategory.Unit)]

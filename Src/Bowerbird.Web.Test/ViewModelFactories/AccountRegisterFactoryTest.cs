@@ -2,6 +2,7 @@
 using Bowerbird.Test.Utils;
 using Bowerbird.Web.ViewModelFactories;
 using Bowerbird.Web.ViewModels;
+using Bowerbird.Web.ViewModels.Public;
 using Moq;
 using NUnit.Framework;
 using Raven.Client;

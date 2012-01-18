@@ -54,34 +54,6 @@ namespace Bowerbird.Core.Test.DomainModels
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Role_Constructor_Passing_Empty_Id_Throws_DesignByContractException()
-        {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new Role(string.Empty, FakeValues.Name, FakeValues.Description, FakeObjects.TestPermissions())));
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void Role_Constructor_Passing_Empty_Name_Throws_DesignByContractException()
-        {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new Role(FakeValues.KeyString, string.Empty, FakeValues.Description, FakeObjects.TestPermissions())));
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void Role_Constructor_Passing_Empty_Description_Throws_DesignByContractException()
-        {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new Role(FakeValues.KeyString, FakeValues.Name, string.Empty, FakeObjects.TestPermissions())));
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void Role_Constructor_Passing_Null_Permissions_Throws_DesignByContractException()
-        {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new Role(FakeValues.KeyString, FakeValues.Name, FakeValues.Description, null)));
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
         public void Role_Constructor_Populates_Properties_With_Values()
         {
             var testRole = new Role(FakeValues.KeyString, FakeValues.Name, FakeValues.Description, FakeObjects.TestPermissions());
@@ -91,31 +63,6 @@ namespace Bowerbird.Core.Test.DomainModels
             Assert.AreEqual(testRole.Description, FakeValues.Description);
             Assert.AreEqual(testRole.Permissions.Select(x => x.Id).ToList(), FakeObjects.TestPermissions().Select(x => x.Id).ToList());
             Assert.AreEqual(testRole.Permissions.Select(x => x.Name).ToList(), FakeObjects.TestPermissions().Select(x => x.Name).ToList());
-        }
-
-        #endregion
-
-        #region Property tests
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void Role_Name_Is_OfType_String()
-        {
-            Assert.IsInstanceOf<string>(TestRole().Name);
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void Role_Description_Is_OfType_String()
-        {
-            Assert.IsInstanceOf<string>(TestRole().Description);
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void Role_Permissions_Is_ListOf_DenormalisedNamedDomainModelReference_Permission()
-        {
-            Assert.IsInstanceOf<List<DenormalisedNamedDomainModelReference<Permission>>>(TestRole().Permissions);
         }
 
         #endregion

@@ -49,20 +49,6 @@ namespace Bowerbird.Core.Test.DomainModels
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void TeamMember_Constructor_Passing_Null_CreatedByUser_Throws_DesignByContractException()
-        {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new TeamMember(null, FakeObjects.TestTeam(), FakeObjects.TestUser(), FakeObjects.TestRoles())));            
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void TeamMember_Constructor_Passing_Null_Team_Throws_DesignByContractException()
-        {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => new TeamMember(FakeObjects.TestUser(), null, FakeObjects.TestUser(), FakeObjects.TestRoles())));
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
         public void TeamMember_Constructor_Sets_Property_Values()
         {
             var testUser = FakeObjects.TestUser();
@@ -78,19 +64,6 @@ namespace Bowerbird.Core.Test.DomainModels
             Assert.AreEqual(testMember.User.Id, testUser.Id);
             Assert.AreEqual(testMember.Team.Id, testTeam.Id);
             Assert.AreEqual(testMember.Team.Name, testTeam.Name);
-        }
-
-        #endregion
-
-        #region Property tests
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void TeamMember_Team_Is_OfType_DenormalisedNamedDomainModelReference_Team()
-        {
-            var testMember = new TeamMember(FakeObjects.TestUser(), FakeObjects.TestTeam(), FakeObjects.TestUser(), FakeObjects.TestRoles());
-
-            Assert.IsInstanceOf<DenormalisedNamedDomainModelReference<Team>>(testMember.Team);
         }
 
         #endregion
