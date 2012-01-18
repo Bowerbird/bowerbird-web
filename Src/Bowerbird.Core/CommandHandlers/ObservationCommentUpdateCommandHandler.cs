@@ -15,6 +15,7 @@
 */
 
 using Bowerbird.Core.DomainModels.Comments;
+using Raven.Client;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -31,23 +32,18 @@ namespace Bowerbird.Core.CommandHandlers
     {
         #region Fields
 
-        private readonly IRepository<User> _userRepository;
-        private readonly IRepository<ObservationComment> _observationCommentRepository;
+        private readonly IDocumentSession _documentSession;
 
         #endregion
 
         #region Constructors
 
         public ObservationCommentUpdateCommandHandler(
-            IRepository<User> userRepository
-            , IRepository<ObservationComment> observationCommentRepository
-            )
+            IDocumentSession documentSession)
         {
-            Check.RequireNotNull(userRepository, "userRepository");
-            Check.RequireNotNull(observationCommentRepository, "observationCommentRepository");
+            Check.RequireNotNull(documentSession, "documentSession");
 
-            _userRepository = userRepository;
-            _observationCommentRepository = observationCommentRepository;
+            _documentSession = documentSession;
         }
 
         #endregion
@@ -62,14 +58,14 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(command, "command");
 
-            var observationComment = _observationCommentRepository
-                .Load(command.Id)
+            var observationComment = _documentSession
+                .Load<ObservationComment>(command.Id)
                 .UpdateCommentMessage(
-                    _userRepository.Load(command.UserId),
+                    _documentSession.Load<User>(command.UserId),
                     command.UpdatedOn,
                     command.Comment);
 
-            _observationCommentRepository.Add(observationComment);
+            _documentSession.Store(observationComment);
         }
 
         #endregion

@@ -7,6 +7,7 @@ using Bowerbird.Core.Repositories;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Events;
+using Raven.Client;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -15,22 +16,18 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Members
 
-        private readonly IRepository<User> _userRepository;
-        private readonly IRepository<Role> _roleRepository;
-        private readonly IRepository<Permission> _permissionRepository;
+        private readonly IDocumentSession _documentSession;
 
         #endregion
 
         #region Constructors
 
         public SetupSystemCommandHandler(
-            IRepository<User> userRepository,
-            IRepository<Role> roleRepository,
-            IRepository<Permission> permissionRepository)
+            IDocumentSession documentSession)
         {
-            _userRepository = userRepository;
-            _roleRepository = roleRepository;
-            _permissionRepository = permissionRepository;
+            Check.RequireNotNull(documentSession, "documentSession");
+
+            _documentSession = documentSession;
         }
 
         #endregion
@@ -101,7 +98,7 @@ namespace Bowerbird.Core.CommandHandlers
         {
             var permission = new Permission(id, name, description);
 
-            _permissionRepository.Add(permission);
+            _documentSession.Store(permission);
 
             Permissions.Add(permission);
         }
@@ -112,7 +109,7 @@ namespace Bowerbird.Core.CommandHandlers
 
             var role = new Role(id, name, description, permissions);
 
-            _roleRepository.Add(role);
+            _documentSession.Store(role);
 
             Roles.Add(role);
         }
@@ -123,7 +120,7 @@ namespace Bowerbird.Core.CommandHandlers
 
             var user = new User(password, email, firstname, lastname, roles);
 
-            _userRepository.Add(user);
+            _documentSession.Store(user);
 
             Users.Add(user);
         }

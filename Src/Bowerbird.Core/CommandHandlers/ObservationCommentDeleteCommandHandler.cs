@@ -15,6 +15,7 @@
 */
 
 using Bowerbird.Core.DomainModels.Comments;
+using Raven.Client;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -31,19 +32,18 @@ namespace Bowerbird.Core.CommandHandlers
     {
         #region Fields
 
-        private readonly IRepository<ObservationComment> _observationCommentRepository;
+        private readonly IDocumentSession _documentSession;
 
         #endregion
 
         #region Constructors
 
         public ObservationCommentDeleteCommandHandler(
-            IRepository<ObservationComment> observationCommentRepository
-            )
+            IDocumentSession documentSession)
         {
-            Check.RequireNotNull(observationCommentRepository, "observationCommentRepository");
+            Check.RequireNotNull(documentSession, "documentSession");
 
-            _observationCommentRepository = observationCommentRepository;
+            _documentSession = documentSession;
         }
 
         #endregion
@@ -58,7 +58,7 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(command, "command");
 
-            _observationCommentRepository.Remove(_observationCommentRepository.Load(command.Id));
+            _documentSession.Delete(_documentSession.Load<ObservationComment>(command.Id));
         }
 
         #endregion

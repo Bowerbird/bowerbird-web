@@ -2,6 +2,7 @@
 using Bowerbird.Core.Repositories;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Raven.Client;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -10,22 +11,18 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Members
 
-        private readonly IRepository<User> _userRepository;
-        private readonly IRepository<Role> _roleRepository;
+        private readonly IDocumentSession _documentSession;
 
         #endregion
 
         #region Constructors
 
         public UserCreateCommandHandler(
-            IRepository<User> userRepository,
-            IRepository<Role> roleRepository)
+            IDocumentSession documentSession)
         {
-            Check.RequireNotNull(userRepository, "userRepository");
-            Check.RequireNotNull(roleRepository, "roleRepository");
+            Check.RequireNotNull(documentSession, "documentSession");
 
-            _userRepository = userRepository;
-            _roleRepository = roleRepository;
+            _documentSession = documentSession;
         }
 
         #endregion
@@ -45,9 +42,9 @@ namespace Bowerbird.Core.CommandHandlers
                 userCreateCommand.Email,
                 userCreateCommand.FirstName,
                 userCreateCommand.LastName,
-                _roleRepository.Load(userCreateCommand.Roles));
+                _documentSession.Load<Role>(userCreateCommand.Roles));
 
-            _userRepository.Add(user);
+            _documentSession.Store(user);
         }
 
         #endregion      

@@ -3,6 +3,7 @@ using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.DomainModels.Posts;
 using Bowerbird.Core.Repositories;
+using Raven.Client;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -10,19 +11,18 @@ namespace Bowerbird.Core.CommandHandlers
     {
         #region Fields
 
-        private readonly IRepository<ProjectPost> _projectPostRepository;
+        private readonly IDocumentSession _documentSession;
 
         #endregion
 
         #region Constructors
 
         public ProjectPostDeleteCommandHandler(
-            IRepository<ProjectPost> projectPostRepository
-            )
+            IDocumentSession documentSession)
         {
-            Check.RequireNotNull(projectPostRepository, "projectPostRepository");
+            Check.RequireNotNull(documentSession, "documentSession");
 
-            _projectPostRepository = projectPostRepository;
+            _documentSession = documentSession;
         }
 
         #endregion
@@ -37,7 +37,7 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(projectPostDeleteCommand, "projectPostDeleteCommand");
 
-            _projectPostRepository.Remove(_projectPostRepository.Load(projectPostDeleteCommand.Id));
+            _documentSession.Delete(_documentSession.Load<ProjectPost>(projectPostDeleteCommand.Id));
         }
 
         #endregion

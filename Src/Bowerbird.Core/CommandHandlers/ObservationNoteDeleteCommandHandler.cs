@@ -14,6 +14,9 @@
  
 */
 
+using System;
+using Raven.Client;
+
 namespace Bowerbird.Core.CommandHandlers
 {
     #region Namespaces
@@ -29,19 +32,18 @@ namespace Bowerbird.Core.CommandHandlers
     {
         #region Fields
 
-        private readonly IRepository<ObservationNote> _observationNoteRepository;
+        private readonly IDocumentSession _documentSession;
 
         #endregion
 
         #region Constructors
 
         public ObservationNoteDeleteCommandHandler(
-            IRepository<ObservationNote> observationNoteRepository
-            )
+            IDocumentSession documentSession)
         {
-            Check.RequireNotNull(observationNoteRepository, "observationNoteRepository");
+            Check.RequireNotNull(documentSession, "documentSession");
 
-            _observationNoteRepository = observationNoteRepository;
+            _documentSession = documentSession;
         }
 
         #endregion
@@ -55,6 +57,8 @@ namespace Bowerbird.Core.CommandHandlers
         public void Handle(ObservationNoteDeleteCommand command)
         {
             Check.RequireNotNull(command, "command");
+
+            throw new NotImplementedException();
         }
 
         #endregion

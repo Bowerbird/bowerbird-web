@@ -14,6 +14,9 @@
  
 */
 
+using System;
+using Raven.Client;
+
 namespace Bowerbird.Core.CommandHandlers
 {
     #region Namespaces
@@ -29,18 +32,18 @@ namespace Bowerbird.Core.CommandHandlers
     {
         #region Fields
 
+        private readonly IDocumentSession _documentSession;
 
         #endregion
 
         #region Constructors
 
         public PostCommentUpdateCommandHandler(
-            //IDefaultRepository<User> userRepository
-            )
+            IDocumentSession documentSession)
         {
-            //Check.RequireNotNull(userRepository, "userRepository");
+            Check.RequireNotNull(documentSession, "documentSession");
 
-            //_userRepository = userRepository;
+            _documentSession = documentSession;
         }
 
         #endregion
@@ -54,6 +57,8 @@ namespace Bowerbird.Core.CommandHandlers
         public void Handle(PostCommentUpdateCommand command)
         {
             Check.RequireNotNull(command, "command");
+
+            throw new NotImplementedException();
         }
 
         #endregion

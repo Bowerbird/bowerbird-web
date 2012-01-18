@@ -14,6 +14,8 @@
  
 */
 
+using Raven.Client;
+
 namespace Bowerbird.Core.CommandHandlers
 {
     #region Namespaces
@@ -30,27 +32,18 @@ namespace Bowerbird.Core.CommandHandlers
     {
         #region Fields
 
-        private readonly IRepository<User> _userRepository;
-        private readonly IRepository<Observation> _observationRepository;
-        private readonly IRepository<ObservationComment> _observationCommentRepository;
+        private readonly IDocumentSession _documentSession;
 
         #endregion
 
         #region Constructors
 
         public ObservationCommentCreateCommandHandler(
-            IRepository<User> userRepository
-            , IRepository<Observation> observationRepository
-            , IRepository<ObservationComment> observationCommentRepository
-            )
+            IDocumentSession documentSession)
         {
-            Check.RequireNotNull(userRepository, "userRepository");
-            Check.RequireNotNull(observationRepository, "observationRepository");
-            Check.RequireNotNull(observationCommentRepository, "observationCommentRepository");
+            Check.RequireNotNull(documentSession, "documentSession");
 
-            _userRepository = userRepository;
-            _observationRepository = observationRepository;
-            _observationCommentRepository = observationCommentRepository;
+            _documentSession = documentSession;
         }
 
         #endregion
@@ -66,13 +59,13 @@ namespace Bowerbird.Core.CommandHandlers
             Check.RequireNotNull(command, "command");
 
             var observationComment = new ObservationComment(
-                _userRepository.Load(command.UserId),
-                _observationRepository.Load(command.ObservationId),
+                _documentSession.Load<User>(command.UserId),
+                _documentSession.Load<Observation>(command.ObservationId),
                 command.CommentedOn,
                 command.Comment
                 );
 
-            _observationCommentRepository.Add(observationComment);
+            _documentSession.Store(observationComment);
         }
 
         #endregion

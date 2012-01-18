@@ -13,6 +13,7 @@
 */
 
 using Bowerbird.Core.DomainModels.Posts;
+using Raven.Client;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -31,27 +32,18 @@ namespace Bowerbird.Core.CommandHandlers
     {
         #region Fields
 
-        private readonly IRepository<ProjectPost> _projectPostRepository;
-        private readonly IRepository<MediaResource> _mediaResourceRepository;
-        private readonly IRepository<User> _userRepository;
+        private readonly IDocumentSession _documentSession;
 
         #endregion
 
         #region Constructors
 
         public ProjectPostUpdateCommandHandler(
-            IRepository<ProjectPost> projectPostRepository,
-            IRepository<MediaResource> mediaResourceRepository,
-            IRepository<User> userRepository
-            )
+            IDocumentSession documentSession)
         {
-            Check.RequireNotNull(projectPostRepository, "projectPostRepository");
-            Check.RequireNotNull(mediaResourceRepository, "mediaResourceRepository");
-            Check.RequireNotNull(userRepository, "userRepository");
+            Check.RequireNotNull(documentSession, "documentSession");
 
-            _projectPostRepository = projectPostRepository;
-            _mediaResourceRepository = mediaResourceRepository;
-            _userRepository = userRepository;
+            _documentSession = documentSession;
         }
 
         #endregion
@@ -66,16 +58,15 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(command, "command");
 
-            var projectPost = _projectPostRepository.Load(command.Id);
+            var projectPost = _documentSession.Load<ProjectPost>(command.Id);
 
             projectPost.UpdateDetails(
-                _userRepository.Load(command.UserId),
+                _documentSession.Load<User>(command.UserId),
                 command.Subject,
                 command.Message,
-                _mediaResourceRepository.Load(command.MediaResources).ToList()
-                );
+                _documentSession.Load<MediaResource>(command.MediaResources));
 
-            _projectPostRepository.Add(projectPost);
+            _documentSession.Store(projectPost);
         }
 
         #endregion

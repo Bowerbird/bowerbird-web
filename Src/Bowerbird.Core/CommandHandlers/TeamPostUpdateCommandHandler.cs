@@ -13,6 +13,7 @@
 */
 
 using Bowerbird.Core.DomainModels.Posts;
+using Raven.Client;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -29,27 +30,18 @@ namespace Bowerbird.Core.CommandHandlers
     {
         #region Fields
 
-        private readonly IRepository<User> _userRepository;
-        private readonly IRepository<Team> _teamRepository;
-        private readonly IRepository<TeamPost> _teamPostRepository;
+        private readonly IDocumentSession _documentSession;
 
         #endregion
 
         #region Constructors
 
         public TeamPostUpdateCommandHandler(
-            IRepository<User> userRepository
-            , IRepository<Team> teamRepository
-            , IRepository<TeamPost> teamPostRepository
-            )
+            IDocumentSession documentSession)
         {
-            Check.RequireNotNull(userRepository, "userRepository");
-            Check.RequireNotNull(teamRepository, "teamRepository");
-            Check.RequireNotNull(teamPostRepository, "teamPostRepository");
+            Check.RequireNotNull(documentSession, "documentSession");
 
-            _userRepository = userRepository;
-            _teamRepository = teamRepository;
-            _teamPostRepository = teamPostRepository;
+            _documentSession = documentSession;
         }
 
         #endregion

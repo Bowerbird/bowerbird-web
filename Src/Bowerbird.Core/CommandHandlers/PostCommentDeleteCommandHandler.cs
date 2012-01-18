@@ -14,7 +14,9 @@
  
 */
 
+using System;
 using Bowerbird.Core.DomainModels.Comments;
+using Raven.Client;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -31,19 +33,18 @@ namespace Bowerbird.Core.CommandHandlers
     {
         #region Fields
 
-        private readonly IRepository<PostComment> _postCommentRepository;
+        private readonly IDocumentSession _documentSession;
 
         #endregion
 
         #region Constructors
 
         public PostCommentDeleteCommandHandler(
-            IRepository<PostComment> postCommentRepository
-            )
+            IDocumentSession documentSession)
         {
-            Check.RequireNotNull(postCommentRepository, "postCommentRepository");
+            Check.RequireNotNull(documentSession, "documentSession");
 
-            _postCommentRepository = postCommentRepository;
+            _documentSession = documentSession;
         }
 
         #endregion
@@ -57,6 +58,8 @@ namespace Bowerbird.Core.CommandHandlers
         public void Handle(PostCommentDeleteCommand command)
         {
             Check.RequireNotNull(command, "command");
+
+            throw new NotImplementedException();
         }
 
         #endregion

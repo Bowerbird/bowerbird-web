@@ -12,6 +12,8 @@
  
 */
 
+using Raven.Client;
+
 namespace Bowerbird.Core.CommandHandlers
 {
     #region Namespaces
@@ -30,31 +32,18 @@ namespace Bowerbird.Core.CommandHandlers
     {
         #region Fields
 
-        private readonly IRepository<User> _userRepository;
-        private readonly IRepository<Team> _teamRepository;
-        private readonly IRepository<TeamPost> _teamPostRepository;
-        private readonly IRepository<MediaResource> _mediaResourceRepository;
+        private readonly IDocumentSession _documentSession;
 
         #endregion
 
         #region Constructors
 
         public TeamPostCreateCommandHandler(
-            IRepository<User> userRepository
-            , IRepository<Team> teamRepository
-            , IRepository<TeamPost> teamPostRepository
-            , IRepository<MediaResource> mediaResourceRepository
-            )
+            IDocumentSession documentSession)
         {
-            Check.RequireNotNull(userRepository, "userRepository");
-            Check.RequireNotNull(teamRepository, "teamRepository");
-            Check.RequireNotNull(teamPostRepository, "teamPostRepository");
-            Check.RequireNotNull(mediaResourceRepository, "mediaResourceRepository");
+            Check.RequireNotNull(documentSession, "documentSession");
 
-            _userRepository = userRepository;
-            _teamRepository = teamRepository;
-            _teamPostRepository = teamPostRepository;
-            _mediaResourceRepository = mediaResourceRepository;
+            _documentSession = documentSession;
         }
 
         #endregion
@@ -70,14 +59,14 @@ namespace Bowerbird.Core.CommandHandlers
             Check.RequireNotNull(command, "command");
 
             var teamPost = new TeamPost(
-                _teamRepository.Load(command.TeamId),
-                _userRepository.Load(command.UserId),
+                _documentSession.Load<Team>(command.TeamId),
+                _documentSession.Load<User>(command.UserId),
                 command.PostedOn,
                 command.Subject,
                 command.Message,
-                _mediaResourceRepository.Load(command.MediaResources).ToList());
+                _documentSession.Load<MediaResource>(command.MediaResources).ToList());
 
-            _teamPostRepository.Add(teamPost);
+            _documentSession.Store(teamPost);
         }
 
         #endregion

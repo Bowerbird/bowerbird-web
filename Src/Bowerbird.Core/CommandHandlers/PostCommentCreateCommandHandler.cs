@@ -14,6 +14,8 @@
  
 */
 
+using Raven.Client;
+
 namespace Bowerbird.Core.CommandHandlers
 {
     #region Namespaces
@@ -30,27 +32,18 @@ namespace Bowerbird.Core.CommandHandlers
     {
         #region Fields
 
-        private readonly IRepository<User> _userRepository;
-        private readonly IRepository<Post> _postRepository;
-        private readonly IRepository<PostComment> _postCommentRepository;
+        private readonly IDocumentSession _documentSession;
 
         #endregion
 
         #region Constructors
 
         public PostCommentCreateCommandHandler(
-             IRepository<User> userRepository
-            ,IRepository<Post> postRepository
-            , IRepository<PostComment> postCommentRepository
-            )
+            IDocumentSession documentSession)
         {
-            Check.RequireNotNull(userRepository, "userRepository");
-            Check.RequireNotNull(postRepository, "postRepository");
-            Check.RequireNotNull(postCommentRepository, "postCommentRepository");
+            Check.RequireNotNull(documentSession, "documentSession");
 
-            _userRepository = userRepository;
-            _postRepository = postRepository;
-            _postCommentRepository = postCommentRepository;
+            _documentSession = documentSession;
         }
 
         #endregion
@@ -66,13 +59,13 @@ namespace Bowerbird.Core.CommandHandlers
             Check.RequireNotNull(command, "command");
 
             var postComment = new PostComment(
-                _userRepository.Load(command.UserId),
-                _postRepository.Load(command.PostId),
+                _documentSession.Load<User>(command.UserId),
+                _documentSession.Load<Post>(command.PostId),
                 command.PostedOn,
                 command.Message
                 );
 
-            _postCommentRepository.Add(postComment);
+            _documentSession.Store(postComment);
         }
 
         #endregion

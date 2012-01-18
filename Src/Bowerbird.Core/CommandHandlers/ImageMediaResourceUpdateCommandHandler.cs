@@ -12,6 +12,8 @@
  
 */
 
+using Raven.Client;
+
 namespace Bowerbird.Core.CommandHandlers
 {
     #region Namespaces
@@ -28,23 +30,18 @@ namespace Bowerbird.Core.CommandHandlers
     {
         #region Fields
 
-        private readonly IRepository<User> _userRepository;
-        private readonly IRepository<ImageMediaResource> _imageMediaResourceRepository;
+        private readonly IDocumentSession _documentSession;
 
         #endregion
 
         #region Constructors
 
         public ImageMediaResourceUpdateCommandHandler(
-            IRepository<User> userRepository
-            , IRepository<ImageMediaResource> imageMediaResourceRepository
-            )
+            IDocumentSession documentSession)
         {
-            Check.RequireNotNull(userRepository, "userRepository");
-            Check.RequireNotNull(imageMediaResourceRepository, "imageMediaResourceRepository");
+            Check.RequireNotNull(documentSession, "documentSession");
 
-            _userRepository = userRepository;
-            _imageMediaResourceRepository = imageMediaResourceRepository;
+            _documentSession = documentSession;
         }
 
         #endregion
@@ -59,11 +56,11 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(command, "command");
 
-            var imageMediaResource = _imageMediaResourceRepository.Load(command.Id);
+            var imageMediaResource = _documentSession.Load<ImageMediaResource>(command.Id);
 
             imageMediaResource.UpdateDetails(command.Description);
 
-            _imageMediaResourceRepository.Add(imageMediaResource);
+            _documentSession.Store(imageMediaResource);
         }
 
         #endregion

@@ -12,6 +12,8 @@
  
 */
 
+using Raven.Client;
+
 namespace Bowerbird.Core.CommandHandlers
 {
     #region Namespaces
@@ -27,26 +29,18 @@ namespace Bowerbird.Core.CommandHandlers
     {
         #region Members
 
-        private readonly IRepository<Observation> _observationRepository;
-        private readonly IRepository<User> _userRepsitory;
-        private readonly IRepository<MediaResource> _mediaResourceRepsitory;
+        private readonly IDocumentSession _documentSession;
 
         #endregion
 
         #region Constructors
 
         public ObservationUpdateCommandHandler(
-            IRepository<Observation> observationRepository,
-            IRepository<User> userRepsitory,
-            IRepository<MediaResource> mediaResourceRepsitory)
+            IDocumentSession documentSession)
         {
-            Check.RequireNotNull(observationRepository, "observationRepository");
-            Check.RequireNotNull(userRepsitory, "userRepsitory");
-            Check.RequireNotNull(mediaResourceRepsitory, "mediaResourceRepsitory");
+            Check.RequireNotNull(documentSession, "documentSession");
 
-            _observationRepository = observationRepository;
-            _userRepsitory = userRepsitory;
-            _mediaResourceRepsitory = mediaResourceRepsitory;
+            _documentSession = documentSession;
         }
 
         #endregion
@@ -61,10 +55,10 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(observationUpdateCommand, "observationUpdateCommand");
 
-            var observation = _observationRepository.Load(observationUpdateCommand.Id);
+            var observation = _documentSession.Load<Observation>(observationUpdateCommand.Id);
 
             observation.UpdateDetails(
-                _userRepsitory.Load(observationUpdateCommand.UserId),
+                _documentSession.Load<User>(observationUpdateCommand.UserId),
                 observationUpdateCommand.Title,
                 observationUpdateCommand.ObservedOn,
                 observationUpdateCommand.Latitude,
@@ -72,9 +66,9 @@ namespace Bowerbird.Core.CommandHandlers
                 observationUpdateCommand.Address,
                 observationUpdateCommand.IsIdentificationRequired,
                 observationUpdateCommand.ObservationCategory,
-                _mediaResourceRepsitory.Load(observationUpdateCommand.MediaResources));
+                _documentSession.Load<MediaResource>(observationUpdateCommand.MediaResources));
 
-            _observationRepository.Add(observation);
+            _documentSession.Store(observation);
         }
 
         #endregion      

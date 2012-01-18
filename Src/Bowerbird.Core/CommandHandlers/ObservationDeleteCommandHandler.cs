@@ -14,6 +14,9 @@
  
 */
 
+using System;
+using Raven.Client;
+
 namespace Bowerbird.Core.CommandHandlers
 {
     #region Namespaces
@@ -29,22 +32,18 @@ namespace Bowerbird.Core.CommandHandlers
     {
         #region Fields
 
-        private readonly IRepository<Observation> _observationRepository;
-        private readonly IRepository<MediaResource> _mediaResourceRepository;
+        private readonly IDocumentSession _documentSession;
 
         #endregion
 
         #region Constructors
 
         public ObservationDeleteCommandHandler(
-             IRepository<Observation> observationRepository,
-            IRepository<MediaResource> mediaResourceRepository)
+            IDocumentSession documentSession)
         {
-            Check.RequireNotNull(observationRepository, "observationRepository");
-            Check.RequireNotNull(mediaResourceRepository, "mediaResourceRepository");
+            Check.RequireNotNull(documentSession, "documentSession");
 
-            _observationRepository = observationRepository;
-            _mediaResourceRepository = mediaResourceRepository;
+            _documentSession = documentSession;
         }
 
         #endregion
@@ -58,6 +57,8 @@ namespace Bowerbird.Core.CommandHandlers
         public void Handle(ObservationDeleteCommand command)
         {
             Check.RequireNotNull(command, "command");
+
+            throw new NotImplementedException();
         }
 
         #endregion

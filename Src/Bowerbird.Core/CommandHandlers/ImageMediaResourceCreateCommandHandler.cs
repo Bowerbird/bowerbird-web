@@ -12,39 +12,31 @@
  
 */
 
+using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Repositories;
+using Bowerbird.Core.Commands;
+using Bowerbird.Core.DomainModels.MediaResources;
+using Raven.Client;
+
 namespace Bowerbird.Core.CommandHandlers
 {
-    #region Namespaces
-
-    using Bowerbird.Core.DesignByContract;
-    using Bowerbird.Core.DomainModels;
-    using Bowerbird.Core.Repositories;
-    using Bowerbird.Core.Commands;
-    using Bowerbird.Core.DomainModels.MediaResources;
-
-    #endregion
-
     public class ImageMediaResourceCreateCommandHandler : ICommandHandler<ImageMediaResourceCreateCommand>
     {
         #region Fields
 
-        private readonly IRepository<User> _userRepository;
-        private readonly IRepository<ImageMediaResource> _imageMediaResourceRepository;
+        private readonly IDocumentSession _documentSession;
 
         #endregion
 
         #region Constructors
 
         public ImageMediaResourceCreateCommandHandler(
-            IRepository<User> userRepository
-            ,IRepository<ImageMediaResource> imageMediaResourceRepository
-            )
+            IDocumentSession documentSession)
         {
-            Check.RequireNotNull(userRepository, "userRepository");
-            Check.RequireNotNull(imageMediaResourceRepository, "mediaResourceRepository");
+            Check.RequireNotNull(documentSession, "documentSession");
 
-            _userRepository = userRepository;
-            _imageMediaResourceRepository = imageMediaResourceRepository;
+            _documentSession = documentSession;
         }
 
         #endregion
@@ -60,7 +52,7 @@ namespace Bowerbird.Core.CommandHandlers
             Check.RequireNotNull(command, "command");
 
             var imageMediaResource = new ImageMediaResource(
-                _userRepository.Load(command.UserId)
+                _documentSession.Load<User>(command.UserId)
                 , command.UploadedOn
                 , command.OriginalFileName
                 , command.FileFormat
@@ -68,7 +60,7 @@ namespace Bowerbird.Core.CommandHandlers
                 , command.OriginalHeight
                 , command.OriginalWidth);
 
-            _imageMediaResourceRepository.Add(imageMediaResource);
+            _documentSession.Store(imageMediaResource);
         }
 
         #endregion

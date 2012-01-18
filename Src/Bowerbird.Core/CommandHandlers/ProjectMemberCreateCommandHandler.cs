@@ -12,6 +12,8 @@
  
 */
 
+using Raven.Client;
+
 namespace Bowerbird.Core.CommandHandlers
 {
     #region Namespaces
@@ -29,31 +31,18 @@ namespace Bowerbird.Core.CommandHandlers
     {
         #region Fields
 
-        private readonly IRepository<ProjectMember> _projectMemberRepository;
-        private readonly IRepository<User> _userRepository;
-        private readonly IRepository<Project> _projectRepository;
-        private readonly IRepository<Role> _roleRepository;
+        private readonly IDocumentSession _documentSession;
 
         #endregion
 
         #region Constructors
 
         public ProjectMemberCreateCommandHandler(
-            IRepository<ProjectMember> projectMemberRepository
-            ,IRepository<User> userRepository
-            ,IRepository<Project> projectRepository
-            ,IRepository<Role> roleRepository
-            )
+            IDocumentSession documentSession)
         {
-            Check.RequireNotNull(projectMemberRepository, "projectMemberRepository");
-            Check.RequireNotNull(userRepository, "userRepository");
-            Check.RequireNotNull(projectRepository, "projectRepository");
-            Check.RequireNotNull(roleRepository, "roleRepository");
+            Check.RequireNotNull(documentSession, "documentSession");
 
-            _projectMemberRepository = projectMemberRepository;
-            _userRepository = userRepository;
-            _projectRepository = projectRepository;
-            _roleRepository = roleRepository;
+            _documentSession = documentSession;
         }
 
         #endregion
@@ -69,13 +58,13 @@ namespace Bowerbird.Core.CommandHandlers
             Check.RequireNotNull(command, "command");
 
             var projectMember = new ProjectMember(
-                _userRepository.Load(command.CreatedByUserId),
-                _projectRepository.Load(command.ProjectId),
-                _userRepository.Load(command.UserId),
-                _roleRepository.Load(command.Roles)
+                _documentSession.Load<User>(command.CreatedByUserId),
+                _documentSession.Load<Project>(command.ProjectId),
+                _documentSession.Load<User>(command.UserId),
+                _documentSession.Load<Role>(command.Roles)
                 );
 
-            _projectMemberRepository.Add(projectMember);
+            _documentSession.Store(projectMember);
         }
 
         #endregion

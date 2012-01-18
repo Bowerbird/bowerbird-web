@@ -12,6 +12,8 @@
  
 */
 
+using Raven.Client;
+
 namespace Bowerbird.Core.CommandHandlers
 {
     #region Namespaces
@@ -27,27 +29,18 @@ namespace Bowerbird.Core.CommandHandlers
     {
         #region Fields
 
-        private readonly IRepository<User> _userRepository;
-        private readonly IRepository<Observation> _observationRepository;
-        private readonly IRepository<ObservationNote> _observationNoteRepository;
+        private readonly IDocumentSession _documentSession;
 
         #endregion
 
         #region Constructors
 
         public ObservationNoteCreateCommandHandler(
-            IRepository<User> userRepository
-            , IRepository<Observation> observationRepository
-            , IRepository<ObservationNote> observationNoteRepository
-            )
+            IDocumentSession documentSession)
         {
-            Check.RequireNotNull(userRepository, "userRepository");
-            Check.RequireNotNull(observationRepository, "observationRepository");
-            Check.RequireNotNull(observationNoteRepository, "observationNoteRepository");
+            Check.RequireNotNull(documentSession, "documentSession");
 
-            _userRepository = userRepository;
-            _observationRepository = observationRepository;
-            _observationNoteRepository = observationNoteRepository;
+            _documentSession = documentSession;
         }
 
         #endregion
@@ -63,8 +56,8 @@ namespace Bowerbird.Core.CommandHandlers
             Check.RequireNotNull(command, "command");
 
             var observationNote = new ObservationNote(
-                _userRepository.Load(command.UserId),
-                _observationRepository.Load(command.ObservationId),
+                _documentSession.Load<User>(command.UserId),
+                _documentSession.Load<Observation>(command.ObservationId),
                 command.CommonName,
                 command.ScientificName,
                 command.Taxonomy,
@@ -74,7 +67,7 @@ namespace Bowerbird.Core.CommandHandlers
                 command.Notes
                 );
 
-            _observationNoteRepository.Add(observationNote);
+            _documentSession.Store(observationNote);
         }
 
         #endregion

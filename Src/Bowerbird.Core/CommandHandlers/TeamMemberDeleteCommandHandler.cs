@@ -12,7 +12,9 @@
  
 */
 
+using System;
 using Bowerbird.Core.DomainModels.Members;
+using Raven.Client;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -29,19 +31,18 @@ namespace Bowerbird.Core.CommandHandlers
     {
         #region Fields
 
-        private readonly IRepository<TeamMember> _teamMemberRepository;
+        private readonly IDocumentSession _documentSession;
 
         #endregion
 
         #region Constructors
 
         public TeamMemberDeleteCommandHandler(
-            IRepository<TeamMember> teamMemberRepository
-            )
+            IDocumentSession documentSession)
         {
-            Check.RequireNotNull(teamMemberRepository, "teamMemberRepository");
+            Check.RequireNotNull(documentSession, "documentSession");
 
-            _teamMemberRepository = teamMemberRepository;
+            _documentSession = documentSession;
         }
 
         #endregion
@@ -55,6 +56,8 @@ namespace Bowerbird.Core.CommandHandlers
         public void Handle(TeamMemberDeleteCommand command)
         {
             Check.RequireNotNull(command, "command");
+
+            throw new NotImplementedException();
         }
 
         #endregion

@@ -12,6 +12,8 @@
  
 */
 
+using Raven.Client;
+
 namespace Bowerbird.Core.CommandHandlers
 {
     #region Namespaces
@@ -28,31 +30,18 @@ namespace Bowerbird.Core.CommandHandlers
     {
         #region Fields
 
-        private readonly IRepository<Team> _teamRepository;
-        private readonly IRepository<TeamMember> _teamMemberRepository;
-        private readonly IRepository<User> _userRepository;
-        private readonly IRepository<Role> _roleRepository;
+        private readonly IDocumentSession _documentSession;
 
         #endregion
 
         #region Constructors
 
         public TeamMemberCreateCommandHandler(
-            IRepository<Team> teamRepository
-            ,IRepository<TeamMember> teamMemberRepository
-            ,IRepository<User> userRepository
-            ,IRepository<Role> roleRepository
-            )
+            IDocumentSession documentSession)
         {
-            Check.RequireNotNull(teamRepository, "teamRepository");
-            Check.RequireNotNull(teamMemberRepository, "teamMemberRepository");
-            Check.RequireNotNull(userRepository, "userRepository");
-            Check.RequireNotNull(roleRepository, "roleRepository");
+            Check.RequireNotNull(documentSession, "documentSession");
 
-            _teamRepository = teamRepository;
-            _teamMemberRepository = teamMemberRepository;
-            _userRepository = userRepository;
-            _roleRepository = roleRepository;
+            _documentSession = documentSession;
         }
 
         #endregion
@@ -68,13 +57,13 @@ namespace Bowerbird.Core.CommandHandlers
             Check.RequireNotNull(command, "command");
 
             var teamMember = new TeamMember(
-                _userRepository.Load(command.CreatedByUserId),
-                _teamRepository.Load(command.TeamId),
-                _userRepository.Load(command.UserId),
-                _roleRepository.Load(command.Roles)
+                _documentSession.Load<User>(command.CreatedByUserId),
+                _documentSession.Load<Team>(command.TeamId),
+                _documentSession.Load<User>(command.UserId),
+                _documentSession.Load<Role>(command.Roles)
                 );
 
-            _teamMemberRepository.Add(teamMember);
+            _documentSession.Store(teamMember);
         }
 
         #endregion

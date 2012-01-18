@@ -14,6 +14,8 @@
  
 */
 
+using Raven.Client;
+
 namespace Bowerbird.Core.CommandHandlers
 {
     #region Namespaces
@@ -29,23 +31,18 @@ namespace Bowerbird.Core.CommandHandlers
     {
         #region Fields
 
-        private IRepository<Project> _projectRepository;
-        private IRepository<User> _userRepository;
+        private readonly IDocumentSession _documentSession;
 
         #endregion
 
         #region Constructors
 
         public ProjectCreateCommandHandler(
-            IRepository<Project> projectRepository,
-            IRepository<User> userRepository
-            )
+            IDocumentSession documentSession)
         {
-            Check.RequireNotNull(projectRepository, "projectRepository");
-            Check.RequireNotNull(userRepository, "userRepository");
+            Check.RequireNotNull(documentSession, "documentSession");
 
-            _projectRepository = projectRepository;
-            _userRepository = userRepository;
+            _documentSession = documentSession;
         }
 
         #endregion
@@ -61,12 +58,12 @@ namespace Bowerbird.Core.CommandHandlers
             Check.RequireNotNull(projectCreateCommand, "projectCreateCommand");
 
             var project = new Project(
-                _userRepository.Load(projectCreateCommand.UserId),
+                _documentSession.Load<User>(projectCreateCommand.UserId),
                 projectCreateCommand.Name,
                 projectCreateCommand.Description
                 );
 
-            _projectRepository.Add(project);
+            _documentSession.Store(project);
         }
 
         #endregion

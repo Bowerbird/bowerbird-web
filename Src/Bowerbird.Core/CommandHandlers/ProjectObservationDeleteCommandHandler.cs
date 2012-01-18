@@ -12,38 +12,29 @@
  
 */
 
+using System;
+using Raven.Client;
+using Bowerbird.Core.Commands;
+using Bowerbird.Core.DesignByContract;
+
 namespace Bowerbird.Core.CommandHandlers
 {
-    #region Namespaces
-
-    using Bowerbird.Core.Commands;
-    using Bowerbird.Core.DesignByContract;
-    using Bowerbird.Core.DomainModels;
-    using Bowerbird.Core.Repositories;
-
-    #endregion
-
-    public class ProjectObservationDeleteCommandHandler
+    public class ProjectObservationDeleteCommandHandler : ICommandHandler<ProjectObservationDeleteCommand>
     {
         #region Fields
 
-        private readonly IRepository<ProjectObservation> _projectObservationRepository;
-        private readonly IRepository<User> _userRepository;
- 
+        private readonly IDocumentSession _documentSession;
+
         #endregion
 
         #region Constructors
 
         public ProjectObservationDeleteCommandHandler(
-            IRepository<ProjectObservation> projectObservationRepository
-            , IRepository<User> userRepository
-            )
+            IDocumentSession documentSession)
         {
-            Check.RequireNotNull(projectObservationRepository, "projectObservationRepository");
-            Check.RequireNotNull(userRepository, "userRepository");
+            Check.RequireNotNull(documentSession, "documentSession");
 
-            _projectObservationRepository = projectObservationRepository;
-            _userRepository = userRepository;
+            _documentSession = documentSession;
         }
 
         #endregion
@@ -57,6 +48,8 @@ namespace Bowerbird.Core.CommandHandlers
         public void Handle(ProjectObservationDeleteCommand projectObservationDeleteCommand)
         {
             Check.RequireNotNull(projectObservationDeleteCommand, "projectObservationDeleteCommand");
+
+            throw new NotImplementedException();
         }
 
         #endregion

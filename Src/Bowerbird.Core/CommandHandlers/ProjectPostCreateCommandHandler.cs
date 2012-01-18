@@ -4,6 +4,7 @@ using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.DomainModels.Posts;
 using Bowerbird.Core.Repositories;
+using Raven.Client;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -11,31 +12,18 @@ namespace Bowerbird.Core.CommandHandlers
     {
         #region Fields
 
-        private readonly IRepository<User> _userRepository;
-        private readonly IRepository<ProjectPost> _projectPostRepository;
-        private readonly IRepository<Project> _projectRepository;
-        private readonly IRepository<MediaResource> _mediaResourceRepository;
+        private readonly IDocumentSession _documentSession;
 
         #endregion
 
         #region Constructors
 
         public ProjectPostCreateCommandHandler(
-            IRepository<Project> projectRepository,
-            IRepository<ProjectPost> projectPostRepository,
-            IRepository<User> userRepository,
-            IRepository<MediaResource> mediaResourceRepository
-            )
+            IDocumentSession documentSession)
         {
-            Check.RequireNotNull(userRepository, "userRepository");
-            Check.RequireNotNull(projectPostRepository, "projectPostRepository");
-            Check.RequireNotNull(projectRepository, "projectRepository");
-            Check.RequireNotNull(mediaResourceRepository, "mediaResourceRepository");
+            Check.RequireNotNull(documentSession, "documentSession");
 
-            _userRepository = userRepository;
-            _projectPostRepository = projectPostRepository;
-            _projectRepository = projectRepository;
-            _mediaResourceRepository = mediaResourceRepository;
+            _documentSession = documentSession;
         }
 
         #endregion
@@ -51,15 +39,15 @@ namespace Bowerbird.Core.CommandHandlers
             Check.RequireNotNull(projectPostCreateCommand, "projectPostCreateCommand");
 
             var projectPost = new ProjectPost(
-                _projectRepository.Load(projectPostCreateCommand.ProjectId),
-                _userRepository.Load(projectPostCreateCommand.UserId),
+                _documentSession.Load<Project>(projectPostCreateCommand.ProjectId),
+                _documentSession.Load<User>(projectPostCreateCommand.UserId),
                 projectPostCreateCommand.Timestamp,
                 projectPostCreateCommand.Subject,
                 projectPostCreateCommand.Message,
-                _mediaResourceRepository.Load(projectPostCreateCommand.MediaResources).ToList()
+                _documentSession.Load<MediaResource>(projectPostCreateCommand.MediaResources).ToList()
                 );
 
-            _projectPostRepository.Add(projectPost);
+            _documentSession.Store(projectPost);
         }
 
         #endregion

@@ -14,6 +14,8 @@
  
 */
 
+using Raven.Client;
+
 namespace Bowerbird.Core.CommandHandlers
 {
     #region Namespaces
@@ -29,19 +31,18 @@ namespace Bowerbird.Core.CommandHandlers
     {
         #region Fields
 
-        private IRepository<Project> _projectRepository;
+        private readonly IDocumentSession _documentSession;
 
         #endregion
 
         #region Constructors
 
         public ProjectDeleteCommandHandler(
-            IRepository<Project> projectRepository
-            )
+            IDocumentSession documentSession)
         {
-            Check.RequireNotNull(projectRepository, "projectRepository");
+            Check.RequireNotNull(documentSession, "documentSession");
 
-            _projectRepository = projectRepository;
+            _documentSession = documentSession;
         }
 
         #endregion
@@ -56,7 +57,7 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(projectDeleteCommand, "projectDeleteCommand");
 
-            _projectRepository.Remove(_projectRepository.Load(projectDeleteCommand.Id));
+            _documentSession.Delete(_documentSession.Load<Project>(projectDeleteCommand.Id));
         }
 
         #endregion				

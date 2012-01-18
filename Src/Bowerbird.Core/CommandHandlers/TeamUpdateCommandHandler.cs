@@ -12,6 +12,9 @@
  
 */
 
+using System;
+using Raven.Client;
+
 namespace Bowerbird.Core.CommandHandlers
 {
     #region Namespaces
@@ -27,23 +30,18 @@ namespace Bowerbird.Core.CommandHandlers
     {
         #region Fields
 
-        private readonly IRepository<Team> _teamRepository;
-        private readonly IRepository<User> _userRepository;
+        private readonly IDocumentSession _documentSession;
 
         #endregion
 
         #region Constructors
 
         public TeamUpdateCommandHandler(
-            IRepository<Team> teamRepository
-            , IRepository<User> userRepository
-            )
+            IDocumentSession documentSession)
         {
-            Check.RequireNotNull(userRepository, "userRepository");
-            Check.RequireNotNull(teamRepository, "teamRepository");
+            Check.RequireNotNull(documentSession, "documentSession");
 
-            _userRepository = userRepository;
-            _teamRepository = teamRepository;
+            _documentSession = documentSession;
         }
 
         #endregion
@@ -57,6 +55,8 @@ namespace Bowerbird.Core.CommandHandlers
         public void Handle(TeamUpdateCommand command)
         {
             Check.RequireNotNull(command, "command");
+
+            throw new NotImplementedException();
         }
 
         #endregion
