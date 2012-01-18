@@ -1,6 +1,7 @@
 ﻿using Bowerbird.Core.Repositories;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Raven.Client;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -8,18 +9,18 @@ namespace Bowerbird.Core.CommandHandlers
     {
         #region Members
 
-        private readonly IRepository<User> _userRepository;
+        private readonly IDocumentSession _documentSession;
 
         #endregion
 
         #region Constructors
 
         public UserUpdateLastLoginCommandHandler(
-            IRepository<User> userRepository)
+            IDocumentSession documentSession)
         {
-            Check.RequireNotNull(userRepository, "userRepository");
+            Check.RequireNotNull(documentSession, "documentSession");
 
-            _userRepository = userRepository;
+            _documentSession = documentSession;
         }
 
         #endregion
@@ -34,11 +35,11 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(userUpdateLastLoginCommand, "userUpdateLastLoginCommand");
 
-            var user = _userRepository.LoadByEmail(userUpdateLastLoginCommand.Email);
+            var user = _documentSession.LoadUserByEmail(userUpdateLastLoginCommand.Email);
 
             user.UpdateLastLoggedIn();
 
-            _userRepository.Add(user);
+            _documentSession.Store(user);
         }
 
         #endregion      

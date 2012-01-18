@@ -12,8 +12,13 @@
  
 */
 
+using System.Linq;
+using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Paging;
 using Bowerbird.Web.ViewModels.Members;
 using Bowerbird.Web.ViewModels.Shared;
+using Raven.Client;
+using Raven.Client.Linq;
 
 namespace Bowerbird.Web.Controllers.Members
 {
@@ -35,7 +40,7 @@ namespace Bowerbird.Web.Controllers.Members
         #region Members
 
         private readonly ICommandProcessor _commandProcessor;
-        private readonly IViewModelRepository _viewModelRepository;
+        private readonly IDocumentSession _documentSession;
 
         #endregion
 
@@ -43,14 +48,14 @@ namespace Bowerbird.Web.Controllers.Members
 
         public ObservationController(
             ICommandProcessor commandProcessor,
-            IViewModelRepository viewModelRepository
+            IDocumentSession documentSession
             )
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
-            Check.RequireNotNull(viewModelRepository, "viewModelRepository");
+            Check.RequireNotNull(documentSession, "documentSession");
 
             _commandProcessor = commandProcessor;
-            _viewModelRepository = viewModelRepository;
+            _documentSession = documentSession;
         }
 
         #endregion
@@ -64,22 +69,13 @@ namespace Bowerbird.Web.Controllers.Members
         [HttpGet]
         public ActionResult Index(IdInput idInput)
         {
-            var viewModel = _viewModelRepository.Load<IdInput, ObservationIndex>(idInput);
-
-            if (Request.IsAjaxRequest())
-            {
-                return Json(viewModel);
-            }
-            else
-            {
-                return View(viewModel);
-            }
+            return Json(MakeObservationIndex(idInput));
         }
 
         [HttpGet]
         public ActionResult List(ObservationListInput observationListInput)
         {
-            return Json(_viewModelRepository.Load<ObservationListInput, ObservationList>(observationListInput));
+            return Json(MakeObservationList(observationListInput));
         }
 
         [Transaction]
@@ -105,7 +101,7 @@ namespace Bowerbird.Web.Controllers.Members
             throw new NotImplementedException();
         }
 
-        public ObservationCreateCommand MakeObservationCreateCommand(ObservationCreateInput observationCreateInput)
+        private ObservationCreateCommand MakeObservationCreateCommand(ObservationCreateInput observationCreateInput)
         {
             Check.RequireNotNull(observationCreateInput, "observationCreateInput");
 
@@ -120,6 +116,42 @@ namespace Bowerbird.Web.Controllers.Members
                 ObservationCategory = observationCreateInput.ObservationCategory,
                 ObservedOn = observationCreateInput.ObservedOn,
                 UserId = observationCreateInput.UserId
+            };
+        }
+
+        private ObservationIndex MakeObservationIndex(IdInput idInput)
+        {
+            return new ObservationIndex()
+            {
+                Observation = _documentSession.Load<Observation>(idInput.Id)
+            };
+        }
+
+        public ObservationList MakeObservationList(ObservationListInput observationListInput)
+        {
+            RavenQueryStatistics stats;
+
+            var results = _documentSession
+                .Query<Observation>()
+                .Statistics(out stats)
+                .Where(x => x.User.Id == observationListInput.UserId)
+                .Skip(observationListInput.Page)
+                .Take(observationListInput.PageSize)
+                .ToArray();
+            // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
+
+            return new ObservationList
+            {
+                UserId = observationListInput.UserId,
+                ProjectId = observationListInput.ProjectId,
+                TeamId = observationListInput.TeamId,
+                Page = observationListInput.Page,
+                PageSize = observationListInput.PageSize,
+                Observations = results.ToPagedList(
+                    observationListInput.Page,
+                    observationListInput.PageSize,
+                    stats.TotalResults,
+                    null)
             };
         }
 

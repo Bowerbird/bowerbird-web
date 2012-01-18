@@ -1,21 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using Bowerbird.Core.Config;
-using Bowerbird.Core.Services;
-using Bowerbird.Web.ViewModels.Members;
-using Ninject.Modules;
+﻿using Ninject.Modules;
 using Raven.Client;
-using Bowerbird.Core;
 using Bowerbird.Core.CommandHandlers;
-using Bowerbird.Core.Repositories;
 using Ninject.Extensions.Conventions;
 using Microsoft.Practices.ServiceLocation;
-using Bowerbird.Web.ViewModelFactories;
-using Bowerbird.Web.ViewModels;
 using Bowerbird.Core.EventHandlers;
-using Bowerbird.Core.Tasks;
 using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Web.Config

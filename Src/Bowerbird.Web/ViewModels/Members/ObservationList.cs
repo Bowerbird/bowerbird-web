@@ -1,5 +1,6 @@
 ﻿
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Paging;
 using Bowerbird.Web.ViewModels.Shared;
 
 namespace Bowerbird.Web.ViewModels.Members

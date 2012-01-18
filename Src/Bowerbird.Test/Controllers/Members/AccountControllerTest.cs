@@ -1,85 +1,73 @@
-﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+﻿///* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
- Developers: 
- * Frank Radocaj : frank@radocaj.com
- * Hamish Crittenden : hamish.crittenden@gmail.com
+// Developers: 
+// * Frank Radocaj : frank@radocaj.com
+// * Hamish Crittenden : hamish.crittenden@gmail.com
  
- Project Manager: 
- * Ken Walker : kwalker@museum.vic.gov.au
+// Project Manager: 
+// * Ken Walker : kwalker@museum.vic.gov.au
  
- Funded by:
- * Atlas of Living Australia
+// Funded by:
+// * Atlas of Living Australia
  
-*/
+//*/
 
-using System;
-using Bowerbird.Core.Commands;
-using Bowerbird.Web.Controllers.Members;
-using Bowerbird.Web.ViewModels.Members;
+//namespace Bowerbird.Test.Controllers.Members
+//{
+//    #region Namespaces
 
-namespace Bowerbird.Web.Test.Controllers.Members
-{
-    #region Namespaces
+//    using System.Web.Mvc;
+//    using NUnit.Framework;
+//    using Moq;
+//    using Bowerbird.Core;
+//    using Bowerbird.Core.DesignByContract;
+//    using Bowerbird.Test.Utils;
+//    using Bowerbird.Web.Config;
+//    using Bowerbird.Web.Controllers;
+//    using Bowerbird.Web.ViewModels;
+//    using Bowerbird.Core.CommandHandlers;
+//    using Bowerbird.Web.Controllers.Members;
 
-    using System.Web.Mvc;
+//    #endregion
 
-    using NUnit.Framework;
-    using Moq;
+//    [TestFixture]
+//    public class AccountControllerTest
+//    {
+//        #region Test Infrastructure
 
-    using Bowerbird.Core;
-    using Bowerbird.Core.DesignByContract;
-    using Bowerbird.Core.Tasks;
-    using Bowerbird.Test.Utils;
-    using Bowerbird.Web.Config;
-    using Bowerbird.Web.Controllers;
-    using Bowerbird.Web.ViewModels;
-    using Bowerbird.Core.CommandHandlers;
+//        private Mock<ICommandProcessor> _mockCommandProcessor;
+//        private Mock<IUserContext> _mockUserContext;
+//        private AccountController _controller;
 
-    #endregion
+//        [SetUp]
+//        public void TestInitialize()
+//        {
+//            _mockCommandProcessor = new Mock<ICommandProcessor>();
+//            _mockUserContext = new Mock<IUserContext>();
 
-    [TestFixture]
-    public class AccountControllerTest
-    {
-        #region Test Infrastructure
+//            _controller = new AccountController(
+//                _mockCommandProcessor.Object,
+//                _mockUserContext.Object
+//                );
+//        }
 
-        private Mock<ICommandProcessor> _mockCommandProcessor;
-        private Mock<IViewModelRepository> _mockViewModelRepository;
-        private Mock<IUserTasks> _mockUserTasks;
-        private Mock<IUserContext> _mockUserContext;
-        private AccountController _controller;
+//        [TearDown]
+//        public void TestCleanup()
+//        {
+//        }
 
-        [SetUp]
-        public void TestInitialize()
-        {
-            _mockCommandProcessor = new Mock<ICommandProcessor>();
-            _mockViewModelRepository = new Mock<IViewModelRepository>();
-            _mockUserTasks = new Mock<IUserTasks>();
-            _mockUserContext = new Mock<IUserContext>();
+//        #endregion
 
-            _controller = new AccountController(
-                _mockCommandProcessor.Object,
-                _mockUserTasks.Object,
-                _mockUserContext.Object
-                );
-        }
+//        #region Test Helpers
 
-        [TearDown]
-        public void TestCleanup()
-        {
-        }
+//        #endregion
 
-        #endregion
+//        #region Property tests
 
-        #region Test Helpers
+//        #endregion
 
-        #endregion
+//        #region Method tests
 
-        #region Property tests
-
-        #endregion
-
-        #region Method tests
-
-        #endregion
-    }
-}
+//        #endregion
+//    }
+//}

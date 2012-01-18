@@ -32,17 +32,15 @@ namespace Bowerbird.Test.Controllers
         #region Test Infrastructure
 
         private Mock<ICommandProcessor> _mockCommandProcessor;
-        private Mock<IViewModelRepository> _mockViewModelRepository;
         private ObservationController _controller;
 
         [SetUp]
         public void TestInitialize()
         {
             _mockCommandProcessor = new Mock<ICommandProcessor>();
-            _mockViewModelRepository = new Mock<IViewModelRepository>();
             _controller = new ObservationController(
                 _mockCommandProcessor.Object,
-                _mockViewModelRepository.Object
+                null
                 );
         }
 
@@ -54,28 +52,6 @@ namespace Bowerbird.Test.Controllers
         #endregion
 
         #region Test Helpers
-
-        #endregion
-
-        #region Constructor tests
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void Observation_Constructor_With_Null_CommandProcessor_Throws_DesignByContractException()
-        {
-            Assert.IsTrue(
-                BowerbirdThrows.Exception<DesignByContractException>(() =>
-                    new ObservationController(null, _mockViewModelRepository.Object)));
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void Observation_Constructor_With_Null_ViewModelRepository_Throws_DesignByContractException()
-        {
-            Assert.IsTrue(
-                BowerbirdThrows.Exception<DesignByContractException>(() =>
-                    new ObservationController(_mockCommandProcessor.Object, null)));
-        }
 
         #endregion
 

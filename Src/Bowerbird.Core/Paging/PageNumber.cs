@@ -1,5 +1,4 @@
-﻿
-namespace Bowerbird.Web.ViewModels.Shared
+﻿namespace Bowerbird.Core.Paging
 {
     public class PageNumber
     {

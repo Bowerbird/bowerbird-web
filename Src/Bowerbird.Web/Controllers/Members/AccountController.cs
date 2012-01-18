@@ -14,12 +14,6 @@
  
 */
 
-using System;
-using System.Collections.Generic;
-using Bowerbird.Core.Commands;
-using Bowerbird.Web.ViewModels.Members;
-using Bowerbird.Web.ViewModels.Shared;
-
 namespace Bowerbird.Web.Controllers.Members
 {
     #region Namespaces
@@ -28,10 +22,9 @@ namespace Bowerbird.Web.Controllers.Members
 
     using Bowerbird.Core;
     using Bowerbird.Core.DesignByContract;
-    using Bowerbird.Web.ViewModels;
     using Bowerbird.Web.Config;
-    using Bowerbird.Core.Tasks;
-    using Bowerbird.Core.CommandHandlers;
+    using Bowerbird.Core.Commands;
+    using Bowerbird.Web.ViewModels.Members;
 
     #endregion
 
@@ -41,7 +34,6 @@ namespace Bowerbird.Web.Controllers.Members
         #region Members
 
         private readonly ICommandProcessor _commandProcessor;
-        private readonly IUserTasks _userTasks;
         private readonly IUserContext _userContext;
 
         #endregion
@@ -50,15 +42,12 @@ namespace Bowerbird.Web.Controllers.Members
 
         public AccountController(
             ICommandProcessor commandProcessor,
-            IUserTasks userTasks,
             IUserContext userContext)
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
-            Check.RequireNotNull(userTasks, "userTasks");
             Check.RequireNotNull(userContext, "userContext");
 
             _commandProcessor = commandProcessor;
-            _userTasks = userTasks;
             _userContext = userContext;
         }
 
@@ -74,7 +63,7 @@ namespace Bowerbird.Web.Controllers.Members
         [Authorize]
         public ActionResult ChangePassword()
         {
-            return View(new DefaultViewModel());
+            return View();
         }
 
         [HttpPost]
@@ -89,7 +78,7 @@ namespace Bowerbird.Web.Controllers.Members
                 return RedirectToAction("index", "home");
             }
 
-            return View(new DefaultViewModel());
+            return View();
         }
 
         private UserUpdatePasswordCommand MakeUserUpdatePasswordCommand(AccountChangePasswordInput accountChangePasswordInput)

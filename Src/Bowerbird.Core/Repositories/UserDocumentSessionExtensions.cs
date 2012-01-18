@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using Bowerbird.Core.DomainModels;
+using Raven.Client;
+using Raven.Client.Linq;
 
 namespace Bowerbird.Core.Repositories
 {
-    public static class UserRepositoryExtensions
+    public static class UserDocumentSessionExtensions
     {
             
         #region Members
@@ -23,19 +22,17 @@ namespace Bowerbird.Core.Repositories
 
         #region Methods
 
-        public static User LoadByEmail(this IRepository<User> repository, string email)
+        public static User LoadUserByEmail(this IDocumentSession documentSession, string email)
         {
-            return repository
-                .Session
+            return documentSession
                 .Query<User>()
                 .Where(x => x.Email == email)
                 .FirstOrDefault();
         }
 
-        public static User LoadByResetPasswordKey(this IRepository<User> repository, string resetPasswordKey)
+        public static User LoadUserByResetPasswordKey(this IDocumentSession documentSession, string resetPasswordKey)
         {
-            return repository
-                .Session
+            return documentSession
                 .Query<User>()
                 .Where(x => x.ResetPasswordKey == resetPasswordKey)
                 .FirstOrDefault();

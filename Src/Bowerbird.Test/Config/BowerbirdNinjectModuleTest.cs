@@ -14,6 +14,9 @@
  
 */
 
+using Bowerbird.Core.CommandHandlers;
+using Bowerbird.Core.Commands;
+
 namespace Bowerbird.Test.Config
 {
     #region Namespaces
@@ -82,9 +85,9 @@ namespace Bowerbird.Test.Config
         #region Dynamic Bindings
 
         [Test, Category(TestCategory.Unit), Ignore] 
-        public void BowerbirdNinjectModule_Binds_PagedListFactory_To_IPagedListFactory()
+        public void BowerbirdNinjectModule_Binds_CommandHandler_Interface_To_CommandHandler_Instance()
         {
-            Assert.IsInstanceOf<PagedListFactory>(ServiceLocator.Current.GetInstance<IPagedListFactory>());
+            Assert.IsInstanceOf<ICommandHandler<UserCreateCommand>>(ServiceLocator.Current.GetInstance<ICommandHandler<UserCreateCommand>>());
         }
 
         #endregion

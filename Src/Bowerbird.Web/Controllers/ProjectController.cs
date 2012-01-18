@@ -12,6 +12,8 @@
  
 */
 
+using Raven.Client;
+
 namespace Bowerbird.Web.Controllers
 {
     #region Namespaces
@@ -23,7 +25,6 @@ namespace Bowerbird.Web.Controllers
     using Bowerbird.Core.DesignByContract;
     using Bowerbird.Web.ViewModels;
     using Bowerbird.Web.Config;
-    using Bowerbird.Core.Tasks;
 
     #endregion
 
@@ -32,7 +33,7 @@ namespace Bowerbird.Web.Controllers
         #region Members
 
         private readonly ICommandProcessor _commandProcessor;
-        private readonly IUserTasks _userTasks;
+        private readonly IDocumentSession _documentSession;
         private readonly IUserContext _userContext;
 
         #endregion
@@ -41,15 +42,15 @@ namespace Bowerbird.Web.Controllers
 
         public ProjectController(
             ICommandProcessor commandProcessor,
-            IUserTasks userTasks,
+            IDocumentSession documentSession,
             IUserContext userContext)
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
-            Check.RequireNotNull(userTasks, "userTasks");
+            Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(userContext, "userContext");
 
             _commandProcessor = commandProcessor;
-            _userTasks = userTasks;
+            _documentSession = documentSession;
             _userContext = userContext;
         }
 

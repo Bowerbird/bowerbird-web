@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using Bowerbird.Core.Commands;
+using Bowerbird.Core.Repositories;
 using Bowerbird.Web.ViewModels.Members;
 using Bowerbird.Web.ViewModels.Public;
 using Bowerbird.Web.ViewModels.Shared;
@@ -32,7 +33,6 @@ namespace Bowerbird.Web.Controllers.Public
     using Bowerbird.Core.DesignByContract;
     using Bowerbird.Web.ViewModels;
     using Bowerbird.Web.Config;
-    using Bowerbird.Core.Tasks;
     using Bowerbird.Core.CommandHandlers;
 
     #endregion
@@ -42,7 +42,6 @@ namespace Bowerbird.Web.Controllers.Public
         #region Members
 
         private readonly ICommandProcessor _commandProcessor;
-        private readonly IUserTasks _userTasks;
         private readonly IUserContext _userContext;
         private readonly IDocumentSession _documentSession;
 
@@ -52,17 +51,14 @@ namespace Bowerbird.Web.Controllers.Public
 
         public AccountController(
             ICommandProcessor commandProcessor,
-            IUserTasks userTasks,
             IUserContext userContext,
             IDocumentSession documentSession)
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
-            Check.RequireNotNull(userTasks, "userTasks");
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(documentSession, "documentSession");
 
             _commandProcessor = commandProcessor;
-            _userTasks = userTasks;
             _userContext = userContext;
             _documentSession = documentSession;
         }
@@ -94,7 +90,7 @@ namespace Bowerbird.Web.Controllers.Public
             Check.RequireNotNull(accountLoginInput, "accountLoginInput");
 
             if (ModelState.IsValid &&
-                _userTasks.AreCredentialsValid(accountLoginInput.Email, accountLoginInput.Password))
+                AreCredentialsValid(accountLoginInput.Email, accountLoginInput.Password))
             {
                 _commandProcessor.Process(MakeUserUpdateLastLoginCommand(accountLoginInput));
 
@@ -136,7 +132,7 @@ namespace Bowerbird.Web.Controllers.Public
 
         public ActionResult LogoutSuccess()
         {
-            return View(new DefaultViewModel());
+            return View();
         }
 
         [HttpGet]
@@ -184,7 +180,7 @@ namespace Bowerbird.Web.Controllers.Public
 
         public ActionResult RequestPasswordResetSuccess()
         {
-            return View(new DefaultViewModel());
+            return View();
         }
 
         [HttpGet]
@@ -199,7 +195,7 @@ namespace Bowerbird.Web.Controllers.Public
         {
             if (ModelState.IsValid)
             {
-                string email = _userTasks.GetEmailByResetPasswordKey(accountResetPasswordInput.ResetPasswordKey);
+                string email = _documentSession.LoadUserByResetPasswordKey(accountResetPasswordInput.ResetPasswordKey).Email;
 
                 _commandProcessor.Process(MakeUserUpdatePasswordCommand(accountResetPasswordInput, accountChangePasswordInput));
 
@@ -235,7 +231,7 @@ namespace Bowerbird.Web.Controllers.Public
         {
             return new UserUpdatePasswordCommand()
                        {
-                           UserId = _userTasks.GetUserIdByResetPasswordKey(accountResetPasswordInput.ResetPasswordKey),
+                           UserId = _documentSession.LoadUserByResetPasswordKey(accountResetPasswordInput.ResetPasswordKey).Id,
                            Password = accountChangePasswordInput.Password
                        };
         }
@@ -300,6 +296,13 @@ namespace Bowerbird.Web.Controllers.Public
             {
                 ResetPasswordKey = accountResetPasswordInput.ResetPasswordKey
             };
+        }
+
+        private bool AreCredentialsValid(string email, string password)
+        {
+            var user = _documentSession.LoadUserByEmail(email);
+
+            return user != null && user.ValidatePassword(password);
         }
 
         #endregion

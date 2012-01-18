@@ -2,6 +2,7 @@
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Services;
+using Raven.Client;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -9,18 +10,18 @@ namespace Bowerbird.Core.CommandHandlers
     {
         #region Members
 
-        private readonly IRepository<User> _userRepository;
+        private readonly IDocumentSession _documentSession;
 
         #endregion
 
         #region Constructors
 
         public UserRequestPasswordResetCommandHandler(
-            IRepository<User> userRepository)
+            IDocumentSession documentSession)
         {
-            Check.RequireNotNull(userRepository, "userRepository");
+            Check.RequireNotNull(documentSession, "documentSession");
 
-            _userRepository = userRepository;
+            _documentSession = documentSession;
         }
 
         #endregion
@@ -35,11 +36,11 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(userRequestPasswordResetCommand, "userRequestPasswordResetCommand");
 
-            var user = _userRepository.LoadByEmail(userRequestPasswordResetCommand.Email);
+            var user = _documentSession.LoadUserByEmail(userRequestPasswordResetCommand.Email);
 
             user.RequestPasswordReset();
 
-            _userRepository.Add(user);
+            _documentSession.Store(user);
         }
 
         #endregion      

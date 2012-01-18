@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Bowerbird.Web.ViewModels.Shared
+namespace Bowerbird.Core.Paging
 {
     public class PagedList<T> : IEnumerable<PagedListItem<T>>
     {

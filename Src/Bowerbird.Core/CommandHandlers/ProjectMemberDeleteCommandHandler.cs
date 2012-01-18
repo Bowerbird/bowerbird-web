@@ -13,6 +13,7 @@
 */
 
 using Bowerbird.Core.DomainModels.Members;
+using Raven.Client;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -27,21 +28,20 @@ namespace Bowerbird.Core.CommandHandlers
 
     public class ProjectMemberDeleteCommandHandler : ICommandHandler<ProjectMemberDeleteCommand>
     {
-        #region Fields
+        #region Members
 
-        private readonly IRepository<ProjectMember> _projectMemberRepository;
- 
+        private readonly IDocumentSession _documentSession;
+
         #endregion
 
         #region Constructors
 
         public ProjectMemberDeleteCommandHandler(
-            IRepository<ProjectMember> projectMemberRepository
-            )
+            IDocumentSession documentSession)
         {
-            Check.RequireNotNull(projectMemberRepository, "projectMemberRepository");
+            Check.RequireNotNull(documentSession, "documentSession");
 
-            _projectMemberRepository = projectMemberRepository;
+            _documentSession = documentSession;
         }
 
         #endregion
@@ -56,7 +56,9 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(projectMemberDeleteCommand, "projectMemberDeleteCommand");
 
-            _projectMemberRepository.Remove(_projectMemberRepository.Load(projectMemberDeleteCommand.ProjectId, projectMemberDeleteCommand.UserId));
+            var projectMember = _documentSession.LoadProjectMember(projectMemberDeleteCommand.ProjectId, projectMemberDeleteCommand.UserId);
+
+            _documentSession.Delete(projectMember);
         }
 
         #endregion

@@ -83,19 +83,6 @@ namespace Bowerbird.Test.Extensions
                 .IsNotNullAndHasItems());
         }
 
-        [Test, Category(TestCategory.Unit)]
-        public void CollectionExtensions_GetEnumeratorCount_Passing_Collection_Returns_Count()
-        {
-            var objects = new List<object>();
-
-            for(var i = 1; i <= 100; i++)
-            {
-                objects.Add(new {Id = i, Tag = Guid.NewGuid()});
-            }
-
-            Assert.AreEqual(objects.Count, objects.GetEnumeratorCount());
-        }
-
         #endregion					
     }
 }

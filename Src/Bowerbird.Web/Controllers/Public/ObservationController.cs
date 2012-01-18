@@ -12,8 +12,10 @@
  
 */
 
+using Bowerbird.Core.DomainModels;
 using Bowerbird.Web.ViewModels.Public;
 using Bowerbird.Web.ViewModels.Shared;
+using Raven.Client;
 
 namespace Bowerbird.Web.Controllers.Public
 {
@@ -35,7 +37,7 @@ namespace Bowerbird.Web.Controllers.Public
         #region Members
 
         private readonly ICommandProcessor _commandProcessor;
-        private readonly IViewModelRepository _viewModelRepository;
+        private readonly IDocumentSession _documentSession;
 
         #endregion
 
@@ -43,14 +45,14 @@ namespace Bowerbird.Web.Controllers.Public
 
         public ObservationController(
             ICommandProcessor commandProcessor,
-            IViewModelRepository viewModelRepository
+            IDocumentSession documentSession
             )
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
-            Check.RequireNotNull(viewModelRepository, "viewModelRepository");
+            Check.RequireNotNull(documentSession, "documentSession");
 
             _commandProcessor = commandProcessor;
-            _viewModelRepository = viewModelRepository;
+            _documentSession = documentSession;
         }
 
         #endregion
@@ -64,16 +66,15 @@ namespace Bowerbird.Web.Controllers.Public
         [HttpGet]
         public ActionResult Index(IdInput idInput)
         {
-            var viewModel = _viewModelRepository.Load<IdInput, ObservationIndex>(idInput);
+            return View(MakeObservationIndex(idInput));
+        }
 
-            if (Request.IsAjaxRequest())
-            {
-                return Json(viewModel);
-            }
-            else
-            {
-                return View(viewModel);
-            }
+        private ObservationIndex MakeObservationIndex(IdInput idInput)
+        {
+            return new ObservationIndex()
+                       {
+                           Observation = _documentSession.Load<Observation>(idInput.Id)
+                       };
         }
 
         #endregion      

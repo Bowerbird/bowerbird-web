@@ -11,17 +11,5 @@ namespace Bowerbird.Core.Extensions
             return collection != null && collection.Count() > 0;
         }
 
-        public static int GetEnumeratorCount<T>(this IEnumerable<T> collection)
-        {
-            var result = 0;
-
-            using (IEnumerator<T> enumerator = collection.GetEnumerator())
-            {
-                while (enumerator.MoveNext()) result++;
-            }
-
-            return result;
-        }
-
     }
 }
