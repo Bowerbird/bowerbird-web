@@ -12,8 +12,12 @@
  
 */
 
+using System;
+using System.Web.Mvc;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.Controllers.Members;
+using Bowerbird.Web.ViewModels;
+using Bowerbird.Web.ViewModels.Shared;
 using NUnit.Framework;
 using Moq;
 using Bowerbird.Core;
@@ -64,31 +68,87 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void ProjectPost_List()
+        public void ProjectPost_List_Returns_Json_Success()
         {
+            var result = _controller.List(null, null, null);
 
-        }
-        
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void ProjectPost_Create()
-        {
+            Assert.IsInstanceOf<JsonResult>(result);
+            var jsonResult = result as JsonResult;
 
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void ProjectPost_Update()
-        {
-
+            Assert.IsNotNull(jsonResult);
+            Assert.AreEqual(jsonResult.Data, "Success");
         }
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void ProjectPost_Delete()
+        public void ProjectPost_Create_Passing_Invalid_Input_Returns_Json_Error()
         {
+            _controller.ModelState.AddModelError("Error", "Error");
 
+            var result = _controller.Create(new ProjectPostCreateInput()
+                                                {
+                                                    ProjectId = FakeValues.KeyString, 
+                                                    MediaResources = FakeValues.StringList, 
+                                                    Message = FakeValues.Message, 
+                                                    Subject = FakeValues.Subject, 
+                                                    Timestamp = DateTime.Now
+                                                });
+
+            Assert.IsInstanceOf<JsonResult>(result);
+            var jsonResult = result as JsonResult;
+
+            Assert.IsNotNull(jsonResult);
+            Assert.AreEqual(jsonResult.Data, "Failure");
         }
+
+        [Test]
+        [Category(TestCategory.Unit)]
+        public void ProjectPost_Create_Passing_Valid_Input_Returns_Json_Success()
+        {
+            var result = _controller.Create(new ProjectPostCreateInput()
+                                                {
+                                                    ProjectId = FakeValues.KeyString, 
+                                                    MediaResources = FakeValues.StringList, 
+                                                    Message = FakeValues.Message, 
+                                                    Subject = FakeValues.Subject, 
+                                                    Timestamp = DateTime.Now
+                                                });
+
+            Assert.IsInstanceOf<JsonResult>(result);
+            var jsonResult = result as JsonResult;
+
+            Assert.IsNotNull(jsonResult);
+            Assert.AreEqual(jsonResult.Data, "Success");
+        }
+
+        [Test]
+        [Category(TestCategory.Unit)]
+        public void ProjectPost_Delete_Passing_Invalid_Input_Returns_Json_Error()
+        {
+            _controller.ModelState.AddModelError("Error", "Error");
+
+            var result = _controller.Delete(new IdInput() { Id = FakeValues.KeyString });
+
+            Assert.IsInstanceOf<JsonResult>(result);
+            var jsonResult = result as JsonResult;
+
+            Assert.IsNotNull(jsonResult);
+            Assert.AreEqual(jsonResult.Data, "Failure");
+        }
+
+        [Test]
+        [Category(TestCategory.Unit)]
+        public void ProjectPost_Delete_Passing_Valid_Input_Returns_Json_Success()
+        {
+            var result = _controller.Delete(new IdInput() { Id = FakeValues.KeyString });
+
+            Assert.IsInstanceOf<JsonResult>(result);
+            var jsonResult = result as JsonResult;
+
+            Assert.IsNotNull(jsonResult);
+            Assert.AreEqual(jsonResult.Data, "Success");
+        }
+
 
         #endregion
     }

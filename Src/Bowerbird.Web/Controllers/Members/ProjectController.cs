@@ -64,7 +64,7 @@ namespace Bowerbird.Web.Controllers.Members
         [HttpGet]
         public ActionResult List(int? id, int? page, int? pageSize)
         {
-            return Json("success", JsonRequestBehavior.AllowGet);
+            return Json("Success", JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -86,16 +86,16 @@ namespace Bowerbird.Web.Controllers.Members
             {
                 _commandProcessor.Process(MakeCreateCommand(createInput));
 
-                return Json("success");
+                return Json("Success");
             }
 
-            return Json("error");
+            return Json("Failure");
         }
 
         [Transaction]
         [Authorize]
         [HttpPut]
-        public ActionResult Update(ProjectUpdateInput updateInput)
+        public ActionResult Update(ProjectUpdateInput updateInput) 
         {
             if (ModelState.IsValid)
             {
@@ -104,7 +104,7 @@ namespace Bowerbird.Web.Controllers.Members
                 return Json("Success");
             }
 
-            return Json("error");
+            return Json("Failure");
         }
 
         [Transaction]
@@ -116,9 +116,9 @@ namespace Bowerbird.Web.Controllers.Members
             {
                 _commandProcessor.Process(MakeDeleteCommand(deleteInput));
 
-                return Json("success");
+                return Json("Success");
             }
-            return Json("error");
+            return Json("Failure");
         }
 
         private ProjectIndex MakeIndex(IdInput idInput)

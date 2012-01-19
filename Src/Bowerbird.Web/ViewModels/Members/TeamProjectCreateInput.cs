@@ -13,6 +13,7 @@
 */
 
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Bowerbird.Web.ViewModels.Members
 {
@@ -31,7 +32,8 @@ namespace Bowerbird.Web.ViewModels.Members
         /// <summary>
         /// The Id of the Team the project is being added to
         /// </summary>
-        public string ProjectTeamId { get; set; }
+        [Required]
+        public string TeamId { get; set; }
 
         public List<string> Administrators { get; set; }
 

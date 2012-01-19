@@ -12,8 +12,10 @@
  
 */
 
+using System.Web.Mvc;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.Controllers.Members;
+using Bowerbird.Web.ViewModels.Members;
 using NUnit.Framework;
 using Moq;
 using Bowerbird.Core;
@@ -64,23 +66,89 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void ProjectMember_List()
+        public void ProjectMember_List_Returns_Json_Success()
         {
+            var result = _controller.List(null, null, null);
 
+            Assert.IsInstanceOf<JsonResult>(result);
+            var jsonResult = result as JsonResult;
+
+            Assert.IsNotNull(jsonResult);
+            Assert.AreEqual(jsonResult.Data, "Success");
         }
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void ProjectMember_Create()
+        public void ProjectMember_Create_Passing_Invalid_Input_Returns_Json_Error()
         {
+            _controller.ModelState.AddModelError("Error", "Error");
 
+            var result = _controller.Create(new ProjectMemberCreateInput()
+                                                {
+                                                    UserId = FakeValues.UserId, 
+                                                    ProjectId = FakeValues.KeyString, 
+                                                    Roles = FakeValues.StringList
+                                                });
+
+            Assert.IsInstanceOf<JsonResult>(result);
+            var jsonResult = result as JsonResult;
+
+            Assert.IsNotNull(jsonResult);
+            Assert.AreEqual(jsonResult.Data, "Failure");
         }
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void ProjectMember_Delete()
+        public void ProjectMember_Create_Passing_Valid_Input_Returns_Json_Success()
         {
+            var result = _controller.Create(new ProjectMemberCreateInput()
+                                                {
+                                                    UserId = FakeValues.UserId, 
+                                                    ProjectId = FakeValues.KeyString, 
+                                                    Roles = FakeValues.StringList
+                                                });
 
+            Assert.IsInstanceOf<JsonResult>(result);
+            var jsonResult = result as JsonResult;
+
+            Assert.IsNotNull(jsonResult);
+            Assert.AreEqual(jsonResult.Data, "Success");
+        }
+
+        [Test]
+        [Category(TestCategory.Unit)]
+        public void ProjectMember_Delete_Passing_Invalid_Input_Returns_Json_Error()
+        {
+            _controller.ModelState.AddModelError("Error", "Error");
+
+            var result = _controller.Delete(new ProjectMemberDeleteInput()
+                                                {
+                                                    ProjectId = FakeValues.KeyString, 
+                                                    ProjectMemberId = FakeValues.KeyString
+                                                });
+
+            Assert.IsInstanceOf<JsonResult>(result);
+            var jsonResult = result as JsonResult;
+
+            Assert.IsNotNull(jsonResult);
+            Assert.AreEqual(jsonResult.Data, "Failure");
+        }
+
+        [Test]
+        [Category(TestCategory.Unit)]
+        public void ProjectMember_Delete_Passing_Valid_Input_Returns_Json_Success()
+        {
+            var result = _controller.Delete(new ProjectMemberDeleteInput()
+                                                {
+                                                    ProjectId = FakeValues.KeyString, 
+                                                    ProjectMemberId = FakeValues.KeyString
+                                                });
+
+            Assert.IsInstanceOf<JsonResult>(result);
+            var jsonResult = result as JsonResult;
+
+            Assert.IsNotNull(jsonResult);
+            Assert.AreEqual(jsonResult.Data, "Success");
         }
 
         #endregion

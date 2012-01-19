@@ -13,6 +13,7 @@
 */
 
 using System;
+using System.Web.Mvc;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Extensions;
 using Bowerbird.Test.Utils;
@@ -59,9 +60,24 @@ namespace Bowerbird.Test.Controllers.Public
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Project_Index_Returns_ProjectIndex_ViewModel_With_Project_Having_Observations()
+        public void Project_List_Returns_Json_Success()
         {
+            var result = _controller.List(null, null, null);
+
+            Assert.IsInstanceOf<JsonResult>(result);
+            var jsonResult = result as JsonResult;
+
+            Assert.IsNotNull(jsonResult);
+            Assert.AreEqual(jsonResult.Data, "Success");
+        }
+
+        [Test]
+        [Category(TestCategory.Unit)]
+        public void Project_Index_NonAjAxCall_Returns_ProjectIndex_ViewModel_With_Project_Having_Observations_And_Team()
+        {
+            var team = FakeObjects.TestTeam();
             var project = FakeObjects.TestProjectWithId();
+            project.Team = team;
             var observation1 = FakeObjects.TestObservationWithId();
             var observation2 = FakeObjects.TestObservationWithId(FakeValues.KeyString.AppendWith(FakeValues.KeyString));
             var projectobservation1 = new ProjectObservation(FakeObjects.TestUser(), DateTime.Now, project, observation1);
@@ -86,8 +102,54 @@ namespace Bowerbird.Test.Controllers.Public
 
             Assert.IsNotNull(viewModel);
             Assert.AreEqual(viewModel.Project, project);
+            Assert.IsNotNull(viewModel.Project.Team);
+            Assert.AreEqual(viewModel.Project.Team.Name, team.Name);
             Assert.IsTrue(viewModel.Observations.Contains(observation1));
             Assert.IsTrue(viewModel.Observations.Contains(observation2));
+        }
+
+        [Test]
+        [Category(TestCategory.Unit)]
+        public void Project_Index_AjAxCall_Returns_ProjectIndex_ViewModel_With_Project_Having_Observations_And_Team()
+        {
+            var team = FakeObjects.TestTeam();
+            var project = FakeObjects.TestProjectWithId();
+            project.Team = team;
+            var observation1 = FakeObjects.TestObservationWithId();
+            var observation2 = FakeObjects.TestObservationWithId(FakeValues.KeyString.AppendWith(FakeValues.KeyString));
+            var projectobservation1 = new ProjectObservation(FakeObjects.TestUser(), DateTime.Now, project, observation1);
+            var projectobservation2 = new ProjectObservation(FakeObjects.TestUser(), DateTime.Now, project, observation2);
+
+            using (var session = _documentStore.OpenSession())
+            {
+                session.Store(observation1);
+                session.Store(observation2);
+                session.Store(project);
+                session.Store(projectobservation1);
+                session.Store(projectobservation2);
+
+                session.SaveChanges();
+            }
+
+            _controller.SetupAjaxRequest();
+
+            var result = _controller.Index(new IdInput() { Id = FakeValues.KeyString.PrependWith("projects/") });
+
+            Assert.IsInstanceOf<JsonResult>(result);
+
+            var jsonResult = result as JsonResult;
+
+            Assert.IsNotNull(jsonResult);
+            Assert.IsInstanceOf<ProjectIndex>(jsonResult.Data);
+
+            var jsonData = jsonResult.Data as ProjectIndex;
+
+            Assert.IsNotNull(jsonData);
+            Assert.AreEqual(jsonData.Project, project);
+            Assert.IsNotNull(jsonData.Project.Team);
+            Assert.AreEqual(jsonData.Project.Team.Name, project.Team.Name);
+            Assert.IsTrue(jsonData.Observations.Contains(observation1));
+            Assert.IsTrue(jsonData.Observations.Contains(observation2));
         }
 
         #endregion

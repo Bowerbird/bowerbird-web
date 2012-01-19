@@ -13,6 +13,7 @@
 */
 
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Bowerbird.Web.ViewModels.Members
 {
@@ -28,12 +29,13 @@ namespace Bowerbird.Web.ViewModels.Members
 
         #region Properties
 
+        [Required]
         public string UserId { get; set; }
 
+        [Required]
         public string ProjectId { get; set; }
 
-        public string CreatedByUserId { get; set; }
-
+        [Required]
         public IEnumerable<string> Roles { get; set; }
 
         #endregion

@@ -106,7 +106,7 @@ namespace Bowerbird.Web.Controllers.Members
         {
             return new ProjectMemberDeleteCommand()
             {
-                UserId = deleteInput.UserId,
+                UserId = _userContext.GetAuthenticatedUserId(),
                 DeletedByUserId = _userContext.GetAuthenticatedUserId(),
                 ProjectId = deleteInput.ProjectId
             };

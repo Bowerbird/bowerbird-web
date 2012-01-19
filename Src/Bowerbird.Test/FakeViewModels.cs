@@ -11,7 +11,9 @@
  * Atlas of Living Australia
  
 */
-				
+
+using Bowerbird.Web.ViewModels.Shared;
+
 namespace Bowerbird.Test
 {
     #region Namespaces
@@ -56,6 +58,14 @@ namespace Bowerbird.Test
                 FirstName = FakeValues.FirstName,
                 LastName = FakeValues.LastName,
                 Email = FakeValues.Email
+            };
+        }
+
+        public static IdInput MakeIdInput()
+        {
+            return new IdInput()
+            {
+                Id = FakeValues.KeyString
             };
         }
 

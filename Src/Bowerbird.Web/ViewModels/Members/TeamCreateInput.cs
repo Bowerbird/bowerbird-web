@@ -12,6 +12,8 @@
  
 */
 
+using System.ComponentModel.DataAnnotations;
+
 namespace Bowerbird.Web.ViewModels.Members
 {
     public class TeamCreateInput : IViewModel
@@ -26,8 +28,10 @@ namespace Bowerbird.Web.ViewModels.Members
 
         #region Properties
 
+        [Required]
         public string Description { get; set; }
 
+        [Required]
         public string Name { get; set; }
 
         public string OrganisationId { get; set; }

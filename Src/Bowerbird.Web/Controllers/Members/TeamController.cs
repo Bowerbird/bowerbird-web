@@ -184,7 +184,7 @@ namespace Bowerbird.Web.Controllers.Members
                 Description = projectCreateInput.Description,
                 Administrators = teamProjectCreateInput.Administrators,
                 Members = teamProjectCreateInput.Members,
-                TeamId = teamProjectCreateInput.ProjectTeamId
+                TeamId = teamProjectCreateInput.TeamId
             };
         }
 

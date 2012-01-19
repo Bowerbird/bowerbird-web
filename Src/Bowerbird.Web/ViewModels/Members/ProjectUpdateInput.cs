@@ -12,7 +12,9 @@
  
 */
 
-namespace Bowerbird.Web.ViewModels
+using System.ComponentModel.DataAnnotations;
+
+namespace Bowerbird.Web.ViewModels.Members
 {
     public class ProjectUpdateInput : IViewModel
     {
@@ -22,30 +24,22 @@ namespace Bowerbird.Web.ViewModels
 
         #region Constructors
 
-        public ProjectUpdateInput()
-        {
-            InitMembers();
-        }
-
         #endregion
 
         #region Properties
 
+        [Required]
         public string ProjectId { get; set; }
 
+        [Required]
         public string Name { get; set; }
 
+        [Required]
         public string Description { get; set; }
-
-        public string UserId { get; set; }
 
         #endregion
 
         #region Methods
-
-        private void InitMembers()
-        {
-        }
 
         #endregion
     }

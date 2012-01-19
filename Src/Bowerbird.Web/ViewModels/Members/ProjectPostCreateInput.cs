@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Bowerbird.Web.ViewModels
 {
@@ -27,25 +28,35 @@ namespace Bowerbird.Web.ViewModels
 
         public ProjectPostCreateInput()
         {
+            InitMembers();
         }
 
         #endregion
 
         #region Properties
 
+        [Required]
         public string ProjectId { get; set; }
 
+        [Required]
         public string Subject { get; set; }
 
+        [Required]
         public string Message { get; set; }
 
         public IList<string> MediaResources { get; set; }
 
+        [Required]
         public DateTime Timestamp { get; set; }
 
         #endregion
 
         #region Methods
+
+        public void InitMembers()
+        {
+            MediaResources = new List<string>();
+        }
 
         #endregion
     }

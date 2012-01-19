@@ -12,6 +12,8 @@
  
 */
 
+using System.ComponentModel.DataAnnotations;
+
 namespace Bowerbird.Web.ViewModels.Members
 {
     public class ProjectMemberDeleteInput : IViewModel
@@ -26,11 +28,11 @@ namespace Bowerbird.Web.ViewModels.Members
 
         #region Properties
 
-        public string UserId { get; set; }
+        [Required]
+        public string ProjectMemberId { get; set; }
 
+        [Required]
         public string ProjectId { get; set; }
-
-        public string DeletedByUserId { get; set; }
 
         #endregion
 

@@ -11,7 +11,9 @@
  * Atlas of Living Australia
  
 */
-				
+
+using System.ComponentModel.DataAnnotations;
+
 namespace Bowerbird.Web.ViewModels.Members
 {
     public class ProjectCreateInput
@@ -26,11 +28,11 @@ namespace Bowerbird.Web.ViewModels.Members
 
         #region Properties
 
+        [Required]
         public string Name { get; set; }
 
+        [Required]
         public string Description { get; set; }
-
-        public string UserId { get; set; }
 
         #endregion
 

@@ -12,10 +12,12 @@
  
 */
 
+using System.Web.Mvc;
 using Bowerbird.Core;
 using Bowerbird.Test.Utils;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.Controllers.Members;
+using Bowerbird.Web.ViewModels.Members;
 using Moq;
 using NUnit.Framework;
 using Raven.Client;
@@ -64,23 +66,87 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void ProjectObservation_List()
+        public void ProjectObservation_List_Returns_Json_Success()
         {
+            var result = _controller.List(null, null, null);
 
+            Assert.IsInstanceOf<JsonResult>(result);
+            var jsonResult = result as JsonResult;
+
+            Assert.IsNotNull(jsonResult);
+            Assert.AreEqual(jsonResult.Data, "Success");
         }
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void ProjectObservation_Create()
+        public void ProjectObservation_Create_Passing_Invalid_Input_Returns_Json_Error()
         {
+            _controller.ModelState.AddModelError("Error", "Error");
 
+            var result = _controller.Create(new ProjectObservationCreateInput()
+                                                {
+                                                    ProjectId = FakeValues.KeyString, 
+                                                    ObservationId = FakeValues.KeyString
+                                                });
+
+            Assert.IsInstanceOf<JsonResult>(result);
+            var jsonResult = result as JsonResult;
+
+            Assert.IsNotNull(jsonResult);
+            Assert.AreEqual(jsonResult.Data, "Failure");
         }
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void ProjectObservation_Delete()
+        public void ProjectObservation_Create_Passing_Valid_Input_Returns_Json_Success()
         {
+            var result = _controller.Create(new ProjectObservationCreateInput()
+                                                {
+                                                    ProjectId = FakeValues.KeyString, 
+                                                    ObservationId = FakeValues.KeyString
+                                                });
 
+            Assert.IsInstanceOf<JsonResult>(result);
+            var jsonResult = result as JsonResult;
+
+            Assert.IsNotNull(jsonResult);
+            Assert.AreEqual(jsonResult.Data, "Success");
+        }
+
+        [Test]
+        [Category(TestCategory.Unit)]
+        public void ProjectObservation_Delete_Passing_Invalid_Input_Returns_Json_Error()
+        {
+            _controller.ModelState.AddModelError("Error", "Error");
+
+            var result = _controller.Delete(new ProjectObservationDeleteInput()
+                                                {
+                                                    ProjectId = FakeValues.KeyString, 
+                                                    ObservationId = FakeValues.KeyString
+                                                });
+
+            Assert.IsInstanceOf<JsonResult>(result);
+            var jsonResult = result as JsonResult;
+
+            Assert.IsNotNull(jsonResult);
+            Assert.AreEqual(jsonResult.Data, "Failure");
+        }
+
+        [Test]
+        [Category(TestCategory.Unit)]
+        public void ProjectObservation_Delete_Passing_Valid_Input_Returns_Json_Success()
+        {
+            var result = _controller.Delete(new ProjectObservationDeleteInput()
+                                                {
+                                                    ProjectId = FakeValues.KeyString, 
+                                                    ObservationId = FakeValues.KeyString
+                                                });
+
+            Assert.IsInstanceOf<JsonResult>(result);
+            var jsonResult = result as JsonResult;
+
+            Assert.IsNotNull(jsonResult);
+            Assert.AreEqual(jsonResult.Data, "Success");
         }
 
         #endregion

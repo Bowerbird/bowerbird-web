@@ -69,9 +69,24 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Project_Index_NonAjaxCall_Returns_ProjectIndex_ViewModel_With_Project_Having_Observations()
+        public void Project_List_Returns_Json_Success()
         {
+            var result = _controller.List(null, null, null);
+
+            Assert.IsInstanceOf<JsonResult>(result);
+            var jsonResult = result as JsonResult;
+
+            Assert.IsNotNull(jsonResult);
+            Assert.AreEqual(jsonResult.Data, "Success");
+        }
+
+        [Test]
+        [Category(TestCategory.Unit)]
+        public void Project_Index_NonAjaxCall_Returns_ProjectIndex_ViewModel_With_Project_Having_Observations_And_Team()
+        {
+            var team = FakeObjects.TestTeam();
             var project = FakeObjects.TestProjectWithId();
+            project.Team = team;
             var observation1 = FakeObjects.TestObservationWithId();
             var observation2 = FakeObjects.TestObservationWithId(FakeValues.KeyString.AppendWith(FakeValues.KeyString));
             var projectobservation1 = new ProjectObservation(FakeObjects.TestUser(), DateTime.Now, project, observation1);
@@ -96,15 +111,19 @@ namespace Bowerbird.Test.Controllers.Members
 
             Assert.IsNotNull(viewModel);
             Assert.AreEqual(viewModel.Project, project);
+            Assert.IsNotNull(viewModel.Project.Team);
+            Assert.AreEqual(viewModel.Project.Team.Name, team.Name);
             Assert.IsTrue(viewModel.Observations.Contains(observation1));
             Assert.IsTrue(viewModel.Observations.Contains(observation2));
         }
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Project_Index_AjaxCall_Returns_ProjectIndex_Json()
+        public void Project_Index_AjaxCall_Returns_ProjectIndex_Json_With_Project_Having_Observations_And_Team()
         {
+            var team = FakeObjects.TestTeam();
             var project = FakeObjects.TestProjectWithId();
+            project.Team = team;
             var observation1 = FakeObjects.TestObservationWithId();
             var observation2 = FakeObjects.TestObservationWithId(FakeValues.KeyString.AppendWith(FakeValues.KeyString));
             var projectobservation1 = new ProjectObservation(FakeObjects.TestUser(), DateTime.Now, project, observation1);
@@ -136,9 +155,112 @@ namespace Bowerbird.Test.Controllers.Members
 
             Assert.IsNotNull(jsonData);
             Assert.AreEqual(jsonData.Project, project);
+            Assert.IsNotNull(jsonData.Project.Team);
+            Assert.AreEqual(jsonData.Project.Team.Name, team.Name);
             Assert.IsTrue(jsonData.Observations.Contains(observation1));
             Assert.IsTrue(jsonData.Observations.Contains(observation2));
+        }
 
+        [Test]
+        [Category(TestCategory.Unit)]
+        public void Project_Create_Passing_Invalid_Input_Returns_Json_Error()
+        {
+            _controller.ModelState.AddModelError("Error", "Error");
+
+            var result = _controller.Create(new ProjectCreateInput()
+                                                {
+                                                    Description = FakeValues.Description, 
+                                                    Name = FakeValues.Name
+                                                });
+
+            Assert.IsInstanceOf<JsonResult>(result);
+            var jsonResult = result as JsonResult;
+
+            Assert.IsNotNull(jsonResult);
+            Assert.AreEqual(jsonResult.Data, "Failure");
+        }
+
+        [Test]
+        [Category(TestCategory.Unit)]
+        public void Project_Create_Passing_Valid_Input_Returns_Json_Success()
+        {
+            var result = _controller.Create(new ProjectCreateInput()
+                                                {
+                                                    Description = FakeValues.Description, 
+                                                    Name = FakeValues.Name
+                                                });
+
+            Assert.IsInstanceOf<JsonResult>(result);
+            var jsonResult = result as JsonResult;
+
+            Assert.IsNotNull(jsonResult);
+            Assert.AreEqual(jsonResult.Data, "Success");
+        }
+
+        [Test]
+        [Category(TestCategory.Unit)]
+        public void Project_Update_Passing_Invalid_Input_Returns_Json_Error()
+        {
+            _controller.ModelState.AddModelError("Error", "Error");
+
+            var result = _controller.Update(new ProjectUpdateInput()
+                                                {
+                                                    ProjectId = FakeValues.KeyString, 
+                                                    Description = FakeValues.Description, 
+                                                    Name = FakeValues.Name
+                                                });
+
+            Assert.IsInstanceOf<JsonResult>(result);
+            var jsonResult = result as JsonResult;
+
+            Assert.IsNotNull(jsonResult);
+            Assert.AreEqual(jsonResult.Data, "Failure");
+        }
+
+        [Test]
+        [Category(TestCategory.Unit)]
+        public void Project_Update_Passing_Valid_Input_Returns_Json_Success()
+        {
+            var result = _controller.Update(new ProjectUpdateInput()
+                                                {
+                                                    ProjectId = FakeValues.KeyString, 
+                                                    Description = FakeValues.Description, 
+                                                    Name = FakeValues.Name
+                                                });
+
+            Assert.IsInstanceOf<JsonResult>(result);
+            var jsonResult = result as JsonResult;
+
+            Assert.IsNotNull(jsonResult);
+            Assert.AreEqual(jsonResult.Data, "Success");
+        }
+
+        [Test]
+        [Category(TestCategory.Unit)]
+        public void Project_Delete_Passing_Invalid_Input_Returns_Json_Error()
+        {
+            _controller.ModelState.AddModelError("Error", "Error");
+
+            var result = _controller.Delete(FakeViewModels.MakeIdInput());
+
+            Assert.IsInstanceOf<JsonResult>(result);
+            var jsonResult = result as JsonResult;
+
+            Assert.IsNotNull(jsonResult);
+            Assert.AreEqual(jsonResult.Data, "Failure");
+        }
+
+        [Test]
+        [Category(TestCategory.Unit)]
+        public void Project_Delete_Passing_Valid_Input_Returns_Json_Success()
+        {
+            var result = _controller.Delete(FakeViewModels.MakeIdInput());
+
+            Assert.IsInstanceOf<JsonResult>(result);
+            var jsonResult = result as JsonResult;
+
+            Assert.IsNotNull(jsonResult);
+            Assert.AreEqual(jsonResult.Data, "Success");
         }
 
         #endregion 
