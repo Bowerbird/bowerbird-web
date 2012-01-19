@@ -62,12 +62,21 @@ namespace Bowerbird.Test.Controllers
 
         #region Method tests
 
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void Observation_()
-        {
+        //[Test, Category(TestCategory.Unit)]
+        //public void ObservationController_HttpGet_Index_Having_Valid_ObservationId_Returns_ObservationViewModel()
+        //{
+        //    var accountLogin = new AccountLogin() { Email = string.Empty };
 
-        }
+        //    _mockUserContext.Setup(x => x.IsUserAuthenticated()).Returns(FakeValues.IsFalse);
+        //    _mockUserContext.Setup(x => x.HasEmailCookieValue()).Returns(FakeValues.IsFalse);
+
+        //    _controller.Login();
+
+        //    var viewModel = _controller.ViewData.Model;
+
+        //    Assert.IsInstanceOf<AccountLogin>(viewModel);
+        //    Assert.IsTrue(((AccountLogin)viewModel).Email.Equals(string.Empty));
+        //}
 
         #endregion
     }

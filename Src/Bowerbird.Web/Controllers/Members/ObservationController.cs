@@ -110,9 +110,11 @@ namespace Bowerbird.Web.Controllers.Members
             if (_userContext.HasPermissionToDelete<Observation>(idInput.Id))
             {
                 _commandProcessor.Process(MakeObservationDeleteCommand(idInput));
+
+                return Json("success"); // TODO: Return something more meaningful?
             }
 
-            return Json("success"); // TODO: Return something more meaningful?
+            return new HttpUnauthorizedResult("Not allowed to go there bro");
         }
 
         private ObservationCreateCommand MakeObservationCreateCommand(ObservationCreateInput observationCreateInput)
