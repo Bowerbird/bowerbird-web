@@ -12,38 +12,43 @@
  
 */
 
-namespace Bowerbird.Web.Controllers
+using System.Web.Mvc;
+using Bowerbird.Core;
+using Bowerbird.Core.Commands;
+using Bowerbird.Core.DesignByContract;
+using Bowerbird.Web.ViewModels;
+using Bowerbird.Web.Config;
+using Bowerbird.Web.ViewModels.Members;
+using Bowerbird.Web.ViewModels.Shared;
+using Raven.Client;
+
+namespace Bowerbird.Web.Controllers.Members
 {
-    #region Namespaces
-
-    using System.Web.Mvc;
-
-    using Bowerbird.Core;
-    using Bowerbird.Core.Commands;
-    using Bowerbird.Core.DesignByContract;
-    using Bowerbird.Web.ViewModels;
-    using Bowerbird.Web.Config;
-
-    #endregion
-
     public class ProjectPostController : Controller
     {
 
         #region Members
 
         private readonly ICommandProcessor _commandProcessor;
+        private readonly IUserContext _userContext;
+        private readonly IDocumentSession _documentSession;
 
         #endregion
 
         #region Constructors
 
         public ProjectPostController(
-            ICommandProcessor commandProcessor
-            )
+            ICommandProcessor commandProcessor,
+            IUserContext userContext,
+            IDocumentSession documentSession)
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
+            Check.RequireNotNull(userContext, "userContext");
+            Check.RequireNotNull(documentSession, "documentSession");
 
             _commandProcessor = commandProcessor;
+            _userContext = userContext;
+            _documentSession = documentSession;
         }
 
         #endregion
@@ -64,36 +69,49 @@ namespace Bowerbird.Web.Controllers
         [HttpPost]
         public ActionResult Create(ProjectPostCreateInput createInput)
         {
-            _commandProcessor.Process(MakeCreateCommand(createInput));
+            if (ModelState.IsValid)
+            {
+                _commandProcessor.Process(MakeCreateCommand(createInput));
 
-            return Json("success");
+                return Json("success");
+            }
+
+            return Json("Failure");
         }
 
         [Transaction]
         [HttpPut]
         public ActionResult Update(ProjectPostUpdateInput updateInput)
         {
-            _commandProcessor.Process(MakeUpdateCommand(updateInput));
+            if (ModelState.IsValid)
+            {
+                _commandProcessor.Process(MakeUpdateCommand(updateInput));
 
-            return Json("success");
+                return Json("success");
+            }
+
+            return Json("Failure");
         }
 
         [Transaction]
         [HttpDelete]
-        public ActionResult Delete(ProjectPostDeleteInput deleteInput)
+        public ActionResult Delete(IdInput deleteInput)
         {
-            _commandProcessor.Process(MakeDeleteCommand(deleteInput));
+            if (ModelState.IsValid)
+            {
+                _commandProcessor.Process(MakeDeleteCommand(deleteInput));
 
-            return Json("success");
+                return Json("success");
+            }
+
+            return Json("Failure");
         }
 
         private ProjectPostCreateCommand MakeCreateCommand(ProjectPostCreateInput createInput)
         {
-            Check.RequireNotNull(createInput, "createInput");
-
             return new ProjectPostCreateCommand()
             {
-                UserId = createInput.UserId,
+                UserId = _userContext.GetAuthenticatedUserId(),
                 ProjectId = createInput.ProjectId,
                 MediaResources = createInput.MediaResources,
                 Message = createInput.Message,
@@ -102,24 +120,20 @@ namespace Bowerbird.Web.Controllers
             };
         }
 
-        private ProjectPostDeleteCommand MakeDeleteCommand(ProjectPostDeleteInput deleteInput)
+        private ProjectPostDeleteCommand MakeDeleteCommand(IdInput deleteInput)
         {
-            Check.RequireNotNull(deleteInput, "deleteInput");
-
             return new ProjectPostDeleteCommand()
             {
-                UserId = deleteInput.UserId,
+                UserId = _userContext.GetAuthenticatedUserId(),
                 Id = deleteInput.Id
             };
         }
 
         private ProjectPostUpdateCommand MakeUpdateCommand(ProjectPostUpdateInput updateInput)
         {
-            Check.RequireNotNull(updateInput, "updateInput");
-
             return new ProjectPostUpdateCommand()
             {
-                UserId = updateInput.UserId,
+                UserId = _userContext.GetAuthenticatedUserId(),
                 Id = updateInput.Id,
                 MediaResources = updateInput.MediaResources,
                 Message = updateInput.Message,

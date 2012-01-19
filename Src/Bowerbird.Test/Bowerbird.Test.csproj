@@ -95,9 +95,9 @@
     <Compile Include="Controllers\Members\AccountControllerTest.cs" />
     <Compile Include="Controllers\Members\ProjectControllerTest.cs" />
     <Compile Include="Controllers\ObservationControllerTest.cs" />
-    <Compile Include="Controllers\ProjectMemberControllerTest.cs" />
-    <Compile Include="Controllers\ProjectObservationControllerTest.cs" />
-    <Compile Include="Controllers\ProjectPostControllerTest.cs" />
+    <Compile Include="Controllers\Members\ProjectMemberControllerTest.cs" />
+    <Compile Include="Controllers\Members\ProjectObservationControllerTest.cs" />
+    <Compile Include="Controllers\Members\ProjectPostControllerTest.cs" />
     <Compile Include="Controllers\Public\AccountControllerTest.cs" />
     <Compile Include="Controllers\Public\ProjectControllerTest.cs" />
     <Compile Include="DesignByContract\CheckTest.cs" />

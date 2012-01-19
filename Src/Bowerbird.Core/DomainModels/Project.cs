@@ -20,7 +20,8 @@ namespace Bowerbird.Core.DomainModels
         public Project(
             User createdByUser,
             string name,
-            string description)
+            string description,
+            Team team = null)
             : this()
         {
             Check.RequireNotNull(createdByUser, "createdByUser");
@@ -29,7 +30,8 @@ namespace Bowerbird.Core.DomainModels
 
             SetDetails(
                 name,
-                description);
+                description,
+                team);
 
             EventProcessor.Raise(new DomainModelCreatedEvent<Project>(this, createdByUser));
         }
@@ -42,17 +44,20 @@ namespace Bowerbird.Core.DomainModels
 
         public string Description { get; private set; }
 
+        public DenormalisedNamedDomainModelReference<Team> Team { get; set; }
+
         #endregion
 
         #region Methods
 
-        private void SetDetails(string name, string description)
+        private void SetDetails(string name, string description, Team team = null)
         {
             Name = name;
             Description = description;
+            if (team != null) Team = team;
         }
 
-        public Project UpdateDetails(User updatedByUser, string name, string description)
+        public Project UpdateDetails(User updatedByUser, string name, string description, Team team = null)
         {
             Check.RequireNotNull(updatedByUser, "updatedByUser");
             Check.RequireNotNullOrWhitespace(name, "name");
@@ -60,7 +65,8 @@ namespace Bowerbird.Core.DomainModels
 
             SetDetails(
                 name,
-                description);
+                description,
+                team);
 
             EventProcessor.Raise(new DomainModelUpdatedEvent<Project>(this, updatedByUser));
 

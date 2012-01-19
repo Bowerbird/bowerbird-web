@@ -12,34 +12,37 @@
  
 */
 
-namespace Bowerbird.Test.Controllers
+using Bowerbird.Core;
+using Bowerbird.Test.Utils;
+using Bowerbird.Web.Config;
+using Bowerbird.Web.Controllers.Members;
+using Moq;
+using NUnit.Framework;
+using Raven.Client;
+
+namespace Bowerbird.Test.Controllers.Members
 {
-    #region Namespaces
-
-    using NUnit.Framework;
-    using Moq;
-
-    using Bowerbird.Core;
-    using Bowerbird.Core.DesignByContract;
-    using Bowerbird.Test.Utils;
-    using Bowerbird.Web.Controllers;
-
-    #endregion
-
     [TestFixture]
     public class ProjectObservationControllerTest
     {
         #region Test Infrastructure
 
         private Mock<ICommandProcessor> _mockCommandProcessor;
+        private Mock<IUserContext> _mockUserContext;
+        private IDocumentStore _documentStore;
         private ProjectObservationController _controller;
 
         [SetUp]
         public void TestInitialize()
         {
             _mockCommandProcessor = new Mock<ICommandProcessor>();
+            _mockUserContext = new Mock<IUserContext>();
+            _documentStore = DocumentStoreHelper.TestDocumentStore();
 
-            _controller = new ProjectObservationController(_mockCommandProcessor.Object);
+            _controller = new ProjectObservationController(
+                _mockCommandProcessor.Object,
+                _mockUserContext.Object,
+                _documentStore.OpenSession());
         }
 
         [TearDown]
@@ -54,21 +57,7 @@ namespace Bowerbird.Test.Controllers
         #endregion
 
         #region Constructor tests
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void ProjectObservation_Constructor_With_Null_CommandProcessor_Throws_DesignByContractException()
-        {
-            Assert.IsTrue(
-                BowerbirdThrows.Exception<DesignByContractException>(
-                    () =>
-                    new ProjectObservationController(null)));
-        }
   
-        #endregion
-
-        #region Property tests
-
         #endregion
 
         #region Method tests

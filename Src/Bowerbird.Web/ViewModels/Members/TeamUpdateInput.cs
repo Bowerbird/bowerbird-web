@@ -1,4 +1,4 @@
-/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -11,15 +11,12 @@
  * Atlas of Living Australia
  
 */
-
-using System.Collections.Generic;
-using Bowerbird.Core.DomainModels;
-
+				
 namespace Bowerbird.Web.ViewModels.Members
 {
-    public class ProjectIndex : IViewModel
+    public class TeamUpdateInput : IViewModel
     {
-        #region Members
+        #region Fields
 
         #endregion
 
@@ -29,14 +26,16 @@ namespace Bowerbird.Web.ViewModels.Members
 
         #region Properties
 
-        public Project Project { get; set; }
+        public string Description { get; set; }
 
-        public List<Observation> Observations { get; set; }
-         
+        public string Name { get; set; }
+
+        public string Id { get; set; }
+
         #endregion
 
         #region Methods
 
-        #endregion
+        #endregion				
     }
 }

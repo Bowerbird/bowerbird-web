@@ -12,34 +12,37 @@
  
 */
 
-namespace Bowerbird.Test.Controllers
+using Bowerbird.Web.Config;
+using Bowerbird.Web.Controllers.Members;
+using NUnit.Framework;
+using Moq;
+using Bowerbird.Core;
+using Bowerbird.Test.Utils;
+using Raven.Client;
+
+namespace Bowerbird.Test.Controllers.Members
 {
-    #region Namespaces
-
-    using NUnit.Framework;
-    using Moq;
-
-    using Bowerbird.Core;
-    using Bowerbird.Core.DesignByContract;
-    using Bowerbird.Test.Utils;
-    using Bowerbird.Web.Controllers;
-
-    #endregion
-
     [TestFixture]
     public class ProjectMemberControllerTest
     {
         #region Test Infrastructure
 
         private Mock<ICommandProcessor> _mockCommandProcessor;
+        private Mock<IUserContext> _mockUserContext;
+        private IDocumentStore _documentStore;
         private ProjectMemberController _controller;
 
         [SetUp]
         public void TestInitialize()
         {
             _mockCommandProcessor = new Mock<ICommandProcessor>();
+            _mockUserContext = new Mock<IUserContext>();
+            _documentStore = DocumentStoreHelper.TestDocumentStore();
 
-            _controller = new ProjectMemberController(_mockCommandProcessor.Object);
+            _controller = new ProjectMemberController(
+                _mockCommandProcessor.Object,
+                _mockUserContext.Object,
+                _documentStore.OpenSession());
         }
 
         [TearDown]
@@ -55,39 +58,26 @@ namespace Bowerbird.Test.Controllers
 
         #region Constructor tests
 
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void ProjectMember_Constructor_With_Null_CommandProcessor_Throws_DesignByContractException()
-        {
-            Assert.IsTrue(
-                BowerbirdThrows.Exception<DesignByContractException>(() =>
-                    new ProjectMemberController(null)));
-        }
-
-        #endregion
-
-        #region Property tests
-
         #endregion
 
         #region Method tests
 
         [Test]
-        [Category(TestCategory.Integration)]
+        [Category(TestCategory.Unit)]
         public void ProjectMember_List()
         {
 
         }
 
         [Test]
-        [Category(TestCategory.Integration)]
+        [Category(TestCategory.Unit)]
         public void ProjectMember_Create()
         {
 
         }
 
         [Test]
-        [Category(TestCategory.Integration)]
+        [Category(TestCategory.Unit)]
         public void ProjectMember_Delete()
         {
 

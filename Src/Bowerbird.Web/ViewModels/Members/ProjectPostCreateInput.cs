@@ -12,15 +12,11 @@
  
 */
 
+using System;
+using System.Collections.Generic;
+
 namespace Bowerbird.Web.ViewModels
 {
-    #region Namespaces
-
-    using System;
-    using System.Collections.Generic;
-
-    #endregion
-
     public class ProjectPostCreateInput : IViewModel
     {
         #region Members
@@ -31,7 +27,6 @@ namespace Bowerbird.Web.ViewModels
 
         public ProjectPostCreateInput()
         {
-            InitMembers();
         }
 
         #endregion
@@ -39,8 +34,6 @@ namespace Bowerbird.Web.ViewModels
         #region Properties
 
         public string ProjectId { get; set; }
-
-        public string UserId { get; set; }
 
         public string Subject { get; set; }
 
@@ -53,10 +46,6 @@ namespace Bowerbird.Web.ViewModels
         #endregion
 
         #region Methods
-
-        private void InitMembers()
-        {
-        }
 
         #endregion
     }

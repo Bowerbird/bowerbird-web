@@ -4,7 +4,7 @@
  * Frank Radocaj : frank@radocaj.com
  * Hamish Crittenden : hamish.crittenden@gmail.com
  
- Project Manager: 
+ Team Manager: 
  * Ken Walker : kwalker@museum.vic.gov.au
  
  Funded by:
@@ -19,15 +19,13 @@ using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Web.Config;
-using Bowerbird.Web.ViewModels;
 using Bowerbird.Web.ViewModels.Members;
 using Bowerbird.Web.ViewModels.Shared;
 using Raven.Client;
-using Raven.Client.Linq;
 
 namespace Bowerbird.Web.Controllers.Members
 {
-    public class ProjectController : Controller
+    public class TeamController : Controller
     {
         #region Members
 
@@ -39,7 +37,7 @@ namespace Bowerbird.Web.Controllers.Members
 
         #region Constructors
 
-        public ProjectController(
+        public TeamController(
             ICommandProcessor commandProcessor,
             IUserContext userContext,
             IDocumentSession documentSession)
@@ -71,7 +69,7 @@ namespace Bowerbird.Web.Controllers.Members
         public ActionResult Index(IdInput idInput)
         {
             if (Request.IsAjaxRequest())
-         
+            
                 return Json(MakeIndex(idInput));
 
             return View(MakeIndex(idInput));
@@ -80,22 +78,20 @@ namespace Bowerbird.Web.Controllers.Members
         [Transaction]
         [Authorize]
         [HttpPost]
-        public ActionResult Create(ProjectCreateInput createInput)
+        public ActionResult Create(TeamCreateInput teamCreateInput)
         {
             if (ModelState.IsValid)
             {
-                _commandProcessor.Process(MakeCreateCommand(createInput));
+                _commandProcessor.Process(MakeCreateCommand(teamCreateInput));
 
                 return Json("success");
             }
-
-            return Json("error");
+            return Json("Failure");
         }
 
         [Transaction]
-        [Authorize]
         [HttpPut]
-        public ActionResult Update(ProjectUpdateInput updateInput)
+        public ActionResult Update(TeamUpdateInput updateInput)
         {
             if (ModelState.IsValid)
             {
@@ -103,12 +99,10 @@ namespace Bowerbird.Web.Controllers.Members
 
                 return Json("Success");
             }
-
-            return Json("error");
+            return Json("Failure");
         }
 
         [Transaction]
-        [Authorize]
         [HttpDelete]
         public ActionResult Delete(IdInput deleteInput)
         {
@@ -118,37 +112,43 @@ namespace Bowerbird.Web.Controllers.Members
 
                 return Json("success");
             }
-            return Json("error");
+            return Json("Failure");
         }
 
-        private ProjectIndex MakeIndex(IdInput idInput)
+        [Transaction]
+        [Authorize]
+        [HttpPost]
+        public ActionResult CreateProject(ProjectCreateInput projectCreateInput, TeamProjectCreateInput teamProjectCreateInput)
         {
-            Check.RequireNotNull(idInput, "idInput");
-
-            var project = _documentSession.Load<Project>(idInput.Id);
-
-            var projectObservations =
-                _documentSession
-                .Query<ProjectObservation>()
-                .Customize(x => x.Include(idInput.Id))
-                .Where(x => x.Project.Id == idInput.Id)
-                .ToList();
-
-            var observations =
-                _documentSession
-                .Load<Observation>(projectObservations.Select(x => x.Id))
-                .ToList();
-
-            return new ProjectIndex()
+            if (ModelState.IsValid)
             {
-                Project = project,
-                Observations = observations
+                _commandProcessor.Process(MakeTeamProjectCreateCommand(projectCreateInput, teamProjectCreateInput));
+
+                return Json("success");
+            }
+            return Json("Failure");
+        }
+
+        private TeamIndex MakeIndex(IdInput idInput)
+        {
+            var team = _documentSession.Load<Team>(idInput.Id);
+
+            var projects =
+                _documentSession
+                .Load<Project>()
+                .Where(x => x.Team.Id == idInput.Id)
+                .ToList();
+
+            return new TeamIndex()
+            {
+                Team = team,
+                Projects = projects
             };
         }
 
-        private ProjectCreateCommand MakeCreateCommand(ProjectCreateInput createInput)
+        private TeamCreateCommand MakeCreateCommand(TeamCreateInput createInput)
         {
-            return new ProjectCreateCommand()
+            return new TeamCreateCommand()
             {
                 Description = createInput.Description,
                 Name = createInput.Name,
@@ -156,22 +156,35 @@ namespace Bowerbird.Web.Controllers.Members
             };
         }
 
-        private ProjectDeleteCommand MakeDeleteCommand(IdInput deleteInput)
+        private TeamDeleteCommand MakeDeleteCommand(IdInput deleteInput)
         {
-            return new ProjectDeleteCommand()
+            return new TeamDeleteCommand()
             {
                 Id = deleteInput.Id,
                 UserId = _userContext.GetAuthenticatedUserId()
             };
         }
 
-        private ProjectUpdateCommand MakeUpdateCommand(ProjectUpdateInput updateInput)
+        private TeamUpdateCommand MakeUpdateCommand(TeamUpdateInput updateInput)
         {
-            return new ProjectUpdateCommand()
+            return new TeamUpdateCommand()
             {
                 Description = updateInput.Description,
                 Name = updateInput.Name,
                 UserId = _userContext.GetAuthenticatedUserId()
+            };
+        }
+
+        private TeamProjectCreateCommand MakeTeamProjectCreateCommand(ProjectCreateInput projectCreateInput, TeamProjectCreateInput teamProjectCreateInput)
+        {
+            return new TeamProjectCreateCommand()
+            {
+                UserId = _userContext.GetAuthenticatedUserId(),
+                Name = projectCreateInput.Name,
+                Description = projectCreateInput.Description,
+                Administrators = teamProjectCreateInput.Administrators,
+                Members = teamProjectCreateInput.Members,
+                TeamId = teamProjectCreateInput.ProjectTeamId
             };
         }
 

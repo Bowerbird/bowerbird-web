@@ -12,9 +12,12 @@
  
 */
 
-namespace Bowerbird.Web.ViewModels
+using System;
+using System.Collections.Generic;
+
+namespace Bowerbird.Web.ViewModels.Members
 {
-    public class ProjectIndexInput
+    public class ProjectPostUpdateInput : IViewModel
     {
         #region Members
 
@@ -22,7 +25,7 @@ namespace Bowerbird.Web.ViewModels
 
         #region Constructors
 
-        public ProjectIndexInput()
+        public ProjectPostUpdateInput()
         {
             InitMembers();
         }
@@ -31,9 +34,15 @@ namespace Bowerbird.Web.ViewModels
 
         #region Properties
 
-        public string ProjectId { get; set; }
+        public string Id { get; set; }
 
-        public string UserId { get; set; }
+        public string Subject { get; set; }
+
+        public string Message { get; set; }
+
+        public IList<string> MediaResources { get; set; }
+
+        public DateTime Timestamp { get; set; }
 
         #endregion
 

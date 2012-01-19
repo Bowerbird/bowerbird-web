@@ -12,9 +12,9 @@
  
 */
 
-namespace Bowerbird.Web.ViewModels
+namespace Bowerbird.Web.ViewModels.Members
 {
-    public class ProjectPostDeleteInput : IViewModel
+    public class ProjectMemberDeleteInput : IViewModel
     {
         #region Members
 
@@ -22,26 +22,19 @@ namespace Bowerbird.Web.ViewModels
 
         #region Constructors
 
-        public ProjectPostDeleteInput()
-        {
-            InitMembers();
-        }
-
         #endregion
 
         #region Properties
 
-        public string Id { get; set; }
+        public string UserId { get; set; }
 
-        public virtual string UserId { get; set; }
+        public string ProjectId { get; set; }
+
+        public string DeletedByUserId { get; set; }
 
         #endregion
 
         #region Methods
-
-        private void InitMembers()
-        {
-        }
 
         #endregion
     }

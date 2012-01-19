@@ -12,37 +12,40 @@
  
 */
 
-namespace Bowerbird.Web.Controllers
+using System.Web.Mvc;
+using Bowerbird.Core;
+using Bowerbird.Core.Commands;
+using Bowerbird.Core.DesignByContract;
+using Bowerbird.Web.Config;
+using Bowerbird.Web.ViewModels.Members;
+using Raven.Client;
+
+namespace Bowerbird.Web.Controllers.Members
 {
-    #region Namespaces
-
-    using System.Web.Mvc;
-    using Core;
-    using Core.Commands;
-    using Core.DesignByContract;
-    using ViewModels;
-    using Config;
-
-    #endregion
-
     public class ProjectObservationController : Controller
     {
-
         #region Members
 
         private readonly ICommandProcessor _commandProcessor;
+        private readonly IUserContext _userContext;
+        private readonly IDocumentSession _documentSession;
 
         #endregion
 
         #region Constructors
 
         public ProjectObservationController(
-            ICommandProcessor commandProcessor
-            )
+            ICommandProcessor commandProcessor,
+            IUserContext userContext,
+            IDocumentSession documentSession)
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
+            Check.RequireNotNull(userContext, "userContext");
+            Check.RequireNotNull(documentSession, "documentSession");
 
             _commandProcessor = commandProcessor;
+            _userContext = userContext;
+            _documentSession = documentSession;
         }
 
         #endregion
@@ -63,27 +66,33 @@ namespace Bowerbird.Web.Controllers
         [HttpPost]
         public ActionResult Create(ProjectObservationCreateInput createInput)
         {
-            _commandProcessor.Process(MakeCreateCommand(createInput));
+            if (ModelState.IsValid)
+            {
+                _commandProcessor.Process(MakeCreateCommand(createInput));
 
-            return Json("success");
+                return Json("success");
+            }
+            return Json("failure");
         }
 
         [Transaction]
         [HttpDelete]
         public ActionResult Delete(ProjectObservationDeleteInput deleteInput)
         {
-            _commandProcessor.Process(MakeDeleteCommand(deleteInput));
+            if (ModelState.IsValid)
+            {
+                _commandProcessor.Process(MakeDeleteCommand(deleteInput));
 
-            return Json("success");
+                return Json("success");
+            }
+            return Json("failure");
         }
 
         private ProjectObservationCreateCommand MakeCreateCommand(ProjectObservationCreateInput createInput)
         {
-            Check.RequireNotNull(createInput, "createInput");
-
             return new ProjectObservationCreateCommand()
             {
-                UserId = createInput.UserId,
+                UserId = _userContext.GetAuthenticatedUserId(),
                 ObservationId = createInput.ObservationId,
                 ProjectId = createInput.ProjectId
             };
@@ -91,11 +100,9 @@ namespace Bowerbird.Web.Controllers
 
         private ProjectObservationDeleteCommand MakeDeleteCommand(ProjectObservationDeleteInput deleteInput)
         {
-            Check.RequireNotNull(deleteInput, "deleteInput");
-
             return new ProjectObservationDeleteCommand()
             {
-                UserId = deleteInput.UserId,
+                UserId = _userContext.GetAuthenticatedUserId(),
                 ProjectId = deleteInput.ProjectId,
                 ObservationId = deleteInput.ObservationId
             };

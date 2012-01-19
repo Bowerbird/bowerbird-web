@@ -14,16 +14,12 @@
  
 */
 
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
 namespace Bowerbird.Core.Commands
 {
-    #region Namespaces
-
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
-    #endregion
-
     public class TeamDeleteCommand : CommandBase
     {
         #region Members
@@ -40,6 +36,10 @@ namespace Bowerbird.Core.Commands
         #endregion
 
         #region Properties
+
+        public string Id { get; set; }
+
+        public string UserId { get; set; }
 
         #endregion
 

@@ -1,0 +1,13 @@
+﻿@model Bowerbird.Web.ViewModels.Public.TeamIndex
+
+@{ ViewBag.Title = "Team";}
+
+<h2>Project</h2>
+<p>@Html.LabelFor(x => x.Team.Name)</p>
+<p>@Html.LabelFor(x => x.Team.Description)</p>
+
+@Foreach (var project in Model.Projects)
+{
+    <p>@Html.LabelFor(project.Name)</p>
+    <p>@Html.LabelFor(project.Description)</p>
+}

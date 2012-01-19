@@ -4,7 +4,7 @@
  * Frank Radocaj : frank@radocaj.com
  * Hamish Crittenden : hamish.crittenden@gmail.com
  
- Project Manager: 
+ Team Manager: 
  * Ken Walker : kwalker@museum.vic.gov.au
  
  Funded by:
@@ -16,14 +16,13 @@ using System.Linq;
 using System.Web.Mvc;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Web.ViewModels.Public;
+using Bowerbird.Web.ViewModels.Members;
 using Bowerbird.Web.ViewModels.Shared;
 using Raven.Client;
-using Raven.Client.Linq;
 
-namespace Bowerbird.Web.Controllers.Public
+namespace Bowerbird.Web.Controllers.Public  
 {
-    public class ProjectController : Controller
+    public class TeamController : Controller
     {
         #region Members
 
@@ -33,7 +32,7 @@ namespace Bowerbird.Web.Controllers.Public
 
         #region Constructors
 
-        public ProjectController(
+        public TeamController(
             IDocumentSession documentSession)
         {
             Check.RequireNotNull(documentSession, "documentSession");
@@ -61,28 +60,20 @@ namespace Bowerbird.Web.Controllers.Public
             return View(MakeIndex(idInput));
         }
 
-        private ProjectIndex MakeIndex(IdInput idInput)
+        private TeamIndex MakeIndex(IdInput idInput)
         {
-            Check.RequireNotNull(idInput, "idInput");
+            var team = _documentSession.Load<Team>(idInput.Id);
 
-            var project = _documentSession.Load<Project>(idInput.Id);
-
-            var projectObservations = 
+            var projects =
                 _documentSession
-                .Query<ProjectObservation>()
-                .Customize(x => x.Include(idInput.Id))
-                .Where(x => x.Project.Id == idInput.Id)
+                .Load<Project>()
+                .Where(x => x.Team.Id == idInput.Id)
                 .ToList();
 
-            var observations = 
-                _documentSession
-                .Load<Observation>(projectObservations.Select(x => x.Id))
-                .ToList();
-
-            return new ProjectIndex()
+            return new TeamIndex()
             {
-                Project = project,
-                Observations = observations
+                Team = team,
+                Projects = projects
             };
         }
 

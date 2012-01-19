@@ -120,17 +120,21 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controllers\Members\ProjectController.cs" />
-    <Compile Include="Controllers\ProjectMemberController.cs" />
-    <Compile Include="Controllers\ProjectObservationController.cs" />
-    <Compile Include="Controllers\ProjectPostController.cs" />
+    <Compile Include="Controllers\Members\ProjectMemberController.cs" />
+    <Compile Include="Controllers\Members\ProjectObservationController.cs" />
+    <Compile Include="Controllers\Members\ProjectPostController.cs" />
+    <Compile Include="Controllers\Members\TeamController.cs" />
     <Compile Include="Controllers\Public\AccountController.cs" />
     <Compile Include="Controllers\Public\ObservationController.cs" />
     <Compile Include="Controllers\Public\ProjectController.cs" />
-    <Compile Include="Controllers\TeamController.cs" />
+    <Compile Include="Controllers\Public\TeamController.cs" />
     <Compile Include="Validators\ValidResetPasswordKeyRequestAttribute.cs" />
     <Compile Include="Validators\ValidEmailAttribute.cs" />
     <Compile Include="ViewModels\Members\AccountChangePasswordInput.cs" />
     <Compile Include="ViewModels\Members\ProjectIndex.cs" />
+    <Compile Include="ViewModels\Members\TeamCreateInput.cs" />
+    <Compile Include="ViewModels\Members\TeamIndex.cs" />
+    <Compile Include="ViewModels\Members\TeamUpdateInput.cs" />
     <Compile Include="ViewModels\Public\AccountRegister.cs" />
     <Compile Include="Controllers\Members\UserController.cs" />
     <Compile Include="EventHandlers\NotifyActivityEventHandlerBase.cs" />
@@ -160,8 +164,9 @@
     <Compile Include="ViewModels\Members\ObservationList.cs" />
     <Compile Include="ViewModels\Public\ObservationIndex.cs" />
     <Compile Include="ViewModels\Public\ProjectIndex.cs" />
+    <Compile Include="ViewModels\Public\TeamIndex.cs" />
     <Compile Include="ViewModels\Shared\IdInput.cs" />
-    <Compile Include="ViewModels\TeamProjectCreateInput.cs" />
+    <Compile Include="ViewModels\Members\TeamProjectCreateInput.cs" />
     <Compile Include="ViewModels\Members\UserUpdateInput.cs" />
     <Compile Include="ViewModels\Members\HomeIndex.cs">
       <SubType>Code</SubType>
@@ -181,17 +186,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModels\Members\ObservationUpdateInput.cs" />
-    <Compile Include="ViewModels\ProjectCreateInput.cs" />
-    <Compile Include="ViewModels\ProjectDeleteInput.cs" />
-    <Compile Include="ViewModels\ProjectIndexInput.cs" />
-    <Compile Include="ViewModels\ProjectMemberCreateInput.cs" />
-    <Compile Include="ViewModels\ProjectMemberDeleteInput.cs" />
-    <Compile Include="ViewModels\ProjectObservationCreateInput.cs" />
-    <Compile Include="ViewModels\ProjectObservationDeleteInput.cs" />
-    <Compile Include="ViewModels\ProjectPostCreateInput.cs" />
-    <Compile Include="ViewModels\ProjectPostDeleteInput.cs" />
-    <Compile Include="ViewModels\ProjectPostUpdateInput.cs" />
-    <Compile Include="ViewModels\ProjectUpdateInput.cs" />
+    <Compile Include="ViewModels\Members\ProjectCreateInput.cs" />
+    <Compile Include="ViewModels\Members\ProjectMemberCreateInput.cs" />
+    <Compile Include="ViewModels\Members\ProjectMemberDeleteInput.cs" />
+    <Compile Include="ViewModels\Members\ProjectObservationCreateInput.cs" />
+    <Compile Include="ViewModels\Members\ProjectObservationDeleteInput.cs" />
+    <Compile Include="ViewModels\Members\ProjectPostCreateInput.cs" />
+    <Compile Include="ViewModels\Members\ProjectPostUpdateInput.cs" />
+    <Compile Include="ViewModels\Members\ProjectUpdateInput.cs" />
     <Compile Include="ViewModels\StreamItem.cs">
       <SubType>Code</SubType>
     </Compile>
