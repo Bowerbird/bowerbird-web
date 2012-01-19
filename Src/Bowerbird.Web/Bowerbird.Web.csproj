@@ -112,6 +112,7 @@
     <Compile Include="Config\RavenDocumentStoreProvider.cs" />
     <Compile Include="Config\RouteRegistrar.cs" />
     <Compile Include="Config\UserContext.cs" />
+    <Compile Include="Controllers\ControllerBase.cs" />
     <Compile Include="Controllers\Members\AccountController.cs" />
     <Compile Include="Controllers\Members\HomeController.cs">
       <SubType>Code</SubType>

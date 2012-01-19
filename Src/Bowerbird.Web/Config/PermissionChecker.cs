@@ -70,6 +70,7 @@ namespace Bowerbird.Web.Config
         {
             if(default(T) is Observation)
             {
+                // HACK: Temp implementation until we see a pattern emerge in the usage of permissions
                 var observation = _documentSession.Load<Observation>(id);
                 return observation.User.Id == userId;
             }
@@ -81,6 +82,7 @@ namespace Bowerbird.Web.Config
         {
             if (default(T) is Observation)
             {
+                // HACK: Temp implementation until we see a pattern emerge in the usage of permissions
                 var observation = _documentSession.Load<Observation>(id);
                 return observation.User.Id == userId;
             }

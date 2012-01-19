@@ -2,11 +2,6 @@ namespace Bowerbird.Web.Config
 {
     public interface IPermissionChecker
     {
-        /// <summary>
-        /// This must be called prior to use
-        /// </summary>
-        void Init();
-
         bool HasGlobalPermission(string userId, string permissionId);
 
         bool HasTeamPermission(string userId, string teamId, string permissionId);

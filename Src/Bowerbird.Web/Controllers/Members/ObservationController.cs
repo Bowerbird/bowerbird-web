@@ -28,7 +28,7 @@ using Bowerbird.Web.Config;
 
 namespace Bowerbird.Web.Controllers.Members
 {
-    public class ObservationController : Controller
+    public class ObservationController : ControllerBase
     {
 
         #region Members
@@ -67,14 +67,14 @@ namespace Bowerbird.Web.Controllers.Members
         [Authorize]
         public ActionResult Index(IdInput idInput)
         {
-            return Json(MakeObservationIndex(idInput));
+            return Json(MakeObservationIndex(idInput), JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
         [Authorize]
         public ActionResult List(ObservationListInput observationListInput)
         {
-            return Json(MakeObservationList(observationListInput));
+            return Json(MakeObservationList(observationListInput), JsonRequestBehavior.AllowGet);
         }
 
         [Transaction]
@@ -82,6 +82,11 @@ namespace Bowerbird.Web.Controllers.Members
         [Authorize]
         public ActionResult Create(ObservationCreateInput observationCreateInput)
         {
+            if (!ModelState.IsValid)
+            {
+                return Json("failure");
+            }
+
             _commandProcessor.Process(MakeObservationCreateCommand(observationCreateInput));
 
             return Json("success"); // TODO: Return something more meaningful?
@@ -92,14 +97,19 @@ namespace Bowerbird.Web.Controllers.Members
         [Authorize]
         public ActionResult Update(ObservationUpdateInput observationUpdateInput)
         {
-            if(_userContext.HasPermissionToUpdate<Observation>(observationUpdateInput.ObservationId))
+            if (!_userContext.HasPermissionToUpdate<Observation>(observationUpdateInput.ObservationId))
             {
-                _commandProcessor.Process(MakeObservationUpdateCommand(observationUpdateInput));
-
-                return Json("success"); // TODO: Return something more meaningful?                
+                return HttpUnauthorized();
             }
 
-            return new HttpUnauthorizedResult("Not allowed to go there bro");
+            if (!ModelState.IsValid)
+            {
+                return Json("failure");
+            }
+
+            _commandProcessor.Process(MakeObservationUpdateCommand(observationUpdateInput));
+
+            return Json("success"); // TODO: Return something more meaningful?                
         }
 
         [Transaction]
@@ -107,14 +117,19 @@ namespace Bowerbird.Web.Controllers.Members
         [Authorize]
         public ActionResult Delete(IdInput idInput)
         {
-            if (_userContext.HasPermissionToDelete<Observation>(idInput.Id))
+            if (!_userContext.HasPermissionToDelete<Observation>(idInput.Id))
             {
-                _commandProcessor.Process(MakeObservationDeleteCommand(idInput));
-
-                return Json("success"); // TODO: Return something more meaningful?
+                return HttpUnauthorized();
             }
 
-            return new HttpUnauthorizedResult("Not allowed to go there bro");
+            if (!ModelState.IsValid)
+            {
+                return Json("failure");
+            }
+
+            _commandProcessor.Process(MakeObservationDeleteCommand(idInput));
+
+            return Json("success"); // TODO: Return something more meaningful?
         }
 
         private ObservationCreateCommand MakeObservationCreateCommand(ObservationCreateInput observationCreateInput)
