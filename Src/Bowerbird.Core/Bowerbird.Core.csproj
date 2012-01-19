@@ -72,6 +72,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandHandlers\UserUpdateCommandHandler.cs" />
     <Compile Include="CommandHandlers\ObservationNoteCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\UserUpdatePasswordCommandHandler.cs" />
     <Compile Include="CommandHandlers\ImageMediaResourceDeleteCommandHandler.cs" />
@@ -175,14 +176,14 @@
     <Compile Include="EventHandlers\SendRequestPasswordResetEmailEventHandler.cs" />
     <Compile Include="Events\DomainModelCreatedEvent.cs" />
     <Compile Include="Events\DomainModelUpdatedEvent.cs" />
-    <Compile Include="CommandHandlerNotFoundException.cs" />
+    <Compile Include="Commands\CommandHandlerNotFoundException.cs" />
     <Compile Include="CommandHandlers\UserCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\ObservationUpdateCommandHandler.cs" />
     <Compile Include="CommandHandlers\ObservationCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\ICommandHandler.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="CommandProcessor.cs" />
+    <Compile Include="Commands\CommandProcessor.cs" />
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\UserCreateCommand.cs" />
     <Compile Include="Commands\ObservationUpdateCommand.cs" />
@@ -206,7 +207,7 @@
     <Compile Include="DomainModels\Team.cs" />
     <Compile Include="DomainModels\Members\TeamMember.cs" />
     <Compile Include="DomainModels\User.cs" />
-    <Compile Include="EventProcessor.cs" />
+    <Compile Include="Events\EventProcessor.cs" />
     <Compile Include="Events\IDomainEvent.cs" />
     <Compile Include="EventHandlers\IEventHandler.cs" />
     <Compile Include="EventHandlers\SendWelcomeEmailEventHandler.cs" />
@@ -216,7 +217,7 @@
     <Compile Include="Extensions\EmailExtensions.cs" />
     <Compile Include="Paging\EnumerableExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="ICommandProcessor.cs" />
+    <Compile Include="Commands\ICommandProcessor.cs" />
     <Compile Include="Paging\PagedList.cs" />
     <Compile Include="Paging\PagedListItem.cs" />
     <Compile Include="Paging\PageNumber.cs" />
@@ -228,9 +229,6 @@
     <Compile Include="Services\IEmailService.cs" />
     <Compile Include="Services\IConfigService.cs" />
     <Compile Include="Services\IService.cs" />
-    <Compile Include="Tasks\IUserTasks.cs" />
-    <Compile Include="Tasks\ITasks.cs" />
-    <Compile Include="Tasks\UserTasks.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

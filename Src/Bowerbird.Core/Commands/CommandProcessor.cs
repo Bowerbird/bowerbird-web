@@ -2,14 +2,11 @@
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Collections.Generic;
-
 using Microsoft.Practices.ServiceLocation;
-
-using Bowerbird.Core.Commands;
 using Bowerbird.Core.CommandHandlers;
 using Bowerbird.Core.DesignByContract;
 
-namespace Bowerbird.Core
+namespace Bowerbird.Core.Commands
 {
     public class CommandProcessor : ICommandProcessor
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Bowerbird.Core
+namespace Bowerbird.Core.Commands
 {
     public class CommandHandlerNotFoundException : Exception
     {

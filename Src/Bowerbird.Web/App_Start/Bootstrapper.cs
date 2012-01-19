@@ -1,4 +1,4 @@
-using System.Reflection;
+using Bowerbird.Core.Events;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Ninject;
 using Ninject.Web.Mvc;
@@ -6,13 +6,8 @@ using NinjectBootstrapper = Ninject.Web.Mvc.Bootstrapper;
 using Bowerbird.Web.Config;
 using Microsoft.Practices.ServiceLocation;
 using NinjectAdapter;
-using SignalR.Infrastructure;
-using SignalR.Ninject;
-using Bowerbird.Web.App_Start;
-using Bowerbird.Core;
 using System.Web.Mvc;
 using System.Web.Routing;
-using FluentValidation.Mvc;
 
 [assembly: WebActivator.PreApplicationStartMethod(typeof(Bowerbird.Web.App_Start.Bootstrapper), "PreStart")]
 [assembly: WebActivator.PostApplicationStartMethod(typeof(Bowerbird.Web.App_Start.Bootstrapper), "PostStart")]

@@ -4,7 +4,7 @@ using Microsoft.Practices.ServiceLocation;
 using Bowerbird.Core.Events;
 using Bowerbird.Core.EventHandlers;
 
-namespace Bowerbird.Core
+namespace Bowerbird.Core.Events
 {
     public class EventProcessor
 	{

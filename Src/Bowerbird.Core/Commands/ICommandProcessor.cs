@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Bowerbird.Core.Commands;
 
-namespace Bowerbird.Core
+namespace Bowerbird.Core.Commands
 {
     public interface ICommandProcessor
     {
