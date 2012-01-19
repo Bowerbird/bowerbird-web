@@ -46,7 +46,8 @@ namespace Bowerbird.Web.Config
             routes.MapRoute(
                 "Default",
                 "{controller}/{action}/{id}",
-                new { controller = "Home", action = "Index", id = UrlParameter.Optional });
+                new { controller = "home", action = "index", id = UrlParameter.Optional },
+                new[] { "Bowerbird.Web.Controllers.Public" });
         }
     }
 }

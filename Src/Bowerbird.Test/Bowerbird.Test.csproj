@@ -131,7 +131,7 @@
     <Compile Include="Extensions\CollectionExtensionsTest.cs" />
     <Compile Include="Extensions\StringExtensionsTest.cs" />
     <Compile Include="Extensions\UrlHelperExtensionsTest.cs" />
-    <Compile Include="FakeViewModels.cs" />
+    <Compile Include="Utils\FakeViewModels.cs" />
     <Compile Include="Utils\BootstrapperHelper.cs" />
     <Compile Include="Utils\ControllerHelpers.cs" />
     <Compile Include="Utils\ExceptionAssertion.cs" />

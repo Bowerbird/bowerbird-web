@@ -1,6 +1,5 @@
 ﻿using Bowerbird.Core.Repositories;
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.DomainModels;
 using Raven.Client;
 
 namespace Bowerbird.Core.CommandHandlers

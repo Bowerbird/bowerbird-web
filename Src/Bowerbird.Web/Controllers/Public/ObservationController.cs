@@ -1,4 +1,6 @@
-﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 
+
+ Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -12,27 +14,17 @@
  
 */
 
+using Bowerbird.Core.Commands;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Web.ViewModels.Public;
 using Bowerbird.Web.ViewModels.Shared;
 using Raven.Client;
+using System.Web.Mvc;
+using Bowerbird.Core.DesignByContract;
 
 namespace Bowerbird.Web.Controllers.Public
 {
-    #region Namespaces
-
-    using System;
-    using System.Web.Mvc;
-
-    using Bowerbird.Core;
-    using Bowerbird.Core.Commands;
-    using Bowerbird.Core.DesignByContract;
-    using Bowerbird.Web.ViewModels;
-    using Bowerbird.Web.Config;
-
-    #endregion
-
-    public class ObservationController : Controller
+    public class ObservationController : ControllerBase
     {
         #region Members
 

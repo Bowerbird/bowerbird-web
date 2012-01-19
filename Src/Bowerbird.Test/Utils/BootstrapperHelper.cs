@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Bowerbird.Core.Events;
 using Bowerbird.Web.Config;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Ninject;
@@ -6,11 +6,6 @@ using Ninject.Web.Mvc;
 using NinjectBootstrapper = Ninject.Web.Mvc.Bootstrapper;
 using Microsoft.Practices.ServiceLocation;
 using NinjectAdapter;
-using SignalR.Infrastructure;
-using SignalR.Ninject;
-using Bowerbird.Core;
-using System.Web.Mvc;
-using System.Web.Routing;
 
 namespace Bowerbird.Test.Utils
 {

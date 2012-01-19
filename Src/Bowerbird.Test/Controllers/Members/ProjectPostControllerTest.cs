@@ -1,4 +1,6 @@
-/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+/* Bowerbird V1 
+
+ Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -12,15 +14,16 @@
  
 */
 
+
 using System;
 using System.Web.Mvc;
+using Bowerbird.Core.Commands;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.Controllers.Members;
 using Bowerbird.Web.ViewModels;
 using Bowerbird.Web.ViewModels.Shared;
 using NUnit.Framework;
 using Moq;
-using Bowerbird.Core;
 using Bowerbird.Test.Utils;
 using Raven.Client;
 

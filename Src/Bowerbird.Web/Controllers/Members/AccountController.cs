@@ -14,21 +14,16 @@
  
 */
 
+using System.Web.Mvc;
+using Bowerbird.Core;
+using Bowerbird.Core.DesignByContract;
+using Bowerbird.Web.Config;
+using Bowerbird.Core.Commands;
+using Bowerbird.Web.ViewModels.Members;
+
 namespace Bowerbird.Web.Controllers.Members
 {
-    #region Namespaces
-
-    using System.Web.Mvc;
-
-    using Bowerbird.Core;
-    using Bowerbird.Core.DesignByContract;
-    using Bowerbird.Web.Config;
-    using Bowerbird.Core.Commands;
-    using Bowerbird.Web.ViewModels.Members;
-
-    #endregion
-
-    public class AccountController : Controller
+    public class AccountController : ControllerBase
     {
 
         #region Members

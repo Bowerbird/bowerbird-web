@@ -109,8 +109,6 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
-    <Compile Include="Areas\Members\MembersAreaRegistration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="apple-touch-icon-114x114-precomposed.png" />
     <Content Include="apple-touch-icon-57x57-precomposed.png" />

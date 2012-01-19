@@ -1,4 +1,6 @@
-﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 
+
+ Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -12,9 +14,10 @@
  
 */
 
+
 using System;
 using System.Web.Mvc;
-using Bowerbird.Core;
+using Bowerbird.Core.Commands;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Extensions;
 using Bowerbird.Test.Utils;

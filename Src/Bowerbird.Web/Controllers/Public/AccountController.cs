@@ -14,30 +14,20 @@
  
 */
 
-using System;
-using System.Collections.Generic;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.Repositories;
 using Bowerbird.Web.ViewModels.Members;
 using Bowerbird.Web.ViewModels.Public;
-using Bowerbird.Web.ViewModels.Shared;
 using Raven.Client;
+using System.Web.Mvc;
+using Bowerbird.Core;
+using Bowerbird.Core.DesignByContract;
+using Bowerbird.Web.Config;
+using Bowerbird.Core.CommandHandlers;
 
 namespace Bowerbird.Web.Controllers.Public
 {
-    #region Namespaces
-
-    using System.Web.Mvc;
-
-    using Bowerbird.Core;
-    using Bowerbird.Core.DesignByContract;
-    using Bowerbird.Web.ViewModels;
-    using Bowerbird.Web.Config;
-    using Bowerbird.Core.CommandHandlers;
-
-    #endregion
-
-    public class AccountController : Controller
+    public class AccountController : ControllerBase
     {
         #region Members
 
