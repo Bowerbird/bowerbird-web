@@ -90,6 +90,44 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandHandlers\ImageMediaResourceCreateCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\ImageMediaResourceDeleteCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\ImageMediaResourceUpdateCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\MediaResourceCreateCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\MediaResourceDeleteCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\MediaResourceUpdateCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\ObservationCommentCreateCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\ObservationCommentDeleteCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\ObservationCommentUpdateCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\ObservationCreateCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\ObservationDeleteCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\ObservationNoteCreateCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\ObservationNoteDeleteCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\ObservationNoteUpdateCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\ObservationUpdateCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\PostCommentCreateCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\PostCommentDeleteCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\PostCommentUpdateCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\ProjectCreateCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\ProjectDeleteCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\ProjectMemberCreateCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\ProjectMemberDeleteCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\ProjectObservationCreateCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\ProjectObservationDeleteCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\ProjectPostCreateCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\ProjectPostDeleteCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\ProjectPostUpdateCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\ProjectUpdateCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\TeamCreateCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\TeamDeleteCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\TeamMemberCreateCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\TeamMemberDeleteCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\TeamPostCreateCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\TeamPostDeleteCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\TeamPostUpdateCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\TeamUpdateCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\UserCreateCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\UserUpdateLastLoginCommandHandlerTest.cs" />
     <Compile Include="Config\BowerbirdNinjectModuleTest.cs" />
     <Compile Include="Config\UserContextTest.cs" />
     <Compile Include="Controllers\Members\AccountControllerTest.cs" />
