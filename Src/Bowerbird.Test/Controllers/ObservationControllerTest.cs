@@ -40,6 +40,7 @@ namespace Bowerbird.Test.Controllers
             _mockCommandProcessor = new Mock<ICommandProcessor>();
             _controller = new ObservationController(
                 _mockCommandProcessor.Object,
+                null,
                 null
                 );
         }

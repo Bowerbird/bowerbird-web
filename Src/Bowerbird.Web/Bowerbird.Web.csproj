@@ -128,6 +128,7 @@
     <Compile Include="Controllers\Public\ObservationController.cs" />
     <Compile Include="Controllers\Public\ProjectController.cs" />
     <Compile Include="Controllers\Public\TeamController.cs" />
+    <Compile Include="PermissionChecker.cs" />
     <Compile Include="Validators\ValidResetPasswordKeyRequestAttribute.cs" />
     <Compile Include="Validators\ValidEmailAttribute.cs" />
     <Compile Include="ViewModels\Members\AccountChangePasswordInput.cs" />
@@ -180,7 +181,6 @@
     <Compile Include="ViewModels\Members\ObservationCreateInput.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ViewModels\Members\ObservationDeleteInput.cs" />
     <Compile Include="ViewModels\Members\ObservationIndex.cs" />
     <Compile Include="ViewModels\Members\ObservationListInput.cs">
       <SubType>Code</SubType>

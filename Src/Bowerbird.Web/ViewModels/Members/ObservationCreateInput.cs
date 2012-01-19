@@ -35,8 +35,6 @@ namespace Bowerbird.Web.ViewModels.Members
 
         public DateTime ObservedOn { get; set; }
 
-        public string UserId { get; set; }
-        
         public List<string> MediaResources { get; set; }
 
         #endregion

@@ -22,14 +22,6 @@ namespace Bowerbird.Core.Paging
 
         #region Methods
 
-        //public static PagedList<T> ToPagedList<T>(this IEnumerable<T> collection)
-        //{
-        //    return new PagedList<T>()
-        //    {
-        //        TotalResultCount = 0
-        //    };
-        //}
-
         public static PagedList<T> ToPagedList<T>(
             this IEnumerable<T> collection,
             int page, 

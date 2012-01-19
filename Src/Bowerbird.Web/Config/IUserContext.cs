@@ -22,5 +22,15 @@ namespace Bowerbird.Web.Config
 
         dynamic GetChannel();
 
+        bool HasGlobalPermission(string permissionId);
+
+        bool HasTeamPermission(string teamId, string permissionId);
+
+        bool HasProjectPermission(string projectId, string permissionId);
+
+        bool HasPermissionToUpdate<T>(string id);
+
+        bool HasPermissionToDelete<T>(string id);
+
     }
 }
