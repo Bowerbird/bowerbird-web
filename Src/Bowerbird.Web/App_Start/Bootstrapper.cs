@@ -43,8 +43,6 @@ namespace Bowerbird.Web.App_Start
         {
             EventProcessor.ServiceLocator = ServiceLocator.Current;
 
-            //XmlConfigurator.Configure();
-
             ViewEngines.Engines.Clear();
 
             ViewEngines.Engines.Add(new RazorViewEngine());

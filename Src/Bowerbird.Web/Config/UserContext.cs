@@ -18,35 +18,26 @@ namespace Bowerbird.Web.Config
         #region Members
 
         private readonly IDocumentSession _documentSession;
-        private PermissionChecker _permissionChecker;
+        private readonly IPermissionChecker _permissionChecker;
 
         #endregion
 
         #region Constructors
 
         public UserContext(
-            IDocumentSession documentSession)
+            IDocumentSession documentSession,
+            IPermissionChecker permissionChecker)
         {
             Check.RequireNotNull(documentSession, "documentSession");
+            Check.RequireNotNull(permissionChecker, "permissionChecker");
 
             _documentSession = documentSession;
+            _permissionChecker = permissionChecker;
         }
 
         #endregion
 
         #region Properties
-
-        private PermissionChecker PermissionChecker
-        {
-            get
-            {
-                if(_permissionChecker == null)
-                {
-                    _permissionChecker = new PermissionChecker(_documentSession, GetAuthenticatedUserId());
-                }
-                return _permissionChecker;
-            }
-        }
 
         #endregion
 
@@ -110,27 +101,27 @@ namespace Bowerbird.Web.Config
 
         public bool HasGlobalPermission(string permissionId)
         {
-            return PermissionChecker.HasGlobalPermission(permissionId);
+            return _permissionChecker.HasGlobalPermission(GetAuthenticatedUserId(), permissionId);
         }
 
         public bool HasTeamPermission(string teamId, string permissionId)
         {
-            return PermissionChecker.HasTeamPermission(teamId, permissionId);
+            return _permissionChecker.HasTeamPermission(GetAuthenticatedUserId(), teamId, permissionId);
         }
 
         public bool HasProjectPermission(string projectId, string permissionId)
         {
-            return PermissionChecker.HasProjectPermission(projectId, permissionId);
+            return _permissionChecker.HasProjectPermission(GetAuthenticatedUserId(), projectId, permissionId);
         }
 
         public bool HasPermissionToUpdate<T>(string id)
         {
-            return PermissionChecker.HasPermissionToUpdate<T>(id);
+            return _permissionChecker.HasPermissionToUpdate<T>(GetAuthenticatedUserId(), id);
         }
 
         public bool HasPermissionToDelete<T>(string id)
         {
-            return PermissionChecker.HasPermissionToDelete<T>(id);
+            return _permissionChecker.HasPermissionToDelete<T>(GetAuthenticatedUserId(), id);
         }
 
         private void AddCookie(string name, string value, string domain)

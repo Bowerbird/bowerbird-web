@@ -29,6 +29,7 @@ namespace Bowerbird.Web.Config
         {
             // Singleton scope
             Bind<IDocumentStore>().ToProvider<RavenDocumentStoreProvider>().InSingletonScope();
+            Bind<IPermissionChecker>().To<PermissionChecker>().InSingletonScope().OnActivation(x => x.Init());
 
             // Request scope
             Bind<IDocumentSession>().ToProvider<RavenSessionProvider>().InRequestScope();

@@ -128,7 +128,8 @@
     <Compile Include="Controllers\Public\ObservationController.cs" />
     <Compile Include="Controllers\Public\ProjectController.cs" />
     <Compile Include="Controllers\Public\TeamController.cs" />
-    <Compile Include="PermissionChecker.cs" />
+    <Compile Include="Config\IPermissionChecker.cs" />
+    <Compile Include="Config\PermissionChecker.cs" />
     <Compile Include="Validators\ValidResetPasswordKeyRequestAttribute.cs" />
     <Compile Include="Validators\ValidEmailAttribute.cs" />
     <Compile Include="ViewModels\Members\AccountChangePasswordInput.cs" />
@@ -142,7 +143,6 @@
     <Compile Include="EventHandlers\NotifyActivityUserLoggedInEventHandler.cs" />
     <Compile Include="EventHandlers\NotifyActivityObservationCreatedEventHandler.cs" />
     <Compile Include="Hubs\ActivityHub.cs" />
-    <Compile Include="IViewModelRepository.cs" />
     <Compile Include="Validators\UniqueEmailAttribute.cs" />
     <Compile Include="ViewModels\Public\AccountRegisterInput.cs" />
     <Compile Include="ViewModels\Public\AccountRequestPasswordReset.cs" />
@@ -150,7 +150,6 @@
     <Compile Include="ViewModels\Public\AccountResetPassword.cs" />
     <Compile Include="ViewModels\Public\AccountResetPasswordInput.cs" />
     <Compile Include="ViewModelFactories\ProjectIndexFactory.cs" />
-    <Compile Include="ViewModelRepository.cs" />
     <Compile Include="Extensions\UrlHelperExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModelFactories\IViewModelFactory.cs" />

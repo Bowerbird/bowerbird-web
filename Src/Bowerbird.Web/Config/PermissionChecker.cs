@@ -9,15 +9,14 @@ using Bowerbird.Web.Config;
 using Microsoft.Practices.ServiceLocation;
 using Raven.Client;
 
-namespace Bowerbird.Web
+namespace Bowerbird.Web.Config
 {
-    public class PermissionChecker
+    public class PermissionChecker : IPermissionChecker
     {
 
         #region Members
 
         private readonly IDocumentSession _documentSession;
-        private readonly string _userId;
 
         private IEnumerable<Role> _cachedRoles;
 
@@ -26,14 +25,11 @@ namespace Bowerbird.Web
         #region Constructors
 
         public PermissionChecker(
-            IDocumentSession documentSession,
-            string userId)
+            IDocumentSession documentSession)
         {
             Check.RequireNotNull(documentSession, "documentSession");
-            Check.RequireNotNullOrWhitespace(userId, "userId");
 
             _documentSession = documentSession;
-            _userId = userId;
         }
 
         #endregion
@@ -44,44 +40,49 @@ namespace Bowerbird.Web
 
         #region Methods
 
-        public bool HasGlobalPermission(string permissionId)
+        public void Init()
         {
-            var globalMember = _documentSession.Load<GlobalMember>(_userId);
+            _cachedRoles = _documentSession.Query<Role>();
+        }
+
+        public bool HasGlobalPermission(string userId, string permissionId)
+        {
+            var globalMember = _documentSession.Load<GlobalMember>(userId);
 
             return HasPermission(globalMember, permissionId);
         }
 
-        public bool HasTeamPermission(string teamId, string permissionId)
+        public bool HasTeamPermission(string userId, string teamId, string permissionId)
         {
             var teamMember = _documentSession.Load<TeamMember>(teamId);
 
             return HasPermission(teamMember, permissionId);
         }
 
-        public bool HasProjectPermission(string projectId, string permissionId)
+        public bool HasProjectPermission(string userId, string projectId, string permissionId)
         {
             var projectMember = _documentSession.Load<ProjectMember>(projectId);
 
             return HasPermission(projectMember, permissionId);
         }
 
-        public bool HasPermissionToUpdate<T>(string id)
+        public bool HasPermissionToUpdate<T>(string userId, string id)
         {
             if(default(T) is Observation)
             {
                 var observation = _documentSession.Load<Observation>(id);
-                return observation.User.Id == _userId;
+                return observation.User.Id == userId;
             }
 
             throw new ArgumentException("The specified model type does not have a permission check implemented.");
         }
 
-        public bool HasPermissionToDelete<T>(string id)
+        public bool HasPermissionToDelete<T>(string userId, string id)
         {
             if (default(T) is Observation)
             {
                 var observation = _documentSession.Load<Observation>(id);
-                return observation.User.Id == _userId;
+                return observation.User.Id == userId;
             }
 
             throw new ArgumentException("The specified model type does not have a permission check implemented.");
@@ -91,7 +92,7 @@ namespace Bowerbird.Web
         {
             if (_cachedRoles == null)
             {
-                _cachedRoles = _documentSession.Query<Role>();
+                throw new Exception("PermissionChecker has not been initialised. Call Init() before use.");
             }
 
             return _cachedRoles
