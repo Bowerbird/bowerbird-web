@@ -11,15 +11,15 @@
  * Atlas of Living Australia
  
 */
-
-using System.Collections.Generic;
+				
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Paging;
 
-namespace Bowerbird.Web.ViewModels.Members
+namespace Bowerbird.Web.ViewModels.Shared
 {
-    public class TeamIndex : IViewModel
+    public class ProjectList : IViewModel
     {
-        #region Fields
+        #region Members
 
         #endregion
 
@@ -29,9 +29,13 @@ namespace Bowerbird.Web.ViewModels.Members
 
         #region Properties
 
-        public Team Team { get; set; }
+        public string TeamId { get; set; }
 
-        public IList<Project> Projects { get; set; }
+        public int Page { get; set; }
+
+        public int PageSize { get; set; }
+
+        public PagedList<Project> Projects { get; set; }
 
         #endregion
 

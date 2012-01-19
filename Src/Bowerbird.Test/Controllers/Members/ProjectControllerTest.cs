@@ -69,15 +69,21 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Project_List_Returns_Json_Success()
+        public void Project_List_Returns_ProjectList_In_Json_Format()
         {
-            var result = _controller.List(null, null, null);
+            var result = _controller.List(new ProjectListInput(){Page = 1, PageSize = 10, TeamId = FakeValues.KeyString});
 
+            Assert.IsNotNull(result);
             Assert.IsInstanceOf<JsonResult>(result);
+            
             var jsonResult = result as JsonResult;
-
             Assert.IsNotNull(jsonResult);
-            Assert.AreEqual(jsonResult.Data, "Success");
+
+            Assert.IsNotNull(jsonResult.Data);
+            var jsonData = jsonResult.Data;
+
+            Assert.IsInstanceOf<ProjectList>(jsonData);
+            // more assertions for expected data...
         }
 
         [Test]

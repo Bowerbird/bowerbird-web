@@ -1,4 +1,4 @@
-/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -12,12 +12,9 @@
  
 */
 
-using System.Collections.Generic;
-using Bowerbird.Core.DomainModels;
-
-namespace Bowerbird.Web.ViewModels.Members
+namespace Bowerbird.Web.ViewModels.Shared
 {
-    public class ProjectIndex : IViewModel
+    public class ProjectListInput
     {
         #region Members
 
@@ -29,10 +26,12 @@ namespace Bowerbird.Web.ViewModels.Members
 
         #region Properties
 
-        public Project Project { get; set; }
+        public string TeamId { get; set; }
 
-        public List<Observation> Observations { get; set; }
-         
+        public int Page { get; set; }
+
+        public int PageSize { get; set; }
+
         #endregion
 
         #region Methods

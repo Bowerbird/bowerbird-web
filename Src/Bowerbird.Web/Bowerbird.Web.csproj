@@ -134,9 +134,11 @@
     <Compile Include="Validators\ValidResetPasswordKeyRequestAttribute.cs" />
     <Compile Include="Validators\ValidEmailAttribute.cs" />
     <Compile Include="ViewModels\Members\AccountChangePasswordInput.cs" />
-    <Compile Include="ViewModels\Members\ProjectIndex.cs" />
+    <Compile Include="ViewModels\Shared\ProjectIndex.cs" />
+    <Compile Include="ViewModels\Shared\ProjectList.cs" />
+    <Compile Include="ViewModels\Shared\ProjectListInput.cs" />
     <Compile Include="ViewModels\Members\TeamCreateInput.cs" />
-    <Compile Include="ViewModels\Members\TeamIndex.cs" />
+    <Compile Include="ViewModels\Shared\TeamIndex.cs" />
     <Compile Include="ViewModels\Members\TeamUpdateInput.cs" />
     <Compile Include="ViewModels\Public\AccountRegister.cs" />
     <Compile Include="Controllers\Members\UserController.cs" />
@@ -164,8 +166,6 @@
     </Compile>
     <Compile Include="ViewModels\Members\ObservationList.cs" />
     <Compile Include="ViewModels\Public\ObservationIndex.cs" />
-    <Compile Include="ViewModels\Public\ProjectIndex.cs" />
-    <Compile Include="ViewModels\Public\TeamIndex.cs" />
     <Compile Include="ViewModels\Shared\IdInput.cs" />
     <Compile Include="ViewModels\Members\TeamProjectCreateInput.cs" />
     <Compile Include="ViewModels\Members\UserUpdateInput.cs" />

@@ -16,6 +16,7 @@ using System.Linq;
 using System.Web.Mvc;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Paging;
 using Bowerbird.Web.ViewModels.Public;
 using Bowerbird.Web.ViewModels.Shared;
 using Raven.Client;
@@ -50,22 +51,22 @@ namespace Bowerbird.Web.Controllers.Public
         #region Methods
 
         [HttpGet]
+        public ActionResult Index(IdInput idInput)
+        {
+            if (Request.IsAjaxRequest())
+
+                return Json(MakeProjectIndex(idInput));
+
+            return View(MakeProjectIndex(idInput));
+        }
+
+        [HttpGet]
         public ActionResult List(int? id, int? page, int? pageSize)
         {
             return Json("success", JsonRequestBehavior.AllowGet);
         }
 
-        [HttpGet]
-        public ActionResult Index(IdInput idInput)
-        {
-            if (Request.IsAjaxRequest())
-
-                return Json(MakeIndex(idInput));
-
-            return View(MakeIndex(idInput));
-        }
-
-        private ProjectIndex MakeIndex(IdInput idInput)
+        private ProjectIndex MakeProjectIndex(IdInput idInput)
         {
             Check.RequireNotNull(idInput, "idInput");
 
@@ -87,6 +88,30 @@ namespace Bowerbird.Web.Controllers.Public
             {
                 Project = project,
                 Observations = observations
+            };
+        }
+
+        private ProjectList MakeProjectList(ProjectListInput listInput)
+        {
+            RavenQueryStatistics stats;
+
+            var results = _documentSession
+                .Query<Project>()
+                .Statistics(out stats)
+                .Skip(listInput.Page)
+                .Take(listInput.PageSize)
+                .ToArray(); // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
+
+            return new ProjectList
+            {
+                TeamId = listInput.TeamId,
+                Page = listInput.Page,
+                PageSize = listInput.PageSize,
+                Projects = results.ToPagedList(
+                    listInput.Page,
+                    listInput.PageSize,
+                    stats.TotalResults,
+                    null)
             };
         }
 

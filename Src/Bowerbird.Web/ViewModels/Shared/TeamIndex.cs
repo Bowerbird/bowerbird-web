@@ -15,7 +15,7 @@
 using System.Collections.Generic;
 using Bowerbird.Core.DomainModels;
 
-namespace Bowerbird.Web.ViewModels.Public
+namespace Bowerbird.Web.ViewModels.Shared
 {
     public class TeamIndex : IViewModel
     {

@@ -12,16 +12,11 @@
  
 */
 
-namespace Bowerbird.Web.ViewModels.Public
+using System.Collections.Generic;
+using Bowerbird.Core.DomainModels;
+
+namespace Bowerbird.Web.ViewModels.Shared
 {
-    #region Namespaces
-
-    using System.Collections.Generic;
-
-    using Core.DomainModels;
-
-    #endregion
-
     public class ProjectIndex : IViewModel
     {
         #region Members

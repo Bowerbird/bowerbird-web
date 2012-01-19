@@ -195,18 +195,18 @@ namespace Bowerbird.Web.Controllers.Members
                 .ToArray(); // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
 
             return new ObservationList
-                       {
-                           UserId = observationListInput.UserId,
-                           ProjectId = observationListInput.ProjectId,
-                           TeamId = observationListInput.TeamId,
-                           Page = observationListInput.Page,
-                           PageSize = observationListInput.PageSize,
-                           Observations = results.ToPagedList(
-                               observationListInput.Page,
-                               observationListInput.PageSize,
-                               stats.TotalResults,
-                               null)
-                       };
+            {
+                UserId = observationListInput.UserId,
+                ProjectId = observationListInput.ProjectId,
+                TeamId = observationListInput.TeamId,
+                Page = observationListInput.Page,
+                PageSize = observationListInput.PageSize,
+                Observations = results.ToPagedList(
+                    observationListInput.Page,
+                    observationListInput.PageSize,
+                    stats.TotalResults,
+                    null)
+            };
         }
 
         #endregion

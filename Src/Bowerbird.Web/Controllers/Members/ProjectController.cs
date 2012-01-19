@@ -18,8 +18,8 @@ using Bowerbird.Core;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Paging;
 using Bowerbird.Web.Config;
-using Bowerbird.Web.ViewModels;
 using Bowerbird.Web.ViewModels.Members;
 using Bowerbird.Web.ViewModels.Shared;
 using Raven.Client;
@@ -27,7 +27,7 @@ using Raven.Client.Linq;
 
 namespace Bowerbird.Web.Controllers.Members
 {
-    public class ProjectController : Controller
+    public class ProjectController : ControllerBase
     {
         #region Members
 
@@ -62,19 +62,20 @@ namespace Bowerbird.Web.Controllers.Members
         #region Methods
 
         [HttpGet]
-        public ActionResult List(int? id, int? page, int? pageSize)
-        {
-            return Json("Success", JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpGet]
         public ActionResult Index(IdInput idInput)
         {
             if (Request.IsAjaxRequest())
-         
-                return Json(MakeIndex(idInput));
+            {
+                return Json(MakeProjectIndex(idInput));
+            }
 
-            return View(MakeIndex(idInput));
+            return View(MakeProjectIndex(idInput));
+        }
+
+        [HttpGet]
+        public ActionResult List(ProjectListInput listInput)
+        {
+            return Json(MakeProjectList(listInput), JsonRequestBehavior.AllowGet);
         }
 
         [Transaction]
@@ -82,14 +83,14 @@ namespace Bowerbird.Web.Controllers.Members
         [HttpPost]
         public ActionResult Create(ProjectCreateInput createInput)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                _commandProcessor.Process(MakeCreateCommand(createInput));
-
-                return Json("Success");
+                return Json("Failure");
             }
 
-            return Json("Failure");
+            _commandProcessor.Process(MakeProjectCreateCommand(createInput));
+
+            return Json("Success");
         }
 
         [Transaction]
@@ -97,14 +98,19 @@ namespace Bowerbird.Web.Controllers.Members
         [HttpPut]
         public ActionResult Update(ProjectUpdateInput updateInput) 
         {
-            if (ModelState.IsValid)
+            if (!_userContext.HasPermissionToUpdate<Project>(updateInput.ProjectId))
             {
-                _commandProcessor.Process(MakeUpdateCommand(updateInput));
-
-                return Json("Success");
+                return HttpUnauthorized();
             }
 
-            return Json("Failure");
+            if (!ModelState.IsValid)
+            {
+                return Json("Failure");
+            }
+            
+            _commandProcessor.Process(MakeProjectUpdateCommand(updateInput));
+
+            return Json("Success");
         }
 
         [Transaction]
@@ -112,16 +118,22 @@ namespace Bowerbird.Web.Controllers.Members
         [HttpDelete]
         public ActionResult Delete(IdInput deleteInput)
         {
-            if (ModelState.IsValid)
+            if (!_userContext.HasPermissionToDelete<Project>(deleteInput.Id))
             {
-                _commandProcessor.Process(MakeDeleteCommand(deleteInput));
-
-                return Json("Success");
+                return HttpUnauthorized();
             }
-            return Json("Failure");
+
+            if (!ModelState.IsValid)
+            {
+                return Json("Failure");
+            }
+
+            _commandProcessor.Process(MakeProjectDeleteCommand(deleteInput));
+
+            return Json("Success");
         }
 
-        private ProjectIndex MakeIndex(IdInput idInput)
+        private ProjectIndex MakeProjectIndex(IdInput idInput)
         {
             Check.RequireNotNull(idInput, "idInput");
 
@@ -146,7 +158,31 @@ namespace Bowerbird.Web.Controllers.Members
             };
         }
 
-        private ProjectCreateCommand MakeCreateCommand(ProjectCreateInput createInput)
+        private ProjectList MakeProjectList(ProjectListInput listInput)
+        {
+            RavenQueryStatistics stats;
+
+            var results = _documentSession
+                .Query<Project>()
+                .Statistics(out stats)
+                .Skip(listInput.Page)
+                .Take(listInput.PageSize)
+                .ToArray(); // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
+
+            return new ProjectList
+            {
+                TeamId = listInput.TeamId,
+                Page = listInput.Page,
+                PageSize = listInput.PageSize,
+                Projects = results.ToPagedList(
+                    listInput.Page,
+                    listInput.PageSize,
+                    stats.TotalResults,
+                    null)
+            };
+        }
+
+        private ProjectCreateCommand MakeProjectCreateCommand(ProjectCreateInput createInput)
         {
             return new ProjectCreateCommand()
             {
@@ -156,7 +192,7 @@ namespace Bowerbird.Web.Controllers.Members
             };
         }
 
-        private ProjectDeleteCommand MakeDeleteCommand(IdInput deleteInput)
+        private ProjectDeleteCommand MakeProjectDeleteCommand(IdInput deleteInput)
         {
             return new ProjectDeleteCommand()
             {
@@ -165,7 +201,7 @@ namespace Bowerbird.Web.Controllers.Members
             };
         }
 
-        private ProjectUpdateCommand MakeUpdateCommand(ProjectUpdateInput updateInput)
+        private ProjectUpdateCommand MakeProjectUpdateCommand(ProjectUpdateInput updateInput)
         {
             return new ProjectUpdateCommand()
             {
