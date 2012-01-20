@@ -12,6 +12,10 @@
  
 */
 
+using System.Collections.Generic;
+using System.Linq;
+using Bowerbird.Core.CommandHandlers;
+using Bowerbird.Core.Commands;
 using Bowerbird.Core.DomainModels.Posts;
 using Bowerbird.Test.Utils;
 using NUnit.Framework;
@@ -54,7 +58,44 @@ namespace Bowerbird.Test.CommandHandlers
         [Category(TestCategory.Persistance)]
         public void TeamPostCreateCommandHandler_Creates_TeamPost()
         {
-            
+            var user = FakeObjects.TestUserWithId();
+            var team = FakeObjects.TestTeamWithId();
+            var imageMediaResource = FakeObjects.TestImageMediaResourceWithId();
+
+            TeamPost newValue = null;
+
+            var command = new TeamPostCreateCommand()
+            {
+                MediaResources = new List<string>(){imageMediaResource.Id},
+                Message = FakeValues.Message,
+                PostedOn = FakeValues.CreatedDateTime,
+                Subject = FakeValues.Subject,
+                TeamId = team.Id,
+                UserId = user.Id
+            };
+
+            using (var session = _store.OpenSession())
+            {
+                session.Store(user);
+                session.Store(team);
+                session.Store(imageMediaResource);
+
+                var commandHandler = new TeamPostCreateCommandHandler(session);
+
+                commandHandler.Handle(command);
+
+                session.SaveChanges();
+
+                newValue = session.Query<TeamPost>().FirstOrDefault();
+            }
+
+            Assert.IsNotNull(newValue);
+            Assert.AreEqual(command.Message, newValue.Message);
+            Assert.AreEqual(command.Subject, newValue.Subject);
+            Assert.IsTrue(newValue.MediaResources.Count == 1);
+            Assert.AreEqual(imageMediaResource, newValue.MediaResources[0]);
+            Assert.AreEqual(command.UserId, newValue.User.Id);
+            Assert.AreEqual(command.TeamId, team.Id);
         }
 
         #endregion

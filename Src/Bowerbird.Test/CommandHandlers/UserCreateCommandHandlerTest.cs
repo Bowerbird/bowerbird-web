@@ -12,6 +12,10 @@
  
 */
 
+using System.Linq;
+using Bowerbird.Core.CommandHandlers;
+using Bowerbird.Core.Commands;
+using Bowerbird.Core.DomainModels;
 using Bowerbird.Test.Utils;
 using NUnit.Framework;
 using Raven.Client;
@@ -53,7 +57,32 @@ namespace Bowerbird.Test.CommandHandlers
         [Category(TestCategory.Integration)]
         public void UserCreateCommandHandler_Creates_User()
         {
+            User newUser = null;
+            using (var session = _store.OpenSession())
+            {
+                var commandHandler = new UserCreateCommandHandler(session);
 
+                commandHandler.Handle(new UserCreateCommand()
+                {
+                    Email = FakeValues.Email,
+                    Description = FakeValues.Description,
+                    FirstName = FakeValues.FirstName,
+                    LastName = FakeValues.LastName,
+                    Password = FakeValues.Password,
+                    Roles = FakeObjects.TestRoles().Select(x => x.Name)
+                });
+
+                session.SaveChanges();
+
+                newUser = session.Query<User>().FirstOrDefault();
+            }
+
+            Assert.IsNotNull(newUser);
+            Assert.AreEqual(FakeValues.FirstName, newUser.FirstName);
+            Assert.AreEqual(FakeValues.LastName, newUser.LastName);
+            Assert.AreEqual(FakeValues.Email, newUser.Email);
+            Assert.AreEqual(FakeValues.Description, newUser.Description);
+            Assert.IsTrue(newUser.ValidatePassword(FakeValues.Password));
         }
 
         #endregion 

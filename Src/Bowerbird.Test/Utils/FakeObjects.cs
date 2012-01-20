@@ -12,6 +12,9 @@
  
 */
 
+using Bowerbird.Core.DomainModels.MediaResources;
+using Bowerbird.Core.DomainModels.Posts;
+
 namespace Bowerbird.Test.Utils
 {
     #region Namespaces
@@ -40,7 +43,7 @@ namespace Bowerbird.Test.Utils
 
         public static User TestUserWithId()
         {
-            User user = new User(
+            var user = new User(
                 FakeValues.Password,
                 FakeValues.Email,
                 FakeValues.FirstName,
@@ -52,6 +55,24 @@ namespace Bowerbird.Test.Utils
                 .IncrementFlagsRaised();
 
             ((IAssignableId)user).SetIdTo("users", FakeValues.UserId);
+
+            return user;
+        }
+
+        public static User TestUserWithId(string id)
+        {
+            var user = new User(
+                FakeValues.Password,
+                FakeValues.Email,
+                FakeValues.FirstName,
+                FakeValues.LastName,
+                TestRoles()
+                )
+                .UpdateLastLoggedIn()
+                .IncrementFlaggedItemsOwned()
+                .IncrementFlagsRaised();
+
+            ((IAssignableId)user).SetIdTo("users", id);
 
             return user;
         }
@@ -98,6 +119,19 @@ namespace Bowerbird.Test.Utils
             return new Team(TestUser(), FakeValues.Name, FakeValues.Description, FakeValues.Website);
         }
 
+        public static Team TestTeamWithId()
+        {
+            var team = new Team(
+                TestUser(), 
+                FakeValues.Name, 
+                FakeValues.Description, 
+                FakeValues.Website);
+
+            ((IAssignableId)team).SetIdTo("teams", FakeValues.KeyString);
+
+            return team;
+        }
+
         public static Post TestPost()
         {
             return new ProxyObjects.ProxyPost(TestUser(), FakeValues.CreatedDateTime, FakeValues.Subject, FakeValues.Message, new List<MediaResource>());
@@ -106,10 +140,10 @@ namespace Bowerbird.Test.Utils
         public static ProjectMember TestProjectMember()
         {
             return new ProjectMember(
-                FakeObjects.TestUser(),
-                FakeObjects.TestProjectWithId(),
-                FakeObjects.TestUserWithId(),
-                FakeObjects.TestRoles());
+                TestUser(),
+                TestProjectWithId(),
+                TestUserWithId(),
+                TestRoles());
         }
 
         public static Observation TestObservationWithId()
@@ -145,9 +179,61 @@ namespace Bowerbird.Test.Utils
                 new List<MediaResource>()
                 );
 
-            ((IAssignableId)observation).SetIdTo("observationcomments", id);
+            ((IAssignableId)observation).SetIdTo("comments", id);
 
             return observation;
+        }
+
+        public static MediaResource TestImageMediaResourceWithId()
+        {
+            var imageMediaResource = new ImageMediaResource(
+                TestUser(),
+                FakeValues.CreatedDateTime,
+                FakeValues.Filename,
+                FakeValues.FileFormat,
+                FakeValues.Description,
+                FakeValues.Number,
+                FakeValues.Number
+                );
+
+            ((IAssignableId)imageMediaResource).SetIdTo("mediaresources", FakeValues.KeyString);
+
+            return imageMediaResource;
+
+        }
+
+        public static MediaResource TestImageMediaResourceWithId(string id)
+        {
+            var imageMediaResource = new ImageMediaResource(
+                TestUser(),
+                FakeValues.CreatedDateTime,
+                FakeValues.Filename,
+                FakeValues.FileFormat,
+                FakeValues.Description,
+                FakeValues.Number,
+                FakeValues.Number
+                );
+
+            ((IAssignableId)imageMediaResource).SetIdTo("mediaresources", id);
+
+            return imageMediaResource;
+
+        }
+
+        public static TeamPost TestTeamPostWithId()
+        {
+            var teamPost = new TeamPost(
+                TestTeamWithId(),
+                TestUserWithId(),
+                FakeValues.CreatedDateTime,
+                FakeValues.Subject,
+                FakeValues.Message,
+                new List<MediaResource>() {TestImageMediaResourceWithId()}
+                );
+
+            ((IAssignableId)teamPost).SetIdTo("posts", FakeValues.KeyString);
+
+            return teamPost;
         }
     }
 }

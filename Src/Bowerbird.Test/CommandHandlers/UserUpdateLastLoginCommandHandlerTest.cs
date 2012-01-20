@@ -46,14 +46,6 @@ namespace Bowerbird.Test.CommandHandlers
 
         #endregion
 
-        #region Constructor tests
-
-        #endregion
-
-        #region Property tests
-
-        #endregion
-
         #region Method tests
 
         [Test]

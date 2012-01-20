@@ -41,6 +41,18 @@ namespace Bowerbird.Core.Commands
 
         #region Properties
 
+        public string Id { get; set; }
+
+        public string UserId { get; set; }
+
+        public string Subject { get; set; }
+
+        public string Message { get; set; }
+
+        public IList<string> MediaResources { get; set; }
+
+        public DateTime Timestamp { get; set; }
+
         #endregion
 
         #region Methods

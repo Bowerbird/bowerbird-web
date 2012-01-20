@@ -12,8 +12,14 @@
  
 */
 
+using System.Collections.Generic;
+using Bowerbird.Core.CommandHandlers;
+using Bowerbird.Core.Commands;
+using Bowerbird.Core.DomainModels.Posts;
+using Bowerbird.Core.Extensions;
 using Bowerbird.Test.Utils;
 using NUnit.Framework;
+using Raven.Client;
 
 namespace Bowerbird.Test.CommandHandlers
 {
@@ -22,14 +28,18 @@ namespace Bowerbird.Test.CommandHandlers
     {
         #region Test Infrastructure
 
+        private IDocumentStore _store;
+
         [SetUp]
         public void TestInitialize()
         {
+            _store = DocumentStoreHelper.TestDocumentStore();
         }
 
         [TearDown]
         public void TestCleanup()
         {
+            _store = null;
         }
 
         #endregion
@@ -48,7 +58,43 @@ namespace Bowerbird.Test.CommandHandlers
         [Category(TestCategory.Persistance)]
         public void TeamPostUpdateCommandHandler_Updates_TeamPost()
         {
+            var originalValue = FakeObjects.TestTeamPostWithId();
+            TeamPost newValue;
 
+            var newImageMediaResource = FakeObjects.TestImageMediaResourceWithId("123123");
+            var newUser = FakeObjects.TestUserWithId("123123");
+
+            var command = new TeamPostUpdateCommand()
+            {
+                Id = originalValue.Id,
+                MediaResources = new List<string>(){newImageMediaResource.Id},
+                Message = FakeValues.Message.PrependWith("new"),
+                Subject = FakeValues.Subject.PrependWith("new"),
+                Timestamp = FakeValues.ModifiedDateTime,
+                UserId = newUser.Id
+            };
+
+            using (var session = _store.OpenSession())
+            {
+                session.Store(originalValue);
+                session.Store(newImageMediaResource);
+                session.Store(newUser);
+
+                var commandHandler = new TeamPostUpdateCommandHandler(session);
+
+                commandHandler.Handle(command);
+
+                session.SaveChanges();
+
+                newValue = session.Load<TeamPost>(originalValue.Id);
+            }
+
+            Assert.IsNotNull(newValue);
+            Assert.AreEqual(command.Message, newValue.Message);
+            Assert.AreEqual(command.Subject, newValue.Subject);
+            Assert.IsTrue(newValue.MediaResources.Count == 1);
+            Assert.AreEqual(newImageMediaResource, newValue.MediaResources[0]);
+            Assert.AreEqual(command.UserId, newValue.User.Id);
         }
 
         #endregion
