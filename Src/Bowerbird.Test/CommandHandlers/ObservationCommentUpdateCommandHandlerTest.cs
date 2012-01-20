@@ -12,6 +12,10 @@
  
 */
 
+using Bowerbird.Core.CommandHandlers;
+using Bowerbird.Core.Commands;
+using Bowerbird.Core.Extensions;
+using Bowerbird.Core.DomainModels.Comments;
 using Bowerbird.Test.Utils;
 using NUnit.Framework;
 using Raven.Client;
@@ -51,9 +55,38 @@ namespace Bowerbird.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Persistance)]
-        public void ObservationCommentUpdateCommandHandler_Handle_Updates_ObservationComment()
+        public void ObservationCommentUpdateCommandHandler_Updates_ObservationComment()
         {
-            
+            var originalValue = FakeObjects.TestObservationCommentWithId();
+            var user = FakeObjects.TestUserWithId();
+            var observation = FakeObjects.TestObservationWithId();
+
+            ObservationComment newValue;
+
+            var command = new ObservationCommentUpdateCommand()
+            {
+                Id = originalValue.Id,
+                Comment = FakeValues.Comment.PrependWith("new"),
+                UserId = user.Id
+            };
+
+            using (var session = _store.OpenSession())
+            {
+                session.Store(originalValue);
+                session.Store(user);
+                session.Store(observation);
+
+                var commandHandler = new ObservationCommentUpdateCommandHandler(session);
+
+                commandHandler.Handle(command);
+
+                session.SaveChanges();
+
+                newValue = session.Load<ObservationComment>(originalValue.Id);
+            }
+
+            Assert.IsNotNull(newValue);
+            Assert.AreEqual(command.Comment, newValue.Message);
         }
 
         #endregion

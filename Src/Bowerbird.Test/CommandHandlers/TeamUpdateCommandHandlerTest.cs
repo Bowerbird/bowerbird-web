@@ -12,7 +12,6 @@
  
 */
 
-using System.Linq;
 using Bowerbird.Core.CommandHandlers;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DomainModels;
@@ -59,6 +58,7 @@ namespace Bowerbird.Test.CommandHandlers
         private void TeamUpdateCommandHandlerTest_Updates_Team()
         {
             var originalValue = FakeObjects.TestTeamWithId();
+            var user = FakeObjects.TestUserWithId();
             Team newValue;
 
             var command = new TeamUpdateCommand()
@@ -66,11 +66,12 @@ namespace Bowerbird.Test.CommandHandlers
                 Description = FakeValues.Description.PrependWith("new"),
                 Id = originalValue.Id,
                 Name = FakeValues.Name.PrependWith("new"),
-                UserId = FakeValues.KeyString
+                UserId = user.Id
             };
 
             using (var session = _store.OpenSession())
             {
+                session.Store(user);
                 session.Store(originalValue);
 
                 var commandHandler = new TeamUpdateCommandHandler(session);

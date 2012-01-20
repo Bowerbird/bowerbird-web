@@ -62,7 +62,7 @@ namespace Bowerbird.Test.CommandHandlers
             TeamPost newValue;
 
             var newImageMediaResource = FakeObjects.TestImageMediaResourceWithId("123123");
-            var newUser = FakeObjects.TestUserWithId("123123");
+            var user = FakeObjects.TestUserWithId();
 
             var command = new TeamPostUpdateCommand()
             {
@@ -71,14 +71,14 @@ namespace Bowerbird.Test.CommandHandlers
                 Message = FakeValues.Message.PrependWith("new"),
                 Subject = FakeValues.Subject.PrependWith("new"),
                 Timestamp = FakeValues.ModifiedDateTime,
-                UserId = newUser.Id
+                UserId = user.Id
             };
 
             using (var session = _store.OpenSession())
             {
                 session.Store(originalValue);
                 session.Store(newImageMediaResource);
-                session.Store(newUser);
+                session.Store(user);
 
                 var commandHandler = new TeamPostUpdateCommandHandler(session);
 

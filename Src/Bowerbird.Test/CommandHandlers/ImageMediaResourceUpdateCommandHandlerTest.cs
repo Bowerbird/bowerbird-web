@@ -12,6 +12,10 @@
  
 */
 
+using Bowerbird.Core.CommandHandlers;
+using Bowerbird.Core.Commands;
+using Bowerbird.Core.Extensions;
+using Bowerbird.Core.DomainModels.MediaResources;
 using Bowerbird.Test.Utils;
 using NUnit.Framework;
 using Raven.Client;
@@ -50,9 +54,35 @@ namespace Bowerbird.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Persistance)]
-        public void ImageMediaResourceUpdateCommandHandler_Handle_Updates_ImageMediaResourceUpdate()
+        public void ImageMediaResourceUpdateCommandHandler_Updates_ImageMediaResourceUpdate()
         {
-           
+            var originalValue = FakeObjects.TestImageMediaResourceWithId();
+            var user = FakeObjects.TestUserWithId();
+
+            ImageMediaResource newValue;
+
+            var command = new ImageMediaResourceUpdateCommand()
+            {
+                Id = originalValue.Id,
+                UserId = user.Id,
+                Description = FakeValues.Description.PrependWith("new")
+            };
+
+            using (var session = _store.OpenSession())
+            {
+                session.Store(originalValue);
+
+                var commandHandler = new ImageMediaResourceUpdateCommandHandler(session);
+
+                commandHandler.Handle(command);
+
+                session.SaveChanges();
+
+                newValue = session.Load<ImageMediaResource>(originalValue.Id);
+            }
+
+            Assert.IsNotNull(newValue);
+            Assert.AreEqual(command.Description, newValue.Description);
         }
 
         #endregion
