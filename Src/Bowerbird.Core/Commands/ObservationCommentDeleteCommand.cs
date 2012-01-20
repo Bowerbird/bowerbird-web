@@ -16,26 +16,13 @@
 
 namespace Bowerbird.Core.Commands
 {
-    #region Namespaces
-
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
-    #endregion
-
-    public class ObservationCommentDeleteCommand : CommandBase
+    public class ObservationCommentDeleteCommand : ICommand
     {
         #region Members
 
         #endregion
 
         #region Constructors
-
-        public ObservationCommentDeleteCommand()
-        {
-            InitMembers();
-        }
 
         #endregion
 
@@ -48,15 +35,6 @@ namespace Bowerbird.Core.Commands
         #endregion
 
         #region Methods
-
-        public override ICollection<ValidationResult> ValidationResults()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void InitMembers()
-        {
-        }
 
         #endregion
 

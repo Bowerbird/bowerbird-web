@@ -17,12 +17,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using Bowerbird.Core;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Commands;
-using Bowerbird.Web.ViewModelFactories;
 using Bowerbird.Web.ViewModels;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Web.Config;

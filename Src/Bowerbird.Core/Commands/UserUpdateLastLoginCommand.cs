@@ -1,11 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Bowerbird.Core.Commands;
+﻿/* Bowerbird V1 
 
-namespace Bowerbird.Core.CommandHandlers
+ Licensed under MIT 1.1 Public License
+
+ Developers: 
+ * Frank Radocaj : frank@radocaj.com
+ * Hamish Crittenden : hamish.crittenden@gmail.com
+ 
+ Project Manager: 
+ * Ken Walker : kwalker@museum.vic.gov.au
+ 
+ Funded by:
+ * Atlas of Living Australia
+ 
+*/
+
+namespace Bowerbird.Core.Commands
 {
-    public class UserUpdateLastLoginCommand : CommandBase
+    public class UserUpdateLastLoginCommand : ICommand
     {
 
         #region Members
@@ -23,11 +34,6 @@ namespace Bowerbird.Core.CommandHandlers
         #endregion
 
         #region Methods
-
-        public override ICollection<ValidationResult> ValidationResults()
-        {
-            throw new NotImplementedException();
-        }
 
         #endregion      
       

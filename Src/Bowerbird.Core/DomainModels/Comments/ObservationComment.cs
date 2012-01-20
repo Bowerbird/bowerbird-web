@@ -14,17 +14,13 @@
  
 */
 
+using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.Events;
+using System;
+using Bowerbird.Core.DomainModels.DenormalisedReferences;
+
 namespace Bowerbird.Core.DomainModels.Comments
 {
-    #region Namespaces
-
-    using Bowerbird.Core.DesignByContract;
-    using Bowerbird.Core.Events;
-    using System;
-    using Bowerbird.Core.DomainModels.DenormalisedReferences;
-
-    #endregion
-
     public class ObservationComment : Comment
     {
         #region Members

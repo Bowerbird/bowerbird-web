@@ -1,4 +1,6 @@
-/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+/* Bowerbird V1 
+
+ Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -12,17 +14,12 @@
  
 */
 
+using System;
+using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.Events;
+
 namespace Bowerbird.Core.DomainModels.Comments
 {
-    #region Namespaces
-
-    using System;
-
-    using Bowerbird.Core.DesignByContract;
-    using Bowerbird.Core.Events;
-
-    #endregion
-
     public class PostComment : Comment
     {
         #region Members

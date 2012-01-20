@@ -14,23 +14,18 @@
  
 */
 
+using Bowerbird.Core.Commands;
+using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Repositories;
 using Bowerbird.Core.DomainModels.Comments;
 using Raven.Client;
 
 namespace Bowerbird.Core.CommandHandlers
 {
-    #region Namespaces
-
-    using Bowerbird.Core.Commands;
-    using Bowerbird.Core.DesignByContract;
-    using Bowerbird.Core.DomainModels;
-    using Bowerbird.Core.Repositories;
-
-    #endregion
-
     public class ObservationCommentUpdateCommandHandler : ICommandHandler<ObservationCommentUpdateCommand>
     {
-        #region Fields
+        #region Members
 
         private readonly IDocumentSession _documentSession;
 

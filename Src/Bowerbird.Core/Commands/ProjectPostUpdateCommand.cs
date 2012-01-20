@@ -14,28 +14,18 @@
  
 */
 
+using System;
+using System.Collections.Generic;
+
 namespace Bowerbird.Core.Commands
 {
-    #region Namespaces
-
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
-    #endregion
-
-    public class ProjectPostUpdateCommand : CommandBase
+    public class ProjectPostUpdateCommand : ICommand
     {
         #region Members
 
         #endregion
 
         #region Constructors
-
-        public ProjectPostUpdateCommand()
-        {
-            InitMembers();
-        }
 
         #endregion
 
@@ -56,15 +46,6 @@ namespace Bowerbird.Core.Commands
         #endregion
 
         #region Methods
-
-        public override ICollection<ValidationResult> ValidationResults()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void InitMembers()
-        {
-        }
 
         #endregion
 

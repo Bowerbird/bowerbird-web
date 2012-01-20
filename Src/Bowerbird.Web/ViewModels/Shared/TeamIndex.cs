@@ -19,7 +19,7 @@ namespace Bowerbird.Web.ViewModels.Shared
 {
     public class TeamIndex : IViewModel
     {
-        #region Fields
+        #region Members
 
         #endregion
 

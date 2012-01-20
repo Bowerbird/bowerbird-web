@@ -1,4 +1,6 @@
-/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+/* Bowerbird V1 
+
+ Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -12,25 +14,18 @@
  
 */
 
+using System;
+using Bowerbird.Core.Commands;
+using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.DomainModels.Posts;
 using Raven.Client;
 
 namespace Bowerbird.Core.CommandHandlers
 {
-    #region Namespaces
-
-    using System.Linq;
-
-    using Commands;
-    using DesignByContract;
-    using DomainModels;
-    using Repositories;
-
-    #endregion
-
     public class ProjectPostUpdateCommandHandler : ICommandHandler<ProjectPostUpdateCommand>
     {
-        #region Fields
+        #region Members
 
         private readonly IDocumentSession _documentSession;
 

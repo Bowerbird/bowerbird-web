@@ -15,7 +15,6 @@
 */
 
 using System.Web.Mvc;
-using Bowerbird.Core;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Web.Config;
 using Bowerbird.Core.Commands;

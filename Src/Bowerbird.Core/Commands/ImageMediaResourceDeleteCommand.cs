@@ -1,4 +1,6 @@
-﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 
+
+ Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -11,22 +13,13 @@
  * Atlas of Living Australia
  
 */
-				
+
 namespace Bowerbird.Core.Commands
 {
-    #region Namespaces
-
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.ComponentModel.DataAnnotations;
-
-    #endregion
-
-    public class ImageMediaResourceDeleteCommand : CommandBase
+    public class ImageMediaResourceDeleteCommand : ICommand
     {
-        #region Fields
+
+        #region Members
 
         #endregion
 
@@ -43,11 +36,6 @@ namespace Bowerbird.Core.Commands
         #endregion
 
         #region Methods
-
-        public override ICollection<ValidationResult> ValidationResults()
-        {
-            throw new NotImplementedException();
-        }
 
         #endregion
 		

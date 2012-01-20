@@ -30,7 +30,7 @@
 
 //    public class ProjectIndexFactory : ViewModelFactoryBase, IViewModelFactory<ProjectIndexInput, ProjectIndex>
 //    {
-//        #region Fields
+//        #region Members
 
 //        private readonly IPagedListFactory _pagedListFactory;
 

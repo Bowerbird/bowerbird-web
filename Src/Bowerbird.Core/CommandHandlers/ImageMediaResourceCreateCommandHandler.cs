@@ -1,4 +1,6 @@
-﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 
+
+ Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -14,7 +16,6 @@
 
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.Repositories;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DomainModels.MediaResources;
 using Raven.Client;
@@ -23,7 +24,7 @@ namespace Bowerbird.Core.CommandHandlers
 {
     public class ImageMediaResourceCreateCommandHandler : ICommandHandler<ImageMediaResourceCreateCommand>
     {
-        #region Fields
+        #region Members
 
         private readonly IDocumentSession _documentSession;
 

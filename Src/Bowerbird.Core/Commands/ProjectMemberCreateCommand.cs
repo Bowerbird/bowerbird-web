@@ -1,23 +1,31 @@
-﻿using System;
+﻿/* Bowerbird V1 
+
+ Licensed under MIT 1.1 Public License
+
+ Developers: 
+ * Frank Radocaj : frank@radocaj.com
+ * Hamish Crittenden : hamish.crittenden@gmail.com
+ 
+ Project Manager: 
+ * Ken Walker : kwalker@museum.vic.gov.au
+ 
+ Funded by:
+ * Atlas of Living Australia
+ 
+*/
+
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
 
 namespace Bowerbird.Core.Commands
 {
-    public class ProjectMemberCreateCommand : CommandBase
+    public class ProjectMemberCreateCommand : ICommand
     {
-        #region Fields
+
+        #region Members
 
         #endregion
 
         #region Constructors
-
-        public ProjectMemberCreateCommand()
-        {
-            InitMembers();
-        }
 
         #endregion
 
@@ -35,16 +43,7 @@ namespace Bowerbird.Core.Commands
 
         #region Methods
 
-        public override ICollection<ValidationResult> ValidationResults()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void InitMembers()
-        {
-            Roles = new List<string>();
-        }
-
         #endregion
+
     }
 }

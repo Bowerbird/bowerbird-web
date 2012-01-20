@@ -14,28 +14,18 @@
  
 */
 
+using System;
+using System.Collections.Generic;
+
 namespace Bowerbird.Core.Commands
 {
-    #region Namespaces
-
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
-    #endregion
-
-    public class ObservationNoteCreateCommand : CommandBase
+    public class ObservationNoteCreateCommand : ICommand
     {
         #region Members
 
         #endregion
 
         #region Constructors
-
-        public ObservationNoteCreateCommand()
-        {
-            InitMembers();
-        }
 
         #endregion
 
@@ -64,18 +54,6 @@ namespace Bowerbird.Core.Commands
         #endregion
 
         #region Methods
-
-        public override ICollection<ValidationResult> ValidationResults()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void InitMembers()
-        {
-            Descriptions = new Dictionary<string, string>();
-
-            References = new Dictionary<string, string>();
-        }
 
         #endregion
 

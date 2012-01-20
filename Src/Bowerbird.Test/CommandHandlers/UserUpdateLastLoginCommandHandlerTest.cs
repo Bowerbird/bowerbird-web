@@ -14,6 +14,7 @@
 
 using System;
 using Bowerbird.Core.CommandHandlers;
+using Bowerbird.Core.Commands;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Test.Utils;
 using NUnit.Framework;

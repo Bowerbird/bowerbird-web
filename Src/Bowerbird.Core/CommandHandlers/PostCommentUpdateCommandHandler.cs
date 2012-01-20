@@ -15,22 +15,15 @@
 */
 
 using System;
+using Bowerbird.Core.Commands;
+using Bowerbird.Core.DesignByContract;
 using Raven.Client;
 
 namespace Bowerbird.Core.CommandHandlers
 {
-    #region Namespaces
-
-    using Bowerbird.Core.Commands;
-    using Bowerbird.Core.DesignByContract;
-    using Bowerbird.Core.DomainModels;
-    using Bowerbird.Core.Repositories;
-
-    #endregion
-
     public class PostCommentUpdateCommandHandler : ICommandHandler<PostCommentUpdateCommand>
     {
-        #region Fields
+        #region Members
 
         private readonly IDocumentSession _documentSession;
 

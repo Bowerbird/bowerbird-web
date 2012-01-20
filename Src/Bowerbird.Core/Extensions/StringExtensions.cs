@@ -14,16 +14,11 @@
  
 */
 
+using System.Text.RegularExpressions;
+using Bowerbird.Core.DesignByContract;
+
 namespace Bowerbird.Core.Extensions
 {
-    #region Namespaces
-
-    using System.Text.RegularExpressions;
-    
-    using Bowerbird.Core.DesignByContract;
-
-    #endregion
-
     public static class StringExtensions
     {
         public static bool IsValidEmailAddress(this string emailAddress)

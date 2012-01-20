@@ -1,4 +1,6 @@
-﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 
+
+ Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -12,20 +14,13 @@
  
 */
 
-using Bowerbird.Core.DomainModels.Members;
+using Bowerbird.Core.Commands;
+using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.Repositories;
 using Raven.Client;
 
 namespace Bowerbird.Core.CommandHandlers
 {
-    #region Namespaces
-
-    using Bowerbird.Core.Commands;
-    using Bowerbird.Core.DesignByContract;
-    using Bowerbird.Core.DomainModels;
-    using Bowerbird.Core.Repositories;
-
-    #endregion
-
     public class ProjectMemberDeleteCommandHandler : ICommandHandler<ProjectMemberDeleteCommand>
     {
         #region Members

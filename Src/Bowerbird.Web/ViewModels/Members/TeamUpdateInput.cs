@@ -18,7 +18,7 @@ namespace Bowerbird.Web.ViewModels.Members
 {
     public class TeamUpdateInput : IViewModel
     {
-        #region Fields
+        #region Members
 
         #endregion
 

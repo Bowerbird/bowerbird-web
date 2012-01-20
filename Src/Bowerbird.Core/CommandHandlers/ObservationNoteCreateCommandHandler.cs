@@ -1,4 +1,6 @@
-﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 
+
+ Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -27,7 +29,7 @@ namespace Bowerbird.Core.CommandHandlers
 
     public class ObservationNoteCreateCommandHandler : ICommandHandler<ObservationNoteCreateCommand>
     {
-        #region Fields
+        #region Members
 
         private readonly IDocumentSession _documentSession;
 

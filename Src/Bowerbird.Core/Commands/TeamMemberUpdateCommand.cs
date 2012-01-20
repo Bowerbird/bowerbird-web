@@ -16,26 +16,13 @@
 
 namespace Bowerbird.Core.Commands
 {
-    #region Namespaces
-
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
-    #endregion
-
-    public class TeamMemberUpdateCommand : CommandBase
+    public class TeamMemberUpdateCommand : ICommand
     {
         #region Members
 
         #endregion
 
         #region Constructors
-
-        public TeamMemberUpdateCommand()
-        {
-            InitMembers();
-        }
 
         #endregion
 
@@ -44,15 +31,6 @@ namespace Bowerbird.Core.Commands
         #endregion
 
         #region Methods
-
-        public override ICollection<ValidationResult> ValidationResults()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void InitMembers()
-        {
-        }
 
         #endregion
 

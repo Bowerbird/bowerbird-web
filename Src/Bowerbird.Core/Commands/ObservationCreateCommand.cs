@@ -1,10 +1,25 @@
-﻿using System;
+﻿/* Bowerbird V1 
+
+ Licensed under MIT 1.1 Public License
+
+ Developers: 
+ * Frank Radocaj : frank@radocaj.com
+ * Hamish Crittenden : hamish.crittenden@gmail.com
+ 
+ Project Manager: 
+ * Ken Walker : kwalker@museum.vic.gov.au
+ 
+ Funded by:
+ * Atlas of Living Australia
+ 
+*/
+
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace Bowerbird.Core.Commands
 {
-    public class ObservationCreateCommand : CommandBase
+    public class ObservationCreateCommand : ICommand
     {
 
         #region Members
@@ -12,11 +27,6 @@ namespace Bowerbird.Core.Commands
         #endregion
 
         #region Constructors
-
-        public ObservationCreateCommand()
-        {
-            InitMembers();
-        }
 
         #endregion
 
@@ -38,21 +48,13 @@ namespace Bowerbird.Core.Commands
 
         public virtual List<string> MediaResources { get; set; }
 
+        public virtual List<string> Projects { get; set; }
+
         public virtual string UserId { get; set; }
 
         #endregion
 
         #region Methods
-
-        public override ICollection<ValidationResult> ValidationResults()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void InitMembers()
-        {
-            MediaResources = new List<string>();
-        }
 
         #endregion
 

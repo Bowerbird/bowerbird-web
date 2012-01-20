@@ -22,10 +22,8 @@ using Bowerbird.Web.ViewModels.Members;
 using Bowerbird.Web.ViewModels.Shared;
 using Raven.Client;
 using Raven.Client.Linq;
-using Bowerbird.Core;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Web.ViewModels;
 using Bowerbird.Web.Config;
 
 namespace Bowerbird.Web.Controllers.Members

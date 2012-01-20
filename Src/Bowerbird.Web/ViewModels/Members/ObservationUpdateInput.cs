@@ -12,27 +12,19 @@
  
 */
 
+using System;
+using System.Collections.Generic;
+
 namespace Bowerbird.Web.ViewModels.Members
 {
-    #region Namespaces
-
-    using System;
-    using System.Collections.Generic;
-
-    #endregion
-
     public class ObservationUpdateInput
     {
+
         #region Members
 
         #endregion
 
         #region Constructors
-
-        public ObservationUpdateInput()
-        {
-            InitMembers();
-        }
 
         #endregion
 
@@ -60,14 +52,13 @@ namespace Bowerbird.Web.ViewModels.Members
 
         public List<string> MediaResources { get; set; }
 
+        public List<string> Projects { get; set; }
+
         #endregion
 
         #region Methods
 
-        private void InitMembers()
-        {
-        }
-
         #endregion
+
     }
 }

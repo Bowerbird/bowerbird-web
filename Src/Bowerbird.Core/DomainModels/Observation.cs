@@ -1,7 +1,21 @@
-﻿using Bowerbird.Core.DesignByContract;
+﻿/* Bowerbird V1 
+
+ Licensed under MIT 1.1 Public License
+
+ Developers: 
+ * Frank Radocaj : frank@radocaj.com
+ * Hamish Crittenden : hamish.crittenden@gmail.com
+ 
+ Project Manager: 
+ * Ken Walker : kwalker@museum.vic.gov.au
+ 
+ Funded by:
+ * Atlas of Living Australia
+ 
+*/
+
+using Bowerbird.Core.DesignByContract;
 using System.Collections.Generic;
-using Bowerbird.Core.Commands;
-using Bowerbird.Core.DomainModels.MediaResources;
 using System;
 using System.Linq;
 using Bowerbird.Core.Events;
@@ -12,7 +26,7 @@ namespace Bowerbird.Core.DomainModels
     public class Observation : DomainModel
     {
 
-        #region Fields
+        #region Members
 
         #endregion
 

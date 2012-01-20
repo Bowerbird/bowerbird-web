@@ -14,16 +14,12 @@
  
 */
 
+using System.IO;
+using System.Reflection;
+using FluentEmail;
+
 namespace Bowerbird.Core.Extensions
 {
-    #region Namespaces
-
-    using System.IO;
-    using System.Reflection;
-    using FluentEmail;
-
-    #endregion
-
     public static class EmailExtensions
     {
         public static Email UsingTemplateFromResource<T>(this Email email, string templateResourceName, T model, bool isHtml = true)

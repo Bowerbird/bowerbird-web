@@ -184,7 +184,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Commands\CommandProcessor.cs" />
-    <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\UserCreateCommand.cs" />
     <Compile Include="Commands\ObservationUpdateCommand.cs" />
     <Compile Include="Commands\ObservationCreateCommand.cs" />

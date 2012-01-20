@@ -1,4 +1,6 @@
-﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 
+
+ Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -12,19 +14,14 @@
  
 */
 
+using Bowerbird.Core.Commands;
+using Bowerbird.Core.Repositories;
+using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.DomainModels;
 using Raven.Client;
 
 namespace Bowerbird.Core.CommandHandlers
 {
-    #region Namespaces
-
-    using Bowerbird.Core.Commands;
-    using Bowerbird.Core.Repositories;
-    using Bowerbird.Core.DesignByContract;
-    using Bowerbird.Core.DomainModels;
-
-    #endregion
-
     public class ObservationUpdateCommandHandler : ICommandHandler<ObservationUpdateCommand>
     {
         #region Members
