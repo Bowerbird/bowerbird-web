@@ -20,10 +20,8 @@ using Bowerbird.Web.ViewModels.Members;
 using Bowerbird.Web.ViewModels.Public;
 using Raven.Client;
 using System.Web.Mvc;
-using Bowerbird.Core;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Web.Config;
-using Bowerbird.Core.CommandHandlers;
 
 namespace Bowerbird.Web.Controllers.Public
 {

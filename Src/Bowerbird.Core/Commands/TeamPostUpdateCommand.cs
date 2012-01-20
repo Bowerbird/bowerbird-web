@@ -14,6 +14,9 @@
  
 */
 
+using System;
+using System.Collections.Generic;
+
 namespace Bowerbird.Core.Commands
 {
     public class TeamPostUpdateCommand : ICommand

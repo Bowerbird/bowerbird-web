@@ -1,10 +1,12 @@
-﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 
+
+ Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
  * Hamish Crittenden : hamish.crittenden@gmail.com
  
- Team Manager: 
+ Project Manager: 
  * Ken Walker : kwalker@museum.vic.gov.au
  
  Funded by:

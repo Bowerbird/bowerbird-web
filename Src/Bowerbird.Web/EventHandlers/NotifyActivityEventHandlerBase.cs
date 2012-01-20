@@ -14,16 +14,12 @@
  
 */
 
+using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.DomainModels;
+using Bowerbird.Web.Config;
+
 namespace Bowerbird.Web.EventHandlers
 {
-    #region Namespaces
-
-    using Bowerbird.Core.DesignByContract;
-    using Bowerbird.Core.DomainModels;
-    using Bowerbird.Web.Config;
-
-    #endregion
-
     public abstract class NotifyActivityEventHandlerBase
     {
         #region Members

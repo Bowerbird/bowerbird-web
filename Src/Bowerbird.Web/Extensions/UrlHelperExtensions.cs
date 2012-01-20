@@ -13,18 +13,13 @@
  * Atlas of Living Australia
  
 */
+
+using System.Configuration;
+using System.Web.Mvc;
+using Bowerbird.Core.Extensions;
 				
 namespace Bowerbird.Web.Extensions
 {
-    #region Namespaces
-
-    using System.Configuration;
-    using System.Web.Mvc;
-
-    using Bowerbird.Core.Extensions;
-
-    #endregion
-
     public static class UrlHelperExtensions
     {
         /// <summary>

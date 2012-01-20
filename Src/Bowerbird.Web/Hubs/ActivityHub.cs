@@ -1,4 +1,6 @@
-﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 
+
+ Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -12,25 +14,13 @@
  
 */
 
+using System;
+using SignalR.Hubs;
+using Raven.Client;
+using Bowerbird.Core.DesignByContract;
+
 namespace Bowerbird.Web.Hubs
 {
-    #region Namespaces
-
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-
-    using SignalR.Hubs;
-    using Raven.Client;
-
-    using Bowerbird.Core.DomainModels;
-    using Bowerbird.Core.EventHandlers;
-    using Bowerbird.Core.Events;
-    using Bowerbird.Core.DesignByContract;
-
-    #endregion
-
     public class ActivityHub : Hub
     {
         #region Members

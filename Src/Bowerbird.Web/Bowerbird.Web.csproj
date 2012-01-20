@@ -102,7 +102,6 @@
     <Compile Include="App_Start\Bootstrapper.cs" />
     <Compile Include="Config\BowerbirdHttpApplication.cs" />
     <Compile Include="Config\Constants.cs" />
-    <Compile Include="Config\CommandHandlerProvider.cs" />
     <Compile Include="Config\ApiAreaRegistration.cs" />
     <Compile Include="Config\IUserContext.cs" />
     <Compile Include="Config\BowerbirdNinjectModule.cs" />

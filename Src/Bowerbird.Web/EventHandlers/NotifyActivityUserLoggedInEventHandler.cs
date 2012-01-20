@@ -1,4 +1,6 @@
-﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 
+
+ Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -11,18 +13,14 @@
  * Atlas of Living Australia
  
 */
+
+using Bowerbird.Core.Events;
+using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.EventHandlers;
+using Bowerbird.Web.Config;
 				
 namespace Bowerbird.Web.EventHandlers
 {
-    #region Namespaces
-
-    using Bowerbird.Core.Events;
-    using Bowerbird.Core.DesignByContract;
-    using Bowerbird.Core.EventHandlers;
-    using Bowerbird.Web.Config;
-
-    #endregion
-
     public class NotifyActivityUserLoggedInEventHandler : NotifyActivityEventHandlerBase, IEventHandler<UserLoggedInEvent>
     {
         #region Members
