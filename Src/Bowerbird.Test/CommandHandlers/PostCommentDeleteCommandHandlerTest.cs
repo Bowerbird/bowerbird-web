@@ -12,6 +12,9 @@
  
 */
 
+using Bowerbird.Core.CommandHandlers;
+using Bowerbird.Core.Commands;
+using Bowerbird.Core.DomainModels.Comments;
 using Bowerbird.Test.Utils;
 using NUnit.Framework;
 using Raven.Client;
@@ -51,9 +54,36 @@ namespace Bowerbird.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void PostCommentDeleteCommandHandler_Handle_Passing_Null_PostCommentDelete_Throws_DesignByContractException()
+        public void PostCommentDeleteCommandHandler_Deletes_PostComment()
         {
+            var projectPost = FakeObjects.TestProjectPostWithId();
+            var user = FakeObjects.TestUserWithId();
+            var postComment = FakeObjects.TestPostCommentWithId();
 
+            PostComment deletedTeam = null;
+
+            var command = new PostCommentDeleteCommand()
+            {
+                Id = postComment.Id,
+                UserId = user.Id//must be same as teamPost.User.Id
+            };
+
+            using (var session = _store.OpenSession())
+            {
+                session.Store(user);
+                session.Store(projectPost);
+                session.Store(postComment);
+
+                var commandHandler = new PostCommentDeleteCommandHandler(session);
+
+                commandHandler.Handle(command);
+
+                session.SaveChanges();
+
+                deletedTeam = session.Load<PostComment>(postComment.Id);
+            }
+
+            Assert.IsNull(deletedTeam);
         }
 
         #endregion

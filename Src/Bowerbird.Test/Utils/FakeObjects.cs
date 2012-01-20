@@ -12,6 +12,7 @@
  
 */
 
+using Bowerbird.Core.DomainModels.Comments;
 using Bowerbird.Core.DomainModels.MediaResources;
 using Bowerbird.Core.DomainModels.Posts;
 
@@ -155,6 +156,24 @@ namespace Bowerbird.Test.Utils
                 TestRoles());
         }
 
+        public static ProjectMember TestProjectMemberWithId()
+        {
+            var projectMember = TestProjectMember();
+
+            ((IAssignableId)projectMember).SetIdTo("members", FakeValues.KeyString);
+
+            return projectMember;
+        }
+
+        public static ProjectMember TestProjectMemberWithId(string id)
+        {
+            var projectMember = TestProjectMember();
+
+            ((IAssignableId)projectMember).SetIdTo("members", id);
+
+            return projectMember;
+        }
+
         public static Observation TestObservationWithId()
         {
             return TestObservationWithId(FakeValues.KeyString);
@@ -289,6 +308,112 @@ namespace Bowerbird.Test.Utils
             ((IAssignableId)projectPost).SetIdTo("posts", id);
 
             return projectPost;
+        }
+
+        public static ObservationComment TestObservationComment()
+        {
+            return new ObservationComment(
+                TestUserWithId(),
+                TestObservationWithId(),
+                FakeValues.CreatedDateTime,
+                FakeValues.Comment
+                );
+        }
+
+        public static ObservationComment TestObservationCommentWithId()
+        {
+            return TestObservationCommentWithId(FakeValues.KeyString);
+        }
+
+        public static ObservationComment TestObservationCommentWithId(string id)
+        {
+            var observationComment = new ObservationComment(
+                TestUserWithId(),
+                TestObservationWithId(),
+                FakeValues.CreatedDateTime,
+                FakeValues.Comment
+                );
+
+            ((IAssignableId)observationComment).SetIdTo("comments", id);
+
+            return observationComment;
+        }
+
+        public static PostComment TestPostComment()
+        {
+            return new PostComment(
+                TestUserWithId(),
+                TestProjectPostWithId(),
+                FakeValues.CreatedDateTime,
+                FakeValues.Message
+                );
+        }
+
+        public static PostComment TestPostCommentWithId()
+        {
+            return TestPostCommentWithId(FakeValues.KeyString);
+        }
+
+        public static PostComment TestPostCommentWithId(string id)
+        {
+            var postComment = TestPostComment();
+
+            ((IAssignableId)postComment).SetIdTo("comments", id);
+
+            return postComment;
+        }
+
+        public static ProjectObservation TestProjectObservation()
+        {
+            return new ProjectObservation(
+                TestUserWithId(),
+                FakeValues.CreatedDateTime,
+                TestProjectWithId(),
+                TestObservationWithId()
+                );
+        }
+
+        public static ProjectObservation TestProjectObservationWithId()
+        {
+            return TestProjectObservationWithId(FakeValues.KeyString);
+        }
+
+        public static ProjectObservation TestProjectObservationWithId(string id)
+        {
+            var projectObservation = TestProjectObservation();
+
+            ((IAssignableId)projectObservation).SetIdTo("projectobservations", id);
+
+            return projectObservation;
+        }
+
+        public static ObservationNote TestObservationNote()
+        {
+            return new ObservationNote(
+                TestUserWithId(),
+                TestObservationWithId(),
+                FakeValues.CommonName,
+                FakeValues.ScientificName,
+                FakeValues.Taxonomy,
+                FakeValues.Tags,
+                new Dictionary<string, string>(){{FakeValues.Description,FakeValues.Description}}, 
+                new Dictionary<string, string>(){{FakeValues.Description,FakeValues.Description}}, 
+                FakeValues.Notes
+                );
+        }
+
+        public static ObservationNote TestObservationNoteWithId()
+        {
+            return TestObservationNoteWithId(FakeValues.KeyString);
+        }
+
+        public static ObservationNote TestObservationNoteWithId(string id)
+        {
+            var testObservationNote = TestObservationNote();
+
+            ((IAssignableId) testObservationNote).SetIdTo("observationnotes", id);
+
+            return testObservationNote;
         }
     }
 }

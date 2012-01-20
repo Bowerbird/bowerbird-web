@@ -58,37 +58,31 @@ namespace Bowerbird.Test.CommandHandlers
         public void TeamMemberDeleteCommandHandler_Deletes_TeamMember()
         {
             var user = FakeObjects.TestUserWithId();
-            var team = FakeObjects.TestTeamWithId();
             var teamMember = FakeObjects.TestTeamMemberWitId();
 
-            TeamMember newValue = null;
+            TeamMember deletedTeamMember = null;
 
-            var command = new TeamMemberCreateCommand()
+            var command = new TeamMemberDeleteCommand()
             {
-                TeamId = team.Id,
-                UserId = user.Id,
-                CreatedByUserId = user.Id,
-                Roles = FakeObjects.TestRoles().Select(x => x.Name).ToList()
+                Id = teamMember.Id,
+                UserId = user.Id
             };
 
             using (var session = _store.OpenSession())
             {
                 session.Store(user);
-                session.Store(team);
                 session.Store(teamMember);
 
-                var commandHandler = new TeamMemberCreateCommandHandler(session);
+                var commandHandler = new TeamMemberDeleteCommandHandler(session);
 
                 commandHandler.Handle(command);
 
                 session.SaveChanges();
 
-                newValue = session.Query<TeamMember>().FirstOrDefault();
+                deletedTeamMember = session.Query<TeamMember>().FirstOrDefault();
             }
 
-            Assert.IsNotNull(newValue);
-            Assert.AreEqual(team.DenormalisedNamedDomainModelReference(), newValue.Team);
-            Assert.AreEqual(user.DenormalisedUserReference(), newValue.User);
+            Assert.IsNotNull(deletedTeamMember);
         }
 
         #endregion

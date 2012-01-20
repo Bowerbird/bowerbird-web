@@ -12,6 +12,8 @@
  
 */
 
+using Bowerbird.Core.CommandHandlers;
+using Bowerbird.Core.Commands;
 using Bowerbird.Core.DomainModels.Members;
 using Bowerbird.Test.Utils;
 using NUnit.Framework;
@@ -51,9 +53,37 @@ namespace Bowerbird.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Integration)]
-        public void ProjectMemberDeleteCommandHandler_Handle_Deletes_ProjectMember()
+        public void ProjectMemberDeleteCommandHandler_Deletes_ProjectMember()
         {
+            var user = FakeObjects.TestUserWithId();
+            var project = FakeObjects.TestProjectWithId();
+            var projectMember = FakeObjects.TestProjectMemberWithId();
 
+            ProjectMember deletedTeam = null;
+
+            var command = new ProjectMemberDeleteCommand()
+            {
+                ProjectId = project.Id,
+                UserId = user.Id,
+                DeletedByUserId = user.Id
+            };
+
+            using (var session = _store.OpenSession())
+            {
+                session.Store(user);
+                session.Store(project);
+                session.Store(projectMember);
+
+                var commandHandler = new ProjectMemberDeleteCommandHandler(session);
+
+                commandHandler.Handle(command);
+
+                session.SaveChanges();
+
+                deletedTeam = session.Load<ProjectMember>(projectMember.Id);
+            }
+
+            Assert.IsNull(deletedTeam);
         }
 
         #endregion 

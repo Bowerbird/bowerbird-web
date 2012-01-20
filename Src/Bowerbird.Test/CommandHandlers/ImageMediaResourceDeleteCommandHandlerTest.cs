@@ -12,6 +12,9 @@
  
 */
 
+using Bowerbird.Core.CommandHandlers;
+using Bowerbird.Core.Commands;
+using Bowerbird.Core.DomainModels.MediaResources;
 using Bowerbird.Test.Utils;
 using NUnit.Framework;
 using Raven.Client;
@@ -50,9 +53,34 @@ namespace Bowerbird.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Persistance)]
-        public void ImageMediaResourceDeleteCommandHandler_Handle_Creates_Deletes_Updates_ImageMediaResourceDelete()
+        public void ImageMediaResourceDeleteCommandHandler_Deletes_ImageMediaResourceDelete()
         {
+            var imageMediaResource = FakeObjects.TestImageMediaResourceWithId();
+            var user = FakeObjects.TestUserWithId();
 
+            ImageMediaResource deletedTeam = null;
+
+            var command = new ImageMediaResourceDeleteCommand()
+            {
+                Id = imageMediaResource.Id,
+                UserId = user.Id
+            };
+
+            using (var session = _store.OpenSession())
+            {
+                session.Store(imageMediaResource);
+                session.Store(user);
+
+                var commandHandler = new ImageMediaResourceDeleteCommandHandler(session);
+
+                commandHandler.Handle(command);
+
+                session.SaveChanges();
+
+                deletedTeam = session.Load<ImageMediaResource>(imageMediaResource.Id);
+            }
+
+            Assert.IsNull(deletedTeam);
         }
 
         #endregion

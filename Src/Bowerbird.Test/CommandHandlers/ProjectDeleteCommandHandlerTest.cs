@@ -12,6 +12,9 @@
  
 */
 
+using Bowerbird.Core.CommandHandlers;
+using Bowerbird.Core.Commands;
+using Bowerbird.Core.DomainModels;
 using Bowerbird.Test.Utils;
 using NUnit.Framework;
 using Raven.Client;
@@ -47,6 +50,38 @@ namespace Bowerbird.Test.CommandHandlers
         #endregion
 
         #region Method tests
+
+        [Test]
+        [Category(TestCategory.Integration)]
+        public void ProjectDeleteCommandHandler_Deletes_Project()
+        {
+            var user = FakeObjects.TestUserWithId();
+            var project = FakeObjects.TestProjectWithId();
+
+            Project deletedTeam = null;
+
+            var command = new ProjectDeleteCommand()
+            {
+                Id = project.Id,
+                UserId = user.Id
+            };
+
+            using (var session = _store.OpenSession())
+            {
+                session.Store(user);
+                session.Store(project);
+
+                var commandHandler = new ProjectDeleteCommandHandler(session);
+
+                commandHandler.Handle(command);
+
+                session.SaveChanges();
+
+                deletedTeam = session.Load<Project>(project.Id);
+            }
+
+            Assert.IsNull(deletedTeam);
+        }
 
         #endregion
     }

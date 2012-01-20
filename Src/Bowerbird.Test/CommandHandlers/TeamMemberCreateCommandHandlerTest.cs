@@ -12,6 +12,10 @@
  
 */
 
+using System.Linq;
+using Bowerbird.Core.CommandHandlers;
+using Bowerbird.Core.Commands;
+using Bowerbird.Core.DomainModels.Members;
 using Bowerbird.Test.Utils;
 using NUnit.Framework;
 using Raven.Client;
@@ -53,7 +57,38 @@ namespace Bowerbird.Test.CommandHandlers
         [Category(TestCategory.Persistance)]
         public void TeamMemberCreateCommandHandler_Creates_TeamMember()
         {
-           
+            var user = FakeObjects.TestUserWithId();
+            var team = FakeObjects.TestTeamWithId();
+            var teamMember = FakeObjects.TestTeamMemberWitId();
+
+            TeamMember newValue = null;
+
+            var command = new TeamMemberCreateCommand()
+            {
+                TeamId = team.Id,
+                UserId = user.Id,
+                CreatedByUserId = user.Id,
+                Roles = FakeObjects.TestRoles().Select(x => x.Name).ToList()
+            };
+
+            using (var session = _store.OpenSession())
+            {
+                session.Store(user);
+                session.Store(team);
+                session.Store(teamMember);
+
+                var commandHandler = new TeamMemberCreateCommandHandler(session);
+
+                commandHandler.Handle(command);
+
+                session.SaveChanges();
+
+                newValue = session.Query<TeamMember>().FirstOrDefault();
+            }
+
+            Assert.IsNotNull(newValue);
+            Assert.AreEqual(team.DenormalisedNamedDomainModelReference(), newValue.Team);
+            Assert.AreEqual(user.DenormalisedUserReference(), newValue.User);
         }
 
         #endregion

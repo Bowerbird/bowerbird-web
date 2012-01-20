@@ -12,6 +12,9 @@
  
 */
 
+using Bowerbird.Core.CommandHandlers;
+using Bowerbird.Core.Commands;
+using Bowerbird.Core.DomainModels.Comments;
 using Bowerbird.Test.Utils;
 using NUnit.Framework;
 using Raven.Client;
@@ -51,9 +54,36 @@ namespace Bowerbird.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void ObservationCommentDeleteCommandHandler_Handle_Deletes_ObservationComment()
+        public void ObservationCommentDeleteCommandHandler_Deletes_ObservationComment()
         {
+            var observation = FakeObjects.TestObservationWithId();
+            var observationComment = FakeObjects.TestObservationCommentWithId();
+            var user = FakeObjects.TestUserWithId();
 
+            ObservationComment deletedTeam = null;
+
+            var command = new ObservationCommentDeleteCommand()
+            {
+                Id = observationComment.Id,
+                UserId = user.Id
+            };
+
+            using (var session = _store.OpenSession())
+            {
+                session.Store(observation);
+                session.Store(observationComment);
+                session.Store(user);
+
+                var commandHandler = new ObservationCommentDeleteCommandHandler(session);
+
+                commandHandler.Handle(command);
+
+                session.SaveChanges();
+
+                deletedTeam = session.Load<ObservationComment>(observationComment.Id);
+            }
+
+            Assert.IsNull(deletedTeam);
         }
 
         #endregion

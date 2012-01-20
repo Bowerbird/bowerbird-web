@@ -12,9 +12,14 @@
  
 */
 
+using System.Linq;
+using Bowerbird.Core.CommandHandlers;
+using Bowerbird.Core.Commands;
+using Bowerbird.Core.DomainModels;
 using Bowerbird.Test.Utils;
 using NUnit.Framework;
 using Raven.Client;
+using Raven.Client.Linq;
 
 namespace Bowerbird.Test.CommandHandlers
 {
@@ -47,6 +52,51 @@ namespace Bowerbird.Test.CommandHandlers
         #endregion
 
         #region Method tests
+
+        [Test]
+        [Category(TestCategory.Persistance)]
+        public void ProjectObservationDeleteCommandHandler_Deletes_ProjectObseravtion()
+        {
+            var user = FakeObjects.TestUserWithId();
+            var project = FakeObjects.TestProjectWithId();
+            var observation = FakeObjects.TestObservationWithId();
+
+            ProjectObservation deletedProjectObservation = null;
+
+            var projectObservation = new ProjectObservation(
+                user, 
+                FakeValues.CreatedDateTime, 
+                project, 
+                observation);
+
+            var command = new ProjectObservationDeleteCommand()
+            {
+                ProjectId = project.Id,
+                UserId = user.Id,
+                ObservationId = observation.Id
+            };
+
+            using (var session = _store.OpenSession())
+            {
+                session.Store(user);
+                session.Store(project);
+                session.Store(observation);
+                session.Store(projectObservation);
+
+                var commandHandler = new ProjectObservationDeleteCommandHandler(session);
+
+                commandHandler.Handle(command);
+
+                session.SaveChanges();
+
+                deletedProjectObservation = session
+                    .Query<ProjectObservation>()
+                    .Where(x => x.Project.Id == project.Id && x.Observation.Id == observation.Id)
+                    .FirstOrDefault();
+            }
+
+            Assert.IsNull(deletedProjectObservation);
+        }
 
         #endregion 
     }
