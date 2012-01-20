@@ -12,9 +12,14 @@
  
 */
 
+using System.Linq;
+using Bowerbird.Core.CommandHandlers;
+using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.DomainModels.Members;
 using Bowerbird.Test.Utils;
 using NUnit.Framework;
 using Raven.Client;
+using Bowerbird.Core.Commands;
 
 namespace Bowerbird.Test.CommandHandlers
 {
@@ -51,9 +56,41 @@ namespace Bowerbird.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Persistance)]
-        public void ProjectMemberCreateCommandHandler_Handle_Creates_ProjectMember()
+        public void ProjectMemberCreateCommandHandler_Creates_ProjectMember()
         {
+            var user = FakeObjects.TestUserWithId();
+            var project = FakeObjects.TestProjectWithId();
+            var roles = FakeObjects.TestRoles();
 
+            ProjectMember newValue = null;
+
+            var command = new ProjectMemberCreateCommand()
+            {
+                UserId = user.Id,
+                CreatedByUserId = user.Id,
+                ProjectId = project.Id,
+                Roles = roles.Select(x => x.Name).ToList()
+            };
+
+            using (var session = _store.OpenSession())
+            {
+                session.Store(user);
+                session.Store(project);
+                session.Store(roles);
+
+                var commandHandler = new ProjectMemberCreateCommandHandler(session);
+
+                commandHandler.Handle(command);
+
+                session.SaveChanges();
+
+                newValue = session.Query<ProjectMember>().FirstOrDefault();
+            }
+
+            Assert.IsNotNull(newValue);
+            Assert.AreEqual(roles.Select(x => x.DenormalisedNamedDomainModelReference<Role>()).ToList(), newValue.Roles);
+            Assert.AreEqual(project.DenormalisedNamedDomainModelReference(), newValue.Project);
+            Assert.AreEqual(user.DenormalisedUserReference(), newValue.User);
         }
 
         #endregion 

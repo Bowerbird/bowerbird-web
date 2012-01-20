@@ -12,6 +12,10 @@
  
 */
 
+using System.Linq;
+using Bowerbird.Core.CommandHandlers;
+using Bowerbird.Core.Commands;
+using Bowerbird.Core.DomainModels;
 using Bowerbird.Test.Utils;
 using NUnit.Framework;
 using Raven.Client;
@@ -53,7 +57,39 @@ namespace Bowerbird.Test.CommandHandlers
         [Category(TestCategory.Persistance)]
         public void TeamCreateCommandHandler_Creates_Team()
         {
+            var user = FakeObjects.TestUserWithId();
+            var organisation = FakeObjects.TestOrganisationWithId();
 
+            Team newValue = null;
+
+            var command = new TeamCreateCommand()
+            {
+                UserId = user.Id,
+                Description = FakeValues.Description,
+                Name = FakeValues.Name,
+                Website = FakeValues.Website,
+                OrganisationId = organisation.Id
+            };
+
+            using (var session = _store.OpenSession())
+            {
+                session.Store(user);
+                session.Store(organisation);
+
+                var commandHandler = new TeamCreateCommandHandler(session);
+
+                commandHandler.Handle(command);
+
+                session.SaveChanges();
+
+                newValue = session.Query<Team>().FirstOrDefault();
+            }
+
+            Assert.IsNotNull(newValue);
+            Assert.AreEqual(command.Description , newValue.Description);
+            Assert.AreEqual(command.Name, newValue.Name);
+            Assert.AreEqual(command.Website, newValue.Website);
+            Assert.AreEqual(user.DenormalisedUserReference(), newValue.Organisation);
         }
 
         #endregion

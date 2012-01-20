@@ -12,6 +12,10 @@
  
 */
 
+using System.Linq;
+using Bowerbird.Core.CommandHandlers;
+using Bowerbird.Core.Commands;
+using Bowerbird.Core.DomainModels;
 using Bowerbird.Test.Utils;
 using NUnit.Framework;
 using Raven.Client;
@@ -50,9 +54,41 @@ namespace Bowerbird.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Persistance)]
-        public void ProjectObservationCreateCommandHandler_Handle_Creates_ProjectObservation()
+        public void ProjectObservationCreateCommandHandler_Creates_ProjectObservation()
         {
+            var user = FakeObjects.TestUserWithId();
+            var project = FakeObjects.TestProjectWithId();
+            var observation = FakeObjects.TestObservationWithId();
 
+            ProjectObservation newValue = null;
+
+            var command = new ProjectObservationCreateCommand()
+            {
+                UserId = user.Id,
+                CreatedDateTime = FakeValues.CreatedDateTime,
+                ObservationId = observation.Id,
+                ProjectId = project.Id
+            };
+
+            using (var session = _store.OpenSession())
+            {
+                session.Store(user);
+                session.Store(project);
+                session.Store(observation);
+
+                var commandHandler = new ProjectObservationCreateCommandHandler(session);
+
+                commandHandler.Handle(command);
+
+                session.SaveChanges();
+
+                newValue = session.Query<ProjectObservation>().FirstOrDefault();
+            }
+
+            Assert.IsNotNull(newValue);
+            Assert.AreEqual(user.DenormalisedUserReference(), newValue.CreatedByUser);
+            Assert.AreEqual(project.DenormalisedNamedDomainModelReference(), newValue.Project);
+            Assert.AreEqual(observation.DenormalisedObservationReference(), newValue.Observation);
         }
 
         #endregion 

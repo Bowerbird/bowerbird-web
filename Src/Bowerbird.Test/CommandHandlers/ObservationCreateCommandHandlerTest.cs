@@ -12,6 +12,11 @@
  
 */
 
+using System.Collections.Generic;
+using System.Linq;
+using Bowerbird.Core.CommandHandlers;
+using Bowerbird.Core.Commands;
+using Bowerbird.Core.DomainModels;
 using Bowerbird.Test.Utils;
 using NUnit.Framework;
 using Raven.Client;
@@ -50,10 +55,52 @@ namespace Bowerbird.Test.CommandHandlers
         #region Method tests
 
         [Test]
-        [Category(TestCategory.Unit)]
-        public void ObservationCreateCommandHandler_Handle_Passing_ObservationCreateCommand_Saves_New_Observation()
+        [Category(TestCategory.Persistance)]
+        public void ObservationCreateCommandHandler_Creates_Observation()
         {
-            
+            var user = FakeObjects.TestUserWithId();
+            var imageMediaResource = FakeObjects.TestImageMediaResourceWithId();
+
+            Observation newValue = null;
+
+            var command = new ObservationCreateCommand()
+            {
+                UserId = user.Id,
+                Address = FakeValues.Address,
+                IsIdentificationRequired = FakeValues.IsTrue,
+                Latitude = FakeValues.Latitude,
+                Longitude = FakeValues.Longitude,
+                MediaResources = new List<string>(){imageMediaResource.Id},
+                ObservationCategory = FakeValues.Category,
+                ObservedOn = FakeValues.CreatedDateTime,
+                Title = FakeValues.Title
+            };
+
+            using (var session = _store.OpenSession())
+            {
+                session.Store(user);
+                session.Store(imageMediaResource);
+
+                var commandHandler = new ObservationCreateCommandHandler(session);
+
+                commandHandler.Handle(command);
+
+                session.SaveChanges();
+
+                newValue = session.Query<Observation>().FirstOrDefault();
+            }
+
+            Assert.IsNotNull(newValue);
+            Assert.AreEqual(command.Address, newValue.Address);
+            Assert.AreEqual(command.IsIdentificationRequired, newValue.IsIdentificationRequired);
+            Assert.AreEqual(command.Latitude, newValue.Latitude);
+            Assert.AreEqual(command.Longitude, newValue.Longitude);
+            Assert.AreEqual(command.ObservationCategory, newValue.ObservationCategory);
+            Assert.AreEqual(command.ObservedOn, newValue.ObservedOn);
+            Assert.AreEqual(command.Title, newValue.Title);
+            Assert.AreEqual(user.DenormalisedUserReference(), newValue.User);
+            Assert.IsTrue(newValue.MediaResources.Count == 1);
+            Assert.AreEqual(imageMediaResource, newValue.MediaResources[0]);
         }
 
         #endregion

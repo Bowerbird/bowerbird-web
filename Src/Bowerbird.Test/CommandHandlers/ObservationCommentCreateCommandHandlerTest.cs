@@ -12,9 +12,13 @@
  
 */
 
+using System.Linq;
+using Bowerbird.Core.CommandHandlers;
+using Bowerbird.Core.DomainModels.Comments;
 using Bowerbird.Test.Utils;
 using NUnit.Framework;
 using Raven.Client;
+using Bowerbird.Core.Commands;
 
 namespace Bowerbird.Test.CommandHandlers
 {
@@ -51,8 +55,40 @@ namespace Bowerbird.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Persistance)]
-        public void ObservationCommentCreateCommandHandler_Handle_Creates_ObservationComment()
+        public void ObservationCommentCreateCommandHandler_Creates_ObservationComment()
         {
+            var user = FakeObjects.TestUserWithId();
+            var observation = FakeObjects.TestObservationWithId();
+
+            ObservationComment newValue = null;
+
+            var command = new ObservationCommentCreateCommand()
+            {
+                Comment = FakeValues.Comment,
+                CommentedOn = FakeValues.CreatedDateTime,
+                ObservationId = observation.Id,
+                UserId = user.Id
+            };
+
+            using (var session = _store.OpenSession())
+            {
+                session.Store(user);
+                session.Store(observation);
+
+                var commandHandler = new ObservationCommentCreateCommandHandler(session);
+
+                commandHandler.Handle(command);
+
+                session.SaveChanges();
+
+                newValue = session.Query<ObservationComment>().FirstOrDefault();
+            }
+
+            Assert.IsNotNull(newValue);
+            Assert.AreEqual(command.Comment, newValue.Message);
+            Assert.AreEqual(command.CommentedOn, newValue.CommentedOn);
+            Assert.AreEqual(observation.DenormalisedObservationReference(), newValue.Observation);
+            Assert.AreEqual(user.DenormalisedUserReference(), newValue.User);
         }
 
         #endregion

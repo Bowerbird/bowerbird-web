@@ -43,20 +43,7 @@ namespace Bowerbird.Test.Utils
 
         public static User TestUserWithId()
         {
-            var user = new User(
-                FakeValues.Password,
-                FakeValues.Email,
-                FakeValues.FirstName,
-                FakeValues.LastName,
-                TestRoles()
-                )
-                .UpdateLastLoggedIn()
-                .IncrementFlaggedItemsOwned()
-                .IncrementFlagsRaised();
-
-            ((IAssignableId)user).SetIdTo("users", FakeValues.UserId);
-
-            return user;
+            return TestUserWithId(FakeValues.KeyString);
         }
 
         public static User TestUserWithId(string id)
@@ -107,34 +94,56 @@ namespace Bowerbird.Test.Utils
 
         public static Project TestProjectWithId()
         {
-            Project project =  new Project(TestUser(), FakeValues.Name, FakeValues.Description);
+            return TestProjectWithId(FakeValues.KeyString);
+        }
 
-            ((IAssignableId)project).SetIdTo("projects", FakeValues.KeyString);
+        public static Project TestProjectWithId(string id)
+        {
+            var project = new Project(
+                TestUser(),
+                FakeValues.Name,
+                FakeValues.Description);
+
+            ((IAssignableId)project).SetIdTo("projects", id);
 
             return project;
         }
 
         public static Team TestTeam()
         {
-            return new Team(TestUser(), FakeValues.Name, FakeValues.Description, FakeValues.Website);
-        }
-
-        public static Team TestTeamWithId()
-        {
-            var team = new Team(
+            return new Team(
                 TestUser(), 
                 FakeValues.Name, 
                 FakeValues.Description, 
                 FakeValues.Website);
+        }
 
-            ((IAssignableId)team).SetIdTo("teams", FakeValues.KeyString);
+        public static Team TestTeamWithId()
+        {
+            return TestTeamWithId(FakeValues.KeyString);
+        }
+
+        public static Team TestTeamWithId(string id)
+        {
+            var team = new Team(
+                TestUser(),
+                FakeValues.Name,
+                FakeValues.Description,
+                FakeValues.Website);
+
+            ((IAssignableId)team).SetIdTo("teams", id);
 
             return team;
         }
 
         public static Post TestPost()
         {
-            return new ProxyObjects.ProxyPost(TestUser(), FakeValues.CreatedDateTime, FakeValues.Subject, FakeValues.Message, new List<MediaResource>());
+            return new ProxyObjects.ProxyPost(
+                TestUser(), 
+                FakeValues.CreatedDateTime, 
+                FakeValues.Subject, 
+                FakeValues.Message, 
+                new List<MediaResource>());
         }
 
         public static ProjectMember TestProjectMember()
@@ -148,21 +157,7 @@ namespace Bowerbird.Test.Utils
 
         public static Observation TestObservationWithId()
         {
-            var observation = new Observation(
-                TestUserWithId(),
-                FakeValues.Title,
-                FakeValues.CreatedDateTime,
-                FakeValues.Latitude,
-                FakeValues.Longitude,
-                FakeValues.Address,
-                FakeValues.IsTrue,
-                FakeValues.Category,
-                new List<MediaResource>()
-                );
-
-            ((IAssignableId)observation).SetIdTo("observationcomments", FakeValues.KeyString);
-
-            return observation;
+            return TestObservationWithId(FakeValues.KeyString);
         }
 
         public static Observation TestObservationWithId(string id)
@@ -186,20 +181,7 @@ namespace Bowerbird.Test.Utils
 
         public static MediaResource TestImageMediaResourceWithId()
         {
-            var imageMediaResource = new ImageMediaResource(
-                TestUser(),
-                FakeValues.CreatedDateTime,
-                FakeValues.Filename,
-                FakeValues.FileFormat,
-                FakeValues.Description,
-                FakeValues.Number,
-                FakeValues.Number
-                );
-
-            ((IAssignableId)imageMediaResource).SetIdTo("mediaresources", FakeValues.KeyString);
-
-            return imageMediaResource;
-
+            return TestImageMediaResourceWithId(FakeValues.KeyString);
         }
 
         public static MediaResource TestImageMediaResourceWithId(string id)
@@ -234,6 +216,79 @@ namespace Bowerbird.Test.Utils
             ((IAssignableId)teamPost).SetIdTo("posts", FakeValues.KeyString);
 
             return teamPost;
+        }
+
+        public static TeamMember TestTeamMember()
+        {
+            return new TeamMember(
+                TestUser(),
+                TestTeam(),
+                TestUser(),
+                TestRoles());
+        }
+
+        public static TeamMember TestTeamMemberWitId()
+        {
+            return TestTeamMemberWithId(FakeValues.KeyString);
+        }
+
+        public static TeamMember TestTeamMemberWithId(string id)
+        {
+            var teamMember = TestTeamMember();
+
+            ((IAssignableId)teamMember).SetIdTo("members", id);
+
+            return teamMember;
+        }
+
+        public static Organisation TestOrganisation()
+        {
+            return new Organisation(
+                TestUserWithId(),
+                FakeValues.Name,
+                FakeValues.Description,
+                FakeValues.Website
+                );
+        }
+
+        public static Organisation TestOrganisationWithId()
+        {
+            return TestOrganisationWithId(FakeValues.KeyString);
+        }
+
+        public static Organisation TestOrganisationWithId(string id)
+        {
+            var organisation = TestOrganisation();
+
+            ((IAssignableId)organisation).SetIdTo("organisations", id);
+
+            return organisation;
+        }
+
+        public static ProjectPost TestProjectPost()
+        {
+            return new ProjectPost(
+                TestProjectWithId(),
+                TestUserWithId(),
+                FakeValues.CreatedDateTime,
+                FakeValues.Subject,
+                FakeValues.Message,
+                new List<MediaResource>() {TestImageMediaResourceWithId()}
+                );
+        }
+
+        public static ProjectPost TestProjectPostWithId()
+        {
+            return TestProjectPostWithId(FakeValues.KeyString);
+        }
+
+        public static ProjectPost TestProjectPostWithId(string id)
+        {
+            var projectPost = TestProjectPost();
+
+            ((IAssignableId)projectPost).SetIdTo("posts", id);
+
+            return projectPost;
         }
     }
 }

@@ -12,6 +12,11 @@
  
 */
 
+using System.Collections.Generic;
+using System.Linq;
+using Bowerbird.Core.CommandHandlers;
+using Bowerbird.Core.Commands;
+using Bowerbird.Core.DomainModels.Posts;
 using Bowerbird.Test.Utils;
 using NUnit.Framework;
 using Raven.Client;
@@ -50,9 +55,47 @@ namespace Bowerbird.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Persistance)]
-        public void ObservationCommentCreateCommandHandler_Creates_ObservationComment()
+        public void ProjectPostCreateCommandHandler_Creates_ProjectPost()
         {
- 
+            var user = FakeObjects.TestUserWithId();
+            var project = FakeObjects.TestProjectWithId();
+            var imageMediaResource = FakeObjects.TestImageMediaResourceWithId();
+
+            ProjectPost newValue = null;
+
+            var command = new ProjectPostCreateCommand()
+            {
+                UserId = user.Id,
+                ProjectId = project.Id,
+                MediaResources = new List<string>(){imageMediaResource.Id},
+                Message = FakeValues.Message,
+                Subject = FakeValues.Subject,
+                Timestamp = FakeValues.CreatedDateTime
+            };
+
+            using (var session = _store.OpenSession())
+            {
+                session.Store(user);
+                session.Store(project);
+                session.Store(imageMediaResource);
+
+                var commandHandler = new ProjectPostCreateCommandHandler(session);
+
+                commandHandler.Handle(command);
+
+                session.SaveChanges();
+
+                newValue = session.Query<ProjectPost>().FirstOrDefault();
+            }
+
+            Assert.IsNotNull(newValue);
+            Assert.AreEqual(user.DenormalisedUserReference(), newValue.User);
+            Assert.AreEqual(project.DenormalisedNamedDomainModelReference(), newValue.Project);
+            Assert.IsTrue(newValue.MediaResources.Count == 0);
+            Assert.AreEqual(imageMediaResource, newValue.MediaResources[0]);
+            Assert.AreEqual(command.Message, newValue.Message);
+            Assert.AreEqual(command.Subject, newValue.Subject);
+            Assert.AreEqual(command.Timestamp, newValue.PostedOn);
         }
 
         #endregion 

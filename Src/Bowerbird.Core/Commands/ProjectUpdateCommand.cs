@@ -31,6 +31,8 @@ namespace Bowerbird.Core.Commands
 
         public string UserId { get; set; }
 
+        public string TeamId { get; set; }
+
         public string Id { get; set; }
 
         public string Name { get; set; }

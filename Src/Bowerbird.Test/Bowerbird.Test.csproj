@@ -93,9 +93,6 @@
     <Compile Include="CommandHandlers\ImageMediaResourceCreateCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\ImageMediaResourceDeleteCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\ImageMediaResourceUpdateCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\MediaResourceCreateCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\MediaResourceDeleteCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\MediaResourceUpdateCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\ObservationCommentCreateCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\ObservationCommentDeleteCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\ObservationCommentUpdateCommandHandlerTest.cs" />
@@ -169,6 +166,7 @@
     <Compile Include="Extensions\CollectionExtensionsTest.cs" />
     <Compile Include="Extensions\StringExtensionsTest.cs" />
     <Compile Include="Extensions\UrlHelperExtensionsTest.cs" />
+    <Compile Include="Utils\Denormaliser.cs" />
     <Compile Include="Utils\FakeViewModels.cs" />
     <Compile Include="Utils\BootstrapperHelper.cs" />
     <Compile Include="Utils\ControllerHelpers.cs" />

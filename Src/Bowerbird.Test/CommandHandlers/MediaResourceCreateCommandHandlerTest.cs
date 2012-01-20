@@ -53,7 +53,31 @@ namespace Bowerbird.Test.CommandHandlers
         [Category(TestCategory.Unit)]
         public void MediaResourceCreateCommandHandler_Handle_Creates_MediaResource()
         {
-            
+            var user = FakeObjects.TestUserWithId();
+            var organisation = FakeObjects.TestOrganisationWithId();
+
+            ProjectPost newValue = null;
+
+            var command = new ProjectPostCreateCommand()
+            {
+                UserId = user.Id,
+            };
+
+            using (var session = _store.OpenSession())
+            {
+                session.Store(user);
+                session.Store(organisation);
+
+                var commandHandler = new ProjectPostCreateCommandHandler(session);
+
+                commandHandler.Handle(command);
+
+                session.SaveChanges();
+
+                newValue = session.Query<ProjectPost>().FirstOrDefault();
+            }
+
+            Assert.IsNotNull(newValue);
         }
 
         #endregion

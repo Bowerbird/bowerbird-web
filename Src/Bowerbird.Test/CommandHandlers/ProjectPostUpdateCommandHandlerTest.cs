@@ -12,6 +12,11 @@
  
 */
 
+using System.Collections.Generic;
+using Bowerbird.Core.CommandHandlers;
+using Bowerbird.Core.Commands;
+using Bowerbird.Core.DomainModels.Posts;
+using Bowerbird.Core.Extensions;
 using Bowerbird.Test.Utils;
 using NUnit.Framework;
 using Raven.Client;
@@ -48,6 +53,52 @@ namespace Bowerbird.Test.CommandHandlers
         #endregion
 
         #region Method tests
+
+        [Test]
+        [Category(TestCategory.Persistance)]
+        public void ProjectPostUpdateCommandHandler_Updates_ProjectPost()
+        {
+            var originalValue = FakeObjects.TestProjectPostWithId();
+            var project = FakeObjects.TestProjectWithId();
+            var user = FakeObjects.TestUserWithId("abcabc");
+            var imageMediaResource = FakeObjects.TestImageMediaResourceWithId(FakeValues.KeyString.AppendWith("abc"));
+
+            ProjectPost newValue;
+
+            var command = new ProjectPostUpdateCommand()
+            {
+                Id = originalValue.Id,
+                MediaResources = new List<string>(){imageMediaResource.Id},
+                Message = FakeValues.Message.PrependWith("new"),
+                Subject = FakeValues.Subject.PrependWith("new"),
+                Timestamp = FakeValues.ModifiedDateTime,
+                UserId = user.Id
+            };
+
+            using (var session = _store.OpenSession())
+            {
+                session.Store(originalValue);
+                session.Store(project);
+                session.Store(imageMediaResource);
+                session.Store(user);
+
+                var commandHandler = new ProjectPostUpdateCommandHandler(session);
+
+                commandHandler.Handle(command);
+
+                session.SaveChanges();
+
+                newValue = session.Load<ProjectPost>(originalValue.Id);
+            }
+
+            Assert.IsNotNull(newValue);
+            Assert.AreEqual(command.Message, newValue.Message);
+            Assert.AreEqual(command.Subject, newValue.Subject);
+            Assert.AreEqual(user.DenormalisedUserReference(), newValue.User);
+            Assert.IsTrue(newValue.MediaResources.Count == 1);
+            Assert.AreEqual(imageMediaResource, newValue.MediaResources[0]);
+            Assert.AreEqual(command.Subject, newValue.Subject);
+        }
 
         #endregion
     }
