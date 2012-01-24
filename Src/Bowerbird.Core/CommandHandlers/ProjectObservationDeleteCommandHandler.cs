@@ -14,6 +14,7 @@
  
 */
 
+using System.Linq;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
@@ -54,7 +55,8 @@ namespace Bowerbird.Core.CommandHandlers
 
             var projectObservation = _documentSession
                 .Query<ProjectObservation>()
-                .Where(x => x.Project.Id == command.ProjectId && x.Observation.Id == command.ObservationId);
+                .Where(x => x.Project.Id == command.ProjectId && x.Observation.Id == command.ObservationId)
+                .FirstOrDefault();
 
             _documentSession.Delete(projectObservation);
 

@@ -14,20 +14,14 @@
  
 */
 
-
 using Bowerbird.Core.Commands;
+using Bowerbird.Web.Controllers.Members;
+using NUnit.Framework;
+using Moq;
 
-namespace Bowerbird.Test.Controllers
+namespace Bowerbird.Test.Controllers.Members
 {
     #region Namespaces
-
-    using Bowerbird.Web;
-    using Bowerbird.Web.Controllers.Members;
-    using NUnit.Framework;
-    using Moq;
-    using Bowerbird.Core;
-    using Bowerbird.Core.DesignByContract;
-    using Bowerbird.Test.Utils;
 
     #endregion
 

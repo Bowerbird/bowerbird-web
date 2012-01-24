@@ -1,6 +1,4 @@
-﻿/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -18,9 +16,8 @@ using Bowerbird.Core.DesignByContract;
 
 namespace Bowerbird.Core.DomainModels.DenormalisedReferences
 {
-    public class DenormalisedObservationReference
+    public class DenormalisedObservationReference : ValueObject
     {
-
         #region Members
 
         #endregion
@@ -51,6 +48,5 @@ namespace Bowerbird.Core.DomainModels.DenormalisedReferences
         }
 
         #endregion
-
     }
 }

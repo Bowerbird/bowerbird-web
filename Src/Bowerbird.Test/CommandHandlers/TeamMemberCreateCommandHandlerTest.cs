@@ -59,7 +59,7 @@ namespace Bowerbird.Test.CommandHandlers
         {
             var user = FakeObjects.TestUserWithId();
             var team = FakeObjects.TestTeamWithId();
-            //var teamMember = FakeObjects.TestTeamMemberWitId();
+            var permissions = FakeObjects.TestPermissions();
             var roles = FakeObjects.TestRoles();
 
             TeamMember newValue = null;
@@ -76,7 +76,8 @@ namespace Bowerbird.Test.CommandHandlers
             {
                 session.Store(user);
                 session.Store(team);
-                session.Store(roles);
+                foreach (var permission in permissions) session.Store(permission);
+                foreach (var role in roles) session.Store(role);
 
                 var commandHandler = new TeamMemberCreateCommandHandler(session);
 
@@ -88,8 +89,8 @@ namespace Bowerbird.Test.CommandHandlers
             }
 
             Assert.IsNotNull(newValue);
-            //Assert.AreEqual(team.DenormalisedNamedDomainModelReference(), newValue.Team);
-            //Assert.AreEqual(user.DenormalisedUserReference(), newValue.User);
+            Assert.AreEqual(team.DenormalisedNamedDomainModelReference(), newValue.Team);
+            Assert.AreEqual(user.DenormalisedUserReference(), newValue.User);
         }
 
         #endregion

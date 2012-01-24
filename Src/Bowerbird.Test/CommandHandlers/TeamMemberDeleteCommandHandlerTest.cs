@@ -76,6 +76,8 @@ namespace Bowerbird.Test.CommandHandlers
                 session.Store(team);
                 session.Store(teamMember);
 
+                session.SaveChanges();
+
                 var commandHandler = new TeamMemberDeleteCommandHandler(session);
 
                 commandHandler.Handle(command);

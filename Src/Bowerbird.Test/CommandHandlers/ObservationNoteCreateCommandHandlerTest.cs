@@ -56,7 +56,7 @@ namespace Bowerbird.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Persistance)]
-        public void ObservationCommentCreateCommandHandler_Creates_ObservationComment()
+        public void ObservationNoteCreateCommandHandler_Creates_ObservationNote()
         {
             var user = FakeObjects.TestUserWithId();
             var observation = FakeObjects.TestObservationWithId();
@@ -100,7 +100,7 @@ namespace Bowerbird.Test.CommandHandlers
             Assert.AreEqual(command.SubmittedOn, newValue.SubmittedOn);
             Assert.AreEqual(command.Tags, newValue.Tags);
             Assert.AreEqual(command.Taxonomy, newValue.Taxonomy);
-            //Assert.AreEqual(observation.DenormalisedObservationReference(), newValue.Observation);
+            Assert.AreEqual(observation.DenormalisedObservationReference(), newValue.Observation);
         }
 
         #endregion

@@ -97,6 +97,8 @@ namespace Bowerbird.Test.Controllers.Members
                 session.SaveChanges();
             }
 
+            _controller.SetupFormRequest();
+
             _controller.Index(new IdInput() { Id = team.Id });
 
             Assert.IsInstanceOf<TeamIndex>(_controller.ViewData.Model);

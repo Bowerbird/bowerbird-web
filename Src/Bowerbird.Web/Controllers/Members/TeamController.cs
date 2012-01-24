@@ -137,7 +137,7 @@ namespace Bowerbird.Web.Controllers.Members
 
             var projects =
                 _documentSession
-                .Load<Project>()
+                .Query<Project>()
                 .Where(x => x.Team.Id == idInput.Id)
                 .ToList();
 

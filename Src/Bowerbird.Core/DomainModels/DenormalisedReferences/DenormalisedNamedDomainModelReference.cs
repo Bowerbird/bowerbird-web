@@ -1,6 +1,4 @@
-﻿/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -25,9 +23,8 @@ namespace Bowerbird.Core.DomainModels.DenormalisedReferences
         string Name { get; }
     }
 
-    public class DenormalisedNamedDomainModelReference<T> where T : INamedDomainModel
+    public class DenormalisedNamedDomainModelReference<T> : ValueObject where T : INamedDomainModel
     {
-
         #region Members
 
         #endregion
@@ -58,7 +55,5 @@ namespace Bowerbird.Core.DomainModels.DenormalisedReferences
         }
 
         #endregion
-
     }
 }
-  
