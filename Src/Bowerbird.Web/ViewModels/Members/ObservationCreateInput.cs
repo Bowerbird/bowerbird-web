@@ -16,6 +16,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using Bowerbird.Web.Validators;
 
 namespace Bowerbird.Web.ViewModels.Members
 {
@@ -32,21 +34,23 @@ namespace Bowerbird.Web.ViewModels.Members
 
         #region Properties
 
-        public string Address { get; set; }
-
-        public string Description { get; set; }
-
-        public bool IsIdentificationRequired { get; set; }
-        
-        public string Latitude { get; set; }
-        
-        public string Longitude { get; set; }
-        
+        [Required(ErrorMessage = "Please enter a title")]
         public string Title { get; set; }
 
-        public string ObservationCategory { get; set; }
-
+        [Required(ErrorMessage = "Please enter the observed on date and time")]
         public DateTime ObservedOn { get; set; }
+
+        public string Latitude { get; set; }
+
+        public string Longitude { get; set; }
+
+        public string Address { get; set; }
+
+        [Required]
+        public bool IsIdentificationRequired { get; set; }
+
+        [Required(ErrorMessage = "Please select an observation category")]
+        public string ObservationCategory { get; set; }
 
         public List<string> MediaResources { get; set; }
 

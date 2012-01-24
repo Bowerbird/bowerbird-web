@@ -60,6 +60,7 @@ namespace Bowerbird.Web.Controllers.Members
 
         #region Methods
 
+        [Authorize]
         public ActionResult Index(HomeIndexInput homeIndexInput)
         {
             // HACK

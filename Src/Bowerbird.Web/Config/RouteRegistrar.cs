@@ -36,30 +36,6 @@ namespace Bowerbird.Web.Config
                 new {controller = "account", action = "resetpassword", resetpasswordkey = UrlParameter.Optional});
 
             routes.MapRoute(
-                "observation-list", 
-                "observation/{id}",
-                new { controller = "observation", action = "list", id = UrlParameter.Optional },
-                new { httpMethod = new HttpMethodConstraint("GET") });
-
-            routes.MapRoute(
-                "observation-update", 
-                "observation/{id}",
-                new { controller = "observation", action = "update" },
-                new { httpMethod = new HttpMethodConstraint("PUT") });
-
-            routes.MapRoute(
-                "observation-delete", 
-                "observation/{id}",
-                new { controller = "observation", action = "delete" },
-                new { httpMethod = new HttpMethodConstraint("DELETE") });
-
-            routes.MapRoute(
-                "observation-create", 
-                "observation/",
-                new { controller = "observation", action = "create" },
-                new { httpMethod = new HttpMethodConstraint("POST") });
-
-            routes.MapRoute(
                 "Default",
                 "{controller}/{action}/{id}",
                 new { controller = "home", action = "index", id = UrlParameter.Optional },

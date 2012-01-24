@@ -1,9 +1,9 @@
-﻿<div>
-    @using (Html.BeginForm("create", "observation", FormMethod.Post))
+﻿<div class="form">
+    @using (Html.BeginForm("create", "observation"))
     {
         <fieldset>
-            <legend>Create Observation</legend>
-            <div>
+            <legend>New Observation</legend>
+            <div id="title-field">
                 <div>
                     <label for="title">Title</label>
                 </div>
@@ -11,7 +11,30 @@
                     <input type="text" id="title" name="title" />
                 </div>
             </div>
+            <div id="observedon-field">
+                <div>
+                    <label for="observedOn">Observed On</label>
+                </div>
+                <div>
+                    <input type="date" id="observedOn" name="observedOn" value="@DateTime.Now.ToString("dd MMMM yyyy")" />
+                    <input type="button" id="observedOnDatePicker" value="..." />
+                </div>
+            </div>
             <div>
+                <div>
+                    <label for="mediaResources">Images, Videos, Sounds</label>
+                </div>
+                <div id="mediaResourceDropZone"><span>Drop files here, or</span> <input type="button" value="choose files" id="mediaResourceButton"/> <span>from your computer or</span> <input type="button" value="import" id="mediaResourceButton"/> <span>from websites</span></div>
+            </div>
+            <div>
+                <div>
+                    <label for="address">Location</label>
+                </div>
+                <div>
+                    <img src="/img/map2.png" alt="" />
+                </div>
+            </div>
+            @*<div>
                 <div>
                     <label for="address">Address</label>
                 </div>
@@ -33,6 +56,29 @@
                 </div>
                 <div>
                     <input type="text" id="longitude" name="longitude" />
+                </div>
+            </div>*@
+            <div>
+                <div>
+                    <label for="observationCategory">Category</label>
+                </div>
+                <div>
+                    <select id="observationCategory" name="observationCategory">
+                        <option>Select</option>
+                        <option value="mammal">Mammal</option>
+                        <option value="reptile">Reptile</option>
+                        <option value="insect">Insect</option>
+                        <option value="fungus">Fungus</option>
+                    </select>
+                </div>
+            </div>
+            <div id="projects-field">
+                <div>
+                    <label for="projects">Projects</label>
+                </div>
+                <div>
+                    <div id="projects"></div>
+                    <input type="button" id="projectPicker" value="..." />
                 </div>
             </div>
         </fieldset>

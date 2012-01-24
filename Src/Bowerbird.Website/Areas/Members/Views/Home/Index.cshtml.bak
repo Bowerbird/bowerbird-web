@@ -1,0 +1,341 @@
+﻿@model Bowerbird.Web.ViewModels.Members.HomeIndex
+           
+@{
+	Page.Title = "Bowerbird";
+}
+
+<div id="sidebar">
+    <div class="filter-group" id="default-filters">
+        <ul>
+            <li><a href="/#/user/stream/all" class="user-stream"><img alt="" src="../img/avatar-1.png"><div><p>Home</p></div></a></li>
+            <li><a href="/#/user/favourites" class="user-favourites"><img alt="" src="../img/avatar-2.png"><div><p>Favourites</p></div></a></li>
+        </ul>
+    </div>
+    <div class="filter-group" id="collaborations-filters">
+        <div class="filter-group-title">Teams</div>
+        <ul>
+            <li><a href="/#/team/butterflies-of-aus/stream/all" class="butterflies-of-aus"><img alt="" src="../img/avatar-3.png"><div><p>Beautiful Butterflies of Australia</p></div></a></li>
+            <li><a href="/#/team/mushroom-hunters/stream/all" class="mushroom-hunters"><img alt="" src="../img/avatar-4.png"><div><p>Mushroom Hunters</p></div></a></li>
+        </ul>
+@*        <div class="filter-group-options">
+            <ul>
+                <li><a href="#">Find Teams</a></li>
+                <li><a href="#">Start New Team</a></li>
+            </ul>
+        </div>*@
+    </div>
+    <div class="filter-group" id="collaborations-filters">
+        <div class="filter-group-title">Projects</div>
+        <ul>
+            <li><a href="/#/team/butterflies-of-aus/stream/all" class="butterflies-of-aus"><img alt="" src="../img/avatar-3.png"><div><p>2011 Butterfly Hunt</p></div></a></li>
+        </ul>
+@*        <div class="filter-group-options">
+            <ul>
+                <li><a href="#">Find Teams</a></li>
+                <li><a href="#">Start New Team</a></li>
+            </ul>
+        </div>*@
+    </div>
+    <div class="filter-group" id="watch-lists">
+        <div class="filter-group-title">Watches</div>
+        <ul>
+            <li><a href="/#/watch/123/stream/all"><img alt="" src="../img/avatar-1.png"><div><p>Bees</p></div></a></li>
+            <li><a href="/#/watch/124/stream/all"><img alt="" src="../img/avatar-1.png"><div><p>Butterflies</p></div></a></li>
+            <li><a href="/#/watch/125/stream/all"><img alt="" src="../img/avatar-1.png"><div><p>Red Things</p></div></a></li>
+        </ul>
+@*        <div class="filter-group-options">
+            <ul>
+                <li><a href="#">Create New Watch</a></li>
+            </ul>
+        </div>*@
+    </div>
+</div>
+<div id="workspace">
+    <div id="selected-filter-group">
+        <img src="../img/team-avatar-1.png" alt="" /><h1>Butterflies of Australia</h1>
+        <p class="byline">Capturing all of Australia's Butterflies</p>
+        <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras in metus at nunc cursus rhoncus. Etiam eleifend accumsan urna et aliquam. Nullam ultrices eros eu leo dignissim non pellentesque sapien congue. Integer blandit neque eget libero tristique ultrices. Donec adipiscing cursus orci at semper. Suspendisse arcu diam, dapibus id scelerisque vel, sagittis quis dolor. Praesent sed consectetur justo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras in metus at nunc cursus rhoncus. Etiam eleifend accumsan urna et aliquam. Nullam ultrices eros eu leo dignissim non pellentesque sapien congue. Integer blandit neque eget libero tristique ultrices. Donec adipiscing cursus orci at semper. Suspendisse arcu diam, dapibus id scelerisque vel, sagittis quis dolor. Praesent sed consectetur justo.</p>
+    </div>
+    <div id="stream">
+        @*<div id="load-more">
+            3 new observations & 2 posts
+        </div>*@
+        <h2>Team Activity</h2>
+        <ul>
+            <li>Latest activity first</li>
+            <li>All activity</li>
+        </ul>
+        <div id="stream-items">
+            <div class="stream-item observation">
+                <div>
+                    <div class="summary-large">
+                    <img src="../img/avatar.jpg" alt="" />
+                    <p class="description">Ken Walker made an observation <span>3 days ago</span></p>
+                </div>
+                    <div class="details">
+                    <h2>Variegated Fritillary Butterfly</h2>
+                    <div class="images">
+                        <img src="../img/dragonfly.png" alt="" />
+                        <div class="thumbnails">
+                            <img src="../img/dragonfly.png" alt="" />
+                            <img src="../img/dragonfly.png" alt="" />
+                            <img src="../img/dragonfly.png" alt="" />
+                            <img src="../img/dragonfly.png" alt="" />
+                            <img src="../img/dragonfly.png" alt="" />
+                        </div>
+                    </div>
+                    <div class="info">
+                        <div class="observed">
+                            Observed
+                            <span>12 December 2011</span>
+                            <span>16:23 AEST</span>
+                        </div>
+                        <div class="location">
+                            Location
+                            <div class="map"></div>
+                            <span>North Melbourne</span>
+                            <span>Latitude 145.2323</span>
+                            <span>Longitude 18.4563</span>
+                        </div>
+                    </div>
+                </div>
+                    <div class="notes">
+                    <div class="note">
+                        <div class="summary-large">
+                            <img src="../img/avatar.jpg" alt="" />
+                            <p class="description">Jane Smith made notes on this observation <span>3 days ago</span></p>
+                        </div>
+                        <div class="note-details">
+                            <div>
+                                <div class="description">
+                                    Behaviour
+                                    <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras in metus at nunc cursus rhoncus. Etiam eleifend accumsan urna et aliquam. Nullam ultrices eros eu leo dignissim non pellentesque sapien congue. Integer blandit neque eget libero tristique ultrices. Donec adipiscing cursus orci at semper.
+                                    </p>
+                                </div>
+                                <div class="tags">
+                                    Tags
+                                    <ul>
+                                        <li><a href="#">dragonfly</a></li>
+                                        <li><a href="#">flower</a></li>
+                                        <li><a href="#">bug</a></li>
+                                        <li><a href="#">something</a></li>
+                                        <li><a href="#">thing</a></li>
+                                        <li><a href="#">blue</a></li>
+                                        <li><a href="#">green</a></li>
+                                        <li><a href="#">hello</a></li>
+                                        <li><a href="#">goodbye</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="identification">
+                                    Common Names
+                                    <p class="common-names">Dragonfly</p>
+                                    Scientific Name
+                                    <p class="scientific-name"><span>Dragonflyus Bluewingy Thingus</span> (Scott 1922)</p>
+                                    Taxonomy
+                                    <p class="taxonomy">Animalia: Bugus: Dragonia: Bugzilla</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="note">
+                        <div class="summary-large">
+                            <img src="../img/avatar.jpg" alt="" />
+                            <p class="description">Jane Smith made notes on this observation <span>3 days ago</span></p>
+                        </div>
+                        <div class="note-details">
+                            <div>
+                                <div class="description">
+                                    Behaviour
+                                    <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras in metus at nunc cursus rhoncus. Etiam eleifend accumsan urna et aliquam. Nullam ultrices eros eu leo dignissim non pellentesque sapien congue. Integer blandit neque eget libero tristique ultrices. Donec adipiscing cursus orci at semper.
+                                    </p>
+                                </div>
+                                <div class="tags">
+                                    Tags
+                                    <ul>
+                                        <li><a href="#">dragonfly</a></li>
+                                        <li><a href="#">flower</a></li>
+                                        <li><a href="#">bug</a></li>
+                                        <li><a href="#">something</a></li>
+                                        <li><a href="#">thing</a></li>
+                                        <li><a href="#">blue</a></li>
+                                        <li><a href="#">green</a></li>
+                                        <li><a href="#">something</a></li>
+                                        <li><a href="#">thing</a></li>
+                                        <li><a href="#">blue</a></li>
+                                        <li><a href="#">green</a></li>
+                                        <li><a href="#">hello</a></li>
+                                        <li><a href="#">goodbye</a></li>
+                                        <li><a href="#">hello</a></li>
+                                        <li><a href="#">goodbye</a></li>
+                                        <li><a href="#">dragonfly</a></li>
+                                        <li><a href="#">flower</a></li>
+                                        <li><a href="#">bug</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="identification">
+                                    Common Names
+                                    <p class="common-names">Dragonfly</p>
+                                    Scientific Name
+                                    <p class="scientific-name">Dragonflyus Bluewingy Thingus (Scott 1922)</p>
+                                    Taxonomy
+                                    <p class="taxonomy">Animalia: Bugus: Dragonia: Bugzilla</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    <div class="discussion">
+                    <div class="heading">Discussion</div>
+                    <div class="comment">
+                        <div class="summary-comment">
+                            <img src="../img/avatar.jpg" alt="" /> <p class="description">Jill Summers commented on the observation <span>1 day ago</span></p>
+                        </div>
+                        <p>
+                            I think I know the species. I saw one of these in the Amazon last year. Awesome photo. Kthxbye!
+                        </p>
+                    </div>
+                    <div class="comment">
+                        <div class="summary-comment">
+                            <img src="../img/avatar.jpg" alt="" /> <p class="description">Jill Summers commented on the observation <span>1 day ago</span></p>
+                        </div>
+                        <p>
+                            I think I know the species. I saw one of these in the Amazon last year. Awesome photo. Kthxbye! I think I know the species. I saw one of these in the Amazon last year. Awesome photo. Kthxbye! I think I know the species. I saw one of these in the Amazon last year. Awesome photo. Kthxbye! I think I know the species. I saw one of these in the Amazon last year. Awesome photo. Kthxbye! I think I know the species. I saw one of these in the Amazon last year. Awesome photo. Kthxbye! I think I know the species. I saw one of these in the Amazon last year. Awesome photo. Kthxbye!
+                        </p>
+                    </div>
+                </div>
+                    <div class="projects">
+                    <div class="heading">Projects</div>
+                    <ul>
+                        <li><a href="#"><img alt="" src="../img/avatar-1.png"></a></li>
+                        <li><a href="#"><img alt="" src="../img/avatar-3.png"></a></li>
+                        <li><a href="#"><img alt="" src="../img/avatar-4.png"></a></li>
+                    </ul>
+                </div>
+                    <div class="projects">
+                    <div class="heading">Related Observations</div>
+                    <ul>
+                        <li><a href="#"><img alt="" src="../img/avatar-1.png"></a></li>
+                        <li><a href="#"><img alt="" src="../img/avatar-3.png"></a></li>
+                        <li><a href="#"><img alt="" src="../img/avatar-4.png"></a></li>
+                    </ul>
+                </div>
+                </div>
+            </div>
+            <div class="stream-item post">
+                <div>
+                    <div class="summary-large">
+                    <img src="../img/avatar.jpg" alt="" />
+                    <p class="description">Ken Walker posted a notice <span>3 days ago</span></p>
+                </div>
+                    <div class="details">
+                    <h2>December meeting agenda</h2>
+                    <div>
+                        <p>
+                            Lorem ipsum dolor sit amet, <a href="#">consectetur adipiscing elit</a>. Cras in metus at nunc cursus rhoncus. Etiam eleifend accumsan urna et aliquam. Nullam ultrices eros eu leo dignissim non pellentesque sapien congue. Integer blandit neque eget libero tristique ultrices. Donec adipiscing cursus orci at semper.
+                        </p>
+                        <p>
+                            Etiam eleifend accumsan urna et aliquam. <strong>Nullam ultrices</strong> eros eu leo dignissim non pellentesque sapien congue. Integer blandit neque eget libero tristique ultrices. Donec adipiscing cursus orci at semper.
+                        </p>
+                        <ul>
+                            <li>First point</li>
+                            <li>Nullam ultrices <a href="#">eros eu leo dignissim</a> non pellentesque sapien congue</li>
+                            <li>Etiam eleifend accumsan urna et aliquam</li>
+                        </ul>
+                        <p>
+                            Lorem ipsum dolor sit amet, <em>consectetur adipiscing elit</em>. Cras in metus at nunc cursus rhoncus.
+                        </p>
+                    </div>
+                </div>
+                    <div class="attachments">
+                        <div class="heading">Attachments</div>
+                        <ul>
+                            <li><a href="#"><img alt="" src="../img/avatar-1.png"></a></li>
+                            <li><a href="#"><img alt="" src="../img/avatar-3.png"></a></li>
+                            <li><a href="#"><img alt="" src="../img/avatar-4.png"></a></li>
+                        </ul>
+                    </div>
+                    <div class="discussion">
+                    <div class="heading">Discussion</div>
+                    <div class="comment">
+                        <div class="summary-comment">
+                            <img src="../img/avatar.jpg" alt="" /> <p class="description">Jill Summers commented on the observation <span>1 day ago</span></p>
+                        </div>
+                        <p>
+                            I think I know the species. I saw one of these in the Amazon last year. Awesome photo. Kthxbye!
+                        </p>
+                    </div>
+                    <div class="comment">
+                        <div class="summary-comment">
+                            <img src="../img/avatar.jpg" alt="" /> <p class="description">Jill Summers commented on the observation <span>1 day ago</span></p>
+                        </div>
+                        <p>
+                            I think I know the species. I saw one of these in the Amazon last year. Awesome photo. Kthxbye! I think I know the species. I saw one of these in the Amazon last year. Awesome photo. Kthxbye! I think I know the species. I saw one of these in the Amazon last year. Awesome photo. Kthxbye! I think I know the species. I saw one of these in the Amazon last year. Awesome photo. Kthxbye! I think I know the species. I saw one of these in the Amazon last year. Awesome photo. Kthxbye! I think I know the species. I saw one of these in the Amazon last year. Awesome photo. Kthxbye!
+                        </p>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="activity">
+    <h2>Activity</h2>
+    <div class="activity-item">
+    
+    </div>
+    <div class="activity-item">
+    
+    </div>
+</div>
+@section script {
+<script type="text/x-jquery-tmpl" id="stream-template">
+    <div id="selected-filter"></div>
+    <div id="stream"></div>
+</script>
+<script type="text/x-jquery-tmpl" id="workspace-form-create-observation-template">
+    @Html.Partial("_ObservationCreate")
+</script>
+<script type="text/x-jquery-tmpl" id="selected-filter-details-template">
+    @Html.Partial("_SelectedFilterDetails")
+</script>
+<script type="text/x-jquery-tmpl" id="stream-observation-item-template">
+    @Html.Partial("_StreamObservationItem")
+</script>
+<script type="text/javascript" src="@Url.JavaScriptFile("app.js")"></script>
+<script type="text/javascript" src="@Url.JavaScriptLib("jquery.signalR.min.js")"></script>
+<script type="text/javascript" src="/signalr/hubs"></script>
+<script type="text/javascript">
+    $(function () {
+        window.activityHub = $.connection.activityHub;
+
+        window.activityHub.onUserLoggedIn = function (user) {
+            //alert(user.Id);
+        };
+
+        window.activityHub.observationCreated = function (observation) {
+            //alert(observation.Id);
+        };
+
+        window.activityHub.activityOccurred = function (activity) {
+            if (activity.Type == "userloggedin") {
+                alert(activity.Type + " - " + activity.Data.Id);
+            }
+            if (activity.Type == "observationcreated") {
+                alert(activity.Type + " - " + activity.Data.Title);
+            }
+        };
+
+        $.connection.hub.start(function () {
+        });
+
+        window.bowerbirdApp = new Bowerbird.AppRouter();
+        Backbone.history.start({ pushState: false });
+    });
+</script>
+}

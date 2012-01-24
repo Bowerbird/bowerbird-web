@@ -20,7 +20,7 @@ window.Bowerbird = window.Bowerbird || {
 window.Bowerbird.Models.User = Backbone.Model.extend({
 
     defaults: {
-        username: ''
+        id: ''
     }
 
 });
@@ -29,7 +29,7 @@ window.Bowerbird.Models.User = Backbone.Model.extend({
 window.Bowerbird.Models.Team = Backbone.Model.extend({
 
     defaults: {
-        key: '',
+        id: '',
         name: '',
         description: ''
     }
@@ -40,7 +40,7 @@ window.Bowerbird.Models.Team = Backbone.Model.extend({
 window.Bowerbird.Models.Project = Backbone.Model.extend({
 
     defaults: {
-        key: '',
+        id: '',
         name: '',
         description: ''
     }
@@ -51,7 +51,7 @@ window.Bowerbird.Models.Project = Backbone.Model.extend({
 window.Bowerbird.Models.Watch = Backbone.Model.extend({
 
     defaults: {
-        key: '',
+        id: '',
         name: '',
         description: ''
     }
@@ -62,13 +62,14 @@ window.Bowerbird.Models.Watch = Backbone.Model.extend({
 window.Bowerbird.Models.Observation = Backbone.Model.extend({
 
     defaults: {
-        key: "",
         title: '',
-        commonName: '',
-        scientificName: '',
-        description: '',
         latitude: null,
-        longitude: null
+        longitude: null,
+        address: '',
+        observedOn: null,
+        isIdentificationRequired: false,
+        observationCategory: '',
+        mediaResources: []
     }
 
 });
@@ -111,7 +112,7 @@ window.Bowerbird.Collections.Observations = Backbone.Collection.extend({
 
     model: Bowerbird.Models.Observation,
 
-    url: "/observation"
+    url: "/members/observation"
 
 });
 
@@ -147,7 +148,7 @@ window.Bowerbird.Views.Header = Backbone.View.extend({
 // Navigation
 window.Bowerbird.Views.Navigation = Backbone.View.extend({
 
-    el: '#sidebar-column',
+    el: '#sidebar',
 
     initialize: function (options) {
         _.extend(this, Backbone.Events);
@@ -155,14 +156,14 @@ window.Bowerbird.Views.Navigation = Backbone.View.extend({
 
 });
 
-// Workspace Container
-window.Bowerbird.Views.WorkspaceContainer = Backbone.View.extend({
+// Workspace
+window.Bowerbird.Views.Workspace = Backbone.View.extend({
 
-    el: '#workspace-column',
+    el: '#workspace',
 
     initialize: function (options) {
         _.extend(this, Backbone.Events);
-        this.workspaces = [];
+        this.workspaceItems = [];
     },
 
     showStream: function (type, key, filter) {
@@ -184,43 +185,42 @@ window.Bowerbird.Views.WorkspaceContainer = Backbone.View.extend({
         }
 
         var stream = new Bowerbird.Models.Stream({ type: type, filter: filter, key: key, context: streamContext });
-        var streamWorkspace = new Bowerbird.Views.StreamWorkspace({ id: "stream-" + type + "-" + key, model: stream });
+        var streamWorkspaceItem = new Bowerbird.Views.StreamWorkspaceItem({ id: "stream-" + type + "-" + key, model: stream });
 
-        streamWorkspace.bind("newObservation", this.showObservationForm, this);
+        //streamWorkspace.bind("newObservation", this.showObservationForm, this);
 
-        this.showWorkspace(streamWorkspace);
+        this.showWorkspaceItem(streamWorkspaceItem);
     },
 
-    showObservationForm: function (model) {
+    showObservationForm: function () {
         var observation = new Bowerbird.Models.Observation();
-        var formWorkspace = new Bowerbird.Views.FormWorkspace({ id: 'form-create-observation', model: observation });
-        this.showWorkspace(formWorkspace);
+        var formWorkspaceItem = new Bowerbird.Views.FormWorkspaceItem({ id: 'form-create-observation', model: observation });
+        this.showWorkspaceItem(formWorkspaceItem);
     },
 
-    showWorkspace: function (workspace) {
+    showWorkspaceItem: function (workspaceItem) {
         // Hide current workspace if it is a stream
-        if (workspace instanceof Bowerbird.Views.StreamWorkspace) {
-            while (this.workspaces.length > 0) {
-                var currentWorkspace = this.workspaces.shift();
-                currentWorkspace.hide($(currentWorkspace.el));
+        if (workspaceItem instanceof Bowerbird.Views.StreamWorkspaceItem) {
+            while (this.workspaceItems.length > 0) {
+                var currentWorkspaceItem = this.workspaceItems.shift();
+                currentWorkspaceItem.hide($(currentWorkspaceItem.el));
             }
         }
 
         // Show new workspace
-        this.workspaces.unshift(workspace);
-        workspace.render();
-
-        workspace.loadEvents();
+        this.workspaceItems.unshift(workspaceItem);
+        workspaceItem.render();
+        workspaceItem.loadEvents();
     }
 
 });
 
-// Workspace
-window.Bowerbird.Views.Workspace = Backbone.View.extend({
+// Workspace Item
+window.Bowerbird.Views.WorkspaceItem = Backbone.View.extend({
 
-    renderWorkspace: function (workspaceElement, html) {
+    renderWorkspaceItem: function (workspaceElement, html) {
         workspaceElement.html(html);
-        workspaceElement.appendTo("#workspace-column");
+        workspaceElement.appendTo("#workspace");
 
         workspaceElement
             .css({ zIndex: 98 })
@@ -246,10 +246,10 @@ window.Bowerbird.Views.Workspace = Backbone.View.extend({
 
 });
 
-// Stream Workspace
-window.Bowerbird.Views.StreamWorkspace = Bowerbird.Views.Workspace.extend({
+// Stream Workspace Item
+window.Bowerbird.Views.StreamWorkspaceItem = Bowerbird.Views.WorkspaceItem.extend({
 
-    className: 'workspace-item workspace-stream',
+    className: 'workspace-item stream-workspace-item',
 
     events: {
         "click #create-observation": "newObservation"
@@ -268,7 +268,7 @@ window.Bowerbird.Views.StreamWorkspace = Bowerbird.Views.Workspace.extend({
 
     render: function () {
         var compiledHtml = $.tmpl($("#workspace-stream-template"), this.model.toJSON());
-        this.renderWorkspace($(this.el), compiledHtml);
+        this.renderWorkspaceItem($(this.el), compiledHtml);
         return this;
     },
 
@@ -295,10 +295,10 @@ window.Bowerbird.Views.StreamWorkspace = Bowerbird.Views.Workspace.extend({
 
 });
 
-// Form Workspace
-window.Bowerbird.Views.FormWorkspace = Bowerbird.Views.Workspace.extend({
+// Form Workspace Item
+window.Bowerbird.Views.FormWorkspaceItem = Bowerbird.Views.WorkspaceItem.extend({
 
-    className: 'workspace-item workspace-stream',
+    className: 'workspace-item form-workspace-item',
 
     events: {
         "click #cancel": "cancel",
@@ -311,7 +311,7 @@ window.Bowerbird.Views.FormWorkspace = Bowerbird.Views.Workspace.extend({
 
     render: function () {
         var compiledHtml = $.tmpl($("#workspace-form-create-observation-template"), this.model.toJSON());
-        this.renderWorkspace($(this.el), compiledHtml);
+        this.renderWorkspaceItem($(this.el), compiledHtml);
         return this;
     },
 
@@ -320,9 +320,17 @@ window.Bowerbird.Views.FormWorkspace = Bowerbird.Views.Workspace.extend({
     },
 
     save: function () {
-        this.model.set({ "title": $("#title").attr("value"), "description": "hello", "address": "hello" });
+        this.model.set({
+            "title": $("#title").attr("value"), 
+            "address": $("#address").attr("value"),
+            "latitude": $("#latitude").attr("value"), 
+            "longitude": $("#longitude").attr("value"),
+            "observedOn": $("#observedOn").attr("value"),
+            "isIdentificationRequired": $("#isIdentificationRequired").attr("value"),
+            "observationCategory": $("#observationCategory").attr("value")
+        });
 
-        window.observations.add(this.model);
+        //window.observations.add(this.model);
 
         this.model.save();
 
@@ -346,33 +354,38 @@ window.Bowerbird.AppRouter = Backbone.Router.extend({
 
     routes: {
         "/user/stream/:filter": "showUserStream",
-        "/team/:key/stream/:filter": "showTeamStream",
-        "/project/:key/stream/:filter": "showProjectStream",
-        "/watch/:key/stream/:filter": "showWatchStream"
+        "/observation/create": "showObservationCreate"
+        //"/team/:key/stream/:filter": "showTeamStream",
+        //"/project/:key/stream/:filter": "showProjectStream",
+        //"/watch/:key/stream/:filter": "showWatchStream"
         //"search/:query/p:page": "search"   // #search/kiwis/p7
     },
 
     initialize: function (options) {
         this.header = new Bowerbird.Views.Header({ app: this });
-        this.navigation = new Bowerbird.Views.Navigation({ app: this });
-        this.workspaceContainer = new Bowerbird.Views.WorkspaceContainer({ app: this });
+        //this.navigation = new Bowerbird.Views.Navigation({ app: this });
+        this.workspace = new Bowerbird.Views.Workspace({ app: this });
     },
 
-    showUserStream: function (filter) {
-        this.workspaceContainer.showStream("user", "user", filter);
-    },
-
-    showTeamStream: function (key, filter) {
-        this.workspaceContainer.showStream("team", key, filter);
-    },
-
-    showProjectStream: function (key, filter) {
-        this.workspaceContainer.showStream("project", key, filter);
-    },
-
-    showWatchStream: function (key, filter) {
-        this.workspaceContainer.showStream("watch", key, filter);
+    showObservationCreate: function () {
+        this.workspace.showObservationForm();
     }
+
+    //    showUserStream: function (filter) {
+    //        this.workspaceContainer.showStream("user", "user", filter);
+    //    },
+
+    //    showTeamStream: function (key, filter) {
+    //        this.workspaceContainer.showStream("team", key, filter);
+    //    },
+
+    //    showProjectStream: function (key, filter) {
+    //        this.workspaceContainer.showStream("project", key, filter);
+    //    },
+
+    //    showWatchStream: function (key, filter) {
+    //        this.workspaceContainer.showStream("watch", key, filter);
+    //    }
 
     //    search: function (query, page) {
 

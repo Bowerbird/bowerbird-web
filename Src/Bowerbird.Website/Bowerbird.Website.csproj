@@ -174,6 +174,7 @@
     <Content Include="Areas\Api\Views\Web.config" />
     <Content Include="Areas\Members\Views\Web.config" />
     <Content Include="Areas\Members\Views\Shared\_NewLayout.cshtml" />
+    <Content Include="Areas\Members\Views\_ViewStart.cshtml" />
     <None Include="test\index.html" />
     <None Include="test\qunit\qunit.css" />
     <None Include="test\qunit\qunit.js" />
@@ -205,13 +206,13 @@
     <Content Include="Views\Shared\_ObservationCreate.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\_NewLayout.cshtml" />
-    <Content Include="Areas\Members\Views\Home\Copy of Index.cshtml" />
+    <None Include="Areas\Members\Views\Home\Index.cshtml.bak" />
     <Content Include="Views\Shared\_SelectedFilterDetails.cshtml" />
     <Content Include="Views\Shared\_StreamObservationItem.cshtml" />
     <Content Include="Views\Account\RequestPasswordResetSuccess.cshtml" />
     <Content Include="Views\Account\RequestPasswordReset.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
-    <Content Include="Areas\Members\Views\Account\ChangePassword.cshtml" />
+    <Content Include="Areas\Members\Views\User\ChangePassword.cshtml" />
     <Content Include="Areas\Members\Views\User\Update.cshtml" />
     <Content Include="Views\Project\Index.cshtml" />
     <Content Include="Views\Project\_ProjectCreate.cshtml" />

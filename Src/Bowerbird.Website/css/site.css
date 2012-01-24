@@ -689,3 +689,155 @@
     height: 100px;
     margin: 10px;
 }
+/* form item */
+.form
+{
+    background: url("/img/grid.png") repeat scroll 0 0 #FFFFFF;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 3px 0 #143658;
+    padding: 15px;
+}
+.form legend 
+{
+    border-bottom: 2px solid #133A68;
+    box-shadow: 0 1px 0 #FFFFFF;
+    color: #133A68;
+    font-size: 29px;
+    font-weight: 600;
+    letter-spacing: -1px;
+    margin: 0;
+    text-shadow: 0 1px 0 #FFFFFF;
+    width: 100%;
+}
+.form fieldset > div 
+{
+    margin-top: 27px;
+}
+.form label 
+{
+    color: #133A68;
+    font-size: 11px;
+    font-weight: 600;
+    text-shadow: 0 1px 0 #FFFFFF;
+    text-transform: uppercase;
+}
+.form input[type=text],
+.form input[type=date],
+.form select
+{
+    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.6);
+    border: 1px solid transparent;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 2px 0 #777777 inset;
+    color: #000000;
+    font-size: 16px;
+    padding: 8px 12px;
+    width: 400px;
+}
+.form input[type=text]:focus,
+.form input[type=date]:focus,
+.form select:focus
+{
+    border: 1px solid #154999;    
+}
+.form #title 
+{
+    width: 477px;
+}
+.form #observedOn 
+{
+    width: 182px;
+}
+.form #observedOnDatePicker 
+{
+    margin-left: -54px;
+    margin-top: 7px;
+    padding: 0 15px;
+    position: absolute;
+}
+.form #projectPicker 
+{
+    margin-left: -54px;
+    margin-top: 7px;
+    padding: 0 15px;
+    position: absolute;
+}
+.form form > div 
+{
+    margin-top: 20px;
+    text-align: right;
+}
+.form input[type=submit],
+.form input[type=button] 
+{
+    background: rgb(111,174,237);
+    background: -moz-linear-gradient(top, rgba(111,174,237,1) 0%, rgba(64,150,238,1) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(111,174,237,1)), color-stop(100%,rgba(64,150,238,1)));
+    background: -webkit-linear-gradient(top, rgba(111,174,237,1) 0%,rgba(64,150,238,1) 100%);
+    background: -o-linear-gradient(top, rgba(111,174,237,1) 0%,rgba(64,150,238,1) 100%);
+    background: -ms-linear-gradient(top, rgba(111,174,237,1) 0%,rgba(64,150,238,1) 100%);
+    background: linear-gradient(top, rgba(111,174,237,1) 0%,rgba(64,150,238,1) 100%);
+    border: 0 none;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 2px 0 #5071A6;
+    color: #FFFFFF;
+    font-size: 19px;
+    font-weight: 600;
+    margin-left: 20px;
+    padding: 5px 25px;
+    text-shadow: 0 -1px 0 blue;
+}
+.form #mediaResourceDropZone 
+{
+    background: none repeat scroll 0 0 rgba(202, 222, 239, 0.6);
+    border: 1px solid transparent;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 2px 0 #777777 inset;
+    color: #000000;
+    font-size: 16px;
+    height: 72px;
+    padding: 54px 12px 8px;
+    text-align: center;
+    width: 738px;
+}
+.form #mediaResourceDropZone span 
+{
+    color: #133A68;
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -1px;
+    text-shadow: 0 1px 0 #FFFFFF;
+}
+.form #mediaResourceButton 
+{
+    font-size: 16px;
+    margin-left: 5px;
+    padding: 0 15px;
+}
+.form #title-field 
+{
+    display: inline-block;
+    width: 557px;
+}
+.form #observedon-field 
+{
+    display: inline-block;
+    vertical-align: top;
+}
+.form #projects-field
+{
+    
+}
+.form #projects 
+{
+    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.6);
+    border: 1px solid transparent;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 2px 0 #777777 inset;
+    color: #000000;
+    display: inline-block;
+    font-size: 16px;
+    height: 49px;
+    padding: 8px 12px;
+    width: 373px;
+}

@@ -44,6 +44,7 @@
                     @if (User.Identity.IsAuthenticated)
                     {
                         <li><img src="/img/avatar.jpg" alt="" /> @Html.ActionLink(User.Identity.Name, "index", "home")</li>
+                        <li><a href="/#/observation/create">New Observation</a></li>
                     }
                     else
                     {
