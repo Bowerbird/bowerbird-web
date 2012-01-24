@@ -193,6 +193,8 @@ window.Bowerbird.Views.Workspace = Backbone.View.extend({
     },
 
     showObservationForm: function () {
+        $('.stream-workspace-item').hide();
+
         var observation = new Bowerbird.Models.Observation();
         var formWorkspaceItem = new Bowerbird.Views.FormWorkspaceItem({ id: 'form-create-observation', model: observation });
         this.showWorkspaceItem(formWorkspaceItem);
@@ -231,17 +233,18 @@ window.Bowerbird.Views.WorkspaceItem = Backbone.View.extend({
     },
 
     hide: function (workspaceElement) {
-        var that = this;
+        
+        /*var that = this;
         workspaceElement
-            .css({ zIndex: 98 })
-            .animate({
-                left: parseInt(workspaceElement.css('left'), 10) == 0 ? -workspaceElement.outerWidth() : 0
-                //opacity: 0
-            },
-            300,
-            function () {
-                that.remove();
-            });
+        .css({ zIndex: 98 })
+        .animate({
+        left: parseInt(workspaceElement.css('left'), 10) == 0 ? -workspaceElement.outerWidth() : 0
+        //opacity: 0
+        },
+        300,
+        function () {
+        that.remove();
+        });*/
     }
 
 });
