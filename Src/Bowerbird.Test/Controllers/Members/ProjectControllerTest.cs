@@ -15,6 +15,8 @@
 */
 
 using System;
+using System.Linq;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DomainModels;
@@ -71,9 +73,30 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Project_List_Returns_ProjectList_In_Json_Format()
+        public void Project_List_Having_TeamId_Returns_ProjectList_In_Json_Format()
         {
-            var result = _controller.List(new ProjectListInput(){Page = 1, PageSize = 10, TeamId = FakeValues.KeyString});
+            var team = FakeObjects.TestTeamWithId();
+            const int page = 1;
+            const int pageSize = 10;
+            
+            var projects = new List<Project>();
+
+            using (var session = _documentStore.OpenSession())
+            {
+                session.Store(team);
+
+                for(var i = 0; i<15; i++)
+                {
+                    var project = FakeObjects.TestProjectWithId(i.ToString());
+                    project.Team = team;
+                    projects.Add(project);
+                    session.Store(project);
+                }
+
+                session.SaveChanges();
+            }
+
+            var result = _controller.List(new ProjectListInput(){Page = page, PageSize = pageSize, TeamId = team.Id});
 
             Assert.IsNotNull(result);
             Assert.IsInstanceOf<JsonResult>(result);
@@ -82,10 +105,57 @@ namespace Bowerbird.Test.Controllers.Members
             Assert.IsNotNull(jsonResult);
 
             Assert.IsNotNull(jsonResult.Data);
-            var jsonData = jsonResult.Data;
+            Assert.IsInstanceOf<ProjectList>(jsonResult.Data);
+            var jsonData = jsonResult.Data as ProjectList;
 
-            Assert.IsInstanceOf<ProjectList>(jsonData);
-            // more assertions for expected data...
+            Assert.IsNotNull(jsonData);
+            Assert.AreEqual(page, jsonData.Page);
+            Assert.AreEqual(pageSize, jsonData.PageSize);
+            Assert.AreEqual(pageSize, jsonData.Projects.PagedListItems.Count());
+            Assert.AreEqual(projects.Count, jsonData.Projects.TotalResultCount);
+        }
+
+        [Test]
+        [Category(TestCategory.Unit)]
+        public void Project_List_Having_No_TeamId_Returns_ProjectList_In_Json_Format()
+        {
+            var team = FakeObjects.TestTeamWithId();
+            const int page = 1;
+            const int pageSize = 10;
+
+            var projects = new List<Project>();
+
+            using (var session = _documentStore.OpenSession())
+            {
+                session.Store(team);
+
+                for (var i = 0; i < 15; i++)
+                {
+                    var project = FakeObjects.TestProjectWithId(i.ToString());
+                    projects.Add(project);
+                    session.Store(project);
+                }
+
+                session.SaveChanges();
+            }
+
+            var result = _controller.List(new ProjectListInput() { Page = page, PageSize = pageSize });
+
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<JsonResult>(result);
+
+            var jsonResult = result as JsonResult;
+            Assert.IsNotNull(jsonResult);
+
+            Assert.IsNotNull(jsonResult.Data);
+            Assert.IsInstanceOf<ProjectList>(jsonResult.Data);
+            var jsonData = jsonResult.Data as ProjectList;
+
+            Assert.IsNotNull(jsonData);
+            Assert.AreEqual(page, jsonData.Page);
+            Assert.AreEqual(pageSize, jsonData.PageSize);
+            Assert.AreEqual(pageSize, jsonData.Projects.PagedListItems.Count());
+            Assert.AreEqual(projects.Count, jsonData.Projects.TotalResultCount);
         }
 
         [Test]

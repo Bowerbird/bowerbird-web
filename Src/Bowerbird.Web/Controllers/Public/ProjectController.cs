@@ -19,7 +19,6 @@ using System.Web.Mvc;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Paging;
-using Bowerbird.Web.ViewModels.Public;
 using Bowerbird.Web.ViewModels.Shared;
 using Raven.Client;
 using Raven.Client.Linq;
@@ -63,9 +62,9 @@ namespace Bowerbird.Web.Controllers.Public
         }
 
         [HttpGet]
-        public ActionResult List(int? id, int? page, int? pageSize)
+        public ActionResult List(ProjectListInput projectListInput)
         {
-            return Json("success", JsonRequestBehavior.AllowGet);
+            return Json(MakeProjectList(projectListInput), JsonRequestBehavior.AllowGet);
         }
 
         private ProjectIndex MakeProjectIndex(IdInput idInput)
@@ -99,6 +98,7 @@ namespace Bowerbird.Web.Controllers.Public
 
             var results = _documentSession
                 .Query<Project>()
+                .Where(x => x.Team.Id == listInput.TeamId)
                 .Statistics(out stats)
                 .Skip(listInput.Page)
                 .Take(listInput.PageSize)

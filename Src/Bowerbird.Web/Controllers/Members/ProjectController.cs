@@ -165,6 +165,7 @@ namespace Bowerbird.Web.Controllers.Members
 
             var results = _documentSession
                 .Query<Project>()
+                .Where(x => x.Team.Id == listInput.TeamId)
                 .Statistics(out stats)
                 .Skip(listInput.Page)
                 .Take(listInput.PageSize)
