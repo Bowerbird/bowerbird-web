@@ -14,10 +14,10 @@
  
 */
 
-using System;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Raven.Client;
+using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -51,7 +51,7 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(command, "command");
 
-            throw new NotImplementedException();
+            _documentSession.Delete(_documentSession.Load<ObservationNote>(command.Id));
         }
 
         #endregion

@@ -83,6 +83,8 @@ namespace Bowerbird.Test.CommandHandlers
                 session.Store(observation);
                 session.Store(projectObservation);
 
+                session.SaveChanges();
+
                 var commandHandler = new ProjectObservationDeleteCommandHandler(session);
 
                 commandHandler.Handle(command);

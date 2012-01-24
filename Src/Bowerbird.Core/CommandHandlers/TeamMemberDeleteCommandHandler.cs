@@ -17,7 +17,9 @@
 using System;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.DomainModels.Members;
 using Raven.Client;
+using Bowerbird.Core.Repositories;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -51,7 +53,7 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(command, "command");
 
-            throw new NotImplementedException();
+            _documentSession.Delete(_documentSession.LoadTeamMember(command.TeamId, command.MemberId));
         }
 
         #endregion

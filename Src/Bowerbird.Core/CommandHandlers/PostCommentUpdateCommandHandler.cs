@@ -17,6 +17,8 @@
 using System;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.DomainModels.Comments;
 using Raven.Client;
 
 namespace Bowerbird.Core.CommandHandlers
@@ -51,7 +53,14 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(command, "command");
 
-            throw new NotImplementedException();
+            var postComment = _documentSession.Load<PostComment>(command.Id);
+
+            postComment.UpdateCommentDetails(
+                _documentSession.Load<User>(command.UserId),
+                command.UpdatedOn,
+                command.Comment);
+
+            _documentSession.Store(postComment);
         }
 
         #endregion

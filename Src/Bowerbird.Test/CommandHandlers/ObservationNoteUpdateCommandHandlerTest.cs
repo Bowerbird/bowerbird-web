@@ -66,7 +66,7 @@ namespace Bowerbird.Test.CommandHandlers
 
             var command = new ObservationNoteUpdateCommand()
             {
-                ObservationId = originalValue.Id,
+                Id = originalValue.Id,
                 UserId = user.Id,
                 CommonName = FakeValues.CommonName.PrependWith("new"),
                 ScientificName = FakeValues.ScientificName.PrependWith("new"),
@@ -75,12 +75,14 @@ namespace Bowerbird.Test.CommandHandlers
                 Taxonomy = FakeValues.Taxonomy.PrependWith("new"),
                 SubmittedOn = FakeValues.ModifiedDateTime,
                 References = new Dictionary<string, string>(){{FakeValues.Description.PrependWith("new"),FakeValues.Description.PrependWith("new")}},
-                Descriptions = new Dictionary<string, string>() { { FakeValues.Description.PrependWith("new"), FakeValues.Description.PrependWith("new") } }
+                Descriptions = new Dictionary<string, string>() { { FakeValues.Description.PrependWith("new"), FakeValues.Description.PrependWith("new") } },
             };
 
             using (var session = _store.OpenSession())
             {
                 session.Store(originalValue);
+                session.Store(observation);
+                session.Store(user);
 
                 var commandHandler = new ObservationNoteUpdateCommandHandler(session);
 
@@ -97,7 +99,6 @@ namespace Bowerbird.Test.CommandHandlers
             Assert.AreEqual(command.Notes, newValue.Notes);
             Assert.AreEqual(command.Tags, newValue.Tags);
             Assert.AreEqual(command.Taxonomy, newValue.Taxonomy);
-            Assert.AreEqual(command.SubmittedOn, newValue.SubmittedOn);
             Assert.AreEqual(command.References, newValue.References);
             Assert.AreEqual(command.Descriptions, newValue.Descriptions);
         }

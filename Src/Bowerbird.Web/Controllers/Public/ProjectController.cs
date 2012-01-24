@@ -83,7 +83,7 @@ namespace Bowerbird.Web.Controllers.Public
 
             var observations = 
                 _documentSession
-                .Load<Observation>(projectObservations.Select(x => x.Id))
+                .Load<Observation>(projectObservations.Select(x => x.Observation.Id))
                 .ToList();
 
             return new ProjectIndex()

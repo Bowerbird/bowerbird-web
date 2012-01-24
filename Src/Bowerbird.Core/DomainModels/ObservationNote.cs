@@ -46,7 +46,8 @@ namespace Bowerbird.Core.DomainModels
             string tags,
             IDictionary<string, string> descriptions,
             IDictionary<string, string> references,
-            string notes)
+            string notes,
+            DateTime submittedOn)
             : this()
         {
             Check.RequireNotNull(createdByUser, "createdByUser");
@@ -56,7 +57,7 @@ namespace Bowerbird.Core.DomainModels
 
             User = createdByUser;
             Observation = observation;
-            SubmittedOn = DateTime.Now;
+            SubmittedOn = submittedOn;
 
             SetDetails(
                 commonName,

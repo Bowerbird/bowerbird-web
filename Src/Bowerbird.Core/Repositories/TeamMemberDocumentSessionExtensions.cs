@@ -21,7 +21,7 @@ using Raven.Client;
 namespace Bowerbird.Core.Repositories
 {
 
-    public static class ProjectMemberDocumentSessionExtensions
+    public static class TeamMemberDocumentSessionExtensions
     {
 
         #region Members
@@ -38,14 +38,14 @@ namespace Bowerbird.Core.Repositories
 
         #region Methods
 
-        public static ProjectMember LoadProjectMember(this IDocumentSession documentSession, string projectId, string userId)
+        public static TeamMember LoadTeamMember(this IDocumentSession documentSession, string teamId, string userId)
         {
             //string actualProjectId = "projects/" + projectId;
             //string actualUserId = "users/" + userId;
 
             return documentSession
-                .Query<ProjectMember>()
-                .Where(x => x.Project.Id == projectId && x.User.Id == userId)
+                .Query<TeamMember>()
+                .Where(x => x.Team.Id == teamId && x.User.Id == userId)
                 .FirstOrDefault();
         }
 

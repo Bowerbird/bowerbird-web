@@ -14,7 +14,6 @@
  
 */
 
-
 using System;
 using System.Web.Mvc;
 using Bowerbird.Core.Commands;
@@ -112,7 +111,9 @@ namespace Bowerbird.Test.Controllers.Members
                 session.SaveChanges();
             }
 
-            _controller.Index(new IdInput() { Id = FakeValues.KeyString.PrependWith("projects/") });
+            _controller.SetupFormRequest();
+
+            _controller.Index(new IdInput() { Id = project.Id });
 
             Assert.IsInstanceOf<ProjectIndex>(_controller.ViewData.Model);
 
@@ -151,7 +152,7 @@ namespace Bowerbird.Test.Controllers.Members
 
             _controller.SetupAjaxRequest();
 
-            var result = _controller.Index(new IdInput() { Id = FakeValues.KeyString.PrependWith("projects/") });
+            var result = _controller.Index(new IdInput() { Id = project.Id });
 
             Assert.IsInstanceOf<JsonResult>(result);
 
@@ -210,6 +211,7 @@ namespace Bowerbird.Test.Controllers.Members
         [Category(TestCategory.Unit)]
         public void Project_Update_Passing_Invalid_Input_Returns_Json_Error()
         {
+            _mockUserContext.Setup(x => x.HasPermissionToUpdate<Project>(It.IsAny<string>())).Returns(true);
             _controller.ModelState.AddModelError("Error", "Error");
 
             var result = _controller.Update(new ProjectUpdateInput()
@@ -230,6 +232,7 @@ namespace Bowerbird.Test.Controllers.Members
         [Category(TestCategory.Unit)]
         public void Project_Update_Passing_Valid_Input_Returns_Json_Success()
         {
+            _mockUserContext.Setup(x => x.HasPermissionToUpdate<Project>(It.IsAny<string>())).Returns(true);
             var result = _controller.Update(new ProjectUpdateInput()
                                                 {
                                                     ProjectId = FakeValues.KeyString, 
@@ -248,6 +251,7 @@ namespace Bowerbird.Test.Controllers.Members
         [Category(TestCategory.Unit)]
         public void Project_Delete_Passing_Invalid_Input_Returns_Json_Error()
         {
+            _mockUserContext.Setup(x => x.HasPermissionToDelete<Project>(It.IsAny<string>())).Returns(true);
             _controller.ModelState.AddModelError("Error", "Error");
 
             var result = _controller.Delete(FakeViewModels.MakeIdInput());
@@ -263,6 +267,7 @@ namespace Bowerbird.Test.Controllers.Members
         [Category(TestCategory.Unit)]
         public void Project_Delete_Passing_Valid_Input_Returns_Json_Success()
         {
+            _mockUserContext.Setup(x => x.HasPermissionToDelete<Project>(It.IsAny<string>())).Returns(true);
             var result = _controller.Delete(FakeViewModels.MakeIdInput());
 
             Assert.IsInstanceOf<JsonResult>(result);

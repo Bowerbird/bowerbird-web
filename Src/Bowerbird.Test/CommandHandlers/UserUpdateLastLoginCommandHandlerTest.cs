@@ -75,7 +75,7 @@ namespace Bowerbird.Test.CommandHandlers
 
                 session.SaveChanges();
 
-                newValue = session.Load<User>("users/" + FakeValues.UserId).LastLoggedIn;
+                newValue = session.Load<User>(user.Id).LastLoggedIn;
             }
 
             Assert.AreNotEqual(originalValue, newValue);

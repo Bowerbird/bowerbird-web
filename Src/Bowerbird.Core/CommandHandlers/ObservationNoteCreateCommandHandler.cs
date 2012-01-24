@@ -66,7 +66,8 @@ namespace Bowerbird.Core.CommandHandlers
                 command.Tags,
                 command.Descriptions,
                 command.References,
-                command.Notes
+                command.Notes,
+                command.SubmittedOn
                 );
 
             _documentSession.Store(observationNote);

@@ -67,12 +67,15 @@ namespace Bowerbird.Test.CommandHandlers
             {
                 Id = originalValue.Id,
                 Comment = FakeValues.Comment.PrependWith("new"),
-                UserId = user.Id
+                UserId = user.Id,
+                UpdatedOn = FakeValues.ModifiedDateTime
             };
 
             using (var session = _store.OpenSession())
             {
                 session.Store(originalValue);
+                session.Store(user);
+                session.Store(post);
 
                 var commandHandler = new PostCommentUpdateCommandHandler(session);
 
