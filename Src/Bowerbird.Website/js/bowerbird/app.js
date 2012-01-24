@@ -167,6 +167,7 @@ window.Bowerbird.Views.Workspace = Backbone.View.extend({
     },
 
     showStream: function (type, key, filter) {
+        $('.form-workspace-item').remove();
         var streamContext = null;
 
         switch (type) {
@@ -189,7 +190,8 @@ window.Bowerbird.Views.Workspace = Backbone.View.extend({
 
         //streamWorkspace.bind("newObservation", this.showObservationForm, this);
 
-        this.showWorkspaceItem(streamWorkspaceItem);
+        //this.showWorkspaceItem(streamWorkspaceItem);
+        $('.stream-workspace-item').show();
     },
 
     showObservationForm: function () {
@@ -319,14 +321,16 @@ window.Bowerbird.Views.FormWorkspaceItem = Bowerbird.Views.WorkspaceItem.extend(
     },
 
     cancel: function () {
-        this.hide($(this.el));
+        //this.hide($(this.el));
+        $('.stream-workspace-item').show();
+        $('.form-workspace-item').remove();
     },
 
     save: function () {
         this.model.set({
-            "title": $("#title").attr("value"), 
+            "title": $("#title").attr("value"),
             "address": $("#address").attr("value"),
-            "latitude": $("#latitude").attr("value"), 
+            "latitude": $("#latitude").attr("value"),
             "longitude": $("#longitude").attr("value"),
             "observedOn": $("#observedOn").attr("value"),
             "isIdentificationRequired": $("#isIdentificationRequired").attr("value"),
@@ -372,11 +376,11 @@ window.Bowerbird.AppRouter = Backbone.Router.extend({
 
     showObservationCreate: function () {
         this.workspace.showObservationForm();
-    }
+    },
 
-    //    showUserStream: function (filter) {
-    //        this.workspaceContainer.showStream("user", "user", filter);
-    //    },
+    showUserStream: function (filter) {
+        this.workspace.showStream("user", "user", filter);
+    }
 
     //    showTeamStream: function (key, filter) {
     //        this.workspaceContainer.showStream("team", key, filter);
