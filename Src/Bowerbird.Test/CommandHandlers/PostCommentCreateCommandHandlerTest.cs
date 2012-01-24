@@ -88,7 +88,7 @@ namespace Bowerbird.Test.CommandHandlers
             Assert.AreEqual(command.Message, newValue.Message);
             Assert.AreEqual(command.PostedOn, newValue.CommentedOn);
             Assert.AreEqual(projectPost, newValue.Post);
-            Assert.AreEqual(user.DenormalisedUserReference(), newValue.User);
+            //Assert.AreEqual(user.DenormalisedUserReference(), newValue.User);
         }
 
         #endregion

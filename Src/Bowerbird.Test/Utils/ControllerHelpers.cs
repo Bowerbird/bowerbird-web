@@ -44,6 +44,13 @@ namespace Bowerbird.Test.Utils
             controller.ControllerContext = context;
         }
 
+        public static void SetupFormRequest(this Controller controller)
+        {
+            var context = new ControllerContext(new RequestContext(MockHttpContextRequest().Object, new RouteData()), controller);
+
+            controller.ControllerContext = context;
+        }
+
         public static void SetupAuthenticatedControllerContext(this Controller controller)
         {
             var httpContext = SetupAuthenticatedHttpContext().Object;
@@ -95,6 +102,25 @@ namespace Bowerbird.Test.Utils
             context.Setup(ctx => ctx.Server).Returns(mockServer.Object);
 
             context.Setup(x => x.Request["X-Requested-With"]).Returns("XMLHttpRequest");
+
+            return context;
+        }
+
+        private static Mock<HttpContextBase> MockHttpContextRequest()
+        {
+            var context = new Mock<HttpContextBase>();
+
+            var mockRequest = new Mock<HttpRequestBase>();
+            var mockResponse = new Mock<HttpResponseBase>();
+            var mockSession = new Mock<HttpSessionStateBase>();
+            var mockServer = new Mock<HttpServerUtilityBase>();
+
+            context.Setup(ctx => ctx.Request).Returns(mockRequest.Object);
+            context.Setup(ctx => ctx.Response).Returns(mockResponse.Object);
+            context.Setup(ctx => ctx.Session).Returns(mockSession.Object);
+            context.Setup(ctx => ctx.Server).Returns(mockServer.Object);
+
+            //context.Setup(x => x.Request["X-Requested-With"]).Returns("XMLHttpRequest");
 
             return context;
         }

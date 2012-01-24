@@ -1,6 +1,8 @@
 ﻿using Raven.Client;
 using Raven.Client.Document;
 using Raven.Client.Embedded;
+using Raven.Storage.Managed;
+using Raven.Storage.Esent;
 
 namespace Bowerbird.Test.Utils
 {

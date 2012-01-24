@@ -79,25 +79,25 @@ namespace Bowerbird.Test.Controllers.Members
             var jsonResult = result as JsonResult;
 
             Assert.IsNotNull(jsonResult);
-            Assert.AreEqual(jsonResult.Data, "Success");
+            Assert.AreEqual(jsonResult.Data.ToString().ToLower(), "Success".ToLower());
         }
 
         [Test]
         [Category(TestCategory.Unit)]
         public void Team_Index_NonAjaxCall_Returns_TeamIndex_Json_Having_Projects()
         {
-            var team = FakeObjects.TestTeam();
+            var team = FakeObjects.TestTeamWithId();
             var project = FakeObjects.TestProjectWithId();
             project.Team = team;
 
             using (var session = _documentStore.OpenSession())
             {
-                session.Store(team);
                 session.Store(project);
+                session.Store(team);
                 session.SaveChanges();
             }
 
-            _controller.Index(new IdInput() { Id = FakeValues.KeyString.PrependWith("teams/") });
+            _controller.Index(new IdInput() { Id = team.Id });
 
             Assert.IsInstanceOf<TeamIndex>(_controller.ViewData.Model);
 
@@ -113,20 +113,22 @@ namespace Bowerbird.Test.Controllers.Members
         [Category(TestCategory.Unit)]
         public void Team_Index_AjaxCall_Returns_TeamIndex_Json_Having_Projects()
         {
-            var team = FakeObjects.TestTeam();
+            var team = FakeObjects.TestTeamWithId();
             var project = FakeObjects.TestProjectWithId();
+            var user = FakeObjects.TestUserWithId();
             project.Team = team;
 
             using (var session = _documentStore.OpenSession())
             {
-                session.Store(team);
+                session.Store(user);
                 session.Store(project);
+                session.Store(team);
                 session.SaveChanges();
             }
 
             _controller.SetupAjaxRequest();
 
-            var result = _controller.Index(new IdInput() { Id = FakeValues.KeyString.PrependWith("projects/") });
+            var result = _controller.Index(new IdInput() { Id = team.Id });
 
             Assert.IsInstanceOf<JsonResult>(result);
 
@@ -158,7 +160,7 @@ namespace Bowerbird.Test.Controllers.Members
             var jsonResult = result as JsonResult;
 
             Assert.IsNotNull(jsonResult);
-            Assert.AreEqual(jsonResult.Data, "Failure");
+            Assert.AreEqual(jsonResult.Data.ToString().ToLower(), "Failure".ToLower());
         }
 
         [Test]
@@ -175,7 +177,7 @@ namespace Bowerbird.Test.Controllers.Members
             var jsonResult = result as JsonResult;
 
             Assert.IsNotNull(jsonResult);
-            Assert.AreEqual(jsonResult.Data, "Success");
+            Assert.AreEqual(jsonResult.Data.ToString().ToLower(), "Success".ToLower());
         }
 
         [Test]
@@ -195,7 +197,7 @@ namespace Bowerbird.Test.Controllers.Members
             var jsonResult = result as JsonResult;
 
             Assert.IsNotNull(jsonResult);
-            Assert.AreEqual(jsonResult.Data, "Failure");
+            Assert.AreEqual(jsonResult.Data.ToString().ToLower(), "Failure".ToLower());
         }
 
         [Test]
@@ -213,7 +215,7 @@ namespace Bowerbird.Test.Controllers.Members
             var jsonResult = result as JsonResult;
 
             Assert.IsNotNull(jsonResult);
-            Assert.AreEqual(jsonResult.Data, "Success");
+            Assert.AreEqual(jsonResult.Data.ToString().ToLower(), "Success".ToLower());
         }
 
         [Test]
@@ -228,7 +230,7 @@ namespace Bowerbird.Test.Controllers.Members
             var jsonResult = result as JsonResult;
 
             Assert.IsNotNull(jsonResult);
-            Assert.AreEqual(jsonResult.Data, "Failure");
+            Assert.AreEqual(jsonResult.Data.ToString().ToLower(), "Failure".ToLower());
         }
 
         [Test]
@@ -241,7 +243,7 @@ namespace Bowerbird.Test.Controllers.Members
             var jsonResult = result as JsonResult;
 
             Assert.IsNotNull(jsonResult);
-            Assert.AreEqual(jsonResult.Data, "Success");
+            Assert.AreEqual(jsonResult.Data.ToString().ToLower(), "Success".ToLower());
         }
 
 

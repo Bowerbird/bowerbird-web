@@ -79,7 +79,7 @@ namespace Bowerbird.Test.Controllers.Members
             var jsonResult = result as JsonResult;
 
             Assert.IsNotNull(jsonResult);
-            Assert.AreEqual(jsonResult.Data, "Success");
+            Assert.AreEqual(jsonResult.Data.ToString().ToLower(), "Success".ToLower());
         }
 
         [Test]
@@ -101,7 +101,7 @@ namespace Bowerbird.Test.Controllers.Members
             var jsonResult = result as JsonResult;
 
             Assert.IsNotNull(jsonResult);
-            Assert.AreEqual(jsonResult.Data, "Failure");
+            Assert.AreEqual(jsonResult.Data.ToString().ToLower(), "Failure".ToLower());
         }
 
         [Test]
@@ -121,7 +121,7 @@ namespace Bowerbird.Test.Controllers.Members
             var jsonResult = result as JsonResult;
 
             Assert.IsNotNull(jsonResult);
-            Assert.AreEqual(jsonResult.Data, "Success");
+            Assert.AreEqual(jsonResult.Data.ToString().ToLower(), "Success".ToLower());
         }
 
         [Test]
@@ -136,7 +136,7 @@ namespace Bowerbird.Test.Controllers.Members
             var jsonResult = result as JsonResult;
 
             Assert.IsNotNull(jsonResult);
-            Assert.AreEqual(jsonResult.Data, "Failure");
+            Assert.AreEqual(jsonResult.Data.ToString().ToLower(), "Failure".ToLower());
         }
 
         [Test]
@@ -149,7 +149,7 @@ namespace Bowerbird.Test.Controllers.Members
             var jsonResult = result as JsonResult;
 
             Assert.IsNotNull(jsonResult);
-            Assert.AreEqual(jsonResult.Data, "Success");
+            Assert.AreEqual(jsonResult.Data.ToString().ToLower(), "Success".ToLower());
         }
 
 

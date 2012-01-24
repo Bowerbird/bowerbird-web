@@ -14,8 +14,11 @@
  
 */
 
+using System.Linq;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.DomainModels.Posts;
 using Raven.Client;
 
 namespace Bowerbird.Core.CommandHandlers
@@ -49,6 +52,18 @@ namespace Bowerbird.Core.CommandHandlers
         public void Handle(TeamPostUpdateCommand command)
         {
             Check.RequireNotNull(command, "command");
+
+            var teamPost = _documentSession.Load<TeamPost>(command.Id);
+
+            teamPost.UpdateDetails(
+                _documentSession.Load<User>(command.UserId),
+                command.Timestamp,
+                command.Message,
+                command.Subject,
+                _documentSession.Load<MediaResource>(command.MediaResources)
+                );
+
+            _documentSession.Store(teamPost);
         }
 
         #endregion

@@ -193,7 +193,7 @@ namespace Bowerbird.Test.Utils
                 new List<MediaResource>()
                 );
 
-            ((IAssignableId)observation).SetIdTo("comments", id);
+            ((IAssignableId)observation).SetIdTo("observations", id);
 
             return observation;
         }
@@ -398,7 +398,8 @@ namespace Bowerbird.Test.Utils
                 FakeValues.Tags,
                 new Dictionary<string, string>(){{FakeValues.Description,FakeValues.Description}}, 
                 new Dictionary<string, string>(){{FakeValues.Description,FakeValues.Description}}, 
-                FakeValues.Notes
+                FakeValues.Notes,
+                FakeValues.CreatedDateTime
                 );
         }
 

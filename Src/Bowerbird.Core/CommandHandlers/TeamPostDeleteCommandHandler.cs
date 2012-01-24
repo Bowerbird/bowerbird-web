@@ -16,6 +16,7 @@
 
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.DomainModels.Posts;
 using Raven.Client;
 
 namespace Bowerbird.Core.CommandHandlers
@@ -49,6 +50,8 @@ namespace Bowerbird.Core.CommandHandlers
         public void Handle(TeamPostDeleteCommand command)
         {
             Check.RequireNotNull(command, "command");
+
+            _documentSession.Delete(_documentSession.Load<TeamPost>(command.Id));
         }
 
         #endregion

@@ -14,10 +14,11 @@
  
 */
 
-using System;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.DomainModels;
 using Raven.Client;
+using Raven.Client.Linq;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -47,11 +48,17 @@ namespace Bowerbird.Core.CommandHandlers
          
         #region Methods
 
-        public void Handle(ProjectObservationDeleteCommand projectObservationDeleteCommand)
+        public void Handle(ProjectObservationDeleteCommand command)
         {
-            Check.RequireNotNull(projectObservationDeleteCommand, "projectObservationDeleteCommand");
+            Check.RequireNotNull(command, "command");
 
-            throw new NotImplementedException();
+            var projectObservation = _documentSession
+                .Query<ProjectObservation>()
+                .Where(x => x.Project.Id == command.ProjectId && x.Observation.Id == command.ObservationId);
+
+            _documentSession.Delete(projectObservation);
+
+            _documentSession.SaveChanges();
         }
 
         #endregion

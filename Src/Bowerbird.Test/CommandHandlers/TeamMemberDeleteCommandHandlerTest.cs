@@ -58,19 +58,22 @@ namespace Bowerbird.Test.CommandHandlers
         public void TeamMemberDeleteCommandHandler_Deletes_TeamMember()
         {
             var user = FakeObjects.TestUserWithId();
+            var team = FakeObjects.TestTeamWithId();
             var teamMember = FakeObjects.TestTeamMemberWitId();
 
             TeamMember deletedTeamMember = null;
 
             var command = new TeamMemberDeleteCommand()
             {
-                Id = teamMember.Id,
-                UserId = user.Id
+                TeamId = teamMember.Team.Id,
+                UserId = user.Id,
+                MemberId = teamMember.User.Id
             };
 
             using (var session = _store.OpenSession())
             {
                 session.Store(user);
+                session.Store(team);
                 session.Store(teamMember);
 
                 var commandHandler = new TeamMemberDeleteCommandHandler(session);
@@ -82,7 +85,7 @@ namespace Bowerbird.Test.CommandHandlers
                 deletedTeamMember = session.Query<TeamMember>().FirstOrDefault();
             }
 
-            Assert.IsNotNull(deletedTeamMember);
+            Assert.IsNull(deletedTeamMember);
         }
 
         #endregion

@@ -14,6 +14,8 @@
  
 */
 
+using System;
+
 namespace Bowerbird.Core.Commands
 {
     public class PostCommentUpdateCommand : ICommand
@@ -33,6 +35,8 @@ namespace Bowerbird.Core.Commands
         public string UserId { get; set; }
 
         public string Comment { get; set; }
+
+        public DateTime UpdatedOn { get; set; }
 
         #endregion
 

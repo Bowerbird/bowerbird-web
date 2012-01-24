@@ -96,7 +96,8 @@ namespace Bowerbird.Test.DomainModels
                 FakeValues.Tags, 
                 TestDescriptions(), 
                 TestReferences(),
-                FakeValues.Notes);
+                FakeValues.Notes,
+                FakeValues.CreatedDateTime);
         }
 
         #endregion

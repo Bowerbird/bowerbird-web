@@ -82,8 +82,8 @@ namespace Bowerbird.Core.DomainModels.Posts
 
             UpdateDetails(
                 updatedByUser,
-                message,
                 subject,
+                message,
                 mediaResources
                 );
 

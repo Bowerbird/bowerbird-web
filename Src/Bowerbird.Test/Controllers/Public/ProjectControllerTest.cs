@@ -68,7 +68,7 @@ namespace Bowerbird.Test.Controllers.Public
             var jsonResult = result as JsonResult;
 
             Assert.IsNotNull(jsonResult);
-            Assert.AreEqual(jsonResult.Data, "Success");
+            Assert.AreEqual(jsonResult.Data.ToString().ToLower(), "Success".ToLower());
         }
 
         [Test]
@@ -93,6 +93,8 @@ namespace Bowerbird.Test.Controllers.Public
 
                 session.SaveChanges();
             }
+
+            _controller.SetupFormRequest();
 
             _controller.Index(new IdInput() { Id = FakeValues.KeyString.PrependWith("projects/") });
 
