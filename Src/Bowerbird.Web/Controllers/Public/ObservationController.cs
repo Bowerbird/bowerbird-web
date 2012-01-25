@@ -57,6 +57,11 @@ namespace Bowerbird.Web.Controllers.Public
         [HttpGet]
         public ActionResult Index(IdInput idInput)
         {
+            if (Request.IsAjaxRequest())
+            {
+                return Json(MakeObservationIndex(idInput));
+            }
+
             return View(MakeObservationIndex(idInput));
         }
 
