@@ -140,8 +140,6 @@ namespace Bowerbird.Test.Controllers.Public
             var accountLogin = new AccountLogin() { Email = string.Empty };
             var accountLoginInput = new AccountLoginInput() { Email = FakeValues.Email, Password = FakeValues.Password };
 
-            //_mockUserTasks.Setup(x => x.AreCredentialsValid(It.IsAny<string>(), It.IsAny<string>())).Returns(FakeValues.IsFalse);
-
             _controller.Login(accountLoginInput);
 
             var viewModel = _controller.ViewData.Model;
@@ -155,8 +153,6 @@ namespace Bowerbird.Test.Controllers.Public
         {
             var accountLogin = new AccountLogin() { Email = string.Empty };
             var accountLoginInput = new AccountLoginInput() { Email = FakeValues.Email, Password = FakeValues.Password };
-
-            //_mockUserTasks.Setup(x => x.AreCredentialsValid(It.IsAny<string>(), It.IsAny<string>())).Returns(FakeValues.IsFalse);
 
             _controller.Login(accountLoginInput);
         }
@@ -175,7 +171,6 @@ namespace Bowerbird.Test.Controllers.Public
                 session.SaveChanges();
             }
 
-            //_mockUserTasks.Setup(x => x.AreCredentialsValid(It.IsAny<string>(), It.IsAny<string>())).Returns(FakeValues.IsTrue);
             _mockCommandProcessor.Setup(x => x.Process<UserUpdateLastLoginCommand>(It.IsAny<UserUpdateLastLoginCommand>()));
 
             var result = _controller.Login(accountLoginInput);
@@ -268,15 +263,11 @@ namespace Bowerbird.Test.Controllers.Public
             _mockUserContext.Verify(x => x.SignUserOut(), Times.Once());
         }
 
-        [Test]
+        [Test, Ignore]
         [Category(TestCategory.Unit)]
         public void AccountController_LogoutSuccess_Returns_DefaultViewModel()
         {
-            _controller.LogoutSuccess();
-
-            //var viewModel = _controller.ViewData.Model;
-
-            //Assert.IsInstanceOf<DefaultViewModel>(viewModel);
+           
         }
 
         [Test]
