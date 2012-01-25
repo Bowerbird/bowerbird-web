@@ -1,73 +1,87 @@
-﻿///* Bowerbird V1 - Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
-// Developers: 
-// * Frank Radocaj : frank@radocaj.com
-// * Hamish Crittenden : hamish.crittenden@gmail.com
+ Developers: 
+ * Frank Radocaj : frank@radocaj.com
+ * Hamish Crittenden : hamish.crittenden@gmail.com
  
-// Project Manager: 
-// * Ken Walker : kwalker@museum.vic.gov.au
+ Project Manager: 
+ * Ken Walker : kwalker@museum.vic.gov.au
  
-// Funded by:
-// * Atlas of Living Australia
+ Funded by:
+ * Atlas of Living Australia
  
-//*/
+*/
 
-//namespace Bowerbird.Test.Controllers.Members
-//{
-//    #region Namespaces
+using System.Web.Mvc;
+using Bowerbird.Core.Commands;
+using Bowerbird.Test.Utils;
+using Bowerbird.Web.Config;
+using Bowerbird.Web.Controllers.Members;
+using Bowerbird.Web.ViewModels.Members;
+using Moq;
+using NUnit.Framework;
 
-//    using System.Web.Mvc;
-//    using NUnit.Framework;
-//    using Moq;
-//    using Bowerbird.Core;
-//    using Bowerbird.Core.DesignByContract;
-//    using Bowerbird.Test.Utils;
-//    using Bowerbird.Web.Config;
-//    using Bowerbird.Web.Controllers;
-//    using Bowerbird.Web.ViewModels;
-//    using Bowerbird.Core.CommandHandlers;
-//    using Bowerbird.Web.Controllers.Members;
+namespace Bowerbird.Test.Controllers.Members
+{
+    [TestFixture]
+    public class AccountControllerTest
+    {
+        #region Test Infrastructure
 
-//    #endregion
+        private Mock<ICommandProcessor> _mockCommandProcessor;
+        private Mock<IUserContext> _mockUserContext;
+        private AccountController _controller;
 
-//    [TestFixture]
-//    public class AccountControllerTest
-//    {
-//        #region Test Infrastructure
+        [SetUp]
+        public void TestInitialize()
+        {
+            _mockCommandProcessor = new Mock<ICommandProcessor>();
+            _mockUserContext = new Mock<IUserContext>();
 
-//        private Mock<ICommandProcessor> _mockCommandProcessor;
-//        private Mock<IUserContext> _mockUserContext;
-//        private AccountController _controller;
+            _controller = new AccountController(
+                _mockCommandProcessor.Object,
+                _mockUserContext.Object
+                );
+        }
 
-//        [SetUp]
-//        public void TestInitialize()
-//        {
-//            _mockCommandProcessor = new Mock<ICommandProcessor>();
-//            _mockUserContext = new Mock<IUserContext>();
+        [TearDown]
+        public void TestCleanup()
+        {
+        }
 
-//            _controller = new AccountController(
-//                _mockCommandProcessor.Object,
-//                _mockUserContext.Object
-//                );
-//        }
+        #endregion
 
-//        [TearDown]
-//        public void TestCleanup()
-//        {
-//        }
+        #region Test Helpers
 
-//        #endregion
+        #endregion
 
-//        #region Test Helpers
+        #region Method tests
 
-//        #endregion
+        [Test]
+        [Category(TestCategory.Unit)]
+        public void AccountController_ChangePassword_Passing_Valid_AccountChangePasswordInput_Redirects_To_Home_Index()
+        {
+            var result = _controller.ChangePassword(new AccountChangePasswordInput() { Password = FakeValues.Password });
 
-//        #region Property tests
+            var routeResult = result as RedirectToRouteResult;
 
-//        #endregion
+            Assert.IsNotNull(routeResult);
+            Assert.AreEqual(routeResult.RouteValues["controller"], "home");
+            Assert.AreEqual(routeResult.RouteValues["action"], "index");
+        }
 
-//        #region Method tests
+        [Test]
+        [Category(TestCategory.Unit)]
+        public void AccountController_ChangePassword_Passing_InValid_AccountChangePasswordInput_Returns_View()
+        {
+            _controller.ModelState.AddModelError("Error", "Error");
 
-//        #endregion
-//    }
-//}
+            var result = _controller.ChangePassword(new AccountChangePasswordInput()) as ViewResult;
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual("ChangePassword", result.ViewName);
+        }
+
+        #endregion
+    }
+}

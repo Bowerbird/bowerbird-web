@@ -57,7 +57,7 @@ namespace Bowerbird.Web.Controllers.Members
         [Authorize]
         public ActionResult ChangePassword()
         {
-            return View();
+            return View("ChangePassword");
         }
 
         [HttpPost]
@@ -72,7 +72,7 @@ namespace Bowerbird.Web.Controllers.Members
                 return RedirectToAction("index", "home");
             }
 
-            return View();
+            return View("ChangePassword");
         }
 
         private UserUpdatePasswordCommand MakeUserUpdatePasswordCommand(AccountChangePasswordInput accountChangePasswordInput)

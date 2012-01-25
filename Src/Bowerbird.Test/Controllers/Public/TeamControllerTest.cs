@@ -13,10 +13,8 @@
 */
 
 using System.Web.Mvc;
-using Bowerbird.Core.Extensions;
 using Bowerbird.Test.Utils;
 using Bowerbird.Web.Controllers.Public;
-using Bowerbird.Web.ViewModels.Public;
 using Bowerbird.Web.ViewModels.Shared;
 using NUnit.Framework;
 using Raven.Client;

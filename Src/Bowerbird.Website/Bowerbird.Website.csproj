@@ -212,7 +212,7 @@
     <Content Include="Views\Account\RequestPasswordResetSuccess.cshtml" />
     <Content Include="Views\Account\RequestPasswordReset.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
-    <Content Include="Areas\Members\Views\User\ChangePassword.cshtml" />
+    <Content Include="Areas\Members\Views\Shared\ChangePassword.cshtml" />
     <Content Include="Areas\Members\Views\User\Update.cshtml" />
     <Content Include="Views\Project\Index.cshtml" />
     <Content Include="Views\Project\_ProjectCreate.cshtml" />

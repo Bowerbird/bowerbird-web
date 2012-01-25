@@ -17,7 +17,6 @@
 
 using System.Web.Mvc;
 using Bowerbird.Core.Commands;
-using Bowerbird.Core.Extensions;
 using Bowerbird.Test.Utils;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.Controllers.Members;
