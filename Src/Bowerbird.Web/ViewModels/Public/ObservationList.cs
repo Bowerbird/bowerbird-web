@@ -1,4 +1,4 @@
-/* Bowerbird V1 
+﻿/* Bowerbird V1 
 
  Licensed under MIT 1.1 Public License
 
@@ -14,41 +14,37 @@
  
 */
 
-namespace Bowerbird.Web.ViewModels.Members
+using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Paging;
+
+namespace Bowerbird.Web.ViewModels.Public
 {
-    #region Namespaces
-
-    using Bowerbird.Core.DomainModels;
-
-    #endregion
-
-    public class ObservationIndex : IViewModel
+    public class ObservationList : IViewModel
     {
+
         #region Members
 
         #endregion
 
         #region Constructors
 
-        public ObservationIndex()
-        {
-            InitMembers();
-        }
-
         #endregion
 
         #region Properties
 
-        public Observation Observation { get; set; }
+        public Project Project { get; set; }
+
+        public int Page { get; set; }
+
+        public int PageSize { get; set; }
+
+        public PagedList<Observation> Observations { get; set; }
 
         #endregion
 
         #region Methods
 
-        private void InitMembers()
-        {
-        }
-
         #endregion
+
     }
 }

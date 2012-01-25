@@ -14,11 +14,13 @@
  
 */
 
-namespace Bowerbird.Web.ViewModels.Public
+using Bowerbird.Core.DomainModels;
+
+namespace Bowerbird.Web.ViewModels.Shared
 {
     #region Namespaces
 
-    using Bowerbird.Core.DomainModels;
+    
 
     #endregion
 

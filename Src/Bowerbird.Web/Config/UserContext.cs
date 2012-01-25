@@ -112,19 +112,19 @@ namespace Bowerbird.Web.Config
             return Hub.GetClients<ActivityHub>();
         }
 
-        public bool HasGlobalPermission(string permissionId)
+        public bool HasGlobalPermission(string permissionName)
         {
-            return _permissionChecker.HasGlobalPermission(GetAuthenticatedUserId(), permissionId);
+            return _permissionChecker.HasGlobalPermission(GetAuthenticatedUserId(), permissionName);
         }
 
-        public bool HasTeamPermission(string teamId, string permissionId)
+        public bool HasTeamPermission(string teamId, string permissionName)
         {
-            return _permissionChecker.HasTeamPermission(GetAuthenticatedUserId(), teamId, permissionId);
+            return _permissionChecker.HasTeamPermission(GetAuthenticatedUserId(), teamId, permissionName);
         }
 
-        public bool HasProjectPermission(string projectId, string permissionId)
+        public bool HasProjectPermission(string projectId, string permissionName)
         {
-            return _permissionChecker.HasProjectPermission(GetAuthenticatedUserId(), projectId, permissionId);
+            return _permissionChecker.HasProjectPermission(GetAuthenticatedUserId(), projectId, permissionName);
         }
 
         public bool HasPermissionToUpdate<T>(string id)

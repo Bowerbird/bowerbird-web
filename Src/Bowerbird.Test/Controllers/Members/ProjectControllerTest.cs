@@ -245,6 +245,8 @@ namespace Bowerbird.Test.Controllers.Members
         [Category(TestCategory.Unit)]
         public void Project_Create_Passing_Invalid_Input_Returns_Json_Error()
         {
+            _mockUserContext.Setup(x => x.HasGlobalPermission(It.IsAny<string>())).Returns(true);
+
             _controller.ModelState.AddModelError("Error", "Error");
 
             var result = _controller.Create(new ProjectCreateInput()
@@ -264,6 +266,8 @@ namespace Bowerbird.Test.Controllers.Members
         [Category(TestCategory.Unit)]
         public void Project_Create_Passing_Valid_Input_Returns_Json_Success()
         {
+            _mockUserContext.Setup(x => x.HasGlobalPermission(It.IsAny<string>())).Returns(true);
+
             var result = _controller.Create(new ProjectCreateInput()
                                                 {
                                                     Description = FakeValues.Description, 

@@ -58,22 +58,37 @@ namespace Bowerbird.Web.Config
             _cachedRoles = _documentSession.Query<Role>();
         }
 
-        public bool HasGlobalPermission(string userId, string permissionId)
+        public bool HasGlobalPermission(string userId, string permissionName)
         {
+            var permissionId = _documentSession.Query<Permission>()
+                .Where(x => x.Name == permissionName)
+                .FirstOrDefault()
+                .Id;
+
             var globalMember = _documentSession.Load<GlobalMember>(userId);
 
             return HasPermission(globalMember, permissionId);
         }
 
-        public bool HasTeamPermission(string userId, string teamId, string permissionId)
+        public bool HasTeamPermission(string userId, string teamId, string permissionName)
         {
+            var permissionId = _documentSession.Query<Permission>()
+                .Where(x => x.Name == permissionName)
+                .FirstOrDefault()
+                .Id;
+
             var teamMember = _documentSession.Load<TeamMember>(teamId);
 
             return HasPermission(teamMember, permissionId);
         }
 
-        public bool HasProjectPermission(string userId, string projectId, string permissionId)
+        public bool HasProjectPermission(string userId, string projectId, string permissionName)
         {
+            var permissionId = _documentSession.Query<Permission>()
+                .Where(x => x.Name == permissionName)
+                .FirstOrDefault()
+                .Id;
+
             var projectMember = _documentSession.Load<ProjectMember>(projectId);
 
             return HasPermission(projectMember, permissionId);
@@ -105,11 +120,8 @@ namespace Bowerbird.Web.Config
 
         private bool HasPermission(Member member, string permissionId)
         {
-            if (_cachedRoles == null)
-            {
-                throw new Exception("PermissionChecker has not been initialised. Call Init() before use.");
-            }
-
+            Check.Ensure(_cachedRoles != null, "PermissionChecker has not been initialised. Call Init() before use.");
+        
             return _cachedRoles
                 .Where(x => member.Roles.Any(y => y.Id == x.Id))
                 .Any(x => x.Permissions.Any(y => y.Id == permissionId));

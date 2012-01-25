@@ -1,6 +1,4 @@
-﻿/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -67,14 +65,24 @@ namespace Bowerbird.Web.Controllers.Members
         [Authorize]
         public ActionResult Index(IdInput idInput)
         {
-            return Json(MakeObservationIndex(idInput), JsonRequestBehavior.AllowGet);
+            if (Request.IsAjaxRequest())
+            {
+                return Json(MakeObservationIndex(idInput), JsonRequestBehavior.AllowGet);
+            }
+
+            return View(MakeObservationIndex(idInput));
         }
 
         [HttpGet]
         [Authorize]
         public ActionResult List(ObservationListInput observationListInput)
         {
-            return Json(MakeObservationList(observationListInput), JsonRequestBehavior.AllowGet);
+            if (observationListInput.ProjectId == null)
+            {
+                return Json(MakeObservationList(observationListInput), JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(MakeObservationListByProjectId(observationListInput), JsonRequestBehavior.AllowGet);
         }
 
         [Transaction]
@@ -82,6 +90,11 @@ namespace Bowerbird.Web.Controllers.Members
         [Authorize]
         public ActionResult Create(ObservationCreateInput observationCreateInput)
         {
+            if(!_userContext.HasGlobalPermission(Permissions.CreateObservation))
+            {
+                return HttpUnauthorized();
+            }
+
             if (!ModelState.IsValid)
             {
                 return Json("failure");
@@ -182,7 +195,7 @@ namespace Bowerbird.Web.Controllers.Members
                        };
         }
 
-        public ObservationList MakeObservationList(ObservationListInput observationListInput)
+        private ObservationList MakeObservationList(ObservationListInput observationListInput)
         {
             RavenQueryStatistics stats;
 
@@ -197,8 +210,38 @@ namespace Bowerbird.Web.Controllers.Members
             return new ObservationList
             {
                 UserId = observationListInput.UserId,
-                ProjectId = observationListInput.ProjectId,
-                TeamId = observationListInput.TeamId,
+                Page = observationListInput.Page,
+                PageSize = observationListInput.PageSize,
+                Observations = results.ToPagedList(
+                    observationListInput.Page,
+                    observationListInput.PageSize,
+                    stats.TotalResults,
+                    null)
+            };
+        }
+
+        private ObservationList MakeObservationListByProjectId(ObservationListInput observationListInput)
+        {
+            RavenQueryStatistics stats;
+
+            var projectObservations = _documentSession
+                .Query<ProjectObservation>()
+                .Where(x => x.Project.Id == observationListInput.ProjectId)
+                .Customize(x => x.Include(observationListInput.ProjectId))
+                .Statistics(out stats)
+                .Skip(observationListInput.Page)
+                .Take(observationListInput.PageSize)
+                .ToArray();
+
+            var results = _documentSession
+                .Load<Observation>(projectObservations.Select(x => x.Observation.Id))
+                .Where(x => x.User.Id == observationListInput.UserId)
+                .ToArray();
+
+            return new ObservationList
+            {
+                Project = _documentSession.Load<Project>(observationListInput.ProjectId),
+                UserId = observationListInput.UserId,
                 Page = observationListInput.Page,
                 PageSize = observationListInput.PageSize,
                 Observations = results.ToPagedList(

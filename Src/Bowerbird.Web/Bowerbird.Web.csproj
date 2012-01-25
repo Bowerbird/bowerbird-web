@@ -108,6 +108,7 @@
     <Compile Include="Config\BowerbirdNinjectModule.cs" />
     <Compile Include="Config\MembersAreaRegistration.cs" />
     <Compile Include="Config\NinjectValidatorFactory.cs" />
+    <Compile Include="Config\Permissions.cs" />
     <Compile Include="Config\RavenSessionProvider.cs" />
     <Compile Include="Config\RavenDocumentStoreProvider.cs" />
     <Compile Include="Config\RouteRegistrar.cs" />
@@ -136,6 +137,8 @@
     <Compile Include="Validators\ValidResetPasswordKeyRequestAttribute.cs" />
     <Compile Include="Validators\ValidEmailAttribute.cs" />
     <Compile Include="ViewModels\Members\AccountChangePasswordInput.cs" />
+    <Compile Include="ViewModels\Public\ObservationList.cs" />
+    <Compile Include="ViewModels\Public\ObservationListInput.cs" />
     <Compile Include="ViewModels\Shared\ProjectIndex.cs" />
     <Compile Include="ViewModels\Shared\ProjectList.cs" />
     <Compile Include="ViewModels\Shared\ProjectListInput.cs" />
@@ -167,7 +170,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModels\Members\ObservationList.cs" />
-    <Compile Include="ViewModels\Public\ObservationIndex.cs" />
+    <Compile Include="ViewModels\Shared\ObservationIndex.cs" />
     <Compile Include="ViewModels\Shared\IdInput.cs" />
     <Compile Include="ViewModels\Members\TeamProjectCreateInput.cs" />
     <Compile Include="ViewModels\Members\UserUpdateInput.cs" />
@@ -183,7 +186,6 @@
     <Compile Include="ViewModels\Members\ObservationCreateInput.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ViewModels\Members\ObservationIndex.cs" />
     <Compile Include="ViewModels\Members\ObservationListInput.cs">
       <SubType>Code</SubType>
     </Compile>

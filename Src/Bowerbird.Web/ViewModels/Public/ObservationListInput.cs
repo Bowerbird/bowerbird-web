@@ -14,7 +14,7 @@
  
 */
 
-namespace Bowerbird.Web.ViewModels.Members
+namespace Bowerbird.Web.ViewModels.Public
 {
     public class ObservationListInput
     {
@@ -29,8 +29,6 @@ namespace Bowerbird.Web.ViewModels.Members
 
         #region Properties
 
-        public string UserId { get; set; }
-
         public string ProjectId { get; set; }
 
         public int Page { get; set; }
@@ -41,7 +39,7 @@ namespace Bowerbird.Web.ViewModels.Members
 
         #region Methods
 
-        #endregion      
-      
+        #endregion
+
     }
 }

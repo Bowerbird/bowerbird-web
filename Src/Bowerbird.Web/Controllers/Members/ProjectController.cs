@@ -84,6 +84,11 @@ namespace Bowerbird.Web.Controllers.Members
         [HttpPost]
         public ActionResult Create(ProjectCreateInput createInput)
         {
+            if(!_userContext.HasGlobalPermission(Permissions.CreateProject))
+            {
+                return HttpUnauthorized();
+            }
+
             if (!ModelState.IsValid)
             {
                 return Json("Failure");

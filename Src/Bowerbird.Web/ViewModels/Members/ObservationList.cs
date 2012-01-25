@@ -34,9 +34,7 @@ namespace Bowerbird.Web.ViewModels.Members
 
         public string UserId { get; set; }
 
-        public string ProjectId { get; set; }
-
-        public string TeamId { get; set; }
+        public Project Project { get; set; }
 
         public int Page { get; set; }
 
