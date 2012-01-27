@@ -81,6 +81,7 @@ namespace Bowerbird.Test.CommandHandlers
             {
                 session.Store(user);
                 session.Store(observation);
+                session.SaveChanges();
 
                 var commandHandler = new ObservationNoteCreateCommandHandler(session);
 

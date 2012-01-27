@@ -1,4 +1,4 @@
-/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -20,7 +20,7 @@ using Bowerbird.Core.Events;
 
 namespace Bowerbird.Core.DomainModels.Posts
 {
-    public class ProjectPost : Post
+    public class OrganisationPost : Post
     {
         #region Members
 
@@ -28,10 +28,10 @@ namespace Bowerbird.Core.DomainModels.Posts
 
         #region Constructors
 
-        protected ProjectPost() : base() { }
+        protected OrganisationPost() : base() { }
 
-        public ProjectPost(
-            Project project,
+        public OrganisationPost(
+            Organisation organisation,
             User createdByUser,
             DateTime timestamp,
             string subject,
@@ -44,24 +44,24 @@ namespace Bowerbird.Core.DomainModels.Posts
             message,
             mediaResources)
         {
-            Check.RequireNotNull(project, "project");
+            Check.RequireNotNull(organisation, "organisation");
 
-            Project = project;
+            Organisation = organisation;
 
-            EventProcessor.Raise(new DomainModelCreatedEvent<ProjectPost>(this, createdByUser));
+            EventProcessor.Raise(new DomainModelCreatedEvent<OrganisationPost>(this, createdByUser));
         }
 
         #endregion
 
         #region Properties
 
-        public DenormalisedNamedDomainModelReference<Project> Project { get; private set; }
+        public DenormalisedNamedDomainModelReference<Organisation> Organisation { get; private set; }
 
         #endregion
 
         #region Methods
 
-        public ProjectPost UpdateDetails(User updatedByUser,
+        public OrganisationPost UpdateDetails(User updatedByUser,
             DateTime updatedOn,
             string message,
             string subject,
@@ -77,7 +77,7 @@ namespace Bowerbird.Core.DomainModels.Posts
                 mediaResources
                 );
 
-            EventProcessor.Raise(new DomainModelUpdatedEvent<ProjectPost>(this, updatedByUser));
+            EventProcessor.Raise(new DomainModelUpdatedEvent<OrganisationPost>(this, updatedByUser));
 
             return this;
         }

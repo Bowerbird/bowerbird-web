@@ -84,7 +84,8 @@ namespace Bowerbird.Test.Config
 
         #region Dynamic Bindings
 
-        [Test, Category(TestCategory.Unit), Ignore] 
+        [Test]
+        [Category(TestCategory.Unit), Ignore] 
         public void BowerbirdNinjectModule_Binds_CommandHandler_Interface_To_CommandHandler_Instance()
         {
             Assert.IsInstanceOf<ICommandHandler<UserCreateCommand>>(ServiceLocator.Current.GetInstance<ICommandHandler<UserCreateCommand>>());

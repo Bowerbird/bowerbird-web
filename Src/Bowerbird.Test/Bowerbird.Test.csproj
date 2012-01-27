@@ -111,6 +111,12 @@
     <Compile Include="CommandHandlers\ObservationNoteDeleteCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\ObservationNoteUpdateCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\ObservationUpdateCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\OrganisationCreateCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\OrganisationDeleteCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\OrganisationPostCreateCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\OrganisationPostDeleteCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\OrganisationPostUpdateCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\OrganisationUpdateCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\PostCommentCreateCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\PostCommentDeleteCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\PostCommentUpdateCommandHandlerTest.cs" />
@@ -137,6 +143,8 @@
     <Compile Include="Config\BowerbirdNinjectModuleTest.cs" />
     <Compile Include="Config\UserContextTest.cs" />
     <Compile Include="Controllers\Members\AccountControllerTest.cs" />
+    <Compile Include="Controllers\Members\OrganisationControllerTest.cs" />
+    <Compile Include="Controllers\Members\OrganisationPostControllerTest.cs" />
     <Compile Include="Controllers\Members\ProjectControllerTest.cs" />
     <Compile Include="Controllers\Members\ObservationControllerTest.cs" />
     <Compile Include="Controllers\Members\TeamControllerTest.cs" />
@@ -146,6 +154,7 @@
     <Compile Include="Controllers\Members\UserControllerTest.cs" />
     <Compile Include="Controllers\Public\AccountControllerTest.cs" />
     <Compile Include="Controllers\Public\ObservationControllerTest.cs" />
+    <Compile Include="Controllers\Public\OrganisationControllerTest.cs" />
     <Compile Include="Controllers\Public\ProjectControllerTest.cs" />
     <Compile Include="Controllers\Public\TeamControllerTest.cs" />
     <Compile Include="DesignByContract\CheckTest.cs" />

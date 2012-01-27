@@ -1,4 +1,4 @@
-/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -12,6 +12,8 @@
  
 */
 
+using System.Collections.Generic;
+using System.Linq;
 using Bowerbird.Core.CommandHandlers;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DomainModels;
@@ -23,7 +25,7 @@ using Raven.Client;
 namespace Bowerbird.Test.CommandHandlers
 {
     [TestFixture]
-    public class TeamUpdateCommandHandlerTest
+    public class OrganisationUpdateCommandHandlerTest
     {
         #region Test Infrastructure
 
@@ -55,32 +57,33 @@ namespace Bowerbird.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Persistance)]
-        public void TeamUpdateCommandHandlerTest_Updates_Team()
+        public void OrganisationUpdateCommandHandler_Updates_Organisation()
         {
-            var originalValue = FakeObjects.TestTeamWithId();
             var user = FakeObjects.TestUserWithId();
-            Team newValue;
+            var organisation = FakeObjects.TestOrganisationWithId();
 
-            var command = new TeamUpdateCommand()
+            Organisation newValue = null;
+
+            var command = new OrganisationUpdateCommand()
             {
                 Description = FakeValues.Description.PrependWith("new"),
-                Id = originalValue.Id,
+                Id = organisation.Id,
                 Name = FakeValues.Name.PrependWith("new"),
-                UserId = user.Id
+                UserId = user.Id,
+                Website = FakeValues.Website.PrependWith("new")
             };
 
             using (var session = _store.OpenSession())
             {
                 session.Store(user);
-                session.Store(originalValue);
-
-                var commandHandler = new TeamUpdateCommandHandler(session);
-
-                commandHandler.Handle(command);
-
+                session.Store(organisation);
                 session.SaveChanges();
 
-                newValue = session.Load<Team>(originalValue.Id);
+                var commandHandler = new OrganisationUpdateCommandHandler(session);
+                commandHandler.Handle(command);
+                session.SaveChanges();
+
+                newValue = session.Load<Organisation>(organisation.Id);
             }
 
             Assert.IsNotNull(newValue);

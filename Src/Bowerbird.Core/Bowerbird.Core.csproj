@@ -72,6 +72,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandHandlers\OrganisationCreateCommandHandler.cs" />
+    <Compile Include="CommandHandlers\OrganisationDeleteCommandHandler.cs" />
+    <Compile Include="CommandHandlers\OrganisationPostCreateCommandHandler.cs" />
+    <Compile Include="CommandHandlers\OrganisationPostDeleteCommandHandler.cs" />
+    <Compile Include="CommandHandlers\OrganisationPostUpdateCommandHandler.cs" />
+    <Compile Include="CommandHandlers\OrganisationUpdateCommandHandler.cs" />
     <Compile Include="CommandHandlers\UserUpdateCommandHandler.cs" />
     <Compile Include="CommandHandlers\ObservationNoteCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\UserUpdatePasswordCommandHandler.cs" />
@@ -109,6 +115,12 @@
     <Compile Include="CommandHandlers\ProjectMemberDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\UserUpdateLastLoginCommandHandler.cs" />
     <Compile Include="CommandHandlers\SetupSystemCommandHandler.cs" />
+    <Compile Include="Commands\OrganisationCreateCommand.cs" />
+    <Compile Include="Commands\OrganisationDeleteCommand.cs" />
+    <Compile Include="Commands\OrganisationPostCreateCommand.cs" />
+    <Compile Include="Commands\OrganisationPostDeleteCommand.cs" />
+    <Compile Include="Commands\OrganisationPostUpdateCommand.cs" />
+    <Compile Include="Commands\OrganisationUpdateCommand.cs" />
     <Compile Include="Commands\TeamProjectCreateCommand.cs" />
     <Compile Include="Commands\UserUpdateCommand.cs" />
     <Compile Include="Commands\ImageMediaResourceCreateCommand.cs" />
@@ -169,6 +181,7 @@
     <Compile Include="DomainModels\Members\ProjectMember.cs" />
     <Compile Include="DomainModels\DenormalisedReferences\DenormalisedNamedDomainModelReference.cs" />
     <Compile Include="DomainModels\ObservationNote.cs" />
+    <Compile Include="DomainModels\Posts\OrganisationPost.cs" />
     <Compile Include="DomainModels\ProjectObservation.cs" />
     <Compile Include="DomainModels\Posts\ProjectPost.cs" />
     <Compile Include="DomainModels\Posts\TeamPost.cs" />

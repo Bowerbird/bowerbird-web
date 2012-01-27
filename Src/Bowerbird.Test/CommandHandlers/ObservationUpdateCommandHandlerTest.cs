@@ -56,7 +56,7 @@ namespace Bowerbird.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Persistance)]
-        private void ObservationUpdateCommandHandlerTest_Updates_Team()
+        public void ObservationUpdateCommandHandlerTest_Updates_Observation()
         {
             var originalValue = FakeObjects.TestObservationWithId();
             var imageMediaResource = FakeObjects.TestImageMediaResourceWithId("abcabc");
@@ -81,11 +81,12 @@ namespace Bowerbird.Test.CommandHandlers
             using (var session = _store.OpenSession())
             {
                 session.Store(originalValue);
+                session.Store(imageMediaResource);
+                session.Store(user);
+                session.SaveChanges();
 
                 var commandHandler = new ObservationUpdateCommandHandler(session);
-
                 commandHandler.Handle(command);
-
                 session.SaveChanges();
 
                 newValue = session.Load<Observation>(originalValue.Id);

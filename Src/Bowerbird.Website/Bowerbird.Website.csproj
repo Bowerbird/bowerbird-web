@@ -220,6 +220,7 @@
     <Content Include="Views\Observation\Index.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Team\Index.cshtml" />
+    <Content Include="Views\Organisation\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="404.html" />

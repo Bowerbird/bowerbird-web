@@ -14,12 +14,13 @@
 
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.DomainModels.Posts;
 using Raven.Client;
 
 namespace Bowerbird.Core.CommandHandlers
 {
-    public class ProjectPostDeleteCommandHandler : ICommandHandler<ProjectPostDeleteCommand>
+    public class OrganisationPostUpdateCommandHandler : ICommandHandler<OrganisationPostUpdateCommand>
     {
         #region Members
 
@@ -29,7 +30,7 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Constructors
 
-        public ProjectPostDeleteCommandHandler(
+        public OrganisationPostUpdateCommandHandler(
             IDocumentSession documentSession)
         {
             Check.RequireNotNull(documentSession, "documentSession");
@@ -45,13 +46,22 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Methods
 
-        public void Handle(ProjectPostDeleteCommand projectPostDeleteCommand)
+        public void Handle(OrganisationPostUpdateCommand command)
         {
-            Check.RequireNotNull(projectPostDeleteCommand, "projectPostDeleteCommand");
+            Check.RequireNotNull(command, "command");
 
-            _documentSession.Delete(_documentSession.Load<ProjectPost>(projectPostDeleteCommand.Id));
+            var organisationPost = _documentSession.Load<OrganisationPost>(command.Id);
+
+            organisationPost.UpdateDetails(
+                _documentSession.Load<User>(command.UserId),
+                command.Subject,
+                command.Message,
+                _documentSession.Load<MediaResource>(command.MediaResources));
+
+            _documentSession.Store(organisationPost);
         }
 
         #endregion
+
     }
 }

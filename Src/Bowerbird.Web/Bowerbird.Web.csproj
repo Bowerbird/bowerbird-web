@@ -121,6 +121,8 @@
     <Compile Include="Controllers\Members\ObservationController.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controllers\Members\OrganisationController.cs" />
+    <Compile Include="Controllers\Members\OrganisationPostController.cs" />
     <Compile Include="Controllers\Members\ProjectController.cs" />
     <Compile Include="Controllers\Members\ProjectMemberController.cs" />
     <Compile Include="Controllers\Members\ProjectObservationController.cs" />
@@ -129,6 +131,7 @@
     <Compile Include="Controllers\Public\AccountController.cs" />
     <Compile Include="Controllers\Public\HomeController.cs" />
     <Compile Include="Controllers\Public\ObservationController.cs" />
+    <Compile Include="Controllers\Public\OrganisationController.cs" />
     <Compile Include="Controllers\Public\ProjectController.cs" />
     <Compile Include="Controllers\Public\TeamController.cs" />
     <Compile Include="Config\IPermissionChecker.cs" />
@@ -137,8 +140,15 @@
     <Compile Include="Validators\ValidResetPasswordKeyRequestAttribute.cs" />
     <Compile Include="Validators\ValidEmailAttribute.cs" />
     <Compile Include="ViewModels\Members\AccountChangePasswordInput.cs" />
+    <Compile Include="ViewModels\Members\OrganisationCreateInput.cs" />
+    <Compile Include="ViewModels\Members\OrganisationPostCreateInput.cs" />
+    <Compile Include="ViewModels\Members\OrganisationPostUpdateInput.cs" />
+    <Compile Include="ViewModels\Members\OrganisationUpdateInput.cs" />
     <Compile Include="ViewModels\Public\ObservationList.cs" />
     <Compile Include="ViewModels\Public\ObservationListInput.cs" />
+    <Compile Include="ViewModels\Shared\OrganisationIndex.cs" />
+    <Compile Include="ViewModels\Shared\OrganisationList.cs" />
+    <Compile Include="ViewModels\Shared\OrganisationListInput.cs" />
     <Compile Include="ViewModels\Shared\ProjectIndex.cs" />
     <Compile Include="ViewModels\Shared\ProjectList.cs" />
     <Compile Include="ViewModels\Shared\ProjectListInput.cs" />

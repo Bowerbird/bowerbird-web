@@ -19,7 +19,7 @@ using Raven.Client;
 
 namespace Bowerbird.Core.CommandHandlers
 {
-    public class ProjectPostDeleteCommandHandler : ICommandHandler<ProjectPostDeleteCommand>
+    public class OrganisationPostDeleteCommandHandler : ICommandHandler<OrganisationPostDeleteCommand>
     {
         #region Members
 
@@ -29,7 +29,7 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Constructors
 
-        public ProjectPostDeleteCommandHandler(
+        public OrganisationPostDeleteCommandHandler(
             IDocumentSession documentSession)
         {
             Check.RequireNotNull(documentSession, "documentSession");
@@ -45,11 +45,11 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Methods
 
-        public void Handle(ProjectPostDeleteCommand projectPostDeleteCommand)
+        public void Handle(OrganisationPostDeleteCommand organisationPostDeleteCommand)
         {
-            Check.RequireNotNull(projectPostDeleteCommand, "projectPostDeleteCommand");
+            Check.RequireNotNull(organisationPostDeleteCommand, "organisationPostDeleteCommand");
 
-            _documentSession.Delete(_documentSession.Load<ProjectPost>(projectPostDeleteCommand.Id));
+            _documentSession.Delete(_documentSession.Load<OrganisationPost>(organisationPostDeleteCommand.Id));
         }
 
         #endregion

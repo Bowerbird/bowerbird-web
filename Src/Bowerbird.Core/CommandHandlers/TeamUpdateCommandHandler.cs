@@ -14,9 +14,9 @@
  
 */
 
-using System;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.DomainModels;
 using Raven.Client;
 
 namespace Bowerbird.Core.CommandHandlers
@@ -51,7 +51,17 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(command, "command");
 
-            throw new NotImplementedException();
+            var team = _documentSession.Load<Team>(command.Id);
+
+            team.UpdateDetails(
+                _documentSession.Load<User>(command.UserId),
+                command.Name,
+                command.Description,
+                command.Website,
+                command.OrganisationId == null ? null : _documentSession.Load<Organisation>(command.OrganisationId)
+                );
+
+            _documentSession.Store(team);
         }
 
         #endregion

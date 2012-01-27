@@ -284,6 +284,32 @@ namespace Bowerbird.Test.Utils
             return organisation;
         }
 
+        public static OrganisationPost TestOrganisationPost()
+        {
+            return new OrganisationPost(
+                TestOrganisationWithId(),
+                TestUserWithId(),
+                FakeValues.CreatedDateTime,
+                FakeValues.Subject,
+                FakeValues.Message,
+                new List<MediaResource>() { TestImageMediaResourceWithId() }
+                );
+        }
+
+        public static OrganisationPost TestOrganisationPostWithId()
+        {
+            return TestOrganisationPostWithId(FakeValues.KeyString);
+        }
+
+        public static OrganisationPost TestOrganisationPostWithId(string id)
+        {
+            var organisationPost = TestOrganisationPost();
+
+            ((IAssignableId)organisationPost).SetIdTo("posts", id);
+
+            return organisationPost;
+        }
+
         public static ProjectPost TestProjectPost()
         {
             return new ProjectPost(

@@ -1,4 +1,4 @@
-/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -18,7 +18,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Bowerbird.Web.ViewModels.Members
 {
-    public class ProjectPostCreateInput : IViewModel
+    public class OrganisationPostUpdateInput : IViewModel
     {
         #region Members
 
@@ -26,7 +26,7 @@ namespace Bowerbird.Web.ViewModels.Members
 
         #region Constructors
 
-        public ProjectPostCreateInput()
+        public OrganisationPostUpdateInput()
         {
             InitMembers();
         }
@@ -36,7 +36,7 @@ namespace Bowerbird.Web.ViewModels.Members
         #region Properties
 
         [Required]
-        public string ProjectId { get; set; }
+        public string Id { get; set; }
 
         [Required]
         public string Subject { get; set; }
@@ -53,7 +53,7 @@ namespace Bowerbird.Web.ViewModels.Members
 
         #region Methods
 
-        public void InitMembers()
+        private void InitMembers()
         {
             MediaResources = new List<string>();
         }
