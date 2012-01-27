@@ -24,6 +24,8 @@ namespace Bowerbird.Web.Config
 
         bool HasProjectPermission(string userId, string projectId, string permissionName);
 
+        bool HasOrganisationPermission(string userId, string organisationId, string permissionName);
+
         bool HasPermissionToUpdate<T>(string userId, string id);
 
         bool HasPermissionToDelete<T>(string userId, string id);

@@ -1,4 +1,4 @@
-/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -26,9 +26,8 @@ using Raven.Client.Linq;
 
 namespace Bowerbird.Web.Controllers.Members
 {
-    public class ProjectPostController : ControllerBase
+    public class TeamPostController : ControllerBase
     {
-
         #region Members
 
         private readonly ICommandProcessor _commandProcessor;
@@ -39,7 +38,7 @@ namespace Bowerbird.Web.Controllers.Members
 
         #region Constructors
 
-        public ProjectPostController(
+        public TeamPostController(
             ICommandProcessor commandProcessor,
             IUserContext userContext,
             IDocumentSession documentSession)
@@ -62,16 +61,16 @@ namespace Bowerbird.Web.Controllers.Members
         #region Methods
 
         [HttpGet]
-        public ActionResult List(ProjectPostListInput listInput)
+        public ActionResult List(TeamPostListInput listInput)
         {
-            return Json(MakeProjectPostList(listInput), JsonRequestBehavior.AllowGet);
+            return Json(MakeTeamPostList(listInput), JsonRequestBehavior.AllowGet);
         }
 
         [Transaction]
         [HttpPost]
-        public ActionResult Create(ProjectPostCreateInput createInput)
+        public ActionResult Create(TeamPostCreateInput createInput)
         {
-            if(!_userContext.HasProjectPermission(createInput.ProjectId, Permissions.CreateProjectPost))
+            if (!_userContext.HasTeamPermission(createInput.TeamId, Permissions.CreateTeamPost))
             {
                 return HttpUnauthorized();
             }
@@ -88,13 +87,13 @@ namespace Bowerbird.Web.Controllers.Members
 
         [Transaction]
         [HttpPut]
-        public ActionResult Update(ProjectPostUpdateInput updateInput)
+        public ActionResult Update(TeamPostUpdateInput updateInput)
         {
-            if (!_userContext.HasPermissionToUpdate<ProjectPost>(updateInput.Id))
+            if (!_userContext.HasPermissionToUpdate<TeamPost>(updateInput.Id))
             {
                 return HttpUnauthorized();
             }
-            
+
             if (!ModelState.IsValid)
             {
                 return Json("Failure");
@@ -109,7 +108,7 @@ namespace Bowerbird.Web.Controllers.Members
         [HttpDelete]
         public ActionResult Delete(IdInput deleteInput)
         {
-            if(!_userContext.HasPermissionToDelete<ProjectPost>(deleteInput.Id))
+            if (!_userContext.HasPermissionToDelete<TeamPost>(deleteInput.Id))
             {
                 return HttpUnauthorized();
             }
@@ -124,21 +123,21 @@ namespace Bowerbird.Web.Controllers.Members
             return Json("success");
         }
 
-        private ProjectPostList MakeProjectPostList(ProjectPostListInput listInput)
+        private TeamPostList MakeTeamPostList(TeamPostListInput listInput)
         {
             RavenQueryStatistics stats;
 
             var results = _documentSession
-                .Query<ProjectPost>()
-                .Where(x => x.Project.Id == listInput.ProjectId)
+                .Query<TeamPost>()
+                .Where(x => x.Team.Id == listInput.TeamId)
                 .Statistics(out stats)
                 .Skip(listInput.Page)
                 .Take(listInput.PageSize)
                 .ToArray(); // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
 
-            return new ProjectPostList
+            return new TeamPostList
             {
-                ProjectId = listInput.ProjectId,
+                TeamId = listInput.TeamId,
                 Page = listInput.Page,
                 PageSize = listInput.PageSize,
                 Posts = results.ToPagedList(
@@ -149,31 +148,31 @@ namespace Bowerbird.Web.Controllers.Members
             };
         }
 
-        private ProjectPostCreateCommand MakeCreateCommand(ProjectPostCreateInput createInput)
+        private TeamPostCreateCommand MakeCreateCommand(TeamPostCreateInput createInput)
         {
-            return new ProjectPostCreateCommand()
+            return new TeamPostCreateCommand()
             {
                 UserId = _userContext.GetAuthenticatedUserId(),
-                ProjectId = createInput.ProjectId,
-                MediaResources = createInput.MediaResources,
+                TeamId = createInput.TeamId,
+                MediaResources = createInput.MediaResources.ToList(),
                 Message = createInput.Message,
                 Subject = createInput.Subject,
-                Timestamp = createInput.Timestamp
+                PostedOn = createInput.Timestamp
             };
         }
 
-        private ProjectPostDeleteCommand MakeDeleteCommand(IdInput deleteInput)
+        private TeamPostDeleteCommand MakeDeleteCommand(IdInput deleteInput)
         {
-            return new ProjectPostDeleteCommand()
+            return new TeamPostDeleteCommand()
             {
                 UserId = _userContext.GetAuthenticatedUserId(),
                 Id = deleteInput.Id
             };
         }
 
-        private ProjectPostUpdateCommand MakeUpdateCommand(ProjectPostUpdateInput updateInput)
+        private TeamPostUpdateCommand MakeUpdateCommand(TeamPostUpdateInput updateInput)
         {
-            return new ProjectPostUpdateCommand()
+            return new TeamPostUpdateCommand()
             {
                 UserId = _userContext.GetAuthenticatedUserId(),
                 Id = updateInput.Id,

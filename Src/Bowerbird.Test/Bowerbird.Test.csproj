@@ -151,6 +151,7 @@
     <Compile Include="Controllers\Members\ProjectMemberControllerTest.cs" />
     <Compile Include="Controllers\Members\ProjectObservationControllerTest.cs" />
     <Compile Include="Controllers\Members\ProjectPostControllerTest.cs" />
+    <Compile Include="Controllers\Members\TeamPostControllerTest.cs" />
     <Compile Include="Controllers\Members\UserControllerTest.cs" />
     <Compile Include="Controllers\Public\AccountControllerTest.cs" />
     <Compile Include="Controllers\Public\ObservationControllerTest.cs" />

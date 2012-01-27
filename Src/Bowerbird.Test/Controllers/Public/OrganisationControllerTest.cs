@@ -12,12 +12,10 @@
  
 */
 
-using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.Extensions;
 using Bowerbird.Test.Utils;
 using Bowerbird.Web.Controllers.Public;
 using Bowerbird.Web.ViewModels.Shared;

@@ -12,17 +12,21 @@
  
 */
 
+using System.Linq;
 using System.Web.Mvc;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.DomainModels.Posts;
+using Bowerbird.Core.Paging;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.ViewModels.Members;
 using Bowerbird.Web.ViewModels.Shared;
 using Raven.Client;
+using Raven.Client.Linq;
 
 namespace Bowerbird.Web.Controllers.Members
 {
-    public class OrganisationPostController : Controller
+    public class OrganisationPostController : ControllerBase
     {
 
         #region Members
@@ -58,51 +62,91 @@ namespace Bowerbird.Web.Controllers.Members
         #region Methods
 
         [HttpGet]
-        public ActionResult List(int? id, int? page, int? pageSize)
+        public ActionResult List(OrganisationPostListInput listInput)
         {
-            return Json("success", JsonRequestBehavior.AllowGet);
+            return Json(MakeOrganisationPostList(listInput), JsonRequestBehavior.AllowGet);
         }
 
         [Transaction]
         [HttpPost]
         public ActionResult Create(OrganisationPostCreateInput createInput)
         {
-            if (ModelState.IsValid)
+            if (!_userContext.HasOrganisationPermission(createInput.OrganisationId, Permissions.CreateOrganisationPost))
             {
-                _commandProcessor.Process(MakeCreateCommand(createInput));
-
-                return Json("success");
+                return HttpUnauthorized();
             }
 
-            return Json("Failure");
+            if (!ModelState.IsValid)
+            {
+                return Json("Failure");
+            }
+
+            _commandProcessor.Process(MakeCreateCommand(createInput));
+
+            return Json("success");
         }
 
         [Transaction]
         [HttpPut]
         public ActionResult Update(OrganisationPostUpdateInput updateInput)
         {
-            if (ModelState.IsValid)
+            if (!_userContext.HasPermissionToUpdate<OrganisationPost>(updateInput.Id))
             {
-                _commandProcessor.Process(MakeUpdateCommand(updateInput));
-
-                return Json("success");
+                return HttpUnauthorized();
             }
 
-            return Json("Failure");
+            if (!ModelState.IsValid)
+            {
+                return Json("Failure");
+            }
+
+            _commandProcessor.Process(MakeUpdateCommand(updateInput));
+
+            return Json("success");
         }
 
         [Transaction]
         [HttpDelete]
         public ActionResult Delete(IdInput deleteInput)
         {
-            if (ModelState.IsValid)
+            if (!_userContext.HasPermissionToDelete<OrganisationPost>(deleteInput.Id))
             {
-                _commandProcessor.Process(MakeDeleteCommand(deleteInput));
-
-                return Json("success");
+                return HttpUnauthorized();
             }
 
-            return Json("Failure");
+            if (!ModelState.IsValid)
+            {
+                return Json("Failure");
+            }
+
+            _commandProcessor.Process(MakeDeleteCommand(deleteInput));
+
+            return Json("success");
+        }
+
+        private OrganisationPostList MakeOrganisationPostList(OrganisationPostListInput listInput)
+        {
+            RavenQueryStatistics stats;
+
+            var results = _documentSession
+                .Query<OrganisationPost>()
+                .Where(x => x.Organisation.Id == listInput.OrganisationId)
+                .Statistics(out stats)
+                .Skip(listInput.Page)
+                .Take(listInput.PageSize)
+                .ToArray(); // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
+
+            return new OrganisationPostList
+            {
+                OrganisationId = listInput.OrganisationId,
+                Page = listInput.Page,
+                PageSize = listInput.PageSize,
+                Posts = results.ToPagedList(
+                    listInput.Page,
+                    listInput.PageSize,
+                    stats.TotalResults,
+                    null)
+            };
         }
 
         private OrganisationPostCreateCommand MakeCreateCommand(OrganisationPostCreateInput createInput)
@@ -111,7 +155,7 @@ namespace Bowerbird.Web.Controllers.Members
             {
                 UserId = _userContext.GetAuthenticatedUserId(),
                 OrganisationId = createInput.OrganisationId,
-                MediaResources = createInput.MediaResources,
+                MediaResources = createInput.MediaResources.ToList(),
                 Message = createInput.Message,
                 Subject = createInput.Subject,
                 PostedOn = createInput.Timestamp

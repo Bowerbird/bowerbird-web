@@ -127,6 +127,11 @@ namespace Bowerbird.Web.Config
             return _permissionChecker.HasProjectPermission(GetAuthenticatedUserId(), projectId, permissionName);
         }
 
+        public bool HasOrganisationPermission(string organisationId, string permissionName)
+        {
+            return _permissionChecker.HasOrganisationPermission(GetAuthenticatedUserId(), organisationId, permissionName);
+        }
+
         public bool HasPermissionToUpdate<T>(string id)
         {
             return _permissionChecker.HasPermissionToUpdate<T>(GetAuthenticatedUserId(), id);

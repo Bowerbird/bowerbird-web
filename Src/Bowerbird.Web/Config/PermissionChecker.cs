@@ -94,6 +94,18 @@ namespace Bowerbird.Web.Config
             return HasPermission(projectMember, permissionId);
         }
 
+        public bool HasOrganisationPermission(string userId, string organisationId, string permissionName)
+        {
+            var permissionId = _documentSession.Query<Permission>()
+                .Where(x => x.Name == permissionName)
+                .FirstOrDefault()
+                .Id;
+
+            var globalMember = _documentSession.Load<GlobalMember>(userId);
+
+            return HasPermission(globalMember, permissionId);
+        }
+
         public bool HasPermissionToUpdate<T>(string userId, string id)
         {
             if(default(T) is Observation)

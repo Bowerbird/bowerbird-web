@@ -281,6 +281,17 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
+        public void Project_Create_Having_Invalid_Permission_Returns_HttpUnauthorized()
+        {
+            _mockUserContext.Setup(x => x.HasGlobalPermission(It.IsAny<string>())).Returns(false);
+
+            var result = _controller.Create(new ProjectCreateInput());
+
+            Assert.IsInstanceOf<HttpUnauthorizedResult>(result);
+        }
+
+        [Test]
+        [Category(TestCategory.Unit)]
         public void Project_Update_Passing_Invalid_Input_Returns_Json_Error()
         {
             _mockUserContext.Setup(x => x.HasPermissionToUpdate<Project>(It.IsAny<string>())).Returns(true);
@@ -321,6 +332,17 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
+        public void Project_Update_Having_Invalid_Permission_Returns_HttpUnauthorized()
+        {
+            _mockUserContext.Setup(x => x.HasPermissionToUpdate<Project>(It.IsAny<string>())).Returns(false);
+
+            var result = _controller.Update(new ProjectUpdateInput());
+
+            Assert.IsInstanceOf<HttpUnauthorizedResult>(result);
+        }
+
+        [Test]
+        [Category(TestCategory.Unit)]
         public void Project_Delete_Passing_Invalid_Input_Returns_Json_Error()
         {
             _mockUserContext.Setup(x => x.HasPermissionToDelete<Project>(It.IsAny<string>())).Returns(true);
@@ -347,6 +369,17 @@ namespace Bowerbird.Test.Controllers.Members
 
             Assert.IsNotNull(jsonResult);
             Assert.AreEqual(jsonResult.Data, "Success");
+        }
+
+        [Test]
+        [Category(TestCategory.Unit)]
+        public void Project_Delete_Having_Invalid_Permission_Returns_HttpUnauthorized()
+        {
+            _mockUserContext.Setup(x => x.HasPermissionToDelete<Project>(It.IsAny<string>())).Returns(false);
+
+            var result = _controller.Delete(new IdInput());
+
+            Assert.IsInstanceOf<HttpUnauthorizedResult>(result);
         }
 
         #endregion 

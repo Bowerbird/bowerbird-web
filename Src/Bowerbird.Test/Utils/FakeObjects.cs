@@ -221,18 +221,28 @@ namespace Bowerbird.Test.Utils
 
         }
 
-        public static TeamPost TestTeamPostWithId()
+        public static TeamPost TestTeamPost()
         {
-            var teamPost = new TeamPost(
+            return new TeamPost(
                 TestTeamWithId(),
                 TestUserWithId(),
                 FakeValues.CreatedDateTime,
                 FakeValues.Subject,
                 FakeValues.Message,
-                new List<MediaResource>() {TestImageMediaResourceWithId()}
+                new List<MediaResource>(){TestImageMediaResourceWithId()}
                 );
+        }
 
-            ((IAssignableId)teamPost).SetIdTo("posts", FakeValues.KeyString);
+        public static TeamPost TestTeamPostWithId()
+        {
+            return TestTeamPostWithId(FakeValues.KeyString);
+        }
+
+        public static TeamPost TestTeamPostWithId(string id)
+        {
+            var teamPost = TestTeamPost();
+
+            ((IAssignableId)teamPost).SetIdTo("posts", id);
 
             return teamPost;
         }
