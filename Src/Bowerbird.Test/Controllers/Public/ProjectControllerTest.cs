@@ -171,7 +171,7 @@ namespace Bowerbird.Test.Controllers.Public
 
             _controller.SetupFormRequest();
 
-            _controller.Index(new IdInput() { Id = FakeValues.KeyString.PrependWith("projects/") });
+            _controller.Index(new IdInput() { Id = project.Id });
 
             Assert.IsInstanceOf<ProjectIndex>(_controller.ViewData.Model);
 
@@ -213,15 +213,13 @@ namespace Bowerbird.Test.Controllers.Public
             var result = _controller.Index(new IdInput() { Id = FakeValues.KeyString.PrependWith("projects/") });
 
             Assert.IsInstanceOf<JsonResult>(result);
-
             var jsonResult = result as JsonResult;
-
             Assert.IsNotNull(jsonResult);
+            
             Assert.IsInstanceOf<ProjectIndex>(jsonResult.Data);
-
             var jsonData = jsonResult.Data as ProjectIndex;
-
             Assert.IsNotNull(jsonData);
+            
             Assert.AreEqual(jsonData.Project, project);
             Assert.IsNotNull(jsonData.Project.Team);
             Assert.AreEqual(jsonData.Project.Team.Name, project.Team.Name);

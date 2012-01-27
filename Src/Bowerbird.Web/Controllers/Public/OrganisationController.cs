@@ -14,11 +14,9 @@
 
 using System.Linq;
 using System.Web.Mvc;
-using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Paging;
-using Bowerbird.Web.Config;
 using Bowerbird.Web.ViewModels.Shared;
 using Raven.Client;
 using Raven.Client.Linq;
@@ -29,8 +27,6 @@ namespace Bowerbird.Web.Controllers.Public
     {
         #region Fields
 
-        private readonly ICommandProcessor _commandProcessor;
-        private readonly IUserContext _userContext;
         private readonly IDocumentSession _documentSession;
 
         #endregion
@@ -38,16 +34,10 @@ namespace Bowerbird.Web.Controllers.Public
         #region Constructors
 
         public OrganisationController(
-            ICommandProcessor commandProcessor,
-            IUserContext userContext,
             IDocumentSession documentSession)
         {
-            Check.RequireNotNull(commandProcessor, "commandProcessor");
-            Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(documentSession, "documentSession");
 
-            _commandProcessor = commandProcessor;
-            _userContext = userContext;
             _documentSession = documentSession;
         }
 
@@ -108,7 +98,6 @@ namespace Bowerbird.Web.Controllers.Public
                     null)
             };
         }
-
 
         #endregion
     }
