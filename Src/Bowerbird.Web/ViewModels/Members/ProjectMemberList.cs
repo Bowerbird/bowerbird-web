@@ -1,4 +1,4 @@
-/* Bowerbird V1 
+﻿/* Bowerbird V1 
 
  Licensed under MIT 1.1 Public License
 
@@ -14,10 +14,15 @@
  
 */
 
-namespace Bowerbird.Core.Commands
+using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.DomainModels.Members;
+using Bowerbird.Core.Paging;
+
+namespace Bowerbird.Web.ViewModels.Members
 {
-    public class TeamMemberDeleteCommand : ICommand
+    public class ProjectMemberList : IViewModel
     {
+
         #region Members
 
         #endregion
@@ -28,13 +33,15 @@ namespace Bowerbird.Core.Commands
 
         #region Properties
 
-        public string TeamId { get; set; }
-
-        public string MemberId { get; set; }
-
-        public string DeletedByUserId { get; set; }
-
         public string UserId { get; set; }
+
+        public Project Project { get; set; }
+
+        public int Page { get; set; }
+
+        public int PageSize { get; set; }
+
+        public PagedList<ProjectMember> ProjectMembers { get; set; }
 
         #endregion
 

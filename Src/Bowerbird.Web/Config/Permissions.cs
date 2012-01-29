@@ -10,5 +10,7 @@ namespace Bowerbird.Web.Config
         public static string CreateProjectPost { get { return "CreateProjectPost"; } }
         public static string CreateTeamPost { get { return "CreateTeamPost"; } }
         public static string CreateOrganisationPost { get { return "CreateOrganisationPost"; } }
+        public static string CreateTeamProject { get { return "CreateTeamProject"; } }
+        public static string CreateProjectObservation { get { return "CreateProjectObservation"; } }
     }
 }

@@ -1,6 +1,4 @@
-/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -25,6 +23,8 @@ namespace Bowerbird.Web.Config
         bool HasProjectPermission(string userId, string projectId, string permissionName);
 
         bool HasOrganisationPermission(string userId, string organisationId, string permissionName);
+
+        bool HasProjectObservationDeletePermission(string userId, string observationId, string projectId);
 
         bool HasPermissionToUpdate<T>(string userId, string id);
 

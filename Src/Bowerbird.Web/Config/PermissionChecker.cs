@@ -106,6 +106,17 @@ namespace Bowerbird.Web.Config
             return HasPermission(globalMember, permissionId);
         }
 
+        public bool HasProjectObservationDeletePermission(string userId, string observationId, string projectId)
+        {
+            var projectObservation =
+                _documentSession
+                .Query<ProjectObservation>()
+                .Where(x => x.Project.Id == projectId && x.Observation.Id == observationId)
+                .FirstOrDefault();
+
+            return projectObservation != null && projectObservation.CreatedByUser.Id == userId;
+        }
+
         public bool HasPermissionToUpdate<T>(string userId, string id)
         {
             if(default(T) is Observation)

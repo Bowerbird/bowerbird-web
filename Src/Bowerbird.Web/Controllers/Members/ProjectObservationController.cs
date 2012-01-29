@@ -1,6 +1,4 @@
-/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -14,16 +12,21 @@
  
 */
 
+using System.Linq;
 using System.Web.Mvc;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Paging;
 using Bowerbird.Web.Config;
+using Bowerbird.Web.Validators;
 using Bowerbird.Web.ViewModels.Members;
 using Raven.Client;
+using Raven.Client.Linq;
 
 namespace Bowerbird.Web.Controllers.Members
 {
-    public class ProjectObservationController : Controller
+    public class ProjectObservationController : ControllerBase
     {
         #region Members
 
@@ -58,35 +61,76 @@ namespace Bowerbird.Web.Controllers.Members
         #region Methods
 
         [HttpGet]
-        public ActionResult List(int? id, int? page, int? pageSize)
+        public ActionResult List(ProjectObservationListInput listInput)
         {
-            return Json("success", JsonRequestBehavior.AllowGet);
+            return Json(MakeProjectList(listInput));
         }
 
         [Transaction]
+        [HandleModelStateException]
         [HttpPost]
         public ActionResult Create(ProjectObservationCreateInput createInput)
         {
-            if (ModelState.IsValid)
+            if (!_userContext.HasProjectPermission(createInput.ProjectId, Permissions.CreateProjectObservation))
             {
-                _commandProcessor.Process(MakeCreateCommand(createInput));
-
-                return Json("success");
+                return HttpUnauthorized();
             }
-            return Json("failure");
+
+            if (!ModelState.IsValid)
+            {
+                //throw new ModelStateException(ModelState);
+                return Json("failure");
+            }
+
+            _commandProcessor.Process(MakeCreateCommand(createInput));
+
+            return Json("success");
         }
 
         [Transaction]
         [HttpDelete]
         public ActionResult Delete(ProjectObservationDeleteInput deleteInput)
         {
-            if (ModelState.IsValid)
+            if(!_userContext.HasProjectObservationDeletePermission(deleteInput.ObservationId, deleteInput.ProjectId))
             {
-                _commandProcessor.Process(MakeDeleteCommand(deleteInput));
-
-                return Json("success");
+                return HttpUnauthorized();
             }
-            return Json("failure");
+
+            if (!ModelState.IsValid)
+            {
+                //throw new ModelStateException(ModelState);
+                return Json("failure");
+            }
+
+            _commandProcessor.Process(MakeDeleteCommand(deleteInput));
+
+            return Json("success");
+        }
+
+        private ProjectObservationList MakeProjectList(ProjectObservationListInput listInput)
+        {
+            RavenQueryStatistics stats;
+
+            var results = _documentSession
+                .Query<ProjectObservation>()
+                .Where(x => x.Project.Id == listInput.ProjectId)
+                .Customize(x => x.Include(listInput.ProjectId))
+                .Statistics(out stats)
+                .Skip(listInput.Page)
+                .Take(listInput.PageSize)
+                .ToArray(); // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
+
+            return new ProjectObservationList
+            {
+                Project = _documentSession.Load<Project>(listInput.ProjectId),
+                Page = listInput.Page,
+                PageSize = listInput.PageSize,
+                ProjectObservations = results.ToPagedList(
+                    listInput.Page,
+                    listInput.PageSize,
+                    stats.TotalResults,
+                    null)
+            };
         }
 
         private ProjectObservationCreateCommand MakeCreateCommand(ProjectObservationCreateInput createInput)

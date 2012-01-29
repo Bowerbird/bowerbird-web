@@ -1,6 +1,4 @@
-﻿/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -16,18 +14,19 @@
 
 using System.Linq;
 using System.Web.Mvc;
-using Bowerbird.Core;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Paging;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.ViewModels.Members;
 using Bowerbird.Web.ViewModels.Shared;
 using Raven.Client;
+using Raven.Client.Linq;
 
 namespace Bowerbird.Web.Controllers.Members
 {
-    public class TeamController : Controller
+    public class TeamController : ControllerBase
     {
         #region Members
 
@@ -62,9 +61,9 @@ namespace Bowerbird.Web.Controllers.Members
         #region Methods
 
         [HttpGet]
-        public ActionResult List(int? id, int? page, int? pageSize)
+        public ActionResult List(TeamListInput listInput)
         {
-            return Json("success", JsonRequestBehavior.AllowGet);
+            return Json(MakeTeamList(listInput), JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -80,41 +79,59 @@ namespace Bowerbird.Web.Controllers.Members
         [Transaction]
         [Authorize]
         [HttpPost]
-        public ActionResult Create(TeamCreateInput teamCreateInput)
+        public ActionResult Create(TeamCreateInput createInput)
         {
-            if (ModelState.IsValid)
+            if (!_userContext.HasGlobalPermission(Permissions.CreateTeam))
             {
-                _commandProcessor.Process(MakeCreateCommand(teamCreateInput));
-
-                return Json("success");
+                return HttpUnauthorized();
             }
-            return Json("Failure");
+
+            if (!ModelState.IsValid)
+            {
+                return Json("Failure");
+            }
+
+            _commandProcessor.Process(MakeCreateCommand(createInput));
+
+            return Json("success");
         }
 
         [Transaction]
         [HttpPut]
         public ActionResult Update(TeamUpdateInput updateInput)
         {
-            if (ModelState.IsValid)
+            if (!_userContext.HasPermissionToUpdate<Team>(updateInput.Id))
             {
-                _commandProcessor.Process(MakeUpdateCommand(updateInput));
-
-                return Json("Success");
+                return HttpUnauthorized();
             }
-            return Json("Failure");
+
+            if (!ModelState.IsValid)
+            {
+                return Json("Failure");
+            }
+
+            _commandProcessor.Process(MakeUpdateCommand(updateInput));
+
+            return Json("Success");
         }
 
         [Transaction]
         [HttpDelete]
         public ActionResult Delete(IdInput deleteInput)
         {
-            if (ModelState.IsValid)
+            if (!_userContext.HasPermissionToDelete<Team>(deleteInput.Id))
             {
-                _commandProcessor.Process(MakeDeleteCommand(deleteInput));
-
-                return Json("success");
+                return HttpUnauthorized();
             }
-            return Json("Failure");
+
+            if (!ModelState.IsValid)
+            {
+                return Json("Failure");
+            }
+
+            _commandProcessor.Process(MakeDeleteCommand(deleteInput));
+
+            return Json("success");
         }
 
         [Transaction]
@@ -122,13 +139,19 @@ namespace Bowerbird.Web.Controllers.Members
         [HttpPost]
         public ActionResult CreateProject(ProjectCreateInput projectCreateInput, TeamProjectCreateInput teamProjectCreateInput)
         {
-            if (ModelState.IsValid)
+            if(_userContext.HasTeamPermission(teamProjectCreateInput.TeamId, Permissions.CreateTeamProject))
             {
-                _commandProcessor.Process(MakeTeamProjectCreateCommand(projectCreateInput, teamProjectCreateInput));
-
-                return Json("success");
+                return HttpUnauthorized();
             }
-            return Json("Failure");
+
+            if (!ModelState.IsValid)
+            {
+                return Json("Failure");
+            }
+
+            _commandProcessor.Process(MakeTeamProjectCreateCommand(projectCreateInput, teamProjectCreateInput));
+
+            return Json("success");
         }
 
         private TeamIndex MakeIndex(IdInput idInput)
@@ -136,15 +159,39 @@ namespace Bowerbird.Web.Controllers.Members
             var team = _documentSession.Load<Team>(idInput.Id);
 
             var projects =
-                _documentSession
-                .Query<Project>()
-                .Where(x => x.Team.Id == idInput.Id)
+                Queryable.Where(_documentSession
+                           .Query<Project>(), x => x.Team.Id == idInput.Id)
                 .ToList();
 
             return new TeamIndex()
             {
                 Team = team,
                 Projects = projects
+            };
+        }
+
+        private TeamList MakeTeamList(TeamListInput listInput)
+        {
+            RavenQueryStatistics stats;
+
+            var results = _documentSession
+                .Query<Team>()
+                .Where(x => x.Organisation.Id == listInput.OrganisationId)
+                .Statistics(out stats)
+                .Skip(listInput.Page)
+                .Take(listInput.PageSize)
+                .ToArray(); // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
+
+            return new TeamList()
+            {
+                OrganisationId = listInput.OrganisationId,
+                Page = listInput.Page,
+                PageSize = listInput.PageSize,
+                Teams = results.ToPagedList(
+                    listInput.Page,
+                    listInput.PageSize,
+                    stats.TotalResults,
+                    null)
             };
         }
 

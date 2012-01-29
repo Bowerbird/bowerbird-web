@@ -1,6 +1,4 @@
-﻿/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -14,9 +12,11 @@
  
 */
 
-
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Bowerbird.Core.Commands;
+using Bowerbird.Core.DomainModels;
 using Bowerbird.Test.Utils;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.Controllers.Members;
@@ -70,15 +70,46 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Team_List_Returns_Json_Success()
+        public void Team_List_Returns_TeamList_In_Json_Format()
         {
-            var result = _controller.List(null, null, null);
+            var organisation = FakeObjects.TestOrganisationWithId();
+            const int page = 1;
+            const int pageSize = 10;
 
+            var teams = new List<Team>();
+
+            using (var session = _documentStore.OpenSession())
+            {
+                session.Store(organisation);
+
+                for (var i = 0; i < 15; i++)
+                {
+                    var team = FakeObjects.TestTeamWithId(i.ToString());
+                    team.Organisation = organisation;
+                    teams.Add(team);
+                    session.Store(team);
+                }
+
+                session.SaveChanges();
+            }
+
+            var result = _controller.List(new TeamListInput() { Page = page, PageSize = pageSize, OrganisationId = organisation.Id });
+
+            Assert.IsNotNull(result);
             Assert.IsInstanceOf<JsonResult>(result);
-            var jsonResult = result as JsonResult;
 
+            var jsonResult = result as JsonResult;
             Assert.IsNotNull(jsonResult);
-            Assert.AreEqual(jsonResult.Data.ToString().ToLower(), "Success".ToLower());
+
+            Assert.IsNotNull(jsonResult.Data);
+            Assert.IsInstanceOf<TeamList>(jsonResult.Data);
+            var jsonData = jsonResult.Data as TeamList;
+
+            Assert.IsNotNull(jsonData);
+            Assert.AreEqual(page, jsonData.Page);
+            Assert.AreEqual(pageSize, jsonData.PageSize);
+            Assert.AreEqual(pageSize, jsonData.Teams.PagedListItems.Count());
+            Assert.AreEqual(teams.Count, jsonData.Teams.TotalResultCount);
         }
 
         [Test]
@@ -149,13 +180,11 @@ namespace Bowerbird.Test.Controllers.Members
         [Category(TestCategory.Unit)]
         public void Team_Create_Passing_Invalid_Input_Returns_Json_Error()
         {
+            _mockUserContext.Setup(x => x.HasGlobalPermission(It.IsAny<string>())).Returns(true);
+
             _controller.ModelState.AddModelError("Error", "Error");
 
-            var result = _controller.Create(new TeamCreateInput()
-            {
-                Description = FakeValues.Description,
-                Name = FakeValues.Name
-            });
+            var result = _controller.Create(new TeamCreateInput());
 
             Assert.IsInstanceOf<JsonResult>(result);
             var jsonResult = result as JsonResult;
@@ -168,11 +197,9 @@ namespace Bowerbird.Test.Controllers.Members
         [Category(TestCategory.Unit)]
         public void Team_Create_Passing_Valid_Input_Returns_Json_Success()
         {
-            var result = _controller.Create(new TeamCreateInput()
-            {
-                Description = FakeValues.Description,
-                Name = FakeValues.Name
-            });
+            _mockUserContext.Setup(x => x.HasGlobalPermission(It.IsAny<string>())).Returns(true);
+
+            var result = _controller.Create(new TeamCreateInput());
 
             Assert.IsInstanceOf<JsonResult>(result);
             var jsonResult = result as JsonResult;
@@ -183,8 +210,21 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
+        public void Team_Create_Having_Invalid_Permissions_Returns_HttpUnAuthorized()
+        {
+            _mockUserContext.Setup(x => x.HasGlobalPermission(It.IsAny<string>())).Returns(false);
+
+            var result = _controller.Create(new TeamCreateInput());
+
+            Assert.IsInstanceOf<HttpUnauthorizedResult>(result);
+        }
+
+        [Test]
+        [Category(TestCategory.Unit)]
         public void Team_Update_Passing_Invalid_Input_Returns_Json_Error()
         {
+            _mockUserContext.Setup(x => x.HasPermissionToUpdate<Team>(It.IsAny<string>())).Returns(true);
+
             _controller.ModelState.AddModelError("Error", "Error");
 
             var result = _controller.Update(new TeamUpdateInput()
@@ -205,6 +245,8 @@ namespace Bowerbird.Test.Controllers.Members
         [Category(TestCategory.Unit)]
         public void Team_Update_Passing_Valid_Input_Returns_Json_Success()
         {
+            _mockUserContext.Setup(x => x.HasPermissionToUpdate<Team>(It.IsAny<string>())).Returns(true);
+
             var result = _controller.Update(new TeamUpdateInput()
             {
                 Id = FakeValues.KeyString,
@@ -221,8 +263,21 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
+        public void Team_Update_Having_Invalid_Permissions_Returns_HttpUnAuthorized()
+        {
+            _mockUserContext.Setup(x => x.HasPermissionToUpdate<Team>(It.IsAny<string>())).Returns(false);
+
+            var result = _controller.Update(new TeamUpdateInput());
+
+            Assert.IsInstanceOf<HttpUnauthorizedResult>(result);
+        }
+
+        [Test]
+        [Category(TestCategory.Unit)]
         public void Team_Delete_Passing_Invalid_Input_Returns_Json_Error()
         {
+            _mockUserContext.Setup(x => x.HasPermissionToDelete<Team>(It.IsAny<string>())).Returns(true);
+
             _controller.ModelState.AddModelError("Error", "Error");
 
             var result = _controller.Delete(FakeViewModels.MakeIdInput());
@@ -238,6 +293,8 @@ namespace Bowerbird.Test.Controllers.Members
         [Category(TestCategory.Unit)]
         public void Team_Delete_Passing_Valid_Input_Returns_Json_Success()
         {
+            _mockUserContext.Setup(x => x.HasPermissionToDelete<Team>(It.IsAny<string>())).Returns(true);
+
             var result = _controller.Delete(FakeViewModels.MakeIdInput());
 
             Assert.IsInstanceOf<JsonResult>(result);
@@ -247,6 +304,16 @@ namespace Bowerbird.Test.Controllers.Members
             Assert.AreEqual(jsonResult.Data.ToString().ToLower(), "Success".ToLower());
         }
 
+        [Test]
+        [Category(TestCategory.Unit)]
+        public void Team_Delete_Having_Invalid_Permissions_Returns_HttpUnAuthorized()
+        {
+            _mockUserContext.Setup(x => x.HasPermissionToDelete<Team>(It.IsAny<string>())).Returns(false);
+
+            var result = _controller.Update(new TeamUpdateInput());
+
+            Assert.IsInstanceOf<HttpUnauthorizedResult>(result);
+        }
 
         #endregion 
     }

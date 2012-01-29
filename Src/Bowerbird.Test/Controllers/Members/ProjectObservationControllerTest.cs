@@ -1,6 +1,4 @@
-/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -14,9 +12,11 @@
  
 */
 
-
+using System.Linq;
 using System.Web.Mvc;
+using System.Collections.Generic;
 using Bowerbird.Core.Commands;
+using Bowerbird.Core.DomainModels;
 using Bowerbird.Test.Utils;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.Controllers.Members;
@@ -69,28 +69,57 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void ProjectObservation_List_Returns_Json_Success()
+        public void ProjectObservation_List_Returns_ProjectObservationList_In_Json_Format()
         {
-            var result = _controller.List(null, null, null);
+            var user = FakeObjects.TestUserWithId();
+            var projectObservations = new List<ProjectObservation>();
+            var project = FakeObjects.TestProjectWithId();
 
+            const int page = 1;
+            const int pageSize = 10;
+
+            using (var session = _documentStore.OpenSession())
+            {
+                session.Store(user);
+
+                for (var i = 0; i < 15; i++)
+                {
+                    var projectObservation = FakeObjects.TestProjectObservationWithId(i.ToString());
+                    projectObservations.Add(projectObservation);
+                    session.Store(projectObservation);
+                }
+
+                session.SaveChanges();
+            }
+
+            var result = _controller.List(new ProjectObservationListInput() { Page = page, PageSize = pageSize, ProjectId = project.Id});
+
+            Assert.IsNotNull(result);
             Assert.IsInstanceOf<JsonResult>(result);
-            var jsonResult = result as JsonResult;
 
+            var jsonResult = result as JsonResult;
             Assert.IsNotNull(jsonResult);
-            Assert.AreEqual(jsonResult.Data.ToString().ToLower(), "Success".ToLower());
+
+            Assert.IsNotNull(jsonResult.Data);
+            Assert.IsInstanceOf<ProjectObservationList>(jsonResult.Data);
+            var jsonData = jsonResult.Data as ProjectObservationList;
+
+            Assert.IsNotNull(jsonData);
+            Assert.AreEqual(page, jsonData.Page);
+            Assert.AreEqual(pageSize, jsonData.PageSize);
+            Assert.AreEqual(pageSize, jsonData.ProjectObservations.PagedListItems.Count());
+            Assert.AreEqual(projectObservations.Count, jsonData.ProjectObservations.TotalResultCount);
         }
 
         [Test]
         [Category(TestCategory.Unit)]
         public void ProjectObservation_Create_Passing_Invalid_Input_Returns_Json_Error()
         {
+            _mockUserContext.Setup(x => x.HasProjectPermission(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
+
             _controller.ModelState.AddModelError("Error", "Error");
 
-            var result = _controller.Create(new ProjectObservationCreateInput()
-                                                {
-                                                    ProjectId = FakeValues.KeyString, 
-                                                    ObservationId = FakeValues.KeyString
-                                                });
+            var result = _controller.Create(new ProjectObservationCreateInput());
 
             Assert.IsInstanceOf<JsonResult>(result);
             var jsonResult = result as JsonResult;
@@ -103,11 +132,9 @@ namespace Bowerbird.Test.Controllers.Members
         [Category(TestCategory.Unit)]
         public void ProjectObservation_Create_Passing_Valid_Input_Returns_Json_Success()
         {
-            var result = _controller.Create(new ProjectObservationCreateInput()
-                                                {
-                                                    ProjectId = FakeValues.KeyString, 
-                                                    ObservationId = FakeValues.KeyString
-                                                });
+            _mockUserContext.Setup(x => x.HasProjectPermission(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
+
+            var result = _controller.Create(new ProjectObservationCreateInput());
 
             Assert.IsInstanceOf<JsonResult>(result);
             var jsonResult = result as JsonResult;
@@ -118,15 +145,24 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
+        public void ProjectObservation_Create_Having_Invalid_Permission_Returns_HttpUnauthorized()
+        {
+            _mockUserContext.Setup(x => x.HasProjectPermission(It.IsAny<string>(), It.IsAny<string>())).Returns(false);
+
+            var result = _controller.Create(new ProjectObservationCreateInput());
+
+            Assert.IsInstanceOf<HttpUnauthorizedResult>(result);
+        }
+
+        [Test]
+        [Category(TestCategory.Unit)]
         public void ProjectObservation_Delete_Passing_Invalid_Input_Returns_Json_Error()
         {
+            _mockUserContext.Setup(x => x.HasProjectObservationDeletePermission(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
+
             _controller.ModelState.AddModelError("Error", "Error");
 
-            var result = _controller.Delete(new ProjectObservationDeleteInput()
-                                                {
-                                                    ProjectId = FakeValues.KeyString, 
-                                                    ObservationId = FakeValues.KeyString
-                                                });
+            var result = _controller.Delete(new ProjectObservationDeleteInput());
 
             Assert.IsInstanceOf<JsonResult>(result);
             var jsonResult = result as JsonResult;
@@ -139,11 +175,9 @@ namespace Bowerbird.Test.Controllers.Members
         [Category(TestCategory.Unit)]
         public void ProjectObservation_Delete_Passing_Valid_Input_Returns_Json_Success()
         {
-            var result = _controller.Delete(new ProjectObservationDeleteInput()
-                                                {
-                                                    ProjectId = FakeValues.KeyString, 
-                                                    ObservationId = FakeValues.KeyString
-                                                });
+            _mockUserContext.Setup(x => x.HasProjectObservationDeletePermission(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
+
+            var result = _controller.Delete(new ProjectObservationDeleteInput());
 
             Assert.IsInstanceOf<JsonResult>(result);
             var jsonResult = result as JsonResult;

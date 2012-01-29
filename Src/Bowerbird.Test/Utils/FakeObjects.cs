@@ -251,7 +251,7 @@ namespace Bowerbird.Test.Utils
         {
             return new TeamMember(
                 TestUser(),
-                TestTeam(),
+                TestTeamWithId(),
                 TestUser(),
                 TestRoles());
         }

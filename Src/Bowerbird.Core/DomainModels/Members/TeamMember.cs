@@ -50,11 +50,6 @@ namespace Bowerbird.Core.DomainModels.Members
             Check.RequireNotNull(team, "team");
 
             SetDetails(team, user);
-
-            #if DEBUG
-                Id = (new Random(System.DateTime.Now.Millisecond)).Next().ToString();
-            #endif
-            
             EventProcessor.Raise(new DomainModelCreatedEvent<TeamMember>(this, createdByUser));
         }
 

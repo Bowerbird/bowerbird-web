@@ -1,4 +1,4 @@
-/* Bowerbird V1 
+﻿/* Bowerbird V1 
 
  Licensed under MIT 1.1 Public License
 
@@ -6,7 +6,7 @@
  * Frank Radocaj : frank@radocaj.com
  * Hamish Crittenden : hamish.crittenden@gmail.com
  
- Project Manager: 
+ Team Manager: 
  * Ken Walker : kwalker@museum.vic.gov.au
  
  Funded by:
@@ -28,7 +28,7 @@ using Raven.Client.Linq;
 
 namespace Bowerbird.Web.Controllers.Members
 {
-    public class ProjectMemberController : Controller
+    public class TeamMemberController : ControllerBase
     {
         #region Members
 
@@ -40,7 +40,7 @@ namespace Bowerbird.Web.Controllers.Members
 
         #region Constructors
 
-        public ProjectMemberController(
+        public TeamMemberController(
             ICommandProcessor commandProcessor,
             IUserContext userContext,
             IDocumentSession documentSession)
@@ -63,14 +63,14 @@ namespace Bowerbird.Web.Controllers.Members
         #region Methods
 
         [HttpGet]
-        public ActionResult List(ProjectMemberListInput listInput)
+        public ActionResult List(TeamMemberListInput listInput)
         {
-            return Json(MakeProjectMemberList(listInput), JsonRequestBehavior.AllowGet);
+            return Json(MakeTeamMemberList(listInput));
         }
 
         [Transaction]
         [HttpPost]
-        public ActionResult Create(ProjectMemberCreateInput createInput)
+        public ActionResult Create(TeamMemberCreateInput createInput)
         {
             if (ModelState.IsValid)
             {
@@ -84,7 +84,7 @@ namespace Bowerbird.Web.Controllers.Members
 
         [Transaction]
         [HttpDelete]
-        public ActionResult Delete(ProjectMemberDeleteInput deleteInput)
+        public ActionResult Delete(TeamMemberDeleteInput deleteInput)
         {
             if (ModelState.IsValid)
             {
@@ -96,46 +96,46 @@ namespace Bowerbird.Web.Controllers.Members
             return Json("Failure");
         }
 
-        private ProjectMemberCreateCommand MakeCreateCommand(ProjectMemberCreateInput createInput)
+        private TeamMemberCreateCommand MakeCreateCommand(TeamMemberCreateInput createInput)
         {
-            return new ProjectMemberCreateCommand()
+            return new TeamMemberCreateCommand()
             {
                 UserId = createInput.UserId,
                 CreatedByUserId = _userContext.GetAuthenticatedUserId(),
-                ProjectId = createInput.ProjectId,
+                TeamId = createInput.TeamId,
                 Roles = createInput.Roles.ToList()
             };
         }
 
-        private ProjectMemberDeleteCommand MakeDeleteCommand(ProjectMemberDeleteInput deleteInput)
+        private TeamMemberDeleteCommand MakeDeleteCommand(TeamMemberDeleteInput deleteInput)
         {
-            return new ProjectMemberDeleteCommand()
+            return new TeamMemberDeleteCommand()
             {
                 UserId = _userContext.GetAuthenticatedUserId(),
                 DeletedByUserId = _userContext.GetAuthenticatedUserId(),
-                ProjectId = deleteInput.ProjectId
+                TeamId = deleteInput.TeamId
             };
         }
 
-        private ProjectMemberList MakeProjectMemberList(ProjectMemberListInput listInput)
+        private TeamMemberList MakeTeamMemberList(TeamMemberListInput listInput)
         {
             RavenQueryStatistics stats;
 
             var results = _documentSession
-                .Query<ProjectMember>()
-                .Where(x => x.Project.Id == listInput.ProjectId)
-                .Customize(x => x.Include(listInput.ProjectId))
+                .Query<TeamMember>()
+                .Where(x => x.Team.Id == listInput.TeamId)
+                .Customize(x => x.Include(listInput.TeamId))
                 .Statistics(out stats)
                 .Skip(listInput.Page)
                 .Take(listInput.PageSize)
                 .ToArray(); // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
 
-            return new ProjectMemberList
+            return new TeamMemberList
             {
-                Project = _documentSession.Load<Project>(listInput.ProjectId),
+                Team = _documentSession.Load<Team>(listInput.TeamId),
                 Page = listInput.Page,
                 PageSize = listInput.PageSize,
-                ProjectMembers = results.ToPagedList(
+                TeamMembers = results.ToPagedList(
                     listInput.Page,
                     listInput.PageSize,
                     stats.TotalResults,

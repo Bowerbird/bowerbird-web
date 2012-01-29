@@ -1,10 +1,10 @@
-/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
  * Hamish Crittenden : hamish.crittenden@gmail.com
  
- Project Manager: 
+ Team Manager: 
  * Ken Walker : kwalker@museum.vic.gov.au
  
  Funded by:
@@ -28,14 +28,14 @@ using Raven.Client;
 namespace Bowerbird.Test.Controllers.Members
 {
     [TestFixture]
-    public class ProjectMemberControllerTest
+    public class TeamMemberControllerTest
     {
         #region Test Infrastructure
 
         private Mock<ICommandProcessor> _mockCommandProcessor;
         private Mock<IUserContext> _mockUserContext;
         private IDocumentStore _documentStore;
-        private ProjectMemberController _controller;
+        private TeamMemberController _controller;
 
         [SetUp]
         public void TestInitialize()
@@ -44,7 +44,7 @@ namespace Bowerbird.Test.Controllers.Members
             _mockUserContext = new Mock<IUserContext>();
             _documentStore = DocumentStoreHelper.TestDocumentStore();
 
-            _controller = new ProjectMemberController(
+            _controller = new TeamMemberController(
                 _mockCommandProcessor.Object,
                 _mockUserContext.Object,
                 _documentStore.OpenSession());
@@ -69,11 +69,11 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void ProjectMember_List_Returns_ProjectMemberList_In_Json_Format()
+        public void TeamMember_List_Returns_TeamMemberList_In_Json_Format()
         {
             var user = FakeObjects.TestUserWithId();
-            var project = FakeObjects.TestProjectWithId();
-            var projectMembers = new List<ProjectMember>();
+            var team = FakeObjects.TestTeamWithId();
+            var teamMembers = new List<TeamMember>();
 
             const int page = 1;
             const int pageSize = 10;
@@ -81,48 +81,48 @@ namespace Bowerbird.Test.Controllers.Members
             using (var session = _documentStore.OpenSession())
             {
                 session.Store(user);
-                session.Store(project);
+                session.Store(team);
                 session.SaveChanges();
 
                 for (var i = 0; i < 15; i++)
                 {
-                    var projectMember = FakeObjects.TestProjectMemberWithId(i.ToString());
-                    projectMembers.Add(projectMember);
-                    session.Store(projectMember);
+                    var teamMember = FakeObjects.TestTeamMemberWithId(i.ToString());
+                    teamMembers.Add(teamMember);
+                    session.Store(teamMember);
                 }
 
                 session.SaveChanges();
             }
 
-            var result = _controller.List(new ProjectMemberListInput() { Page = page, PageSize = pageSize, ProjectId= project.Id, UserId = user.Id });
+            var result = _controller.List(new TeamMemberListInput() { Page = page, PageSize = pageSize, TeamId = team.Id, UserId = user.Id });
 
             Assert.IsInstanceOf<JsonResult>(result);
 
             var jsonResult = result as JsonResult;
             Assert.IsNotNull(jsonResult);
 
-            Assert.IsInstanceOf<ProjectMemberList>(jsonResult.Data);
-            var jsonData = jsonResult.Data as ProjectMemberList;
+            Assert.IsInstanceOf<TeamMemberList>(jsonResult.Data);
+            var jsonData = jsonResult.Data as TeamMemberList;
 
             Assert.IsNotNull(jsonData);
             Assert.AreEqual(page, jsonData.Page);
             Assert.AreEqual(pageSize, jsonData.PageSize);
-            Assert.AreEqual(pageSize, jsonData.ProjectMembers.PagedListItems.Count());
-            Assert.AreEqual(projectMembers.Count, jsonData.ProjectMembers.TotalResultCount);
+            Assert.AreEqual(pageSize, jsonData.TeamMembers.PagedListItems.Count());
+            Assert.AreEqual(teamMembers.Count, jsonData.TeamMembers.TotalResultCount);
         }
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void ProjectMember_Create_Passing_Invalid_Input_Returns_Json_Error()
+        public void TeamMember_Create_Passing_Invalid_Input_Returns_Json_Error()
         {
             _controller.ModelState.AddModelError("Error", "Error");
 
-            var result = _controller.Create(new ProjectMemberCreateInput()
-                                                {
-                                                    UserId = FakeValues.UserId, 
-                                                    ProjectId = FakeValues.KeyString, 
-                                                    Roles = FakeValues.StringList
-                                                });
+            var result = _controller.Create(new TeamMemberCreateInput()
+            {
+                UserId = FakeValues.UserId,
+                TeamId = FakeValues.KeyString,
+                Roles = FakeValues.StringList
+            });
 
             Assert.IsInstanceOf<JsonResult>(result);
             var jsonResult = result as JsonResult;
@@ -133,14 +133,14 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void ProjectMember_Create_Passing_Valid_Input_Returns_Json_Success()
+        public void TeamMember_Create_Passing_Valid_Input_Returns_Json_Success()
         {
-            var result = _controller.Create(new ProjectMemberCreateInput()
-                                                {
-                                                    UserId = FakeValues.UserId, 
-                                                    ProjectId = FakeValues.KeyString, 
-                                                    Roles = FakeValues.StringList
-                                                });
+            var result = _controller.Create(new TeamMemberCreateInput()
+            {
+                UserId = FakeValues.UserId,
+                TeamId = FakeValues.KeyString,
+                Roles = FakeValues.StringList
+            });
 
             Assert.IsInstanceOf<JsonResult>(result);
             var jsonResult = result as JsonResult;
@@ -151,15 +151,15 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void ProjectMember_Delete_Passing_Invalid_Input_Returns_Json_Error()
+        public void TeamMember_Delete_Passing_Invalid_Input_Returns_Json_Error()
         {
             _controller.ModelState.AddModelError("Error", "Error");
 
-            var result = _controller.Delete(new ProjectMemberDeleteInput()
-                                                {
-                                                    ProjectId = FakeValues.KeyString, 
-                                                    ProjectMemberId = FakeValues.KeyString
-                                                });
+            var result = _controller.Delete(new TeamMemberDeleteInput()
+            {
+                TeamId = FakeValues.KeyString,
+                TeamMemberId = FakeValues.KeyString
+            });
 
             Assert.IsInstanceOf<JsonResult>(result);
             var jsonResult = result as JsonResult;
@@ -170,13 +170,13 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void ProjectMember_Delete_Passing_Valid_Input_Returns_Json_Success()
+        public void TeamMember_Delete_Passing_Valid_Input_Returns_Json_Success()
         {
-            var result = _controller.Delete(new ProjectMemberDeleteInput()
-                                                {
-                                                    ProjectId = FakeValues.KeyString, 
-                                                    ProjectMemberId = FakeValues.KeyString
-                                                });
+            var result = _controller.Delete(new TeamMemberDeleteInput()
+            {
+                TeamId = FakeValues.KeyString,
+                TeamMemberId = FakeValues.KeyString
+            });
 
             Assert.IsInstanceOf<JsonResult>(result);
             var jsonResult = result as JsonResult;

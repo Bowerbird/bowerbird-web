@@ -1,4 +1,4 @@
-/* Bowerbird V1 
+﻿/* Bowerbird V1 
 
  Licensed under MIT 1.1 Public License
 
@@ -6,7 +6,7 @@
  * Frank Radocaj : frank@radocaj.com
  * Hamish Crittenden : hamish.crittenden@gmail.com
  
- Project Manager: 
+ Team Manager: 
  * Ken Walker : kwalker@museum.vic.gov.au
  
  Funded by:
@@ -14,9 +14,12 @@
  
 */
 
-namespace Bowerbird.Core.Commands
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
+namespace Bowerbird.Web.ViewModels.Members
 {
-    public class TeamMemberDeleteCommand : ICommand
+    public class TeamMemberCreateInput : IViewModel
     {
         #region Members
 
@@ -28,19 +31,19 @@ namespace Bowerbird.Core.Commands
 
         #region Properties
 
+        [Required]
+        public string UserId { get; set; }
+
+        [Required]
         public string TeamId { get; set; }
 
-        public string MemberId { get; set; }
-
-        public string DeletedByUserId { get; set; }
-
-        public string UserId { get; set; }
+        [Required]
+        public IEnumerable<string> Roles { get; set; }
 
         #endregion
 
         #region Methods
 
         #endregion
-
     }
 }
