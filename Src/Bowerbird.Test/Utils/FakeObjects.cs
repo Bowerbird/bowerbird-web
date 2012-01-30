@@ -256,7 +256,7 @@ namespace Bowerbird.Test.Utils
                 TestRoles());
         }
 
-        public static TeamMember TestTeamMemberWitId()
+        public static TeamMember TestTeamMemberWithId()
         {
             return TestTeamMemberWithId(FakeValues.KeyString);
         }

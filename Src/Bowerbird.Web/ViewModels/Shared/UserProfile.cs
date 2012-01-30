@@ -1,6 +1,4 @@
-﻿/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -15,16 +13,12 @@
 */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace Bowerbird.Web.ViewModels
+namespace Bowerbird.Web.ViewModels.Shared
 {
-    public class StreamItem
+    public class UserProfile
     {
-
-        #region Members
+        #region Fields
 
         #endregion
 
@@ -34,17 +28,18 @@ namespace Bowerbird.Web.ViewModels
 
         #region Properties
 
-        public string Type { get; set; }
+        public string Id { get; set; }
 
-        public DateTime SubmittedOn { get; set; }
+        public string Name { get; set; }
 
-        public object Item { get; set; }
+        public DateTime MemberSince { get; set; }
+
+        public Avatar Avatar { get; set; }
 
         #endregion
 
         #region Methods
 
-        #endregion      
-      
+        #endregion
     }
 }

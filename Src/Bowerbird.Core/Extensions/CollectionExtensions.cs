@@ -27,5 +27,12 @@ namespace Bowerbird.Core.Extensions
             return collection != null && collection.Count() > 0;
         }
 
+        public static List<T> AddRangeFromList<T>(this List<T> collection, List<T> add)
+        {
+            collection.AddRange(add);
+
+            return collection;
+        }
+
     }
 }

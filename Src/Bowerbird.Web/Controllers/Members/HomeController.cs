@@ -1,6 +1,4 @@
-﻿/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -20,21 +18,24 @@ using System.Linq;
 using System.Web.Mvc;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Commands;
-using Bowerbird.Web.ViewModels;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.DomainModels.Members;
+using Bowerbird.Core.Paging;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.ViewModels.Members;
+using Bowerbird.Web.ViewModels.Shared;
 using Raven.Client;
 using Raven.Client.Linq;
+using Bowerbird.Core.Extensions;
 
 namespace Bowerbird.Web.Controllers.Members
 {
     public class HomeController : ControllerBase
     {
-
         #region Members
 
         private readonly ICommandProcessor _commandProcessor;
+        private readonly IUserContext _userContext;
         private readonly IDocumentSession _documentSession;
 
         #endregion
@@ -43,12 +44,15 @@ namespace Bowerbird.Web.Controllers.Members
 
         public HomeController(
             ICommandProcessor commandProcessor,
+            IUserContext userContext,
             IDocumentSession documentSession)
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
+            Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(documentSession, "documentSession");
 
             _commandProcessor = commandProcessor;
+            _userContext = userContext;
             _documentSession = documentSession;
         }
 
@@ -60,100 +64,76 @@ namespace Bowerbird.Web.Controllers.Members
 
         #region Methods
 
-        [Authorize]
+        [HttpGet]
         public ActionResult Index(HomeIndexInput homeIndexInput)
         {
-            // HACK
-            homeIndexInput.UserId = "frankr";
-            homeIndexInput.Page = 1;
-            homeIndexInput.PageSize = 10;
-
+            if (Request.IsAjaxRequest())
+            {
+                return Json(MakeHomeIndex(homeIndexInput));
+            }
             return View(MakeHomeIndex(homeIndexInput));
         }
 
-        [Transaction]
-        public ActionResult GenerateData()
+        private HomeIndex MakeHomeIndex(HomeIndexInput indexInput)
         {
-            // Create basic data for system functionality
-            var setupSystemCommand = new SetupSystemCommand();
-            _commandProcessor.Process(setupSystemCommand);
+            var homeIndex = new HomeIndex();
 
-            _commandProcessor.Process(new ObservationCreateCommand()
-            {
-                Title = "test",
-                Address = "aaa",
-                UserId = "frankr",
-                ObservedOn = DateTime.Now,
-                ObservationCategory = "sdsd",
-                MediaResources = new List<string>()
-            });
-
-            _commandProcessor.Process(new ObservationCreateCommand()
-            {
-                Title = "test",
-                Address = "aaa",
-                UserId = "frankr",
-                ObservedOn = DateTime.Now,
-                ObservationCategory = "sdsd",
-                MediaResources = new List<string>()
-            });
-
-            _commandProcessor.Process(new ObservationCreateCommand()
-            {
-                Title = "test",
-                Address = "aaa",
-                UserId = "frankr",
-                ObservedOn = DateTime.Now,
-                ObservationCategory = "sdsd",
-                MediaResources = new List<string>()
-            });
-
-            return RedirectToAction("index");
-        }
-
-        private HomeIndex MakeHomeIndex(HomeIndexInput homeIndexInput)
-        {
-            RavenQueryStatistics stats;
-
-            //int requestedPageSize = pageSize < 1 || pageSize > 30 ? 10 : pageSize;
-            //int requestedPage = page < 1 ? 1 : page;
-
-            var streamItems = new List<StreamItem>();
-
-            // Observations
-            streamItems.AddRange(_documentSession
-                .Query<Observation>()
-                .Statistics(out stats)
-                //.Where(x => x.Teams.In(subscription.Teams) || x.Projects.In(subscription.Projects) || x.User.Id == homeIndexInput.Username)
-                .Where(x => x.User.Id == homeIndexInput.UserId)
-                .OrderByDescending(x => x.SubmittedOn)
-                .Skip(homeIndexInput.Page)
-                .Take(homeIndexInput.PageSize)
-                .Select(x => new StreamItem() { Type = "observation", SubmittedOn = x.SubmittedOn, Item = x }) // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
-                .ToList());
-
-            // Posts
-            streamItems.AddRange(_documentSession
-                .Query<Post>()
-                .OrderByDescending(x => x.PostedOn)
-                .Skip(homeIndexInput.Page)
-                .Take(homeIndexInput.PageSize)
-                .Select(x => new StreamItem() { Type = "post", SubmittedOn = x.PostedOn, Item = x }) // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
-                .ToList());
-
-            // Get number required based on page size
-            streamItems = streamItems
-                .OrderByDescending(x => x.SubmittedOn)
-                .Take(homeIndexInput.PageSize)
+            var projectMenu = _documentSession
+                .Advanced
+                .LuceneQuery<ProjectMember>("ProjectMember/ByUserId")
+                .WhereEquals("Id", indexInput.UserId)
+                .WaitForNonStaleResults()
+                .Select(
+                    x => 
+                        new MenuItem()
+                            {
+                                Id = x.Project.Id, 
+                                Name = x.Project.Name
+                            })
                 .ToList();
 
-            return new HomeIndex()
-            {
-                //StreamItems = _pagedListFactory.Make(homeIndexInput.Page, homeIndexInput.PageSize, stats.TotalResults, streamItems, null)
-            };
+            var teamMenu = _documentSession
+                .Advanced
+                .LuceneQuery<TeamMember>("TeamMember/ByUserId")
+                .WhereEquals("Id", indexInput.UserId)
+                .WaitForNonStaleResults()
+                .Select(
+                    x => 
+                        new MenuItem()
+                            {
+                                Id = x.Team.Id, 
+                                Name = x.Team.Name
+                            })
+                .ToList();
+
+            var streamItems = _documentSession
+                .Advanced
+                .LuceneQuery<StreamItem>("StreamItem/ByParentId")
+                .WhereContains(
+                    "Id", 
+                    new List<string>()
+                        .AddRangeFromList(projectMenu.Select(x => x.Id).ToList())
+                        .AddRangeFromList(teamMenu.Select(x => x.Id).ToList()))
+                .WaitForNonStaleResults()
+                .Select(
+                    x =>
+                    new StreamItemViewModel()
+                        {
+                            Item = x.Item,
+                            ItemId = x.ItemId,
+                            ParentId = x.ParentId,
+                            SubmittedOn = x.CreatedDateTime,
+                            Type = x.Type
+                        })
+                .ToList();
+            
+            var userProfile = _documentSession.Query<User>()
+                .Where(u => u.Id == indexInput.UserId)
+                .Select(u => new UserProfile() {Id = u.Id, Name = u.FirstName + " " + u.LastName});
+
+            return homeIndex;
         }
 
         #endregion      
-
     }
 }

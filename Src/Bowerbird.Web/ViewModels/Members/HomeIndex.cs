@@ -1,6 +1,4 @@
-﻿/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -14,13 +12,14 @@
  
 */
 
+using System.Collections.Generic;
 using Bowerbird.Core.Paging;
+using Bowerbird.Web.ViewModels.Shared;
 
 namespace Bowerbird.Web.ViewModels.Members
 {
     public class HomeIndex : IViewModel
     {
-
         #region Members
 
         #endregion
@@ -31,13 +30,24 @@ namespace Bowerbird.Web.ViewModels.Members
 
         #region Properties
 
-        public PagedList<StreamItem> StreamItems { get; set; }
+        public PagedList<StreamItemViewModel> StreamItems { get; set; }
+
+        public UserProfile UserProfile { get; set; }
+
+        public List<MenuItem> ProjectMenu { get; set; }
+
+        public List<MenuItem> TeamMenu { get; set; }
+
+        public List<MenuItem> WatchlistMenu { get; set; }
+
+        public int Page { get; set; }
+
+        public int PageSize { get; set; }
 
         #endregion
 
         #region Methods
 
         #endregion      
-      
     }
 }

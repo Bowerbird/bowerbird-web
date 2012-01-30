@@ -65,6 +65,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NUnit.2.5.10.11092\lib\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="Raven.Abstractions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\RavenDB.1.0.573\lib\net40\Raven.Abstractions.dll</HintPath>
+    </Reference>
     <Reference Include="Raven.Client.Embedded">
       <HintPath>..\packages\RavenDB-Embedded.1.0.573\lib\net40\Raven.Client.Embedded.dll</HintPath>
     </Reference>
@@ -84,6 +88,7 @@
       <HintPath>..\packages\SignalR.Ninject.0.3.3\lib\net40\SignalR.Ninject.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
@@ -143,6 +148,7 @@
     <Compile Include="Config\BowerbirdNinjectModuleTest.cs" />
     <Compile Include="Config\UserContextTest.cs" />
     <Compile Include="Controllers\Members\AccountControllerTest.cs" />
+    <Compile Include="Controllers\Members\HomeControllerTest.cs" />
     <Compile Include="Controllers\Members\OrganisationControllerTest.cs" />
     <Compile Include="Controllers\Members\OrganisationPostControllerTest.cs" />
     <Compile Include="Controllers\Members\ProjectControllerTest.cs" />

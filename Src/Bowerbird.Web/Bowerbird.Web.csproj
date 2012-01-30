@@ -138,12 +138,17 @@
     <Compile Include="Controllers\Public\TeamController.cs" />
     <Compile Include="Config\IPermissionChecker.cs" />
     <Compile Include="Config\PermissionChecker.cs" />
+    <Compile Include="Indexes\ProjectMemberIndexes.cs" />
+    <Compile Include="Indexes\StreamItemIndexes.cs" />
+    <Compile Include="Indexes\TeamMemberIndexes.cs" />
+    <Compile Include="Indexes\UserIndexes.cs" />
     <Compile Include="Validators\ModelStateException.cs" />
     <Compile Include="Validators\HandleModelStateExceptionAttribute.cs" />
     <Compile Include="Validators\LatLong.cs" />
     <Compile Include="Validators\ValidResetPasswordKeyRequestAttribute.cs" />
     <Compile Include="Validators\ValidEmailAttribute.cs" />
     <Compile Include="ViewModels\Members\AccountChangePasswordInput.cs" />
+    <Compile Include="ViewModels\Members\MenuItem.cs" />
     <Compile Include="ViewModels\Members\OrganisationCreateInput.cs" />
     <Compile Include="ViewModels\Members\OrganisationPostCreateInput.cs" />
     <Compile Include="ViewModels\Members\OrganisationPostList.cs" />
@@ -165,6 +170,7 @@
     <Compile Include="ViewModels\Members\TeamPostUpdateInput.cs" />
     <Compile Include="ViewModels\Public\ObservationList.cs" />
     <Compile Include="ViewModels\Public\ObservationListInput.cs" />
+    <Compile Include="ViewModels\Shared\Avatar.cs" />
     <Compile Include="ViewModels\Shared\OrganisationIndex.cs" />
     <Compile Include="ViewModels\Shared\OrganisationList.cs" />
     <Compile Include="ViewModels\Shared\OrganisationListInput.cs" />
@@ -230,10 +236,11 @@
     <Compile Include="ViewModels\Members\ProjectUpdateInput.cs" />
     <Compile Include="ViewModels\Shared\TeamList.cs" />
     <Compile Include="ViewModels\Shared\TeamListInput.cs" />
-    <Compile Include="ViewModels\StreamItem.cs">
+    <Compile Include="ViewModels\Shared\StreamItem.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModels\Members\UserUpdate.cs" />
+    <Compile Include="ViewModels\Shared\UserProfile.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

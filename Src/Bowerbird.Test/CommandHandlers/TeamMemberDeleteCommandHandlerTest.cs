@@ -59,7 +59,7 @@ namespace Bowerbird.Test.CommandHandlers
         {
             var user = FakeObjects.TestUserWithId();
             var team = FakeObjects.TestTeamWithId();
-            var teamMember = FakeObjects.TestTeamMemberWitId();
+            var teamMember = FakeObjects.TestTeamMemberWithId();
 
             TeamMember deletedTeamMember = null;
 

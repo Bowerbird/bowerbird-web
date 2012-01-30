@@ -185,6 +185,8 @@
     <Compile Include="DomainModels\ProjectObservation.cs" />
     <Compile Include="DomainModels\Posts\ProjectPost.cs" />
     <Compile Include="DomainModels\Posts\TeamPost.cs" />
+    <Compile Include="DomainModels\StreamItem.cs" />
+    <Compile Include="DomainModels\StreamIndexResult.cs" />
     <Compile Include="DomainModels\ValueObject.cs" />
     <Compile Include="EventHandlers\SendRequestPasswordResetEmailEventHandler.cs" />
     <Compile Include="Events\DomainModelCreatedEvent.cs" />
