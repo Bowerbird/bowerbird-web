@@ -188,6 +188,7 @@
     <Compile Include="DomainModels\StreamItem.cs" />
     <Compile Include="DomainModels\StreamIndexResult.cs" />
     <Compile Include="DomainModels\ValueObject.cs" />
+    <Compile Include="DomainModels\Watchlist.cs" />
     <Compile Include="EventHandlers\SendRequestPasswordResetEmailEventHandler.cs" />
     <Compile Include="Events\DomainModelCreatedEvent.cs" />
     <Compile Include="Events\DomainModelUpdatedEvent.cs" />

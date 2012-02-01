@@ -32,7 +32,7 @@ namespace Bowerbird.Web.ViewModels.Shared
 
         public string Name { get; set; }
 
-        public DateTime MemberSince { get; set; }
+        public DateTime LastLoggedIn { get; set; }
 
         public Avatar Avatar { get; set; }
 

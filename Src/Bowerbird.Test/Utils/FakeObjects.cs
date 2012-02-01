@@ -150,7 +150,7 @@ namespace Bowerbird.Test.Utils
         public static ProjectMember TestProjectMember()
         {
             return new ProjectMember(
-                TestUser(),
+                TestUserWithId(),
                 TestProjectWithId(),
                 TestUserWithId(),
                 TestRoles());
@@ -250,9 +250,9 @@ namespace Bowerbird.Test.Utils
         public static TeamMember TestTeamMember()
         {
             return new TeamMember(
-                TestUser(),
+                TestUserWithId(),
                 TestTeamWithId(),
-                TestUser(),
+                TestUserWithId(),
                 TestRoles());
         }
 
@@ -451,6 +451,18 @@ namespace Bowerbird.Test.Utils
             ((IAssignableId) testObservationNote).SetIdTo("observationnotes", id);
 
             return testObservationNote;
+        }
+
+        public static StreamItem TestStreamItem(DomainModel model, string parentId = null)
+        {
+            return new StreamItem(
+                TestUserWithId(),
+                FakeValues.CreatedDateTime,
+                model.GetType().ToString(), 
+                model.Id,
+                model,
+                parentId
+                );
         }
     }
 }

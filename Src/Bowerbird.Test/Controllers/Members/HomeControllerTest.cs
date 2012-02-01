@@ -19,6 +19,8 @@ using System.ComponentModel.Composition;
 using System.Web.Mvc;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.DomainModels.Members;
+using Bowerbird.Core.DomainModels.Posts;
 using Bowerbird.Test.Utils;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.Controllers.Members;
@@ -58,10 +60,7 @@ namespace Bowerbird.Test.Controllers.Members
                 _documentStore.OpenSession()
                 );
 
-            IndexCreation.CreateIndexes(typeof(StreamItem_ByParentId).Assembly, _documentStore);
-            IndexCreation.CreateIndexes(typeof(ProjectMember_ByUserId).Assembly, _documentStore);
-            IndexCreation.CreateIndexes(typeof(TeamMember_ByUserId).Assembly, _documentStore);
-            IndexCreation.CreateIndexes(typeof(User_ByUserId).Assembly, _documentStore);
+            IndexCreation.CreateIndexes(typeof(StreamItem_WithParentIdAndUserIdAndCreatedDateTimeAndType).Assembly, _documentStore);
         }
 
         [TearDown]
@@ -88,9 +87,14 @@ namespace Bowerbird.Test.Controllers.Members
             var user = FakeObjects.TestUserWithId();
             var project = FakeObjects.TestProjectWithId();
             var team = FakeObjects.TestTeamWithId();
-            var projectMember = FakeObjects.TestProjectMemberWithId("abc");
-            var teamMember = FakeObjects.TestTeamMemberWithId("def");
-            var streamItems = new List<StreamItemViewModel>();
+
+            var projectMember = new ProjectMember(user, project, user, FakeObjects.TestRoles());
+            ((IAssignableId)projectMember).SetIdTo("members", "1");
+            
+            var teamMember = new TeamMember(user, team, user, FakeObjects.TestRoles());
+            ((IAssignableId)teamMember).SetIdTo("members", "2");
+
+            var streamItems = new List<StreamItem>();
 
             const int page = 1;
             const int pageSize = 10;
@@ -102,22 +106,80 @@ namespace Bowerbird.Test.Controllers.Members
                 session.Store(team);
                 session.Store(projectMember);
                 session.Store(teamMember);
+                
                 session.SaveChanges();
 
                 for (var i = 0; i < 10; i++)
                 {
-                    var observation = FakeObjects.TestObservationWithId(i.ToString());
-                    var observationPost = FakeObjects.TestObservationNoteWithId(i.ToString());
-                    var projectPost = FakeObjects.TestProjectPostWithId(i.ToString());
+                    var observation = new Observation(
+                        user,
+                        FakeValues.Title,
+                        DateTime.Now.AddDays(i * -1),
+                        FakeValues.Latitude,
+                        FakeValues.Longitude,
+                        FakeValues.Address,
+                        FakeValues.IsTrue,
+                        FakeValues.Category,
+                        new List<MediaResource>() { FakeObjects.TestImageMediaResourceWithId((i).ToString()) }
+                        );
+
+                    ((IAssignableId)observation).SetIdTo("observations", i.ToString());
+
+                    var observationNote = new ObservationNote(
+                        user,
+                        observation,
+                        FakeValues.CommonName,
+                        FakeValues.ScientificName,
+                        FakeValues.Taxonomy,
+                        FakeValues.Tags,
+                        new Dictionary<string, string>() {{FakeValues.Description, FakeValues.Description}},
+                        new Dictionary<string, string>() {{FakeValues.Description, FakeValues.Description}},
+                        FakeValues.Notes,
+                        DateTime.Now.AddDays(i * -1)
+                        );
+
+                    ((IAssignableId)observationNote).SetIdTo("observationnotes", i.ToString());
+
+                    var projectPost = new ProjectPost(
+                        project, 
+                        user,
+                        DateTime.Now.AddDays(i * -1), 
+                        FakeValues.Subject,
+                        FakeValues.Message,
+                        new List<MediaResource>() { FakeObjects.TestImageMediaResourceWithId((i + 100).ToString()) });
+                    
+                    ((IAssignableId)projectPost).SetIdTo("posts", i.ToString());
+
+                    var teamPost = new TeamPost(
+                        team,
+                        user,
+                        DateTime.Now.AddDays(i*-1),
+                        FakeValues.Subject,
+                        FakeValues.Message,
+                        new List<MediaResource>() {FakeObjects.TestImageMediaResourceWithId((i + 1000).ToString())}
+                        );
+
+                    ((IAssignableId)teamPost).SetIdTo("posts", (i + 100).ToString());
+
                     session.Store(observation);
-                    session.Store(observationPost);
+                    session.Store(observationNote);
                     session.Store(projectPost);
-                    var streamItem1 = new StreamItem(user, DateTime.Now.AddDays(i * -1), "Observation", observation.Id, observation);
-                    var streamItem2 = new StreamItem(user, DateTime.Now.AddDays(i * -1), "ObservationPost", observationPost.Id, observationPost);
-                    var streamItem3 = new StreamItem(user, DateTime.Now.AddDays(i * -1), "ProjectPost", projectPost.Id, projectPost);
-                    streamItems.Add(new StreamItemViewModel() { Item = observation, SubmittedOn = streamItem1.CreatedDateTime, Type = "Observation" });
-                    streamItems.Add(new StreamItemViewModel() { Item = observationPost, SubmittedOn = streamItem2.CreatedDateTime, Type = "ObservationPost" });
-                    streamItems.Add(new StreamItemViewModel() { Item = projectPost, SubmittedOn = streamItem3.CreatedDateTime, Type = "ProjectPost" });
+                    session.Store(teamPost);
+                    
+                    var streamItem1 = new StreamItem(user, DateTime.Now.AddDays(i * -1), "Observation", observation.Id, observation, project.Id);
+                    var streamItem2 = new StreamItem(user, DateTime.Now.AddDays(i * -1), "ObservationNote", observationNote.Id, observationNote, project.Id);
+                    var streamItem3 = new StreamItem(user, DateTime.Now.AddDays(i * -1), "Post", projectPost.Id, projectPost, project.Id);
+                    var streamItem4 = new StreamItem(user, DateTime.Now.AddDays(i * -1), "Post", teamPost.Id, teamPost, team.Id);
+
+                    session.Store(streamItem1);
+                    session.Store(streamItem2);
+                    session.Store(streamItem3);
+                    session.Store(streamItem4);
+
+                    streamItems.Add(streamItem1);
+                    streamItems.Add(streamItem2);
+                    streamItems.Add(streamItem3);
+                    streamItems.Add(streamItem4);
                 }
 
                 session.SaveChanges();
@@ -125,7 +187,7 @@ namespace Bowerbird.Test.Controllers.Members
 
             _controller.SetupAjaxRequest();
 
-            var result = _controller.Index(new HomeIndexInput() { Page = page, PageSize = pageSize, UserId = user.Id});
+            var result = _controller.Index(new HomeIndexInput() { Page = page, PageSize = pageSize});
 
             Assert.IsNotNull(result);
             Assert.IsInstanceOf<JsonResult>(result);
@@ -138,11 +200,11 @@ namespace Bowerbird.Test.Controllers.Members
             var jsonData = jsonResult.Data as HomeIndex;
 
             Assert.IsNotNull(jsonData);
-            Assert.AreEqual(page, jsonData.Page);
-            Assert.AreEqual(pageSize, jsonData.PageSize);
             Assert.AreEqual(1, jsonData.ProjectMenu.Count());
             Assert.AreEqual(1, jsonData.TeamMenu.Count());
             Assert.AreEqual(streamItems.Count, jsonData.StreamItems.TotalResultCount);
+            Assert.AreEqual(page, jsonData.StreamItems.SelectedPageNumber.Number);
+            Assert.AreEqual(pageSize, jsonData.StreamItems.PageSize);
         }
 
         #endregion 

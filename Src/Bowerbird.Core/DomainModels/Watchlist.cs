@@ -1,10 +1,25 @@
+/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+
+ Developers: 
+ * Frank Radocaj : frank@radocaj.com
+ * Hamish Crittenden : hamish.crittenden@gmail.com
+ 
+ Project Manager: 
+ * Ken Walker : kwalker@museum.vic.gov.au
+ 
+ Funded by:
+ * Atlas of Living Australia
+ 
+*/
+
 using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.DomainModels.DenormalisedReferences;
+using Bowerbird.Core.Events;
 
-namespace Bowerbird.Core.Entities
+namespace Bowerbird.Core.DomainModels
 {
-    public class Watchlist : Entity
+    public class Watchlist : DomainModel, INamedDomainModel
     {
-
         #region Members
 
         #endregion
@@ -23,18 +38,27 @@ namespace Bowerbird.Core.Entities
             string name,
             string querystringJson,
             User createdByUser)
-            //: base(createdByUser)
+            : base()
         {
+            Check.RequireNotNull(createdByUser, "createdByUser");
             Check.RequireNotNullOrWhitespace(name, "name");
             Check.RequireNotNullOrWhitespace(querystringJson, "querystringJson");
 
-            Name = name;
-            QuerystringJson = querystringJson;
+            User = createdByUser;
+
+            SetDetails(
+                name,
+                querystringJson);
+
+            EventProcessor.Raise(new DomainModelUpdatedEvent<Watchlist>(this, createdByUser));
         }
+
 
         #endregion
 
         #region Properties
+
+        public DenormalisedUserReference User { get; set; }
 
         public string Name { get; set; }
 
@@ -44,7 +68,19 @@ namespace Bowerbird.Core.Entities
 
         #region Methods
 
-        #endregion
+        private void SetDetails(string name, string querystringJson)
+        {
+            Name = name;
+            QuerystringJson = querystringJson;
+        }
 
+        public void UpdateDetails(string name, string querystringJson, User updatedByUser)
+        {
+            SetDetails(name, querystringJson);
+
+            EventProcessor.Raise(new DomainModelUpdatedEvent<Watchlist>(this, updatedByUser));
+        }
+
+        #endregion
     }
 }

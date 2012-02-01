@@ -37,6 +37,7 @@ namespace Bowerbird.Core.DomainModels
             , string type
             , string id
             , DomainModel item
+            , string parentId = null
             )
         {
             Check.RequireNotNull(createdByUser, "createdByUser");
@@ -45,6 +46,8 @@ namespace Bowerbird.Core.DomainModels
             CreatedDateTime = createdDateTime;
             Type = type;
             ItemId = id;
+            Item = item;
+            ParentId = parentId;
         }
 
         #endregion

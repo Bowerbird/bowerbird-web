@@ -18,27 +18,48 @@ using Raven.Client.Indexes;
 
 namespace Bowerbird.Web.Indexes
 {
-    public class StreamItem_ByParentId : AbstractIndexCreationTask<StreamItem>
+    public class StreamItem_WithParentIdAndUserIdAndCreatedDateTimeAndType : AbstractIndexCreationTask<StreamItem>
     {
-        public StreamItem_ByParentId()
+        public StreamItem_WithParentIdAndUserIdAndCreatedDateTimeAndType()
         {
-            Map = streamItems => streamItems.Select(streamItem => streamItem.ParentId);
+            Map = streamItems => from streamItem in streamItems
+
+                                 select new
+                                            {
+                                                streamItem.ParentId, 
+                                                UserId = streamItem.User.Id, 
+                                                streamItem.CreatedDateTime, 
+                                                streamItem.Type, 
+                                                streamItem.ItemId
+                                            };
         }
     }
 
-    public class StreamItem_ByUserId : AbstractIndexCreationTask<StreamItem>
-    {
-        public StreamItem_ByUserId()
-        {
-            Map = streamItems => streamItems.Select(streamItem => streamItem.User.Id);
-        }
-    }
+    //public class StreamItem_DefaultForUser : AbstractIndexCreationTask<StreamItem>
+    //{
+    //    public StreamItem_WithStuff()
+    //    {
+    //        Map = streamItems => from streamItem in streamItems
 
-    public class StreamItem_ByType : AbstractIndexCreationTask<StreamItem>
-    {
-        public StreamItem_ByType()
-        {
-            Map = streamItems => streamItems.Select(streamItem => streamItem.Type);
-        }
-    }
+    //                             select new
+    //                             {
+    //                                 streamItem.ParentId,
+    //                                 UserId = streamItem.User.Id,
+    //                                 streamItem.CreatedDateTime,
+    //                                 streamItem.Type,
+    //                                 streamItem.ItemId
+    //                             };
+
+    //        TransformResults = (database, results) =>
+    //                           from result in results
+    //                           let observation = database.Load<Observation>(result.ItemId)
+    //                           let post = database.Load<Post>(result.ItemId)
+    //                           let observationNote = database.Load<ObservationNote>(result.ItemId)
+    //                           select new
+    //                            {
+    //                                Item = post ?? observation ?? observationNote,
+
+    //                            };
+    //    }
+    //}
 }

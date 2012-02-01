@@ -34,15 +34,11 @@ namespace Bowerbird.Web.ViewModels.Members
 
         public UserProfile UserProfile { get; set; }
 
-        public List<MenuItem> ProjectMenu { get; set; }
+        public IEnumerable<MenuItem> ProjectMenu { get; set; }
 
-        public List<MenuItem> TeamMenu { get; set; }
+        public IEnumerable<MenuItem> TeamMenu { get; set; }
 
-        public List<MenuItem> WatchlistMenu { get; set; }
-
-        public int Page { get; set; }
-
-        public int PageSize { get; set; }
+        public IEnumerable<MenuItem> WatchlistMenu { get; set; }
 
         #endregion
 

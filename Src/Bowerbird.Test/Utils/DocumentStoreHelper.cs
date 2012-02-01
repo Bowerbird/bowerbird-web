@@ -13,7 +13,11 @@ namespace Bowerbird.Test.Utils
         {
             return new EmbeddableDocumentStore()
             {
-                RunInMemory = true
+                RunInMemory = true,
+                Conventions = new DocumentConvention()
+                                  {
+                                      DefaultQueryingConsistency = ConsistencyOptions.QueryYourWrites
+                                  }
             }
             .Initialize();
         }

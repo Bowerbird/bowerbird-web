@@ -160,6 +160,7 @@
     <Compile Include="Controllers\Members\TeamMembersControllerTest.cs" />
     <Compile Include="Controllers\Members\TeamPostControllerTest.cs" />
     <Compile Include="Controllers\Members\UserControllerTest.cs" />
+    <Compile Include="Controllers\Members\WatchlistController.cs" />
     <Compile Include="Controllers\Public\AccountControllerTest.cs" />
     <Compile Include="Controllers\Public\ObservationControllerTest.cs" />
     <Compile Include="Controllers\Public\OrganisationControllerTest.cs" />
@@ -194,6 +195,10 @@
     <Compile Include="Extensions\CollectionExtensionsTest.cs" />
     <Compile Include="Extensions\StringExtensionsTest.cs" />
     <Compile Include="Extensions\UrlHelperExtensionsTest.cs" />
+    <Compile Include="Indexes\ProjectMemberIndexTest.cs" />
+    <Compile Include="Indexes\StreamItemIndexTest.cs" />
+    <Compile Include="Indexes\TeamMemberIndexTest.cs" />
+    <Compile Include="Indexes\UserIndexTest.cs" />
     <Compile Include="Utils\Denormaliser.cs" />
     <Compile Include="Utils\FakeViewModels.cs" />
     <Compile Include="Utils\BootstrapperHelper.cs" />

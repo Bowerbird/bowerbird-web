@@ -94,6 +94,8 @@ namespace Bowerbird.Core.DomainModels
 
         public List<DenormalisedMemberReference> Memberships { get; private set; }
 
+        public List<DenormalisedNamedDomainModelReference<Watchlist>> Watchlists { get; private set; }
+
         #endregion
 
         #region Methods
@@ -201,6 +203,27 @@ namespace Bowerbird.Core.DomainModels
             Check.RequireNotNullOrWhitespace(memberId, "memberId");
 
             Memberships.RemoveAll(x => x.Type == memberType && x.Id == memberId);
+
+            return this;
+        }
+
+        public User AddWatchlist(Watchlist watchlist)
+        {
+            Check.RequireNotNull(watchlist, "watchlist");
+
+            if(Watchlists.All(x => (x.Name != watchlist.Name)))
+            {
+                Watchlists.Add(watchlist);
+            }
+
+            return this;
+        }
+
+        public User RemoveWatchlist(string watchlistId)
+        {
+            Check.RequireNotNullOrWhitespace(watchlistId, "watchlistId");
+
+            Watchlists.RemoveAll(x => (x.Id == watchlistId));
 
             return this;
         }

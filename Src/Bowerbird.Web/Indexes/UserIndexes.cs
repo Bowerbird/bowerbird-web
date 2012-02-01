@@ -18,19 +18,12 @@ using Raven.Client.Indexes;
 
 namespace Bowerbird.Web.Indexes
 {
-    public class User_ByUserId : AbstractIndexCreationTask<User>
+    public class User_WithUserIdAndEmail : AbstractIndexCreationTask<User>
     {
-        public User_ByUserId()
+        public User_WithUserIdAndEmail()
         {
-            Map = users => users.Select(x => x.Id);
-        }
-    }
-
-    public class User_ByEmail : AbstractIndexCreationTask<User>
-    {
-        public User_ByEmail()
-        {
-            Map = users => users.Select(x => x.Email);
+            Map = users => from user in users
+                           select new { UserId = user.Id, user.Email};
         }
     }
 }

@@ -38,6 +38,8 @@ namespace Bowerbird.Web.ViewModels.Shared
 
         public string ItemId { get; set; }
 
+        public string UserId { get; set; }
+
         #endregion
 
         #region Methods

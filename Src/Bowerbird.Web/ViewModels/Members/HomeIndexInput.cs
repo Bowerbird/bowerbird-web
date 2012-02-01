@@ -29,11 +29,11 @@ namespace Bowerbird.Web.ViewModels.Members
 
         #region Properties
 
-        public string UserId { get; set; }
-
         public int Page { get; set; }
 
         public int PageSize { get; set; }
+
+        public string MenuId { get; set; }
 
         #endregion
 
