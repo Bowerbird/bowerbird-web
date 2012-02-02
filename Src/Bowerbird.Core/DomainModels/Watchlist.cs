@@ -35,9 +35,10 @@ namespace Bowerbird.Core.DomainModels
         }
 
         public Watchlist(
+            User createdByUser,
             string name,
-            string querystringJson,
-            User createdByUser)
+            string querystringJson
+            )
             : base()
         {
             Check.RequireNotNull(createdByUser, "createdByUser");
@@ -74,7 +75,7 @@ namespace Bowerbird.Core.DomainModels
             QuerystringJson = querystringJson;
         }
 
-        public void UpdateDetails(string name, string querystringJson, User updatedByUser)
+        public void UpdateDetails( User updatedByUser, string name, string querystringJson)
         {
             SetDetails(name, querystringJson);
 

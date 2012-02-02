@@ -130,6 +130,7 @@
     <Compile Include="Controllers\Members\TeamController.cs" />
     <Compile Include="Controllers\Members\TeamMemberController.cs" />
     <Compile Include="Controllers\Members\TeamPostController.cs" />
+    <Compile Include="Controllers\Members\WatchlistController.cs" />
     <Compile Include="Controllers\Public\AccountController.cs" />
     <Compile Include="Controllers\Public\HomeController.cs" />
     <Compile Include="Controllers\Public\ObservationController.cs" />
@@ -168,6 +169,11 @@
     <Compile Include="ViewModels\Members\TeamPostCreateInput.cs" />
     <Compile Include="ViewModels\Members\TeamPostListInput.cs" />
     <Compile Include="ViewModels\Members\TeamPostUpdateInput.cs" />
+    <Compile Include="ViewModels\Members\WatchlistCreateInput.cs" />
+    <Compile Include="ViewModels\Members\WatchlistIndex.cs" />
+    <Compile Include="ViewModels\Members\WatchlistList.cs" />
+    <Compile Include="ViewModels\Members\WatchlistListInput.cs" />
+    <Compile Include="ViewModels\Members\WatchlistUpdateInput.cs" />
     <Compile Include="ViewModels\Public\ObservationList.cs" />
     <Compile Include="ViewModels\Public\ObservationListInput.cs" />
     <Compile Include="ViewModels\Shared\Avatar.cs" />

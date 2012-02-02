@@ -115,6 +115,9 @@
     <Compile Include="CommandHandlers\ProjectMemberDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\UserUpdateLastLoginCommandHandler.cs" />
     <Compile Include="CommandHandlers\SetupSystemCommandHandler.cs" />
+    <Compile Include="CommandHandlers\WatchlistCreateCommandHandler.cs" />
+    <Compile Include="CommandHandlers\WatchlistDeleteCommandHandler.cs" />
+    <Compile Include="CommandHandlers\WatchlistUpdateCommandHandler.cs" />
     <Compile Include="Commands\OrganisationCreateCommand.cs" />
     <Compile Include="Commands\OrganisationDeleteCommand.cs" />
     <Compile Include="Commands\OrganisationPostCreateCommand.cs" />
@@ -159,6 +162,9 @@
     <Compile Include="Commands\UserUpdateLastLoginCommand.cs" />
     <Compile Include="Commands\SetupSystemCommand.cs" />
     <Compile Include="Commands\UserUpdatePasswordCommand.cs" />
+    <Compile Include="Commands\WatchlistCreateCommand.cs" />
+    <Compile Include="Commands\WatchlistDeleteCommand.cs" />
+    <Compile Include="Commands\WatchlistUpdateCommand.cs" />
     <Compile Include="Config\BowerbirdMediaConfigurationSection.cs" />
     <Compile Include="Config\BowerbirdEmailConfigurationSection.cs" />
     <Compile Include="Config\BowerbirdDocumentStoreConfigurationSection.cs" />

@@ -464,5 +464,28 @@ namespace Bowerbird.Test.Utils
                 parentId
                 );
         }
+
+        public static Watchlist TestWatchlistWithId(string id)
+        {
+            var watchlist = TestWatchlist();
+
+            ((IAssignableId)watchlist).SetIdTo("watchlists", id);
+
+            return watchlist;
+        }
+
+        public static Watchlist TestWatchlistWithId()
+        {
+            return TestWatchlistWithId(FakeValues.KeyString);
+        }
+
+        public static Watchlist TestWatchlist()
+        {
+            return new Watchlist(
+                TestUserWithId(), 
+                FakeValues.Name, 
+                FakeValues.QuerystringJson);
+        }
+
     }
 }

@@ -145,6 +145,9 @@
     <Compile Include="CommandHandlers\TeamUpdateCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\UserCreateCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\UserUpdateLastLoginCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\WatchlistCreateCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\WatchlistDeleteCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\WatchlistUpdateCommandHandlerTest.cs" />
     <Compile Include="Config\BowerbirdNinjectModuleTest.cs" />
     <Compile Include="Config\UserContextTest.cs" />
     <Compile Include="Controllers\Members\AccountControllerTest.cs" />
@@ -189,6 +192,7 @@
     <Compile Include="DomainModels\TeamTest.cs" />
     <Compile Include="DomainModels\UserTest.cs" />
     <Compile Include="DomainModels\ValueObjectTest.cs" />
+    <Compile Include="DomainModels\WatchlistTest.cs" />
     <Compile Include="EventHandlers\NotifyActivityEventHandlerBaseTest.cs" />
     <Compile Include="EventHandlers\NotifyActivityObservationCreatedEventHandlerTest.cs" />
     <Compile Include="EventHandlers\NotifyActivityUserLoggedInEventHandlerTest.cs" />
