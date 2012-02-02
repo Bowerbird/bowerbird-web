@@ -51,7 +51,7 @@ namespace Bowerbird.Test.DomainModels.DenormalisedReferences
 
         private static Observation TestObservation()
         {
-            return new Observation(FakeObjects.TestUser(), FakeValues.Title, FakeValues.CreatedDateTime, FakeValues.Latitude, FakeValues.Longitude, FakeValues.Address, FakeValues.IsTrue, FakeValues.Category, TestMediaResources());
+            return new Observation(FakeObjects.TestUser(), FakeValues.Title, FakeValues.CreatedDateTime, FakeValues.CreatedDateTime, FakeValues.Latitude, FakeValues.Longitude, FakeValues.Address, FakeValues.IsTrue, FakeValues.Category, TestMediaResources());
         }
 
         private static IEnumerable<MediaResource> TestMediaResources()

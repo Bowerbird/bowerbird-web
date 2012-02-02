@@ -14,6 +14,7 @@
  
 */
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Bowerbird.Core.DomainModels;
@@ -110,32 +111,33 @@ namespace Bowerbird.Web.Controllers.Public
 
         private ObservationList MakeObservationListByProjectId(ObservationListInput observationListInput)
         {
-            RavenQueryStatistics stats;
+            throw new NotImplementedException();
+            //RavenQueryStatistics stats;
 
-            var projectObservations = _documentSession
-                .Query<ProjectObservation>()
-                .Where(x => x.Project.Id == observationListInput.ProjectId)
-                .Customize(x => x.Include(observationListInput.ProjectId))
-                .Statistics(out stats)
-                .Skip(observationListInput.Page)
-                .Take(observationListInput.PageSize)
-                .ToArray();
+            //var projectObservations = _documentSession
+            //    .Query<ProjectObservation>()
+            //    .Where(x => x.Project.Id == observationListInput.ProjectId)
+            //    .Customize(x => x.Include(observationListInput.ProjectId))
+            //    .Statistics(out stats)
+            //    .Skip(observationListInput.Page)
+            //    .Take(observationListInput.PageSize)
+            //    .ToArray();
 
-            var results = _documentSession
-                .Load<Observation>(projectObservations.Select(x => x.Observation.Id))
-                .ToArray();
+            //var results = _documentSession
+            //    .Load<Observation>(projectObservations.Select(x => x.Observation.Id))
+            //    .ToArray();
 
-            return new ObservationList
-            {
-                Project = _documentSession.Load<Project>(observationListInput.ProjectId),
-                Page = observationListInput.Page,
-                PageSize = observationListInput.PageSize,
-                Observations = results.ToPagedList(
-                    observationListInput.Page,
-                    observationListInput.PageSize,
-                    stats.TotalResults,
-                    null)
-            };
+            //return new ObservationList
+            //{
+            //    Project = _documentSession.Load<Project>(observationListInput.ProjectId),
+            //    Page = observationListInput.Page,
+            //    PageSize = observationListInput.PageSize,
+            //    Observations = results.ToPagedList(
+            //        observationListInput.Page,
+            //        observationListInput.PageSize,
+            //        stats.TotalResults,
+            //        null)
+            //};
         }
 
         #endregion      

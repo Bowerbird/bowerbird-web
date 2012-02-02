@@ -33,11 +33,10 @@ namespace Bowerbird.Core.DomainModels.Comments
         }
 
         public PostComment(
-            User createdByUser
-            , Post post
-            , DateTime commentedOn
-            ,string message
-            )
+            User createdByUser, 
+            Post post, 
+            DateTime commentedOn,
+            string message)
             : base(createdByUser,
             commentedOn,
             message)

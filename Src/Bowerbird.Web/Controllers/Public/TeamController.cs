@@ -14,6 +14,7 @@
  
 */
 
+using System;
 using System.Linq;
 using System.Web.Mvc;
 using Bowerbird.Core.DesignByContract;
@@ -70,17 +71,19 @@ namespace Bowerbird.Web.Controllers.Public
         {
             var team = _documentSession.Load<Team>(idInput.Id);
 
-            var projects =
-                _documentSession
-                .Query<Project>()
-                .Where(x => x.Team.Id == idInput.Id)
-                .ToList();
+            throw new NotImplementedException();
 
-            return new TeamIndex()
-            {
-                Team = team,
-                Projects = projects
-            };
+            //var projects =
+            //    _documentSession
+            //    .Query<Project>()
+            //    .Where(x => x.Team.Id == idInput.Id)
+            //    .ToList();
+
+            //return new TeamIndex()
+            //{
+            //    Team = team,
+            //    Projects = projects
+            //};
         }
 
         #endregion

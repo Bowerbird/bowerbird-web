@@ -59,7 +59,7 @@ namespace Bowerbird.Test.CommandHandlers
         {
             var originalValue = FakeObjects.TestPostCommentWithId();
             var user = FakeObjects.TestUserWithId();
-            var post = FakeObjects.TestProjectPostWithId();
+            var post = FakeObjects.TestPostWithId();
 
             PostComment newValue;
 

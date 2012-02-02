@@ -20,7 +20,7 @@ using Bowerbird.Core.DomainModels.DenormalisedReferences;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public class Project : DomainModel, INamedDomainModel
+    public class Project : Group
     {
         #region Members
 
@@ -37,7 +37,7 @@ namespace Bowerbird.Core.DomainModels
             User createdByUser,
             string name,
             string description,
-            Team team = null)
+            string website)
             : this()
         {
             Check.RequireNotNull(createdByUser, "createdByUser");
@@ -47,7 +47,7 @@ namespace Bowerbird.Core.DomainModels
             SetDetails(
                 name,
                 description,
-                team);
+                website);
 
             EventProcessor.Raise(new DomainModelCreatedEvent<Project>(this, createdByUser));
         }
@@ -56,24 +56,11 @@ namespace Bowerbird.Core.DomainModels
 
         #region Properties
 
-        public string Name { get; private set; }
-
-        public string Description { get; private set; }
-
-        public DenormalisedNamedDomainModelReference<Team> Team { get; set; }
-
         #endregion
 
         #region Methods
 
-        private void SetDetails(string name, string description, Team team = null)
-        {
-            Name = name;
-            Description = description;
-            if (team != null) Team = team;
-        }
-
-        public Project UpdateDetails(User updatedByUser, string name, string description, Team team = null)
+        public Project UpdateDetails(User updatedByUser, string name, string description, string website)
         {
             Check.RequireNotNull(updatedByUser, "updatedByUser");
             Check.RequireNotNullOrWhitespace(name, "name");
@@ -82,7 +69,7 @@ namespace Bowerbird.Core.DomainModels
             SetDetails(
                 name,
                 description,
-                team);
+                website);
 
             EventProcessor.Raise(new DomainModelUpdatedEvent<Project>(this, updatedByUser));
 

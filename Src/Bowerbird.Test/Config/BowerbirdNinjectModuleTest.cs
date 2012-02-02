@@ -16,23 +16,16 @@
 
 using Bowerbird.Core.CommandHandlers;
 using Bowerbird.Core.Commands;
+using Microsoft.Practices.ServiceLocation;
+using NUnit.Framework;
+using Bowerbird.Test.Utils;
+using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.EventHandlers;
+using Bowerbird.Core.Events;
+using Bowerbird.Web.EventHandlers;
 
 namespace Bowerbird.Test.Config
 {
-    #region Namespaces
-
-    using Microsoft.Practices.ServiceLocation;
-    using NUnit.Framework;
-    
-    using Bowerbird.Test.Utils;
-    using Bowerbird.Core.DomainModels;
-    using Bowerbird.Core.EventHandlers;
-    using Bowerbird.Core.Events;
-    using Bowerbird.Web.EventHandlers;
-    using Bowerbird.Web.ViewModelFactories;
-
-    #endregion
-
     [TestFixture] 
     public class BowerbirdNinjectModuleTest
     {

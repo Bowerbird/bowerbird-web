@@ -56,7 +56,7 @@ namespace Bowerbird.Test.CommandHandlers
         [Category(TestCategory.Unit)]
         public void PostCommentDeleteCommandHandler_Deletes_PostComment()
         {
-            var projectPost = FakeObjects.TestProjectPostWithId();
+            var post = FakeObjects.TestPostWithId();
             var user = FakeObjects.TestUserWithId();
             var postComment = FakeObjects.TestPostCommentWithId();
 
@@ -71,7 +71,7 @@ namespace Bowerbird.Test.CommandHandlers
             using (var session = _store.OpenSession())
             {
                 session.Store(user);
-                session.Store(projectPost);
+                session.Store(post);
                 session.Store(postComment);
 
                 var commandHandler = new PostCommentDeleteCommandHandler(session);

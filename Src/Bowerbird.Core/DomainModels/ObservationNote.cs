@@ -23,7 +23,7 @@ using System.Collections.Generic;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public class ObservationNote : DomainModel
+    public class ObservationNote : Contribution
     {
         #region Members
 
@@ -47,17 +47,16 @@ namespace Bowerbird.Core.DomainModels
             IDictionary<string, string> descriptions,
             IDictionary<string, string> references,
             string notes,
-            DateTime submittedOn)
-            : this()
+            DateTime createdOn)
+            : base(
+            createdByUser,
+            createdOn)
         {
-            Check.RequireNotNull(createdByUser, "createdByUser");
             Check.RequireNotNull(observation, "observation");
             Check.RequireNotNull(descriptions, "descriptions");
             Check.RequireNotNull(references, "references");
 
-            User = createdByUser;
             Observation = observation;
-            SubmittedOn = submittedOn;
 
             SetDetails(
                 commonName,
@@ -75,11 +74,7 @@ namespace Bowerbird.Core.DomainModels
 
         #region Properties
 
-        public DenormalisedUserReference User { get; private set; }
-
         public DenormalisedObservationReference Observation { get; private set; }
-
-        public DateTime SubmittedOn { get; private set; }
 
         public string ScientificName { get; private set; }
 

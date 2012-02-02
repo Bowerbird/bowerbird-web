@@ -14,6 +14,7 @@
  
 */
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Bowerbird.Core.Commands;
@@ -58,6 +59,7 @@ namespace Bowerbird.Core.CommandHandlers
             var observation = new Observation(
                 _documentSession.Load<User>(observationCreateCommand.UserId),
                 observationCreateCommand.Title,
+                DateTime.Now,
                 observationCreateCommand.ObservedOn,
                 observationCreateCommand.Latitude,
                 observationCreateCommand.Longitude,
@@ -67,6 +69,13 @@ namespace Bowerbird.Core.CommandHandlers
                 observationCreateCommand.MediaResources.IsNotNullAndHasItems()
                     ? _documentSession.Load<MediaResource>(observationCreateCommand.MediaResources).ToList()
                     : new List<MediaResource>());
+
+            /* if Observation is in project 
+             * then create GroupContribution and add Observation
+             * then find all groups in hierarchy 
+             * then for each group in hierarchy
+             * add group to GroupContribution
+             */
 
             _documentSession.Store(observation);
         }

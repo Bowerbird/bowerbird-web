@@ -67,7 +67,7 @@ namespace Bowerbird.Test.DomainModels
             Assert.AreEqual(testPost.User.LastName, FakeObjects.TestUser().LastName);
             Assert.AreEqual(testPost.Subject, FakeValues.Subject);
             Assert.AreEqual(testPost.Message, FakeValues.Message);
-            Assert.AreEqual(testPost.PostedOn, FakeValues.CreatedDateTime);
+            Assert.AreEqual(testPost.CreatedOn, FakeValues.CreatedDateTime);
             Assert.AreEqual(testPost.MediaResources[0].Description, FakeValues.Description);
             Assert.AreEqual(testPost.MediaResources[0].OriginalFileName, FakeValues.Filename);
             Assert.AreEqual(testPost.MediaResources[0].FileFormat, FakeValues.FileFormat);

@@ -22,7 +22,6 @@ using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.DomainModels.Members;
 using Bowerbird.Core.Paging;
 using Bowerbird.Web.Config;
-using Bowerbird.Web.Indexes;
 using Bowerbird.Web.ViewModels.Members;
 using Bowerbird.Web.ViewModels.Shared;
 using Raven.Client;
@@ -77,109 +76,64 @@ namespace Bowerbird.Web.Controllers.Members
 
         private HomeIndex MakeHomeIndex(HomeIndexInput indexInput)
         {
-            // add menu id
-            //List<string> userProjects;
-            //List<string> userTeams;
+            var homeIndex = new HomeIndex();
 
-            return new HomeIndex()
-                       {
-                           ProjectMenu = ProjectMenuForUser(_userContext.GetAuthenticatedUserId()/*, out userProjects*/),
-                           TeamMenu = TeamMenuForUser(_userContext.GetAuthenticatedUserId()/*, out userTeams*/),
-                           UserProfile = UserProfileForUser(_userContext.GetAuthenticatedUserId()),
-                           StreamItems = StreamItemsForUser(new List<string>()
-                                //.AddRangeFromList(userProjects)
-                                //.AddRangeFromList(userTeams), 
-                                ,indexInput.Page
-                                ,indexInput.PageSize
-                                )
-                       };
-        }
+            throw new NotImplementedException();
 
-        private IEnumerable<MenuItem> ProjectMenuForUser(string userId/*, out List<string> projectIds*/)
-        {
-            return _documentSession
-                .Advanced
-                .LuceneQuery<ProjectMember>("ProjectMember/WithProjectIdAndUserId")
-                .WhereEquals("UserId", userId)
-                .WaitForNonStaleResults()
-                .Select(
-                    x =>
-                    new MenuItem()
-                        {
-                            Id = x.Project.Id,
-                            Name = x.Project.Name
-                        });
-            //.ExtractFromResults(x => x.Select(y => y.Id).ToList(), out projectIds);
-        }
+            //var projectMenu = _documentSession
+            //    .Advanced
+            //    .LuceneQuery<ProjectMember>("ProjectMember/ByUserId")
+            //    .WhereEquals("Id", indexInput.UserId)
+            //    .WaitForNonStaleResults()
+            //    .Select(
+            //        x => 
+            //            new MenuItem()
+            //                {
+            //                    Id = x.Project.Id, 
+            //                    Name = x.Project.Name
+            //                })
+            //    .ToList();
 
-        private IEnumerable<MenuItem> TeamMenuForUser(string userId/*, out List<string> teamIds*/)
-        {
-            return _documentSession
-                .Advanced
-                .LuceneQuery<TeamMember>("TeamMember/WithTeamIdAndUserId")
-                .WhereEquals("UserId", userId)
-                .WaitForNonStaleResults()
-                .Select(
-                    x =>
-                    new MenuItem()
-                        {
-                            Id = x.Team.Id,
-                            Name = x.Team.Name
-                        });
-            //.ExtractFromResults(x => x.Select(y => y.Id).ToList(), out teamIds);
-        }
+            //var teamMenu = _documentSession
+            //    .Advanced
+            //    .LuceneQuery<TeamMember>("TeamMember/ByUserId")
+            //    .WhereEquals("Id", indexInput.UserId)
+            //    .WaitForNonStaleResults()
+            //    .Select(
+            //        x => 
+            //            new MenuItem()
+            //                {
+            //                    Id = x.Team.Id, 
+            //                    Name = x.Team.Name
+            //                })
+            //    .ToList();
 
-        private PagedList<StreamItemViewModel> StreamItemsForUser(IEnumerable<string> userStreamParentIds, int page, int pageSize)
-        {
-            RavenQueryStatistics stats;
+            //var streamItems = _documentSession
+            //    .Advanced
+            //    .LuceneQuery<StreamItem>("StreamItem/ByParentId")
+            //    .WhereContains(
+            //        "Id", 
+            //        new List<string>()
+            //            .AddRangeFromList(projectMenu.Select(x => x.Id).ToList())
+            //            .AddRangeFromList(teamMenu.Select(x => x.Id).ToList()))
+            //    .WaitForNonStaleResults()
+            //    .Select(
+            //        x =>
+            //        new StreamItemViewModel()
+            //            {
+            //                Item = x.Item,
+            //                ItemId = x.ItemId,
+            //                ParentId = x.ParentId,
+            //                SubmittedOn = x.CreatedDateTime,
+            //                Type = x.Type
+            //            })
+            //    .ToList();
+            
+            //var userProfile = _documentSession.Query<User>()
+            //    .Where(u => u.Id == indexInput.UserId)
+            //    .Select(u => new UserProfile() {Id = u.Id, Name = u.FirstName + " " + u.LastName});
 
-            var streamItems = _documentSession
-                .Advanced
-                .LuceneQuery<StreamItem>("StreamItem/WithParentIdAndUserIdAndCreatedDateTimeAndType")
-                //.Query<StreamItem, StreamItem_WithStuff>()
-                .Statistics(out stats)
-                //.Where(x => x.ParentId.In(userStreamParentIds))
-                .WhereContains("ParentId", userStreamParentIds)
-                //.WaitForNonStaleResults()
-                .Skip(page)
-                .Take(pageSize)
-                .Select(
-                    x =>
-                    new StreamItemViewModel()
-                        {
-                            Item = x.Item,
-                            ItemId = x.ItemId,
-                            ParentId = x.ParentId,
-                            SubmittedOn = x.CreatedDateTime,
-                            Type = x.Type,
-                            UserId = x.User.Id
-                        });
-
-            return streamItems.ToPagedList(
-                    page,
-                    pageSize,
-                    stats.TotalResults,
-                    null);
-        }
-
-        private UserProfile UserProfileForUser(string userId)
-        {
-            var userProfile = _documentSession
-                .Advanced
-                .LuceneQuery<User>("User/WithUserIdAndEmail")
-                .WhereContains("UserId", userId)
-                .WaitForNonStaleResults()
-                .Select(
-                    x =>
-                    new UserProfile()
-                    {
-                        Id = x.Id,
-                        LastLoggedIn = x.LastLoggedIn,
-                        Name = x.FirstName + " " + x.LastName
-                    })
-                .FirstOrDefault();
-
-            return userProfile;
+            //return homeIndex;
         }
 
         #endregion      

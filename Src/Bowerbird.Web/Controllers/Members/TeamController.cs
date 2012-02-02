@@ -12,6 +12,7 @@
  
 */
 
+using System;
 using System.Linq;
 using System.Web.Mvc;
 using Bowerbird.Core.Commands;
@@ -139,7 +140,7 @@ namespace Bowerbird.Web.Controllers.Members
         [HttpPost]
         public ActionResult CreateProject(ProjectCreateInput projectCreateInput, TeamProjectCreateInput teamProjectCreateInput)
         {
-            if(_userContext.HasTeamPermission(teamProjectCreateInput.TeamId, Permissions.CreateTeamProject))
+            if(_userContext.HasGroupPermission(teamProjectCreateInput.TeamId, Permissions.CreateTeamProject))
             {
                 return HttpUnauthorized();
             }
@@ -156,43 +157,45 @@ namespace Bowerbird.Web.Controllers.Members
 
         private TeamIndex MakeIndex(IdInput idInput)
         {
-            var team = _documentSession.Load<Team>(idInput.Id);
+            throw new NotImplementedException();
+            //var team = _documentSession.Load<Team>(idInput.Id);
 
-            var projects =
-                Queryable.Where(_documentSession
-                           .Query<Project>(), x => x.Team.Id == idInput.Id)
-                .ToList();
+            //var projects =
+            //    Queryable.Where(_documentSession
+            //               .Query<Project>(), x => x.Team.Id == idInput.Id)
+            //    .ToList();
 
-            return new TeamIndex()
-            {
-                Team = team,
-                Projects = projects
-            };
+            //return new TeamIndex()
+            //{
+            //    Team = team,
+            //    Projects = projects
+            //};
         }
 
         private TeamList MakeTeamList(TeamListInput listInput)
         {
-            RavenQueryStatistics stats;
+            throw new NotImplementedException();
+            //RavenQueryStatistics stats;
 
-            var results = _documentSession
-                .Query<Team>()
-                .Where(x => x.Organisation.Id == listInput.OrganisationId)
-                .Statistics(out stats)
-                .Skip(listInput.Page)
-                .Take(listInput.PageSize)
-                .ToArray(); // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
+            //var results = _documentSession
+            //    .Query<Team>()
+            //    .Where(x => x.Organisation.Id == listInput.OrganisationId)
+            //    .Statistics(out stats)
+            //    .Skip(listInput.Page)
+            //    .Take(listInput.PageSize)
+            //    .ToArray(); // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
 
-            return new TeamList()
-            {
-                OrganisationId = listInput.OrganisationId,
-                Page = listInput.Page,
-                PageSize = listInput.PageSize,
-                Teams = results.ToPagedList(
-                    listInput.Page,
-                    listInput.PageSize,
-                    stats.TotalResults,
-                    null)
-            };
+            //return new TeamList()
+            //{
+            //    OrganisationId = listInput.OrganisationId,
+            //    Page = listInput.Page,
+            //    PageSize = listInput.PageSize,
+            //    Teams = results.ToPagedList(
+            //        listInput.Page,
+            //        listInput.PageSize,
+            //        stats.TotalResults,
+            //        null)
+            //};
         }
 
         private TeamCreateCommand MakeCreateCommand(TeamCreateInput createInput)

@@ -47,9 +47,8 @@ namespace Bowerbird.Core.DomainModels.MediaResources
             Check.RequireGreaterThanZero(width, "width");
             Check.RequireGreaterThanZero(height, "height");
 
-            SetDetails(
-                width,
-                height);
+            Width = width;
+            Height = height;
         }
 
         #endregion
@@ -67,12 +66,6 @@ namespace Bowerbird.Core.DomainModels.MediaResources
         public new void UpdateDetails(string description)
         {
             base.UpdateDetails(description);
-        }
-
-        private void SetDetails(int width, int height)
-        {
-            Width = width;
-            Height = height;
         }
 
         #endregion      

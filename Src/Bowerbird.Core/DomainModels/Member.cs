@@ -44,8 +44,7 @@ namespace Bowerbird.Core.DomainModels
             Check.RequireNotNull(user, "user");
             Check.RequireNotNull(roles, "roles");
 
-            SetDetails(
-                user);
+            User = user;
 
             #if DEBUG
                 Id = (new Random(System.DateTime.Now.Millisecond)).Next().ToString();
@@ -60,6 +59,8 @@ namespace Bowerbird.Core.DomainModels
 
         public DenormalisedUserReference User { get; private set; }
 
+        public string Type { get; private set; }
+
         public List<DenormalisedNamedDomainModelReference<Role>> Roles { get; private set; }
 
         #endregion
@@ -69,11 +70,6 @@ namespace Bowerbird.Core.DomainModels
         private void InitMembers()
         {
             Roles = new List<DenormalisedNamedDomainModelReference<Role>>();
-        }
-
-        protected void SetDetails(User user)
-        {
-            User = user;
         }
 
         public Member AddRole(Role role)

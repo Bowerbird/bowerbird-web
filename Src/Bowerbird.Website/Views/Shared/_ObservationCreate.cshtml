@@ -3,7 +3,7 @@
     {
         <fieldset>
             <legend>New Observation</legend>
-            <div id="title-field">
+            <div id="title-fieldset">
                 <div>
                     <label for="title">Title</label>
                 </div>
@@ -11,13 +11,13 @@
                     <input type="text" id="title" name="title" />
                 </div>
             </div>
-            <div id="observedon-field">
+            <div id="observedon-fieldset">
                 <div>
                     <label for="observedOn">Observed On</label>
                 </div>
-                <div>
+                <div id="observedon-options">
                     <input type="date" id="observedOn" name="observedOn" value="@DateTime.Now.ToString("dd MMMM yyyy")" />
-                    <input type="button" id="observedOnDatePicker" value="..." />
+                    @*<input type="button" id="observedOnDatePicker" value="..." />*@
                 </div>
             </div>
             <div>
@@ -26,51 +26,61 @@
                 </div>
                 <div id="mediaResourceDropZone"><span>Drop files here, or</span> <input type="button" value="choose files" id="mediaResourceButton"/> <span>from your computer or</span> <input type="button" value="import" id="mediaResourceButton"/> <span>from websites</span></div>
             </div>
-            <div id="location-field">
+            <div id="location-fieldset">
                 <div>
                     <label for="address">Location</label>
                 </div>
-                <div>
-                    @*<input type="button" value="Map" />
-                    <input type="button" value="Address" />
-                    <input type="button" value="Co-oridinates" />*@
-                    <img src="/img/map2.png" alt="" />
+                <div id="location-options">
+                    <p>Enter an address, drag the pin onto the map or enter an exact co-ordinate.</p>
+                    <div id="address-field">
+                        <div>
+                            <label for="address">Address</label>
+                        </div>
+                        <div>
+                            <input type="text" id="address" name="address" />
+                            <input type="button" value="Find" id="find-address-button" />
+                        </div>
+                    </div>
+                    <div id="pin-field">
+                        <div>
+                            <label>Pin</label>
+                        </div>
+                        <div id="location-pin"><img src="http://maps.gstatic.com/mapfiles/ms/icons/blue-dot.png" width="32" height="32" alt="" /></div>
+                    </div>
+                </div>
+                <div id="location-map"></div>
+                <div id="location-summary">
+                    <div id="latitude-field">
+                        <div>
+                            <label for="latitude">Latitude</label>
+                        </div>
+                        <div>
+                            <input type="text" id="latitude" name="latitude" />
+                        </div>
+                    </div>
+                    <div id="longitude-field">
+                        <div>
+                            <label for="longitude">Longitude</label>
+                        </div>
+                        <div>
+                            <input type="text" id="longitude" name="longitude" />
+                        </div>
+                    </div>
                 </div>
             </div>
-            @*<div>
-                <div>
-                    <label for="address">Address</label>
-                </div>
-                <div>
-                    <input type="text" id="address" name="address" />
-                </div>
-            </div>
-            <div>
-                <div>
-                    <label for="latitude">Latitude</label>
-                </div>
-                <div>
-                    <input type="text" id="latitude" name="latitude" />
-                </div>
-            </div>
-            <div>
-                <div>
-                    <label for="longitude">Longitude</label>
-                </div>
-                <div>
-                    <input type="text" id="longitude" name="longitude" />
-                </div>
-            </div>*@
-            <div id="category-field">
+            <div id="category-fieldset">
                 <div>
                     <label for="observationCategory">Category</label>
                 </div>
                 <div>
                     <div id="projects"><img src="../img/frog2.png" alt=""> Amphibians</div>
                     <input type="button" id="projectPicker" value="..." />
+                    <div id="category-list">
+                        
+                    </div>
                 </div>
             </div>
-            <div id="projects-field">
+            <div id="projects-fieldset">
                 <div>
                     <label for="projects">Projects</label>
                 </div>

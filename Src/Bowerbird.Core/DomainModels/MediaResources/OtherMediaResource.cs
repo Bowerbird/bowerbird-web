@@ -49,28 +49,15 @@ namespace Bowerbird.Core.DomainModels.MediaResources
             fileFormat,
             description) 
         {
-            //SetDetails(
-            //    width,
-            //    height);
         }
 
         #endregion
 
         #region Properties
 
-        //public int Width { get; private set; }
-
-        //public int Height { get; private set; }
-
         #endregion
 
         #region Methods
-
-        //private void SetDetails(int width, int height)
-        //{
-        //    Width = width;
-        //    Height = height;
-        //}
 
         #endregion      
     }

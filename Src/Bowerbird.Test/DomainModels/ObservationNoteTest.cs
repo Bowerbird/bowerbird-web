@@ -56,6 +56,7 @@ namespace Bowerbird.Test.DomainModels
                 FakeObjects.TestUser(),
                 FakeValues.Title,
                 FakeValues.CreatedDateTime,
+                FakeValues.CreatedDateTime,
                 FakeValues.Latitude,
                 FakeValues.Longitude,
                 FakeValues.Address,

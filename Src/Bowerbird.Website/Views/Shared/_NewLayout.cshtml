@@ -12,7 +12,7 @@
     @* More info about SquishIt from http://www.codethinked.com/squishit-the-friendly-aspnet-javascript-and-css-squisher *@
     @Html.Raw(SquishIt.Framework.Bundle.Css()
                                      .Add(@Url.Stylesheet("normalize.css"))
-                                     .Add(@Url.Stylesheet("site.css"))
+                                             .Add(@Url.Stylesheet("site.css"))
                                      //.Add(@Url.Stylesheet("media.css"))
             //.ForceRelease() // Test it out with minification
                                      .Render("~/css/style_#.css"))

@@ -20,7 +20,7 @@ using Bowerbird.Core.Events;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public class Organisation : DomainModel, INamedDomainModel
+    public class Organisation : Group
     {
         #region Members
 
@@ -53,25 +53,12 @@ namespace Bowerbird.Core.DomainModels
         }
 
         #endregion
-
+         
         #region Properties
-
-        public string Name { get; private set; }
-
-        public string Description { get; private set; }
-
-        public string Website { get; private set; }
 
         #endregion
 
         #region Methods
-
-        private void SetDetails(string name, string description, string website)
-        {
-            Name = name;
-            Description = description;
-            Website = website;
-        }
 
         public Organisation UpdateDetails(User updatedByUser, string name, string description, string website)
         {

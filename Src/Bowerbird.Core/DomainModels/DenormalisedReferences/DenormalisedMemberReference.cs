@@ -53,20 +53,9 @@ namespace Bowerbird.Core.DomainModels.DenormalisedReferences
             };
         }
 
-        //private static string SetMemberId(Member member)
-        //{
-        //    if (member is TeamMember) return ((TeamMember) member).Team.Id;
-
-        //    if (member is ProjectMember) return ((ProjectMember) member).Project.Id;
-
-        //    return member.Id;
-        //}
-
         private static string SetMemberType(Member member)
         {
-            if (member is TeamMember) return "teammember";
-
-            if (member is ProjectMember) return "projectmember";
+            if (member is GroupMember) return "groupmember";
 
             return "globalmember";
         }

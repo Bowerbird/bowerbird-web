@@ -14,6 +14,7 @@
  
 */
 
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Bowerbird.Core.DomainModels;
@@ -25,6 +26,7 @@ namespace Bowerbird.Web.Validators
     /// <summary>
     /// Checks whether specified reset password key exists
     /// </summary>
+    [AttributeUsage(AttributeTargets.Property)]
     public class ValidResetPasswordKeyRequestAttribute : ValidationAttribute
     {
             

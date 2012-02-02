@@ -29,7 +29,6 @@ namespace Bowerbird.Core.DomainModels.Members
         protected GlobalMember()
             : base()
         {
-            InitMembers();
         }
 
         public GlobalMember(
@@ -48,15 +47,6 @@ namespace Bowerbird.Core.DomainModels.Members
         #endregion
 
         #region Methods
-
-        private void InitMembers()
-        {
-        }
-
-        private new void SetDetails(User user)
-        {
-            base.SetDetails(user);
-        }
 
         #endregion
     }

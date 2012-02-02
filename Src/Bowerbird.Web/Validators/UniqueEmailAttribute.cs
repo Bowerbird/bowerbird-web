@@ -27,6 +27,7 @@ namespace Bowerbird.Web.Validators
     /// <summary>
     /// Checks whether email address is available (unique)
     /// </summary>
+    [AttributeUsage(AttributeTargets.Property)]
     public class UniqueEmailAttribute : ValidationAttribute
     {
             

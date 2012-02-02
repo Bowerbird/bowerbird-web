@@ -34,16 +34,14 @@ namespace Bowerbird.Core.DomainModels.Comments
         }
 
         public ObservationComment(
-            User createdByUser
-            ,Observation observation
-            ,DateTime commentedOn
-            ,string comment
-            )
+            User createdByUser,
+            Observation observation,
+            DateTime commentedOn,
+            string comment)
             : base(
             createdByUser,
             commentedOn,
-            comment
-            )
+            comment)
         {
             Check.RequireNotNull(observation, "observation");
 

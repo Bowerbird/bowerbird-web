@@ -58,7 +58,7 @@ namespace Bowerbird.Test.CommandHandlers
         public void PostCommentCreateCommandHandler_Creates_ObservationComment()
         {
             var user = FakeObjects.TestUserWithId();
-            var projectPost = FakeObjects.TestProjectPostWithId();
+            var post = FakeObjects.TestPostWithId();
 
             PostComment newValue = null;
 
@@ -67,13 +67,13 @@ namespace Bowerbird.Test.CommandHandlers
                 UserId = user.Id,
                 Message = FakeValues.Message,
                 PostedOn = FakeValues.CreatedDateTime,
-                PostId = projectPost.Id
+                PostId = post.Id
             };
 
             using (var session = _store.OpenSession())
             {
                 session.Store(user);
-                session.Store(projectPost);
+                session.Store(post);
 
                 var commandHandler = new PostCommentCreateCommandHandler(session);
 
@@ -87,7 +87,7 @@ namespace Bowerbird.Test.CommandHandlers
             Assert.IsNotNull(newValue);
             Assert.AreEqual(command.Message, newValue.Message);
             Assert.AreEqual(command.PostedOn, newValue.CommentedOn);
-            Assert.AreEqual(projectPost, newValue.Post);
+            Assert.AreEqual(post, newValue.Post);
             //Assert.AreEqual(user.DenormalisedUserReference(), newValue.User);
         }
 

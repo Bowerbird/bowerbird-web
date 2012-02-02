@@ -35,11 +35,7 @@ namespace Bowerbird.Web.Config
 
         bool HasGlobalPermission(string permissionName);
 
-        bool HasTeamPermission(string teamId, string permissionName);
-
-        bool HasProjectPermission(string projectId, string permissionName);
-
-        bool HasOrganisationPermission(string organisationId, string permissionName);
+        bool HasGroupPermission(string groupId, string permissionName);
 
         bool HasProjectObservationDeletePermission(string observationId, string projectId);
 

@@ -21,6 +21,7 @@ using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.DomainModels.Members;
 using Raven.Client;
+using Bowerbird.Core.Repositories;
 
 namespace Bowerbird.Web.Config
 {
@@ -70,51 +71,28 @@ namespace Bowerbird.Web.Config
             return HasPermission(globalMember, permissionId);
         }
 
-        public bool HasTeamPermission(string userId, string teamId, string permissionName)
+        public bool HasGroupPermission(string userId, string groupId, string permissionName)
         {
             var permissionId = _documentSession.Query<Permission>()
                 .Where(x => x.Name == permissionName)
                 .FirstOrDefault()
                 .Id;
 
-            var teamMember = _documentSession.Load<TeamMember>(teamId);
+            var groupMember = _documentSession.LoadGroupMember(groupId, userId);
 
-            return HasPermission(teamMember, permissionId);
-        }
-
-        public bool HasProjectPermission(string userId, string projectId, string permissionName)
-        {
-            var permissionId = _documentSession.Query<Permission>()
-                .Where(x => x.Name == permissionName)
-                .FirstOrDefault()
-                .Id;
-
-            var projectMember = _documentSession.Load<ProjectMember>(projectId);
-
-            return HasPermission(projectMember, permissionId);
-        }
-
-        public bool HasOrganisationPermission(string userId, string organisationId, string permissionName)
-        {
-            var permissionId = _documentSession.Query<Permission>()
-                .Where(x => x.Name == permissionName)
-                .FirstOrDefault()
-                .Id;
-
-            var globalMember = _documentSession.Load<GlobalMember>(userId);
-
-            return HasPermission(globalMember, permissionId);
+            return HasPermission(groupMember, permissionId);
         }
 
         public bool HasProjectObservationDeletePermission(string userId, string observationId, string projectId)
         {
-            var projectObservation =
-                _documentSession
-                .Query<ProjectObservation>()
-                .Where(x => x.Project.Id == projectId && x.Observation.Id == observationId)
-                .FirstOrDefault();
+            throw new NotImplementedException();
+            //var projectObservation =
+            //    _documentSession
+            //    .Query<ProjectObservation>()
+            //    .Where(x => x.Project.Id == projectId && x.Observation.Id == observationId)
+            //    .FirstOrDefault();
 
-            return projectObservation != null && projectObservation.CreatedByUser.Id == userId;
+            //return projectObservation != null && projectObservation.CreatedByUser.Id == userId;
         }
 
         public bool HasPermissionToUpdate<T>(string userId, string id)

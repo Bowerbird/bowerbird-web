@@ -12,6 +12,7 @@
  
 */
 
+using System;
 using System.Web.Mvc;
 using System.Linq;
 using Bowerbird.Core.DomainModels;
@@ -222,34 +223,35 @@ namespace Bowerbird.Web.Controllers.Members
 
         private ObservationList MakeObservationListByProjectId(ObservationListInput observationListInput)
         {
-            RavenQueryStatistics stats;
+            throw new NotImplementedException();
+            //RavenQueryStatistics stats;
 
-            var projectObservations = _documentSession
-                .Query<ProjectObservation>()
-                .Where(x => x.Project.Id == observationListInput.ProjectId)
-                .Customize(x => x.Include(observationListInput.ProjectId))
-                .Statistics(out stats)
-                .Skip(observationListInput.Page)
-                .Take(observationListInput.PageSize)
-                .ToArray();
+            //var projectObservations = _documentSession
+            //    .Query<ProjectObservation>()
+            //    .Where(x => x.Project.Id == observationListInput.ProjectId)
+            //    .Customize(x => x.Include(observationListInput.ProjectId))
+            //    .Statistics(out stats)
+            //    .Skip(observationListInput.Page)
+            //    .Take(observationListInput.PageSize)
+            //    .ToArray();
 
-            var results = _documentSession
-                .Load<Observation>(projectObservations.Select(x => x.Observation.Id))
-                .Where(x => x.User.Id == observationListInput.UserId)
-                .ToArray();
+            //var results = _documentSession
+            //    .Load<Observation>(projectObservations.Select(x => x.Observation.Id))
+            //    .Where(x => x.User.Id == observationListInput.UserId)
+            //    .ToArray();
 
-            return new ObservationList
-            {
-                Project = _documentSession.Load<Project>(observationListInput.ProjectId),
-                UserId = observationListInput.UserId,
-                Page = observationListInput.Page,
-                PageSize = observationListInput.PageSize,
-                Observations = results.ToPagedList(
-                    observationListInput.Page,
-                    observationListInput.PageSize,
-                    stats.TotalResults,
-                    null)
-            };
+            //return new ObservationList
+            //{
+            //    Project = _documentSession.Load<Project>(observationListInput.ProjectId),
+            //    UserId = observationListInput.UserId,
+            //    Page = observationListInput.Page,
+            //    PageSize = observationListInput.PageSize,
+            //    Observations = results.ToPagedList(
+            //        observationListInput.Page,
+            //        observationListInput.PageSize,
+            //        stats.TotalResults,
+            //        null)
+            //};
         }
 
         #endregion

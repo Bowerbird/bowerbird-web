@@ -54,8 +54,8 @@ namespace Bowerbird.Core.CommandHandlers
             var project = new Project(
                 _documentSession.Load<User>(projectCreateCommand.UserId),
                 projectCreateCommand.Name,
-                projectCreateCommand.Description
-                );
+                projectCreateCommand.Description,
+                projectCreateCommand.Website);
 
             _documentSession.Store(project);
         }

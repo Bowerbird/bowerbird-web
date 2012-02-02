@@ -14,7 +14,6 @@
 
 using Bowerbird.Core.DomainModels.Comments;
 using Bowerbird.Core.DomainModels.MediaResources;
-using Bowerbird.Core.DomainModels.Posts;
 
 namespace Bowerbird.Test.Utils
 {
@@ -90,7 +89,7 @@ namespace Bowerbird.Test.Utils
         
         public static Project TestProject()
         {
-            return new Project(TestUser(), FakeValues.Name, FakeValues.Description);
+            return new Project(TestUser(), FakeValues.Name, FakeValues.Description, FakeValues.Website);
         }
 
         public static Project TestProjectWithId()
@@ -103,7 +102,8 @@ namespace Bowerbird.Test.Utils
             var project = new Project(
                 TestUser(),
                 FakeValues.Name,
-                FakeValues.Description);
+                FakeValues.Description,
+                FakeValues.Website);
 
             ((IAssignableId)project).SetIdTo("projects", id);
 
@@ -137,37 +137,27 @@ namespace Bowerbird.Test.Utils
             return team;
         }
 
-        public static Post TestPost()
+        public static GroupMember TestGroupMember()
         {
-            return new ProxyObjects.ProxyPost(
-                TestUser(), 
-                FakeValues.CreatedDateTime, 
-                FakeValues.Subject, 
-                FakeValues.Message, 
-                new List<MediaResource>());
-        }
-
-        public static ProjectMember TestProjectMember()
-        {
-            return new ProjectMember(
+            return new GroupMember(
                 TestUserWithId(),
                 TestProjectWithId(),
                 TestUserWithId(),
                 TestRoles());
         }
 
-        public static ProjectMember TestProjectMemberWithId()
+        public static GroupMember TestGroupMemberWithId()
         {
-            var projectMember = TestProjectMember();
+            var projectMember = TestGroupMember();
 
             ((IAssignableId)projectMember).SetIdTo("members", FakeValues.KeyString);
 
             return projectMember;
         }
 
-        public static ProjectMember TestProjectMemberWithId(string id)
+        public static GroupMember TestGroupMemberWithId(string id)
         {
-            var projectMember = TestProjectMember();
+            var projectMember = TestGroupMember();
 
             ((IAssignableId)projectMember).SetIdTo("members", id);
 
@@ -184,6 +174,7 @@ namespace Bowerbird.Test.Utils
             var observation = new Observation(
                 TestUserWithId(),
                 FakeValues.Title,
+                FakeValues.CreatedDateTime,
                 FakeValues.CreatedDateTime,
                 FakeValues.Latitude,
                 FakeValues.Longitude,
@@ -221,55 +212,6 @@ namespace Bowerbird.Test.Utils
 
         }
 
-        public static TeamPost TestTeamPost()
-        {
-            return new TeamPost(
-                TestTeamWithId(),
-                TestUserWithId(),
-                FakeValues.CreatedDateTime,
-                FakeValues.Subject,
-                FakeValues.Message,
-                new List<MediaResource>(){TestImageMediaResourceWithId()}
-                );
-        }
-
-        public static TeamPost TestTeamPostWithId()
-        {
-            return TestTeamPostWithId(FakeValues.KeyString);
-        }
-
-        public static TeamPost TestTeamPostWithId(string id)
-        {
-            var teamPost = TestTeamPost();
-
-            ((IAssignableId)teamPost).SetIdTo("posts", id);
-
-            return teamPost;
-        }
-
-        public static TeamMember TestTeamMember()
-        {
-            return new TeamMember(
-                TestUserWithId(),
-                TestTeamWithId(),
-                TestUserWithId(),
-                TestRoles());
-        }
-
-        public static TeamMember TestTeamMemberWithId()
-        {
-            return TestTeamMemberWithId(FakeValues.KeyString);
-        }
-
-        public static TeamMember TestTeamMemberWithId(string id)
-        {
-            var teamMember = TestTeamMember();
-
-            ((IAssignableId)teamMember).SetIdTo("members", id);
-
-            return teamMember;
-        }
-
         public static Organisation TestOrganisation()
         {
             return new Organisation(
@@ -294,10 +236,9 @@ namespace Bowerbird.Test.Utils
             return organisation;
         }
 
-        public static OrganisationPost TestOrganisationPost()
+        public static Post TestPost()
         {
-            return new OrganisationPost(
-                TestOrganisationWithId(),
+            return new Post(
                 TestUserWithId(),
                 FakeValues.CreatedDateTime,
                 FakeValues.Subject,
@@ -306,44 +247,18 @@ namespace Bowerbird.Test.Utils
                 );
         }
 
-        public static OrganisationPost TestOrganisationPostWithId()
+        public static Post TestPostWithId()
         {
-            return TestOrganisationPostWithId(FakeValues.KeyString);
+            return TestPostWithId(FakeValues.KeyString);
         }
 
-        public static OrganisationPost TestOrganisationPostWithId(string id)
+        public static Post TestPostWithId(string id)
         {
-            var organisationPost = TestOrganisationPost();
+            var organisationPost = TestPost();
 
             ((IAssignableId)organisationPost).SetIdTo("posts", id);
 
             return organisationPost;
-        }
-
-        public static ProjectPost TestProjectPost()
-        {
-            return new ProjectPost(
-                TestProjectWithId(),
-                TestUserWithId(),
-                FakeValues.CreatedDateTime,
-                FakeValues.Subject,
-                FakeValues.Message,
-                new List<MediaResource>() {TestImageMediaResourceWithId()}
-                );
-        }
-
-        public static ProjectPost TestProjectPostWithId()
-        {
-            return TestProjectPostWithId(FakeValues.KeyString);
-        }
-
-        public static ProjectPost TestProjectPostWithId(string id)
-        {
-            var projectPost = TestProjectPost();
-
-            ((IAssignableId)projectPost).SetIdTo("posts", id);
-
-            return projectPost;
         }
 
         public static ObservationComment TestObservationComment()
@@ -379,7 +294,7 @@ namespace Bowerbird.Test.Utils
         {
             return new PostComment(
                 TestUserWithId(),
-                TestProjectPostWithId(),
+                TestPostWithId(),
                 FakeValues.CreatedDateTime,
                 FakeValues.Message
                 );
@@ -397,30 +312,6 @@ namespace Bowerbird.Test.Utils
             ((IAssignableId)postComment).SetIdTo("comments", id);
 
             return postComment;
-        }
-
-        public static ProjectObservation TestProjectObservation()
-        {
-            return new ProjectObservation(
-                TestUserWithId(),
-                FakeValues.CreatedDateTime,
-                TestProjectWithId(),
-                TestObservationWithId()
-                );
-        }
-
-        public static ProjectObservation TestProjectObservationWithId()
-        {
-            return TestProjectObservationWithId(FakeValues.KeyString);
-        }
-
-        public static ProjectObservation TestProjectObservationWithId(string id)
-        {
-            var projectObservation = TestProjectObservation();
-
-            ((IAssignableId)projectObservation).SetIdTo("projectobservations", id);
-
-            return projectObservation;
         }
 
         public static ObservationNote TestObservationNote()

@@ -14,6 +14,7 @@
  
 */
 
+using System;
 using System.Linq;
 using System.Web.Mvc;
 using Bowerbird.Core.Commands;
@@ -141,52 +142,54 @@ namespace Bowerbird.Web.Controllers.Members
 
         private ProjectIndex MakeProjectIndex(IdInput idInput)
         {
-            Check.RequireNotNull(idInput, "idInput");
+            throw new NotImplementedException();
+            //Check.RequireNotNull(idInput, "idInput");
 
-            var project = _documentSession.Load<Project>(idInput.Id);
+            //var project = _documentSession.Load<Project>(idInput.Id);
 
-            var projectObservations =
-                _documentSession
-                .Query<ProjectObservation>()
-                .Customize(x => x.Include(idInput.Id))
-                .Where(x => x.Project.Id == idInput.Id)
-                .ToList();
+            //var projectObservations =
+            //    _documentSession
+            //    .Query<ProjectObservation>()
+            //    .Customize(x => x.Include(idInput.Id))
+            //    .Where(x => x.Project.Id == idInput.Id)
+            //    .ToList();
 
-            var observations =
-                _documentSession
-                .Load<Observation>(projectObservations.Select(x => x.Observation.Id))
-                .ToList();
+            //var observations =
+            //    _documentSession
+            //    .Load<Observation>(projectObservations.Select(x => x.Observation.Id))
+            //    .ToList();
 
-            return new ProjectIndex()
-            {
-                Project = project,
-                Observations = observations
-            };
+            //return new ProjectIndex()
+            //{
+            //    Project = project,
+            //    Observations = observations
+            //};
         }
 
         private ProjectList MakeProjectList(ProjectListInput listInput)
         {
-            RavenQueryStatistics stats;
+            throw new NotImplementedException();
+            //RavenQueryStatistics stats;
 
-            var results = _documentSession
-                .Query<Project>()
-                .Where(x => x.Team.Id == listInput.TeamId)
-                .Statistics(out stats)
-                .Skip(listInput.Page)
-                .Take(listInput.PageSize)
-                .ToArray(); // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
+            //var results = _documentSession
+            //    .Query<Project>()
+            //    .Where(x => x.Team.Id == listInput.TeamId)
+            //    .Statistics(out stats)
+            //    .Skip(listInput.Page)
+            //    .Take(listInput.PageSize)
+            //    .ToArray(); // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
 
-            return new ProjectList
-            {
-                TeamId = listInput.TeamId,
-                Page = listInput.Page,
-                PageSize = listInput.PageSize,
-                Projects = results.ToPagedList(
-                    listInput.Page,
-                    listInput.PageSize,
-                    stats.TotalResults,
-                    null)
-            };
+            //return new ProjectList
+            //{
+            //    TeamId = listInput.TeamId,
+            //    Page = listInput.Page,
+            //    PageSize = listInput.PageSize,
+            //    Projects = results.ToPagedList(
+            //        listInput.Page,
+            //        listInput.PageSize,
+            //        stats.TotalResults,
+            //        null)
+            //};
         }
 
         private ProjectCreateCommand MakeProjectCreateCommand(ProjectCreateInput createInput)

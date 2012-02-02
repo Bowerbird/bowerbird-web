@@ -57,9 +57,7 @@ namespace Bowerbird.Core.CommandHandlers
                 _documentSession.Load<User>(command.UserId),
                 command.Name,
                 command.Description,
-                command.Website,
-                command.OrganisationId == null ? null : _documentSession.Load<Organisation>(command.OrganisationId)
-                );
+                command.Website);
 
             _documentSession.Store(team);
         }

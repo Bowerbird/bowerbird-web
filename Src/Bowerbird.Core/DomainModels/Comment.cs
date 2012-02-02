@@ -46,8 +46,6 @@ namespace Bowerbird.Core.DomainModels
             SetDetails(
                 message,
                 CommentedOn);
-
-            //EventProcessor.Raise(new DomainModelCreatedEvent<Comment>(this, createdByUser));
         }
 
         #endregion
@@ -79,8 +77,6 @@ namespace Bowerbird.Core.DomainModels
             SetDetails(
                 message,
                 editedOn);
-
-            //EventProcessor.Raise(new DomainModelUpdatedEvent<Comment>(this, updatedByUser));
 
             return this;
         }

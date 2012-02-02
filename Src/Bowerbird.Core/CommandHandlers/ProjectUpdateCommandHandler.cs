@@ -57,8 +57,8 @@ namespace Bowerbird.Core.CommandHandlers
             project.UpdateDetails(
                 _documentSession.Load<User>(projectUpdateCommand.UserId),
                 projectUpdateCommand.Name,
-                projectUpdateCommand.Description
-                );
+                projectUpdateCommand.Description,
+                projectUpdateCommand.Website);
 
             _documentSession.Store(project);
         }

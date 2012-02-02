@@ -118,9 +118,6 @@
     <Compile Include="CommandHandlers\ObservationUpdateCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\OrganisationCreateCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\OrganisationDeleteCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\OrganisationPostCreateCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\OrganisationPostDeleteCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\OrganisationPostUpdateCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\OrganisationUpdateCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\PostCommentCreateCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\PostCommentDeleteCommandHandlerTest.cs" />
@@ -131,17 +128,14 @@
     <Compile Include="CommandHandlers\ProjectMemberDeleteCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\ProjectObservationCreateCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\ProjectObservationDeleteCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\ProjectPostCreateCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\ProjectPostDeleteCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\ProjectPostUpdateCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\PostCreateCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\PostDeleteCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\PostUpdateCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\ProjectUpdateCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\TeamCreateCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\TeamDeleteCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\TeamMemberCreateCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\TeamMemberDeleteCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\TeamPostCreateCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\TeamPostDeleteCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\TeamPostUpdateCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\TeamUpdateCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\UserCreateCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\UserUpdateLastLoginCommandHandlerTest.cs" />
@@ -153,15 +147,12 @@
     <Compile Include="Controllers\Members\AccountControllerTest.cs" />
     <Compile Include="Controllers\Members\HomeControllerTest.cs" />
     <Compile Include="Controllers\Members\OrganisationControllerTest.cs" />
-    <Compile Include="Controllers\Members\OrganisationPostControllerTest.cs" />
     <Compile Include="Controllers\Members\ProjectControllerTest.cs" />
     <Compile Include="Controllers\Members\ObservationControllerTest.cs" />
     <Compile Include="Controllers\Members\TeamControllerTest.cs" />
-    <Compile Include="Controllers\Members\ProjectMemberControllerTest.cs" />
+    <Compile Include="Controllers\Members\GroupMemberControllerTest.cs" />
     <Compile Include="Controllers\Members\ProjectObservationControllerTest.cs" />
-    <Compile Include="Controllers\Members\ProjectPostControllerTest.cs" />
-    <Compile Include="Controllers\Members\TeamMembersControllerTest.cs" />
-    <Compile Include="Controllers\Members\TeamPostControllerTest.cs" />
+    <Compile Include="Controllers\Members\PostControllerTest.cs" />
     <Compile Include="Controllers\Members\UserControllerTest.cs" />
     <Compile Include="Controllers\Members\WatchlistController.cs" />
     <Compile Include="Controllers\Public\AccountControllerTest.cs" />
@@ -184,11 +175,11 @@
     <Compile Include="DomainModels\PermissionTest.cs" />
     <Compile Include="DomainModels\PostTest.cs" />
     <Compile Include="DomainModels\ProjectMemberTest.cs" />
-    <Compile Include="DomainModels\ProjectObservationTest.cs" />
-    <Compile Include="DomainModels\ProjectPostTest.cs" />
     <Compile Include="DomainModels\ProjectTest.cs" />
     <Compile Include="DomainModels\RoleTest.cs" />
-    <Compile Include="DomainModels\TeamMemberTest.cs" />
+    <Compile Include="DomainModels\TeamMemberTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DomainModels\TeamTest.cs" />
     <Compile Include="DomainModels\UserTest.cs" />
     <Compile Include="DomainModels\ValueObjectTest.cs" />

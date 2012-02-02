@@ -98,7 +98,7 @@ namespace Bowerbird.Test.CommandHandlers
             Assert.AreEqual(command.Notes, newValue.Notes);
             Assert.AreEqual(command.References, newValue.References);
             Assert.AreEqual(command.ScientificName, newValue.ScientificName);
-            Assert.AreEqual(command.SubmittedOn, newValue.SubmittedOn);
+            Assert.AreEqual(command.SubmittedOn, newValue.CreatedOn);
             Assert.AreEqual(command.Tags, newValue.Tags);
             Assert.AreEqual(command.Taxonomy, newValue.Taxonomy);
             Assert.AreEqual(observation.DenormalisedObservationReference(), newValue.Observation);

@@ -13,7 +13,8 @@
     @Html.Raw(SquishIt.Framework.Bundle.Css()
                                      .Add(@Url.Stylesheet("normalize.css"))
                                      .Add(@Url.Stylesheet("site.css"))
-                                     //.Add(@Url.Stylesheet("media.css"))
+                                     .Add(@Url.Stylesheet("media.css"))
+                                     .Add("/css/custom-theme/jquery-ui-1.8.17.custom.css")
             //.ForceRelease() // Test it out with minification
                                      .Render("~/css/style_#.css"))
     <link href='http://fonts.googleapis.com/css?family=Merriweather:300,400,700,900' rel='stylesheet' type='text/css'>
@@ -26,6 +27,8 @@
     <script type="text/javascript" src="@Url.JavaScriptLib("respond.min.js")"></script>
     <script type="text/javascript" src="http://use.typekit.com/ovj4mpo.js"></script>
     <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAXFVsz6fUl4-r-Z_kJrtJlG-IGqvjUosc&sensor=true"></script>
+
 </head>
 <body>
     <div id="container">
@@ -80,6 +83,7 @@
             //.Add(@Url.JavaScriptLib("jquery.validate.unobtrusive.min.js"))
             //.Add(@Url.JavaScriptLib("jquery-ui-1.8.16.custom.min.js"))
             .Add(@Url.JavaScriptLib("jquery.tmpl.js"))
+            .Add(@Url.JavaScriptLib("jquery-ui-1.8.17.custom.min.js"))
             .Add(@Url.JavaScriptLib("json2.js"))
             .Add(@Url.JavaScriptLib("underscore-min.js"))
             .Add(@Url.JavaScriptLib("backbone-min.js"))

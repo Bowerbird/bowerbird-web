@@ -23,7 +23,7 @@ using Bowerbird.Core.DomainModels.DenormalisedReferences;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public class Observation : DomainModel
+    public class Observation : Contribution
     {
 
         #region Members
@@ -41,21 +41,21 @@ namespace Bowerbird.Core.DomainModels
         public Observation(
             User createdByUser,
             string title, 
+            DateTime createdOn,
             DateTime observedOn,
             string latitude, 
             string longitude, 
             string address,
             bool isIdentificationRequired,
             string observationCategory,
-            IEnumerable<MediaResource> mediaResources) 
-            : this()
+            IEnumerable<MediaResource> mediaResources)
+            : base(
+            createdByUser,
+            createdOn)
         {
-            Check.RequireNotNull(createdByUser, "createdByUser");
             Check.RequireNotNull(mediaResources, "mediaResources");
 
             Id = "observations/";
-            User = createdByUser;
-            SubmittedOn = DateTime.Now;
 
             SetDetails(
                 title, 
@@ -74,14 +74,10 @@ namespace Bowerbird.Core.DomainModels
 
         #region Properties
 
-        public DenormalisedUserReference User { get; private set; }
-
         public string Title { get; private set; }
 
         public DateTime ObservedOn { get; private set; }
 
-        public DateTime SubmittedOn { get; private set; }
-               
         public string Latitude { get; private set; }
                
         public string Longitude { get; private set; }

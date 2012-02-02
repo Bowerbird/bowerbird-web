@@ -37,7 +37,7 @@ namespace Bowerbird.Core.DomainModels
             string type,
             User user,
             object data)
-            : base()
+            : this()
         {
             Check.RequireNotNullOrWhitespace(type, "type");
             Check.RequireNotNull(user, "user");

@@ -62,28 +62,15 @@ namespace Bowerbird.Test.DomainModels.DenormalisedReferences
             return member;
         }
 
-        public static TeamMember TestTeamMember()
+        public static GroupMember TestGroupMember()
         {
-            var member = new TeamMember(
+            var member = new GroupMember(
                 FakeObjects.TestUser(), 
                 FakeObjects.TestTeam(), 
                 FakeObjects.TestUser(), 
                 FakeObjects.TestRoles());
 
-            ((IAssignableId)member).SetIdTo("teammember", (new Random(System.DateTime.Now.Millisecond)).Next().ToString());
-
-            return member;
-        }
-
-        public static ProjectMember TestProjectMember()
-        {
-            var member = new ProjectMember(
-                FakeObjects.TestUser(), 
-                FakeObjects.TestProject(), 
-                FakeObjects.TestUser(), 
-                FakeObjects.TestRoles());
-
-            ((IAssignableId)member).SetIdTo("projectmember", (new Random(System.DateTime.Now.Millisecond)).Next().ToString());
+            ((IAssignableId)member).SetIdTo("groupmember", (new Random(System.DateTime.Now.Millisecond)).Next().ToString());
 
             return member;
         }

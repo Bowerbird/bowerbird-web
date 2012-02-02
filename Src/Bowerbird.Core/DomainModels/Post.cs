@@ -22,7 +22,7 @@ using Bowerbird.Core.DomainModels.DenormalisedReferences;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public abstract class Post : DomainModel
+    public class Post : Contribution
     {
         #region Members
 
@@ -32,21 +32,19 @@ namespace Bowerbird.Core.DomainModels
 
         protected Post() : base() { }
 
-        protected Post(
+        public Post(
             User createdByUser,
-            DateTime timestamp,
+            DateTime createdOn,
             string subject,
             string message,
             IList<MediaResource> mediaResources)
-            : this()
+            : base(
+            createdByUser,
+            createdOn)
         {
-            Check.RequireNotNull(createdByUser, "createdByUser");
             Check.RequireNotNullOrWhitespace(subject, "subject");
             Check.RequireNotNullOrWhitespace(message, "message");
             Check.RequireNotNull(mediaResources, "mediaResources");
-
-            PostedOn = timestamp;
-            User = createdByUser;
 
             SetDetails(
                 subject,
@@ -59,10 +57,6 @@ namespace Bowerbird.Core.DomainModels
         #endregion
 
         #region Properties
-
-        public DenormalisedUserReference User { get; private set; }
-
-        public DateTime PostedOn { get; private set; }
 
         public string Subject { get; private set; }
 

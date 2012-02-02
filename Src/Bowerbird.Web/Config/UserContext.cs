@@ -117,19 +117,9 @@ namespace Bowerbird.Web.Config
             return _permissionChecker.HasGlobalPermission(GetAuthenticatedUserId(), permissionName);
         }
 
-        public bool HasTeamPermission(string teamId, string permissionName)
+        public bool HasGroupPermission(string groupId, string permissionName)
         {
-            return _permissionChecker.HasTeamPermission(GetAuthenticatedUserId(), teamId, permissionName);
-        }
-
-        public bool HasProjectPermission(string projectId, string permissionName)
-        {
-            return _permissionChecker.HasProjectPermission(GetAuthenticatedUserId(), projectId, permissionName);
-        }
-
-        public bool HasOrganisationPermission(string organisationId, string permissionName)
-        {
-            return _permissionChecker.HasOrganisationPermission(GetAuthenticatedUserId(), organisationId, permissionName);
+            return _permissionChecker.HasGroupPermission(GetAuthenticatedUserId(), groupId, permissionName);
         }
 
         public bool HasProjectObservationDeletePermission(string observationId, string projectId)

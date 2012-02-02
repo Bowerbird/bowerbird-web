@@ -122,14 +122,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controllers\Members\OrganisationController.cs" />
-    <Compile Include="Controllers\Members\OrganisationPostController.cs" />
     <Compile Include="Controllers\Members\ProjectController.cs" />
-    <Compile Include="Controllers\Members\ProjectMemberController.cs" />
-    <Compile Include="Controllers\Members\ProjectObservationController.cs" />
-    <Compile Include="Controllers\Members\ProjectPostController.cs" />
+    <Compile Include="Controllers\Members\GroupMemberController.cs" />
+    <Compile Include="Controllers\Members\PostController.cs" />
     <Compile Include="Controllers\Members\TeamController.cs" />
-    <Compile Include="Controllers\Members\TeamMemberController.cs" />
-    <Compile Include="Controllers\Members\TeamPostController.cs" />
     <Compile Include="Controllers\Members\WatchlistController.cs" />
     <Compile Include="Controllers\Public\AccountController.cs" />
     <Compile Include="Controllers\Public\HomeController.cs" />
@@ -139,9 +135,7 @@
     <Compile Include="Controllers\Public\TeamController.cs" />
     <Compile Include="Config\IPermissionChecker.cs" />
     <Compile Include="Config\PermissionChecker.cs" />
-    <Compile Include="Indexes\ProjectMemberIndexes.cs" />
     <Compile Include="Indexes\StreamItemIndexes.cs" />
-    <Compile Include="Indexes\TeamMemberIndexes.cs" />
     <Compile Include="Indexes\UserIndexes.cs" />
     <Compile Include="Validators\ModelStateException.cs" />
     <Compile Include="Validators\HandleModelStateExceptionAttribute.cs" />
@@ -151,24 +145,11 @@
     <Compile Include="ViewModels\Members\AccountChangePasswordInput.cs" />
     <Compile Include="ViewModels\Members\MenuItem.cs" />
     <Compile Include="ViewModels\Members\OrganisationCreateInput.cs" />
-    <Compile Include="ViewModels\Members\OrganisationPostCreateInput.cs" />
-    <Compile Include="ViewModels\Members\OrganisationPostList.cs" />
-    <Compile Include="ViewModels\Members\OrganisationPostListInput.cs" />
-    <Compile Include="ViewModels\Members\OrganisationPostUpdateInput.cs" />
     <Compile Include="ViewModels\Members\OrganisationUpdateInput.cs" />
-    <Compile Include="ViewModels\Members\ProjectMemberList.cs" />
-    <Compile Include="ViewModels\Members\ProjectMemberListInput.cs" />
-    <Compile Include="ViewModels\Members\ProjectObservationList.cs" />
-    <Compile Include="ViewModels\Members\ProjectObservationListInput.cs" />
-    <Compile Include="ViewModels\Members\ProjectPostList.cs" />
-    <Compile Include="ViewModels\Members\ProjectPostListInput.cs" />
-    <Compile Include="ViewModels\Members\TeamMemberCreateInput.cs" />
-    <Compile Include="ViewModels\Members\TeamMemberDeleteInput.cs" />
-    <Compile Include="ViewModels\Members\TeamMemberList.cs" />
-    <Compile Include="ViewModels\Members\TeamMemberListInput.cs" />
-    <Compile Include="ViewModels\Members\TeamPostCreateInput.cs" />
-    <Compile Include="ViewModels\Members\TeamPostListInput.cs" />
-    <Compile Include="ViewModels\Members\TeamPostUpdateInput.cs" />
+    <Compile Include="ViewModels\Members\GroupMemberList.cs" />
+    <Compile Include="ViewModels\Members\GroupMemberListInput.cs" />
+    <Compile Include="ViewModels\Members\PostList.cs" />
+    <Compile Include="ViewModels\Members\PostListInput.cs" />
     <Compile Include="ViewModels\Members\WatchlistCreateInput.cs" />
     <Compile Include="ViewModels\Members\WatchlistIndex.cs" />
     <Compile Include="ViewModels\Members\WatchlistList.cs" />
@@ -180,7 +161,6 @@
     <Compile Include="ViewModels\Shared\OrganisationIndex.cs" />
     <Compile Include="ViewModels\Shared\OrganisationList.cs" />
     <Compile Include="ViewModels\Shared\OrganisationListInput.cs" />
-    <Compile Include="ViewModels\Members\TeamPostList.cs" />
     <Compile Include="ViewModels\Shared\ProjectIndex.cs" />
     <Compile Include="ViewModels\Shared\ProjectList.cs" />
     <Compile Include="ViewModels\Shared\ProjectListInput.cs" />
@@ -199,11 +179,8 @@
     <Compile Include="ViewModels\Public\AccountRequestPasswordResetInput.cs" />
     <Compile Include="ViewModels\Public\AccountResetPassword.cs" />
     <Compile Include="ViewModels\Public\AccountResetPasswordInput.cs" />
-    <Compile Include="ViewModelFactories\ProjectIndexFactory.cs" />
     <Compile Include="Extensions\UrlHelperExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModelFactories\IViewModelFactory.cs" />
-    <Compile Include="ViewModelFactories\ViewModelFactoryBase.cs" />
     <Compile Include="Config\TransactionAttribute.cs" />
     <Compile Include="ViewModels\Public\AccountLogin.cs">
       <SubType>Code</SubType>
@@ -233,12 +210,10 @@
     </Compile>
     <Compile Include="ViewModels\Members\ObservationUpdateInput.cs" />
     <Compile Include="ViewModels\Members\ProjectCreateInput.cs" />
-    <Compile Include="ViewModels\Members\ProjectMemberCreateInput.cs" />
-    <Compile Include="ViewModels\Members\ProjectMemberDeleteInput.cs" />
-    <Compile Include="ViewModels\Members\ProjectObservationCreateInput.cs" />
-    <Compile Include="ViewModels\Members\ProjectObservationDeleteInput.cs" />
-    <Compile Include="ViewModels\Members\ProjectPostCreateInput.cs" />
-    <Compile Include="ViewModels\Members\ProjectPostUpdateInput.cs" />
+    <Compile Include="ViewModels\Members\GroupMemberCreateInput.cs" />
+    <Compile Include="ViewModels\Members\GroupMemberDeleteInput.cs" />
+    <Compile Include="ViewModels\Members\PostCreateInput.cs" />
+    <Compile Include="ViewModels\Members\PostUpdateInput.cs" />
     <Compile Include="ViewModels\Members\ProjectUpdateInput.cs" />
     <Compile Include="ViewModels\Shared\TeamList.cs" />
     <Compile Include="ViewModels\Shared\TeamListInput.cs" />

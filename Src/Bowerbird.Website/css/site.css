@@ -4,6 +4,10 @@
     background-image: url("/img/background.png");
     font-weight: 400;
 }
+input 
+{
+    outline: none;
+}
 /* header */
 #header
 {
@@ -755,7 +759,7 @@
 .form select
 {
     background: none repeat scroll 0 0 rgba(255, 255, 255, 0.6);
-    border: 1px solid transparent;
+    border: 1px solid #509EEE;
     border-radius: 4px 4px 4px 4px;
     box-shadow: 0 1px 2px 0 #777777 inset;
     color: #000000;
@@ -767,28 +771,24 @@
 .form input[type=date]:focus,
 .form select:focus
 {
-    border: 1px solid #154999;    
-}
-.form #title 
-{
     width: 477px;
+    box-shadow: 0 1px 2px 0 #777777 inset, 0 1px 6px 0 rgba(80, 158, 238, 0.4);
+    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.8);
+}
+.form #title
+{
+    width: 476px;
 }
 .form #observedOn 
 {
-    width: 182px;
-}
-.form #observedOnDatePicker 
-{
-    margin-left: -54px;
-    margin-top: 7px;
-    padding: 0 15px;
-    position: absolute;
+    padding: 8px 60px 8px 12px;
+    width: 160px;
 }
 .form #projectPicker 
 {
-    margin-left: -54px;
-    margin-top: 7px;
-    padding: 11px 15px;
+    border-radius: 0 4px 4px 0;
+    margin-left: -48px;
+    padding: 15px;
     position: absolute;
 }
 .form form > div 
@@ -797,9 +797,195 @@
     text-align: right;
 }
 .form input[type=submit],
-.form input[type=button] 
+.form input[type=button],
+.form .ui-datepicker-trigger 
 {
     background: rgb(111,174,237);
+    background: -moz-linear-gradient(top, rgba(111,174,237,1) 0%, rgba(64,150,238,1) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(111,174,237,1)), color-stop(100%,rgba(64,150,238,1)));
+    background: -webkit-linear-gradient(top, rgba(111,174,237,1) 0%,rgba(64,150,238,1) 100%);
+    background: -o-linear-gradient(top, rgba(111,174,237,1) 0%,rgba(64,150,238,1) 100%);
+    background: -ms-linear-gradient(top, rgba(111,174,237,1) 0%,rgba(64,150,238,1) 100%);
+    background: linear-gradient(top, rgba(111,174,237,1) 0%,rgba(64,150,238,1) 100%);
+    border: 1px solid #1B83EB;
+    border-radius: 4px 4px 4px 4px;
+    /*box-shadow: 0 1px 2px 0 #5071A6;*/
+    color: #FFFFFF;
+    font-size: 19px;
+    font-weight: 600;
+    margin-left: 20px;
+    padding: 5px 25px;
+    text-shadow: 0 -1px 0 blue;
+}
+.form #observedon-fieldset .ui-datepicker-trigger {
+    border-radius: 0 4px 4px 0;
+    left: 181px;
+    padding: 6px 9px;
+    position: absolute;
+    top: 0;
+}
+.form #mediaResourceDropZone 
+{
+    background: none repeat scroll 0 0 rgba(202, 222, 239, 0.4);
+    border: 1px solid #509EEE;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 2px 0 #777777 inset;
+    color: #000000;
+    font-size: 16px;
+    height: 72px;
+    padding: 54px 12px 8px;
+    text-align: center;
+    width: 743px;
+}
+.form #mediaResourceDropZone span 
+{
+    color: #6997C5;
+    font-size: 17px;
+    letter-spacing: -1px;
+    text-shadow: 0 1px 0 #FFFFFF;
+}
+.form #mediaResourceButton 
+{
+    font-size: 16px;
+    margin-left: 5px;
+    padding: 0 15px;
+}
+.form #category-fieldset 
+{
+    display: inline-block;   
+}
+.form #title-fieldset 
+{
+    display: inline-block;
+}
+.form #observedon-fieldset
+{
+    display: inline-block;
+    margin-left: 30px;
+    vertical-align: top;
+}
+.form #projects-fieldset
+{
+    display: inline-block;
+    margin-left: 30px;
+    vertical-align: top;
+}
+.form #projects 
+{
+    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.4);
+    border: 1px solid #509EEE;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 2px 0 #777777 inset;
+    color: #000000;
+    display: inline-block;
+    font-size: 16px;
+    height: 43px;
+    padding: 6px 12px 8px;
+    width: 342px;
+}
+.form #address-field
+{
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
+}
+.form #latitude-field
+{
+    display: inline-block;
+    vertical-align: top;
+}
+.form #longitude-field 
+{
+    display: inline-block;
+    margin-left: -5px;
+    vertical-align: top;
+}
+.form #address 
+{
+    padding: 8px 79px 8px 12px;
+    width: 569px;
+}
+.form #latitude 
+{
+    width: 180px;
+    border-radius: 4px 0 0 4px;
+    border-right: medium none;
+}
+.form #longitude 
+{
+    width: 180px;
+    border-left: medium none;
+    border-radius: 0 4px 4px 0;
+}
+.form #location-options 
+{
+    background: none repeat scroll 0 0 rgba(202, 222, 239, 0.4);
+    border-left: 1px solid #509EEE;
+    border-radius: 4px 4px 0 0;
+    border-right: 1px solid #509EEE;
+    border-top: 1px solid #509EEE;
+    box-shadow: 0 1px 2px 0 #777777 inset;
+    padding: 15px;
+    width: 737px;
+}
+.form #location-map
+{
+    border-left: 1px solid #509EEE;
+    border-right: 1px solid #509EEE;
+    height: 460px;
+    width: 767px;
+}
+.form #location-summary 
+{
+    background: none repeat scroll 0 0 rgba(202, 222, 239, 0.4);
+    border-bottom: 1px solid #509EEE;
+    border-left: 1px solid #509EEE;
+    border-radius: 0 0 4px 4px;
+    border-right: 1px solid #509EEE;
+    box-shadow: 0 1px 2px 0 #777777 inset;
+    padding: 15px;
+    width: 737px;
+}
+.form #location-summary span 
+{
+    color: #133A68;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 40px;
+    padding-left: 15px;
+    text-shadow: 0 1px 0 #FFFFFF;
+}
+.form #observedon-options {
+    position: relative;
+}
+.form #find-address-button 
+{
+    display: block;
+    font-size: 16px;
+    left: 560px;
+    padding: 2px 15px;
+    position: absolute;
+    top: 23px; 
+    
+    
+    border-radius: 0 4px 4px 0;
+    display: block;
+    font-size: 16px;
+    left: 579px;
+    padding: 8px 15px;
+    position: absolute;
+    top: 16px;
+}
+.form #pin-field
+{
+    display: inline-block;
+    margin-left: 30px;
+    position: relative;
+    vertical-align: top;
+}
+.form #location-pin 
+{
+    /*background: rgb(111,174,237);
     background: -moz-linear-gradient(top, rgba(111,174,237,1) 0%, rgba(64,150,238,1) 100%);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(111,174,237,1)), color-stop(100%,rgba(64,150,238,1)));
     background: -webkit-linear-gradient(top, rgba(111,174,237,1) 0%,rgba(64,150,238,1) 100%);
@@ -810,77 +996,26 @@
     border-radius: 4px 4px 4px 4px;
     box-shadow: 0 1px 2px 0 #5071A6;
     color: #FFFFFF;
-    font-size: 19px;
+    display: block;
+    font-size: 22px;
     font-weight: 600;
+    left: -3px;
     margin-left: 20px;
-    padding: 5px 25px;
+    padding: 2px 3px;
+    position: absolute;
     text-shadow: 0 -1px 0 blue;
+    top: 23px;*/
+    left: -6px;
+    position: absolute;
+    top: 21px;
 }
-.form #mediaResourceDropZone 
+.form p 
 {
-    background: none repeat scroll 0 0 rgba(202, 222, 239, 0.6);
-    border: 1px solid transparent;
-    border-radius: 4px 4px 4px 4px;
-    box-shadow: 0 1px 2px 0 #777777 inset;
-    color: #000000;
-    font-size: 16px;
-    height: 72px;
-    padding: 54px 12px 8px;
-    text-align: center;
-    width: 738px;
-}
-.form #mediaResourceDropZone span 
-{
-    color: #133A68;
-    font-size: 17px;
-    font-weight: 600;
-    letter-spacing: -1px;
+    color: #6997C5;
+    margin: 0 0 15px;
     text-shadow: 0 1px 0 #FFFFFF;
 }
-.form #mediaResourceButton 
+.form input.invalid 
 {
-    font-size: 16px;
-    margin-left: 5px;
-    padding: 0 15px;
-}
-.form #category-field 
-{
-    display: inline-block;   
-}
-.form #title-field 
-{
-    display: inline-block;
-    width: 557px;
-}
-.form #observedon-field 
-{
-    display: inline-block;
-    vertical-align: top;
-}
-.form #projects-field
-{
-    display: inline-block;
-    margin-left: 56px;
-    vertical-align: top;
-}
-.form #projects 
-{
-    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.6);
-    border: 1px solid transparent;
-    border-radius: 4px 4px 4px 4px;
-    box-shadow: 0 1px 2px 0 #777777 inset;
-    color: #000000;
-    display: inline-block;
-    font-size: 16px;
-    height: 45px;
-    padding: 8px 12px;
-    width: 325px;
-}
-.form #location-field 
-{
-    
-}
-.form #location-field input
-{
-    
+    border-color: rgba(255, 255, 0, 0);    
 }

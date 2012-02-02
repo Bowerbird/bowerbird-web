@@ -116,6 +116,7 @@
     <Content Include="apple-touch-icon-precomposed.png" />
     <Content Include="css\Copy of site.css" />
     <Content Include="css\media.css" />
+    <Content Include="css\new.css" />
     <Content Include="css\site.css" />
     <Content Include="demo\hack.css" />
     <Content Include="demo\hack2.css" />
@@ -123,6 +124,7 @@
     <Content Include="demo\tests.html" />
     <Content Include="demo\test_tubes.png" />
     <Content Include="GenericErrorPage.html" />
+    <Content Include="js\libs\GGS.js" />
     <Content Include="humans.txt" />
     <Content Include="img\avatar-1.png" />
     <Content Include="img\avatar-2.png" />
@@ -186,6 +188,7 @@
     <Content Include="Lib\SquishIt\SquishIt.Framework.dll" />
     <Content Include="Lib\SquishIt\SquishIt.Mvc.dll" />
     <Content Include="Lib\SquishIt\Yahoo.Yui.Compressor.dll" />
+    <Content Include="New.html" />
     <Content Include="Views\Account\Login.cshtml">
       <SubType>Code</SubType>
     </Content>
