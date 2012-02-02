@@ -24,7 +24,7 @@ using Bowerbird.Core.Commands;
 namespace Bowerbird.Test.CommandHandlers
 {
     [TestFixture]
-    public class ProjectMemberCreateCommandHandlerTest
+    public class GroupMemberCreateCommandHandlerTest
     {
         #region Test Infrastructure
 
@@ -56,20 +56,20 @@ namespace Bowerbird.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Persistance)]
-        public void ProjectMemberCreateCommandHandler_Creates_ProjectMember()
+        public void GroupMemberCreateCommandHandler_Creates_GroupMember()
         {
             var user = FakeObjects.TestUserWithId();
             var project = FakeObjects.TestProjectWithId();
             var permissions = FakeObjects.TestPermissions();
             var roles = FakeObjects.TestRoles();
 
-            ProjectMember newValue = null;
+            GroupMember newValue = null;
 
-            var command = new ProjectMemberCreateCommand()
+            var command = new GroupMemberCreateCommand()
             {
                 UserId = user.Id,
                 CreatedByUserId = user.Id,
-                ProjectId = project.Id,
+                GroupId = project.Id,
                 Roles = roles.Select(x => x.Name).ToList()
             };
 
@@ -82,18 +82,18 @@ namespace Bowerbird.Test.CommandHandlers
 
                 session.SaveChanges();
 
-                var commandHandler = new ProjectMemberCreateCommandHandler(session);
+                var commandHandler = new GroupMemberCreateCommandHandler(session);
 
                 commandHandler.Handle(command);
 
                 session.SaveChanges();
 
-                newValue = session.Query<ProjectMember>().FirstOrDefault();
+                newValue = session.Query<GroupMember>().FirstOrDefault();
             }
 
             Assert.IsNotNull(newValue);
             //Assert.AreEqual(roles.Select(x => x.DenormalisedNamedDomainModelReference<Role>()).ToList(), newValue.Roles);
-            Assert.AreEqual(project.DenormalisedNamedDomainModelReference(), newValue.Project);
+            Assert.AreEqual(project.DenormalisedNamedDomainModelReference(), newValue.Group);
             Assert.AreEqual(user.DenormalisedUserReference(), newValue.User);
         }
 

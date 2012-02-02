@@ -1,4 +1,4 @@
-/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -12,7 +12,6 @@
  
 */
 
-using System.Linq;
 using Bowerbird.Core.CommandHandlers;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DomainModels.Members;
@@ -22,8 +21,7 @@ using Raven.Client;
 
 namespace Bowerbird.Test.CommandHandlers
 {
-    [TestFixture]
-    public class TeamMemberCreateCommandHandlerTest
+    public class GroupMemberDeleteCommandHandlerTest
     {
         #region Test Infrastructure
 
@@ -54,45 +52,42 @@ namespace Bowerbird.Test.CommandHandlers
         #region Method tests
 
         [Test]
-        [Category(TestCategory.Persistance)]
-        public void TeamMemberCreateCommandHandler_Creates_TeamMember()
+        [Category(TestCategory.Integration)]
+        public void GroupMemberDeleteCommandHandler_Deletes_GroupMember()
         {
             var user = FakeObjects.TestUserWithId();
-            var team = FakeObjects.TestTeamWithId();
-            var permissions = FakeObjects.TestPermissions();
-            var roles = FakeObjects.TestRoles();
+            var project = FakeObjects.TestProjectWithId();
+            var groupMember = FakeObjects.TestGroupMemberWithId();
 
-            TeamMember newValue = null;
+            GroupMember deletedTeam = null;
 
-            var command = new TeamMemberCreateCommand()
+            var command = new GroupMemberDeleteCommand()
             {
-                TeamId = team.Id,
+                GroupId = project.Id,
                 UserId = user.Id,
-                CreatedByUserId = user.Id,
-                Roles = roles.Select(x => x.Name).ToList()
+                DeletedByUserId = user.Id
             };
 
             using (var session = _store.OpenSession())
             {
                 session.Store(user);
-                session.Store(team);
-                foreach (var permission in permissions) session.Store(permission);
-                foreach (var role in roles) session.Store(role);
+                session.Store(project);
+                session.Store(groupMember);
 
-                var commandHandler = new TeamMemberCreateCommandHandler(session);
+                session.SaveChanges();
+
+                var commandHandler = new GroupMemberDeleteCommandHandler(session);
 
                 commandHandler.Handle(command);
 
                 session.SaveChanges();
 
-                newValue = session.Query<TeamMember>().FirstOrDefault();
+                deletedTeam = session.Load<GroupMember>(groupMember.Id);
             }
 
-            Assert.IsNotNull(newValue);
-            Assert.AreEqual(team.DenormalisedNamedDomainModelReference(), newValue.Team);
-            Assert.AreEqual(user.DenormalisedUserReference(), newValue.User);
+            Assert.IsNull(deletedTeam);
         }
 
-        #endregion
+        #endregion 
     }
 }

@@ -25,7 +25,7 @@ namespace Bowerbird.Test.DomainModels
 
     #endregion
 
-    public class ProjectMemberTest
+    public class GroupMemberTest
     {
         #region Test Infrastructure
 
@@ -45,21 +45,21 @@ namespace Bowerbird.Test.DomainModels
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void ProjectMember_Constructor_Sets_Property_Values()
+        public void GroupMember_Constructor_Sets_Property_Values()
         {
             var testUser = FakeObjects.TestUser();
             var testRoles = FakeObjects.TestRoles();
             var testProject = FakeObjects.TestProject();
             
-            var testMember = new ProjectMember(testUser, testProject, testUser, testRoles);
+            var testMember = new GroupMember(testUser, testProject, testUser, testRoles);
 
             Assert.AreEqual(testMember.Roles.Select(x => x.Id).ToList(), testRoles.Select(x => x.Id).ToList());
             Assert.AreEqual(testMember.Roles.Select(x => x.Name).ToList(), testRoles.Select(x => x.Name).ToList());
             Assert.AreEqual(testMember.User.FirstName, testUser.FirstName);
             Assert.AreEqual(testMember.User.LastName, testUser.LastName);
             Assert.AreEqual(testMember.User.Id, testUser.Id);
-            Assert.AreEqual(testMember.Project.Id, testProject.Id);
-            Assert.AreEqual(testMember.Project.Name, testProject.Name);
+            Assert.AreEqual(testMember.Group.Id, testProject.Id);
+            Assert.AreEqual(testMember.Group.Name, testProject.Name);
         }
 
         #endregion
