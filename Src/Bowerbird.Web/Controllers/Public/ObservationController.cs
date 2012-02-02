@@ -1,6 +1,4 @@
-﻿/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -69,7 +67,7 @@ namespace Bowerbird.Web.Controllers.Public
         [HttpGet]
         public ActionResult List(ObservationListInput observationListInput)
         {
-            if (observationListInput.ProjectId == null)
+            if (observationListInput.GroupId == null)
             {
                 return Json(MakeObservationList(observationListInput), JsonRequestBehavior.AllowGet);
             }

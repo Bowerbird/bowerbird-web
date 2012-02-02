@@ -61,9 +61,8 @@ namespace Bowerbird.Test.Controllers.Public
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Project_List_Having_TeamId_Returns_ProjectList_In_Json_Format()
+        public void Project_List_In_Json_Format()
         {
-            var team = FakeObjects.TestTeamWithId();
             const int page = 1;
             const int pageSize = 10;
 
@@ -71,12 +70,9 @@ namespace Bowerbird.Test.Controllers.Public
 
             using (var session = _documentStore.OpenSession())
             {
-                session.Store(team);
-
                 for (var i = 0; i < 15; i++)
                 {
                     var project = FakeObjects.TestProjectWithId(i.ToString());
-                    project.Team = team;
                     projects.Add(project);
                     session.Store(project);
                 }
@@ -84,7 +80,7 @@ namespace Bowerbird.Test.Controllers.Public
                 session.SaveChanges();
             }
 
-            var result = _controller.List(new ProjectListInput() { Page = page, PageSize = pageSize, TeamId = team.Id });
+            var result = _controller.List(new ProjectListInput() { Page = page, PageSize = pageSize});
 
             Assert.IsNotNull(result);
             Assert.IsInstanceOf<JsonResult>(result);
@@ -105,66 +101,13 @@ namespace Bowerbird.Test.Controllers.Public
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Project_List_Having_No_TeamId_Returns_ProjectList_In_Json_Format()
+        public void Project_Index_As_ViewModel()
         {
-            var team = FakeObjects.TestTeamWithId();
-            const int page = 1;
-            const int pageSize = 10;
-
-            var projects = new List<Project>();
-
-            using (var session = _documentStore.OpenSession())
-            {
-                session.Store(team);
-
-                for (var i = 0; i < 15; i++)
-                {
-                    var project = FakeObjects.TestProjectWithId(i.ToString());
-                    projects.Add(project);
-                    session.Store(project);
-                }
-
-                session.SaveChanges();
-            }
-
-            var result = _controller.List(new ProjectListInput() { Page = page, PageSize = pageSize });
-
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf<JsonResult>(result);
-
-            var jsonResult = result as JsonResult;
-            Assert.IsNotNull(jsonResult);
-
-            Assert.IsNotNull(jsonResult.Data);
-            Assert.IsInstanceOf<ProjectList>(jsonResult.Data);
-            var jsonData = jsonResult.Data as ProjectList;
-
-            Assert.IsNotNull(jsonData);
-            Assert.AreEqual(page, jsonData.Page);
-            Assert.AreEqual(pageSize, jsonData.PageSize);
-            Assert.AreEqual(pageSize, jsonData.Projects.PagedListItems.Count());
-            Assert.AreEqual(projects.Count, jsonData.Projects.TotalResultCount);
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void Project_Index_NonAjAxCall_Returns_ProjectIndex_ViewModel_With_Project_Having_Observations_And_Team()
-        {
-            var team = FakeObjects.TestTeam();
             var project = FakeObjects.TestProjectWithId();
-            project.Team = team;
-            var observation1 = FakeObjects.TestObservationWithId();
-            var observation2 = FakeObjects.TestObservationWithId(FakeValues.KeyString.AppendWith(FakeValues.KeyString));
-            var projectobservation1 = new ProjectObservation(FakeObjects.TestUser(), DateTime.Now, project, observation1);
-            var projectobservation2 = new ProjectObservation(FakeObjects.TestUser(), DateTime.Now, project, observation2);
 
             using (var session = _documentStore.OpenSession())
             {
-                session.Store(observation1);
-                session.Store(observation2);
                 session.Store(project);
-                session.Store(projectobservation1);
-                session.Store(projectobservation2);
 
                 session.SaveChanges();
             }
@@ -179,31 +122,17 @@ namespace Bowerbird.Test.Controllers.Public
 
             Assert.IsNotNull(viewModel);
             Assert.AreEqual(viewModel.Project, project);
-            Assert.IsNotNull(viewModel.Project.Team);
-            Assert.AreEqual(viewModel.Project.Team.Name, team.Name);
-            Assert.IsTrue(viewModel.Observations.Contains(observation1));
-            Assert.IsTrue(viewModel.Observations.Contains(observation2));
         }
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Project_Index_AjAxCall_Returns_ProjectIndex_ViewModel_With_Project_Having_Observations_And_Team()
+        public void Project_Index_As_Json()
         {
-            var team = FakeObjects.TestTeam();
             var project = FakeObjects.TestProjectWithId();
-            project.Team = team;
-            var observation1 = FakeObjects.TestObservationWithId();
-            var observation2 = FakeObjects.TestObservationWithId(FakeValues.KeyString.AppendWith(FakeValues.KeyString));
-            var projectobservation1 = new ProjectObservation(FakeObjects.TestUser(), DateTime.Now, project, observation1);
-            var projectobservation2 = new ProjectObservation(FakeObjects.TestUser(), DateTime.Now, project, observation2);
 
             using (var session = _documentStore.OpenSession())
             {
-                session.Store(observation1);
-                session.Store(observation2);
                 session.Store(project);
-                session.Store(projectobservation1);
-                session.Store(projectobservation2);
 
                 session.SaveChanges();
             }
@@ -221,10 +150,6 @@ namespace Bowerbird.Test.Controllers.Public
             Assert.IsNotNull(jsonData);
             
             Assert.AreEqual(jsonData.Project, project);
-            Assert.IsNotNull(jsonData.Project.Team);
-            Assert.AreEqual(jsonData.Project.Team.Name, project.Team.Name);
-            Assert.IsTrue(jsonData.Observations.Contains(observation1));
-            Assert.IsTrue(jsonData.Observations.Contains(observation2));
         }
 
         #endregion

@@ -104,12 +104,12 @@ namespace Bowerbird.Test.DomainModels.DenormalisedReferences
         [Category(TestCategory.Unit)]
         public void DenormalisedMemberReference_Implicit_Operator_Passing_ProjectMember_Returns_DenormalisedUserReference_With_Populated_Project_Properties()
         {
-            var normalisedMember = TestProjectMember();
+            var normalisedMember = TestGroupMember();
 
             DenormalisedMemberReference denormalisedMember = TestDenormalise(normalisedMember);
 
             Assert.AreEqual(normalisedMember.Id, denormalisedMember.Id);
-            Assert.IsTrue(denormalisedMember.Type.Equals("projectmember"));
+            Assert.IsTrue(denormalisedMember.Type.Equals("groupmember"));
             Assert.AreEqual(denormalisedMember.Roles.ToList(), denormalisedMember.Roles.ToList());
         }
 
@@ -117,12 +117,12 @@ namespace Bowerbird.Test.DomainModels.DenormalisedReferences
         [Category(TestCategory.Unit)]
         public void DenormalisedMemberReference_Implicit_Operator_Passing_TeamMember_Returns_DenormalisedUserReference_With_Populated_Team_Properties()
         {
-            var normalisedMember = TestTeamMember();
+            var normalisedMember = TestGroupMember();
 
             DenormalisedMemberReference denormalisedMember = TestDenormalise(normalisedMember);
 
             Assert.AreEqual(normalisedMember.Id, denormalisedMember.Id);
-            Assert.IsTrue(denormalisedMember.Type.Equals("teammember"));
+            Assert.IsTrue(denormalisedMember.Type.Equals("groupmember"));
             Assert.AreEqual(denormalisedMember.Roles.ToList(), denormalisedMember.Roles.ToList());
         }
 

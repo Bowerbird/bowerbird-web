@@ -12,7 +12,6 @@
  
 */
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -20,7 +19,6 @@ using Bowerbird.Core.Commands;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.Controllers.Members;
-using Bowerbird.Web.ViewModels;
 using Bowerbird.Web.ViewModels.Members;
 using Bowerbird.Web.ViewModels.Shared;
 using NUnit.Framework;
@@ -118,7 +116,7 @@ namespace Bowerbird.Test.Controllers.Members
         [Category(TestCategory.Unit)]
         public void Post_Create_Passing_Invalid_Input_Returns_Json_Error()
         {
-            _mockUserContext.Setup(x => x.HasProjectPermission(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
+            _mockUserContext.Setup(x => x.HasGroupPermission(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
 
             _controller.ModelState.AddModelError("Error", "Error");
 
@@ -135,7 +133,7 @@ namespace Bowerbird.Test.Controllers.Members
         [Category(TestCategory.Unit)]
         public void Post_Create_Passing_Valid_Input_Returns_Json_Success()
         {
-            _mockUserContext.Setup(x => x.HasProjectPermission(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
+            _mockUserContext.Setup(x => x.HasGroupPermission(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
 
             var result = _controller.Create(new PostCreateInput());
 
@@ -150,7 +148,7 @@ namespace Bowerbird.Test.Controllers.Members
         [Category(TestCategory.Unit)]
         public void Post_Create_Having_Invalid_Permission_Returns_HttpUnauthorised()
         {
-            _mockUserContext.Setup(x => x.HasProjectPermission(It.IsAny<string>(), It.IsAny<string>())).Returns(false);
+            _mockUserContext.Setup(x => x.HasGroupPermission(It.IsAny<string>(), It.IsAny<string>())).Returns(false);
 
             var result = _controller.Create(new PostCreateInput());
 

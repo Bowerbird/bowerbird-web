@@ -67,8 +67,7 @@ namespace Bowerbird.Test.CommandHandlers
                 UserId = user.Id,
                 Description = FakeValues.Description,
                 Name = FakeValues.Name,
-                Website = FakeValues.Website,
-                OrganisationId = organisation.Id
+                Website = FakeValues.Website
             };
 
             using (var session = _store.OpenSession())
@@ -89,7 +88,6 @@ namespace Bowerbird.Test.CommandHandlers
             Assert.AreEqual(command.Description , newValue.Description);
             Assert.AreEqual(command.Name, newValue.Name);
             Assert.AreEqual(command.Website, newValue.Website);
-            //Assert.AreEqual(user.DenormalisedUserReference(), newValue.Organisation);
         }
 
         #endregion

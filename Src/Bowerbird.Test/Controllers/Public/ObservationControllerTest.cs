@@ -1,6 +1,4 @@
-﻿/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -68,7 +66,7 @@ namespace Bowerbird.Test.Controllers.Public
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Observation_Index_NonAjaxCall_Returns_ObservationIndex_ViewModel()
+        public void Observation_Index_In_ViewModel_Format()
         {
             var user = FakeObjects.TestUserWithId();
             var observation = FakeObjects.TestObservationWithId();
@@ -94,7 +92,7 @@ namespace Bowerbird.Test.Controllers.Public
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Observation_Index_AjaxCall_Returns_ObservationIndex_Json()
+        public void Observation_Index_In_Json_Format()
         {
             var user = FakeObjects.TestUserWithId();
             var observation = FakeObjects.TestObservationWithId();
@@ -124,9 +122,11 @@ namespace Bowerbird.Test.Controllers.Public
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Observation_List_Returns_ObservationList_In_Json_Format()
+        public void Observations_By_User_In_Json_Format()
         {
             var user = FakeObjects.TestUserWithId();
+            var project = FakeObjects.TestProjectWithId();
+
             const int page = 1;
             const int pageSize = 10;
 
@@ -135,10 +135,12 @@ namespace Bowerbird.Test.Controllers.Public
             using (var session = _documentStore.OpenSession())
             {
                 session.Store(user);
+                session.Store(project);
 
                 for (var i = 0; i < 15; i++)
                 {
                     var observation = FakeObjects.TestObservationWithId(i.ToString());
+                    
                     observations.Add(observation);
                     session.Store(observation);
                 }
@@ -146,7 +148,7 @@ namespace Bowerbird.Test.Controllers.Public
                 session.SaveChanges();
             }
 
-            var result = _controller.List(new ObservationListInput() { Page = page, PageSize = pageSize });
+            var result = _controller.List(new ObservationListInput() { Page = page, PageSize = pageSize});
 
             Assert.IsNotNull(result);
             Assert.IsInstanceOf<JsonResult>(result);
@@ -167,10 +169,11 @@ namespace Bowerbird.Test.Controllers.Public
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Observation_List_Having_ProjectId_Returns_ObservationList_Having_Projects_Observations_In_Json_Format()
+        public void Observations_By_Group_In_Json_Format()
         {
             var user = FakeObjects.TestUserWithId();
             var project = FakeObjects.TestProjectWithId();
+
             const int page = 1;
             const int pageSize = 10;
 
@@ -184,21 +187,22 @@ namespace Bowerbird.Test.Controllers.Public
                 for (var i = 0; i < 15; i++)
                 {
                     var observation = FakeObjects.TestObservationWithId(i.ToString());
-                    var projectObservation = new ProjectObservation(
-                        user, 
-                        FakeValues.CreatedDateTime, 
+                    var contribution = new GroupContribution(
                         project,
-                        observation);
-                    
+                        observation.Id,
+                        user,
+                        FakeValues.CreatedDateTime
+                        );
+
                     observations.Add(observation);
                     session.Store(observation);
-                    session.Store(projectObservation);
+                    session.Store(contribution);
                 }
 
                 session.SaveChanges();
             }
 
-            var result = _controller.List(new ObservationListInput() { Page = page, PageSize = pageSize, ProjectId = project.Id});
+            var result = _controller.List(new ObservationListInput() { Page = page, PageSize = pageSize, GroupId = project.Id });
 
             Assert.IsNotNull(result);
             Assert.IsInstanceOf<JsonResult>(result);
@@ -215,7 +219,7 @@ namespace Bowerbird.Test.Controllers.Public
             Assert.AreEqual(pageSize, jsonData.PageSize);
             Assert.AreEqual(pageSize, jsonData.Observations.PagedListItems.Count());
             Assert.AreEqual(observations.Count, jsonData.Observations.TotalResultCount);
-            Assert.AreEqual(project, jsonData.Project);
+            Assert.AreEqual(project, jsonData.Group);
         }
 
         #endregion

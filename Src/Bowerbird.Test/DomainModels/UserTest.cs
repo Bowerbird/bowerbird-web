@@ -12,23 +12,16 @@
  
 */
 
+using System;
+using System.Linq;
+using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.DomainModels.Members;
+using Bowerbird.Test.Utils;
+using NUnit.Framework;
+
 namespace Bowerbird.Test.DomainModels
 {
-    #region Namespaces
-
-    using System;
-    using System.Linq;
-
-    using Moq;
-    using NUnit.Framework;
-    
-    using Bowerbird.Core.DesignByContract;
-    using Bowerbird.Core.DomainModels;
-    using Bowerbird.Core.DomainModels.Members;
-    using Bowerbird.Test.Utils;
-
-    #endregion
-
     [TestFixture]
     public class UserTest
     {
@@ -261,15 +254,15 @@ namespace Bowerbird.Test.DomainModels
 
             var expected = user.Memberships.Count + 1;
 
-            var teamMember = new TeamMember(
+            var groupMember = new GroupMember(
                                    user,
                                    new Team(user, FakeValues.Name, FakeValues.Description, FakeValues.Website),
                                    user,
                                    FakeObjects.TestRoles());
 
-            ((IAssignableId)teamMember).SetIdTo("teammember", (new Random(System.DateTime.Now.Millisecond)).Next().ToString());
+            ((IAssignableId)groupMember).SetIdTo("groupmember", (new Random(System.DateTime.Now.Millisecond)).Next().ToString());
 
-            user.AddMembership(teamMember);
+            user.AddMembership(groupMember);
 
             var actual = user.Memberships.Count;
 
@@ -284,16 +277,16 @@ namespace Bowerbird.Test.DomainModels
 
             var expected = user.Memberships.Count + 1;
 
-            var teamMember = new TeamMember(
+            var groupMember = new GroupMember(
                                    user,
                                    new Team(user, FakeValues.Name, FakeValues.Description, FakeValues.Website),
                                    user,
                                    FakeObjects.TestRoles());
 
-            ((IAssignableId)teamMember).SetIdTo("teammember", (new Random(System.DateTime.Now.Millisecond)).Next().ToString());
+            ((IAssignableId)groupMember).SetIdTo("teammember", (new Random(System.DateTime.Now.Millisecond)).Next().ToString());
 
-            user.AddMembership(teamMember);
-            user.AddMembership(teamMember);
+            user.AddMembership(groupMember);
+            user.AddMembership(groupMember);
             
             var actual = user.Memberships.Count;
 

@@ -94,7 +94,7 @@ namespace Bowerbird.Test.Controllers.Members
                 session.SaveChanges();
             }
 
-            var result = _controller.List(new GroupMemberListInput() { Page = page, PageSize = pageSize, ProjectId= project.Id, UserId = user.Id });
+            var result = _controller.List(new GroupMemberListInput() { Page = page, PageSize = pageSize, GroupId = project.Id, UserId = user.Id });
 
             Assert.IsInstanceOf<JsonResult>(result);
 
@@ -117,12 +117,7 @@ namespace Bowerbird.Test.Controllers.Members
         {
             _controller.ModelState.AddModelError("Error", "Error");
 
-            var result = _controller.Create(new GroupMemberCreateInput()
-                                                {
-                                                    UserId = FakeValues.UserId, 
-                                                    ProjectId = FakeValues.KeyString, 
-                                                    Roles = FakeValues.StringList
-                                                });
+            var result = _controller.Create(new GroupMemberCreateInput());
 
             Assert.IsInstanceOf<JsonResult>(result);
             var jsonResult = result as JsonResult;
@@ -135,12 +130,7 @@ namespace Bowerbird.Test.Controllers.Members
         [Category(TestCategory.Unit)]
         public void GroupMember_Create_Passing_Valid_Input_Returns_Json_Success()
         {
-            var result = _controller.Create(new GroupMemberCreateInput()
-                                                {
-                                                    UserId = FakeValues.UserId, 
-                                                    ProjectId = FakeValues.KeyString, 
-                                                    Roles = FakeValues.StringList
-                                                });
+            var result = _controller.Create(new GroupMemberCreateInput());
 
             Assert.IsInstanceOf<JsonResult>(result);
             var jsonResult = result as JsonResult;
@@ -155,11 +145,7 @@ namespace Bowerbird.Test.Controllers.Members
         {
             _controller.ModelState.AddModelError("Error", "Error");
 
-            var result = _controller.Delete(new GroupMemberDeleteInput()
-                                                {
-                                                    ProjectId = FakeValues.KeyString, 
-                                                    GroupMemberId = FakeValues.KeyString
-                                                });
+            var result = _controller.Delete(new GroupMemberDeleteInput());
 
             Assert.IsInstanceOf<JsonResult>(result);
             var jsonResult = result as JsonResult;
@@ -172,11 +158,7 @@ namespace Bowerbird.Test.Controllers.Members
         [Category(TestCategory.Unit)]
         public void GroupMember_Delete_Passing_Valid_Input_Returns_Json_Success()
         {
-            var result = _controller.Delete(new GroupMemberDeleteInput()
-                                                {
-                                                    ProjectId = FakeValues.KeyString, 
-                                                    GroupMemberId = FakeValues.KeyString
-                                                });
+            var result = _controller.Delete(new GroupMemberDeleteInput());
 
             Assert.IsInstanceOf<JsonResult>(result);
             var jsonResult = result as JsonResult;

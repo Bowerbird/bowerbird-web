@@ -135,8 +135,6 @@
     <Compile Include="Controllers\Public\TeamController.cs" />
     <Compile Include="Config\IPermissionChecker.cs" />
     <Compile Include="Config\PermissionChecker.cs" />
-    <Compile Include="Indexes\StreamItemIndexes.cs" />
-    <Compile Include="Indexes\UserIndexes.cs" />
     <Compile Include="Validators\ModelStateException.cs" />
     <Compile Include="Validators\HandleModelStateExceptionAttribute.cs" />
     <Compile Include="Validators\LatLong.cs" />

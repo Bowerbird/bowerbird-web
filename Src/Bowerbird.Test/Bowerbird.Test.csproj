@@ -126,8 +126,6 @@
     <Compile Include="CommandHandlers\ProjectDeleteCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\GroupMemberCreateCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\GroupMemberDeleteCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\ProjectObservationCreateCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\ProjectObservationDeleteCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\PostCreateCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\PostDeleteCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\PostUpdateCommandHandlerTest.cs" />
@@ -185,10 +183,6 @@
     <Compile Include="Extensions\CollectionExtensionsTest.cs" />
     <Compile Include="Extensions\StringExtensionsTest.cs" />
     <Compile Include="Extensions\UrlHelperExtensionsTest.cs" />
-    <Compile Include="Indexes\ProjectMemberIndexTest.cs" />
-    <Compile Include="Indexes\StreamItemIndexTest.cs" />
-    <Compile Include="Indexes\TeamMemberIndexTest.cs" />
-    <Compile Include="Indexes\UserIndexTest.cs" />
     <Compile Include="Utils\Denormaliser.cs" />
     <Compile Include="Utils\FakeViewModels.cs" />
     <Compile Include="Utils\BootstrapperHelper.cs" />

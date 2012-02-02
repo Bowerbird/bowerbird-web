@@ -29,7 +29,7 @@ namespace Bowerbird.Web.ViewModels.Public
 
         #region Properties
 
-        public string ProjectId { get; set; }
+        public string GroupId { get; set; }
 
         public int Page { get; set; }
 

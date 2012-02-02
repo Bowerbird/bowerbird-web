@@ -56,28 +56,12 @@ namespace Bowerbird.Test.Controllers.Public
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Team_List_Returns_Json_Success()
-        {
-            var result = _controller.List(null, null, null);
-
-            Assert.IsInstanceOf<JsonResult>(result);
-            var jsonResult = result as JsonResult;
-
-            Assert.IsNotNull(jsonResult);
-            Assert.AreEqual(jsonResult.Data.ToString().ToLower(), "Success".ToLower());
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void Team_Index_NonAjaxCall_Returns_TeamIndex_Json_Having_Projects()
+        public void Team_Index_As_ViewModel()
         {
             var team = FakeObjects.TestTeamWithId();
-            var project = FakeObjects.TestProjectWithId();
-            project.Team = team;
 
             using (var session = _documentStore.OpenSession())
             {
-                session.Store(project);
                 session.Store(team);
                 session.SaveChanges();
             }
@@ -93,20 +77,16 @@ namespace Bowerbird.Test.Controllers.Public
             Assert.IsNotNull(viewModel);
             Assert.AreEqual(viewModel.Team, team);
             Assert.IsNotNull(viewModel.Projects);
-            Assert.IsTrue(viewModel.Projects.Contains(project));
         }
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Team_Index_AjaxCall_Returns_TeamIndex_Json_Having_Projects()
+        public void Team_Index_As_Json()
         {
             var team = FakeObjects.TestTeamWithId();
-            var project = FakeObjects.TestProjectWithId();
-            project.Team = team;
 
             using (var session = _documentStore.OpenSession())
             {
-                session.Store(project);
                 session.Store(team);
                 session.SaveChanges();
             }
@@ -125,8 +105,6 @@ namespace Bowerbird.Test.Controllers.Public
             var jsonData = jsonResult.Data as TeamIndex;
             Assert.IsNotNull(jsonData);
             Assert.AreEqual(jsonData.Team, team);
-            Assert.IsNotNull(jsonData.Projects);
-            Assert.IsTrue(jsonData.Projects.Contains(project));
         }
 
         #endregion 

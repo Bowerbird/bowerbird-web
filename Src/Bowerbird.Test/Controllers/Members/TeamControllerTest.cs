@@ -70,7 +70,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Team_List_Returns_TeamList_In_Json_Format()
+        public void Team_List_As_Json()
         {
             var organisation = FakeObjects.TestOrganisationWithId();
             const int page = 1;
@@ -85,7 +85,6 @@ namespace Bowerbird.Test.Controllers.Members
                 for (var i = 0; i < 15; i++)
                 {
                     var team = FakeObjects.TestTeamWithId(i.ToString());
-                    team.Organisation = organisation;
                     teams.Add(team);
                     session.Store(team);
                 }
@@ -114,15 +113,12 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Team_Index_NonAjaxCall_Returns_TeamIndex_Json_Having_Projects()
+        public void Team_Index_As_ViewModel()
         {
             var team = FakeObjects.TestTeamWithId();
-            var project = FakeObjects.TestProjectWithId();
-            project.Team = team;
 
             using (var session = _documentStore.OpenSession())
             {
-                session.Store(project);
                 session.Store(team);
                 session.SaveChanges();
             }
@@ -138,22 +134,18 @@ namespace Bowerbird.Test.Controllers.Members
             Assert.IsNotNull(viewModel);
             Assert.AreEqual(viewModel.Team, team);
             Assert.IsNotNull(viewModel.Projects);
-            Assert.IsTrue(viewModel.Projects.Contains(project));
         }
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Team_Index_AjaxCall_Returns_TeamIndex_Json_Having_Projects()
+        public void Team_Index_As_Json()
         {
             var team = FakeObjects.TestTeamWithId();
-            var project = FakeObjects.TestProjectWithId();
             var user = FakeObjects.TestUserWithId();
-            project.Team = team;
 
             using (var session = _documentStore.OpenSession())
             {
                 session.Store(user);
-                session.Store(project);
                 session.Store(team);
                 session.SaveChanges();
             }
@@ -173,12 +165,11 @@ namespace Bowerbird.Test.Controllers.Members
             Assert.IsNotNull(jsonData);
             Assert.AreEqual(jsonData.Team, team);
             Assert.IsNotNull(jsonData.Projects);
-            Assert.IsTrue(jsonData.Projects.Contains(project));
         }
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Team_Create_Passing_Invalid_Input_Returns_Json_Error()
+        public void Team_Create_With_Error()
         {
             _mockUserContext.Setup(x => x.HasGlobalPermission(It.IsAny<string>())).Returns(true);
 
@@ -195,7 +186,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Team_Create_Passing_Valid_Input_Returns_Json_Success()
+        public void Team_Create_With_Success()
         {
             _mockUserContext.Setup(x => x.HasGlobalPermission(It.IsAny<string>())).Returns(true);
 
@@ -210,7 +201,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Team_Create_Having_Invalid_Permissions_Returns_HttpUnAuthorized()
+        public void Team_Create_With_HttpUnAuthorized()
         {
             _mockUserContext.Setup(x => x.HasGlobalPermission(It.IsAny<string>())).Returns(false);
 
@@ -221,7 +212,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Team_Update_Passing_Invalid_Input_Returns_Json_Error()
+        public void Team_Update_With_Error()
         {
             _mockUserContext.Setup(x => x.HasPermissionToUpdate<Team>(It.IsAny<string>())).Returns(true);
 
@@ -243,7 +234,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Team_Update_Passing_Valid_Input_Returns_Json_Success()
+        public void Team_Update_With_Success()
         {
             _mockUserContext.Setup(x => x.HasPermissionToUpdate<Team>(It.IsAny<string>())).Returns(true);
 
@@ -263,7 +254,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Team_Update_Having_Invalid_Permissions_Returns_HttpUnAuthorized()
+        public void Team_Update_With_HttpUnAuthorized()
         {
             _mockUserContext.Setup(x => x.HasPermissionToUpdate<Team>(It.IsAny<string>())).Returns(false);
 
@@ -274,7 +265,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Team_Delete_Passing_Invalid_Input_Returns_Json_Error()
+        public void Team_Delete_With_Error()
         {
             _mockUserContext.Setup(x => x.HasPermissionToDelete<Team>(It.IsAny<string>())).Returns(true);
 
@@ -291,7 +282,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Team_Delete_Passing_Valid_Input_Returns_Json_Success()
+        public void Team_Delete_With_Success()
         {
             _mockUserContext.Setup(x => x.HasPermissionToDelete<Team>(It.IsAny<string>())).Returns(true);
 
@@ -306,7 +297,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Team_Delete_Having_Invalid_Permissions_Returns_HttpUnAuthorized()
+        public void Team_Delete_With_HttpUnAuthorized()
         {
             _mockUserContext.Setup(x => x.HasPermissionToDelete<Team>(It.IsAny<string>())).Returns(false);
 

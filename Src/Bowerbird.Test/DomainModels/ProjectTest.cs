@@ -12,24 +12,14 @@
  
 */
 
+using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Extensions;
+using Bowerbird.Test.Utils;
+using NUnit.Framework;
+
 namespace Bowerbird.Test.DomainModels
 {
-    #region Namespaces
-
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-
-    using NUnit.Framework;
-
-    using Bowerbird.Core.DomainModels;
-    using Bowerbird.Test.Utils;
-    using Bowerbird.Core.DesignByContract;
-    using Bowerbird.Core.Extensions;
-
-    #endregion
-
+    [TestFixture]
     public class ProjectTest
     {
         #region Test Infrastructure
@@ -51,7 +41,8 @@ namespace Bowerbird.Test.DomainModels
             return new Project(
                 FakeObjects.TestUser(), 
                 FakeValues.Name, 
-                FakeValues.Description
+                FakeValues.Description,
+                FakeValues.Website
                 );
         }
 
@@ -63,7 +54,11 @@ namespace Bowerbird.Test.DomainModels
         [Category(TestCategory.Unit)]
         public void Project_Constructor_Populates_Properties_With_Values()
         {
-            var testProject = new Project(FakeObjects.TestUser(), FakeValues.Name, FakeValues.Description);
+            var testProject = new Project(
+                FakeObjects.TestUser(), 
+                FakeValues.Name, 
+                FakeValues.Description,
+                FakeValues.Website);
 
             Assert.AreEqual(testProject.Name, FakeValues.Name);
             Assert.AreEqual(testProject.Description, FakeValues.Description);
@@ -82,7 +77,8 @@ namespace Bowerbird.Test.DomainModels
             testProject.UpdateDetails(
                 FakeObjects.TestUser(),
                 FakeValues.Name.AppendWith(additionalString),
-                FakeValues.Description.AppendWith(additionalString)
+                FakeValues.Description.AppendWith(additionalString),
+                FakeValues.Website.AppendWith(additionalString)
                 );
 
             Assert.AreEqual(testProject.Name, FakeValues.Name.AppendWith(additionalString));

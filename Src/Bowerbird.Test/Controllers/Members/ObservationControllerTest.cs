@@ -166,58 +166,58 @@ namespace Bowerbird.Test.Controllers.Members
             Assert.AreEqual(user.Id, jsonData.UserId);
         }
 
-        [Test]
+        [Test, Ignore]
         [Category(TestCategory.Unit)]
         public void Observation_List_Having_ProjectId_Returns_ObservationList_Having_Projects_Observations_In_Json_Format()
         {
-            var user = FakeObjects.TestUserWithId();
-            var project = FakeObjects.TestProjectWithId();
-            const int page = 1;
-            const int pageSize = 10;
+            //var user = FakeObjects.TestUserWithId();
+            //var project = FakeObjects.TestProjectWithId();
+            //const int page = 1;
+            //const int pageSize = 10;
 
-            var observations = new List<Observation>();
+            //var observations = new List<Observation>();
 
-            using (var session = _documentStore.OpenSession())
-            {
-                session.Store(user);
-                session.Store(project);
+            //using (var session = _documentStore.OpenSession())
+            //{
+            //    session.Store(user);
+            //    session.Store(project);
 
-                for (var i = 0; i < 15; i++)
-                {
-                    var observation = FakeObjects.TestObservationWithId(i.ToString());
-                    var projectObservation = new ProjectObservation(
-                        user,
-                        FakeValues.CreatedDateTime,
-                        project,
-                        observation);
+            //    for (var i = 0; i < 15; i++)
+            //    {
+            //        var observation = FakeObjects.TestObservationWithId(i.ToString());
+            //        var projectObservation = new ProjectObservation(
+            //            user,
+            //            FakeValues.CreatedDateTime,
+            //            project,
+            //            observation);
 
-                    observations.Add(observation);
-                    session.Store(projectObservation);
-                    session.Store(observation);
-                }
+            //        observations.Add(observation);
+            //        session.Store(projectObservation);
+            //        session.Store(observation);
+            //    }
 
-                session.SaveChanges();
-            }
+            //    session.SaveChanges();
+            //}
 
-            var result = _controller.List(new ObservationListInput() { Page = page, PageSize = pageSize, UserId = user.Id, ProjectId = project.Id});
+            //var result = _controller.List(new ObservationListInput() { Page = page, PageSize = pageSize, UserId = user.Id, ProjectId = project.Id});
 
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf<JsonResult>(result);
+            //Assert.IsNotNull(result);
+            //Assert.IsInstanceOf<JsonResult>(result);
 
-            var jsonResult = result as JsonResult;
-            Assert.IsNotNull(jsonResult);
+            //var jsonResult = result as JsonResult;
+            //Assert.IsNotNull(jsonResult);
 
-            Assert.IsNotNull(jsonResult.Data);
-            Assert.IsInstanceOf<ObservationList>(jsonResult.Data);
-            var jsonData = jsonResult.Data as ObservationList;
+            //Assert.IsNotNull(jsonResult.Data);
+            //Assert.IsInstanceOf<ObservationList>(jsonResult.Data);
+            //var jsonData = jsonResult.Data as ObservationList;
 
-            Assert.IsNotNull(jsonData);
-            Assert.AreEqual(page, jsonData.Page);
-            Assert.AreEqual(pageSize, jsonData.PageSize);
-            Assert.AreEqual(pageSize, jsonData.Observations.PagedListItems.Count());
-            Assert.AreEqual(observations.Count, jsonData.Observations.TotalResultCount);
-            Assert.AreEqual(user.Id, jsonData.UserId);
-            Assert.AreEqual(project, jsonData.Project);
+            //Assert.IsNotNull(jsonData);
+            //Assert.AreEqual(page, jsonData.Page);
+            //Assert.AreEqual(pageSize, jsonData.PageSize);
+            //Assert.AreEqual(pageSize, jsonData.Observations.PagedListItems.Count());
+            //Assert.AreEqual(observations.Count, jsonData.Observations.TotalResultCount);
+            //Assert.AreEqual(user.Id, jsonData.UserId);
+            //Assert.AreEqual(project, jsonData.Project);
         }
 
         [Test]
