@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Threading;
+using Bowerbird.Core.DomainModels;
+using Raven.Client;
 
 namespace Bowerbird.Test.Utils
 {
@@ -55,5 +58,12 @@ namespace Bowerbird.Test.Utils
             return (T)obj;
         }
 
+        public static void DeleteFromDb(this IDocumentSession session, IEnumerable<DomainModel> entities)
+        {
+            foreach (var domainModel in entities)
+            {
+                session.Delete(domainModel);
+            }
+        }
     }
 }

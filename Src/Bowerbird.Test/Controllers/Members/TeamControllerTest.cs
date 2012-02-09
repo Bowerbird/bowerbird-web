@@ -43,7 +43,7 @@ namespace Bowerbird.Test.Controllers.Members
         {
             _mockCommandProcessor = new Mock<ICommandProcessor>();
             _mockUserContext = new Mock<IUserContext>();
-            _documentStore = DocumentStoreHelper.TestDocumentStore();
+            _documentStore = DocumentStoreHelper.InMemoryDocumentStore();
 
             _controller = new TeamController(
                 _mockCommandProcessor.Object,

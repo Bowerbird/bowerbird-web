@@ -36,7 +36,7 @@ namespace Bowerbird.Test.Validators
         [SetUp]
         public void TestInitialize()
         {
-            _store = DocumentStoreHelper.TestDocumentStore();
+            _store = DocumentStoreHelper.InMemoryDocumentStore();
         }
 
         [TearDown]

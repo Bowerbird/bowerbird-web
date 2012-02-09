@@ -31,7 +31,7 @@ namespace Bowerbird.Test.CommandHandlers
         [SetUp]
         public void TestInitialize()
         {
-            _store = DocumentStoreHelper.TestDocumentStore();            
+            _store = DocumentStoreHelper.InMemoryDocumentStore();            
         }
 
         [TearDown]

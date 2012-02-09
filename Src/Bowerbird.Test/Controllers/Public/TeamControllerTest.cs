@@ -32,7 +32,7 @@ namespace Bowerbird.Test.Controllers.Public
         [SetUp]
         public void TestInitialize()
         {
-            _documentStore = DocumentStoreHelper.TestDocumentStore();
+            _documentStore = DocumentStoreHelper.InMemoryDocumentStore();
 
             _controller = new TeamController(
                 _documentStore.OpenSession()

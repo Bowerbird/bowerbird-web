@@ -44,8 +44,8 @@ namespace Bowerbird.Test.Controllers.Members
         [SetUp]
         public void TestInitialize()
         {
-            _documentStore = DocumentStoreHelper.LocalhostDocumentStore();
-            //_documentStore = DocumentStoreHelper.TestDocumentStore();
+            _documentStore = DocumentStoreHelper.ServerDocumentStore();
+            //_documentStore = DocumentStoreHelper.InMemoryDocumentStore();
             
             _mockCommandProcessor = new Mock<ICommandProcessor>();
 
