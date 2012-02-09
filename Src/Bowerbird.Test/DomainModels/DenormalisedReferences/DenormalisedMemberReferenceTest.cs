@@ -12,23 +12,17 @@
  
 */
 
+using System;
+using System.Linq;
+using NUnit.Framework;
+using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.DomainModels.DenormalisedReferences;
+using Bowerbird.Test.Utils;
+using Bowerbird.Core.DomainModels.Members;
+
 namespace Bowerbird.Test.DomainModels.DenormalisedReferences
 {
-    #region Namespaces
-
-    using System;
-    using System.Linq;
-
-    using NUnit.Framework;
-
-    using Bowerbird.Core.DesignByContract;
-    using Bowerbird.Core.DomainModels;
-    using Bowerbird.Core.DomainModels.DenormalisedReferences;
-    using Bowerbird.Test.Utils;
-    using Bowerbird.Core.DomainModels.Members;
-
-    #endregion
-
     [TestFixture]
     public class DenormalisedMemberReferenceTest
     {
@@ -89,7 +83,7 @@ namespace Bowerbird.Test.DomainModels.DenormalisedReferences
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void DenormalisedMemberReference_Implicit_Operator_Passing_GlobalMember_Returns_DenormalisedUserReference_With_Populated_Global_Properties()
+        public void DenormalisedMemberReference_Implicit_Operator_Passing_GlobalMember()
         {
             var normalisedMember = TestGlobalMember();
 
@@ -102,7 +96,7 @@ namespace Bowerbird.Test.DomainModels.DenormalisedReferences
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void DenormalisedMemberReference_Implicit_Operator_Passing_ProjectMember_Returns_DenormalisedUserReference_With_Populated_Project_Properties()
+        public void DenormalisedMemberReference_Implicit_Operator_Passing_ProjectMember()
         {
             var normalisedMember = TestGroupMember();
 
@@ -115,20 +109,7 @@ namespace Bowerbird.Test.DomainModels.DenormalisedReferences
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void DenormalisedMemberReference_Implicit_Operator_Passing_TeamMember_Returns_DenormalisedUserReference_With_Populated_Team_Properties()
-        {
-            var normalisedMember = TestGroupMember();
-
-            DenormalisedMemberReference denormalisedMember = TestDenormalise(normalisedMember);
-
-            Assert.AreEqual(normalisedMember.Id, denormalisedMember.Id);
-            Assert.IsTrue(denormalisedMember.Type.Equals("groupmember"));
-            Assert.AreEqual(denormalisedMember.Roles.ToList(), denormalisedMember.Roles.ToList());
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void DenormalisedUserReference_Implicit_Operator_Passing_Null_User_Throws_DesignByContractException()
+        public void DenormalisedUserReference_Implicit_Operator_Passing_Null()
         {
             Assert.IsTrue(
                 BowerbirdThrows.Exception<DesignByContractException>(

@@ -55,7 +55,7 @@ namespace Bowerbird.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Persistance)]
-        public void OrganisationCreateCommandHandler_Creates_Organisation()
+        public void OrganisationCreateCommandHandler_Handle()
         {
             var user = FakeObjects.TestUserWithId();
 

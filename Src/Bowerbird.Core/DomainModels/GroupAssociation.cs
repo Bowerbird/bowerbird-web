@@ -1,7 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+
+ Developers: 
+ * Frank Radocaj : frank@radocaj.com
+ * Hamish Crittenden : hamish.crittenden@gmail.com
+ 
+ Project Manager: 
+ * Ken Walker : kwalker@museum.vic.gov.au
+ 
+ Funded by:
+ * Atlas of Living Australia
+ 
+*/
+
+using System;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Events;
 
@@ -16,20 +27,22 @@ namespace Bowerbird.Core.DomainModels
 
         #region Constructors
 
+        protected GroupAssociation()
+            :base()
+        {
+        }
+
         public GroupAssociation(
-            Group parentGroup,
-            Group childGroup,
+            Group group,
             User createdByUser,
             DateTime createdDateTime)
             : base()
         {
-            Check.RequireNotNull(parentGroup, "parentGroup");
-            Check.RequireNotNull(childGroup, "childGroup");
+            Check.RequireNotNull(group, "group");
             Check.RequireNotNull(createdByUser, "createdByUser");
 
-            ParentGroup = parentGroup;
-            ChildGroup = childGroup;
-            CreatedByUser = createdByUser;
+            GroupId = group.Id;
+            CreatedByUserId = createdByUser.Id;
             CreatedDateTime = createdDateTime;
 
             EventProcessor.Raise(new DomainModelCreatedEvent<GroupAssociation>(this, createdByUser));
@@ -39,11 +52,9 @@ namespace Bowerbird.Core.DomainModels
 
         #region Properties
 
-        public Group ParentGroup { get; private set; }
+        public string GroupId { get; private set; }
 
-        public Group ChildGroup { get; private set; }
-
-        public User CreatedByUser { get; private set; }
+        public string CreatedByUserId { get; private set; }
 
         public DateTime CreatedDateTime { get; private set; }
 

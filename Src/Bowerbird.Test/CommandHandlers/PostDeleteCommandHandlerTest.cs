@@ -54,7 +54,7 @@ namespace Bowerbird.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Persistance)]
-        public void PostDeleteCommandHandler_Deletes_Post()
+        public void PostDeleteCommandHandler_Handle()
         {
             var post = FakeObjects.TestPostWithId();
             var user = FakeObjects.TestUserWithId();

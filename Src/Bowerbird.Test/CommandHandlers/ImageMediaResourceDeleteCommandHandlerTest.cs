@@ -53,7 +53,7 @@ namespace Bowerbird.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Persistance)]
-        public void ImageMediaResourceDeleteCommandHandler_Deletes_ImageMediaResourceDelete()
+        public void ImageMediaResourceDeleteCommandHandler_Handle()
         {
             var imageMediaResource = FakeObjects.TestImageMediaResourceWithId();
             var user = FakeObjects.TestUserWithId();

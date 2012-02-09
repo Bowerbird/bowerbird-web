@@ -76,7 +76,6 @@ namespace Bowerbird.Test.Controllers.Public
 
             Assert.IsNotNull(viewModel);
             Assert.AreEqual(viewModel.Team, team);
-            Assert.IsNotNull(viewModel.Projects);
         }
 
         [Test]

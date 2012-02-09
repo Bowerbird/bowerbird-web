@@ -1,6 +1,4 @@
-﻿/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -14,7 +12,6 @@
  
 */
 
-using System.Linq;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
@@ -57,10 +54,9 @@ namespace Bowerbird.Core.CommandHandlers
                 postCreateCommand.Timestamp,
                 postCreateCommand.Subject,
                 postCreateCommand.Message,
-                _documentSession.Load<MediaResource>(postCreateCommand.MediaResources).ToList()
+                _documentSession.Load<MediaResource>(postCreateCommand.MediaResources),
+                _documentSession.Load<Group>(postCreateCommand.GroupId)
                 );
-
-            // TODO: Add saving of GroupContribution
 
             _documentSession.Store(projectPost);
         }

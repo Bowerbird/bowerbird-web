@@ -14,7 +14,6 @@
  
 */
 
-using System.Collections.Generic;
 using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Web.ViewModels.Shared
@@ -33,7 +32,7 @@ namespace Bowerbird.Web.ViewModels.Shared
 
         public Project Project { get; set; }
 
-        public List<Observation> Observations { get; set; }
+        public Team Team { get; set; }
          
         #endregion
 

@@ -12,17 +12,14 @@
  
 */
 
+using Bowerbird.Core.Extensions;
+using NUnit.Framework;
+using Bowerbird.Test.Utils;
+using Bowerbird.Core.DomainModels.MediaResources;
+
 namespace Bowerbird.Test.DomainModels.MediaResources
 {
-    #region Namespaces
-
-    using NUnit.Framework;
-
-    using Bowerbird.Test.Utils;
-    using Bowerbird.Core.DomainModels.MediaResources;
-
-    #endregion
-
+    [TestFixture]
     public class ImageMediaResourceTest
     {
         #region Test Infrastructure
@@ -43,7 +40,7 @@ namespace Bowerbird.Test.DomainModels.MediaResources
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void ImageMediaResource_Constructor_Populates_Property_Values()
+        public void ImageMediaResource_Constructor()
         {
             var testMediaResource = new ImageMediaResource(
                 FakeObjects.TestUser(),
@@ -64,6 +61,18 @@ namespace Bowerbird.Test.DomainModels.MediaResources
         #endregion
 
         #region Method tests
+
+        [Test]
+        [Category(TestCategory.Unit)]
+        public void ImageMediaResource_UpdateDetails()
+        {
+            ImageMediaResource imageMediaResource = FakeObjects.TestImageMediaResourceWithId() as ImageMediaResource;
+
+            imageMediaResource
+                .UpdateDetails(FakeValues.Description.PrependWith("new"));
+
+            Assert.AreEqual(imageMediaResource.Description, FakeValues.Description.PrependWith("new"));
+        }
 
         #endregion
     }

@@ -74,14 +74,6 @@ namespace Bowerbird.Test.Utils
             }
         }
 
-        public class ProxyPost : Post
-        {
-            public ProxyPost(User createdByUser, DateTime createdDateTime, string subject, string message, List<MediaResource> mediaResources)
-                : base(createdByUser, createdDateTime, subject, message, mediaResources)
-            {
-            }
-        }
-
         public class ProxyValueObject : ValueObject
         {
             public ProxyValueObject(

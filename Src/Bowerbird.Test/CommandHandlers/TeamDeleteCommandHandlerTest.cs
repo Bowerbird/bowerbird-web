@@ -54,7 +54,7 @@ namespace Bowerbird.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void TeamDeleteCommandHandler_Deletes_Team()
+        public void TeamDeleteCommandHandler_Handle()
         {
             var team = FakeObjects.TestTeamWithId();
             var user = FakeObjects.TestUserWithId();

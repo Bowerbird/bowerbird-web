@@ -13,6 +13,7 @@
 */
 
 using System.Collections.Generic;
+using System.Linq;
 using Bowerbird.Core.CommandHandlers;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DomainModels;
@@ -56,7 +57,7 @@ namespace Bowerbird.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Persistance)]
-        public void ObservationUpdateCommandHandlerTest_Updates_Observation()
+        public void ObservationUpdateCommandHandlerTest_Handle()
         {
             var originalValue = FakeObjects.TestObservationWithId();
             var imageMediaResource = FakeObjects.TestImageMediaResourceWithId("abcabc");
@@ -100,8 +101,8 @@ namespace Bowerbird.Test.CommandHandlers
             Assert.AreEqual(command.ObservationCategory, newValue.ObservationCategory);
             Assert.AreEqual(command.Title, newValue.Title);
             Assert.AreEqual(command.ObservedOn, newValue.ObservedOn);
-            Assert.IsTrue(newValue.MediaResources.Count == 1);
-            Assert.AreEqual(imageMediaResource, newValue.MediaResources[0]);
+            Assert.IsTrue(newValue.MediaResources.ToList().Count == 1);
+            Assert.AreEqual(imageMediaResource, newValue.MediaResources.ToList()[0]);
         }
 
         #endregion 

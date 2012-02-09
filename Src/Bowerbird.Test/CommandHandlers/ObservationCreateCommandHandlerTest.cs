@@ -57,7 +57,7 @@ namespace Bowerbird.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Persistance)]
-        public void ObservationCreateCommandHandler_Creates_Observation()
+        public void ObservationCreateCommandHandler_Handle()
         {
             var user = FakeObjects.TestUserWithId();
             var imageMediaResource = FakeObjects.TestImageMediaResourceWithId();

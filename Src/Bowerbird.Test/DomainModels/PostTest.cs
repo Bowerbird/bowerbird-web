@@ -12,20 +12,16 @@
  
 */
 
+using System.Collections.Generic;
+using System.Linq;
+using NUnit.Framework;
+using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Extensions;
+using Bowerbird.Test.Utils;
+
 namespace Bowerbird.Test.DomainModels
 {
-    #region Namespaces
-
-    using System.Collections.Generic;
-
-    using NUnit.Framework;
-
-    using Bowerbird.Core.DomainModels;
-    using Bowerbird.Core.Extensions;
-    using Bowerbird.Test.Utils;
-
-    #endregion
-
+    [TestFixture]
     public class PostTest
     {
         #region Test Infrastructure
@@ -42,35 +38,31 @@ namespace Bowerbird.Test.DomainModels
 
         const string additionalString = "_";
 
-        private static Post TestPost()
-        {
-            return new ProxyObjects.ProxyPost(FakeObjects.TestUser(), FakeValues.CreatedDateTime, FakeValues.Subject, FakeValues.Message, new List<MediaResource>());
-        }
-
         #endregion
 
         #region Constructor tests
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Post_Constructor_Populates_Properties_With_Values()
+        public void Post_Constructor()
         {
-            var testPost = new ProxyObjects.ProxyPost(
-                FakeObjects.TestUser(),
+            var testPost = new Post(
+                FakeObjects.TestUserWithId(),
                 FakeValues.CreatedDateTime,
                 FakeValues.Subject,
                 FakeValues.Message,
-                new List<MediaResource>() {new ProxyObjects.ProxyMediaResource(FakeValues.Filename,FakeValues.FileFormat,FakeValues.Description)});
+                new List<MediaResource>() {FakeObjects.TestImageMediaResourceWithId()},
+                FakeObjects.TestProjectWithId());
 
-            Assert.AreEqual(testPost.User.Id, FakeObjects.TestUser().Id);
-            Assert.AreEqual(testPost.User.FirstName, FakeObjects.TestUser().FirstName);
-            Assert.AreEqual(testPost.User.LastName, FakeObjects.TestUser().LastName);
+            Assert.AreEqual(testPost.User.Id, FakeObjects.TestUserWithId().Id);
+            Assert.AreEqual(testPost.User.FirstName, FakeObjects.TestUserWithId().FirstName);
+            Assert.AreEqual(testPost.User.LastName, FakeObjects.TestUserWithId().LastName);
             Assert.AreEqual(testPost.Subject, FakeValues.Subject);
             Assert.AreEqual(testPost.Message, FakeValues.Message);
             Assert.AreEqual(testPost.CreatedOn, FakeValues.CreatedDateTime);
-            Assert.AreEqual(testPost.MediaResources[0].Description, FakeValues.Description);
-            Assert.AreEqual(testPost.MediaResources[0].OriginalFileName, FakeValues.Filename);
-            Assert.AreEqual(testPost.MediaResources[0].FileFormat, FakeValues.FileFormat);
+            Assert.AreEqual(testPost.MediaResources.ToList()[0].Description, FakeValues.Description);
+            Assert.AreEqual(testPost.MediaResources.ToList()[0].OriginalFileName, FakeValues.Filename);
+            Assert.AreEqual(testPost.MediaResources.ToList()[0].FileFormat, FakeValues.FileFormat);
         }
 
         #endregion
@@ -79,21 +71,28 @@ namespace Bowerbird.Test.DomainModels
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Post_UpdateDetails_Populates_Properties_With_Values()
+        public void Post_UpdateDetails()
         {
-            var testPost = TestPost();
+            var testPost = new Post(
+                FakeObjects.TestUserWithId(),
+                FakeValues.CreatedDateTime,
+                FakeValues.Subject,
+                FakeValues.Message,
+                new List<MediaResource>(),
+                FakeObjects.TestProjectWithId());
 
             testPost.UpdateDetails(
-                FakeObjects.TestUser(),
+                FakeObjects.TestUserWithId(),
                 FakeValues.Subject.AppendWith(additionalString),
                 FakeValues.Message.AppendWith(additionalString),
-                new List<MediaResource>(){new ProxyObjects.ProxyMediaResource(FakeValues.Filename,FakeValues.FileFormat,FakeValues.Description)});
+                new List<MediaResource>() { FakeObjects.TestImageMediaResourceWithId() });
 
             Assert.AreEqual(testPost.Subject, FakeValues.Subject.AppendWith(additionalString));
             Assert.AreEqual(testPost.Message, FakeValues.Message.AppendWith(additionalString));
-            Assert.AreEqual(testPost.MediaResources[0].Description, FakeValues.Description);
-            Assert.AreEqual(testPost.MediaResources[0].FileFormat, FakeValues.FileFormat);
-            Assert.AreEqual(testPost.MediaResources[0].OriginalFileName, FakeValues.Filename);
+            Assert.IsTrue(testPost.MediaResources.ToList().Count == 1);
+            Assert.AreEqual(testPost.MediaResources.ToList()[0].Description, FakeValues.Description);
+            Assert.AreEqual(testPost.MediaResources.ToList()[0].FileFormat, FakeValues.FileFormat);
+            Assert.AreEqual(testPost.MediaResources.ToList()[0].OriginalFileName, FakeValues.Filename);
         }
 
         #endregion

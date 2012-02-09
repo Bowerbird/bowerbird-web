@@ -1,6 +1,4 @@
-﻿/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -33,7 +31,9 @@ namespace Bowerbird.Web.ViewModels.Shared
 
         public Team Team { get; set; }
 
-        public IList<Project> Projects { get; set; }
+        public Organisation Organisation { get; set; }
+
+        public IEnumerable<Project> Projects { get; set; }
 
         #endregion
 

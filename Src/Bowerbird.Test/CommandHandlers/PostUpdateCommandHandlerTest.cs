@@ -56,7 +56,7 @@ namespace Bowerbird.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Persistance)]
-        public void PostUpdateCommandHandler_Updates_Post()
+        public void PostUpdateCommandHandler_Handle()
         {
             var originalValue = FakeObjects.TestPostWithId();
             var project = FakeObjects.TestProjectWithId();

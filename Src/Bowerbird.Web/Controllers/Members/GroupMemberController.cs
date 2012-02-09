@@ -28,7 +28,7 @@ using Raven.Client.Linq;
 
 namespace Bowerbird.Web.Controllers.Members
 {
-    public class GroupMemberController : Controller
+    public class GroupMemberController : ControllerBase
     {
         #region Members
 
@@ -111,7 +111,7 @@ namespace Bowerbird.Web.Controllers.Members
         {
             return new GroupMemberDeleteCommand()
             {
-                UserId = _userContext.GetAuthenticatedUserId(),
+                UserId = deleteInput.UserId,
                 DeletedByUserId = _userContext.GetAuthenticatedUserId(),
                 GroupId = deleteInput.GroupId
             };

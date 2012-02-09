@@ -12,8 +12,6 @@
  
 */
 
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Paging;
@@ -67,12 +65,17 @@ namespace Bowerbird.Web.Controllers.Public
         [HttpGet]
         public ActionResult List(ObservationListInput observationListInput)
         {
-            if (observationListInput.GroupId == null)
+            if (observationListInput.GroupId != null)
             {
-                return Json(MakeObservationList(observationListInput), JsonRequestBehavior.AllowGet);
+                return Json(MakeObservationListByProjectId(observationListInput), JsonRequestBehavior.AllowGet);
             }
 
-            return Json(MakeObservationListByProjectId(observationListInput), JsonRequestBehavior.AllowGet);
+            if(observationListInput.CreatedByUserId != null )
+            {
+                return Json(MakeObservationListByCretedByUserId(observationListInput), JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(MakeObservationList(observationListInput));
         }
 
         private ObservationIndex MakeObservationIndex(IdInput idInput)
@@ -107,35 +110,57 @@ namespace Bowerbird.Web.Controllers.Public
             };
         }
 
-        private ObservationList MakeObservationListByProjectId(ObservationListInput observationListInput)
+        private ObservationList MakeObservationListByProjectId(ObservationListInput listInput)
         {
-            throw new NotImplementedException();
-            //RavenQueryStatistics stats;
+            RavenQueryStatistics stats;
 
-            //var projectObservations = _documentSession
-            //    .Query<ProjectObservation>()
-            //    .Where(x => x.Project.Id == observationListInput.ProjectId)
-            //    .Customize(x => x.Include(observationListInput.ProjectId))
-            //    .Statistics(out stats)
-            //    .Skip(observationListInput.Page)
-            //    .Take(observationListInput.PageSize)
-            //    .ToArray();
+            var results = _documentSession
+                .Query<Observation>()
+                .Where(x => x.GroupContributions.Any(y => y.GroupId == listInput.GroupId))
+                .Statistics(out stats)
+                .Skip(listInput.Page)
+                .Take(listInput.PageSize)
+                .ToArray();
+            // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
 
-            //var results = _documentSession
-            //    .Load<Observation>(projectObservations.Select(x => x.Observation.Id))
-            //    .ToArray();
+            return new ObservationList
+            {
+                Page = listInput.Page,
+                PageSize = listInput.PageSize,
+                Project = listInput.GroupId != null ? _documentSession.Load<Project>(listInput.GroupId) : null,
+                Observations = results.ToPagedList(
+                    listInput.Page,
+                    listInput.PageSize,
+                    stats.TotalResults,
+                    null)
+            };
+        }
 
-            //return new ObservationList
-            //{
-            //    Project = _documentSession.Load<Project>(observationListInput.ProjectId),
-            //    Page = observationListInput.Page,
-            //    PageSize = observationListInput.PageSize,
-            //    Observations = results.ToPagedList(
-            //        observationListInput.Page,
-            //        observationListInput.PageSize,
-            //        stats.TotalResults,
-            //        null)
-            //};
+        private ObservationList MakeObservationListByCretedByUserId(ObservationListInput observationListInput)
+        {
+            RavenQueryStatistics stats;
+
+            var results = _documentSession
+                .Query<Observation>()
+                .Customize(x => x.Include(observationListInput.CreatedByUserId))
+                .Where(x => x.User.Id == observationListInput.CreatedByUserId)
+                .Statistics(out stats)
+                .Skip(observationListInput.Page)
+                .Take(observationListInput.PageSize)
+                .ToArray();
+            // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
+
+            return new ObservationList
+            {
+                Page = observationListInput.Page,
+                PageSize = observationListInput.PageSize,
+                CreatedByUser = _documentSession.Load<User>(observationListInput.CreatedByUserId),
+                Observations = results.ToPagedList(
+                    observationListInput.Page,
+                    observationListInput.PageSize,
+                    stats.TotalResults,
+                    null)
+            };
         }
 
         #endregion      

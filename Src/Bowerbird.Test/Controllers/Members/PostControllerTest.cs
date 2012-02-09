@@ -70,7 +70,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Post_List_Returns_PostList_In_Json_Format()
+        public void Post_List_As_Json()
         {
             var user = FakeObjects.TestUserWithId();
             var project = FakeObjects.TestProjectWithId();
@@ -88,8 +88,15 @@ namespace Bowerbird.Test.Controllers.Members
                 for (var i = 0; i < 15; i++)
                 {
                     var post = FakeObjects.TestPostWithId(i.ToString());
+                    //var groupContribution = new GroupContribution(
+                    //    project,
+                    //    post,
+                    //    user,
+                    //    FakeValues.CreatedDateTime.AddDays(i*-1)
+                    //    );
                     posts.Add(post);
                     session.Store(post);
+                    //session.Store(groupContribution);
                 }
 
                 session.SaveChanges();
@@ -114,7 +121,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Post_Create_Passing_Invalid_Input_Returns_Json_Error()
+        public void Post_Create_With_Error()
         {
             _mockUserContext.Setup(x => x.HasGroupPermission(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
 
@@ -131,7 +138,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Post_Create_Passing_Valid_Input_Returns_Json_Success()
+        public void Post_Create_With_Success()
         {
             _mockUserContext.Setup(x => x.HasGroupPermission(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
 
@@ -146,7 +153,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Post_Create_Having_Invalid_Permission_Returns_HttpUnauthorised()
+        public void Post_Create_As_HttpUnauthorised()
         {
             _mockUserContext.Setup(x => x.HasGroupPermission(It.IsAny<string>(), It.IsAny<string>())).Returns(false);
 
@@ -157,7 +164,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Post_Update_Passing_Invalid_Input_Returns_Json_Error()
+        public void Post_Update_With_Error()
         {
             _mockUserContext.Setup(x => x.HasPermissionToUpdate<Post>(It.IsAny<string>())).Returns(true);
 
@@ -174,7 +181,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Post_Update_Passing_Valid_Input_Returns_Json_Success()
+        public void Post_Update()
         {
             _mockUserContext.Setup(x => x.HasPermissionToUpdate<Post>(It.IsAny<string>())).Returns(true);
 
@@ -189,7 +196,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Post_Update_Having_Invalid_Permission_Returns_HttpUnauthorised()
+        public void Post_Update_As_HttpUnauthorised()
         {
             _mockUserContext.Setup(x => x.HasPermissionToUpdate<Post>(It.IsAny<string>())).Returns(false);
 
@@ -200,7 +207,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Post_Delete_Passing_Invalid_Input_Returns_Json_Error()
+        public void Post_Delete_With_Error()
         {
             _mockUserContext.Setup(x => x.HasPermissionToDelete<Post>(It.IsAny<string>())).Returns(true);
 
@@ -217,7 +224,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Post_Delete_Passing_Valid_Input_Returns_Json_Success()
+        public void Post_Delete()
         {
             _mockUserContext.Setup(x => x.HasPermissionToDelete<Post>(It.IsAny<string>())).Returns(true);
 
@@ -232,7 +239,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Post_Delete_Having_Invalid_Permission_Returns_HttpUnauthorised()
+        public void Post_Delete_As_HttpUnauthorised()
         {
             _mockUserContext.Setup(x => x.HasPermissionToDelete<Post>(It.IsAny<string>())).Returns(false);
 

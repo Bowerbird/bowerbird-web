@@ -1,6 +1,4 @@
-﻿/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1  - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -14,7 +12,6 @@
  
 */
 
-using System;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
@@ -52,13 +49,17 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(command, "command");
 
-            var projectObservation = new GroupAssociation(
-                _documentSession.Load<Group>(command.ParentGroupId),
+            var parentGroup = _documentSession.Load<Group>(command.ParentGroupId);
+
+            parentGroup.AddGroupAssociation(
                 _documentSession.Load<Group>(command.ChildGroupId),
                 _documentSession.Load<User>(command.UserId),
-                command.CreatedDateTime);
+                command.CreatedDateTime
+                );
 
-            _documentSession.Store(projectObservation);
+            _documentSession.Store(parentGroup);
+
+            _documentSession.SaveChanges();
         }
 
         #endregion

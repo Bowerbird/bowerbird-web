@@ -21,7 +21,6 @@ namespace Bowerbird.Core.DomainModels
 {
     public class Permission : DomainModel, INamedDomainModel
     {
-
         #region Members
 
         #endregion
@@ -66,6 +65,5 @@ namespace Bowerbird.Core.DomainModels
         }
 
         #endregion
-
     }
 }

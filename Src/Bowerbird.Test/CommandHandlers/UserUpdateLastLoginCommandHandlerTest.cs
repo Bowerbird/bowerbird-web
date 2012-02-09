@@ -51,7 +51,7 @@ namespace Bowerbird.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Integration)]
-        public void UserUpdateLastLoginCommandHandler_Handle_Passing_UserUpdateLastLoginCommand_Updates_User_LastLoggedIn_Property()
+        public void UserUpdateLastLoginCommandHandler_Handle()
         {
             DateTime originalValue;
             DateTime newValue;

@@ -12,21 +12,15 @@
  
 */
 
+using System.Collections.Generic;
+using NUnit.Framework;
+using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.DomainModels.DenormalisedReferences;
+using Bowerbird.Test.Utils;
+
 namespace Bowerbird.Test.DomainModels.DenormalisedReferences
 {
-    #region Namespaces
-
-    using System.Collections.Generic;
-
-    using NUnit.Framework;
-
-    using Bowerbird.Core.DesignByContract;
-    using Bowerbird.Core.DomainModels;
-    using Bowerbird.Core.DomainModels.DenormalisedReferences;
-    using Bowerbird.Test.Utils;
-
-    #endregion
-
     [TestFixture]
     public class DenormalisedObservationReferenceTest
     {
@@ -73,7 +67,7 @@ namespace Bowerbird.Test.DomainModels.DenormalisedReferences
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void DenormalisedObservationReference_Implicit_Operator_Passing_Observation_Returns_DenormalisedObservationReference_With_Populated_Properties()
+        public void DenormalisedObservationReference_Implicit_Operator_Passing_Observation()
         {
             var normalisedObservation = TestObservation();
 
@@ -85,9 +79,11 @@ namespace Bowerbird.Test.DomainModels.DenormalisedReferences
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void DenormalisedObservationReference_Implicit_Operator_Passing_Null_Observation_Throws_DesignByContractException()
+        public void DenormalisedObservationReference_Implicit_Operator_Passing_Null()
         {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => TestDenormalise(null)));
+            Assert.IsTrue(
+                BowerbirdThrows.Exception<DesignByContractException>(() => 
+                    TestDenormalise(null)));
         }
 
         #endregion 

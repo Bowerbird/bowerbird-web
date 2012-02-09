@@ -12,18 +12,15 @@
  
 */
 
+using NUnit.Framework;
+
+using Bowerbird.Core.DomainModels;
+using Bowerbird.Test.Utils;
+using Bowerbird.Core.Extensions;
+
 namespace Bowerbird.Test.DomainModels
 {
-    #region Namespaces
-
-    using NUnit.Framework;
-
-    using Bowerbird.Core.DomainModels;
-    using Bowerbird.Test.Utils;
-    using Bowerbird.Core.Extensions;
-
-    #endregion
-    
+    [TestFixture]
     public class TeamTest
     {
         #region Test Infrastructure
@@ -56,7 +53,7 @@ namespace Bowerbird.Test.DomainModels
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Team_Constructor_Populates_Property_Values()
+        public void Team_Constructor()
         {
             var testTeam = new Team(FakeObjects.TestUser(), FakeValues.Name, FakeValues.Description, FakeValues.Website);
 
@@ -71,7 +68,7 @@ namespace Bowerbird.Test.DomainModels
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Team_UpdateDetails_Populates_Properties_With_Values()
+        public void Team_UpdateDetails()
         {
             var testTeam = new Team(FakeObjects.TestUser(), FakeValues.Name, FakeValues.Description, FakeValues.Website);
 

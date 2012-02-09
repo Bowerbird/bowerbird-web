@@ -56,7 +56,7 @@ namespace Bowerbird.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Persistance)]
-        public void ObservationNoteUpdateCommandHandler_Updates_ObservationNote()
+        public void ObservationNoteUpdateCommandHandler_Handle()
         {
             var originalValue = FakeObjects.TestObservationNoteWithId();
             var observation = FakeObjects.TestObservationWithId();

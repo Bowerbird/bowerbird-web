@@ -12,18 +12,14 @@
  
 */
 
+using NUnit.Framework;
+using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Extensions;
+using Bowerbird.Test.Utils;
+
 namespace Bowerbird.Test.DomainModels
 {
-    #region Namespaces
-
-    using NUnit.Framework;
-
-    using Bowerbird.Core.DomainModels;
-    using Bowerbird.Core.Extensions;
-    using Bowerbird.Test.Utils;
-
-    #endregion
-
+    [TestFixture]
     public class PermissionTest
     {
         #region Test Infrastructure
@@ -44,9 +40,12 @@ namespace Bowerbird.Test.DomainModels
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Permission_Constructor_Populates_Properties_With_Values()
+        public void Permission_Constructor()
         {
-            var testPermission = new Permission(FakeValues.KeyString, FakeValues.Name, FakeValues.Description);
+            var testPermission = new Permission(
+                FakeValues.KeyString, 
+                FakeValues.Name, 
+                FakeValues.Description);
 
             Assert.AreEqual(testPermission.Description, FakeValues.Description);
             Assert.AreEqual(testPermission.Name, FakeValues.Name);

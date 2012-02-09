@@ -55,7 +55,7 @@ namespace Bowerbird.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Persistance)]
-        public void WatchlistCreateCommandHandler_Creates_Watchlist()
+        public void WatchlistCreateCommandHandler_Handle()
         {
             var user = FakeObjects.TestUserWithId();
 

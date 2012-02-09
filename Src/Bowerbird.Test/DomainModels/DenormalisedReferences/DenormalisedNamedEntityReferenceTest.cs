@@ -12,21 +12,14 @@
  
 */
 
+using NUnit.Framework;
+using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.DomainModels.DenormalisedReferences;
+using Bowerbird.Test.Utils;
+
 namespace Bowerbird.Test.DomainModels.DenormalisedReferences
 {
-    #region Namespaces
-
-    using System.Collections.Generic;
-
-    using NUnit.Framework;
-
-    using Bowerbird.Core.DesignByContract;
-    using Bowerbird.Core.DomainModels;
-    using Bowerbird.Core.DomainModels.DenormalisedReferences;
-    using Bowerbird.Test.Utils;
-
-    #endregion
-
     [TestFixture]
     public class DenormalisedNamedDomainModelReferenceTest
     {
@@ -63,7 +56,7 @@ namespace Bowerbird.Test.DomainModels.DenormalisedReferences
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void DenormalisedNamedDomainModelReference_Implicit_Operator_Passing_Project_Returns_DenormalisedObservationReference_With_Populated_Properties()
+        public void DenormalisedNamedDomainModelReference_Implicit_Operator_Passing_Project()
         {
             var normalisedProject = FakeObjects.TestProject();
 
@@ -75,7 +68,7 @@ namespace Bowerbird.Test.DomainModels.DenormalisedReferences
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void DenormalisedNamedDomainModelReference_Implicit_Operator_Passing_Team_Returns_DenormalisedObservationReference_With_Populated_Properties()
+        public void DenormalisedNamedDomainModelReference_Implicit_Operator_Passing_Team()
         {
             var normalisedTeam = FakeObjects.TestTeam();
 
@@ -87,7 +80,7 @@ namespace Bowerbird.Test.DomainModels.DenormalisedReferences
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void DenormalisedNamedDomainModelReference_Implicit_Operator_Passing_Null_Throws_DesignByContractException()
+        public void DenormalisedNamedDomainModelReference_Implicit_Operator_Passing_Null()
         {
             Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => TestDenormalise<Project>(null)));
         }

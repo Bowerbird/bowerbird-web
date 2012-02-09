@@ -69,7 +69,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void GroupMember_List_Returns_GroupMemberList_In_Json_Format()
+        public void GroupMember_List_In_Json_Format()
         {
             var user = FakeObjects.TestUserWithId();
             var project = FakeObjects.TestProjectWithId();
@@ -113,7 +113,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void GroupMember_Create_Passing_Invalid_Input_Returns_Json_Error()
+        public void GroupMember_Create_With_Error()
         {
             _controller.ModelState.AddModelError("Error", "Error");
 
@@ -128,9 +128,9 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void GroupMember_Create_Passing_Valid_Input_Returns_Json_Success()
+        public void GroupMember_Create()
         {
-            var result = _controller.Create(new GroupMemberCreateInput());
+            var result = _controller.Create(new GroupMemberCreateInput(){GroupId = FakeValues.KeyString, UserId = FakeValues.KeyString, Roles = FakeValues.StringList});
 
             Assert.IsInstanceOf<JsonResult>(result);
             var jsonResult = result as JsonResult;
@@ -141,7 +141,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void GroupMember_Delete_Passing_Invalid_Input_Returns_Json_Error()
+        public void GroupMember_Delete_With_Error()
         {
             _controller.ModelState.AddModelError("Error", "Error");
 
@@ -156,7 +156,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void GroupMember_Delete_Passing_Valid_Input_Returns_Json_Success()
+        public void GroupMember_Delete()
         {
             var result = _controller.Delete(new GroupMemberDeleteInput());
 

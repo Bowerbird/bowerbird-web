@@ -43,7 +43,7 @@ namespace Bowerbird.Test.DomainModels
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void User_Constructor_With_Null_Roles_Throws_DesignByContractException()
+        public void User_Constructor()
         {
             Assert.IsTrue(
                 BowerbirdThrows.Exception<DesignByContractException>(
@@ -157,21 +157,21 @@ namespace Bowerbird.Test.DomainModels
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void User_ValidPassword_WithValidPassword_Returns_True()
+        public void User_ValidPassword_WithValidPassword()
         {
             Assert.IsTrue(FakeObjects.TestUser().ValidatePassword(FakeValues.Password));
         }
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void User_ValidPassword_WithInValidPassword_Returns_False()
+        public void User_ValidPassword_WithInValidPassword()
         {
             Assert.IsFalse(FakeObjects.TestUser().ValidatePassword(FakeValues.InvalidPassword));
         }
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void User_UpdateEmail_WithValidEmail_Updates_Email()
+        public void User_UpdateEmail_WithValidEmail()
         {
             Assert.IsTrue(FakeObjects.TestUser()
                 .UpdateEmail("new@email.com")
@@ -181,19 +181,27 @@ namespace Bowerbird.Test.DomainModels
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void User_UpdatePassword_Then_Validate_With_New_Password_Returns_True()
+        public void User_UpdateEmail_WithInValidEmail()
         {
+            Assert.IsTrue(
+                BowerbirdThrows.Exception<DesignByContractException>(() =>
+                FakeObjects.TestUser()
+                .UpdateEmail(FakeValues.InvalidEmail)
+                ));
+        }
+
+        [Test]
+        [Category(TestCategory.Unit)]
+        public void User_UpdatePassword()
+        {
+            // try new correct password
             Assert.IsTrue(
                 FakeObjects.TestUser()
                 .UpdatePassword("newpassword")
                 .ValidatePassword("newpassword")
                 );
-        }
 
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void User_UpdatePassword_Then_Validate_With_Old_Password_Returns_False()
-        {
+            // try old password
             Assert.IsFalse(
                 FakeObjects.TestUser()
                 .UpdatePassword("newpassword")
@@ -203,7 +211,7 @@ namespace Bowerbird.Test.DomainModels
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void User_UpdateLastLoggedIn_Increases_LastLoggedIn()
+        public void User_UpdateLastLoggedIn()
         {
             var testUser = FakeObjects.TestUser();
             var initialLastLoggedIn = testUser.LastLoggedIn;
@@ -219,7 +227,7 @@ namespace Bowerbird.Test.DomainModels
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void User_UpdateResetPasswordKey_DoesInFact_UpdateResetPasswordKey()
+        public void User_UpdateResetPasswordKey()
         {
             var testUser = FakeObjects.TestUser();
 
@@ -238,6 +246,7 @@ namespace Bowerbird.Test.DomainModels
         [Category(TestCategory.Unit)]
         public void User_RequestPasswordReset_Then_UpdatePassword_Sets_ResetPasswordKey_To_Null()
         {
+            // Request Password reset sets ResetPasswordKey. Updating password resets key back to null.
             var result = FakeObjects
                 .TestUser()
                 .RequestPasswordReset()
@@ -248,7 +257,7 @@ namespace Bowerbird.Test.DomainModels
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void User_AddMemebership_Passing_Role_Adds_Membership()
+        public void User_AddMemebership()
         {
             var user = FakeObjects.TestUser();
 
@@ -271,7 +280,7 @@ namespace Bowerbird.Test.DomainModels
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void User_AddMemebership_With_ExistingMembership_Doesnt_Add_Membership()
+        public void User_AddMemebership_Already_Having_Membership()
         {
             var user = FakeObjects.TestUser();
 
@@ -295,7 +304,7 @@ namespace Bowerbird.Test.DomainModels
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void User_RemoveMembership_Passing_MemberType_And_MembershipId_Removes_Membership()
+        public void User_RemoveMembership()
         {
             var user = FakeObjects.TestUser();
 
@@ -310,14 +319,16 @@ namespace Bowerbird.Test.DomainModels
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void User_RemoveMembership_Passing_InvalidValid_MemberId_Throws_DesignByContractException()
+        public void User_RemoveMembership_Passing_InvalidValid_MemberId()
         {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => FakeObjects.TestUser().RemoveMembership("teammember", string.Empty)));
+            Assert.IsTrue(
+                BowerbirdThrows.Exception<DesignByContractException>(() => 
+                    FakeObjects.TestUser().RemoveMembership("teammember", string.Empty)));
         }
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void User_RemoveRole_Passing_InvalidValid_MemberType_Throws_DesignByContractException()
+        public void User_RemoveRole_Passing_InvalidValid_MemberType()
         {
             Assert.IsTrue(
                 BowerbirdThrows.Exception<DesignByContractException>(
@@ -332,7 +343,7 @@ namespace Bowerbird.Test.DomainModels
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void User_IncrementFlagsRaised_DoesInFact_ImplementFlagsRaised()
+        public void User_IncrementFlagsRaised()
         {
             Assert.AreEqual(
                 FakeObjects.TestUser()
@@ -344,7 +355,7 @@ namespace Bowerbird.Test.DomainModels
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void User_IncrementFlaggedItemsOwned_DoesInFact_ImplementFlaggedItemsOwned()
+        public void User_IncrementFlaggedItemsOwned()
         {
             Assert.AreEqual(
                 FakeObjects.TestUser()

@@ -55,7 +55,7 @@ namespace Bowerbird.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Persistance)]
-        public void TeamCreateCommandHandler_Creates_Team()
+        public void TeamCreateCommandHandler_Handle()
         {
             var user = FakeObjects.TestUserWithId();
             var organisation = FakeObjects.TestOrganisationWithId();

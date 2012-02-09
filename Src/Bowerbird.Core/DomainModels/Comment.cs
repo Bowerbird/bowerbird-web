@@ -17,11 +17,10 @@
 using System;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
-using Bowerbird.Core.Events;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public abstract class Comment : DomainModel
+    public class Comment : DomainModel
     {
         #region Members
 
@@ -31,7 +30,7 @@ namespace Bowerbird.Core.DomainModels
 
         protected Comment() : base() { }
 
-        protected Comment(
+        public Comment(
             User createdByUser,
             DateTime commentedOn,
             string message)
@@ -70,7 +69,7 @@ namespace Bowerbird.Core.DomainModels
             EditedOn = editedOn;
         }
 
-        protected Comment UpdateDetails(User updatedByUser, DateTime editedOn, string message)
+        public Comment UpdateDetails(User updatedByUser, DateTime editedOn, string message)
         {
             Check.RequireNotNull(updatedByUser, "updatedByUser");
 

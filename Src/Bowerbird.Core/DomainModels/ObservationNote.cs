@@ -1,6 +1,4 @@
-﻿/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -97,11 +95,15 @@ namespace Bowerbird.Core.DomainModels
         private void InitMembers()
         {
             Descriptions = new Dictionary<string, string>();
+
             References = new Dictionary<string, string>();
         }
 
         protected void SetDetails(string commonName, string scientificName, string taxonomy, string tags, IDictionary<string, string> descriptions, IDictionary<string, string> references, string notes)
         {
+            Check.RequireNotNull(descriptions, "descriptions");
+            Check.RequireNotNull(references, "references");
+
             CommonName = commonName;
             ScientificName = scientificName;
             Taxonomy = taxonomy;

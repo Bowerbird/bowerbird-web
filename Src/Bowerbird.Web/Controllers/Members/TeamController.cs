@@ -18,6 +18,8 @@ using System.Web.Mvc;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.DomainModels.Members;
+using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Paging;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.ViewModels.Members;
@@ -27,13 +29,12 @@ using Raven.Client.Linq;
 
 namespace Bowerbird.Web.Controllers.Members
 {
-    public class TeamController : ControllerBase
+    public class TeamController : Bowerbird.Web.Controllers.Public.TeamController
     {
         #region Members
 
         private readonly ICommandProcessor _commandProcessor;
         private readonly IUserContext _userContext;
-        private readonly IDocumentSession _documentSession;
 
         #endregion
 
@@ -43,14 +44,13 @@ namespace Bowerbird.Web.Controllers.Members
             ICommandProcessor commandProcessor,
             IUserContext userContext,
             IDocumentSession documentSession)
+            :base(documentSession)
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
             Check.RequireNotNull(userContext, "userContext");
-            Check.RequireNotNull(documentSession, "documentSession");
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
-            _documentSession = documentSession;
         }
 
         #endregion
@@ -60,22 +60,6 @@ namespace Bowerbird.Web.Controllers.Members
         #endregion
 
         #region Methods
-
-        [HttpGet]
-        public ActionResult List(TeamListInput listInput)
-        {
-            return Json(MakeTeamList(listInput), JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpGet]
-        public ActionResult Index(IdInput idInput)
-        {
-            if (Request.IsAjaxRequest())
-            
-                return Json(MakeIndex(idInput));
-
-            return View(MakeIndex(idInput));
-        }
 
         [Transaction]
         [Authorize]
@@ -153,49 +137,6 @@ namespace Bowerbird.Web.Controllers.Members
             _commandProcessor.Process(MakeTeamProjectCreateCommand(projectCreateInput, teamProjectCreateInput));
 
             return Json("success");
-        }
-
-        private TeamIndex MakeIndex(IdInput idInput)
-        {
-            throw new NotImplementedException();
-            //var team = _documentSession.Load<Team>(idInput.Id);
-
-            //var projects =
-            //    Queryable.Where(_documentSession
-            //               .Query<Project>(), x => x.Team.Id == idInput.Id)
-            //    .ToList();
-
-            //return new TeamIndex()
-            //{
-            //    Team = team,
-            //    Projects = projects
-            //};
-        }
-
-        private TeamList MakeTeamList(TeamListInput listInput)
-        {
-            throw new NotImplementedException();
-            //RavenQueryStatistics stats;
-
-            //var results = _documentSession
-            //    .Query<Team>()
-            //    .Where(x => x.Organisation.Id == listInput.OrganisationId)
-            //    .Statistics(out stats)
-            //    .Skip(listInput.Page)
-            //    .Take(listInput.PageSize)
-            //    .ToArray(); // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
-
-            //return new TeamList()
-            //{
-            //    OrganisationId = listInput.OrganisationId,
-            //    Page = listInput.Page,
-            //    PageSize = listInput.PageSize,
-            //    Teams = results.ToPagedList(
-            //        listInput.Page,
-            //        listInput.PageSize,
-            //        stats.TotalResults,
-            //        null)
-            //};
         }
 
         private TeamCreateCommand MakeCreateCommand(TeamCreateInput createInput)

@@ -55,7 +55,7 @@ namespace Bowerbird.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Integration)]
-        public void UserCreateCommandHandler_Creates_User()
+        public void UserCreateCommandHandler_Handle()
         {
             User newUser = null;
             using (var session = _store.OpenSession())

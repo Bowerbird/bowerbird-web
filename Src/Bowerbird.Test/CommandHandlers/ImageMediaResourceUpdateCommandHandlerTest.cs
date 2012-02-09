@@ -54,7 +54,7 @@ namespace Bowerbird.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Persistance)]
-        public void ImageMediaResourceUpdateCommandHandler_Updates_ImageMediaResourceUpdate()
+        public void ImageMediaResourceUpdateCommandHandler_Handle()
         {
             var originalValue = FakeObjects.TestImageMediaResourceWithId();
             var user = FakeObjects.TestUserWithId();

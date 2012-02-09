@@ -1,6 +1,4 @@
-﻿/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -19,14 +17,16 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using Bowerbird.Core.Events;
-using Bowerbird.Core.DomainModels.DenormalisedReferences;
 
 namespace Bowerbird.Core.DomainModels
 {
     public class Observation : Contribution
     {
-
         #region Members
+
+        private List<Comment> _comments;
+
+        private List<MediaResource> _mediaResources;
 
         #endregion
 
@@ -56,6 +56,8 @@ namespace Bowerbird.Core.DomainModels
             Check.RequireNotNull(mediaResources, "mediaResources");
 
             Id = "observations/";
+
+            InitMembers();
 
             SetDetails(
                 title, 
@@ -88,7 +90,9 @@ namespace Bowerbird.Core.DomainModels
         
         public string ObservationCategory { get; private set; }
 
-        public List<MediaResource> MediaResources { get; private set; }
+        public IEnumerable<Comment> Comments { get { return _comments; } }
+
+        public IEnumerable<MediaResource> MediaResources { get { return _mediaResources; } }
 
         #endregion
 
@@ -96,7 +100,9 @@ namespace Bowerbird.Core.DomainModels
 
         private void InitMembers()
         {
-            MediaResources = new List<MediaResource>();
+            _mediaResources = new List<MediaResource>();
+
+            _comments = new List<Comment>();
         }
 
         private void SetDetails(string title, DateTime observedOn, string latitude, string longitude, string address, bool isIdentificationRequired, string observationCategory, IEnumerable<MediaResource> mediaResources)
@@ -108,7 +114,7 @@ namespace Bowerbird.Core.DomainModels
             Address = address;
             IsIdentificationRequired = isIdentificationRequired;
             ObservationCategory = observationCategory;
-            MediaResources = mediaResources.ToList();
+            _mediaResources = mediaResources.ToList();
         }
 
         public virtual Observation UpdateDetails(User updatedByUser, string title, DateTime observedOn, string latitude, string longitude, string address, bool isIdentificationRequired, string observationCategory, IEnumerable<MediaResource> mediaResources)
@@ -131,7 +137,24 @@ namespace Bowerbird.Core.DomainModels
             return this;
         }
 
+        public void AddComment(Comment comment, User createdByUser, DateTime createdDateTime)
+        {
+            Check.RequireNotNull(comment, "comment");
+            Check.RequireNotNull(createdByUser, "createdByUser");
+
+            _comments.Add(comment);
+
+            EventProcessor.Raise(new DomainModelCreatedEvent<Comment>(comment, createdByUser));
+        }
+
+        public void RemoveComment(string commentId)
+        {
+            if (_comments.Any(x => x.Id == commentId))
+            {
+                _comments.RemoveAll(x => x.Id == commentId);
+            }
+        }
+
         #endregion
-      
     }
 }

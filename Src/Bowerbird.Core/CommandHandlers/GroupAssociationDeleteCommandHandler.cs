@@ -1,6 +1,4 @@
-﻿/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -53,12 +51,11 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(command, "command");
 
-            var projectObservation = _documentSession
-                .Query<GroupAssociation>()
-                .Where(x => x.ParentGroup.Id == command.ParentGroupId && x.ChildGroup.Id == command.ChildGroupId)
-                .FirstOrDefault();
+            var parentGroup = _documentSession.Load<Group>(command.ParentGroupId);
 
-            _documentSession.Delete(projectObservation);
+            parentGroup.RemoveGroupAssociation(command.ChildGroupId);
+
+            _documentSession.Store(parentGroup);
 
             _documentSession.SaveChanges();
         }

@@ -1,6 +1,4 @@
-﻿/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -14,11 +12,12 @@
  
 */
 
-using System;
 using System.Linq;
 using System.Web.Mvc;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.DomainModels.Members;
+using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Paging;
 using Bowerbird.Web.ViewModels.Shared;
 using Raven.Client;
@@ -26,7 +25,7 @@ using Raven.Client.Linq;
 
 namespace Bowerbird.Web.Controllers.Public
 {
-    public class ProjectController : Controller
+    public class ProjectController : ControllerBase
     {
         #region Members
 
@@ -63,61 +62,112 @@ namespace Bowerbird.Web.Controllers.Public
         }
 
         [HttpGet]
-        public ActionResult List(ProjectListInput projectListInput)
+        public ActionResult List(ProjectListInput listInput)
         {
-            return Json(MakeProjectList(projectListInput), JsonRequestBehavior.AllowGet);
+            if (listInput.TeamId != null)
+            {
+                return Json(MakeProjectListByTeamId(listInput), JsonRequestBehavior.AllowGet);
+            }
+
+            if (listInput.UserId != null)
+            {
+                return Json(MakeProjectListByMembership(listInput), JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(MakeProjectList(listInput), JsonRequestBehavior.AllowGet);
         }
 
-        private ProjectIndex MakeProjectIndex(IdInput idInput)
+        protected ProjectIndex MakeProjectIndex(IdInput idInput)
         {
-            throw new NotImplementedException();
-            //Check.RequireNotNull(idInput, "idInput");
+            Check.RequireNotNull(idInput, "idInput");
 
-            //var project = _documentSession.Load<Project>(idInput.Id);
+            var project = _documentSession.Load<Project>(idInput.Id);
 
-            //var projectObservations = 
-            //    _documentSession
-            //    .Query<ProjectObservation>()
-            //    .Customize(x => x.Include(idInput.Id))
-            //    .Where(x => x.Project.Id == idInput.Id)
-            //    .ToList();
+            return new ProjectIndex()
+            {
+                Project = project,
 
-            //var observations = 
-            //    _documentSession
-            //    .Load<Observation>(projectObservations.Select(x => x.Observation.Id))
-            //    .ToList();
-
-            //return new ProjectIndex()
-            //{
-            //    Project = project,
-            //    Observations = observations
-            //};
+                Team = project.ParentGroupId != null ? _documentSession.Load<Team>(project.ParentGroupId) : null
+            };
         }
 
-        private ProjectList MakeProjectList(ProjectListInput listInput)
+        protected ProjectList MakeProjectList(ProjectListInput listInput)
         {
-            throw new NotImplementedException();
-            //RavenQueryStatistics stats;
+            RavenQueryStatistics stats;
 
-            //var results = _documentSession
-            //    .Query<Project>()
-            //    .Where(x => x.Team.Id == listInput.TeamId)
-            //    .Statistics(out stats)
-            //    .Skip(listInput.Page)
-            //    .Take(listInput.PageSize)
-            //    .ToArray(); // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
+            var results = _documentSession
+                .Query<Project>()
+                .Statistics(out stats)
+                .Skip(listInput.Page)
+                .Take(listInput.PageSize)
+                .ToList();
 
-            //return new ProjectList
-            //{
-            //    TeamId = listInput.TeamId,
-            //    Page = listInput.Page,
-            //    PageSize = listInput.PageSize,
-            //    Projects = results.ToPagedList(
-            //        listInput.Page,
-            //        listInput.PageSize,
-            //        stats.TotalResults,
-            //        null)
-            //};
+            return new ProjectList
+            {
+                Page = listInput.Page,
+                PageSize = listInput.PageSize,
+                Projects = results.ToPagedList(
+                    listInput.Page,
+                    listInput.PageSize,
+                    stats.TotalResults,
+                    null)
+            };
+        }
+
+        protected ProjectList MakeProjectListByTeamId(ProjectListInput listInput)
+        {
+            RavenQueryStatistics stats;
+
+            var results = _documentSession
+                .Query<Project>()
+                .Where(x => x.ParentGroupId == listInput.TeamId)
+                .Customize(x => x.Include<Team>(y => y.Id == listInput.TeamId))
+                .Statistics(out stats)
+                .Skip(listInput.Page)
+                .Take(listInput.PageSize)
+                .ToList();
+
+            return new ProjectList
+            {
+                Team = listInput.TeamId != null ? _documentSession.Load<Team>(listInput.TeamId) : null,
+                Page = listInput.Page,
+                PageSize = listInput.PageSize,
+                Projects = results.ToPagedList(
+                    listInput.Page,
+                    listInput.PageSize,
+                    stats.TotalResults,
+                    null)
+            };
+        }
+
+        protected ProjectList MakeProjectListByMembership(ProjectListInput listInput)
+        {
+            RavenQueryStatistics stats;
+
+            var groupMemberships = _documentSession
+                .Query<GroupMember, All_Members>()
+                .Where(x => x.User.Id == listInput.UserId);
+
+            var results = _documentSession
+                .Query<Project>()
+                .Where(x => x.Id.In(groupMemberships.Select(y => y.Group.Id)))
+                .Customize(x => x.Include<User>(y => y.Id == listInput.UserId))
+                .Statistics(out stats)
+                .Skip(listInput.Page)
+                .Take(listInput.PageSize)
+                .ToList();
+
+            return new ProjectList
+            {
+                User = listInput.UserId != null ? _documentSession.Load<User>(listInput.UserId) : null,
+                Page = listInput.Page,
+                PageSize = listInput.PageSize,
+                Projects = results.ToPagedList(
+                    listInput.Page,
+                    listInput.PageSize,
+                    stats.TotalResults,
+                    null)
+            };
         }
 
         #endregion

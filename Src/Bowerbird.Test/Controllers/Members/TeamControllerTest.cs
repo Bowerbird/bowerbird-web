@@ -73,6 +73,8 @@ namespace Bowerbird.Test.Controllers.Members
         public void Team_List_As_Json()
         {
             var organisation = FakeObjects.TestOrganisationWithId();
+            var user = FakeObjects.TestUserWithId();
+
             const int page = 1;
             const int pageSize = 10;
 
@@ -81,6 +83,7 @@ namespace Bowerbird.Test.Controllers.Members
             using (var session = _documentStore.OpenSession())
             {
                 session.Store(organisation);
+                session.Store(user);
 
                 for (var i = 0; i < 15; i++)
                 {
@@ -92,7 +95,7 @@ namespace Bowerbird.Test.Controllers.Members
                 session.SaveChanges();
             }
 
-            var result = _controller.List(new TeamListInput() { Page = page, PageSize = pageSize, OrganisationId = organisation.Id });
+            var result = _controller.List(new TeamListInput() { Page = page, PageSize = pageSize });
 
             Assert.IsNotNull(result);
             Assert.IsInstanceOf<JsonResult>(result);
@@ -133,7 +136,6 @@ namespace Bowerbird.Test.Controllers.Members
 
             Assert.IsNotNull(viewModel);
             Assert.AreEqual(viewModel.Team, team);
-            Assert.IsNotNull(viewModel.Projects);
         }
 
         [Test]
@@ -164,7 +166,6 @@ namespace Bowerbird.Test.Controllers.Members
             var jsonData = jsonResult.Data as TeamIndex;
             Assert.IsNotNull(jsonData);
             Assert.AreEqual(jsonData.Team, team);
-            Assert.IsNotNull(jsonData.Projects);
         }
 
         [Test]

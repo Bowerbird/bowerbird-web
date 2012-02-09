@@ -90,6 +90,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -107,9 +108,9 @@
     <Compile Include="CommandHandlers\ImageMediaResourceCreateCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\ImageMediaResourceDeleteCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\ImageMediaResourceUpdateCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\ObservationCommentCreateCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\ObservationCommentDeleteCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\ObservationCommentUpdateCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\CommentCreateCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\CommentDeleteCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\CommentUpdateCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\ObservationCreateCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\ObservationDeleteCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\ObservationNoteCreateCommandHandlerTest.cs" />
@@ -119,9 +120,6 @@
     <Compile Include="CommandHandlers\OrganisationCreateCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\OrganisationDeleteCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\OrganisationUpdateCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\PostCommentCreateCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\PostCommentDeleteCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\PostCommentUpdateCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\ProjectCreateCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\ProjectDeleteCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\GroupMemberCreateCommandHandlerTest.cs" />
@@ -147,22 +145,24 @@
     <Compile Include="Controllers\Members\ObservationControllerTest.cs" />
     <Compile Include="Controllers\Members\TeamControllerTest.cs" />
     <Compile Include="Controllers\Members\GroupMemberControllerTest.cs" />
-    <Compile Include="Controllers\Members\ProjectObservationControllerTest.cs" />
     <Compile Include="Controllers\Members\PostControllerTest.cs" />
     <Compile Include="Controllers\Members\UserControllerTest.cs" />
     <Compile Include="Controllers\Members\WatchlistController.cs" />
     <Compile Include="Controllers\Public\AccountControllerTest.cs" />
+    <Compile Include="Controllers\Public\HomeControllerTest.cs" />
     <Compile Include="Controllers\Public\ObservationControllerTest.cs" />
     <Compile Include="Controllers\Public\OrganisationControllerTest.cs" />
+    <Compile Include="Controllers\Public\PostControllerTest.cs" />
     <Compile Include="Controllers\Public\ProjectControllerTest.cs" />
     <Compile Include="Controllers\Public\TeamControllerTest.cs" />
     <Compile Include="DesignByContract\CheckTest.cs" />
     <Compile Include="DomainModels\ActivityTest.cs" />
+    <Compile Include="DomainModels\CommentTest.cs" />
     <Compile Include="DomainModels\DenormalisedReferences\DenormalisedMemberReferenceTest.cs" />
     <Compile Include="DomainModels\DenormalisedReferences\DenormalisedNamedEntityReferenceTest.cs" />
     <Compile Include="DomainModels\DenormalisedReferences\DenormalisedObservationReferenceTest.cs" />
     <Compile Include="DomainModels\DenormalisedReferences\DenormalisedUserReferenceTest.cs" />
-    <Compile Include="DomainModels\GlobalMemberTest.cs" />
+    <Compile Include="DomainModels\Members\GlobalMemberTest.cs" />
     <Compile Include="DomainModels\MediaResources\ImageMediaResourceTest.cs" />
     <Compile Include="DomainModels\MediaResources\OtherMediaResourceTest.cs" />
     <Compile Include="DomainModels\ObservationNoteTest.cs" />
@@ -170,7 +170,7 @@
     <Compile Include="DomainModels\OrganisationTest.cs" />
     <Compile Include="DomainModels\PermissionTest.cs" />
     <Compile Include="DomainModels\PostTest.cs" />
-    <Compile Include="DomainModels\GroupMemberTest.cs" />
+    <Compile Include="DomainModels\Members\GroupMemberTest.cs" />
     <Compile Include="DomainModels\ProjectTest.cs" />
     <Compile Include="DomainModels\RoleTest.cs" />
     <Compile Include="DomainModels\TeamTest.cs" />

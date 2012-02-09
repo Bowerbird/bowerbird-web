@@ -128,9 +128,11 @@
     <Compile Include="Controllers\Members\TeamController.cs" />
     <Compile Include="Controllers\Members\WatchlistController.cs" />
     <Compile Include="Controllers\Public\AccountController.cs" />
+    <Compile Include="Controllers\Public\GroupMemberController.cs" />
     <Compile Include="Controllers\Public\HomeController.cs" />
     <Compile Include="Controllers\Public\ObservationController.cs" />
     <Compile Include="Controllers\Public\OrganisationController.cs" />
+    <Compile Include="Controllers\Public\PostController.cs" />
     <Compile Include="Controllers\Public\ProjectController.cs" />
     <Compile Include="Controllers\Public\TeamController.cs" />
     <Compile Include="Config\IPermissionChecker.cs" />
@@ -141,21 +143,30 @@
     <Compile Include="Validators\ValidResetPasswordKeyRequestAttribute.cs" />
     <Compile Include="Validators\ValidEmailAttribute.cs" />
     <Compile Include="ViewModels\Members\AccountChangePasswordInput.cs" />
+    <Compile Include="ViewModels\Members\GroupAssociationCreateInput.cs" />
+    <Compile Include="ViewModels\Members\GroupAssociationDeleteInput.cs" />
+    <Compile Include="ViewModels\Members\GroupContributionCreateInput.cs" />
+    <Compile Include="ViewModels\Members\GroupContributionDeleteInput.cs" />
     <Compile Include="ViewModels\Members\MenuItem.cs" />
     <Compile Include="ViewModels\Members\OrganisationCreateInput.cs" />
     <Compile Include="ViewModels\Members\OrganisationUpdateInput.cs" />
     <Compile Include="ViewModels\Members\GroupMemberList.cs" />
     <Compile Include="ViewModels\Members\GroupMemberListInput.cs" />
-    <Compile Include="ViewModels\Members\PostList.cs" />
-    <Compile Include="ViewModels\Members\PostListInput.cs" />
+    <Compile Include="ViewModels\Shared\PostList.cs" />
+    <Compile Include="ViewModels\Shared\PostListInput.cs" />
     <Compile Include="ViewModels\Members\WatchlistCreateInput.cs" />
     <Compile Include="ViewModels\Members\WatchlistIndex.cs" />
     <Compile Include="ViewModels\Members\WatchlistList.cs" />
     <Compile Include="ViewModels\Members\WatchlistListInput.cs" />
     <Compile Include="ViewModels\Members\WatchlistUpdateInput.cs" />
-    <Compile Include="ViewModels\Public\ObservationList.cs" />
-    <Compile Include="ViewModels\Public\ObservationListInput.cs" />
+    <Compile Include="ViewModels\Shared\ObservationList.cs" />
+    <Compile Include="ViewModels\Shared\ObservationListInput.cs" />
     <Compile Include="ViewModels\Shared\Avatar.cs" />
+    <Compile Include="ViewModels\Shared\GroupAssociationList.cs" />
+    <Compile Include="ViewModels\Shared\GroupAssociationChildListInput.cs" />
+    <Compile Include="ViewModels\Shared\GroupAssociationParentListInput.cs" />
+    <Compile Include="ViewModels\Shared\GroupContributionList.cs" />
+    <Compile Include="ViewModels\Shared\GroupContributionListInput.cs" />
     <Compile Include="ViewModels\Shared\OrganisationIndex.cs" />
     <Compile Include="ViewModels\Shared\OrganisationList.cs" />
     <Compile Include="ViewModels\Shared\OrganisationListInput.cs" />
@@ -186,7 +197,6 @@
     <Compile Include="ViewModels\Public\AccountLoginInput.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ViewModels\Members\ObservationList.cs" />
     <Compile Include="ViewModels\Shared\ObservationIndex.cs" />
     <Compile Include="ViewModels\Shared\IdInput.cs" />
     <Compile Include="ViewModels\Members\TeamProjectCreateInput.cs" />
@@ -203,9 +213,6 @@
     <Compile Include="ViewModels\Members\ObservationCreateInput.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ViewModels\Members\ObservationListInput.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="ViewModels\Members\ObservationUpdateInput.cs" />
     <Compile Include="ViewModels\Members\ProjectCreateInput.cs" />
     <Compile Include="ViewModels\Members\GroupMemberCreateInput.cs" />
@@ -213,12 +220,12 @@
     <Compile Include="ViewModels\Members\PostCreateInput.cs" />
     <Compile Include="ViewModels\Members\PostUpdateInput.cs" />
     <Compile Include="ViewModels\Members\ProjectUpdateInput.cs" />
-    <Compile Include="ViewModels\Shared\TeamList.cs" />
-    <Compile Include="ViewModels\Shared\TeamListInput.cs" />
     <Compile Include="ViewModels\Shared\StreamItem.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModels\Members\UserUpdate.cs" />
+    <Compile Include="ViewModels\Shared\TeamList.cs" />
+    <Compile Include="ViewModels\Shared\TeamListInput.cs" />
     <Compile Include="ViewModels\Shared\UserProfile.cs" />
   </ItemGroup>
   <ItemGroup>

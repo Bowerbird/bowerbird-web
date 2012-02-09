@@ -104,10 +104,12 @@ namespace Bowerbird.Test.Controllers.Public
         public void Project_Index_As_ViewModel()
         {
             var project = FakeObjects.TestProjectWithId();
+            var user = FakeObjects.TestUserWithId();
 
             using (var session = _documentStore.OpenSession())
             {
                 session.Store(project);
+                session.Store(user);
 
                 session.SaveChanges();
             }
@@ -129,17 +131,19 @@ namespace Bowerbird.Test.Controllers.Public
         public void Project_Index_As_Json()
         {
             var project = FakeObjects.TestProjectWithId();
+            var user = FakeObjects.TestUserWithId();
 
             using (var session = _documentStore.OpenSession())
             {
                 session.Store(project);
+                session.Store(user);
 
                 session.SaveChanges();
             }
 
             _controller.SetupAjaxRequest();
 
-            var result = _controller.Index(new IdInput() { Id = FakeValues.KeyString.PrependWith("projects/") });
+            var result = _controller.Index(new IdInput() { Id = project.Id });
 
             Assert.IsInstanceOf<JsonResult>(result);
             var jsonResult = result as JsonResult;

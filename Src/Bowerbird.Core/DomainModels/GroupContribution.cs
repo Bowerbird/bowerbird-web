@@ -1,14 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+
+ Developers: 
+ * Frank Radocaj : frank@radocaj.com
+ * Hamish Crittenden : hamish.crittenden@gmail.com
+ 
+ Project Manager: 
+ * Ken Walker : kwalker@museum.vic.gov.au
+ 
+ Funded by:
+ * Atlas of Living Australia
+ 
+*/
+
+using System;
+using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public class GroupContribution : DomainModel
+    public class GroupContribution : ValueObject
     {
-
         #region Members
 
         #endregion
@@ -21,20 +32,22 @@ namespace Bowerbird.Core.DomainModels
 
         public GroupContribution(
             Group group,
-            string contributionId,
             User createdByUser,
             DateTime createdDateTime)
         {
-            
+            Check.RequireNotNull(group, "group");
+            Check.RequireNotNull(createdByUser, "createdByUser");
+
+            SetDetails(group,
+                createdByUser,
+                createdDateTime);
         }
 
         #endregion
 
         #region Properties
 
-        public DenormalisedNamedDomainModelReference<Group> Group { get; private set; }
-
-        public string ContributionId { get; private set; }
+        public string GroupId { get; private set; }
 
         public DenormalisedUserReference User { get; private set; }
 
@@ -44,7 +57,17 @@ namespace Bowerbird.Core.DomainModels
 
         #region Methods
 
+        private void SetDetails(
+            Group group,
+            User createdByUser,
+            DateTime createdDateTime
+            )
+        {
+            GroupId = group.Id;
+            User = createdByUser;
+            CreatedDateTime = createdDateTime;
+        }
+
         #endregion      
-      
     }
 }

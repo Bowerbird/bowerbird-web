@@ -53,7 +53,7 @@ namespace Bowerbird.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Integration)]
-        public void GroupMemberDeleteCommandHandler_Deletes_GroupMember()
+        public void GroupMemberDeleteCommandHandler_Handle()
         {
             var user = FakeObjects.TestUserWithId();
             var project = FakeObjects.TestProjectWithId();

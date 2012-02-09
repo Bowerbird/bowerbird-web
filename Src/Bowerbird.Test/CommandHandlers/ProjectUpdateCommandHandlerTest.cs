@@ -53,7 +53,7 @@ namespace Bowerbird.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Persistance)]
-        public void ProjectUpdateCommandHandler_Updates_Project()
+        public void ProjectUpdateCommandHandler_Handle()
         {
             var originalValue = FakeObjects.TestProjectWithId();
             var team = FakeObjects.TestTeamWithId();

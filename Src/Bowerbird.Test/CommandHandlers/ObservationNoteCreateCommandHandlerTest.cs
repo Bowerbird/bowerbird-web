@@ -56,7 +56,7 @@ namespace Bowerbird.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Persistance)]
-        public void ObservationNoteCreateCommandHandler_Creates_ObservationNote()
+        public void ObservationNoteCreateCommandHandler_Handle()
         {
             var user = FakeObjects.TestUserWithId();
             var observation = FakeObjects.TestObservationWithId();

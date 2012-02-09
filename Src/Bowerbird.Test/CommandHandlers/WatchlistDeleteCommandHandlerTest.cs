@@ -54,7 +54,7 @@ namespace Bowerbird.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void WatchlistDeleteCommandHandler_Deletes_Watchlist()
+        public void WatchlistDeleteCommandHandler_Handle()
         {
             var watchlist = FakeObjects.TestWatchlistWithId();
             var user = FakeObjects.TestUserWithId();

@@ -12,7 +12,6 @@
  
 */
 
-using Bowerbird.Core.DomainModels.Comments;
 using Bowerbird.Core.DomainModels.MediaResources;
 
 namespace Bowerbird.Test.Utils
@@ -243,7 +242,8 @@ namespace Bowerbird.Test.Utils
                 FakeValues.CreatedDateTime,
                 FakeValues.Subject,
                 FakeValues.Message,
-                new List<MediaResource>() { TestImageMediaResourceWithId() }
+                new List<MediaResource>() { TestImageMediaResourceWithId() },
+                TestProjectWithId()
                 );
         }
 
@@ -261,57 +261,31 @@ namespace Bowerbird.Test.Utils
             return organisationPost;
         }
 
-        public static ObservationComment TestObservationComment()
+        public static Comment TestComment()
         {
-            return new ObservationComment(
+            return new Comment(
                 TestUserWithId(),
-                TestObservationWithId(),
                 FakeValues.CreatedDateTime,
                 FakeValues.Comment
                 );
         }
 
-        public static ObservationComment TestObservationCommentWithId()
+        public static Comment TestCommentWithId()
         {
-            return TestObservationCommentWithId(FakeValues.KeyString);
+            return TestCommentWithId(FakeValues.KeyString);
         }
 
-        public static ObservationComment TestObservationCommentWithId(string id)
+        public static Comment TestCommentWithId(string id)
         {
-            var observationComment = new ObservationComment(
+            var comment = new Comment(
                 TestUserWithId(),
-                TestObservationWithId(),
                 FakeValues.CreatedDateTime,
                 FakeValues.Comment
                 );
 
-            ((IAssignableId)observationComment).SetIdTo("comments", id);
+            ((IAssignableId)comment).SetIdTo("comments", id);
 
-            return observationComment;
-        }
-
-        public static PostComment TestPostComment()
-        {
-            return new PostComment(
-                TestUserWithId(),
-                TestPostWithId(),
-                FakeValues.CreatedDateTime,
-                FakeValues.Message
-                );
-        }
-
-        public static PostComment TestPostCommentWithId()
-        {
-            return TestPostCommentWithId(FakeValues.KeyString);
-        }
-
-        public static PostComment TestPostCommentWithId(string id)
-        {
-            var postComment = TestPostComment();
-
-            ((IAssignableId)postComment).SetIdTo("comments", id);
-
-            return postComment;
+            return comment;
         }
 
         public static ObservationNote TestObservationNote()
@@ -378,5 +352,13 @@ namespace Bowerbird.Test.Utils
                 FakeValues.QuerystringJson);
         }
 
+        public static GroupAssociation TestGroupAssociation()
+        {
+            return new GroupAssociation(
+                TestTeamWithId(),
+                TestUserWithId(),
+                FakeValues.CreatedDateTime
+                );
+        }
     }
 }

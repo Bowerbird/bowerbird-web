@@ -111,12 +111,23 @@ namespace Bowerbird.Test.Controllers.Members
         [Category(TestCategory.Unit)]
         public void Project_Index_As_ViewModel()
         {
+            var team = FakeObjects.TestTeamWithId();
             var project = FakeObjects.TestProjectWithId();
+            var user = FakeObjects.TestUserWithId();
 
             using (var session = _documentStore.OpenSession())
             {
                 session.Store(project);
+                session.Store(user);
+                session.Store(team);
 
+                //var groupAssociation = new GroupAssociation(
+                //    team,
+                //    project,
+                //    user,
+                //    FakeValues.CreatedDateTime);
+
+                //session.Store(groupAssociation);
                 session.SaveChanges();
             }
 
@@ -136,12 +147,23 @@ namespace Bowerbird.Test.Controllers.Members
         [Category(TestCategory.Unit)]
         public void Project_Index_As_Json()
         {
+            var team = FakeObjects.TestTeamWithId();
             var project = FakeObjects.TestProjectWithId();
+            var user = FakeObjects.TestUserWithId();
 
             using (var session = _documentStore.OpenSession())
             {
                 session.Store(project);
+                session.Store(user);
+                session.Store(team);
 
+                //var groupAssociation = new GroupAssociation(
+                //    team,
+                //    project,
+                //    user,
+                //    FakeValues.CreatedDateTime);
+
+                //session.Store(groupAssociation);
                 session.SaveChanges();
             }
 
@@ -159,7 +181,8 @@ namespace Bowerbird.Test.Controllers.Members
             var jsonData = jsonResult.Data as ProjectIndex;
 
             Assert.IsNotNull(jsonData);
-            Assert.AreEqual(jsonData.Project, project);
+            Assert.AreEqual(project, jsonData.Project);
+            Assert.AreEqual(team, jsonData.Team);
         }
 
         [Test]

@@ -55,7 +55,7 @@ namespace Bowerbird.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Persistance)]
-        public void WatchlistUpdateCommandHandlerTest_Updates_Watchlist()
+        public void WatchlistUpdateCommandHandlerTest_Handle()
         {
             var originalValue = FakeObjects.TestWatchlistWithId();
             var user = FakeObjects.TestUserWithId();

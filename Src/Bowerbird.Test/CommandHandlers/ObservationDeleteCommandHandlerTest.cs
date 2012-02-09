@@ -54,7 +54,7 @@ namespace Bowerbird.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void ObservationDeleteCommandHandler_Deletes_Observation()
+        public void ObservationDeleteCommandHandler_Handle()
         {
             var observation = FakeObjects.TestObservationWithId();
             var user = FakeObjects.TestUserWithId();

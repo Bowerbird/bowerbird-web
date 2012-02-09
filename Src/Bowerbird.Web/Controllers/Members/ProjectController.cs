@@ -1,6 +1,4 @@
-﻿/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -14,12 +12,14 @@
  
 */
 
-using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.DomainModels.Members;
+using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Paging;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.ViewModels.Members;
@@ -29,13 +29,12 @@ using Raven.Client.Linq;
 
 namespace Bowerbird.Web.Controllers.Members
 {
-    public class ProjectController : ControllerBase
+    public class ProjectController : Public.ProjectController
     {
         #region Members
 
         private readonly ICommandProcessor _commandProcessor;
         private readonly IUserContext _userContext;
-        private readonly IDocumentSession _documentSession;
 
         #endregion
 
@@ -45,14 +44,13 @@ namespace Bowerbird.Web.Controllers.Members
             ICommandProcessor commandProcessor,
             IUserContext userContext,
             IDocumentSession documentSession)
+            :base(documentSession)
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
             Check.RequireNotNull(userContext, "userContext");
-            Check.RequireNotNull(documentSession, "documentSession");
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
-            _documentSession = documentSession;
         }
 
         #endregion
@@ -62,23 +60,6 @@ namespace Bowerbird.Web.Controllers.Members
         #endregion
 
         #region Methods
-
-        [HttpGet]
-        public ActionResult Index(IdInput idInput)
-        {
-            if (Request.IsAjaxRequest())
-            {
-                return Json(MakeProjectIndex(idInput));
-            }
-
-            return View(MakeProjectIndex(idInput));
-        }
-
-        [HttpGet]
-        public ActionResult List(ProjectListInput listInput)
-        {
-            return Json(MakeProjectList(listInput), JsonRequestBehavior.AllowGet);
-        }
 
         [Transaction]
         [Authorize]
@@ -138,58 +119,6 @@ namespace Bowerbird.Web.Controllers.Members
             _commandProcessor.Process(MakeProjectDeleteCommand(deleteInput));
 
             return Json("Success");
-        }
-
-        private ProjectIndex MakeProjectIndex(IdInput idInput)
-        {
-            throw new NotImplementedException();
-            //Check.RequireNotNull(idInput, "idInput");
-
-            //var project = _documentSession.Load<Project>(idInput.Id);
-
-            //var projectObservations =
-            //    _documentSession
-            //    .Query<ProjectObservation>()
-            //    .Customize(x => x.Include(idInput.Id))
-            //    .Where(x => x.Project.Id == idInput.Id)
-            //    .ToList();
-
-            //var observations =
-            //    _documentSession
-            //    .Load<Observation>(projectObservations.Select(x => x.Observation.Id))
-            //    .ToList();
-
-            //return new ProjectIndex()
-            //{
-            //    Project = project,
-            //    Observations = observations
-            //};
-        }
-
-        private ProjectList MakeProjectList(ProjectListInput listInput)
-        {
-            throw new NotImplementedException();
-            //RavenQueryStatistics stats;
-
-            //var results = _documentSession
-            //    .Query<Project>()
-            //    .Where(x => x.Team.Id == listInput.TeamId)
-            //    .Statistics(out stats)
-            //    .Skip(listInput.Page)
-            //    .Take(listInput.PageSize)
-            //    .ToArray(); // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
-
-            //return new ProjectList
-            //{
-            //    TeamId = listInput.TeamId,
-            //    Page = listInput.Page,
-            //    PageSize = listInput.PageSize,
-            //    Projects = results.ToPagedList(
-            //        listInput.Page,
-            //        listInput.PageSize,
-            //        stats.TotalResults,
-            //        null)
-            //};
         }
 
         private ProjectCreateCommand MakeProjectCreateCommand(ProjectCreateInput createInput)

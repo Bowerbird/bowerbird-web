@@ -20,13 +20,13 @@ using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.DomainModels.Members;
+using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Paging;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.ViewModels.Members;
 using Bowerbird.Web.ViewModels.Shared;
 using Raven.Client;
 using Raven.Client.Linq;
-using Bowerbird.Core.Extensions;
 
 namespace Bowerbird.Web.Controllers.Members
 {
@@ -76,65 +76,191 @@ namespace Bowerbird.Web.Controllers.Members
 
         private HomeIndex MakeHomeIndex(HomeIndexInput indexInput)
         {
-            var homeIndex = new HomeIndex();
+            var groupMemberships = _documentSession
+                .Query<GroupMember>()
+                .Where(x => x.User.Id == indexInput.UserId)
+                .ToList();
 
-            throw new NotImplementedException();
+            RavenQueryStatistics stats;
 
-            //var projectMenu = _documentSession
-            //    .Advanced
-            //    .LuceneQuery<ProjectMember>("ProjectMember/ByUserId")
-            //    .WhereEquals("Id", indexInput.UserId)
-            //    .WaitForNonStaleResults()
-            //    .Select(
-            //        x => 
-            //            new MenuItem()
-            //                {
-            //                    Id = x.Project.Id, 
-            //                    Name = x.Project.Name
-            //                })
+            var groupContributions = _documentSession
+                .Query<GroupContributionResults, All_GroupContributionItems>()
+                //.Include(x => x.ContributionId)
+                .Where(x => x.GroupId.In(groupMemberships.Select(y => y.Group.Id)))
+                .Statistics(out stats)
+                .Skip(indexInput.Page)
+                .Take(indexInput.PageSize)
+                .ToList();
+
+            //var contributions = _documentSession.Query<Contribution>()
+            //    .Where(x => x.Id.In(groupContributions.Select(y => y.ContributionId)))
+            //    .Statistics(out stats)
+            //    .Skip(indexInput.Page)
+            //    .Take(indexInput.PageSize)
             //    .ToList();
 
-            //var teamMenu = _documentSession
-            //    .Advanced
-            //    .LuceneQuery<TeamMember>("TeamMember/ByUserId")
-            //    .WhereEquals("Id", indexInput.UserId)
-            //    .WaitForNonStaleResults()
-            //    .Select(
-            //        x => 
-            //            new MenuItem()
-            //                {
-            //                    Id = x.Team.Id, 
-            //                    Name = x.Team.Name
-            //                })
-            //    .ToList();
+            var user = _documentSession.Load<User>(indexInput.UserId);
 
-            //var streamItems = _documentSession
-            //    .Advanced
-            //    .LuceneQuery<StreamItem>("StreamItem/ByParentId")
-            //    .WhereContains(
-            //        "Id", 
-            //        new List<string>()
-            //            .AddRangeFromList(projectMenu.Select(x => x.Id).ToList())
-            //            .AddRangeFromList(teamMenu.Select(x => x.Id).ToList()))
-            //    .WaitForNonStaleResults()
-            //    .Select(
-            //        x =>
-            //        new StreamItemViewModel()
-            //            {
-            //                Item = x.Item,
-            //                ItemId = x.ItemId,
-            //                ParentId = x.ParentId,
-            //                SubmittedOn = x.CreatedDateTime,
-            //                Type = x.Type
-            //            })
-            //    .ToList();
-            
-            //var userProfile = _documentSession.Query<User>()
-            //    .Where(u => u.Id == indexInput.UserId)
-            //    .Select(u => new UserProfile() {Id = u.Id, Name = u.FirstName + " " + u.LastName});
+            var homeIndex = new HomeIndex()
+            {
+                ProjectMenu = groupMemberships
+                .Where(x => x.Group.Id.Contains("projects/"))
+                .Select(x =>
+                    new MenuItem()
+                    {
+                        Id = x.Group.Id,
+                        Name = x.Group.Name
+                    }
+                )
+                .ToList(),
 
-            //return homeIndex;
+                TeamMenu = groupMemberships
+                .Where(x => x.Group.Id.Contains("teams/"))
+                .Select(x =>
+                    new MenuItem()
+                    {
+                        Id = x.Group.Id,
+                        Name = x.Group.Name
+                    }
+                )
+                .ToList(),
+
+                UserProfile =
+                    new UserProfile()
+                    {
+                        Id = user.Id,
+                        Name = string.Format("{0} {1}", user.FirstName, user.LastName)
+                    },
+
+                WatchlistMenu = _documentSession
+                .Query<Watchlist>()
+                .Where(x => x.User.Id == _userContext.GetAuthenticatedUserId())
+                .Select(x =>
+                    new MenuItem()
+                    {
+                        Id = x.QuerystringJson,
+                        Name = x.Name
+                    })
+                    .ToList()
+                ,
+
+                StreamItems = groupContributions
+                .Select(x =>
+                    new StreamItemViewModel()
+                    {
+                        Item = x,
+                        ItemId = x.ContributionId,
+                        //SubmittedOn = x.GroupCreatedDateTime,
+                        UserId = x.GroupUserId
+                    }).ToPagedList(
+                    indexInput.Page,
+                    indexInput.PageSize,
+                    stats.TotalResults,
+                    null)
+
+                //StreamItems = contributions
+                //.Select(x =>
+                //    new StreamItemViewModel()
+                //    {
+                //        Item = x,
+                //        ItemId = x.Id,
+                //        SubmittedOn = x.CreatedOn,
+                //        UserId = x.User.Id
+                //    }).ToPagedList(
+                //    indexInput.Page,
+                //    indexInput.PageSize,
+                //    stats.TotalResults,
+                //    null)
+            };
+
+            return homeIndex;
         }
+
+        //private HomeIndex MakeHomeIndex(HomeIndexInput indexInput)
+        //{
+        //    var groupMemberships = _documentSession
+        //        .Query<GroupMember>()
+        //        .Where(x => x.User.Id == indexInput.UserId)
+        //        .ToList();
+
+        //    RavenQueryStatistics stats;
+
+        //    var groupContributions = _documentSession
+        //        .Query<GroupContribution>()
+        //        .Include(x => x.Contribution.Id)
+        //        .OrderByDescending(x => x.CreatedDateTime)//;
+        //        .Statistics(out stats)
+        //        .Where(x => x.GroupId.In(groupMemberships.Select(y => y.Group.Id)))
+        //        .Skip(indexInput.Page)
+        //        .Take(indexInput.PageSize)
+        //        .ToList();
+
+        //    //var contributions = groupContributions.
+        //        //.Query<Contribution, All_Contributions>()
+        //        //.Query<Contribution>()
+        //        //.Where(x => x.Id.In(groupContributions.Select(y => y.ContributionId)))
+        //        //.OrderBy(x = > x.CreatedOn)
+        //        //.ToList();
+
+        //    var user = _documentSession.Load<User>(indexInput.UserId);
+
+        //    var homeIndex = new HomeIndex()
+        //    {
+        //        ProjectMenu = groupMemberships
+        //        .Where(x => x.Group.Id.Contains("projects/"))
+        //        .Select(x =>
+        //            new MenuItem()
+        //            {
+        //                Id = x.Group.Id,
+        //                Name = x.Group.Name
+        //            }
+        //        ),
+
+        //        TeamMenu = groupMemberships
+        //        .Where(x => x.Group.Id.Contains("teams/"))
+        //        .Select(x =>
+        //            new MenuItem()
+        //            {
+        //                Id = x.Group.Id,
+        //                Name = x.Group.Name
+        //            }
+        //        ),
+
+        //        UserProfile =
+        //            new UserProfile()
+        //            {
+        //                Id = user.Id,
+        //                Name = string.Format("{0} {1}", user.FirstName, user.LastName)
+        //            },
+
+        //        WatchlistMenu = _documentSession
+        //        .Query<Watchlist>()
+        //        .Where(x => x.User.Id == _userContext.GetAuthenticatedUserId())
+        //        .Select(x =>
+        //            new MenuItem()
+        //            {
+        //                Id = x.QuerystringJson,
+        //                Name = x.Name
+        //            })
+        //        ,
+
+        //        StreamItems = contributions
+        //        .Select(x =>
+        //            new StreamItemViewModel()
+        //            {
+        //                Item = x,
+        //                ItemId = x.Id,
+        //                SubmittedOn = x.CreatedOn,
+        //                UserId = x.User.Id
+        //            }).ToPagedList(
+        //            indexInput.Page,
+        //            indexInput.PageSize,
+        //            stats.TotalResults,
+        //            null)
+        //    };
+
+        //    return homeIndex;
+        //}
 
         #endregion      
     }

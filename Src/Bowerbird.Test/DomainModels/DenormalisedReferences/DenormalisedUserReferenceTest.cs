@@ -12,19 +12,14 @@
  
 */
 
+using NUnit.Framework;
+using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.DomainModels.DenormalisedReferences;
+using Bowerbird.Test.Utils;
+
 namespace Bowerbird.Test.DomainModels.DenormalisedReferences
 {
-    #region Namespaces
-
-    using NUnit.Framework;
-
-    using Bowerbird.Core.DesignByContract;
-    using Bowerbird.Core.DomainModels;
-    using Bowerbird.Core.DomainModels.DenormalisedReferences;
-    using Bowerbird.Test.Utils;
-
-    #endregion
-
     [TestFixture]
     public class DenormalisedUserReferenceTest
     {
@@ -53,15 +48,11 @@ namespace Bowerbird.Test.DomainModels.DenormalisedReferences
 
         #endregion
 
-        #region Property tests
-
-        #endregion
-
         #region Method tests
         
         [Test]
         [Category(TestCategory.Unit)]
-        public void DenormalisedUserReference_Implicit_Operator_Passing_User_Returns_DenormalisedUserReference_With_Populated_Properties()
+        public void DenormalisedUserReference_Implicit_Operator_Passing_User()
         {
             var normalisedUser = FakeObjects.TestUser();
 
@@ -74,7 +65,7 @@ namespace Bowerbird.Test.DomainModels.DenormalisedReferences
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void DenormalisedUserReference_Implicit_Operator_Passing_Null_User_Throws_DesignByContractException()
+        public void DenormalisedUserReference_Implicit_Operator_Passing_Null()
         {
             Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => TestDenormalise(null)));
         }

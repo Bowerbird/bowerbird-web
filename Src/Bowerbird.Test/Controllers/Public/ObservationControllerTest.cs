@@ -148,7 +148,7 @@ namespace Bowerbird.Test.Controllers.Public
                 session.SaveChanges();
             }
 
-            var result = _controller.List(new ObservationListInput() { Page = page, PageSize = pageSize});
+            var result = _controller.List(new ObservationListInput() { Page = page, PageSize = pageSize, CreatedByUserId = user.Id});
 
             Assert.IsNotNull(result);
             Assert.IsInstanceOf<JsonResult>(result);
@@ -165,11 +165,17 @@ namespace Bowerbird.Test.Controllers.Public
             Assert.AreEqual(pageSize, jsonData.PageSize);
             Assert.AreEqual(pageSize, jsonData.Observations.PagedListItems.Count());
             Assert.AreEqual(observations.Count, jsonData.Observations.TotalResultCount);
+
+            foreach (var observation in jsonData.Observations.PagedListItems.Select(x => x.PageObject.User).ToList())
+            {
+                Assert.IsTrue(observation == user.DenormalisedUserReference());
+            }
+
         }
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Observations_By_Group_In_Json_Format()
+        public void Observations_By_Project_In_Json_Format()
         {
             var user = FakeObjects.TestUserWithId();
             var project = FakeObjects.TestProjectWithId();
@@ -187,16 +193,16 @@ namespace Bowerbird.Test.Controllers.Public
                 for (var i = 0; i < 15; i++)
                 {
                     var observation = FakeObjects.TestObservationWithId(i.ToString());
-                    var contribution = new GroupContribution(
-                        project,
-                        observation.Id,
-                        user,
-                        FakeValues.CreatedDateTime
-                        );
+                    //var contribution = new GroupContribution(
+                    //    project,
+                    //    observation,
+                    //    user,
+                    //    FakeValues.CreatedDateTime
+                    //    );
 
                     observations.Add(observation);
                     session.Store(observation);
-                    session.Store(contribution);
+                    //session.Store(contribution);
                 }
 
                 session.SaveChanges();
@@ -219,7 +225,7 @@ namespace Bowerbird.Test.Controllers.Public
             Assert.AreEqual(pageSize, jsonData.PageSize);
             Assert.AreEqual(pageSize, jsonData.Observations.PagedListItems.Count());
             Assert.AreEqual(observations.Count, jsonData.Observations.TotalResultCount);
-            Assert.AreEqual(project, jsonData.Group);
+            Assert.AreEqual(project, jsonData.Project);
         }
 
         #endregion

@@ -71,11 +71,10 @@ namespace Bowerbird.Web.Controllers.Members
         [HttpPost]
         public ActionResult Create(PostCreateInput createInput)
         {
-            //if(!_userContext.HasProjectPermission(createInput.ProjectId, Permissions.CreatePost))
-            //{
-            //    return HttpUnauthorized();
-            //}
-            // HACK: Fix this permission check 
+            if(!_userContext.HasGroupPermission(createInput.GroupId, Permissions.CreatePost))
+            {
+                return HttpUnauthorized();
+            }
 
             if (!ModelState.IsValid)
             {
@@ -129,29 +128,26 @@ namespace Bowerbird.Web.Controllers.Members
         {
             RavenQueryStatistics stats;
 
-            var results = _documentSession
-                .Query<GroupContribution>()
-                .Include(x => x.ContributionId)
-                .Where(groupContribution => groupContribution.Group.Id == listInput.GroupId)
-                .OrderBy(x => x.CreatedDateTime)
-                .Select(groupContribution => groupContribution.ContributionId)
+            var posts = _documentSession
+                .Query<Post>()
+                .Where(x => x.GroupContributions.Any(y => y.GroupId == listInput.GroupId))
+                .OrderByDescending(x => x.CreatedOn)
+                .Customize(x => x.Include(listInput.GroupId))
                 .Statistics(out stats)
                 .Skip(listInput.Page)
                 .Take(listInput.PageSize);
 
-            var posts = _documentSession.Load<Post>(results);
-
             return new PostList
-                       {
-                           GroupId = listInput.GroupId,
-                           Page = listInput.Page,
-                           PageSize = listInput.PageSize,
-                           Posts = posts.ToPagedList(
-                               listInput.Page,
-                               listInput.PageSize,
-                               stats.TotalResults,
-                               null)
-                       };
+            {
+                GroupId = listInput.GroupId,
+                Page = listInput.Page,
+                PageSize = listInput.PageSize,
+                Posts = posts.ToPagedList(
+                    listInput.Page,
+                    listInput.PageSize,
+                    stats.TotalResults,
+                    null)
+            };
         }
 
         private PostCreateCommand MakeCreateCommand(PostCreateInput createInput)

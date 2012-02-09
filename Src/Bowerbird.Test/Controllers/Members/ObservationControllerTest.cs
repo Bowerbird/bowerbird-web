@@ -1,6 +1,4 @@
-/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -23,6 +21,7 @@ using Bowerbird.Test.Utils;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.Controllers.Members;
 using Bowerbird.Web.ViewModels.Members;
+using Bowerbird.Web.ViewModels.Public;
 using Bowerbird.Web.ViewModels.Shared;
 using NUnit.Framework;
 using Moq;
@@ -68,7 +67,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Observation_Index_NonAjaxCall_Returns_ObservationIndex_ViewModel()
+        public void Observation_Index_As_ViewModel()
         {
             var user = FakeObjects.TestUserWithId();
             var observation = FakeObjects.TestObservationWithId();
@@ -94,7 +93,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Observation_Index_AjaxCall_Returns_ObservationIndex_Json()
+        public void Observation_Index_As_Json()
         {
             var user = FakeObjects.TestUserWithId();
             var observation = FakeObjects.TestObservationWithId();
@@ -124,7 +123,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Observation_List_Having_UserId_Returns_ObservationList_Having_Users_Observations_In_Json_Format()
+        public void Observation_List_By_User_As_Json()
         {
             var user = FakeObjects.TestUserWithId();
             const int page = 1;
@@ -146,7 +145,7 @@ namespace Bowerbird.Test.Controllers.Members
                 session.SaveChanges();
             }
 
-            var result = _controller.List(new ObservationListInput() { Page = page, PageSize = pageSize, UserId = user.Id});
+            var result = _controller.List(new ObservationListInput() { Page = page, PageSize = pageSize, CreatedByUserId = user.Id});
 
             Assert.IsNotNull(result);
             Assert.IsInstanceOf<JsonResult>(result);
@@ -163,66 +162,67 @@ namespace Bowerbird.Test.Controllers.Members
             Assert.AreEqual(pageSize, jsonData.PageSize);
             Assert.AreEqual(pageSize, jsonData.Observations.PagedListItems.Count());
             Assert.AreEqual(observations.Count, jsonData.Observations.TotalResultCount);
-            Assert.AreEqual(user.Id, jsonData.UserId);
+            Assert.AreEqual(user, jsonData.CreatedByUser);
         }
 
         [Test, Ignore]
         [Category(TestCategory.Unit)]
-        public void Observation_List_Having_ProjectId_Returns_ObservationList_Having_Projects_Observations_In_Json_Format()
+        public void Observation_List_By_Project_In_Json_Format()
         {
-            //var user = FakeObjects.TestUserWithId();
-            //var project = FakeObjects.TestProjectWithId();
-            //const int page = 1;
-            //const int pageSize = 10;
+            var user = FakeObjects.TestUserWithId();
+            var project = FakeObjects.TestProjectWithId();
 
-            //var observations = new List<Observation>();
+            const int page = 1;
+            const int pageSize = 10;
 
-            //using (var session = _documentStore.OpenSession())
-            //{
-            //    session.Store(user);
-            //    session.Store(project);
+            var observations = new List<Observation>();
 
-            //    for (var i = 0; i < 15; i++)
-            //    {
-            //        var observation = FakeObjects.TestObservationWithId(i.ToString());
-            //        var projectObservation = new ProjectObservation(
-            //            user,
-            //            FakeValues.CreatedDateTime,
-            //            project,
-            //            observation);
+            using (var session = _documentStore.OpenSession())
+            {
+                session.Store(user);
+                session.Store(project);
 
-            //        observations.Add(observation);
-            //        session.Store(projectObservation);
-            //        session.Store(observation);
-            //    }
+                for (var i = 0; i < 15; i++)
+                {
+                    var observation = FakeObjects.TestObservationWithId(i.ToString());
+                    //var contribution = new GroupContribution(
+                    //    project,
+                    //    observation,
+                    //    user,
+                    //    FakeValues.CreatedDateTime
+                    //    );
 
-            //    session.SaveChanges();
-            //}
+                    observations.Add(observation);
+                    session.Store(observation);
+                    //session.Store(contribution);
+                }
 
-            //var result = _controller.List(new ObservationListInput() { Page = page, PageSize = pageSize, UserId = user.Id, ProjectId = project.Id});
+                session.SaveChanges();
+            }
 
-            //Assert.IsNotNull(result);
-            //Assert.IsInstanceOf<JsonResult>(result);
+            var result = _controller.List(new ObservationListInput() { Page = page, PageSize = pageSize, GroupId = project.Id });
 
-            //var jsonResult = result as JsonResult;
-            //Assert.IsNotNull(jsonResult);
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOf<JsonResult>(result);
 
-            //Assert.IsNotNull(jsonResult.Data);
-            //Assert.IsInstanceOf<ObservationList>(jsonResult.Data);
-            //var jsonData = jsonResult.Data as ObservationList;
+            var jsonResult = result as JsonResult;
+            Assert.IsNotNull(jsonResult);
 
-            //Assert.IsNotNull(jsonData);
-            //Assert.AreEqual(page, jsonData.Page);
-            //Assert.AreEqual(pageSize, jsonData.PageSize);
-            //Assert.AreEqual(pageSize, jsonData.Observations.PagedListItems.Count());
-            //Assert.AreEqual(observations.Count, jsonData.Observations.TotalResultCount);
-            //Assert.AreEqual(user.Id, jsonData.UserId);
-            //Assert.AreEqual(project, jsonData.Project);
+            Assert.IsNotNull(jsonResult.Data);
+            Assert.IsInstanceOf<ObservationList>(jsonResult.Data);
+            var jsonData = jsonResult.Data as ObservationList;
+
+            Assert.IsNotNull(jsonData);
+            Assert.AreEqual(page, jsonData.Page);
+            Assert.AreEqual(pageSize, jsonData.PageSize);
+            Assert.AreEqual(pageSize, jsonData.Observations.PagedListItems.Count());
+            Assert.AreEqual(observations.Count, jsonData.Observations.TotalResultCount);
+            Assert.AreEqual(project, jsonData.Project);
         }
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Observation_Create_Passing_Invalid_Input_Returns_Json_Error()
+        public void Observation_Create_With_Error()
         {
             _mockUserContext.Setup(x => x.HasGlobalPermission(It.IsAny<string>())).Returns(true);
 
@@ -239,7 +239,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Observation_Create_Passing_Valid_Input_Returns_Json_Success()
+        public void Observation_Create()
         {
             _mockUserContext.Setup(x => x.HasGlobalPermission(It.IsAny<string>())).Returns(true);
 
@@ -254,7 +254,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Observation_Create_Having_Invalid_Permissions_Returns_HttpUnauthorized()
+        public void Observation_Create_With_HttpUnauthorized()
         {
             _mockUserContext.Setup(x => x.HasGlobalPermission(It.IsAny<string>())).Returns(false);
 
@@ -265,7 +265,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Observation_Update_Passing_Invalid_Input_Returns_Json_Error()
+        public void Observation_Update_With_Error()
         {
             _mockUserContext.Setup(x => x.HasPermissionToUpdate<Observation>(It.IsAny<string>())).Returns(true);
 
@@ -282,7 +282,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Observation_Update_Passing_Valid_Input_Returns_Json_Success()
+        public void Observation_Update()
         {
             _mockUserContext.Setup(x => x.HasPermissionToUpdate<Observation>(It.IsAny<string>())).Returns(true);
 
@@ -297,7 +297,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Observation_Update_Having_Invalid_Permissions_Returns_HttpUnauthorized()
+        public void Observation_Update_With_HttpUnauthorized()
         {
             _mockUserContext.Setup(x => x.HasPermissionToUpdate<Observation>(It.IsAny<string>())).Returns(false);
 
@@ -308,7 +308,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Observation_Delete_Passing_Invalid_Input_Returns_Json_Error()
+        public void Observation_Delete_With_Error()
         {
             _mockUserContext.Setup(x => x.HasPermissionToDelete<Observation>(It.IsAny<string>())).Returns(true);
 
@@ -325,7 +325,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Observation_Delete_Passing_Valid_Input_Returns_Json_Success()
+        public void Observation_Delete()
         {
             _mockUserContext.Setup(x => x.HasPermissionToDelete<Observation>(It.IsAny<string>())).Returns(true);
 
@@ -340,7 +340,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Observation_Delete_Having_Invalid_Permissions_Returns_HttpUnauthorized()
+        public void Observation_Delete_With_HttpUnauthorized()
         {
             _mockUserContext.Setup(x => x.HasPermissionToDelete<Observation>(It.IsAny<string>())).Returns(false);
 

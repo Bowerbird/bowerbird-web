@@ -81,15 +81,12 @@
     <Compile Include="CommandHandlers\ImageMediaResourceDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\ImageMediaResourceCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\ImageMediaResourceUpdateCommandHandler.cs" />
-    <Compile Include="CommandHandlers\ObservationCommentCreateCommandHandler.cs" />
-    <Compile Include="CommandHandlers\ObservationCommentDeleteCommandHandler.cs" />
-    <Compile Include="CommandHandlers\ObservationCommentUpdateCommandHandler.cs" />
+    <Compile Include="CommandHandlers\CommentCreateCommandHandler.cs" />
+    <Compile Include="CommandHandlers\CommentDeleteCommandHandler.cs" />
+    <Compile Include="CommandHandlers\CommentUpdateCommandHandler.cs" />
     <Compile Include="CommandHandlers\ObservationDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\ObservationNoteDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\ObservationNoteUpdateCommandHandler.cs" />
-    <Compile Include="CommandHandlers\PostCommentCreateCommandHandler.cs" />
-    <Compile Include="CommandHandlers\PostCommentDeleteCommandHandler.cs" />
-    <Compile Include="CommandHandlers\PostCommentUpdateCommandHandler.cs" />
     <Compile Include="CommandHandlers\PostUpdateCommandHandler.cs" />
     <Compile Include="CommandHandlers\TeamCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\TeamDeleteCommandHandler.cs" />
@@ -97,8 +94,6 @@
     <Compile Include="CommandHandlers\UserRequestPasswordResetCommandHandler.cs" />
     <Compile Include="CommandHandlers\ProjectCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\ProjectDeleteCommandHandler.cs" />
-    <Compile Include="CommandHandlers\GroupAssociationCreateCommandHandler.cs" />
-    <Compile Include="CommandHandlers\GroupAssociationDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\PostCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\PostDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\ProjectUpdateCommandHandler.cs" />
@@ -117,16 +112,13 @@
     <Compile Include="Commands\ImageMediaResourceCreateCommand.cs" />
     <Compile Include="Commands\ImageMediaResourceDeleteCommand.cs" />
     <Compile Include="Commands\ImageMediaResourceUpdateCommand.cs" />
-    <Compile Include="Commands\ObservationCommentCreateCommand.cs" />
-    <Compile Include="Commands\ObservationCommentDeleteCommand.cs" />
-    <Compile Include="Commands\ObservationCommentUpdateCommand.cs" />
+    <Compile Include="Commands\CommentCreateCommand.cs" />
+    <Compile Include="Commands\CommentDeleteCommand.cs" />
+    <Compile Include="Commands\CommentUpdateCommand.cs" />
     <Compile Include="Commands\ObservationDeleteCommand.cs" />
     <Compile Include="Commands\ObservationNoteCreateCommand.cs" />
     <Compile Include="Commands\ObservationNoteDeleteCommand.cs" />
     <Compile Include="Commands\ObservationNoteUpdateCommand.cs" />
-    <Compile Include="Commands\PostCommentCreateCommand.cs" />
-    <Compile Include="Commands\PostCommentDeleteCommand.cs" />
-    <Compile Include="Commands\PostCommentUpdateCommand.cs" />
     <Compile Include="Commands\PostUpdateCommand.cs" />
     <Compile Include="Commands\TeamCreateCommand.cs" />
     <Compile Include="Commands\TeamDeleteCommand.cs" />
@@ -134,8 +126,6 @@
     <Compile Include="Commands\UserRequestPasswordResetCommand.cs" />
     <Compile Include="Commands\ProjectCreateCommand.cs" />
     <Compile Include="Commands\ProjectDeleteCommand.cs" />
-    <Compile Include="Commands\GroupAssociationCreateCommand.cs" />
-    <Compile Include="Commands\GroupAssociationDeleteCommand.cs" />
     <Compile Include="Commands\PostCreateCommand.cs" />
     <Compile Include="Commands\PostDeleteCommand.cs" />
     <Compile Include="Commands\ProjectUpdateCommand.cs" />
@@ -157,6 +147,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DomainModels\Contribution.cs" />
+    <Compile Include="DomainModels\DenormalisedReferences\DenormalisedContributionDomainModelReference.cs" />
     <Compile Include="DomainModels\DenormalisedReferences\DenormalisedMemberReference.cs" />
     <Compile Include="DomainModels\DomainSignatureAttribute.cs" />
     <Compile Include="DomainModels\DomainModel.cs" />
@@ -167,8 +158,6 @@
     <Compile Include="DomainModels\IAssignableId.cs" />
     <Compile Include="DomainModels\MediaResources\OtherMediaResource.cs" />
     <Compile Include="DomainModels\Member.cs" />
-    <Compile Include="DomainModels\Comments\ObservationComment.cs" />
-    <Compile Include="DomainModels\Comments\PostComment.cs" />
     <Compile Include="DomainModels\Members\GroupMember.cs" />
     <Compile Include="DomainModels\DenormalisedReferences\DenormalisedNamedDomainModelReference.cs" />
     <Compile Include="DomainModels\ObservationNote.cs" />
@@ -217,7 +206,9 @@
     <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Extensions\EmailExtensions.cs" />
     <Compile Include="DomainModels\GroupContribution.cs" />
-    <Compile Include="Indexes\GroupMemberIndexes.cs" />
+    <Compile Include="Indexes\ContributionIndexes.cs" />
+    <Compile Include="Indexes\GroupIndexes.cs" />
+    <Compile Include="Indexes\MemberIndexes.cs" />
     <Compile Include="Paging\EnumerableExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Commands\ICommandProcessor.cs" />

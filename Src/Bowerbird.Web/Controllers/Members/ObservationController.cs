@@ -12,29 +12,28 @@
  
 */
 
-using System;
-using System.Web.Mvc;
 using System.Linq;
+using System.Web.Mvc;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Paging;
 using Bowerbird.Web.ViewModels.Members;
+using Bowerbird.Web.ViewModels.Public;
 using Bowerbird.Web.ViewModels.Shared;
 using Raven.Client;
-using Raven.Client.Linq;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Web.Config;
+using Raven.Client.Linq;
 
 namespace Bowerbird.Web.Controllers.Members
 {
     public class ObservationController : ControllerBase
     {
-
         #region Members
 
         private readonly ICommandProcessor _commandProcessor;
-        private readonly IDocumentSession _documentSession;
         private readonly IUserContext _userContext;
+        private readonly IDocumentSession _documentSession;
 
         #endregion
 
@@ -63,27 +62,30 @@ namespace Bowerbird.Web.Controllers.Members
         #region Methods
 
         [HttpGet]
-        [Authorize]
         public ActionResult Index(IdInput idInput)
         {
             if (Request.IsAjaxRequest())
             {
-                return Json(MakeObservationIndex(idInput), JsonRequestBehavior.AllowGet);
+                return Json(MakeObservationIndex(idInput));
             }
 
             return View(MakeObservationIndex(idInput));
         }
 
         [HttpGet]
-        [Authorize]
         public ActionResult List(ObservationListInput observationListInput)
         {
-            if (observationListInput.ProjectId == null)
+            if (observationListInput.GroupId != null)
             {
-                return Json(MakeObservationList(observationListInput), JsonRequestBehavior.AllowGet);
+                return Json(MakeObservationListByProjectId(observationListInput), JsonRequestBehavior.AllowGet);
             }
 
-            return Json(MakeObservationListByProjectId(observationListInput), JsonRequestBehavior.AllowGet);
+            if (observationListInput.CreatedByUserId != null)
+            {
+                return Json(MakeObservationListByCretedByUserId(observationListInput), JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(MakeObservationList(observationListInput));
         }
 
         [Transaction]
@@ -146,6 +148,91 @@ namespace Bowerbird.Web.Controllers.Members
             return Json("success"); // TODO: Return something more meaningful?
         }
 
+        private ObservationIndex MakeObservationIndex(IdInput idInput)
+        {
+            return new ObservationIndex()
+            {
+                Observation = _documentSession.Load<Observation>(idInput.Id)
+            };
+        }
+
+        private ObservationList MakeObservationList(ObservationListInput observationListInput)
+        {
+            RavenQueryStatistics stats;
+
+            var results = _documentSession
+                .Query<Observation>()
+                .Statistics(out stats)
+                .Skip(observationListInput.Page)
+                .Take(observationListInput.PageSize)
+                .ToArray();
+            // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
+
+            return new ObservationList
+            {
+                Page = observationListInput.Page,
+                PageSize = observationListInput.PageSize,
+                Observations = results.ToPagedList(
+                    observationListInput.Page,
+                    observationListInput.PageSize,
+                    stats.TotalResults,
+                    null)
+            };
+        }
+
+        private ObservationList MakeObservationListByProjectId(ObservationListInput listInput)
+        {
+            RavenQueryStatistics stats;
+
+            var results = _documentSession
+                .Query<Observation>()
+                .Where(x => x.GroupContributions.Any(y => y.GroupId == listInput.GroupId))
+                .Statistics(out stats)
+                .Skip(listInput.Page)
+                .Take(listInput.PageSize)
+                .ToArray();
+            // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
+
+            return new ObservationList
+            {
+                Page = listInput.Page,
+                PageSize = listInput.PageSize,
+                Project = listInput.GroupId != null ? _documentSession.Load<Project>(listInput.GroupId) : null,
+                Observations = results.ToPagedList(
+                    listInput.Page,
+                    listInput.PageSize,
+                    stats.TotalResults,
+                    null)
+            };
+        }
+
+        private ObservationList MakeObservationListByCretedByUserId(ObservationListInput listInput)
+        {
+            RavenQueryStatistics stats;
+
+            var results = _documentSession
+                .Query<Observation>()
+                .Customize(x => x.Include(listInput.CreatedByUserId))
+                .Where(x => x.User.Id == listInput.CreatedByUserId)
+                .Statistics(out stats)
+                .Skip(listInput.Page)
+                .Take(listInput.PageSize)
+                .ToArray();
+            // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
+
+            return new ObservationList
+            {
+                Page = listInput.Page,
+                PageSize = listInput.PageSize,
+                CreatedByUser = _documentSession.Load<User>(listInput.CreatedByUserId),
+                Observations = results.ToPagedList(
+                    listInput.Page,
+                    listInput.PageSize,
+                    stats.TotalResults,
+                    null)
+            };
+        }
+
         private ObservationCreateCommand MakeObservationCreateCommand(ObservationCreateInput observationCreateInput)
         {
             return new ObservationCreateCommand()
@@ -188,73 +275,6 @@ namespace Bowerbird.Web.Controllers.Members
                        };
         }
 
-        private ObservationIndex MakeObservationIndex(IdInput idInput)
-        {
-            return new ObservationIndex()
-                       {
-                           Observation = _documentSession.Load<Observation>(idInput.Id)
-                       };
-        }
-
-        private ObservationList MakeObservationList(ObservationListInput observationListInput)
-        {
-            RavenQueryStatistics stats;
-
-            var results = _documentSession
-                .Query<Observation>()
-                .Statistics(out stats)
-                .Where(x => x.User.Id == observationListInput.UserId)
-                .Skip(observationListInput.Page)
-                .Take(observationListInput.PageSize)
-                .ToArray(); // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
-
-            return new ObservationList
-            {
-                UserId = observationListInput.UserId,
-                Page = observationListInput.Page,
-                PageSize = observationListInput.PageSize,
-                Observations = results.ToPagedList(
-                    observationListInput.Page,
-                    observationListInput.PageSize,
-                    stats.TotalResults,
-                    null)
-            };
-        }
-
-        private ObservationList MakeObservationListByProjectId(ObservationListInput observationListInput)
-        {
-            throw new NotImplementedException();
-            //RavenQueryStatistics stats;
-
-            //var projectObservations = _documentSession
-            //    .Query<ProjectObservation>()
-            //    .Where(x => x.Project.Id == observationListInput.ProjectId)
-            //    .Customize(x => x.Include(observationListInput.ProjectId))
-            //    .Statistics(out stats)
-            //    .Skip(observationListInput.Page)
-            //    .Take(observationListInput.PageSize)
-            //    .ToArray();
-
-            //var results = _documentSession
-            //    .Load<Observation>(projectObservations.Select(x => x.Observation.Id))
-            //    .Where(x => x.User.Id == observationListInput.UserId)
-            //    .ToArray();
-
-            //return new ObservationList
-            //{
-            //    Project = _documentSession.Load<Project>(observationListInput.ProjectId),
-            //    UserId = observationListInput.UserId,
-            //    Page = observationListInput.Page,
-            //    PageSize = observationListInput.PageSize,
-            //    Observations = results.ToPagedList(
-            //        observationListInput.Page,
-            //        observationListInput.PageSize,
-            //        stats.TotalResults,
-            //        null)
-            //};
-        }
-
         #endregion
-
     }
 }

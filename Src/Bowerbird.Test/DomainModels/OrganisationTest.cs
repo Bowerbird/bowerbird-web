@@ -51,9 +51,13 @@ namespace Bowerbird.Test.DomainModels
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Organisation_Constructor_Populates_Property_Values()
+        public void Organisation_Constructor()
         {
-            var testOrganisation = new Organisation(FakeObjects.TestUser(), FakeValues.Name, FakeValues.Description, FakeValues.Website);
+            var testOrganisation = new Organisation(
+                FakeObjects.TestUser(), 
+                FakeValues.Name, 
+                FakeValues.Description, 
+                FakeValues.Website);
 
             Assert.AreEqual(testOrganisation.Name, FakeValues.Name);
             Assert.AreEqual(testOrganisation.Description, FakeValues.Description);
@@ -66,9 +70,13 @@ namespace Bowerbird.Test.DomainModels
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void ObservationNote_UpdateDetails_Updates_Property_Values()
+        public void ObservationNote_UpdateDetails()
         {
-            var testOrganisation = new Organisation(FakeObjects.TestUser(), FakeValues.Name, FakeValues.Description, FakeValues.Website);
+            var testOrganisation = new Organisation(
+                FakeObjects.TestUser(), 
+                FakeValues.Name, 
+                FakeValues.Description, 
+                FakeValues.Website);
 
             testOrganisation.UpdateDetails(
                 FakeObjects.TestUser(),

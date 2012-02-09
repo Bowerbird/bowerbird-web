@@ -52,7 +52,7 @@ namespace Bowerbird.Test.DomainModels
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Project_Constructor_Populates_Properties_With_Values()
+        public void Project_Constructor()
         {
             var testProject = new Project(
                 FakeObjects.TestUser(), 
@@ -70,7 +70,7 @@ namespace Bowerbird.Test.DomainModels
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Project_UpdateDetails_Populates_Properties_With_Values()
+        public void Project_UpdateDetails()
         {
             var testProject = TestProject();
 

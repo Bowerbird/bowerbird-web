@@ -12,17 +12,12 @@
  
 */
 
+using NUnit.Framework;
+using Bowerbird.Test.Utils;
+
 namespace Bowerbird.Test.DomainModels
 {
-    #region Namespaces
-
-    using NUnit.Framework;
-
-    using Bowerbird.Test.Utils;
-
-    #endregion
-
-    [TestFixture, Ignore]
+    [TestFixture]
     public class ValueObjectTest
     {
         #region Test Infrastructure
@@ -51,30 +46,25 @@ namespace Bowerbird.Test.DomainModels
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void ValueObject_Equality_Operator_Comparing_Two_Equal_Objects_Returns_True()
+        public void ValueObject_Equality_Operator()
         {
             var leftValueObject = new ProxyObjects.ProxyValueObject(FakeObjects.TestUser(), FakeObjects.TestProject(), FakeObjects.TestTeam());
             var rightValueObject = new ProxyObjects.ProxyValueObject(FakeObjects.TestUser(), FakeObjects.TestProject(), FakeObjects.TestTeam());
 
-            //Assert.IsTrue(leftValueObject.HasSameObjectSignatureAs(rightValueObject));
             var leftHashCode = leftValueObject.GetHashCode();
             var rightHashCode = rightValueObject.GetHashCode();
 
             Assert.AreNotEqual(leftHashCode, rightHashCode);
         }
 
-        [Test]
+        [Test, Ignore]
         [Category(TestCategory.Unit)]
-        public void BaseObject_Equality_Operator_Comparing_Two_Equal_Objects_Returns_True()
+        public void BaseObject_Equality_Operator()
         {
             var leftValueObject = new ProxyObjects.ProxyBaseObject(FakeObjects.TestUser(), FakeObjects.TestProject(), FakeObjects.TestTeam());
             var rightValueObject = new ProxyObjects.ProxyBaseObject(FakeObjects.TestUser(), FakeObjects.TestProject(), FakeObjects.TestTeam());
 
             Assert.IsTrue(leftValueObject.Equals(rightValueObject));
-            //var leftHashCode = leftValueObject.GetHashCode();
-            //var rightHashCode = rightValueObject.GetHashCode();
-
-            //Assert.AreNotEqual(leftHashCode, rightHashCode);
         }
 
         #endregion 

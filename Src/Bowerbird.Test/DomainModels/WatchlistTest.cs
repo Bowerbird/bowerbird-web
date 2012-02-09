@@ -42,7 +42,7 @@ namespace Bowerbird.Test.DomainModels
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Watchlist_Constructor_Populates_Property_Values()
+        public void Watchlist_Constructor()
         {
             var testWatchlist = new Watchlist(
                 FakeObjects.TestUserWithId(), 
@@ -59,7 +59,7 @@ namespace Bowerbird.Test.DomainModels
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Watchlist_UpdateDetails_Populates_Properties_With_Values()
+        public void Watchlist_UpdateDetails()
         {
             var testWatchlist = new Watchlist(FakeObjects.TestUser(), FakeValues.Name, FakeValues.QuerystringJson);
 
@@ -69,7 +69,7 @@ namespace Bowerbird.Test.DomainModels
                 FakeValues.QuerystringJson.AppendWith(additionalString));
 
             Assert.AreEqual(testWatchlist.Name, FakeValues.Name.AppendWith(additionalString));
-            Assert.AreEqual(testWatchlist.QuerystringJson, FakeValues.Description.AppendWith(FakeValues.QuerystringJson));
+            Assert.AreEqual(testWatchlist.QuerystringJson, FakeValues.QuerystringJson.AppendWith(additionalString));
         }
 
         #endregion

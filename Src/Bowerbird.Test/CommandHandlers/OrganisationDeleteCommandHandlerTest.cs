@@ -56,7 +56,7 @@ namespace Bowerbird.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Persistance)]
-        public void OrganisationDeleteCommandHandler_Deletes_Organisation()
+        public void OrganisationDeleteCommandHandler_Handle()
         {
             var user = FakeObjects.TestUserWithId();
             var organisation = FakeObjects.TestOrganisationWithId();

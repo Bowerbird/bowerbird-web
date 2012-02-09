@@ -58,7 +58,7 @@ namespace Bowerbird.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void ProjectCreateCommandHandler_Creates_Project()
+        public void ProjectCreateCommandHandler_Handle()
         {
             var user = FakeObjects.TestUserWithId();
             var team = FakeObjects.TestTeamWithId();

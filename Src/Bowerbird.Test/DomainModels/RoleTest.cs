@@ -12,20 +12,15 @@
  
 */
 
+using System.Linq;
+using NUnit.Framework;
+using Bowerbird.Test.Utils;
+using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Extensions;
+
 namespace Bowerbird.Test.DomainModels
 {
-    #region Namespaces
-
-    using System.Linq;
-
-    using NUnit.Framework;
-
-    using Bowerbird.Test.Utils;
-    using Bowerbird.Core.DomainModels;
-    using Bowerbird.Core.Extensions;
-
-    #endregion
-    
+    [TestFixture]
     public class RoleTest
     {
         #region Test Infrastructure
@@ -51,9 +46,13 @@ namespace Bowerbird.Test.DomainModels
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Role_Constructor_Populates_Properties_With_Values()
+        public void Role_Constructor()
         {
-            var testRole = new Role(FakeValues.KeyString, FakeValues.Name, FakeValues.Description, FakeObjects.TestPermissions());
+            var testRole = new Role(
+                FakeValues.KeyString, 
+                FakeValues.Name, 
+                FakeValues.Description, 
+                FakeObjects.TestPermissions());
 
             Assert.AreEqual(testRole.Id, FakeValues.KeyString.PrependWith("roles/"));
             Assert.AreEqual(testRole.Name, FakeValues.Name);

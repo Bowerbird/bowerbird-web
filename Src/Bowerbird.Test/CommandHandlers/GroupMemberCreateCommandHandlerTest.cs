@@ -56,7 +56,7 @@ namespace Bowerbird.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Persistance)]
-        public void GroupMemberCreateCommandHandler_Creates_GroupMember()
+        public void GroupMemberCreateCommandHandler_Handle()
         {
             var user = FakeObjects.TestUserWithId();
             var project = FakeObjects.TestProjectWithId();
@@ -92,8 +92,7 @@ namespace Bowerbird.Test.CommandHandlers
             }
 
             Assert.IsNotNull(newValue);
-            //Assert.AreEqual(roles.Select(x => x.DenormalisedNamedDomainModelReference<Role>()).ToList(), newValue.Roles);
-            Assert.AreEqual(project.DenormalisedNamedDomainModelReference(), newValue.Group);
+            Assert.AreEqual(project.Id, newValue.Group.Id);
             Assert.AreEqual(user.DenormalisedUserReference(), newValue.User);
         }
 

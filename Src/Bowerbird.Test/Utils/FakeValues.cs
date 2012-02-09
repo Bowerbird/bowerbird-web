@@ -193,7 +193,7 @@ namespace Bowerbird.Test.Utils
         /// <summary>
         /// value: "{ query: 'fakequery' }"
         /// </summary>
-        public static string QuerystringJson { get { return "{ query: &quot;fakequery&quot; }"; } }
+        public static string QuerystringJson { get { return "{ query: fakequery }"; } }
 
         /// <summary>
         /// value: "www.fakewebsite.com"
