@@ -80,58 +80,62 @@ namespace Bowerbird.Core.Indexes
     {
         public All_GroupContributionItems()
         {
-            AddMap<Observation>(observations => from c in observations
-                                                from gc in c.GroupContributions
-                                                select new
-                                                {
-                                                    ContributionId = c.Id,
-                                                    UserId = c.User.Id,
-                                                    CreatedDateTime = c.CreatedOn,
-                                                    gc.GroupId,
-                                                    GroupUserId = gc.User.Id,
-                                                    GroupCreatedDateTime = gc.CreatedDateTime
-                                                });
+            AddMap<Observation>(observations => 
+                from c in observations
+                from gc in c.GroupContributions
+                select new
+                {
+                    ContributionId = c.Id,
+                    UserId = c.User.Id,
+                    CreatedDateTime = c.CreatedOn,
+                    gc.GroupId,
+                    GroupUserId = gc.User.Id,
+                    GroupCreatedDateTime = gc.CreatedDateTime
+                });
 
-            AddMap<Post>(posts => from c in posts
-                                  from gc in c.GroupContributions
-                                  select new
-                                  {
-                                      ContributionId = c.Id,
-                                      UserId = c.User.Id,
-                                      CreatedDateTime = c.CreatedOn,
-                                      gc.GroupId,
-                                      GroupUserId = gc.User.Id,
-                                      GroupCreatedDateTime = gc.CreatedDateTime
-                                  });
+            AddMap<Post>(posts => 
+                from c in posts
+                from gc in c.GroupContributions
+                select new
+                {
+                    ContributionId = c.Id,
+                    UserId = c.User.Id,
+                    CreatedDateTime = c.CreatedOn,
+                    gc.GroupId,
+                    GroupUserId = gc.User.Id,
+                    GroupCreatedDateTime = gc.CreatedDateTime
+                });
 
-            AddMap<ObservationNote>(observationNotes => from c in observationNotes
-                                                        from gc in c.GroupContributions
-                                                        select new
-                                                        {
-                                                            ContributionId = c.Id,
-                                                            UserId = c.User.Id,
-                                                            CreatedDateTime = c.CreatedOn,
-                                                            gc.GroupId,
-                                                            GroupUserId = gc.User.Id,
-                                                            GroupCreatedDateTime = gc.CreatedDateTime
-                                                        });
+            AddMap<ObservationNote>(observationNotes => 
+                from c in observationNotes
+                from gc in c.GroupContributions
+                select new
+                {
+                    ContributionId = c.Id,
+                    UserId = c.User.Id,
+                    CreatedDateTime = c.CreatedOn,
+                    gc.GroupId,
+                    GroupUserId = gc.User.Id,
+                    GroupCreatedDateTime = gc.CreatedDateTime
+                });
 
-            TransformResults = (database, results) => from result in results
-                                                      let observation = database.Load<Observation>(result.ContributionId)
-                                                      let observationNote = database.Load<ObservationNote>(result.ContributionId)
-                                                      let post = database.Load<Post>(result.ContributionId)
-                                                      select new
-                                                                 {
-                                                                     result.ContributionId,
-                                                                     result.UserId,
-                                                                     result.CreatedDateTime,
-                                                                     result.GroupId,
-                                                                     result.GroupUserId,
-                                                                     result.GroupCreatedDateTime,
-                                                                     Observation = observation,
-                                                                     ObservationNote = observationNote,
-                                                                     Post = post
-                                                                 };
+            TransformResults = (database, results) => 
+                from result in results
+                let observation = database.Load<Observation>(result.ContributionId)
+                let observationNote = database.Load<ObservationNote>(result.ContributionId)
+                let post = database.Load<Post>(result.ContributionId)
+                select new
+                {
+                    result.ContributionId,
+                    result.UserId,
+                    result.CreatedDateTime,
+                    result.GroupId,
+                    result.GroupUserId,
+                    result.GroupCreatedDateTime,
+                    Observation = observation,
+                    ObservationNote = observationNote,
+                    Post = post
+                };
 
             Store(x => x.ContributionId, FieldStorage.Yes);
             Store(x => x.UserId, FieldStorage.Yes);

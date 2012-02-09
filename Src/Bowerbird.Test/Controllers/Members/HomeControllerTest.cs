@@ -55,6 +55,7 @@ namespace Bowerbird.Test.Controllers.Members
                 _mockCommandProcessor.Object,
                 _mockUserContext.Object,
                 _documentStore.OpenSession(DocumentStoreHelper.TestDb)
+                //_documentStore.OpenSession()
                 );
         }
 
@@ -110,7 +111,7 @@ namespace Bowerbird.Test.Controllers.Members
 
             ((IAssignableId)projectMember).SetIdTo("projectmembers", "efgh");
 
-            using (var session = _documentStore.OpenSession(DocumentStoreHelper.TestDb))
+            using (var session = _documentStore.OpenSession())
             {
                 session.Store(project);
                 session.Store(user);
@@ -157,39 +158,23 @@ namespace Bowerbird.Test.Controllers.Members
 
                 session.SaveChanges();
 
-                var expectedInt = contributions.Count;
-                var actualInt = session
+                var groupContributions = session
                     .Query<GroupContributionResults, All_GroupContributionItems>()
-                    //.OrderByDescending(x => x.GroupCreatedDateTime)
-                    //.Where(x => x.GroupId != null)
-                    .AsProjection<GroupContributionResults>();
-
-                foreach (var groupContributionResultse in actualInt)
-                {
-                    Contribution c = groupContributionResultse.Contribution;
-
-                    string s = c.Id;
-                }
-                    
-                    //.Count();
-
-                //var expectedInt = contributions.Count;
-                //var actualInt = session
-                //    .Query<All_GroupContributionItems>()
-                //    .As<Contribution>()
-                //    .Where(x => x.Id != null)
-                //    .ToList()
-                //    .Count();
-
-
-                Assert.AreEqual(expectedInt, actualInt);
-
-                var allContributions = session
-                    .Query<Contribution>()
-                    .Where(x => x.Id != null)
+                    .OrderByDescending(x => x.GroupCreatedDateTime)
+                    .Where(x => x.GroupId == project.Id)
+                    .AsProjection<GroupContributionResults>()
                     .ToList();
 
-                foreach (var contribution in allContributions)
+                Assert.AreEqual(contributions.Count, groupContributions.Count);
+
+                var contributionsInProject = session
+                    .Query<Contribution, All_Contributions>()
+                    .Where(x => x.Id.In(groupContributions.Select(y => y.ContributionId)))
+                    .ToList();
+
+                Assert.AreEqual(contributionsInProject.Count, groupContributions.Count);
+                
+                foreach (var contribution in contributionsInProject)
                 {
                     Assert.IsTrue(contribution.GroupContributions.Any(x => x.GroupId == project.Id));
                 }
