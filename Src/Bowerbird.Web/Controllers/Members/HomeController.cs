@@ -18,8 +18,6 @@ using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.DomainModels.Members;
-using Bowerbird.Core.Indexes;
-using Bowerbird.Core.Paging;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.ViewModels.Members;
 using Bowerbird.Web.ViewModels.Shared;
@@ -56,10 +54,6 @@ namespace Bowerbird.Web.Controllers.Members
 
         #endregion
 
-        #region Properties
-
-        #endregion
-
         #region Methods
 
         [HttpGet]
@@ -78,18 +72,6 @@ namespace Bowerbird.Web.Controllers.Members
                 .Query<GroupMember>()
                 .Include(x => x.User.Id)
                 .Where(x => x.User.Id == indexInput.UserId)
-                .ToList();
-
-            RavenQueryStatistics stats;
-            var groupContributions = _documentSession
-                .Query<GroupContributionResults, All_GroupContributionItems>()
-                .Include(x => x.ContributionId)
-                .Where(x => x.GroupId.In(groupMemberships.Select(y => y.Group.Id)))
-                .OrderByDescending(x => x.GroupCreatedDateTime)
-                .AsProjection<GroupContributionResults>()
-                .Statistics(out stats)
-                .Skip(indexInput.Page)
-                .Take(indexInput.PageSize)
                 .ToList();
 
             var user = _documentSession.Load<User>(indexInput.UserId);
@@ -135,21 +117,6 @@ namespace Bowerbird.Web.Controllers.Members
                         Name = x.Name
                     })
                     .ToList()
-                ,
-
-                StreamItems = groupContributions
-                .Select(x =>
-                    new StreamItemViewModel()
-                    {
-                        Item = x,
-                        ItemId = x.ContributionId,
-                        SubmittedOn = x.GroupCreatedDateTime,
-                        UserId = x.GroupUserId
-                    }).ToPagedList(
-                    indexInput.Page,
-                    indexInput.PageSize,
-                    stats.TotalResults,
-                    null)
             };
 
             return homeIndex;

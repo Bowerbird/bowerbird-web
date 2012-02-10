@@ -143,6 +143,7 @@
     <Compile Include="Controllers\Members\OrganisationControllerTest.cs" />
     <Compile Include="Controllers\Members\ProjectControllerTest.cs" />
     <Compile Include="Controllers\Members\ObservationControllerTest.cs" />
+    <Compile Include="Controllers\Members\StreamItemControllerTest.cs" />
     <Compile Include="Controllers\Members\TeamControllerTest.cs" />
     <Compile Include="Controllers\Members\GroupMemberControllerTest.cs" />
     <Compile Include="Controllers\Members\PostControllerTest.cs" />
@@ -154,6 +155,7 @@
     <Compile Include="Controllers\Public\OrganisationControllerTest.cs" />
     <Compile Include="Controllers\Public\PostControllerTest.cs" />
     <Compile Include="Controllers\Public\ProjectControllerTest.cs" />
+    <Compile Include="Controllers\Public\StreamItemControllerTest.cs" />
     <Compile Include="Controllers\Public\TeamControllerTest.cs" />
     <Compile Include="DesignByContract\CheckTest.cs" />
     <Compile Include="DomainModels\ActivityTest.cs" />

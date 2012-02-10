@@ -1,23 +1,33 @@
-﻿using Bowerbird.Core.DomainModels;
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+
+ Developers: 
+ * Frank Radocaj : frank@radocaj.com
+ * Hamish Crittenden : hamish.crittenden@gmail.com
+ 
+ Project Manager: 
+ * Ken Walker : kwalker@museum.vic.gov.au
+ 
+ Funded by:
+ * Atlas of Living Australia
+ 
+*/
+
+using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.DomainModels.MediaResources;
 using Bowerbird.Core.DomainModels.Members;
 using Bowerbird.Core.Indexes;
 using Raven.Client;
 using Raven.Client.Document;
 using Raven.Client.Embedded;
-using System.Configuration;
 using Raven.Client.Extensions;
 using Raven.Client.Indexes;
-using Raven.Client.Linq;
-using Raven.Storage.Managed;
-using Raven.Storage.Esent;
 
 namespace Bowerbird.Test.Utils
 {
     public class DocumentStoreHelper
     {
-
         public const string TestDb = "bowerbird_test";
+        public const string DevDb = "bowerbird_dev";
 
         public static IDocumentStore InMemoryDocumentStore(bool createIndexes = true)
         {
@@ -81,8 +91,6 @@ namespace Bowerbird.Test.Utils
             }
 
             return documentStore;
-
         }
-
     }
 }

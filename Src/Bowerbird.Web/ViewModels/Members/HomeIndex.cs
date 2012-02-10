@@ -13,7 +13,6 @@
 */
 
 using System.Collections.Generic;
-using Bowerbird.Core.Paging;
 using Bowerbird.Web.ViewModels.Shared;
 
 namespace Bowerbird.Web.ViewModels.Members
@@ -29,8 +28,6 @@ namespace Bowerbird.Web.ViewModels.Members
         #endregion
 
         #region Properties
-
-        public PagedList<StreamItemViewModel> StreamItems { get; set; }
 
         public UserProfile UserProfile { get; set; }
 

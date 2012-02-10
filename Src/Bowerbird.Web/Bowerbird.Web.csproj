@@ -125,6 +125,7 @@
     <Compile Include="Controllers\Members\ProjectController.cs" />
     <Compile Include="Controllers\Members\GroupMemberController.cs" />
     <Compile Include="Controllers\Members\PostController.cs" />
+    <Compile Include="Controllers\Members\StreamItemController.cs" />
     <Compile Include="Controllers\Members\TeamController.cs" />
     <Compile Include="Controllers\Members\WatchlistController.cs" />
     <Compile Include="Controllers\Public\AccountController.cs" />
@@ -134,6 +135,7 @@
     <Compile Include="Controllers\Public\OrganisationController.cs" />
     <Compile Include="Controllers\Public\PostController.cs" />
     <Compile Include="Controllers\Public\ProjectController.cs" />
+    <Compile Include="Controllers\Public\StreamItemController.cs" />
     <Compile Include="Controllers\Public\TeamController.cs" />
     <Compile Include="Config\IPermissionChecker.cs" />
     <Compile Include="Config\PermissionChecker.cs" />
@@ -174,6 +176,9 @@
     <Compile Include="ViewModels\Shared\ProjectList.cs" />
     <Compile Include="ViewModels\Shared\ProjectListInput.cs" />
     <Compile Include="ViewModels\Members\TeamCreateInput.cs" />
+    <Compile Include="ViewModels\Shared\StreamItemList.cs" />
+    <Compile Include="ViewModels\Shared\StreamItemListInput.cs" />
+    <Compile Include="ViewModels\Shared\StreamSortInput.cs" />
     <Compile Include="ViewModels\Shared\TeamIndex.cs" />
     <Compile Include="ViewModels\Members\TeamUpdateInput.cs" />
     <Compile Include="ViewModels\Public\AccountRegister.cs" />
