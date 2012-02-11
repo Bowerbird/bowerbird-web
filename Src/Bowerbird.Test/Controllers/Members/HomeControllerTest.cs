@@ -44,8 +44,8 @@ namespace Bowerbird.Test.Controllers.Members
         [SetUp]
         public void TestInitialize()
         {
-            _documentStore = DocumentStoreHelper.ServerDocumentStore();
-            //_documentStore = DocumentStoreHelper.InMemoryDocumentStore();
+            //_documentStore = DocumentStoreHelper.ServerDocumentStore();
+            _documentStore = DocumentStoreHelper.InMemoryDocumentStore();
 
             _mockCommandProcessor = new Mock<ICommandProcessor>();
 
@@ -54,8 +54,8 @@ namespace Bowerbird.Test.Controllers.Members
             _controller = new HomeController(
                 _mockCommandProcessor.Object,
                 _mockUserContext.Object,
-                _documentStore.OpenSession(DocumentStoreHelper.TestDb)
-                //_documentStore.OpenSession()
+                //_documentStore.OpenSession(DocumentStoreHelper.TestDb)
+                _documentStore.OpenSession()
                 );
         }
 
