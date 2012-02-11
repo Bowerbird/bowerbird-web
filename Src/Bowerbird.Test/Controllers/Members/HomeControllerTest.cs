@@ -46,7 +46,7 @@ namespace Bowerbird.Test.Controllers.Members
         {
             _documentStore = DocumentStoreHelper.ServerDocumentStore();
             //_documentStore = DocumentStoreHelper.InMemoryDocumentStore();
-            
+
             _mockCommandProcessor = new Mock<ICommandProcessor>();
 
             _mockUserContext = new Mock<IUserContext>();
@@ -76,6 +76,18 @@ namespace Bowerbird.Test.Controllers.Members
 
         #region Method tests
 
+        /// <summary>
+        /// Create a user, team and project
+        /// Add the user as a group member to the team and project
+        /// 
+        /// Query the Home Controller for the index passing a user's id, page number and page size
+        /// 
+        /// Check that the response contains:
+        /// The user's profile
+        /// A list of menu items containing the project
+        /// A list of menu items containing the team
+        /// A list of menu items containing the watchlist
+        /// </summary>
         [Test]
         [Category(TestCategory.Unit)]
         public void HomeController_Index()
@@ -120,68 +132,11 @@ namespace Bowerbird.Test.Controllers.Members
                 session.Store(projectMember);
                 session.Store(watchlist);
 
-                for (var i = 0; i < 15; i++)
-                {
-                    var observation = new Observation(
-                        user,
-                        FakeValues.Title,
-                        FakeValues.CreatedDateTime.AddDays(i * -1),
-                        FakeValues.CreatedDateTime.AddDays(i * -1),
-                        FakeValues.Latitude,
-                        FakeValues.Longitude,
-                        FakeValues.Address,
-                        FakeValues.IsTrue,
-                        FakeValues.Category,
-                        new List<MediaResource>()
-                        );
-
-                    ((IAssignableId)observation).SetIdTo("observations", i.ToString());
-                    contributions.Add(observation);
-
-                    observation.AddGroupContribution(project, user, FakeValues.CreatedDateTime.AddDays(i * -1));
-                    session.Store(observation);
-
-                    var post = new Post(
-                        user,
-                        FakeValues.CreatedDateTime.AddDays(i * -1),
-                        FakeValues.Subject,
-                        FakeValues.Message,
-                        new List<MediaResource>(),
-                        project
-                        );
-
-                    ((IAssignableId)post).SetIdTo("posts", i.ToString());
-                    contributions.Add(post);
-
-                    session.Store(post);
-                }
-
                 session.SaveChanges();
-
-                var groupContributions = session
-                    .Query<GroupContributionResults, All_GroupContributionItems>()
-                    .OrderByDescending(x => x.GroupCreatedDateTime)
-                    .Where(x => x.GroupId == project.Id)
-                    .AsProjection<GroupContributionResults>()
-                    .ToList();
-
-                Assert.AreEqual(contributions.Count, groupContributions.Count);
-
-                var contributionsInProject = session
-                    .Query<Contribution, All_Contributions>()
-                    .Where(x => x.Id.In(groupContributions.Select(y => y.ContributionId)))
-                    .ToList();
-
-                Assert.AreEqual(contributionsInProject.Count, groupContributions.Count);
-                
-                foreach (var contribution in contributionsInProject)
-                {
-                    Assert.IsTrue(contribution.GroupContributions.Any(x => x.GroupId == project.Id));
-                }
-
             }
 
             _controller.SetupAjaxRequest();
+
             _mockUserContext.Setup(x => x.GetAuthenticatedUserId()).Returns(user.Id);
 
             var result = _controller.Index(new HomeIndexInput() { UserId = user.Id, Page = 1, PageSize = 10 });
@@ -206,14 +161,8 @@ namespace Bowerbird.Test.Controllers.Members
             Assert.AreEqual(project.Id, jsonData.ProjectMenu.ToList()[0].Id);
             Assert.IsTrue(jsonData.WatchlistMenu.Count() == 1);
             Assert.AreEqual(watchlist.Name, jsonData.WatchlistMenu.ToList()[0].Name);
-            //Assert.AreEqual(watchlist.QuerystringJson, jsonData.WatchlistMenu.ToList()[0].Id);
-            var expected = contributions.Select(x => x.Id).Take(10).ToList();
-            //var actual = jsonData.StreamItems.PagedListItems.Select(x => x.PageObject.ItemId).ToList();
-
-            //Assert.AreEqual(actual.Count, expected.Count);
-            //Assert.AreEqual(actual, expected);
         }
 
-        #endregion 
+        #endregion
     }
 }

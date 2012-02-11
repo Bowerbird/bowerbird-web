@@ -122,6 +122,6 @@ namespace Bowerbird.Web.Controllers.Members
             return homeIndex;
         }
 
-        #endregion      
+        #endregion
     }
 }
