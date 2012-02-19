@@ -16,8 +16,8 @@ Technology Stack
 
 * Client: Asp.Net MVC 3
 
-* Serverside Framwork: .Net V4.0
+* Server: .Net Framework V4.0
 
 * Persistence: RavenDB
 
-* UI frameworks: JQuery, Backbone, Underscore
+* UI: HTML5 including JQuery, Backbone & Underscore
