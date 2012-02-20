@@ -62,8 +62,6 @@ namespace Bowerbird.Web.Controllers.Members
         [HttpGet]
         public ActionResult List(StreamItemListInput listInput, StreamSortInput sortInput)
         {
-            // TODO: Check constraints?
-
             if (listInput.UserId != null)
             {
                 return Json(MakeUserStreamItemList(listInput, sortInput));
@@ -184,7 +182,7 @@ namespace Bowerbird.Web.Controllers.Members
             };
         }
 
-        private IRavenQueryable<GroupContributionResults> GetContributionsForGroups(List<GroupMember> groupMemberships)
+        private IRavenQueryable<GroupContributionResults> GetContributionsForGroups(IEnumerable<GroupMember> groupMemberships)
         {
             var groupContributions = _documentSession
                     .Query<GroupContributionResults, All_GroupContributionItems>()
