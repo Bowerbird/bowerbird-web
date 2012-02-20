@@ -12,6 +12,7 @@
  
 */
 
+using System;
 using Bowerbird.Core.DomainModels.MediaResources;
 
 namespace Bowerbird.Test.Utils
@@ -24,7 +25,7 @@ namespace Bowerbird.Test.Utils
 
     #endregion
 
-    public class FakeObjects
+    public static class FakeObjects
     {
         public static User TestUser()
         {
@@ -264,6 +265,7 @@ namespace Bowerbird.Test.Utils
         public static Comment TestComment()
         {
             return new Comment(
+                FakeValues.KeyLong.ToString(),
                 TestUserWithId(),
                 FakeValues.CreatedDateTime,
                 FakeValues.Comment
@@ -278,6 +280,7 @@ namespace Bowerbird.Test.Utils
         public static Comment TestCommentWithId(string id)
         {
             var comment = new Comment(
+                FakeValues.KeyLong.ToString(),
                 TestUserWithId(),
                 FakeValues.CreatedDateTime,
                 FakeValues.Comment

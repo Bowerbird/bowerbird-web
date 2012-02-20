@@ -247,7 +247,7 @@ namespace Bowerbird.Test.Controllers.Members
         /// Check that a page sized collection of contributions is returned
         /// Check that each contribution has a property that matches a query item in the watchlist
         /// </summary>
-        [Test]
+        [Test, Ignore]// INCOMPLETE
         [Category(TestCategory.Unit)]
         public void StreamItemController_List_Of_Watchlist_Contributions()
         {

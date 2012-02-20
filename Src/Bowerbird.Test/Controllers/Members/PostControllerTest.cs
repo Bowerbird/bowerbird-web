@@ -88,15 +88,9 @@ namespace Bowerbird.Test.Controllers.Members
                 for (var i = 0; i < 15; i++)
                 {
                     var post = FakeObjects.TestPostWithId(i.ToString());
-                    //var groupContribution = new GroupContribution(
-                    //    project,
-                    //    post,
-                    //    user,
-                    //    FakeValues.CreatedDateTime.AddDays(i*-1)
-                    //    );
+                    post.AddGroupContribution(project, user, FakeValues.CreatedDateTime.AddDays(i*-1));
                     posts.Add(post);
                     session.Store(post);
-                    //session.Store(groupContribution);
                 }
 
                 session.SaveChanges();

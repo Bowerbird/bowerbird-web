@@ -148,22 +148,20 @@ namespace Bowerbird.Test.Controllers.Members
         public void Project_Index_As_Json()
         {
             var team = FakeObjects.TestTeamWithId();
-            var project = FakeObjects.TestProjectWithId();
             var user = FakeObjects.TestUserWithId();
+            
+            var project = new Project(
+                user, 
+                FakeValues.Name, 
+                FakeValues.Description, 
+                FakeValues.Website, 
+                team.Id);
 
             using (var session = _documentStore.OpenSession())
             {
-                session.Store(project);
                 session.Store(user);
                 session.Store(team);
-
-                //var groupAssociation = new GroupAssociation(
-                //    team,
-                //    project,
-                //    user,
-                //    FakeValues.CreatedDateTime);
-
-                //session.Store(groupAssociation);
+                session.Store(project);
                 session.SaveChanges();
             }
 

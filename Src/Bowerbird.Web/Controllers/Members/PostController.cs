@@ -135,7 +135,8 @@ namespace Bowerbird.Web.Controllers.Members
                 .Customize(x => x.Include(listInput.GroupId))
                 .Statistics(out stats)
                 .Skip(listInput.Page)
-                .Take(listInput.PageSize);
+                .Take(listInput.PageSize)
+                .ToList();
 
             return new PostList
             {

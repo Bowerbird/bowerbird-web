@@ -35,7 +35,8 @@ namespace Bowerbird.Core.DomainModels
             User createdByUser,
             string name,
             string description,
-            string website)
+            string website,
+            string organisationId = null)
             : this()
         {
             Check.RequireNotNull(createdByUser, "createdByUser");
@@ -45,7 +46,8 @@ namespace Bowerbird.Core.DomainModels
             SetDetails(
                 name,
                 description,
-                website);
+                website,
+                organisationId);
 
             EventProcessor.Raise(new DomainModelCreatedEvent<Team>(this, createdByUser));
         }
@@ -58,7 +60,7 @@ namespace Bowerbird.Core.DomainModels
 
         #region Methods
 
-        public Team UpdateDetails(User updatedByUser, string name, string description, string website)
+        public Team UpdateDetails(User updatedByUser, string name, string description, string website, string organisationId = null)
         {
             Check.RequireNotNull(updatedByUser, "updatedByUser");
             Check.RequireNotNullOrWhitespace(name, "name");
@@ -67,7 +69,8 @@ namespace Bowerbird.Core.DomainModels
             SetDetails(
                 name,
                 description,
-                website);
+                website,
+                organisationId);
 
             EventProcessor.Raise(new DomainModelUpdatedEvent<Team>(this, updatedByUser));
 

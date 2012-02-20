@@ -43,6 +43,7 @@ namespace Bowerbird.Test.DomainModels
         public void Comment_Constructor()
         {
             var comment = new Comment(
+                FakeValues.KeyLong.ToString(),
                 FakeObjects.TestUserWithId(),
                 FakeValues.CreatedDateTime,
                 FakeValues.Comment
@@ -62,6 +63,7 @@ namespace Bowerbird.Test.DomainModels
         public void Comment_UpdateDetails()
         {
             var comment = new Comment(
+                FakeValues.KeyString,
                 FakeObjects.TestUserWithId(),
                 FakeValues.CreatedDateTime,
                 FakeValues.Comment

@@ -51,7 +51,7 @@ namespace Bowerbird.Core.DomainModels
 
         public string Name { get; private set; }
 
-        public string ParentGroupId { get; private set; }
+        public string ParentGroupId { get; protected set; }
 
         public string Description { get; private set; }
 
@@ -68,11 +68,12 @@ namespace Bowerbird.Core.DomainModels
             _childGroupAssociations = new List<GroupAssociation>();
         }
 
-        protected void SetDetails(string name, string description, string website)
+        protected void SetDetails(string name, string description, string website, string parentGroupId = null)
         {
             Name = name;
             Description = description;
             Website = website;
+            ParentGroupId = parentGroupId;
         }
 
         public void AddGroupAssociation(Group group, User createdByUser, DateTime createdDateTime)

@@ -14,10 +14,12 @@
  
 */
 
+using System;
 using System.Linq;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Extensions;
 using Bowerbird.Core.Indexes;
 using Raven.Client;
 using Raven.Client.Linq;
@@ -65,8 +67,6 @@ namespace Bowerbird.Core.CommandHandlers
                 );
 
             _documentSession.Store(contribution);
-
-            _documentSession.SaveChanges();
         }
 
         #endregion

@@ -193,16 +193,9 @@ namespace Bowerbird.Test.Controllers.Public
                 for (var i = 0; i < 15; i++)
                 {
                     var observation = FakeObjects.TestObservationWithId(i.ToString());
-                    //var contribution = new GroupContribution(
-                    //    project,
-                    //    observation,
-                    //    user,
-                    //    FakeValues.CreatedDateTime
-                    //    );
-
+                    observation.AddGroupContribution(project, user, FakeValues.CreatedDateTime.AddDays(i*-1));
                     observations.Add(observation);
                     session.Store(observation);
-                    //session.Store(contribution);
                 }
 
                 session.SaveChanges();

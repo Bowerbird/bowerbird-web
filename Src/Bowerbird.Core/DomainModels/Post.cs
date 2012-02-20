@@ -24,7 +24,7 @@ namespace Bowerbird.Core.DomainModels
     {
         #region Members
 
-        private List<Comment> _comments;
+        //private List<Comment> _comments;
 
         private List<MediaResource> _mediaResources;
 
@@ -71,9 +71,14 @@ namespace Bowerbird.Core.DomainModels
 
         public string Message { get; private set; }
 
-        public IEnumerable<Comment> Comments { get { return _comments; } }
-
         public IEnumerable<MediaResource> MediaResources { get { return _mediaResources; } }
+
+        public IEnumerable<Comment> Comments
+        {
+            get { return _comments; }
+
+            private set { _comments = value as List<Comment>; }
+        }
 
         #endregion
 
@@ -100,23 +105,23 @@ namespace Bowerbird.Core.DomainModels
             return this;
         }
 
-        public void AddComment(Comment comment, User createdByUser, DateTime createdDateTime)
-        {
-            Check.RequireNotNull(comment, "comment");
-            Check.RequireNotNull(createdByUser, "createdByUser");
+        //public void AddComment(Comment comment, User createdByUser, DateTime createdDateTime)
+        //{
+        //    Check.RequireNotNull(comment, "comment");
+        //    Check.RequireNotNull(createdByUser, "createdByUser");
 
-            _comments.Add(comment);
+        //    _comments.Add(comment);
 
-            EventProcessor.Raise(new DomainModelCreatedEvent<Comment>(comment, createdByUser));
-        }
+        //    EventProcessor.Raise(new DomainModelCreatedEvent<Comment>(comment, createdByUser));
+        //}
 
-        public void RemoveComment(string commentId)
-        {
-            if (_comments.Any(x => x.Id == commentId))
-            {
-                _comments.RemoveAll(x => x.Id == commentId);
-            }
-        }
+        //public void RemoveComment(string commentId)
+        //{
+        //    if (_comments.Any(x => x.Id == commentId))
+        //    {
+        //        _comments.RemoveAll(x => x.Id == commentId);
+        //    }
+        //}
 
         private void InitMembers()
         {

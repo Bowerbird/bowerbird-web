@@ -1,6 +1,4 @@
-﻿/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -20,7 +18,7 @@ using Bowerbird.Core.DomainModels.DenormalisedReferences;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public class Comment : DomainModel
+    public class Comment
     {
         #region Members
 
@@ -31,16 +29,19 @@ namespace Bowerbird.Core.DomainModels
         protected Comment() : base() { }
 
         public Comment(
+            string commentId,
             User createdByUser,
             DateTime commentedOn,
             string message)
             : this()
         {
             Check.RequireNotNull(createdByUser, "createdByUser");
+            Check.RequireNotNullOrWhitespace(commentId, "commentId");
             Check.RequireNotNullOrWhitespace(message, "message");
 
             CommentedOn = commentedOn;
             User = createdByUser;
+            Id = commentId;
 
             SetDetails(
                 message,
@@ -50,6 +51,8 @@ namespace Bowerbird.Core.DomainModels
         #endregion
 
         #region Properties
+
+        public string Id { get; private set; }
 
         public DenormalisedUserReference User { get; private set; }
 
@@ -81,5 +84,6 @@ namespace Bowerbird.Core.DomainModels
         }
 
         #endregion      
+
     }
 }

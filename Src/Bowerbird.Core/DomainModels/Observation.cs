@@ -24,7 +24,7 @@ namespace Bowerbird.Core.DomainModels
     {
         #region Members
 
-        private List<Comment> _comments;
+        //private List<Comment> _comments;
 
         private List<MediaResource> _mediaResources;
 
@@ -90,7 +90,12 @@ namespace Bowerbird.Core.DomainModels
         
         public string ObservationCategory { get; private set; }
 
-        public IEnumerable<Comment> Comments { get { return _comments; } }
+        public IEnumerable<Comment> Comments
+        {
+            get { return _comments; }
+
+            private set { _comments = value as List<Comment>; }
+        }
 
         public IEnumerable<MediaResource> MediaResources { get { return _mediaResources; } }
 
@@ -135,24 +140,6 @@ namespace Bowerbird.Core.DomainModels
             EventProcessor.Raise(new DomainModelUpdatedEvent<Observation>(this, updatedByUser));
 
             return this;
-        }
-
-        public void AddComment(Comment comment, User createdByUser, DateTime createdDateTime)
-        {
-            Check.RequireNotNull(comment, "comment");
-            Check.RequireNotNull(createdByUser, "createdByUser");
-
-            _comments.Add(comment);
-
-            EventProcessor.Raise(new DomainModelCreatedEvent<Comment>(comment, createdByUser));
-        }
-
-        public void RemoveComment(string commentId)
-        {
-            if (_comments.Any(x => x.Id == commentId))
-            {
-                _comments.RemoveAll(x => x.Id == commentId);
-            }
         }
 
         #endregion

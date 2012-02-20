@@ -18,6 +18,7 @@ using System.Linq;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
 using Bowerbird.Core.Events;
+using Bowerbird.Core.Extensions;
 
 namespace Bowerbird.Core.DomainModels
 {
@@ -28,7 +29,7 @@ namespace Bowerbird.Core.DomainModels
 
         private List<GroupContribution> _groupContributions;
 
-        private List<Comment> _comments;
+        protected List<Comment> _comments;
 
         #endregion
 
@@ -60,7 +61,7 @@ namespace Bowerbird.Core.DomainModels
 
         public IEnumerable<GroupContribution> GroupContributions { get { return _groupContributions; } }
 
-        public IEnumerable<Comment> Comments { get { return _comments; } }
+
 
         #endregion
 
@@ -93,18 +94,44 @@ namespace Bowerbird.Core.DomainModels
         {
             Check.RequireNotNull(createdByUser, "createdByUser");
 
-            var newComment = new Comment(createdByUser, createdDateTime, message);
+            var commentId = "1";
+
+            var comments = _comments
+                .OrderBy(x => x.Id)
+                .Select(x => x.Id)
+                .ToList();
+
+            if (comments.IsNotNullAndHasItems())
+            {
+                int idOfLastComment;
+                if (Int32.TryParse(comments[comments.Count - 1], out idOfLastComment))
+                {
+                    commentId = (++idOfLastComment).ToString();
+                }
+            }
+
+            var newComment = new Comment(commentId, createdByUser, createdDateTime, message);
 
             _comments.Add(newComment);
 
             EventProcessor.Raise(new DomainModelCreatedEvent<Comment>(newComment, createdByUser));
         }
 
-        public void AddComment(string commentId)
+        public void RemoveComment(string commentId)
         {
             if (_comments.Any(x => x.Id == commentId))
             {
                 _comments.RemoveAll(x => x.Id == commentId);
+            }
+        }
+
+        public void UpdateComment(string commentId, string message, User modifiedByUser, DateTime modifiedDateTime)
+        {
+            if (_comments.Any(x => x.Id == commentId))
+            {
+                var comment = _comments.Where(x => x.Id == commentId).FirstOrDefault();
+
+                comment.UpdateDetails(modifiedByUser, modifiedDateTime, message);
             }
         }
 

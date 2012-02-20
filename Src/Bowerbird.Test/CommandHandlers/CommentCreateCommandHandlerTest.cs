@@ -16,6 +16,7 @@ using System.Linq;
 using Bowerbird.Core.CommandHandlers;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Extensions;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Test.Utils;
 using NUnit.Framework;
@@ -35,6 +36,7 @@ namespace Bowerbird.Test.CommandHandlers
         public void TestInitialize()
         {
             _store = DocumentStoreHelper.ServerDocumentStore();
+            //_store = DocumentStoreHelper.InMemoryDocumentStore();
         }
 
         [TearDown]
@@ -62,7 +64,8 @@ namespace Bowerbird.Test.CommandHandlers
             var user = FakeObjects.TestUserWithId();
             var observation = FakeObjects.TestObservationWithId();
 
-            Comment newValue = null;
+            Observation savedObservation = null;
+            Comment comment = null;
 
             var command = new CommentCreateCommand()
             {
@@ -76,6 +79,7 @@ namespace Bowerbird.Test.CommandHandlers
             {
                 session.Store(user);
                 session.Store(observation);
+                session.SaveChanges();
 
                 var commandHandler = new CommentCreateCommandHandler(session);
 
@@ -83,12 +87,19 @@ namespace Bowerbird.Test.CommandHandlers
 
                 session.SaveChanges();
 
-                newValue = session.Query<Comment>().FirstOrDefault();
-            }
+                savedObservation = session.Query<Observation>()
+                    .Where(x => x.Id == observation.Id)
+                    .FirstOrDefault();
 
-            Assert.IsNotNull(newValue);
-            Assert.AreEqual(command.Comment, newValue.Message);
-            Assert.AreEqual(command.CommentedOn, newValue.CommentedOn);
+                Assert.IsTrue(savedObservation.Comments.IsNotNullAndHasItems());
+
+                comment = savedObservation.Comments.ToList()[0];
+            }
+    
+            Assert.IsNotNull(comment);
+            Assert.AreEqual(command.Comment, comment.Message);
+            Assert.AreEqual(command.CommentedOn, comment.CommentedOn);
+            Assert.AreEqual(command.UserId, comment.User.Id);
         }
 
         #endregion

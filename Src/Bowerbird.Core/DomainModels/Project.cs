@@ -14,6 +14,7 @@
  
 */
 
+using System;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Events;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
@@ -37,7 +38,8 @@ namespace Bowerbird.Core.DomainModels
             User createdByUser,
             string name,
             string description,
-            string website)
+            string website,
+            string parentGroupId = null)
             : this()
         {
             Check.RequireNotNull(createdByUser, "createdByUser");
@@ -47,7 +49,8 @@ namespace Bowerbird.Core.DomainModels
             SetDetails(
                 name,
                 description,
-                website);
+                website,
+                parentGroupId);
 
             EventProcessor.Raise(new DomainModelCreatedEvent<Project>(this, createdByUser));
         }
@@ -60,7 +63,7 @@ namespace Bowerbird.Core.DomainModels
 
         #region Methods
 
-        public Project UpdateDetails(User updatedByUser, string name, string description, string website)
+        public Project UpdateDetails(User updatedByUser, string name, string description, string website, string teamId = null)
         {
             Check.RequireNotNull(updatedByUser, "updatedByUser");
             Check.RequireNotNullOrWhitespace(name, "name");
@@ -69,7 +72,8 @@ namespace Bowerbird.Core.DomainModels
             SetDetails(
                 name,
                 description,
-                website);
+                website,
+                teamId);
 
             EventProcessor.Raise(new DomainModelUpdatedEvent<Project>(this, updatedByUser));
 
@@ -77,5 +81,6 @@ namespace Bowerbird.Core.DomainModels
         }
 
         #endregion
+
     }
 }

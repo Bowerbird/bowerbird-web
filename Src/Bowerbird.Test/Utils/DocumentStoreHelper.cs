@@ -48,7 +48,7 @@ namespace Bowerbird.Test.Utils
 
         public static IDocumentStore ServerDocumentStore(bool createIndexes = true)
         {
-            var documentStore = new DocumentStore { Url = "http://zen:8080/", DefaultDatabase = TestDb};
+            var documentStore = new DocumentStore { Url = "http://padil:8002/", DefaultDatabase = TestDb};
 
             documentStore.Conventions.FindIdentityProperty =
                                 prop =>
@@ -79,7 +79,6 @@ namespace Bowerbird.Test.Utils
                 session.DeleteFromDb(session.Query<Organisation>());
                 session.DeleteFromDb(session.Query<Observation>());
                 session.DeleteFromDb(session.Query<ObservationNote>());
-                session.DeleteFromDb(session.Query<Comment>());
                 session.DeleteFromDb(session.Query<Member>());
                 session.DeleteFromDb(session.Query<GroupMember>());
                 session.DeleteFromDb(session.Query<GlobalMember>());

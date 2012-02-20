@@ -15,7 +15,6 @@
 */
 
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.DomainModels.DenormalisedReferences;
 using Bowerbird.Core.Events;
 
 namespace Bowerbird.Core.DomainModels
