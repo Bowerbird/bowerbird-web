@@ -888,11 +888,11 @@ header nav#search-menu
 }
 .form .field-checkbox div:last-child {
   display: block;
-  width: 94px;
-  height: 27px;
+  width: 63px;
+  height: 32px;
   overflow: hidden;
-  border-radius: 3px;
-  margin-top: 5px;
+  border-radius: 16px;
+  margin-top: 3px;
 }
 .form .field-checkbox div:last-child input[type=checkbox] {
   display: none;
@@ -901,9 +901,9 @@ header nav#search-menu
   text-indent: -9999px;
   display: block;
   width: 150px;
-  height: 27px;
-  line-height: 27px;
-  background: transparent url(/img/checkbox-sprite.png) no-repeat -56px 0;
+  height: 32px;
+  line-height: 32px;
+  background: transparent url(/img/checkbox-sprite-ios5.png) no-repeat -58px 0;
   -webkit-transition: background-position 0.3s ease-in-out;
   -moz-transition: background-position 0.3s ease-in-out;
   cursor: pointer;
@@ -1041,13 +1041,23 @@ header nav#search-menu
     width: 100%;
     padding-right: 30px;
 }
-.form #anonymise-location-field
-{
+.form #anonymise-location-field {
     clear: none;
     float: left;
-    margin-left: 8%;
-    width: 26%;
     margin-bottom: 20px;
+    margin-left: 4%;
+    width: 20%;
+}
+.form #find-latlon-field {
+    clear: none;
+    float: left;
+    margin-bottom: 20px;
+    margin-left: 1%;
+    margin-top: 28px;
+    width: 14%;
+}
+.form #find-latlon-field button {
+    font-size: 1em;
 }
 .form #observedon-field div:last-child
 {
@@ -1084,4 +1094,12 @@ header nav#search-menu
 {
     position: absolute;
     cursor: pointer;
+}
+.ui-autosearch {
+	background-color: white;
+	width: 300px;
+	border: 1px solid #cfcfcf;
+	list-style-type: none;
+	padding-left: 0px;
+	cursor:pointer;
 }

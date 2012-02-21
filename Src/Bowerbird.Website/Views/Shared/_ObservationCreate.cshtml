@@ -35,8 +35,7 @@
                             <label for="address">Address</label>
                         </div>
                         <div>
-                            <input type="text" id="address" name="address" />
-                            <button id="find-address-button" type="button">Find</button>
+                            <input type="text" id="address" name="address" autocomplete="off" />
                         </div>
                     </div>
                     <div id="pin-field" class="field">
@@ -64,10 +63,15 @@
                             <input type="text" id="longitude" name="longitude" />
                         </div>
                     </div>
-                    <div id="anonymise-location-field" class="field field-checkbox">
-                        <div><label>Hide Exact Location</label></div>
+                    <div id="find-latlon-field">
                         <div>
-                            <input type="checkbox" id="anonymiselocation" name="anonymiselocation" /> <label for="anonymiselocation">Hide Exact Location</label>
+                            <button id="find-latlon-button" type="button">Go</button>                            
+                        </div>
+                    </div>
+                    <div id="anonymise-location-field" class="field field-checkbox">
+                        <div><label>Feathering</label></div>
+                        <div>
+                            <input type="checkbox" id="anonymiselocation" name="anonymiselocation" /> <label for="anonymiselocation">Feathering</label>
                         </div>
                     </div>
                 </div>

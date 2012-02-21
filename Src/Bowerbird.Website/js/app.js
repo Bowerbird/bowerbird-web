@@ -161,7 +161,12 @@ window.Bowerbird.Views.Navigation = Backbone.View.extend({
     var obj, xpos, ypos;
     var z_index = 0;
     var dummy;
-
+    var precision = true;
+    var latLonManualEdit = false;
+    var geocoder;
+    var markersArray = [];
+    var markerImg = "http://maps.gstatic.com/mapfiles/ms/icons/blue-dot.png";
+    var markerShadow = "http://maps.gstatic.com/mapfiles/kml/paddle/A_maps.shadow.png";
 
     function DummyOView() {
         // Bind this to the map to access MapCanvasProjection
@@ -172,14 +177,12 @@ window.Bowerbird.Views.Navigation = Backbone.View.extend({
 
     DummyOView.prototype = new google.maps.OverlayView();
 
-
     document.onmouseup = function () {
 
         // Unregister mousemove handler
         document.onmousemove = null;
         if (obj) { obj = null; }
     };
-
 
     function initDrag(e) {
 
@@ -205,7 +208,6 @@ window.Bowerbird.Views.Navigation = Backbone.View.extend({
         }
         return false;
     }
-
 
     function moveObj(e) {
 
@@ -255,12 +257,13 @@ window.Bowerbird.Views.Navigation = Backbone.View.extend({
 
                     // Create dragged marker anew
                     fillMarker();
+                    //markerLatLong = latlng;
+                    reverseGeocode();
                 }
             };
         }
         return false;
     }
-
 
     function fillMarker() {
 
@@ -297,7 +300,6 @@ window.Bowerbird.Views.Navigation = Backbone.View.extend({
         obj = null;
     }
 
-
     function highestOrder() {
 
         /**
@@ -307,19 +309,23 @@ window.Bowerbird.Views.Navigation = Backbone.View.extend({
         return z_index;
     }
 
-
     function createDraggedMarker(point, src) {
 
-        var g = google.maps;
-        var image = new g.MarkerImage(src,
-   new g.Size(32, 32),
-   new g.Point(0, 0),
-   new g.Point(15, 32));
+        clearMarker();
 
-        var shadow = new g.MarkerImage("http://maps.gstatic.com/mapfiles/kml/paddle/A_maps.shadow.png",
-   new g.Size(59, 32),
-   new g.Point(0, 0),
-   new g.Point(15, 32));
+        var g = google.maps;
+
+        var image = new g.MarkerImage(src,
+           new g.Size(32, 32),
+           new g.Point(0, 0),
+           new g.Point(15, 32)
+           );
+
+        var shadow = new g.MarkerImage(markerShadow,
+           new g.Size(59, 32),
+           new g.Point(0, 0),
+           new g.Point(15, 32)
+           );
 
         var marker = new g.Marker({ position: point, map: map,
             clickable: true, 
@@ -328,16 +334,7 @@ window.Bowerbird.Views.Navigation = Backbone.View.extend({
             icon: image, shadow: shadow, zIndex: highestOrder()
         });
 
-//        g.event.addListener(marker, "click", function () {
-//            actual = marker;
-//            var lat = actual.getPosition().lat();
-//            var lng = actual.getPosition().lng();
-
-//            //            iw.setContent(lat.toFixed(6) + ", " + lng.toFixed(6));
-//            //            iw.open(map, this);
-//            $("#latitude").val(lat);
-//            $("#longitude").val(lng);
-//        });
+        markersArray.push(marker);
 
         g.event.addListener(marker, "drag", function () {
             actual = marker;
@@ -358,26 +355,30 @@ window.Bowerbird.Views.Navigation = Backbone.View.extend({
             marker.setZIndex(highestOrder());
         });
 
-        var lat = marker.getPosition().lat();
-        var lng = marker.getPosition().lng();
-        $("#latitude").val(lat);
-        $("#longitude").val(lng);
-    }
+        g.event.addListener(marker, "dragend", function () {
+            displayLatLong();
+            reverseGeocode();
+        });
 
+        displayLatLong();
+    }
 
     function buildMap() {
         var g = google.maps;
+
         var mapSettings = {
             center: new g.LatLng(-29.191427, 134.472126), // Centre on Australia
             zoom: 4,
             panControl: false,
             streetViewControl: false,
             mapTypeControl: true,
+            scrollwheel: false,
             mapTypeId: g.MapTypeId.TERRAIN
         };
 
         map = new g.Map(document.getElementById("location-map"), mapSettings);
         iw = new g.InfoWindow();
+        geocoder = new g.Geocoder();
 
         // v2 behaviour
         g.event.addListener(map, "click", function () {
@@ -391,7 +392,182 @@ window.Bowerbird.Views.Navigation = Backbone.View.extend({
         // Add a dummy overlay for later use.
         // Needed for API v3 to convert pixels to latlng.
         dummy = new DummyOView();
+
+        manualLatLonEdit(false);
+
+        //http://tech.cibul.net/geocode-with-google-maps-api-v3/
+        $(function () {
+            $("#address").autosearch({
+                //This bit uses the geocoder to fetch address values
+                source: function (request, response) {
+                    geocoder.geocode({ 'address': request.term }, function (results, status) {
+                        response($.map(results, function (item) {
+                            return {
+                                label: item.formatted_address,
+                                value: item.formatted_address,
+                                latitude: item.geometry.location.lat(),
+                                longitude: item.geometry.location.lng()
+                            }
+                        }));
+                    })
+                },
+                //This bit is executed upon selection of an address
+                select: function (event, ui) {
+                    event.preventDefault();
+                    var location = new g.LatLng(ui.item.latitude, ui.item.longitude);
+                    createDraggedMarker(location, markerImg);
+                    fillMarker();
+                    reverseGeocode();
+                }
+            });
+        });
+
+        $('#anonymiselocation').click(function () {
+
+                if ($(this).is(':checked')) {
+                    precision = false;
+                }
+                else {
+                    precision = true;
+                }
+                    
+                displayLatLong();
+        });
+
+        $('#latitude').bind('focus', function () {
+            manualLatLonEdit(true);
+        });
+
+        $('#longitude').bind('focus', function () {
+            manualLatLonEdit(true);
+        });
+
+        $('#latitude').bind('blur', function () {
+            manualLatLonEdit(false);
+        });
+
+        $('#longitude').bind('blur', function () {
+            manualLatLonEdit(false);
+        });
+
+        $('#latitude').bind('change', function () {
+            if (latLonManualEdit) {
+                checkLocation();
+            }
+        });
+
+        $('#longitude').bind('change', function () {
+            if (latLonManualEdit) {
+                checkLocation();
+            }
+        });
+
+        $('#find-latlon-button').bind('click', function () {
+            checkLocation();
+            manualLatLonEdit(false);
+        });
+
     }
+
+    //----------------map functions imported from PaDIL-------------------------------
+
+    function clearMarker() {
+        if (markersArray) {
+            for (i in markersArray) {
+                markersArray[i].setMap(null);
+            }
+            markersArray = new Array();
+            markerLatLong = null;
+        }
+    }
+
+    function manualLatLonEdit(isManual) {
+        latLonManualEdit = isManual;
+        if (latLonManualEdit) {
+            $('#find-latlon-button').show();
+        }
+        else {
+            $('#find-latlon-button').hide();
+        }
+    }
+
+    function reverseGeocode() {
+        if (markersArray[0]) {
+            var marker = markersArray[0];
+            reverseGeocodedLast = new Date();
+            geocoder.geocode({ latLng: marker.getPosition() }, reverseGeocodeResult);
+        }
+    }
+
+    function reverseGeocodeResult(results, status) {
+        currentReverseGeocodeResponse = results;
+        if (status == 'OK') {
+            if (results.length == 0) {
+                $('#address').val('');
+            } else {
+                var addressResult = results[0].formatted_address;
+                $('#address').val(addressResult);
+            }
+        } else {
+            $('#address').val('....');
+        }
+    }
+
+    function geocode() {
+        var address = document.getElementById("address").value;
+        geocoder.geocode({
+            'address': address,
+            'partialmatch': true
+        }, geocodeResult);
+    }
+
+    function geocodeResult(results, status) {
+        if (status == 'OK' && results.length > 0) {
+            map.fitBounds(results[0].geometry.viewport);
+        } else {
+            alert("Geocode was not successful for the following reason: " + status);
+        }
+    }
+
+    function displayLatLong() {
+
+        if (markersArray[0]) {
+            var marker = markersArray[0];
+            var lat = marker.getPosition().lat();
+            var lng = marker.getPosition().lng();
+
+            if (precision == true) {
+                $('#latitude').val(lat);
+                $('#longitude').val(lng);
+            }
+            else {
+                $('#latitude').val(parseFloat(lat).toFixed(1));
+                $('#longitude').val(parseFloat(lng).toFixed(1));
+            }
+        }
+        else {
+            return;
+        }
+    }
+
+    function checkLocation() {
+        var lat = $('#latitude').val();
+        var lon = $('#longitude').val();
+
+        if (isNumber(lat) && isNumber(lon) && (lat >= -90 && lat <= 90) && (lon >= -180 && lon <= 180))
+        {
+            markerLatLong = new google.maps.LatLng(lat, lon);
+            createDraggedMarker(markerLatLong, markerImg);
+            reverseGeocode();
+        }
+    }
+
+    function isNumber(n) {
+        return !isNaN(parseFloat(n)) && isFinite(n);
+    }
+
+//----------------end map functions imported from PaDIL-------------------------------
+
 
 // Workspace
     window.Bowerbird.Views.Workspace = Backbone.View.extend({

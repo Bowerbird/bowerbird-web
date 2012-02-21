@@ -137,6 +137,7 @@
     <Content Include="img\brushed_alu_dark.png" />
     <Content Include="img\carbon_fibre.png" />
     <Content Include="img\carbon_fibre_v2.png" />
+    <Content Include="img\checkbox-sprite-ios5.png" />
     <Content Include="img\concrete_wall.png" />
     <Content Include="img\crossed_stripes.png" />
     <Content Include="img\diagonal-noise.png" />
