@@ -11,12 +11,13 @@
     <!-- CSS : implied media="all" -->
     @* More info about SquishIt from http://www.codethinked.com/squishit-the-friendly-aspnet-javascript-and-css-squisher *@
     @Html.Raw(SquishIt.Framework.Bundle.Css()
-                                     .Add(@Url.Stylesheet("normalize.css"))
+                                             .Add(@Url.Stylesheet("normalize.css"))
                                              .Add(@Url.Stylesheet("site.css"))
-                                     //.Add(@Url.Stylesheet("media.css"))
+                                             .Add(@Url.Stylesheet("media.css"))
+                                     .Add("/css/custom-theme/jquery-ui-1.8.17.custom.css")
             //.ForceRelease() // Test it out with minification
                                      .Render("~/css/style_#.css"))
-    <link href='http://fonts.googleapis.com/css?family=Merriweather:300,400,700,900' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700' rel='stylesheet' type='text/css'>
     @RenderSection("header", false)
     <!-- More ideas for your <head> here: h5bp.com/docs/#head-Tips -->
     <!-- All JavaScript at the bottom, except for Modernizr and Respond.
@@ -24,48 +25,50 @@
        For optimal performance, use a custom Modernizr build: www.modernizr.com/download/ -->
     <script type="text/javascript" src="@Url.JavaScriptLib("modernizr-2.0.min.js")"></script>
     <script type="text/javascript" src="@Url.JavaScriptLib("respond.min.js")"></script>
-    <script type="text/javascript" src="http://use.typekit.com/ovj4mpo.js"></script>
-    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAXFVsz6fUl4-r-Z_kJrtJlG-IGqvjUosc&sensor=true"></script>
 </head>
-<body>
-    <div id="container">
-        <header id="header">
-            <div>
-                <div id="main-title">Bowerbird</div>
-                <div id="main-menu">
-                    <ul>
-                        <li>@Html.ActionLink("Observations", "index", "observation")</li> 
-                        <li>@Html.ActionLink("People", "index", "user")</li>
-                        <li>@Html.ActionLink("Groups", "index", "group")</li>
-                    </ul>
+<body class="debug">
+    <div id="debug-info"></div>
+    <header> 
+        <div>
+            <h1>Bowerbird</h1>
+            <nav id="main-menu">
+                <ul>
+                    <li>@Html.ActionLink("Observations", "index", "observation")</li> 
+                    <li>@Html.ActionLink("People", "index", "user")</li>
+                    <li>@Html.ActionLink("Groups", "index", "group")</li>
+                </ul>
+            </nav>
+            <nav id="account-menu">
+                <ul>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li class="user-menu">@*<img src="/img/avatar.jpg" alt="" />*@ @Html.ActionLink("Frank", "index", "home")</li>
+                    <li class="observations-menu"><a href="/#/observation/create" class="new-observation-button"><img src="/img/observation-button.png" alt="" /></a></li>
+                }
+                else
+                {
+                    <li>@Html.ActionLink("Login", "login", "account")</li>
+                    <li>@Html.ActionLink("Register", "register", "account")</li>
+                }
+                </ul>
+            </nav>
+            <nav id="search-menu">
+                <div>
+                    <label for="search">Search</label> <input type="text" value="" name="search" id="search" placeholder="Search for observations, people and groups" />
                 </div>
-                <div id="account-menu">
-                    <ul>
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <li><img src="/img/avatar.jpg" alt="" /> @Html.ActionLink(User.Identity.Name, "index", "home")</li>
-                    }
-                    else
-                    {
-                        <li>@Html.ActionLink("Login", "login", "account", new { area = "" }, null)</li>
-                        <li>@Html.ActionLink("Register", "register", "account")</li>
-                    }
-                    </ul>
-                </div>
-                <div id="search-menu">
-                    <div>
-                        <label for="search">Search</label> <input type="text" value="" name="search" id="search" placeholder="Search for observations, people and groups" />
-                    </div>
-                </div>
-            </div>
-        </header>
-        <div id="main">
-            @RenderBody()
+            </nav>
         </div>
-        <footer id="footer">
+    </header>
+    <article>
+        @RenderBody()
+    <//article>
+    <footer id="footer">
+        <div>
+            Footer
+        </div>
+    </footer>
 
-        </footer>
-    </div> 
     <!--! end of #container -->
     <!-- Grab Google CDN's jQuery. fall back to local if necessary -->
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
@@ -79,6 +82,7 @@
             //.Add(@Url.JavaScriptLib("jquery.validate.unobtrusive.min.js"))
             //.Add(@Url.JavaScriptLib("jquery-ui-1.8.16.custom.min.js"))
             .Add(@Url.JavaScriptLib("jquery.tmpl.js"))
+            .Add(@Url.JavaScriptLib("jquery-ui-1.8.17.custom.min.js"))
             .Add(@Url.JavaScriptLib("json2.js"))
             .Add(@Url.JavaScriptLib("underscore-min.js"))
             .Add(@Url.JavaScriptLib("backbone-min.js"))

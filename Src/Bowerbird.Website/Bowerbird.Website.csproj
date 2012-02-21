@@ -114,17 +114,17 @@
     <Content Include="apple-touch-icon-57x57-precomposed.png" />
     <Content Include="apple-touch-icon-72x72-precomposed.png" />
     <Content Include="apple-touch-icon-precomposed.png" />
-    <Content Include="css\Copy of site.css" />
+    <Content Include="css\debug.css" />
     <Content Include="css\media.css" />
-    <Content Include="css\new.css" />
+    <Content Include="css\normalize.css" />
     <Content Include="css\site.css" />
+    <Content Include="css\_old.css" />
     <Content Include="demo\hack.css" />
     <Content Include="demo\hack2.css" />
     <Content Include="demo\internet_explorer.png" />
     <Content Include="demo\tests.html" />
     <Content Include="demo\test_tubes.png" />
     <Content Include="GenericErrorPage.html" />
-    <Content Include="js\libs\GGS.js" />
     <Content Include="humans.txt" />
     <Content Include="img\avatar-1.png" />
     <Content Include="img\avatar-2.png" />
@@ -157,10 +157,11 @@
     <Content Include="img\wavecut.png" />
     <Content Include="img\whitey.png" />
     <Content Include="img\white_texture.png" />
-    <Content Include="js\bowerbird\app.js" />
+    <Content Include="js\app.js" />
     <Content Include="js\libs\backbone-min.js" />
     <Content Include="js\libs\Backbone.js" />
     <Content Include="js\libs\jquery-1.6.2.min.js" />
+    <Content Include="js\libs\jquery-ui-1.8.17.custom.min.js" />
     <Content Include="js\libs\jquery.signalR.min.js" />
     <Content Include="js\libs\jquery.tmpl.js" />
     <Content Include="js\libs\jquery.tmpl.min.js" />
@@ -188,7 +189,6 @@
     <Content Include="Lib\SquishIt\SquishIt.Framework.dll" />
     <Content Include="Lib\SquishIt\SquishIt.Mvc.dll" />
     <Content Include="Lib\SquishIt\Yahoo.Yui.Compressor.dll" />
-    <Content Include="New.html" />
     <Content Include="Views\Account\Login.cshtml">
       <SubType>Code</SubType>
     </Content>
@@ -215,7 +215,7 @@
     <Content Include="Views\Account\RequestPasswordResetSuccess.cshtml" />
     <Content Include="Views\Account\RequestPasswordReset.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
-    <Content Include="Areas\Members\Views\Shared\ChangePassword.cshtml" />
+    <Content Include="Areas\Members\Views\User\ChangePassword.cshtml" />
     <Content Include="Areas\Members\Views\User\Update.cshtml" />
     <Content Include="Views\Project\Index.cshtml" />
     <Content Include="Views\Project\_ProjectCreate.cshtml" />
@@ -229,7 +229,6 @@
     <Content Include="404.html" />
     <Content Include="apple-touch-icon.png" />
     <Content Include="crossdomain.xml" />
-    <Content Include="css\normalize.css" />
     <Content Include="demo\elements.html" />
     <Content Include="favicon.ico" />
     <Content Include="js\plugins.js" />

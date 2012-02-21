@@ -4,6 +4,9 @@
     ViewBag.Title = "Register";
 }
 
+<section id="small-workspace">
+
+<div class="form">
 <h2>Register</h2>
 
 @using (Html.BeginForm()) 
@@ -12,23 +15,49 @@
 
     <fieldset>
         <legend>Register Details</legend>
-        <div>
-            @Html.LabelFor(x => x.FirstName)
-            @Html.TextBoxFor(x => x.FirstName)
-            @Html.ValidationMessageFor(x => x.FirstName)
-
-            @Html.LabelFor(x => x.LastName)
-            @Html.TextBoxFor(x => x.LastName)
-            @Html.ValidationMessageFor(x => x.LastName)
-
-            @Html.LabelFor(x => x.Email)
-            @Html.TextBoxFor(x => x.Email)
-            @Html.ValidationMessageFor(x => x.Email)
-            
-            @Html.Label("password", "Password")
-            @Html.Password("password")
-            @Html.ValidationMessage("password")
+        <p>Please fill in the details below to register. An email will be sent to you to confirm that your email address is correct.</p>
+        <div class="field field-part-one">
+            <div>
+                @Html.LabelFor(x => x.FirstName)
+            </div>
+            <div>
+                @Html.TextBoxFor(x => x.FirstName)
+                @Html.ValidationMessageFor(x => x.FirstName)
+            </div>
         </div>
+        <div class="field field-part-two">
+            <div>
+                @Html.LabelFor(x => x.LastName)
+            </div>
+            <div>
+                @Html.TextBoxFor(x => x.LastName)
+                @Html.ValidationMessageFor(x => x.LastName)
+            </div>
+        </div>
+        <div class="field">
+            <div>
+                @Html.LabelFor(x => x.Email)
+            </div>
+            <div>
+                @Html.TextBoxFor(x => x.Email)
+                @Html.ValidationMessageFor(x => x.Email)
+            </div>
+        </div>
+        <div class="field">
+            <div>
+                @Html.Label("password", "Password")
+            </div>
+            <div>
+                @Html.Password("password")
+                @Html.ValidationMessage("password")
+                <p>Passwords must be at least 6 characters in length.</p>
+            </div>
+        </div>
+    </fieldset>
+    <fieldset>
         <input type="submit" value="Register" />
     </fieldset>
 }
+
+</div>
+</section>

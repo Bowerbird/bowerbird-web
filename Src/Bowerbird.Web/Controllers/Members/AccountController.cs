@@ -53,36 +53,7 @@ namespace Bowerbird.Web.Controllers.Members
 
         #region Methods
 
-        [HttpGet]
-        [Authorize]
-        public ActionResult ChangePassword()
-        {
-            return View("ChangePassword");
-        }
 
-        [HttpPost]
-        [Authorize]
-        [Transaction]
-        public ActionResult ChangePassword(AccountChangePasswordInput accountChangePasswordInput)
-        {
-            if (ModelState.IsValid)
-            {
-                _commandProcessor.Process(MakeUserUpdatePasswordCommand(accountChangePasswordInput));
-
-                return RedirectToAction("index", "home");
-            }
-
-            return View("ChangePassword");
-        }
-
-        private UserUpdatePasswordCommand MakeUserUpdatePasswordCommand(AccountChangePasswordInput accountChangePasswordInput)
-        {
-            return new UserUpdatePasswordCommand()
-                       {
-                           UserId = _userContext.GetAuthenticatedUserId(),
-                           Password = accountChangePasswordInput.Password
-                       };
-        }
 
         #endregion
 

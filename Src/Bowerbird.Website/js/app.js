@@ -477,7 +477,7 @@ window.Bowerbird.Views.WorkspaceItem = Backbone.View.extend({
 
     renderWorkspaceItem: function (workspaceElement, html) {
         workspaceElement.html(html);
-        workspaceElement.appendTo("#workspace");
+        workspaceElement.appendTo("#large-workspace");
 
         workspaceElement
             .css({ zIndex: 98 })
@@ -556,7 +556,7 @@ window.Bowerbird.Views.StreamWorkspaceItem = Bowerbird.Views.WorkspaceItem.exten
 // Form Workspace Item
 window.Bowerbird.Views.FormWorkspaceItem = Bowerbird.Views.WorkspaceItem.extend({
 
-    className: 'workspace-item form-workspace-item',
+    className: 'form workspace-item form-workspace-item',
 
     events: {
         "click #cancel": "cancel",

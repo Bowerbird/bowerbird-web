@@ -4,6 +4,9 @@
     ViewBag.Title = "Login";
 }
 
+<section id="small-workspace">
+
+<div class="form">
 <h2>Login</h2>
 
 @using (Html.BeginForm()) 
@@ -12,20 +15,36 @@
 
     <fieldset>
         <legend>Login Details</legend>
-        <div>
-            @Html.LabelFor(x => x.Email)
-            @Html.TextBoxFor(x => x.Email)
-            @Html.ValidationMessageFor(x => x.Email)
-
-            @Html.Label("password", "Password")
-            @Html.Password("password")
-            @Html.ValidationMessage("Password")
-
-            <p>@Html.ActionLink("I've forgotten my password", "requestpasswordreset", "account")</p>
-
-            @Html.LabelFor(x => x.RememberMe, "Remember Me")
-            @Html.CheckBoxFor(x => x.RememberMe)
+        <div class="field">
+            <div>
+                @Html.LabelFor(x => x.Email)
+            </div>
+            <div>
+                @Html.TextBoxFor(x => x.Email)
+                @Html.ValidationMessageFor(x => x.Email)
+            </div>
         </div>
+        <div class="field">
+            <div>
+                @Html.Label("password", "Password")
+            </div>
+            <div>
+                @Html.Password("password")
+                @Html.ValidationMessage("Password")
+                <p>@Html.ActionLink("I've forgotten my password", "requestpasswordreset", "account")</p>
+            </div>
+        </div>
+        <div class="field">
+            <div>
+            @Html.CheckBoxFor(x => x.RememberMe)
+            @Html.LabelFor(x => x.RememberMe, "Keep Me Logged in")
+            </div>
+        </div>
+    </fieldset>
+    <fieldset>
         <input type="submit" value="Login" />
     </fieldset>
 }
+
+</div>
+</section>

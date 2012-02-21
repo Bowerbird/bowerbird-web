@@ -20,6 +20,8 @@ using Raven.Client.Document;
 using Raven.Client;
 using Ninject.Activation;
 using Raven.Client.Extensions;
+using Raven.Client.Indexes;
+using Bowerbird.Core.Indexes;
 
 namespace Bowerbird.Web.Config
 {
@@ -67,6 +69,8 @@ namespace Bowerbird.Web.Config
             documentStore.Initialize();
 
             documentStore.DatabaseCommands.EnsureDatabaseExists(_configService.GetDatabaseName());
+
+            IndexCreation.CreateIndexes(typeof(All_Members).Assembly, documentStore);
 
             return documentStore;
         }

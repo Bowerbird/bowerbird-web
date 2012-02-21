@@ -4,6 +4,9 @@
     ViewBag.Title = "Update Profile";
 }
 
+<section id="small-workspace">
+
+<div class="form">
 <h2>Update Profile</h2>
 
 @using (Html.BeginForm()) 
@@ -12,23 +15,60 @@
 
     <fieldset>
         <legend>Profile Details</legend>
-        <div>
-            @Html.LabelFor(x => x.FirstName)
-            @Html.TextBoxFor(x => x.FirstName)
-            @Html.ValidationMessageFor(x => x.FirstName)
-
-            @Html.LabelFor(x => x.LastName)
-            @Html.TextBoxFor(x => x.LastName)
-            @Html.ValidationMessageFor(x => x.LastName)
-
-            @Html.LabelFor(x => x.Email)
-            @Html.TextBoxFor(x => x.Email)
-            @Html.ValidationMessageFor(x => x.Email)
-            
-            @Html.LabelFor(x => x.Description)
-            @Html.TextBoxFor(x => x.Description)
-            @Html.ValidationMessageFor(x => x.Description)
+        <div class="field field-part-one">
+            <div>
+                @Html.LabelFor(x => x.FirstName)
+            </div>
+            <div>
+                @Html.TextBoxFor(x => x.FirstName)
+                @Html.ValidationMessageFor(x => x.FirstName)
+            </div>
         </div>
+        <div class="field field-part-two">
+            <div>
+                @Html.LabelFor(x => x.LastName)
+            </div>
+            <div>
+                @Html.TextBoxFor(x => x.LastName)
+                @Html.ValidationMessageFor(x => x.LastName)
+            </div>
+        </div>
+        <div class="field">
+            <div>
+                @Html.LabelFor(x => x.Email)
+            </div>
+            <div>
+                @Html.TextBoxFor(x => x.Email)
+                @Html.ValidationMessageFor(x => x.Email)
+            </div>
+        </div>
+        <fieldset>
+            <legend>Tell us about yourself</legend>
+            <div>
+                <div class="field">
+                    <div>
+                        <label for="jobdescription">Job Description</label>
+                    </div>
+                    <div>
+                        <input type="text" id="jobdescription" />
+                    </div>
+                </div>
+                <div class="field">
+                    <div>
+                        @Html.LabelFor(x => x.Description, "Your Bio")
+                    </div>
+                    <div>
+                        @Html.TextAreaFor(x => x.Description, new { rows = 8, cols = 30 })
+                        @Html.ValidationMessageFor(x => x.Description)
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </fieldset>
+    <fieldset>
         <input type="submit" value="Save" />
     </fieldset>
 }
+</div>
+
+</section>

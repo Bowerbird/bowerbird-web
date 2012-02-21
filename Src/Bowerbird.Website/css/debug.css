@@ -1,0 +1,88 @@
+﻿/*
+* Debug
+*/
+.debug header
+{
+    /*background-color: Red;*/
+}
+.debug article #sidebar
+{
+    /*background-color: Yellow;*/
+}
+.debug article #workspace
+{
+    /*background-color: Orange;*/
+}
+.debug article #activity
+{
+    /*background-color: lightblue;*/
+}
+.debug footer
+{
+    /*background-color: Green;*/
+}
+.debug #debug-info {
+    display: block;
+    position: fixed;
+    width: 160px;
+    height: 23px;
+    background-color: black;
+    color: white;
+    font-size: 12px;
+    line-height: 23px;
+    top: 0;
+    left: 0;
+    z-index: 200;
+}
+#debug-info:before
+{
+    content: "(min-width: 0px)";
+}
+/* @media screen and (min-width: 320px) */
+@media screen and (min-width: 20em)
+{
+    #debug-info:before
+    {
+        content: "(min-width: 320px)";
+    }
+}
+/* @media screen and (min-width: 480px) */
+@media screen and (min-width: 30em) 
+{
+    #debug-info:before
+    {
+        content: "(min-width: 480px)";
+    }
+}
+/* @media screen and (min-width: 600px) */
+@media screen and (min-width: 37.5em)
+{
+    #debug-info:before
+    {
+        content: "(min-width: 600px)";
+    }
+}
+/* @media screen and (min-width: 768px) */
+@media screen and (min-width: 48em) 
+{
+    #debug-info:before
+    {
+        content: "(min-width: 768px)";
+    }
+}
+/* @media screen and (min-width: 1024px) */
+@media screen and (min-width: 64em)
+{
+    #debug-info:before
+    {
+        content: "(min-width: 1024px)";
+    }
+}
+/* @media screen and (min-width: 1200px) */
+@media screen and (min-width: 75em)
+{
+    #debug-info:before
+    {
+        content: "(min-width: 1200px)";
+    }
+}

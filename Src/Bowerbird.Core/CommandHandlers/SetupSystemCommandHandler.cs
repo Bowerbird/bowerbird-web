@@ -92,11 +92,11 @@ namespace Bowerbird.Core.CommandHandlers
                     "editprojectobservations");
 
                 // Users
-                AddUser("frankr", "password", "frank@radocaj.com", "Frank", "Radocaj",
+                AddUser("password", "frank@radocaj.com", "Frank", "Radocaj",
                     "globaladministrator", "globalmember");
-                AddUser("hamishc", "password", "hcrittenden@museum.vic.gov.au", "Hamish", "Crittenden",
+                AddUser("password", "hcrittenden@museum.vic.gov.au", "Hamish", "Crittenden",
                     "globaladministrator", "globalmember");
-                AddUser("kenw", "password", "kwalker@museum.vic.gov.au", "Ken", "Walker",
+                AddUser("password", "kwalker@museum.vic.gov.au", "Ken", "Walker",
                     "globaladministrator", "globalmember");
             }
             finally

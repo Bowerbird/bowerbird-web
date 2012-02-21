@@ -58,14 +58,14 @@ namespace Bowerbird.Core.EventHandlers
         {
             Check.RequireNotNull(userCreatedEvent, "userCreatedEvent");
 
-            var message = Email
-                .From(_configService.GetEmailAdminAccount(), "Bowerbird")
-                .To(userCreatedEvent.DomainModel.Email)
-                .Subject("Bowerbird account verification")
-                .UsingTemplateFromResource("WelcomeEmail", new { userCreatedEvent.DomainModel.FirstName })
-                .Message;
+            //var message = Email
+            //    .From(_configService.GetEmailAdminAccount(), "Bowerbird")
+            //    .To(userCreatedEvent.DomainModel.Email)
+            //    .Subject("Bowerbird account verification")
+            //    .UsingTemplateFromResource("WelcomeEmail", new { userCreatedEvent.DomainModel.FirstName })
+            //    .Message;
 
-            _emailService.SendMailMessage(message);
+            //_emailService.SendMailMessage(message);
         }
 
         #endregion      

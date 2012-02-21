@@ -1,56 +1,54 @@
-﻿<div class="form">
+﻿<h2>New Observation</h2>
     @using (Html.BeginForm("create", "observation"))
     {
         <fieldset>
-            <legend>New Observation</legend>
-            <div id="title-fieldset">
-                <div>
-                    <label for="title">Title</label>
-                </div>
-                <div>
-                    <input type="text" id="title" name="title" />
-                </div>
-            </div>
-            <div id="observedon-fieldset">
-                <div>
-                    <label for="observedOn">Observed On</label>
-                </div>
-                <div id="observedon-options">
-                    <input type="date" id="observedOn" name="observedOn" value="@DateTime.Now.ToString("dd MMMM yyyy")" />
-                    @*<input type="button" id="observedOnDatePicker" value="..." />*@
-                </div>
-            </div>
+            <legend>Observation Details</legend>
             <div>
-                <div>
-                    <label for="mediaResources">Images, Videos, Sounds</label>
+                <div id="title-field" class="field">
+                    <div>
+                        <label for="title">Title</label>
+                    </div>
+                    <div>
+                        <input type="text" id="title" name="title" />
+                    </div>
                 </div>
-                <div id="mediaResourceDropZone"><span>Drop files here, or</span> <input type="button" value="choose files" id="mediaResourceButton"/> <span>from your computer or</span> <input type="button" value="import" id="mediaResourceButton"/> <span>from websites</span></div>
+                <div id="observedon-field" class="field">
+                    <div>
+                        <label for="observedOn">Observed On</label>
+                    </div>
+                    <div>
+                        <input type="date" id="observedOn" name="observedOn" value="@DateTime.Now.ToString("dd MMMM yyyy")" />
+                        @*<input type="button" id="observedOnDatePicker" value="..." />*@
+                    </div>
+                </div>
             </div>
-            <div id="location-fieldset">
-                <div>
-                    <label for="address">Location</label>
-                </div>
+            <fieldset id="media-resources-fieldset">
+                <legend>Images, Videos, Audio</legend>
+                <div id="media-resource-dropzone"><p><span>Drop files here, or</span> <input type="button" value="choose files" id="media-resource-button"/> <span>from your computer or</span> <input type="button" value="import" id="media-resource-button"/> <span>from websites</span></p></div>
+            </fieldset>
+            <fieldset id="location-fieldset">
+                <legend>Location</legend>
                 <div id="location-options">
                     <p>Enter an address, drag the pin onto the map or enter an exact co-ordinate.</p>
-                    <div id="address-field">
+                    <div id="address-field" class="field">
                         <div>
                             <label for="address">Address</label>
                         </div>
                         <div>
                             <input type="text" id="address" name="address" />
-                            <input type="button" value="Find" id="find-address-button" />
+                            <button id="find-address-button" type="button">Find</button>
                         </div>
                     </div>
-                    <div id="pin-field">
+                    <div id="pin-field" class="field">
                         <div>
                             <label>Pin</label>
                         </div>
                         <div id="location-pin"><img src="http://maps.gstatic.com/mapfiles/ms/icons/blue-dot.png" width="32" height="32" alt="" /></div>
                     </div>
+                    <div id="location-map"></div>
                 </div>
-                <div id="location-map"></div>
                 <div id="location-summary">
-                    <div id="latitude-field">
+                    <div id="latitude-field" class="field field-part-one">
                         <div>
                             <label for="latitude">Latitude</label>
                         </div>
@@ -58,7 +56,7 @@
                             <input type="text" id="latitude" name="latitude" />
                         </div>
                     </div>
-                    <div id="longitude-field">
+                    <div id="longitude-field" class="field field-part-two">
                         <div>
                             <label for="longitude">Longitude</label>
                         </div>
@@ -66,9 +64,15 @@
                             <input type="text" id="longitude" name="longitude" />
                         </div>
                     </div>
+                    <div id="anonymise-location-field" class="field field-checkbox">
+                        <div><label>Hide Exact Location</label></div>
+                        <div>
+                            <input type="checkbox" id="anonymiselocation" name="anonymiselocation" /> <label for="anonymiselocation">Hide Exact Location</label>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div id="category-fieldset">
+            </fieldset>
+            <div id="category-field" class="field">
                 <div>
                     <label for="observationCategory">Category</label>
                 </div>
@@ -80,7 +84,7 @@
                     </div>
                 </div>
             </div>
-            <div id="projects-fieldset">
+            <div id="projects-field" class="field">
                 <div>
                     <label for="projects">Projects</label>
                 </div>
@@ -90,9 +94,8 @@
                 </div>
             </div>
         </fieldset>
-        <div>
+        <fieldset>
             <input type="button" value="Save" id="save" />
             <input type="button" value="Cancel" id="cancel" />
-        </div>
+        </fieldset>
     }
-</div>

@@ -63,7 +63,9 @@ namespace Bowerbird.Web.Controllers.Members
             {
                 return Json(MakeHomeIndex(homeIndexInput));
             }
-            return View(MakeHomeIndex(homeIndexInput));
+            //return View(MakeHomeIndex(homeIndexInput));
+
+            return View(new HomeIndex());
         }
 
         private HomeIndex MakeHomeIndex(HomeIndexInput indexInput)

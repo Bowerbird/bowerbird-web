@@ -28,17 +28,21 @@ namespace Bowerbird.Web.Controllers.Public
         #region Members
 
         private readonly IDocumentSession _documentSession;
+        private readonly ICommandProcessor _commandProcessor;
 
         #endregion
 
         #region Constructors
 
         public HomeController(
-            IDocumentSession documentSession)
+            IDocumentSession documentSession,
+            ICommandProcessor commandProcessor)  
         {
             Check.RequireNotNull(documentSession, "documentSession");
+            Check.RequireNotNull(commandProcessor, "commandProcessor");
 
             _documentSession = documentSession;
+            _commandProcessor = commandProcessor;
         }
 
         #endregion
@@ -57,6 +61,16 @@ namespace Bowerbird.Web.Controllers.Public
             }
 
             return View();
+        }
+
+        [Transaction]
+        public ActionResult SetupSystem()
+        {
+            var setupSystemCommand = new SetupSystemCommand();
+
+            _commandProcessor.Process(setupSystemCommand);
+
+            return RedirectToAction("index");
         }
 
         #endregion      
