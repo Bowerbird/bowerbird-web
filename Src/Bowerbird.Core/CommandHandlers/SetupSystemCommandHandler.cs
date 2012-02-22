@@ -20,6 +20,7 @@ using System.Linq;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.DomainModels.Members;
 using Raven.Client;
 
 namespace Bowerbird.Core.CommandHandlers
@@ -59,6 +60,8 @@ namespace Bowerbird.Core.CommandHandlers
 
         private List<Project> Projects { get; set; }
 
+        private List<GroupMember> GroupMembers { get; set; }
+
         #endregion
 
         #region Methods
@@ -73,6 +76,7 @@ namespace Bowerbird.Core.CommandHandlers
             Organisations = new List<Organisation>();
             Teams = new List<Team>();
             Projects = new List<Project>();
+            GroupMembers = new List<GroupMember>();
 
             try
             {
@@ -109,6 +113,20 @@ namespace Bowerbird.Core.CommandHandlers
                 // Projects
                 AddProject("Dev Alpha", "Test for Alpha Release", "www.bowerbird.org.au", Users[0].Id, Teams[0].Id);
                 AddProject("Kens Bees", "Bee Project", "www.bowerbird.org.au", Users[2].Id, Teams[1].Id);
+
+                AddProjectMember(Users[0].Id, Projects[0].Id, "projectmember");
+                AddProjectMember(Users[0].Id, Projects[1].Id, "projectmember");
+                AddProjectMember(Users[1].Id, Projects[0].Id, "projectmember");
+                AddProjectMember(Users[1].Id, Projects[1].Id, "projectmember");
+                AddProjectMember(Users[2].Id, Projects[0].Id, "projectmember");
+                AddProjectMember(Users[2].Id, Projects[1].Id, "projectmember");
+
+                AddTeamMember(Users[0].Id, Teams[0].Id, "teammember");
+                AddTeamMember(Users[0].Id, Teams[1].Id, "teammember");
+                AddTeamMember(Users[1].Id, Teams[0].Id, "teammember");
+                AddTeamMember(Users[1].Id, Teams[1].Id, "teammember");
+                AddTeamMember(Users[2].Id, Teams[0].Id, "teammember");
+                AddTeamMember(Users[2].Id, Teams[1].Id, "teammember");
             }
             finally
             {
@@ -189,6 +207,40 @@ namespace Bowerbird.Core.CommandHandlers
             _documentSession.Store(project);
 
             Projects.Add(project);
+        }
+
+        private void AddProjectMember(string userid, string projectId, string rolename)
+        {
+            var user = Users.Where(x => x.Id == userid).FirstOrDefault();
+            var project = Projects.Where(x => x.Id == projectId).FirstOrDefault();
+            var roles = new List<Role>() { Roles.Where(x => x.Name == rolename).FirstOrDefault() };
+
+            Check.Ensure(user != null, "user may not be null");
+            Check.Ensure(project != null, "project may not be null");
+            Check.Ensure(roles.Count > 0, "role does not exist");
+
+            var projectMember = new GroupMember(user, project, user, roles);
+
+            _documentSession.Store(projectMember);
+
+            GroupMembers.Add(projectMember);
+        }
+
+        private void AddTeamMember(string userid, string teamId, string rolename)
+        {
+            var user = Users.Where(x => x.Id == userid).FirstOrDefault();
+            var team = Teams.Where(x => x.Id == teamId).FirstOrDefault();
+            var roles = new List<Role>() { Roles.Where(x => x.Name == rolename).FirstOrDefault() };
+
+            Check.Ensure(user != null, "user may not be null");
+            Check.Ensure(team != null, "team may not be null");
+            Check.Ensure(roles.Count > 0, "role does not exist");
+
+            var teamMember = new GroupMember(user, team, user, roles);
+
+            _documentSession.Store(teamMember);
+
+            GroupMembers.Add(teamMember);
         }
 
         #endregion      
