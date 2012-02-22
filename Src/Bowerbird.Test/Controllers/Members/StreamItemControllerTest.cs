@@ -38,13 +38,13 @@ namespace Bowerbird.Test.Controllers.Members
         [SetUp]
         public void TestInitialize()
         {
-            _documentStore = DocumentStoreHelper.InMemoryDocumentStore();
+            _documentStore = DocumentStoreHelper.ServerDocumentStore();
 
             _mockUserContext = new Mock<IUserContext>();
 
             _controller = new StreamItemController(
                 _mockUserContext.Object,
-                _documentStore.OpenSession()
+                _documentStore.OpenSession(DocumentStoreHelper.DevDb)
                 );
         }
 
@@ -84,7 +84,7 @@ namespace Bowerbird.Test.Controllers.Members
 
             var contributions = new List<Contribution>();
 
-            using (var session = _documentStore.OpenSession())
+            using (var session = _documentStore.OpenSession(DocumentStoreHelper.DevDb))
             {
                 session.Store(project);
                 session.Store(user);
@@ -134,7 +134,7 @@ namespace Bowerbird.Test.Controllers.Members
             _mockUserContext.Setup(x => x.GetAuthenticatedUserId()).Returns(user.Id);
 
             var result = _controller.List(
-                new StreamItemListInput() { Page = 1, PageSize = 10 },
+                new StreamItemListInput() { Page = 0, PageSize = 10, GroupId = project.Id},
                 new StreamSortInput() { });
 
             Assert.IsInstanceOf<JsonResult>(result);
@@ -147,6 +147,11 @@ namespace Bowerbird.Test.Controllers.Members
             var jsonData = jsonResult.Data as StreamItemList;
 
             Assert.IsNotNull(jsonData);
+
+            var expected = contributions.Take(10).ToList();
+            var actual = jsonData.StreamItems.ToList();
+
+            Assert.AreEqual(expected.Count, actual.Count);
         }
 
         /// <summary>
@@ -168,7 +173,7 @@ namespace Bowerbird.Test.Controllers.Members
 
             var contributions = new List<Contribution>();
 
-            using (var session = _documentStore.OpenSession())
+            using (var session = _documentStore.OpenSession(DocumentStoreHelper.DevDb))
             {
                 session.Store(project);
                 session.Store(user);
@@ -219,7 +224,7 @@ namespace Bowerbird.Test.Controllers.Members
             _mockUserContext.Setup(x => x.GetAuthenticatedUserId()).Returns(user.Id);
 
             var result = _controller.List(
-                new StreamItemListInput() { Page = 1, PageSize = 10 },
+                new StreamItemListInput() { Page = 0, PageSize = 10, UserId = user.Id},
                 new StreamSortInput() { });
 
             Assert.IsInstanceOf<JsonResult>(result);
@@ -232,6 +237,11 @@ namespace Bowerbird.Test.Controllers.Members
             var jsonData = jsonResult.Data as StreamItemList;
 
             Assert.IsNotNull(jsonData);
+
+            var expected = contributions.Take(10).ToList();
+            var actual = jsonData.StreamItems.ToList();
+
+            Assert.AreEqual(expected.Count, actual.Count);
         }
 
         /// <summary>
@@ -253,7 +263,7 @@ namespace Bowerbird.Test.Controllers.Members
 
             var contributions = new List<Contribution>();
 
-            using (var session = _documentStore.OpenSession())
+            using (var session = _documentStore.OpenSession(DocumentStoreHelper.DevDb))
             {
                 session.Store(project);
                 session.Store(user);

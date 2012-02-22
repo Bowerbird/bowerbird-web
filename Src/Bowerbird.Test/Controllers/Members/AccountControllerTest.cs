@@ -57,30 +57,30 @@ namespace Bowerbird.Test.Controllers.Members
 
         #region Method tests
 
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void AccountController_ChangePassword_Passing_Valid_AccountChangePasswordInput_Redirects_To_Home_Index()
-        {
-            var result = _controller.ChangePassword(new AccountChangePasswordInput() { Password = FakeValues.Password });
+        //[Test]
+        //[Category(TestCategory.Unit)]
+        //public void AccountController_ChangePassword_Passing_Valid_AccountChangePasswordInput_Redirects_To_Home_Index()
+        //{
+        //    var result = _controller.ChangePassword(new AccountChangePasswordInput() { Password = FakeValues.Password });
 
-            var routeResult = result as RedirectToRouteResult;
+        //    var routeResult = result as RedirectToRouteResult;
 
-            Assert.IsNotNull(routeResult);
-            Assert.AreEqual(routeResult.RouteValues["controller"], "home");
-            Assert.AreEqual(routeResult.RouteValues["action"], "index");
-        }
+        //    Assert.IsNotNull(routeResult);
+        //    Assert.AreEqual(routeResult.RouteValues["controller"], "home");
+        //    Assert.AreEqual(routeResult.RouteValues["action"], "index");
+        //}
 
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void AccountController_ChangePassword_Passing_InValid_AccountChangePasswordInput_Returns_View()
-        {
-            _controller.ModelState.AddModelError("Error", "Error");
+        //[Test]
+        //[Category(TestCategory.Unit)]
+        //public void AccountController_ChangePassword_Passing_InValid_AccountChangePasswordInput_Returns_View()
+        //{
+        //    _controller.ModelState.AddModelError("Error", "Error");
 
-            var result = _controller.ChangePassword(new AccountChangePasswordInput()) as ViewResult;
+        //    var result = _controller.ChangePassword(new AccountChangePasswordInput()) as ViewResult;
 
-            Assert.IsNotNull(result);
-            Assert.AreEqual("ChangePassword", result.ViewName);
-        }
+        //    Assert.IsNotNull(result);
+        //    Assert.AreEqual("ChangePassword", result.ViewName);
+        //}
 
         #endregion
     }

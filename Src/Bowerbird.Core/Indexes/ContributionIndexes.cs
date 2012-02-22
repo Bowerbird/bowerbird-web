@@ -52,8 +52,7 @@ namespace Bowerbird.Core.Indexes
                                                         select new
                                                                    {
                                                                        ContributionId = observationNote.Id,
-                                                                       CreatedDateTime =
-                                                            observationNote.CreatedOn,
+                                                                       CreatedDateTime = observationNote.CreatedOn,
                                                                        UserId = observationNote.User.Id
                                                                    });
         }
@@ -119,7 +118,7 @@ namespace Bowerbird.Core.Indexes
                     GroupCreatedDateTime = gc.CreatedDateTime
                 });
 
-            TransformResults = (database, results) => 
+            TransformResults = (database, results) =>
                 from result in results
                 let observation = database.Load<Observation>(result.ContributionId)
                 let observationNote = database.Load<ObservationNote>(result.ContributionId)

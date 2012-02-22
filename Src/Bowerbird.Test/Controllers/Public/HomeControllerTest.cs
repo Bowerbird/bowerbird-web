@@ -12,8 +12,10 @@
  
 */
 
+using Bowerbird.Core.Commands;
 using Bowerbird.Test.Utils;
 using Bowerbird.Web.Controllers.Public;
+using Moq;
 using NUnit.Framework;
 using Raven.Client;
 
@@ -24,16 +26,22 @@ namespace Bowerbird.Test.Controllers.Public
     {
         #region Test Infrastructure
 
+        private Mock<ICommandProcessor> _mockCommandProcessor;
         private IDocumentStore _documentStore;
         private HomeController _controller;
 
         [SetUp]
         public void TestInitialize()
         {
+            //_documentStore = DocumentStoreHelper.ServerDocumentStore();
             _documentStore = DocumentStoreHelper.InMemoryDocumentStore();
 
+            _mockCommandProcessor = new Mock<ICommandProcessor>();
+
             _controller = new HomeController(
-                _documentStore.OpenSession()
+                _documentStore.OpenSession(),
+                _mockCommandProcessor.Object
+                //_documentStore.OpenSession(DocumentStoreHelper.TestDb)
                 );
         }
 

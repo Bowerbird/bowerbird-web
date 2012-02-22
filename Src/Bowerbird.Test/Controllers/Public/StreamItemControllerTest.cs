@@ -126,7 +126,7 @@ namespace Bowerbird.Test.Controllers.Public
             _controller.SetupAjaxRequest();
 
             var result = _controller.List(
-                new StreamItemListInput() { Page = 1, PageSize = 10 , GroupId = project.Id },
+                new StreamItemListInput() { Page = 0, PageSize = 10 , GroupId = project.Id },
                 new StreamSortInput() { });
 
             Assert.IsInstanceOf<JsonResult>(result);
@@ -139,6 +139,11 @@ namespace Bowerbird.Test.Controllers.Public
             var jsonData = jsonResult.Data as StreamItemList;
 
             Assert.IsNotNull(jsonData);
+
+            var expected = contributions.Take(10).ToList();
+            var actual = jsonData.StreamItems.ToList();
+
+            Assert.AreEqual(expected.Count, actual.Count);
         }
 
         /// <summary>
@@ -208,7 +213,7 @@ namespace Bowerbird.Test.Controllers.Public
             _controller.SetupAjaxRequest();
 
             var result = _controller.List(
-                new StreamItemListInput() { Page = 1, PageSize = 10, UserId = user.Id },
+                new StreamItemListInput() { Page = 0, PageSize = 10, UserId = user.Id },
                 new StreamSortInput() { });
 
             Assert.IsInstanceOf<JsonResult>(result);
@@ -221,6 +226,11 @@ namespace Bowerbird.Test.Controllers.Public
             var jsonData = jsonResult.Data as StreamItemList;
 
             Assert.IsNotNull(jsonData);
+
+            var expected = contributions.Take(10).ToList();
+            var actual = jsonData.StreamItems.ToList();
+
+            Assert.AreEqual(expected.Count, actual.Count);
         }
 
         /// <summary>
@@ -290,7 +300,7 @@ namespace Bowerbird.Test.Controllers.Public
             _controller.SetupAjaxRequest();
 
             var result = _controller.List(
-                new StreamItemListInput() { Page = 1, PageSize = 10 },
+                new StreamItemListInput() { Page = 0, PageSize = 10 },
                 new StreamSortInput() { });
 
             Assert.IsInstanceOf<JsonResult>(result);

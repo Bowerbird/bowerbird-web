@@ -76,14 +76,20 @@ namespace Bowerbird.Web.Controllers.Public
         // get all stream items for a particular group
         private StreamItemList MakeGroupStreamItemList(StreamItemListInput listInput, StreamSortInput sortInput)
         {
+            RavenQueryStatistics stats;
+
             var groupContributions = _documentSession
-                    .Query<GroupContributionResults, All_GroupContributionItems>()
-                    .Include(x => x.ContributionId)
-                    .Where(x => x.GroupId == listInput.GroupId);
+                .Query<GroupContributionResults, All_GroupContributionItems>()
+                .Include(x => x.ContributionId)
+                .Where(x => x.GroupId == listInput.GroupId)
+                .Statistics(out stats)
+                .Skip(listInput.Page)
+                .Take(listInput.PageSize)
+                .ToList();
 
-            SortResults(groupContributions, sortInput);
+            //SortResults(groupContributions, sortInput);
 
-            RavenQueryStatistics stats = ProjectGroupContributions(listInput, groupContributions);
+            //RavenQueryStatistics stats = ProjectGroupContributions(listInput, groupContributions);
 
             return SetStreamItemList(groupContributions, stats, listInput.Page, listInput.PageSize);
         }
