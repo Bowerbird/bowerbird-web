@@ -53,6 +53,12 @@ namespace Bowerbird.Core.CommandHandlers
 
         private List<User> Users { get; set; }
 
+        private List<Organisation> Organisations { get; set; }
+
+        private List<Team> Teams { get; set; }
+
+        private List<Project> Projects { get; set; }
+
         #endregion
 
         #region Methods
@@ -64,10 +70,12 @@ namespace Bowerbird.Core.CommandHandlers
             Permissions = new List<Permission>();
             Roles = new List<Role>();
             Users = new List<User>();
+            Organisations = new List<Organisation>();
+            Teams = new List<Team>();
+            Projects = new List<Project>();
 
             try
             {
-
                 // Permmissions
                 AddPermission("editorganisations", "Edit Organisations", "Ability to create, update and delete organisations");
                 AddPermission("editteams", "Edit Teams", "Ability to create, update and delete teams");
@@ -77,33 +85,39 @@ namespace Bowerbird.Core.CommandHandlers
                 AddPermission("editprojectobservations", "Edit Project Observations", "Ability to create, update and delete project observations");
 
                 // Roles
-                AddRole("globaladministrator", "Global Administrator", "Administrator across entire system.",
-                    "editorganisations");
-                AddRole("globalmember", "Global Member", "Member of the system.", "global",
-                    "edituserobservations");
-                AddRole("organisationadministrator", "Organisation Administrator", "Administrator of an organisation.",
-                    "editteams");
-                AddRole("teamadministrator", "Team Administrator", "Administrator of a team.",
-                    "editprojects");
-                AddRole("teammember", "Team Member", "Member of a team.",
-                    "editteamobservations");
+                AddRole("globaladministrator", "Global Administrator", "Administrator across entire system.","editorganisations");
+                AddRole("globalmember", "Global Member", "Member of the system.", "global","edituserobservations");
+                AddRole("organisationadministrator", "Organisation Administrator", "Administrator of an organisation.","editteams");
+                AddRole("teamadministrator", "Team Administrator", "Administrator of a team.","editprojects");
+                AddRole("teammember", "Team Member", "Member of a team.","editteamobservations");
                 AddRole("projectadministrator", "Project Administrator", "Administrator of a project.");
-                AddRole("projectmember", "Project Member", "Member of a project.",
-                    "editprojectobservations");
+                AddRole("projectmember", "Project Member", "Member of a project.","editprojectobservations");
 
                 // Users
-                AddUser("password", "frank@radocaj.com", "Frank", "Radocaj",
-                    "globaladministrator", "globalmember");
-                AddUser("password", "hcrittenden@museum.vic.gov.au", "Hamish", "Crittenden",
-                    "globaladministrator", "globalmember");
-                AddUser("password", "kwalker@museum.vic.gov.au", "Ken", "Walker",
-                    "globaladministrator", "globalmember");
+                AddUser("password", "frank@radocaj.com", "Frank", "Radocaj", "globaladministrator", "globalmember");
+                AddUser("password", "hcrittenden@museum.vic.gov.au", "Hamish", "Crittenden", "globaladministrator", "globalmember");
+                AddUser("password", "kwalker@museum.vic.gov.au", "Ken", "Walker","globaladministrator", "globalmember");
+
+                // Organisations
+                AddOrganisation("Bowerbird Test Organisation", "Test for Alpha Rlease", "www.bowerbird.org.au", Users[0].Id);
+                AddOrganisation("Museum Victoria", "Museum Victoria", "www.museumvictoria.com", Users[0].Id);
+
+                // Teams
+                AddTeam("Bowerbird Test Team", "Test team for Alpha Release", "www.bowerbird.org.au", Users[0].Id, Organisations[0].Id);
+                AddTeam("Ken Walker tests Bowerbird", "Another Test team for Alpha Release", "www.bowerbird.org.au", Users[2].Id, Organisations[1].Id);
+
+                // Projects
+                AddProject("Dev Alpha", "Test for Alpha Release", "www.bowerbird.org.au", Users[0].Id, Teams[0].Id);
+                AddProject("Kens Bees", "Bee Project", "www.bowerbird.org.au", Users[2].Id, Teams[1].Id);
             }
             finally
             {
                 Permissions = null;
                 Roles = null;
                 Users = null;
+                Organisations = null;
+                Teams = null;
+                Projects = null;
             }
         }
 
@@ -136,6 +150,45 @@ namespace Bowerbird.Core.CommandHandlers
             _documentSession.Store(user);
 
             Users.Add(user);
+        }
+
+        private void AddOrganisation(string name, string description, string website, string userid)
+        {
+            var user = Users.Where(x => x.Id == userid).FirstOrDefault();
+
+            Check.Ensure(user != null, "user may not be null");
+
+            var organisation = new Organisation(user, name, description, website);
+
+            _documentSession.Store(organisation);
+
+            Organisations.Add(organisation);
+        }
+
+        private void AddTeam(string name, string description, string website, string userid, string organisationId = null)
+        {
+            var user = Users.Where(x => x.Id == userid).FirstOrDefault();
+
+            Check.Ensure(user != null, "user may not be null");
+
+            var team = new Team(user, name, description, website, organisationId);
+
+            _documentSession.Store(team);
+
+            Teams.Add(team);
+        }
+
+        private void AddProject(string name, string description, string website, string userid, string teamId = null)
+        {
+            var user = Users.Where(x => x.Id == userid).FirstOrDefault();
+
+            Check.Ensure(user != null, "user may not be null");
+
+            var project = new Project(user, name, description, website, teamId);
+
+            _documentSession.Store(project);
+
+            Projects.Add(project);
         }
 
         #endregion      
