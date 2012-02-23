@@ -213,7 +213,7 @@ namespace Bowerbird.Core.CommandHandlers
         {
             var user = Users.Where(x => x.Id == userid).FirstOrDefault();
             var project = Projects.Where(x => x.Id == projectId).FirstOrDefault();
-            var roles = new List<Role>() { Roles.Where(x => x.Name == rolename).FirstOrDefault() };
+            var roles = new List<Role>() { Roles.Where(x => x.Id == "roles/" + rolename).FirstOrDefault() };
 
             Check.Ensure(user != null, "user may not be null");
             Check.Ensure(project != null, "project may not be null");
@@ -230,7 +230,7 @@ namespace Bowerbird.Core.CommandHandlers
         {
             var user = Users.Where(x => x.Id == userid).FirstOrDefault();
             var team = Teams.Where(x => x.Id == teamId).FirstOrDefault();
-            var roles = new List<Role>() { Roles.Where(x => x.Name == rolename).FirstOrDefault() };
+            var roles = new List<Role>() { Roles.Where(x => x.Id == "roles/"+rolename).FirstOrDefault() };
 
             Check.Ensure(user != null, "user may not be null");
             Check.Ensure(team != null, "team may not be null");
