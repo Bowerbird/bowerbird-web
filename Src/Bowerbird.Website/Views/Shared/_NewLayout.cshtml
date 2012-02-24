@@ -86,6 +86,7 @@
             .Add(@Url.JavaScriptLib("json2.js"))
             .Add(@Url.JavaScriptLib("underscore-min.js"))
             .Add(@Url.JavaScriptLib("backbone-min.js"))
+            .Add(@Url.JavaScript("fileuploader.js"))
             .Render("~/js/script_#.js"))
     <!-- ADDED: Page Level script sections -->
     @RenderSection("script", false)

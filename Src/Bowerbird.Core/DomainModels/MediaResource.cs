@@ -71,7 +71,7 @@ namespace Bowerbird.Core.DomainModels
 
         private void SetDetails(User createdByUser, DateTime uploadedOn, string originalFileName, string fileFormat, string description)
         {
-            Id = Guid.NewGuid().ToString();
+            //Id = Guid.NewGuid().ToString();
             UploadedOn = uploadedOn;
             CreatedByUser = createdByUser;
             OriginalFileName = originalFileName;

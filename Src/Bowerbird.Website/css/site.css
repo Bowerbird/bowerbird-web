@@ -1103,3 +1103,11 @@ header nav#search-menu
 	padding-left: 0px;
 	cursor:pointer;
 }
+.media-resource-uploaded
+{
+    width:200px;
+    padding:10px;
+    background-color:White;
+    display:inline-block;
+    margin:10px;
+}

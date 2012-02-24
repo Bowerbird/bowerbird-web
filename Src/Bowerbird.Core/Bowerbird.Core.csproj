@@ -64,6 +64,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Web.Razor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\RazorEngine.2.1\lib\.NetFramework 4.0\System.Web.Razor.dll</HintPath>
@@ -209,6 +210,8 @@
     <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Extensions\EmailExtensions.cs" />
     <Compile Include="DomainModels\GroupContribution.cs" />
+    <Compile Include="ImageUtilities\ImageInformation.cs" />
+    <Compile Include="ImageUtilities\ImageResizeMode.cs" />
     <Compile Include="Indexes\ContributionIndexes.cs" />
     <Compile Include="Indexes\GroupIndexes.cs" />
     <Compile Include="Indexes\MemberIndexes.cs" />
@@ -225,7 +228,10 @@
     <Compile Include="Services\EmailService.cs" />
     <Compile Include="Services\IEmailService.cs" />
     <Compile Include="Services\IConfigService.cs" />
+    <Compile Include="ImageUtilities\ImageUtility.cs" />
+    <Compile Include="Services\IMediaFilePathService.cs" />
     <Compile Include="Services\IService.cs" />
+    <Compile Include="Services\MediaFilePathService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

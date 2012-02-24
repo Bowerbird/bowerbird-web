@@ -14,6 +14,7 @@
  
 */
 
+using System;
 using System.Text.RegularExpressions;
 using Bowerbird.Core.DesignByContract;
 
@@ -68,6 +69,28 @@ namespace Bowerbird.Core.Extensions
             Check.Require(text != null, "text may not be null");
 
             return text.Split(',');
+        }
+
+        public static string FileSizeDisplay(this long fileSizeInBytes)
+        {
+            const decimal megaByte = 1048576;
+            const decimal kiloByte = 1024;
+
+            decimal adjustedResult = fileSizeInBytes;
+            var unit = "b";
+
+            if(fileSizeInBytes/megaByte > 1)
+            {
+                adjustedResult = fileSizeInBytes/megaByte;
+                unit = "Mb";
+            }
+            else if(fileSizeInBytes/kiloByte > 1)
+            {
+                adjustedResult = fileSizeInBytes/kiloByte;
+                unit = "Kb";
+            }
+
+            return string.Format("{0}{1}", Math.Round(adjustedResult, 1), unit);
         }
     }
 }

@@ -469,6 +469,24 @@ window.Bowerbird.Views.Navigation = Backbone.View.extend({
 
     }
 
+    var uploader;
+    var mediaResources = new Array();
+
+    function buildUploader() {
+        uploader = new qq.FileUploader({
+            element: document.getElementById('file-dropzone'),
+            action: 'http://localhost:65060/Members/MediaResource/Upload',
+            //action: 'http://localhost:65060/Home/Index',
+            multiple: true,
+            debug: true,
+            onComplete: function (id, fileName, responseText) {
+                var uploadedImageArea = $('#file-uploaded-area');
+                uploadedImageArea.append('<div class="media-resource-uploaded"><img src="' + responseText.imageUrl + '" width="200px" /><div><span>' + responseText.fileName + '</span><span>' + responseText.fileSize + '<span></div></div>');
+                mediaResources.push(responseText.Id);
+            }
+        });
+    }
+
     //----------------map functions imported from PaDIL-------------------------------
 
     function clearMarker() {
@@ -568,7 +586,6 @@ window.Bowerbird.Views.Navigation = Backbone.View.extend({
 
 //----------------end map functions imported from PaDIL-------------------------------
 
-
 // Workspace
     window.Bowerbird.Views.Workspace = Backbone.View.extend({
 
@@ -625,9 +642,10 @@ window.Bowerbird.Views.Navigation = Backbone.View.extend({
 
             //        var map = new google.maps.Map(document.getElementById("location-map"), mapSettings);
             $("#observedOn").datepicker({ dateFormat: "d MM yy", changeMonth: true, changeYear: true, showOn: "both", buttonText: "..." });
-            $("").click(function() {
-                
+            $("").click(function () {
+
             });
+            buildUploader();
             buildMap();
         },
 
