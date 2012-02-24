@@ -599,8 +599,7 @@ window.Bowerbird.Views.Navigation = Backbone.View.extend({
     function buildUploader() {
         uploader = new qq.FileUploader({
             element: document.getElementById('media-uploader'),
-            action: 'http://localhost:65060/Members/MediaResource/Upload',
-            //action: 'http://localhost:65060/Home/Index',
+            action: 'http://dev.bowerbird.org.au/Members/MediaResource/Upload',
 
 //            template: '<div class="qq-uploader">' +
 //                '<div class="qq-upload-drop-area"><span>Drop files here to upload</span></div>' +

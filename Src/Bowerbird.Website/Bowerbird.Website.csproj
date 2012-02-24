@@ -170,6 +170,8 @@
     <Content Include="img\white_texture.png" />
     <Content Include="js\app.js" />
     <Content Include="js\fileuploader.js" />
+    <Content Include="js\libs\backbone-min.js" />
+    <Content Include="js\libs\Backbone.js" />
     <Content Include="js\libs\jquery-1.6.2.min.js" />
     <Content Include="js\libs\jquery-ui-1.8.17.custom.min.js" />
     <Content Include="js\libs\jquery.signalR.min.js" />
