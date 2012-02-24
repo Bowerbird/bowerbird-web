@@ -64,7 +64,7 @@ namespace Bowerbird.Web.Controllers.Members
         {
             if (listInput.UserId != null)
             {
-                return Json(MakeUserStreamItemList(listInput, sortInput));
+                return Json(MakeUserStreamItemList(listInput, sortInput), JsonRequestBehavior.AllowGet);
             }
 
             if (listInput.GroupId != null)
@@ -77,7 +77,7 @@ namespace Bowerbird.Web.Controllers.Members
                 return Json(MakeWatchlistStreamItemList(listInput, sortInput));
             }
 
-            return Json(MakeHomeStreamItemList(listInput, sortInput));
+            return Json(MakeHomeStreamItemList(listInput, sortInput), JsonRequestBehavior.AllowGet);
         }
 
         // Get all stream items for all groups the logged in user is a member of
@@ -138,6 +138,9 @@ namespace Bowerbird.Web.Controllers.Members
                 //.ToList();
 
             var groupContributions = GetContributionsForGroups(groupMemberships)
+                .AsProjection<GroupContributionResults>()
+                .Include(x => x.ContributionId)
+                .Where(x => x.UserId == listInput.UserId)
                 .Statistics(out stats)
                 .Skip(listInput.Page)
                 .Take(listInput.PageSize)

@@ -62,6 +62,10 @@ namespace Bowerbird.Core.CommandHandlers
 
         private List<GroupMember> GroupMembers { get; set; }
 
+        private List<Observation> Observations { get; set; }
+
+        private List<Post> Posts { get; set; }
+
         #endregion
 
         #region Methods
@@ -77,6 +81,8 @@ namespace Bowerbird.Core.CommandHandlers
             Teams = new List<Team>();
             Projects = new List<Project>();
             GroupMembers = new List<GroupMember>();
+            Observations = new List<Observation>();
+            Posts = new List<Post>();
 
             try
             {
@@ -127,6 +133,20 @@ namespace Bowerbird.Core.CommandHandlers
                 AddTeamMember(Users[1].Id, Teams[1].Id, "teammember");
                 AddTeamMember(Users[2].Id, Teams[0].Id, "teammember");
                 AddTeamMember(Users[2].Id, Teams[1].Id, "teammember");
+
+                AddObservation(Users[0].Id, Projects[0].Id);
+                AddObservation(Users[0].Id, Projects[1].Id);
+                AddObservation(Users[0].Id, Projects[0].Id);
+                AddObservation(Users[0].Id, Projects[1].Id);
+                AddObservation(Users[0].Id, Projects[1].Id);
+                AddObservation(Users[1].Id, Projects[0].Id);
+                AddObservation(Users[1].Id, Projects[1].Id);
+                AddObservation(Users[1].Id, Projects[1].Id);
+                AddObservation(Users[1].Id, Projects[0].Id);
+                AddObservation(Users[1].Id, Projects[1].Id);
+                AddObservation(Users[2].Id, Projects[1].Id);
+                AddObservation(Users[2].Id, Projects[0].Id);
+                AddObservation(Users[2].Id, Projects[0].Id);
             }
             finally
             {
@@ -136,6 +156,9 @@ namespace Bowerbird.Core.CommandHandlers
                 Organisations = null;
                 Teams = null;
                 Projects = null;
+                GroupMembers = null;
+                Observations = null;
+                Posts = null;
             }
         }
 
@@ -241,6 +264,34 @@ namespace Bowerbird.Core.CommandHandlers
             _documentSession.Store(teamMember);
 
             GroupMembers.Add(teamMember);
+        }
+
+        private void AddObservation(string userId, string projectId)
+        {
+            var user = Users.Where(x => x.Id == userId).FirstOrDefault();
+            var project = Projects.Where(x => x.Id == projectId).FirstOrDefault();
+
+            Check.Ensure(user != null, "user may not be null");
+            Check.Ensure(project != null, "project may not be null");
+
+            var observation = new Observation(
+                user,
+                "Title goes here",
+                DateTime.Now,
+                DateTime.Now,
+                "23.232323",
+                "41.3432423",
+                "1 Main St Melbourne",
+                true,
+                "categoryX",
+                new List<MediaResource>()
+                );
+
+            observation.AddGroupContribution(project, user, DateTime.Now);
+
+            _documentSession.Store(observation);
+
+            Observations.Add(observation);
         }
 
         #endregion      

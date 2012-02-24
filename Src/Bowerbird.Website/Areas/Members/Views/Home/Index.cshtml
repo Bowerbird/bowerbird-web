@@ -4,7 +4,7 @@
 	Page.Title = "Bowerbird";
 }
 
-<section id="sidebar">
+<section class="triple-1" id="sidebar">
     <div class="filter-group" id="default-filters">
         <ul>
             <li><a href="/#/user/stream/all" class="user-stream"><img alt="" src="../img/avatar-1.png"><div><p>Home <span>23</span></p></div></a></li>
@@ -34,30 +34,168 @@
     </div>
 </section>
 <div>
-        <section id="large-workspace">
-    <div class="workspace-item stream-workspace-item">
-        <div id="selected-filter-group">
+<section class="triple-2" id="stream">
+        <div id="stream-container">
+        @*<div id="selected-filter-group">
             <img src="../img/team-avatar-1.png" alt="" />
             <div>
-            <h2>Butterflies of Australia</h2>
-            <ul>
-                <li><span>23</span> Observations</li>
-                <li><span>15</span> Members</li>
-                <li><span>3 days ago</span> Updated</li>
-                <li><span>87%</span> Quality</li>
-            </ul>
-            <!--<p class="byline">Capturing all of Australia's Butterflies</p>-->
-            <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras in metus at nunc cursus rhoncus. Etiam eleifend accumsan urna et aliquam. Nullam ultrices eros eu leo dignissim non pellentesque sapien congue. Integer blandit neque eget libero tristique ultrices. Donec adipiscing cursus orci at semper. Suspendisse arcu diam, dapibus id scelerisque vel, sagittis quis dolor. Praesent sed consectetur justo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras in metus at nunc cursus rhoncus. Etiam eleifend accumsan urna et aliquam. Nullam ultrices eros eu leo dignissim non pellentesque sapien congue. Integer blandit neque eget libero tristique ultrices. Donec adipiscing cursus orci at semper. Suspendisse arcu diam, dapibus id scelerisque vel, sagittis quis dolor. Praesent sed consectetur justo.</p>
+                <h2>Butterflies of Australia</h2>
+                <ul>
+                    <li><span>23</span> Observations</li>
+                    <li><span>15</span> Members</li>
+                    <li><span>3 days ago</span> Updated</li>
+                    <li><span>87%</span> Quality</li>
+                </ul>
+                <p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras in metus at nunc cursus rhoncus. Etiam eleifend accumsan urna et aliquam. Nullam ultrices eros eu leo dignissim non pellentesque sapien congue. Integer blandit neque eget libero tristique ultrices. Donec adipiscing cursus orci at semper. Suspendisse arcu diam, dapibus id scelerisque vel, sagittis quis dolor. Praesent sed consectetur justo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras in metus at nunc cursus rhoncus. Etiam eleifend accumsan urna et aliquam. Nullam ultrices eros eu leo dignissim non pellentesque sapien congue. Integer blandit neque eget libero tristique ultrices. Donec adipiscing cursus orci at semper. Suspendisse arcu diam, dapibus id scelerisque vel, sagittis quis dolor. Praesent sed consectetur justo.</p>
             </div>
-        </div>
-        <div id="stream">
-            <h2>Team Activity</h2>
+        </div>*@
+            <h2>Activity</h2>
             <ul>
                 <li>Latest activity first</li>
                 <li>All activity</li>
             </ul>
             <div id="stream-items">
-                <div class="stream-item observation">
+                <div class="stream-item observation-stream-item">
+                    <div class="summary">
+                        <img src="../img/avatar.jpg" alt="" />
+                        <p class="description">Ken Walker made an observation <span>3 days ago</span></p>
+                    </div>
+                    <div class="details">
+                        <h2>Variegated Fritillary Butterfly</h2>
+                        <div>
+                            <div class="images">
+                                <div class="preview">
+                                    <img src="../img/dragonfly.png" alt="" />
+                                </div>
+                                <div class="thumbnails">
+                                    <img src="../img/dragonfly.png" alt="" />
+                                    <img src="../img/dragonfly.png" alt="" />
+                                    <img src="../img/dragonfly.png" alt="" />
+                                    <img src="../img/dragonfly.png" alt="" />
+                                    <img src="../img/dragonfly.png" alt="" />
+                                </div>
+                            </div>
+                            <div class="info">
+                                <div class="observed">
+                                    Observed
+                                    <span>12 December 2011</span>
+                                    <span>16:23 AEST</span>
+                                </div>
+                                <div class="location">
+                                    Location
+                                    <div class="map"></div>
+                                    <span>North Melbourne</span>
+                                    <span>Latitude 145.2323</span>
+                                    <span>Longitude 18.4563</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="stream-item post-stream-item">
+                    <div class="summary">
+                        <img src="../img/avatar.jpg" alt="" />
+                        <p class="description">Ken Walker made a post <span>3 days ago</span></p>
+                    </div>
+                    <div class="details">
+                        <h2>Monthly meeting for February</h2>
+                        <div>
+                                <p>
+                                    Lorem ipsum dolor sit amet, <a href="#">consectetur adipiscing elit</a>. Cras in metus at nunc cursus rhoncus. Etiam eleifend accumsan urna et aliquam. Nullam ultrices eros eu leo dignissim non pellentesque sapien congue. Integer blandit neque eget libero tristique ultrices. Donec adipiscing cursus orci at semper.
+                                </p>
+                                <h3>Important Heading</h3>
+                                <p>
+                                    Etiam eleifend accumsan urna et aliquam. <strong>Nullam ultrices</strong> eros eu leo dignissim non pellentesque sapien congue. Integer blandit neque eget libero tristique ultrices. Donec adipiscing cursus orci at semper.
+                                </p>
+                                <ul>
+                                    <li>First point</li>
+                                    <li>Nullam ultrices <a href="#">eros eu leo dignissim</a> non pellentesque sapien congue</li>
+                                    <li>Etiam eleifend accumsan urna et aliquam</li>
+                                </ul>
+                                <p>
+                                    Lorem ipsum dolor sit amet, <em>consectetur adipiscing elit</em>. Cras in metus at nunc cursus rhoncus.
+                                </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="stream-item observation-note-stream-item">
+                    <div class="summary">
+                        <img src="../img/avatar.jpg" alt="" />
+                        <p class="description">Ken Walker made an observation note <span>3 days ago</span></p>
+                    </div>
+                    <div class="details">
+                        <h2>Variegated Fritillary Butterfly</h2>
+                        <div>
+                            <div>
+                                <div class="description">
+                                    <h3>Behaviour</h3>
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras in metus at nunc cursus rhoncus. Etiam eleifend accumsan urna et aliquam. Nullam ultrices eros eu leo dignissim non pellentesque sapien congue. Integer blandit neque eget libero tristique ultrices. Donec adipiscing cursus orci at semper.
+                                    </p>
+                                </div>
+                                <div class="description">
+                                    <h3>Behaviour</h3>
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras in metus at nunc cursus rhoncus. Etiam eleifend accumsan urna et aliquam. Nullam ultrices eros eu leo dignissim non pellentesque sapien congue. Integer blandit neque eget libero tristique ultrices. Donec adipiscing cursus orci at semper.
+                                    </p>
+                                </div>
+                                <div class="tags">
+                                    <h3>Tags</h3>
+                                    <ul>
+                                        <li><a href="#">dragonfly</a></li>
+                                        <li><a href="#">flower</a></li>
+                                        <li><a href="#">bug</a></li>
+                                        <li><a href="#">something</a></li>
+                                        <li><a href="#">thing</a></li>
+                                        <li><a href="#">blue</a></li>
+                                        <li><a href="#">green</a></li>
+                                        <li><a href="#">hello</a></li>
+                                        <li><a href="#">goodbye</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="identification">
+                                    <h3>Common Names</h3>
+                                    <p class="common-names">Dragonfly</p>
+                                    <h3>Scientific Name</h3>
+                                    <p class="scientific-name"><span>Dragonflyus Bluewingy Thingus</span> (Scott 1922)</p>
+                                    <h3>Taxonomy</h3>
+                                    <p class="taxonomy">Animalia: Bugus: Dragonia: Bugzilla</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="stream-item comment-stream-item">
+                    <div class="summary">
+                        <img src="../img/avatar.jpg" alt="" />
+                        <p class="description">Ken Walker made a comment <span>3 days ago</span></p>
+                    </div>
+                    <div class="details">
+                        <h2>Variegated Fritillary Butterfly</h2>
+                        <div>
+                            <p>
+                                I think I know the species. I saw one of these in the Amazon last year. Awesome photo. Kthxbye! I think I know the species. I saw one of these in the Amazon last year. Awesome photo. Kthxbye! I think I know the species. I saw one of these in the Amazon last year. Awesome photo. Kthxbye! I think I know the species. I saw one of these in the Amazon last year. Awesome photo. Kthxbye! I think I know the species. I saw one of these in the Amazon last year. Awesome photo. Kthxbye! I think I know the species. I saw one of these in the Amazon last year. Awesome photo. Kthxbye!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="stream-item project-stream-item">
+                    <div class="summary">
+                        <img src="../img/avatar.jpg" alt="" />
+                        <p class="description">Ken Walker created project <span>3 days ago</span></p>
+                    </div>
+                    <div class="details">
+                        <h2>Awesome Best Project Ever</h2>
+                        <div>
+                            <p>
+                                I think I know the species. I saw one of these in the Amazon last year. Awesome photo. Kthxbye! I think I know the species. I saw one of these in the Amazon last year. Awesome photo. Kthxbye! I think I know the species. I saw one of these in the Amazon last year. Awesome photo. Kthxbye! I think I know the species. I saw one of these in the Amazon last year. Awesome photo. Kthxbye! I think I know the species. I saw one of these in the Amazon last year. Awesome photo. Kthxbye! I think I know the species. I saw one of these in the Amazon last year. Awesome photo. Kthxbye!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+               @*<div class="stream-item observation">
                     <div>
                         <div class="summary-large">
                             <img src="../img/avatar.jpg" alt="" />
@@ -273,17 +411,14 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>*@
             </div>
         </div>
-    </div>
-        </section>
-        <section id="activity" class="wrapper">
-            Activity
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis elit fringilla ante semper egestas. Nunc ac felis nisl. Curabitur sit amet neque leo. Curabitur lobortis hendrerit placerat. Nulla facilisi. In hac habitasse platea dictumst. Etiam tincidunt quam vitae diam vestibulum ultricies. Sed placerat, urna vel lacinia sollicitudin, nunc nisl consequat nisl, et iaculis mi arcu id arcu. Cras posuere, mauris nec faucibus suscipit, ante enim aliquet sem, a ultrices nibh sem at dui.
-            </p>
-        </section>
+</section>
+<section class="triple-3" id="activity">
+    <h2>All Activity</h2>
+    
+</section>
 </div>
 @section script {
 <script type="text/x-jquery-tmpl" id="stream-template">

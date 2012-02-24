@@ -79,6 +79,8 @@ window.Bowerbird.Models.Stream = Backbone.Model.extend({
 
     defaults: {
         type: null,
+        groupId: null,
+        watchListId: null,
         key: null,
         filter: null,
         context: null,
@@ -103,9 +105,31 @@ window.Bowerbird.Models.Event = Backbone.Model.extend({
 
 });
 
+// StreamItem
+window.Bowerbird.Models.StreamItem = Backbone.Model.extend({
+
+    defaults: {
+        type: null
+    }
+
+});
+
 // ====================================================================================
 // Collections
 // ====================================================================================
+
+// StreamItems
+window.Bowerbird.Collections.StreamItems = Backbone.Collection.extend({
+
+    model: Bowerbird.Models.StreamItem,
+
+    initialize: function (options) {
+        
+    },
+
+    url: "/members/streamitem/list"
+
+});
 
 // Observations
 window.Bowerbird.Collections.Observations = Backbone.Collection.extend({
@@ -469,24 +493,6 @@ window.Bowerbird.Views.Navigation = Backbone.View.extend({
 
     }
 
-    var uploader;
-    var mediaResources = new Array();
-
-    function buildUploader() {
-        uploader = new qq.FileUploader({
-            element: document.getElementById('file-dropzone'),
-            action: 'http://localhost:65060/Members/MediaResource/Upload',
-            //action: 'http://localhost:65060/Home/Index',
-            multiple: true,
-            debug: true,
-            onComplete: function (id, fileName, responseText) {
-                var uploadedImageArea = $('#file-uploaded-area');
-                uploadedImageArea.append('<div class="media-resource-uploaded"><img src="' + responseText.imageUrl + '" width="200px" /><div><span>' + responseText.fileName + '</span><span>' + responseText.fileSize + '<span></div></div>');
-                mediaResources.push(responseText.Id);
-            }
-        });
-    }
-
     //----------------map functions imported from PaDIL-------------------------------
 
     function clearMarker() {
@@ -586,10 +592,64 @@ window.Bowerbird.Views.Navigation = Backbone.View.extend({
 
 //----------------end map functions imported from PaDIL-------------------------------
 
+
+    var uploader;
+    var mediaResources = new Array();
+
+    function buildUploader() {
+        uploader = new qq.FileUploader({
+            element: document.getElementById('media-uploader'),
+            action: 'http://localhost:65060/Members/MediaResource/Upload',
+            //action: 'http://localhost:65060/Home/Index',
+
+//            template: '<div class="qq-uploader">' +
+//                '<div class="qq-upload-drop-area"><span>Drop files here to upload</span></div>' +
+//                '<div class="qq-upload-button">Upload a file</div>' +
+//                '<ul class="qq-upload-list"></ul>' +
+//             '</div>',
+
+            template: '<div class="media-resource-items" id="media-resource-items"><ul class="qq-upload-list" style="display: none;"></ul><div class="media-resource-dropzone">Drop Files Here</div></div><div class="field"><div>' +
+                    '<div id="media-resource-upload-button" class="button media-resource-upload-button">Choose Files</div>' +
+                    '<input type="button" value="Import From Website" id="media-resource-import-button"/></div></div>',
+            fileTemplate: '<li>' +
+                    '<span class="qq-upload-file"></span>' +
+                    '<span class="qq-upload-spinner"></span>' +
+                    '<span class="qq-upload-size"></span>' +
+                    '<a class="qq-upload-cancel" href="#">Cancel</a>' +
+                    //'<span class="qq-upload-failed-text">Failed</span>' +
+                '</li>',
+
+            classes: {
+                // used to get elements from templates
+                button: 'media-resource-upload-button', //'qq-upload-button',
+                drop: 'media-resource-dropzone', //'qq-upload-drop-area',
+                dropActive: 'qq-upload-drop-area-active',
+                list: 'qq-upload-list',
+
+                file: 'qq-upload-file',
+                spinner: 'qq-upload-spinner',
+                size: 'qq-upload-size',
+                cancel: 'qq-upload-cancel',
+
+                // added to list item when upload completes
+                // used in css to hide progress spinner
+                success: 'qq-upload-success',
+                fail: 'qq-upload-fail'
+                },
+
+            multiple: true,
+            debug: true,
+            onComplete: function (id, fileName, responseText) {
+                $('#media-resource-items').append('<div class="media-resource-uploaded"><img src="' + responseText.imageUrl + '" width="200px" /><div><span>' + responseText.fileName + '</span><span>' + responseText.fileSize + '<span></div></div>');
+                mediaResources.push(responseText.Id);
+            }
+        });
+    }
+
 // Workspace
     window.Bowerbird.Views.Workspace = Backbone.View.extend({
 
-        el: '#workspace',
+        el: 'article',
 
         initialize: function (options) {
             _.extend(this, Backbone.Events);
@@ -642,11 +702,11 @@ window.Bowerbird.Views.Navigation = Backbone.View.extend({
 
             //        var map = new google.maps.Map(document.getElementById("location-map"), mapSettings);
             $("#observedOn").datepicker({ dateFormat: "d MM yy", changeMonth: true, changeYear: true, showOn: "both", buttonText: "..." });
-            $("").click(function () {
-
-            });
-            buildUploader();
+            //            $("").click(function() {
+            //                
+            //            });
             buildMap();
+            buildUploader();
         },
 
         showWorkspaceItem: function (workspaceItem) {
@@ -671,7 +731,7 @@ window.Bowerbird.Views.WorkspaceItem = Backbone.View.extend({
 
     renderWorkspaceItem: function (workspaceElement, html) {
         workspaceElement.html(html);
-        workspaceElement.appendTo("#large-workspace");
+        workspaceElement.appendTo("#stream");
 
         workspaceElement
             .css({ zIndex: 98 })
@@ -710,12 +770,13 @@ window.Bowerbird.Views.StreamWorkspaceItem = Bowerbird.Views.WorkspaceItem.exten
     initialize: function (options) {
         _.extend(this, Backbone.Events);
 
-        this.eventItems = new Bowerbird.Collections.Events({ context: "butterflies-of-aus" });
+        this.streamItems = new Bowerbird.Collections.StreamItems({ context: "butterflies-of-aus" });
 
-        this.eventItems.bind("add", this.eventItemsChanged, this);
-        this.eventItems.bind("reset", this.eventItemsReset);
-
-        //this.eventItems.fetch();
+        this.streamItems.bind("add", this.eventItemsChanged, this);
+        this.streamItems.bind("reset", this.eventItemsReset);
+        //alert("hells yeah");
+        //this.streamItems.fetch();
+        this.loadStreamItems();
     },
 
     render: function () {
@@ -740,9 +801,17 @@ window.Bowerbird.Views.StreamWorkspaceItem = Bowerbird.Views.WorkspaceItem.exten
         console.log("failed.");
     },
 
-    loadEvents: function () {
-        console.log("loading events...");
-        this.eventItems.fetch({ success: this.eventItemsFetchSuccess, error: this.eventItemsFetchError });
+    loadStreamItems: function () {
+        console.log("loading stream ite...");
+        this.streamItems.fetch({
+            data: {
+                userid: 'users/68',
+                page: 1,
+                pagesize: 10
+            },
+            success: this.eventItemsFetchSuccess,
+            error: this.eventItemsFetchError
+        });
     }
 
 });
@@ -807,6 +876,7 @@ window.observations = new Bowerbird.Collections.Observations();
 window.Bowerbird.AppRouter = Backbone.Router.extend({
 
     routes: {
+        "": "showUserStream",
         "/user/stream/:filter": "showUserStream",
         "/observation/create": "showObservationCreate"
         //"/team/:key/stream/:filter": "showTeamStream",

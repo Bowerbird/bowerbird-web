@@ -3,80 +3,79 @@
     {
         <fieldset>
             <legend>Observation Details</legend>
-            <div>
-                <div id="title-field" class="field">
-                    <div>
-                        <label for="title">Title</label>
-                    </div>
-                    <div>
-                        <input type="text" id="title" name="title" />
-                    </div>
+            <div id="title-field" class="field">
+                <div>
+                    <label for="title">Title</label>
                 </div>
-                <div id="observedon-field" class="field">
-                    <div>
-                        <label for="observedOn">Observed On</label>
-                    </div>
-                    <div>
-                        <input type="date" id="observedOn" name="observedOn" value="@DateTime.Now.ToString("dd MMMM yyyy")" />
-                        @*<input type="button" id="observedOnDatePicker" value="..." />*@
-                    </div>
+                <div>
+                    <input type="text" id="title" name="title" />
+                </div>
+            </div>
+            <div id="observedon-field" class="field">
+                <div>
+                    <label for="observedOn">Observed On</label>
+                </div>
+                <div>
+                    <input type="date" id="observedOn" name="observedOn" value="@DateTime.Now.ToString("dd MMMM yyyy")" />
                 </div>
             </div>
             <fieldset id="media-resources-fieldset">
                 <legend>Images, Videos, Audio</legend>
-                <div id="media-resource-dropzone">
-                    <p><span>Drop files here, or</span> <input type="button" value="choose files" id="media-resource-button"/> <span>from your computer or</span> <input type="button" value="import" id="media-resource-button"/> <span>from websites</span></p>
-                    <div id="file-dropzone"></div>    
+                <p>Drag and drop files into the box below, or choose files from your computer or import from other websites.</p>
+                <div id="media-uploader">
+@*                    <div id="media-resource-items">
+                        <p>No Files Yet!</p>
+                    </div>
+                    <div class="field">
+                        <div>
+                            <div class="qq-upload-button">Upload a file</div> <input type="button" value="Choose Files" id="media-resource-button" /><input type="button" value="Import From Website" id="media-resource-button"/>
+                        </div>
+                    </div>*@
                 </div>
-                <div id="file-uploaded-area"></div>
             </fieldset>
             <fieldset id="location-fieldset">
                 <legend>Location</legend>
-                <div id="location-options">
-                    <p>Enter an address, drag the pin onto the map or enter an exact co-ordinate.</p>
-                    <div id="address-field" class="field">
-                        <div>
-                            <label for="address">Address</label>
-                        </div>
-                        <div>
-                            <input type="text" id="address" name="address" autocomplete="off" />
-                        </div>
+                <p>Enter an address, drag the pin onto the map or enter an exact co-ordinate.</p>
+                <div id="address-field" class="field">
+                    <div>
+                        <label for="address">Address</label>
                     </div>
-                    <div id="pin-field" class="field">
-                        <div>
-                            <label>Pin</label>
-                        </div>
-                        <div id="location-pin"><img src="http://maps.gstatic.com/mapfiles/ms/icons/blue-dot.png" width="32" height="32" alt="" /></div>
+                    <div>
+                        <input type="text" id="address" name="address" autocomplete="off" />
                     </div>
-                    <div id="location-map"></div>
                 </div>
-                <div id="location-summary">
-                    <div id="latitude-field" class="field field-part-one">
-                        <div>
-                            <label for="latitude">Latitude</label>
-                        </div>
-                        <div>
-                            <input type="text" id="latitude" name="latitude" />
-                        </div>
+                <div id="pin-field" class="field">
+                    <div>
+                        <label>Pin</label>
                     </div>
-                    <div id="longitude-field" class="field field-part-two">
-                        <div>
-                            <label for="longitude">Longitude</label>
-                        </div>
-                        <div>
-                            <input type="text" id="longitude" name="longitude" />
-                        </div>
+                    <div id="location-pin"><img src="http://maps.gstatic.com/mapfiles/ms/icons/blue-dot.png" width="32" height="32" alt="" /></div>
+                </div>
+                <div id="location-map"></div>
+                <div id="latitude-field" class="field field-part-one">
+                    <div>
+                        <label for="latitude">Latitude</label>
                     </div>
-                    <div id="find-latlon-field">
-                        <div>
-                            <button id="find-latlon-button" type="button">Go</button>                            
-                        </div>
+                    <div>
+                        <input type="text" id="latitude" name="latitude" />
                     </div>
-                    <div id="anonymise-location-field" class="field field-checkbox">
-                        <div><label>Feathering</label></div>
-                        <div>
-                            <input type="checkbox" id="anonymiselocation" name="anonymiselocation" /> <label for="anonymiselocation">Feathering</label>
-                        </div>
+                </div>
+                <div id="longitude-field" class="field field-part-two">
+                    <div>
+                        <label for="longitude">Longitude</label>
+                    </div>
+                    <div>
+                        <input type="text" id="longitude" name="longitude" />
+                    </div>
+                </div>
+                <div id="find-latlon-field">
+                    <div>
+                        <button id="find-latlon-button" type="button">Go</button>                            
+                    </div>
+                </div>
+                <div id="anonymise-location-field" class="field field-checkbox">
+                    <div><label>Feathering</label></div>
+                    <div>
+                        <input type="checkbox" id="anonymiselocation" name="anonymiselocation" /> <label for="anonymiselocation">Feathering</label>
                     </div>
                 </div>
             </fieldset>

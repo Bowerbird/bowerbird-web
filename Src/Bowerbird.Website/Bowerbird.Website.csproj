@@ -170,8 +170,6 @@
     <Content Include="img\white_texture.png" />
     <Content Include="js\app.js" />
     <Content Include="js\fileuploader.js" />
-    <Content Include="js\libs\backbone-min.js" />
-    <Content Include="js\libs\Backbone.js" />
     <Content Include="js\libs\jquery-1.6.2.min.js" />
     <Content Include="js\libs\jquery-ui-1.8.17.custom.min.js" />
     <Content Include="js\libs\jquery.signalR.min.js" />
@@ -190,7 +188,6 @@
     <Content Include="Areas\Members\Views\Web.config" />
     <Content Include="Areas\Members\Views\Shared\_NewLayout.cshtml" />
     <Content Include="Areas\Members\Views\_ViewStart.cshtml" />
-    <Content Include="js\TriageEnquiryUserImage.Add.js" />
     <Content Include="packages.config" />
     <None Include="test\index.html" />
     <None Include="test\qunit\qunit.css" />
@@ -223,7 +220,6 @@
     <Content Include="Views\Shared\_ObservationCreate.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\_NewLayout.cshtml" />
-    <None Include="Areas\Members\Views\Home\Index.cshtml.bak" />
     <Content Include="Views\Shared\_SelectedFilterDetails.cshtml" />
     <Content Include="Views\Shared\_StreamObservationItem.cshtml" />
     <Content Include="Views\Account\RequestPasswordResetSuccess.cshtml" />
@@ -263,6 +259,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Api\Views\Shared\" />
+    <Folder Include="media\document\" />
+    <Folder Include="media\image\0\" />
+    <Folder Include="media\video\" />
     <Folder Include="Views\User\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

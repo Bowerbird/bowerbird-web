@@ -5,15 +5,23 @@
 {
     /*background-color: Red;*/
 }
-.debug article #sidebar
+.debug article section.single-big
+{
+    /*background-color: Blue;*/
+}
+.debug article section.single-small
+{
+    /*background-color: Purple;*/
+}
+.debug article section.triple-1
 {
     /*background-color: Yellow;*/
 }
-.debug article #workspace
+.debug article section.triple-2
 {
     /*background-color: Orange;*/
 }
-.debug article #activity
+.debug article section.triple-3
 {
     /*background-color: lightblue;*/
 }
@@ -21,7 +29,8 @@
 {
     /*background-color: Green;*/
 }
-.debug #debug-info {
+.debug #debug-info 
+{
     display: block;
     position: fixed;
     width: 160px;
