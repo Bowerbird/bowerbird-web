@@ -62,11 +62,27 @@
                 </div>
             </div>
         </fieldset>
+        <fieldset id="media-resources-fieldset">
+            <legend>Your avatar image</legend>
+            <p>Drag and drop your avatar image into the box below, or choose a file from your computer.</p>
+            <div id="media-uploader">
+            </div>
+        </fieldset>
     </fieldset>
     <fieldset>
+        <input type="hidden" id="avatarId" value="" />
         <input type="submit" value="Save" />
     </fieldset>
 }
 </div>
 
 </section>
+
+@section script {
+    <script type="text/javascript" src="@Url.JavaScript("bowerbirduploader.js")"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            buildAvatarUploader();
+        });
+    </script>
+}

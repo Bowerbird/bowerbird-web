@@ -435,6 +435,7 @@
     @Html.Partial("_StreamObservationItem")
 </script>
 <script type="text/javascript" src="@Url.JavaScript("app.js")"></script>
+<script type="text/javascript" src="@Url.JavaScript("bowerbirduploader.js")"></script>
 <script type="text/javascript" src="@Url.JavaScriptLib("jquery.signalR.min.js")"></script>
 <script type="text/javascript" src="/signalr/hubs"></script>
 <script type="text/javascript">
@@ -465,4 +466,9 @@
         Backbone.history.start({ pushState: false });
     });
 </script>
+@*<script type="text/javascript">
+    $(document).ready(function () {
+        buildUploader('observation', true);
+    });
+</script>*@
 }

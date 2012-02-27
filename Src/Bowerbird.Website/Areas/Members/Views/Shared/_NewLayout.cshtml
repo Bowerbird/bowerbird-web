@@ -14,6 +14,7 @@
                                      .Add(@Url.Stylesheet("normalize.css"))
                                      .Add(@Url.Stylesheet("site.css"))
                                      .Add(@Url.Stylesheet("media.css"))
+                                     //.Add(@Url.Stylesheet("jquery.fileupload-ui.css"))
                                      .Add("/css/custom-theme/jquery-ui-1.8.17.custom.css")
             //.ForceRelease() // Test it out with minification
                                      .Render("~/css/style_#.css"))
@@ -89,6 +90,7 @@
             .Add(@Url.JavaScriptLib("underscore-min.js"))
             .Add(@Url.JavaScriptLib("backbone-min.js"))
             .Add(@Url.JavaScript("fileuploader.js"))
+            //.Add(@Url.JavaScriptLib("jquery.fileupload.js"))
             .Render("~/js/script_#.js"))
     <!-- ADDED: Page Level script sections -->
     @RenderSection("script", false)

@@ -18,9 +18,11 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Extensions;
+using Bowerbird.Core.Services;
 using Bowerbird.Test.Utils;
 using Bowerbird.Web.Controllers.Public;
 using Bowerbird.Web.ViewModels.Shared;
+using Moq;
 using NUnit.Framework;
 using Raven.Client;
 
@@ -32,13 +34,20 @@ namespace Bowerbird.Test.Controllers.Public
         #region Test Infrastructure
 
         private IDocumentStore _documentStore;
+        private Mock<IMediaFilePathService> _mockMediaFilePathService;
+        private Mock<IConfigService> _mockConfigService;
         private ProjectController _controller;
 
         [SetUp]
         public void TestInitialize()
         {
             _documentStore = DocumentStoreHelper.InMemoryDocumentStore();
-            _controller = new ProjectController(_documentStore.OpenSession());
+            _mockMediaFilePathService = new Mock<IMediaFilePathService>();
+            _mockConfigService = new Mock<IConfigService>();
+            _controller = new ProjectController(
+                _documentStore.OpenSession(),
+                _mockMediaFilePathService.Object,
+                _mockConfigService.Object);
         }
 
         [TearDown]

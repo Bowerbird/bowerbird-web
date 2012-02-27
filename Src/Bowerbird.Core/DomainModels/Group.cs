@@ -57,6 +57,8 @@ namespace Bowerbird.Core.DomainModels
 
         public string Website { get; private set; }
 
+        public string AvatarId { get; set; }
+
         public IEnumerable<GroupAssociation> ChildGroupAssociations { get { return _childGroupAssociations; } }
 
         #endregion
@@ -68,14 +70,15 @@ namespace Bowerbird.Core.DomainModels
             _childGroupAssociations = new List<GroupAssociation>();
         }
 
-        protected void SetDetails(string name, string description, string website, string parentGroupId = null)
+        protected void SetDetails(string name, string description, string website, string avatarId, string parentGroupId = null)
         {
             Name = name;
             Description = description;
             Website = website;
+            AvatarId = avatarId;
             ParentGroupId = parentGroupId;
         }
-
+        
         public void AddGroupAssociation(Group group, User createdByUser, DateTime createdDateTime)
         {
             Check.RequireNotNull(group, "group");

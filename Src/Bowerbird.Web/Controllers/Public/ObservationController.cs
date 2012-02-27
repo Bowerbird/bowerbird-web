@@ -15,6 +15,7 @@
 using System.Linq;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Paging;
+using Bowerbird.Core.Services;
 using Bowerbird.Web.ViewModels.Public;
 using Bowerbird.Web.ViewModels.Shared;
 using Raven.Client;
@@ -29,18 +30,25 @@ namespace Bowerbird.Web.Controllers.Public
         #region Members
 
         private readonly IDocumentSession _documentSession;
+        private readonly IMediaFilePathService _mediaFilePathService;
+        private readonly IConfigService _configService;
 
         #endregion
 
         #region Constructors
 
         public ObservationController(
-            IDocumentSession documentSession
-            )
+            IDocumentSession documentSession,
+            IMediaFilePathService mediaFilePathService,
+            IConfigService configService)
         {
             Check.RequireNotNull(documentSession, "documentSession");
+            Check.RequireNotNull(mediaFilePathService, "mediaFilePathService");
+            Check.RequireNotNull(configService, "configService");
 
             _documentSession = documentSession;
+            _mediaFilePathService = mediaFilePathService;
+            _configService = configService;
         }
 
         #endregion

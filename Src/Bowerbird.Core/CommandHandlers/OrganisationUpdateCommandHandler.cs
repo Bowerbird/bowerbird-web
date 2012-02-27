@@ -55,7 +55,8 @@ namespace Bowerbird.Core.CommandHandlers
                 _documentSession.Load<User>(command.UserId),
                 command.Name,
                 command.Description,
-                command.Website
+                command.Website,
+                command.AvatarId
                 );
 
             _documentSession.Store(organisation);

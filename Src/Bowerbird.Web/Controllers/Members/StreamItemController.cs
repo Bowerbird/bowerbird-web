@@ -88,14 +88,16 @@ namespace Bowerbird.Web.Controllers.Members
             var groupMemberships = _documentSession
                 .Query<GroupMember>()
                 .Include(x => x.User.Id)
-                .Where(x => x.User.Id == _userContext.GetAuthenticatedUserId())
+                .Where(x => x.User.Id == _userContext.GetAuthenticatedUserId());
+
+            // get all contributions for all groups found
+            var groupContributions = GetContributionsForGroups(groupMemberships)
+                .AsProjection<GroupContributionResults>()
+                .Include(x => x.ContributionId)
                 .Statistics(out stats)
                 .Skip(listInput.Page)
                 .Take(listInput.PageSize)
                 .ToList();
-
-            // get all contributions for all groups found
-            var groupContributions = GetContributionsForGroups(groupMemberships);
 
             //SortResults(groupContributions, sortInput);
 

@@ -19,6 +19,7 @@ using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.DomainModels.Members;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Paging;
+using Bowerbird.Core.Services;
 using Bowerbird.Web.ViewModels.Shared;
 using Raven.Client;
 using Raven.Client.Linq;
@@ -30,17 +31,25 @@ namespace Bowerbird.Web.Controllers.Public
         #region Members
 
         private readonly IDocumentSession _documentSession;
+        private readonly IMediaFilePathService _mediaFilePathService;
+        private readonly IConfigService _configService;
 
         #endregion
 
         #region Constructors
 
         public ProjectController(
-            IDocumentSession documentSession)
+            IDocumentSession documentSession,
+            IMediaFilePathService mediaFilePathService,
+            IConfigService configService)
         {
             Check.RequireNotNull(documentSession, "documentSession");
+            Check.RequireNotNull(mediaFilePathService, "mediaFilePathService");
+            Check.RequireNotNull(configService, "configService");
 
             _documentSession = documentSession;
+            _mediaFilePathService = mediaFilePathService;
+            _configService = configService;
         }
 
         #endregion
@@ -77,21 +86,28 @@ namespace Bowerbird.Web.Controllers.Public
             return Json(MakeProjectList(listInput), JsonRequestBehavior.AllowGet);
         }
 
-        protected ProjectIndex MakeProjectIndex(IdInput idInput)
+        private ProjectIndex MakeProjectIndex(IdInput idInput)
         {
             Check.RequireNotNull(idInput, "idInput");
 
             var project = _documentSession.Load<Project>(idInput.Id);
+            var avatar = _documentSession.Load<MediaResource>(project.AvatarId);
+
+            var avatarPath = avatar != null ?
+                _mediaFilePathService.MakeMediaFileUri(avatar.Id, "image", "avatar", avatar.FileFormat) :
+                _configService.GetDefaultAvatar();
 
             return new ProjectIndex()
             {
                 Project = project,
 
+                Avatar = avatarPath,
+
                 Team = project.ParentGroupId != null ? _documentSession.Load<Team>(project.ParentGroupId) : null
             };
         }
 
-        protected ProjectList MakeProjectList(ProjectListInput listInput)
+        private ProjectList MakeProjectList(ProjectListInput listInput)
         {
             RavenQueryStatistics stats;
 
@@ -114,7 +130,7 @@ namespace Bowerbird.Web.Controllers.Public
             };
         }
 
-        protected ProjectList MakeProjectListByTeamId(ProjectListInput listInput)
+        private ProjectList MakeProjectListByTeamId(ProjectListInput listInput)
         {
             RavenQueryStatistics stats;
 
@@ -140,7 +156,7 @@ namespace Bowerbird.Web.Controllers.Public
             };
         }
 
-        protected ProjectList MakeProjectListByMembership(ProjectListInput listInput)
+        private ProjectList MakeProjectListByMembership(ProjectListInput listInput)
         {
             RavenQueryStatistics stats;
 

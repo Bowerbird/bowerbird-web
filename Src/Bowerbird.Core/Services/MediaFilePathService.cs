@@ -50,21 +50,21 @@ namespace Bowerbird.Core.Services
                 "{0}/{1}/{2}/{3}-{4}{5}", 
                 GetCleanMediaRootUri(),
                 mediaType,
-                GetDirectoryName(MediaResourceIdPart(mediaResourceId)),
-                MediaResourceIdPart(mediaResourceId),
+                GetDirectoryName(RecordIdPart(mediaResourceId)),
+                RecordIdPart(mediaResourceId),
                 filenamePart,
                 format);
         }
 
-        public string MakeMediaBasePath(int mediaResourceId, string mediaType)
+        public string MakeMediaBasePath(int recordId, string mediaType)
         {
             return Path.Combine(_configService.GetEnvironmentRootPath(), _configService.GetMediaRelativePath(), mediaType, GetDirectoryName(mediaResourceId).ToString());
         }
 
-        public string MakeMediaFilePath(string mediaResourceId, string mediaType, string filenamePart, string format)
+        public string MakeMediaFilePath(string recordId, string mediaType, string filenamePart, string format)
         {
-            string mediaPath = MakeMediaBasePath(MediaResourceIdPart(mediaResourceId), mediaType);
-            string filename = string.Format("{0}-" + filenamePart + "{1}", MediaResourceIdPart(mediaResourceId), format);
+            string mediaPath = MakeMediaBasePath(RecordIdPart(recordId), mediaType);
+            string filename = string.Format("{0}-" + filenamePart + "{1}", RecordIdPart(recordId), format);
 
             return Path.Combine(mediaPath, filename);
         }
@@ -110,14 +110,14 @@ namespace Bowerbird.Core.Services
             return mediaRootUri;
         }
 
-        private static int MediaResourceIdPart(string mediaResourceId)
+        private static int RecordIdPart(string recordId)
         {
-            int mediaResourceid;
+            int recordIdInt;
 
-            if (Int32.TryParse(mediaResourceId.Split('/')[1], out mediaResourceid))
-                return mediaResourceid;
+            if (Int32.TryParse(recordId.Split('/')[1], out recordIdInt))
+                return recordIdInt;
 
-            throw new ApplicationException("MediaResource doesn't have a valid id");
+            throw new ApplicationException("Record doesn't have a valid id");
         }
 
         #endregion

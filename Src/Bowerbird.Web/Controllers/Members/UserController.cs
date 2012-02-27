@@ -18,6 +18,7 @@ using System.Web.Mvc;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.Services;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.ViewModels.Members;
 using Raven.Client;
@@ -32,6 +33,8 @@ namespace Bowerbird.Web.Controllers.Members
         private readonly ICommandProcessor _commandProcessor;
         private readonly IUserContext _userContext;
         private readonly IDocumentSession _documentSession;
+        private readonly IMediaFilePathService _mediaFilePathService;
+        private readonly IConfigService _configService;
 
         #endregion
 
@@ -40,15 +43,21 @@ namespace Bowerbird.Web.Controllers.Members
         public UserController(
             ICommandProcessor commandProcessor,
             IUserContext userContext,
-            IDocumentSession documentSession)
+            IDocumentSession documentSession,
+            IMediaFilePathService mediaFilePathService,
+            IConfigService configService)
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(documentSession, "documentSession");
+            Check.RequireNotNull(mediaFilePathService, "mediaFilePathService");
+            Check.RequireNotNull(configService, "configService");
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
             _documentSession = documentSession;
+            _mediaFilePathService = mediaFilePathService;
+            _configService = configService;
         }
 
         #endregion
@@ -119,20 +128,26 @@ namespace Bowerbird.Web.Controllers.Members
                            FirstName = userUpdateInput.FirstName,
                            LastName = userUpdateInput.LastName,
                            Email = userUpdateInput.Email,
-                           Description = userUpdateInput.Description
+                           Description = userUpdateInput.Description,
+                           AvatarId = userUpdateInput.AvatarId
                        };
         }
 
         private UserUpdate MakeUserUpdate()
         {
             var user = _documentSession.Load<User>(_userContext.GetAuthenticatedUserId());
+            var avatar = _documentSession.Load<MediaResource>(user.AvatarId);
+            var avatarPath = avatar != null ?
+                _mediaFilePathService.MakeMediaFileUri(avatar.Id, "image", "avatar", avatar.FileFormat) :
+                _configService.GetDefaultAvatar();
 
             return new UserUpdate()
             {
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
-                Description = user.Description
+                Description = user.Description,
+                Avatar = avatarPath
             };
         }
 
@@ -143,7 +158,8 @@ namespace Bowerbird.Web.Controllers.Members
                 FirstName = userUpdateInput.FirstName,
                 LastName = userUpdateInput.LastName,
                 Email = userUpdateInput.Email,
-                Description = userUpdateInput.Description
+                Description = userUpdateInput.Description,
+                Avatar = userUpdateInput.AvatarId
             };
         }
 

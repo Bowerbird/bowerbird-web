@@ -21,6 +21,7 @@ using Bowerbird.Core.DomainModels.Members;
 using Bowerbird.Core.Extensions;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Paging;
+using Bowerbird.Core.Services;
 using Bowerbird.Web.ViewModels.Members;
 using Bowerbird.Web.ViewModels.Shared;
 using Raven.Client;
@@ -32,18 +33,26 @@ namespace Bowerbird.Web.Controllers.Public
     {
         #region Members
 
-        protected readonly IDocumentSession _documentSession;
+        private readonly IDocumentSession _documentSession;
+        private readonly IMediaFilePathService _mediaFilePathService;
+        private readonly IConfigService _configService;
 
         #endregion
 
         #region Constructors
 
         public TeamController(
-            IDocumentSession documentSession)
+            IDocumentSession documentSession,
+            IMediaFilePathService mediaFilePathService,
+            IConfigService configService)
         {
             Check.RequireNotNull(documentSession, "documentSession");
+            Check.RequireNotNull(mediaFilePathService, "mediaFilePathService");
+            Check.RequireNotNull(configService, "configService");
 
             _documentSession = documentSession;
+            _mediaFilePathService = mediaFilePathService;
+            _configService = configService;
         }
 
         #endregion
@@ -79,7 +88,7 @@ namespace Bowerbird.Web.Controllers.Public
             return View(MakeTeamIndex(idInput));
         }
 
-        protected TeamIndex MakeTeamIndex(IdInput idInput)
+        private TeamIndex MakeTeamIndex(IdInput idInput)
         {
             Check.RequireNotNull(idInput, "idInput");
 
@@ -112,7 +121,7 @@ namespace Bowerbird.Web.Controllers.Public
             };
         }
 
-        protected TeamList MakeTeamList(TeamListInput listInput)
+        private TeamList MakeTeamList(TeamListInput listInput)
         {
             RavenQueryStatistics stats;
 
@@ -137,7 +146,7 @@ namespace Bowerbird.Web.Controllers.Public
             };
         }
 
-        protected TeamList MakeTeamListByOrganisationId(TeamListInput listInput)
+        private TeamList MakeTeamListByOrganisationId(TeamListInput listInput)
         {
             RavenQueryStatistics stats;
 
@@ -163,7 +172,7 @@ namespace Bowerbird.Web.Controllers.Public
             };
         }
 
-        protected TeamList MakeTeamListByMembership(TeamListInput listInput)
+        private TeamList MakeTeamListByMembership(TeamListInput listInput)
         {
             RavenQueryStatistics stats;
 

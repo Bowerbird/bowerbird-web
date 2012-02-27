@@ -36,8 +36,6 @@ namespace Bowerbird.Web.Controllers.Members
     {
         #region Fields
 
-        private readonly string _uploadsFolderRelativePath = "Media/Temp";
-
         private readonly ICommandProcessor _commandProcessor;
         private readonly IUserContext _userContext;
         private readonly IDocumentSession _documentSession;
@@ -77,22 +75,37 @@ namespace Bowerbird.Web.Controllers.Members
 
         #region Methods
 
-        public ActionResult Upload(string qqfile)
+        public ActionResult ObservationUpload(string qqfile)
+        {
+            return Upload(qqfile, "observation");
+        }
+
+        public ActionResult PostUpload(string qqfile)
+        {
+            return Upload(qqfile, "post");
+        }
+
+        public ActionResult AvatarUpload(string qqfile)
+        {
+            return Upload(qqfile, "user");
+        }
+
+        private ActionResult Upload(string file, string recordType)
         {
             if (Request.Browser.IsBrowser("IE") && Request.Files != null && Request.Files[0] != null)
             {
-                return ProcessPostedImage(Request.Files[0].InputStream, Request.Files[0].FileName);
+                return ProcessPostedImage(Request.Files[0].InputStream, Request.Files[0].FileName, recordType);
             }
 
-            if (!string.IsNullOrEmpty(qqfile))
+            if (!string.IsNullOrEmpty(file))
             {
-                return ProcessPostedImage(Request.InputStream, qqfile);
+                return ProcessPostedImage(Request.InputStream, file, recordType);
             }
 
             return JsonWithContentType(Json(new { success = false }, JsonRequestBehavior.AllowGet));
         }
 
-        private ActionResult ProcessPostedImage(Stream stream, string postedFileName)
+        private ActionResult ProcessPostedImage(Stream stream, string postedFileName, string recordType)
         {
             try
             {
@@ -118,16 +131,12 @@ namespace Bowerbird.Web.Controllers.Members
 
                 _documentSession.SaveChanges();
 
-                //var tempFileName = string.Format("{0}{1}", Guid.NewGuid(), Path.GetExtension(postedFileName));
-
                 ImageUtility
                     .Load(stream)
                     .GetImageDimensions(out imageDimensions)
-                    //.Resize(imageApplicationMediaResourceConfig.MakeImageDimensions(), imageApplicationMediaResourceConfig.ImageDetermineBestOrientation, imageApplicationMediaResourceConfig.ImageResizeMode)
                     .SaveAs(_mediaFilePathService.MakeMediaFilePath(imageMediaResource.Id, "image", "original", Path.GetExtension(postedFileName)))
                     .Cleanup();
 
-                // return the imagemediaresource record id with the image url to show thumbnail
                 return JsonWithContentType(Json(new
                 {
                     imageMediaResource.Id,

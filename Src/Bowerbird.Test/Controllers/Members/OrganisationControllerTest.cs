@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Services;
 using Bowerbird.Test.Utils;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.Controllers.Members;
@@ -36,6 +37,8 @@ namespace Bowerbird.Test.Controllers.Members
         private IDocumentStore _documentStore;
         private Mock<IUserContext> _mockUserContext;
         private Mock<ICommandProcessor> _mockCommandProcessor;
+        private Mock<IConfigService> _mockConfigService;
+        private Mock<IMediaFilePathService> _mockMediaFilePathService;
         private OrganisationController _controller;
 
         [SetUp]
@@ -43,12 +46,16 @@ namespace Bowerbird.Test.Controllers.Members
         {
             _documentStore = DocumentStoreHelper.InMemoryDocumentStore();
             _mockUserContext = new Mock<IUserContext>();
+            _mockConfigService = new Mock<IConfigService>();
+            _mockMediaFilePathService = new Mock<IMediaFilePathService>();
             _mockCommandProcessor = new Mock<ICommandProcessor>();
 
             _controller = new OrganisationController(
                 _mockCommandProcessor.Object,
                 _mockUserContext.Object,
-                _documentStore.OpenSession()
+                _documentStore.OpenSession(),
+                _mockMediaFilePathService.Object,
+                _mockConfigService.Object
                 );
         }
 
@@ -84,10 +91,14 @@ namespace Bowerbird.Test.Controllers.Members
 
             Assert.IsInstanceOf<OrganisationIndex>(_controller.ViewData.Model);
 
-            var viewModel = _controller.ViewData.Model as OrganisationIndex;
+            var jsonData = _controller.ViewData.Model as OrganisationIndex;
 
-            Assert.IsNotNull(viewModel);
-            Assert.AreEqual(viewModel.Organisation, organisation);
+            Assert.IsNotNull(jsonData);
+
+            Assert.AreEqual(jsonData.Name, organisation.Name);
+            Assert.AreEqual(jsonData.Description, organisation.Description);
+            Assert.AreEqual(jsonData.Website, organisation.Website);
+            //Assert.AreEqual(jsonData.Avatar, organisation.AvatarId);
         }
 
         [Test]
@@ -114,7 +125,10 @@ namespace Bowerbird.Test.Controllers.Members
             var jsonData = jsonResult.Data as OrganisationIndex;
             Assert.IsNotNull(jsonData);
 
-            Assert.AreEqual(jsonData.Organisation, organisation);
+            Assert.AreEqual(jsonData.Name, organisation.Name);
+            Assert.AreEqual(jsonData.Description, organisation.Description);
+            Assert.AreEqual(jsonData.Website, organisation.Website);
+            //Assert.AreEqual(jsonData.Avatar, organisation.AvatarId);
         }
 
         [Test]

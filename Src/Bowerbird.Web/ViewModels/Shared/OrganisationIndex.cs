@@ -31,7 +31,13 @@ namespace Bowerbird.Web.ViewModels.Shared
 
         #region Properties
 
-        public Organisation Organisation { get; set; }
+        public string Name { get; set; }
+
+        public string Description { get; set; }
+        
+        public string Website { get; set; }
+
+        public string Avatar { get; set; }
 
         #endregion
 

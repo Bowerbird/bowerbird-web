@@ -56,7 +56,8 @@ namespace Bowerbird.Core.CommandHandlers
             user.UpdateDetails(
                 userUpdateCommand.FirstName,
                 userUpdateCommand.LastName,
-                userUpdateCommand.Description);
+                userUpdateCommand.Description,
+                userUpdateCommand.AvatarId);
 
             _documentSession.Store(user);
         }

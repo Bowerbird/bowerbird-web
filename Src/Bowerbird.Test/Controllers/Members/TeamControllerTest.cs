@@ -17,6 +17,7 @@ using System.Linq;
 using System.Web.Mvc;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Services;
 using Bowerbird.Test.Utils;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.Controllers.Members;
@@ -35,6 +36,8 @@ namespace Bowerbird.Test.Controllers.Members
 
         private Mock<ICommandProcessor> _mockCommandProcessor;
         private Mock<IUserContext> _mockUserContext;
+        private Mock<IMediaFilePathService> _mockMediaFilePathService;
+        private Mock<IConfigService> _mockConfigService;
         private IDocumentStore _documentStore;
         private TeamController _controller;
 
@@ -43,12 +46,16 @@ namespace Bowerbird.Test.Controllers.Members
         {
             _mockCommandProcessor = new Mock<ICommandProcessor>();
             _mockUserContext = new Mock<IUserContext>();
+            _mockMediaFilePathService = new Mock<IMediaFilePathService>();
+            _mockConfigService = new Mock<IConfigService>();
             _documentStore = DocumentStoreHelper.InMemoryDocumentStore();
 
             _controller = new TeamController(
                 _mockCommandProcessor.Object,
                 _mockUserContext.Object,
-                _documentStore.OpenSession());
+                _documentStore.OpenSession(),
+                _mockMediaFilePathService.Object,
+                _mockConfigService.Object);
         }
 
         [TearDown]

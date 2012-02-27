@@ -24,8 +24,6 @@ namespace Bowerbird.Core.DomainModels
     {
         #region Members
 
-        //private List<Comment> _comments;
-
         private List<MediaResource> _mediaResources;
 
         #endregion

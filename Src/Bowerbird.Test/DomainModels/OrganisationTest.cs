@@ -82,7 +82,8 @@ namespace Bowerbird.Test.DomainModels
                 FakeObjects.TestUser(),
                 FakeValues.Name.AppendWith(additionalString),
                 FakeValues.Description.AppendWith(additionalString),
-                FakeValues.Website.AppendWith(additionalString));
+                FakeValues.Website.AppendWith(additionalString),
+                FakeValues.KeyString);
 
             Assert.AreEqual(testOrganisation.Name, FakeValues.Name.AppendWith(additionalString));
             Assert.AreEqual(testOrganisation.Description, FakeValues.Description.AppendWith(additionalString));

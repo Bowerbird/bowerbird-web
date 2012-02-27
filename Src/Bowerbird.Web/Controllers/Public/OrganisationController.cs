@@ -17,6 +17,7 @@ using System.Web.Mvc;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Paging;
+using Bowerbird.Core.Services;
 using Bowerbird.Web.ViewModels.Shared;
 using Raven.Client;
 using Raven.Client.Linq;
@@ -28,17 +29,26 @@ namespace Bowerbird.Web.Controllers.Public
         #region Fields
 
         private readonly IDocumentSession _documentSession;
+        private readonly IMediaFilePathService _mediaFilePathService;
+        private readonly IConfigService _configService;
 
         #endregion
 
         #region Constructors
 
         public OrganisationController(
-            IDocumentSession documentSession)
+            IDocumentSession documentSession,
+            IMediaFilePathService mediaFilePathService,
+            IConfigService configService)
+            :base()
         {
             Check.RequireNotNull(documentSession, "documentSession");
+            Check.RequireNotNull(mediaFilePathService, "mediaFilePathService");
+            Check.RequireNotNull(configService, "configService");
 
             _documentSession = documentSession;
+            _mediaFilePathService = mediaFilePathService;
+            _configService = configService;
         }
 
         #endregion
@@ -70,9 +80,19 @@ namespace Bowerbird.Web.Controllers.Public
         {
             Check.RequireNotNull(idInput, "idInput");
 
+            var organisation = _documentSession.Load<Organisation>(idInput.Id);
+            var avatar = _documentSession.Load<MediaResource>(organisation.AvatarId);
+
+            var avatarPath = avatar != null ?
+                _mediaFilePathService.MakeMediaFileUri(avatar.Id, "image", "avatar", avatar.FileFormat) :
+                _configService.GetDefaultAvatar();
+
             return new OrganisationIndex()
             {
-                Organisation = _documentSession.Load<Organisation>(idInput.Id)
+                Name = organisation.Name,
+                Description = organisation.Description,
+                Website = organisation.Website,
+                Avatar = avatarPath
             };
         }
 

@@ -61,6 +61,7 @@ namespace Bowerbird.Core.DomainModels
             SetDetails(
                 firstName,
                 lastName,
+                string.Empty,
                 string.Empty);
 
             AddMembership(new GlobalMember(this, roles));
@@ -92,6 +93,8 @@ namespace Bowerbird.Core.DomainModels
 
         public int FlagsRaised { get; private set; }
 
+        public string AvatarId { get; set; }
+
         public List<DenormalisedMemberReference> Memberships { get; private set; }
 
         public List<DenormalisedNamedDomainModelReference<Watchlist>> Watchlists { get; private set; }
@@ -122,11 +125,12 @@ namespace Bowerbird.Core.DomainModels
             return hashedPassword;
         }
 
-        private void SetDetails(string firstName, string lastName, string description)
+        private void SetDetails(string firstName, string lastName, string description, string avatarId)
         {
             FirstName = firstName;
             LastName = lastName;
             Description = description;
+            AvatarId = avatarId;
         }
 
         public bool ValidatePassword(string password)
@@ -155,12 +159,13 @@ namespace Bowerbird.Core.DomainModels
             return this;
         }
 
-        public virtual User UpdateDetails(string firstName, string lastName, string description)
+        public virtual User UpdateDetails(string firstName, string lastName, string description, string avatarId)
         {
             SetDetails(
                 firstName,
                 lastName,
-                description);
+                description,
+                avatarId);
 
             EventProcessor.Raise(new DomainModelUpdatedEvent<User>(this, this));
 

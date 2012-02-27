@@ -593,62 +593,50 @@ window.Bowerbird.Views.Navigation = Backbone.View.extend({
 //----------------end map functions imported from PaDIL-------------------------------
 
 
-    var uploader;
-    var mediaResources = new Array();
+//    var uploader;
+//    var mediaResources = new Array();
 
-    function buildUploader() {
-        uploader = new qq.FileUploader({
-            element: document.getElementById('media-uploader'),
-            action: '/members/mediaresource/upload',
+//    function buildUploader(recordType) {
+//        uploader = new qq.FileUploader({
+//            element: document.getElementById('media-uploader'),
+//            action: '/members/mediaresource/'+recordType+'upload',
 
-//            template: '<div class="qq-uploader">' +
-//                '<div class="qq-upload-drop-area"><span>Drop files here to upload</span></div>' +
-//                '<div class="qq-upload-button">Upload a file</div>' +
-//                '<ul class="qq-upload-list"></ul>' +
-//             '</div>',
+//            template: '<div class="media-resource-items" id="media-resource-items"><ul class="qq-upload-list" style="display: none;"></ul><div class="media-resource-dropzone">Drop Files Here</div></div><div class="field"><div>' +
+//                    '<div id="media-resource-upload-button" class="button media-resource-upload-button">Choose Files</div>' +
+//                    '<input type="button" value="Import From Website" id="media-resource-import-button"/></div></div>',
+//            fileTemplate: '<li>' +
+//                    '<span class="qq-upload-file"></span>' +
+//                    '<span class="qq-upload-spinner"></span>' +
+//                    '<span class="qq-upload-size"></span>' +
+//                    '<a class="qq-upload-cancel" href="#">Cancel</a>' +
+//                '</li>',
 
-            template: '<div class="media-resource-items" id="media-resource-items">' +
-                    '<div>' + 
-                    '<ul class="qq-upload-list" style="display: none;"></ul>' +
-                    '<div class="media-resource-dropzone">Drop Files Here</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '<div class="field"><div><div id="media-resource-upload-button" class="button media-resource-upload-button">Choose Files</div><input type="button" value="Import From Website" id="media-resource-import-button"/></div></div>',
+//            classes: {
+//                // used to get elements from templates
+//                button: 'media-resource-upload-button', //'qq-upload-button',
+//                drop: 'media-resource-dropzone', //'qq-upload-drop-area',
+//                dropActive: 'qq-upload-drop-area-active',
+//                list: 'qq-upload-list',
 
-            fileTemplate: '<li>' +
-                    '<span class="qq-upload-file"></span>' +
-                    '<span class="qq-upload-spinner"></span>' +
-                    '<span class="qq-upload-size"></span>' +
-                    '<a class="qq-upload-cancel" href="#">Cancel</a>' +
-                    //'<span class="qq-upload-failed-text">Failed</span>' +
-                '</li>',
+//                file: 'qq-upload-file',
+//                spinner: 'qq-upload-spinner',
+//                size: 'qq-upload-size',
+//                cancel: 'qq-upload-cancel',
 
-            classes: {
-                // used to get elements from templates
-                button: 'media-resource-upload-button', //'qq-upload-button',
-                drop: 'media-resource-dropzone', //'qq-upload-drop-area',
-                dropActive: 'qq-upload-drop-area-active',
-                list: 'qq-upload-list',
+//                // added to list item when upload completes
+//                // used in css to hide progress spinner
+//                success: 'qq-upload-success',
+//                fail: 'qq-upload-fail'
+//                },
 
-                file: 'qq-upload-file',
-                spinner: 'qq-upload-spinner',
-                size: 'qq-upload-size',
-                cancel: 'qq-upload-cancel',
-
-                // added to list item when upload completes
-                // used in css to hide progress spinner
-                success: 'qq-upload-success',
-                fail: 'qq-upload-fail'
-                },
-
-            multiple: true,
-            debug: true,
-            onComplete: function (id, fileName, responseText) {
-                $('#media-resource-items > div').append('<div class="media-resource-uploaded"><img src="' + responseText.imageUrl + '" width="200px" /><div><span>' + responseText.fileName + '</span><span>' + responseText.fileSize + '<span></div></div>');
-                mediaResources.push(responseText.Id);
-            }
-        });
-    }
+//            multiple: true,
+//            debug: true,
+//            onComplete: function (id, fileName, responseText) {
+//                $('#media-resource-items').append('<div class="media-resource-uploaded"><img src="' + responseText.imageUrl + '" width="200px" /><div><span>' + responseText.fileName + '</span><span>' + responseText.fileSize + '<span></div></div>');
+//                mediaResources.push(responseText.Id);
+//            }
+//        });
+//    }
 
 // Workspace
     window.Bowerbird.Views.Workspace = Backbone.View.extend({
@@ -710,7 +698,8 @@ window.Bowerbird.Views.Navigation = Backbone.View.extend({
             //                
             //            });
             buildMap();
-            buildUploader();
+            //buildUploader();
+            buildMediaUploader('observation', true);
         },
 
         showWorkspaceItem: function (workspaceItem) {

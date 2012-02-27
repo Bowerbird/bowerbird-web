@@ -18,6 +18,7 @@ using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Paging;
+using Bowerbird.Core.Services;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.ViewModels.Members;
 using Bowerbird.Web.ViewModels.Shared;
@@ -33,6 +34,8 @@ namespace Bowerbird.Web.Controllers.Members
         private readonly ICommandProcessor _commandProcessor;
         private readonly IUserContext _userContext;
         private readonly IDocumentSession _documentSession;
+        private readonly IMediaFilePathService _mediaFilePathService;
+        private readonly IConfigService _configService;
 
         #endregion
 
@@ -41,15 +44,21 @@ namespace Bowerbird.Web.Controllers.Members
         public OrganisationController(
             ICommandProcessor commandProcessor,
             IUserContext userContext,
-            IDocumentSession documentSession)
+            IDocumentSession documentSession,
+            IMediaFilePathService mediaFilePathService,
+            IConfigService configService)
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(documentSession, "documentSession");
+            Check.RequireNotNull(mediaFilePathService, "mediaFilePathService");
+            Check.RequireNotNull(configService, "configService");
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
             _documentSession = documentSession;
+            _mediaFilePathService = mediaFilePathService;
+            _configService = configService;
         }
 
         #endregion
@@ -141,9 +150,19 @@ namespace Bowerbird.Web.Controllers.Members
         {
             Check.RequireNotNull(idInput, "idInput");
 
+            var organisation = _documentSession.Load<Organisation>(idInput.Id);
+            var avatar = _documentSession.Load<MediaResource>(organisation.AvatarId);
+            
+            var avatarPath = avatar != null ?
+                _mediaFilePathService.MakeMediaFileUri(avatar.Id, "image", "avatar", avatar.FileFormat) : 
+                _configService.GetDefaultAvatar();
+
             return new OrganisationIndex()
             {
-                Organisation = _documentSession.Load<Organisation>(idInput.Id)
+                Name = organisation.Name,
+                Description = organisation.Description,
+                Website = organisation.Website,
+                Avatar = avatarPath
             };
         }
 
@@ -197,7 +216,8 @@ namespace Bowerbird.Web.Controllers.Members
                 Description = updateInput.Description,
                 Name = updateInput.Name,
                 Website = updateInput.Website,
-                UserId = _userContext.GetAuthenticatedUserId()
+                UserId = _userContext.GetAuthenticatedUserId(),
+                AvatarId = updateInput.AvatarId
             };
         }
 
