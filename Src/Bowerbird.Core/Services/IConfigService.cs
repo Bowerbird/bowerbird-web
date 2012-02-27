@@ -18,16 +18,22 @@ namespace Bowerbird.Core.Services
 {
     public interface IConfigService : IService
     {
+        string GetEnvironmentRootPath();
+
+        string GetEnvironmentRootUri();
+
         string GetEmailServerName();
 
         string GetMediaRootUri();
 
-        string GetMediaRootPath();
+        string GetMediaRelativePath();
+
+        string GetDatabaseUrl();
 
         string GetDatabaseName();
 
         string GetEmailAdminAccount();
 
-        string GetEmailResetPasswordUri();
+        string GetEmailResetPasswordRelativeUri();
     }
 }

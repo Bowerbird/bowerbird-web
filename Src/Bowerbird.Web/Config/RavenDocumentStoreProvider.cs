@@ -54,7 +54,11 @@ namespace Bowerbird.Web.Config
 
         protected override IDocumentStore CreateInstance(IContext ctx)
         {
-            var documentStore = new DocumentStore { ConnectionStringName = "bowerbird" };
+            var documentStore = new DocumentStore
+            {
+                Url = _configService.GetDatabaseUrl(),
+                DefaultDatabase = _configService.GetDatabaseName()
+            };
 
             documentStore.Conventions.FindIdentityProperty =
                                 prop =>

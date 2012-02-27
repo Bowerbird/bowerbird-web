@@ -599,7 +599,7 @@ window.Bowerbird.Views.Navigation = Backbone.View.extend({
     function buildUploader() {
         uploader = new qq.FileUploader({
             element: document.getElementById('media-uploader'),
-            action: 'http://dev.bowerbird.org.au/Members/MediaResource/Upload',
+            action: '/members/mediaresource/upload',
 
 //            template: '<div class="qq-uploader">' +
 //                '<div class="qq-upload-drop-area"><span>Drop files here to upload</span></div>' +
@@ -607,9 +607,14 @@ window.Bowerbird.Views.Navigation = Backbone.View.extend({
 //                '<ul class="qq-upload-list"></ul>' +
 //             '</div>',
 
-            template: '<div class="media-resource-items" id="media-resource-items"><ul class="qq-upload-list" style="display: none;"></ul><div class="media-resource-dropzone">Drop Files Here</div></div><div class="field"><div>' +
-                    '<div id="media-resource-upload-button" class="button media-resource-upload-button">Choose Files</div>' +
-                    '<input type="button" value="Import From Website" id="media-resource-import-button"/></div></div>',
+            template: '<div class="media-resource-items" id="media-resource-items">' +
+                    '<div>' + 
+                    '<ul class="qq-upload-list" style="display: none;"></ul>' +
+                    '<div class="media-resource-dropzone">Drop Files Here</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="field"><div><div id="media-resource-upload-button" class="button media-resource-upload-button">Choose Files</div><input type="button" value="Import From Website" id="media-resource-import-button"/></div></div>',
+
             fileTemplate: '<li>' +
                     '<span class="qq-upload-file"></span>' +
                     '<span class="qq-upload-spinner"></span>' +
@@ -639,7 +644,7 @@ window.Bowerbird.Views.Navigation = Backbone.View.extend({
             multiple: true,
             debug: true,
             onComplete: function (id, fileName, responseText) {
-                $('#media-resource-items').append('<div class="media-resource-uploaded"><img src="' + responseText.imageUrl + '" width="200px" /><div><span>' + responseText.fileName + '</span><span>' + responseText.fileSize + '<span></div></div>');
+                $('#media-resource-items > div').append('<div class="media-resource-uploaded"><img src="' + responseText.imageUrl + '" width="200px" /><div><span>' + responseText.fileName + '</span><span>' + responseText.fileSize + '<span></div></div>');
                 mediaResources.push(responseText.Id);
             }
         });

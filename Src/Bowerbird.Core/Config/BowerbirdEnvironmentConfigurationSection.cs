@@ -18,7 +18,7 @@ using System.Configuration;
 
 namespace Bowerbird.Core.Config
 {
-    public class BowerbirdMediaConfigurationSection : ConfigurationSection
+    public class BowerbirdEnvironmentConfigurationSection : ConfigurationSection
     {
 
         #region Members
@@ -32,7 +32,7 @@ namespace Bowerbird.Core.Config
         #region Properties
 
         [ConfigurationProperty("rootUri", DefaultValue = "", IsRequired = true, IsKey = false)]
-        public string MediaRootUri
+        public string RootUri
         {
             get
             {
@@ -44,16 +44,16 @@ namespace Bowerbird.Core.Config
             }
         }
 
-        [ConfigurationProperty("relativePath", DefaultValue = "", IsRequired = true, IsKey = false)]
-        public string MediaRelativePath
+        [ConfigurationProperty("rootPath", DefaultValue = "", IsRequired = true, IsKey = false)]
+        public string RootPath
         {
             get
             {
-                return (string)this["relativePath"];
+                return (string)this["rootPath"];
             }
             set
             {
-                this["relativePath"] = value;
+                this["rootPath"] = value;
             }
         }
 

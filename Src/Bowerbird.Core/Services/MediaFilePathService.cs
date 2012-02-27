@@ -58,7 +58,7 @@ namespace Bowerbird.Core.Services
 
         public string MakeMediaBasePath(int mediaResourceId, string mediaType)
         {
-            return Path.Combine(_configService.GetMediaRootPath(), mediaType, GetDirectoryName(mediaResourceId).ToString());
+            return Path.Combine(_configService.GetEnvironmentRootPath(), _configService.GetMediaRelativePath(), mediaType, GetDirectoryName(mediaResourceId).ToString());
         }
 
         public string MakeMediaFilePath(string mediaResourceId, string mediaType, string filenamePart, string format)

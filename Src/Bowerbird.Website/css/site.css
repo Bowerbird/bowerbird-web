@@ -1160,16 +1160,36 @@ header nav#search-menu
     padding: 15px;
     position: absolute;
 }
+.form #media-uploader
+{
+    height: 245px;
+    position: relative;
+}
+.form #media-uploader .field
+{
+    position: relative;
+    top: 195px;
+}
+.form #media-resource-items > div
+{
+    height: 174px;
+    white-space: nowrap;
+}
 .form #media-resource-items
 {
     background: none repeat scroll 0 0 rgba(255, 255, 255, 0.6);
     border: 1px solid #509EEE;
     border-radius: 4px 4px 4px 4px;
+    bottom: 0;
     box-shadow: 0 1px 2px 0 #777777 inset;
     height: 174px;
-    margin: 15px;
+    left: 0;
+    margin: 5px 15px 15px;
     overflow-x: scroll;
     overflow-y: hidden;
+    position: absolute;
+    right: 0;
+    top: 0;
     white-space: nowrap;
 }
 .form #media-resource-items p
@@ -1184,16 +1204,19 @@ header nav#search-menu
 }
 .form .media-resource-uploaded
 {
-    background-color: White;
-    display: block;
-    float: left;
-    height: 138px;
-    margin-left: 10px;
-    margin-top: 10px;
+    background-color: #ffffff;
+    box-shadow: 0 1px 2px 0 #5071A6;
+    display: inline-block;
+    height: 128px;
+    margin-left: 15px;
+    margin-top: 15px;
     overflow: hidden;
     padding: 0;
-    width: 138px;
-    border-radius: 4px 4px 4px 4px;
+    width: 128px;
+}
+.form .media-resource-uploaded:last-child
+{
+    margin-right: 15px;
 }
 .form .media-resource-dropzone
 {

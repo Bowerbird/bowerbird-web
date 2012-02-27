@@ -57,16 +57,16 @@ namespace Bowerbird.Core.Config
             }
         }
 
-        [ConfigurationProperty("resetPasswordUri", DefaultValue = "", IsRequired = true, IsKey = false)]
-        public string ResetPasswordUri
+        [ConfigurationProperty("resetPasswordRelativeUri", DefaultValue = "", IsRequired = true, IsKey = false)]
+        public string ResetPasswordRelativeUri
         {
             get
             {
-                return (string)this["resetPasswordUri"];
+                return (string)this["resetPasswordRelativeUri"];
             }
             set
             {
-                this["resetPasswordUri"] = value;
+                this["resetPasswordRelativeUri"] = value;
             }
         }
 

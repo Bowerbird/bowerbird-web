@@ -31,6 +31,19 @@ namespace Bowerbird.Core.Config
 
         #region Properties
 
+        [ConfigurationProperty("url", DefaultValue = "", IsRequired = true, IsKey = false)]
+        public string DatabaseUrl
+        {
+            get
+            {
+                return (string)this["url"];
+            }
+            set
+            {
+                this["url"] = value;
+            }
+        }
+
         [ConfigurationProperty("databaseName", DefaultValue = "", IsRequired = true, IsKey = false)]
         public string DatabaseName
         {

@@ -36,6 +36,16 @@ namespace Bowerbird.Core.Services
 
         #region Methods
 
+        public string GetEnvironmentRootPath()
+        {
+            return ((BowerbirdEnvironmentConfigurationSection)ConfigurationManager.GetSection("bowerbird/environment")).RootPath;
+        }
+
+        public string GetEnvironmentRootUri()
+        {
+            return ((BowerbirdEnvironmentConfigurationSection)ConfigurationManager.GetSection("bowerbird/environment")).RootUri;
+        }
+
         public string GetEmailServerName()
         {
             return ((BowerbirdEmailConfigurationSection)ConfigurationManager.GetSection("bowerbird/email")).ServerName;
@@ -46,9 +56,14 @@ namespace Bowerbird.Core.Services
             return ((BowerbirdMediaConfigurationSection)ConfigurationManager.GetSection("bowerbird/media")).MediaRootUri;
         }
 
-        public string GetMediaRootPath()
+        public string GetMediaRelativePath()
         {
-            return ((BowerbirdMediaConfigurationSection)ConfigurationManager.GetSection("bowerbird/media")).MediaRootPath;
+            return ((BowerbirdMediaConfigurationSection)ConfigurationManager.GetSection("bowerbird/media")).MediaRelativePath;
+        }
+
+        public string GetDatabaseUrl()
+        {
+            return ((BowerbirdDocumentStoreConfigurationSection)ConfigurationManager.GetSection("bowerbird/documentStore")).DatabaseUrl;
         }
 
         public string GetDatabaseName()
@@ -61,9 +76,9 @@ namespace Bowerbird.Core.Services
             return ((BowerbirdEmailConfigurationSection)ConfigurationManager.GetSection("bowerbird/email")).AdminAccount;
         }
 
-        public string GetEmailResetPasswordUri()
+        public string GetEmailResetPasswordRelativeUri()
         {
-            return ((BowerbirdEmailConfigurationSection)ConfigurationManager.GetSection("bowerbird/email")).ResetPasswordUri;
+            return ((BowerbirdEmailConfigurationSection)ConfigurationManager.GetSection("bowerbird/email")).ResetPasswordRelativeUri;
         }
 
         #endregion
