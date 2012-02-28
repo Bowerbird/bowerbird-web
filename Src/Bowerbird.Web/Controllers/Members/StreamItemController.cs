@@ -120,6 +120,11 @@ namespace Bowerbird.Web.Controllers.Members
                     .Skip(listInput.Page)
                     .Take(listInput.PageSize)
                     .ToList();
+                    //.Select(x => new StreamItem()
+                    //{
+                    //    CreatedDateTime = x.CreatedDateTime,
+                    //    Type =  
+                    //});
 
             //SortResults(groupContributions, sortInput);
 

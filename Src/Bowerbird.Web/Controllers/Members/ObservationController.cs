@@ -242,7 +242,7 @@ namespace Bowerbird.Web.Controllers.Members
                            Longitude = observationCreateInput.Longitude,
                            Address = observationCreateInput.Address,
                            IsIdentificationRequired = observationCreateInput.IsIdentificationRequired,
-                           MediaResources = observationCreateInput.MediaResources,
+                           ObservationMediaItems = observationCreateInput.ObservationMediaItems,
                            ObservationCategory = observationCreateInput.ObservationCategory,
                            ObservedOn = observationCreateInput.ObservedOn,
                            UserId = _userContext.GetAuthenticatedUserId()
@@ -259,7 +259,7 @@ namespace Bowerbird.Web.Controllers.Members
                            Longitude = observationUpdateInput.Longitude,
                            Address = observationUpdateInput.Address,
                            IsIdentificationRequired = observationUpdateInput.IsIdentificationRequired,
-                           MediaResources = observationUpdateInput.MediaResources,
+                           ObservationMediaItems = observationUpdateInput.ObservationMediaItems,
                            ObservationCategory = observationUpdateInput.ObservationCategory,
                            ObservedOn = observationUpdateInput.ObservedOn,
                            UserId = _userContext.GetAuthenticatedUserId()

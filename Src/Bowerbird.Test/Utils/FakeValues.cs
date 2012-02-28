@@ -235,5 +235,14 @@ namespace Bowerbird.Test.Utils
         /// </summary>
         public static string Notes { get { return "fake notes"; } }
 
+        /// <summary>
+        /// value: "image"
+        /// </summary>
+        public static string MediaType { get { return "image"; } }
+
+        /// <summary>
+        /// value: "observation"
+        /// </summary>
+        public static string Usage { get { return "observation"; } }
     }
 }

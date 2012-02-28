@@ -220,7 +220,7 @@
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Shared\_ObservationCreate.cshtml" />
+    <Content Include="Areas\Members\Views\Shared\_ObservationCreate.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\_NewLayout.cshtml" />
     <Content Include="Views\Shared\_SelectedFilterDetails.cshtml" />

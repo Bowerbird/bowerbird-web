@@ -26,6 +26,7 @@ using Bowerbird.Web.ViewModels.Members;
 using Bowerbird.Web.ViewModels.Shared;
 using Raven.Client;
 using Raven.Client.Linq;
+using System;
 
 namespace Bowerbird.Web.Controllers.Members
 {
@@ -189,23 +190,24 @@ namespace Bowerbird.Web.Controllers.Members
 
         protected ProjectIndex MakeProjectIndex(IdInput idInput)
         {
-            Check.RequireNotNull(idInput, "idInput");
+            throw new NotImplementedException();
+            //Check.RequireNotNull(idInput, "idInput");
 
-            var project = _documentSession.Load<Project>(idInput.Id);
-            var avatar = _documentSession.Load<MediaResource>(project.AvatarId);
+            //var project = _documentSession.Load<Project>(idInput.Id);
+            //var avatar = _documentSession.Load<MediaResource>(project.AvatarId);
 
-            var avatarPath = avatar != null ?
-                _mediaFilePathService.MakeMediaFileUri(avatar.Id, "image", "avatar", avatar.FileFormat) :
-                _configService.GetDefaultAvatar();
+            //var avatarPath = avatar != null ?
+            //    _mediaFilePathService.MakeMediaFileUri(avatar.Id, "image", "avatar", avatar.FileFormat) :
+            //    _configService.GetDefaultAvatar();
 
-            return new ProjectIndex()
-            {
-                Project = project,
+            //return new ProjectIndex()
+            //{
+            //    Project = project,
 
-                Avatar = avatarPath,
+            //    Avatar = avatarPath,
 
-                Team = project.ParentGroupId != null ? _documentSession.Load<Team>(project.ParentGroupId) : null
-            };
+            //    Team = project.ParentGroupId != null ? _documentSession.Load<Team>(project.ParentGroupId) : null
+            //};
         }
 
         protected ProjectList MakeProjectList(ProjectListInput listInput)

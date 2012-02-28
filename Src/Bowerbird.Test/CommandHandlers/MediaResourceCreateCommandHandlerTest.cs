@@ -15,23 +15,27 @@
 using System.Linq;
 using Bowerbird.Core.CommandHandlers;
 using Bowerbird.Core.Commands;
-using Bowerbird.Core.DomainModels.MediaResources;
 using Bowerbird.Test.Utils;
 using NUnit.Framework;
 using Raven.Client;
+using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Services;
+using Moq;
 
 namespace Bowerbird.Test.CommandHandlers
 {
-    public class ImageMediaResourceCreateCommandHandlerTest
+    public class MediaResourceCreateCommandHandlerTest
     {
         #region Test Infrastructure
 
         private IDocumentStore _store;
+        private Mock<IMediaFilePathService> _mockMediaFilePathService;
 
         [SetUp]
         public void TestInitialize()
         {
-            _store = DocumentStoreHelper.InMemoryDocumentStore();            
+            _store = DocumentStoreHelper.InMemoryDocumentStore();
+            _mockMediaFilePathService = new Mock<IMediaFilePathService>();
         }
 
         [TearDown]
@@ -58,42 +62,36 @@ namespace Bowerbird.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Persistance)]
-        public void ImageMediaResourceCreateCommandHandler_Handle()
+        public void MediaResourceCreateCommandHandler_Handle()
         {
             var user = FakeObjects.TestUserWithId();
 
-            ImageMediaResource newValue = null;
+            MediaResource newValue = null;
 
-            var command = new ImageMediaResourceCreateCommand()
+            var command = new MediaResourceCreateCommand()
             {
                 UserId = user.Id,
-                Description = FakeValues.Description,
-                FileFormat = FakeValues.FileFormat,
+                UploadedOn = FakeValues.CreatedDateTime,
+                MimeType = FakeValues.FileFormat,
                 OriginalFileName = FakeValues.Filename,
-                OriginalHeight = FakeValues.Number,
-                OriginalWidth = FakeValues.Number,
-                UploadedOn = FakeValues.CreatedDateTime
+                Stream = null,
+                Usage = FakeValues.Usage
             };
 
             using (var session = _store.OpenSession())
             {
                 session.Store(user);
 
-                var commandHandler = new ImageMediaResourceCreateCommandHandler(session);
+                var commandHandler = new MediaResourceCreateCommandHandler(session, _mockMediaFilePathService.Object);
 
                 commandHandler.Handle(command);
 
                 session.SaveChanges();
 
-                newValue = session.Query<ImageMediaResource>().FirstOrDefault();
+                newValue = session.Query<MediaResource>().FirstOrDefault();
             }
 
             Assert.IsNotNull(newValue);
-            Assert.AreEqual(command.Description, newValue.Description);
-            Assert.AreEqual(command.FileFormat, newValue.FileFormat);
-            Assert.AreEqual(command.OriginalFileName, newValue.OriginalFileName);
-            Assert.AreEqual(command.OriginalHeight, newValue.Height);
-            Assert.AreEqual(command.OriginalWidth, newValue.Width);
             Assert.AreEqual(command.UploadedOn, newValue.UploadedOn);
             //Assert.AreEqual(user.DenormalisedUserReference(), newValue.CreatedByUser);
         }

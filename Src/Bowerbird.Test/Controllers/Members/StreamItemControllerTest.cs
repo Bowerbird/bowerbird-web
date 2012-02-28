@@ -102,7 +102,7 @@ namespace Bowerbird.Test.Controllers.Members
                         FakeValues.Address,
                         FakeValues.IsTrue,
                         FakeValues.Category,
-                        new List<MediaResource>()
+                        new Dictionary<MediaResource, string>()
                         );
 
                     ((IAssignableId)observation).SetIdTo("observations", i.ToString());
@@ -191,7 +191,7 @@ namespace Bowerbird.Test.Controllers.Members
                         FakeValues.Address,
                         FakeValues.IsTrue,
                         FakeValues.Category,
-                        new List<MediaResource>()
+                        new Dictionary<MediaResource, string>()
                         );
 
                     ((IAssignableId)observation).SetIdTo("observations", i.ToString());
@@ -281,7 +281,7 @@ namespace Bowerbird.Test.Controllers.Members
                         FakeValues.Address,
                         FakeValues.IsTrue,
                         FakeValues.Category,
-                        new List<MediaResource>()
+                        new Dictionary<MediaResource, string>()
                         );
 
                     ((IAssignableId)observation).SetIdTo("observations", i.ToString());

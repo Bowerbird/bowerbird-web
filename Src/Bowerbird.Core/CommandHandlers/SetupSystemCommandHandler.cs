@@ -284,7 +284,7 @@ namespace Bowerbird.Core.CommandHandlers
                 "1 Main St Melbourne",
                 true,
                 "categoryX",
-                new List<MediaResource>()
+                new Dictionary<MediaResource, string>()
                 );
 
             observation.AddGroupContribution(project, user, DateTime.Now);

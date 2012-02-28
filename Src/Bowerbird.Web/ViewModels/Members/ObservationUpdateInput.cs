@@ -52,7 +52,7 @@ namespace Bowerbird.Web.ViewModels.Members
 
         public string UserId { get; set; }
 
-        public List<string> MediaResources { get; set; }
+        public Dictionary<string, string> ObservationMediaItems { get; set; }
 
         public List<string> Projects { get; set; }
 

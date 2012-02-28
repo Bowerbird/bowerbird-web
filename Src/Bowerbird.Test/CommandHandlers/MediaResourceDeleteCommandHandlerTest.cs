@@ -14,15 +14,14 @@
 
 using Bowerbird.Core.CommandHandlers;
 using Bowerbird.Core.Commands;
-using Bowerbird.Core.Extensions;
-using Bowerbird.Core.DomainModels.MediaResources;
 using Bowerbird.Test.Utils;
 using NUnit.Framework;
 using Raven.Client;
+using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Test.CommandHandlers
 {
-    public class ImageMediaResourceUpdateCommandHandlerTest
+    public class MediaResourceDeleteCommandHandlerTest
     {
         #region Test Infrastructure
 
@@ -54,35 +53,34 @@ namespace Bowerbird.Test.CommandHandlers
 
         [Test]
         [Category(TestCategory.Persistance)]
-        public void ImageMediaResourceUpdateCommandHandler_Handle()
+        public void MediaResourceDeleteCommandHandler_Handle()
         {
-            var originalValue = FakeObjects.TestImageMediaResourceWithId();
+            var mediaResource = FakeObjects.TestMediaResourceWithId();
             var user = FakeObjects.TestUserWithId();
 
-            ImageMediaResource newValue;
+            MediaResource deleted = null;
 
-            var command = new ImageMediaResourceUpdateCommand()
+            var command = new MediaResourceDeleteCommand()
             {
-                Id = originalValue.Id,
-                UserId = user.Id,
-                Description = FakeValues.Description.PrependWith("new")
+                Id = mediaResource.Id,
+                UserId = user.Id
             };
 
             using (var session = _store.OpenSession())
             {
-                session.Store(originalValue);
+                session.Store(mediaResource);
+                session.Store(user);
 
-                var commandHandler = new ImageMediaResourceUpdateCommandHandler(session);
+                var commandHandler = new MediaResourceDeleteCommandHandler(session);
 
                 commandHandler.Handle(command);
 
                 session.SaveChanges();
 
-                newValue = session.Load<ImageMediaResource>(originalValue.Id);
+                deleted = session.Load<MediaResource>(mediaResource.Id);
             }
 
-            Assert.IsNotNull(newValue);
-            Assert.AreEqual(command.Description, newValue.Description);
+            Assert.IsNull(deleted);
         }
 
         #endregion

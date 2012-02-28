@@ -13,7 +13,6 @@
 */
 
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.DomainModels.MediaResources;
 using Bowerbird.Core.DomainModels.Members;
 using Bowerbird.Core.Indexes;
 using Raven.Client;

@@ -24,7 +24,13 @@ namespace Bowerbird.Core.DomainModels
     {
         #region Members
 
+<<<<<<< Updated upstream
+        private List<MediaResource> _mediaResources;
+=======
+        //private List<Comment> _comments;
+
         private List<ObservationMedia> _observationMedia;
+>>>>>>> Stashed changes
 
         #endregion
 

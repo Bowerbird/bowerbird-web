@@ -160,9 +160,9 @@ window.Bowerbird.Collections.Events = Backbone.Collection.extend({
 // ====================================================================================
 
 // Header
-window.Bowerbird.Views.Header = Backbone.View.extend({
+window.Bowerbird.Views.HeaderView = Backbone.View.extend({
 
-    el: '#header',
+    el: 'header',
 
     initialize: function () {
     }
@@ -170,7 +170,7 @@ window.Bowerbird.Views.Header = Backbone.View.extend({
 });
 
 // Navigation
-window.Bowerbird.Views.Navigation = Backbone.View.extend({
+window.Bowerbird.Views.SidebarView = Backbone.View.extend({
 
     el: '#sidebar',
 
@@ -639,41 +639,42 @@ window.Bowerbird.Views.Navigation = Backbone.View.extend({
 //    }
 
 // Workspace
-    window.Bowerbird.Views.Workspace = Backbone.View.extend({
+    window.Bowerbird.Views.WorkspaceView = Backbone.View.extend({
 
         el: 'article',
 
         initialize: function (options) {
             _.extend(this, Backbone.Events);
-            this.workspaceItems = [];
+            this.workspaceSubViews = [];
         },
 
         showStream: function (type, key, filter) {
             $('.form-workspace-item').remove();
-            var streamContext = null;
+            var context = null;
 
             switch (type) {
                 case "user":
-                    streamContext = new Bowerbird.Models.User();
+                    context = new Bowerbird.Models.User();
                     break;
                 case "team":
-                    streamContext = new Bowerbird.Models.Team();
+                    context = new Bowerbird.Models.Team();
                     break;
                 case "project":
-                    streamContext = new Bowerbird.Models.Project();
+                    context = new Bowerbird.Models.Project();
                     break;
                 case "watch":
-                    streamContext = new Bowerbird.Models.Watch();
+                    context = new Bowerbird.Models.Watch();
                     break;
             }
 
-            var stream = new Bowerbird.Models.Stream({ type: type, filter: filter, key: key, context: streamContext });
-            var streamWorkspaceItem = new Bowerbird.Views.StreamWorkspaceItem({ id: "stream-" + type + "-" + key, model: stream });
+            var stream = new Bowerbird.Models.Stream({ type: type, filter: filter, key: key, context: context });
+            var streamView = new Bowerbird.Views.StreamView({ id: "stream-" + type + "-" + key, model: stream });
 
+            this.workspaceSubViews.push(streamView);
             //streamWorkspace.bind("newObservation", this.showObservationForm, this);
 
             //this.showWorkspaceItem(streamWorkspaceItem);
-            $('.stream-workspace-item').show();
+            //$('.stream-workspace-item').show();
         },
 
         showObservationForm: function () {
@@ -705,56 +706,58 @@ window.Bowerbird.Views.Navigation = Backbone.View.extend({
         showWorkspaceItem: function (workspaceItem) {
             // Hide current workspace if it is a stream
             if (workspaceItem instanceof Bowerbird.Views.StreamWorkspaceItem) {
-                while (this.workspaceItems.length > 0) {
-                    var currentWorkspaceItem = this.workspaceItems.shift();
+                while (this.workspaceSubViews.length > 0) {
+                    var currentWorkspaceItem = this.workspaceSubViews.shift();
                     currentWorkspaceItem.hide($(currentWorkspaceItem.el));
                 }
             }
 
             // Show new workspace
-            this.workspaceItems.unshift(workspaceItem);
+            this.workspaceSubViews.unshift(workspaceItem);
             workspaceItem.render();
             workspaceItem.loadEvents();
         }
 
     });
 
-// Workspace Item
-window.Bowerbird.Views.WorkspaceItem = Backbone.View.extend({
+//// Workspace Item
+//window.Bowerbird.Views.WorkspaceItem = Backbone.View.extend({
 
-    renderWorkspaceItem: function (workspaceElement, html) {
-        workspaceElement.html(html);
-        workspaceElement.appendTo("#stream");
+//    renderWorkspaceItem: function (workspaceElement, html) {
+//        workspaceElement.html(html);
+//        workspaceElement.appendTo("#stream");
 
-        workspaceElement
-            .css({ zIndex: 98 })
-            .animate({
-                left: parseInt(workspaceElement.css('left'), 10) == 0 ? -workspaceElement.outerWidth() : 0
-            },
-            500);
-    },
+//        workspaceElement
+//            .css({ zIndex: 98 })
+//            .animate({
+//                left: parseInt(workspaceElement.css('left'), 10) == 0 ? -workspaceElement.outerWidth() : 0
+//            },
+//            500);
+//    },
 
-    hide: function (workspaceElement) {
-        
-        /*var that = this;
-        workspaceElement
-        .css({ zIndex: 98 })
-        .animate({
-        left: parseInt(workspaceElement.css('left'), 10) == 0 ? -workspaceElement.outerWidth() : 0
-        //opacity: 0
-        },
-        300,
-        function () {
-        that.remove();
-        });*/
-    }
+//    hide: function (workspaceElement) {
+//        
+//        /*var that = this;
+//        workspaceElement
+//        .css({ zIndex: 98 })
+//        .animate({
+//        left: parseInt(workspaceElement.css('left'), 10) == 0 ? -workspaceElement.outerWidth() : 0
+//        //opacity: 0
+//        },
+//        300,
+//        function () {
+//        that.remove();
+//        });*/
+//    }
 
-});
+//});
 
 // Stream Workspace Item
-window.Bowerbird.Views.StreamWorkspaceItem = Bowerbird.Views.WorkspaceItem.extend({
+    window.Bowerbird.Views.StreamView = Backbone.View.extend({
 
-    className: 'workspace-item stream-workspace-item',
+    id: 'stream',
+
+    //className: 'stream-workspace-item',
 
     events: {
         "click #create-observation": "newObservation"
@@ -767,7 +770,7 @@ window.Bowerbird.Views.StreamWorkspaceItem = Bowerbird.Views.WorkspaceItem.exten
 
         this.streamItems.bind("add", this.eventItemsChanged, this);
         this.streamItems.bind("reset", this.eventItemsReset);
-        //alert("hells yeah");
+        alert("hells yeah");
         //this.streamItems.fetch();
         this.loadStreamItems();
     },
@@ -809,55 +812,55 @@ window.Bowerbird.Views.StreamWorkspaceItem = Bowerbird.Views.WorkspaceItem.exten
 
 });
 
-// Form Workspace Item
-window.Bowerbird.Views.FormWorkspaceItem = Bowerbird.Views.WorkspaceItem.extend({
+//// Form Workspace Item
+//window.Bowerbird.Views.FormWorkspaceItem = Bowerbird.Views.WorkspaceItem.extend({
 
-    className: 'form workspace-item form-workspace-item',
+//    className: 'form workspace-item form-workspace-item',
 
-    events: {
-        "click #cancel": "cancel",
-        "click #save": "save"
-    },
+//    events: {
+//        "click #cancel": "cancel",
+//        "click #save": "save"
+//    },
 
-    initialize: function (options) {
-        _.extend(this, Backbone.Events);
-    },
+//    initialize: function (options) {
+//        _.extend(this, Backbone.Events);
+//    },
 
-    render: function () {
-        var compiledHtml = $.tmpl($("#workspace-form-create-observation-template"), this.model.toJSON());
-        this.renderWorkspaceItem($(this.el), compiledHtml);
-        return this;
-    },
+//    render: function () {
+//        var compiledHtml = $.tmpl($("#workspace-form-create-observation-template"), this.model.toJSON());
+//        this.renderWorkspaceItem($(this.el), compiledHtml);
+//        return this;
+//    },
 
-    cancel: function () {
-        //this.hide($(this.el));
-        $('.stream-workspace-item').show();
-        $('.form-workspace-item').remove();
-    },
+//    cancel: function () {
+//        //this.hide($(this.el));
+//        $('.stream-workspace-item').show();
+//        $('.form-workspace-item').remove();
+//    },
 
-    save: function () {
-        this.model.set({
-            "title": $("#title").attr("value"),
-            "address": $("#address").attr("value"),
-            "latitude": $("#latitude").attr("value"),
-            "longitude": $("#longitude").attr("value"),
-            "observedOn": $("#observedOn").attr("value"),
-            "isIdentificationRequired": $("#isIdentificationRequired").attr("value"),
-            "observationCategory": $("#observationCategory").attr("value")
-        });
+//    save: function () {
+//        this.model.set({
+//            "title": $("#title").attr("value"),
+//            "address": $("#address").attr("value"),
+//            "latitude": $("#latitude").attr("value"),
+//            "longitude": $("#longitude").attr("value"),
+//            "observedOn": $("#observedOn").attr("value"),
+//            "isIdentificationRequired": $("#isIdentificationRequired").attr("value"),
+//            "observationCategory": $("#observationCategory").attr("value")
+//        });
 
-        //window.observations.add(this.model);
+//        //window.observations.add(this.model);
 
-        this.model.save();
+//        this.model.save();
 
-        this.hide($(this.el));
-    },
+//        this.hide($(this.el));
+//    },
 
-    loadEvents: function () {
-        console.log("loading events...");
-    }
+//    loadEvents: function () {
+//        console.log("loading events...");
+//    }
 
-});
+//});
 
 window.observations = new Bowerbird.Collections.Observations();
 
@@ -879,33 +882,17 @@ window.Bowerbird.AppRouter = Backbone.Router.extend({
     },
 
     initialize: function (options) {
-        this.header = new Bowerbird.Views.Header({ app: this });
-        //this.navigation = new Bowerbird.Views.Navigation({ app: this });
-        this.workspace = new Bowerbird.Views.Workspace({ app: this });
+        this.headerView = new Bowerbird.Views.HeaderView({ app: this });
+        //this.sidebarView = new Bowerbird.Views.SidebarView({ app: this });
+        this.workspaceView = new Bowerbird.Views.WorkspaceView({ app: this });
     },
 
     showObservationCreate: function () {
-        this.workspace.showObservationForm();
+        //this.workspaceView.showObservationForm();
     },
 
     showUserStream: function (filter) {
-        this.workspace.showStream("user", "user", filter);
+        this.workspaceView.showStream("user", "user", filter);
     }
-
-    //    showTeamStream: function (key, filter) {
-    //        this.workspaceContainer.showStream("team", key, filter);
-    //    },
-
-    //    showProjectStream: function (key, filter) {
-    //        this.workspaceContainer.showStream("project", key, filter);
-    //    },
-
-    //    showWatchStream: function (key, filter) {
-    //        this.workspaceContainer.showStream("watch", key, filter);
-    //    }
-
-    //    search: function (query, page) {
-
-    //    }
 
 });

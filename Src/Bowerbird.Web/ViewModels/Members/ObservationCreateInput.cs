@@ -52,7 +52,7 @@ namespace Bowerbird.Web.ViewModels.Members
         [Required(ErrorMessage = "Please select an observation category")]
         public string ObservationCategory { get; set; }
 
-        public List<string> MediaResources { get; set; }
+        public Dictionary<string, string> ObservationMediaItems { get; set; }
 
         public List<string> Projects { get; set; }
 

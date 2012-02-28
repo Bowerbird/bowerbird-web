@@ -22,6 +22,7 @@ using Bowerbird.Core.Services;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.ViewModels.Members;
 using Raven.Client;
+using System;
 
 namespace Bowerbird.Web.Controllers.Members
 {
@@ -135,20 +136,21 @@ namespace Bowerbird.Web.Controllers.Members
 
         private UserUpdate MakeUserUpdate()
         {
-            var user = _documentSession.Load<User>(_userContext.GetAuthenticatedUserId());
-            var avatar = _documentSession.Load<MediaResource>(user.AvatarId);
-            var avatarPath = avatar != null ?
-                _mediaFilePathService.MakeMediaFileUri(avatar.Id, "image", "avatar", avatar.FileFormat) :
-                _configService.GetDefaultAvatar();
+            throw new NotImplementedException();
+            //var user = _documentSession.Load<User>(_userContext.GetAuthenticatedUserId());
+            //var avatar = _documentSession.Load<MediaResource>(user.AvatarId);
+            //var avatarPath = avatar != null ?
+            //    _mediaFilePathService.MakeMediaFileUri(avatar.Id, "image", "avatar", avatar.FileFormat) :
+            //    _configService.GetDefaultAvatar();
 
-            return new UserUpdate()
-            {
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email,
-                Description = user.Description,
-                Avatar = avatarPath
-            };
+            //return new UserUpdate()
+            //{
+            //    FirstName = user.FirstName,
+            //    LastName = user.LastName,
+            //    Email = user.Email,
+            //    Description = user.Description,
+            //    Avatar = avatarPath
+            //};
         }
 
         private UserUpdate MakeUserUpdate(UserUpdateInput userUpdateInput)

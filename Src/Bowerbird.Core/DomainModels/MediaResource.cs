@@ -17,10 +17,11 @@
 using Bowerbird.Core.DesignByContract;
 using System;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
+using System.Collections.Generic;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public abstract class MediaResource : DomainModel
+    public class MediaResource : DomainModel
     {
 
         #region Members
@@ -31,58 +32,37 @@ namespace Bowerbird.Core.DomainModels
 
         protected MediaResource() :base() { }
 
-        protected MediaResource(
+        public MediaResource(
+            string type,
             User createdByUser,
             DateTime uploadedOn,
-            string originalFileName,
-            string fileFormat,
-            string description)
+            IDictionary<string, string> metadata)
             : this()
         {
             Check.RequireNotNull(createdByUser, "createdByUser");
-            Check.RequireNotNullOrWhitespace(originalFileName, "originalFileName");
-            Check.RequireNotNullOrWhitespace(fileFormat, "fileFormat");
+            Check.RequireNotNull(metadata, "metadata");
 
-            SetDetails(
-                createdByUser,
-                uploadedOn,
-                originalFileName,
-                fileFormat,
-                description);
+            Type = type;
+            UploadedOn = uploadedOn;
+            CreatedByUser = createdByUser;
+            Metadata = metadata;
         }
 
         #endregion
 
         #region Properties
 
+        public string Type { get; private set; }
+
         public DenormalisedUserReference CreatedByUser { get; set; }
 
-        public string OriginalFileName { get; private set; }
-
-        public string FileFormat { get; private set; }
-
-        public string Description { get; private set; }
-
         public DateTime UploadedOn { get; private set; }
+
+        public IDictionary<string, string> Metadata { get; private set; }
 
         #endregion
 
         #region Methods
-
-        private void SetDetails(User createdByUser, DateTime uploadedOn, string originalFileName, string fileFormat, string description)
-        {
-            //Id = Guid.NewGuid().ToString();
-            UploadedOn = uploadedOn;
-            CreatedByUser = createdByUser;
-            OriginalFileName = originalFileName;
-            FileFormat = fileFormat;
-            Description = description;
-        }
-
-        protected void UpdateDetails(string description)
-        {
-            Description = description;
-        }
 
         #endregion      
       

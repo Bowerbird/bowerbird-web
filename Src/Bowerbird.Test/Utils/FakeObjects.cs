@@ -13,7 +13,6 @@
 */
 
 using System;
-using Bowerbird.Core.DomainModels.MediaResources;
 
 namespace Bowerbird.Test.Utils
 {
@@ -181,7 +180,7 @@ namespace Bowerbird.Test.Utils
                 FakeValues.Address,
                 FakeValues.IsTrue,
                 FakeValues.Category,
-                new List<MediaResource>()
+                new Dictionary<MediaResource, string>() { { TestImageMediaResourceWithId("1"), FakeValues.Description } }
                 );
 
             ((IAssignableId)observation).SetIdTo("observations", id);
@@ -191,25 +190,12 @@ namespace Bowerbird.Test.Utils
 
         public static MediaResource TestImageMediaResourceWithId()
         {
-            return TestImageMediaResourceWithId(FakeValues.KeyString);
+            return TestMediaResourceWithId(FakeValues.KeyString);
         }
 
         public static MediaResource TestImageMediaResourceWithId(string id)
         {
-            var imageMediaResource = new ImageMediaResource(
-                TestUser(),
-                FakeValues.CreatedDateTime,
-                FakeValues.Filename,
-                FakeValues.FileFormat,
-                FakeValues.Description,
-                FakeValues.Number,
-                FakeValues.Number
-                );
-
-            ((IAssignableId)imageMediaResource).SetIdTo("mediaresources", id);
-
-            return imageMediaResource;
-
+            return TestMediaResourceWithId(id);
         }
 
         public static Organisation TestOrganisation()
@@ -362,6 +348,33 @@ namespace Bowerbird.Test.Utils
                 TestUserWithId(),
                 FakeValues.CreatedDateTime
                 );
+        }
+
+        public static MediaResource TestMediaResource()
+        {
+            return new MediaResource(
+                FakeValues.MediaType,
+                TestUserWithId(),
+                FakeValues.CreatedDateTime,
+                new Dictionary<string, string>() { { FakeValues.Description, FakeValues.Description } });
+        }
+
+        public static MediaResource TestMediaResourceWithId()
+        {
+            var mediaResource = TestMediaResource();
+
+            ((IAssignableId)mediaResource).SetIdTo("mediaresources", FakeValues.KeyString);
+
+            return mediaResource;
+        }
+
+        public static MediaResource TestMediaResourceWithId(string id)
+        {
+            var mediaResource = TestMediaResource();
+
+            ((IAssignableId)mediaResource).SetIdTo("mediaresources", id);
+
+            return mediaResource;
         }
     }
 }

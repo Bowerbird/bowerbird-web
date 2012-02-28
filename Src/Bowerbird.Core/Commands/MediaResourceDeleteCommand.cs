@@ -14,11 +14,9 @@
  
 */
 
-using System;
-
 namespace Bowerbird.Core.Commands
 {
-    public class ImageMediaResourceCreateCommand : ICommand
+    public class MediaResourceDeleteCommand : ICommand
     {
 
         #region Members
@@ -33,23 +31,13 @@ namespace Bowerbird.Core.Commands
 
         public string UserId { get; set; }
 
-        public DateTime UploadedOn { get; set; }
-
-        public string OriginalFileName { get; set; }
-
-        public string FileFormat { get; set; }
-
-        public string Description { get; set; }
-
-        public int OriginalHeight { get; set; }
-
-        public int OriginalWidth { get; set; }
+        public string Id { get; set; }
 
         #endregion
 
         #region Methods
 
         #endregion
-
+		
     }
 }

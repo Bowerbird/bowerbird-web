@@ -1,4 +1,4 @@
-/* Bowerbird V1 
+﻿/* Bowerbird V1 
 
  Licensed under MIT 1.1 Public License
 
@@ -16,12 +16,12 @@
 
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Commands;
-using Bowerbird.Core.DomainModels.MediaResources;
 using Raven.Client;
+using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Core.CommandHandlers
 {
-    public class ImageMediaResourceUpdateCommandHandler : ICommandHandler<ImageMediaResourceUpdateCommand>
+    public class MediaResourceDeleteCommandHandler : ICommandHandler<MediaResourceDeleteCommand>
     {
         #region Members
 
@@ -31,7 +31,7 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Constructors
 
-        public ImageMediaResourceUpdateCommandHandler(
+        public MediaResourceDeleteCommandHandler(
             IDocumentSession documentSession)
         {
             Check.RequireNotNull(documentSession, "documentSession");
@@ -47,15 +47,11 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Methods
 
-        public void Handle(ImageMediaResourceUpdateCommand command)
+        public void Handle(MediaResourceDeleteCommand command)
         {
             Check.RequireNotNull(command, "command");
 
-            var imageMediaResource = _documentSession.Load<ImageMediaResource>(command.Id);
-
-            imageMediaResource.UpdateDetails(command.Description);
-
-            _documentSession.Store(imageMediaResource);
+            _documentSession.Delete(_documentSession.Load<MediaResource>(command.Id));
         }
 
         #endregion

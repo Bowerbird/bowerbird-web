@@ -23,7 +23,6 @@ using System.Web.Mvc;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.DomainModels.MediaResources;
 using Bowerbird.Core.Extensions;
 using Bowerbird.Core.ImageUtilities;
 using Bowerbird.Core.Services;
@@ -75,6 +74,7 @@ namespace Bowerbird.Web.Controllers.Members
 
         #region Methods
 
+        [HttpPost]
         public ActionResult ObservationUpload(string qqfile)
         {
             return Upload(qqfile, "observation");
@@ -109,41 +109,42 @@ namespace Bowerbird.Web.Controllers.Members
         {
             try
             {
-                ImageDimensions imageDimensions;
-                long fileSizeInBytes;
+                throw new NotImplementedException();
+                //ImageDimensions imageDimensions;
+                //long fileSizeInBytes;
 
-                ImageUtility
-                    .Load(stream, out fileSizeInBytes)
-                    .GetImageDimensions(out imageDimensions)
-                    .Cleanup();
+                //ImageUtility
+                //    .Load(stream, out fileSizeInBytes)
+                //    .GetImageDimensions(out imageDimensions)
+                //    .Cleanup();
 
-                var imageMediaResource = new ImageMediaResource(
-                            _documentSession.Load<User>(_userContext.GetAuthenticatedUserId()),
-                            DateTime.Now,
-                            postedFileName,
-                            Path.GetExtension(postedFileName),
-                            string.Empty,
-                            imageDimensions.Height,
-                            imageDimensions.Width
-                            );
+                //var imageMediaResource = new ImageMediaResource(
+                //            _documentSession.Load<User>(_userContext.GetAuthenticatedUserId()),
+                //            DateTime.Now,
+                //            postedFileName,
+                //            Path.GetExtension(postedFileName),
+                //            string.Empty,
+                //            imageDimensions.Height,
+                //            imageDimensions.Width
+                //            );
 
-                _documentSession.Store(imageMediaResource);
+                //_documentSession.Store(imageMediaResource);
 
-                _documentSession.SaveChanges();
+                //_documentSession.SaveChanges();
 
-                ImageUtility
-                    .Load(stream)
-                    .GetImageDimensions(out imageDimensions)
-                    .SaveAs(_mediaFilePathService.MakeMediaFilePath(imageMediaResource.Id, "image", "original", Path.GetExtension(postedFileName)))
-                    .Cleanup();
+                //ImageUtility
+                //    .Load(stream)
+                //    .GetImageDimensions(out imageDimensions)
+                //    .SaveAs(_mediaFilePathService.MakeMediaFilePath(imageMediaResource.Id, "image", "original", Path.GetExtension(postedFileName)))
+                //    .Cleanup();
 
-                return JsonWithContentType(Json(new
-                {
-                    imageMediaResource.Id,
-                    imageUrl = _mediaFilePathService.MakeMediaFileUri(imageMediaResource.Id, "image", "original", Path.GetExtension(postedFileName)),
-                    fileName = postedFileName,
-                    fileSize = fileSizeInBytes.FileSizeDisplay()
-                }));
+                //return JsonWithContentType(Json(new
+                //{
+                //    imageMediaResource.Id,
+                //    imageUrl = _mediaFilePathService.MakeMediaFileUri(imageMediaResource.Id, "image", "original", Path.GetExtension(postedFileName)),
+                //    fileName = postedFileName,
+                //    fileSize = fileSizeInBytes.FileSizeDisplay()
+                //}));
 
             }
             catch (Exception ex)

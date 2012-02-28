@@ -54,7 +54,7 @@ namespace Bowerbird.Test.DomainModels
                 FakeValues.Address,
                 FakeValues.IsTrue,
                 FakeValues.Category,
-                new List<MediaResource>() {FakeObjects.TestImageMediaResourceWithId()}
+                new Dictionary<MediaResource, string>() { {FakeObjects.TestImageMediaResourceWithId(), FakeValues.Description }}
                 );
 
             Assert.AreEqual(FakeObjects.TestUserWithId().DenormalisedUserReference(), observation.User);
@@ -67,8 +67,9 @@ namespace Bowerbird.Test.DomainModels
             Assert.AreEqual(FakeValues.IsTrue, observation.IsIdentificationRequired);
             Assert.AreEqual(FakeValues.Category, observation.ObservationCategory);
             Assert.AreEqual(FakeValues.Title, observation.Title);
-            Assert.IsTrue(observation.MediaResources.ToList().Count == 1);
-            Assert.AreEqual(FakeObjects.TestImageMediaResourceWithId(), observation.MediaResources.ToList()[0]);
+            Assert.IsTrue(observation.ObservationMedia.ToList().Count == 1);
+            Assert.AreEqual(FakeObjects.TestImageMediaResourceWithId(), observation.ObservationMedia.First().MediaResource);
+            Assert.AreEqual(FakeValues.Description, observation.ObservationMedia.First().Description);
         }
 
         #endregion
@@ -89,7 +90,7 @@ namespace Bowerbird.Test.DomainModels
                 FakeValues.Address,
                 FakeValues.IsTrue,
                 FakeValues.Category,
-                new List<MediaResource>());
+                new Dictionary<MediaResource, string>());
 
             observation.UpdateDetails(
                 FakeObjects.TestUserWithId(),
@@ -100,7 +101,7 @@ namespace Bowerbird.Test.DomainModels
                 FakeValues.Address.PrependWith("new"),
                 FakeValues.IsFalse,
                 FakeValues.Category.PrependWith("new"),
-                new List<MediaResource>() { FakeObjects.TestImageMediaResourceWithId() }
+                new Dictionary<MediaResource, string>() { { FakeObjects.TestImageMediaResourceWithId("1"), FakeValues.Description } }
                 );
 
             Assert.AreEqual(FakeValues.Title.PrependWith("new"), observation.Title);

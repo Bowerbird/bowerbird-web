@@ -76,7 +76,7 @@ namespace Bowerbird.Test.CommandHandlers
                 ObservationCategory = FakeValues.Category.PrependWith("new"),
                 Title = FakeValues.Title.PrependWith("new"),
                 ObservedOn = FakeValues.ModifiedDateTime,
-                MediaResources = new List<string>(){imageMediaResource.Id}
+                ObservationMediaItems = new Dictionary<string, string>(){ {imageMediaResource.Id, FakeValues.Description }}
             };
 
             using (var session = _store.OpenSession())
@@ -101,8 +101,9 @@ namespace Bowerbird.Test.CommandHandlers
             Assert.AreEqual(command.ObservationCategory, newValue.ObservationCategory);
             Assert.AreEqual(command.Title, newValue.Title);
             Assert.AreEqual(command.ObservedOn, newValue.ObservedOn);
-            Assert.IsTrue(newValue.MediaResources.ToList().Count == 1);
-            Assert.AreEqual(imageMediaResource, newValue.MediaResources.ToList()[0]);
+            Assert.IsTrue(newValue.ObservationMedia.ToList().Count == 1);
+            Assert.AreEqual(imageMediaResource, newValue.ObservationMedia.ToList()[0].MediaResource);
+            Assert.AreEqual(FakeValues.Description, newValue.ObservationMedia.ToList()[0].Description);
         }
 
         #endregion 

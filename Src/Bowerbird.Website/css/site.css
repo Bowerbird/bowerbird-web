@@ -688,7 +688,6 @@ header nav#search-menu
     display: inline;
 }
 #stream .observation-stream-item .note .tags a,
-#stream .observation-stream-item .note .tags a:active,
 #stream .observation-stream-item .note .tags a:visited
 {
     background-color: #E1ECF8;
@@ -701,7 +700,8 @@ header nav#search-menu
     padding: 1px 5px 3px;
     text-decoration: none;
 }
-#stream .observation-stream-item .note .tags a:hover
+#stream .observation-stream-item .note .tags a:hover,
+#stream .observation-stream-item .note .tags a:active
 {
     background-color: #3B9CFF;
     color: #FFFFFF;
@@ -934,7 +934,7 @@ header nav#search-menu
 }
 .form .field div p
 {
-    margin-bottom: 0;
+    margin: 0;
 }
 .form fieldset > div .field
 {
@@ -1033,9 +1033,10 @@ header nav#search-menu
     font-size: 0.99em;
     font-weight: 600;
     padding: 3px 18px;
-    text-shadow: 0 -1px 0 blue;
+    text-shadow: 0 -1px 0 #133A68;
     margin-right: 15px;
     font-family: "open sans",sans-serif;
+    box-shadow: 0 1px 1px 0 rgba(255, 255, 255, 0.4) inset;
 }
 .form input[type=submit]:hover,
 .form input[type=button]:hover,
@@ -1046,7 +1047,14 @@ header nav#search-menu
 .form button:focus,
 .form .button:focus
 {
-    box-shadow: 0 1px 6px 0 rgba(80, 158, 238, 0.9);
+    box-shadow: 0 1px 1px 0 rgba(255, 255, 255, 0.4) inset, 0 1px 6px 0 rgba(80, 158, 238, 0.9);
+}
+.form input[type=submit]:active,
+.form input[type=button]:active,
+.form button:active,
+.form .button:active
+{
+    box-shadow: 0 1px 2px 0 #5071A6 inset, 0 1px 6px 0 rgba(80, 158, 238, 0.9);
 }
 .form form > fieldset:last-child input[type=submit],
 .form form > fieldset:last-child input[type=button]

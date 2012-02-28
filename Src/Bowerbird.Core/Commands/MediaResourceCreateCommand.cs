@@ -1,4 +1,4 @@
-/* Bowerbird V1 
+﻿/* Bowerbird V1 
 
  Licensed under MIT 1.1 Public License
 
@@ -14,9 +14,13 @@
  
 */
 
+using System;
+using System.Collections.Generic;
+using System.IO;
+
 namespace Bowerbird.Core.Commands
 {
-    public class ImageMediaResourceUpdateCommand : ICommand
+    public class MediaResourceCreateCommand : ICommand
     {
 
         #region Members
@@ -31,9 +35,15 @@ namespace Bowerbird.Core.Commands
 
         public string UserId { get; set; }
 
-        public string Id { get; set; }
+        public DateTime UploadedOn { get; set; }
 
-        public string Description { get; set; }
+        public string OriginalFileName { get; set; }
+
+        public string MimeType { get; set; }
+
+        public Stream Stream { get; set; }
+
+        public string Usage { get; set; }
 
         #endregion
 

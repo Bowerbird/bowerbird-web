@@ -138,9 +138,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandHandlers\ImageMediaResourceCreateCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\ImageMediaResourceDeleteCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\ImageMediaResourceUpdateCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\MediaResourceCreateCommandHandlerTest.cs" />
+    <Compile Include="CommandHandlers\MediaResourceDeleteCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\CommentCreateCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\CommentDeleteCommandHandlerTest.cs" />
     <Compile Include="CommandHandlers\CommentUpdateCommandHandlerTest.cs" />
@@ -193,12 +192,8 @@
     <Compile Include="DesignByContract\CheckTest.cs" />
     <Compile Include="DomainModels\ActivityTest.cs" />
     <Compile Include="DomainModels\CommentTest.cs" />
-    <Compile Include="DomainModels\DenormalisedReferences\DenormalisedMemberReferenceTest.cs" />
-    <Compile Include="DomainModels\DenormalisedReferences\DenormalisedNamedEntityReferenceTest.cs" />
-    <Compile Include="DomainModels\DenormalisedReferences\DenormalisedObservationReferenceTest.cs" />
-    <Compile Include="DomainModels\DenormalisedReferences\DenormalisedUserReferenceTest.cs" />
     <Compile Include="DomainModels\Members\GlobalMemberTest.cs" />
-    <Compile Include="DomainModels\MediaResources\ImageMediaResourceTest.cs" />
+    <Compile Include="DomainModels\MediaResourceTest.cs" />
     <Compile Include="DomainModels\MediaResources\OtherMediaResourceTest.cs" />
     <Compile Include="DomainModels\ObservationNoteTest.cs" />
     <Compile Include="DomainModels\ObservationTest.cs" />

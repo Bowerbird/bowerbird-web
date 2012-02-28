@@ -48,7 +48,7 @@ namespace Bowerbird.Core.Commands
 
         public string ObservationCategory { get; set; }
 
-        public List<string> MediaResources { get; set; }
+        public Dictionary<string, string> ObservationMediaItems { get; set; }
 
         public string UserId { get; set; }
 

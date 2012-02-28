@@ -12,6 +12,7 @@
  
 */
 
+using System;
 using System.Linq;
 using System.Web.Mvc;
 using Bowerbird.Core.DesignByContract;
@@ -78,22 +79,23 @@ namespace Bowerbird.Web.Controllers.Public
 
         private OrganisationIndex MakeOrganisationIndex(IdInput idInput)
         {
-            Check.RequireNotNull(idInput, "idInput");
+            throw new NotImplementedException();
+            //Check.RequireNotNull(idInput, "idInput");
 
-            var organisation = _documentSession.Load<Organisation>(idInput.Id);
-            var avatar = _documentSession.Load<MediaResource>(organisation.AvatarId);
+            //var organisation = _documentSession.Load<Organisation>(idInput.Id);
+            //var avatar = _documentSession.Load<MediaResource>(organisation.AvatarId);
 
-            var avatarPath = avatar != null ?
-                _mediaFilePathService.MakeMediaFileUri(avatar.Id, "image", "avatar", avatar.FileFormat) :
-                _configService.GetDefaultAvatar();
+            //var avatarPath = avatar != null ?
+            //    _mediaFilePathService.MakeMediaFileUri(avatar.Id, "image", "avatar", avatar.FileFormat) :
+            //    _configService.GetDefaultAvatar();
 
-            return new OrganisationIndex()
-            {
-                Name = organisation.Name,
-                Description = organisation.Description,
-                Website = organisation.Website,
-                Avatar = avatarPath
-            };
+            //return new OrganisationIndex()
+            //{
+            //    Name = organisation.Name,
+            //    Description = organisation.Description,
+            //    Website = organisation.Website,
+            //    Avatar = avatarPath
+            //};
         }
 
         private OrganisationList MakeOrganisationList(OrganisationListInput listInput)

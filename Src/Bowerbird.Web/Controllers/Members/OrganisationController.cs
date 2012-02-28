@@ -24,6 +24,7 @@ using Bowerbird.Web.ViewModels.Members;
 using Bowerbird.Web.ViewModels.Shared;
 using Raven.Client;
 using Raven.Client.Linq;
+using System;
 
 namespace Bowerbird.Web.Controllers.Members
 {
@@ -148,22 +149,23 @@ namespace Bowerbird.Web.Controllers.Members
 
         private OrganisationIndex MakeOrganisationIndex(IdInput idInput)
         {
-            Check.RequireNotNull(idInput, "idInput");
+            throw new NotImplementedException();
+            //Check.RequireNotNull(idInput, "idInput");
 
-            var organisation = _documentSession.Load<Organisation>(idInput.Id);
-            var avatar = _documentSession.Load<MediaResource>(organisation.AvatarId);
+            //var organisation = _documentSession.Load<Organisation>(idInput.Id);
+            //var avatar = _documentSession.Load<MediaResource>(organisation.AvatarId);
             
-            var avatarPath = avatar != null ?
-                _mediaFilePathService.MakeMediaFileUri(avatar.Id, "image", "avatar", avatar.FileFormat) : 
-                _configService.GetDefaultAvatar();
+            //var avatarPath = avatar != null ?
+            //    _mediaFilePathService.MakeMediaFileUri(avatar.Id, "image", "avatar", avatar.FileFormat) : 
+            //    _configService.GetDefaultAvatar();
 
-            return new OrganisationIndex()
-            {
-                Name = organisation.Name,
-                Description = organisation.Description,
-                Website = organisation.Website,
-                Avatar = avatarPath
-            };
+            //return new OrganisationIndex()
+            //{
+            //    Name = organisation.Name,
+            //    Description = organisation.Description,
+            //    Website = organisation.Website,
+            //    Avatar = avatarPath
+            //};
         }
 
         private OrganisationList MakeOrganisationList(OrganisationListInput listInput)

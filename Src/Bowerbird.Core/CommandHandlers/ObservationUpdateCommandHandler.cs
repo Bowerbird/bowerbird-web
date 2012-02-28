@@ -19,6 +19,8 @@ using Bowerbird.Core.Repositories;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Raven.Client;
+using Raven.Client.Linq;
+using System.Linq;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -54,6 +56,15 @@ namespace Bowerbird.Core.CommandHandlers
 
             var observation = _documentSession.Load<Observation>(observationUpdateCommand.Id);
 
+            var observationMediaItems = (from mediaResource in _documentSession.Query<MediaResource>()
+                                         where mediaResource.Id.In(observationUpdateCommand.ObservationMediaItems.Keys)
+                                         select new
+                                             {
+                                                 mediaResource,
+                                                 description = observationUpdateCommand.ObservationMediaItems.Single(x => x.Key == mediaResource.Id).Value
+                                             })
+                                             .ToDictionary(x => x.mediaResource, x => x.description);
+             
             observation.UpdateDetails(
                 _documentSession.Load<User>(observationUpdateCommand.UserId),
                 observationUpdateCommand.Title,
@@ -63,7 +74,7 @@ namespace Bowerbird.Core.CommandHandlers
                 observationUpdateCommand.Address,
                 observationUpdateCommand.IsIdentificationRequired,
                 observationUpdateCommand.ObservationCategory,
-                _documentSession.Load<MediaResource>(observationUpdateCommand.MediaResources));
+                observationMediaItems);
 
             _documentSession.Store(observation);
         }

@@ -1,5 +1,5 @@
 ﻿<h2>New Observation</h2>
-    @using (Html.BeginForm("create", "observation"))
+    @using (Html.BeginForm("create", "observation", new { area = "members" }))
     {
         <fieldset>
             <legend>Observation Details</legend>
@@ -8,7 +8,7 @@
                     <label for="title">Title</label>
                 </div>
                 <div>
-                    <input type="text" id="title" name="title" />
+                    <input type="text" id="title" name="title" value="" />
                 </div>
             </div>
             <div id="observedon-field" class="field">

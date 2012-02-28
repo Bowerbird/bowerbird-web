@@ -83,9 +83,8 @@
     <Compile Include="CommandHandlers\UserUpdateCommandHandler.cs" />
     <Compile Include="CommandHandlers\ObservationNoteCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\UserUpdatePasswordCommandHandler.cs" />
-    <Compile Include="CommandHandlers\ImageMediaResourceDeleteCommandHandler.cs" />
-    <Compile Include="CommandHandlers\ImageMediaResourceCreateCommandHandler.cs" />
-    <Compile Include="CommandHandlers\ImageMediaResourceUpdateCommandHandler.cs" />
+    <Compile Include="CommandHandlers\MediaResourceDeleteCommandHandler.cs" />
+    <Compile Include="CommandHandlers\MediaResourceCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\CommentCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\CommentDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\CommentUpdateCommandHandler.cs" />
@@ -114,9 +113,8 @@
     <Compile Include="Commands\OrganisationUpdateCommand.cs" />
     <Compile Include="Commands\TeamProjectCreateCommand.cs" />
     <Compile Include="Commands\UserUpdateCommand.cs" />
-    <Compile Include="Commands\ImageMediaResourceCreateCommand.cs" />
-    <Compile Include="Commands\ImageMediaResourceDeleteCommand.cs" />
-    <Compile Include="Commands\ImageMediaResourceUpdateCommand.cs" />
+    <Compile Include="Commands\MediaResourceCreateCommand.cs" />
+    <Compile Include="Commands\MediaResourceDeleteCommand.cs" />
     <Compile Include="Commands\CommentCreateCommand.cs" />
     <Compile Include="Commands\CommentDeleteCommand.cs" />
     <Compile Include="Commands\CommentUpdateCommand.cs" />
@@ -153,6 +151,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DomainModels\Contribution.cs" />
+    <Compile Include="DomainModels\ObservationMedia.cs" />
     <Compile Include="DomainModels\DenormalisedReferences\DenormalisedContributionDomainModelReference.cs" />
     <Compile Include="DomainModels\DenormalisedReferences\DenormalisedMemberReference.cs" />
     <Compile Include="DomainModels\DomainSignatureAttribute.cs" />
@@ -162,13 +161,10 @@
     <Compile Include="DomainModels\Members\GlobalMember.cs" />
     <Compile Include="DomainModels\DenormalisedReferences\DenormalisedObservationReference.cs" />
     <Compile Include="DomainModels\IAssignableId.cs" />
-    <Compile Include="DomainModels\MediaResources\OtherMediaResource.cs" />
     <Compile Include="DomainModels\Member.cs" />
     <Compile Include="DomainModels\Members\GroupMember.cs" />
     <Compile Include="DomainModels\DenormalisedReferences\DenormalisedNamedDomainModelReference.cs" />
     <Compile Include="DomainModels\ObservationNote.cs" />
-    <Compile Include="DomainModels\StreamItem.cs" />
-    <Compile Include="DomainModels\StreamIndexResult.cs" />
     <Compile Include="DomainModels\ValueObject.cs" />
     <Compile Include="DomainModels\Watchlist.cs" />
     <Compile Include="EventHandlers\SendRequestPasswordResetEmailEventHandler.cs" />
@@ -194,7 +190,6 @@
     <Compile Include="DesignByContract\PreconditionException.cs" />
     <Compile Include="DomainModels\DenormalisedReferences\DenormalisedUserReference.cs" />
     <Compile Include="DomainModels\MediaResource.cs" />
-    <Compile Include="DomainModels\MediaResources\ImageMediaResource.cs" />
     <Compile Include="DomainModels\Observation.cs" />
     <Compile Include="DomainModels\Organisation.cs" />
     <Compile Include="DomainModels\Permission.cs" />

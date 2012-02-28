@@ -22,6 +22,7 @@ using Bowerbird.Core.Extensions;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Raven.Client;
+using Raven.Client.Linq;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -56,6 +57,15 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(observationCreateCommand, "observationCreateCommand");
 
+            var observationMediaItems = (from mediaResource in _documentSession.Query<MediaResource>()
+                                         where mediaResource.Id.In(observationCreateCommand.ObservationMediaItems.Keys)
+                                         select new
+                                             {
+                                                 mediaResource,
+                                                 description = observationCreateCommand.ObservationMediaItems.Single(x => x.Key == mediaResource.Id).Value
+                                             })
+                                             .ToDictionary(x => x.mediaResource, x => x.description);
+
             var observation = new Observation(
                 _documentSession.Load<User>(observationCreateCommand.UserId),
                 observationCreateCommand.Title,
@@ -66,9 +76,7 @@ namespace Bowerbird.Core.CommandHandlers
                 observationCreateCommand.Address,
                 observationCreateCommand.IsIdentificationRequired,
                 observationCreateCommand.ObservationCategory,
-                observationCreateCommand.MediaResources.IsNotNullAndHasItems()
-                    ? _documentSession.Load<MediaResource>(observationCreateCommand.MediaResources).ToList()
-                    : new List<MediaResource>());
+                observationMediaItems);
 
             /* if Observation is in project 
              * then create GroupContribution and add Observation

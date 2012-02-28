@@ -46,7 +46,7 @@ namespace Bowerbird.Core.Commands
 
         public string ObservationCategory { get; set; }
 
-        public virtual List<string> MediaResources { get; set; }
+        public Dictionary<string, string> ObservationMediaItems { get; set; }
 
         public virtual List<string> Projects { get; set; }
 

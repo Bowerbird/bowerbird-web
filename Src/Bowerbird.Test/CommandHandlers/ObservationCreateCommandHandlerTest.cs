@@ -71,7 +71,7 @@ namespace Bowerbird.Test.CommandHandlers
                 IsIdentificationRequired = FakeValues.IsTrue,
                 Latitude = FakeValues.Latitude,
                 Longitude = FakeValues.Longitude,
-                MediaResources = new List<string>(){imageMediaResource.Id},
+                ObservationMediaItems = new Dictionary<string, string>(){ {imageMediaResource.Id, FakeValues.Description }},
                 ObservationCategory = FakeValues.Category,
                 ObservedOn = FakeValues.CreatedDateTime,
                 Title = FakeValues.Title

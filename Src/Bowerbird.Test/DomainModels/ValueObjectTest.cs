@@ -1,72 +1,72 @@
-﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+﻿///* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
- Developers: 
- * Frank Radocaj : frank@radocaj.com
- * Hamish Crittenden : hamish.crittenden@gmail.com
+// Developers: 
+// * Frank Radocaj : frank@radocaj.com
+// * Hamish Crittenden : hamish.crittenden@gmail.com
  
- Project Manager: 
- * Ken Walker : kwalker@museum.vic.gov.au
+// Project Manager: 
+// * Ken Walker : kwalker@museum.vic.gov.au
  
- Funded by:
- * Atlas of Living Australia
+// Funded by:
+// * Atlas of Living Australia
  
-*/
+//*/
 
-using NUnit.Framework;
-using Bowerbird.Test.Utils;
+//using NUnit.Framework;
+//using Bowerbird.Test.Utils;
 
-namespace Bowerbird.Test.DomainModels
-{
-    [TestFixture]
-    public class ValueObjectTest
-    {
-        #region Test Infrastructure
+//namespace Bowerbird.Test.DomainModels
+//{
+//    [TestFixture]
+//    public class ValueObjectTest
+//    {
+//        #region Test Infrastructure
 
-        [SetUp]
-        public void TestInitialize() { }
+//        [SetUp]
+//        public void TestInitialize() { }
 
-        [TearDown]
-        public void TestCleanup() { }
+//        [TearDown]
+//        public void TestCleanup() { }
 
-        #endregion
+//        #endregion
 
-        #region Test Helpers
+//        #region Test Helpers
 
-        #endregion
+//        #endregion
 
-        #region Constructor tests
+//        #region Constructor tests
 
-        #endregion
+//        #endregion
 
-        #region Property tests
+//        #region Property tests
 
-        #endregion
+//        #endregion
 
-        #region Method tests
+//        #region Method tests
 
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void ValueObject_Equality_Operator()
-        {
-            var leftValueObject = new ProxyObjects.ProxyValueObject(FakeObjects.TestUser(), FakeObjects.TestProject(), FakeObjects.TestTeam());
-            var rightValueObject = new ProxyObjects.ProxyValueObject(FakeObjects.TestUser(), FakeObjects.TestProject(), FakeObjects.TestTeam());
+//        [Test]
+//        [Category(TestCategory.Unit)]
+//        public void ValueObject_Equality_Operator()
+//        {
+//            var leftValueObject = new ProxyObjects.ProxyValueObject(FakeObjects.TestUser(), FakeObjects.TestProject(), FakeObjects.TestTeam());
+//            var rightValueObject = new ProxyObjects.ProxyValueObject(FakeObjects.TestUser(), FakeObjects.TestProject(), FakeObjects.TestTeam());
 
-            var leftHashCode = leftValueObject.GetHashCode();
-            var rightHashCode = rightValueObject.GetHashCode();
+//            var leftHashCode = leftValueObject.GetHashCode();
+//            var rightHashCode = rightValueObject.GetHashCode();
 
-            Assert.AreNotEqual(leftHashCode, rightHashCode);
-        }
+//            Assert.AreNotEqual(leftHashCode, rightHashCode);
+//        }
 
-        [Test, Ignore]
-        [Category(TestCategory.Unit)]
-        public void BaseObject_Equality_Operator()
-        {
-            var leftValueObject = new ProxyObjects.ProxyBaseObject(FakeObjects.TestUser(), FakeObjects.TestProject(), FakeObjects.TestTeam());
-            var rightValueObject = new ProxyObjects.ProxyBaseObject(FakeObjects.TestUser(), FakeObjects.TestProject(), FakeObjects.TestTeam());
+//        [Test, Ignore]
+//        [Category(TestCategory.Unit)]
+//        public void BaseObject_Equality_Operator()
+//        {
+//            var leftValueObject = new ProxyObjects.ProxyBaseObject(FakeObjects.TestUser(), FakeObjects.TestProject(), FakeObjects.TestTeam());
+//            var rightValueObject = new ProxyObjects.ProxyBaseObject(FakeObjects.TestUser(), FakeObjects.TestProject(), FakeObjects.TestTeam());
 
-            Assert.IsTrue(leftValueObject.Equals(rightValueObject));
-        }
+//            Assert.IsTrue(leftValueObject.Equals(rightValueObject));
+//        }
 
-        #endregion 
-    }
-}
+//        #endregion 
+//    }
+//}

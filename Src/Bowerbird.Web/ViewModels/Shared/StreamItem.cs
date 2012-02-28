@@ -16,7 +16,7 @@ using System;
 
 namespace Bowerbird.Web.ViewModels.Shared
 {
-    public class StreamItemViewModel
+    public class StreamItem
     {
         #region Members
 
@@ -30,15 +30,13 @@ namespace Bowerbird.Web.ViewModels.Shared
 
         public string Type { get; set; }
 
-        public DateTime SubmittedOn { get; set; }
+        public DateTime CreatedDateTime { get; set; }
+
+        public string User { get; set; }
 
         public object Item { get; set; }
 
-        public string ParentId { get; set; }
-
-        public string ItemId { get; set; }
-
-        public string UserId { get; set; }
+        public string Description { get; set; }
 
         #endregion
 
