@@ -262,6 +262,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Api\Views\Shared\" />
+    <Folder Include="media\default\" />
     <Folder Include="media\document\" />
     <Folder Include="media\image\0\" />
     <Folder Include="media\video\" />
