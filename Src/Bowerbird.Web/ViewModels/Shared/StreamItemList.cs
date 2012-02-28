@@ -28,7 +28,7 @@ namespace Bowerbird.Web.ViewModels.Shared
 
         #region Properties
 
-        public PagedList<StreamItemViewModel> StreamItems { get; set; }
+        public PagedList<StreamItem> StreamItems { get; set; }
 
         #endregion
 

@@ -77,19 +77,29 @@ window.Bowerbird.Models.Observation = Backbone.Model.extend({
 // Stream
 window.Bowerbird.Models.Stream = Backbone.Model.extend({
 
-    defaults: {
-        type: null,
-        groupId: null,
-        watchListId: null,
-        key: null,
-        filter: null,
-        context: null,
-        streamItems: []
+//    defaults: {
+//        type: null,
+//        groupId: null,
+//        watchListId: null,
+//        key: null,
+//        filter: null,
+//        context: null
+//    },
+
+    initialize: function (attributes) {
+        
     },
 
     toJSON: function () {
         var json = _.clone(this.attributes);
         return _.extend(json, { context: this.get("context").toJSON() });
+    },
+
+    loadStreamItems: function () {
+        //var ids = this.get("invitees") || [];
+
+        this.streamItems = new Bowerbird.Collections.StreamItems();
+        this.invitees.fetch();
     }
 
 });

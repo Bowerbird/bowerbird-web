@@ -147,12 +147,12 @@ namespace Bowerbird.Web.Controllers.Public
             {
                 StreamItems = results
                     .Select(x =>
-                    new StreamItemViewModel()
+                    new StreamItem()
                     {
                         Item = x,
-                        ItemId = x.ContributionId,
-                        SubmittedOn = x.GroupCreatedDateTime,
-                        UserId = x.GroupUserId
+                        //ItemId = x.ContributionId,
+                        //SubmittedOn = x.GroupCreatedDateTime,
+                        //UserId = x.GroupUserId
                     }
                     ).ToPagedList(
                         page,

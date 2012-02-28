@@ -307,17 +307,17 @@ namespace Bowerbird.Test.Utils
             return testObservationNote;
         }
 
-        public static StreamItem TestStreamItem(DomainModel model, string parentId = null)
-        {
-            return new StreamItem(
-                TestUserWithId(),
-                FakeValues.CreatedDateTime,
-                model.GetType().ToString(), 
-                model.Id,
-                model,
-                parentId
-                );
-        }
+        //public static StreamItem TestStreamItem(DomainModel model, string parentId = null)
+        //{
+        //    return new StreamItem(
+        //        TestUserWithId(),
+        //        FakeValues.CreatedDateTime,
+        //        model.GetType().ToString(), 
+        //        model.Id,
+        //        model,
+        //        parentId
+        //        );
+        //}
 
         public static Watchlist TestWatchlistWithId(string id)
         {
