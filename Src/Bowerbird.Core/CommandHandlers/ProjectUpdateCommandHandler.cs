@@ -48,17 +48,18 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Methods
 
-        public void Handle(ProjectUpdateCommand projectUpdateCommand)
+        public void Handle(ProjectUpdateCommand command)
         {
-            Check.RequireNotNull(projectUpdateCommand, "projectUpdateCommand");
+            Check.RequireNotNull(command, "command");
 
-            var project = _documentSession.Load<Project>(projectUpdateCommand.Id);
+            var project = _documentSession.Load<Project>(command.Id);
 
             project.UpdateDetails(
-                _documentSession.Load<User>(projectUpdateCommand.UserId),
-                projectUpdateCommand.Name,
-                projectUpdateCommand.Description,
-                projectUpdateCommand.Website);
+                _documentSession.Load<User>(command.UserId),
+                command.Name,
+                command.Description,
+                command.Website,
+                command.AvatarId != null ? _documentSession.Load<MediaResource>(command.AvatarId) : null);
 
             _documentSession.Store(project);
         }

@@ -39,7 +39,7 @@ namespace Bowerbird.Web.ViewModels.Shared
 
         public int PageSize { get; set; }
 
-        public PagedList<Team> Teams { get; set; }
+        public PagedList<TeamView> Teams { get; set; }
 
         #endregion
 

@@ -43,7 +43,8 @@ namespace Bowerbird.Test.DomainModels
                 FakeObjects.TestUser(),
                 FakeValues.Name,
                 FakeValues.Description,
-                FakeValues.Website
+                FakeValues.Website,
+                null
                 );
         }
 
@@ -55,7 +56,7 @@ namespace Bowerbird.Test.DomainModels
         [Category(TestCategory.Unit)]
         public void Team_Constructor()
         {
-            var testTeam = new Team(FakeObjects.TestUser(), FakeValues.Name, FakeValues.Description, FakeValues.Website);
+            var testTeam = new Team(FakeObjects.TestUser(), FakeValues.Name, FakeValues.Description, FakeValues.Website, null);
 
             Assert.AreEqual(testTeam.Name, FakeValues.Name);
             Assert.AreEqual(testTeam.Description, FakeValues.Description);
@@ -70,13 +71,14 @@ namespace Bowerbird.Test.DomainModels
         [Category(TestCategory.Unit)]
         public void Team_UpdateDetails()
         {
-            var testTeam = new Team(FakeObjects.TestUser(), FakeValues.Name, FakeValues.Description, FakeValues.Website);
+            var testTeam = new Team(FakeObjects.TestUser(), FakeValues.Name, FakeValues.Description, FakeValues.Website, null);
 
             testTeam.UpdateDetails(
                 FakeObjects.TestUser(),
                 FakeValues.Name.AppendWith(additionalString),
                 FakeValues.Description.AppendWith(additionalString),
-                FakeValues.Website.AppendWith(additionalString));
+                FakeValues.Website.AppendWith(additionalString),
+                null);
 
             Assert.AreEqual(testTeam.Name, FakeValues.Name.AppendWith(additionalString));
             Assert.AreEqual(testTeam.Description, FakeValues.Description.AppendWith(additionalString));

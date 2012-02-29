@@ -1,6 +1,4 @@
-﻿/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -16,7 +14,6 @@
 
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Events;
-using Bowerbird.Core.DomainModels.DenormalisedReferences;
 
 namespace Bowerbird.Core.DomainModels
 {
@@ -36,6 +33,7 @@ namespace Bowerbird.Core.DomainModels
             string name,
             string description,
             string website,
+            MediaResource avatar,
             string organisationId = null)
             : this()
         {
@@ -47,6 +45,7 @@ namespace Bowerbird.Core.DomainModels
                 name,
                 description,
                 website,
+                avatar,
                 organisationId);
 
             EventProcessor.Raise(new DomainModelCreatedEvent<Team>(this, createdByUser));
@@ -60,7 +59,7 @@ namespace Bowerbird.Core.DomainModels
 
         #region Methods
 
-        public Team UpdateDetails(User updatedByUser, string name, string description, string website, string organisationId = null)
+        public Team UpdateDetails(User updatedByUser, string name, string description, string website, MediaResource avatar, string organisationId = null)
         {
             Check.RequireNotNull(updatedByUser, "updatedByUser");
             Check.RequireNotNullOrWhitespace(name, "name");
@@ -70,6 +69,7 @@ namespace Bowerbird.Core.DomainModels
                 name,
                 description,
                 website,
+                avatar,
                 organisationId);
 
             EventProcessor.Raise(new DomainModelUpdatedEvent<Team>(this, updatedByUser));

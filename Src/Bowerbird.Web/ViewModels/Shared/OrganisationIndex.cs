@@ -12,9 +12,6 @@
  
 */
 
-using System.Collections.Generic;
-using Bowerbird.Core.DomainModels;
-
 namespace Bowerbird.Web.ViewModels.Shared
 {
     public class OrganisationIndex
@@ -37,7 +34,7 @@ namespace Bowerbird.Web.ViewModels.Shared
         
         public string Website { get; set; }
 
-        public string Avatar { get; set; }
+        public Avatar Avatar { get; set; }
 
         #endregion
 

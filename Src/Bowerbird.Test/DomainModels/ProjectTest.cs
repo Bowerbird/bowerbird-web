@@ -42,7 +42,8 @@ namespace Bowerbird.Test.DomainModels
                 FakeObjects.TestUser(), 
                 FakeValues.Name, 
                 FakeValues.Description,
-                FakeValues.Website
+                FakeValues.Website, 
+                null
                 );
         }
 
@@ -58,7 +59,8 @@ namespace Bowerbird.Test.DomainModels
                 FakeObjects.TestUser(), 
                 FakeValues.Name, 
                 FakeValues.Description,
-                FakeValues.Website);
+                FakeValues.Website,
+                null);
 
             Assert.AreEqual(testProject.Name, FakeValues.Name);
             Assert.AreEqual(testProject.Description, FakeValues.Description);
@@ -78,7 +80,8 @@ namespace Bowerbird.Test.DomainModels
                 FakeObjects.TestUser(),
                 FakeValues.Name.AppendWith(additionalString),
                 FakeValues.Description.AppendWith(additionalString),
-                FakeValues.Website.AppendWith(additionalString)
+                FakeValues.Website.AppendWith(additionalString),
+                null
                 );
 
             Assert.AreEqual(testProject.Name, FakeValues.Name.AppendWith(additionalString));

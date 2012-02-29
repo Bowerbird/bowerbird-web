@@ -59,30 +59,43 @@ namespace Bowerbird.Test.CommandHandlers
         [Category(TestCategory.Persistance)]
         public void ObservationUpdateCommandHandlerTest_Handle()
         {
-            var originalValue = FakeObjects.TestObservationWithId();
-            var imageMediaResource = FakeObjects.TestImageMediaResourceWithId("abcabc");
+            var mediaResource = FakeObjects.TestMediaResourceWithId("1");
             var user = FakeObjects.TestUserWithId();
+
+            var observation = new Observation(
+                user,
+                FakeValues.Title,
+                FakeValues.CreatedDateTime,
+                FakeValues.CreatedDateTime,
+                FakeValues.Latitude,
+                FakeValues.Longitude,
+                FakeValues.Address,
+                FakeValues.IsTrue,
+                FakeValues.Category,
+                new Dictionary<MediaResource, string>() {{mediaResource, FakeValues.Description}});
+
+            ((IAssignableId)observation).SetIdTo("observations/", "1");
 
             Observation newValue;
 
             var command = new ObservationUpdateCommand()
             {
-                Id = originalValue.Id,
+                Id = observation.Id,
                 UserId = user.Id,
                 Address = FakeValues.Address.PrependWith("new"),
-                IsIdentificationRequired = !originalValue.IsIdentificationRequired,
+                IsIdentificationRequired = !observation.IsIdentificationRequired,
                 Latitude = FakeValues.Latitude.PrependWith("new"),
                 Longitude = FakeValues.Longitude.PrependWith("new"),
                 ObservationCategory = FakeValues.Category.PrependWith("new"),
                 Title = FakeValues.Title.PrependWith("new"),
                 ObservedOn = FakeValues.ModifiedDateTime,
-                ObservationMediaItems = new Dictionary<string, string>(){ {imageMediaResource.Id, FakeValues.Description }}
+                ObservationMediaItems = new Dictionary<string, string>() { { mediaResource.Id, FakeValues.Description } }
             };
 
             using (var session = _store.OpenSession())
             {
-                session.Store(originalValue);
-                session.Store(imageMediaResource);
+                session.Store(mediaResource);
+                session.Store(observation);
                 session.Store(user);
                 session.SaveChanges();
 
@@ -90,7 +103,7 @@ namespace Bowerbird.Test.CommandHandlers
                 commandHandler.Handle(command);
                 session.SaveChanges();
 
-                newValue = session.Load<Observation>(originalValue.Id);
+                newValue = session.Load<Observation>(observation.Id);
             }
 
             Assert.IsNotNull(newValue);
@@ -102,7 +115,7 @@ namespace Bowerbird.Test.CommandHandlers
             Assert.AreEqual(command.Title, newValue.Title);
             Assert.AreEqual(command.ObservedOn, newValue.ObservedOn);
             Assert.IsTrue(newValue.ObservationMedia.ToList().Count == 1);
-            Assert.AreEqual(imageMediaResource, newValue.ObservationMedia.ToList()[0].MediaResource);
+            Assert.AreEqual(mediaResource, newValue.ObservationMedia.ToList()[0].MediaResource);
             Assert.AreEqual(FakeValues.Description, newValue.ObservationMedia.ToList()[0].Description);
         }
 

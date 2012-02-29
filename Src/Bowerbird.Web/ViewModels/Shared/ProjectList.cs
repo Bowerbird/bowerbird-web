@@ -37,7 +37,7 @@ namespace Bowerbird.Web.ViewModels.Shared
 
         public int PageSize { get; set; }
 
-        public PagedList<Project> Projects { get; set; }
+        public PagedList<ProjectView> Projects { get; set; }
 
         #endregion
 

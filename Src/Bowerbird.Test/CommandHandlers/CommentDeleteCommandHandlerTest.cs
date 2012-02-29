@@ -12,6 +12,7 @@
  
 */
 
+using System.Linq;
 using Bowerbird.Core.CommandHandlers;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DomainModels;
@@ -56,23 +57,27 @@ namespace Bowerbird.Test.CommandHandlers
         [Category(TestCategory.Unit)]
         public void CommentDeleteCommandHandler_Handle()
         {
-            var observation = FakeObjects.TestObservationWithId();
-            var observationComment = FakeObjects.TestCommentWithId();
+            var observation = FakeObjects.TestObservationWithId("1");
             var user = FakeObjects.TestUserWithId();
 
-            Comment deletedTeam = null;
+            Comment deleted = null;
 
-            var command = new CommentDeleteCommand()
-            {
-                Id = observationComment.Id,
-                UserId = user.Id
-            };
+            observation.AddComment(FakeValues.Message, user, FakeValues.CreatedDateTime);
 
             using (var session = _store.OpenSession())
             {
                 session.Store(observation);
-                session.Store(observationComment);
                 session.Store(user);
+                session.SaveChanges();
+            }
+
+            using (var session = _store.OpenSession())
+            {
+                var command = new CommentDeleteCommand()
+                {
+                    ContributionId = observation.Id,
+                    Id = observation.Comments.ToList()[0].Id
+                };
 
                 var commandHandler = new CommentDeleteCommandHandler(session);
 
@@ -80,10 +85,10 @@ namespace Bowerbird.Test.CommandHandlers
 
                 session.SaveChanges();
 
-                deletedTeam = session.Load<Comment>(observationComment.Id);
+                deleted = session.Load<Observation>(observation.Id).Comments.FirstOrDefault();
             }
 
-            Assert.IsNull(deletedTeam);
+            Assert.IsNull(deleted);
         }
 
         #endregion

@@ -199,7 +199,7 @@ namespace Bowerbird.Core.CommandHandlers
 
             Check.Ensure(user != null, "user may not be null");
 
-            var organisation = new Organisation(user, name, description, website);
+            var organisation = new Organisation(user, name, description, website, null);
 
             _documentSession.Store(organisation);
 
@@ -212,7 +212,7 @@ namespace Bowerbird.Core.CommandHandlers
 
             Check.Ensure(user != null, "user may not be null");
 
-            var team = new Team(user, name, description, website, organisationId);
+            var team = new Team(user, name, description, website, null, organisationId);
 
             _documentSession.Store(team);
 
@@ -225,7 +225,7 @@ namespace Bowerbird.Core.CommandHandlers
 
             Check.Ensure(user != null, "user may not be null");
 
-            var project = new Project(user, name, description, website, teamId);
+            var project = new Project(user, name, description, website, null, teamId);
 
             _documentSession.Store(project);
 

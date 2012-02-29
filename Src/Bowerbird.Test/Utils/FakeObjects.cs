@@ -88,7 +88,7 @@ namespace Bowerbird.Test.Utils
         
         public static Project TestProject()
         {
-            return new Project(TestUser(), FakeValues.Name, FakeValues.Description, FakeValues.Website);
+            return new Project(TestUser(), FakeValues.Name, FakeValues.Description, FakeValues.Website, null);
         }
 
         public static Project TestProjectWithId()
@@ -102,7 +102,8 @@ namespace Bowerbird.Test.Utils
                 TestUser(),
                 FakeValues.Name,
                 FakeValues.Description,
-                FakeValues.Website);
+                FakeValues.Website, 
+                null);
 
             ((IAssignableId)project).SetIdTo("projects", id);
 
@@ -114,8 +115,9 @@ namespace Bowerbird.Test.Utils
             return new Team(
                 TestUser(), 
                 FakeValues.Name, 
-                FakeValues.Description, 
-                FakeValues.Website);
+                FakeValues.Description,
+                FakeValues.Website,
+                null);
         }
 
         public static Team TestTeamWithId()
@@ -129,7 +131,8 @@ namespace Bowerbird.Test.Utils
                 TestUser(),
                 FakeValues.Name,
                 FakeValues.Description,
-                FakeValues.Website);
+                FakeValues.Website, 
+                null);
 
             ((IAssignableId)team).SetIdTo("teams", id);
 
@@ -204,7 +207,8 @@ namespace Bowerbird.Test.Utils
                 TestUserWithId(),
                 FakeValues.Name,
                 FakeValues.Description,
-                FakeValues.Website
+                FakeValues.Website,
+                null
                 );
         }
 

@@ -67,7 +67,7 @@ namespace Bowerbird.Test.Controllers.Public
         /// Check that a page sized collection of contributions is returned
         /// Check that each contribution has been added to the specified group
         /// </summary>
-        [Test]
+        [Test, Ignore]  // WIP
         [Category(TestCategory.Unit)]
         public void StreamItemController_List_Of_Group_Contributions()
         {
@@ -154,7 +154,7 @@ namespace Bowerbird.Test.Controllers.Public
         /// Check that a page sized collection of contributions is returned
         /// Check that each contribution has been added by the specified user
         /// </summary>
-        [Test]
+        [Test, Ignore]  // WIP
         [Category(TestCategory.Unit)]
         public void StreamItemController_List_Of_User_Contributions()
         {

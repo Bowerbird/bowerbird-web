@@ -154,14 +154,15 @@ namespace Bowerbird.Test.Controllers.Members
         [Category(TestCategory.Unit)]
         public void Project_Index_As_Json()
         {
-            var team = FakeObjects.TestTeamWithId();
+            var team = FakeObjects.TestTeamWithId("1");
             var user = FakeObjects.TestUserWithId();
             
             var project = new Project(
                 user, 
                 FakeValues.Name, 
                 FakeValues.Description, 
-                FakeValues.Website, 
+                FakeValues.Website,
+                null,
                 team.Id);
 
             using (var session = _documentStore.OpenSession())

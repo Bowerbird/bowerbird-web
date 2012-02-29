@@ -81,9 +81,9 @@ namespace Bowerbird.Core.Services
             return ((BowerbirdEmailConfigurationSection)ConfigurationManager.GetSection("bowerbird/email")).ResetPasswordRelativeUri;
         }
 
-        public string GetDefaultAvatar()
+        public string GetDefaultAvatar(string avatarType)
         {
-            return string.Format("{0}/default/avatar.png",GetMediaRootUri());
+            return string.Format("{0}/img/{1}-avatar.jpg", GetEnvironmentRootUri(), avatarType);
         }
 
         #endregion

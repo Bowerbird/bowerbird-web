@@ -17,11 +17,9 @@ using Bowerbird.Core.CommandHandlers;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Extensions;
-using Bowerbird.Core.Indexes;
 using Bowerbird.Test.Utils;
 using NUnit.Framework;
 using Raven.Client;
-using Raven.Client.Indexes;
 
 namespace Bowerbird.Test.CommandHandlers
 {

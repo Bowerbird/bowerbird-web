@@ -57,7 +57,7 @@ namespace Bowerbird.Core.DomainModels
 
         public string Website { get; private set; }
 
-        public string AvatarId { get; set; }
+        public MediaResource Avatar { get; set; }
 
         public IEnumerable<GroupAssociation> ChildGroupAssociations { get { return _childGroupAssociations; } }
 
@@ -70,12 +70,12 @@ namespace Bowerbird.Core.DomainModels
             _childGroupAssociations = new List<GroupAssociation>();
         }
 
-        protected void SetDetails(string name, string description, string website, string avatarId, string parentGroupId = null)
+        protected void SetDetails(string name, string description, string website, MediaResource avatar, string parentGroupId = null)
         {
             Name = name;
             Description = description;
             Website = website;
-            AvatarId = avatarId;
+            Avatar = avatar;
             ParentGroupId = parentGroupId;
         }
         

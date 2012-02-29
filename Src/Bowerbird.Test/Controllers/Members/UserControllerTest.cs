@@ -122,6 +122,7 @@ namespace Bowerbird.Test.Controllers.Members
             using(var session = _documentStore.OpenSession())
             {
                 session.Store(user);
+                session.SaveChanges();
             }
 
             var userUpdateInput = new UserUpdateInput()
@@ -132,6 +133,7 @@ namespace Bowerbird.Test.Controllers.Members
                     LastName = FakeValues.LastName
                 };
 
+            _mockUserContext.Setup(x => x.GetAuthenticatedUserId()).Returns(user.Id);
             _controller.ModelState.AddModelError("Error", "Error");
 
             var result = _controller.Update(userUpdateInput) as ViewResult;

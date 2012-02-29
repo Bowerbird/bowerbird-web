@@ -12,34 +12,18 @@
  
 */
 				
-namespace Bowerbird.Core.Commands
+namespace Bowerbird.Web.ViewModels.Shared
 {
-    public class OrganisationCreateCommand : ICommand
+    public class OrganisationView
     {
-        #region Fields
-
-        #endregion
-
-        #region Constructors
-
-        #endregion
-
-        #region Properties
-
-        public string UserId { get; set; }
-
         public string Name { get; set; }
+
+        public string Id { get; set; }
 
         public string Description { get; set; }
 
         public string Website { get; set; }
 
-        public string AvatarId { get; set; }
-
-        #endregion
-
-        #region Methods
-
-        #endregion
+        public Avatar Avatar { get; set; }
     }
 }

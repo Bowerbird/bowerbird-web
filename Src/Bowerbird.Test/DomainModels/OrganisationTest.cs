@@ -42,7 +42,7 @@ namespace Bowerbird.Test.DomainModels
 
         private static Organisation TestOrganisation()
         {
-            return new Organisation(FakeObjects.TestUser(), FakeValues.Name, FakeValues.Description, FakeValues.Website);
+            return new Organisation(FakeObjects.TestUser(), FakeValues.Name, FakeValues.Description, FakeValues.Website, null);
         }
 
         #endregion
@@ -57,7 +57,8 @@ namespace Bowerbird.Test.DomainModels
                 FakeObjects.TestUser(), 
                 FakeValues.Name, 
                 FakeValues.Description, 
-                FakeValues.Website);
+                FakeValues.Website,
+                null);
 
             Assert.AreEqual(testOrganisation.Name, FakeValues.Name);
             Assert.AreEqual(testOrganisation.Description, FakeValues.Description);
@@ -75,15 +76,16 @@ namespace Bowerbird.Test.DomainModels
             var testOrganisation = new Organisation(
                 FakeObjects.TestUser(), 
                 FakeValues.Name, 
-                FakeValues.Description, 
-                FakeValues.Website);
+                FakeValues.Description,
+                FakeValues.Website,
+                null);
 
             testOrganisation.UpdateDetails(
                 FakeObjects.TestUser(),
                 FakeValues.Name.AppendWith(additionalString),
                 FakeValues.Description.AppendWith(additionalString),
                 FakeValues.Website.AppendWith(additionalString),
-                FakeValues.KeyString);
+                null);
 
             Assert.AreEqual(testOrganisation.Name, FakeValues.Name.AppendWith(additionalString));
             Assert.AreEqual(testOrganisation.Description, FakeValues.Description.AppendWith(additionalString));

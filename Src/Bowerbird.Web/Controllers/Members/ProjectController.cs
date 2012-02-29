@@ -190,24 +190,16 @@ namespace Bowerbird.Web.Controllers.Members
 
         protected ProjectIndex MakeProjectIndex(IdInput idInput)
         {
-            throw new NotImplementedException();
-            //Check.RequireNotNull(idInput, "idInput");
+            Check.RequireNotNull(idInput, "idInput");
 
-            //var project = _documentSession.Load<Project>(idInput.Id);
-            //var avatar = _documentSession.Load<MediaResource>(project.AvatarId);
+            var project = _documentSession.Load<Project>(idInput.Id);
 
-            //var avatarPath = avatar != null ?
-            //    _mediaFilePathService.MakeMediaFileUri(avatar.Id, "image", "avatar", avatar.FileFormat) :
-            //    _configService.GetDefaultAvatar();
-
-            //return new ProjectIndex()
-            //{
-            //    Project = project,
-
-            //    Avatar = avatarPath,
-
-            //    Team = project.ParentGroupId != null ? _documentSession.Load<Team>(project.ParentGroupId) : null
-            //};
+            return new ProjectIndex()
+            {
+                Project = project,
+                Avatar = GetAvatar(project),
+                Team = project.ParentGroupId != null ? _documentSession.Load<Team>(project.ParentGroupId) : null
+            };
         }
 
         protected ProjectList MakeProjectList(ProjectListInput listInput)
@@ -219,7 +211,15 @@ namespace Bowerbird.Web.Controllers.Members
                 .Statistics(out stats)
                 .Skip(listInput.Page)
                 .Take(listInput.PageSize)
-                .ToList();
+                .ToList()
+                .Select(x => new ProjectView()
+                {
+                    Id = x.Id,
+                    Description = x.Description,
+                    Name = x.Name,
+                    Website = x.Website,
+                    Avatar = GetAvatar(x)
+                });
 
             return new ProjectList
             {
@@ -244,7 +244,15 @@ namespace Bowerbird.Web.Controllers.Members
                 .Statistics(out stats)
                 .Skip(listInput.Page)
                 .Take(listInput.PageSize)
-                .ToList();
+                .ToList()
+                .Select(x => new ProjectView()
+                {
+                    Id = x.Id,
+                    Description = x.Description,
+                    Name = x.Name,
+                    Website = x.Website,
+                    Avatar = GetAvatar(x)
+                });
 
             return new ProjectList
             {
@@ -274,7 +282,15 @@ namespace Bowerbird.Web.Controllers.Members
                 .Statistics(out stats)
                 .Skip(listInput.Page)
                 .Take(listInput.PageSize)
-                .ToList();
+                .ToList()
+                .Select(x => new ProjectView()
+                {
+                    Id = x.Id,
+                    Description = x.Description,
+                    Name = x.Name,
+                    Website = x.Website,
+                    Avatar = GetAvatar(x)
+                });
 
             return new ProjectList
             {
@@ -286,6 +302,17 @@ namespace Bowerbird.Web.Controllers.Members
                     listInput.PageSize,
                     stats.TotalResults,
                     null)
+            };
+        }
+
+        private Avatar GetAvatar(Project project)
+        {
+            return new Avatar()
+            {
+                AltTag = project.Description,
+                UrlToImage = project.Avatar != null ?
+                    _mediaFilePathService.MakeMediaFileUri(project.Avatar.Id, "image", "avatar", project.Avatar.Metadata["metatype"]) :
+                    _configService.GetDefaultAvatar("project")
             };
         }
 

@@ -14,6 +14,8 @@
  
 */
 
+using Bowerbird.Web.ViewModels.Shared;
+
 namespace Bowerbird.Web.ViewModels.Members
 {
     public class UserUpdate : IViewModel
@@ -37,7 +39,7 @@ namespace Bowerbird.Web.ViewModels.Members
 
         public string Description { get; set; }
 
-        public string Avatar { get; set; }
+        public Avatar Avatar { get; set; }
 
         #endregion
 

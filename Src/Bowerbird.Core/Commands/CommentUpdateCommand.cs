@@ -33,6 +33,8 @@ namespace Bowerbird.Core.Commands
 
         public string Id { get; set; }
 
+        public string ContributionId { get; set; }
+
         public string UserId { get; set; }
 
         public DateTime UpdatedOn { get; set; }

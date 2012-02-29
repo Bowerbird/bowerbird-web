@@ -1,6 +1,4 @@
-﻿/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -28,7 +26,6 @@ namespace Bowerbird.Core.DomainModels
 {
     public class User : DomainModel
     {
-
         #region Members
 
         private const string _constantSalt = "nf@hskdhI&%dynm^&%";
@@ -62,7 +59,7 @@ namespace Bowerbird.Core.DomainModels
                 firstName,
                 lastName,
                 string.Empty,
-                string.Empty);
+                null);
 
             AddMembership(new GlobalMember(this, roles));
 
@@ -93,7 +90,7 @@ namespace Bowerbird.Core.DomainModels
 
         public int FlagsRaised { get; private set; }
 
-        public string AvatarId { get; set; }
+        public MediaResource Avatar { get; set; }
 
         public List<DenormalisedMemberReference> Memberships { get; private set; }
 
@@ -125,12 +122,12 @@ namespace Bowerbird.Core.DomainModels
             return hashedPassword;
         }
 
-        private void SetDetails(string firstName, string lastName, string description, string avatarId)
+        private void SetDetails(string firstName, string lastName, string description, MediaResource avatar)
         {
             FirstName = firstName;
             LastName = lastName;
             Description = description;
-            AvatarId = avatarId;
+            Avatar = avatar;
         }
 
         public bool ValidatePassword(string password)
@@ -159,13 +156,13 @@ namespace Bowerbird.Core.DomainModels
             return this;
         }
 
-        public virtual User UpdateDetails(string firstName, string lastName, string description, string avatarId)
+        public virtual User UpdateDetails(string firstName, string lastName, string description, MediaResource avatar)
         {
             SetDetails(
                 firstName,
                 lastName,
                 description,
-                avatarId);
+                avatar);
 
             EventProcessor.Raise(new DomainModelUpdatedEvent<User>(this, this));
 

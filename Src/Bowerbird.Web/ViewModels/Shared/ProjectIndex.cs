@@ -32,7 +32,7 @@ namespace Bowerbird.Web.ViewModels.Shared
 
         public Project Project { get; set; }
 
-        public string Avatar { get; set; }
+        public Avatar Avatar { get; set; }
 
         public Team Team { get; set; }
          

@@ -114,10 +114,9 @@ namespace Bowerbird.Web.Controllers.Public
             return new TeamIndex()
             {
                 Team = team,
-
                 Organisation = organisation,
-
-                Projects = projects
+                Projects = projects,
+                Avatar = GetAvatar(team)
             };
         }
 
@@ -131,7 +130,15 @@ namespace Bowerbird.Web.Controllers.Public
                 .Statistics(out stats)
                 .Skip(listInput.Page)
                 .Take(listInput.PageSize)
-                .ToList(); // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
+                .ToList() // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
+                .Select(x => new TeamView()
+                {
+                    Id = x.Id,
+                    Description = x.Description,
+                    Name = x.Name,
+                    Website = x.Website,
+                    Avatar = GetAvatar(x)
+                });
 
             return new TeamList()
             {
@@ -157,7 +164,15 @@ namespace Bowerbird.Web.Controllers.Public
                 .Statistics(out stats)
                 .Skip(listInput.Page)
                 .Take(listInput.PageSize)
-                .ToList(); // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
+                .ToList() // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
+                .Select(x => new TeamView()
+                {
+                    Id = x.Id,
+                    Description = x.Description,
+                    Name = x.Name,
+                    Website = x.Website,
+                    Avatar = GetAvatar(x)
+                });
 
             return new TeamList()
             {
@@ -187,7 +202,15 @@ namespace Bowerbird.Web.Controllers.Public
                 .Statistics(out stats)
                 .Skip(listInput.Page)
                 .Take(listInput.PageSize)
-                .ToList();
+                .ToList()
+                .Select(x => new TeamView()
+                {
+                    Id = x.Id,
+                    Description = x.Description,
+                    Name = x.Name,
+                    Website = x.Website,
+                    Avatar = GetAvatar(x)
+                });
 
             return new TeamList
             {
@@ -199,6 +222,17 @@ namespace Bowerbird.Web.Controllers.Public
                     listInput.PageSize,
                     stats.TotalResults,
                     null)
+            };
+        }
+
+        private Avatar GetAvatar(Team team)
+        {
+            return new Avatar()
+            {
+                AltTag = team.Description,
+                UrlToImage = team.Avatar != null ?
+                    _mediaFilePathService.MakeMediaFileUri(team.Avatar.Id, "image", "avatar", team.Avatar.Metadata["metatype"]) :
+                    _configService.GetDefaultAvatar("team")
             };
         }
 

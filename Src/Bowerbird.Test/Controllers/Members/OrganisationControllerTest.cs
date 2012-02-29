@@ -75,7 +75,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Organisation_Index_NonAjaxCall_Returns_ViewModel_OrganisationIndex_Having_Organisation()
+        public void Organisation_Index_ViewModel()
         {
             var organisation = FakeObjects.TestOrganisationWithId();
 
@@ -98,12 +98,11 @@ namespace Bowerbird.Test.Controllers.Members
             Assert.AreEqual(jsonData.Name, organisation.Name);
             Assert.AreEqual(jsonData.Description, organisation.Description);
             Assert.AreEqual(jsonData.Website, organisation.Website);
-            //Assert.AreEqual(jsonData.Avatar, organisation.AvatarId);
         }
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Organisation_Index_AjaxCall_Returns_Json_OrganisationIndex_Having_Organisation()
+        public void Organisation_Index_Json()
         {
             var organisation = FakeObjects.TestOrganisationWithId();
 
@@ -128,12 +127,11 @@ namespace Bowerbird.Test.Controllers.Members
             Assert.AreEqual(jsonData.Name, organisation.Name);
             Assert.AreEqual(jsonData.Description, organisation.Description);
             Assert.AreEqual(jsonData.Website, organisation.Website);
-            //Assert.AreEqual(jsonData.Avatar, organisation.AvatarId);
         }
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Organisation_List_Returns_OrganisationList_In_Json_Format()
+        public void Organisation_List_Json()
         {
             var user = FakeObjects.TestUserWithId();
             var organisations = new List<Organisation>();
@@ -176,7 +174,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Organisation_Create_Passing_Invalid_Input_Returns_Json_Error()
+        public void Organisation_Create_Invalid_Input()
         {
             _mockUserContext.Setup(x => x.HasGlobalPermission(It.IsAny<string>())).Returns(true);
 
@@ -193,7 +191,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Organisation_Create_Passing_Valid_Input_Returns_Json_Success()
+        public void Organisation_Create()
         {
             _mockUserContext.Setup(x => x.HasGlobalPermission(It.IsAny<string>())).Returns(true);
 
@@ -208,7 +206,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Organisation_Create_Having_Invalid_Permission_Returns_HttpUnauthorized()
+        public void Organisation_Create_Invalid_Permission()
         {
             _mockUserContext.Setup(x => x.HasGlobalPermission(It.IsAny<string>())).Returns(false);
 
@@ -219,7 +217,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Organisation_Update_Passing_Invalid_Input_Returns_Json_Error()
+        public void Organisation_Update_Invalid_Input()
         {
             _mockUserContext.Setup(x => x.HasPermissionToUpdate<Organisation>(It.IsAny<string>())).Returns(true);
 
@@ -236,7 +234,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Organisation_Update_Passing_Valid_Input_Returns_Json_Success()
+        public void Organisation_Update()
         {
             _mockUserContext.Setup(x => x.HasPermissionToUpdate<Organisation>(It.IsAny<string>())).Returns(true);
 
@@ -251,7 +249,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Organisation_Update_Having_Invalid_Permission_Returns_HttpUnauthorized()
+        public void Organisation_Update_Invalid_Permission()
         {
             _mockUserContext.Setup(x => x.HasPermissionToUpdate<Organisation>(It.IsAny<string>())).Returns(false);
 
@@ -262,7 +260,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Organisation_Delete_Passing_Invalid_Input_Returns_Json_Error()
+        public void Organisation_Delete_Invalid_Input()
         {
             _mockUserContext.Setup(x => x.HasPermissionToDelete<Organisation>(It.IsAny<string>())).Returns(true);
 
@@ -279,7 +277,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Organisation_Delete_Passing_Valid_Input_Returns_Json_Success()
+        public void Organisation_Delete()
         {
             _mockUserContext.Setup(x => x.HasPermissionToDelete<Organisation>(It.IsAny<string>())).Returns(true);
 
@@ -294,7 +292,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Organisation_Delete_Having_Invalid_Permission_Returns_HttpUnauthorized()
+        public void Organisation_Delete_Invalid_Permission()
         {
             _mockUserContext.Setup(x => x.HasPermissionToDelete<Organisation>(It.IsAny<string>())).Returns(false);
 

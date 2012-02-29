@@ -14,6 +14,7 @@
  
 */
 
+using System.Collections.Generic;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.Repositories;
 using Bowerbird.Core.DesignByContract;
@@ -54,17 +55,25 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(observationUpdateCommand, "observationUpdateCommand");
 
-            var observation = _documentSession.Load<Observation>(observationUpdateCommand.Id);
+            var observation = _documentSession
+                .Load<Observation>(observationUpdateCommand.Id);
 
-            var observationMediaItems = (from mediaResource in _documentSession.Query<MediaResource>()
-                                         where mediaResource.Id.In(observationUpdateCommand.ObservationMediaItems.Keys)
-                                         select new
-                                             {
-                                                 mediaResource,
-                                                 description = observationUpdateCommand.ObservationMediaItems.Single(x => x.Key == mediaResource.Id).Value
-                                             })
-                                             .ToDictionary(x => x.mediaResource, x => x.description);
-             
+            //var observationMediaItems = (from mediaResource in _documentSession.Query<MediaResource>()
+            //                             where mediaResource.Id.In(observationUpdateCommand.ObservationMediaItems.Keys)
+            //                             select new
+            //                                 {
+            //                                     mediaResource,
+            //                                     description = observationUpdateCommand.ObservationMediaItems.Single(x => x.Key == mediaResource.Id).Value
+            //                                 })
+            //                                 .ToDictionary(x => x.mediaResource, x => x.description);
+
+            var mediaResources = _documentSession
+                .Query<MediaResource>()
+                .Where(x => x.Id.In(observationUpdateCommand.ObservationMediaItems.Keys))
+                .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite());
+
+            var observationMediaItems = mediaResources.ToDictionary(mediaResource => mediaResource, mediaResource => observationUpdateCommand.ObservationMediaItems.Single(x => x.Key == mediaResource.Id).Value);
+
             observation.UpdateDetails(
                 _documentSession.Load<User>(observationUpdateCommand.UserId),
                 observationUpdateCommand.Title,

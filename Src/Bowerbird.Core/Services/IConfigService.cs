@@ -36,6 +36,6 @@ namespace Bowerbird.Core.Services
 
         string GetEmailResetPasswordRelativeUri();
 
-        string GetDefaultAvatar();
+        string GetDefaultAvatar(string avatarType);
     }
 }

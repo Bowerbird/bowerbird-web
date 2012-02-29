@@ -47,17 +47,17 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Methods
 
-        public void Handle(UserUpdateCommand userUpdateCommand)
+        public void Handle(UserUpdateCommand command)
         {
-            Check.RequireNotNull(userUpdateCommand, "userUpdateCommand");
+            Check.RequireNotNull(command, "command");
 
-            var user = _documentSession.Load<User>(userUpdateCommand.Id);
+            var user = _documentSession.Load<User>(command.Id);
 
             user.UpdateDetails(
-                userUpdateCommand.FirstName,
-                userUpdateCommand.LastName,
-                userUpdateCommand.Description,
-                userUpdateCommand.AvatarId);
+                command.FirstName,
+                command.LastName,
+                command.Description,
+                 _documentSession.Load<MediaResource>(command.AvatarId));
 
             _documentSession.Store(user);
         }

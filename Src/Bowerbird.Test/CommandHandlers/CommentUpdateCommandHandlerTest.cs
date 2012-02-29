@@ -12,6 +12,7 @@
  
 */
 
+using System.Linq;
 using Bowerbird.Core.CommandHandlers;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DomainModels;
@@ -57,24 +58,30 @@ namespace Bowerbird.Test.CommandHandlers
         [Category(TestCategory.Persistance)]
         public void CommentUpdateCommandHandler_Handle()
         {
-            var originalValue = FakeObjects.TestCommentWithId();
+            var observation = FakeObjects.TestObservationWithId("1");
             var user = FakeObjects.TestUserWithId();
-            var observation = FakeObjects.TestObservationWithId();
 
-            Comment newValue;
+            Comment updated = null;
 
-            var command = new CommentUpdateCommand()
-            {
-                Id = originalValue.Id,
-                Comment = FakeValues.Comment.PrependWith("new"),
-                UserId = user.Id
-            };
+            observation.AddComment(FakeValues.Message, user, FakeValues.CreatedDateTime);
 
             using (var session = _store.OpenSession())
             {
-                session.Store(originalValue);
-                session.Store(user);
                 session.Store(observation);
+                session.Store(user);
+                session.SaveChanges();
+            }
+
+            using (var session = _store.OpenSession())
+            {
+                var command = new CommentUpdateCommand()
+                {
+                    ContributionId = observation.Id,
+                    Id = observation.Comments.ToList()[0].Id,
+                    Comment = FakeValues.Message.AppendWith("-changed"),
+                    UpdatedOn = FakeValues.ModifiedDateTime,
+                    UserId = user.Id
+                };
 
                 var commandHandler = new CommentUpdateCommandHandler(session);
 
@@ -82,11 +89,11 @@ namespace Bowerbird.Test.CommandHandlers
 
                 session.SaveChanges();
 
-                newValue = session.Load<Comment>(originalValue.Id);
+                updated = session.Load<Observation>(observation.Id).Comments.FirstOrDefault();
             }
 
-            Assert.IsNotNull(newValue);
-            Assert.AreEqual(command.Comment, newValue.Message);
+            Assert.IsNotNull(updated);
+            Assert.AreEqual(FakeValues.Message.AppendWith("-changed"), updated.Message);
         }
 
         #endregion

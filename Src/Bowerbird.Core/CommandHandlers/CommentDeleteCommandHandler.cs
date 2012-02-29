@@ -15,7 +15,10 @@
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Indexes;
 using Raven.Client;
+using Raven.Client.Linq;
+using System.Linq;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -49,7 +52,14 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(command, "command");
 
-            _documentSession.Delete(_documentSession.Load<Comment>(command.Id));
+            var contribution = _documentSession.Query<Contribution, All_Contributions>()
+                .Where(x => x.Id == command.ContributionId)
+                .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
+                .FirstOrDefault();
+
+            contribution.RemoveComment(command.Id);
+
+            _documentSession.Store(contribution);
         }
 
         #endregion

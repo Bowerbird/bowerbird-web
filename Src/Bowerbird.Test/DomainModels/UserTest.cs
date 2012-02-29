@@ -265,7 +265,7 @@ namespace Bowerbird.Test.DomainModels
 
             var groupMember = new GroupMember(
                                    user,
-                                   new Team(user, FakeValues.Name, FakeValues.Description, FakeValues.Website),
+                                   new Team(user, FakeValues.Name, FakeValues.Description, FakeValues.Website, null),
                                    user,
                                    FakeObjects.TestRoles());
 
@@ -288,7 +288,7 @@ namespace Bowerbird.Test.DomainModels
 
             var groupMember = new GroupMember(
                                    user,
-                                   new Team(user, FakeValues.Name, FakeValues.Description, FakeValues.Website),
+                                   new Team(user, FakeValues.Name, FakeValues.Description, FakeValues.Website, null),
                                    user,
                                    FakeObjects.TestRoles());
 

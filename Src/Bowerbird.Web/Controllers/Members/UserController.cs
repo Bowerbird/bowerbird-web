@@ -1,6 +1,4 @@
-﻿/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -21,6 +19,7 @@ using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Services;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.ViewModels.Members;
+using Bowerbird.Web.ViewModels.Shared;
 using Raven.Client;
 using System;
 
@@ -136,21 +135,16 @@ namespace Bowerbird.Web.Controllers.Members
 
         private UserUpdate MakeUserUpdate()
         {
-            throw new NotImplementedException();
-            //var user = _documentSession.Load<User>(_userContext.GetAuthenticatedUserId());
-            //var avatar = _documentSession.Load<MediaResource>(user.AvatarId);
-            //var avatarPath = avatar != null ?
-            //    _mediaFilePathService.MakeMediaFileUri(avatar.Id, "image", "avatar", avatar.FileFormat) :
-            //    _configService.GetDefaultAvatar();
+            var user = _documentSession.Load<User>(_userContext.GetAuthenticatedUserId());
 
-            //return new UserUpdate()
-            //{
-            //    FirstName = user.FirstName,
-            //    LastName = user.LastName,
-            //    Email = user.Email,
-            //    Description = user.Description,
-            //    Avatar = avatarPath
-            //};
+            return new UserUpdate()
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                Description = user.Description,
+                Avatar = GetAvatar(user)
+            };
         }
 
         private UserUpdate MakeUserUpdate(UserUpdateInput userUpdateInput)
@@ -161,7 +155,18 @@ namespace Bowerbird.Web.Controllers.Members
                 LastName = userUpdateInput.LastName,
                 Email = userUpdateInput.Email,
                 Description = userUpdateInput.Description,
-                Avatar = userUpdateInput.AvatarId
+                Avatar = GetAvatar(_documentSession.Load<User>(_userContext.GetAuthenticatedUserId()))
+            };
+        }
+
+        private Avatar GetAvatar(User user)
+        {
+            return new Avatar()
+            {
+                AltTag = string.Format("{0} {1}", user.FirstName,user.LastName),
+                UrlToImage = user.Avatar != null ?
+                    _mediaFilePathService.MakeMediaFileUri(user.Avatar.Id, "image", "avatar", user.Avatar.Metadata["metatype"]) :
+                    _configService.GetDefaultAvatar("user")
             };
         }
 

@@ -39,6 +39,7 @@ namespace Bowerbird.Core.DomainModels
             string name,
             string description,
             string website,
+            MediaResource avatar,
             string parentGroupId = null)
             : this()
         {
@@ -50,6 +51,7 @@ namespace Bowerbird.Core.DomainModels
                 name,
                 description,
                 website,
+                avatar,
                 parentGroupId);
 
             EventProcessor.Raise(new DomainModelCreatedEvent<Project>(this, createdByUser));
@@ -63,7 +65,7 @@ namespace Bowerbird.Core.DomainModels
 
         #region Methods
 
-        public Project UpdateDetails(User updatedByUser, string name, string description, string website, string teamId = null)
+        public Project UpdateDetails(User updatedByUser, string name, string description, string website, MediaResource avatar, string teamId = null)
         {
             Check.RequireNotNull(updatedByUser, "updatedByUser");
             Check.RequireNotNullOrWhitespace(name, "name");
@@ -73,6 +75,7 @@ namespace Bowerbird.Core.DomainModels
                 name,
                 description,
                 website,
+                avatar,
                 teamId);
 
             EventProcessor.Raise(new DomainModelUpdatedEvent<Project>(this, updatedByUser));

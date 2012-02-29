@@ -33,6 +33,8 @@ namespace Bowerbird.Web.ViewModels.Shared
 
         public Organisation Organisation { get; set; }
 
+        public Avatar Avatar { get; set; }
+
         public IEnumerable<Project> Projects { get; set; }
 
         #endregion

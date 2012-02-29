@@ -56,6 +56,7 @@ namespace Bowerbird.Core.CommandHandlers
                 , command.Name
                 , command.Description
                 , command.Website
+                , command.AvatarId != null ? _documentSession.Load<MediaResource>(command.AvatarId) : null
                 );
 
             _documentSession.Store(team);

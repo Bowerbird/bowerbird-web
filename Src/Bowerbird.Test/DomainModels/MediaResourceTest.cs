@@ -50,7 +50,7 @@ namespace Bowerbird.Test.DomainModels.MediaResources
                 new Dictionary<string, string>() { { "OriginalFileName", FakeValues.Filename } });
 
             Assert.AreEqual(testMediaResource.Type, "image");
-            Assert.AreEqual(testMediaResource.CreatedByUser, FakeObjects.TestUser());
+            Assert.AreEqual(testMediaResource.CreatedByUser, FakeObjects.TestUser().DenormalisedUserReference());
             Assert.AreEqual(testMediaResource.UploadedOn, FakeValues.CreatedDateTime);
             Assert.AreEqual(testMediaResource.Metadata, new Dictionary<string, string>() { { "OriginalFileName", FakeValues.Filename } });
         }

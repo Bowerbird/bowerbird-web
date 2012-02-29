@@ -12,7 +12,6 @@
  
 */
 
-using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Paging;
 
 namespace Bowerbird.Web.ViewModels.Shared
@@ -33,7 +32,7 @@ namespace Bowerbird.Web.ViewModels.Shared
 
         public int PageSize { get; set; }
 
-        public PagedList<Organisation> Organisations { get; set; }
+        public PagedList<OrganisationView> Organisations { get; set; }
 
         #endregion
 

@@ -82,6 +82,7 @@ namespace Bowerbird.Web.Controllers.Public
                 .Query<GroupContributionResults, All_GroupContributionItems>()
                 .Include(x => x.ContributionId)
                 .Where(x => x.GroupId == listInput.GroupId)
+                .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
                 .Statistics(out stats)
                 .Skip(listInput.Page)
                 .Take(listInput.PageSize)

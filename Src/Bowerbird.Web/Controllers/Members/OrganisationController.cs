@@ -24,7 +24,6 @@ using Bowerbird.Web.ViewModels.Members;
 using Bowerbird.Web.ViewModels.Shared;
 using Raven.Client;
 using Raven.Client.Linq;
-using System;
 
 namespace Bowerbird.Web.Controllers.Members
 {
@@ -149,23 +148,17 @@ namespace Bowerbird.Web.Controllers.Members
 
         private OrganisationIndex MakeOrganisationIndex(IdInput idInput)
         {
-            throw new NotImplementedException();
-            //Check.RequireNotNull(idInput, "idInput");
+            Check.RequireNotNull(idInput, "idInput");
 
-            //var organisation = _documentSession.Load<Organisation>(idInput.Id);
-            //var avatar = _documentSession.Load<MediaResource>(organisation.AvatarId);
-            
-            //var avatarPath = avatar != null ?
-            //    _mediaFilePathService.MakeMediaFileUri(avatar.Id, "image", "avatar", avatar.FileFormat) : 
-            //    _configService.GetDefaultAvatar();
+            var organisation = _documentSession.Load<Organisation>(idInput.Id);
 
-            //return new OrganisationIndex()
-            //{
-            //    Name = organisation.Name,
-            //    Description = organisation.Description,
-            //    Website = organisation.Website,
-            //    Avatar = avatarPath
-            //};
+            return new OrganisationIndex()
+            {
+                Name = organisation.Name,
+                Description = organisation.Description,
+                Website = organisation.Website,
+                Avatar = GetAvatar(organisation)
+            };
         }
 
         private OrganisationList MakeOrganisationList(OrganisationListInput listInput)
@@ -177,7 +170,16 @@ namespace Bowerbird.Web.Controllers.Members
                 .Statistics(out stats)
                 .Skip(listInput.Page)
                 .Take(listInput.PageSize)
-                .ToArray(); // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
+                .ToList()
+                .Select(x => new OrganisationView()
+                                 {
+                                     Id = x.Id,
+                                     Description = x.Description,
+                                     Name = x.Name,
+                                     Website = x.Website,
+                                     Avatar = GetAvatar(x)
+                                 });
+                 // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
 
             return new OrganisationList()
             {
@@ -191,6 +193,17 @@ namespace Bowerbird.Web.Controllers.Members
             };
         }
 
+        private Avatar GetAvatar(Organisation organisation)
+        {
+            return new Avatar()
+            {
+                AltTag = organisation.Description, 
+                UrlToImage = organisation.Avatar != null ? 
+                    _mediaFilePathService.MakeMediaFileUri(organisation.Avatar.Id, "image", "avatar", organisation.Avatar.Metadata["metatype"]) :
+                    _configService.GetDefaultAvatar("organisation")
+            };
+        }
+
         private OrganisationCreateCommand MakeOrganisationCreateCommand(OrganisationCreateInput createInput)
         {
             return new OrganisationCreateCommand()
@@ -198,7 +211,8 @@ namespace Bowerbird.Web.Controllers.Members
                 Description = createInput.Description,
                 Name = createInput.Name,
                 Website = createInput.Website,
-                UserId = _userContext.GetAuthenticatedUserId()
+                UserId = _userContext.GetAuthenticatedUserId(),
+                AvatarId = createInput.AvatarId
             };
         }
 

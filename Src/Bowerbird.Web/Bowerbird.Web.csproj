@@ -166,6 +166,7 @@
     <Compile Include="ViewModels\Members\OrganisationUpdateInput.cs" />
     <Compile Include="ViewModels\Members\GroupMemberList.cs" />
     <Compile Include="ViewModels\Members\GroupMemberListInput.cs" />
+    <Compile Include="ViewModels\Shared\OrganisationView.cs" />
     <Compile Include="ViewModels\Shared\PostList.cs" />
     <Compile Include="ViewModels\Shared\PostListInput.cs" />
     <Compile Include="ViewModels\Members\WatchlistCreateInput.cs" />
@@ -188,6 +189,7 @@
     <Compile Include="ViewModels\Shared\ProjectList.cs" />
     <Compile Include="ViewModels\Shared\ProjectListInput.cs" />
     <Compile Include="ViewModels\Members\TeamCreateInput.cs" />
+    <Compile Include="ViewModels\Shared\ProjectView.cs" />
     <Compile Include="ViewModels\Shared\StreamItemList.cs" />
     <Compile Include="ViewModels\Shared\StreamItemListInput.cs" />
     <Compile Include="ViewModels\Shared\StreamSortInput.cs" />
@@ -243,6 +245,7 @@
     <Compile Include="ViewModels\Members\UserUpdate.cs" />
     <Compile Include="ViewModels\Shared\TeamList.cs" />
     <Compile Include="ViewModels\Shared\TeamListInput.cs" />
+    <Compile Include="ViewModels\Shared\TeamView.cs" />
     <Compile Include="ViewModels\Shared\UserProfile.cs" />
   </ItemGroup>
   <ItemGroup>

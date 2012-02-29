@@ -79,23 +79,17 @@ namespace Bowerbird.Web.Controllers.Public
 
         private OrganisationIndex MakeOrganisationIndex(IdInput idInput)
         {
-            throw new NotImplementedException();
-            //Check.RequireNotNull(idInput, "idInput");
+            Check.RequireNotNull(idInput, "idInput");
 
-            //var organisation = _documentSession.Load<Organisation>(idInput.Id);
-            //var avatar = _documentSession.Load<MediaResource>(organisation.AvatarId);
+            var organisation = _documentSession.Load<Organisation>(idInput.Id);
 
-            //var avatarPath = avatar != null ?
-            //    _mediaFilePathService.MakeMediaFileUri(avatar.Id, "image", "avatar", avatar.FileFormat) :
-            //    _configService.GetDefaultAvatar();
-
-            //return new OrganisationIndex()
-            //{
-            //    Name = organisation.Name,
-            //    Description = organisation.Description,
-            //    Website = organisation.Website,
-            //    Avatar = avatarPath
-            //};
+            return new OrganisationIndex()
+            {
+                Name = organisation.Name,
+                Description = organisation.Description,
+                Website = organisation.Website,
+                Avatar = GetAvatar(organisation)
+            };
         }
 
         private OrganisationList MakeOrganisationList(OrganisationListInput listInput)
@@ -107,7 +101,15 @@ namespace Bowerbird.Web.Controllers.Public
                 .Statistics(out stats)
                 .Skip(listInput.Page)
                 .Take(listInput.PageSize)
-                .ToArray(); // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
+                .ToList() // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
+                .Select(x => new OrganisationView()
+                {
+                    Id = x.Id,
+                    Description = x.Description,
+                    Name = x.Name,
+                    Website = x.Website,
+                    Avatar = GetAvatar(x)
+                });
 
             return new OrganisationList()
             {
@@ -118,6 +120,17 @@ namespace Bowerbird.Web.Controllers.Public
                     listInput.PageSize,
                     stats.TotalResults,
                     null)
+            };
+        }
+
+        private Avatar GetAvatar(Organisation organisation)
+        {
+            return new Avatar()
+            {
+                AltTag = organisation.Description,
+                UrlToImage = organisation.Avatar != null ?
+                    _mediaFilePathService.MakeMediaFileUri(organisation.Avatar.Id, "image", "avatar", organisation.Avatar.Metadata["metatype"]) :
+                    _configService.GetDefaultAvatar("organisation")
             };
         }
 
