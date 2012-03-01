@@ -35,29 +35,6 @@ using SignalR.Infrastructure;
 
 namespace Bowerbird.Web.Hubs
 {
-    #region Models
-
-    public class ActivityMessage
-    {
-        public string Type { get; set; }//observation, group, user
-
-        public string Action { get; set; }//created,updated,deleted,joined,loggedin,commented
-
-        public string GroupId { get; set; }
-
-        public string WatchlistId { get; set; }
-
-        public UserProfile User { get; set; }
-
-        public Avatar Avatar { get; set; }
-
-        public string Message { get; set; }//ken walker created the 'bees in carlton' project
-    }
-
-    #endregion
-
-    #region Hubs
-
     [HubName("activityHub")]
     public class ActivityHub : Hub
     {
@@ -125,8 +102,6 @@ namespace Bowerbird.Web.Hubs
         #endregion
     }
 
-    #endregion
-
     #region Utils
 
     public class ActivityGenerator
@@ -138,15 +113,15 @@ namespace Bowerbird.Web.Hubs
             switch (messageType)
             {
                 case 1:
-                    return new ActivityMessage() { Type = "user", GroupId = "projects/1", Avatar = new Avatar() { AltTag = "fake user", UrlToImage = rootUri + "/img/avatar.jpg" }, Message = "User did something" };
+                    return new ActivityMessage() { Sender = "user", GroupId = "projects/1", Avatar = new Avatar() { AltTag = "fake user", UrlToImage = rootUri + "/img/avatar.jpg" }, Message = "User did something" };
                 case 2:
-                    return new ActivityMessage() { Type = "group",GroupId = "projects/2",  Avatar = new Avatar() { AltTag = "fake user", UrlToImage = rootUri + "/img/avatar-1.png" }, Message = "Project added" };
+                    return new ActivityMessage() { Sender = "group",GroupId = "projects/2",  Avatar = new Avatar() { AltTag = "fake user", UrlToImage = rootUri + "/img/avatar-1.png" }, Message = "Project added" };
                 case 3:
-                    return new ActivityMessage() { Type = "observation",GroupId = "teams/1",  Avatar = new Avatar() { AltTag = "fake user", UrlToImage = rootUri + "/img/avatar-2.png" }, Message = "Observation Created" };
+                    return new ActivityMessage() { Sender = "observation",GroupId = "teams/1",  Avatar = new Avatar() { AltTag = "fake user", UrlToImage = rootUri + "/img/avatar-2.png" }, Message = "Observation Created" };
                 case 4:
-                    return new ActivityMessage() { Type = "watchlist",GroupId = "teams/2",  Avatar = new Avatar() { AltTag = "fake user", UrlToImage = rootUri + "/img/avatar-3.png" }, Message = "Watchlist Updated" };
+                    return new ActivityMessage() { Sender = "watchlist",GroupId = "teams/2",  Avatar = new Avatar() { AltTag = "fake user", UrlToImage = rootUri + "/img/avatar-3.png" }, Message = "Watchlist Updated" };
                 default:
-                    return new ActivityMessage() { Type = "user",GroupId = "organisations/1",  Avatar = new Avatar() { AltTag = "fake user", UrlToImage = rootUri + "/img/avatar.jpg" }, Message = "test message" };
+                    return new ActivityMessage() { Sender = "user",GroupId = "organisations/1",  Avatar = new Avatar() { AltTag = "fake user", UrlToImage = rootUri + "/img/avatar.jpg" }, Message = "test message" };
             }
         }
     }

@@ -86,7 +86,7 @@ namespace Bowerbird.Web.EventHandlers
                         UrlToImage = ""
                     },
                     Message = @event.EventMessage,
-                    Type = "observationnotecreated"
+                    Sender = "observationnotecreated"
                 },
                 connectedUserIds);
         }

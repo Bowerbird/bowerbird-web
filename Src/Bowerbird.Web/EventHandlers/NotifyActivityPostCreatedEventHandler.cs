@@ -87,7 +87,7 @@ namespace Bowerbird.Web.EventHandlers
                             UrlToImage = ""
                         },
                         Message = @event.EventMessage,
-                        Type = "postcreated"
+                        Sender = "postcreated"
                     }, 
                 connectedUserIds);
         }

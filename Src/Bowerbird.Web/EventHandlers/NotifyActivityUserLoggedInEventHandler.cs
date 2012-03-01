@@ -91,7 +91,7 @@ namespace Bowerbird.Web.EventHandlers
                             UrlToImage = ""
                         },
                         Message = @event.User.GetName().AppendWith(" has logged in"),
-                        Type = "userloggedin"
+                        Sender = "userloggedin"
                     }, 
                 connectedUserIds.ToList());
         }

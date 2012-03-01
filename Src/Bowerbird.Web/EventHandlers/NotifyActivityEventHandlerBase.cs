@@ -16,7 +16,7 @@ using System.Collections.Generic;
 using System.Web.Script.Serialization;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Web.Config;
-using Bowerbird.Web.Hubs;
+using Bowerbird.Web.ViewModels.Shared;
 
 namespace Bowerbird.Web.EventHandlers
 {
