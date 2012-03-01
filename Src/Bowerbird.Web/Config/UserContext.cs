@@ -20,7 +20,10 @@ using System.Web.Security;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Repositories;
 using Raven.Client;
+using SignalR;
+using SignalR.Hosting.AspNet;
 using SignalR.Hubs;
+using SignalR.Infrastructure;
 using Bowerbird.Web.Hubs;
 
 namespace Bowerbird.Web.Config
@@ -109,7 +112,7 @@ namespace Bowerbird.Web.Config
 
         public dynamic GetChannel()
         {
-            return Hub.GetClients<ActivityHub>();
+            return AspNetHost.DependencyResolver.Resolve<IConnectionManager>().GetClients<ActivityHub>();
         }
 
         public bool HasGlobalPermission(string permissionName)

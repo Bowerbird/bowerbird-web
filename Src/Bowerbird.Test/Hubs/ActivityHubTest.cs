@@ -59,11 +59,11 @@ namespace Bowerbird.Test.Hubs
 
         #region Method Tests
 
-        [Test, Category(TestCategory.Unit)] 
-        public void ActivityHub_StartActivityStream_Throws_NotImplementedException()
-        {
-            Assert.IsTrue(BowerbirdThrows.Exception<NotImplementedException>(() => new ActivityHub(_mockDocumentSession.Object).StartActivityStream()));
-        }
+        //[Test, Category(TestCategory.Unit)] 
+        //public void ActivityHub_StartActivityStream_Throws_NotImplementedException()
+        //{
+        //    Assert.IsTrue(BowerbirdThrows.Exception<NotImplementedException>(() => new ActivityHub(_mockDocumentSession.Object).StartActivityStream()));
+        //}
 
         #endregion
     }

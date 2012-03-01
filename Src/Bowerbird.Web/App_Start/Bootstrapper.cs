@@ -102,7 +102,7 @@ namespace Bowerbird.Web.App_Start
 
             ServiceLocator.SetLocatorProvider(() => new NinjectServiceLocator(kernel));
             
-            SignalR.Infrastructure.DependencyResolver.SetResolver(new SignalR.Ninject.NinjectDependencyResolver(kernel));
+            SignalR.Hosting.AspNet.AspNetHost.SetResolver(new SignalR.Ninject.NinjectDependencyResolver(kernel));
 
             //FluentValidationModelValidatorProvider.Configure(x => x.ValidatorFactory = new NinjectValidatorFactory(ServiceLocator.Current));
         }

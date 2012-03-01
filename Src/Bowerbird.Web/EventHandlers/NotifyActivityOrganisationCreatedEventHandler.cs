@@ -27,7 +27,7 @@ using System.Linq;
 
 namespace Bowerbird.Web.EventHandlers
 {
-    public class NotifyActivityObservationCreatedEventHandler : NotifyActivityEventHandlerBase, IEventHandler<DomainModelCreatedEvent<Observation>>
+    public class NotifyActivityOrganisationCreatedEventHandler : NotifyActivityEventHandlerBase, IEventHandler<DomainModelCreatedEvent<Organisation>>
     {
         #region Members
 
@@ -37,7 +37,7 @@ namespace Bowerbird.Web.EventHandlers
 
         #region Constructors
 
-        public NotifyActivityObservationCreatedEventHandler(
+        public NotifyActivityOrganisationCreatedEventHandler(
             IUserContext userContext,
             IDocumentSession documentSession)
             : base(userContext)
@@ -55,8 +55,8 @@ namespace Bowerbird.Web.EventHandlers
 
         #region Methods
 
-        // if a user in a group we're involved in creates an observation, let's see it..
-        public void Handle(DomainModelCreatedEvent<Observation> @event)
+        // if a user in a group we're involved in creates an organisation, let's see it..
+        public void Handle(DomainModelCreatedEvent<Organisation> @event)
         {
             Check.RequireNotNull(@event, "event");
 

@@ -19,6 +19,7 @@ using Bowerbird.Core.Commands;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.DomainModels.Members;
 using Bowerbird.Web.Config;
+using Bowerbird.Web.Hubs;
 using Bowerbird.Web.ViewModels.Members;
 using Bowerbird.Web.ViewModels.Shared;
 using Raven.Client;
@@ -65,7 +66,13 @@ namespace Bowerbird.Web.Controllers.Members
             }
             //return View(MakeHomeIndex(homeIndexInput));
 
-            return View(new HomeIndex());
+            return View(new HomeIndex(){UserProfile = new UserProfile(){Id = User.Identity.Name}});
+        }
+
+        [HttpGet]
+        public ActionResult ActivityTest()
+        {
+            return View();
         }
 
         private HomeIndex MakeHomeIndex(HomeIndexInput indexInput)

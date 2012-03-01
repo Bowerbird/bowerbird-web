@@ -15,6 +15,7 @@
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
 using Bowerbird.Core.Events;
+using Bowerbird.Core.Extensions;
 
 namespace Bowerbird.Core.DomainModels
 {
@@ -51,7 +52,7 @@ namespace Bowerbird.Core.DomainModels
                 name,
                 querystringJson);
 
-            EventProcessor.Raise(new DomainModelUpdatedEvent<Watchlist>(this, createdByUser));
+            EventProcessor.Raise(new DomainModelUpdatedEvent<Watchlist>(this, createdByUser, createdByUser.GetName().AppendWith(" created a watchlist")));
         }
 
 
@@ -79,7 +80,7 @@ namespace Bowerbird.Core.DomainModels
         {
             SetDetails(name, querystringJson);
 
-            EventProcessor.Raise(new DomainModelUpdatedEvent<Watchlist>(this, updatedByUser));
+            EventProcessor.Raise(new DomainModelUpdatedEvent<Watchlist>(this, updatedByUser, updatedByUser.GetName().AppendWith(" updated their watchlist")));
         }
 
         #endregion

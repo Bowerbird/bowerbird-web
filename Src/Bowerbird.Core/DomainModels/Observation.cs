@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using Bowerbird.Core.Events;
+using Bowerbird.Core.Extensions;
 
 namespace Bowerbird.Core.DomainModels
 {
@@ -67,7 +68,9 @@ namespace Bowerbird.Core.DomainModels
                 observationCategory,
                 observationMediaItems);
 
-            EventProcessor.Raise(new DomainModelCreatedEvent<Observation>(this, createdByUser));
+            var message = createdByUser.GetName().AppendWith(" added observation ").AppendWith(title);
+
+            EventProcessor.Raise(new DomainModelCreatedEvent<Observation>(this, createdByUser, message));
         }
 
         #endregion
@@ -101,6 +104,16 @@ namespace Bowerbird.Core.DomainModels
 
         #region Methods
 
+        public override string ContributionType()
+        {
+            return "Observation";
+        }
+
+        public override string ContributionTitle()
+        {
+            return Title;
+        }
+
         private void InitMembers()
         {
             _observationMedia = new List<ObservationMedia>();
@@ -108,7 +121,14 @@ namespace Bowerbird.Core.DomainModels
             _comments = new List<Comment>();
         }
 
-        private void SetDetails(string title, DateTime observedOn, string latitude, string longitude, string address, bool isIdentificationRequired, string observationCategory, IDictionary<MediaResource, string> observationMediaItems)
+        private void SetDetails(string title, 
+            DateTime observedOn, 
+            string latitude, 
+            string longitude, 
+            string address, 
+            bool isIdentificationRequired, 
+            string observationCategory, 
+            IDictionary<MediaResource, string> observationMediaItems)
         {
             Title = title;
             ObservedOn = observedOn;
@@ -128,7 +148,15 @@ namespace Bowerbird.Core.DomainModels
             }
         }
 
-        public Observation UpdateDetails(User updatedByUser, string title, DateTime observedOn, string latitude, string longitude, string address, bool isIdentificationRequired, string observationCategory, IDictionary<MediaResource, string> observationMediaItems)
+        public Observation UpdateDetails(User updatedByUser, 
+            string title, 
+            DateTime observedOn, 
+            string latitude, 
+            string longitude, 
+            string address, 
+            bool isIdentificationRequired, 
+            string observationCategory, 
+            IDictionary<MediaResource, string> observationMediaItems)
         {
             Check.RequireNotNull(updatedByUser, "updatedByUser");
             Check.RequireNotNull(observationMediaItems, "observationMediaItems");
@@ -143,7 +171,9 @@ namespace Bowerbird.Core.DomainModels
                 observationCategory,
                 observationMediaItems);
 
-            EventProcessor.Raise(new DomainModelUpdatedEvent<Observation>(this, updatedByUser));
+            var message = updatedByUser.GetName().AppendWith(" added observation ").AppendWith(title);
+
+            EventProcessor.Raise(new DomainModelUpdatedEvent<Observation>(this, updatedByUser, message));
 
             return this;
         }

@@ -1,6 +1,4 @@
-/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -14,9 +12,11 @@
  
 */
 
+using System.Collections.Generic;
+using System.Web.Script.Serialization;
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.DomainModels;
 using Bowerbird.Web.Config;
+using Bowerbird.Web.Hubs;
 
 namespace Bowerbird.Web.EventHandlers
 {
@@ -24,14 +24,15 @@ namespace Bowerbird.Web.EventHandlers
     {
         #region Members
 
-        private readonly IUserContext _userContext;
+        protected readonly IUserContext _userContext;
 
         #endregion
 
         #region Constructors
 
         protected NotifyActivityEventHandlerBase(
-            IUserContext userContext)
+            IUserContext userContext
+            )
         {
             Check.RequireNotNull(userContext, "userContext");
 
@@ -46,20 +47,16 @@ namespace Bowerbird.Web.EventHandlers
 
         #region Methods
 
-        protected void Notify(string type, User user, object data)
+        protected void Notify(ActivityMessage message, List<string> clientsToNotify)
         {
-            Check.RequireNotNullOrWhitespace(type, "type");
-            Check.RequireNotNull(user, "user");
-            Check.RequireNotNull(data, "data");
-
-            var activity = new Activity(
-                type,
-                user,
-                data);
+            Check.RequireNotNull(message, "message");
 
             var clients = _userContext.GetChannel();
 
-            clients.activityOccurred(activity);
+            foreach (var clientId in clientsToNotify)
+            {
+                clients[clientId].activityOccurred(new JavaScriptSerializer().Serialize(message));
+            }
         }
 
         #endregion

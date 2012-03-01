@@ -30,13 +30,15 @@ namespace Bowerbird.Core.Events
 
         public DomainModelUpdatedEvent(
             T domainModel,
-            User user)
+            User user,
+            string eventMessage)
         {
             Check.RequireNotNull(domainModel, "domainModel");
             Check.RequireNotNull(user, "user");
 
             DomainModel = domainModel;
             User = user;
+            Message = eventMessage;
         }
 
         #endregion
@@ -46,6 +48,8 @@ namespace Bowerbird.Core.Events
         public T DomainModel { get; private set; }
 
         public User User { get; private set; }
+
+        public string Message { get; private set; }
 
         #endregion
 

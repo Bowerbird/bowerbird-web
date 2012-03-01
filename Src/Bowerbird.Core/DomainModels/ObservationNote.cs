@@ -18,6 +18,7 @@ using Bowerbird.Core.DomainModels.DenormalisedReferences;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using Bowerbird.Core.Extensions;
 
 namespace Bowerbird.Core.DomainModels
 {
@@ -65,7 +66,9 @@ namespace Bowerbird.Core.DomainModels
                 references,
                 notes);
 
-            EventProcessor.Raise(new DomainModelCreatedEvent<ObservationNote>(this, createdByUser));
+            var message = createdByUser.GetName().AppendWith(" added a note to ").AppendWith(observation.Title);
+
+            EventProcessor.Raise(new DomainModelCreatedEvent<ObservationNote>(this, createdByUser, message));
         }
 
         #endregion
@@ -91,6 +94,16 @@ namespace Bowerbird.Core.DomainModels
         #endregion
 
         #region Methods
+
+        public override string ContributionType()
+        {
+            return "Observation Note";
+        }
+
+        public override string ContributionTitle()
+        {
+            return Observation.Title.AppendWith(" - note");
+        }
 
         private void InitMembers()
         {
@@ -128,7 +141,9 @@ namespace Bowerbird.Core.DomainModels
                 references,
                 notes);
 
-            EventProcessor.Raise(new DomainModelUpdatedEvent<ObservationNote>(this, updatedByUser));
+            var message = updatedByUser.GetName().AppendWith(" updated an observation note");
+
+            EventProcessor.Raise(new DomainModelUpdatedEvent<ObservationNote>(this, updatedByUser, message));
 
             return this;
         }

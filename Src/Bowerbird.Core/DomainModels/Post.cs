@@ -17,6 +17,7 @@ using System.Linq;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Events;
 using System;
+using Bowerbird.Core.Extensions;
 
 namespace Bowerbird.Core.DomainModels
 {
@@ -60,7 +61,9 @@ namespace Bowerbird.Core.DomainModels
 
             AddGroupContribution(group, createdByUser, createdOn);
 
-            EventProcessor.Raise(new DomainModelCreatedEvent<Post>(this, createdByUser));
+            var eventMessage = createdByUser.GetName().AppendWith(" added ").AppendWith(Subject).AppendWith(" post");
+
+            EventProcessor.Raise(new DomainModelCreatedEvent<Post>(this, createdByUser, eventMessage));
         }
 
         #endregion
@@ -84,6 +87,16 @@ namespace Bowerbird.Core.DomainModels
 
         #region Methods
 
+        public override string ContributionTitle()
+        {
+            return Subject;
+        }
+
+        public override string ContributionType()
+        {
+            return "Post";
+        }
+
         private void SetDetails(string subject, string message, IEnumerable<MediaResource> mediaResources)
         {
             Subject = subject;
@@ -100,28 +113,12 @@ namespace Bowerbird.Core.DomainModels
                 message,
                 mediaResources);
 
-            EventProcessor.Raise(new DomainModelUpdatedEvent<Post>(this, updatedByUser));
+            var eventMessage = updatedByUser.GetName().AppendWith(" updated the ").AppendWith(Subject).AppendWith(" post");
+
+            EventProcessor.Raise(new DomainModelUpdatedEvent<Post>(this, updatedByUser, eventMessage));
 
             return this;
         }
-
-        //public void AddComment(Comment comment, User createdByUser, DateTime createdDateTime)
-        //{
-        //    Check.RequireNotNull(comment, "comment");
-        //    Check.RequireNotNull(createdByUser, "createdByUser");
-
-        //    _comments.Add(comment);
-
-        //    EventProcessor.Raise(new DomainModelCreatedEvent<Comment>(comment, createdByUser));
-        //}
-
-        //public void RemoveComment(string commentId)
-        //{
-        //    if (_comments.Any(x => x.Id == commentId))
-        //    {
-        //        _comments.RemoveAll(x => x.Id == commentId);
-        //    }
-        //}
 
         private void InitMembers()
         {

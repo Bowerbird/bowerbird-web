@@ -12,22 +12,21 @@
  
 */
 
-using System.Collections.Generic;
-using Bowerbird.Core.DomainModels.Members;
-using Bowerbird.Core.Events;
+using System.Linq;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.DomainModels.Members;
 using Bowerbird.Core.EventHandlers;
+using Bowerbird.Core.Events;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.Hubs;
 using Bowerbird.Web.ViewModels.Shared;
 using Raven.Client;
 using Raven.Client.Linq;
-using System.Linq;
 
 namespace Bowerbird.Web.EventHandlers
 {
-    public class NotifyActivityObservationCreatedEventHandler : NotifyActivityEventHandlerBase, IEventHandler<DomainModelCreatedEvent<Observation>>
+    public class NotifyActivityPostCreatedEventHandler : NotifyActivityEventHandlerBase, IEventHandler<DomainModelCreatedEvent<Post>>
     {
         #region Members
 
@@ -37,7 +36,7 @@ namespace Bowerbird.Web.EventHandlers
 
         #region Constructors
 
-        public NotifyActivityObservationCreatedEventHandler(
+        public NotifyActivityPostCreatedEventHandler(
             IUserContext userContext,
             IDocumentSession documentSession)
             : base(userContext)
@@ -55,8 +54,8 @@ namespace Bowerbird.Web.EventHandlers
 
         #region Methods
 
-        // if a user in a group we're involved in creates an observation, let's see it..
-        public void Handle(DomainModelCreatedEvent<Observation> @event)
+        // if a user in a group we're involved in creates a post, let's see it..
+        public void Handle(DomainModelCreatedEvent<Post> @event)
         {
             Check.RequireNotNull(@event, "event");
 
@@ -88,7 +87,7 @@ namespace Bowerbird.Web.EventHandlers
                             UrlToImage = ""
                         },
                         Message = @event.EventMessage,
-                        Type = "observationcreated"
+                        Type = "postcreated"
                     }, 
                 connectedUserIds);
         }

@@ -61,8 +61,6 @@ namespace Bowerbird.Core.DomainModels
 
         public IEnumerable<GroupContribution> GroupContributions { get { return _groupContributions; } }
 
-
-
         #endregion
 
         #region Methods
@@ -78,7 +76,11 @@ namespace Bowerbird.Core.DomainModels
 
                 _groupContributions.Add(groupContribution);
 
-                EventProcessor.Raise(new DomainModelCreatedEvent<GroupContribution>(groupContribution, createdByUser));
+                var message = createdByUser.GetName()
+                    .AppendWith(" added a ").AppendWith(ContributionType())               
+                    .AppendWith(" to the ").AppendWith(group.Name).AppendWith(" ").AppendWith(group.GroupType());
+
+                EventProcessor.Raise(new DomainModelCreatedEvent<GroupContribution>(groupContribution, createdByUser, message));
             }
         }
 
@@ -114,7 +116,11 @@ namespace Bowerbird.Core.DomainModels
 
             _comments.Add(newComment);
 
-            EventProcessor.Raise(new DomainModelCreatedEvent<Comment>(newComment, createdByUser));
+            var eventMessage = createdByUser.GetName()
+                    .AppendWith(" says ").AppendWith(message)
+                    .AppendWith(" to the ").AppendWith(ContributionTitle()).AppendWith(" ").AppendWith(ContributionType());
+
+            EventProcessor.Raise(new DomainModelCreatedEvent<Comment>(newComment, createdByUser, eventMessage));
         }
 
         public void RemoveComment(string commentId)
@@ -134,6 +140,10 @@ namespace Bowerbird.Core.DomainModels
                 comment.UpdateDetails(modifiedByUser, modifiedDateTime, message);
             }
         }
+
+        public abstract string ContributionType();
+
+        public abstract string ContributionTitle();
 
         private void InitMembers()
         {

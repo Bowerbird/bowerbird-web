@@ -1,9 +1,7 @@
 ﻿@model Bowerbird.Web.ViewModels.Members.HomeIndex
-           
 @{
-	Page.Title = "Bowerbird";
+    Page.Title = "Bowerbird";
 }
-
 <section class="triple-1" id="sidebar">
     <div class="filter-group" id="default-filters">
         <ul>
@@ -32,9 +30,10 @@
             <li><a href="/#/watch/125/stream/all"><img alt="" src="../img/avatar-1.png"><div><p>Red Things</p></div></a></li>
         </ul>
     </div>
+    <input type="button" id="getactivity" value="Activity" />
 </section>
 <div>
-<section class="triple-2" id="stream">
+    <section class="triple-2" id="stream">
         <div id="stream-container">
         @*<div id="selected-filter-group">
             <img src="../img/team-avatar-1.png" alt="" />
@@ -415,13 +414,13 @@
             </div>
         </div>
 </section>
-<section class="triple-3" id="activity">
+    <section class="triple-3" id="activity">
     <h2>All Activity</h2>
     
 </section>
 </div>
 @section script {
-<script type="text/x-jquery-tmpl" id="observation-stream-item-template">
+    <script type="text/x-jquery-tmpl" id="observation-stream-item-template">
                 <div class="stream-item observation-stream-item">
                     <div class="summary">
                         <img src="../img/avatar.jpg" alt="" />
@@ -459,69 +458,54 @@
                         </div>
                     </div>
                 </div>
-</script>
-<script type="text/x-jquery-tmpl" id="observation-note-stream-item-template">
+    </script>
+    <script type="text/x-jquery-tmpl" id="observation-note-stream-item-template">
 
-</script>
-<script type="text/x-jquery-tmpl" id="comment-stream-item-template">
+    </script>
+    <script type="text/x-jquery-tmpl" id="comment-stream-item-template">
 
-</script>
-<script type="text/x-jquery-tmpl" id="post-stream-item-template">
+    </script>
+    <script type="text/x-jquery-tmpl" id="post-stream-item-template">
 
-</script>
-<script type="text/x-jquery-tmpl" id="project-stream-item-template">
+    </script>
+    <script type="text/x-jquery-tmpl" id="project-stream-item-template">
 
-</script>
-
-
-<script type="text/x-jquery-tmpl" id="stream-template">
+    </script>
+    <script type="text/x-jquery-tmpl" id="stream-template">
     <div id="selected-filter"></div>
     <div id="stream"></div>
-</script>
-<script type="text/x-jquery-tmpl" id="workspace-form-create-observation-template">
+    </script>
+    <script type="text/x-jquery-tmpl" id="workspace-form-create-observation-template">
     @Html.Partial("_ObservationCreate")
-</script>
-<script type="text/x-jquery-tmpl" id="selected-filter-details-template">
+    </script>
+    <script type="text/x-jquery-tmpl" id="selected-filter-details-template">
     @Html.Partial("_SelectedFilterDetails")
-</script>
-<script type="text/x-jquery-tmpl" id="stream-observation-item-template">
+    </script>
+    <script type="text/x-jquery-tmpl" id="stream-observation-item-template">
     @Html.Partial("_StreamObservationItem")
-</script>
-<script type="text/javascript" src="@Url.JavaScript("app.js")"></script>
-<script type="text/javascript" src="@Url.JavaScript("bowerbirduploader.js")"></script>
-<script type="text/javascript" src="@Url.JavaScriptLib("jquery.signalR.min.js")"></script>
-<script type="text/javascript" src="/signalr/hubs"></script>
-<script type="text/javascript">
-    $(function () {
-        //        window.activityHub = $.connection.activityHub;
+    </script>
+    <script type="text/javascript" src="@Url.JavaScript("app.js")"></script>
+    <script type="text/javascript" src="@Url.JavaScript("bowerbirduploader.js")"></script>
+    <script type="text/javascript" src="@Url.JavaScriptLib("jquery.signalR.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/signalr/hubs")"></script>
+    <script type="text/javascript">
+        $(function () {
+            window.activityHub = $.connection.activityHub;
+            window.activityHub.activityOccurred = function (data) {
+                var activity = eval('(' + data + ')');
+                $('#activity').append('<div><span><img src="' + activity.Avatar.UrlToImage + '" alt="' + activity.Avatar.AltTag + '"/></span><span>' + activity.Message + '</span></div>');
+            };
 
-        //        window.activityHub.onUserLoggedIn = function (user) {
-        //            alert(user.Id);
-        //        };
-
-        //        window.activityHub.observationCreated = function (observation) {
-        //            alert(observation.Id);
-        //        };
-
-        //        window.activityHub.activityOccurred = function (activity) {
-        //            if (activity.Type == "userloggedin") {
-        //                alert(activity.Type + " - " + activity.Data.Id);
-        //            }
-        //            if (activity.Type == "observationcreated") {
-        //                alert(activity.Type + " - " + activity.Data.Title);
-        //            }
-        //        };
-
-        //        $.connection.hub.start(function () {
-        //        });
-
-        window.bowerbirdApp = new Bowerbird.AppRouter();
-        Backbone.history.start({ pushState: false });
-    });
-</script>
-@*<script type="text/javascript">
-    $(document).ready(function () {
-        buildUploader('observation', true);
-    });
-</script>*@
+            $.connection.hub.start(function () {
+                window.activityHub.clientId = $.signalR.hub.id;
+                window.activityHub.registerClientUser('@(Model.UserProfile.Id)')
+                    .done(function () {
+                        console.log('connected with ' + window.activityHub.clientId);
+                    })
+                    .fail(function (e) {
+                        console.warn(e);
+                    });
+            });
+        });
+    </script>
 }

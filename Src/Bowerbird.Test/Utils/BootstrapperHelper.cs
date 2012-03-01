@@ -96,7 +96,7 @@ namespace Bowerbird.Test.Utils
 
             ServiceLocator.SetLocatorProvider(() => new NinjectServiceLocator(kernel));
 
-            SignalR.Infrastructure.DependencyResolver.SetResolver(new SignalR.Ninject.NinjectDependencyResolver(kernel));
+            SignalR.Hosting.AspNet.AspNetHost.SetResolver(new SignalR.Ninject.NinjectDependencyResolver(kernel));
         }
     }
 }

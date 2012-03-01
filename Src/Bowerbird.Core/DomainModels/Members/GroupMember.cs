@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
 using Bowerbird.Core.Events;
+using Bowerbird.Core.Extensions;
 
 namespace Bowerbird.Core.DomainModels.Members
 {
@@ -45,7 +46,10 @@ namespace Bowerbird.Core.DomainModels.Members
 
             Group = group;
 
-            EventProcessor.Raise(new DomainModelCreatedEvent<GroupMember>(this, createdByUser));
+            var message = user.GetName().AppendWith(" just joined the ")
+                .AppendWith(group.Name).AppendWith(" ").AppendWith(group.GroupType());
+
+            EventProcessor.Raise(new DomainModelCreatedEvent<GroupMember>(this, createdByUser, message));
         }
 
         #endregion

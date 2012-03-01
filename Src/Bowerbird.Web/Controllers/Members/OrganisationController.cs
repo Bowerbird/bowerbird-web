@@ -172,13 +172,13 @@ namespace Bowerbird.Web.Controllers.Members
                 .Take(listInput.PageSize)
                 .ToList()
                 .Select(x => new OrganisationView()
-                                 {
-                                     Id = x.Id,
-                                     Description = x.Description,
-                                     Name = x.Name,
-                                     Website = x.Website,
-                                     Avatar = GetAvatar(x)
-                                 });
+                    {
+                        Id = x.Id,
+                        Description = x.Description,
+                        Name = x.Name,
+                        Website = x.Website,
+                        Avatar = GetAvatar(x)
+                    });
                  // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
 
             return new OrganisationList()

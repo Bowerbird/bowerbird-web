@@ -18,6 +18,7 @@ using System.Linq;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
 using Bowerbird.Core.Events;
+using Bowerbird.Core.Extensions;
 
 namespace Bowerbird.Core.DomainModels
 {
@@ -65,6 +66,8 @@ namespace Bowerbird.Core.DomainModels
 
         #region Methods
 
+        public abstract string GroupType();
+
         private void InitMembers()
         {
             _childGroupAssociations = new List<GroupAssociation>();
@@ -90,7 +93,11 @@ namespace Bowerbird.Core.DomainModels
 
                 _childGroupAssociations.Add(groupAssociation);
 
-                EventProcessor.Raise(new DomainModelCreatedEvent<GroupAssociation>(groupAssociation, createdByUser));
+                var message = createdByUser.GetName()
+                    .AppendWith(" added the ").AppendWith(group.Name).AppendWith(" ").AppendWith(group.GroupType())
+                    .AppendWith(" to the ").AppendWith(group.Name).AppendWith(" ").AppendWith(group.GroupType());
+
+                EventProcessor.Raise(new GroupAssociationCreatedEvent(this, group, createdByUser, message));
             }
         }
 

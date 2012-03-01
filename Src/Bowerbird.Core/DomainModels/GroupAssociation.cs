@@ -45,7 +45,7 @@ namespace Bowerbird.Core.DomainModels
             CreatedByUserId = createdByUser.Id;
             CreatedDateTime = createdDateTime;
 
-            EventProcessor.Raise(new DomainModelCreatedEvent<GroupAssociation>(this, createdByUser));
+            //EventProcessor.Raise(new DomainModelCreatedEvent<GroupAssociation>(this, createdByUser, string.Empty));
         }
 
         #endregion

@@ -27,7 +27,7 @@ using System.Linq;
 
 namespace Bowerbird.Web.EventHandlers
 {
-    public class NotifyActivityObservationCreatedEventHandler : NotifyActivityEventHandlerBase, IEventHandler<DomainModelCreatedEvent<Observation>>
+    public class NotifyActivityGroupContributionCreatedEventHandler : NotifyActivityEventHandlerBase, IEventHandler<DomainModelCreatedEvent<GroupContribution>>
     {
         #region Members
 
@@ -37,7 +37,7 @@ namespace Bowerbird.Web.EventHandlers
 
         #region Constructors
 
-        public NotifyActivityObservationCreatedEventHandler(
+        public NotifyActivityGroupContributionCreatedEventHandler(
             IUserContext userContext,
             IDocumentSession documentSession)
             : base(userContext)
@@ -55,28 +55,22 @@ namespace Bowerbird.Web.EventHandlers
 
         #region Methods
 
-        // if a user in a group we're involved in creates an observation, let's see it..
-        public void Handle(DomainModelCreatedEvent<Observation> @event)
+        // if a group we're involved in has a contribution added, let's see it..
+        public void Handle(DomainModelCreatedEvent<GroupContribution> @event)
         {
             Check.RequireNotNull(@event, "event");
 
-            var groupsCreatingUserBelongsTo = _documentSession
+            var usersBelongingToGroupContributionWasAddedTo = _documentSession
                 .Query<GroupMember>()
-                .Where(x => x.User.Id == @event.CreatedByUser.Id)
+                .Where(x => x.Group.Id == @event.DomainModel.GroupId)
                 .ToList()
-                .Select(x => x.Group.Id);
-
-            var membersBelongingToSameGroups = _documentSession
-                .Query<GroupMember>()
-                .Where(x => x.Group.Id.In(groupsCreatingUserBelongsTo))
-                .Select(x => x.User.Id)
-                .Distinct();
+                .Select(x => x.User.Id);
 
             var connectedUserIds = _documentSession
                 .Query<ClientSession>()
-                .Where(x => x.User.Id.In(membersBelongingToSameGroups))
-                .Select(x => x.ClientId.ToString())
-                .ToList();
+                .Where(x => x.User.Id.In(usersBelongingToGroupContributionWasAddedTo))
+                .ToList()
+                .Select(x => x.ClientId.ToString());
 
             Notify(
                 new ActivityMessage()
@@ -90,7 +84,7 @@ namespace Bowerbird.Web.EventHandlers
                         Message = @event.EventMessage,
                         Type = "observationcreated"
                     }, 
-                connectedUserIds);
+                connectedUserIds.ToList());
         }
 
         #endregion
