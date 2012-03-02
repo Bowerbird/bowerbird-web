@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.Web.Script.Serialization;
+using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Web.Hubs;
@@ -32,17 +33,21 @@ namespace Bowerbird.Web.Notifications
         #region Members
 
         private readonly IDocumentSession _documentSession;
+        private readonly ICommandProcessor _commandProcessor;
 
         #endregion
 
         #region Constructors
 
         public NotificationProcessor(
-            IDocumentSession documentSession)
+            IDocumentSession documentSession,
+            ICommandProcessor commandProcessor)
         {
             Check.RequireNotNull(documentSession, "documentSession");
+            Check.RequireNotNull(commandProcessor, "commandProcessor");
 
             _documentSession = documentSession;
+            _commandProcessor = commandProcessor;
         }
 
         #endregion
@@ -56,24 +61,20 @@ namespace Bowerbird.Web.Notifications
         public void Notify(Activity activity, IEnumerable<string> userIds)
         {
             Check.RequireNotNull(activity, "activity");
-            
-            // Create notification
-            var notification = new Notification(
-                activity, 
-                DateTime.Now, 
-                userIds);
 
-            // Persist notification
-            _documentSession.Store(notification);
+            _commandProcessor.Process(new NotificationCreatedCommand()
+            {
+                Activity = activity,
+                Timestamp = DateTime.Now,
+                UserIds = userIds
+            });
 
-            // load clientIds from raven using userIds..
             var connectedIds = _documentSession
                 .Query<ClientSession>()
                 .Where(x => x.User.Id.In(userIds))
-                .Select(x => x.ClientId.ToString())
-                .ToList();
+                .ToList()
+                .Select(x => x.ClientId);
 
-            // Call Hub
             var clients = AspNetHost.DependencyResolver.Resolve<IConnectionManager>().GetClients<ActivityHub>();
 
             foreach (var clientId in connectedIds)

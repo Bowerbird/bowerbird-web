@@ -14,7 +14,6 @@
 
 using System;
 using System.Linq;
-using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.DomainModels.Members;
@@ -34,7 +33,6 @@ namespace Bowerbird.Web.EventHandlers
 
         private readonly IDocumentSession _documentSession;
         private readonly INotificationProcessor _notificationProcessor;
-        private readonly ICommandProcessor _commandProcessor;
 
         #endregion
 
@@ -42,15 +40,13 @@ namespace Bowerbird.Web.EventHandlers
 
         public NotifyActivityObservationNoteCreatedEventHandler(
             IDocumentSession documentSession,
-            INotificationProcessor notificationProcessor,
-            ICommandProcessor commandProcessor)
+            INotificationProcessor notificationProcessor
+            )
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(notificationProcessor, "notificationProcessor");
-            Check.RequireNotNull(commandProcessor, "commandProcessor");
 
             _documentSession = documentSession;
-            _commandProcessor = commandProcessor;
             _notificationProcessor = notificationProcessor;
         }
 
@@ -71,7 +67,7 @@ namespace Bowerbird.Web.EventHandlers
 
             var observationGroups = observation.GroupContributions.Select(x => x.GroupId);
 
-            var membersBelongingToSameGroups = _documentSession
+            var usersToNotify = _documentSession
                 .Query<GroupMember>()
                 .Where(x => x.Group.Id.In(observationGroups))
                 .Select(x => x.User.Id)
@@ -85,17 +81,9 @@ namespace Bowerbird.Web.EventHandlers
                                         string.Empty,
                                         @event.EventMessage);
 
-            _commandProcessor.Process(new NotificationCreatedCommand()
-            {
-                Activity = activity,
-                Timestamp = DateTime.Now,
-                UserIds = membersBelongingToSameGroups
-            });
-
-            _notificationProcessor.Notify(activity, membersBelongingToSameGroups);
+            _notificationProcessor.Notify(activity, usersToNotify);
         }
 
         #endregion
-				
     }
 }
