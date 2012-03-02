@@ -22,6 +22,8 @@ namespace Bowerbird.Web.ViewModels.Shared
 
         public string GroupId { get; set; }
 
+        public string ContributionId { get; set; }
+
         public string WatchlistId { get; set; }
 
         public UserProfile User { get; set; }

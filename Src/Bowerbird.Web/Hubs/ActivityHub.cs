@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Bowerbird.Core.Commands;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.DomainModels.Members;
 using Bowerbird.Core.Events;
@@ -41,18 +42,22 @@ namespace Bowerbird.Web.Hubs
         #region Members
 
         private readonly IDocumentSession _documentSession;
+        private readonly ICommandProcessor _commandProcessor;
 
         #endregion
 
         #region Constructors
 
         public ActivityHub(
+            ICommandProcessor commandProcessor,
             IDocumentSession documentSession
            )
         {
+            Check.RequireNotNull(commandProcessor, "commandProcessor");
             Check.RequireNotNull(documentSession, "documentSession");
          
             _documentSession = documentSession;
+            _commandProcessor = commandProcessor;
         }
 
         #endregion
@@ -61,7 +66,7 @@ namespace Bowerbird.Web.Hubs
 
         #endregion
 
-        #region Methods
+        #region API
 
         //give the calling client (which is the browser used to connect) a GUID Id.
         //match this client browser session to the Registered user of the site
@@ -69,22 +74,23 @@ namespace Bowerbird.Web.Hubs
         //pass the Client Guid back to the browser
         public void RegisterClientUser(string userId)
         {
-            var user = _documentSession.Load<User>(userId);
+            User user;
+            ClientSession session;
 
-            var clientSessionId = new Guid(Context.ConnectionId);
-
-            if(user != null)
+            if(UserExists(userId, out user) &&
+                !SessionExists(Context.ConnectionId, out session))
             {
-                var clientSessionRecord = _documentSession
-                    .Load<ClientSession>()
-                    .Where(x => x.ClientId == clientSessionId)
-                    .FirstOrDefault();
+                _commandProcessor.Process(MakeClientSessionCreateCommand(user));
+            }
+        }
 
-                if (clientSessionRecord == null)
-                {
-                    _documentSession.Store(new ClientSession(user, clientSessionId, DateTime.Now));
-                    _documentSession.SaveChanges();
-                }
+        public void PollingRefresh()
+        {
+            ClientSession session;
+
+            if (SessionExists(Context.ConnectionId, out session))
+            {
+                _commandProcessor.Process(MakeClientSessionUpdateCommand(session));
             }
         }
 
@@ -97,6 +103,43 @@ namespace Bowerbird.Web.Hubs
                     Clients[clientId].activityOccurred(new JavaScriptSerializer().Serialize(message));
                 }
             }
+        }
+
+        #endregion
+
+        #region Methods
+
+        private ClientSessionCreateCommand MakeClientSessionCreateCommand(User user)
+        {
+            return new ClientSessionCreateCommand()
+            {
+                ClientId = Context.ConnectionId,
+                Timestamp = DateTime.Now,
+                UserId = user.Id
+            };
+        }
+
+        private ClientSessionUpdateCommand MakeClientSessionUpdateCommand(ClientSession session)
+        {
+            return new ClientSessionUpdateCommand()
+            {
+                ClientId = session.ClientId,
+                Timestamp = DateTime.Now,
+            };
+        }
+       
+        private bool UserExists(string userId, out User user)
+        {
+            user = _documentSession.Load<User>(userId);
+
+            return user != null;
+        }
+
+        private bool SessionExists(string clientId, out ClientSession clientSession)
+        {
+            clientSession = _documentSession.Load<ClientSession>(clientId);
+
+            return clientSession != null;
         }
 
         #endregion

@@ -14,6 +14,7 @@
  
 */
 
+using Bowerbird.Web.Notifications;
 using Ninject.Modules;
 using Raven.Client;
 using Bowerbird.Core.CommandHandlers;

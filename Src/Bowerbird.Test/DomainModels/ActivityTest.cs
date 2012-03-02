@@ -43,19 +43,19 @@ namespace Bowerbird.Test.DomainModels
 
         #region Constructor tests
 
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void Activity_Constructor_Sets_Property_Values()
-        {
-            var testUser = FakeObjects.TestUser();
-            var testData = new { Test = "Test" };
-            var testActivity = new Activity(FakeValues.ActivityType, testUser, testData);
+        //[Test]
+        //[Category(TestCategory.Unit)]
+        //public void Activity_Constructor_Sets_Property_Values()
+        //{
+        //    var testUser = FakeObjects.TestUser();
+        //    var testData = new { Test = "Test" };
+        //    var testActivity = new Activity(FakeValues.ActivityType, testUser, testData);
 
-            Assert.AreEqual(testUser, testActivity.User);
-            Assert.AreEqual(testData, testActivity.Data);
-            Assert.AreEqual(testActivity.Type, FakeValues.ActivityType);
-            Assert.AreEqual(testActivity.OccurredOn.Day, DateTime.Now.Day);
-        }
+        //    Assert.AreEqual(testUser, testActivity.User);
+        //    Assert.AreEqual(testData, testActivity.Data);
+        //    Assert.AreEqual(testActivity.Type, FakeValues.ActivityType);
+        //    Assert.AreEqual(testActivity.OccurredOn.Day, DateTime.Now.Day);
+        //}
 
         #endregion
 

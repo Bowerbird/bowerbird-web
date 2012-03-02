@@ -16,6 +16,7 @@
 
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Extensions;
 
 namespace Bowerbird.Core.Events
 {
@@ -34,6 +35,7 @@ namespace Bowerbird.Core.Events
             Check.RequireNotNull(user, "user");
 
             User = user;
+            EventMessage = user.GetName().AppendWith(" has logged in");
         }
 
         #endregion
@@ -41,6 +43,8 @@ namespace Bowerbird.Core.Events
         #region Properties
 
         public User User { get; private set; }
+
+        public string EventMessage { get; private set; }
 
         #endregion
 

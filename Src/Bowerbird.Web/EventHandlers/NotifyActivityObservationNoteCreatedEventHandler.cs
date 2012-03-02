@@ -11,40 +11,47 @@
  * Atlas of Living Australia
  
 */
-				
+
+using System;
 using System.Linq;
+using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.DomainModels.Members;
 using Bowerbird.Core.EventHandlers;
 using Bowerbird.Core.Events;
 using Bowerbird.Web.Config;
-using Bowerbird.Web.Hubs;
-using Bowerbird.Web.ViewModels.Shared;
+using Bowerbird.Web.Notifications;
 using Raven.Client;
 using Raven.Client.Linq;
 
 namespace Bowerbird.Web.EventHandlers
 {
-    public class NotifyActivityObservationNoteCreatedEventHandler : NotifyActivityEventHandlerBase, IEventHandler<DomainModelCreatedEvent<ObservationNote>>
+    public class NotifyActivityObservationNoteCreatedEventHandler : IEventHandler<DomainModelCreatedEvent<ObservationNote>>
     {
 
         #region Fields
 
         private readonly IDocumentSession _documentSession;
+        private readonly INotificationProcessor _notificationProcessor;
+        private readonly ICommandProcessor _commandProcessor;
 
         #endregion
 
         #region Constructors
 
         public NotifyActivityObservationNoteCreatedEventHandler(
-            IUserContext userContext,
-            IDocumentSession documentSession)
-            : base(userContext)
+            IDocumentSession documentSession,
+            INotificationProcessor notificationProcessor,
+            ICommandProcessor commandProcessor)
         {
             Check.RequireNotNull(documentSession, "documentSession");
+            Check.RequireNotNull(notificationProcessor, "notificationProcessor");
+            Check.RequireNotNull(commandProcessor, "commandProcessor");
 
             _documentSession = documentSession;
+            _commandProcessor = commandProcessor;
+            _notificationProcessor = notificationProcessor;
         }
 
         #endregion
@@ -70,25 +77,22 @@ namespace Bowerbird.Web.EventHandlers
                 .Select(x => x.User.Id)
                 .Distinct();
 
-            var connectedUserIds = _documentSession
-                .Query<ClientSession>()
-                .Where(x => x.User.Id.In(membersBelongingToSameGroups))
-                .Select(x => x.ClientId.ToString())
-                .ToList();
+            var activity = new Activity(@event.CreatedByUser,
+                                        DateTime.Now,
+                                        Nouns.ObservationNote,
+                                        Adjectives.Created,
+                                        string.Empty,
+                                        string.Empty,
+                                        @event.EventMessage);
 
-            Notify(
-                new ActivityMessage()
-                {
-                    GroupId = "",
-                    Avatar = new Avatar()
-                    {
-                        AltTag = @event.CreatedByUser.GetName(),
-                        UrlToImage = ""
-                    },
-                    Message = @event.EventMessage,
-                    Sender = "observationnotecreated"
-                },
-                connectedUserIds);
+            _commandProcessor.Process(new NotificationCreatedCommand()
+            {
+                Activity = activity,
+                Timestamp = DateTime.Now,
+                UserIds = membersBelongingToSameGroups
+            });
+
+            _notificationProcessor.Notify(activity, membersBelongingToSameGroups);
         }
 
         #endregion

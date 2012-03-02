@@ -1,6 +1,4 @@
-﻿/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -16,12 +14,12 @@
 
 using System;
 using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.DomainModels.DenormalisedReferences;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public class Activity : DomainModel
+    public class Activity
     {
-
         #region Members
 
         #endregion
@@ -34,19 +32,24 @@ namespace Bowerbird.Core.DomainModels
         }
 
         public Activity(
-            string type,
             User user,
-            object data)
+            DateTime occurredOn,
+            string sender,
+            string action,
+            string groupId,
+            string watchlistId,
+            string message)
             : this()
         {
-            Check.RequireNotNullOrWhitespace(type, "type");
             Check.RequireNotNull(user, "user");
-            Check.RequireNotNull(data, "data");
 
-            SetDetails(
-                type,
-                user,
-                data);
+            User = user;
+            OccurredOn = occurredOn;
+            Sender = sender;
+            Action = action;
+            GroupId = groupId;
+            WatchlistId = watchlistId;
+            Message = message;
         }
 
         #endregion
@@ -55,25 +58,22 @@ namespace Bowerbird.Core.DomainModels
 
         public DateTime OccurredOn { get; private set; }
 
-        public string Type { get; private set; }
+        public DenormalisedUserReference User { get; private set; }
 
-        public User User { get; private set; }
+        public string Sender { get; set; }
 
-        public object Data { get; private set; }
+        public string Action { get; set; }
+
+        public string GroupId { get; set; }
+
+        public string WatchlistId { get; set; }
+
+        public string Message { get; set; }
 
         #endregion
 
         #region Methods
 
-        private void SetDetails(string type, User user, object data)
-        {
-            OccurredOn = DateTime.Now;
-            Type = type;
-            User = user;
-            Data = data;
-        }
-
         #endregion      
-      
     }
 }

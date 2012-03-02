@@ -32,12 +32,12 @@ namespace Bowerbird.Core.DomainModels
 
         public ClientSession(
          User user,
-            Guid clientId,
+            string clientId,
             DateTime timestamp
             )
         {
             Check.RequireNotNull(user, "user");
-            Check.RequireNotNullOrWhitespace(clientId.ToString(), "clientId");
+            Check.RequireNotNullOrWhitespace(clientId, "clientId");
 
             User = user;
             ClientId = clientId;
@@ -50,7 +50,7 @@ namespace Bowerbird.Core.DomainModels
 
         public DenormalisedUserReference User { get; set; }
 
-        public Guid ClientId { get; set; }
+        public string ClientId { get; set; }
 
         public DateTime ConnectionCreated { get; set; }
 
