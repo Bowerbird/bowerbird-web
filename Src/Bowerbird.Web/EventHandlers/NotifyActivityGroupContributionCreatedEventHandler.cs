@@ -13,12 +13,12 @@
 */
 
 using System;
+using Bowerbird.Core.Config;
 using Bowerbird.Core.DomainModels.Members;
 using Bowerbird.Core.Events;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.EventHandlers;
-using Bowerbird.Web.Config;
 using Bowerbird.Web.Notifications;
 using Raven.Client;
 using Raven.Client.Linq;
@@ -71,7 +71,7 @@ namespace Bowerbird.Web.EventHandlers
             var activity = new Activity(@event.CreatedByUser,
                                         DateTime.Now,
                                         @event.DomainModel.ContributionType.ResolveAsNoun(),
-                                        Verbs.AddedA,
+                                        Verbs.Added,
                                         @event.DomainModel.GroupId,
                                         string.Empty,
                                         @event.EventMessage);

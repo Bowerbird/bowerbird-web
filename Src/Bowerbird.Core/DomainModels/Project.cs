@@ -15,6 +15,7 @@
 */
 
 using System;
+using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Events;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
@@ -55,9 +56,14 @@ namespace Bowerbird.Core.DomainModels
                 avatar,
                 parentGroupId);
 
-            var message = createdByUser.GetName().AppendWith(" created project ").AppendWith(name);
+            var eventMessage = string.Format(
+                ActivityMessages.CreatedAGroup,
+                createdByUser.GetName(),
+                GroupType(),
+                Name
+                );
 
-            EventProcessor.Raise(new DomainModelCreatedEvent<Project>(this, createdByUser, message));
+            EventProcessor.Raise(new DomainModelCreatedEvent<Project>(this, createdByUser, eventMessage));
         }
 
         #endregion
@@ -86,9 +92,14 @@ namespace Bowerbird.Core.DomainModels
                 avatar,
                 teamId);
 
-            var message = updatedByUser.GetName().AppendWith(" updated project ").AppendWith(name);
+            var eventMessage = string.Format(
+                ActivityMessages.UpdatedAGroup,
+                updatedByUser.GetName(),
+                Name,
+                GroupType()
+                );
 
-            EventProcessor.Raise(new DomainModelUpdatedEvent<Project>(this, updatedByUser, message));
+            EventProcessor.Raise(new DomainModelUpdatedEvent<Project>(this, updatedByUser, eventMessage));
 
             return this;
         }

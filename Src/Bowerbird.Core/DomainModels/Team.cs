@@ -12,6 +12,7 @@
  
 */
 
+using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Events;
 using Bowerbird.Core.Extensions;
@@ -49,11 +50,14 @@ namespace Bowerbird.Core.DomainModels
                 avatar,
                 organisationId);
 
-            var message = createdByUser.GetName()
-                .AppendWith(" created the ")
-                .AppendWith(Name).AppendWith(" team");
+            var eventMessage = string.Format(
+                ActivityMessages.CreatedAGroup,
+                createdByUser.GetName(),
+                GroupType(),
+                Name
+                );
 
-            EventProcessor.Raise(new DomainModelCreatedEvent<Team>(this, createdByUser, message));
+            EventProcessor.Raise(new DomainModelCreatedEvent<Team>(this, createdByUser, eventMessage));
         }
 
         #endregion
@@ -82,11 +86,14 @@ namespace Bowerbird.Core.DomainModels
                 avatar,
                 organisationId);
 
-            var message = updatedByUser.GetName()
-                .AppendWith(" created the ")
-                .AppendWith(Name).AppendWith(" team");
+            var eventMessage = string.Format(
+                ActivityMessages.UpdatedAGroup,
+                updatedByUser.GetName(),
+                Name,
+                GroupType()
+                );
 
-            EventProcessor.Raise(new DomainModelUpdatedEvent<Team>(this, updatedByUser, message));
+            EventProcessor.Raise(new DomainModelUpdatedEvent<Team>(this, updatedByUser, eventMessage));
 
             return this;
         }

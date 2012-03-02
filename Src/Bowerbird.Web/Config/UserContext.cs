@@ -17,6 +17,7 @@
 using System;
 using System.Web;
 using System.Web.Security;
+using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Repositories;
 using Raven.Client;

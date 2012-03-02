@@ -14,6 +14,7 @@
 
 using System;
 using System.Linq;
+using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.DomainModels.Members;

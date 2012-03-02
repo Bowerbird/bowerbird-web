@@ -12,6 +12,7 @@
  
 */
 
+using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using System.Collections.Generic;
 using System;
@@ -68,9 +69,13 @@ namespace Bowerbird.Core.DomainModels
                 observationCategory,
                 observationMediaItems);
 
-            var message = createdByUser.GetName().AppendWith(" added observation ").AppendWith(title);
+            var eventMessage = string.Format(
+                ActivityMessages.CreatedAnObservation,
+                createdByUser.GetName(),
+                title
+                );
 
-            EventProcessor.Raise(new DomainModelCreatedEvent<Observation>(this, createdByUser, message));
+            EventProcessor.Raise(new DomainModelCreatedEvent<Observation>(this, createdByUser, eventMessage));
         }
 
         #endregion
@@ -171,9 +176,13 @@ namespace Bowerbird.Core.DomainModels
                 observationCategory,
                 observationMediaItems);
 
-            var message = updatedByUser.GetName().AppendWith(" added observation ").AppendWith(title);
+            var eventMessage = string.Format(
+                ActivityMessages.UpdatedAnObservation,
+                updatedByUser.GetName(),
+                title
+                );
 
-            EventProcessor.Raise(new DomainModelUpdatedEvent<Observation>(this, updatedByUser, message));
+            EventProcessor.Raise(new DomainModelUpdatedEvent<Observation>(this, updatedByUser, eventMessage));
 
             return this;
         }

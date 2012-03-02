@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
 using Bowerbird.Core.Events;
@@ -42,8 +43,8 @@ namespace Bowerbird.Core.DomainModels
 
         protected Contribution(
             User createdByUser,
-            DateTime createdOn) 
-            : this() 
+            DateTime createdOn)
+            : this()
         {
             Check.RequireNotNull(createdByUser, "createdByUser");
 
@@ -74,20 +75,20 @@ namespace Bowerbird.Core.DomainModels
             {
                 var groupContribution = new GroupContribution(group, createdByUser, createdDateTime);
 
+                groupContribution.GroupType = group.GroupType();
                 groupContribution.ContributionType = ContributionType();
 
                 _groupContributions.Add(groupContribution);
 
-                var message = 
-                    createdByUser.GetName()
-                    .AppendWith(" added a ")
-                    .AppendWith(ContributionType())               
-                    .AppendWith(" to the ")
-                    .AppendWith(group.Name)
-                    .AppendWith(" ")
-                    .AppendWith(group.GroupType());
+                var eventMessage = string.Format(
+                    ActivityMessages.AddedAContributionToAGroup,
+                    createdByUser.GetName(),
+                    ContributionType(),
+                    ContributionTitle(),
+                    group.Name,
+                    group.GroupType());
 
-                EventProcessor.Raise(new DomainModelCreatedEvent<GroupContribution>(groupContribution, createdByUser, message));
+                EventProcessor.Raise(new DomainModelCreatedEvent<GroupContribution>(groupContribution, createdByUser, eventMessage));
             }
         }
 
@@ -123,13 +124,12 @@ namespace Bowerbird.Core.DomainModels
 
             _comments.Add(newComment);
 
-            var eventMessage = 
-                createdByUser.GetName()
-                .AppendWith(" says ")
-                .AppendWith(message)
-                .AppendWith(" to the ")
-                .AppendWith(ContributionTitle())
-                .AppendWith(" ").AppendWith(ContributionType());
+            var eventMessage = string.Format(
+                ActivityMessages.Commented,
+                createdByUser.GetName(),
+                message,
+                ContributionTitle(),
+                ContributionType());
 
             EventProcessor.Raise(new DomainModelCreatedEvent<Comment>(newComment, createdByUser, eventMessage));
         }
@@ -163,7 +163,7 @@ namespace Bowerbird.Core.DomainModels
             _groupContributions = new List<GroupContribution>();
         }
 
-        #endregion      
-      
+        #endregion
+
     }
 }

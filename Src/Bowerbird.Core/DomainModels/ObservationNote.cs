@@ -12,6 +12,7 @@
  
 */
 
+using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Events;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
@@ -66,9 +67,13 @@ namespace Bowerbird.Core.DomainModels
                 references,
                 notes);
 
-            var message = createdByUser.GetName().AppendWith(" added a note to ").AppendWith(observation.Title);
+            var eventMessage = string.Format(
+                ActivityMessages.CreatedAnObservationNote,
+                createdByUser.GetName(),
+                observation.Title
+                );
 
-            EventProcessor.Raise(new DomainModelCreatedEvent<ObservationNote>(this, createdByUser, message));
+            EventProcessor.Raise(new DomainModelCreatedEvent<ObservationNote>(this, createdByUser, eventMessage));
         }
 
         #endregion
@@ -102,7 +107,7 @@ namespace Bowerbird.Core.DomainModels
 
         public override string ContributionTitle()
         {
-            return Observation.Title.AppendWith(" - note");
+            return Observation.Title.AppendWith(" note");
         }
 
         private void InitMembers()
@@ -141,9 +146,13 @@ namespace Bowerbird.Core.DomainModels
                 references,
                 notes);
 
-            var message = updatedByUser.GetName().AppendWith(" updated an observation note");
+            var eventMessage = string.Format(
+                ActivityMessages.UpdatedAnObservationNote,
+                updatedByUser.GetName(),
+                ContributionTitle()
+                );
 
-            EventProcessor.Raise(new DomainModelUpdatedEvent<ObservationNote>(this, updatedByUser, message));
+            EventProcessor.Raise(new DomainModelUpdatedEvent<ObservationNote>(this, updatedByUser, eventMessage));
 
             return this;
         }

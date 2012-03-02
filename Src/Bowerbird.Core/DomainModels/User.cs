@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using System.Security.Cryptography;
 using Bowerbird.Core.DomainModels.Members;
@@ -64,7 +65,12 @@ namespace Bowerbird.Core.DomainModels
 
             AddMembership(new GlobalMember(this, roles));
 
-            EventProcessor.Raise(new DomainModelCreatedEvent<User>(this, this, GetName().AppendWith(" just joined BowerBird!")));
+            var eventMessage = string.Format(
+                ActivityMessages.Joined,
+                GetName()
+                );
+
+            EventProcessor.Raise(new DomainModelCreatedEvent<User>(this, this, eventMessage));
         }
 
         #endregion
@@ -170,7 +176,12 @@ namespace Bowerbird.Core.DomainModels
                 description,
                 avatar);
 
-            EventProcessor.Raise(new DomainModelUpdatedEvent<User>(this, this, GetName().AppendWith(" updated their details")));
+            var eventMessage = string.Format(
+                ActivityMessages.UpdatedTheirDetails,
+                GetName()
+                );
+
+            EventProcessor.Raise(new DomainModelUpdatedEvent<User>(this, this, eventMessage));
 
             return this;
         }

@@ -162,6 +162,7 @@
     <Compile Include="Config\BowerbirdEmailConfigurationSection.cs" />
     <Compile Include="Config\BowerbirdDocumentStoreConfigurationSection.cs" />
     <Compile Include="Config\BowerbirdEnvironmentConfigurationSection.cs" />
+    <Compile Include="Config\Constants.cs" />
     <Compile Include="DomainModels\Activity.cs" />
     <Compile Include="DomainModels\BaseObject.cs" />
     <Compile Include="DomainModels\BaseObjectEqualityComparer.cs" />

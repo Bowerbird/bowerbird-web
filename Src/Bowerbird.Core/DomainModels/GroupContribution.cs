@@ -56,9 +56,6 @@ namespace Bowerbird.Core.DomainModels
         [JsonIgnore]
         public string ContributionType { get; set; }
 
-        [JsonIgnore]
-        public string GroupName { get; set; }
-
         public DenormalisedUserReference User { get; private set; }
 
         public DateTime CreatedDateTime { get; private set; }

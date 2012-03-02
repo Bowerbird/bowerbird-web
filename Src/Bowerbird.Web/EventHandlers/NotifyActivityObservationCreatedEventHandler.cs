@@ -12,12 +12,12 @@
  
 */
 
+using Bowerbird.Core.Config;
 using Bowerbird.Core.DomainModels.Members;
 using Bowerbird.Core.Events;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.EventHandlers;
-using Bowerbird.Web.Config;
 using Bowerbird.Web.Notifications;
 using Raven.Client;
 using Raven.Client.Linq;

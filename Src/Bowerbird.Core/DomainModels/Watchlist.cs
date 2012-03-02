@@ -12,10 +12,10 @@
  
 */
 
+using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
 using Bowerbird.Core.Events;
-using Bowerbird.Core.Extensions;
 
 namespace Bowerbird.Core.DomainModels
 {
@@ -52,7 +52,13 @@ namespace Bowerbird.Core.DomainModels
                 name,
                 querystringJson);
 
-            EventProcessor.Raise(new DomainModelUpdatedEvent<Watchlist>(this, createdByUser, createdByUser.GetName().AppendWith(" created a watchlist")));
+            var eventMessage = string.Format(
+                ActivityMessages.CreatedAWatchlist,
+                createdByUser.GetName(),
+                Name
+                );
+
+            EventProcessor.Raise(new DomainModelUpdatedEvent<Watchlist>(this, createdByUser, eventMessage));
         }
 
 
@@ -80,7 +86,13 @@ namespace Bowerbird.Core.DomainModels
         {
             SetDetails(name, querystringJson);
 
-            EventProcessor.Raise(new DomainModelUpdatedEvent<Watchlist>(this, updatedByUser, updatedByUser.GetName().AppendWith(" updated their watchlist")));
+            var eventMessage = string.Format(
+                ActivityMessages.UpdatedTheirWatchlist,
+                updatedByUser.GetName(),
+                Name
+                );
+
+            EventProcessor.Raise(new DomainModelUpdatedEvent<Watchlist>(this, updatedByUser, eventMessage));
         }
 
         #endregion

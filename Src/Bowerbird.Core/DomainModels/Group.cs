@@ -15,10 +15,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
 using Bowerbird.Core.Events;
-using Bowerbird.Core.Extensions;
 
 namespace Bowerbird.Core.DomainModels
 {
@@ -93,11 +93,16 @@ namespace Bowerbird.Core.DomainModels
 
                 _childGroupAssociations.Add(groupAssociation);
 
-                var message = createdByUser.GetName()
-                    .AppendWith(" added the ").AppendWith(group.Name).AppendWith(" ").AppendWith(group.GroupType())
-                    .AppendWith(" to the ").AppendWith(group.Name).AppendWith(" ").AppendWith(group.GroupType());
+                var eventMessage = string.Format(
+                    ActivityMessages.AddedAGroupToAGroup,
+                    createdByUser.GetName(),
+                    group.GroupType(),
+                    group.Name,
+                    GroupType(),
+                    Name
+                    );
 
-                EventProcessor.Raise(new GroupAssociationCreatedEvent(this, group, createdByUser, message));
+                EventProcessor.Raise(new GroupAssociationCreatedEvent(this, group, createdByUser, eventMessage));
             }
         }
 

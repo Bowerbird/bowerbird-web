@@ -13,6 +13,7 @@
 */
 
 using System;
+using Bowerbird.Core.Config;
 using Bowerbird.Core.DomainModels.Members;
 using Bowerbird.Core.Events;
 using Bowerbird.Core.DesignByContract;

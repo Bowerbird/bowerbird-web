@@ -14,6 +14,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Events;
 using System;
@@ -24,8 +25,6 @@ namespace Bowerbird.Core.DomainModels
     public class Post : Contribution
     {
         #region Members
-
-        //private List<Comment> _comments;
 
         private List<MediaResource> _mediaResources;
 
@@ -61,7 +60,14 @@ namespace Bowerbird.Core.DomainModels
 
             AddGroupContribution(group, createdByUser, createdOn);
 
-            var eventMessage = createdByUser.GetName().AppendWith(" added ").AppendWith(Subject).AppendWith(" post");
+            var eventMessage = string.Format(
+                ActivityMessages.AddedAContributionToAGroup,
+                createdByUser.GetName(),
+                ContributionType(),
+                ContributionTitle(),
+                group.Name,
+                group.GroupType()
+                );
 
             EventProcessor.Raise(new DomainModelCreatedEvent<Post>(this, createdByUser, eventMessage));
         }
@@ -113,7 +119,12 @@ namespace Bowerbird.Core.DomainModels
                 message,
                 mediaResources);
 
-            var eventMessage = updatedByUser.GetName().AppendWith(" updated the ").AppendWith(Subject).AppendWith(" post");
+            var eventMessage = string.Format(
+                ActivityMessages.UpdatedAGroupContribution,
+                updatedByUser.GetName(),
+                ContributionTitle(),
+                ContributionType()
+                );
 
             EventProcessor.Raise(new DomainModelUpdatedEvent<Post>(this, updatedByUser, eventMessage));
 
