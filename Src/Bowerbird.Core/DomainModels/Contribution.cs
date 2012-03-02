@@ -74,11 +74,18 @@ namespace Bowerbird.Core.DomainModels
             {
                 var groupContribution = new GroupContribution(group, createdByUser, createdDateTime);
 
+                groupContribution.ContributionType = ContributionType();
+
                 _groupContributions.Add(groupContribution);
 
-                var message = createdByUser.GetName()
-                    .AppendWith(" added a ").AppendWith(ContributionType())               
-                    .AppendWith(" to the ").AppendWith(group.Name).AppendWith(" ").AppendWith(group.GroupType());
+                var message = 
+                    createdByUser.GetName()
+                    .AppendWith(" added a ")
+                    .AppendWith(ContributionType())               
+                    .AppendWith(" to the ")
+                    .AppendWith(group.Name)
+                    .AppendWith(" ")
+                    .AppendWith(group.GroupType());
 
                 EventProcessor.Raise(new DomainModelCreatedEvent<GroupContribution>(groupContribution, createdByUser, message));
             }
@@ -116,9 +123,13 @@ namespace Bowerbird.Core.DomainModels
 
             _comments.Add(newComment);
 
-            var eventMessage = createdByUser.GetName()
-                    .AppendWith(" says ").AppendWith(message)
-                    .AppendWith(" to the ").AppendWith(ContributionTitle()).AppendWith(" ").AppendWith(ContributionType());
+            var eventMessage = 
+                createdByUser.GetName()
+                .AppendWith(" says ")
+                .AppendWith(message)
+                .AppendWith(" to the ")
+                .AppendWith(ContributionTitle())
+                .AppendWith(" ").AppendWith(ContributionType());
 
             EventProcessor.Raise(new DomainModelCreatedEvent<Comment>(newComment, createdByUser, eventMessage));
         }

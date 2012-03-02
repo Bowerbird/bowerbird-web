@@ -29,14 +29,33 @@ namespace Bowerbird.Web.Config
         public static string Team { get {return "team"; }}
         public static string Organisation { get {return "organisation"; }}
         public static string Comment { get {return "comment"; }}
+
+        public static string ResolveAsNoun(this string noun)
+        {
+            switch(noun.ToLower())
+            {
+                case "observation": return Observation;
+                case "user": return User;
+                case "post": return Post;
+                case "observationnote": return ObservationNote;
+                case "project": return Project;
+                case "team": return Team;
+                case "organisation": return Organisation;
+                case "comment": return Comment;
+                default: return "unknown";
+            }
+        }
     }
 
-    public static class Adjectives
+    public static class Verbs
     {
         public static string Created { get { return "created"; } }
         public static string Updated { get { return "updated"; } }
         public static string Deleted { get { return "deleted"; } }
-        public static string Joined { get { return "joined"; } }
-        public static string Flagged { get { return "flagged"; } }
+        public static string AddedA { get { return "added a"; } }
+        public static string AddedTo { get { return "added to"; } }
+        public static string Joined { get { return "joined Bowerbird"; } }
+        public static string LoggedIn { get { return "logged in"; } }
+        public static string Flagged { get { return "flagged an item"; } }
     }
 }

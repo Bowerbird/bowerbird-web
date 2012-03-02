@@ -170,7 +170,7 @@ namespace Bowerbird.Core.DomainModels
                 description,
                 avatar);
 
-            EventProcessor.Raise(new DomainModelUpdatedEvent<User>(this, this, this.GetName().AppendWith(" updated their details")));
+            EventProcessor.Raise(new DomainModelUpdatedEvent<User>(this, this, GetName().AppendWith(" updated their details")));
 
             return this;
         }

@@ -15,6 +15,7 @@
 using System;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
+using Newtonsoft.Json;
 
 namespace Bowerbird.Core.DomainModels
 {
@@ -48,6 +49,15 @@ namespace Bowerbird.Core.DomainModels
         #region Properties
 
         public string GroupId { get; private set; }
+
+        [JsonIgnore]
+        public string GroupType { get; set; }
+
+        [JsonIgnore]
+        public string ContributionType { get; set; }
+
+        [JsonIgnore]
+        public string GroupName { get; set; }
 
         public DenormalisedUserReference User { get; private set; }
 

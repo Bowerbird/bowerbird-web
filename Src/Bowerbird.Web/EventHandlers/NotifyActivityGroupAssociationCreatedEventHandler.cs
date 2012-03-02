@@ -70,8 +70,8 @@ namespace Bowerbird.Web.EventHandlers
 
             var activity = new Activity(@event.CreatedByUser,
                                         DateTime.Now,
-                                        Nouns.Observation,
-                                        Adjectives.Created,
+                                        @event.DomainModel.GroupType.ResolveAsNoun(),
+                                        Verbs.AddedTo,
                                         @event.DomainModel.GroupId,
                                         string.Empty,
                                         @event.EventMessage);
