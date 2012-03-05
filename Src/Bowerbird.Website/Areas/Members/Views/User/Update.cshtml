@@ -64,13 +64,14 @@
         </fieldset>
         <fieldset id="media-resources-fieldset">
             <legend>Your avatar image</legend>
+            <div><img src="@Url.Content(Model.Avatar.UrlToImage)" /></div>
             <p>Drag and drop your avatar image into the box below, or choose a file from your computer.</p>
             <div id="media-uploader">
             </div>
         </fieldset>
     </fieldset>
     <fieldset>
-        <input type="hidden" id="avatarId" value="" />
+        <input type="hidden" id="AvatarId" value="" />
         <input type="submit" value="Save" />
     </fieldset>
 }

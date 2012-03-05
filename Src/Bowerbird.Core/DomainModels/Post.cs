@@ -61,7 +61,7 @@ namespace Bowerbird.Core.DomainModels
             AddGroupContribution(group, createdByUser, createdOn);
 
             var eventMessage = string.Format(
-                ActivityMessages.AddedAContributionToAGroup,
+                ActivityMessage.AddedAContributionToAGroup,
                 createdByUser.GetName(),
                 ContributionType(),
                 ContributionTitle(),
@@ -120,7 +120,7 @@ namespace Bowerbird.Core.DomainModels
                 mediaResources);
 
             var eventMessage = string.Format(
-                ActivityMessages.UpdatedAGroupContribution,
+                ActivityMessage.UpdatedAGroupContribution,
                 updatedByUser.GetName(),
                 ContributionTitle(),
                 ContributionType()

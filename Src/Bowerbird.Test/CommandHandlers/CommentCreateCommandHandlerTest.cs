@@ -33,8 +33,8 @@ namespace Bowerbird.Test.CommandHandlers
         [SetUp]
         public void TestInitialize()
         {
-            _store = DocumentStoreHelper.ServerDocumentStore();
-            //_store = DocumentStoreHelper.InMemoryDocumentStore();
+            //_store = DocumentStoreHelper.ServerDocumentStore();
+            _store = DocumentStoreHelper.InMemoryDocumentStore();
         }
 
         [TearDown]
@@ -73,7 +73,8 @@ namespace Bowerbird.Test.CommandHandlers
                 UserId = user.Id
             };
 
-            using (var session = _store.OpenSession(DocumentStoreHelper.TestDb))
+            //using (var session = _store.OpenSession(DocumentStoreHelper.TestDb))
+            using (var session = _store.OpenSession())
             {
                 session.Store(user);
                 session.Store(observation);

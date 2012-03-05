@@ -19,7 +19,7 @@ namespace Bowerbird.Core.Config
         public static string EmailCookieName = "56277e138f774318ab152a84dad7adf9";
     }
 
-    public static class Nouns
+    public static class ActivitySender
     {
         public static string Observation { get { return "observation"; }}
         public static string User { get { return "user"; } }
@@ -30,7 +30,7 @@ namespace Bowerbird.Core.Config
         public static string Organisation { get {return "organisation"; }}
         public static string Comment { get {return "comment"; }}
 
-        public static string ResolveAsNoun(this string noun)
+        public static string AsActivitySender(this string noun)
         {
             switch(noun.ToLower())
             {
@@ -47,7 +47,7 @@ namespace Bowerbird.Core.Config
         }
     }
 
-    public static class Verbs
+    public static class ActivityAction
     {
         public static string Created { get { return "created"; } }
         public static string Updated { get { return "updated"; } }
@@ -58,7 +58,7 @@ namespace Bowerbird.Core.Config
         public static string Flagged { get { return "flagged"; } }
     }
 
-    public static class ActivityMessages
+    public static class ActivityMessage
     {
         public static string CreatedAGroup { get { return "{0} created a {1} called {2}"; } }
         public static string UpdatedAGroup { get { return "{0} updated the {1} {2}"; } }
@@ -66,8 +66,8 @@ namespace Bowerbird.Core.Config
         public static string AddedAContributionToAGroup { get { return "{0} added a {1} titled {2} in the {3} {4}"; } }
         public static string UpdatedAGroupContribution { get { return "{0} updated the {1} {2}"; } }
         public static string Commented { get { return "{0} said {1} about the {2} {3}"; } }
-        public static string CreatedAnObservationNote { get { return "{0} added to the {1} observation"; } }
-        public static string UpdatedAnObservationNote { get { return "{0} updated a {1}"; } }
+        public static string CreatedAnObservationNote { get { return "{0} added an observation note to the {1} observation"; } }
+        public static string UpdatedAnObservationNote { get { return "{0} updated an observation note on the {1} observation"; } }
         public static string CreatedAnObservation { get { return "{0} created the {1} observation"; } }
         public static string UpdatedAnObservation { get { return "{0} updated the {1} observation"; } }
         public static string Joined { get { return "{0} joined Bowerbird"; } }
@@ -77,5 +77,6 @@ namespace Bowerbird.Core.Config
         public static string UpdatedTheirDetails { get { return "{0} updated their details"; } }
         public static string CreatedAWatchlist { get { return "{0} created a watchlist {1}"; } }
         public static string UpdatedTheirWatchlist { get { return "{0} updated their {1} watchlist"; } }
+        public static string AddMemberToGroup { get { return "{0} joined the {1} {2}"; } }
     }
 }

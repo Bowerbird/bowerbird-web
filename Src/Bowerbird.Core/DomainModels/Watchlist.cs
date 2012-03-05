@@ -53,7 +53,7 @@ namespace Bowerbird.Core.DomainModels
                 querystringJson);
 
             var eventMessage = string.Format(
-                ActivityMessages.CreatedAWatchlist,
+                ActivityMessage.CreatedAWatchlist,
                 createdByUser.GetName(),
                 Name
                 );
@@ -87,7 +87,7 @@ namespace Bowerbird.Core.DomainModels
             SetDetails(name, querystringJson);
 
             var eventMessage = string.Format(
-                ActivityMessages.UpdatedTheirWatchlist,
+                ActivityMessage.UpdatedTheirWatchlist,
                 updatedByUser.GetName(),
                 Name
                 );

@@ -1,6 +1,4 @@
-﻿/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -66,14 +64,12 @@ namespace Bowerbird.Core.CommandHandlers
                 var metadata = new Dictionary<string, string>();
 
                 var mediaResource = new MediaResource(
-                                mediaType,
+                                command.Usage,
                                 _documentSession.Load<User>(command.UserId),
                                 command.UploadedOn,
                                 metadata);
 
                 _documentSession.Store(mediaResource);
-
-                SaveOriginalMedia(command.Stream);
 
                 metadata.Add("size", command.Stream.Length.ToString());
                 metadata.Add("originalfilename", command.OriginalFileName);
@@ -81,17 +77,47 @@ namespace Bowerbird.Core.CommandHandlers
                 switch (mediaType)
                 {
                     case "image":
-                        var imageDimensions = GetImageDimensions();
 
-                        metadata.Add("width", imageDimensions.Width.ToString());
-                        metadata.Add("height", imageDimensions.Height.ToString());
+                        ImageDimensions dimensions;
+                        SaveOriginalImageMedia(
+                            command.Stream,
+                            mediaResource.Id,
+                            Path.GetExtension(command.OriginalFileName),
+                            out dimensions);
+
+                        metadata.Add("width", dimensions.Width.ToString());
+                        metadata.Add("height", dimensions.Height.ToString());
 
                         if (command.Usage == "observation")
                         {
-                            SaveObservationImages();
+                            SaveObservationImages(
+                                command.Stream,
+                                mediaResource.Id,
+                                Path.GetExtension(command.OriginalFileName)
+                                );
                         }
+                        else if (command.Usage == "user")
+                        {
+                            SaveUserImages(
+                                command.Stream,
+                                mediaResource.Id,
+                                Path.GetExtension(command.OriginalFileName)
+                                );
+                        }
+                        else if (command.Usage == "post")
+                        {
+                            SavePostImages(
+                                command.Stream,
+                                mediaResource.Id,
+                                Path.GetExtension(command.OriginalFileName)
+                                );
+                        }
+
                         break;
                 }
+
+                _documentSession.Store(mediaResource);
+                _documentSession.SaveChanges();
 
                 return mediaResource.Id;
             }
@@ -107,49 +133,61 @@ namespace Bowerbird.Core.CommandHandlers
             return "image";
         }
 
-        private ImageDimensions GetImageDimensions()
+        private void SaveOriginalImageMedia(Stream stream, string imageMediaResourceId, string extension, out ImageDimensions imageDimensions)
         {
-            //ImageDimensions imageDimensions;
-
-            //ImageUtility
-            //    .Load(command.Stream)
-            //    .GetImageDimensions(out imageDimensions)
-            //    .Cleanup();
-
-            //return 
-            throw new NotImplementedException();
+            ImageUtility
+                .Load(stream)
+                .GetImageDimensions(out imageDimensions)
+                .SaveAs(_mediaFilePathService.MakeMediaFilePath(imageMediaResourceId, "image", "original", extension))
+                .Cleanup();
         }
 
-        private void SaveOriginalMedia(Stream stream)
+        private void SaveUserImages(Stream stream, string imageMediaResourceId, string extension)
         {
-            throw new NotImplementedException();
+            ImageUtility
+                .Load(stream)
+                .Resize(new ImageDimensions(42, 42), true, ImageResizeMode.Crop)
+                .SaveAs(_mediaFilePathService.MakeMediaFilePath(imageMediaResourceId, "image", "thumbnail", extension))
+                .Reset()
+                .Resize(new ImageDimensions(100, 100), true, ImageResizeMode.Crop)
+                .SaveAs(_mediaFilePathService.MakeMediaFilePath(imageMediaResourceId, "image", "profile", extension))
+                .Cleanup();
         }
 
-        private void SaveAvatarImages()
+        private void SaveObservationImages(Stream stream, string imageMediaResourceId, string extension)
         {
-            throw new NotImplementedException();
+            ImageUtility
+                .Load(stream)
+                .Resize(new ImageDimensions(42, 42), true, ImageResizeMode.Crop)
+                .SaveAs(_mediaFilePathService.MakeMediaFilePath(imageMediaResourceId, "image", "thumbnail", extension))
+                .Reset()
+                .Resize(new ImageDimensions(130, 120), true, ImageResizeMode.Crop)
+                .SaveAs(_mediaFilePathService.MakeMediaFilePath(imageMediaResourceId, "image", "small", extension))
+                .Reset()
+                .Resize(new ImageDimensions(670, 600), true, ImageResizeMode.Crop)
+                .SaveAs(_mediaFilePathService.MakeMediaFilePath(imageMediaResourceId, "image", "medium", extension))
+                .Reset()
+                .Resize(new ImageDimensions(1600, 1200), true, ImageResizeMode.Crop)
+                .SaveAs(_mediaFilePathService.MakeMediaFilePath(imageMediaResourceId, "image", "large", extension))
+                .Cleanup();
         }
 
-        private void SaveObservationImages()
+        private void SavePostImages(Stream stream, string imageMediaResourceId, string extension)
         {
-            //var imageMediaResource = new ImageMediaResource(
-            //            _documentSession.Load<User>(_userContext.GetAuthenticatedUserId()),
-            //            DateTime.Now,
-            //            postedFileName,
-            //            Path.GetExtension(postedFileName),
-            //            string.Empty,
-            //            imageDimensions.Height,
-            //            imageDimensions.Width
-            //            );
-
-            //_documentSession.Store(imageMediaResource);
-
-            //ImageUtility
-            //    .Load(command.Stream)
-            //    .GetImageDimensions(out imageDimensions)
-            //    .SaveAs(_mediaFilePathService.MakeMediaFilePath(imageMediaResource.Id, "image", "original", Path.GetExtension(postedFileName)))
-            //    .Cleanup();
-            throw new NotImplementedException();
+            ImageUtility
+                .Load(stream)
+                .Resize(new ImageDimensions(42, 42), true, ImageResizeMode.Crop)
+                .SaveAs(_mediaFilePathService.MakeMediaFilePath(imageMediaResourceId, "image", "thumbnail", extension))
+                .Reset()
+                .Resize(new ImageDimensions(130, 120), true, ImageResizeMode.Crop)
+                .SaveAs(_mediaFilePathService.MakeMediaFilePath(imageMediaResourceId, "image", "small", extension))
+                .Reset()
+                .Resize(new ImageDimensions(670, 600), true, ImageResizeMode.Crop)
+                .SaveAs(_mediaFilePathService.MakeMediaFilePath(imageMediaResourceId, "image", "medium", extension))
+                .Reset()
+                .Resize(new ImageDimensions(1600, 1200), true, ImageResizeMode.Crop)
+                .SaveAs(_mediaFilePathService.MakeMediaFilePath(imageMediaResourceId, "image", "large", extension))
+                .Cleanup();
         }
 
         #endregion

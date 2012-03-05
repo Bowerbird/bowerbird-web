@@ -12,11 +12,13 @@
  
 */
 
+using System.Linq;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.DomainModels.Members;
 using Raven.Client;
+using Raven.Client.Linq;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -54,7 +56,9 @@ namespace Bowerbird.Core.CommandHandlers
                 _documentSession.Load<User>(groupMemberCreateCommand.CreatedByUserId),
                 _documentSession.Load<Group>(groupMemberCreateCommand.GroupId),
                 _documentSession.Load<User>(groupMemberCreateCommand.UserId),
-                _documentSession.Load<Role>(groupMemberCreateCommand.Roles)
+                _documentSession.Query<Role>()
+                    .Where(x => x.Id.In(groupMemberCreateCommand.Roles))
+                    .ToList()
                 );
 
             _documentSession.Store(groupMember);

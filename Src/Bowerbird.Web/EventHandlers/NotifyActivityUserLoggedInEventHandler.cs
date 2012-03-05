@@ -83,8 +83,8 @@ namespace Bowerbird.Web.EventHandlers
 
             var activity = new Activity(@event.User,
                                         DateTime.Now,
-                                        Nouns.User,
-                                        Verbs.LoggedIn,
+                                        ActivitySender.User,
+                                        ActivityAction.LoggedIn,
                                         string.Empty,
                                         string.Empty,
                                         @event.EventMessage);

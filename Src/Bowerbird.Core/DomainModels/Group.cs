@@ -98,7 +98,7 @@ namespace Bowerbird.Core.DomainModels
                 _childGroupAssociations.Add(groupAssociation);
 
                 var eventMessage = string.Format(
-                    ActivityMessages.AddedAGroupToAGroup,
+                    ActivityMessage.AddedAGroupToAGroup,
                     createdByUser.GetName(),
                     group.GroupType(),
                     group.Name,

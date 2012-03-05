@@ -82,8 +82,8 @@ namespace Bowerbird.Web.EventHandlers
 
             var activity = new Activity(@event.CreatedByUser,
                                        DateTime.Now,
-                                       Nouns.Team,
-                                       Verbs.Created,
+                                       ActivitySender.Team,
+                                       ActivityAction.Created,
                                        string.Empty,
                                        string.Empty,
                                        @event.EventMessage);

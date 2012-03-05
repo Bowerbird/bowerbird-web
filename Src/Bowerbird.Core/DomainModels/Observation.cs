@@ -68,7 +68,7 @@ namespace Bowerbird.Core.DomainModels
                 observationMediaItems);
 
             var eventMessage = string.Format(
-                ActivityMessages.CreatedAnObservation,
+                ActivityMessage.CreatedAnObservation,
                 createdByUser.GetName(),
                 title
                 );
@@ -175,7 +175,7 @@ namespace Bowerbird.Core.DomainModels
                 observationMediaItems);
 
             var eventMessage = string.Format(
-                ActivityMessages.UpdatedAnObservation,
+                ActivityMessage.UpdatedAnObservation,
                 updatedByUser.GetName(),
                 title
                 );

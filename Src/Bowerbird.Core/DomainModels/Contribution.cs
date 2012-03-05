@@ -81,7 +81,7 @@ namespace Bowerbird.Core.DomainModels
                 _groupContributions.Add(groupContribution);
 
                 var eventMessage = string.Format(
-                    ActivityMessages.AddedAContributionToAGroup,
+                    ActivityMessage.AddedAContributionToAGroup,
                     createdByUser.GetName(),
                     ContributionType(),
                     ContributionTitle(),
@@ -125,7 +125,7 @@ namespace Bowerbird.Core.DomainModels
             _comments.Add(newComment);
 
             var eventMessage = string.Format(
-                ActivityMessages.Commented,
+                ActivityMessage.Commented,
                 createdByUser.GetName(),
                 message,
                 ContributionTitle(),

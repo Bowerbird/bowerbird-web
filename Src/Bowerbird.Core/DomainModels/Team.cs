@@ -51,7 +51,7 @@ namespace Bowerbird.Core.DomainModels
                 organisationId);
 
             var eventMessage = string.Format(
-                ActivityMessages.CreatedAGroup,
+                ActivityMessage.CreatedAGroup,
                 createdByUser.GetName(),
                 GroupType(),
                 Name
@@ -87,7 +87,7 @@ namespace Bowerbird.Core.DomainModels
                 organisationId);
 
             var eventMessage = string.Format(
-                ActivityMessages.UpdatedAGroup,
+                ActivityMessage.UpdatedAGroup,
                 updatedByUser.GetName(),
                 Name,
                 GroupType()

@@ -81,7 +81,7 @@ function buildAvatarUploader() {
         onComplete: function (id, fileName, responseText) {
             $('#media-resource-items').empty();
             $('#media-resource-items').append('<div class="media-resource-uploaded"><img src="' + responseText.imageUrl + '" width="200px" /><div><span>' + responseText.fileName + '</span><span>' + responseText.fileSize + '<span></div></div>');
-            $('#avatarId').val(responseText.Id);
+            $('#AvatarId').val(responseText.Id);
         }
     });
 }

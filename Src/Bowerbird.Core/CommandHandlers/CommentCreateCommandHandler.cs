@@ -58,6 +58,7 @@ namespace Bowerbird.Core.CommandHandlers
 
             var contribution = _documentSession.Query<Contribution, All_Contributions>()
                 .Where(x => x.Id == command.ContributionId)
+                .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
                 .FirstOrDefault();
 
             contribution.AddComment(

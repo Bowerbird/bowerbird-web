@@ -258,7 +258,7 @@ namespace Bowerbird.Web.Controllers.Members
 
             var results = _documentSession
                 .Query<Team>()
-                .Customize(x => x.Include<Organisation>(y => y.ParentGroupId == listInput.OrganisationId))
+                //.Customize(x => x.Include<Organisation>(y => y.ParentGroupId == listInput.OrganisationId))
                 .Statistics(out stats)
                 .Skip(listInput.Page)
                 .Take(listInput.PageSize)

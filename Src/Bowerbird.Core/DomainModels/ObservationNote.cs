@@ -19,7 +19,6 @@ using Bowerbird.Core.DomainModels.DenormalisedReferences;
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using Bowerbird.Core.Extensions;
 
 namespace Bowerbird.Core.DomainModels
 {
@@ -68,7 +67,7 @@ namespace Bowerbird.Core.DomainModels
                 notes);
 
             var eventMessage = string.Format(
-                ActivityMessages.CreatedAnObservationNote,
+                ActivityMessage.CreatedAnObservationNote,
                 createdByUser.GetName(),
                 observation.Title
                 );
@@ -102,12 +101,12 @@ namespace Bowerbird.Core.DomainModels
 
         public override string ContributionType()
         {
-            return "Observation Note";
+            return "ObservationNote";
         }
 
         public override string ContributionTitle()
         {
-            return Observation.Title.AppendWith(" note");
+            return Observation.Title;
         }
 
         private void InitMembers()
@@ -147,7 +146,7 @@ namespace Bowerbird.Core.DomainModels
                 notes);
 
             var eventMessage = string.Format(
-                ActivityMessages.UpdatedAnObservationNote,
+                ActivityMessage.UpdatedAnObservationNote,
                 updatedByUser.GetName(),
                 ContributionTitle()
                 );

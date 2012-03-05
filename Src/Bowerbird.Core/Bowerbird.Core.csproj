@@ -225,6 +225,7 @@
     <Compile Include="Indexes\All_GroupContributions.cs" />
     <Compile Include="Indexes\All_Groups.cs" />
     <Compile Include="Indexes\All_Members.cs" />
+    <Compile Include="Indexes\All_ClientSessionIndexes.cs" />
     <Compile Include="Paging\EnumerableExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Commands\ICommandProcessor.cs" />

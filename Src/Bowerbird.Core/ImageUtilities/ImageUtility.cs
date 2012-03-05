@@ -394,5 +394,12 @@ namespace Bowerbird.Core.ImageUtilities
 
         #endregion
 
+
+        public ImageUtility Reset()
+        {
+            _newImage = _sourceImage;
+
+            return this;
+        }
     }
 }

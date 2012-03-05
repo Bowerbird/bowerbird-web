@@ -39,7 +39,7 @@ namespace Bowerbird.Core.Commands
 
         public string OriginalFileName { get; set; }
 
-        public string MimeType { get; set; }
+        //public string MimeType { get; set; }
 
         public Stream Stream { get; set; }
 

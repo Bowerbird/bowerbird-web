@@ -73,7 +73,6 @@ namespace Bowerbird.Test.CommandHandlers
             {
                 UserId = user.Id,
                 UploadedOn = FakeValues.CreatedDateTime,
-                MimeType = FakeValues.FileFormat,
                 OriginalFileName = FakeValues.Filename,
                 Stream = null,
                 Usage = FakeValues.Usage

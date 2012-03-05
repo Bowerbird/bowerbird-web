@@ -65,14 +65,6 @@ namespace Bowerbird.Test.CommandHandlers
 
             GroupMember newValue = null;
 
-            var command = new GroupMemberCreateCommand()
-            {
-                UserId = user.Id,
-                CreatedByUserId = user.Id,
-                GroupId = project.Id,
-                Roles = roles.Select(x => x.Name).ToList()
-            };
-
             using (var session = _store.OpenSession())
             {
                 session.Store(user);
@@ -83,6 +75,14 @@ namespace Bowerbird.Test.CommandHandlers
                 session.SaveChanges();
 
                 var commandHandler = new GroupMemberCreateCommandHandler(session);
+
+                var command = new GroupMemberCreateCommand()
+                {
+                    UserId = user.Id,
+                    CreatedByUserId = user.Id,
+                    GroupId = project.Id,
+                    Roles = roles.Select(x => x.Id).ToList()
+                };
 
                 commandHandler.Handle(command);
 

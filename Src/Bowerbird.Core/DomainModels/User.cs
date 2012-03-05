@@ -66,7 +66,7 @@ namespace Bowerbird.Core.DomainModels
             AddMembership(new GlobalMember(this, roles));
 
             var eventMessage = string.Format(
-                ActivityMessages.Joined,
+                ActivityMessage.Joined,
                 GetName()
                 );
 
@@ -177,7 +177,7 @@ namespace Bowerbird.Core.DomainModels
                 avatar);
 
             var eventMessage = string.Format(
-                ActivityMessages.UpdatedTheirDetails,
+                ActivityMessage.UpdatedTheirDetails,
                 GetName()
                 );
 

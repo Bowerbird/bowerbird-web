@@ -57,9 +57,17 @@ namespace Bowerbird.Test.CommandHandlers
         [Category(TestCategory.Integration)]
         public void UserCreateCommandHandler_Handle()
         {
+            var permissions = FakeObjects.TestPermissions();
+            var roles = FakeObjects.TestRoles();
+
             User newUser = null;
             using (var session = _store.OpenSession())
             {
+                foreach (var permission in permissions) session.Store(permission);
+                foreach (var role in roles) session.Store(role);
+
+                session.SaveChanges();
+
                 var commandHandler = new UserCreateCommandHandler(session);
 
                 commandHandler.Handle(new UserCreateCommand()
@@ -69,7 +77,7 @@ namespace Bowerbird.Test.CommandHandlers
                     FirstName = FakeValues.FirstName,
                     LastName = FakeValues.LastName,
                     Password = FakeValues.Password,
-                    Roles = FakeObjects.TestRoles().Select(x => x.Name)
+                    Roles = FakeObjects.TestRoles().Select(x => x.Id)
                 });
 
                 session.SaveChanges();
