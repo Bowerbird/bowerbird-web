@@ -55,8 +55,6 @@ namespace Bowerbird.Core.DomainModels
         {
             Check.RequireNotNull(observationMediaItems, "observationMediaItems");
 
-            Id = "observations/";
-
             InitMembers();
 
             SetDetails(

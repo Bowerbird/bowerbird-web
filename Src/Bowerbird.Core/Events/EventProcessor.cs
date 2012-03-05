@@ -35,6 +35,7 @@ namespace Bowerbird.Core.Events
 
         public static void Raise<T>(T args) where T : IDomainEvent
         {
+            return;
             if (ServiceLocator != null)
             {
                 foreach (var handler in ServiceLocator.GetAllInstances<IEventHandler<T>>())

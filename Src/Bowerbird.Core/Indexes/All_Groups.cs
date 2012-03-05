@@ -22,9 +22,9 @@ using Raven.Client.Indexes;
 
 namespace Bowerbird.Core.Indexes
 {
-    public class All_Group : AbstractMultiMapIndexCreationTask<Group>
+    public class All_Groups : AbstractMultiMapIndexCreationTask<Group>
     {
-        public All_Group()
+        public All_Groups()
         {
             AddMap<Organisation>(organisations => from organisation in organisations
                                                   select new

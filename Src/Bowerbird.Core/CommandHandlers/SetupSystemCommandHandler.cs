@@ -229,6 +229,12 @@ namespace Bowerbird.Core.CommandHandlers
 
             _documentSession.Store(project);
 
+            var team = Teams.Single(x => x.Id == teamId);
+
+            team.AddGroupAssociation(project, user, DateTime.Now);
+
+            _documentSession.Store(team);
+
             Projects.Add(project);
         }
 

@@ -20,64 +20,23 @@ using Raven.Client.Indexes;
 
 namespace Bowerbird.Core.Indexes
 {
-    public class ContributionResults
+    public class All_GroupContributions : AbstractMultiMapIndexCreationTask<All_GroupContributions.Result>
     {
-        public string ContributionId { get; set; }
-        public string UserId { get; set; }
-        public DateTime CreatedDateTime { get; set; }
-    }
-
-    public class All_Contributions : AbstractMultiMapIndexCreationTask<ContributionResults>
-    {
-        public All_Contributions()
+        public class Result
         {
-
-            AddMap<Post>(posts => from post in posts
-                                  select new
-                                             {
-                                                 ContributionId = post.Id,
-                                                 CreatedDateTime = post.CreatedOn,
-                                                 UserId = post.User.Id,
-                                             });
-
-            AddMap<Observation>(observations => from observation in observations
-                                                select new
-                                                           {
-                                                               ContributionId = observation.Id,
-                                                               CreatedDateTime = observation.CreatedOn,
-                                                               UserId = observation.User.Id
-                                                           });
-
-            AddMap<ObservationNote>(observationNotes => from observationNote in observationNotes
-                                                        select new
-                                                                   {
-                                                                       ContributionId = observationNote.Id,
-                                                                       CreatedDateTime = observationNote.CreatedOn,
-                                                                       UserId = observationNote.User.Id
-                                                                   });
+            public string ContributionId { get; set; }
+            public string UserId { get; set; }
+            public DateTime CreatedDateTime { get; set; }
+            public string GroupId { get; set; }
+            public string GroupUserId { get; set; }
+            public DateTime GroupCreatedDateTime { get; set; }
+            public string ContributionType { get; set; }
+            public Observation Observation { get; set; }
+            public ObservationNote ObservationNote { get; set; }
+            public Post Post { get; set; }
         }
-    }
 
-    public class GroupContributionResults
-    {
-        public string ContributionId { get; set; }
-        public string UserId { get; set; }
-        public DateTime CreatedDateTime { get; set; }
-        public string GroupId { get; set; }
-        public string GroupUserId { get; set; }
-        public DateTime GroupCreatedDateTime { get; set; }
-        public Observation Observation { get; set; }
-        public ObservationNote ObservationNote { get; set; }
-        public Post Post { get; set; }
-        public Contribution Contribution
-        {
-            get { return (Contribution)Observation ?? (Contribution)ObservationNote ?? (Contribution)Post; }
-        }
-    }
-
-    public class All_GroupContributionItems : AbstractMultiMapIndexCreationTask<GroupContributionResults>
-    {
-        public All_GroupContributionItems()
+        public All_GroupContributions()
         {
             AddMap<Observation>(observations => 
                 from c in observations
@@ -85,6 +44,7 @@ namespace Bowerbird.Core.Indexes
                 select new
                 {
                     ContributionId = c.Id,
+                    ContributionType = "Observation",
                     UserId = c.User.Id,
                     CreatedDateTime = c.CreatedOn,
                     gc.GroupId,
@@ -98,12 +58,13 @@ namespace Bowerbird.Core.Indexes
                 select new
                 {
                     ContributionId = c.Id,
+                    ContributionType = "Post",
                     UserId = c.User.Id,
                     CreatedDateTime = c.CreatedOn,
                     gc.GroupId,
                     GroupUserId = gc.User.Id,
                     GroupCreatedDateTime = gc.CreatedDateTime
-                });
+                }); 
 
             AddMap<ObservationNote>(observationNotes => 
                 from c in observationNotes
@@ -111,6 +72,7 @@ namespace Bowerbird.Core.Indexes
                 select new
                 {
                     ContributionId = c.Id,
+                    ContributionType = "ObservationNote",
                     UserId = c.User.Id,
                     CreatedDateTime = c.CreatedOn,
                     gc.GroupId,
@@ -126,6 +88,7 @@ namespace Bowerbird.Core.Indexes
                 select new
                 {
                     result.ContributionId,
+                    result.ContributionType,
                     result.UserId,
                     result.CreatedDateTime,
                     result.GroupId,
@@ -137,6 +100,7 @@ namespace Bowerbird.Core.Indexes
                 };
 
             Store(x => x.ContributionId, FieldStorage.Yes);
+            Store(x => x.ContributionType, FieldStorage.Yes);
             Store(x => x.UserId, FieldStorage.Yes);
             Store(x => x.CreatedDateTime, FieldStorage.Yes);
             Store(x => x.GroupId, FieldStorage.Yes);

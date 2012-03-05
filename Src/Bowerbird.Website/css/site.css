@@ -95,6 +95,13 @@ header {
     height: 3.125em;
     z-index: 100;
 }
+footer
+{
+    background-color: rgba(20, 54, 88, 0.15);
+    box-shadow: 0 1px 1px 0 #143658 inset;
+    clear: both;
+    height: 200px;
+}
 header > div,
 footer > div
 {
@@ -194,7 +201,7 @@ header nav#search-menu
     padding-bottom: 10px;
     position: relative;
 }
-#sidebar .filter-group-title
+#sidebar .menu-group-title
 {
     color: #6997C5;
     font-size: 0.75em;
@@ -203,17 +210,17 @@ header nav#search-menu
     text-shadow: 0 1px 0 #FFFFFF;
     text-transform: uppercase;
 }
-#sidebar .filter-group ul
+#sidebar .menu-group ul
 {
     border-radius: 4px 4px 4px 4px;
     box-shadow: 0 1px 2px 0 #5071A6;
 }
-#sidebar .filter-group li
+#sidebar .menu-group li
 {
     display: block;
     position: relative;
 }
-#sidebar .filter-group li a
+#sidebar .menu-group li a
 {
     background-color: #FFFFFF;
     border-bottom: 1px solid #CFDDEB;
@@ -225,47 +232,47 @@ header nav#search-menu
     overflow: hidden;
     text-decoration: none;
 }
-#sidebar .filter-group li:first-child a
+#sidebar .menu-group li:first-child a
 {
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
 }
-#sidebar .filter-group li:last-child a
+#sidebar .menu-group li:last-child a
 {
     border-bottom: none;
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
 }
-#sidebar .filter-group li img 
+#sidebar .menu-group li img 
 {
     display: block;
     float: left;
     margin-right: 13px;
     height: 100%;
 }
-#sidebar #default-filters.filter-group li:first-child img 
+#sidebar #default-menu-group.menu-group li:first-child img 
 {
     border-radius: 4px 0 0 0;
 }
-#sidebar #watch-lists.filter-group li:last-child img 
+#sidebar #watch-menu-group.menu-group li:last-child img 
 {
     border-radius: 0 0 0 4px;
 }
-#sidebar .filter-group li a > div
+#sidebar .menu-group li a > div
 {
     display: table-cell;
     height: 3.06666667em;
     vertical-align: middle;
     letter-spacing: -0.019em;
 }
-#sidebar .filter-group li a > div p
+#sidebar .menu-group li a > div p
 {
     line-height: 1.36em;
     margin: 0;
     overflow: hidden;
     padding: 2px 2px 0 0;
 }
-#sidebar .filter-group li a > div p span
+#sidebar .menu-group li a > div p span
 {
     background-color: #CC0000;
     background-image: -moz-linear-gradient(right bottom , #1E5707 33%, #3BAB24 79%);
@@ -348,7 +355,7 @@ header nav#search-menu
     padding-top: 12px;
 }
 /* stream */
-#stream-container
+#stream-list
 {
     background-color: rgba(202, 222, 239, 0.5);
     border-radius: 4px;
@@ -357,7 +364,7 @@ header nav#search-menu
     position: relative;
     min-height: 500px;
 }
-#stream-container #load-more
+#stream-list #load-more
 {
     background-color: #59A3FF;
     border-radius: 0 0 4px 4px;
@@ -372,7 +379,7 @@ header nav#search-menu
     text-shadow: 0 -1px 0 #555555;
     width: 300px;
 }
-#stream-container > h2
+#stream-list > h2
 {
     color: #6997C5;
     float: left;
@@ -384,7 +391,7 @@ header nav#search-menu
     text-transform: uppercase;
     width: 38%;
 }
-#stream-container > ul
+#stream-list > ul
 {
     float: right;
     line-height: 0.6em;
@@ -392,7 +399,7 @@ header nav#search-menu
     text-align: right;
     width: 50%;
 }
-#stream-container > ul li
+#stream-list > ul li
 {
     background-color: rgba(105, 151, 197, 0.2);
     border-radius: 8px 8px 8px 8px;
@@ -407,7 +414,7 @@ header nav#search-menu
     text-shadow: 0 1px 0 #FFFFFF;
     text-transform: uppercase;
 }
-#stream-container > div
+#stream-list > div
 {
     padding-bottom: 2%;
     clear: both;
@@ -773,6 +780,41 @@ header nav#search-menu
     margin-right: 9px;
     width: 78px;
 }
+#stream-status
+{
+    padding-top: 100px;
+}
+#stream-status p
+{
+    background-color: rgba(105, 151, 197, 0.2);
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 2px #6997C5 inset;
+    color: #4379B0;
+    font-size: 0.9em;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin: 0 auto;
+    padding: 25px 0;
+    text-align: center;
+    text-shadow: 0 1px 0 #FFFFFF;
+    text-transform: uppercase;
+    width: 130px;
+}
+#stream-status p img
+{
+    display: block;
+    margin: 0 auto 10px;
+    vertical-align: text-top;
+    width: 30px;
+}
+#stream-load-more
+{
+    padding: 2% 2% 0;
+}
+#stream-load-more .button
+{
+    width: 100%;
+}
 /* stream observation note item */
 #stream .observation-note-stream-item
 {
@@ -1018,7 +1060,8 @@ header nav#search-menu
 .form input[type=submit],
 .form input[type=button],
 .form button,
-.form .button
+.form .button,
+.button
 {
     background: rgb(111,174,237);
     background: -moz-linear-gradient(top, rgba(111,174,237,1) 0%, rgba(64,150,238,1) 100%);
@@ -1042,17 +1085,20 @@ header nav#search-menu
 .form input[type=button]:hover,
 .form button:hover,
 .form .button:hover,
+.button:hover,
 .form input[type=submit]:focus,
 .form input[type=button]:focus,
 .form button:focus,
-.form .button:focus
+.form .button:focus,
+.button:focus
 {
     box-shadow: 0 1px 1px 0 rgba(255, 255, 255, 0.4) inset, 0 1px 6px 0 rgba(80, 158, 238, 0.9);
 }
 .form input[type=submit]:active,
 .form input[type=button]:active,
 .form button:active,
-.form .button:active
+.form .button:active,
+.button:active
 {
     box-shadow: 0 1px 2px 0 #5071A6 inset, 0 1px 6px 0 rgba(80, 158, 238, 0.9);
 }

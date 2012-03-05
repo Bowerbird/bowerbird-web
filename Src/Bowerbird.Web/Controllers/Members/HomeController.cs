@@ -64,9 +64,9 @@ namespace Bowerbird.Web.Controllers.Members
             {
                 return Json(MakeHomeIndex(homeIndexInput));
             }
-            //return View(MakeHomeIndex(homeIndexInput));
+            return View(MakeHomeIndex(homeIndexInput));
 
-            return View(new HomeIndex(){UserProfile = new UserProfile(){Id = User.Identity.Name}});
+            //return View(new HomeIndex(){UserProfile = new UserProfile(){Id = User.Identity.Name}});
         }
 
         [HttpGet]
@@ -80,10 +80,10 @@ namespace Bowerbird.Web.Controllers.Members
             var groupMemberships = _documentSession
                 .Query<GroupMember>()
                 .Include(x => x.User.Id)
-                .Where(x => x.User.Id == indexInput.UserId)
+                .Where(x => x.User.Id == _userContext.GetAuthenticatedUserId())
                 .ToList();
 
-            var user = _documentSession.Load<User>(indexInput.UserId);
+            var user = _documentSession.Load<User>(_userContext.GetAuthenticatedUserId());
 
             var homeIndex = new HomeIndex()
             {
@@ -94,6 +94,18 @@ namespace Bowerbird.Web.Controllers.Members
                     {
                         Id = x.Group.Id,
                         Name = x.Group.Name
+                    }
+                )
+                .ToList(),
+
+                Projects = groupMemberships
+                .Where(x => x.Group.Id.Contains("projects/"))
+                .Select(x =>
+                    new ProjectView
+                    {
+                        Id = x.Group.Id,
+                        Name = x.Group.Name,
+                        Avatar = new Avatar() { UrlToImage = "/images/default-project-avatar.png", AltTag = x.Group.Name }
                     }
                 )
                 .ToList(),
@@ -109,10 +121,22 @@ namespace Bowerbird.Web.Controllers.Members
                 )
                 .ToList(),
 
+                Teams = groupMemberships
+                .Where(x => x.Group.Id.Contains("teams/"))
+                .Select(x =>
+                    new TeamView
+                    {
+                        Id = x.Group.Id,
+                        Name = x.Group.Name,
+                        Avatar = new Avatar() { UrlToImage = "/images/default-team-avatar.png", AltTag = x.Group.Name }
+                    }
+                )
+                .ToList(),
+
                 UserProfile =
                     new UserProfile()
                     {
-                        Id = user.Id,
+                        Id = _userContext.GetAuthenticatedUserId(),
                         Name = string.Format("{0} {1}", user.FirstName, user.LastName)
                     },
 

@@ -11,7 +11,7 @@ namespace Bowerbird.Core.Indexes
     {
         public All_Members()
         {
-            AddMap<GlobalMember>(globalMembers => 
+            AddMap<GlobalMember>(globalMembers =>
                 from globalMember in globalMembers
                 select new
                 {

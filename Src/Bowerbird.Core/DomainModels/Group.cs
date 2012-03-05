@@ -60,7 +60,11 @@ namespace Bowerbird.Core.DomainModels
 
         public MediaResource Avatar { get; set; }
 
-        public IEnumerable<GroupAssociation> ChildGroupAssociations { get { return _childGroupAssociations; } }
+        public IEnumerable<GroupAssociation> ChildGroupAssociations 
+        { 
+            get { return _childGroupAssociations; }
+            private set { _childGroupAssociations = new List<GroupAssociation>(value); } 
+        }
 
         #endregion
 

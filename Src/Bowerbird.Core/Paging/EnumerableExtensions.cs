@@ -42,17 +42,19 @@ namespace Bowerbird.Core.Paging
             int page, 
             int pageSize, 
             int totalResultCount, 
-            IDictionary<int, string> namedPages)
+            IDictionary<int, string> namedPages = null)
         {
             var allPageNumbers = MakeAllPageNumbers(page, pageSize, totalResultCount, namedPages);
             var pagedListItems = MakePagedListItems(page, pageSize, collection, allPageNumbers);
 
             return new PagedList<T>()
             {
+                Page = page,
                 PageSize = pageSize,
                 TotalResultCount = totalResultCount,
-                AllPageNumbers = allPageNumbers,
-                PagedListItems = pagedListItems
+                //AllPageNumbers = allPageNumbers,
+                //PagedListItems = pagedListItems
+                PagedListItems = collection
             };
         }
 

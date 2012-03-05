@@ -15,7 +15,7 @@
                                      .Add(@Url.Stylesheet("site.css"))
                                      .Add(@Url.Stylesheet("media.css"))
                                      //.Add(@Url.Stylesheet("jquery.fileupload-ui.css"))
-                                     .Add("/css/custom-theme/jquery-ui-1.8.17.custom.css")
+                                     //.Add("/css/custom-theme/jquery-ui-1.8.17.custom.css")
             //.ForceRelease() // Test it out with minification
                                      .Render("~/css/style_#.css"))
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700' rel='stylesheet' type='text/css'>
@@ -65,10 +65,10 @@
     </header>
     <article>
         @RenderBody()
-    <//article>
-    <footer id="footer">
+    </article>
+    <footer>
         <div>
-            Footer
+            
         </div>
     </footer>
 
@@ -85,11 +85,12 @@
             //.Add(@Url.JavaScriptLib("jquery.validate.unobtrusive.min.js"))
             //.Add(@Url.JavaScriptLib("jquery-ui-1.8.16.custom.min.js"))
             .Add(@Url.JavaScriptLib("jquery.tmpl.js"))
-            .Add(@Url.JavaScriptLib("jquery-ui-1.8.17.custom.min.js"))
+            //.Add(@Url.JavaScriptLib("jquery-ui-1.8.17.custom.min.js"))
             .Add(@Url.JavaScriptLib("json2.js"))
             .Add(@Url.JavaScriptLib("underscore-min.js"))
-            .Add(@Url.JavaScriptLib("backbone-min.js"))
+            .Add(@Url.JavaScriptLib("backbone.js"))
             .Add(@Url.JavaScript("fileuploader.js"))
+            .Add(@Url.JavaScriptLib("date-min.js"))
             //.Add(@Url.JavaScriptLib("jquery.fileupload.js"))
             .Render("~/js/script_#.js"))
     <!-- ADDED: Page Level script sections -->

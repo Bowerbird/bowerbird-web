@@ -43,11 +43,6 @@ namespace Bowerbird.Core.DomainModels
             Check.RequireNotNull(roles, "roles");
 
             User = user;
-
-            #if DEBUG
-                Id = (new Random(System.DateTime.Now.Millisecond)).Next().ToString();
-            #endif
-
             Roles = roles.Select(x => (DenormalisedNamedDomainModelReference<Role>)x).ToList();
         }
 

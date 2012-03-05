@@ -32,6 +32,8 @@ namespace Bowerbird.Web.ViewModels.Shared
 
         public DateTime CreatedDateTime { get; set; }
 
+        public string CreatedDateTimeDescription { get; set; }
+
         public string User { get; set; }
 
         public object Item { get; set; }
