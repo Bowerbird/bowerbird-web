@@ -8,8 +8,8 @@
 <script type="text/x-jquery-tmpl" id="sidebar-template">
     <div class="menu-group" id="default-menu-group">
         <ul>
-            <li><a href="/#/home/all" class="user-stream"><img alt="" src="../img/avatar-1.png"><div><p>Home <span>23</span></p></div></a></li>
-            <li><a href="/#/favourites/all" class="user-favourites"><img alt="" src="../img/avatar-2.png"><div><p>Favourites</p></div></a></li>
+            <li><a href="#home/all" class="user-stream"><img alt="" src="../img/avatar-1.png"><div><p>Home <span>23</span></p></div></a></li>
+            <li><a href="#favourites/all" class="user-favourites"><img alt="" src="../img/avatar-2.png"><div><p>Favourites</p></div></a></li>
         </ul>
     </div>
     <div class="menu-group" id="team-menu-group">
@@ -29,7 +29,7 @@
     </div>
 </script>
 <script type="text/x-jquery-tmpl" id="sidebar-item-template">
-    <a href="/#/${id}/all" class="">
+    <a href="#${id}/all" class="">
         <img alt="${name}" src="../img/avatar-3.png"><div><p>${name}</p></div>
     </a>
 </script>
@@ -89,11 +89,16 @@
             </div>
         </div>
 </script>
+<script type="text/x-jquery-tmpl" id="observation-create-form-template">
+    @Html.Partial("_ObservationCreate")
+</script>
+<script type="text/javascript" src="@Url.JavaScript("bowerbirduploader.js")"></script>
 <script type="text/javascript" src="@Url.JavaScript("app.js")"></script>
 <script type="text/javascript">
     $(function () {
-        window.app = new Bowerbird.App();
-        app.start(@Html.Json(Model.Teams), @Html.Json(Model.Projects));
+        //window.app = new Bowerbird.App();
+        //app.start();
+        startBowerbird(@Html.Json(Model.Teams), @Html.Json(Model.Projects));
     });
 </script>
 }

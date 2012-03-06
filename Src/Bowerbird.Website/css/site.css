@@ -782,7 +782,7 @@ header nav#search-menu
 }
 #stream-status
 {
-    padding-top: 100px;
+    margin: 2% 2% 0;
 }
 #stream-status p
 {
@@ -794,11 +794,10 @@ header nav#search-menu
     font-weight: 600;
     letter-spacing: -0.01em;
     margin: 0 auto;
-    padding: 25px 0;
+    padding: 25px 0 17px;
     text-align: center;
     text-shadow: 0 1px 0 #FFFFFF;
     text-transform: uppercase;
-    width: 130px;
 }
 #stream-status p img
 {
@@ -809,7 +808,7 @@ header nav#search-menu
 }
 #stream-load-more
 {
-    padding: 2% 2% 0;
+    padding: 0 2% 0;
 }
 #stream-load-more .button
 {

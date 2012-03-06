@@ -47,7 +47,7 @@
                 @if (User.Identity.IsAuthenticated)
                 {
                     <li class="user-menu">@*<img src="/img/avatar.jpg" alt="" />*@ @Html.ActionLink("Frank", "index", "home")</li>
-                    <li class="observations-menu"><a href="/#/observation/create" class="new-observation-button"><img src="/img/observation-button.png" alt="" /></a></li>
+                    <li class="observations-menu"><a href="#observation/create" class="new-observation-button"><img src="/img/observation-button.png" alt="" /></a></li>
                 }
                 else
                 {
@@ -85,7 +85,7 @@
             //.Add(@Url.JavaScriptLib("jquery.validate.unobtrusive.min.js"))
             //.Add(@Url.JavaScriptLib("jquery-ui-1.8.16.custom.min.js"))
             .Add(@Url.JavaScriptLib("jquery.tmpl.js"))
-            //.Add(@Url.JavaScriptLib("jquery-ui-1.8.17.custom.min.js"))
+            .Add(@Url.JavaScriptLib("jquery-ui-1.8.17.custom.min.js"))
             .Add(@Url.JavaScriptLib("json2.js"))
             .Add(@Url.JavaScriptLib("underscore-min.js"))
             .Add(@Url.JavaScriptLib("backbone.js"))
