@@ -1433,3 +1433,14 @@ header nav#search-menu
     height: 100px;
     margin: 10px;
 }
+/* chat */
+.chat-window
+{
+    background-color: white;
+    border: 1px solid black;
+    bottom: 0;
+    height: 200px;
+    position: fixed;
+    right: 0;
+    width: 400px;
+}

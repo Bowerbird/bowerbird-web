@@ -11,6 +11,7 @@
     <!-- CSS : implied media="all" -->
     @* More info about SquishIt from http://www.codethinked.com/squishit-the-friendly-aspnet-javascript-and-css-squisher *@
     @Html.Raw(SquishIt.Framework.Bundle.Css()
+                                     //.Add(@Url.Stylesheet("Chat.css"))
                                      .Add(@Url.Stylesheet("normalize.css"))
                                      .Add(@Url.Stylesheet("site.css"))
                                      .Add(@Url.Stylesheet("media.css"))
@@ -67,9 +68,6 @@
         @RenderBody()
     </article>
     <footer>
-        <div>
-            
-        </div>
     </footer>
 
     <!--! end of #container -->

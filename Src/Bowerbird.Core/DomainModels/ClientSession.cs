@@ -54,6 +54,8 @@ namespace Bowerbird.Core.DomainModels
 
         public DateTime ConnectionCreated { get; set; }
 
+        public DateTimeOffset LastActivity { get; set; }
+
         public string Uri { get; set; }
 
         #endregion

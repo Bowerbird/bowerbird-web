@@ -82,5 +82,40 @@ namespace Bowerbird.Web.Extensions
             return helper.Content("~/js/bowerbird/{0}?v={1}".FormatWith(fileName, ConfigurationManager.AppSettings["StaticContentIncrement"]));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public static string BowerbirdJsFile(this UrlHelper helper, string fileName)
+        {
+            return helper.Content("~/js/bowerbird/{0}?v={1}".FormatWith(fileName, ConfigurationManager.AppSettings["StaticContentIncrement"]));
+        }
+
+        /// <summary>
+        /// Load a javascript file from the js/bowerbird folder.
+        /// Used for custom page scripts
+        /// </summary>
+        public static string BowerbirdJsModel(this UrlHelper helper, string fileName)
+        {
+            return helper.Content("~/js/bowerbird/models/{0}?v={1}".FormatWith(fileName, ConfigurationManager.AppSettings["StaticContentIncrement"]));
+        }
+
+        /// <summary>
+        /// Load a javascript file from the js/bowerbird folder.
+        /// Used for custom page scripts
+        /// </summary>
+        public static string BowerbirdJsView(this UrlHelper helper, string fileName)
+        {
+            return helper.Content("~/js/bowerbird/views/{0}?v={1}".FormatWith(fileName, ConfigurationManager.AppSettings["StaticContentIncrement"]));
+        }
+
+        /// <summary>
+        /// Load a javascript file from the js/bowerbird folder.
+        /// Used for custom page scripts
+        /// </summary>
+        public static string BowerbirdJsCollection(this UrlHelper helper, string fileName)
+        {
+            return helper.Content("~/js/bowerbird/collections/{0}?v={1}".FormatWith(fileName, ConfigurationManager.AppSettings["StaticContentIncrement"]));
+        }
+
     }
 }

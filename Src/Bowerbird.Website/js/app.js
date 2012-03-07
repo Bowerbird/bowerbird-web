@@ -70,6 +70,22 @@ window.Bowerbird.Models.User = Backbone.Model.extend({
 window.Bowerbird.Models.Observation = Backbone.Model.extend({
 });
 
+window.Bowerbird.Models.Chat = Backbone.Model.extend({
+    defaults: {
+        group: null
+    },
+
+    initialize: function (options) {
+        _.extend(this, Backbone.Events);
+        _.bindAll(this);
+        this.chatMessages = new Bowerbird.Collections.ChatMessages();
+        this.set('group', options.group);
+    }
+});
+
+window.Bowerbird.Models.ChatMessage = Backbone.Model.extend({
+});
+
 /*************************************************************
 Collections
 *************************************************************/
@@ -233,6 +249,26 @@ window.Bowerbird.Collections.Projects = Backbone.Collection.extend({
     }
 });
 
+window.Bowerbird.Collections.Chats = Backbone.Collection.extend({
+    model: Bowerbird.Models.Chat,
+
+    url: '/chats/list',
+
+    initialize: function () {
+        _.extend(this, Backbone.Events);
+    }
+});
+
+window.Bowerbird.Collections.ChatMessages = Backbone.Collection.extend({
+    model: Bowerbird.Models.ChatMessage,
+
+    url: '/chatMessages/list',
+
+    initialize: function () {
+        _.extend(this, Backbone.Events);
+    }
+});
+
 /*************************************************************
 Views
 *************************************************************/
@@ -248,6 +284,8 @@ window.Bowerbird.Views.AppView = Backbone.View.extend({
         this.formView = null;
         app.stream.on('newStream', this.showStreamView, this);
         app.on('change:newObservation', this.showObservationCreateFormView, this);
+        app.chatManager.on('chatStarted', this.showChatView, this);
+        this.chatViews = [];
     },
 
     showStreamView: function () {
@@ -265,6 +303,12 @@ window.Bowerbird.Views.AppView = Backbone.View.extend({
             this.$el.append(this.formView.render().el);
             this.formView.start();
         }
+    },
+
+    showChatView: function (chat) {
+        var chatView = new Bowerbird.Views.ChatView({ chat: chat, id: 'chat-' + chat.id });
+        this.chatViews.push(chatView);
+        $('body').append(chatView.render().el);
     }
 });
 
@@ -291,6 +335,10 @@ window.Bowerbird.Views.SidebarView = Backbone.View.extend({
 
     id: 'sidebar',
 
+    events: {
+        'click #start-chat': 'startChat'
+    },
+
     template: $.template('sidebarTemplate', $('#sidebar-template')),
 
     initialize: function (options) {
@@ -316,6 +364,11 @@ window.Bowerbird.Views.SidebarView = Backbone.View.extend({
         var sidebarItemView = new Bowerbird.Views.SidebarItemView({ sidebarItem: project });
         this.projectSidebarItemViews.push(sidebarItemView);
         $("#project-menu-group ul").append(sidebarItemView.render().el);
+    },
+
+    startChat: function () {
+        var chat = new Bowerbird.Models.Chat({ group: app.teams.get('teams/1') });
+        app.chats.add(chat);
     }
 });
 
@@ -498,6 +551,37 @@ window.Bowerbird.Views.ObservationCreateFormView = Backbone.View.extend({
 
 });
 
+window.Bowerbird.Views.ChatView = Backbone.View.extend({
+    className: 'chat-window',
+
+    events: {
+        "click #chat-send-message-button": "sendMessage"
+    },
+
+    template: $.template('chatTemplate', $('#chat-template')),
+
+    chatMessageTemplate: $.template('chatMessageTemplate', $('#chat-message-template')),
+
+    initialize: function (options) {
+        _.extend(this, Backbone.Events);
+        this.chat = options.chat;
+        this.chat.chatMessages.on('add', this.addChatMessage, this);
+    },
+
+    render: function () {
+        $.tmpl('chatTemplate', this.chat.toJSON()).appendTo(this.$el);
+        return this;
+    },
+
+    sendMessage: function () {
+        console.log('send message!');
+    },
+
+    addChatMessage: function (chatMessage) {
+        $.tmpl('chatMessageTemplate', chatMessage.toJSON()).appendTo(this.$el.find('.chat-messages'));
+    }
+});
+
 /*************************************************************
 Other
 *************************************************************/
@@ -550,6 +634,9 @@ window.Bowerbird.App = Backbone.Model.extend({
         this.teams = new Bowerbird.Collections.Teams();
         this.projects = new Bowerbird.Collections.Teams();
         this.stream = new Bowerbird.Models.Stream();
+        this.chats = new Bowerbird.Collections.Chats();
+        this.chatManager = new Bowerbird.ChatManager({ appManager: this });
+        this.initHubConnection();
     },
 
     showHomeStream: function (filter) {
@@ -574,6 +661,33 @@ window.Bowerbird.App = Backbone.Model.extend({
 
     cancelNewObservation: function () {
         this.set('newObservation', null);
+    },
+
+    initHubConnection: function () {
+        //        $.connection.hub.start(function () {
+        //        
+        //        });
+    }
+});
+
+window.Bowerbird.ChatManager = Backbone.Model.extend({
+    initialize: function (options) {
+        _.extend(this, Backbone.Events);
+        options.appManager.chats.on('add', this.startChat, this);
+        //this.chatHub = $.connection.chatHub;
+        //this.chatHub.chatMessageReceived = this.chatMessageReceived;
+    },
+
+    startChat: function (chat) {
+        // send to signalr
+
+        // when ready, fire trigger
+        this.trigger('chatStarted', chat);
+    },
+
+    chatMessageReceived: function (data) {
+        var chat = app.chats.get(data.groupId);
+        chat.chatMessages.add(new Bowerbird.Models.ChatMessage(data));
     }
 });
 
