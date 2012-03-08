@@ -1,7 +1,8 @@
 ﻿
 window.Bowerbird.App = Backbone.Model.extend({
     defaults: {
-        newObservation: null
+        newObservation: null,
+        clientId: null
     },
 
     initialize: function (options) {
@@ -10,7 +11,7 @@ window.Bowerbird.App = Backbone.Model.extend({
         this.stream = new Bowerbird.Models.Stream();
         this.chats = new Bowerbird.Collections.Chats();
         this.chatManager = new Bowerbird.ChatManager({ appManager: this });
-        this.initHubConnection();
+        this.initHubConnection(options.userId);
     },
 
     showHomeStream: function (filter) {
@@ -37,10 +38,22 @@ window.Bowerbird.App = Backbone.Model.extend({
         this.set('newObservation', null);
     },
 
-    initHubConnection: function () {
-        //        $.connection.hub.start(function () {
-        //        
-        //        });
+    initHubConnection: function (userId) {
+        console.log('app.initHubConnection');
+        var self = this;
+        var activityHub = $.connection.activityHub;
+        $.connection.hub.start(function () {
+            activityHub.registerClientUser(userId)
+                    .done(function () {
+                        self.set('clientId', $.signalR.hub.id);
+                        console.log('connected as ' + self.get('userId') + ' with ' + self.get('clientId'));
+                        //startServerConnectionRefreshing();
+                        //window.activityHub.getCurrentlyConnectedUsers();
+                    })
+                    .fail(function (e) {
+                        console.log(e);
+                    });
+        });
     }
 });
 

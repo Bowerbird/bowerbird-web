@@ -93,8 +93,8 @@
 <script type="text/x-jquery-tmpl" id="observation-create-form-template">
     @Html.Partial("_ObservationCreate")
 </script>
-@*<script type="text/javascript" src="@Url.JavaScript("bowerbirduploader.js")"></script>*@
 <script type="text/x-jquery-tmpl" id="chat-template">
+    <div class="chat-window-close"></div>
     <h2>${group.name}</h2>
     <ul class="chat-messages">
     </ul>
@@ -107,16 +107,24 @@
 </script>
 <script id="chat-message-template" type="text/x-jquery-tmpl">
     <li>
-        <div class="user">
-            hamish
-        </div>
-        <div class="message">
-            yo!
-        </div>
-        <div class="timestamp">
-            today
-        </div>
+        <span class="user">
+            ${user.name}
+        </span>
+        <span class="message">
+            ${message}
+        </span>
+        <span class="timestamp">
+            ${timestamp}
+        </span>
     </li>
+</script>
+<script id="chat-user-template" type="text/x-jquery-tmpl">
+    <span class="user">
+        <img src="${avatar.urlToImage}" alt="${avatar.altTag}" width="16px;" height="16px;" />
+    </span>
+    <span class="message">
+        ${name}
+    </span>
 </script>
 <!-- templates for messanger -->
 <script id="new-message-template" type="text/x-jquery-tmpl">
@@ -177,13 +185,14 @@
     </li>
 </script>
 
-@*<script type="text/javascript" src="@Url.JavaScriptLib("jquery.signalR.js")"></script>*@
-@*<script type="text/javascript" src="@Url.Content("signalr/hubs")"></script>*@
+<script type="text/javascript" src="@Url.JavaScriptLib("jquery.signalR.js")"></script>
+<script type="text/javascript" src="@Url.Content("signalr/hubs")"></script>
 
 <script type="text/javascript" src="@Url.BowerbirdJsFile("namespace.js")"></script>
 
 <script type="text/javascript" src="@Url.BowerbirdJsModel("chat.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsModel("chatMessage.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("chatUser.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsModel("observation.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsModel("project.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsModel("stream.js")"></script>
@@ -192,6 +201,7 @@
 <script type="text/javascript" src="@Url.BowerbirdJsModel("user.js")"></script>
 
 <script type="text/javascript" src="@Url.BowerbirdJsCollection("chatMessages.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsCollection("chatUsers.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsCollection("chats.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsCollection("paginatedCollection.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsCollection("projects.js")"></script>
@@ -200,6 +210,7 @@
 
 <script type="text/javascript" src="@Url.BowerbirdJsView("appView.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsView("chatView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("chatViewUser.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsView("observationCreateFormView.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsView("sidebarView.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsView("sidebarViewItem.js")"></script>
@@ -219,7 +230,7 @@
     $(function () {
         //window.app = new Bowerbird.App();
         //app.start();
-        startBowerbird(@Html.Json(Model.Teams), @Html.Json(Model.Projects));
+        startBowerbird(@Html.Json(Model.Teams), @Html.Json(Model.Projects), @Html.Json(Model.UserProfile.Id));
     });
 </script>
 }

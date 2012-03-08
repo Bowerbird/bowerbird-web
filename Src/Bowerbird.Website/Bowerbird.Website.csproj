@@ -142,6 +142,7 @@
     <Content Include="img\carbon_fibre_v2.png" />
     <Content Include="img\checkbox-sprite-ios5.png" />
     <Content Include="img\checkbox-sprite.png" />
+    <Content Include="img\close.gif" />
     <Content Include="img\concrete_wall.png" />
     <Content Include="img\crossed_stripes.png" />
     <Content Include="img\diagonal-noise.png" />
@@ -178,6 +179,7 @@
     <Content Include="js\bowerbirduploader.js" />
     <Content Include="js\bowerbird\app.js" />
     <Content Include="js\bowerbird\bootstrapper.js" />
+    <Content Include="js\bowerbird\collections\chatUsers.js" />
     <Content Include="js\bowerbird\mediaUploader.js" />
     <Content Include="js\bowerbird\chatManager.js" />
     <Content Include="js\bowerbird\collections\chatMessages.js" />
@@ -189,6 +191,7 @@
     <Content Include="js\bowerbird\createMap.js" />
     <Content Include="js\bowerbird\models\chat.js" />
     <Content Include="js\bowerbird\models\chatMessage.js" />
+    <Content Include="js\bowerbird\models\chatUser.js" />
     <Content Include="js\bowerbird\models\observation.js" />
     <Content Include="js\bowerbird\models\project.js" />
     <Content Include="js\bowerbird\models\stream.js" />
@@ -199,6 +202,7 @@
     <Content Include="js\bowerbird\router.js" />
     <Content Include="js\bowerbird\viewMap.js" />
     <Content Include="js\bowerbird\views\appView.js" />
+    <Content Include="js\bowerbird\views\chatViewUser.js" />
     <Content Include="js\bowerbird\views\chatView.js" />
     <Content Include="js\bowerbird\views\observationCreateFormView.js" />
     <Content Include="js\bowerbird\views\sidebarView.js" />

@@ -1,7 +1,6 @@
 ﻿
-
-function startBowerbird(teams, projects) {
-    window.app = new Bowerbird.App();
+function startBowerbird(teams, projects, userId) {
+    window.app = new Bowerbird.App({ userId: userId });
     app.appView = new Bowerbird.Views.AppView();
     app.appView.showStreamView();
     app.router = new Bowerbird.Router();

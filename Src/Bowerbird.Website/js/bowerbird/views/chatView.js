@@ -3,7 +3,8 @@ window.Bowerbird.Views.ChatView = Backbone.View.extend({
     className: 'chat-window',
 
     events: {
-        "click #chat-send-message-button": "sendMessage"
+        "click .chat-send-message-button": "sendMessage",
+        "click .chat-window-close": "closeWindow"
     },
 
     template: $.template('chatTemplate', $('#chat-template')),
@@ -12,8 +13,12 @@ window.Bowerbird.Views.ChatView = Backbone.View.extend({
 
     initialize: function (options) {
         _.extend(this, Backbone.Events);
+        _.bindAll(this, 'addChatViewUser', 'addChatViewUsers');
+        this.chatViewUsers = [];
         this.chat = options.chat;
         this.chat.chatMessages.on('add', this.addChatMessage, this);
+        this.chat.chatUsers.on('add', this.addChatViewUser, this);
+        this.chat.chatUsers.on('reset', this.addChatViewUsers, this);
     },
 
     render: function () {
@@ -22,10 +27,37 @@ window.Bowerbird.Views.ChatView = Backbone.View.extend({
     },
 
     sendMessage: function () {
-        console.log('send message!');
+        console.log('chatView.sendMessage');
+        app.chatManager.sendMessage(this.$el.find('.new-chat-message').val(), this.chat);
+        //console.log('send message!');
+    },
+
+    closeWindow: function () {
+        app.chats.remove(this.chat);
+        //this.$el.remove();
     },
 
     addChatMessage: function (chatMessage) {
+        console.log('chatView.addChatMessage');
         $.tmpl('chatMessageTemplate', chatMessage.toJSON()).appendTo(this.$el.find('.chat-messages'));
+    },
+
+
+    addChatViewUser: function (chatUser) {
+        console.log('chatView.addChatViewUser');
+        var chatViewUser = new Bowerbird.Views.ChatViewUser({ user: chatUser });
+        this.chatViewUsers.push(chatViewUser);
+        this.$el.find('.chat-current-users').append(chatViewUser.render().el);
+    },
+
+    addChatViewUsers: function (chatUsers) {
+        console.log('chatView.addChatViewUsers');
+        var self = this;
+        chatUsers.each(function (chatUser) {
+            self.addChatViewUser(chatUser);
+        });
+        //        var chatViewUser = new Bowerbird.Views.ChatViewUser({ user: chatUser });
+        //        this.chatViewUsers.push(chatUser);
+        //        this.$el.find('.chat-current-users').append(chatViewUser.render().el);
     }
 });

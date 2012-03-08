@@ -13,6 +13,7 @@
 */
 
 using System;
+using Newtonsoft.Json;
 
 namespace Bowerbird.Web.ViewModels.Shared
 {
@@ -28,12 +29,16 @@ namespace Bowerbird.Web.ViewModels.Shared
 
         #region Properties
 
+        [JsonProperty("id")]
         public string Id { get; set; }
 
+        [JsonProperty("name")]
         public string Name { get; set; }
 
+        [JsonProperty("lastLoggedIn")]
         public DateTime LastLoggedIn { get; set; }
 
+        [JsonProperty("avatar")]
         public Avatar Avatar { get; set; }
 
         #endregion

@@ -18,6 +18,7 @@ window.Bowerbird.Views.SidebarView = Backbone.View.extend({
         this.projectSidebarItemViews = [];
         app.teams.on('add', this.addTeamSideBarItem, this);
         app.projects.on('add', this.addProjectSideBarItem, this);
+        app.chats.on('add', this.chatAdded, this);
     },
 
     render: function () {
@@ -38,7 +39,13 @@ window.Bowerbird.Views.SidebarView = Backbone.View.extend({
     },
 
     startChat: function () {
-        var chat = new Bowerbird.Models.Chat({ group: app.teams.get('teams/1') });
+        console.log('sidebarView.startChat');
+        var chat = new Bowerbird.Models.Chat({id: 'teams/1', group: app.teams.get('teams/1') });
         app.chats.add(chat);
+    },
+
+    chatAdded : function(chat){
+        console.log('sidebarView.chatAdded');
+        console.log('a chat for the ' + chat.get('group').get('name') + ' was added');
     }
 });

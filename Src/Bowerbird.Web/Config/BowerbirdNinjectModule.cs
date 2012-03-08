@@ -22,6 +22,7 @@ using Ninject.Extensions.Conventions;
 using Microsoft.Practices.ServiceLocation;
 using Bowerbird.Core.EventHandlers;
 using Bowerbird.Core.DomainModels;
+using SignalR;
 
 namespace Bowerbird.Web.Config
 {
@@ -53,6 +54,8 @@ namespace Bowerbird.Web.Config
 
             // Transient scope
             Bind<IServiceLocator>().ToMethod(x => ServiceLocator.Current);
+
+            Bind<IJsonSerializer>().To<SignalRJsonConvertAdapter>();
 
             Kernel.Scan(x =>
             {

@@ -1444,3 +1444,12 @@ header nav#search-menu
     right: 0;
     width: 400px;
 }
+.chat-window-close
+{
+    position:absolute;
+    right:0px;
+    top:0px;
+    width:30px;
+    height:30px;
+    background-image:url("/img/close.gif");
+}
