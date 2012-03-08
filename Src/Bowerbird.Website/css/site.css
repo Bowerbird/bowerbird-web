@@ -931,8 +931,8 @@ header nav#search-menu
 {
     background: none repeat scroll 0 0 rgba(202, 222, 239, 0.8);
     float: left;
-    margin-top: 25px;
-    margin-bottom: 15px;
+    margin-top: 30px;
+    margin-bottom: 30px;
     padding-top: 15px;
     position: relative;
     width: 100%;
@@ -962,7 +962,7 @@ header nav#search-menu
     float: left;
     padding: 0 15px 0;
     width: 100%;
-    margin-bottom: 15px;
+    margin-bottom: 25px;
 }
 .form form > fieldset > .field:last-child
 {
@@ -1215,17 +1215,14 @@ header nav#search-menu
 }
 .form #media-uploader
 {
-    height: 245px;
-    position: relative;
+    clear: both;
+    float: left;
+    height: 286px;
+    width: 100%;
 }
-.form #media-uploader .field
+.form #media-resource-items .media-resource-uploaded
 {
     position: relative;
-    top: 195px;
-}
-.form #media-resource-items > div
-{
-    height: 174px;
     white-space: nowrap;
 }
 .form #media-resource-items
@@ -1233,52 +1230,80 @@ header nav#search-menu
     background: none repeat scroll 0 0 rgba(255, 255, 255, 0.6);
     border: 1px solid #509EEE;
     border-radius: 4px 4px 4px 4px;
-    bottom: 0;
     box-shadow: 0 1px 2px 0 #777777 inset;
-    height: 174px;
+    height: 266px;
     left: 0;
-    margin: 5px 15px 15px;
+    margin: 0 15px 15px;
     overflow-x: scroll;
     overflow-y: hidden;
     position: absolute;
     right: 0;
-    top: 0;
     white-space: nowrap;
-}
-.form #media-resource-items p
-{
-    display: block;
-    font-size: 1.2em;
-    height: 174px;
-    line-height: 166px;
-    margin: 0;
-    padding: 0;
-    text-align: center;
 }
 .form .media-resource-uploaded
 {
-    background-color: #ffffff;
+    background-color: #FFFFFF;
     box-shadow: 0 1px 2px 0 #5071A6;
     display: inline-block;
-    height: 128px;
+    height: 220px;
     margin-left: 15px;
     margin-top: 15px;
     overflow: hidden;
     padding: 0;
-    width: 128px;
+}
+.form .media-resource-uploaded:hover div:last-child
+{
+    display: block;
 }
 .form .media-resource-uploaded:last-child
 {
     margin-right: 15px;
 }
+.form .media-resource-uploaded div:first-child img
+{
+    height: 220px;
+}
+.form .media-resource-uploaded div:last-child
+{
+    background: none repeat scroll 0 0 rgba(202, 222, 239, 0.8);
+    bottom: 0;
+    display: none;
+    height: 100%;
+    position: absolute;
+    width: 100%;
+}
+.form .media-resource-uploaded div:last-child input
+{
+    display: block;
+    font-size: 0.75em;
+    margin: 13px auto 0;
+    padding: 2px 10px;
+    width: 95px;
+}
+.form .media-resource-uploaded div:last-child input:first-child
+{
+    margin-top: 55px;
+}
 .form .media-resource-dropzone
 {
-    position: fixed;
-    background-color: Red;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    background: -moz-linear-gradient(center top , #6FAEED 0%, #4096EE 100%) repeat scroll 0 0 transparent;
+    box-shadow: 0 1px 2px 0 #777777 inset;
+    height: 100%;
+    opacity: 0.85;
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+}
+.form .media-resource-dropzone p
+{
+    color: #4096EE;
+    display: block;
+    font-size: 2.2em;
+    font-weight: 700;
+    line-height: 212px;
+    margin: 0;
+    padding: 0;
+    text-align: center;
 }
 .form .media-resource-upload-button
 {

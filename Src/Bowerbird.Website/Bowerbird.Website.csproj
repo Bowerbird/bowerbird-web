@@ -180,6 +180,7 @@
     <Content Include="js\bowerbird\app.js" />
     <Content Include="js\bowerbird\bootstrapper.js" />
     <Content Include="js\bowerbird\collections\chatUsers.js" />
+    <Content Include="js\bowerbird\collections\mediaResources.js" />
     <Content Include="js\bowerbird\mediaUploader.js" />
     <Content Include="js\bowerbird\chatManager.js" />
     <Content Include="js\bowerbird\collections\chatMessages.js" />
@@ -192,6 +193,7 @@
     <Content Include="js\bowerbird\models\chat.js" />
     <Content Include="js\bowerbird\models\chatMessage.js" />
     <Content Include="js\bowerbird\models\chatUser.js" />
+    <Content Include="js\bowerbird\models\mediaResource.js" />
     <Content Include="js\bowerbird\models\observation.js" />
     <Content Include="js\bowerbird\models\project.js" />
     <Content Include="js\bowerbird\models\stream.js" />
@@ -204,6 +206,7 @@
     <Content Include="js\bowerbird\views\appView.js" />
     <Content Include="js\bowerbird\views\chatViewUser.js" />
     <Content Include="js\bowerbird\views\chatView.js" />
+    <Content Include="js\bowerbird\views\mediaResourceItemView.js" />
     <Content Include="js\bowerbird\views\observationCreateFormView.js" />
     <Content Include="js\bowerbird\views\sidebarView.js" />
     <Content Include="js\bowerbird\views\sidebarViewItem.js" />
@@ -213,7 +216,7 @@
     <Content Include="js\Chat.js" />
     <Content Include="js\Chat.ui.js" />
     <Content Include="js\Chat.utility.js" />
-    <Content Include="js\fileuploader.js" />
+    <Content Include="js\libs\fileuploader.js" />
     <Content Include="js\libs\backbone-min.js" />
     <Content Include="js\libs\Backbone.js" />
     <Content Include="js\libs\date-min.js" />

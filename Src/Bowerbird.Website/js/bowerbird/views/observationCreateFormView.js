@@ -6,18 +6,18 @@ window.Bowerbird.Views.ObservationCreateFormView = Backbone.View.extend({
     className: 'form single-medium',
 
     events: {
-        "click #cancel": "cancel",
-        "click #save": "save"
+        'click #cancel': 'cancel',
+        'click #save': 'save'
     },
 
     template: $.template('observationCreateFormTemplate', $('#observation-create-form-template')),
 
     initialize: function (options) {
         _.extend(this, Backbone.Events);
-        _.bindAll(this, 'start');
+        _.bindAll(this, '_onUploadComplete');
         this.appView = options.appView;
-        this.uploader = null;
-        this.mediaResources = new Array();
+        this.mediaUploader = null;
+        this.mediaResourceItemViews = [];
     },
 
     render: function () {
@@ -28,7 +28,7 @@ window.Bowerbird.Views.ObservationCreateFormView = Backbone.View.extend({
 
     start: function () {
         buildMap();
-        buildMediaUploader('observation', true);
+        this._initMediaUploader();
     },
 
     cancel: function () {
@@ -55,6 +55,54 @@ window.Bowerbird.Views.ObservationCreateFormView = Backbone.View.extend({
         //this.model.save();
 
         //this.hide($(this.el));
-    }
+    },
 
+    _initMediaUploader: function () {
+        this.mediaUploader = new qq.FileUploader({
+            element: document.getElementById('media-resources-fieldset'),
+
+            action: '/members/mediaresource/observationupload',
+
+            template: $("<div />").append($.tmpl($('#observation-create-media-resource-uploader-template'))).html(),
+
+            fileTemplate: $("<div />").append($.tmpl($('#observation-create-media-resource-file-template'))).html(),
+
+            classes: {
+                // used to get elements from templates
+                button: 'media-resource-upload-button', //'qq-upload-button',
+                drop: 'media-resource-dropzone', //'qq-upload-drop-area',
+                dropActive: 'qq-upload-drop-area-active',
+                list: 'qq-upload-list',
+
+                file: 'qq-upload-file',
+                spinner: 'qq-upload-spinner',
+                size: 'qq-upload-size',
+                cancel: 'qq-upload-cancel',
+
+                // added to list item when upload completes
+                // used in css to hide progress spinner
+                success: 'qq-upload-success',
+                fail: 'qq-upload-fail'
+            },
+
+            multiple: true,
+
+            debug: true,
+
+            onComplete: this._onUploadComplete
+        });
+    },
+
+    _onUploadComplete: function (id, fileName, response) {
+        //$('#observation-create-media-resource-uploaded-template').tmpl(response).appendTo('#media-resource-items');
+        this._showMediaResource(response);
+        //this.mediaResources.push(response.Id);
+    },
+
+    _showMediaResource: function (response) {
+        var mediaResource = new Bowerbird.Models.MediaResource(response);
+        var mediaResourceItemView = new Bowerbird.Views.MediaResourceItemView({ mediaResource: mediaResource });
+        this.mediaResourceItemViews.push(mediaResourceItemView);
+        $(".media-resource-items").append(mediaResourceItemView.render().el);
+    }
 });

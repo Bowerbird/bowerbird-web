@@ -93,6 +93,42 @@
 <script type="text/x-jquery-tmpl" id="observation-create-form-template">
     @Html.Partial("_ObservationCreate")
 </script>
+<script type="text/x-jquery-tmpl" id="observation-create-media-resource-uploader-template">
+    <legend>Images, Videos, Audio</legend>
+    <p>Drag and drop files into the box below, or choose files from your computer or import from other websites.</p>
+    <div class="field">
+        <div>
+            <div id="media-resource-upload-button" class="button media-resource-upload-button">Choose Files</div>
+            <input type="button" value="Import From Website" id="media-resource-import-button"/>
+        </div>
+    </div>
+    <div id="media-uploader">
+        <div class="media-resource-items" id="media-resource-items">
+            <ul class="qq-upload-list" style="display: none;"></ul>
+            <div class="media-resource-dropzone"><p>Drop files here<p></div>
+        </div>
+    </div>
+</script>
+<script type="text/x-jquery-tmpl" id="observation-create-media-resource-file-template">
+    <li>
+        <span class="qq-upload-file"></span>
+        <span class="qq-upload-spinner"></span>
+        <span class="qq-upload-size"></span>
+        <a class="qq-upload-cancel" href="#">Cancel</a>
+    </li>
+</script>
+<script type="text/x-jquery-tmpl" id="observation-create-media-resource-uploaded-template">
+    <div>
+        <img src="${mediumImageUri}" alt="" />
+    </div>
+    <div>
+        <!--<span>${fileName}</span>
+        <span>${fileSize}</span>-->
+        <input type="button" value="View" class="view-media-resource-button" />
+        <input type="button" value="Add Caption" class="add-caption-button" />
+        <input type="button" value="Remove" class="remove-media-resource-button" />
+    </div>
+</script>
 <script type="text/x-jquery-tmpl" id="chat-template">
     <div class="chat-window-close"></div>
     <h2>${group.name}</h2>
@@ -199,6 +235,7 @@
 <script type="text/javascript" src="@Url.BowerbirdJsModel("streamItem.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsModel("team.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsModel("user.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("mediaResource.js")"></script>
 
 <script type="text/javascript" src="@Url.BowerbirdJsCollection("chatMessages.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsCollection("chatUsers.js")"></script>
@@ -207,6 +244,7 @@
 <script type="text/javascript" src="@Url.BowerbirdJsCollection("projects.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsCollection("streamItems.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsCollection("teams.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsCollection("mediaResources.js")"></script>
 
 <script type="text/javascript" src="@Url.BowerbirdJsView("appView.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsView("chatView.js")"></script>
@@ -217,6 +255,7 @@
 <script type="text/javascript" src="@Url.BowerbirdJsView("streamListItemView.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsView("streamListView.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsView("streamView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("mediaResourceItemView.js")"></script>
 
 <script type="text/javascript" src="@Url.BowerbirdJsFile("chatManager.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsFile("viewMap.js")"></script>

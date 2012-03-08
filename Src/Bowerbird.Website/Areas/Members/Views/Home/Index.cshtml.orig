@@ -1,0 +1,278 @@
+﻿@model Bowerbird.Web.ViewModels.Members.HomeIndex
+           
+@{
+	Page.Title = "Bowerbird";
+}
+
+@section script {
+<script type="text/x-jquery-tmpl" id="sidebar-template">
+    <div class="menu-group" id="default-menu-group">
+        <ul>
+            <li><a href="#home/all" class="user-stream"><img alt="" src="../img/avatar-1.png"><div><p>Home <span>23</span></p></div></a></li>
+            <li><a href="#favourites/all" class="user-favourites"><img alt="" src="../img/avatar-2.png"><div><p>Favourites</p></div></a></li>
+        </ul>
+    </div>
+    <div class="menu-group" id="team-menu-group">
+        <div class="menu-group-title">Teams</div>
+        <ul>
+        </ul>
+    </div>
+    <div class="menu-group" id="project-menu-group">
+        <div class="menu-group-title">Projects</div>
+        <ul>
+        </ul>
+    </div>
+    <div class="menu-group" id="watch-menu-group">
+        <div class="menu-group-title">Watches</div>
+        <ul>
+        </ul>
+    </div>
+    <input type="button" value="Chat" id="start-chat" />
+</script>
+<script type="text/x-jquery-tmpl" id="sidebar-item-template">
+    <a href="#${id}/all" class="">
+        <img alt="${name}" src="../img/avatar-3.png"><div><p>${name}</p></div>
+    </a>
+</script>
+<script type="text/x-jquery-tmpl" id="stream-list-loading-template">
+    <div id="stream-status">
+        <p>
+            {{if showLoader}}<img src="/img/loader.png">{{/if}}
+            ${text}
+            </p>
+    </div>
+</script>
+<script type="text/x-jquery-tmpl" id="stream-load-more-template">
+    <div id="stream-load-more"><input class="button" type="button" id="stream-load-more-button" value="Load More" /></div>
+</script>
+<script type="text/x-jquery-tmpl" id="stream-list-template">
+    <h2>Activity</h2>
+    <ul>
+        <li>Latest activity first</li>
+        <li>All activity</li>
+    </ul>
+    <div id="stream-items">
+    </div>
+</script>
+<script type="text/x-jquery-tmpl" id="observation-stream-list-item-template">
+    <div class="summary">
+        <img src="../img/avatar.jpg" alt="" />
+        <p class="description">${Description} <span>${CreatedDateTimeDescription}</span></p>
+    </div>
+    <div class="details">
+        <h2>${Item.Title}</h2>
+        <div>
+            <div class="images">
+                <div class="preview">
+                    <img src="../img/dragonfly.png" alt="" />
+                </div>
+                <div class="thumbnails">
+                    <img src="../img/dragonfly.png" alt="" />
+                    <img src="../img/dragonfly.png" alt="" />
+                    <img src="../img/dragonfly.png" alt="" />
+                    <img src="../img/dragonfly.png" alt="" />
+                    <img src="../img/dragonfly.png" alt="" />
+                </div>
+            </div>
+            <div class="info">
+                <div class="observed">
+                    Observed
+                    <span>${$item.formatDate()}</span>
+                    <span>${$item.formatTime()} AEST</span>
+                </div>
+                <div class="location">
+                    Location
+                    <div class="map"></div>
+                    <span>North Melbourne</span>
+                    <span>Latitude 145.2323</span>
+                    <span>Longitude 18.4563</span>
+                </div>
+            </div>
+        </div>
+</script>
+<script type="text/x-jquery-tmpl" id="observation-create-form-template">
+    @Html.Partial("_ObservationCreate")
+</script>
+<<<<<<< Updated upstream
+=======
+<script type="text/x-jquery-tmpl" id="observation-create-media-resource-uploader-template">
+    <legend>Images, Videos, Audio</legend>
+    <p>Drag and drop files into the box below, or choose files from your computer or import from other websites.</p>
+    <div class="field">
+        <div>
+            <div id="media-resource-upload-button" class="button media-resource-upload-button">Choose Files</div>
+            <input type="button" value="Import From Website" id="media-resource-import-button"/>
+        </div>
+    </div>
+    <div id="media-uploader">
+        <div class="media-resource-items" id="media-resource-items">
+            <ul class="qq-upload-list" style="display: none;"></ul>
+            <div class="media-resource-dropzone"><p>Drop files here<p></div>
+        </div>
+    </div>
+</script>
+<script type="text/x-jquery-tmpl" id="observation-create-media-resource-file-template">
+    <li>
+        <span class="qq-upload-file"></span>
+        <span class="qq-upload-spinner"></span>
+        <span class="qq-upload-size"></span>
+        <a class="qq-upload-cancel" href="#">Cancel</a>
+    </li>
+</script>
+<script type="text/x-jquery-tmpl" id="observation-create-media-resource-uploaded-template">
+    <div>
+        <img src="${mediumImageUri}" alt="" />
+    </div>
+    <div>
+        <!--<span>${fileName}</span>
+        <span>${fileSize}</span>-->
+        <input type="button" value="View" class="view-media-resource-button" />
+        <input type="button" value="Add Caption" class="add-caption-button" />
+        <input type="button" value="Remove" class="remove-media-resource-button" />
+    </div>
+</script>
+>>>>>>> Stashed changes
+<script type="text/x-jquery-tmpl" id="chat-template">
+    <div class="chat-window-close"></div>
+    <h2>${group.name}</h2>
+    <ul class="chat-messages">
+    </ul>
+    <div class="chat-message-box">
+        <textarea class="new-chat-message" autocomplete="off" accesskey="m"></textarea>
+    </div>
+    <input type="button" class="chat-send-message-button" value="Send" class="send" />
+    <ul class="chat-current-users">
+    </ul>
+</script>
+<script id="chat-message-template" type="text/x-jquery-tmpl">
+    <li>
+        <span class="user">
+            ${user.name}
+        </span>
+        <span class="message">
+            ${message}
+        </span>
+        <span class="timestamp">
+            ${timestamp}
+        </span>
+    </li>
+</script>
+<script id="chat-user-template" type="text/x-jquery-tmpl">
+    <span class="user">
+        <img src="${avatar.urlToImage}" alt="${avatar.altTag}" width="16px;" height="16px;" />
+    </span>
+    <span class="message">
+        ${name}
+    </span>
+</script>
+<!-- templates for messanger -->
+<script id="new-message-template" type="text/x-jquery-tmpl">
+    <li class="message ${highlight} clearfix" id="m-${id}" data-name="${name}" data-timestamp="${date}">
+        <div class="left">
+            {{if showUser}}
+            <img src="${imageurl}" class="gravatar" />
+            <span class="name">${trimmedName}</span>
+            {{/if}}
+            <span class="state"></span>
+        </div>
+        <div class="middle">
+            {{html message}}
+        </div>
+        <div class="right">
+            <span id="t-${id}" class="time" title="${fulldate}">${when}</span>
+        </div>
+    </li>
+</script>
+<script id="new-notification-template" type="text/x-jquery-tmpl">
+    <li class="${type}" data-timestamp="${date}">
+        <div class="content">
+            {{html message}}
+            <a class="info" href="#"></a>
+        </div>
+        <div class="right">
+            <span class="time" title="${fulldate}">${when}</span>
+        </div>
+    </li>
+</script>
+<script id="message-separator-template" type="text/x-jquery-tmpl">
+    <li class="message-separator">
+    </li>
+</script>
+<script id="new-user-template" type="text/x-jquery-tmpl">
+    <li class="user" data-name="${id}">
+        <img class="gravatar" src="${imageurl}" />
+        <div class="details">
+            <span class="name">${name}</span>
+        </div>
+    </li>
+</script>
+<script id="new-userlist-template" type="text/x-jquery-tmpl">
+    <h3 class="userlist-header nav-header">
+        ${listname}
+    </h3>
+    <div>
+        <ul id="${id}" />
+    </div>
+</script>
+<script id="new-tab-template" type="text/x-jquery-tmpl">
+    <li id="tabs-${id}" class="room" data-name="${name}">
+        <span class="lock"></span>
+        <button> 
+            <span class="content">${name}</span>
+        </button>
+        <div class="close"></div>
+    </li>
+</script>
+
+<script type="text/javascript" src="@Url.JavaScriptLib("jquery.signalR.js")"></script>
+<script type="text/javascript" src="@Url.Content("signalr/hubs")"></script>
+
+<script type="text/javascript" src="@Url.BowerbirdJsFile("namespace.js")"></script>
+
+<script type="text/javascript" src="@Url.BowerbirdJsModel("chat.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("chatMessage.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("chatUser.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("observation.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("project.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("stream.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("streamItem.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("team.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("user.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("mediaResource.js")"></script>
+
+<script type="text/javascript" src="@Url.BowerbirdJsCollection("chatMessages.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsCollection("chatUsers.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsCollection("chats.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsCollection("paginatedCollection.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsCollection("projects.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsCollection("streamItems.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsCollection("teams.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsCollection("mediaResources.js")"></script>
+
+<script type="text/javascript" src="@Url.BowerbirdJsView("appView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("chatView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("chatViewUser.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("observationCreateFormView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("sidebarView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("sidebarViewItem.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("streamListItemView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("streamListView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("streamView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("mediaResourceItemView.js")"></script>
+
+<script type="text/javascript" src="@Url.BowerbirdJsFile("chatManager.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsFile("viewMap.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsFile("createMap.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsFile("mediaUploader.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsFile("router.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsFile("app.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsFile("bootstrapper.js")"></script>
+
+<script type="text/javascript">
+    $(function () {
+        //window.app = new Bowerbird.App();
+        //app.start();
+        startBowerbird(@Html.Json(Model.Teams), @Html.Json(Model.Projects), @Html.Json(Model.UserProfile.Id));
+    });
+</script>
+}

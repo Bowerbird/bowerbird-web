@@ -121,18 +121,29 @@ namespace Bowerbird.Web.Controllers.Members
                     UserId = _userContext.GetAuthenticatedUserId()
                 };
 
-                var imageMediaResource = _documentSession
+                var mediaResource = _documentSession
                     .Load<MediaResource>(
                         mediaResourceCreateCommandHandler.Handle(mediaResourceCreatedCommand)
                     );
 
-                return JsonWithContentType(Json(new
-                {
-                    imageMediaResource.Id,
-                    imageUrl = _mediaFilePathService.MakeMediaFileUri(imageMediaResource.Id, "image", "original", Path.GetExtension(postedFileName)),
-                    fileName = postedFileName,
-                    fileSize = imageMediaResource.Metadata["size"]
-                }));
+                return new JsonNetResult(new
+                    {
+                        id = mediaResource.Id,
+                        createdByUser = mediaResource.CreatedByUser,
+                        metadata = mediaResource.Metadata,
+                        type = mediaResource.Type,
+                        uploadedOn = mediaResource.UploadedOn,
+                        // HACK
+                        mediumImageUri = _mediaFilePathService.MakeMediaFileUri(mediaResource.Id, "image", "original", Path.GetExtension(mediaResource.Metadata["format"]))
+                    });
+
+                //return JsonWithContentType(Json(new
+                //{
+                //    imageMediaResource.Id,
+                //    imageUrl = _mediaFilePathService.MakeMediaFileUri(imageMediaResource.Id, "image", "original", Path.GetExtension(postedFileName)),
+                //    fileName = postedFileName,
+                //    fileSize = imageMediaResource.Metadata["size"]
+                //}));
 
             }
             catch (Exception ex)

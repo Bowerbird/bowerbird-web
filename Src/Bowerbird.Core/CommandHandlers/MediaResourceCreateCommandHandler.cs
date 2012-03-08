@@ -87,6 +87,8 @@ namespace Bowerbird.Core.CommandHandlers
 
                         metadata.Add("width", dimensions.Width.ToString());
                         metadata.Add("height", dimensions.Height.ToString());
+                        // HACK
+                        metadata.Add("format", string.IsNullOrWhiteSpace(Path.GetExtension(command.OriginalFileName)) ? "jpg" : Path.GetExtension(command.OriginalFileName));
 
                         if (command.Usage == "observation")
                         {
