@@ -1,0 +1,241 @@
+﻿window.Bowerbird.DummyOverlayView = function (map) {
+    // Bind this to the map to access MapCanvasProjection
+    this.setMap(map);
+    // MapCanvasProjection is only available after draw has been called.
+    this.draw = function () { };
+}
+
+Bowerbird.DummyOverlayView.prototype = new google.maps.OverlayView();
+
+window.Bowerbird.Views.EditMapView = Backbone.View.extend({
+    events: {
+        "change input#address": "_contentChanged",
+        "change input#latitude": "_contentChanged",
+        "change input#longitude": "_contentChanged",
+        "change input#anonymiseLocation": "_contentChanged"
+    },
+
+    initialize: function (options) {
+        _.extend(this, Backbone.Events);
+        this.observation = options.observation;
+        this.mapMarker = null;
+        this.zIndex = 0;
+    },
+
+    render: function () {
+        this._initMap();
+        this._initAddressField();
+        this._initLocationPin();
+        return this;
+    },
+
+    _contentChanged: function (e) {
+        var target = $(e.currentTarget);
+        var data = {};
+        data[target.attr('name')] = target.attr('value');
+        this.observation.set(data);
+    },
+
+    _initMap: function () {
+        var g = google.maps;
+
+        var mapSettings = {
+            center: new g.LatLng(-29.191427, 134.472126), // Centre on Australia
+            zoom: 4,
+            panControl: false,
+            streetViewControl: false,
+            mapTypeControl: true,
+            scrollwheel: false,
+            mapTypeId: g.MapTypeId.TERRAIN
+        };
+
+        this.map = new g.Map(document.getElementById("location-map"), mapSettings);
+        this.iw = new g.InfoWindow();
+        this.geocoder = new g.Geocoder();
+
+        // Add a dummy overlay for later use.
+        // Needed for API v3 to convert pixels to latlng.
+        this.dummy = new Bowerbird.DummyOverlayView(this.map);
+    },
+
+    _initAddressField: function () {
+        var self = this;
+        //http://tech.cibul.net/geocode-with-google-maps-api-v3/
+        $("#address").autocomplete({
+            //This bit uses the geocoder to fetch address values
+            source: function (request, response) {
+                self.geocoder.geocode({ 'address': request.term, 'region': 'AU' }, function (results, status) {
+                    response($.map(results, function (item) {
+                        return {
+                            label: item.formatted_address,
+                            value: item.formatted_address,
+                            latitude: item.geometry.location.lat(),
+                            longitude: item.geometry.location.lng()
+                        }
+                    }));
+                })
+            },
+            //This bit is executed upon selection of an address
+            select: function (event, ui) {
+                var location = new google.maps.LatLng(ui.item.latitude, ui.item.longitude);
+                self._positionMarker(location, "http://maps.gstatic.com/mapfiles/ms/icons/blue-dot.png");
+                self._removeMarkerFromPlaceholder();
+                self._reverseGeocode();
+            }
+        });
+    },
+
+    _initLocationPin: function () {
+        var self = this;
+        $("#location-pin").draggable({
+//            drag: function (event, ui) {
+//                var locationPinLeft = ui.helper.offset().left + ui.helper.width() / 2;
+//                var locationPinTop = ui.helper.offset().top + ui.helper.height() / 2;
+//                $('#debug-info').text('left: ' + locationPinLeft + ', top: ' + locationPinTop);
+//            },
+            stop: function (event, ui) {
+                var $mapDiv = $(self.map.getDiv());
+
+                var mapDivLeft = $mapDiv.offset().left;
+                var mapDivTop = $mapDiv.offset().top;
+                var mapDivWidth = $mapDiv.width();
+                var mapDivHeight = $mapDiv.height();
+
+                var locationPinLeft = ui.helper.offset().left;
+                var locationPinTop = ui.helper.offset().top;
+                var locationPinWidth = ui.helper.width();
+                var locationPinHeight = ui.helper.height();
+
+                var locationX = locationPinLeft + (locationPinWidth / 2);
+                var locationY = locationPinTop + (locationPinHeight / 2) - 6;
+
+                // Check if the cursor is inside the map div
+                if (locationX > mapDivLeft && locationX < (mapDivLeft + mapDivWidth) && locationY > mapDivTop && locationY < (mapDivTop + mapDivHeight)) {
+                    // Find the object's pixel position in the map container
+                    var g = google.maps;
+                    var pixelpoint = new g.Point(locationX - mapDivLeft, locationY - mapDivTop + (locationPinHeight / 2));
+
+                    // Corresponding geo point on the map
+                    var proj = self.dummy.getProjection();
+                    var latlng = proj.fromContainerPixelToLatLng(pixelpoint);
+
+                    // Create a corresponding marker on the map
+                    var src = ui.helper.children(':first').attr("src");
+                    self._positionMarker(latlng, src);
+                    self._removeMarkerFromPlaceholder();
+                    self._reverseGeocode();
+                }
+            }
+        });
+    },
+
+    _positionMarker: function (point, src) {
+        // Remove map marker first
+        if (this.mapMarker) {
+            this.mapMarker.setMap(null);
+            this.mapMarker = null;
+        }
+
+        var g = google.maps;
+
+        var image = new g.MarkerImage(src,
+                new g.Size(32, 32),
+                new g.Point(0, 0),
+                new g.Point(15, 32)
+                );
+
+        var shadow = new g.MarkerImage("http://maps.gstatic.com/mapfiles/kml/paddle/A_maps.shadow.png",
+                new g.Size(59, 32),
+                new g.Point(0, 0),
+                new g.Point(15, 32)
+                );
+
+        this.mapMarker = new g.Marker({
+            position: point,
+            map: this.map,
+            clickable: true,
+            draggable: true,
+            raiseOnDrag: false,
+            icon: image,
+            shadow: shadow,
+            zIndex: this._highestOrder()
+        });
+
+        var self = this;
+
+        g.event.addListener(this.mapMarker, "drag", function () {
+            //        var lat = mapMarker.getPosition().lat();
+            //        var lng = mapMarker.getPosition().lng();
+            //        iw.setContent(lat.toFixed(6) + ", " + lng.toFixed(6));
+            //        iw.open(map, this);
+            self._displayLatLong();
+        });
+
+        g.event.addListener(this.mapMarker, "dragstart", function () {
+            // Close infowindow when dragging the marker whose infowindow is open
+            //if (actual == this.mapMarker) iw.close();
+            // Increment z_index
+            self.zIndex++;
+            self.mapMarker.setZIndex(self._highestOrder());
+        });
+
+        g.event.addListener(this.mapMarker, "dragend", function () {
+            self._displayLatLong();
+            self._reverseGeocode();
+        });
+
+        this._displayLatLong();
+    },
+
+    _highestOrder: function () {
+        /**
+        * The currently dragged marker on the map
+        * always gets the highest z-index too
+        */
+        return this.zIndex;
+    },
+
+    _displayLatLong: function () {
+        if (this.mapMarker) {
+            var lat = this.mapMarker.getPosition().lat();
+            var lng = this.mapMarker.getPosition().lng();
+            if (this.observation.get('anonymiseLocation') === true) {
+                $('#latitude').val(lat);
+                $('#longitude').val(lng);
+            }
+            else {
+                $('#latitude').val(parseFloat(lat).toFixed(1));
+                $('#longitude').val(parseFloat(lng).toFixed(1));
+            }
+            $('#latitude').change();
+            $('#longitude').change();
+        }
+        else {
+            return;
+        }
+    },
+
+    _removeMarkerFromPlaceholder: function () {
+        $('#location-pin').remove();
+    },
+
+    _reverseGeocode: function () {
+        if (this.mapMarker) {
+            this.geocoder.geocode({ latLng: this.mapMarker.getPosition() }, this._reverseGeocodeResult);
+        }
+    },
+
+    _reverseGeocodeResult: function (results, status) {
+        if (status == 'OK') {
+            if (results.length == 0) {
+                $('#address').val('');
+            } else {
+                var addressResult = results[0].formatted_address;
+                $('#address').val(addressResult);
+            }
+        } else {
+            $('#address').val('');
+        }
+        $('#address').change();
+    }
+});

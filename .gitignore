@@ -21,6 +21,4 @@ PublishProfiles/
 *.Publish.xml
 TestResult.xml
 *.VisualState.xml
-media/image
-media/video
-media/document
+media/

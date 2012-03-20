@@ -76,55 +76,38 @@ namespace Bowerbird.Web.Controllers.Members
         #region Methods
 
         [HttpPost]
-        public ActionResult ObservationUpload(string qqfile)
+        public ActionResult ObservationUpload(string key, string originalFileName, HttpPostedFileBase file)
         {
-            return Upload(qqfile, "observation");
+            return ProcessPostedImage(key, originalFileName, file, "observation");
         }
 
-        public ActionResult PostUpload(string qqfile)
+        public ActionResult PostUpload(string key, string originalFileName, HttpPostedFileBase file)
         {
-            return Upload(qqfile, "post");
+            return ProcessPostedImage(key, originalFileName, file, "post");
         }
 
-        public ActionResult AvatarUpload(string qqfile)
+        public ActionResult AvatarUpload(string key, string originalFileName, HttpPostedFileBase file)
         {
-            return Upload(qqfile, "user");
+            return ProcessPostedImage(key, originalFileName, file, "user");
         }
 
-        private ActionResult Upload(string file, string recordType)
-        {
-            if (Request.Browser.IsBrowser("IE") && Request.Files != null && Request.Files[0] != null)
-            {
-                return ProcessPostedImage(Request.Files[0].InputStream, Request.Files[0].FileName, recordType);
-            }
-
-            if (!string.IsNullOrEmpty(file))
-            {
-                return ProcessPostedImage(Request.InputStream, file, recordType);
-            }
-
-            return JsonWithContentType(Json(new { success = false }, JsonRequestBehavior.AllowGet));
-        }
-
-        private ActionResult ProcessPostedImage(Stream stream, string postedFileName, string recordType)
+        private ActionResult ProcessPostedImage(string key, string originalFileName, HttpPostedFileBase file, string recordType)
         {
             try
             {
                 var mediaResourceCreateCommandHandler = new MediaResourceCreateCommandHandler(_documentSession, _mediaFilePathService);
 
-                var mediaResourceCreatedCommand = new MediaResourceCreateCommand()
+                var mediaResourceCreateCommand = new MediaResourceCreateCommand()
                 {
-                    OriginalFileName = postedFileName,
-                    Stream = stream,
+                    OriginalFileName = originalFileName ?? string.Empty,
+                    Stream = file.InputStream,
                     UploadedOn = DateTime.Now,
                     Usage = recordType,
                     UserId = _userContext.GetAuthenticatedUserId()
                 };
 
-                var mediaResource = _documentSession
-                    .Load<MediaResource>(
-                        mediaResourceCreateCommandHandler.Handle(mediaResourceCreatedCommand)
-                    );
+                MediaResource mediaResource = null;
+                _commandProcessor.Process<MediaResourceCreateCommand, MediaResource>(mediaResourceCreateCommand, x => { mediaResource = x; });
 
                 return new JsonNetResult(new
                     {
@@ -134,33 +117,14 @@ namespace Bowerbird.Web.Controllers.Members
                         type = mediaResource.Type,
                         uploadedOn = mediaResource.UploadedOn,
                         // HACK
-                        mediumImageUri = _mediaFilePathService.MakeMediaFileUri(mediaResource.Id, "image", "original", Path.GetExtension(mediaResource.Metadata["format"]))
+                        mediumImageUri = _mediaFilePathService.MakeMediaFileUri(mediaResource.Id, "image", "original", Path.GetExtension(mediaResource.Metadata["format"])),
+                        key = key
                     });
-
-                //return JsonWithContentType(Json(new
-                //{
-                //    imageMediaResource.Id,
-                //    imageUrl = _mediaFilePathService.MakeMediaFileUri(imageMediaResource.Id, "image", "original", Path.GetExtension(postedFileName)),
-                //    fileName = postedFileName,
-                //    fileSize = imageMediaResource.Metadata["size"]
-                //}));
-
             }
             catch (Exception ex)
             {
-                return JsonWithContentType(Json(new { success = false, Error = ex.Message }));
+                return new JsonNetResult(new { success = false, error = ex.Message });
             }
-        }
-
-        private JsonResult JsonWithContentType(JsonResult jsonResult)
-        {
-            if (Request.Browser.IsBrowser("IE"))
-            {
-                jsonResult.ContentType = "text/html";
-                jsonResult.ContentEncoding = Encoding.UTF8;
-            }
-
-            return jsonResult;
         }
 
         #endregion

@@ -24,7 +24,7 @@ using System.Collections.Generic;
 
 namespace Bowerbird.Core.CommandHandlers
 {
-    public class MediaResourceCreateCommandHandler : ICommandHandler<MediaResourceCreateCommand, string>
+    public class MediaResourceCreateCommandHandler : ICommandHandler<MediaResourceCreateCommand, MediaResource>
     {
         #region Members
 
@@ -54,7 +54,7 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Methods
 
-        public string Handle(MediaResourceCreateCommand command)
+        public MediaResource Handle(MediaResourceCreateCommand command)
         {
             Check.RequireNotNull(command, "command");
 
@@ -121,7 +121,7 @@ namespace Bowerbird.Core.CommandHandlers
                 _documentSession.Store(mediaResource);
                 _documentSession.SaveChanges();
 
-                return mediaResource.Id;
+                return mediaResource;
             }
             catch (Exception ex)
             {

@@ -283,13 +283,19 @@
 <script type="text/javascript" src="@Url.BowerbirdJsView("streamListView.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsView("streamView.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsView("mediaResourceItemView.js")"></script>
-<script type="text/javascript" src="@Url.BowerbirdJsView("editMapView.js")"></script>
-<script type="text/javascript" src="@Url.BowerbirdJsView("editMediaView.js")"></script>
+<<<<<<< Updated upstream
 <script type="text/javascript" src="@Url.BowerbirdJsView("userOnlineView.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsView("userView.js")"></script>
 
 <script type="text/javascript" src="@Url.BowerbirdJsFile("chatRouter.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsFile("activityRouter.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsFile("viewMap.js")"></script>
+=======
+<script type="text/javascript" src="@Url.BowerbirdJsView("editMapView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("editMediaView.js")"></script>
+
+<script type="text/javascript" src="@Url.BowerbirdJsFile("chatManager.js")"></script>
+>>>>>>> Stashed changes
 <script type="text/javascript" src="@Url.BowerbirdJsFile("createMap.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsFile("mediaUploader.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsFile("router.js")"></script>

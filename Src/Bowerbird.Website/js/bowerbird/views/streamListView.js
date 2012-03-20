@@ -60,7 +60,7 @@ window.Bowerbird.Views.StreamListView = Backbone.View.extend({
             $('#stream-items').append($.tmpl('streamListLoadingTemplate', { text: 'No activity yet! Start now by adding an observation.', showLoader: false }));
         }
         if (collection.pageInfo().next) {
-            this.$el.append($.tmpl('streamLoadMoreTemplate'));
+            $('#stream-list > div').append($.tmpl('streamLoadMoreTemplate'));
         }
     },
 

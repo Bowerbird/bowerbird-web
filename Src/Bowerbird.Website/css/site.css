@@ -80,6 +80,8 @@ body
     font-weight: 400;
     color: #222222;
     font-family: "open sans",sans-serif;
+    height: 100%;
+    min-height: 100%;
 }
 input 
 {
@@ -111,10 +113,14 @@ footer > div
 }
 article
 {
-    margin-left: auto;
+    /*margin-left: auto;
     margin-right: auto;
     margin-top: 3em;
+    max-width: 1600px;*/
+    height: 100%;
+    margin: 0 auto -200px;
     max-width: 1600px;
+    min-height: 100%;
 }
 h1
 {
@@ -355,7 +361,7 @@ header nav#search-menu
     padding-top: 12px;
 }
 /* stream */
-#stream-list
+#stream-list > div
 {
     background-color: rgba(202, 222, 239, 0.5);
     border-radius: 4px;
@@ -379,7 +385,7 @@ header nav#search-menu
     text-shadow: 0 -1px 0 #555555;
     width: 300px;
 }
-#stream-list > h2
+#stream-list > div > h2
 {
     color: #6997C5;
     float: left;
@@ -391,7 +397,7 @@ header nav#search-menu
     text-transform: uppercase;
     width: 38%;
 }
-#stream-list > ul
+#stream-list > div > ul
 {
     float: right;
     line-height: 0.6em;
@@ -399,7 +405,7 @@ header nav#search-menu
     text-align: right;
     width: 50%;
 }
-#stream-list > ul li
+#stream-list > div > ul li
 {
     background-color: rgba(105, 151, 197, 0.2);
     border-radius: 8px 8px 8px 8px;
@@ -414,7 +420,7 @@ header nav#search-menu
     text-shadow: 0 1px 0 #FFFFFF;
     text-transform: uppercase;
 }
-#stream-list > div
+#stream-list > div > div
 {
     padding-bottom: 2%;
     clear: both;
@@ -1293,6 +1299,7 @@ header nav#search-menu
     position: absolute;
     width: 100%;
     z-index: 1;
+    display: none;
 }
 .form .media-resource-dropzone p
 {
@@ -1307,9 +1314,25 @@ header nav#search-menu
 }
 .form .media-resource-upload-button
 {
-    width: 96px;
+    cursor: pointer;
     display: block;
     float: left;
+    overflow: hidden;
+    position: relative;
+    width: 96px;
+}
+.form .media-resource-upload-button input
+{
+    color: transparent;
+    cursor: pointer;
+    display: block;
+    font-size: 118px;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: 0;
+    padding: 0;
 }
 .form #title-field
 {
@@ -1370,17 +1393,6 @@ header nav#search-menu
     margin-left: 4%;
     width: 20%;
 }
-.form #find-latlon-field {
-    clear: none;
-    float: left;
-    margin-bottom: 20px;
-    margin-left: 1%;
-    margin-top: 28px;
-    width: 14%;
-}
-.form #find-latlon-field button {
-    font-size: 1em;
-}
 .form #observedon-field div:last-child
 {
     padding-right: 74px;
@@ -1418,8 +1430,9 @@ header nav#search-menu
     position: absolute;
     cursor: pointer;
     padding-right: 0;
+    z-index: 10000;
 }
-.ui-autosearch {
+/*.ui-autosearch {
 	background-color: white;
 	width: 300px;
 	border: 1px solid #cfcfcf;
@@ -1431,6 +1444,35 @@ header nav#search-menu
 .ui-menu-item
 {
     padding-bottom: 3px;
+}*/
+.ui-autocomplete  /*ui-menu ui-widget ui-widget-content ui-corner-all*/
+{
+	background-color: #FFFFFF;
+	width: 300px;
+	border: 1px solid #cfcfcf;
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	cursor:pointer;
+	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+.ui-menu-item
+{
+    /*padding-bottom: 3px;*/
+    padding: 0;
+    margin: 0;
+}
+.ui-menu .ui-menu-item a {
+	text-decoration:none;
+	display:block;
+	padding: 7px 13px 7px 13px;
+	margin: 0;
+}
+.ui-menu .ui-menu-item a.ui-state-hover,
+.ui-menu .ui-menu-item a.ui-state-active 
+{
+    background-color: #1B83EB;
+    color: #FFFFFF;
 }
 /* activity */
 #activity

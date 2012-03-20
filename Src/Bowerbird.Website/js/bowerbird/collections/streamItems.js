@@ -49,7 +49,7 @@ window.Bowerbird.Collections.StreamItems = Bowerbird.Collections.PaginatedCollec
     _onSuccessWithAddFix: function (collection, response) {
         this._onSuccess(collection, response);
         // Added the following manual triggering of 'add' event due to Backbone bug: https://github.com/documentcloud/backbone/issues/479
-        self = this;
+        var self = this;
         response.forEach(function (item) {
             self.trigger('add', item);
         });

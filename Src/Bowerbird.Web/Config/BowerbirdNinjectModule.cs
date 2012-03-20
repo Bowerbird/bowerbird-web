@@ -63,6 +63,7 @@ namespace Bowerbird.Web.Config
                 x.FromCallingAssembly();
 
                 x.BindingGenerators.Add(new GenericBindingGenerator(typeof(ICommandHandler<>)));
+                x.BindingGenerators.Add(new GenericBindingGenerator(typeof(ICommandHandler<,>)));
                 x.BindingGenerators.Add(new GenericBindingGenerator(typeof(IEventHandler<>)));
                 x.BindingGenerators.Add(new DefaultBindingGenerator());
 

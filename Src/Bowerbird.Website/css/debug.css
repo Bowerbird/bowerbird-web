@@ -33,7 +33,7 @@
 {
     display: block;
     position: fixed;
-    width: 160px;
+    width: 500px;
     height: 23px;
     background-color: black;
     color: white;
@@ -45,14 +45,14 @@
 }
 #debug-info:before
 {
-    content: "(min-width: 0px)";
+    /*content: "(min-width: 0px)";*/
 }
 /* @media screen and (min-width: 320px) */
 @media screen and (min-width: 20em)
 {
     #debug-info:before
     {
-        content: "(min-width: 320px)";
+        /*content: "(min-width: 320px)";*/
     }
 }
 /* @media screen and (min-width: 480px) */
@@ -60,7 +60,7 @@
 {
     #debug-info:before
     {
-        content: "(min-width: 480px)";
+        /*content: "(min-width: 480px)";*/
     }
 }
 /* @media screen and (min-width: 600px) */
@@ -68,7 +68,7 @@
 {
     #debug-info:before
     {
-        content: "(min-width: 600px)";
+        /*content: "(min-width: 600px)";*/
     }
 }
 /* @media screen and (min-width: 768px) */
@@ -76,7 +76,7 @@
 {
     #debug-info:before
     {
-        content: "(min-width: 768px)";
+        /*content: "(min-width: 768px)";*/
     }
 }
 /* @media screen and (min-width: 1024px) */
@@ -84,7 +84,7 @@
 {
     #debug-info:before
     {
-        content: "(min-width: 1024px)";
+        /*content: "(min-width: 1024px)";*/
     }
 }
 /* @media screen and (min-width: 1200px) */
@@ -92,6 +92,6 @@
 {
     #debug-info:before
     {
-        content: "(min-width: 1200px)";
+        /*content: "(min-width: 1200px)";*/
     }
 }

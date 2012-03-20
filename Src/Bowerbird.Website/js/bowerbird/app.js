@@ -33,7 +33,7 @@ window.Bowerbird.App = Backbone.Model.extend({
     },
 
     startNewObservation: function () {
-        this.set('newObservation', new Bowerbird.Models.Observation());
+        this.set('newObservation', new Bowerbird.Models.Observation({}));
     },
 
     cancelNewObservation: function () {

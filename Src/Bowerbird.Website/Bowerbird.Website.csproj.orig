@@ -175,7 +175,10 @@
     <Content Include="img\wavecut.png" />
     <Content Include="img\whitey.png" />
     <Content Include="img\white_texture.png" />
+<<<<<<< Updated upstream
     <Content Include="js\bowerbird\activityRouter.js" />
+=======
+>>>>>>> Stashed changes
     <Content Include="js\bowerbird\app.js" />
     <Content Include="js\bowerbird\bootstrapper.js" />
     <Content Include="js\bowerbird\chatRouter.js" />
@@ -215,8 +218,11 @@
     <Content Include="js\bowerbird\views\streamListView.js" />
     <Content Include="js\bowerbird\views\streamListItemView.js" />
     <Content Include="js\bowerbird\views\streamView.js" />
+<<<<<<< Updated upstream
     <Content Include="js\bowerbird\views\userOnlineView.js" />
     <Content Include="js\bowerbird\views\userView.js" />
+=======
+>>>>>>> Stashed changes
     <Content Include="js\libs\fileuploader.js" />
     <Content Include="js\libs\backbone-min.js" />
     <Content Include="js\libs\Backbone.js" />

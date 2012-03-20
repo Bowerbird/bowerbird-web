@@ -35,7 +35,7 @@ namespace Bowerbird.Core.Events
 
         public static void Raise<T>(T args) where T : IDomainEvent
         {
-            return;
+            return; // HACK - Possible issue of events firing while seeding system
             if (ServiceLocator != null)
             {
                 foreach (var handler in ServiceLocator.GetAllInstances<IEventHandler<T>>())

@@ -6,18 +6,20 @@ window.Bowerbird.Views.ObservationCreateFormView = Backbone.View.extend({
     className: 'form single-medium',
 
     events: {
-        'click #cancel': 'cancel',
-        'click #save': 'save'
+        'click #cancel': '_cancel',
+        'click #save': '_save',
+        "change input#title": "_contentChanged",
+        "change input#observedOn": "_contentChanged"
     },
 
     template: $.template('observationCreateFormTemplate', $('#observation-create-form-template')),
 
     initialize: function (options) {
         _.extend(this, Backbone.Events);
-        _.bindAll(this, '_onUploadComplete');
         this.appView = options.appView;
-        this.mediaUploader = null;
-        this.mediaResourceItemViews = [];
+        this.observation = options.observation;
+        this.editMediaView = new Bowerbird.Views.EditMediaView({ el: $('#media-resources-fieldset'), observation: options.observation });
+        this.editMapView = new Bowerbird.Views.EditMapView({ el: $('#location-fieldset'), observation: options.observation });
     },
 
     render: function () {
@@ -27,18 +29,25 @@ window.Bowerbird.Views.ObservationCreateFormView = Backbone.View.extend({
     },
 
     start: function () {
-        buildMap();
-        this._initMediaUploader();
+        this.editMediaView.render();
+        this.editMapView.render();
     },
 
-    cancel: function () {
+    _cancel: function () {
         app.set('newObservation', null);
         this.$el.remove();
         this.appView.showStreamView();
         app.router.navigate(app.stream.get('uri'), { trigger: true });
     },
 
-    save: function () {
+    _contentChanged: function (e) {
+        var target = $(e.currentTarget);
+        var data = {};
+        data[target.attr('name')] = target.attr('value');
+        this.observation.set(data);
+    },
+
+    _save: function () {
         alert('not yet!');
         //this.model.set({
         //    "title": $("#title").attr("value"),
@@ -55,54 +64,55 @@ window.Bowerbird.Views.ObservationCreateFormView = Backbone.View.extend({
         //this.model.save();
 
         //this.hide($(this.el));
-    },
-
-    _initMediaUploader: function () {
-        this.mediaUploader = new qq.FileUploader({
-            element: document.getElementById('media-resources-fieldset'),
-
-            action: '/members/mediaresource/observationupload',
-
-            template: $("<div />").append($.tmpl($('#observation-create-media-resource-uploader-template'))).html(),
-
-            fileTemplate: $("<div />").append($.tmpl($('#observation-create-media-resource-file-template'))).html(),
-
-            classes: {
-                // used to get elements from templates
-                button: 'media-resource-upload-button', //'qq-upload-button',
-                drop: 'media-resource-dropzone', //'qq-upload-drop-area',
-                dropActive: 'qq-upload-drop-area-active',
-                list: 'qq-upload-list',
-
-                file: 'qq-upload-file',
-                spinner: 'qq-upload-spinner',
-                size: 'qq-upload-size',
-                cancel: 'qq-upload-cancel',
-
-                // added to list item when upload completes
-                // used in css to hide progress spinner
-                success: 'qq-upload-success',
-                fail: 'qq-upload-fail'
-            },
-
-            multiple: true,
-
-            debug: true,
-
-            onComplete: this._onUploadComplete
-        });
-    },
-
-    _onUploadComplete: function (id, fileName, response) {
-        //$('#observation-create-media-resource-uploaded-template').tmpl(response).appendTo('#media-resource-items');
-        this._showMediaResource(response);
-        //this.mediaResources.push(response.Id);
-    },
-
-    _showMediaResource: function (response) {
-        var mediaResource = new Bowerbird.Models.MediaResource(response);
-        var mediaResourceItemView = new Bowerbird.Views.MediaResourceItemView({ mediaResource: mediaResource });
-        this.mediaResourceItemViews.push(mediaResourceItemView);
-        $(".media-resource-items").append(mediaResourceItemView.render().el);
     }
+
+    //    _onUploadAdd: function (e, data) {
+    //        var self = this;
+    //        $.each(data.files, function (index, file) {
+    //            if (file != null) {
+    //                self.currentUploadKey++;
+    //                var mediaResource = new Bowerbird.Models.MediaResource({ key: self.currentUploadKey });
+    //                self.observation.addMediaResources.add(mediaResource);
+    //                var mediaResourceItemView = new Bowerbird.Views.MediaResourceItemView({ mediaResource: mediaResource });
+    //                self.mediaResourceItemViews.push(mediaResourceItemView);
+    //                $('.media-resource-items').append(mediaResourceItemView.render().el);
+
+    //                loadImage(
+    //                    data.files[0],
+    //                    function (img) {
+    //                        if (img instanceof HTMLImageElement) { // FF seems to fire this handler twice, on second time returning error, which we ignore :(
+    //                            mediaResourceItemView.showTempMedia(img);
+    //                        }
+    //                    },
+    //                    {
+    //                        maxHeight: 220
+    //                    }
+    //                );
+    //            }
+    //        });
+    //        data.submit();
+    //    },
+
+    //    _onSubmitUpload: function (e, data) {
+    //        data.formData = { key: this.currentUploadKey, originalFileName: data.files[0].name };
+    //    },
+
+    //    _onUploadDone: function (e, data) {
+    //        var mediaResource = _.find(this.observation.allMediaResources(), function (item) {
+    //            return item.get('key') == data.result.key;
+    //        });
+    //        mediaResource.set(data.result);
+    //    },
+
+    //    _initMediaUploader: function () {
+    //        $('#fileupload').fileupload({
+    //            dataType: 'json',
+    //            paramName: 'file',
+    //            url: '/members/mediaresource/observationupload',
+    //            add: this._onUploadAdd,
+    //            submit: this._onSubmitUpload,
+    //            done: this._onUploadDone
+    //        });
+    //    }
 });
+

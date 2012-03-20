@@ -52,19 +52,6 @@ namespace Bowerbird.Core.ImageUtilities
 
         #region Methods
 
-        public static ImageUtility Load(Stream imageStream, out long size)
-        {
-            Bitmap image = null;
-
-            imageStream.Seek(0, SeekOrigin.Begin);
-
-            image = Image.FromStream(imageStream) as Bitmap;
-
-            size = imageStream.Length;
-
-            return new ImageUtility(image);
-        }
-
         public static ImageUtility Load(Stream imageStream)
         {
             Bitmap image = null;
@@ -86,7 +73,6 @@ namespace Bowerbird.Core.ImageUtilities
             using (MemoryStream memoryStream = new MemoryStream(imageData))
             {
                 image = new Bitmap(memoryStream);
-
             }
 
             return new ImageUtility(image);

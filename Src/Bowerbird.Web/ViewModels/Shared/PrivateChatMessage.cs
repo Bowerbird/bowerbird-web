@@ -18,7 +18,7 @@ using Newtonsoft.Json;
 
 namespace Bowerbird.Web.ViewModels.Shared
 {
-    public class PrivateChatMessage : DomainModel
+    public class PrivateChatMessage
     {
         #region Fields
 

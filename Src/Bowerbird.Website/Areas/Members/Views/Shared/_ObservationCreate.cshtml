@@ -1,5 +1,5 @@
 ﻿<h2>New Observation</h2>
-    @using (Html.BeginForm("create", "observation", new { area = "members" }))
+    @using (Html.BeginForm("create", "observation", new { area = "members", enctype = "multipart/form-data" }))
     {
         <fieldset>
             <legend>Observation Details</legend>
@@ -20,6 +20,21 @@
                 </div>
             </div>
             <fieldset id="media-resources-fieldset">
+                <legend>Images, Videos, Audio</legend>
+                <p>Drag and drop files into the box below, or choose files from your computer or import from other websites.</p>
+                <div class="field">
+                    <div>
+                        <div id="media-resource-upload-button" class="button media-resource-upload-button">Choose Files<input id="fileupload" type="file" name="file" multiple></div>
+                        <input type="button" value="Import From Website" id="media-resource-import-button"/>
+                    </div>
+                </div>
+                <div id="media-uploader">
+                    <div class="media-resource-items" id="media-resource-items">
+                        <ul class="qq-upload-list" style="display: none;"></ul>
+                        <div class="media-resource-dropzone"><p>Drop files here<p></div>
+                        <div class="media-resource-add-pane"></div>
+                    </div>
+                </div>
             </fieldset>
             <fieldset id="location-fieldset">
                 <legend>Location</legend>
@@ -55,15 +70,10 @@
                         <input type="text" id="longitude" name="longitude" />
                     </div>
                 </div>
-                <div id="find-latlon-field">
-                    <div>
-                        <button id="find-latlon-button" type="button">Go</button>                            
-                    </div>
-                </div>
                 <div id="anonymise-location-field" class="field field-checkbox">
                     <div><label>Feathering</label></div>
                     <div>
-                        <input type="checkbox" id="anonymiselocation" name="anonymiselocation" /> <label for="anonymiselocation">Feathering</label>
+                        <input type="checkbox" id="anonymiseLocation" name="anonymiseLocation" /> <label for="anonymiseLocation">Feathering</label>
                     </div>
                 </div>
             </fieldset>

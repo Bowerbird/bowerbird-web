@@ -12,7 +12,9 @@ window.Bowerbird.Views.MediaResourceItemView = Backbone.View.extend({
 
     initialize: function (options) {
         _.extend(this, Backbone.Events);
+        _.bindAll(this, 'showTempMedia', 'showUploadedMedia');
         this.mediaResource = options.mediaResource;
+        this.mediaResource.on('change:mediumImageUri', this.showUploadedMedia);
     },
 
     render: function () {
@@ -22,9 +24,18 @@ window.Bowerbird.Views.MediaResourceItemView = Backbone.View.extend({
     },
 
     viewMediaResource: function () {
-        
+
     },
 
     removeMediaResource: function () {
+
+    },
+
+    showTempMedia: function (img) {
+        this.$el.find('div:first-child img').replaceWith($(img));
+    },
+
+    showUploadedMedia: function (mediaResource) {
+        this.$el.find('div:first-child img').replaceWith($('<img src="' + mediaResource.get('mediumImageUri') + '" alt="" />'));
     }
 });

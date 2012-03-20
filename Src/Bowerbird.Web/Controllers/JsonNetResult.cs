@@ -51,7 +51,15 @@ namespace Bowerbird.Web.Controllers
 
             HttpResponseBase response = context.HttpContext.Response;
 
-            response.ContentType = !string.IsNullOrEmpty(ContentType) ? ContentType : "application/json";
+            // Incredibly, IE *still* doesn't know what JSON is, so we have to trick it to avoid prompting the user to save the returning JSON
+            if (context.RequestContext.HttpContext.Request.Browser.IsBrowser("IE"))
+            {
+                response.ContentType = !string.IsNullOrEmpty(ContentType) ? ContentType : "text/html";
+            }
+            else
+            {
+                response.ContentType = !string.IsNullOrEmpty(ContentType) ? ContentType : "application/json";
+            }
 
             if (ContentEncoding != null)
             {
