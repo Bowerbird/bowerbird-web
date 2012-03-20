@@ -12,12 +12,16 @@
  
 */
 
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.DomainModels.Members;
+using Bowerbird.Core.DomainModels.Sessions;
+using Bowerbird.Core.Indexes;
+using Bowerbird.Core.Services;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.Hubs;
 using Bowerbird.Web.ViewModels.Members;
@@ -34,6 +38,8 @@ namespace Bowerbird.Web.Controllers.Members
         private readonly ICommandProcessor _commandProcessor;
         private readonly IUserContext _userContext;
         private readonly IDocumentSession _documentSession;
+        private readonly IMediaFilePathService _mediaFilePathService;
+        private readonly IConfigService _configService;
 
         #endregion
 
@@ -42,15 +48,22 @@ namespace Bowerbird.Web.Controllers.Members
         public HomeController(
             ICommandProcessor commandProcessor,
             IUserContext userContext,
-            IDocumentSession documentSession)
+            IDocumentSession documentSession,
+            IMediaFilePathService mediaFilePathService,
+            IConfigService configService
+        )
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(documentSession, "documentSession");
+            Check.RequireNotNull(mediaFilePathService, "mediaFilePathService");
+            Check.RequireNotNull(configService, "configService");
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
             _documentSession = documentSession;
+            _mediaFilePathService = mediaFilePathService;
+            _configService = configService;
         }
 
         #endregion
@@ -133,12 +146,9 @@ namespace Bowerbird.Web.Controllers.Members
                 )
                 .ToList(),
 
-                UserProfile =
-                    new UserProfile()
-                    {
-                        Id = _userContext.GetAuthenticatedUserId(),
-                        Name = string.Format("{0} {1}", user.FirstName, user.LastName)
-                    },
+                UserProfile = GetUserProfile(_userContext.GetAuthenticatedUserId()),
+
+                OnlineUsers = GetCurrentlyOnlineUsers(),
 
                 WatchlistMenu = _documentSession
                 .Query<Watchlist>()
@@ -153,6 +163,66 @@ namespace Bowerbird.Web.Controllers.Members
             };
 
             return homeIndex;
+        }
+
+        private IEnumerable<UserProfile> GetCurrentlyOnlineUsers()
+        {
+            var connectedUsers = _documentSession.Query<User>()
+                .Where(x => x.Id.In(GetConnectedUserIds()))
+                .ToList();
+
+            return connectedUsers
+                .Select(x => GetUserProfile(x.Id))
+                .ToList();
+        }
+
+        private UserProfile GetUserProfile(string userId)
+        {
+            var user = _documentSession.Load<User>(userId);
+
+            return new UserProfile()
+            {
+                Id = user.Id,
+                Name = user.GetName(),
+                LastLoggedIn = user.LastLoggedIn,
+                Avatar = GetUserAvatar(user)
+            };
+        }
+
+        private IEnumerable<string> GetConnectedUserIds()
+        {
+            return _documentSession
+                .Query<All_UserSessions.Results, All_UserSessions>()
+                .AsProjection<All_UserSessions.Results>()
+                .Where(x => x.Status < (int)Connection.ConnectionStatus.Offline)
+                .ToList()
+                .Select(x => x.UserId)
+                .Distinct();
+        }
+
+        private Avatar GetUserAvatar(User user)
+        {
+            if (user.Avatar != null)
+            {
+                return new Avatar()
+                {
+                    AltTag = user.GetName(),
+                    UrlToImage = _mediaFilePathService.MakeMediaFileUri(
+                        user.Avatar.Id,
+                        "image",
+                        "avatar",
+                        user.Avatar.Metadata["metatype"]
+                        )
+                };
+            }
+            else
+            {
+                return new Avatar()
+                {
+                    AltTag = user.GetName(),
+                    UrlToImage = _configService.GetDefaultAvatar("user")
+                };
+            }
         }
 
         #endregion

@@ -14,10 +14,14 @@
  
 */
 
+using System.Diagnostics;
+using System.Threading;
+using Bowerbird.Core.Commands;
 using Bowerbird.Core.Events;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Ninject;
 using Ninject.Web.Mvc;
+using Raven.Client;
 using NinjectBootstrapper = Ninject.Web.Mvc.Bootstrapper;
 using Bowerbird.Web.Config;
 using Microsoft.Practices.ServiceLocation;
@@ -69,6 +73,10 @@ namespace Bowerbird.Web.App_Start
             RouteRegistrar.RegisterRoutesTo(RouteTable.Routes);
 
             //IndexCreation.CreateIndexes(typeof(ImageTags_GroupByTagName).Assembly, documentStore);
+
+            #if DEBUG
+                SeedData();
+            #endif
         }
 
         /// <summary>
@@ -105,6 +113,26 @@ namespace Bowerbird.Web.App_Start
             SignalR.Hosting.AspNet.AspNetHost.SetResolver(new SignalR.Ninject.NinjectDependencyResolver(kernel));
 
             //FluentValidationModelValidatorProvider.Configure(x => x.ValidatorFactory = new NinjectValidatorFactory(ServiceLocator.Current));
+        }
+
+        [Conditional("DEBUG")] 
+        private static void SeedData()
+        {
+            var setupSystemCommand = new SetupSystemCommand();
+
+            var commandProcessor = ServiceLocator.Current.GetInstance<ICommandProcessor>();
+            var documentSession = ServiceLocator.Current.GetInstance<IDocumentSession>();
+            var documentStore = ServiceLocator.Current.GetInstance<IDocumentStore>();
+            
+            commandProcessor.Process(setupSystemCommand);
+
+            documentSession.SaveChanges();
+
+            // Wait for all stale indexes to complete.
+            while (documentStore.DatabaseCommands.GetStatistics().StaleIndexes.Length > 0)
+            {
+                Thread.Sleep(10);
+            }
         }
     }
 }

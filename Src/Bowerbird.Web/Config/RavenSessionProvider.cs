@@ -54,7 +54,7 @@ namespace Bowerbird.Web.Config
 
         protected override IDocumentSession CreateInstance(IContext ctx)
         {
-            return _documentStore.OpenSession(_configService.GetDatabaseName());
+            return _documentStore.OpenSession();//_configService.GetDatabaseName());
         }
 
         #endregion      

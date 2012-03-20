@@ -18,6 +18,7 @@ using System.Web.Script.Serialization;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.DomainModels.Sessions;
 using Bowerbird.Web.Hubs;
 using Raven.Client;
 using Raven.Client.Linq;
@@ -70,7 +71,7 @@ namespace Bowerbird.Web.Notifications
             });
 
             var connectedIds = _documentSession
-                .Query<ClientSession>()
+                .Query<UserSession>()
                 .Where(x => x.User.Id.In(userIds))
                 .ToList()
                 .Select(x => x.ClientId);

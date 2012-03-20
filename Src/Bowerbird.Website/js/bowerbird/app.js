@@ -6,12 +6,14 @@ window.Bowerbird.App = Backbone.Model.extend({
     },
 
     initialize: function (options) {
+        console.log('App.Initialize');
         this.teams = new Bowerbird.Collections.Teams();
         this.projects = new Bowerbird.Collections.Teams();
         this.stream = new Bowerbird.Models.Stream();
         this.chats = new Bowerbird.Collections.Chats();
-        this.chatManager = new Bowerbird.ChatManager({ appManager: this });
-        this.initHubConnection(options.userId);
+        this.users = new Bowerbird.Collections.Users();
+        this.activityRouter = new Bowerbird.ActivityRouter({ appManager: this, userId: this.get('userId')});
+        this.chatRouter = new Bowerbird.ChatRouter({ appManager: this });
     },
 
     showHomeStream: function (filter) {
@@ -36,24 +38,6 @@ window.Bowerbird.App = Backbone.Model.extend({
 
     cancelNewObservation: function () {
         this.set('newObservation', null);
-    },
-
-    initHubConnection: function (userId) {
-        console.log('app.initHubConnection');
-        var self = this;
-        var activityHub = $.connection.activityHub;
-        $.connection.hub.start(function () {
-            activityHub.registerClientUser(userId)
-                    .done(function () {
-                        self.set('clientId', $.signalR.hub.id);
-                        console.log('connected as ' + self.get('userId') + ' with ' + self.get('clientId'));
-                        //startServerConnectionRefreshing();
-                        //window.activityHub.getCurrentlyConnectedUsers();
-                    })
-                    .fail(function (e) {
-                        console.log(e);
-                    });
-        });
     }
-});
 
+});

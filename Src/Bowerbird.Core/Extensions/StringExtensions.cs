@@ -92,5 +92,10 @@ namespace Bowerbird.Core.Extensions
 
             return string.Format("{0}{1}", Math.Round(adjustedResult, 1), unit);
         }
+
+        public static bool EqualsIgnoreCase(this string text, string compare)
+        {
+            return text.ToLower().Equals(compare.ToLower());
+        }
     }
 }

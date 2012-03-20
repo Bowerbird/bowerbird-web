@@ -7,7 +7,8 @@ window.Bowerbird.Views.SidebarView = Backbone.View.extend({
     id: 'sidebar',
 
     events: {
-        'click #start-chat': 'startChat'
+        'click #start-chat': 'startChat',
+        'click #show-online-users': 'showOnlineUsers'
     },
 
     template: $.template('sidebarTemplate', $('#sidebar-template')),
@@ -40,11 +41,19 @@ window.Bowerbird.Views.SidebarView = Backbone.View.extend({
 
     startChat: function () {
         console.log('sidebarView.startChat');
-        var chat = new Bowerbird.Models.Chat({id: 'teams/1', group: app.teams.get('teams/1') });
+        var chat = new Bowerbird.Models.Chat({ id: 'teams/1', group: app.teams.get('teams/1') });
         app.chats.add(chat);
     },
 
-    chatAdded : function(chat){
+    showOnlineUsers: function () {
+        //this.trigger('showUsers');
+        console.log('sidebarView.showOnlineUsers');
+        var userView = new Bowerbird.Views.UserView();
+        //userView.addUsers(app.users);
+        $('body').append(userView.render().el);
+    },
+
+    chatAdded: function (chat) {
         console.log('sidebarView.chatAdded');
         console.log('a chat for the ' + chat.get('group').get('name') + ' was added');
     }

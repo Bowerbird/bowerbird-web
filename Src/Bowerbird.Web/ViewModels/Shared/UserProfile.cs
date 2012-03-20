@@ -41,6 +41,9 @@ namespace Bowerbird.Web.ViewModels.Shared
         [JsonProperty("avatar")]
         public Avatar Avatar { get; set; }
 
+        [JsonProperty("status")]
+        public int Status { get; set; }
+
         #endregion
 
         #region Methods

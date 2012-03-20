@@ -12,30 +12,35 @@
  
 */
 				
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.DomainModels.Members;
 using Raven.Client.Indexes;
 
 namespace Bowerbird.Core.Indexes
 {
-    public class All_Groups : AbstractMultiMapIndexCreationTask<Group>
+    public class All_Groups : AbstractMultiMapIndexCreationTask<All_Groups.Result>
     {
+        public class Result
+        {
+            public string Id { get; set; }
+            public string Name { get; set; }
+            public string Description { get; set; }
+        }
+
         public All_Groups()
         {
             AddMap<Organisation>(organisations => from organisation in organisations
                                                   select new
-                                                             {
+                                                             { 
+                                                                organisation.Id,
                                                                 organisation.Name,
-                                                                organisation.Description
+                                                                organisation.Description,
                                                              });
 
             AddMap<Team>(teams => from team in teams
                                                 select new
                                                 {
+                                                    team.Id,
                                                     team.Name,
                                                     team.Description
                                                 });
@@ -44,9 +49,11 @@ namespace Bowerbird.Core.Indexes
             AddMap<Project>(projects => from project in projects
                                   select new
                                   {
+                                      project.Id,
                                       project.Name,
                                       project.Description
                                   });
+
         }
     }
 }

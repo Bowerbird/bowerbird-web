@@ -35,7 +35,7 @@ namespace Bowerbird.Web.ViewModels.Members
 
         public IEnumerable<TeamView> Teams { get; set; }
 
-
+        public IEnumerable<UserProfile> OnlineUsers { get; set; }
 
         public IEnumerable<MenuItem> ProjectMenu { get; set; }
 

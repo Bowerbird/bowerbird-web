@@ -78,12 +78,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandHandlers\ClientSessionCreateCommandHandler.cs" />
-    <Compile Include="CommandHandlers\ClientSessionUpdateCommandHandler.cs" />
+    <Compile Include="CommandHandlers\GroupChatMessageCreateCommandHandler.cs" />
+    <Compile Include="CommandHandlers\GroupChatSessionCreateCommandHandler.cs" />
+    <Compile Include="CommandHandlers\GroupChatSessionDeleteCommandHandler.cs" />
+    <Compile Include="CommandHandlers\GroupChatSessionUpdateCommandHandler.cs" />
+    <Compile Include="CommandHandlers\PrivateChatSessionCreateCommandHandler.cs" />
+    <Compile Include="CommandHandlers\PrivateChatSessionDeleteCommandHandler.cs" />
+    <Compile Include="CommandHandlers\PrivateChatSessionUpdateCommandHandler.cs" />
+    <Compile Include="CommandHandlers\UserSessionCreateCommandHandler.cs" />
+    <Compile Include="CommandHandlers\UserSessionDeleteCommandHandler.cs" />
+    <Compile Include="CommandHandlers\UserSessionUpdateCommandHandler.cs" />
     <Compile Include="CommandHandlers\NotificationCreatedCommandHandler.cs" />
     <Compile Include="CommandHandlers\OrganisationCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\OrganisationDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\OrganisationUpdateCommandHandler.cs" />
+    <Compile Include="CommandHandlers\PrivateChatMessageCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\UserUpdateCommandHandler.cs" />
     <Compile Include="CommandHandlers\ObservationNoteCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\UserUpdatePasswordCommandHandler.cs" />
@@ -112,9 +121,17 @@
     <Compile Include="CommandHandlers\WatchlistCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\WatchlistDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\WatchlistUpdateCommandHandler.cs" />
-    <Compile Include="Commands\ClientSessionCreateCommand.cs" />
-    <Compile Include="Commands\ClientSessionDeleteCommand.cs" />
-    <Compile Include="Commands\ClientSessionUpdateCommand.cs" />
+    <Compile Include="Commands\GroupChatMessageCreateCommand.cs" />
+    <Compile Include="Commands\GroupChatSessionCreateCommand.cs" />
+    <Compile Include="Commands\GroupChatSessionUpdateCommand.cs" />
+    <Compile Include="Commands\GroupChatSessionDeleteCommand.cs" />
+    <Compile Include="Commands\PrivateChatMessageCreateCommand.cs" />
+    <Compile Include="Commands\PrivateChatSessionCreateCommand.cs" />
+    <Compile Include="Commands\PrivateChatSessionDeleteCommand.cs" />
+    <Compile Include="Commands\PrivateChatSessionUpdateCommand.cs" />
+    <Compile Include="Commands\UserSessionCreateCommand.cs" />
+    <Compile Include="Commands\UserSessionDeleteCommand.cs" />
+    <Compile Include="Commands\UserSessionUpdateCommand.cs" />
     <Compile Include="Commands\NotificationCreatedCommand.cs" />
     <Compile Include="Commands\OrganisationCreateCommand.cs" />
     <Compile Include="Commands\OrganisationDeleteCommand.cs" />
@@ -156,12 +173,14 @@
     <Compile Include="DomainModels\Activity.cs" />
     <Compile Include="DomainModels\BaseObject.cs" />
     <Compile Include="DomainModels\BaseObjectEqualityComparer.cs" />
+    <Compile Include="DomainModels\PrivateChatMessage.cs" />
     <Compile Include="DomainModels\GroupChatMessage.cs" />
-    <Compile Include="DomainModels\ClientSession.cs" />
+    <Compile Include="DomainModels\Session.cs" />
     <Compile Include="DomainModels\Comment.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DomainModels\Contribution.cs" />
+    <Compile Include="DomainModels\Sessions\GroupChatSession.cs" />
     <Compile Include="DomainModels\Notification.cs" />
     <Compile Include="DomainModels\ObservationMedia.cs" />
     <Compile Include="DomainModels\DenormalisedReferences\DenormalisedContributionDomainModelReference.cs" />
@@ -177,6 +196,9 @@
     <Compile Include="DomainModels\Members\GroupMember.cs" />
     <Compile Include="DomainModels\DenormalisedReferences\DenormalisedNamedDomainModelReference.cs" />
     <Compile Include="DomainModels\ObservationNote.cs" />
+    <Compile Include="DomainModels\Sessions\PrivateChatSession.cs" />
+    <Compile Include="DomainModels\Sessions\UserSession.cs" />
+    <Compile Include="DomainModels\Status.cs" />
     <Compile Include="DomainModels\ValueObject.cs" />
     <Compile Include="DomainModels\Watchlist.cs" />
     <Compile Include="EventHandlers\SendRequestPasswordResetEmailEventHandler.cs" />
@@ -226,7 +248,8 @@
     <Compile Include="Indexes\All_GroupContributions.cs" />
     <Compile Include="Indexes\All_Groups.cs" />
     <Compile Include="Indexes\All_Members.cs" />
-    <Compile Include="Indexes\All_ClientSessionIndexes.cs" />
+    <Compile Include="Indexes\All_ChatSessions.cs" />
+    <Compile Include="Indexes\All_UserSessions.cs" />
     <Compile Include="Paging\EnumerableExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Commands\ICommandProcessor.cs" />
@@ -259,6 +282,7 @@
     <Content Include="Scripts\jquery.signalR.js" />
     <Content Include="Scripts\jquery.signalR.min.js" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

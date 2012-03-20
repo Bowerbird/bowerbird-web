@@ -174,6 +174,8 @@
     <Compile Include="Hubs\ChatHub.cs" />
     <Compile Include="Notifications\INotificationProcessor.cs" />
     <Compile Include="Notifications\NotificationProcessor.cs" />
+    <Compile Include="Services\HubService.cs" />
+    <Compile Include="Services\IHubService.cs" />
     <Compile Include="Validators\ModelStateException.cs" />
     <Compile Include="Validators\HandleModelStateExceptionAttribute.cs" />
     <Compile Include="Validators\LatLong.cs" />
@@ -190,6 +192,10 @@
     <Compile Include="ViewModels\Members\GroupMemberList.cs" />
     <Compile Include="ViewModels\Members\GroupMemberListInput.cs" />
     <Compile Include="ViewModels\Shared\ActivityMessage.cs" />
+    <Compile Include="ViewModels\Shared\ChatMessage.cs" />
+    <Compile Include="ViewModels\Shared\SetupChat.cs" />
+    <Compile Include="ViewModels\Shared\ChatUserTyping.cs" />
+    <Compile Include="ViewModels\Shared\GroupChatMessage.cs" />
     <Compile Include="ViewModels\Shared\ObservationView.cs" />
     <Compile Include="ViewModels\Shared\OrganisationView.cs" />
     <Compile Include="ViewModels\Shared\PostList.cs" />
@@ -210,6 +216,7 @@
     <Compile Include="ViewModels\Shared\OrganisationIndex.cs" />
     <Compile Include="ViewModels\Shared\OrganisationList.cs" />
     <Compile Include="ViewModels\Shared\OrganisationListInput.cs" />
+    <Compile Include="ViewModels\Shared\PrivateChatMessage.cs" />
     <Compile Include="ViewModels\Shared\ProjectIndex.cs" />
     <Compile Include="ViewModels\Shared\ProjectList.cs" />
     <Compile Include="ViewModels\Shared\ProjectListInput.cs" />
@@ -270,7 +277,9 @@
     <Compile Include="ViewModels\Shared\TeamList.cs" />
     <Compile Include="ViewModels\Shared\TeamListInput.cs" />
     <Compile Include="ViewModels\Shared\TeamView.cs" />
+    <Compile Include="ViewModels\Shared\ChatUserStatusUpdate.cs" />
     <Compile Include="ViewModels\Shared\UserProfile.cs" />
+    <Compile Include="ViewModels\Shared\UserStatusUpdate.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

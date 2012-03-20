@@ -4,12 +4,14 @@ window.Bowerbird.Views.ChatView = Backbone.View.extend({
 
     events: {
         "click .chat-send-message-button": "sendMessage",
-        "click .chat-window-close": "closeWindow"
+        "click .window-close": "closeWindow"
     },
 
     template: $.template('chatTemplate', $('#chat-template')),
 
     chatMessageTemplate: $.template('chatMessageTemplate', $('#chat-message-template')),
+
+    chatViewUserTemplate: $.template('chatViewUserTemplate', $('#chat-user-template')),
 
     initialize: function (options) {
         _.extend(this, Backbone.Events);
@@ -19,6 +21,7 @@ window.Bowerbird.Views.ChatView = Backbone.View.extend({
         this.chat.chatMessages.on('add', this.addChatMessage, this);
         this.chat.chatUsers.on('add', this.addChatViewUser, this);
         this.chat.chatUsers.on('reset', this.addChatViewUsers, this);
+
     },
 
     render: function () {
@@ -42,12 +45,12 @@ window.Bowerbird.Views.ChatView = Backbone.View.extend({
         $.tmpl('chatMessageTemplate', chatMessage.toJSON()).appendTo(this.$el.find('.chat-messages'));
     },
 
-
     addChatViewUser: function (chatUser) {
         console.log('chatView.addChatViewUser');
         var chatViewUser = new Bowerbird.Views.ChatViewUser({ user: chatUser });
         this.chatViewUsers.push(chatViewUser);
-        this.$el.find('.chat-current-users').append(chatViewUser.render().el);
+        //this.$el.find('.chat-current-users').append(chatViewUser.render().el);
+        $.tmpl('chatViewUserTemplate', chatUser.toJSON()).appendTo(this.$el.find('.chat-current-users'));
     },
 
     addChatViewUsers: function (chatUsers) {

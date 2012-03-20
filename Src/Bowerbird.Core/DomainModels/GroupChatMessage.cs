@@ -13,6 +13,7 @@
 */
 
 using System;
+using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
 
 namespace Bowerbird.Core.DomainModels
@@ -25,17 +26,41 @@ namespace Bowerbird.Core.DomainModels
 
         #region Constructors
 
+        protected GroupChatMessage()
+        {
+        }
+
+        public GroupChatMessage(
+            User user,
+            Group group,
+            User targetUser,
+            DateTime timestamp,
+            string message
+            )
+        {
+            Check.RequireNotNull(user, "user");
+            Check.RequireNotNull(group, "group");
+
+            User = user;
+            Group = group;
+            TargetUser = targetUser;
+            Timestamp = timestamp;
+            Message = message;
+        }
+
         #endregion
 
         #region Properties
 
-        public string Content { get; set; }
+        public string Message { get; set; }
         
         public DenormalisedNamedDomainModelReference<Group> Group { get; set; }
-        
+
         public DenormalisedUserReference User { get; set; }
+
+        public DenormalisedUserReference TargetUser { get; set; }
         
-        public DateTimeOffset When { get; set; }
+        public DateTime Timestamp { get; set; }
 
         #endregion
 
