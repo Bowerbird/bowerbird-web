@@ -382,7 +382,7 @@
                             $connection.trigger(events.onReceived, [this]);
                         }
                         catch (e) {
-                            console.log("Error raising received " + e, connection.logging);
+                            log("Error raising received " + e, connection.logging);
                             $(connection).trigger(events.onError, [e]);
                         }
                     });

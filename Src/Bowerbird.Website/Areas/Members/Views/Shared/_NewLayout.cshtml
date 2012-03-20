@@ -77,20 +77,13 @@
     <script type="text/javascript">      window.jQuery || document.write("<script type='text/javascript' src='@Url.JavaScriptLib("jquery-1.6.2.min.js")'>\x3C/script>")</script>
     @* Add other javascript files here if you want them squished on release *@
     @Html.Raw(SquishIt.Framework.Bundle.JavaScript()
-            //.Add(@Url.JavaScript("plugins.js"))
-            //.Add(@Url.JavaScript("Dialog.js"))
-            //.Add(@Url.JavaScriptLib("jquery.unobtrusive-ajax.min.js"))
-            //.Add(@Url.JavaScriptLib("jquery.validate.min.js"))
-            //.Add(@Url.JavaScriptLib("jquery.validate.unobtrusive.min.js"))
-            //.Add(@Url.JavaScriptLib("jquery-ui-1.8.16.custom.min.js"))
-            .Add(@Url.JavaScriptLib("jquery.tmpl.js"))
+            .Add(@Url.JavaScriptLib("jquery.tmpl.js")) 
             .Add(@Url.JavaScriptLib("jquery-ui-1.8.18.custom.min.js"))
             .Add(@Url.JavaScriptLib("json2.js"))
             .Add(@Url.JavaScriptLib("underscore-min.js"))
             .Add(@Url.JavaScriptLib("backbone.js"))
             .Add(@Url.JavaScriptLib("fileuploader.js"))
             .Add(@Url.JavaScriptLib("date-min.js"))
-            //.Add(@Url.JavaScriptLib("jquery.fileupload.js"))
             .Render("~/js/script_#.js"))
     <!-- ADDED: Page Level script sections -->
     @RenderSection("script", false)
