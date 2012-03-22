@@ -77,6 +77,7 @@
     <script type="text/javascript">      window.jQuery || document.write("<script type='text/javascript' src='@Url.JavaScriptLib("jquery-1.6.2.min.js")'>\x3C/script>")</script>
     @* Add other javascript files here if you want them squished on release *@
     @Html.Raw(SquishIt.Framework.Bundle.JavaScript()
+            .Add(@Url.JavaScriptLib("iCanHaz.js"))
             .Add(@Url.JavaScriptLib("jquery.tmpl.js")) 
             .Add(@Url.JavaScriptLib("jquery-ui-1.8.18.custom.min.js"))
             .Add(@Url.JavaScriptLib("json2.js"))

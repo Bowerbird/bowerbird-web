@@ -43,7 +43,9 @@ namespace Bowerbird.Core.DomainModels
 
             User = user;
             Group = group;
-            TargetUser = targetUser;
+
+            if(targetUser != null)TargetUser = targetUser;
+            
             Timestamp = timestamp;
             Message = message;
         }

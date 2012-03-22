@@ -57,7 +57,12 @@ namespace Bowerbird.Core.CommandHandlers
                 .Where(x => x.Id == command.GroupId)
                 .FirstOrDefault();
 
-            var targetUser = _documentSession.Load<User>(command.TargetUserId);
+            User targetUser = null;
+
+            if(!string.IsNullOrEmpty(command.TargetUserId))
+            {
+                targetUser = _documentSession.Load<User>(command.TargetUserId);
+            }
 
             var chatMessage = new GroupChatMessage(
                _documentSession.Load<User>(command.UserId),

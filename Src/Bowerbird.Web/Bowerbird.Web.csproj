@@ -277,7 +277,8 @@
     <Compile Include="ViewModels\Shared\TeamList.cs" />
     <Compile Include="ViewModels\Shared\TeamListInput.cs" />
     <Compile Include="ViewModels\Shared\TeamView.cs" />
-    <Compile Include="ViewModels\Shared\ChatUserStatusUpdate.cs" />
+    <Compile Include="ViewModels\Shared\UserExitedChat.cs" />
+    <Compile Include="ViewModels\Shared\UserJoinedChat.cs" />
     <Compile Include="ViewModels\Shared\UserProfile.cs" />
     <Compile Include="ViewModels\Shared\UserStatusUpdate.cs" />
   </ItemGroup>

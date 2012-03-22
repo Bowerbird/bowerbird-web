@@ -167,21 +167,18 @@ namespace Bowerbird.Web.Services
             }
         }
 
-        public bool DisconnectClient(string clientId, out string userId)
+        public string DisconnectClient(string clientId)
         {
-            var user = _documentSession
+            var userSession = _documentSession
                 .Query<UserSession>()
                 .Where(x => x.ClientId == clientId)
-                .FirstOrDefault()
-                .User;
-
-            userId = user.Id;
+                .FirstOrDefault();
 
             DeleteUserSession(clientId);
 
             DeleteChatSessions(clientId);
 
-            return UserOnlineStatus(userId) < (int) Connection.ConnectionStatus.Offline;
+            return userSession.User.Id;
         }
         
         public IEnumerable<string> GetConnectedUserClientIds()
@@ -215,7 +212,7 @@ namespace Bowerbird.Web.Services
         }
 
         [Transaction]
-        public void PersistChatMessage(string chatId, string userId, string targetUserId, string message)
+        public void PersistChatMessage(string chatId, string userId, string message, string targetUserId = null)
         {
             try
             {
@@ -533,6 +530,35 @@ namespace Bowerbird.Web.Services
             {
                 ClientId = clientId
             };
+        }
+
+        public string GetGroupName(string chatId)
+        {
+            var group = _documentSession
+                .Query<All_Groups.Result, All_Groups>()
+                .AsProjection<All_Groups.Result>()
+                .Where(x => x.Id == chatId)
+                .FirstOrDefault();
+
+            return group != null ? group.Name : "Unknown Group";
+        }
+
+        public List<ChatMessage> GetChatMessages(string chatId)
+        {
+            return _documentSession
+                .Query<ChatMessage>()
+                .Include(x => x.User.Id)
+                .Where(x => x.ChatId == chatId)
+                .OrderByDescending(x => x.Timestamp)
+                .Take(10)
+                .ToList()
+                .Select(x => new ChatMessage()
+                                 {
+                                     Id = x.Id,
+                                     Message = x.Message,
+                                     Timestamp = x.Timestamp
+                                 })
+                .ToList();
         }
 
         #endregion

@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Bowerbird.Web.ViewModels.Shared
 {
-    public class ChatUserStatusUpdate
+    public class UserJoinedChat
     {
         #region Fields
 
@@ -24,9 +24,6 @@ namespace Bowerbird.Web.ViewModels.Shared
 
         [JsonProperty("timestamp")]
         public DateTime Timestamp { get; set; }
-
-        [JsonProperty("status")]
-        public int Status { get; set; }
 
         #endregion
 

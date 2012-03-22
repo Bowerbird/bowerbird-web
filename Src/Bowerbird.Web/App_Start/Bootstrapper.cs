@@ -75,7 +75,9 @@ namespace Bowerbird.Web.App_Start
             //IndexCreation.CreateIndexes(typeof(ImageTags_GroupByTagName).Assembly, documentStore);
 
             #if DEBUG
+
                 SeedData();
+
             #endif
         }
 

@@ -6,7 +6,9 @@ window.Bowerbird.App = Backbone.Model.extend({
     },
 
     initialize: function (options) {
-        console.log('App.Initialize');
+        
+        log('App.Initialize');
+        
         this.teams = new Bowerbird.Collections.Teams();
         this.projects = new Bowerbird.Collections.Teams();
         this.stream = new Bowerbird.Models.Stream();
@@ -14,6 +16,9 @@ window.Bowerbird.App = Backbone.Model.extend({
         this.users = new Bowerbird.Collections.Users();
         this.activityRouter = new Bowerbird.ActivityRouter({ appManager: this, userId: this.get('userId')});
         this.chatRouter = new Bowerbird.ChatRouter({ appManager: this });
+
+        log('App.Initialize Completed');
+
     },
 
     showHomeStream: function (filter) {

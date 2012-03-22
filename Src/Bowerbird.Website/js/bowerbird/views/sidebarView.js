@@ -6,11 +6,6 @@ window.Bowerbird.Views.SidebarView = Backbone.View.extend({
 
     id: 'sidebar',
 
-    events: {
-        'click #start-chat': 'startChat',
-        'click #show-online-users': 'showOnlineUsers'
-    },
-
     template: $.template('sidebarTemplate', $('#sidebar-template')),
 
     initialize: function (options) {
@@ -19,7 +14,6 @@ window.Bowerbird.Views.SidebarView = Backbone.View.extend({
         this.projectSidebarItemViews = [];
         app.teams.on('add', this.addTeamSideBarItem, this);
         app.projects.on('add', this.addProjectSideBarItem, this);
-        app.chats.on('add', this.chatAdded, this);
     },
 
     render: function () {
@@ -37,24 +31,5 @@ window.Bowerbird.Views.SidebarView = Backbone.View.extend({
         var sidebarItemView = new Bowerbird.Views.SidebarItemView({ sidebarItem: project });
         this.projectSidebarItemViews.push(sidebarItemView);
         $("#project-menu-group ul").append(sidebarItemView.render().el);
-    },
-
-    startChat: function () {
-        console.log('sidebarView.startChat');
-        var chat = new Bowerbird.Models.Chat({ id: 'teams/1', group: app.teams.get('teams/1') });
-        app.chats.add(chat);
-    },
-
-    showOnlineUsers: function () {
-        //this.trigger('showUsers');
-        console.log('sidebarView.showOnlineUsers');
-        var userView = new Bowerbird.Views.UserView();
-        //userView.addUsers(app.users);
-        $('body').append(userView.render().el);
-    },
-
-    chatAdded: function (chat) {
-        console.log('sidebarView.chatAdded');
-        console.log('a chat for the ' + chat.get('group').get('name') + ' was added');
     }
 });

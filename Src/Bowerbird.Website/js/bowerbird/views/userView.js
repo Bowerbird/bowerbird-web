@@ -3,54 +3,36 @@ window.Bowerbird.Views.UserView = Backbone.View.extend({
     className: 'user-window',
 
     events: {
-        //        "click .chat-send-message-button": "sendMessage",
-                "click .window-close": "closeWindow"
+        "click .window-title-bar": "toggleWindowView"
     },
-
-    template: $.template('userTemplate', $('#user-template')),
-
-    userOnlineTemplate: $.template('userOnlineTemplate', $('#user-online-template')),
 
     initialize: function () {
         _.extend(this, Backbone.Events);
-        _.bindAll(this, 'addUser', 'addUsers');
-        this.userOnlineViews = [];
-        app.users.on('add', this.addUser, this);
-        app.users.on('remove', this.removeUser, this);
+        _.bindAll(this, 'change');
+        this.fullView = false;
+        app.users.on('add', this.change, this);
+        app.users.on('remove', this.change, this);
     },
 
     render: function () {
-        $.tmpl('userTemplate', { count: app.users.length }).appendTo(this.$el);
-        this.addUsers(app.users);
+        var usersTemplate = ich.usersonline({ count: app.users.length, users: app.users.toJSON() });
+        this.$el.append(usersTemplate);
         return this;
     },
 
-    closeWindow: function () {
-        this.$el.remove();
+    toggleWindowView: function () {
+        if (this.fullView) {
+            this.fullView = false;
+            this.$el.animate({ bottom: "-180px", duration: "slow", easing: "easein" });
+        } else {
+            this.fullView = true;
+            this.$el.animate({ bottom: "-10px", duration: "slow", easing: "easein" });
+        }
     },
 
-    addUser: function (user) {
-        console.log('userView.addUser');
-        var userOnlineView = new Bowerbird.Views.UserOnlineView({ user: user });
-        this.userOnlineViews.push(userOnlineView);
-        $.tmpl('userOnlineTemplate', user.toJSON()).appendTo(this.$el.find('.online-users'));
-        this.$el.find('#users-online').val(app.users.length);
-    },
-
-    removeUser: function (user) {
-        console.log('userView.removeUser');
-        // remove the userOnlineView from the collection...
-        //var userOnlineView = new Bowerbird.Views.UserOnlineView({ user: user });
-        //this.userOnlineViews.push(userOnlineView);
-        //$.tmpl('userOnlineTemplate', user.toJSON()).appendTo(this.$el.find('.online-users'));
-        //this.$el.find('#users-online').val(app.users.length);
-    },
-
-    addUsers: function (users) {
-        console.log('userView.addUsers');
-        var self = this;
-        users.each(function (user) {
-            self.addUser(user);
-        });
-    }
+    change: function () {
+        var usersTemplate = ich.usersonline({ count: app.users.length, users: app.users.toJSON() });
+        this.$el.empty();
+        this.$el.append(usersTemplate);
+    } 
 });

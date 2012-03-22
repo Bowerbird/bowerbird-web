@@ -5,7 +5,7 @@ window.Bowerbird.ActivityRouter = Backbone.Model.extend({
 
     initialize: function (options) {
 
-        console.log('ActivityRouter.Initialize');
+        log('ActivityRouter.Initialize');
         _.bindAll(this, 'initHubConnection');
 
         this.appManager = options.appManager;
@@ -14,20 +14,20 @@ window.Bowerbird.ActivityRouter = Backbone.Model.extend({
         this.activityHub.activityOccurred = this.activityOccurred;
 
         this.initHubConnection(options.userId);
-        console.log('ActivityRouter.Initialize');
+        log('ActivityRouter.Initialize');
     },
 
 
     // TO HUB---------------------------------------
 
     initHubConnection: function (userId) {
-        console.log('App.initHubConnection');
+        log('App.initHubConnection');
         var self = this;
         $.connection.hub.start({ transport: 'longPolling' },function () {
             self.activityHub.registerUserClient(userId)
                     .done(function () {
                         self.appManager.set('clientId', $.signalR.hub.id);
-                        console.log('connected as ' + self.appManager.get('userId') + ' with ' + self.appManager.get('clientId'));
+                        log('connected as ' + self.appManager.get('userId') + ' with ' + self.appManager.get('clientId'));
                     })
                     .fail(function (e) {
                         console.log(e);
@@ -36,18 +36,21 @@ window.Bowerbird.ActivityRouter = Backbone.Model.extend({
     },
 
     userStatusUpdate: function (data) {
-        console.log('app.userStatusUpdate');
+        
         var user = app.users.get(data.id);
         if (_.isNull(user) || _.isUndefined(user)) {
             if (data.status == 2 || data.status == 3 || data.status == 'undefined') return;
             user = new Bowerbird.Models.User(data);
             app.users.add(user);
+            log('app.userStatusUpdate: ' + data.name + ' logged in');
         } else {
             if (data.status == 2 || data.status == 3) {
-                user.remove();
+                app.users.remove(user);
+                log('app.userStatusUpdate: ' + data.name + ' logged out');
             }
             else {
                 user.set('status', data.status);
+                log('app.userStatusUpdate: ' + data.name + ' udpated their status');
             }
         }
     },

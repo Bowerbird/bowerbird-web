@@ -204,7 +204,6 @@
     <Content Include="js\bowerbird\namespace.js" />
     <Content Include="js\bowerbird\router.js" />
     <Content Include="js\bowerbird\views\appView.js" />
-    <Content Include="js\bowerbird\views\chatViewUser.js" />
     <Content Include="js\bowerbird\views\chatView.js" />
     <Content Include="js\bowerbird\views\editMediaView.js" />
     <Content Include="js\bowerbird\views\editMapView.js" />
@@ -221,6 +220,7 @@
     <Content Include="js\libs\backbone-min.js" />
     <Content Include="js\libs\Backbone.js" />
     <Content Include="js\libs\date-min.js" />
+    <Content Include="js\libs\iCanHaz.js" />
     <Content Include="js\libs\jquery-1.6.2.min.js" />
     <Content Include="js\libs\jquery-ui-1.8.17.custom.min.js" />
     <Content Include="js\libs\jquery-ui-1.8.18.custom.min.js" />
@@ -246,7 +246,6 @@
     <Content Include="Areas\Members\Views\Web.config" />
     <Content Include="Areas\Members\Views\Shared\_NewLayout.cshtml" />
     <Content Include="Areas\Members\Views\_ViewStart.cshtml" />
-    <Content Include="js\activitystream.js" />
     <Content Include="packages.config" />
     <None Include="test\index.html" />
     <None Include="test\qunit\qunit.css" />

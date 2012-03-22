@@ -19,10 +19,14 @@ namespace Bowerbird.Web.Services
         
         void UpdateChatUserStatus(string chatId, string clientId, string userId, int status);
 
-        bool DisconnectClient(string clientId, out string userId);
+        string DisconnectClient(string clientId);
 
         IEnumerable<string> GetConnectedUserClientIds();
 
         string GetClientsUserId(string clientId);
+
+        string GetGroupName(string chatId);
+
+        List<ChatMessage> GetChatMessages(string chatId);
     }
 }

@@ -56,7 +56,7 @@ namespace Bowerbird.Web.Config
         {
             var documentStore = new DocumentStore
             {
-                Url = "http://mvpc1506:8081"//, //_configService.GetDatabaseUrl(),
+                Url = _configService.GetDatabaseUrl()
                 //DefaultDatabase = _configService.GetDatabaseName()
             };
 

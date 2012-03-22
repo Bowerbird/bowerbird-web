@@ -50,42 +50,24 @@ namespace Bowerbird.Web.Hubs
 
         public void RegisterUserClient(string userId)
         {
-            // persist the user client connection 
             _hubService.UpdateUserOnline(Context.ConnectionId, userId);
 
-            // tell everyone user is online
             BroadcastUserStatusUpdate(userId);
         }
 
         public void BroadcastActivity(ActivityMessage message)
         {
-            Check.RequireNotNull(message, "message");
-
-            // tell all clients of activity
             Clients.activityOccurred(message);
         }
 
         public void BroadcastUserStatusUpdate(string userId)
         {
-            // find the user
-            var user = _hubService.GetUserProfile(userId);
-
-            // tell the clients the users' status
-            Clients.userStatusUpdate(user);
+            Clients.userStatusUpdate(_hubService.GetUserProfile(userId));
         }
 
         public Task Disconnect()
         {
-            string userId;
-            
-            // persist session change for client
-            if (_hubService.DisconnectClient(Context.ConnectionId, out userId))
-            {
-                // if user has no further connected sessions, tell all clients user is offline
-                Clients.userStatusUpdate(_hubService.GetUserProfile(userId));
-            }
-
-            return null;
+            return Clients.userStatusUpdate(_hubService.GetUserProfile(_hubService.DisconnectClient(Context.ConnectionId)));
         }
 
         #endregion

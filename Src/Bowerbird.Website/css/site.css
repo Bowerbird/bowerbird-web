@@ -1500,70 +1500,12 @@ header nav#search-menu
     height: 100px;
     margin: 10px;
 }
-/* chat */
-.chat-window
-{
-    background-color: white;
-    border: 1px solid black;
-    bottom: 0;
-    height: 200px;
-    position: fixed;
-    right: 215px;
-    width: 200px;
-    padding: 5px;    
-}
-.chat-icon
-{
-    width:50px;
-    height:50px;
-    background-image:url("/img/chat-icon.png");   
-    background-size:50px 50px;
-    cursor: pointer;
-}
-.window-close
-{
-    position:absolute;
-    right:0px;
-    top:0px;
-    width:20px;
-    height:20px;
-    background-image:url("/img/close.gif");
-    background-size:20px 20px;
-}
-#user-window-view-control
-{
-    cursor:pointer;   
-}
-.window-minimize-icon
-{
-    position:absolute;
-    right:0px;
-    top:0px;
-    width:20px;
-    height:20px;
-    background-image:url("/img/minimise.png");
-    background-size:20px 20px;
-}
-
-.window-maximize-icon
-{
-    position:absolute;
-    right:0px;
-    top:0px;
-    width:20px;
-    height:20px;
-    background-image:url("/img/maximise.png");
-    background-size:20px 20px;
-}
-.window-title-bar 
-{
-    cursor: pointer;   
-}
+/* chat and users online */
 .user-window
 {
     background-color: white;
     border: 1px solid black;
-    bottom: 0;
+    bottom: -180px;
     height: auto;
     min-height:200px;
     max-height: 50%;
@@ -1576,4 +1518,79 @@ header nav#search-menu
 {
     list-style-type: none;
     padding-top: 5px;
+}
+.window-title-bar 
+{
+    cursor: pointer;  
+    background-color:Gray; 
+}
+.window-close
+{
+    position:absolute;
+    right:0px;
+    top:0px;
+    width:20px;
+    height:20px;
+    background-image:url("/img/close.gif");
+    background-size:20px 20px;
+}
+.chat-window
+{
+    background-color: white;
+    border: 1px solid black;
+    bottom: 0;
+    height: 200px;
+    position: fixed;
+    right: 215px;
+    width: 500px;
+    padding: 5px;    
+}
+.chat-icon
+{
+    width:50px;
+    height:50px;
+    background-image:url("/img/chat-icon.png");   
+    background-size:50px 50px;
+    cursor: pointer;
+}
+ul.chat-messages
+{
+    float:left;
+    display:inline-block;
+    width:70%;   
+    right:0px;
+    height:120px;
+    overflow:hidden;
+}
+ul.chat-current-users
+{
+    float:right;
+    display:inline-block;
+    left:0px;
+    width:25%;
+}
+.chat-message
+{
+    width:90%;   
+    display:inline;
+}
+li.chat-message .message-sender
+{
+    display:inline;
+    overflow:hidden;
+    font-size:smaller;
+    font-style:italic;
+    min-width:20%;
+    max-width:20%;    
+}
+li.chat-message .message-text
+{
+    width:70%;   
+    display:inline-block;
+    vertical-align:top;
+}
+.chat-send-message-button
+{
+    width:15%;   
+    display:inline-block;   
 }

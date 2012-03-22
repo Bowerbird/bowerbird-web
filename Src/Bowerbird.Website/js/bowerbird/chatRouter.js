@@ -5,82 +5,71 @@ window.Bowerbird.ChatRouter = Backbone.Model.extend({
 
     initialize: function (options) {
 
-        console.log('chatRouter.Initialize');
+        log('chatRouter.Initialize');
+
         _.extend(this, Backbone.Events);
-        _.bindAll(this, 'setupChat');
+        _.bindAll(this,
+        'joinChat',
+        'exitChat',
+        'startTyping',
+        'stopTyping',
+        'sendMessage',
+        'setupChat',
+        'typing',
+        'chatMessageReceived',
+        'userJoinedChat',
+        'userExitedChat');
 
         this.appManager = options.appManager;
-        //this.appView = this.appManager.get('appView');
-        //this.appManager.chats.on('add', this.appView.showChatView, this);
-        //this.appManager.chats.on('remove', this.appView.removeChatView, this);
-
+        options.appManager.chats.on('remove', this.exitChat, this);
         this.chatHub = $.connection.chatHub;
         this.chatHub.chatMessageReceived = this.chatMessageReceived;
-        this.chatHub.chatUserStatusUpdate = this.chatUserStatusUpdate;
+        this.chatHub.userJoinedChat = this.userJoinedChat;
+        this.chatHub.userExitedChat = this.userExitedChat;
         this.chatHub.setupChat = this.setupChat;
         this.chatHub.typing = this.typing;
 
-        console.log('chatRouter.Initialize - done');
+        log('chatRouter.Initialize - done');
     },
-
-    //    startChat: function (chat) {
-    //        console.log('chatRouter.startChat');
-    //        this.trigger('chatStarted', chat);
-    //    },
-
-    showChatView: function () {
-        alert('hi fool');
-    },
-
 
     // TO HUB---------------------------------------
 
     joinChat: function (chat) {
-        //var chatId = chat.get('group').get('id');
-        //var type = chatId.split('/')[0];
-        //var id = chatId.split('/')[1];
-        //this.chatHub.joinChat({ chatId: chat.get('group').get('id') });
         this.chatHub.joinChat(chat.get('group').get('id'));
     },
 
     exitChat: function (chat) {
-        console.log('chatManager.exitChat');
-        this.trigger('chatEnded', chat);
-        this.chatHub.exitChat({ chatId: chat.id });
+        log('chatRouter.exitChat');
+        //this.trigger('chatEnded', chat);
+        this.chatHub.exitChat(chat.id);
         // and the rest.... 
     },
 
     startTyping: function (chat) {
-        console.log('chatManager.startTyping');
-        this.chatHub.startTyping({ chatId: chat.id, typing: true });
+        log('chatRouter.startTyping');
+        this.chatHub.typing(chat.id, true);
     },
 
     stopTyping: function (chat) {
-        console.log('chatManager.stopTyping');
-        this.chatHub.startTyping({ chatId: chat.id, typing: false });
-    },
-
-    chatStatusUpdate: function (chat, status) {
-        console.log('chatManager.chatStatusUpdate');
-        this.chatHub.chatStatusUpdate({ chatId: chat.id, status: status });
+        log('chatRouter.stopTyping');
+        this.chatHub.typing(chat.id, false);
     },
 
     sendMessage: function (message, chat) {
-        console.log('chatManager.sendMessage');
-        this.chatHub.sendChatMessage(this.appManager.get('userId'), chat.get('group').get('id'), message);
+        log('chatRouter.sendMessage');
+        this.chatHub.sendChatMessage(chat.get('id'), message);
     },
-
 
     // FROM HUB-------------------------------------
 
     setupChat: function (data) {
-        console.log('chatRouter.setupChat');
+        log('chatRouter.setupChat');
         var self = this;
         var chat = self.appManager.chats.get(data.id);
-        var chatUser = null;
+
         $.each(data.users, function (index, xitem) {
-            chatUser = _.find(chat.chatUsers, function (yitem) {
-                return xitem.user === yitem.user;
+            var chatUser = _.find(chat.chatUsers, function (yitem) {
+                return xitem.user.id == yitem.user.id;
             });
             if (_.isNull(chatUser) || _.isUndefined(chatUser)) {
                 var user = self.appManager.users.get(xitem.id);
@@ -100,34 +89,50 @@ window.Bowerbird.ChatRouter = Backbone.Model.extend({
     },
 
     chatMessageReceived: function (data) {
-        console.log('chatManager.chatMessageReceived');
-        console.log('message for groupId: ' + data.groupId + ' with content ' + data.message);
-        var chat = this.appManager.chats.get(data.groupId);
+        log('message for chatId: ' + data.chatId + ' with content ' + data.message);
+        var chat = this.appManager.chats.get(data.chatId);
         chat.chatMessages.add(new Bowerbird.Models.ChatMessage(data));
     },
 
-    chatUserStatusUpdate: function (data) {
-        console.log('chatManager.chatUserStatusUpdate');
+    userJoinedChat: function (data) {
+        log('chatRouter.userJoinedChat');
         var chat = this.appManager.chats.get(data.id);
-        var chatUser = _.find(chat.chatUsers, function (item) {
-            return item.user === data.user;
+
+        var chatUsers = chat.chatUsers.pluck('user');
+
+        var match = _.any(chatUsers, function (user) {
+            return user.id == data.user.id;
         });
+
+        if (match) return;
+
+        var user = this.appManager.users.get(data.user.id);
+        if (_.isNull(user) || _.isUndefined(user)) {
+            user = new Bowerbird.Models.User(data.user);
+        }
+        chatUser = new Bowerbird.Models.ChatUser({ chat: chat, user: user, status: data.status });
+        chat.chatUsers.add(chatUser);
+    },
+
+    userExitedChat: function (data) {
+        log('chatRouter.userExitedChat');
+        var chat = this.appManager.chats.get(data.id);
+
+        var chatUsers = chat.chatUsers.pluck('user');
+        var match = _.any(chatUsers, function (user) {
+            return user.id == data.user.id;
+        });
+
+        if (match) return;
+
+        var chatUser = _.find(chat.chatUsers, function (item) {
+            return item.user.id == data.user.id;
+        });
+
         if (_.isNull(chatUser) || _.isUndefined(chatUser)) {
-            if (data.status == 2 || data.status == 3 || data.status == 'undefined') return;
-            var user = this.appManager.users.get(data.user.id);
-            if (_.isNull(user) || _.isUndefined(user)) {
-                user = new Bowerbird.Models.User(data.user);
-            }
-            chatUser = new Bowerbird.Models.ChatUser({ chat: chat, user: user, status: data.status });
-            chat.chatUsers.add(chatUser);
+            return;
         } else {
-            if (data.status == 2 || data.status == 3) {
-                chatUser.remove();
-            }
-            else {
-                chatUser.set('status', data.status);
-            }
+            chat.chatUsers.remove(chatUser);
         }
     }
-
 });
