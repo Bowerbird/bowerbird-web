@@ -8,7 +8,6 @@ window.Bowerbird.ActivityRouter = Backbone.Model.extend({
         log('ActivityRouter.Initialize');
         _.bindAll(this, 'initHubConnection');
 
-        this.appManager = options.appManager;
         this.activityHub = $.connection.activityHub;
         this.activityHub.userStatusUpdate = this.userStatusUpdate;
         this.activityHub.activityOccurred = this.activityOccurred;
@@ -26,11 +25,11 @@ window.Bowerbird.ActivityRouter = Backbone.Model.extend({
         $.connection.hub.start({ transport: 'longPolling' },function () {
             self.activityHub.registerUserClient(userId)
                     .done(function () {
-                        self.appManager.set('clientId', $.signalR.hub.id);
-                        log('connected as ' + self.appManager.get('userId') + ' with ' + self.appManager.get('clientId'));
+                        app.set('clientId', $.signalR.hub.id);
+                        log('connected as ' + userId + ' with ' + app.get('clientId'));
                     })
                     .fail(function (e) {
-                        console.log(e);
+                        log(e);
                     });
         });
     },

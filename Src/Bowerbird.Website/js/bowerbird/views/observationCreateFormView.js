@@ -1,6 +1,5 @@
 ﻿
 window.Bowerbird.Views.ObservationCreateFormView = Backbone.View.extend({
-
     tagName: 'section',
 
     className: 'form single-medium',
@@ -8,8 +7,15 @@ window.Bowerbird.Views.ObservationCreateFormView = Backbone.View.extend({
     events: {
         'click #cancel': '_cancel',
         'click #save': '_save',
-        "change input#title": "_contentChanged",
-        "change input#observedOn": "_contentChanged"
+        'change input#title': '_contentChanged',
+        'change input#observedOn': '_contentChanged',
+        'change input#address': '_contentChanged',
+        'change input#latitude': '_latLongChanged',
+        'change input#longitude': '_latLongChanged',
+        'change input#anonymiseLocation': '_anonymiseLocationChanged',
+        'change #projects-field input:checkbox': '_projectsChanged',
+        'change #category-field input:checkbox': '_categoryChanged',
+        'click #media-resource-import-button': '_showImportMedia'
     },
 
     template: $.template('observationCreateFormTemplate', $('#observation-create-form-template')),
@@ -18,8 +24,8 @@ window.Bowerbird.Views.ObservationCreateFormView = Backbone.View.extend({
         _.extend(this, Backbone.Events);
         this.appView = options.appView;
         this.observation = options.observation;
-        this.editMediaView = new Bowerbird.Views.EditMediaView({ el: $('#media-resources-fieldset'), observation: options.observation });
-        this.editMapView = new Bowerbird.Views.EditMapView({ el: $('#location-fieldset'), observation: options.observation });
+        this.editMediaView = new Bowerbird.Views.EditMediaView({ el: $('#media-resources-fieldset'), observation: this.observation });
+        this.editMapView = new Bowerbird.Views.EditMapView({ observation: this.observation });
     },
 
     render: function () {
@@ -31,13 +37,54 @@ window.Bowerbird.Views.ObservationCreateFormView = Backbone.View.extend({
     start: function () {
         this.editMediaView.render();
         this.editMapView.render();
+        $('#observedOn').datepicker();
+
+        this.categoryListSelectView = $("#category").multiSelect({
+            selectAll: false,
+            singleSelect: true,
+            noneSelected: 'Select Category',
+            oneOrMoreSelected: function (selectedOptions) {
+                var $selectedHtml = $('<span />');
+                _.each(selectedOptions, function (option) {
+                    $selectedHtml.append('<span>' + option.text + '</span> ');
+                });
+                return $selectedHtml;
+            }
+        });
+
+        $.tmpl('<option value="${id}">${name}</option>', app.projects.toJSON()).appendTo('#projects');
+        this.projectListSelectView = $("#projects").multiSelect({
+            selectAll: false,
+            noneSelected: 'Select Projects',
+            renderOption: function (id, option) {
+                var html = '<label><input style="display:none;" type="checkbox" name="' + id + '[]" value="' + option.value + '"';
+                if (option.selected) {
+                    html += ' checked="checked"';
+                }
+                var project = app.projects.get(option.value);
+                html += ' /><img src="/img/avatar-1.png" />' + project.get('name') + '</label>';
+                return html;
+            },
+            oneOrMoreSelected: function (selectedOptions) {
+                var $selectedHtml = $('<span />');
+                _.each(selectedOptions, function (option) {
+                    $selectedHtml.append('<span>' + option.text + '</span> ');
+                });
+                return $selectedHtml;
+            }
+        });
+
+        var myScroll = new iScroll('media-uploader', { hScroll: true, vScroll: false });
     },
 
     _cancel: function () {
         app.set('newObservation', null);
-        this.$el.remove();
-        this.appView.showStreamView();
+        this.remove();
         app.router.navigate(app.stream.get('uri'), { trigger: true });
+    },
+
+    _showImportMedia: function () {
+        alert('Coming soon');
     },
 
     _contentChanged: function (e) {
@@ -45,74 +92,54 @@ window.Bowerbird.Views.ObservationCreateFormView = Backbone.View.extend({
         var data = {};
         data[target.attr('name')] = target.attr('value');
         this.observation.set(data);
+
+        if (target.attr('name') === 'address') {
+            this._latLongChanged(e);
+        }
+    },
+
+    _latLongChanged: function (e) {
+        var oldposition = { latitude: this.observation.get('latitude'), longitude: this.observation.get('longitude') };
+        var newPosition = { latitude: $('#latitude').val(), longitude: $('#longitude').val() };
+
+        this.observation.set('latitude', newPosition.latitude);
+        this.observation.set('longitude', newPosition.longitude);
+
+        // Only update pin if the location is different to avoid infinite loop
+        if (newPosition.latitude != null && newPosition.longitude != null && (oldposition.latitude !== newPosition.latitude || oldposition.longitude !== newPosition.longitude)) {
+            this.editMapView.changeMarkerPosition(this.observation.get('latitude'), this.observation.get('longitude'));
+        }
+    },
+
+    _anonymiseLocationChanged: function (e) {
+        var $checkbox = $(e.currentTarget);
+        this.observation.set({ anonymiseLocation: $checkbox.attr('checked') == 'checked' ? true : false });
+    },
+
+    _projectsChanged: function (e) {
+        var $checkbox = $(e.currentTarget);
+        if ($checkbox.attr('checked') === 'checked') {
+            var proj = app.projects.get($checkbox.attr('value'));
+            this.observation.projects.add(proj);
+        } else {
+            this.observation.projects.remove($checkbox.attr('value'));
+        }
+    },
+
+    _categoryChanged: function (e) {
+        var $checkbox = $(e.currentTarget);
+        if ($checkbox.attr('checked') === 'checked') {
+            this.observation.set('category', $checkbox.attr('value'));
+        } else {
+            this.observation.set('category', '');
+        }
     },
 
     _save: function () {
-        alert('not yet!');
-        //this.model.set({
-        //    "title": $("#title").attr("value"),
-        //    "address": $("#address").attr("value"),
-        //    "latitude": $("#latitude").attr("value"),
-        //    "longitude": $("#longitude").attr("value"),
-        //    "observedOn": $("#observedOn").attr("value"),
-        //    "isIdentificationRequired": $("#isIdentificationRequired").attr("value"),
-        //    "observationCategory": $("#observationCategory").attr("value")
-        //});
-
-        ////window.observations.add(this.model);
-
+        alert('Coming soon');
         //this.model.save();
-
-        //this.hide($(this.el));
+        //this.remove();
+        //app.router.navigate(app.stream.get('uri'), { trigger: true });
     }
-
-    //    _onUploadAdd: function (e, data) {
-    //        var self = this;
-    //        $.each(data.files, function (index, file) {
-    //            if (file != null) {
-    //                self.currentUploadKey++;
-    //                var mediaResource = new Bowerbird.Models.MediaResource({ key: self.currentUploadKey });
-    //                self.observation.addMediaResources.add(mediaResource);
-    //                var mediaResourceItemView = new Bowerbird.Views.MediaResourceItemView({ mediaResource: mediaResource });
-    //                self.mediaResourceItemViews.push(mediaResourceItemView);
-    //                $('.media-resource-items').append(mediaResourceItemView.render().el);
-
-    //                loadImage(
-    //                    data.files[0],
-    //                    function (img) {
-    //                        if (img instanceof HTMLImageElement) { // FF seems to fire this handler twice, on second time returning error, which we ignore :(
-    //                            mediaResourceItemView.showTempMedia(img);
-    //                        }
-    //                    },
-    //                    {
-    //                        maxHeight: 220
-    //                    }
-    //                );
-    //            }
-    //        });
-    //        data.submit();
-    //    },
-
-    //    _onSubmitUpload: function (e, data) {
-    //        data.formData = { key: this.currentUploadKey, originalFileName: data.files[0].name };
-    //    },
-
-    //    _onUploadDone: function (e, data) {
-    //        var mediaResource = _.find(this.observation.allMediaResources(), function (item) {
-    //            return item.get('key') == data.result.key;
-    //        });
-    //        mediaResource.set(data.result);
-    //    },
-
-    //    _initMediaUploader: function () {
-    //        $('#fileupload').fileupload({
-    //            dataType: 'json',
-    //            paramName: 'file',
-    //            url: '/members/mediaresource/observationupload',
-    //            add: this._onUploadAdd,
-    //            submit: this._onSubmitUpload,
-    //            done: this._onUploadDone
-    //        });
-    //    }
 });
 

@@ -175,10 +175,7 @@
     <Content Include="img\wavecut.png" />
     <Content Include="img\whitey.png" />
     <Content Include="img\white_texture.png" />
-<<<<<<< Updated upstream
     <Content Include="js\bowerbird\activityRouter.js" />
-=======
->>>>>>> Stashed changes
     <Content Include="js\bowerbird\app.js" />
     <Content Include="js\bowerbird\bootstrapper.js" />
     <Content Include="js\bowerbird\chatRouter.js" />
@@ -197,6 +194,7 @@
     <Content Include="js\bowerbird\models\chat.js" />
     <Content Include="js\bowerbird\models\chatMessage.js" />
     <Content Include="js\bowerbird\models\chatUser.js" />
+    <Content Include="js\bowerbird\models\groupChat.js" />
     <Content Include="js\bowerbird\models\mediaResource.js" />
     <Content Include="js\bowerbird\models\observation.js" />
     <Content Include="js\bowerbird\models\project.js" />
@@ -204,10 +202,10 @@
     <Content Include="js\bowerbird\models\streamItem.js" />
     <Content Include="js\bowerbird\models\team.js" />
     <Content Include="js\bowerbird\models\user.js" />
+    <Content Include="js\bowerbird\models\userChat.js" />
     <Content Include="js\bowerbird\namespace.js" />
     <Content Include="js\bowerbird\router.js" />
     <Content Include="js\bowerbird\views\appView.js" />
-    <Content Include="js\bowerbird\views\chatViewUser.js" />
     <Content Include="js\bowerbird\views\chatView.js" />
     <Content Include="js\bowerbird\views\editMediaView.js" />
     <Content Include="js\bowerbird\views\editMapView.js" />
@@ -218,21 +216,25 @@
     <Content Include="js\bowerbird\views\streamListView.js" />
     <Content Include="js\bowerbird\views\streamListItemView.js" />
     <Content Include="js\bowerbird\views\streamView.js" />
-<<<<<<< Updated upstream
     <Content Include="js\bowerbird\views\userOnlineView.js" />
     <Content Include="js\bowerbird\views\userView.js" />
-=======
->>>>>>> Stashed changes
+    <Content Include="js\libs\bootstrap-datepicker.js" />
     <Content Include="js\libs\fileuploader.js" />
     <Content Include="js\libs\backbone-min.js" />
     <Content Include="js\libs\Backbone.js" />
     <Content Include="js\libs\date-min.js" />
+<<<<<<< Updated upstream
+    <Content Include="js\libs\iCanHaz.js" />
+=======
+    <Content Include="js\libs\iscroll.js" />
+>>>>>>> Stashed changes
     <Content Include="js\libs\jquery-1.6.2.min.js" />
     <Content Include="js\libs\jquery-ui-1.8.17.custom.min.js" />
     <Content Include="js\libs\jquery-ui-1.8.18.custom.min.js" />
     <Content Include="js\libs\jquery.cookie.js" />
     <Content Include="js\libs\jquery.fileupload.js" />
     <Content Include="js\libs\jquery.iframe-transport.js" />
+    <Content Include="js\libs\jquery.multiSelect.js" />
     <Content Include="js\libs\jquery.signalR.js" />
     <Content Include="js\libs\jquery.signalR.min.js" />
     <Content Include="js\libs\jquery.tmpl.js" />
@@ -252,7 +254,6 @@
     <Content Include="Areas\Members\Views\Web.config" />
     <Content Include="Areas\Members\Views\Shared\_NewLayout.cshtml" />
     <Content Include="Areas\Members\Views\_ViewStart.cshtml" />
-    <Content Include="js\activitystream.js" />
     <Content Include="packages.config" />
     <None Include="test\index.html" />
     <None Include="test\qunit\qunit.css" />
@@ -306,7 +307,6 @@
     <Content Include="crossdomain.xml" />
     <Content Include="demo\elements.html" />
     <Content Include="favicon.ico" />
-    <Content Include="js\plugins.js" />
     <Content Include="robots.txt" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

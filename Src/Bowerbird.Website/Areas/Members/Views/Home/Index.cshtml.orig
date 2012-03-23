@@ -27,8 +27,6 @@
         <ul>
         </ul>
     </div>
-    <input type="button" value="Chat" id="start-chat" />
-    <input type="button" value="Online Users" id="show-online-users" />
 </script>
 <script type="text/x-jquery-tmpl" id="sidebar-item-template">
     <a href="#${id}/all" class="">
@@ -131,128 +129,100 @@
         <input type="button" value="Remove" class="remove-media-resource-button" />
     </div>
 </script>
-<!-- templates for messanger -->
-<script type="text/x-jquery-tmpl" id="chat-template">
-    <div class="window-close"></div>
-    <h2>${group.name}</h2>
-    <ul class="chat-messages">
-    </ul>
-    <div class="chat-message-box">
-        <textarea class="new-chat-message" autocomplete="off" accesskey="m"></textarea>
-    </div>
-    <input type="button" class="chat-send-message-button" value="Send" class="send" />
-    <ul class="chat-current-users">
-    </ul>
-</script>
-<script id="chat-message-template" type="text/x-jquery-tmpl">
-    <li>
-        <span class="user">
-            ${user.name}
-        </span>
-        <span class="message">
-            ${message}
-        </span>
-        <span class="timestamp">
-            ${timestamp}
-        </span>
-    </li>
-</script>
-<script id="chat-user-template" type="text/x-jquery-tmpl">
-    <span class="user">
-        <img src="${chatUser.user.avatar.urlToImage}" alt="${chatUser.user.avatar.altTag}" width="16px;" height="16px;" />
+
+<!-- {{ user: used where user avatar and name is needed }} -->
+<script id="user" type="text/html">
+    <span class="user-avatar">
+        <img src="{{avatar.urlToImage}}" alt="{{avatar.altTag}}" width="16px;" height="16px;" />
     </span>
-    <span class="message">
-        ${chatUser.user.name} 
-    </span>
-    <span class="chat-user-status"></span>
+    <span class="user-name" id="{{id}}">{{name}}</span>
+    <span class="user-chat-icon" id="user-{{id}}">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 </script>
-<script id="chat-user-status" type="text/x-jquery-tmpl">
-    <img class="status-icon" src="img/status-{chatUser.status}.png" /></span>
+
+<!-- {{ chatuser: display the chatuser's > user }} -->
+<script id="chatuser" type="text/html">
+    {{> user}}
 </script>
-<script id="new-message-template" type="text/x-jquery-tmpl">
-    <li class="message ${highlight} clearfix" id="m-${id}" data-name="${name}" data-timestamp="${date}">
-        <div class="left">
-            {{if showUser}}
-            <img src="${imageurl}" class="gravatar" />
-            <span class="name">${trimmedName}</span>
-            {{/if}}
-            <span class="state"></span>
-        </div>
-        <div class="middle">
-            {{html message}}
-        </div>
-        <div class="right">
-            <span id="t-${id}" class="time" title="${fulldate}">${when}</span>
-        </div>
+
+<!-- {{ chatusers: collection of #chatUsers with > user }} -->
+<script id="chatusers" type="text/html">
+    {{#chatUsers}}
+        <li>
+            <span class="user-avatar">
+                <img src="{{avatar.urlToImage}}" alt="{{avatar.altTag}}" width="16px;" height="16px;" />
+            </span>
+            <span class="user-name" id="{{id}}">{{name}}</span>
+        </li>
+    {{/chatUsers}}
+    {{^chatUsers}}
+        Loading Users...
+    {{/chatUsers}}
+</script>
+
+<!-- {{ chatmessage: single chat message with > user }} -->
+<script id="chatmessage" type="text/html">
+    <li class="chat-message">
+        <span class="message-sender">{{user.name}}: </span>
+        <span class="message-text">{{message}}</span>
     </li>
 </script>
-<script id="new-notification-template" type="text/x-jquery-tmpl">
-    <li class="${type}" data-timestamp="${date}">
-        <div class="content">
-            {{html message}}
-            <a class="info" href="#"></a>
-        </div>
-        <div class="right">
-            <span class="time" title="${fulldate}">${when}</span>
-        </div>
-    </li>
-</script>
-<script id="message-separator-template" type="text/x-jquery-tmpl">
-    <li class="message-separator">
-    </li>
-</script>
-<script id="new-user-template" type="text/x-jquery-tmpl">
-    <li class="user" data-name="${id}">
-        <img class="gravatar" src="${imageurl}" />
-        <div class="details">
-            <span class="name">${name}</span>
-        </div>
-    </li>
-</script>
-<script id="new-userlist-template" type="text/x-jquery-tmpl">
-    <h3 class="userlist-header nav-header">
-        ${listname}
-    </h3>
-    <div>
-        <ul id="${id}" />
-    </div>
-</script>
-<script id="new-tab-template" type="text/x-jquery-tmpl">
-    <li id="tabs-${id}" class="room" data-name="${name}">
-        <span class="lock"></span>
-        <button> 
-            <span class="content">${name}</span>
-        </button>
-        <div class="close"></div>
-    </li>
-</script>
-<!-- templates for online users -->
-<script type="text/x-jquery-tmpl" id="user-template">
+
+<!-- {{ usersonline: window with user count and #users with > user }} -->
+<script id="usersonline" type="text/html">
     <div class="window-title-bar">
-        <h3>Users online: <span id="users-online">${count}</span></h3>
+        <h3>Users online: <span id="users-online">{{count}}</span></h3>
     </div>
     <div class="window-body">
         <ul class="online-users">
+            {{#users}}
+                <li>{{> user}}</li>
+            {{/users}}
         </ul>
     </div>
 </script>
-<script id="user-online-template" type="text/x-jquery-tmpl">
-    <li><span class="user-avatar">
-        <img src="${avatar.urlToImage}" alt="${avatar.altTag}" width="16px;" height="16px;" />
-    </span>
-    <span class="user-name" id="${id}">${name}</span>
-    </li>
+
+<!-- {{ chatwindow: window with chat details, #messages with > chatmessage and current users with > chatusers }} -->
+<script id="chatwindow" type="text/html">
+    <div class="window-title-bar">
+        <span class="window-close"></span>
+        <h3>{{title}}</h3>
+    </div>
+    <ul class="chat-messages">
+        {{#messages}}
+            <li>
+                {{> chatmessage}}
+            </li>
+        {{/messages}}
+    </ul>
+    <ul class="chat-current-users">
+        {{>chatusers}}
+    </ul>
+    <div class="chat-message-box">
+        <textarea class="new-chat-message" autocomplete="off" accesskey="m"></textarea>
+        <input type="button" class="chat-send-message-button" value="Send" class="send" />
+    </div>
+</script>
+<script id="project-option-template" type="text/x-jquery-tmpl">
+
 </script>
 
 <script type="text/javascript" src="@Url.JavaScriptLib("jquery.signalR.js")"></script>
 <script type="text/javascript" src="@Url.JavaScriptLib("jquery.fileupload.js")"></script>
 <script type="text/javascript" src="@Url.JavaScriptLib("jquery.iframe-transport.js")"></script>
 <script type="text/javascript" src="@Url.JavaScriptLib("load-image.js")"></script>
+<<<<<<< Updated upstream
+=======
+<script type="text/javascript" src="@Url.JavaScriptLib("bootstrap-datepicker.js")"></script>
+<script type="text/javascript" src="@Url.JavaScriptLib("jquery.multiSelect.js")"></script>
+<script type="text/javascript" src="@Url.JavaScriptLib("iscroll.js")"></script>
 
+>>>>>>> Stashed changes
 <script type="text/javascript" src="@Url.Content("signalr/hubs")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsFile("namespace.js")"></script>
 
 <script type="text/javascript" src="@Url.BowerbirdJsModel("chat.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("groupChat.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("userChat.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsModel("chatMessage.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsModel("chatUser.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsModel("observation.js")"></script>
@@ -275,7 +245,6 @@
 
 <script type="text/javascript" src="@Url.BowerbirdJsView("appView.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsView("chatView.js")"></script>
-<script type="text/javascript" src="@Url.BowerbirdJsView("chatViewUser.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsView("observationCreateFormView.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsView("sidebarView.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsView("sidebarViewItem.js")"></script>
@@ -283,19 +252,13 @@
 <script type="text/javascript" src="@Url.BowerbirdJsView("streamListView.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsView("streamView.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsView("mediaResourceItemView.js")"></script>
-<<<<<<< Updated upstream
+<script type="text/javascript" src="@Url.BowerbirdJsView("editMapView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("editMediaView.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsView("userOnlineView.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsView("userView.js")"></script>
 
 <script type="text/javascript" src="@Url.BowerbirdJsFile("chatRouter.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsFile("activityRouter.js")"></script>
-<script type="text/javascript" src="@Url.BowerbirdJsFile("viewMap.js")"></script>
-=======
-<script type="text/javascript" src="@Url.BowerbirdJsView("editMapView.js")"></script>
-<script type="text/javascript" src="@Url.BowerbirdJsView("editMediaView.js")"></script>
-
-<script type="text/javascript" src="@Url.BowerbirdJsFile("chatManager.js")"></script>
->>>>>>> Stashed changes
 <script type="text/javascript" src="@Url.BowerbirdJsFile("createMap.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsFile("mediaUploader.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsFile("router.js")"></script>
@@ -304,8 +267,6 @@
 
 <script type="text/javascript">
     $(function () {
-        //window.app = new Bowerbird.App();
-        //app.start();
         startBowerbird(@Html.Json(Model.Teams), @Html.Json(Model.Projects), @Html.Json(Model.OnlineUsers), @Html.Json(Model.UserProfile.Id));
     });
 </script>

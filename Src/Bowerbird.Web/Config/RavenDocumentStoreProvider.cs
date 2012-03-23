@@ -60,15 +60,15 @@ namespace Bowerbird.Web.Config
                 //DefaultDatabase = _configService.GetDatabaseName()
             };
 
-            documentStore.Conventions.FindIdentityProperty =
-                                prop =>
-                                    // My custom ID for a given class.
-                                    //(prop.DeclaringType.IsSubclassOf(typeof(DomainModelWithId)) && prop.Name == "Id")
-                                    //(prop.DeclaringType == typeof(Role) && prop.Name == "Id")
-                                    //|| (prop.DeclaringType == typeof(Permission) && prop.Name == "Id")
-                                    // Default to general purpose.
-                                    //prop.Name == "Id";
-                                    prop.Name == "Id";
+            //documentStore.Conventions.FindIdentityProperty =
+            //                    prop =>
+            //                        // My custom ID for a given class.
+            //                        //(prop.DeclaringType.IsSubclassOf(typeof(DomainModelWithId)) && prop.Name == "Id")
+            //                        //(prop.DeclaringType == typeof(Role) && prop.Name == "Id")
+            //                        //|| (prop.DeclaringType == typeof(Permission) && prop.Name == "Id")
+            //                        // Default to general purpose.
+            //                        //prop.Name == "Id";
+            //                        prop.Name == "Id";
 
             documentStore.Initialize();
 

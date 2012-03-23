@@ -14,6 +14,8 @@ window.Bowerbird.Views.SidebarView = Backbone.View.extend({
         this.projectSidebarItemViews = [];
         app.teams.on('add', this.addTeamSideBarItem, this);
         app.projects.on('add', this.addProjectSideBarItem, this);
+        app.teams.on('reset', this.addTeamSideBarItem, this);
+        app.projects.on('reset', this.addProjectSideBarItem, this);
     },
 
     render: function () {
@@ -31,5 +33,13 @@ window.Bowerbird.Views.SidebarView = Backbone.View.extend({
         var sidebarItemView = new Bowerbird.Views.SidebarItemView({ sidebarItem: project });
         this.projectSidebarItemViews.push(sidebarItemView);
         $("#project-menu-group ul").append(sidebarItemView.render().el);
+    },
+
+    addTeamSideBarItems: function () {
+        app.teams.each(addTeamSideBarItem);
+    },
+
+    addProjectSideBarItems: function () {
+        app.projects.each(addProjectSideBarItem);
     }
 });

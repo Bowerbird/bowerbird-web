@@ -24,11 +24,21 @@ window.Bowerbird.Views.MediaResourceItemView = Backbone.View.extend({
     },
 
     viewMediaResource: function () {
-
+        alert('Coming soon');
     },
 
     removeMediaResource: function () {
+        var addToRemoveList = false;
+        if (app.get('newObservation').mediaResources.find(function (mr) { return mr.id == this.mediaResource.id; }) != null) {
+            addToRemoveList = true;
+        }
+        app.get('newObservation').addMediaResources.remove(this.mediaResource.id);
+        app.get('newObservation').mediaResources.remove(this.mediaResource.id);
+        if (addToRemoveList) {
+            app.get('newObservation').removeMediaResources.add(this.mediaResource);
+        }
 
+        this.remove();
     },
 
     showTempMedia: function (img) {

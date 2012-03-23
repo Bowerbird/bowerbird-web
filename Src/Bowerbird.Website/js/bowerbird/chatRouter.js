@@ -23,8 +23,7 @@ window.Bowerbird.ChatRouter = Backbone.Model.extend({
         'chatRequest'
         );
 
-        this.appManager = options.appManager;
-        options.appManager.chats.on('remove', this.exitChat, this);
+        app.chats.on('remove', this.exitChat, this);
         this.chatHub = $.connection.chatHub;
         this.chatHub.chatMessageReceived = this.chatMessageReceived;
         this.chatHub.userJoinedChat = this.userJoinedChat;
@@ -79,14 +78,14 @@ window.Bowerbird.ChatRouter = Backbone.Model.extend({
     setupChat: function (data) {
         log('chatRouter.setupChat');
         var self = this;
-        var chat = self.appManager.chats.get(data.id);
+        var chat = app.chats.get(data.id);
 
         $.each(data.users, function (index, xitem) {
             var chatUser = _.find(chat.chatUsers, function (yitem) {
                 return xitem.user.id == yitem.user.id;
             });
             if (_.isNull(chatUser) || _.isUndefined(chatUser)) {
-                var user = self.appManager.users.get(xitem.id);
+                var user = app.users.get(xitem.id);
                 if (_.isNull(user) || _.isUndefined(user)) {
                     user = new Bowerbird.Models.User(xitem);
                 }
@@ -104,13 +103,13 @@ window.Bowerbird.ChatRouter = Backbone.Model.extend({
 
     chatMessageReceived: function (data) {
         log('message for chatId: ' + data.chatId + ' with content ' + data.message);
-        var chat = this.appManager.chats.get(data.chatId);
+        var chat = app.chats.get(data.chatId);
         chat.chatMessages.add(new Bowerbird.Models.ChatMessage(data));
     },
 
     userJoinedChat: function (data) {
         log('chatRouter.userJoinedChat');
-        var chat = this.appManager.chats.get(data.id);
+        var chat = app.chats.get(data.id);
 
         var chatUsers = chat.chatUsers.pluck('user');
 
@@ -120,7 +119,7 @@ window.Bowerbird.ChatRouter = Backbone.Model.extend({
 
         if (match) return;
 
-        var user = this.appManager.users.get(data.user.id);
+        var user = app.users.get(data.user.id);
         if (_.isNull(user) || _.isUndefined(user)) {
             user = new Bowerbird.Models.User(data.user);
         }
@@ -130,7 +129,7 @@ window.Bowerbird.ChatRouter = Backbone.Model.extend({
 
     userExitedChat: function (data) {
         log('chatRouter.userExitedChat');
-        var chat = this.appManager.chats.get(data.id);
+        var chat = app.chats.get(data.id);
 
         var chatUsers = chat.chatUsers.pluck('user');
         var match = _.any(chatUsers, function (user) {

@@ -6,19 +6,32 @@ window.Bowerbird.App = Backbone.Model.extend({
     },
 
     initialize: function (options) {
-        
         log('App.Initialize');
-        
+
         this.teams = new Bowerbird.Collections.Teams();
-        this.projects = new Bowerbird.Collections.Teams();
+        this.projects = new Bowerbird.Collections.Projects();
         this.stream = new Bowerbird.Models.Stream();
         this.chats = new Bowerbird.Collections.Chats();
         this.users = new Bowerbird.Collections.Users();
-        this.activityRouter = new Bowerbird.ActivityRouter({ appManager: this, userId: this.get('userId')});
-        this.chatRouter = new Bowerbird.ChatRouter({ appManager: this });
 
+        window.app = this;
         log('App.Initialize Completed');
+    },
 
+    start: function (userId, teams, projects, users) {
+        // Start app page
+        this.appView = new Bowerbird.Views.AppView({ app: this }).render();
+
+        // Init sub components
+        this.activityRouter = new Bowerbird.ActivityRouter({ userId: userId });
+        this.chatRouter = new Bowerbird.ChatRouter();
+        this.appRouter = new Bowerbird.AppRouter();
+        Backbone.history.start({ pushState: false });
+
+        // Populate with bootstrapped data
+        this.teams.reset(teams);
+        this.projects.reset(projects);
+        this.users.reset(users);
     },
 
     showHomeStream: function (filter) {
@@ -38,7 +51,7 @@ window.Bowerbird.App = Backbone.Model.extend({
     },
 
     startNewObservation: function () {
-        this.set('newObservation', new Bowerbird.Models.Observation({}));
+        this.set('newObservation', new Bowerbird.Models.Observation({ observedOn: new Date().format('d MMM yyyy') }));
     },
 
     cancelNewObservation: function () {

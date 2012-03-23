@@ -11,17 +11,19 @@ window.Bowerbird.Views.UserView = Backbone.View.extend({
         _.extend(this, Backbone.Events);
         _.bindAll(this,
         'toggleWindowView',
-        'change',
+        'render',
         'startChat',
         'generateGuid'
         );
         this.fullView = false;
-        app.users.on('add', this.change, this);
-        app.users.on('remove', this.change, this);
+        app.users.on('add', this.render, this);
+        app.users.on('remove', this.render, this);
+        app.users.on('reset', this.render, this);
     },
 
     render: function () {
         var usersTemplate = ich.usersonline({ count: app.users.length, users: app.users.toJSON() });
+        this.$el.empty();
         this.$el.append(usersTemplate);
         return this;
     },
@@ -36,11 +38,11 @@ window.Bowerbird.Views.UserView = Backbone.View.extend({
         }
     },
 
-    change: function () {
-        var usersTemplate = ich.usersonline({ count: app.users.length, users: app.users.toJSON() });
-        this.$el.empty();
-        this.$el.append(usersTemplate);
-    },
+//    change: function () {
+//        var usersTemplate = ich.usersonline({ count: app.users.length, users: app.users.toJSON() });
+//        this.$el.empty();
+//        this.$el.append(usersTemplate);
+//    },
 
     startChat: function (e) {
         // call can come from a user's chat-icon

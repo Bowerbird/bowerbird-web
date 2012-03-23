@@ -5,15 +5,16 @@ window.Bowerbird.Views.AppView = Backbone.View.extend({
     initialize: function (options) {
         _.extend(this, Backbone.Events);
         _.bindAll(this,
+        'render',
         'showStreamView',
+        'showOnlineUsers',
         'showObservationCreateFormView',
         'showChatView',
-        'showOnlineUsers',
         'removeChatView'
         );
-        this.streamView = new Bowerbird.Views.StreamView();
-        this.$el.append(this.streamView.render().el);
+        this.streamView = null;
         this.formView = null;
+        this.userView = null;
         app.stream.on('newStream', this.showStreamView, this);
         app.on('change:newObservation', this.showObservationCreateFormView, this);
         app.chats.on('remove', this.removeChatView, this);
@@ -21,12 +22,28 @@ window.Bowerbird.Views.AppView = Backbone.View.extend({
         this.chatViews = [];
     },
 
+    render: function () {
+        this.showStreamView();
+        this.showOnlineUsers();
+        return this;
+    },
+
     showStreamView: function () {
+        if (this.streamView == null) {
+            this.streamView = new Bowerbird.Views.StreamView();
+            this.$el.append(this.streamView.render().el);
+        }
         if (this.formView) {
             $(this.formView.el).remove();
         }
         $(this.streamView.el).show();
         window.scrollTo(0, 0);
+    },
+
+    showOnlineUsers: function () {
+        log('appView.showOnlineUsers');
+        this.userView = new Bowerbird.Views.UserView();
+        $('body').append(this.userView.render().el);
     },
 
     showObservationCreateFormView: function () {
@@ -43,12 +60,6 @@ window.Bowerbird.Views.AppView = Backbone.View.extend({
         var chatView = new Bowerbird.Views.ChatView({ chat: chat, id: 'chat-' + chat.id });
         this.chatViews.push(chatView);
         $('body').append(chatView.render().el);
-    },
-
-    showOnlineUsers: function () {
-        log('appView.showOnlineUsers');
-        var userView = new Bowerbird.Views.UserView();
-        $('body').append(userView.render().el);
     },
 
     removeChatView: function (chat, options) {

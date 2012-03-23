@@ -1881,6 +1881,11 @@ li.chat-message .message-text
 }
 .chat-send-message-button
 {
+<<<<<<< Updated upstream
     width:15%;   
     display:inline-block;   
+=======
+    list-style-type: none;
+    padding-top: 5px;
+>>>>>>> Stashed changes
 }

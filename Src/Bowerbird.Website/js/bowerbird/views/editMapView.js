@@ -8,12 +8,7 @@
 Bowerbird.DummyOverlayView.prototype = new google.maps.OverlayView();
 
 window.Bowerbird.Views.EditMapView = Backbone.View.extend({
-    events: {
-        "change input#address": "_contentChanged",
-        "change input#latitude": "_contentChanged",
-        "change input#longitude": "_contentChanged",
-        "change input#anonymiseLocation": "_contentChanged"
-    },
+    id: 'location-fieldset',
 
     initialize: function (options) {
         _.extend(this, Backbone.Events);
@@ -27,13 +22,6 @@ window.Bowerbird.Views.EditMapView = Backbone.View.extend({
         this._initAddressField();
         this._initLocationPin();
         return this;
-    },
-
-    _contentChanged: function (e) {
-        var target = $(e.currentTarget);
-        var data = {};
-        data[target.attr('name')] = target.attr('value');
-        this.observation.set(data);
     },
 
     _initMap: function () {
@@ -78,9 +66,13 @@ window.Bowerbird.Views.EditMapView = Backbone.View.extend({
             //This bit is executed upon selection of an address
             select: function (event, ui) {
                 var location = new google.maps.LatLng(ui.item.latitude, ui.item.longitude);
-                self._positionMarker(location, "http://maps.gstatic.com/mapfiles/ms/icons/blue-dot.png");
+                self._positionMarker(location);
                 self._removeMarkerFromPlaceholder();
                 self._reverseGeocode();
+
+                var position = self.mapMarker.getPosition();
+                var newPoint = new google.maps.LatLng(position.lat() + .02, position.lng());
+                self.map.panTo(newPoint);
             }
         });
     },
@@ -88,11 +80,11 @@ window.Bowerbird.Views.EditMapView = Backbone.View.extend({
     _initLocationPin: function () {
         var self = this;
         $("#location-pin").draggable({
-//            drag: function (event, ui) {
-//                var locationPinLeft = ui.helper.offset().left + ui.helper.width() / 2;
-//                var locationPinTop = ui.helper.offset().top + ui.helper.height() / 2;
-//                $('#debug-info').text('left: ' + locationPinLeft + ', top: ' + locationPinTop);
-//            },
+            //            drag: function (event, ui) {
+            //                var locationPinLeft = ui.helper.offset().left + ui.helper.width() / 2;
+            //                var locationPinTop = ui.helper.offset().top + ui.helper.height() / 2;
+            //                $('#debug-info').text('left: ' + locationPinLeft + ', top: ' + locationPinTop);
+            //            },
             stop: function (event, ui) {
                 var $mapDiv = $(self.map.getDiv());
 
@@ -120,8 +112,7 @@ window.Bowerbird.Views.EditMapView = Backbone.View.extend({
                     var latlng = proj.fromContainerPixelToLatLng(pixelpoint);
 
                     // Create a corresponding marker on the map
-                    var src = ui.helper.children(':first').attr("src");
-                    self._positionMarker(latlng, src);
+                    self._positionMarker(latlng);
                     self._removeMarkerFromPlaceholder();
                     self._reverseGeocode();
                 }
@@ -129,7 +120,7 @@ window.Bowerbird.Views.EditMapView = Backbone.View.extend({
         });
     },
 
-    _positionMarker: function (point, src) {
+    _positionMarker: function (point) {
         // Remove map marker first
         if (this.mapMarker) {
             this.mapMarker.setMap(null);
@@ -138,7 +129,7 @@ window.Bowerbird.Views.EditMapView = Backbone.View.extend({
 
         var g = google.maps;
 
-        var image = new g.MarkerImage(src,
+        var image = new g.MarkerImage('http://maps.gstatic.com/mapfiles/ms/icons/blue-dot.png',
                 new g.Size(32, 32),
                 new g.Point(0, 0),
                 new g.Point(15, 32)
@@ -168,7 +159,7 @@ window.Bowerbird.Views.EditMapView = Backbone.View.extend({
             //        var lng = mapMarker.getPosition().lng();
             //        iw.setContent(lat.toFixed(6) + ", " + lng.toFixed(6));
             //        iw.open(map, this);
-            self._displayLatLong();
+            self._displayLatLong(false);
         });
 
         g.event.addListener(this.mapMarker, "dragstart", function () {
@@ -180,7 +171,7 @@ window.Bowerbird.Views.EditMapView = Backbone.View.extend({
         });
 
         g.event.addListener(this.mapMarker, "dragend", function () {
-            self._displayLatLong();
+            self._displayLatLong(true);
             self._reverseGeocode();
         });
 
@@ -195,20 +186,42 @@ window.Bowerbird.Views.EditMapView = Backbone.View.extend({
         return this.zIndex;
     },
 
-    _displayLatLong: function () {
+    changeMarkerPosition: function (lat, long) {
+        var latlng = new google.maps.LatLng(lat, long);
+
+        if (this.mapMarker === null) {
+            this._positionMarker(latlng);
+            this._removeMarkerFromPlaceholder();
+            this._reverseGeocode();
+        }
+        else {
+            this._positionMarker(latlng);
+            this._reverseGeocode();
+        }
+
+        if (!this.map.getBounds().contains(this.mapMarker.getPosition())) {
+            var position = this.mapMarker.getPosition();
+            var newPoint = new google.maps.LatLng(position.lat() + .02, position.lng());
+            this.map.panTo(newPoint);
+        }
+    },
+
+    _displayLatLong: function (fireLatLongFieldsChangeEvent) {
         if (this.mapMarker) {
             var lat = this.mapMarker.getPosition().lat();
             var lng = this.mapMarker.getPosition().lng();
-            if (this.observation.get('anonymiseLocation') === true) {
-                $('#latitude').val(lat);
-                $('#longitude').val(lng);
+            //            if (this.observation.get('anonymiseLocation') === true) {
+            $('#latitude').val(lat);
+            $('#longitude').val(lng);
+            //            }
+            //            else {
+            //                $('#latitude').val(parseFloat(lat).toFixed(1));
+            //                $('#longitude').val(parseFloat(lng).toFixed(1));
+            //            }
+            if (fireLatLongFieldsChangeEvent) {
+                //$('#latitude').change();
+                $('#longitude').change();
             }
-            else {
-                $('#latitude').val(parseFloat(lat).toFixed(1));
-                $('#longitude').val(parseFloat(lng).toFixed(1));
-            }
-            $('#latitude').change();
-            $('#longitude').change();
         }
         else {
             return;

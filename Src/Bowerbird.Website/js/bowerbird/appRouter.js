@@ -1,5 +1,5 @@
 ﻿
-window.Bowerbird.Router = Backbone.Router.extend({
+window.Bowerbird.AppRouter = Backbone.Router.extend({
     routes: {
         '': 'showDefaultStream',
         'home/:filter': 'showHomeStream',
