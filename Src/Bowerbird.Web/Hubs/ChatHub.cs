@@ -20,6 +20,7 @@ using Bowerbird.Web.Services;
 using Bowerbird.Web.ViewModels.Shared;
 using SignalR.Hubs;
 using Bowerbird.Core.DesignByContract;
+using PrivateChatMessage = Bowerbird.Core.DomainModels.PrivateChatMessage;
 
 namespace Bowerbird.Web.Hubs
 {
@@ -63,7 +64,7 @@ namespace Bowerbird.Web.Hubs
             var setupChat = new SetupChat()
                                 {
                                     ChatId = chatId,
-                                    Title = chatId.Contains('/') ? _hubService.GetGroupName(chatId) : "Private Chat",
+                                    Title = _hubService.GetGroupName(chatId),
                                     Timestamp = DateTime.UtcNow,
                                     Users =
                                         _hubService.GetClientsForChat(chatId).Select(x => x.UserId).Distinct().Select(
@@ -80,6 +81,38 @@ namespace Bowerbird.Web.Hubs
                         Timestamp = DateTime.UtcNow,
                         User = _hubService.GetUserProfile(userId)
                     });
+        }
+
+        public void StartChat(string chatId, string userId)
+        {
+            AddToGroup(chatId);
+
+            var chatUserId = _hubService.GetClientsUserId(Context.ConnectionId);
+
+            var fromUser = _hubService.GetUserProfile(chatUserId);
+
+            var toUser = _hubService.GetUserProfile(userId);
+
+            _hubService.UpdateChatUserStatus(chatId, Context.ConnectionId, chatUserId, Online);
+
+            var clientIds = _hubService.GetConnectedClientIdsForAUser(userId);
+
+            var comeToChat = string.Format("{0} has invited you to chat", fromUser.Name);
+
+            var chatRequest = new ChatRequest()
+                                  {
+                                      ChatId = chatId,
+                                      FromUser = fromUser,
+                                      ToUser = toUser,
+                                      Id = Guid.NewGuid().ToString(),
+                                      Message = comeToChat, 
+                                      Timestamp = DateTime.UtcNow
+                                  };
+
+            foreach (var clientId in clientIds)
+            {
+                Clients[clientId].chatRequest(chatRequest);
+            }
         }
 
         public void ExitChat(string chatId)

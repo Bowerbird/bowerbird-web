@@ -194,6 +194,7 @@
     <Content Include="js\bowerbird\models\chat.js" />
     <Content Include="js\bowerbird\models\chatMessage.js" />
     <Content Include="js\bowerbird\models\chatUser.js" />
+    <Content Include="js\bowerbird\models\groupChat.js" />
     <Content Include="js\bowerbird\models\mediaResource.js" />
     <Content Include="js\bowerbird\models\observation.js" />
     <Content Include="js\bowerbird\models\project.js" />
@@ -201,6 +202,7 @@
     <Content Include="js\bowerbird\models\streamItem.js" />
     <Content Include="js\bowerbird\models\team.js" />
     <Content Include="js\bowerbird\models\user.js" />
+    <Content Include="js\bowerbird\models\userChat.js" />
     <Content Include="js\bowerbird\namespace.js" />
     <Content Include="js\bowerbird\router.js" />
     <Content Include="js\bowerbird\views\appView.js" />

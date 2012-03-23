@@ -136,6 +136,7 @@
         <img src="{{avatar.urlToImage}}" alt="{{avatar.altTag}}" width="16px;" height="16px;" />
     </span>
     <span class="user-name" id="{{id}}">{{name}}</span>
+    <span class="user-chat-icon" id="user-{{id}}">&nbsp;&nbsp;&nbsp;&nbsp;</span>
 </script>
 
 <!-- {{ chatuser: display the chatuser's > user }} -->
@@ -210,6 +211,8 @@
 <script type="text/javascript" src="@Url.BowerbirdJsFile("namespace.js")"></script>
 
 <script type="text/javascript" src="@Url.BowerbirdJsModel("chat.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("groupChat.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("userChat.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsModel("chatMessage.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsModel("chatUser.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsModel("observation.js")"></script>

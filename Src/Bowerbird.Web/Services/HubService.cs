@@ -180,6 +180,16 @@ namespace Bowerbird.Web.Services
 
             return userSession.User.Id;
         }
+
+        public IEnumerable<string> GetConnectedClientIdsForAUser(string userId)
+        {
+            return _documentSession
+                .Query<All_UserSessions.Results, All_UserSessions>()
+                .AsProjection<All_UserSessions.Results>()
+                .Where(x => x.Status < 2 && x.UserId == userId)
+                .ToList()
+                .Select(x => x.ClientId);
+        }
         
         public IEnumerable<string> GetConnectedUserClientIds()
         {
@@ -347,7 +357,7 @@ namespace Bowerbird.Web.Services
                 {
                     var commandHandler = new PrivateChatSessionCreateCommandHandler(_documentSession);
 
-                    commandHandler.Handle(MakePrivateChatSessionCreateCommand(chatId, clientId, status));
+                    commandHandler.Handle(MakePrivateChatSessionCreateCommand(userId, chatId, clientId, status));
                 }
             }
             catch (Exception ex)
@@ -412,10 +422,11 @@ namespace Bowerbird.Web.Services
             return clientSession != null;
         }
 
-        private static PrivateChatSessionCreateCommand MakePrivateChatSessionCreateCommand(string chatId, string clientId, int status)
+        private static PrivateChatSessionCreateCommand MakePrivateChatSessionCreateCommand(string userId, string chatId, string clientId, int status)
         {
             return new PrivateChatSessionCreateCommand()
             {
+                UserId = userId,
                 ChatId = chatId,
                 ClientId = clientId,
                 CreatedDateTime = DateTime.UtcNow,

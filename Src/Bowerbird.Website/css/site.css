@@ -1553,6 +1553,15 @@ header nav#search-menu
     background-size:50px 50px;
     cursor: pointer;
 }
+.user-chat-icon
+{
+    width:16px;
+    height:16px;
+    background-image:url("/img/user-chat-icon.png");   
+    background-repeat: no-repeat;
+    background-size:16px 16px;
+    cursor: pointer;
+}
 ul.chat-messages
 {
     float:left;

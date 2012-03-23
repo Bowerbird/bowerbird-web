@@ -25,6 +25,8 @@ namespace Bowerbird.Web.Services
 
         string GetClientsUserId(string clientId);
 
+        IEnumerable<string> GetConnectedClientIdsForAUser(string userId);
+
         string GetGroupName(string chatId);
 
         List<ChatMessage> GetChatMessages(string chatId);

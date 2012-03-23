@@ -10,17 +10,7 @@ window.Bowerbird.Collections.ChatUsers = Backbone.Collection.extend({
     ,
 
     toJsonViewModel: function () {
-        // extracts each of the user objects from 
-        // the collections chatuser objects and serializes
-
-        //        var jsonViewModel = {
-        //            "users": this.pluck('user')
-        //        };
-
-        //        return jsonViewModel;
-        //return this.pluck('user');
         var users = this.pluck('user');
-
         var jsonUsers = _.map(users, function (user) {
             return { 
                 "id": user.id,

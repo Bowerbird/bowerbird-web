@@ -193,6 +193,7 @@
     <Compile Include="ViewModels\Members\GroupMemberListInput.cs" />
     <Compile Include="ViewModels\Shared\ActivityMessage.cs" />
     <Compile Include="ViewModels\Shared\ChatMessage.cs" />
+    <Compile Include="ViewModels\Shared\ChatRequest.cs" />
     <Compile Include="ViewModels\Shared\SetupChat.cs" />
     <Compile Include="ViewModels\Shared\ChatUserTyping.cs" />
     <Compile Include="ViewModels\Shared\GroupChatMessage.cs" />

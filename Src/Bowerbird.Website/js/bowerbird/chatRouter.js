@@ -14,11 +14,14 @@ window.Bowerbird.ChatRouter = Backbone.Model.extend({
         'startTyping',
         'stopTyping',
         'sendMessage',
+        'inviteToChat',
         'setupChat',
         'typing',
         'chatMessageReceived',
         'userJoinedChat',
-        'userExitedChat');
+        'userExitedChat',
+        'chatRequest'
+        );
 
         this.appManager = options.appManager;
         options.appManager.chats.on('remove', this.exitChat, this);
@@ -28,6 +31,7 @@ window.Bowerbird.ChatRouter = Backbone.Model.extend({
         this.chatHub.userExitedChat = this.userExitedChat;
         this.chatHub.setupChat = this.setupChat;
         this.chatHub.typing = this.typing;
+        this.chatHub.chatRequest = this.chatRequest;
 
         log('chatRouter.Initialize - done');
     },
@@ -35,7 +39,12 @@ window.Bowerbird.ChatRouter = Backbone.Model.extend({
     // TO HUB---------------------------------------
 
     joinChat: function (chat) {
-        this.chatHub.joinChat(chat.get('group').get('id'));
+        if (chat instanceof Bowerbird.Models.GroupChat) {
+            this.chatHub.joinChat(chat.get('group').get('id'));
+        }
+        else if (chat instanceof Bowerbird.Models.UserChat) {
+            this.chatHub.startChat(chat.id, chat.get('user').get('id'));
+        }
     },
 
     exitChat: function (chat) {
@@ -58,6 +67,11 @@ window.Bowerbird.ChatRouter = Backbone.Model.extend({
     sendMessage: function (message, chat) {
         log('chatRouter.sendMessage');
         this.chatHub.sendChatMessage(chat.get('id'), message);
+    },
+
+    inviteToChat: function (chat, user) {
+        log('chatRouter.inviteToChat: invited ' + user.get('name') + ' to chat');
+        this.chatHub.inviteToChat(chat.get('group').get('id'), user.id);
     },
 
     // FROM HUB-------------------------------------
@@ -134,5 +148,14 @@ window.Bowerbird.ChatRouter = Backbone.Model.extend({
         } else {
             chat.chatUsers.remove(chatUser);
         }
+    },
+
+    chatRequest: function (data) {
+        log('chatRouter.chatRequest');
+        var fromUser = app.users.get(data.fromUser.id);
+        var chatId = data.chatId;
+        var chat = new Bowerbird.Models.UserChat({ id: chatId, user: fromUser, message: data.message });
+        app.chats.add(chat);
     }
+
 });

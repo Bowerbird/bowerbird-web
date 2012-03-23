@@ -15,10 +15,10 @@ window.Bowerbird.Views.ChatView = Backbone.View.extend({
         'addChatMessage',
         'changeUsers');
         this.chat = options.chat;
-        this.chat.chatMessages.on('add', this.addChatMessage, this);
         this.chat.chatUsers.on('add', this.changeUsers, this);
         this.chat.chatUsers.on('remove', this.changeUsers, this);
         this.chat.chatUsers.on('reset', this.changeUsers, this);
+        this.chat.chatMessages.on('add', this.addChatMessage, this);
     },
 
     render: function () {

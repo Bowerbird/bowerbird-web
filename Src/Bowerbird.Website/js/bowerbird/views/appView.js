@@ -2,10 +2,6 @@
 window.Bowerbird.Views.AppView = Backbone.View.extend({
     el: $('article'),
 
-    events: {
-        'click .chat-icon': 'startChat'
-    },
-
     initialize: function (options) {
         _.extend(this, Backbone.Events);
         _.bindAll(this,
@@ -13,14 +9,15 @@ window.Bowerbird.Views.AppView = Backbone.View.extend({
         'showObservationCreateFormView',
         'showChatView',
         'showOnlineUsers',
-        'removeChatView',
-        'startChat');
+        'removeChatView'
+        );
         this.streamView = new Bowerbird.Views.StreamView();
         this.$el.append(this.streamView.render().el);
         this.formView = null;
         app.stream.on('newStream', this.showStreamView, this);
         app.on('change:newObservation', this.showObservationCreateFormView, this);
         app.chats.on('remove', this.removeChatView, this);
+        app.chats.on('add', this.showChatView, this);
         this.chatViews = [];
     },
 
@@ -60,32 +57,5 @@ window.Bowerbird.Views.AppView = Backbone.View.extend({
         });
         chatView.remove();
         this.chatViews = _.without(this.chatViews, chatView);
-    },
-
-    startChat: function (e) {
-
-        var groupId = e.target["id"].split('-')[1];
-        var chatGroup = '';
-
-        if (groupId.indexOf("projects/") != -1) {
-            chatGroup = app.projects.get(groupId);
-        }
-        else if (groupId.indexOf("teams/") != -1) {
-            chatGroup = app.teams.get(groupId);
-        }
-        else {
-            return; // not implemented yet but will generate a Guid for a personal chat's id
-        }
-
-        var chat = app.chats.get(groupId);
-
-        if (_.isNull(chat) || _.isUndefined(chat)) {
-            chat = new Bowerbird.Models.Chat({ id: groupId, group: chatGroup });
-            app.chats.add(chat);
-        }
-
-        app.chatRouter.joinChat(chat);
-
-        this.showChatView(chat);
     }
 });
