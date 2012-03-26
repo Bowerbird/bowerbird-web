@@ -46,13 +46,17 @@ namespace Bowerbird.Web.ViewModels.Members
 
         public string Title { get; set; }
 
-        public string ObservationCategory { get; set; }
+        public string Category { get; set; }
 
         public DateTime ObservedOn { get; set; }
 
         public string UserId { get; set; }
 
-        public Dictionary<string, string> ObservationMediaItems { get; set; }
+        public Dictionary<string, string> AddMediaResources { get; set; }
+
+        public Dictionary<string, string> MediaResources { get; set; }
+
+        public List<string> RemoveMediaResources { get; set; }
 
         public List<string> Projects { get; set; }
 

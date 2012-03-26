@@ -22,46 +22,63 @@ using Bowerbird.Core.EventHandlers;
 namespace Bowerbird.Core.Events
 {
     public class EventProcessor
-	{
+    {
         [ThreadStatic]
-        private static List<Delegate> actions;
+        private static List<Delegate> _actions;
+
+        [ThreadStatic]
+        private static bool _doEventFiring = true;
+
+        //private static object _syncLock = new object();
 
         public static IServiceLocator ServiceLocator { get; set; }
 
         public static void ClearCallbacks()
         {
-            actions = null;
+            _actions = null;
         }
 
         public static void Raise<T>(T args) where T : IDomainEvent
         {
-            return; // HACK - Possible issue of events firing while seeding system
-            if (ServiceLocator != null)
+            if (_doEventFiring)
             {
-                foreach (var handler in ServiceLocator.GetAllInstances<IEventHandler<T>>())
+                if (ServiceLocator != null)
                 {
-                    handler.Handle(args);
+                    foreach (var handler in ServiceLocator.GetAllInstances<IEventHandler<T>>())
+                    {
+                        handler.Handle(args);
+                    }
+                }
+
+                if (_actions == null) return;
+
+                foreach (var action in _actions)
+                {
+                    if (action is Action<T>)
+                    {
+                        ((Action<T>)action)(args);
+                    }
                 }
             }
-
-            if (actions == null) return;
-
-            foreach (var action in actions)
-            {
-                if (action is Action<T>)
-                {
-                    ((Action<T>)action)(args);
-                }
-            }
-        } 
+        }
 
         public static void Register<T>(Action<T> callback) where T : IDomainEvent
         {
-            if (actions == null)
+            if (_actions == null)
             {
-                actions = new List<Delegate>();
+                _actions = new List<Delegate>();
             }
-            actions.Add(callback);
+            _actions.Add(callback);
+        }
+
+        public static void TurnEventsOn()
+        {
+            _doEventFiring = true;
+        }
+
+        public static void TurnEventsOff()
+        {
+            _doEventFiring = false;
         }
     }
 }

@@ -68,9 +68,12 @@
                     </div>
                 </div>
                 <div id="anonymise-location-field" class="field field-checkbox">
-                    <div><label>Anonymise Location</label></div>
+                    <div><label>Show Exact Location</label></div>
                     <div>
-                        <input type="checkbox" id="anonymiseLocation" name="anonymiseLocation" /> <label for="anonymiseLocation">Anonymise Location</label>
+                        @*<input type="checkbox" id="anonymiseLocation" name="anonymiseLocation" /> <label for="anonymiseLocation">Anonymise Location</label>*@
+                        <div class="checkbox">
+                            <input type="checkbox" id="anonymiseLocation" name="anonymiseLocation" /> <label for="anonymiseLocation"><span class="on">Yes</span><span class="bar"></span><span class="off">No</span>Show Exact Location</label>
+                        </div>
                     </div>
                 </div>
             </fieldset>

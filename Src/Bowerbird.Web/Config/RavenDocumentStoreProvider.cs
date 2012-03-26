@@ -57,8 +57,14 @@ namespace Bowerbird.Web.Config
             var documentStore = new DocumentStore
             {
                 Url = _configService.GetDatabaseUrl()
-                //DefaultDatabase = _configService.GetDatabaseName()
             };
+
+            var hasDefaultDatabase = !string.IsNullOrWhiteSpace(_configService.GetDatabaseName());
+
+            if (hasDefaultDatabase)
+            {
+                documentStore.DefaultDatabase = _configService.GetDatabaseName();
+            }
 
             //documentStore.Conventions.FindIdentityProperty =
             //                    prop =>
@@ -72,7 +78,10 @@ namespace Bowerbird.Web.Config
 
             documentStore.Initialize();
 
-            //documentStore.DatabaseCommands.EnsureDatabaseExists(_configService.GetDatabaseName());
+            if (hasDefaultDatabase)
+            {
+                documentStore.DatabaseCommands.EnsureDatabaseExists(_configService.GetDatabaseName());
+            }
 
             IndexCreation.CreateIndexes(typeof(All_Members).Assembly, documentStore);
 

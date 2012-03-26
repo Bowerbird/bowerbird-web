@@ -26,12 +26,14 @@ window.Bowerbird.App = Backbone.Model.extend({
         this.activityRouter = new Bowerbird.ActivityRouter({ userId: userId });
         this.chatRouter = new Bowerbird.ChatRouter();
         this.appRouter = new Bowerbird.AppRouter();
-        Backbone.history.start({ pushState: false });
-
+        
         // Populate with bootstrapped data
         this.teams.reset(teams);
         this.projects.reset(projects);
         this.users.reset(users);
+
+        // Start URL and history routing
+        Backbone.history.start({ pushState: false });
     },
 
     showHomeStream: function (filter) {

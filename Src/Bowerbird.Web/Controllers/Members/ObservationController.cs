@@ -242,10 +242,11 @@ namespace Bowerbird.Web.Controllers.Members
                            Longitude = observationCreateInput.Longitude,
                            Address = observationCreateInput.Address,
                            IsIdentificationRequired = observationCreateInput.IsIdentificationRequired,
-                           ObservationMediaItems = observationCreateInput.ObservationMediaItems,
-                           ObservationCategory = observationCreateInput.ObservationCategory,
+                           Category = observationCreateInput.Category,
                            ObservedOn = observationCreateInput.ObservedOn,
-                           UserId = _userContext.GetAuthenticatedUserId()
+                           UserId = _userContext.GetAuthenticatedUserId(),
+                           Projects = observationCreateInput.Projects,
+                           AddMediaResources = observationCreateInput.AddMediaResources
                        };
         }
 
@@ -259,10 +260,10 @@ namespace Bowerbird.Web.Controllers.Members
                            Longitude = observationUpdateInput.Longitude,
                            Address = observationUpdateInput.Address,
                            IsIdentificationRequired = observationUpdateInput.IsIdentificationRequired,
-                           ObservationMediaItems = observationUpdateInput.ObservationMediaItems,
-                           ObservationCategory = observationUpdateInput.ObservationCategory,
+                           Category = observationUpdateInput.Category,
                            ObservedOn = observationUpdateInput.ObservedOn,
-                           UserId = _userContext.GetAuthenticatedUserId()
+                           UserId = _userContext.GetAuthenticatedUserId(),
+                           Projects = observationUpdateInput.Projects
                        };
         }
 

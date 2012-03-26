@@ -44,9 +44,9 @@ namespace Bowerbird.Core.Commands
 
         public bool IsIdentificationRequired { get; set; }
 
-        public string ObservationCategory { get; set; }
+        public string Category { get; set; }
 
-        public Dictionary<string, string> ObservationMediaItems { get; set; }
+        public Dictionary<string, string> AddMediaResources { get; set; }
 
         public virtual List<string> Projects { get; set; }
 

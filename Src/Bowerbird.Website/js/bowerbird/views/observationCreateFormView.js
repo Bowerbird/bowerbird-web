@@ -80,7 +80,7 @@ window.Bowerbird.Views.ObservationCreateFormView = Backbone.View.extend({
     _cancel: function () {
         app.set('newObservation', null);
         this.remove();
-        app.router.navigate(app.stream.get('uri'), { trigger: true });
+        app.appRouter.navigate(app.stream.get('uri'), { trigger: true });
     },
 
     _showImportMedia: function () {
@@ -136,10 +136,10 @@ window.Bowerbird.Views.ObservationCreateFormView = Backbone.View.extend({
     },
 
     _save: function () {
-        alert('Coming soon');
-        //this.model.save();
+        //alert('Coming soon');
+        this.observation.save();
         //this.remove();
-        //app.router.navigate(app.stream.get('uri'), { trigger: true });
+        //app.appRouter.navigate(app.stream.get('uri'), { trigger: true });
     }
 });
 

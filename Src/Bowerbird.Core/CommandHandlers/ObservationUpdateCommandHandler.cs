@@ -67,25 +67,25 @@ namespace Bowerbird.Core.CommandHandlers
             //                                 })
             //                                 .ToDictionary(x => x.mediaResource, x => x.description);
 
-            var mediaResources = _documentSession
-                .Query<MediaResource>()
-                .Where(x => x.Id.In(observationUpdateCommand.ObservationMediaItems.Keys))
-                .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite());
+            //var mediaResources = _documentSession
+            //    .Query<MediaResource>()
+            //    .Where(x => x.Id.In(observationUpdateCommand.ObservationMediaItems.Keys))
+            //    .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite());
 
-            var observationMediaItems = mediaResources.ToDictionary(mediaResource => mediaResource, mediaResource => observationUpdateCommand.ObservationMediaItems.Single(x => x.Key == mediaResource.Id).Value);
+            //var observationMediaItems = mediaResources.ToDictionary(mediaResource => mediaResource, mediaResource => observationUpdateCommand.ObservationMediaItems.Single(x => x.Key == mediaResource.Id).Value);
 
-            observation.UpdateDetails(
-                _documentSession.Load<User>(observationUpdateCommand.UserId),
-                observationUpdateCommand.Title,
-                observationUpdateCommand.ObservedOn,
-                observationUpdateCommand.Latitude,
-                observationUpdateCommand.Longitude,
-                observationUpdateCommand.Address,
-                observationUpdateCommand.IsIdentificationRequired,
-                observationUpdateCommand.ObservationCategory,
-                observationMediaItems);
+            //observation.UpdateDetails(
+            //    _documentSession.Load<User>(observationUpdateCommand.UserId),
+            //    observationUpdateCommand.Title,
+            //    observationUpdateCommand.ObservedOn,
+            //    observationUpdateCommand.Latitude,
+            //    observationUpdateCommand.Longitude,
+            //    observationUpdateCommand.Address,
+            //    observationUpdateCommand.IsIdentificationRequired,
+            //    observationUpdateCommand.ObservationCategory,
+            //    observationMediaItems);
 
-            _documentSession.Store(observation);
+            //_documentSession.Store(observation);
         }
 
         #endregion      

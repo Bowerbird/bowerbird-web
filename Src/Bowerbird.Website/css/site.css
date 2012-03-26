@@ -83,7 +83,9 @@ body
     height: 100%;
     min-height: 100%;
 }
-input 
+input,
+textarea,
+button
 {
     outline: none;
 }
@@ -1076,7 +1078,7 @@ header nav#search-menu
     font-size: 0.99em;
     font-weight: 600;
     padding: 3px 18px;
-    text-shadow: 0 -1px 0 #133A68;
+    text-shadow: #133A68 0 -1px 0;
     margin-right: 15px;
     font-family: "open sans",sans-serif;
     box-shadow: 0 1px 1px 0 rgba(255, 255, 255, 0.4) inset;
@@ -1127,7 +1129,7 @@ header nav#search-menu
     margin: 0 0 15px;
     text-shadow: 0 1px 0 #FFFFFF;
 }
-.form .field-checkbox div:last-child {
+/*.form .field-checkbox div:last-child {
     border-radius: 16px 16px 16px 16px;
     display: block;
     height: 32px;
@@ -1153,6 +1155,77 @@ header nav#search-menu
   -webkit-transition: background-position 0.3s ease-in-out;
   -moz-transition: background-position 0.3s ease-in-out;
   background-position: 1px 0;
+}*/
+.form .field-checkbox div.checkbox {
+    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.6);
+    border: 1px solid #1B83EB;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 2px 0 #777777 inset;
+    display: block;
+    height: 39px;
+    overflow: hidden;
+    position: relative;
+    width: 86px;
+}
+.form .field-checkbox div.checkbox input[type=checkbox] 
+{
+    display: none;
+}
+.form .field-checkbox div.checkbox span
+{
+    display: block;
+    float: left;
+}
+.form .field-checkbox div.checkbox span.on,
+.form .field-checkbox div.checkbox span.off
+{
+    color: #133A68;
+    font-size: 1.5em;
+    font-weight: normal;
+    margin: 0;
+    padding: 8px 12px;
+    text-indent: 0;
+    text-shadow: none;
+    text-transform: none;
+    width: 30px;
+}
+.form .field-checkbox div.checkbox span.bar
+{
+    background: rgb(111,174,237);
+    background: -moz-linear-gradient(top, rgba(111,174,237,1) 0%, rgba(64,150,238,1) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(111,174,237,1)), color-stop(100%,rgba(64,150,238,1)));
+    background: -webkit-linear-gradient(top, rgba(111,174,237,1) 0%,rgba(64,150,238,1) 100%);
+    background: -o-linear-gradient(top, rgba(111,174,237,1) 0%,rgba(64,150,238,1) 100%);
+    background: -ms-linear-gradient(top, rgba(111,174,237,1) 0%,rgba(64,150,238,1) 100%);
+    background: linear-gradient(top, rgba(111,174,237,1) 0%,rgba(64,150,238,1) 100%);
+    border: 1px solid #1B83EB;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 1px 0 rgba(255, 255, 255, 0.4) inset;
+    color: #FFFFFF;
+    font-family: "open sans",sans-serif;
+    font-size: 0.99em;
+    font-weight: 600;
+    height: 37px;
+    margin: 0;
+    padding: 0;
+    text-shadow: 0 -1px 0 #133A68;
+    width: 30px;
+}
+.form .field-checkbox div.checkbox input[type=checkbox] + label {
+    -webkit-transition: margin-left 0.3s ease-in-out;
+    -moz-transition: margin-left 0.3s ease-in-out;
+    
+    height: 39px;
+    position: absolute;
+    text-indent: -99999px;
+    width: 140px;
+    margin-left: 0;
+    cursor: pointer;
+}
+.form .field-checkbox div.checkbox input[type=checkbox]:checked + label {
+  -webkit-transition: margin-left 0.3s ease-in-out;
+  -moz-transition: margin-left 0.3s ease-in-out;
+  margin-left: -54px;
 }
 .form .validation-summary-errors
 {
@@ -1232,6 +1305,7 @@ header nav#search-menu
     white-space: nowrap;
     width: 270px;
     text-align: center;
+    vertical-align: top;
 }
 .form #media-resource-items .media-resource-uploaded
 {
@@ -1405,8 +1479,7 @@ header nav#search-menu
     clear: none;
     float: left;
     margin-bottom: 20px;
-    margin-left: 4%;
-    width: 30%;
+    width: 40%;
 }
 .form #pin-field
 {
@@ -1636,6 +1709,8 @@ a.multiSelect {
 	display: inline-block;
 	vertical-align: top;
 	padding-right: 37px;
+	outline: none;
+	cursor: pointer;
 }
 a.multiSelect span
 {
@@ -1669,6 +1744,7 @@ a.multiSelect i
     border-style: solid;
     border-width: 1px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
 }
 
 .multiSelectOptions LABEL {
@@ -1683,6 +1759,7 @@ a.multiSelect i
     text-transform: none;
     white-space: nowrap;
     padding: 0 13px;
+    cursor: pointer;
 }
 .multiSelectOptions LABEL.optGroup
 {

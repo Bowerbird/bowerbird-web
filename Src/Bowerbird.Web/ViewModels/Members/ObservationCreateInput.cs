@@ -50,9 +50,9 @@ namespace Bowerbird.Web.ViewModels.Members
         public bool IsIdentificationRequired { get; set; }
 
         [Required(ErrorMessage = "Please select an observation category")]
-        public string ObservationCategory { get; set; }
+        public string Category { get; set; }
 
-        public Dictionary<string, string> ObservationMediaItems { get; set; }
+        public Dictionary<string, string> AddMediaResources { get; set; }
 
         public List<string> Projects { get; set; }
 

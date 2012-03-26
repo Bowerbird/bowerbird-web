@@ -57,12 +57,12 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(observationCreateCommand, "observationCreateCommand");
 
-            var observationMediaItems = (from mediaResource in _documentSession.Query<MediaResource>()
-                                         where mediaResource.Id.In(observationCreateCommand.ObservationMediaItems.Keys)
+            var addMediaResources = (from mediaResource in _documentSession.Query<MediaResource>()
+                                         where mediaResource.Id.In(observationCreateCommand.AddMediaResources.Keys)
                                          select new
                                              {
                                                  mediaResource,
-                                                 description = observationCreateCommand.ObservationMediaItems.Single(x => x.Key == mediaResource.Id).Value
+                                                 description = observationCreateCommand.AddMediaResources.Single(x => x.Key == mediaResource.Id).Value
                                              })
                                              .ToDictionary(x => x.mediaResource, x => x.description);
 
@@ -75,8 +75,8 @@ namespace Bowerbird.Core.CommandHandlers
                 observationCreateCommand.Longitude,
                 observationCreateCommand.Address,
                 observationCreateCommand.IsIdentificationRequired,
-                observationCreateCommand.ObservationCategory,
-                observationMediaItems);
+                observationCreateCommand.Category,
+                addMediaResources);
 
             /* if Observation is in project 
              * then create GroupContribution and add Observation

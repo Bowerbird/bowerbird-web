@@ -1,5 +1,7 @@
 ﻿
 window.Bowerbird.Models.Observation = Backbone.Model.extend({
+    url: '/members/observation/',
+
     defaults: {
         title: '',
         observedOn: null,
@@ -23,5 +25,25 @@ window.Bowerbird.Models.Observation = Backbone.Model.extend({
 
     allMediaResources: function () {
         return new Bowerbird.Collections.MediaResources(this.addMediaResources.models).add(this.mediaResources.models).toArray();
+    },
+
+    toJSON: function () {
+        return {
+            title: this.get('title'),
+            observedOn: this.get('observedOn'),
+            address: this.get('address'),
+            latitude: this.get('latitude'),
+            longitude: this.get('longitude'),
+            category: this.get('category'),
+            anonymiseLocation: this.get('anonymiseLocation'),
+            projects: this.projects.pluck('id'),
+            addMediaResources: this.addMediaResources.map(function (mediaResource) {
+                    return { key: mediaResource.id, value: 'stuff' };
+                }),
+            mediaResources: this.mediaResources.map(function (mediaResource) {
+                    return { key: mediaResource.id, value: 'stuff' };
+                }),
+            removeMediaResources: this.removeMediaResources.pluck('id')
+        };
     }
 });
