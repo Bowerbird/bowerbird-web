@@ -15,9 +15,13 @@
 */
 
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using Microsoft.Practices.ServiceLocation;
 using Bowerbird.Core.EventHandlers;
+using Raven.Client;
+using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Config;
 
 namespace Bowerbird.Core.Events
 {
@@ -25,11 +29,6 @@ namespace Bowerbird.Core.Events
     {
         [ThreadStatic]
         private static List<Delegate> _actions;
-
-        [ThreadStatic]
-        private static bool _doEventFiring = true;
-
-        //private static object _syncLock = new object();
 
         public static IServiceLocator ServiceLocator { get; set; }
 
@@ -40,14 +39,13 @@ namespace Bowerbird.Core.Events
 
         public static void Raise<T>(T args) where T : IDomainEvent
         {
-            if (_doEventFiring)
+            var systemState = ServiceLocator.GetInstance<ISystemState>();
+
+            if (systemState.FireEvents)
             {
-                if (ServiceLocator != null)
+                foreach (var handler in ServiceLocator.GetAllInstances<IEventHandler<T>>())
                 {
-                    foreach (var handler in ServiceLocator.GetAllInstances<IEventHandler<T>>())
-                    {
-                        handler.Handle(args);
-                    }
+                    handler.Handle(args);
                 }
 
                 if (_actions == null) return;
@@ -69,16 +67,6 @@ namespace Bowerbird.Core.Events
                 _actions = new List<Delegate>();
             }
             _actions.Add(callback);
-        }
-
-        public static void TurnEventsOn()
-        {
-            _doEventFiring = true;
-        }
-
-        public static void TurnEventsOff()
-        {
-            _doEventFiring = false;
         }
     }
 }

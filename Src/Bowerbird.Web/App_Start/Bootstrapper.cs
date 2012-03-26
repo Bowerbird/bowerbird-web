@@ -30,6 +30,7 @@ using Microsoft.Practices.ServiceLocation;
 using NinjectAdapter;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Bowerbird.Core.Config;
 
 [assembly: WebActivator.PreApplicationStartMethod(typeof(Bowerbird.Web.App_Start.Bootstrapper), "PreStart")]
 [assembly: WebActivator.PostApplicationStartMethod(typeof(Bowerbird.Web.App_Start.Bootstrapper), "PostStart")]
@@ -74,12 +75,9 @@ namespace Bowerbird.Web.App_Start
              
             RouteRegistrar.RegisterRoutesTo(RouteTable.Routes);
 
-            //IndexCreation.CreateIndexes(typeof(ImageTags_GroupByTagName).Assembly, documentStore);
+            SetupSystem();
 
-            if(DataIsNotSeeded())
-            {
-                SeedData();
-            }
+            CurrentSystemState.TurnEventsOn();
         }
 
         /// <summary>
@@ -118,41 +116,34 @@ namespace Bowerbird.Web.App_Start
             //FluentValidationModelValidatorProvider.Configure(x => x.ValidatorFactory = new NinjectValidatorFactory(ServiceLocator.Current));
         }
 
-        private static bool DataIsNotSeeded()
+        private static void SetupSystem()
         {
-            var documentStore = ServiceLocator.Current.GetInstance<IDocumentStore>();
-
-            using (var documentSession = documentStore.OpenSession())
+            if (CurrentSystemState.CoreDataSetupDate == null)
             {
-                var setup = documentSession
-                    .Query<RavenSetup>()
-                    .FirstOrDefault();
+                var setupSystemCommand = new SetupSystemCommand();
 
-                return setup == null;
+                var commandProcessor = ServiceLocator.Current.GetInstance<ICommandProcessor>();
+                var documentSession = ServiceLocator.Current.GetInstance<IDocumentSession>();
+                var documentStore = ServiceLocator.Current.GetInstance<IDocumentStore>();
+
+                commandProcessor.Process(setupSystemCommand);
+
+                documentSession.SaveChanges();
+
+                // Wait for all stale indexes to complete.
+                while (documentStore.DatabaseCommands.GetStatistics().StaleIndexes.Length > 0)
+                {
+                    Thread.Sleep(10);
+                }
             }
         }
 
-        private static void SeedData()
+        private static ISystemState CurrentSystemState
         {
-            EventProcessor.TurnEventsOff();
-
-            var setupSystemCommand = new SetupSystemCommand();
-
-            var commandProcessor = ServiceLocator.Current.GetInstance<ICommandProcessor>();
-            var documentSession = ServiceLocator.Current.GetInstance<IDocumentSession>();
-            var documentStore = ServiceLocator.Current.GetInstance<IDocumentStore>();
-            
-            commandProcessor.Process(setupSystemCommand);
-
-            documentSession.SaveChanges();
-
-            // Wait for all stale indexes to complete.
-            while (documentStore.DatabaseCommands.GetStatistics().StaleIndexes.Length > 0)
+            get
             {
-                Thread.Sleep(10);
+                return ServiceLocator.Current.GetInstance<ISystemState>();
             }
-
-            EventProcessor.TurnEventsOn();
         }
     }
 }

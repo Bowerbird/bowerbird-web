@@ -22,6 +22,8 @@ using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.DomainModels.Members;
 using Raven.Client;
+using Bowerbird.Core.Events;
+using Bowerbird.Core.Config;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -31,17 +33,21 @@ namespace Bowerbird.Core.CommandHandlers
         #region Members
 
         private readonly IDocumentSession _documentSession;
+        private readonly ISystemState _systemState;
 
         #endregion
 
         #region Constructors
 
         public SetupSystemCommandHandler(
-            IDocumentSession documentSession)
+            IDocumentSession documentSession,
+            ISystemState systemState)
         {
             Check.RequireNotNull(documentSession, "documentSession");
+            Check.RequireNotNull(systemState, "systemState");
 
             _documentSession = documentSession;
+            _systemState = systemState;
         }
 
         #endregion
@@ -86,6 +92,8 @@ namespace Bowerbird.Core.CommandHandlers
 
             try
             {
+                _systemState.TurnEventsOff();
+
                 // Permmissions
                 AddPermission("editorganisations", "Edit Organisations", "Ability to create, update and delete organisations");
                 AddPermission("editteams", "Edit Teams", "Ability to create, update and delete teams");
@@ -100,7 +108,7 @@ namespace Bowerbird.Core.CommandHandlers
                 AddRole("organisationadministrator", "Organisation Administrator", "Administrator of an organisation.","editteams");
                 AddRole("teamadministrator", "Team Administrator", "Administrator of a team.","editprojects");
                 AddRole("teammember", "Team Member", "Member of a team.","editteamobservations");
-                AddRole("projectadministrator", "Project Administrator", "Administrator of a project.");
+                AddRole("projectadministrator", "Project Administrator", "Administrator of a project .");
                 AddRole("projectmember", "Project Member", "Member of a project.","editprojectobservations");
 
                 // Users
@@ -147,6 +155,8 @@ namespace Bowerbird.Core.CommandHandlers
                 AddObservation(Users[2].Id, Projects[1].Id);
                 AddObservation(Users[2].Id, Projects[0].Id);
                 AddObservation(Users[2].Id, Projects[0].Id);
+
+                _systemState.SetCoreDataSetupDate(DateTime.UtcNow).TurnEventsOn();
             }
             finally
             {
@@ -159,6 +169,8 @@ namespace Bowerbird.Core.CommandHandlers
                 GroupMembers = null;
                 Observations = null;
                 Posts = null;
+
+                _systemState.TurnEventsOn();
             }
         }
 

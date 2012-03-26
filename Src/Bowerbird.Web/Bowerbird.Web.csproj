@@ -133,6 +133,8 @@
     <Compile Include="Config\RavenSessionProvider.cs" />
     <Compile Include="Config\RavenDocumentStoreProvider.cs" />
     <Compile Include="Config\RouteRegistrar.cs" />
+    <Compile Include="Config\SystemState.cs" />
+    <Compile Include="Config\SystemStateProvider.cs" />
     <Compile Include="Config\UserContext.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
     <Compile Include="Controllers\JsonNetResult.cs" />
