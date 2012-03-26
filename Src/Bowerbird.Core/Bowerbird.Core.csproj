@@ -175,6 +175,7 @@
     <Compile Include="DomainModels\BaseObjectEqualityComparer.cs" />
     <Compile Include="DomainModels\PrivateChatMessage.cs" />
     <Compile Include="DomainModels\GroupChatMessage.cs" />
+    <Compile Include="DomainModels\RavenSetup.cs" />
     <Compile Include="DomainModels\Session.cs" />
     <Compile Include="DomainModels\Comment.cs">
       <SubType>Code</SubType>

@@ -2,6 +2,10 @@
 window.Bowerbird.Views.AppView = Backbone.View.extend({
     el: $('article'),
 
+    events: {
+        'chatRequest': 'newChatRequest'
+    },
+
     initialize: function (options) {
         _.extend(this, Backbone.Events);
         _.bindAll(this,
@@ -68,5 +72,9 @@ window.Bowerbird.Views.AppView = Backbone.View.extend({
         });
         chatView.remove();
         this.chatViews = _.without(this.chatViews, chatView);
+    },
+
+    newChatRequest: function (e) {
+        log('appView.newChatRequest');
     }
 });

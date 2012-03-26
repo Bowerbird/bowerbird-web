@@ -1858,6 +1858,19 @@ a.multiSelect:focus
     height: 100px;
     margin: 10px;
 }
+.activity-window
+{
+    background-color: white;
+    border: 1px solid black;
+    top: 50px;
+    height: auto;
+    min-height:400px;
+    max-height: 50%;
+    position: fixed;
+    right: 0;
+    width: 200px;
+    padding: 5px;
+}
 /* chat and users online */
 .user-window
 {
@@ -1960,4 +1973,15 @@ li.chat-message .message-text
 {
     width:15%;   
     display:inline-block;   
+}
+.chat-request
+{
+    background-color: white;
+    border: 1px solid black;
+    bottom: 0;
+    height: 30px;
+    position: fixed;
+    left: 0px;
+    width: 200px;
+    padding: 5px;    
 }

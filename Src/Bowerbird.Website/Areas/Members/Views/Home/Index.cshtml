@@ -164,6 +164,7 @@
     <li class="chat-message">
         <span class="message-sender">{{user.name}}: </span>
         <span class="message-text">{{message}}</span>
+        <span class="timestamp-text">{{timestamp}}</span>
     </li>
 </script>
 
@@ -179,6 +180,11 @@
             {{/users}}
         </ul>
     </div>
+</script>
+
+<!-- {{ chatrequest: window with user and message }} -->
+<script id="chatrequest" type="text/html">
+    <span>{{message}}</span>
 </script>
 
 <!-- {{ chatwindow: window with chat details, #messages with > chatmessage and current users with > chatusers }} -->

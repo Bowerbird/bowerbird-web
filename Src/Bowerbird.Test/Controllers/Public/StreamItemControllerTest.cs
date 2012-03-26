@@ -17,8 +17,11 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Test.Utils;
+using Bowerbird.Web.Config;
+using Bowerbird.Web.Controllers.Members;
 using Bowerbird.Web.Controllers.Public;
 using Bowerbird.Web.ViewModels.Shared;
+using Moq;
 using NUnit.Framework;
 using Raven.Client;
 
@@ -31,15 +34,18 @@ namespace Bowerbird.Test.Controllers.Public
 
         private IDocumentStore _documentStore;
         private StreamItemController _controller;
+        private Mock<IUserContext> _mockUserContext; 
 
         [SetUp]
         public void TestInitialize()
         {
             _documentStore = DocumentStoreHelper.InMemoryDocumentStore();
+            _mockUserContext = new Mock<IUserContext>();
 
             _controller = new StreamItemController(
+                _mockUserContext.Object,
                 _documentStore.OpenSession()
-                );
+               );
         }
 
         [TearDown]

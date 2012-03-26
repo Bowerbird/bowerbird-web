@@ -15,8 +15,10 @@
 */
 
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using Bowerbird.Core.Commands;
+using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Events;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Ninject;
@@ -74,11 +76,10 @@ namespace Bowerbird.Web.App_Start
 
             //IndexCreation.CreateIndexes(typeof(ImageTags_GroupByTagName).Assembly, documentStore);
 
-            #if DEBUG
-
+            if(DataIsNotSeeded())
+            {
                 SeedData();
-
-            #endif
+            }
         }
 
         /// <summary>
@@ -117,9 +118,24 @@ namespace Bowerbird.Web.App_Start
             //FluentValidationModelValidatorProvider.Configure(x => x.ValidatorFactory = new NinjectValidatorFactory(ServiceLocator.Current));
         }
 
-        [Conditional("DEBUG")] 
+        private static bool DataIsNotSeeded()
+        {
+            var documentStore = ServiceLocator.Current.GetInstance<IDocumentStore>();
+
+            using (var documentSession = documentStore.OpenSession())
+            {
+                var setup = documentSession
+                    .Query<RavenSetup>()
+                    .FirstOrDefault();
+
+                return setup == null;
+            }
+        }
+
         private static void SeedData()
         {
+            EventProcessor.TurnEventsOff();
+
             var setupSystemCommand = new SetupSystemCommand();
 
             var commandProcessor = ServiceLocator.Current.GetInstance<ICommandProcessor>();
@@ -135,6 +151,8 @@ namespace Bowerbird.Web.App_Start
             {
                 Thread.Sleep(10);
             }
+
+            EventProcessor.TurnEventsOn();
         }
     }
 }

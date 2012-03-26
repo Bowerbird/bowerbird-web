@@ -136,11 +136,12 @@ window.Bowerbird.ChatRouter = Backbone.Model.extend({
             return user.id == data.user.id;
         });
 
-        if (match) return;
+        if (!(match)) return;
 
         var chatUser = _.find(chat.chatUsers, function (item) {
-            return item.user.id == data.user.id;
-        });
+            return item.user === data.user;
+                });
+        //var chatUser = chat.chatUsers.where({user.id: data.user.id});
 
         if (_.isNull(chatUser) || _.isUndefined(chatUser)) {
             return;
@@ -153,8 +154,11 @@ window.Bowerbird.ChatRouter = Backbone.Model.extend({
         log('chatRouter.chatRequest');
         var fromUser = app.users.get(data.fromUser.id);
         var chatId = data.chatId;
-        var chat = new Bowerbird.Models.UserChat({ id: chatId, user: fromUser, message: data.message });
+        log('>> ' + data.fromUser.name + ' says "' + data.message + '" @' + data.timestamp);
+        var chat = new Bowerbird.Models.UserChat({ id: chatId, user: fromUser, message: data.message, timestamp: data.timestamp});
         app.chats.add(chat);
+        // add chat message at this point>?
+        this.joinChat(chat);
     }
 
 });

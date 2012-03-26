@@ -7,6 +7,7 @@ window.Bowerbird.Models.UserChat = Bowerbird.Models.Chat.extend({
         _.extend(this, Backbone.Events);
         _.bindAll(this);
         this.chatUsers.add(options.user);
-        this.chatMessages.add(options.message);
+        var chatMessage = new Bowerbird.Models.ChatMessage(options);
+        this.chatMessages.add(chatMessage);
     }
 });

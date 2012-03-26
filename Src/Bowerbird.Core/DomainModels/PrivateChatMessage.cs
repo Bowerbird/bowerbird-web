@@ -42,10 +42,11 @@ namespace Bowerbird.Core.DomainModels
             Check.RequireNotNullOrWhitespace(message, "message");
 
             User = user;
-            TargetUser = targetUser;
             Message = message;
             Timestamp = timestamp;
             ChatId = chatId;
+
+            if ( targetUser != null ) TargetUser = targetUser;
         }
 
         #endregion

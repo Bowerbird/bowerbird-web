@@ -52,7 +52,12 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(command, "command");
 
-            var targetUser = _documentSession.Load<User>(command.TargetUserId);
+            User targetUser = null;
+
+            if (!string.IsNullOrEmpty(command.TargetUserId))
+            {
+                targetUser = _documentSession.Load<User>(command.TargetUserId);
+            }
 
             var chatMessage = new PrivateChatMessage(
                _documentSession.Load<User>(command.UserId),

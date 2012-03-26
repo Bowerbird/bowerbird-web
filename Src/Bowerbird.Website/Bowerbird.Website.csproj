@@ -140,6 +140,7 @@
     <Content Include="img\brushed_alu_dark.png" />
     <Content Include="img\carbon_fibre.png" />
     <Content Include="img\carbon_fibre_v2.png" />
+    <Content Include="img\Chat-icon.png" />
     <Content Include="img\checkbox-sprite-ios5.png" />
     <Content Include="img\checkbox-sprite.png" />
     <Content Include="img\close.gif" />
@@ -152,6 +153,7 @@
     <Content Include="img\glyphicons-halflings-white.png" />
     <Content Include="img\glyphicons-halflings.png" />
     <Content Include="img\grid.png" />
+    <Content Include="img\image-upload.png" />
     <Content Include="img\loader.png" />
     <Content Include="img\logo.png" />
     <Content Include="img\map.png" />
@@ -171,6 +173,7 @@
     <Content Include="img\test-thumb.jpg" />
     <Content Include="img\thumb-mask.png" />
     <Content Include="img\user-avatar.jpg" />
+    <Content Include="img\user-chat-icon.png" />
     <Content Include="img\votes.PNG" />
     <Content Include="img\wavecut.png" />
     <Content Include="img\whitey.png" />
