@@ -6,5 +6,13 @@ window.Bowerbird.Collections.Projects = Backbone.Collection.extend({
 
     initialize: function () {
         _.extend(this, Backbone.Events);
+    },
+
+    toJSONViewModel: function () {
+        var viewModels = [];
+        _.each(this.models, function (project) {
+            viewModels.push(project.toJSONViewModel());
+        });
+        return viewModels;
     }
 });

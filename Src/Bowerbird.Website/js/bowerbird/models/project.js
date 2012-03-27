@@ -20,5 +20,9 @@ window.Bowerbird.Models.Project = Backbone.Model.extend({
             description: this.get('description'),
             website: this.get('website')
         };
+    },
+
+    toJSONViewModel: function () {
+        return Backbone.Model.prototype.toJSON.call(this);
     }
 });

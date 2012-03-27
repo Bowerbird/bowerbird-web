@@ -10,34 +10,22 @@ window.Bowerbird.Views.SidebarItemView = Backbone.View.extend({
 
     initialize: function (options) {
         _.extend(this, Backbone.Events);
+        _.bindAll(this, 'startChat');
         this.sidebarItem = options.sidebarItem;
     },
 
     render: function () {
-        $.tmpl("sidebarItemTemplate", this.sidebarItem.toJSON()).appendTo(this.$el);
+        log(this.sidebarItem.toJSON());
+        $.tmpl("sidebarItemTemplate", this.sidebarItem.toJSONViewModel()).appendTo(this.$el);
+        log($.tmpl("sidebarItemTemplate", this.sidebarItem.toJSONViewModel()));
         return this;
     },
 
     startChat: function (e) {
-        // call can come from a user's chat-icon or a team or project's chat-icon
-        var id = e.target["id"].split('-')[1];
-        if (id.indexOf("projects/") != -1) {// project chat
-            var chatGroup = app.projects.get(id);
-            // grab chat if exists or create and add
-            var chat = app.chats.get(id);
-            if (_.isNull(chat) || _.isUndefined(chat)) {
-                chat = new Bowerbird.Models.GroupChat({ id: id, group: chatGroup });
-                app.chats.add(chat);
-            }
-        }
-        else if (id.indexOf("teams/") != -1) {// team chat
-            var chatGroup = app.teams.get(id);
-            // grab chat if exists or create and add
-            var chat = app.chats.get(id);
-            if (_.isNull(chat) || _.isUndefined(chat)) {
-                chat = new Bowerbird.Models.GroupChat({ id: id, group: chatGroup });
-                app.chats.add(chat);
-            }
+        var chat = app.chats.get(this.sidebarItem.id);
+        if (_.isNull(chat) || _.isUndefined(chat)) {
+            chat = new Bowerbird.Models.GroupChat({ id: this.sidebarItem.id, group: this.sidebarItem });
+            app.chats.add(chat);
         }
         app.chatRouter.joinChat(chat);
     },

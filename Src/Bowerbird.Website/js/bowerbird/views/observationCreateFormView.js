@@ -52,7 +52,7 @@ window.Bowerbird.Views.ObservationCreateFormView = Backbone.View.extend({
             }
         });
 
-        $.tmpl('<option value="${id}">${name}</option>', app.projects.toJSON()).appendTo('#projects');
+        $.tmpl('<option value="${id}">${name}</option>', app.projects.toJSONViewModel()).appendTo('#projects');
         this.projectListSelectView = $("#projects").multiSelect({
             selectAll: false,
             noneSelected: 'Select Projects',
