@@ -82,7 +82,6 @@ namespace Bowerbird.Web.Notifications
             {
                 clients[clientId].activityOccurred(new JavaScriptSerializer().Serialize(activity.Message));
             }
-
         }
 
         #endregion

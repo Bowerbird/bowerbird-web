@@ -121,6 +121,7 @@
     <Compile Include="CommandHandlers\WatchlistCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\WatchlistDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\WatchlistUpdateCommandHandler.cs" />
+    <Compile Include="Commands\ActivityCreatedCommand.cs" />
     <Compile Include="Commands\GroupChatMessageCreateCommand.cs" />
     <Compile Include="Commands\GroupChatSessionCreateCommand.cs" />
     <Compile Include="Commands\GroupChatSessionUpdateCommand.cs" />

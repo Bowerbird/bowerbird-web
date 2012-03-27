@@ -13,6 +13,9 @@ window.Bowerbird.Views.AppView = Backbone.View.extend({
         'showStreamView',
         'showOnlineUsers',
         'showObservationCreateFormView',
+        'showProjectCreateFormView',
+        'showTeamCreateFormView',
+        'showOrganisationCreateFormView',
         'showChatView',
         'removeChatView'
         );
@@ -21,6 +24,9 @@ window.Bowerbird.Views.AppView = Backbone.View.extend({
         this.userView = null;
         app.stream.on('newStream', this.showStreamView, this);
         app.on('change:newObservation', this.showObservationCreateFormView, this);
+        app.on('change:newProject', this.showProjectCreateFormView, this);
+        app.on('change:newTeam', this.showTeamCreateFormView, this);
+        app.on('change:newOrganisation', this.showOrganisationCreateFormView, this);
         app.chats.on('remove', this.removeChatView, this);
         app.chats.on('add', this.showChatView, this);
         this.chatViews = [];
@@ -54,6 +60,33 @@ window.Bowerbird.Views.AppView = Backbone.View.extend({
         if (app.has('newObservation')) {
             $(this.streamView.el).hide();
             this.formView = new Bowerbird.Views.ObservationCreateFormView({ appView: this, observation: app.get('newObservation') });
+            this.$el.append(this.formView.render().el);
+            this.formView.start();
+        }
+    },
+
+    showProjectCreateFormView: function () {
+        if (app.has('newProject')) {
+            $(this.streamView.el).hide();
+            this.formView = new Bowerbird.Views.ProjectCreateFormView({ appView: this, project: app.get('newProject') });
+            this.$el.append(this.formView.render().el);
+            this.formView.start();
+        }
+    },
+
+    showTeamCreateFormView: function () {
+        if (app.has('newTeam')) {
+            $(this.streamView.el).hide();
+            this.formView = new Bowerbird.Views.TeamCreateFormView({ appView: this, team: app.get('newTeam') });
+            this.$el.append(this.formView.render().el);
+            this.formView.start();
+        }
+    },
+
+    showOrganisationCreateFormView: function () {
+        if (app.has('newOrganisation')) {
+            $(this.streamView.el).hide();
+            this.formView = new Bowerbird.Views.OrganisationCreateFormView({ appView: this, project: app.get('newOrganisation') });
             this.$el.append(this.formView.render().el);
             this.formView.start();
         }

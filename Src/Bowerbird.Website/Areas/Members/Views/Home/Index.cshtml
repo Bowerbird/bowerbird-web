@@ -27,6 +27,9 @@
         <ul>
         </ul>
     </div>
+    <div><a href="#project/create">New Project</a></div>
+    <div><a href="#team/create">New Team</a></div>
+    <div><a href="#organisation/create">New Organisation</a></div>
 </script>
 <script type="text/x-jquery-tmpl" id="sidebar-item-template">
     <a href="#${id}/all" class="">
@@ -95,6 +98,7 @@
 <script type="text/x-jquery-tmpl" id="observation-create-form-template">
     @Html.Partial("_ObservationCreate")
 </script>
+
 <script type="text/x-jquery-tmpl" id="observation-create-media-resource-uploader-template">
     <legend>Images, Videos, Audio</legend>
     <p>Drag and drop files into the box below, or choose files from your computer or import from other websites.</p>
@@ -128,6 +132,21 @@
         <input type="button" value="Add Caption" class="add-caption-button" />
         <input type="button" value="Remove" class="remove-media-resource-button" />
     </div>
+</script>
+
+<!-- {{ projectcreate: used for adding a project }} -->
+<script id="projectcreate" type="text/html">
+    @Html.Partial("_ProjectCreate")
+</script>
+
+<!-- {{ organisationcreate: used for adding an organisation }} -->
+<script id="organisationcreate" type="text/html">
+    @Html.Partial("_OrganisationCreate")
+</script>
+
+<!-- {{ teamcreate: used for adding a team }} -->
+<script id="teamcreate" type="text/html">
+    @Html.Partial("_TeamCreate")
 </script>
 
 <!-- {{ user: used where user avatar and name is needed }} -->
@@ -233,6 +252,7 @@
 <script type="text/javascript" src="@Url.BowerbirdJsModel("stream.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsModel("streamItem.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsModel("team.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("organisation.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsModel("user.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsModel("mediaResource.js")"></script>
 
@@ -248,7 +268,6 @@
 
 <script type="text/javascript" src="@Url.BowerbirdJsView("appView.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsView("chatView.js")"></script>
-<script type="text/javascript" src="@Url.BowerbirdJsView("observationCreateFormView.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsView("sidebarView.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsView("sidebarItemView.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsView("streamListItemView.js")"></script>
@@ -257,8 +276,13 @@
 <script type="text/javascript" src="@Url.BowerbirdJsView("mediaResourceItemView.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsView("editMapView.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsView("editMediaView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("editAvatarView.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsView("userOnlineView.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsView("userView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("observationCreateFormView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("projectCreateFormView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("organisationCreateFormView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("teamCreateFormView.js")"></script>
 
 <script type="text/javascript" src="@Url.BowerbirdJsFile("chatRouter.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsFile("activityRouter.js")"></script>

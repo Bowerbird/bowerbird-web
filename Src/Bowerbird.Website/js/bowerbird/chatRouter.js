@@ -138,10 +138,12 @@ window.Bowerbird.ChatRouter = Backbone.Model.extend({
 
         if (!(match)) return;
 
-        var chatUser = _.find(chat.chatUsers, function (item) {
-            return item.user === data.user;
-                });
-        //var chatUser = chat.chatUsers.where({user.id: data.user.id});
+        var chatUser = null;
+        chat.chatUsers.each(function(item){
+            if (item.get('user').id == data.user.id) {
+                chatUser = item;
+            }
+        });
 
         if (_.isNull(chatUser) || _.isUndefined(chatUser)) {
             return;
@@ -155,7 +157,7 @@ window.Bowerbird.ChatRouter = Backbone.Model.extend({
         var fromUser = app.users.get(data.fromUser.id);
         var chatId = data.chatId;
         log('>> ' + data.fromUser.name + ' says "' + data.message + '" @' + data.timestamp);
-        var chat = new Bowerbird.Models.UserChat({ id: chatId, user: fromUser, message: data.message, timestamp: data.timestamp});
+        var chat = new Bowerbird.Models.UserChat({ id: chatId, user: fromUser, message: data.message, timestamp: data.timestamp });
         app.chats.add(chat);
         // add chat message at this point>?
         this.joinChat(chat);

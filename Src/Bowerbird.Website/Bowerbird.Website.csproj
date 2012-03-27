@@ -193,6 +193,7 @@
     <Content Include="js\bowerbird\models\chat.js" />
     <Content Include="js\bowerbird\models\chatMessage.js" />
     <Content Include="js\bowerbird\models\chatUser.js" />
+    <Content Include="js\bowerbird\models\organisation.js" />
     <Content Include="js\bowerbird\models\groupChat.js" />
     <Content Include="js\bowerbird\models\mediaResource.js" />
     <Content Include="js\bowerbird\models\observation.js" />
@@ -206,10 +207,14 @@
     <Content Include="js\bowerbird\appRouter.js" />
     <Content Include="js\bowerbird\views\appView.js" />
     <Content Include="js\bowerbird\views\chatView.js" />
+    <Content Include="js\bowerbird\views\editAvatarView.js" />
+    <Content Include="js\bowerbird\views\organisationCreateFormView.js" />
+    <Content Include="js\bowerbird\views\teamCreateFormView.js" />
     <Content Include="js\bowerbird\views\editMediaView.js" />
     <Content Include="js\bowerbird\views\editMapView.js" />
     <Content Include="js\bowerbird\views\mediaResourceItemView.js" />
     <Content Include="js\bowerbird\views\observationCreateFormView.js" />
+    <Content Include="js\bowerbird\views\projectCreateFormView.js" />
     <Content Include="js\bowerbird\views\sidebarView.js" />
     <Content Include="js\bowerbird\views\sidebarItemView.js" />
     <Content Include="js\bowerbird\views\streamListView.js" />
@@ -238,6 +243,9 @@
     <Content Include="Areas\Members\Views\Shared\_NewLayout.cshtml" />
     <Content Include="Areas\Members\Views\_ViewStart.cshtml" />
     <Content Include="packages.config" />
+    <Content Include="Areas\Members\Views\Shared\_ProjectCreate.cshtml" />
+    <Content Include="Areas\Members\Views\Shared\_OrganisationCreate.cshtml" />
+    <Content Include="Areas\Members\Views\Shared\_TeamCreate.cshtml" />
     <None Include="test\index.html" />
     <None Include="test\qunit\qunit.css" />
     <None Include="test\qunit\qunit.js" />

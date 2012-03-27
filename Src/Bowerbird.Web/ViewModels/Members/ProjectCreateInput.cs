@@ -36,6 +36,8 @@ namespace Bowerbird.Web.ViewModels.Members
         [Required]
         public string Description { get; set; }
 
+        public string Website { get; set; }
+
         #endregion
 
         #region Methods

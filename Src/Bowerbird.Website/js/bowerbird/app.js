@@ -2,6 +2,9 @@
 window.Bowerbird.App = Backbone.Model.extend({
     defaults: {
         newObservation: null,
+        newProject: null,
+        newOrganisation: null,
+        newTeam: null,
         clientId: null
     },
 
@@ -58,6 +61,30 @@ window.Bowerbird.App = Backbone.Model.extend({
 
     cancelNewObservation: function () {
         this.set('newObservation', null);
+    },
+
+    startNewProject: function () {
+        this.set('newProject', new Bowerbird.Models.Project({}));
+    },
+
+    cancelNewProject: function () {
+        this.set('newProject', null);
+    },
+
+    startNewOrganisation: function () {
+        this.set('newOrganisation', new Bowerbird.Models.Organisation({}));
+    },
+
+    cancelNewOrganisation: function () {
+        this.set('newOrganisation', null);
+    },
+
+    startNewTeam: function () {
+        this.set('newTeam', new Bowerbird.Models.Team({}));
+    },
+
+    cancelNewTeam: function () {
+        this.set('newTeam', null);
     }
 
 });
