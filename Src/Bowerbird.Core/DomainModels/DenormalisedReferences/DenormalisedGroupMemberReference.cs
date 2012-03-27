@@ -19,7 +19,7 @@ using Bowerbird.Core.DomainModels.Members;
 
 namespace Bowerbird.Core.DomainModels.DenormalisedReferences
 {
-    public class DenormalisedMemberReference : ValueObject
+    public class DenormalisedGroupMemberReference : ValueObject
     {
         #region Members
 
@@ -31,8 +31,6 @@ namespace Bowerbird.Core.DomainModels.DenormalisedReferences
 
         #region Properties
 
-        public string Type { get; private set; }
-
         public string Id { get; private set; }
 
         public IEnumerable<string> Roles { get; private set; }
@@ -41,23 +39,15 @@ namespace Bowerbird.Core.DomainModels.DenormalisedReferences
 
         #region Methods
 
-        public static implicit operator DenormalisedMemberReference(Member member)
+        public static implicit operator DenormalisedGroupMemberReference(GroupMember groupMember)
         {
-            Check.RequireNotNull(member, "member");
+            Check.RequireNotNull(groupMember, "groupMember");
 
-            return new DenormalisedMemberReference
+            return new DenormalisedGroupMemberReference
             {
-                Type = SetMemberType(member),
-                Id = member.Id,
-                Roles = member.Roles.Select(x => x.Id)
+                Id = groupMember.Id,
+                Roles = groupMember.Roles.Select(x => x.Id)
             };
-        }
-
-        private static string SetMemberType(Member member)
-        {
-            if (member is GroupMember) return "groupmember";
-
-            return "globalmember";
         }
 
         #endregion

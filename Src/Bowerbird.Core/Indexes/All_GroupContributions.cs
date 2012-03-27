@@ -41,6 +41,7 @@ namespace Bowerbird.Core.Indexes
             AddMap<Observation>(observations => 
                 from c in observations
                 from gc in c.GroupContributions
+                where gc.GroupType != "userproject"
                 select new
                 {
                     ContributionId = c.Id,
@@ -55,6 +56,7 @@ namespace Bowerbird.Core.Indexes
             AddMap<Post>(posts => 
                 from c in posts
                 from gc in c.GroupContributions
+                where gc.GroupType != "userproject"
                 select new
                 {
                     ContributionId = c.Id,
@@ -69,6 +71,7 @@ namespace Bowerbird.Core.Indexes
             AddMap<ObservationNote>(observationNotes => 
                 from c in observationNotes
                 from gc in c.GroupContributions
+                where gc.GroupType != "userproject"
                 select new
                 {
                     ContributionId = c.Id,

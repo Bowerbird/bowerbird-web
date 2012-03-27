@@ -35,9 +35,12 @@ namespace Bowerbird.Core.DomainModels
             Group group,
             User createdByUser,
             DateTime createdDateTime)
+            : this()
         {
             Check.RequireNotNull(group, "group");
             Check.RequireNotNull(createdByUser, "createdByUser");
+
+            GroupType = group.GetType().Name.ToLower();
 
             SetDetails(group,
                 createdByUser,
@@ -50,15 +53,11 @@ namespace Bowerbird.Core.DomainModels
 
         public string GroupId { get; private set; }
 
-        [JsonIgnore]
-        public string GroupType { get; set; }
-
-        [JsonIgnore]
-        public string ContributionType { get; set; }
-
         public DenormalisedUserReference User { get; private set; }
 
         public DateTime CreatedDateTime { get; private set; }
+
+        public string GroupType { get; private set; }
 
         #endregion
 
@@ -75,6 +74,6 @@ namespace Bowerbird.Core.DomainModels
             CreatedDateTime = createdDateTime;
         }
 
-        #endregion      
+        #endregion
     }
 }

@@ -46,7 +46,7 @@ namespace Bowerbird.Core.Commands
 
         public string Category { get; set; }
 
-        public Dictionary<string, string> AddMediaResources { get; set; }
+        public IEnumerable<Tuple<string, string, string>> AddMedia { get; set; }
 
         public virtual List<string> Projects { get; set; }
 

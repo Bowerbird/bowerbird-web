@@ -77,12 +77,6 @@ window.Bowerbird.Views.ObservationCreateFormView = Backbone.View.extend({
         var myScroll = new iScroll('media-uploader', { hScroll: true, vScroll: false });
     },
 
-    _cancel: function () {
-        app.set('newObservation', null);
-        this.remove();
-        app.appRouter.navigate(app.stream.get('uri'), { trigger: true });
-    },
-
     _showImportMedia: function () {
         alert('Coming soon');
     },
@@ -135,11 +129,16 @@ window.Bowerbird.Views.ObservationCreateFormView = Backbone.View.extend({
         }
     },
 
+    _cancel: function () {
+        app.set('newObservation', null);
+        this.remove();
+        app.appRouter.navigate(app.stream.get('uri'), { trigger: true });
+    },
+
     _save: function () {
-        //alert('Coming soon');
         this.observation.save();
-        //this.remove();
-        //app.appRouter.navigate(app.stream.get('uri'), { trigger: true });
+        this.remove();
+        app.appRouter.navigate(app.stream.get('uri'), { trigger: true });
     }
 });
 

@@ -24,9 +24,10 @@ namespace Bowerbird.Core.DomainModels
 {
     public class Observation : Contribution
     {
+
         #region Members
 
-        private List<ObservationMedia> _observationMedia;
+        private List<ObservationMedia> _media;
 
         #endregion
 
@@ -47,14 +48,11 @@ namespace Bowerbird.Core.DomainModels
             string longitude, 
             string address,
             bool isIdentificationRequired,
-            string observationCategory,
-            IDictionary<MediaResource, string> observationMediaItems)
+            string observationCategory)
             : base(
             createdByUser,
             createdOn)
         {
-            Check.RequireNotNull(observationMediaItems, "observationMediaItems");
-
             InitMembers();
 
             SetDetails(
@@ -64,16 +62,9 @@ namespace Bowerbird.Core.DomainModels
                 longitude, 
                 address,
                 isIdentificationRequired,
-                observationCategory,
-                observationMediaItems);
+                observationCategory);
 
-            var eventMessage = string.Format(
-                ActivityMessage.CreatedAnObservation,
-                createdByUser.GetName(),
-                title
-                );
-
-            EventProcessor.Raise(new DomainModelCreatedEvent<Observation>(this, createdByUser, eventMessage));
+            EventProcessor.Raise(new DomainModelCreatedEvent<Observation>(this, createdByUser));
         }
 
         #endregion
@@ -101,25 +92,15 @@ namespace Bowerbird.Core.DomainModels
             private set { _comments = value as List<Comment>; }
         }
 
-        public IEnumerable<ObservationMedia> ObservationMedia { get { return _observationMedia; } }
+        public IEnumerable<ObservationMedia> Media { get { return _media; } }
 
         #endregion
 
         #region Methods
 
-        public override string ContributionType()
-        {
-            return "Observation";
-        }
-
-        public override string ContributionTitle()
-        {
-            return Title;
-        }
-
         private void InitMembers()
         {
-            _observationMedia = new List<ObservationMedia>();
+            _media = new List<ObservationMedia>();
 
             _comments = new List<Comment>();
         }
@@ -130,8 +111,7 @@ namespace Bowerbird.Core.DomainModels
             string longitude, 
             string address, 
             bool isIdentificationRequired, 
-            string observationCategory, 
-            IDictionary<MediaResource, string> observationMediaItems)
+            string observationCategory)
         {
             Title = title;
             ObservedOn = observedOn;
@@ -140,15 +120,6 @@ namespace Bowerbird.Core.DomainModels
             Address = address;
             IsIdentificationRequired = isIdentificationRequired;
             ObservationCategory = observationCategory;
-
-            _observationMedia.Clear();
-
-            foreach (var observationMediaItem in observationMediaItems)
-            {
-                var observationMedia = new ObservationMedia(observationMediaItem.Key, observationMediaItem.Value);
-
-                _observationMedia.Add(observationMedia);
-            }
         }
 
         public Observation UpdateDetails(User updatedByUser, 
@@ -158,11 +129,9 @@ namespace Bowerbird.Core.DomainModels
             string longitude, 
             string address, 
             bool isIdentificationRequired, 
-            string observationCategory, 
-            IDictionary<MediaResource, string> observationMediaItems)
+            string observationCategory)
         {
             Check.RequireNotNull(updatedByUser, "updatedByUser");
-            Check.RequireNotNull(observationMediaItems, "observationMediaItems");
 
             SetDetails(
                 title,
@@ -171,20 +140,40 @@ namespace Bowerbird.Core.DomainModels
                 longitude,
                 address,
                 isIdentificationRequired,
-                observationCategory,
-                observationMediaItems);
+                observationCategory);
 
-            var eventMessage = string.Format(
-                ActivityMessage.UpdatedAnObservation,
-                updatedByUser.GetName(),
-                title
-                );
+            EventProcessor.Raise(new DomainModelUpdatedEvent<Observation>(this, updatedByUser));
 
-            EventProcessor.Raise(new DomainModelUpdatedEvent<Observation>(this, updatedByUser, eventMessage));
+            return this;
+        }
+
+        public Observation AddMedia(MediaResource mediaResource, string description, string licence)
+        {
+            Check.RequireNotNull(mediaResource, "mediaResource");
+
+            int id = 0;
+            if (_media.Count > 0)
+            {
+                id = _media.Select(x => Convert.ToInt32(x.Id)).Max();
+            }
+            id++;
+
+            _media.Add(new ObservationMedia(id.ToString(), mediaResource, description, licence));
+
+            return this;
+        }
+
+        public Observation RemoveMedia(string mediaResourceId)
+        {
+            if (_media.Any(x => x.MediaResource.Id == mediaResourceId))
+            {
+                _media.RemoveAll(x => x.MediaResource.Id == mediaResourceId);
+            }
 
             return this;
         }
 
         #endregion
+
     }
 }

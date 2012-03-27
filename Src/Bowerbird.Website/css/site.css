@@ -1159,13 +1159,13 @@ header nav#search-menu
 .form .field-checkbox div.checkbox {
     background: none repeat scroll 0 0 rgba(255, 255, 255, 0.6);
     border: 1px solid #1B83EB;
-    border-radius: 4px 4px 4px 4px;
+    border-radius: 22px 22px 22px 22px;
     box-shadow: 0 1px 2px 0 #777777 inset;
     display: block;
     height: 39px;
     overflow: hidden;
     position: relative;
-    width: 86px;
+    width: 96px;
 }
 .form .field-checkbox div.checkbox input[type=checkbox] 
 {
@@ -1199,7 +1199,7 @@ header nav#search-menu
     background: -ms-linear-gradient(top, rgba(111,174,237,1) 0%,rgba(64,150,238,1) 100%);
     background: linear-gradient(top, rgba(111,174,237,1) 0%,rgba(64,150,238,1) 100%);
     border: 1px solid #1B83EB;
-    border-radius: 4px 4px 4px 4px;
+    border-radius: 58px 58px 58px 58px;
     box-shadow: 0 1px 1px 0 rgba(255, 255, 255, 0.4) inset;
     color: #FFFFFF;
     font-family: "open sans",sans-serif;
@@ -1209,18 +1209,18 @@ header nav#search-menu
     margin: 0;
     padding: 0;
     text-shadow: 0 -1px 0 #133A68;
-    width: 30px;
+    width: 40px;
 }
 .form .field-checkbox div.checkbox input[type=checkbox] + label {
     -webkit-transition: margin-left 0.3s ease-in-out;
     -moz-transition: margin-left 0.3s ease-in-out;
     
+    cursor: pointer;
     height: 39px;
+    margin-left: 0;
     position: absolute;
     text-indent: -99999px;
-    width: 140px;
-    margin-left: 0;
-    cursor: pointer;
+    width: 150px;
 }
 .form .field-checkbox div.checkbox input[type=checkbox]:checked + label {
   -webkit-transition: margin-left 0.3s ease-in-out;

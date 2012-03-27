@@ -52,8 +52,6 @@ namespace Bowerbird.Core.DomainModels
 
         public DenormalisedUserReference User { get; private set; }
 
-        public string Type { get; private set; }
-
         public List<DenormalisedNamedDomainModelReference<Role>> Roles { get; private set; }
 
         #endregion

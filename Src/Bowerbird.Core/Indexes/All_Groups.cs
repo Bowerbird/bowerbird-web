@@ -53,7 +53,6 @@ namespace Bowerbird.Core.Indexes
                                       project.Name,
                                       project.Description
                                   });
-
         }
     }
 }

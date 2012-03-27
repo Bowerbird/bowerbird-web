@@ -49,7 +49,7 @@ namespace Bowerbird.Web.Config
             // Singleton scope
             Bind<IDocumentStore>().ToProvider<RavenDocumentStoreProvider>().InSingletonScope();
             Bind<IPermissionChecker>().To<PermissionChecker>().InSingletonScope().OnActivation(x => ((PermissionChecker)x).Init());
-            Bind<SystemStateProvider>().To<SystemStateProvider>().InSingletonScope();
+            Bind<ISystemStateManager>().To<SystemStateManager>().InSingletonScope();
 
             // Request scope
             Bind<IDocumentSession>().ToProvider<RavenSessionProvider>().InRequestScope();
@@ -57,7 +57,6 @@ namespace Bowerbird.Web.Config
             // Transient scope
             Bind<IServiceLocator>().ToMethod(x => ServiceLocator.Current);
             Bind<IJsonSerializer>().To<SignalRJsonConvertAdapter>();
-            Bind<ISystemState>().ToProvider<SystemStateProvider>();
 
             Kernel.Scan(x =>
             {
@@ -70,8 +69,7 @@ namespace Bowerbird.Web.Config
                 x.BindingGenerators.Add(new DefaultBindingGenerator());
 
                 x.Excluding<PermissionChecker>();
-                x.Excluding<SystemState>();
-                x.Excluding<ISystemState>();
+                x.Excluding<SystemStateManager>();
             });
         }
 

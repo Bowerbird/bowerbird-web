@@ -16,6 +16,7 @@
 
 using System.Net.Mail;
 using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.Config;
 
 namespace Bowerbird.Core.Services
 {
@@ -25,17 +26,21 @@ namespace Bowerbird.Core.Services
         #region Members
 
         private readonly IConfigService _configService;
+        private readonly ISystemStateManager _systemStateManager;
 
         #endregion
 
         #region Constructors
 
         public EmailService(
-            IConfigService configService)
+            IConfigService configService,
+            ISystemStateManager systemStateManager)
         {
             Check.RequireNotNull(configService, "configService");
+            Check.RequireNotNull(systemStateManager, "systemStateManager");
 
             _configService = configService;
+            _systemStateManager = systemStateManager;
         }
 
         #endregion
@@ -49,6 +54,11 @@ namespace Bowerbird.Core.Services
         public void SendMailMessage(MailMessage mailMessage)
         {
             var smtpClient = new SmtpClient();
+
+            if (!_systemStateManager.SendEmails)
+            {
+                smtpClient.DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory;
+            }
 
             smtpClient.SendAsync(mailMessage, null);
         }

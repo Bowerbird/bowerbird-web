@@ -126,11 +126,6 @@ namespace Bowerbird.Web.Config
             return _permissionChecker.HasGroupPermission(GetAuthenticatedUserId(), groupId, permissionName);
         }
 
-        public bool HasProjectObservationDeletePermission(string observationId, string projectId)
-        {
-            return _permissionChecker.HasProjectObservationDeletePermission(GetAuthenticatedUserId(), observationId, projectId);
-        }
-
         public bool HasPermissionToUpdate<T>(string id)
         {
             return _permissionChecker.HasPermissionToUpdate<T>(GetAuthenticatedUserId(), id);

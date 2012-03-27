@@ -17,11 +17,12 @@
 using System.Linq;
 using Bowerbird.Core.DomainModels.Members;
 using Raven.Client;
+using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Core.Repositories
 {
 
-    public static class GroupMemberDocumentSessionExtensions
+    public static class MemberDocumentSessionExtensions
     {
 
         #region Members
@@ -42,7 +43,7 @@ namespace Bowerbird.Core.Repositories
         {
             return documentSession
                 .Query<GroupMember>()
-                .Where(x => x.Group.Id == groupId)
+                .Where(x => x.Group.Id == groupId && x.User.Id == userId)
                 .FirstOrDefault();
         }
 

@@ -37,6 +37,7 @@
                 @if (User.Identity.IsAuthenticated)
                 {
                     <li class="user-menu">@*<img src="/img/avatar.jpg" alt="" />*@ @Html.ActionLink("Frank", "index", "home")</li>
+                    <li><a href="/members/home/setuptestdata">Setup Test Data</a></li>
                     <li class="observations-menu"><a href="#observation/create" class="new-observation-button"><img src="/img/observation-button.png" alt="" /></a></li>
                 }
                 else

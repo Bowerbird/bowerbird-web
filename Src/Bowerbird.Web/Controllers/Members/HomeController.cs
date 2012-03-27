@@ -28,11 +28,13 @@ using Bowerbird.Web.ViewModels.Members;
 using Bowerbird.Web.ViewModels.Shared;
 using Raven.Client;
 using Raven.Client.Linq;
+using System.Threading;
 
 namespace Bowerbird.Web.Controllers.Members
 {
     public class HomeController : ControllerBase
     {
+
         #region Members
 
         private readonly ICommandProcessor _commandProcessor;
@@ -40,6 +42,7 @@ namespace Bowerbird.Web.Controllers.Members
         private readonly IDocumentSession _documentSession;
         private readonly IMediaFilePathService _mediaFilePathService;
         private readonly IConfigService _configService;
+        private readonly IDocumentStore _documentStore;
 
         #endregion
 
@@ -50,7 +53,8 @@ namespace Bowerbird.Web.Controllers.Members
             IUserContext userContext,
             IDocumentSession documentSession,
             IMediaFilePathService mediaFilePathService,
-            IConfigService configService
+            IConfigService configService,
+            IDocumentStore documentStore
         )
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
@@ -58,12 +62,14 @@ namespace Bowerbird.Web.Controllers.Members
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(mediaFilePathService, "mediaFilePathService");
             Check.RequireNotNull(configService, "configService");
+            Check.RequireNotNull(documentStore, "documentStore");
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
             _documentSession = documentSession;
             _mediaFilePathService = mediaFilePathService;
             _configService = configService;
+            _documentStore = documentStore;
         }
 
         #endregion
@@ -86,6 +92,23 @@ namespace Bowerbird.Web.Controllers.Members
         public ActionResult ActivityTest()
         {
             return View();
+        }
+
+        public ActionResult SetupTestData()
+        {
+            var setupTestDataCommand = new SetupTestDataCommand();
+
+            _commandProcessor.Process(setupTestDataCommand);
+
+            _documentSession.SaveChanges();
+
+            // Wait for all stale indexes to complete.
+            while (_documentStore.DatabaseCommands.GetStatistics().StaleIndexes.Length > 0)
+            {
+                Thread.Sleep(10);
+            }
+
+            return RedirectToAction("index");
         }
 
         private HomeIndex MakeHomeIndex(HomeIndexInput indexInput)

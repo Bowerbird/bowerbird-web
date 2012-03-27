@@ -39,9 +39,9 @@ namespace Bowerbird.Core.Events
 
         public static void Raise<T>(T args) where T : IDomainEvent
         {
-            var systemState = ServiceLocator.GetInstance<ISystemState>();
+            var systemStateManager = ServiceLocator.GetInstance<ISystemStateManager>();
 
-            if (systemState.FireEvents)
+            if (systemStateManager.FireEvents)
             {
                 foreach (var handler in ServiceLocator.GetAllInstances<IEventHandler<T>>())
                 {

@@ -66,7 +66,7 @@ namespace Bowerbird.Core.DomainModels
 
         #region Methods
 
-        public void AddGroupContribution(Group group, User createdByUser, DateTime createdDateTime)
+        public Contribution AddGroupContribution(Group group, User createdByUser, DateTime createdDateTime)
         {
             Check.RequireNotNull(group, "group");
             Check.RequireNotNull(createdByUser, "createdByUser");
@@ -75,32 +75,25 @@ namespace Bowerbird.Core.DomainModels
             {
                 var groupContribution = new GroupContribution(group, createdByUser, createdDateTime);
 
-                groupContribution.GroupType = group.GroupType();
-                groupContribution.ContributionType = ContributionType();
-
                 _groupContributions.Add(groupContribution);
 
-                var eventMessage = string.Format(
-                    ActivityMessage.AddedAContributionToAGroup,
-                    createdByUser.GetName(),
-                    ContributionType(),
-                    ContributionTitle(),
-                    group.Name,
-                    group.GroupType());
-
-                EventProcessor.Raise(new DomainModelCreatedEvent<GroupContribution>(groupContribution, createdByUser, eventMessage));
+                EventProcessor.Raise(new DomainModelCreatedEvent<GroupContribution>(groupContribution, createdByUser));
             }
+
+            return this;
         }
 
-        public void RemoveGroupContribution(string groupId)
+        public Contribution RemoveGroupContribution(string groupId)
         {
             if (_groupContributions.Any(x => x.GroupId == groupId))
             {
                 _groupContributions.RemoveAll(x => x.GroupId == groupId);
             }
+
+            return this;
         }
 
-        public void AddComment(string message, User createdByUser, DateTime createdDateTime)
+        public Contribution AddComment(string message, User createdByUser, DateTime createdDateTime)
         {
             Check.RequireNotNull(createdByUser, "createdByUser");
 
@@ -124,25 +117,22 @@ namespace Bowerbird.Core.DomainModels
 
             _comments.Add(newComment);
 
-            var eventMessage = string.Format(
-                ActivityMessage.Commented,
-                createdByUser.GetName(),
-                message,
-                ContributionTitle(),
-                ContributionType());
+            EventProcessor.Raise(new DomainModelCreatedEvent<Comment>(newComment, createdByUser));
 
-            EventProcessor.Raise(new DomainModelCreatedEvent<Comment>(newComment, createdByUser, eventMessage));
+            return this;
         }
 
-        public void RemoveComment(string commentId)
+        public Contribution RemoveComment(string commentId)
         {
             if (_comments.Any(x => x.Id == commentId))
             {
                 _comments.RemoveAll(x => x.Id == commentId);
             }
+
+            return this;
         }
 
-        public void UpdateComment(string commentId, string message, User modifiedByUser, DateTime modifiedDateTime)
+        public Contribution UpdateComment(string commentId, string message, User modifiedByUser, DateTime modifiedDateTime)
         {
             if (_comments.Any(x => x.Id == commentId))
             {
@@ -150,11 +140,9 @@ namespace Bowerbird.Core.DomainModels
 
                 comment.UpdateDetails(modifiedByUser, modifiedDateTime, message);
             }
+
+            return this;
         }
-
-        public abstract string ContributionType();
-
-        public abstract string ContributionTitle();
 
         private void InitMembers()
         {

@@ -70,8 +70,6 @@ namespace Bowerbird.Core.DomainModels
 
         #region Methods
 
-        public abstract string GroupType();
-
         private void InitMembers()
         {
             _childGroupAssociations = new List<GroupAssociation>();
@@ -86,7 +84,7 @@ namespace Bowerbird.Core.DomainModels
             ParentGroupId = parentGroupId;
         }
         
-        public void AddGroupAssociation(Group group, User createdByUser, DateTime createdDateTime)
+        public Group AddGroupAssociation(Group group, User createdByUser, DateTime createdDateTime)
         {
             Check.RequireNotNull(group, "group");
             Check.RequireNotNull(createdByUser, "createdByUser");
@@ -97,25 +95,20 @@ namespace Bowerbird.Core.DomainModels
 
                 _childGroupAssociations.Add(groupAssociation);
 
-                var eventMessage = string.Format(
-                    ActivityMessage.AddedAGroupToAGroup,
-                    createdByUser.GetName(),
-                    group.GroupType(),
-                    group.Name,
-                    GroupType(),
-                    Name
-                    );
-
-                EventProcessor.Raise(new GroupAssociationCreatedEvent(this, group, createdByUser, eventMessage));
+                EventProcessor.Raise(new GroupAssociationCreatedEvent(this, group, createdByUser));
             }
+
+            return this;
         }
 
-        public void RemoveGroupAssociation(string groupId)
+        public Group RemoveGroupAssociation(string groupId)
         {
             if (_childGroupAssociations.Any(x => x.GroupId == groupId))
             {
                 _childGroupAssociations.RemoveAll(x => x.GroupId == groupId);
             }
+
+            return this;
         }
 
 

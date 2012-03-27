@@ -17,6 +17,7 @@
 using Bowerbird.Core.DesignByContract;
 using System;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
+using Bowerbird.Core.Events;
 
 namespace Bowerbird.Core.DomainModels
 {
@@ -32,14 +33,20 @@ namespace Bowerbird.Core.DomainModels
         protected ObservationMedia() : base() { }
 
         public ObservationMedia(
+            string id,
             MediaResource mediaResource,
-            string description)
+            string description,
+            string licence)
             : this()
         {
             Check.RequireNotNull(mediaResource, "mediaResource");
 
+            Id = id;
             MediaResource = mediaResource;
-            Description = description;
+
+            SetDetails(
+                description,
+                licence);
         }
 
         #endregion
@@ -50,9 +57,26 @@ namespace Bowerbird.Core.DomainModels
 
         public string Description { get; private set; }
 
+        public string Licence { get; private set; }
+
         #endregion
 
         #region Methods
+
+        private void SetDetails(string description, string licence)
+        {
+            Description = description;
+            Licence = licence;
+        }
+
+        public ObservationMedia UpdateDetails(string description, string licence)
+        {
+            SetDetails(
+                description,
+                licence);
+
+            return this;
+        }
 
         #endregion      
       

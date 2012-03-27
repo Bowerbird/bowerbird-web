@@ -51,14 +51,7 @@ namespace Bowerbird.Core.DomainModels
                 website,
                 avatar);
 
-            var eventMessage = string.Format(
-                ActivityMessage.CreatedAGroup,
-                createdByUser.GetName(),
-                GroupType(),
-                Name
-                );
-
-            EventProcessor.Raise(new DomainModelCreatedEvent<Organisation>(this, createdByUser, eventMessage));
+            EventProcessor.Raise(new DomainModelCreatedEvent<Organisation>(this, createdByUser));
         }
 
         #endregion
@@ -68,12 +61,6 @@ namespace Bowerbird.Core.DomainModels
         #endregion
 
         #region Methods
-
-
-        public override string GroupType()
-        {
-            return "Organisation";
-        }
 
         public Organisation UpdateDetails(User updatedByUser, string name, string description, string website, MediaResource avatar)
         {
@@ -87,14 +74,7 @@ namespace Bowerbird.Core.DomainModels
                 website,
                 avatar);
 
-            var eventMessage = string.Format(
-                ActivityMessage.UpdatedAGroup,
-                updatedByUser.GetName(),
-                Name,
-                GroupType()
-                );
-
-            EventProcessor.Raise(new DomainModelUpdatedEvent<Organisation>(this, updatedByUser, eventMessage));
+            EventProcessor.Raise(new DomainModelUpdatedEvent<Organisation>(this, updatedByUser));
 
             return this;
         }

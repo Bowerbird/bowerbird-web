@@ -37,13 +37,13 @@ window.Bowerbird.Models.Observation = Backbone.Model.extend({
             category: this.get('category'),
             anonymiseLocation: this.get('anonymiseLocation'),
             projects: this.projects.pluck('id'),
-            addMediaResources: this.addMediaResources.map(function (mediaResource) {
-                    return { key: mediaResource.id, value: 'stuff' };
+            addMedia: this.addMediaResources.map(function (mediaResource) {
+                    return { mediaResourceId: mediaResource.id, description: 'stuff', licence: 'licenceX' };
                 }),
-            mediaResources: this.mediaResources.map(function (mediaResource) {
-                    return { key: mediaResource.id, value: 'stuff' };
+            media: this.mediaResources.map(function (mediaResource) {
+                    return { mediaResourceId: mediaResource.id, description: 'stuff', licence: 'licenceX' };
                 }),
-            removeMediaResources: this.removeMediaResources.pluck('id')
+            removeMedia: this.removeMediaResources.pluck('id')
         };
     }
 });

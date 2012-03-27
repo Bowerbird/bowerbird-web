@@ -61,38 +61,16 @@ namespace Bowerbird.Web.Config
 
         public bool HasGlobalPermission(string userId, string permissionName)
         {
-            var permissionId = _documentSession.Query<Permission>()
-                .Where(x => x.Name == permissionName)
-                .FirstOrDefault()
-                .Id;
+            var user = _documentSession.Load<User>(userId);
 
-            var globalMember = _documentSession.Load<GlobalMember>(userId);
-
-            return HasPermission(globalMember, permissionId);
+            return HasPermission(user.GlobalMembership, "permissions/" + permissionName);
         }
 
         public bool HasGroupPermission(string userId, string groupId, string permissionName)
         {
-            var permissionId = _documentSession.Query<Permission>()
-                .Where(x => x.Name == permissionName)
-                .FirstOrDefault()
-                .Id;
-
             var groupMember = _documentSession.LoadGroupMember(groupId, userId);
 
-            return HasPermission(groupMember, permissionId);
-        }
-
-        public bool HasProjectObservationDeletePermission(string userId, string observationId, string projectId)
-        {
-            throw new NotImplementedException();
-            //var projectObservation =
-            //    _documentSession
-            //    .Query<ProjectObservation>()
-            //    .Where(x => x.Project.Id == projectId && x.Observation.Id == observationId)
-            //    .FirstOrDefault();
-
-            //return projectObservation != null && projectObservation.CreatedByUser.Id == userId;
+            return HasPermission(groupMember, "permissions/" + permissionName);
         }
 
         public bool HasPermissionToUpdate<T>(string userId, string id)

@@ -23,6 +23,8 @@ using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Raven.Client;
 using Raven.Client.Linq;
+using Bowerbird.Core.Indexes;
+using Bowerbird.Core.DomainModels.Members;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -57,17 +59,31 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(observationCreateCommand, "observationCreateCommand");
 
-            var addMediaResources = (from mediaResource in _documentSession.Query<MediaResource>()
-                                         where mediaResource.Id.In(observationCreateCommand.AddMediaResources.Keys)
-                                         select new
-                                             {
-                                                 mediaResource,
-                                                 description = observationCreateCommand.AddMediaResources.Single(x => x.Key == mediaResource.Id).Value
-                                             })
-                                             .ToDictionary(x => x.mediaResource, x => x.description);
+            var mediaResourceIds = observationCreateCommand.AddMedia.Select(x => x.Item1);
+
+            var mediaResources = _documentSession
+                .Query<MediaResource>()
+                .Where(x => x.Id.In(mediaResourceIds));
+
+            var userProject = _documentSession
+                .Query<UserProject>()
+                .Include(x => x.User.Id)
+                .Where(x => x.User.Id == observationCreateCommand.UserId)
+                .First();
+
+            var user = _documentSession.Load<User>(observationCreateCommand.UserId);
+
+            var addMedia = (from mediaResource in mediaResources.ToList()
+                                     select new
+                                     {
+                                         mediaResource,
+                                         description = observationCreateCommand.AddMedia.Single(x => x.Item1.ToLower() == mediaResource.Id.ToLower()).Item2,
+                                         licence = observationCreateCommand.AddMedia.Single(x => x.Item1.ToLower() == mediaResource.Id.ToLower()).Item3
+                                     })
+                                     .Select(x => new Tuple<MediaResource, string, string>(x.mediaResource, x.description, x.licence));
 
             var observation = new Observation(
-                _documentSession.Load<User>(observationCreateCommand.UserId),
+                user,
                 observationCreateCommand.Title,
                 DateTime.Now,
                 observationCreateCommand.ObservedOn,
@@ -75,16 +91,27 @@ namespace Bowerbird.Core.CommandHandlers
                 observationCreateCommand.Longitude,
                 observationCreateCommand.Address,
                 observationCreateCommand.IsIdentificationRequired,
-                observationCreateCommand.Category,
-                addMediaResources);
+                observationCreateCommand.Category);
 
-            /* if Observation is in project 
-             * then create GroupContribution and add Observation
-             * then find all groups in hierarchy 
-             * then for each group in hierarchy
-             * add group to GroupContribution
-             */
+            observation.AddGroupContribution(userProject, user, DateTime.Now);
 
+            foreach (var media in addMedia)
+            {
+                observation.AddMedia(media.Item1, media.Item2, media.Item3);
+            }
+
+            if (observationCreateCommand.Projects != null && observationCreateCommand.Projects.Count > 0)
+            {
+                var projects = _documentSession
+                    .Query<Project>()
+                    .Where(x => x.Id.In(observationCreateCommand.Projects));
+
+                foreach (var project in projects)
+                {
+                    observation.AddGroupContribution(project, user, DateTime.Now);
+                }
+            }
+            
             _documentSession.Store(observation);
         }
 

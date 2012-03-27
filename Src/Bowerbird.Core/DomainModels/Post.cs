@@ -60,16 +60,7 @@ namespace Bowerbird.Core.DomainModels
 
             AddGroupContribution(group, createdByUser, createdOn);
 
-            var eventMessage = string.Format(
-                ActivityMessage.AddedAContributionToAGroup,
-                createdByUser.GetName(),
-                ContributionType(),
-                ContributionTitle(),
-                group.Name,
-                group.GroupType()
-                );
-
-            EventProcessor.Raise(new DomainModelCreatedEvent<Post>(this, createdByUser, eventMessage));
+            EventProcessor.Raise(new DomainModelCreatedEvent<Post>(this, createdByUser));
         }
 
         #endregion
@@ -93,16 +84,6 @@ namespace Bowerbird.Core.DomainModels
 
         #region Methods
 
-        public override string ContributionTitle()
-        {
-            return Subject;
-        }
-
-        public override string ContributionType()
-        {
-            return "Post";
-        }
-
         private void SetDetails(string subject, string message, IEnumerable<MediaResource> mediaResources)
         {
             Subject = subject;
@@ -119,14 +100,7 @@ namespace Bowerbird.Core.DomainModels
                 message,
                 mediaResources);
 
-            var eventMessage = string.Format(
-                ActivityMessage.UpdatedAGroupContribution,
-                updatedByUser.GetName(),
-                ContributionTitle(),
-                ContributionType()
-                );
-
-            EventProcessor.Raise(new DomainModelUpdatedEvent<Post>(this, updatedByUser, eventMessage));
+            EventProcessor.Raise(new DomainModelUpdatedEvent<Post>(this, updatedByUser));
 
             return this;
         }

@@ -16,7 +16,7 @@
 
 namespace Bowerbird.Core.Commands
 {
-    public class SetupSystemCommand : ICommand
+    public class SetupTestDataCommand : ICommand
     {
 
         #region Members

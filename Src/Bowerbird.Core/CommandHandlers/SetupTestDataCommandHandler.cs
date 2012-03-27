@@ -27,35 +27,33 @@ using Bowerbird.Core.Config;
 
 namespace Bowerbird.Core.CommandHandlers
 {
-    public class SetupSystemCommandHandler : ICommandHandler<SetupSystemCommand>
+    public class SetupTestDataCommandHandler : ICommandHandler<SetupTestDataCommand>
     {
 
         #region Members
 
         private readonly IDocumentSession _documentSession;
-        private readonly ISystemState _systemState;
+        private readonly ISystemStateManager _systemStateManager;
 
         #endregion
 
         #region Constructors
 
-        public SetupSystemCommandHandler(
+        public SetupTestDataCommandHandler(
             IDocumentSession documentSession,
-            ISystemState systemState)
+            ISystemStateManager systemStateManager)
         {
             Check.RequireNotNull(documentSession, "documentSession");
-            Check.RequireNotNull(systemState, "systemState");
+            Check.RequireNotNull(systemStateManager, "systemStateManager");
 
             _documentSession = documentSession;
-            _systemState = systemState;
+            _systemStateManager = systemStateManager;
         }
 
         #endregion
 
         #region Properties
 
-        private List<Permission> Permissions { get; set; }
-        
         private List<Role> Roles { get; set; }
 
         private List<User> Users { get; set; }
@@ -76,11 +74,10 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Methods
 
-        public void Handle(SetupSystemCommand setupSystemCommand)
+        public void Handle(SetupTestDataCommand setupTestDataCommand)
         {
-            Check.RequireNotNull(setupSystemCommand, "setupSystemCommand");
+            Check.RequireNotNull(setupTestDataCommand, "setupTestDataCommand");
 
-            Permissions = new List<Permission>();
             Roles = new List<Role>();
             Users = new List<User>();
             Organisations = new List<Organisation>();
@@ -92,29 +89,13 @@ namespace Bowerbird.Core.CommandHandlers
 
             try
             {
-                _systemState.TurnEventsOff();
+                _systemStateManager.DisableEmailService();
 
-                // Permmissions
-                AddPermission("editorganisations", "Edit Organisations", "Ability to create, update and delete organisations");
-                AddPermission("editteams", "Edit Teams", "Ability to create, update and delete teams");
-                AddPermission("editprojects", "Edit Projects", "Ability to create, update and delete projects");
-                AddPermission("edituserobservations", "Edit Observations", "Ability to create, update and delete own observations");
-                AddPermission("editteamobservations", "Edit Team Observations", "Ability to create, update and delete team observations");
-                AddPermission("editprojectobservations", "Edit Project Observations", "Ability to create, update and delete project observations");
-
-                // Roles
-                AddRole("globaladministrator", "Global Administrator", "Administrator across entire system.","editorganisations");
-                AddRole("globalmember", "Global Member", "Member of the system.", "global","edituserobservations");
-                AddRole("organisationadministrator", "Organisation Administrator", "Administrator of an organisation.","editteams");
-                AddRole("teamadministrator", "Team Administrator", "Administrator of a team.","editprojects");
-                AddRole("teammember", "Team Member", "Member of a team.","editteamobservations");
-                AddRole("projectadministrator", "Project Administrator", "Administrator of a project .");
-                AddRole("projectmember", "Project Member", "Member of a project.","editprojectobservations");
+                Roles = _documentSession.Query<Role>().ToList();
+                Users = _documentSession.Query<User>().ToList();
 
                 // Users
-                AddUser("password", "frank@radocaj.com", "Frank", "Radocaj", "globaladministrator", "globalmember");
-                AddUser("password", "hcrittenden@museum.vic.gov.au", "Hamish", "Crittenden", "globaladministrator", "globalmember");
-                AddUser("password", "kwalker@museum.vic.gov.au", "Ken", "Walker","globaladministrator", "globalmember");
+                //AddUser("password", "frank@radocaj.com", "Frank", "Radocaj", "globaladministrator", "globalmember");
 
                 // Organisations
                 AddOrganisation("Bowerbird Test Organisation", "Test for Alpha Rlease", "www.bowerbird.org.au", Users[0].Id);
@@ -155,13 +136,9 @@ namespace Bowerbird.Core.CommandHandlers
                 AddObservation(Users[2].Id, Projects[1].Id);
                 AddObservation(Users[2].Id, Projects[0].Id);
                 AddObservation(Users[2].Id, Projects[0].Id);
-
-                _systemState.SetCoreDataSetupDate(DateTime.UtcNow).TurnEventsOn();
             }
             finally
             {
-                Permissions = null;
-                Roles = null;
                 Users = null;
                 Organisations = null;
                 Teams = null;
@@ -170,39 +147,23 @@ namespace Bowerbird.Core.CommandHandlers
                 Observations = null;
                 Posts = null;
 
-                _systemState.TurnEventsOn();
+                _systemStateManager.EnableEmailService();
             }
-        }
-
-        private void AddPermission(string id, string name, string description)
-        {
-            var permission = new Permission(id, name, description);
-
-            _documentSession.Store(permission);
-
-            Permissions.Add(permission);
-        }
-
-        private void AddRole(string id, string name, string description, params string[] permissionIds)
-        {
-            var permissions = Permissions.Where(x => permissionIds.Any(y => x.Id == "permissions/" + y));
-
-            var role = new Role(id, name, description, permissions);
-
-            _documentSession.Store(role);
-
-            Roles.Add(role);
         }
 
         private void AddUser(string password, string email, string firstname, string lastname, params string[] roleIds)
         {
-            var roles = Roles.Where(x => roleIds.Any(y => x.Id == "roles/" + y));
-
-            var user = new User(password, email, firstname, lastname, roles);
-
+            var globalRoles = Roles.Where(x => roleIds.Any(y => x.Id == "roles/" + y));
+            var user = new User(password, email, firstname, lastname, globalRoles);
             _documentSession.Store(user);
-
             Users.Add(user);
+
+            var userProject = new UserProject(user);
+            _documentSession.Store(userProject);
+
+            var userProjectRoles = Roles.Where(x => x.Id == "roles/projectadministrator" || x.Id == "roles/projectmember");
+            var groupMember = new GroupMember(user, userProject, user, userProjectRoles);
+            _documentSession.Store(groupMember);
         }
 
         private void AddOrganisation(string name, string description, string website, string userid)
@@ -301,9 +262,7 @@ namespace Bowerbird.Core.CommandHandlers
                 "41.3432423",
                 "1 Main St Melbourne",
                 true,
-                "categoryX",
-                new Dictionary<MediaResource, string>()
-                );
+                "categoryX");
 
             observation.AddGroupContribution(project, user, DateTime.Now);
 

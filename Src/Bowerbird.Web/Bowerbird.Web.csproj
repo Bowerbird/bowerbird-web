@@ -124,17 +124,16 @@
     <Compile Include="Config\AuthenticatedConstraint.cs" />
     <Compile Include="Config\BowerbirdHttpApplication.cs" />
     <Compile Include="Config\ApiAreaRegistration.cs" />
+    <Compile Include="Config\SystemStateManager.cs" />
     <Compile Include="Config\IUserContext.cs" />
     <Compile Include="Config\BowerbirdNinjectModule.cs" />
     <Compile Include="Config\SignalRJsonConvertAdapter.cs" />
     <Compile Include="Config\MembersAreaRegistration.cs" />
     <Compile Include="Config\NinjectValidatorFactory.cs" />
-    <Compile Include="Config\Permissions.cs" />
     <Compile Include="Config\RavenSessionProvider.cs" />
     <Compile Include="Config\RavenDocumentStoreProvider.cs" />
     <Compile Include="Config\RouteRegistrar.cs" />
     <Compile Include="Config\SystemState.cs" />
-    <Compile Include="Config\SystemStateProvider.cs" />
     <Compile Include="Config\UserContext.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
     <Compile Include="Controllers\JsonNetResult.cs" />
@@ -164,14 +163,6 @@
     <Compile Include="Controllers\Public\TeamController.cs" />
     <Compile Include="Config\IPermissionChecker.cs" />
     <Compile Include="Config\PermissionChecker.cs" />
-    <Compile Include="EventHandlers\NotifyActivityGroupAssociationCreatedEventHandler.cs" />
-    <Compile Include="EventHandlers\NotifyActivityGroupContributionCreatedEventHandler.cs" />
-    <Compile Include="EventHandlers\NotifyActivityCommentCreatedEventHandler.cs" />
-    <Compile Include="EventHandlers\NotifyActivityOrganisationCreatedEventHandler.cs" />
-    <Compile Include="EventHandlers\NotifyActivityTeamCreatedEventHandler.cs" />
-    <Compile Include="EventHandlers\NotifyActivityProjectCreatedEventHandler.cs" />
-    <Compile Include="EventHandlers\NotifyActivityPostCreatedEventHandler.cs" />
-    <Compile Include="EventHandlers\NotifyActivityObservationNoteCreatedEventHandler.cs" />
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
     <Compile Include="Hubs\ChatHub.cs" />
     <Compile Include="Notifications\INotificationProcessor.cs" />
@@ -196,6 +187,7 @@
     <Compile Include="ViewModels\Shared\ActivityMessage.cs" />
     <Compile Include="ViewModels\Shared\ChatMessage.cs" />
     <Compile Include="ViewModels\Shared\ChatRequest.cs" />
+    <Compile Include="ViewModels\Shared\ObservationMedia.cs" />
     <Compile Include="ViewModels\Shared\SetupChat.cs" />
     <Compile Include="ViewModels\Shared\ChatUserTyping.cs" />
     <Compile Include="ViewModels\Shared\GroupChatMessage.cs" />
@@ -232,8 +224,6 @@
     <Compile Include="ViewModels\Members\TeamUpdateInput.cs" />
     <Compile Include="ViewModels\Public\AccountRegister.cs" />
     <Compile Include="Controllers\Members\UserController.cs" />
-    <Compile Include="EventHandlers\NotifyActivityUserLoggedInEventHandler.cs" />
-    <Compile Include="EventHandlers\NotifyActivityObservationCreatedEventHandler.cs" />
     <Compile Include="Hubs\ActivityHub.cs" />
     <Compile Include="Validators\UniqueEmailAttribute.cs" />
     <Compile Include="ViewModels\Public\AccountRegisterInput.cs" />
@@ -296,7 +286,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\Api\" />
-    <Folder Include="obj\" />
+    <Folder Include="EventHandlers\" />
     <Folder Include="ViewModels\Api\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

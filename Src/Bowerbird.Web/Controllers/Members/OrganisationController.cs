@@ -24,6 +24,7 @@ using Bowerbird.Web.ViewModels.Members;
 using Bowerbird.Web.ViewModels.Shared;
 using Raven.Client;
 using Raven.Client.Linq;
+using Bowerbird.Core.Config;
 
 namespace Bowerbird.Web.Controllers.Members
 {
@@ -91,7 +92,7 @@ namespace Bowerbird.Web.Controllers.Members
         [HttpPost]
         public ActionResult Create(OrganisationCreateInput createInput)
         {
-            if (!_userContext.HasGlobalPermission(Permissions.CreateOrganisation))
+            if (!_userContext.HasGlobalPermission(PermissionNames.CreateOrganisation))
             {
                 return HttpUnauthorized();
             }

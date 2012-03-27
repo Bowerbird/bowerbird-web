@@ -75,9 +75,9 @@ namespace Bowerbird.Web.App_Start
              
             RouteRegistrar.RegisterRoutesTo(RouteTable.Routes);
 
-            SetupSystem();
+            SystemStateManager.EnableAllServices();
 
-            CurrentSystemState.TurnEventsOn();
+            SetupSystemData();
         }
 
         /// <summary>
@@ -116,17 +116,17 @@ namespace Bowerbird.Web.App_Start
             //FluentValidationModelValidatorProvider.Configure(x => x.ValidatorFactory = new NinjectValidatorFactory(ServiceLocator.Current));
         }
 
-        private static void SetupSystem()
+        private static void SetupSystemData()
         {
-            if (CurrentSystemState.CoreDataSetupDate == null)
+            if (!SystemStateManager.SystemDataSetup)
             {
-                var setupSystemCommand = new SetupSystemCommand();
+                var setupSystemDataCommand = new SetupSystemDataCommand();
 
                 var commandProcessor = ServiceLocator.Current.GetInstance<ICommandProcessor>();
                 var documentSession = ServiceLocator.Current.GetInstance<IDocumentSession>();
                 var documentStore = ServiceLocator.Current.GetInstance<IDocumentStore>();
 
-                commandProcessor.Process(setupSystemCommand);
+                commandProcessor.Process(setupSystemDataCommand);
 
                 documentSession.SaveChanges();
 
@@ -138,11 +138,11 @@ namespace Bowerbird.Web.App_Start
             }
         }
 
-        private static ISystemState CurrentSystemState
+        private static ISystemStateManager SystemStateManager
         {
             get
             {
-                return ServiceLocator.Current.GetInstance<ISystemState>();
+                return ServiceLocator.Current.GetInstance<ISystemStateManager>();
             }
         }
     }

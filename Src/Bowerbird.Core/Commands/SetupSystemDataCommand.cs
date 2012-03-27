@@ -14,13 +14,9 @@
  
 */
 
-using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.Extensions;
-
-namespace Bowerbird.Core.Events
+namespace Bowerbird.Core.Commands
 {
-    public class UserLoggedInEvent : IDomainEvent
+    public class SetupSystemDataCommand : ICommand
     {
 
         #region Members
@@ -29,25 +25,15 @@ namespace Bowerbird.Core.Events
 
         #region Constructors
 
-        public UserLoggedInEvent(
-            User user)
-        {
-            Check.RequireNotNull(user, "user");
-
-            User = user;
-        }
-
         #endregion
 
         #region Properties
-
-        public User User { get; private set; }
 
         #endregion
 
         #region Methods
 
-        #endregion
-
+        #endregion      
+     
     }
 }

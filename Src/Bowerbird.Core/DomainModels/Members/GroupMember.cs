@@ -47,14 +47,7 @@ namespace Bowerbird.Core.DomainModels.Members
 
             Group = group;
 
-            var eventMessage = string.Format(
-                ActivityMessage.AddMemberToGroup,
-                user.GetName(),
-                group.Name,
-                group.GroupType()
-                );
-
-            EventProcessor.Raise(new DomainModelCreatedEvent<GroupMember>(this, createdByUser, eventMessage));
+            EventProcessor.Raise(new DomainModelCreatedEvent<GroupMember>(this, createdByUser));
         }
 
         #endregion

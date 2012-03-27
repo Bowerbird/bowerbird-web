@@ -122,8 +122,11 @@
     <Compile Include="CommandHandlers\WatchlistCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\WatchlistDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\WatchlistUpdateCommandHandler.cs" />
-    <Compile Include="Commands\SetupTestDataCommand.cs" />
+<<<<<<< Updated upstream
     <Compile Include="Commands\ActivityCreatedCommand.cs" />
+=======
+    <Compile Include="Commands\SetupTestDataCommand.cs" />
+>>>>>>> Stashed changes
     <Compile Include="Commands\GroupChatMessageCreateCommand.cs" />
     <Compile Include="Commands\GroupChatSessionCreateCommand.cs" />
     <Compile Include="Commands\GroupChatSessionUpdateCommand.cs" />

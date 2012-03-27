@@ -30,8 +30,7 @@ namespace Bowerbird.Core.Events
         public GroupAssociationCreatedEvent(
             Group parentGroup,
             Group childGroup,
-            User createdByUser,
-            string eventMessage)
+            User createdByUser)
         {
             Check.RequireNotNull(parentGroup, "parentGroup");
             Check.RequireNotNull(childGroup, "childGroup");
@@ -40,7 +39,6 @@ namespace Bowerbird.Core.Events
             ParentGroup = parentGroup;
             ChildGroup = childGroup;
             CreatedByUser = createdByUser;
-            EventMessage = eventMessage;
         }
 
         #endregion
@@ -52,8 +50,6 @@ namespace Bowerbird.Core.Events
         public Group ChildGroup { get; private set; }
 
         public User CreatedByUser { get; private set; }
-
-        public string EventMessage { get; set; }
 
         #endregion
 

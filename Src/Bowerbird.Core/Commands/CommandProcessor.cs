@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using Microsoft.Practices.ServiceLocation;
 using Bowerbird.Core.CommandHandlers;
 using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.Config;
 
 namespace Bowerbird.Core.Commands
 {
@@ -30,17 +31,21 @@ namespace Bowerbird.Core.Commands
         #region Members
 
         private readonly IServiceLocator _serviceLocator;
+        private readonly ISystemStateManager _systemStateManager;
 
         #endregion
 
         #region Constructors
 
         public CommandProcessor(
-            IServiceLocator serviceLocator)
+            IServiceLocator serviceLocator,
+            ISystemStateManager systemStateManager)
         {
             Check.RequireNotNull(serviceLocator, "serviceLocator");
+            Check.RequireNotNull(systemStateManager, "systemStateManager");
 
             _serviceLocator = serviceLocator;
+            _systemStateManager = systemStateManager;
         }
 
         #endregion
@@ -55,18 +60,21 @@ namespace Bowerbird.Core.Commands
         {
             Check.RequireNotNull(command, "command");
 
-            Validator.ValidateObject(command, new ValidationContext(command, null, null), true);
-
-            var handlers = _serviceLocator.GetAllInstances<ICommandHandler<TCommand>>();
-
-            if (handlers == null || !handlers.Any())
+            if (_systemStateManager.ExecuteCommands)
             {
-                throw new CommandHandlerNotFoundException(typeof(TCommand));
-            }
+                Validator.ValidateObject(command, new ValidationContext(command, null, null), true);
 
-            foreach (var handler in handlers)
-            {
-                handler.Handle(command);
+                var handlers = _serviceLocator.GetAllInstances<ICommandHandler<TCommand>>();
+
+                if (handlers == null || !handlers.Any())
+                {
+                    throw new CommandHandlerNotFoundException(typeof(TCommand));
+                }
+
+                foreach (var handler in handlers)
+                {
+                    handler.Handle(command);
+                }
             }
         }
 
@@ -74,18 +82,21 @@ namespace Bowerbird.Core.Commands
         {
             Check.RequireNotNull(command, "command");
 
-            Validator.ValidateObject(command, new ValidationContext(command, null, null), true);
-
-            var handlers = _serviceLocator.GetAllInstances<ICommandHandler<TCommand, TResult>>();
-
-            if (handlers == null || !handlers.Any())
+            if (_systemStateManager.ExecuteCommands)
             {
-                throw new CommandHandlerNotFoundException(typeof(TCommand));
-            }
+                Validator.ValidateObject(command, new ValidationContext(command, null, null), true);
 
-            foreach (var handler in handlers)
-            {
-                yield return handler.Handle(command);
+                var handlers = _serviceLocator.GetAllInstances<ICommandHandler<TCommand, TResult>>();
+
+                if (handlers == null || !handlers.Any())
+                {
+                    throw new CommandHandlerNotFoundException(typeof(TCommand));
+                }
+
+                foreach (var handler in handlers)
+                {
+                    yield return handler.Handle(command);
+                }
             }
         }
 
@@ -93,9 +104,12 @@ namespace Bowerbird.Core.Commands
         {
             Check.RequireNotNull(command, "command");
 
-            foreach (var result in Process<TCommand, TResult>(command))
+            if (_systemStateManager.ExecuteCommands)
             {
-                resultHandler(result);
+                foreach (var result in Process<TCommand, TResult>(command))
+                {
+                    resultHandler(result);
+                }
             }
         }
 

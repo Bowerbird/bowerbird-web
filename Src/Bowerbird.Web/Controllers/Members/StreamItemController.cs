@@ -205,7 +205,7 @@ namespace Bowerbird.Web.Controllers.Members
                 Longitude = observation.Longitude,
                 ObservationCategory = observation.ObservationCategory,
                 IsIdentificationRequired = observation.IsIdentificationRequired,
-                ObservationMedia = observation.ObservationMedia
+                ObservationMedia = observation.Media
             };
         }
 

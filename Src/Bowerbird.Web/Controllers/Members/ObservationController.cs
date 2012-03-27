@@ -24,6 +24,8 @@ using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Web.Config;
 using Raven.Client.Linq;
+using System;
+using Bowerbird.Core.Config;
 
 namespace Bowerbird.Web.Controllers.Members
 {
@@ -93,7 +95,7 @@ namespace Bowerbird.Web.Controllers.Members
         [Authorize]
         public ActionResult Create(ObservationCreateInput observationCreateInput)
         {
-            if(!_userContext.HasGlobalPermission(Permissions.CreateObservation))
+            if (!_userContext.HasGlobalPermission(PermissionNames.CreateObservation))
             {
                 return HttpUnauthorized();
             }
@@ -246,7 +248,7 @@ namespace Bowerbird.Web.Controllers.Members
                            ObservedOn = observationCreateInput.ObservedOn,
                            UserId = _userContext.GetAuthenticatedUserId(),
                            Projects = observationCreateInput.Projects,
-                           AddMediaResources = observationCreateInput.AddMediaResources
+                           AddMedia = observationCreateInput.AddMedia.Select(x => new Tuple<string, string, string>(x.MediaResourceId, x.Description, x.Licence))
                        };
         }
 

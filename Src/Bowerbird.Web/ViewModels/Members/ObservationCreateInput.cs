@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Bowerbird.Web.Validators;
+using Bowerbird.Web.ViewModels.Shared;
 
 namespace Bowerbird.Web.ViewModels.Members
 {
@@ -52,7 +53,7 @@ namespace Bowerbird.Web.ViewModels.Members
         [Required(ErrorMessage = "Please select an observation category")]
         public string Category { get; set; }
 
-        public Dictionary<string, string> AddMediaResources { get; set; }
+        public List<ObservationMediaItem> AddMedia { get; set; }
 
         public List<string> Projects { get; set; }
 

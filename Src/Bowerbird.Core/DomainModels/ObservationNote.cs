@@ -66,13 +66,7 @@ namespace Bowerbird.Core.DomainModels
                 references,
                 notes);
 
-            var eventMessage = string.Format(
-                ActivityMessage.CreatedAnObservationNote,
-                createdByUser.GetName(),
-                observation.Title
-                );
-
-            EventProcessor.Raise(new DomainModelCreatedEvent<ObservationNote>(this, createdByUser, eventMessage));
+            EventProcessor.Raise(new DomainModelCreatedEvent<ObservationNote>(this, createdByUser));
         }
 
         #endregion
@@ -98,16 +92,6 @@ namespace Bowerbird.Core.DomainModels
         #endregion
 
         #region Methods
-
-        public override string ContributionType()
-        {
-            return "ObservationNote";
-        }
-
-        public override string ContributionTitle()
-        {
-            return Observation.Title;
-        }
 
         private void InitMembers()
         {
@@ -145,13 +129,7 @@ namespace Bowerbird.Core.DomainModels
                 references,
                 notes);
 
-            var eventMessage = string.Format(
-                ActivityMessage.UpdatedAnObservationNote,
-                updatedByUser.GetName(),
-                ContributionTitle()
-                );
-
-            EventProcessor.Raise(new DomainModelUpdatedEvent<ObservationNote>(this, updatedByUser, eventMessage));
+            EventProcessor.Raise(new DomainModelUpdatedEvent<ObservationNote>(this, updatedByUser));
 
             return this;
         }

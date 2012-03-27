@@ -29,6 +29,7 @@ using Bowerbird.Web.ViewModels.Members;
 using Bowerbird.Web.ViewModels.Shared;
 using Raven.Client;
 using Raven.Client.Linq;
+using Bowerbird.Core.Config;
 
 namespace Bowerbird.Web.Controllers.Members
 {
@@ -104,7 +105,7 @@ namespace Bowerbird.Web.Controllers.Members
         [HttpPost]
         public ActionResult Create(TeamCreateInput createInput)
         {
-            if (!_userContext.HasGlobalPermission(Permissions.CreateTeam))
+            if (!_userContext.HasGlobalPermission(PermissionNames.CreateTeam))
             {
                 return HttpUnauthorized();
             }
@@ -162,7 +163,7 @@ namespace Bowerbird.Web.Controllers.Members
         [HttpPost]
         public ActionResult CreateProject(ProjectCreateInput projectCreateInput, TeamProjectCreateInput teamProjectCreateInput)
         {
-            if(_userContext.HasGroupPermission(teamProjectCreateInput.TeamId, Permissions.CreateTeamProject))
+            if(_userContext.HasGroupPermission(teamProjectCreateInput.TeamId, PermissionNames.CreateProject))
             {
                 return HttpUnauthorized();
             }

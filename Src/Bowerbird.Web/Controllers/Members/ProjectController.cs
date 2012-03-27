@@ -27,6 +27,7 @@ using Bowerbird.Web.ViewModels.Shared;
 using Raven.Client;
 using Raven.Client.Linq;
 using System;
+using Bowerbird.Core.Config;
 
 namespace Bowerbird.Web.Controllers.Members
 {
@@ -103,7 +104,7 @@ namespace Bowerbird.Web.Controllers.Members
         [HttpPost]
         public ActionResult Create(ProjectCreateInput createInput)
         {
-            if(!_userContext.HasGlobalPermission(Permissions.CreateProject))
+            if (!_userContext.HasGlobalPermission(PermissionNames.CreateProject))
             {
                 return HttpUnauthorized();
             }

@@ -47,10 +47,10 @@ namespace Bowerbird.Core.DomainModels
             string email,
             string firstName, 
             string lastName,
-            IEnumerable<Role> roles) 
+            IEnumerable<Role> globalRoles) 
             : this() 
         {
-            Check.RequireNotNull(roles, "roles");
+            Check.RequireNotNull(globalRoles, "globalRoles");
 
             Email = email;
             PasswordSalt = Guid.NewGuid();
@@ -63,14 +63,9 @@ namespace Bowerbird.Core.DomainModels
                 string.Empty,
                 null);
 
-            AddMembership(new GlobalMember(this, roles));
+            GlobalMembership = new GlobalMember(this, globalRoles);
 
-            var eventMessage = string.Format(
-                ActivityMessage.Joined,
-                GetName()
-                );
-
-            EventProcessor.Raise(new DomainModelCreatedEvent<User>(this, this, eventMessage));
+            EventProcessor.Raise(new DomainModelCreatedEvent<User>(this, this));
         }
 
         #endregion
@@ -97,9 +92,11 @@ namespace Bowerbird.Core.DomainModels
 
         public int FlagsRaised { get; private set; }
 
-        public MediaResource Avatar { get; set; }
+        public MediaResource Avatar { get; private set; }
 
-        public List<DenormalisedMemberReference> Memberships { get; private set; }
+        public GlobalMember GlobalMembership { get; private set; }
+
+        public List<DenormalisedGroupMemberReference> GroupMemberships { get; private set; }
 
         public List<DenormalisedNamedDomainModelReference<Watchlist>> Watchlists { get; private set; }
 
@@ -114,7 +111,7 @@ namespace Bowerbird.Core.DomainModels
 
         private void InitMembers()
         {
-            Memberships = new List<DenormalisedMemberReference>();
+            GroupMemberships = new List<DenormalisedGroupMemberReference>();
         }
 
         private string GetHashedPassword(string password)
@@ -176,12 +173,7 @@ namespace Bowerbird.Core.DomainModels
                 description,
                 avatar);
 
-            var eventMessage = string.Format(
-                ActivityMessage.UpdatedTheirDetails,
-                GetName()
-                );
-
-            EventProcessor.Raise(new DomainModelUpdatedEvent<User>(this, this, eventMessage));
+            EventProcessor.Raise(new DomainModelUpdatedEvent<User>(this, this));
 
             return this;
         }
@@ -204,24 +196,23 @@ namespace Bowerbird.Core.DomainModels
             return this;
         }
 
-        public User AddMembership(Member member)
+        public User AddGroupMembership(GroupMember groupMember)
         {
-            Check.RequireNotNull(member, "member");
+            Check.RequireNotNull(groupMember, "groupMember");
 
-            if (Memberships.All(x => (x.Type != member.GetType().Name.ToLower() && x.Id != member.Id)))
+            if (GroupMemberships.All(x => x.Id != groupMember.Id))
             {
-                Memberships.Add(member);
+                GroupMemberships.Add(groupMember);
             }
             
             return this;
         }
 
-        public User RemoveMembership(string memberType, string memberId)
+        public User RemoveGroupMembership(string groupMemberId)
         {
-            Check.RequireNotNullOrWhitespace(memberType, "memberType");
-            Check.RequireNotNullOrWhitespace(memberId, "memberId");
+            Check.RequireNotNullOrWhitespace(groupMemberId, "groupMemberId");
 
-            Memberships.RemoveAll(x => x.Type == memberType && x.Id == memberId);
+            GroupMemberships.RemoveAll(x => x.Id == groupMemberId);
 
             return this;
         }
@@ -242,7 +233,7 @@ namespace Bowerbird.Core.DomainModels
         {
             Check.RequireNotNullOrWhitespace(watchlistId, "watchlistId");
 
-            Watchlists.RemoveAll(x => (x.Id == watchlistId));
+            Watchlists.RemoveAll(x => x.Id == watchlistId);
 
             return this;
         }

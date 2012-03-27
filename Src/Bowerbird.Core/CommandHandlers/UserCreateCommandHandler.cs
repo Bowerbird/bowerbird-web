@@ -19,6 +19,8 @@ using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Raven.Client;
 using System;
+using System.Linq;
+using Bowerbird.Core.DomainModels.Members;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -59,20 +61,14 @@ namespace Bowerbird.Core.CommandHandlers
                 userCreateCommand.FirstName,
                 userCreateCommand.LastName,
                 _documentSession.Load<Role>(userCreateCommand.Roles));
-
             _documentSession.Store(user);
 
-            //// Create the user's default (hidden) project, containing all of user's contributed observations
-            //var project = new Project(
-            //    user,
-            //    "user project",
-            //    string.Empty,
-            //    string.Empty,
-            //    null);
+            var userProject = new UserProject(user);
+            _documentSession.Store(userProject);
 
-            ////((IAssignableId)project.Id).SetIdTo("userproject/");
-
-            //_documentSession.Store(project);
+            var userProjectRoles = _documentSession.Query<Role>().Where(x => x.Id == "roles/projectadministrator" || x.Id == "roles/projectmember");
+            var userProjectMember = new GroupMember(user, userProject, user, userProjectRoles);
+            _documentSession.Store(userProjectMember);
         }
 
         #endregion      

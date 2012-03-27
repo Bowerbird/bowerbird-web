@@ -8,69 +8,41 @@ using Bowerbird.Core.DesignByContract;
 
 namespace Bowerbird.Web.Config
 {
-    public class SystemState : ISystemState
+    public class SystemState
     {
 
         #region Fields
-
-        private readonly IDocumentSession _documentSession;
 
         #endregion
 
         #region Constructors
 
-        public SystemState(
-            IDocumentSession documentSession)
+        public SystemState()
         {
-            Check.RequireNotNull(documentSession, "documentSession");
-
-            _documentSession = documentSession;
-
-            Id = "bowerbird/systemstate";
+            InitMembers();
         }
 
         #endregion
 
         #region Properties
 
-        public string Id { get; private set; }
+        public string Id { get; set; }
 
-        public DateTime? CoreDataSetupDate { get; private set; }
+        public DateTime? SystemDataSetupDate { get; set; }
 
-        public bool FireEvents { get; private set; }
+        public bool FireEvents { get; set; }
 
-        public bool SendEmails { get; private set; }
+        public bool SendEmails { get; set; }
 
-        public bool ExecuteCommands { get; private set; }
+        public bool ExecuteCommands { get; set; }
 
         #endregion
 
         #region Methods
 
-        public ISystemState SetCoreDataSetupDate(DateTime dateTime)
+        private void InitMembers()
         {
-            CoreDataSetupDate = dateTime;
-            Persist();
-            return this;
-        }
-
-        public ISystemState TurnEventsOn()
-        {
-            FireEvents = true;
-            Persist();
-            return this;
-        }
-
-        public ISystemState TurnEventsOff()
-        {
-            FireEvents = false;
-            Persist();
-            return this;
-        }
-
-        private void Persist()
-        {
-            _documentSession.Store(this);
+            Id = "settings/systemstate";
         }
 
         #endregion   
