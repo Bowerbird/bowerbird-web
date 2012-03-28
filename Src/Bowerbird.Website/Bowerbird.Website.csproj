@@ -207,6 +207,7 @@
     <Content Include="js\bowerbird\appRouter.js" />
     <Content Include="js\bowerbird\views\appView.js" />
     <Content Include="js\bowerbird\views\chatView.js" />
+    <Content Include="js\bowerbird\views\avatarMediaResourceView.js" />
     <Content Include="js\bowerbird\views\editAvatarView.js" />
     <Content Include="js\bowerbird\views\organisationCreateFormView.js" />
     <Content Include="js\bowerbird\views\teamCreateFormView.js" />
