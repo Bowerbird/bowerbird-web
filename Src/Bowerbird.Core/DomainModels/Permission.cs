@@ -39,10 +39,9 @@ namespace Bowerbird.Core.DomainModels
             Check.RequireNotNullOrWhitespace(name, "name");
             Check.RequireNotNullOrWhitespace(description, "description");
 
-            SetDetails(
-                id,
-                name,
-                description);
+            Id = "permissions/" + id;
+            Name = name;
+            Description = description;
         }
 
         #endregion
@@ -56,13 +55,6 @@ namespace Bowerbird.Core.DomainModels
         #endregion
 
         #region Methods
-
-        private void SetDetails(string id, string name, string description)
-        {
-            Id = "permissions/" + id;
-            Name = name;
-            Description = description;
-        }
 
         #endregion
     }

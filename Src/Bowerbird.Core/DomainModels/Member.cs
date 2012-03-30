@@ -17,12 +17,17 @@ using System.Linq;
 using System.Collections.Generic;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
+using Bowerbird.Core.Events;
+using Newtonsoft.Json;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public abstract class Member : DomainModel
+    public class Member : DomainModel
     {
         #region Members
+
+        [JsonIgnore]
+        private List<DenormalisedNamedDomainModelReference<Role>> _roles;
 
         #endregion
 
@@ -34,16 +39,22 @@ namespace Bowerbird.Core.DomainModels
             InitMembers();
         }
 
-        protected Member(
+        public Member(
+            User createdByUser,
             User user,
+            Group group,
             IEnumerable<Role> roles)
             : this()
         {
             Check.RequireNotNull(user, "user");
+            Check.RequireNotNull(group, "group");
             Check.RequireNotNull(roles, "roles");
 
             User = user;
+            Group = group;
             Roles = roles.Select(x => (DenormalisedNamedDomainModelReference<Role>)x).ToList();
+
+            EventProcessor.Raise(new DomainModelCreatedEvent<Member>(this, createdByUser));
         }
 
         #endregion
@@ -52,7 +63,13 @@ namespace Bowerbird.Core.DomainModels
 
         public DenormalisedUserReference User { get; private set; }
 
-        public List<DenormalisedNamedDomainModelReference<Role>> Roles { get; private set; }
+        public DenormalisedNamedDomainModelReference<Group> Group { get; private set; }
+
+        public IEnumerable<DenormalisedNamedDomainModelReference<Role>> Roles 
+        {
+            get { return _roles; }
+            private set { _roles = new List<DenormalisedNamedDomainModelReference<Role>>(value); }
+        }
 
         #endregion
 
@@ -60,7 +77,7 @@ namespace Bowerbird.Core.DomainModels
 
         private void InitMembers()
         {
-            Roles = new List<DenormalisedNamedDomainModelReference<Role>>();
+            _roles = new List<DenormalisedNamedDomainModelReference<Role>>();
         }
 
         public Member AddRole(Role role)
@@ -89,16 +106,16 @@ namespace Bowerbird.Core.DomainModels
 
         public Member RemoveRole(string roleId)
         {
-            Roles.RemoveAll(x => x.Id == roleId);
+            _roles.RemoveAll(x => x.Id == roleId);
 
             return this;
         }
 
         private void SetRole(DenormalisedNamedDomainModelReference<Role> role)
         {
-            if (Roles.All(x => x.Id != role.Id))
+            if (_roles.All(x => x.Id != role.Id))
             {
-                Roles.Add(role);
+                _roles.Add(role);
             }
         }
 

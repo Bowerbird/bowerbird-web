@@ -19,20 +19,27 @@ using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Events;
 using System;
 using Bowerbird.Core.Extensions;
+using Bowerbird.Core.DomainModels.DenormalisedReferences;
+using Newtonsoft.Json;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public class Post : Contribution
+    public class Post : DomainModel, IOwnable, IContribution
     {
         #region Members
 
+        [JsonIgnore]
         private List<MediaResource> _mediaResources;
 
         #endregion
 
         #region Constructors
 
-        protected Post() : base() { }
+        protected Post()
+            : base()
+        {
+            InitMembers();
+        }
 
         public Post(
             User createdByUser,
@@ -41,24 +48,23 @@ namespace Bowerbird.Core.DomainModels
             string message,
             IEnumerable<MediaResource> mediaResources,
             Group group)
-            : base(
-            createdByUser,
-            createdOn)
+            : this()
         {
+            Check.RequireNotNull(createdByUser, "createdByUser");
             Check.RequireNotNullOrWhitespace(subject, "subject");
             Check.RequireNotNullOrWhitespace(message, "message");
             Check.RequireNotNull(mediaResources, "mediaResources");
             Check.RequireNotNull(group, "group");
 
-            InitMembers();
+            User = createdByUser;
+            CreatedOn = createdOn;
+            GroupId = group.Id;
 
             SetDetails(
                 subject,
                 message,
                 mediaResources
                 );
-
-            AddGroupContribution(group, createdByUser, createdOn);
 
             EventProcessor.Raise(new DomainModelCreatedEvent<Post>(this, createdByUser));
         }
@@ -67,17 +73,28 @@ namespace Bowerbird.Core.DomainModels
 
         #region Properties
 
+        public DenormalisedUserReference User { get; private set; }
+
+        public DateTime CreatedOn { get; private set; }
+
         public string Subject { get; private set; }
 
         public string Message { get; private set; }
 
-        public IEnumerable<MediaResource> MediaResources { get { return _mediaResources; } }
+        public IEnumerable<MediaResource> MediaResources 
+        { 
+            get { return _mediaResources; }
+            private set { _mediaResources = new List<MediaResource>(value); } 
+        }
 
-        public IEnumerable<Comment> Comments
+        public string GroupId { get; private set; }
+
+        public CommentsComponent Discussion { get; private set; }
+
+        [JsonIgnore]
+        IEnumerable<string> IOwnable.Groups
         {
-            get { return _comments; }
-
-            private set { _comments = value as List<Comment>; }
+            get { return new string[] { this.GroupId }; }
         }
 
         #endregion
@@ -105,10 +122,30 @@ namespace Bowerbird.Core.DomainModels
             return this;
         }
 
+        public Post AddComment(string message, User createdByUser, DateTime createdDateTime)
+        {
+            Discussion.AddComment(message, createdByUser, createdDateTime);
+
+            return this;
+        }
+
+        public Post RemoveComment(string commentId)
+        {
+            Discussion.RemoveComment(commentId);
+
+            return this;
+        }
+
+        public Post UpdateComment(string commentId, string message, User modifiedByUser, DateTime modifiedDateTime)
+        {
+            Discussion.UpdateComment(commentId, message, modifiedByUser, modifiedDateTime);
+
+            return this;
+        }
+
         private void InitMembers()
         {
-            _comments = new List<Comment>();
-
+            Discussion = new CommentsComponent();
             _mediaResources = new List<MediaResource>();
         }
 

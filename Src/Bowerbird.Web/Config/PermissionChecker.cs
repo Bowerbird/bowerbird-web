@@ -19,8 +19,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.DomainModels.Members;
 using Raven.Client;
+using Raven.Client.Linq;
 using Bowerbird.Core.Repositories;
 
 namespace Bowerbird.Web.Config
@@ -56,55 +56,82 @@ namespace Bowerbird.Web.Config
 
         public void Init()
         {
-            _cachedRoles = _documentSession.Query<Role>();
+            _cachedRoles = _documentSession.Query<Role>(); // HACK: If we have too many roles, RavenDB won't return them all
         }
 
-        public bool HasGlobalPermission(string userId, string permissionName)
-        {
-            var user = _documentSession.Load<User>(userId);
-
-            return HasPermission(user.GlobalMembership, "permissions/" + permissionName);
-        }
-
-        public bool HasGroupPermission(string userId, string groupId, string permissionName)
-        {
-            var groupMember = _documentSession.LoadGroupMember(groupId, userId);
-
-            return HasPermission(groupMember, "permissions/" + permissionName);
-        }
-
-        public bool HasPermissionToUpdate<T>(string userId, string id)
-        {
-            if(default(T) is Observation)
-            {
-                // HACK: Temp implementation until we see a pattern emerge in the usage of permissions
-                var observation = _documentSession.Load<Observation>(id);
-                return observation.User.Id == userId;
-            }
-
-            throw new ArgumentException("The specified model type does not have a permission check implemented.");
-        }
-
-        public bool HasPermissionToDelete<T>(string userId, string id)
-        {
-            if (default(T) is Observation)
-            {
-                // HACK: Temp implementation until we see a pattern emerge in the usage of permissions
-                var observation = _documentSession.Load<Observation>(id);
-                return observation.User.Id == userId;
-            }
-
-            throw new ArgumentException("The specified model type does not have a permission check implemented.");
-        }
-
-        private bool HasPermission(Member member, string permissionId)
+        public bool HasGroupPermission(string permissionId, string userId, string groupId)
         {
             Check.Ensure(_cachedRoles != null, "PermissionChecker has not been initialised. Call Init() before use.");
-        
+
+            var membership = _documentSession.LoadMember(groupId, userId);
+
             return _cachedRoles
-                .Where(x => member.Roles.Any(y => y.Id == x.Id))
-                .Any(x => x.Permissions.Any(y => y.Id == permissionId));
+                .Where(x => membership.Roles.Any(y => y.Id == x.Id))
+                .Any(x => x.Permissions.Any(y => y.Id == "permissions/" + permissionId));
         }
+
+        public bool HasGroupPermission<T>(string permissionId, string userId, string domainModelId)
+            where T : DomainModel
+        {
+            Check.Ensure(_cachedRoles != null, "PermissionChecker has not been initialised. Call Init() before use.");
+
+            var memberships = _documentSession.Query<Member>().Where(x => x.User.Id == userId);
+
+            T domainModel = _documentSession.Load<T>(domainModelId);
+
+            if (domainModel is IOwnable)
+            {
+                // 1. Check if user is owner
+                if ((((IOwnable)domainModel).User.Id == userId))
+                {
+                    return true;
+                }
+
+                // 2. Check if user has a valid permission
+
+                // 2a. Get all roles that will be checked for permissions. Only memberships that the model also has will be searched
+                var validRoles = memberships.Where(x => ((IOwnable)domainModel).Groups.Any(y => x.Group.Id == y)).SelectMany(x => x.Roles);
+
+                // 2b. Get all permissions that will be searched
+                var permissionsToSearch = _cachedRoles.Where(x => validRoles.Any(y => y.Id == x.Id)).SelectMany(x => x.Permissions);
+
+                // 2c. Search for permission
+                return permissionsToSearch.Any(x => "permissions/" + permissionId.ToLower() == x.Id);
+            }
+
+            throw new ArgumentException("The specified model is not configured to be checked for permissions (must implement IOwnable).");
+        }
+
+        //public bool HasPermission<T>(string userId, string groupId, string permissionName, string domainModelId = null)
+        //    where T : DomainModel
+        //{
+        //    var member = _documentSession.LoadMember(groupId, userId);
+
+        //    if (!string.IsNullOrWhiteSpace(domainModelId))
+        //    {
+        //        T domainModel = _documentSession.Load<T>(domainModelId);
+
+        //        if (domainModel is IOwnable)
+        //        {
+        //            return ((IOwnable)domainModel).User.Id == userId || MemberHasPermission(member, "permissions/" + permissionName);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        return MemberHasPermission(member, "permissions/" + permissionName);
+        //    }
+
+        //    throw new ArgumentException("The specified model is not configured to be checked for permissions (must implement IOwnable).");
+        //}
+
+        //private bool MemberHasPermission(Member member, string permissionId)
+        //{
+        //    Check.Ensure(_cachedRoles != null, "PermissionChecker has not been initialised. Call Init() before use.");
+        
+        //    return _cachedRoles
+        //        .Where(x => member.Roles.Any(y => y.Id == x.Id))
+        //        .Any(x => x.Permissions.Any(y => y.Id == permissionId));
+        //}
 
         #endregion      
       

@@ -15,6 +15,7 @@
 */
 
 using System;
+using System.Linq;
 using System.Web;
 using System.Web.Security;
 using Bowerbird.Core.Config;
@@ -26,6 +27,7 @@ using SignalR.Hosting.AspNet;
 using SignalR.Hubs;
 using SignalR.Infrastructure;
 using Bowerbird.Web.Hubs;
+using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Web.Config
 {
@@ -116,24 +118,26 @@ namespace Bowerbird.Web.Config
             return AspNetHost.DependencyResolver.Resolve<IConnectionManager>().GetClients<ActivityHub>();
         }
 
-        public bool HasGlobalPermission(string permissionName)
+        public bool HasAppRootPermission(string permissionId)
         {
-            return _permissionChecker.HasGlobalPermission(GetAuthenticatedUserId(), permissionName);
+            return _permissionChecker.HasGroupPermission(permissionId, GetAuthenticatedUserId(), Constants.AppRootId);
         }
 
-        public bool HasGroupPermission(string groupId, string permissionName)
+        public bool HasUserProjectPermission(string permissionId) 
         {
-            return _permissionChecker.HasGroupPermission(GetAuthenticatedUserId(), groupId, permissionName);
+            var userProject = _documentSession.Query<UserProject>().Where(x => x.User.Id == GetAuthenticatedUserId()).First();
+            return _permissionChecker.HasGroupPermission(permissionId, GetAuthenticatedUserId(), userProject.Id);
         }
 
-        public bool HasPermissionToUpdate<T>(string id)
+        public bool HasGroupPermission(string permissionId, string groupId)
         {
-            return _permissionChecker.HasPermissionToUpdate<T>(GetAuthenticatedUserId(), id);
+            return _permissionChecker.HasGroupPermission(permissionId, GetAuthenticatedUserId(), groupId);
         }
 
-        public bool HasPermissionToDelete<T>(string id)
+        public bool HasGroupPermission<T>(string permissionId, string domainModelId)
+            where T : DomainModel
         {
-            return _permissionChecker.HasPermissionToDelete<T>(GetAuthenticatedUserId(), id);
+            return _permissionChecker.HasGroupPermission<T>(permissionId, GetAuthenticatedUserId(), domainModelId);
         }
 
         private void AddCookie(string name, string value, string domain)

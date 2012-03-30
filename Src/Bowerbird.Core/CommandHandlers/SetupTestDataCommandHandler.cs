@@ -20,7 +20,6 @@ using System.Linq;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.DomainModels.Members;
 using Raven.Client;
 using Bowerbird.Core.Events;
 using Bowerbird.Core.Config;
@@ -54,6 +53,8 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Properties
 
+        private AppRoot TheAppRoot { get; set; }
+
         private List<Role> Roles { get; set; }
 
         private List<User> Users { get; set; }
@@ -64,11 +65,13 @@ namespace Bowerbird.Core.CommandHandlers
 
         private List<Project> Projects { get; set; }
 
-        private List<GroupMember> GroupMembers { get; set; }
+        private List<Member> Members { get; set; }
 
         private List<Observation> Observations { get; set; }
 
         private List<Post> Posts { get; set; }
+
+        private List<GroupAssociation> GroupAssociations { get; set; }
 
         #endregion
 
@@ -78,14 +81,16 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(setupTestDataCommand, "setupTestDataCommand");
 
+            TheAppRoot = null;
             Roles = new List<Role>();
             Users = new List<User>();
             Organisations = new List<Organisation>();
             Teams = new List<Team>();
             Projects = new List<Project>();
-            GroupMembers = new List<GroupMember>();
+            Members = new List<Member>();
             Observations = new List<Observation>();
             Posts = new List<Post>();
+            GroupAssociations = new List<GroupAssociation>();
 
             try
             {
@@ -93,6 +98,8 @@ namespace Bowerbird.Core.CommandHandlers
 
                 Roles = _documentSession.Query<Role>().ToList();
                 Users = _documentSession.Query<User>().ToList();
+
+                TheAppRoot = _documentSession.Load<AppRoot>(Constants.AppRootId);
 
                 // Users
                 //AddUser("password", "frank@radocaj.com", "Frank", "Radocaj", "globaladministrator", "globalmember");
@@ -139,119 +146,97 @@ namespace Bowerbird.Core.CommandHandlers
             }
             finally
             {
+                TheAppRoot = null;
                 Users = null;
                 Organisations = null;
                 Teams = null;
                 Projects = null;
-                GroupMembers = null;
+                Members = null;
                 Observations = null;
                 Posts = null;
+                GroupAssociations = null;
 
                 _systemStateManager.EnableEmailService();
             }
         }
 
-        private void AddUser(string password, string email, string firstname, string lastname, params string[] roleIds)
-        {
-            var globalRoles = Roles.Where(x => roleIds.Any(y => x.Id == "roles/" + y));
-            var user = new User(password, email, firstname, lastname, globalRoles);
-            _documentSession.Store(user);
-            Users.Add(user);
+        //private void AddUser(string password, string email, string firstname, string lastname, params string[] roleIds)
+        //{
+        //    var globalRoles = Roles.Where(x => roleIds.Any(y => x.Id == "roles/" + y));
+        //    var user = new User(password, email, firstname, lastname, globalRoles);
+        //    _documentSession.Store(user);
+        //    Users.Add(user);
 
-            var userProject = new UserProject(user);
-            _documentSession.Store(userProject);
+        //    var userProject = new UserProject(user);
+        //    _documentSession.Store(userProject);
 
-            var userProjectRoles = Roles.Where(x => x.Id == "roles/projectadministrator" || x.Id == "roles/projectmember");
-            var groupMember = new GroupMember(user, userProject, user, userProjectRoles);
-            _documentSession.Store(groupMember);
-        }
+        //    var userProjectRoles = Roles.Where(x => x.Id == "roles/projectadministrator" || x.Id == "roles/projectmember");
+        //    var groupMember = new GroupMember(user, userProject, user, userProjectRoles);
+        //    _documentSession.Store(groupMember);
+        //}
 
         private void AddOrganisation(string name, string description, string website, string userid)
         {
-            var user = Users.Where(x => x.Id == userid).FirstOrDefault();
-
-            Check.Ensure(user != null, "user may not be null");
-
-            var organisation = new Organisation(user, name, description, website, null);
-
+            var organisation = new Organisation(Users.Single(x => x.Id == userid), name, description, website, null, Constants.AppRootId);
             _documentSession.Store(organisation);
+
+            var groupAssociation = new GroupAssociation(TheAppRoot, organisation, Users.Single(x => x.Id == userid), DateTime.Now);
+            _documentSession.Store(groupAssociation);
 
             Organisations.Add(organisation);
         }
 
         private void AddTeam(string name, string description, string website, string userid, string organisationId = null)
         {
-            var user = Users.Where(x => x.Id == userid).FirstOrDefault();
-
-            Check.Ensure(user != null, "user may not be null");
-
-            var team = new Team(user, name, description, website, null, organisationId);
-
+            var team = new Team(Users.Single(x => x.Id == userid), name, description, website, null, organisationId);
             _documentSession.Store(team);
+
+            var groupAssociation = new GroupAssociation(Organisations.Single(x => x.Id == organisationId), team, Users.Single(x => x.Id == userid), DateTime.Now);
+            _documentSession.Store(groupAssociation);
 
             Teams.Add(team);
         }
 
         private void AddProject(string name, string description, string website, string userid, string teamId = null)
         {
-            var user = Users.Where(x => x.Id == userid).FirstOrDefault();
-
-            Check.Ensure(user != null, "user may not be null");
-
-            var project = new Project(user, name, description, website, null, teamId);
-
+            var project = new Project(Users.Single(x => x.Id == userid), name, description, website, null, teamId);
             _documentSession.Store(project);
 
-            var team = Teams.Single(x => x.Id == teamId);
-
-            team.AddGroupAssociation(project, user, DateTime.Now);
-
-            _documentSession.Store(team);
+            var groupAssociation = new GroupAssociation(Teams.Single(x => x.Id == teamId), project, Users.Single(x => x.Id == userid), DateTime.Now);
+            _documentSession.Store(groupAssociation);
 
             Projects.Add(project);
         }
 
         private void AddProjectMember(string userid, string projectId, string rolename)
         {
-            var user = Users.Where(x => x.Id == userid).FirstOrDefault();
-            var project = Projects.Where(x => x.Id == projectId).FirstOrDefault();
-            var roles = new List<Role>() { Roles.Where(x => x.Id == "roles/" + rolename).FirstOrDefault() };
+            var user = Users.Single(x => x.Id == userid);
+            var project = Projects.Single(x => x.Id == projectId);
+            var roles = new List<Role>() { Roles.Single(x => x.Id == "roles/" + rolename) };
 
-            Check.Ensure(user != null, "user may not be null");
-            Check.Ensure(project != null, "project may not be null");
-            Check.Ensure(roles.Count > 0, "role does not exist");
-
-            var projectMember = new GroupMember(user, project, user, roles);
-
+            var projectMember = new Member(user, user, project, roles);
             _documentSession.Store(projectMember);
 
-            GroupMembers.Add(projectMember);
+            Members.Add(projectMember);
         }
 
         private void AddTeamMember(string userid, string teamId, string rolename)
         {
-            var user = Users.Where(x => x.Id == userid).FirstOrDefault();
-            var team = Teams.Where(x => x.Id == teamId).FirstOrDefault();
-            var roles = new List<Role>() { Roles.Where(x => x.Id == "roles/"+rolename).FirstOrDefault() };
+            var user = Users.Single(x => x.Id == userid);
+            var team = Teams.Single(x => x.Id == teamId);
+            var roles = new List<Role>() { Roles.Single(x => x.Id == "roles/" + rolename) };
 
-            Check.Ensure(user != null, "user may not be null");
-            Check.Ensure(team != null, "team may not be null");
-            Check.Ensure(roles.Count > 0, "role does not exist");
-
-            var teamMember = new GroupMember(user, team, user, roles);
+            var teamMember = new Member(user, user, team, roles);
 
             _documentSession.Store(teamMember);
 
-            GroupMembers.Add(teamMember);
+            Members.Add(teamMember);
         }
 
         private void AddObservation(string userId, string projectId)
         {
-            var user = Users.Where(x => x.Id == userId).FirstOrDefault();
-            var project = Projects.Where(x => x.Id == projectId).FirstOrDefault();
-
-            Check.Ensure(user != null, "user may not be null");
-            Check.Ensure(project != null, "project may not be null");
+            var user = Users.Single(x => x.Id == userId);
+            var project = Projects.Single(x => x.Id == projectId);
 
             var observation = new Observation(
                 user,
@@ -264,7 +249,7 @@ namespace Bowerbird.Core.CommandHandlers
                 true,
                 "categoryX");
 
-            observation.AddGroupContribution(project, user, DateTime.Now);
+            observation.AddGroup(project, user, DateTime.Now);
 
             _documentSession.Store(observation);
 

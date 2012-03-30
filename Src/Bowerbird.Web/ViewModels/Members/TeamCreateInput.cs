@@ -30,13 +30,13 @@ namespace Bowerbird.Web.ViewModels.Members
 
         #region Properties
 
+        public string OrganisationId { get; set; }
+
         [Required]
         public string Description { get; set; }
 
         [Required]
         public string Name { get; set; }
-
-        public string OrganisationId { get; set; }
 
         #endregion
 

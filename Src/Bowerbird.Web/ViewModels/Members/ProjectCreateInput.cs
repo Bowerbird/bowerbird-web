@@ -30,6 +30,8 @@ namespace Bowerbird.Web.ViewModels.Members
 
         #region Properties
 
+        public string TeamId { get; set; }
+
         [Required]
         public string Name { get; set; }
 

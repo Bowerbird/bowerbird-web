@@ -12,12 +12,12 @@
  
 */
 
-using System;
 using Bowerbird.Core.DesignByContract;
+using System;
 
 namespace Bowerbird.Core.DomainModels.DenormalisedReferences
 {
-    public class DenormalisedContributionDomainModelReference : ValueObject
+    public class DenormalisedObservationNoteReference
     {
         #region Members
 
@@ -29,25 +29,25 @@ namespace Bowerbird.Core.DomainModels.DenormalisedReferences
 
         #region Properties
 
-        public string Id { get; set; }
+        public string Id { get; private set; }
 
-        public string UserId { get; set; }
+        public string UserId { get; private set; }
 
-        public DateTime CreatedDateTime { get; set; }
+        public DateTime CreatedOn { get; private set; }
 
         #endregion
 
         #region Methods
 
-        public static implicit operator DenormalisedContributionDomainModelReference(Contribution contribution)
+        public static implicit operator DenormalisedObservationNoteReference(ObservationNote observationNote)
         {
-            Check.RequireNotNull(contribution, "contribution");
+            Check.RequireNotNull(observationNote, "observationNote");
 
-            return new DenormalisedContributionDomainModelReference
+            return new DenormalisedObservationNoteReference
             {
-                Id = contribution.Id,
-                UserId = contribution.User.Id,
-                CreatedDateTime = contribution.CreatedOn
+                Id = observationNote.Id,
+                UserId = observationNote.User.Id,
+                CreatedOn = observationNote.CreatedOn
             };
         }
 

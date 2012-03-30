@@ -12,16 +12,13 @@
  
 */
 
+using Bowerbird.Core.DomainModels;
 namespace Bowerbird.Web.Config
 {
     public interface IPermissionChecker
     {
-        bool HasGlobalPermission(string userId, string permissionName);
+        bool HasGroupPermission(string permissionId, string userId, string groupId);
 
-        bool HasGroupPermission(string userId, string groupId, string permissionName);
-
-        bool HasPermissionToUpdate<T>(string userId, string id);
-
-        bool HasPermissionToDelete<T>(string userId, string id);
+        bool HasGroupPermission<T>(string permissionId, string userId, string domainModelId) where T : DomainModel;
     }
 }

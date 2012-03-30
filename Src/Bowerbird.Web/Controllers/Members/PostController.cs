@@ -72,7 +72,7 @@ namespace Bowerbird.Web.Controllers.Members
         [HttpPost]
         public ActionResult Create(PostCreateInput createInput)
         {
-            if(!_userContext.HasGroupPermission(createInput.GroupId, PermissionNames.CreatePost))
+            if(!_userContext.HasGroupPermission<Post>(createInput.GroupId, PermissionNames.CreatePost))
             {
                 return HttpUnauthorized();
             }
@@ -91,7 +91,7 @@ namespace Bowerbird.Web.Controllers.Members
         [HttpPut]
         public ActionResult Update(PostUpdateInput updateInput)
         {
-            if (!_userContext.HasPermissionToUpdate<Post>(updateInput.Id))
+            if (!_userContext.HasGroupPermission<Post>(PermissionNames.UpdatePost, updateInput.Id))
             {
                 return HttpUnauthorized();
             }
@@ -110,7 +110,7 @@ namespace Bowerbird.Web.Controllers.Members
         [HttpDelete]
         public ActionResult Delete(IdInput deleteInput)
         {
-            if(!_userContext.HasPermissionToDelete<Post>(deleteInput.Id))
+            if(!_userContext.HasGroupPermission<Post>(PermissionNames.DeletePost, deleteInput.Id))
             {
                 return HttpUnauthorized();
             }
@@ -131,9 +131,9 @@ namespace Bowerbird.Web.Controllers.Members
 
             var posts = _documentSession
                 .Query<Post>()
-                .Where(x => x.GroupContributions.Any(y => y.GroupId == listInput.GroupId))
+                .Where(x => x.GroupId == listInput.GroupId)
+                .Include(x => x.GroupId)
                 .OrderByDescending(x => x.CreatedOn)
-                .Customize(x => x.Include(listInput.GroupId))
                 .Statistics(out stats)
                 .Skip(listInput.Page)
                 .Take(listInput.PageSize)

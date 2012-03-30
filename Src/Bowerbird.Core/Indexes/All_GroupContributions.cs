@@ -40,7 +40,8 @@ namespace Bowerbird.Core.Indexes
         {
             AddMap<Observation>(observations => 
                 from c in observations
-                from gc in c.GroupContributions
+                //from gc in c.GroupContributions
+                from gc in c.Groups
                 where gc.GroupType != "userproject"
                 select new
                 {
@@ -55,32 +56,46 @@ namespace Bowerbird.Core.Indexes
 
             AddMap<Post>(posts => 
                 from c in posts
-                from gc in c.GroupContributions
-                where gc.GroupType != "userproject"
                 select new
                 {
                     ContributionId = c.Id,
                     ContributionType = "Post",
                     UserId = c.User.Id,
                     CreatedDateTime = c.CreatedOn,
-                    gc.GroupId,
-                    GroupUserId = gc.User.Id,
-                    GroupCreatedDateTime = gc.CreatedDateTime
-                }); 
+                    c.GroupId,
+                    GroupUserId = c.User.Id,
+                    GroupCreatedDateTime = c.CreatedOn
+                });
 
-            AddMap<ObservationNote>(observationNotes => 
-                from c in observationNotes
-                from gc in c.GroupContributions
-                where gc.GroupType != "userproject"
+            //AddMap<ObservationNote>(observationNotes => 
+            //    from c in observationNotes
+            //    from gc in c.GroupContributions 
+            //    where gc.GroupType != "userproject"
+            //    select new
+            //    {
+            //        ContributionId = c.Id,
+            //        ContributionType = "ObservationNote",
+            //        UserId = c.User.Id,
+            //        CreatedDateTime = c.CreatedOn,
+            //        gc.GroupId,
+            //        GroupUserId = gc.User.Id,
+            //        GroupCreatedDateTime = gc.CreatedDateTime
+            //    });
+
+            AddMap<Observation>(observations =>
+                from o in observations
+                from og in o.Groups
+                where og.GroupType != "userproject"
+                from n in o.Notes
                 select new
                 {
-                    ContributionId = c.Id,
+                    ContributionId = n.Id,
                     ContributionType = "ObservationNote",
-                    UserId = c.User.Id,
-                    CreatedDateTime = c.CreatedOn,
-                    gc.GroupId,
-                    GroupUserId = gc.User.Id,
-                    GroupCreatedDateTime = gc.CreatedDateTime
+                    UserId = n.UserId,
+                    CreatedDateTime = n.CreatedOn,
+                    og.GroupId,
+                    GroupUserId = og.User.Id,
+                    GroupCreatedDateTime = og.CreatedDateTime
                 });
 
             TransformResults = (database, results) =>

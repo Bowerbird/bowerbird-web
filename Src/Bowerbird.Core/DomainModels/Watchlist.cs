@@ -59,11 +59,11 @@ namespace Bowerbird.Core.DomainModels
 
         #region Properties
 
-        public DenormalisedUserReference User { get; set; }
+        public DenormalisedUserReference User { get; private set; }
 
-        public string Name { get; set; }
+        public string Name { get; private set; }
 
-        public string QuerystringJson { get; set; }
+        public string QuerystringJson { get; private set; }
         
         #endregion
 

@@ -17,7 +17,6 @@ using System.Web.Mvc;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.DomainModels.Members;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Paging;
 using Bowerbird.Core.Services;
@@ -104,7 +103,7 @@ namespace Bowerbird.Web.Controllers.Members
         [HttpPost]
         public ActionResult Create(ProjectCreateInput createInput)
         {
-            if (!_userContext.HasGlobalPermission(PermissionNames.CreateProject))
+            if (!_userContext.HasGroupPermission(PermissionNames.CreateProject, createInput.TeamId ?? Constants.AppRootId))
             {
                 return HttpUnauthorized();
             }
@@ -124,7 +123,7 @@ namespace Bowerbird.Web.Controllers.Members
         [HttpPut]
         public ActionResult Update(ProjectUpdateInput updateInput) 
         {
-            if (!_userContext.HasPermissionToUpdate<Project>(updateInput.ProjectId))
+            if (!_userContext.HasGroupPermission<Project>(PermissionNames.UpdateProject, updateInput.ProjectId))
             {
                 return HttpUnauthorized();
             }
@@ -144,7 +143,7 @@ namespace Bowerbird.Web.Controllers.Members
         [HttpDelete]
         public ActionResult Delete(IdInput deleteInput)
         {
-            if (!_userContext.HasPermissionToDelete<Project>(deleteInput.Id))
+            if (!_userContext.HasGroupPermission<Project>(PermissionNames.DeleteProject, deleteInput.Id))
             {
                 return HttpUnauthorized();
             }
@@ -272,13 +271,13 @@ namespace Bowerbird.Web.Controllers.Members
         {
             RavenQueryStatistics stats;
 
-            var groupMemberships = _documentSession
-                .Query<GroupMember, All_Members>()
+            var memberships = _documentSession
+                .Query<Member>()
                 .Where(x => x.User.Id == listInput.UserId);
 
             var results = _documentSession
                 .Query<Project>()
-                .Where(x => x.Id.In(groupMemberships.Select(y => y.Group.Id)))
+                .Where(x => x.Id.In(memberships.Select(y => y.Group.Id)))
                 .Customize(x => x.Include<User>(y => y.Id == listInput.UserId))
                 .Statistics(out stats)
                 .Skip(listInput.Page)

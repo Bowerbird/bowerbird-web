@@ -33,26 +33,29 @@ namespace Bowerbird.Core.DomainModels
         }
 
         public GroupAssociation(
-            Group group,
+            Group parentGroup,
+            Group childGroup,
             User createdByUser,
             DateTime createdDateTime)
             : base()
         {
-            Check.RequireNotNull(group, "group");
+            Check.RequireNotNull(parentGroup, "parentGroup");
+            Check.RequireNotNull(childGroup, "childGroup");
             Check.RequireNotNull(createdByUser, "createdByUser");
 
-            GroupId = group.Id;
+            ParentGroupId = parentGroup.Id;
+            ChildGroupId = childGroup.Id;
             CreatedByUserId = createdByUser.Id;
             CreatedDateTime = createdDateTime;
-
-            //EventProcessor.Raise(new DomainModelCreatedEvent<GroupAssociation>(this, createdByUser, string.Empty));
         }
 
         #endregion
 
         #region Properties
 
-        public string GroupId { get; private set; }
+        public string ParentGroupId { get; private set; }
+
+        public string ChildGroupId { get; private set; }
 
         public string CreatedByUserId { get; private set; }
 

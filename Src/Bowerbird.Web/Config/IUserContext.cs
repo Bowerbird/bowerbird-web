@@ -14,6 +14,7 @@
  
 */
 
+using Bowerbird.Core.DomainModels;
 namespace Bowerbird.Web.Config
 {
     public interface IUserContext
@@ -33,13 +34,32 @@ namespace Bowerbird.Web.Config
 
         dynamic GetChannel();
 
-        bool HasGlobalPermission(string permissionName);
+        /// <summary>
+        /// Determine if user has the specified permission to perform a task on the app root level
+        /// </summary>
+        /// <param name="permissionId">The permission name to find</param>
+        bool HasAppRootPermission(string permissionId);
 
-        bool HasGroupPermission(string groupId, string permissionName);
+        /// <summary>
+        /// Determine if user has the specified permission to perform a task on their user project
+        /// </summary>
+        /// <param name="permissionId">The permission name to find</param>
+        bool HasUserProjectPermission(string permissionId);
 
-        bool HasPermissionToUpdate<T>(string id);
+        /// <summary>
+        /// Determine if user has the specified permission to perform a task in the specified group
+        /// </summary>
+        /// <param name="permissionId">The permission name to find</param>
+        /// <param name="groupId">The group within which to query for the specified permission</param>
+        bool HasGroupPermission(string permissionId, string groupId);
 
-        bool HasPermissionToDelete<T>(string id);
+        /// <summary>
+        /// Determine if user has the specified permission to perform a task in the specified group on the specified domain model
+        /// </summary>
+        /// <typeparam name="T">The type of domain model that permission is being queried for</typeparam>
+        /// <param name="permissionId">The permission name to find</param>
+        /// <param name="domainModelId">The domain model to check for permission</param>
+        bool HasGroupPermission<T>(string permissionId, string domainModelId) where T : DomainModel;
 
     }
 }

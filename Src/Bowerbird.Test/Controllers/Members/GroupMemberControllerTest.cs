@@ -94,15 +94,15 @@ namespace Bowerbird.Test.Controllers.Members
                 session.SaveChanges();
             }
 
-            var result = _controller.List(new GroupMemberListInput() { Page = page, PageSize = pageSize, GroupId = project.Id, UserId = user.Id });
+            var result = _controller.List(new MemberListInput() { Page = page, PageSize = pageSize, GroupId = project.Id, UserId = user.Id });
 
             Assert.IsInstanceOf<JsonResult>(result);
 
             var jsonResult = result as JsonResult;
             Assert.IsNotNull(jsonResult);
 
-            Assert.IsInstanceOf<GroupMemberList>(jsonResult.Data);
-            var jsonData = jsonResult.Data as GroupMemberList;
+            Assert.IsInstanceOf<MemberList>(jsonResult.Data);
+            var jsonData = jsonResult.Data as MemberList;
 
             Assert.IsNotNull(jsonData);
             Assert.AreEqual(page, jsonData.Page);
@@ -117,7 +117,7 @@ namespace Bowerbird.Test.Controllers.Members
         {
             _controller.ModelState.AddModelError("Error", "Error");
 
-            var result = _controller.Create(new GroupMemberCreateInput());
+            var result = _controller.Create(new MemberCreateInput());
 
             Assert.IsInstanceOf<JsonResult>(result);
             var jsonResult = result as JsonResult;
@@ -130,7 +130,7 @@ namespace Bowerbird.Test.Controllers.Members
         [Category(TestCategory.Unit)]
         public void GroupMember_Create()
         {
-            var result = _controller.Create(new GroupMemberCreateInput(){GroupId = FakeValues.KeyString, UserId = FakeValues.KeyString, Roles = FakeValues.StringList});
+            var result = _controller.Create(new MemberCreateInput(){GroupId = FakeValues.KeyString, UserId = FakeValues.KeyString, Roles = FakeValues.StringList});
 
             Assert.IsInstanceOf<JsonResult>(result);
             var jsonResult = result as JsonResult;
@@ -145,7 +145,7 @@ namespace Bowerbird.Test.Controllers.Members
         {
             _controller.ModelState.AddModelError("Error", "Error");
 
-            var result = _controller.Delete(new GroupMemberDeleteInput());
+            var result = _controller.Delete(new MemberDeleteInput());
 
             Assert.IsInstanceOf<JsonResult>(result);
             var jsonResult = result as JsonResult;
@@ -158,7 +158,7 @@ namespace Bowerbird.Test.Controllers.Members
         [Category(TestCategory.Unit)]
         public void GroupMember_Delete()
         {
-            var result = _controller.Delete(new GroupMemberDeleteInput());
+            var result = _controller.Delete(new MemberDeleteInput());
 
             Assert.IsInstanceOf<JsonResult>(result);
             var jsonResult = result as JsonResult;

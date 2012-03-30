@@ -12,15 +12,14 @@
  
 */
 
-using System.Linq;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.DomainModels.Sessions;
+using Bowerbird.Core.Repositories;
 using Raven.Client;
 
 namespace Bowerbird.Core.CommandHandlers
 {
-    public class UserSessionUpdateCommandHandler : ICommandHandler<UserSessionUpdateCommand>
+    public class MemberDeleteCommandHandler : ICommandHandler<MemberDeleteCommand>
     {
         #region Members
 
@@ -30,7 +29,7 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Constructors
 
-        public UserSessionUpdateCommandHandler(
+        public MemberDeleteCommandHandler(
             IDocumentSession documentSession)
         {
             Check.RequireNotNull(documentSession, "documentSession");
@@ -43,24 +42,16 @@ namespace Bowerbird.Core.CommandHandlers
         #region Properties
 
         #endregion
-
+         
         #region Methods
 
-        // todo: probably masking an error here
-        public void Handle(UserSessionUpdateCommand command)
+        public void Handle(MemberDeleteCommand memberDeleteCommand)
         {
-            Check.RequireNotNull(command, "command");
+            Check.RequireNotNull(memberDeleteCommand, "memberDeleteCommand");
 
-            var userSession = _documentSession.Query<UserSession>()
-                .Where(x => x.ClientId == command.ClientId)
-                .FirstOrDefault();
+            var member = _documentSession.LoadMember(memberDeleteCommand.GroupId, memberDeleteCommand.UserId);
 
-            if (userSession != null)
-            {
-                userSession.UpdateDetails(command.LatestActivity, command.Status);
-
-                _documentSession.Store(userSession);
-            }
+            _documentSession.Delete(member);
         }
 
         #endregion

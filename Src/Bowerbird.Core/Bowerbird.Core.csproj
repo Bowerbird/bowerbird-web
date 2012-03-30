@@ -115,8 +115,8 @@
     <Compile Include="CommandHandlers\PostCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\PostDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\ProjectUpdateCommandHandler.cs" />
-    <Compile Include="CommandHandlers\GroupMemberCreateCommandHandler.cs" />
-    <Compile Include="CommandHandlers\GroupMemberDeleteCommandHandler.cs" />
+    <Compile Include="CommandHandlers\MemberCreateCommandHandler.cs" />
+    <Compile Include="CommandHandlers\MemberDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\UserUpdateLastLoginCommandHandler.cs" />
     <Compile Include="CommandHandlers\SetupSystemDataCommandHandler.cs" />
     <Compile Include="CommandHandlers\WatchlistCreateCommandHandler.cs" />
@@ -160,8 +160,8 @@
     <Compile Include="Commands\PostCreateCommand.cs" />
     <Compile Include="Commands\PostDeleteCommand.cs" />
     <Compile Include="Commands\ProjectUpdateCommand.cs" />
-    <Compile Include="Commands\GroupMemberCreateCommand.cs" />
-    <Compile Include="Commands\GroupMemberDeleteCommand.cs" />
+    <Compile Include="Commands\MemberCreateCommand.cs" />
+    <Compile Include="Commands\MemberDeleteCommand.cs" />
     <Compile Include="Commands\UserUpdateLastLoginCommand.cs" />
     <Compile Include="Commands\SetupSystemDataCommand.cs" />
     <Compile Include="Commands\UserUpdatePasswordCommand.cs" />
@@ -176,8 +176,13 @@
     <Compile Include="Config\ISystemStateManager.cs" />
     <Compile Include="Config\Permissions.cs" />
     <Compile Include="DomainModels\Activity.cs" />
+    <Compile Include="DomainModels\AppRoot.cs" />
     <Compile Include="DomainModels\BaseObject.cs" />
     <Compile Include="DomainModels\BaseObjectEqualityComparer.cs" />
+    <Compile Include="DomainModels\CommentsComponent.cs" />
+    <Compile Include="DomainModels\DenormalisedReferences\DenormalisedObservationNoteReference.cs" />
+    <Compile Include="DomainModels\IContribution.cs" />
+    <Compile Include="DomainModels\IOwnable.cs" />
     <Compile Include="DomainModels\UserProject.cs" />
     <Compile Include="DomainModels\PrivateChatMessage.cs" />
     <Compile Include="DomainModels\GroupChatMessage.cs" />
@@ -185,21 +190,17 @@
     <Compile Include="DomainModels\Comment.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DomainModels\Contribution.cs" />
     <Compile Include="DomainModels\Sessions\GroupChatSession.cs" />
     <Compile Include="DomainModels\Notification.cs" />
     <Compile Include="DomainModels\ObservationMedia.cs" />
-    <Compile Include="DomainModels\DenormalisedReferences\DenormalisedContributionDomainModelReference.cs" />
-    <Compile Include="DomainModels\DenormalisedReferences\DenormalisedGroupMemberReference.cs" />
+    <Compile Include="DomainModels\DenormalisedReferences\DenormalisedMemberReference.cs" />
     <Compile Include="DomainModels\DomainSignatureAttribute.cs" />
     <Compile Include="DomainModels\DomainModel.cs" />
     <Compile Include="DomainModels\Group.cs" />
     <Compile Include="DomainModels\GroupAssociation.cs" />
-    <Compile Include="DomainModels\Members\GlobalMember.cs" />
     <Compile Include="DomainModels\DenormalisedReferences\DenormalisedObservationReference.cs" />
     <Compile Include="DomainModels\IAssignableId.cs" />
     <Compile Include="DomainModels\Member.cs" />
-    <Compile Include="DomainModels\Members\GroupMember.cs" />
     <Compile Include="DomainModels\DenormalisedReferences\DenormalisedNamedDomainModelReference.cs" />
     <Compile Include="DomainModels\ObservationNote.cs" />
     <Compile Include="DomainModels\Sessions\PrivateChatSession.cs" />
@@ -247,13 +248,12 @@
     <Compile Include="Events\UserLoggedInEvent.cs" />
     <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Extensions\EmailExtensions.cs" />
-    <Compile Include="DomainModels\GroupContribution.cs" />
+    <Compile Include="DomainModels\ObservationGroup.cs" />
     <Compile Include="ImageUtilities\ImageInformation.cs" />
     <Compile Include="ImageUtilities\ImageResizeMode.cs" />
     <Compile Include="Indexes\All_Contributions.cs" />
     <Compile Include="Indexes\All_GroupContributions.cs" />
     <Compile Include="Indexes\All_Groups.cs" />
-    <Compile Include="Indexes\All_Members.cs" />
     <Compile Include="Indexes\All_ChatSessions.cs" />
     <Compile Include="Indexes\All_UserSessions.cs" />
     <Compile Include="Paging\EnumerableExtensions.cs" />

@@ -84,7 +84,7 @@ namespace Bowerbird.Web.Controllers.Members
 
             if (observationListInput.CreatedByUserId != null)
             {
-                return Json(MakeObservationListByCretedByUserId(observationListInput), JsonRequestBehavior.AllowGet);
+                return Json(MakeObservationListByCreatedByUserId(observationListInput), JsonRequestBehavior.AllowGet);
             }
 
             return Json(MakeObservationList(observationListInput));
@@ -95,7 +95,7 @@ namespace Bowerbird.Web.Controllers.Members
         [Authorize]
         public ActionResult Create(ObservationCreateInput observationCreateInput)
         {
-            if (!_userContext.HasGlobalPermission(PermissionNames.CreateObservation))
+            if (!_userContext.HasUserProjectPermission(PermissionNames.CreateObservation))
             {
                 return HttpUnauthorized();
             }
@@ -115,7 +115,7 @@ namespace Bowerbird.Web.Controllers.Members
         [Authorize]
         public ActionResult Update(ObservationUpdateInput observationUpdateInput)
         {
-            if (!_userContext.HasPermissionToUpdate<Observation>(observationUpdateInput.ObservationId))
+            if (!_userContext.HasGroupPermission<Observation>(PermissionNames.UpdateObservation, observationUpdateInput.ObservationId))
             {
                 return HttpUnauthorized();
             }
@@ -135,7 +135,7 @@ namespace Bowerbird.Web.Controllers.Members
         [Authorize]
         public ActionResult Delete(IdInput idInput)
         {
-            if (!_userContext.HasPermissionToDelete<Observation>(idInput.Id))
+            if (!_userContext.HasGroupPermission<Observation>(PermissionNames.DeleteObservation, idInput.Id))
             {
                 return HttpUnauthorized();
             }
@@ -162,19 +162,18 @@ namespace Bowerbird.Web.Controllers.Members
         {
             RavenQueryStatistics stats;
 
-            var results = _documentSession
+            var observations = _documentSession
                 .Query<Observation>()
                 .Statistics(out stats)
                 .Skip(observationListInput.Page)
                 .Take(observationListInput.PageSize)
                 .ToArray();
-            // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
 
             return new ObservationList
             {
                 Page = observationListInput.Page,
                 PageSize = observationListInput.PageSize,
-                Observations = results.ToPagedList(
+                Observations = observations.ToPagedList(
                     observationListInput.Page,
                     observationListInput.PageSize,
                     stats.TotalResults,
@@ -186,21 +185,20 @@ namespace Bowerbird.Web.Controllers.Members
         {
             RavenQueryStatistics stats;
 
-            var results = _documentSession
+            var observations = _documentSession
                 .Query<Observation>()
-                .Where(x => x.GroupContributions.Any(y => y.GroupId == listInput.GroupId))
+                .Where(x => x.Groups.Any(y => y.GroupId == listInput.GroupId))
                 .Statistics(out stats)
                 .Skip(listInput.Page)
                 .Take(listInput.PageSize)
-                .ToArray();
-            // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
+                .ToList();
 
             return new ObservationList
             {
                 Page = listInput.Page,
                 PageSize = listInput.PageSize,
                 Project = listInput.GroupId != null ? _documentSession.Load<Project>(listInput.GroupId) : null,
-                Observations = results.ToPagedList(
+                Observations = observations.ToPagedList(
                     listInput.Page,
                     listInput.PageSize,
                     stats.TotalResults,
@@ -208,11 +206,11 @@ namespace Bowerbird.Web.Controllers.Members
             };
         }
 
-        private ObservationList MakeObservationListByCretedByUserId(ObservationListInput listInput)
+        private ObservationList MakeObservationListByCreatedByUserId(ObservationListInput listInput)
         {
             RavenQueryStatistics stats;
 
-            var results = _documentSession
+            var observations = _documentSession
                 .Query<Observation>()
                 .Customize(x => x.Include(listInput.CreatedByUserId))
                 .Where(x => x.User.Id == listInput.CreatedByUserId)
@@ -220,14 +218,13 @@ namespace Bowerbird.Web.Controllers.Members
                 .Skip(listInput.Page)
                 .Take(listInput.PageSize)
                 .ToArray();
-            // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
 
             return new ObservationList
             {
                 Page = listInput.Page,
                 PageSize = listInput.PageSize,
                 CreatedByUser = _documentSession.Load<User>(listInput.CreatedByUserId),
-                Observations = results.ToPagedList(
+                Observations = observations.ToPagedList(
                     listInput.Page,
                     listInput.PageSize,
                     stats.TotalResults,

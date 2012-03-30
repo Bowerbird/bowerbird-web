@@ -18,7 +18,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.DomainModels.Members;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Paging;
@@ -63,20 +62,20 @@ namespace Bowerbird.Web.Controllers.Members
         [HttpGet]
         public ActionResult List(StreamItemListInput listInput, StreamSortInput sortInput)
         {
-            if (listInput.UserId != null)
-            {
-                return Json(MakeUserStreamItemList(listInput, sortInput), JsonRequestBehavior.AllowGet);
-            }
+            //if (listInput.UserId != null)
+            //{
+            //    return Json(MakeUserStreamItemList(listInput, sortInput), JsonRequestBehavior.AllowGet);
+            //}
 
             if (listInput.GroupId != null)
             {
                 return Json(MakeGroupStreamItemList(listInput, sortInput), JsonRequestBehavior.AllowGet);
             }
 
-            if (listInput.WatchlistId != null)
-            {
-                return Json(MakeWatchlistStreamItemList(listInput, sortInput));
-            }
+            //if (listInput.WatchlistId != null)
+            //{
+            //    return Json(MakeWatchlistStreamItemList(listInput, sortInput));
+            //}
 
             return Json(MakeHomeStreamItemList(listInput, sortInput), JsonRequestBehavior.AllowGet);
         }
@@ -85,8 +84,8 @@ namespace Bowerbird.Web.Controllers.Members
         {
             RavenQueryStatistics stats;
 
-            var groupMemberships = _documentSession
-                .Query<GroupMember>()
+            var groups = _documentSession
+                .Query<Member>()
                 .Include(x => x.User.Id)
                 .Where(x => x.User.Id == _userContext.GetAuthenticatedUserId())
                 .Select(x => new { GroupId = x.Group.Id })
@@ -95,10 +94,10 @@ namespace Bowerbird.Web.Controllers.Members
             var groupContributions = _documentSession
                 .Query<All_GroupContributions.Result, All_GroupContributions>()
                 .AsProjection<All_GroupContributions.Result>()
-                .Include(x => x.ContributionId)
-                .Where(x => x.GroupId.In(groupMemberships.Select(y => y.GroupId)))
-                .OrderByDescending(x => x.CreatedDateTime)
                 .Statistics(out stats)
+                .Include(x => x.ContributionId)
+                .Where(x => x.GroupId.In(groups.Select(y => y.GroupId)))
+                .OrderByDescending(x => x.CreatedDateTime)
                 .Skip((listInput.Page - 1) * listInput.PageSize)
                 .Take(listInput.PageSize)
                 .ToList()
@@ -106,39 +105,35 @@ namespace Bowerbird.Web.Controllers.Members
                 .ToPagedList(listInput.Page, listInput.PageSize, stats.TotalResults);
 
             return groupContributions;
-
-            //SortResults(groupContributions, sortInput);
-
-            //return SetStreamItemList(groupContributions, stats, listInput.Page, listInput.PageSize);
         }
 
         private PagedList<StreamItem> MakeGroupStreamItemList(StreamItemListInput listInput, StreamSortInput sortInput)
         {
             RavenQueryStatistics stats;
 
-            // get all group and child groups
-            var group = _documentSession.Load<Group>(listInput.GroupId);
-            var groupIds = group.ChildGroupAssociations.Select(x => new { x.GroupId }).ToList();
-            groupIds.Add(new { GroupId = group.Id });
+            var groups = _documentSession
+                .Query<GroupAssociation>()
+                .Where(x => x.ParentGroupId == listInput.GroupId)
+                .ToList()
+                .Select(x => new { GroupId = x.ChildGroupId })
+                .ToList();
+
+            groups.Add(new { GroupId = listInput.GroupId });
 
             var groupContributions = _documentSession
                 .Query<All_GroupContributions.Result, All_GroupContributions>()
                 .AsProjection<All_GroupContributions.Result>()
-                .Include(x => x.ContributionId)
-                .Where(x => x.GroupId.In(groupIds.Select(y => y.GroupId)))
-                .OrderByDescending(x => x.CreatedDateTime)
                 .Statistics(out stats)
-                .Skip(listInput.Page)
+                .Include(x => x.ContributionId)
+                .Where(x => x.GroupId.In(groups.Select(y => y.GroupId)))
+                .OrderByDescending(x => x.CreatedDateTime)
+                .Skip((listInput.Page - 1) * listInput.PageSize)
                 .Take(listInput.PageSize)
                 .ToList()
                 .Select(MakeStreamItem)
                 .ToPagedList(listInput.Page, listInput.PageSize, stats.TotalResults);
 
             return groupContributions;
-
-            //SortResults(groupContributions, sortInput);
-
-            //return SetStreamItemList(groupContributions, stats, listInput.Page, listInput.PageSize);
         }
 
         private StreamItem MakeStreamItem(All_GroupContributions.Result groupContributionResult)
@@ -209,120 +204,61 @@ namespace Bowerbird.Web.Controllers.Members
             };
         }
 
-        // Get all stream items for all groups that a particular user is a member of
-        private PagedList<StreamItem> MakeUserStreamItemList(StreamItemListInput listInput, StreamSortInput sortInput)
-        {
-            RavenQueryStatistics stats;
+        //// Get all stream items for all groups that a particular user is a member of
+        //private PagedList<StreamItem> MakeUserStreamItemList(StreamItemListInput listInput, StreamSortInput sortInput)
+        //{
+        //    RavenQueryStatistics stats;
 
-            var groupMemberships = _documentSession
-                .Query<GroupMember>()
-                .Include(x => x.User.Id)
-                .Where(x => x.User.Id == listInput.UserId);
-                //.ToList();
+        //    var groupMemberships = _documentSession
+        //        .Query<Member>()
+        //        .Include(x => x.User.Id)
+        //        .Where(x => x.User.Id == listInput.UserId);
+        //        //.ToList();
 
-            var groupContributions = GetContributionsForGroups(groupMemberships)
-                .AsProjection<All_GroupContributions.Result>()
-                .Include(x => x.ContributionId)
-                .Where(x => x.UserId == listInput.UserId)
-                .Statistics(out stats)
-                .Skip(listInput.Page)
-                .Take(listInput.PageSize)
-                .ToList();
+        //    var groupContributions = GetContributionsForGroups(groupMemberships)
+        //        .AsProjection<All_GroupContributions.Result>()
+        //        .Include(x => x.ContributionId)
+        //        .Where(x => x.UserId == listInput.UserId)
+        //        .Statistics(out stats)
+        //        .Skip(listInput.Page)
+        //        .Take(listInput.PageSize)
+        //        .ToList();
 
-            //SortResults(groupContributions, sortInput);
+        //    //SortResults(groupContributions, sortInput);
 
-            //RavenQueryStatistics stats = ProjectGroupContributions(listInput, groupContributions);
+        //    //RavenQueryStatistics stats = ProjectGroupContributions(listInput, groupContributions);
 
-            return SetStreamItemList(groupContributions, stats, listInput.Page, listInput.PageSize);
-        }
+        //    return SetStreamItemList(groupContributions, stats, listInput.Page, listInput.PageSize);
+        //}
 
-        // Get all items that match the query of a users' watchlist
-        private StreamItemList MakeWatchlistStreamItemList(StreamItemListInput listInput, StreamSortInput sortInput)
-        {
-            var memberWatchlists = _documentSession.Load<Watchlist>(listInput.WatchlistId);
+        //// Get all items that match the query of a users' watchlist
+        //private StreamItemList MakeWatchlistStreamItemList(StreamItemListInput listInput, StreamSortInput sortInput)
+        //{
+        //    var memberWatchlists = _documentSession.Load<Watchlist>(listInput.WatchlistId);
 
-            // TODO: Create an index to query for watchlist 
+        //    // TODO: Create an index to query for watchlist 
 
-            //var groupContributions = _documentSession
-            //    .Query<GroupContributionResults, All_GroupContributionItems>()
-            //    .Include(x => x.ContributionId)
-            //    .Where(x => x.GroupId.In(groupMemberships.Select(y => y.Group.Id)));
+        //    //var groupContributions = _documentSession
+        //    //    .Query<GroupContributionResults, All_GroupContributionItems>()
+        //    //    .Include(x => x.ContributionId)
+        //    //    .Where(x => x.GroupId.In(groupMemberships.Select(y => y.Group.Id)));
 
-            //SortResults(groupContributions, sortInput);
+        //    //SortResults(groupContributions, sortInput);
 
-            //RavenQueryStatistics stats;
+        //    //RavenQueryStatistics stats;
 
-            //groupContributions
-            //    .OrderByDescending(x => x.GroupCreatedDateTime)
-            //    .AsProjection<GroupContributionResults>()
-            //    .Statistics(out stats)
-            //    .Skip(listInput.Page)
-            //    .Take(listInput.PageSize)
-            //    .ToList();
+        //    //groupContributions
+        //    //    .OrderByDescending(x => x.GroupCreatedDateTime)
+        //    //    .AsProjection<GroupContributionResults>()
+        //    //    .Statistics(out stats)
+        //    //    .Skip(listInput.Page)
+        //    //    .Take(listInput.PageSize)
+        //    //    .ToList();
 
-            //return SetStreamItemList(groupContributions, stats, listInput.Page, listInput.PageSize);
+        //    //return SetStreamItemList(groupContributions, stats, listInput.Page, listInput.PageSize);
 
-            return new StreamItemList();
-        }
-
-        private PagedList<StreamItem> SetStreamItemList(IEnumerable<All_GroupContributions.Result> results, RavenQueryStatistics stats, int page, int pageSize)
-        {
-            return results
-                    .Select(x =>
-                    new StreamItem()
-                    {
-                        CreatedDateTime = x.CreatedDateTime,
-                        Type = "thing",
-                        User = x.UserId,
-                        Description = "description",
-                        Item = x,
-                        
-                        //ItemId = x.ContributionId,
-                        //SubmittedOn = x.GroupCreatedDateTime,
-                        //UserId = x.GroupUserId
-                    }
-                    ).ToPagedList(
-                        page,
-                        pageSize,
-                        stats.TotalResults,
-                        null);
-        }
-
-        private IRavenQueryable<All_GroupContributions.Result> GetContributionsForGroups(IEnumerable<GroupMember> groupMemberships)
-        {
-            var groupContributions = _documentSession
-                    .Query<All_GroupContributions.Result, All_GroupContributions>()
-                    .Include(x => x.ContributionId)
-                    .Where(x => x.GroupId.In(groupMemberships.Select(y => y.Group.Id)));
-
-            return groupContributions;
-        }
-
-        private void SortResults(IQueryable<All_GroupContributions.Result> query, StreamSortInput sortInput)
-        {
-            if (sortInput.DateTimeDescending)
-            {
-                query.OrderByDescending(x => x.GroupCreatedDateTime);
-            }
-            else
-            {
-                query.OrderBy(x => x.GroupCreatedDateTime);
-            }
-        }
-
-        private static RavenQueryStatistics ProjectGroupContributions(StreamItemListInput listInput, IRavenQueryable<All_GroupContributions.Result> groupContributions)
-        {
-            RavenQueryStatistics stats;
-
-            groupContributions
-                .AsProjection<All_GroupContributions.Result>()
-                .Statistics(out stats)
-                .Skip(listInput.Page)
-                .Take(listInput.PageSize)
-                .ToList();
-
-            return stats;
-        }
+        //    return new StreamItemList();
+        //}
 
         #endregion
     }

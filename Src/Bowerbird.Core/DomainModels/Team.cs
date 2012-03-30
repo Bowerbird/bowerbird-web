@@ -1,10 +1,12 @@
-﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 
+
+ Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
  * Hamish Crittenden : hamish.crittenden@gmail.com
  
- Project Manager: 
+ Team Manager: 
  * Ken Walker : kwalker@museum.vic.gov.au
  
  Funded by:
@@ -12,23 +14,27 @@
  
 */
 
+using System;
 using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Events;
+using Bowerbird.Core.DomainModels.DenormalisedReferences;
 using Bowerbird.Core.Extensions;
 
 namespace Bowerbird.Core.DomainModels
 {
     public class Team : Group
     {
-
         #region Members
 
         #endregion
 
         #region Constructors
 
-        protected Team() : base() {}
+        protected Team()
+            : base()
+        {
+        }
 
         public Team(
             User createdByUser,
@@ -36,19 +42,16 @@ namespace Bowerbird.Core.DomainModels
             string description,
             string website,
             MediaResource avatar,
-            string organisationId = null)
-            : this()
+            string parentGroupId = null)
+            : base(
+            createdByUser,
+            name,
+            parentGroupId)
         {
-            Check.RequireNotNull(createdByUser, "createdByUser");
-            Check.RequireNotNullOrWhitespace(name, "name");
-            Check.RequireNotNullOrWhitespace(description, "description");
-
             SetDetails(
-                name,
                 description,
                 website,
-                avatar,
-                organisationId);
+                avatar);
 
             EventProcessor.Raise(new DomainModelCreatedEvent<Team>(this, createdByUser));
         }
@@ -57,22 +60,34 @@ namespace Bowerbird.Core.DomainModels
 
         #region Properties
 
+        public string Description { get; private set; }
+
+        public string Website { get; private set; }
+
+        public MediaResource Avatar { get; private set; }
+
         #endregion
 
         #region Methods
 
-        public Team UpdateDetails(User updatedByUser, string name, string description, string website, MediaResource avatar, string organisationId = null)
+        private void SetDetails(string description, string website, MediaResource avatar)
+        {
+            Description = description;
+            Website = website;
+            Avatar = avatar;
+        }
+
+        public Team UpdateDetails(User updatedByUser, string name, string description, string website, MediaResource avatar)
         {
             Check.RequireNotNull(updatedByUser, "updatedByUser");
             Check.RequireNotNullOrWhitespace(name, "name");
-            Check.RequireNotNullOrWhitespace(description, "description");
 
-            SetDetails(
-                name,
+            base.SetDetails(name);
+
+            this.SetDetails(
                 description,
                 website,
-                avatar,
-                organisationId);
+                avatar);
 
             EventProcessor.Raise(new DomainModelUpdatedEvent<Team>(this, updatedByUser));
 

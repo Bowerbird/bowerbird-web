@@ -13,6 +13,8 @@
 */
 
 using Bowerbird.Core.DesignByContract;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Bowerbird.Core.DomainModels.DenormalisedReferences
 {
@@ -28,9 +30,9 @@ namespace Bowerbird.Core.DomainModels.DenormalisedReferences
 
         #region Properties
 
-        public string Id { get; set; }
+        public string Id { get; private set; }
 
-        public string Title { get; set; }
+        public List<string> Groups { get; private set; }
 
         #endregion
 
@@ -43,7 +45,7 @@ namespace Bowerbird.Core.DomainModels.DenormalisedReferences
             return new DenormalisedObservationReference
             {
                 Id = observation.Id,
-                Title = observation.Title
+                Groups = observation.Groups.Select(x => x.GroupId).ToList()
             };
         }
 

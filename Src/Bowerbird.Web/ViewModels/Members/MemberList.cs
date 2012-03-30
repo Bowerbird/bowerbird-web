@@ -14,9 +14,12 @@
  
 */
 
+using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Paging;
+
 namespace Bowerbird.Web.ViewModels.Members
 {
-    public class GroupMemberListInput
+    public class MemberList : IViewModel
     {
 
         #region Members
@@ -31,11 +34,13 @@ namespace Bowerbird.Web.ViewModels.Members
 
         public string UserId { get; set; }
 
-        public string GroupId { get; set; }
+        public Group Group { get; set; }
 
         public int Page { get; set; }
 
         public int PageSize { get; set; }
+
+        public PagedList<Member> Members { get; set; }
 
         #endregion
 

@@ -19,12 +19,18 @@ using Bowerbird.Core.DomainModels.DenormalisedReferences;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public class ObservationNote : Contribution
+    public class ObservationNote : DomainModel, IOwnable, IContribution
     {
         #region Members
+
+        [JsonIgnore]
+        private Dictionary<string, string> _descriptions;
+        [JsonIgnore]
+        private Dictionary<string, string> _references;
 
         #endregion
 
@@ -45,16 +51,16 @@ namespace Bowerbird.Core.DomainModels
             string tags,
             IDictionary<string, string> descriptions,
             IDictionary<string, string> references,
-            string notes,
             DateTime createdOn)
-            : base(
-            createdByUser,
-            createdOn)
+            : this()
         {
+            Check.RequireNotNull(createdByUser, "createdByUser");
             Check.RequireNotNull(observation, "observation");
             Check.RequireNotNull(descriptions, "descriptions");
             Check.RequireNotNull(references, "references");
 
+            User = createdByUser;
+            CreatedOn = createdOn;
             Observation = observation;
 
             SetDetails(
@@ -63,8 +69,7 @@ namespace Bowerbird.Core.DomainModels
                 taxonomy,
                 tags,
                 descriptions,
-                references,
-                notes);
+                references);
 
             EventProcessor.Raise(new DomainModelCreatedEvent<ObservationNote>(this, createdByUser));
         }
@@ -72,22 +77,38 @@ namespace Bowerbird.Core.DomainModels
         #endregion
 
         #region Properties
+        
+        public DenormalisedUserReference User { get; private set; }
 
+        public DateTime CreatedOn { get; private set; }
+        
         public DenormalisedObservationReference Observation { get; private set; }
-
+        
         public string ScientificName { get; private set; }
-
+        
         public string CommonName { get; private set; }
-
+        
         public string Taxonomy { get; private set; }
-
+        
         public string Tags { get; private set; }
 
-        public Dictionary<string, string> Descriptions { get; private set; }
+        public IDictionary<string, string> Descriptions 
+        {
+            get { return _descriptions; }
+            private set { _descriptions = new Dictionary<string,string>(value); }
+        }
 
-        public Dictionary<string, string> References { get; private set; }
+        public IDictionary<string, string> References
+        {
+            get { return _references; }
+            private set { _references = new Dictionary<string, string>(value); }
+        }
 
-        public string Notes { get; private set; }
+        [JsonIgnore]
+        IEnumerable<string> IOwnable.Groups
+        {
+            get { return this.Observation.Groups; }
+        }
 
         #endregion
 
@@ -95,12 +116,11 @@ namespace Bowerbird.Core.DomainModels
 
         private void InitMembers()
         {
-            Descriptions = new Dictionary<string, string>();
-
-            References = new Dictionary<string, string>();
+            _descriptions = new Dictionary<string, string>();
+            _references = new Dictionary<string, string>();
         }
 
-        protected void SetDetails(string commonName, string scientificName, string taxonomy, string tags, IDictionary<string, string> descriptions, IDictionary<string, string> references, string notes)
+        protected void SetDetails(string commonName, string scientificName, string taxonomy, string tags, IDictionary<string, string> descriptions, IDictionary<string, string> references)
         {
             Check.RequireNotNull(descriptions, "descriptions");
             Check.RequireNotNull(references, "references");
@@ -109,12 +129,11 @@ namespace Bowerbird.Core.DomainModels
             ScientificName = scientificName;
             Taxonomy = taxonomy;
             Tags = tags;
-            Notes = notes;
             Descriptions = descriptions.ToDictionary(x => x.Key, x => x.Value);
             References = references.ToDictionary(x => x.Key, x => x.Value);
         }
 
-        public ObservationNote UpdateDetails(User updatedByUser, string commonName, string scientificName, string taxonomy, string tags, IDictionary<string, string> descriptions, IDictionary<string, string> references, string notes)
+        public ObservationNote UpdateDetails(User updatedByUser, string commonName, string scientificName, string taxonomy, string tags, IDictionary<string, string> descriptions, IDictionary<string, string> references)
         {
             Check.RequireNotNull(updatedByUser, "updatedByUser");
             Check.RequireNotNull(descriptions, "descriptions");
@@ -126,8 +145,7 @@ namespace Bowerbird.Core.DomainModels
                 taxonomy,
                 tags,
                 descriptions,
-                references,
-                notes);
+                references);
 
             EventProcessor.Raise(new DomainModelUpdatedEvent<ObservationNote>(this, updatedByUser));
 

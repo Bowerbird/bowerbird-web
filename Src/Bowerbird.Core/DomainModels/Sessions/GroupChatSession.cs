@@ -39,14 +39,14 @@ namespace Bowerbird.Core.DomainModels.Sessions
         {
             Check.RequireNotNull(group, "group");
 
-            Group = group;
+            GroupId = group.Id;
         }
 
         #endregion
 
         #region Properties
 
-        public DenormalisedNamedDomainModelReference<Group> Group { get; set; }
+        public string GroupId { get; private set; }
 
         #endregion
 

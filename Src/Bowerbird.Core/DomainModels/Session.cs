@@ -49,19 +49,19 @@ namespace Bowerbird.Core.DomainModels
 
         #region Properties
 
-        public DenormalisedUserReference User { get; set; }
+        public DenormalisedUserReference User { get; private set; }
 
-        public string ClientId { get; set; }
+        public string ClientId { get; private set; }
 
-        public DateTime CreatedDateTime { get; set; }
+        public DateTime CreatedDateTime { get; private set; }
 
-        public int Status { get; set; }
+        public int Status { get; private set; }
 
         #endregion
 
         #region Methods
 
-        private void SetDetails(int status)
+        protected void SetDetails(int status)
         {
             Status = status;
         }

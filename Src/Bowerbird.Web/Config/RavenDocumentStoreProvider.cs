@@ -83,7 +83,7 @@ namespace Bowerbird.Web.Config
                 documentStore.DatabaseCommands.EnsureDatabaseExists(_configService.GetDatabaseName());
             }
 
-            IndexCreation.CreateIndexes(typeof(All_Members).Assembly, documentStore);
+            IndexCreation.CreateIndexes(typeof(All_Groups).Assembly, documentStore);
 
             return documentStore;
         }

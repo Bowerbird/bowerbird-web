@@ -44,11 +44,11 @@ namespace Bowerbird.Core.DomainModels
 
         #region Properties
 
-        public Activity Activity { get; set; }
+        public Activity Activity { get; private set; }
 
-        public DateTime TimeStamp { get; set; }
+        public DateTime TimeStamp { get; private set; }
 
-        public IEnumerable<string> UserIds { get; set; }
+        public IEnumerable<string> UserIds { get; private set; }
 
         #endregion
 

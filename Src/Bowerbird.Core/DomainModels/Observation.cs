@@ -19,15 +19,22 @@ using System;
 using System.Linq;
 using Bowerbird.Core.Events;
 using Bowerbird.Core.Extensions;
+using Bowerbird.Core.DomainModels.DenormalisedReferences;
+using Newtonsoft.Json;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public class Observation : Contribution
+    public class Observation : DomainModel, IOwnable, IContribution
     {
 
         #region Members
 
-        private List<ObservationMedia> _media;
+        [JsonIgnore]
+        private List<ObservationGroup> _observationGroups;
+        [JsonIgnore]
+        private List<DenormalisedObservationNoteReference> _observationNotes;
+        [JsonIgnore]
+        private List<ObservationMedia> _observationMedia;
 
         #endregion
 
@@ -49,11 +56,12 @@ namespace Bowerbird.Core.DomainModels
             string address,
             bool isIdentificationRequired,
             string observationCategory)
-            : base(
-            createdByUser,
-            createdOn)
+            : this()
         {
-            InitMembers();
+            Check.RequireNotNull(createdByUser, "createdByUser");
+
+            User = createdByUser;
+            CreatedOn = createdOn;
 
             SetDetails(
                 title, 
@@ -71,6 +79,10 @@ namespace Bowerbird.Core.DomainModels
 
         #region Properties
 
+        public DenormalisedUserReference User { get; private set; }
+
+        public DateTime CreatedOn { get; private set; }
+
         public string Title { get; private set; }
 
         public DateTime ObservedOn { get; private set; }
@@ -85,14 +97,31 @@ namespace Bowerbird.Core.DomainModels
         
         public string ObservationCategory { get; private set; }
 
-        public IEnumerable<Comment> Comments
-        {
-            get { return _comments; }
-
-            private set { _comments = value as List<Comment>; }
+        public IEnumerable<ObservationMedia> Media 
+        { 
+            get { return _observationMedia; }
+            private set { _observationMedia = new List<ObservationMedia>(value); } 
         }
 
-        public IEnumerable<ObservationMedia> Media { get { return _media; } }
+        public IEnumerable<ObservationGroup> Groups 
+        { 
+            get { return _observationGroups; }
+            private set { _observationGroups = new List<ObservationGroup>(value); } 
+        }
+
+        public IEnumerable<DenormalisedObservationNoteReference> Notes 
+        { 
+            get { return _observationNotes; }
+            private set { _observationNotes = new List<DenormalisedObservationNoteReference>(value); } 
+        }
+
+        public CommentsComponent Discussion { get; private set; }
+
+        [JsonIgnore]
+        IEnumerable<string> IOwnable.Groups
+        {
+            get { return this.Groups.Select(x => x.GroupId); }
+        }
 
         #endregion
 
@@ -100,9 +129,10 @@ namespace Bowerbird.Core.DomainModels
 
         private void InitMembers()
         {
-            _media = new List<ObservationMedia>();
-
-            _comments = new List<Comment>();
+            Discussion = new CommentsComponent();
+            _observationMedia = new List<ObservationMedia>();
+            _observationGroups = new List<ObservationGroup>();
+            _observationNotes = new List<DenormalisedObservationNoteReference>();
         }
 
         private void SetDetails(string title, 
@@ -147,28 +177,96 @@ namespace Bowerbird.Core.DomainModels
             return this;
         }
 
+        public Observation AddNote(ObservationNote observationNote)
+        {
+            Check.RequireNotNull(observationNote, "observationNote");
+
+            if (_observationNotes.All(x => x.Id != observationNote.Id))
+            {
+                DenormalisedObservationNoteReference denormalisedObservationNoteReference = observationNote;
+                _observationNotes.Add(denormalisedObservationNoteReference);
+            }
+
+            return this;
+        }
+
+        public Observation RemoveNote(string observationNoteId)
+        {
+            _observationNotes.RemoveAll(x => x.Id == observationNoteId);
+
+            return this;
+        }
+
+        public Observation AddGroup(Group group, User createdByUser, DateTime createdDateTime)
+        {
+            Check.RequireNotNull(group, "group");
+            Check.RequireNotNull(createdByUser, "createdByUser");
+
+            if (_observationGroups.All(x => x.GroupId != group.Id))
+            {
+                var observationGroup = new ObservationGroup(group, createdByUser, createdDateTime);
+
+                _observationGroups.Add(observationGroup);
+
+                EventProcessor.Raise(new DomainModelCreatedEvent<ObservationGroup>(observationGroup, createdByUser));
+            }
+
+            return this;
+        }
+
+        public Observation RemoveGroup(string groupId)
+        {
+            if (_observationGroups.Any(x => x.GroupId == groupId))
+            {
+                _observationGroups.RemoveAll(x => x.GroupId == groupId);
+            }
+
+            return this;
+        }
+
         public Observation AddMedia(MediaResource mediaResource, string description, string licence)
         {
             Check.RequireNotNull(mediaResource, "mediaResource");
 
             int id = 0;
-            if (_media.Count > 0)
+            if (_observationMedia.Count > 0)
             {
-                id = _media.Select(x => Convert.ToInt32(x.Id)).Max();
+                id = _observationMedia.Select(x => Convert.ToInt32(x.Id)).Max();
             }
             id++;
 
-            _media.Add(new ObservationMedia(id.ToString(), mediaResource, description, licence));
+            _observationMedia.Add(new ObservationMedia(id.ToString(), mediaResource, description, licence));
 
             return this;
         }
 
         public Observation RemoveMedia(string mediaResourceId)
         {
-            if (_media.Any(x => x.MediaResource.Id == mediaResourceId))
+            if (_observationMedia.Any(x => x.MediaResource.Id == mediaResourceId))
             {
-                _media.RemoveAll(x => x.MediaResource.Id == mediaResourceId);
+                _observationMedia.RemoveAll(x => x.MediaResource.Id == mediaResourceId);
             }
+
+            return this;
+        }
+
+        public Observation AddComment(string message, User createdByUser, DateTime createdDateTime)
+        {
+            Discussion.AddComment(message, createdByUser, createdDateTime);
+
+            return this;
+        }
+
+        public Observation RemoveComment(string commentId)
+        {
+            Discussion.RemoveComment(commentId);
+
+            return this;
+        }
+
+        public Observation UpdateComment(string commentId, string message, User modifiedByUser, DateTime modifiedDateTime)
+        {
+            Discussion.UpdateComment(commentId, message, modifiedByUser, modifiedDateTime);
 
             return this;
         }

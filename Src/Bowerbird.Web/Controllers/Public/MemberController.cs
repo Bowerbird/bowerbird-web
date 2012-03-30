@@ -1,4 +1,6 @@
-﻿///* Bowerbird V1 - Licensed under MIT 1.1 Public License
+﻿///* Bowerbird V1 
+
+// Licensed under MIT 1.1 Public License
 
 // Developers: 
 // * Frank Radocaj : frank@radocaj.com
@@ -17,13 +19,13 @@
 //using Bowerbird.Core.DesignByContract;
 //using Bowerbird.Core.DomainModels;
 //using Bowerbird.Core.Paging;
-//using Bowerbird.Web.ViewModels.Shared;
+//using Bowerbird.Web.ViewModels.Members;
 //using Raven.Client;
 //using Raven.Client.Linq;
 
 //namespace Bowerbird.Web.Controllers.Public
 //{
-//    public class PostController : ControllerBase
+//    public class GroupMemberController : ControllerBase
 //    {
 //        #region Members
 
@@ -33,9 +35,8 @@
 
 //        #region Constructors
 
-//        public PostController(
-//            IDocumentSession documentSession
-//            )
+//        public GroupMemberController(
+//            IDocumentSession documentSession)
 //        {
 //            Check.RequireNotNull(documentSession, "documentSession");
 
@@ -50,31 +51,31 @@
 
 //        #region Methods
 
-//        public ActionResult List(PostListInput listInput)
+//        [HttpGet]
+//        public ActionResult List(MemberListInput listInput)
 //        {
-//            return Json(MakePostList(listInput), JsonRequestBehavior.AllowGet);
+//            return Json(MakeGroupMemberList(listInput), JsonRequestBehavior.AllowGet);
 //        }
 
-//        private PostList MakePostList(PostListInput listInput)
+//        private MemberList MakeGroupMemberList(MemberListInput listInput)
 //        {
 //            RavenQueryStatistics stats;
 
-//            var posts = _documentSession
-//                .Query<Post>()
-//                .Where(x => x.GroupId == listInput.GroupId)
-//                .OrderByDescending(x => x.CreatedOn)
-//                .Include(x => x.GroupId)
+//            var results = _documentSession
+//                .Query<GroupMember>()
+//                .Include<GroupMember>(x => x.Group.Id)
+//                .Where(x => x.Group.Id == listInput.GroupId)
 //                .Statistics(out stats)
 //                .Skip(listInput.Page)
 //                .Take(listInput.PageSize)
-//                .ToList();
+//                .ToArray(); // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
 
-//            return new PostList
+//            return new MemberList
 //            {
-//                GroupId = listInput.GroupId,
+//                Group = _documentSession.Load<Group>(listInput.GroupId),
 //                Page = listInput.Page,
 //                PageSize = listInput.PageSize,
-//                Posts = posts.ToPagedList(
+//                GroupMembers = results.ToPagedList(
 //                    listInput.Page,
 //                    listInput.PageSize,
 //                    stats.TotalResults,
@@ -83,6 +84,5 @@
 //        }
 
 //        #endregion
-				
 //    }
 //}

@@ -19,14 +19,13 @@ using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
 using Bowerbird.Core.Events;
+using Newtonsoft.Json;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public abstract class Group : DomainModel, INamedDomainModel
+    public abstract class Group : DomainModel, IOwnable, INamedDomainModel
     {
         #region Members
-
-        private List<GroupAssociation> _childGroupAssociations;
 
         #endregion
 
@@ -34,16 +33,19 @@ namespace Bowerbird.Core.DomainModels
 
         protected Group()
         {
-            InitMembers();
         }
 
         protected Group(
-            string name)
+            User createdByUser,
+            string name,
+            string parentGroupId = null)
             : this()
         {
-            Check.RequireNotNullOrWhitespace(name, "name");
+            Check.RequireNotNull(createdByUser, "createdByUser");
 
             Name = name;
+            User = createdByUser;
+            ParentGroupId = parentGroupId;
         }
 
         #endregion
@@ -52,65 +54,24 @@ namespace Bowerbird.Core.DomainModels
 
         public string Name { get; private set; }
 
-        public string ParentGroupId { get; protected set; }
+        public string ParentGroupId { get; private set; }
 
-        public string Description { get; private set; }
+        public DenormalisedUserReference User { get; protected set; } // User is protected set to allow AppRoot to set it after instantiation
 
-        public string Website { get; private set; }
-
-        public MediaResource Avatar { get; set; }
-
-        public IEnumerable<GroupAssociation> ChildGroupAssociations 
-        { 
-            get { return _childGroupAssociations; }
-            private set { _childGroupAssociations = new List<GroupAssociation>(value); } 
+        [JsonIgnore]
+        IEnumerable<string> IOwnable.Groups
+        {
+            get { return new string[] { this.Id }; }
         }
 
         #endregion
 
         #region Methods
 
-        private void InitMembers()
-        {
-            _childGroupAssociations = new List<GroupAssociation>();
-        }
-
-        protected void SetDetails(string name, string description, string website, MediaResource avatar, string parentGroupId = null)
+        protected void SetDetails(string name)
         {
             Name = name;
-            Description = description;
-            Website = website;
-            Avatar = avatar;
-            ParentGroupId = parentGroupId;
         }
-        
-        public Group AddGroupAssociation(Group group, User createdByUser, DateTime createdDateTime)
-        {
-            Check.RequireNotNull(group, "group");
-            Check.RequireNotNull(createdByUser, "createdByUser");
-
-            if (_childGroupAssociations.All(x => x.GroupId != group.Id))
-            {
-                var groupAssociation = new GroupAssociation(group, createdByUser, createdDateTime);
-
-                _childGroupAssociations.Add(groupAssociation);
-
-                EventProcessor.Raise(new GroupAssociationCreatedEvent(this, group, createdByUser));
-            }
-
-            return this;
-        }
-
-        public Group RemoveGroupAssociation(string groupId)
-        {
-            if (_childGroupAssociations.Any(x => x.GroupId == groupId))
-            {
-                _childGroupAssociations.RemoveAll(x => x.GroupId == groupId);
-            }
-
-            return this;
-        }
-
 
         #endregion      
     }

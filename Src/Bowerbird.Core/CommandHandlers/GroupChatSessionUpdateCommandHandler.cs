@@ -52,7 +52,7 @@ namespace Bowerbird.Core.CommandHandlers
             Check.RequireNotNull(command, "command");
 
             var chatSession = _documentSession.Query<GroupChatSession>()
-                .Where(x => x.ClientId == command.ClientId && x.Group.Id == command.GroupId)
+                .Where(x => x.ClientId == command.ClientId && x.GroupId == command.GroupId)
                 .FirstOrDefault();
 
             chatSession.UpdateDetails(command.Status);

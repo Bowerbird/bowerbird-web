@@ -15,7 +15,6 @@
 */
 
 using System.Linq;
-using Bowerbird.Core.DomainModels.Members;
 using Raven.Client;
 using Bowerbird.Core.DomainModels;
 
@@ -39,10 +38,10 @@ namespace Bowerbird.Core.Repositories
 
         #region Methods
 
-        public static GroupMember LoadGroupMember(this IDocumentSession documentSession, string groupId, string userId)
+        public static Member LoadMember(this IDocumentSession documentSession, string groupId, string userId)
         {
             return documentSession
-                .Query<GroupMember>()
+                .Query<Member>()
                 .Where(x => x.Group.Id == groupId && x.User.Id == userId)
                 .FirstOrDefault();
         }

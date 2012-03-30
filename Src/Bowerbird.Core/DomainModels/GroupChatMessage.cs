@@ -42,7 +42,7 @@ namespace Bowerbird.Core.DomainModels
             Check.RequireNotNull(group, "group");
 
             User = user;
-            Group = group;
+            GroupId = group.Id;
 
             if(targetUser != null)TargetUser = targetUser;
             
@@ -54,15 +54,15 @@ namespace Bowerbird.Core.DomainModels
 
         #region Properties
 
-        public string Message { get; set; }
-        
-        public DenormalisedNamedDomainModelReference<Group> Group { get; set; }
+        public string Message { get; private set; }
 
-        public DenormalisedUserReference User { get; set; }
+        public string GroupId { get; private set; }
 
-        public DenormalisedUserReference TargetUser { get; set; }
+        public DenormalisedUserReference User { get; private set; }
+
+        public DenormalisedUserReference TargetUser { get; private set; }
         
-        public DateTime Timestamp { get; set; }
+        public DateTime Timestamp { get; private set; }
 
         #endregion
 

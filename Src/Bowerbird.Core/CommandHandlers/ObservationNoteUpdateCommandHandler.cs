@@ -61,9 +61,7 @@ namespace Bowerbird.Core.CommandHandlers
                 command.Taxonomy,
                 command.Tags,
                 command.Descriptions,
-                command.References,
-                command.Notes
-                );
+                command.References);
 
             _documentSession.Store(observationNote);
         }

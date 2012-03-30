@@ -92,7 +92,7 @@ namespace Bowerbird.Web.Controllers.Members
         [HttpPost]
         public ActionResult Create(OrganisationCreateInput createInput)
         {
-            if (!_userContext.HasGlobalPermission(PermissionNames.CreateOrganisation))
+            if (!_userContext.HasAppRootPermission(PermissionNames.CreateOrganisation))
             {
                 return HttpUnauthorized();
             }
@@ -112,7 +112,7 @@ namespace Bowerbird.Web.Controllers.Members
         [HttpPut]
         public ActionResult Update(OrganisationUpdateInput updateInput)
         {
-            if (!_userContext.HasPermissionToUpdate<Organisation>(updateInput.Id))
+            if (!_userContext.HasGroupPermission<Organisation>(PermissionNames.UpdateOrganisation, updateInput.Id))
             {
                 return HttpUnauthorized();
             }
@@ -132,7 +132,7 @@ namespace Bowerbird.Web.Controllers.Members
         [HttpDelete]
         public ActionResult Delete(IdInput deleteInput)
         {
-            if (!_userContext.HasPermissionToDelete<Organisation>(deleteInput.Id))
+            if (!_userContext.HasGroupPermission<Organisation>(PermissionNames.DeleteOrganisation, deleteInput.Id))
             {
                 return HttpUnauthorized();
             }

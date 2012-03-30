@@ -20,7 +20,7 @@ using Bowerbird.Core.DomainModels;
 using Raven.Client;
 using System;
 using System.Linq;
-using Bowerbird.Core.DomainModels.Members;
+using Bowerbird.Core.Config;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -59,15 +59,29 @@ namespace Bowerbird.Core.CommandHandlers
                 userCreateCommand.Password,
                 userCreateCommand.Email,
                 userCreateCommand.FirstName,
-                userCreateCommand.LastName,
+                userCreateCommand.LastName);
+            _documentSession.Store(user);
+
+            var appRoot = _documentSession.Load<AppRoot>(Constants.AppRootId);
+
+            var member = new Member(
+                user, 
+                user,
+                appRoot, 
                 _documentSession.Load<Role>(userCreateCommand.Roles));
+            _documentSession.Store(member);
+
+            user.AddMembership(member);
             _documentSession.Store(user);
 
             var userProject = new UserProject(user);
             _documentSession.Store(userProject);
 
+            var userProjectAssociation = new GroupAssociation(appRoot, userProject, user, DateTime.Now);
+            _documentSession.Store(userProjectAssociation);
+
             var userProjectRoles = _documentSession.Query<Role>().Where(x => x.Id == "roles/projectadministrator" || x.Id == "roles/projectmember");
-            var userProjectMember = new GroupMember(user, userProject, user, userProjectRoles);
+            var userProjectMember = new Member(user, user, userProject, userProjectRoles);
             _documentSession.Store(userProjectMember);
         }
 

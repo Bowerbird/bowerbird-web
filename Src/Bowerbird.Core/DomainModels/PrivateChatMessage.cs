@@ -53,15 +53,15 @@ namespace Bowerbird.Core.DomainModels
 
         #region Properties
 
-        public DenormalisedUserReference User { get; set; }
+        public DenormalisedUserReference User { get; private set; }
 
-        public DenormalisedUserReference TargetUser { get; set; }
+        public DenormalisedUserReference TargetUser { get; private set; }
 
-        public string ChatId { get; set; }
+        public string ChatId { get; private set; }
 
-        public DateTime Timestamp { get; set; }
+        public DateTime Timestamp { get; private set; }
 
-        public string Message { get; set; }
+        public string Message { get; private set; }
 
         #endregion
 

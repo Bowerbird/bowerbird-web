@@ -19,10 +19,10 @@ using System.Text;
 using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using System.Security.Cryptography;
-using Bowerbird.Core.DomainModels.Members;
 using Bowerbird.Core.Events;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
 using Bowerbird.Core.Extensions;
+using Newtonsoft.Json;
 
 namespace Bowerbird.Core.DomainModels
 {
@@ -30,6 +30,10 @@ namespace Bowerbird.Core.DomainModels
     {
         #region Members
 
+        [JsonIgnore]
+        private List<DenormalisedMemberReference> _memberships;
+        [JsonIgnore]
+        private List<Watchlist> _watchlists;
         private const string _constantSalt = "nf@hskdhI&%dynm^&%";
 
         #endregion
@@ -46,12 +50,9 @@ namespace Bowerbird.Core.DomainModels
             string password,
             string email,
             string firstName, 
-            string lastName,
-            IEnumerable<Role> globalRoles) 
+            string lastName) 
             : this() 
         {
-            Check.RequireNotNull(globalRoles, "globalRoles");
-
             Email = email;
             PasswordSalt = Guid.NewGuid();
             HashedPassword = GetHashedPassword(password);
@@ -62,8 +63,6 @@ namespace Bowerbird.Core.DomainModels
                 lastName,
                 string.Empty,
                 null);
-
-            GlobalMembership = new GlobalMember(this, globalRoles);
 
             EventProcessor.Raise(new DomainModelCreatedEvent<User>(this, this));
         }
@@ -94,11 +93,17 @@ namespace Bowerbird.Core.DomainModels
 
         public MediaResource Avatar { get; private set; }
 
-        public GlobalMember GlobalMembership { get; private set; }
+        public IEnumerable<DenormalisedMemberReference> Memberships 
+        {
+            get { return _memberships; }
+            private set { _memberships = new List<DenormalisedMemberReference>(value); }
+        }
 
-        public List<DenormalisedGroupMemberReference> GroupMemberships { get; private set; }
-
-        public List<DenormalisedNamedDomainModelReference<Watchlist>> Watchlists { get; private set; }
+        public IEnumerable<Watchlist> Watchlists
+        {
+            get { return _watchlists; }
+            private set { _watchlists = new List<Watchlist>(value); }
+        }
 
         #endregion
 
@@ -111,7 +116,8 @@ namespace Bowerbird.Core.DomainModels
 
         private void InitMembers()
         {
-            GroupMemberships = new List<DenormalisedGroupMemberReference>();
+            _memberships = new List<DenormalisedMemberReference>();
+            _watchlists = new List<Watchlist>();
         }
 
         private string GetHashedPassword(string password)
@@ -196,23 +202,21 @@ namespace Bowerbird.Core.DomainModels
             return this;
         }
 
-        public User AddGroupMembership(GroupMember groupMember)
+        public User AddMembership(Member member)
         {
-            Check.RequireNotNull(groupMember, "groupMember");
+            Check.RequireNotNull(member, "member");
 
-            if (GroupMemberships.All(x => x.Id != groupMember.Id))
+            if (_memberships.All(x => x.Id != member.Id))
             {
-                GroupMemberships.Add(groupMember);
+                _memberships.Add(member);
             }
             
             return this;
         }
 
-        public User RemoveGroupMembership(string groupMemberId)
+        public User RemoveMembership(string memberId)
         {
-            Check.RequireNotNullOrWhitespace(groupMemberId, "groupMemberId");
-
-            GroupMemberships.RemoveAll(x => x.Id == groupMemberId);
+            _memberships.RemoveAll(x => x.Id == memberId);
 
             return this;
         }
@@ -221,9 +225,9 @@ namespace Bowerbird.Core.DomainModels
         {
             Check.RequireNotNull(watchlist, "watchlist");
 
-            if(Watchlists.All(x => (x.Name != watchlist.Name)))
+            if(_watchlists.All(x => (x.Name != watchlist.Name)))
             {
-                Watchlists.Add(watchlist);
+                _watchlists.Add(watchlist);
             }
 
             return this;
@@ -233,7 +237,7 @@ namespace Bowerbird.Core.DomainModels
         {
             Check.RequireNotNullOrWhitespace(watchlistId, "watchlistId");
 
-            Watchlists.RemoveAll(x => x.Id == watchlistId);
+            _watchlists.RemoveAll(x => x.Id == watchlistId);
 
             return this;
         }

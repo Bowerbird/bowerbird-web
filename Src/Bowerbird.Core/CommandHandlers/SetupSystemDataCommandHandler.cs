@@ -20,7 +20,6 @@ using System.Linq;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.DomainModels.Members;
 using Raven.Client;
 using Bowerbird.Core.Events;
 using Bowerbird.Core.Config;
@@ -54,6 +53,8 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Properties
 
+        private AppRoot TheAppRoot { get; set; }
+
         private List<Permission> Permissions2 { get; set; }
         
         private List<Role> Roles { get; set; }
@@ -68,6 +69,7 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(setupSystemDataCommand, "setupSystemDataCommand");
 
+            TheAppRoot = null;
             Permissions2 = new List<Permission>();
             Roles = new List<Role>();
             Users = new List<User>();
@@ -75,6 +77,8 @@ namespace Bowerbird.Core.CommandHandlers
             try
             {
                 _systemStateManager.DisableEmailService();
+
+                AddAppRoot();
 
                 // Permmissions
                 AddPermission(PermissionNames.CreateOrganisation, "Create Organisations", "Ability to create organisations");
@@ -137,6 +141,7 @@ namespace Bowerbird.Core.CommandHandlers
 
                 // Admin Users
                 AddUser("password", "frank@radocaj.com", "Frank", "Radocaj", "globaladministrator", "globalmember");
+                UpdateAppRoot(Users[0].Id); // Set user on app root now that we have one
                 AddUser("password", "hcrittenden@museum.vic.gov.au", "Hamish", "Crittenden", "globaladministrator", "globalmember");
                 AddUser("password", "kwalker@museum.vic.gov.au", "Ken", "Walker","globaladministrator", "globalmember");
 
@@ -144,12 +149,25 @@ namespace Bowerbird.Core.CommandHandlers
             }
             finally
             {
+                TheAppRoot = null;
                 Permissions2 = null;
                 Roles = null;
                 Users = null;
 
                 _systemStateManager.EnableEmailService();
             }
+        }
+
+        private void AddAppRoot()
+        {
+            TheAppRoot = new AppRoot();
+            _documentSession.Store(TheAppRoot);
+        }
+
+        private void UpdateAppRoot(string userId)
+        {
+            TheAppRoot.SetUser(Users.Single(x => x.Id == userId));
+            _documentSession.Store(TheAppRoot);
         }
 
         private void AddPermission(string id, string name, string description)
@@ -174,17 +192,36 @@ namespace Bowerbird.Core.CommandHandlers
 
         private void AddUser(string password, string email, string firstname, string lastname, params string[] roleIds)
         {
-            var globalRoles = Roles.Where(x => roleIds.Any(y => x.Id == "roles/" + y));
-            var user = new User(password, email, firstname, lastname, globalRoles);
+            var user = new User(password, email, firstname, lastname);
             _documentSession.Store(user);
-            Users.Add(user);
+
+            var member = new Member(
+                user,
+                user,
+                TheAppRoot,
+                Roles.Where(x => roleIds.Any(y => x.Id == "roles/" + y)));
+            _documentSession.Store(member);
+
+            user.AddMembership(member);
+            _documentSession.Store(user);
 
             var userProject = new UserProject(user);
             _documentSession.Store(userProject);
 
-            var userProjectRoles = Roles.Where(x => x.Id == "roles/projectadministrator" || x.Id == "roles/projectmember");
-            var groupMember = new GroupMember(user, userProject, user, userProjectRoles);
-            _documentSession.Store(groupMember);
+            var userProjectAssociation = new GroupAssociation(TheAppRoot, userProject, user, DateTime.Now);
+            _documentSession.Store(userProjectAssociation);
+
+            var userProjectmember = new Member(
+                user, 
+                user, 
+                userProject, 
+                Roles.Where(x => x.Id == "roles/projectadministrator" || x.Id == "roles/projectmember"));
+            _documentSession.Store(userProjectmember);
+
+            user.AddMembership(userProjectmember);
+            _documentSession.Store(user);
+
+            Users.Add(user);
         }
 
         #endregion      

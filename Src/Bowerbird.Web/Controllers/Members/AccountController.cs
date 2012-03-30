@@ -51,8 +51,6 @@ namespace Bowerbird.Web.Controllers.Members
 
         #region Methods
 
-
-
         #endregion
 
     }

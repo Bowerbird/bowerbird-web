@@ -43,17 +43,15 @@ namespace Bowerbird.Core.DomainModels
             string website,
             MediaResource avatar,
             string parentGroupId = null)
-            : this()
+            : base(
+            createdByUser,
+            name,
+            parentGroupId)
         {
-            Check.RequireNotNull(createdByUser, "createdByUser");
-            Check.RequireNotNullOrWhitespace(name, "name");
-
             SetDetails(
-                name,
                 description,
                 website,
-                avatar,
-                parentGroupId);
+                avatar);
 
             EventProcessor.Raise(new DomainModelCreatedEvent<Project>(this, createdByUser));
         }
@@ -62,21 +60,34 @@ namespace Bowerbird.Core.DomainModels
 
         #region Properties
 
+        public string Description { get; private set; }
+
+        public string Website { get; private set; }
+
+        public MediaResource Avatar { get; private set; }
+
         #endregion
 
         #region Methods
 
-        public Project UpdateDetails(User updatedByUser, string name, string description, string website, MediaResource avatar, string teamId = null)
+        private void SetDetails(string description, string website, MediaResource avatar)
+        {
+            Description = description;
+            Website = website;
+            Avatar = avatar;
+        }
+
+        public Project UpdateDetails(User updatedByUser, string name, string description, string website, MediaResource avatar)
         {
             Check.RequireNotNull(updatedByUser, "updatedByUser");
             Check.RequireNotNullOrWhitespace(name, "name");
 
-            SetDetails(
-                name,
+            base.SetDetails(name);
+
+            this.SetDetails(
                 description,
                 website,
-                avatar,
-                teamId);
+                avatar);
 
             EventProcessor.Raise(new DomainModelUpdatedEvent<Project>(this, updatedByUser));
 

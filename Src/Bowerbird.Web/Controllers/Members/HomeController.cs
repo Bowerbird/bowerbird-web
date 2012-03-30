@@ -18,7 +18,6 @@ using System.Web.Mvc;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.DomainModels.Members;
 using Bowerbird.Core.DomainModels.Sessions;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Services;
@@ -113,17 +112,22 @@ namespace Bowerbird.Web.Controllers.Members
 
         private HomeIndex MakeHomeIndex(HomeIndexInput indexInput)
         {
-            var groupMemberships = _documentSession
-                .Query<GroupMember>()
+            var memberships = _documentSession
+                .Query<Member>()
                 .Include(x => x.User.Id)
+                .Include(x => x.Group.Id)
                 .Where(x => x.User.Id == _userContext.GetAuthenticatedUserId())
                 .ToList();
+
+            var groups = _documentSession
+                .Query<All_Groups.Result, All_Groups>()
+                .Where(x => x.Id.In(memberships.Select(y => y.Group.Id)));
 
             var user = _documentSession.Load<User>(_userContext.GetAuthenticatedUserId());
 
             var homeIndex = new HomeIndex()
             {
-                ProjectMenu = groupMemberships
+                ProjectMenu = memberships
                 .Where(x => x.Group.Id.Contains("projects/"))
                 .Select(x =>
                     new MenuItem()
@@ -134,7 +138,7 @@ namespace Bowerbird.Web.Controllers.Members
                 )
                 .ToList(),
 
-                Projects = groupMemberships
+                Projects = memberships
                 .Where(x => x.Group.Id.Contains("projects/"))
                 .Select(x =>
                     new ProjectView
@@ -146,7 +150,7 @@ namespace Bowerbird.Web.Controllers.Members
                 )
                 .ToList(),
 
-                TeamMenu = groupMemberships
+                TeamMenu = memberships
                 .Where(x => x.Group.Id.Contains("teams/"))
                 .Select(x =>
                     new MenuItem()
@@ -157,7 +161,7 @@ namespace Bowerbird.Web.Controllers.Members
                 )
                 .ToList(),
 
-                Teams = groupMemberships
+                Teams = memberships
                 .Where(x => x.Group.Id.Contains("teams/"))
                 .Select(x =>
                     new TeamView

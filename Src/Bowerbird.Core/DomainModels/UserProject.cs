@@ -38,27 +38,17 @@ namespace Bowerbird.Core.DomainModels
 
         public UserProject(
             User createdByUser)
-            : this()
+            : base(
+            createdByUser,
+            "User Group",
+            Constants.AppRootId)
         {
-            Check.RequireNotNull(createdByUser, "createdByUser");
-
-            User = createdByUser;
-
-            SetDetails(
-                string.Empty,
-                string.Empty,
-                string.Empty,
-                null,
-                null);
-
             EventProcessor.Raise(new DomainModelCreatedEvent<UserProject>(this, createdByUser));
         }
 
         #endregion
 
         #region Properties
-
-        public DenormalisedUserReference User { get; private set; }
 
         #endregion
 

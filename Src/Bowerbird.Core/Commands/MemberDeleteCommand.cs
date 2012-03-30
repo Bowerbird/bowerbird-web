@@ -1,4 +1,4 @@
-/* Bowerbird V1 
+﻿/* Bowerbird V1 
 
  Licensed under MIT 1.1 Public License
 
@@ -14,12 +14,11 @@
  
 */
 
-using System.ComponentModel.DataAnnotations;
-
-namespace Bowerbird.Web.ViewModels.Members
+namespace Bowerbird.Core.Commands
 {
-    public class GroupMemberDeleteInput : IViewModel
+    public class MemberDeleteCommand : ICommand
     {
+
         #region Members
 
         #endregion
@@ -30,11 +29,11 @@ namespace Bowerbird.Web.ViewModels.Members
 
         #region Properties
 
-        [Required]
         public string UserId { get; set; }
 
-        [Required]
         public string GroupId { get; set; }
+
+        public string DeletedByUserId { get; set; }
 
         #endregion
 

@@ -54,7 +54,7 @@ namespace Bowerbird.Core.DomainModels
 
         public string Type { get; private set; }
 
-        public DenormalisedUserReference CreatedByUser { get; set; }
+        public DenormalisedUserReference CreatedByUser { get; private set; }
 
         public DateTime UploadedOn { get; private set; }
 

@@ -6,7 +6,7 @@
  * Frank Radocaj : frank@radocaj.com
  * Hamish Crittenden : hamish.crittenden@gmail.com
  
- Project Manager: 
+ Organisation Manager: 
  * Ken Walker : kwalker@museum.vic.gov.au
  
  Funded by:
@@ -14,9 +14,12 @@
  
 */
 
+using System;
 using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Events;
+using Bowerbird.Core.DomainModels.DenormalisedReferences;
+using Bowerbird.Core.Extensions;
 
 namespace Bowerbird.Core.DomainModels
 {
@@ -38,15 +41,14 @@ namespace Bowerbird.Core.DomainModels
             string name,
             string description,
             string website,
-            MediaResource avatar)
-            : this()
+            MediaResource avatar,
+            string parentGroupId = null)
+            : base(
+            createdByUser,
+            name,
+            parentGroupId)
         {
-            Check.RequireNotNull(createdByUser, "createdByUser");
-            Check.RequireNotNullOrWhitespace(name, "name");
-            Check.RequireNotNullOrWhitespace(description, "description");
-
             SetDetails(
-                name,
                 description,
                 website,
                 avatar);
@@ -55,21 +57,34 @@ namespace Bowerbird.Core.DomainModels
         }
 
         #endregion
-         
+
         #region Properties
+
+        public string Description { get; private set; }
+
+        public string Website { get; private set; }
+
+        public MediaResource Avatar { get; private set; }
 
         #endregion
 
         #region Methods
 
+        private void SetDetails(string description, string website, MediaResource avatar)
+        {
+            Description = description;
+            Website = website;
+            Avatar = avatar;
+        }
+
         public Organisation UpdateDetails(User updatedByUser, string name, string description, string website, MediaResource avatar)
         {
             Check.RequireNotNull(updatedByUser, "updatedByUser");
             Check.RequireNotNullOrWhitespace(name, "name");
-            Check.RequireNotNullOrWhitespace(description, "description");
 
-            SetDetails(
-                name,
+            base.SetDetails(name);
+
+            this.SetDetails(
                 description,
                 website,
                 avatar);
@@ -80,5 +95,6 @@ namespace Bowerbird.Core.DomainModels
         }
 
         #endregion
+
     }
 }

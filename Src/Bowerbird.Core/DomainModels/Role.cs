@@ -18,6 +18,7 @@ using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
 using System.Linq;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Bowerbird.Core.DomainModels
 {
@@ -26,11 +27,18 @@ namespace Bowerbird.Core.DomainModels
 
         #region Members
 
+        [JsonIgnore]
+        private List<DenormalisedNamedDomainModelReference<Permission>> _permissions;
+
         #endregion
 
         #region Constructors
 
-        protected Role() : base() {}
+        protected Role()
+            : base()
+        {
+            InitMembers();
+        }
 
         public Role(
             string id,
@@ -44,11 +52,15 @@ namespace Bowerbird.Core.DomainModels
             Check.RequireNotNullOrWhitespace(description, "description");
             Check.RequireNotNull(permissions, "permissions");
 
-            SetDetails(   
-                id,
-                name,
-                description,
-                permissions);
+            Id = "roles/" + id;
+            Name = name;
+            Description = description;
+
+            Permissions = permissions.Select(permission =>
+            {
+                DenormalisedNamedDomainModelReference<Permission> denorm = permission;
+                return denorm;
+            }).ToList();
         }
 
         #endregion
@@ -59,22 +71,19 @@ namespace Bowerbird.Core.DomainModels
 
         public string Description { get; private set; }
 
-        public List<DenormalisedNamedDomainModelReference<Permission>> Permissions { get; private set; }
+        public IEnumerable<DenormalisedNamedDomainModelReference<Permission>> Permissions 
+        {
+            get { return _permissions; }
+            private set { _permissions = new List<DenormalisedNamedDomainModelReference<Permission>>(value); }
+        }
 
         #endregion
 
         #region Methods
 
-        private void SetDetails(string id, string name, string description, IEnumerable<Permission> permissions)
+        private void InitMembers()
         {
-            Id = "roles/" + id;
-            Name = name;
-            Description = description;
-
-            Permissions = permissions.Select(permission => {
-                DenormalisedNamedDomainModelReference<Permission> denorm = permission;
-                return denorm;
-            }).ToList();
+            _permissions = new List<DenormalisedNamedDomainModelReference<Permission>>();
         }
 
         #endregion

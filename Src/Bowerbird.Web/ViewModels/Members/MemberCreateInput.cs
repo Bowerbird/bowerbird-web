@@ -1,4 +1,4 @@
-﻿/* Bowerbird V1 
+/* Bowerbird V1 
 
  Licensed under MIT 1.1 Public License
 
@@ -15,12 +15,12 @@
 */
 
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
-namespace Bowerbird.Core.Commands
+namespace Bowerbird.Web.ViewModels.Members
 {
-    public class GroupMemberCreateCommand : ICommand
+    public class MemberCreateInput : IViewModel
     {
-
         #region Members
 
         #endregion
@@ -31,19 +31,19 @@ namespace Bowerbird.Core.Commands
 
         #region Properties
 
+        [Required]
         public string UserId { get; set; }
 
+        [Required]
         public string GroupId { get; set; }
 
-        public string CreatedByUserId { get; set; }
-
-        public List<string> Roles { get; set; }
+        [Required]
+        public IEnumerable<string> Roles { get; set; }
 
         #endregion
 
         #region Methods
 
         #endregion
-
     }
 }

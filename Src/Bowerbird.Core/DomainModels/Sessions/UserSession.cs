@@ -38,15 +38,14 @@ namespace Bowerbird.Core.DomainModels.Sessions
 
             SetDetails(
                 DateTime.UtcNow,
-                (int)Connection.ConnectionStatus.Online
-                );
+                (int)Connection.ConnectionStatus.Online);
         }
 
         #endregion
 
         #region Properties
 
-        public DateTime LatestActivity { get; set; }
+        public DateTime LatestActivity { get; private set; }
 
         #endregion
 
@@ -55,13 +54,12 @@ namespace Bowerbird.Core.DomainModels.Sessions
         private void SetDetails(DateTime latestActivity, int status)
         {
             LatestActivity = latestActivity;
-            Status = status;
+            base.SetDetails(status);
         }
 
         public void UpdateDetails(
             DateTime latestActivity,
-            int status
-            )
+            int status)
         {
             SetDetails(latestActivity,status);
         }

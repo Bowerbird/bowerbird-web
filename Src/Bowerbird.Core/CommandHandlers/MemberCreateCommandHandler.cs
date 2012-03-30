@@ -12,14 +12,16 @@
  
 */
 
+using System.Linq;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.Repositories;
+using Bowerbird.Core.DomainModels;
 using Raven.Client;
+using Raven.Client.Linq;
 
 namespace Bowerbird.Core.CommandHandlers
 {
-    public class GroupMemberDeleteCommandHandler : ICommandHandler<GroupMemberDeleteCommand>
+    public class MemberCreateCommandHandler : ICommandHandler<MemberCreateCommand>
     {
         #region Members
 
@@ -29,7 +31,7 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Constructors
 
-        public GroupMemberDeleteCommandHandler(
+        public MemberCreateCommandHandler(
             IDocumentSession documentSession)
         {
             Check.RequireNotNull(documentSession, "documentSession");
@@ -42,18 +44,26 @@ namespace Bowerbird.Core.CommandHandlers
         #region Properties
 
         #endregion
-         
+
         #region Methods
 
-        public void Handle(GroupMemberDeleteCommand groupMemberDeleteCommand)
+        public void Handle(MemberCreateCommand memberCreateCommand)
         {
-            Check.RequireNotNull(groupMemberDeleteCommand, "groupMemberDeleteCommand");
+            Check.RequireNotNull(memberCreateCommand, "memberCreateCommand");
 
-            var groupMember = _documentSession.LoadGroupMember(groupMemberDeleteCommand.GroupId, groupMemberDeleteCommand.UserId);
+            var member = new Member(
+                _documentSession.Load<User>(memberCreateCommand.CreatedByUserId),
+                _documentSession.Load<User>(memberCreateCommand.UserId),
+                _documentSession.Load<Group>(memberCreateCommand.GroupId),
+                _documentSession.Query<Role>()
+                    .Where(x => x.Id.In(memberCreateCommand.Roles))
+                    .ToList()
+                );
 
-            _documentSession.Delete(groupMember);
+            _documentSession.Store(member);
         }
 
         #endregion
+		
     }
 }

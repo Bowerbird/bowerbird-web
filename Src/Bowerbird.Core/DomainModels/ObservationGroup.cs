@@ -12,15 +12,14 @@
  
 */
 
-using System.Collections.Generic;
-using Bowerbird.Core.Config;
+using System;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
-using Bowerbird.Core.Events;
+using Newtonsoft.Json;
 
-namespace Bowerbird.Core.DomainModels.Members
+namespace Bowerbird.Core.DomainModels
 {
-    public class GroupMember : Member
+    public class ObservationGroup : ValueObject
     {
         #region Members
 
@@ -28,33 +27,36 @@ namespace Bowerbird.Core.DomainModels.Members
 
         #region Constructors
 
-        protected GroupMember()
-            : base()
+        protected ObservationGroup()
         {
         }
 
-        public GroupMember(
-            User createdByUser,
+        public ObservationGroup(
             Group group,
-            User user,
-            IEnumerable<Role> roles)
-            : base(
-            user,
-            roles)
+            User createdByUser,
+            DateTime createdDateTime)
+            : this()
         {
             Check.RequireNotNull(group, "group");
             Check.RequireNotNull(createdByUser, "createdByUser");
 
-            Group = group;
-
-            EventProcessor.Raise(new DomainModelCreatedEvent<GroupMember>(this, createdByUser));
+            GroupType = group.GetType().Name.ToLower();
+            GroupId = group.Id;
+            User = createdByUser;
+            CreatedDateTime = createdDateTime;
         }
 
         #endregion
 
         #region Properties
 
-        public DenormalisedNamedDomainModelReference<Group> Group { get; private set; }
+        public string GroupId { get; private set; }
+
+        public DenormalisedUserReference User { get; private set; }
+
+        public DateTime CreatedDateTime { get; private set; }
+
+        public string GroupType { get; private set; }
 
         #endregion
 

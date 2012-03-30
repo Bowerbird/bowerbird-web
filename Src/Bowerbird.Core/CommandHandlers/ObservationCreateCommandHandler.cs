@@ -24,7 +24,6 @@ using Bowerbird.Core.DomainModels;
 using Raven.Client;
 using Raven.Client.Linq;
 using Bowerbird.Core.Indexes;
-using Bowerbird.Core.DomainModels.Members;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -93,7 +92,7 @@ namespace Bowerbird.Core.CommandHandlers
                 observationCreateCommand.IsIdentificationRequired,
                 observationCreateCommand.Category);
 
-            observation.AddGroupContribution(userProject, user, DateTime.Now);
+            observation.AddGroup(userProject, user, DateTime.Now);
 
             foreach (var media in addMedia)
             {
@@ -108,7 +107,7 @@ namespace Bowerbird.Core.CommandHandlers
 
                 foreach (var project in projects)
                 {
-                    observation.AddGroupContribution(project, user, DateTime.Now);
+                    observation.AddGroup(project, user, DateTime.Now);
                 }
             }
             

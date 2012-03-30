@@ -17,6 +17,7 @@ namespace Bowerbird.Core.Config
     public static class Constants
     {
         public static string EmailCookieName = "56277e138f774318ab152a84dad7adf9";
+        public static string AppRootId = "bowerbird/approot";
     }
 
     public static class ActivitySender

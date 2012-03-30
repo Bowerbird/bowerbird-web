@@ -19,7 +19,6 @@ using System.Web.Mvc;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.DomainModels.Members;
 using Bowerbird.Core.Extensions;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Paging;
@@ -105,7 +104,7 @@ namespace Bowerbird.Web.Controllers.Members
         [HttpPost]
         public ActionResult Create(TeamCreateInput createInput)
         {
-            if (!_userContext.HasGlobalPermission(PermissionNames.CreateTeam))
+            if (!_userContext.HasGroupPermission(PermissionNames.CreateTeam, createInput.OrganisationId ?? Constants.AppRootId))
             {
                 return HttpUnauthorized();
             }
@@ -124,7 +123,7 @@ namespace Bowerbird.Web.Controllers.Members
         [HttpPut]
         public ActionResult Update(TeamUpdateInput updateInput)
         {
-            if (!_userContext.HasPermissionToUpdate<Team>(updateInput.Id))
+            if (!_userContext.HasGroupPermission<Team>(PermissionNames.UpdateTeam, updateInput.Id))
             {
                 return HttpUnauthorized();
             }
@@ -143,7 +142,7 @@ namespace Bowerbird.Web.Controllers.Members
         [HttpDelete]
         public ActionResult Delete(IdInput deleteInput)
         {
-            if (!_userContext.HasPermissionToDelete<Team>(deleteInput.Id))
+            if (!_userContext.HasGroupPermission<Team>(PermissionNames.DeleteTeam, deleteInput.Id))
             {
                 return HttpUnauthorized();
             }
@@ -231,24 +230,16 @@ namespace Bowerbird.Web.Controllers.Members
                                    ? _documentSession.Load<Organisation>(team.ParentGroupId)
                                    : null;
 
-            var associatedGroups = _documentSession
+            var groupAssociations = _documentSession
                 .Query<GroupAssociation>()
-                .Where(x => x.GroupId == team.Id);
-
-            IEnumerable<Project> projects = null;
-
-            if (associatedGroups.IsNotNullAndHasItems())
-            {
-                projects = _documentSession
-                    .Query<Project>()
-                    .Where(x => associatedGroups.All(y => y.GroupId == x.Id));
-            }
+                .Include(x => x.ChildGroupId)
+                .Where(x => x.ParentGroupId == team.Id);
 
             return new TeamIndex()
             {
                 Team = team,
                 Organisation = organisation,
-                Projects = projects,
+                Projects = _documentSession.Load<Project>(groupAssociations.Select(x => x.ChildGroupId)),
                 Avatar = GetAvatar(team)
             };
         }
@@ -324,14 +315,14 @@ namespace Bowerbird.Web.Controllers.Members
         {
             RavenQueryStatistics stats;
 
-            var groupMemberships = _documentSession
-                .Query<GroupMember, All_Members>()
+            var memberships = _documentSession
+                .Query<Member>()
+                .Include(x => x.User.Id)
                 .Where(x => x.User.Id == listInput.UserId);
 
             var results = _documentSession
                 .Query<Team>()
-                .Where(x => x.Id.In(groupMemberships.Select(y => y.Group.Id)))
-                .Customize(x => x.Include<User>(y => y.Id == listInput.UserId))
+                .Where(x => x.Id.In(memberships.Select(y => y.Group.Id)))
                 .Statistics(out stats)
                 .Skip(listInput.Page)
                 .Take(listInput.PageSize)

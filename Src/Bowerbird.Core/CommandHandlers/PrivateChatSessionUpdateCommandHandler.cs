@@ -56,7 +56,7 @@ namespace Bowerbird.Core.CommandHandlers
                 .Where(x => x.ChatId == command.ChatId && x.ClientId == command.ClientId)
                 .FirstOrDefault();
 
-            privateChatSession.Status = command.Status;
+            privateChatSession.UpdateDetails(command.Status);
 
             _documentSession.Store(privateChatSession);
         }

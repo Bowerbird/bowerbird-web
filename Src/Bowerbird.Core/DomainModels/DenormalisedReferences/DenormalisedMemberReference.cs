@@ -15,11 +15,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.DomainModels.Members;
 
 namespace Bowerbird.Core.DomainModels.DenormalisedReferences
 {
-    public class DenormalisedGroupMemberReference : ValueObject
+    public class DenormalisedMemberReference : ValueObject
     {
         #region Members
 
@@ -39,14 +38,14 @@ namespace Bowerbird.Core.DomainModels.DenormalisedReferences
 
         #region Methods
 
-        public static implicit operator DenormalisedGroupMemberReference(GroupMember groupMember)
+        public static implicit operator DenormalisedMemberReference(Member member)
         {
-            Check.RequireNotNull(groupMember, "groupMember");
+            Check.RequireNotNull(member, "member");
 
-            return new DenormalisedGroupMemberReference
+            return new DenormalisedMemberReference
             {
-                Id = groupMember.Id,
-                Roles = groupMember.Roles.Select(x => x.Id)
+                Id = member.Id,
+                Roles = member.Roles.Select(x => x.Id)
             };
         }
 

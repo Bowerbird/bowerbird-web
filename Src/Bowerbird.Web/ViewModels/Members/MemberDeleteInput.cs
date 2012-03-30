@@ -1,4 +1,4 @@
-﻿/* Bowerbird V1 
+/* Bowerbird V1 
 
  Licensed under MIT 1.1 Public License
 
@@ -14,15 +14,12 @@
  
 */
 
-using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.DomainModels.Members;
-using Bowerbird.Core.Paging;
+using System.ComponentModel.DataAnnotations;
 
 namespace Bowerbird.Web.ViewModels.Members
 {
-    public class GroupMemberList : IViewModel
+    public class MemberDeleteInput : IViewModel
     {
-
         #region Members
 
         #endregion
@@ -33,21 +30,16 @@ namespace Bowerbird.Web.ViewModels.Members
 
         #region Properties
 
+        [Required]
         public string UserId { get; set; }
 
-        public Group Group { get; set; }
-
-        public int Page { get; set; }
-
-        public int PageSize { get; set; }
-
-        public PagedList<GroupMember> GroupMembers { get; set; }
+        [Required]
+        public string GroupId { get; set; }
 
         #endregion
 
         #region Methods
 
         #endregion
-
     }
 }

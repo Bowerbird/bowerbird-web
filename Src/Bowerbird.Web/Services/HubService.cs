@@ -377,7 +377,7 @@ namespace Bowerbird.Web.Services
                     .Query<GroupChatSession>()
                     .Where(x =>
                         x.User.Id == userId &&
-                        x.Group.Id == chatId
+                        x.GroupId == chatId
                     )
                     .ToList();
 

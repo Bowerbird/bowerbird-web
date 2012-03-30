@@ -50,7 +50,7 @@ namespace Bowerbird.Core.Indexes
                     s.ClientId,
                     UserId = s.User.Id,
                     s.Status,
-                    ChatId = s.Group.Id
+                    ChatId = s.GroupId
                 });
 
             Store(x => x.ClientId, FieldStorage.Yes);

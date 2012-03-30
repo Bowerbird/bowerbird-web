@@ -60,15 +60,15 @@ namespace Bowerbird.Core.DomainModels
 
         public DenormalisedUserReference User { get; private set; }
 
-        public string Sender { get; set; }
+        public string Sender { get; private set; }
 
-        public string Action { get; set; }
+        public string Action { get; private set; }
 
-        public string GroupId { get; set; }
+        public string GroupId { get; private set; }
 
-        public string WatchlistId { get; set; }
+        public string WatchlistId { get; private set; }
 
-        public string Message { get; set; }
+        public string Message { get; private set; }
 
         #endregion
 

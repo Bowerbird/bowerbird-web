@@ -35,9 +35,9 @@ namespace Bowerbird.Core.DomainModels.DenormalisedReferences
 
         #region Properties
 
-        public string Id { get; set; }
+        public string Id { get; private set; }
 
-        public string Name { get; set; }
+        public string Name { get; private set; }
 
         #endregion
 

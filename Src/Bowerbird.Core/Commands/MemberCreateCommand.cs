@@ -16,38 +16,34 @@
 
 using System.Collections.Generic;
 
-namespace Bowerbird.Core.DomainModels.Members
+namespace Bowerbird.Core.Commands
 {
-    public class GlobalMember : Member
+    public class MemberCreateCommand : ICommand
     {
+
         #region Members
 
         #endregion
 
         #region Constructors
 
-        protected GlobalMember()
-            : base()
-        {
-        }
-
-        public GlobalMember(
-            User user,
-            IEnumerable<Role> roles)
-            : base(
-            user,
-            roles)
-        {
-        }
-
         #endregion
 
         #region Properties
+
+        public string UserId { get; set; }
+
+        public string GroupId { get; set; }
+
+        public string CreatedByUserId { get; set; }
+
+        public List<string> Roles { get; set; }
 
         #endregion
 
         #region Methods
 
         #endregion
+
     }
 }
