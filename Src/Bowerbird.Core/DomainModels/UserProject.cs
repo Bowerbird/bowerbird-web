@@ -37,11 +37,12 @@ namespace Bowerbird.Core.DomainModels
         }
 
         public UserProject(
-            User createdByUser)
+            User createdByUser,
+            DateTime createdDateTime)
             : base(
             createdByUser,
             "User Group",
-            Constants.AppRootId)
+            createdDateTime)
         {
             EventProcessor.Raise(new DomainModelCreatedEvent<UserProject>(this, createdByUser));
         }

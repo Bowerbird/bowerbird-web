@@ -38,14 +38,14 @@ namespace Bowerbird.Core.DomainModels
         protected Group(
             User createdByUser,
             string name,
-            string parentGroupId = null)
+            DateTime createdDateTime)
             : this()
         {
             Check.RequireNotNull(createdByUser, "createdByUser");
 
             Name = name;
             User = createdByUser;
-            ParentGroupId = parentGroupId;
+            CreatedDateTime = createdDateTime;
         }
 
         #endregion
@@ -54,7 +54,7 @@ namespace Bowerbird.Core.DomainModels
 
         public string Name { get; private set; }
 
-        public string ParentGroupId { get; private set; }
+        public DateTime CreatedDateTime { get; private set; }
 
         public DenormalisedUserReference User { get; protected set; } // User is protected set to allow AppRoot to set it after instantiation
 

@@ -26,6 +26,7 @@ using Bowerbird.Web.ViewModels.Shared;
 using Raven.Client;
 using Raven.Client.Linq;
 using System.Diagnostics;
+using Bowerbird.Core.Services;
 
 namespace Bowerbird.Web.Controllers.Members
 {
@@ -35,6 +36,7 @@ namespace Bowerbird.Web.Controllers.Members
 
         private readonly IUserContext _userContext;
         private readonly IDocumentSession _documentSession;
+        private readonly IMediaFilePathService _mediaFilePathService;
 
         #endregion
 
@@ -42,13 +44,16 @@ namespace Bowerbird.Web.Controllers.Members
 
         public StreamItemController(
             IUserContext userContext,
-            IDocumentSession documentSession)
+            IDocumentSession documentSession,
+            IMediaFilePathService mediaFilePathService)
         {
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(documentSession, "documentSession");
+            Check.RequireNotNull(mediaFilePathService, "mediaFilePathService");
 
             _userContext = userContext;
             _documentSession = documentSession;
+            _mediaFilePathService = mediaFilePathService;
         }
 
         #endregion
@@ -69,7 +74,7 @@ namespace Bowerbird.Web.Controllers.Members
 
             if (listInput.GroupId != null)
             {
-                return Json(MakeGroupStreamItemList(listInput, sortInput), JsonRequestBehavior.AllowGet);
+                return new JsonNetResult(MakeGroupStreamItemList(listInput, sortInput));
             }
 
             //if (listInput.WatchlistId != null)
@@ -77,7 +82,7 @@ namespace Bowerbird.Web.Controllers.Members
             //    return Json(MakeWatchlistStreamItemList(listInput, sortInput));
             //}
 
-            return Json(MakeHomeStreamItemList(listInput, sortInput), JsonRequestBehavior.AllowGet);
+            return new JsonNetResult(MakeHomeStreamItemList(listInput, sortInput));
         }
 
         private PagedList<StreamItem> MakeHomeStreamItemList(StreamItemListInput listInput, StreamSortInput sortInput)
@@ -200,8 +205,24 @@ namespace Bowerbird.Web.Controllers.Members
                 Longitude = observation.Longitude,
                 ObservationCategory = observation.ObservationCategory,
                 IsIdentificationRequired = observation.IsIdentificationRequired,
-                ObservationMedia = observation.Media
+                ObservationMedia = MakeObservationMediaItems(observation.Media)
             };
+        }
+
+        private IEnumerable<ObservationMediaItem> MakeObservationMediaItems(IEnumerable<ObservationMedia> observationMedia)
+        {
+            return observationMedia.Select(x =>
+                new ObservationMediaItem()
+                {
+                    MediaResourceId = x.MediaResource.Id,
+                    Description = x.Description,
+                    Licence = x.Licence,
+                    OriginalImageUri = _mediaFilePathService.MakeMediaFileUri(x.MediaResource, "original"),
+                    LargeImageUri = _mediaFilePathService.MakeMediaFileUri(x.MediaResource, "large"),
+                    MediumImageUri = _mediaFilePathService.MakeMediaFileUri(x.MediaResource, "medium"),
+                    SmallImageUri = _mediaFilePathService.MakeMediaFileUri(x.MediaResource, "small"),
+                    ThumbnailImageUri = _mediaFilePathService.MakeMediaFileUri(x.MediaResource, "thumbnail")
+                });
         }
 
         //// Get all stream items for all groups that a particular user is a member of

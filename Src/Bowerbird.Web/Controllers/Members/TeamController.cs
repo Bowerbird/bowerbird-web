@@ -77,10 +77,10 @@ namespace Bowerbird.Web.Controllers.Members
         [HttpGet]
         public ActionResult List(TeamListInput listInput)
         {
-            if (listInput.OrganisationId != null)
-            {
-                return Json(MakeTeamListByOrganisationId(listInput), JsonRequestBehavior.AllowGet);
-            }
+            //if (listInput.OrganisationId != null)
+            //{
+            //    return Json(MakeTeamListByOrganisationId(listInput), JsonRequestBehavior.AllowGet);
+            //}
             if (listInput.UserId != null)
             {
                 return Json(MakeTeamListByMembership(listInput), JsonRequestBehavior.AllowGet);
@@ -226,9 +226,9 @@ namespace Bowerbird.Web.Controllers.Members
 
             var team = _documentSession.Load<Team>(idInput.Id);
 
-            var organisation = team.ParentGroupId != null
-                                   ? _documentSession.Load<Organisation>(team.ParentGroupId)
-                                   : null;
+            //var organisation = team.ParentGroupId != null
+            //                       ? _documentSession.Load<Organisation>(team.ParentGroupId)
+            //                       : null;
 
             var groupAssociations = _documentSession
                 .Query<GroupAssociation>()
@@ -238,7 +238,7 @@ namespace Bowerbird.Web.Controllers.Members
             return new TeamIndex()
             {
                 Team = team,
-                Organisation = organisation,
+                //Organisation = organisation,
                 Projects = _documentSession.Load<Project>(groupAssociations.Select(x => x.ChildGroupId)),
                 Avatar = GetAvatar(team)
             };
@@ -277,39 +277,39 @@ namespace Bowerbird.Web.Controllers.Members
             };
         }
 
-        private TeamList MakeTeamListByOrganisationId(TeamListInput listInput)
-        {
-            RavenQueryStatistics stats;
+        //private TeamList MakeTeamListByOrganisationId(TeamListInput listInput)
+        //{
+        //    RavenQueryStatistics stats;
 
-            var results = _documentSession
-                .Query<Team>()
-                .Where(x => x.ParentGroupId == listInput.OrganisationId)
-                .Customize(x => x.Include<Organisation>(y => y.Id == listInput.OrganisationId))
-                .Statistics(out stats)
-                .Skip(listInput.Page)
-                .Take(listInput.PageSize)
-                .ToList() // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
-                .Select(x => new TeamView()
-                {
-                    Id = x.Id,
-                    Description = x.Description,
-                    Name = x.Name,
-                    Website = x.Website,
-                    Avatar = GetAvatar(x)
-                });
+        //    var results = _documentSession
+        //        .Query<Team>()
+        //        .Where(x => x.ParentGroupId == listInput.OrganisationId)
+        //        .Customize(x => x.Include<Organisation>(y => y.Id == listInput.OrganisationId))
+        //        .Statistics(out stats)
+        //        .Skip(listInput.Page)
+        //        .Take(listInput.PageSize)
+        //        .ToList() // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
+        //        .Select(x => new TeamView()
+        //        {
+        //            Id = x.Id,
+        //            Description = x.Description,
+        //            Name = x.Name,
+        //            Website = x.Website,
+        //            Avatar = GetAvatar(x)
+        //        });
 
-            return new TeamList()
-            {
-                Organisation = listInput.OrganisationId != null ? _documentSession.Load<Organisation>(listInput.OrganisationId) : null,
-                Page = listInput.Page,
-                PageSize = listInput.PageSize,
-                Teams = results.ToPagedList(
-                    listInput.Page,
-                    listInput.PageSize,
-                    stats.TotalResults,
-                    null)
-            };
-        }
+        //    return new TeamList()
+        //    {
+        //        Organisation = listInput.OrganisationId != null ? _documentSession.Load<Organisation>(listInput.OrganisationId) : null,
+        //        Page = listInput.Page,
+        //        PageSize = listInput.PageSize,
+        //        Teams = results.ToPagedList(
+        //            listInput.Page,
+        //            listInput.PageSize,
+        //            stats.TotalResults,
+        //            null)
+        //    };
+        //}
 
         private TeamList MakeTeamListByMembership(TeamListInput listInput)
         {

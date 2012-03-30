@@ -85,10 +85,10 @@ namespace Bowerbird.Web.Controllers.Members
         [HttpGet]
         public ActionResult List(ProjectListInput listInput)
         {
-            if (listInput.TeamId != null)
-            {
-                return Json(MakeProjectListByTeamId(listInput), JsonRequestBehavior.AllowGet);
-            }
+            //if (listInput.TeamId != null)
+            //{
+            //    return Json(MakeProjectListByTeamId(listInput), JsonRequestBehavior.AllowGet);
+            //}
 
             if (listInput.UserId != null)
             {
@@ -198,7 +198,7 @@ namespace Bowerbird.Web.Controllers.Members
             {
                 Project = project,
                 Avatar = GetAvatar(project),
-                Team = project.ParentGroupId != null ? _documentSession.Load<Team>(project.ParentGroupId) : null
+                //Team = project.ParentGroupId != null ? _documentSession.Load<Team>(project.ParentGroupId) : null
             };
         }
 
@@ -233,39 +233,39 @@ namespace Bowerbird.Web.Controllers.Members
             };
         }
 
-        protected ProjectList MakeProjectListByTeamId(ProjectListInput listInput)
-        {
-            RavenQueryStatistics stats;
+        //protected ProjectList MakeProjectListByTeamId(ProjectListInput listInput)
+        //{
+        //    RavenQueryStatistics stats;
 
-            var results = _documentSession
-                .Query<Project>()
-                .Where(x => x.ParentGroupId == listInput.TeamId)
-                .Customize(x => x.Include<Team>(y => y.Id == listInput.TeamId))
-                .Statistics(out stats)
-                .Skip(listInput.Page)
-                .Take(listInput.PageSize)
-                .ToList()
-                .Select(x => new ProjectView()
-                {
-                    Id = x.Id,
-                    Description = x.Description,
-                    Name = x.Name,
-                    Website = x.Website,
-                    Avatar = GetAvatar(x)
-                });
+        //    var results = _documentSession
+        //        .Query<Project>()
+        //        .Where(x => x.ParentGroupId == listInput.TeamId)
+        //        .Customize(x => x.Include<Team>(y => y.Id == listInput.TeamId))
+        //        .Statistics(out stats)
+        //        .Skip(listInput.Page)
+        //        .Take(listInput.PageSize)
+        //        .ToList()
+        //        .Select(x => new ProjectView()
+        //        {
+        //            Id = x.Id,
+        //            Description = x.Description,
+        //            Name = x.Name,
+        //            Website = x.Website,
+        //            Avatar = GetAvatar(x)
+        //        });
 
-            return new ProjectList
-            {
-                Team = listInput.TeamId != null ? _documentSession.Load<Team>(listInput.TeamId) : null,
-                Page = listInput.Page,
-                PageSize = listInput.PageSize,
-                Projects = results.ToPagedList(
-                    listInput.Page,
-                    listInput.PageSize,
-                    stats.TotalResults,
-                    null)
-            };
-        }
+        //    return new ProjectList
+        //    {
+        //        Team = listInput.TeamId != null ? _documentSession.Load<Team>(listInput.TeamId) : null,
+        //        Page = listInput.Page,
+        //        PageSize = listInput.PageSize,
+        //        Projects = results.ToPagedList(
+        //            listInput.Page,
+        //            listInput.PageSize,
+        //            stats.TotalResults,
+        //            null)
+        //    };
+        //}
 
         protected ProjectList MakeProjectListByMembership(ProjectListInput listInput)
         {

@@ -64,7 +64,7 @@ namespace Bowerbird.Core.CommandHandlers
                 var metadata = new Dictionary<string, string>();
 
                 var mediaResource = new MediaResource(
-                                command.Usage,
+                                mediaType,
                                 _documentSession.Load<User>(command.UserId),
                                 command.UploadedOn,
                                 metadata);
@@ -77,25 +77,29 @@ namespace Bowerbird.Core.CommandHandlers
                 switch (mediaType)
                 {
                     case "image":
+                        string extension = "jpg";
+                        if(Path.HasExtension(command.OriginalFileName))
+                        {
+                            extension = Path.GetExtension(command.OriginalFileName).Replace(".", string.Empty).ToLower();
+                        }
 
                         ImageDimensions dimensions;
                         SaveOriginalImageMedia(
                             command.Stream,
                             mediaResource.Id,
-                            Path.GetExtension(command.OriginalFileName),
+                            extension,
                             out dimensions);
 
                         metadata.Add("width", dimensions.Width.ToString());
                         metadata.Add("height", dimensions.Height.ToString());
-                        // HACK
-                        metadata.Add("format", string.IsNullOrWhiteSpace(Path.GetExtension(command.OriginalFileName)) ? "jpg" : Path.GetExtension(command.OriginalFileName));
+                        metadata.Add("format", extension);
 
                         if (command.Usage == "observation")
                         {
                             SaveObservationImages(
                                 command.Stream,
                                 mediaResource.Id,
-                                Path.GetExtension(command.OriginalFileName)
+                                extension
                                 );
                         }
                         else if (command.Usage == "user")
@@ -103,7 +107,7 @@ namespace Bowerbird.Core.CommandHandlers
                             SaveUserImages(
                                 command.Stream,
                                 mediaResource.Id,
-                                Path.GetExtension(command.OriginalFileName)
+                                extension
                                 );
                         }
                         else if (command.Usage == "post")
@@ -111,7 +115,7 @@ namespace Bowerbird.Core.CommandHandlers
                             SavePostImages(
                                 command.Stream,
                                 mediaResource.Id,
-                                Path.GetExtension(command.OriginalFileName)
+                                extension
                                 );
                         }
 

@@ -177,7 +177,7 @@ namespace Bowerbird.Core.CommandHandlers
 
         private void AddOrganisation(string name, string description, string website, string userid)
         {
-            var organisation = new Organisation(Users.Single(x => x.Id == userid), name, description, website, null, Constants.AppRootId);
+            var organisation = new Organisation(Users.Single(x => x.Id == userid), name, description, website, null, DateTime.Now);
             _documentSession.Store(organisation);
 
             var groupAssociation = new GroupAssociation(TheAppRoot, organisation, Users.Single(x => x.Id == userid), DateTime.Now);
@@ -188,7 +188,7 @@ namespace Bowerbird.Core.CommandHandlers
 
         private void AddTeam(string name, string description, string website, string userid, string organisationId = null)
         {
-            var team = new Team(Users.Single(x => x.Id == userid), name, description, website, null, organisationId);
+            var team = new Team(Users.Single(x => x.Id == userid), name, description, website, null, DateTime.Now);
             _documentSession.Store(team);
 
             var groupAssociation = new GroupAssociation(Organisations.Single(x => x.Id == organisationId), team, Users.Single(x => x.Id == userid), DateTime.Now);
@@ -199,7 +199,7 @@ namespace Bowerbird.Core.CommandHandlers
 
         private void AddProject(string name, string description, string website, string userid, string teamId = null)
         {
-            var project = new Project(Users.Single(x => x.Id == userid), name, description, website, null, teamId);
+            var project = new Project(Users.Single(x => x.Id == userid), name, description, website, null, DateTime.Now);
             _documentSession.Store(project);
 
             var groupAssociation = new GroupAssociation(Teams.Single(x => x.Id == teamId), project, Users.Single(x => x.Id == userid), DateTime.Now);

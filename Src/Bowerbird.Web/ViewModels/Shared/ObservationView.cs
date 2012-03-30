@@ -48,7 +48,7 @@ namespace Bowerbird.Web.ViewModels.Shared
         
         public string ObservationCategory { get; set; }
 
-        public IEnumerable<ObservationMedia> ObservationMedia { get; set; }
+        public IEnumerable<ObservationMediaItem> ObservationMedia { get; set; }
 
         #endregion
 

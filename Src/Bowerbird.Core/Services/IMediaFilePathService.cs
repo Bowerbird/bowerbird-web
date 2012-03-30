@@ -11,15 +11,18 @@
  * Atlas of Living Australia
  
 */
-				
+
+using Bowerbird.Core.DomainModels;
 namespace Bowerbird.Core.Services
 {
     public interface IMediaFilePathService
     {
-        string MakeMediaFileUri(string mediaResourceId, string mediaType, string filenamePart, string format);
+        string MakeMediaFileUri(MediaResource mediaResource, string storedRepresentation);
+
+        string MakeMediaFileUri(string mediaResourceId, string mediaType, string storedRepresentation, string extension);
 
         string MakeMediaBasePath(int mediaResourceId, string mediaType);
-        
-        string MakeMediaFilePath(string mediaResourceId, string mediaType, string filenamePart, string format);
+
+        string MakeMediaFilePath(string mediaResourceId, string mediaType, string storedRepresentation, string extension);
     }
 }

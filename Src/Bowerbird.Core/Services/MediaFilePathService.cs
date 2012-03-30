@@ -15,6 +15,7 @@
 using System;
 using System.IO;
 using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Core.Services
 {
@@ -44,16 +45,25 @@ namespace Bowerbird.Core.Services
 
         #region Methods
 
-        public string MakeMediaFileUri(string mediaResourceId, string mediaType, string filenamePart, string format)
+        public string MakeMediaFileUri(MediaResource mediaResource, string storedRepresentation)
+        {
+            return MakeMediaFileUri(
+                mediaResource.Id,
+                mediaResource.Type,
+                storedRepresentation,
+                mediaResource.Metadata["format"]);
+        }
+
+        public string MakeMediaFileUri(string mediaResourceId, string mediaType, string storedRepresentation, string extension)
         {
             return string.Format(
-                "{0}/{1}/{2}/{3}-{4}{5}", 
+                "{0}/{1}/{2}/{3}-{4}.{5}", 
                 GetCleanMediaRootUri(),
                 mediaType,
                 GetDirectoryName(RecordIdPart(mediaResourceId)),
                 RecordIdPart(mediaResourceId),
-                filenamePart,
-                format);
+                storedRepresentation,
+                extension);
         }
 
         public string MakeMediaBasePath(int recordId, string mediaType)
@@ -61,28 +71,19 @@ namespace Bowerbird.Core.Services
             var environmentRootPath = _configService.GetEnvironmentRootPath();
             var mediaRelativePath = _configService.GetMediaRelativePath();
 
-            // Path combine was not doing it's job.. changed to string format... 
-            //var path = Path.Combine(_configService.GetEnvironmentRootPath(), _configService.GetMediaRelativePath(), mediaType, GetDirectoryName(recordId).ToString());
-            //var path = Path.Combine(
-            //    environmentRootPath, 
-            //    mediaRelativePath, 
-            //    mediaType,
-            //    GetDirectoryName(recordId).ToString());
-
             var path = string.Format("{0}{1}{2}\\{3}",
                 environmentRootPath,
                 mediaRelativePath,
                 mediaType,
-                GetDirectoryName(recordId)
-                );
+                GetDirectoryName(recordId));
 
             return path;
         }
 
-        public string MakeMediaFilePath(string recordId, string mediaType, string filenamePart, string format)
+        public string MakeMediaFilePath(string recordId, string mediaType, string storedRepresentation, string extension)
         {
             string mediaPath = MakeMediaBasePath(RecordIdPart(recordId), mediaType);
-            string filename = string.Format("{0}-" + filenamePart + "{1}", RecordIdPart(recordId), format);
+            string filename = string.Format("{0}-{1}.{2}", RecordIdPart(recordId), storedRepresentation, extension);
 
             return Path.Combine(mediaPath, filename);
         }

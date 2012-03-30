@@ -611,6 +611,13 @@ header nav#search-menu
 {
     background-color: #F2F6FA;
     height: 200px;
+    overflow: hidden;
+}
+#stream .observation-stream-item .details .location .map img
+{
+    height: 200px;
+    left: -50%;
+    position: relative;
 }
 #stream .observation-stream-item .details .location span
 {

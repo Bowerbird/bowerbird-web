@@ -2,9 +2,9 @@
 window.Bowerbird.Views.StreamListItemView = Backbone.View.extend({
     className: 'stream-item',
 
-    observationTemplate: $.template('observationStreamListItemTemplate', $('#observation-stream-list-item-template')),
+    //observationTemplate: $.template('observationStreamListItemTemplate', $('#observation-stream-list-item-template')),
 
-    postTemplate: $.template('postStreamListItemTemplate', $('#post-stream-list-item-template')),
+    //postTemplate: $.template('postStreamListItemTemplate', $('#post-stream-list-item-template')),
 
     initialize: function (options) {
         _.extend(this, Backbone.Events);
@@ -12,18 +12,14 @@ window.Bowerbird.Views.StreamListItemView = Backbone.View.extend({
     },
 
     render: function () {
-        var options = {
-            formatDate: function () {
-                return new Date(parseInt(this.data.Item.ObservedOn.substr(6))).format('d MMM yyyy');
-            },
-            formatTime: function () {
-                return new Date(parseInt(this.data.Item.ObservedOn.substr(6))).format('h:mm');
-            }
-        };
-        switch (this.streamItem.get('Type')) {
+        switch (this.streamItem.get('type')) {
             case 'Observation':
-                $.tmpl('observationStreamListItemTemplate', this.streamItem.toJSON(), options).appendTo(this.$el);
-                this.$el.addClass('observation-stream-item');
+                var streamitemJSON = this.streamItem.toJSON();
+                streamitemJSON['observedOnDate'] = new Date(parseInt(this.streamItem.get('item').observedOn.substr(6))).format('d MMM yyyy');
+                streamitemJSON['observedOnTime'] = new Date(parseInt(this.streamItem.get('item').observedOn.substr(6))).format('h:mm');
+                streamitemJSON['highlightMedia'] = streamitemJSON.item.observationMedia[0];
+                var streamItemHtml = ich.observationStreamListItemTemplate(streamitemJSON);
+                this.$el.append(streamItemHtml).addClass('observation-stream-item');
                 break;
             default:
                 break;

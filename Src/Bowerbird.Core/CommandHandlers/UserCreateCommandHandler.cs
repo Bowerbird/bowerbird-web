@@ -74,7 +74,7 @@ namespace Bowerbird.Core.CommandHandlers
             user.AddMembership(member);
             _documentSession.Store(user);
 
-            var userProject = new UserProject(user);
+            var userProject = new UserProject(user, DateTime.Now);
             _documentSession.Store(userProject);
 
             var userProjectAssociation = new GroupAssociation(appRoot, userProject, user, DateTime.Now);

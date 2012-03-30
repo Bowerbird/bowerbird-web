@@ -20,10 +20,10 @@ window.Bowerbird.Collections.PaginatedCollection = Backbone.Collection.extend({
     },
 
     parse: function (resp) {
-        this.page = resp.Page;
-        this.pageSize = resp.PageSize;
-        this.total = resp.TotalResultCount;
-        return resp.PagedListItems;
+        this.page = resp.page;
+        this.pageSize = resp.pageSize;
+        this.total = resp.totalResultCount;
+        return resp.pagedListItems;
     },
 
     url: function () {

@@ -59,38 +59,36 @@
         </div>
     </div>
 </script>
-<script type="text/x-jquery-tmpl" id="observation-stream-list-item-template">
+<script id="observationStreamListItemTemplate" type="text/html">
     <div class="summary">
         <img src="../img/avatar.jpg" alt="" />
-        <p class="description">${Description} <span>${CreatedDateTimeDescription}</span></p>
+        <p class="description">{{description}} <span>{{createdDateTimeDescription}}</span></p>
     </div>
     <div class="details">
-        <h2>${Item.Title}</h2>
+        <h2>{{item.title}}</h2>
         <div>
             <div class="images">
                 <div class="preview">
-                    <img src="../img/dragonfly.png" alt="" />
+                    <img src="{{highlightMedia.originalImageUri}}" alt="" />
                 </div>
                 <div class="thumbnails">
-                    <img src="../img/dragonfly.png" alt="" />
-                    <img src="../img/dragonfly.png" alt="" />
-                    <img src="../img/dragonfly.png" alt="" />
-                    <img src="../img/dragonfly.png" alt="" />
-                    <img src="../img/dragonfly.png" alt="" />
+                    {{#item.observationMedia}}
+                    <img src="{{thumbnailImageUri}}" alt="" />
+                    {{/item.observationMedia}}
                 </div>
             </div>
             <div class="info">
                 <div class="observed">
                     Observed
-                    <span>${$item.formatDate()}</span>
-                    <span>${$item.formatTime()} AEST</span>
+                    <span>{{observedOnDate}}</span>
+                    <span>{{observedOnTime}} AEST</span>
                 </div>
                 <div class="location">
                     Location
-                    <div class="map"></div>
-                    <span>North Melbourne</span>
-                    <span>Latitude 145.2323</span>
-                    <span>Longitude 18.4563</span>
+                    <div class="map"><img src="http://maps.googleapis.com/maps/api/staticmap?zoom=8&size=400x200&scale=2&maptype=terrain&markers=color:blue|{{item.latitude}},{{item.longitude}}&sensor=false" alt="Map of location" /></div>
+                    <span>{{item.address}}</span>
+                    <span>Latitude {{item.latitude}}</span>
+                    <span>Longitude {{item.longitude}}</span>
                 </div>
             </div>
         </div>

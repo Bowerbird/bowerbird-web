@@ -117,7 +117,7 @@ namespace Bowerbird.Web.Controllers.Members
                         type = mediaResource.Type,
                         uploadedOn = mediaResource.UploadedOn,
                         // HACK
-                        mediumImageUri = _mediaFilePathService.MakeMediaFileUri(mediaResource.Id, "image", "original", Path.GetExtension(mediaResource.Metadata["format"])),
+                        mediumImageUri = _mediaFilePathService.MakeMediaFileUri(mediaResource, "medium"),
                         key = key
                     });
             }

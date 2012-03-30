@@ -180,6 +180,7 @@
     <Compile Include="DomainModels\BaseObject.cs" />
     <Compile Include="DomainModels\BaseObjectEqualityComparer.cs" />
     <Compile Include="DomainModels\CommentsComponent.cs" />
+    <Compile Include="DomainModels\GroupAssociation.cs" />
     <Compile Include="DomainModels\DenormalisedReferences\DenormalisedObservationNoteReference.cs" />
     <Compile Include="DomainModels\IContribution.cs" />
     <Compile Include="DomainModels\IOwnable.cs" />
@@ -197,7 +198,6 @@
     <Compile Include="DomainModels\DomainSignatureAttribute.cs" />
     <Compile Include="DomainModels\DomainModel.cs" />
     <Compile Include="DomainModels\Group.cs" />
-    <Compile Include="DomainModels\GroupAssociation.cs" />
     <Compile Include="DomainModels\DenormalisedReferences\DenormalisedObservationReference.cs" />
     <Compile Include="DomainModels\IAssignableId.cs" />
     <Compile Include="DomainModels\Member.cs" />

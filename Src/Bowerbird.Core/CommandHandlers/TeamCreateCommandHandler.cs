@@ -18,6 +18,8 @@ using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Raven.Client;
+using System;
+using Bowerbird.Core.Config;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -52,12 +54,12 @@ namespace Bowerbird.Core.CommandHandlers
             Check.RequireNotNull(command, "command");
 
             var team = new Team(
-                _documentSession.Load<User>(command.UserId)
-                , command.Name
-                , command.Description
-                , command.Website
-                , command.AvatarId != null ? _documentSession.Load<MediaResource>(command.AvatarId) : null
-                );
+                _documentSession.Load<User>(command.UserId), 
+                command.Name, 
+                command.Description, 
+                command.Website, 
+                command.AvatarId != null ? _documentSession.Load<MediaResource>(command.AvatarId) : null,
+                DateTime.Now);
 
             _documentSession.Store(team);
         }
