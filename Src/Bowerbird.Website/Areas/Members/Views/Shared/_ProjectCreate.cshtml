@@ -27,17 +27,23 @@
                     <input type="text" id="website" name="website" value="{{website}}" />
                 </div>
             </div>
-            <fieldset id="avatar-fieldset">
-                <legend>Project Avatar</legend>
-                <p>Drag and drop file into the box below, or choose file from your computer or import from other websites.</p>
+            <fieldset id="media-resources-fieldset">
+                <legend>Images, Videos, Audio</legend>
+                <p>Drag and drop files into the box below, or choose files from your computer or import from other websites.</p>
                 <div id="media-uploader">
                     <div class="media-resource-items" id="media-resource-items">
-                        <div class="media-resource-dropzone"><p>Drop file here</p></div>
+                        <div class="media-resource-dropzone"><p>Drop files here<p></div>
                         <div id="media-resource-add-pane">
-                            <div id="media-resource-upload-button" class="button media-resource-upload-button">Choose File<input id="fileupload" type="file" name="file"></div>
+                            <div id="media-resource-upload-button" class="button media-resource-upload-button">Choose Files<input id="fileupload" type="file" name="file" multiple></div>
                             <input type="button" value="Import From Website" id="media-resource-import-button"/>                        
                         </div>
                     </div>
+                </div>
+            </fieldset>
+            <fieldset id="avatar-fieldset">
+                <legend>Project Avatar</legend>
+                <div id="avatar-uploader">
+                    
                 </div>
             </fieldset>
         </fieldset>

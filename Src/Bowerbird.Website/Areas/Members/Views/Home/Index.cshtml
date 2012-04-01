@@ -147,18 +147,6 @@
     @Html.Partial("_TeamCreate")
 </script>
 
-<!-- {{ avataruploaded: used for displaying the latest uploaded avatar media }} -->
-<script id="avataruploaded" type="text/html">
-    <div>
-        <img src="{{mediumImageUri}}" alt="" />
-    </div>
-    <div>
-        <input type="button" value="View" class="view-media-resource-button" />
-        <input type="button" value="Add Caption" class="add-caption-button" />
-        <input type="button" value="Remove" class="remove-media-resource-button" />
-    </div>
-</script>
-
 <!-- {{ user: used where user avatar and name is needed }} -->
 <script id="user" type="text/html">
     <span class="user-avatar">
@@ -284,7 +272,6 @@
 <script type="text/javascript" src="@Url.BowerbirdJsView("streamListView.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsView("streamView.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsView("mediaResourceItemView.js")"></script>
-<script type="text/javascript" src="@Url.BowerbirdJsView("avatarMediaResourceView.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsView("editMapView.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsView("editMediaView.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsView("editAvatarView.js")"></script>

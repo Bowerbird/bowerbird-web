@@ -4,7 +4,12 @@ window.Bowerbird.Views.EditMediaView = Backbone.View.extend({
 
     initialize: function (options) {
         _.extend(this, Backbone.Events);
-        _.bindAll(this, '_initMediaUploader', '_onUploadDone', '_onSubmitUpload', '_onUploadAdd');
+        _.bindAll(this,
+        '_initMediaUploader',
+        '_onUploadDone',
+        '_onSubmitUpload',
+        '_onUploadAdd'
+        );
         this.mediaResourceItemViews = [];
         this.observation = options.observation;
         this.currentUploadKey = 0;

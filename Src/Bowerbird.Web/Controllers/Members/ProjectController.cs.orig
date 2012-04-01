@@ -103,10 +103,17 @@ namespace Bowerbird.Web.Controllers.Members
         [HttpPost]
         public ActionResult Create(ProjectCreateInput createInput)
         {
+<<<<<<< Updated upstream
             if (!_userContext.HasGroupPermission(PermissionNames.CreateProject, createInput.TeamId ?? Constants.AppRootId))
             {
                 return HttpUnauthorized();
             }
+=======
+            //if (!_userContext.HasGlobalPermission(PermissionNames.CreateProject))
+            //{
+            //    return HttpUnauthorized();
+            //}
+>>>>>>> Stashed changes
 
             if (!ModelState.IsValid)
             {

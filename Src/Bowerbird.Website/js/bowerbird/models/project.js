@@ -6,19 +6,21 @@ window.Bowerbird.Models.Project = Backbone.Model.extend({
         name: '',
         description: '',
         website: '',
-        avatar: null
+        avatar: ''
     },
 
     initialize: function (options) {
         _.extend(this, Backbone.Events);
-        this.avatar = new Bowerbird.Models.MediaResource();
+        //this.avatar = new Bowerbird.Models.MediaResource();
+        this.avatar = { id: '', url: '', altTag: '' };
     },
 
     toJSON: function () {
         return {
             name: this.get('name'),
             description: this.get('description'),
-            website: this.get('website')
+            website: this.get('website'),
+            avatar: this.get('avatar').id
         };
     },
 

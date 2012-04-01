@@ -40,6 +40,9 @@ namespace Bowerbird.Web.ViewModels.Members
 
         public string Website { get; set; }
 
+        // this is the mediaresourceid of the avatar mediaresrouce
+        public string Avatar { get; set; }
+
         #endregion
 
         #region Methods

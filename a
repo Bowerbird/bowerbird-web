@@ -1,0 +1,448 @@
+[33mcommit 21f0ec5d6217f6fba0ea741117f7b4327556f51d[m
+Merge: 62344ba bacb82e
+Author: hamishcrittenden <hamish.crittenden@gmail.com>
+Date:   Fri Mar 30 13:01:49 2012 +1100
+
+    WIP on master: 62344ba avatar editing capability WIP
+
+[1mdiff --cc Docs/Model.vsd[m
+[1mindex 9b9caef,9b9caef..0250c98[m
+Binary files differ
+[1mdiff --cc Src/Bowerbird.Web/Controllers/Members/OrganisationController.cs[m
+[1mindex 15e62e5,15e62e5..03c1630[m
+[1m--- a/Src/Bowerbird.Web/Controllers/Members/OrganisationController.cs[m
+[1m+++ b/Src/Bowerbird.Web/Controllers/Members/OrganisationController.cs[m
+[36m@@@ -92,10 -92,10 +92,10 @@@[m [mnamespace Bowerbird.Web.Controllers.Mem[m
+          [HttpPost][m
+          public ActionResult Create(OrganisationCreateInput createInput)[m
+          {[m
+[31m--            if (!_userContext.HasGlobalPermission(PermissionNames.CreateOrganisation))[m
+[31m--            {[m
+[31m--                return HttpUnauthorized();[m
+[31m--            }[m
+[32m++            //if (!_userContext.HasGlobalPermission(PermissionNames.CreateOrganisation))[m
+[32m++            //{[m
+[32m++            //    return HttpUnauthorized();[m
+[32m++            //}[m
+  [m
+              if (!ModelState.IsValid)[m
+              {[m
+[1mdiff --cc Src/Bowerbird.Web/Controllers/Members/ProjectController.cs[m
+[1mindex d9af9f8,d9af9f8..06dede7[m
+[1m--- a/Src/Bowerbird.Web/Controllers/Members/ProjectController.cs[m
+[1m+++ b/Src/Bowerbird.Web/Controllers/Members/ProjectController.cs[m
+[36m@@@ -104,10 -104,10 +104,10 @@@[m [mnamespace Bowerbird.Web.Controllers.Mem[m
+          [HttpPost][m
+          public ActionResult Create(ProjectCreateInput createInput)[m
+          {[m
+[31m--            if (!_userContext.HasGlobalPermission(PermissionNames.CreateProject))[m
+[31m--            {[m
+[31m--                return HttpUnauthorized();[m
+[31m--            }[m
+[32m++            //if (!_userContext.HasGlobalPermission(PermissionNames.CreateProject))[m
+[32m++            //{[m
+[32m++            //    return HttpUnauthorized();[m
+[32m++            //}[m
+  [m
+              if (!ModelState.IsValid)[m
+              {[m
+[36m@@@ -165,7 -165,7 +165,8 @@@[m
+              {[m
+                  Description = createInput.Description,[m
+                  Name = createInput.Name,[m
+[31m--                UserId = _userContext.GetAuthenticatedUserId()[m
+[32m++                UserId = _userContext.GetAuthenticatedUserId(),[m
+[32m++                AvatarId = createInput.Avatar[m
+              };[m
+          }[m
+  [m
+[1mdiff --cc Src/Bowerbird.Web/Controllers/Members/TeamController.cs[m
+[1mindex e3ed3e3,e3ed3e3..20ef433[m
+[1m--- a/Src/Bowerbird.Web/Controllers/Members/TeamController.cs[m
+[1m+++ b/Src/Bowerbird.Web/Controllers/Members/TeamController.cs[m
+[36m@@@ -105,10 -105,10 +105,10 @@@[m [mnamespace Bowerbird.Web.Controllers.Mem[m
+          [HttpPost][m
+          public ActionResult Create(TeamCreateInput createInput)[m
+          {[m
+[31m--            if (!_userContext.HasGlobalPermission(PermissionNames.CreateTeam))[m
+[31m--            {[m
+[31m--                return HttpUnauthorized();[m
+[31m--            }[m
+[32m++            //if (!_userContext.HasGlobalPermission(PermissionNames.CreateTeam))[m
+[32m++            //{[m
+[32m++            //    return HttpUnauthorized();[m
+[32m++            //}[m
+  [m
+              if (!ModelState.IsValid)[m
+              {[m
+[1mdiff --cc Src/Bowerbird.Web/ViewModels/Members/ProjectCreateInput.cs[m
+[1mindex 32b19e8,32b19e8..de4d4ee[m
+[1m--- a/Src/Bowerbird.Web/ViewModels/Members/ProjectCreateInput.cs[m
+[1m+++ b/Src/Bowerbird.Web/ViewModels/Members/ProjectCreateInput.cs[m
+[36m@@@ -38,6 -38,6 +38,9 @@@[m [mnamespace Bowerbird.Web.ViewModels.Memb[m
+  [m
+          public string Website { get; set; }[m
+  [m
+[32m++        // this is the mediaresourceid of the avatar mediaresrouce[m
+[32m++        public string Avatar { get; set; }[m
+[32m++[m
+          #endregion[m
+  [m
+          #region Methods[m
+[1mdiff --cc Src/Bowerbird.Website/Areas/Members/Views/Home/Index.cshtml[m
+[1mindex 4f8bb1f,4f8bb1f..7a72e7e[m
+[1m--- a/Src/Bowerbird.Website/Areas/Members/Views/Home/Index.cshtml[m
+[1m+++ b/Src/Bowerbird.Website/Areas/Members/Views/Home/Index.cshtml[m
+[36m@@@ -149,18 -149,18 +149,6 @@@[m
+      @Html.Partial("_TeamCreate")[m
+  </script>[m
+  [m
+[31m--<!-- {{ avataruploaded: used for displaying the latest uploaded avatar media }} -->[m
+[31m--<script id="avataruploaded" type="text/html">[m
+[31m--    <div>[m
+[31m--        <img src="{{mediumImageUri}}" alt="" />[m
+[31m--    </div>[m
+[31m--    <div>[m
+[31m--        <input type="button" value="View" class="view-media-resource-button" />[m
+[31m--        <input type="button" value="Add Caption" class="add-caption-button" />[m
+[31m--        <input type="button" value="Remove" class="remove-media-resource-button" />[m
+[31m--    </div>[m
+[31m--</script>[m
+[31m--[m
+  <!-- {{ user: used where user avatar and name is needed }} -->[m
+  <script id="user" type="text/html">[m
+      <span class="user-avatar">[m
+[36m@@@ -286,7 -286,7 +274,6 @@@[m
+  <script type="text/javascript" src="@Url.BowerbirdJsView("streamListView.js")"></script>[m
+  <script type="text/javascript" src="@Url.BowerbirdJsView("streamView.js")"></script>[m
+  <script type="text/javascript" src="@Url.BowerbirdJsView("mediaResourceItemView.js")"></script>[m
+[31m--<script type="text/javascript" src="@Url.BowerbirdJsView("avatarMediaResourceView.js")"></script>[m
+  <script type="text/javascript" src="@Url.BowerbirdJsView("editMapView.js")"></script>[m
+  <script type="text/javascript" src="@Url.BowerbirdJsView("editMediaView.js")"></script>[m
+  <script type="text/javascript" src="@Url.BowerbirdJsView("editAvatarView.js")"></script>[m
+[1mdiff --cc Src/Bowerbird.Website/Areas/Members/Views/Shared/_ProjectCreate.cshtml[m
+[1mindex 8284917,8284917..5149602[m
+[1m--- a/Src/Bowerbird.Website/Areas/Members/Views/Shared/_ProjectCreate.cshtml[m
+[1m+++ b/Src/Bowerbird.Website/Areas/Members/Views/Shared/_ProjectCreate.cshtml[m
+[36m@@@ -27,19 -27,19 +27,25 @@@[m
+                      <input type="text" id="website" name="website" value="{{website}}" />[m
+                  </div>[m
+              </div>[m
+[31m--            <fieldset id="avatar-fieldset">[m
+[31m--                <legend>Project Avatar</legend>[m
+[31m--                <p>Drag and drop file into the box below, or choose file from your computer or import from other websites.</p>[m
+[32m++            <fieldset id="media-resources-fieldset">[m
+[32m++                <legend>Images, Videos, Audio</legend>[m
+[32m++                <p>Drag and drop files into the box below, or choose files from your computer or import from other websites.</p>[m
+                  <div id="media-uploader">[m
+                      <div class="media-resource-items" id="media-resource-items">[m
+[31m--                        <div class="media-resource-dropzone"><p>Drop file here</p></div>[m
+[32m++                        <div class="media-resource-dropzone"><p>Drop files here<p></div>[m
+                          <div id="media-resource-add-pane">[m
+[31m--                            <div id="media-resource-upload-button" class="button media-resource-upload-button">Choose File<input id="fileupload" type="file" name="file"></div>[m
+[32m++                            <div id="media-resource-upload-button" class="button media-resource-upload-button">Choose Files<input id="fileupload" type="file" name="file" multiple></div>[m
+                              <input type="button" value="Import From Website" id="media-resource-import-button"/>                        [m
+                          </div>[m
+                      </div>[m
+                  </div>[m
+              </fieldset>[m
+[32m++            <fieldset id="avatar-fieldset">[m
+[32m++                <legend>Project Avatar</legend>[m
+[32m++                <div id="avatar-uploader">[m
+[32m++                    [m
+[32m++                </div>[m
+[32m++            </fieldset>[m
+          </fieldset>[m
+          <fieldset>[m
+              <input type="button" value="Save" id="save" />[m
+[1mdiff --cc Src/Bowerbird.Website/Bowerbird.Website.csproj[m
+[1mindex 2934a94,2934a94..f454fea[m
+[1m--- a/Src/Bowerbird.Website/Bowerbird.Website.csproj[m
+[1m+++ b/Src/Bowerbird.Website/Bowerbird.Website.csproj[m
+[36m@@@ -207,7 -207,7 +207,6 @@@[m
+      <Content Include="js\bowerbird\appRouter.js" />[m
+      <Content Include="js\bowerbird\views\appView.js" />[m
+      <Content Include="js\bowerbird\views\chatView.js" />[m
+[31m--    <Content Include="js\bowerbird\views\avatarMediaResourceView.js" />[m
+      <Content Include="js\bowerbird\views\editAvatarView.js" />[m
+      <Content Include="js\bowerbird\views\organisationCreateFormView.js" />[m
+      <Content Include="js\bowerbird\views\teamCreateFormView.js" />[m
+[1mdiff --cc Src/Bowerbird.Website/js/bowerbird/models/project.js[m
+[1mindex ab675fd,ab675fd..98535fc[m
+[1m--- a/Src/Bowerbird.Website/js/bowerbird/models/project.js[m
+[1m+++ b/Src/Bowerbird.Website/js/bowerbird/models/project.js[m
+[36m@@@ -6,19 -6,19 +6,21 @@@[m [mwindow.Bowerbird.Models.Project = Backb[m
+          name: '',[m
+          description: '',[m
+          website: '',[m
+[31m--        avatar: null[m
+[32m++        avatar: ''[m
+      },[m
+  [m
+      initialize: function (options) {[m
+          _.extend(this, Backbone.Events);[m
+[31m--        this.avatar = new Bowerbird.Models.MediaResource();[m
+[32m++        //this.avatar = new Bowerbird.Models.MediaResource();[m
+[32m++        this.avatar = { id: '', url: '', altTag: '' };[m
+      },[m
+  [m
+      toJSON: function () {[m
+          return {[m
+              name: this.get('name'),[m
+              description: this.get('description'),[m
+[31m--            website: this.get('website')[m
+[32m++            website: this.get('website'),[m
+[32m++            avatar: this.get('avatar').id[m
+          };[m
+      },[m
+  [m
+[1mdiff --cc Src/Bowerbird.Website/js/bowerbird/views/avatarMediaResourceView.js[m
+[1mindex 36cb66e,36cb66e..0000000[m
+[1mdeleted file mode 100644,100644[m
+[1m--- a/Src/Bowerbird.Website/js/bowerbird/views/avatarMediaResourceView.js[m
+[1m+++ /dev/null[m
+[36m@@@ -1,45 -1,45 +1,0 @@@[m
+[31m--﻿[m
+[31m--window.Bowerbird.Views.AvatarMediaResourceView = Backbone.View.extend({[m
+[31m--    className: 'avatar-media-resource-uploaded',[m
+[31m--[m
+[31m--    events: {[m
+[31m--        'click .view-media-resource-button': 'viewMediaResource',[m
+[31m--        'click .add-caption-button': 'viewMediaResource',[m
+[31m--        'click .remove-media-resource-button': 'removeMediaResource'[m
+[31m--    },[m
+[31m--[m
+[31m--    initialize: function (options) {[m
+[31m--        _.extend(this, Backbone.Events);[m
+[31m--        _.bindAll(this,[m
+[31m--        'showTempMedia',[m
+[31m--        'showUploadedMedia'[m
+[31m--        );[m
+[31m--        this.mediaResource = options.mediaResource;[m
+[31m--        this.parent = options.parent;[m
+[31m--        this.mediaResource.on('change:mediumImageUri', this.showUploadedMedia);[m
+[31m--    },[m
+[31m--[m
+[31m--    render: function () {[m
+[31m--        var avatarUploaded = ich.avataruploaded({ avatar: this.mediaResource.toJSON() });[m
+[31m--        this.$el.append(projectTemplate);[m
+[31m--        window.scrollTo(0, 0);[m
+[31m--        return this;[m
+[31m--    },[m
+[31m--[m
+[31m--    viewMediaResource: function () {[m
+[31m--        alert('Coming soon');[m
+[31m--    },[m
+[31m--[m
+[31m--    removeMediaResource: function () {[m
+[31m--        this.parent.avatar = null;[m
+[31m--        this.remove();[m
+[31m--    },[m
+[31m--[m
+[31m--    showTempMedia: function (img) {[m
+[31m--        this.$el.find('div:first-child img').replaceWith($(img));[m
+[31m--    },[m
+[31m--[m
+[31m--    showUploadedMedia: function (mediaResource) {[m
+[31m--        this.$el.find('div:first-child img').replaceWith($('<img src="' + mediaResource.get('mediumImageUri') + '" alt="" />'));[m
+[31m--    }[m
+[31m--});[m
+[1mdiff --cc Src/Bowerbird.Website/js/bowerbird/views/editAvatarView.js[m
+[1mindex 63f6a4e,63f6a4e..42b3523[m
+[1m--- a/Src/Bowerbird.Website/js/bowerbird/views/editAvatarView.js[m
+[1m+++ b/Src/Bowerbird.Website/js/bowerbird/views/editAvatarView.js[m
+[36m@@@ -1,6 -1,6 +1,6 @@@[m
+  ﻿[m
+  window.Bowerbird.Views.EditAvatarView = Backbone.View.extend({[m
+[31m--    id: 'media-resources-fieldset',[m
+[32m++    id: 'avatar-fieldset',[m
+  [m
+      initialize: function (options) {[m
+          _.extend(this, Backbone.Events);[m
+[36m@@@ -10,8 -10,8 +10,8 @@@[m
+          '_onSubmitUpload',[m
+          '_onUploadAdd'[m
+          );[m
+[31m--        this.avatarMediaResourceView = null;[m
+[31m--        this.parent = options.parent;[m
+[32m++        this.mediaResourceItemViews = [];[m
+[32m++        this.observation = options.observation;[m
+          this.currentUploadKey = 0;[m
+      },[m
+  [m
+[36m@@@ -25,36 -25,36 +25,36 @@@[m
+              dataType: 'json',[m
+              paramName: 'file',[m
+              url: '/members/mediaresource/avatarupload',[m
+[31m--            add: this._onUploadAdd,[m
+[32m++            add: this._onUploadAd,[m
+              submit: this._onSubmitUpload,[m
+[31m--            done: this._onUploadDone,[m
+[31m--            limitMultiFileUploads: 1[m
+[32m++            done: this._onUploadDone[m
+          });[m
+      },[m
+  [m
+      _onUploadAdd: function (e, data) {[m
+          var self = this;[m
+[31m--//        $.each(data.files, function (index, file) {[m
+[31m--//            if (file != null) {[m
+[31m--//                self.currentUploadKey++;[m
+[31m--//                var mediaResource = new Bowerbird.Models.MediaResource({ key: self.currentUploadKey });[m
+[31m--//                self.parent.set('avatar', mediaResource);[m
+[31m--//                self.avatarMediaResourceView = new Bowerbird.Views.AvatarMediaResourceView({ mediaResource: mediaResource, parent: self.parent });[m
+[31m--//                $('#media-resource-add-pane').before(mediaResourceItemView.render().el);[m
+[31m--//                loadImage([m
+[31m--//                    data.files[0],[m
+[31m--//                    function (img) {[m
+[31m--//                        if (img instanceof HTMLImageElement) { // FF seems to fire this handler twice, on second time returning error, which we ignore :([m
+[31m--//                            avatarMediaResourceView.showTempMedia(img);[m
+[31m--//                            $('#media-resource-items').animate({ scrollLeft: 100000 });[m
+[31m--//                        }[m
+[31m--//                    },[m
+[31m--//                    {[m
+[31m--//                        maxHeight: 220[m
+[31m--//                    }[m
+[31m--//                );[m
+[31m--//            }[m
+[31m--//        });[m
+[32m++        $.each(data.files, function (index, file) {[m
+[32m++            if (file != null) {[m
+[32m++                self.currentUploadKey++;[m
+[32m++                var mediaResource = new Bowerbird.Models.MediaResource({ key: self.currentUploadKey });[m
+[32m++                self.observation.addMediaResources.add(mediaResource);[m
+[32m++                var mediaResourceItemView = new Bowerbird.Views.MediaResourceItemView({ mediaResource: mediaResource });[m
+[32m++                self.mediaResourceItemViews.push(mediaResourceItemView);[m
+[32m++                $('#media-resource-add-pane').before(mediaResourceItemView.render().el);[m
+[32m++                loadImage([m
+[32m++                    data.files[0],[m
+[32m++                    function (img) {[m
+[32m++                        if (img instanceof HTMLImageElement) { // FF seems to fire this handler twice, on second time returning error, which we ignore :([m
+[32m++                            mediaResourceItemView.showTempMedia(img);[m
+[32m++                            $('#media-resource-items').animate({ scrollLeft: 100000 });[m
+[32m++                        }[m
+[32m++                    },[m
+[32m++                    {[m
+[32m++                        maxHeight: 220[m
+[32m++                    }[m
+[32m++                );[m
+[32m++            }[m
+[32m++        });[m
+          data.submit();[m
+      },[m
+  [m
+[36m@@@ -66,7 -66,7 +66,7 @@@[m
+  //        var mediaResource = _.find(this.observation.allMediaResources(), function (item) {[m
+  //            return item.get('key') == data.result.key;[m
+  //        });[m
+[31m--        this.parent.set('avatar', data.result);[m
+[32m++        mediaResource.set(data.result);[m
+          //$('#media-resource-items').animate({ scrollLeft: 100000 });[m
+      }[m
+  });[m
+[1mdiff --cc Src/Bowerbird.Website/js/bowerbird/views/editMediaView.js[m
+[1mindex a519b9d,a519b9d..6a98e3e[m
+[1m--- a/Src/Bowerbird.Website/js/bowerbird/views/editMediaView.js[m
+[1m+++ b/Src/Bowerbird.Website/js/bowerbird/views/editMediaView.js[m
+[36m@@@ -4,7 -4,7 +4,12 @@@[m [mwindow.Bowerbird.Views.EditMediaView = [m
+  [m
+      initialize: function (options) {[m
+          _.extend(this, Backbone.Events);[m
+[31m--        _.bindAll(this, '_initMediaUploader', '_onUploadDone', '_onSubmitUpload', '_onUploadAdd');[m
+[32m++        _.bindAll(this,[m
+[32m++        '_initMediaUploader',[m
+[32m++        '_onUploadDone',[m
+[32m++        '_onSubmitUpload',[m
+[32m++        '_onUploadAdd'[m
+[32m++        );[m
+          this.mediaResourceItemViews = [];[m
+          this.observation = options.observation;[m
+          this.currentUploadKey = 0;[m
+[1mdiff --cc Src/Bowerbird.Website/js/bowerbird/views/projectCreateFormView.js[m
+[1mindex 6c58d6b,6c58d6b..167156d[m
+[1m--- a/Src/Bowerbird.Website/js/bowerbird/views/projectCreateFormView.js[m
+[1m+++ b/Src/Bowerbird.Website/js/bowerbird/views/projectCreateFormView.js[m
+[36m@@@ -14,16 -14,16 +14,31 @@@[m [mwindow.Bowerbird.Views.ProjectCreateFor[m
+  [m
+      initialize: function (options) {[m
+          _.extend(this, Backbone.Events);[m
+[32m++        _.bindAll(this,[m
+[32m++        'render',[m
+[32m++        'start',[m
+[32m++        '_cancel',[m
+[32m++        '_contentChanged',[m
+[32m++        '_save'[m
+[32m++//        ,[m
+[32m++//        '_initMediaUploader',[m
+[32m++//        '_onUploadAdd',[m
+[32m++//        '_onSubmitUpload',[m
+[32m++//        '_onUploadDone'[m
+[32m++        );[m
+          this.appView = options.appView;[m
+          this.project = options.project;[m
+[31m--        this.editAvatarView = new Bowerbird.Views.EditAvatarView({ el: $('#media-resources-fieldset'), parent: this.project });[m
+[32m++        //this.editAvatarView = new Bowerbird.Views.EditAvatarView({ el: $('#avatar-uploader'), project: this.project });[m
+[32m++        this.editMediaView = new Bowerbird.Views.EditMediaView({ el: $('#media-resources-fieldset'), observation: this.observation });[m
+[32m++[m
+      },[m
+  [m
+      render: function () {[m
+[31m--        var projectTemplate = ich.projectcreate({ project: app.get('newProject').toJSON() });[m
+[31m--        //var projectTemplate = ich.projectcreate({});[m
+[31m--        this.$el.append(projectTemplate);[m
+[31m--        window.scrollTo(0, 0);[m
+[32m++        var projectTemplate = ich.projectcreate({ project: app.get('newProject').toJSON() }).appendTo(this.$el);[m
+[32m++ //       this.$el.append(projectTemplate);[m
+[32m++  //      var avatarUploader = ich.avataruploader();[m
+[32m++//        this.$el.find('#avatar-uploader').append(avatarUploader);[m
+[32m++ //       this._initMediaUploader();[m
+          return this;[m
+      },[m
+  [m
+[36m@@@ -50,4 -50,4 +65,46 @@@[m
+          //this.remove();[m
+          //app.appRouter.navigate(app.stream.get('uri'), { trigger: true });[m
+      }[m
+[32m++//    ,[m
+[32m++[m
+[32m++//    _initMediaUploader: function () {[m
+[32m++//        log('projectCreateFormView._initMediaUploader');[m
+[32m++[m
+[32m++//        $('#fileupload').fileupload({[m
+[32m++//            dataType: 'json',[m
+[32m++//            paramName: 'file',[m
+[32m++//            url: '/members/mediaresource/avatarupload',[m
+[32m++//            add: this._onUploadAdd,[m
+[32m++//            submit: this._onSubmitUpload,[m
+[32m++//            done: this._onUploadDone,[m
+[32m++//            limitMultiFileUploads: 1[m
+[32m++//        });[m
+[32m++[m
+[32m++//        log('finish editAvatarView._initMediaUploader');[m
+[32m++//    },[m
+[32m++[m
+[32m++//    _onUploadAdd: function (e, data) {[m
+[32m++//        log('projectCreateFormView._onUploadAdd');[m
+[32m++//        alert('added');[m
+[32m++//        data.submit();[m
+[32m++//    },[m
+[32m++[m
+[32m++//    _onSubmitUpload: function (e, data) {[m
+[32m++//        log('projectCreateFormView._onSubmitUpload');[m
+[32m++[m
+[32m++//        data.formData = { originalFileName: data.files[0].name };[m
+[32m++//    },[m
+[32m++[m
+[32m++//    _onUploadDone: function (e, data) {[m
+[32m++//        log('projectCreateFormView._onUploadDone');[m
+[32m++[m
+[32m++//        var uploadedAvatar = new [m
+[32m++//        {[m
+[32m++//            id: data.id,[m
+[32m++//            url: data.mediumImageUrl,[m
+[32m++//            altTag: ''[m
+[32m++//        };[m
+[32m++[m
+[32m++//        this.project.set('avatar', uploadedAvatar);[m
+[32m++//    }[m
+  });[m
