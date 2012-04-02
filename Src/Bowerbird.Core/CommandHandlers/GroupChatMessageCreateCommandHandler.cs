@@ -53,11 +53,22 @@ namespace Bowerbird.Core.CommandHandlers
             Check.RequireNotNull(command, "command");
 
             var group = _documentSession
-                .Query<Group, All_Groups>()
+                .Query<All_Groups.Result, All_Groups>()
+                .AsProjection<All_Groups.Result>()
                 .Where(x => x.Id == command.GroupId)
                 .FirstOrDefault();
 
             User targetUser = null;
+            Group chatGroup = null;
+
+            if(group.GroupType.Equals("team"))
+            {
+                chatGroup = _documentSession.Load<Team>(command.GroupId);
+            }
+            else if (group.GroupType.Equals("project"))
+            {
+                chatGroup = _documentSession.Load<Project>(command.GroupId);
+            }
 
             if(!string.IsNullOrEmpty(command.TargetUserId))
             {
@@ -66,12 +77,12 @@ namespace Bowerbird.Core.CommandHandlers
 
             var chatMessage = new GroupChatMessage(
                _documentSession.Load<User>(command.UserId),
-               group,
+               chatGroup,
                targetUser,
                command.Timestamp,
                command.Message
-                );
-
+               );
+            
             _documentSession.Store(chatMessage);
         }
 
