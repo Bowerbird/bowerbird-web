@@ -21,7 +21,7 @@ using Bowerbird.Core.DesignByContract;
 
 namespace Bowerbird.Web.Hubs
 {
-    public class ActivityHub : Hub, IDisconnect
+    public class NotificationHub : Hub, IDisconnect
     {
         #region Members
 
@@ -31,7 +31,7 @@ namespace Bowerbird.Web.Hubs
 
         #region Constructors
 
-        public ActivityHub(
+        public NotificationHub(
             IHubService hubService
             )
         {
@@ -53,11 +53,6 @@ namespace Bowerbird.Web.Hubs
             _hubService.UpdateUserOnline(Context.ConnectionId, userId);
 
             BroadcastUserStatusUpdate(userId);
-        }
-
-        public void BroadcastActivity(ActivityMessage message)
-        {
-            Clients.activityOccurred(message);
         }
 
         public void BroadcastUserStatusUpdate(string userId)

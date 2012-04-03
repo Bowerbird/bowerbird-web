@@ -113,11 +113,6 @@ namespace Bowerbird.Web.Config
             FormsAuthentication.SignOut();
         }
 
-        public dynamic GetChannel()
-        {
-            return AspNetHost.DependencyResolver.Resolve<IConnectionManager>().GetClients<ActivityHub>();
-        }
-
         public bool HasAppRootPermission(string permissionId)
         {
             return _permissionChecker.HasGroupPermission(permissionId, GetAuthenticatedUserId(), Constants.AppRootId);

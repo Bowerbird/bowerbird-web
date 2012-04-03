@@ -81,6 +81,16 @@ namespace Bowerbird.Core.CommandHandlers
                                      })
                                      .Select(x => new Tuple<MediaResource, string, string>(x.mediaResource, x.description, x.licence));
 
+            var projects = new List<Project>();
+
+            if (observationCreateCommand.Projects != null && observationCreateCommand.Projects.Count > 0)
+            {
+                projects = _documentSession
+                    .Query<Project>()
+                    .Where(x => x.Id.In(observationCreateCommand.Projects))
+                    .ToList();
+            }
+
             var observation = new Observation(
                 user,
                 observationCreateCommand.Title,
@@ -90,26 +100,27 @@ namespace Bowerbird.Core.CommandHandlers
                 observationCreateCommand.Longitude,
                 observationCreateCommand.Address,
                 observationCreateCommand.IsIdentificationRequired,
-                observationCreateCommand.Category);
+                observationCreateCommand.Category,
+                userProject,
+                projects,
+                addMedia);
 
-            observation.AddGroup(userProject, user, DateTime.Now);
+            //foreach (var media in addMedia)
+            //{
+            //    observation.AddMedia(media.Item1, media.Item2, media.Item3);
+            //}
 
-            foreach (var media in addMedia)
-            {
-                observation.AddMedia(media.Item1, media.Item2, media.Item3);
-            }
+            //if (observationCreateCommand.Projects != null && observationCreateCommand.Projects.Count > 0)
+            //{
+            //    var projects = _documentSession
+            //        .Query<Project>()
+            //        .Where(x => x.Id.In(observationCreateCommand.Projects));
 
-            if (observationCreateCommand.Projects != null && observationCreateCommand.Projects.Count > 0)
-            {
-                var projects = _documentSession
-                    .Query<Project>()
-                    .Where(x => x.Id.In(observationCreateCommand.Projects));
-
-                foreach (var project in projects)
-                {
-                    observation.AddGroup(project, user, DateTime.Now);
-                }
-            }
+            //    foreach (var project in projects)
+            //    {
+            //        observation.AddGroup(project, user, DateTime.Now);
+            //    }
+            //}
             
             _documentSession.Store(observation);
         }

@@ -235,25 +235,27 @@ namespace Bowerbird.Core.CommandHandlers
 
         private void AddObservation(string userId, string projectId)
         {
-            var user = Users.Single(x => x.Id == userId);
-            var project = Projects.Single(x => x.Id == projectId);
+            //var user = Users.Single(x => x.Id == userId);
+            //var project = Projects.Single(x => x.Id == projectId);
 
-            var observation = new Observation(
-                user,
-                "Title goes here",
-                DateTime.Now,
-                DateTime.Now,
-                "23.232323",
-                "41.3432423",
-                "1 Main St Melbourne",
-                true,
-                "categoryX");
+            //var observation = new Observation(
+            //    user,
+            //    "Title goes here",
+            //    DateTime.Now,
+            //    DateTime.Now,
+            //    "23.232323",
+            //    "41.3432423",
+            //    "1 Main St Melbourne",
+            //    true,
+            //    "categoryX",
+            //    );
 
-            observation.AddGroup(project, user, DateTime.Now);
+            //observation.AddGroup(project, user, DateTime.Now);
 
-            _documentSession.Store(observation);
+            //_documentSession.Store(observation);
 
-            Observations.Add(observation);
+            //Observations.Add(observation);
+            //throw new NotImplementedException();
         }
 
         #endregion      

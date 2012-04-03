@@ -40,7 +40,6 @@ namespace Bowerbird.Core.Indexes
         {
             AddMap<Observation>(observations => 
                 from c in observations
-                //from gc in c.GroupContributions
                 from gc in c.Groups
                 where gc.GroupType != "userproject"
                 select new
@@ -66,21 +65,6 @@ namespace Bowerbird.Core.Indexes
                     GroupUserId = c.User.Id,
                     GroupCreatedDateTime = c.CreatedOn
                 });
-
-            //AddMap<ObservationNote>(observationNotes => 
-            //    from c in observationNotes
-            //    from gc in c.GroupContributions 
-            //    where gc.GroupType != "userproject"
-            //    select new
-            //    {
-            //        ContributionId = c.Id,
-            //        ContributionType = "ObservationNote",
-            //        UserId = c.User.Id,
-            //        CreatedDateTime = c.CreatedOn,
-            //        gc.GroupId,
-            //        GroupUserId = gc.User.Id,
-            //        GroupCreatedDateTime = gc.CreatedDateTime
-            //    });
 
             AddMap<Observation>(observations =>
                 from o in observations

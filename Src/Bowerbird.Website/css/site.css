@@ -488,7 +488,7 @@ header nav#search-menu
 }
 #stream .stream-item .details > div
 {
-    overflow: auto;
+    overflow: hidden;
     width: 100%;
 }
 #stream .stream-item .summary-comment

@@ -44,7 +44,7 @@ namespace Bowerbird.Core.DomainModels
             "User Group",
             createdDateTime)
         {
-            EventProcessor.Raise(new DomainModelCreatedEvent<UserProject>(this, createdByUser));
+            EventProcessor.Raise(new DomainModelCreatedEvent<UserProject>(this, createdByUser.Id));
         }
 
         #endregion

@@ -163,6 +163,7 @@
     <Compile Include="Controllers\Public\TeamController.cs" />
     <Compile Include="Config\IPermissionChecker.cs" />
     <Compile Include="Config\PermissionChecker.cs" />
+    <Compile Include="EventHandlers\NotifyObservationCreatedEventHandler.cs" />
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
     <Compile Include="Hubs\ChatHub.cs" />
     <Compile Include="Notifications\INotificationProcessor.cs" />
@@ -184,6 +185,7 @@
     <Compile Include="ViewModels\Members\OrganisationUpdateInput.cs" />
     <Compile Include="ViewModels\Members\MemberList.cs" />
     <Compile Include="ViewModels\Members\MemberListInput.cs" />
+    <Compile Include="ViewModels\Shared\Notification.cs" />
     <Compile Include="ViewModels\Shared\ActivityMessage.cs" />
     <Compile Include="ViewModels\Shared\ChatMessage.cs" />
     <Compile Include="ViewModels\Shared\ChatRequest.cs" />
@@ -224,7 +226,7 @@
     <Compile Include="ViewModels\Members\TeamUpdateInput.cs" />
     <Compile Include="ViewModels\Public\AccountRegister.cs" />
     <Compile Include="Controllers\Members\UserController.cs" />
-    <Compile Include="Hubs\ActivityHub.cs" />
+    <Compile Include="Hubs\NotificationHub.cs" />
     <Compile Include="Validators\UniqueEmailAttribute.cs" />
     <Compile Include="ViewModels\Public\AccountRegisterInput.cs" />
     <Compile Include="ViewModels\Public\AccountRequestPasswordReset.cs" />
@@ -286,7 +288,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\Api\" />
-    <Folder Include="EventHandlers\" />
     <Folder Include="obj\" />
     <Folder Include="ViewModels\Api\" />
   </ItemGroup>

@@ -12,6 +12,8 @@ window.Bowerbird.Views.SidebarItemView = Backbone.View.extend({
         _.extend(this, Backbone.Events);
         _.bindAll(this, 'startChat');
         this.sidebarItem = options.sidebarItem;
+        this.streamItemNotificationCount = 0;
+        app.notifications.on('streamItemNotificationAdded', this.streamItemNotificationAdded, this);
     },
 
     render: function () {
@@ -29,4 +31,12 @@ window.Bowerbird.Views.SidebarItemView = Backbone.View.extend({
         }
         app.chatRouter.joinChat(chat);
     },
+
+    streamItemNotificationAdded: function (streamItemNotification) {
+//        if (this.notification.model.id === this.sidebarItem.id) {
+//            this.streamItemNotificationCount++;
+//            // increment count in view
+//            this.$el.find('').text(this.streamItemNotificationCount);
+//        }
+    }
 });

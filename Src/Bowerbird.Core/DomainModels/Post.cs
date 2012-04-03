@@ -66,7 +66,7 @@ namespace Bowerbird.Core.DomainModels
                 mediaResources
                 );
 
-            EventProcessor.Raise(new DomainModelCreatedEvent<Post>(this, createdByUser));
+            EventProcessor.Raise(new DomainModelCreatedEvent<Post>(this, createdByUser.Id));
         }
 
         #endregion

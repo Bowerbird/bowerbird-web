@@ -19,6 +19,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.ComponentModel.DataAnnotations;
+using Bowerbird.Core.Events;
+using Bowerbird.Core.DesignByContract;
 
 namespace Bowerbird.Core.DomainModels
 {
@@ -40,13 +42,43 @@ namespace Bowerbird.Core.DomainModels
 
         private int? cachedHashcode;
 
+        private string _id;
+
         /// <summary>
         ///     Id may be of type string, int, custom type, etc.
         ///     Setter is protected to allow unit tests to set this property via reflection and to allow 
         ///     domain objects more flexibility in setting this for those objects with assigned Ids.
         ///     It's virtual to allow NHibernate-backed objects to be lazily loaded.
         /// </summary>
-        public string Id { get; protected set; }
+        public string Id 
+        {
+            get
+            {
+                return _id;
+            }
+            protected set
+            {
+                Check.Require(_id == value || string.IsNullOrWhiteSpace(_id), "Cannot change an Id after it has been set.");
+
+                bool fireEvent = _id != value;
+
+                _id = value;
+
+                if (fireEvent)
+                {
+                    FireCreateEvent();
+                }
+            }
+        }
+
+        protected virtual void FireCreateEvent()
+        {
+        }
+
+        protected bool IsIdSet()
+        {
+            return !string.IsNullOrWhiteSpace(_id);
+        }
 
         public override bool Equals(object obj)
         {

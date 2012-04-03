@@ -16,6 +16,7 @@ window.Bowerbird.App = Backbone.Model.extend({
         this.stream = new Bowerbird.Models.Stream();
         this.chats = new Bowerbird.Collections.Chats();
         this.users = new Bowerbird.Collections.Users();
+        this.notifications = new Bowerbird.Collections.Notifications();
 
         window.app = this;
         log('App.Initialize Completed');
@@ -26,10 +27,10 @@ window.Bowerbird.App = Backbone.Model.extend({
         this.appView = new Bowerbird.Views.AppView({ app: this }).render();
 
         // Init sub components
-        this.activityRouter = new Bowerbird.ActivityRouter({ userId: userId });
+        this.notificationRouter = new Bowerbird.NotificationRouter({ userId: userId });
         this.chatRouter = new Bowerbird.ChatRouter();
         this.appRouter = new Bowerbird.AppRouter();
-        
+
         // Populate with bootstrapped data
         this.teams.reset(teams);
         this.projects.reset(projects);

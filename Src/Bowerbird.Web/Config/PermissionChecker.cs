@@ -102,37 +102,6 @@ namespace Bowerbird.Web.Config
             throw new ArgumentException("The specified model is not configured to be checked for permissions (must implement IOwnable).");
         }
 
-        //public bool HasPermission<T>(string userId, string groupId, string permissionName, string domainModelId = null)
-        //    where T : DomainModel
-        //{
-        //    var member = _documentSession.LoadMember(groupId, userId);
-
-        //    if (!string.IsNullOrWhiteSpace(domainModelId))
-        //    {
-        //        T domainModel = _documentSession.Load<T>(domainModelId);
-
-        //        if (domainModel is IOwnable)
-        //        {
-        //            return ((IOwnable)domainModel).User.Id == userId || MemberHasPermission(member, "permissions/" + permissionName);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        return MemberHasPermission(member, "permissions/" + permissionName);
-        //    }
-
-        //    throw new ArgumentException("The specified model is not configured to be checked for permissions (must implement IOwnable).");
-        //}
-
-        //private bool MemberHasPermission(Member member, string permissionId)
-        //{
-        //    Check.Ensure(_cachedRoles != null, "PermissionChecker has not been initialised. Call Init() before use.");
-        
-        //    return _cachedRoles
-        //        .Where(x => member.Roles.Any(y => y.Id == x.Id))
-        //        .Any(x => x.Permissions.Any(y => y.Id == permissionId));
-        //}
-
         #endregion      
       
     }

@@ -14,11 +14,14 @@
 
 using System.Collections.Generic;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Web.ViewModels.Shared;
+using Bowerbird.Web.ViewModels;
+using System;
 
 namespace Bowerbird.Web.Notifications
 {
     public interface INotificationProcessor
     {
-        void Notify(Activity activity, IEnumerable<string> userIds);
+        void Notify(Notification notification, Action<dynamic, Notification> callClient);
     }
 }

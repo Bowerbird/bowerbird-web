@@ -53,7 +53,7 @@ namespace Bowerbird.Core.DomainModels
                 website,
                 avatar);
 
-            EventProcessor.Raise(new DomainModelCreatedEvent<Project>(this, createdByUser));
+            EventProcessor.Raise(new DomainModelCreatedEvent<Project>(this, createdByUser.Id));
         }
 
         #endregion

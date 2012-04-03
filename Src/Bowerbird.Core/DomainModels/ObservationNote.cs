@@ -71,7 +71,7 @@ namespace Bowerbird.Core.DomainModels
                 descriptions,
                 references);
 
-            EventProcessor.Raise(new DomainModelCreatedEvent<ObservationNote>(this, createdByUser));
+            EventProcessor.Raise(new DomainModelCreatedEvent<ObservationNote>(this, createdByUser.Id));
         }
 
         #endregion

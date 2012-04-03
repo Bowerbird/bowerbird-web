@@ -32,8 +32,6 @@ namespace Bowerbird.Web.Config
 
         void SignUserOut();
 
-        dynamic GetChannel();
-
         /// <summary>
         /// Determine if user has the specified permission to perform a task on the app root level
         /// </summary>

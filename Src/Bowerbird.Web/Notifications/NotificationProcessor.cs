@@ -26,6 +26,9 @@ using SignalR;
 using SignalR.Hosting.AspNet;
 using SignalR.Infrastructure;
 using System.Linq;
+using Bowerbird.Web.ViewModels.Shared;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Bowerbird.Web.Notifications
 {
@@ -59,16 +62,16 @@ namespace Bowerbird.Web.Notifications
 
         #region Methods
 
-        public void Notify(Activity activity, IEnumerable<string> userIds)
+        public void Notify(Notification notification, Action<dynamic, Notification> callClient)
         {
-            Check.RequireNotNull(activity, "activity");
+            Check.RequireNotNull(notification, "notification");
 
-            _commandProcessor.Process(new NotificationCreatedCommand()
-            {
-                Activity = activity,
-                Timestamp = DateTime.Now,
-                UserIds = userIds
-            });
+            // Get the user client ids for the members of the given groups, who are currently logged in
+            var userIds = _documentSession
+                .Query<Member>()
+                .Where(x => x.Group.Id.In(notification.Groups))
+                .ToList()
+                .Select(x => x.User.Id);
 
             var connectedIds = _documentSession
                 .Query<UserSession>()
@@ -76,11 +79,16 @@ namespace Bowerbird.Web.Notifications
                 .ToList()
                 .Select(x => x.ClientId);
 
-            var clients = AspNetHost.DependencyResolver.Resolve<IConnectionManager>().GetClients<ActivityHub>();
+            // Call each client id with notification
+            var clients = AspNetHost.DependencyResolver.Resolve<IConnectionManager>().GetClients<NotificationHub>();
+
+            //var serializerSettings = new JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver() };
+            //var json = JsonConvert.SerializeObject(notification, Formatting.None, serializerSettings);
 
             foreach (var clientId in connectedIds)
             {
-                clients[clientId].activityOccurred(new JavaScriptSerializer().Serialize(activity.Message));
+                //callClient(clients[clientId], json);
+                callClient(clients[clientId], notification);
             }
         }
 

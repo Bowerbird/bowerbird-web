@@ -1,29 +1,26 @@
 ﻿
-window.Bowerbird.ActivityRouter = Backbone.Model.extend({
-
-    // INIT-----------------------------------------
-
+window.Bowerbird.NotificationRouter = Backbone.Model.extend({
     initialize: function (options) {
 
         log('ActivityRouter.Initialize');
         _.bindAll(this, 'initHubConnection');
 
-        this.activityHub = $.connection.activityHub;
-        this.activityHub.userStatusUpdate = this.userStatusUpdate;
-        this.activityHub.activityOccurred = this.activityOccurred;
+        this.notificationHub = $.connection.notificationHub;
+        this.notificationHub.userStatusUpdate = this.userStatusUpdate;
+
+        this.notificationHub.observationCreated = this.observationCreated;
 
         this.initHubConnection(options.userId);
         log('ActivityRouter.Initialize');
     },
-
 
     // TO HUB---------------------------------------
 
     initHubConnection: function (userId) {
         log('App.initHubConnection');
         var self = this;
-        $.connection.hub.start({ transport: 'longPolling' },function () {
-            self.activityHub.registerUserClient(userId)
+        $.connection.hub.start({ transport: 'longPolling' }, function () {
+            self.notificationHub.registerUserClient(userId)
                     .done(function () {
                         app.set('clientId', $.signalR.hub.id);
                         log('connected as ' + userId + ' with ' + app.get('clientId'));
@@ -35,7 +32,6 @@ window.Bowerbird.ActivityRouter = Backbone.Model.extend({
     },
 
     userStatusUpdate: function (data) {
-        
         var user = app.users.get(data.id);
         if (_.isNull(user) || _.isUndefined(user)) {
             if (data.status == 2 || data.status == 3 || data.status == 'undefined') return;
@@ -54,11 +50,10 @@ window.Bowerbird.ActivityRouter = Backbone.Model.extend({
         }
     },
 
-
     // FROM HUB-------------------------------------
 
-    activityOccurred: function (data) {
+    observationCreated: function (data) {
+        log(data);
         // fire appropriate activity stream method..
     }
-
 });

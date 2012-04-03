@@ -175,7 +175,6 @@
     <Compile Include="Config\Constants.cs" />
     <Compile Include="Config\ISystemStateManager.cs" />
     <Compile Include="Config\Permissions.cs" />
-    <Compile Include="DomainModels\Activity.cs" />
     <Compile Include="DomainModels\AppRoot.cs" />
     <Compile Include="DomainModels\BaseObject.cs" />
     <Compile Include="DomainModels\BaseObjectEqualityComparer.cs" />
@@ -192,7 +191,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DomainModels\Sessions\GroupChatSession.cs" />
-    <Compile Include="DomainModels\Notification.cs" />
+    <Compile Include="DomainModels\NotificationOLD.cs" />
     <Compile Include="DomainModels\ObservationMedia.cs" />
     <Compile Include="DomainModels\DenormalisedReferences\DenormalisedMemberReference.cs" />
     <Compile Include="DomainModels\DomainSignatureAttribute.cs" />

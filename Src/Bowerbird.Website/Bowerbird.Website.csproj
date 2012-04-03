@@ -178,11 +178,12 @@
     <Content Include="img\wavecut.png" />
     <Content Include="img\whitey.png" />
     <Content Include="img\white_texture.png" />
-    <Content Include="js\bowerbird\activityRouter.js" />
+    <Content Include="js\bowerbird\notificationRouter.js" />
     <Content Include="js\bowerbird\app.js" />
     <Content Include="js\bowerbird\chatRouter.js" />
     <Content Include="js\bowerbird\collections\chatUsers.js" />
     <Content Include="js\bowerbird\collections\mediaResources.js" />
+    <Content Include="js\bowerbird\collections\notifications.js" />
     <Content Include="js\bowerbird\collections\users.js" />
     <Content Include="js\bowerbird\collections\chatMessages.js" />
     <Content Include="js\bowerbird\collections\chats.js" />
@@ -193,6 +194,7 @@
     <Content Include="js\bowerbird\models\chat.js" />
     <Content Include="js\bowerbird\models\chatMessage.js" />
     <Content Include="js\bowerbird\models\chatUser.js" />
+    <Content Include="js\bowerbird\models\notification.js" />
     <Content Include="js\bowerbird\models\organisation.js" />
     <Content Include="js\bowerbird\models\groupChat.js" />
     <Content Include="js\bowerbird\models\mediaResource.js" />
@@ -207,6 +209,7 @@
     <Content Include="js\bowerbird\appRouter.js" />
     <Content Include="js\bowerbird\views\appView.js" />
     <Content Include="js\bowerbird\views\chatView.js" />
+    <Content Include="js\bowerbird\views\notificationListView.js" />
     <Content Include="js\bowerbird\views\editAvatarView.js" />
     <Content Include="js\bowerbird\views\organisationCreateFormView.js" />
     <Content Include="js\bowerbird\views\teamCreateFormView.js" />

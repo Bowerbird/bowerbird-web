@@ -55,10 +55,16 @@ namespace Bowerbird.Core.DomainModels
             string longitude, 
             string address,
             bool isIdentificationRequired,
-            string observationCategory)
+            string observationCategory,
+            UserProject userProject,
+            IEnumerable<Project> projects,
+            IEnumerable<Tuple<MediaResource, string, string>> addMedia)
             : this()
         {
             Check.RequireNotNull(createdByUser, "createdByUser");
+            Check.RequireNotNull(userProject, "userProject");
+            Check.RequireNotNull(projects, "projects");
+            Check.RequireNotNull(addMedia, "addMedia");
 
             User = createdByUser;
             CreatedOn = createdOn;
@@ -72,7 +78,17 @@ namespace Bowerbird.Core.DomainModels
                 isIdentificationRequired,
                 observationCategory);
 
-            EventProcessor.Raise(new DomainModelCreatedEvent<Observation>(this, createdByUser));
+            AddGroup(userProject, createdByUser, createdOn);
+
+            foreach (var project in projects)
+            {
+                AddGroup(project, createdByUser, createdOn);
+            }
+
+            foreach (var media in addMedia)
+            {
+                AddMedia(media.Item1, media.Item2, media.Item3);
+            }
         }
 
         #endregion
@@ -133,6 +149,11 @@ namespace Bowerbird.Core.DomainModels
             _observationMedia = new List<ObservationMedia>();
             _observationGroups = new List<ObservationGroup>();
             _observationNotes = new List<DenormalisedObservationNoteReference>();
+        }
+
+        protected override void FireCreateEvent()
+        {
+            EventProcessor.Raise(new DomainModelCreatedEvent<Observation>(this, User.Id));
         }
 
         private void SetDetails(string title, 
@@ -208,7 +229,10 @@ namespace Bowerbird.Core.DomainModels
 
                 _observationGroups.Add(observationGroup);
 
-                EventProcessor.Raise(new DomainModelCreatedEvent<ObservationGroup>(observationGroup, createdByUser));
+                if (IsIdSet())
+                {
+                    EventProcessor.Raise(new DomainModelCreatedEvent<ObservationGroup>(observationGroup, createdByUser.Id));
+                }
             }
 
             return this;

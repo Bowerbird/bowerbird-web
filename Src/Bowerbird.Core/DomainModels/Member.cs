@@ -54,7 +54,7 @@ namespace Bowerbird.Core.DomainModels
             Group = group;
             Roles = roles.Select(x => (DenormalisedNamedDomainModelReference<Role>)x).ToList();
 
-            EventProcessor.Raise(new DomainModelCreatedEvent<Member>(this, createdByUser));
+            EventProcessor.Raise(new DomainModelCreatedEvent<Member>(this, createdByUser.Id));
         }
 
         #endregion

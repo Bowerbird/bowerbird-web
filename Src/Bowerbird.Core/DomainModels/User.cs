@@ -64,7 +64,7 @@ namespace Bowerbird.Core.DomainModels
                 string.Empty,
                 null);
 
-            EventProcessor.Raise(new DomainModelCreatedEvent<User>(this, this));
+            //EventProcessor.Raise(new DomainModelCreatedEvent<User>(this, this.Id));
         }
 
         #endregion
