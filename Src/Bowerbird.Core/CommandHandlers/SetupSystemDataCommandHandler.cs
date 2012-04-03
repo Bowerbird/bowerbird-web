@@ -104,7 +104,13 @@ namespace Bowerbird.Core.CommandHandlers
                 AddRole("globaladministrator", "Global Administrator", "Administrator of Bowerbird", 
                     PermissionNames.CreateOrganisation, 
                     PermissionNames.UpdateOrganisation, 
-                    PermissionNames.DeleteOrganisation);
+                    PermissionNames.DeleteOrganisation,
+                    PermissionNames.CreateTeam,
+                    PermissionNames.UpdateTeam,
+                    PermissionNames.DeleteTeam,
+                    PermissionNames.CreateProject,
+                    PermissionNames.UpdateProject,
+                    PermissionNames.DeleteProject);
                 AddRole("globalmember", "Global Member", "Member of Bowerbird", 
                     PermissionNames.CreateObservation, 
                     PermissionNames.UpdateObservation, 

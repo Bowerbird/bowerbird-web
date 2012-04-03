@@ -1,6 +1,4 @@
-/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -14,12 +12,14 @@
  
 */
 
+using System.Linq;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Raven.Client;
 using System;
 using Bowerbird.Core.Config;
+using Raven.Client.Linq;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -62,6 +62,18 @@ namespace Bowerbird.Core.CommandHandlers
                 DateTime.Now);
 
             _documentSession.Store(team);
+
+            var teamAdministrator = new Member(
+                _documentSession.Load<User>(command.UserId),
+                _documentSession.Load<User>(command.UserId),
+                team,
+                _documentSession
+                    .Query<Role>()
+                    .Where(x => x.Name.Equals("teamadministrator") || x.Name.Equals("teammember"))
+                    .ToList()
+                );
+
+            _documentSession.Store(teamAdministrator);
         }
 
         #endregion

@@ -17,7 +17,6 @@ using System.Web.Mvc;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Paging;
 using Bowerbird.Core.Services;
 using Bowerbird.Web.Config;
@@ -25,7 +24,6 @@ using Bowerbird.Web.ViewModels.Members;
 using Bowerbird.Web.ViewModels.Shared;
 using Raven.Client;
 using Raven.Client.Linq;
-using System;
 using Bowerbird.Core.Config;
 
 namespace Bowerbird.Web.Controllers.Members
@@ -114,9 +112,10 @@ namespace Bowerbird.Web.Controllers.Members
             }
 
             _commandProcessor.Process(MakeProjectCreateCommand(createInput));
-
+            
             return Json("Success");
         }
+
 
         [Transaction]
         [Authorize]

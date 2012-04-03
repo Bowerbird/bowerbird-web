@@ -157,6 +157,9 @@ namespace Bowerbird.Core.CommandHandlers
                 .Reset()
                 .Resize(new ImageDimensions(100, 100), true, ImageResizeMode.Crop)
                 .SaveAs(_mediaFilePathService.MakeMediaFilePath(imageMediaResourceId, "image", "profile", extension))
+                .Reset()
+                .Resize(new ImageDimensions(670, 600), true, ImageResizeMode.Crop)
+                .SaveAs(_mediaFilePathService.MakeMediaFilePath(imageMediaResourceId, "image", "medium", extension))
                 .Cleanup();
         }
 

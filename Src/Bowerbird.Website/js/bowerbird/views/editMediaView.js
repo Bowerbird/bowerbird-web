@@ -5,6 +5,7 @@ window.Bowerbird.Views.EditMediaView = Backbone.View.extend({
     initialize: function (options) {
         _.extend(this, Backbone.Events);
         _.bindAll(this,
+        'render',
         '_initMediaUploader',
         '_onUploadDone',
         '_onSubmitUpload',

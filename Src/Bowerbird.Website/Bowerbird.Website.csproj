@@ -208,6 +208,7 @@
     <Content Include="js\bowerbird\namespace.js" />
     <Content Include="js\bowerbird\appRouter.js" />
     <Content Include="js\bowerbird\views\appView.js" />
+    <Content Include="js\bowerbird\views\avatarItemView.js" />
     <Content Include="js\bowerbird\views\chatView.js" />
     <Content Include="js\bowerbird\views\notificationListView.js" />
     <Content Include="js\bowerbird\views\editAvatarView.js" />

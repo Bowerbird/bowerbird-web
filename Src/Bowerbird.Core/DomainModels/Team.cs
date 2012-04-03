@@ -1,6 +1,4 @@
-﻿/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -15,11 +13,8 @@
 */
 
 using System;
-using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Events;
-using Bowerbird.Core.DomainModels.DenormalisedReferences;
-using Bowerbird.Core.Extensions;
 
 namespace Bowerbird.Core.DomainModels
 {
@@ -82,9 +77,9 @@ namespace Bowerbird.Core.DomainModels
             Check.RequireNotNull(updatedByUser, "updatedByUser");
             Check.RequireNotNullOrWhitespace(name, "name");
 
-            base.SetDetails(name);
+            SetDetails(name);
 
-            this.SetDetails(
+            SetDetails(
                 description,
                 website,
                 avatar);
@@ -95,6 +90,5 @@ namespace Bowerbird.Core.DomainModels
         }
 
         #endregion
-
     }
 }

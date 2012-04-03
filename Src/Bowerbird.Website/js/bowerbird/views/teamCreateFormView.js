@@ -8,32 +8,39 @@ window.Bowerbird.Views.TeamCreateFormView = Backbone.View.extend({
         'click #cancel': '_cancel',
         'click #save': '_save',
         'change input#name': '_contentChanged',
-        'change input#description': '_contentChanged',
+        'change textarea#description': '_contentChanged',
         'change input#website': '_contentChanged'
     },
 
     initialize: function (options) {
         _.extend(this, Backbone.Events);
+        _.bindAll(this,
+        'render',
+        'start',
+        '_cancel',
+        '_contentChanged',
+        '_save'
+        );
         this.appView = options.appView;
         this.team = options.team;
-        this.editAvatarView = new Bowerbird.Views.EditAvatarView({ el: $('#media-resources-fieldset'), observation: this.observation });
+        this.editAvatarView = new Bowerbird.Views.EditAvatarView({ el: $('#media-resources-fieldset'), group: this.team });
     },
 
     render: function () {
-        var teamTemplate = ich.teamcreate({ team: app.get('newTeam').toJSON() });
-        this.$el.append(teamTemplate);
-        window.scrollTo(0, 0);
+        var teamTemplate = ich.teamcreate({ team: app.get('newTeam').toJSON() }).appendTo(this.$el);
+        //window.scrollTo(0, 0);
         return this;
     },
 
     start: function () {
+        this.editAvatarView.render();
         //var myScroll = new iScroll('media-uploader', { hScroll: true, vScroll: false });
     },
 
     _cancel: function () {
         app.set('newTeam', null);
-        this.remove();
-        app.appRouter.navigate(app.stream.get('uri'), { trigger: true });
+        app.appRouter.navigate(app.stream.get('uri'), { trigger: false });
+        this.trigger('formClosed', this);
     },
 
     _contentChanged: function (e) {
@@ -44,9 +51,8 @@ window.Bowerbird.Views.TeamCreateFormView = Backbone.View.extend({
     },
 
     _save: function () {
-        //alert('Coming soon');
         this.team.save();
-        //this.remove();
-        //app.appRouter.navigate(app.stream.get('uri'), { trigger: true });
+        app.appRouter.navigate(app.stream.get('uri'), { trigger: false });
+        this.trigger('formClosed', this);
     }
 });

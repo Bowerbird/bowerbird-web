@@ -17,7 +17,6 @@ window.Bowerbird.Views.SidebarItemView = Backbone.View.extend({
     },
 
     render: function () {
-        log(this.sidebarItem.toJSON());
         $.tmpl("sidebarItemTemplate", this.sidebarItem.toJSONViewModel()).appendTo(this.$el);
         log($.tmpl("sidebarItemTemplate", this.sidebarItem.toJSONViewModel()));
         return this;

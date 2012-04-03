@@ -87,7 +87,7 @@ window.Bowerbird.Views.AppView = Backbone.View.extend({
     showOrganisationCreateFormView: function () {
         if (app.has('newOrganisation')) {
             $(this.streamView.el).hide();
-            this.formView = new Bowerbird.Views.OrganisationCreateFormView({ appView: this, project: app.get('newOrganisation') });
+            this.formView = new Bowerbird.Views.OrganisationCreateFormView({ appView: this, organisation: app.get('newOrganisation') });
             this.$el.append(this.formView.render().el);
             this.formView.start();
         }

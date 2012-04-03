@@ -15,11 +15,8 @@
 */
 
 using System;
-using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Events;
-using Bowerbird.Core.DomainModels.DenormalisedReferences;
-using Bowerbird.Core.Extensions;
 
 namespace Bowerbird.Core.DomainModels
 {

@@ -25,12 +25,33 @@ namespace Bowerbird.Core.Config
 
     public static class RoleNames
     {
+        /// <summary>
+        /// value: globaladministrator
+        /// </summary>
         public static string GlobalAdministrator = "globaladministrator";
+        /// <summary>
+        /// value: globalmember
+        /// </summary>
         public static string GlobalMember = "globalmember";
+        /// <summary>
+        /// value: organisationadministrator
+        /// </summary>
         public static string OrganisationAdministrator = "organisationadministrator";
+        /// <summary>
+        /// value: teamadministrator
+        /// </summary>
         public static string TeamAdministrator = "teamadministrator";
+        /// <summary>
+        /// value: teammember
+        /// </summary>
         public static string TeamMember = "teammember";
+        /// <summary>
+        /// value: projectadministrator
+        /// </summary>
         public static string ProjectAdministrator = "projectadministrator";
+        /// <summary>
+        /// value: projectmember
+        /// </summary>
         public static string ProjectMember = "projectmember";
     }
 }

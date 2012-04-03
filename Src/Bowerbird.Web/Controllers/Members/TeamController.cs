@@ -119,6 +119,7 @@ namespace Bowerbird.Web.Controllers.Members
             return Json("success");
         }
 
+
         [Transaction]
         [HttpPut]
         public ActionResult Update(TeamUpdateInput updateInput)

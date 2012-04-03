@@ -233,6 +233,19 @@ namespace Bowerbird.Core.CommandHandlers
             Members.Add(teamMember);
         }
 
+        private void AddBowerbirdAppMember(string userid, string rolename)
+        {
+            var user = Users.Single(x => x.Id == userid);
+
+            var roles = new List<Role>() { Roles.Single(x => x.Id == "roles/" + rolename) };
+
+            var appMember = new Member(user, user, TheAppRoot, roles);
+
+            _documentSession.Store(appMember);
+
+            Members.Add(appMember);
+        }
+
         private void AddObservation(string userId, string projectId)
         {
             //var user = Users.Single(x => x.Id == userId);

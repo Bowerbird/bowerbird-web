@@ -131,8 +131,8 @@ window.Bowerbird.Views.ObservationCreateFormView = Backbone.View.extend({
 
     _cancel: function () {
         app.set('newObservation', null);
-        this.remove();
-        app.appRouter.navigate(app.stream.get('uri'), { trigger: true });
+        app.appRouter.navigate(app.stream.get('uri'), { trigger: false });
+        this.trigger('formClosed', this);
     },
 
     _save: function () {

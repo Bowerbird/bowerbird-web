@@ -97,6 +97,32 @@
     @Html.Partial("_ObservationCreate")
 </script>
 
+<script id="avataruploader" type="text/html">
+    <p>Drag and drop files into the box below, or choose files from your computer or import from other websites.</p>
+    <div id="media-uploader">
+        <div class="media-resource-items" id="media-resource-items">
+            <div class="media-resource-dropzone"><p>Drop files here<p></div>
+            <div id="media-resource-add-pane">
+                <div id="media-resource-upload-button" class="button media-resource-upload-button">Choose Files<input id="fileupload" type="file" name="file" multiple></div>
+                <input type="button" value="Import From Website" id="media-resource-import-button"/>                        
+            </div>
+        </div>
+    </div>
+</script>
+
+<script id="avatarmediauploader" type="text/html">
+    <div id="media-resource-add-pane">
+        <div id="media-resource-upload-button" class="button media-resource-upload-button">Choose Files<input id="fileupload" type="file" name="file" multiple></div>
+        <input type="button" value="Import From Website" id="media-resource-import-button"/>                        
+    </div>
+</script>
+
+<script id="avataruploaded" type="text/html">
+    <div id="avatar-uploaded">
+        <img src="{{mediumImageUri}}" />
+    </div>
+</script>
+
 <script type="text/x-jquery-tmpl" id="observation-create-media-resource-uploader-template">
     <legend>Images, Videos, Audio</legend>
     <p>Drag and drop files into the box below, or choose files from your computer or import from other websites.</p>
@@ -122,6 +148,16 @@
     </li>
 </script>
 <script type="text/x-jquery-tmpl" id="observation-create-media-resource-uploaded-template">
+    <div>
+        <img src="${mediumImageUri}" alt="" />
+    </div>
+    <div>
+        <input type="button" value="View" class="view-media-resource-button" />
+        <input type="button" value="Add Caption" class="add-caption-button" />
+        <input type="button" value="Remove" class="remove-media-resource-button" />
+    </div>
+</script>
+<script type="text/x-jquery-tmpl" id="avatar-media-resource-uploaded-template">
     <div>
         <img src="${mediumImageUri}" alt="" />
     </div>
@@ -274,6 +310,7 @@
 <script type="text/javascript" src="@Url.BowerbirdJsView("streamListView.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsView("streamView.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsView("mediaResourceItemView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("avatarItemView.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsView("editMapView.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsView("editMediaView.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsView("editAvatarView.js")"></script>

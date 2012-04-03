@@ -12,12 +12,14 @@
  
 */
 
+using System.Linq;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Raven.Client;
 using Bowerbird.Core.Config;
 using System;
+using Raven.Client.Linq;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -60,6 +62,18 @@ namespace Bowerbird.Core.CommandHandlers
                 DateTime.Now);
 
             _documentSession.Store(organisation);
+
+            var organisationAdministrator = new Member(
+                _documentSession.Load<User>(command.UserId),
+                _documentSession.Load<User>(command.UserId),
+                organisation,
+                _documentSession
+                    .Query<Role>()
+                    .Where(x => x.Name.Equals("organisationadministrator") || x.Name.Equals("organisationmember"))
+                    .ToList()
+                );
+
+            _documentSession.Store(organisationAdministrator);
         }
 
         #endregion

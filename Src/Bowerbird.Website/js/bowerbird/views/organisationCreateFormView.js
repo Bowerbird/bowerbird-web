@@ -8,15 +8,22 @@ window.Bowerbird.Views.OrganisationCreateFormView = Backbone.View.extend({
         'click #cancel': '_cancel',
         'click #save': '_save',
         'change input#name': '_contentChanged',
-        'change input#description': '_contentChanged',
+        'change textarea#description': '_contentChanged',
         'change input#website': '_contentChanged'
     },
 
     initialize: function (options) {
         _.extend(this, Backbone.Events);
+        _.bindAll(this,
+        'render',
+        'start',
+        '_cancel',
+        '_contentChanged',
+        '_save'
+        );
         this.appView = options.appView;
         this.organisation = options.organisation;
-        this.editAvatarView = new Bowerbird.Views.EditAvatarView({ el: $('#media-resources-fieldset'), observation: this.observation });
+        this.editAvatarView = new Bowerbird.Views.EditAvatarView({ el: $('#media-resources-fieldset'), group: this.observation });
     },
 
     render: function () {
@@ -27,13 +34,14 @@ window.Bowerbird.Views.OrganisationCreateFormView = Backbone.View.extend({
     },
 
     start: function () {
+        this.editAvatarView.render();
         //var myScroll = new iScroll('media-uploader', { hScroll: true, vScroll: false });
     },
 
     _cancel: function () {
         app.set('newOrganisation', null);
-        this.remove();
         app.appRouter.navigate(app.stream.get('uri'), { trigger: true });
+        this.trigger('formClosed', this);
     },
 
     _contentChanged: function (e) {
@@ -44,9 +52,8 @@ window.Bowerbird.Views.OrganisationCreateFormView = Backbone.View.extend({
     },
 
     _save: function () {
-        //alert('Coming soon');
         this.organisation.save();
-        //this.remove();
-        //app.appRouter.navigate(app.stream.get('uri'), { trigger: true });
+        app.appRouter.navigate(app.stream.get('uri'), { trigger: false });
+        this.trigger('formClosed', this);
     }
 });

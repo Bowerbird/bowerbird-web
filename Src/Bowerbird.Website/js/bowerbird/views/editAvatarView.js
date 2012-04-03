@@ -2,17 +2,23 @@
 window.Bowerbird.Views.EditAvatarView = Backbone.View.extend({
     id: 'avatar-fieldset',
 
+    events: {
+        'click .remove-media-resource-button': 'removeMediaResource'
+    },
+
     initialize: function (options) {
         _.extend(this, Backbone.Events);
         _.bindAll(this,
+        'render',
         '_initMediaUploader',
         '_onUploadDone',
         '_onSubmitUpload',
         '_onUploadAdd'
         );
-        this.mediaResourceItemViews = [];
-        this.observation = options.observation;
+        this.avatarItemViews = [];
+        this.group = options.group;
         this.currentUploadKey = 0;
+        this.avatarItemView = null;
     },
 
     render: function () {
@@ -27,7 +33,8 @@ window.Bowerbird.Views.EditAvatarView = Backbone.View.extend({
             url: '/members/mediaresource/avatarupload',
             add: this._onUploadAd,
             submit: this._onSubmitUpload,
-            done: this._onUploadDone
+            done: this._onUploadDone,
+            limitConcurrentUploads: 1
         });
     },
 
@@ -37,9 +44,10 @@ window.Bowerbird.Views.EditAvatarView = Backbone.View.extend({
             if (file != null) {
                 self.currentUploadKey++;
                 var mediaResource = new Bowerbird.Models.MediaResource({ key: self.currentUploadKey });
-                self.observation.addMediaResources.add(mediaResource);
-                var mediaResourceItemView = new Bowerbird.Views.MediaResourceItemView({ mediaResource: mediaResource });
-                self.mediaResourceItemViews.push(mediaResourceItemView);
+                self.group.set('avatar', mediaResource);
+//                self.observation.addMediaResources.add(mediaResource);
+//                var mediaResourceItemView = new Bowerbird.Views.MediaResourceItemView({ mediaResource: mediaResource });
+//                self.mediaResourceItemViews.push(mediaResourceItemView);
                 $('#media-resource-add-pane').before(mediaResourceItemView.render().el);
                 loadImage(
                     data.files[0],
@@ -63,10 +71,24 @@ window.Bowerbird.Views.EditAvatarView = Backbone.View.extend({
     },
 
     _onUploadDone: function (e, data) {
-//        var mediaResource = _.find(this.observation.allMediaResources(), function (item) {
-//            return item.get('key') == data.result.key;
-//        });
-        mediaResource.set(data.result);
-        //$('#media-resource-items').animate({ scrollLeft: 100000 });
+        var self = this;
+        this.group.set('avatar', data.result);
+        this.currentUploadKey++;
+        var mediaResource = new Bowerbird.Models.MediaResource({ key: self.currentUploadKey });
+        this.avatarItemView = new Bowerbird.Views.AvatarItemView({ mediaResource: mediaResource });
+        $('#avatar-uploader').find('.media-resource-uploaded').remove();
+        $('#media-resource-add-pane').before(this.avatarItemView.render().el);
+        loadImage(
+            data.files[0],
+            function (img) {
+                if (img instanceof HTMLImageElement) { // FF seems to fire this handler twice, on second time returning error, which we ignore :(
+                    self.avatarItemView.showTempMedia(img);
+                    $('#media-resource-items').animate({ scrollLeft: 100000 });
+                }
+            },
+            {
+                maxHeight: 220
+            }
+        );
     }
 });
