@@ -54,16 +54,17 @@ namespace Bowerbird.Core.CommandHandlers
             Check.RequireNotNull(command, "command");
 
             var group = _documentSession
-                .Query<Group, All_Groups>()
+                .Query<All_Groups.Result, All_Groups>()
+                .AsProjection<All_Groups.Result>()
                 .Where(x => x.Id == command.GroupId)
                 .FirstOrDefault();
-
+            
             if (group != null)
             {
                 var groupChatSession = new GroupChatSession(
                    _documentSession.Load<User>(command.UserId),
                    command.ClientId,
-                   group
+                   group.Id
                 );
 
                 _documentSession.Store(groupChatSession);

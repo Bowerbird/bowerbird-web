@@ -12,10 +12,6 @@
  
 */
 
-using System;
-using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.DomainModels.DenormalisedReferences;
-
 namespace Bowerbird.Core.DomainModels.Sessions
 {
     public class GroupChatSession : Session
@@ -33,13 +29,11 @@ namespace Bowerbird.Core.DomainModels.Sessions
         public GroupChatSession(
             User user,
             string clientId,
-            Group group
+            string groupId
             )
             : base ( user, clientId)
         {
-            Check.RequireNotNull(group, "group");
-
-            GroupId = group.Id;
+            GroupId = groupId;
         }
 
         #endregion
