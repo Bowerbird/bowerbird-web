@@ -147,17 +147,20 @@ namespace Bowerbird.Web.Controllers.Members
         {
             object item = null;
             string description = null;
+            IEnumerable<string> groups = null;
 
             switch (groupContributionResult.ContributionType)
             {
                 case "Observation":
                     item = _observationViewFactory.Make(groupContributionResult.Observation);
                     description = groupContributionResult.Observation.User.FirstName + " added an observation";
+                    groups = groupContributionResult.Observation.Groups.Select(x => x.GroupId);
                     break;
             }
 
             return _streamItemFactory.Make(
                 item,
+                groups,
                 "observation",
                 groupContributionResult.GroupUserId,
                 groupContributionResult.GroupCreatedDateTime,

@@ -74,6 +74,7 @@ namespace Bowerbird.Web.EventHandlers
             {
                 var streamItem = _streamItemFactory.Make(
                     _observationViewFactory.Make(@event.DomainModel),
+                    @event.DomainModel.Groups.Select(x => x.GroupId),
                     "observation",
                     observationGroup.User.Id,
                     observationGroup.CreatedDateTime,
@@ -84,11 +85,12 @@ namespace Bowerbird.Web.EventHandlers
                     Action = "observationaddedtogroup",
                     OccurredOn = DateTime.Now,
                     UserId = @event.CreatedByUser,
-                    Model = streamItem,
-                    Groups = @event.DomainModel.Groups.Select(x => x.GroupId)
+                    Model = streamItem
                 };
 
-                _notificationProcessor.Notify(notification, (client, n) => client.observationAddedToGroup(n));
+                _notificationProcessor.Notify(notification, @event.DomainModel.Groups.Select(x => x.GroupId), (client, n) => client.newNotification(n));
+
+                _notificationProcessor.Notify(streamItem, @event.DomainModel.Groups.Select(x => x.GroupId), (client, s) => client.newStreamItem(s));
             }
         }
 

@@ -40,7 +40,7 @@ window.Bowerbird.Views.OrganisationCreateFormView = Backbone.View.extend({
 
     _cancel: function () {
         app.set('newOrganisation', null);
-        app.appRouter.navigate(app.stream.get('uri'), { trigger: true });
+        app.appRouter.navigate(app.stream.get('uri'), { trigger: false });
         this.trigger('formClosed', this);
     },
 

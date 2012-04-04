@@ -15,7 +15,7 @@ window.Bowerbird.App = Backbone.Model.extend({
         this.projects = new Bowerbird.Collections.Projects();
         this.stream = new Bowerbird.Models.Stream();
         this.chats = new Bowerbird.Collections.Chats();
-        this.users = new Bowerbird.Collections.Users();
+        this.onlineUsers = new Bowerbird.Collections.Users();
         this.notifications = new Bowerbird.Collections.Notifications();
 
         window.app = this;
@@ -34,7 +34,7 @@ window.Bowerbird.App = Backbone.Model.extend({
         // Populate with bootstrapped data
         this.teams.reset(teams);
         this.projects.reset(projects);
-        this.users.reset(users);
+        this.onlineUsers.reset(users);
 
         // Start URL and history routing
         Backbone.history.start({ pushState: false });

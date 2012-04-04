@@ -62,14 +62,15 @@ namespace Bowerbird.Web.Notifications
 
         #region Methods
 
-        public void Notify(Notification notification, Action<dynamic, Notification> callClient)
+        public void Notify<T>(T model, IEnumerable<string> groups, Action<dynamic, T> callClient)
         {
-            Check.RequireNotNull(notification, "notification");
+            Check.RequireNotNull(model, "model");
+            Check.RequireNotNull(callClient, "callClient");
 
             // Get the user client ids for the members of the given groups, who are currently logged in
             var userIds = _documentSession
                 .Query<Member>()
-                .Where(x => x.Group.Id.In(notification.Groups))
+                .Where(x => x.Group.Id.In(groups))
                 .ToList()
                 .Select(x => x.User.Id);
 
@@ -82,13 +83,9 @@ namespace Bowerbird.Web.Notifications
             // Call each client id with notification
             var clients = AspNetHost.DependencyResolver.Resolve<IConnectionManager>().GetClients<NotificationHub>();
 
-            //var serializerSettings = new JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver() };
-            //var json = JsonConvert.SerializeObject(notification, Formatting.None, serializerSettings);
-
             foreach (var clientId in connectedIds)
             {
-                //callClient(clients[clientId], json);
-                callClient(clients[clientId], notification);
+                callClient(clients[clientId], model);
             }
         }
 

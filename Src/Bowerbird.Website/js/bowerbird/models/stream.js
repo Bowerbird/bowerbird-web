@@ -12,9 +12,9 @@ window.Bowerbird.Models.Stream = Backbone.Model.extend({
         this.streamItems = new Bowerbird.Collections.StreamItems();
     },
 
-    setNewStream: function (context, filter) {
-        this.set('context', context);
-        this.set('filter', filter);
+    setNewStream: function (streamContext, streamFilter) {
+        this.set('context', streamContext);
+        this.set('filter', streamFilter);
         var uri = '';
         if (this.has('context')) {
             uri = this.get('context').get('id');
@@ -39,5 +39,24 @@ window.Bowerbird.Models.Stream = Backbone.Model.extend({
         this.trigger('newStreamPage', this);
         this.trigger('fetchingItemsStarted', this);
         this.streamItems.fetchNextPage(this);
+    },
+
+    // Add stream items manually into stream (used by notification router)
+    addStreamItem: function (streamItem) {
+        var add = false;
+        // Determine if user is currently viewing a relevant stream
+        if (this.get('context') == null) {
+            // Home stream
+            add = true;
+        } else {
+            // Group stream
+            var self = this;
+            add = _.any(streamItem.groups, function (groupId) {
+                return groupId === self.get('context').get('id');
+            });
+        }
+        if (add) {
+            this.streamItems.add(streamItem);
+        }
     }
 });

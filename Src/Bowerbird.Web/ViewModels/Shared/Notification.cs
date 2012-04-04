@@ -42,9 +42,6 @@ namespace Bowerbird.Web.ViewModels.Shared
         [JsonProperty("action")]
         public string Action { get; set; }
 
-        [JsonProperty("groups")]
-        public IEnumerable<string> Groups { get; set; }
-
         [JsonProperty("model")]
         public object Model { get; set; }
 

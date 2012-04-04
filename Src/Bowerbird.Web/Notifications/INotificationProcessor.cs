@@ -22,6 +22,6 @@ namespace Bowerbird.Web.Notifications
 {
     public interface INotificationProcessor
     {
-        void Notify(Notification notification, Action<dynamic, Notification> callClient);
+        void Notify<T>(T model, IEnumerable<string> groups, Action<dynamic, T> callClient);
     }
 }

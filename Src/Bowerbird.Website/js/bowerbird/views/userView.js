@@ -16,13 +16,13 @@ window.Bowerbird.Views.UserView = Backbone.View.extend({
         'generateGuid'
         );
         this.fullView = false;
-        app.users.on('add', this.render, this);
-        app.users.on('remove', this.render, this);
-        app.users.on('reset', this.render, this);
+        app.onlineUsers.on('add', this.render, this);
+        app.onlineUsers.on('remove', this.render, this);
+        app.onlineUsers.on('reset', this.render, this);
     },
 
     render: function () {
-        var usersTemplate = ich.usersonline({ count: app.users.length, users: app.users.toJSON() });
+        var usersTemplate = ich.usersonline({ count: app.onlineUsers.length, users: app.onlineUsers.toJSON() });
         this.$el.empty();
         this.$el.append(usersTemplate);
         return this;
@@ -39,7 +39,7 @@ window.Bowerbird.Views.UserView = Backbone.View.extend({
     },
 
 //    change: function () {
-//        var usersTemplate = ich.usersonline({ count: app.users.length, users: app.users.toJSON() });
+    //        var usersTemplate = ich.usersonline({ count: app.onlineUsers.length, users: app.onlineUsers.toJSON() });
 //        this.$el.empty();
 //        this.$el.append(usersTemplate);
 //    },
@@ -47,7 +47,7 @@ window.Bowerbird.Views.UserView = Backbone.View.extend({
     startChat: function (e) {
         // call can come from a user's chat-icon
         var id = e.target["id"].split('-')[1];
-        var user = app.users.get(id);
+        var user = app.onlineUsers.get(id);
         var chatId = this.generateGuid();
         var chat = new Bowerbird.Models.UserChat({ id: chatId, user: user });
         app.chats.add(chat);

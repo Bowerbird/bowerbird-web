@@ -8,7 +8,8 @@ window.Bowerbird.NotificationRouter = Backbone.Model.extend({
         this.notificationHub = $.connection.notificationHub;
         this.notificationHub.userStatusUpdate = this.userStatusUpdate;
 
-        this.notificationHub.observationAddedToGroup = this.observationAddedToGroup;
+        this.notificationHub.newNotification = this.newNotification;
+        this.notificationHub.newStreamItem = this.newStreamItem;
 
         this.initHubConnection(options.userId);
         log('ActivityRouter.Initialize');
@@ -32,38 +33,16 @@ window.Bowerbird.NotificationRouter = Backbone.Model.extend({
     },
 
     userStatusUpdate: function (data) {
-        var user = app.users.get(data.id);
-        if (_.isNull(user) || _.isUndefined(user)) {
-            if (data.status == 2 || data.status == 3 || data.status == 'undefined') return;
-            user = new Bowerbird.Models.User(data);
-            app.users.add(user);
-            log('app.userStatusUpdate: ' + data.name + ' logged in');
-        } else {
-            if (data.status == 2 || data.status == 3) {
-                app.users.remove(user);
-                log('app.userStatusUpdate: ' + data.name + ' logged out');
-            }
-            else {
-                user.set('status', data.status);
-                log('app.userStatusUpdate: ' + data.name + ' udpated their status');
-            }
-        }
+        app.onlineUsers.updateUserStatus(data);
     },
 
     // FROM HUB-------------------------------------
 
-    observationAddedToGroup: function (data) {
+    newNotification: function (data) {
         app.notifications.add(data);
-        var addStreamItem = false;
-        if (app.stream.get('context') == null) {
-            addStreamItem = true;
-        } else {
-            addStreamItem = _.any(data.groups, function (groupId) {
-                return groupId === app.stream.get('context').get('id');
-            });
-        }
-        if (addStreamItem) {
-            app.stream.streamItems.add(data.model);
-        }
+    },
+
+    newStreamItem: function (streamItem) {
+        app.stream.addStreamItem(streamItem);
     }
 });

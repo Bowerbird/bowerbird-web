@@ -14,6 +14,7 @@
 
 using System;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Bowerbird.Web.ViewModels.Shared
 {
@@ -47,6 +48,9 @@ namespace Bowerbird.Web.ViewModels.Shared
         [JsonProperty("description")]
         public string Description { get; set; }
 
+        [JsonProperty("groups")]
+        public IEnumerable<string> Groups { get; set; }
+        
         #endregion
 
         #region Methods

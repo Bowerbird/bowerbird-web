@@ -24,7 +24,7 @@ namespace Bowerbird.Web.Factories
 
         #region Methods
 
-        public StreamItem Make(object item, string contributionType, string groupUserId, DateTime groupCreatedDateTime, string description)
+        public StreamItem Make(object item, IEnumerable<string> groups, string contributionType, string groupUserId, DateTime groupCreatedDateTime, string description)
         {
             return new StreamItem()
             {
@@ -33,7 +33,8 @@ namespace Bowerbird.Web.Factories
                 Type = contributionType.ToLower(),
                 User = groupUserId,
                 Item = item,
-                Description = description
+                Description = description,
+                Groups = groups
             };
         }
 

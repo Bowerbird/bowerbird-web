@@ -39,14 +39,17 @@ window.Bowerbird.Views.AppView = Backbone.View.extend({
     },
 
     showStreamView: function () {
-        if (this.streamView == null) {
-            this.streamView = new Bowerbird.Views.StreamView();
-            this.$el.append(this.streamView.render().el);
-        }
         if (this.formView) {
             $(this.formView.el).remove();
         }
-        $(this.streamView.el).show();
+        if (this.streamView == null) {
+            this.streamView = new Bowerbird.Views.StreamView();
+            this.$el.append(this.streamView.render().el);
+            $(this.streamView.el).show();
+            app.stream.setNewStream(null, 'all');
+        } else {
+            $(this.streamView.el).show();
+        }
         window.scrollTo(0, 0);
     },
 
@@ -71,6 +74,7 @@ window.Bowerbird.Views.AppView = Backbone.View.extend({
             $(this.streamView.el).hide();
             this.formView = new Bowerbird.Views.ProjectCreateFormView({ appView: this, project: app.get('newProject') });
             this.$el.append(this.formView.render().el);
+            this.formView.on('formClosed', this.showStreamView, this);
             this.formView.start();
         }
     },
@@ -80,6 +84,7 @@ window.Bowerbird.Views.AppView = Backbone.View.extend({
             $(this.streamView.el).hide();
             this.formView = new Bowerbird.Views.TeamCreateFormView({ appView: this, team: app.get('newTeam') });
             this.$el.append(this.formView.render().el);
+            this.formView.on('formClosed', this.showStreamView, this);
             this.formView.start();
         }
     },
@@ -89,6 +94,7 @@ window.Bowerbird.Views.AppView = Backbone.View.extend({
             $(this.streamView.el).hide();
             this.formView = new Bowerbird.Views.OrganisationCreateFormView({ appView: this, organisation: app.get('newOrganisation') });
             this.$el.append(this.formView.render().el);
+            this.formView.on('formClosed', this.showStreamView, this);
             this.formView.start();
         }
     },
