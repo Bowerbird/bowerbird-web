@@ -12,12 +12,15 @@
  
 */
 
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Paging;
+using Bowerbird.Core.Queries;
 using Bowerbird.Core.Services;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.ViewModels.Members;
@@ -37,6 +40,7 @@ namespace Bowerbird.Web.Controllers.Members
         private readonly IDocumentSession _documentSession;
         private readonly IMediaFilePathService _mediaFilePathService;
         private readonly IConfigService _configService;
+        private readonly IUsersGroupsHavingPermissionQuery _usersGroupsHavingPermissionQuery;
 
         #endregion
 
@@ -47,18 +51,21 @@ namespace Bowerbird.Web.Controllers.Members
             IUserContext userContext,
             IDocumentSession documentSession,
             IMediaFilePathService mediaFilePathService,
+            IUsersGroupsHavingPermissionQuery usersGroupsHavingPermissionQuery,
             IConfigService configService)
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(mediaFilePathService, "mediaFilePathService");
+            Check.RequireNotNull(usersGroupsHavingPermissionQuery, "usersGroupsHavingPermissionQuery");
             Check.RequireNotNull(configService, "configService");
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
             _documentSession = documentSession;
             _mediaFilePathService = mediaFilePathService;
+            _usersGroupsHavingPermissionQuery = usersGroupsHavingPermissionQuery;
             _configService = configService;
         }
 
@@ -82,9 +89,19 @@ namespace Bowerbird.Web.Controllers.Members
         }
 
         [HttpGet]
-        public ActionResult List(OrganisationListInput organisationListInput)
+        public ActionResult List(OrganisationListInput listInput)
         {
-            return Json(MakeOrganisationList(organisationListInput), JsonRequestBehavior.AllowGet);
+            if (User.Identity.IsAuthenticated && listInput.HasAddTeamPermission)
+            {
+                return Json(GetGroupsHavingAddTeamPermission(), JsonRequestBehavior.AllowGet);
+            }
+
+            //if (User.Identity.IsAuthenticated)
+            //{
+            //    return Json(MakeOrganisationListByMembership(listInput), JsonRequestBehavior.AllowGet);
+            //}
+
+            return Json(MakeOrganisationList(listInput), JsonRequestBehavior.AllowGet);
         }
 
         [Transaction]
@@ -192,6 +209,29 @@ namespace Bowerbird.Web.Controllers.Members
                     stats.TotalResults,
                     null)
             };
+        }
+
+        private List<OrganisationView> GetGroupsHavingAddTeamPermission()
+        {
+            var loggedInUserId = _userContext.GetAuthenticatedUserId();
+
+            return _documentSession
+                .Query<All_Groups.Result, All_Groups>()
+                .AsProjection<All_Groups.Result>()
+                .Where(x =>
+                    x.Id.In(_usersGroupsHavingPermissionQuery.GetUsersGroupsHavingPermission(loggedInUserId, "createteam")) &&
+                    x.GroupType == "organisation"
+                )
+                .ToList()
+                .Select(x => new OrganisationView()
+                {
+                    Id = x.Id,
+                    Description = x.Organisation.Description,
+                    Name = x.Organisation.Name,
+                    Website = x.Organisation.Website,
+                    Avatar = GetAvatar(x.Organisation)
+                })
+                .ToList();
         }
 
         private Avatar GetAvatar(Organisation organisation)

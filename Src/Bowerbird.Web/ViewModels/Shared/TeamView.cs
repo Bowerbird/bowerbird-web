@@ -12,18 +12,41 @@
  
 */
 
+using Newtonsoft.Json;
+
 namespace Bowerbird.Web.ViewModels.Shared
 {
     public class TeamView
     {
+        #region Fields
+
+        #endregion
+
+        #region Constructors
+
+        #endregion
+
+        #region Properties
+
+        [JsonProperty("name")]
         public string Name { get; set; }
 
+        [JsonProperty("id")]
         public string Id { get; set; }
 
+        [JsonProperty("description")]
         public string Description { get; set; }
 
+        [JsonProperty("website")]
         public string Website { get; set; }
 
+        [JsonProperty("avatar")]
         public Avatar Avatar { get; set; }
+
+        #endregion
+
+        #region Methods
+
+        #endregion
     }
 }

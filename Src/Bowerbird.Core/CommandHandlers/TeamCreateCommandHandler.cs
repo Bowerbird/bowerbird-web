@@ -18,7 +18,6 @@ using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Raven.Client;
 using System;
-using Bowerbird.Core.Config;
 using Raven.Client.Linq;
 
 namespace Bowerbird.Core.CommandHandlers
@@ -57,7 +56,7 @@ namespace Bowerbird.Core.CommandHandlers
                 _documentSession.Load<User>(command.UserId), 
                 command.Name, 
                 command.Description, 
-                command.Website, 
+                command.Website,
                 command.AvatarId != null ? _documentSession.Load<MediaResource>(command.AvatarId) : null,
                 DateTime.Now);
 
@@ -69,11 +68,23 @@ namespace Bowerbird.Core.CommandHandlers
                 team,
                 _documentSession
                     .Query<Role>()
-                    .Where(x => x.Name.Equals("teamadministrator") || x.Name.Equals("teammember"))
+                    .Where(x => x.Id.Equals("roles/teamadministrator") || x.Id.Equals("roles/teammember"))
                     .ToList()
                 );
 
             _documentSession.Store(teamAdministrator);
+
+            if (!string.IsNullOrEmpty(command.OrganisationId))
+            {
+                var groupAssociation = new GroupAssociation(
+                    _documentSession.Load<Organisation>(command.OrganisationId),
+                    team,
+                    _documentSession.Load<User>(command.UserId),
+                    DateTime.UtcNow
+                    );
+
+                _documentSession.Store(groupAssociation);
+            }
         }
 
         #endregion

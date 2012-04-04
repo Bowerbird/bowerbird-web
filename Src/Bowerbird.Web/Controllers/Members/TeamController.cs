@@ -22,6 +22,7 @@ using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Extensions;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Paging;
+using Bowerbird.Core.Queries;
 using Bowerbird.Core.Services;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.ViewModels.Members;
@@ -38,9 +39,10 @@ namespace Bowerbird.Web.Controllers.Members
 
         private readonly ICommandProcessor _commandProcessor;
         private readonly IUserContext _userContext;
-        protected readonly IDocumentSession _documentSession;
+        private readonly IDocumentSession _documentSession;
         private readonly IMediaFilePathService _mediaFilePathService;
         private readonly IConfigService _configService;
+        private readonly IUsersGroupsHavingPermissionQuery _usersGroupsHavingPermissionQuery;
 
         #endregion
 
@@ -51,12 +53,14 @@ namespace Bowerbird.Web.Controllers.Members
             IUserContext userContext,
             IDocumentSession documentSession,
             IMediaFilePathService mediaFilePathService,
+            IUsersGroupsHavingPermissionQuery usersGroupsHavingPermissionQuery,
             IConfigService configService)
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(mediaFilePathService, "mediaFilePathService");
+            Check.RequireNotNull(usersGroupsHavingPermissionQuery, "usersGroupsHavingPermissionQuery");
             Check.RequireNotNull(configService, "configService");
 
             _commandProcessor = commandProcessor;
@@ -64,6 +68,7 @@ namespace Bowerbird.Web.Controllers.Members
             _documentSession = documentSession;
             _mediaFilePathService = mediaFilePathService;
             _configService = configService;
+            _usersGroupsHavingPermissionQuery = usersGroupsHavingPermissionQuery;
         }
 
         #endregion
@@ -77,17 +82,19 @@ namespace Bowerbird.Web.Controllers.Members
         [HttpGet]
         public ActionResult List(TeamListInput listInput)
         {
-            //if (listInput.OrganisationId != null)
-            //{
-            //    return Json(MakeTeamListByOrganisationId(listInput), JsonRequestBehavior.AllowGet);
-            //}
-            if (listInput.UserId != null)
+            if (User.Identity.IsAuthenticated && listInput.HasAddProjectPermission)
             {
-                return Json(MakeTeamListByMembership(listInput), JsonRequestBehavior.AllowGet);
+                return new JsonNetResult(GetGroupsHavingAddProjectPermission());
             }
 
-            return Json(MakeTeamList(listInput), JsonRequestBehavior.AllowGet);
+            if (User.Identity.IsAuthenticated)
+            {
+                return new JsonNetResult(MakeTeamListByMembership(listInput));
+            }
+
+            return new JsonNetResult(MakeTeamList(listInput));
         }
+
 
         [HttpGet]
         public ActionResult Index(IdInput idInput)
@@ -312,6 +319,29 @@ namespace Bowerbird.Web.Controllers.Members
         //    };
         //}
 
+        private List<TeamView> GetGroupsHavingAddProjectPermission()
+        {
+            var loggedInUserId = _userContext.GetAuthenticatedUserId();
+
+            return _documentSession
+                .Query<All_Groups.Result, All_Groups>()
+                .AsProjection<All_Groups.Result>()
+                .Where(x => 
+                    x.Id.In(_usersGroupsHavingPermissionQuery.GetUsersGroupsHavingPermission(loggedInUserId, "createproject")) &&
+                    x.GroupType == "team"
+                )
+                .ToList()
+                .Select(x => new TeamView()
+                {
+                    Id = x.Id,
+                    Description = x.Team.Description,
+                    Name = x.Team.Name,
+                    Website = x.Team.Website,
+                    Avatar = GetAvatar(x.Team)
+                })
+                .ToList();
+        }
+
         private TeamList MakeTeamListByMembership(TeamListInput listInput)
         {
             RavenQueryStatistics stats;
@@ -319,7 +349,8 @@ namespace Bowerbird.Web.Controllers.Members
             var memberships = _documentSession
                 .Query<Member>()
                 .Include(x => x.User.Id)
-                .Where(x => x.User.Id == listInput.UserId);
+                .Where(x => x.User.Id == listInput.UserId)
+                .ToList();
 
             var results = _documentSession
                 .Query<Team>()

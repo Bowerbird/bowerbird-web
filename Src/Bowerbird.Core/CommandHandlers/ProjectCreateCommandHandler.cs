@@ -14,6 +14,7 @@
 
 using System.Linq;
 using Bowerbird.Core.Commands;
+using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Raven.Client;
@@ -68,11 +69,30 @@ namespace Bowerbird.Core.CommandHandlers
                 project,
                 _documentSession
                     .Query<Role>()
-                    .Where(x => x.Name.Equals("projectadministrator") || x.Name.Equals("projectmember"))
+                    .Where(x => x.Id.Equals("roles/projectadministrator") || x.Id.Equals("roles/projectmember"))
                     .ToList()
                 );
 
             _documentSession.Store(projectAdministrator);
+
+            Group parentGroup = null;
+            if (string.IsNullOrEmpty(command.TeamId))
+            {
+                parentGroup = _documentSession.Load<AppRoot>(Constants.AppRootId);
+            }
+            else
+            {
+                parentGroup = _documentSession.Load<Team>(command.TeamId);
+            }
+
+            var groupAssociation = new GroupAssociation(
+                parentGroup,
+                project,
+                _documentSession.Load<User>(command.UserId),
+                DateTime.UtcNow
+                );
+
+            _documentSession.Store(groupAssociation);
         }
 
         #endregion

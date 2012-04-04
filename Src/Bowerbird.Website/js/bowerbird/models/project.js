@@ -6,7 +6,8 @@ window.Bowerbird.Models.Project = Backbone.Model.extend({
         name: '',
         description: '',
         website: '',
-        avatar: ''
+        avatar: '',
+        team: ''
     },
 
     initialize: function (options) {
@@ -20,7 +21,8 @@ window.Bowerbird.Models.Project = Backbone.Model.extend({
             name: this.get('name'),
             description: this.get('description'),
             website: this.get('website'),
-            avatar: this.get('avatar').id
+            avatar: this.get('avatar').id,
+            team: this.get('team')
         };
     },
 

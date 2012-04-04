@@ -30,6 +30,8 @@ namespace Bowerbird.Web.ViewModels.Shared
 
         public int PageSize { get; set; }
 
+        public bool HasAddTeamPermission { get; set; }
+
         #endregion
 
         #region Methods

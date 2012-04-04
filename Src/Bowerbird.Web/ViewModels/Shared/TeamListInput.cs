@@ -1,6 +1,4 @@
-﻿/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -18,7 +16,6 @@ namespace Bowerbird.Web.ViewModels.Members
 {
     public class TeamListInput
     {
-
         #region Members
 
         #endregion
@@ -37,11 +34,12 @@ namespace Bowerbird.Web.ViewModels.Members
 
         public int PageSize { get; set; }
 
+        public bool HasAddProjectPermission { get; set; }
+
         #endregion
 
         #region Methods
 
         #endregion
-
     }
 }

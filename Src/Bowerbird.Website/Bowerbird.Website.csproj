@@ -178,6 +178,7 @@
     <Content Include="img\wavecut.png" />
     <Content Include="img\whitey.png" />
     <Content Include="img\white_texture.png" />
+    <Content Include="js\bowerbird\collections\organisations.js" />
     <Content Include="js\bowerbird\notificationRouter.js" />
     <Content Include="js\bowerbird\app.js" />
     <Content Include="js\bowerbird\chatRouter.js" />

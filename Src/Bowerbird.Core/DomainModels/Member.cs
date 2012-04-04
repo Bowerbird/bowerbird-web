@@ -27,7 +27,7 @@ namespace Bowerbird.Core.DomainModels
         #region Members
 
         [JsonIgnore]
-        private List<DenormalisedNamedDomainModelReference<Role>> _roles;
+        private List<DenormalisedRoleReference> _roles;
 
         #endregion
 
@@ -48,11 +48,11 @@ namespace Bowerbird.Core.DomainModels
         {
             Check.RequireNotNull(user, "user");
             Check.RequireNotNull(group, "group");
-            Check.RequireNotNull(roles, "roles");
+            Check.Require(roles != null && roles.ToList().Count > 0, "role collection must be not null and contain role items");
 
             User = user;
             Group = group;
-            Roles = roles.Select(x => (DenormalisedNamedDomainModelReference<Role>)x).ToList();
+            Roles = roles.Select(x => (DenormalisedRoleReference)x).ToList();
 
             EventProcessor.Raise(new DomainModelCreatedEvent<Member>(this, createdByUser.Id));
         }
@@ -65,10 +65,10 @@ namespace Bowerbird.Core.DomainModels
 
         public DenormalisedNamedDomainModelReference<Group> Group { get; private set; }
 
-        public IEnumerable<DenormalisedNamedDomainModelReference<Role>> Roles 
+        public IEnumerable<DenormalisedRoleReference> Roles 
         {
             get { return _roles; }
-            private set { _roles = new List<DenormalisedNamedDomainModelReference<Role>>(value); }
+            private set { _roles = new List<DenormalisedRoleReference>(value); }
         }
 
         #endregion
@@ -77,7 +77,7 @@ namespace Bowerbird.Core.DomainModels
 
         private void InitMembers()
         {
-            _roles = new List<DenormalisedNamedDomainModelReference<Role>>();
+            _roles = new List<DenormalisedRoleReference>();
         }
 
         public Member AddRole(Role role)
@@ -92,7 +92,7 @@ namespace Bowerbird.Core.DomainModels
         /// <summary>
         /// Used by private User member to insert already denormalised roles
         /// </summary>
-        internal Member AddRoles(IEnumerable<DenormalisedNamedDomainModelReference<Role>> roles)
+        internal Member AddRoles(IEnumerable<DenormalisedRoleReference> roles)
         {
             Check.RequireNotNull(roles, "roles");
 
@@ -111,7 +111,7 @@ namespace Bowerbird.Core.DomainModels
             return this;
         }
 
-        private void SetRole(DenormalisedNamedDomainModelReference<Role> role)
+        private void SetRole(DenormalisedRoleReference role)
         {
             if (_roles.All(x => x.Id != role.Id))
             {

@@ -34,7 +34,38 @@ window.Bowerbird.Views.TeamCreateFormView = Backbone.View.extend({
 
     start: function () {
         this.editAvatarView.render();
-        //var myScroll = new iScroll('media-uploader', { hScroll: true, vScroll: false });
+        var organisationsAdministered = new Bowerbird.Collections.Teams();
+        $.getJSON('organisation/list?HasAddTeamPermission=true', function (data) {
+            organisationsAdministered.reset(data);
+            if (organisationsAdministered.length > 0) {
+                $.tmpl('<option value="${id}">${name}</option>', organisationsAdministered).appendTo('#organisations');
+                this.organisationListSelectView = $("#organisations").multiSelect({
+                    selectAll: false,
+                    singleSelect: true,
+                    noneSelected: 'Select Team',
+                    renderOption: function (id, option) {
+                        var html = '<label><input style="display:none;" type="checkbox" name="' + id + '[]" value="' + option.value + '"';
+                        if (option.selected) {
+                            html += ' checked="checked"';
+                        }
+                        var selectedTeam = organisationsAdministered.get(option.value);
+                        html += ' /><img src="' + selectedTeam.get('avatar').get('urlToImage') + '" />' + selectedTeam.get('name') + '</label>';
+                        return html;
+                    },
+                    oneOrMoreSelected: function (selectedOptions) {
+                        var selectedTeam = teams.get(option.value);
+                        var $selectedHtml = $('<span />');
+                        _.each(selectedOptions, function (option) {
+                            $selectedHtml.append('<span><img src="' + selectedTeam.get('avatar').get('urlToImage') + '" />' + selectedTeam.get('name') + '</span> ');
+                        });
+                        return $selectedHtml;
+                    }
+                });
+            }
+            else {
+                $('#organisation-field').remove();
+            }
+        });
     },
 
     _cancel: function () {

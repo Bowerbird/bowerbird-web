@@ -1520,6 +1520,16 @@ header nav#search-menu
     width: 50%;
     clear: none;
 }
+.form #teams-field
+{
+    width: 50%;
+    clear: none;
+}
+.form #organisations-field
+{
+    width: 50%;
+    clear: none;
+}
 .ui-autocomplete
 {
 	background-color: #FFFFFF;
@@ -1826,6 +1836,8 @@ a.multiSelect:focus
     padding: 0 13px 0 0;
 }
 #projects-field,
+#teams-field,
+#organisations-field,
 #category-field
 {
     padding-right: 51px;    
@@ -1835,6 +1847,14 @@ a.multiSelect:focus
     padding-right: 15px;
 }
 .form #projects-field > div:last-child 
+{
+    padding-right: 15px;
+}
+.form #teams-field > div:last-child 
+{
+    padding-right: 15px;
+}
+.form #organisations-field > div:last-child 
 {
     padding-right: 15px;
 }

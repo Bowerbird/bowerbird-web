@@ -179,6 +179,7 @@
     <Compile Include="DomainModels\BaseObject.cs" />
     <Compile Include="DomainModels\BaseObjectEqualityComparer.cs" />
     <Compile Include="DomainModels\CommentsComponent.cs" />
+    <Compile Include="DomainModels\DenormalisedReferences\DenormalisedRoleReference.cs" />
     <Compile Include="DomainModels\GroupAssociation.cs" />
     <Compile Include="DomainModels\DenormalisedReferences\DenormalisedObservationNoteReference.cs" />
     <Compile Include="DomainModels\IContribution.cs" />
@@ -262,6 +263,8 @@
     <Compile Include="Paging\PagedListItem.cs" />
     <Compile Include="Paging\PageNumber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Queries\GetUsersGroupsHavingPermissionQuery.cs" />
+    <Compile Include="Queries\IUsersGroupsHavingPermissionQuery.cs" />
     <Compile Include="Repositories\GroupMemberDocumentSessionExtensions.cs" />
     <Compile Include="Repositories\UserDocumentSessionExtensions.cs" />
     <Compile Include="Services\ConfigService.cs" />
@@ -279,13 +282,6 @@
   <ItemGroup>
     <EmbeddedResource Include="EmailTemplates\RequestPasswordResetEmail.html" />
     <EmbeddedResource Include="EmailTemplates\WelcomeEmail.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Scripts\jquery-1.6.4-vsdoc.js" />
-    <Content Include="Scripts\jquery-1.6.4.js" />
-    <Content Include="Scripts\jquery-1.6.4.min.js" />
-    <Content Include="Scripts\jquery.signalR.js" />
-    <Content Include="Scripts\jquery.signalR.min.js" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
