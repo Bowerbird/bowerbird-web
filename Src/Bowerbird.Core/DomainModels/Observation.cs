@@ -89,6 +89,8 @@ namespace Bowerbird.Core.DomainModels
             {
                 AddMedia(media.Item1, media.Item2, media.Item3);
             }
+
+            CanFireCreatedEvent = true;
         }
 
         #endregion
@@ -154,6 +156,7 @@ namespace Bowerbird.Core.DomainModels
         protected override void FireCreateEvent()
         {
             EventProcessor.Raise(new DomainModelCreatedEvent<Observation>(this, User.Id));
+            base.FireCreateEvent();
         }
 
         private void SetDetails(string title, 
@@ -229,7 +232,7 @@ namespace Bowerbird.Core.DomainModels
 
                 _observationGroups.Add(observationGroup);
 
-                if (IsIdSet())
+                if (CanFireCreatedEvent)
                 {
                     EventProcessor.Raise(new DomainModelCreatedEvent<ObservationGroup>(observationGroup, createdByUser.Id));
                 }

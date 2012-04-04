@@ -165,9 +165,15 @@
     <Compile Include="Config\PermissionChecker.cs" />
     <Compile Include="EventHandlers\NotifyObservationCreatedEventHandler.cs" />
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
+    <Compile Include="Factories\IFactory.cs" />
+    <Compile Include="Factories\IObservationViewFactory.cs" />
+    <Compile Include="Factories\IStreamItemFactory.cs" />
+    <Compile Include="Factories\ObservationViewFactory.cs" />
+    <Compile Include="Factories\StreamItemFactory.cs" />
     <Compile Include="Hubs\ChatHub.cs" />
     <Compile Include="Notifications\INotificationProcessor.cs" />
     <Compile Include="Notifications\NotificationProcessor.cs" />
+    <Compile Include="Queries\IQuery.cs" />
     <Compile Include="Services\HubService.cs" />
     <Compile Include="Services\IHubService.cs" />
     <Compile Include="Validators\ModelStateException.cs" />

@@ -27,6 +27,8 @@ using Raven.Client;
 using Raven.Client.Linq;
 using System.Diagnostics;
 using Bowerbird.Core.Services;
+using Bowerbird.Web.Queries;
+using Bowerbird.Web.Factories;
 
 namespace Bowerbird.Web.Controllers.Members
 {
@@ -36,7 +38,8 @@ namespace Bowerbird.Web.Controllers.Members
 
         private readonly IUserContext _userContext;
         private readonly IDocumentSession _documentSession;
-        private readonly IMediaFilePathService _mediaFilePathService;
+        private readonly IStreamItemFactory _streamItemFactory;
+        private readonly IObservationViewFactory _observationViewFactory;
 
         #endregion
 
@@ -45,15 +48,18 @@ namespace Bowerbird.Web.Controllers.Members
         public StreamItemController(
             IUserContext userContext,
             IDocumentSession documentSession,
-            IMediaFilePathService mediaFilePathService)
+            IStreamItemFactory streamItemFactory,
+            IObservationViewFactory observationViewFactory)
         {
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(documentSession, "documentSession");
-            Check.RequireNotNull(mediaFilePathService, "mediaFilePathService");
+            Check.RequireNotNull(streamItemFactory, "streamItemFactory");
+            Check.RequireNotNull(observationViewFactory, "observationViewFactory");
 
             _userContext = userContext;
             _documentSession = documentSession;
-            _mediaFilePathService = mediaFilePathService;
+            _streamItemFactory = streamItemFactory;
+            _observationViewFactory = observationViewFactory;
         }
 
         #endregion
@@ -96,7 +102,7 @@ namespace Bowerbird.Web.Controllers.Members
                 .Select(x => new { GroupId = x.Group.Id })
                 .ToList();
 
-            var groupContributions = _documentSession
+            return _documentSession
                 .Query<All_GroupContributions.Result, All_GroupContributions>()
                 .AsProjection<All_GroupContributions.Result>()
                 .Statistics(out stats)
@@ -108,8 +114,6 @@ namespace Bowerbird.Web.Controllers.Members
                 .ToList()
                 .Select(MakeStreamItem)
                 .ToPagedList(listInput.Page, listInput.PageSize, stats.TotalResults);
-
-            return groupContributions;
         }
 
         private PagedList<StreamItem> MakeGroupStreamItemList(StreamItemListInput listInput, StreamSortInput sortInput)
@@ -125,7 +129,7 @@ namespace Bowerbird.Web.Controllers.Members
 
             groups.Add(new { GroupId = listInput.GroupId });
 
-            var groupContributions = _documentSession
+            return _documentSession
                 .Query<All_GroupContributions.Result, All_GroupContributions>()
                 .AsProjection<All_GroupContributions.Result>()
                 .Statistics(out stats)
@@ -137,92 +141,27 @@ namespace Bowerbird.Web.Controllers.Members
                 .ToList()
                 .Select(MakeStreamItem)
                 .ToPagedList(listInput.Page, listInput.PageSize, stats.TotalResults);
-
-            return groupContributions;
         }
 
         private StreamItem MakeStreamItem(All_GroupContributions.Result groupContributionResult)
         {
-            var streamItem = new StreamItem()
-                    {
-                        CreatedDateTime = groupContributionResult.CreatedDateTime,
-                        CreatedDateTimeDescription = MakeCreatedDateTimeDescription(groupContributionResult.CreatedDateTime),
-                        Type = groupContributionResult.ContributionType,
-                        User = groupContributionResult.GroupUserId
-                    };
+            object item = null;
+            string description = null;
 
             switch (groupContributionResult.ContributionType)
             {
                 case "Observation":
-                    streamItem.Item = MakeObservationView(groupContributionResult.Observation);
-                    streamItem.Description = groupContributionResult.Observation.User.FirstName + " added an observation";
+                    item = _observationViewFactory.Make(groupContributionResult.Observation);
+                    description = groupContributionResult.Observation.User.FirstName + " added an observation";
                     break;
             }
 
-            return streamItem;
-        }
-
-        private string MakeCreatedDateTimeDescription(DateTime dateTime)
-        {
-            var diff = DateTime.Now.Subtract(dateTime);
-
-            if (diff > new TimeSpan(365, 0, 0, 0)) // Year
-            {
-                return "more than a year ago";
-            } 
-            else if (diff > new TimeSpan(30, 0, 0, 0)) // Month
-            {
-                var months = (diff.Days / 30);
-                return string.Format("{0} month{1} ago", months, months > 1 ? "s" : string.Empty);
-            } 
-            else if (diff > new TimeSpan(1, 0, 0, 0)) // Day
-            {
-                return string.Format("{0} day{1} ago", diff.Days, diff.Days > 1 ? "s" : string.Empty);
-            }
-            else if (diff > new TimeSpan(1, 0, 0)) // Hour
-            {
-                return string.Format("{0} hour{1} ago", diff.Hours, diff.Hours > 1 ? "s" : string.Empty);
-            }
-            else if (diff > new TimeSpan(0, 1, 0)) // Minute
-            {
-                return string.Format("{0} minute{1} ago", diff.Minutes, diff.Minutes > 1 ? "s" : string.Empty);
-            }
-            else // Second
-            {
-                return "just now";
-            }
-        }
-
-        private ObservationView MakeObservationView(Observation observation)
-        {
-            return new ObservationView()
-            {
-                Id = observation.Id,
-                Title = observation.Title,
-                ObservedOn = observation.ObservedOn,
-                Address = observation.Address,
-                Latitude = observation.Latitude,
-                Longitude = observation.Longitude,
-                ObservationCategory = observation.ObservationCategory,
-                IsIdentificationRequired = observation.IsIdentificationRequired,
-                ObservationMedia = MakeObservationMediaItems(observation.Media)
-            };
-        }
-
-        private IEnumerable<ObservationMediaItem> MakeObservationMediaItems(IEnumerable<ObservationMedia> observationMedia)
-        {
-            return observationMedia.Select(x =>
-                new ObservationMediaItem()
-                {
-                    MediaResourceId = x.MediaResource.Id,
-                    Description = x.Description,
-                    Licence = x.Licence,
-                    OriginalImageUri = _mediaFilePathService.MakeMediaFileUri(x.MediaResource, "original"),
-                    LargeImageUri = _mediaFilePathService.MakeMediaFileUri(x.MediaResource, "large"),
-                    MediumImageUri = _mediaFilePathService.MakeMediaFileUri(x.MediaResource, "medium"),
-                    SmallImageUri = _mediaFilePathService.MakeMediaFileUri(x.MediaResource, "small"),
-                    ThumbnailImageUri = _mediaFilePathService.MakeMediaFileUri(x.MediaResource, "thumbnail")
-                });
+            return _streamItemFactory.Make(
+                item,
+                "observation",
+                groupContributionResult.GroupUserId,
+                groupContributionResult.GroupCreatedDateTime,
+                description);
         }
 
         //// Get all stream items for all groups that a particular user is a member of

@@ -8,7 +8,7 @@ window.Bowerbird.NotificationRouter = Backbone.Model.extend({
         this.notificationHub = $.connection.notificationHub;
         this.notificationHub.userStatusUpdate = this.userStatusUpdate;
 
-        this.notificationHub.observationCreated = this.observationCreated;
+        this.notificationHub.observationAddedToGroup = this.observationAddedToGroup;
 
         this.initHubConnection(options.userId);
         log('ActivityRouter.Initialize');
@@ -52,8 +52,18 @@ window.Bowerbird.NotificationRouter = Backbone.Model.extend({
 
     // FROM HUB-------------------------------------
 
-    observationCreated: function (data) {
-        log(data);
-        // fire appropriate activity stream method..
+    observationAddedToGroup: function (data) {
+        app.notifications.add(data);
+        var addStreamItem = false;
+        if (app.stream.get('context') == null) {
+            addStreamItem = true;
+        } else {
+            addStreamItem = _.any(data.groups, function (groupId) {
+                return groupId === app.stream.get('context').get('id');
+            });
+        }
+        if (addStreamItem) {
+            app.stream.streamItems.add(data.model);
+        }
     }
 });

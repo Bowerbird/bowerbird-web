@@ -24,6 +24,7 @@ using Bowerbird.Core.EventHandlers;
 using Bowerbird.Core.DomainModels;
 using SignalR;
 using Bowerbird.Core.Config;
+using Bowerbird.Web.Queries;
 
 namespace Bowerbird.Web.Config
 {

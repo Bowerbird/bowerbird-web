@@ -23,6 +23,8 @@ using Raven.Client.Linq;
 using System.Linq;
 using System;
 using Bowerbird.Web.ViewModels.Shared;
+using Bowerbird.Web.Queries;
+using Bowerbird.Web.Factories;
 
 namespace Bowerbird.Web.EventHandlers
 {
@@ -32,6 +34,8 @@ namespace Bowerbird.Web.EventHandlers
 
         private readonly IDocumentSession _documentSession;
         private readonly INotificationProcessor _notificationProcessor;
+        private readonly IStreamItemFactory _streamItemFactory;
+        private readonly IObservationViewFactory _observationViewFactory;
 
         #endregion
 
@@ -39,14 +43,18 @@ namespace Bowerbird.Web.EventHandlers
 
         public NotifyObservationCreatedEventHandler(
             IDocumentSession documentSession,
-            INotificationProcessor notificationProcessor
-            )
+            INotificationProcessor notificationProcessor,
+            IStreamItemFactory streamItemFactory,
+            IObservationViewFactory observationViewFactory)
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(notificationProcessor, "notificationProcessor");
+            Check.RequireNotNull(streamItemFactory, "streamItemFactory");
 
             _documentSession = documentSession;
             _notificationProcessor = notificationProcessor;
+            _streamItemFactory = streamItemFactory;
+            _observationViewFactory = observationViewFactory;
         }
 
         #endregion
@@ -62,16 +70,26 @@ namespace Bowerbird.Web.EventHandlers
         {
             Check.RequireNotNull(@event, "event");
 
-            var notification = new Notification()
+            foreach(var observationGroup in @event.DomainModel.Groups.Where(x => x.GroupType == "project"))
             {
-                Action = "observationcreated",
-                OccurredOn = DateTime.Now,
-                UserId = @event.CreatedByUser,
-                Model = @event.DomainModel,
-                Groups = @event.DomainModel.Groups.Select(x => x.GroupId)
-            };
+                var streamItem = _streamItemFactory.Make(
+                    _observationViewFactory.Make(@event.DomainModel),
+                    "observation",
+                    observationGroup.User.Id,
+                    observationGroup.CreatedDateTime,
+                    observationGroup.User.FirstName + " added an observation");
 
-            _notificationProcessor.Notify(notification, (client, n) => client.observationCreated(n));
+                var notification = new Notification()
+                {
+                    Action = "observationaddedtogroup",
+                    OccurredOn = DateTime.Now,
+                    UserId = @event.CreatedByUser,
+                    Model = streamItem,
+                    Groups = @event.DomainModel.Groups.Select(x => x.GroupId)
+                };
+
+                _notificationProcessor.Notify(notification, (client, n) => client.observationAddedToGroup(n));
+            }
         }
 
         #endregion

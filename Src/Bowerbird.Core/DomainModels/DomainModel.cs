@@ -21,6 +21,7 @@ using System.Reflection;
 using System.ComponentModel.DataAnnotations;
 using Bowerbird.Core.Events;
 using Bowerbird.Core.DesignByContract;
+using Newtonsoft.Json;
 
 namespace Bowerbird.Core.DomainModels
 {
@@ -58,26 +59,21 @@ namespace Bowerbird.Core.DomainModels
             }
             protected set
             {
-                Check.Require(_id == value || string.IsNullOrWhiteSpace(_id), "Cannot change an Id after it has been set.");
-
-                bool fireEvent = _id != value;
-
                 _id = value;
 
-                if (fireEvent)
+                if (CanFireCreatedEvent)
                 {
                     FireCreateEvent();
                 }
             }
         }
 
+        [JsonIgnore]
+        protected bool CanFireCreatedEvent { get; set; }
+
         protected virtual void FireCreateEvent()
         {
-        }
-
-        protected bool IsIdSet()
-        {
-            return !string.IsNullOrWhiteSpace(_id);
+            CanFireCreatedEvent = false;
         }
 
         public override bool Equals(object obj)

@@ -13,7 +13,7 @@ window.Bowerbird.Views.StreamListItemView = Backbone.View.extend({
 
     render: function () {
         switch (this.streamItem.get('type')) {
-            case 'Observation':
+            case 'observation':
                 var streamitemJSON = this.streamItem.toJSON();
                 streamitemJSON['observedOnDate'] = new Date(parseInt(this.streamItem.get('item').observedOn.substr(6))).format('d MMM yyyy');
                 streamitemJSON['observedOnTime'] = new Date(parseInt(this.streamItem.get('item').observedOn.substr(6))).format('h:mm');

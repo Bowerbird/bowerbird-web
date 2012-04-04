@@ -13,6 +13,7 @@
 */
 
 using System;
+using Newtonsoft.Json;
 
 namespace Bowerbird.Web.ViewModels.Shared
 {
@@ -28,16 +29,22 @@ namespace Bowerbird.Web.ViewModels.Shared
 
         #region Properties
 
+        [JsonProperty("type")]
         public string Type { get; set; }
 
+        [JsonProperty("createdDateTime")]
         public DateTime CreatedDateTime { get; set; }
 
+        [JsonProperty("createdDateTimeDescription")]
         public string CreatedDateTimeDescription { get; set; }
 
+        [JsonProperty("user")]
         public string User { get; set; }
 
+        [JsonProperty("item")]
         public object Item { get; set; }
 
+        [JsonProperty("description")]
         public string Description { get; set; }
 
         #endregion

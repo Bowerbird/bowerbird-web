@@ -6,8 +6,6 @@ window.Bowerbird.Collections.Notifications = Backbone.Collection.extend({
 
     initialize: function () {
         _.extend(this, Backbone.Events);
-        this.on('add', this.addNotification, this);
-    },
-
-
+        //this.on('add', this.addNotification, this);
+    }
 });

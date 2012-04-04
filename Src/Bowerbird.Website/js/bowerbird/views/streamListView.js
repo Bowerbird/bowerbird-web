@@ -18,13 +18,14 @@ window.Bowerbird.Views.StreamListView = Backbone.View.extend({
 
     initialize: function (options) {
         _.extend(this, Backbone.Events);
+        _.bindAll(this, 'addStreamItem');
         this.streamListItemViews = [];
         app.stream.streamItems.on('add', this.addStreamItem, this);
         app.stream.on('newStream', this.showNewStream, this);
         //app.stream.on('newStreamFilter', this.showNewStreamFilter, this);
         //app.stream.on('newStreamPage', this.showNewStreamPage, this);
-        app.stream.on('fetchingItemsStarted', this.showStreamLoading, this);
-        app.stream.on('fetchingItemsComplete', this.hideStreamLoading, this);
+        app.stream.on('fetchingItemsStarted', this.onStreamLoadingStart, this);
+        app.stream.on('fetchingItemsComplete', this.onsStreamLoadingComplete, this);
     },
 
     render: function () {
@@ -32,10 +33,15 @@ window.Bowerbird.Views.StreamListView = Backbone.View.extend({
         return this;
     },
 
-    addStreamItem: function (streamItem) {
+    addStreamItem: function (streamItem, collection, options) {
         var streamListItemView = new Bowerbird.Views.StreamListItemView({ streamItem: streamItem });
         this.streamListItemViews.push(streamListItemView);
-        $('#stream-items').append(streamListItemView.render().el);
+        this.toggleNoStreamItemsStatus(collection);
+        if (options.index === 0) {
+            $('#stream-items').prepend(streamListItemView.render().el);
+        } else {
+            $('#stream-items').append(streamListItemView.render().el);
+        }
     },
 
     showNewStream: function (stream) {
@@ -49,18 +55,22 @@ window.Bowerbird.Views.StreamListView = Backbone.View.extend({
         }
     },
 
-    showStreamLoading: function (stream) {
+    onStreamLoadingStart: function (stream) {
         $('#stream-load-more').remove();
         $('#stream-items').append($.tmpl('streamListLoadingTemplate', { text: 'Loading', showLoader: true }));
     },
 
-    hideStreamLoading: function (stream, collection) {
-        $('#stream-status').remove();
-        if (collection.length == 0) {
-            $('#stream-items').append($.tmpl('streamListLoadingTemplate', { text: 'No activity yet! Start now by adding an observation.', showLoader: false }));
-        }
+    onsStreamLoadingComplete: function (stream, collection) {
+        this.toggleNoStreamItemsStatus(collection);
         if (collection.pageInfo().next) {
             $('#stream-list > div').append($.tmpl('streamLoadMoreTemplate'));
+        }
+    },
+
+    toggleNoStreamItemsStatus: function (collection) {
+        $('#stream-status').remove();
+        if (collection.length === 0) {
+            $('#stream-items').append($.tmpl('streamListLoadingTemplate', { text: 'No activity yet! Start now by adding an observation.', showLoader: false }));
         }
     },
 
