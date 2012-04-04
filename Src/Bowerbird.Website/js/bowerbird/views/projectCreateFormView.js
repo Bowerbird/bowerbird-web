@@ -37,7 +37,7 @@ window.Bowerbird.Views.ProjectCreateFormView = Backbone.View.extend({
 
     _cancel: function () {
         app.set('newProject', null);
-        app.appRouter.navigate(app.stream.get('uri'), { trigger: false });
+        app.appRouter.navigate(app.stream.get('uri'), { trigger: true });
         this.trigger('formClosed', this);
     },
 
@@ -50,7 +50,7 @@ window.Bowerbird.Views.ProjectCreateFormView = Backbone.View.extend({
 
     _save: function () {
         this.project.save();
-        app.appRouter.navigate(app.stream.get('uri'), { trigger: false });
+        app.appRouter.navigate(app.stream.get('uri'), { trigger: true });
         this.trigger('formClosed', this);
     }
 });
