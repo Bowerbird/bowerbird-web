@@ -59,7 +59,7 @@ namespace Bowerbird.Core.Queries
             var groups = _documentSession
                 .Query<All_Groups.Result, All_Groups>()
                 .AsProjection<All_Groups.Result>()
-                .Where(g => 
+                .Where(g =>
                     g.Id.In(
                         memberships
                         .Where(y => y.Roles.Any(z => z.PermissionIds.Contains("permissions/" + permissionId)))

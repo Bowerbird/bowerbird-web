@@ -255,6 +255,7 @@
     <Compile Include="Indexes\All_GroupContributions.cs" />
     <Compile Include="Indexes\All_Groups.cs" />
     <Compile Include="Indexes\All_ChatSessions.cs" />
+    <Compile Include="Indexes\All_UserMembership.cs" />
     <Compile Include="Indexes\All_UserSessions.cs" />
     <Compile Include="Paging\EnumerableExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
