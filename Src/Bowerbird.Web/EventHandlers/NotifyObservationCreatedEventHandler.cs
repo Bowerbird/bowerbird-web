@@ -76,7 +76,7 @@ namespace Bowerbird.Web.EventHandlers
                     _observationViewFactory.Make(@event.DomainModel),
                     @event.DomainModel.Groups.Select(x => x.GroupId),
                     "observation",
-                    observationGroup.User.Id,
+                    _documentSession.Load<User>(observationGroup.User.Id),
                     observationGroup.CreatedDateTime,
                     observationGroup.User.FirstName + " added an observation");
 

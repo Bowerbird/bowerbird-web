@@ -22,6 +22,7 @@ using Bowerbird.Web.ViewModels.Members;
 using Bowerbird.Web.ViewModels.Shared;
 using Raven.Client;
 using System;
+using Bowerbird.Core.Config;
 
 namespace Bowerbird.Web.Controllers.Members
 {
@@ -166,7 +167,7 @@ namespace Bowerbird.Web.Controllers.Members
                 AltTag = string.Format("{0} {1}", user.FirstName,user.LastName),
                 UrlToImage = user.Avatar != null ?
                     _mediaFilePathService.MakeMediaFileUri(user.Avatar.Id, "image", "avatar", user.Avatar.Metadata["metatype"]) :
-                    _configService.GetDefaultAvatar("user")
+                    AvatarUris.DefaultUser
             };
         }
 

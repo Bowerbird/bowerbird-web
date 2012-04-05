@@ -92,7 +92,7 @@ namespace Bowerbird.Test.Utils
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
-            kernel.Load(new BowerbirdNinjectModule());
+            kernel.Load(new NinjectBindingModule());
 
             ServiceLocator.SetLocatorProvider(() => new NinjectServiceLocator(kernel));
 

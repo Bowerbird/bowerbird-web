@@ -52,11 +52,11 @@ namespace Bowerbird.Core.DomainModels
 
         #region Properties
 
-        public string Name { get; private set; }
+        public string Name { get; protected set; } // Protected set to allow AppRoot to set it after instantiation
 
         public DateTime CreatedDateTime { get; private set; }
 
-        public DenormalisedUserReference User { get; protected set; } // User is protected set to allow AppRoot to set it after instantiation
+        public DenormalisedUserReference User { get; protected set; } // Protected set to allow AppRoot to set it after instantiation
 
         [JsonIgnore]
         IEnumerable<string> IOwnable.Groups

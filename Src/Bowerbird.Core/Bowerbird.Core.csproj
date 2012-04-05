@@ -173,8 +173,13 @@
     <Compile Include="Config\BowerbirdDocumentStoreConfigurationSection.cs" />
     <Compile Include="Config\BowerbirdEnvironmentConfigurationSection.cs" />
     <Compile Include="Config\Constants.cs" />
+    <Compile Include="Config\IPermissionChecker.cs" />
     <Compile Include="Config\ISystemStateManager.cs" />
+    <Compile Include="Config\IUserContext.cs" />
+    <Compile Include="Config\PermissionChecker.cs" />
     <Compile Include="Config\Permissions.cs" />
+    <Compile Include="Config\SystemState.cs" />
+    <Compile Include="Config\SystemStateManager.cs" />
     <Compile Include="DomainModels\AppRoot.cs" />
     <Compile Include="DomainModels\BaseObject.cs" />
     <Compile Include="DomainModels\BaseObjectEqualityComparer.cs" />

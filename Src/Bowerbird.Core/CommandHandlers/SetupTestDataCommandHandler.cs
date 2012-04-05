@@ -23,6 +23,7 @@ using Bowerbird.Core.DomainModels;
 using Raven.Client;
 using Bowerbird.Core.Events;
 using Bowerbird.Core.Config;
+using System.Threading;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -31,6 +32,7 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Members
 
+        private readonly IDocumentStore _documentStore;
         private readonly IDocumentSession _documentSession;
         private readonly ISystemStateManager _systemStateManager;
 
@@ -39,12 +41,15 @@ namespace Bowerbird.Core.CommandHandlers
         #region Constructors
 
         public SetupTestDataCommandHandler(
+            IDocumentStore documentStore,
             IDocumentSession documentSession,
             ISystemStateManager systemStateManager)
         {
+            Check.RequireNotNull(documentStore, "documentStore");
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(systemStateManager, "systemStateManager");
 
+            _documentStore = documentStore;
             _documentSession = documentSession;
             _systemStateManager = systemStateManager;
         }
@@ -81,23 +86,21 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(setupTestDataCommand, "setupTestDataCommand");
 
-            TheAppRoot = null;
-            Roles = new List<Role>();
-            Users = new List<User>();
-            Organisations = new List<Organisation>();
-            Teams = new List<Team>();
-            Projects = new List<Project>();
-            Members = new List<Member>();
-            Observations = new List<Observation>();
-            Posts = new List<Post>();
-            GroupAssociations = new List<GroupAssociation>();
-
             try
             {
-                _systemStateManager.DisableEmailService();
-
+                TheAppRoot = null;
+                Organisations = new List<Organisation>();
+                Teams = new List<Team>();
+                Projects = new List<Project>();
+                Members = new List<Member>();
+                Observations = new List<Observation>();
+                Posts = new List<Post>();
+                GroupAssociations = new List<GroupAssociation>();
                 Roles = _documentSession.Query<Role>().ToList();
                 Users = _documentSession.Query<User>().ToList();
+
+                // Disable emailing while we setup admin users
+                _systemStateManager.DisableEmailService();
 
                 TheAppRoot = _documentSession.Load<AppRoot>(Constants.AppRootId);
 
@@ -130,6 +133,7 @@ namespace Bowerbird.Core.CommandHandlers
                 AddTeamMember(Users[2].Id, Teams[0].Id, "teammember");
                 AddTeamMember(Users[2].Id, Teams[1].Id, "teammember");
 
+                // Observations
                 AddObservation(Users[0].Id, Projects[0].Id);
                 AddObservation(Users[0].Id, Projects[1].Id);
                 AddObservation(Users[0].Id, Projects[0].Id);
@@ -143,20 +147,22 @@ namespace Bowerbird.Core.CommandHandlers
                 AddObservation(Users[2].Id, Projects[1].Id);
                 AddObservation(Users[2].Id, Projects[0].Id);
                 AddObservation(Users[2].Id, Projects[0].Id);
-            }
-            finally
-            {
-                TheAppRoot = null;
-                Users = null;
-                Organisations = null;
-                Teams = null;
-                Projects = null;
-                Members = null;
-                Observations = null;
-                Posts = null;
-                GroupAssociations = null;
 
+                // Save all data now
+                _documentSession.SaveChanges();
+
+                // Wait for all stale indexes to complete.
+                while (_documentStore.DatabaseCommands.GetStatistics().StaleIndexes.Length > 0)
+                {
+                    Thread.Sleep(10);
+                }
+
+                // Re-enable emailing
                 _systemStateManager.EnableEmailService();
+            }
+            catch (Exception exception)
+            {
+                throw new Exception("Could not setup test data.", exception);
             }
         }
 

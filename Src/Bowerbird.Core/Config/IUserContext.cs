@@ -15,7 +15,8 @@
 */
 
 using Bowerbird.Core.DomainModels;
-namespace Bowerbird.Web.Config
+
+namespace Bowerbird.Core.Config
 {
     public interface IUserContext
     {

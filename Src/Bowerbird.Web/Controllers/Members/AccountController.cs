@@ -17,6 +17,7 @@ using Bowerbird.Core.DesignByContract;
 using Bowerbird.Web.Config;
 using Bowerbird.Core.Commands;
 using Bowerbird.Web.ViewModels.Members;
+using Bowerbird.Core.Config;
 
 namespace Bowerbird.Web.Controllers.Members
 {

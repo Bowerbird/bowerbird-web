@@ -27,6 +27,7 @@ using Bowerbird.Web.Config;
 using Bowerbird.Web.ViewModels.Shared;
 using Raven.Client;
 using Raven.Client.Linq;
+using Bowerbird.Core.Config;
 
 namespace Bowerbird.Web.Services
 {
@@ -100,7 +101,7 @@ namespace Bowerbird.Web.Services
             return new Avatar()
             {
                 AltTag = user.GetName(),
-                UrlToImage = _configService.GetDefaultAvatar("user")
+                UrlToImage = AvatarUris.DefaultUser
             };
         }
 

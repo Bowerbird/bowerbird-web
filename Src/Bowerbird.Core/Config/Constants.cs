@@ -20,6 +20,14 @@ namespace Bowerbird.Core.Config
         public static string AppRootId = "bowerbird/approot";
     }
 
+    public static class AvatarUris
+    {
+        public static string DefaultUser = "/img/default-user-avatar.jpg";
+        public static string DefaultProject = "/img/default-project-avatar.jpg";
+        public static string DefaultTeam = "/img/default-team-avatar.jpg";
+        public static string DefaultOrganisation = "/img/default-organisation-avatar.jpg";
+    }
+
     public static class ActivitySender
     {
         public static string Observation { get { return "observation"; }}

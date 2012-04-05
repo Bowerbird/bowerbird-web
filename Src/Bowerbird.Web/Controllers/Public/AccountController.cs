@@ -22,6 +22,7 @@ using Raven.Client;
 using System.Web.Mvc;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Web.Config;
+using Bowerbird.Core.Config;
 
 namespace Bowerbird.Web.Controllers.Public
 {

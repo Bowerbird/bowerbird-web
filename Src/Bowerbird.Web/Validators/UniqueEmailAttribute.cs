@@ -21,6 +21,7 @@ using Bowerbird.Core.DomainModels;
 using Bowerbird.Web.Config;
 using Ninject;
 using Raven.Client;
+using Bowerbird.Core.Config;
 
 namespace Bowerbird.Web.Validators
 {

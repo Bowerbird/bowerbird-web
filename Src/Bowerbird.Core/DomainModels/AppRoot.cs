@@ -17,6 +17,7 @@
 using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Events;
+using System;
 
 namespace Bowerbird.Core.DomainModels
 {
@@ -28,10 +29,16 @@ namespace Bowerbird.Core.DomainModels
 
         #region Constructors
 
-        public AppRoot()
-            : base() // Even though we are subclassing Group, we won't call the same constructor as other classes as this object won't have CreatedByUser available on the very first creation of the AppRoot.
+        protected AppRoot() : base() { }
+
+        public AppRoot(
+            User createdByUser)
+            : base(
+            createdByUser,
+            "Application Root Group",
+            DateTime.Now)
         {
-            InitMembers();
+            Id = Constants.AppRootId;
         }
 
         #endregion
@@ -41,18 +48,6 @@ namespace Bowerbird.Core.DomainModels
         #endregion
 
         #region Methods
-
-        private void InitMembers()
-        {
-            Id = Constants.AppRootId;
-            SetDetails("Application Root Group");
-        }
-
-        public AppRoot SetUser(User createdByUser)
-        {
-            User = createdByUser;
-            return this;
-        }
 
         #endregion
     }

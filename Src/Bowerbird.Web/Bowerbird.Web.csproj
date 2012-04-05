@@ -120,20 +120,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\Bootstrapper.cs" />
+    <Compile Include="App_Start\WebsiteBootstrapper.cs" />
+    <Compile Include="App_Start\NinjectBootstrapper.cs" />
     <Compile Include="Config\AuthenticatedConstraint.cs" />
     <Compile Include="Config\BowerbirdHttpApplication.cs" />
     <Compile Include="Config\ApiAreaRegistration.cs" />
-    <Compile Include="Config\IUserContext.cs" />
-    <Compile Include="Config\BowerbirdNinjectModule.cs" />
+    <Compile Include="Config\NinjectBindingModule.cs" />
     <Compile Include="Config\SignalRJsonConvertAdapter.cs" />
     <Compile Include="Config\MembersAreaRegistration.cs" />
     <Compile Include="Config\NinjectValidatorFactory.cs" />
-    <Compile Include="Config\RavenSessionProvider.cs" />
-    <Compile Include="Config\RavenDocumentStoreProvider.cs" />
+    <Compile Include="Config\NinjectRavenSessionProvider.cs" />
+    <Compile Include="Config\NinjectRavenDocumentStoreProvider.cs" />
     <Compile Include="Config\RouteRegistrar.cs" />
-    <Compile Include="Config\SystemState.cs" />
-    <Compile Include="Config\SystemStateManager.cs" />
     <Compile Include="Config\UserContext.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
     <Compile Include="Controllers\JsonNetResult.cs" />
@@ -161,8 +159,6 @@
     <Compile Include="Controllers\Public\ProjectController.cs" />
     <Compile Include="Controllers\Public\StreamItemController.cs" />
     <Compile Include="Controllers\Public\TeamController.cs" />
-    <Compile Include="Config\IPermissionChecker.cs" />
-    <Compile Include="Config\PermissionChecker.cs" />
     <Compile Include="EventHandlers\NotifyObservationCreatedEventHandler.cs" />
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
     <Compile Include="Factories\IFactory.cs" />

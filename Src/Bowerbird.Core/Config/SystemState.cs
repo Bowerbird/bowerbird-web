@@ -6,7 +6,7 @@ using Bowerbird.Core.Config;
 using Raven.Client;
 using Bowerbird.Core.DesignByContract;
 
-namespace Bowerbird.Web.Config
+namespace Bowerbird.Core.Config
 {
     public class SystemState
     {

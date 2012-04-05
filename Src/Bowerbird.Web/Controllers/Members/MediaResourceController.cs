@@ -29,6 +29,7 @@ using Bowerbird.Core.ImageUtilities;
 using Bowerbird.Core.Services;
 using Bowerbird.Web.Config;
 using Raven.Client;
+using Bowerbird.Core.Config;
 
 namespace Bowerbird.Web.Controllers.Members
 {

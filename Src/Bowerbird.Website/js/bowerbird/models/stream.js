@@ -3,13 +3,17 @@ window.Bowerbird.Models.Stream = Backbone.Model.extend({
     defaults: {
         context: null,
         filter: null,
-        uri: ''
+        uri: null
     },
 
     initialize: function (options) {
         _.extend(this, Backbone.Events);
         _.bindAll(this);
         this.streamItems = new Bowerbird.Collections.StreamItems();
+    },
+
+    isSet: function () {
+        return this.get('filter') != null && this.get('uri') != null;
     },
 
     setNewStream: function (streamContext, streamFilter) {

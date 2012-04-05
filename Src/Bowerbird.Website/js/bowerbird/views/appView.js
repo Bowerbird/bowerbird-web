@@ -33,24 +33,32 @@ window.Bowerbird.Views.AppView = Backbone.View.extend({
     },
 
     render: function () {
-        this.showStreamView();
+        this.streamView = new Bowerbird.Views.StreamView();
+        this.$el.append(this.streamView.render().el);
+
         this.showOnlineUsers();
+
+        // Closes all popup menus in entire page
+        $("body").click(function () {
+            $('.sub-menu-button').removeClass('active'); // Make sure to add any new menu button types to the selector
+        });
+
         return this;
     },
 
     showStreamView: function () {
+        if (!app.stream.isSet()) {
+            app.stream.setNewStream(null, 'all');
+        }
+        $(this.streamView.el).show();
+        window.scrollTo(0, 0);
+    },
+
+    hideFormView: function () {
         if (this.formView) {
             $(this.formView.el).remove();
         }
-        if (this.streamView == null) {
-            this.streamView = new Bowerbird.Views.StreamView();
-            this.$el.append(this.streamView.render().el);
-            $(this.streamView.el).show();
-            app.stream.setNewStream(null, 'all');
-        } else {
-            $(this.streamView.el).show();
-        }
-        window.scrollTo(0, 0);
+        this.showStreamView();
     },
 
     showOnlineUsers: function () {
@@ -64,7 +72,7 @@ window.Bowerbird.Views.AppView = Backbone.View.extend({
             $(this.streamView.el).hide();
             this.formView = new Bowerbird.Views.ObservationCreateFormView({ appView: this, observation: app.get('newObservation') });
             this.$el.append(this.formView.render().el);
-            this.formView.on('formClosed', this.showStreamView, this);
+            this.formView.on('formClosed', this.hideFormView, this);
             this.formView.start();
         }
     },
@@ -74,7 +82,7 @@ window.Bowerbird.Views.AppView = Backbone.View.extend({
             $(this.streamView.el).hide();
             this.formView = new Bowerbird.Views.ProjectCreateFormView({ appView: this, project: app.get('newProject') });
             this.$el.append(this.formView.render().el);
-            this.formView.on('formClosed', this.showStreamView, this);
+            this.formView.on('formClosed', this.hideFormView, this);
             this.formView.start();
         }
     },
@@ -84,7 +92,7 @@ window.Bowerbird.Views.AppView = Backbone.View.extend({
             $(this.streamView.el).hide();
             this.formView = new Bowerbird.Views.TeamCreateFormView({ appView: this, team: app.get('newTeam') });
             this.$el.append(this.formView.render().el);
-            this.formView.on('formClosed', this.showStreamView, this);
+            this.formView.on('formClosed', this.hideFormView, this);
             this.formView.start();
         }
     },
@@ -94,7 +102,7 @@ window.Bowerbird.Views.AppView = Backbone.View.extend({
             $(this.streamView.el).hide();
             this.formView = new Bowerbird.Views.OrganisationCreateFormView({ appView: this, organisation: app.get('newOrganisation') });
             this.$el.append(this.formView.render().el);
-            this.formView.on('formClosed', this.showStreamView, this);
+            this.formView.on('formClosed', this.hideFormView, this);
             this.formView.start();
         }
     },

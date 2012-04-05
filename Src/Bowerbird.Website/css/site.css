@@ -209,6 +209,10 @@ header nav#search-menu
     padding-bottom: 10px;
     position: relative;
 }
+#sidebar .menu-group
+{
+    margin-bottom: 2px;
+}
 #sidebar .menu-group-title
 {
     color: #6997C5;
@@ -218,71 +222,117 @@ header nav#search-menu
     text-shadow: 0 1px 0 #FFFFFF;
     text-transform: uppercase;
 }
-#sidebar .menu-group ul
+#sidebar .menu-group > ul
 {
     border-radius: 4px 4px 4px 4px;
     box-shadow: 0 1px 2px 0 #5071A6;
 }
-#sidebar .menu-group li
+#sidebar .menu-group > ul > li
 {
     display: block;
     position: relative;
 }
-#sidebar .menu-group li a
+#sidebar .menu-group ul li a
+{
+    color: #133A68;
+    font-size: 0.9375em;
+    font-weight: 600;
+    text-decoration: none;
+}
+#sidebar .menu-group > ul > li > a
 {
     background-color: #FFFFFF;
     border-bottom: 1px solid #CFDDEB;
-    color: #133A68;
+
     display: block;
-    font-size: 0.9375em;
-    font-weight: 600;
+
     height: 3.06667em;
     overflow: hidden;
-    text-decoration: none;
+    
 }
-#sidebar .menu-group li:first-child a
+#sidebar #team-menu-group > ul > li > a,
+#sidebar #project-menu-group > ul > li > a
+{
+    margin-right: 30px;
+}
+#sidebar .menu-group > ul > li > div
+{
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #CFDDEB;
+    cursor: pointer;
+    height: 2.87778em;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 30px;
+}
+#sidebar .menu-group > ul > li > div > span
+{
+    background: url("/img/glyphicons-halflings-white.png") no-repeat scroll -456px -72px #CFDDEB;
+    border: 2px solid #CFDDEB;
+    border-radius: 10px 10px 10px 10px;
+    display: block;
+    height: 14px;
+    left: 2px;
+    position: relative;
+    top: 16px;
+    width: 14px;
+}
+#sidebar .menu-group > ul > li > div:hover > span
+{
+    background: url("/img/glyphicons-halflings-white.png") no-repeat scroll -456px -72px #1B83EB;
+    border: 2px solid #1B83EB;
+}
+#sidebar .menu-group > ul > li:first-child > a
 {
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
 }
-#sidebar .menu-group li:last-child a
+#sidebar .menu-group > ul > li:last-child > a
 {
     border-bottom: none;
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
 }
-#sidebar .menu-group li img 
+#sidebar .menu-group > ul > li:first-child > div
+{
+    border-top-right-radius: 4px;
+}
+#sidebar .menu-group > ul > li:last-child > div
+{
+    border-bottom-right-radius: 4px;
+}
+#sidebar .menu-group > ul > li img 
 {
     display: block;
     float: left;
     margin-right: 13px;
     height: 100%;
 }
-#sidebar #default-menu-group.menu-group li:first-child img 
+#sidebar #default-menu-group.menu-group > ul > li:first-child img 
 {
     border-radius: 4px 0 0 0;
 }
-#sidebar #watch-menu-group.menu-group li:last-child img 
+#sidebar #watch-menu-group.menu-group > ul > li li:last-child img 
 {
     border-radius: 0 0 0 4px;
 }
-#sidebar .menu-group li a > div
+#sidebar .menu-group > ul > li a > div
 {
     display: table-cell;
     height: 3.06666667em;
     vertical-align: middle;
     letter-spacing: -0.019em;
 }
-#sidebar .menu-group li a > div p
+#sidebar .menu-group > ul > li a > div p
 {
     line-height: 1.36em;
     margin: 0;
     overflow: hidden;
     padding: 2px 2px 0 0;
 }
-#sidebar .menu-group li a > div p span
+#sidebar .menu-group > ul > li a > div p span
 {
-    background-color: #CC0000;
     background-image: -moz-linear-gradient(right bottom , #1E5707 33%, #3BAB24 79%);
     border-radius: 4px 4px 4px 4px;
     box-shadow: 0 1px 2px 0 #5071A6;
@@ -295,6 +345,101 @@ header nav#search-menu
     position: absolute;
     right: -4px;
     top: 11px;
+}
+#sidebar .menu-group .menu-group-options
+{
+    background-color: #DFEAF6;
+    border-radius: 0 0 4px 4px;
+    padding: 14px 10px;
+}
+#sidebar #team-menu-group > ul > li.menu-group-options > span,
+#sidebar #project-menu-group > ul > li.menu-group-options > span,
+#sidebar #watch-menu-group > ul > li.menu-group-options > span
+{
+    color: #6997C5;
+    display: block;
+    font-size: 0.84em;
+    line-height: 1.3em;
+    text-shadow: 0 1px 0 #FFFFFF;
+}
+#sidebar #team-menu-group > ul > li.menu-group-options > div,
+#sidebar #project-menu-group > ul > li.menu-group-options > div,
+#sidebar #watch-menu-group > ul > li.menu-group-options > div
+{
+    background-color: transparent;
+    border-bottom: medium none;
+    top: -1px;
+}
+#sidebar #team-menu-group > ul > li.menu-group-options > div > span,
+#sidebar #project-menu-group > ul > li.menu-group-options > div > span,
+#sidebar #watch-menu-group > ul > li.menu-group-options > div > span
+{
+    background-color: #94B5D6;
+    border-color: #94B5D6;
+    box-shadow: 0 1px 0 #FFFFFF;
+}
+#sidebar #team-menu-group > ul > li.menu-group-options > div:hover > span,
+#sidebar #project-menu-group > ul > li.menu-group-options > div:hover > span,
+#sidebar #watch-menu-group > ul > li.menu-group-options > div:hover > span
+{
+    background-color: #1B83EB;
+    border-color: #1B83EB;
+}
+/* sidebar sub-menu */
+#sidebar .menu-group ul ul
+{
+    background-color: #FFFFFF;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 3px 6px 0 #5071A6;
+    display: none;
+    
+    left: 24px;
+    position: relative;
+    top: -18px;
+    width: 200px;
+    z-index: 99999;
+}
+/*#sidebar .menu-group ul li > div:hover ul*/
+#sidebar .menu-group ul li > div.active ul
+{
+    display: block;
+}
+#sidebar .menu-group ul li > div ul li
+{
+    list-style: none;
+}
+#sidebar .menu-group ul li > div ul li > div
+{
+    /*border-bottom: 1px solid #CFDDEB;*/
+    color: #133A68;
+    display: block;
+    font-size: 0.9375em;
+    font-weight: 600;
+    height: 3.06667em;
+    overflow: hidden;
+    text-decoration: none;
+    padding-left: 14px;
+    padding-right: 14px;
+}
+#sidebar .menu-group ul li > div ul li:last-child > div
+{
+    border-bottom: none;
+}
+#sidebar .menu-group ul li > div ul li > div p
+{
+    display: table-cell;
+    height: 3.06667em;
+    letter-spacing: -0.019em;
+    vertical-align: middle;  
+        
+    line-height: 1.36em;
+    margin: 0;
+    overflow: hidden;
+    padding: 2px 2px 0 0;
+}
+#sidebar .menu-group ul li > div ul li.divider
+{
+    border-bottom: 1px solid #CFDDEB;
 }
 /* selected filter group */
 #selected-filter-group
@@ -465,7 +610,7 @@ header nav#search-menu
     font-weight: 600;
     line-height: 3.5em;
     margin: 0;
-    padding-left: 7px;
+    padding-left: 10px;
     vertical-align: top;
 }
 #stream .stream-item .summary .description span

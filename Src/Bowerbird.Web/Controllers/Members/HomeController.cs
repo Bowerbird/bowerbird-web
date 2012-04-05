@@ -28,6 +28,7 @@ using Bowerbird.Web.ViewModels.Shared;
 using Raven.Client;
 using Raven.Client.Linq;
 using System.Threading;
+using Bowerbird.Core.Config;
 
 namespace Bowerbird.Web.Controllers.Members
 {
@@ -95,17 +96,7 @@ namespace Bowerbird.Web.Controllers.Members
 
         public ActionResult SetupTestData()
         {
-            var setupTestDataCommand = new SetupTestDataCommand();
-
-            _commandProcessor.Process(setupTestDataCommand);
-
-            _documentSession.SaveChanges();
-
-            // Wait for all stale indexes to complete.
-            while (_documentStore.DatabaseCommands.GetStatistics().StaleIndexes.Length > 0)
-            {
-                Thread.Sleep(10);
-            }
+            _commandProcessor.Process(new SetupTestDataCommand());
 
             return RedirectToAction("index");
         }
@@ -145,7 +136,7 @@ namespace Bowerbird.Web.Controllers.Members
                     {
                         Id = x.Group.Id,
                         Name = x.Group.Name,
-                        Avatar = new Avatar() { UrlToImage = "/images/default-project-avatar.png", AltTag = x.Group.Name }
+                        Avatar = new Avatar() { UrlToImage = "/img/default-project-avatar.jpg", AltTag = x.Group.Name }
                     }
                 )
                 .ToList(),
@@ -168,7 +159,7 @@ namespace Bowerbird.Web.Controllers.Members
                     {
                         Id = x.Group.Id,
                         Name = x.Group.Name,
-                        Avatar = new Avatar() { UrlToImage = "/images/default-team-avatar.png", AltTag = x.Group.Name }
+                        Avatar = new Avatar() { UrlToImage = "/img/default-team-avatar.jpg", AltTag = x.Group.Name }
                     }
                 )
                 .ToList(),
@@ -238,8 +229,7 @@ namespace Bowerbird.Web.Controllers.Members
                         user.Avatar.Id,
                         "image",
                         "avatar",
-                        user.Avatar.Metadata["metatype"]
-                        )
+                        user.Avatar.Metadata["metatype"])
                 };
             }
             else
@@ -247,7 +237,7 @@ namespace Bowerbird.Web.Controllers.Members
                 return new Avatar()
                 {
                     AltTag = user.GetName(),
-                    UrlToImage = _configService.GetDefaultAvatar("user")
+                    UrlToImage = AvatarUris.DefaultUser
                 };
             }
         }

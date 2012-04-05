@@ -313,7 +313,7 @@ namespace Bowerbird.Web.Controllers.Members
                 AltTag = project.Description,
                 UrlToImage = project.Avatar != null ?
                     _mediaFilePathService.MakeMediaFileUri(project.Avatar.Id, "image", "avatar", project.Avatar.Metadata["metatype"]) :
-                    _configService.GetDefaultAvatar("project")
+                    AvatarUris.DefaultProject
             };
         }
 

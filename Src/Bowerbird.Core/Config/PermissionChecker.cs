@@ -23,7 +23,7 @@ using Raven.Client;
 using Raven.Client.Linq;
 using Bowerbird.Core.Repositories;
 
-namespace Bowerbird.Web.Config
+namespace Bowerbird.Core.Config
 {
     public class PermissionChecker : IPermissionChecker
     {

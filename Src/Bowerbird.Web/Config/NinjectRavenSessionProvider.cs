@@ -21,7 +21,7 @@ using Ninject.Activation;
 
 namespace Bowerbird.Web.Config
 {
-    public class RavenSessionProvider : Provider<IDocumentSession>
+    public class NinjectRavenSessionProvider : Provider<IDocumentSession>
     {
 
         #region Members
@@ -33,7 +33,7 @@ namespace Bowerbird.Web.Config
 
         #region Constructors
 
-        public RavenSessionProvider(
+        public NinjectRavenSessionProvider(
             IDocumentStore documentStore,
             IConfigService configService)
         {

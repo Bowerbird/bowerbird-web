@@ -34,6 +34,8 @@ namespace Bowerbird.Core.Indexes
             public Observation Observation { get; set; }
             public ObservationNote ObservationNote { get; set; }
             public Post Post { get; set; }
+            public User User { get; set; }
+            public User GroupUser { get; set; }
         }
 
         public All_GroupContributions()
@@ -87,6 +89,8 @@ namespace Bowerbird.Core.Indexes
                 let observation = database.Load<Observation>(result.ContributionId)
                 let observationNote = database.Load<ObservationNote>(result.ContributionId)
                 let post = database.Load<Post>(result.ContributionId)
+                let user = database.Load<User>(result.UserId)
+                let groupUser = database.Load<User>(result.GroupUserId)
                 select new
                 {
                     result.ContributionId,
@@ -98,7 +102,9 @@ namespace Bowerbird.Core.Indexes
                     result.GroupCreatedDateTime,
                     Observation = observation,
                     ObservationNote = observationNote,
-                    Post = post
+                    Post = post,
+                    User = user,
+                    GroupUser = groupUser
                 };
 
             Store(x => x.ContributionId, FieldStorage.Yes);

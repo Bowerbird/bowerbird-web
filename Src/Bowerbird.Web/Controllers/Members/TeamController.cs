@@ -389,7 +389,7 @@ namespace Bowerbird.Web.Controllers.Members
                 AltTag = team.Description,
                 UrlToImage = team.Avatar != null ?
                     _mediaFilePathService.MakeMediaFileUri(team.Avatar.Id, "image", "avatar", team.Avatar.Metadata["metatype"]) :
-                    _configService.GetDefaultAvatar("team")
+                    AvatarUris.DefaultTeam
             };
         }
 

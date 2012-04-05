@@ -29,6 +29,7 @@ using System.Diagnostics;
 using Bowerbird.Core.Services;
 using Bowerbird.Web.Queries;
 using Bowerbird.Web.Factories;
+using Bowerbird.Core.Config;
 
 namespace Bowerbird.Web.Controllers.Members
 {
@@ -162,7 +163,7 @@ namespace Bowerbird.Web.Controllers.Members
                 item,
                 groups,
                 "observation",
-                groupContributionResult.GroupUserId,
+                groupContributionResult.GroupUser,
                 groupContributionResult.GroupCreatedDateTime,
                 description);
         }

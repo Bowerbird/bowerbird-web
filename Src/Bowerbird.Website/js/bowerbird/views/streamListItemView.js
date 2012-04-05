@@ -2,10 +2,6 @@
 window.Bowerbird.Views.StreamListItemView = Backbone.View.extend({
     className: 'stream-item',
 
-    //observationTemplate: $.template('observationStreamListItemTemplate', $('#observation-stream-list-item-template')),
-
-    //postTemplate: $.template('postStreamListItemTemplate', $('#post-stream-list-item-template')),
-
     initialize: function (options) {
         _.extend(this, Backbone.Events);
         this.streamItem = options.streamItem;

@@ -40,7 +40,7 @@ namespace Bowerbird.Web.ViewModels.Shared
         public string CreatedDateTimeDescription { get; set; }
 
         [JsonProperty("user")]
-        public string User { get; set; }
+        public UserProfile User { get; set; }
 
         [JsonProperty("item")]
         public object Item { get; set; }

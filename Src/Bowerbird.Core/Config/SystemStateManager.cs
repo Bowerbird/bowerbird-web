@@ -5,10 +5,9 @@ using System.Text;
 using Bowerbird.Core.DomainModels;
 using Raven.Client;
 using Bowerbird.Core.DesignByContract;
-using Ninject.Activation;
 using Bowerbird.Core.Config;
 
-namespace Bowerbird.Web.Config
+namespace Bowerbird.Core.Config
 {
     public class SystemStateManager : ISystemStateManager
     {
@@ -17,7 +16,7 @@ namespace Bowerbird.Web.Config
 
         private readonly IDocumentSession _documentSession;
         private SystemState _cachedSystemState;
-        private object _syncLock = new object();
+        private static object _lock = new object();
 
         #endregion
 
@@ -61,7 +60,7 @@ namespace Bowerbird.Web.Config
 
         public void SystemDataSetupDate(DateTime dateTime)
         {
-            lock (_syncLock)
+            lock (_lock)
             {
                 var systemState = GetSystemState();
 
@@ -74,7 +73,7 @@ namespace Bowerbird.Web.Config
 
         public void DisableEventProcessor()
         {
-            lock (_syncLock)
+            lock (_lock)
             {
                 var systemState = GetSystemState();
                 systemState.FireEvents = false;
@@ -84,7 +83,7 @@ namespace Bowerbird.Web.Config
 
         public void EnableEventProcessor()
         {
-            lock (_syncLock)
+            lock (_lock)
             {
                 var systemState = GetSystemState();
                 systemState.FireEvents = true;
@@ -94,7 +93,7 @@ namespace Bowerbird.Web.Config
 
         public void DisableEmailService()
         {
-            lock (_syncLock)
+            lock (_lock)
             {
                 var systemState = GetSystemState();
                 systemState.SendEmails = false;
@@ -104,7 +103,7 @@ namespace Bowerbird.Web.Config
 
         public void EnableEmailService()
         {
-            lock (_syncLock)
+            lock (_lock)
             {
                 var systemState = GetSystemState();
                 systemState.SendEmails = true;
@@ -114,7 +113,7 @@ namespace Bowerbird.Web.Config
 
         public void DisableCommandProcessor()
         {
-            lock (_syncLock)
+            lock (_lock)
             {
                 var systemState = GetSystemState();
                 systemState.ExecuteCommands = false;
@@ -124,7 +123,7 @@ namespace Bowerbird.Web.Config
 
         public void EnableCommandProcessor()
         {
-            lock (_syncLock)
+            lock (_lock)
             {
                 var systemState = GetSystemState();
                 systemState.ExecuteCommands = true;
@@ -134,7 +133,7 @@ namespace Bowerbird.Web.Config
 
         public void DisableAllServices()
         {
-            lock (_syncLock)
+            lock (_lock)
             {
                 DisableCommandProcessor();
                 DisableEmailService();
@@ -144,11 +143,19 @@ namespace Bowerbird.Web.Config
 
         public void EnableAllServices()
         {
-            lock (_syncLock)
+            lock (_lock)
             {
                 EnableCommandProcessor();
                 EnableEmailService();
                 EnableEventProcessor();
+            }
+        }
+
+        public void ClearCachedSystemState()
+        {
+            lock (_lock)
+            {
+                _cachedSystemState = null;
             }
         }
 

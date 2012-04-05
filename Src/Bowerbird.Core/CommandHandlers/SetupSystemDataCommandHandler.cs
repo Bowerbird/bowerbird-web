@@ -23,6 +23,7 @@ using Bowerbird.Core.DomainModels;
 using Raven.Client;
 using Bowerbird.Core.Events;
 using Bowerbird.Core.Config;
+using System.Threading;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -31,6 +32,7 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Members
 
+        private readonly IDocumentStore _documentStore;
         private readonly IDocumentSession _documentSession;
         private readonly ISystemStateManager _systemStateManager;
 
@@ -39,12 +41,15 @@ namespace Bowerbird.Core.CommandHandlers
         #region Constructors
 
         public SetupSystemDataCommandHandler(
+            IDocumentStore documentStore,
             IDocumentSession documentSession,
             ISystemStateManager systemStateManager)
         {
+            Check.RequireNotNull(documentStore, "documentStore");
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(systemStateManager, "systemStateManager");
 
+            _documentStore = documentStore;
             _documentSession = documentSession;
             _systemStateManager = systemStateManager;
         }
@@ -69,110 +74,127 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(setupSystemDataCommand, "setupSystemDataCommand");
 
-            TheAppRoot = null;
-            Permissions2 = new List<Permission>();
-            Roles = new List<Role>();
-            Users = new List<User>();
-
-            try
+            if (!_systemStateManager.SystemDataSetup) // Check if the system needs setting up
             {
-                _systemStateManager.DisableEmailService();
+                try
+                {
+                    TheAppRoot = null;
+                    Permissions2 = new List<Permission>();
+                    Roles = new List<Role>();
+                    Users = new List<User>();
 
-                AddAppRoot();
+                    // Disable emailing while we setup admin users
+                    _systemStateManager.DisableEmailService();
 
-                // Permmissions
-                AddPermission(PermissionNames.CreateOrganisation, "Create Organisations", "Ability to create organisations");
-                AddPermission(PermissionNames.UpdateOrganisation, "Update Organisations", "Ability to update organisations");
-                AddPermission(PermissionNames.DeleteOrganisation, "Delete Organisations", "Ability to delete organisations");
-                AddPermission(PermissionNames.CreateTeam, "Create Teams", "Ability to create teams");
-                AddPermission(PermissionNames.UpdateTeam, "Update Teams", "Ability to update teams");
-                AddPermission(PermissionNames.DeleteTeam, "Delete Teams", "Ability to delete teams");
-                AddPermission(PermissionNames.CreateProject, "Create Projects", "Ability to create projects");
-                AddPermission(PermissionNames.UpdateProject, "Update Projects", "Ability to update projects");
-                AddPermission(PermissionNames.DeleteProject, "Delete Projects", "Ability to delete projects");
-                AddPermission(PermissionNames.CreateWatchlist, "Create Watchlists", "Ability to create watchlists");
-                AddPermission(PermissionNames.UpdateWatchlist, "Update Watchlists", "Ability to update watchlists");
-                AddPermission(PermissionNames.DeleteWatchlist, "Delete Watchlists", "Ability to delete watchlists");
-                AddPermission(PermissionNames.CreateObservation, "Create Observations", "Ability to create observations");
-                AddPermission(PermissionNames.UpdateObservation, "Update Observations", "Ability to update observations");
-                AddPermission(PermissionNames.DeleteObservation, "Delete Observations", "Ability to delete observations");
-                AddPermission(PermissionNames.CreatePost, "Create Posts", "Ability to create posts");
-                AddPermission(PermissionNames.UpdatePost, "Update Posts", "Ability to update posts");
-                AddPermission(PermissionNames.DeletePost, "Delete Posts", "Ability to delete posts");
+                    // Create the TempAppRoot to be used before the actual app root is created
+                    SetTempAppRoot();
 
-                // Roles
-                AddRole("globaladministrator", "Global Administrator", "Administrator of Bowerbird", 
-                    PermissionNames.CreateOrganisation, 
-                    PermissionNames.UpdateOrganisation, 
-                    PermissionNames.DeleteOrganisation,
-                    PermissionNames.CreateTeam,
-                    PermissionNames.UpdateTeam,
-                    PermissionNames.DeleteTeam,
-                    PermissionNames.CreateProject,
-                    PermissionNames.UpdateProject,
-                    PermissionNames.DeleteProject);
-                AddRole("globalmember", "Global Member", "Member of Bowerbird", 
-                    PermissionNames.CreateObservation, 
-                    PermissionNames.UpdateObservation, 
-                    PermissionNames.DeleteObservation, 
-                    PermissionNames.CreateProject, 
-                    PermissionNames.UpdateProject, 
-                    PermissionNames.DeleteProject);
-                AddRole("organisationadministrator", "Organisation Administrator", "Administrator of an organisation", 
-                    PermissionNames.UpdateOrganisation, 
-                    PermissionNames.CreateTeam, 
-                    PermissionNames.UpdateTeam, 
-                    PermissionNames.DeleteTeam,
-                    PermissionNames.CreatePost,
-                    PermissionNames.UpdatePost,
-                    PermissionNames.DeletePost);
-                AddRole("teamadministrator", "Team Administrator", "Administrator of a team", 
-                    PermissionNames.UpdateTeam, 
-                    PermissionNames.CreateProject, 
-                    PermissionNames.UpdateProject, 
-                    PermissionNames.DeleteProject);
-                AddRole("teammember", "Team Member", "Member of a team",
-                    PermissionNames.CreatePost,
-                    PermissionNames.UpdatePost,
-                    PermissionNames.DeletePost);
-                AddRole("projectadministrator", "Project Administrator", "Administrator of a project",
-                    PermissionNames.UpdateProject);
-                AddRole("projectmember", "Project Member", "Member of a project", 
-                    PermissionNames.CreateObservation, 
-                    PermissionNames.UpdateObservation, 
-                    PermissionNames.DeleteObservation,
-                    PermissionNames.CreatePost,
-                    PermissionNames.UpdatePost,
-                    PermissionNames.DeletePost);
+                    // Permmissions
+                    AddPermission(PermissionNames.CreateOrganisation, "Create Organisations", "Ability to create organisations");
+                    AddPermission(PermissionNames.UpdateOrganisation, "Update Organisations", "Ability to update organisations");
+                    AddPermission(PermissionNames.DeleteOrganisation, "Delete Organisations", "Ability to delete organisations");
+                    AddPermission(PermissionNames.CreateTeam, "Create Teams", "Ability to create teams");
+                    AddPermission(PermissionNames.UpdateTeam, "Update Teams", "Ability to update teams");
+                    AddPermission(PermissionNames.DeleteTeam, "Delete Teams", "Ability to delete teams");
+                    AddPermission(PermissionNames.CreateProject, "Create Projects", "Ability to create projects");
+                    AddPermission(PermissionNames.UpdateProject, "Update Projects", "Ability to update projects");
+                    AddPermission(PermissionNames.DeleteProject, "Delete Projects", "Ability to delete projects");
+                    AddPermission(PermissionNames.CreateWatchlist, "Create Watchlists", "Ability to create watchlists");
+                    AddPermission(PermissionNames.UpdateWatchlist, "Update Watchlists", "Ability to update watchlists");
+                    AddPermission(PermissionNames.DeleteWatchlist, "Delete Watchlists", "Ability to delete watchlists");
+                    AddPermission(PermissionNames.CreateObservation, "Create Observations", "Ability to create observations");
+                    AddPermission(PermissionNames.UpdateObservation, "Update Observations", "Ability to update observations");
+                    AddPermission(PermissionNames.DeleteObservation, "Delete Observations", "Ability to delete observations");
+                    AddPermission(PermissionNames.CreatePost, "Create Posts", "Ability to create posts");
+                    AddPermission(PermissionNames.UpdatePost, "Update Posts", "Ability to update posts");
+                    AddPermission(PermissionNames.DeletePost, "Delete Posts", "Ability to delete posts");
 
-                // Admin Users
-                AddUser("password", "frank@radocaj.com", "Frank", "Radocaj", "globaladministrator", "globalmember");
-                UpdateAppRoot(Users[0].Id); // Set user on app root now that we have one
-                AddUser("password", "hcrittenden@museum.vic.gov.au", "Hamish", "Crittenden", "globaladministrator", "globalmember");
-                AddUser("password", "kwalker@museum.vic.gov.au", "Ken", "Walker","globaladministrator", "globalmember");
+                    // Roles
+                    AddRole("globaladministrator", "Global Administrator", "Administrator of Bowerbird",
+                        PermissionNames.CreateOrganisation,
+                        PermissionNames.UpdateOrganisation,
+                        PermissionNames.DeleteOrganisation,
+                        PermissionNames.CreateTeam,
+                        PermissionNames.UpdateTeam,
+                        PermissionNames.DeleteTeam,
+                        PermissionNames.CreateProject,
+                        PermissionNames.UpdateProject,
+                        PermissionNames.DeleteProject);
+                    AddRole("globalmember", "Global Member", "Member of Bowerbird",
+                        PermissionNames.CreateObservation,
+                        PermissionNames.UpdateObservation,
+                        PermissionNames.DeleteObservation,
+                        PermissionNames.CreateProject,
+                        PermissionNames.UpdateProject,
+                        PermissionNames.DeleteProject);
+                    AddRole("organisationadministrator", "Organisation Administrator", "Administrator of an organisation",
+                        PermissionNames.UpdateOrganisation,
+                        PermissionNames.CreateTeam,
+                        PermissionNames.UpdateTeam,
+                        PermissionNames.DeleteTeam,
+                        PermissionNames.CreatePost,
+                        PermissionNames.UpdatePost,
+                        PermissionNames.DeletePost);
+                    AddRole("teamadministrator", "Team Administrator", "Administrator of a team",
+                        PermissionNames.UpdateTeam,
+                        PermissionNames.CreateProject,
+                        PermissionNames.UpdateProject,
+                        PermissionNames.DeleteProject);
+                    AddRole("teammember", "Team Member", "Member of a team",
+                        PermissionNames.CreatePost,
+                        PermissionNames.UpdatePost,
+                        PermissionNames.DeletePost);
+                    AddRole("projectadministrator", "Project Administrator", "Administrator of a project",
+                        PermissionNames.UpdateProject);
+                    AddRole("projectmember", "Project Member", "Member of a project",
+                        PermissionNames.CreateObservation,
+                        PermissionNames.UpdateObservation,
+                        PermissionNames.DeleteObservation,
+                        PermissionNames.CreatePost,
+                        PermissionNames.UpdatePost,
+                        PermissionNames.DeletePost);
 
-                _systemStateManager.SystemDataSetupDate(DateTime.UtcNow);
-            }
-            finally
-            {
-                TheAppRoot = null;
-                Permissions2 = null;
-                Roles = null;
-                Users = null;
+                    // Admin Users
+                    AddUser("password", "frank@radocaj.com", "Frank", "Radocaj", "globaladministrator", "globalmember");
+                    AddUser("password", "hcrittenden@museum.vic.gov.au", "Hamish", "Crittenden", "globaladministrator", "globalmember");
+                    AddUser("password", "kwalker@museum.vic.gov.au", "Ken", "Walker", "globaladministrator", "globalmember");
 
-                _systemStateManager.EnableEmailService();
+                    // Create the top-level app group
+                    AddAppRoot(Users[0].Id);
+
+                    // Set the date time that the core data was setup
+                    _systemStateManager.SystemDataSetupDate(DateTime.UtcNow);
+
+                    // Save all data now
+                    _documentSession.SaveChanges();
+
+                    // Wait for all stale indexes to complete.
+                    while (_documentStore.DatabaseCommands.GetStatistics().StaleIndexes.Length > 0)
+                    {
+                        Thread.Sleep(10);
+                    }
+
+                    // Re-enable emailing
+                    _systemStateManager.EnableEmailService();
+                }
+                catch (Exception exception)
+                {
+                    throw new Exception("Could not setup system data.", exception);
+                }
             }
         }
 
-        private void AddAppRoot()
+        private void SetTempAppRoot()
         {
-            TheAppRoot = new AppRoot();
-            _documentSession.Store(TheAppRoot);
+            // Create the TempAppRoot to be used before the actual app root is created
+            // Once the real temp app root is created, this one is no longer used
+            TheAppRoot = new TempAppRoot();
         }
 
-        private void UpdateAppRoot(string userId)
+        private void AddAppRoot(string userId)
         {
-            TheAppRoot.SetUser(Users.Single(x => x.Id == userId));
+            TheAppRoot = new AppRoot(Users.Single(x => x.Id == userId));
+
             _documentSession.Store(TheAppRoot);
         }
 
@@ -228,6 +250,16 @@ namespace Bowerbird.Core.CommandHandlers
             _documentSession.Store(user);
 
             Users.Add(user);
+        }
+
+        private class TempAppRoot : AppRoot
+        {
+            public TempAppRoot()
+                : base()
+            {
+                Id = Constants.AppRootId;
+                Name = "Application Root Group";
+            }
         }
 
         #endregion      

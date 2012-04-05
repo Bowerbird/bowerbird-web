@@ -28,7 +28,7 @@ using Bowerbird.Web.Queries;
 
 namespace Bowerbird.Web.Config
 {
-    public class BowerbirdNinjectModule : NinjectModule
+    public class NinjectBindingModule : NinjectModule
     {
 
         #region Members
@@ -48,12 +48,12 @@ namespace Bowerbird.Web.Config
         public override void Load()
         {
             // Singleton scope
-            Bind<IDocumentStore>().ToProvider<RavenDocumentStoreProvider>().InSingletonScope();
+            Bind<IDocumentStore>().ToProvider<NinjectRavenDocumentStoreProvider>().InSingletonScope();
             Bind<IPermissionChecker>().To<PermissionChecker>().InSingletonScope().OnActivation(x => ((PermissionChecker)x).Init());
             Bind<ISystemStateManager>().To<SystemStateManager>().InSingletonScope();
 
             // Request scope
-            Bind<IDocumentSession>().ToProvider<RavenSessionProvider>().InRequestScope();
+            Bind<IDocumentSession>().ToProvider<NinjectRavenSessionProvider>().InRequestScope();
 
             // Transient scope
             Bind<IServiceLocator>().ToMethod(x => ServiceLocator.Current);

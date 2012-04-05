@@ -25,7 +25,7 @@ using Bowerbird.Core.Indexes;
 
 namespace Bowerbird.Web.Config
 {
-    public class RavenDocumentStoreProvider : Provider<IDocumentStore>
+    public class NinjectRavenDocumentStoreProvider : Provider<IDocumentStore>
     {
 
         #region Members
@@ -36,7 +36,7 @@ namespace Bowerbird.Web.Config
 
         #region Constructors
 
-        public RavenDocumentStoreProvider(
+        public NinjectRavenDocumentStoreProvider(
             IConfigService configService)
         {
             Check.RequireNotNull(configService, "configService");
