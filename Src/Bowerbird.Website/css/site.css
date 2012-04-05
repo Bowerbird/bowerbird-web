@@ -1824,13 +1824,24 @@ a.multiSelect
     width: 100%;
     text-decoration: none;
 }
+#organisation-field a.multiSelect,
+#team-field a.multiSelect
+{
+    width:50%;
+}
+#organisation-field a.multiSelect img,
+#team-field a.multiSelect img
+{
+    vertical-align: middle;
+    width: 37px;
+    margin-right: 10px;
+}
 a.multiSelect:active,
 a.multiSelect:focus
 {
     box-shadow: 0 1px 2px 0 #777777 inset, 0 1px 6px 0 rgba(80, 158, 238, 0.4);
     background: none repeat scroll 0 0 rgba(255, 255, 255, 0.8);
 }
-
 #projects-field .multiSelectOptions LABEL
 {
     padding: 0 13px 0 0;

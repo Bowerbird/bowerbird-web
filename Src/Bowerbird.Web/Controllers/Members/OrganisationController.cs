@@ -93,15 +93,10 @@ namespace Bowerbird.Web.Controllers.Members
         {
             if (User.Identity.IsAuthenticated && listInput.HasAddTeamPermission)
             {
-                return Json(GetGroupsHavingAddTeamPermission(), JsonRequestBehavior.AllowGet);
+                return new JsonNetResult(GetGroupsHavingAddTeamPermission());
             }
 
-            //if (User.Identity.IsAuthenticated)
-            //{
-            //    return Json(MakeOrganisationListByMembership(listInput), JsonRequestBehavior.AllowGet);
-            //}
-
-            return Json(MakeOrganisationList(listInput), JsonRequestBehavior.AllowGet);
+            return new JsonNetResult(MakeOrganisationList(listInput));
         }
 
         [Transaction]

@@ -111,7 +111,7 @@ namespace Bowerbird.Web.Controllers.Members
         [HttpPost]
         public ActionResult Create(TeamCreateInput createInput)
         {
-            if (!_userContext.HasGroupPermission(PermissionNames.CreateTeam, createInput.OrganisationId ?? Constants.AppRootId))
+            if (!_userContext.HasGroupPermission(PermissionNames.CreateTeam, createInput.Organisation ?? Constants.AppRootId))
             {
                 return HttpUnauthorized();
             }
@@ -191,7 +191,8 @@ namespace Bowerbird.Web.Controllers.Members
             {
                 Description = createInput.Description,
                 Name = createInput.Name,
-                UserId = _userContext.GetAuthenticatedUserId()
+                UserId = _userContext.GetAuthenticatedUserId(),
+                OrganisationId = createInput.Organisation
             };
         }
 

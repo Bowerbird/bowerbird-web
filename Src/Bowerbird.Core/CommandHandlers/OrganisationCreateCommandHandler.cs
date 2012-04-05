@@ -69,11 +69,22 @@ namespace Bowerbird.Core.CommandHandlers
                 organisation,
                 _documentSession
                     .Query<Role>()
-                    .Where(x => x.Name.Equals("organisationadministrator") || x.Name.Equals("organisationmember"))
+                    .Where(x => x.Id.Equals("roles/organisationadministrator") || x.Id.Equals("roles/organisationmember"))
                     .ToList()
                 );
 
             _documentSession.Store(organisationAdministrator);
+
+            var parentGroup = _documentSession.Load<AppRoot>(Constants.AppRootId);
+
+            var groupAssociation = new GroupAssociation(
+                parentGroup,
+                organisation,
+                _documentSession.Load<User>(command.UserId),
+                DateTime.UtcNow
+                );
+
+            _documentSession.Store(groupAssociation);
         }
 
         #endregion

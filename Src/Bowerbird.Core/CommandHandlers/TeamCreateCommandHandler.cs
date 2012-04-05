@@ -14,6 +14,7 @@
 
 using System.Linq;
 using Bowerbird.Core.Commands;
+using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Raven.Client;
@@ -74,17 +75,24 @@ namespace Bowerbird.Core.CommandHandlers
 
             _documentSession.Store(teamAdministrator);
 
-            if (!string.IsNullOrEmpty(command.OrganisationId))
+            Group parentGroup = null;
+            if (string.IsNullOrEmpty(command.OrganisationId))
             {
-                var groupAssociation = new GroupAssociation(
-                    _documentSession.Load<Organisation>(command.OrganisationId),
-                    team,
-                    _documentSession.Load<User>(command.UserId),
-                    DateTime.UtcNow
-                    );
-
-                _documentSession.Store(groupAssociation);
+                parentGroup = _documentSession.Load<AppRoot>(Constants.AppRootId);
             }
+            else
+            {
+                parentGroup = _documentSession.Load<Team>(command.OrganisationId);
+            }
+
+            var groupAssociation = new GroupAssociation(
+                parentGroup,
+                team,
+                _documentSession.Load<User>(command.UserId),
+                DateTime.UtcNow
+                );
+
+            _documentSession.Store(groupAssociation);
         }
 
         #endregion

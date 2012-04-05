@@ -23,40 +23,40 @@ window.Bowerbird.Views.TeamCreateFormView = Backbone.View.extend({
         );
         this.appView = options.appView;
         this.team = options.team;
+        this.organisation = options.organisation;
         this.editAvatarView = new Bowerbird.Views.EditAvatarView({ el: $('#media-resources-fieldset'), group: this.team });
     },
 
     render: function () {
         var teamTemplate = ich.teamcreate({ team: app.get('newTeam').toJSON() }).appendTo(this.$el);
-        //window.scrollTo(0, 0);
         return this;
     },
 
     start: function () {
         this.editAvatarView.render();
-        var organisationsAdministered = new Bowerbird.Collections.Teams();
+        var organisations = new Bowerbird.Collections.Organisations();
         $.getJSON('organisation/list?HasAddTeamPermission=true', function (data) {
-            organisationsAdministered.reset(data);
-            if (organisationsAdministered.length > 0) {
-                $.tmpl('<option value="${id}">${name}</option>', organisationsAdministered).appendTo('#organisations');
+            organisations.reset(data);
+            if (organisations.length > 0) {
+                $.tmpl('<option value="${id}">${name}</option>', organisations.toJSONViewModel()).appendTo('#organisations');
                 this.organisationListSelectView = $("#organisations").multiSelect({
                     selectAll: false,
                     singleSelect: true,
-                    noneSelected: 'Select Team',
+                    noneSelected: 'Select Organisation',
                     renderOption: function (id, option) {
                         var html = '<label><input style="display:none;" type="checkbox" name="' + id + '[]" value="' + option.value + '"';
                         if (option.selected) {
                             html += ' checked="checked"';
                         }
-                        var selectedTeam = organisationsAdministered.get(option.value);
-                        html += ' /><img src="' + selectedTeam.get('avatar').get('urlToImage') + '" />' + selectedTeam.get('name') + '</label>';
+                        var organisation = organisations.get(option.value);
+                        html += ' /><img src="' + organisation.get('avatar').urlToImage + '" />' + organisation.get('name') + '</label>';
                         return html;
                     },
                     oneOrMoreSelected: function (selectedOptions) {
-                        var selectedTeam = teams.get(option.value);
                         var $selectedHtml = $('<span />');
                         _.each(selectedOptions, function (option) {
-                            $selectedHtml.append('<span><img src="' + selectedTeam.get('avatar').get('urlToImage') + '" />' + selectedTeam.get('name') + '</span> ');
+                            var organisation = organisations.get(option.value);
+                            $selectedHtml.append('<span><img src="' + organisation.get('avatar').urlToImage + '" />' + organisation.get('name') + '</span> ');
                         });
                         return $selectedHtml;
                     }
