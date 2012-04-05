@@ -150,16 +150,16 @@
     </div>
 </script>
 
-<script id="avatarmediauploader" type="text/html">
-    <div id="media-resource-add-pane">
-        <div id="media-resource-upload-button" class="button media-resource-upload-button">Choose Files<input id="fileupload" type="file" name="file" multiple></div>
-        <input type="button" value="Import From Website" id="media-resource-import-button"/>                        
-    </div>
+<script id="avatarchoosefile" type="text/html">
+    <div id="media-resource-upload-button" class="button media-resource-upload-button">Choose Avatar Image<input id="fileupload" type="file" name="file" multiple></div>
 </script>
 
 <script id="avataruploaded" type="text/html">
-    <div id="avatar-uploaded">
-        <img src="{{mediumImageUri}}" />
+    <div>
+        <img src="{{mediumImageUri}}" alt="" />
+    </div>
+    <div>
+        <input type="button" value="Remove" class="remove-media-resource-button" />
     </div>
 </script>
 

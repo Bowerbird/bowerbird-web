@@ -23,7 +23,7 @@ window.Bowerbird.Views.OrganisationCreateFormView = Backbone.View.extend({
         );
         this.appView = options.appView;
         this.organisation = options.organisation;
-        this.editAvatarView = new Bowerbird.Views.EditAvatarView({ el: $('#media-resources-fieldset'), group: this.observation });
+        this.editAvatarView = new Bowerbird.Views.EditAvatarView({ el: $('#media-resources-fieldset'), group: this.organisation });
     },
 
     render: function () {

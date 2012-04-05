@@ -16,13 +16,13 @@ window.Bowerbird.Views.EditAvatarView = Backbone.View.extend({
         '_onUploadAdd',
         'removeMediaResource'
         );
-        this.avatarItemViews = [];
         this.group = options.group;
         this.currentUploadKey = 0;
         this.avatarItemView = null;
     },
 
     render: function () {
+        var avatarChooseFile = ich.avatarchoosefile().appendTo($('#avatar-add-pane'));
         this._initMediaUploader();
         return this;
     },
@@ -40,31 +40,31 @@ window.Bowerbird.Views.EditAvatarView = Backbone.View.extend({
     },
 
     _onUploadAdd: function (e, data) {
-        var self = this;
-        $.each(data.files, function (index, file) {
-            if (file != null) {
-                self.currentUploadKey++;
-                var mediaResource = new Bowerbird.Models.MediaResource({ key: self.currentUploadKey });
-                self.group.set('avatar', mediaResource);
-                //                self.observation.addMediaResources.add(mediaResource);
-                //                var mediaResourceItemView = new Bowerbird.Views.MediaResourceItemView({ mediaResource: mediaResource });
-                //                self.mediaResourceItemViews.push(mediaResourceItemView);
-                $('#media-resource-add-pane').before(mediaResourceItemView.render().el);
-                loadImage(
-                    data.files[0],
-                    function (img) {
-                        if (img instanceof HTMLImageElement) { // FF seems to fire this handler twice, on second time returning error, which we ignore :(
-                            mediaResourceItemView.showTempMedia(img);
-                            $('#media-resource-items').animate({ scrollLeft: 100000 });
-                        }
-                    },
-                    {
-                        maxHeight: 220
-                    }
-                );
-            }
-        });
-        data.submit();
+        //        var self = this;
+        //        $.each(data.files, function (index, file) {
+        //            if (file != null) {
+        //                self.currentUploadKey++;
+        //                var mediaResource = new Bowerbird.Models.MediaResource({ key: self.currentUploadKey });
+        //                self.group.set('avatar', mediaResource);
+        //                //                self.observation.addMediaResources.add(mediaResource);
+        //                //                var mediaResourceItemView = new Bowerbird.Views.MediaResourceItemView({ mediaResource: mediaResource });
+        //                //                self.mediaResourceItemViews.push(mediaResourceItemView);
+        //                $('#media-resource-add-pane').before(mediaResourceItemView.render().el);
+        //                loadImage(
+        //                    data.files[0],
+        //                    function (img) {
+        //                        if (img instanceof HTMLImageElement) { // FF seems to fire this handler twice, on second time returning error, which we ignore :(
+        //                            mediaResourceItemView.showTempMedia(img);
+        //                            $('#media-resource-items').animate({ scrollLeft: 100000 });
+        //                        }
+        //                    },
+        //                    {
+        //                        maxHeight: 220
+        //                    }
+        //                );
+        //            }
+        //        });
+        //        data.submit();
     },
 
     _onSubmitUpload: function (e, data) {
@@ -77,14 +77,14 @@ window.Bowerbird.Views.EditAvatarView = Backbone.View.extend({
         this.currentUploadKey++;
         var mediaResource = new Bowerbird.Models.MediaResource({ key: self.currentUploadKey });
         this.avatarItemView = new Bowerbird.Views.AvatarItemView({ mediaResource: mediaResource });
-        $('#avatar-uploader').find('.media-resource-uploaded').remove();
-        $('#media-resource-add-pane').before(this.avatarItemView.render().el);
+        $('#avatar-add-pane').hide();
+        $('#avatar-viewer').append(this.avatarItemView.render().el);
         loadImage(
             data.files[0],
             function (img) {
                 if (img instanceof HTMLImageElement) { // FF seems to fire this handler twice, on second time returning error, which we ignore :(
                     self.avatarItemView.showTempMedia(img);
-                    $('#media-resource-items').animate({ scrollLeft: 100000 });
+                    $('#media-resource-avatar').animate({ scrollLeft: 100000 });
                 }
             },
             {
@@ -95,6 +95,9 @@ window.Bowerbird.Views.EditAvatarView = Backbone.View.extend({
 
     removeMediaResource: function () {
         this.group.set('avatar', null);
+        this.avatarItemView = null;
+        var avatarChooseFile = ich.avatarchoosefile().appendTo(this.$el.find('#avatar-add-pane'));
+        this._initMediaUploader();
     }
 
 });

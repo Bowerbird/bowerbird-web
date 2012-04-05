@@ -1,6 +1,6 @@
 ﻿
 window.Bowerbird.Views.AvatarItemView = Backbone.View.extend({
-    className: 'media-resource-uploaded',
+    className: 'avatar-uploaded',
 
     events: {
         'click .view-media-resource-button': 'viewMediaResource',
@@ -8,7 +8,7 @@ window.Bowerbird.Views.AvatarItemView = Backbone.View.extend({
         'click .remove-media-resource-button': 'removeMediaResource'
     },
 
-    template: $.template('avatarMediaResourceUploadedTemplate', $('#avatar-media-resource-uploaded-template')),
+    //template: $.template('avatarMediaResourceUploadedTemplate', $('#avatar-media-resource-uploaded-template')),
 
     initialize: function (options) {
         _.extend(this, Backbone.Events);
@@ -18,8 +18,8 @@ window.Bowerbird.Views.AvatarItemView = Backbone.View.extend({
     },
 
     render: function () {
-        $.tmpl('avatarMediaResourceUploadedTemplate', this.mediaResource.toJSON()).appendTo(this.$el);
-        window.scrollTo(0, 0);
+        //$.tmpl('avatarMediaResourceUploadedTemplate', this.mediaResource.toJSON()).appendTo(this.$el);
+        var avatarUploaded = ich.avataruploaded(this.mediaResource.toJSON()).appendTo(this.$el);
         return this;
     },
 
@@ -29,6 +29,9 @@ window.Bowerbird.Views.AvatarItemView = Backbone.View.extend({
 
     removeMediaResource: function () {
         this.remove();
+        //        this.trigger('removeMediaResource', this);
+        //var avatarChooseFile = ich.avatarchoosefile().appendTo($('#media-uploader'));
+        $('#avatar-add-pane').show();
     },
 
     showTempMedia: function (img) {

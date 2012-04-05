@@ -1,4 +1,4 @@
-﻿/*
+﻿﻿/*
 *
 *  Simple fluid media
 *
@@ -1443,7 +1443,12 @@ header nav#search-menu
     height: 286px;
     width: 100%;
 }
-.form #media-resource-add-pane
+.form .avatar-media-uploader
+{
+    width:300px;   
+}
+.form #media-resource-add-pane,
+.form #avatar-add-pane
 {
     background-color: rgba(202, 222, 239, 0.6);
     border: 10px dashed #FFFFFF;
@@ -1459,7 +1464,8 @@ header nav#search-menu
     text-align: center;
     vertical-align: top;
 }
-.form #media-resource-items .media-resource-uploaded
+.form #media-resource-items .media-resource-uploaded,
+.form #avatar-viewer .avatar-uploaded
 {
     position: relative;
     white-space: nowrap;
@@ -1479,7 +1485,8 @@ header nav#search-menu
     right: 0;
     white-space: nowrap;
 }
-.form .media-resource-uploaded
+.form .media-resource-uploaded,
+.form .avatar-uploaded
 {
     background-color: #FFFFFF;
     box-shadow: 0 1px 2px 0 #5071A6;
@@ -1490,7 +1497,8 @@ header nav#search-menu
     overflow: hidden;
     padding: 0;
 }
-.form .media-resource-uploaded:hover div:last-child
+.form .media-resource-uploaded:hover div:last-child,
+.form .avatar-uploaded:hover div:last-child
 {
     display: block;
 }
@@ -1498,11 +1506,13 @@ header nav#search-menu
 {
     margin-right: 15px;
 }
-.form .media-resource-uploaded div:first-child img
+.form .media-resource-uploaded div:first-child img,
+.form .avatar-uploaded div:first-child img
 {
     height: 220px;
 }
-.form .media-resource-uploaded div:last-child
+.form .media-resource-uploaded div:last-child,
+.form .avatar-uploaded div:last-child
 {
     background: none repeat scroll 0 0 rgba(202, 222, 239, 0.8);
     bottom: 0;
@@ -1511,7 +1521,8 @@ header nav#search-menu
     position: absolute;
     width: 100%;
 }
-.form .media-resource-uploaded div:last-child input
+.form .media-resource-uploaded div:last-child input,
+.form .avatar-uploaded div:last-child input
 {
     display: block;
     font-size: 0.75em;
@@ -1519,7 +1530,8 @@ header nav#search-menu
     padding: 2px 10px;
     width: 95px;
 }
-.form .media-resource-uploaded div:last-child input:first-child
+.form .media-resource-uploaded div:last-child input:first-child,
+.form .avatar-uploaded div:last-child input:first-child
 {
     margin-top: 55px;
 }
