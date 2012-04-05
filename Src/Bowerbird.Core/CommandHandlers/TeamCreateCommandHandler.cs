@@ -82,7 +82,7 @@ namespace Bowerbird.Core.CommandHandlers
             }
             else
             {
-                parentGroup = _documentSession.Load<Team>(command.OrganisationId);
+                parentGroup = _documentSession.Load<Organisation>(command.OrganisationId);
             }
 
             var groupAssociation = new GroupAssociation(

@@ -47,9 +47,9 @@ window.Bowerbird.Views.ProjectCreateFormView = Backbone.View.extend({
                     noneSelected: 'Select Team',
                     renderOption: function (id, option) {
                         var html = '<label><input style="display:none;" type="checkbox" name="' + id + '[]" value="' + option.value + '"';
-                        if (option.selected) {
-                            html += ' checked="checked"';
-                        }
+//                        if (option.selected) {
+//                            html += ' checked="checked"';
+//                        }
                         var team = teams.get(option.value);
                         html += ' /><img src="' + team.get('avatar').urlToImage + '" />' + team.get('name') + '</label>';
                         return html;

@@ -9,7 +9,8 @@ window.Bowerbird.Views.TeamCreateFormView = Backbone.View.extend({
         'click #save': '_save',
         'change input#name': '_contentChanged',
         'change textarea#description': '_contentChanged',
-        'change input#website': '_contentChanged'
+        'change input#website': '_contentChanged',
+        'change #organisation-field input:checkbox': '_organisationChanged'
     },
 
     initialize: function (options) {
@@ -45,9 +46,9 @@ window.Bowerbird.Views.TeamCreateFormView = Backbone.View.extend({
                     noneSelected: 'Select Organisation',
                     renderOption: function (id, option) {
                         var html = '<label><input style="display:none;" type="checkbox" name="' + id + '[]" value="' + option.value + '"';
-                        if (option.selected) {
-                            html += ' checked="checked"';
-                        }
+//                        if (option.selected) {
+//                            html += ' checked="checked"';
+//                        }
                         var organisation = organisations.get(option.value);
                         html += ' /><img src="' + organisation.get('avatar').urlToImage + '" />' + organisation.get('name') + '</label>';
                         return html;
@@ -66,6 +67,15 @@ window.Bowerbird.Views.TeamCreateFormView = Backbone.View.extend({
                 $('#organisation-field').remove();
             }
         });
+    },
+
+    _organisationChanged: function (e) {
+        var $checkbox = $(e.currentTarget);
+        if ($checkbox.attr('checked') === 'checked') {
+            this.team.set('organisation', $checkbox.attr('value'));
+        } else {
+            this.team.set('organisation', '');
+        }
     },
 
     _cancel: function () {
