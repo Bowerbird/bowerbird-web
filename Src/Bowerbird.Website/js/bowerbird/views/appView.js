@@ -17,11 +17,13 @@ window.Bowerbird.Views.AppView = Backbone.View.extend({
         'showTeamCreateFormView',
         'showOrganisationCreateFormView',
         'showChatView',
-        'removeChatView'
+        'removeChatView',
+        'showExploreView'
         );
         this.streamView = null;
         this.formView = null;
         this.userView = null;
+        this.exploreView = null;
         app.stream.on('newStream', this.showStreamView, this);
         app.on('change:newObservation', this.showObservationCreateFormView, this);
         app.on('change:newProject', this.showProjectCreateFormView, this);
@@ -124,5 +126,13 @@ window.Bowerbird.Views.AppView = Backbone.View.extend({
 
     newChatRequest: function (e) {
         log('appView.newChatRequest');
-    }
+    },
+
+    showExploreView: function () {
+        if (!app.explore.isSet()) {
+            app.explore.setNewExplore(null);
+        }
+        $(this.streamView.el).show();
+        window.scrollTo(0, 0);
+    },
 });

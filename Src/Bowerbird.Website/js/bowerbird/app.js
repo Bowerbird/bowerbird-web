@@ -17,6 +17,7 @@ window.Bowerbird.App = Backbone.Model.extend({
         this.chats = new Bowerbird.Collections.Chats();
         this.onlineUsers = new Bowerbird.Collections.Users();
         this.notifications = new Bowerbird.Collections.Notifications();
+        this.explore = new Bowerbird.Models.Explore();
 
         window.app = this;
         log('App.Initialize Completed');
@@ -86,6 +87,18 @@ window.Bowerbird.App = Backbone.Model.extend({
 
     cancelNewTeam: function () {
         this.set('newTeam', null);
+    },
+
+    exploreProjects: function () {
+        this.explore.setNewExplore('project');
+    },
+
+    exploreTeams: function () {
+        this.explore.setNewExplore('team');
+    },
+
+    exploreOrganisations: function () {
+        this.explore.setNewExplore('organisation');
     }
 
 });

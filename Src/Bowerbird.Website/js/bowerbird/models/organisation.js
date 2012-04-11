@@ -1,18 +1,12 @@
 ﻿
-window.Bowerbird.Models.Organisation = Backbone.Model.extend({
-    url: '/members/organisation/',
+window.Bowerbird.Models.Organisation = Bowerbird.Models.Group.extend({
 
-    defaults: {
-        name: '',
-        description: '',
-        website: '',
-        avatar: ''
-    },
+    url: '/members/organisation/',
 
     initialize: function (options) {
         _.extend(this, Backbone.Events);
-        //this.avatar = new Bowerbird.Models.MediaResource();
-        this.avatar = { id: '', url: '', altTag: '' };
+        this.constructor.__super__.initialize.apply(this, options);
+        this.type = 'organisation';
     },
 
     toJSON: function () {
@@ -20,7 +14,8 @@ window.Bowerbird.Models.Organisation = Backbone.Model.extend({
             name: this.get('name'),
             description: this.get('description'),
             website: this.get('website'),
-            avatar: this.get('avatar').id
+            avatar: this.get('avatar').id,
+            type: this.get('type')
         };
     },
 

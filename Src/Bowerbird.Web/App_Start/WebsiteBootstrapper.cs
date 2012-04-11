@@ -23,6 +23,7 @@ using Bowerbird.Core.Events;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Ninject;
 using Ninject.Web.Mvc;
+using Nustache.Mvc;
 using Raven.Client;
 using NinjectBootstrapper = Ninject.Web.Mvc.Bootstrapper;
 using Bowerbird.Web.Config;
@@ -48,7 +49,8 @@ namespace Bowerbird.Web.App_Start
 
             ViewEngines.Engines.Clear();
 
-            ViewEngines.Engines.Add(new RazorViewEngine());
+            //ViewEngines.Engines.Add(new RazorViewEngine());
+            ViewEngines.Engines.Add(new NustacheViewEngine());
 
             AreaRegistration.RegisterAllAreas();
 

@@ -32,6 +32,7 @@
                     <li>@Html.ActionLink("Groups", "index", "group")</li>
                 </ul>
             </nav>
+            
             <nav id="account-menu">
                 <ul>
                 @if (User.Identity.IsAuthenticated)
@@ -51,6 +52,16 @@
                 <div>
                     <label for="search">Search</label> <input type="text" value="" name="search" id="search" placeholder="Search for observations, people and groups" />
                 </div>
+            </nav>
+            <nav id="explore-menu">
+                <div id="explore-menu-area">
+                    <label for="search">Explore</label>
+                </div>
+                <ul>
+                    <li><a href="#explore/projects">Explore Projects</a></li>
+                    <li><a href="#explore/teams">Explore Teams</a></li>
+                    <li><a href="#explore/organisations">Explore Organisations</a></li>
+                </ul>
             </nav>
         </div>
     </header>

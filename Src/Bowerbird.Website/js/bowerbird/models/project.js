@@ -1,19 +1,12 @@
 ﻿
 window.Bowerbird.Models.Project = Backbone.Model.extend({
+    
     url: '/members/project/',
-
-    defaults: {
-        name: '',
-        description: '',
-        website: '',
-        avatar: '',
-        team: ''
-    },
 
     initialize: function (options) {
         _.extend(this, Backbone.Events);
-        //this.avatar = new Bowerbird.Models.MediaResource();
-        this.avatar = { id: '', url: '', altTag: '' };
+        this.constructor.__super__.initialize.apply(this, options);
+        this.type = 'project';
     },
 
     toJSON: function () {
@@ -22,7 +15,8 @@ window.Bowerbird.Models.Project = Backbone.Model.extend({
             description: this.get('description'),
             website: this.get('website'),
             avatar: this.get('avatar').id,
-            team: this.get('team')
+            team: this.get('team'),
+            type: this.get('type')
         };
     },
 

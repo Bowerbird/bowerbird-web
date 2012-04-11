@@ -15,6 +15,7 @@
 */
 
 using System.Configuration;
+using System.IO;
 using System.Web.Mvc;
 using Bowerbird.Core.Extensions;
 using System.Web;
@@ -31,6 +32,35 @@ namespace Bowerbird.Web.Extensions
         public static IHtmlString Json(this HtmlHelper htmlHelper, object model)
         {
             return new MvcHtmlString(Newtonsoft.Json.JsonConvert.SerializeObject(model, Newtonsoft.Json.Formatting.None, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() }));
+        }
+
+        /// <summary>
+        /// http://stackoverflow.com/questions/9702130/sharing-mustache-nustache-templates-between-server-and-client-asp-net-mvc
+        /// </summary>
+        public static IHtmlString RenderControllerTemplate(this HtmlHelper helper, string controller, string view)
+        {
+            string filePath = HttpContext.Current.Server.MapPath(string.Format("~Views/{0}/{1}.mustache", controller, view));
+
+            //load from file
+            StreamReader streamReader = File.OpenText(filePath);
+            string markup = streamReader.ReadToEnd();
+            streamReader.Close();
+
+            return new HtmlString(markup);
+
+        }
+
+        public static IHtmlString RenderSharedTemplate(this HtmlHelper helper, string view)
+        {
+            string filePath = HttpContext.Current.Server.MapPath(string.Format("~Views/Shared/{0}.mustache", view));
+
+            //load from file
+            StreamReader streamReader = File.OpenText(filePath);
+            string markup = streamReader.ReadToEnd();
+            streamReader.Close();
+
+            return new HtmlString(markup);
+
         }
 
     }

@@ -40,6 +40,10 @@ namespace Bowerbird.Web.Config
                 "{controller}/{action}/{id}",
                 new { controller = "home", action = "index", id = UrlParameter.Optional },
                 new[] { "Bowerbird.Web.Controllers.Public" });
+
+            routes.MapRoute("Templates", "templates/{name}",
+                new { controller = "Template", action = "Get" });
+
         }
     }
 }

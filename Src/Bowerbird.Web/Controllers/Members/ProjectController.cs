@@ -87,7 +87,6 @@ namespace Bowerbird.Web.Controllers.Members
             //{
             //    return Json(MakeProjectListByTeamId(listInput), JsonRequestBehavior.AllowGet);
             //}
-
             if (listInput.UserId != null)
             {
                 return Json(MakeProjectListByMembership(listInput), JsonRequestBehavior.AllowGet);

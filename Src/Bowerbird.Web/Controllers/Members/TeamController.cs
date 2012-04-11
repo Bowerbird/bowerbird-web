@@ -87,10 +87,10 @@ namespace Bowerbird.Web.Controllers.Members
                 return new JsonNetResult(GetGroupsHavingAddProjectPermission());
             }
 
-            if (User.Identity.IsAuthenticated)
-            {
-                return new JsonNetResult(MakeTeamListByMembership(listInput));
-            }
+            //if (User.Identity.IsAuthenticated)
+            //{
+            //    return new JsonNetResult(MakeTeamListByMembership(listInput));
+            //}
 
             return new JsonNetResult(MakeTeamList(listInput));
         }

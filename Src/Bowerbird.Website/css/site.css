@@ -142,16 +142,19 @@ header nav#search-menu
 {
     display: none;
 }
+#explore-menu,
 #account-menu
 {
     float: right;
     width: 230px;
 }
+#explore-menu,
 #account-menu ul
 {
     margin: 0;
     padding: 0;
 }
+#explore-menu,
 #account-menu li
 {
     display: inline-block;
@@ -165,6 +168,7 @@ header nav#search-menu
     height: 46px;
     width: 46px;
 }
+#explore-menu div,
 #account-menu a
 {
     color: #154999;

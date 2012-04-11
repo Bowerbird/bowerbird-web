@@ -9,7 +9,10 @@ window.Bowerbird.AppRouter = Backbone.Router.extend({
         'observation/create': 'startNewObservation',
         'project/create': 'startNewProject',
         'organisation/create': 'startNewOrganisation',
-        'team/create': 'startNewTeam'
+        'team/create': 'startNewTeam',
+        'explore/projects': 'exploreProjects',
+        'explore/teams': 'exploreTeams',
+        'explore/organisations': 'exploreOrganisations'
     },
 
     initialize: function (options) {
@@ -50,5 +53,17 @@ window.Bowerbird.AppRouter = Backbone.Router.extend({
 
     startNewTeam: function () {
         app.startNewTeam();
+    },
+
+    exploreProjects: function () {
+        app.exploreProjects();
+    },
+
+    exploreTeams: function () {
+        app.exploreTeams();
+    },
+
+    exploreOrganisations: function () {
+        app.exploreOrganisations();
     }
 });

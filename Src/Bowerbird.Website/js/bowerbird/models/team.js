@@ -1,18 +1,23 @@
 ﻿
 window.Bowerbird.Models.Team = Backbone.Model.extend({
+    
     url: '/members/team/',
-
-    defaults: {
-        name: '',
-        description: '',
-        website: '',
-        avatar: ''
-    },
 
     initialize: function (options) {
         _.extend(this, Backbone.Events);
-        //this.avatar = new Bowerbird.Models.MediaResource();
-        this.avatar = { id: '', url: '', altTag: '' };
+        this.constructor.__super__.initialize.apply(this, options);
+        this.type = 'team';
+    },
+
+    toJSON: function () {
+        return {
+            name: this.get('name'),
+            description: this.get('description'),
+            website: this.get('website'),
+            avatar: this.get('avatar').id,
+            type: this.get('type'),
+            organisation: this.get('organisation')
+        };
     },
 
     toJSONViewModel: function () {
