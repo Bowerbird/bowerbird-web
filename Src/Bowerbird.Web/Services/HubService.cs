@@ -179,7 +179,7 @@ namespace Bowerbird.Web.Services
 
             DeleteChatSessions(clientId);
 
-            return userSession.User.Id;
+           return userSession.User.Id;
         }
 
         public IEnumerable<string> GetConnectedClientIdsForAUser(string userId)

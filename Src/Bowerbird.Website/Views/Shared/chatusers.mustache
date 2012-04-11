@@ -1,0 +1,11 @@
+﻿{{#chatUsers}}
+    <li>
+        <span class="user-avatar">
+            <img src="{{avatar.urlToImage}}" alt="{{avatar.altTag}}" width="16px;" height="16px;" />
+        </span>
+        <span class="user-name" id="{{id}}">{{name}}</span>
+    </li>
+{{/chatUsers}}
+{{^chatUsers}}
+    Loading Users...
+{{/chatUsers}}

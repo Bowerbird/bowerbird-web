@@ -8,8 +8,6 @@ window.Bowerbird.Views.MediaResourceItemView = Backbone.View.extend({
         'click .remove-media-resource-button': 'removeMediaResource'
     },
 
-    template: $.template('observationCreateMediaResourceUploadedTemplate', $('#observation-create-media-resource-uploaded-template')),
-
     initialize: function (options) {
         _.extend(this, Backbone.Events);
         _.bindAll(this, 'showTempMedia', 'showUploadedMedia');
@@ -18,7 +16,7 @@ window.Bowerbird.Views.MediaResourceItemView = Backbone.View.extend({
     },
 
     render: function () {
-        $.tmpl('observationCreateMediaResourceUploadedTemplate', this.mediaResource.toJSON()).appendTo(this.$el);
+        var mediaResourceUploaded = ich.observationmediaresourceuploaded(this.mediaResource.toJSON()).appendTo(this.$el);
         window.scrollTo(0, 0);
         return this;
     },

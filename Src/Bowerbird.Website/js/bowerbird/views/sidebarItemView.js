@@ -23,7 +23,7 @@ window.Bowerbird.Views.SidebarItemView = Backbone.View.extend({
         var jsonModel = this.sidebarItem.toJSONViewModel();
         jsonModel['type'] = this.sidebarItemType;
         jsonModel['addObservation'] = this.sidebarItemType === 'Project';
-        var sidebarItemHtml = ich.sidebarItemTemplate(jsonModel);
+        var sidebarItemHtml = ich.sidebarItem(jsonModel);
         this.$el.append(sidebarItemHtml);
 
         return this;

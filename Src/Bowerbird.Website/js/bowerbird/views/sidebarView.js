@@ -11,11 +11,14 @@ window.Bowerbird.Views.SidebarView = Backbone.View.extend({
         'click .menu-group-options .sub-menu-button li': 'selectMenuItem'
     },
 
-    template: $.template('sidebarTemplate', $('#sidebar-template')),
-
     initialize: function (options) {
         _.extend(this, Backbone.Events);
-        _.bindAll(this, 'addTeamSideBarItem', 'addProjectSideBarItem', 'addTeamSideBarItems', 'addProjectSideBarItems');
+        _.bindAll(this,
+        'addTeamSideBarItem',
+        'addProjectSideBarItem',
+        'addTeamSideBarItems',
+        'addProjectSideBarItems'
+        );
         this.teamSidebarItemViews = [];
         this.projectSidebarItemViews = [];
         app.teams.on('add', this.addTeamSideBarItem, this);
@@ -25,7 +28,11 @@ window.Bowerbird.Views.SidebarView = Backbone.View.extend({
     },
 
     render: function () {
-        $.tmpl("sidebarTemplate").appendTo(this.$el);
+        
+        var sidebarHtml = ich.sidebar().appendTo(this.$el);
+
+        this.notificationsView = new Bowerbird.Views.NotificationsView();
+        this.$el.append(this.notificationsView.render().el);
 
 //        this.$el.find('.menu-group-options .sub-menu-button').click(function (e) {
 //            $('.sub-menu-button').removeClass('active');

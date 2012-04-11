@@ -8,7 +8,7 @@ window.Bowerbird.Views.UserOnlineView = Backbone.View.extend({
     events: {
     },
 
-    template: $.template('userOnlineTemplate', $('#user-online-template')),
+    //template: $.template('userOnlineTemplate', $('#user-online-template')),
 
     initialize: function (options) {
         _.extend(this, Backbone.Events);
@@ -16,7 +16,8 @@ window.Bowerbird.Views.UserOnlineView = Backbone.View.extend({
     },
 
     render: function () {
-        $.tmpl('userOnlineTemplate', this.user.toJSON()).appendTo(this.$el);
+        var usersOnlineHtml = ich.usersonline(this.user.toJSON()).appendTo(this.$el);
+        //$.tmpl('userOnlineTemplate', this.user.toJSON()).appendTo(this.$el);
         return this;
     }
 

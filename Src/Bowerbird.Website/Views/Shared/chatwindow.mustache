@@ -1,0 +1,18 @@
+﻿<div class="window-title-bar">
+    <span class="window-close"></span>
+    <h3>{{title}}</h3>
+</div>
+<ul class="chat-messages">
+    {{#messages}}
+        <li>
+            {{> chatmessage}}
+        </li>
+    {{/messages}}
+</ul>
+<ul class="chat-current-users">
+    {{>chatusers}}
+</ul>
+<div class="chat-message-box">
+    <textarea class="new-chat-message" autocomplete="off" accesskey="m"></textarea>
+    <input type="button" class="chat-send-message-button" value="Send" class="send" />
+</div>

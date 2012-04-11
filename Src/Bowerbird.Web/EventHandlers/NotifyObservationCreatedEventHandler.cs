@@ -25,6 +25,7 @@ using System;
 using Bowerbird.Web.ViewModels.Shared;
 using Bowerbird.Web.Queries;
 using Bowerbird.Web.Factories;
+using Bowerbird.Core.Services;
 
 namespace Bowerbird.Web.EventHandlers
 {
@@ -36,6 +37,7 @@ namespace Bowerbird.Web.EventHandlers
         private readonly INotificationProcessor _notificationProcessor;
         private readonly IStreamItemFactory _streamItemFactory;
         private readonly IObservationViewFactory _observationViewFactory;
+        private readonly IMediaFilePathService _mediaFilePathService;
 
         #endregion
 
@@ -45,16 +47,20 @@ namespace Bowerbird.Web.EventHandlers
             IDocumentSession documentSession,
             INotificationProcessor notificationProcessor,
             IStreamItemFactory streamItemFactory,
-            IObservationViewFactory observationViewFactory)
+            IObservationViewFactory observationViewFactory,
+            IMediaFilePathService mediaFilePathService)
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(notificationProcessor, "notificationProcessor");
             Check.RequireNotNull(streamItemFactory, "streamItemFactory");
+            Check.RequireNotNull(observationViewFactory, "observationViewFactory");
+            Check.RequireNotNull(mediaFilePathService, "mediaFilePathService");
 
             _documentSession = documentSession;
             _notificationProcessor = notificationProcessor;
             _streamItemFactory = streamItemFactory;
             _observationViewFactory = observationViewFactory;
+            _mediaFilePathService = mediaFilePathService;
         }
 
         #endregion
@@ -70,28 +76,34 @@ namespace Bowerbird.Web.EventHandlers
         {
             Check.RequireNotNull(@event, "event");
 
-            foreach(var observationGroup in @event.DomainModel.Groups.Where(x => x.GroupType == "project"))
+            var user = _documentSession.Load<User>(@event.CreatedByUser);
+
+            var streamItem = _streamItemFactory.Make(
+                _observationViewFactory.Make(@event.DomainModel),
+                @event.DomainModel.Groups.Select(x => x.GroupId),
+                "observation",
+                _documentSession.Load<User>(@event.DomainModel.User.Id),
+                @event.DomainModel.CreatedOn,
+                @event.DomainModel.User.FirstName + " added an observation");
+
+            var notification = new Notification()
             {
-                var streamItem = _streamItemFactory.Make(
-                    _observationViewFactory.Make(@event.DomainModel),
-                    @event.DomainModel.Groups.Select(x => x.GroupId),
-                    "observation",
-                    _documentSession.Load<User>(observationGroup.User.Id),
-                    observationGroup.CreatedDateTime,
-                    observationGroup.User.FirstName + " added an observation");
-
-                var notification = new Notification()
+                Action = "newobservation",
+                OccurredOn = DateTime.Now,
+                UserId = @event.CreatedByUser,
+                AvatarUri = AvatarUris.DefaultUser,
+                SummaryDescription = @event.DomainModel.User.FirstName + " added an observation",
+                CreatedDateTimeDescription = "just now",
+                Model = new
                 {
-                    Action = "observationaddedtogroup",
-                    OccurredOn = DateTime.Now,
-                    UserId = @event.CreatedByUser,
-                    Model = streamItem
-                };
+                    title = @event.DomainModel.Title,
+                    imageUri = _mediaFilePathService.MakeMediaFileUri(@event.DomainModel.GetPrimaryImage().MediaResource, "large")
+                }
+            };
 
-                _notificationProcessor.Notify(notification, @event.DomainModel.Groups.Select(x => x.GroupId), (client, n) => client.newNotification(n));
+            _notificationProcessor.Notify(notification, @event.DomainModel.Groups.Select(x => x.GroupId), (client, n) => client.newNotification(n));
 
-                _notificationProcessor.Notify(streamItem, @event.DomainModel.Groups.Select(x => x.GroupId), (client, s) => client.newStreamItem(s));
-            }
+            _notificationProcessor.Notify(streamItem, @event.DomainModel.Groups.Select(x => x.GroupId), (client, s) => client.newStreamItem(s));
         }
 
         #endregion

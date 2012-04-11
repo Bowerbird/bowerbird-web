@@ -10,12 +10,6 @@ window.Bowerbird.Views.StreamListView = Backbone.View.extend({
         "click #stream-load-more-button": "loadNextStreamItems"
     },
 
-    template: $.template('streamListTemplate', $('#stream-list-template')),
-
-    loadingTemplate: $.template('streamListLoadingTemplate', $('#stream-list-loading-template')),
-
-    loadMoreTemplate: $.template('streamLoadMoreTemplate', $('#stream-load-more-template')),
-
     initialize: function (options) {
         _.extend(this, Backbone.Events);
         _.bindAll(this, 'addStreamItem');
@@ -29,7 +23,7 @@ window.Bowerbird.Views.StreamListView = Backbone.View.extend({
     },
 
     render: function () {
-        $.tmpl('streamListTemplate').appendTo(this.$el);
+        var streamListHtml = ich.streamList().appendTo(this.$el);
         return this;
     },
 
@@ -57,20 +51,20 @@ window.Bowerbird.Views.StreamListView = Backbone.View.extend({
 
     onStreamLoadingStart: function (stream) {
         $('#stream-load-more').remove();
-        $('#stream-items').append($.tmpl('streamListLoadingTemplate', { text: 'Loading', showLoader: true }));
+        var loadMoreHtml = ich.streamListLoading({ text: 'Loading', showLoader: true }).appendTo($('#stream-items'));
     },
 
     onsStreamLoadingComplete: function (stream, collection) {
         this.toggleNoStreamItemsStatus(collection);
         if (collection.pageInfo().next) {
-            $('#stream-list > div').append($.tmpl('streamLoadMoreTemplate'));
+            var loadMoreHtml = ich.streamListLoading().appendTo($('#stream-list > div'));
         }
     },
 
     toggleNoStreamItemsStatus: function (collection) {
         $('#stream-status').remove();
         if (collection.length === 0) {
-            $('#stream-items').append($.tmpl('streamListLoadingTemplate', { text: 'No activity yet! Start now by adding an observation.', showLoader: false }));
+            var loadMoreHtml = ich.streamListLoading({ text: 'No activity yet! Start now by adding an observation.' }).appendTo($('#stream-list > div'));
         }
     },
 

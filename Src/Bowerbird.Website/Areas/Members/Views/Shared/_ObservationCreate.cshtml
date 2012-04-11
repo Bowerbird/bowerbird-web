@@ -8,7 +8,7 @@
                     <label for="title">Title</label>
                 </div>
                 <div>
-                    <input type="text" id="title" name="title" value="${title}" />
+                    <input type="text" id="title" name="title" value="{{title}}" />
                 </div>
             </div>
             <div id="observedon-field" class="field">
@@ -16,7 +16,7 @@
                     <label for="observedOn">Observed On</label>
                 </div>
                 <div>
-                    <input type="date" id="observedOn" name="observedOn" data-datepicker="datepicker" readonly value="${observedOn}" />
+                    <input type="date" id="observedOn" name="observedOn" data-datepicker="datepicker" readonly value="{{observedOn}}" />
                     <i></i>
                 </div>
             </div>
@@ -41,7 +41,7 @@
                         <label for="address">Address</label>
                     </div>
                     <div>
-                        <input type="text" id="address" name="address" autocomplete="off" value="${address}" />
+                        <input type="text" id="address" name="address" autocomplete="off" value="{{address}}" />
                     </div>
                 </div>
                 <div id="pin-field" class="field">
@@ -56,7 +56,7 @@
                         <label for="latitude">Latitude</label>
                     </div>
                     <div>
-                        <input type="text" id="latitude" name="latitude" value="${latitude}" />
+                        <input type="text" id="latitude" name="latitude" value="{{latitude}}" />
                     </div>
                 </div>
                 <div id="longitude-field" class="field field-part-two">
@@ -64,7 +64,7 @@
                         <label for="longitude">Longitude</label>
                     </div>
                     <div>
-                        <input type="text" id="longitude" name="longitude" value="${longitude}" />
+                        <input type="text" id="longitude" name="longitude" value="{{longitude}}" />
                     </div>
                 </div>
                 <div id="anonymise-location-field" class="field field-checkbox">

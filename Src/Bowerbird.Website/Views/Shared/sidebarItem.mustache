@@ -1,0 +1,16 @@
+﻿<a href="#{{id}}/all"><img alt="{{name}}" src="{{avatar.urlToImage}}"><div><p>{{name}}</p></div></a>
+<div class="sub-menu-button">
+    <span></span>
+    <ul>
+        <li><div><p><a href="#{{id}}/all">View Latest Activity</a></p></div></li>
+        <li class="divider"></li>
+        {{#addObservation}}
+        <li><div><p><a href="#observation/create">Add an Observation</a></p></div></li>
+        {{/addObservation}}
+        <li><div><p><a href="#">Add a Post</a></p></div></li>
+        <li><div class="chat-menu-item"><p>Join Chat</p></div></li>
+        <li><div><p><a href="#">View {{type}} Details</a></p></div></li>
+        <li class="divider"></li>
+        <li><div><p><a href="#">Edit {{type}} Details</a></p></div></li>
+    </ul>
+</div>

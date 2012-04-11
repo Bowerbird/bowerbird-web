@@ -136,51 +136,34 @@
     <Content Include="humans.txt" />
     <Content Include="img\avatar-1.png" />
     <Content Include="img\avatar-2.png" />
-    <Content Include="img\avatar-3.png" />
-    <Content Include="img\avatar-4.png" />
-    <Content Include="img\avatar.jpg" />
     <Content Include="img\background.png" />
     <Content Include="img\beige_paper.png" />
     <Content Include="img\bgnoise.gif" />
-    <Content Include="img\binoculars.png" />
     <Content Include="img\brushed_alu_dark.png" />
     <Content Include="img\carbon_fibre.png" />
     <Content Include="img\carbon_fibre_v2.png" />
-    <Content Include="img\Chat-icon.png" />
-    <Content Include="img\checkbox-sprite-ios5.png" />
-    <Content Include="img\checkbox-sprite.png" />
     <Content Include="img\close.gif" />
     <Content Include="img\concrete_wall.png" />
     <Content Include="img\crossed_stripes.png" />
+    <Content Include="img\default-organisation-avatar.jpg" />
+    <Content Include="img\default-project-avatar.jpg" />
+    <Content Include="img\default-team-avatar.jpg" />
+    <Content Include="img\default-user-avatar.jpg" />
     <Content Include="img\diagonal-noise.png" />
-    <Content Include="img\dragonfly.png" />
-    <Content Include="img\frog-2.png" />
-    <Content Include="img\frog2.png" />
+    <Content Include="img\glyphicons-halflings-blue.png" />
     <Content Include="img\glyphicons-halflings-white.png" />
     <Content Include="img\glyphicons-halflings.png" />
     <Content Include="img\grid.png" />
     <Content Include="img\image-upload.png" />
     <Content Include="img\loader.png" />
     <Content Include="img\logo.png" />
-    <Content Include="img\map.png" />
-    <Content Include="img\map2.PNG" />
     <Content Include="img\observation-button.png" />
-    <Content Include="img\organisation-avatar.jpg" />
     <Content Include="img\polaroid.png" />
-    <Content Include="img\project-avatar.jpg" />
+    <Content Include="img\right-arrow.png" />
     <Content Include="img\rubber_grip.png" />
     <Content Include="img\speech-bubble-pointer.png" />
-    <Content Include="img\team-avatar-1.png" />
-    <Content Include="img\team-avatar.jpg" />
-    <Content Include="img\test-thumb-2.jpg" />
-    <Content Include="img\test-thumb-3.jpg" />
-    <Content Include="img\test-thumb-4.jpg" />
-    <Content Include="img\test-thumb-5.jpg" />
-    <Content Include="img\test-thumb.jpg" />
     <Content Include="img\thumb-mask.png" />
-    <Content Include="img\user-avatar.jpg" />
     <Content Include="img\user-chat-icon.png" />
-    <Content Include="img\votes.PNG" />
     <Content Include="img\wavecut.png" />
     <Content Include="img\whitey.png" />
     <Content Include="img\white_texture.png" />
@@ -220,6 +203,8 @@
     <Content Include="js\bowerbird\views\appView.js" />
     <Content Include="js\bowerbird\views\avatarItemView.js" />
     <Content Include="js\bowerbird\views\chatView.js" />
+    <Content Include="js\bowerbird\views\notificationItemView.js" />
+    <Content Include="js\bowerbird\views\notificationsView.js" />
     <Content Include="js\bowerbird\views\exploreItemView.js" />
     <Content Include="js\bowerbird\views\exploreView.js" />
     <Content Include="js\bowerbird\views\notificationListView.js" />
@@ -279,6 +264,22 @@
     <Content Include="Views\Account\LogoutSuccess.cshtml">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Views\Shared\Error.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Shared\_Layout.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Shared\_Layout.cshtml.old">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Shared\_LogOnPartial.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Shared\_SelectedFilterDetails.cshtml" />
+    <Content Include="Views\Shared\_StreamObservationItem.cshtml">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Web.Test.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -292,24 +293,41 @@
     </Content>
     <Content Include="Areas\Members\Views\Shared\_ObservationCreate.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Shared\_NewLayout.cshtml" />
-    <Content Include="Views\Shared\_SelectedFilterDetails.cshtml" />
-    <Content Include="Views\Shared\_StreamObservationItem.cshtml" />
     <Content Include="Views\Account\RequestPasswordResetSuccess.cshtml" />
     <Content Include="Views\Account\RequestPasswordReset.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Areas\Members\Views\User\ChangePassword.cshtml" />
     <Content Include="Areas\Members\Views\User\Update.cshtml" />
     <Content Include="Views\Project\Index.cshtml" />
-    <Content Include="Views\Project\_ProjectCreate.cshtml" />
-    <Content Include="Views\Team\_TeamProjectCreate.cshtml" />
-    <None Include="Views\Observation\Index.mustache" />
-    <None Include="Views\Observation\Index.cshtml.old" />
+    <None Include="Views\Observation\Index.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Team\Index.cshtml" />
     <Content Include="Views\Organisation\Index.cshtml" />
-    <None Include="Views\Shared\_NewLayout.mustache" />
+    <None Include="Views\Shared\avatarchoosefile.mustache" />
+    <None Include="Views\Shared\avataruploaded.mustache" />
+    <None Include="Views\Shared\avataruploader.mustache" />
+    <None Include="Views\Shared\chatmessage.mustache" />
+    <None Include="Views\Shared\chatusers.mustache" />
+    <None Include="Views\Shared\chatwindow.mustache">
+      <SubType>Code</SubType>
+    </None>
+    <None Include="Views\Shared\notifications.mustache" />
+    <None Include="Views\Shared\notificationsItem.mustache" />
+    <None Include="Views\Shared\observationcreate.mustache" />
+    <None Include="Views\Shared\observationmediaresourceuploaded.mustache" />
+    <None Include="Views\Shared\observationStreamListItem.mustache" />
+    <None Include="Views\Shared\organisationcreate.mustache" />
+    <None Include="Views\Shared\projectcreate.mustache" />
+    <None Include="Views\Shared\sidebar.mustache" />
+    <None Include="Views\Shared\sidebarItem.mustache" />
+    <None Include="Views\Shared\streamList.mustache" />
+    <None Include="Views\Shared\streamListLoading.mustache" />
+    <None Include="Views\Shared\streamLoadMore.mustache" />
+    <None Include="Views\Shared\teamcreate.mustache" />
+    <None Include="Views\Shared\user.mustache" />
+    <None Include="Views\Shared\usersonline.mustache" />
     <None Include="Views\Shared\_Layout.mustache" />
+    <None Include="Views\Shared\_NewLayout.mustache" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="404.html" />
@@ -325,9 +343,6 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Areas\Members\Views\Home\Index.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_LogOnPartial.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config">
       <SubType>Designer</SubType>
     </Content>

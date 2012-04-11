@@ -18,18 +18,32 @@ window.Bowerbird.Views.ObservationCreateFormView = Backbone.View.extend({
         'click #media-resource-import-button': '_showImportMedia'
     },
 
-    template: $.template('observationCreateFormTemplate', $('#observation-create-form-template')),
+    //template: $.template('observationCreateFormTemplate', $('#observation-create-form-template')),
 
     initialize: function (options) {
         _.extend(this, Backbone.Events);
+        _.bindAll(this,
+        'render',
+        'start',
+        '_showImportMedia',
+        '_contentChanged',
+        '_latLongChanged',
+        '_anonymiseLocationChanged',
+        '_projectsChanged',
+        '_categoryChanged',
+        '_cancel',
+        '_save'
+        );
         this.appView = options.appView;
         this.observation = options.observation;
         this.editMediaView = new Bowerbird.Views.EditMediaView({ el: $('#media-resources-fieldset'), observation: this.observation });
         this.editMapView = new Bowerbird.Views.EditMapView({ observation: this.observation });
+        this.observationCreateTemplate = null;
     },
 
     render: function () {
-        $.tmpl('observationCreateFormTemplate', app.get('newObservation').toJSON()).appendTo(this.$el);
+        thisobservationCreateTemplate = ich.observationcreate({ observation: app.get('newObservation').toJSON() }).appendTo(this.$el);
+        //$.tmpl('observationCreateFormTemplate', app.get('newObservation').toJSON()).appendTo(this.$el);
         window.scrollTo(0, 0);
         return this;
     },
@@ -52,7 +66,9 @@ window.Bowerbird.Views.ObservationCreateFormView = Backbone.View.extend({
             }
         });
 
+        // on the fly template... change to moustache.
         $.tmpl('<option value="${id}">${name}</option>', app.projects.toJSONViewModel()).appendTo('#projects');
+
         this.projectListSelectView = $("#projects").multiSelect({
             selectAll: false,
             noneSelected: 'Select Projects',
