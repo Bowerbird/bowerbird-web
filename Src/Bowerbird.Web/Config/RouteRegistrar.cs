@@ -35,11 +35,6 @@ namespace Bowerbird.Web.Config
                 "account/resetpassword/{resetpasswordkey}",
                 new {controller = "account", action = "resetpassword", resetpasswordkey = UrlParameter.Optional});
 
-            routes.MapRoute(
-                "Default",
-                "{controller}/{action}/{id}",
-                new { controller = "home", action = "index", id = UrlParameter.Optional },
-                new[] { "Bowerbird.Web.Controllers" });
 
             routes.MapRoute(
                 "members-home-index",
@@ -168,6 +163,13 @@ namespace Bowerbird.Web.Config
 
             routes.MapRoute("Templates", "templates/{name}",
                 new { controller = "Template", action = "Get" });
+
+
+            routes.MapRoute(
+                "Default",
+                "{controller}/{action}/{id}",
+                new { controller = "home", action = "index", id = UrlParameter.Optional },
+                new[] { "Bowerbird.Web.Controllers" });
 
         }
     }
