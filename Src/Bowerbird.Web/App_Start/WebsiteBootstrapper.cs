@@ -32,6 +32,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Bowerbird.Core.Config;
 using Bowerbird.Core.CommandHandlers;
+using Nustache.Mvc;
 
 [assembly: WebActivator.PostApplicationStartMethod(typeof(Bowerbird.Web.App_Start.WebsiteBootstrapper), "PostStart")]
 
@@ -49,6 +50,7 @@ namespace Bowerbird.Web.App_Start
             ViewEngines.Engines.Clear();
 
             ViewEngines.Engines.Add(new RazorViewEngine());
+            //ViewEngines.Engines.Add(new NustacheViewEngine());
 
             AreaRegistration.RegisterAllAreas();
 

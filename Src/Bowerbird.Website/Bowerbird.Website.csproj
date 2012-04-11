@@ -86,6 +86,12 @@
     <Reference Include="NLog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.2.0.0.2000\lib\net40\NLog.dll</HintPath>
     </Reference>
+    <Reference Include="Nustache.Core">
+      <HintPath>..\packages\Nustache.1.12.3.6\lib\net20\Nustache.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Nustache.Mvc3">
+      <HintPath>..\packages\Nustache.Mvc3.1.12.3.6\lib\net40\Nustache.Mvc3.dll</HintPath>
+    </Reference>
     <Reference Include="SquishIt.Framework, Version=0.7.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -130,51 +136,34 @@
     <Content Include="humans.txt" />
     <Content Include="img\avatar-1.png" />
     <Content Include="img\avatar-2.png" />
-    <Content Include="img\avatar-3.png" />
-    <Content Include="img\avatar-4.png" />
-    <Content Include="img\avatar.jpg" />
     <Content Include="img\background.png" />
     <Content Include="img\beige_paper.png" />
     <Content Include="img\bgnoise.gif" />
-    <Content Include="img\binoculars.png" />
     <Content Include="img\brushed_alu_dark.png" />
     <Content Include="img\carbon_fibre.png" />
     <Content Include="img\carbon_fibre_v2.png" />
-    <Content Include="img\Chat-icon.png" />
-    <Content Include="img\checkbox-sprite-ios5.png" />
-    <Content Include="img\checkbox-sprite.png" />
     <Content Include="img\close.gif" />
     <Content Include="img\concrete_wall.png" />
     <Content Include="img\crossed_stripes.png" />
+    <Content Include="img\default-organisation-avatar.jpg" />
+    <Content Include="img\default-project-avatar.jpg" />
+    <Content Include="img\default-team-avatar.jpg" />
+    <Content Include="img\default-user-avatar.jpg" />
     <Content Include="img\diagonal-noise.png" />
-    <Content Include="img\dragonfly.png" />
-    <Content Include="img\frog-2.png" />
-    <Content Include="img\frog2.png" />
+    <Content Include="img\glyphicons-halflings-blue.png" />
     <Content Include="img\glyphicons-halflings-white.png" />
     <Content Include="img\glyphicons-halflings.png" />
     <Content Include="img\grid.png" />
     <Content Include="img\image-upload.png" />
     <Content Include="img\loader.png" />
     <Content Include="img\logo.png" />
-    <Content Include="img\map.png" />
-    <Content Include="img\map2.PNG" />
     <Content Include="img\observation-button.png" />
-    <Content Include="img\organisation-avatar.jpg" />
     <Content Include="img\polaroid.png" />
-    <Content Include="img\project-avatar.jpg" />
+    <Content Include="img\right-arrow.png" />
     <Content Include="img\rubber_grip.png" />
     <Content Include="img\speech-bubble-pointer.png" />
-    <Content Include="img\team-avatar-1.png" />
-    <Content Include="img\team-avatar.jpg" />
-    <Content Include="img\test-thumb-2.jpg" />
-    <Content Include="img\test-thumb-3.jpg" />
-    <Content Include="img\test-thumb-4.jpg" />
-    <Content Include="img\test-thumb-5.jpg" />
-    <Content Include="img\test-thumb.jpg" />
     <Content Include="img\thumb-mask.png" />
-    <Content Include="img\user-avatar.jpg" />
     <Content Include="img\user-chat-icon.png" />
-    <Content Include="img\votes.PNG" />
     <Content Include="img\wavecut.png" />
     <Content Include="img\whitey.png" />
     <Content Include="img\white_texture.png" />
@@ -211,7 +200,8 @@
     <Content Include="js\bowerbird\views\appView.js" />
     <Content Include="js\bowerbird\views\avatarItemView.js" />
     <Content Include="js\bowerbird\views\chatView.js" />
-    <Content Include="js\bowerbird\views\notificationListView.js" />
+    <Content Include="js\bowerbird\views\notificationItemView.js" />
+    <Content Include="js\bowerbird\views\notificationsView.js" />
     <Content Include="js\bowerbird\views\editAvatarView.js" />
     <Content Include="js\bowerbird\views\organisationCreateFormView.js" />
     <Content Include="js\bowerbird\views\teamCreateFormView.js" />

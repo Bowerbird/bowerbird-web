@@ -99,6 +99,23 @@
         </div>
     </div>
 </script>
+<script id="notificationsTemplate" type="text/html">
+    <h2>Activity</h2>
+    <div>
+        <ul>
+        </ul>
+    </div>
+</script>
+<script id="notificationsItemTemplate" type="text/html">
+    <div class="summary">
+        <img alt="" src="{{avatarUri}}">
+        <p class="description">{{summaryDescription}} <span>{{createdDateTimeDescription}}</span></p>
+    </div>
+    <div class="details observation">
+        <div>{{model.title}}</div>
+        <img src="{{model.imageUri}}" alt="" />
+    </div>
+</script>
 <script id="observationStreamListItemTemplate" type="text/html">
     <div class="summary">
         <img src="{{user.avatar.urlToImage}}" alt="" />
@@ -353,7 +370,8 @@
 <script type="text/javascript" src="@Url.BowerbirdJsView("projectCreateFormView.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsView("organisationCreateFormView.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsView("teamCreateFormView.js")"></script>
-<script type="text/javascript" src="@Url.BowerbirdJsView("notificationListView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("notificationsView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("notificationItemView.js")"></script>
 
 <script type="text/javascript" src="@Url.BowerbirdJsFile("chatRouter.js")"></script>
 <script type="text/javascript" src="@Url.BowerbirdJsFile("notificationRouter.js")"></script>

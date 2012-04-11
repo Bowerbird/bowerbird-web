@@ -38,8 +38,8 @@ window.Bowerbird.NotificationRouter = Backbone.Model.extend({
 
     // FROM HUB-------------------------------------
 
-    newNotification: function (data) {
-        app.notifications.add(data);
+    newNotification: function (notification) {
+        app.notifications.add(notification);
     },
 
     newStreamItem: function (streamItem) {

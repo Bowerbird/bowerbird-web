@@ -42,6 +42,15 @@ namespace Bowerbird.Web.ViewModels.Shared
         [JsonProperty("action")]
         public string Action { get; set; }
 
+        [JsonProperty("avatarUri")]
+        public string AvatarUri { get; set; }
+
+        [JsonProperty("summaryDescription")]
+        public string SummaryDescription { get; set; }
+
+        [JsonProperty("createdDateTimeDescription")]
+        public string CreatedDateTimeDescription { get; set; }
+
         [JsonProperty("model")]
         public object Model { get; set; }
 

@@ -27,6 +27,9 @@ window.Bowerbird.Views.SidebarView = Backbone.View.extend({
     render: function () {
         $.tmpl("sidebarTemplate").appendTo(this.$el);
 
+        this.notificationsView = new Bowerbird.Views.NotificationsView();
+        this.$el.append(this.notificationsView.render().el);
+
 //        this.$el.find('.menu-group-options .sub-menu-button').click(function (e) {
 //            $('.sub-menu-button').removeClass('active');
 //            $(this).addClass('active');

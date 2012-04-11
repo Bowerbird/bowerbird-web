@@ -298,6 +298,11 @@ namespace Bowerbird.Core.DomainModels
             return this;
         }
 
+        public ObservationMedia GetPrimaryImage()
+        {
+            return Media.FirstOrDefault(x => x.MediaResource.Type.ToLower() == "image");
+        }
+
         #endregion
 
     }
