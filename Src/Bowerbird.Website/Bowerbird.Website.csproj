@@ -239,14 +239,7 @@
     <Content Include="js\libs\json2.js" />
     <Content Include="js\libs\load-image.js" />
     <Content Include="js\libs\log.js" />
-    <Content Include="Areas\Api\Views\Web.config" />
-    <Content Include="Areas\Members\Views\Web.config" />
-    <Content Include="Areas\Members\Views\Shared\_NewLayout.cshtml" />
-    <Content Include="Areas\Members\Views\_ViewStart.cshtml" />
     <Content Include="packages.config" />
-    <Content Include="Areas\Members\Views\Shared\_ProjectCreate.cshtml" />
-    <Content Include="Areas\Members\Views\Shared\_OrganisationCreate.cshtml" />
-    <Content Include="Areas\Members\Views\Shared\_TeamCreate.cshtml" />
     <None Include="test\index.html" />
     <None Include="test\qunit\qunit.css" />
     <None Include="test\qunit\qunit.js" />
@@ -291,13 +284,10 @@
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Areas\Members\Views\Shared\_ObservationCreate.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\RequestPasswordResetSuccess.cshtml" />
     <Content Include="Views\Account\RequestPasswordReset.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
-    <Content Include="Areas\Members\Views\User\ChangePassword.cshtml" />
-    <Content Include="Areas\Members\Views\User\Update.cshtml" />
     <Content Include="Views\Project\Index.cshtml" />
     <None Include="Views\Observation\Index.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -328,6 +318,10 @@
     <None Include="Views\Shared\usersonline.mustache" />
     <None Include="Views\Shared\_Layout.mustache" />
     <None Include="Views\Shared\_NewLayout.mustache" />
+    <Content Include="Views\Shared\_ObservationCreate.cshtml" />
+    <Content Include="Views\Shared\_OrganisationCreate.cshtml" />
+    <Content Include="Views\Shared\_ProjectCreate.cshtml" />
+    <Content Include="Views\Shared\_TeamCreate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="404.html" />
@@ -342,13 +336,11 @@
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Areas\Members\Views\Home\Index.cshtml" />
     <Content Include="Views\Web.config">
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Areas\Api\Views\Shared\" />
     <Folder Include="media\default\" />
     <Folder Include="media\document\" />
     <Folder Include="media\image\0\" />

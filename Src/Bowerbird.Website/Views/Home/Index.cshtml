@@ -1,7 +1,356 @@
-﻿@{
-    ViewBag.Title = "Index";
+﻿@model Bowerbird.Web.ViewModels.Members.HomeIndex
+           
+@{
+	Page.Title = "Bowerbird";
 }
 
-<h2>Index</h2>
+@section script {
 
-This is the public homepage.
+<!-- {{ sidebar: display sidebar container }} -->
+<script type="text/html" id="sidebar">
+    <div class="menu-group" id="default-menu-group">
+        <ul>
+            <li><a href="#home/all" class="user-stream"><img alt="" src="../img/avatar-1.png"><div><p>Home <span>23</span></p></div></a></li>
+            <li><a href="#favourites/all" class="user-favourites"><img alt="" src="../img/avatar-2.png"><div><p>Favourites</p></div></a></li>
+        </ul>
+    </div>
+    <!--<div class="menu-group" id="team-menu-group">
+        <div class="menu-group-title">Teams</div>
+        <ul>
+        </ul>
+    </div>-->
+    <div class="menu-group" id="project-menu-group">
+        <div class="menu-group-title">Projects</div>
+        <ul>
+            <li class="menu-group-options">
+                <span>Options</span>
+                <div class="sub-menu-button">
+                    <span></span>
+                    <ul>
+                        <li><div><p><a href="#project/create">Start a New Project</a></p></div></li>
+                        <li><div><p>Find Projects to Join</p></div></li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="menu-group" id="watch-menu-group">
+        <div class="menu-group-title">Watch Lists</div>
+        <ul>
+            <li class="menu-group-item"><a href="#projects/33/all"><img src="/img/default-project-avatar.jpg" alt="Test"><div><p>Red Butterflies</p></div></a>
+                <div class="sub-menu-button">
+                    <span></span>
+                    <ul>
+                        <li><div><p><a href="#">View Latest Activity</a></p></div></li>
+                        <li class="divider"></li>
+                        <li><div><p>Edit Watch List Details</p></div></li>
+                    </ul>
+                </div>
+            </li>
+            <li class="menu-group-options">
+                <span>Options</span>
+                <div class="sub-menu-button">
+                    <span></span>
+                    <ul>
+                        <li><div><p><a href="#watchlist/create">Create a New Watch List</a></p></div></li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <!--<div><a href="#team/create">New Team</a></div>
+    <div><a href="#organisation/create">New Organisation</a></div>-->
+</script>
+<!-- {{ sidebarItem: display links in users side bar }} -->
+<script id="sidebarItem" type="text/html">
+    <a href="#{{id}}/all"><img alt="{{name}}" src="{{avatar.urlToImage}}"><div><p>{{name}}</p></div></a>
+    <div class="sub-menu-button">
+        <span></span>
+        <ul>
+            <li><div><p><a href="#{{id}}/all">View Latest Activity</a></p></div></li>
+            <li class="divider"></li>
+            {{#addObservation}}
+            <li><div><p><a href="#observation/create">Add an Observation</a></p></div></li>
+            {{/addObservation}}
+            <li><div><p><a href="#">Add a Post</a></p></div></li>
+            <li><div class="chat-menu-item"><p>Join Chat</p></div></li>
+            <li><div><p><a href="#">View {{type}} Details</a></p></div></li>
+            <li class="divider"></li>
+            <li><div><p><a href="#">Edit {{type}} Details</a></p></div></li>
+        </ul>
+    </div>
+</script>
+<!-- {{ streamListLoading: display load }} -->
+<script type="text/html" id="streamListLoading">
+    <div id="stream-status">
+        <p>
+            {{#text}}
+                {{text}}
+                {{#showLoader}}
+                    <img src="/img/loader.png" />
+                {{/showLoader}}
+            {{/text}}
+            {{^text}}
+                <img src="/img/loader.png" />
+            {{/text}}
+        </p>
+    </div>
+</script>
+<!-- {{ streamLoadMore: display load more button }} -->
+<script type="text/html" id="streamLoadMore">
+    <div id="stream-load-more"><input class="button" type="button" id="stream-load-more-button" value="Load More" /></div>
+</script>
+<!-- {{ streamList: display stream list }} -->
+<script type="text/html" id="streamList">
+    <div>
+        <h2>Activity</h2>
+        <ul>
+            <li>Latest activity first</li>
+            <li>All activity</li>
+        </ul>
+        <div id="stream-items">
+        </div>
+    </div>
+</script>
+<!-- {{ notifications: used for notifications returned to the client }} -->
+<script id="notifications" type="text/html">
+    <h2>Activity</h2>
+    <div>
+        <ul>
+        </ul>
+    </div>
+</script>
+<!-- {{ notificationsItem: used for notifications returned to the client }} -->
+<script id="notificationsItem" type="text/html">
+    <div class="summary">
+        <img alt="" src="{{avatarUri}}">
+        <p class="description">{{summaryDescription}} <span>{{createdDateTimeDescription}}</span></p>
+    </div>
+    <div class="details observation">
+        <div>{{model.title}}</div>
+        <img src="{{model.imageUri}}" alt="" />
+    </div>
+</script>
+<!-- {{ observationStreamListItemTemplate: used for adding an observation stream item }} -->
+<script id="observationStreamListItem" type="text/html">
+    <div class="summary">
+        <img src="{{user.avatar.urlToImage}}" alt="" />
+        <p class="description">{{description}} <span>{{createdDateTimeDescription}}</span></p>
+    </div>
+    <div class="details">
+        <h2>{{item.title}}</h2>
+        <div>
+            <div class="images">
+                <div class="preview">
+                    <img src="{{highlightMedia.originalImageUri}}" alt="" />
+                </div>
+                <div class="thumbnails">
+                    {{#item.observationMedia}}
+                    <img src="{{thumbnailImageUri}}" alt="" />
+                    {{/item.observationMedia}}
+                </div>
+            </div>
+            <div class="info">
+                <div class="observed">
+                    Observed
+                    <span>{{observedOnDate}}</span>
+                    <span>{{observedOnTime}} AEST</span>
+                </div>
+                <div class="location">
+                    Location
+                    <div class="map"><img src="http://maps.googleapis.com/maps/api/staticmap?zoom=8&size=400x200&scale=2&maptype=terrain&markers=color:blue|{{item.latitude}},{{item.longitude}}&sensor=false" alt="Map of location" /></div>
+                    <span>{{item.address}}</span>
+                    <span>Latitude {{item.latitude}}</span>
+                    <span>Longitude {{item.longitude}}</span>
+                </div>
+            </div>
+        </div>
+</script>
+<!-- {{ observationcreate: used for adding an observation }} -->
+<script type="text/html" id="observationcreate">
+    @Html.Partial("_ObservationCreate")
+</script>
+<!-- {{ observationcreatemediaresourceuploaded: display uploaded observation media resource }} -->
+<script type="text/html" id="observationmediaresourceuploaded">
+    <div>
+        <img src="{{mediumImageUri}}" alt="" />
+    </div>
+    <div>
+        <input type="button" value="View" class="view-media-resource-button" />
+        <input type="button" value="Add Caption" class="add-caption-button" />
+        <input type="button" value="Remove" class="remove-media-resource-button" />
+    </div>
+</script>
+<!-- {{ projectcreate: used for adding a project }} -->
+<script id="projectcreate" type="text/html">
+    @Html.Partial("_ProjectCreate")
+</script>
+<!-- {{ organisationcreate: used for adding an organisation }} -->
+<script id="organisationcreate" type="text/html">
+    @Html.Partial("_OrganisationCreate")
+</script>
+<!-- {{ teamcreate: used for adding a team }} -->
+<script id="teamcreate" type="text/html">
+    @Html.Partial("_TeamCreate")
+</script>
+<!-- {{ avataruploader: used to display an avatar upload area }} -->
+<script id="avataruploader" type="text/html">
+    <p>Drag and drop files into the box below, or choose files from your computer or import from other websites.</p>
+    <div id="media-uploader">
+        <div class="media-resource-items" id="media-resource-items">
+            <div class="media-resource-dropzone"><p>Drop files here<p></div>
+            <div id="media-resource-add-pane">
+                <div id="media-resource-upload-button" class="button media-resource-upload-button">Choose Files<input id="fileupload" type="file" name="file" multiple></div>
+                <input type="button" value="Import From Website" id="media-resource-import-button"/>                        
+            </div>
+        </div>
+    </div>
+</script>
+<!-- {{ avatarchoosefile: used to display an avatar file chooser overlay }} -->
+<script id="avatarchoosefile" type="text/html">
+    <div id="media-resource-upload-button" class="button media-resource-upload-button">Choose Avatar Image<input id="fileupload" type="file" name="file" multiple></div>
+</script>
+<!-- {{ avataruploaded: used to display an uploaded avatar image }} -->
+<script id="avataruploaded" type="text/html">
+    <div>
+        <img src="{{mediumImageUri}}" alt="" />
+    </div>
+    <div>
+        <input type="button" value="Remove" class="remove-media-resource-button" />
+    </div>
+</script>
+<!-- {{ user: used where user avatar and name is needed }} -->
+<script id="user" type="text/html">
+    <span class="user-avatar">
+        <img src="{{avatar.urlToImage}}" alt="{{avatar.altTag}}" width="16px;" height="16px;" />
+    </span>
+    <span class="user-name" id="{{id}}">{{name}}</span>
+    <span class="user-chat-icon" id="user-{{id}}">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+</script>
+<!-- {{ chatusers: collection of #chatUsers with > user }} -->
+<script id="chatusers" type="text/html">
+    {{#chatUsers}}
+        <li>
+            <span class="user-avatar">
+                <img src="{{avatar.urlToImage}}" alt="{{avatar.altTag}}" width="16px;" height="16px;" />
+            </span>
+            <span class="user-name" id="{{id}}">{{name}}</span>
+        </li>
+    {{/chatUsers}}
+    {{^chatUsers}}
+        Loading Users...
+    {{/chatUsers}}
+</script>
+<!-- {{ chatmessage: single chat message with > user }} -->
+<script id="chatmessage" type="text/html">
+    <li class="chat-message">
+        <span class="message-sender">{{user.name}}: </span>
+        <span class="message-text">{{message}}</span>
+        <span class="timestamp-text">{{timestamp}}</span>
+    </li>
+</script>
+<!-- {{ usersonline: window with user count and #users with > user }} -->
+<script id="usersonline" type="text/html">
+    <div class="window-title-bar">
+        <h3>Users online: <span id="users-online">{{count}}</span></h3>
+    </div>
+    <div class="window-body">
+        <ul class="online-users">
+            {{#users}}
+                <li>{{> user}}</li>
+            {{/users}}
+        </ul>
+    </div>
+</script>
+<!-- {{ chatwindow: window with chat details, #messages with > chatmessage and current users with > chatusers }} -->
+<script id="chatwindow" type="text/html">
+    <div class="window-title-bar">
+        <span class="window-close"></span>
+        <h3>{{title}}</h3>
+    </div>
+    <ul class="chat-messages">
+        {{#messages}}
+            <li>
+                {{> chatmessage}}
+            </li>
+        {{/messages}}
+    </ul>
+    <ul class="chat-current-users">
+        {{>chatusers}}
+    </ul>
+    <div class="chat-message-box">
+        <textarea class="new-chat-message" autocomplete="off" accesskey="m"></textarea>
+        <input type="button" class="chat-send-message-button" value="Send" class="send" />
+    </div>
+</script>
+
+<script type="text/javascript" src="@Url.JavaScriptLib("jquery.signalR.js")"></script>
+<script type="text/javascript" src="@Url.JavaScriptLib("jquery.fileupload.js")"></script>
+<script type="text/javascript" src="@Url.JavaScriptLib("jquery.iframe-transport.js")"></script>
+<script type="text/javascript" src="@Url.JavaScriptLib("load-image.js")"></script>
+<script type="text/javascript" src="@Url.JavaScriptLib("bootstrap-datepicker.js")"></script>
+<script type="text/javascript" src="@Url.JavaScriptLib("jquery.multiSelect.js")"></script>
+<script type="text/javascript" src="@Url.JavaScriptLib("iscroll.js")"></script>
+<script type="text/javascript" src="@Url.JavaScriptLib("date-min.js")"></script>
+<script type="text/javascript" src="@Url.Content("signalr/hubs")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("chat.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("groupChat.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("userChat.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("chatMessage.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("chatUser.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("group.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("observation.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("project.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("stream.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("streamItem.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("team.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("organisation.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("user.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("mediaResource.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("notification.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("explore.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsCollection("chatMessages.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsCollection("chatUsers.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsCollection("users.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsCollection("chats.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsCollection("paginatedCollection.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsCollection("groups.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsCollection("projects.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsCollection("streamItems.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsCollection("teams.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsCollection("organisations.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsCollection("mediaResources.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsCollection("notifications.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("appView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("chatView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("sidebarView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("sidebarItemView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("exploreItemView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("exploreView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("streamListItemView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("streamListView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("streamView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("mediaResourceItemView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("avatarItemView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("editMapView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("editMediaView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("editAvatarView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("userOnlineView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("userView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("observationCreateFormView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("projectCreateFormView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("organisationCreateFormView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("teamCreateFormView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("notificationsView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("notificationItemView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsFile("chatRouter.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsFile("notificationRouter.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsFile("appRouter.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsFile("app.js")"></script>
+
+<script type="text/javascript">
+    $(function () {
+        new Bowerbird.App().start(@Html.Json(Model.UserProfile.Id), @Html.Json(Model.Teams), @Html.Json(Model.Projects), @Html.Json(Model.OnlineUsers));
+    });
+</script>
+}

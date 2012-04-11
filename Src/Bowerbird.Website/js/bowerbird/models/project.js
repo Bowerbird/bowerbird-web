@@ -1,7 +1,7 @@
 ﻿
 window.Bowerbird.Models.Project = Backbone.Model.extend({
     
-    url: '/members/project/',
+    url: '/project/',
 
     initialize: function (options) {
         _.extend(this, Backbone.Events);

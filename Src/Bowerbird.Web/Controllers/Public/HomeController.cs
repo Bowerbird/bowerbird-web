@@ -1,6 +1,4 @@
-﻿/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -14,18 +12,15 @@
  
 */
 
-using System.Threading;
 using System.Web.Mvc;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Commands;
-using Bowerbird.Web.Config;
 using Raven.Client;
 
 namespace Bowerbird.Web.Controllers.Public
 {
     public class HomeController : ControllerBase
     {
-
         #region Members
 
         private readonly IDocumentSession _documentSession;
@@ -65,6 +60,5 @@ namespace Bowerbird.Web.Controllers.Public
         }
 
         #endregion      
-
     }
 }

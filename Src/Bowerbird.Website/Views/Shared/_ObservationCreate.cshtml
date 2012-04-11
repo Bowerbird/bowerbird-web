@@ -1,0 +1,108 @@
+﻿<h2>New Observation</h2>
+    @using (Html.BeginForm("create", "observation", new { enctype = "multipart/form-data" }))
+    {
+        <fieldset>
+            <legend>Observation Details</legend>
+            <div id="title-field" class="field">
+                <div>
+                    <label for="title">Title</label>
+                </div>
+                <div>
+                    <input type="text" id="title" name="title" value="{{title}}" />
+                </div>
+            </div>
+            <div id="observedon-field" class="field">
+                <div>
+                    <label for="observedOn">Observed On</label>
+                </div>
+                <div>
+                    <input type="date" id="observedOn" name="observedOn" data-datepicker="datepicker" readonly value="{{observedOn}}" />
+                    <i></i>
+                </div>
+            </div>
+            <fieldset id="media-resources-fieldset">
+                <legend>Images, Videos, Audio</legend>
+                <p>Drag and drop files into the box below, or choose files from your computer or import from other websites.</p>
+                <div id="media-uploader">
+                    <div class="media-resource-items" id="media-resource-items">
+                        <div class="media-resource-dropzone"><p>Drop files here<p></div>
+                        <div id="media-resource-add-pane">
+                            <div id="media-resource-upload-button" class="button media-resource-upload-button">Choose Files<input id="fileupload" type="file" name="file" multiple></div>
+                            <input type="button" value="Import From Website" id="media-resource-import-button"/>                        
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset id="location-fieldset">
+                <legend>Location</legend>
+                <p>Enter an address, drag the pin onto the map or enter an exact co-ordinate.</p>
+                <div id="address-field" class="field">
+                    <div>
+                        <label for="address">Address</label>
+                    </div>
+                    <div>
+                        <input type="text" id="address" name="address" autocomplete="off" value="{{address}}" />
+                    </div>
+                </div>
+                <div id="pin-field" class="field">
+                    <div>
+                        <label>Drag Pin</label>
+                    </div>
+                    <div id="location-pin"><img src="http://maps.gstatic.com/mapfiles/ms/icons/blue-dot.png" width="32" height="32" alt="" /></div>
+                </div>
+                <div id="location-map"></div>
+                <div id="latitude-field" class="field field-part-one">
+                    <div>
+                        <label for="latitude">Latitude</label>
+                    </div>
+                    <div>
+                        <input type="text" id="latitude" name="latitude" value="{{latitude}}" />
+                    </div>
+                </div>
+                <div id="longitude-field" class="field field-part-two">
+                    <div>
+                        <label for="longitude">Longitude</label>
+                    </div>
+                    <div>
+                        <input type="text" id="longitude" name="longitude" value="{{longitude}}" />
+                    </div>
+                </div>
+                <div id="anonymise-location-field" class="field field-checkbox">
+                    <div><label>Show Exact Location</label></div>
+                    <div>
+                        @*<input type="checkbox" id="anonymiseLocation" name="anonymiseLocation" /> <label for="anonymiseLocation">Anonymise Location</label>*@
+                        <div class="checkbox">
+                            <input type="checkbox" id="anonymiseLocation" name="anonymiseLocation" /> <label for="anonymiseLocation"><span class="on">Yes</span><span class="bar"></span><span class="off">No</span>Show Exact Location</label>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <div id="category-field" class="field">
+                <div>
+                    <label for="observationCategory">Category</label>
+                </div>
+                <div>
+                	<select id="category" name="category">
+                        <option></option>
+                        <option value="Mammals">Mammals</option>
+                        <option value="Invertebrates">Invertebrates</option>
+                        <option value="Humans">Humans</option>
+                        <option value="Plants">Plants</option>
+                        <option value="Apples">Apples</option>
+                    </select>
+                </div>
+            </div>
+            <div id="projects-field" class="field">
+                <div>
+                    <label for="projects">Projects</label>
+                </div>
+                <div>
+                	<select id="projects" name="projects" multiple></select>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <input type="button" value="Save" id="save" />
+            <input type="button" value="Cancel" id="cancel" />
+        </fieldset>
+    }

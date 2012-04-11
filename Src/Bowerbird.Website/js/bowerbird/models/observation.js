@@ -1,6 +1,7 @@
 ﻿
 window.Bowerbird.Models.Observation = Backbone.Model.extend({
-    url: '/members/observation/',
+
+    url: '/observation/',
 
     defaults: {
         title: '',

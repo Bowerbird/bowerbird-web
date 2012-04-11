@@ -18,7 +18,7 @@ window.Bowerbird.Models.Explore = Backbone.Model.extend({
 
     setNewExplore: function (exploreContext) {
         this.set('context', exploreContext);
-        var uri = 'members/' + this.get('context') + '/list';
+        var uri = this.get('context') + '/list';
         this.set('uri', uri);
         this.trigger('newExplore', this);
         this.trigger('fetchingItemsStarted', this);

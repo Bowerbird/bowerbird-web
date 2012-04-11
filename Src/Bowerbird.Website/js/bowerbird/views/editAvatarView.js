@@ -31,7 +31,7 @@ window.Bowerbird.Views.EditAvatarView = Backbone.View.extend({
         $('#fileupload').fileupload({
             dataType: 'json',
             paramName: 'file',
-            url: '/members/mediaresource/avatarupload',
+            url: '/mediaresource/avatarupload',
             add: this._onUploadAd,
             submit: this._onSubmitUpload,
             done: this._onUploadDone,

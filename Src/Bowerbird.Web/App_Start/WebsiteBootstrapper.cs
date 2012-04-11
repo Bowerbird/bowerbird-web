@@ -41,7 +41,7 @@ namespace Bowerbird.Web.App_Start
             ViewEngines.Engines.Add(new RazorViewEngine());
             ViewEngines.Engines.Add(new NustacheViewEngine());
 
-            AreaRegistration.RegisterAllAreas();
+            //AreaRegistration.RegisterAllAreas();
 
             RouteRegistrar.RegisterRoutesTo(RouteTable.Routes);
 

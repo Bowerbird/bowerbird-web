@@ -1,7 +1,7 @@
 ﻿
 window.Bowerbird.Models.Organisation = Bowerbird.Models.Group.extend({
 
-    url: '/members/organisation/',
+    url: '/organisation/',
 
     initialize: function (options) {
         _.extend(this, Backbone.Events);

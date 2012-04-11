@@ -139,33 +139,20 @@
     <Compile Include="Config\NinjectRavenDocumentStoreProvider.cs" />
     <Compile Include="Config\RouteRegistrar.cs" />
     <Compile Include="Config\UserContext.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JsonNetResult.cs" />
-    <Compile Include="Controllers\Members\AccountController.cs" />
-    <Compile Include="Controllers\Members\HomeController.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Controllers\Members\MediaResourceController.cs" />
-    <Compile Include="Controllers\Members\ObservationController.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Controllers\Members\OrganisationController.cs" />
-    <Compile Include="Controllers\Members\ProjectController.cs" />
-    <Compile Include="Controllers\Members\MemberController.cs" />
-    <Compile Include="Controllers\Members\PostController.cs" />
-    <Compile Include="Controllers\Members\StreamItemController.cs" />
-    <Compile Include="Controllers\Members\TeamController.cs" />
-    <Compile Include="Controllers\Members\WatchlistController.cs" />
-    <Compile Include="Controllers\Public\AccountController.cs" />
-    <Compile Include="Controllers\Public\MemberController.cs" />
-    <Compile Include="Controllers\Public\HomeController.cs" />
-    <Compile Include="Controllers\Public\ObservationController.cs" />
-    <Compile Include="Controllers\Public\OrganisationController.cs" />
-    <Compile Include="Controllers\Public\PostController.cs" />
-    <Compile Include="Controllers\Public\ProjectController.cs" />
-    <Compile Include="Controllers\Public\StreamItemController.cs" />
-    <Compile Include="Controllers\Public\TeamController.cs" />
-    <Compile Include="Controllers\Public\TemplateController.cs" />
+    <Compile Include="Controllers\MediaResourceController.cs" />
+    <Compile Include="Controllers\MemberController.cs" />
+    <Compile Include="Controllers\ObservationController.cs" />
+    <Compile Include="Controllers\OrganisationController.cs" />
+    <Compile Include="Controllers\PostController.cs" />
+    <Compile Include="Controllers\ProjectController.cs" />
+    <Compile Include="Controllers\StreamItemController.cs" />
+    <Compile Include="Controllers\TeamController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\WatchlistController.cs" />
     <Compile Include="EventHandlers\NotifyObservationCreatedEventHandler.cs" />
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
     <Compile Include="Factories\IFactory.cs" />
@@ -234,7 +221,6 @@
     <Compile Include="ViewModels\Shared\TeamIndex.cs" />
     <Compile Include="ViewModels\Members\TeamUpdateInput.cs" />
     <Compile Include="ViewModels\Public\AccountRegister.cs" />
-    <Compile Include="Controllers\Members\UserController.cs" />
     <Compile Include="Hubs\NotificationHub.cs" />
     <Compile Include="Validators\UniqueEmailAttribute.cs" />
     <Compile Include="ViewModels\Public\AccountRegisterInput.cs" />
@@ -296,7 +282,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Controllers\Api\" />
     <Folder Include="obj\" />
     <Folder Include="ViewModels\Api\" />
   </ItemGroup>

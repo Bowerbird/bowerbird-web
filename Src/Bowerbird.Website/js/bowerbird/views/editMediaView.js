@@ -25,7 +25,7 @@ window.Bowerbird.Views.EditMediaView = Backbone.View.extend({
         $('#fileupload').fileupload({
             dataType: 'json',
             paramName: 'file',
-            url: '/members/mediaresource/observationupload',
+            url: '/mediaresource/observationupload',
             add: this._onUploadAdd,
             submit: this._onSubmitUpload,
             done: this._onUploadDone
