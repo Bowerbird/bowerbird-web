@@ -118,6 +118,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Views\Observation\List.cshtml" />
+    <Content Include="Views\Organisation\List.cshtml" />
+    <Content Include="Views\Project\List.cshtml" />
+    <None Include="Views\Shared\groupList.mustache" />
+    <None Include="Views\Shared\observationList.mustache" />
     <Content Include="apple-touch-icon-114x114-precomposed.png" />
     <Content Include="apple-touch-icon-57x57-precomposed.png" />
     <Content Include="apple-touch-icon-72x72-precomposed.png" />
@@ -207,7 +212,6 @@
     <Content Include="js\bowerbird\views\notificationsView.js" />
     <Content Include="js\bowerbird\views\exploreItemView.js" />
     <Content Include="js\bowerbird\views\exploreView.js" />
-    <Content Include="js\bowerbird\views\notificationListView.js" />
     <Content Include="js\bowerbird\views\editAvatarView.js" />
     <Content Include="js\bowerbird\views\organisationCreateFormView.js" />
     <Content Include="js\bowerbird\views\teamCreateFormView.js" />
@@ -263,9 +267,6 @@
     <Content Include="Views\Shared\_Layout.cshtml">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Views\Shared\_Layout.cshtml.old">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="Views\Shared\_LogOnPartial.cshtml">
       <SubType>Code</SubType>
     </Content>
@@ -289,6 +290,7 @@
     <Content Include="Views\Account\RequestPasswordReset.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Project\Index.cshtml" />
+    <Content Include="Views\Home\List.cshtml" />
     <None Include="Views\Observation\Index.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Team\Index.cshtml" />
@@ -314,14 +316,15 @@
     <None Include="Views\Shared\streamListLoading.mustache" />
     <None Include="Views\Shared\streamLoadMore.mustache" />
     <None Include="Views\Shared\teamcreate.mustache" />
+    <None Include="Views\Shared\test.mustache" />
     <None Include="Views\Shared\user.mustache" />
     <None Include="Views\Shared\usersonline.mustache" />
-    <None Include="Views\Shared\_Layout.mustache" />
     <None Include="Views\Shared\_NewLayout.mustache" />
     <Content Include="Views\Shared\_ObservationCreate.cshtml" />
     <Content Include="Views\Shared\_OrganisationCreate.cshtml" />
     <Content Include="Views\Shared\_ProjectCreate.cshtml" />
     <Content Include="Views\Shared\_TeamCreate.cshtml" />
+    <Content Include="Views\Team\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="404.html" />

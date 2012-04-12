@@ -12,13 +12,17 @@
  
 */
 
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Paging;
+using Bowerbird.Web.Factories;
 using Bowerbird.Web.ViewModels.Members;
 using Bowerbird.Web.ViewModels.Public;
 using Bowerbird.Web.ViewModels.Shared;
+using Nustache.Mvc;
 using Raven.Client;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
@@ -36,6 +40,9 @@ namespace Bowerbird.Web.Controllers
         private readonly ICommandProcessor _commandProcessor;
         private readonly IUserContext _userContext;
         private readonly IDocumentSession _documentSession;
+        private readonly IObservationViewFactory _observationViewFactory;
+        private readonly IBrowseItemFactory _browseItemFactory;
+        private readonly IStreamItemFactory _streamItemFactory;
 
         #endregion
 
@@ -44,15 +51,25 @@ namespace Bowerbird.Web.Controllers
         public ObservationController(
             ICommandProcessor commandProcessor,
             IDocumentSession documentSession,
-            IUserContext userContext)
+            IUserContext userContext,
+            IObservationViewFactory observationViewFactory,
+            IBrowseItemFactory browseItemFactory,
+            IStreamItemFactory streamItemFactory
+            )
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(userContext, "userContext");
+            Check.RequireNotNull(observationViewFactory, "observationViewFactory");
+            Check.RequireNotNull(browseItemFactory, "browseItemFactory");
+            Check.RequireNotNull(streamItemFactory, "streamItemFactory");
 
             _commandProcessor = commandProcessor;
             _documentSession = documentSession;
             _userContext = userContext;
+            _observationViewFactory = observationViewFactory;
+            _browseItemFactory = browseItemFactory;
+            _streamItemFactory = streamItemFactory;
         }
 
         #endregion
@@ -66,7 +83,7 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Index(IdInput idInput)
         {
-            if (Request.IsAjaxRequest())
+            if (_userContext.IsUserAuthenticated() || Request.IsAjaxRequest())
             {
                 return Json(MakeObservationIndex(idInput));
             }
@@ -88,6 +105,17 @@ namespace Bowerbird.Web.Controllers
             }
 
             return Json(MakeObservationList(observationListInput));
+        }
+
+        [HttpGet]
+        [ChildActionOnly]
+        public ActionResult Observations()
+        {
+            ViewData["Observations"] = MakeObservationList();
+            var viewResult = View("observationList");
+            viewResult.ViewEngineCollection = new ViewEngineCollection { new NustacheViewEngine() };
+
+            return viewResult;
         }
 
         [Transaction]
@@ -157,6 +185,49 @@ namespace Bowerbird.Web.Controllers
                 Observation = _documentSession.Load<Observation>(idInput.Id)
             };
         }
+
+        private IEnumerable<StreamItem> MakeObservationList()
+        {
+            RavenQueryStatistics stats;
+
+            return _documentSession
+                .Query<All_GroupContributions.Result, All_GroupContributions>()
+                .AsProjection<All_GroupContributions.Result>()
+                .Statistics(out stats)
+                .Include(x => x.ContributionId)
+                .Where(x => x.ContributionType.Equals("observation"))
+                .OrderByDescending(x => x.CreatedDateTime)
+                .Take(10)
+                .ToList()
+                .ToPagedList(1, 10, stats.TotalResults)
+                .PagedListItems
+                .Select(MakeStreamItem);
+        }
+
+        private StreamItem MakeStreamItem(All_GroupContributions.Result groupContributionResult)
+        {
+            object item = null;
+            string description = null;
+            IEnumerable<string> groups = null;
+
+            switch (groupContributionResult.ContributionType)
+            {
+                case "Observation":
+                    item = _observationViewFactory.Make(groupContributionResult.Observation);
+                    description = groupContributionResult.Observation.User.FirstName + " added an observation";
+                    groups = groupContributionResult.Observation.Groups.Select(x => x.GroupId);
+                    break;
+            }
+
+            return _streamItemFactory.Make(
+                item,
+                groups,
+                "observation",
+                groupContributionResult.GroupUser,
+                groupContributionResult.GroupCreatedDateTime,
+                description);
+        }
+
 
         private ObservationList MakeObservationList(ObservationListInput observationListInput)
         {

@@ -12,10 +12,11 @@
  
 */
 
+using System;
 using System.Web.Mvc;
 
 
-namespace Bowerbird.Web.Controllers.Public
+namespace Bowerbird.Web.Controllers
 {
     /// <summary>
     /// http://stackoverflow.com/questions/9702130/sharing-mustache-nustache-templates-between-server-and-client-asp-net-mvc
@@ -40,6 +41,12 @@ namespace Bowerbird.Web.Controllers.Public
         public PartialViewResult Get(string name)
         {
             return PartialView(name);
+        }
+
+        [HttpGet]
+        public PartialViewResult Render(string name, Object model)
+        {
+            return PartialView(name, model);
         }
 
         #endregion

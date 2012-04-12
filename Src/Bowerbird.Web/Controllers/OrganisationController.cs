@@ -25,6 +25,7 @@ using Bowerbird.Core.Services;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.ViewModels.Members;
 using Bowerbird.Web.ViewModels.Shared;
+using Nustache.Mvc;
 using Raven.Client;
 using Raven.Client.Linq;
 using Bowerbird.Core.Config;
@@ -80,23 +81,47 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Index(IdInput idInput)
         {
-            if (Request.IsAjaxRequest())
+            if (_userContext.IsUserAuthenticated())
             {
-                return Json(MakeOrganisationIndex(idInput));
+                if (Request.IsAjaxRequest())
+                {
+                    return Json(MakeOrganisationIndex(idInput));
+                }
+
+                return View(MakeOrganisationIndex(idInput));
             }
 
-            return View(MakeOrganisationIndex(idInput));
+            return RedirectToAction("List");
         }
 
         [HttpGet]
         public ActionResult List(OrganisationListInput listInput)
         {
-            if (User.Identity.IsAuthenticated && listInput.HasAddTeamPermission)
+            if (_userContext.IsUserAuthenticated())
             {
-                return new JsonNetResult(GetGroupsHavingAddTeamPermission());
+                if (listInput.HasAddTeamPermission)
+                {
+                    return new JsonNetResult(GetGroupsHavingAddTeamPermission());
+                }
+
+                if(Request.IsAjaxRequest())
+                {
+                    return new JsonNetResult(MakeOrganisationList(listInput));
+                }
             }
 
-            return new JsonNetResult(MakeOrganisationList(listInput));
+            return View();
+        }
+
+        [HttpGet]
+        [ChildActionOnly]
+        public ActionResult Organisations()
+        {
+            ViewData["Groups"] = MakeOrganisationList(new OrganisationListInput() { Page = 1, PageSize = 10 }).Organisations.PagedListItems;
+            var viewResult = View("groupList");
+            viewResult.ViewEngineCollection = new ViewEngineCollection { new NustacheViewEngine() };
+
+            return viewResult;
         }
 
         [Transaction]

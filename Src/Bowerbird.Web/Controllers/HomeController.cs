@@ -20,11 +20,15 @@ using Bowerbird.Core.Commands;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Services;
+using Bowerbird.Web.Factories;
 using Bowerbird.Web.ViewModels.Members;
+using Bowerbird.Web.ViewModels.Public;
 using Bowerbird.Web.ViewModels.Shared;
+using Nustache.Mvc;
 using Raven.Client;
 using Raven.Client.Linq;
 using Bowerbird.Core.Config;
+using Bowerbird.Core.Paging;
 
 namespace Bowerbird.Web.Controllers
 {
@@ -38,6 +42,9 @@ namespace Bowerbird.Web.Controllers
         private readonly IMediaFilePathService _mediaFilePathService;
         private readonly IConfigService _configService;
         private readonly IDocumentStore _documentStore;
+        private readonly IObservationViewFactory _observationViewFactory;
+        private readonly IBrowseItemFactory _browseItemFactory;
+        private readonly IStreamItemFactory _streamItemFactory;
 
         #endregion
 
@@ -49,7 +56,10 @@ namespace Bowerbird.Web.Controllers
             IDocumentSession documentSession,
             IMediaFilePathService mediaFilePathService,
             IConfigService configService,
-            IDocumentStore documentStore
+            IDocumentStore documentStore,
+            IObservationViewFactory observationViewFactory,
+            IBrowseItemFactory browseItemFactory,
+            IStreamItemFactory streamItemFactory
         )
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
@@ -58,6 +68,9 @@ namespace Bowerbird.Web.Controllers
             Check.RequireNotNull(mediaFilePathService, "mediaFilePathService");
             Check.RequireNotNull(configService, "configService");
             Check.RequireNotNull(documentStore, "documentStore");
+            Check.RequireNotNull(observationViewFactory, "observationViewFactory");
+            Check.RequireNotNull(browseItemFactory, "browseItemFactory");
+            Check.RequireNotNull(streamItemFactory, "streamItemFactory");
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
@@ -65,6 +78,9 @@ namespace Bowerbird.Web.Controllers
             _mediaFilePathService = mediaFilePathService;
             _configService = configService;
             _documentStore = documentStore;
+            _observationViewFactory = observationViewFactory;
+            _browseItemFactory = browseItemFactory;
+            _streamItemFactory = streamItemFactory;
         }
 
         #endregion
@@ -74,13 +90,23 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Index(HomeIndexInput homeIndexInput)
         {
-            if (Request.IsAjaxRequest())
+            if (_userContext.IsUserAuthenticated())
             {
-                return Json(MakeHomeIndex(homeIndexInput));
-            }
-            return View(MakeHomeIndex(homeIndexInput));
+                if(Request.IsAjaxRequest())
+                {
+                    return Json(MakeHomeIndex(homeIndexInput), JsonRequestBehavior.AllowGet);
+                }
 
-            //return View(new HomeIndex(){UserProfile = new UserProfile(){Id = User.Identity.Name}});
+                return View(MakeHomeIndex(homeIndexInput));
+            }
+
+            return RedirectToAction("List");
+        }
+
+        [HttpGet]
+        public ActionResult List()
+        {
+            return View();
         }
 
         [HttpGet]

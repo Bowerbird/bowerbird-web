@@ -39,6 +39,7 @@ namespace Bowerbird.Web.App_Start
             ViewEngines.Engines.Clear();
 
             ViewEngines.Engines.Add(new RazorViewEngine());
+            //ViewEngines.Engines.Add(new NustacheViewEngine() { RootContext = NustacheViewEngineRootContext.Model });
             ViewEngines.Engines.Add(new NustacheViewEngine());
 
             //AreaRegistration.RegisterAllAreas();

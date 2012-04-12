@@ -25,6 +25,7 @@ using Bowerbird.Core.Services;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.ViewModels.Members;
 using Bowerbird.Web.ViewModels.Shared;
+using Nustache.Mvc;
 using Raven.Client;
 using Raven.Client.Linq;
 using Bowerbird.Core.Config;
@@ -78,30 +79,49 @@ namespace Bowerbird.Web.Controllers
         #region Methods
 
         [HttpGet]
-        public ActionResult List(TeamListInput listInput)
-        {
-            if (User.Identity.IsAuthenticated && listInput.HasAddProjectPermission)
-            {
-                return new JsonNetResult(GetGroupsHavingAddProjectPermission());
-            }
-
-            //if (User.Identity.IsAuthenticated)
-            //{
-            //    return new JsonNetResult(MakeTeamListByMembership(listInput));
-            //}
-
-            return new JsonNetResult(MakeTeamList(listInput));
-        }
-
-
-        [HttpGet]
         public ActionResult Index(IdInput idInput)
         {
-            if (Request.IsAjaxRequest())
+            if (_userContext.IsUserAuthenticated())
+            {
+                if (Request.IsAjaxRequest())
+                {
+                    return Json(MakeTeamIndex(idInput));
+                }
 
-                return Json(MakeTeamIndex(idInput));
+                return View(MakeTeamIndex(idInput));
+            }
 
-            return View(MakeTeamIndex(idInput));
+            return RedirectToAction("List");
+        }
+
+        [HttpGet]
+        public ActionResult List(TeamListInput listInput)
+        {
+            if (_userContext.IsUserAuthenticated())
+            {
+                if (listInput.HasAddProjectPermission)
+                {
+                    return new JsonNetResult(GetGroupsHavingAddProjectPermission());
+                }
+
+                if (Request.IsAjaxRequest())
+                {
+                    return new JsonNetResult(MakeTeamList(listInput));
+                }
+            }
+
+            return View();
+        }
+
+        [HttpGet]
+        [ChildActionOnly]
+        public ActionResult Teams()
+        {
+            ViewData["Groups"] = MakeTeamList(new TeamListInput() { Page = 1, PageSize = 10 }).Teams.PagedListItems;
+            var viewResult = View("groupList");
+            viewResult.ViewEngineCollection = new ViewEngineCollection { new NustacheViewEngine() };
+
+            return viewResult;
         }
 
         [Transaction]
@@ -123,7 +143,6 @@ namespace Bowerbird.Web.Controllers
 
             return Json("success");
         }
-
 
         [Transaction]
         [HttpPut]

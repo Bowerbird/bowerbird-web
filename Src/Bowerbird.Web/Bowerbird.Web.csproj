@@ -151,10 +151,13 @@
     <Compile Include="Controllers\ProjectController.cs" />
     <Compile Include="Controllers\StreamItemController.cs" />
     <Compile Include="Controllers\TeamController.cs" />
+    <Compile Include="Controllers\TemplateController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\WatchlistController.cs" />
     <Compile Include="EventHandlers\NotifyObservationCreatedEventHandler.cs" />
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
+    <Compile Include="Factories\BrowseItemFactory.cs" />
+    <Compile Include="Factories\IBrowseItemFactory.cs" />
     <Compile Include="Factories\IFactory.cs" />
     <Compile Include="Factories\IObservationViewFactory.cs" />
     <Compile Include="Factories\IStreamItemFactory.cs" />
@@ -181,6 +184,8 @@
     <Compile Include="ViewModels\Members\OrganisationUpdateInput.cs" />
     <Compile Include="ViewModels\Members\MemberList.cs" />
     <Compile Include="ViewModels\Members\MemberListInput.cs" />
+    <Compile Include="ViewModels\Public\BrowseIndex.cs" />
+    <Compile Include="ViewModels\Public\BrowseItem.cs" />
     <Compile Include="ViewModels\Shared\Notification.cs" />
     <Compile Include="ViewModels\Shared\ActivityMessage.cs" />
     <Compile Include="ViewModels\Shared\ChatMessage.cs" />

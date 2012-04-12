@@ -22,6 +22,7 @@ using Bowerbird.Core.Services;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.ViewModels.Members;
 using Bowerbird.Web.ViewModels.Shared;
+using Nustache.Mvc;
 using Raven.Client;
 using Raven.Client.Linq;
 using Bowerbird.Core.Config;
@@ -73,26 +74,47 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Index(IdInput idInput)
         {
-            if (Request.IsAjaxRequest())
+            if (_userContext.IsUserAuthenticated())
+            {
+                if (Request.IsAjaxRequest())
+                {
+                    return Json(MakeProjectIndex(idInput));
+                }
 
-                return Json(MakeProjectIndex(idInput));
+                return View(MakeProjectIndex(idInput));
+            }
 
-            return View(MakeProjectIndex(idInput));
+            return RedirectToAction("List");
         }
 
         [HttpGet]
         public ActionResult List(ProjectListInput listInput)
         {
-            //if (listInput.TeamId != null)
-            //{
-            //    return Json(MakeProjectListByTeamId(listInput), JsonRequestBehavior.AllowGet);
-            //}
-            if (listInput.UserId != null)
+            if (_userContext.IsUserAuthenticated())
             {
-                return Json(MakeProjectListByMembership(listInput), JsonRequestBehavior.AllowGet);
+                if (listInput.UserId != null)
+                {
+                    return Json(MakeProjectListByMembership(listInput), JsonRequestBehavior.AllowGet);
+                }
+
+                if (Request.IsAjaxRequest())
+                {
+                    return Json(MakeProjectList(listInput), JsonRequestBehavior.AllowGet);
+                }
             }
 
-            return Json(MakeProjectList(listInput), JsonRequestBehavior.AllowGet);
+            return View();
+        }
+
+        [HttpGet]
+        [ChildActionOnly]
+        public ActionResult Projects()
+        {
+            ViewData["Groups"] = MakeProjectList( new ProjectListInput(){Page = 1, PageSize = 10 }).Projects.PagedListItems;
+            var viewResult = View("groupList");
+            viewResult.ViewEngineCollection = new ViewEngineCollection { new NustacheViewEngine() };
+
+            return viewResult;
         }
 
         [Transaction]
