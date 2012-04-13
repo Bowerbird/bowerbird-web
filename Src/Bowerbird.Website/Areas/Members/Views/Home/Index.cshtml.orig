@@ -61,6 +61,7 @@
     <!--<div><a href="#team/create">New Team</a></div>
     <div><a href="#organisation/create">New Organisation</a></div>-->
 </script>
+<<<<<<< Updated upstream
 <!-- {{ sidebarItem: display links in users side bar }} -->
 <script id="sidebarItem" type="text/html">
     <a href="#{{id}}/all"><img alt="{{name}}" src="{{avatar.urlToImage}}"><div><p>{{name}}</p></div></a>
@@ -79,6 +80,25 @@
             <li><div><p><a href="#">Edit {{type}} Details</a></p></div></li>
         </ul>
     </div>
+=======
+<script id="sidebarItemTemplate" type="text/html">
+        <a href="{{id}}"><img alt="{{name}}" src="{{avatar.urlToImage}}"><div><p>{{name}}</p></div></a>
+        <div class="sub-menu-button">
+            <span></span>
+            <ul>
+                <li><div><p><a href="#{{id}}/all">View Latest Activity</a></p></div></li>
+                <li class="divider"></li>
+                {{#addObservation}}
+                <li><div><p><a href="#observation/create">Add an Observation</a></p></div></li>
+                {{/addObservation}}
+                <li><div><p><a href="#">Add a Post</a></p></div></li>
+                <li><div class="chat-menu-item"><p>Join Chat</p></div></li>
+                <li><div><p><a href="#">View {{type}} Details</a></p></div></li>
+                <li class="divider"></li>
+                <li><div><p><a href="#">Edit {{type}} Details</a></p></div></li>
+            </ul>
+        </div>
+>>>>>>> Stashed changes
 </script>
 <!-- {{ streamListLoading: display load }} -->
 <script type="text/html" id="streamListLoading">

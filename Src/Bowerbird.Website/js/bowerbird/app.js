@@ -37,8 +37,14 @@ window.Bowerbird.App = Backbone.Model.extend({
         this.projects.reset(projects);
         this.onlineUsers.reset(users);
 
+        // Override all anchors to channel through router
+        $('a').on('click', function (e) {
+            app.appRouter.navigate($(this).attr('href'), true);
+            return false;
+        });
+
         // Start URL and history routing
-        Backbone.history.start({ pushState: false });
+        Backbone.history.start({ pushState: true });
     },
 
     showHomeStream: function (filter) {
