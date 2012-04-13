@@ -138,6 +138,7 @@
     <Compile Include="Config\NinjectRavenSessionProvider.cs" />
     <Compile Include="Config\NinjectRavenDocumentStoreProvider.cs" />
     <Compile Include="Config\RouteRegistrar.cs" />
+    <Compile Include="Config\TemplateFactory.cs" />
     <Compile Include="Config\UserContext.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />

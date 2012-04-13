@@ -59,7 +59,9 @@ namespace Bowerbird.Web.Extensions
             string markup = streamReader.ReadToEnd();
             streamReader.Close();
 
-            return new HtmlString(markup);
+            markup = string.Format(@"<script id=""{0}"" type=""text/html"">{1}</script>", view, markup);
+
+            return helper.Raw(markup);
 
         }
 

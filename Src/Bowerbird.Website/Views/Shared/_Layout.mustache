@@ -3,21 +3,17 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>{{>Page.Title}}</title>
+    <title>{{>Title}}Bowerbird</title>
     <meta name="description" content="" />
     <meta name="author" content="" />
     <!--  Mobile viewport optimized: j.mp/bplateviewport -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- CSS : implied media="all" -->
-    @Html.Raw(SquishIt.Framework.Bundle.Css()
-    .Add(@Url.Stylesheet("normalize.css"))
-    .Add(@Url.Stylesheet("site.css"))
-    .Add(@Url.Stylesheet("media.css"))
-    //.Add(@Url.Stylesheet("debug.css"))
-    //.ForceRelease() // Test it out with minification
-    .Render("~/css/style_#.css"))
+    <!-- More info about SquishIt from http://www.codethinked.com/squishit-the-friendly-aspnet-javascript-and-css-squisher -->
+    <link rel="stylesheet" type="text/css" href="/css/normalize.css?v=1" />
+    <link rel="stylesheet" type="text/css" href="/css/site.css?v=1" />
+    <link rel="stylesheet" type="text/css" href="/css/media.css?v=1" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700' rel='stylesheet' type='text/css'>
-    @RenderSection("header", false)
 </head>
   <body class="debug">
     <div id="debug-info"></div>
@@ -37,7 +33,7 @@
             @if (User.Identity.IsAuthenticated)
             {
             <li class="user-menu">
-              @Html.ActionLink("Frank", "index", "home")
+              <!--<img src="/img/avatar.jpg" alt="" />--> @Html.ActionLink("Frank", "index", "home")
             </li>
             <li>
               <a href="/home/setuptestdata">Setup Test Data</a>
@@ -61,26 +57,10 @@
             <input type="text" value="" name="search" id="search" placeholder="Search for observations, people and groups" />
           </div>
         </nav>
-        <nav id="explore-menu">
-          <div id="explore-menu-area">
-            <label for="search">Explore</label>
-          </div>
-          <ul>
-            <li>
-              <a href="#explore/projects">Explore Projects</a>
-            </li>
-            <li>
-              <a href="#explore/teams">Explore Teams</a>
-            </li>
-            <li>
-              <a href="#explore/organisations">Explore Organisations</a>
-            </li>
-          </ul>
-        </nav>
       </div>
     </header>
     <article>
-      @RenderBody()
+      {{>Body}}
     </article>
     <footer>
     </footer>
@@ -89,29 +69,14 @@
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&region=AU"></script>
     <!-- Grab Google CDN's jQuery. fall back to local if necessary -->
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script type="text/javascript">
-      window.jQuery || document.write("<script type='text/javascript' src='@Url.JavaScriptLib("jquery-1.7.1.min.js")'>\x3C/script>")</script>
-      @* Add other javascript files here if you want them squished on release *@
-      @Html.Raw(SquishIt.Framework.Bundle.JavaScript()
-      .Add(@Url.JavaScriptFile("namespace.js"))
-      .Add(@Url.JavaScriptLib("log.js"))
-      .Add(@Url.JavaScriptLib("iCanHaz.js"))
-      .Add(@Url.JavaScriptLib("jquery.tmpl.js"))
-      .Add(@Url.JavaScriptLib("jquery-ui-1.8.18.custom.min.js"))
-      .Add(@Url.JavaScriptLib("json2.js"))
-      .Add(@Url.JavaScriptLib("underscore-min.js"))
-      .Add(@Url.JavaScriptLib("backbone.js"))
-      .Render("~/js/script_#.js"))
-      <!-- ADDED: Page Level script sections -->
-      @RenderSection("script", false)
-      <!-- mathiasbynens.be/notes/async-analytics-snippet Change UA-XXXXX-X to be your site's ID -->
-      @*<script type="text/javascript">
-        var _gaq = [['_setAccount', 'UA-XXXXX-X'], ['_trackPageview']];
-        (function (d, t) {
-        var g = d.createElement(t), s = d.getElementsByTagName(t)[0]; g.async = 1;
-        g.src = ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js';
-        s.parentNode.insertBefore(g, s)
-        } (document, 'script'));
-      </script>*@
+    <script type="text/javascript">window.jQuery || document.write("<script type='text/javascript' src='/js/libs/jquery-1.7.1.min.js'>\x3C/script>")</script>
+    <script type="text/javascript" src="/js/bowerbird/namespace.js?v=1"></script>
+    <script type="text/javascript" src="/js/libs/log.js?v=1"></script>
+    <script type="text/javascript" src="/js/libs/iCanHaz.js?v=1"></script>
+    <script type="text/javascript" src="/js/libs/jquery.tmpl.js?v=1"></script>
+    <script type="text/javascript" src="/js/libs/jquery-ui-1.8.18.custom.min.js?v=1"></script>
+    <script type="text/javascript" src="/js/libs/json2.js?v=1"></script>
+    <script type="text/javascript" src="/js/libs/underscore-min.js?v=1"></script>
+    <script type="text/javascript" src="/js/libs/backbone.js?v=1"></script>
     </body>
 </html>

@@ -8,7 +8,7 @@ window.Bowerbird.AppRouter = Backbone.Router.extend({
         'observations/create': 'startNewObservation',
         'projects/create': 'startNewProject',
         'organisations/create': 'startNewOrganisation',
-        'teams/create': 'startNewTeam'
+        'teams/create': 'startNewTeam',
         'explore/projects': 'exploreProjects',
         'explore/teams': 'exploreTeams',
         'explore/organisations': 'exploreOrganisations'

@@ -103,19 +103,16 @@ namespace Bowerbird.Web.Controllers
                 }
             }
 
-            return View();
+            return TemplateView("List", "ProjectList", MakeProjectList(new ProjectListInput() { Page = 1, PageSize = 10 }));
         }
 
-        [HttpGet]
-        [ChildActionOnly]
-        public ActionResult Projects()
-        {
-            ViewData["Groups"] = MakeProjectList( new ProjectListInput(){Page = 1, PageSize = 10 }).Projects.PagedListItems;
-            var viewResult = View("groupList");
-            viewResult.ViewEngineCollection = new ViewEngineCollection { new NustacheViewEngine() };
-
-            return viewResult;
-        }
+        //[HttpGet]
+        //[ChildActionOnly]
+        //public ActionResult Projects()
+        //{
+        //    ViewData["Groups"] = MakeProjectList( new ProjectListInput(){Page = 1, PageSize = 10 }).Projects.PagedListItems;
+        //    return View("groupList");
+        //}
 
         [Transaction]
         [Authorize]

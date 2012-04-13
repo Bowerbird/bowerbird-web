@@ -19,8 +19,7 @@ window.Bowerbird.Collections.Users = Backbone.Collection.extend({
             if (newUser.status == 2 || newUser.status == 3) {
                 app.onlineUsers.remove(user);
                 log('app.userStatusUpdate: ' + newUser.name + ' logged out');
-            }
-            else {
+            } else {
                 user.set('status', newUser.status);
                 log('app.userStatusUpdate: ' + newUser.name + ' udpated their status');
             }

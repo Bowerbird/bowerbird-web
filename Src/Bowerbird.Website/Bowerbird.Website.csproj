@@ -120,7 +120,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Views\Observation\List.cshtml" />
     <Content Include="Views\Organisation\List.cshtml" />
-    <Content Include="Views\Project\List.cshtml" />
+    <None Include="Views\Project\List.cshtml.old" />
+    <None Include="Views\Project\List.mustache" />
+    <None Include="Views\Shared\_Layout.mustache" />
     <None Include="Views\Shared\groupList.mustache" />
     <None Include="Views\Shared\observationList.mustache" />
     <Content Include="apple-touch-icon-114x114-precomposed.png" />
@@ -267,9 +269,6 @@
     <Content Include="Views\Shared\_Layout.cshtml">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Views\Shared\_LogOnPartial.cshtml">
-      <SubType>Code</SubType>
-    </Content>
     <Content Include="Views\Shared\_SelectedFilterDetails.cshtml" />
     <Content Include="Views\Shared\_StreamObservationItem.cshtml">
       <SubType>Code</SubType>
@@ -319,7 +318,6 @@
     <None Include="Views\Shared\test.mustache" />
     <None Include="Views\Shared\user.mustache" />
     <None Include="Views\Shared\usersonline.mustache" />
-    <None Include="Views\Shared\_NewLayout.mustache" />
     <Content Include="Views\Shared\_ObservationCreate.cshtml" />
     <Content Include="Views\Shared\_OrganisationCreate.cshtml" />
     <Content Include="Views\Shared\_ProjectCreate.cshtml" />
