@@ -52,7 +52,7 @@ namespace Bowerbird.Web.Extensions
 
         public static IHtmlString RenderSharedTemplate(this HtmlHelper helper, string view)
         {
-            string filePath = HttpContext.Current.Server.MapPath(string.Format("~Views/Shared/{0}.mustache", view));
+            string filePath = HttpContext.Current.Server.MapPath(string.Format("Views/Shared/{0}.mustache", view));
 
             //load from file
             StreamReader streamReader = File.OpenText(filePath);
