@@ -1,6 +1,20 @@
 ﻿
 window.Bowerbird.AppRouter = Backbone.Router.extend({
     routes: {
+<<<<<<< Updated upstream
+        '': 'showDefaultStream',
+        'home/:filter': 'showHomeStream',
+        'teams/:id/:filter': 'showTeamStream',
+        'projects/:id/:filter': 'showProjectStream',
+        'users/:id/:filter': 'showUserStream',
+        'observation/create': 'startNewObservation',
+        'project/create': 'startNewProject',
+        'organisation/create': 'startNewOrganisation',
+        'team/create': 'startNewTeam',
+        'explore/projects': 'exploreProjects',
+        'explore/teams': 'exploreTeams',
+        'explore/organisations': 'exploreOrganisations'
+=======
         '': 'showHomeStream',
         'teams/:id': 'showTeamStream',
         'projects/:id': 'showProjectStream',
@@ -9,9 +23,7 @@ window.Bowerbird.AppRouter = Backbone.Router.extend({
         'projects/create': 'startNewProject',
         'organisations/create': 'startNewOrganisation',
         'teams/create': 'startNewTeam'
-        'explore/projects': 'exploreProjects',
-        'explore/teams': 'exploreTeams',
-        'explore/organisations': 'exploreOrganisations'
+>>>>>>> Stashed changes
     },
 
     initialize: function (options) {

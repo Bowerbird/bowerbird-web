@@ -22,10 +22,8 @@ window.Bowerbird.Models.Stream = Backbone.Model.extend({
         var uri = '';
         if (this.has('context')) {
             uri = this.get('context').get('id');
-        } else {
-            uri = 'home';
         }
-        uri += '/' + this.get('filter');
+        //uri += '/' + this.get('filter');
         this.set('uri', uri);
         this.trigger('newStream', this);
         this.trigger('fetchingItemsStarted', this);
