@@ -20,4 +20,4 @@ Technology Stack
 
 * Persistence: RavenDB
 
-* UI: HTML5 including JQuery, Backbone & Underscore
+* UI: CSS3, JQuery, Backbone, Underscore & Mustache
