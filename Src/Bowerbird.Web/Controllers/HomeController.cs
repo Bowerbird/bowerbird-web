@@ -96,10 +96,16 @@ namespace Bowerbird.Web.Controllers
                     return Json(MakeHomeIndex(homeIndexInput), JsonRequestBehavior.AllowGet);
                 }
 
-                return TemplateView("HomeIndex", MakeHomeIndex(homeIndexInput));
+                //return TemplateView("HomeIndex", MakeHomeIndex(homeIndexInput));
+                ViewBag.HomeIndex = MakeHomeIndex(homeIndexInput);
+
+                return View();
             }
 
-            return TemplateView("HomeIndex", MakeHomeIndex(homeIndexInput));
+            //return TemplateView("HomeIndex", MakeHomeIndex(homeIndexInput));
+            ViewBag.HomeIndex = MakeHomeIndex(homeIndexInput);
+
+            return View();
         }
 
         [HttpGet]

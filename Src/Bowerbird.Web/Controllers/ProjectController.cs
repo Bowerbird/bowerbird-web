@@ -102,7 +102,9 @@ namespace Bowerbird.Web.Controllers
                 }
             }
 
-            return TemplateView("ProjectList", MakeProjectList(new ProjectListInput() { Page = 1, PageSize = 10 }));
+            ViewBag.ProjectList = MakeProjectList(new ProjectListInput() { Page = 1, PageSize = 10 });
+
+            return View();
         }
 
         [Transaction]

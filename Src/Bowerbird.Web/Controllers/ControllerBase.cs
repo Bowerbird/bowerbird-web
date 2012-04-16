@@ -37,53 +37,25 @@ namespace Bowerbird.Web.Controllers
 
         #region Methods
 
-        protected HttpUnauthorizedResult HttpUnauthorized()
+        protected override void OnActionExecuted(ActionExecutedContext filterContext)
         {
-            return new HttpUnauthorizedResult();
-        }
-
-        /// <summary>
-        /// Returns a mustachioed view using the default layout
-        /// </summary>
-        /// <param name="modelName">name of the model to be referenced inside the mustache template</param>
-        /// <param name="model">The model to be bound</param>
-        /// <returns>A mustache view</returns>
-        protected ViewResult TemplateView(string modelName, object model)
-        {
-            return TemplateView(modelName, model, null, "_Layout");
-        }
-
-        /// <summary>
-        /// Returns a mustachioed view using the default layout
-        /// </summary>
-        /// <param name="modelName">name of the model to be referenced inside the mustache template</param>
-        /// <param name="model">The model to be bound</param>
-        /// <param name="viewName">Name of the mustache template</param>
-        /// <returns>A mustache view</returns>
-        protected ViewResult TemplateView(string modelName, object model, string viewName)
-        {
-            return TemplateView(modelName, model, viewName, "_Layout");
-        }
-
-        /// <summary>
-        /// Returns a mustachioed view using the default layout
-        /// </summary>
-        /// <param name="modelName">name of the model to be referenced inside the mustache template</param>
-        /// <param name="model">The model to be bound</param>
-        /// <param name="viewName">Name of the mustache template</param>
-        /// <param name="layout">The master layout to use</param>
-        /// <returns>A mustache view</returns>
-        protected ViewResult TemplateView(string modelName, object model, string viewName, string layout)
-        {
-            ViewData[modelName] = model;
+            if (filterContext.Result is ViewResult)
+            {
+                ((ViewResult)filterContext.Result).MasterName = "_Layout";
+            }
 
             var userContext = ServiceLocator.Current.GetInstance<IUserContext>();
             if (userContext.IsUserAuthenticated())
             {
-                ViewData["AuthenticatedUser"] = ServiceLocator.Current.GetInstance<IDocumentSession>().Load<User>(userContext.GetAuthenticatedUserId());
+                ViewBag.AuthenticatedUser = ServiceLocator.Current.GetInstance<IDocumentSession>().Load<User>(userContext.GetAuthenticatedUserId());
             }
 
-            return View(viewName, layout);
+            base.OnActionExecuted(filterContext);
+        }
+
+        protected HttpUnauthorizedResult HttpUnauthorized()
+        {
+            return new HttpUnauthorizedResult();
         }
 
         #endregion      

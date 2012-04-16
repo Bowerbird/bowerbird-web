@@ -66,7 +66,9 @@ namespace Bowerbird.Web.Controllers
                 return RedirectToAction("index", "home");
             }
 
-            return TemplateView("AccountLogin", MakeAccountLogin());
+            ViewBag.AccountLogin = MakeAccountLogin();
+
+            return View();
         }
 
         [HttpPost]
@@ -88,7 +90,9 @@ namespace Bowerbird.Web.Controllers
 
             ModelState.AddModelError("", "");
 
-            return TemplateView("AccountLogin", MakeAccountLogin(accountLoginInput));
+            ViewBag.AccountLogin = MakeAccountLogin(accountLoginInput);
+
+            return View();
         }
 
         public ActionResult LoggingIn(string returnUrl)
@@ -119,13 +123,15 @@ namespace Bowerbird.Web.Controllers
 
         public ActionResult LogoutSuccess()
         {
-            return TemplateView("", null);
+            return View();
         }
 
         [HttpGet]
         public ActionResult Register()
         {
-            return TemplateView("AccountRegister", MakeAccountRegister());
+            ViewBag.AccountRegister = MakeAccountRegister();
+
+            return View();
         }
 
         [HttpPost]
@@ -142,13 +148,16 @@ namespace Bowerbird.Web.Controllers
                 return RedirectToAction("index", "home");
             }
 
-            return TemplateView("AccountRegister", MakeAccountRegister(accountRegisterInput));
+            ViewBag.AccountRegister = MakeAccountRegister(accountRegisterInput);
+            return View();
         }
 
         [HttpGet]
         public ActionResult RequestPasswordReset()
         {
-            return TemplateView("RequestPasswordReset", MakeAccountRequestPasswordReset());
+            ViewBag.RequestPasswordReset = MakeAccountRequestPasswordReset();
+
+            return View();
         }
 
         [HttpPost]
@@ -162,18 +171,21 @@ namespace Bowerbird.Web.Controllers
                 return RedirectToAction("requestpasswordresetsuccess", "account");
             }
 
-            return TemplateView("RequestPasswordReset", MakeAccountRequestPasswordReset(accountRequestPasswordResetInput));
+            ViewBag.RequestPasswordReset = MakeAccountRequestPasswordReset(accountRequestPasswordResetInput);
+
+            return View();
         }
 
         public ActionResult RequestPasswordResetSuccess()
         {
-            return TemplateView("RequestPasswordResetSuccess", null);
+            return View();
         }
 
         [HttpGet]
         public ActionResult ResetPassword(AccountResetPasswordInput accountResetPasswordInput)
         {
-            return TemplateView("RequestPasswordResetSuccess", MakeAccountResetPassword(accountResetPasswordInput));
+            ViewBag.RequestPasswordResetSuccess = MakeAccountResetPassword(accountResetPasswordInput);
+            return View();
         }
 
         [HttpPost]
@@ -191,7 +203,9 @@ namespace Bowerbird.Web.Controllers
                 return RedirectToAction("index", "home");
             }
 
-            return TemplateView("ResetPassword", MakeAccountResetPassword(accountResetPasswordInput));
+            ViewBag.ResetPassword = MakeAccountResetPassword(accountResetPasswordInput);
+
+            return View();
         }
 
         private UserUpdateLastLoginCommand MakeUserUpdateLastLoginCommand(AccountLoginInput accountLoginInput)
