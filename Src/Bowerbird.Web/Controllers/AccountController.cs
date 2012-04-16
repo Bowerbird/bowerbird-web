@@ -104,7 +104,7 @@ namespace Bowerbird.Web.Controllers
                 return Redirect(returnUrl);
             }
 
-            return RedirectToAction("index", "home", new { area = "members" });
+            return RedirectToAction("index", "home");
         }
 
         public ActionResult Logout()
