@@ -86,13 +86,6 @@
     <Reference Include="NLog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.2.0.0.2000\lib\net40\NLog.dll</HintPath>
     </Reference>
-    <Reference Include="Nustache.Core">
-      <HintPath>..\packages\Nustache.1.12.3.6\lib\net20\Nustache.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Nustache.Mvc3">
-      <HintPath>..\packages\Nustache.Mvc3.1.12.3.6\lib\net40\Nustache.Mvc3.dll</HintPath>
-    </Reference>
-    <Reference Include="SquishIt.Framework, Version=0.7.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web.WebPages" />
@@ -120,6 +113,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Views\Observation\List.cshtml" />
     <Content Include="Views\Organisation\List.cshtml" />
+    <None Include="Views\Home\Index.mustache" />
     <None Include="Views\Project\List.cshtml.old" />
     <None Include="Views\Project\List.mustache" />
     <None Include="Views\Shared\_Layout.mustache" />
@@ -291,7 +285,7 @@
     <Content Include="Views\Project\Index.cshtml" />
     <Content Include="Views\Home\List.cshtml" />
     <None Include="Views\Observation\Index.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
+    <None Include="Views\Home\Index.cshtml.old" />
     <Content Include="Views\Team\Index.cshtml" />
     <Content Include="Views\Organisation\Index.cshtml" />
     <None Include="Views\Shared\avatarchoosefile.mustache" />

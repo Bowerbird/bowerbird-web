@@ -1,0 +1,96 @@
+﻿{{<Title}}{{/Title}}
+{{<Script}}
+
+@Html.RenderSharedTemplate("streamList")
+@Html.RenderSharedTemplate("streamListLoading")
+@Html.RenderSharedTemplate("streamLoadMore")
+@Html.RenderSharedTemplate("notifications")
+@Html.RenderSharedTemplate("notificationsItem")
+@Html.RenderSharedTemplate("observationStreamListItem")
+@Html.RenderSharedTemplate("observationcreate")
+@Html.RenderSharedTemplate("observationmediaresourceuploaded")
+@Html.RenderSharedTemplate("projectcreate")
+@Html.RenderSharedTemplate("organisationcreate")
+@Html.RenderSharedTemplate("teamcreate")
+@Html.RenderSharedTemplate("avataruploader")
+@Html.RenderSharedTemplate("avatarchoosefile")
+@Html.RenderSharedTemplate("avataruploaded")
+@Html.RenderSharedTemplate("user")
+@Html.RenderSharedTemplate("chatusers")
+@Html.RenderSharedTemplate("chatmessage")
+@Html.RenderSharedTemplate("usersonline")
+@Html.RenderSharedTemplate("chatwindow")
+
+<script type="text/javascript" src="/template?ids=streamList,streamListLoading"></script>
+<script type="text/javascript" src="@Url.JavaScriptLib("jquery.signalR.js")"></script>
+<script type="text/javascript" src="@Url.JavaScriptLib("jquery.fileupload.js")"></script>
+<script type="text/javascript" src="@Url.JavaScriptLib("jquery.iframe-transport.js")"></script>
+<script type="text/javascript" src="@Url.JavaScriptLib("load-image.js")"></script>
+<script type="text/javascript" src="@Url.JavaScriptLib("bootstrap-datepicker.js")"></script>
+<script type="text/javascript" src="@Url.JavaScriptLib("jquery.multiSelect.js")"></script>
+<script type="text/javascript" src="@Url.JavaScriptLib("iscroll.js")"></script>
+<script type="text/javascript" src="@Url.JavaScriptLib("date-min.js")"></script>
+<script type="text/javascript" src="@Url.Content("signalr/hubs")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("chat.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("groupChat.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("userChat.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("chatMessage.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("chatUser.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("group.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("observation.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("project.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("stream.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("streamItem.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("team.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("organisation.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("user.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("mediaResource.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("notification.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsModel("explore.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsCollection("chatMessages.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsCollection("chatUsers.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsCollection("users.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsCollection("chats.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsCollection("paginatedCollection.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsCollection("groups.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsCollection("projects.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsCollection("streamItems.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsCollection("teams.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsCollection("organisations.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsCollection("mediaResources.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsCollection("notifications.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("appView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("chatView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("sidebarView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("sidebarItemView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("exploreItemView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("exploreView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("streamListItemView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("streamListView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("streamView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("mediaResourceItemView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("avatarItemView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("editMapView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("editMediaView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("editAvatarView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("userOnlineView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("userView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("observationCreateFormView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("projectCreateFormView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("organisationCreateFormView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("teamCreateFormView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("notificationsView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsView("notificationItemView.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsFile("chatRouter.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsFile("notificationRouter.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsFile("appRouter.js")"></script>
+<script type="text/javascript" src="@Url.BowerbirdJsFile("app.js")"></script>
+
+<script type="text/javascript">
+    $(function () {
+        new Bowerbird.App().start(Html.Json(Model.UserProfile.Id), Html.Json(Model.Teams), Html.Json(Model.Projects), Html.Json(Model.OnlineUsers));
+    });
+</script>
+}
+
+{{/Script}}

@@ -22,7 +22,6 @@ using Bowerbird.Web.Factories;
 using Bowerbird.Web.ViewModels.Members;
 using Bowerbird.Web.ViewModels.Public;
 using Bowerbird.Web.ViewModels.Shared;
-using Nustache.Mvc;
 using Raven.Client;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
@@ -30,6 +29,7 @@ using Bowerbird.Web.Config;
 using Raven.Client.Linq;
 using System;
 using Bowerbird.Core.Config;
+using Nustache.Mvc;
 
 namespace Bowerbird.Web.Controllers
 {

@@ -20,35 +20,36 @@
     <header>
       <div>
         <h1>Bowerbird</h1>
-        <nav id="main-menu">
+        <!--<nav id="main-menu">
           <ul>
             <li>@Html.ActionLink("Observations", "index", "observation")</li>
             <li>@Html.ActionLink("People", "index", "user")</li>
             <li>@Html.ActionLink("Groups", "index", "group")</li>
           </ul>
-        </nav>
-
+        </nav>-->
         <nav id="account-menu">
           <ul>
-            @if (User.Identity.IsAuthenticated)
-            {
+            {{#AuthenticatedUser?}}
             <li class="user-menu">
-              <!--<img src="/img/avatar.jpg" alt="" />--> @Html.ActionLink("Frank", "index", "home")
+              <a href="/">User Home</a>
             </li>
             <li>
               <a href="/home/setuptestdata">Setup Test Data</a>
             </li>
             <li class="observations-menu">
-              <a href="#observation/create" class="new-observation-button">
+              <a href="/observation/create" class="new-observation-button">
                 <img src="/img/observation-button.png" alt="" />
               </a>
             </li>
-            }
-            else
-            {
-            <li>@Html.ActionLink("Login", "login", "account")</li>
-            <li>@Html.ActionLink("Register", "register", "account")</li>
-            }
+            {{/AuthenticatedUser?}}
+            {{^AuthenticatedUser}}
+            <li>
+              <a href="/account/login">Login</a>
+            </li>
+            <li>
+              <a href="/account/register">Register</a>
+            </li>
+            {{/AuthenticatedUser}}
           </ul>
         </nav>
         <nav id="search-menu">
@@ -78,5 +79,6 @@
     <script type="text/javascript" src="/js/libs/json2.js?v=1"></script>
     <script type="text/javascript" src="/js/libs/underscore-min.js?v=1"></script>
     <script type="text/javascript" src="/js/libs/backbone.js?v=1"></script>
+      {{>Script}}
     </body>
 </html>

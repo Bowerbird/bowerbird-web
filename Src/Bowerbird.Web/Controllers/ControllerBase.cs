@@ -13,6 +13,10 @@
 */
 
 using System.Web.Mvc;
+using Bowerbird.Core.Config;
+using Microsoft.Practices.ServiceLocation;
+using Raven.Client;
+using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Web.Controllers
 {
@@ -41,26 +45,44 @@ namespace Bowerbird.Web.Controllers
         /// <summary>
         /// Returns a mustachioed view using the default layout
         /// </summary>
-        /// <param name="viewName">Name of the mustache template</param>
         /// <param name="modelName">name of the model to be referenced inside the mustache template</param>
         /// <param name="model">The model to be bound</param>
         /// <returns>A mustache view</returns>
-        protected ViewResult TemplateView(string viewName, string modelName, object model)
+        protected ViewResult TemplateView(string modelName, object model)
         {
-            return TemplateView(viewName, modelName, model, "_Layout");
+            return TemplateView(modelName, model, null, "_Layout");
         }
 
         /// <summary>
         /// Returns a mustachioed view using the default layout
         /// </summary>
-        /// <param name="viewName">Name of the mustache template</param>
         /// <param name="modelName">name of the model to be referenced inside the mustache template</param>
         /// <param name="model">The model to be bound</param>
+        /// <param name="viewName">Name of the mustache template</param>
+        /// <returns>A mustache view</returns>
+        protected ViewResult TemplateView(string modelName, object model, string viewName)
+        {
+            return TemplateView(modelName, model, viewName, "_Layout");
+        }
+
+        /// <summary>
+        /// Returns a mustachioed view using the default layout
+        /// </summary>
+        /// <param name="modelName">name of the model to be referenced inside the mustache template</param>
+        /// <param name="model">The model to be bound</param>
+        /// <param name="viewName">Name of the mustache template</param>
         /// <param name="layout">The master layout to use</param>
         /// <returns>A mustache view</returns>
-        protected ViewResult TemplateView(string viewName, string modelName, object model, string layout)
+        protected ViewResult TemplateView(string modelName, object model, string viewName, string layout)
         {
             ViewData[modelName] = model;
+
+            var userContext = ServiceLocator.Current.GetInstance<IUserContext>();
+            if (userContext.IsUserAuthenticated())
+            {
+                ViewData["AuthenticatedUser"] = ServiceLocator.Current.GetInstance<IDocumentSession>().Load<User>(userContext.GetAuthenticatedUserId());
+            }
+
             return View(viewName, layout);
         }
 

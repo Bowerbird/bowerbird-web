@@ -24,7 +24,6 @@ using Bowerbird.Web.Factories;
 using Bowerbird.Web.ViewModels.Members;
 using Bowerbird.Web.ViewModels.Public;
 using Bowerbird.Web.ViewModels.Shared;
-using Nustache.Mvc;
 using Raven.Client;
 using Raven.Client.Linq;
 using Bowerbird.Core.Config;
@@ -97,10 +96,10 @@ namespace Bowerbird.Web.Controllers
                     return Json(MakeHomeIndex(homeIndexInput), JsonRequestBehavior.AllowGet);
                 }
 
-                return View(MakeHomeIndex(homeIndexInput));
+                return TemplateView("HomeIndex", MakeHomeIndex(homeIndexInput));
             }
 
-            return RedirectToAction("List");
+            return TemplateView("HomeIndex", null);
         }
 
         [HttpGet]

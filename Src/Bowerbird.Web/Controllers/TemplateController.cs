@@ -13,8 +13,14 @@
 */
 
 using System;
+using System.Linq;
+using System.IO;
 using System.Web.Mvc;
-
+using Nustache.Core;
+using System.Web.Caching;
+using System.Text;
+using System.Collections.Generic;
+using Bowerbird.Core.Extensions;
 
 namespace Bowerbird.Web.Controllers
 {
@@ -28,6 +34,10 @@ namespace Bowerbird.Web.Controllers
         #endregion
 
         #region Constructors
+
+        public TemplateController()
+        {
+        }
 
         #endregion
 
@@ -47,6 +57,56 @@ namespace Bowerbird.Web.Controllers
         public PartialViewResult Render(string name, Object model)
         {
             return PartialView(name, model);
+        }
+
+        [HttpGet]
+        public ActionResult Index(string ids)
+        {
+            var templates = new Dictionary<string, string>();
+
+            // Load all templates from Nustache
+            foreach(var id in ids.Split(new [] { "," }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                templates.Add(id, LoadTemplate(id).Source());
+            }
+
+            // Concatenate all templates into a JSON array ie. "[{name: 'abc', source: '<html>'}]
+            string templatesJson = string.Join(",", 
+                templates.Select(
+                    x => string.Format("{{name: '{0}', source: '{1}'}}", x.Key, x.Value.Replace("\r\n", " ").Replace("'", "&#39;"))));
+
+            // Return a JSONP result that contains the templates to be loaded by the client side ICanHaz.js template processor
+            return Content(string.Format(@"
+                ;(function($) {{
+                    _.each([{0}], function(template) {{
+                        ich.addTemplate(template.name, template.source);
+                    }});
+                }})(jQuery);
+                ", templatesJson));
+        }
+
+        /// <summary>
+        /// This method loads a Nustache template from cache or file system. Directly ripped from https://github.com/jdiamond/Nustache/blob/master/Nustache.Mvc3/NustacheView.cs
+        /// Note that this is a hack to allow us to load UN-RENDERED Nustache templates. If Nustache changes in the future, this method may stop working. Ideally,
+        /// Nustache woudl have a way for us to call its internal version of this method (ie. NustacheView.LoadTemplate), or expose a "TemplateProvider" or some such thing.
+        /// </summary>
+        private Template LoadTemplate(string path)
+        {
+            var key = "Nustache:" + path;
+
+            if (HttpContext.Cache[key] != null)
+            {
+                return (Template)HttpContext.Cache[key];
+            }
+
+            var templatePath = HttpContext.Server.MapPath(path.PrependWith("/Views/Shared/").AppendWith(".mustache"));
+            var templateSource = System.IO.File.ReadAllText(templatePath);
+            var template = new Template();
+            template.Load(new StringReader(templateSource));
+
+            HttpContext.Cache.Insert(key, template, new CacheDependency(templatePath));
+
+            return template;
         }
 
         #endregion
