@@ -22,7 +22,7 @@ window.Bowerbird.Views.UserView = Backbone.View.extend({
     },
 
     render: function () {
-        var usersTemplate = ich.usersonline({ count: app.onlineUsers.length, users: app.onlineUsers.toJSON() });
+        var usersTemplate = ich.usersonline({ Count: app.onlineUsers.length, Users: app.onlineUsers.toJSON() });
         this.$el.empty();
         this.$el.append(usersTemplate);
         return this;
@@ -38,18 +38,12 @@ window.Bowerbird.Views.UserView = Backbone.View.extend({
         }
     },
 
-//    change: function () {
-    //        var usersTemplate = ich.usersonline({ count: app.onlineUsers.length, users: app.onlineUsers.toJSON() });
-//        this.$el.empty();
-//        this.$el.append(usersTemplate);
-//    },
-
     startChat: function (e) {
         // call can come from a user's chat-icon
-        var id = e.target["id"].split('-')[1];
-        var user = app.onlineUsers.get(id);
+        var id = e.target["Id"].split('-')[1];
+        var user = app.onlineUsers.get(Id);
         var chatId = this.generateGuid();
-        var chat = new Bowerbird.Models.UserChat({ id: chatId, user: user });
+        var chat = new Bowerbird.Models.UserChat({ Id: chatId, User: user });
         app.chats.add(chat);
         app.chatRouter.joinChat(chat);
     },

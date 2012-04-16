@@ -20,7 +20,7 @@ window.Bowerbird.Views.ExploreView = Backbone.View.extend({
         _.extend(this, Backbone.Events);
         _.bindAll(this, 'addExploreItem');
         this.exploreItemViews = [];
-        app.explore.groups.on('add', this.addGroup, this);
+        app.explore.Groups.on('add', this.addGroup, this);
         app.explore.on('newExplore', this.showNewExplore, this);
         app.explore.on('fetchingItemsStarted', this.onExploreLoadingStart, this);
         app.explore.on('fetchingItemsComplete', this.onsExploreLoadingComplete, this);
@@ -32,10 +32,10 @@ window.Bowerbird.Views.ExploreView = Backbone.View.extend({
     },
 
     addExploreItem: function (exploreItem, collection, options) {
-        var exploreItemView = new Bowerbird.Views.ExploreItemView({ exploreItem: exploreItem });
+        var exploreItemView = new Bowerbird.Views.ExploreItemView({ ExploreItem: exploreItem });
         this.exploreItemViews.push(exploreItemView);
         this.toggleNoExploreItemsStatus(collection);
-        if (options.index === 0) {
+        if (options.Index === 0) {
             $('#explore-items').prepend(exploreItemView.render().el);
         } else {
             $('#explore-items').append(exploreItemView.render().el);
@@ -45,9 +45,9 @@ window.Bowerbird.Views.ExploreView = Backbone.View.extend({
     showNewExplore: function (stream) {
         $('#explore-items').empty();
         $('#explore-load-more').remove();
-        if (explore.get('context') instanceof Bowerbird.Models.Team) {
-        } else if (explore.get('context') instanceof Bowerbird.Models.Project) {
-        } else if (explore.get('context') instanceof Bowerbird.Models.Organisation) {
+        if (app.explore.get('Context') instanceof Bowerbird.Models.Team) {
+        } else if (app.explore.get('Context') instanceof Bowerbird.Models.Project) {
+        } else if (app.explore.get('context') instanceof Bowerbird.Models.Organisation) {
         } else {
             // we're in the whole of bowerbird so possibly observations...?
         }
@@ -55,12 +55,12 @@ window.Bowerbird.Views.ExploreView = Backbone.View.extend({
 
     onExploreLoadingStart: function (explore) {
         $('#explore-load-more').remove();
-        $('#explore-items').append($.tmpl('exploreLoadingTemplate', { text: 'Loading', showLoader: true }));
+        $('#explore-items').append($.tmpl('exploreLoadingTemplate', { Text: 'Loading', ShowLoader: true }));
     },
 
     onExploreLoadingComplete: function (explore, collection) {
         this.toggleNoExploreItemsStatus(collection);
-        if (collection.pageInfo().next) {
+        if (collection.pageInfo().Next) {
             $('#explore-list > div').append($.tmpl('exploreLoadMoreTemplate'));
         }
     },
@@ -68,7 +68,7 @@ window.Bowerbird.Views.ExploreView = Backbone.View.extend({
     toggleNoExploreItemsStatus: function (collection) {
         $('#explore-status').remove();
         if (collection.length === 0) {
-            $('#explore-items').append($.tmpl('exploreLoadingTemplate', { text: 'Nothing to explore! Create an Organisation, Team or Project.', showLoader: false }));
+            $('#explore-items').append($.tmpl('exploreLoadingTemplate', { Text: 'Nothing to explore! Create an Organisation, Team or Project.', ShowLoader: false }));
         }
     },
 

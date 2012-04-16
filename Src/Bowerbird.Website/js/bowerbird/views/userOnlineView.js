@@ -8,16 +8,13 @@ window.Bowerbird.Views.UserOnlineView = Backbone.View.extend({
     events: {
     },
 
-    //template: $.template('userOnlineTemplate', $('#user-online-template')),
-
     initialize: function (options) {
         _.extend(this, Backbone.Events);
-        this.user = options.user;
+        this.User = options.User;
     },
 
     render: function () {
-        var usersOnlineHtml = ich.usersonline(this.user.toJSON()).appendTo(this.$el);
-        //$.tmpl('userOnlineTemplate', this.user.toJSON()).appendTo(this.$el);
+        var usersOnlineHtml = ich.usersonline(this.User.toJSON()).appendTo(this.$el);
         return this;
     }
 

@@ -11,12 +11,12 @@ window.Bowerbird.Views.MediaResourceItemView = Backbone.View.extend({
     initialize: function (options) {
         _.extend(this, Backbone.Events);
         _.bindAll(this, 'showTempMedia', 'showUploadedMedia');
-        this.mediaResource = options.mediaResource;
-        this.mediaResource.on('change:mediumImageUri', this.showUploadedMedia);
+        this.MediaResource = options.MediaResource;
+        this.MediaResource.on('change:mediumImageUri', this.showUploadedMedia);
     },
 
     render: function () {
-        var mediaResourceUploaded = ich.observationmediaresourceuploaded(this.mediaResource.toJSON()).appendTo(this.$el);
+        var mediaResourceUploaded = ich.observationmediaresourceuploaded(this.MediaResource.toJSON()).appendTo(this.$el);
         window.scrollTo(0, 0);
         return this;
     },
@@ -27,13 +27,13 @@ window.Bowerbird.Views.MediaResourceItemView = Backbone.View.extend({
 
     removeMediaResource: function () {
         var addToRemoveList = false;
-        if (app.get('newObservation').mediaResources.find(function (mr) { return mr.id == this.mediaResource.id; }) != null) {
+        if (app.get('newObservation').MediaResources.find(function (mr) { return mr.id == this.MediaResource.Id; }) != null) {
             addToRemoveList = true;
         }
-        app.get('newObservation').addMediaResources.remove(this.mediaResource.id);
-        app.get('newObservation').mediaResources.remove(this.mediaResource.id);
+        app.get('newObservation').addMediaResources.remove(this.MediaResource.Id);
+        app.get('newObservation').MediaResources.remove(this.MediaResource.Id);
         if (addToRemoveList) {
-            app.get('newObservation').removeMediaResources.add(this.mediaResource);
+            app.get('newObservation').RemoveMediaResources.add(this.MediaResource);
         }
 
         this.remove();
@@ -44,6 +44,6 @@ window.Bowerbird.Views.MediaResourceItemView = Backbone.View.extend({
     },
 
     showUploadedMedia: function (mediaResource) {
-        this.$el.find('div:first-child img').replaceWith($('<img src="' + mediaResource.get('mediumImageUri') + '" alt="" />'));
+        this.$el.find('div:first-child img').replaceWith($('<img src="' + mediaResource.get('MediumImageUri') + '" alt="" />'));
     }
 });

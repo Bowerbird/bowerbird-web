@@ -22,14 +22,14 @@ window.Bowerbird.Views.TeamCreateFormView = Backbone.View.extend({
         '_contentChanged',
         '_save'
         );
-        this.appView = options.appView;
-        this.team = options.team;
-        this.organisation = options.organisation;
-        this.editAvatarView = new Bowerbird.Views.EditAvatarView({ el: $('#media-resources-fieldset'), group: this.team });
+        this.appView = options.AppView;
+        this.Team = options.Team;
+        this.Organisation = options.Organisation;
+        this.editAvatarView = new Bowerbird.Views.EditAvatarView({ el: $('#media-resources-fieldset'), Group: this.Team });
     },
 
     render: function () {
-        var teamTemplate = ich.teamcreate({ team: app.get('newTeam').toJSON() }).appendTo(this.$el);
+        var teamTemplate = ich.teamcreate({ Team: app.get('newTeam').toJSON() }).appendTo(this.$el);
         return this;
     },
 
@@ -39,7 +39,7 @@ window.Bowerbird.Views.TeamCreateFormView = Backbone.View.extend({
         $.getJSON('organisation/list?HasAddTeamPermission=true', function (data) {
             organisations.reset(data);
             if (organisations.length > 0) {
-                $.tmpl('<option value="${id}">${name}</option>', organisations.toJSONViewModel()).appendTo('#organisations');
+                $.tmpl('<option value="${Id}">${Name}</option>', organisations.toJSONViewModel()).appendTo('#organisations');
                 this.organisationListSelectView = $("#organisations").multiSelect({
                     selectAll: false,
                     singleSelect: true,
@@ -50,14 +50,14 @@ window.Bowerbird.Views.TeamCreateFormView = Backbone.View.extend({
 //                            html += ' checked="checked"';
 //                        }
                         var organisation = organisations.get(option.value);
-                        html += ' /><img src="' + organisation.get('avatar').urlToImage + '" />' + organisation.get('name') + '</label>';
+                        html += ' /><img src="' + organisation.get('Avatar').UrlToImage + '" />' + organisation.get('Name') + '</label>';
                         return html;
                     },
                     oneOrMoreSelected: function (selectedOptions) {
                         var $selectedHtml = $('<span />');
                         _.each(selectedOptions, function (option) {
                             var organisation = organisations.get(option.value);
-                            $selectedHtml.append('<span><img src="' + organisation.get('avatar').urlToImage + '" />' + organisation.get('name') + '</span> ');
+                            $selectedHtml.append('<span><img src="' + organisation.get('Avatar').UrlToImage + '" />' + organisation.get('Name') + '</span> ');
                         });
                         return $selectedHtml;
                     }
@@ -72,15 +72,15 @@ window.Bowerbird.Views.TeamCreateFormView = Backbone.View.extend({
     _organisationChanged: function (e) {
         var $checkbox = $(e.currentTarget);
         if ($checkbox.attr('checked') === 'checked') {
-            this.team.set('organisation', $checkbox.attr('value'));
+            this.team.set('Organisation', $checkbox.attr('value'));
         } else {
-            this.team.set('organisation', '');
+            this.team.set('Organisation', '');
         }
     },
 
     _cancel: function () {
         app.set('newTeam', null);
-        app.appRouter.navigate(app.stream.get('uri'), { trigger: false });
+        app.appRouter.navigate(app.stream.get('Uri'), { trigger: false });
         this.trigger('formClosed', this);
     },
 
@@ -88,12 +88,12 @@ window.Bowerbird.Views.TeamCreateFormView = Backbone.View.extend({
         var target = $(e.currentTarget);
         var data = {};
         data[target.attr('name')] = target.attr('value');
-        this.team.set(data);
+        this.Team.set(data);
     },
 
     _save: function () {
-        this.team.save();
-        app.appRouter.navigate(app.stream.get('uri'), { trigger: false });
+        this.Team.save();
+        app.appRouter.navigate(app.stream.get('Uri'), { trigger: false });
         this.trigger('formClosed', this);
     }
 });

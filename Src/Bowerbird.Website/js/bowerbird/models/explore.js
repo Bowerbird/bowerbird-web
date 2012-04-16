@@ -1,40 +1,40 @@
 ﻿
 window.Bowerbird.Models.Explore = Backbone.Model.extend({
     defaults: {
-        context: null, // string containing either 'projects', 'teams', or 'organisations'
-        filter: null,
-        uri: ''
+        Context: null, // string containing either 'projects', 'teams', or 'organisations'
+        Filter: null,
+        Uri: ''
     },
 
     initialize: function (options) {
         _.extend(this, Backbone.Events);
         _.bindAll(this);
-        this.groups = new Bowerbird.Collections.Groups();
+        this.Groups = new Bowerbird.Collections.Groups();
     },
 
     isSet: function () {
-        return this.get('filter') != null && this.get('uri') != null;
+        return this.get('Filter') != null && this.get('Uri') != null;
     },
 
     setNewExplore: function (exploreContext) {
-        this.set('context', exploreContext);
-        var uri = this.get('context') + '/list';
-        this.set('uri', uri);
+        this.set('Context', exploreContext);
+        var uri = this.get('Context') + '/list';
+        this.set('Uri', uri);
         this.trigger('newExplore', this);
         this.trigger('fetchingItemsStarted', this);
-        this.groups.fetchFirstPage(this);
+        this.Groups.fetchFirstPage(this);
     },
 
     setNewFilter: function (filter) {
-        this.set('filter', filter);
+        this.set('Filter', filter);
         this.trigger('newExploreFilter', this);
         this.trigger('fetchingItemsStarted', this);
-        this.groups.fetchFirstPage(this);
+        this.Groups.fetchFirstPage(this);
     },
 
     setNextPage: function () {
         this.trigger('newExplorePage', this);
         this.trigger('fetchingItemsStarted', this);
-        this.groups.fetchNextPage(this);
+        this.Groups.fetchNextPage(this);
     }
 });

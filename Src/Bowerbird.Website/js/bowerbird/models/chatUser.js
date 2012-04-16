@@ -1,14 +1,14 @@
 ﻿
 window.Bowerbird.Models.ChatUser = Backbone.Model.extend({
     defaults: {
-        chat: null,
-        user: null,
-        status: null
+        Chat: null,
+        User: null,
+        Status: null
     },
     initialize: function (options) {
         _.extend(this, Backbone.Events);
-        this.set('chat', options.chat);
-        this.set('user', options.user);
-        this.set('status', options.status);
+        this.set('Chat', options.Chat);
+        this.set('User', options.User);
+        this.set('Status', options.Status);
     }
 });

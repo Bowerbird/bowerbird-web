@@ -4,7 +4,7 @@ window.Bowerbird.Views.StreamListView = Backbone.View.extend({
 
     className: 'triple-2',
 
-    id: 'stream-list',
+    Id: 'stream-list',
 
     events: {
         "click #stream-load-more-button": "loadNextStreamItems"
@@ -28,10 +28,10 @@ window.Bowerbird.Views.StreamListView = Backbone.View.extend({
     },
 
     addStreamItem: function (streamItem, collection, options) {
-        var streamListItemView = new Bowerbird.Views.StreamListItemView({ streamItem: streamItem });
+        var streamListItemView = new Bowerbird.Views.StreamListItemView({ StreamItem: streamItem });
         this.streamListItemViews.push(streamListItemView);
         this.toggleNoStreamItemsStatus(collection);
-        if (options.index === 0) {
+        if (options.Index === 0) {
             $('#stream-items').prepend(streamListItemView.render().el);
         } else {
             $('#stream-items').append(streamListItemView.render().el);
@@ -41,9 +41,9 @@ window.Bowerbird.Views.StreamListView = Backbone.View.extend({
     showNewStream: function (stream) {
         $('#stream-items').empty();
         $('#stream-load-more').remove();
-        if (stream.get('context') instanceof Bowerbird.Models.Team) {
-        } else if (stream.get('context') instanceof Bowerbird.Models.Project) {
-        } else if (stream.get('context') instanceof Bowerbird.Models.User) {
+        if (stream.get('Context') instanceof Bowerbird.Models.Team) {
+        } else if (stream.get('Context') instanceof Bowerbird.Models.Project) {
+        } else if (stream.get('Context') instanceof Bowerbird.Models.User) {
         } else {
 
         }
@@ -51,12 +51,12 @@ window.Bowerbird.Views.StreamListView = Backbone.View.extend({
 
     onStreamLoadingStart: function (stream) {
         $('#stream-load-more').remove();
-        var loadMoreHtml = ich.streamListLoading({ text: 'Loading', showLoader: true }).appendTo($('#stream-items'));
+        var loadMoreHtml = ich.streamListLoading({ Text: 'Loading', ShowLoader: true }).appendTo($('#stream-items'));
     },
 
     onsStreamLoadingComplete: function (stream, collection) {
         this.toggleNoStreamItemsStatus(collection);
-        if (collection.pageInfo().next) {
+        if (collection.pageInfo().Next) {
             var loadMoreHtml = ich.streamListLoading().appendTo($('#stream-list > div'));
         }
     },
@@ -64,7 +64,7 @@ window.Bowerbird.Views.StreamListView = Backbone.View.extend({
     toggleNoStreamItemsStatus: function (collection) {
         $('#stream-status').remove();
         if (collection.length === 0) {
-            var loadMoreHtml = ich.streamListLoading({ text: 'No activity yet! Start now by adding an observation.' }).appendTo($('#stream-list > div'));
+            var loadMoreHtml = ich.streamListLoading({ Text: 'No activity yet! Start now by adding an observation.' }).appendTo($('#stream-list > div'));
         }
     },
 

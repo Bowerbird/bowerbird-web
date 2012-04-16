@@ -3,16 +3,16 @@ window.Bowerbird.Collections.PaginatedCollection = Backbone.Collection.extend({
     initialize: function () {
         _.extend(this, Backbone.Events);
         typeof (options) != 'undefined' || (options = {});
-        this.page = 1;
-        typeof (this.pageSize) != 'undefined' || (this.pageSize = 10);
+        this.Page = 1;
+        typeof (this.PageSize) != 'undefined' || (this.PageSize = 10);
     },
 
     fetch: function (options) {
         typeof (options) != 'undefined' || (options = {});
         this.trigger("fetching");
         var self = this;
-        var success = options.success;
-        options.success = function (resp) {
+        var success = options.Success;
+        options.Success = function (resp) {
             self.trigger("fetched");
             if (success) { success(self, resp); }
         };
@@ -20,63 +20,63 @@ window.Bowerbird.Collections.PaginatedCollection = Backbone.Collection.extend({
     },
 
     parse: function (resp) {
-        this.page = resp.page;
-        this.pageSize = resp.pageSize;
-        this.total = resp.totalResultCount;
-        return resp.pagedListItems;
+        this.Page = resp.Page;
+        this.PageSize = resp.PageSize;
+        this.Total = resp.TotalResultCount;
+        return resp.PagedListItems;
     },
 
-    url: function () {
-        return this.baseUrl + '?' + $.param({ page: this.page, pageSize: this.pageSize });
+    Url: function () {
+        return this.baseUrl + '?' + $.param({ Page: this.Page, PageSize: this.PageSize });
     },
 
     pageInfo: function () {
         var info = {
-            total: this.total,
-            page: this.page,
-            pageSize: this.pageSize,
-            pages: Math.ceil(this.total / this.pageSize),
-            prev: false,
-            next: false
+            Total: this.Total,
+            Page: this.Page,
+            PageSize: this.PageSize,
+            Pages: Math.ceil(this.Total / this.PageSize),
+            Prev: false,
+            Pext: false
         };
 
-        var max = Math.min(this.total, this.page * this.pageSize);
+        var max = Math.min(this.Total, this.Page * this.PageSize);
 
-        if (this.total == this.pages * this.pageSize) {
-            max = this.total;
+        if (this.Total == this.Pages * this.PageSize) {
+            max = this.Total;
         }
 
-        info.range = [(this.page - 1) * this.pageSize + 1, max];
+        info.range = [(this.Page - 1) * this.PageSize + 1, max];
 
-        if (this.page > 1) {
-            info.prev = this.page - 1;
+        if (this.Page > 1) {
+            info.Prev = this.Page - 1;
         }
 
-        if (this.page < info.pages) {
-            info.next = this.page + 1;
+        if (this.Page < info.Pages) {
+            info.Next = this.Page + 1;
         }
 
         return info;
     },
 
     _firstPage: function (options) {
-        this.page = 1;
+        this.Page = 1;
         return this.fetch(options);
     },
 
     _nextPage: function (options) {
-        if (!this.pageInfo().next) {
+        if (!this.pageInfo().Next) {
             return false;
         }
-        this.page = this.page + 1;
+        this.Page = this.Page + 1;
         return this.fetch(options);
     },
 
     _previousPage: function () {
-        if (!this.pageInfo().prev) {
+        if (!this.pageInfo().Prev) {
             return false;
         }
-        this.page = this.page - 1;
+        this.Page = this.Page - 1;
         return this.fetch(options);
     }
 });

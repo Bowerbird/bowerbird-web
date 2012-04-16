@@ -2,11 +2,11 @@
 window.Bowerbird.Models.Group = Backbone.Model.extend({
     
     defaults: {
-        name: '',
-        description: '',
-        website: '',
-        type: '',
-        avatar: { id: '', url: '', altTag: '' }
+        Name: '',
+        Description: '',
+        Website: '',
+        Type: '',
+        Avatar: { Id: '', Url: '', AltTag: '' }
     },
 
     initialize: function () {

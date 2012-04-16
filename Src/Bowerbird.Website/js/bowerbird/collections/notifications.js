@@ -1,5 +1,6 @@
 ﻿
 window.Bowerbird.Collections.Notifications = Backbone.Collection.extend({
+    
     model: Bowerbird.Models.Notification,
 
     url: '/notifications/list',

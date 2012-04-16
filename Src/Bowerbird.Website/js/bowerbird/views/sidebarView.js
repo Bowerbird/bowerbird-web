@@ -4,7 +4,7 @@ window.Bowerbird.Views.SidebarView = Backbone.View.extend({
 
     className: 'triple-1',
 
-    id: 'sidebar',
+    Id: 'sidebar',
 
     events: {
         'click .menu-group-options .sub-menu-button': 'showMenu',
@@ -58,13 +58,13 @@ window.Bowerbird.Views.SidebarView = Backbone.View.extend({
     },
 
     addTeamSideBarItem: function (team) {
-        var sidebarItemView = new Bowerbird.Views.SidebarItemView({ sidebarItem: team, type: 'Team' });
+        var sidebarItemView = new Bowerbird.Views.SidebarItemView({ SidebarItem: team, Type: 'Team' });
         this.teamSidebarItemViews.push(sidebarItemView);
         $("#team-menu-group > ul .menu-group-options").before(sidebarItemView.render().el);
     },
 
     addProjectSideBarItem: function (project, x, y, z) {
-        var sidebarItemView = new Bowerbird.Views.SidebarItemView({ sidebarItem: project, type: 'Project' });
+        var sidebarItemView = new Bowerbird.Views.SidebarItemView({ SidebarItem: project, Type: 'Project' });
         this.projectSidebarItemViews.push(sidebarItemView);
         $("#project-menu-group > ul .menu-group-options").before(sidebarItemView.render().el);
     },

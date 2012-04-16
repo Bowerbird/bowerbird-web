@@ -3,7 +3,9 @@ window.Bowerbird.NotificationRouter = Backbone.Model.extend({
     initialize: function (options) {
 
         log('ActivityRouter.Initialize');
-        _.bindAll(this, 'initHubConnection');
+        _.bindAll(this,
+        'initHubConnection'
+        );
 
         this.notificationHub = $.connection.notificationHub;
         this.notificationHub.userStatusUpdate = this.userStatusUpdate;
@@ -11,7 +13,7 @@ window.Bowerbird.NotificationRouter = Backbone.Model.extend({
         this.notificationHub.newNotification = this.newNotification;
         this.notificationHub.newStreamItem = this.newStreamItem;
 
-        this.initHubConnection(options.userId);
+        this.initHubConnection(options.UserId);
         log('ActivityRouter.Initialize');
     },
 
@@ -23,8 +25,8 @@ window.Bowerbird.NotificationRouter = Backbone.Model.extend({
         $.connection.hub.start({ transport: 'longPolling' }, function () {
             self.notificationHub.registerUserClient(userId)
                     .done(function () {
-                        app.set('clientId', $.signalR.hub.id);
-                        log('connected as ' + userId + ' with ' + app.get('clientId'));
+                        app.set('ClientId', $.signalR.hub.id);
+                        log('connected as ' + userId + ' with ' + app.get('ClientId'));
                     })
                     .fail(function (e) {
                         log(e);

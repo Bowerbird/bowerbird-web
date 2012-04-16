@@ -5,11 +5,11 @@ window.Bowerbird.Views.NotificationItemView = Backbone.View.extend({
     initialize: function (options) {
         _.extend(this, Backbone.Events);
         _.bindAll(this, 'render');
-        this.notification = options.notification;
+        this.Notification = options.Notification;
     },
 
     render: function () {
-        var notificationsItemHtml = ich.notificationsItem(this.notification.toJSON());
+        var notificationsItemHtml = ich.notificationsItem(this.Notification.toJSON());
         this.$el.append(notificationsItemHtml);
         return this;
     }

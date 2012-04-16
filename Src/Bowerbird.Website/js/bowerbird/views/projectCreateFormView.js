@@ -23,14 +23,14 @@ window.Bowerbird.Views.ProjectCreateFormView = Backbone.View.extend({
         '_save',
         '_teamChanged'
         );
-        this.appView = options.appView;
-        this.project = options.project;
-        this.team = options.team;
-        this.editAvatarView = new Bowerbird.Views.EditAvatarView({ el: $('#media-resources-fieldset'), group: this.project });
+        this.appView = options.AppView;
+        this.Project = options.Project;
+        this.Team = options.Team;
+        this.editAvatarView = new Bowerbird.Views.EditAvatarView({ el: $('#media-resources-fieldset'), Group: this.Project });
     },
 
     render: function () {
-        var projectTemplate = ich.projectcreate({ project: app.get('newProject').toJSON() }).appendTo(this.$el);
+        var projectTemplate = ich.projectcreate({ Project: app.get('newProject').toJSON() }).appendTo(this.$el);
         return this;
     },
 
@@ -40,7 +40,7 @@ window.Bowerbird.Views.ProjectCreateFormView = Backbone.View.extend({
         $.getJSON('team/list?HasAddProjectPermission=true', function (data) {
             teams.reset(data);
             if (teams.length > 0) {
-                $.tmpl('<option value="${id}">${name}</option>', teams.toJSONViewModel()).appendTo('#team');
+                $.tmpl('<option value="${Id}">${Name}</option>', teams.toJSONViewModel()).appendTo('#team');
                 this.teamListSelectView = $("#team").multiSelect({
                     selectAll: false,
                     singleSelect: true,
@@ -51,14 +51,14 @@ window.Bowerbird.Views.ProjectCreateFormView = Backbone.View.extend({
 //                            html += ' checked="checked"';
 //                        }
                         var team = teams.get(option.value);
-                        html += ' /><img src="' + team.get('avatar').urlToImage + '" />' + team.get('name') + '</label>';
+                        html += ' /><img src="' + team.get('Avatar').UrlToImage + '" />' + team.get('Name') + '</label>';
                         return html;
                     },
                     oneOrMoreSelected: function (selectedOptions) {
                         var $selectedHtml = $('<span />');
                         _.each(selectedOptions, function (option) {
                             var team = teams.get(option.value);
-                            $selectedHtml.append('<span><img src="' + team.get('avatar').urlToImage + '" />' + team.get('name') + '</span> ');
+                            $selectedHtml.append('<span><img src="' + team.get('Avatar').UrlToImage + '" />' + team.get('Name') + '</span> ');
                         });
                         return $selectedHtml;
                     }
@@ -73,15 +73,15 @@ window.Bowerbird.Views.ProjectCreateFormView = Backbone.View.extend({
     _teamChanged: function (e) {
         var $checkbox = $(e.currentTarget);
         if ($checkbox.attr('checked') === 'checked') {
-            this.project.set('team', $checkbox.attr('value'));
+            this.Project.set('Team', $checkbox.attr('value'));
         } else {
-            this.project.set('team', '');
+            this.Project.set('Team', '');
         }
     },
 
     _cancel: function () {
         app.set('newProject', null);
-        app.appRouter.navigate(app.stream.get('uri'), { trigger: false });
+        app.appRouter.navigate(app.stream.get('Uri'), { trigger: false });
         this.trigger('formClosed', this);
     },
 
@@ -89,12 +89,12 @@ window.Bowerbird.Views.ProjectCreateFormView = Backbone.View.extend({
         var target = $(e.currentTarget);
         var data = {};
         data[target.attr('name')] = target.attr('value');
-        this.project.set(data);
+        this.Project.set(data);
     },
 
     _save: function () {
-        this.project.save();
-        app.appRouter.navigate(app.stream.get('uri'), { trigger: false });
+        this.Project.save();
+        app.appRouter.navigate(app.stream.get('Uri'), { trigger: false });
         this.trigger('formClosed', this);
     }
 });

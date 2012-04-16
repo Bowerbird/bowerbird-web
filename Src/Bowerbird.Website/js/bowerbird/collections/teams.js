@@ -1,5 +1,6 @@
 ﻿
 window.Bowerbird.Collections.Teams = Backbone.Collection.extend({
+    
     model: Bowerbird.Models.Team,
 
     url: '/teams/list',

@@ -1,6 +1,7 @@
 ﻿
 window.Bowerbird.Views.EditMediaView = Backbone.View.extend({
-    id: 'media-resources-fieldset',
+    
+    Id: 'media-resources-fieldset',
 
     initialize: function (options) {
         _.extend(this, Backbone.Events);
@@ -12,7 +13,7 @@ window.Bowerbird.Views.EditMediaView = Backbone.View.extend({
         '_onUploadAdd'
         );
         this.mediaResourceItemViews = [];
-        this.observation = options.observation;
+        this.Observation = options.Observation;
         this.currentUploadKey = 0;
     },
 
@@ -37,9 +38,9 @@ window.Bowerbird.Views.EditMediaView = Backbone.View.extend({
         $.each(data.files, function (index, file) {
             if (file != null) {
                 self.currentUploadKey++;
-                var mediaResource = new Bowerbird.Models.MediaResource({ key: self.currentUploadKey });
-                self.observation.addMediaResources.add(mediaResource);
-                var mediaResourceItemView = new Bowerbird.Views.MediaResourceItemView({ mediaResource: mediaResource });
+                var mediaResource = new Bowerbird.Models.MediaResource({ Key: self.currentUploadKey });
+                self.Observation.addMediaResources.add(mediaResource);
+                var mediaResourceItemView = new Bowerbird.Views.MediaResourceItemView({ MediaResource: mediaResource });
                 self.mediaResourceItemViews.push(mediaResourceItemView);
                 $('#media-resource-add-pane').before(mediaResourceItemView.render().el);
                 loadImage(
@@ -60,12 +61,12 @@ window.Bowerbird.Views.EditMediaView = Backbone.View.extend({
     },
 
     _onSubmitUpload: function (e, data) {
-        data.formData = { key: this.currentUploadKey, originalFileName: data.files[0].name };
+        data.formData = { Key: this.currentUploadKey, OriginalFileName: data.files[0].name };
     },
 
     _onUploadDone: function (e, data) {
-        var mediaResource = _.find(this.observation.allMediaResources(), function (item) {
-            return item.get('key') == data.result.key;
+        var mediaResource = _.find(this.Observation.allMediaResources(), function (item) {
+            return item.get('Key') == data.result.key;
         });
         mediaResource.set(data.result);
         //$('#media-resource-items').animate({ scrollLeft: 100000 });

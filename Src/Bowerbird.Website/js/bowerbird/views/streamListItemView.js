@@ -4,16 +4,16 @@ window.Bowerbird.Views.StreamListItemView = Backbone.View.extend({
 
     initialize: function (options) {
         _.extend(this, Backbone.Events);
-        this.streamItem = options.streamItem;
+        this.StreamItem = options.StreamItem;
     },
 
     render: function () {
-        switch (this.streamItem.get('type')) {
+        switch (this.streamItem.get('Type')) {
             case 'observation':
-                var streamitemJSON = this.streamItem.toJSON();
-                streamitemJSON['observedOnDate'] = new Date(parseInt(this.streamItem.get('item').observedOn.substr(6))).format('d MMM yyyy');
-                streamitemJSON['observedOnTime'] = new Date(parseInt(this.streamItem.get('item').observedOn.substr(6))).format('h:mm');
-                streamitemJSON['highlightMedia'] = streamitemJSON.item.observationMedia[0];
+                var streamitemJSON = this.StreamItem.toJSON();
+                streamitemJSON['ObservedOnDate'] = new Date(parseInt(this.StreamItem.get('Item').ObservedOn.substr(6))).format('d MMM yyyy');
+                streamitemJSON['ObservedOnTime'] = new Date(parseInt(this.StreamItem.get('Item').ObservedOn.substr(6))).format('h:mm');
+                streamitemJSON['HighlightMedia'] = streamitemJSON.item.observationMedia[0];
                 var streamItemHtml = ich.observationStreamListItem(streamitemJSON);
                 this.$el.append(streamItemHtml).addClass('observation-stream-item');
                 break;

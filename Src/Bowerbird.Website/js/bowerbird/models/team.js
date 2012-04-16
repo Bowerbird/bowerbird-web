@@ -6,17 +6,17 @@ window.Bowerbird.Models.Team = Backbone.Model.extend({
     initialize: function (options) {
         _.extend(this, Backbone.Events);
         this.constructor.__super__.initialize.apply(this, options);
-        this.type = 'team';
+        this.Type = 'team';
     },
 
     toJSON: function () {
         return {
-            name: this.get('name'),
-            description: this.get('description'),
-            website: this.get('website'),
-            avatar: this.get('avatar').id,
-            type: this.get('type'),
-            organisation: this.get('organisation')
+            Name: this.get('Name'),
+            Description: this.get('Description'),
+            Website: this.get('Website'),
+            Avatar: this.get('Avatar').Id,
+            Type: this.get('Type'),
+            Organisation: this.get('Organisation')
         };
     },
 

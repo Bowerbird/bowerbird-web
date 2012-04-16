@@ -1,6 +1,7 @@
 ﻿
 window.Bowerbird.Views.NotificationsView = Backbone.View.extend({
-    id: 'notifications',
+    
+    Id: 'notifications',
 
     initialize: function (options) {
         _.extend(this, Backbone.Events);
@@ -16,8 +17,8 @@ window.Bowerbird.Views.NotificationsView = Backbone.View.extend({
     },
 
     addNotification: function (notification) {
-        if (notification.get('action') == 'newobservation') {
-            var notificationItemView = new Bowerbird.Views.NotificationItemView({ notification: notification });
+        if (notification.get('Action') == 'newobservation') {
+            var notificationItemView = new Bowerbird.Views.NotificationItemView({ Notification: notification });
             this.notificationItemViews.push(notificationItemView);
             this.$el.find('ul').append(notificationItemView.render().el);
         }

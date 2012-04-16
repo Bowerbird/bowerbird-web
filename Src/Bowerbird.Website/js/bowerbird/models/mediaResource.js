@@ -1,7 +1,7 @@
 ﻿
 window.Bowerbird.Models.MediaResource = Backbone.Model.extend({
     defaults: {
-        key: 0,
-        mediumImageUri: '/img/image-upload.png'
+        Key: 0,
+        MediumImageUri: '/img/image-upload.png'
     }
 });

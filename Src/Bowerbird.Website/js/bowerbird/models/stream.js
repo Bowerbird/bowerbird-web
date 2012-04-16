@@ -1,64 +1,64 @@
 ﻿
 window.Bowerbird.Models.Stream = Backbone.Model.extend({
     defaults: {
-        context: null,
-        filter: null,
-        uri: null
+        Context: null,
+        Filter: null,
+        Uri: null
     },
 
     initialize: function (options) {
         _.extend(this, Backbone.Events);
         _.bindAll(this);
-        this.streamItems = new Bowerbird.Collections.StreamItems();
+        this.StreamItems = new Bowerbird.Collections.StreamItems();
     },
 
     isSet: function () {
-        return this.get('filter') != null && this.get('uri') != null;
+        return this.get('Filter') != null && this.get('Uri') != null;
     },
 
     setNewStream: function (streamContext, streamFilter) {
-        this.set('context', streamContext);
-        this.set('filter', streamFilter);
+        this.set('Context', streamContext);
+        this.set('Filter', streamFilter);
         var uri = '';
-        if (this.has('context')) {
-            uri = this.get('context').get('id');
+        if (this.has('Context')) {
+            uri = this.get('Context').get('Id');
         }
         //uri += '/' + this.get('filter');
-        this.set('uri', uri);
+        this.set('Uri', uri);
         this.trigger('newStream', this);
         this.trigger('fetchingItemsStarted', this);
-        this.streamItems.fetchFirstPage(this);
+        this.StreamItems.fetchFirstPage(this);
     },
 
     setNewFilter: function (filter) {
-        this.set('filter', filter);
+        this.set('Filter', filter);
         this.trigger('newStreamFilter', this);
         this.trigger('fetchingItemsStarted', this);
-        this.streamItems.fetchFirstPage(this);
+        this.StreamItems.fetchFirstPage(this);
     },
 
     setNextPage: function () {
         this.trigger('newStreamPage', this);
         this.trigger('fetchingItemsStarted', this);
-        this.streamItems.fetchNextPage(this);
+        this.StreamItems.fetchNextPage(this);
     },
 
     // Add stream items manually into stream (used by notification router)
     addStreamItem: function (streamItem) {
         var add = false;
         // Determine if user is currently viewing a relevant stream
-        if (this.get('context') == null) {
+        if (this.get('Context') == null) {
             // Home stream
             add = true;
         } else {
             // Group stream
             var self = this;
-            add = _.any(streamItem.groups, function (groupId) {
-                return groupId === self.get('context').get('id');
+            add = _.any(streamItem.Groups, function (groupId) {
+                return groupId === self.get('Context').get('Id');
             });
         }
         if (add) {
-            this.streamItems.add(streamItem);
+            this.StreamItems.add(streamItem);
         }
     }
 });

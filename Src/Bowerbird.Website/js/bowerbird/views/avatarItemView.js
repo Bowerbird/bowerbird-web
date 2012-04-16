@@ -11,12 +11,12 @@ window.Bowerbird.Views.AvatarItemView = Backbone.View.extend({
     initialize: function (options) {
         _.extend(this, Backbone.Events);
         _.bindAll(this, 'showTempMedia', 'showUploadedMedia');
-        this.mediaResource = options.mediaResource;
-        this.mediaResource.on('change:mediumImageUri', this.showUploadedMedia);
+        this.MediaResource = options.MediaResource;
+        this.MediaResource.on('change:mediumImageUri', this.ShowUploadedMedia);
     },
 
     render: function () {
-        var avatarUploaded = ich.avataruploaded(this.mediaResource.toJSON()).appendTo(this.$el);
+        var avatarUploaded = ich.avataruploaded(this.MediaResource.toJSON()).appendTo(this.$el);
         return this;
     },
 
@@ -34,6 +34,6 @@ window.Bowerbird.Views.AvatarItemView = Backbone.View.extend({
     },
 
     showUploadedMedia: function (mediaResource) {
-        this.$el.find('div:first-child img').replaceWith($('<img src="' + mediaResource.get('mediumImageUri') + '" alt="" />'));
+        this.$el.find('div:first-child img').replaceWith($('<img src="' + mediaResource.get('MediumImageUri') + '" alt="" />'));
     }
 });

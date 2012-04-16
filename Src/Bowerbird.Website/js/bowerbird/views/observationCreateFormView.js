@@ -18,8 +18,6 @@ window.Bowerbird.Views.ObservationCreateFormView = Backbone.View.extend({
         'click #media-resource-import-button': '_showImportMedia'
     },
 
-    //template: $.template('observationCreateFormTemplate', $('#observation-create-form-template')),
-
     initialize: function (options) {
         _.extend(this, Backbone.Events);
         _.bindAll(this,
@@ -34,16 +32,15 @@ window.Bowerbird.Views.ObservationCreateFormView = Backbone.View.extend({
         '_cancel',
         '_save'
         );
-        this.appView = options.appView;
-        this.observation = options.observation;
-        this.editMediaView = new Bowerbird.Views.EditMediaView({ el: $('#media-resources-fieldset'), observation: this.observation });
-        this.editMapView = new Bowerbird.Views.EditMapView({ observation: this.observation });
+        this.appView = options.AppView;
+        this.Observation = options.Observation;
+        this.editMediaView = new Bowerbird.Views.EditMediaView({ el: $('#media-resources-fieldset'), Observation: this.Observation });
+        this.editMapView = new Bowerbird.Views.EditMapView({ Observation: this.Observation });
         this.observationCreateTemplate = null;
     },
 
     render: function () {
-        thisobservationCreateTemplate = ich.observationcreate({ observation: app.get('newObservation').toJSON() }).appendTo(this.$el);
-        //$.tmpl('observationCreateFormTemplate', app.get('newObservation').toJSON()).appendTo(this.$el);
+        thisobservationCreateTemplate = ich.observationcreate({ Observation: app.get('newObservation').toJSON() }).appendTo(this.$el);
         window.scrollTo(0, 0);
         return this;
     },
@@ -78,7 +75,7 @@ window.Bowerbird.Views.ObservationCreateFormView = Backbone.View.extend({
                     html += ' checked="checked"';
                 }
                 var project = app.projects.get(option.value);
-                html += ' /><img src="/img/avatar-1.png" />' + project.get('name') + '</label>';
+                html += ' /><img src="/img/avatar-1.png" />' + project.get('Name') + '</label>';
                 return html;
             },
             oneOrMoreSelected: function (selectedOptions) {
@@ -101,7 +98,7 @@ window.Bowerbird.Views.ObservationCreateFormView = Backbone.View.extend({
         var target = $(e.currentTarget);
         var data = {};
         data[target.attr('name')] = target.attr('value');
-        this.observation.set(data);
+        this.Observation.set(data);
 
         if (target.attr('name') === 'address') {
             this._latLongChanged(e);
@@ -109,52 +106,51 @@ window.Bowerbird.Views.ObservationCreateFormView = Backbone.View.extend({
     },
 
     _latLongChanged: function (e) {
-        var oldposition = { latitude: this.observation.get('latitude'), longitude: this.observation.get('longitude') };
+        var oldposition = { latitude: this.Observation.get('Latitude'), longitude: this.Observation.get('Longitude') };
         var newPosition = { latitude: $('#latitude').val(), longitude: $('#longitude').val() };
 
-        this.observation.set('latitude', newPosition.latitude);
-        this.observation.set('longitude', newPosition.longitude);
+        this.Observation.set('Latitude', newPosition.Latitude);
+        this.Observation.set('Longitude', newPosition.Longitude);
 
         // Only update pin if the location is different to avoid infinite loop
-        if (newPosition.latitude != null && newPosition.longitude != null && (oldposition.latitude !== newPosition.latitude || oldposition.longitude !== newPosition.longitude)) {
-            this.editMapView.changeMarkerPosition(this.observation.get('latitude'), this.observation.get('longitude'));
+        if (newPosition.Latitude != null && newPosition.Longitude != null && (oldposition.Latitude !== newPosition.Latitude || oldposition.Longitude !== newPosition.Longitude)) {
+            this.EditMapView.changeMarkerPosition(this.Observation.get('Latitude'), this.Observation.get('Longitude'));
         }
     },
 
     _anonymiseLocationChanged: function (e) {
         var $checkbox = $(e.currentTarget);
-        this.observation.set({ anonymiseLocation: $checkbox.attr('checked') == 'checked' ? true : false });
+        this.Observation.set({ AnonymiseLocation: $checkbox.attr('checked') == 'checked' ? true : false });
     },
 
     _projectsChanged: function (e) {
         var $checkbox = $(e.currentTarget);
         if ($checkbox.attr('checked') === 'checked') {
             var proj = app.projects.get($checkbox.attr('value'));
-            this.observation.projects.add(proj);
+            this.Observation.Projects.add(proj);
         } else {
-            this.observation.projects.remove($checkbox.attr('value'));
+            this.Observation.Projects.remove($checkbox.attr('value'));
         }
     },
 
     _categoryChanged: function (e) {
         var $checkbox = $(e.currentTarget);
         if ($checkbox.attr('checked') === 'checked') {
-            this.observation.set('category', $checkbox.attr('value'));
+            this.Observation.set('Category', $checkbox.attr('value'));
         } else {
-            this.observation.set('category', '');
+            this.Observation.set('Category', '');
         }
     },
 
     _cancel: function () {
         app.set('newObservation', null);
-        app.appRouter.navigate(app.stream.get('uri'), { trigger: false });
+        app.appRouter.navigate(app.stream.get('Uri'), { trigger: false });
         this.trigger('formClosed', this);
     },
 
     _save: function () {
-        this.observation.save();
-        app.appRouter.navigate(app.stream.get('uri'), { trigger: false });
+        this.Observation.save();
+        app.appRouter.navigate(app.stream.get('Uri'), { trigger: false });
         this.trigger('formClosed', this);
     }
 });
-

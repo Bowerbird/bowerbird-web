@@ -11,11 +11,11 @@ window.Bowerbird.Models.Organisation = Bowerbird.Models.Group.extend({
 
     toJSON: function () {
         return {
-            name: this.get('name'),
-            description: this.get('description'),
-            website: this.get('website'),
-            avatar: this.get('avatar').id,
-            type: this.get('type')
+            Name: this.get('Name'),
+            Description: this.get('Description'),
+            Website: this.get('Website'),
+            Avatar: this.get('Avatar').Id,
+            Type: this.get('Type')
         };
     },
 

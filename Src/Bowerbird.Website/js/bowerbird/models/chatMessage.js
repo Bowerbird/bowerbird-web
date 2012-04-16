@@ -2,17 +2,17 @@
 window.Bowerbird.Models.ChatMessage = Backbone.Model.extend({
 
     defaults: {
-        user: null,
-        message: null,
-        timestamp: null
+        User: null,
+        Message: null,
+        Timestamp: null
     },
 
     initialize: function (options) {
         _.extend(this, Backbone.Events);
 
-        this.set('user', options.user);
-        this.set('message', options.message);
-        this.set('timestamp', options.timestamp);
+        this.set('User', options.User);
+        this.set('Message', options.Message);
+        this.set('Timestamp', options.Timestamp);
     }
 
 });

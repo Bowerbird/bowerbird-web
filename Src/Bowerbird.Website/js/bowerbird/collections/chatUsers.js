@@ -1,5 +1,6 @@
 ﻿
 window.Bowerbird.Collections.ChatUsers = Backbone.Collection.extend({
+    
     model: Bowerbird.Models.ChatUser,
 
     url: '/chatUsers/list',
@@ -10,12 +11,12 @@ window.Bowerbird.Collections.ChatUsers = Backbone.Collection.extend({
     ,
 
     toJsonViewModel: function () {
-        var users = this.pluck('user');
+        var users = this.pluck('User');
         var jsonUsers = _.map(users, function (user) {
             return { 
-                "id": user.id,
-                "name": user.get('name'), 
-                "avatar": user.get('avatar')
+                "Id": User.Id,
+                "Name": User.get('Name'), 
+                "Avatar": User.get('Avatar')
             };
         });
 

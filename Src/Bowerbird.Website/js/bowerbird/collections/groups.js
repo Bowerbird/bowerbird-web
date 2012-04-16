@@ -1,5 +1,6 @@
 ﻿
 window.Bowerbird.Collections.Groups = Bowerbird.Collections.PaginatedCollection.extend({
+    
     model: Bowerbird.Models.Group,
 
     baseUrl: '',
@@ -13,7 +14,6 @@ window.Bowerbird.Collections.Groups = Bowerbird.Collections.PaginatedCollection.
         '_setBaseUrl'
         );
         this.constructor.__super__.initialize.apply(this, options);
-        //Bowerbird.Collections.PaginatedCollection.prototype.initialize.apply(this, arguments);
     },
 
     fetchFirstPage: function (explore) {
@@ -27,19 +27,19 @@ window.Bowerbird.Collections.Groups = Bowerbird.Collections.PaginatedCollection.
     },
 
     _setBaseUrl: function (explore) {
-        this.baseUrl = explore.get('uri');
+        this.baseUrl = explore.get('Uri');
     },
 
     _getFetchOptions: function (explore, add) {
         var options = {
-            data: {},
-            add: add,
-            success: null
+            Data: {},
+            Add: add,
+            Success: null
         };
         if (add) {
-            options.success = this._onSuccess;
+            options.Success = this._onSuccess;
         } else {
-            options.success = this._onSuccessWithAddFix;
+            options.Success = this._onSuccessWithAddFix;
         }
         //        if (explore.get('context') != null) {
         //            if (stream.get('context') instanceof Bowerbird.Models.Team || stream.get('context') instanceof Bowerbird.Models.Project) {
@@ -48,14 +48,14 @@ window.Bowerbird.Collections.Groups = Bowerbird.Collections.PaginatedCollection.
         //                options.data.userId = stream.get('context').get('id');
         //            }
         //        }
-        if (explore.get('filter') != null) {
-            options.data.filter = explore.get('filter');
+        if (explore.get('Filter') != null) {
+            options.Data.Filter = explore.get('Filter');
         }
         return options;
     },
 
     _onSuccess: function (collection, response) {
-        app.explore.trigger('fetchingItemsComplete', app.explore, response);
+        app.explore.trigger('fetchingItemsComplete', app.Explore, response);
     },
 
     _onSuccessWithAddFix: function (collection, response) {
@@ -63,7 +63,7 @@ window.Bowerbird.Collections.Groups = Bowerbird.Collections.PaginatedCollection.
         // Added the following manual triggering of 'add' event due to Backbone bug: https://github.com/documentcloud/backbone/issues/479
         var self = this;
         response.each(function (item, index) {
-            self.trigger('add', item, self, { index: index });
+            self.trigger('add', item, self, { Index: index });
         });
     }
 });

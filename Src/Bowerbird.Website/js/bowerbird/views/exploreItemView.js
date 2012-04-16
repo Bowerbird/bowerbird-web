@@ -4,12 +4,12 @@ window.Bowerbird.Views.ExploreItemView = Backbone.View.extend({
 
     initialize: function (options) {
         _.extend(this, Backbone.Events);
-        this.exploreItem = options.group;
+        this.ExploreItem = options.Group;
     },
 
     render: function () {
-        var exploreItemJSON = this.exploreItem.toJSON();
-        switch (this.exploreItem.get('type')) {
+        var exploreItemJSON = this.ExploreItem.toJSON();
+        switch (this.ExploreItem.get('Type')) {
             case 'organisation':
                 var exploreItemHtml = ich.organisationItemTemplate(exploreItemJSON);
                 this.$el.append(exploreItemHtml).addClass('organisation-explore-item');
