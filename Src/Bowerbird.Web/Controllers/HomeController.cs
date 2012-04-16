@@ -99,7 +99,7 @@ namespace Bowerbird.Web.Controllers
                 return TemplateView("HomeIndex", MakeHomeIndex(homeIndexInput));
             }
 
-            return TemplateView("HomeIndex", null);
+            return TemplateView("HomeIndex", MakeHomeIndex(homeIndexInput));
         }
 
         [HttpGet]

@@ -29,19 +29,19 @@
         </nav>-->
         <nav id="account-menu">
           <ul>
-            {{#AuthenticatedUser?}}
+            {{#AuthenticatedUser}}
             <li class="user-menu">
-              <a href="/">User Home</a>
+              <a href="/user/update">{{AuthenticatedUser.FirstName}}</a>
             </li>
             <li>
-              <a href="/home/setuptestdata">Setup Test Data</a>
+              <a href="/account/logout">Logout</a>
             </li>
             <li class="observations-menu">
               <a href="/observation/create" class="new-observation-button">
                 <img src="/img/observation-button.png" alt="" />
               </a>
             </li>
-            {{/AuthenticatedUser?}}
+            {{/AuthenticatedUser}}
             {{^AuthenticatedUser}}
             <li>
               <a href="/account/login">Login</a>
@@ -64,6 +64,7 @@
       {{>Body}}
     </article>
     <footer>
+      <a href="/home/setuptestdata">Setup Test Data</a>
     </footer>
 
     <!--! end of #container -->

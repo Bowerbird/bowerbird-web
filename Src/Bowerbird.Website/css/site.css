@@ -1170,6 +1170,7 @@ header nav#search-menu
 .form input[type=text],
 .form input[type=password],
 .form input[type=date],
+.form input[type=email],
 .form select,
 .form textarea
 {
@@ -1186,6 +1187,7 @@ header nav#search-menu
 .form input[type=text]:focus,
 .form input[type=password]:focus,
 .form input[type=date]:focus,
+.form input[type=email]:focus,
 .form select:focus,
 .form textarea:focus
 {
@@ -1195,6 +1197,7 @@ header nav#search-menu
 .form input[type=text].input-validation-error,
 .form input[type=password].input-validation-error,
 .form input[type=date].input-validation-error,
+.form input[type=email].input-validation-error,
 .form select.input-validation-error,
 .form textarea.input-validation-error
 {
@@ -1204,6 +1207,7 @@ header nav#search-menu
 .form input[type=text].input-validation-error:focus,
 .form input[type=password].input-validation-error:focus,
 .form input[type=date].input-validation-error:focus,
+.form input[type=email].input-validation-error:focus,
 .form select.input-validation-error:focus,
 .form textarea.input-validation-error:focus
 {

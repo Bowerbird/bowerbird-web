@@ -67,7 +67,7 @@ namespace Bowerbird.Web.Controllers
             // Load all templates from Nustache
             foreach(var id in ids.Split(new [] { "," }, StringSplitOptions.RemoveEmptyEntries))
             {
-                templates.Add(id, LoadTemplate(id).Source());
+                templates.Add(id, LoadTemplateSource(id));
             }
 
             // Concatenate all templates into a JSON array ie. "[{name: 'abc', source: '<html>'}]
@@ -76,13 +76,18 @@ namespace Bowerbird.Web.Controllers
                     x => string.Format("{{name: '{0}', source: '{1}'}}", x.Key, x.Value.Replace("\r\n", " ").Replace("'", "&#39;"))));
 
             // Return a JSONP result that contains the templates to be loaded by the client side ICanHaz.js template processor
+//            return Content(string.Format(@"
+//                ;(function($) {{
+//                    _.each([{0}], function(template) {{
+//                        ich.addTemplate(template.name, template.source);
+//                    }});
+//                }})(jQuery);
+//                ", templatesJson), "text/javascript; charset=UTF-8");
             return Content(string.Format(@"
-                ;(function($) {{
                     _.each([{0}], function(template) {{
                         ich.addTemplate(template.name, template.source);
                     }});
-                }})(jQuery);
-                ", templatesJson));
+                ", templatesJson), "text/javascript; charset=UTF-8");
         }
 
         /// <summary>
@@ -90,23 +95,21 @@ namespace Bowerbird.Web.Controllers
         /// Note that this is a hack to allow us to load UN-RENDERED Nustache templates. If Nustache changes in the future, this method may stop working. Ideally,
         /// Nustache woudl have a way for us to call its internal version of this method (ie. NustacheView.LoadTemplate), or expose a "TemplateProvider" or some such thing.
         /// </summary>
-        private Template LoadTemplate(string path)
+        private string LoadTemplateSource(string path)
         {
-            var key = "Nustache:" + path;
+            var key = "NustacheSourceTemplate:" + path;
 
             if (HttpContext.Cache[key] != null)
             {
-                return (Template)HttpContext.Cache[key];
+                return (string)HttpContext.Cache[key];
             }
 
             var templatePath = HttpContext.Server.MapPath(path.PrependWith("/Views/Shared/").AppendWith(".mustache"));
             var templateSource = System.IO.File.ReadAllText(templatePath);
-            var template = new Template();
-            template.Load(new StringReader(templateSource));
 
-            HttpContext.Cache.Insert(key, template, new CacheDependency(templatePath));
+            HttpContext.Cache.Insert(key, templateSource, new CacheDependency(templatePath));
 
-            return template;
+            return (string)HttpContext.Cache[key];
         }
 
         #endregion

@@ -28,20 +28,23 @@ window.Bowerbird.Views.SidebarView = Backbone.View.extend({
     },
 
     render: function () {
-        
-        var sidebarHtml = ich.sidebar().appendTo(this.$el);
+        //ich.sidebar().appendTo(this.$el);
+        ich.addTemplate('frank', '<div>{{hello}} world</div>');
+        log(ich.frank());
+        log(ich.sidebar());
+        this.$el.append(ich.sidebar());
 
         this.notificationsView = new Bowerbird.Views.NotificationsView();
         this.$el.append(this.notificationsView.render().el);
 
-//        this.$el.find('.menu-group-options .sub-menu-button').click(function (e) {
-//            $('.sub-menu-button').removeClass('active');
-//            $(this).addClass('active');
-//        });
+        //        this.$el.find('.menu-group-options .sub-menu-button').click(function (e) {
+        //            $('.sub-menu-button').removeClass('active');
+        //            $(this).addClass('active');
+        //        });
 
-//        this.$el.find('.menu-group-options .sub-menu-button').click(function (e) {
-//            e.stopPropagation();
-//        });
+        //        this.$el.find('.menu-group-options .sub-menu-button').click(function (e) {
+        //            e.stopPropagation();
+        //        });
 
         return this;
     },

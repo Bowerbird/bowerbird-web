@@ -23,7 +23,7 @@ window.Bowerbird.Views.StreamListView = Backbone.View.extend({
     },
 
     render: function () {
-        var streamListHtml = ich.streamList().appendTo(this.$el);
+        this.$el.append(ich.streamList());
         return this;
     },
 

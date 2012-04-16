@@ -32,13 +32,13 @@ namespace Bowerbird.Web.App_Start
         /// <summary>
         /// Sets up the application ready for use
         /// </summary>
-        public static void PostStart()
+        public static void PostStart() 
         {
             EventProcessor.ServiceLocator = ServiceLocator.Current;
 
             ViewEngines.Engines.Clear();
 
-            ViewEngines.Engines.Add(new RazorViewEngine());
+            //ViewEngines.Engines.Add(new RazorViewEngine());
             //ViewEngines.Engines.Add(new NustacheViewEngine() { RootContext = NustacheViewEngineRootContext.Model });
             ViewEngines.Engines.Add(new NustacheViewEngine());
 

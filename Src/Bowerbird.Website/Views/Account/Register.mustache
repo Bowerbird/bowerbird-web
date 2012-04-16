@@ -1,0 +1,59 @@
+﻿{{<Title}}Register - {{/Title}}
+{{<Script}}{{/Script}}
+
+<section class="single-small">
+
+<div class="form">
+<h2>Register</h2>
+
+<form action="/account/register" method="post">
+    <!--@Html.ValidationSummary(true, "There were some problems with your registration.")-->
+
+    <fieldset>
+        <legend>Register Details</legend>
+        <p>Please fill in the details below to register. An email will be sent to you to confirm that your email address is correct.</p>
+        <div class="field field-part-one">
+            <div>
+				<label for="FirstName">First Name</label>
+            </div>
+            <div>
+                <input type="text" id="FirstName" name="FirstName" value="{{AccountRegister.FirstName}}" />
+                <!--@Html.ValidationMessageFor(x => x.FirstName)-->
+            </div>
+        </div>
+        <div class="field field-part-two">
+            <div>
+                <label for="LastName">Last Name</label>
+            </div>
+            <div>
+                <input type="text" id="LastName" name="LastName" value="{{AccountRegister.LastName}}" />
+                <!--@Html.ValidationMessageFor(x => x.LastName)-->
+            </div>
+        </div>
+        <div class="field">
+            <div>
+                <label for="Email">Email</label>
+            </div>
+            <div>
+                <input type="email" id="Email" name="Email" value="{{AccountRegister.Email}}" />
+                <!--@Html.ValidationMessageFor(x => x.Email)-->
+            </div>
+        </div>
+        <div class="field">
+            <div>
+                <label for="Password">Password</label>
+            </div>
+            <div>
+                <input type="password" id="Password" name="Password" />
+                <!--@Html.ValidationMessage("password")-->
+                <p>Passwords must be at least 6 characters in length.</p>
+            </div>
+        </div>
+    </fieldset>
+    <fieldset>
+        <input type="submit" value="Register" />
+    </fieldset>
+</form>
+
+</div>
+</section>
