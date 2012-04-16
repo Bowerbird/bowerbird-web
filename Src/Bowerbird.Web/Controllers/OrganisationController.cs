@@ -25,10 +25,10 @@ using Bowerbird.Core.Services;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.ViewModels.Members;
 using Bowerbird.Web.ViewModels.Shared;
-using Nustache.Mvc;
 using Raven.Client;
 using Raven.Client.Linq;
 using Bowerbird.Core.Config;
+using Nustache.Mvc;
 
 namespace Bowerbird.Web.Controllers
 {

@@ -22,7 +22,6 @@ using Bowerbird.Core.Services;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.ViewModels.Members;
 using Bowerbird.Web.ViewModels.Shared;
-using Nustache.Mvc;
 using Raven.Client;
 using Raven.Client.Linq;
 using Bowerbird.Core.Config;
@@ -103,16 +102,8 @@ namespace Bowerbird.Web.Controllers
                 }
             }
 
-            return TemplateView("List", "ProjectList", MakeProjectList(new ProjectListInput() { Page = 1, PageSize = 10 }));
+            return TemplateView("ProjectList", MakeProjectList(new ProjectListInput() { Page = 1, PageSize = 10 }));
         }
-
-        //[HttpGet]
-        //[ChildActionOnly]
-        //public ActionResult Projects()
-        //{
-        //    ViewData["Groups"] = MakeProjectList( new ProjectListInput(){Page = 1, PageSize = 10 }).Projects.PagedListItems;
-        //    return View("groupList");
-        //}
 
         [Transaction]
         [Authorize]
