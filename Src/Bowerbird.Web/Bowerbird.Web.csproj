@@ -76,7 +76,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\Nustache.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Nustache.Mvc3">
+    <Reference Include="Nustache.Mvc3, Version=1.12.3.6, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\Nustache.Mvc3.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Abstractions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">

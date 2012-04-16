@@ -103,7 +103,7 @@ namespace Bowerbird.Web.Controllers
             }
 
             //return TemplateView("HomeIndex", MakeHomeIndex(homeIndexInput));
-            ViewBag.HomeIndex = MakeHomeIndex(homeIndexInput);
+            //ViewBag.HomeIndex = MakeHomeIndex(homeIndexInput);
 
             return View();
         }
