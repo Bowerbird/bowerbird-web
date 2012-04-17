@@ -65,7 +65,7 @@ window.Bowerbird.Views.EditMediaView = Backbone.View.extend({
 
     _onUploadDone: function (e, data) {
         var mediaResource = _.find(this.observation.allMediaResources(), function (item) {
-            return item.get('Key') == data.result.key;
+            return item.get('Key') == data.result.Key;
         });
         mediaResource.set(data.result);
         //$('#media-resource-items').animate({ scrollLeft: 100000 });

@@ -104,14 +104,14 @@ namespace Bowerbird.Web.Controllers
 
                 return new JsonNetResult(new
                     {
-                        id = mediaResource.Id,
-                        createdByUser = mediaResource.CreatedByUser,
-                        metadata = mediaResource.Metadata,
-                        type = mediaResource.Type,
-                        uploadedOn = mediaResource.UploadedOn,
+                        Id = mediaResource.Id,
+                        CreatedByUser = mediaResource.CreatedByUser,
+                        Metadata = mediaResource.Metadata,
+                        Type = mediaResource.Type,
+                        UploadedOn = mediaResource.UploadedOn,
                         // HACK
-                        mediumImageUri = _mediaFilePathService.MakeMediaFileUri(mediaResource, "medium"),
-                        key = key
+                        MediumImageUri = _mediaFilePathService.MakeMediaFileUri(mediaResource, "medium"),
+                        Key = key
                     });
             }
             catch (Exception ex)

@@ -20,7 +20,7 @@ namespace Bowerbird.Web.Controllers
 
         public JsonNetResult(object data)
         {
-            SerializerSettings = new JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver() };
+            //SerializerSettings = new JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver() };
             Data = data;
         }
 
@@ -34,7 +34,7 @@ namespace Bowerbird.Web.Controllers
 
         public object Data { get; set; }
 
-        public JsonSerializerSettings SerializerSettings { get; set; }
+        //public JsonSerializerSettings SerializerSettings { get; set; }
 
         public Formatting Formatting { get; set; }
 
@@ -69,14 +69,14 @@ namespace Bowerbird.Web.Controllers
             if (Data != null)
             {
                 JsonTextWriter writer = new JsonTextWriter(response.Output) { Formatting = Formatting };
-                JsonSerializer serializer = JsonSerializer.Create(SerializerSettings);
+                JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings());
                 serializer.Serialize(writer, Data);
                 writer.Flush();
             }
         }
 
-        #endregion      
-      
+        #endregion
+
     }
 
 
