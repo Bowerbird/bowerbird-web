@@ -24,7 +24,7 @@ using Bowerbird.Core.Extensions;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Services;
 using Bowerbird.Web.Config;
-using Bowerbird.Web.ViewModels.Shared;
+using Bowerbird.Web.ViewModels;
 using Raven.Client;
 using Raven.Client.Linq;
 using Bowerbird.Core.Config;

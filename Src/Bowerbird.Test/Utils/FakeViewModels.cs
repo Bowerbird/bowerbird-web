@@ -12,20 +12,17 @@
  
 */
 
-using Bowerbird.Web.ViewModels.Shared;
+using Bowerbird.Web.ViewModels;
 
 namespace Bowerbird.Test.Utils
 {
     #region Namespaces
 
-    using Bowerbird.Test.Utils;
-    using Bowerbird.Web.ViewModels.Public;
 
     #endregion
 
     public static class FakeViewModels
     {
-            
         #region Members
 
         #endregion
@@ -70,6 +67,5 @@ namespace Bowerbird.Test.Utils
         }
 
         #endregion      
-      
     }
 }

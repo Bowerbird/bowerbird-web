@@ -16,10 +16,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Web.Controllers.Public;
-using Bowerbird.Web.ViewModels.Shared;
+using Bowerbird.Web.Controllers;
+using Bowerbird.Web.ViewModels;
 using NUnit.Framework;
-using Moq;
 using Bowerbird.Test.Utils;
 using Raven.Client;
 

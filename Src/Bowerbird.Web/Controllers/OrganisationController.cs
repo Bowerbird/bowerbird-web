@@ -21,14 +21,12 @@ using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Paging;
 using Bowerbird.Core.Queries;
-using Bowerbird.Core.Services;
 using Bowerbird.Web.Config;
-using Bowerbird.Web.ViewModels.Members;
-using Bowerbird.Web.ViewModels.Shared;
+using Bowerbird.Web.Factories;
+using Bowerbird.Web.ViewModels;
 using Raven.Client;
 using Raven.Client.Linq;
 using Bowerbird.Core.Config;
-using Nustache.Mvc;
 
 namespace Bowerbird.Web.Controllers
 {
@@ -39,8 +37,7 @@ namespace Bowerbird.Web.Controllers
         private readonly ICommandProcessor _commandProcessor;
         private readonly IUserContext _userContext;
         private readonly IDocumentSession _documentSession;
-        private readonly IMediaFilePathService _mediaFilePathService;
-        private readonly IConfigService _configService;
+        private readonly IAvatarFactory _avatarFactory;
         private readonly IUsersGroupsHavingPermissionQuery _usersGroupsHavingPermissionQuery;
 
         #endregion
@@ -51,23 +48,21 @@ namespace Bowerbird.Web.Controllers
             ICommandProcessor commandProcessor,
             IUserContext userContext,
             IDocumentSession documentSession,
-            IMediaFilePathService mediaFilePathService,
-            IUsersGroupsHavingPermissionQuery usersGroupsHavingPermissionQuery,
-            IConfigService configService)
+            IAvatarFactory avatarFactory,
+            IUsersGroupsHavingPermissionQuery usersGroupsHavingPermissionQuery
+            )
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(documentSession, "documentSession");
-            Check.RequireNotNull(mediaFilePathService, "mediaFilePathService");
+            Check.RequireNotNull(avatarFactory, "avatarFactory");
             Check.RequireNotNull(usersGroupsHavingPermissionQuery, "usersGroupsHavingPermissionQuery");
-            Check.RequireNotNull(configService, "configService");
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
             _documentSession = documentSession;
-            _mediaFilePathService = mediaFilePathService;
+            _avatarFactory = avatarFactory;
             _usersGroupsHavingPermissionQuery = usersGroupsHavingPermissionQuery;
-            _configService = configService;
         }
 
         #endregion
@@ -111,17 +106,6 @@ namespace Bowerbird.Web.Controllers
             }
 
             return View();
-        }
-
-        [HttpGet]
-        [ChildActionOnly]
-        public ActionResult Organisations()
-        {
-            ViewData["Groups"] = MakeOrganisationList(new OrganisationListInput() { Page = 1, PageSize = 10 }).Organisations.PagedListItems;
-            var viewResult = View("groupList");
-            viewResult.ViewEngineCollection = new ViewEngineCollection { new NustacheViewEngine() };
-
-            return viewResult;
         }
 
         [Transaction]
@@ -195,7 +179,7 @@ namespace Bowerbird.Web.Controllers
                 Name = organisation.Name,
                 Description = organisation.Description,
                 Website = organisation.Website,
-                Avatar = GetAvatar(organisation)
+                Avatar = _avatarFactory.GetAvatar(organisation)
             };
         }
 
@@ -209,15 +193,14 @@ namespace Bowerbird.Web.Controllers
                 .Skip(listInput.Page)
                 .Take(listInput.PageSize)
                 .ToList()
-                .Select(x => new OrganisationView()
+                .Select(organisation => new OrganisationView()
                     {
-                        Id = x.Id,
-                        Description = x.Description,
-                        Name = x.Name,
-                        Website = x.Website,
-                        Avatar = GetAvatar(x)
+                        Id = organisation.Id,
+                        Description = organisation.Description,
+                        Name = organisation.Name,
+                        Website = organisation.Website,
+                        Avatar = _avatarFactory.GetAvatar(organisation)
                     });
-                 // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
 
             return new OrganisationList()
             {
@@ -249,20 +232,9 @@ namespace Bowerbird.Web.Controllers
                     Description = x.Organisation.Description,
                     Name = x.Organisation.Name,
                     Website = x.Organisation.Website,
-                    Avatar = GetAvatar(x.Organisation)
+                    Avatar = _avatarFactory.GetAvatar(x.Organisation)
                 })
                 .ToList();
-        }
-
-        private Avatar GetAvatar(Organisation organisation)
-        {
-            return new Avatar()
-            {
-                AltTag = organisation.Description, 
-                UrlToImage = organisation.Avatar != null ? 
-                    _mediaFilePathService.MakeMediaFileUri(organisation.Avatar.Id, "image", "avatar", organisation.Avatar.Metadata["metatype"]) :
-                    AvatarUris.DefaultOrganisation
-            };
         }
 
         private OrganisationCreateCommand MakeOrganisationCreateCommand(OrganisationCreateInput createInput)

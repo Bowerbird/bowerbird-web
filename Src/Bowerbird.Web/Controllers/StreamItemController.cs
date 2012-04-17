@@ -19,7 +19,7 @@ using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Paging;
-using Bowerbird.Web.ViewModels.Shared;
+using Bowerbird.Web.ViewModels;
 using Raven.Client;
 using Raven.Client.Linq;
 using Bowerbird.Web.Factories;

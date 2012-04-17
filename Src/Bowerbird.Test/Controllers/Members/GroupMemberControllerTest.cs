@@ -13,13 +13,9 @@
 */
 
 using System.Collections.Generic;
-using System.Linq;
 using System.Web.Mvc;
 using Bowerbird.Core.Commands;
-using Bowerbird.Core.DomainModels.Members;
-using Bowerbird.Web.Config;
-using Bowerbird.Web.Controllers.Members;
-using Bowerbird.Web.ViewModels.Members;
+using Bowerbird.Web.ViewModels;
 using NUnit.Framework;
 using Moq;
 using Bowerbird.Test.Utils;

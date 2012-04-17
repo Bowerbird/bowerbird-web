@@ -4,7 +4,7 @@
 //using System.Reflection;
 //using System.Text;
 //using System.ComponentModel.DataAnnotations;
-//using Bowerbird.Web.ViewModels.Members;
+//using Bowerbird.Web.ViewModels;
 
 //namespace Bowerbird.Web.Validators
 //{

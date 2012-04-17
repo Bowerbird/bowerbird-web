@@ -158,7 +158,9 @@
     <Compile Include="Controllers\WatchlistController.cs" />
     <Compile Include="EventHandlers\NotifyObservationCreatedEventHandler.cs" />
     <Compile Include="Extensions\HtmlHelperExtensions.cs" />
+    <Compile Include="Factories\AvatarFactory.cs" />
     <Compile Include="Factories\BrowseItemFactory.cs" />
+    <Compile Include="Factories\IAvatarFactory.cs" />
     <Compile Include="Factories\IBrowseItemFactory.cs" />
     <Compile Include="Factories\IFactory.cs" />
     <Compile Include="Factories\IObservationViewFactory.cs" />
@@ -176,108 +178,86 @@
     <Compile Include="Validators\LatLong.cs" />
     <Compile Include="Validators\ValidResetPasswordKeyRequestAttribute.cs" />
     <Compile Include="Validators\ValidEmailAttribute.cs" />
-    <Compile Include="ViewModels\Members\AccountChangePasswordInput.cs" />
-    <Compile Include="ViewModels\Members\GroupAssociationCreateInput.cs" />
-    <Compile Include="ViewModels\Members\GroupAssociationDeleteInput.cs" />
-    <Compile Include="ViewModels\Members\GroupContributionCreateInput.cs" />
-    <Compile Include="ViewModels\Members\GroupContributionDeleteInput.cs" />
-    <Compile Include="ViewModels\Members\MenuItem.cs" />
-    <Compile Include="ViewModels\Members\OrganisationCreateInput.cs" />
-    <Compile Include="ViewModels\Members\OrganisationUpdateInput.cs" />
-    <Compile Include="ViewModels\Members\MemberList.cs" />
-    <Compile Include="ViewModels\Members\MemberListInput.cs" />
-    <Compile Include="ViewModels\Public\BrowseIndex.cs" />
-    <Compile Include="ViewModels\Public\BrowseItem.cs" />
-    <Compile Include="ViewModels\Shared\Notification.cs" />
-    <Compile Include="ViewModels\Shared\ActivityMessage.cs" />
-    <Compile Include="ViewModels\Shared\ChatMessage.cs" />
-    <Compile Include="ViewModels\Shared\ChatRequest.cs" />
-    <Compile Include="ViewModels\Shared\ObservationMediaItem.cs" />
-    <Compile Include="ViewModels\Shared\SetupChat.cs" />
-    <Compile Include="ViewModels\Shared\ChatUserTyping.cs" />
-    <Compile Include="ViewModels\Shared\GroupChatMessage.cs" />
-    <Compile Include="ViewModels\Shared\ObservationView.cs" />
-    <Compile Include="ViewModels\Shared\OrganisationView.cs" />
-    <Compile Include="ViewModels\Shared\PostList.cs" />
-    <Compile Include="ViewModels\Shared\PostListInput.cs" />
-    <Compile Include="ViewModels\Members\WatchlistCreateInput.cs" />
-    <Compile Include="ViewModels\Members\WatchlistIndex.cs" />
-    <Compile Include="ViewModels\Members\WatchlistList.cs" />
-    <Compile Include="ViewModels\Members\WatchlistListInput.cs" />
-    <Compile Include="ViewModels\Members\WatchlistUpdateInput.cs" />
-    <Compile Include="ViewModels\Shared\ObservationList.cs" />
-    <Compile Include="ViewModels\Shared\ObservationListInput.cs" />
-    <Compile Include="ViewModels\Shared\Avatar.cs" />
-    <Compile Include="ViewModels\Shared\GroupAssociationList.cs" />
-    <Compile Include="ViewModels\Shared\GroupAssociationChildListInput.cs" />
-    <Compile Include="ViewModels\Shared\GroupAssociationParentListInput.cs" />
-    <Compile Include="ViewModels\Shared\GroupContributionList.cs" />
-    <Compile Include="ViewModels\Shared\GroupContributionListInput.cs" />
-    <Compile Include="ViewModels\Shared\OrganisationIndex.cs" />
-    <Compile Include="ViewModels\Shared\OrganisationList.cs" />
-    <Compile Include="ViewModels\Shared\OrganisationListInput.cs" />
-    <Compile Include="ViewModels\Shared\PrivateChatMessage.cs" />
-    <Compile Include="ViewModels\Shared\ProjectIndex.cs" />
-    <Compile Include="ViewModels\Shared\ProjectList.cs" />
-    <Compile Include="ViewModels\Shared\ProjectListInput.cs" />
-    <Compile Include="ViewModels\Members\TeamCreateInput.cs" />
-    <Compile Include="ViewModels\Shared\ProjectView.cs" />
-    <Compile Include="ViewModels\Shared\StreamItemList.cs" />
-    <Compile Include="ViewModels\Shared\StreamItemListInput.cs" />
-    <Compile Include="ViewModels\Shared\StreamSortInput.cs" />
-    <Compile Include="ViewModels\Shared\TeamIndex.cs" />
-    <Compile Include="ViewModels\Members\TeamUpdateInput.cs" />
-    <Compile Include="ViewModels\Public\AccountRegister.cs" />
+    <Compile Include="ViewModels\AccountChangePasswordInput.cs" />
+    <Compile Include="ViewModels\MenuItem.cs" />
+    <Compile Include="ViewModels\OrganisationCreateInput.cs" />
+    <Compile Include="ViewModels\OrganisationUpdateInput.cs" />
+    <Compile Include="ViewModels\Notification.cs" />
+    <Compile Include="ViewModels\ChatMessage.cs" />
+    <Compile Include="ViewModels\ChatRequest.cs" />
+    <Compile Include="ViewModels\ObservationMediaItem.cs" />
+    <Compile Include="ViewModels\SetupChat.cs" />
+    <Compile Include="ViewModels\ChatUserTyping.cs" />
+    <Compile Include="ViewModels\GroupChatMessage.cs" />
+    <Compile Include="ViewModels\ObservationView.cs" />
+    <Compile Include="ViewModels\OrganisationView.cs" />
+    <Compile Include="ViewModels\PostList.cs" />
+    <Compile Include="ViewModels\PostListInput.cs" />
+    <Compile Include="ViewModels\ObservationList.cs" />
+    <Compile Include="ViewModels\ObservationListInput.cs" />
+    <Compile Include="ViewModels\Avatar.cs" />
+    <Compile Include="ViewModels\OrganisationIndex.cs" />
+    <Compile Include="ViewModels\OrganisationList.cs" />
+    <Compile Include="ViewModels\OrganisationListInput.cs" />
+    <Compile Include="ViewModels\PrivateChatMessage.cs" />
+    <Compile Include="ViewModels\ProjectIndex.cs" />
+    <Compile Include="ViewModels\ProjectList.cs" />
+    <Compile Include="ViewModels\ProjectListInput.cs" />
+    <Compile Include="ViewModels\TeamCreateInput.cs" />
+    <Compile Include="ViewModels\ProjectView.cs" />
+    <Compile Include="ViewModels\StreamItemList.cs" />
+    <Compile Include="ViewModels\StreamItemListInput.cs" />
+    <Compile Include="ViewModels\StreamSortInput.cs" />
+    <Compile Include="ViewModels\TeamIndex.cs" />
+    <Compile Include="ViewModels\TeamUpdateInput.cs" />
+    <Compile Include="ViewModels\AccountRegister.cs" />
     <Compile Include="Hubs\NotificationHub.cs" />
     <Compile Include="Validators\UniqueEmailAttribute.cs" />
-    <Compile Include="ViewModels\Public\AccountRegisterInput.cs" />
-    <Compile Include="ViewModels\Public\AccountRequestPasswordReset.cs" />
-    <Compile Include="ViewModels\Public\AccountRequestPasswordResetInput.cs" />
-    <Compile Include="ViewModels\Public\AccountResetPassword.cs" />
-    <Compile Include="ViewModels\Public\AccountResetPasswordInput.cs" />
+    <Compile Include="ViewModels\AccountRegisterInput.cs" />
+    <Compile Include="ViewModels\AccountRequestPasswordReset.cs" />
+    <Compile Include="ViewModels\AccountRequestPasswordResetInput.cs" />
+    <Compile Include="ViewModels\AccountResetPassword.cs" />
+    <Compile Include="ViewModels\AccountResetPasswordInput.cs" />
     <Compile Include="Extensions\UrlHelperExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Config\TransactionAttribute.cs" />
-    <Compile Include="ViewModels\Public\AccountLogin.cs">
+    <Compile Include="ViewModels\AccountLogin.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ViewModels\Public\AccountLoginInput.cs">
+    <Compile Include="ViewModels\AccountLoginInput.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ViewModels\Shared\ObservationIndex.cs" />
-    <Compile Include="ViewModels\Shared\IdInput.cs" />
-    <Compile Include="ViewModels\Members\TeamProjectCreateInput.cs" />
-    <Compile Include="ViewModels\Members\UserUpdateInput.cs" />
-    <Compile Include="ViewModels\Members\HomeIndex.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ViewModels\Members\HomeIndexInput.cs">
+    <Compile Include="ViewModels\ObservationIndex.cs" />
+    <Compile Include="ViewModels\IdInput.cs" />
+    <Compile Include="ViewModels\TeamProjectCreateInput.cs" />
+    <Compile Include="ViewModels\HomeIndex.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModels\IViewModel.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ViewModels\Members\ObservationCreateInput.cs">
+    <Compile Include="ViewModels\ObservationCreateInput.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ViewModels\Members\ObservationUpdateInput.cs" />
-    <Compile Include="ViewModels\Members\ProjectCreateInput.cs" />
-    <Compile Include="ViewModels\Members\MemberCreateInput.cs" />
-    <Compile Include="ViewModels\Members\MemberDeleteInput.cs" />
-    <Compile Include="ViewModels\Members\PostCreateInput.cs" />
-    <Compile Include="ViewModels\Members\PostUpdateInput.cs" />
-    <Compile Include="ViewModels\Members\ProjectUpdateInput.cs" />
-    <Compile Include="ViewModels\Shared\StreamItem.cs">
+    <Compile Include="ViewModels\ObservationUpdateInput.cs" />
+    <Compile Include="ViewModels\ProjectCreateInput.cs" />
+    <Compile Include="ViewModels\MemberCreateInput.cs" />
+    <Compile Include="ViewModels\MemberDeleteInput.cs" />
+    <Compile Include="ViewModels\PostCreateInput.cs" />
+    <Compile Include="ViewModels\PostUpdateInput.cs" />
+    <Compile Include="ViewModels\ProjectUpdateInput.cs" />
+    <Compile Include="ViewModels\StreamItem.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ViewModels\Members\UserUpdate.cs" />
-    <Compile Include="ViewModels\Shared\TeamList.cs" />
-    <Compile Include="ViewModels\Shared\TeamListInput.cs" />
-    <Compile Include="ViewModels\Shared\TeamView.cs" />
-    <Compile Include="ViewModels\Shared\UserExitedChat.cs" />
-    <Compile Include="ViewModels\Shared\UserJoinedChat.cs" />
-    <Compile Include="ViewModels\Shared\UserProfile.cs" />
-    <Compile Include="ViewModels\Shared\UserStatusUpdate.cs" />
+    <Compile Include="ViewModels\UserUpdate.cs" />
+    <Compile Include="ViewModels\TeamList.cs" />
+    <Compile Include="ViewModels\TeamListInput.cs" />
+    <Compile Include="ViewModels\TeamView.cs" />
+    <Compile Include="ViewModels\UserExitedChat.cs" />
+    <Compile Include="ViewModels\UserJoinedChat.cs" />
+    <Compile Include="ViewModels\UserProfile.cs" />
+    <Compile Include="ViewModels\UserStatusUpdate.cs" />
+    <Compile Include="ViewModels\UserUpdateInput.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -290,7 +270,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="obj\" />
-    <Folder Include="ViewModels\Api\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

@@ -19,8 +19,8 @@
 //using Bowerbird.Core.DomainModels;
 //using Bowerbird.Core.Paging;
 //using Bowerbird.Web.Config;
-//using Bowerbird.Web.ViewModels.Members;
-//using Bowerbird.Web.ViewModels.Shared;
+//using Bowerbird.Web.ViewModels;
+//using Bowerbird.Web.ViewModels;
 //using Raven.Client;
 //using Raven.Client.Linq;
 //using Bowerbird.Core.Config;

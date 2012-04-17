@@ -14,11 +14,11 @@
 
 using System.Web.Mvc;
 using Bowerbird.Core.Commands;
+using Bowerbird.Core.Config;
 using Bowerbird.Core.Services;
 using Bowerbird.Test.Utils;
-using Bowerbird.Web.Config;
-using Bowerbird.Web.Controllers.Members;
-using Bowerbird.Web.ViewModels.Members;
+using Bowerbird.Web.Controllers;
+using Bowerbird.Web.ViewModels;
 using Moq;
 using NUnit.Framework;
 using Raven.Client;

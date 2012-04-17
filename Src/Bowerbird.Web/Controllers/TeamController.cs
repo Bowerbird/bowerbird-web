@@ -21,14 +21,12 @@ using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Paging;
 using Bowerbird.Core.Queries;
-using Bowerbird.Core.Services;
 using Bowerbird.Web.Config;
-using Bowerbird.Web.ViewModels.Members;
-using Bowerbird.Web.ViewModels.Shared;
+using Bowerbird.Web.Factories;
+using Bowerbird.Web.ViewModels;
 using Raven.Client;
 using Raven.Client.Linq;
 using Bowerbird.Core.Config;
-using Nustache.Mvc;
 
 namespace Bowerbird.Web.Controllers
 {
@@ -39,9 +37,8 @@ namespace Bowerbird.Web.Controllers
         private readonly ICommandProcessor _commandProcessor;
         private readonly IUserContext _userContext;
         private readonly IDocumentSession _documentSession;
-        private readonly IMediaFilePathService _mediaFilePathService;
-        private readonly IConfigService _configService;
         private readonly IUsersGroupsHavingPermissionQuery _usersGroupsHavingPermissionQuery;
+        private readonly IAvatarFactory _avatarFactory;
 
         #endregion
 
@@ -51,23 +48,21 @@ namespace Bowerbird.Web.Controllers
             ICommandProcessor commandProcessor,
             IUserContext userContext,
             IDocumentSession documentSession,
-            IMediaFilePathService mediaFilePathService,
             IUsersGroupsHavingPermissionQuery usersGroupsHavingPermissionQuery,
-            IConfigService configService)
+            IAvatarFactory avatarFactory
+            )
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(documentSession, "documentSession");
-            Check.RequireNotNull(mediaFilePathService, "mediaFilePathService");
             Check.RequireNotNull(usersGroupsHavingPermissionQuery, "usersGroupsHavingPermissionQuery");
-            Check.RequireNotNull(configService, "configService");
+            Check.RequireNotNull(avatarFactory, "avatarFactory");
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
             _documentSession = documentSession;
-            _mediaFilePathService = mediaFilePathService;
-            _configService = configService;
             _usersGroupsHavingPermissionQuery = usersGroupsHavingPermissionQuery;
+            _avatarFactory = avatarFactory;
         }
 
         #endregion
@@ -111,17 +106,6 @@ namespace Bowerbird.Web.Controllers
             }
 
             return View();
-        }
-
-        [HttpGet]
-        [ChildActionOnly]
-        public ActionResult Teams()
-        {
-            ViewData["Groups"] = MakeTeamList(new TeamListInput() { Page = 1, PageSize = 10 }).Teams.PagedListItems;
-            var viewResult = View("groupList");
-            viewResult.ViewEngineCollection = new ViewEngineCollection { new NustacheViewEngine() };
-
-            return viewResult;
         }
 
         [Transaction]
@@ -252,10 +236,6 @@ namespace Bowerbird.Web.Controllers
 
             var team = _documentSession.Load<Team>(idInput.Id);
 
-            //var organisation = team.ParentGroupId != null
-            //                       ? _documentSession.Load<Organisation>(team.ParentGroupId)
-            //                       : null;
-
             var groupAssociations = _documentSession
                 .Query<GroupAssociation>()
                 .Include(x => x.ChildGroupId)
@@ -264,9 +244,8 @@ namespace Bowerbird.Web.Controllers
             return new TeamIndex()
             {
                 Team = team,
-                //Organisation = organisation,
                 Projects = _documentSession.Load<Project>(groupAssociations.Select(x => x.ChildGroupId)),
-                Avatar = GetAvatar(team)
+                Avatar = _avatarFactory.GetAvatar(team)
             };
         }
 
@@ -276,18 +255,17 @@ namespace Bowerbird.Web.Controllers
 
             var results = _documentSession
                 .Query<Team>()
-                //.Customize(x => x.Include<Organisation>(y => y.ParentGroupId == listInput.OrganisationId))
                 .Statistics(out stats)
                 .Skip(listInput.Page)
                 .Take(listInput.PageSize)
-                .ToList() // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
-                .Select(x => new TeamView()
+                .ToList()
+                .Select(team => new TeamView()
                 {
-                    Id = x.Id,
-                    Description = x.Description,
-                    Name = x.Name,
-                    Website = x.Website,
-                    Avatar = GetAvatar(x)
+                    Id = team.Id,
+                    Description = team.Description,
+                    Name = team.Name,
+                    Website = team.Website,
+                    Avatar = _avatarFactory.GetAvatar(team)
                 });
 
             return new TeamList()
@@ -303,40 +281,6 @@ namespace Bowerbird.Web.Controllers
             };
         }
 
-        //private TeamList MakeTeamListByOrganisationId(TeamListInput listInput)
-        //{
-        //    RavenQueryStatistics stats;
-
-        //    var results = _documentSession
-        //        .Query<Team>()
-        //        .Where(x => x.ParentGroupId == listInput.OrganisationId)
-        //        .Customize(x => x.Include<Organisation>(y => y.Id == listInput.OrganisationId))
-        //        .Statistics(out stats)
-        //        .Skip(listInput.Page)
-        //        .Take(listInput.PageSize)
-        //        .ToList() // HACK: Due to deferred execution (or a RavenDB bug) need to execute query so that stats actually returns TotalResults - maybe fixed in newer RavenDB builds
-        //        .Select(x => new TeamView()
-        //        {
-        //            Id = x.Id,
-        //            Description = x.Description,
-        //            Name = x.Name,
-        //            Website = x.Website,
-        //            Avatar = GetAvatar(x)
-        //        });
-
-        //    return new TeamList()
-        //    {
-        //        Organisation = listInput.OrganisationId != null ? _documentSession.Load<Organisation>(listInput.OrganisationId) : null,
-        //        Page = listInput.Page,
-        //        PageSize = listInput.PageSize,
-        //        Teams = results.ToPagedList(
-        //            listInput.Page,
-        //            listInput.PageSize,
-        //            stats.TotalResults,
-        //            null)
-        //    };
-        //}
-
         private List<TeamView> GetGroupsHavingAddProjectPermission()
         {
             var loggedInUserId = _userContext.GetAuthenticatedUserId();
@@ -349,65 +293,15 @@ namespace Bowerbird.Web.Controllers
                     x.GroupType == "team"
                 )
                 .ToList()
-                .Select(x => new TeamView()
+                .Select(team => new TeamView()
                 {
-                    Id = x.Id,
-                    Description = x.Team.Description,
-                    Name = x.Team.Name,
-                    Website = x.Team.Website,
-                    Avatar = GetAvatar(x.Team)
+                    Id = team.Id,
+                    Description = team.Team.Description,
+                    Name = team.Team.Name,
+                    Website = team.Team.Website,
+                    Avatar = _avatarFactory.GetAvatar(team.Team)
                 })
                 .ToList();
-        }
-
-        private TeamList MakeTeamListByMembership(TeamListInput listInput)
-        {
-            RavenQueryStatistics stats;
-
-            var memberships = _documentSession
-                .Query<Member>()
-                .Include(x => x.User.Id)
-                .Where(x => x.User.Id == listInput.UserId)
-                .ToList();
-
-            var results = _documentSession
-                .Query<Team>()
-                .Where(x => x.Id.In(memberships.Select(y => y.Group.Id)))
-                .Statistics(out stats)
-                .Skip(listInput.Page)
-                .Take(listInput.PageSize)
-                .ToList()
-                .Select(x => new TeamView()
-                {
-                    Id = x.Id,
-                    Description = x.Description,
-                    Name = x.Name,
-                    Website = x.Website,
-                    Avatar = GetAvatar(x)
-                });
-
-            return new TeamList
-            {
-                User = listInput.UserId != null ? _documentSession.Load<User>(listInput.UserId) : null,
-                Page = listInput.Page,
-                PageSize = listInput.PageSize,
-                Teams = results.ToPagedList(
-                    listInput.Page,
-                    listInput.PageSize,
-                    stats.TotalResults,
-                    null)
-            };
-        }
-
-        private Avatar GetAvatar(Team team)
-        {
-            return new Avatar()
-            {
-                AltTag = team.Description,
-                UrlToImage = team.Avatar != null ?
-                    _mediaFilePathService.MakeMediaFileUri(team.Avatar.Id, "image", "avatar", team.Avatar.Metadata["metatype"]) :
-                    AvatarUris.DefaultTeam
-            };
         }
 
         #endregion

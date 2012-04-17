@@ -16,18 +16,11 @@ using System;
 using System.Web.Mvc;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.Paging;
 using Bowerbird.Test.Utils;
-using Bowerbird.Web.Config;
-using Bowerbird.Web.Controllers.Public;
 using Bowerbird.Web.ViewModels;
-using Bowerbird.Web.ViewModels.Members;
-using Bowerbird.Web.ViewModels.Public;
-using Bowerbird.Web.ViewModels.Shared;
 using Moq;
 using NUnit.Framework;
 using Raven.Client;
-using Raven.Client.Document;
 
 namespace Bowerbird.Test.Controllers.Public
 {

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Indexes;
-using Bowerbird.Web.ViewModels.Shared;
+using Bowerbird.Web.ViewModels;
 
 namespace Bowerbird.Web.Services
 {

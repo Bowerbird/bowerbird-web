@@ -13,9 +13,7 @@
 */
 
 using System.Threading.Tasks;
-using Bowerbird.Web.Config;
 using Bowerbird.Web.Services;
-using Bowerbird.Web.ViewModels.Shared;
 using SignalR.Hubs;
 using Bowerbird.Core.DesignByContract;
 

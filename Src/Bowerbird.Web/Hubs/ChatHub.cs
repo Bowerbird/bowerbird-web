@@ -15,12 +15,10 @@
 using System;
 using System.Linq;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Web.Config;
 using Bowerbird.Web.Services;
-using Bowerbird.Web.ViewModels.Shared;
+using Bowerbird.Web.ViewModels;
 using SignalR.Hubs;
 using Bowerbird.Core.DesignByContract;
-using PrivateChatMessage = Bowerbird.Core.DomainModels.PrivateChatMessage;
 
 namespace Bowerbird.Web.Hubs
 {

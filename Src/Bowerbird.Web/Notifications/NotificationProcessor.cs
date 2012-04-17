@@ -14,7 +14,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Web.Script.Serialization;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
@@ -26,9 +25,6 @@ using SignalR;
 using SignalR.Hosting.AspNet;
 using SignalR.Infrastructure;
 using System.Linq;
-using Bowerbird.Web.ViewModels.Shared;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace Bowerbird.Web.Notifications
 {

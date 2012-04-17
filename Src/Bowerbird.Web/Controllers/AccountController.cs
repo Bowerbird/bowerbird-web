@@ -14,8 +14,7 @@
 
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.Repositories;
-using Bowerbird.Web.ViewModels.Members;
-using Bowerbird.Web.ViewModels.Public;
+using Bowerbird.Web.ViewModels;
 using Raven.Client;
 using System.Web.Mvc;
 using Bowerbird.Core.DesignByContract;

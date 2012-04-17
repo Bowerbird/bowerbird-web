@@ -18,10 +18,9 @@ using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Paging;
-using Bowerbird.Core.Services;
 using Bowerbird.Web.Config;
-using Bowerbird.Web.ViewModels.Members;
-using Bowerbird.Web.ViewModels.Shared;
+using Bowerbird.Web.Factories;
+using Bowerbird.Web.ViewModels;
 using Raven.Client;
 using Raven.Client.Linq;
 using Bowerbird.Core.Config;
@@ -35,8 +34,7 @@ namespace Bowerbird.Web.Controllers
         private readonly ICommandProcessor _commandProcessor;
         private readonly IUserContext _userContext;
         private readonly IDocumentSession _documentSession;
-        private readonly IMediaFilePathService _mediaFilePathService;
-        private readonly IConfigService _configService;
+        private readonly IAvatarFactory _avatarFactory;
 
         #endregion
 
@@ -46,20 +44,18 @@ namespace Bowerbird.Web.Controllers
             ICommandProcessor commandProcessor,
             IUserContext userContext,
             IDocumentSession documentSession,
-            IMediaFilePathService mediaFilePathService,
-            IConfigService configService)
+            IAvatarFactory avatarFactory
+            )
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(documentSession, "documentSession");
-            Check.RequireNotNull(mediaFilePathService, "mediaFilePathService");
-            Check.RequireNotNull(configService, "configService");
+            Check.RequireNotNull(avatarFactory, "avatarFactory");
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
             _documentSession = documentSession;
-            _mediaFilePathService = mediaFilePathService;
-            _configService = configService;
+            _avatarFactory = avatarFactory;
         }
 
         #endregion
@@ -209,8 +205,7 @@ namespace Bowerbird.Web.Controllers
             return new ProjectIndex()
             {
                 Project = project,
-                Avatar = GetAvatar(project),
-                //Team = project.ParentGroupId != null ? _documentSession.Load<Team>(project.ParentGroupId) : null
+                Avatar = _avatarFactory.GetAvatar(project)
             };
         }
 
@@ -224,13 +219,13 @@ namespace Bowerbird.Web.Controllers
                 .Skip(listInput.Page)
                 .Take(listInput.PageSize)
                 .ToList()
-                .Select(x => new ProjectView()
+                .Select(project => new ProjectView()
                 {
-                    Id = x.Id,
-                    Description = x.Description,
-                    Name = x.Name,
-                    Website = x.Website,
-                    Avatar = GetAvatar(x)
+                    Id = project.Id,
+                    Description = project.Description,
+                    Name = project.Name,
+                    Website = project.Website,
+                    Avatar = _avatarFactory.GetAvatar(project)
                 });
 
             return new ProjectList
@@ -244,40 +239,6 @@ namespace Bowerbird.Web.Controllers
                     null)
             };
         }
-
-        //protected ProjectList MakeProjectListByTeamId(ProjectListInput listInput)
-        //{
-        //    RavenQueryStatistics stats;
-
-        //    var results = _documentSession
-        //        .Query<Project>()
-        //        .Where(x => x.ParentGroupId == listInput.TeamId)
-        //        .Customize(x => x.Include<Team>(y => y.Id == listInput.TeamId))
-        //        .Statistics(out stats)
-        //        .Skip(listInput.Page)
-        //        .Take(listInput.PageSize)
-        //        .ToList()
-        //        .Select(x => new ProjectView()
-        //        {
-        //            Id = x.Id,
-        //            Description = x.Description,
-        //            Name = x.Name,
-        //            Website = x.Website,
-        //            Avatar = GetAvatar(x)
-        //        });
-
-        //    return new ProjectList
-        //    {
-        //        Team = listInput.TeamId != null ? _documentSession.Load<Team>(listInput.TeamId) : null,
-        //        Page = listInput.Page,
-        //        PageSize = listInput.PageSize,
-        //        Projects = results.ToPagedList(
-        //            listInput.Page,
-        //            listInput.PageSize,
-        //            stats.TotalResults,
-        //            null)
-        //    };
-        //}
 
         protected ProjectList MakeProjectListByMembership(ProjectListInput listInput)
         {
@@ -295,13 +256,13 @@ namespace Bowerbird.Web.Controllers
                 .Skip(listInput.Page)
                 .Take(listInput.PageSize)
                 .ToList()
-                .Select(x => new ProjectView()
+                .Select(project => new ProjectView()
                 {
-                    Id = x.Id,
-                    Description = x.Description,
-                    Name = x.Name,
-                    Website = x.Website,
-                    Avatar = GetAvatar(x)
+                    Id = project.Id,
+                    Description = project.Description,
+                    Name = project.Name,
+                    Website = project.Website,
+                    Avatar = _avatarFactory.GetAvatar(project)
                 });
 
             return new ProjectList
@@ -314,17 +275,6 @@ namespace Bowerbird.Web.Controllers
                     listInput.PageSize,
                     stats.TotalResults,
                     null)
-            };
-        }
-
-        private Avatar GetAvatar(Project project)
-        {
-            return new Avatar()
-            {
-                AltTag = project.Description,
-                UrlToImage = project.Avatar != null ?
-                    _mediaFilePathService.MakeMediaFileUri(project.Avatar.Id, "image", "avatar", project.Avatar.Metadata["metatype"]) :
-                    AvatarUris.DefaultProject
             };
         }
 

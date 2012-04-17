@@ -16,12 +16,10 @@ using System.Web.Mvc;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.Services;
 using Bowerbird.Web.Config;
-using Bowerbird.Web.ViewModels.Members;
-using Bowerbird.Web.ViewModels.Shared;
+using Bowerbird.Web.Factories;
+using Bowerbird.Web.ViewModels;
 using Raven.Client;
-using System;
 using Bowerbird.Core.Config;
 
 namespace Bowerbird.Web.Controllers
@@ -34,8 +32,7 @@ namespace Bowerbird.Web.Controllers
         private readonly ICommandProcessor _commandProcessor;
         private readonly IUserContext _userContext;
         private readonly IDocumentSession _documentSession;
-        private readonly IMediaFilePathService _mediaFilePathService;
-        private readonly IConfigService _configService;
+        private readonly IAvatarFactory _avatarFactory;
 
         #endregion
 
@@ -45,20 +42,18 @@ namespace Bowerbird.Web.Controllers
             ICommandProcessor commandProcessor,
             IUserContext userContext,
             IDocumentSession documentSession,
-            IMediaFilePathService mediaFilePathService,
-            IConfigService configService)
+            IAvatarFactory avatarFactory
+            )
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(documentSession, "documentSession");
-            Check.RequireNotNull(mediaFilePathService, "mediaFilePathService");
-            Check.RequireNotNull(configService, "configService");
+            Check.RequireNotNull(avatarFactory, "avatarFactory");
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
             _documentSession = documentSession;
-            _mediaFilePathService = mediaFilePathService;
-            _configService = configService;
+            _avatarFactory = avatarFactory;
         }
 
         #endregion
@@ -144,7 +139,7 @@ namespace Bowerbird.Web.Controllers
                 LastName = user.LastName,
                 Email = user.Email,
                 Description = user.Description,
-                Avatar = GetAvatar(user)
+                Avatar = _avatarFactory.GetAvatar(user)
             };
         }
 
@@ -156,18 +151,7 @@ namespace Bowerbird.Web.Controllers
                 LastName = userUpdateInput.LastName,
                 Email = userUpdateInput.Email,
                 Description = userUpdateInput.Description,
-                Avatar = GetAvatar(_documentSession.Load<User>(_userContext.GetAuthenticatedUserId()))
-            };
-        }
-
-        private Avatar GetAvatar(User user)
-        {
-            return new Avatar()
-            {
-                AltTag = string.Format("{0} {1}", user.FirstName,user.LastName),
-                UrlToImage = user.Avatar != null ?
-                    _mediaFilePathService.MakeMediaFileUri(user.Avatar.Id, "image", "avatar", user.Avatar.Metadata["metatype"]) :
-                    AvatarUris.DefaultUser
+                Avatar = _avatarFactory.GetAvatar(_documentSession.Load<User>(_userContext.GetAuthenticatedUserId()))
             };
         }
 

@@ -1,4 +1,4 @@
-﻿@*@model Bowerbird.Web.ViewModels.Shared.ProjectList*@
+﻿@*@model Bowerbird.Web.ViewModels.ProjectList*@
 
 <section id="stream-list" class="triple-2">
     <div id="stream-items">

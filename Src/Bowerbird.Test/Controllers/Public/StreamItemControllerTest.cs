@@ -15,12 +15,11 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using Bowerbird.Core.Config;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Test.Utils;
-using Bowerbird.Web.Config;
-using Bowerbird.Web.Controllers.Members;
-using Bowerbird.Web.Controllers.Public;
-using Bowerbird.Web.ViewModels.Shared;
+using Bowerbird.Web.Controllers;
+using Bowerbird.Web.ViewModels;
 using Moq;
 using NUnit.Framework;
 using Raven.Client;

@@ -1,8 +1,20 @@
-﻿using System;
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+
+ Developers: 
+ * Frank Radocaj : frank@radocaj.com
+ * Hamish Crittenden : hamish.crittenden@gmail.com
+ 
+ Project Manager: 
+ * Ken Walker : kwalker@museum.vic.gov.au
+ 
+ Funded by:
+ * Atlas of Living Australia
+ 
+*/
+				
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Bowerbird.Web.ViewModels.Shared;
+using Bowerbird.Web.ViewModels;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Services;
 using Bowerbird.Core.DesignByContract;
@@ -11,7 +23,6 @@ namespace Bowerbird.Web.Factories
 {
     public class ObservationViewFactory : IObservationViewFactory
     {
-
         #region Members
 
         private readonly IMediaFilePathService _mediaFilePathService;
@@ -69,6 +80,5 @@ namespace Bowerbird.Web.Factories
         }
 
         #endregion      
-      
     }
 }

@@ -12,12 +12,7 @@
  
 */
 
-using System.Web.Mvc;
 using Bowerbird.Core.Commands;
-using Bowerbird.Test.Utils;
-using Bowerbird.Web.Config;
-using Bowerbird.Web.Controllers.Members;
-using Bowerbird.Web.ViewModels.Members;
 using Moq;
 using NUnit.Framework;
 

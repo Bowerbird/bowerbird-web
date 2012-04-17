@@ -19,11 +19,9 @@ using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.EventHandlers;
 using Bowerbird.Web.Notifications;
 using Raven.Client;
-using Raven.Client.Linq;
 using System.Linq;
 using System;
-using Bowerbird.Web.ViewModels.Shared;
-using Bowerbird.Web.Queries;
+using Bowerbird.Web.ViewModels;
 using Bowerbird.Web.Factories;
 using Bowerbird.Core.Services;
 
