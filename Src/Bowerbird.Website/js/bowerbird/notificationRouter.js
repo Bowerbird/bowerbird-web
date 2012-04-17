@@ -4,8 +4,7 @@ window.Bowerbird.NotificationRouter = Backbone.Model.extend({
 
         log('ActivityRouter.Initialize');
         _.bindAll(this,
-        'initHubConnection'
-        );
+        'initHubConnection');
 
         this.notificationHub = $.connection.notificationHub;
         this.notificationHub.userStatusUpdate = this.userStatusUpdate;
@@ -13,7 +12,7 @@ window.Bowerbird.NotificationRouter = Backbone.Model.extend({
         this.notificationHub.newNotification = this.newNotification;
         this.notificationHub.newStreamItem = this.newStreamItem;
 
-        this.initHubConnection(options.UserId);
+        this.initHubConnection(options.userId);
         log('ActivityRouter.Initialize');
     },
 

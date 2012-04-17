@@ -29,7 +29,7 @@ window.Bowerbird.App = Backbone.Model.extend({
         this.appView = new Bowerbird.Views.AppView({ app: this }).render();
 
         // Init sub components
-        this.notificationRouter = new Bowerbird.NotificationRouter({ UserId: authenticatedUser.Id });
+        this.notificationRouter = new Bowerbird.NotificationRouter({ userId: authenticatedUser.Id });
         this.chatRouter = new Bowerbird.ChatRouter();
         this.appRouter = new Bowerbird.AppRouter();
 

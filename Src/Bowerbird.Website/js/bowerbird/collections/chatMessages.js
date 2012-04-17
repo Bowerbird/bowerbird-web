@@ -1,6 +1,5 @@
 ﻿
 window.Bowerbird.Collections.ChatMessages = Backbone.Collection.extend({
-    
     model: Bowerbird.Models.ChatMessage,
 
     url: '/chatMessages/list',
@@ -8,5 +7,4 @@ window.Bowerbird.Collections.ChatMessages = Backbone.Collection.extend({
     initialize: function () {
         _.extend(this, Backbone.Events);
     }
-    
 });

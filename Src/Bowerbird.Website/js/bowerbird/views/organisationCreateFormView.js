@@ -21,14 +21,12 @@ window.Bowerbird.Views.OrganisationCreateFormView = Backbone.View.extend({
         '_contentChanged',
         '_save'
         );
-        this.appView = options.AppView;
-        this.Organisation = options.Organisation;
-        this.editAvatarView = new Bowerbird.Views.EditAvatarView({ el: $('#media-resources-fieldset'), Group: this.Organisation });
+        this.organisation = options.organisation;
+        this.editAvatarView = new Bowerbird.Views.EditAvatarView({ el: $('#media-resources-fieldset'), group: this.organisation });
     },
 
     render: function () {
-        var organisationTemplate = ich.organisationcreate({ Organisation: app.get('newOrganisation').toJSON() });
-        this.$el.append(organisationTemplate);
+        this.$el.append(ich.organisationcreate({ Organisation: app.get('newOrganisation').toJSON() }));
         window.scrollTo(0, 0);
         return this;
     },
@@ -48,11 +46,11 @@ window.Bowerbird.Views.OrganisationCreateFormView = Backbone.View.extend({
         var target = $(e.currentTarget);
         var data = {};
         data[target.attr('name')] = target.attr('value');
-        this.Organisation.set(data);
+        this.organisation.set(data);
     },
 
     _save: function () {
-        this.Organisation.save();
+        this.organisation.save();
         app.appRouter.navigate(app.stream.get('Uri'), { trigger: false });
         this.trigger('formClosed', this);
     }

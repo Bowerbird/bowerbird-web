@@ -4,27 +4,30 @@ window.Bowerbird.Views.ExploreItemView = Backbone.View.extend({
 
     initialize: function (options) {
         _.extend(this, Backbone.Events);
-        this.ExploreItem = options.Group;
+        this.exploreItem = options.group;
     },
 
     render: function () {
-        var exploreItemJSON = this.ExploreItem.toJSON();
-        switch (this.ExploreItem.get('Type')) {
+        var json = this.exploreItem.toJSON();
+        var html = '';
+        var className = '';
+        switch (this.exploreItem.get('Type')) {
             case 'organisation':
-                var exploreItemHtml = ich.organisationItemTemplate(exploreItemJSON);
-                this.$el.append(exploreItemHtml).addClass('organisation-explore-item');
+                html = ich.organisationItemTemplate(json);
+                className = 'organisation-explore-item';
                 break;
             case 'team':
-                var exploreItemHtml = ich.teamItemTemplate(exploreItemJSON);
-                this.$el.append(exploreItemHtml).addClass('team-explore-item');
+                html = ich.teamItemTemplate(json);
+                className = 'team-explore-item';
                 break;
             case 'project':
-                var exploreItemHtml = ich.projectItemTemplate(exploreItemJSON);
-                this.$el.append(exploreItemHtml).addClass('project-explore-item');
+                html = ich.projectItemTemplate(json);
+                className = 'project-explore-item';
                 break;
             default:
                 break;
         }
+        this.$el.append(html).addClass(className);
         return this;
     }
 });

@@ -91,7 +91,7 @@ window.Bowerbird.ChatRouter = Backbone.Model.extend({
                 }
                 chatUser = new Bowerbird.Models.ChatUser({ Chat: chat, User: user, Status: 0 });
             }
-            chat.ChatUsers.add(chatUser);
+            chat.chatUsers.add(chatUser);
         });
     },
 
@@ -104,14 +104,14 @@ window.Bowerbird.ChatRouter = Backbone.Model.extend({
     chatMessageReceived: function (data) {
         log('message for chatId: ' + data.ChatId + ' with content ' + data.Message);
         var chat = app.chats.get(data.ChatId);
-        chat.ChatMessages.add(new Bowerbird.Models.ChatMessage(data));
+        chat.chatMessages.add(new Bowerbird.Models.ChatMessage(data));
     },
 
     userJoinedChat: function (data) {
         log('chatRouter.userJoinedChat');
         var chat = app.chats.get(data.Id);
 
-        var chatUsers = chat.ChatUsers.pluck('User');
+        var chatUsers = chat.chatUsers.pluck('User');
 
         var match = _.any(chatUsers, function (user) {
             return user.Id == data.User.Id;
@@ -124,14 +124,14 @@ window.Bowerbird.ChatRouter = Backbone.Model.extend({
             user = new Bowerbird.Models.User(data.User);
         }
         chatUser = new Bowerbird.Models.ChatUser({ Chat: chat, User: user, Status: data.Status });
-        chat.ChatUsers.add(chatUser);
+        chat.chatUsers.add(chatUser);
     },
 
     userExitedChat: function (data) {
         log('chatRouter.userExitedChat');
-        var chat = app.Chats.get(data.Id);
+        var chat = app.chats.get(data.Id);
 
-        var chatUsers = chat.ChatUsers.pluck('user');
+        var chatUsers = chat.chatUsers.pluck('user');
         var match = _.any(chatUsers, function (user) {
             return user.Id == data.User.Id;
         });
@@ -139,7 +139,7 @@ window.Bowerbird.ChatRouter = Backbone.Model.extend({
         if (!(match)) return;
 
         var chatUser = null;
-        chat.ChatUsers.each(function(item){
+        chat.chatUsers.each(function(item){
             if (item.get('User').Id == data.User.Id) {
                 chatUser = item;
             }
@@ -148,7 +148,7 @@ window.Bowerbird.ChatRouter = Backbone.Model.extend({
         if (_.isNull(chatUser) || _.isUndefined(chatUser)) {
             return;
         } else {
-            chat.ChatUsers.remove(chatUser);
+            chat.chatUsers.remove(chatUser);
         }
     },
 
@@ -158,7 +158,7 @@ window.Bowerbird.ChatRouter = Backbone.Model.extend({
         var chatId = data.ChatId;
         log('>> ' + data.FromUser.Name + ' says "' + data.Message + '" @' + data.Timestamp);
         var chat = new Bowerbird.Models.UserChat({ Id: chatId, User: fromUser, Message: data.message, Timestamp: data.timestamp });
-        app.Chats.add(chat);
+        app.chats.add(chat);
         // add chat message at this point>?
         this.joinChat(chat);
     }

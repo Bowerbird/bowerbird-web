@@ -14,15 +14,15 @@ window.Bowerbird.Views.ChatView = Backbone.View.extend({
         'closeWindow',
         'addChatMessage',
         'changeUsers');
-        this.Chat = options.Chat;
-        this.Chat.ChatUsers.on('add', this.changeUsers, this);
-        this.Chat.ChatUsers.on('remove', this.changeUsers, this);
-        this.Chat.ChatUsers.on('reset', this.changeUsers, this);
-        this.Chat.ChatMessages.on('add', this.addChatMessage, this);
+        this.chat = options.chat;
+        this.chat.chatUsers.on('add', this.changeUsers, this);
+        this.chat.chatUsers.on('remove', this.changeUsers, this);
+        this.chat.chatUsers.on('reset', this.changeUsers, this);
+        this.chat.chatMessages.on('add', this.addChatMessage, this);
     },
 
     render: function () {
-        var chatTemplate = ich.chatwindow({ Title: this.Chat.get('Title'), Messages: this.Chat.ChatMessages.toJSON(), ChatUsers: this.Chat.ChatUsers.toJSON() });
+        var chatTemplate = ich.chatwindow({ Title: this.chat.get('Title'), Messages: this.chat.chatMessages.toJSON(), ChatUsers: this.chat.chatUsers.toJSON() });
         this.$el.append(chatTemplate);
         return this;
     },
@@ -45,7 +45,7 @@ window.Bowerbird.Views.ChatView = Backbone.View.extend({
     },
 
     changeUsers: function () {
-        var users = this.Chat.ChatUsers.toJsonViewModel();
+        var users = this.chat.chatUsers.toJsonViewModel();
         var chatUsers = ich.chatusers({ ChatUsers: users });
         this.$el.find('.chat-current-users').empty();
         this.$el.find('.chat-current-users').append(chatUsers);

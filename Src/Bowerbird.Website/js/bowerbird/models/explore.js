@@ -9,7 +9,7 @@ window.Bowerbird.Models.Explore = Backbone.Model.extend({
     initialize: function (options) {
         _.extend(this, Backbone.Events);
         _.bindAll(this);
-        this.Groups = new Bowerbird.Collections.Groups();
+        this.groups = new Bowerbird.Collections.Groups();
     },
 
     isSet: function () {
@@ -22,19 +22,19 @@ window.Bowerbird.Models.Explore = Backbone.Model.extend({
         this.set('Uri', uri);
         this.trigger('newExplore', this);
         this.trigger('fetchingItemsStarted', this);
-        this.Groups.fetchFirstPage(this);
+        this.groups.fetchFirstPage(this);
     },
 
     setNewFilter: function (filter) {
         this.set('Filter', filter);
         this.trigger('newExploreFilter', this);
         this.trigger('fetchingItemsStarted', this);
-        this.Groups.fetchFirstPage(this);
+        this.groups.fetchFirstPage(this);
     },
 
     setNextPage: function () {
         this.trigger('newExplorePage', this);
         this.trigger('fetchingItemsStarted', this);
-        this.Groups.fetchNextPage(this);
+        this.groups.fetchNextPage(this);
     }
 });

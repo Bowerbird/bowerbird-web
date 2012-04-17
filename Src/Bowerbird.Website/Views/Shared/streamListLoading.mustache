@@ -1,10 +1,9 @@
 ﻿<div id="stream-status">
   <p>
-    {{#text}}
-      {{text}}
-    {{/text}}
-    {{^text}}
-      <img src="/img/loader.png" alt="loading" />
-    {{/text}}
+    {{#ShowLoader}}
+    <img src="/img/loader.png" alt="loading" />
+    {{/ShowLoader}}
+
+    {{Text}}
   </p>
 </div>

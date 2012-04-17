@@ -16,7 +16,7 @@ window.Bowerbird.Views.EditAvatarView = Backbone.View.extend({
         '_onUploadAdd',
         'removeMediaResource'
         );
-        this.Group = options.Group;
+        this.group = options.group;
         this.currentUploadKey = 0;
         this.avatarItemView = null;
     },
@@ -73,10 +73,10 @@ window.Bowerbird.Views.EditAvatarView = Backbone.View.extend({
 
     _onUploadDone: function (e, data) {
         var self = this;
-        this.Group.set('Avatar', data.result);
+        this.group.set('Avatar', data.result);
         this.currentUploadKey++;
         var mediaResource = new Bowerbird.Models.MediaResource({ Key: self.CurrentUploadKey });
-        this.avatarItemView = new Bowerbird.Views.AvatarItemView({ MediaResource: mediaResource });
+        this.avatarItemView = new Bowerbird.Views.AvatarItemView({ mediaResource: mediaResource });
         $('#avatar-add-pane').hide();
         $('#avatar-viewer').append(this.avatarItemView.render().el);
         loadImage(
@@ -94,7 +94,7 @@ window.Bowerbird.Views.EditAvatarView = Backbone.View.extend({
     },
 
     removeMediaResource: function () {
-        this.Group.set('Avatar', null);
+        this.group.set('Avatar', null);
         this.avatarItemView = null;
         var avatarChooseFile = ich.avatarchoosefile().appendTo(this.$el.find('#avatar-add-pane'));
         this._initMediaUploader();

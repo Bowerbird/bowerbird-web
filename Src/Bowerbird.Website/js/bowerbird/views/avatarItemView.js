@@ -11,12 +11,12 @@ window.Bowerbird.Views.AvatarItemView = Backbone.View.extend({
     initialize: function (options) {
         _.extend(this, Backbone.Events);
         _.bindAll(this, 'showTempMedia', 'showUploadedMedia');
-        this.MediaResource = options.MediaResource;
-        this.MediaResource.on('change:mediumImageUri', this.ShowUploadedMedia);
+        this.mediaResource = options.MediaResource;
+        this.mediaResource.on('change:mediumImageUri', this.showUploadedMedia);
     },
 
     render: function () {
-        var avatarUploaded = ich.avataruploaded(this.MediaResource.toJSON()).appendTo(this.$el);
+        this.$el.append(ich.avataruploaded(this.MediaResource.toJSON()));
         return this;
     },
 

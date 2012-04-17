@@ -20,16 +20,14 @@ window.Bowerbird.Views.TeamCreateFormView = Backbone.View.extend({
         'start',
         '_cancel',
         '_contentChanged',
-        '_save'
-        );
-        this.appView = options.AppView;
-        this.Team = options.Team;
-        this.Organisation = options.Organisation;
+        '_save');
+        this.team = options.Team;
+        this.organisation = options.organisation;
         this.editAvatarView = new Bowerbird.Views.EditAvatarView({ el: $('#media-resources-fieldset'), Group: this.Team });
     },
 
     render: function () {
-        var teamTemplate = ich.teamcreate({ Team: app.get('newTeam').toJSON() }).appendTo(this.$el);
+        this.$el.append(ich.teamcreate({ Team: app.get('newTeam').toJSON() }));
         return this;
     },
 
@@ -46,9 +44,9 @@ window.Bowerbird.Views.TeamCreateFormView = Backbone.View.extend({
                     noneSelected: 'Select Organisation',
                     renderOption: function (id, option) {
                         var html = '<label><input style="display:none;" type="checkbox" name="' + id + '[]" value="' + option.value + '"';
-//                        if (option.selected) {
-//                            html += ' checked="checked"';
-//                        }
+                        //                        if (option.selected) {
+                        //                            html += ' checked="checked"';
+                        //                        }
                         var organisation = organisations.get(option.value);
                         html += ' /><img src="' + organisation.get('Avatar').UrlToImage + '" />' + organisation.get('Name') + '</label>';
                         return html;
@@ -88,11 +86,11 @@ window.Bowerbird.Views.TeamCreateFormView = Backbone.View.extend({
         var target = $(e.currentTarget);
         var data = {};
         data[target.attr('name')] = target.attr('value');
-        this.Team.set(data);
+        this.team.set(data);
     },
 
     _save: function () {
-        this.Team.save();
+        this.team.save();
         app.appRouter.navigate(app.stream.get('Uri'), { trigger: false });
         this.trigger('formClosed', this);
     }

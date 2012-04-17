@@ -4,7 +4,7 @@ window.Bowerbird.Views.StreamListView = Backbone.View.extend({
 
     className: 'triple-2',
 
-    Id: 'stream-list',
+    id: 'stream-list',
 
     events: {
         "click #stream-load-more-button": "loadNextStreamItems"
@@ -14,7 +14,7 @@ window.Bowerbird.Views.StreamListView = Backbone.View.extend({
         _.extend(this, Backbone.Events);
         _.bindAll(this, 'addStreamItem');
         this.streamListItemViews = [];
-        app.stream.StreamItems.on('add', this.addStreamItem, this);
+        app.stream.streamItems.on('add', this.addStreamItem, this);
         app.stream.on('newStream', this.showNewStream, this);
         //app.stream.on('newStreamFilter', this.showNewStreamFilter, this);
         //app.stream.on('newStreamPage', this.showNewStreamPage, this);
@@ -28,7 +28,7 @@ window.Bowerbird.Views.StreamListView = Backbone.View.extend({
     },
 
     addStreamItem: function (streamItem, collection, options) {
-        var streamListItemView = new Bowerbird.Views.StreamListItemView({ StreamItem: streamItem });
+        var streamListItemView = new Bowerbird.Views.StreamListItemView({ streamItem: streamItem });
         this.streamListItemViews.push(streamListItemView);
         this.toggleNoStreamItemsStatus(collection);
         if (options.Index === 0) {
@@ -51,20 +51,20 @@ window.Bowerbird.Views.StreamListView = Backbone.View.extend({
 
     onStreamLoadingStart: function (stream) {
         $('#stream-load-more').remove();
-        var loadMoreHtml = ich.streamListLoading({ Text: 'Loading', ShowLoader: true }).appendTo($('#stream-items'));
+        $('#stream-items').append(ich.streamListLoading({ Text: 'Loading', ShowLoader: true }));
     },
 
     onsStreamLoadingComplete: function (stream, collection) {
         this.toggleNoStreamItemsStatus(collection);
-        if (collection.pageInfo().Next) {
-            var loadMoreHtml = ich.streamListLoading().appendTo($('#stream-list > div'));
+        if (collection.pageInfo().next) {
+            $('#stream-list > div').append(ich.streamListLoading());
         }
     },
 
     toggleNoStreamItemsStatus: function (collection) {
         $('#stream-status').remove();
         if (collection.length === 0) {
-            var loadMoreHtml = ich.streamListLoading({ Text: 'No activity yet! Start now by adding an observation.' }).appendTo($('#stream-list > div'));
+            $('#stream-list > div').append(ich.streamListLoading({ Text: 'No activity yet! Start now by adding an observation.' }));
         }
     },
 

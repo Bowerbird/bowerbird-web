@@ -132,7 +132,6 @@
     <Compile Include="App_Start\NinjectBootstrapper.cs" />
     <Compile Include="Config\AuthenticatedConstraint.cs" />
     <Compile Include="Config\BowerbirdHttpApplication.cs" />
-    <Compile Include="Config\ApiAreaRegistration.cs" />
     <Compile Include="Config\NinjectBindingModule.cs" />
     <Compile Include="Config\SignalRJsonConvertAdapter.cs" />
     <Compile Include="Config\MembersAreaRegistration.cs" />

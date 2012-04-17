@@ -10,17 +10,11 @@ window.Bowerbird.Views.ExploreView = Backbone.View.extend({
         "click #explore-load-more-button": "loadNextExploreItems"
     },
 
-    template: $.template('exploreTemplate', $('#explore-template')),
-
-    loadingTemplate: $.template('exploreLoadingTemplate', $('#explore-loading-template')),
-
-    loadMoreTemplate: $.template('exploreLoadMoreTemplate', $('#explore-load-more-template')),
-
     initialize: function (options) {
         _.extend(this, Backbone.Events);
         _.bindAll(this, 'addExploreItem');
         this.exploreItemViews = [];
-        app.explore.Groups.on('add', this.addGroup, this);
+        app.explore.groups.on('add', this.addGroup, this);
         app.explore.on('newExplore', this.showNewExplore, this);
         app.explore.on('fetchingItemsStarted', this.onExploreLoadingStart, this);
         app.explore.on('fetchingItemsComplete', this.onsExploreLoadingComplete, this);

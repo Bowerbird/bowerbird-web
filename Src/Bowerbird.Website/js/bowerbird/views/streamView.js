@@ -1,7 +1,6 @@
 ﻿
 window.Bowerbird.Views.StreamView = Backbone.View.extend({
-    
-    Id: 'stream',
+    id: 'stream',
 
     initialize: function (options) {
         _.extend(this, Backbone.Events);

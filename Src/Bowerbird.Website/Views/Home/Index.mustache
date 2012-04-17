@@ -67,7 +67,7 @@
 <script type="text/javascript" src="/js/bowerbird/app.js"></script>
 <script type="text/javascript">
     $(function () {
-        new Bowerbird.App().start({{#UserContext}}{{{HomeIndex.UserProfileJson}}}{{/UserContext}}{{^UserContext}}null{{/UserContext}}, {{HomeIndex.TeamsJson}}, {{HomeIndex.ProjectsJson}}, {{HomeIndex.OnlineUsersJson}});
+        new Bowerbird.App().start({{#UserContext}}{{{HomeIndex.UserProfileJson}}}{{/UserContext}}{{^UserContext}}null{{/UserContext}}, {{{HomeIndex.TeamsJson}}}, {{{HomeIndex.ProjectsJson}}}, {{{HomeIndex.OnlineUsersJson}}});
     });
 </script>
 

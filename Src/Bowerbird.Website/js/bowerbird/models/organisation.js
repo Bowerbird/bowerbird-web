@@ -1,12 +1,10 @@
 ﻿
 window.Bowerbird.Models.Organisation = Bowerbird.Models.Group.extend({
-
     url: '/organisation/',
 
     initialize: function (options) {
         _.extend(this, Backbone.Events);
         this.constructor.__super__.initialize.apply(this, options);
-        this.type = 'organisation';
     },
 
     toJSON: function () {
@@ -15,7 +13,7 @@ window.Bowerbird.Models.Organisation = Bowerbird.Models.Group.extend({
             Description: this.get('Description'),
             Website: this.get('Website'),
             Avatar: this.get('Avatar').Id,
-            Type: this.get('Type')
+            Type: 'organisation'
         };
     },
 

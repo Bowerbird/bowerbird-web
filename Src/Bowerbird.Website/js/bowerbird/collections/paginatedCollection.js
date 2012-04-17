@@ -3,16 +3,16 @@ window.Bowerbird.Collections.PaginatedCollection = Backbone.Collection.extend({
     initialize: function () {
         _.extend(this, Backbone.Events);
         typeof (options) != 'undefined' || (options = {});
-        this.Page = 1;
-        typeof (this.PageSize) != 'undefined' || (this.PageSize = 10);
+        this.page = 1;
+        typeof (this.pageSize) != 'undefined' || (this.pageSize = 10);
     },
 
     fetch: function (options) {
         typeof (options) != 'undefined' || (options = {});
         this.trigger("fetching");
         var self = this;
-        var success = options.Success;
-        options.Success = function (resp) {
+        var success = options.success;
+        options.success = function (resp) {
             self.trigger("fetched");
             if (success) { success(self, resp); }
         };
@@ -20,63 +20,63 @@ window.Bowerbird.Collections.PaginatedCollection = Backbone.Collection.extend({
     },
 
     parse: function (resp) {
-        this.Page = resp.Page;
-        this.PageSize = resp.PageSize;
-        this.Total = resp.TotalResultCount;
+        this.page = resp.Page;
+        this.pageSize = resp.PageSize;
+        this.total = resp.TotalResultCount;
         return resp.PagedListItems;
     },
 
     url: function () {
-        return this.baseUrl + '?' + $.param({ Page: this.Page, PageSize: this.PageSize });
+        return this.baseUrl + '?' + $.param({ page: this.page, pageSize: this.pageSize });
     },
 
     pageInfo: function () {
         var info = {
-            Total: this.Total,
-            Page: this.Page,
-            PageSize: this.PageSize,
-            Pages: Math.ceil(this.Total / this.PageSize),
-            Prev: false,
-            Pext: false
+            total: this.total,
+            page: this.page,
+            pageSize: this.pageSize,
+            pages: Math.ceil(this.total / this.pageSize),
+            prev: false,
+            next: false
         };
 
-        var max = Math.min(this.Total, this.Page * this.PageSize);
+        var max = Math.min(this.total, this.page * this.pageSize);
 
-        if (this.Total == this.Pages * this.PageSize) {
-            max = this.Total;
+        if (this.total == this.pages * this.pageSize) {
+            max = this.total;
         }
 
-        info.range = [(this.Page - 1) * this.PageSize + 1, max];
+        info.range = [(this.page - 1) * this.pageSize + 1, max];
 
-        if (this.Page > 1) {
-            info.Prev = this.Page - 1;
+        if (this.page > 1) {
+            info.prev = this.page - 1;
         }
 
-        if (this.Page < info.Pages) {
-            info.Next = this.Page + 1;
+        if (this.page < info.pages) {
+            info.next = this.page + 1;
         }
 
         return info;
     },
 
     _firstPage: function (options) {
-        this.Page = 1;
+        this.page = 1;
         return this.fetch(options);
     },
 
     _nextPage: function (options) {
-        if (!this.pageInfo().Next) {
+        if (!this.pageInfo().next) {
             return false;
         }
-        this.Page = this.Page + 1;
+        this.page = this.page + 1;
         return this.fetch(options);
     },
 
     _previousPage: function () {
-        if (!this.pageInfo().Prev) {
+        if (!this.pageInfo().prev) {
             return false;
         }
-        this.Page = this.Page - 1;
+        this.page = this.page - 1;
         return this.fetch(options);
     }
 });

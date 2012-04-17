@@ -21,12 +21,10 @@ window.Bowerbird.Views.ProjectCreateFormView = Backbone.View.extend({
         '_cancel',
         '_contentChanged',
         '_save',
-        '_teamChanged'
-        );
-        this.appView = options.AppView;
-        this.Project = options.Project;
-        this.Team = options.Team;
-        this.editAvatarView = new Bowerbird.Views.EditAvatarView({ el: $('#media-resources-fieldset'), Group: this.Project });
+        '_teamChanged');
+        this.project = options.project;
+        this.team = options.team;
+        this.editAvatarView = new Bowerbird.Views.EditAvatarView({ el: $('#media-resources-fieldset'), group: this.Project });
     },
 
     render: function () {
@@ -73,9 +71,9 @@ window.Bowerbird.Views.ProjectCreateFormView = Backbone.View.extend({
     _teamChanged: function (e) {
         var $checkbox = $(e.currentTarget);
         if ($checkbox.attr('checked') === 'checked') {
-            this.Project.set('Team', $checkbox.attr('value'));
+            this.project.set('Team', $checkbox.attr('value'));
         } else {
-            this.Project.set('Team', '');
+            this.project.set('Team', '');
         }
     },
 
@@ -89,11 +87,11 @@ window.Bowerbird.Views.ProjectCreateFormView = Backbone.View.extend({
         var target = $(e.currentTarget);
         var data = {};
         data[target.attr('name')] = target.attr('value');
-        this.Project.set(data);
+        this.project.set(data);
     },
 
     _save: function () {
-        this.Project.save();
+        this.project.save();
         app.appRouter.navigate(app.stream.get('Uri'), { trigger: false });
         this.trigger('formClosed', this);
     }

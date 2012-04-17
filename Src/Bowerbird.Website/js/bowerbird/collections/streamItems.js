@@ -1,6 +1,5 @@
 ﻿
 window.Bowerbird.Collections.StreamItems = Bowerbird.Collections.PaginatedCollection.extend({
-    
     model: Bowerbird.Models.StreamItem,
 
     baseUrl: '/streamitem/list',
@@ -10,8 +9,7 @@ window.Bowerbird.Collections.StreamItems = Bowerbird.Collections.PaginatedCollec
         _.bindAll(this,
         '_onSuccess',
         '_onSuccessWithAddFix',
-        '_getFetchOptions'
-        );
+        '_getFetchOptions');
         Bowerbird.Collections.PaginatedCollection.prototype.initialize.apply(this, arguments);
     },
 
@@ -40,30 +38,30 @@ window.Bowerbird.Collections.StreamItems = Bowerbird.Collections.PaginatedCollec
 
     _getFetchOptions: function (stream, add) {
         var options = {
-            Data: {},
-            Add: add,
-            Success: null
+            data: {},
+            add: add,
+            success: null
         };
         if (add) {
-            options.Success = this._onSuccess;
+            options.success = this._onSuccess;
         } else {
-            options.Success = this._onSuccessWithAddFix;
+            options.success = this._onSuccessWithAddFix;
         }
         if (stream.get('Context') != null) {
             if (stream.get('Context') instanceof Bowerbird.Models.Team || stream.get('Context') instanceof Bowerbird.Models.Project) {
-                options.Data.GroupId = stream.get('Context').get('Id');
+                options.data.groupId = stream.get('Context').get('Id');
             } else if (stream.get('Context') instanceof Bowerbird.Models.User) {
-                options.Data.UserId = stream.get('Context').get('Id');
+                options.data.userId = stream.get('Context').get('Id');
             }
         }
         if (stream.get('Filter') != null) {
-            options.Data.Filter = stream.get('Filter');
+            options.data.filter = stream.get('Filter');
         }
         return options;
     },
 
     _onSuccess: function (collection, response) {
-        app.stream.trigger('fetchingItemsComplete', app.Stream, response);
+        app.stream.trigger('fetchingItemsComplete', app.stream, response);
     },
 
     _onSuccessWithAddFix: function (collection, response) {

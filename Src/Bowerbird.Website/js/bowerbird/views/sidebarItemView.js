@@ -13,19 +13,17 @@ window.Bowerbird.Views.SidebarItemView = Backbone.View.extend({
     initialize: function (options) {
         _.extend(this, Backbone.Events);
         _.bindAll(this, 'startChat');
-        this.SidebarItemType = options.Type;
-        this.SidebarItem = options.SidebarItem;
-        this.StreamItemNotificationCount = 0;
+        this.sidebarItemType = options.type;
+        this.sidebarItem = options.sidebarItem;
+        this.streamItemNotificationCount = 0;
         app.notifications.on('streamItemNotificationAdded', this.streamItemNotificationAdded, this);
     },
 
     render: function () {
-        var jsonModel = this.SidebarItem.toJSONViewModel();
-        jsonModel['Type'] = this.SidebarItemType;
-        jsonModel['AddObservation'] = this.SidebarItemType === 'Project';
-        var sidebarItemHtml = ich.sidebarItem(jsonModel);
-        this.$el.append(sidebarItemHtml);
-
+        var jsonModel = this.sidebarItem.toJSONViewModel();
+        jsonModel['Type'] = this.sidebarItemType;
+        jsonModel['AddObservation'] = this.sidebarItemType === 'Project';
+        this.$el.append(ich.sidebarItem(jsonModel));
         return this;
     },
 
@@ -41,9 +39,9 @@ window.Bowerbird.Views.SidebarItemView = Backbone.View.extend({
     },
 
     startChat: function (e) {
-        var chat = app.chats.get(this.SidebarItem.Id);
+        var chat = app.chats.get(this.sidebarItem.Id);
         if (chat == null) {
-            chat = new Bowerbird.Models.GroupChat({ Id: this.SidebarItem.Id, Group: this.SidebarItem });
+            chat = new Bowerbird.Models.GroupChat({ Id: this.sidebarItem.Id, Group: this.sidebarItem });
             app.chats.add(chat);
         }
         app.chatRouter.joinChat(chat);

@@ -32,10 +32,9 @@ window.Bowerbird.Views.ObservationCreateFormView = Backbone.View.extend({
         '_cancel',
         '_save'
         );
-        this.appView = options.AppView;
-        this.Observation = options.Observation;
-        this.editMediaView = new Bowerbird.Views.EditMediaView({ el: $('#media-resources-fieldset'), Observation: this.Observation });
-        this.editMapView = new Bowerbird.Views.EditMapView({ Observation: this.Observation });
+        this.observation = options.observation;
+        this.editMediaView = new Bowerbird.Views.EditMediaView({ el: $('#media-resources-fieldset'), observation: this.observation });
+        this.editMapView = new Bowerbird.Views.EditMapView({ observation: this.observation });
         this.observationCreateTemplate = null;
     },
 
@@ -63,7 +62,7 @@ window.Bowerbird.Views.ObservationCreateFormView = Backbone.View.extend({
             }
         });
 
-        // on the fly template... change to moustache.
+        // on the fly template... change to mustache.
         $.tmpl('<option value="${id}">${name}</option>', app.projects.toJSONViewModel()).appendTo('#projects');
 
         this.projectListSelectView = $("#projects").multiSelect({
@@ -98,7 +97,7 @@ window.Bowerbird.Views.ObservationCreateFormView = Backbone.View.extend({
         var target = $(e.currentTarget);
         var data = {};
         data[target.attr('name')] = target.attr('value');
-        this.Observation.set(data);
+        this.observation.set(data);
 
         if (target.attr('name') === 'address') {
             this._latLongChanged(e);
@@ -106,39 +105,39 @@ window.Bowerbird.Views.ObservationCreateFormView = Backbone.View.extend({
     },
 
     _latLongChanged: function (e) {
-        var oldposition = { latitude: this.Observation.get('Latitude'), longitude: this.Observation.get('Longitude') };
+        var oldPosition = { latitude: this.observation.get('Latitude'), longitude: this.observation.get('Longitude') };
         var newPosition = { latitude: $('#latitude').val(), longitude: $('#longitude').val() };
 
-        this.Observation.set('Latitude', newPosition.Latitude);
-        this.Observation.set('Longitude', newPosition.Longitude);
+        this.observation.set('Latitude', newPosition.Latitude);
+        this.observation.set('Longitude', newPosition.Longitude);
 
         // Only update pin if the location is different to avoid infinite loop
-        if (newPosition.Latitude != null && newPosition.Longitude != null && (oldposition.Latitude !== newPosition.Latitude || oldposition.Longitude !== newPosition.Longitude)) {
-            this.EditMapView.changeMarkerPosition(this.Observation.get('Latitude'), this.Observation.get('Longitude'));
+        if (newPosition.Latitude != null && newPosition.Longitude != null && (oldPosition.Latitude !== newPosition.Latitude || oldPosition.Longitude !== newPosition.Longitude)) {
+            this.editMapView.changeMarkerPosition(this.observation.get('Latitude'), this.observation.get('Longitude'));
         }
     },
 
     _anonymiseLocationChanged: function (e) {
         var $checkbox = $(e.currentTarget);
-        this.Observation.set({ AnonymiseLocation: $checkbox.attr('checked') == 'checked' ? true : false });
+        this.observation.set({ AnonymiseLocation: $checkbox.attr('checked') == 'checked' ? true : false });
     },
 
     _projectsChanged: function (e) {
         var $checkbox = $(e.currentTarget);
         if ($checkbox.attr('checked') === 'checked') {
             var proj = app.projects.get($checkbox.attr('value'));
-            this.Observation.Projects.add(proj);
+            this.observation.projects.add(proj);
         } else {
-            this.Observation.Projects.remove($checkbox.attr('value'));
+            this.observation.projects.remove($checkbox.attr('value'));
         }
     },
 
     _categoryChanged: function (e) {
         var $checkbox = $(e.currentTarget);
         if ($checkbox.attr('checked') === 'checked') {
-            this.Observation.set('Category', $checkbox.attr('value'));
+            this.observation.set('Category', $checkbox.attr('value'));
         } else {
-            this.Observation.set('Category', '');
+            this.observation.set('Category', '');
         }
     },
 
@@ -149,7 +148,7 @@ window.Bowerbird.Views.ObservationCreateFormView = Backbone.View.extend({
     },
 
     _save: function () {
-        this.Observation.save();
+        this.observation.save();
         app.appRouter.navigate(app.stream.get('Uri'), { trigger: false });
         this.trigger('formClosed', this);
     }

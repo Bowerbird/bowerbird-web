@@ -1,12 +1,10 @@
 ﻿
 window.Bowerbird.Models.Project = Backbone.Model.extend({
-    
     url: '/project/',
 
     initialize: function (options) {
         _.extend(this, Backbone.Events);
         this.constructor.__super__.initialize.apply(this, [options]);
-        this.Type = 'project';
     },
 
     toJSON: function () {
@@ -16,7 +14,7 @@ window.Bowerbird.Models.Project = Backbone.Model.extend({
             Website: this.get('Website'),
             Avatar: this.get('Avatar').id,
             Team: this.get('Team'),
-            Type: this.get('Type')
+            Type: 'project'
         };
     },
 

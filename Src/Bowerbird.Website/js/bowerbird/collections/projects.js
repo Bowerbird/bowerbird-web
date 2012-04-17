@@ -1,6 +1,5 @@
 ﻿
 window.Bowerbird.Collections.Projects = Backbone.Collection.extend({
-    
     model: Bowerbird.Models.Project,
 
     url: '/projects/list',

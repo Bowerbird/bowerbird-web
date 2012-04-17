@@ -45,28 +45,28 @@ namespace Bowerbird.Web.Config
 
             routes.MapRoute(
                 "observation-list",
-                "observation/{id}",
+                "observations/{id}",
                 new { controller = "observation", action = "list", id = UrlParameter.Optional },
                 new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("GET") },
                 new[] { "Bowerbird.Web.Controllers" });
 
             routes.MapRoute(
                 "observation-update",
-                "observation/{id}",
+                "observations/{id}",
                 new { controller = "observation", action = "update" },
                 new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("PUT") },
                 new[] { "Bowerbird.Web.Controllers" });
 
             routes.MapRoute(
                 "observation-delete",
-                "observation/{id}",
+                "observations/{id}",
                 new { controller = "observation", action = "delete" },
                 new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("DELETE") },
                 new[] { "Bowerbird.Web.Controllers" });
 
             routes.MapRoute(
                 "observation-create",
-                "observation/",
+                "observations/",
                 new { controller = "observation", action = "create" },
                 new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("POST") },
                 new[] { "Bowerbird.Web.Controllers" });

@@ -72,7 +72,7 @@ window.Bowerbird.Views.AppView = Backbone.View.extend({
     showObservationCreateFormView: function () {
         if (app.has('newObservation')) {
             $(this.streamView.el).hide();
-            this.formView = new Bowerbird.Views.ObservationCreateFormView({ AppView: this, Observation: app.get('newObservation') });
+            this.formView = new Bowerbird.Views.ObservationCreateFormView({ observation: app.get('newObservation') });
             this.$el.append(this.formView.render().el);
             this.formView.on('formClosed', this.hideFormView, this);
             this.formView.start();
@@ -82,7 +82,7 @@ window.Bowerbird.Views.AppView = Backbone.View.extend({
     showProjectCreateFormView: function () {
         if (app.has('newProject')) {
             $(this.streamView.el).hide();
-            this.formView = new Bowerbird.Views.ProjectCreateFormView({ AppView: this, Project: app.get('newProject') });
+            this.formView = new Bowerbird.Views.ProjectCreateFormView({ project: app.get('newProject') });
             this.$el.append(this.FormView.render().el);
             this.formView.on('formClosed', this.hideFormView, this);
             this.formView.start();
@@ -92,7 +92,7 @@ window.Bowerbird.Views.AppView = Backbone.View.extend({
     showTeamCreateFormView: function () {
         if (app.has('newTeam')) {
             $(this.streamView.el).hide();
-            this.formView = new Bowerbird.Views.TeamCreateFormView({ AppView: this, Team: app.get('newTeam') });
+            this.formView = new Bowerbird.Views.TeamCreateFormView({ team: app.get('newTeam') });
             this.$el.append(this.formView.render().el);
             this.formView.on('formClosed', this.hideFormView, this);
             this.formView.start();
@@ -102,7 +102,7 @@ window.Bowerbird.Views.AppView = Backbone.View.extend({
     showOrganisationCreateFormView: function () {
         if (app.has('newOrganisation')) {
             $(this.streamView.el).hide();
-            this.formView = new Bowerbird.Views.OrganisationCreateFormView({ AppView: this, Organisation: app.get('newOrganisation') });
+            this.formView = new Bowerbird.Views.OrganisationCreateFormView({ organisation: app.get('newOrganisation') });
             this.$el.append(this.formView.render().el);
             this.formView.on('formClosed', this.HideFormView, this);
             this.formView.start();
@@ -111,7 +111,7 @@ window.Bowerbird.Views.AppView = Backbone.View.extend({
 
     showChatView: function (chat) {
         log('appView.showChatView');
-        var chatView = new Bowerbird.Views.ChatView({ Chat: chat, Id: 'chat-' + chat.Id });
+        var chatView = new Bowerbird.Views.ChatView({ chat: chat, id: 'chat-' + chat.Id });
         this.chatViews.push(chatView);
         $('body').append(chatView.render().el);
     },

@@ -11,12 +11,12 @@ window.Bowerbird.Views.MediaResourceItemView = Backbone.View.extend({
     initialize: function (options) {
         _.extend(this, Backbone.Events);
         _.bindAll(this, 'showTempMedia', 'showUploadedMedia');
-        this.MediaResource = options.MediaResource;
-        this.MediaResource.on('change:mediumImageUri', this.showUploadedMedia);
+        this.mediaResource = options.mediaResource;
+        this.mediaResource.on('change:MediumImageUri', this.showUploadedMedia);
     },
 
     render: function () {
-        var mediaResourceUploaded = ich.observationmediaresourceuploaded(this.MediaResource.toJSON()).appendTo(this.$el);
+        this.$el.append(ich.observationmediaresourceuploaded(this.mediaResource.toJSON()));
         window.scrollTo(0, 0);
         return this;
     },
@@ -27,15 +27,14 @@ window.Bowerbird.Views.MediaResourceItemView = Backbone.View.extend({
 
     removeMediaResource: function () {
         var addToRemoveList = false;
-        if (app.get('newObservation').MediaResources.find(function (mr) { return mr.id == this.MediaResource.Id; }) != null) {
+        if (app.get('newObservation').mediaResources.find(function (mr) { return mr.Id == this.mediaResource.Id; }) != null) {
             addToRemoveList = true;
         }
-        app.get('newObservation').addMediaResources.remove(this.MediaResource.Id);
-        app.get('newObservation').MediaResources.remove(this.MediaResource.Id);
+        app.get('newObservation').addMediaResources.remove(this.mediaResource.Id);
+        app.get('newObservation').mediaResources.remove(this.mediaResource.Id);
         if (addToRemoveList) {
-            app.get('newObservation').RemoveMediaResources.add(this.MediaResource);
+            app.get('newObservation').removeMediaResources.add(this.mediaResource);
         }
-
         this.remove();
     },
 

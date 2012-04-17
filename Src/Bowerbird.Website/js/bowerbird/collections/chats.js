@@ -1,6 +1,5 @@
 ﻿
 window.Bowerbird.Collections.Chats = Backbone.Collection.extend({
-    
     model: Bowerbird.Models.Chat,
 
     url: '/chats/list',

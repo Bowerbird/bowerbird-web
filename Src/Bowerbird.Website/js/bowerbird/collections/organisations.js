@@ -1,6 +1,5 @@
 ﻿
 window.Bowerbird.Collections.Organisations = Backbone.Collection.extend({
-    
     model: Bowerbird.Models.Organisation,
 
     url: '/organisations/list',

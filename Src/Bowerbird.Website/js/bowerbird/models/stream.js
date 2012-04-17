@@ -9,7 +9,7 @@ window.Bowerbird.Models.Stream = Backbone.Model.extend({
     initialize: function (options) {
         _.extend(this, Backbone.Events);
         _.bindAll(this);
-        this.StreamItems = new Bowerbird.Collections.StreamItems();
+        this.streamItems = new Bowerbird.Collections.StreamItems();
     },
 
     isSet: function () {
@@ -27,20 +27,20 @@ window.Bowerbird.Models.Stream = Backbone.Model.extend({
         this.set('Uri', uri);
         this.trigger('newStream', this);
         this.trigger('fetchingItemsStarted', this);
-        this.StreamItems.fetchFirstPage(this);
+        this.streamItems.fetchFirstPage(this);
     },
 
     setNewFilter: function (filter) {
         this.set('Filter', filter);
         this.trigger('newStreamFilter', this);
         this.trigger('fetchingItemsStarted', this);
-        this.StreamItems.fetchFirstPage(this);
+        this.streamItems.fetchFirstPage(this);
     },
 
     setNextPage: function () {
         this.trigger('newStreamPage', this);
         this.trigger('fetchingItemsStarted', this);
-        this.StreamItems.fetchNextPage(this);
+        this.streamItems.fetchNextPage(this);
     },
 
     // Add stream items manually into stream (used by notification router)
@@ -58,7 +58,7 @@ window.Bowerbird.Models.Stream = Backbone.Model.extend({
             });
         }
         if (add) {
-            this.StreamItems.add(streamItem);
+            this.streamItems.add(streamItem);
         }
     }
 });

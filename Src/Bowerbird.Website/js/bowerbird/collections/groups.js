@@ -1,6 +1,5 @@
 ﻿
 window.Bowerbird.Collections.Groups = Bowerbird.Collections.PaginatedCollection.extend({
-    
     model: Bowerbird.Models.Group,
 
     baseUrl: '',
@@ -11,8 +10,7 @@ window.Bowerbird.Collections.Groups = Bowerbird.Collections.PaginatedCollection.
         '_onSuccess',
         '_onSuccessWithAddFix',
         '_getFetchOptions',
-        '_setBaseUrl'
-        );
+        '_setBaseUrl');
         this.constructor.__super__.initialize.apply(this, options);
     },
 
@@ -32,14 +30,14 @@ window.Bowerbird.Collections.Groups = Bowerbird.Collections.PaginatedCollection.
 
     _getFetchOptions: function (explore, add) {
         var options = {
-            Data: {},
-            Add: add,
-            Success: null
+            data: {},
+            add: add,
+            success: null
         };
         if (add) {
-            options.Success = this._onSuccess;
+            options.success = this._onSuccess;
         } else {
-            options.Success = this._onSuccessWithAddFix;
+            options.success = this._onSuccessWithAddFix;
         }
         //        if (explore.get('context') != null) {
         //            if (stream.get('context') instanceof Bowerbird.Models.Team || stream.get('context') instanceof Bowerbird.Models.Project) {
@@ -49,13 +47,13 @@ window.Bowerbird.Collections.Groups = Bowerbird.Collections.PaginatedCollection.
         //            }
         //        }
         if (explore.get('Filter') != null) {
-            options.Data.Filter = explore.get('Filter');
+            options.data.filter = explore.get('Filter');
         }
         return options;
     },
 
     _onSuccess: function (collection, response) {
-        app.explore.trigger('fetchingItemsComplete', app.Explore, response);
+        app.explore.trigger('fetchingItemsComplete', app.explore, response);
     },
 
     _onSuccessWithAddFix: function (collection, response) {
@@ -63,7 +61,7 @@ window.Bowerbird.Collections.Groups = Bowerbird.Collections.PaginatedCollection.
         // Added the following manual triggering of 'add' event due to Backbone bug: https://github.com/documentcloud/backbone/issues/479
         var self = this;
         response.each(function (item, index) {
-            self.trigger('add', item, self, { Index: index });
+            self.trigger('add', item, self, { index: index });
         });
     }
 });

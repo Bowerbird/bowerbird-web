@@ -13,8 +13,7 @@ window.Bowerbird.Views.UserView = Backbone.View.extend({
         'toggleWindowView',
         'render',
         'startChat',
-        'generateGuid'
-        );
+        'generateGuid');
         this.fullView = false;
         app.onlineUsers.on('add', this.render, this);
         app.onlineUsers.on('remove', this.render, this);
@@ -22,9 +21,8 @@ window.Bowerbird.Views.UserView = Backbone.View.extend({
     },
 
     render: function () {
-        var usersTemplate = ich.usersonline({ Count: app.onlineUsers.length, Users: app.onlineUsers.toJSON() });
         this.$el.empty();
-        this.$el.append(usersTemplate);
+        this.$el.append(ich.usersonline({ Count: app.onlineUsers.length, Users: app.onlineUsers.toJSON() }));
         return this;
     },
 
