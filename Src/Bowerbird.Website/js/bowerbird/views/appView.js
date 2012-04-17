@@ -65,7 +65,7 @@ window.Bowerbird.Views.AppView = Backbone.View.extend({
 
     showOnlineUsers: function () {
         log('appView.showOnlineUsers');
-        this.UserView = new Bowerbird.Views.UserView();
+        this.userView = new Bowerbird.Views.UserView();
         $('body').append(this.userView.render().el);
     },
 

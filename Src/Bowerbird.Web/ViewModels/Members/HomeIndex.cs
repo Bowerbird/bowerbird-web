@@ -43,10 +43,18 @@ namespace Bowerbird.Web.ViewModels.Members
 
         public IEnumerable<MenuItem> WatchlistMenu { get; set; }
 
+        public string ProjectsJson { get; set; }
+
+        public string TeamsJson { get; set; }
+
+        public string OnlineUsersJson { get; set; }
+
+        public string UserProfileJson { get; set; }
+
         #endregion
 
         #region Methods
 
-        #endregion      
+        #endregion
     }
 }

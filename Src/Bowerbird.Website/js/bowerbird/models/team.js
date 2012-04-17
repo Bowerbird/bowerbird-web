@@ -5,7 +5,7 @@ window.Bowerbird.Models.Team = Backbone.Model.extend({
 
     initialize: function (options) {
         _.extend(this, Backbone.Events);
-        this.constructor.__super__.initialize.apply(this, options);
+        this.constructor.__super__.initialize.apply(this, [options]);
         this.Type = 'team';
     },
 

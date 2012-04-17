@@ -26,7 +26,7 @@ window.Bowerbird.Collections.PaginatedCollection = Backbone.Collection.extend({
         return resp.PagedListItems;
     },
 
-    Url: function () {
+    url: function () {
         return this.baseUrl + '?' + $.param({ Page: this.Page, PageSize: this.PageSize });
     },
 

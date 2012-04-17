@@ -24,6 +24,7 @@ using Bowerbird.Web.Factories;
 using Bowerbird.Web.ViewModels.Members;
 using Bowerbird.Web.ViewModels.Public;
 using Bowerbird.Web.ViewModels.Shared;
+using Newtonsoft.Json;
 using Raven.Client;
 using Raven.Client.Linq;
 using Bowerbird.Core.Config;
@@ -87,35 +88,25 @@ namespace Bowerbird.Web.Controllers
         #region Methods
 
         [HttpGet]
-        public ActionResult Index(HomeIndexInput homeIndexInput)
+        public ActionResult Index()
         {
             if (_userContext.IsUserAuthenticated())
             {
-                if(Request.IsAjaxRequest())
+                if (Request.IsAjaxRequest())
                 {
-                    return Json(MakeHomeIndex(homeIndexInput), JsonRequestBehavior.AllowGet);
+                    return new JsonNetResult(MakeHomeIndex());
                 }
 
-                //return TemplateView("HomeIndex", MakeHomeIndex(homeIndexInput));
-                ViewBag.HomeIndex = MakeHomeIndex(homeIndexInput);
+                ViewBag.HomeIndex = MakeHomeIndex();
 
                 return View();
             }
 
-            //return TemplateView("HomeIndex", MakeHomeIndex(homeIndexInput));
-            //ViewBag.HomeIndex = MakeHomeIndex(homeIndexInput);
-
-            return View();
+            return RedirectToAction("List");
         }
 
         [HttpGet]
         public ActionResult List()
-        {
-            return View();
-        }
-
-        [HttpGet]
-        public ActionResult ActivityTest()
         {
             return View();
         }
@@ -127,7 +118,7 @@ namespace Bowerbird.Web.Controllers
             return RedirectToAction("index");
         }
 
-        private HomeIndex MakeHomeIndex(HomeIndexInput indexInput)
+        private HomeIndex MakeHomeIndex()
         {
             var memberships = _documentSession
                 .Query<Member>()
@@ -136,74 +127,82 @@ namespace Bowerbird.Web.Controllers
                 .Where(x => x.User.Id == _userContext.GetAuthenticatedUserId())
                 .ToList();
 
-            var groups = _documentSession
-                .Query<All_Groups.Result, All_Groups>()
-                .Where(x => x.Id.In(memberships.Select(y => y.Group.Id)));
-
-            var user = _documentSession.Load<User>(_userContext.GetAuthenticatedUserId());
-
-            var homeIndex = new HomeIndex()
-            {
-                ProjectMenu = memberships
-                .Where(x => x.Group.Id.Contains("projects/"))
-                .Select(x =>
-                    new MenuItem()
-                    {
-                        Id = x.Group.Id,
-                        Name = x.Group.Name
-                    }
-                )
-                .ToList(),
-
-                Projects = memberships
-                .Where(x => x.Group.Id.Contains("projects/"))
-                .Select(x =>
-                    new ProjectView
-                    {
-                        Id = x.Group.Id,
-                        Name = x.Group.Name,
-                        Avatar = new Avatar() { UrlToImage = "/img/default-project-avatar.jpg", AltTag = x.Group.Name }
-                    }
-                )
-                .ToList(),
-
-                TeamMenu = memberships
+            var teams = memberships
                 .Where(x => x.Group.Id.Contains("teams/"))
                 .Select(x =>
-                    new MenuItem()
-                    {
-                        Id = x.Group.Id,
-                        Name = x.Group.Name
-                    }
+                        new TeamView
+                            {
+                                Id = x.Group.Id,
+                                Name = x.Group.Name,
+                                Avatar =
+                                    new Avatar() { UrlToImage = "/img/default-team-avatar.jpg", AltTag = x.Group.Name }
+                            }
                 )
-                .ToList(),
+                .ToList();
 
-                Teams = memberships
+            var projects = memberships
+                .Where(x => x.Group.Id.Contains("projects/"))
+                .Select(x =>
+                        new ProjectView
+                            {
+                                Id = x.Group.Id,
+                                Name = x.Group.Name,
+                                Avatar =
+                                    new Avatar() { UrlToImage = "/img/default-project-avatar.jpg", AltTag = x.Group.Name }
+                            }
+                )
+                .ToList();
+
+            var projectMenu = memberships
+                .Where(x => x.Group.Id.Contains("projects/"))
+                .Select(x =>
+                        new MenuItem()
+                            {
+                                Id = x.Group.Id,
+                                Name = x.Group.Name
+                            }
+                )
+                .ToList();
+
+            var teamMenu = memberships
                 .Where(x => x.Group.Id.Contains("teams/"))
                 .Select(x =>
-                    new TeamView
-                    {
-                        Id = x.Group.Id,
-                        Name = x.Group.Name,
-                        Avatar = new Avatar() { UrlToImage = "/img/default-team-avatar.jpg", AltTag = x.Group.Name }
-                    }
+                        new MenuItem()
+                            {
+                                Id = x.Group.Id,
+                                Name = x.Group.Name
+                            }
                 )
-                .ToList(),
+                .ToList();
 
-                UserProfile = GetUserProfile(_userContext.GetAuthenticatedUserId()),
-
-                OnlineUsers = GetCurrentlyOnlineUsers(),
-
-                WatchlistMenu = _documentSession
+            var watchlistMenu = _documentSession
                 .Query<Watchlist>()
                 .Where(x => x.User.Id == _userContext.GetAuthenticatedUserId())
                 .Select(x =>
-                    new MenuItem()
-                    {
-                        Id = x.QuerystringJson,
-                        Name = x.Name
-                    })
-                    .ToList()
+                        new MenuItem()
+                            {
+                                Id = x.QuerystringJson,
+                                Name = x.Name
+                            })
+                .ToList();
+
+            var userProfile = GetUserProfile(_userContext.GetAuthenticatedUserId());
+
+            var onlineUsers = GetCurrentlyOnlineUsers();
+
+            var homeIndex = new HomeIndex()
+            {
+                ProjectMenu = projectMenu,
+                TeamMenu = teamMenu,
+                WatchlistMenu = watchlistMenu,
+                Projects = projects,
+                Teams = teams,
+                UserProfile = userProfile,
+                OnlineUsers = onlineUsers,
+                TeamsJson = JsonConvert.SerializeObject(teams),
+                ProjectsJson = JsonConvert.SerializeObject(projects),
+                OnlineUsersJson = JsonConvert.SerializeObject(onlineUsers),
+                UserProfileJson = JsonConvert.SerializeObject(userProfile)
             };
 
             return homeIndex;

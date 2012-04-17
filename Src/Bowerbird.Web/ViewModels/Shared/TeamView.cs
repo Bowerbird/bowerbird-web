@@ -28,19 +28,14 @@ namespace Bowerbird.Web.ViewModels.Shared
 
         #region Properties
 
-        [JsonProperty("name")]
         public string Name { get; set; }
 
-        [JsonProperty("id")]
         public string Id { get; set; }
 
-        [JsonProperty("description")]
         public string Description { get; set; }
 
-        [JsonProperty("website")]
         public string Website { get; set; }
 
-        [JsonProperty("avatar")]
         public Avatar Avatar { get; set; }
 
         #endregion

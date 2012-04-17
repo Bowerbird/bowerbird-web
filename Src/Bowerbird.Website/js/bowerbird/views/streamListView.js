@@ -14,7 +14,7 @@ window.Bowerbird.Views.StreamListView = Backbone.View.extend({
         _.extend(this, Backbone.Events);
         _.bindAll(this, 'addStreamItem');
         this.streamListItemViews = [];
-        app.stream.streamItems.on('add', this.addStreamItem, this);
+        app.stream.StreamItems.on('add', this.addStreamItem, this);
         app.stream.on('newStream', this.showNewStream, this);
         //app.stream.on('newStreamFilter', this.showNewStreamFilter, this);
         //app.stream.on('newStreamPage', this.showNewStreamPage, this);

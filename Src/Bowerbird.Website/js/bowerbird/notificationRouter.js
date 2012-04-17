@@ -25,8 +25,8 @@ window.Bowerbird.NotificationRouter = Backbone.Model.extend({
         $.connection.hub.start({ transport: 'longPolling' }, function () {
             self.notificationHub.registerUserClient(userId)
                     .done(function () {
-                        app.set('ClientId', $.signalR.hub.id);
-                        log('connected as ' + userId + ' with ' + app.get('ClientId'));
+                        app.set('clientId', $.signalR.hub.id);
+                        log('connected as ' + userId + ' with ' + app.get('clientId'));
                     })
                     .fail(function (e) {
                         log(e);

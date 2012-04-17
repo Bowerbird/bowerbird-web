@@ -5,7 +5,8 @@ window.Bowerbird.App = Backbone.Model.extend({
         newProject: null,
         newOrganisation: null,
         newTeam: null,
-        clientId: null
+        clientId: null,
+        authenticatedUser: null
     },
 
     initialize: function (options) {
@@ -23,16 +24,17 @@ window.Bowerbird.App = Backbone.Model.extend({
         log('App.Initialize Completed');
     },
 
-    start: function (userId, teams, projects, users) {
+    start: function (authenticatedUser, teams, projects, users) {
         // Start app page
         this.appView = new Bowerbird.Views.AppView({ app: this }).render();
 
         // Init sub components
-        this.notificationRouter = new Bowerbird.NotificationRouter({ userId: userId });
+        this.notificationRouter = new Bowerbird.NotificationRouter({ UserId: authenticatedUser.Id });
         this.chatRouter = new Bowerbird.ChatRouter();
         this.appRouter = new Bowerbird.AppRouter();
 
         // Populate with bootstrapped data
+        this.set('authenticatedUser', authenticatedUser);
         this.teams.reset(teams);
         this.projects.reset(projects);
         this.onlineUsers.reset(users);

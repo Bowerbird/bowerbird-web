@@ -29,9 +29,9 @@
         </nav>-->
         <nav id="account-menu">
           <ul>
-            {{#AuthenticatedUser}}
+            {{#UserContext}}
             <li class="user-menu">
-              <a href="/user/update">{{AuthenticatedUser.FirstName}}</a>
+              <a href="/user/update">{{UserContext.User.FirstName}}</a>
             </li>
             <li>
               <a href="/account/logout">Logout</a>
@@ -41,15 +41,15 @@
                 <img src="/img/observation-button.png" alt="" />
               </a>
             </li>
-            {{/AuthenticatedUser}}
-            {{^AuthenticatedUser}}
+            {{/UserContext}}
+            {{^UserContext}}
             <li>
               <a href="/account/login">Login</a>
             </li>
             <li>
               <a href="/account/register">Register</a>
             </li>
-            {{/AuthenticatedUser}}
+            {{/UserContext}}
           </ul>
         </nav>
         <nav id="search-menu">

@@ -28,10 +28,8 @@ namespace Bowerbird.Web.ViewModels.Shared
 
         #region Properties
 
-        [JsonProperty("urlToImage")]
         public string UrlToImage { get; set; }
 
-        [JsonProperty("altTag")]
         public string AltTag { get; set; }
 
         #endregion

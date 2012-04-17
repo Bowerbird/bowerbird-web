@@ -47,7 +47,12 @@ namespace Bowerbird.Web.Controllers
             var userContext = ServiceLocator.Current.GetInstance<IUserContext>();
             if (userContext.IsUserAuthenticated())
             {
-                ViewBag.AuthenticatedUser = ServiceLocator.Current.GetInstance<IDocumentSession>().Load<User>(userContext.GetAuthenticatedUserId());
+                var user = ServiceLocator.Current.GetInstance<IDocumentSession>().Load<User>(userContext.GetAuthenticatedUserId());
+                ViewBag.UserContext = new
+                                          {
+                                              User = user,
+                                              UserJson = Newtonsoft.Json.JsonConvert.SerializeObject(user)
+                                          };
             }
 
             base.OnActionExecuted(filterContext);
