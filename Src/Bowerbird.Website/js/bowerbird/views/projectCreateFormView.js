@@ -28,7 +28,7 @@ window.Bowerbird.Views.ProjectCreateFormView = Backbone.View.extend({
     },
 
     render: function () {
-        var projectTemplate = ich.projectcreate({ Project: app.get('newProject').toJSON() }).appendTo(this.$el);
+        ich.projectCreate({ Project: app.get('newProject').toJSON() }).appendTo(this.$el);
         return this;
     },
 

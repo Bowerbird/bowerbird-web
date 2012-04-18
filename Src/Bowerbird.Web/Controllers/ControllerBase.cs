@@ -13,16 +13,14 @@
 */
 
 using System.Web.Mvc;
-using Bowerbird.Core.Config;
+using Bowerbird.Web.Factories;
+using Bowerbird.Web.ViewModels;
 using Microsoft.Practices.ServiceLocation;
-using Raven.Client;
-using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Web.Controllers
 {
     public abstract class ControllerBase : Controller
     {
-
         #region Members
 
         #endregion
@@ -44,16 +42,7 @@ namespace Bowerbird.Web.Controllers
                 ((ViewResult)filterContext.Result).MasterName = "_Layout";
             }
 
-            var userContext = ServiceLocator.Current.GetInstance<IUserContext>();
-            if (userContext.IsUserAuthenticated())
-            {
-                var user = ServiceLocator.Current.GetInstance<IDocumentSession>().Load<User>(userContext.GetAuthenticatedUserId());
-                ViewBag.UserContext = new
-                                          {
-                                              User = user,
-                                              UserJson = Newtonsoft.Json.JsonConvert.SerializeObject(user)
-                                          };
-            }
+            ViewBag.UserContext = GetClientUserContext();
 
             base.OnActionExecuted(filterContext);
         }
@@ -63,7 +52,11 @@ namespace Bowerbird.Web.Controllers
             return new HttpUnauthorizedResult();
         }
 
+        protected ClientUserContext GetClientUserContext()
+        {
+            return ServiceLocator.Current.GetInstance<IClientUserContextFactory>().ClientUserContext();
+        }
+
         #endregion      
-      
     }
 }

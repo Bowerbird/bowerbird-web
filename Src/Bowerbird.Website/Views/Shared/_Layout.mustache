@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>{{>Title}}Bowerbird</title>
+    <title>Bowerbird</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" type="text/css" href="/css/normalize.css" />
     <link rel="stylesheet" type="text/css" href="/css/site.css" />
@@ -139,7 +139,7 @@
     <script type="text/javascript" src="/js/bowerbird/app.js"></script>
     <script type="text/javascript">
       $(function () {
-      new Bowerbird.App().start({{#UserContext}}{{{HomeIndex.UserProfileJson}}}{{/UserContext}}{{^UserContext}}null{{/UserContext}}, {{{HomeIndex.TeamsJson}}}, {{{HomeIndex.ProjectsJson}}}, {{{HomeIndex.OnlineUsersJson}}});
+        new Bowerbird.App().start({{#UserContext.UserProfile}}{{{UserContext.UserProfileJson}}}{{/UserContext.UserProfile}}{{^UserContext.UserProfile}}null{{/UserContext.UserProfile}}, {{#UserContext.UserProfile}}{{{UserContext.TeamsJson}}}{{/UserContext.UserProfile}}{{^UserContext.UserProfile}}null{{/UserContext.UserProfile}}, {{#UserContext.UserProfile}}{{{UserContext.ProjectsJson}}}{{/UserContext.UserProfile}}{{^UserContext.UserProfile}}null{{/UserContext.UserProfile}}, {{#UserContext.UserProfile}}{{{UserContext.OnlineUsersJson}}}{{/UserContext.UserProfile}}{{^UserContext.UserProfile}}null{{/UserContext.UserProfile}});
       });
     </script>
   </body>

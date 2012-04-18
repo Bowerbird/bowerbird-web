@@ -1,0 +1,17 @@
+﻿<div class="organisation-index" id="{{Id}}">
+  <div class="organisation-summary">
+    <p>
+      {{Avatar.UrlToImage}}<h2>{{Name}}</h2>
+    </p>
+    <p>{{Description}}</p>
+    <p>{{Website}}</p>
+  </div>
+  <div class="organisation-contents">
+    {{#Teams.PagedListItems}}
+      {{teamIndexItem}}
+    {{/Teams.PagedListItems}}
+    {{^Teams.PagedListItems}}
+      There are no teams in this organisation
+    {{/Teams.PagedListItems}}
+  </div>
+</div>

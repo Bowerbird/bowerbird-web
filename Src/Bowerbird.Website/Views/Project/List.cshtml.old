@@ -1,8 +1,0 @@
-﻿@*@model Bowerbird.Web.ViewModels.ProjectList*@
-
-<section id="stream-list" class="triple-2">
-    <div id="stream-items">
-        @Html.Partial("groupList")
-        @*@Html.Action("Projects", "Project")*@
-    </div>
-</section>

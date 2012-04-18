@@ -16,9 +16,9 @@ using System.Collections.Generic;
 
 namespace Bowerbird.Web.ViewModels
 {
-    public class HomeIndex : IViewModel
+    public class ClientUserContext
     {
-        #region Members
+        #region Fields
 
         #endregion
 

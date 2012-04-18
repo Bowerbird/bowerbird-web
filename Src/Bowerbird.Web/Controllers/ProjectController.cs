@@ -69,17 +69,12 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Index(IdInput idInput)
         {
-            if (_userContext.IsUserAuthenticated())
+            if (Request.IsAjaxRequest())
             {
-                if (Request.IsAjaxRequest())
-                {
-                    return Json(MakeProjectIndex(idInput));
-                }
-
-                return View(MakeProjectIndex(idInput));
+                return Json(MakeProjectIndex(idInput));
             }
 
-            return RedirectToAction("List");
+            return View(MakeProjectIndex(idInput));
         }
 
         [HttpGet]
@@ -103,6 +98,12 @@ namespace Bowerbird.Web.Controllers
             return View();
         }
 
+        [HttpGet]
+        public ActionResult Create()
+        {
+            return View();
+        }
+
         [Transaction]
         [Authorize]
         [HttpPost]
@@ -122,7 +123,6 @@ namespace Bowerbird.Web.Controllers
             
             return Json("Success");
         }
-
 
         [Transaction]
         [Authorize]

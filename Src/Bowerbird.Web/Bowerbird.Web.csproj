@@ -164,8 +164,10 @@
     <Compile Include="Factories\IFactory.cs" />
     <Compile Include="Factories\IObservationViewFactory.cs" />
     <Compile Include="Factories\IStreamItemFactory.cs" />
+    <Compile Include="Factories\IClientUserContextFactory.cs" />
     <Compile Include="Factories\ObservationViewFactory.cs" />
     <Compile Include="Factories\StreamItemFactory.cs" />
+    <Compile Include="Factories\ClientUserContextFactory.cs" />
     <Compile Include="Hubs\ChatHub.cs" />
     <Compile Include="Notifications\INotificationProcessor.cs" />
     <Compile Include="Notifications\NotificationProcessor.cs" />
@@ -178,6 +180,7 @@
     <Compile Include="Validators\ValidResetPasswordKeyRequestAttribute.cs" />
     <Compile Include="Validators\ValidEmailAttribute.cs" />
     <Compile Include="ViewModels\AccountChangePasswordInput.cs" />
+    <Compile Include="ViewModels\ClientUserContext.cs" />
     <Compile Include="ViewModels\MenuItem.cs" />
     <Compile Include="ViewModels\OrganisationCreateInput.cs" />
     <Compile Include="ViewModels\OrganisationUpdateInput.cs" />
@@ -229,9 +232,6 @@
     <Compile Include="ViewModels\ObservationIndex.cs" />
     <Compile Include="ViewModels\IdInput.cs" />
     <Compile Include="ViewModels\TeamProjectCreateInput.cs" />
-    <Compile Include="ViewModels\HomeIndex.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="ViewModels\IViewModel.cs">
       <SubType>Code</SubType>
     </Compile>

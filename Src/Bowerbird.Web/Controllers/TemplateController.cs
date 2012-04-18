@@ -75,7 +75,7 @@ namespace Bowerbird.Web.Controllers
                 {"observationStreamListItem", null},
                 {"observationcreate", null},
                 {"observationmediaresourceuploaded", null},
-                {"projectcreate", null},
+                {"projectCreate", null},
                 {"organisationcreate", null},
                 {"teamcreate", null},
                 {"avataruploader", null},

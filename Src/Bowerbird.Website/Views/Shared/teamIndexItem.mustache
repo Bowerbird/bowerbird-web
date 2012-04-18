@@ -1,0 +1,21 @@
+﻿<div class="team-index" id="{{Id}}">
+  <div class="team-summary">
+    <p>
+      {{Avatar.UrlToImage}}<h2>{{Name}}</h2>
+    </p>
+    <p>{{Description}}</p>
+    <p>{{Website}}</p>
+	<p>{{Organisation}}</p>
+  </div>
+  <div class="team-contents">
+    {{#Projects.PagedListItems}}
+		  {{projectIndexItem}}
+	  {{/Projects.PagedListItems}}
+	  {{^Projects.PagedListItems}}
+		  There are no projects in this team
+	  {{/Projects.PagedListItems}}
+	  {{#Members.PagedListItems}}
+		  {{user}}
+	  {{/Members.PagedListItems}}
+  </div>
+</div>
