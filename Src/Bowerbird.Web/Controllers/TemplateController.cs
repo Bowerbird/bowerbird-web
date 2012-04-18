@@ -60,14 +60,38 @@ namespace Bowerbird.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult Index(string ids)
+        public ActionResult Index()
         {
-            var templates = new Dictionary<string, string>();
+            //sidebar,sidebarItem,streamList,streamListLoading,streamLoadMore,notifications,notificationsItem,observationStreamListItem,observationcreate,observationmediaresourceuploaded,projectcreate,organisationcreate,teamcreate,avataruploader,avatarchoosefile,avataruploaded,user,chatusers,chatmessage,usersonline,chatwindow
+            var templates = new Dictionary<string, string>()
+            {
+                {"sidebar", null},
+                {"sidebarItem", null},
+                {"streamList", null},
+                {"streamListLoading", null},
+                {"streamLoadMore", null},
+                {"notifications", null},
+                {"notificationsItem", null},
+                {"observationStreamListItem", null},
+                {"observationcreate", null},
+                {"observationmediaresourceuploaded", null},
+                {"projectcreate", null},
+                {"organisationcreate", null},
+                {"teamcreate", null},
+                {"avataruploader", null},
+                {"avatarchoosefile", null},
+                {"avataruploaded", null},
+                {"user", null},
+                {"chatusers", null},
+                {"chatmessage", null},
+                {"usersonline", null},
+                {"chatwindow", null}
+            };
 
             // Load all templates from Nustache
-            foreach(var id in ids.Split(new [] { "," }, StringSplitOptions.RemoveEmptyEntries))
+            foreach(var templateName in templates.Keys.ToList())
             {
-                templates.Add(id, LoadTemplateSource(id));
+                templates[templateName] = LoadTemplateSource(templateName);
             }
 
             // Concatenate all templates into a JSON array ie. "[{name: 'abc', source: '<html>'}]
@@ -76,13 +100,6 @@ namespace Bowerbird.Web.Controllers
                     x => string.Format("{{name: '{0}', source: '{1}'}}", x.Key, x.Value.Replace("\r\n", " ").Replace("'", "&#39;"))));
 
             // Return a JSONP result that contains the templates to be loaded by the client side ICanHaz.js template processor
-//            return Content(string.Format(@"
-//                ;(function($) {{
-//                    _.each([{0}], function(template) {{
-//                        ich.addTemplate(template.name, template.source);
-//                    }});
-//                }})(jQuery);
-//                ", templatesJson), "text/javascript; charset=UTF-8");
             return Content(string.Format(@"
                     _.each([{0}], function(template) {{
                         ich.addTemplate(template.name, template.source);

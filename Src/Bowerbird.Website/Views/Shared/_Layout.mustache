@@ -4,16 +4,11 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <title>{{>Title}}Bowerbird</title>
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <!--  Mobile viewport optimized: j.mp/bplateviewport -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- CSS : implied media="all" -->
-    <!-- More info about SquishIt from http://www.codethinked.com/squishit-the-friendly-aspnet-javascript-and-css-squisher -->
-    <link rel="stylesheet" type="text/css" href="/css/normalize.css?v=1" />
-    <link rel="stylesheet" type="text/css" href="/css/site.css?v=1" />
-    <link rel="stylesheet" type="text/css" href="/css/media.css?v=1" />
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="/css/site.css" />
+    <link rel="stylesheet" type="text/css" href="/css/media.css" />
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700" />
 </head>
   <body class="debug">
     <div id="debug-info"></div>
@@ -67,19 +62,85 @@
       <a href="/home/setuptestdata">Setup Test Data</a>
     </footer>
 
-    <!--! end of #container -->
-    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&region=AU"></script>
-    <!-- Grab Google CDN's jQuery. fall back to local if necessary -->
+    <script type="text/javascript" src="//maps.google.com/maps/api/js?sensor=false&region=AU"></script>
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script type="text/javascript">window.jQuery || document.write("<script type='text/javascript' src='/js/libs/jquery-1.7.1.min.js'>\x3C/script>")</script>
-    <script type="text/javascript" src="/js/bowerbird/namespace.js?v=1"></script>
-    <script type="text/javascript" src="/js/libs/log.js?v=1"></script>
-    <script type="text/javascript" src="/js/libs/iCanHaz.js?v=1"></script>
-    <script type="text/javascript" src="/js/libs/jquery.tmpl.js?v=1"></script>
-    <script type="text/javascript" src="/js/libs/jquery-ui-1.8.18.custom.min.js?v=1"></script>
-    <script type="text/javascript" src="/js/libs/json2.js?v=1"></script>
-    <script type="text/javascript" src="/js/libs/underscore-min.js?v=1"></script>
-    <script type="text/javascript" src="/js/libs/backbone.js?v=1"></script>
-      {{>Script}}
-    </body>
+    <script type="text/javascript">window.jQuery || document.write('\x3C/script type="text/javascript" src="/js/libs/jquery-1.7.1.min.js">\x3C/script>')</script>
+    <script type="text/javascript" src="/js/libs/log.js"></script>
+    <script type="text/javascript" src="/js/libs/iCanHaz.js"></script>
+    <script type="text/javascript" src="/js/libs/jquery.tmpl.js"></script>
+    <script type="text/javascript" src="/js/libs/jquery-ui-1.8.18.custom.min.js"></script>
+    <script type="text/javascript" src="/js/libs/json2.js"></script>
+    <script type="text/javascript" src="/js/libs/underscore-min.js"></script>
+    <script type="text/javascript" src="/js/libs/backbone.js"></script>
+    <script type="text/javascript" src="/js/libs/jquery.signalR.js"></script>
+    <script type="text/javascript" src="/js/libs/jquery.fileupload.js"></script>
+    <script type="text/javascript" src="/js/libs/jquery.iframe-transport.js"></script>
+    <script type="text/javascript" src="/js/libs/load-image.js"></script>
+    <script type="text/javascript" src="/js/libs/bootstrap-datepicker.js"></script>
+    <script type="text/javascript" src="/js/libs/jquery.multiSelect.js"></script>
+    <script type="text/javascript" src="/js/libs/iscroll.js"></script>
+    <script type="text/javascript" src="/js/libs/date-min.js"></script>
+    <script type="text/javascript" src="/signalr/hubs"></script>
+    <script type="text/javascript" src="/template"></script>
+    <script type="text/javascript" src="/js/bowerbird/namespace.js"></script>      
+    <script type="text/javascript" src="/js/bowerbird/models/chat.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/models/groupChat.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/models/userChat.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/models/chatMessage.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/models/chatUser.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/models/group.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/models/observation.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/models/project.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/models/stream.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/models/streamItem.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/models/team.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/models/organisation.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/models/user.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/models/mediaResource.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/models/notification.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/models/explore.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/collections/chatMessages.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/collections/chatUsers.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/collections/users.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/collections/chats.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/collections/paginatedCollection.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/collections/groups.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/collections/projects.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/collections/streamItems.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/collections/teams.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/collections/organisations.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/collections/mediaResources.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/collections/notifications.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/views/appView.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/views/chatView.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/views/sidebarView.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/views/sidebarItemView.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/views/exploreItemView.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/views/exploreView.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/views/streamListItemView.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/views/streamListView.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/views/streamView.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/views/mediaResourceItemView.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/views/avatarItemView.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/views/editMapView.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/views/editMediaView.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/views/editAvatarView.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/views/userOnlineView.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/views/userView.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/views/observationCreateFormView.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/views/projectCreateFormView.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/views/organisationCreateFormView.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/views/teamCreateFormView.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/views/notificationsView.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/views/notificationItemView.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/chatRouter.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/notificationRouter.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/appRouter.js"></script>
+    <script type="text/javascript" src="/js/bowerbird/app.js"></script>
+    <script type="text/javascript">
+      $(function () {
+      new Bowerbird.App().start({{#UserContext}}{{{HomeIndex.UserProfileJson}}}{{/UserContext}}{{^UserContext}}null{{/UserContext}}, {{{HomeIndex.TeamsJson}}}, {{{HomeIndex.ProjectsJson}}}, {{{HomeIndex.OnlineUsersJson}}});
+      });
+    </script>
+  </body>
 </html>

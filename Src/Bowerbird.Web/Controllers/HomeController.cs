@@ -75,16 +75,10 @@ namespace Bowerbird.Web.Controllers
 
                 ViewBag.HomeIndex = MakeHomeIndex();
 
-                return View();
+                return View("PrivateIndex");
             }
 
-            return RedirectToAction("List");
-        }
-
-        [HttpGet]
-        public ActionResult List()
-        {
-            return View();
+            return View("PublicIndex");
         }
 
         public ActionResult SetupTestData()

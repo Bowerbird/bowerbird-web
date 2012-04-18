@@ -119,10 +119,13 @@
     <None Include="Views\Account\RequestPasswordReset.mustache" />
     <None Include="Views\Account\RequestPasswordResetSuccess.mustache" />
     <None Include="Views\Account\Login.mustache" />
-    <None Include="Views\Home\Index.mustache" />
+    <None Include="Views\Home\PublicIndex.mustache" />
+    <None Include="Views\Home\PrivateIndex.mustache" />
     <None Include="Views\Project\List.cshtml.old" />
     <None Include="Views\Project\List.mustache" />
-    <None Include="Views\Shared\_Layout.mustache" />
+    <None Include="Views\Shared\_Layout.mustache">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Views\Shared\groupList.mustache" />
     <None Include="Views\Shared\observationList.mustache" />
     <Content Include="apple-touch-icon-114x114-precomposed.png" />
@@ -289,9 +292,7 @@
     <Content Include="Views\Account\RequestPasswordReset.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Project\Index.cshtml" />
-    <Content Include="Views\Home\List.cshtml" />
     <None Include="Views\Observation\Index.cshtml" />
-    <None Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Team\Index.cshtml" />
     <Content Include="Views\Organisation\Index.cshtml" />
     <None Include="Views\Shared\avatarchoosefile.mustache" />
