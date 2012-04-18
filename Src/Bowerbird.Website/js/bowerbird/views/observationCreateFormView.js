@@ -39,7 +39,7 @@ window.Bowerbird.Views.ObservationCreateFormView = Backbone.View.extend({
 
     render: function () {
         if (app.get('prerenderedView') != 'observations/create') {
-            this.$el.append(ich.observationcreate({ Observation: app.get('newObservation').toJSON() }));
+            this.$el.append(ich.ObservationCreate({ Observation: app.get('newObservation').toJSON() }));
             window.scrollTo(0, 0);
         }
         return this;

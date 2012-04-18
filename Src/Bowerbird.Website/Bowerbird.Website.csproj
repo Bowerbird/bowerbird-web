@@ -226,8 +226,6 @@
     <Content Include="js\bowerbird\views\chatView.js" />
     <Content Include="js\bowerbird\views\notificationItemView.js" />
     <Content Include="js\bowerbird\views\notificationsView.js" />
-    <Content Include="js\bowerbird\views\exploreItemView.js" />
-    <Content Include="js\bowerbird\views\exploreView.js" />
     <Content Include="js\bowerbird\views\editAvatarView.js" />
     <Content Include="js\bowerbird\views\organisationCreateFormView.js" />
     <Content Include="js\bowerbird\views\teamCreateFormView.js" />
@@ -274,7 +272,6 @@
     <None Include="Views\Shared\Error.mustache">
       <SubType>Code</SubType>
     </None>
-    <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Web.Test.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

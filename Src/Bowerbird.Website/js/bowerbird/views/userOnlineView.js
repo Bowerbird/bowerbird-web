@@ -10,7 +10,7 @@ window.Bowerbird.Views.UserOnlineView = Backbone.View.extend({
     },
 
     render: function () {
-        this.$el.append(ich.usersonline(this.user.toJSON()));
+        this.$el.append(ich.UsersOnlineList(this.user.toJSON()));
         return this;
     }
 });

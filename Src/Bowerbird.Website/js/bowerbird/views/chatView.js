@@ -22,8 +22,7 @@ window.Bowerbird.Views.ChatView = Backbone.View.extend({
     },
 
     render: function () {
-        var chatTemplate = ich.chatwindow({ Title: this.chat.get('Title'), Messages: this.chat.chatMessages.toJSON(), ChatUsers: this.chat.chatUsers.toJSON() });
-        this.$el.append(chatTemplate);
+        this.$el.append(ich.ChatWindow({ Title: this.chat.get('Title'), Messages: this.chat.chatMessages.toJSON(), ChatUsers: this.chat.chatUsers.toJSON()}));
         return this;
     },
 
@@ -40,14 +39,12 @@ window.Bowerbird.Views.ChatView = Backbone.View.extend({
 
     addChatMessage: function (chatMessage) {
         log('chatView.addChatMessage');
-        var messageTemplate = ich.chatmessage(chatMessage.toJSON());
-        this.$el.find('.chat-messages').append(messageTemplate);
+        this.$el.find('.chat-messages').append(ich.ChatMessage(chatMessage.toJSON()));
     },
 
     changeUsers: function () {
         var users = this.chat.chatUsers.toJsonViewModel();
-        var chatUsers = ich.chatusers({ ChatUsers: users });
         this.$el.find('.chat-current-users').empty();
-        this.$el.find('.chat-current-users').append(chatUsers);
+        this.$el.find('.chat-current-users').append(ich.ChatUsers({ ChatUsers: users }));
     }
 });

@@ -22,7 +22,7 @@ window.Bowerbird.Views.EditAvatarView = Backbone.View.extend({
     },
 
     render: function () {
-        var avatarChooseFile = ich.avatarchoosefile().appendTo($('#avatar-add-pane'));
+        ich.AvatarChooseFile().appendTo($('#avatar-add-pane'));
         this._initMediaUploader();
         return this;
     },
@@ -96,7 +96,7 @@ window.Bowerbird.Views.EditAvatarView = Backbone.View.extend({
     removeMediaResource: function () {
         this.group.set('Avatar', null);
         this.avatarItemView = null;
-        var avatarChooseFile = ich.avatarchoosefile().appendTo(this.$el.find('#avatar-add-pane'));
+        ich.AvatarChooseFile().appendTo(this.$el.find('#avatar-add-pane'));
         this._initMediaUploader();
     }
 

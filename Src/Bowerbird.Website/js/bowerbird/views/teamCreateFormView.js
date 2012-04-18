@@ -27,7 +27,7 @@ window.Bowerbird.Views.TeamCreateFormView = Backbone.View.extend({
     },
 
     render: function () {
-        this.$el.append(ich.teamcreate({ Team: app.get('newTeam').toJSON() }));
+        this.$el.append(ich.TeamCreate({ Team: app.get('newTeam').toJSON() }));
         return this;
     },
 

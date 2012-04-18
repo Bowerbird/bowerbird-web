@@ -23,7 +23,7 @@ window.Bowerbird.Views.StreamListView = Backbone.View.extend({
     },
 
     render: function () {
-        this.$el.append(ich.streamList());
+        this.$el.append(ich.StreamList());
         return this;
     },
 
@@ -51,20 +51,20 @@ window.Bowerbird.Views.StreamListView = Backbone.View.extend({
 
     onStreamLoadingStart: function (stream) {
         $('#stream-load-more').remove();
-        $('#stream-items').append(ich.streamListLoading({ Text: 'Loading', ShowLoader: true }));
+        $('#stream-items').append(ich.StreamListLoading({ Text: 'Loading', ShowLoader: true }));
     },
 
     onsStreamLoadingComplete: function (stream, collection) {
         this.toggleNoStreamItemsStatus(collection);
         if (collection.pageInfo().next) {
-            $('#stream-list > div').append(ich.streamListLoading());
+            $('#stream-list > div').append(ich.StreamListLoading());
         }
     },
 
     toggleNoStreamItemsStatus: function (collection) {
         $('#stream-status').remove();
         if (collection.length === 0) {
-            $('#stream-list > div').append(ich.streamListLoading({ Text: 'No activity yet! Start now by adding an observation.' }));
+            $('#stream-list > div').append(ich.StreamListLoading({ Text: 'No activity yet! Start now by adding an observation.' }));
         }
     },
 

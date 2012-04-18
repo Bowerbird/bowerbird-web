@@ -27,7 +27,7 @@ window.Bowerbird.Views.SidebarView = Backbone.View.extend({
     },
 
     render: function () {
-        this.$el.append(ich.sidebar());
+        this.$el.append(ich.Sidebar());
 
         this.notificationsView = new Bowerbird.Views.NotificationsView();
         this.$el.append(this.notificationsView.render().el);

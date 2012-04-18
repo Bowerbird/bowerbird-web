@@ -11,7 +11,7 @@ window.Bowerbird.Views.NotificationsView = Backbone.View.extend({
     },
 
     render: function () {
-        var notificationsHtml = ich.notifications();
+        var notificationsHtml = ich.Notifications();
         this.$el.append(notificationsHtml);
         return this;
     },

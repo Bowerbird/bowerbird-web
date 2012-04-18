@@ -16,7 +16,7 @@ window.Bowerbird.Views.MediaResourceItemView = Backbone.View.extend({
     },
 
     render: function () {
-        this.$el.append(ich.observationmediaresourceuploaded(this.mediaResource.toJSON()));
+        this.$el.append(ich.ObservationMediaResourceUploaded(this.mediaResource.toJSON()));
         window.scrollTo(0, 0);
         return this;
     },

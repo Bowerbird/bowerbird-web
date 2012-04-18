@@ -26,7 +26,7 @@ window.Bowerbird.Views.OrganisationCreateFormView = Backbone.View.extend({
     },
 
     render: function () {
-        this.$el.append(ich.organisationcreate({ Organisation: app.get('newOrganisation').toJSON() }));
+        this.$el.append(ich.OrganisationCreate({ Organisation: app.get('newOrganisation').toJSON() }));
         window.scrollTo(0, 0);
         return this;
     },

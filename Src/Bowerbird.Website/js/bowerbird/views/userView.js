@@ -22,7 +22,7 @@ window.Bowerbird.Views.UserView = Backbone.View.extend({
 
     render: function () {
         this.$el.empty();
-        this.$el.append(ich.usersonline({ Count: app.onlineUsers.length, Users: app.onlineUsers.toJSON() }));
+        this.$el.append(ich.UsersOnlineList({ Count: app.onlineUsers.length, Users: app.onlineUsers.toJSON() }));
         return this;
     },
 

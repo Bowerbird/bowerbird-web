@@ -16,7 +16,7 @@ window.Bowerbird.Views.AvatarItemView = Backbone.View.extend({
     },
 
     render: function () {
-        this.$el.append(ich.avataruploaded(this.MediaResource.toJSON()));
+        this.$el.append(ich.AvatarUploaded(this.MediaResource.toJSON()));
         return this;
     },
 
