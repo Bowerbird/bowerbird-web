@@ -9,7 +9,8 @@
     <link rel="stylesheet" type="text/css" href="/css/site.css" />
     <link rel="stylesheet" type="text/css" href="/css/media.css" />
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700" />
-</head>
+    {{#RavenProfiler}}{{{RavenProfiler}}}{{/RavenProfiler}}
+  </head>
   <body class="debug">
     <div id="debug-info"></div>
     <header>
@@ -67,6 +68,7 @@
     <script type="text/javascript">window.jQuery || document.write('\x3C/script type="text/javascript" src="/js/libs/jquery-1.7.1.min.js">\x3C/script>')</script>
     <script type="text/javascript" src="/js/libs/log.js"></script>
     <script type="text/javascript" src="/js/libs/iCanHaz.js"></script>
+    <script type="text/javascript" src="/js/libs/yepnope.js"></script>
     <script type="text/javascript" src="/js/libs/jquery.tmpl.js"></script>
     <script type="text/javascript" src="/js/libs/jquery-ui-1.8.18.custom.min.js"></script>
     <script type="text/javascript" src="/js/libs/json2.js"></script>
@@ -139,7 +141,7 @@
     <script type="text/javascript" src="/js/bowerbird/app.js"></script>
     <script type="text/javascript">
       $(function () {
-      new Bowerbird.App().start({{#UserContext.UserProfile}}{{{UserContext.UserProfileJson}}}{{/UserContext.UserProfile}}{{^UserContext.UserProfile}}null{{/UserContext.UserProfile}}, {{#UserContext.UserProfile}}{{{UserContext.TeamsJson}}}{{/UserContext.UserProfile}}{{^UserContext.UserProfile}}null{{/UserContext.UserProfile}}, {{#UserContext.UserProfile}}{{{UserContext.ProjectsJson}}}{{/UserContext.UserProfile}}{{^UserContext.UserProfile}}null{{/UserContext.UserProfile}}, {{#UserContext.UserProfile}}{{{UserContext.OnlineUsersJson}}}{{/UserContext.UserProfile}}{{^UserContext.UserProfile}}null{{/UserContext.UserProfile}}, '{{PrerenderedView}}');
+        new Bowerbird.App().start({{#UserContext.UserProfile}}{{{UserContext.UserProfileJson}}}{{/UserContext.UserProfile}}{{^UserContext.UserProfile}}null{{/UserContext.UserProfile}}, {{#UserContext.UserProfile}}{{{UserContext.TeamsJson}}}{{/UserContext.UserProfile}}{{^UserContext.UserProfile}}null{{/UserContext.UserProfile}}, {{#UserContext.UserProfile}}{{{UserContext.ProjectsJson}}}{{/UserContext.UserProfile}}{{^UserContext.UserProfile}}null{{/UserContext.UserProfile}}, {{#UserContext.UserProfile}}{{{UserContext.OnlineUsersJson}}}{{/UserContext.UserProfile}}{{^UserContext.UserProfile}}null{{/UserContext.UserProfile}}, '{{PrerenderedView}}');
       });
     </script>
   </body>

@@ -40,8 +40,13 @@ namespace Bowerbird.Web.Controllers
             if (filterContext.Result is ViewResult)
             {
                 ((ViewResult)filterContext.Result).MasterName = "_Layout";
+                
                 ViewBag.UserContext = GetClientUserContext();
                 ViewBag.PrerenderedView = filterContext.HttpContext.Request.RawUrl.ToLower().Substring(1);
+
+                #if DEBUG
+                    ViewBag.RavenProfiler = Raven.Client.MvcIntegration.RavenProfiler.CurrentRequestSessions().ToString();
+                #endif
             }
 
             base.OnActionExecuted(filterContext);

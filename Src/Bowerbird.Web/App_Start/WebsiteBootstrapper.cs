@@ -22,6 +22,8 @@ using System.Web.Routing;
 using Bowerbird.Core.Config;
 using Bowerbird.Core.CommandHandlers;
 using Nustache.Mvc;
+using Raven.Client.MvcIntegration;
+using Raven.Client;
 
 [assembly: WebActivator.PostApplicationStartMethod(typeof(Bowerbird.Web.App_Start.WebsiteBootstrapper), "PostStart")]
 
@@ -49,6 +51,8 @@ namespace Bowerbird.Web.App_Start
             ServiceLocator.Current.GetInstance<SetupSystemDataCommandHandler>().Handle(new SetupSystemDataCommand());
 
             ServiceLocator.Current.GetInstance<ISystemStateManager>().EnableAllServices();
+
+            RavenProfiler.InitializeFor(ServiceLocator.Current.GetInstance<IDocumentStore>());
         }
     }
 }

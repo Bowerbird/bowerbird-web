@@ -111,6 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="js\libs\yepnope.js" />
     <None Include="Views\Organisation\Create.mustache" />
     <None Include="Views\Organisation\Delete.mustache" />
     <None Include="Views\Organisation\List.mustache" />
@@ -133,7 +134,9 @@
     <None Include="Views\Shared\OrganisationItem.mustache" />
     <None Include="Views\Shared\TeamItem.mustache" />
     <None Include="Views\Shared\ProjectItem.mustache" />
-    <None Include="Views\Shared\_Layout.mustache" />
+    <None Include="Views\Shared\_Layout.mustache">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Views\Shared\GroupList.mustache" />
     <None Include="Views\Shared\ObservationList.mustache" />
     <Content Include="apple-touch-icon-114x114-precomposed.png" />
