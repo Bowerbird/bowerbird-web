@@ -1,6 +1,8 @@
-﻿{{#Projects}}
-	{{projectIndexItem}}
-{{Projects}}
-{{^Projects}}
-	No projects in the system yet
-{{Projects}}
+﻿<div class="project-list">
+	{{#Projects}}
+		{{ProjectItem}}
+	{{Projects}}
+	{{^Projects}}
+		No projects in the system yet
+	{{Projects}}
+</div>

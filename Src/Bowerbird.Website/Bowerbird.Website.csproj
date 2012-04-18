@@ -111,7 +111,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Content Include="Views\Organisation\List.cshtml" />
+    <None Include="Views\Organisation\Create.mustache" />
+    <None Include="Views\Organisation\Delete.mustache" />
+    <None Include="Views\Organisation\List.mustache" />
     <None Include="Views\Account\LogoutSuccess.mustache" />
     <None Include="Views\Account\ResetPassword.mustache" />
     <None Include="Views\Account\Register.mustache" />
@@ -125,13 +127,15 @@
     <None Include="Views\Observations\Index.mustache" />
     <None Include="Views\Observations\Create.mustache" />
     <None Include="Views\Project\Create.mustache" />
+    <None Include="Views\Project\Delete.mustache" />
+    <None Include="Views\Project\Index.mustache" />
     <None Include="Views\Project\List.mustache" />
-    <None Include="Views\Shared\organisationIndexItem.mustache" />
-    <None Include="Views\Shared\teamIndexItem.mustache" />
-    <None Include="Views\Shared\projectIndexItem.mustache" />
+    <None Include="Views\Shared\OrganisationItem.mustache" />
+    <None Include="Views\Shared\TeamItem.mustache" />
+    <None Include="Views\Shared\ProjectItem.mustache" />
     <None Include="Views\Shared\_Layout.mustache" />
-    <None Include="Views\Shared\groupList.mustache" />
-    <None Include="Views\Shared\observationList.mustache" />
+    <None Include="Views\Shared\GroupList.mustache" />
+    <None Include="Views\Shared\ObservationList.mustache" />
     <Content Include="apple-touch-icon-114x114-precomposed.png" />
     <Content Include="apple-touch-icon-57x57-precomposed.png" />
     <Content Include="apple-touch-icon-72x72-precomposed.png" />
@@ -264,16 +268,9 @@
     <Content Include="Lib\SquishIt\SquishIt.Framework.dll" />
     <Content Include="Lib\SquishIt\SquishIt.Mvc.dll" />
     <Content Include="Lib\SquishIt\Yahoo.Yui.Compressor.dll" />
-    <Content Include="Views\Shared\Error.cshtml">
+    <None Include="Views\Shared\Error.mustache">
       <SubType>Code</SubType>
-    </Content>
-    <Content Include="Views\Shared\_Layout.cshtml">
-      <SubType>Code</SubType>
-    </Content>
-    <Content Include="Views\Shared\_SelectedFilterDetails.cshtml" />
-    <Content Include="Views\Shared\_StreamObservationItem.cshtml">
-      <SubType>Code</SubType>
-    </Content>
+    </None>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Web.Test.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -285,37 +282,34 @@
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Team\Index.cshtml" />
-    <Content Include="Views\Organisation\Index.cshtml" />
-    <None Include="Views\Shared\avatarchoosefile.mustache" />
-    <None Include="Views\Shared\avataruploaded.mustache" />
-    <None Include="Views\Shared\avataruploader.mustache" />
-    <None Include="Views\Shared\chatmessage.mustache" />
-    <None Include="Views\Shared\chatusers.mustache" />
-    <None Include="Views\Shared\chatwindow.mustache">
+    <None Include="Views\Team\Create.mustache" />
+    <None Include="Views\Team\Delete.mustache" />
+    <None Include="Views\Team\Index.mustache" />
+    <None Include="Views\Organisation\Index.mustache" />
+    <None Include="Views\Shared\AvatarChooseFile.mustache" />
+    <None Include="Views\Shared\AvatarUploaded.mustache" />
+    <None Include="Views\Shared\AvatarUploader.mustache" />
+    <None Include="Views\Shared\ChatMessage.mustache" />
+    <None Include="Views\Shared\ChatUsers.mustache" />
+    <None Include="Views\Shared\ChatWindow.mustache">
       <SubType>Code</SubType>
     </None>
-    <None Include="Views\Shared\notifications.mustache" />
-    <None Include="Views\Shared\notificationsItem.mustache" />
-    <None Include="Views\Shared\observationcreate.mustache" />
-    <None Include="Views\Shared\observationmediaresourceuploaded.mustache" />
-    <None Include="Views\Shared\observationStreamListItem.mustache" />
-    <None Include="Views\Shared\organisationcreate.mustache" />
-    <None Include="Views\Shared\projectCreate.mustache" />
+    <None Include="Views\Shared\Notifications.mustache" />
+    <None Include="Views\Shared\NotificationsItem.mustache" />
+    <None Include="Views\Shared\ObservationCreate.mustache" />
+    <None Include="Views\Shared\ObservationMediaResourceUploaded.mustache" />
+    <None Include="Views\Shared\ObservationStreamListItem.mustache" />
+    <None Include="Views\Shared\OrganisationCreate.mustache" />
+    <None Include="Views\Shared\ProjectCreate.mustache" />
     <None Include="Views\Shared\Sidebar.mustache" />
     <None Include="Views\Shared\SidebarItem.mustache" />
     <None Include="Views\Shared\StreamList.mustache" />
     <None Include="Views\Shared\StreamListLoading.mustache" />
     <None Include="Views\Shared\StreamLoadMore.mustache" />
-    <None Include="Views\Shared\teamcreate.mustache" />
-    <None Include="Views\Shared\test.mustache" />
-    <None Include="Views\Shared\user.mustache" />
-    <None Include="Views\Shared\usersonline.mustache" />
-    <Content Include="Views\Shared\_ObservationCreate.cshtml" />
-    <Content Include="Views\Shared\_OrganisationCreate.cshtml" />
-    <Content Include="Views\Shared\_ProjectCreate.cshtml" />
-    <Content Include="Views\Shared\_TeamCreate.cshtml" />
-    <Content Include="Views\Team\List.cshtml" />
+    <None Include="Views\Shared\TeamCreate.mustache" />
+    <None Include="Views\Shared\UserItem.mustache" />
+    <None Include="Views\Shared\UsersOnlineList.mustache" />
+    <None Include="Views\Team\List.mustache" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="404.html" />

@@ -14,11 +14,8 @@
 
 using System;
 using System.Linq;
-using System.IO;
 using System.Web.Mvc;
-using Nustache.Core;
 using System.Web.Caching;
-using System.Text;
 using System.Collections.Generic;
 using Bowerbird.Core.Extensions;
 
@@ -62,30 +59,34 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            //sidebar,sidebarItem,streamList,streamListLoading,streamLoadMore,notifications,notificationsItem,observationStreamListItem,observationcreate,observationmediaresourceuploaded,projectcreate,organisationcreate,teamcreate,avataruploader,avatarchoosefile,avataruploaded,user,chatusers,chatmessage,usersonline,chatwindow
             var templates = new Dictionary<string, string>()
             {
-                {"sidebar", null},
-                {"sidebarItem", null},
-                {"streamList", null},
-                {"streamListLoading", null},
-                {"streamLoadMore", null},
-                {"notifications", null},
-                {"notificationsItem", null},
-                {"observationStreamListItem", null},
-                {"observationcreate", null},
-                {"observationmediaresourceuploaded", null},
-                {"projectCreate", null},
-                {"organisationcreate", null},
-                {"teamcreate", null},
-                {"avataruploader", null},
-                {"avatarchoosefile", null},
-                {"avataruploaded", null},
-                {"user", null},
-                {"chatusers", null},
-                {"chatmessage", null},
-                {"usersonline", null},
-                {"chatwindow", null}
+                {"AvatarChooseFile", null},
+                {"AvatarUploaded", null},
+                {"AvatarUploader", null},
+                {"ChatMessage", null},
+                {"ChatUsers", null},
+                {"ChatWindow", null},
+                {"Error", null},
+                {"GroupList", null},
+                {"Notifications", null},
+                {"NotificationsItem", null},
+                {"ObservationCreate", null},
+                {"ObservationMediaResourceUploaded", null},
+                {"ObservationStreamListItem", null},
+                {"OrganisationCreate", null},
+                {"OrganisationItem", null},
+                {"ProjectCreate", null},
+                {"ProjectItem", null},
+                {"Sidebar", null},
+                {"SidebarItem", null},
+                {"StreamList", null},
+                {"StreamListLoading", null},
+                {"StreamLoadMore", null},
+                {"TeamCreate", null},
+                {"TeamItem", null},
+                {"UserItem", null},
+                {"UsersOnlineList", null}
             };
 
             // Load all templates from Nustache
