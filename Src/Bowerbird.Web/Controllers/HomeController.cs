@@ -16,6 +16,9 @@ using System.Web.Mvc;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.Config;
+using Bowerbird.Core.Paging;
+using Bowerbird.Web.ViewModels;
+using Newtonsoft.Json;
 
 namespace Bowerbird.Web.Controllers
 {
@@ -47,19 +50,24 @@ namespace Bowerbird.Web.Controllers
         #region Methods
 
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult PublicIndex()
         {
-            if (_userContext.IsUserAuthenticated())
-            {
-                if (Request.IsAjaxRequest())
-                {
-                    return new JsonNetResult(GetClientUserContext());
-                }
+            return View();
+        }
 
-                return View("PrivateIndex");
+        [HttpGet]
+        public ActionResult PrivateIndex()
+        {
+            if (!_userContext.IsUserAuthenticated())
+            {
+                return RedirectToAction("PublicIndex");
             }
 
-            return View("PublicIndex");
+            ViewBag.HomeIndex = new
+            {
+            };
+
+            return View();
         }
 
         public ActionResult SetupTestData()

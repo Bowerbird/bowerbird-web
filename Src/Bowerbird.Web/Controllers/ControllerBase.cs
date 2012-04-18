@@ -40,9 +40,9 @@ namespace Bowerbird.Web.Controllers
             if (filterContext.Result is ViewResult)
             {
                 ((ViewResult)filterContext.Result).MasterName = "_Layout";
+                ViewBag.UserContext = GetClientUserContext();
+                ViewBag.PrerenderedView = filterContext.HttpContext.Request.RawUrl.ToLower().Substring(1);
             }
-
-            ViewBag.UserContext = GetClientUserContext();
 
             base.OnActionExecuted(filterContext);
         }

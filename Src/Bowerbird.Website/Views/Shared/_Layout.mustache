@@ -24,9 +24,9 @@
         </nav>-->
         <nav id="account-menu">
           <ul>
-            {{#UserContext}}
+            {{#UserContext.UserProfile}}
             <li class="user-menu">
-              <a href="/user/update">{{UserContext.User.FirstName}}</a>
+              <a href="/user/update">{{UserContext.UserProfile.Name}}</a>
             </li>
             <li>
               <a href="/account/logout">Logout</a>
@@ -36,15 +36,15 @@
                 <img src="/img/observation-button.png" alt="" />
               </a>
             </li>
-            {{/UserContext}}
-            {{^UserContext}}
+            {{/UserContext.UserProfile}}
+            {{^UserContext.UserProfile}}
             <li>
               <a href="/account/login">Login</a>
             </li>
             <li>
               <a href="/account/register">Register</a>
             </li>
-            {{/UserContext}}
+            {{/UserContext.UserProfile}}
           </ul>
         </nav>
         <nav id="search-menu">
@@ -139,7 +139,7 @@
     <script type="text/javascript" src="/js/bowerbird/app.js"></script>
     <script type="text/javascript">
       $(function () {
-        new Bowerbird.App().start({{#UserContext.UserProfile}}{{{UserContext.UserProfileJson}}}{{/UserContext.UserProfile}}{{^UserContext.UserProfile}}null{{/UserContext.UserProfile}}, {{#UserContext.UserProfile}}{{{UserContext.TeamsJson}}}{{/UserContext.UserProfile}}{{^UserContext.UserProfile}}null{{/UserContext.UserProfile}}, {{#UserContext.UserProfile}}{{{UserContext.ProjectsJson}}}{{/UserContext.UserProfile}}{{^UserContext.UserProfile}}null{{/UserContext.UserProfile}}, {{#UserContext.UserProfile}}{{{UserContext.OnlineUsersJson}}}{{/UserContext.UserProfile}}{{^UserContext.UserProfile}}null{{/UserContext.UserProfile}});
+      new Bowerbird.App().start({{#UserContext.UserProfile}}{{{UserContext.UserProfileJson}}}{{/UserContext.UserProfile}}{{^UserContext.UserProfile}}null{{/UserContext.UserProfile}}, {{#UserContext.UserProfile}}{{{UserContext.TeamsJson}}}{{/UserContext.UserProfile}}{{^UserContext.UserProfile}}null{{/UserContext.UserProfile}}, {{#UserContext.UserProfile}}{{{UserContext.ProjectsJson}}}{{/UserContext.UserProfile}}{{^UserContext.UserProfile}}null{{/UserContext.UserProfile}}, {{#UserContext.UserProfile}}{{{UserContext.OnlineUsersJson}}}{{/UserContext.UserProfile}}{{^UserContext.UserProfile}}null{{/UserContext.UserProfile}}, '{{PrerenderedView}}');
       });
     </script>
   </body>

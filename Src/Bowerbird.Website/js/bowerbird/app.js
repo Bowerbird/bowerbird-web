@@ -6,7 +6,8 @@ window.Bowerbird.App = Backbone.Model.extend({
         newOrganisation: null,
         newTeam: null,
         clientId: null,
-        authenticatedUser: null
+        authenticatedUser: null,
+        prerenderedView: null
     },
 
     initialize: function (options) {
@@ -24,7 +25,7 @@ window.Bowerbird.App = Backbone.Model.extend({
         log('App.Initialize Completed');
     },
 
-    start: function (authenticatedUser, teams, projects, users) {
+    start: function (authenticatedUser, teams, projects, users, prerenderedView) {
         // Start app page
         this.appView = new Bowerbird.Views.AppView({ app: this }).render();
 
@@ -35,6 +36,7 @@ window.Bowerbird.App = Backbone.Model.extend({
 
         // Populate with bootstrapped data
         this.set('authenticatedUser', authenticatedUser);
+        this.set('prerenderedView', prerenderedView);
         this.teams.reset(teams);
         this.projects.reset(projects);
         this.onlineUsers.reset(users);

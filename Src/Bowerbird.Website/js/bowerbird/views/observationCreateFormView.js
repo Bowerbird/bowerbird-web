@@ -35,12 +35,13 @@ window.Bowerbird.Views.ObservationCreateFormView = Backbone.View.extend({
         this.observation = options.observation;
         this.editMediaView = new Bowerbird.Views.EditMediaView({ el: $('#media-resources-fieldset'), observation: this.observation });
         this.editMapView = new Bowerbird.Views.EditMapView({ observation: this.observation });
-        this.observationCreateTemplate = null;
     },
 
     render: function () {
-        thisobservationCreateTemplate = ich.observationcreate({ Observation: app.get('newObservation').toJSON() }).appendTo(this.$el);
-        window.scrollTo(0, 0);
+        if (app.get('prerenderedView') != 'observations/create') {
+            this.$el.append(ich.observationcreate({ Observation: app.get('newObservation').toJSON() }));
+            window.scrollTo(0, 0);
+        }
         return this;
     },
 

@@ -31,7 +31,7 @@ using Nustache.Mvc;
 
 namespace Bowerbird.Web.Controllers
 {
-    public class ObservationController : ControllerBase
+    public class ObservationsController : ControllerBase
     {
         #region Members
 
@@ -46,7 +46,7 @@ namespace Bowerbird.Web.Controllers
 
         #region Constructors
 
-        public ObservationController(
+        public ObservationsController(
             ICommandProcessor commandProcessor,
             IDocumentSession documentSession,
             IUserContext userContext,
@@ -79,18 +79,18 @@ namespace Bowerbird.Web.Controllers
         #region Methods
 
         [HttpGet]
-        public ActionResult Index(IdInput idInput)
+        public ActionResult GetOne(IdInput idInput)
         {
-            if (_userContext.IsUserAuthenticated() || Request.IsAjaxRequest())
+            if (Request.IsAjaxRequest())
             {
                 return Json(MakeObservationIndex(idInput));
             }
 
-            return View(MakeObservationIndex(idInput));
+            return View("Index", MakeObservationIndex(idInput));
         }
 
         [HttpGet]
-        public ActionResult List(ObservationListInput observationListInput)
+        public ActionResult GetMany(ObservationListInput observationListInput)
         {
             if (observationListInput.GroupId != null)
             {
@@ -104,16 +104,41 @@ namespace Bowerbird.Web.Controllers
 
             return Json(MakeObservationList(observationListInput));
         }
+         
+        [HttpGet]
+        [Authorize]
+        public ActionResult CreateForm(IdInput idInput)
+        {
+            if (!_userContext.HasUserProjectPermission(PermissionNames.CreateObservation))
+            {
+                return HttpUnauthorized();
+            }
+
+            return View("Create");
+        }
 
         [HttpGet]
-        [ChildActionOnly]
-        public ActionResult Observations()
+        [Authorize]
+        public ActionResult UpdateForm(IdInput idInput)
         {
-            ViewData["Observations"] = MakeObservationList();
-            var viewResult = View("observationList");
-            viewResult.ViewEngineCollection = new ViewEngineCollection { new NustacheViewEngine() };
+            if (!_userContext.HasUserProjectPermission(PermissionNames.UpdateObservation))
+            {
+                return HttpUnauthorized();
+            }
 
-            return viewResult;
+            return View("Update");
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult DeleteForm(IdInput idInput)
+        {
+            if (!_userContext.HasUserProjectPermission(PermissionNames.DeleteObservation))
+            {
+                return HttpUnauthorized();
+            }
+
+            return View("Delete");
         }
 
         [Transaction]

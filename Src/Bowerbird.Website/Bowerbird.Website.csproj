@@ -111,7 +111,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Content Include="Views\Observation\List.cshtml" />
     <Content Include="Views\Organisation\List.cshtml" />
     <None Include="Views\Account\LogoutSuccess.mustache" />
     <None Include="Views\Account\ResetPassword.mustache" />
@@ -121,8 +120,11 @@
     <None Include="Views\Account\Login.mustache" />
     <None Include="Views\Home\PublicIndex.mustache" />
     <None Include="Views\Home\PrivateIndex.mustache" />
+    <None Include="Views\Observations\Update.mustache" />
+    <None Include="Views\Observations\Delete.mustache" />
+    <None Include="Views\Observations\Index.mustache" />
+    <None Include="Views\Observations\Create.mustache" />
     <None Include="Views\Project\Create.mustache" />
-    <None Include="Views\Project\Index.mustache" />
     <None Include="Views\Project\List.mustache" />
     <None Include="Views\Shared\organisationIndexItem.mustache" />
     <None Include="Views\Shared\teamIndexItem.mustache" />
@@ -283,7 +285,6 @@
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
     </Content>
-    <None Include="Views\Observation\Index.cshtml" />
     <Content Include="Views\Team\Index.cshtml" />
     <Content Include="Views\Organisation\Index.cshtml" />
     <None Include="Views\Shared\avatarchoosefile.mustache" />
@@ -301,11 +302,11 @@
     <None Include="Views\Shared\observationStreamListItem.mustache" />
     <None Include="Views\Shared\organisationcreate.mustache" />
     <None Include="Views\Shared\projectCreate.mustache" />
-    <None Include="Views\Shared\sidebar.mustache" />
-    <None Include="Views\Shared\sidebarItem.mustache" />
-    <None Include="Views\Shared\streamList.mustache" />
-    <None Include="Views\Shared\streamListLoading.mustache" />
-    <None Include="Views\Shared\streamLoadMore.mustache" />
+    <None Include="Views\Shared\Sidebar.mustache" />
+    <None Include="Views\Shared\SidebarItem.mustache" />
+    <None Include="Views\Shared\StreamList.mustache" />
+    <None Include="Views\Shared\StreamListLoading.mustache" />
+    <None Include="Views\Shared\StreamLoadMore.mustache" />
     <None Include="Views\Shared\teamcreate.mustache" />
     <None Include="Views\Shared\test.mustache" />
     <None Include="Views\Shared\user.mustache" />

@@ -111,7 +111,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Content Include="Views\Observation\List.cshtml" />
     <Content Include="Views\Organisation\List.cshtml" />
     <None Include="Views\Account\LogoutSuccess.mustache" />
     <None Include="Views\Account\ResetPassword.mustache" />
@@ -119,24 +118,23 @@
     <None Include="Views\Account\RequestPasswordReset.mustache" />
     <None Include="Views\Account\RequestPasswordResetSuccess.mustache" />
     <None Include="Views\Account\Login.mustache" />
-<<<<<<< Updated upstream
     <None Include="Views\Home\PublicIndex.mustache" />
     <None Include="Views\Home\PrivateIndex.mustache" />
-    <None Include="Views\Project\List.cshtml.old" />
-    <None Include="Views\Project\List.mustache" />
-    <None Include="Views\Shared\_Layout.mustache">
-      <SubType>Designer</SubType>
-    </None>
-=======
-    <None Include="Views\Home\Index.mustache" />
+<<<<<<< Updated upstream
+    <None Include="Views\Project\Create.mustache" />
     <None Include="Views\Project\Index.mustache" />
+=======
+    <None Include="Views\Observations\Update.mustache" />
+    <None Include="Views\Observations\Delete.mustache" />
+    <None Include="Views\Observations\Index.mustache" />
+    <None Include="Views\Observations\Create.mustache" />
     <None Include="Views\Project\List.cshtml.old" />
+>>>>>>> Stashed changes
     <None Include="Views\Project\List.mustache" />
     <None Include="Views\Shared\organisationIndexItem.mustache" />
     <None Include="Views\Shared\teamIndexItem.mustache" />
     <None Include="Views\Shared\projectIndexItem.mustache" />
     <None Include="Views\Shared\_Layout.mustache" />
->>>>>>> Stashed changes
     <None Include="Views\Shared\groupList.mustache" />
     <None Include="Views\Shared\observationList.mustache" />
     <Content Include="apple-touch-icon-114x114-precomposed.png" />
@@ -292,8 +290,15 @@
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Project\Index.cshtml" />
+<<<<<<< Updated upstream
     <None Include="Views\Observation\Index.cshtml" />
+=======
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\RequestPasswordResetSuccess.cshtml" />
+    <Content Include="Views\Account\RequestPasswordReset.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Project\Index.cshtml" />
+>>>>>>> Stashed changes
     <Content Include="Views\Team\Index.cshtml" />
     <Content Include="Views\Organisation\Index.cshtml" />
     <None Include="Views\Shared\avatarchoosefile.mustache" />
@@ -310,12 +315,21 @@
     <None Include="Views\Shared\observationmediaresourceuploaded.mustache" />
     <None Include="Views\Shared\observationStreamListItem.mustache" />
     <None Include="Views\Shared\organisationcreate.mustache" />
-    <None Include="Views\Shared\projectcreate.mustache" />
+<<<<<<< Updated upstream
+    <None Include="Views\Shared\projectCreate.mustache" />
     <None Include="Views\Shared\sidebar.mustache" />
     <None Include="Views\Shared\sidebarItem.mustache" />
     <None Include="Views\Shared\streamList.mustache" />
     <None Include="Views\Shared\streamListLoading.mustache" />
     <None Include="Views\Shared\streamLoadMore.mustache" />
+=======
+    <None Include="Views\Shared\projectcreate.mustache" />
+    <None Include="Views\Shared\Sidebar.mustache" />
+    <None Include="Views\Shared\SidebarItem.mustache" />
+    <None Include="Views\Shared\StreamList.mustache" />
+    <None Include="Views\Shared\StreamListLoading.mustache" />
+    <None Include="Views\Shared\StreamLoadMore.mustache" />
+>>>>>>> Stashed changes
     <None Include="Views\Shared\teamcreate.mustache" />
     <None Include="Views\Shared\test.mustache" />
     <None Include="Views\Shared\user.mustache" />
