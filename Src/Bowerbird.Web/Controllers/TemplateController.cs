@@ -67,7 +67,6 @@ namespace Bowerbird.Web.Controllers
                 {"ChatMessage", null},
                 {"ChatUsers", null},
                 {"ChatWindow", null},
-                {"Error", null},
                 {"GroupList", null},
                 {"Notifications", null},
                 {"NotificationsItem", null},

@@ -34,17 +34,27 @@ namespace Bowerbird.Web.App_Start
         /// <summary>
         /// Sets up the application ready for use
         /// </summary>
-        public static void PostStart() 
+        public static void PostStart()
         {
             EventProcessor.ServiceLocator = ServiceLocator.Current;
 
             ViewEngines.Engines.Clear();
 
-            //ViewEngines.Engines.Add(new RazorViewEngine());
-            //ViewEngines.Engines.Add(new NustacheViewEngine() { RootContext = NustacheViewEngineRootContext.Model });
-            ViewEngines.Engines.Add(new NustacheViewEngine());
+            //var mustacheExtensionFormats = new[]
+            //{
+            //    "~/Views/{1}/{0}.mustache",
+            //    "~/Views/Shared/{0}.mustache",
+            //    "~/Views/{1}/{0}.html",
+            //    "~/Views/Shared/{0}.html"
+            //};
 
-            //AreaRegistration.RegisterAllAreas();
+            ViewEngines.Engines.Add(new NustacheViewEngine()
+            {
+                //FileExtensions = mustacheExtensionFormats,
+                //MasterLocationFormats = mustacheExtensionFormats,
+                //PartialViewLocationFormats = mustacheExtensionFormats,
+                //ViewLocationFormats = mustacheExtensionFormats
+            });
 
             RouteRegistrar.RegisterRoutesTo(RouteTable.Routes);
 
