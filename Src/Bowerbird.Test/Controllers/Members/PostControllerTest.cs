@@ -35,7 +35,7 @@ namespace Bowerbird.Test.Controllers.Members
         private Mock<ICommandProcessor> _mockCommandProcessor;
         private Mock<IUserContext> _mockUserContext;
         private IDocumentStore _documentStore;
-        private PostController _controller;
+        private PostsController _controller;
 
         [SetUp]
         public void TestInitialize()
@@ -44,7 +44,7 @@ namespace Bowerbird.Test.Controllers.Members
             _mockUserContext = new Mock<IUserContext>();
             _documentStore = DocumentStoreHelper.InMemoryDocumentStore();
 
-            _controller = new PostController(
+            _controller = new PostsController(
                 _mockCommandProcessor.Object,
                 _mockUserContext.Object,
                 _documentStore.OpenSession());

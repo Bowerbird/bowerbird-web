@@ -32,7 +32,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         private Mock<ICommandProcessor> _mockCommandProcessor;
         private Mock<IUserContext> _mockUserContext;
-        private UserController _controller;
+        private UsersController _controller;
         private Mock<IConfigService> _mockConfigService;
         private Mock<IMediaFilePathService> _mockMediaFilePathService;
         private IDocumentStore _documentStore;
@@ -45,7 +45,7 @@ namespace Bowerbird.Test.Controllers.Members
             _mockUserContext = new Mock<IUserContext>();
             _mockConfigService = new Mock<IConfigService>();
             _mockMediaFilePathService = new Mock<IMediaFilePathService>();
-            _controller = new UserController(
+            _controller = new UsersController(
                 _mockCommandProcessor.Object,
                 _mockUserContext.Object,
                 _documentStore.OpenSession(),

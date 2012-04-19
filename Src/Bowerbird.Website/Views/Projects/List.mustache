@@ -1,0 +1,9 @@
+﻿<div class="project-list">
+    <h2>Projects in Bowerbird</h2>
+	{{#Projects.PagedListItems}}
+		{{ProjectItem}}
+	{{Projects.PagedListItems}}
+	{{^Projects.PagedListItems}}
+		No projects in the system yet
+	{{Projects.PagedListItems}}
+</div>

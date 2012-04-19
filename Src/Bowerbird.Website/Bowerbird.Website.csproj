@@ -112,9 +112,9 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="js\libs\yepnope.js" />
-    <None Include="Views\Organisation\Create.mustache" />
-    <None Include="Views\Organisation\Delete.mustache" />
-    <None Include="Views\Organisation\List.mustache" />
+    <None Include="Views\Organisations\Create.mustache" />
+    <None Include="Views\Organisations\Delete.mustache" />
+    <None Include="Views\Organisations\List.mustache" />
     <None Include="Views\Account\LogoutSuccess.mustache" />
     <None Include="Views\Account\ResetPassword.mustache" />
     <None Include="Views\Account\Register.mustache" />
@@ -127,10 +127,10 @@
     <None Include="Views\Observations\Delete.mustache" />
     <None Include="Views\Observations\Index.mustache" />
     <None Include="Views\Observations\Create.mustache" />
-    <None Include="Views\Project\Create.mustache" />
-    <None Include="Views\Project\Delete.mustache" />
-    <None Include="Views\Project\Index.mustache" />
-    <None Include="Views\Project\List.mustache" />
+    <None Include="Views\Projects\Create.mustache" />
+    <None Include="Views\Projects\Delete.mustache" />
+    <None Include="Views\Projects\Index.mustache" />
+    <None Include="Views\Projects\List.mustache" />
     <None Include="Views\Shared\OrganisationItem.mustache" />
     <None Include="Views\Shared\TeamItem.mustache" />
     <None Include="Views\Shared\ProjectItem.mustache" />
@@ -282,10 +282,10 @@
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
     </Content>
-    <None Include="Views\Team\Create.mustache" />
-    <None Include="Views\Team\Delete.mustache" />
-    <None Include="Views\Team\Index.mustache" />
-    <None Include="Views\Organisation\Index.mustache" />
+    <None Include="Views\Teams\Create.mustache" />
+    <None Include="Views\Teams\Delete.mustache" />
+    <None Include="Views\Teams\Index.mustache" />
+    <None Include="Views\Organisations\Index.mustache" />
     <None Include="Views\Shared\AvatarChooseFile.mustache" />
     <None Include="Views\Shared\AvatarUploaded.mustache" />
     <None Include="Views\Shared\AvatarUploader.mustache" />
@@ -309,7 +309,7 @@
     <None Include="Views\Shared\TeamCreate.mustache" />
     <None Include="Views\Shared\UserItem.mustache" />
     <None Include="Views\Shared\UsersOnlineList.mustache" />
-    <None Include="Views\Team\List.mustache" />
+    <None Include="Views\Teams\List.mustache" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="404.html" />
@@ -333,7 +333,7 @@
     <Folder Include="media\document\" />
     <Folder Include="media\image\0\" />
     <Folder Include="media\video\" />
-    <Folder Include="Views\User\" />
+    <Folder Include="Views\Users\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

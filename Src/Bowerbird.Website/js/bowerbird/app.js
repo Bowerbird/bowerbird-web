@@ -100,15 +100,15 @@ window.Bowerbird.App = Backbone.Model.extend({
     },
 
     exploreProjects: function () {
-        this.explore.setNewExplore('project');
+        this.explore.setNewExplore('projects');
     },
 
     exploreTeams: function () {
-        this.explore.setNewExplore('team');
+        this.explore.setNewExplore('teams');
     },
 
     exploreOrganisations: function () {
-        this.explore.setNewExplore('organisation');
+        this.explore.setNewExplore('organisations');
     }
 
 });

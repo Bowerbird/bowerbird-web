@@ -2,7 +2,7 @@
 window.Bowerbird.Collections.StreamItems = Bowerbird.Collections.PaginatedCollection.extend({
     model: Bowerbird.Models.StreamItem,
 
-    baseUrl: '/streamitem/list',
+    baseUrl: '/streamitems/list',
 
     initialize: function () {
         _.extend(this, Backbone.Events);

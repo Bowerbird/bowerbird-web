@@ -24,9 +24,8 @@ using Bowerbird.Core.Config;
 
 namespace Bowerbird.Web.Controllers
 {
-    public class UserController : ControllerBase
+    public class UsersController : ControllerBase
     {
-
         #region Members
 
         private readonly ICommandProcessor _commandProcessor;
@@ -38,7 +37,7 @@ namespace Bowerbird.Web.Controllers
 
         #region Constructors
 
-        public UserController(
+        public UsersController(
             ICommandProcessor commandProcessor,
             IUserContext userContext,
             IDocumentSession documentSession,
@@ -156,6 +155,5 @@ namespace Bowerbird.Web.Controllers
         }
 
         #endregion
-
     }
 }

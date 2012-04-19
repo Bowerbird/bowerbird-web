@@ -22,7 +22,7 @@ using Raven.Client.Linq;
 
 namespace Bowerbird.Core.Queries
 {
-    public class UsersGroupsHavingPermissionQuery : IUsersGroupsHavingPermissionQuery
+    public class UsersGroupsQuery : IUsersGroupsQuery
     {
         #region Fields
 
@@ -32,7 +32,7 @@ namespace Bowerbird.Core.Queries
 
         #region Constructors
 
-        public UsersGroupsHavingPermissionQuery(
+        public UsersGroupsQuery(
             IDocumentSession documentSession
             )
         {

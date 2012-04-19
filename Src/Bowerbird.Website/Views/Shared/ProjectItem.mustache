@@ -1,19 +1,19 @@
-﻿  <div class="project-summary">
+﻿<div class="project-summary">
     <p>
-      {{Avatar.UrlToImage}}<h2>{{Name}}</h2>
+        {{Avatar.UrlToImage}}<h2>{{Name}}</h2>
     </p>
     <p>{{Description}}</p>
     <p>{{Website}}</p>
     <p>{{Team}}</p>
-  </div>
-  <div class="project-contents">
+</div>
+<div class="project-contents">
     {{#Observations.PagedListItems}}
-		{{projectIndexItem}}
-	{{/Observations.PagedListItems}}
-	{{^Observations.PagedListItems}}
-		There are no observations in this project yet
-	{{/Observations.PagedListItems}}
-	{{#Members.PagedListItems}}
-		{{user}}
-	{{/Members.PagedListItems}}
-  </div>
+	    {{projectIndexItem}}
+    {{/Observations.PagedListItems}}
+    {{^Observations.PagedListItems}}
+	    There are no observations in this project yet
+    {{/Observations.PagedListItems}}
+    {{#Members.PagedListItems}}
+	    {{user}}
+    {{/Members.PagedListItems}}
+</div>

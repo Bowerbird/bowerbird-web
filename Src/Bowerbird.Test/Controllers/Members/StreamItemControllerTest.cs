@@ -33,7 +33,7 @@ namespace Bowerbird.Test.Controllers.Members
 
         private Mock<IUserContext> _mockUserContext;
         private IDocumentStore _documentStore;
-        private StreamItemController _controller;
+        private StreamItemsController _controller;
 
         [SetUp]
         public void TestInitialize()
@@ -42,7 +42,7 @@ namespace Bowerbird.Test.Controllers.Members
 
             _mockUserContext = new Mock<IUserContext>();
 
-            _controller = new StreamItemController(
+            _controller = new StreamItemsController(
                 _mockUserContext.Object,
                 _documentStore.OpenSession(DocumentStoreHelper.DevDb)
                 );

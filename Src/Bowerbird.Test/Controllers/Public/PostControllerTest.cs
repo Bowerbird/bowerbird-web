@@ -30,14 +30,14 @@ namespace Bowerbird.Test.Controllers.Public
         #region Test Infrastructure
 
         private IDocumentStore _documentStore;
-        private PostController _controller;
+        private PostsController _controller;
 
         [SetUp]
         public void TestInitialize()
         {
             _documentStore = DocumentStoreHelper.InMemoryDocumentStore();
 
-            _controller = new PostController(
+            _controller = new PostsController(
                 _documentStore.OpenSession());
         }
 
