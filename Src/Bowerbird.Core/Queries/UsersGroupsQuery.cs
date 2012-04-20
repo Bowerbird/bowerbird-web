@@ -70,6 +70,15 @@ namespace Bowerbird.Core.Queries
             return groups.Select(x => x.Id);
         }
 
+        public int GetGroupMemberCount(string groupId)
+        {
+            return _documentSession
+                .Query<All_UserMemberships.Result, All_Groups>()
+                .AsProjection<All_UserMemberships.Result>()
+                .Where(x => x.GroupId == groupId)
+                .Count();
+        }
+
         #endregion
     }
 }

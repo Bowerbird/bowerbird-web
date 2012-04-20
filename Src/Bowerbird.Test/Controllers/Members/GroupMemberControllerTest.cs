@@ -1,168 +1,168 @@
-/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+///* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
- Developers: 
- * Frank Radocaj : frank@radocaj.com
- * Hamish Crittenden : hamish.crittenden@gmail.com
+// Developers: 
+// * Frank Radocaj : frank@radocaj.com
+// * Hamish Crittenden : hamish.crittenden@gmail.com
  
- Project Manager: 
- * Ken Walker : kwalker@museum.vic.gov.au
+// Project Manager: 
+// * Ken Walker : kwalker@museum.vic.gov.au
  
- Funded by:
- * Atlas of Living Australia
+// Funded by:
+// * Atlas of Living Australia
  
-*/
+//*/
 
-using System.Collections.Generic;
-using System.Web.Mvc;
-using Bowerbird.Core.Commands;
-using Bowerbird.Web.ViewModels;
-using NUnit.Framework;
-using Moq;
-using Bowerbird.Test.Utils;
-using Raven.Client;
+//using System.Collections.Generic;
+//using System.Web.Mvc;
+//using Bowerbird.Core.Commands;
+//using Bowerbird.Web.ViewModels;
+//using NUnit.Framework;
+//using Moq;
+//using Bowerbird.Test.Utils;
+//using Raven.Client;
 
-namespace Bowerbird.Test.Controllers.Members
-{
-    [TestFixture]
-    public class GroupMemberControllerTest
-    {
-        #region Test Infrastructure
+//namespace Bowerbird.Test.Controllers.Members
+//{
+//    [TestFixture]
+//    public class GroupMemberControllerTest
+//    {
+//        #region Test Infrastructure
 
-        private Mock<ICommandProcessor> _mockCommandProcessor;
-        private Mock<IUserContext> _mockUserContext;
-        private IDocumentStore _documentStore;
-        private GroupMemberController _controller;
+//        private Mock<ICommandProcessor> _mockCommandProcessor;
+//        private Mock<IUserContext> _mockUserContext;
+//        private IDocumentStore _documentStore;
+//        private GroupMemberController _controller;
 
-        [SetUp]
-        public void TestInitialize()
-        {
-            _mockCommandProcessor = new Mock<ICommandProcessor>();
-            _mockUserContext = new Mock<IUserContext>();
-            _documentStore = DocumentStoreHelper.InMemoryDocumentStore();
+//        [SetUp]
+//        public void TestInitialize()
+//        {
+//            _mockCommandProcessor = new Mock<ICommandProcessor>();
+//            _mockUserContext = new Mock<IUserContext>();
+//            _documentStore = DocumentStoreHelper.InMemoryDocumentStore();
 
-            _controller = new GroupMemberController(
-                _mockCommandProcessor.Object,
-                _mockUserContext.Object,
-                _documentStore.OpenSession());
-        }
+//            _controller = new GroupMemberController(
+//                _mockCommandProcessor.Object,
+//                _mockUserContext.Object,
+//                _documentStore.OpenSession());
+//        }
 
-        [TearDown]
-        public void TestCleanup()
-        {
-        }
+//        [TearDown]
+//        public void TestCleanup()
+//        {
+//        }
 
-        #endregion
+//        #endregion
 
-        #region Test Helpers
+//        #region Test Helpers
 
-        #endregion
+//        #endregion
 
-        #region Constructor tests
+//        #region Constructor tests
 
-        #endregion
+//        #endregion
 
-        #region Method tests
+//        #region Method tests
 
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void GroupMember_List_In_Json_Format()
-        {
-            var user = FakeObjects.TestUserWithId();
-            var project = FakeObjects.TestProjectWithId();
-            var groupMembers = new List<GroupMember>();
+//        [Test]
+//        [Category(TestCategory.Unit)]
+//        public void GroupMember_List_In_Json_Format()
+//        {
+//            var user = FakeObjects.TestUserWithId();
+//            var project = FakeObjects.TestProjectWithId();
+//            var groupMembers = new List<GroupMember>();
 
-            const int page = 1;
-            const int pageSize = 10;
+//            const int page = 1;
+//            const int pageSize = 10;
 
-            using (var session = _documentStore.OpenSession())
-            {
-                session.Store(user);
-                session.Store(project);
-                session.SaveChanges();
+//            using (var session = _documentStore.OpenSession())
+//            {
+//                session.Store(user);
+//                session.Store(project);
+//                session.SaveChanges();
 
-                for (var i = 0; i < 15; i++)
-                {
-                    var groupMember = FakeObjects.TestGroupMemberWithId(i.ToString());
-                    groupMembers.Add(groupMember);
-                    session.Store(groupMember);
-                }
+//                for (var i = 0; i < 15; i++)
+//                {
+//                    var groupMember = FakeObjects.TestGroupMemberWithId(i.ToString());
+//                    groupMembers.Add(groupMember);
+//                    session.Store(groupMember);
+//                }
 
-                session.SaveChanges();
-            }
+//                session.SaveChanges();
+//            }
 
-            var result = _controller.List(new MemberListInput() { Page = page, PageSize = pageSize, GroupId = project.Id, UserId = user.Id });
+//            var result = _controller.List(new MemberListInput() { Page = page, PageSize = pageSize, GroupId = project.Id, UserId = user.Id });
 
-            Assert.IsInstanceOf<JsonResult>(result);
+//            Assert.IsInstanceOf<JsonResult>(result);
 
-            var jsonResult = result as JsonResult;
-            Assert.IsNotNull(jsonResult);
+//            var jsonResult = result as JsonResult;
+//            Assert.IsNotNull(jsonResult);
 
-            Assert.IsInstanceOf<MemberList>(jsonResult.Data);
-            var jsonData = jsonResult.Data as MemberList;
+//            Assert.IsInstanceOf<MemberList>(jsonResult.Data);
+//            var jsonData = jsonResult.Data as MemberList;
 
-            Assert.IsNotNull(jsonData);
-            Assert.AreEqual(page, jsonData.Page);
-            Assert.AreEqual(pageSize, jsonData.PageSize);
-            Assert.AreEqual(pageSize, jsonData.GroupMembers.PagedListItems.Count());
-            Assert.AreEqual(groupMembers.Count, jsonData.GroupMembers.TotalResultCount);
-        }
+//            Assert.IsNotNull(jsonData);
+//            Assert.AreEqual(page, jsonData.Page);
+//            Assert.AreEqual(pageSize, jsonData.PageSize);
+//            Assert.AreEqual(pageSize, jsonData.GroupMembers.PagedListItems.Count());
+//            Assert.AreEqual(groupMembers.Count, jsonData.GroupMembers.TotalResultCount);
+//        }
 
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void GroupMember_Create_With_Error()
-        {
-            _controller.ModelState.AddModelError("Error", "Error");
+//        [Test]
+//        [Category(TestCategory.Unit)]
+//        public void GroupMember_Create_With_Error()
+//        {
+//            _controller.ModelState.AddModelError("Error", "Error");
 
-            var result = _controller.Create(new MemberCreateInput());
+//            var result = _controller.Create(new MemberCreateInput());
 
-            Assert.IsInstanceOf<JsonResult>(result);
-            var jsonResult = result as JsonResult;
+//            Assert.IsInstanceOf<JsonResult>(result);
+//            var jsonResult = result as JsonResult;
 
-            Assert.IsNotNull(jsonResult);
-            Assert.AreEqual(jsonResult.Data, "Failure");
-        }
+//            Assert.IsNotNull(jsonResult);
+//            Assert.AreEqual(jsonResult.Data, "Failure");
+//        }
 
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void GroupMember_Create()
-        {
-            var result = _controller.Create(new MemberCreateInput(){GroupId = FakeValues.KeyString, UserId = FakeValues.KeyString, Roles = FakeValues.StringList});
+//        [Test]
+//        [Category(TestCategory.Unit)]
+//        public void GroupMember_Create()
+//        {
+//            var result = _controller.Create(new MemberCreateInput(){GroupId = FakeValues.KeyString, UserId = FakeValues.KeyString, Roles = FakeValues.StringList});
 
-            Assert.IsInstanceOf<JsonResult>(result);
-            var jsonResult = result as JsonResult;
+//            Assert.IsInstanceOf<JsonResult>(result);
+//            var jsonResult = result as JsonResult;
 
-            Assert.IsNotNull(jsonResult);
-            Assert.AreEqual(jsonResult.Data.ToString().ToLower(), "Success".ToLower());
-        }
+//            Assert.IsNotNull(jsonResult);
+//            Assert.AreEqual(jsonResult.Data.ToString().ToLower(), "Success".ToLower());
+//        }
 
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void GroupMember_Delete_With_Error()
-        {
-            _controller.ModelState.AddModelError("Error", "Error");
+//        [Test]
+//        [Category(TestCategory.Unit)]
+//        public void GroupMember_Delete_With_Error()
+//        {
+//            _controller.ModelState.AddModelError("Error", "Error");
 
-            var result = _controller.Delete(new MemberDeleteInput());
+//            var result = _controller.Delete(new MemberDeleteInput());
 
-            Assert.IsInstanceOf<JsonResult>(result);
-            var jsonResult = result as JsonResult;
+//            Assert.IsInstanceOf<JsonResult>(result);
+//            var jsonResult = result as JsonResult;
 
-            Assert.IsNotNull(jsonResult);
-            Assert.AreEqual(jsonResult.Data, "Failure");
-        }
+//            Assert.IsNotNull(jsonResult);
+//            Assert.AreEqual(jsonResult.Data, "Failure");
+//        }
 
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void GroupMember_Delete()
-        {
-            var result = _controller.Delete(new MemberDeleteInput());
+//        [Test]
+//        [Category(TestCategory.Unit)]
+//        public void GroupMember_Delete()
+//        {
+//            var result = _controller.Delete(new MemberDeleteInput());
 
-            Assert.IsInstanceOf<JsonResult>(result);
-            var jsonResult = result as JsonResult;
+//            Assert.IsInstanceOf<JsonResult>(result);
+//            var jsonResult = result as JsonResult;
 
-            Assert.IsNotNull(jsonResult);
-            Assert.AreEqual(jsonResult.Data.ToString().ToLower(), "Success".ToLower());
-        }
+//            Assert.IsNotNull(jsonResult);
+//            Assert.AreEqual(jsonResult.Data.ToString().ToLower(), "Success".ToLower());
+//        }
 
-        #endregion
-    }
-}
+//        #endregion
+//    }
+//}

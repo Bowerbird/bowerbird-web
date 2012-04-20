@@ -12,10 +12,12 @@
  
 */
 
+using System;
 using System.Linq;
 using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Paging;
 using Bowerbird.Core.Queries;
 using Bowerbird.Web.Factories;
@@ -78,19 +80,39 @@ namespace Bowerbird.Web.Queries
             RavenQueryStatistics stats;
 
             var results = _documentSession
-                .Query<Project>()
+                .Query<All_Groups.Result, All_Groups>()
+                .Customize(x => x.WaitForNonStaleResults())
+                .Include(x => x.Id)
+                .AsProjection<All_Groups.Result>()
                 .Statistics(out stats)
                 .Skip(listInput.Page)
                 .Take(listInput.PageSize)
                 .ToList()
                 .Select(project => new ProjectView()
                 {
-                    Id = project.Id,
-                    Description = project.Description,
+                    Avatar = _avatarFactory.GetAvatar(_documentSession.Load<Project>(project.Id)),
                     Name = project.Name,
-                    Website = project.Website,
-                    Avatar = _avatarFactory.GetAvatar(project)
+                    Description = project.Name,
+                    Id = project.Id,
+                    MemberCount = project.MemberCount,
+                    ObservationCount = project.ObservationCount
                 });
+            //var results = _documentSession
+            //    .Query<Project>()
+            //    .Statistics(out stats)
+            //    .Skip(listInput.Page)
+            //    .Take(listInput.PageSize)
+            //    .ToList()
+            //    .Select(project => new ProjectView()
+            //    {
+            //        Id = project.Id,
+            //        Description = project.Description,
+            //        Name = project.Name,
+            //        Website = project.Website,
+            //        Avatar = _avatarFactory.GetAvatar(project),
+            //        MemberCount = _usersGroupsQuery.GetGroupMemberCount(project.Id),
+            //        ObservationCount = _
+            //    });
 
             var projects = new ProjectList
             {

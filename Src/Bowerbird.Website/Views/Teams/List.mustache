@@ -2,11 +2,10 @@
     <br />
     <br />
     <h2>Teams in Bowerbird</h2>
-	<!--{{TeamList}}-->
-    {{#Teams.PagedListItems}}
-	    {{TeamItem}}
-    {{Teams.PagedListItems}}
-    {{^Teams.PagedListItems}}
-	    No teams in the system yet
-    {{Teams.PagedListItems}}
+	{{#Teams}}
+        {{>TeamItem}}
+	{{/Teams}}
+	{{^Teams}}
+        No Teams in Bowerbird
+	{{#Teams}}
 </div>

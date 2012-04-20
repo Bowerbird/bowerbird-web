@@ -1,93 +1,93 @@
-﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+﻿///* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
- Developers: 
- * Frank Radocaj : frank@radocaj.com
- * Hamish Crittenden : hamish.crittenden@gmail.com
+// Developers: 
+// * Frank Radocaj : frank@radocaj.com
+// * Hamish Crittenden : hamish.crittenden@gmail.com
  
- Project Manager: 
- * Ken Walker : kwalker@museum.vic.gov.au
+// Project Manager: 
+// * Ken Walker : kwalker@museum.vic.gov.au
  
- Funded by:
- * Atlas of Living Australia
+// Funded by:
+// * Atlas of Living Australia
  
-*/
+//*/
 
-using Bowerbird.Core.CommandHandlers;
-using Bowerbird.Core.Commands;
-using Bowerbird.Core.DomainModels.Members;
-using Bowerbird.Test.Utils;
-using NUnit.Framework;
-using Raven.Client;
+//using Bowerbird.Core.CommandHandlers;
+//using Bowerbird.Core.Commands;
+//using Bowerbird.Core.DomainModels.Members;
+//using Bowerbird.Test.Utils;
+//using NUnit.Framework;
+//using Raven.Client;
 
-namespace Bowerbird.Test.CommandHandlers
-{
-    public class GroupMemberDeleteCommandHandlerTest
-    {
-        #region Test Infrastructure
+//namespace Bowerbird.Test.CommandHandlers
+//{
+//    public class GroupMemberDeleteCommandHandlerTest
+//    {
+//        #region Test Infrastructure
 
-        private IDocumentStore _store;
+//        private IDocumentStore _store;
 
-        [SetUp]
-        public void TestInitialize()
-        {
-            _store = DocumentStoreHelper.InMemoryDocumentStore();
-        }
+//        [SetUp]
+//        public void TestInitialize()
+//        {
+//            _store = DocumentStoreHelper.InMemoryDocumentStore();
+//        }
 
-        [TearDown]
-        public void TestCleanup()
-        {
-            _store = null;
-        }
+//        [TearDown]
+//        public void TestCleanup()
+//        {
+//            _store = null;
+//        }
 
-        #endregion
+//        #endregion
 
-        #region Test Helpers
+//        #region Test Helpers
 
-        #endregion
+//        #endregion
 
-        #region Constructor tests
+//        #region Constructor tests
 
-        #endregion
+//        #endregion
 
-        #region Method tests
+//        #region Method tests
 
-        [Test]
-        [Category(TestCategory.Integration)]
-        public void GroupMemberDeleteCommandHandler_Handle()
-        {
-            var user = FakeObjects.TestUserWithId();
-            var project = FakeObjects.TestProjectWithId();
-            var groupMember = FakeObjects.TestGroupMemberWithId();
+//        [Test]
+//        [Category(TestCategory.Integration)]
+//        public void GroupMemberDeleteCommandHandler_Handle()
+//        {
+//            var user = FakeObjects.TestUserWithId();
+//            var project = FakeObjects.TestProjectWithId();
+//            var groupMember = FakeObjects.TestGroupMemberWithId();
 
-            GroupMember deletedTeam = null;
+//            GroupMember deletedTeam = null;
 
-            var command = new GroupMemberDeleteCommand()
-            {
-                GroupId = project.Id,
-                UserId = user.Id,
-                DeletedByUserId = user.Id
-            };
+//            var command = new GroupMemberDeleteCommand()
+//            {
+//                GroupId = project.Id,
+//                UserId = user.Id,
+//                DeletedByUserId = user.Id
+//            };
 
-            using (var session = _store.OpenSession())
-            {
-                session.Store(user);
-                session.Store(project);
-                session.Store(groupMember);
+//            using (var session = _store.OpenSession())
+//            {
+//                session.Store(user);
+//                session.Store(project);
+//                session.Store(groupMember);
 
-                session.SaveChanges();
+//                session.SaveChanges();
 
-                var commandHandler = new GroupMemberDeleteCommandHandler(session);
+//                var commandHandler = new GroupMemberDeleteCommandHandler(session);
 
-                commandHandler.Handle(command);
+//                commandHandler.Handle(command);
 
-                session.SaveChanges();
+//                session.SaveChanges();
 
-                deletedTeam = session.Load<GroupMember>(groupMember.Id);
-            }
+//                deletedTeam = session.Load<GroupMember>(groupMember.Id);
+//            }
 
-            Assert.IsNull(deletedTeam);
-        }
+//            Assert.IsNull(deletedTeam);
+//        }
 
-        #endregion 
-    }
-}
+//        #endregion 
+//    }
+//}

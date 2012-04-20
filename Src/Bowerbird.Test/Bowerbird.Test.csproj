@@ -147,81 +147,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandHandlers\MediaResourceCreateCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\MediaResourceDeleteCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\CommentCreateCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\CommentDeleteCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\CommentUpdateCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\ObservationCreateCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\ObservationDeleteCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\ObservationNoteCreateCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\ObservationNoteDeleteCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\ObservationNoteUpdateCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\ObservationUpdateCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\OrganisationCreateCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\OrganisationDeleteCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\OrganisationUpdateCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\ProjectCreateCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\ProjectDeleteCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\GroupMemberCreateCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\GroupMemberDeleteCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\PostCreateCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\PostDeleteCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\PostUpdateCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\ProjectUpdateCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\TeamCreateCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\TeamDeleteCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\TeamUpdateCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\UserCreateCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\UserUpdateLastLoginCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\WatchlistCreateCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\WatchlistDeleteCommandHandlerTest.cs" />
-    <Compile Include="CommandHandlers\WatchlistUpdateCommandHandlerTest.cs" />
-    <Compile Include="Config\BowerbirdNinjectModuleTest.cs" />
-    <Compile Include="Config\UserContextTest.cs" />
-    <Compile Include="Controllers\Members\AccountControllerTest.cs" />
-    <Compile Include="Controllers\Members\HomeControllerTest.cs" />
-    <Compile Include="Controllers\Members\OrganisationControllerTest.cs" />
-    <Compile Include="Controllers\Members\ProjectControllerTest.cs" />
-    <Compile Include="Controllers\Members\ObservationControllerTest.cs" />
-    <Compile Include="Controllers\Members\StreamItemControllerTest.cs" />
-    <Compile Include="Controllers\Members\TeamControllerTest.cs" />
-    <Compile Include="Controllers\Members\GroupMemberControllerTest.cs" />
-    <Compile Include="Controllers\Members\PostControllerTest.cs" />
-    <Compile Include="Controllers\Members\UserControllerTest.cs" />
-    <Compile Include="Controllers\Members\WatchlistController.cs" />
-    <Compile Include="Controllers\Public\AccountControllerTest.cs" />
-    <Compile Include="Controllers\Public\HomeControllerTest.cs" />
-    <Compile Include="Controllers\Public\ObservationControllerTest.cs" />
-    <Compile Include="Controllers\Public\OrganisationControllerTest.cs" />
-    <Compile Include="Controllers\Public\PostControllerTest.cs" />
-    <Compile Include="Controllers\Public\ProjectControllerTest.cs" />
-    <Compile Include="Controllers\Public\StreamItemControllerTest.cs" />
-    <Compile Include="Controllers\Public\TeamControllerTest.cs" />
-    <Compile Include="DesignByContract\CheckTest.cs" />
-    <Compile Include="DomainModels\ActivityTest.cs" />
-    <Compile Include="DomainModels\CommentTest.cs" />
-    <Compile Include="DomainModels\Members\GlobalMemberTest.cs" />
-    <Compile Include="DomainModels\MediaResourceTest.cs" />
-    <Compile Include="DomainModels\MediaResources\OtherMediaResourceTest.cs" />
-    <Compile Include="DomainModels\ObservationNoteTest.cs" />
-    <Compile Include="DomainModels\ObservationTest.cs" />
-    <Compile Include="DomainModels\OrganisationTest.cs" />
-    <Compile Include="DomainModels\PermissionTest.cs" />
-    <Compile Include="DomainModels\PostTest.cs" />
-    <Compile Include="DomainModels\Members\GroupMemberTest.cs" />
-    <Compile Include="DomainModels\ProjectTest.cs" />
-    <Compile Include="DomainModels\RoleTest.cs" />
-    <Compile Include="DomainModels\TeamTest.cs" />
-    <Compile Include="DomainModels\UserTest.cs" />
-    <Compile Include="DomainModels\ValueObjectTest.cs" />
-    <Compile Include="DomainModels\WatchlistTest.cs" />
-    <Compile Include="EventHandlers\NotifyActivityEventHandlerBaseTest.cs" />
-    <Compile Include="EventHandlers\NotifyActivityObservationCreatedEventHandlerTest.cs" />
-    <Compile Include="EventHandlers\NotifyActivityUserLoggedInEventHandlerTest.cs" />
-    <Compile Include="Extensions\CollectionExtensionsTest.cs" />
-    <Compile Include="Extensions\StringExtensionsTest.cs" />
-    <Compile Include="Extensions\UrlHelperExtensionsTest.cs" />
+    <Compile Include="Indexes\GroupIndexTest.cs" />
     <Compile Include="Utils\Denormaliser.cs" />
     <Compile Include="Utils\FakeViewModels.cs" />
     <Compile Include="Utils\BootstrapperHelper.cs" />
@@ -230,14 +156,12 @@
     <Compile Include="Utils\FakeObjects.cs" />
     <Compile Include="Utils\FakeValues.cs" />
     <Compile Include="Utils\MockHelpers.cs" />
-    <Compile Include="Hubs\ActivityHubTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\DocumentStoreHelper.cs" />
     <Compile Include="Utils\ProxyObjects.cs" />
     <Compile Include="Utils\TestCategory.cs" />
     <Compile Include="Utils\UtilityHelpers.cs" />
     <Compile Include="Utils\ValidationHelper.cs" />
-    <Compile Include="Validators\UniqueEmailAttributeTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -252,13 +176,6 @@
       <Project>{32CE4221-21E5-48E9-BA54-E0908FD5B80A}</Project>
       <Name>Bowerbird.Web</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Scripts\jquery-1.6.4-vsdoc.js" />
-    <Content Include="Scripts\jquery-1.6.4.js" />
-    <Content Include="Scripts\jquery-1.6.4.min.js" />
-    <Content Include="Scripts\jquery.signalR.js" />
-    <Content Include="Scripts\jquery.signalR.min.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

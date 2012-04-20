@@ -1,6 +1,9 @@
-﻿<div class="project-list">
-    <br />
-    <br />
+﻿<div class="explore-list">
     <h2>Projects in Bowerbird</h2>
-	{{ProjectList}}
+	{{#ProjectList.Projects}}
+        {{>ProjectList}}
+	{{/ProjectList.Projects}}
+	{{^ProjectList.Projects}}
+        No Projects in Bowerbird
+	{{/ProjectList.Projects}}
 </div>

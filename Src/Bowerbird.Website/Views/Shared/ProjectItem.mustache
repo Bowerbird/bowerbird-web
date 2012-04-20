@@ -1,19 +1,18 @@
-﻿<div class="project-summary">
-    <p>
-        {{Avatar.UrlToImage}}<h2>{{Name}}</h2>
-    </p>
-    <p>{{Description}}</p>
-    <p>{{Website}}</p>
-    <p>{{Team}}</p>
-</div>
-<div class="project-contents">
-    {{#Observations.PagedListItems}}
-	    {{projectIndexItem}}
-    {{/Observations.PagedListItems}}
-    {{^Observations.PagedListItems}}
-	    There are no observations in this project yet
-    {{/Observations.PagedListItems}}
-    {{#Members.PagedListItems}}
-	    {{user}}
-    {{/Members.PagedListItems}}
+﻿<div class="explore-item" id="{{Id}}">
+    <div class="explore-item-summary">
+        <span class="explore-avatar"><img src="{{Avatar.UrlToImage}}" /></span><span class="explore-name">{{Name}}</span>
+    </div>
+    <div class="explore-item-details">
+        <p>{{Team}}</p>
+        <p>{{Website}}</p>
+        <p>{{Description}}</p>
+    </div>
+    <div class="explore-item-contents">
+        {{#Observations.PagedListItems}}
+	        {{{Observations.PagedListItems.Count}}}
+        {{/Observations.PagedListItems}}
+        {{#Members.PagedListItems}}
+	        {{{Members.PagedListItems.Count}}}
+        {{/Members.PagedListItems}}
+    </div>
 </div>

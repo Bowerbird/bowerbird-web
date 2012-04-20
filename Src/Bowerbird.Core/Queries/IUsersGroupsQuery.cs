@@ -19,5 +19,7 @@ namespace Bowerbird.Core.Queries
     public interface IUsersGroupsQuery
     {
         IEnumerable<string> GetUsersGroupsHavingPermission(string userId, string permissionId);
+
+        int GetGroupMemberCount(string groupId);
     }
 }
