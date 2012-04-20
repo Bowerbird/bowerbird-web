@@ -15,13 +15,6 @@
     <header>
       <div>
         <h1>Bowerbird</h1>
-        <!--<nav id="main-menu">
-          <ul>
-            <li>@Html.ActionLink("Observations", "index", "observation")</li>
-            <li>@Html.ActionLink("People", "index", "user")</li>
-            <li>@Html.ActionLink("Groups", "index", "group")</li>
-          </ul>
-        </nav>-->
         <nav id="account-menu">
           <ul>
             {{#UserContext.UserProfile}}
@@ -45,6 +38,13 @@
               <a href="/account/register">Register</a>
             </li>
             {{/UserContext.UserProfile}}
+          </ul>
+        </nav>
+        <nav id="explore-menu">
+          <ul class="explore-menu">
+            <li><a href="/projects">Projects</a></li>
+            <li><a href="/teams">Teams</a></li>
+            <li><a href="/organisations">Organisations</a></li>
           </ul>
         </nav>
         <nav id="search-menu">

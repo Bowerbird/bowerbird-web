@@ -1,4 +1,4 @@
-﻿﻿/*
+﻿/*
 *
 *  Simple fluid media
 *
@@ -142,19 +142,28 @@ header nav#search-menu
 {
     display: none;
 }
-#explore-menu,
+#explore-menu
+{
+    display: inline-block;
+    margin-left: 150px;
+    width: 400px;
+}
 #account-menu
 {
     float: right;
     width: 230px;
 }
-#explore-menu,
+#explore-menu ul,
 #account-menu ul
 {
     margin: 0;
     padding: 0;
 }
-#explore-menu,
+#explore-menu li
+{
+    padding-right:50px;   
+    display: inline-block;    
+}
 #account-menu li
 {
     display: inline-block;
@@ -168,7 +177,7 @@ header nav#search-menu
     height: 46px;
     width: 46px;
 }
-#explore-menu div,
+#explore-menu a,
 #account-menu a
 {
     color: #154999;
@@ -2271,4 +2280,10 @@ li.chat-message .message-text
     letter-spacing: -1px;
     margin: 0;
     padding: 3px 11px;
+}
+ul.explore-menu
+{
+    display: inline;
+    list-style-type: none;
+    padding-right: 20px;   
 }

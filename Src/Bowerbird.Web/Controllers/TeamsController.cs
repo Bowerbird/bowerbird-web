@@ -86,6 +86,8 @@ namespace Bowerbird.Web.Controllers
                 }
             }
 
+            ViewBag.Teams = _teamsQuery.MakeTeamList(new TeamListInput(){Page = 1, PageSize = 10});
+
             return View();
         }
 

@@ -38,8 +38,8 @@ window.Bowerbird.Views.UserView = Backbone.View.extend({
 
     startChat: function (e) {
         // call can come from a user's chat-icon
-        var id = e.target["Id"].split('-')[1];
-        var user = app.onlineUsers.get(Id);
+        var id = e.target["id"].split('-')[1];
+        var user = app.onlineUsers.get(id);
         var chatId = this.generateGuid();
         var chat = new Bowerbird.Models.UserChat({ Id: chatId, User: user });
         app.chats.add(chat);
