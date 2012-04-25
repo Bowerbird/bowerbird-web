@@ -25,5 +25,9 @@ namespace Bowerbird.Web.ViewModels
         public string Website { get; set; }
 
         public Avatar Avatar { get; set; }
+
+        public int MemberCount { get; set; }
+
+        public int ObservationCount { get; set; }
     }
 }

@@ -15,13 +15,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.DomainModels.Members;
-using Bowerbird.Core.Extensions;
 using Bowerbird.Test.Utils;
-using Bowerbird.Web.Indexes;
-using Bowerbird.Web.ViewModels.Members;
-using Bowerbird.Web.ViewModels.Shared;
 using NUnit.Framework;
 using Raven.Client;
 using Raven.Client.Indexes;
@@ -38,9 +32,7 @@ namespace Bowerbird.Test.Indexes
         [SetUp]
         public void TestInitialize()
         {
-            _documentStore = DocumentStoreHelper.TestDocumentStore();
-
-            IndexCreation.CreateIndexes(typeof(ProjectMember_WithProjectIdAndUserId).Assembly, _documentStore);
+            _documentStore = DocumentStoreHelper.RamDocumentStore();
         }
 
         [TearDown]

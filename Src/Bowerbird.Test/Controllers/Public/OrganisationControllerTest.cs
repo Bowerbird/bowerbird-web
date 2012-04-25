@@ -34,7 +34,7 @@ namespace Bowerbird.Test.Controllers.Public
         private IDocumentStore _documentStore;
         private Mock<IConfigService> _mockConfigService;
         private Mock<IMediaFilePathService> _mockMediaFilePathService;
-        private OrganisationController _controller;
+        private OrganisationsController _controller;
 
         [SetUp]
         public void TestInitialize()
@@ -42,7 +42,7 @@ namespace Bowerbird.Test.Controllers.Public
             _documentStore = DocumentStoreHelper.InMemoryDocumentStore();
             _mockConfigService = new Mock<IConfigService>();
             _mockMediaFilePathService = new Mock<IMediaFilePathService>();
-            _controller = new OrganisationController(
+            _controller = new OrganisationsController(
                 _documentStore.OpenSession(),
                 _mockMediaFilePathService.Object,
                 _mockConfigService.Object);

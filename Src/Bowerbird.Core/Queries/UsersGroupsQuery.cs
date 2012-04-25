@@ -22,7 +22,7 @@ using Raven.Client.Linq;
 
 namespace Bowerbird.Core.Queries
 {
-    public class UsersGroupsHavingPermissionQuery : IUsersGroupsHavingPermissionQuery
+    public class UsersGroupsQuery : IUsersGroupsQuery
     {
         #region Fields
 
@@ -32,7 +32,7 @@ namespace Bowerbird.Core.Queries
 
         #region Constructors
 
-        public UsersGroupsHavingPermissionQuery(
+        public UsersGroupsQuery(
             IDocumentSession documentSession
             )
         {
@@ -68,6 +68,15 @@ namespace Bowerbird.Core.Queries
                 .ToList();
 
             return groups.Select(x => x.Id);
+        }
+
+        public int GetGroupMemberCount(string groupId)
+        {
+            return _documentSession
+                .Query<All_UserMemberships.Result, All_Groups>()
+                .AsProjection<All_UserMemberships.Result>()
+                .Where(x => x.GroupId == groupId)
+                .Count();
         }
 
         #endregion

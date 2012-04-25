@@ -13,7 +13,6 @@
 */
 
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.DomainModels.Members;
 using Bowerbird.Core.Indexes;
 using Raven.Client;
 using Raven.Client.Document;
@@ -40,7 +39,7 @@ namespace Bowerbird.Test.Utils
             }
             .Initialize();
 
-            if (createIndexes) IndexCreation.CreateIndexes(typeof(All_Members).Assembly, documentStore);
+            if (createIndexes) IndexCreation.CreateIndexes(typeof(All_Groups).Assembly, documentStore);
 
             return documentStore;
         }
@@ -64,7 +63,7 @@ namespace Bowerbird.Test.Utils
 
             documentStore.DatabaseCommands.EnsureDatabaseExists(DevDb);
 
-            if(createIndexes)IndexCreation.CreateIndexes(typeof(All_Members).Assembly, documentStore);
+            if (createIndexes) IndexCreation.CreateIndexes(typeof(All_Groups).Assembly, documentStore);
 
             //// remove all records from server before running test
             //using (var session = documentStore.OpenSession(DevDb))
@@ -88,6 +87,21 @@ namespace Bowerbird.Test.Utils
 
             //    session.SaveChanges();
             //}
+
+            return documentStore;
+        }
+
+        public static IDocumentStore RamDocumentStore()
+        {
+            var documentStore = new DocumentStore { Url = "http://localhost:8080/" };
+
+            documentStore.Conventions.FindIdentityProperty = prop => prop.Name == "Id";
+
+            documentStore.Initialize();
+
+            documentStore.DatabaseCommands.EnsureDatabaseExists(DevDb);
+
+            IndexCreation.CreateIndexes(typeof(All_Groups).Assembly, documentStore);
 
             return documentStore;
         }

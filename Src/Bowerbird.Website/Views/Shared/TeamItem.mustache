@@ -1,12 +1,14 @@
-﻿  <div class="team-summary">
+﻿  <p>Team Item Page</p>
+  <div class="team-summary" id="{{Id}}">
+    <h2>{{Name}}</h2>
     <p>
-      {{Avatar.UrlToImage}}<h2>{{Name}}</h2>
+      {{#Avatar}}{{{Avatar.UrlToImage}}}{{/Avatar}}
     </p>
     <p>{{Description}}</p>
     <p>{{Website}}</p>
-	<p>{{Organisation}}</p>
+	<p>{{#Organisation}}{{{Organisation}}}{{/Organisation}}</p>
   </div>
-  <div class="team-contents">
+  <!--<div class="team-contents">
     {{#Projects.PagedListItems}}
 		  {{projectIndexItem}}
 	  {{/Projects.PagedListItems}}
@@ -16,4 +18,7 @@
 	  {{#Members.PagedListItems}}
 		  {{user}}
 	  {{/Members.PagedListItems}}
-  </div>
+      {{^Members.PagedListItems}}
+		  There are no members in this team
+	  {{/Members.PagedListItems}}
+  </div>-->

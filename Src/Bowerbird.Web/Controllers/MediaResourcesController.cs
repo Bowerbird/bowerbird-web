@@ -25,7 +25,7 @@ using Bowerbird.Core.Config;
 
 namespace Bowerbird.Web.Controllers
 {
-    public class MediaResourceController : ControllerBase
+    public class MediaResourcesController : ControllerBase
     {
         #region Fields
 
@@ -39,7 +39,7 @@ namespace Bowerbird.Web.Controllers
 
         #region Constructors
 
-        public MediaResourceController(
+        public MediaResourcesController(
             ICommandProcessor commandProcessor,
             IDocumentSession documentSession,
             IUserContext userContext,
@@ -69,16 +69,21 @@ namespace Bowerbird.Web.Controllers
         #region Methods
 
         [HttpPost]
+        [Authorize]
         public ActionResult ObservationUpload(string key, string originalFileName, HttpPostedFileBase file)
         {
             return ProcessPostedImage(key, originalFileName, file, "observation");
         }
 
+        [HttpPost]
+        [Authorize]
         public ActionResult PostUpload(string key, string originalFileName, HttpPostedFileBase file)
         {
             return ProcessPostedImage(key, originalFileName, file, "post");
         }
 
+        [HttpPost]
+        [Authorize]
         public ActionResult AvatarUpload(string key, string originalFileName, HttpPostedFileBase file)
         {
             return ProcessPostedImage(key, originalFileName, file, "user");

@@ -1,6 +1,6 @@
 ﻿
 window.Bowerbird.Models.Team = Backbone.Model.extend({
-    url: '/team/',
+    url: '/teams/',
 
     initialize: function (options) {
         _.extend(this, Backbone.Events);

@@ -12,45 +12,29 @@
  
 */
 
-using System.Collections.Generic;
-using System.Linq;
 using System.Web.Mvc;
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.Indexes;
-using Bowerbird.Core.Paging;
+using Bowerbird.Web.Queries;
 using Bowerbird.Web.ViewModels;
-using Raven.Client;
-using Raven.Client.Linq;
-using Bowerbird.Web.Factories;
-using Bowerbird.Core.Config;
-using Bowerbird.Core.Queries;
 
 namespace Bowerbird.Web.Controllers
 {
-    public class StreamItemController : ControllerBase
+    public class StreamItemsController : ControllerBase
     {
         #region Members
 
-        private readonly IUserContext _userContext;
-        private readonly IDocumentSession _documentSession;
-        private readonly IStreamItemQuery _streamItemQuery;
+        private readonly IStreamItemsQuery _streamItemQuery;
 
         #endregion
 
         #region Constructors
 
-        public StreamItemController(
-            IUserContext userContext,
-            IDocumentSession documentSession,
-            IStreamItemQuery streamItemQuery)
+        public StreamItemsController(
+            IStreamItemsQuery streamItemQuery
+            )
         {
-            Check.RequireNotNull(userContext, "userContext");
-            Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(streamItemQuery, "streamItemQuery");
 
-            _userContext = userContext;
-            _documentSession = documentSession;
             _streamItemQuery = streamItemQuery;
         }
 

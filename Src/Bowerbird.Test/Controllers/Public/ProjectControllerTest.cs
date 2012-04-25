@@ -1,168 +1,168 @@
-﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+﻿///* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
- Developers: 
- * Frank Radocaj : frank@radocaj.com
- * Hamish Crittenden : hamish.crittenden@gmail.com
+// Developers: 
+// * Frank Radocaj : frank@radocaj.com
+// * Hamish Crittenden : hamish.crittenden@gmail.com
  
- Project Manager: 
- * Ken Walker : kwalker@museum.vic.gov.au
+// Project Manager: 
+// * Ken Walker : kwalker@museum.vic.gov.au
  
- Funded by:
- * Atlas of Living Australia
+// Funded by:
+// * Atlas of Living Australia
  
-*/
+//*/
 
-using System.Linq;
-using System.Collections.Generic;
-using System.Web.Mvc;
-using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.Services;
-using Bowerbird.Test.Utils;
-using Bowerbird.Web.Controllers;
-using Bowerbird.Web.ViewModels;
-using Moq;
-using NUnit.Framework;
-using Raven.Client;
+//using System.Linq;
+//using System.Collections.Generic;
+//using System.Web.Mvc;
+//using Bowerbird.Core.DomainModels;
+//using Bowerbird.Core.Services;
+//using Bowerbird.Test.Utils;
+//using Bowerbird.Web.Controllers;
+//using Bowerbird.Web.ViewModels;
+//using Moq;
+//using NUnit.Framework;
+//using Raven.Client;
 
-namespace Bowerbird.Test.Controllers.Public
-{
-    [TestFixture]
-    public class ProjectControllerTest
-    {
-        #region Test Infrastructure
+//namespace Bowerbird.Test.Controllers.Public
+//{
+//    [TestFixture]
+//    public class ProjectControllerTest
+//    {
+//        #region Test Infrastructure
 
-        private IDocumentStore _documentStore;
-        private Mock<IMediaFilePathService> _mockMediaFilePathService;
-        private Mock<IConfigService> _mockConfigService;
-        private ProjectController _controller;
+//        private IDocumentStore _documentStore;
+//        private Mock<IMediaFilePathService> _mockMediaFilePathService;
+//        private Mock<IConfigService> _mockConfigService;
+//        private ProjectController _controller;
 
-        [SetUp]
-        public void TestInitialize()
-        {
-            _documentStore = DocumentStoreHelper.InMemoryDocumentStore();
-            _mockMediaFilePathService = new Mock<IMediaFilePathService>();
-            _mockConfigService = new Mock<IConfigService>();
-            _controller = new ProjectController(
-                _documentStore.OpenSession(),
-                _mockMediaFilePathService.Object,
-                _mockConfigService.Object);
-        }
+//        [SetUp]
+//        public void TestInitialize()
+//        {
+//            _documentStore = DocumentStoreHelper.InMemoryDocumentStore();
+//            _mockMediaFilePathService = new Mock<IMediaFilePathService>();
+//            _mockConfigService = new Mock<IConfigService>();
+//            _controller = new ProjectController(
+//                _documentStore.OpenSession(),
+//                _mockMediaFilePathService.Object,
+//                _mockConfigService.Object);
+//        }
 
-        [TearDown]
-        public void TestCleanup()
-        {
-            _documentStore = null;
-        }
+//        [TearDown]
+//        public void TestCleanup()
+//        {
+//            _documentStore = null;
+//        }
 
-        #endregion
+//        #endregion
 
-        #region Test Helpers
+//        #region Test Helpers
 
-        #endregion
+//        #endregion
 
-        #region Constructor tests
+//        #region Constructor tests
 
-        #endregion
+//        #endregion
 
-        #region Method tests
+//        #region Method tests
 
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void Project_List_In_Json_Format()
-        {
-            const int page = 1;
-            const int pageSize = 10;
+//        [Test]
+//        [Category(TestCategory.Unit)]
+//        public void Project_List_In_Json_Format()
+//        {
+//            const int page = 1;
+//            const int pageSize = 10;
 
-            var projects = new List<Project>();
+//            var projects = new List<Project>();
 
-            using (var session = _documentStore.OpenSession())
-            {
-                for (var i = 0; i < 15; i++)
-                {
-                    var project = FakeObjects.TestProjectWithId(i.ToString());
-                    projects.Add(project);
-                    session.Store(project);
-                }
+//            using (var session = _documentStore.OpenSession())
+//            {
+//                for (var i = 0; i < 15; i++)
+//                {
+//                    var project = FakeObjects.TestProjectWithId(i.ToString());
+//                    projects.Add(project);
+//                    session.Store(project);
+//                }
 
-                session.SaveChanges();
-            }
+//                session.SaveChanges();
+//            }
 
-            var result = _controller.List(new ProjectListInput() { Page = page, PageSize = pageSize});
+//            var result = _controller.List(new ProjectListInput() { Page = page, PageSize = pageSize});
 
-            Assert.IsNotNull(result);
-            Assert.IsInstanceOf<JsonResult>(result);
+//            Assert.IsNotNull(result);
+//            Assert.IsInstanceOf<JsonResult>(result);
 
-            var jsonResult = result as JsonResult;
-            Assert.IsNotNull(jsonResult);
+//            var jsonResult = result as JsonResult;
+//            Assert.IsNotNull(jsonResult);
 
-            Assert.IsNotNull(jsonResult.Data);
-            Assert.IsInstanceOf<ProjectList>(jsonResult.Data);
-            var jsonData = jsonResult.Data as ProjectList;
+//            Assert.IsNotNull(jsonResult.Data);
+//            Assert.IsInstanceOf<ProjectList>(jsonResult.Data);
+//            var jsonData = jsonResult.Data as ProjectList;
 
-            Assert.IsNotNull(jsonData);
-            Assert.AreEqual(page, jsonData.Page);
-            Assert.AreEqual(pageSize, jsonData.PageSize);
-            Assert.AreEqual(pageSize, jsonData.Projects.PagedListItems.Count());
-            Assert.AreEqual(projects.Count, jsonData.Projects.TotalResultCount);
-        }
+//            Assert.IsNotNull(jsonData);
+//            Assert.AreEqual(page, jsonData.Page);
+//            Assert.AreEqual(pageSize, jsonData.PageSize);
+//            Assert.AreEqual(pageSize, jsonData.Projects.PagedListItems.Count());
+//            Assert.AreEqual(projects.Count, jsonData.Projects.TotalResultCount);
+//        }
 
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void Project_Index_As_ViewModel()
-        {
-            var project = FakeObjects.TestProjectWithId();
-            var user = FakeObjects.TestUserWithId();
+//        [Test]
+//        [Category(TestCategory.Unit)]
+//        public void Project_Index_As_ViewModel()
+//        {
+//            var project = FakeObjects.TestProjectWithId();
+//            var user = FakeObjects.TestUserWithId();
 
-            using (var session = _documentStore.OpenSession())
-            {
-                session.Store(project);
-                session.Store(user);
+//            using (var session = _documentStore.OpenSession())
+//            {
+//                session.Store(project);
+//                session.Store(user);
 
-                session.SaveChanges();
-            }
+//                session.SaveChanges();
+//            }
 
-            _controller.SetupFormRequest();
+//            _controller.SetupFormRequest();
 
-            _controller.Index(new IdInput() { Id = project.Id });
+//            _controller.Index(new IdInput() { Id = project.Id });
 
-            Assert.IsInstanceOf<ProjectIndex>(_controller.ViewData.Model);
+//            Assert.IsInstanceOf<ProjectIndex>(_controller.ViewData.Model);
 
-            var viewModel = _controller.ViewData.Model as ProjectIndex;
+//            var viewModel = _controller.ViewData.Model as ProjectIndex;
 
-            Assert.IsNotNull(viewModel);
-            Assert.AreEqual(viewModel.Project, project);
-        }
+//            Assert.IsNotNull(viewModel);
+//            Assert.AreEqual(viewModel.Project, project);
+//        }
 
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void Project_Index_As_Json()
-        {
-            var project = FakeObjects.TestProjectWithId();
-            var user = FakeObjects.TestUserWithId();
+//        [Test]
+//        [Category(TestCategory.Unit)]
+//        public void Project_Index_As_Json()
+//        {
+//            var project = FakeObjects.TestProjectWithId();
+//            var user = FakeObjects.TestUserWithId();
 
-            using (var session = _documentStore.OpenSession())
-            {
-                session.Store(project);
-                session.Store(user);
+//            using (var session = _documentStore.OpenSession())
+//            {
+//                session.Store(project);
+//                session.Store(user);
 
-                session.SaveChanges();
-            }
+//                session.SaveChanges();
+//            }
 
-            _controller.SetupAjaxRequest();
+//            _controller.SetupAjaxRequest();
 
-            var result = _controller.Index(new IdInput() { Id = project.Id });
+//            var result = _controller.Index(new IdInput() { Id = project.Id });
 
-            Assert.IsInstanceOf<JsonResult>(result);
-            var jsonResult = result as JsonResult;
-            Assert.IsNotNull(jsonResult);
+//            Assert.IsInstanceOf<JsonResult>(result);
+//            var jsonResult = result as JsonResult;
+//            Assert.IsNotNull(jsonResult);
             
-            Assert.IsInstanceOf<ProjectIndex>(jsonResult.Data);
-            var jsonData = jsonResult.Data as ProjectIndex;
-            Assert.IsNotNull(jsonData);
+//            Assert.IsInstanceOf<ProjectIndex>(jsonResult.Data);
+//            var jsonData = jsonResult.Data as ProjectIndex;
+//            Assert.IsNotNull(jsonData);
             
-            Assert.AreEqual(jsonData.Project, project);
-        }
+//            Assert.AreEqual(jsonData.Project, project);
+//        }
 
-        #endregion
-    }
-}
+//        #endregion
+//    }
+//}

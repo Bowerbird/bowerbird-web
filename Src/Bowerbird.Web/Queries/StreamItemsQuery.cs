@@ -11,7 +11,7 @@
  * Atlas of Living Australia
  
 */
-				
+
 using System.Collections.Generic;
 using System.Linq;
 using Bowerbird.Core.DesignByContract;
@@ -24,9 +24,9 @@ using Bowerbird.Web.ViewModels;
 using Bowerbird.Core.Config;
 using Bowerbird.Web.Factories;
 
-namespace Bowerbird.Core.Queries
+namespace Bowerbird.Web.Queries
 {
-    public class StreamItemQuery : IStreamItemQuery
+    public class StreamItemsQuery : IStreamItemsQuery
     {
         #region Fields
 
@@ -39,7 +39,7 @@ namespace Bowerbird.Core.Queries
 
         #region Constructors
 
-        public StreamItemQuery(
+        public StreamItemsQuery(
             IUserContext userContext,
             IDocumentSession documentSession,
             IStreamItemFactory streamItemFactory,

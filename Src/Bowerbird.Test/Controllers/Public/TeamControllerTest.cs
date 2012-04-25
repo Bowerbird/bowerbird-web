@@ -31,7 +31,7 @@ namespace Bowerbird.Test.Controllers.Public
         private IDocumentStore _documentStore;
         private Mock<IMediaFilePathService> _mockMediaFilePathService;
         private Mock<IConfigService> _mockConfigService;
-        private TeamController _controller;
+        private TeamsController _controller;
 
         [SetUp]
         public void TestInitialize()
@@ -40,7 +40,7 @@ namespace Bowerbird.Test.Controllers.Public
             _mockMediaFilePathService = new Mock<IMediaFilePathService>();
             _mockConfigService = new Mock<IConfigService>();
 
-            _controller = new TeamController(
+            _controller = new TeamsController(
                 _documentStore.OpenSession(),
                 _mockMediaFilePathService.Object,
                 _mockConfigService.Object);

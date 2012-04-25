@@ -1,117 +1,117 @@
-﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+﻿///* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
- Developers: 
- * Frank Radocaj : frank@radocaj.com
- * Hamish Crittenden : hamish.crittenden@gmail.com
+// Developers: 
+// * Frank Radocaj : frank@radocaj.com
+// * Hamish Crittenden : hamish.crittenden@gmail.com
  
- Project Manager: 
- * Ken Walker : kwalker@museum.vic.gov.au
+// Project Manager: 
+// * Ken Walker : kwalker@museum.vic.gov.au
  
- Funded by:
- * Atlas of Living Australia
+// Funded by:
+// * Atlas of Living Australia
  
-*/
+//*/
 
-using System.Linq;
-using System.Collections.Generic;
-using NUnit.Framework;
-using Bowerbird.Core.DomainModels;
-using Bowerbird.Test.Utils;
-using Bowerbird.Core.DomainModels.Members;
+//using System.Linq;
+//using System.Collections.Generic;
+//using NUnit.Framework;
+//using Bowerbird.Core.DomainModels;
+//using Bowerbird.Test.Utils;
+//using Bowerbird.Core.DomainModels.Members;
 
-namespace Bowerbird.Test.DomainModels.Members
-{
-    #region Namespaces
+//namespace Bowerbird.Test.DomainModels.Members
+//{
+//    #region Namespaces
 
     
 
-    #endregion
+//    #endregion
 
-    public class GlobalMemberTest
-    {
-        #region Test Infrastructure
+//    public class GlobalMemberTest
+//    {
+//        #region Test Infrastructure
 
-        [SetUp]
-        public void TestInitialize() { }
+//        [SetUp]
+//        public void TestInitialize() { }
 
-        [TearDown]
-        public void TestCleanup() { }
+//        [TearDown]
+//        public void TestCleanup() { }
 
-        #endregion
+//        #endregion
 
-        #region Test Helpers
+//        #region Test Helpers
         
-        /// <summary>
-        /// Id: "abc"
-        /// Password: "password"
-        /// Email: "padil@padil.gov.au"
-        /// FirstName: "first name"
-        /// LastName: "last name"
-        /// Description: "description"
-        /// Roles: "Member"
-        /// </summary>
-        /// <returns></returns>
-        private static User TestUser()
-        {
-            return new User(
-                FakeValues.Password,
-                FakeValues.Email,
-                FakeValues.FirstName,
-                FakeValues.LastName,
-                TestRoles()
-            )
-            .UpdateLastLoggedIn()
-            .IncrementFlaggedItemsOwned()
-            .IncrementFlagsRaised();
-        }
+//        /// <summary>
+//        /// Id: "abc"
+//        /// Password: "password"
+//        /// Email: "padil@padil.gov.au"
+//        /// FirstName: "first name"
+//        /// LastName: "last name"
+//        /// Description: "description"
+//        /// Roles: "Member"
+//        /// </summary>
+//        /// <returns></returns>
+//        private static User TestUser()
+//        {
+//            return new User(
+//                FakeValues.Password,
+//                FakeValues.Email,
+//                FakeValues.FirstName,
+//                FakeValues.LastName,
+//                TestRoles()
+//            )
+//            .UpdateLastLoggedIn()
+//            .IncrementFlaggedItemsOwned()
+//            .IncrementFlagsRaised();
+//        }
 
-        private static IEnumerable<Role> TestRoles()
-        {
-            return new List<Role>()
-            {
-                new Role
-                (
-                    "Member",
-                    "Member role",
-                    "Member description",
-                    TestPermissions()
-                )
-            };
-        }
+//        private static IEnumerable<Role> TestRoles()
+//        {
+//            return new List<Role>()
+//            {
+//                new Role
+//                (
+//                    "Member",
+//                    "Member role",
+//                    "Member description",
+//                    TestPermissions()
+//                )
+//            };
+//        }
 
-        private static IEnumerable<Permission> TestPermissions()
-        {
-            return new List<Permission>
-            {
-                new Permission("Read", "Read permission", "Read description"),
-                new Permission("Write", "Write permission", "Write description")
-            };
+//        private static IEnumerable<Permission> TestPermissions()
+//        {
+//            return new List<Permission>
+//            {
+//                new Permission("Read", "Read permission", "Read description"),
+//                new Permission("Write", "Write permission", "Write description")
+//            };
 
-        }
+//        }
 
-        #endregion
+//        #endregion
 
-        #region Constructor tests
+//        #region Constructor tests
 
-        [Test]
-        [Category(TestCategory.Unit)]
-        public void GlobalMember_Constructor()
-        {
-            var testUser = TestUser();
-            var testRoles = TestRoles();
-            var testMember = new GlobalMember(testUser, testRoles);
+//        [Test]
+//        [Category(TestCategory.Unit)]
+//        public void GlobalMember_Constructor()
+//        {
+//            var testUser = TestUser();
+//            var testRoles = TestRoles();
+//            var testMember = new GlobalMember(testUser, testRoles);
 
-            Assert.AreEqual(testMember.Roles.Select(x => x.Id).ToList(), testRoles.Select(x => x.Id).ToList());
-            Assert.AreEqual(testMember.Roles.Select(x => x.Name).ToList(), testRoles.Select(x => x.Name).ToList());
-            Assert.AreEqual(testMember.User.FirstName, testUser.FirstName);
-            Assert.AreEqual(testMember.User.LastName, testUser.LastName);
-            Assert.AreEqual(testMember.User.Id, testUser.Id);
-        }
+//            Assert.AreEqual(testMember.Roles.Select(x => x.Id).ToList(), testRoles.Select(x => x.Id).ToList());
+//            Assert.AreEqual(testMember.Roles.Select(x => x.Name).ToList(), testRoles.Select(x => x.Name).ToList());
+//            Assert.AreEqual(testMember.User.FirstName, testUser.FirstName);
+//            Assert.AreEqual(testMember.User.LastName, testUser.LastName);
+//            Assert.AreEqual(testMember.User.Id, testUser.Id);
+//        }
 
-        #endregion
+//        #endregion
 
-        #region Method tests
+//        #region Method tests
 
-        #endregion
-    }
-}
+//        #endregion
+//    }
+//}

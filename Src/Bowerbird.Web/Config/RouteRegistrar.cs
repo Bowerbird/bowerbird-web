@@ -48,9 +48,6 @@ namespace Bowerbird.Web.Config
 
 
 
-
-
-
             routes.MapRoute(
                 "observations-get-many",
                 "observations",
@@ -67,6 +64,7 @@ namespace Bowerbird.Web.Config
                 "observations-create-form",
                 "observations/create",
                 new { controller = "observations", action = "createform" },
+
                 new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("GET") });
 
             routes.MapRoute(
@@ -102,90 +100,117 @@ namespace Bowerbird.Web.Config
 
 
 
-
-
+            routes.MapRoute(
+                "projects",
+                "projects",
+                new { controller = "projects", action = "list", id = UrlParameter.Optional },
+                new { httpMethod = new HttpMethodConstraint("GET") },
+                new[] { "Bowerbird.Web.Controllers" });
 
             routes.MapRoute(
                 "project-list",
-                "project/{id}",
-                new { controller = "project", action = "list", id = UrlParameter.Optional },
-                new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("GET") },
+                "projects/{id}",
+                new { controller = "projects", action = "index", id = UrlParameter.Optional },
+                new { httpMethod = new HttpMethodConstraint("GET") },
                 new[] { "Bowerbird.Web.Controllers" });
 
             routes.MapRoute(
                 "project-update",
-                "project/{id}",
-                new { controller = "project", action = "update" },
+                "projects/{id}",
+                new { controller = "projects", action = "update" },
                 new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("PUT") },
                 new[] { "Bowerbird.Web.Controllers" });
 
             routes.MapRoute(
                 "project-delete",
-                "project/{id}",
-                new { controller = "project", action = "delete" },
+                "projects/{id}",
+                new { controller = "projects", action = "delete" },
                 new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("DELETE") },
                 new[] { "Bowerbird.Web.Controllers" });
 
             routes.MapRoute(
                 "project-create",
-                "project/",
-                new { controller = "project", action = "create" },
+                "projects/",
+                new { controller = "projects", action = "create" },
                 new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("POST") },
+                new[] { "Bowerbird.Web.Controllers" });
+
+
+
+
+
+            routes.MapRoute(
+                "teams",
+                "teams",
+                new { controller = "teams", action = "list", id = UrlParameter.Optional },
+                new { httpMethod = new HttpMethodConstraint("GET") },
                 new[] { "Bowerbird.Web.Controllers" });
 
             routes.MapRoute(
                 "team-list",
-                "team/{id}",
-                new { controller = "team", action = "list", id = UrlParameter.Optional },
-                new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("GET") },
+                "teams/{id}",
+                new { controller = "teams", action = "list", id = UrlParameter.Optional },
+                new { httpMethod = new HttpMethodConstraint("GET") },
                 new[] { "Bowerbird.Web.Controllers" });
 
             routes.MapRoute(
                 "team-update",
-                "team/{id}",
-                new { controller = "team", action = "update" },
+                "teams/{id}",
+                new { controller = "teams", action = "update" },
                 new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("PUT") },
                 new[] { "Bowerbird.Web.Controllers" });
 
             routes.MapRoute(
                 "team-delete",
-                "team/{id}",
-                new { controller = "team", action = "delete" },
+                "teams/{id}",
+                new { controller = "teams", action = "delete" },
                 new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("DELETE") },
                 new[] { "Bowerbird.Web.Controllers" });
 
             routes.MapRoute(
                 "team-create",
-                "team/",
-                new { controller = "team", action = "create" },
+                "teams/",
+                new { controller = "teams", action = "create" },
                 new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("POST") },
+                new[] { "Bowerbird.Web.Controllers" });
+
+
+
+
+
+
+            routes.MapRoute(
+                "organisations",
+                "organisations",
+                new { controller = "organisations", action = "list", id = UrlParameter.Optional },
+                new { httpMethod = new HttpMethodConstraint("GET") },
                 new[] { "Bowerbird.Web.Controllers" });
 
             routes.MapRoute(
                 "organisation-list",
-                "organisation/{id}",
-                new { controller = "organisation", action = "list", id = UrlParameter.Optional },
-                new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("GET") },
+                "organisations/{id}",
+                new { controller = "organisations", action = "list", id = UrlParameter.Optional },
+                new { httpMethod = new HttpMethodConstraint("GET") },
                 new[] { "Bowerbird.Web.Controllers" });
 
             routes.MapRoute(
                 "organisation-update",
-                "organisation/{id}",
-                new { controller = "organisation", action = "update" },
+                "organisations/{id}",
+                new { controller = "organisations", action = "update" },
                 new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("PUT") },
                 new[] { "Bowerbird.Web.Controllers.Members" });
 
             routes.MapRoute(
                 "organisation-delete",
                 "organisation/{id}",
-                new { controller = "organisation", action = "delete" },
+                new { controller = "organisatiosn", action = "delete" },
                 new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("DELETE") },
                 new[] { "Bowerbird.Web.Controllers" });
 
             routes.MapRoute(
                 "organisation-create",
-                "organisation/",
-                new { controller = "organisation", action = "create" },
+                "organisations/",
+                new { controller = "organisations", action = "create" },
                 new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("POST") },
                 new[] { "Bowerbird.Web.Controllers" });
 

@@ -28,12 +28,12 @@ window.Bowerbird.Views.ChatView = Backbone.View.extend({
 
     sendMessage: function () {
         log('chatView.sendMessage');
-        app.chatRouter.sendMessage(this.$el.find('.new-chat-message').val(), this.Chat);
+        app.chatRouter.sendMessage(this.$el.find('.new-chat-message').val(), this.chat);
         this.$el.find('.new-chat-message').val('');
     },
 
     closeWindow: function () {
-        app.chats.remove(this.Chat);
+        app.chats.remove(this.chat);
         this.$el.remove();
     },
 

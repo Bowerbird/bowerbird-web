@@ -32,7 +32,7 @@ namespace Bowerbird.Test.Controllers.Public
         #region Test Infrastructure
 
         private IDocumentStore _documentStore;
-        private StreamItemController _controller;
+        private StreamItemsController _controller;
         private Mock<IUserContext> _mockUserContext; 
 
         [SetUp]
@@ -41,7 +41,7 @@ namespace Bowerbird.Test.Controllers.Public
             _documentStore = DocumentStoreHelper.InMemoryDocumentStore();
             _mockUserContext = new Mock<IUserContext>();
 
-            _controller = new StreamItemController(
+            _controller = new StreamItemsController(
                 _mockUserContext.Object,
                 _documentStore.OpenSession()
                );

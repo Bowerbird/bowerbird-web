@@ -1,101 +1,101 @@
-﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+﻿///* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
- Developers: 
- * Frank Radocaj : frank@radocaj.com
- * Hamish Crittenden : hamish.crittenden@gmail.com
+// Developers: 
+// * Frank Radocaj : frank@radocaj.com
+// * Hamish Crittenden : hamish.crittenden@gmail.com
  
- Project Manager: 
- * Ken Walker : kwalker@museum.vic.gov.au
+// Project Manager: 
+// * Ken Walker : kwalker@museum.vic.gov.au
  
- Funded by:
- * Atlas of Living Australia
+// Funded by:
+// * Atlas of Living Australia
  
-*/
+//*/
 
-using System.Linq;
-using Bowerbird.Core.CommandHandlers;
-using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.DomainModels.Members;
-using Bowerbird.Test.Utils;
-using NUnit.Framework;
-using Raven.Client;
-using Bowerbird.Core.Commands;
+//using System.Linq;
+//using Bowerbird.Core.CommandHandlers;
+//using Bowerbird.Core.DomainModels;
+//using Bowerbird.Core.DomainModels.Members;
+//using Bowerbird.Test.Utils;
+//using NUnit.Framework;
+//using Raven.Client;
+//using Bowerbird.Core.Commands;
 
-namespace Bowerbird.Test.CommandHandlers
-{
-    [TestFixture]
-    public class GroupMemberCreateCommandHandlerTest
-    {
-        #region Test Infrastructure
+//namespace Bowerbird.Test.CommandHandlers
+//{
+//    [TestFixture]
+//    public class GroupMemberCreateCommandHandlerTest
+//    {
+//        #region Test Infrastructure
 
-        private IDocumentStore _store;
+//        private IDocumentStore _store;
 
-        [SetUp]
-        public void TestInitialize()
-        {
-            _store = DocumentStoreHelper.InMemoryDocumentStore();
-        }
+//        [SetUp]
+//        public void TestInitialize()
+//        {
+//            _store = DocumentStoreHelper.InMemoryDocumentStore();
+//        }
 
-        [TearDown]
-        public void TestCleanup()
-        {
-            _store = null;
-        }
+//        [TearDown]
+//        public void TestCleanup()
+//        {
+//            _store = null;
+//        }
 
-        #endregion
+//        #endregion
 
-        #region Test Helpers
+//        #region Test Helpers
 
-        #endregion
+//        #endregion
 
-        #region Constructor tests
+//        #region Constructor tests
 
-        #endregion
+//        #endregion
 
-        #region Method tests
+//        #region Method tests
 
-        [Test]
-        [Category(TestCategory.Persistance)]
-        public void GroupMemberCreateCommandHandler_Handle()
-        {
-            var user = FakeObjects.TestUserWithId();
-            var project = FakeObjects.TestProjectWithId();
-            var permissions = FakeObjects.TestPermissions();
-            var roles = FakeObjects.TestRoles();
+//        [Test]
+//        [Category(TestCategory.Persistance)]
+//        public void GroupMemberCreateCommandHandler_Handle()
+//        {
+//            var user = FakeObjects.TestUserWithId();
+//            var project = FakeObjects.TestProjectWithId();
+//            var permissions = FakeObjects.TestPermissions();
+//            var roles = FakeObjects.TestRoles();
 
-            GroupMember newValue = null;
+//            GroupMember newValue = null;
 
-            using (var session = _store.OpenSession())
-            {
-                session.Store(user);
-                session.Store(project);
-                foreach (var permission in permissions)session.Store(permission);
-                foreach (var role in roles)session.Store(role);
+//            using (var session = _store.OpenSession())
+//            {
+//                session.Store(user);
+//                session.Store(project);
+//                foreach (var permission in permissions)session.Store(permission);
+//                foreach (var role in roles)session.Store(role);
 
-                session.SaveChanges();
+//                session.SaveChanges();
 
-                var commandHandler = new GroupMemberCreateCommandHandler(session);
+//                var commandHandler = new GroupMemberCreateCommandHandler(session);
 
-                var command = new GroupMemberCreateCommand()
-                {
-                    UserId = user.Id,
-                    CreatedByUserId = user.Id,
-                    GroupId = project.Id,
-                    Roles = roles.Select(x => x.Id).ToList()
-                };
+//                var command = new GroupMemberCreateCommand()
+//                {
+//                    UserId = user.Id,
+//                    CreatedByUserId = user.Id,
+//                    GroupId = project.Id,
+//                    Roles = roles.Select(x => x.Id).ToList()
+//                };
 
-                commandHandler.Handle(command);
+//                commandHandler.Handle(command);
 
-                session.SaveChanges();
+//                session.SaveChanges();
 
-                newValue = session.Query<GroupMember>().FirstOrDefault();
-            }
+//                newValue = session.Query<GroupMember>().FirstOrDefault();
+//            }
 
-            Assert.IsNotNull(newValue);
-            Assert.AreEqual(project.Id, newValue.Group.Id);
-            Assert.AreEqual(user.DenormalisedUserReference(), newValue.User);
-        }
+//            Assert.IsNotNull(newValue);
+//            Assert.AreEqual(project.Id, newValue.Group.Id);
+//            Assert.AreEqual(user.DenormalisedUserReference(), newValue.User);
+//        }
 
-        #endregion 
-    }
-}
+//        #endregion 
+//    }
+//}

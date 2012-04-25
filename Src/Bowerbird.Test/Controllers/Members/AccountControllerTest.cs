@@ -1,82 +1,82 @@
-﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+﻿///* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
- Developers: 
- * Frank Radocaj : frank@radocaj.com
- * Hamish Crittenden : hamish.crittenden@gmail.com
+// Developers: 
+// * Frank Radocaj : frank@radocaj.com
+// * Hamish Crittenden : hamish.crittenden@gmail.com
  
- Project Manager: 
- * Ken Walker : kwalker@museum.vic.gov.au
+// Project Manager: 
+// * Ken Walker : kwalker@museum.vic.gov.au
  
- Funded by:
- * Atlas of Living Australia
+// Funded by:
+// * Atlas of Living Australia
  
-*/
+//*/
 
-using Bowerbird.Core.Commands;
-using Moq;
-using NUnit.Framework;
+//using Bowerbird.Core.Commands;
+//using Moq;
+//using NUnit.Framework;
 
-namespace Bowerbird.Test.Controllers.Members
-{
-    [TestFixture]
-    public class AccountControllerTest
-    {
-        #region Test Infrastructure
+//namespace Bowerbird.Test.Controllers.Members
+//{
+//    [TestFixture]
+//    public class AccountControllerTest
+//    {
+//        #region Test Infrastructure
 
-        private Mock<ICommandProcessor> _mockCommandProcessor;
-        private Mock<IUserContext> _mockUserContext;
-        private AccountController _controller;
+//        private Mock<ICommandProcessor> _mockCommandProcessor;
+//        private Mock<IUserContext> _mockUserContext;
+//        private AccountController _controller;
 
-        [SetUp]
-        public void TestInitialize()
-        {
-            _mockCommandProcessor = new Mock<ICommandProcessor>();
-            _mockUserContext = new Mock<IUserContext>();
+//        [SetUp]
+//        public void TestInitialize()
+//        {
+//            _mockCommandProcessor = new Mock<ICommandProcessor>();
+//            _mockUserContext = new Mock<IUserContext>();
 
-            _controller = new AccountController(
-                _mockCommandProcessor.Object,
-                _mockUserContext.Object
-                );
-        }
+//            _controller = new AccountController(
+//                _mockCommandProcessor.Object,
+//                _mockUserContext.Object
+//                );
+//        }
 
-        [TearDown]
-        public void TestCleanup()
-        {
-        }
+//        [TearDown]
+//        public void TestCleanup()
+//        {
+//        }
 
-        #endregion
+//        #endregion
 
-        #region Test Helpers
+//        #region Test Helpers
 
-        #endregion
+//        #endregion
 
-        #region Method tests
+//        #region Method tests
 
-        //[Test]
-        //[Category(TestCategory.Unit)]
-        //public void AccountController_ChangePassword_Passing_Valid_AccountChangePasswordInput_Redirects_To_Home_Index()
-        //{
-        //    var result = _controller.ChangePassword(new AccountChangePasswordInput() { Password = FakeValues.Password });
+//        //[Test]
+//        //[Category(TestCategory.Unit)]
+//        //public void AccountController_ChangePassword_Passing_Valid_AccountChangePasswordInput_Redirects_To_Home_Index()
+//        //{
+//        //    var result = _controller.ChangePassword(new AccountChangePasswordInput() { Password = FakeValues.Password });
 
-        //    var routeResult = result as RedirectToRouteResult;
+//        //    var routeResult = result as RedirectToRouteResult;
 
-        //    Assert.IsNotNull(routeResult);
-        //    Assert.AreEqual(routeResult.RouteValues["controller"], "home");
-        //    Assert.AreEqual(routeResult.RouteValues["action"], "index");
-        //}
+//        //    Assert.IsNotNull(routeResult);
+//        //    Assert.AreEqual(routeResult.RouteValues["controller"], "home");
+//        //    Assert.AreEqual(routeResult.RouteValues["action"], "index");
+//        //}
 
-        //[Test]
-        //[Category(TestCategory.Unit)]
-        //public void AccountController_ChangePassword_Passing_InValid_AccountChangePasswordInput_Returns_View()
-        //{
-        //    _controller.ModelState.AddModelError("Error", "Error");
+//        //[Test]
+//        //[Category(TestCategory.Unit)]
+//        //public void AccountController_ChangePassword_Passing_InValid_AccountChangePasswordInput_Returns_View()
+//        //{
+//        //    _controller.ModelState.AddModelError("Error", "Error");
 
-        //    var result = _controller.ChangePassword(new AccountChangePasswordInput()) as ViewResult;
+//        //    var result = _controller.ChangePassword(new AccountChangePasswordInput()) as ViewResult;
 
-        //    Assert.IsNotNull(result);
-        //    Assert.AreEqual("ChangePassword", result.ViewName);
-        //}
+//        //    Assert.IsNotNull(result);
+//        //    Assert.AreEqual("ChangePassword", result.ViewName);
+//        //}
 
-        #endregion
-    }
-}
+//        #endregion
+//    }
+//}
