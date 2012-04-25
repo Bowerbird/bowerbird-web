@@ -16,7 +16,9 @@ Bowerbird.app = (function (Backbone) {
 
     app.addRegions({
         header: 'header',
-        main: 'article',
+        sidebar: 'sidebar',
+        content: 'content',
+        notifications: 'notifications',
         footer: 'footer',
         onlineUsers: '#online-users'
     });

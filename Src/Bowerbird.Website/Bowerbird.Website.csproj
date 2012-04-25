@@ -112,16 +112,16 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="js\bowerbird2\app.js" />
+    <Content Include="js\bowerbird2\views\sidebarItemView.js" />
     <Content Include="js\bowerbird2\views\sidebarCollectionView.js" />
     <Content Include="js\bowerbird2\views\footerView.js" />
     <Content Include="js\bowerbird2\views\headerView.js" />
     <Content Include="js\bowerbird2\views\sidebarLayout.js" />
-    <Content Include="js\bowerbird2\views\mainLayout.js" />
+    <Content Include="js\bowerbird2\views\contentLayout.js" />
     <Content Include="js\bowerbird2\controllers\groupUserController.js" />
     <Content Include="js\bowerbird2\routers\groupUserRouter.js" />
     <Content Include="js\bowerbird2\mustacheRenderer.js" />
     <Content Include="js\bowerbird2\namespaces.js" />
-    <Content Include="js\bowerbird2\views\sidebarView.js" />
     <Content Include="js\libs\backbone.marionette.js" />
     <Content Include="js\bowerbird\views\exploreItemView.js" />
     <Content Include="js\bowerbird\views\exploreView.js" />
@@ -146,17 +146,11 @@
     <None Include="Views\Projects\Delete.mustache" />
     <None Include="Views\Projects\Index.mustache" />
     <None Include="Views\Projects\List.mustache" />
-    <None Include="Views\Shared\_Layout.mustache">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Views\Shared\OrganisationItem.mustache" />
     <None Include="Views\Shared\ProjectList.mustache" />
     <None Include="Views\Shared\TeamItem.mustache" />
     <None Include="Views\Shared\ProjectItem.mustache" />
     <None Include="Views\Shared\TeamList.mustache" />
-    <None Include="Views\Shared\_Layout.mustache">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Views\Shared\ObservationList.mustache" />
     <Content Include="apple-touch-icon-114x114-precomposed.png" />
     <Content Include="apple-touch-icon-57x57-precomposed.png" />
@@ -302,6 +296,9 @@
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
     </Content>
+    <None Include="Views\Shared\_Layout.mustache">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Views\Teams\Create.mustache" />
     <None Include="Views\Teams\Delete.mustache" />
     <None Include="Views\Teams\Index.mustache" />

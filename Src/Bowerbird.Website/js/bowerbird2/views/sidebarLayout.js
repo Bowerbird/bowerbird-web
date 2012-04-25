@@ -22,9 +22,39 @@ Bowerbird.Views.SidebarLayout = (function (app, Bowerbird, Backbone, $, _) {
         template: 'Sidebar',
 
         regions: {
-            defaultMenu: '#default-menu-group',
             projectsMenu: '#project-menu-group',
             watchlistsMenu: '#watch-menu-group'
+        },
+
+        initialize: function (options) {
+            log(options);
+
+            options['el'] = $('#project-menu-group');
+
+            var projectsCollectionView = new Bowerbird.Views.SidebarCollectionView(options);
+
+            projectsCollectionView.on('show', function () {
+                Bowerbird.app.vent.trigger('projectsCollectionView:rendered');
+            });
+
+            this.projectsMenu.show(projectsCollectionView);
+        }
+    });
+
+    // Initialize the layout and when the layout has been rendered and displayed, 
+    // then start the rest of the application
+    app.addInitializer(function (options) {
+        // Only show sidebar if user is authenticated
+        if (options.authenticatedUser) {
+            // Render the layout and get it on the screen, first
+            var sidebarLayout = new Bowerbird.Views.SidebarLayout(options);
+
+            sidebarLayout.on('show', function () {
+                Bowerbird.app.vent.trigger('sidebarLayout:rendered');
+            });
+
+            Bowerbird.app.sidebar.show(sidebarLayout);
+            $('article').prepend(sidebarLayout.el);
         }
     });
 

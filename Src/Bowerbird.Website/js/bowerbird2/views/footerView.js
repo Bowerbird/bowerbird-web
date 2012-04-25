@@ -27,7 +27,6 @@ Bowerbird.Views.FooterView = (function (app, Bowerbird, Backbone, $, _) {
         });
 
         Bowerbird.app.footer.attachView(footerView);
-        footerView.render();
     });
 
     return FooterView;

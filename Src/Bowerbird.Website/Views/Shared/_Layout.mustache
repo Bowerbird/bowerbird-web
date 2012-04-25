@@ -56,7 +56,7 @@
       </div>
     </header>
     <article>
-      {{>Body}}
+        {{>Body}}
     </article>
     <footer>
       <a href="/home/setuptestdata">Setup Test Data</a>
@@ -167,9 +167,11 @@
     <script type="text/javascript" src="/js/bowerbird2/controllers/groupUserController.js"></script>
     <script type="text/javascript" src="/js/bowerbird2/routers/groupUserRouter.js"></script>
     <script type="text/javascript" src="/js/bowerbird2/views/headerView.js"></script>
-    <script type="text/javascript" src="/js/bowerbird2/views/mainLayout.js"></script>
-    <script type="text/javascript" src="/js/bowerbird2/views/footerView.js"></script>
     <script type="text/javascript" src="/js/bowerbird2/views/sidebarLayout.js"></script>
+    <script type="text/javascript" src="/js/bowerbird2/views/sidebarCollectionView.js"></script>
+    <script type="text/javascript" src="/js/bowerbird2/views/sidebarItemView.js"></script>
+    <script type="text/javascript" src="/js/bowerbird2/views/contentLayout.js"></script>
+    <script type="text/javascript" src="/js/bowerbird2/views/footerView.js"></script>
     <script type="text/javascript">
       $(function () {
         Bowerbird.app.start({ authenticatedUser: {{#UserContext.UserProfile}}{{{UserContext.UserProfileJson}}}{{/UserContext.UserProfile}}{{^UserContext.UserProfile}}null{{/UserContext.UserProfile}}, teams: {{#UserContext.UserProfile}}{{{UserContext.TeamsJson}}}{{/UserContext.UserProfile}}{{^UserContext.UserProfile}}null{{/UserContext.UserProfile}}, projects: {{#UserContext.UserProfile}}{{{UserContext.ProjectsJson}}}{{/UserContext.UserProfile}}{{^UserContext.UserProfile}}null{{/UserContext.UserProfile}}, onlineUsers: {{#UserContext.UserProfile}}{{{UserContext.OnlineUsersJson}}}{{/UserContext.UserProfile}}{{^UserContext.UserProfile}}null{{/UserContext.UserProfile}}, prerenderedView: '{{PrerenderedView}}' });

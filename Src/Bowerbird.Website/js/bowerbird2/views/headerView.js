@@ -27,7 +27,6 @@ Bowerbird.Views.HeaderView = (function (app, Bowerbird, Backbone, $, _) {
         });
 
         Bowerbird.app.header.attachView(headerView);
-        headerView.render();
     });
 
     return HeaderView;
