@@ -111,7 +111,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="js\bowerbird2\app.js" />
+    <Content Include="js\bowerbird2\views\sidebarCollectionView.js" />
+    <Content Include="js\bowerbird2\views\footerView.js" />
+    <Content Include="js\bowerbird2\views\headerView.js" />
+    <Content Include="js\bowerbird2\views\sidebarLayout.js" />
+    <Content Include="js\bowerbird2\views\mainLayout.js" />
+    <Content Include="js\bowerbird2\controllers\groupUserController.js" />
+    <Content Include="js\bowerbird2\routers\groupUserRouter.js" />
+    <Content Include="js\bowerbird2\mustacheRenderer.js" />
+    <Content Include="js\bowerbird2\namespaces.js" />
+    <Content Include="js\bowerbird2\views\sidebarView.js" />
+    <Content Include="js\libs\backbone.marionette.js" />
     <Content Include="js\libs\yepnope.js" />
+    <None Include="Views\Home\About.mustache" />
     <None Include="Views\Organisation\Create.mustache" />
     <None Include="Views\Organisation\Delete.mustache" />
     <None Include="Views\Organisation\List.mustache" />
@@ -131,12 +144,12 @@
     <None Include="Views\Project\Delete.mustache" />
     <None Include="Views\Project\Index.mustache" />
     <None Include="Views\Project\List.mustache" />
-    <None Include="Views\Shared\OrganisationItem.mustache" />
-    <None Include="Views\Shared\TeamItem.mustache" />
-    <None Include="Views\Shared\ProjectItem.mustache" />
     <None Include="Views\Shared\_Layout.mustache">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Views\Shared\OrganisationItem.mustache" />
+    <None Include="Views\Shared\TeamItem.mustache" />
+    <None Include="Views\Shared\ProjectItem.mustache" />
     <None Include="Views\Shared\GroupList.mustache" />
     <None Include="Views\Shared\ObservationList.mustache" />
     <Content Include="apple-touch-icon-114x114-precomposed.png" />
@@ -242,7 +255,7 @@
     <Content Include="js\bowerbird\views\userOnlineView.js" />
     <Content Include="js\bowerbird\views\userView.js" />
     <Content Include="js\libs\bootstrap-datepicker.js" />
-    <Content Include="js\libs\Backbone.js" />
+    <Content Include="js\libs\backbone.js" />
     <Content Include="js\libs\date-min.js" />
     <Content Include="js\libs\iscroll.js" />
     <Content Include="js\libs\iCanHaz.js" />
@@ -329,6 +342,8 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="js\bowerbird2\collections\" />
+    <Folder Include="js\bowerbird2\models\" />
     <Folder Include="media\default\" />
     <Folder Include="media\document\" />
     <Folder Include="media\image\0\" />

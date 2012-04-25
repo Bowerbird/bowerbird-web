@@ -72,7 +72,11 @@ window.Bowerbird.Views.AppView = Backbone.View.extend({
     showObservationCreateFormView: function () {
         if (app.has('newObservation')) {
             $(this.streamView.el).hide();
-            this.formView = new Bowerbird.Views.ObservationCreateFormView({ observation: app.get('newObservation') });
+            var options = { observation: app.get('newObservation') };
+            if(app.get('prerenderedView') == 'observations/create') {
+                options['el'] = $('#observation-create-form');
+            }
+            this.formView = new Bowerbird.Views.ObservationCreateFormView(options);
             this.$el.append(this.formView.render().el);
             this.formView.on('formClosed', this.hideFormView, this);
             this.formView.start();

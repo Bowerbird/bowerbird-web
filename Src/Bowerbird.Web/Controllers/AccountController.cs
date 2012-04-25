@@ -66,6 +66,7 @@ namespace Bowerbird.Web.Controllers
             }
 
             ViewBag.AccountLogin = MakeAccountLogin();
+            ViewBag.IsStaticLayout = true;
 
             return View();
         }
@@ -90,6 +91,7 @@ namespace Bowerbird.Web.Controllers
             ModelState.AddModelError("", "");
 
             ViewBag.AccountLogin = MakeAccountLogin(accountLoginInput);
+            ViewBag.IsStaticLayout = true;
 
             return View();
         }
@@ -122,6 +124,7 @@ namespace Bowerbird.Web.Controllers
 
         public ActionResult LogoutSuccess()
         {
+            ViewBag.IsStaticLayout = true;
             return View();
         }
 
@@ -129,7 +132,7 @@ namespace Bowerbird.Web.Controllers
         public ActionResult Register()
         {
             ViewBag.AccountRegister = MakeAccountRegister();
-
+            ViewBag.IsStaticLayout = true;
             return View();
         }
 
@@ -148,6 +151,7 @@ namespace Bowerbird.Web.Controllers
             }
 
             ViewBag.AccountRegister = MakeAccountRegister(accountRegisterInput);
+            ViewBag.IsStaticLayout = true;
             return View();
         }
 
@@ -155,7 +159,7 @@ namespace Bowerbird.Web.Controllers
         public ActionResult RequestPasswordReset()
         {
             ViewBag.RequestPasswordReset = MakeAccountRequestPasswordReset();
-
+            ViewBag.IsStaticLayout = true;
             return View();
         }
 
@@ -171,6 +175,7 @@ namespace Bowerbird.Web.Controllers
             }
 
             ViewBag.RequestPasswordReset = MakeAccountRequestPasswordReset(accountRequestPasswordResetInput);
+            ViewBag.IsStaticLayout = true;
 
             return View();
         }
@@ -184,6 +189,7 @@ namespace Bowerbird.Web.Controllers
         public ActionResult ResetPassword(AccountResetPasswordInput accountResetPasswordInput)
         {
             ViewBag.RequestPasswordResetSuccess = MakeAccountResetPassword(accountResetPasswordInput);
+            ViewBag.IsStaticLayout = true;
             return View();
         }
 
@@ -203,6 +209,7 @@ namespace Bowerbird.Web.Controllers
             }
 
             ViewBag.ResetPassword = MakeAccountResetPassword(accountResetPasswordInput);
+            ViewBag.IsStaticLayout = true;
 
             return View();
         }

@@ -52,6 +52,7 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult PublicIndex()
         {
+            ViewBag.IsStaticLayout = true;
             return View();
         }
 

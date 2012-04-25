@@ -27,7 +27,7 @@ window.Bowerbird.App = Backbone.Model.extend({
 
     start: function (authenticatedUser, teams, projects, users, prerenderedView) {
         // Start app page
-        this.appView = new Bowerbird.Views.AppView({ app: this }).render();
+        this.appView = new Bowerbird.Views.AppView().render();
 
         // Init sub components
         this.notificationRouter = new Bowerbird.NotificationRouter({ userId: authenticatedUser.Id });
@@ -43,6 +43,7 @@ window.Bowerbird.App = Backbone.Model.extend({
 
         // Override all anchors to channel through router
         $('a').on('click', function (e) {
+            e.preventDefault();
             app.appRouter.navigate($(this).attr('href'), true);
             return false;
         });

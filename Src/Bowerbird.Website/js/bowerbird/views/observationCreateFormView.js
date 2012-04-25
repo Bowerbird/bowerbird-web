@@ -4,6 +4,8 @@ window.Bowerbird.Views.ObservationCreateFormView = Backbone.View.extend({
 
     className: 'form single-medium',
 
+    id: 'observation-create-form',
+
     events: {
         'click #cancel': '_cancel',
         'click #save': '_save',
