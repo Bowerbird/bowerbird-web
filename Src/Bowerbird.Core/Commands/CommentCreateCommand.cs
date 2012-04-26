@@ -1,6 +1,4 @@
-/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -20,7 +18,6 @@ namespace Bowerbird.Core.Commands
 {
     public class CommentCreateCommand : ICommand
     {
-
         #region Members
 
         #endregion
@@ -37,13 +34,10 @@ namespace Bowerbird.Core.Commands
 
         public string Comment { get; set; }
 
-        public string ContributionId { get; set; }
-
         #endregion
 
         #region Methods
 
         #endregion
-
     }
 }

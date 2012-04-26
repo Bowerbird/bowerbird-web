@@ -12,18 +12,15 @@
  
 */
 
+using System;
+using NUnit.Framework;
+using Bowerbird.Core.DomainModels;
+using Bowerbird.Test.Utils;
+using Bowerbird.Core.Extensions;
+
 namespace Bowerbird.Test.DomainModels
 {
-    #region Namespaces
-
-    using NUnit.Framework;
-
-    using Bowerbird.Core.DomainModels;
-    using Bowerbird.Test.Utils;
-    using Bowerbird.Core.Extensions;
-
-    #endregion
-
+    [TestFixture]
     public class OrganisationTest
     {
         #region Test Infrastructure
@@ -40,11 +37,6 @@ namespace Bowerbird.Test.DomainModels
 
         const string additionalString = "_";
 
-        private static Organisation TestOrganisation()
-        {
-            return new Organisation(FakeObjects.TestUser(), FakeValues.Name, FakeValues.Description, FakeValues.Website, null);
-        }
-
         #endregion
 
         #region Constructor tests
@@ -53,16 +45,20 @@ namespace Bowerbird.Test.DomainModels
         [Category(TestCategory.Unit)]
         public void Organisation_Constructor()
         {
+            var createdDateTime = DateTime.UtcNow;
+
             var testOrganisation = new Organisation(
-                FakeObjects.TestUser(), 
+                FakeObjects.TestUserWithId(), 
                 FakeValues.Name, 
                 FakeValues.Description, 
                 FakeValues.Website,
-                null);
+                null,
+                createdDateTime);
 
             Assert.AreEqual(testOrganisation.Name, FakeValues.Name);
             Assert.AreEqual(testOrganisation.Description, FakeValues.Description);
             Assert.AreEqual(testOrganisation.Website, FakeValues.Website);
+            Assert.AreEqual(testOrganisation.CreatedDateTime, createdDateTime);
         }
 
         #endregion
@@ -73,12 +69,15 @@ namespace Bowerbird.Test.DomainModels
         [Category(TestCategory.Unit)]
         public void ObservationNote_UpdateDetails()
         {
+            var createdDateTime = DateTime.UtcNow;
+
             var testOrganisation = new Organisation(
-                FakeObjects.TestUser(), 
+                FakeObjects.TestUserWithId(), 
                 FakeValues.Name, 
                 FakeValues.Description,
                 FakeValues.Website,
-                null);
+                null,
+                createdDateTime);
 
             testOrganisation.UpdateDetails(
                 FakeObjects.TestUser(),
@@ -90,6 +89,7 @@ namespace Bowerbird.Test.DomainModels
             Assert.AreEqual(testOrganisation.Name, FakeValues.Name.AppendWith(additionalString));
             Assert.AreEqual(testOrganisation.Description, FakeValues.Description.AppendWith(additionalString));
             Assert.AreEqual(testOrganisation.Website, FakeValues.Website.AppendWith(additionalString));
+            Assert.AreEqual(testOrganisation.CreatedDateTime, createdDateTime);
         }
 
         #endregion

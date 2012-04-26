@@ -1,6 +1,4 @@
-﻿/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -14,6 +12,7 @@
  
 */
 
+using System;
 using System.Collections.Generic;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.Repositories;
@@ -51,6 +50,9 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Methods
 
+        /// <summary>
+        /// TODO: Add functionality to update MediaResources
+        /// </summary>
         public void Handle(ObservationUpdateCommand observationUpdateCommand)
         {
             Check.RequireNotNull(observationUpdateCommand, "observationUpdateCommand");
@@ -58,34 +60,36 @@ namespace Bowerbird.Core.CommandHandlers
             var observation = _documentSession
                 .Load<Observation>(observationUpdateCommand.Id);
 
-            //var observationMediaItems = (from mediaResource in _documentSession.Query<MediaResource>()
-            //                             where mediaResource.Id.In(observationUpdateCommand.ObservationMediaItems.Keys)
-            //                             select new
-            //                                 {
-            //                                     mediaResource,
-            //                                     description = observationUpdateCommand.ObservationMediaItems.Single(x => x.Key == mediaResource.Id).Value
-            //                                 })
-            //                                 .ToDictionary(x => x.mediaResource, x => x.description);
+            var mediaItemsToAdd = observationUpdateCommand
+                .AddMediaResources
+                .Select(addMediaResource => new Tuple<MediaResource, string, string>(
+                    _documentSession.Load<MediaResource>(addMediaResource.Item1), 
+                    addMediaResource.Item2, 
+                    addMediaResource.Item3))
+                .ToList();
 
-            //var mediaResources = _documentSession
-            //    .Query<MediaResource>()
-            //    .Where(x => x.Id.In(observationUpdateCommand.ObservationMediaItems.Keys))
-            //    .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite());
+            observation.UpdateDetails(
+                _documentSession.Load<User>(observationUpdateCommand.UserId),
+                observationUpdateCommand.Title,
+                observationUpdateCommand.ObservedOn,
+                observationUpdateCommand.Latitude,
+                observationUpdateCommand.Longitude,
+                observationUpdateCommand.Address,
+                observationUpdateCommand.IsIdentificationRequired,
+                observationUpdateCommand.Category
+            );
 
-            //var observationMediaItems = mediaResources.ToDictionary(mediaResource => mediaResource, mediaResource => observationUpdateCommand.ObservationMediaItems.Single(x => x.Key == mediaResource.Id).Value);
+            foreach (var observationToAdd in mediaItemsToAdd)
+            {
+                observation.AddMedia(observationToAdd.Item1, observationToAdd.Item2, observationToAdd.Item3);
+            }
 
-            //observation.UpdateDetails(
-            //    _documentSession.Load<User>(observationUpdateCommand.UserId),
-            //    observationUpdateCommand.Title,
-            //    observationUpdateCommand.ObservedOn,
-            //    observationUpdateCommand.Latitude,
-            //    observationUpdateCommand.Longitude,
-            //    observationUpdateCommand.Address,
-            //    observationUpdateCommand.IsIdentificationRequired,
-            //    observationUpdateCommand.ObservationCategory,
-            //    observationMediaItems);
+            foreach (var removeMediaResource in observationUpdateCommand.RemoveMediaResources)
+            {
+                observation.RemoveMedia(removeMediaResource);
+            }
 
-            //_documentSession.Store(observation);
+            _documentSession.Store(observation);
         }
 
         #endregion      

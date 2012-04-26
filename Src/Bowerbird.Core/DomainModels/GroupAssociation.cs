@@ -20,7 +20,6 @@ namespace Bowerbird.Core.DomainModels
 {
     public class GroupAssociation : ValueObject
     {
-
         #region Members
 
         #endregion
@@ -63,6 +62,5 @@ namespace Bowerbird.Core.DomainModels
         #region Methods
 
         #endregion      
-      
     }
 }

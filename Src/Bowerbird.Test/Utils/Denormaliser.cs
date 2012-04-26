@@ -46,5 +46,12 @@ namespace Bowerbird.Test.Utils
 
             return denormalisedReference;
         }
+
+        public static DenormalisedRoleReference DenormalisedRoleReference(this Role role)
+        {
+            DenormalisedRoleReference denormalisedReference = role;
+
+            return denormalisedReference;
+        }
     }
 }

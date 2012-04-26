@@ -61,17 +61,17 @@ namespace Bowerbird.Test.Config
 
         #region Event Handlers
 
-        [Test, Category(TestCategory.Unit), Ignore] 
-        public void BowerbirdNinjectModule_Binds_NotifyActiviyObservationCreatedEventHandler_To_DomainModelCreatedEvent_Having_Observation()
-        {
-            Assert.IsInstanceOf<NotifyActivityObservationCreatedEventHandler>(ServiceLocator.Current.GetInstance<IEventHandler<DomainModelCreatedEvent<Observation>>>());
-        }
+        //[Test, Category(TestCategory.Unit), Ignore] 
+        //public void BowerbirdNinjectModule_Binds_NotifyActiviyObservationCreatedEventHandler_To_DomainModelCreatedEvent_Having_Observation()
+        //{
+        //    Assert.IsInstanceOf<NotifyActivityObservationCreatedEventHandler>(ServiceLocator.Current.GetInstance<IEventHandler<DomainModelCreatedEvent<Observation>>>());
+        //}
 
-        [Test, Category(TestCategory.Unit), Ignore]
-        public void BowerbirdNinjectModule_Binds_NotifyActivityUserLoggedInEventHandler_To_UserLoggedInEvent()
-        {
-            Assert.IsInstanceOf<NotifyActivityUserLoggedInEventHandler>(ServiceLocator.Current.GetInstance<IEventHandler<UserLoggedInEvent>>());
-        }
+        //[Test, Category(TestCategory.Unit), Ignore]
+        //public void BowerbirdNinjectModule_Binds_NotifyActivityUserLoggedInEventHandler_To_UserLoggedInEvent()
+        //{
+        //    Assert.IsInstanceOf<NotifyActivityUserLoggedInEventHandler>(ServiceLocator.Current.GetInstance<IEventHandler<UserLoggedInEvent>>());
+        //}
 
         #endregion
 

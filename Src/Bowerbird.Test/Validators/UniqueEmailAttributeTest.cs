@@ -14,18 +14,13 @@
  
 */
 
+using NUnit.Framework;
+using Raven.Client;
+using Bowerbird.Test.Utils;
+using Bowerbird.Web.Validators;
+
 namespace Bowerbird.Test.Validators
 {
-    #region Namespaces
-
-    using NUnit.Framework;
-    using Raven.Client;
-
-    using Bowerbird.Test.Utils;
-    using Bowerbird.Web.Validators;
-
-    #endregion
-
     [TestFixture]
     public class UniqueEmailAttributeTest
     {
@@ -36,13 +31,14 @@ namespace Bowerbird.Test.Validators
         [SetUp]
         public void TestInitialize()
         {
-            _store = DocumentStoreHelper.InMemoryDocumentStore();
+            _store = DocumentStoreHelper.StartRaven();
         }
 
         [TearDown]
         public void TestCleanup()
         {
-            _store = null;
+            _store = null;             
+            DocumentStoreHelper.KillRaven();
         }
 
         #endregion

@@ -59,18 +59,22 @@ namespace Bowerbird.Core.CommandHandlers
                 command.Description, 
                 command.Website,
                 command.AvatarId != null ? _documentSession.Load<MediaResource>(command.AvatarId) : null,
-                DateTime.Now);
+                DateTime.UtcNow);
 
             _documentSession.Store(team);
+            _documentSession.SaveChanges();
+
+            var user = _documentSession.Load<User>(command.UserId);
+            var roles = _documentSession
+                .Query<Role>()
+                .Where(x => x.Id.In("roles/teamadministrator","roles/teammember"))
+                .ToList();
 
             var teamAdministrator = new Member(
-                _documentSession.Load<User>(command.UserId),
-                _documentSession.Load<User>(command.UserId),
+                user,
+                user,
                 team,
-                _documentSession
-                    .Query<Role>()
-                    .Where(x => x.Id.Equals("roles/teamadministrator") || x.Id.Equals("roles/teammember"))
-                    .ToList()
+                roles
                 );
 
             _documentSession.Store(teamAdministrator);

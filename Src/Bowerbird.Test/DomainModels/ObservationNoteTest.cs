@@ -54,16 +54,13 @@ namespace Bowerbird.Test.DomainModels
                 FakeValues.Tags,
                 new Dictionary<string, string>() { { "a", "b" } },
                 new Dictionary<string, string>() { { "c", "d" } },
-                FakeValues.Notes,
                 FakeValues.CreatedDateTime);
 
             Assert.AreEqual(testObservation.CommonName, FakeValues.CommonName);
             Assert.AreEqual(testObservation.ScientificName, FakeValues.ScientificName);
             Assert.AreEqual(testObservation.Taxonomy, FakeValues.Taxonomy);
             Assert.AreEqual(testObservation.Tags, FakeValues.Tags);
-            Assert.AreEqual(testObservation.Notes, FakeValues.Notes);
             Assert.AreEqual(testObservation.Observation.Id, FakeObjects.TestObservationWithId().Id);
-            Assert.AreEqual(testObservation.Observation.Title, FakeObjects.TestObservationWithId().Title);
             Assert.AreEqual(testObservation.User.FirstName, FakeObjects.TestUserWithId().FirstName);
             Assert.AreEqual(testObservation.User.LastName, FakeObjects.TestUserWithId().LastName);
             Assert.AreEqual(testObservation.User.Id, FakeObjects.TestUserWithId().Id);
@@ -88,7 +85,6 @@ namespace Bowerbird.Test.DomainModels
                 FakeValues.Tags,
                 new Dictionary<string, string>() { { "a", "b" } },
                 new Dictionary<string, string>() { { "c", "d" } },
-                FakeValues.Notes,
                 FakeValues.CreatedDateTime);
 
             testObservationNote.UpdateDetails(
@@ -98,14 +94,13 @@ namespace Bowerbird.Test.DomainModels
                 FakeValues.Taxonomy.AppendWith(additionalString),
                 FakeValues.Tags.AppendWith(additionalString),
                 new Dictionary<string, string>() { { "e", "f" } },
-                new Dictionary<string, string>() { { "g", "h" } },
-                FakeValues.Notes.AppendWith(additionalString));
+                new Dictionary<string, string>() { { "g", "h" } }
+                );
 
             Assert.AreEqual(testObservationNote.CommonName, FakeValues.CommonName.AppendWith(additionalString));
             Assert.AreEqual(testObservationNote.ScientificName, FakeValues.ScientificName.AppendWith(additionalString));
             Assert.AreEqual(testObservationNote.Taxonomy, FakeValues.Taxonomy.AppendWith(additionalString));
             Assert.AreEqual(testObservationNote.Tags, FakeValues.Tags.AppendWith(additionalString));
-            Assert.AreEqual(testObservationNote.Notes, FakeValues.Notes.AppendWith(additionalString));
             Assert.AreEqual(testObservationNote.Descriptions, new Dictionary<string, string>() { { "e", "f" } });
             Assert.AreEqual(testObservationNote.References, new Dictionary<string, string>() { { "g", "h" } });
         }

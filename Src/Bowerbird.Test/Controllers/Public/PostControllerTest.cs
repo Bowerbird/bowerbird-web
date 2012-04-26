@@ -15,12 +15,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using Bowerbird.Core.Commands;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Web.Controllers;
 using Bowerbird.Web.ViewModels;
 using NUnit.Framework;
 using Bowerbird.Test.Utils;
 using Raven.Client;
+using Bowerbird.Web.Queries;
+using Moq;
 
 namespace Bowerbird.Test.Controllers.Public
 {
@@ -31,14 +34,21 @@ namespace Bowerbird.Test.Controllers.Public
 
         private IDocumentStore _documentStore;
         private PostsController _controller;
+        private IPostsQuery _postsQuery;
+        private ICommandProcessor _commandProcessor;
 
         [SetUp]
         public void TestInitialize()
         {
             _documentStore = DocumentStoreHelper.InMemoryDocumentStore();
+            _postsQuery = new Mock<IPostsQuery>().Object;
+            _commandProcessor = new Mock<ICommandProcessor>().Object;
 
             _controller = new PostsController(
-                _documentStore.OpenSession());
+                _commandProcessor,
+                MockHelpers.MockUserContext().Object,
+                _postsQuery
+                );
         }
 
         [TearDown]
@@ -82,7 +92,7 @@ namespace Bowerbird.Test.Controllers.Public
                 for (var i = 0; i < 15; i++)
                 {
                     var post = FakeObjects.TestPostWithId(i.ToString());
-                    post.AddGroupContribution(project, user, FakeValues.CreatedDateTime.AddDays(i*-1));
+                    //post.AddGroupContribution(project, user, FakeValues.CreatedDateTime.AddDays(i*-1));
                     posts.Add(post);
                     session.Store(post);
                 }

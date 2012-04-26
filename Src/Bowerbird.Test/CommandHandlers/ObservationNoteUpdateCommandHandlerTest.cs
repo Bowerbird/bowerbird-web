@@ -33,13 +33,14 @@ namespace Bowerbird.Test.CommandHandlers
         [SetUp]
         public void TestInitialize()
         {
-            _store = DocumentStoreHelper.InMemoryDocumentStore();
+            _store = DocumentStoreHelper.StartRaven();
         }
 
         [TearDown]
         public void TestCleanup()
         {
-            _store = null;
+            _store = null;             
+            DocumentStoreHelper.KillRaven();
         }
 
         #endregion
@@ -74,7 +75,7 @@ namespace Bowerbird.Test.CommandHandlers
                 Tags = FakeValues.Tags.PrependWith("new"),
                 Taxonomy = FakeValues.Taxonomy.PrependWith("new"),
                 SubmittedOn = FakeValues.ModifiedDateTime,
-                References = new Dictionary<string, string>(){{FakeValues.Description.PrependWith("new"),FakeValues.Description.PrependWith("new")}},
+                References = new Dictionary<string, string>() { { FakeValues.Description.PrependWith("new"), FakeValues.Description.PrependWith("new") } },
                 Descriptions = new Dictionary<string, string>() { { FakeValues.Description.PrependWith("new"), FakeValues.Description.PrependWith("new") } },
             };
 
@@ -96,7 +97,6 @@ namespace Bowerbird.Test.CommandHandlers
             Assert.IsNotNull(newValue);
             Assert.AreEqual(command.CommonName, newValue.CommonName);
             Assert.AreEqual(command.ScientificName, newValue.ScientificName);
-            Assert.AreEqual(command.Notes, newValue.Notes);
             Assert.AreEqual(command.Tags, newValue.Tags);
             Assert.AreEqual(command.Taxonomy, newValue.Taxonomy);
             Assert.AreEqual(command.References, newValue.References);

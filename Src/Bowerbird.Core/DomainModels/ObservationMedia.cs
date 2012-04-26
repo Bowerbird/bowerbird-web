@@ -1,6 +1,4 @@
-﻿/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -23,7 +21,6 @@ namespace Bowerbird.Core.DomainModels
 {
     public class ObservationMedia : DomainModel
     {
-
         #region Members
 
         #endregion
@@ -79,6 +76,5 @@ namespace Bowerbird.Core.DomainModels
         }
 
         #endregion      
-      
     }
 }

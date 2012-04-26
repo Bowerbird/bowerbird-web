@@ -23,6 +23,7 @@ using Bowerbird.Web.ViewModels;
 using Moq;
 using NUnit.Framework;
 using Raven.Client;
+using Bowerbird.Web.Queries;
 
 namespace Bowerbird.Test.Controllers.Public
 {
@@ -33,17 +34,18 @@ namespace Bowerbird.Test.Controllers.Public
 
         private IDocumentStore _documentStore;
         private StreamItemsController _controller;
-        private Mock<IUserContext> _mockUserContext; 
+        private Mock<IUserContext> _mockUserContext;
+        private Mock<IStreamItemsQuery> _mockStreamItemsQuery;
 
         [SetUp]
         public void TestInitialize()
         {
             _documentStore = DocumentStoreHelper.InMemoryDocumentStore();
             _mockUserContext = new Mock<IUserContext>();
+            _mockStreamItemsQuery = new Mock<IStreamItemsQuery>();
 
             _controller = new StreamItemsController(
-                _mockUserContext.Object,
-                _documentStore.OpenSession()
+                _mockStreamItemsQuery.Object
                );
         }
 
@@ -101,7 +103,9 @@ namespace Bowerbird.Test.Controllers.Public
                         FakeValues.Address,
                         FakeValues.IsTrue,
                         FakeValues.Category,
-                        new Dictionary<MediaResource, string>()
+                        null,
+                        null,
+                        null
                         );
 
                     ((IAssignableId)observation).SetIdTo("observations", i.ToString());

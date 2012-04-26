@@ -15,12 +15,9 @@
 */
 
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using Microsoft.Practices.ServiceLocation;
 using Bowerbird.Core.EventHandlers;
-using Raven.Client;
-using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Config;
 
 namespace Bowerbird.Core.Events
@@ -39,24 +36,32 @@ namespace Bowerbird.Core.Events
 
         public static void Raise<T>(T args) where T : IDomainEvent
         {
-            var systemStateManager = ServiceLocator.GetInstance<ISystemStateManager>();
-
-            if (systemStateManager.FireEvents)
+            try
             {
-                foreach (var handler in ServiceLocator.GetAllInstances<IEventHandler<T>>())
-                {
-                    handler.Handle(args);
-                }
+                var systemStateManager = ServiceLocator.GetInstance<ISystemStateManager>();
 
-                if (_actions == null) return;
-
-                foreach (var action in _actions)
+                if (systemStateManager.FireEvents)
                 {
-                    if (action is Action<T>)
+                    foreach (var handler in ServiceLocator.GetAllInstances<IEventHandler<T>>())
                     {
-                        ((Action<T>)action)(args);
+                        handler.Handle(args);
+                    }
+
+                    if (_actions == null) return;
+
+                    foreach (var action in _actions)
+                    {
+                        if (action is Action<T>)
+                        {
+                            ((Action<T>) action)(args);
+                        }
                     }
                 }
+            }
+            catch(Exception ex)
+            {
+                // this means we're in test mode.
+                // TODO: Handle this in a more elegant way
             }
         }
 

@@ -33,13 +33,14 @@
 //        [SetUp]
 //        public void TestInitialize()
 //        {
-//            _store = DocumentStoreHelper.InMemoryDocumentStore();
+//            _store = DocumentStoreHelper.StartRaven();
 //        }
 
 //        [TearDown]
 //        public void TestCleanup()
 //        {
-//            _store = null;
+//            _store = null;             
+            //DocumentStoreHelper.KillRaven();
 //        }
 
 //        #endregion

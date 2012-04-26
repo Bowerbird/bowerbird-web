@@ -32,13 +32,14 @@ namespace Bowerbird.Test.CommandHandlers
         [SetUp]
         public void TestInitialize()
         {
-            _store = DocumentStoreHelper.InMemoryDocumentStore();
+            _store = DocumentStoreHelper.StartRaven();
         }
 
         [TearDown]
         public void TestCleanup()
         {
-            _store = null;
+            _store = null;             
+            DocumentStoreHelper.KillRaven();
         }
 
         #endregion
@@ -75,11 +76,9 @@ namespace Bowerbird.Test.CommandHandlers
                 session.SaveChanges();
 
                 var commandHandler = new OrganisationCreateCommandHandler(session);
-
                 commandHandler.Handle(command);
-
                 session.SaveChanges();
-
+                
                 newValue = session.Query<Organisation>().FirstOrDefault();
             }
 

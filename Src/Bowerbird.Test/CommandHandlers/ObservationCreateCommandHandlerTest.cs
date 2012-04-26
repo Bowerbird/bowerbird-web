@@ -12,6 +12,7 @@
  
 */
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Bowerbird.Core.CommandHandlers;
@@ -34,13 +35,14 @@ namespace Bowerbird.Test.CommandHandlers
         [SetUp]
         public void TestInitialize()
         {
-            _store = DocumentStoreHelper.InMemoryDocumentStore();
+            _store = DocumentStoreHelper.StartRaven();
         }
 
         [TearDown]
         public void TestCleanup()
         {
-            _store = null;
+            _store = null;             
+            DocumentStoreHelper.KillRaven();
         }
 
         #endregion
@@ -61,6 +63,8 @@ namespace Bowerbird.Test.CommandHandlers
         {
             var user = FakeObjects.TestUserWithId();
             var imageMediaResource = FakeObjects.TestImageMediaResourceWithId();
+            var userProject = FakeObjects.TestUserProjectWithId();
+            var createdDateTime = DateTime.UtcNow;
 
             Observation newValue = null;
 
@@ -71,27 +75,29 @@ namespace Bowerbird.Test.CommandHandlers
                 IsIdentificationRequired = FakeValues.IsTrue,
                 Latitude = FakeValues.Latitude,
                 Longitude = FakeValues.Longitude,
-                ObservationMediaItems = new Dictionary<string, string>(){ {imageMediaResource.Id, FakeValues.Description }},
-                ObservationCategory = FakeValues.Category,
-                ObservedOn = FakeValues.CreatedDateTime,
+                AddMedia = new List<Tuple<string,string,string>>(){new Tuple<string, string, string>(imageMediaResource.Id, FakeValues.Message,FakeValues.Message)},
+                Category = FakeValues.Category,
+                ObservedOn = createdDateTime,
                 Title = FakeValues.Title
             };
 
             using (var session = _store.OpenSession())
             {
                 // for polymorphism: see http://ravendb.net/faq/polymorphism
-                _store.Conventions.CustomizeJsonSerializer = serializer => serializer.TypeNameHandling = TypeNameHandling.All;
+                //_store.Conventions.CustomizeJsonSerializer = serializer => serializer.TypeNameHandling = TypeNameHandling.All;
                 
                 session.Store(user);
                 session.Store(imageMediaResource);
-
-                var commandHandler = new ObservationCreateCommandHandler(session);
-
-                commandHandler.Handle(command);
-
+                session.Store(userProject);
                 session.SaveChanges();
 
-                newValue = session.Query<Observation>().FirstOrDefault();
+                var commandHandler = new ObservationCreateCommandHandler(session);
+                commandHandler.Handle(command);
+                session.SaveChanges();
+
+                newValue = session
+                    .Query<Observation>()
+                    .SingleOrDefault(x => x.ObservedOn == createdDateTime);
             }
 
             Assert.IsNotNull(newValue);
@@ -99,12 +105,9 @@ namespace Bowerbird.Test.CommandHandlers
             Assert.AreEqual(command.IsIdentificationRequired, newValue.IsIdentificationRequired);
             Assert.AreEqual(command.Latitude, newValue.Latitude);
             Assert.AreEqual(command.Longitude, newValue.Longitude);
-            Assert.AreEqual(command.ObservationCategory, newValue.ObservationCategory);
+            Assert.AreEqual(command.Category, newValue.ObservationCategory);
             Assert.AreEqual(command.ObservedOn, newValue.ObservedOn);
             Assert.AreEqual(command.Title, newValue.Title);
-            //Assert.AreEqual(user.DenormalisedUserReference(), newValue.User);
-            //Assert.IsTrue(newValue.MediaResources.Count == 1);
-            //Assert.AreEqual(imageMediaResource, newValue.MediaResources[0]);
         }
 
         #endregion

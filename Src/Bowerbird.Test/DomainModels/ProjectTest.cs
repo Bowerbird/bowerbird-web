@@ -16,6 +16,7 @@ using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Extensions;
 using Bowerbird.Test.Utils;
 using NUnit.Framework;
+using System;
 
 namespace Bowerbird.Test.DomainModels
 {
@@ -36,17 +37,6 @@ namespace Bowerbird.Test.DomainModels
 
         #region Test Helpers
 
-        private static Project TestProject()
-        {
-            return new Project(
-                FakeObjects.TestUser(), 
-                FakeValues.Name, 
-                FakeValues.Description,
-                FakeValues.Website, 
-                null
-                );
-        }
-
         #endregion
 
         #region Constructor tests
@@ -55,15 +45,21 @@ namespace Bowerbird.Test.DomainModels
         [Category(TestCategory.Unit)]
         public void Project_Constructor()
         {
+            var createdDateTime = DateTime.UtcNow;
+
             var testProject = new Project(
-                FakeObjects.TestUser(), 
+                FakeObjects.TestUserWithId(), 
                 FakeValues.Name, 
                 FakeValues.Description,
                 FakeValues.Website,
-                null);
+                null,
+                createdDateTime
+                );
 
             Assert.AreEqual(testProject.Name, FakeValues.Name);
             Assert.AreEqual(testProject.Description, FakeValues.Description);
+            Assert.AreEqual(testProject.Website, FakeValues.Website);
+            Assert.AreEqual(testProject.CreatedDateTime, createdDateTime);
         }
 
         #endregion
@@ -74,7 +70,16 @@ namespace Bowerbird.Test.DomainModels
         [Category(TestCategory.Unit)]
         public void Project_UpdateDetails()
         {
-            var testProject = TestProject();
+            var createdDateTime = DateTime.UtcNow;
+
+            var testProject = new Project(
+                FakeObjects.TestUserWithId(),
+                FakeValues.Name,
+                FakeValues.Description,
+                FakeValues.Website,
+                null,
+                createdDateTime
+                );
 
             testProject.UpdateDetails(
                 FakeObjects.TestUser(),
@@ -86,6 +91,7 @@ namespace Bowerbird.Test.DomainModels
 
             Assert.AreEqual(testProject.Name, FakeValues.Name.AppendWith(additionalString));
             Assert.AreEqual(testProject.Description, FakeValues.Description.AppendWith(additionalString));
+            Assert.AreEqual(testProject.Website, FakeValues.Website.AppendWith(additionalString));
         }
 
         #endregion

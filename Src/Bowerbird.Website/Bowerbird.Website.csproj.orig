@@ -111,32 +111,28 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-<<<<<<< HEAD
+<<<<<<< Updated upstream
     <Content Include="js\bowerbird2\app.js" />
+    <Content Include="js\bowerbird2\views\sidebarItemView.js" />
     <Content Include="js\bowerbird2\views\sidebarCollectionView.js" />
     <Content Include="js\bowerbird2\views\footerView.js" />
     <Content Include="js\bowerbird2\views\headerView.js" />
     <Content Include="js\bowerbird2\views\sidebarLayout.js" />
-    <Content Include="js\bowerbird2\views\mainLayout.js" />
+    <Content Include="js\bowerbird2\views\contentLayout.js" />
     <Content Include="js\bowerbird2\controllers\groupUserController.js" />
     <Content Include="js\bowerbird2\routers\groupUserRouter.js" />
     <Content Include="js\bowerbird2\mustacheRenderer.js" />
     <Content Include="js\bowerbird2\namespaces.js" />
-    <Content Include="js\bowerbird2\views\sidebarView.js" />
+=======
+>>>>>>> Stashed changes
     <Content Include="js\libs\backbone.marionette.js" />
+    <Content Include="js\bowerbird\views\exploreItemView.js" />
+    <Content Include="js\bowerbird\views\exploreView.js" />
     <Content Include="js\libs\yepnope.js" />
     <None Include="Views\Home\About.mustache" />
     <None Include="Views\Organisation\Create.mustache" />
     <None Include="Views\Organisation\Delete.mustache" />
     <None Include="Views\Organisation\List.mustache" />
-=======
-    <Content Include="js\bowerbird\views\exploreItemView.js" />
-    <Content Include="js\bowerbird\views\exploreView.js" />
-    <Content Include="js\libs\yepnope.js" />
-    <None Include="Views\Organisations\Create.mustache" />
-    <None Include="Views\Organisations\Delete.mustache" />
-    <None Include="Views\Organisations\List.mustache" />
->>>>>>> 163d9a00768a8417281a5dc33f580238038051df
     <None Include="Views\Account\LogoutSuccess.mustache" />
     <None Include="Views\Account\ResetPassword.mustache" />
     <None Include="Views\Account\Register.mustache" />
@@ -149,19 +145,6 @@
     <None Include="Views\Observations\Delete.mustache" />
     <None Include="Views\Observations\Index.mustache" />
     <None Include="Views\Observations\Create.mustache" />
-<<<<<<< HEAD
-    <None Include="Views\Project\Create.mustache" />
-    <None Include="Views\Project\Delete.mustache" />
-    <None Include="Views\Project\Index.mustache" />
-    <None Include="Views\Project\List.mustache" />
-    <None Include="Views\Shared\_Layout.mustache">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Views\Shared\OrganisationItem.mustache" />
-    <None Include="Views\Shared\TeamItem.mustache" />
-    <None Include="Views\Shared\ProjectItem.mustache" />
-    <None Include="Views\Shared\GroupList.mustache" />
-=======
     <None Include="Views\Projects\Create.mustache" />
     <None Include="Views\Projects\Delete.mustache" />
     <None Include="Views\Projects\Index.mustache" />
@@ -171,10 +154,6 @@
     <None Include="Views\Shared\TeamItem.mustache" />
     <None Include="Views\Shared\ProjectItem.mustache" />
     <None Include="Views\Shared\TeamList.mustache" />
-    <None Include="Views\Shared\_Layout.mustache">
-      <SubType>Designer</SubType>
-    </None>
->>>>>>> 163d9a00768a8417281a5dc33f580238038051df
     <None Include="Views\Shared\ObservationList.mustache" />
     <Content Include="apple-touch-icon-114x114-precomposed.png" />
     <Content Include="apple-touch-icon-57x57-precomposed.png" />
@@ -320,6 +299,9 @@
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
     </Content>
+    <None Include="Views\Shared\_Layout.mustache">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Views\Teams\Create.mustache" />
     <None Include="Views\Teams\Delete.mustache" />
     <None Include="Views\Teams\Index.mustache" />
@@ -341,7 +323,9 @@
     <None Include="Views\Shared\ProjectCreate.mustache" />
     <None Include="Views\Shared\Sidebar.mustache" />
     <None Include="Views\Shared\SidebarItem.mustache" />
-    <None Include="Views\Shared\StreamList.mustache" />
+    <None Include="Views\Shared\StreamList.mustache">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Views\Shared\StreamListLoading.mustache" />
     <None Include="Views\Shared\StreamLoadMore.mustache" />
     <None Include="Views\Shared\TeamCreate.mustache" />

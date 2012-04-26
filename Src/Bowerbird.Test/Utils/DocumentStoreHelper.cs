@@ -12,98 +12,90 @@
  
 */
 
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using Bowerbird.Core.CommandHandlers;
+using Bowerbird.Core.Commands;
+using Bowerbird.Core.Config;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Indexes;
 using Raven.Client;
 using Raven.Client.Document;
-using Raven.Client.Embedded;
-using Raven.Client.Extensions;
 using Raven.Client.Indexes;
+using System.Configuration;
 
 namespace Bowerbird.Test.Utils
 {
     public class DocumentStoreHelper
     {
-        public const string TestDb = "bowerbird_test";
-        public const string DevDb = "bowerbird_dev";
+        private static StreamWriter sw; // Handles strings sent to CMD.exe
+        private static StreamReader sr; // Reads text back from CMD.exe
+        private static Process dir;
 
-        public static IDocumentStore InMemoryDocumentStore(bool createIndexes = true)
+        private static IDocumentStore RamDocumentStore()
         {
-            var documentStore = new EmbeddableDocumentStore()
-            {
-                RunInMemory = true,
-                Conventions = new DocumentConvention()
-                                  {
-                                      //DefaultQueryingConsistency = ConsistencyOptions.QueryYourWrites
-                                  }
-            }
-            .Initialize();
+            BootstrapperHelper.Startup();
 
-            if (createIndexes) IndexCreation.CreateIndexes(typeof(All_Groups).Assembly, documentStore);
-
-            return documentStore;
-        }
-
-        public static IDocumentStore ServerDocumentStore(bool createIndexes = true)
-        {
-            var documentStore = new DocumentStore { Url = "http://padil:8002/", DefaultDatabase = DevDb };
-            //var documentStore = new DocumentStore { Url = "http://zen:8080/", DefaultDatabase = DevDb };
-
-            documentStore.Conventions.FindIdentityProperty =
-                                prop =>
-                                    // My custom ID for a given class.
-                                    //(prop.DeclaringType.IsSubclassOf(typeof(DomainModelWithId)) && prop.Name == "Id")
-                                    //(prop.DeclaringType == typeof(Role) && prop.Name == "Id")
-                                    //|| (prop.DeclaringType == typeof(Permission) && prop.Name == "Id")
-                                    // Default to general purpose.
-                                    //prop.Name == "Id";
-                                    prop.Name == "Id";
-
-            documentStore.Initialize();
-
-            documentStore.DatabaseCommands.EnsureDatabaseExists(DevDb);
-
-            if (createIndexes) IndexCreation.CreateIndexes(typeof(All_Groups).Assembly, documentStore);
-
-            //// remove all records from server before running test
-            //using (var session = documentStore.OpenSession(DevDb))
-            //{
-            //    session.DeleteFromDb(session.Query<User>());
-            //    session.DeleteFromDb(session.Query<Watchlist>());
-            //    session.DeleteFromDb(session.Query<Team>());
-            //    session.DeleteFromDb(session.Query<Post>());
-            //    session.DeleteFromDb(session.Query<Role>());
-            //    session.DeleteFromDb(session.Query<Project>());
-            //    session.DeleteFromDb(session.Query<Permission>());
-            //    session.DeleteFromDb(session.Query<Organisation>());
-            //    session.DeleteFromDb(session.Query<Observation>());
-            //    session.DeleteFromDb(session.Query<ObservationNote>());
-            //    session.DeleteFromDb(session.Query<Member>());
-            //    session.DeleteFromDb(session.Query<GroupMember>());
-            //    session.DeleteFromDb(session.Query<GlobalMember>());
-            //    session.DeleteFromDb(session.Query<MediaResource>());
-            //    session.DeleteFromDb(session.Query<ImageMediaResource>());
-            //    session.DeleteFromDb(session.Query<OtherMediaResource>());
-
-            //    session.SaveChanges();
-            //}
-
-            return documentStore;
-        }
-
-        public static IDocumentStore RamDocumentStore()
-        {
             var documentStore = new DocumentStore { Url = "http://localhost:8080/" };
 
             documentStore.Conventions.FindIdentityProperty = prop => prop.Name == "Id";
-
             documentStore.Initialize();
 
-            documentStore.DatabaseCommands.EnsureDatabaseExists(DevDb);
+            using (var documentSession = documentStore.OpenSession())
+            {
+                // if we have no roles, system is not configured, so run system setup
+                var roles = documentSession.Query<Role>().ToList();
+                if (roles.Count == 0)
+                {
+                    var systemStateManager = new SystemStateManager(documentSession);
+
+                    var setupSystemDataCommandHander = new SetupSystemDataCommandHandler(
+                        documentStore,
+                        documentSession,
+                        systemStateManager
+                        );
+
+                    setupSystemDataCommandHander.Handle(new SetupSystemDataCommand());
+                    documentSession.SaveChanges();
+                }
+            }
 
             IndexCreation.CreateIndexes(typeof(All_Groups).Assembly, documentStore);
 
             return documentStore;
+        }
+
+        internal static IDocumentStore StartRaven()
+        {
+            dir = new Process
+            {
+                StartInfo =
+                    {
+                        FileName = "CMD.EXE",
+                        UseShellExecute = false,
+                        CreateNoWindow = false,
+                        RedirectStandardInput = true,
+                        Arguments = @"/K C:\Projects\bowerbird.web\Src\packages\RavenDB.1.0.665-Unstable\server\Raven.Server.exe -ram",
+                        RedirectStandardOutput = true
+                    }
+            };
+
+            dir.Start();
+            sw = dir.StandardInput;
+            sr = dir.StandardOutput;
+            sw.AutoFlush = true;
+            
+            //sw.WriteLine(@"C:\Projects\bowerbird.web\Src\packages\RavenDB.1.0.665-Unstable\server\Raven.Server.exe -ram");
+
+            return RamDocumentStore();
+        }
+
+        internal static void KillRaven()
+        {
+            sw.WriteLine("q");
+            sw.Close();
+            sr.Close();
         }
     }
 }

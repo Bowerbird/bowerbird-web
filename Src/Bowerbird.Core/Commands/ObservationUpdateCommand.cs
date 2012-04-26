@@ -1,6 +1,4 @@
-﻿/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -21,7 +19,6 @@ namespace Bowerbird.Core.Commands
 {
     public class ObservationUpdateCommand : ICommand
     {
-
         #region Members
 
         #endregion
@@ -48,7 +45,7 @@ namespace Bowerbird.Core.Commands
 
         public string Category { get; set; }
 
-        public Dictionary<string, string> AddMediaResources { get; set; }
+        public List<Tuple<string, string, string>> AddMediaResources { get; set; }
 
         public Dictionary<string, string> MediaResources { get; set; }
 
@@ -62,7 +59,6 @@ namespace Bowerbird.Core.Commands
 
         #region Methods
 
-        #endregion      
-     
+        #endregion
     }
 }

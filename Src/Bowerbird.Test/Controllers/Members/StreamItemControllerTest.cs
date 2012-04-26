@@ -23,6 +23,7 @@ using Bowerbird.Web.ViewModels;
 using Moq;
 using NUnit.Framework;
 using Raven.Client;
+using Bowerbird.Web.Queries;
 
 namespace Bowerbird.Test.Controllers.Members
 {
@@ -34,17 +35,17 @@ namespace Bowerbird.Test.Controllers.Members
         private Mock<IUserContext> _mockUserContext;
         private IDocumentStore _documentStore;
         private StreamItemsController _controller;
+        private IStreamItemsQuery _streamItemsQuery;
 
         [SetUp]
         public void TestInitialize()
         {
             _documentStore = DocumentStoreHelper.ServerDocumentStore();
-
             _mockUserContext = new Mock<IUserContext>();
+            _streamItemsQuery = new Mock<IStreamItemsQuery>().Object;
 
             _controller = new StreamItemsController(
-                _mockUserContext.Object,
-                _documentStore.OpenSession(DocumentStoreHelper.DevDb)
+                _streamItemsQuery
                 );
         }
 

@@ -20,6 +20,8 @@ using Bowerbird.Web.ViewModels;
 using Moq;
 using NUnit.Framework;
 using Raven.Client;
+using Bowerbird.Core.Commands;
+using Bowerbird.Web.Queries;
 
 namespace Bowerbird.Test.Controllers.Public
 {
@@ -32,6 +34,8 @@ namespace Bowerbird.Test.Controllers.Public
         private Mock<IMediaFilePathService> _mockMediaFilePathService;
         private Mock<IConfigService> _mockConfigService;
         private TeamsController _controller;
+        private ICommandProcessor _commandProcessor;
+        private ITeamsQuery _teamsQuery;
 
         [SetUp]
         public void TestInitialize()
@@ -39,11 +43,13 @@ namespace Bowerbird.Test.Controllers.Public
             _documentStore = DocumentStoreHelper.InMemoryDocumentStore();
             _mockMediaFilePathService = new Mock<IMediaFilePathService>();
             _mockConfigService = new Mock<IConfigService>();
+            _commandProcessor = new Mock<ICommandProcessor>().Object;
+            _teamsQuery = new Mock<ITeamsQuery>().Object;
 
             _controller = new TeamsController(
-                _documentStore.OpenSession(),
-                _mockMediaFilePathService.Object,
-                _mockConfigService.Object);
+                _commandProcessor,
+                MockHelpers.MockUserContext().Object,
+                _teamsQuery);
         }
 
         [TearDown]

@@ -13,7 +13,7 @@
 */
 
 using NUnit.Framework;
-
+using System;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Test.Utils;
 using Bowerbird.Core.Extensions;
@@ -37,17 +37,6 @@ namespace Bowerbird.Test.DomainModels
 
         #region Test Helpers
 
-        private static Team TestTeam()
-        {
-            return new Team(
-                FakeObjects.TestUser(),
-                FakeValues.Name,
-                FakeValues.Description,
-                FakeValues.Website,
-                null
-                );
-        }
-
         #endregion
 
         #region Constructor tests
@@ -56,11 +45,21 @@ namespace Bowerbird.Test.DomainModels
         [Category(TestCategory.Unit)]
         public void Team_Constructor()
         {
-            var testTeam = new Team(FakeObjects.TestUser(), FakeValues.Name, FakeValues.Description, FakeValues.Website, null);
+            var createdDateTime = DateTime.UtcNow;
+
+            var testTeam = new Team(
+                FakeObjects.TestUserWithId(), 
+                FakeValues.Name, 
+                FakeValues.Description, 
+                FakeValues.Website, 
+                null,
+                createdDateTime
+                );
 
             Assert.AreEqual(testTeam.Name, FakeValues.Name);
             Assert.AreEqual(testTeam.Description, FakeValues.Description);
             Assert.AreEqual(testTeam.Website, FakeValues.Website);
+            Assert.AreEqual(testTeam.CreatedDateTime, createdDateTime);
         }
 
         #endregion
@@ -71,7 +70,16 @@ namespace Bowerbird.Test.DomainModels
         [Category(TestCategory.Unit)]
         public void Team_UpdateDetails()
         {
-            var testTeam = new Team(FakeObjects.TestUser(), FakeValues.Name, FakeValues.Description, FakeValues.Website, null);
+            var createdDateTime = DateTime.UtcNow;
+
+            var testTeam = new Team(
+                FakeObjects.TestUserWithId(),
+                FakeValues.Name,
+                FakeValues.Description,
+                FakeValues.Website,
+                null,
+                createdDateTime
+                );
 
             testTeam.UpdateDetails(
                 FakeObjects.TestUser(),

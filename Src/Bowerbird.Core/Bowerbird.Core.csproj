@@ -99,9 +99,6 @@
     <Compile Include="CommandHandlers\UserUpdatePasswordCommandHandler.cs" />
     <Compile Include="CommandHandlers\MediaResourceDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\MediaResourceCreateCommandHandler.cs" />
-    <Compile Include="CommandHandlers\CommentCreateCommandHandler.cs" />
-    <Compile Include="CommandHandlers\CommentDeleteCommandHandler.cs" />
-    <Compile Include="CommandHandlers\CommentUpdateCommandHandler.cs" />
     <Compile Include="CommandHandlers\ObservationDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\ObservationNoteDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\ObservationNoteUpdateCommandHandler.cs" />
@@ -143,9 +140,6 @@
     <Compile Include="Commands\UserUpdateCommand.cs" />
     <Compile Include="Commands\MediaResourceCreateCommand.cs" />
     <Compile Include="Commands\MediaResourceDeleteCommand.cs" />
-    <Compile Include="Commands\CommentCreateCommand.cs" />
-    <Compile Include="Commands\CommentDeleteCommand.cs" />
-    <Compile Include="Commands\CommentUpdateCommand.cs" />
     <Compile Include="Commands\ObservationDeleteCommand.cs" />
     <Compile Include="Commands\ObservationNoteCreateCommand.cs" />
     <Compile Include="Commands\ObservationNoteDeleteCommand.cs" />

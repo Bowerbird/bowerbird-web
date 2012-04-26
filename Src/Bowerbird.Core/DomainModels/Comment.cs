@@ -18,7 +18,7 @@ using Bowerbird.Core.DomainModels.DenormalisedReferences;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public class Comment
+    public class Comment : IAssignableId
     {
         #region Members
 
@@ -85,5 +85,9 @@ namespace Bowerbird.Core.DomainModels
 
         #endregion      
 
+        void IAssignableId.SetIdTo(string prefix, string assignedId)
+        {
+            Id = string.Format("{0}/{1}", prefix, assignedId);
+        }
     }
 }

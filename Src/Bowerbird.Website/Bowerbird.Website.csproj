@@ -320,7 +320,9 @@
     <None Include="Views\Shared\ProjectCreate.mustache" />
     <None Include="Views\Shared\Sidebar.mustache" />
     <None Include="Views\Shared\SidebarItem.mustache" />
-    <None Include="Views\Shared\StreamList.mustache" />
+    <None Include="Views\Shared\StreamList.mustache">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Views\Shared\StreamListLoading.mustache" />
     <None Include="Views\Shared\StreamLoadMore.mustache" />
     <None Include="Views\Shared\TeamCreate.mustache" />

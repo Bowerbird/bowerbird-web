@@ -1,13 +1,27 @@
-﻿using System.Security.Principal;
+﻿/* Bowerbird V1  - Licensed under MIT 1.1 Public License
+
+ Developers: 
+ * Frank Radocaj : frank@radocaj.com
+ * Hamish Crittenden : hamish.crittenden@gmail.com
+ 
+ Project Manager: 
+ * Ken Walker : kwalker@museum.vic.gov.au
+ 
+ Funded by:
+ * Atlas of Living Australia
+ 
+*/
+
+using System.Security.Principal;
 using System.Web;
 using Moq;
+using Bowerbird.Core.Config;
+using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Test.Utils
 {
-
     public static class MockHelpers
     {
-
         /// <summary>
         /// Return a Mock HttpRequestBase
         /// </summary>
@@ -84,5 +98,21 @@ namespace Bowerbird.Test.Utils
             return mockPrincipal;
         }
 
+        /// <summary>
+        /// Returns IUserContext with all permissions and FakeObjects.User properties
+        /// </summary>
+        public static Mock<IUserContext> MockUserContext()
+        {
+            var mockUserContext = new Mock<IUserContext>();
+
+            mockUserContext.Setup(ctx => ctx.IsUserAuthenticated()).Returns(true);
+            mockUserContext.Setup(ctx => ctx.GetAuthenticatedUserId()).Returns(FakeObjects.TestUserWithId().Id);
+            mockUserContext.Setup(ctx => ctx.HasGroupPermission(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
+            mockUserContext.Setup(ctx => ctx.HasAppRootPermission(It.IsAny<string>())).Returns(true);
+            mockUserContext.Setup(ctx => ctx.HasUserProjectPermission(It.IsAny<string>())).Returns(true);
+            mockUserContext.Setup(ctx => ctx.HasGroupPermission<DomainModel>(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
+
+            return mockUserContext;
+        }
     }
 }

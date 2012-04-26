@@ -36,7 +36,7 @@ namespace Bowerbird.Test.Indexes
         [SetUp]
         public void TestInitialize()
         {
-            _documentStore = DocumentStoreHelper.RamDocumentStore();
+            _documentStore = DocumentStoreHelper.StartRaven();
 
             using(var documentSession = _documentStore.OpenSession())
             {

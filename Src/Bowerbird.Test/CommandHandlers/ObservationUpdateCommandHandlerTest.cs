@@ -12,6 +12,7 @@
  
 */
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Bowerbird.Core.CommandHandlers;
@@ -34,13 +35,14 @@ namespace Bowerbird.Test.CommandHandlers
         [SetUp]
         public void TestInitialize()
         {
-            _store = DocumentStoreHelper.InMemoryDocumentStore();
+            _store = DocumentStoreHelper.StartRaven();
         }
 
         [TearDown]
         public void TestCleanup()
         {
-            _store = null;
+            _store = null;             
+            DocumentStoreHelper.KillRaven();
         }
 
         #endregion
@@ -59,7 +61,8 @@ namespace Bowerbird.Test.CommandHandlers
         [Category(TestCategory.Persistance)]
         public void ObservationUpdateCommandHandlerTest_Handle()
         {
-            var mediaResource = FakeObjects.TestMediaResourceWithId("1");
+            var mediaResourceOld = FakeObjects.TestMediaResourceWithId("1");
+            var mediaResourceNew = FakeObjects.TestMediaResourceWithId("2");
             var user = FakeObjects.TestUserWithId();
 
             var observation = new Observation(
@@ -72,7 +75,10 @@ namespace Bowerbird.Test.CommandHandlers
                 FakeValues.Address,
                 FakeValues.IsTrue,
                 FakeValues.Category,
-                new Dictionary<MediaResource, string>() {{mediaResource, FakeValues.Description}});
+                FakeObjects.TestUserProjectWithId(),
+                new List<Project>(){FakeObjects.TestProjectWithId()},
+                new List<Tuple<MediaResource, string, string>>{new Tuple<MediaResource, string,string>(mediaResourceOld, FakeValues.Description, FakeValues.Description)}
+                );
 
             ((IAssignableId)observation).SetIdTo("observations/", "1");
 
@@ -86,15 +92,17 @@ namespace Bowerbird.Test.CommandHandlers
                 IsIdentificationRequired = !observation.IsIdentificationRequired,
                 Latitude = FakeValues.Latitude.PrependWith("new"),
                 Longitude = FakeValues.Longitude.PrependWith("new"),
-                ObservationCategory = FakeValues.Category.PrependWith("new"),
+                Category = FakeValues.Category.PrependWith("new"),
                 Title = FakeValues.Title.PrependWith("new"),
                 ObservedOn = FakeValues.ModifiedDateTime,
-                ObservationMediaItems = new Dictionary<string, string>() { { mediaResource.Id, FakeValues.Description } }
+                AddMediaResources = new List<Tuple<string, string, string>>() { new Tuple<string, string, string>(mediaResourceNew.Id, FakeValues.Description, FakeValues.Description)},
+                RemoveMediaResources = new List<string>(){mediaResourceOld.Id}
             };
 
             using (var session = _store.OpenSession())
             {
-                session.Store(mediaResource);
+                session.Store(mediaResourceOld);
+                session.Store(mediaResourceNew);
                 session.Store(observation);
                 session.Store(user);
                 session.SaveChanges();
@@ -111,12 +119,10 @@ namespace Bowerbird.Test.CommandHandlers
             Assert.AreEqual(command.IsIdentificationRequired, newValue.IsIdentificationRequired);
             Assert.AreEqual(command.Latitude, newValue.Latitude);
             Assert.AreEqual(command.Longitude, newValue.Longitude);
-            Assert.AreEqual(command.ObservationCategory, newValue.ObservationCategory);
+            Assert.AreEqual(command.Category, newValue.ObservationCategory);
             Assert.AreEqual(command.Title, newValue.Title);
             Assert.AreEqual(command.ObservedOn, newValue.ObservedOn);
-            Assert.IsTrue(newValue.ObservationMedia.ToList().Count == 1);
-            Assert.AreEqual(mediaResource, newValue.ObservationMedia.ToList()[0].MediaResource);
-            Assert.AreEqual(FakeValues.Description, newValue.ObservationMedia.ToList()[0].Description);
+            Assert.AreEqual(command.AddMediaResources.First().Item1, newValue.Media.First().MediaResource.Id);
         }
 
         #endregion 

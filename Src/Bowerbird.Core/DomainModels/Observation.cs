@@ -26,7 +26,6 @@ namespace Bowerbird.Core.DomainModels
 {
     public class Observation : DomainModel, IOwnable, IContribution
     {
-
         #region Members
 
         [JsonIgnore]
@@ -304,6 +303,5 @@ namespace Bowerbird.Core.DomainModels
         }
 
         #endregion
-
     }
 }
