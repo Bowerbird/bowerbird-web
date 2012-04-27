@@ -58,6 +58,8 @@ namespace Bowerbird.Test.Web.Controllers
         [TearDown]
         public void TestCleanup()
         {
+            _documentStore = null;
+            DocumentStoreHelper.KillRaven();
         }
 
         #endregion
