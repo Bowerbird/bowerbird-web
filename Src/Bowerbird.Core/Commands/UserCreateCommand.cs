@@ -1,6 +1,4 @@
-﻿/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -20,7 +18,6 @@ namespace Bowerbird.Core.Commands
 {
     public class UserCreateCommand : ICommand
     {
-
         #region Members
 
         #endregion
@@ -48,6 +45,5 @@ namespace Bowerbird.Core.Commands
         #region Methods
 
         #endregion      
-     
     }
 }

@@ -21,6 +21,7 @@ using Raven.Client;
 using System;
 using System.Linq;
 using Bowerbird.Core.Config;
+using Raven.Client.Linq;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -63,12 +64,13 @@ namespace Bowerbird.Core.CommandHandlers
             _documentSession.Store(user);
 
             var appRoot = _documentSession.Load<AppRoot>(Constants.AppRootId);
+            var roles = _documentSession.Query<Role>().Where(x => x.Id.In(userCreateCommand.Roles));
 
             var member = new Member(
                 user, 
                 user,
                 appRoot, 
-                _documentSession.Load<Role>(userCreateCommand.Roles));
+                roles);
             _documentSession.Store(member);
 
             user.AddMembership(member);

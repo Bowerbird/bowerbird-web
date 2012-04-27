@@ -23,41 +23,41 @@ using Bowerbird.Core.Indexes;
 using Raven.Client;
 using Raven.Client.Document;
 using Raven.Client.Indexes;
-using System.Configuration;
 
 namespace Bowerbird.Test.Utils
 {
     public class DocumentStoreHelper
     {
-        private static StreamWriter sw; // Handles strings sent to CMD.exe
-        private static StreamReader sr; // Reads text back from CMD.exe
-        private static Process dir;
+        private static StreamWriter _sw; // Handles strings sent to CMD.exe
+        private static StreamReader _sr; // Reads text back from CMD.exe
 
-        private static IDocumentStore RamDocumentStore()
+        private static IDocumentStore RamDocumentStore(bool injectData = true)
         {
-            BootstrapperHelper.Startup();
-
             var documentStore = new DocumentStore { Url = "http://localhost:8080/" };
 
             documentStore.Conventions.FindIdentityProperty = prop => prop.Name == "Id";
+
             documentStore.Initialize();
 
-            using (var documentSession = documentStore.OpenSession())
+            if (injectData)
             {
-                // if we have no roles, system is not configured, so run system setup
-                var roles = documentSession.Query<Role>().ToList();
-                if (roles.Count == 0)
+                using (var documentSession = documentStore.OpenSession())
                 {
-                    var systemStateManager = new SystemStateManager(documentSession);
+                    // if we have no roles, system is not configured, so run system setup
+                    var roles = documentSession.Query<Role>().ToList();
+                    if (roles.Count == 0)
+                    {
+                        var systemStateManager = new SystemStateManager(documentSession);
 
-                    var setupSystemDataCommandHander = new SetupSystemDataCommandHandler(
-                        documentStore,
-                        documentSession,
-                        systemStateManager
-                        );
+                        var setupSystemDataCommandHander = new SetupSystemDataCommandHandler(
+                            documentStore,
+                            documentSession,
+                            systemStateManager
+                            );
 
-                    setupSystemDataCommandHander.Handle(new SetupSystemDataCommand());
-                    documentSession.SaveChanges();
+                        setupSystemDataCommandHander.Handle(new SetupSystemDataCommand());
+                        documentSession.SaveChanges();
+                    }
                 }
             }
 
@@ -66,9 +66,9 @@ namespace Bowerbird.Test.Utils
             return documentStore;
         }
 
-        internal static IDocumentStore StartRaven()
+        public static IDocumentStore StartRaven(bool injectData = true)
         {
-            dir = new Process
+            var dir = new Process
             {
                 StartInfo =
                     {
@@ -76,26 +76,24 @@ namespace Bowerbird.Test.Utils
                         UseShellExecute = false,
                         CreateNoWindow = false,
                         RedirectStandardInput = true,
-                        Arguments = @"/K C:\Projects\bowerbird.web\Src\packages\RavenDB.1.0.665-Unstable\server\Raven.Server.exe -ram",
-                        RedirectStandardOutput = true
+                        RedirectStandardOutput = true,
+                        Arguments = @"/K C:\Projects\bowerbird.web\Src\packages\RavenDB.1.0.665-Unstable\server\Raven.Server.exe -ram"
                     }
             };
 
             dir.Start();
-            sw = dir.StandardInput;
-            sr = dir.StandardOutput;
-            sw.AutoFlush = true;
-            
-            //sw.WriteLine(@"C:\Projects\bowerbird.web\Src\packages\RavenDB.1.0.665-Unstable\server\Raven.Server.exe -ram");
+            _sw = dir.StandardInput;
+            _sr = dir.StandardOutput;
+            _sw.AutoFlush = true;
 
-            return RamDocumentStore();
+            return RamDocumentStore(injectData);
         }
 
-        internal static void KillRaven()
+        public static void KillRaven()
         {
-            sw.WriteLine("q");
-            sw.Close();
-            sr.Close();
+            _sw.WriteLine("q");
+            _sw.Close();
+            _sr.Close();
         }
     }
 }

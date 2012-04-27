@@ -40,44 +40,44 @@ namespace Bowerbird.Core.Indexes
 
         public All_Groups()
         {
-            AddMap<AppRoot>(appRoots => from appRoot in appRoots
-                                                  select new
-                                                  {
-                                                      Type = "group",
-                                                      appRoot.Id,
-                                                      appRoot.Name,
-                                                      GroupType = "approot",
-                                                      MemberCount = 0,
-                                                      ObservationCount = 0,
-                                                      ProjectCount = 0,
-                                                      TeamCount = 0
-                                                  });
+            //AddMap<AppRoot>(appRoots => from appRoot in appRoots
+            //                                      select new
+            //                                      {
+            //                                          Type = "group",
+            //                                          appRoot.Id,
+            //                                          appRoot.Name,
+            //                                          GroupType = "approot",
+            //                                          MemberCount = 0,
+            //                                          ObservationCount = 0,
+            //                                          ProjectCount = 0,
+            //                                          TeamCount = 0
+            //                                      });
 
-            AddMap<Organisation>(organisations => from organisation in organisations
-                                                  select new
-                                                             {
-                                                                Type = "group",
-                                                                organisation.Id,
-                                                                organisation.Name,
-                                                                GroupType = "organisation",
-                                                                MemberCount = 0,
-                                                                ObservationCount = 0,
-                                                                ProjectCount = 0,
-                                                                TeamCount = 0
-                                                             });
+            //AddMap<Organisation>(organisations => from organisation in organisations
+            //                                      select new
+            //                                                 {
+            //                                                    Type = "group",
+            //                                                    organisation.Id,
+            //                                                    organisation.Name,
+            //                                                    GroupType = "organisation",
+            //                                                    MemberCount = 0,
+            //                                                    ObservationCount = 0,
+            //                                                    ProjectCount = 0,
+            //                                                    TeamCount = 0
+            //                                                 });
 
-            AddMap<Team>(teams => from team in teams
-                                                select new
-                                                {
-                                                    Type = "group",
-                                                    team.Id,
-                                                    team.Name,
-                                                    GroupType = "team",
-                                                    MemberCount = 0,
-                                                    ObservationCount = 0,
-                                                    ProjectCount = 0,
-                                                    TeamCount = 0
-                                                });
+            //AddMap<Team>(teams => from team in teams
+            //                                    select new
+            //                                    {
+            //                                        Type = "group",
+            //                                        team.Id,
+            //                                        team.Name,
+            //                                        GroupType = "team",
+            //                                        MemberCount = 0,
+            //                                        ObservationCount = 0,
+            //                                        ProjectCount = 0,
+            //                                        TeamCount = 1
+            //                                    });
 
             AddMap<Project>(projects => from project in projects
                                   select new
@@ -88,50 +88,50 @@ namespace Bowerbird.Core.Indexes
                                       GroupType = "project",
                                       MemberCount = 0,
                                       ObservationCount = 0,
-                                      ProjectCount = 0,
+                                      ProjectCount = 1,
                                       TeamCount = 0
                                   });
 
-            AddMap<UserProject>(userProjects => from userProject in userProjects
-                                        select new
-                                        {
-                                            Type = "group",
-                                            userProject.Id,
-                                            userProject.Name,
-                                            GroupType = "userproject",
-                                            MemberCount = 0,
-                                            ObservationCount = 0,
-                                            ProjectCount = 0,
-                                            TeamCount = 0
-                                        });
+            //AddMap<UserProject>(userProjects => from userProject in userProjects
+            //                            select new
+            //                            {
+            //                                Type = "group",
+            //                                userProject.Id,
+            //                                userProject.Name,
+            //                                GroupType = "userproject",
+            //                                MemberCount = 0,
+            //                                ObservationCount = 0,
+            //                                ProjectCount = 0,
+            //                                TeamCount = 0
+            //                            });
 
-            AddMap<Member>(members => from member in members
-                                      select new
-                                      {
-                                          Type = "member",
-                                          member.Group.Id,
-                                          Name = (string)null,
-                                          GroupType = (string)null,
-                                          MemberCount = 1,
-                                          ObservationCount = 0,
-                                          ProjectCount = 0,
-                                          TeamCount = 0
-                                      });
+            //AddMap<Member>(members => from member in members
+            //                          select new
+            //                          {
+            //                              Type = "member",
+            //                              member.Group.Id,
+            //                              Name = (string)null,
+            //                              GroupType = (string)null,
+            //                              MemberCount = 1,
+            //                              ObservationCount = 0,
+            //                              ProjectCount = 0,
+            //                              TeamCount = 0
+            //                          });
 
             Reduce = results => from result in results
                                 group result by result.Id
-                                into g
-                                select new
-                                           {
-                                               Type = "result",
-                                               Id = g.Key,
-                                               g.Where(x => x.Type == "group").First().Name,
-                                               g.Where(x => x.Type == "group").First().GroupType,
-                                               MemberCount = 1,//g.Where(x => x.Type == "member").Sum(x => x.MemberCount),
-                                               ObservationCount = 0,
-                                               ProjectCount = 0,
-                                               TeamCount = 0
-                                           };
+                                    into g
+                                    select new
+                                               {
+                                                   Type = "result",
+                                                   Id = g.Key,
+                                                   g.Where(x => x.Name != null && x.GroupType != null && x.Type == "group").First().Name,
+                                                   g.Where(x => x.Name != null && x.GroupType != null && x.Type == "group").First().GroupType,
+                                                   MemberCount = 0,// g.Where(x => x.Type == "member").Sum(x => x.MemberCount),
+                                                   ObservationCount = 0,
+                                                   ProjectCount = 0,
+                                                   TeamCount = 0
+                                               };
             
             TransformResults = (database, results) =>
                 from result in results
@@ -143,6 +143,7 @@ namespace Bowerbird.Core.Indexes
                 select new
                 {
                     result.Id,
+                    result.Type,
                     result.Name,
                     result.GroupType,
                     AppRoot = appRoot,

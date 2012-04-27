@@ -251,9 +251,11 @@
     <Compile Include="ImageUtilities\ImageInformation.cs" />
     <Compile Include="ImageUtilities\ImageResizeMode.cs" />
     <Compile Include="Indexes\All_Contributions.cs" />
+    <Compile Include="Indexes\All_Data.cs" />
     <Compile Include="Indexes\All_GroupContributions.cs" />
     <Compile Include="Indexes\All_Groups.cs" />
     <Compile Include="Indexes\All_ChatSessions.cs" />
+    <Compile Include="Indexes\All_Projects.cs" />
     <Compile Include="Indexes\All_UserMembership.cs" />
     <Compile Include="Indexes\All_UserSessions.cs" />
     <Compile Include="Paging\EnumerableExtensions.cs" />
