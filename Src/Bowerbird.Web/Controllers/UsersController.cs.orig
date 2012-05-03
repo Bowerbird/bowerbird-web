@@ -67,8 +67,13 @@ namespace Bowerbird.Web.Controllers
         {
             ViewBag.Model = new
             {
-                User = _viewModelBuilder.BuildItem(new IdInput() { Id = pagingInput.Id }),
+<<<<<<< Updated upstream
+                User = _viewModelBuilder.BuildItem(pagingInput.Id),
                 StreamItems = _streamItemsViewModelBuilder.BuildHomeStreamItems(pagingInput)
+=======
+                User = _viewModelBuilder.BuildItem(new IdInput() { Id = pagingInput.Id }),
+                StreamItems = _streamItemsViewModelBuilder.BuildUserStreamItems(pagingInput)
+>>>>>>> Stashed changes
             };
 
             return View(Form.Stream);
@@ -79,7 +84,7 @@ namespace Bowerbird.Web.Controllers
         {
             ViewBag.Model = new
             {
-                User = _viewModelBuilder.BuildItem(new IdInput() { Id = pagingInput.Id }),
+                User = _viewModelBuilder.BuildItem(pagingInput.Id),
                 StreamItems = _streamItemsViewModelBuilder.BuildHomeStreamItems(pagingInput)
             };
 
@@ -91,7 +96,7 @@ namespace Bowerbird.Web.Controllers
         {
             ViewBag.Model = new
             {
-                User = _viewModelBuilder.BuildItem(new IdInput() { Id = pagingInput.Id }),
+                User = _viewModelBuilder.BuildItem(pagingInput.Id),
                 StreamItems = _streamItemsViewModelBuilder.BuildHomeStreamItems(pagingInput)
             };
 
@@ -103,7 +108,7 @@ namespace Bowerbird.Web.Controllers
         {
             ViewBag.Model = new
             {
-                User = _viewModelBuilder.BuildItem(new IdInput() { Id = pagingInput.Id }),
+                User = _viewModelBuilder.BuildItem(pagingInput.Id),
                 StreamItems = _streamItemsViewModelBuilder.BuildHomeStreamItems(pagingInput)
             };
 
@@ -115,7 +120,7 @@ namespace Bowerbird.Web.Controllers
         {
             ViewBag.Model = new
             {
-                User = _viewModelBuilder.BuildItem(new IdInput() { Id = pagingInput.Id }),
+                User = _viewModelBuilder.BuildItem(pagingInput.Id),
                 StreamItems = _streamItemsViewModelBuilder.BuildHomeStreamItems(pagingInput)
             };
 
@@ -125,7 +130,13 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult About()
         {
-            throw new System.NotImplementedException();
+            ViewBag.Model = new
+            {
+                User = _viewModelBuilder.BuildItem(pagingInput.Id),
+                StreamItems = _streamItemsViewModelBuilder.BuildHomeStreamItems(pagingInput)
+            };
+
+            return View(Form.About);
         }
 
         [HttpGet]

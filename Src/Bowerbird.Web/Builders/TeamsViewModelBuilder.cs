@@ -80,17 +80,18 @@ namespace Bowerbird.Web.Builders
 
         public object BuildList(PagingInput pagingInput)
         {
-            if(listInput.OrganisationId != null)
-            {
-                return BuildTeamsForOrganisation(listInput);
-            }
+            //if (pagingInput.OrganisationId != null)
+            //{
+            //    return BuildTeamsForOrganisation(listInput);
+            //}
 
-            if(listInput.HasAddProjectPermission)
-            {
-                return BuildTeamsWhereUserHasAddProjectPermission();
-            }
+            //if (pagingInput.HasAddProjectPermission)
+            //{
+            //    return BuildTeamsWhereUserHasAddProjectPermission();
+            //}
 
-            return BuildTeams(listInput);
+            //return BuildTeams(pagingInput);
+            throw new System.NotImplementedException();
         }
 
         private object BuildTeams(PagingInput pagingInput)
@@ -100,8 +101,8 @@ namespace Bowerbird.Web.Builders
             var teams = _documentSession
                 .Query<Team>()
                 .Statistics(out stats)
-                .Skip(listInput.Page)
-                .Take(listInput.PageSize)
+                .Skip(pagingInput.Page)
+                .Take(pagingInput.PageSize)
                 .ToList();
 
             var results = _documentSession
@@ -109,18 +110,18 @@ namespace Bowerbird.Web.Builders
                 .AsProjection<All_Groups.Result>()
                 .Where(x => x.GroupType == "team" && x.Id.In(teams.Select(y => y.Id)))
                 .Statistics(out stats)
-                .Skip(listInput.Page)
-                .Take(listInput.PageSize)
+                .Skip(pagingInput.Page)
+                .Take(pagingInput.PageSize)
                 .ToList()
                 .Select(x => _teamViewFactory.Make(x.Team));
 
             return new
             {
-                listInput.Page,
-                listInput.PageSize,
+                pagingInput.Page,
+                pagingInput.PageSize,
                 Teams = results.ToPagedList(
-                    listInput.Page,
-                    listInput.PageSize,
+                    pagingInput.Page,
+                    pagingInput.PageSize,
                     stats.TotalResults,
                     null)
             };
@@ -133,10 +134,10 @@ namespace Bowerbird.Web.Builders
             var teams = _documentSession
                 .Query<GroupAssociation>()
                 .Include(x => x.ChildGroupId)
-                .Where(x => x.ParentGroupId == listInput.OrganisationId)
+                .Where(x => x.ParentGroupId == pagingInput.Id)
                 .Statistics(out stats)
-                .Skip(listInput.Page)
-                .Take(listInput.PageSize)
+                .Skip(pagingInput.Page)
+                .Take(pagingInput.PageSize)
                 .ToList();
 
             var results = _documentSession
@@ -144,18 +145,18 @@ namespace Bowerbird.Web.Builders
                 .AsProjection<All_Groups.Result>()
                 .Where(x => x.GroupType == "team" && x.Id.In(teams.Select(y => y.ParentGroupId)))
                 .Statistics(out stats)
-                .Skip(listInput.Page)
-                .Take(listInput.PageSize)
+                .Skip(pagingInput.Page)
+                .Take(pagingInput.PageSize)
                 .ToList()
                 .Select(x => _teamViewFactory.Make(x.Team));
 
             return new
             {
-                listInput.Page,
-                listInput.PageSize,
+                pagingInput.Page,
+                pagingInput.PageSize,
                 Teams = results.ToPagedList(
-                    listInput.Page,
-                    listInput.PageSize,
+                    pagingInput.Page,
+                    pagingInput.PageSize,
                     stats.TotalResults,
                     null)
             };

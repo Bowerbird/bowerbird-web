@@ -74,14 +74,15 @@ namespace Bowerbird.Web.Builders
 
         public object BuildList(PagingInput pagingInput)
         {
-            Check.RequireNotNull(listInput, "listInput");
+            //Check.RequireNotNull(pagingInput, "pagingInput");
 
-            if(listInput.HasAddTeamPermission)
-            {
-                return BuildOrganisationsWhereUserHasAddTeamPermission();
-            }
+            //if (pagingInput.HasAddTeamPermission)
+            //{
+            //    return BuildOrganisationsWhereUserHasAddTeamPermission();
+            //}
 
-            return BuildOrganisations(listInput);
+            //return BuildOrganisations(listInput);
+            throw new System.NotImplementedException();
         }
 
         private object BuildOrganisations(PagingInput pagingInput)
@@ -91,18 +92,18 @@ namespace Bowerbird.Web.Builders
             var results = _documentSession
                 .Query<Organisation>()
                 .Statistics(out stats)
-                .Skip(listInput.Page)
-                .Take(listInput.PageSize)
+                .Skip(pagingInput.Page)
+                .Take(pagingInput.PageSize)
                 .ToList()
                 .Select(x => _organisationViewFactory.Make(x));
 
             return new
             {
-                listInput.Page,
-                listInput.PageSize,
+                pagingInput.Page,
+                pagingInput.PageSize,
                 Organisations = results.ToPagedList(
-                    listInput.Page,
-                    listInput.PageSize,
+                    pagingInput.Page,
+                    pagingInput.PageSize,
                     stats.TotalResults,
                     null)
             };

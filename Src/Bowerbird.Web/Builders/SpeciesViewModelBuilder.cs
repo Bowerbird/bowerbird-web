@@ -63,14 +63,14 @@ namespace Bowerbird.Web.Builders
 
         public object BuildList(PagingInput pagingInput)
         {
-            Check.RequireNotNull(listInput, "listInput");
+            Check.RequireNotNull(pagingInput, "pagingInput");
 
-            if (listInput.GroupId != null)
+            if (pagingInput.Id != null)
             {
-                return BuildGroupSpecies(listInput);
+                return BuildGroupSpecies(pagingInput);
             }
 
-            return BuildSpecies(listInput);
+            return BuildSpecies(pagingInput);
         }
 
         private object BuildSpecies(PagingInput pagingInput)
@@ -80,8 +80,8 @@ namespace Bowerbird.Web.Builders
             var results = _documentSession
                 .Query<Species>()
                 .Statistics(out stats)
-                .Skip(listInput.Page)
-                .Take(listInput.PageSize)
+                .Skip(pagingInput.Page)
+                .Take(pagingInput.PageSize)
                 .ToList()
                 .Select(x => new
                 {
@@ -98,11 +98,11 @@ namespace Bowerbird.Web.Builders
 
             return new
             {
-                listInput.Page,
-                listInput.PageSize,
+                pagingInput.Page,
+                pagingInput.PageSize,
                 SpeciesList = results.ToPagedList(
-                    listInput.Page,
-                    listInput.PageSize,
+                    pagingInput.Page,
+                    pagingInput.PageSize,
                     stats.TotalResults,
                     null)
             };
@@ -115,8 +115,8 @@ namespace Bowerbird.Web.Builders
             var results = _documentSession
                 .Query<Species>()
                 .Statistics(out stats)
-                .Skip(listInput.Page)
-                .Take(listInput.PageSize)
+                .Skip(pagingInput.Page)
+                .Take(pagingInput.PageSize)
                 .ToList()
                 .Select(x => new
                 {
@@ -133,11 +133,11 @@ namespace Bowerbird.Web.Builders
 
             return new
             {
-                listInput.Page,
-                listInput.PageSize,
+                pagingInput.Page,
+                pagingInput.PageSize,
                 SpeciesList = results.ToPagedList(
-                    listInput.Page,
-                    listInput.PageSize,
+                    pagingInput.Page,
+                    pagingInput.PageSize,
                     stats.TotalResults,
                     null)
             };

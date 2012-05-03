@@ -78,37 +78,38 @@ namespace Bowerbird.Web.Builders
 
         public object BuildIndex(PagingInput pagingInput)
         {
-            Check.RequireNotNull(streamItemListInput, "streamItemListInput");
+            Check.RequireNotNull(pagingInput, "pagingInput");
 
             return new
             {
-                Project = _projectViewFactory.Make(_documentSession.Load<Project>(streamItemListInput.GroupId)),
-                StreamItems = _streamItemsViewModelBuilder.BuildStreamItems(streamItemListInput, sortInput),
-                Observations = _observationsViewModelBuilder.BuildList(new ObservationListInput() { GroupId = streamItemListInput.GroupId }),
-                Posts = _postViewModelBuilder.BuildList(new PostListInput(){ GroupId = streamItemListInput.GroupId}),
-                Members = ProjectMembers(streamItemListInput.GroupId),
+                Project = _projectViewFactory.Make(_documentSession.Load<Project>(pagingInput.Id)),
+                StreamItems = _streamItemsViewModelBuilder.BuildGroupStreamItems(pagingInput),
+                Observations = _observationsViewModelBuilder.BuildList(pagingInput),
+                Posts = _postViewModelBuilder.BuildList(pagingInput),
+                Members = ProjectMembers(pagingInput.Id),
                 PrerenderedView = "projects" // HACK: Need to rethink this
             };
         }
 
         public object BuildList(PagingInput pagingInput)
         {
-            Check.RequireNotNull(listInput, "listInput");
+            //Check.RequireNotNull(pagingInput, "pagingInput");
 
-            if(listInput.UserId != null)
-            {
-                return new { Projects = BuildProjectsForMember(listInput) };
-            }
+            //if (pagingInput.UserId != null)
+            //{
+            //    return new { Projects = BuildProjectsForMember(pagingInput) };
+            //}
 
-            if(listInput.TeamId != null)
-            {
-                return new { Projects = BuildProjectsForTeam(listInput) };
-            }
+            //if (pagingInput.TeamId != null)
+            //{
+            //    return new { Projects = BuildProjectsForTeam(pagingInput) };
+            //}
 
-            return new
-            {
-                Projects = BuildProjects(listInput)
-            };
+            //return new
+            //{
+            //    Projects = BuildProjects(pagingInput)
+            //};
+            throw new System.NotImplementedException();
         }
 
         private object ProjectMembers(string groupId)
@@ -148,18 +149,18 @@ namespace Bowerbird.Web.Builders
                 .Include(x => x.Id)
                 .AsProjection<All_Groups.Result>()
                 .Statistics(out stats)
-                .Skip(listInput.Page)
-                .Take(listInput.PageSize)
+                .Skip(pagingInput.Page)
+                .Take(pagingInput.PageSize)
                 .ToList()
                 .Select(x => _projectViewFactory.Make(x.Project));
 
             return new
             {
-                listInput.Page,
-                listInput.PageSize,
+                pagingInput.Page,
+                pagingInput.PageSize,
                 List = results.ToPagedList(
-                    listInput.Page,
-                    listInput.PageSize,
+                    pagingInput.Page,
+                    pagingInput.PageSize,
                     stats.TotalResults,
                     null)
             };
@@ -171,7 +172,7 @@ namespace Bowerbird.Web.Builders
 
             var groupAssociations = _documentSession
                 .Query<GroupAssociation>()
-                .Where(x => x.ParentGroupId == listInput.TeamId);
+                .Where(x => x.ParentGroupId == pagingInput.Id);
 
             var results = _documentSession
                 .Query<All_Groups.Result, All_Groups>()
@@ -180,18 +181,18 @@ namespace Bowerbird.Web.Builders
                 .Include(x => x.Id)
                 .AsProjection<All_Groups.Result>()
                 .Statistics(out stats)
-                .Skip(listInput.Page)
-                .Take(listInput.PageSize)
+                .Skip(pagingInput.Page)
+                .Take(pagingInput.PageSize)
                 .ToList()
                 .Select(x => _projectViewFactory.Make(x.Project));
 
             return new
             {
-                listInput.Page,
-                listInput.PageSize,
+                pagingInput.Page,
+                pagingInput.PageSize,
                 List = results.ToPagedList(
-                    listInput.Page,
-                    listInput.PageSize,
+                    pagingInput.Page,
+                    pagingInput.PageSize,
                     stats.TotalResults,
                     null)
             };
@@ -203,26 +204,26 @@ namespace Bowerbird.Web.Builders
 
             var memberships = _documentSession
                 .Query<Member>()
-                .Where(x => x.User.Id == listInput.UserId);
+                .Where(x => x.User.Id == pagingInput.Id);
 
             var results = _documentSession
                 .Query<Project>()
                 .Where(x => x.Id.In(memberships.Select(y => y.Group.Id)))
-                .Customize(x => x.Include<User>(y => y.Id == listInput.UserId))
+                .Customize(x => x.Include<User>(y => y.Id == pagingInput.Id))
                 .Statistics(out stats)
-                .Skip(listInput.Page)
-                .Take(listInput.PageSize)
+                .Skip(pagingInput.Page)
+                .Take(pagingInput.PageSize)
                 .ToList()
                 .Select(x => _projectViewFactory.Make(x));
 
             return new
             {
-                User = _userViewFactory.Make(listInput.UserId),
-                listInput.Page,
-                listInput.PageSize,
+                User = _userViewFactory.Make(pagingInput.Id),
+                pagingInput.Page,
+                pagingInput.PageSize,
                 List = results.ToPagedList(
-                    listInput.Page,
-                    listInput.PageSize,
+                    pagingInput.Page,
+                    pagingInput.PageSize,
                     stats.TotalResults,
                     null)
             };

@@ -70,16 +70,16 @@ namespace Bowerbird.Web.Builders
 
         public object BuildList(PagingInput pagingInput)
         {
-            Check.RequireNotNull(listInput, "listInput");
+            Check.RequireNotNull(pagingInput, "pagingInput");
 
-            return BuildUsers(listInput);
+            return BuildUsers(pagingInput);
         }
 
         private object BuildUsers(PagingInput pagingInput)
         {
             var userMemberships = _documentSession.Query<All_UserMemberships.Result, All_UserMemberships>()
                 .Include(x => x.GroupId)
-                .Where(x => x.GroupId == listInput.GroupId)
+                .Where(x => x.GroupId == pagingInput.Id)
                 .Distinct()
                 .ToList();
 
@@ -89,18 +89,18 @@ namespace Bowerbird.Web.Builders
                 .Query<User>()
                 .Where(x => x.Id.In(userMemberships.Select(y => y.UserId)))
                 .Statistics(out stats)
-                .Skip(listInput.Page)
-                .Take(listInput.PageSize)
+                .Skip(pagingInput.Page)
+                .Take(pagingInput.PageSize)
                 .ToList()
                 .Select(x => _userViewFactory.Make(x.Id));
 
             return new
             {
-                listInput.Page,
-                listInput.PageSize,
+                pagingInput.Page,
+                pagingInput.PageSize,
                 Users = results.ToPagedList(
-                    listInput.Page,
-                    listInput.PageSize,
+                    pagingInput.Page,
+                    pagingInput.PageSize,
                     stats.TotalResults,
                     null)
             };

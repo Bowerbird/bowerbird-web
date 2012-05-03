@@ -63,9 +63,9 @@ namespace Bowerbird.Web.Builders
 
         public object BuildList(PagingInput pagingInput)
         {
-            Check.RequireNotNull(listInput, "listInput");
+            Check.RequireNotNull(pagingInput, "pagingInput");
 
-            return BuildReferenceSpecies(listInput);
+            return BuildReferenceSpecies(pagingInput);
         }
 
         private object BuildReferenceSpecies(PagingInput pagingInput)
@@ -74,20 +74,20 @@ namespace Bowerbird.Web.Builders
 
             var results = _documentSession
                 .Query<ReferenceSpecies>()
-                .Where(x => x.GroupId == listInput.GroupId)
+                .Where(x => x.GroupId == pagingInput.Id)
                 .Statistics(out stats)
-                .Skip(listInput.Page)
-                .Take(listInput.PageSize)
+                .Skip(pagingInput.Page)
+                .Take(pagingInput.PageSize)
                 .ToList()
                 .Select(x => _referenceSpeciesViewFactory.Make(x));
 
             return new
             {
-                listInput.Page,
-                listInput.PageSize,
+                pagingInput.Page,
+                pagingInput.PageSize,
                 Organisations = results.ToPagedList(
-                    listInput.Page,
-                    listInput.PageSize,
+                    pagingInput.Page,
+                    pagingInput.PageSize,
                     stats.TotalResults,
                     null)
             };

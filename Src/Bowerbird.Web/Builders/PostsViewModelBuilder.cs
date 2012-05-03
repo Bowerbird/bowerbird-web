@@ -65,23 +65,23 @@ namespace Bowerbird.Web.Builders
 
             var posts = _documentSession
                 .Query<Post>()
-                .Where(x => x.GroupId == listInput.GroupId)
+                .Where(x => x.GroupId == pagingInput.Id)
                 .Include(x => x.GroupId)
                 .OrderByDescending(x => x.CreatedOn)
                 .Statistics(out stats)
-                .Skip(listInput.Page.Or(Default.PageStart))
-                .Take(listInput.PageSize.Or(Default.PageSize))
+                .Skip(pagingInput.Page.Or(Default.PageStart))
+                .Take(pagingInput.PageSize.Or(Default.PageSize))
                 .ToList()
                 .Select(x => _postViewFactory.Make(x));
 
             return new
             {
-                listInput.GroupId,
-                Page = listInput.Page.Or(Default.PageStart),
-                PageSize = listInput.PageSize.Or(Default.PageSize),
+                pagingInput.Id,
+                Page = pagingInput.Page.Or(Default.PageStart),
+                PageSize = pagingInput.PageSize.Or(Default.PageSize),
                 List = posts.ToPagedList(
-                    listInput.Page.Or(Default.PageStart),
-                    listInput.PageSize.Or(Default.PageSize),
+                    pagingInput.Page.Or(Default.PageStart),
+                    pagingInput.PageSize.Or(Default.PageSize),
                     stats.TotalResults,
                     null)
             };

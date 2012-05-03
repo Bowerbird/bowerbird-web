@@ -79,17 +79,18 @@ namespace Bowerbird.Web.Builders
 
         public object BuildList(PagingInput pagingInput)
         {
-            if (listInput.GroupId != null)
-            {
-                return MakeObservationListByProjectId(listInput);
-            }
+            //if (pagingInput.Id != null)
+            //{
+            //    return MakeObservationListByProjectId(pagingInput);
+            //}
 
-            if (listInput.CreatedByUserId != null)
-            {
-                return MakeObservationListByCreatedByUserId(listInput);
-            }
+            //if (pagingInput.CreatedByUserId != null)
+            //{
+            //    return MakeObservationListByCreatedByUserId(pagingInput);
+            //}
 
-            return MakeObservationList(listInput);
+            //return MakeObservationList(pagingInput);
+            throw new System.NotImplementedException();
         }
 
         public object BuildStreamItems(PagingInput pagingInput)
@@ -103,10 +104,10 @@ namespace Bowerbird.Web.Builders
                 .Include(x => x.ContributionId)
                 .Where(x => x.ContributionType.Equals("observation"))
                 .OrderByDescending(x => x.CreatedDateTime)
-                .Skip(listInput.Page)
-                .Take(listInput.PageSize)
+                .Skip(pagingInput.Page)
+                .Take(pagingInput.PageSize)
                 .ToList()
-                .ToPagedList(listInput.Page, listInput.PageSize, stats.TotalResults)
+                .ToPagedList(pagingInput.Page, pagingInput.PageSize, stats.TotalResults)
                 .PagedListItems
                 .Select(MakeStreamItem);
         }
@@ -118,17 +119,17 @@ namespace Bowerbird.Web.Builders
             var observations = _documentSession
                 .Query<Observation>()
                 .Statistics(out stats)
-                .Skip(listInput.Page)
-                .Take(listInput.PageSize)
+                .Skip(pagingInput.Page)
+                .Take(pagingInput.PageSize)
                 .ToArray();
 
             return new
             {
-                listInput.Page,
-                listInput.PageSize,
+                pagingInput.Page,
+                pagingInput.PageSize,
                 Observations = observations.ToPagedList(
-                    listInput.Page,
-                    listInput.PageSize,
+                    pagingInput.Page,
+                    pagingInput.PageSize,
                     stats.TotalResults,
                     null)
             };
@@ -140,20 +141,20 @@ namespace Bowerbird.Web.Builders
 
             var observations = _documentSession
                 .Query<Observation>()
-                .Where(x => x.Groups.Any(y => y.GroupId == listInput.GroupId))
+                .Where(x => x.Groups.Any(y => y.GroupId == pagingInput.Id))
                 .Statistics(out stats)
-                .Skip(listInput.Page.Or(Default.PageStart))
-                .Take(listInput.PageSize.Or(Default.PageSize))
+                .Skip(pagingInput.Page.Or(Default.PageStart))
+                .Take(pagingInput.PageSize.Or(Default.PageSize))
                 .ToList();
 
             return new
             {
-                Page = listInput.Page.Or(Default.PageStart),
-                PageSize = listInput.PageSize.Or(Default.PageSize),
-                Project = listInput.GroupId != null ? _documentSession.Load<Project>(listInput.GroupId) : null,
+                Page = pagingInput.Page.Or(Default.PageStart),
+                PageSize = pagingInput.PageSize.Or(Default.PageSize),
+                Project = pagingInput.Id != null ? _documentSession.Load<Project>(pagingInput.Id) : null,
                 Observations = observations.ToPagedList(
-                    listInput.Page.Or(Default.PageStart),
-                    listInput.PageSize.Or(Default.PageSize),
+                    pagingInput.Page.Or(Default.PageStart),
+                    pagingInput.PageSize.Or(Default.PageSize),
                     stats.TotalResults,
                     null)
             };
@@ -165,21 +166,21 @@ namespace Bowerbird.Web.Builders
 
             var observations = _documentSession
                 .Query<Observation>()
-                .Customize(x => x.Include(listInput.CreatedByUserId))
-                .Where(x => x.User.Id == listInput.CreatedByUserId)
+                .Customize(x => x.Include(pagingInput.Id))
+                .Where(x => x.User.Id == pagingInput.Id)
                 .Statistics(out stats)
-                .Skip(listInput.Page)
-                .Take(listInput.PageSize)
+                .Skip(pagingInput.Page)
+                .Take(pagingInput.PageSize)
                 .ToArray();
 
             return new
             {
-                listInput.Page,
-                listInput.PageSize,
-                CreatedByUser = _documentSession.Load<User>(listInput.CreatedByUserId),
+                pagingInput.Page,
+                pagingInput.PageSize,
+                CreatedByUser = _documentSession.Load<User>(pagingInput.Id),
                 Observations = observations.ToPagedList(
-                    listInput.Page,
-                    listInput.PageSize,
+                    pagingInput.Page,
+                    pagingInput.PageSize,
                     stats.TotalResults,
                     null)
             };
