@@ -59,7 +59,7 @@ namespace Bowerbird.Web.Builders
             return _postViewFactory.Make(_documentSession.Load<Post>(idInput.Id));
         }
 
-        public object BuildList(PostListInput listInput)
+        public object BuildList(PagingInput pagingInput)
         {
             RavenQueryStatistics stats;
 

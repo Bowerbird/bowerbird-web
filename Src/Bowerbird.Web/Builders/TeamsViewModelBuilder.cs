@@ -78,7 +78,7 @@ namespace Bowerbird.Web.Builders
             };
         }
 
-        public object BuildList(TeamListInput listInput)
+        public object BuildList(PagingInput pagingInput)
         {
             if(listInput.OrganisationId != null)
             {
@@ -92,8 +92,8 @@ namespace Bowerbird.Web.Builders
 
             return BuildTeams(listInput);
         }
-          
-        private object BuildTeams(TeamListInput listInput)
+
+        private object BuildTeams(PagingInput pagingInput)
         {
             RavenQueryStatistics stats;
 
@@ -126,7 +126,7 @@ namespace Bowerbird.Web.Builders
             };
         }
 
-        private object BuildTeamsForOrganisation(TeamListInput listInput)
+        private object BuildTeamsForOrganisation(PagingInput pagingInput)
         {
             RavenQueryStatistics stats;
 

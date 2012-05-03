@@ -61,7 +61,7 @@ namespace Bowerbird.Web.Builders
             return _speciesViewFactory.Make(_documentSession.Load<Species>(idInput.Id));
         }
 
-        public object BuildList(SpeciesListInput listInput)
+        public object BuildList(PagingInput pagingInput)
         {
             Check.RequireNotNull(listInput, "listInput");
 
@@ -73,7 +73,7 @@ namespace Bowerbird.Web.Builders
             return BuildSpecies(listInput);
         }
 
-        private object BuildSpecies(SpeciesListInput listInput)
+        private object BuildSpecies(PagingInput pagingInput)
         {
             RavenQueryStatistics stats;
 
@@ -108,7 +108,7 @@ namespace Bowerbird.Web.Builders
             };
         }
 
-        private object BuildGroupSpecies(SpeciesListInput listInput)
+        private object BuildGroupSpecies(PagingInput pagingInput)
         {
             RavenQueryStatistics stats;
 

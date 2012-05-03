@@ -53,7 +53,7 @@ namespace Bowerbird.Web.Factories
                 team.Name,
                 team.Description,
                 team.Website,
-                Avatar = _avatarFactory.GetAvatar(team)
+                Avatar = _avatarFactory.Make(team)
             };
         }
 
@@ -65,7 +65,7 @@ namespace Bowerbird.Web.Factories
                 team.Name,
                 team.Description,
                 team.Website,
-                Avatar = _avatarFactory.GetAvatar(team),
+                Avatar = _avatarFactory.Make(team),
                 Projects = projects,
                 Organisation = organisation,
                 Members = members

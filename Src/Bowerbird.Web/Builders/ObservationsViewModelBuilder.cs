@@ -77,7 +77,7 @@ namespace Bowerbird.Web.Builders
             };
         }
 
-        public object BuildList(ObservationListInput listInput)
+        public object BuildList(PagingInput pagingInput)
         {
             if (listInput.GroupId != null)
             {
@@ -92,7 +92,7 @@ namespace Bowerbird.Web.Builders
             return MakeObservationList(listInput);
         }
 
-        public object BuildStreamItems(ObservationListInput listInput)
+        public object BuildStreamItems(PagingInput pagingInput)
         {
             RavenQueryStatistics stats;
 
@@ -111,7 +111,7 @@ namespace Bowerbird.Web.Builders
                 .Select(MakeStreamItem);
         }
 
-        private object MakeObservationList(ObservationListInput listInput)
+        private object MakeObservationList(PagingInput pagingInput)
         {
             RavenQueryStatistics stats;
 
@@ -134,7 +134,7 @@ namespace Bowerbird.Web.Builders
             };
         }
 
-        private object MakeObservationListByProjectId(ObservationListInput listInput)
+        private object MakeObservationListByProjectId(PagingInput pagingInput)
         {
             RavenQueryStatistics stats;
 
@@ -159,7 +159,7 @@ namespace Bowerbird.Web.Builders
             };
         }
 
-        private object MakeObservationListByCreatedByUserId(ObservationListInput listInput)
+        private object MakeObservationListByCreatedByUserId(PagingInput pagingInput)
         {
             RavenQueryStatistics stats;
 

@@ -13,6 +13,7 @@
 */
 
 using Bowerbird.Core.DomainModels;
+using System.Collections.Generic;
 
 namespace Bowerbird.Web.Factories
 {
@@ -20,6 +21,6 @@ namespace Bowerbird.Web.Factories
     {
         object Make(string userId);
 
-        object Make(User user);
+        object Make(User user, IEnumerable<Member> memberships);
     }
 }

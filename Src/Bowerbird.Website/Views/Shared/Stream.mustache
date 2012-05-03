@@ -1,0 +1,53 @@
+﻿<!--<div class="stream-list">
+  <h2>Activity</h2>
+  <ul>
+    <li>Latest activity first</li>
+    <li>All activity</li>
+  </ul>
+  <div id="stream-items">
+  </div>
+</div>-->
+<h2>Latest Activity</h2>
+<ul class="stream-list">
+  {{#Model.StreamItems}}
+  <li>
+  <div class="summary">
+    <img src="{{User.Avatar.UrlToImage}}" alt="" />
+    <p class="description">
+      {{Description}} <span>{{CreatedDateTimeDescription}}</span>
+    </p>
+  </div>
+  <div class="details">
+    <h2>{{item.Title}}</h2>
+    <div>
+      <div class="images">
+        <div class="preview">
+          <img src="{{HighlightMedia.OriginalImageUri}}" alt="" />
+        </div>
+        <div class="thumbnails">
+          {{#item.ObservationMedia}}
+          <img src="{{ThumbnailImageUri}}" alt="" />
+          {{/item.ObservationMedia}}
+        </div>
+      </div>
+      <div class="info">
+        <div class="observed">
+          Observed
+          <span>{{ObservedOnDate}}</span>
+          <span>{{ObservedOnTime}} AEST</span>
+        </div>
+        <div class="location">
+          Location
+          <div class="map">
+            <img src="http://maps.googleapis.com/maps/api/staticmap?zoom=8&size=400x200&scale=2&maptype=terrain&markers=color:blue|{{item.Latitude}},{{item.Longitude}}&sensor=false" alt="Map of location" />
+          </div>
+          <span>{{item.Address}}</span>
+          <span>Latitude {{item.Latitude}}</span>
+          <span>Longitude {{item.Longitude}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  </li>
+  {{/Model.StreamItems}}
+</ul>

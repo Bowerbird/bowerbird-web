@@ -177,6 +177,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Builders\UserViewModelBuilder.cs" />
+    <Compile Include="Config\AcceptTypeContstraint.cs" />
     <Compile Include="Config\AuthenticatedConstraint.cs" />
     <Compile Include="Config\BowerbirdHttpApplication.cs" />
     <Compile Include="Config\NinjectBindingModule.cs" />
@@ -200,9 +201,8 @@
     <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\ReferenceSpeciesController.cs" />
     <Compile Include="Controllers\SpeciesController.cs" />
-    <Compile Include="Controllers\StreamItemsController.cs" />
     <Compile Include="Controllers\TeamsController.cs" />
-    <Compile Include="Controllers\TemplateController.cs" />
+    <Compile Include="Controllers\TemplatesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\WatchlistsController.cs" />
     <Compile Include="EventHandlers\NotifyObservationCreatedEventHandler.cs" />
@@ -211,24 +211,24 @@
     <Compile Include="Factories\ICommentViewFactory.cs" />
     <Compile Include="Factories\IOrganisationViewFactory.cs" />
     <Compile Include="Factories\IPostViewFactory.cs" />
-    <Compile Include="Factories\IProjectViewFactory.cs" />
     <Compile Include="Factories\IReferenceSpeciesViewFactory.cs" />
     <Compile Include="Factories\ISpeciesViewFactory.cs" />
-    <Compile Include="Factories\ITeamViewFactory.cs" />
     <Compile Include="Factories\IUserViewFactory.cs" />
     <Compile Include="Factories\OrganisationViewFactory.cs" />
     <Compile Include="Factories\PostViewFactory.cs" />
+    <Compile Include="Factories\ITeamViewFactory.cs" />
     <Compile Include="Factories\IAvatarFactory.cs" />
     <Compile Include="Factories\IFactory.cs" />
     <Compile Include="Factories\IObservationViewFactory.cs" />
+    <Compile Include="Factories\IProjectViewFactory.cs" />
     <Compile Include="Factories\IStreamItemFactory.cs" />
-    <Compile Include="Factories\IClientUserContextFactory.cs" />
     <Compile Include="Factories\ObservationViewFactory.cs" />
     <Compile Include="Factories\ProjectViewFactory.cs" />
     <Compile Include="Factories\ReferenceSpeciesViewFactory.cs" />
     <Compile Include="Factories\SpeciesViewFactory.cs" />
     <Compile Include="Factories\StreamItemFactory.cs" />
-    <Compile Include="Factories\ClientUserContextFactory.cs" />
+    <Compile Include="Queries\IUserProfileQuery.cs" />
+    <Compile Include="Queries\UserProfileQuery.cs" />
     <Compile Include="Factories\TeamViewFactory.cs" />
     <Compile Include="Factories\UserViewFactory.cs" />
     <Compile Include="Hubs\ChatHub.cs" />
@@ -245,19 +245,13 @@
     <Compile Include="ViewModels\ClientUserContext.cs" />
     <Compile Include="ViewModels\ReferenceSpeciesCreateInput.cs" />
     <Compile Include="ViewModels\ReferenceSpeciesUpdateInput.cs" />
-    <Compile Include="ViewModels\ReferenceSpeciesListInput.cs" />
     <Compile Include="ViewModels\SpeciesCreateInput.cs" />
-    <Compile Include="ViewModels\SpeciesListInput.cs" />
     <Compile Include="ViewModels\OrganisationCreateInput.cs" />
     <Compile Include="ViewModels\OrganisationUpdateInput.cs" />
     <Compile Include="ViewModels\ObservationMediaItem.cs" />
-    <Compile Include="ViewModels\PostListInput.cs" />
-    <Compile Include="ViewModels\ObservationListInput.cs" />
-    <Compile Include="ViewModels\OrganisationListInput.cs" />
-    <Compile Include="ViewModels\ProjectListInput.cs" />
     <Compile Include="ViewModels\SpeciesUpdateInput.cs" />
     <Compile Include="ViewModels\TeamCreateInput.cs" />
-    <Compile Include="ViewModels\StreamItemListInput.cs" />
+    <Compile Include="ViewModels\PagingInput.cs" />
     <Compile Include="ViewModels\StreamSortInput.cs" />
     <Compile Include="ViewModels\TeamUpdateInput.cs" />
     <Compile Include="Hubs\NotificationHub.cs" />
@@ -282,8 +276,6 @@
     <Compile Include="ViewModels\PostCreateInput.cs" />
     <Compile Include="ViewModels\PostUpdateInput.cs" />
     <Compile Include="ViewModels\ProjectUpdateInput.cs" />
-    <Compile Include="ViewModels\UserListInput.cs" />
-    <Compile Include="ViewModels\TeamListInput.cs" />
     <Compile Include="ViewModels\UserUpdateInput.cs" />
   </ItemGroup>
   <ItemGroup>

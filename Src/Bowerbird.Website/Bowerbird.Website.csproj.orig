@@ -1,0 +1,448 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4E89BE11-AE0B-4A9E-B423-87B5A6261C0E}</ProjectGuid>
+    <ProjectTypeGuids>{E53F8FEA-EAE0-44A6-8774-FFD645390401};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Bowerbird.Website</RootNamespace>
+    <AssemblyName>Bowerbird.Website</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\Src\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Bowerbird.Website.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Stage|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Bowerbird.Website.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Prod|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Bowerbird.Website.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=4.0.8.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.4.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.2.0.0.2000\lib\net40\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.WebPages" />
+    <Reference Include="System.Web.Helpers" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+<<<<<<< Updated upstream
+    <Content Include="js\bowerbird2\app.js" />
+    <Content Include="js\bowerbird2\views\sidebarItemView.js" />
+    <Content Include="js\bowerbird2\views\sidebarCollectionView.js" />
+    <Content Include="js\bowerbird2\views\footerView.js" />
+    <Content Include="js\bowerbird2\views\headerView.js" />
+    <Content Include="js\bowerbird2\views\sidebarLayout.js" />
+    <Content Include="js\bowerbird2\views\contentLayout.js" />
+    <Content Include="js\bowerbird2\controllers\groupUserController.js" />
+    <Content Include="js\bowerbird2\routers\groupUserRouter.js" />
+    <Content Include="js\bowerbird2\mustacheRenderer.js" />
+    <Content Include="js\bowerbird2\namespaces.js" />
+    <Content Include="js\libs\backbone.marionette.js" />
+    <Content Include="js\bowerbird\views\exploreItemView.js" />
+    <Content Include="js\bowerbird\views\exploreView.js" />
+    <Content Include="js\libs\yepnope.js" />
+    <Content Include="welcome.txt" />
+=======
+    <Content Include="js\bowerbird\app.js" />
+    <Content Include="js\bowerbird\collections\paginatedCollection.js" />
+    <Content Include="js\bowerbird\collections\projectCollection.js" />
+    <Content Include="js\bowerbird\collections\streamItemCollection.js" />
+    <Content Include="js\bowerbird\models\project.js" />
+    <Content Include="js\bowerbird\models\stream.js" />
+    <Content Include="js\bowerbird\models\streamItem.js" />
+    <Content Include="js\bowerbird\views\streamItemView.js" />
+    <Content Include="js\bowerbird\views\streamView.js" />
+    <Content Include="js\libs\jqueryui\bootstrap-tab.js" />
+    <Content Include="js\libs\jqueryui\jquery-ui-min.js" />
+    <Content Include="js\libs\jqueryui\jquery-ui.js" />
+    <Content Include="js\libs\log.js" />
+    <Content Include="js\bowerbird\main.js" />
+    <Content Include="js\bowerbird\models\user.js" />
+    <Content Include="js\bowerbird\views\sidebarProjectItemView.js" />
+    <Content Include="js\bowerbird\views\sidebarProjectCollectionView.js" />
+    <Content Include="js\bowerbird\views\footerView.js" />
+    <Content Include="js\bowerbird\views\headerView.js" />
+    <Content Include="js\bowerbird\views\sidebarLayout.js" />
+    <Content Include="js\bowerbird\views\projectLayout.js" />
+    <Content Include="js\bowerbird\controllers\groupUserController.js" />
+    <Content Include="js\bowerbird\routers\groupUserRouter.js" />
+    <Content Include="js\libs\jquery\jquery-1.7.2-min.js" />
+    <Content Include="js\libs\jquery\jquery-1.7.2.js" />
+    <Content Include="js\_old\libs\backbone.marionette.js" />
+    <Content Include="js\_old\bowerbird\views\exploreItemView.js" />
+    <Content Include="js\_old\bowerbird\views\exploreView.js" />
+    <Content Include="js\libs\backbone.marionette\backbone.marionette.js" />
+    <Content Include="js\libs\backbone.marionette\backbone.marionette-min.js" />
+    <Content Include="js\libs\backbone\backbone-min.js" />
+    <Content Include="js\libs\backbone\backbone.js" />
+    <Content Include="js\libs\icanhaz\icanhaz-min.js" />
+    <Content Include="js\libs\icanhaz\icanhaz.js" />
+    <Content Include="js\libs\require\require-min.js" />
+    <Content Include="js\libs\require\require.js" />
+    <Content Include="js\libs\require\text-min.js" />
+    <Content Include="js\libs\require\text.js" />
+    <Content Include="js\libs\underscore\underscore-min.js" />
+    <Content Include="js\libs\underscore\underscore.js" />
+    <Content Include="js\_old\libs\yepnope.js" />
+>>>>>>> Stashed changes
+    <None Include="Views\Home\About.mustache" />
+    <None Include="Views\Account\LogoutSuccess.mustache" />
+    <None Include="Views\Account\ResetPassword.mustache" />
+    <None Include="Views\Account\Register.mustache" />
+    <None Include="Views\Account\RequestPasswordReset.mustache" />
+    <None Include="Views\Account\RequestPasswordResetSuccess.mustache" />
+    <None Include="Views\Account\Login.mustache" />
+    <None Include="Views\Home\PublicIndex.mustache" />
+    <None Include="Views\Home\PrivateIndex.mustache" />
+    <None Include="Views\Observations\Update.mustache" />
+    <None Include="Views\Observations\Delete.mustache" />
+    <None Include="Views\Observations\Index.mustache" />
+    <None Include="Views\Observations\Create.mustache" />
+    <None Include="Views\Organisations\Create.mustache" />
+    <None Include="Views\Organisations\Delete.mustache" />
+    <None Include="Views\Organisations\List.mustache" />
+    <None Include="Views\Projects\Create.mustache" />
+    <None Include="Views\Projects\Delete.mustache" />
+    <None Include="Views\Projects\Index.mustache" />
+    <None Include="Views\Projects\List.mustache" />
+    <None Include="Views\Shared\Project.mustache">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Views\Shared\OrganisationItem.mustache" />
+    <None Include="Views\Shared\ProjectList.mustache" />
+    <None Include="Views\Shared\TeamItem.mustache" />
+    <None Include="Views\Shared\ProjectItem.mustache" />
+    <None Include="Views\Shared\TeamList.mustache" />
+    <None Include="Views\Shared\ObservationList.mustache" />
+    <Content Include="apple-touch-icon-114x114-precomposed.png" />
+    <Content Include="apple-touch-icon-57x57-precomposed.png" />
+    <Content Include="apple-touch-icon-72x72-precomposed.png" />
+    <Content Include="apple-touch-icon-precomposed.png" />
+    <Content Include="css\debug.css" />
+    <Content Include="css\media.css" />
+    <Content Include="css\normalize.css" />
+    <Content Include="css\site.css" />
+    <Content Include="css\_old.css" />
+    <Content Include="demo\hack.css" />
+    <Content Include="demo\hack2.css" />
+    <Content Include="demo\internet_explorer.png" />
+    <Content Include="demo\tests.html" />
+    <Content Include="demo\test_tubes.png" />
+    <Content Include="GenericErrorPage.html" />
+    <Content Include="humans.txt" />
+    <Content Include="img\avatar-1.png" />
+    <Content Include="img\avatar-2.png" />
+    <Content Include="img\background.png" />
+    <Content Include="img\beige_paper.png" />
+    <Content Include="img\bgnoise.gif" />
+    <Content Include="img\brushed_alu_dark.png" />
+    <Content Include="img\carbon_fibre.png" />
+    <Content Include="img\carbon_fibre_v2.png" />
+    <Content Include="img\close.gif" />
+    <Content Include="img\concrete_wall.png" />
+    <Content Include="img\crossed_stripes.png" />
+    <Content Include="img\default-organisation-avatar.jpg" />
+    <Content Include="img\default-project-avatar.jpg" />
+    <Content Include="img\default-team-avatar.jpg" />
+    <Content Include="img\default-user-avatar.jpg" />
+    <Content Include="img\diagonal-noise.png" />
+    <Content Include="img\glyphicons-halflings-blue.png" />
+    <Content Include="img\glyphicons-halflings-white.png" />
+    <Content Include="img\glyphicons-halflings.png" />
+    <Content Include="img\grid.png" />
+    <Content Include="img\image-upload.png" />
+    <Content Include="img\loader.png" />
+    <Content Include="img\logo.png" />
+    <Content Include="img\observation-button.png" />
+    <Content Include="img\polaroid.png" />
+    <Content Include="img\right-arrow.png" />
+    <Content Include="img\rubber_grip.png" />
+    <Content Include="img\speech-bubble-pointer.png" />
+    <Content Include="img\thumb-mask.png" />
+    <Content Include="img\user-chat-icon.png" />
+    <Content Include="img\wavecut.png" />
+    <Content Include="img\whitey.png" />
+    <Content Include="img\white_texture.png" />
+    <Content Include="js\_old\bowerbird\collections\groups.js" />
+    <Content Include="js\_old\bowerbird\collections\organisations.js" />
+    <Content Include="js\_old\bowerbird\models\explore.js" />
+    <Content Include="js\_old\bowerbird\models\group.js" />
+    <Content Include="js\_old\bowerbird\notificationRouter.js" />
+    <Content Include="js\_old\bowerbird\app.js" />
+    <Content Include="js\_old\bowerbird\chatRouter.js" />
+    <Content Include="js\_old\bowerbird\collections\chatUsers.js" />
+    <Content Include="js\_old\bowerbird\collections\mediaResources.js" />
+    <Content Include="js\_old\bowerbird\collections\notifications.js" />
+    <Content Include="js\_old\bowerbird\collections\users.js" />
+    <Content Include="js\_old\bowerbird\collections\chatMessages.js" />
+    <Content Include="js\_old\bowerbird\collections\chats.js" />
+    <Content Include="js\_old\bowerbird\collections\paginatedCollection.js" />
+    <Content Include="js\_old\bowerbird\collections\projects.js" />
+    <Content Include="js\_old\bowerbird\collections\streamItems.js" />
+    <Content Include="js\_old\bowerbird\collections\teams.js" />
+    <Content Include="js\_old\bowerbird\models\chat.js" />
+    <Content Include="js\_old\bowerbird\models\chatMessage.js" />
+    <Content Include="js\_old\bowerbird\models\chatUser.js" />
+    <Content Include="js\_old\bowerbird\models\notification.js" />
+    <Content Include="js\_old\bowerbird\models\organisation.js" />
+    <Content Include="js\_old\bowerbird\models\groupChat.js" />
+    <Content Include="js\_old\bowerbird\models\mediaResource.js" />
+    <Content Include="js\_old\bowerbird\models\observation.js" />
+    <Content Include="js\_old\bowerbird\models\project.js" />
+    <Content Include="js\_old\bowerbird\models\stream.js" />
+    <Content Include="js\_old\bowerbird\models\streamItem.js" />
+    <Content Include="js\_old\bowerbird\models\team.js" />
+    <Content Include="js\_old\bowerbird\models\user.js" />
+    <Content Include="js\_old\bowerbird\models\userChat.js" />
+    <Content Include="js\_old\bowerbird\namespace.js" />
+    <Content Include="js\_old\bowerbird\appRouter.js" />
+    <Content Include="js\_old\bowerbird\views\appView.js" />
+    <Content Include="js\_old\bowerbird\views\avatarItemView.js" />
+    <Content Include="js\_old\bowerbird\views\chatView.js" />
+    <Content Include="js\_old\bowerbird\views\notificationItemView.js" />
+    <Content Include="js\_old\bowerbird\views\notificationsView.js" />
+    <Content Include="js\_old\bowerbird\views\editAvatarView.js" />
+    <Content Include="js\_old\bowerbird\views\organisationCreateFormView.js" />
+    <Content Include="js\_old\bowerbird\views\teamCreateFormView.js" />
+    <Content Include="js\_old\bowerbird\views\editMediaView.js" />
+    <Content Include="js\_old\bowerbird\views\editMapView.js" />
+    <Content Include="js\_old\bowerbird\views\mediaResourceItemView.js" />
+    <Content Include="js\_old\bowerbird\views\observationCreateFormView.js" />
+    <Content Include="js\_old\bowerbird\views\projectCreateFormView.js" />
+    <Content Include="js\_old\bowerbird\views\sidebarView.js" />
+    <Content Include="js\_old\bowerbird\views\sidebarItemView.js" />
+    <Content Include="js\_old\bowerbird\views\streamListView.js" />
+    <Content Include="js\_old\bowerbird\views\streamListItemView.js" />
+    <Content Include="js\_old\bowerbird\views\streamView.js" />
+    <Content Include="js\_old\bowerbird\views\userOnlineView.js" />
+    <Content Include="js\_old\bowerbird\views\userView.js" />
+    <Content Include="js\_old\libs\bootstrap-datepicker.js" />
+    <Content Include="js\_old\libs\backbone.js" />
+    <Content Include="js\_old\libs\date-min.js" />
+    <Content Include="js\_old\libs\iscroll.js" />
+    <Content Include="js\_old\libs\iCanHaz.js" />
+    <Content Include="js\_old\libs\jquery-1.7.1.min.js" />
+    <Content Include="js\_old\libs\jquery-ui-1.8.18.custom.min.js" />
+    <Content Include="js\_old\libs\jquery.fileupload.js" />
+    <Content Include="js\_old\libs\jquery.iframe-transport.js" />
+    <Content Include="js\_old\libs\jquery.multiSelect.js" />
+    <Content Include="js\_old\libs\jquery.signalR.js" />
+    <Content Include="js\_old\libs\jquery.signalR.min.js" />
+    <Content Include="js\_old\libs\jquery.tmpl.js" />
+    <Content Include="js\_old\libs\json2.js" />
+    <Content Include="js\_old\libs\load-image.js" />
+    <Content Include="js\_old\libs\log.js" />
+    <Content Include="packages.config" />
+    <None Include="test\index.html" />
+    <None Include="test\qunit\qunit.css" />
+    <None Include="test\qunit\qunit.js" />
+    <None Include="test\tests.js" />
+    <Content Include="js\_old\libs\underscore-min.js" />
+    <Content Include="Lib\SquishIt\AjaxMin.dll" />
+    <Content Include="Lib\SquishIt\dotless.Core.dll" />
+    <Content Include="Lib\SquishIt\EcmaScript.NET.modified.dll" />
+    <Content Include="Lib\SquishIt\SquishIt.Framework.dll" />
+    <Content Include="Lib\SquishIt\SquishIt.Mvc.dll" />
+    <Content Include="Lib\SquishIt\Yahoo.Yui.Compressor.dll" />
+    <None Include="Views\Shared\Error.mustache">
+      <SubType>Code</SubType>
+    </None>
+    <None Include="Views\Shared\OrganisationList.mustache" />
+    <Content Include="Web.Test.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Stage.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Prod.config">
+      <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="Views\Shared\_Layout.mustache">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Views\Teams\Create.mustache" />
+    <None Include="Views\Teams\Delete.mustache" />
+    <None Include="Views\Teams\Index.mustache" />
+    <None Include="Views\Organisations\Index.mustache" />
+    <None Include="Views\Shared\AvatarChooseFile.mustache" />
+    <None Include="Views\Shared\AvatarUploaded.mustache" />
+    <None Include="Views\Shared\AvatarUploader.mustache" />
+    <None Include="Views\Shared\ChatMessage.mustache" />
+    <None Include="Views\Shared\ChatUsers.mustache" />
+    <None Include="Views\Shared\ChatWindow.mustache">
+      <SubType>Code</SubType>
+    </None>
+    <None Include="Views\Shared\Notifications.mustache" />
+    <None Include="Views\Shared\NotificationsItem.mustache" />
+    <None Include="Views\Shared\ObservationCreate.mustache" />
+    <None Include="Views\Shared\ObservationMediaResourceUploaded.mustache" />
+    <None Include="Views\Shared\ObservationStreamListItem.mustache" />
+    <None Include="Views\Shared\OrganisationCreate.mustache" />
+    <None Include="Views\Shared\ProjectCreate.mustache" />
+    <None Include="Views\Shared\Sidebar.mustache" />
+<<<<<<< Updated upstream
+    <None Include="Views\Shared\SidebarItem.mustache" />
+    <None Include="Views\Shared\StreamList.mustache">
+      <SubType>Designer</SubType>
+    </None>
+=======
+    <None Include="Views\Shared\SidebarProjectItem.mustache" />
+    <None Include="Views\Shared\Stream.mustache" />
+>>>>>>> Stashed changes
+    <None Include="Views\Shared\StreamListLoading.mustache" />
+    <None Include="Views\Shared\StreamLoadMore.mustache" />
+    <None Include="Views\Shared\TeamCreate.mustache" />
+    <None Include="Views\Shared\UserItem.mustache" />
+    <None Include="Views\Shared\UsersOnlineList.mustache" />
+    <None Include="Views\Teams\List.mustache" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="404.html" />
+    <Content Include="apple-touch-icon.png" />
+    <Content Include="crossdomain.xml" />
+    <Content Include="demo\elements.html" />
+    <Content Include="favicon.ico" />
+    <Content Include="robots.txt" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="media\default\" />
+    <Folder Include="media\document\" />
+    <Folder Include="media\image\0\" />
+    <Folder Include="media\video\" />
+    <Folder Include="Views\ReferenceSpecies\" />
+    <Folder Include="Views\Species\" />
+    <Folder Include="Views\Users\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
+  <Target Name="AfterBuild">
+  </Target>
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>65059</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:65060/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <ItemGroup>
+    <ProjectReference Include="..\Bowerbird.Core\Bowerbird.Core.csproj">
+      <Project>{F71840F1-86D3-460B-B49A-7770CD7E06E4}</Project>
+      <Name>Bowerbird.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bowerbird.Web\Bowerbird.Web.csproj">
+      <Project>{32CE4221-21E5-48E9-BA54-E0908FD5B80A}</Project>
+      <Name>Bowerbird.Web</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+</Project>

@@ -20,8 +20,8 @@ namespace Bowerbird.Web.Builders
     {
         object BuildItem(IdInput idInput);
 
-        object BuildList(ObservationListInput observationListInput);
+        object BuildList(PagingInput pagingInput);
 
-        object BuildStreamItems(ObservationListInput listInput);
+        object BuildStreamItems(PagingInput pagingInput);
     }
 }

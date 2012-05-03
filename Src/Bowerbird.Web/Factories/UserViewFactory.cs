@@ -16,6 +16,10 @@ using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Microsoft.Practices.ServiceLocation;
 using Raven.Client;
+using Raven.Client.Linq;
+using System.Collections.Generic;
+using System.Linq;
+using Bowerbird.Core.Indexes;
 
 namespace Bowerbird.Web.Factories
 {
@@ -23,19 +27,30 @@ namespace Bowerbird.Web.Factories
     {
         #region Fields
 
-        // TODO: Inject rather than service locator...
-
         protected readonly IAvatarFactory _avatarFactory;
         protected readonly IDocumentSession _documentSession;
+        protected readonly IProjectViewFactory _projectViewFactory;
+        protected readonly ITeamViewFactory _teamViewFactory;
 
         #endregion
 
         #region Constructors
 
-        public UserViewFactory()
+        public UserViewFactory(
+            IAvatarFactory avatarFactory,
+            IDocumentSession documentSession,
+            IProjectViewFactory projectViewFactory,
+            ITeamViewFactory teamViewFactory)
         {
-            _avatarFactory = ServiceLocator.Current.GetInstance<IAvatarFactory>();
-            _documentSession = ServiceLocator.Current.GetInstance<IDocumentSession>();
+            Check.RequireNotNull(avatarFactory, "avatarFactory");
+            Check.RequireNotNull(documentSession, "documentSession");
+            Check.RequireNotNull(projectViewFactory, "projectViewFactory");
+            Check.RequireNotNull(teamViewFactory, "teamViewFactory");
+
+            _avatarFactory = avatarFactory;
+            _documentSession = documentSession;
+            _projectViewFactory = projectViewFactory;
+            _teamViewFactory = teamViewFactory;
         }
 
         #endregion
@@ -48,27 +63,27 @@ namespace Bowerbird.Web.Factories
 
         public object Make(string id)
         {
-            var user = _documentSession.Load<User>(id);
+            var memberships = _documentSession.Query<All_UserMemberships.Result, All_UserMemberships>()
+                .Include(x => x.GroupId)
+                .Where(x => x.UserId == id)
+                .Distinct()
+                .ToList();
 
-            return new
-            {
-                Avatar = _avatarFactory.GetAvatar(user),
-                user.Id,
-                user.LastLoggedIn,
-                Name = user.GetName(),
-            };
+            return Make(_documentSession.Load<User>(id), memberships.Select(x => x.Member));
         }
 
-        public object Make(User user)
+        public object Make(User user, IEnumerable<Member> memberships)
         {
             Check.RequireNotNull(user, "user");
 
             return new
             {
-                Avatar = _avatarFactory.GetAvatar(user),
+                Avatar = _avatarFactory.Make(user),
                 user.Id,
                 user.LastLoggedIn,
                 Name = user.GetName(),
+                Projects = _documentSession.Load<Project>(memberships.Where(x => x.Group.Id.StartsWith("projects/")).Select(x => x.Group.Id)).Select(x => _projectViewFactory.Make(x)),
+                Teams = _documentSession.Load<Team>(memberships.Where(x => x.Group.Id.StartsWith("teams/")).Select(x => x.Group.Id)).Select(x => _teamViewFactory.Make(x))
             };
         }
 

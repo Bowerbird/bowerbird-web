@@ -64,17 +64,7 @@ namespace Bowerbird.Web.Builders
 
         #region Methods
 
-        public PagedList<object> BuildStreamItems(StreamItemListInput listInput, StreamSortInput sortInput)
-        {
-            if (listInput.GroupId != null)
-            {
-                return GetGroupStreamItems(listInput, sortInput);
-            }
-
-            return GetHomeStreamItems(listInput, sortInput);
-        }
-				
-        private PagedList<object> GetHomeStreamItems(StreamItemListInput listInput, StreamSortInput sortInput)
+        public PagedList<object> BuildUserStreamItems(PagingInput pagingInput)
         {
             RavenQueryStatistics stats;
 
@@ -92,14 +82,39 @@ namespace Bowerbird.Web.Builders
                 .Include(x => x.ContributionId)
                 .Where(x => x.GroupId.In(groups.Select(y => y.GroupId)))
                 .OrderByDescending(x => x.CreatedDateTime)
-                .Skip((listInput.Page - 1) * listInput.PageSize)
-                .Take(listInput.PageSize)
+                .Skip((pagingInput.Page - 1) * pagingInput.PageSize)
+                .Take(pagingInput.PageSize)
                 .ToList()
                 .Select(MakeStreamItem)
-                .ToPagedList(listInput.Page, listInput.PageSize, stats.TotalResults);
+                .ToPagedList(pagingInput.Page, pagingInput.PageSize, stats.TotalResults);
         }
 
-        private PagedList<object> GetGroupStreamItems(StreamItemListInput listInput, StreamSortInput sortInput)
+        public PagedList<object> BuildHomeStreamItems(PagingInput pagingInput)
+        {
+            RavenQueryStatistics stats;
+
+            var groups = _documentSession
+                .Query<Member>()
+                .Include(x => x.User.Id)
+                .Where(x => x.User.Id == _userContext.GetAuthenticatedUserId())
+                .Select(x => new { GroupId = x.Group.Id })
+                .ToList();
+
+            return _documentSession
+                .Query<All_GroupContributions.Result, All_GroupContributions>()
+                .AsProjection<All_GroupContributions.Result>()
+                .Statistics(out stats)
+                .Include(x => x.ContributionId)
+                .Where(x => x.GroupId.In(groups.Select(y => y.GroupId)))
+                .OrderByDescending(x => x.CreatedDateTime)
+                .Skip((pagingInput.Page - 1) * pagingInput.PageSize)
+                .Take(pagingInput.PageSize)
+                .ToList()
+                .Select(MakeStreamItem)
+                .ToPagedList(pagingInput.Page, pagingInput.PageSize, stats.TotalResults);
+        }
+
+        public PagedList<object> BuildGroupStreamItems(PagingInput pagingInput)
         {
             RavenQueryStatistics stats;
 
@@ -119,11 +134,11 @@ namespace Bowerbird.Web.Builders
                 .Include(x => x.ContributionId)
                 .Where(x => x.GroupId.In(groups.Select(y => y.GroupId)))
                 .OrderByDescending(x => x.CreatedDateTime)
-                .Skip((listInput.Page - 1) * listInput.PageSize)
-                .Take(listInput.PageSize)
+                .Skip((pagingInput.Page - 1) * pagingInput.PageSize)
+                .Take(pagingInput.PageSize)
                 .ToList()
                 .Select(MakeStreamItem)
-                .ToPagedList(listInput.Page, listInput.PageSize, stats.TotalResults);
+                .ToPagedList(pagingInput.Page, pagingInput.PageSize, stats.TotalResults);
         }
 
         private object MakeStreamItem(All_GroupContributions.Result groupContributionResult)

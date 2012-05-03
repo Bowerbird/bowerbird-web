@@ -19,6 +19,7 @@ using Bowerbird.Web.Builders;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.ViewModels;
 using Bowerbird.Core.Config;
+using System;
 
 namespace Bowerbird.Web.Controllers
 {
@@ -55,17 +56,39 @@ namespace Bowerbird.Web.Controllers
         #region Methods
 
         [HttpGet]
-        public ActionResult Index(IdInput idInput)
+        public ActionResult Stream(PagingInput pagingInput)
         {
-            ViewBag.Team = _viewModelBuilder.BuildItem(idInput);
-
-            return View(Form.Index);
+            throw new NotImplementedException();
         }
 
         [HttpGet]
-        public ActionResult Explore(TeamListInput listInput)
+        public ActionResult Observations(PagingInput pagingInput)
         {
-            ViewBag.TeamList = _viewModelBuilder.BuildList(listInput);
+            throw new NotImplementedException();
+        }
+
+        [HttpGet]
+        public ActionResult Posts(PagingInput pagingInput)
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpGet]
+        public ActionResult Members(PagingInput pagingInput)
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpGet]
+        public ActionResult About()
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpGet]
+        public ActionResult Explore(PagingInput pagingInput)
+        {
+            ViewBag.TeamList = _viewModelBuilder.BuildList(pagingInput);
 
             return View(Form.List);
         }
@@ -77,7 +100,7 @@ namespace Bowerbird.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetMany(TeamListInput listInput)
+        public ActionResult GetMany(PagingInput pagingInput)
         {
             return Json(_viewModelBuilder.BuildList(listInput));
         }

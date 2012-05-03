@@ -18,12 +18,9 @@ namespace Bowerbird.Web.Factories
 {
     public interface IAvatarFactory
     {
-        object GetAvatar(Team team);
-
-        object GetAvatar(Project project);
-
-        object GetAvatar(Organisation organisation);
-
-        object GetAvatar(User user);
+        object Make(Team team);
+        object Make(Project project);
+        object Make(Organisation organisation);
+        object Make(User user);
     }
 }

@@ -74,7 +74,7 @@ namespace Bowerbird.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetMany(ReferenceSpeciesListInput listInput)
+        public ActionResult GetMany(PagingInput pagingInput)
         {
             return Json(_viewModelBuilder.BuildList(listInput));
         }

@@ -22,6 +22,7 @@ using Bowerbird.Web.Factories;
 using Bowerbird.Web.ViewModels;
 using Raven.Client;
 using Raven.Client.Linq;
+using System;
 
 namespace Bowerbird.Web.Builders
 {
@@ -72,10 +73,10 @@ namespace Bowerbird.Web.Builders
         {
             Check.RequireNotNull(idInput, "idInput");
 
-            return _projectViewFactory.Make(_documentSession.Load<Project>(idInput.Id));
+            return _projectViewFactory.Make(_documentSession.Load<Project>(Convert.ToInt32(idInput.Id)));
         }
 
-        public object BuildIndex(StreamItemListInput streamItemListInput, StreamSortInput sortInput)
+        public object BuildIndex(PagingInput pagingInput)
         {
             Check.RequireNotNull(streamItemListInput, "streamItemListInput");
 
@@ -85,11 +86,12 @@ namespace Bowerbird.Web.Builders
                 StreamItems = _streamItemsViewModelBuilder.BuildStreamItems(streamItemListInput, sortInput),
                 Observations = _observationsViewModelBuilder.BuildList(new ObservationListInput() { GroupId = streamItemListInput.GroupId }),
                 Posts = _postViewModelBuilder.BuildList(new PostListInput(){ GroupId = streamItemListInput.GroupId}),
-                Members = ProjectMembers(streamItemListInput.GroupId)
+                Members = ProjectMembers(streamItemListInput.GroupId),
+                PrerenderedView = "projects" // HACK: Need to rethink this
             };
         }
 
-        public object BuildList(ProjectListInput listInput)
+        public object BuildList(PagingInput pagingInput)
         {
             Check.RequireNotNull(listInput, "listInput");
 
@@ -136,7 +138,7 @@ namespace Bowerbird.Web.Builders
             };
         }
 
-        private object BuildProjects(ProjectListInput listInput)
+        private object BuildProjects(PagingInput pagingInput)
         {
             RavenQueryStatistics stats;
 
@@ -163,7 +165,7 @@ namespace Bowerbird.Web.Builders
             };
         }
 
-        private object BuildProjectsForTeam(ProjectListInput listInput)
+        private object BuildProjectsForTeam(PagingInput pagingInput)
         {
             RavenQueryStatistics stats;
 
@@ -195,7 +197,7 @@ namespace Bowerbird.Web.Builders
             };
         }
 
-        private object BuildProjectsForMember(ProjectListInput listInput)
+        private object BuildProjectsForMember(PagingInput pagingInput)
         {
             RavenQueryStatistics stats;
 

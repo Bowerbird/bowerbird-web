@@ -46,7 +46,7 @@ namespace Bowerbird.Web.Factories
 
         #region Methods
 
-        public object GetAvatar(Team team)
+        public object Make(Team team)
         {
             return new
             {
@@ -57,7 +57,7 @@ namespace Bowerbird.Web.Factories
             };
         }
 
-        public object GetAvatar(Project project)
+        public object Make(Project project)
         {
             return new
             {
@@ -68,7 +68,7 @@ namespace Bowerbird.Web.Factories
             };
         }
 
-        public object GetAvatar(Organisation organisation)
+        public object Make(Organisation organisation)
         {
             return new
             {
@@ -79,7 +79,7 @@ namespace Bowerbird.Web.Factories
             };
         }
 
-        public object GetAvatar(User user)
+        public object Make(User user)
         {
             return new
             {

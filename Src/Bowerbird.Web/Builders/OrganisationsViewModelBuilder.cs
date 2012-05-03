@@ -72,7 +72,7 @@ namespace Bowerbird.Web.Builders
             return _organisationViewFactory.Make(_documentSession.Load<Organisation>(idInput.Id));
         }
 
-        public object BuildList(OrganisationListInput listInput)
+        public object BuildList(PagingInput pagingInput)
         {
             Check.RequireNotNull(listInput, "listInput");
 
@@ -84,7 +84,7 @@ namespace Bowerbird.Web.Builders
             return BuildOrganisations(listInput);
         }
 
-        private object BuildOrganisations(OrganisationListInput listInput)
+        private object BuildOrganisations(PagingInput pagingInput)
         {
             RavenQueryStatistics stats;
 

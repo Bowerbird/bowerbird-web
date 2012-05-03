@@ -20,6 +20,7 @@ using Bowerbird.Web.Builders;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.ViewModels;
 using Bowerbird.Core.Config;
+using System;
 
 namespace Bowerbird.Web.Controllers
 {
@@ -60,17 +61,40 @@ namespace Bowerbird.Web.Controllers
         #region Methods
 
         [HttpGet]
-        public ActionResult Index(StreamItemListInput input, StreamSortInput sort)
+        public ActionResult Stream(PagingInput pagingInput)
         {
-            ViewBag.Project = _viewModelBuilder.BuildIndex(input, sort);
-
+            ViewBag.Model = _viewModelBuilder.BuildIndex(pagingInput);
             return View(Form.Index);
         }
 
         [HttpGet]
-        public ActionResult Explore(ProjectListInput listInput)
+        public ActionResult Observations(PagingInput pagingInput)
         {
-            ViewBag.ProjectList = _viewModelBuilder.BuildList(listInput);
+            throw new NotImplementedException();
+        }
+
+        [HttpGet]
+        public ActionResult Posts(PagingInput pagingInput)
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpGet]
+        public ActionResult Members(PagingInput pagingInput)
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpGet]
+        public ActionResult About()
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpGet]
+        public ActionResult Explore(PagingInput pagingInput)
+        {
+            ViewBag.ProjectList = _viewModelBuilder.BuildList(pagingInput);
 
             return View(Form.List);
         }
@@ -82,7 +106,7 @@ namespace Bowerbird.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetMany(ProjectListInput listInput)
+        public ActionResult GetMany(PagingInput pagingInput)
         {
             return Json(_viewModelBuilder.BuildList(listInput));
         }

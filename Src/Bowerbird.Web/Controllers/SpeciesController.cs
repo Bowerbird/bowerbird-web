@@ -68,7 +68,7 @@ namespace Bowerbird.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult Explore(SpeciesListInput listInput)
+        public ActionResult Explore(PagingInput pagingInput)
         {
             ViewBag.SpeciesList = _viewModelBuilder.BuildList(listInput);
             
@@ -82,7 +82,7 @@ namespace Bowerbird.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetMany(SpeciesListInput listInput)
+        public ActionResult GetMany(PagingInput pagingInput)
         {
             return Json(_viewModelBuilder.BuildList(listInput));
         }

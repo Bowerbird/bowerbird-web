@@ -1,24 +1,37 @@
-﻿
-window.Bowerbird.Models.Project = Backbone.Model.extend({
-    url: '/projects/',
+﻿/// <reference path="../../libs/log.js" />
+/// <reference path="../../libs/require/require.js" />
+/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
+/// <reference path="../../libs/underscore/underscore.js" />
+/// <reference path="../../libs/backbone/backbone.js" />
+/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-    initialize: function (options) {
-        _.extend(this, Backbone.Events);
-        this.constructor.__super__.initialize.apply(this, [options]);
-    },
+// Project
+// -------
 
-    toJSON: function () {
-        return {
-            Name: this.get('Name'),
-            Description: this.get('Description'),
-            Website: this.get('Website'),
-            Avatar: this.get('Avatar').id,
-            Team: this.get('Team'),
-            Type: 'project'
-        };
-    },
+// A project
+define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, app) {
 
-    toJSONViewModel: function () {
-        return Backbone.Model.prototype.toJSON.call(this);
-    }
+    var Project = Backbone.Model.extend({
+        defaults: {
+            Type: 'Project',
+        },
+
+        idAttribute: 'Id',
+
+        url: '/projects/',
+
+        toJSON: function () {
+            return {
+                Name: this.get('Name'),
+                Description: this.get('Description'),
+                Website: this.get('Website'),
+                Avatar: this.get('Avatar'), // TODO: Fix this to return id?
+                Team: this.get('Team'),
+                Type: 'Project'
+            };
+        }
+    });
+
+    return Project;
+
 });

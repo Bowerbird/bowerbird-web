@@ -54,7 +54,7 @@ namespace Bowerbird.Web.Factories
                 organisation.Name,
                 organisation.Description,
                 organisation.Website,
-                Avatar = _avatarFactory.GetAvatar(organisation)
+                Avatar = _avatarFactory.Make(organisation)
             };
         }
 

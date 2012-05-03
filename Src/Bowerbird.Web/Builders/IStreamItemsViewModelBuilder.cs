@@ -19,6 +19,10 @@ namespace Bowerbird.Web.Builders
 {
     public interface IStreamItemsViewModelBuilder
     {
-        PagedList<object> BuildStreamItems(StreamItemListInput listInput, StreamSortInput sortInput);
+        PagedList<object> BuildUserStreamItems(PagingInput pagingInput);
+
+        PagedList<object> BuildHomeStreamItems(PagingInput pagingInput);
+
+        PagedList<object> BuildGroupStreamItems(PagingInput pagingInput);
     }
 }

@@ -12,10 +12,18 @@
  
 */
 
+using System.Linq;
 using System.Web.Mvc;
 using Bowerbird.Web.Factories;
 using Bowerbird.Web.ViewModels;
 using Microsoft.Practices.ServiceLocation;
+using System.Collections.Generic;
+using Raven.Client;
+using Raven.Client.Linq;
+using Bowerbird.Core.DomainModels;
+using Newtonsoft.Json;
+using Bowerbird.Core.Config;
+using Bowerbird.Web.Builders;
 
 namespace Bowerbird.Web.Controllers
 {
@@ -40,9 +48,32 @@ namespace Bowerbird.Web.Controllers
             if (filterContext.Result is ViewResult)
             {
                 ((ViewResult)filterContext.Result).MasterName = "_Layout";
-                
-                ViewBag.UserContext = GetClientUserContext();
-                ViewBag.PrerenderedView = filterContext.HttpContext.Request.RawUrl.ToLower().Substring(1);
+
+                var userContext = ServiceLocator.Current.GetInstance<IUserContext>();
+
+                if (userContext.IsUserAuthenticated())
+                {
+                    var userViewModelBuilder = ServiceLocator.Current.GetInstance<IUserViewModelBuilder>();
+
+                    var authenticatedUser = userViewModelBuilder.BuildAuthenticatedUser();
+
+                    ViewBag.AuthenticatedUser = authenticatedUser;
+                    ViewBag.BootstrappedJson = JsonConvert.SerializeObject(new
+                        {
+                            AuthenticatedUser = authenticatedUser,
+                            OnlineUsers = userViewModelBuilder.BuildOnlineUsers(),
+                            Model = ViewBag.Model,
+                            PrerenderedView = ViewBag.PrerenderedView
+                        });
+                }
+                else
+                {
+                    ViewBag.BootstrappedJson = JsonConvert.SerializeObject(new
+                        {
+                            Model = ViewBag.Model,
+                            PrerenderedView = ViewBag.PrerenderedView
+                        });
+                }
 
                 #if DEBUG
                     ViewBag.RavenProfiler = Raven.Client.MvcIntegration.RavenProfiler.CurrentRequestSessions().ToString();
@@ -66,12 +97,6 @@ namespace Bowerbird.Web.Controllers
         {
             return Json("failure");
         }
-
-        protected ClientUserContext GetClientUserContext()
-        {
-            return ServiceLocator.Current.GetInstance<IClientUserContextFactory>().ClientUserContext();
-        }
-
         #endregion      
     }
 }

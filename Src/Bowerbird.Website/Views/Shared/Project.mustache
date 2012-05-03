@@ -1,0 +1,40 @@
+﻿<div class="summary">
+  <img src="/img/default-project-avatar.jpg" alt="" />
+  <h1>{{Model.Project.Name}}</h1>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras in metus at nunc cursus rhoncus. Etiam eleifend accumsan urna et aliquam. Nullam ultrices eros eu leo dignissim non pellentesque sapien congue. Integer blandit neque eget libero tristique ultrices. Donec adipiscing cursus orci at semper. Suspendisse arcu diam, dapibus id scelerisque vel, sagittis quis dolor. Praesent sed consectetur justo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras in metus at nunc cursus rhoncus. Etiam eleifend accumsan urna et aliquam. Nullam ultrices eros eu leo dignissim non pellentesque sapien congue. Integer blandit neque eget libero tristique ultrices. Donec adipiscing cursus orci at semper. Suspendisse arcu diam, dapibus id scelerisque vel, sagittis quis dolor. Praesent sed consectetur justo.</p>
+</div>
+<div class="tab-bar">
+  <ul class="tabs">
+    <li>
+      <a href="/{{Model.Project.Id}}" class="selected">Activity</a>
+    </li>
+    <li>
+      <a href="/{{Model.Project.Id}}/observations">Observations</a>
+    </li>
+    <li>
+      <a href="/{{Model.Project.Id}}/posts">Posts</a>
+    </li>
+    <li>
+      <a href="/{{Model.Project.Id}}/members">Members</a>
+    </li>
+    <li>
+      <a href="/{{Model.Project.Id}}/about">About</a>
+    </li>
+  </ul>
+</div>
+<div class="details">
+  <div id="stream">
+    {{#Model.StreamItems}}
+      {{>Stream}}
+    {{/Model.StreamItems}}
+    <!--<h2>Latest Activity</h2>
+    <ul class="stream-list">
+    </ul>-->
+  </div>
+  <div id="about">
+    <!--<h2>About</h2>-->
+  </div>
+  <div id="members">
+    <!--<h2>Members</h2>-->
+  </div>
+</div> 

@@ -21,6 +21,8 @@ using Bowerbird.Web.Factories;
 using Bowerbird.Web.ViewModels;
 using Raven.Client;
 using Raven.Client.Linq;
+using System.Collections;
+using Bowerbird.Core.Config;
 
 namespace Bowerbird.Web.Builders
 {
@@ -30,6 +32,7 @@ namespace Bowerbird.Web.Builders
 
         private readonly IDocumentSession _documentSession;
         private readonly IUserViewFactory _userViewFactory;
+        private readonly IUserContext _userContext;
 
         #endregion
 
@@ -37,14 +40,17 @@ namespace Bowerbird.Web.Builders
 
         public UserViewModelBuilder(
             IDocumentSession documentSession,
-            IUserViewFactory userViewFactory
+            IUserViewFactory userViewFactory,
+            IUserContext userContext
         )
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(userViewFactory, "userViewFactory");
+            Check.RequireNotNull(userContext, "userContext");
 
             _documentSession = documentSession;
             _userViewFactory = userViewFactory;
+            _userContext = userContext;
         }
 
         #endregion
@@ -59,20 +65,20 @@ namespace Bowerbird.Web.Builders
         {
             Check.RequireNotNull(idInput, "idInput");
 
-            return _userViewFactory.Make(_documentSession.Load<User>(idInput.Id));
+            return _userViewFactory.Make(idInput.Id);
         }
 
-        public object BuildList(UserListInput listInput)
+        public object BuildList(PagingInput pagingInput)
         {
             Check.RequireNotNull(listInput, "listInput");
 
-            return BuildUser(listInput);
+            return BuildUsers(listInput);
         }
 
-        private object BuildUser(UserListInput listInput)
+        private object BuildUsers(PagingInput pagingInput)
         {
             var userMemberships = _documentSession.Query<All_UserMemberships.Result, All_UserMemberships>()
-                .Customize(x => x.Include(listInput.GroupId))
+                .Include(x => x.GroupId)
                 .Where(x => x.GroupId == listInput.GroupId)
                 .Distinct()
                 .ToList();
@@ -86,7 +92,7 @@ namespace Bowerbird.Web.Builders
                 .Skip(listInput.Page)
                 .Take(listInput.PageSize)
                 .ToList()
-                .Select(x => _userViewFactory.Make(x));
+                .Select(x => _userViewFactory.Make(x.Id));
 
             return new
             {
@@ -99,6 +105,44 @@ namespace Bowerbird.Web.Builders
                     null)
             };
         }
+
+        public object BuildAuthenticatedUser()
+        {
+            return BuildItem(new IdInput() { Id = _userContext.GetAuthenticatedUserId() });
+        }
+
+        public IEnumerable BuildOnlineUsers()
+        {
+            var connectedUserIds = _documentSession
+                .Query<All_UserSessions.Results, All_UserSessions>()
+                .AsProjection<All_UserSessions.Results>()
+                .Include(x => x.UserId)
+                .Where(x => x.Status < (int)Connection.ConnectionStatus.Offline)
+                .ToList()
+                .Select(x => x.UserId)
+                .Distinct();
+
+            var connectedUsers = _documentSession.Query<User>()
+                .Where(x => x.Id.In(connectedUserIds))
+                .ToList();
+
+            return connectedUsers
+                .Select(x => _userViewFactory.Make(x.Id))
+                .ToList();
+        }
+
+        //private UserProfile MakeUserProfile(User user, IEnumerable<Member> memberships)
+        //{
+        //    return new UserProfile()
+        //    {
+        //        Id = user.Id,
+        //        Name = user.GetName(),
+        //        LastLoggedIn = user.LastLoggedIn,
+        //        Avatar = _avatarFactory.Make(user),
+        //        Projects = _documentSession.Load<Project>(memberships.Where(x => x.Group.Id.StartsWith("projects/")).Select(x => x.Group.Id)).Select(x => _projectViewFactory.Make(x)),
+        //        Teams = _documentSession.Load<Team>(memberships.Where(x => x.Group.Id.StartsWith("teams/")).Select(x => x.Group.Id)).Select(x => _teamViewFactory.Make(x))
+        //    };
+        //}
 
         #endregion
     }

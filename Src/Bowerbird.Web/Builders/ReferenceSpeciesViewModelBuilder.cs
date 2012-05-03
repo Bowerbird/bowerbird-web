@@ -61,14 +61,14 @@ namespace Bowerbird.Web.Builders
             return _referenceSpeciesViewFactory.Make(_documentSession.Load<ReferenceSpecies>(idInput.Id));
         }
 
-        public object BuildList(ReferenceSpeciesListInput listInput)
+        public object BuildList(PagingInput pagingInput)
         {
             Check.RequireNotNull(listInput, "listInput");
 
             return BuildReferenceSpecies(listInput);
         }
 
-        private object BuildReferenceSpecies(ReferenceSpeciesListInput listInput)
+        private object BuildReferenceSpecies(PagingInput pagingInput)
         {
             RavenQueryStatistics stats;
 

@@ -21,7 +21,7 @@ namespace Bowerbird.Web.Factories
     {
         #region Fields
 
-        private readonly IUserViewFactory _userViewFactory;
+        //private readonly IUserViewFactory _userViewFactory;
         private readonly IAvatarFactory _avatarFactory;
 
         #endregion
@@ -29,14 +29,14 @@ namespace Bowerbird.Web.Factories
         #region Constructors
 
         public ProjectViewFactory(
-            IUserViewFactory userViewFactory,
+            //IUserViewFactory userViewFactory,
             IAvatarFactory avatarFactory
             )
         {
-            Check.RequireNotNull(userViewFactory, "userViewFactory");
+            //Check.RequireNotNull(userViewFactory, "userViewFactory");
             Check.RequireNotNull(avatarFactory, "avatarFactory");
 
-            _userViewFactory = userViewFactory;
+            //_userViewFactory = userViewFactory;
             _avatarFactory = avatarFactory;
         }
 
@@ -56,8 +56,8 @@ namespace Bowerbird.Web.Factories
                 project.Name,
                 project.Description,
                 project.Website,
-                Creator = _userViewFactory.Make(project.User.Id),
-                Avatar = _avatarFactory.GetAvatar(project)
+                //Creator = _userViewFactory.Make(project.User.Id),
+                Avatar = _avatarFactory.Make(project)
             };
         }
 

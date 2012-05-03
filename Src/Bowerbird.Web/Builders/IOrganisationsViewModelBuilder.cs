@@ -20,6 +20,6 @@ namespace Bowerbird.Web.Builders
     {
         object BuildItem(IdInput idInput);
 
-        object BuildList(OrganisationListInput listInput);
+        object BuildList(PagingInput pagingInput);
     }
 }

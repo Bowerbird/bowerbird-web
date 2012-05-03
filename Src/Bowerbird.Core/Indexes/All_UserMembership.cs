@@ -29,6 +29,7 @@ namespace Bowerbird.Core.Indexes
             public string GroupId { get; set; }
             public object RoleIds { get; set; }
             public object PermissionIds { get; set; }
+            public Member Member { get; set; }
         }
 
         public All_UserMemberships()
@@ -52,7 +53,8 @@ namespace Bowerbird.Core.Indexes
                                     result.UserId,
                                     result.GroupId,
                                     RoleIds = roleids.ToArray(),
-                                    PermissionIds = permissionIds.ToArray()
+                                    PermissionIds = permissionIds.ToArray(),
+                                    Member = member
                                 };
 
             Store(x => x.Id, FieldStorage.Yes);

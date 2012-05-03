@@ -17,6 +17,7 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Web.Routing;
 using System.Reflection;
+using Bowerbird.Web.Controllers;
 
 namespace Bowerbird.Web.Config
 {
@@ -61,6 +62,8 @@ namespace Bowerbird.Web.Config
                 "",
                 new {controller = "home", action = "publicindex"});
 
+            RegisterGroupControllerRoutes(routes);
+
             // load up restful controllers and create routes
             RegisterRestfulControllerRoutes(routes);
 
@@ -73,15 +76,39 @@ namespace Bowerbird.Web.Config
                 new {controller = "home", action = "index", id = UrlParameter.Optional},
                 new[] {"Bowerbird.Web.Controllers"});
         }
-        
+
+        private static void RegisterGroupControllerRoutes(RouteCollection routes)
+        {
+            var controllers = new[] 
+                {
+                    typeof(OrganisationsController).Name.ToLower(),
+                    typeof(TeamsController).Name.ToLower(),
+                    typeof(ProjectsController).Name.ToLower()
+                };
+
+            foreach (var controller in controllers)
+            {
+                CreateGroupControllerRoute(routes, controller.Replace("controller", "").Trim());
+            }
+        }        
+
         private static void RegisterRestfulControllerRoutes(RouteCollection routes)
         {
             var controllers = Assembly.Load("Bowerbird.Web").GetTypes().Where(x => x.Namespace == "Bowerbird.Web.Controllers" && x.BaseType != null && x.BaseType.Name == "ControllerBase");
 
-            foreach (var controller in controllers.Where(controller => controller.GetCustomAttributes(true).Any(x => x.GetType().Name.Equals("RestfulAttribute"))))
+            foreach (var controller in controllers.Where(controller => controller.GetCustomAttributes(true).Any(x => x is RestfulAttribute)))
             {
                 CreateRestfulControllerRoute(routes, controller.Name.ToLower().Replace("controller", "").Trim());
             }
+        }
+
+        private static void CreateGroupControllerRoute(RouteCollection routes, string controllerName)
+        {
+            routes.MapRoute(
+                controllerName + "-sections",
+                controllerName + "/{id}/{action}",
+                new { controller = controllerName, action = "stream" },
+                new { httpMethod = new HttpMethodConstraint("GET"), id = @"^((?!create|update|delete).*)$", acceptType = new AcceptTypeContstraint("text/html") });
         }
 
         private static void CreateRestfulControllerRoute(RouteCollection routes, string controllerName)
@@ -89,31 +116,31 @@ namespace Bowerbird.Web.Config
             routes.MapRoute(
                 controllerName + "-get-many",
                 controllerName,
-                new { controller = "observations", action = "getmany" },
+                new { controller = controllerName, action = "getmany" },
                 new { httpMethod = new HttpMethodConstraint("GET") });
 
             routes.MapRoute(
                 controllerName + "-get-one",
                 controllerName + "/{id}",
-                new { controller = "observations", action = "getone" },
+                new { controller = controllerName, action = "getone" },
                 new { httpMethod = new HttpMethodConstraint("GET"), id = @"^((?!create|update|delete).*)$" });
 
             routes.MapRoute(
                 controllerName + "-create-form",
                 controllerName + "/create",
-                new { controller = "observations", action = "createform" },
+                new { controller = controllerName, action = "createform" },
                 new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("GET") });
 
             routes.MapRoute(
                 controllerName + "-update-form",
                 controllerName + "/update/{id}",
-                new { controller = "observations", action = "updateform" },
+                new { controller = controllerName, action = "updateform" },
                 new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("GET") });
 
             routes.MapRoute(
                 controllerName + "-delete-form",
                 controllerName + "/delete/{id}",
-                new { controller = "observations", action = "deleteform" },
+                new { controller = controllerName, action = "deleteform" },
                 new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("GET") });
 
             // should be handled by default route in RegisterRoutesTo() method

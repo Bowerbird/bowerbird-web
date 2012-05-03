@@ -93,6 +93,11 @@ namespace Bowerbird.Core.Config
     {
         public static string List = "List";
         public static string Index = "Index";
+        public static string Stream = "Stream";
+        public static string Observations = "Observations";
+        public static string Posts = "Posts";
+        public static string Members = "Members";
+        public static string About = "About";
         public static string Create = "Create";
         public static string Update = "Update";
         public static string Delete = "Delete";

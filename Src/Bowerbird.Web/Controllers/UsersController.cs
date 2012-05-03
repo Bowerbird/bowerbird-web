@@ -19,6 +19,7 @@ using Bowerbird.Web.Builders;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.ViewModels;
 using Bowerbird.Core.Config;
+using System;
 
 namespace Bowerbird.Web.Controllers
 {
@@ -30,6 +31,7 @@ namespace Bowerbird.Web.Controllers
         private readonly ICommandProcessor _commandProcessor;
         private readonly IUserContext _userContext;
         private readonly IUserViewModelBuilder _viewModelBuilder;
+        private readonly IStreamItemsViewModelBuilder _streamItemsViewModelBuilder;
 
         #endregion
 
@@ -38,16 +40,19 @@ namespace Bowerbird.Web.Controllers
         public UsersController(
             ICommandProcessor commandProcessor,
             IUserContext userContext,
-            IUserViewModelBuilder userViewModelBuilder
+            IUserViewModelBuilder userViewModelBuilder,
+            IStreamItemsViewModelBuilder streamItemsViewModelBuilder
             )
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(userViewModelBuilder, "userViewModelBuilder");
+            Check.RequireNotNull(streamItemsViewModelBuilder, "streamItemsViewModelBuilder");
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
             _viewModelBuilder = userViewModelBuilder;
+            _streamItemsViewModelBuilder = streamItemsViewModelBuilder;
         }
 
         #endregion
@@ -59,17 +64,51 @@ namespace Bowerbird.Web.Controllers
         #region Methods
 
         [HttpGet]
-        public ActionResult Index(IdInput idInput)
+        public ActionResult Stream(PagingInput pagingInput)
         {
-            ViewBag.User = _viewModelBuilder.BuildItem(idInput);
+            ViewBag.Model = new
+            {
+                User = _viewModelBuilder.BuildItem(pagingInput.Id),
+                StreamItems = _streamItemsViewModelBuilder.BuildStreamItems(pagingInput)
+            };
 
-            return View(Form.Index);
+            return View(Form.Stream);
         }
 
         [HttpGet]
-        public ActionResult Explore(UserListInput listInput)
+        public ActionResult Observations(PagingInput pagingInput)
         {
-            ViewBag.UserList = _viewModelBuilder.BuildList(listInput);
+            throw new NotImplementedException();
+        }
+
+        [HttpGet]
+        public ActionResult Posts(PagingInput pagingInput)
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpGet]
+        public ActionResult Following(PagingInput pagingInput)
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpGet]
+        public ActionResult Followers(PagingInput pagingInput)
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpGet]
+        public ActionResult About()
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpGet]
+        public ActionResult Explore(PagingInput pagingInput)
+        {
+            ViewBag.UserList = _viewModelBuilder.BuildList(pagingInput);
 
             return View(Form.List);
         }
@@ -81,7 +120,7 @@ namespace Bowerbird.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetMany(UserListInput listInput)
+        public ActionResult GetMany(PagingInput pagingInput)
         {
             return Json(_viewModelBuilder.BuildList(listInput));
         }

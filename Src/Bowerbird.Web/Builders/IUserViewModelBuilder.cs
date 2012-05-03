@@ -13,6 +13,7 @@
 */
 				
 using Bowerbird.Web.ViewModels;
+using System.Collections;
 
 namespace Bowerbird.Web.Builders
 {
@@ -20,6 +21,10 @@ namespace Bowerbird.Web.Builders
     {
         object BuildItem(IdInput idInput);
 
-        object BuildList(UserListInput userListInput);
+        object BuildList(PagingInput pagingInput);
+
+        object BuildAuthenticatedUser();
+
+        IEnumerable BuildOnlineUsers();
     }
 }
