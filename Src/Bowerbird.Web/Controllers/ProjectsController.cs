@@ -16,20 +16,21 @@ using System.Web.Mvc;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Web.Builders;
 using Bowerbird.Web.Config;
-using Bowerbird.Web.Queries;
 using Bowerbird.Web.ViewModels;
 using Bowerbird.Core.Config;
 
 namespace Bowerbird.Web.Controllers
 {
+    [Restful]
     public class ProjectsController : ControllerBase
     {
         #region Members
 
         private readonly ICommandProcessor _commandProcessor;
         private readonly IUserContext _userContext;
-        private readonly IProjectsQuery _projectsQuery;
+        private readonly IProjectsViewModelBuilder _viewModelBuilder;
 
         #endregion
 
@@ -38,16 +39,16 @@ namespace Bowerbird.Web.Controllers
         public ProjectsController(
             ICommandProcessor commandProcessor,
             IUserContext userContext,
-            IProjectsQuery projectsQuery
+            IProjectsViewModelBuilder projectsViewModelBuilder
             )
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
             Check.RequireNotNull(userContext, "userContext");
-            Check.RequireNotNull(projectsQuery, "projectsQuery");
+            Check.RequireNotNull(projectsViewModelBuilder, "projectsViewModelBuilder");
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
-            _projectsQuery = projectsQuery;
+            _viewModelBuilder = projectsViewModelBuilder;
         }
 
         #endregion
@@ -59,41 +60,71 @@ namespace Bowerbird.Web.Controllers
         #region Methods
 
         [HttpGet]
-        public ActionResult Index(IdInput idInput)
+        public ActionResult Index(StreamItemListInput input, StreamSortInput sort)
         {
-            if (Request.IsAjaxRequest())
-            {
-                return Json(_projectsQuery.MakeProjectIndex(idInput));
-            }
+            ViewBag.Project = _viewModelBuilder.BuildIndex(input, sort);
 
-            return View(_projectsQuery.MakeProjectIndex(idInput));
+            return View(Form.Index);
         }
 
         [HttpGet]
-        public ActionResult List(ProjectListInput listInput)
+        public ActionResult Explore(ProjectListInput listInput)
         {
-            if (_userContext.IsUserAuthenticated())
-            {
-                if (listInput.UserId != null)
-                {
-                    return Json(_projectsQuery.MakeProjectListByMembership(listInput), JsonRequestBehavior.AllowGet);
-                }
+            ViewBag.ProjectList = _viewModelBuilder.BuildList(listInput);
 
-                if (Request.IsAjaxRequest())
-                {
-                    return Json(_projectsQuery.MakeProjectList(listInput), JsonRequestBehavior.AllowGet);
-                }
-            }
-
-            ViewBag.ProjectList = _projectsQuery.MakeProjectList(new ProjectListInput() { Page = 1, PageSize = 10 });
-
-            return View();
+            return View(Form.List);
         }
 
         [HttpGet]
-        public ActionResult Create()
+        public ActionResult GetOne(IdInput idInput)
         {
-            return View();
+            return Json(_viewModelBuilder.BuildItem(idInput));
+        }
+
+        [HttpGet]
+        public ActionResult GetMany(ProjectListInput listInput)
+        {
+            return Json(_viewModelBuilder.BuildList(listInput));
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult CreateForm(IdInput idInput)
+        {
+            if (!_userContext.HasGroupPermission(PermissionNames.CreateProject, idInput.Id))
+            {
+                return HttpUnauthorized();
+            }
+
+            return View(Form.Create);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult UpdateForm(IdInput idInput)
+        {
+            if (!_userContext.HasGroupPermission(PermissionNames.UpdateProject, idInput.Id))
+            {
+                return HttpUnauthorized();
+            }
+
+            ViewBag.Project = _viewModelBuilder.BuildItem(idInput);
+
+            return View(Form.Update);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult DeleteForm(IdInput idInput)
+        {
+            if (!_userContext.HasGroupPermission(PermissionNames.DeleteProject, idInput.Id))
+            {
+                return HttpUnauthorized();
+            }
+
+            ViewBag.Project = _viewModelBuilder.BuildItem(idInput);
+
+            return View(Form.Delete);
         }
 
         [Transaction]
@@ -108,7 +139,7 @@ namespace Bowerbird.Web.Controllers
 
             if (!ModelState.IsValid)
             {
-                return Json("Failure");
+                return JsonFailed();
             }
 
             _commandProcessor.Process(
@@ -120,8 +151,8 @@ namespace Bowerbird.Web.Controllers
                     AvatarId = createInput.Avatar,
                     TeamId = createInput.Team
                 });
-            
-            return Json("Success");
+
+            return JsonSuccess();
         }
 
         [Transaction]
@@ -136,7 +167,7 @@ namespace Bowerbird.Web.Controllers
 
             if (!ModelState.IsValid)
             {
-                return Json("Failure");
+                return JsonFailed();
             }
             
             _commandProcessor.Process(
@@ -148,7 +179,7 @@ namespace Bowerbird.Web.Controllers
                     AvatarId = updateInput.AvatarId
                 });
 
-            return Json("Success");
+            return JsonSuccess();
         }
 
         [Transaction]
@@ -163,7 +194,7 @@ namespace Bowerbird.Web.Controllers
 
             if (!ModelState.IsValid)
             {
-                return Json("Failure");
+                return JsonFailed();
             }
 
             _commandProcessor.Process(
@@ -173,7 +204,7 @@ namespace Bowerbird.Web.Controllers
                     UserId = _userContext.GetAuthenticatedUserId()
                 });
 
-            return Json("Success");
+            return JsonSuccess();
         }
 
         #endregion

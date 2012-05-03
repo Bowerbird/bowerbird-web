@@ -13,6 +13,7 @@
 */
 
 using Bowerbird.Web.ViewModels;
+using Bowerbird.Web.ViewModels.Account;
 
 namespace Bowerbird.Test.Utils
 {

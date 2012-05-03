@@ -21,6 +21,12 @@ namespace Bowerbird.Core.Config
         public static string CreatePost = "createpost";
         public static string UpdatePost = "updatepost";
         public static string DeletePost = "deletepost";
+        public static string CreateSpecies = "createspecies";
+        public static string UpdateSpecies = "updatespecies";
+        public static string DeleteSpecies = "deletespecices";
+        public static string CreateReferenceSpecies = "createreferencespecies";
+        public static string UpdateReferenceSpecies = "updatereferencespecies";
+        public static string DeleteReferenceSpecies = "deletereferencespecies";
     }
 
     public static class RoleNames

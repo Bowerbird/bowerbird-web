@@ -17,7 +17,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Bowerbird.Web.ViewModels
 {
-    public class MemberCreateInput : IViewModel
+    public class MemberCreateInput
     {
         #region Members
 

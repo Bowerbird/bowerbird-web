@@ -14,7 +14,6 @@
  
 */
 
-using Bowerbird.Web.Notifications;
 using Ninject.Modules;
 using Raven.Client;
 using Bowerbird.Core.CommandHandlers;
@@ -24,7 +23,6 @@ using Bowerbird.Core.EventHandlers;
 using Bowerbird.Core.DomainModels;
 using SignalR;
 using Bowerbird.Core.Config;
-using Bowerbird.Web.Queries;
 
 namespace Bowerbird.Web.Config
 {

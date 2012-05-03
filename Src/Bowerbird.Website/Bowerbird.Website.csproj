@@ -126,10 +126,8 @@
     <Content Include="js\bowerbird\views\exploreItemView.js" />
     <Content Include="js\bowerbird\views\exploreView.js" />
     <Content Include="js\libs\yepnope.js" />
+    <Content Include="welcome.txt" />
     <None Include="Views\Home\About.mustache" />
-    <None Include="Views\Organisation\Create.mustache" />
-    <None Include="Views\Organisation\Delete.mustache" />
-    <None Include="Views\Organisation\List.mustache" />
     <None Include="Views\Account\LogoutSuccess.mustache" />
     <None Include="Views\Account\ResetPassword.mustache" />
     <None Include="Views\Account\Register.mustache" />
@@ -142,6 +140,9 @@
     <None Include="Views\Observations\Delete.mustache" />
     <None Include="Views\Observations\Index.mustache" />
     <None Include="Views\Observations\Create.mustache" />
+    <None Include="Views\Organisations\Create.mustache" />
+    <None Include="Views\Organisations\Delete.mustache" />
+    <None Include="Views\Organisations\List.mustache" />
     <None Include="Views\Projects\Create.mustache" />
     <None Include="Views\Projects\Delete.mustache" />
     <None Include="Views\Projects\Index.mustache" />
@@ -354,6 +355,8 @@
     <Folder Include="media\document\" />
     <Folder Include="media\image\0\" />
     <Folder Include="media\video\" />
+    <Folder Include="Views\ReferenceSpecies\" />
+    <Folder Include="Views\Species\" />
     <Folder Include="Views\Users\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
@@ -381,9 +384,6 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
-  <ItemGroup>
-    <Content Include="welcome.txt" />
-  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bowerbird.Core\Bowerbird.Core.csproj">
       <Project>{F71840F1-86D3-460B-B49A-7770CD7E06E4}</Project>

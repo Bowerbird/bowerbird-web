@@ -16,7 +16,6 @@ using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Services;
-using Bowerbird.Web.ViewModels;
 
 namespace Bowerbird.Web.Factories
 {
@@ -47,9 +46,9 @@ namespace Bowerbird.Web.Factories
 
         #region Methods
 
-        public Avatar GetAvatar(Team team)
+        public object GetAvatar(Team team)
         {
-            return new Avatar()
+            return new
             {
                 AltTag = team.Description,
                 UrlToImage = team.Avatar != null ?
@@ -58,9 +57,9 @@ namespace Bowerbird.Web.Factories
             };
         }
 
-        public Avatar GetAvatar(Project project)
+        public object GetAvatar(Project project)
         {
-            return new Avatar()
+            return new
             {
                 AltTag = project.Description,
                 UrlToImage = project.Avatar != null ?
@@ -69,9 +68,9 @@ namespace Bowerbird.Web.Factories
             };
         }
 
-        public Avatar GetAvatar(Organisation organisation)
+        public object GetAvatar(Organisation organisation)
         {
-            return new Avatar()
+            return new
             {
                 AltTag = organisation.Description,
                 UrlToImage = organisation.Avatar != null ?
@@ -80,9 +79,9 @@ namespace Bowerbird.Web.Factories
             };
         }
 
-        public Avatar GetAvatar(User user)
+        public object GetAvatar(User user)
         {
-            return new Avatar()
+            return new
             {
                 AltTag = string.Format("{0} {1}", user.FirstName, user.LastName),
                 UrlToImage = user.Avatar != null ?

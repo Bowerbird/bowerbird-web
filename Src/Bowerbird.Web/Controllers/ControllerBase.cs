@@ -57,6 +57,16 @@ namespace Bowerbird.Web.Controllers
             return new HttpUnauthorizedResult();
         }
 
+        protected ActionResult JsonSuccess()
+        {
+            return Json("success");
+        }
+
+        protected ActionResult JsonFailed()
+        {
+            return Json("failure");
+        }
+
         protected ClientUserContext GetClientUserContext()
         {
             return ServiceLocator.Current.GetInstance<IClientUserContextFactory>().ClientUserContext();

@@ -16,7 +16,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Bowerbird.Web.ViewModels
 {
-    public class ProjectUpdateInput : IViewModel
+    public class ProjectUpdateInput
     {
         #region Members
 

@@ -15,7 +15,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Web.Queries;
+using Bowerbird.Web.Builders;
 using Bowerbird.Web.ViewModels;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
@@ -25,13 +25,14 @@ using Bowerbird.Core.Config;
 
 namespace Bowerbird.Web.Controllers
 {
+    [Restful]
     public class ObservationsController : ControllerBase
     {
         #region Members
 
         private readonly ICommandProcessor _commandProcessor;
         private readonly IUserContext _userContext;
-        private readonly IObservationsQuery _observationsQuery;
+        private readonly IObservationsViewModelBuilder _viewModelBuilder;
 
         #endregion
 
@@ -40,16 +41,16 @@ namespace Bowerbird.Web.Controllers
         public ObservationsController(
             ICommandProcessor commandProcessor,
             IUserContext userContext,
-            IObservationsQuery observationsQuery
+            IObservationsViewModelBuilder observationsViewModelBuilder
             )
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
             Check.RequireNotNull(userContext, "userContext");
-            Check.RequireNotNull(observationsQuery, "observationsQuery");
+            Check.RequireNotNull(observationsViewModelBuilder, "observationsViewModelBuilder");
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
-            _observationsQuery = observationsQuery;
+            _viewModelBuilder = observationsViewModelBuilder;
         }
 
         #endregion
@@ -57,30 +58,31 @@ namespace Bowerbird.Web.Controllers
         #region Methods
 
         [HttpGet]
-        public ActionResult GetOne(IdInput idInput)
+        public ActionResult Index(IdInput idInput)
         {
-            if (Request.IsAjaxRequest())
-            {
-                return Json(_observationsQuery.MakeObservationIndex(idInput));
-            }
+            ViewBag.Observation = _viewModelBuilder.BuildItem(idInput);
 
-            return View("Index", _observationsQuery.MakeObservationIndex(idInput));
+            return View(Form.Index);
         }
 
         [HttpGet]
-        public ActionResult GetMany(ObservationListInput observationListInput)
+        public ActionResult Explore(ObservationListInput listInput)
         {
-            if (observationListInput.GroupId != null)
-            {
-                return Json(_observationsQuery.MakeObservationListByProjectId(observationListInput), JsonRequestBehavior.AllowGet);
-            }
+            ViewBag.ObservationList = _viewModelBuilder.BuildList(listInput);
 
-            if (observationListInput.CreatedByUserId != null)
-            {
-                return Json(_observationsQuery.MakeObservationListByCreatedByUserId(observationListInput), JsonRequestBehavior.AllowGet);
-            }
+            return View(Form.List);
+        }
 
-            return Json(_observationsQuery.MakeObservationList(observationListInput));
+        [HttpGet]
+        public ActionResult GetOne(IdInput idInput)
+        {
+            return Json(_viewModelBuilder.BuildItem(idInput));
+        }
+
+        [HttpGet]
+        public ActionResult GetMany(ObservationListInput listInput)
+        {
+            return Json(_viewModelBuilder.BuildList(listInput));
         }
          
         [HttpGet]
@@ -92,7 +94,7 @@ namespace Bowerbird.Web.Controllers
                 return HttpUnauthorized();
             }
 
-            return View("Create");
+            return View(Form.Create);
         }
 
         [HttpGet]
@@ -104,7 +106,9 @@ namespace Bowerbird.Web.Controllers
                 return HttpUnauthorized();
             }
 
-            return View("Update");
+            ViewBag.Observation = _viewModelBuilder.BuildItem(idInput);
+
+            return View(Form.Update);
         }
 
         [HttpGet]
@@ -116,13 +120,15 @@ namespace Bowerbird.Web.Controllers
                 return HttpUnauthorized();
             }
 
-            return View("Delete");
+            ViewBag.Observation = _viewModelBuilder.BuildItem(idInput);
+
+            return View(Form.Delete);
         }
 
         [Transaction]
         [HttpPost]
         [Authorize]
-        public ActionResult Create(ObservationCreateInput observationCreateInput)
+        public ActionResult Create(ObservationCreateInput createInput)
         {
             if (!_userContext.HasUserProjectPermission(PermissionNames.CreateObservation))
             {
@@ -131,58 +137,58 @@ namespace Bowerbird.Web.Controllers
 
             if (!ModelState.IsValid)
             {
-                return Json("failure");
+                return JsonFailed();
             }
 
             _commandProcessor.Process(
                 new ObservationCreateCommand()
                     {
-                        Title = observationCreateInput.Title,
-                        Latitude = observationCreateInput.Latitude,
-                        Longitude = observationCreateInput.Longitude,
-                        Address = observationCreateInput.Address,
-                        IsIdentificationRequired = observationCreateInput.IsIdentificationRequired,
-                        Category = observationCreateInput.Category,
-                        ObservedOn = observationCreateInput.ObservedOn,
+                        Title = createInput.Title,
+                        Latitude = createInput.Latitude,
+                        Longitude = createInput.Longitude,
+                        Address = createInput.Address,
+                        IsIdentificationRequired = createInput.IsIdentificationRequired,
+                        Category = createInput.Category,
+                        ObservedOn = createInput.ObservedOn,
                         UserId = _userContext.GetAuthenticatedUserId(),
-                        Projects = observationCreateInput.Projects,
-                        AddMedia = observationCreateInput.AddMedia.Select(x => new Tuple<string, string, string>(x.MediaResourceId, x.Description, x.Licence))
+                        Projects = createInput.Projects,
+                        AddMedia = createInput.AddMedia.Select(x => new Tuple<string, string, string>(x.MediaResourceId, x.Description, x.Licence))
                     });
 
-            return Json("success"); // TODO: Return something more meaningful?
+            return JsonSuccess();
         }
 
         [Transaction]
         [HttpPut]
         [Authorize]
-        public ActionResult Update(ObservationUpdateInput observationUpdateInput)
+        public ActionResult Update(ObservationUpdateInput updateInput)
         {
-            if (!_userContext.HasGroupPermission<Observation>(PermissionNames.UpdateObservation, observationUpdateInput.ObservationId))
+            if (!_userContext.HasGroupPermission<Observation>(PermissionNames.UpdateObservation, updateInput.ObservationId))
             {
                 return HttpUnauthorized();
             }
 
             if (!ModelState.IsValid)
             {
-                return Json("failure");
+                return JsonFailed();
             }
 
             _commandProcessor.Process(
                 new ObservationUpdateCommand
                 {
-                    Id = observationUpdateInput.ObservationId,
-                    Title = observationUpdateInput.Title,
-                    Latitude = observationUpdateInput.Latitude,
-                    Longitude = observationUpdateInput.Longitude,
-                    Address = observationUpdateInput.Address,
-                    IsIdentificationRequired = observationUpdateInput.IsIdentificationRequired,
-                    Category = observationUpdateInput.Category,
-                    ObservedOn = observationUpdateInput.ObservedOn,
+                    Id = updateInput.ObservationId,
+                    Title = updateInput.Title,
+                    Latitude = updateInput.Latitude,
+                    Longitude = updateInput.Longitude,
+                    Address = updateInput.Address,
+                    IsIdentificationRequired = updateInput.IsIdentificationRequired,
+                    Category = updateInput.Category,
+                    ObservedOn = updateInput.ObservedOn,
                     UserId = _userContext.GetAuthenticatedUserId(),
-                    Projects = observationUpdateInput.Projects
+                    Projects = updateInput.Projects
                 });
 
-            return Json("success"); // TODO: Return something more meaningful?                
+            return JsonSuccess();
         }
 
         [Transaction]
@@ -190,14 +196,14 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult Delete(IdInput idInput)
         {
-            if (!_userContext.HasGroupPermission<Observation>(PermissionNames.DeleteObservation, idInput.Id))
+            if (!_userContext.HasGroupPermission<Observation>(PermissionNames.UpdateObservation, idInput.Id))
             {
                 return HttpUnauthorized();
             }
 
             if (!ModelState.IsValid)
             {
-                return Json("failure");
+                return JsonFailed();
             }
 
             _commandProcessor.Process(
@@ -207,7 +213,7 @@ namespace Bowerbird.Web.Controllers
                     UserId = _userContext.GetAuthenticatedUserId()
                 });
 
-            return Json("success"); // TODO: Return something more meaningful?
+            return JsonSuccess();
         }
 
         #endregion

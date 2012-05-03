@@ -14,6 +14,7 @@
 
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.Repositories;
+using Bowerbird.Web.Builders;
 using Bowerbird.Web.ViewModels;
 using Raven.Client;
 using System.Web.Mvc;
@@ -30,6 +31,7 @@ namespace Bowerbird.Web.Controllers
         private readonly ICommandProcessor _commandProcessor;
         private readonly IUserContext _userContext;
         private readonly IDocumentSession _documentSession;
+        private readonly IAccountViewModelBuilder _accountViewModelBuilder;
 
         #endregion
 
@@ -38,15 +40,19 @@ namespace Bowerbird.Web.Controllers
         public AccountController(
             ICommandProcessor commandProcessor,
             IUserContext userContext,
-            IDocumentSession documentSession)
+            IDocumentSession documentSession,
+            IAccountViewModelBuilder accountViewModelBuilder
+            )
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(documentSession, "documentSession");
+            Check.RequireNotNull(accountViewModelBuilder, "accountViewModelBuilder");
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
             _documentSession = documentSession;
+            _accountViewModelBuilder = accountViewModelBuilder;
         }
 
         #endregion
@@ -62,13 +68,13 @@ namespace Bowerbird.Web.Controllers
         {
             if (_userContext.IsUserAuthenticated())
             {
-                return RedirectToAction("index", "home");
+                return RedirectToAction("PrivateIndex", "home");
             }
 
-            ViewBag.AccountLogin = MakeAccountLogin();
+            ViewBag.AccountLogin = _accountViewModelBuilder.MakeAccountLogin();
             ViewBag.IsStaticLayout = true;
 
-            return View();
+            return View(Form.Login);
         }
 
         [HttpPost]
@@ -79,9 +85,13 @@ namespace Bowerbird.Web.Controllers
             Check.RequireNotNull(accountLoginInput, "accountLoginInput");
 
             if (ModelState.IsValid &&
-                AreCredentialsValid(accountLoginInput.Email, accountLoginInput.Password))
+                _accountViewModelBuilder.AreCredentialsValid(accountLoginInput.Email, accountLoginInput.Password))
             {
-                _commandProcessor.Process(MakeUserUpdateLastLoginCommand(accountLoginInput));
+                _commandProcessor.Process(
+                    new UserUpdateLastLoginCommand()
+                    {
+                        Email = accountLoginInput.Email
+                    });
 
                 _userContext.SignUserIn(accountLoginInput.Email, accountLoginInput.RememberMe);
 
@@ -90,12 +100,13 @@ namespace Bowerbird.Web.Controllers
 
             ModelState.AddModelError("", "");
 
-            ViewBag.AccountLogin = MakeAccountLogin(accountLoginInput);
+            ViewBag.AccountLogin = _accountViewModelBuilder.MakeAccountLogin(accountLoginInput);
             ViewBag.IsStaticLayout = true;
 
-            return View();
+            return View(Form.Login);
         }
 
+        [HttpGet]
         public ActionResult LoggingIn(string returnUrl)
         {
             if (!_userContext.HasEmailCookieValue())
@@ -109,9 +120,10 @@ namespace Bowerbird.Web.Controllers
                 return Redirect(returnUrl);
             }
 
-            return RedirectToAction("index", "home");
+            return RedirectToAction("PrivateIndex", "home");
         }
 
+        [HttpGet]
         public ActionResult Logout()
         {
             _userContext.SignUserOut();
@@ -122,18 +134,20 @@ namespace Bowerbird.Web.Controllers
             return RedirectToAction("logoutsuccess");
         }
 
+        [HttpGet]
         public ActionResult LogoutSuccess()
         {
             ViewBag.IsStaticLayout = true;
-            return View();
+
+            return View(Form.LogoutSuccess);
         }
 
         [HttpGet]
         public ActionResult Register()
         {
-            ViewBag.AccountRegister = MakeAccountRegister();
             ViewBag.IsStaticLayout = true;
-            return View();
+
+            return View(Form.Register);
         }
 
         [HttpPost]
@@ -143,24 +157,33 @@ namespace Bowerbird.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _commandProcessor.Process(MakeUserCreateCommand(accountRegisterInput));
+                _commandProcessor.Process(
+                    new UserCreateCommand()
+                    {
+                        FirstName = accountRegisterInput.FirstName,
+                        LastName = accountRegisterInput.LastName,
+                        Email = accountRegisterInput.Email,
+                        Password = accountRegisterInput.Password,
+                        Roles = new[] { "globalmember" }
+                    });
 
                 _userContext.SignUserIn(accountRegisterInput.Email.ToLower(), false);
 
-                return RedirectToAction("index", "home");
+                return RedirectToAction("PrivateIndex", "home");
             }
 
-            ViewBag.AccountRegister = MakeAccountRegister(accountRegisterInput);
+            ViewBag.AccountRegister = _accountViewModelBuilder.MakeAccountRegister(accountRegisterInput);
             ViewBag.IsStaticLayout = true;
-            return View();
+
+            return View(Form.Register);
         }
 
         [HttpGet]
         public ActionResult RequestPasswordReset()
         {
-            ViewBag.RequestPasswordReset = MakeAccountRequestPasswordReset();
             ViewBag.IsStaticLayout = true;
-            return View();
+
+            return View(Form.RequestPasswordReset);
         }
 
         [HttpPost]
@@ -169,28 +192,34 @@ namespace Bowerbird.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _commandProcessor.Process(MakeUserRequestPasswordResetCommand(accountRequestPasswordResetInput));
+                _commandProcessor.Process(
+                    new UserRequestPasswordResetCommand()
+                    {
+                        Email = accountRequestPasswordResetInput.Email
+                    });
 
                 return RedirectToAction("requestpasswordresetsuccess", "account");
             }
 
-            ViewBag.RequestPasswordReset = MakeAccountRequestPasswordReset(accountRequestPasswordResetInput);
+            ViewBag.RequestPasswordReset = _accountViewModelBuilder.MakeAccountRequestPasswordReset(accountRequestPasswordResetInput);
             ViewBag.IsStaticLayout = true;
 
-            return View();
+            return View(Form.RequestPasswordReset);
         }
 
+        [HttpGet]
         public ActionResult RequestPasswordResetSuccess()
         {
-            return View();
+            return View(Form.RequestPasswordResetSuccess);
         }
 
         [HttpGet]
         public ActionResult ResetPassword(AccountResetPasswordInput accountResetPasswordInput)
         {
-            ViewBag.RequestPasswordResetSuccess = MakeAccountResetPassword(accountResetPasswordInput);
+            ViewBag.RequestPasswordResetSuccess = _accountViewModelBuilder.MakeAccountResetPassword(accountResetPasswordInput);
             ViewBag.IsStaticLayout = true;
-            return View();
+
+            return View(Form.ResetPassword);
         }
 
         [HttpPost]
@@ -199,117 +228,24 @@ namespace Bowerbird.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                string email = _documentSession.LoadUserByResetPasswordKey(accountResetPasswordInput.ResetPasswordKey).Email;
+                var email = _documentSession.LoadUserByResetPasswordKey(accountResetPasswordInput.ResetPasswordKey).Email;
 
-                _commandProcessor.Process(MakeUserUpdatePasswordCommand(accountResetPasswordInput, accountChangePasswordInput));
+                _commandProcessor.Process(
+                    new UserUpdatePasswordCommand()
+                    {
+                        UserId = _documentSession.LoadUserByResetPasswordKey(accountResetPasswordInput.ResetPasswordKey).Id,
+                        Password = accountChangePasswordInput.Password
+                    });
 
                 _userContext.SignUserIn(email, false);
 
-                return RedirectToAction("index", "home");
+                return RedirectToAction("PrivateIndex", "home");
             }
 
-            ViewBag.ResetPassword = MakeAccountResetPassword(accountResetPasswordInput);
+            ViewBag.ResetPassword = _accountViewModelBuilder.MakeAccountResetPassword(accountResetPasswordInput);
             ViewBag.IsStaticLayout = true;
 
-            return View();
-        }
-
-        private UserUpdateLastLoginCommand MakeUserUpdateLastLoginCommand(AccountLoginInput accountLoginInput)
-        {
-            return new UserUpdateLastLoginCommand()
-            {
-                Email = accountLoginInput.Email
-            };
-        }
-
-        private UserCreateCommand MakeUserCreateCommand(AccountRegisterInput accountRegisterInput)
-        {
-            return new UserCreateCommand()
-            {
-                FirstName = accountRegisterInput.FirstName,
-                LastName = accountRegisterInput.LastName,
-                Email = accountRegisterInput.Email,
-                Password = accountRegisterInput.Password,
-                Roles = new[] { "globalmember" }
-            };
-        }
-
-        private UserUpdatePasswordCommand MakeUserUpdatePasswordCommand(AccountResetPasswordInput accountResetPasswordInput, AccountChangePasswordInput accountChangePasswordInput)
-        {
-            return new UserUpdatePasswordCommand()
-            {
-                UserId = _documentSession.LoadUserByResetPasswordKey(accountResetPasswordInput.ResetPasswordKey).Id,
-                Password = accountChangePasswordInput.Password
-            };
-        }
-
-        private UserRequestPasswordResetCommand MakeUserRequestPasswordResetCommand(AccountRequestPasswordResetInput accountRequestPasswordResetInput)
-        {
-            return new UserRequestPasswordResetCommand()
-            {
-                Email = accountRequestPasswordResetInput.Email
-            };
-        }
-
-        private AccountLogin MakeAccountLogin()
-        {
-            return new AccountLogin()
-            {
-                Email = _userContext.HasEmailCookieValue() ? _userContext.GetEmailCookieValue() : string.Empty
-            };
-        }
-
-        private AccountLogin MakeAccountLogin(AccountLoginInput accountLoginInput)
-        {
-            return new AccountLogin()
-            {
-                Email = accountLoginInput.Email,
-                RememberMe = accountLoginInput.RememberMe,
-                ReturnUrl = accountLoginInput.ReturnUrl
-            };
-        }
-
-        private AccountRegister MakeAccountRegister()
-        {
-            return new AccountRegister();
-        }
-
-        private AccountRegister MakeAccountRegister(AccountRegisterInput accountRegisterInput)
-        {
-            return new AccountRegister()
-            {
-                FirstName = accountRegisterInput.FirstName,
-                LastName = accountRegisterInput.LastName,
-                Email = accountRegisterInput.Email
-            };
-        }
-
-        private AccountRequestPasswordReset MakeAccountRequestPasswordReset()
-        {
-            return new AccountRequestPasswordReset();
-        }
-
-        private AccountRequestPasswordReset MakeAccountRequestPasswordReset(AccountRequestPasswordResetInput accountRequestPasswordResetInput)
-        {
-            return new AccountRequestPasswordReset()
-            {
-                Email = accountRequestPasswordResetInput.Email
-            };
-        }
-
-        private AccountResetPassword MakeAccountResetPassword(AccountResetPasswordInput accountResetPasswordInput)
-        {
-            return new AccountResetPassword()
-            {
-                ResetPasswordKey = accountResetPasswordInput.ResetPasswordKey
-            };
-        }
-
-        private bool AreCredentialsValid(string email, string password)
-        {
-            var user = _documentSession.LoadUserByEmail(email);
-
-            return user != null && user.ValidatePassword(password);
+            return View(Form.ResetPassword);
         }
 
         #endregion

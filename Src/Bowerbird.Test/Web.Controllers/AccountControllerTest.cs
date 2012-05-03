@@ -20,6 +20,7 @@ using Bowerbird.Core.DesignByContract;
 using Bowerbird.Test.Utils;
 using Bowerbird.Web.Controllers;
 using Bowerbird.Web.ViewModels;
+using Bowerbird.Web.ViewModels.Account;
 using Moq;
 using NUnit.Framework;
 using Raven.Client;

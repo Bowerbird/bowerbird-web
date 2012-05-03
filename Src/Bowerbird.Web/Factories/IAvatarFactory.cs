@@ -1,13 +1,29 @@
+/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+
+ Developers: 
+ * Frank Radocaj : frank@radocaj.com
+ * Hamish Crittenden : hamish.crittenden@gmail.com
+ 
+ Project Manager: 
+ * Ken Walker : kwalker@museum.vic.gov.au
+ 
+ Funded by:
+ * Atlas of Living Australia
+ 
+*/
+
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Web.ViewModels;
 
 namespace Bowerbird.Web.Factories
 {
     public interface IAvatarFactory
     {
-        Avatar GetAvatar(Team team);
-        Avatar GetAvatar(Project project);
-        Avatar GetAvatar(Organisation organisation);
-        Avatar GetAvatar(User user);
+        object GetAvatar(Team team);
+
+        object GetAvatar(Project project);
+
+        object GetAvatar(Organisation organisation);
+
+        object GetAvatar(User user);
     }
 }

@@ -13,6 +13,7 @@
 */
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Bowerbird.Core.CommandHandlers;
@@ -24,7 +25,6 @@ using Bowerbird.Core.Extensions;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Services;
 using Bowerbird.Web.Config;
-using Bowerbird.Web.ViewModels;
 using Raven.Client;
 using Raven.Client.Linq;
 using Bowerbird.Core.Config;
@@ -37,7 +37,6 @@ namespace Bowerbird.Web.Services
 
         private readonly IDocumentSession _documentSession;
         private readonly IMediaFilePathService _mediaFilePathService;
-        private readonly IConfigService _configService;
 
         #endregion
 
@@ -45,17 +44,14 @@ namespace Bowerbird.Web.Services
 
         public HubService(
             IDocumentSession documentSession,
-            IMediaFilePathService mediaFilePathService,
-            IConfigService configService
+            IMediaFilePathService mediaFilePathService
            )
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(mediaFilePathService, "mediaFilePathService");
-            Check.RequireNotNull(configService, "configService");
 
             _documentSession = documentSession;
             _mediaFilePathService = mediaFilePathService;
-            _configService = configService;
         }
 
         #endregion
@@ -66,27 +62,27 @@ namespace Bowerbird.Web.Services
 
         #region Methods
 
-        public UserProfile GetUserProfile(string userId)
+        public object GetUserProfile(string userId)
         {
             if (string.IsNullOrEmpty(userId)) return null;
 
             var user = _documentSession.Load<User>(userId);
 
-            return new UserProfile()
+            return new
             {
-                Id = user.Id,
+                user.Id,
                 Name = user.GetName(),
-                LastLoggedIn = user.LastLoggedIn,
+                user.LastLoggedIn,
                 Avatar = GetUserAvatar(user),
                 Status = UserOnlineStatus(userId)
             };
         }
 
-        public Avatar GetUserAvatar(User user)
+        public object GetUserAvatar(User user)
         {
             if (user.Avatar != null)
             {
-                return new Avatar()
+                return new
                 {
                     AltTag = user.GetName(),
                     UrlToImage = _mediaFilePathService.MakeMediaFileUri(
@@ -98,7 +94,7 @@ namespace Bowerbird.Web.Services
                 };
             }
 
-            return new Avatar()
+            return new
             {
                 AltTag = user.GetName(),
                 UrlToImage = AvatarUris.DefaultUser
@@ -182,7 +178,7 @@ namespace Bowerbird.Web.Services
            return userSession.User.Id;
         }
 
-        public IEnumerable<string> GetConnectedClientIdsForAUser(string userId)
+        public IEnumerable GetConnectedClientIdsForAUser(string userId)
         {
             return _documentSession
                 .Query<All_UserSessions.Results, All_UserSessions>()
@@ -192,7 +188,7 @@ namespace Bowerbird.Web.Services
                 .Select(x => x.ClientId);
         }
         
-        public IEnumerable<string> GetConnectedUserClientIds()
+        public IEnumerable GetConnectedUserClientIds()
         {
             return _documentSession
                 .Query<All_UserSessions.Results, All_UserSessions>()
@@ -555,22 +551,19 @@ namespace Bowerbird.Web.Services
             return group != null ? group.Name : "Unknown Group";
         }
 
-        public List<ChatMessage> GetChatMessages(string chatId)
+        public IEnumerable GetChatMessages(string chatId)
         {
             return _documentSession
-                .Query<ChatMessage>()
-                .Include(x => x.User.Id)
+                .Query<PrivateChatMessage>()
                 .Where(x => x.ChatId == chatId)
                 .OrderByDescending(x => x.Timestamp)
                 .Take(10)
                 .ToList()
-                .Select(x => new ChatMessage()
-                                 {
-                                     Id = x.Id,
-                                     Message = x.Message,
-                                     Timestamp = x.Timestamp
-                                 })
-                .ToList();
+                .Select(x => new {
+                                     x.ChatId,
+                                     x.Message,
+                                     x.Timestamp
+                                 });
         }
 
         #endregion

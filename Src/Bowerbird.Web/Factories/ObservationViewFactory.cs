@@ -14,7 +14,6 @@
 				
 using System.Collections.Generic;
 using System.Linq;
-using Bowerbird.Web.ViewModels;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Services;
 using Bowerbird.Core.DesignByContract;
@@ -47,30 +46,30 @@ namespace Bowerbird.Web.Factories
 
         #region Methods
 
-        public ObservationView Make(Observation observation)
+        public object Make(Observation observation)
         {
-            return new ObservationView()
+            return new
             {
-                Id = observation.Id,
-                Title = observation.Title,
-                ObservedOn = observation.ObservedOn,
-                Address = observation.Address,
-                Latitude = observation.Latitude,
-                Longitude = observation.Longitude,
-                ObservationCategory = observation.ObservationCategory,
-                IsIdentificationRequired = observation.IsIdentificationRequired,
+                observation.Id,
+                observation.Title,
+                observation.ObservedOn,
+                observation.Address,
+                observation.Latitude,
+                observation.Longitude,
+                observation.ObservationCategory,
+                observation.IsIdentificationRequired,
                 ObservationMedia = MakeObservationMediaItems(observation.Media)
             };
         }
 
-        private IEnumerable<ObservationMediaItem> MakeObservationMediaItems(IEnumerable<ObservationMedia> observationMedia)
+        private IEnumerable<object> MakeObservationMediaItems(IEnumerable<ObservationMedia> observationMedia)
         {
             return observationMedia.Select(x =>
-                new ObservationMediaItem()
+                new 
                 {
                     MediaResourceId = x.MediaResource.Id,
-                    Description = x.Description,
-                    Licence = x.Licence,
+                    x.Description,
+                    x.Licence,
                     OriginalImageUri = _mediaFilePathService.MakeMediaFileUri(x.MediaResource, "original"),
                     LargeImageUri = _mediaFilePathService.MakeMediaFileUri(x.MediaResource, "large"),
                     MediumImageUri = _mediaFilePathService.MakeMediaFileUri(x.MediaResource, "medium"),

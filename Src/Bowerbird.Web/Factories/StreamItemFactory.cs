@@ -14,7 +14,6 @@
 				
 using System;
 using System.Collections.Generic;
-using Bowerbird.Web.ViewModels;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Config;
 
@@ -36,19 +35,26 @@ namespace Bowerbird.Web.Factories
 
         #region Methods
 
-        public StreamItem Make(object item, IEnumerable<string> groups, string contributionType, User groupUser, DateTime groupCreatedDateTime, string description)
+        public object Make(
+            object item, 
+            IEnumerable<string> groups, 
+            string contributionType, 
+            User groupUser, 
+            DateTime groupCreatedDateTime, 
+            string description
+        )
         {
-            return new StreamItem()
+            return new
             {
                 CreatedDateTime = groupCreatedDateTime,
                 CreatedDateTimeDescription = MakeCreatedDateTimeDescription(groupCreatedDateTime),
                 Type = contributionType.ToLower(),
-                User = new UserProfile()
+                User = new
                 {
-                    Id = groupUser.Id,
-                    LastLoggedIn = groupUser.LastLoggedIn,
+                    groupUser.Id,
+                    groupUser.LastLoggedIn,
                     Name = groupUser.FirstName + " " + groupUser.LastName,
-                    Avatar = new Avatar() {
+                    Avatar = new {
                         AltTag = groupUser.FirstName + " " + groupUser.LastName,
                         UrlToImage = groupUser.Avatar != null ? "" : AvatarUris.DefaultUser
                     }

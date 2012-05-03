@@ -16,20 +16,21 @@ using System.Web.Mvc;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Web.Builders;
 using Bowerbird.Web.Config;
-using Bowerbird.Web.Queries;
 using Bowerbird.Web.ViewModels;
 using Bowerbird.Core.Config;
 
 namespace Bowerbird.Web.Controllers
 {
+    [Restful]
     public class PostsController : ControllerBase
     {
         #region Members
 
         private readonly ICommandProcessor _commandProcessor;
         private readonly IUserContext _userContext;
-        private readonly IPostsQuery _postsQuery;
+        private readonly IPostsViewModelBuilder _viewModelBuilder;
 
         #endregion
 
@@ -38,16 +39,16 @@ namespace Bowerbird.Web.Controllers
         public PostsController(
             ICommandProcessor commandProcessor,
             IUserContext userContext,
-            IPostsQuery postsQuery
+            IPostsViewModelBuilder postsViewModelBuilder
             )
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
             Check.RequireNotNull(userContext, "userContext");
-            Check.RequireNotNull(postsQuery, "postsQuery");
+            Check.RequireNotNull(postsViewModelBuilder, "postsViewModelBuilder");
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
-            _postsQuery = postsQuery;
+            _viewModelBuilder = postsViewModelBuilder;
         }
 
         #endregion
@@ -55,9 +56,63 @@ namespace Bowerbird.Web.Controllers
         #region Methods
 
         [HttpGet]
-        public ActionResult List(PostListInput listInput)
+        public ActionResult Index(IdInput idInput)
         {
-            return new JsonNetResult(_postsQuery.MakePostList(listInput));
+            ViewBag.Post = _viewModelBuilder.BuildItem(idInput);
+
+            return View(Form.Index);
+        }
+
+        [HttpGet]
+        public ActionResult GetOne(IdInput idInput)
+        {
+            return Json(_viewModelBuilder.BuildItem(idInput));
+        }
+
+        [HttpGet]
+        public ActionResult GetMany(PostListInput listInput)
+        {
+            return Json(_viewModelBuilder.BuildList(listInput));
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult CreateForm(IdInput idInput)
+        {
+            if (!_userContext.HasGroupPermission(PermissionNames.CreateSpecies, idInput.Id))
+            {
+                return HttpUnauthorized();
+            }
+
+            return View(Form.Create);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult UpdateForm(IdInput idInput)
+        {
+            if (!_userContext.HasUserProjectPermission(PermissionNames.UpdateSpecies))
+            {
+                return HttpUnauthorized();
+            }
+
+            ViewBag.Post = _viewModelBuilder.BuildItem(idInput);
+
+            return View(Form.Update);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult DeleteForm(IdInput idInput)
+        {
+            if (!_userContext.HasUserProjectPermission(PermissionNames.DeleteSpecies))
+            {
+                return HttpUnauthorized();
+            }
+
+            ViewBag.Post = _viewModelBuilder.BuildItem(idInput);
+
+            return View(Form.Delete);
         }
 
         [Transaction]
@@ -72,7 +127,7 @@ namespace Bowerbird.Web.Controllers
 
             if (!ModelState.IsValid)
             {
-                return Json("Failure");
+                return JsonFailed();
             }
 
             _commandProcessor.Process(
@@ -86,7 +141,7 @@ namespace Bowerbird.Web.Controllers
                     Timestamp = createInput.Timestamp
                 });
 
-            return Json("success");
+            return JsonSuccess();
         }
 
         [Transaction]
@@ -101,7 +156,7 @@ namespace Bowerbird.Web.Controllers
             
             if (!ModelState.IsValid)
             {
-                return Json("Failure");
+                return JsonFailed();
             }
 
             _commandProcessor.Process(
@@ -115,7 +170,7 @@ namespace Bowerbird.Web.Controllers
                     Timestamp = updateInput.Timestamp
                 });
 
-            return Json("success");
+            return JsonSuccess();
         }
 
         [Transaction]
@@ -130,7 +185,7 @@ namespace Bowerbird.Web.Controllers
 
             if (!ModelState.IsValid)
             {
-                return Json("Failure");
+                return JsonFailed();
             }
 
             _commandProcessor.Process(
@@ -140,7 +195,7 @@ namespace Bowerbird.Web.Controllers
                     Id = deleteInput.Id
                 });
 
-            return Json("success");
+            return JsonSuccess();
         }
 
         #endregion

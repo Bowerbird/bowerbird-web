@@ -85,10 +85,10 @@ namespace Bowerbird.Web.Factories
             var teams = memberships
                 .Where(x => x.Group.Id.Contains("teams/"))
                 .Select(x =>
-                        new TeamView
+                        new 
                         {
-                            Id = x.Group.Id,
-                            Name = x.Group.Name,
+                            x.Group.Id,
+                            x.Group.Name,
                             Avatar = _avatarFactory.GetAvatar(_documentSession.Load<Team>(x.Group.Id))
                         }
                 )
@@ -97,10 +97,10 @@ namespace Bowerbird.Web.Factories
             var projects = memberships
                 .Where(x => x.Group.Id.Contains("projects/"))
                 .Select(x =>
-                        new ProjectView
+                        new 
                         {
-                            Id = x.Group.Id,
-                            Name = x.Group.Name,
+                            x.Group.Id,
+                            x.Group.Name,
                             Avatar = _avatarFactory.GetAvatar(_documentSession.Load<Project>(x.Group.Id))
                         }
                 )
@@ -109,10 +109,10 @@ namespace Bowerbird.Web.Factories
             var projectMenu = memberships
                 .Where(x => x.Group.Id.Contains("projects/"))
                 .Select(x =>
-                        new MenuItem()
+                        new 
                         {
-                            Id = x.Group.Id,
-                            Name = x.Group.Name
+                            x.Group.Id,
+                            x.Group.Name
                         }
                 )
                 .ToList();
@@ -120,10 +120,10 @@ namespace Bowerbird.Web.Factories
             var teamMenu = memberships
                 .Where(x => x.Group.Id.Contains("teams/"))
                 .Select(x =>
-                        new MenuItem()
+                        new 
                         {
-                            Id = x.Group.Id,
-                            Name = x.Group.Name
+                            x.Group.Id,
+                            x.Group.Name
                         }
                 )
                 .ToList();
@@ -132,10 +132,10 @@ namespace Bowerbird.Web.Factories
                 .Query<Watchlist>()
                 .Where(x => x.User.Id == _userContext.GetAuthenticatedUserId())
                 .Select(x =>
-                        new MenuItem()
+                        new 
                         {
                             Id = x.QuerystringJson,
-                            Name = x.Name
+                            x.Name
                         })
                 .ToList();
 
@@ -159,7 +159,7 @@ namespace Bowerbird.Web.Factories
             };
         }
 
-        private IEnumerable<UserProfile> GetCurrentlyOnlineUsers()
+        private IEnumerable<object> GetCurrentlyOnlineUsers()
         {
             var connectedUsers = _documentSession.Query<User>()
                 .Where(x => x.Id.In(GetConnectedUserIds()))
@@ -170,15 +170,15 @@ namespace Bowerbird.Web.Factories
                 .ToList();
         }
 
-        private UserProfile GetUserProfile(string userId)
+        private object GetUserProfile(string userId)
         {
             var user = _documentSession.Load<User>(userId);
 
-            return new UserProfile()
+            return new
             {
-                Id = user.Id,
+                user.Id,
                 Name = user.GetName(),
-                LastLoggedIn = user.LastLoggedIn,
+                user.LastLoggedIn,
                 Avatar = _avatarFactory.GetAvatar(user)
             };
         }

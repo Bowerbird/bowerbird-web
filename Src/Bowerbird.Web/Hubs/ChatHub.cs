@@ -16,7 +16,6 @@ using System;
 using System.Linq;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Web.Services;
-using Bowerbird.Web.ViewModels;
 using SignalR.Hubs;
 using Bowerbird.Core.DesignByContract;
 
@@ -59,8 +58,7 @@ namespace Bowerbird.Web.Hubs
 
             _hubService.UpdateChatUserStatus(chatId, Context.ConnectionId, userId, Online);
 
-            var setupChat = new SetupChat()
-                                {
+            var setupChat = new {
                                     ChatId = chatId,
                                     Title = _hubService.GetGroupName(chatId),
                                     Timestamp = DateTime.UtcNow,
@@ -73,8 +71,7 @@ namespace Bowerbird.Web.Hubs
             Caller.setupChat(setupChat);
 
             Clients[chatId].userJoinedChat(
-                new UserJoinedChat()
-                    {
+                new {
                         ChatId = chatId,
                         Timestamp = DateTime.UtcNow,
                         User = _hubService.GetUserProfile(userId)
@@ -97,8 +94,7 @@ namespace Bowerbird.Web.Hubs
 
             var comeToChat = string.Format("{0} has invited you to chat", fromUser.Name);
 
-            var chatRequest = new ChatRequest()
-                                  {
+            var chatRequest = new {
                                       ChatId = chatId,
                                       FromUser = fromUser,
                                       ToUser = toUser,
@@ -124,8 +120,7 @@ namespace Bowerbird.Web.Hubs
             if (!_hubService.GetClientsForChat(chatId).Select(x => x.UserId).Contains(userId))
             {
                 Clients[chatId].userExitedChat(
-                    new UserExitedChat()
-                        {
+                    new {
                             ChatId = chatId,
                             User = _hubService.GetUserProfile(userId)
                         });
@@ -137,8 +132,7 @@ namespace Bowerbird.Web.Hubs
             var userId = _hubService.GetClientsUserId(Context.ConnectionId);
 
             Clients[chatId].typing(
-                new ChatUserTyping()
-                    {
+                new {
                         ChatId = chatId,
                         Timestamp = DateTime.UtcNow,
                         Typing = typing,
@@ -153,13 +147,11 @@ namespace Bowerbird.Web.Hubs
             _hubService.PersistChatMessage(chatId, userId, message, null);
 
             Clients[chatId].chatMessageReceived(
-                new ChatMessage()
-                    {
+                new {
                         ChatId = chatId,
                         Timestamp = DateTime.UtcNow,
                         Id = Guid.NewGuid().ToString(),
                         User = _hubService.GetUserProfile(userId),
-                        //TargetUser = _hubService.GetUserProfile(targetUserId),// if directed at another user, otherwise null.
                         Message = message
                     });
         }

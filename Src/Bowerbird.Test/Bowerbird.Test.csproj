@@ -185,6 +185,7 @@
     <Compile Include="Web.Controllers\OrganisationsControllerTest.cs" />
     <Compile Include="Web.Controllers\PostsControllerTest.cs" />
     <Compile Include="Web.Controllers\ProjectsControllerTest.cs" />
+    <Compile Include="Web.Controllers\SpeciesControllerTest.cs" />
     <Compile Include="Web.Controllers\StreamItemsControllerTest.cs" />
     <Compile Include="Web.Controllers\TeamsControllerTest.cs" />
     <Compile Include="Web.Controllers\TemplateControllerTest.cs" />
@@ -235,7 +236,7 @@
     <Compile Include="Utils\TestCategory.cs" />
     <Compile Include="Utils\UtilityHelpers.cs" />
     <Compile Include="Utils\ValidationHelper.cs" />
-    <Compile Include="Web.Queries\TeamsQueryTest.cs" />
+    <Compile Include="Web.ViewModelBuilders\TeamsViewModelBuilderTest.cs" />
     <Compile Include="Web.Validators\UniqueEmailAttributeTest.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -74,7 +74,7 @@ namespace Bowerbird.Test.Utils
                     {
                         FileName = "CMD.EXE",
                         UseShellExecute = false,
-                        CreateNoWindow = false,
+                        CreateNoWindow = true,
                         RedirectStandardInput = true,
                         RedirectStandardOutput = true,
                         Arguments = @"/K C:\Projects\bowerbird.web\Src\packages\RavenDB.1.0.665-Unstable\server\Raven.Server.exe -ram"

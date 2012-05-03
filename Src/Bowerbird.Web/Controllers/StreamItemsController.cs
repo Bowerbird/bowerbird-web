@@ -14,7 +14,7 @@
 
 using System.Web.Mvc;
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Web.Queries;
+using Bowerbird.Web.Builders;
 using Bowerbird.Web.ViewModels;
 
 namespace Bowerbird.Web.Controllers
@@ -23,19 +23,19 @@ namespace Bowerbird.Web.Controllers
     {
         #region Members
 
-        private readonly IStreamItemsQuery _streamItemQuery;
+        private readonly IStreamItemsViewModelBuilder _viewModelBuilder;
 
         #endregion
 
         #region Constructors
 
         public StreamItemsController(
-            IStreamItemsQuery streamItemQuery
+            IStreamItemsViewModelBuilder streamItemViewModelBuilder
             )
         {
-            Check.RequireNotNull(streamItemQuery, "streamItemQuery");
+            Check.RequireNotNull(streamItemViewModelBuilder, "streamItemQuery");
 
-            _streamItemQuery = streamItemQuery;
+            _viewModelBuilder = streamItemViewModelBuilder;
         }
 
         #endregion
@@ -49,7 +49,7 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult List(StreamItemListInput listInput, StreamSortInput sortInput)
         {
-            return new JsonNetResult(_streamItemQuery.GetStreamItems(listInput, sortInput));
+            return new JsonNetResult(_viewModelBuilder.BuildStreamItems(listInput, sortInput));
         }
 
         #endregion

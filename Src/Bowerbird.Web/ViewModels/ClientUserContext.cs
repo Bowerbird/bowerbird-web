@@ -12,7 +12,7 @@
  
 */
 
-using System.Collections.Generic;
+using System.Collections;
 
 namespace Bowerbird.Web.ViewModels
 {
@@ -28,19 +28,19 @@ namespace Bowerbird.Web.ViewModels
 
         #region Properties
 
-        public UserProfile UserProfile { get; set; }
+        public object UserProfile { get; set; }
 
-        public IEnumerable<ProjectView> Projects { get; set; }
+        public IEnumerable Projects { get; set; }
 
-        public IEnumerable<TeamView> Teams { get; set; }
+        public IEnumerable Teams { get; set; }
 
-        public IEnumerable<UserProfile> OnlineUsers { get; set; }
+        public IEnumerable OnlineUsers { get; set; }
 
-        public IEnumerable<MenuItem> ProjectMenu { get; set; }
+        public IEnumerable ProjectMenu { get; set; }
 
-        public IEnumerable<MenuItem> TeamMenu { get; set; }
+        public IEnumerable TeamMenu { get; set; }
 
-        public IEnumerable<MenuItem> WatchlistMenu { get; set; }
+        public IEnumerable WatchlistMenu { get; set; }
 
         public string ProjectsJson { get; set; }
 

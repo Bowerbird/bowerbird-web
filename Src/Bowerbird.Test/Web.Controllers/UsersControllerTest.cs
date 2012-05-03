@@ -16,12 +16,13 @@ using System.Web.Mvc;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.Config;
 using Bowerbird.Test.Utils;
+using Bowerbird.Web.Builders;
 using Bowerbird.Web.Controllers;
-using Bowerbird.Web.ViewModels;
+using Bowerbird.Web.ViewModels.Account;
+using Bowerbird.Web.ViewModels.User;
 using Moq;
 using NUnit.Framework;
 using Raven.Client;
-using Bowerbird.Web.Factories;
 
 namespace Bowerbird.Test.Web.Controllers
 {
@@ -33,7 +34,7 @@ namespace Bowerbird.Test.Web.Controllers
         private Mock<ICommandProcessor> _mockCommandProcessor;
         private Mock<IUserContext> _mockUserContext;
         private UsersController _controller;
-        private Mock<IAvatarFactory> _mockAvatarFactory;
+        private Mock<IUserViewModelBuilder> _mockViewModelBuilder;
         private IDocumentStore _documentStore;
 
         [SetUp]
@@ -42,13 +43,13 @@ namespace Bowerbird.Test.Web.Controllers
             _documentStore = DocumentStoreHelper.StartRaven();
             _mockCommandProcessor = new Mock<ICommandProcessor>();
             _mockUserContext = new Mock<IUserContext>();
-            _mockAvatarFactory = new Mock<IAvatarFactory>();
+            _mockViewModelBuilder = new Mock<IUserViewModelBuilder>();
 
             _controller = new UsersController(
                 _mockCommandProcessor.Object,
                 _mockUserContext.Object,
-                _documentStore.OpenSession(),
-                _mockAvatarFactory.Object);
+                _mockViewModelBuilder.Object
+                );
         }
 
         [TearDown]

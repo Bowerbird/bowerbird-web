@@ -19,12 +19,13 @@ using Bowerbird.Core.Commands;
 using Bowerbird.Core.Config;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Test.Utils;
+using Bowerbird.Web.Builders;
 using Bowerbird.Web.Controllers;
 using Bowerbird.Web.ViewModels;
+using Bowerbird.Web.ViewModels.Organisation;
 using Moq;
 using NUnit.Framework;
 using Raven.Client;
-using Bowerbird.Web.Queries;
 
 namespace Bowerbird.Test.Web.Controllers
 {
@@ -36,7 +37,7 @@ namespace Bowerbird.Test.Web.Controllers
         private IDocumentStore _documentStore;
         private Mock<IUserContext> _mockUserContext;
         private Mock<ICommandProcessor> _mockCommandProcessor;
-        private Mock<IOrganisationsQuery> _mockOrganisationsQuery;
+        private Mock<IOrganisationsViewModelBuilder> _mockViewModelBuilder;
         private OrganisationsController _controller;
 
         [SetUp]
@@ -44,13 +45,13 @@ namespace Bowerbird.Test.Web.Controllers
         {
             _documentStore = DocumentStoreHelper.StartRaven();
             _mockUserContext = new Mock<IUserContext>();
-            _mockOrganisationsQuery = new Mock<IOrganisationsQuery>();
+            _mockViewModelBuilder = new Mock<IOrganisationsViewModelBuilder>();
             _mockCommandProcessor = new Mock<ICommandProcessor>();
 
             _controller = new OrganisationsController(
                 _mockCommandProcessor.Object,
                 _mockUserContext.Object,
-                _mockOrganisationsQuery.Object
+                _mockViewModelBuilder.Object
                 );
         }
 
@@ -149,7 +150,9 @@ namespace Bowerbird.Test.Web.Controllers
                 session.SaveChanges();
             }
 
-            var result = _controller.List(new OrganisationListInput() { Page = page, PageSize = pageSize });
+            _controller.SetupAjaxRequest();
+
+            var result = _controller.GetMany(new OrganisationListInput() { Page = page, PageSize = pageSize });
 
             Assert.IsNotNull(result);
             Assert.IsInstanceOf<JsonResult>(result);

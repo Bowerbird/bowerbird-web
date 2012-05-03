@@ -19,12 +19,13 @@ using Bowerbird.Core.Commands;
 using Bowerbird.Core.Config;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Test.Utils;
+using Bowerbird.Web.Builders;
 using Bowerbird.Web.Controllers;
 using Bowerbird.Web.ViewModels;
+using Bowerbird.Web.ViewModels.Post;
 using Moq;
 using NUnit.Framework;
 using Raven.Client;
-using Bowerbird.Web.Queries;
 
 namespace Bowerbird.Test.Web.Controllers
 {
@@ -36,7 +37,7 @@ namespace Bowerbird.Test.Web.Controllers
         private Mock<ICommandProcessor> _mockCommandProcessor;
         private Mock<IUserContext> _mockUserContext;
         private IDocumentStore _documentStore;
-        private Mock<IPostsQuery> _mockPostsQuery;
+        private Mock<IPostsViewModelBuilder> _mockViewModelBuilder;
         private PostsController _controller;
 
         [SetUp]
@@ -45,12 +46,12 @@ namespace Bowerbird.Test.Web.Controllers
             _mockCommandProcessor = new Mock<ICommandProcessor>();
             _mockUserContext = new Mock<IUserContext>();
             _documentStore = DocumentStoreHelper.StartRaven();
-            _mockPostsQuery = new Mock<IPostsQuery>();
+            _mockViewModelBuilder = new Mock<IPostsViewModelBuilder>();
 
             _controller = new PostsController(
                 _mockCommandProcessor.Object,
                 _mockUserContext.Object,
-                _mockPostsQuery.Object
+                _mockViewModelBuilder.Object
                 );
         }
 
@@ -101,7 +102,9 @@ namespace Bowerbird.Test.Web.Controllers
                 session.SaveChanges();
             }
 
-            var result = _controller.List(new PostListInput() { Page = page, PageSize = pageSize, GroupId = project.Id, UserId = user.Id });
+            _controller.SetupAjaxRequest();
+
+            var result = _controller.GetMany(new PostListInput() { Page = page, PageSize = pageSize, GroupId = project.Id, UserId = user.Id });
 
             Assert.IsInstanceOf<JsonResult>(result);
 

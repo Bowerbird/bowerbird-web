@@ -16,7 +16,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Bowerbird.Web.ViewModels
 {
-    public class MemberDeleteInput : IViewModel
+    public class MemberDeleteInput
     {
         #region Members
 

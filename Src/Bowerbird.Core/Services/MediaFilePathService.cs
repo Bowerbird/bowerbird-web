@@ -140,6 +140,5 @@ namespace Bowerbird.Core.Services
         }
 
         #endregion
-
     }
 }

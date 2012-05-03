@@ -16,20 +16,21 @@ using System.Web.Mvc;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Web.Builders;
 using Bowerbird.Web.Config;
-using Bowerbird.Web.Queries;
 using Bowerbird.Web.ViewModels;
 using Bowerbird.Core.Config;
 
 namespace Bowerbird.Web.Controllers
 {
+    [Restful]
     public class OrganisationsController : ControllerBase
     {
         #region Fields
 
         private readonly ICommandProcessor _commandProcessor;
         private readonly IUserContext _userContext;
-        private readonly IOrganisationsQuery _organisationsQuery;
+        private readonly IOrganisationsViewModelBuilder _viewModelBuilder;
 
         #endregion
 
@@ -38,16 +39,16 @@ namespace Bowerbird.Web.Controllers
         public OrganisationsController(
             ICommandProcessor commandProcessor,
             IUserContext userContext,
-            IOrganisationsQuery organisationsQuery
+            IOrganisationsViewModelBuilder organisationsViewModelBuilder
             )
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
             Check.RequireNotNull(userContext, "userContext");
-            Check.RequireNotNull(organisationsQuery, "organisationsQuery");
+            Check.RequireNotNull(organisationsViewModelBuilder, "organisationsViewModelBuilder");
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
-            _organisationsQuery = organisationsQuery;
+            _viewModelBuilder = organisationsViewModelBuilder;
         }
 
         #endregion
@@ -61,41 +62,74 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Index(IdInput idInput)
         {
-            if (_userContext.IsUserAuthenticated())
-            {
-                if (Request.IsAjaxRequest())
-                {
-                    return Json(_organisationsQuery.MakeOrganisationIndex(idInput));
-                }
+            ViewBag.Organisation = _viewModelBuilder.BuildItem(idInput);
 
-                return View(_organisationsQuery.MakeOrganisationIndex(idInput));
-            }
-
-            return RedirectToAction("List");
+            return View(Form.Index);
         }
 
         [HttpGet]
-        public ActionResult List(OrganisationListInput listInput)
+        public ActionResult Explore(OrganisationListInput listInput)
         {
-            if (_userContext.IsUserAuthenticated())
-            {
-                if (listInput.HasAddTeamPermission)
-                {
-                    return new JsonNetResult(_organisationsQuery.GetGroupsHavingAddTeamPermission());
-                }
+            ViewBag.OrganisationList = _viewModelBuilder.BuildList(listInput);
 
-                if(Request.IsAjaxRequest())
-                {
-                    return new JsonNetResult(_organisationsQuery.MakeOrganisationList(listInput));
-                }
+            return View(Form.List);
+        }
+
+        [HttpGet]
+        public ActionResult GetOne(IdInput idInput)
+        {
+            return Json(_viewModelBuilder.BuildItem(idInput));
+        }
+
+        [HttpGet]
+        public ActionResult GetMany(OrganisationListInput listInput)
+        {
+            return Json(_viewModelBuilder.BuildList(listInput));
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult CreateForm()
+        {
+            if (!_userContext.HasAppRootPermission(PermissionNames.CreateOrganisation))
+            {
+                return HttpUnauthorized();
             }
 
-            return View();
+            return View(Form.Create);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult UpdateForm(IdInput idInput)
+        {
+            if (!_userContext.HasGroupPermission(PermissionNames.UpdateOrganisation, idInput.Id))
+            {
+                return HttpUnauthorized();
+            }
+
+            ViewBag.Organisation = _viewModelBuilder.BuildItem(idInput);
+
+            return View(Form.Update);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult DeleteForm(IdInput idInput)
+        {
+            if (!_userContext.HasAppRootPermission(PermissionNames.DeleteOrganisation))
+            {
+                return HttpUnauthorized();
+            }
+
+            ViewBag.Organisation = _viewModelBuilder.BuildItem(idInput);
+
+            return View(Form.Delete);
         }
 
         [Transaction]
-        [Authorize]
         [HttpPost]
+        [Authorize]
         public ActionResult Create(OrganisationCreateInput createInput)
         {
             if (!_userContext.HasAppRootPermission(PermissionNames.CreateOrganisation))
@@ -105,25 +139,25 @@ namespace Bowerbird.Web.Controllers
 
             if (!ModelState.IsValid)
             {
-                return Json("Failure");
+                return JsonFailed();
             }
 
             _commandProcessor.Process(
                 new OrganisationCreateCommand()
                 {
+                    AvatarId = createInput.AvatarId,
                     Description = createInput.Description,
                     Name = createInput.Name,
-                    Website = createInput.Website,
                     UserId = _userContext.GetAuthenticatedUserId(),
-                    AvatarId = createInput.AvatarId
+                    Website = createInput.Website
                 });
 
-            return Json("Success");
+            return JsonSuccess();
         }
 
         [Transaction]
-        [Authorize]
         [HttpPut]
+        [Authorize]
         public ActionResult Update(OrganisationUpdateInput updateInput)
         {
             if (!_userContext.HasGroupPermission<Organisation>(PermissionNames.UpdateOrganisation, updateInput.Id))
@@ -133,46 +167,46 @@ namespace Bowerbird.Web.Controllers
 
             if (!ModelState.IsValid)
             {
-                return Json("Failure");
+                return JsonFailed();
             }
 
             _commandProcessor.Process(
-                new OrganisationUpdateCommand()
+                new OrganisationUpdateCommand
                 {
-                    Id = updateInput.Id,
+                    AvatarId = updateInput.AvatarId,
                     Description = updateInput.Description,
+                    Id = updateInput.Id,
                     Name = updateInput.Name,
-                    Website = updateInput.Website,
                     UserId = _userContext.GetAuthenticatedUserId(),
-                    AvatarId = updateInput.AvatarId
+                    Website = updateInput.Website
                 });
 
-            return Json("Success");
+            return JsonSuccess();
         }
 
         [Transaction]
-        [Authorize]
         [HttpDelete]
-        public ActionResult Delete(IdInput deleteInput)
+        [Authorize]
+        public ActionResult Delete(IdInput idInput)
         {
-            if (!_userContext.HasGroupPermission<Organisation>(PermissionNames.DeleteOrganisation, deleteInput.Id))
+            if (!_userContext.HasAppRootPermission(PermissionNames.DeleteOrganisation))
             {
                 return HttpUnauthorized();
             }
 
             if (!ModelState.IsValid)
             {
-                return Json("Failure");
+                return JsonFailed();
             }
 
             _commandProcessor.Process(
-               new OrganisationDeleteCommand()
-               {
-                   Id = deleteInput.Id,
-                   UserId = _userContext.GetAuthenticatedUserId()
-               });
+                new OrganisationDeleteCommand
+                {
+                    Id = idInput.Id,
+                    UserId = _userContext.GetAuthenticatedUserId()
+                });
 
-            return Json("Success");
+            return JsonSuccess();
         }
 
         #endregion

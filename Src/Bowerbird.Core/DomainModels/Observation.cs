@@ -12,13 +12,11 @@
  
 */
 
-using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using System.Collections.Generic;
 using System;
 using System.Linq;
 using Bowerbird.Core.Events;
-using Bowerbird.Core.Extensions;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
 using Newtonsoft.Json;
 

@@ -14,24 +14,22 @@
 
 using System.Web.Mvc;
 using Bowerbird.Core.Commands;
-using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.DesignByContract;
+using Bowerbird.Web.Builders;
 using Bowerbird.Web.Config;
-using Bowerbird.Web.Factories;
 using Bowerbird.Web.ViewModels;
-using Raven.Client;
 using Bowerbird.Core.Config;
 
 namespace Bowerbird.Web.Controllers
 {
+    [Restful]
     public class UsersController : ControllerBase
     {
         #region Members
 
         private readonly ICommandProcessor _commandProcessor;
         private readonly IUserContext _userContext;
-        private readonly IDocumentSession _documentSession;
-        private readonly IAvatarFactory _avatarFactory;
+        private readonly IUserViewModelBuilder _viewModelBuilder;
 
         #endregion
 
@@ -40,19 +38,16 @@ namespace Bowerbird.Web.Controllers
         public UsersController(
             ICommandProcessor commandProcessor,
             IUserContext userContext,
-            IDocumentSession documentSession,
-            IAvatarFactory avatarFactory
+            IUserViewModelBuilder userViewModelBuilder
             )
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
             Check.RequireNotNull(userContext, "userContext");
-            Check.RequireNotNull(documentSession, "documentSession");
-            Check.RequireNotNull(avatarFactory, "avatarFactory");
+            Check.RequireNotNull(userViewModelBuilder, "userViewModelBuilder");
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
-            _documentSession = documentSession;
-            _avatarFactory = avatarFactory;
+            _viewModelBuilder = userViewModelBuilder;
         }
 
         #endregion
@@ -64,25 +59,113 @@ namespace Bowerbird.Web.Controllers
         #region Methods
 
         [HttpGet]
-        [Authorize]
-        public ActionResult Update()
+        public ActionResult Index(IdInput idInput)
         {
-            return View(MakeUserUpdate());
+            ViewBag.User = _viewModelBuilder.BuildItem(idInput);
+
+            return View(Form.Index);
         }
 
+        [HttpGet]
+        public ActionResult Explore(UserListInput listInput)
+        {
+            ViewBag.UserList = _viewModelBuilder.BuildList(listInput);
+
+            return View(Form.List);
+        }
+
+        [HttpGet]
+        public ActionResult GetOne(IdInput idInput)
+        {
+            return Json(_viewModelBuilder.BuildItem(idInput));
+        }
+
+        [HttpGet]
+        public ActionResult GetMany(UserListInput listInput)
+        {
+            return Json(_viewModelBuilder.BuildList(listInput));
+        }
+
+        /// <summary>
+        /// Placeholder Method: Keeping Restful Convention
+        /// </summary>
+        [HttpGet]
+        public ActionResult CreateForm()
+        {
+            return RedirectToAction("Register", "Account");
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult UpdateForm(IdInput idInput)
+        {
+            ViewBag.User = _viewModelBuilder.BuildItem(idInput);
+
+            return View(Form.Update);
+        }
+
+        /// <summary>
+        /// Placeholder Method: Keeping Restful Convention
+        /// </summary>
+        [HttpGet]
+        [Authorize]
+        public ActionResult DeleteForm(IdInput idInput)
+        {
+            ViewBag.User = _viewModelBuilder.BuildItem(idInput);
+
+            return View(Form.Delete);
+        }
+
+        /// <summary>
+        /// Placeholder Method: Keeping Restful Convention
+        /// </summary>
         [HttpPost]
+        [Authorize]
+        public ActionResult Create()
+        {
+            return HttpNotFound();
+        }
+
+        [HttpPut]
         [Authorize]
         [Transaction]
         public ActionResult Update(UserUpdateInput userUpdateInput)
         {
             if (ModelState.IsValid)
             {
-                _commandProcessor.Process(MakeUserUpdateCommand(userUpdateInput));
+                _commandProcessor.Process(
+                    new UserUpdateCommand()
+                    {
+                        FirstName = userUpdateInput.FirstName,
+                        LastName = userUpdateInput.LastName,
+                        Email = userUpdateInput.Email,
+                        Description = userUpdateInput.Description,
+                        AvatarId = userUpdateInput.AvatarId
+                    });
 
                 return RedirectToAction("index", "home");
             }
 
-            return View(MakeUserUpdate(userUpdateInput));
+            ViewBag.User = new
+            {
+                userUpdateInput.AvatarId,
+                userUpdateInput.Description,
+                userUpdateInput.Email,
+                userUpdateInput.FirstName,
+                userUpdateInput.LastName
+            };
+
+            return View(Form.Update);
+        }
+
+        /// <summary>
+        /// Placeholder Method: Keeping Restful Convention
+        /// </summary>
+        [HttpDelete]
+        [Authorize]
+        public ActionResult Delete()
+        {
+            return HttpNotFound();
         }
 
         [HttpGet]
@@ -99,59 +182,17 @@ namespace Bowerbird.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _commandProcessor.Process(MakeUserUpdatePasswordCommand(accountChangePasswordInput));
+                _commandProcessor.Process(
+                    new UserUpdatePasswordCommand()
+                    {
+                        UserId = _userContext.GetAuthenticatedUserId(),
+                        Password = accountChangePasswordInput.Password
+                    });
 
                 return RedirectToAction("index", "home");
             }
 
             return View("ChangePassword");
-        }
-
-        private UserUpdatePasswordCommand MakeUserUpdatePasswordCommand(AccountChangePasswordInput accountChangePasswordInput)
-        {
-            return new UserUpdatePasswordCommand()
-                       {
-                           UserId = _userContext.GetAuthenticatedUserId(),
-                           Password = accountChangePasswordInput.Password
-                       };
-        }
-
-        private UserUpdateCommand MakeUserUpdateCommand(UserUpdateInput userUpdateInput)
-        {
-            return new UserUpdateCommand()
-                       {
-                           FirstName = userUpdateInput.FirstName,
-                           LastName = userUpdateInput.LastName,
-                           Email = userUpdateInput.Email,
-                           Description = userUpdateInput.Description,
-                           AvatarId = userUpdateInput.AvatarId
-                       };
-        }
-
-        private UserUpdate MakeUserUpdate()
-        {
-            var user = _documentSession.Load<User>(_userContext.GetAuthenticatedUserId());
-
-            return new UserUpdate()
-            {
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email,
-                Description = user.Description,
-                Avatar = _avatarFactory.GetAvatar(user)
-            };
-        }
-
-        private UserUpdate MakeUserUpdate(UserUpdateInput userUpdateInput)
-        {
-            return new UserUpdate()
-            {
-                FirstName = userUpdateInput.FirstName,
-                LastName = userUpdateInput.LastName,
-                Email = userUpdateInput.Email,
-                Description = userUpdateInput.Description,
-                Avatar = _avatarFactory.GetAvatar(_documentSession.Load<User>(_userContext.GetAuthenticatedUserId()))
-            };
         }
 
         #endregion

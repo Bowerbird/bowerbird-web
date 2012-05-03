@@ -21,7 +21,6 @@ using Bowerbird.Web.Notifications;
 using Raven.Client;
 using System.Linq;
 using System;
-using Bowerbird.Web.ViewModels;
 using Bowerbird.Web.Factories;
 using Bowerbird.Core.Services;
 
@@ -84,7 +83,7 @@ namespace Bowerbird.Web.EventHandlers
                 @event.DomainModel.CreatedOn,
                 @event.DomainModel.User.FirstName + " added an observation");
 
-            var notification = new Notification()
+            var notification = new
             {
                 Action = "newobservation",
                 OccurredOn = DateTime.Now,

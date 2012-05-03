@@ -88,4 +88,31 @@ namespace Bowerbird.Core.Config
         public static string UpdatedTheirWatchlist { get { return "{0} updated their {1} watchlist"; } }
         public static string AddMemberToGroup { get { return "{0} joined the {1} {2}"; } }
     }
+
+    public static class Form
+    {
+        public static string List = "List";
+        public static string Index = "Index";
+        public static string Create = "Create";
+        public static string Update = "Update";
+        public static string Delete = "Delete";
+        public static string Login = "Login";
+        public static string LogoutSuccess = "LogoutSuccess";
+        public static string ResetPassword = "ResetPassword";
+        public static string RequestPasswordReset = "RequestPasswordReset";
+        public static string Register = "Register";
+        public static string RequestPasswordResetSuccess = "RequestPasswordResetSuccess";
+    }
+
+    public static class MediaType
+    {
+        public static string Image = "image";
+        public static string Document = "document";
+    }
+
+    public static class Default
+    {
+        public static int PageStart = 1;
+        public static int PageSize = 10;
+    }
 }

@@ -15,21 +15,21 @@
 using System.Web.Mvc;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.DomainModels;
+using Bowerbird.Web.Builders;
 using Bowerbird.Web.Config;
-using Bowerbird.Web.Queries;
 using Bowerbird.Web.ViewModels;
 using Bowerbird.Core.Config;
 
 namespace Bowerbird.Web.Controllers
 {
+    [Restful]
     public class TeamsController : ControllerBase
     {
         #region Members
 
         private readonly ICommandProcessor _commandProcessor;
         private readonly IUserContext _userContext;
-        private readonly ITeamsQuery _teamsQuery;
+        private readonly ITeamsViewModelBuilder _viewModelBuilder;
 
         #endregion
 
@@ -38,16 +38,16 @@ namespace Bowerbird.Web.Controllers
         public TeamsController(
             ICommandProcessor commandProcessor,
             IUserContext userContext,
-            ITeamsQuery teamsQuery
+            ITeamsViewModelBuilder teamsViewModelBuilder
             )
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
             Check.RequireNotNull(userContext, "userContext");
-            Check.RequireNotNull(teamsQuery, "teamsQuery");
+            Check.RequireNotNull(teamsViewModelBuilder, "viewModelBuilder");
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
-            _teamsQuery = teamsQuery;
+            _viewModelBuilder = teamsViewModelBuilder;
         }
 
         #endregion
@@ -57,38 +57,69 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Index(IdInput idInput)
         {
-            if (_userContext.IsUserAuthenticated())
-            {
-                if (Request.IsAjaxRequest())
-                {
-                    return Json(_teamsQuery.MakeTeamIndex(idInput));
-                }
+            ViewBag.Team = _viewModelBuilder.BuildItem(idInput);
 
-                return View(_teamsQuery.MakeTeamIndex(idInput));
-            }
-
-            return RedirectToAction("List");
+            return View(Form.Index);
         }
 
         [HttpGet]
-        public ActionResult List(TeamListInput listInput)
+        public ActionResult Explore(TeamListInput listInput)
         {
-            if (_userContext.IsUserAuthenticated())
-            {
-                if (listInput.HasAddProjectPermission)
-                {
-                    return new JsonNetResult(_teamsQuery.TeamsHavingAddProjectPermission());
-                }
+            ViewBag.TeamList = _viewModelBuilder.BuildList(listInput);
 
-                if (Request.IsAjaxRequest())
-                {
-                    return new JsonNetResult(_teamsQuery.MakeTeamList(listInput));
-                }
+            return View(Form.List);
+        }
+
+        [HttpGet]
+        public ActionResult GetOne(IdInput idInput)
+        {
+            return Json(_viewModelBuilder.BuildItem(idInput));
+        }
+
+        [HttpGet]
+        public ActionResult GetMany(TeamListInput listInput)
+        {
+            return Json(_viewModelBuilder.BuildList(listInput));
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult CreateForm(IdInput idInput)
+        {
+            if (!_userContext.HasGroupPermission(PermissionNames.CreateTeam, idInput.Id))
+            {
+                return HttpUnauthorized();
             }
 
-            ViewBag.Teams = _teamsQuery.MakeTeamList(new TeamListInput(){Page = 1, PageSize = 10}).Teams.PagedListItems;
+            return View(Form.Create);
+        }
 
-            return View();
+        [HttpGet]
+        [Authorize]
+        public ActionResult UpdateForm(IdInput idInput)
+        {
+            if (!_userContext.HasUserProjectPermission(PermissionNames.UpdateTeam))
+            {
+                return HttpUnauthorized();
+            }
+
+            ViewBag.Team = _viewModelBuilder.BuildItem(idInput);
+
+            return View(Form.Update);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult DeleteForm(IdInput idInput)
+        {
+            if (!_userContext.HasUserProjectPermission(PermissionNames.DeleteTeam))
+            {
+                return HttpUnauthorized();
+            }
+
+            ViewBag.Team = _viewModelBuilder.BuildItem(idInput);
+
+            return View(Form.Delete);
         }
 
         [Transaction]
@@ -103,7 +134,7 @@ namespace Bowerbird.Web.Controllers
 
             if (!ModelState.IsValid)
             {
-                return Json("Failure");
+                return JsonFailed();
             }
 
             _commandProcessor.Process(
@@ -116,7 +147,7 @@ namespace Bowerbird.Web.Controllers
                     }
                 );
 
-            return Json("success");
+            return JsonSuccess();
         }
 
         [Transaction]
@@ -124,14 +155,14 @@ namespace Bowerbird.Web.Controllers
         [HttpPut]
         public ActionResult Update(TeamUpdateInput updateInput)
         {
-            if (!_userContext.HasGroupPermission<Team>(PermissionNames.UpdateTeam, updateInput.Id))
+            if (!_userContext.HasGroupPermission(PermissionNames.UpdateTeam, updateInput.Id))
             {
                 return HttpUnauthorized();
             }
 
             if (!ModelState.IsValid)
             {
-                return Json("Failure");
+                return JsonFailed();
             }
 
             _commandProcessor.Process(
@@ -145,7 +176,7 @@ namespace Bowerbird.Web.Controllers
                 }
             );
 
-            return Json("Success");
+            return JsonSuccess();
         }
 
         [Transaction]
@@ -153,14 +184,14 @@ namespace Bowerbird.Web.Controllers
         [HttpDelete]
         public ActionResult Delete(IdInput deleteInput)
         {
-            if (!_userContext.HasGroupPermission<Team>(PermissionNames.DeleteTeam, deleteInput.Id))
+            if (!_userContext.HasGroupPermission(PermissionNames.DeleteTeam, deleteInput.Id))
             {
                 return HttpUnauthorized();
             }
 
             if (!ModelState.IsValid)
             {
-                return Json("Failure");
+                return JsonFailed();
             }
 
             _commandProcessor.Process(
@@ -170,7 +201,7 @@ namespace Bowerbird.Web.Controllers
                     UserId = _userContext.GetAuthenticatedUserId()
                 });
 
-            return Json("success");
+            return JsonSuccess();
         }
 
         [Transaction]
@@ -185,7 +216,7 @@ namespace Bowerbird.Web.Controllers
 
             if (!ModelState.IsValid)
             {
-                return Json("Failure");
+                return JsonFailed();
             }
 
             _commandProcessor.Process(
@@ -200,7 +231,7 @@ namespace Bowerbird.Web.Controllers
                 }
             );
 
-            return Json("success");
+            return JsonSuccess();
         }
 
         #endregion

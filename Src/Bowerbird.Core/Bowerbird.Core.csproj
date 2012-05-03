@@ -78,6 +78,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandHandlers\ReferenceSpeciesDeleteCommandHandler.cs" />
+    <Compile Include="CommandHandlers\ReferenceSpeciesCreateCommandHandler.cs" />
+    <Compile Include="CommandHandlers\ReferenceSpeciesUpdateCommandHandler.cs" />
     <Compile Include="CommandHandlers\SetupTestDataCommandHandler.cs" />
     <Compile Include="CommandHandlers\GroupChatMessageCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\GroupChatSessionCreateCommandHandler.cs" />
@@ -86,6 +89,9 @@
     <Compile Include="CommandHandlers\PrivateChatSessionCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\PrivateChatSessionDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\PrivateChatSessionUpdateCommandHandler.cs" />
+    <Compile Include="CommandHandlers\SpeciesCreateCommandHandler.cs" />
+    <Compile Include="CommandHandlers\SpeciesDeleteCommandHandler.cs" />
+    <Compile Include="CommandHandlers\SpeciesUpdateCommandHandler.cs" />
     <Compile Include="CommandHandlers\UserSessionCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\UserSessionDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\UserSessionUpdateCommandHandler.cs" />
@@ -119,6 +125,9 @@
     <Compile Include="CommandHandlers\WatchlistCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\WatchlistDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\WatchlistUpdateCommandHandler.cs" />
+    <Compile Include="Commands\ReferenceSpeciesDeleteCommand.cs" />
+    <Compile Include="Commands\ReferenceSpeciesCreateCommand.cs" />
+    <Compile Include="Commands\ReferenceSpeciesUpdateCommand.cs" />
     <Compile Include="Commands\SetupTestDataCommand.cs" />
     <Compile Include="Commands\ActivityCreatedCommand.cs" />
     <Compile Include="Commands\GroupChatMessageCreateCommand.cs" />
@@ -129,6 +138,9 @@
     <Compile Include="Commands\PrivateChatSessionCreateCommand.cs" />
     <Compile Include="Commands\PrivateChatSessionDeleteCommand.cs" />
     <Compile Include="Commands\PrivateChatSessionUpdateCommand.cs" />
+    <Compile Include="Commands\SpeciesCreateCommand.cs" />
+    <Compile Include="Commands\SpeciesDeleteCommand.cs" />
+    <Compile Include="Commands\SpeciesUpdateCommand.cs" />
     <Compile Include="Commands\UserSessionCreateCommand.cs" />
     <Compile Include="Commands\UserSessionDeleteCommand.cs" />
     <Compile Include="Commands\UserSessionUpdateCommand.cs" />
@@ -183,6 +195,8 @@
     <Compile Include="DomainModels\DenormalisedReferences\DenormalisedObservationNoteReference.cs" />
     <Compile Include="DomainModels\IContribution.cs" />
     <Compile Include="DomainModels\IOwnable.cs" />
+    <Compile Include="DomainModels\ReferenceSpecies.cs" />
+    <Compile Include="DomainModels\Species.cs" />
     <Compile Include="DomainModels\UserProject.cs" />
     <Compile Include="DomainModels\PrivateChatMessage.cs" />
     <Compile Include="DomainModels\GroupChatMessage.cs" />
@@ -248,6 +262,7 @@
     <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Extensions\EmailExtensions.cs" />
     <Compile Include="DomainModels\ObservationGroup.cs" />
+    <Compile Include="Extensions\NumberExtensions.cs" />
     <Compile Include="ImageUtilities\ImageInformation.cs" />
     <Compile Include="ImageUtilities\ImageResizeMode.cs" />
     <Compile Include="Indexes\All_Contributions.cs" />
@@ -268,6 +283,7 @@
     <Compile Include="Queries\UsersGroupsQuery.cs" />
     <Compile Include="Queries\IUsersGroupsQuery.cs" />
     <Compile Include="Repositories\GroupMemberDocumentSessionExtensions.cs" />
+    <Compile Include="Repositories\TeamDocumentSessionExtension.cs" />
     <Compile Include="Repositories\UserDocumentSessionExtensions.cs" />
     <Compile Include="Services\ConfigService.cs" />
     <Compile Include="Services\EmailService.cs" />
