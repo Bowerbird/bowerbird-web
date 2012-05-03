@@ -87,18 +87,42 @@ namespace Bowerbird.Web.Config
         private static void CreateRestfulControllerRoute(RouteCollection routes, string controllerName)
         {
             routes.MapRoute(
+                controllerName + "-get-many",
                 controllerName,
-                controllerName,
-                new { controller = controllerName, action = "list", id = UrlParameter.Optional },
-                new { httpMethod = new HttpMethodConstraint("GET") },
-                new[] { "Bowerbird.Web.Controllers" });
+                new { controller = "observations", action = "getmany" },
+                new { httpMethod = new HttpMethodConstraint("GET") });
 
             routes.MapRoute(
-                controllerName + "-list",
+                controllerName + "-get-one",
                 controllerName + "/{id}",
-                new { controller = controllerName, action = "list", id = UrlParameter.Optional },
-                new { httpMethod = new HttpMethodConstraint("GET") },
-                new[] { "Bowerbird.Web.Controllers" });
+                new { controller = "observations", action = "getone" },
+                new { httpMethod = new HttpMethodConstraint("GET"), id = @"^((?!create|update|delete).*)$" });
+
+            routes.MapRoute(
+                controllerName + "-create-form",
+                controllerName + "/create",
+                new { controller = "observations", action = "createform" },
+                new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("GET") });
+
+            routes.MapRoute(
+                controllerName + "-update-form",
+                controllerName + "/update/{id}",
+                new { controller = "observations", action = "updateform" },
+                new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("GET") });
+
+            routes.MapRoute(
+                controllerName + "-delete-form",
+                controllerName + "/delete/{id}",
+                new { controller = "observations", action = "deleteform" },
+                new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("GET") });
+
+            // should be handled by default route in RegisterRoutesTo() method
+            //routes.MapRoute(
+            //    controllerName + "-index",
+            //    controllerName + "/{id}",
+            //    new { controller = controllerName, action = "index", id = UrlParameter.Optional },
+            //    new { httpMethod = new HttpMethodConstraint("GET") },
+            //    new[] { "Bowerbird.Web.Controllers" });
 
             routes.MapRoute(
                 controllerName + "-update",

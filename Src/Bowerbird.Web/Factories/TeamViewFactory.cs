@@ -28,7 +28,7 @@ namespace Bowerbird.Web.Factories
 
         #region Constructors
 
-        private TeamViewFactory(
+        public TeamViewFactory(
             IAvatarFactory avatarFactory
             )
         {
