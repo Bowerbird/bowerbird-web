@@ -19,7 +19,6 @@ using Bowerbird.Web.Builders;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.ViewModels;
 using Bowerbird.Core.Config;
-using System;
 
 namespace Bowerbird.Web.Controllers
 {
@@ -69,7 +68,7 @@ namespace Bowerbird.Web.Controllers
             ViewBag.Model = new
             {
                 User = _viewModelBuilder.BuildItem(pagingInput.Id),
-                StreamItems = _streamItemsViewModelBuilder.BuildStreamItems(pagingInput)
+                StreamItems = _streamItemsViewModelBuilder.BuildHomeStreamItems(pagingInput)
             };
 
             return View(Form.Stream);
@@ -78,31 +77,61 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Observations(PagingInput pagingInput)
         {
-            throw new NotImplementedException();
+            ViewBag.Model = new
+            {
+                User = _viewModelBuilder.BuildItem(pagingInput.Id),
+                StreamItems = _streamItemsViewModelBuilder.BuildHomeStreamItems(pagingInput)
+            };
+
+            return View(Form.Observations);
         }
 
         [HttpGet]
         public ActionResult Posts(PagingInput pagingInput)
         {
-            throw new NotImplementedException();
+            ViewBag.Model = new
+            {
+                User = _viewModelBuilder.BuildItem(pagingInput.Id),
+                StreamItems = _streamItemsViewModelBuilder.BuildHomeStreamItems(pagingInput)
+            };
+
+            return View(Form.Posts);
         }
 
         [HttpGet]
         public ActionResult Following(PagingInput pagingInput)
         {
-            throw new NotImplementedException();
+            ViewBag.Model = new
+            {
+                User = _viewModelBuilder.BuildItem(pagingInput.Id),
+                StreamItems = _streamItemsViewModelBuilder.BuildHomeStreamItems(pagingInput)
+            };
+
+            return View(Form.Following);
         }
 
         [HttpGet]
         public ActionResult Followers(PagingInput pagingInput)
         {
-            throw new NotImplementedException();
+            ViewBag.Model = new
+            {
+                User = _viewModelBuilder.BuildItem(pagingInput.Id),
+                StreamItems = _streamItemsViewModelBuilder.BuildHomeStreamItems(pagingInput)
+            };
+
+            return View(Form.Followers);
         }
 
         [HttpGet]
         public ActionResult About()
         {
-            throw new NotImplementedException();
+            ViewBag.Model = new
+            {
+                User = _viewModelBuilder.BuildItem(pagingInput.Id),
+                StreamItems = _streamItemsViewModelBuilder.BuildHomeStreamItems(pagingInput)
+            };
+
+            return View(Form.About);
         }
 
         [HttpGet]
@@ -122,7 +151,7 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult GetMany(PagingInput pagingInput)
         {
-            return Json(_viewModelBuilder.BuildList(listInput));
+            return Json(_viewModelBuilder.BuildList(pagingInput));
         }
 
         /// <summary>
@@ -211,7 +240,7 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult ChangePassword()
         {
-            return View("ChangePassword");
+            return View(Form.ChangePassword);
         }
 
         [HttpPost]
@@ -231,7 +260,7 @@ namespace Bowerbird.Web.Controllers
                 return RedirectToAction("index", "home");
             }
 
-            return View("ChangePassword");
+            return View(Form.ChangePassword);
         }
 
         #endregion

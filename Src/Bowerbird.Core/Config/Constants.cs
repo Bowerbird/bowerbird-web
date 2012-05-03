@@ -103,10 +103,13 @@ namespace Bowerbird.Core.Config
         public static string Delete = "Delete";
         public static string Login = "Login";
         public static string LogoutSuccess = "LogoutSuccess";
+        public static string ChangePassword = "ChangePassword";
         public static string ResetPassword = "ResetPassword";
         public static string RequestPasswordReset = "RequestPasswordReset";
         public static string Register = "Register";
         public static string RequestPasswordResetSuccess = "RequestPasswordResetSuccess";
+        public static string Following = "Following";
+        public static string Followers = "Followers";
     }
 
     public static class MediaType
