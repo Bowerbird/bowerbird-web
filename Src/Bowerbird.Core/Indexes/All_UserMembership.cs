@@ -12,7 +12,6 @@
  
 */
 
-using System.Collections.Generic;
 using System.Linq;
 using Bowerbird.Core.DomainModels;
 using Raven.Client.Indexes;

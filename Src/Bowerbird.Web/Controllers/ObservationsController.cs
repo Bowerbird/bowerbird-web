@@ -60,7 +60,7 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Index(IdInput idInput)
         {
-            ViewBag.Observation = _viewModelBuilder.BuildItem(idInput);
+            ViewBag.Observation = _viewModelBuilder.BuildObservation(idInput);
 
             return View(Form.Index);
         }
@@ -68,7 +68,7 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Explore(PagingInput pagingInput)
         {
-            ViewBag.ObservationList = _viewModelBuilder.BuildList(pagingInput);
+            ViewBag.ObservationList = _viewModelBuilder.BuildObservationList(pagingInput);
 
             return View(Form.List);
         }
@@ -76,13 +76,13 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult GetOne(IdInput idInput)
         {
-            return Json(_viewModelBuilder.BuildItem(idInput));
+            return Json(_viewModelBuilder.BuildObservation(idInput));
         }
 
         [HttpGet]
         public ActionResult GetMany(PagingInput pagingInput)
         {
-            return Json(_viewModelBuilder.BuildList(pagingInput));
+            return Json(_viewModelBuilder.BuildObservationList(pagingInput));
         }
          
         [HttpGet]
@@ -106,7 +106,7 @@ namespace Bowerbird.Web.Controllers
                 return HttpUnauthorized();
             }
 
-            ViewBag.Observation = _viewModelBuilder.BuildItem(idInput);
+            ViewBag.Observation = _viewModelBuilder.BuildObservation(idInput);
 
             return View(Form.Update);
         }
@@ -120,7 +120,7 @@ namespace Bowerbird.Web.Controllers
                 return HttpUnauthorized();
             }
 
-            ViewBag.Observation = _viewModelBuilder.BuildItem(idInput);
+            ViewBag.Observation = _viewModelBuilder.BuildObservation(idInput);
 
             return View(Form.Delete);
         }
@@ -207,9 +207,9 @@ namespace Bowerbird.Web.Controllers
             }
 
             _commandProcessor.Process(
-                new ObservationDeleteCommand
+                new DeleteCommand
                 {
-                    ObservationId = idInput.Id,
+                    Id = idInput.Id,
                     UserId = _userContext.GetAuthenticatedUserId()
                 });
 

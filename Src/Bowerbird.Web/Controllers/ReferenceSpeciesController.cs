@@ -189,9 +189,9 @@ namespace Bowerbird.Web.Controllers
             }
 
             _commandProcessor.Process(
-                new ObservationDeleteCommand
+                new DeleteCommand
                 {
-                    ObservationId = idInput.Id,
+                    Id = idInput.Id,
                     UserId = _userContext.GetAuthenticatedUserId()
                 });
 

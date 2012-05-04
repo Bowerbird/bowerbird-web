@@ -58,7 +58,7 @@ namespace Bowerbird.Web.Builders
 
         #region Methods
 
-        public object BuildItem(IdInput idInput)
+        public object BuildObservation(IdInput idInput)
         {
             var observation = _documentSession.Load<Observation>(idInput.Id);
 
@@ -77,42 +77,7 @@ namespace Bowerbird.Web.Builders
             };
         }
 
-        public object BuildList(PagingInput pagingInput)
-        {
-            //if (pagingInput.Id != null)
-            //{
-            //    return MakeObservationListByProjectId(pagingInput);
-            //}
-
-            //if (pagingInput.CreatedByUserId != null)
-            //{
-            //    return MakeObservationListByCreatedByUserId(pagingInput);
-            //}
-
-            //return MakeObservationList(pagingInput);
-            throw new System.NotImplementedException();
-        }
-
-        public object BuildStreamItems(PagingInput pagingInput)
-        {
-            RavenQueryStatistics stats;
-
-            return _documentSession
-                .Query<All_GroupContributions.Result, All_GroupContributions>()
-                .AsProjection<All_GroupContributions.Result>()
-                .Statistics(out stats)
-                .Include(x => x.ContributionId)
-                .Where(x => x.ContributionType.Equals("observation"))
-                .OrderByDescending(x => x.CreatedDateTime)
-                .Skip(pagingInput.Page)
-                .Take(pagingInput.PageSize)
-                .ToList()
-                .ToPagedList(pagingInput.Page, pagingInput.PageSize, stats.TotalResults)
-                .PagedListItems
-                .Select(MakeStreamItem);
-        }
-
-        private object MakeObservationList(PagingInput pagingInput)
+        public object BuildObservationList(PagingInput pagingInput)
         {
             RavenQueryStatistics stats;
 
@@ -134,8 +99,8 @@ namespace Bowerbird.Web.Builders
                     null)
             };
         }
-
-        private object MakeObservationListByProjectId(PagingInput pagingInput)
+        
+        public object BuildProjectObservationList(PagingInput pagingInput)
         {
             RavenQueryStatistics stats;
 
@@ -160,7 +125,7 @@ namespace Bowerbird.Web.Builders
             };
         }
 
-        private object MakeObservationListByCreatedByUserId(PagingInput pagingInput)
+        public object BuildUserObservationList(PagingInput pagingInput)
         {
             RavenQueryStatistics stats;
 
@@ -184,6 +149,25 @@ namespace Bowerbird.Web.Builders
                     stats.TotalResults,
                     null)
             };
+        }
+
+        public object BuildObservationStreamItems(PagingInput pagingInput)
+        {
+            RavenQueryStatistics stats;
+
+            return _documentSession
+                .Query<All_GroupContributions.Result, All_GroupContributions>()
+                .AsProjection<All_GroupContributions.Result>()
+                .Statistics(out stats)
+                .Include(x => x.ContributionId)
+                .Where(x => x.ContributionType.Equals("observation") && x.GroupId == pagingInput.Id)
+                .OrderByDescending(x => x.CreatedDateTime)
+                .Skip(pagingInput.Page)
+                .Take(pagingInput.PageSize)
+                .ToList()
+                .ToPagedList(pagingInput.Page, pagingInput.PageSize, stats.TotalResults)
+                .PagedListItems
+                .Select(MakeStreamItem);
         }
 
         private object MakeStreamItem(All_GroupContributions.Result groupContributionResult)

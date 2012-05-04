@@ -65,7 +65,38 @@ namespace Bowerbird.Web.Factories
             };
         }
 
-        private string MakeCreatedDateTimeDescription(DateTime dateTime)
+        public object Make(
+            object item,
+            Group group,
+            string contributionType,
+            User groupUser,
+            DateTime groupCreatedDateTime,
+            string description
+        )
+        {
+            return new
+            {
+                CreatedDateTime = groupCreatedDateTime,
+                CreatedDateTimeDescription = MakeCreatedDateTimeDescription(groupCreatedDateTime),
+                Type = contributionType.ToLower(),
+                User = new
+                {
+                    groupUser.Id,
+                    groupUser.LastLoggedIn,
+                    Name = groupUser.FirstName + " " + groupUser.LastName,
+                    Avatar = new
+                    {
+                        AltTag = groupUser.FirstName + " " + groupUser.LastName,
+                        UrlToImage = groupUser.Avatar != null ? "" : AvatarUris.DefaultUser
+                    }
+                },
+                Item = item,
+                Description = description,
+                Group = group
+            };
+        }
+
+        private static string MakeCreatedDateTimeDescription(DateTime dateTime)
         {
             var diff = DateTime.Now.Subtract(dateTime);
 

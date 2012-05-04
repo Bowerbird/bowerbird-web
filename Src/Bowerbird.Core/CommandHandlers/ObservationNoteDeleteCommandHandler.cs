@@ -1,6 +1,4 @@
-/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -21,7 +19,7 @@ using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Core.CommandHandlers
 {
-    public class ObservationNoteDeleteCommandHandler : ICommandHandler<ObservationNoteDeleteCommand>
+    public class ObservationNoteDeleteCommandHandler : ICommandHandler<DeleteCommand>
     {
         #region Members
 
@@ -47,7 +45,7 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Methods
 
-        public void Handle(ObservationNoteDeleteCommand command)
+        public void Handle(DeleteCommand command)
         {
             Check.RequireNotNull(command, "command");
 
@@ -55,6 +53,5 @@ namespace Bowerbird.Core.CommandHandlers
         }
 
         #endregion
-
     }
 }

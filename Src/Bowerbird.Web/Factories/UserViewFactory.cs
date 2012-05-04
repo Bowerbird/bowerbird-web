@@ -14,12 +14,9 @@
 
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
-using Microsoft.Practices.ServiceLocation;
 using Raven.Client;
-using Raven.Client.Linq;
 using System.Collections.Generic;
 using System.Linq;
-using Bowerbird.Core.Indexes;
 
 namespace Bowerbird.Web.Factories
 {
@@ -61,20 +58,36 @@ namespace Bowerbird.Web.Factories
 
         #region Methods
 
-        public object Make(string id)
+        public object Make(string userId)
         {
-            var memberships = _documentSession.Query<All_UserMemberships.Result, All_UserMemberships>()
-                .Include(x => x.GroupId)
-                .Where(x => x.UserId == id)
-                .Distinct()
-                .ToList();
+            var user = _documentSession.Load<User>(userId);
 
-            return Make(_documentSession.Load<User>(id), memberships.Select(x => x.Member));
+            return new
+            {
+                Avatar = _avatarFactory.Make(user),
+                user.Id,
+                user.LastLoggedIn,
+                Name = user.GetName()
+            };
+        }
+
+        public object Make(User user)
+        {
+            Check.RequireNotNull(user, "user");
+
+            return new
+            {
+                Avatar = _avatarFactory.Make(user),
+                user.Id,
+                user.LastLoggedIn,
+                Name = user.GetName()
+            };
         }
 
         public object Make(User user, IEnumerable<Member> memberships)
         {
             Check.RequireNotNull(user, "user");
+            Check.RequireNotNull(memberships, "memberships");
 
             return new
             {

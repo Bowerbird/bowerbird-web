@@ -15,6 +15,7 @@
 using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Extensions;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Paging;
 using Bowerbird.Core.Queries;
@@ -69,40 +70,22 @@ namespace Bowerbird.Web.Builders
 
         #region Methods
 
-        public object BuildItem(IdInput idInput)
+        public object BuildTeam(IdInput idInput)
         {
             Check.RequireNotNull(idInput, "idInput");
 
-            return new {
-                Team = _teamViewFactory.Make(_documentSession.Load<Team>(idInput.Id))
-            };
+            return _teamViewFactory.Make(_documentSession.Load<Team>(idInput.Id));
         }
 
-        public object BuildList(PagingInput pagingInput)
-        {
-            //if (pagingInput.OrganisationId != null)
-            //{
-            //    return BuildTeamsForOrganisation(listInput);
-            //}
-
-            //if (pagingInput.HasAddProjectPermission)
-            //{
-            //    return BuildTeamsWhereUserHasAddProjectPermission();
-            //}
-
-            //return BuildTeams(pagingInput);
-            throw new System.NotImplementedException();
-        }
-
-        private object BuildTeams(PagingInput pagingInput)
+        public object BuildTeamList(PagingInput pagingInput)
         {
             RavenQueryStatistics stats;
 
             var teams = _documentSession
                 .Query<Team>()
                 .Statistics(out stats)
-                .Skip(pagingInput.Page)
-                .Take(pagingInput.PageSize)
+                .Skip(pagingInput.Page.Or(Default.PageStart))
+                .Take(pagingInput.PageSize.Or(Default.PageSize))
                 .ToList();
 
             var results = _documentSession
@@ -117,17 +100,17 @@ namespace Bowerbird.Web.Builders
 
             return new
             {
-                pagingInput.Page,
-                pagingInput.PageSize,
+                Page = pagingInput.Page.Or(Default.PageStart),
+                PageSize = pagingInput.PageSize.Or(Default.PageSize),
                 Teams = results.ToPagedList(
-                    pagingInput.Page,
-                    pagingInput.PageSize,
+                    pagingInput.Page.Or(Default.PageStart),
+                    pagingInput.PageSize.Or(Default.PageStart),
                     stats.TotalResults,
                     null)
             };
         }
 
-        private object BuildTeamsForOrganisation(PagingInput pagingInput)
+        public object BuildOrganisationTeamList(PagingInput pagingInput)
         {
             RavenQueryStatistics stats;
 
@@ -160,21 +143,6 @@ namespace Bowerbird.Web.Builders
                     stats.TotalResults,
                     null)
             };
-        }
-
-        private object BuildTeamsWhereUserHasAddProjectPermission()
-        {
-            var loggedInUserId = _userContext.GetAuthenticatedUserId();
-
-            return _documentSession
-                .Query<All_Groups.Result, All_Groups>()
-                .AsProjection<All_Groups.Result>()
-                .Where(x =>
-                       x.Id.In(_usersGroupsQuery.GetUsersGroupsHavingPermission(loggedInUserId, "createproject")) &&
-                       x.GroupType == "team"
-                )
-                .ToList()
-                .Select(x => _teamViewFactory.Make(x.Team));
         }
 
         #endregion

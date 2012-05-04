@@ -13,16 +13,29 @@
 */
 
 using Bowerbird.Core.Commands;
+using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.DomainModels;
+using Raven.Client;
 
 namespace Bowerbird.Core.CommandHandlers
 {
-    public class ReferenceSpeciesDeleteCommandHandler : ICommandHandler<ReferenceSpeciesDeleteCommand>
+    public class ReferenceSpeciesDeleteCommandHandler : ICommandHandler<DeleteCommand>
     {
         #region Fields
+
+        private readonly IDocumentSession _documentSession;
 
         #endregion
 
         #region Constructors
+
+        public ReferenceSpeciesDeleteCommandHandler(
+            IDocumentSession documentSession)
+        {
+            Check.RequireNotNull(documentSession, "documentSession");
+
+            _documentSession = documentSession;
+        }
 
         #endregion
 
@@ -32,9 +45,11 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Methods
 
-        public void Handle(ReferenceSpeciesDeleteCommand command)
+        public void Handle(DeleteCommand command)
         {
-            throw new System.NotImplementedException();
+            Check.RequireNotNull(command, "command");
+
+            _documentSession.Delete(_documentSession.Load<ReferenceSpecies>(command.Id));
         }
 
         #endregion

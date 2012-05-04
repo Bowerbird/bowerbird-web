@@ -11,15 +11,20 @@
  * Atlas of Living Australia
  
 */
-				
+
 using Bowerbird.Web.ViewModels;
 
 namespace Bowerbird.Web.Builders
 {
-    public interface IOrganisationsViewModelBuilder : IBuilder
+    public interface IMemberViewModelBuilder : IBuilder
     {
-        object BuildOrganisation(IdInput idInput);
+        object BuildMember(IdInput idInput);
 
-        object BuildOrganisationList(PagingInput pagingInput);
+        object BuildProjectMemberList(PagingInput pagingInput);
+
+        object BuildTeamMemberList(PagingInput pagingInput);
+
+        object BuildOrganisationMemberList(PagingInput pagingInput);
+
     }
 }

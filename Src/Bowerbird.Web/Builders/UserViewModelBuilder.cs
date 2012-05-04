@@ -61,33 +61,19 @@ namespace Bowerbird.Web.Builders
 
         #region Methods
 
-        public object BuildItem(IdInput idInput)
+        public object BuildUser(IdInput idInput)
         {
             Check.RequireNotNull(idInput, "idInput");
 
             return _userViewFactory.Make(idInput.Id);
         }
 
-        public object BuildList(PagingInput pagingInput)
+        public object BuildUserList(PagingInput pagingInput)
         {
-            Check.RequireNotNull(pagingInput, "pagingInput");
-
-            return BuildUsers(pagingInput);
-        }
-
-        private object BuildUsers(PagingInput pagingInput)
-        {
-            var userMemberships = _documentSession.Query<All_UserMemberships.Result, All_UserMemberships>()
-                .Include(x => x.GroupId)
-                .Where(x => x.GroupId == pagingInput.Id)
-                .Distinct()
-                .ToList();
-
             RavenQueryStatistics stats;
 
             var results = _documentSession
                 .Query<User>()
-                .Where(x => x.Id.In(userMemberships.Select(y => y.UserId)))
                 .Statistics(out stats)
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
@@ -106,9 +92,59 @@ namespace Bowerbird.Web.Builders
             };
         }
 
+        public object BuildUsersFollowingList(PagingInput pagingInput)
+        {
+            RavenQueryStatistics stats;
+
+            var results = _documentSession
+                .Query<FollowUser>()
+                .Where(x => x.UserToFollow.Id == pagingInput.Id)
+                .Statistics(out stats)
+                .Skip(pagingInput.Page)
+                .Take(pagingInput.PageSize)
+                .ToList()
+                .Select(x => _userViewFactory.Make(_documentSession.Load<User>(x.Id)));
+
+            return new
+            {
+                pagingInput.Page,
+                pagingInput.PageSize,
+                Users = results.ToPagedList(
+                    pagingInput.Page,
+                    pagingInput.PageSize,
+                    stats.TotalResults,
+                    null)
+            };
+        }
+
+        public object BuildUsersBeingFollowedByList(PagingInput pagingInput)
+        {
+            RavenQueryStatistics stats;
+
+            var results = _documentSession
+                .Query<FollowUser>()
+                .Where(x => x.Follower.Id == pagingInput.Id)
+                .Statistics(out stats)
+                .Skip(pagingInput.Page)
+                .Take(pagingInput.PageSize)
+                .ToList()
+                .Select(x => _userViewFactory.Make(_documentSession.Load<User>(x.Id)));
+
+            return new
+            {
+                pagingInput.Page,
+                pagingInput.PageSize,
+                Users = results.ToPagedList(
+                    pagingInput.Page,
+                    pagingInput.PageSize,
+                    stats.TotalResults,
+                    null)
+            };
+        }
+
         public object BuildAuthenticatedUser()
         {
-            return BuildItem(new IdInput() { Id = _userContext.GetAuthenticatedUserId() });
+            return BuildUser(new IdInput() { Id = _userContext.GetAuthenticatedUserId() });
         }
 
         public IEnumerable BuildOnlineUsers()

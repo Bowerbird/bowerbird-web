@@ -13,16 +13,11 @@
 */
 
 using Bowerbird.Core.DomainModels;
-using System.Collections.Generic;
 
 namespace Bowerbird.Web.Factories
 {
-    public interface IUserViewFactory
+    public interface IMemberViewFactory : IFactory
     {
-        object Make(string userId);
-
-        object Make(User user);
-
-        object Make(User user, IEnumerable<Member> memberships);
+        object Make(Member member);
     }
 }

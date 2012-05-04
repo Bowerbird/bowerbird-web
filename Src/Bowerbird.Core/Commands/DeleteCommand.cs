@@ -1,6 +1,4 @@
-﻿/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -14,12 +12,13 @@
  
 */
 
+using System;
+
 namespace Bowerbird.Core.Commands
 {
-    public class MediaResourceDeleteCommand : ICommand
+    public class DeleteCommand : ICommand
     {
-
-        #region Members
+        #region Fields
 
         #endregion
 
@@ -29,15 +28,14 @@ namespace Bowerbird.Core.Commands
 
         #region Properties
 
-        public string UserId { get; set; }
-
         public string Id { get; set; }
+
+        public string UserId { get; set; }
 
         #endregion
 
         #region Methods
 
         #endregion
-		
     }
 }

@@ -19,9 +19,13 @@ namespace Bowerbird.Web.Builders
 {
     public interface IUserViewModelBuilder : IBuilder
     {
-        object BuildItem(IdInput idInput);
+        object BuildUser(IdInput idInput);
 
-        object BuildList(PagingInput pagingInput);
+        object BuildUserList(PagingInput pagingInput);
+
+        object BuildUsersFollowingList(PagingInput pagingInput);
+
+        object BuildUsersBeingFollowedByList(PagingInput pagingInput);
 
         object BuildAuthenticatedUser();
 

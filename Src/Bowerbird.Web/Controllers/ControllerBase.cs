@@ -90,12 +90,12 @@ namespace Bowerbird.Web.Controllers
 
         protected ActionResult JsonSuccess()
         {
-            return Json("success");
+            return new JsonNetResult("success");
         }
 
         protected ActionResult JsonFailed()
         {
-            return Json("failure");
+            return new JsonNetResult("failure");
         }
         #endregion      
     }

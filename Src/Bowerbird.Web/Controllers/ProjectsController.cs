@@ -20,7 +20,6 @@ using Bowerbird.Web.Builders;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.ViewModels;
 using Bowerbird.Core.Config;
-using System;
 
 namespace Bowerbird.Web.Controllers
 {
@@ -31,8 +30,11 @@ namespace Bowerbird.Web.Controllers
 
         private readonly ICommandProcessor _commandProcessor;
         private readonly IUserContext _userContext;
-        private readonly IProjectsViewModelBuilder _viewModelBuilder;
+        private readonly IProjectsViewModelBuilder _projectsViewModelBuilder;
         private readonly IStreamItemsViewModelBuilder _streamItemsViewModelBuilder;
+        private readonly IObservationsViewModelBuilder _observationsViewModelBuilder;
+        private readonly IPostsViewModelBuilder _postsViewModelBuilder;
+        private readonly IMemberViewModelBuilder _memberViewModelBuilder;
 
         #endregion
 
@@ -42,17 +44,27 @@ namespace Bowerbird.Web.Controllers
             ICommandProcessor commandProcessor,
             IUserContext userContext,
             IProjectsViewModelBuilder projectsViewModelBuilder,
-            IStreamItemsViewModelBuilder streamItemsViewModelBuilder)
+            IStreamItemsViewModelBuilder streamItemsViewModelBuilder,
+            IObservationsViewModelBuilder observationsViewModelBuilder,
+            IPostsViewModelBuilder postsViewModelBuilder,
+            IMemberViewModelBuilder memberViewModelBuilder
+            )
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(projectsViewModelBuilder, "projectsViewModelBuilder");
             Check.RequireNotNull(streamItemsViewModelBuilder, "streamItemsViewModelBuilder");
+            Check.RequireNotNull(observationsViewModelBuilder, "observationsViewModelBuilder");
+            Check.RequireNotNull(postsViewModelBuilder, "postsViewModelBuilder");
+            Check.RequireNotNull(memberViewModelBuilder, "memberViewModelBuilder");
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
-            _viewModelBuilder = projectsViewModelBuilder;
+            _projectsViewModelBuilder = projectsViewModelBuilder;
             _streamItemsViewModelBuilder = streamItemsViewModelBuilder;
+            _observationsViewModelBuilder = observationsViewModelBuilder;
+            _postsViewModelBuilder = postsViewModelBuilder;
+            _memberViewModelBuilder = memberViewModelBuilder;
         }
 
         #endregion
@@ -68,7 +80,7 @@ namespace Bowerbird.Web.Controllers
         {
             ViewBag.Model = new
             {
-                Project = _viewModelBuilder.BuildItem(new IdInput() { Id = "projects/" + pagingInput.Id }),
+                Project = _projectsViewModelBuilder.BuildProject(new IdInput() { Id = "projects/" + pagingInput.Id }),
                 StreamItems = _streamItemsViewModelBuilder.BuildGroupStreamItems(pagingInput)
             };
 
@@ -86,31 +98,60 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Observations(PagingInput pagingInput)
         {
-            throw new NotImplementedException();
+            ViewBag.Model = new
+            {
+                Project = _projectsViewModelBuilder.BuildProject(new IdInput() { Id = "projects/" + pagingInput.Id }),
+                Observations = _observationsViewModelBuilder.BuildProjectObservationList(pagingInput)
+            };
+
+            ViewBag.PrerenderedView = "observations"; // HACK: Need to rethink this
+
+            return View(Form.Stream);
         }
 
         [HttpGet]
         public ActionResult Posts(PagingInput pagingInput)
         {
-            throw new NotImplementedException();
+            ViewBag.Model = new
+            {
+                Project = _projectsViewModelBuilder.BuildProject(new IdInput() { Id = "projects/" + pagingInput.Id }),
+                Posts = _postsViewModelBuilder.BuildGroupPostList(pagingInput)
+            };
+
+            ViewBag.PrerenderedView = "posts"; // HACK: Need to rethink this
+
+            return View(Form.Stream);
         }
 
         [HttpGet]
         public ActionResult Members(PagingInput pagingInput)
         {
-            throw new NotImplementedException();
+            ViewBag.Model = new
+            {
+                Project = _projectsViewModelBuilder.BuildProject(new IdInput() { Id = "projects/" + pagingInput.Id }),
+                Members = _memberViewModelBuilder.BuildProjectMemberList(pagingInput)
+            };
+
+            ViewBag.PrerenderedView = "members"; // HACK: Need to rethink this
+
+            return View(Form.Stream);
         }
 
         [HttpGet]
-        public ActionResult About()
+        public ActionResult About(IdInput idInput)
         {
-            throw new NotImplementedException();
+            ViewBag.Model = new
+            {
+                Project = _projectsViewModelBuilder.BuildProject(new IdInput() { Id = "projects/" + idInput.Id }),
+            };
+
+            return View(Form.About);
         }
 
         [HttpGet]
         public ActionResult Explore(PagingInput pagingInput)
         {
-            ViewBag.ProjectList = _viewModelBuilder.BuildList(pagingInput);
+            ViewBag.Projects = _projectsViewModelBuilder.BuildProjectList(pagingInput);
 
             return View(Form.List);
         }
@@ -118,13 +159,13 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult GetOne(IdInput idInput)
         {
-            return Json(_viewModelBuilder.BuildItem(idInput));
+            return new JsonNetResult(_projectsViewModelBuilder.BuildProject(idInput));
         }
 
         [HttpGet]
         public ActionResult GetMany(PagingInput pagingInput)
         {
-            return Json(_viewModelBuilder.BuildList(pagingInput));
+            return new JsonNetResult(_projectsViewModelBuilder.BuildProjectList(pagingInput));
         }
 
         [HttpGet]
@@ -148,7 +189,7 @@ namespace Bowerbird.Web.Controllers
                 return HttpUnauthorized();
             }
 
-            ViewBag.Project = _viewModelBuilder.BuildItem(idInput);
+            ViewBag.Project = _projectsViewModelBuilder.BuildProject(idInput);
 
             return View(Form.Update);
         }
@@ -162,7 +203,7 @@ namespace Bowerbird.Web.Controllers
                 return HttpUnauthorized();
             }
 
-            ViewBag.Project = _viewModelBuilder.BuildItem(idInput);
+            ViewBag.Project = _projectsViewModelBuilder.BuildProject(idInput);
 
             return View(Form.Delete);
         }
@@ -238,7 +279,7 @@ namespace Bowerbird.Web.Controllers
             }
 
             _commandProcessor.Process(
-                new ProjectDeleteCommand()
+                new DeleteCommand()
                 {
                     Id = deleteInput.Id,
                     UserId = _userContext.GetAuthenticatedUserId()

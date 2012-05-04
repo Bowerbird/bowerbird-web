@@ -14,12 +14,12 @@
 
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.Repositories;
+using Bowerbird.Core.DomainModels;
 using Raven.Client;
 
 namespace Bowerbird.Core.CommandHandlers
 {
-    public class MemberDeleteCommandHandler : ICommandHandler<MemberDeleteCommand>
+    public class MemberDeleteCommandHandler : ICommandHandler<DeleteCommand>
     {
         #region Members
 
@@ -45,13 +45,11 @@ namespace Bowerbird.Core.CommandHandlers
          
         #region Methods
 
-        public void Handle(MemberDeleteCommand memberDeleteCommand)
+        public void Handle(DeleteCommand command)
         {
-            Check.RequireNotNull(memberDeleteCommand, "memberDeleteCommand");
+            Check.RequireNotNull(command, "command");
 
-            var member = _documentSession.LoadMember(memberDeleteCommand.GroupId, memberDeleteCommand.UserId);
-
-            _documentSession.Delete(member);
+            _documentSession.Delete(_documentSession.Load<Member>(command.Id));
         }
 
         #endregion
