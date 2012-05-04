@@ -171,7 +171,7 @@
     <None Include="Views\Organisations\List.mustache" />
     <None Include="Views\Projects\Create.mustache" />
     <None Include="Views\Projects\Delete.mustache" />
-    <None Include="Views\Projects\Index.mustache" />
+    <None Include="Views\Projects\Stream.mustache" />
     <None Include="Views\Projects\List.mustache" />
     <None Include="Views\Shared\Project.mustache">
       <SubType>Designer</SubType>
@@ -350,7 +350,7 @@
     <None Include="Views\Shared\ProjectCreate.mustache" />
     <None Include="Views\Shared\Sidebar.mustache" />
     <None Include="Views\Shared\SidebarProjectItem.mustache" />
-    <None Include="Views\Shared\Stream.mustache" />
+    <None Include="Views\Shared\StreamList.mustache" />
     <None Include="Views\Shared\StreamListLoading.mustache" />
     <None Include="Views\Shared\StreamLoadMore.mustache" />
     <None Include="Views\Shared\TeamCreate.mustache" />

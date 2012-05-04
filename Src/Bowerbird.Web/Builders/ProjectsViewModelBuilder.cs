@@ -73,22 +73,7 @@ namespace Bowerbird.Web.Builders
         {
             Check.RequireNotNull(idInput, "idInput");
 
-            return _projectViewFactory.Make(_documentSession.Load<Project>(Convert.ToInt32(idInput.Id)));
-        }
-
-        public object BuildIndex(PagingInput pagingInput)
-        {
-            Check.RequireNotNull(pagingInput, "pagingInput");
-
-            return new
-            {
-                Project = _projectViewFactory.Make(_documentSession.Load<Project>(pagingInput.Id)),
-                StreamItems = _streamItemsViewModelBuilder.BuildGroupStreamItems(pagingInput),
-                Observations = _observationsViewModelBuilder.BuildList(pagingInput),
-                Posts = _postViewModelBuilder.BuildList(pagingInput),
-                Members = ProjectMembers(pagingInput.Id),
-                PrerenderedView = "projects" // HACK: Need to rethink this
-            };
+            return _projectViewFactory.Make(_documentSession.Load<Project>(idInput.Id));
         }
 
         public object BuildList(PagingInput pagingInput)

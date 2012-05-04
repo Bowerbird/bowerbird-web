@@ -46,7 +46,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/projectlayout', 'model
     // Show project activity
     GroupUserController.showProjectStream = function (id) {
         var projectLayout = showProjectLayout(id);
-        projectLayout.showStream(new StreamItemCollection(app.prerenderedView.data.StreamItems));
+        projectLayout.showStream(new StreamItemCollection(app.prerenderedView.data.StreamItems.PagedListItems));
     };
 
     // Show project about

@@ -16,7 +16,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/streamitemview'], func
 
         //className: 'triple-2',
 
-        template: "Stream",
+        template: "StreamList",
 
         itemView: StreamItemView,
 

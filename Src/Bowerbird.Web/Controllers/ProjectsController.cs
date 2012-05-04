@@ -32,6 +32,7 @@ namespace Bowerbird.Web.Controllers
         private readonly ICommandProcessor _commandProcessor;
         private readonly IUserContext _userContext;
         private readonly IProjectsViewModelBuilder _viewModelBuilder;
+        private readonly IStreamItemsViewModelBuilder _streamItemsViewModelBuilder;
 
         #endregion
 
@@ -40,16 +41,18 @@ namespace Bowerbird.Web.Controllers
         public ProjectsController(
             ICommandProcessor commandProcessor,
             IUserContext userContext,
-            IProjectsViewModelBuilder projectsViewModelBuilder
-            )
+            IProjectsViewModelBuilder projectsViewModelBuilder,
+            IStreamItemsViewModelBuilder streamItemsViewModelBuilder)
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(projectsViewModelBuilder, "projectsViewModelBuilder");
+            Check.RequireNotNull(streamItemsViewModelBuilder, "streamItemsViewModelBuilder");
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
             _viewModelBuilder = projectsViewModelBuilder;
+            _streamItemsViewModelBuilder = streamItemsViewModelBuilder;
         }
 
         #endregion
@@ -63,8 +66,21 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Stream(PagingInput pagingInput)
         {
-            ViewBag.Model = _viewModelBuilder.BuildIndex(pagingInput);
-            return View(Form.Index);
+            ViewBag.Model = new
+            {
+                Project = _viewModelBuilder.BuildItem(new IdInput() { Id = "projects/" + pagingInput.Id }),
+                StreamItems = _streamItemsViewModelBuilder.BuildGroupStreamItems(pagingInput)
+            };
+
+            ViewBag.PrerenderedView = "projects"; // HACK: Need to rethink this
+
+            return View(Form.Stream);
+        }
+
+        [HttpGet]
+        public ActionResult StreamList(PagingInput pagingInput)
+        {
+            return new JsonNetResult(_streamItemsViewModelBuilder.BuildGroupStreamItems(pagingInput));
         }
 
         [HttpGet]

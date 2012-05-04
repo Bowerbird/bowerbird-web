@@ -81,7 +81,7 @@ namespace Bowerbird.Web.Controllers
                 {"ProjectList", null},
                 {"Sidebar", null},
                 {"SidebarProjectItem", null},
-                {"Stream", null},
+                {"StreamList", null},
                 {"StreamListLoading", null},
                 {"StreamLoadMore", null},
                 {"TeamCreate", null},

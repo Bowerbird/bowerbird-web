@@ -105,6 +105,12 @@ namespace Bowerbird.Web.Config
         private static void CreateGroupControllerRoute(RouteCollection routes, string controllerName)
         {
             routes.MapRoute(
+                controllerName + "-stream-list",
+                controllerName + "/{id}",
+                new { controller = controllerName, action = "streamlist" },
+                new { httpMethod = new HttpMethodConstraint("GET"), id = @"^((?!create|update|delete).*)$", acceptType = new AcceptTypeContstraint("application/json") });
+
+            routes.MapRoute(
                 controllerName + "-sections",
                 controllerName + "/{id}/{action}",
                 new { controller = controllerName, action = "stream" },
