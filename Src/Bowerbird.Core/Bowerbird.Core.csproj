@@ -78,6 +78,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandHandlers\CommentCreateCommandHandler.cs" />
+    <Compile Include="CommandHandlers\CommentDeleteCommandHandler.cs" />
+    <Compile Include="CommandHandlers\CommentUpdateCommandHandler.cs" />
     <Compile Include="CommandHandlers\FollowUserDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\FollowUserCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\ReferenceSpeciesDeleteCommandHandler.cs" />
@@ -127,6 +130,9 @@
     <Compile Include="CommandHandlers\WatchlistCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\WatchlistDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\WatchlistUpdateCommandHandler.cs" />
+    <Compile Include="Commands\CommentCreateCommand.cs" />
+    <Compile Include="Commands\CommentDeleteCommand.cs" />
+    <Compile Include="Commands\CommentUpdateCommand.cs" />
     <Compile Include="Commands\DeleteCommand.cs" />
     <Compile Include="Commands\FollowUserCreateCommand.cs" />
     <Compile Include="Commands\ReferenceSpeciesCreateCommand.cs" />
@@ -183,6 +189,7 @@
     <Compile Include="DomainModels\BaseObject.cs" />
     <Compile Include="DomainModels\BaseObjectEqualityComparer.cs" />
     <Compile Include="DomainModels\CommentsComponent.cs" />
+    <Compile Include="DomainModels\IDiscussed.cs" />
     <Compile Include="DomainModels\DenormalisedReferences\DenormalisedRoleReference.cs" />
     <Compile Include="DomainModels\FollowUser.cs" />
     <Compile Include="DomainModels\GroupAssociation.cs" />
@@ -257,7 +264,6 @@
     <Compile Include="Extensions\EmailExtensions.cs" />
     <Compile Include="DomainModels\ObservationGroup.cs" />
     <Compile Include="Extensions\GroupExtensions.cs" />
-    <Compile Include="Extensions\NumberExtensions.cs" />
     <Compile Include="ImageUtilities\ImageInformation.cs" />
     <Compile Include="ImageUtilities\ImageResizeMode.cs" />
     <Compile Include="Indexes\All_Contributions.cs" />

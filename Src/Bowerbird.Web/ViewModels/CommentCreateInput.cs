@@ -14,9 +14,9 @@
 
 namespace Bowerbird.Web.ViewModels
 {
-    public class ObservationListInput
+    public class CommentCreateInput
     {
-        #region Members
+        #region Fields
 
         #endregion
 
@@ -26,18 +26,15 @@ namespace Bowerbird.Web.ViewModels
 
         #region Properties
 
-        public string CreatedByUserId { get; set; }
+        public string Comment { get; set; }
 
-        public string GroupId { get; set; }
-
-        public int Page { get; set; }
-
-        public int PageSize { get; set; }
+        public string ContributionId { get; set; }
 
         #endregion
 
         #region Methods
 
         #endregion
+        
     }
 }

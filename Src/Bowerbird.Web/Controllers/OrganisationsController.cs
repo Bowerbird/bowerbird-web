@@ -33,7 +33,7 @@ namespace Bowerbird.Web.Controllers
         private readonly IUserContext _userContext;
         private readonly IOrganisationsViewModelBuilder _organisationsViewModelBuilder;
         private readonly IStreamItemsViewModelBuilder _streamItemsViewModelBuilder;
-        private readonly IProjectsViewModelBuilder _projectsViewModelBuilder;
+        private readonly ITeamsViewModelBuilder _teamsViewModelBuilder;
         private readonly IPostsViewModelBuilder _postsViewModelBuilder;
         private readonly IMemberViewModelBuilder _memberViewModelBuilder;
 
@@ -46,7 +46,7 @@ namespace Bowerbird.Web.Controllers
             IUserContext userContext,
             IOrganisationsViewModelBuilder organisationsViewModelBuilder,
             IStreamItemsViewModelBuilder streamItemsViewModelBuilder,
-            IProjectsViewModelBuilder projectsViewModelBuilder,
+            ITeamsViewModelBuilder teamsViewModelBuilder,
             IPostsViewModelBuilder postsViewModelBuilder,
             IMemberViewModelBuilder memberViewModelBuilder
             )
@@ -55,7 +55,7 @@ namespace Bowerbird.Web.Controllers
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(organisationsViewModelBuilder, "organisationsViewModelBuilder");
             Check.RequireNotNull(streamItemsViewModelBuilder, "streamItemsViewModelBuilder");
-            Check.RequireNotNull(projectsViewModelBuilder, "projectsViewModelBuilder");
+            Check.RequireNotNull(teamsViewModelBuilder, "teamsViewModelBuilder");
             Check.RequireNotNull(postsViewModelBuilder, "postsViewModelBuilder");
             Check.RequireNotNull(memberViewModelBuilder, "memberViewModelBuilder");
 
@@ -63,7 +63,7 @@ namespace Bowerbird.Web.Controllers
             _userContext = userContext;
             _organisationsViewModelBuilder = organisationsViewModelBuilder;
             _streamItemsViewModelBuilder = streamItemsViewModelBuilder;
-            _projectsViewModelBuilder = projectsViewModelBuilder;
+            _teamsViewModelBuilder = teamsViewModelBuilder;
             _postsViewModelBuilder = postsViewModelBuilder;
             _memberViewModelBuilder = memberViewModelBuilder;
         }
@@ -94,6 +94,20 @@ namespace Bowerbird.Web.Controllers
         public ActionResult StreamList(PagingInput pagingInput)
         {
             return new JsonNetResult(_streamItemsViewModelBuilder.BuildGroupStreamItems(pagingInput));
+        }
+
+        [HttpGet]
+        public ActionResult Teams(PagingInput pagingInput)
+        {
+            ViewBag.Model = new
+            {
+                Organisation = _organisationsViewModelBuilder.BuildOrganisation(new IdInput() { Id = "organisations/" + pagingInput.Id }),
+                Teams = _teamsViewModelBuilder.BuildOrganisationTeamList(pagingInput)
+            };
+
+            ViewBag.PrerenderedView = "organisations"; // HACK: Need to rethink this
+
+            return View(Form.Stream);
         }
 
         [HttpGet]

@@ -12,6 +12,8 @@
  
 */
 
+using Bowerbird.Core.Config;
+
 namespace Bowerbird.Web.ViewModels
 {
     public class PagingInput
@@ -22,6 +24,11 @@ namespace Bowerbird.Web.ViewModels
 
         #region Constructors
 
+        public PagingInput()
+        {
+            InitMembers();
+        }
+
         #endregion
 
         #region Properties
@@ -29,7 +36,7 @@ namespace Bowerbird.Web.ViewModels
         public string Id { get; set; }
 
         public int Page { get; set; }
-
+        
         public int PageSize { get; set; }
 
         public string SortField { get; set; }
@@ -39,6 +46,12 @@ namespace Bowerbird.Web.ViewModels
         #endregion
 
         #region Methods
+
+        public void InitMembers()
+        {
+            Page = Default.PageStart;
+            PageSize = Default.PageSize;
+        }
 
         #endregion
     }

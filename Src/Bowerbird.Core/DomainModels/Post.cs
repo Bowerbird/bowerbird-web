@@ -14,17 +14,15 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Events;
 using System;
-using Bowerbird.Core.Extensions;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
 using Newtonsoft.Json;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public class Post : DomainModel, IOwnable, IContribution
+    public class Post : DomainModel, IOwnable, IContribution, IDiscussed
     {
         #region Members
 
@@ -122,21 +120,21 @@ namespace Bowerbird.Core.DomainModels
             return this;
         }
 
-        public Post AddComment(string message, User createdByUser, DateTime createdDateTime)
+        IContribution IDiscussed.AddComment(string message, User createdByUser, DateTime createdDateTime)
         {
             Discussion.AddComment(message, createdByUser, createdDateTime);
 
             return this;
         }
 
-        public Post RemoveComment(string commentId)
+        IContribution IDiscussed.RemoveComment(string commentId)
         {
             Discussion.RemoveComment(commentId);
 
             return this;
         }
 
-        public Post UpdateComment(string commentId, string message, User modifiedByUser, DateTime modifiedDateTime)
+        IContribution IDiscussed.UpdateComment(string commentId, string message, User modifiedByUser, DateTime modifiedDateTime)
         {
             Discussion.UpdateComment(commentId, message, modifiedByUser, modifiedDateTime);
 

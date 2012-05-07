@@ -13,16 +13,15 @@
 */
 
 using System;
-using Bowerbird.Core.DomainModels.DenormalisedReferences;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public interface IContribution
+    public interface IDiscussed
     {
-        string Id { get; }
+        IContribution AddComment(string message, User createdByUser, DateTime createdDateTime);
 
-        DenormalisedUserReference User { get; }
+        IContribution RemoveComment(string commentId);
 
-        DateTime CreatedOn { get; }
+        IContribution UpdateComment(string commentId, string message, User modifiedByUser, DateTime modifiedDateTime);
     }
 }

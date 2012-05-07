@@ -1,68 +1,68 @@
-///* Bowerbird V1 - Licensed under MIT 1.1 Public License
+/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
-// Developers: 
-// * Frank Radocaj : frank@radocaj.com
-// * Hamish Crittenden : hamish.crittenden@gmail.com
+ Developers: 
+ * Frank Radocaj : frank@radocaj.com
+ * Hamish Crittenden : hamish.crittenden@gmail.com
  
-// Project Manager: 
-// * Ken Walker : kwalker@museum.vic.gov.au
+ Project Manager: 
+ * Ken Walker : kwalker@museum.vic.gov.au
  
-// Funded by:
-// * Atlas of Living Australia
+ Funded by:
+ * Atlas of Living Australia
  
-//*/
+*/
 
-//using Bowerbird.Core.Commands;
-//using Bowerbird.Core.DesignByContract;
-//using Bowerbird.Core.DomainModels;
-//using Bowerbird.Core.Indexes;
-//using Raven.Client;
-//using Raven.Client.Linq;
-//using System.Linq;
+using Bowerbird.Core.Commands;
+using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Indexes;
+using Raven.Client;
+using Raven.Client.Linq;
+using System.Linq;
 
-//namespace Bowerbird.Core.CommandHandlers
-//{
-//    public class CommentDeleteCommandHandler : ICommandHandler<CommentDeleteCommand>
-//    {
-//        #region Members
+namespace Bowerbird.Core.CommandHandlers
+{
+    public class CommentDeleteCommandHandler : ICommandHandler<CommentDeleteCommand>
+    {
+        #region Members
 
-//        private readonly IDocumentSession _documentSession;
+        private readonly IDocumentSession _documentSession;
 
-//        #endregion
+        #endregion
 
-//        #region Constructors
+        #region Constructors
 
-//        public CommentDeleteCommandHandler(
-//            IDocumentSession documentSession)
-//        {
-//            Check.RequireNotNull(documentSession, "documentSession");
+        public CommentDeleteCommandHandler(
+            IDocumentSession documentSession)
+        {
+            Check.RequireNotNull(documentSession, "documentSession");
 
-//            _documentSession = documentSession;
-//        }
+            _documentSession = documentSession;
+        }
 
-//        #endregion
+        #endregion
 
-//        #region Properties
+        #region Properties
 
-//        #endregion
+        #endregion
 
-//        #region Methods
+        #region Methods
 
-//        public void Handle(CommentDeleteCommand command)
-//        {
-//            Check.RequireNotNull(command, "command");
+        public void Handle(CommentDeleteCommand command)
+        {
+            Check.RequireNotNull(command, "command");
 
-//            var contribution = _documentSession.Query<IContribution, All_Contributions>()
-//                .Where(x => x.Id == command.ContributionId)
-//                .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
-//                .FirstOrDefault();
+            var contribution = _documentSession.Query<IContribution, All_Contributions>()
+                .Where(x => x.Id == command.ContributionId)
+                .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
+                .FirstOrDefault();
 
-//            contribution.RemoveComment(command.Id);
+            ((IDiscussed)contribution).RemoveComment(command.Id);
 
-//            _documentSession.Store(contribution);
-//        }
+            _documentSession.Store(contribution);
+        }
 
-//        #endregion
+        #endregion
 
-//    }
-//}
+    }
+}

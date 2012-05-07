@@ -75,19 +75,19 @@ namespace Bowerbird.Web.Builders
                 .Include(x => x.GroupId)
                 .OrderByDescending(x => x.CreatedOn)
                 .Statistics(out stats)
-                .Skip(pagingInput.Page.Or(Default.PageStart))
-                .Take(pagingInput.PageSize.Or(Default.PageSize))
+                .Skip(pagingInput.Page)
+                .Take(pagingInput.PageSize)
                 .ToList()
                 .Select(x => _postViewFactory.Make(x));
 
             return new
             {
                 pagingInput.Id,
-                Page = pagingInput.Page.Or(Default.PageStart),
-                PageSize = pagingInput.PageSize.Or(Default.PageSize),
+                pagingInput.Page,
+                pagingInput.PageSize,
                 List = posts.ToPagedList(
-                    pagingInput.Page.Or(Default.PageStart),
-                    pagingInput.PageSize.Or(Default.PageSize),
+                    pagingInput.Page,
+                    pagingInput.PageSize,
                     stats.TotalResults,
                     null)
             };
@@ -103,19 +103,19 @@ namespace Bowerbird.Web.Builders
                 .Include(x => x.GroupId)
                 .OrderByDescending(x => x.CreatedOn)
                 .Statistics(out stats)
-                .Skip(pagingInput.Page.Or(Default.PageStart))
-                .Take(pagingInput.PageSize.Or(Default.PageSize))
+                .Skip(pagingInput.Page)
+                .Take(pagingInput.PageSize)
                 .ToList()
                 .Select(x => _postViewFactory.Make(x));
 
             return new
             {
                 pagingInput.Id,
-                Page = pagingInput.Page.Or(Default.PageStart),
-                PageSize = pagingInput.PageSize.Or(Default.PageSize),
+                pagingInput.Page,
+                pagingInput.PageSize,
                 List = posts.ToPagedList(
-                    pagingInput.Page.Or(Default.PageStart),
-                    pagingInput.PageSize.Or(Default.PageSize),
+                    pagingInput.Page,
+                    pagingInput.PageSize,
                     stats.TotalResults,
                     null)
             };

@@ -22,7 +22,7 @@ using Newtonsoft.Json;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public class Observation : DomainModel, IOwnable, IContribution
+    public class Observation : DomainModel, IOwnable, IContribution, IDiscussed
     {
         #region Members
 
@@ -274,21 +274,21 @@ namespace Bowerbird.Core.DomainModels
             return this;
         }
 
-        public Observation AddComment(string message, User createdByUser, DateTime createdDateTime)
+        IContribution IDiscussed.AddComment(string message, User createdByUser, DateTime createdDateTime)
         {
             Discussion.AddComment(message, createdByUser, createdDateTime);
 
             return this;
         }
 
-        public Observation RemoveComment(string commentId)
+        IContribution IDiscussed.RemoveComment(string commentId)
         {
             Discussion.RemoveComment(commentId);
 
             return this;
         }
 
-        public Observation UpdateComment(string commentId, string message, User modifiedByUser, DateTime modifiedDateTime)
+        IContribution IDiscussed.UpdateComment(string commentId, string message, User modifiedByUser, DateTime modifiedDateTime)
         {
             Discussion.UpdateComment(commentId, message, modifiedByUser, modifiedDateTime);
 

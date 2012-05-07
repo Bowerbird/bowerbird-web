@@ -22,6 +22,8 @@ namespace Bowerbird.Web.Builders
 
         object BuildProjectList(PagingInput pagingInput);
 
+        object BuildUserProjectList(PagingInput pagingInput);
+
         object BuildProjectMemberList(PagingInput pagingInput);
 
         object BuildTeamProjectList(PagingInput pagingInput);

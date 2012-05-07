@@ -1,4 +1,17 @@
-﻿
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+
+ Developers: 
+ * Frank Radocaj : frank@radocaj.com
+ * Hamish Crittenden : hamish.crittenden@gmail.com
+ 
+ Project Manager: 
+ * Ken Walker : kwalker@museum.vic.gov.au
+ 
+ Funded by:
+ * Atlas of Living Australia
+ 
+*/
+				
 namespace Bowerbird.Core.Config
 {
     public static class PermissionNames
@@ -27,6 +40,9 @@ namespace Bowerbird.Core.Config
         public static string CreateReferenceSpecies = "createreferencespecies";
         public static string UpdateReferenceSpecies = "updatereferencespecies";
         public static string DeleteReferenceSpecies = "deletereferencespecies";
+        public static string CreateComment = "createcomment";
+        public static string UpdateComment = "updatecomment";
+        public static string DeleteComment = "deletecomment";
     }
 
     public static class RoleNames

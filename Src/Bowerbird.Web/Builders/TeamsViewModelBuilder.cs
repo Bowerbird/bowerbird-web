@@ -15,7 +15,6 @@
 using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.Extensions;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Paging;
 using Bowerbird.Core.Queries;
@@ -84,8 +83,8 @@ namespace Bowerbird.Web.Builders
             var teams = _documentSession
                 .Query<Team>()
                 .Statistics(out stats)
-                .Skip(pagingInput.Page.Or(Default.PageStart))
-                .Take(pagingInput.PageSize.Or(Default.PageSize))
+                .Skip(pagingInput.Page)
+                .Take(pagingInput.PageSize)
                 .ToList();
 
             var results = _documentSession
@@ -100,11 +99,44 @@ namespace Bowerbird.Web.Builders
 
             return new
             {
-                Page = pagingInput.Page.Or(Default.PageStart),
-                PageSize = pagingInput.PageSize.Or(Default.PageSize),
+                pagingInput.Page,
+                pagingInput.PageSize,
                 Teams = results.ToPagedList(
-                    pagingInput.Page.Or(Default.PageStart),
-                    pagingInput.PageSize.Or(Default.PageStart),
+                    pagingInput.Page,
+                    pagingInput.PageSize,
+                    stats.TotalResults,
+                    null)
+            };
+        }
+
+        public object BuildUserTeamList(PagingInput pagingInput)
+        {
+            RavenQueryStatistics stats;
+
+            var memberships = _documentSession
+               .Query<All_UserMemberships.Result, All_UserMemberships>()
+               .Where(x => x.UserId == pagingInput.Id && x.GroupId.Contains("teams/"))
+               .Include(x => x.GroupId)
+               .Select(x => x.GroupId)
+               .Statistics(out stats)
+               .Skip(pagingInput.Page)
+               .Take(pagingInput.PageSize)
+               .ToList();
+
+            var results = _documentSession
+                .Query<All_Groups.Result, All_Groups>()
+                .AsProjection<All_Groups.Result>()
+                .Where(x => x.GroupType == "team" && x.Id.In(memberships))
+                .ToList()
+                .Select(x => _teamViewFactory.Make(x.Team));
+
+            return new
+            {
+                pagingInput.Page,
+                pagingInput.PageSize,
+                Teams = results.ToPagedList(
+                    pagingInput.Page,
+                    pagingInput.PageSize,
                     stats.TotalResults,
                     null)
             };

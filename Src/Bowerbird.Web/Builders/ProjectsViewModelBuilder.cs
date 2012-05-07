@@ -101,6 +101,40 @@ namespace Bowerbird.Web.Builders
             };
         }
 
+        public object BuildUserProjectList(PagingInput pagingInput)
+        {
+            RavenQueryStatistics stats;
+
+            var memberships = _documentSession
+                .Query<All_UserMemberships.Result, All_UserMemberships>()
+                .Where(x => x.UserId == pagingInput.Id && x.GroupId.Contains("projects/"))
+                .Select(x => x.GroupId)
+                .Statistics(out stats)
+                .Skip(pagingInput.Page)
+                .Take(pagingInput.PageSize)
+                .ToList();
+
+            var results = _documentSession
+                .Query<All_Groups.Result, All_Groups>()
+                .Where(x => x.Id.In(memberships))
+                .Customize(x => x.WaitForNonStaleResults())
+                .Include(x => x.Id)
+                .AsProjection<All_Groups.Result>()
+                .ToList()
+                .Select(x => _projectViewFactory.Make(x.Project));
+
+            return new
+            {
+                pagingInput.Page,
+                pagingInput.PageSize,
+                List = results.ToPagedList(
+                    pagingInput.Page,
+                    pagingInput.PageSize,
+                    stats.TotalResults,
+                    null)
+            };
+        }
+
         /// <summary>
         /// Get all the projects in a given team
         /// </summary>
@@ -116,7 +150,7 @@ namespace Bowerbird.Web.Builders
                 .Statistics(out stats)
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
-                //.ToList()
+                .ToList()
                 .Select(x => x.ChildGroupId);
 
             // load the actual projects

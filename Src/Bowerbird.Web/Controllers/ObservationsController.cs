@@ -76,13 +76,13 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult GetOne(IdInput idInput)
         {
-            return Json(_viewModelBuilder.BuildObservation(idInput));
+            return new JsonNetResult(_viewModelBuilder.BuildObservation(idInput));
         }
 
         [HttpGet]
         public ActionResult GetMany(PagingInput pagingInput)
         {
-            return Json(_viewModelBuilder.BuildObservationList(pagingInput));
+            return new JsonNetResult(_viewModelBuilder.BuildObservationList(pagingInput));
         }
          
         [HttpGet]

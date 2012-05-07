@@ -33,6 +33,7 @@ namespace Bowerbird.Web.Controllers
         private readonly IStreamItemsViewModelBuilder _streamItemsViewModelBuilder;
         private readonly IProjectsViewModelBuilder _projectsViewModelBuilder;
         private readonly IPostsViewModelBuilder _postsViewModelBuilder;
+        private readonly ITeamsViewModelBuilder _teamsViewModelBuilder;
 
         #endregion
 
@@ -44,7 +45,8 @@ namespace Bowerbird.Web.Controllers
             IUserViewModelBuilder userViewModelBuilder,
             IProjectsViewModelBuilder projectsViewModelBuilder,
             IPostsViewModelBuilder postsViewModelBuilder,
-            IStreamItemsViewModelBuilder streamItemsViewModelBuilder
+            IStreamItemsViewModelBuilder streamItemsViewModelBuilder,
+            ITeamsViewModelBuilder teamsViewModelBuilder
             )
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
@@ -53,6 +55,7 @@ namespace Bowerbird.Web.Controllers
             Check.RequireNotNull(streamItemsViewModelBuilder, "streamItemsViewModelBuilder");
             Check.RequireNotNull(projectsViewModelBuilder, "projectsViewModelBuilder");
             Check.RequireNotNull(postsViewModelBuilder, "postsViewModelBuilder");
+            Check.RequireNotNull(teamsViewModelBuilder, "teamsViewModelBuilder");
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
@@ -60,6 +63,7 @@ namespace Bowerbird.Web.Controllers
             _projectsViewModelBuilder = projectsViewModelBuilder;
             _postsViewModelBuilder = postsViewModelBuilder;
             _streamItemsViewModelBuilder = streamItemsViewModelBuilder;
+            _teamsViewModelBuilder = teamsViewModelBuilder;
         }
 
         #endregion
@@ -106,7 +110,21 @@ namespace Bowerbird.Web.Controllers
             ViewBag.Model = new
             {
                 User = _userViewModelBuilder.BuildUser(new IdInput() { Id = pagingInput.Id }),
-                Projects = _projectsViewModelBuilder.BuildProjectList(pagingInput)
+                Projects = _projectsViewModelBuilder.BuildUserProjectList(pagingInput)
+            };
+
+            ViewBag.PrerenderedView = "projects"; // HACK: Need to rethink this
+
+            return View(Form.Stream);
+        }
+
+        [HttpGet]
+        public ActionResult Teams(PagingInput pagingInput)
+        {
+            ViewBag.Model = new
+            {
+                User = _userViewModelBuilder.BuildUser(new IdInput() { Id = pagingInput.Id }),
+                Teams = _teamsViewModelBuilder.BuildUserTeamList(pagingInput)
             };
 
             ViewBag.PrerenderedView = "projects"; // HACK: Need to rethink this
@@ -167,7 +185,7 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult GetOne(IdInput idInput)
         {
-            return Json(_userViewModelBuilder.BuildUser(idInput));
+            return new JsonNetResult(_userViewModelBuilder.BuildUser(idInput));
         }
 
         [HttpGet]

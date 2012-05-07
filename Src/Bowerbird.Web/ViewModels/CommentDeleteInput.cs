@@ -11,10 +11,10 @@
  * Atlas of Living Australia
  
 */
-				
+
 namespace Bowerbird.Web.ViewModels
 {
-    public class UserListInput
+    public class CommentDeleteInput
     {
         #region Fields
 
@@ -26,11 +26,9 @@ namespace Bowerbird.Web.ViewModels
 
         #region Properties
 
-        public int PageSize { get; set; }
+        public string CommentId { get; set; }
 
-        public int Page { get; set; }
-
-        public string GroupId { get; set; }
+        public string ContributionId { get; set; }
 
         #endregion
 

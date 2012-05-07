@@ -108,18 +108,18 @@ namespace Bowerbird.Web.Builders
                 .Query<Observation>()
                 .Where(x => x.Groups.Any(y => y.GroupId == pagingInput.Id))
                 .Statistics(out stats)
-                .Skip(pagingInput.Page.Or(Default.PageStart))
-                .Take(pagingInput.PageSize.Or(Default.PageSize))
+                .Skip(pagingInput.Page)
+                .Take(pagingInput.PageSize)
                 .ToList();
 
             return new
             {
-                Page = pagingInput.Page.Or(Default.PageStart),
-                PageSize = pagingInput.PageSize.Or(Default.PageSize),
+                pagingInput.Page,
+                pagingInput.PageSize,
                 Project = pagingInput.Id != null ? _documentSession.Load<Project>(pagingInput.Id) : null,
                 Observations = observations.ToPagedList(
-                    pagingInput.Page.Or(Default.PageStart),
-                    pagingInput.PageSize.Or(Default.PageSize),
+                    pagingInput.Page,
+                    pagingInput.PageSize,
                     stats.TotalResults,
                     null)
             };

@@ -28,6 +28,8 @@ namespace Bowerbird.Core.Commands
 
         #region Properties
 
+        public string ContributionId { get; set; }
+
         public string UserId { get; set; }
 
         public DateTime CommentedOn { get; set; }

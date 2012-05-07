@@ -78,13 +78,13 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult GetOne(IdInput idInput)
         {
-            return Json(_viewModelBuilder.BuildItem(idInput));
+            return new JsonNetResult(_viewModelBuilder.BuildItem(idInput));
         }
 
         [HttpGet]
         public ActionResult GetMany(PagingInput pagingInput)
         {
-            return Json(_viewModelBuilder.BuildList(pagingInput));
+            return new JsonNetResult(_viewModelBuilder.BuildList(pagingInput));
         }
 
         [HttpGet]

@@ -16,9 +16,6 @@ using System.Web.Mvc;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.Config;
-using Bowerbird.Core.Paging;
-using Bowerbird.Web.ViewModels;
-using Newtonsoft.Json;
 
 namespace Bowerbird.Web.Controllers
 {
@@ -53,7 +50,8 @@ namespace Bowerbird.Web.Controllers
         public ActionResult PublicIndex()
         {
             ViewBag.IsStaticLayout = true;
-            return View();
+
+            return View(Form.PublicIndex);
         }
 
         [HttpGet]
@@ -68,7 +66,7 @@ namespace Bowerbird.Web.Controllers
             {
             };
 
-            return View();
+            return View(Form.PrivateIndex);
         }
 
         public ActionResult SetupTestData()

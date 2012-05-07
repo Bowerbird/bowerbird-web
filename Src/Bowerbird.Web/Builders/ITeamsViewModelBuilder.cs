@@ -22,6 +22,8 @@ namespace Bowerbird.Web.Builders
 
         object BuildTeamList(PagingInput pagingInput);
 
+        object BuildUserTeamList(PagingInput pagingInput);
+
         object BuildOrganisationTeamList(PagingInput pagingInput);
     }
 }

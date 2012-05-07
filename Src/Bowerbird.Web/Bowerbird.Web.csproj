@@ -192,6 +192,7 @@
     <Compile Include="Config\RouteRegistrar.cs" />
     <Compile Include="Config\UserContext.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JsonNetResult.cs" />
@@ -205,7 +206,6 @@
     <Compile Include="Controllers\TeamsController.cs" />
     <Compile Include="Controllers\TemplatesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
-    <Compile Include="Controllers\WatchlistsController.cs" />
     <Compile Include="EventHandlers\NotifyObservationCreatedEventHandler.cs" />
     <Compile Include="Factories\AvatarFactory.cs" />
     <Compile Include="Factories\CommentViewFactory.cs" />
@@ -246,6 +246,9 @@
     <Compile Include="Validators\ValidEmailAttribute.cs" />
     <Compile Include="ViewModels\AccountChangePasswordInput.cs" />
     <Compile Include="ViewModels\ClientUserContext.cs" />
+    <Compile Include="ViewModels\CommentCreateInput.cs" />
+    <Compile Include="ViewModels\CommentDeleteInput.cs" />
+    <Compile Include="ViewModels\CommentUpdateInput.cs" />
     <Compile Include="ViewModels\ReferenceSpeciesCreateInput.cs" />
     <Compile Include="ViewModels\ReferenceSpeciesUpdateInput.cs" />
     <Compile Include="ViewModels\SpeciesCreateInput.cs" />
