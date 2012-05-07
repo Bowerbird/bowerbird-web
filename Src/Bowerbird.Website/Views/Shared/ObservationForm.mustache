@@ -1,4 +1,4 @@
-﻿  <h2>New Observation</h2>
+﻿  <h2>Observation</h2>
   <form action="/observation/create" method="post"  enctype="multipart/form-data">
     <fieldset>
       <legend>Observation Details</legend>
@@ -7,7 +7,7 @@
           <label for="title">Title</label>
         </div>
         <div>
-          <input type="text" id="title" name="title" value="{{Title}}" />
+          <input type="text" id="title" name="title" value="{{Model.Observation.Title}}" />
         </div>
       </div>
       <div id="observedon-field" class="field">
@@ -15,7 +15,7 @@
           <label for="observedOn">Observed On</label>
         </div>
         <div>
-          <input type="date" id="observedOn" name="observedOn" data-datepicker="datepicker" readonly="" value="{{ObservedOn}}" />
+          <input type="date" id="observedOn" name="observedOn" data-datepicker="datepicker" readonly="" value="{{Model.Observation.ObservedOn}}" />
           <i></i>
         </div>
       </div>

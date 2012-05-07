@@ -115,9 +115,14 @@
     <Content Include="js\bowerbird\collections\paginatedCollection.js" />
     <Content Include="js\bowerbird\collections\projectCollection.js" />
     <Content Include="js\bowerbird\collections\streamItemCollection.js" />
+    <Content Include="js\bowerbird\controllers\contributionController.js" />
+    <Content Include="js\bowerbird\models\observation.js" />
     <Content Include="js\bowerbird\models\project.js" />
     <Content Include="js\bowerbird\models\stream.js" />
     <Content Include="js\bowerbird\models\streamItem.js" />
+    <Content Include="js\bowerbird\routers\contributionRouter.js" />
+    <Content Include="js\bowerbird\views\observationFormLayoutView.js" />
+    <Content Include="js\bowerbird\views\observationLayoutView.js" />
     <Content Include="js\bowerbird\views\streamItemView.js" />
     <Content Include="js\bowerbird\views\streamView.js" />
     <Content Include="js\libs\jqueryui\bootstrap-tab.js" />
@@ -130,8 +135,8 @@
     <Content Include="js\bowerbird\views\sidebarProjectCollectionView.js" />
     <Content Include="js\bowerbird\views\footerView.js" />
     <Content Include="js\bowerbird\views\headerView.js" />
-    <Content Include="js\bowerbird\views\sidebarLayout.js" />
-    <Content Include="js\bowerbird\views\projectLayout.js" />
+    <Content Include="js\bowerbird\views\sidebarLayoutView.js" />
+    <Content Include="js\bowerbird\views\projectLayoutView.js" />
     <Content Include="js\bowerbird\controllers\groupUserController.js" />
     <Content Include="js\bowerbird\routers\groupUserRouter.js" />
     <Content Include="js\libs\jquery\jquery-1.7.2-min.js" />
@@ -173,6 +178,9 @@
     <None Include="Views\Projects\Delete.mustache" />
     <None Include="Views\Projects\Stream.mustache" />
     <None Include="Views\Projects\List.mustache" />
+    <None Include="Views\Shared\Observation.mustache">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Views\Shared\Project.mustache">
       <SubType>Designer</SubType>
     </None>
@@ -343,7 +351,7 @@
     </None>
     <None Include="Views\Shared\Notifications.mustache" />
     <None Include="Views\Shared\NotificationsItem.mustache" />
-    <None Include="Views\Shared\ObservationCreate.mustache" />
+    <None Include="Views\Shared\ObservationForm.mustache" />
     <None Include="Views\Shared\ObservationMediaResourceUploaded.mustache" />
     <None Include="Views\Shared\ObservationStreamListItem.mustache" />
     <None Include="Views\Shared\OrganisationCreate.mustache" />

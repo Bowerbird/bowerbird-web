@@ -56,11 +56,12 @@ define(['jquery', 'underscore', 'backbone', 'bootstrap-data', 'models/user', 'ma
     $(function () {
         // Start the app as soon as the DOM is ready, loading in the bootstrapped data
         app.start(bootstrapData);
-
+        
         // Register overriding all anchors to channel through router
         $('a').on('click', function (e) {
             e.preventDefault();
             app.groupUserRouter.navigate($(this).attr('href'), true);
+            app.contributionRouter.navigate($(this).attr('href'), true);
             return false;
         });
 

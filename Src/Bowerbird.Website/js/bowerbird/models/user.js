@@ -8,12 +8,12 @@
 // User
 // ----
 
-// A user
 define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, app) {
 
     var User = Backbone.Model.extend({
         idAttribute: 'Id'
     });
+
     return User;
 
 });

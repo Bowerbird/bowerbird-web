@@ -5,8 +5,9 @@
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// Bowerbird.Routers.GroupUserRouter
-// ---------------------------------
+// GroupUserRouter
+// ---------------
+
 define(['jquery', 'underscore', 'backbone', 'app', 'controllers/groupusercontroller'], function ($, _, Backbone, app, GroupUserController) {
 
     var GroupUserRouter = Backbone.Marionette.AppRouter.extend({

@@ -69,7 +69,7 @@ namespace Bowerbird.Web.Controllers
                 {"ChatWindow", null},
                 {"Notifications", null},
                 {"NotificationsItem", null},
-                {"ObservationCreate", null},
+                {"ObservationForm", null},
                 {"ObservationList", null},
                 {"ObservationMediaResourceUploaded", null},
                 {"ObservationStreamListItem", null},
@@ -89,7 +89,8 @@ namespace Bowerbird.Web.Controllers
                 {"TeamList", null},
                 {"UserItem", null},
                 {"UsersOnlineList", null},
-                {"Project", null}
+                {"Project", null},
+                {"Observation", null}
             };
 
             // Load all templates from Nustache

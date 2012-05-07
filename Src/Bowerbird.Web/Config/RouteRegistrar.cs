@@ -64,7 +64,7 @@ namespace Bowerbird.Web.Config
 
             RegisterGroupControllerRoutes(routes);
 
-            // load up restful controllers and create routes
+            // Load up restful controllers and create routes
             RegisterRestfulControllerRoutes(routes);
 
             routes.MapRoute("Templates", "templates/{name}",

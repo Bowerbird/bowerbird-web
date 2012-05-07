@@ -30,9 +30,11 @@ require.config({
         'bootstrap-data', 
         // Routers are the first port of call, so load em up
         'routers/groupuserrouter',
+        'routers/contributionrouter',
         // Load top level views, beacuse no one else is gonna do it
-        'views/sidebarlayout',
-        'views/projectlayout'
+        'views/sidebarlayoutview',
+        'views/projectlayoutview',
+        'views/observationlayoutview'
     ]
 });
 

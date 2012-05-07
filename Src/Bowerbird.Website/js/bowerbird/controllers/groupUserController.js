@@ -8,26 +8,26 @@
 // GroupUserController
 // -------------------
 
-// This is the app controller or sub-application for groups/users. It contains all of the 
+// This is the controller for groups/users. It contains all of the 
 // high level knowledge of how to run the app when it's in group/user mode.
-define(['jquery', 'underscore', 'backbone', 'app', 'views/projectlayout', 'models/project', 'collections/streamitemcollection'], function ($, _, Backbone, app, ProjectLayout, Project, StreamItemCollection) {
+define(['jquery', 'underscore', 'backbone', 'app', 'views/projectlayoutview', 'models/project', 'collections/streamitemcollection'], function ($, _, Backbone, app, ProjectLayoutView, Project, StreamItemCollection) {
 
     var GroupUserController = {};
 
     // Helper method to load project layout, taking into account bootstrapped data and prerendered view
-    var showProjectLayout = function (id) {
+    var showProjectLayoutView = function (id) {
         app.vent.trigger('project:show');
-        var projectLayout = null;
+        var projectLayoutView = null;
         if (app.prerenderedView.name === 'projects' && !app.prerenderedView.isBound) {
-            projectLayout = new ProjectLayout({ model: new Project(app.prerenderedView.data.Project) });
-            app.content.attachView(projectLayout);
+            projectLayoutView = new ProjectLayoutView({ model: new Project(app.prerenderedView.data.Project) });
+            app.content.attachView(projectLayoutView);
             app.prerenderedView.isBound = true;
         } else {
-            projectLayout = new ProjectLayout(); // TODO: Get project using id...
-            app.content.show(projectLayout);
+            projectLayoutView = new ProjectLayoutView(); // TODO: Get project using id...
+            app.content.show(projectLayoutView);
         }
-        projectLayout.render();
-        return projectLayout;
+        projectLayoutView.render();
+        return projectLayoutView;
     };
 
     // GroupUserController Public API
@@ -45,19 +45,19 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/projectlayout', 'model
 
     // Show project activity
     GroupUserController.showProjectStream = function (id) {
-        var projectLayout = showProjectLayout(id);
-        projectLayout.showStream(new StreamItemCollection(app.prerenderedView.data.StreamItems.PagedListItems));
+        var projectLayoutView = showProjectLayoutView(id);
+        projectLayoutView.showStream(new StreamItemCollection(app.prerenderedView.data.StreamItems.PagedListItems));
     };
 
     // Show project about
     GroupUserController.showProjectAbout = function (id) {
-        var projectLayout = showProjectLayout(id);
+        var projectLayoutView = showProjectLayoutView(id);
         //projectLayout.details.showAbout();
     };
 
     // Show project members
     GroupUserController.showProjectMembers = function (id) {
-        var projectLayout = showProjectLayout(id);
+        var projectLayoutView = showProjectLayoutView(id);
         //projectLayout.details.showMembers();
     };
 
