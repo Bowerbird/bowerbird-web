@@ -28,5 +28,14 @@ namespace Bowerbird.Web.Factories
             DateTime groupCreatedDateTime, 
             string description
             );
+
+        object Make(
+            object item,
+            Group group,
+            string contributionType,
+            User groupUser,
+            DateTime groupCreatedDateTime,
+            string description
+            );
     }
 }

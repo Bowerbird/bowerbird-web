@@ -78,6 +78,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandHandlers\FollowUserDeleteCommandHandler.cs" />
+    <Compile Include="CommandHandlers\FollowUserCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\ReferenceSpeciesDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\ReferenceSpeciesCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\ReferenceSpeciesUpdateCommandHandler.cs" />
@@ -125,7 +127,8 @@
     <Compile Include="CommandHandlers\WatchlistCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\WatchlistDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\WatchlistUpdateCommandHandler.cs" />
-    <Compile Include="Commands\ReferenceSpeciesDeleteCommand.cs" />
+    <Compile Include="Commands\DeleteCommand.cs" />
+    <Compile Include="Commands\FollowUserCreateCommand.cs" />
     <Compile Include="Commands\ReferenceSpeciesCreateCommand.cs" />
     <Compile Include="Commands\ReferenceSpeciesUpdateCommand.cs" />
     <Compile Include="Commands\SetupTestDataCommand.cs" />
@@ -139,40 +142,30 @@
     <Compile Include="Commands\PrivateChatSessionDeleteCommand.cs" />
     <Compile Include="Commands\PrivateChatSessionUpdateCommand.cs" />
     <Compile Include="Commands\SpeciesCreateCommand.cs" />
-    <Compile Include="Commands\SpeciesDeleteCommand.cs" />
     <Compile Include="Commands\SpeciesUpdateCommand.cs" />
     <Compile Include="Commands\UserSessionCreateCommand.cs" />
     <Compile Include="Commands\UserSessionDeleteCommand.cs" />
     <Compile Include="Commands\UserSessionUpdateCommand.cs" />
     <Compile Include="Commands\NotificationCreatedCommand.cs" />
     <Compile Include="Commands\OrganisationCreateCommand.cs" />
-    <Compile Include="Commands\OrganisationDeleteCommand.cs" />
     <Compile Include="Commands\OrganisationUpdateCommand.cs" />
     <Compile Include="Commands\TeamProjectCreateCommand.cs" />
     <Compile Include="Commands\UserUpdateCommand.cs" />
     <Compile Include="Commands\MediaResourceCreateCommand.cs" />
-    <Compile Include="Commands\MediaResourceDeleteCommand.cs" />
-    <Compile Include="Commands\ObservationDeleteCommand.cs" />
     <Compile Include="Commands\ObservationNoteCreateCommand.cs" />
-    <Compile Include="Commands\ObservationNoteDeleteCommand.cs" />
     <Compile Include="Commands\ObservationNoteUpdateCommand.cs" />
     <Compile Include="Commands\PostUpdateCommand.cs" />
     <Compile Include="Commands\TeamCreateCommand.cs" />
-    <Compile Include="Commands\TeamDeleteCommand.cs" />
     <Compile Include="Commands\TeamUpdateCommand.cs" />
     <Compile Include="Commands\UserRequestPasswordResetCommand.cs" />
     <Compile Include="Commands\ProjectCreateCommand.cs" />
-    <Compile Include="Commands\ProjectDeleteCommand.cs" />
     <Compile Include="Commands\PostCreateCommand.cs" />
-    <Compile Include="Commands\PostDeleteCommand.cs" />
     <Compile Include="Commands\ProjectUpdateCommand.cs" />
     <Compile Include="Commands\MemberCreateCommand.cs" />
-    <Compile Include="Commands\MemberDeleteCommand.cs" />
     <Compile Include="Commands\UserUpdateLastLoginCommand.cs" />
     <Compile Include="Commands\SetupSystemDataCommand.cs" />
     <Compile Include="Commands\UserUpdatePasswordCommand.cs" />
     <Compile Include="Commands\WatchlistCreateCommand.cs" />
-    <Compile Include="Commands\WatchlistDeleteCommand.cs" />
     <Compile Include="Commands\WatchlistUpdateCommand.cs" />
     <Compile Include="Config\BowerbirdMediaConfigurationSection.cs" />
     <Compile Include="Config\BowerbirdEmailConfigurationSection.cs" />
@@ -191,6 +184,7 @@
     <Compile Include="DomainModels\BaseObjectEqualityComparer.cs" />
     <Compile Include="DomainModels\CommentsComponent.cs" />
     <Compile Include="DomainModels\DenormalisedReferences\DenormalisedRoleReference.cs" />
+    <Compile Include="DomainModels\FollowUser.cs" />
     <Compile Include="DomainModels\GroupAssociation.cs" />
     <Compile Include="DomainModels\DenormalisedReferences\DenormalisedObservationNoteReference.cs" />
     <Compile Include="DomainModels\IContribution.cs" />
@@ -262,6 +256,7 @@
     <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Extensions\EmailExtensions.cs" />
     <Compile Include="DomainModels\ObservationGroup.cs" />
+    <Compile Include="Extensions\GroupExtensions.cs" />
     <Compile Include="Extensions\NumberExtensions.cs" />
     <Compile Include="ImageUtilities\ImageInformation.cs" />
     <Compile Include="ImageUtilities\ImageResizeMode.cs" />
@@ -282,6 +277,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\UsersGroupsQuery.cs" />
     <Compile Include="Queries\IUsersGroupsQuery.cs" />
+    <Compile Include="Repositories\GroupDocumentSessionExtensions.cs" />
     <Compile Include="Repositories\GroupMemberDocumentSessionExtensions.cs" />
     <Compile Include="Repositories\UserDocumentSessionExtensions.cs" />
     <Compile Include="Services\ConfigService.cs" />

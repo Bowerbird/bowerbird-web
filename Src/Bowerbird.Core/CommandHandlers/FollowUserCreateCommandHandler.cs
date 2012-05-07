@@ -19,9 +19,9 @@ using Raven.Client;
 
 namespace Bowerbird.Core.CommandHandlers
 {
-    public class ProjectDeleteCommandHandler : ICommandHandler<DeleteCommand>
+    public class FollowUserCreateCommandHandler : ICommandHandler<FollowUserCreateCommand>
     {
-        #region Members
+        #region Fields
 
         private readonly IDocumentSession _documentSession;
 
@@ -29,8 +29,9 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Constructors
 
-        public ProjectDeleteCommandHandler(
-            IDocumentSession documentSession)
+        public FollowUserCreateCommandHandler(
+            IDocumentSession documentSession
+            )
         {
             Check.RequireNotNull(documentSession, "documentSession");
 
@@ -44,14 +45,20 @@ namespace Bowerbird.Core.CommandHandlers
         #endregion
 
         #region Methods
-        
-        public void Handle(DeleteCommand command)
+
+        #endregion
+
+        public void Handle(FollowUserCreateCommand command)
         {
             Check.RequireNotNull(command, "command");
 
-            _documentSession.Delete(_documentSession.Load<Project>(command.Id));
-        }
+            var followUser = new FollowUser(
+                    _documentSession.Load<User>(command.UserToFollow),
+                    _documentSession.Load<User>(command.Follower),
+                    command.CreatedDateTime
+                );
 
-        #endregion				
+            _documentSession.Store(followUser);
+        }
     }
 }

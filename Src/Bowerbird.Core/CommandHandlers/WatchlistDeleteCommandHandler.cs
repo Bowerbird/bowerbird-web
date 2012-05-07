@@ -1,6 +1,4 @@
-﻿/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -21,7 +19,7 @@ using Raven.Client;
 
 namespace Bowerbird.Core.CommandHandlers
 {
-    public class WatchlistDeleteCommandHandler : ICommandHandler<WatchlistDeleteCommand>
+    public class WatchlistDeleteCommandHandler : ICommandHandler<DeleteCommand>
     {
         #region Members
 
@@ -47,7 +45,7 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Methods
 
-        public void Handle(WatchlistDeleteCommand command)
+        public void Handle(DeleteCommand command)
         {
             Check.RequireNotNull(command, "command");
 

@@ -65,27 +65,14 @@ namespace Bowerbird.Web.Builders
 
         #region Methods
 
-        public object BuildItem(IdInput idInput)
+        public object BuildOrganisation(IdInput idInput)
         {
             Check.RequireNotNull(idInput, "idInput");
 
             return _organisationViewFactory.Make(_documentSession.Load<Organisation>(idInput.Id));
         }
 
-        public object BuildList(PagingInput pagingInput)
-        {
-            //Check.RequireNotNull(pagingInput, "pagingInput");
-
-            //if (pagingInput.HasAddTeamPermission)
-            //{
-            //    return BuildOrganisationsWhereUserHasAddTeamPermission();
-            //}
-
-            //return BuildOrganisations(listInput);
-            throw new System.NotImplementedException();
-        }
-
-        private object BuildOrganisations(PagingInput pagingInput)
+        public object BuildOrganisationList(PagingInput pagingInput)
         {
             RavenQueryStatistics stats;
 
@@ -107,21 +94,6 @@ namespace Bowerbird.Web.Builders
                     stats.TotalResults,
                     null)
             };
-        }
-
-        private object BuildOrganisationsWhereUserHasAddTeamPermission()
-        {
-            var loggedInUserId = _userContext.GetAuthenticatedUserId();
-
-            return _documentSession
-                .Query<All_Groups.Result, All_Groups>()
-                .AsProjection<All_Groups.Result>()
-                .Where(x =>
-                       x.Id.In(_usersGroupsQuery.GetUsersGroupsHavingPermission(loggedInUserId, "createteam")) &&
-                       x.GroupType == "organisation"
-                )
-                .ToList()
-                .Select(x => _organisationViewFactory.Make(x.Organisation));
         }
 
         #endregion

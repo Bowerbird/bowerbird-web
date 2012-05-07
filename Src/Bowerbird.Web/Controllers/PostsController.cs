@@ -30,7 +30,7 @@ namespace Bowerbird.Web.Controllers
 
         private readonly ICommandProcessor _commandProcessor;
         private readonly IUserContext _userContext;
-        private readonly IPostsViewModelBuilder _viewModelBuilder;
+        private readonly IPostsViewModelBuilder _postsViewModelBuilder;
 
         #endregion
 
@@ -48,7 +48,7 @@ namespace Bowerbird.Web.Controllers
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
-            _viewModelBuilder = postsViewModelBuilder;
+            _postsViewModelBuilder = postsViewModelBuilder;
         }
 
         #endregion
@@ -58,7 +58,7 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Index(IdInput idInput)
         {
-            ViewBag.Post = _viewModelBuilder.BuildItem(idInput);
+            ViewBag.Post = _postsViewModelBuilder.BuildPost(idInput);
 
             return View(Form.Index);
         }
@@ -66,13 +66,13 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult GetOne(IdInput idInput)
         {
-            return Json(_viewModelBuilder.BuildItem(idInput));
+            return Json(_postsViewModelBuilder.BuildPost(idInput));
         }
 
         [HttpGet]
         public ActionResult GetMany(PagingInput pagingInput)
         {
-            return Json(_viewModelBuilder.BuildList(pagingInput));
+            return Json(_postsViewModelBuilder.BuildGroupPostList(pagingInput));
         }
 
         [HttpGet]
@@ -96,7 +96,7 @@ namespace Bowerbird.Web.Controllers
                 return HttpUnauthorized();
             }
 
-            ViewBag.Post = _viewModelBuilder.BuildItem(idInput);
+            ViewBag.Post = _postsViewModelBuilder.BuildPost(idInput);
 
             return View(Form.Update);
         }
@@ -110,7 +110,7 @@ namespace Bowerbird.Web.Controllers
                 return HttpUnauthorized();
             }
 
-            ViewBag.Post = _viewModelBuilder.BuildItem(idInput);
+            ViewBag.Post = _postsViewModelBuilder.BuildPost(idInput);
 
             return View(Form.Delete);
         }
@@ -189,7 +189,7 @@ namespace Bowerbird.Web.Controllers
             }
 
             _commandProcessor.Process(
-                new PostDeleteCommand()
+                new DeleteCommand()
                 {
                     UserId = _userContext.GetAuthenticatedUserId(),
                     Id = deleteInput.Id

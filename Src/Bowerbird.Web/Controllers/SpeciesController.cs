@@ -211,7 +211,7 @@ namespace Bowerbird.Web.Controllers
             }
 
             _commandProcessor.Process(
-                new SpeciesDeleteCommand
+                new DeleteCommand
                 {
                     Id = idInput.Id,
                     UserId = _userContext.GetAuthenticatedUserId()

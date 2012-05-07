@@ -11,10 +11,12 @@
  * Atlas of Living Australia
  
 */
-				
+
+using System;
+
 namespace Bowerbird.Core.Commands
 {
-    public class OrganisationDeleteCommand : ICommand
+    public class FollowUserCreateCommand : ICommand
     {
         #region Fields
 
@@ -26,9 +28,11 @@ namespace Bowerbird.Core.Commands
 
         #region Properties
 
-        public string UserId { get; set; }
+        public string UserToFollow { get; set; }
 
-        public string Id { get; set; }
+        public string Follower { get; set; }
+
+        public DateTime CreatedDateTime { get; set; }
 
         #endregion
 

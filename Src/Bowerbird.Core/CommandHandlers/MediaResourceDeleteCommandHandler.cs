@@ -1,6 +1,4 @@
-﻿/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -21,7 +19,7 @@ using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Core.CommandHandlers
 {
-    public class MediaResourceDeleteCommandHandler : ICommandHandler<MediaResourceDeleteCommand>
+    public class MediaResourceDeleteCommandHandler : ICommandHandler<DeleteCommand>
     {
         #region Members
 
@@ -47,7 +45,7 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Methods
 
-        public void Handle(MediaResourceDeleteCommand command)
+        public void Handle(DeleteCommand command)
         {
             Check.RequireNotNull(command, "command");
 

@@ -133,6 +133,7 @@
     <Compile Include="Builders\AccountViewModelBuilder.cs" />
     <Compile Include="Builders\IAccountViewModelBuilder.cs" />
     <Compile Include="Builders\IBuilder.cs" />
+    <Compile Include="Builders\IMemberViewModelBuilder.cs" />
     <Compile Include="Builders\IObservationsViewModelBuilder.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -156,6 +157,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Builders\IUserViewModelBuilder.cs" />
+    <Compile Include="Builders\MemberViewModelBuilder.cs" />
     <Compile Include="Builders\ObservationsViewModelBuilder.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -194,7 +196,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\JsonNetResult.cs" />
     <Compile Include="Controllers\MediaResourcesController.cs" />
-    <Compile Include="Controllers\MembersController.cs" />
     <Compile Include="Controllers\ObservationsController.cs" />
     <Compile Include="Controllers\OrganisationsController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
@@ -208,6 +209,8 @@
     <Compile Include="EventHandlers\NotifyObservationCreatedEventHandler.cs" />
     <Compile Include="Factories\AvatarFactory.cs" />
     <Compile Include="Factories\CommentViewFactory.cs" />
+    <Compile Include="Factories\IMemberViewFactory.cs" />
+    <Compile Include="Factories\MemberViewFactory.cs" />
     <Compile Include="Factories\ICommentViewFactory.cs" />
     <Compile Include="Factories\IOrganisationViewFactory.cs" />
     <Compile Include="Factories\IPostViewFactory.cs" />

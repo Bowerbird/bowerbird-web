@@ -30,7 +30,11 @@ namespace Bowerbird.Web.Controllers
 
         private readonly ICommandProcessor _commandProcessor;
         private readonly IUserContext _userContext;
-        private readonly ITeamsViewModelBuilder _viewModelBuilder;
+        private readonly ITeamsViewModelBuilder _teamsViewModelBuilder;
+        private readonly IStreamItemsViewModelBuilder _streamItemsViewModelBuilder;
+        private readonly IProjectsViewModelBuilder _projectsViewModelBuilder;
+        private readonly IPostsViewModelBuilder _postsViewModelBuilder;
+        private readonly IMemberViewModelBuilder _memberViewModelBuilder;
 
         #endregion
 
@@ -39,16 +43,28 @@ namespace Bowerbird.Web.Controllers
         public TeamsController(
             ICommandProcessor commandProcessor,
             IUserContext userContext,
-            ITeamsViewModelBuilder teamsViewModelBuilder
+            ITeamsViewModelBuilder teamsViewModelBuilder,
+            IStreamItemsViewModelBuilder streamItemsViewModelBuilder,
+            IProjectsViewModelBuilder projectsViewModelBuilder,
+            IPostsViewModelBuilder postsViewModelBuilder,
+            IMemberViewModelBuilder memberViewModelBuilder
             )
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
             Check.RequireNotNull(userContext, "userContext");
-            Check.RequireNotNull(teamsViewModelBuilder, "viewModelBuilder");
+            Check.RequireNotNull(teamsViewModelBuilder, "teamsViewModelBuilder");
+            Check.RequireNotNull(streamItemsViewModelBuilder, "streamItemsViewModelBuilder");
+            Check.RequireNotNull(projectsViewModelBuilder, "projectsViewModelBuilder");
+            Check.RequireNotNull(postsViewModelBuilder, "postsViewModelBuilder");
+            Check.RequireNotNull(memberViewModelBuilder, "memberViewModelBuilder");
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
-            _viewModelBuilder = teamsViewModelBuilder;
+            _teamsViewModelBuilder = teamsViewModelBuilder;
+            _streamItemsViewModelBuilder = streamItemsViewModelBuilder;
+            _projectsViewModelBuilder = projectsViewModelBuilder;
+            _postsViewModelBuilder = postsViewModelBuilder;
+            _memberViewModelBuilder = memberViewModelBuilder;
         }
 
         #endregion
@@ -58,25 +74,63 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Stream(PagingInput pagingInput)
         {
-            throw new NotImplementedException();
+            ViewBag.Model = new
+            {
+                Team = _teamsViewModelBuilder.BuildTeam(new IdInput() { Id = "teams/" + pagingInput.Id }),
+                StreamItems = _streamItemsViewModelBuilder.BuildGroupStreamItems(pagingInput)
+            };
+
+            ViewBag.PrerenderedView = "teams"; // HACK: Need to rethink this
+
+            return View(Form.Stream);
         }
 
         [HttpGet]
-        public ActionResult Observations(PagingInput pagingInput)
+        public ActionResult StreamList(PagingInput pagingInput)
         {
-            throw new NotImplementedException();
+            return new JsonNetResult(_streamItemsViewModelBuilder.BuildGroupStreamItems(pagingInput));
+        }
+
+        [HttpGet]
+        public ActionResult Projects(PagingInput pagingInput)
+        {
+            ViewBag.Model = new
+            {
+                Team = _teamsViewModelBuilder.BuildTeam(new IdInput() { Id = "teams/" + pagingInput.Id }),
+                Projects = _projectsViewModelBuilder.BuildTeamProjectList(pagingInput)
+            };
+
+            ViewBag.PrerenderedView = "projects"; // HACK: Need to rethink this
+
+            return View(Form.Stream);
         }
 
         [HttpGet]
         public ActionResult Posts(PagingInput pagingInput)
         {
-            throw new NotImplementedException();
+            ViewBag.Model = new
+            {
+                Team = _teamsViewModelBuilder.BuildTeam(new IdInput() { Id = "teams/" + pagingInput.Id }),
+                Posts = _postsViewModelBuilder.BuildGroupPostList(pagingInput)
+            };
+
+            ViewBag.PrerenderedView = "posts"; // HACK: Need to rethink this
+
+            return View(Form.Stream);
         }
 
         [HttpGet]
         public ActionResult Members(PagingInput pagingInput)
         {
-            throw new NotImplementedException();
+            ViewBag.Model = new
+            {
+                Team = _teamsViewModelBuilder.BuildTeam(new IdInput() { Id = "teams/" + pagingInput.Id }),
+                Members = _memberViewModelBuilder.BuildTeamMemberList(pagingInput)
+            };
+
+            ViewBag.PrerenderedView = "members"; // HACK: Need to rethink this
+
+            return View(Form.Stream);
         }
 
         [HttpGet]
@@ -88,7 +142,7 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Explore(PagingInput pagingInput)
         {
-            ViewBag.TeamList = _viewModelBuilder.BuildList(pagingInput);
+            ViewBag.TeamList = _teamsViewModelBuilder.BuildTeamList(pagingInput);
 
             return View(Form.List);
         }
@@ -96,13 +150,13 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult GetOne(IdInput idInput)
         {
-            return Json(_viewModelBuilder.BuildItem(idInput));
+            return new JsonNetResult(_teamsViewModelBuilder.BuildTeam(idInput));
         }
 
         [HttpGet]
         public ActionResult GetMany(PagingInput pagingInput)
         {
-            return Json(_viewModelBuilder.BuildList(pagingInput));
+            return new JsonNetResult(_teamsViewModelBuilder.BuildTeamList(pagingInput));
         }
 
         [HttpGet]
@@ -126,7 +180,7 @@ namespace Bowerbird.Web.Controllers
                 return HttpUnauthorized();
             }
 
-            ViewBag.Team = _viewModelBuilder.BuildItem(idInput);
+            ViewBag.Team = _teamsViewModelBuilder.BuildTeam(idInput);
 
             return View(Form.Update);
         }
@@ -140,7 +194,7 @@ namespace Bowerbird.Web.Controllers
                 return HttpUnauthorized();
             }
 
-            ViewBag.Team = _viewModelBuilder.BuildItem(idInput);
+            ViewBag.Team = _teamsViewModelBuilder.BuildTeam(idInput);
 
             return View(Form.Delete);
         }
@@ -218,7 +272,7 @@ namespace Bowerbird.Web.Controllers
             }
 
             _commandProcessor.Process(
-                new TeamDeleteCommand()
+                new DeleteCommand()
                 {
                     Id = deleteInput.Id,
                     UserId = _userContext.GetAuthenticatedUserId()
