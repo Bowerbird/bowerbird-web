@@ -8,7 +8,6 @@
 // Project
 // -------
 
-// A project
 define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, app) {
 
     var Project = Backbone.Model.extend({

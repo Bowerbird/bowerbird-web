@@ -5,14 +5,14 @@
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// SidebarLayout
-// -------------
+// SidebarLayoutView
+// -----------------
 
 // The left hand side bar that is shown to authenticated users.
 define(['jquery', 'underscore', 'backbone', 'app', 'models/user', 'views/sidebarprojectcollectionview', 'collections/projectcollection',
     'models/project'], function ($, _, Backbone, app, User, SidebarProjectCollectionView, ProjectCollection, Project) {
 
-    var SidebarLayout = Backbone.Marionette.Layout.extend({
+    var SidebarLayoutView = Backbone.Marionette.Layout.extend({
         tagName: 'section',
 
         id: 'sidebar',
@@ -60,16 +60,16 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/user', 'views/sidebar
         // Only show sidebar if user is authenticated
         if (this.authenticatedUser) {
             // Render the layout and get it on the screen, first
-            var sidebarLayout = new SidebarLayout({ model: this.authenticatedUser });
+            var sidebarLayoutView = new SidebarLayoutView({ model: this.authenticatedUser });
 
-            sidebarLayout.on('show', function () {
+            sidebarLayoutView.on('show', function () {
                 app.vent.trigger('sidebarLayout:rendered');
             });
 
-            app.sidebar.show(sidebarLayout);
+            app.sidebar.show(sidebarLayoutView);
         } 
     });
 
-    return SidebarLayout;
+    return SidebarLayoutView;
 
 });

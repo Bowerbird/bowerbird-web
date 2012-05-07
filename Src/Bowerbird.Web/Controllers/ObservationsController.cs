@@ -87,12 +87,30 @@ namespace Bowerbird.Web.Controllers
          
         [HttpGet]
         [Authorize]
-        public ActionResult CreateForm(IdInput idInput)
+        public ActionResult CreateForm()
         {
             if (!_userContext.HasUserProjectPermission(PermissionNames.CreateObservation))
             {
                 return HttpUnauthorized();
             }
+
+            ViewBag.Model = new
+            {
+                Observation = new
+                {
+                    Title = string.Empty,
+                    ObservedOn = DateTime.Now.ToString("d MMM yyyy"),
+                    Latitude = string.Empty,
+                    Longitude = string.Empty,
+                    Address = string.Empty,
+                    IsIdentificationRequired = false,
+                    Category = string.Empty,
+                    AddMedia = new string[] {},
+                    Projects = new string[] {}
+                }
+            };
+
+            ViewBag.PrerenderedView = "observations";
 
             return View(Form.Create);
         }

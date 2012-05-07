@@ -8,7 +8,6 @@
 // StreamItem
 // ----------
 
-// A stream item
 define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, app) {
 
     var StreamItem = Backbone.Model.extend({
