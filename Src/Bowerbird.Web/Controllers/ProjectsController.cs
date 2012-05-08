@@ -172,7 +172,7 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult CreateForm(IdInput idInput)
         {
-            if (!_userContext.HasGroupPermission(PermissionNames.CreateProject, idInput.Id))
+            if (!_userContext.HasGroupPermission(PermissionNames.CreateProject, idInput.Id ?? Constants.AppRootId))
             {
                 return HttpUnauthorized();
             }

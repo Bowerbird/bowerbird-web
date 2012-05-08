@@ -80,9 +80,10 @@ namespace Bowerbird.Web.Builders
 
             var results = _documentSession
                 .Query<All_Groups.Result, All_Groups>()
+                .AsProjection<All_Groups.Result>()
                 .Customize(x => x.WaitForNonStaleResults())
                 .Include(x => x.Id)
-                .AsProjection<All_Groups.Result>()
+                .Where(x => x.GroupType == "project")
                 .Statistics(out stats)
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)

@@ -548,7 +548,7 @@ namespace Bowerbird.Web.Services
                 .Where(x => x.Id == chatId)
                 .FirstOrDefault();
 
-            return group != null ? group.Name : "Unknown Group";
+            return group != null ? group.Group.Name : "Unknown Group";
         }
 
         public IEnumerable GetChatMessages(string chatId)

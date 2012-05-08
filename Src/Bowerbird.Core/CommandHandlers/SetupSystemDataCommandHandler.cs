@@ -188,7 +188,7 @@ namespace Bowerbird.Core.CommandHandlers
         {
             // Create the TempAppRoot to be used before the actual app root is created
             // Once the real temp app root is created, this one is no longer used
-            TheAppRoot = new TempAppRoot();
+            TheAppRoot = new AppRoot(Constants.AppRootId);
         }
 
         private void AddAppRoot(string userId)
@@ -250,16 +250,6 @@ namespace Bowerbird.Core.CommandHandlers
             _documentSession.Store(user);
 
             Users.Add(user);
-        }
-
-        private class TempAppRoot : AppRoot
-        {
-            public TempAppRoot()
-                : base()
-            {
-                Id = Constants.AppRootId;
-                Name = "Application Root Group";
-            }
         }
 
         #endregion      

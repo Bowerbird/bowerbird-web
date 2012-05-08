@@ -14,7 +14,6 @@
 
 using System;
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.Events;
 
 namespace Bowerbird.Core.DomainModels
 {
@@ -43,6 +42,9 @@ namespace Bowerbird.Core.DomainModels
             ChildGroupId = childGroup.Id;
             CreatedByUserId = createdByUser.Id;
             CreatedDateTime = createdDateTime;
+
+            ParentGroupType = parentGroup.GetType().Name.ToLower();
+            ChildGroupType = childGroup.GetType().Name.ToLower();
         }
 
         #endregion
@@ -51,7 +53,11 @@ namespace Bowerbird.Core.DomainModels
 
         public string ParentGroupId { get; private set; }
 
+        public string ParentGroupType { get; private set; }
+
         public string ChildGroupId { get; private set; }
+
+        public string ChildGroupType { get; private set; }
 
         public string CreatedByUserId { get; private set; }
 

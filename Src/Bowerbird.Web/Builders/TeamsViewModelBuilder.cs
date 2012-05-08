@@ -80,17 +80,19 @@ namespace Bowerbird.Web.Builders
         {
             RavenQueryStatistics stats;
 
-            var teams = _documentSession
-                .Query<Team>()
-                .Statistics(out stats)
-                .Skip(pagingInput.Page)
-                .Take(pagingInput.PageSize)
-                .ToList();
+            //var teams = _documentSession
+            //    .Query<Team>()
+            //    .Statistics(out stats)
+            //    .Skip(pagingInput.Page)
+            //    .Take(pagingInput.PageSize)
+            //    .ToList()
+            //    .Select(x => x.Id);
 
             var results = _documentSession
                 .Query<All_Groups.Result, All_Groups>()
                 .AsProjection<All_Groups.Result>()
-                .Where(x => x.GroupType == "team" && x.Id.In(teams.Select(y => y.Id)))
+                .Customize(x => x.WaitForNonStaleResults())
+                .Where(x => x.GroupType == "team")
                 .Statistics(out stats)
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)

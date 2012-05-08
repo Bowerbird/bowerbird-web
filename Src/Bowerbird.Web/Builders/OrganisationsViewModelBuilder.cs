@@ -76,13 +76,19 @@ namespace Bowerbird.Web.Builders
         {
             RavenQueryStatistics stats;
 
+
             var results = _documentSession
-                .Query<Organisation>()
+                .Query<All_Groups.Result, All_Groups>()
+                .AsProjection<All_Groups.Result>()
+                .Customize(x => x.WaitForNonStaleResults())
+                .Include(x => x.Id)
+                .Where(x => x.GroupType == "organisation")
                 .Statistics(out stats)
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
                 .ToList()
-                .Select(x => _organisationViewFactory.Make(x));
+                .Select(x => _organisationViewFactory.Make(x.Organisation));
+
 
             return new
             {
