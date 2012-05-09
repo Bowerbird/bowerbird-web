@@ -12,12 +12,10 @@
  
 */
 
-using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Paging;
-using Bowerbird.Core.Queries;
 using Bowerbird.Web.Factories;
 using Bowerbird.Web.ViewModels;
 using Raven.Client;
@@ -30,9 +28,6 @@ namespace Bowerbird.Web.Builders
     {
         #region Fields
 
-        private readonly IUserContext _userContext;
-        private readonly IUsersGroupsQuery _usersGroupsQuery;
-        private readonly IOrganisationViewFactory _organisationViewFactory;
         private readonly IDocumentSession _documentSession;
         private readonly ITeamViewFactory _teamViewFactory;
 
@@ -41,22 +36,13 @@ namespace Bowerbird.Web.Builders
         #region Constructors
 
         public TeamsViewModelBuilder(
-            IUserContext userContext,
-            IUsersGroupsQuery usersGroupsQuery,
-            IOrganisationViewFactory organisationViewFactory,
             IDocumentSession documentSession,
             ITeamViewFactory teamViewFactory
         )
         {
-            Check.RequireNotNull(userContext, "userContext");
-            Check.RequireNotNull(usersGroupsQuery, "usersGroupsQuery");
-            Check.RequireNotNull(organisationViewFactory, "organisationViewFactory");
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(teamViewFactory, "teamViewFactory");
 
-            _userContext = userContext;
-            _usersGroupsQuery = usersGroupsQuery;
-            _organisationViewFactory = organisationViewFactory;
             _documentSession = documentSession;
             _teamViewFactory = teamViewFactory;
         }
@@ -73,20 +59,18 @@ namespace Bowerbird.Web.Builders
         {
             Check.RequireNotNull(idInput, "idInput");
 
-            return _teamViewFactory.Make(_documentSession.Load<Team>(idInput.Id));
+            var team = _documentSession
+                .Query<All_Groups.Result, All_Groups>()
+                .AsProjection<All_Groups.Result>()
+                .Where(x => x.Id == idInput.Id)
+                .FirstOrDefault();
+
+            return _teamViewFactory.Make(team);
         }
 
         public object BuildTeamList(PagingInput pagingInput)
         {
             RavenQueryStatistics stats;
-
-            //var teams = _documentSession
-            //    .Query<Team>()
-            //    .Statistics(out stats)
-            //    .Skip(pagingInput.Page)
-            //    .Take(pagingInput.PageSize)
-            //    .ToList()
-            //    .Select(x => x.Id);
 
             var results = _documentSession
                 .Query<All_Groups.Result, All_Groups>()
@@ -97,7 +81,7 @@ namespace Bowerbird.Web.Builders
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
                 .ToList()
-                .Select(x => _teamViewFactory.Make(x.Team));
+                .Select(x => _teamViewFactory.Make(x));
 
             return new
             {
@@ -116,7 +100,7 @@ namespace Bowerbird.Web.Builders
             RavenQueryStatistics stats;
 
             var memberships = _documentSession
-               .Query<All_UserMemberships.Result, All_UserMemberships>()
+               .Query<All_Users.Result, All_Users>()
                .Where(x => x.UserId == pagingInput.Id && x.GroupId.Contains("teams/"))
                .Include(x => x.GroupId)
                .Select(x => x.GroupId)
@@ -130,7 +114,7 @@ namespace Bowerbird.Web.Builders
                 .AsProjection<All_Groups.Result>()
                 .Where(x => x.GroupType == "team" && x.Id.In(memberships))
                 .ToList()
-                .Select(x => _teamViewFactory.Make(x.Team));
+                .Select(x => _teamViewFactory.Make(x));
 
             return new
             {
@@ -165,7 +149,7 @@ namespace Bowerbird.Web.Builders
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
                 .ToList()
-                .Select(x => _teamViewFactory.Make(x.Team));
+                .Select(x => _teamViewFactory.Make(x));
 
             return new
             {

@@ -14,7 +14,7 @@
 
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.Paging;
+using Bowerbird.Core.Indexes;
 
 namespace Bowerbird.Web.Factories
 {
@@ -45,6 +45,10 @@ namespace Bowerbird.Web.Factories
 
         #region Methods
 
+        /// <summary>
+        /// Return the Team properties and avatar
+        /// passing the Team Domain Model
+        /// </summary>
         public object Make(Team team)
         {
             return new
@@ -57,23 +61,25 @@ namespace Bowerbird.Web.Factories
             };
         }
 
-        public object Make(Team team, PagedList<object> projects, object organisation, PagedList<object> members)
+        /// <summary>
+        /// Return the Team properties and avatar with
+        /// project count and member count
+        /// passing the index All_Groups.Result
+        /// </summary>
+        public object Make(All_Groups.Result team)
         {
             return new
             {
                 team.Id,
-                team.Name,
-                team.Description,
-                team.Website,
-                Avatar = _avatarFactory.Make(team),
-                Projects = projects,
-                Organisation = organisation,
-                Members = members
+                team.Team.Name,
+                team.Team.Description,
+                team.Team.Website,
+                Avatar = _avatarFactory.Make(team.Team),
+                team.TeamProjectCount,
+                team.GroupMemberCount
             };
         }
 
         #endregion
     }
 }
-
-

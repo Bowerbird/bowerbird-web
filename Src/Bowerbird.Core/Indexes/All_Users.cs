@@ -19,7 +19,7 @@ using Raven.Abstractions.Indexing;
 
 namespace Bowerbird.Core.Indexes
 {
-    public class All_UserMemberships : AbstractMultiMapIndexCreationTask<All_UserMemberships.Result>
+    public class All_Users : AbstractMultiMapIndexCreationTask<All_Users.Result>
     {
         public class Result
         {
@@ -31,7 +31,7 @@ namespace Bowerbird.Core.Indexes
             public Member Member { get; set; }
         }
 
-        public All_UserMemberships()
+        public All_Users()
         {
             AddMap<Member>(members => from member in members 
                                         select new

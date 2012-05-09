@@ -156,8 +156,8 @@ namespace Bowerbird.Web.Builders
             RavenQueryStatistics stats;
 
             return _documentSession
-                .Query<All_GroupContributions.Result, All_GroupContributions>()
-                .AsProjection<All_GroupContributions.Result>()
+                .Query<All_Contributions.Result, All_Contributions>()
+                .AsProjection<All_Contributions.Result>()
                 .Statistics(out stats)
                 .Include(x => x.ContributionId)
                 .Where(x => x.ContributionType.Equals("observation") && x.GroupId == pagingInput.Id)
@@ -170,7 +170,7 @@ namespace Bowerbird.Web.Builders
                 .Select(MakeStreamItem);
         }
 
-        private object MakeStreamItem(All_GroupContributions.Result groupContributionResult)
+        private object MakeStreamItem(All_Contributions.Result groupContributionResult)
         {
             object item = null;
             string description = null;

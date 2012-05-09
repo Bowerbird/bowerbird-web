@@ -73,8 +73,8 @@ namespace Bowerbird.Core.Queries
         public int GetGroupMemberCount(string groupId)
         {
             return _documentSession
-                .Query<All_UserMemberships.Result, All_Groups>()
-                .AsProjection<All_UserMemberships.Result>()
+                .Query<All_Users.Result, All_Groups>()
+                .AsProjection<All_Users.Result>()
                 .Where(x => x.GroupId == groupId)
                 .Count();
         }

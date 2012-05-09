@@ -230,8 +230,6 @@
     <Compile Include="Factories\ReferenceSpeciesViewFactory.cs" />
     <Compile Include="Factories\SpeciesViewFactory.cs" />
     <Compile Include="Factories\StreamItemFactory.cs" />
-    <Compile Include="Queries\IUserProfileQuery.cs" />
-    <Compile Include="Queries\UserProfileQuery.cs" />
     <Compile Include="Factories\TeamViewFactory.cs" />
     <Compile Include="Factories\UserViewFactory.cs" />
     <Compile Include="Hubs\ChatHub.cs" />

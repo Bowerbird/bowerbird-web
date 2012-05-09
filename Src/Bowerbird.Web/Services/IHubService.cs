@@ -25,7 +25,7 @@ namespace Bowerbird.Web.Services
 
         object GetUserAvatar(User user);
 
-        IEnumerable<All_ChatSessions.Results> GetClientsForChat(string chatId);
+        IEnumerable<All_Chats.Results> GetClientsForChat(string chatId);
         
         void UpdateUserOnline(string clientId, string userId);
         

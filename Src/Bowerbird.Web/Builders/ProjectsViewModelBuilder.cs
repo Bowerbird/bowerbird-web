@@ -30,10 +30,6 @@ namespace Bowerbird.Web.Builders
 
         private readonly IDocumentSession _documentSession;
         private readonly IProjectViewFactory _projectViewFactory;
-        private readonly IUserViewFactory _userViewFactory;
-        private readonly IStreamItemsViewModelBuilder _streamItemsViewModelBuilder;
-        private readonly IPostsViewModelBuilder _postViewModelBuilder;
-        private readonly IObservationsViewModelBuilder _observationsViewModelBuilder;
 
         #endregion
 
@@ -41,26 +37,14 @@ namespace Bowerbird.Web.Builders
 
         public ProjectsViewModelBuilder(
             IDocumentSession documentSession,
-            IProjectViewFactory projectViewFactory,
-            IUserViewFactory userViewFactory,
-            IStreamItemsViewModelBuilder streamItemsViewModelBuilder,
-            IPostsViewModelBuilder postViewModelBuilder,
-            IObservationsViewModelBuilder observationsViewModelBuilder
+            IProjectViewFactory projectViewFactory
         )
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(projectViewFactory, "projectViewFactory");
-            Check.RequireNotNull(userViewFactory, "userViewFactory");
-            Check.RequireNotNull(streamItemsViewModelBuilder, "streamItemsViewModelBuilder");
-            Check.RequireNotNull(postViewModelBuilder, "postsViewModelBuilder");
-            Check.RequireNotNull(observationsViewModelBuilder, "observationsViewModelBuilder");
 
             _documentSession = documentSession;
             _projectViewFactory = projectViewFactory;
-            _userViewFactory = userViewFactory;
-            _streamItemsViewModelBuilder = streamItemsViewModelBuilder;
-            _postViewModelBuilder = postViewModelBuilder;
-            _observationsViewModelBuilder = observationsViewModelBuilder;
         }
 
         #endregion
@@ -71,7 +55,13 @@ namespace Bowerbird.Web.Builders
         {
             Check.RequireNotNull(idInput, "idInput");
 
-            return _projectViewFactory.Make(_documentSession.Load<Project>(idInput.Id));
+            var project = _documentSession
+                .Query<All_Groups.Result, All_Groups>()
+                .AsProjection<All_Groups.Result>()
+                .Where(x => x.Id == idInput.Id)
+                .FirstOrDefault();
+
+            return _projectViewFactory.Make(project);
         }
 
         public object BuildProjectList(PagingInput pagingInput)
@@ -88,7 +78,7 @@ namespace Bowerbird.Web.Builders
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
                 .ToList()
-                .Select(x => _projectViewFactory.Make(x.Project));
+                .Select(x => _projectViewFactory.Make(x));
 
             return new
             {
@@ -107,7 +97,7 @@ namespace Bowerbird.Web.Builders
             RavenQueryStatistics stats;
 
             var memberships = _documentSession
-                .Query<All_UserMemberships.Result, All_UserMemberships>()
+                .Query<All_Users.Result, All_Users>()
                 .Where(x => x.UserId == pagingInput.Id && x.GroupId.Contains("projects/"))
                 .Select(x => x.GroupId)
                 .Statistics(out stats)
@@ -122,7 +112,7 @@ namespace Bowerbird.Web.Builders
                 .Include(x => x.Id)
                 .AsProjection<All_Groups.Result>()
                 .ToList()
-                .Select(x => _projectViewFactory.Make(x.Project));
+                .Select(x => _projectViewFactory.Make(x));
 
             return new
             {
@@ -161,7 +151,7 @@ namespace Bowerbird.Web.Builders
                 .Customize(x => x.WaitForNonStaleResults())
                 .AsProjection<All_Groups.Result>()
                 .ToList()
-                .Select(x => _projectViewFactory.Make(x.Project));
+                .Select(x => _projectViewFactory.Make(x));
 
             return new
             {

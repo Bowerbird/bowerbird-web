@@ -76,8 +76,8 @@ namespace Bowerbird.Web.Builders
                 .ToList();
 
             return _documentSession
-                .Query<All_GroupContributions.Result, All_GroupContributions>()
-                .AsProjection<All_GroupContributions.Result>()
+                .Query<All_Contributions.Result, All_Contributions>()
+                .AsProjection<All_Contributions.Result>()
                 .Statistics(out stats)
                 .Include(x => x.ContributionId)
                 .Where(x => x.GroupId.In(groups.Select(y => y.GroupId)))
@@ -101,8 +101,8 @@ namespace Bowerbird.Web.Builders
                 .ToList();
 
             return _documentSession
-                .Query<All_GroupContributions.Result, All_GroupContributions>()
-                .AsProjection<All_GroupContributions.Result>()
+                .Query<All_Contributions.Result, All_Contributions>()
+                .AsProjection<All_Contributions.Result>()
                 .Statistics(out stats)
                 .Include(x => x.ContributionId)
                 .Where(x => x.GroupId.In(groups.Select(y => y.GroupId)))
@@ -128,8 +128,8 @@ namespace Bowerbird.Web.Builders
             groups.Add(new { GroupId = pagingInput.Id });
 
             return _documentSession
-                .Query<All_GroupContributions.Result, All_GroupContributions>()
-                .AsProjection<All_GroupContributions.Result>()
+                .Query<All_Contributions.Result, All_Contributions>()
+                .AsProjection<All_Contributions.Result>()
                 .Statistics(out stats)
                 .Include(x => x.ContributionId)
                 .Where(x => x.GroupId.In(groups.Select(y => y.GroupId)))
@@ -141,7 +141,7 @@ namespace Bowerbird.Web.Builders
                 .ToPagedList(pagingInput.Page, pagingInput.PageSize, stats.TotalResults);
         }
 
-        private object MakeStreamItem(All_GroupContributions.Result groupContributionResult)
+        private object MakeStreamItem(All_Contributions.Result groupContributionResult)
         {
             object item = null;
             string description = null;
@@ -177,7 +177,7 @@ namespace Bowerbird.Web.Builders
         //        //.ToList();
 
         //    var groupContributions = GetContributionsForGroups(groupMemberships)
-        //        .AsProjection<All_GroupContributions.Result>()
+        //        .AsProjection<All_Contributions.Result>()
         //        .Include(x => x.ContributionId)
         //        .Where(x => x.UserId == listInput.UserId)
         //        .Statistics(out stats)

@@ -20,7 +20,7 @@ using Raven.Client.Indexes;
 
 namespace Bowerbird.Core.Indexes
 {
-    public class All_UserSessions : AbstractMultiMapIndexCreationTask<All_UserSessions.Results>
+    public class All_Sessions : AbstractMultiMapIndexCreationTask<All_Sessions.Results>
     {
         public class Results
         {
@@ -30,7 +30,7 @@ namespace Bowerbird.Core.Indexes
             public DateTime LatestActivity { get; set; }
         }
 
-        public All_UserSessions()
+        public All_Sessions()
         {
             AddMap<UserSession>(userSessions =>
                 from c in userSessions

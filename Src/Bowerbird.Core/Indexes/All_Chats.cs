@@ -19,7 +19,7 @@ using Raven.Client.Indexes;
 
 namespace Bowerbird.Core.Indexes
 {
-    public class All_ChatSessions : AbstractMultiMapIndexCreationTask<All_ChatSessions.Results>
+    public class All_Chats : AbstractMultiMapIndexCreationTask<All_Chats.Results>
     {
         public class Results
         {
@@ -29,7 +29,7 @@ namespace Bowerbird.Core.Indexes
             public int Status { get; set; }
         }
 
-        public All_ChatSessions()
+        public All_Chats()
         {
             // when chatting to a private group of users, the chatId is the ChatId
             AddMap<PrivateChatSession>(sessions =>

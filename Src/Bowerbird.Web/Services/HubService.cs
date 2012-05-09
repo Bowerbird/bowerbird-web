@@ -101,22 +101,22 @@ namespace Bowerbird.Web.Services
             };
         }
 
-        public IEnumerable<All_ChatSessions.Results> GetClientsForChat(string chatId)
+        public IEnumerable<All_Chats.Results> GetClientsForChat(string chatId)
         {
             return _documentSession
-                .Query<All_ChatSessions.Results, All_ChatSessions>()
+                .Query<All_Chats.Results, All_Chats>()
                 .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
-                .AsProjection<All_ChatSessions.Results>()
+                .AsProjection<All_Chats.Results>()
                 .Where(x => x.ChatId == chatId && x.Status < (int)Connection.ConnectionStatus.Offline)
                 .ToList();
         }
 
-        public IEnumerable<All_ChatSessions.Results> GetChatsForAClient(string clientId)
+        public IEnumerable<All_Chats.Results> GetChatsForAClient(string clientId)
         {
             return _documentSession
-                .Query<All_ChatSessions.Results, All_ChatSessions>()
+                .Query<All_Chats.Results, All_Chats>()
                 .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
-                .AsProjection<All_ChatSessions.Results>()
+                .AsProjection<All_Chats.Results>()
                 .Where(x => x.ClientId == clientId)
                 .ToList();
         }
@@ -124,9 +124,9 @@ namespace Bowerbird.Web.Services
         public string GetClientsUserId(string clientId)
         {
             return _documentSession
-                .Query<All_UserSessions.Results, All_UserSessions>()
+                .Query<All_Sessions.Results, All_Sessions>()
                 .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
-                .AsProjection<All_UserSessions.Results>()
+                .AsProjection<All_Sessions.Results>()
                 .Where(x => x.ClientId == clientId)
                 .ToList()
                 .FirstOrDefault().UserId;
@@ -181,8 +181,8 @@ namespace Bowerbird.Web.Services
         public IEnumerable GetConnectedClientIdsForAUser(string userId)
         {
             return _documentSession
-                .Query<All_UserSessions.Results, All_UserSessions>()
-                .AsProjection<All_UserSessions.Results>()
+                .Query<All_Sessions.Results, All_Sessions>()
+                .AsProjection<All_Sessions.Results>()
                 .Where(x => x.Status < 2 && x.UserId == userId)
                 .ToList()
                 .Select(x => x.ClientId);
@@ -191,8 +191,8 @@ namespace Bowerbird.Web.Services
         public IEnumerable GetConnectedUserClientIds()
         {
             return _documentSession
-                .Query<All_UserSessions.Results, All_UserSessions>()
-                .AsProjection<All_UserSessions.Results>()
+                .Query<All_Sessions.Results, All_Sessions>()
+                .AsProjection<All_Sessions.Results>()
                 .Where(x => x.Status < 2)
                 .ToList()
                 .Select(x => x.ClientId);
@@ -201,9 +201,9 @@ namespace Bowerbird.Web.Services
         private int UserOnlineStatus(string userId)
         {
             var sessions = _documentSession
-                .Query<All_UserSessions.Results, All_UserSessions>()
+                .Query<All_Sessions.Results, All_Sessions>()
                 .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
-                .AsProjection<All_UserSessions.Results>()
+                .AsProjection<All_Sessions.Results>()
                 .Where(x => x.UserId == userId && x.Status < 2)
                 .ToList();
 

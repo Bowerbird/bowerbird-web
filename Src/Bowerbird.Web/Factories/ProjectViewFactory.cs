@@ -14,6 +14,7 @@
 
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Indexes;
 
 namespace Bowerbird.Web.Factories
 {
@@ -29,14 +30,11 @@ namespace Bowerbird.Web.Factories
         #region Constructors
 
         public ProjectViewFactory(
-            //IUserViewFactory userViewFactory,
             IAvatarFactory avatarFactory
             )
         {
-            //Check.RequireNotNull(userViewFactory, "userViewFactory");
             Check.RequireNotNull(avatarFactory, "avatarFactory");
 
-            //_userViewFactory = userViewFactory;
             _avatarFactory = avatarFactory;
         }
 
@@ -48,6 +46,10 @@ namespace Bowerbird.Web.Factories
 
         #region Methods
 
+        /// <summary>
+        /// Return the Project properties and avatar
+        /// passing the Project Domain Model
+        /// </summary>
         public object Make(Project project)
         {
             return new
@@ -56,8 +58,25 @@ namespace Bowerbird.Web.Factories
                 project.Name,
                 project.Description,
                 project.Website,
-                //Creator = _userViewFactory.Make(project.User.Id),
                 Avatar = _avatarFactory.Make(project)
+            };
+        }
+
+        /// <summary>
+        /// Return the Project properties and avatar with
+        /// project member count
+        /// passing the index All_Groups.Result
+        /// </summary>
+        public object Make(All_Groups.Result project)
+        {
+            return new
+            {
+                project.Id,
+                project.Project.Name,
+                project.Project.Description,
+                project.Project.Website,
+                Avatar = _avatarFactory.Make(project.Project),
+                project.GroupMemberCount
             };
         }
 

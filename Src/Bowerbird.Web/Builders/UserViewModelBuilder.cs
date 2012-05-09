@@ -150,8 +150,8 @@ namespace Bowerbird.Web.Builders
         public IEnumerable BuildOnlineUsers()
         {
             var connectedUserIds = _documentSession
-                .Query<All_UserSessions.Results, All_UserSessions>()
-                .AsProjection<All_UserSessions.Results>()
+                .Query<All_Sessions.Results, All_Sessions>()
+                .AsProjection<All_Sessions.Results>()
                 .Include(x => x.UserId)
                 .Where(x => x.Status < (int)Connection.ConnectionStatus.Offline)
                 .ToList()

@@ -13,11 +13,14 @@
 */
 				
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Indexes;
 
 namespace Bowerbird.Web.Factories
 {
     public interface IProjectViewFactory : IFactory
     {
         object Make(Project project);
+
+        object Make(All_Groups.Result project);
     }
 }

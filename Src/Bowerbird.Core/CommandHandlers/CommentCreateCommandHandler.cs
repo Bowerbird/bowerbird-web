@@ -52,8 +52,10 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(command, "command");
 
-            var contribution = _documentSession.Query<IContribution, All_Contributions>()
-                .Where(x => x.Id == command.ContributionId)
+            var contribution = _documentSession
+                .Query<All_Contributions.Result, All_Contributions>()
+                .AsProjection<All_Contributions.Result>()
+                .Where(x => x.ContributionId == command.ContributionId)
                 .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
                 .FirstOrDefault();
 
