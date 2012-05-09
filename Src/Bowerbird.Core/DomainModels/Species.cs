@@ -26,10 +26,40 @@ namespace Bowerbird.Core.DomainModels
 
         #region Constructors
 
-        protected Species() 
-            : base() 
+        protected Species()
+            : base()
         {
             InitMembers();
+        }
+
+        public Species(
+            string kingdom,
+            string group,
+            IEnumerable<string> commonNames,
+            string taxonomy,
+            string order,
+            string family,
+            string genusName,
+            string speciesName,
+            bool proposedAsNewSpecies,
+            DateTime createdOn
+            )
+        {
+            InitMembers();
+
+            CreatedDateTime = createdOn;
+
+            SetDetails(
+                kingdom,
+                group,
+                commonNames,
+                taxonomy,
+                order,
+                family,
+                genusName,
+                speciesName,
+                proposedAsNewSpecies
+                );
         }
 
         public Species(
@@ -95,7 +125,7 @@ namespace Bowerbird.Core.DomainModels
         public DateTime CreatedDateTime { get; set; }
 
         public DateTime ModifiedDateTime { get; set; }
-        
+
         #endregion
 
         #region Methods

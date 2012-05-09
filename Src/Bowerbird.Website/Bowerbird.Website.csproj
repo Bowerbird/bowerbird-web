@@ -157,6 +157,7 @@
     <Content Include="js\libs\underscore\underscore-min.js" />
     <Content Include="js\libs\underscore\underscore.js" />
     <Content Include="js\_old\libs\yepnope.js" />
+    <Content Include="species\Butterflies.txt" />
     <Content Include="welcome.txt" />
     <None Include="Views\Home\About.mustache" />
     <None Include="Views\Account\LogoutSuccess.mustache" />

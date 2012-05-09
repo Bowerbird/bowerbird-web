@@ -12,6 +12,7 @@
  
 */
 
+using System.Configuration;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.Events;
 using NinjectBootstrapper = Ninject.Web.Mvc.Bootstrapper;
@@ -59,6 +60,7 @@ namespace Bowerbird.Web.App_Start
             RouteRegistrar.RegisterRoutesTo(RouteTable.Routes);
 
             ServiceLocator.Current.GetInstance<SetupSystemDataCommandHandler>().Handle(new SetupSystemDataCommand());
+            ServiceLocator.Current.GetInstance<SetupSpeciesDataCommandHandler>().Handle(new SetupSpeciesDataCommand());
 
             ServiceLocator.Current.GetInstance<ISystemStateManager>().EnableAllServices();
 
