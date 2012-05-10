@@ -43,9 +43,9 @@ namespace Bowerbird.Web.Controllers
             ICommandProcessor commandProcessor,
             IUserContext userContext,
             IUserViewModelBuilder userViewModelBuilder,
+            IStreamItemsViewModelBuilder streamItemsViewModelBuilder,
             IProjectsViewModelBuilder projectsViewModelBuilder,
             IPostsViewModelBuilder postsViewModelBuilder,
-            IStreamItemsViewModelBuilder streamItemsViewModelBuilder,
             ITeamsViewModelBuilder teamsViewModelBuilder
             )
         {

@@ -37,11 +37,18 @@
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.0.10827\lib\NET40\Moq.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.0.8.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.4.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject">
+      <HintPath>..\packages\Ninject.2.2.1.4\lib\net40-Full\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="Ninject.Extensions.Conventions">
       <HintPath>..\packages\Ninject.Extensions.Conventions.2.2.0.5\lib\net40-Full\Ninject.Extensions.Conventions.dll</HintPath>
@@ -70,6 +77,15 @@
     </Reference>
     <Reference Include="Raven.Client.MvcIntegration, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RavenDB.1.0.888\lib\net40\Raven.Client.MvcIntegration.dll</HintPath>
+    </Reference>
+    <Reference Include="SignalR">
+      <HintPath>..\packages\SignalR.Server.0.4.0.0\lib\net40\SignalR.dll</HintPath>
+    </Reference>
+    <Reference Include="SignalR.Hosting.AspNet">
+      <HintPath>..\packages\SignalR.Hosting.AspNet.0.4.0.0\lib\net40\SignalR.Hosting.AspNet.dll</HintPath>
+    </Reference>
+    <Reference Include="SignalR.Ninject">
+      <HintPath>..\packages\SignalR.Ninject.0.4\lib\net40\SignalR.Ninject.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -116,7 +132,6 @@
     <Compile Include="Core.CommandHandlers\WatchlistCreateCommandHandlerTest.cs" />
     <Compile Include="Core.CommandHandlers\WatchlistDeleteCommandHandlerTest.cs" />
     <Compile Include="Core.CommandHandlers\WatchlistUpdateCommandHandlerTest.cs" />
-    <Compile Include="Core.Queries\UsersGroupsQueryTest.cs" />
     <Compile Include="Web.Config\BowerbirdNinjectModuleTest.cs" />
     <Compile Include="Web.Config\UserContextTest.cs" />
     <Compile Include="Web.Controllers\AccountControllerTest.cs" />
@@ -128,7 +143,6 @@
     <Compile Include="Web.Controllers\PostsControllerTest.cs" />
     <Compile Include="Web.Controllers\ProjectsControllerTest.cs" />
     <Compile Include="Web.Controllers\SpeciesControllerTest.cs" />
-    <Compile Include="Web.Controllers\StreamItemsControllerTest.cs" />
     <Compile Include="Web.Controllers\TeamsControllerTest.cs" />
     <Compile Include="Web.Controllers\TemplateControllerTest.cs" />
     <Compile Include="Web.Controllers\UsersControllerTest.cs" />
@@ -197,6 +211,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Web.Hubs\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\jquery-1.6.4-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.6.4.js" />
+    <Content Include="Scripts\jquery-1.6.4.min.js" />
+    <Content Include="Scripts\jquery.signalR.js" />
+    <Content Include="Scripts\jquery.signalR.min.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

@@ -273,7 +273,6 @@
     <Compile Include="Indexes\All_Contributions.cs" />
     <Compile Include="Indexes\All_Groups.cs" />
     <Compile Include="Indexes\All_Chats.cs" />
-    <Compile Include="Indexes\All_Properties.cs" />
     <Compile Include="Indexes\All_Users.cs" />
     <Compile Include="Indexes\All_Sessions.cs" />
     <Compile Include="Indexes\All_ReferenceSpecies.cs" />

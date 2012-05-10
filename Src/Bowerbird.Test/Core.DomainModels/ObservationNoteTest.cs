@@ -87,12 +87,16 @@ namespace Bowerbird.Test.Core.DomainModels
                 new Dictionary<string, string>() { { "c", "d" } },
                 FakeValues.CreatedDateTime);
 
+            var tagList = new List<string>();
+            tagList.AddRange(FakeValues.Tags);
+            tagList.Add(additionalString);
+
             testObservationNote.UpdateDetails(
                 FakeObjects.TestUser(), 
                 FakeValues.CommonName.AppendWith(additionalString),
                 FakeValues.ScientificName.AppendWith(additionalString),
                 FakeValues.Taxonomy.AppendWith(additionalString),
-                FakeValues.Tags.AppendWith(additionalString),
+                tagList,
                 new Dictionary<string, string>() { { "e", "f" } },
                 new Dictionary<string, string>() { { "g", "h" } }
                 );
@@ -100,7 +104,7 @@ namespace Bowerbird.Test.Core.DomainModels
             Assert.AreEqual(testObservationNote.CommonName, FakeValues.CommonName.AppendWith(additionalString));
             Assert.AreEqual(testObservationNote.ScientificName, FakeValues.ScientificName.AppendWith(additionalString));
             Assert.AreEqual(testObservationNote.Taxonomy, FakeValues.Taxonomy.AppendWith(additionalString));
-            Assert.AreEqual(testObservationNote.Tags, FakeValues.Tags.AppendWith(additionalString));
+            Assert.AreEqual(testObservationNote.Tags, tagList);
             Assert.AreEqual(testObservationNote.Descriptions, new Dictionary<string, string>() { { "e", "f" } });
             Assert.AreEqual(testObservationNote.References, new Dictionary<string, string>() { { "g", "h" } });
         }

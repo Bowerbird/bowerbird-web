@@ -61,7 +61,7 @@ namespace Bowerbird.Test.Core.CommandHandlers
 
             Project deletedTeam = null;
 
-            var command = new ProjectDeleteCommand()
+            var command = new DeleteCommand()
             {
                 Id = project.Id,
                 UserId = user.Id

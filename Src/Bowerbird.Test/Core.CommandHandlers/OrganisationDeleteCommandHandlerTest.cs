@@ -62,7 +62,7 @@ namespace Bowerbird.Test.Core.CommandHandlers
 
             Organisation deleted = null;
 
-            var command = new OrganisationDeleteCommand()
+            var command = new DeleteCommand()
             {
                 Id = organisation.Id,
                 UserId = user.Id

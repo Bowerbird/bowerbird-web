@@ -68,7 +68,7 @@ namespace Bowerbird.Test.Utils
         /// <summary>
         /// value: "faketag1, faketag2"
         /// </summary>
-        public static string Tags { get { return "faketag1, faketag2"; } }
+        public static List<string> Tags { get { return new List<string>() {"faketag1, faketag2"}; } }
 
         /// <summary>
         /// value: "fake message"

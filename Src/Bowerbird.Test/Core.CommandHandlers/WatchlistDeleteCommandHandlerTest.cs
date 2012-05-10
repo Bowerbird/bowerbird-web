@@ -62,7 +62,7 @@ namespace Bowerbird.Test.Core.CommandHandlers
 
             Watchlist deletedWatchlist = null;
 
-            var command = new WatchlistDeleteCommand()
+            var command = new DeleteCommand()
             {
                 Id = watchlist.Id,
                 UserId = user.Id

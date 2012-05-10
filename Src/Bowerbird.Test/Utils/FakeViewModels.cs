@@ -13,7 +13,6 @@
 */
 
 using Bowerbird.Web.ViewModels;
-using Bowerbird.Web.ViewModels.Account;
 
 namespace Bowerbird.Test.Utils
 {
@@ -49,13 +48,13 @@ namespace Bowerbird.Test.Utils
             };
         }
 
-        public static AccountRegister MakeAccountRegister()
+        public static object MakeAccountRegister()
         {
-            return new AccountRegister()
+            return new
             {
-                FirstName = FakeValues.FirstName,
-                LastName = FakeValues.LastName,
-                Email = FakeValues.Email
+                FakeValues.FirstName,
+                FakeValues.LastName,
+                FakeValues.Email
             };
         }
 
