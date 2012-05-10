@@ -54,62 +54,17 @@ namespace Bowerbird.Web.Builders
 
         #region Methods
 
-        public object BuildItem(IdInput idInput)
+        public object BuildSpecies(IdInput idInput)
         {
             Check.RequireNotNull(idInput, "idInput");
 
             return _speciesViewFactory.Make(_documentSession.Load<Species>(idInput.Id));
         }
 
-        public object BuildList(PagingInput pagingInput)
+        public object BuildSpeciesList(PagingInput pagingInput)
         {
             Check.RequireNotNull(pagingInput, "pagingInput");
 
-            if (pagingInput.Id != null)
-            {
-                return BuildGroupSpecies(pagingInput);
-            }
-
-            return BuildSpecies(pagingInput);
-        }
-
-        private object BuildSpecies(PagingInput pagingInput)
-        {
-            RavenQueryStatistics stats;
-
-            var results = _documentSession
-                .Query<Species>()
-                .Statistics(out stats)
-                .Skip(pagingInput.Page)
-                .Take(pagingInput.PageSize)
-                .ToList()
-                .Select(x => new
-                {
-                    x.Id,
-                    x.CommonNames,
-                    x.Family,
-                    x.GenusName,
-                    x.Group,
-                    x.Kingdom,
-                    x.Order,
-                    x.SpeciesName,
-                    x.Taxonomy
-                });
-
-            return new
-            {
-                pagingInput.Page,
-                pagingInput.PageSize,
-                SpeciesList = results.ToPagedList(
-                    pagingInput.Page,
-                    pagingInput.PageSize,
-                    stats.TotalResults,
-                    null)
-            };
-        }
-
-        private object BuildGroupSpecies(PagingInput pagingInput)
-        {
             RavenQueryStatistics stats;
 
             var results = _documentSession

@@ -31,6 +31,9 @@ namespace Bowerbird.Core.Config
         public static string CreateObservation = "createobservation";
         public static string UpdateObservation = "updateobservation";
         public static string DeleteObservation = "deleteobservation";
+        public static string CreateObservationNote = "createobservationnote";
+        public static string UpdateObservationNote = "updateobservationnote";
+        public static string DeleteObservationNote = "deleteobservationnote";
         public static string CreatePost = "createpost";
         public static string UpdatePost = "updatepost";
         public static string DeletePost = "deletepost";

@@ -105,11 +105,13 @@ namespace Bowerbird.Web.Builders
             RavenQueryStatistics stats;
 
             var observations = _documentSession
-                .Query<Observation>()
-                .Where(x => x.Groups.Any(y => y.GroupId == pagingInput.Id))
+                .Query<All_Contributions.Result, All_Contributions>()
+                .AsProjection<All_Contributions.Result>()
+                .Where(x => x.GroupId == pagingInput.Id)
                 .Statistics(out stats)
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
+                .Select(x => x.Observation)
                 .ToList();
 
             return new
@@ -130,12 +132,14 @@ namespace Bowerbird.Web.Builders
             RavenQueryStatistics stats;
 
             var observations = _documentSession
-                .Query<Observation>()
+                .Query<All_Contributions.Result, All_Contributions>()
+                .AsProjection<All_Contributions.Result>()
                 .Customize(x => x.Include(pagingInput.Id))
                 .Where(x => x.User.Id == pagingInput.Id)
                 .Statistics(out stats)
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
+                .Select(x => x.Observation)
                 .ToArray();
 
             return new

@@ -12,7 +12,6 @@
  
 */
 
-using System.Configuration;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.Events;
 using NinjectBootstrapper = Ninject.Web.Mvc.Bootstrapper;

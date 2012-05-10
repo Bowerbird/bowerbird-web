@@ -11,15 +11,13 @@
  * Atlas of Living Australia
  
 */
+				
+using Bowerbird.Core.DomainModels;
 
-using Bowerbird.Web.ViewModels;
-
-namespace Bowerbird.Web.Builders
+namespace Bowerbird.Web.Factories
 {
-    public interface ISpeciesViewModelBuilder : IBuilder
+    public interface IObservationNoteViewFactory : IFactory
     {
-        object BuildSpecies(IdInput idInput);
-
-        object BuildSpeciesList(PagingInput pagingInput);
+        object Make(ObservationNote observationNote);
     }
 }

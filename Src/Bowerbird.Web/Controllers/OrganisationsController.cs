@@ -36,6 +36,7 @@ namespace Bowerbird.Web.Controllers
         private readonly ITeamsViewModelBuilder _teamsViewModelBuilder;
         private readonly IPostsViewModelBuilder _postsViewModelBuilder;
         private readonly IMemberViewModelBuilder _memberViewModelBuilder;
+        private readonly IReferenceSpeciesViewModelBuilder _referenceSpeciesViewModelBuilder;
 
         #endregion
 
@@ -48,7 +49,8 @@ namespace Bowerbird.Web.Controllers
             IStreamItemsViewModelBuilder streamItemsViewModelBuilder,
             ITeamsViewModelBuilder teamsViewModelBuilder,
             IPostsViewModelBuilder postsViewModelBuilder,
-            IMemberViewModelBuilder memberViewModelBuilder
+            IMemberViewModelBuilder memberViewModelBuilder,
+            IReferenceSpeciesViewModelBuilder referenceSpeciesViewModelBuilder
             )
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
@@ -58,6 +60,7 @@ namespace Bowerbird.Web.Controllers
             Check.RequireNotNull(teamsViewModelBuilder, "teamsViewModelBuilder");
             Check.RequireNotNull(postsViewModelBuilder, "postsViewModelBuilder");
             Check.RequireNotNull(memberViewModelBuilder, "memberViewModelBuilder");
+            Check.RequireNotNull(referenceSpeciesViewModelBuilder, "referenceSpeciesViewModelBuilder");
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
@@ -66,6 +69,7 @@ namespace Bowerbird.Web.Controllers
             _teamsViewModelBuilder = teamsViewModelBuilder;
             _postsViewModelBuilder = postsViewModelBuilder;
             _memberViewModelBuilder = memberViewModelBuilder;
+            _referenceSpeciesViewModelBuilder = referenceSpeciesViewModelBuilder;
         }
 
         #endregion
@@ -94,6 +98,20 @@ namespace Bowerbird.Web.Controllers
         public ActionResult StreamList(PagingInput pagingInput)
         {
             return new JsonNetResult(_streamItemsViewModelBuilder.BuildGroupStreamItems(pagingInput));
+        }
+
+        [HttpGet]
+        public ActionResult ReferenceSpecies(PagingInput pagingInput)
+        {
+            ViewBag.Model = new
+            {
+                Team = _teamsViewModelBuilder.BuildTeam(new IdInput() { Id = "teams/" + pagingInput.Id }),
+                ReferenceSpecies = _referenceSpeciesViewModelBuilder.BuildGroupReferenceSpeciesList(pagingInput)
+            };
+
+            ViewBag.PrerenderedView = "referencespecies"; // HACK: Need to rethink this
+
+            return View(Form.Stream);
         }
 
         [HttpGet]

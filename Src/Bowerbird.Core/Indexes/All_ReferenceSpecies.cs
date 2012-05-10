@@ -27,6 +27,7 @@ namespace Bowerbird.Core.Indexes
         {
             public string GroupId { get; set; }
             public string SpeciesId { get; set; }
+            public string ReferenceSpeciesId { get; set; }
             public string Kingdom { get; set; }
             public string Group { get; set; }
             public IEnumerable<string> CommonNames { get; set; }
@@ -40,6 +41,8 @@ namespace Bowerbird.Core.Indexes
             public DateTime ReferenceSpeciesCreatedOn { get; set; }
             public string ReferencedByUserId { get; set; }
             public int ReferenceSpeciesCount { get; set; }
+            public ReferenceSpecies ReferenceSpecies { get; set; }
+            public Species Species { get; set; }
         }
 
         public All_ReferenceSpecies()
@@ -49,6 +52,7 @@ namespace Bowerbird.Core.Indexes
                 {
                     GroupId = (string)null,
                     SpeciesId = s.Id,
+                    ReferenceSpeciesId = (string)null,
                     s.Kingdom,
                     s.Group,
                     s.CommonNames,
@@ -69,6 +73,7 @@ namespace Bowerbird.Core.Indexes
                                        {
                                            GroupId = s.GroupId,
                                            SpeciesId = s.SpeciesId,
+                                           ReferenceSpeciesId = s.Id,
                                            Kingdom = (string)null,
                                            Group = (string)null,
                                            CommonNames = (string)null,
@@ -91,6 +96,7 @@ namespace Bowerbird.Core.Indexes
                                     {
                                         GroupId = g.Key,
                                         SpeciesId = g.Select(x => x.SpeciesId).FirstOrDefault(),
+                                        ReferenceSpeciesId = g.Select(x => x.ReferenceSpeciesId).FirstOrDefault(),
                                         Kingdom = g.Select(x => x.Kingdom).FirstOrDefault(),
                                         Group = g.Select(x => x.Group).FirstOrDefault(),
                                         CommonNames = g.Select(x => x.CommonNames).FirstOrDefault(),
@@ -108,10 +114,13 @@ namespace Bowerbird.Core.Indexes
 
             TransformResults = (database, results) =>
                 from result in results
+                let species = database.Load<Species>(result.SpeciesId)
+                let referenceSpecies = database.Load<ReferenceSpecies>(result.ReferenceSpeciesId)
                 select new
                 {
                     result.GroupId,
                     result.SpeciesId,
+                    result.ReferenceSpeciesId,
                     result.Kingdom,
                     result.Group,
                     result.CommonNames,
@@ -124,10 +133,13 @@ namespace Bowerbird.Core.Indexes
                     result.ReferenceSpeciesCreatedOn,
                     result.SmartTags,
                     result.ReferencedByUserId,
-                    result.ReferenceSpeciesCount
+                    result.ReferenceSpeciesCount,
+                    Species = species,
+                    ReferenceSpecies = referenceSpecies
                 };
 
             Store(x => x.SpeciesId, FieldStorage.Yes);
+            Store(x => x.ReferenceSpeciesId, FieldStorage.Yes);
             Store(x => x.Kingdom, FieldStorage.Yes);
             Store(x => x.Group, FieldStorage.Yes);
             Store(x => x.CommonNames, FieldStorage.Yes);

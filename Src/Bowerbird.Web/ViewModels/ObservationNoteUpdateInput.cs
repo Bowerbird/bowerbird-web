@@ -1,4 +1,4 @@
-/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -14,10 +14,10 @@
 
 using System;
 using System.Collections.Generic;
-
-namespace Bowerbird.Core.Commands
+ 
+namespace Bowerbird.Web.ViewModels
 {
-    public class ObservationNoteCreateCommand : ICommand
+    public class ObservationNoteUpdateInput
     {
         #region Members
 
@@ -29,30 +29,26 @@ namespace Bowerbird.Core.Commands
 
         #region Properties
 
-        public string UserId { get; set; }
-
-        public string ObservationId { get; set; }
+        public string Id { get; set; }
 
         public DateTime NotedOn { get; set; }
 
-        public string ScientificName { get; set; }
-
         public string CommonName { get; set; }
+
+        public string ScientificName { get; set; }
 
         public string Taxonomy { get; set; }
 
-        public IEnumerable<string> Tags { get; set; }
-
-        public Dictionary<string, string> Descriptions { get; set; }
+        public Dictionary<string,string> Descriptions { get; set; }
 
         public Dictionary<string, string> References { get; set; }
 
-        public string Notes { get; set; }
+        public IEnumerable<string> Tags { get; set; }
 
         #endregion
 
         #region Methods
 
-        #endregion
+        #endregion      
     }
 }

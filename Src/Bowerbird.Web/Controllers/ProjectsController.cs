@@ -35,6 +35,7 @@ namespace Bowerbird.Web.Controllers
         private readonly IObservationsViewModelBuilder _observationsViewModelBuilder;
         private readonly IPostsViewModelBuilder _postsViewModelBuilder;
         private readonly IMemberViewModelBuilder _memberViewModelBuilder;
+        private readonly IReferenceSpeciesViewModelBuilder _referenceSpeciesViewModelBuilder;
 
         #endregion
 
@@ -47,7 +48,8 @@ namespace Bowerbird.Web.Controllers
             IStreamItemsViewModelBuilder streamItemsViewModelBuilder,
             IObservationsViewModelBuilder observationsViewModelBuilder,
             IPostsViewModelBuilder postsViewModelBuilder,
-            IMemberViewModelBuilder memberViewModelBuilder
+            IMemberViewModelBuilder memberViewModelBuilder,
+            IReferenceSpeciesViewModelBuilder referenceSpeciesViewModelBuilder
             )
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
@@ -57,6 +59,7 @@ namespace Bowerbird.Web.Controllers
             Check.RequireNotNull(observationsViewModelBuilder, "observationsViewModelBuilder");
             Check.RequireNotNull(postsViewModelBuilder, "postsViewModelBuilder");
             Check.RequireNotNull(memberViewModelBuilder, "memberViewModelBuilder");
+            Check.RequireNotNull(referenceSpeciesViewModelBuilder, "referenceSpeciesViewModelBuilder");
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
@@ -65,6 +68,7 @@ namespace Bowerbird.Web.Controllers
             _observationsViewModelBuilder = observationsViewModelBuilder;
             _postsViewModelBuilder = postsViewModelBuilder;
             _memberViewModelBuilder = memberViewModelBuilder;
+            _referenceSpeciesViewModelBuilder = referenceSpeciesViewModelBuilder;
         }
 
         #endregion
@@ -105,6 +109,20 @@ namespace Bowerbird.Web.Controllers
             };
 
             ViewBag.PrerenderedView = "observations"; // HACK: Need to rethink this
+
+            return View(Form.Stream);
+        }
+
+        [HttpGet]
+        public ActionResult ReferenceSpecies(PagingInput pagingInput)
+        {
+            ViewBag.Model = new
+            {
+                Project = _projectsViewModelBuilder.BuildProject(new IdInput() { Id = "projects/" + pagingInput.Id }),
+                ReferenceSpecies = _referenceSpeciesViewModelBuilder.BuildGroupReferenceSpeciesList(pagingInput)
+            };
+
+            ViewBag.PrerenderedView = "referencespecies"; // HACK: Need to rethink this
 
             return View(Form.Stream);
         }

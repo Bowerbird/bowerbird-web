@@ -30,7 +30,7 @@ namespace Bowerbird.Web.Controllers
 
         private readonly ICommandProcessor _commandProcessor;
         private readonly IUserContext _userContext;
-        private readonly ISpeciesViewModelBuilder _viewModelBuilder;
+        private readonly ISpeciesViewModelBuilder _speciesViewModelBuilder;
 
         #endregion
 
@@ -48,7 +48,7 @@ namespace Bowerbird.Web.Controllers
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
-            _viewModelBuilder = speciesViewModelBuilder;
+            _speciesViewModelBuilder = speciesViewModelBuilder;
         }
 
         #endregion
@@ -62,7 +62,7 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Index(IdInput idInput)
         {
-            ViewBag.Species = _viewModelBuilder.BuildItem(idInput);
+            ViewBag.Species = _speciesViewModelBuilder.BuildSpecies(idInput);
 
             return View(Form.Index);
         }
@@ -70,7 +70,7 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Explore(PagingInput pagingInput)
         {
-            ViewBag.SpeciesList = _viewModelBuilder.BuildList(pagingInput);
+            ViewBag.SpeciesList = _speciesViewModelBuilder.BuildSpeciesList(pagingInput);
             
             return View(Form.List);
         }
@@ -78,13 +78,13 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult GetOne(IdInput idInput)
         {
-            return new JsonNetResult(_viewModelBuilder.BuildItem(idInput));
+            return new JsonNetResult(_speciesViewModelBuilder.BuildSpecies(idInput));
         }
 
         [HttpGet]
         public ActionResult GetMany(PagingInput pagingInput)
         {
-            return new JsonNetResult(_viewModelBuilder.BuildList(pagingInput));
+            return new JsonNetResult(_speciesViewModelBuilder.BuildSpeciesList(pagingInput));
         }
 
         [HttpGet]
@@ -108,7 +108,7 @@ namespace Bowerbird.Web.Controllers
                 return HttpUnauthorized();
             }
 
-            ViewBag.Species = _viewModelBuilder.BuildItem(idInput);
+            ViewBag.Species = _speciesViewModelBuilder.BuildSpecies(idInput);
 
             return View(Form.Update);
         }
@@ -122,7 +122,7 @@ namespace Bowerbird.Web.Controllers
                 return HttpUnauthorized();
             }
 
-            ViewBag.Species = _viewModelBuilder.BuildItem(idInput);
+            ViewBag.Species = _speciesViewModelBuilder.BuildSpecies(idInput);
 
             return View(Form.Delete);
         }

@@ -30,7 +30,7 @@ namespace Bowerbird.Web.Controllers
 
         private readonly ICommandProcessor _commandProcessor;
         private readonly IUserContext _userContext;
-        private readonly IReferenceSpeciesViewModelBuilder _viewModelBuilder;
+        private readonly IReferenceSpeciesViewModelBuilder _referenceSpeciesViewModelBuilder;
 
         #endregion
 
@@ -48,7 +48,7 @@ namespace Bowerbird.Web.Controllers
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
-            _viewModelBuilder = referenceSpeciesViewModelBuilder;
+            _referenceSpeciesViewModelBuilder = referenceSpeciesViewModelBuilder;
         }
 
         #endregion
@@ -62,7 +62,7 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Index(IdInput idInput)
         {
-            ViewBag.ReferenceSpecies = _viewModelBuilder.BuildItem(idInput);
+            ViewBag.ReferenceSpecies = _referenceSpeciesViewModelBuilder.BuildReferenceSpecies(idInput);
 
             return View(Form.Index);
         }
@@ -70,13 +70,13 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult GetOne(IdInput idInput)
         {
-            return new JsonNetResult(_viewModelBuilder.BuildItem(idInput));
+            return new JsonNetResult(_referenceSpeciesViewModelBuilder.BuildReferenceSpecies(idInput));
         }
 
         [HttpGet]
         public ActionResult GetMany(PagingInput pagingInput)
         {
-            return new JsonNetResult(_viewModelBuilder.BuildList(pagingInput));
+            return new JsonNetResult(_referenceSpeciesViewModelBuilder.BuildReferenceSpeciesList(pagingInput));
         }
 
         [HttpGet]
@@ -99,7 +99,7 @@ namespace Bowerbird.Web.Controllers
                 return HttpUnauthorized();
             }
 
-            ViewBag.ReferenceSpecies = _viewModelBuilder.BuildItem(idInput);
+            ViewBag.ReferenceSpecies = _referenceSpeciesViewModelBuilder.BuildReferenceSpecies(idInput);
 
             return View(Form.Update);
         }
@@ -113,7 +113,7 @@ namespace Bowerbird.Web.Controllers
                 return HttpUnauthorized();
             }
 
-            ViewBag.ReferenceSpecies = _viewModelBuilder.BuildItem(idInput);
+            ViewBag.ReferenceSpecies = _referenceSpeciesViewModelBuilder.BuildReferenceSpecies(idInput);
 
             return View(Form.Delete);
         }

@@ -15,6 +15,7 @@
 using System.Linq;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Paging;
 using Bowerbird.Web.Factories;
 using Bowerbird.Web.ViewModels;
@@ -54,32 +55,55 @@ namespace Bowerbird.Web.Builders
 
         #region Methods
 
-        public object BuildItem(IdInput idInput)
+        public object BuildReferenceSpecies(IdInput idInput)
         {
             Check.RequireNotNull(idInput, "idInput");
 
             return _referenceSpeciesViewFactory.Make(_documentSession.Load<ReferenceSpecies>(idInput.Id));
         }
 
-        public object BuildList(PagingInput pagingInput)
+        public object BuildReferenceSpeciesList(PagingInput pagingInput)
         {
             Check.RequireNotNull(pagingInput, "pagingInput");
 
-            return BuildReferenceSpecies(pagingInput);
-        }
-
-        private object BuildReferenceSpecies(PagingInput pagingInput)
-        {
             RavenQueryStatistics stats;
 
             var results = _documentSession
-                .Query<ReferenceSpecies>()
+                .Query<All_ReferenceSpecies.Result, All_ReferenceSpecies>()
+                .AsProjection<All_ReferenceSpecies.Result>()
+                .Statistics(out stats)
+                .Skip(pagingInput.Page)
+                .Take(pagingInput.PageSize)
+                .ToList()
+                .Select(x => _referenceSpeciesViewFactory.Make(x.ReferenceSpecies));
+
+            return new
+            {
+                pagingInput.Page,
+                pagingInput.PageSize,
+                Organisations = results.ToPagedList(
+                    pagingInput.Page,
+                    pagingInput.PageSize,
+                    stats.TotalResults,
+                    null)
+            };
+        }
+
+        public object BuildGroupReferenceSpeciesList(PagingInput pagingInput)
+        {
+            Check.RequireNotNull(pagingInput, "pagingInput");
+
+            RavenQueryStatistics stats;
+
+            var results = _documentSession
+                .Query<All_ReferenceSpecies.Result, All_ReferenceSpecies>()
+                .AsProjection<All_ReferenceSpecies.Result>()
                 .Where(x => x.GroupId == pagingInput.Id)
                 .Statistics(out stats)
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
                 .ToList()
-                .Select(x => _referenceSpeciesViewFactory.Make(x));
+                .Select(x => _referenceSpeciesViewFactory.Make(x.ReferenceSpecies));
 
             return new
             {
