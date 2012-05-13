@@ -1,6 +1,4 @@
-﻿/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -13,15 +11,12 @@
  * Atlas of Living Australia
  
 */
-
-using System.Collections.Generic;
-
+				
 namespace Bowerbird.Core.Commands
 {
-    public class MemberCreateCommand : ICommand
+    public class GroupAssociationCreateCommand  : ICommand
     {
-
-        #region Members
+        #region Fields
 
         #endregion
 
@@ -33,17 +28,14 @@ namespace Bowerbird.Core.Commands
 
         public string UserId { get; set; }
 
-        public string GroupId { get; set; }
+        public string ParentGroupId { get; set; }
 
-        public string CreatedByUserId { get; set; }
-
-        public IEnumerable<string> Roles { get; set; }
+        public string ChildGroupId { get; set; }
 
         #endregion
 
         #region Methods
 
         #endregion
-
     }
 }

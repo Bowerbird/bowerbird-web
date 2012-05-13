@@ -12,6 +12,7 @@
  
 */
 
+using System.Collections.Generic;
 using System.Web.Mvc;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
@@ -224,6 +225,62 @@ namespace Bowerbird.Web.Controllers
             ViewBag.Project = _projectsViewModelBuilder.BuildProject(idInput);
 
             return View(Form.Delete);
+        }
+
+        [Transaction]
+        [Authorize]
+        [HttpPost]
+        public ActionResult Join(IdInput idInput)
+        {
+            Check.RequireNotNull(idInput, "idInput");
+
+            if (!_userContext.HasGroupPermission(PermissionNames.JoinProject, idInput.Id))
+            {
+                return HttpUnauthorized();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return JsonFailed();
+            }
+
+            _commandProcessor.Process(
+                new MemberCreateCommand()
+                {
+                    UserId = _userContext.GetAuthenticatedUserId(),
+                    GroupId = idInput.Id,
+                    CreatedByUserId = _userContext.GetAuthenticatedUserId(),
+                    Roles = new []{ RoleNames.ProjectMember }
+                });
+
+            return JsonSuccess();
+        }
+
+        [Transaction]
+        [Authorize]
+        [HttpPost]
+        public ActionResult Leave(IdInput idInput)
+        {
+            Check.RequireNotNull(idInput, "idInput");
+
+            if (!_userContext.HasGroupPermission(PermissionNames.LeaveProject, idInput.Id))
+            {
+                return HttpUnauthorized();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return JsonFailed();
+            }
+
+            _commandProcessor.Process(
+                new DeleteCommand()
+                {
+                    UserId = _userContext.GetAuthenticatedUserId(),
+                    Id = idInput.Id
+                });
+
+            return JsonSuccess();
         }
 
         [Transaction]

@@ -243,6 +243,8 @@
     <Compile Include="ViewModels\CommentCreateInput.cs" />
     <Compile Include="ViewModels\CommentDeleteInput.cs" />
     <Compile Include="ViewModels\CommentUpdateInput.cs" />
+    <Compile Include="ViewModels\GroupAssociationCreateInput.cs" />
+    <Compile Include="ViewModels\GroupAssociationDeleteInput.cs" />
     <Compile Include="ViewModels\ObservationNoteUpdateInput.cs" />
     <Compile Include="ViewModels\ObservationNoteCreateInput.cs" />
     <Compile Include="ViewModels\ReferenceSpeciesCreateInput.cs" />

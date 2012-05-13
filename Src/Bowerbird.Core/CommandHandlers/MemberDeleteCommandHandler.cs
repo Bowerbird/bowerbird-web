@@ -50,6 +50,9 @@ namespace Bowerbird.Core.CommandHandlers
             Check.RequireNotNull(command, "command");
 
             _documentSession.Delete(_documentSession.Load<Member>(command.Id));
+
+            // we also need to find all the groupAssociations to delete this member from.
+            // if this 
         }
 
         #endregion

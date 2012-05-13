@@ -135,6 +135,8 @@
     <Compile Include="Commands\CommentCreateCommand.cs" />
     <Compile Include="Commands\CommentDeleteCommand.cs" />
     <Compile Include="Commands\CommentUpdateCommand.cs" />
+    <Compile Include="Commands\GroupAssociationCreateCommand.cs" />
+    <Compile Include="Commands\GroupAssociationDeleteCommand.cs" />
     <Compile Include="Commands\SetupSpeciesDataCommand.cs" />
     <Compile Include="Commands\DeleteCommand.cs" />
     <Compile Include="Commands\FollowUserCreateCommand.cs" />

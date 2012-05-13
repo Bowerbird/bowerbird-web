@@ -223,6 +223,116 @@ namespace Bowerbird.Web.Controllers
         }
 
         [Transaction]
+        [Authorize]
+        [HttpPost]
+        public ActionResult Join(IdInput idInput)
+        {
+            Check.RequireNotNull(idInput, "idInput");
+
+            if (!_userContext.HasGroupPermission(PermissionNames.JoinOrganisation, idInput.Id))
+            {
+                return HttpUnauthorized();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return JsonFailed();
+            }
+
+            _commandProcessor.Process(
+                new MemberCreateCommand()
+                {
+                    UserId = _userContext.GetAuthenticatedUserId(),
+                    GroupId = idInput.Id,
+                    CreatedByUserId = _userContext.GetAuthenticatedUserId(),
+                    Roles = new[] { RoleNames.OrganisationMember }
+                });
+
+            return JsonSuccess();
+        }
+
+        [Transaction]
+        [Authorize]
+        [HttpPost]
+        public ActionResult Leave(IdInput idInput)
+        {
+            Check.RequireNotNull(idInput, "idInput");
+
+            if (!_userContext.HasGroupPermission(PermissionNames.LeaveOrganisation, idInput.Id))
+            {
+                return HttpUnauthorized();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return JsonFailed();
+            }
+
+            _commandProcessor.Process(
+                new DeleteCommand()
+                {
+                    UserId = _userContext.GetAuthenticatedUserId(),
+                    Id = idInput.Id
+                });
+
+            return JsonSuccess();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult AddTeam(GroupAssociationCreateInput createInput)
+        {
+            Check.RequireNotNull(createInput, "createInput");
+
+            if (!_userContext.HasGroupPermission<Organisation>(PermissionNames.AddTeam, createInput.ParentGroupId))
+            {
+                return HttpUnauthorized();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return JsonFailed();
+            }
+
+            _commandProcessor.Process(
+                new GroupAssociationCreateCommand()
+                {
+                    UserId = _userContext.GetAuthenticatedUserId(),
+                    ParentGroupId = createInput.ParentGroupId,
+                    ChildGroupId = createInput.ChildGroupId
+                });
+
+            return JsonSuccess();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult RemoveTeam(GroupAssociationDeleteInput deleteInput)
+        {
+            Check.RequireNotNull(deleteInput, "deleteInput");
+
+            if (!_userContext.HasGroupPermission<Organisation>(PermissionNames.RemoveTeam, deleteInput.ParentGroupId))
+            {
+                return HttpUnauthorized();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return JsonFailed();
+            }
+
+            _commandProcessor.Process(
+                new GroupAssociationDeleteCommand()
+                {
+                    UserId = _userContext.GetAuthenticatedUserId(),
+                    ParentGroupId = deleteInput.ParentGroupId,
+                    ChildGroupId = deleteInput.ChildGroupId
+                });
+
+            return JsonSuccess();
+        }
+
+        [Transaction]
         [HttpPost]
         [Authorize]
         public ActionResult Create(OrganisationCreateInput createInput)

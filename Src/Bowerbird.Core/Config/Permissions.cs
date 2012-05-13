@@ -46,6 +46,16 @@ namespace Bowerbird.Core.Config
         public static string CreateComment = "createcomment";
         public static string UpdateComment = "updatecomment";
         public static string DeleteComment = "deletecomment";
+        public static string JoinProject = "joinproject";
+        public static string LeaveProject = "leaveproject";
+        public static string JoinTeam = "jointeam";
+        public static string LeaveTeam = "leaveteam";
+        public static string JoinOrganisation = "joinorganisation";
+        public static string LeaveOrganisation = "leaveorganisation";
+        public static string AddTeam = "addteam";
+        public static string RemoveTeam = "removeteam";
+        public static string AddProject = "addproject";
+        public static string RemoveProject = "removeproject";
     }
 
     public static class RoleNames
@@ -62,6 +72,10 @@ namespace Bowerbird.Core.Config
         /// value: organisationadministrator
         /// </summary>
         public static string OrganisationAdministrator = "organisationadministrator";
+        /// <summary>
+        /// value: organsiationmember
+        /// </summary>
+        public static string OrganisationMember = "organisationmember";
         /// <summary>
         /// value: teamadministrator
         /// </summary>
