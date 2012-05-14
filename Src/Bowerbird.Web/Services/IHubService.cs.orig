@@ -1,4 +1,4 @@
-/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
 Developers:
 * Frank Radocaj : frank@radocaj.com
@@ -23,7 +23,11 @@ namespace Bowerbird.Web.Services
         object GetUserAvatar(User user);
 
         IEnumerable<All_Chats.Results> GetClientsForChat(string chatId);
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 643d821a871c2c0cd8736681f125feada0d81f3b
         void UpdateUserOnline(string clientId, string userId);
 
         void PersistChatMessage(string chatId, string userId, string targetUserId, string message);

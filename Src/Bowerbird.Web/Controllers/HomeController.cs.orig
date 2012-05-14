@@ -67,13 +67,13 @@ namespace Bowerbird.Web.Controllers
                 StreamItems = new object [] {}
             };
 
-<<<<<<< Updated upstream
-            return View(Form.PrivateIndex);
-=======
+<<<<<<< HEAD
             ViewBag.PrerenderedView = "home"; // HACK: Need to rethink this
 
             return View();
->>>>>>> Stashed changes
+=======
+            return View(Form.PrivateIndex);
+>>>>>>> 643d821a871c2c0cd8736681f125feada0d81f3b
         }
 
         public ActionResult SetupTestData()

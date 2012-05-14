@@ -17,7 +17,6 @@ using Bowerbird.Core.DomainModels;
 using Raven.Client.Indexes;
 using Raven.Abstractions.Indexing;
 using Raven.Client.Linq;
-using System.Collections.Generic;
 
 namespace Bowerbird.Core.Indexes
 {
@@ -38,6 +37,7 @@ namespace Bowerbird.Core.Indexes
             public Team Team { get; set; }
             public Project Project { get; set; }
             public UserProject UserProject { get; set; }
+
         }
 
         public All_Groups()

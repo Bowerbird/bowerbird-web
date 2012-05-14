@@ -161,14 +161,14 @@
     <Content Include="js\bowerbird\routers\groupUserRouter.js" />
     <Content Include="js\libs\jquery\jquery-1.7.2-min.js" />
     <Content Include="js\libs\jquery\jquery-1.7.2.js" />
-<<<<<<< Updated upstream
     <Content Include="js\libs\signalr\jquery.signalR.js" />
     <Content Include="js\libs\signalr\jquery.signalR.min.js" />
-=======
+<<<<<<< HEAD
     <Content Include="js\libs\require\async.js" />
     <Content Include="js\libs\require\goog.js" />
     <Content Include="js\libs\require\propertyparser.js" />
->>>>>>> Stashed changes
+=======
+>>>>>>> 643d821a871c2c0cd8736681f125feada0d81f3b
     <Content Include="js\_old\libs\backbone.marionette.js" />
     <Content Include="js\_old\bowerbird\views\exploreItemView.js" />
     <Content Include="js\_old\bowerbird\views\exploreView.js" />
