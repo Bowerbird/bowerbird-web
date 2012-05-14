@@ -19,6 +19,15 @@ require.config({
         marionette: '/js/libs/backbone.marionette/backbone.marionette',
         text: '/js/libs/require/text', // Require.js text loader plugin
         ich: '/js/libs/icanhaz/icanhaz', // Mustache templates cache and renderer
+        goog: '/js/libs/require/goog', // Google async loader
+        propertyParser : '/js/libs/require/propertyparser', // Required by google loader
+        async: '/js/libs/require/async', // Required by google loader
+        jqueryui: '/js/libs/jqueryui',
+        datepicker: '/js/libs/bootstrap/bootstrap-datepicker',
+        date: '/js/libs/date/date',
+        multiselect: '/js/libs/jquery.multiselect/jquery.multiselect',
+        loadimage: '/js/libs/jquery.fileupload/load-image', 
+        fileupload: '/js/libs/jquery.fileupload/jquery.fileupload'
     },
     priority: [
         'ich', 
@@ -26,12 +35,14 @@ require.config({
         'underscore',
         'backbone', 
         'marionette', 
-        // Load the bootstraped data from the inline html
-        'bootstrap-data', 
+        // Load the bootstrapped data from the inline html
+        //'bootstrap-data', 
         // Routers are the first port of call, so load em up
         'routers/groupuserrouter',
         'routers/contributionrouter',
         // Load top level views, beacuse no one else is gonna do it
+        'views/headerview',
+        'views/footerview',
         'views/sidebarlayoutview',
         'views/projectlayoutview',
         'views/observationlayoutview'

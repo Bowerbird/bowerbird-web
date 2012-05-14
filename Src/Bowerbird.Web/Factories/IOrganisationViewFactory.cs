@@ -13,11 +13,14 @@
 */
 
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Indexes;
 
 namespace Bowerbird.Web.Factories
 {
     public interface IOrganisationViewFactory
     {
         object Make(Organisation organisation);
+
+        object Make(All_Groups.Result organisation);
     }
 }

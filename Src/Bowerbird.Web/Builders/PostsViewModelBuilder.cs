@@ -75,19 +75,19 @@ namespace Bowerbird.Web.Builders
                 .Include(x => x.GroupId)
                 .OrderByDescending(x => x.CreatedOn)
                 .Statistics(out stats)
-                .Skip(pagingInput.Page.Or(Default.PageStart))
-                .Take(pagingInput.PageSize.Or(Default.PageSize))
+                .Skip(pagingInput.Page)
+                .Take(pagingInput.PageSize)
                 .ToList()
                 .Select(x => _postViewFactory.Make(x));
 
             return new
             {
                 pagingInput.Id,
-                Page = pagingInput.Page.Or(Default.PageStart),
-                PageSize = pagingInput.PageSize.Or(Default.PageSize),
+                pagingInput.Page,
+                pagingInput.PageSize,
                 List = posts.ToPagedList(
-                    pagingInput.Page.Or(Default.PageStart),
-                    pagingInput.PageSize.Or(Default.PageSize),
+                    pagingInput.Page,
+                    pagingInput.PageSize,
                     stats.TotalResults,
                     null)
             };
@@ -103,19 +103,19 @@ namespace Bowerbird.Web.Builders
                 .Include(x => x.GroupId)
                 .OrderByDescending(x => x.CreatedOn)
                 .Statistics(out stats)
-                .Skip(pagingInput.Page.Or(Default.PageStart))
-                .Take(pagingInput.PageSize.Or(Default.PageSize))
+                .Skip(pagingInput.Page)
+                .Take(pagingInput.PageSize)
                 .ToList()
                 .Select(x => _postViewFactory.Make(x));
 
             return new
             {
                 pagingInput.Id,
-                Page = pagingInput.Page.Or(Default.PageStart),
-                PageSize = pagingInput.PageSize.Or(Default.PageSize),
+                pagingInput.Page,
+                pagingInput.PageSize,
                 List = posts.ToPagedList(
-                    pagingInput.Page.Or(Default.PageStart),
-                    pagingInput.PageSize.Or(Default.PageSize),
+                    pagingInput.Page,
+                    pagingInput.PageSize,
                     stats.TotalResults,
                     null)
             };
@@ -126,8 +126,8 @@ namespace Bowerbird.Web.Builders
             RavenQueryStatistics stats;
 
             return _documentSession
-                .Query<All_GroupContributions.Result, All_GroupContributions>()
-                .AsProjection<All_GroupContributions.Result>()
+                .Query<All_Contributions.Result, All_Contributions>()
+                .AsProjection<All_Contributions.Result>()
                 .Statistics(out stats)
                 .Include(x => x.ContributionId)
                 .Include(x => x.GroupId)
@@ -141,7 +141,7 @@ namespace Bowerbird.Web.Builders
                 .Select(MakeStreamItem);
         }
 
-        private object MakeStreamItem(All_GroupContributions.Result groupContributionResult)
+        private object MakeStreamItem(All_Contributions.Result groupContributionResult)
         {
             object item = null;
             string description = null;

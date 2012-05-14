@@ -81,6 +81,11 @@ namespace Bowerbird.Core.Services
             return ((BowerbirdEmailConfigurationSection)ConfigurationManager.GetSection("bowerbird/email")).ResetPasswordRelativeUri;
         }
 
+        public string GetSpeciesRelativePath()
+        {
+            return ((BowerbirdSpeciesConfigurationSection)ConfigurationManager.GetSection("bowerbird/species")).RelativePath;
+        }
+
         #endregion
         
     }

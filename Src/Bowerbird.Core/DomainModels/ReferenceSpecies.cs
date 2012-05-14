@@ -23,7 +23,7 @@ namespace Bowerbird.Core.DomainModels
     {
         #region Fields
 
-        private IEnumerable<string> _commonNames { get; set; }
+        private IEnumerable<string> _smartTags { get; set; }
 
         #endregion
 
@@ -70,7 +70,7 @@ namespace Bowerbird.Core.DomainModels
         
         public string SpeciesId { get; set; }
 
-        public IEnumerable<string> SmartTags { get { return _commonNames; } }
+        public IEnumerable<string> SmartTags { get { return _smartTags; } }
         
         #endregion
 
@@ -78,7 +78,7 @@ namespace Bowerbird.Core.DomainModels
 
         private void InitMembers()
         {
-            _commonNames = new List<string>();
+            _smartTags = new List<string>();
         }
 
         private void SetDetails(
@@ -89,7 +89,7 @@ namespace Bowerbird.Core.DomainModels
         {
             GroupId = groupId;
             SpeciesId = speciesId;
-            _commonNames = smartTags;
+            _smartTags = smartTags;
         }
 
         public void UpdateDetails(

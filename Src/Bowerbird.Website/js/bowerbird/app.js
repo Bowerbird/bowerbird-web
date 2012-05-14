@@ -10,7 +10,7 @@
 
 // Initialises the app, but does not start rendering. That is done 
 // when app.start() is called
-define(['jquery', 'underscore', 'backbone', 'bootstrap-data', 'models/user', 'marionette'], function ($, _, Backbone, bootstrapData, User) {
+define(['jquery', 'underscore', 'backbone', 'bootstrap-data', 'models/user', 'collections/usercollection', 'marionette'], function ($, _, Backbone, bootstrapData, User, UserCollection) {
 
     // Create an instance of the app
     var app = new Backbone.Marionette.Application();
@@ -31,9 +31,17 @@ define(['jquery', 'underscore', 'backbone', 'bootstrap-data', 'models/user', 'ma
 
     // Load the bootstrapped data into place
     app.bind('initialize:before', function () {
+        // Online users
+        app.onlineUsers = new UserCollection();
+
         // Add the authenticated user to the app for future reference
         if (bootstrapData.AuthenticatedUser) {
             app.authenticatedUser = new User(bootstrapData.AuthenticatedUser);
+            //app.projects.add(bootstrapData.AuthenticatedUser.Projects);
+        }
+
+        if (bootstrapData.OnlineUsers) {
+            app.onlineUsers.add(bootstrapData.OnlineUsers);
         }
 
         // Add the prerendered view string to the app for use by controller duing init of first view
@@ -56,14 +64,24 @@ define(['jquery', 'underscore', 'backbone', 'bootstrap-data', 'models/user', 'ma
     $(function () {
         // Start the app as soon as the DOM is ready, loading in the bootstrapped data
         app.start(bootstrapData);
-        
-        // Register overriding all anchors to channel through router
-        $('a').on('click', function (e) {
-            e.preventDefault();
-            app.groupUserRouter.navigate($(this).attr('href'), true);
-            app.contributionRouter.navigate($(this).attr('href'), true);
-            return false;
-        });
+
+        //        // Register overriding all anchors to channel through router
+        //        $('a').on('click', function (e) {
+
+        //            if (app.groupUserRouter.navigate($(this).attr('href'), { trigger: true })) {
+        //                e.preventDefault();
+        //                log('caught by groupUserRouter');
+        //                return false;
+        //            }
+        //            if (app.contributionRouter.navigate($(this).attr('href'), { trigger: true })) {
+        //                e.preventDefault();
+        //                log('caught by contributionRouter');
+        //                return false;
+        //            }
+        //            log('not caught!');
+        //            //app.contributionRouter.navigate($(this).attr('href'), { trigger: true })
+        //            return true;
+        //        });
 
         // Register closing of all popup menus in entire page
         $("body").click(function () {

@@ -24,6 +24,16 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/project'], function (
             'click .sub-menu-button li': 'selectMenuItem'
         },
 
+        onRender: function () {
+            var that = this;
+            $(this.el).children('a').on('click', function (e) {
+                e.preventDefault();
+                app.groupUserRouter.navigate($(this).attr('href'));
+                app.vent.trigger('project:show:stream', that.model.id);
+                return false;
+            });
+        },
+
         serializeData: function () {
             return {
                 Id: this.model.id,

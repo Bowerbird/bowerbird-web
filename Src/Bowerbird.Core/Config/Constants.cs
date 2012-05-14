@@ -93,6 +93,8 @@ namespace Bowerbird.Core.Config
     {
         public static string List = "List";
         public static string Index = "Index";
+        public static string PublicIndex = "PublicIndex";
+        public static string PrivateIndex = "PrivateIndex";
         public static string Stream = "Stream";
         public static string Observations = "Observations";
         public static string Posts = "Posts";

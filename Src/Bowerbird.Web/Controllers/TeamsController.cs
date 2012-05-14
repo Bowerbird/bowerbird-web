@@ -15,6 +15,7 @@
 using System.Web.Mvc;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.DomainModels;
 using Bowerbird.Web.Builders;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.ViewModels;
@@ -35,6 +36,7 @@ namespace Bowerbird.Web.Controllers
         private readonly IProjectsViewModelBuilder _projectsViewModelBuilder;
         private readonly IPostsViewModelBuilder _postsViewModelBuilder;
         private readonly IMemberViewModelBuilder _memberViewModelBuilder;
+        private readonly IReferenceSpeciesViewModelBuilder _referenceSpeciesViewModelBuilder;
 
         #endregion
 
@@ -47,7 +49,8 @@ namespace Bowerbird.Web.Controllers
             IStreamItemsViewModelBuilder streamItemsViewModelBuilder,
             IProjectsViewModelBuilder projectsViewModelBuilder,
             IPostsViewModelBuilder postsViewModelBuilder,
-            IMemberViewModelBuilder memberViewModelBuilder
+            IMemberViewModelBuilder memberViewModelBuilder,
+            IReferenceSpeciesViewModelBuilder referenceSpeciesViewModelBuilder
             )
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
@@ -57,6 +60,7 @@ namespace Bowerbird.Web.Controllers
             Check.RequireNotNull(projectsViewModelBuilder, "projectsViewModelBuilder");
             Check.RequireNotNull(postsViewModelBuilder, "postsViewModelBuilder");
             Check.RequireNotNull(memberViewModelBuilder, "memberViewModelBuilder");
+            Check.RequireNotNull(referenceSpeciesViewModelBuilder, "referenceSpeciesViewModelBuilder");
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
@@ -65,6 +69,7 @@ namespace Bowerbird.Web.Controllers
             _projectsViewModelBuilder = projectsViewModelBuilder;
             _postsViewModelBuilder = postsViewModelBuilder;
             _memberViewModelBuilder = memberViewModelBuilder;
+            _referenceSpeciesViewModelBuilder = referenceSpeciesViewModelBuilder;
         }
 
         #endregion
@@ -89,6 +94,20 @@ namespace Bowerbird.Web.Controllers
         public ActionResult StreamList(PagingInput pagingInput)
         {
             return new JsonNetResult(_streamItemsViewModelBuilder.BuildGroupStreamItems(pagingInput));
+        }
+
+        [HttpGet]
+        public ActionResult ReferenceSpecies(PagingInput pagingInput)
+        {
+            ViewBag.Model = new
+            {
+                Team = _teamsViewModelBuilder.BuildTeam(new IdInput() { Id = "teams/" + pagingInput.Id }),
+                ReferenceSpecies = _referenceSpeciesViewModelBuilder.BuildGroupReferenceSpeciesList(pagingInput)
+            };
+
+            ViewBag.PrerenderedView = "referencespecies"; // HACK: Need to rethink this
+
+            return View(Form.Stream);
         }
 
         [HttpGet]
@@ -163,7 +182,7 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult CreateForm(IdInput idInput)
         {
-            if (!_userContext.HasGroupPermission(PermissionNames.CreateTeam, idInput.Id))
+            if (!_userContext.HasGroupPermission(PermissionNames.CreateTeam, idInput.Id ?? Constants.AppRootId))
             {
                 return HttpUnauthorized();
             }
@@ -197,6 +216,116 @@ namespace Bowerbird.Web.Controllers
             ViewBag.Team = _teamsViewModelBuilder.BuildTeam(idInput);
 
             return View(Form.Delete);
+        }
+
+        [Transaction]
+        [Authorize]
+        [HttpPost]
+        public ActionResult Join(IdInput idInput)
+        {
+            Check.RequireNotNull(idInput, "idInput");
+
+            if (!_userContext.HasGroupPermission(PermissionNames.JoinTeam, idInput.Id))
+            {
+                return HttpUnauthorized();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return JsonFailed();
+            }
+
+            _commandProcessor.Process(
+                new MemberCreateCommand()
+                {
+                    UserId = _userContext.GetAuthenticatedUserId(),
+                    GroupId = idInput.Id,
+                    CreatedByUserId = _userContext.GetAuthenticatedUserId(),
+                    Roles = new[] { RoleNames.TeamMember }
+                });
+
+            return JsonSuccess();
+        }
+
+        [Transaction]
+        [Authorize]
+        [HttpPost]
+        public ActionResult Leave(IdInput idInput)
+        {
+            Check.RequireNotNull(idInput, "idInput");
+
+            if (!_userContext.HasGroupPermission(PermissionNames.LeaveTeam, idInput.Id))
+            {
+                return HttpUnauthorized();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return JsonFailed();
+            }
+
+            _commandProcessor.Process(
+                new DeleteCommand()
+                {
+                    UserId = _userContext.GetAuthenticatedUserId(),
+                    Id = idInput.Id
+                });
+
+            return JsonSuccess();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult AddProject(GroupAssociationCreateInput createInput)
+        {
+            Check.RequireNotNull(createInput, "createInput");
+
+            if (!_userContext.HasGroupPermission<Team>(PermissionNames.AddTeam, createInput.ParentGroupId))
+            {
+                return HttpUnauthorized();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return JsonFailed();
+            }
+
+            _commandProcessor.Process(
+                new GroupAssociationCreateCommand()
+                {
+                    UserId = _userContext.GetAuthenticatedUserId(),
+                    ParentGroupId = createInput.ParentGroupId,
+                    ChildGroupId = createInput.ChildGroupId
+                });
+
+            return JsonSuccess();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult RemoveProject(GroupAssociationDeleteInput deleteInput)
+        {
+            Check.RequireNotNull(deleteInput, "deleteInput");
+
+            if (!_userContext.HasGroupPermission<Team>(PermissionNames.RemoveTeam, deleteInput.ParentGroupId))
+            {
+                return HttpUnauthorized();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return JsonFailed();
+            }
+
+            _commandProcessor.Process(
+                new GroupAssociationDeleteCommand()
+                {
+                    UserId = _userContext.GetAuthenticatedUserId(),
+                    ParentGroupId = deleteInput.ParentGroupId,
+                    ChildGroupId = deleteInput.ChildGroupId
+                });
+
+            return JsonSuccess();
         }
 
         [Transaction]

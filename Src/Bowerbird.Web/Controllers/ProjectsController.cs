@@ -12,6 +12,7 @@
  
 */
 
+using System.Collections.Generic;
 using System.Web.Mvc;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
@@ -35,6 +36,7 @@ namespace Bowerbird.Web.Controllers
         private readonly IObservationsViewModelBuilder _observationsViewModelBuilder;
         private readonly IPostsViewModelBuilder _postsViewModelBuilder;
         private readonly IMemberViewModelBuilder _memberViewModelBuilder;
+        private readonly IReferenceSpeciesViewModelBuilder _referenceSpeciesViewModelBuilder;
 
         #endregion
 
@@ -47,7 +49,8 @@ namespace Bowerbird.Web.Controllers
             IStreamItemsViewModelBuilder streamItemsViewModelBuilder,
             IObservationsViewModelBuilder observationsViewModelBuilder,
             IPostsViewModelBuilder postsViewModelBuilder,
-            IMemberViewModelBuilder memberViewModelBuilder
+            IMemberViewModelBuilder memberViewModelBuilder,
+            IReferenceSpeciesViewModelBuilder referenceSpeciesViewModelBuilder
             )
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
@@ -57,6 +60,7 @@ namespace Bowerbird.Web.Controllers
             Check.RequireNotNull(observationsViewModelBuilder, "observationsViewModelBuilder");
             Check.RequireNotNull(postsViewModelBuilder, "postsViewModelBuilder");
             Check.RequireNotNull(memberViewModelBuilder, "memberViewModelBuilder");
+            Check.RequireNotNull(referenceSpeciesViewModelBuilder, "referenceSpeciesViewModelBuilder");
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
@@ -65,6 +69,7 @@ namespace Bowerbird.Web.Controllers
             _observationsViewModelBuilder = observationsViewModelBuilder;
             _postsViewModelBuilder = postsViewModelBuilder;
             _memberViewModelBuilder = memberViewModelBuilder;
+            _referenceSpeciesViewModelBuilder = referenceSpeciesViewModelBuilder;
         }
 
         #endregion
@@ -105,6 +110,20 @@ namespace Bowerbird.Web.Controllers
             };
 
             ViewBag.PrerenderedView = "observations"; // HACK: Need to rethink this
+
+            return View(Form.Stream);
+        }
+
+        [HttpGet]
+        public ActionResult ReferenceSpecies(PagingInput pagingInput)
+        {
+            ViewBag.Model = new
+            {
+                Project = _projectsViewModelBuilder.BuildProject(new IdInput() { Id = "projects/" + pagingInput.Id }),
+                ReferenceSpecies = _referenceSpeciesViewModelBuilder.BuildGroupReferenceSpeciesList(pagingInput)
+            };
+
+            ViewBag.PrerenderedView = "referencespecies"; // HACK: Need to rethink this
 
             return View(Form.Stream);
         }
@@ -172,7 +191,7 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult CreateForm(IdInput idInput)
         {
-            if (!_userContext.HasGroupPermission(PermissionNames.CreateProject, idInput.Id))
+            if (!_userContext.HasGroupPermission(PermissionNames.CreateProject, idInput.Id ?? Constants.AppRootId))
             {
                 return HttpUnauthorized();
             }
@@ -206,6 +225,62 @@ namespace Bowerbird.Web.Controllers
             ViewBag.Project = _projectsViewModelBuilder.BuildProject(idInput);
 
             return View(Form.Delete);
+        }
+
+        [Transaction]
+        [Authorize]
+        [HttpPost]
+        public ActionResult Join(IdInput idInput)
+        {
+            Check.RequireNotNull(idInput, "idInput");
+
+            if (!_userContext.HasGroupPermission(PermissionNames.JoinProject, idInput.Id))
+            {
+                return HttpUnauthorized();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return JsonFailed();
+            }
+
+            _commandProcessor.Process(
+                new MemberCreateCommand()
+                {
+                    UserId = _userContext.GetAuthenticatedUserId(),
+                    GroupId = idInput.Id,
+                    CreatedByUserId = _userContext.GetAuthenticatedUserId(),
+                    Roles = new []{ RoleNames.ProjectMember }
+                });
+
+            return JsonSuccess();
+        }
+
+        [Transaction]
+        [Authorize]
+        [HttpPost]
+        public ActionResult Leave(IdInput idInput)
+        {
+            Check.RequireNotNull(idInput, "idInput");
+
+            if (!_userContext.HasGroupPermission(PermissionNames.LeaveProject, idInput.Id))
+            {
+                return HttpUnauthorized();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return JsonFailed();
+            }
+
+            _commandProcessor.Process(
+                new DeleteCommand()
+                {
+                    UserId = _userContext.GetAuthenticatedUserId(),
+                    Id = idInput.Id
+                });
+
+            return JsonSuccess();
         }
 
         [Transaction]

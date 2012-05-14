@@ -12,7 +12,6 @@
  
 */
 
-using System;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -148,14 +147,6 @@ namespace Bowerbird.Web.Config
                 controllerName + "/delete/{id}",
                 new { controller = controllerName, action = "deleteform" },
                 new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("GET") });
-
-            // should be handled by default route in RegisterRoutesTo() method
-            //routes.MapRoute(
-            //    controllerName + "-index",
-            //    controllerName + "/{id}",
-            //    new { controller = controllerName, action = "index", id = UrlParameter.Optional },
-            //    new { httpMethod = new HttpMethodConstraint("GET") },
-            //    new[] { "Bowerbird.Web.Controllers" });
 
             routes.MapRoute(
                 controllerName + "-update",

@@ -13,7 +13,6 @@
 */
 
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Web.Mvc;
 using Bowerbird.Core.Commands;
@@ -23,7 +22,6 @@ using Bowerbird.Test.Utils;
 using Bowerbird.Web.Builders;
 using Bowerbird.Web.Controllers;
 using Bowerbird.Web.ViewModels;
-using Bowerbird.Web.ViewModels.Project;
 using Moq;
 using NUnit.Framework;
 using Raven.Client;
@@ -37,7 +35,12 @@ namespace Bowerbird.Test.Web.Controllers
 
         private Mock<ICommandProcessor> _mockCommandProcessor;
         private Mock<IUserContext> _mockUserContext;
-        private Mock<IProjectsViewModelBuilder> _mockViewModelBuilder;
+        private Mock<IProjectsViewModelBuilder> _mockProjectsViewModelBuilder;
+        private Mock<IStreamItemsViewModelBuilder> _mockStreamItemsViewModelBuilder;
+        private Mock<IObservationsViewModelBuilder> _mockObservationsViewModelBuilder;
+        private Mock<IPostsViewModelBuilder> _mockPostsViewModelBuilder;
+        private Mock<IMemberViewModelBuilder> _mockMemberViewModelBuilder;
+        private Mock<IReferenceSpeciesViewModelBuilder> _mockReferenceSpeciesViewModelBuilder;
         private ProjectsController _controller;
         private IDocumentStore _documentStore;
 
@@ -47,12 +50,22 @@ namespace Bowerbird.Test.Web.Controllers
             _documentStore = DocumentStoreHelper.StartRaven();
             _mockCommandProcessor = new Mock<ICommandProcessor>();
             _mockUserContext = new Mock<IUserContext>();
-            _mockViewModelBuilder = new Mock<IProjectsViewModelBuilder>();
+            _mockProjectsViewModelBuilder = new Mock<IProjectsViewModelBuilder>();
+            _mockStreamItemsViewModelBuilder = new Mock<IStreamItemsViewModelBuilder>();
+            _mockObservationsViewModelBuilder = new Mock<IObservationsViewModelBuilder>();
+            _mockPostsViewModelBuilder = new Mock<IPostsViewModelBuilder>();
+            _mockMemberViewModelBuilder = new Mock<IMemberViewModelBuilder>();
+            _mockReferenceSpeciesViewModelBuilder = new Mock<IReferenceSpeciesViewModelBuilder>();
 
             _controller = new ProjectsController(
                 _mockCommandProcessor.Object,
                 _mockUserContext.Object,
-                _mockViewModelBuilder.Object
+                _mockProjectsViewModelBuilder.Object,
+                _mockStreamItemsViewModelBuilder.Object,
+                _mockObservationsViewModelBuilder.Object,
+                _mockPostsViewModelBuilder.Object,
+                _mockMemberViewModelBuilder.Object,
+                _mockReferenceSpeciesViewModelBuilder.Object
                 );
         }
 
@@ -96,7 +109,7 @@ namespace Bowerbird.Test.Web.Controllers
                 session.SaveChanges();
             }
 
-            var result = _controller.GetMany(new ProjectListInput() { Page = page, PageSize = pageSize });
+            var result = _controller.GetMany(new PagingInput() { Page = page, PageSize = pageSize });
 
             Assert.IsNotNull(result);
             Assert.IsInstanceOf<JsonResult>(result);
@@ -117,7 +130,7 @@ namespace Bowerbird.Test.Web.Controllers
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Project_Index_As_ViewModel()
+        public void Project_Stream_As_ViewModel()
         {
             var team = FakeObjects.TestTeamWithId();
             var project = FakeObjects.TestProjectWithId();
@@ -141,7 +154,7 @@ namespace Bowerbird.Test.Web.Controllers
 
             _controller.SetupFormRequest();
 
-            _controller.Index(new IdInput() { Id = project.Id });
+            _controller.Stream(new PagingInput() { Id = project.Id });
 
             //Assert.IsInstanceOf<ProjectIndex>(_controller.ViewData.Model);
 
@@ -153,7 +166,7 @@ namespace Bowerbird.Test.Web.Controllers
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Project_Index_As_Json()
+        public void Project_Stream_As_Json()
         {
             var team = FakeObjects.TestTeamWithId("1");
             var user = FakeObjects.TestUserWithId();
@@ -177,7 +190,7 @@ namespace Bowerbird.Test.Web.Controllers
 
             _controller.SetupAjaxRequest();
 
-            var result = _controller.Index(new IdInput() { Id = project.Id });
+            var result = _controller.Stream(new PagingInput() { Id = project.Id });
 
             Assert.IsInstanceOf<JsonResult>(result);
 

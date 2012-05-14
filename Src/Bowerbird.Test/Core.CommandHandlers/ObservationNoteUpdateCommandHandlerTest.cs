@@ -72,9 +72,9 @@ namespace Bowerbird.Test.Core.CommandHandlers
                 CommonName = FakeValues.CommonName.PrependWith("new"),
                 ScientificName = FakeValues.ScientificName.PrependWith("new"),
                 Notes = FakeValues.Notes.PrependWith("new"),
-                Tags = FakeValues.Tags.PrependWith("new"),
+                Tags = FakeValues.Tags,
                 Taxonomy = FakeValues.Taxonomy.PrependWith("new"),
-                SubmittedOn = FakeValues.ModifiedDateTime,
+                NotedOn = FakeValues.ModifiedDateTime,
                 References = new Dictionary<string, string>() { { FakeValues.Description.PrependWith("new"), FakeValues.Description.PrependWith("new") } },
                 Descriptions = new Dictionary<string, string>() { { FakeValues.Description.PrependWith("new"), FakeValues.Description.PrependWith("new") } },
             };

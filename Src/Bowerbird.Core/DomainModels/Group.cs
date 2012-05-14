@@ -33,6 +33,7 @@ namespace Bowerbird.Core.DomainModels
 
         protected Group()
         {
+            InitMembers();
         }
 
         protected Group(
@@ -58,6 +59,10 @@ namespace Bowerbird.Core.DomainModels
 
         public DenormalisedUserReference User { get; protected set; } // Protected set to allow AppRoot to set it after instantiation
 
+        public IEnumerable<string> Ancestry { get; private set; }
+
+        public IEnumerable<string> Descendants { get; private set; }
+
         [JsonIgnore]
         IEnumerable<string> IOwnable.Groups
         {
@@ -68,9 +73,34 @@ namespace Bowerbird.Core.DomainModels
 
         #region Methods
 
+        private void InitMembers()
+        {
+            Ancestry = new List<string>();
+            Descendants = new List<string>();
+        }
+
         protected void SetDetails(string name)
         {
             Name = name;
+        }
+
+        public Group SetAncestry(Group groupContainingAncestry)
+        {
+            Ancestry = groupContainingAncestry.Ancestry.Union(new [] { groupContainingAncestry.Id });
+
+            return this;
+        }
+
+        public Group AddDescendant(Group group)
+        {
+            ((List<string>)Descendants).Add(group.Id);
+            return this; 
+        }
+
+        public Group RemoveDescendant(Group group)
+        {
+            ((List<string>)Descendants).Remove(group.Id);
+            return this;
         }
 
         #endregion      

@@ -8,13 +8,12 @@
 // ProjectCollection
 // -----------------
 
-// A collection of projects
 define(['jquery', 'underscore', 'backbone', 'app', 'models/project'], function ($, _, Backbone, app, Project) {
 
     var ProjectCollection = Backbone.Collection.extend({
         model: Project,
 
-        url: '/projects/list',
+        url: '/projects',
 
         initialize: function () {
             _.extend(this, Backbone.Events);

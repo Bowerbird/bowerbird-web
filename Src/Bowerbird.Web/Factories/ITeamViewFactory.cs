@@ -13,7 +13,7 @@
 */
 				
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.Paging;
+using Bowerbird.Core.Indexes;
 
 namespace Bowerbird.Web.Factories
 {
@@ -21,6 +21,6 @@ namespace Bowerbird.Web.Factories
     {
         object Make(Team team);
 
-        object Make(Team team, PagedList<object> projects, object organisation, PagedList<object> members);
+        object Make(All_Groups.Result team);
     }
 }

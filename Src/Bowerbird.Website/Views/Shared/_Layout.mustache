@@ -88,10 +88,10 @@
     <script type="text/javascript" src="/js/libs/log.js"></script>
     <script data-main="/js/bowerbird/main" src="/js/libs/require/require.js"></script>
     <script type="text/javascript">
-      define('bootstrap-data', [], function() {
-        log({{{BootstrappedJson}}});
-        return {{{BootstrappedJson}}};
-      });
+        define('bootstrap-data', function() {
+          log({{{BootstrappedJson}}});
+          return {{{BootstrappedJson}}};
+        });
     </script>
     {{/IsStaticLayout}}
     

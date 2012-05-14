@@ -105,21 +105,23 @@ namespace Bowerbird.Web.Builders
             RavenQueryStatistics stats;
 
             var observations = _documentSession
-                .Query<Observation>()
-                .Where(x => x.Groups.Any(y => y.GroupId == pagingInput.Id))
+                .Query<All_Contributions.Result, All_Contributions>()
+                .AsProjection<All_Contributions.Result>()
+                .Where(x => x.GroupId == pagingInput.Id)
                 .Statistics(out stats)
-                .Skip(pagingInput.Page.Or(Default.PageStart))
-                .Take(pagingInput.PageSize.Or(Default.PageSize))
+                .Skip(pagingInput.Page)
+                .Take(pagingInput.PageSize)
+                .Select(x => x.Observation)
                 .ToList();
 
             return new
             {
-                Page = pagingInput.Page.Or(Default.PageStart),
-                PageSize = pagingInput.PageSize.Or(Default.PageSize),
+                pagingInput.Page,
+                pagingInput.PageSize,
                 Project = pagingInput.Id != null ? _documentSession.Load<Project>(pagingInput.Id) : null,
                 Observations = observations.ToPagedList(
-                    pagingInput.Page.Or(Default.PageStart),
-                    pagingInput.PageSize.Or(Default.PageSize),
+                    pagingInput.Page,
+                    pagingInput.PageSize,
                     stats.TotalResults,
                     null)
             };
@@ -130,12 +132,14 @@ namespace Bowerbird.Web.Builders
             RavenQueryStatistics stats;
 
             var observations = _documentSession
-                .Query<Observation>()
+                .Query<All_Contributions.Result, All_Contributions>()
+                .AsProjection<All_Contributions.Result>()
                 .Customize(x => x.Include(pagingInput.Id))
                 .Where(x => x.User.Id == pagingInput.Id)
                 .Statistics(out stats)
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
+                .Select(x => x.Observation)
                 .ToArray();
 
             return new
@@ -156,8 +160,8 @@ namespace Bowerbird.Web.Builders
             RavenQueryStatistics stats;
 
             return _documentSession
-                .Query<All_GroupContributions.Result, All_GroupContributions>()
-                .AsProjection<All_GroupContributions.Result>()
+                .Query<All_Contributions.Result, All_Contributions>()
+                .AsProjection<All_Contributions.Result>()
                 .Statistics(out stats)
                 .Include(x => x.ContributionId)
                 .Where(x => x.ContributionType.Equals("observation") && x.GroupId == pagingInput.Id)
@@ -170,7 +174,7 @@ namespace Bowerbird.Web.Builders
                 .Select(MakeStreamItem);
         }
 
-        private object MakeStreamItem(All_GroupContributions.Result groupContributionResult)
+        private object MakeStreamItem(All_Contributions.Result groupContributionResult)
         {
             object item = null;
             string description = null;

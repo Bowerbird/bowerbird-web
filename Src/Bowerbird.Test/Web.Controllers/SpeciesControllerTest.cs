@@ -16,6 +16,7 @@ using Bowerbird.Core.Commands;
 using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Test.Utils;
+using Bowerbird.Web.Builders;
 using Bowerbird.Web.Controllers;
 using Moq;
 using NUnit.Framework;
@@ -30,6 +31,7 @@ namespace Bowerbird.Test.Web.Controllers
 
         private Mock<ICommandProcessor> _mockCommandProcessor;
         private Mock<IUserContext> _mockUserContext;
+        private Mock<ISpeciesViewModelBuilder> _mockSpeciesViewModelBuilder;
         private IDocumentStore _documentStore;
         private SpeciesController _controller;
 
@@ -37,6 +39,7 @@ namespace Bowerbird.Test.Web.Controllers
         public void TestInitialize()
         {
             //_documentStore = DocumentStoreHelper.StartRaven();
+            _mockSpeciesViewModelBuilder = new Mock<ISpeciesViewModelBuilder>();
             _mockCommandProcessor = new Mock<ICommandProcessor>();
             _mockUserContext = new Mock<IUserContext>();
         }
@@ -64,7 +67,8 @@ namespace Bowerbird.Test.Web.Controllers
                 BowerbirdThrows.Exception<DesignByContractException>(
                     () => new SpeciesController(
                         null,
-                        _mockUserContext.Object
+                        _mockUserContext.Object,
+                        _mockSpeciesViewModelBuilder.Object
                         )));
         }
 
@@ -76,7 +80,8 @@ namespace Bowerbird.Test.Web.Controllers
                 BowerbirdThrows.Exception<DesignByContractException>(
                     () => new SpeciesController(
                         _mockCommandProcessor.Object,
-                        null
+                        null,
+                        _mockSpeciesViewModelBuilder.Object
                         )));
         }
 

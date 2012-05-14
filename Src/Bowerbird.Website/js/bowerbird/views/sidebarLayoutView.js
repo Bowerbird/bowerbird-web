@@ -12,64 +12,73 @@
 define(['jquery', 'underscore', 'backbone', 'app', 'models/user', 'views/sidebarprojectcollectionview', 'collections/projectcollection',
     'models/project'], function ($, _, Backbone, app, User, SidebarProjectCollectionView, ProjectCollection, Project) {
 
-    var SidebarLayoutView = Backbone.Marionette.Layout.extend({
-        tagName: 'section',
+        var SidebarLayoutView = Backbone.Marionette.Layout.extend({
+            tagName: 'section',
 
-        id: 'sidebar',
+            id: 'sidebar',
 
-        className: 'triple-1',
+            className: 'triple-1',
 
-        template: 'Sidebar',
+            template: 'Sidebar',
 
-        regions: {
-            projectsMenu: '#project-menu-group',
-            watchlistsMenu: '#watch-menu-group > ul'
-        },
+            regions: {
+                projectsMenu: '#project-menu-group',
+                watchlistsMenu: '#watch-menu-group > ul'
+            },
 
-        events: {
-            'click .menu-group-options .sub-menu-button': 'showMenu',
-            'click .menu-group-options .sub-menu-button li': 'selectMenuItem'
-        },
+            events: {
+                'click .menu-group-options .sub-menu-button': 'showMenu',
+                'click .menu-group-options .sub-menu-button li': 'selectMenuItem'
+            },
 
-        onRender: function () {
-            $('article').prepend(this.el);
+            onRender: function () {
+                $('article').prepend(this.el);
 
-            var projects = new ProjectCollection();
-            _.each(this.model.get('Projects'), function (json) {
-                projects.add(new Project(json));
-            });
-            var projectCollectionView = new SidebarProjectCollectionView({ el: '#project-menu-group-list', collection: projects });
-            this.projectsMenu.attachView(projectCollectionView);
-            projectCollectionView.render();
-        },
+                var projects = new ProjectCollection();
+                _.each(this.model.get('Projects'), function (json) {
+                    projects.add(new Project(json));
+                });
+                var sidebarProjectCollectionView = new SidebarProjectCollectionView({ el: '#project-menu-group-list', collection: projects });
+                this.projectsMenu.attachView(sidebarProjectCollectionView);
 
-        showMenu: function (e) {
-            $('.sub-menu-button').removeClass('active');
-            $(e.currentTarget).addClass('active');
-            e.stopPropagation();
-        },
+                sidebarProjectCollectionView.render();
 
-        selectMenuItem: function (e) {
-            $('.sub-menu-button').removeClass('active');
-            e.stopPropagation();
-        }
+                var that = this;
+                $(this.el).find('a.user-stream').on('click', function (e) {
+                    e.preventDefault();
+                    app.groupUserRouter.navigate($(this).attr('href'));
+                    app.vent.trigger('home:show');
+                    return false;
+                });
+            },
+
+            showMenu: function (e) {
+                $('.sub-menu-button').removeClass('active');
+                $(e.currentTarget).addClass('active');
+                e.stopPropagation();
+            },
+
+            selectMenuItem: function (e) {
+                $('.sub-menu-button').removeClass('active');
+                e.stopPropagation();
+            }
+        });
+
+        // Initialize the sidebar layout
+        app.addInitializer(function (options) {
+            // Only show sidebar if user is authenticated
+            if (this.authenticatedUser) {
+                // Render the layout and get it on the screen, first
+                var sidebarLayoutView = new SidebarLayoutView({ model: this.authenticatedUser });
+
+                sidebarLayoutView.on('show', function () {
+                    app.vent.trigger('sidebar:rendered');
+                });
+
+                app.sidebar.show(sidebarLayoutView);
+            }
+        });
+
+        return SidebarLayoutView;
+
     });
-
-    // Initialize the sidebar layout
-    app.addInitializer(function (options) {
-        // Only show sidebar if user is authenticated
-        if (this.authenticatedUser) {
-            // Render the layout and get it on the screen, first
-            var sidebarLayoutView = new SidebarLayoutView({ model: this.authenticatedUser });
-
-            sidebarLayoutView.on('show', function () {
-                app.vent.trigger('sidebarLayout:rendered');
-            });
-
-            app.sidebar.show(sidebarLayoutView);
-        } 
-    });
-
-    return SidebarLayoutView;
-
-});

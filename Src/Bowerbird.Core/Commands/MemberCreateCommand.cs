@@ -37,7 +37,7 @@ namespace Bowerbird.Core.Commands
 
         public string CreatedByUserId { get; set; }
 
-        public List<string> Roles { get; set; }
+        public IEnumerable<string> Roles { get; set; }
 
         #endregion
 

@@ -8,7 +8,7 @@
 // PaginatedCollection
 // -------------------
 
-// A collection of projects
+// Base of paginated collections
 define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, app) {
 
     var PaginatedCollection = Backbone.Collection.extend({

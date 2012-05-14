@@ -35,7 +35,7 @@ namespace Bowerbird.Core.Commands
 
         public string Id { get; set; }
 
-        public DateTime SubmittedOn { get; set; }
+        public DateTime NotedOn { get; set; }
 
         public string ScientificName { get; set; }
 
@@ -43,7 +43,7 @@ namespace Bowerbird.Core.Commands
 
         public string Taxonomy { get; set; }
 
-        public string Tags { get; set; }
+        public IEnumerable<string> Tags { get; set; }
 
         public Dictionary<string, string> Descriptions { get; set; }
 
@@ -56,6 +56,5 @@ namespace Bowerbird.Core.Commands
         #region Methods
 
         #endregion
-
     }
 }

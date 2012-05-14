@@ -66,7 +66,7 @@ namespace Bowerbird.Core.CommandHandlers
                 command.Tags,
                 command.Descriptions,
                 command.References,
-                command.SubmittedOn);
+                command.NotedOn);
 
             _documentSession.Store(observationNote);
         }

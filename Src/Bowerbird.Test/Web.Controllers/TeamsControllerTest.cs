@@ -21,7 +21,6 @@ using Bowerbird.Test.Utils;
 using Bowerbird.Web.Builders;
 using Bowerbird.Web.Controllers;
 using Bowerbird.Web.ViewModels;
-using Bowerbird.Web.ViewModels.Team;
 using Moq;
 using NUnit.Framework;
 using Raven.Client;
@@ -35,7 +34,12 @@ namespace Bowerbird.Test.Web.Controllers
 
         private Mock<ICommandProcessor> _mockCommandProcessor;
         private Mock<IUserContext> _mockUserContext;
-        private Mock<ITeamsViewModelBuilder> _mockViewModelBuilder;
+        private Mock<ITeamsViewModelBuilder> _mockTeamsViewModelBuilder;
+        private Mock<IStreamItemsViewModelBuilder> _mockStreamItemsViewModelBuilder;
+        private Mock<IProjectsViewModelBuilder> _mockProjectsViewModelBuilder;
+        private Mock<IPostsViewModelBuilder> _mockPostsViewModelBuilder;
+        private Mock<IMemberViewModelBuilder> _mockMemberViewModelBuilder;
+        private Mock<IReferenceSpeciesViewModelBuilder> _mockReferenceSpeciesViewModelBuilder;
         private IDocumentStore _documentStore;
         private TeamsController _controller;
 
@@ -44,13 +48,24 @@ namespace Bowerbird.Test.Web.Controllers
         {
             _mockCommandProcessor = new Mock<ICommandProcessor>();
             _mockUserContext = new Mock<IUserContext>();
-            _mockViewModelBuilder = new Mock<ITeamsViewModelBuilder>();
+            _mockTeamsViewModelBuilder = new Mock<ITeamsViewModelBuilder>();
+            _mockStreamItemsViewModelBuilder = new Mock<IStreamItemsViewModelBuilder>();
+            _mockProjectsViewModelBuilder = new Mock<IProjectsViewModelBuilder>();
+            _mockPostsViewModelBuilder = new Mock<IPostsViewModelBuilder>();
+            _mockMemberViewModelBuilder = new Mock<IMemberViewModelBuilder>();
+            _mockReferenceSpeciesViewModelBuilder = new Mock<IReferenceSpeciesViewModelBuilder>();
+
             _documentStore = DocumentStoreHelper.StartRaven();
 
             _controller = new TeamsController(
                 _mockCommandProcessor.Object,
                 _mockUserContext.Object,
-                _mockViewModelBuilder.Object
+                _mockTeamsViewModelBuilder.Object,
+                _mockStreamItemsViewModelBuilder.Object,
+                _mockProjectsViewModelBuilder.Object,
+                _mockPostsViewModelBuilder.Object,
+                _mockMemberViewModelBuilder.Object,
+                _mockReferenceSpeciesViewModelBuilder.Object
                 );
         }
 
@@ -100,7 +115,7 @@ namespace Bowerbird.Test.Web.Controllers
                 session.SaveChanges();
             }
 
-            var result = _controller.GetMany(new TeamListInput() { Page = page, PageSize = pageSize });
+            var result = _controller.GetMany(new PagingInput() { Page = page, PageSize = pageSize });
 
             Assert.IsNotNull(result);
             Assert.IsInstanceOf<JsonResult>(result);
@@ -121,7 +136,7 @@ namespace Bowerbird.Test.Web.Controllers
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Team_Index_As_ViewModel()
+        public void Team_Stream_As_ViewModel()
         {
             var team = FakeObjects.TestTeamWithId();
 
@@ -133,7 +148,7 @@ namespace Bowerbird.Test.Web.Controllers
 
             _controller.SetupFormRequest();
 
-            _controller.Index(new IdInput() { Id = team.Id });
+            _controller.Stream(new PagingInput() { Id = team.Id });
 
             //Assert.IsInstanceOf<TeamIndex>(_controller.ViewData.Model);
 
@@ -145,7 +160,7 @@ namespace Bowerbird.Test.Web.Controllers
 
         [Test]
         [Category(TestCategory.Unit)]
-        public void Team_Index_As_Json()
+        public void Team_Stream_As_Json()
         {
             var team = FakeObjects.TestTeamWithId();
             var user = FakeObjects.TestUserWithId();
@@ -159,7 +174,7 @@ namespace Bowerbird.Test.Web.Controllers
 
             _controller.SetupAjaxRequest();
 
-            var result = _controller.Index(new IdInput() { Id = team.Id });
+            var result = _controller.Stream(new PagingInput() { Id = team.Id });
 
             Assert.IsInstanceOf<JsonResult>(result);
 

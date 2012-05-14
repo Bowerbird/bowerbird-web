@@ -77,6 +77,7 @@ namespace Bowerbird.Core.CommandHandlers
             _documentSession.Store(user);
 
             var userProject = new UserProject(user, DateTime.Now);
+            userProject.SetAncestry(appRoot);
             _documentSession.Store(userProject);
 
             var userProjectAssociation = new GroupAssociation(appRoot, userProject, user, DateTime.Now);

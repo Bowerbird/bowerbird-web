@@ -80,11 +80,13 @@
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=4.0.8.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.4.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.2.0.0.2000\lib\net40\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="SignalR">
+      <HintPath>..\packages\SignalR.Server.0.4.0.0\lib\net40\SignalR.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -111,36 +113,41 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-<<<<<<< Updated upstream
-    <Content Include="js\bowerbird2\app.js" />
-    <Content Include="js\bowerbird2\views\sidebarItemView.js" />
-    <Content Include="js\bowerbird2\views\sidebarCollectionView.js" />
-    <Content Include="js\bowerbird2\views\footerView.js" />
-    <Content Include="js\bowerbird2\views\headerView.js" />
-    <Content Include="js\bowerbird2\views\sidebarLayout.js" />
-    <Content Include="js\bowerbird2\views\contentLayout.js" />
-    <Content Include="js\bowerbird2\controllers\groupUserController.js" />
-    <Content Include="js\bowerbird2\routers\groupUserRouter.js" />
-    <Content Include="js\bowerbird2\mustacheRenderer.js" />
-    <Content Include="js\bowerbird2\namespaces.js" />
-    <Content Include="js\libs\backbone.marionette.js" />
-    <Content Include="js\bowerbird\views\exploreItemView.js" />
-    <Content Include="js\bowerbird\views\exploreView.js" />
-    <Content Include="js\libs\yepnope.js" />
-    <Content Include="welcome.txt" />
-=======
     <Content Include="js\bowerbird\app.js" />
+    <Content Include="js\bowerbird\collections\mediaResourceCollection.js" />
     <Content Include="js\bowerbird\collections\paginatedCollection.js" />
     <Content Include="js\bowerbird\collections\projectCollection.js" />
     <Content Include="js\bowerbird\collections\streamItemCollection.js" />
+    <Content Include="js\bowerbird\collections\userCollection.js" />
+    <Content Include="js\bowerbird\controllers\contributionController.js" />
+    <Content Include="js\bowerbird\models\mediaResource.js" />
+    <Content Include="js\bowerbird\models\observation.js" />
     <Content Include="js\bowerbird\models\project.js" />
     <Content Include="js\bowerbird\models\stream.js" />
     <Content Include="js\bowerbird\models\streamItem.js" />
+    <Content Include="js\bowerbird\routers\contributionRouter.js" />
+    <Content Include="js\bowerbird\views\dummyOverlayView.js" />
+    <Content Include="js\bowerbird\views\editMapView.js" />
+    <Content Include="js\bowerbird\views\editMediaView.js" />
+    <Content Include="js\bowerbird\views\mediaResourceItemView.js" />
+    <Content Include="js\bowerbird\views\observationFormLayoutView.js" />
+    <Content Include="js\bowerbird\views\observationLayoutView.js" />
     <Content Include="js\bowerbird\views\streamItemView.js" />
     <Content Include="js\bowerbird\views\streamView.js" />
-    <Content Include="js\libs\jqueryui\bootstrap-tab.js" />
-    <Content Include="js\libs\jqueryui\jquery-ui-min.js" />
-    <Content Include="js\libs\jqueryui\jquery-ui.js" />
+    <Content Include="js\libs\bootstrap\bootstrap-datepicker.js" />
+    <Content Include="js\libs\date\date-min.js" />
+    <Content Include="js\libs\date\date.js" />
+    <Content Include="js\libs\jquery.fileupload\jquery.fileupload.js" />
+    <Content Include="js\libs\jquery.fileupload\jquery.iframe-transport.js" />
+    <Content Include="js\libs\jquery.fileupload\load-image.js" />
+    <Content Include="js\libs\jquery.multiselect\jquery.multiselect.js" />
+    <Content Include="js\libs\jqueryui\autocomplete.js" />
+    <Content Include="js\libs\jqueryui\core.js" />
+    <Content Include="js\libs\jqueryui\draggable.js" />
+    <Content Include="js\libs\jqueryui\mouse.js" />
+    <Content Include="js\libs\jqueryui\position.js" />
+    <Content Include="js\libs\jqueryui\tabs.js" />
+    <Content Include="js\libs\jqueryui\widget.js" />
     <Content Include="js\libs\log.js" />
     <Content Include="js\bowerbird\main.js" />
     <Content Include="js\bowerbird\models\user.js" />
@@ -148,12 +155,20 @@
     <Content Include="js\bowerbird\views\sidebarProjectCollectionView.js" />
     <Content Include="js\bowerbird\views\footerView.js" />
     <Content Include="js\bowerbird\views\headerView.js" />
-    <Content Include="js\bowerbird\views\sidebarLayout.js" />
-    <Content Include="js\bowerbird\views\projectLayout.js" />
+    <Content Include="js\bowerbird\views\sidebarLayoutView.js" />
+    <Content Include="js\bowerbird\views\projectLayoutView.js" />
     <Content Include="js\bowerbird\controllers\groupUserController.js" />
     <Content Include="js\bowerbird\routers\groupUserRouter.js" />
     <Content Include="js\libs\jquery\jquery-1.7.2-min.js" />
     <Content Include="js\libs\jquery\jquery-1.7.2.js" />
+<<<<<<< Updated upstream
+    <Content Include="js\libs\signalr\jquery.signalR.js" />
+    <Content Include="js\libs\signalr\jquery.signalR.min.js" />
+=======
+    <Content Include="js\libs\require\async.js" />
+    <Content Include="js\libs\require\goog.js" />
+    <Content Include="js\libs\require\propertyparser.js" />
+>>>>>>> Stashed changes
     <Content Include="js\_old\libs\backbone.marionette.js" />
     <Content Include="js\_old\bowerbird\views\exploreItemView.js" />
     <Content Include="js\_old\bowerbird\views\exploreView.js" />
@@ -170,7 +185,8 @@
     <Content Include="js\libs\underscore\underscore-min.js" />
     <Content Include="js\libs\underscore\underscore.js" />
     <Content Include="js\_old\libs\yepnope.js" />
->>>>>>> Stashed changes
+    <Content Include="species\Butterflies.txt" />
+    <Content Include="welcome.txt" />
     <None Include="Views\Home\About.mustache" />
     <None Include="Views\Account\LogoutSuccess.mustache" />
     <None Include="Views\Account\ResetPassword.mustache" />
@@ -189,8 +205,11 @@
     <None Include="Views\Organisations\List.mustache" />
     <None Include="Views\Projects\Create.mustache" />
     <None Include="Views\Projects\Delete.mustache" />
-    <None Include="Views\Projects\Index.mustache" />
+    <None Include="Views\Projects\Stream.mustache" />
     <None Include="Views\Projects\List.mustache" />
+    <None Include="Views\Shared\Observation.mustache">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Views\Shared\Project.mustache">
       <SubType>Designer</SubType>
     </None>
@@ -361,21 +380,16 @@
     </None>
     <None Include="Views\Shared\Notifications.mustache" />
     <None Include="Views\Shared\NotificationsItem.mustache" />
-    <None Include="Views\Shared\ObservationCreate.mustache" />
+    <None Include="Views\Shared\ObservationForm.mustache">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Views\Shared\ObservationMediaResourceUploaded.mustache" />
     <None Include="Views\Shared\ObservationStreamListItem.mustache" />
     <None Include="Views\Shared\OrganisationCreate.mustache" />
     <None Include="Views\Shared\ProjectCreate.mustache" />
     <None Include="Views\Shared\Sidebar.mustache" />
-<<<<<<< Updated upstream
-    <None Include="Views\Shared\SidebarItem.mustache" />
-    <None Include="Views\Shared\StreamList.mustache">
-      <SubType>Designer</SubType>
-    </None>
-=======
     <None Include="Views\Shared\SidebarProjectItem.mustache" />
-    <None Include="Views\Shared\Stream.mustache" />
->>>>>>> Stashed changes
+    <None Include="Views\Shared\StreamList.mustache" />
     <None Include="Views\Shared\StreamListLoading.mustache" />
     <None Include="Views\Shared\StreamLoadMore.mustache" />
     <None Include="Views\Shared\TeamCreate.mustache" />

@@ -12,7 +12,15 @@
 define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, app) {
 
     var HeaderView = Backbone.Marionette.ItemView.extend({
-        el: 'header'
+        el: 'header',
+
+        onRender: function () {
+            this.$el.find('.new-observation-button').on('click', function (e) {
+                e.preventDefault();
+                app.vent.trigger('observation:show');
+                return false;
+            });
+        }
     });
 
     // Initialize the layout and when the layout has been rendered and displayed, 
@@ -22,10 +30,10 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
         var headerView = new HeaderView();
 
         headerView.on('show', function () {
-            Bowerbird.app.vent.trigger('headerView:rendered');
+            app.vent.trigger('headerView:rendered');
         });
 
-        Bowerbird.app.header.attachView(headerView);
+        app.header.attachView(headerView);
         headerView.render();
     });
 

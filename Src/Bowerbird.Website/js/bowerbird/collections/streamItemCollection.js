@@ -8,7 +8,6 @@
 // StreamItemCollection
 // --------------------
 
-// A collection of stream items
 define(['jquery', 'underscore', 'backbone', 'app', 'collections/paginatedcollection', 'models/streamitem', 'models/user', 'models/project'], function ($, _, Backbone, app, PaginatedCollection, StreamItem, User, Project) {
 
     var StreamItemCollection = PaginatedCollection.extend({

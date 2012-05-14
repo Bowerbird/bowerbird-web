@@ -34,9 +34,6 @@
     <OutputPath>bin\Stage\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AsyncCtpLibrary, Version=1.0.4107.18181, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\RavenDB.1.0.665-Unstable\lib\net40\AsyncCtpLibrary.dll</HintPath>
-    </Reference>
     <Reference Include="FluentEmail">
       <HintPath>..\packages\fluent-email.1.0.1\lib\net40\FluentEmail.dll</HintPath>
     </Reference>
@@ -46,17 +43,20 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.4.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Raven.Abstractions, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <HintPath>..\packages\RavenDB.1.0.665-Unstable\lib\net40\Raven.Abstractions.dll</HintPath>
+    <Reference Include="NLog">
+      <HintPath>..\packages\NLog.2.0.0.2000\lib\net40\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Abstractions">
+      <HintPath>..\packages\RavenDB.1.0.888\lib\net40\Raven.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Client.Debug">
-      <HintPath>..\packages\RavenDB.1.0.665-Unstable\lib\net40\Raven.Client.Debug.dll</HintPath>
+      <HintPath>..\packages\RavenDB.1.0.888\lib\net40\Raven.Client.Debug.dll</HintPath>
     </Reference>
-    <Reference Include="Raven.Client.Lightweight, Version=1.0.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
-      <HintPath>..\packages\RavenDB.1.0.665-Unstable\lib\net40\Raven.Client.Lightweight.dll</HintPath>
+    <Reference Include="Raven.Client.Lightweight">
+      <HintPath>..\packages\RavenDB.1.0.888\lib\net40\Raven.Client.Lightweight.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Client.MvcIntegration">
-      <HintPath>..\packages\RavenDB.1.0.665-Unstable\lib\net40\Raven.Client.MvcIntegration.dll</HintPath>
+      <HintPath>..\packages\RavenDB.1.0.888\lib\net40\Raven.Client.MvcIntegration.dll</HintPath>
     </Reference>
     <Reference Include="RazorEngine">
       <HintPath>..\packages\RazorEngine.2.1\lib\.NetFramework 4.0\RazorEngine.dll</HintPath>
@@ -67,6 +67,7 @@
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.Razor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\RazorEngine.2.1\lib\.NetFramework 4.0\System.Web.Razor.dll</HintPath>
@@ -78,11 +79,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandHandlers\CommentCreateCommandHandler.cs" />
+    <Compile Include="CommandHandlers\CommentDeleteCommandHandler.cs" />
+    <Compile Include="CommandHandlers\CommentUpdateCommandHandler.cs" />
     <Compile Include="CommandHandlers\FollowUserDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\FollowUserCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\ReferenceSpeciesDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\ReferenceSpeciesCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\ReferenceSpeciesUpdateCommandHandler.cs" />
+    <Compile Include="CommandHandlers\SetupSpeciesDataCommandHandler.cs" />
     <Compile Include="CommandHandlers\SetupTestDataCommandHandler.cs" />
     <Compile Include="CommandHandlers\GroupChatMessageCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\GroupChatSessionCreateCommandHandler.cs" />
@@ -127,6 +132,12 @@
     <Compile Include="CommandHandlers\WatchlistCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\WatchlistDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\WatchlistUpdateCommandHandler.cs" />
+    <Compile Include="Commands\CommentCreateCommand.cs" />
+    <Compile Include="Commands\CommentDeleteCommand.cs" />
+    <Compile Include="Commands\CommentUpdateCommand.cs" />
+    <Compile Include="Commands\GroupAssociationCreateCommand.cs" />
+    <Compile Include="Commands\GroupAssociationDeleteCommand.cs" />
+    <Compile Include="Commands\SetupSpeciesDataCommand.cs" />
     <Compile Include="Commands\DeleteCommand.cs" />
     <Compile Include="Commands\FollowUserCreateCommand.cs" />
     <Compile Include="Commands\ReferenceSpeciesCreateCommand.cs" />
@@ -172,6 +183,7 @@
     <Compile Include="Config\BowerbirdDocumentStoreConfigurationSection.cs" />
     <Compile Include="Config\BowerbirdEnvironmentConfigurationSection.cs" />
     <Compile Include="Config\Constants.cs" />
+    <Compile Include="Config\BowerbirdSpeciesConfigurationSection.cs" />
     <Compile Include="Config\IPermissionChecker.cs" />
     <Compile Include="Config\ISystemStateManager.cs" />
     <Compile Include="Config\IUserContext.cs" />
@@ -183,6 +195,7 @@
     <Compile Include="DomainModels\BaseObject.cs" />
     <Compile Include="DomainModels\BaseObjectEqualityComparer.cs" />
     <Compile Include="DomainModels\CommentsComponent.cs" />
+    <Compile Include="DomainModels\IDiscussed.cs" />
     <Compile Include="DomainModels\DenormalisedReferences\DenormalisedRoleReference.cs" />
     <Compile Include="DomainModels\FollowUser.cs" />
     <Compile Include="DomainModels\GroupAssociation.cs" />
@@ -257,17 +270,14 @@
     <Compile Include="Extensions\EmailExtensions.cs" />
     <Compile Include="DomainModels\ObservationGroup.cs" />
     <Compile Include="Extensions\GroupExtensions.cs" />
-    <Compile Include="Extensions\NumberExtensions.cs" />
     <Compile Include="ImageUtilities\ImageInformation.cs" />
     <Compile Include="ImageUtilities\ImageResizeMode.cs" />
     <Compile Include="Indexes\All_Contributions.cs" />
-    <Compile Include="Indexes\All_Data.cs" />
-    <Compile Include="Indexes\All_GroupContributions.cs" />
     <Compile Include="Indexes\All_Groups.cs" />
-    <Compile Include="Indexes\All_ChatSessions.cs" />
-    <Compile Include="Indexes\All_Projects.cs" />
-    <Compile Include="Indexes\All_UserMembership.cs" />
-    <Compile Include="Indexes\All_UserSessions.cs" />
+    <Compile Include="Indexes\All_Chats.cs" />
+    <Compile Include="Indexes\All_Users.cs" />
+    <Compile Include="Indexes\All_Sessions.cs" />
+    <Compile Include="Indexes\All_ReferenceSpecies.cs" />
     <Compile Include="Paging\EnumerableExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Commands\ICommandProcessor.cs" />
@@ -275,8 +285,6 @@
     <Compile Include="Paging\PagedListItem.cs" />
     <Compile Include="Paging\PageNumber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Queries\UsersGroupsQuery.cs" />
-    <Compile Include="Queries\IUsersGroupsQuery.cs" />
     <Compile Include="Repositories\GroupDocumentSessionExtensions.cs" />
     <Compile Include="Repositories\GroupMemberDocumentSessionExtensions.cs" />
     <Compile Include="Repositories\UserDocumentSessionExtensions.cs" />

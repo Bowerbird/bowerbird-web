@@ -1,15 +1,12 @@
 ﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
- Developers: 
- * Frank Radocaj : frank@radocaj.com
- * Hamish Crittenden : hamish.crittenden@gmail.com
- 
- Project Manager: 
- * Ken Walker : kwalker@museum.vic.gov.au
- 
- Funded by:
- * Atlas of Living Australia
- 
+Developers:
+* Frank Radocaj : frank@radocaj.com
+* Hamish Crittenden : hamish.crittenden@gmail.com
+Project Manager:
+* Ken Walker : kwalker@museum.vic.gov.au
+Funded by:
+* Atlas of Living Australia
 */
 
 using System.Linq;
@@ -150,8 +147,8 @@ namespace Bowerbird.Web.Builders
         public IEnumerable BuildOnlineUsers()
         {
             var connectedUserIds = _documentSession
-                .Query<All_UserSessions.Results, All_UserSessions>()
-                .AsProjection<All_UserSessions.Results>()
+                .Query<All_Sessions.Results, All_Sessions>()
+                .AsProjection<All_Sessions.Results>()
                 .Include(x => x.UserId)
                 .Where(x => x.Status < (int)Connection.ConnectionStatus.Offline)
                 .ToList()
@@ -169,15 +166,15 @@ namespace Bowerbird.Web.Builders
 
         //private UserProfile MakeUserProfile(User user, IEnumerable<Member> memberships)
         //{
-        //    return new UserProfile()
-        //    {
-        //        Id = user.Id,
-        //        Name = user.GetName(),
-        //        LastLoggedIn = user.LastLoggedIn,
-        //        Avatar = _avatarFactory.Make(user),
-        //        Projects = _documentSession.Load<Project>(memberships.Where(x => x.Group.Id.StartsWith("projects/")).Select(x => x.Group.Id)).Select(x => _projectViewFactory.Make(x)),
-        //        Teams = _documentSession.Load<Team>(memberships.Where(x => x.Group.Id.StartsWith("teams/")).Select(x => x.Group.Id)).Select(x => _teamViewFactory.Make(x))
-        //    };
+        // return new UserProfile()
+        // {
+        // Id = user.Id,
+        // Name = user.GetName(),
+        // LastLoggedIn = user.LastLoggedIn,
+        // Avatar = _avatarFactory.Make(user),
+        // Projects = _documentSession.Load<Project>(memberships.Where(x => x.Group.Id.StartsWith("projects/")).Select(x => x.Group.Id)).Select(x => _projectViewFactory.Make(x)),
+        // Teams = _documentSession.Load<Team>(memberships.Where(x => x.Group.Id.StartsWith("teams/")).Select(x => x.Group.Id)).Select(x => _teamViewFactory.Make(x))
+        // };
         //}
 
         #endregion

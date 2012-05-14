@@ -1,15 +1,12 @@
-/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
- Developers: 
- * Frank Radocaj : frank@radocaj.com
- * Hamish Crittenden : hamish.crittenden@gmail.com
- 
- Project Manager: 
- * Ken Walker : kwalker@museum.vic.gov.au
- 
- Funded by:
- * Atlas of Living Australia
- 
+Developers:
+* Frank Radocaj : frank@radocaj.com
+* Hamish Crittenden : hamish.crittenden@gmail.com
+Project Manager:
+* Ken Walker : kwalker@museum.vic.gov.au
+Funded by:
+* Atlas of Living Australia
 */
 
 using System.Collections;
@@ -25,12 +22,12 @@ namespace Bowerbird.Web.Services
 
         object GetUserAvatar(User user);
 
-        IEnumerable<All_ChatSessions.Results> GetClientsForChat(string chatId);
-        
+        IEnumerable<All_Chats.Results> GetClientsForChat(string chatId);
+
         void UpdateUserOnline(string clientId, string userId);
-        
+
         void PersistChatMessage(string chatId, string userId, string targetUserId, string message);
-        
+
         void UpdateChatUserStatus(string chatId, string clientId, string userId, int status);
 
         string DisconnectClient(string clientId);

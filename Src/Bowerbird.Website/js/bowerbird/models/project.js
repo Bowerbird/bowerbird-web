@@ -21,6 +21,7 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
 
         toJSON: function () {
             return {
+                Id: this.id,
                 Name: this.get('Name'),
                 Description: this.get('Description'),
                 Website: this.get('Website'),

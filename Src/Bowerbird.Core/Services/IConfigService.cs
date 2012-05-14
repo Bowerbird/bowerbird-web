@@ -35,5 +35,7 @@ namespace Bowerbird.Core.Services
         string GetEmailAdminAccount();
 
         string GetEmailResetPasswordRelativeUri();
+
+        string GetSpeciesRelativePath();
     }
 }

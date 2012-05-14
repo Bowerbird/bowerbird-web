@@ -187,7 +187,11 @@ namespace Bowerbird.Core.CommandHandlers
             _documentSession.Store(organisation);
 
             var groupAssociation = new GroupAssociation(TheAppRoot, organisation, Users.Single(x => x.Id == userid), DateTime.Now);
+            GroupAssociations.Add(groupAssociation);
             _documentSession.Store(groupAssociation);
+
+            organisation.SetAncestry(TheAppRoot);
+            _documentSession.Store(organisation);
 
             Organisations.Add(organisation);
         }
@@ -197,8 +201,17 @@ namespace Bowerbird.Core.CommandHandlers
             var team = new Team(Users.Single(x => x.Id == userid), name, description, website, null, DateTime.Now);
             _documentSession.Store(team);
 
-            var groupAssociation = new GroupAssociation(Organisations.Single(x => x.Id == organisationId), team, Users.Single(x => x.Id == userid), DateTime.Now);
+            var parentGroup = Organisations.Single(x => x.Id == organisationId);
+
+            var groupAssociation = new GroupAssociation(parentGroup, team, Users.Single(x => x.Id == userid), DateTime.Now);
+            GroupAssociations.Add(groupAssociation);
             _documentSession.Store(groupAssociation);
+
+            team.SetAncestry(parentGroup);
+            _documentSession.Store(team);
+
+            parentGroup.AddDescendant(team);
+            _documentSession.Store(parentGroup);
 
             Teams.Add(team);
         }
@@ -208,8 +221,23 @@ namespace Bowerbird.Core.CommandHandlers
             var project = new Project(Users.Single(x => x.Id == userid), name, description, website, null, DateTime.Now);
             _documentSession.Store(project);
 
-            var groupAssociation = new GroupAssociation(Teams.Single(x => x.Id == teamId), project, Users.Single(x => x.Id == userid), DateTime.Now);
+            var parentGroup = Teams.Single(x => x.Id == teamId);
+
+            var groupAssociation = new GroupAssociation(parentGroup, project, Users.Single(x => x.Id == userid), DateTime.Now);
+            GroupAssociations.Add(groupAssociation);
             _documentSession.Store(groupAssociation);
+
+            project.SetAncestry(parentGroup);
+            _documentSession.Store(project);
+
+            parentGroup.AddDescendant(project);
+            _documentSession.Store(parentGroup);
+             
+            // Update parent of parent (organisation) with descendant
+            var parentGroupAssociation = GroupAssociations.Single(x => x.ChildGroupId == parentGroup.Id);
+            var organisation = Organisations.Single(x => x.Id == parentGroupAssociation.ParentGroupId);
+            organisation.AddDescendant(project);
+            _documentSession.Store(organisation);
 
             Projects.Add(project);
         }

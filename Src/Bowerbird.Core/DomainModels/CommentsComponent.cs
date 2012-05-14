@@ -15,19 +15,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.DomainModels.DenormalisedReferences;
 using Bowerbird.Core.Events;
 using Bowerbird.Core.Extensions;
-using System.Collections;
 using Newtonsoft.Json;
 
 namespace Bowerbird.Core.DomainModels
 {
     public class CommentsComponent
     {
-
         #region Members
 
         [JsonIgnore]
@@ -104,6 +100,5 @@ namespace Bowerbird.Core.DomainModels
         }
 
         #endregion
-
     }
 }

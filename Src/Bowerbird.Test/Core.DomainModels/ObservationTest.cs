@@ -230,7 +230,7 @@ namespace Bowerbird.Test.Core.DomainModels
             var user = FakeObjects.TestUserWithId();
             var createdDateTime = DateTime.UtcNow;
 
-            observation.AddComment(
+            observation.Discussion.AddComment(
                 comment.Message,
                 user,
                 createdDateTime
@@ -249,13 +249,13 @@ namespace Bowerbird.Test.Core.DomainModels
             var user = FakeObjects.TestUserWithId();
             var createdDateTime = DateTime.UtcNow;
 
-            observation.AddComment(
+            observation.Discussion.AddComment(
                 comment.Message,
                 user,
                 createdDateTime
                 );
 
-            observation.RemoveComment(comment.Id);
+            observation.Discussion.RemoveComment(comment.Id);
 
             Assert.IsTrue(observation.Discussion.Comments.ToList().Count == 0);
         }
@@ -270,13 +270,13 @@ namespace Bowerbird.Test.Core.DomainModels
             var createdDateTime = DateTime.UtcNow.AddDays(-1);
             var modifiedDateTime = DateTime.UtcNow;
 
-            observation.AddComment(
+            observation.Discussion.AddComment(
                 comment.Message,
                 user,
                 createdDateTime
                 );
 
-            observation.UpdateComment(
+            observation.Discussion.UpdateComment(
                 comment.Id,
                 FakeValues.Comment.AppendWith("new"),
                 user,

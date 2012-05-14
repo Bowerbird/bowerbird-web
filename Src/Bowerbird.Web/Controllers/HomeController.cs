@@ -16,9 +16,6 @@ using System.Web.Mvc;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.Config;
-using Bowerbird.Core.Paging;
-using Bowerbird.Web.ViewModels;
-using Newtonsoft.Json;
 
 namespace Bowerbird.Web.Controllers
 {
@@ -53,7 +50,8 @@ namespace Bowerbird.Web.Controllers
         public ActionResult PublicIndex()
         {
             ViewBag.IsStaticLayout = true;
-            return View();
+
+            return View(Form.PublicIndex);
         }
 
         [HttpGet]
@@ -64,9 +62,12 @@ namespace Bowerbird.Web.Controllers
                 return RedirectToAction("PublicIndex");
             }
 
-            ViewBag.HomeIndex = new
+            ViewBag.Model = new
             {
+                StreamItems = new object [] {}
             };
+
+            ViewBag.PrerenderedView = "home"; // HACK: Need to rethink this
 
             return View();
         }

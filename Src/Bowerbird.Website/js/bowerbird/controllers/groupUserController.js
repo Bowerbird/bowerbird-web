@@ -16,7 +16,6 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/projectlayoutview', 'm
 
     // Helper method to load project layout, taking into account bootstrapped data and prerendered view
     var showProjectLayoutView = function (id) {
-        app.vent.trigger('project:show');
         var projectLayoutView = null;
         if (app.prerenderedView.name === 'projects' && !app.prerenderedView.isBound) {
             projectLayoutView = new ProjectLayoutView({ model: new Project(app.prerenderedView.data.Project) });
@@ -35,35 +34,45 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/projectlayoutview', 'm
 
     // Show the user's home page (i.e.: the "home stream")
     GroupUserController.showHome = function () {
-        app.vent.trigger('home:show');
+        log('home:show');
     };
 
     // Show a team
     GroupUserController.showTeam = function () {
-        app.vent.trigger('team:show');
+        log('team:show');
     };
 
     // Show project activity
     GroupUserController.showProjectStream = function (id) {
+        log('project:show:stream');
         var projectLayoutView = showProjectLayoutView(id);
         projectLayoutView.showStream(new StreamItemCollection(app.prerenderedView.data.StreamItems.PagedListItems));
     };
 
+    // Show project observations
+    GroupUserController.showProjectObservations = function (id) {
+        log('project:show:observations');
+        var projectLayoutView = showProjectLayoutView(id);
+        //projectLayout.details.showObservations();
+    };
+
     // Show project about
     GroupUserController.showProjectAbout = function (id) {
+        log('project:show:about');
         var projectLayoutView = showProjectLayoutView(id);
         //projectLayout.details.showAbout();
     };
 
     // Show project members
     GroupUserController.showProjectMembers = function (id) {
+        log('project:show:members');
         var projectLayoutView = showProjectLayoutView(id);
         //projectLayout.details.showMembers();
     };
 
     // Show a user
     GroupUserController.showUser = function () {
-        app.vent.trigger('user:show');
+        log('user:show');
     };
 
     //    // Show a list of email for the given category.
@@ -84,11 +93,17 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/projectlayoutview', 'm
     // GroupUserController Event Handlers
     // ----------------------------------
 
-    //    // When a category is selected, filter the mail list
-    //    // based on it.
-    //    BBCloneMail.vent.bind("mail:category:show", function (category) {
-    //        showFilteredEmailList(category);
-    //    });
+    app.vent.on('home:show', function (id) {
+        GroupUserController.showHome(id);
+    });
+
+    app.vent.on('project:show:stream', function (id) {
+        GroupUserController.showProjectStream(id);
+    });
+
+    app.vent.on('project:show:observations', function (id) {
+        GroupUserController.showProjectObservations(id);
+    });
 
     //    // When the mail app is shown or `inbox` is clicked,
     //    // show all the mail.
@@ -106,6 +121,8 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/projectlayoutview', 'm
     //        app.groupUserController = new GroupUserController();
     //        //MailApp.emailList.fetch();
     //    });
+
+
 
     return GroupUserController;
 

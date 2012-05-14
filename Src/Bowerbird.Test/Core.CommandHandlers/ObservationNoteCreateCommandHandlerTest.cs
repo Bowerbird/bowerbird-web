@@ -75,7 +75,7 @@ namespace Bowerbird.Test.Core.CommandHandlers
                 ObservationId = observation.Id,
                 References = new Dictionary<string, string> { { FakeValues.Description, FakeValues.Description } },
                 ScientificName = FakeValues.ScientificName,
-                SubmittedOn = createdDateTime,
+                NotedOn = createdDateTime,
                 Tags = FakeValues.Tags,
                 Taxonomy = FakeValues.Taxonomy
             };
@@ -100,7 +100,7 @@ namespace Bowerbird.Test.Core.CommandHandlers
             Assert.AreEqual(command.Descriptions, newValue.Descriptions);
             Assert.AreEqual(command.References, newValue.References);
             Assert.AreEqual(command.ScientificName, newValue.ScientificName);
-            Assert.AreEqual(command.SubmittedOn, newValue.CreatedOn);
+            Assert.AreEqual(command.NotedOn, newValue.CreatedOn);
             Assert.AreEqual(command.Tags, newValue.Tags);
             Assert.AreEqual(command.Taxonomy, newValue.Taxonomy);
             //Assert.AreEqual(observation.DenormalisedObservationReference(), newValue.Observation);

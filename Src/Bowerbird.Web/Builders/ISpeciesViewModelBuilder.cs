@@ -18,8 +18,8 @@ namespace Bowerbird.Web.Builders
 {
     public interface ISpeciesViewModelBuilder : IBuilder
     {
-        object BuildItem(IdInput idInput);
+        object BuildSpecies(IdInput idInput);
 
-        object BuildList(PagingInput pagingInput);
+        object BuildSpeciesList(PagingInput pagingInput);
     }
 }

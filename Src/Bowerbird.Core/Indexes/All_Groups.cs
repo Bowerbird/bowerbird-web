@@ -11,11 +11,13 @@
  * Atlas of Living Australia
  
 */
-				
+
 using System.Linq;
 using Bowerbird.Core.DomainModels;
 using Raven.Client.Indexes;
 using Raven.Abstractions.Indexing;
+using Raven.Client.Linq;
+using System.Collections.Generic;
 
 namespace Bowerbird.Core.Indexes
 {
@@ -24,13 +26,13 @@ namespace Bowerbird.Core.Indexes
         public class Result
         {
             public string Type { get; set; }
-            public string Id { get; set; }
-            public string Name { get; set; }
             public string GroupType { get; set; }
-            public int MemberCount { get; set; }
-            public int ObservationCount { get; set; }
-            public int ProjectCount { get; set; }
-            public int TeamCount { get; set; }
+            public string Id { get; set; }
+            public int GroupMemberCount { get; set; }
+            public string[] ChildGroupIds { get; set; }
+            public string[] AncestorGroupIds { get; set; }
+            public string[] DescendantGroupIds { get; set; }
+            public Group Group { get { return AppRoot ?? Organisation ?? Team ?? Project ?? UserProject ?? (Group)null; } }
             public AppRoot AppRoot { get; set; }
             public Organisation Organisation { get; set; }
             public Team Team { get; set; }
@@ -40,99 +42,111 @@ namespace Bowerbird.Core.Indexes
 
         public All_Groups()
         {
-            //AddMap<AppRoot>(appRoots => from appRoot in appRoots
-            //                                      select new
-            //                                      {
-            //                                          Type = "group",
-            //                                          appRoot.Id,
-            //                                          appRoot.Name,
-            //                                          GroupType = "approot",
-            //                                          MemberCount = 0,
-            //                                          ObservationCount = 0,
-            //                                          ProjectCount = 0,
-            //                                          TeamCount = 0
-            //                                      });
+            AddMap<AppRoot>(
+                appRoots => from appRoot in appRoots
+                            select new
+                            {
+                                Type = "group",
+                                GroupType = "approot",
+                                appRoot.Id,
+                                GroupMemberCount = 0,
+                                ChildGroupIds = new string[] { },
+                                AncestorGroupIds = new string[] { },
+                                DescendantGroupIds = new string[] { }
+                            });
 
-            //AddMap<Organisation>(organisations => from organisation in organisations
-            //                                      select new
-            //                                                 {
-            //                                                    Type = "group",
-            //                                                    organisation.Id,
-            //                                                    organisation.Name,
-            //                                                    GroupType = "organisation",
-            //                                                    MemberCount = 0,
-            //                                                    ObservationCount = 0,
-            //                                                    ProjectCount = 0,
-            //                                                    TeamCount = 0
-            //                                                 });
+            AddMap<Organisation>(
+                organisations => from organisation in organisations
+                                 select new
+                                 {
+                                     Type = "group",
+                                     GroupType = "organisation",
+                                     organisation.Id,
+                                     GroupMemberCount = 0,
+                                     ChildGroupIds = new string[] { },
+                                     AncestorGroupIds = organisation.Ancestry,
+                                     DescendantGroupIds = organisation.Descendants
+                                 });
 
-            //AddMap<Team>(teams => from team in teams
-            //                                    select new
-            //                                    {
-            //                                        Type = "group",
-            //                                        team.Id,
-            //                                        team.Name,
-            //                                        GroupType = "team",
-            //                                        MemberCount = 0,
-            //                                        ObservationCount = 0,
-            //                                        ProjectCount = 0,
-            //                                        TeamCount = 1
-            //                                    });
+            AddMap<Team>(
+                teams => from team in teams
+                         select new
+                         {
+                             Type = "group",
+                             GroupType = "team",
+                             team.Id,
+                             GroupMemberCount = 0,
+                             ChildGroupIds = new string[] { },
+                             AncestorGroupIds = team.Ancestry,
+                             DescendantGroupIds = team.Descendants
+                         });
 
-            AddMap<Project>(projects => from project in projects
-                                  select new
-                                  {
-                                      Type = "group",
-                                      project.Id,
-                                      project.Name,
-                                      GroupType = "project",
-                                      MemberCount = 0,
-                                      ObservationCount = 0,
-                                      ProjectCount = 1,
-                                      TeamCount = 0
-                                  });
+            AddMap<Project>(
+                projects => from project in projects
+                            select new
+                            {
+                                Type = "group",
+                                GroupType = "project",
+                                project.Id,
+                                GroupMemberCount = 0,
+                                ChildGroupIds = new string[] { },
+                                AncestorGroupIds = project.Ancestry,
+                                DescendantGroupIds = new string[] { }
+                            });
 
-            //AddMap<UserProject>(userProjects => from userProject in userProjects
-            //                            select new
-            //                            {
-            //                                Type = "group",
-            //                                userProject.Id,
-            //                                userProject.Name,
-            //                                GroupType = "userproject",
-            //                                MemberCount = 0,
-            //                                ObservationCount = 0,
-            //                                ProjectCount = 0,
-            //                                TeamCount = 0
-            //                            });
+            AddMap<UserProject>(
+                userProjects => from userProject in userProjects
+                                select new
+                                {
+                                    Type = "group",
+                                    GroupType = "userproject",
+                                    userProject.Id,
+                                    GroupMemberCount = 0,
+                                    ChildGroupIds = new string[] { },
+                                    AncestorGroupIds = userProject.Ancestry,
+                                    DescendantGroupIds = new string[] { }
+                                });
 
-            //AddMap<Member>(members => from member in members
-            //                          select new
-            //                          {
-            //                              Type = "member",
-            //                              member.Group.Id,
-            //                              Name = (string)null,
-            //                              GroupType = (string)null,
-            //                              MemberCount = 1,
-            //                              ObservationCount = 0,
-            //                              ProjectCount = 0,
-            //                              TeamCount = 0
-            //                          });
+            AddMap<GroupAssociation>(
+                groupAssociations => from groupAssociation in groupAssociations
+                                     select new
+                                     {
+                                         Type = "groupassociation",
+                                         GroupType = (string)null,
+                                         Id = groupAssociation.ParentGroupId,
+                                         GroupMemberCount = 0,
+                                         ChildGroupIds = new[] { groupAssociation.ChildGroupId },
+                                         AncestorGroupIds = new string[] { },
+                                         DescendantGroupIds = new string[] { }
+                                     });
+
+            AddMap<Member>(
+                members => from member in members
+                           select new
+                           {
+                               Type = "member",
+                               GroupType = (string)null,
+                               member.Group.Id,
+                               GroupMemberCount = 1,
+                               ChildGroupIds = new string[] { },
+                               AncestorGroupIds = new string[] { },
+                               DescendantGroupIds = new string[] { }
+                           });
 
             Reduce = results => from result in results
                                 group result by result.Id
                                     into g
                                     select new
-                                               {
-                                                   Type = "result",
-                                                   Id = g.Key,
-                                                   g.Where(x => x.Name != null && x.GroupType != null && x.Type == "group").First().Name,
-                                                   g.Where(x => x.Name != null && x.GroupType != null && x.Type == "group").First().GroupType,
-                                                   MemberCount = 0,// g.Where(x => x.Type == "member").Sum(x => x.MemberCount),
-                                                   ObservationCount = 0,
-                                                   ProjectCount = 0,
-                                                   TeamCount = 0
-                                               };
-            
+                                    {
+                                        Type = g.Select(x => x.Type).FirstOrDefault(),
+                                        GroupType = (string)null,
+                                        Id = g.Key,
+                                        GroupMemberCount = g.Sum(x => x.GroupMemberCount),
+                                        ChildGroupIds = g.SelectMany(x => x.ChildGroupIds),
+                                        AncestorGroupIds = g.SelectMany(x => x.AncestorGroupIds),
+                                        DescendantGroupIds = g.SelectMany(x => x.DescendantGroupIds)
+                                    };
+
             TransformResults = (database, results) =>
                 from result in results
                 let appRoot = database.Load<AppRoot>(result.Id)
@@ -142,30 +156,27 @@ namespace Bowerbird.Core.Indexes
                 let userProject = database.Load<UserProject>(result.Id)
                 select new
                 {
-                    result.Id,
                     result.Type,
-                    result.Name,
                     result.GroupType,
+                    result.Id,
+                    result.GroupMemberCount,
+                    result.ChildGroupIds,
+                    result.AncestorGroupIds,
+                    result.DescendantGroupIds,
                     AppRoot = appRoot,
                     Organisation = organisation,
                     Team = team,
                     Project = project,
-                    UserProject = userProject,
-                    result.MemberCount,
-                    ObservationCount = 0,
-                    ProjectCount = 0,
-                    TeamCount = 0
+                    UserProject = userProject
                 };
 
-
             Store(x => x.Type, FieldStorage.Yes);
-            Store(x => x.Id, FieldStorage.Yes);
-            Store(x => x.Name, FieldStorage.Yes);
             Store(x => x.GroupType, FieldStorage.Yes);
-            Store(x => x.MemberCount, FieldStorage.Yes);
-            Store(x => x.ObservationCount, FieldStorage.Yes);
-            Store(x => x.ProjectCount, FieldStorage.Yes);
-            Store(x => x.TeamCount, FieldStorage.Yes);
+            Store(x => x.Id, FieldStorage.Yes);
+            Store(x => x.GroupMemberCount, FieldStorage.Yes);
+            Store(x => x.ChildGroupIds, FieldStorage.Yes);
+            Store(x => x.AncestorGroupIds, FieldStorage.Yes);
+            Store(x => x.DescendantGroupIds, FieldStorage.Yes);
         }
     }
 }

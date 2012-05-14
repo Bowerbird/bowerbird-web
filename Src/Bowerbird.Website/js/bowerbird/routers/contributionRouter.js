@@ -12,7 +12,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'controllers/contributioncont
 
     var ContributionRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
-            'observations/create': 'showObservationCreateForm'
+            'observations/create': 'showObservationForm'
         }
     });
 

@@ -33,9 +33,10 @@ namespace Bowerbird.Web.Controllers
         private readonly IUserContext _userContext;
         private readonly IOrganisationsViewModelBuilder _organisationsViewModelBuilder;
         private readonly IStreamItemsViewModelBuilder _streamItemsViewModelBuilder;
-        private readonly IProjectsViewModelBuilder _projectsViewModelBuilder;
+        private readonly ITeamsViewModelBuilder _teamsViewModelBuilder;
         private readonly IPostsViewModelBuilder _postsViewModelBuilder;
         private readonly IMemberViewModelBuilder _memberViewModelBuilder;
+        private readonly IReferenceSpeciesViewModelBuilder _referenceSpeciesViewModelBuilder;
 
         #endregion
 
@@ -46,26 +47,29 @@ namespace Bowerbird.Web.Controllers
             IUserContext userContext,
             IOrganisationsViewModelBuilder organisationsViewModelBuilder,
             IStreamItemsViewModelBuilder streamItemsViewModelBuilder,
-            IProjectsViewModelBuilder projectsViewModelBuilder,
+            ITeamsViewModelBuilder teamsViewModelBuilder,
             IPostsViewModelBuilder postsViewModelBuilder,
-            IMemberViewModelBuilder memberViewModelBuilder
+            IMemberViewModelBuilder memberViewModelBuilder,
+            IReferenceSpeciesViewModelBuilder referenceSpeciesViewModelBuilder
             )
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(organisationsViewModelBuilder, "organisationsViewModelBuilder");
             Check.RequireNotNull(streamItemsViewModelBuilder, "streamItemsViewModelBuilder");
-            Check.RequireNotNull(projectsViewModelBuilder, "projectsViewModelBuilder");
+            Check.RequireNotNull(teamsViewModelBuilder, "teamsViewModelBuilder");
             Check.RequireNotNull(postsViewModelBuilder, "postsViewModelBuilder");
             Check.RequireNotNull(memberViewModelBuilder, "memberViewModelBuilder");
+            Check.RequireNotNull(referenceSpeciesViewModelBuilder, "referenceSpeciesViewModelBuilder");
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
             _organisationsViewModelBuilder = organisationsViewModelBuilder;
             _streamItemsViewModelBuilder = streamItemsViewModelBuilder;
-            _projectsViewModelBuilder = projectsViewModelBuilder;
+            _teamsViewModelBuilder = teamsViewModelBuilder;
             _postsViewModelBuilder = postsViewModelBuilder;
             _memberViewModelBuilder = memberViewModelBuilder;
+            _referenceSpeciesViewModelBuilder = referenceSpeciesViewModelBuilder;
         }
 
         #endregion
@@ -94,6 +98,34 @@ namespace Bowerbird.Web.Controllers
         public ActionResult StreamList(PagingInput pagingInput)
         {
             return new JsonNetResult(_streamItemsViewModelBuilder.BuildGroupStreamItems(pagingInput));
+        }
+
+        [HttpGet]
+        public ActionResult ReferenceSpecies(PagingInput pagingInput)
+        {
+            ViewBag.Model = new
+            {
+                Team = _teamsViewModelBuilder.BuildTeam(new IdInput() { Id = "teams/" + pagingInput.Id }),
+                ReferenceSpecies = _referenceSpeciesViewModelBuilder.BuildGroupReferenceSpeciesList(pagingInput)
+            };
+
+            ViewBag.PrerenderedView = "referencespecies"; // HACK: Need to rethink this
+
+            return View(Form.Stream);
+        }
+
+        [HttpGet]
+        public ActionResult Teams(PagingInput pagingInput)
+        {
+            ViewBag.Model = new
+            {
+                Organisation = _organisationsViewModelBuilder.BuildOrganisation(new IdInput() { Id = "organisations/" + pagingInput.Id }),
+                Teams = _teamsViewModelBuilder.BuildOrganisationTeamList(pagingInput)
+            };
+
+            ViewBag.PrerenderedView = "organisations"; // HACK: Need to rethink this
+
+            return View(Form.Stream);
         }
 
         [HttpGet]
@@ -188,6 +220,116 @@ namespace Bowerbird.Web.Controllers
             ViewBag.Organisation = _organisationsViewModelBuilder.BuildOrganisation(idInput);
 
             return View(Form.Delete);
+        }
+
+        [Transaction]
+        [Authorize]
+        [HttpPost]
+        public ActionResult Join(IdInput idInput)
+        {
+            Check.RequireNotNull(idInput, "idInput");
+
+            if (!_userContext.HasGroupPermission(PermissionNames.JoinOrganisation, idInput.Id))
+            {
+                return HttpUnauthorized();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return JsonFailed();
+            }
+
+            _commandProcessor.Process(
+                new MemberCreateCommand()
+                {
+                    UserId = _userContext.GetAuthenticatedUserId(),
+                    GroupId = idInput.Id,
+                    CreatedByUserId = _userContext.GetAuthenticatedUserId(),
+                    Roles = new[] { RoleNames.OrganisationMember }
+                });
+
+            return JsonSuccess();
+        }
+
+        [Transaction]
+        [Authorize]
+        [HttpPost]
+        public ActionResult Leave(IdInput idInput)
+        {
+            Check.RequireNotNull(idInput, "idInput");
+
+            if (!_userContext.HasGroupPermission(PermissionNames.LeaveOrganisation, idInput.Id))
+            {
+                return HttpUnauthorized();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return JsonFailed();
+            }
+
+            _commandProcessor.Process(
+                new DeleteCommand()
+                {
+                    UserId = _userContext.GetAuthenticatedUserId(),
+                    Id = idInput.Id
+                });
+
+            return JsonSuccess();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult AddTeam(GroupAssociationCreateInput createInput)
+        {
+            Check.RequireNotNull(createInput, "createInput");
+
+            if (!_userContext.HasGroupPermission<Organisation>(PermissionNames.AddTeam, createInput.ParentGroupId))
+            {
+                return HttpUnauthorized();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return JsonFailed();
+            }
+
+            _commandProcessor.Process(
+                new GroupAssociationCreateCommand()
+                {
+                    UserId = _userContext.GetAuthenticatedUserId(),
+                    ParentGroupId = createInput.ParentGroupId,
+                    ChildGroupId = createInput.ChildGroupId
+                });
+
+            return JsonSuccess();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult RemoveTeam(GroupAssociationDeleteInput deleteInput)
+        {
+            Check.RequireNotNull(deleteInput, "deleteInput");
+
+            if (!_userContext.HasGroupPermission<Organisation>(PermissionNames.RemoveTeam, deleteInput.ParentGroupId))
+            {
+                return HttpUnauthorized();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return JsonFailed();
+            }
+
+            _commandProcessor.Process(
+                new GroupAssociationDeleteCommand()
+                {
+                    UserId = _userContext.GetAuthenticatedUserId(),
+                    ParentGroupId = deleteInput.ParentGroupId,
+                    ChildGroupId = deleteInput.ChildGroupId
+                });
+
+            return JsonSuccess();
         }
 
         [Transaction]

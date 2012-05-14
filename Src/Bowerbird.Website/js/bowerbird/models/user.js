@@ -8,10 +8,17 @@
 // User
 // ----
 
-define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, app) {
+define(['jquery', 'underscore', 'backbone', 'app', 'collections/projectcollection'], function ($, _, Backbone, app, ProjectCollection) {
 
     var User = Backbone.Model.extend({
-        idAttribute: 'Id'
+        idAttribute: 'Id',
+
+        initialize: function (model) {
+            this.projects = new ProjectCollection();
+            if (model) {
+                this.projects.add(model.Projects);
+            }
+        }
     });
 
     return User;

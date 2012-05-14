@@ -12,12 +12,9 @@
  
 */
 
-using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Paging;
-using Bowerbird.Core.Queries;
 using Bowerbird.Web.Factories;
 using Bowerbird.Web.ViewModels;
 using Raven.Client;
@@ -30,8 +27,6 @@ namespace Bowerbird.Web.Builders
     {
         #region Fields
 
-        private readonly IUserContext _userContext;
-        private readonly IUsersGroupsQuery _usersGroupsQuery;
         private readonly IOrganisationViewFactory _organisationViewFactory;
         private readonly IDocumentSession _documentSession;
 
@@ -40,19 +35,13 @@ namespace Bowerbird.Web.Builders
         #region Constructors
 
         public OrganisationsViewModelBuilder(
-            IUserContext userContext,
-            IUsersGroupsQuery usersGroupsQuery,
             IOrganisationViewFactory organisationViewFactory,
             IDocumentSession documentSession
         )
         {
-            Check.RequireNotNull(userContext, "userContext");
-            Check.RequireNotNull(usersGroupsQuery, "usersGroupsQuery");
             Check.RequireNotNull(organisationViewFactory, "organisationViewFactory");
             Check.RequireNotNull(documentSession, "documentSession");
 
-            _userContext = userContext;
-            _usersGroupsQuery = usersGroupsQuery;
             _organisationViewFactory = organisationViewFactory;
             _documentSession = documentSession;
         }
@@ -69,20 +58,32 @@ namespace Bowerbird.Web.Builders
         {
             Check.RequireNotNull(idInput, "idInput");
 
-            return _organisationViewFactory.Make(_documentSession.Load<Organisation>(idInput.Id));
+            var organisation = _documentSession
+                .Query<All_Groups.Result, All_Groups>()
+                .AsProjection<All_Groups.Result>()
+                .Where(x => x.Id == idInput.Id)
+                .FirstOrDefault();
+
+            return _organisationViewFactory.Make(organisation);
         }
 
         public object BuildOrganisationList(PagingInput pagingInput)
         {
             RavenQueryStatistics stats;
 
+
             var results = _documentSession
-                .Query<Organisation>()
+                .Query<All_Groups.Result, All_Groups>()
+                .AsProjection<All_Groups.Result>()
+                .Customize(x => x.WaitForNonStaleResults())
+                .Include(x => x.Id)
+                .Where(x => x.GroupType == "organisation")
                 .Statistics(out stats)
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
                 .ToList()
                 .Select(x => _organisationViewFactory.Make(x));
+
 
             return new
             {

@@ -15,7 +15,6 @@
 using System;
 using System.Web;
 using System.Web.Mvc;
-using Bowerbird.Core.CommandHandlers;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
@@ -93,8 +92,6 @@ namespace Bowerbird.Web.Controllers
         {
             try
             {
-                var mediaResourceCreateCommandHandler = new MediaResourceCreateCommandHandler(_documentSession, _mediaFilePathService);
-
                 var mediaResourceCreateCommand = new MediaResourceCreateCommand()
                 {
                     OriginalFileName = originalFileName ?? string.Empty,
@@ -109,11 +106,11 @@ namespace Bowerbird.Web.Controllers
 
                 return new JsonNetResult(new
                     {
-                        Id = mediaResource.Id,
-                        CreatedByUser = mediaResource.CreatedByUser,
-                        Metadata = mediaResource.Metadata,
-                        Type = mediaResource.Type,
-                        UploadedOn = mediaResource.UploadedOn,
+                        mediaResource.Id,
+                        mediaResource.CreatedByUser,
+                        mediaResource.Metadata,
+                        mediaResource.Type,
+                        mediaResource.UploadedOn,
                         // HACK
                         MediumImageUri = _mediaFilePathService.MakeMediaFileUri(mediaResource, "medium"),
                         Key = key

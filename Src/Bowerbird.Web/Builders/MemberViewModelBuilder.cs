@@ -98,7 +98,7 @@ namespace Bowerbird.Web.Builders
             RavenQueryStatistics stats;
 
             var results = _documentSession
-                .Query<All_UserMemberships.Result, All_UserMemberships>()
+                .Query<All_Users.Result, All_Users>()
                 .Where(x => x.GroupId.In(projectsInTeam.Intersect(new List<string>() {pagingInput.Id})))
                 .Select(x => x.Member)
                 .Statistics(out stats)
@@ -138,7 +138,7 @@ namespace Bowerbird.Web.Builders
             RavenQueryStatistics stats;
 
             var results = _documentSession
-                .Query<All_UserMemberships.Result, All_UserMemberships>()
+                .Query<All_Users.Result, All_Users>()
                 .Where(x => x.GroupId.In(projectsInTeams.Intersect(new List<string>() { pagingInput.Id })))
                 .Select(x => x.Member)
                 .Statistics(out stats)

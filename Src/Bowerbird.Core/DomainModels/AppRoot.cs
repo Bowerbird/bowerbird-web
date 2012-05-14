@@ -39,6 +39,13 @@ namespace Bowerbird.Core.DomainModels
             Id = Constants.AppRootId;
         }
 
+        // Special construcotr for setup of inital app root object in RavenDB
+        public AppRoot(string appRootId)
+            : base()
+        {
+            Id = appRootId;
+        }
+
         #endregion
 
         #region Properties

@@ -2,50 +2,92 @@
   <form action="/observation/create" method="post"  enctype="multipart/form-data">
     <fieldset>
       <legend>Observation Details</legend>
-      <div id="title-field" class="field">
-        <div>
-          <label for="title">Title</label>
-        </div>
-        <div>
-          <input type="text" id="title" name="title" value="{{Model.Observation.Title}}" />
-        </div>
-      </div>
-      <div id="observedon-field" class="field">
-        <div>
-          <label for="observedOn">Observed On</label>
-        </div>
-        <div>
-          <input type="date" id="observedOn" name="observedOn" data-datepicker="datepicker" readonly="" value="{{Model.Observation.ObservedOn}}" />
-          <i></i>
-        </div>
-      </div>
       <fieldset id="media-resources-fieldset">
         <legend>Images, Videos, Audio</legend>
         <p>Drag and drop files into the box below, or choose files from your computer or import from other websites.</p>
         <div id="media-uploader">
           <div class="media-resource-items" id="media-resource-items">
             <div class="media-resource-dropzone">
-              <p>
-                Drop files here<p>
-          </div>
+              <p>Drop files here<p>
+            </div>
             <div id="media-resource-add-pane">
               <div id="media-resource-upload-button" class="button media-resource-upload-button">
-                Choose Files<input id="fileupload" type="file" name="file" multiple="">
-            </div>
+                Choose Files<input id="fileupload" type="file" name="file" multiple="" />
+              </div>
               <input type="button" value="Import From Website" id="media-resource-import-button"/>
             </div>
           </div>
         </div>
       </fieldset>
+      <div id="title-field" class="field">
+        <div>
+          <label for="Title">Title</label>
+        </div>
+        <div>
+          <input type="text" id="Title" name="title" value="{{Model.Observation.Title}}" />
+        </div>
+      </div>
+
+      <div id="category-field" class="field">
+        <div>
+          <label for="Category">Category</label>
+        </div>
+        <div>
+          <select id="Category" name="category">
+            <option></option>
+            <option value="Mammals">Mammals</option>
+            <option value="Invertebrates">Invertebrates</option>
+            <option value="Humans">Humans</option>
+            <option value="Plants">Plants</option>
+            <option value="Apples">Apples</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="observedon-field" class="field">
+        <div>
+          <label for="ObservedOn">Observed On</label>
+        </div>
+        <div>
+          <input type="date" id="ObservedOn" name="observedOn" data-datepicker="datepicker" readonly="" value="{{Model.Observation.ObservedOn}}" />
+          <i></i>
+        </div>
+      </div>
+
+      <div id="projects-field" class="field">
+        <div>
+          <label for="Projects">Projects</label>
+        </div>
+        <div>
+          <select id="Projects" name="projects" multiple=""></select>
+        </div>
+      </div>
+
+      <div id="requires-identification-field" class="field field-checkbox">
+        <div>
+          <label>Needs ID</label>
+        </div>
+        <div>
+          <div class="checkbox">
+            <input type="checkbox" id="IsIdentificationRequired" name="isidentificationrequired" />
+            <label for="IsIdentificationRequired">
+              <span class="on">Yes</span><span class="bar"></span><span class="off">No</span>Needs ID
+            </label>
+          </div>
+        </div>
+      </div>
+
+
+      
       <fieldset id="location-fieldset">
         <legend>Location</legend>
         <p>Enter an address, drag the pin onto the map or enter an exact co-ordinate.</p>
         <div id="address-field" class="field">
           <div>
-            <label for="address">Address</label>
+            <label for="Address">Address</label>
           </div>
           <div>
-            <input type="text" id="address" name="address" autocomplete="off" value="{{Address}}" />
+            <input type="text" id="Address" name="address" autocomplete="off" value="{{Address}}" />
           </div>
         </div>
         <div id="pin-field" class="field">
@@ -59,18 +101,18 @@
         <div id="location-map"></div>
         <div id="latitude-field" class="field field-part-one">
           <div>
-            <label for="latitude">Latitude</label>
+            <label for="Latitude">Latitude</label>
           </div>
           <div>
-            <input type="text" id="latitude" name="latitude" value="{{Latitude}}" />
+            <input type="text" id="Latitude" name="latitude" value="{{Latitude}}" />
           </div>
         </div>
         <div id="longitude-field" class="field field-part-two">
           <div>
-            <label for="longitude">Longitude</label>
+            <label for="Longitude">Longitude</label>
           </div>
           <div>
-            <input type="text" id="longitude" name="longitude" value="{{Longitude}}" />
+            <input type="text" id="Longitude" name="longitude" value="{{Longitude}}" />
           </div>
         </div>
         <div id="anonymise-location-field" class="field field-checkbox">
@@ -79,37 +121,14 @@
           </div>
           <div>
             <div class="checkbox">
-              <input type="checkbox" id="anonymiseLocation" name="anonymiseLocation" />
-              <label for="anonymiseLocation">
+              <input type="checkbox" id="AnonymiseLocation" name="anonymiseLocation" />
+              <label for="AnonymiseLocation">
                 <span class="on">Yes</span><span class="bar"></span><span class="off">No</span>Show Exact Location
               </label>
             </div>
           </div>
         </div>
       </fieldset>
-      <div id="category-field" class="field">
-        <div>
-          <label for="observationCategory">Category</label>
-        </div>
-        <div>
-          <select id="category" name="category">
-            <option></option>
-            <option value="Mammals">Mammals</option>
-            <option value="Invertebrates">Invertebrates</option>
-            <option value="Humans">Humans</option>
-            <option value="Plants">Plants</option>
-            <option value="Apples">Apples</option>
-          </select>
-        </div>
-      </div>
-      <div id="projects-field" class="field">
-        <div>
-          <label for="projects">Projects</label>
-        </div>
-        <div>
-          <select id="projects" name="projects" multiple=""></select>
-        </div>
-      </div>
     </fieldset>
     <fieldset>
       <input type="button" value="Save" id="save" />
