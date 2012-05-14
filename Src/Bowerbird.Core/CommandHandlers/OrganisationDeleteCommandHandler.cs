@@ -12,10 +12,12 @@
  
 */
 
+using System.Linq;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Raven.Client;
+using Raven.Client.Linq;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -45,11 +47,46 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Methods
 
+        /// <summary>
+        /// Remove Organisation from all Team's Ancestors
+        /// Remove Organisation from all Project's Ancestors
+        /// Remove Organisation
+        /// </summary>
         public void Handle(DeleteCommand command)
         {
             Check.RequireNotNull(command, "command");
 
-            _documentSession.Delete(_documentSession.Load<Organisation>(command.Id));
+            var organisation = _documentSession.Load<Organisation>(command.Id);
+
+            var teams = _documentSession
+               .Query<Team>()
+               .Where(x => x.Ancestry.Any(y => y.ToLower() == organisation.Id))
+               .ToList();
+
+            if (teams.Count > 0)
+            {
+                foreach (var team in teams)
+                {
+                    team.Ancestry.ToList().RemoveAll(y => y.ToLower() == organisation.Id);
+                    _documentSession.Store(team);
+                }
+
+                var projects = _documentSession
+                   .Query<Project>()
+                   .Where(x => x.Ancestry.Any(y => y.ToLower() == organisation.Id))
+                   .ToList();
+
+                if (projects.Count > 0)
+                {
+                    foreach (var project in projects)
+                    {
+                        project.Ancestry.ToList().RemoveAll(y => y.ToLower() == organisation.Id);
+                        _documentSession.Store(project);
+                    }
+                }
+            }
+
+            _documentSession.Delete(organisation);
         }
 
         #endregion

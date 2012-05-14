@@ -1,4 +1,4 @@
-/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+    /* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -49,9 +49,19 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Methods
 
+        /// <summary>
+        /// If Team has a parent OrganisationId: 
+        ///     - Add Organisation to Team Ancestry
+        ///     - Add Team to Organisation Descendants
+        /// </summary>
         public void Handle(TeamCreateCommand command)
         {
             Check.RequireNotNull(command, "command");
+
+            var parentGroup =
+                !string.IsNullOrEmpty(command.OrganisationId)
+                    ? (Group)_documentSession.Load<Organisation>(command.OrganisationId)
+                    : (Group)_documentSession.Load<AppRoot>(Constants.AppRootId);
 
             var team = new Team(
                 _documentSession.Load<User>(command.UserId), 
@@ -61,8 +71,15 @@ namespace Bowerbird.Core.CommandHandlers
                 command.AvatarId != null ? _documentSession.Load<MediaResource>(command.AvatarId) : null,
                 DateTime.UtcNow);
 
+            team.SetAncestry(parentGroup);
             _documentSession.Store(team);
-            _documentSession.SaveChanges();
+            
+            // If team is in an organisation, add team to organisation's Descendants
+            if(!string.IsNullOrEmpty(command.OrganisationId))
+            {
+                parentGroup.AddDescendant(team);
+                _documentSession.Store(parentGroup);
+            }
 
             var user = _documentSession.Load<User>(command.UserId);
             var roles = _documentSession
@@ -78,17 +95,7 @@ namespace Bowerbird.Core.CommandHandlers
                 );
 
             _documentSession.Store(teamAdministrator);
-
-            Group parentGroup = null;
-            if (string.IsNullOrEmpty(command.OrganisationId))
-            {
-                parentGroup = _documentSession.Load<AppRoot>(Constants.AppRootId);
-            }
-            else
-            {
-                parentGroup = _documentSession.Load<Organisation>(command.OrganisationId);
-            }
-
+            
             var groupAssociation = new GroupAssociation(
                 parentGroup,
                 team,

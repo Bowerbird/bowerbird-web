@@ -53,6 +53,11 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(command, "command");
 
+            var parentGroup =
+                !string.IsNullOrEmpty(command.TeamId)
+                    ? (Group)_documentSession.Load<Team>(command.TeamId)
+                    : (Group)_documentSession.Load<AppRoot>(Constants.AppRootId);
+
             var project = new Project(
                 _documentSession.Load<User>(command.UserId),
                 command.Name,
@@ -61,7 +66,21 @@ namespace Bowerbird.Core.CommandHandlers
                 command.AvatarId != null ? _documentSession.Load<MediaResource>(command.AvatarId) : null,
                 DateTime.UtcNow);
 
+            project.SetAncestry(parentGroup);
             _documentSession.Store(project);
+
+            if (!string.IsNullOrEmpty(command.TeamId))
+            {
+                parentGroup.AddDescendant(project);
+                _documentSession.Store(parentGroup);
+
+                if(parentGroup.Ancestry.Any(x => x.ToLower().Contains("organisations/")))
+                {
+                    var grandParent = _documentSession.Load<Organisation>(parentGroup.Ancestry.Select(x => x.ToLower().Contains("organisations/")).FirstOrDefault());
+                    grandParent.AddDescendant(project);
+                    _documentSession.Store(grandParent);
+                }
+            }
 
             var projectAdministrator = new Member(
                 _documentSession.Load<User>(command.UserId),
@@ -74,16 +93,6 @@ namespace Bowerbird.Core.CommandHandlers
                 );
 
             _documentSession.Store(projectAdministrator);
-
-            Group parentGroup = null;
-            if (string.IsNullOrEmpty(command.TeamId))
-            {
-                parentGroup = _documentSession.Load<AppRoot>(Constants.AppRootId);
-            }
-            else
-            {
-                parentGroup = _documentSession.Load<Team>(command.TeamId);
-            }
 
             var groupAssociation = new GroupAssociation(
                 parentGroup,

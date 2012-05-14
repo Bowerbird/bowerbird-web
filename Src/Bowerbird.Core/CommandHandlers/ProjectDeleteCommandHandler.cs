@@ -12,6 +12,7 @@
  
 */
 
+using System.Linq;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
@@ -45,11 +46,38 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Methods
         
+        /// <summary>
+        /// Remove Project from any and all Team's & Organisation's Descendants.
+        /// Remove Project.
+        /// </summary>
+        /// <param name="command"></param>
         public void Handle(DeleteCommand command)
         {
             Check.RequireNotNull(command, "command");
 
-            _documentSession.Delete(_documentSession.Load<Project>(command.Id));
+            var project = _documentSession.Load<Project>(command.Id);
+
+            var team = _documentSession
+                .Query<Team>()
+                .Where(x => x.Descendants.Any(y => y.ToLower() == project.Id.ToLower()))
+                .FirstOrDefault();
+
+            if(team != null)
+            {
+                team.RemoveDescendant(project);
+
+                var organisation = _documentSession
+                    .Query<Organisation>()
+                    .Where(x => x.Descendants.Any(y => y.ToLower() == project.Id.ToLower()))
+                    .FirstOrDefault();
+
+                if(organisation != null)
+                {
+                    organisation.RemoveDescendant(project);
+                }
+            }
+
+            _documentSession.Delete(project);
         }
 
         #endregion				

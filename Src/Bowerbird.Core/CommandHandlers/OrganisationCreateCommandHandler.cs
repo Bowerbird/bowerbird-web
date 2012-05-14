@@ -49,9 +49,15 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Methods
 
+        /// <summary>
+        /// Ancestry = The AppRoot.
+        /// Is not a descendant of any parent object (we don't add descendants to the app root)
+        /// </summary>
         public void Handle(OrganisationCreateCommand command)
         {
             Check.RequireNotNull(command, "command");
+
+            var parentGroup = _documentSession.Load<AppRoot>(Constants.AppRootId);
 
             var organisation = new Organisation(
                 _documentSession.Load<User>(command.UserId),
@@ -61,6 +67,7 @@ namespace Bowerbird.Core.CommandHandlers
                 command.AvatarId != null ? _documentSession.Load<MediaResource>(command.AvatarId) : null,
                 DateTime.Now);
 
+            organisation.SetAncestry(parentGroup);
             _documentSession.Store(organisation);
 
             var organisationAdministrator = new Member(
@@ -74,9 +81,7 @@ namespace Bowerbird.Core.CommandHandlers
                 );
 
             _documentSession.Store(organisationAdministrator);
-
-            var parentGroup = _documentSession.Load<AppRoot>(Constants.AppRootId);
-
+            
             var groupAssociation = new GroupAssociation(
                 parentGroup,
                 organisation,

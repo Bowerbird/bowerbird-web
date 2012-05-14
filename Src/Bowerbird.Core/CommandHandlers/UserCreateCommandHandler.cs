@@ -27,7 +27,6 @@ namespace Bowerbird.Core.CommandHandlers
 {
     public class UserCreateCommandHandler : ICommandHandler<UserCreateCommand>
     {
-
         #region Members
 
         private readonly IDocumentSession _documentSession;
@@ -89,6 +88,5 @@ namespace Bowerbird.Core.CommandHandlers
         }
 
         #endregion      
-      
     }
 }
