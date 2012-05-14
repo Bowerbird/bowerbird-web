@@ -22,10 +22,7 @@ using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Raven.Client;
-<<<<<<< HEAD
 using Bowerbird.Core.Services;
-=======
->>>>>>> 643d821a871c2c0cd8736681f125feada0d81f3b
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -36,11 +33,7 @@ namespace Bowerbird.Core.CommandHandlers
         private readonly IDocumentStore _documentStore;
         private readonly IDocumentSession _documentSession;
         private readonly ISystemStateManager _systemStateManager;
-<<<<<<< HEAD
         private readonly IConfigService _configService;
-=======
->>>>>>> 643d821a871c2c0cd8736681f125feada0d81f3b
-
         private readonly string[] _speciesFileHeaderColumns = { "Kingdom", "Group Name", "Species Common Names", "Taxonomy", "Order", "Family", "Genus", "Species" };
 
         #endregion
@@ -50,28 +43,18 @@ namespace Bowerbird.Core.CommandHandlers
         public SetupSpeciesDataCommandHandler(
             IDocumentStore documentStore,
             IDocumentSession documentSession,
-<<<<<<< HEAD
             ISystemStateManager systemStateManager,
             IConfigService configService)
-=======
-            ISystemStateManager systemStateManager)
->>>>>>> 643d821a871c2c0cd8736681f125feada0d81f3b
         {
             Check.RequireNotNull(documentStore, "documentStore");
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(systemStateManager, "systemStateManager");
-<<<<<<< HEAD
             Check.RequireNotNull(configService, "configService");
-=======
->>>>>>> 643d821a871c2c0cd8736681f125feada0d81f3b
 
             _documentStore = documentStore;
             _documentSession = documentSession;
             _systemStateManager = systemStateManager;
-<<<<<<< HEAD
             _configService = configService;
-=======
->>>>>>> 643d821a871c2c0cd8736681f125feada0d81f3b
         }
 
         #endregion
@@ -93,19 +76,7 @@ namespace Bowerbird.Core.CommandHandlers
                 //var user = _documentSession.Load<User>(command.UserId);
                 var createdOn = DateTime.UtcNow;
 
-<<<<<<< HEAD
-                var x =_configService.GetEnvironmentRootPath();
-                var y = _configService.GetSpeciesRelativePath();
-                var z = Path.Combine(_configService.GetEnvironmentRootPath(), _configService.GetSpeciesRelativePath());
-
                 var speciesFromFiles = LoadSpeciesFilesFromFolder(Path.Combine(_configService.GetEnvironmentRootPath(), _configService.GetSpeciesRelativePath()));
-=======
-                var directory = Path.Combine(
-                    new BowerbirdEnvironmentConfigurationSection().RootPath,
-                    new BowerbirdSpeciesConfigurationSection().RelativePath);
-
-                var speciesFromFiles = LoadSpeciesFilesFromFolder(@"C:\Projects\bowerbird.web\Src\Bowerbird.Website\species");
->>>>>>> 643d821a871c2c0cd8736681f125feada0d81f3b
 
                 foreach (var species in speciesFromFiles)
                 {
