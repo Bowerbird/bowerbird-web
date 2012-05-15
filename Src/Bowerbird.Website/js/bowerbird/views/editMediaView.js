@@ -43,38 +43,34 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/mediaresource', 'view
             });
         },
 
+        filesAdded: 0,  // Used to determine when to fire file upload animations
+
         _onUploadAdd: function (e, data) {
+            this.currentUploadKey++;
+            var mediaResource = new MediaResource({ Key: this.currentUploadKey.toString() });
+            this.model.addMediaResource(mediaResource);
+            var mediaResourceItemView = new MediaResourceItemView({ model: mediaResource });
+            mediaResourceItemView.on('mediaresourceview:remove', this._onMediaResourceViewRemove);
+            this.mediaResourceItemViews.push(mediaResourceItemView);
+            $('#media-resource-add-pane').before(mediaResourceItemView.render().el);
             var self = this;
-            var files = _.filter(data.files, function (file) { return file != null; });
-            _.each(files, function (file, index) {
-                self.currentUploadKey++;
-                var mediaResource = new MediaResource({ Key: self.currentUploadKey.toString() });
-                self.model.addMediaResource(mediaResource);
-                var mediaResourceItemView = new MediaResourceItemView({ model: mediaResource });
-                mediaResourceItemView.on('mediaresourceview:remove', self._onMediaResourceViewRemove);
-                self.mediaResourceItemViews.push(mediaResourceItemView);
-                $('#media-resource-add-pane').before(mediaResourceItemView.render().el);
+            var tempImage = loadImage(
+                data.files[0],
+                function (img) {
+                    if (img.type === "error") {
+                        //log('Error loading image', img);
+                    } else {
+                        self.filesAdded++;
+                        mediaResourceItemView.showTempMedia(img);
+                        self._showMediaResourceItemView(self, mediaResourceItemView, $(img).width(), self.filesAdded === data.originalFiles.length);
+                    }
+                },
+                { maxHeight: 220 }
+            );
 
-                var tempImage = loadImage(
-                    data.files[0],
-                    function (img) {
-                        if (img.type === "error") {
-                            //log('Error loading image', img);
-                        } else {
-                            mediaResourceItemView.showTempMedia(img);
-                            self._showMediaResourceItemView(self, mediaResourceItemView, $(img).width(), files.length === index + 1);
-                        }
-                        //                            if (img instanceof HTMLImageElement) { // FF seems to fire this handler twice, on second time returning error, which we ignore :(
-                        //                                mediaResourceItemView.showTempMedia(img);
-                        //                            }
-                    },
-                    { maxHeight: 220 }
-                );
-
-                if (!tempImage) {
-                    log('No support for file/blob');
-                }
-            });
+            if (!tempImage) {
+                log('No support for file/blob');
+            }
 
             data.submit();
         },
@@ -88,6 +84,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/mediaresource', 'view
                         {
                             duration: 800,
                             queue: false,
+                            easing: 'swing',
                             step: function () {
                                 $('#media-resource-items').animate({ scrollLeft: 10000 }, 1);
                             },
@@ -100,6 +97,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/mediaresource', 'view
                         { top: '+=250px' },
                         {
                             duration: 800,
+                            easing: 'swing',
                             queue: false,
                             complete: next
                         });
@@ -112,6 +110,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/mediaresource', 'view
                 });
 
             if (beginAnimation) {
+                self.filesAdded = 0;
                 $('#media-resource-items').dequeue('mediaQueue');
             }
         },
@@ -138,7 +137,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/mediaresource', 'view
             var mediaResource = this.model.mediaResources.find(function (item) {
                 return item.get('Key') === data.result.Key;
             });
-            //mediaResource.set(data.result);
+            mediaResource.set(data.result);
             //$('#media-resource-items').animate({ scrollLeft: 100000 });
         }
     });

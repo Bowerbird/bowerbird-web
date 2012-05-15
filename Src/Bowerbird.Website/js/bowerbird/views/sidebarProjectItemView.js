@@ -8,7 +8,6 @@
 // SidebarItemView
 // ---------------
 
-// An item in the sidebar
 define(['jquery', 'underscore', 'backbone', 'app', 'models/project'], function ($, _, Backbone, app, Project) {
 
     var SidebarProjectItemView = Backbone.Marionette.ItemView.extend({

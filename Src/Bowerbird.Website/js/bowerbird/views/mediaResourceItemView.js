@@ -56,6 +56,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich'], function ($, _, Backb
         },
 
         showUploadedMedia: function (mediaResource) {
+            log(mediaResource);
             this.$el.find('div:first-child img').replaceWith($('<img src="' + mediaResource.get('MediumImageUri') + '" alt="" />'));
         }
     });

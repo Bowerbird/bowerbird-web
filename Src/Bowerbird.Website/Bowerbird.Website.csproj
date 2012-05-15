@@ -166,6 +166,7 @@
     <Content Include="js\libs\require\async.js" />
     <Content Include="js\libs\require\goog.js" />
     <Content Include="js\libs\require\propertyparser.js" />
+    <Content Include="js\_old\bowerbird\views\projectCreateFormView.js" />
     <Content Include="js\_old\libs\backbone.marionette.js" />
     <Content Include="js\_old\bowerbird\views\exploreItemView.js" />
     <Content Include="js\_old\bowerbird\views\exploreView.js" />
@@ -310,7 +311,6 @@
     <Content Include="js\_old\bowerbird\views\editMapView.js" />
     <Content Include="js\_old\bowerbird\views\mediaResourceItemView.js" />
     <Content Include="js\_old\bowerbird\views\observationCreateFormView.js" />
-    <Content Include="js\_old\bowerbird\views\projectCreateFormView.js" />
     <Content Include="js\_old\bowerbird\views\sidebarView.js" />
     <Content Include="js\_old\bowerbird\views\sidebarItemView.js" />
     <Content Include="js\_old\bowerbird\views\streamListView.js" />

@@ -36,24 +36,6 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editmapview', '
             'click #media-resource-import-button': '_showImportMedia'
         },
 
-        initialize: function (options) {
-            //            _.bindAll(this,
-            //            'render'
-            //            'start',
-            //            '_showImportMedia',
-            //            '_contentChanged',
-            //            '_latLongChanged',
-            //            '_anonymiseLocationChanged',
-            //            '_projectsChanged',
-            //            '_categoryChanged',
-            //            '_cancel',
-            //            '_save'
-            //            );
-            //this.observation = options.observation;
-            //this.editMediaView = new Bowerbird.Views.EditMediaView({ el: $('#media-resources-fieldset'), observation: this.model });
-            //this.editMapView = new Bowerbird.Views.EditMapView({ observation: this.model });
-        },
-
         onRender: function () {
             var editMapView = new EditMapView({ el: '#location-fieldset', model: this.model });
             this.map.attachView(editMapView);
