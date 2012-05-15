@@ -15,8 +15,10 @@
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Raven.Client;
+using Raven.Client.Linq;
 using System.Collections.Generic;
 using System.Linq;
+using Bowerbird.Core.Indexes;
 
 namespace Bowerbird.Web.Factories
 {
@@ -62,26 +64,20 @@ namespace Bowerbird.Web.Factories
         {
             var user = _documentSession.Load<User>(userId);
 
-            return new
-            {
-                Avatar = _avatarFactory.Make(user),
-                user.Id,
-                user.LastLoggedIn,
-                Name = user.GetName()
-            };
+            return Make(user);
         }
 
         public object Make(User user)
         {
             Check.RequireNotNull(user, "user");
 
-            return new
-            {
-                Avatar = _avatarFactory.Make(user),
-                user.Id,
-                user.LastLoggedIn,
-                Name = user.GetName()
-            };
+            var memberships = _documentSession.Query<All_Users.Result, All_Users>()
+                .Include(x => x.GroupId)
+                .Where(x => x.UserId == user.Id)
+                .ToList()
+                .Select(x => x.Member);
+
+            return Make(user, memberships);
         }
 
         public object Make(User user, IEnumerable<Member> memberships)
@@ -95,7 +91,7 @@ namespace Bowerbird.Web.Factories
                 user.Id,
                 user.LastLoggedIn,
                 Name = user.GetName(),
-                Projects = _documentSession.Load<Project>(memberships.Where(x => x.Group.Id.StartsWith("projects/")).Select(x => x.Group.Id)).Select(x => _projectViewFactory.Make(x)),
+                Projects =  _documentSession.Load<Project>(memberships.Where(x => x.Group.Id.StartsWith("projects/")).Select(x => x.Group.Id)).Select(x => _projectViewFactory.Make(x)),
                 Teams = _documentSession.Load<Team>(memberships.Where(x => x.Group.Id.StartsWith("teams/")).Select(x => x.Group.Id)).Select(x => _teamViewFactory.Make(x))
             };
         }

@@ -26,9 +26,6 @@ namespace Bowerbird.Core.DomainModels
     {
         #region Members
 
-        [JsonIgnore]
-        private List<DenormalisedRoleReference> _roles;
-
         #endregion
 
         #region Constructors
@@ -52,7 +49,7 @@ namespace Bowerbird.Core.DomainModels
 
             User = user;
             Group = group;
-            Roles = roles.Select(x => (DenormalisedRoleReference)x).ToList();
+            Roles = roles;
 
             EventProcessor.Raise(new DomainModelCreatedEvent<Member>(this, createdByUser.Id));
         }
@@ -65,11 +62,7 @@ namespace Bowerbird.Core.DomainModels
 
         public DenormalisedNamedDomainModelReference<Group> Group { get; private set; }
 
-        public IEnumerable<DenormalisedRoleReference> Roles 
-        {
-            get { return _roles; }
-            private set { _roles = new List<DenormalisedRoleReference>(value); }
-        }
+        public IEnumerable<Role> Roles { get; private set; }
 
         #endregion
 
@@ -77,7 +70,7 @@ namespace Bowerbird.Core.DomainModels
 
         private void InitMembers()
         {
-            _roles = new List<DenormalisedRoleReference>();
+            Roles = new List<Role>();
         }
 
         public Member AddRole(Role role)
@@ -92,7 +85,7 @@ namespace Bowerbird.Core.DomainModels
         /// <summary>
         /// Used by private User member to insert already denormalised roles
         /// </summary>
-        internal Member AddRoles(IEnumerable<DenormalisedRoleReference> roles)
+        internal Member AddRoles(IEnumerable<Role> roles)
         {
             Check.RequireNotNull(roles, "roles");
 
@@ -106,16 +99,16 @@ namespace Bowerbird.Core.DomainModels
 
         public Member RemoveRole(string roleId)
         {
-            _roles.RemoveAll(x => x.Id == roleId);
+            ((List<Role>)Roles).RemoveAll(x => x.Id == roleId);
 
             return this;
         }
 
-        private void SetRole(DenormalisedRoleReference role)
+        private void SetRole(Role role)
         {
-            if (_roles.All(x => x.Id != role.Id))
+            if (((List<Role>)Roles).All(x => x.Id != role.Id))
             {
-                _roles.Add(role);
+                ((List<Role>)Roles).Add(role);
             }
         }
 

@@ -67,7 +67,7 @@ namespace Bowerbird.Core.Config
 
             return _cachedRoles
                 .Where(x => membership.Roles.Any(y => y.Id == x.Id))
-                .Any(x => x.Permissions.Any(y => y.Id == "permissions/" + permissionId));
+                .Any(x => x.Permissions.Any(y => y.Id == "permissions/" + permissionId.ToLower()));
         }
 
         public bool HasGroupPermission<T>(string permissionId, string userId, string domainModelId)

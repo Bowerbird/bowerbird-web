@@ -29,31 +29,36 @@ namespace Bowerbird.Core.Indexes
             public object RoleIds { get; set; }
             public object PermissionIds { get; set; }
             public Member Member { get; set; }
+            public User User { get; set; }
         }
 
         public All_Users()
         {
             AddMap<Member>(members => from member in members 
+                                      let roles = member.Roles
+                                      let permissions = roles.SelectMany(x => x.Permissions)
                                         select new
                                         {
                                             member.Id,
                                             UserId = member.User.Id,
-                                            GroupId = member.Group.Id
-                                        }); 
+                                            GroupId = member.Group.Id,
+                                            RoleIds = roles.Select(x => x.Id),
+                                            PermissionIds = permissions.Select(x => x.Id)
+                                        });
             
             TransformResults = (database, results) =>
                                 from result in results
                                 let member = database.Load<Member>(result.Id)
-                                let roleids = member.Roles.Select(x => x.Id).ToArray()
-                                let permissionIds = member.Roles.Select(x => x.PermissionIds).ToArray()
+                                let user = database.Load<User>(result.UserId)
                                 select new
                                 {
                                     result.Id,
                                     result.UserId,
                                     result.GroupId,
-                                    RoleIds = roleids.ToArray(),
-                                    PermissionIds = permissionIds.ToArray(),
-                                    Member = member
+                                    result.RoleIds,
+                                    result.PermissionIds,
+                                    Member = member,
+                                    User = user
                                 };
 
             Store(x => x.Id, FieldStorage.Yes);

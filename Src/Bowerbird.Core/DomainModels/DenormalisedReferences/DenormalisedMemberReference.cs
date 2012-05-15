@@ -32,7 +32,9 @@ namespace Bowerbird.Core.DomainModels.DenormalisedReferences
 
         public string Id { get; private set; }
 
-        public IEnumerable<string> Roles { get; private set; }
+        public string GroupId { get; private set; }
+
+        public IEnumerable<Role> Roles { get; private set; }
 
         #endregion
 
@@ -45,7 +47,8 @@ namespace Bowerbird.Core.DomainModels.DenormalisedReferences
             return new DenormalisedMemberReference
             {
                 Id = member.Id,
-                Roles = member.Roles.Select(x => x.Id)
+                GroupId = member.Group.Id,
+                Roles = member.Roles
             };
         }
 

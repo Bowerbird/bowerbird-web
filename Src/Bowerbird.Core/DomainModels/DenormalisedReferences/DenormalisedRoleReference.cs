@@ -1,62 +1,62 @@
-﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+﻿///* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
- Developers: 
- * Frank Radocaj : frank@radocaj.com
- * Hamish Crittenden : hamish.crittenden@gmail.com
+// Developers: 
+// * Frank Radocaj : frank@radocaj.com
+// * Hamish Crittenden : hamish.crittenden@gmail.com
  
- Project Manager: 
- * Ken Walker : kwalker@museum.vic.gov.au
+// Project Manager: 
+// * Ken Walker : kwalker@museum.vic.gov.au
  
- Funded by:
- * Atlas of Living Australia
+// Funded by:
+// * Atlas of Living Australia
  
-*/
+//*/
 
-using System.Collections.Generic;
-using System.Linq;
-using Bowerbird.Core.DesignByContract;
+//using System.Collections.Generic;
+//using System.Linq;
+//using Bowerbird.Core.DesignByContract;
 
-namespace Bowerbird.Core.DomainModels.DenormalisedReferences
-{
-    public class DenormalisedRoleReference : ValueObject
-    {
-        #region Members
+//namespace Bowerbird.Core.DomainModels.DenormalisedReferences
+//{
+//    public class DenormalisedRoleReference : ValueObject
+//    {
+//        #region Members
 
-        #endregion
+//        #endregion
 
-        #region Constructors
+//        #region Constructors
 
-        #endregion
+//        #endregion
 
-        #region Properties
+//        #region Properties
 
-        public string Id { get; private set; }
+//        public string Id { get; private set; }
 
-        public string Name { get; private set; }
+//        public string Name { get; private set; }
 
-        public IEnumerable<DenormalisedNamedDomainModelReference<Permission>> Permissions { get; private set; }
+//        public IEnumerable<DenormalisedNamedDomainModelReference<Permission>> Permissions { get; private set; }
 
-        #endregion
+//        #endregion
 
-        #region Methods
+//        #region Methods
 
-        public static implicit operator DenormalisedRoleReference(Role role)
-        {
-            Check.RequireNotNull(role, "role");
+//        public static implicit operator DenormalisedRoleReference(Role role)
+//        {
+//            Check.RequireNotNull(role, "role");
 
-            return new DenormalisedRoleReference
-            {
-                Id = role.Id,
-                Name = role.Name,
-                Permissions = role.Permissions
-            };
-        }
+//            return new DenormalisedRoleReference
+//            {
+//                Id = role.Id,
+//                Name = role.Name,
+//                Permissions = role.Permissions
+//            };
+//        }
 
-        public IEnumerable<string> PermissionIds
-        {
-            get { return Permissions.Select(x => x.Id); }
-        }
+//        public IEnumerable<string> PermissionIds
+//        {
+//            get { return Permissions.Select(x => x.Id); }
+//        }
 
-        #endregion
-    }
-}
+//        #endregion
+//    }
+//}
