@@ -16,10 +16,10 @@ using System.Linq;
 using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.Extensions;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Paging;
 using Bowerbird.Core.Repositories;
+using Bowerbird.Core.Services;
 using Bowerbird.Web.Factories;
 using Bowerbird.Web.ViewModels;
 using Raven.Client;
@@ -34,6 +34,8 @@ namespace Bowerbird.Web.Builders
         private readonly IDocumentSession _documentSession;
         private readonly IPostViewFactory _postViewFactory;
         private readonly IStreamItemFactory _streamItemFactory;
+        private readonly IAvatarFactory _avatarFactory;
+        private readonly IMediaFilePathService _mediaFilePathService;
 
         #endregion
 
@@ -42,16 +44,22 @@ namespace Bowerbird.Web.Builders
         public PostsViewModelBuilder(
             IDocumentSession documentSession,
             IPostViewFactory postViewFactory,
-            IStreamItemFactory streamItemFactory
+            IStreamItemFactory streamItemFactory,
+            IAvatarFactory avatarFactory,
+            IMediaFilePathService mediaFilePathService
         )
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(postViewFactory, "postViewFactory");
             Check.RequireNotNull(streamItemFactory, "streamItemFactory");
+            Check.RequireNotNull(avatarFactory, "avatarFactory");
+            Check.RequireNotNull(mediaFilePathService, "mediaFilePathService");
 
             _documentSession = documentSession;
             _postViewFactory = postViewFactory;
             _streamItemFactory = streamItemFactory;
+            _avatarFactory = avatarFactory;
+            _mediaFilePathService = mediaFilePathService;
         }
 
         #endregion
@@ -164,6 +172,46 @@ namespace Bowerbird.Web.Builders
                 groupContributionResult.GroupUser,
                 groupContributionResult.GroupCreatedDateTime,
                 description);
+        }
+
+        public object MakePost(Post post)
+        {
+            return new
+            {
+                post.Id,
+                post.Subject,
+                post.Message,
+                Creator = MakeUser(post.User.Id),
+                Comments = post.Discussion.Comments.Select(MakeComment),
+                Resources = post.MediaResources.Select(x => _mediaFilePathService.MakeMediaFileUri(x, MediaType.Document))
+            };
+        }
+
+        private object MakeUser(string userId)
+        {
+            return MakeUser(_documentSession.Load<User>(userId));
+        }
+
+        private object MakeUser(User user)
+        {
+            return new
+            {
+                Avatar = _avatarFactory.Make(user),
+                user.Id,
+                user.LastLoggedIn,
+                Name = user.GetName()
+            };
+        }
+
+        private object MakeComment(Comment comment)
+        {
+            return new
+            {
+                comment.Id,
+                comment.CommentedOn,
+                comment.Message,
+                Creator = MakeUser(comment.User.Id)
+            };
         }
 
         #endregion

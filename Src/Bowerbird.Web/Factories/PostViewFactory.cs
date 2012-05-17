@@ -25,7 +25,6 @@ namespace Bowerbird.Web.Factories
         #region Members
 
         private readonly IMediaFilePathService _mediaFilePathService;
-        private readonly ICommentViewFactory _commentViewFactory;
         private readonly IUserViewFactory _userViewFactory;
 
         #endregion
@@ -34,17 +33,14 @@ namespace Bowerbird.Web.Factories
 
         public PostViewFactory(
             IMediaFilePathService mediaFilePathService,
-            IUserViewFactory userViewFactory,
-            ICommentViewFactory commentViewFactory
+            IUserViewFactory userViewFactory
             )
         {
             Check.RequireNotNull(mediaFilePathService, "mediaFilePathService");
             Check.RequireNotNull(userViewFactory, "userViewFactory");
-            Check.RequireNotNull(commentViewFactory, "commentViewFactory");
 
             _mediaFilePathService = mediaFilePathService;
             _userViewFactory = userViewFactory;
-            _commentViewFactory = commentViewFactory;
         }
 
         #endregion

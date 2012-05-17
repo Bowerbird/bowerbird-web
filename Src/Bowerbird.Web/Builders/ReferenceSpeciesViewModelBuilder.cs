@@ -3,10 +3,8 @@
  Developers: 
  * Frank Radocaj : frank@radocaj.com
  * Hamish Crittenden : hamish.crittenden@gmail.com
- 
  Project Manager: 
  * Ken Walker : kwalker@museum.vic.gov.au
- 
  Funded by:
  * Atlas of Living Australia
  
@@ -29,7 +27,7 @@ namespace Bowerbird.Web.Builders
         #region Fields
 
         private readonly IDocumentSession _documentSession;
-        private readonly IReferenceSpeciesViewFactory _referenceSpeciesViewFactory;
+        private readonly IAvatarFactory _avatarFactory;
 
         #endregion
 
@@ -37,14 +35,14 @@ namespace Bowerbird.Web.Builders
 
         public ReferenceSpeciesViewModelBuilder(
             IDocumentSession documentSession,
-            IReferenceSpeciesViewFactory referenceSpeciesViewFactory
+            IAvatarFactory avatarFactory
         )
         {
             Check.RequireNotNull(documentSession, "documentSession");
-            Check.RequireNotNull(referenceSpeciesViewFactory, "referenceSpeciesViewFactory");
+            Check.RequireNotNull(avatarFactory, "avatarFactory");
 
             _documentSession = documentSession;
-            _referenceSpeciesViewFactory = referenceSpeciesViewFactory;
+            _avatarFactory = avatarFactory;
         }
 
         #endregion
@@ -59,7 +57,7 @@ namespace Bowerbird.Web.Builders
         {
             Check.RequireNotNull(idInput, "idInput");
 
-            return _referenceSpeciesViewFactory.Make(_documentSession.Load<ReferenceSpecies>(idInput.Id));
+            return MakeReferenceSpecies(_documentSession.Load<ReferenceSpecies>(idInput.Id));
         }
 
         public object BuildReferenceSpeciesList(PagingInput pagingInput)
@@ -75,18 +73,14 @@ namespace Bowerbird.Web.Builders
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
                 .ToList()
-                .Select(x => _referenceSpeciesViewFactory.Make(x.ReferenceSpecies));
+                .Select(x => MakeReferenceSpecies(x.ReferenceSpecies));
 
-            return new
-            {
-                pagingInput.Page,
-                pagingInput.PageSize,
-                Organisations = results.ToPagedList(
+            return results
+                .ToPagedList(
                     pagingInput.Page,
                     pagingInput.PageSize,
                     stats.TotalResults,
-                    null)
-            };
+                    null);
         }
 
         public object BuildGroupReferenceSpeciesList(PagingInput pagingInput)
@@ -103,17 +97,58 @@ namespace Bowerbird.Web.Builders
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
                 .ToList()
-                .Select(x => _referenceSpeciesViewFactory.Make(x.ReferenceSpecies));
+                .Select(x => MakeReferenceSpecies(x.ReferenceSpecies));
 
-            return new
-            {
-                pagingInput.Page,
-                pagingInput.PageSize,
-                Organisations = results.ToPagedList(
+            return results
+                .ToPagedList(
                     pagingInput.Page,
                     pagingInput.PageSize,
                     stats.TotalResults,
-                    null)
+                    null);
+        }
+
+        private object MakeReferenceSpecies(ReferenceSpecies referenceSpecies)
+        {
+            return new
+            {
+                referenceSpecies.Id,
+                referenceSpecies.CreatedDateTime,
+                referenceSpecies.GroupId,
+                referenceSpecies.SmartTags,
+                Creator = MakeUser(referenceSpecies.User.Id),
+                Species = MakeSpecies(_documentSession.Load<Species>(referenceSpecies.SpeciesId))
+            };
+        }
+
+        private object MakeUser(string userId)
+        {
+            return MakeUser(_documentSession.Load<User>(userId));
+        }
+
+        private object MakeUser(User user)
+        {
+            return new
+            {
+                Avatar = _avatarFactory.Make(user),
+                user.Id,
+                user.LastLoggedIn,
+                Name = user.GetName()
+            };
+        }
+
+        private object MakeSpecies(Species species)
+        {
+            return new
+            {
+                species.Id,
+                species.Kingdom,
+                species.Order,
+                species.Group,
+                species.SpeciesName,
+                species.Taxonomy,
+                species.GenusName,
+                species.Family,
+                species.CommonNames
             };
         }
 

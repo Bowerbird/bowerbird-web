@@ -28,8 +28,8 @@ namespace Bowerbird.Web.Builders
         #region Fields
 
         private readonly IDocumentSession _documentSession;
-        private readonly IUserViewFactory _userViewFactory;
         private readonly IUserContext _userContext;
+        private readonly IAvatarFactory _avatarFactory;
 
         #endregion
 
@@ -37,17 +37,17 @@ namespace Bowerbird.Web.Builders
 
         public UserViewModelBuilder(
             IDocumentSession documentSession,
-            IUserViewFactory userViewFactory,
-            IUserContext userContext
+            IUserContext userContext,
+            IAvatarFactory avatarFactory
         )
         {
             Check.RequireNotNull(documentSession, "documentSession");
-            Check.RequireNotNull(userViewFactory, "userViewFactory");
             Check.RequireNotNull(userContext, "userContext");
+            Check.RequireNotNull(avatarFactory, "avatarFactory");
 
             _documentSession = documentSession;
-            _userViewFactory = userViewFactory;
             _userContext = userContext;
+            _avatarFactory = avatarFactory;
         }
 
         #endregion
@@ -58,11 +58,16 @@ namespace Bowerbird.Web.Builders
 
         #region Methods
 
+        public object BuildAuthenticatedUser()
+        {
+            return BuildUser(new IdInput() { Id = _userContext.GetAuthenticatedUserId() });
+        }
+
         public object BuildUser(IdInput idInput)
         {
             Check.RequireNotNull(idInput, "idInput");
 
-            return _userViewFactory.Make(idInput.Id);
+            return MakeUser(idInput.Id);
         }
 
         public object BuildUserList(PagingInput pagingInput)
@@ -75,18 +80,14 @@ namespace Bowerbird.Web.Builders
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
                 .ToList()
-                .Select(x => _userViewFactory.Make(x.Id));
+                .Select(x => MakeUser(x.Id));
 
-            return new
-            {
-                pagingInput.Page,
-                pagingInput.PageSize,
-                Users = results.ToPagedList(
+           return results
+               .ToPagedList(
                     pagingInput.Page,
                     pagingInput.PageSize,
                     stats.TotalResults,
-                    null)
-            };
+                    null);
         }
 
         public object BuildUsersFollowingList(PagingInput pagingInput)
@@ -100,18 +101,14 @@ namespace Bowerbird.Web.Builders
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
                 .ToList()
-                .Select(x => _userViewFactory.Make(_documentSession.Load<User>(x.Id)));
+                .Select(x => MakeUser(_documentSession.Load<User>(x.Id)));
 
-            return new
-            {
-                pagingInput.Page,
-                pagingInput.PageSize,
-                Users = results.ToPagedList(
+            return results
+                .ToPagedList(
                     pagingInput.Page,
                     pagingInput.PageSize,
                     stats.TotalResults,
-                    null)
-            };
+                    null);
         }
 
         public object BuildUsersBeingFollowedByList(PagingInput pagingInput)
@@ -125,23 +122,14 @@ namespace Bowerbird.Web.Builders
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
                 .ToList()
-                .Select(x => _userViewFactory.Make(_documentSession.Load<User>(x.Id)));
+                .Select(x => MakeUser(_documentSession.Load<User>(x.Id)));
 
-            return new
-            {
-                pagingInput.Page,
-                pagingInput.PageSize,
-                Users = results.ToPagedList(
+            return 
+                results.ToPagedList(
                     pagingInput.Page,
                     pagingInput.PageSize,
                     stats.TotalResults,
-                    null)
-            };
-        }
-
-        public object BuildAuthenticatedUser()
-        {
-            return BuildUser(new IdInput() { Id = _userContext.GetAuthenticatedUserId() });
+                    null);
         }
 
         public IEnumerable BuildOnlineUsers()
@@ -155,27 +143,80 @@ namespace Bowerbird.Web.Builders
                 .Select(x => x.UserId)
                 .Distinct();
 
-            var connectedUsers = _documentSession.Query<User>()
-                .Where(x => x.Id.In(connectedUserIds))
+            var connectedUsers = _documentSession
+                .Query<All_Users.Result, All_Users>()
+                .AsProjection<All_Users.Result>()
+                .Where(x => x.User.Id.In(connectedUserIds))
                 .ToList();
 
             return connectedUsers
-                .Select(x => _userViewFactory.Make(x.Id))
+                .Select(MakeUser)
                 .ToList();
         }
 
-        //private UserProfile MakeUserProfile(User user, IEnumerable<Member> memberships)
-        //{
-        // return new UserProfile()
-        // {
-        // Id = user.Id,
-        // Name = user.GetName(),
-        // LastLoggedIn = user.LastLoggedIn,
-        // Avatar = _avatarFactory.Make(user),
-        // Projects = _documentSession.Load<Project>(memberships.Where(x => x.Group.Id.StartsWith("projects/")).Select(x => x.Group.Id)).Select(x => _projectViewFactory.Make(x)),
-        // Teams = _documentSession.Load<Team>(memberships.Where(x => x.Group.Id.StartsWith("teams/")).Select(x => x.Group.Id)).Select(x => _teamViewFactory.Make(x))
-        // };
-        //}
+        private object MakeUser(string userId)
+        {
+            return MakeUser(_documentSession.Load<User>(userId));
+        }
+
+        private object MakeUser(User user)
+        {
+            return new
+            {
+                Avatar = _avatarFactory.Make(user),
+                user.Id,
+                user.LastLoggedIn,
+                Name = user.GetName()
+            };
+        }
+
+        private object MakeUser(All_Users.Result user)
+        {
+            Check.RequireNotNull(user, "user");
+
+            var userGroups = _documentSession
+                .Query<All_Groups.Result, All_Groups>()
+                .AsProjection<All_Groups.Result>()
+                .Where(x => x.Group.Id.In(user.Groups.SelectMany(y => y.Id)))
+                .ToList();
+
+            return new
+            {
+                Avatar = _avatarFactory.Make(user.User),
+                user.User.Id,
+                user.User.LastLoggedIn,
+                Name = user.User.GetName(),
+                Projects = userGroups.Where(x => x.GroupType == "project").Select(MakeProject),
+                Teams = userGroups.Where(x => x.GroupType == "team").Select(MakeTeam)
+            };
+        }
+
+        private object MakeProject(All_Groups.Result project)
+        {
+            return new
+            {
+                project.Id,
+                project.Project.Name,
+                project.Project.Description,
+                project.Project.Website,
+                Avatar = _avatarFactory.Make(project.Project),
+                project.GroupMemberCount
+            };
+        }
+
+        public object MakeTeam(All_Groups.Result team)
+        {
+            return new
+            {
+                team.Id,
+                team.Team.Name,
+                team.Team.Description,
+                team.Team.Website,
+                Avatar = _avatarFactory.Make(team.Team),
+                team.GroupMemberCount,
+                Projects = 0
+            };
+        }
 
         #endregion
     }

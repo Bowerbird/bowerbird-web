@@ -3,10 +3,8 @@
  Developers: 
  * Frank Radocaj : frank@radocaj.com
  * Hamish Crittenden : hamish.crittenden@gmail.com
- 
  Project Manager: 
  * Ken Walker : kwalker@museum.vic.gov.au
- 
  Funded by:
  * Atlas of Living Australia
  
@@ -28,7 +26,7 @@ namespace Bowerbird.Web.Builders
         #region Fields
 
         private readonly IDocumentSession _documentSession;
-        private readonly ISpeciesViewFactory _speciesViewFactory;
+        private readonly IAvatarFactory _avatarFactory;
 
         #endregion
 
@@ -36,14 +34,14 @@ namespace Bowerbird.Web.Builders
 
         public SpeciesViewModelBuilder(
             IDocumentSession documentSession,
-            ISpeciesViewFactory speciesViewFactory
+            IAvatarFactory avatarFactory
         )
         {
             Check.RequireNotNull(documentSession, "documentSession");
-            Check.RequireNotNull(speciesViewFactory, "speciesViewFactory");
+            Check.RequireNotNull(avatarFactory, "avatarFactory");
 
             _documentSession = documentSession;
-            _speciesViewFactory = speciesViewFactory;
+            _avatarFactory = avatarFactory;
         }
 
         #endregion
@@ -58,7 +56,7 @@ namespace Bowerbird.Web.Builders
         {
             Check.RequireNotNull(idInput, "idInput");
 
-            return _speciesViewFactory.Make(_documentSession.Load<Species>(idInput.Id));
+            return MakeSpecies(_documentSession.Load<Species>(idInput.Id));
         }
 
         public object BuildSpeciesList(PagingInput pagingInput)
@@ -73,18 +71,7 @@ namespace Bowerbird.Web.Builders
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
                 .ToList()
-                .Select(x => new
-                {
-                    x.Id,
-                    x.CommonNames,
-                    x.Family,
-                    x.GenusName,
-                    x.Group,
-                    x.Kingdom,
-                    x.Order,
-                    x.SpeciesName,
-                    x.Taxonomy
-                });
+                .Select(MakeSpecies);
 
             return new
             {
@@ -95,6 +82,27 @@ namespace Bowerbird.Web.Builders
                     pagingInput.PageSize,
                     stats.TotalResults,
                     null)
+            };
+        }
+
+        private object MakeSpecies(Species species)
+        {
+            return new
+            {
+                species.Id,
+                species.Kingdom,
+                species.Order,
+                species.Group,
+                species.SpeciesName,
+                species.Taxonomy,
+                species.GenusName,
+                species.Family,
+                species.CommonNames
+                //,
+                //species.ProposedAsNewSpecies,
+                //ProposedBy = species.ProposedAsNewSpecies ? MakeUser(species.ProposedByUser.Id) : null,
+                //EndorsedBy = species.ProposedAsNewSpecies ? MakeUser(species.EndorsedByUser.Id) : null,
+                //Creator = MakeUser(species.CreatedByUser.Id)
             };
         }
 

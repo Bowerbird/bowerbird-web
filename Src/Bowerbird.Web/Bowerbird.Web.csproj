@@ -122,55 +122,29 @@
     <Compile Include="App_Start\WebsiteBootstrapper.cs" />
     <Compile Include="App_Start\NinjectBootstrapper.cs" />
     <Compile Include="Builders\AccountViewModelBuilder.cs" />
-    <Compile Include="Builders\IObservationNotesViewModelBuilder.cs" />
-    <Compile Include="Builders\ObservationNotesViewModelBuilder.cs" />
     <Compile Include="Builders\IAccountViewModelBuilder.cs" />
     <Compile Include="Builders\IBuilder.cs" />
     <Compile Include="Builders\IMemberViewModelBuilder.cs" />
-    <Compile Include="Builders\IObservationsViewModelBuilder.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Builders\IOrganisationsViewModelBuilder.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Builders\IPostsViewModelBuilder.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Builders\IProjectsViewModelBuilder.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Builders\IObservationNotesViewModelBuilder.cs" />
+    <Compile Include="Builders\IObservationsViewModelBuilder.cs" />
+    <Compile Include="Builders\IOrganisationsViewModelBuilder.cs" />
+    <Compile Include="Builders\IPostsViewModelBuilder.cs" />
+    <Compile Include="Builders\IProjectsViewModelBuilder.cs" />
     <Compile Include="Builders\IReferenceSpeciesViewModelBuilder.cs" />
-    <Compile Include="Builders\ISpeciesViewModelBuilder.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Builders\IStreamItemsViewModelBuilder.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Builders\ITeamsViewModelBuilder.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Builders\ISpeciesViewModelBuilder.cs" />
+    <Compile Include="Builders\IStreamItemsViewModelBuilder.cs" />
+    <Compile Include="Builders\ITeamsViewModelBuilder.cs" />
     <Compile Include="Builders\IUserViewModelBuilder.cs" />
     <Compile Include="Builders\MemberViewModelBuilder.cs" />
-    <Compile Include="Builders\ObservationsViewModelBuilder.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Builders\OrganisationsViewModelBuilder.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Builders\PostsViewModelBuilder.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Builders\ProjectsViewModelBuilder.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Builders\ObservationNotesViewModelBuilder.cs" />
+    <Compile Include="Builders\ObservationsViewModelBuilder.cs" />
+    <Compile Include="Builders\OrganisationsViewModelBuilder.cs" />
+    <Compile Include="Builders\PostsViewModelBuilder.cs" />
+    <Compile Include="Builders\ProjectsViewModelBuilder.cs" />
     <Compile Include="Builders\ReferenceSpeciesViewModelBuilder.cs" />
     <Compile Include="Builders\SpeciesViewModelBuilder.cs" />
-    <Compile Include="Builders\StreamItemsViewModelBuilder.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Builders\TeamsViewModelBuilder.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Builders\StreamItemsViewModelBuilder.cs" />
+    <Compile Include="Builders\TeamsViewModelBuilder.cs" />
     <Compile Include="Builders\UserViewModelBuilder.cs" />
     <Compile Include="Config\AcceptTypeContstraint.cs" />
     <Compile Include="Config\AuthenticatedConstraint.cs" />
@@ -202,31 +176,19 @@
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="EventHandlers\NotifyObservationCreatedEventHandler.cs" />
     <Compile Include="Factories\AvatarFactory.cs" />
-    <Compile Include="Factories\CommentViewFactory.cs" />
     <Compile Include="Factories\IObservationNoteViewFactory.cs" />
     <Compile Include="Factories\ObservationNoteViewFactory.cs" />
-    <Compile Include="Factories\IMemberViewFactory.cs" />
-    <Compile Include="Factories\MemberViewFactory.cs" />
-    <Compile Include="Factories\ICommentViewFactory.cs" />
     <Compile Include="Factories\IOrganisationViewFactory.cs" />
     <Compile Include="Factories\IPostViewFactory.cs" />
-    <Compile Include="Factories\IReferenceSpeciesViewFactory.cs" />
-    <Compile Include="Factories\ISpeciesViewFactory.cs" />
     <Compile Include="Factories\IUserViewFactory.cs" />
     <Compile Include="Factories\OrganisationViewFactory.cs" />
     <Compile Include="Factories\PostViewFactory.cs" />
-    <Compile Include="Factories\ITeamViewFactory.cs" />
     <Compile Include="Factories\IAvatarFactory.cs" />
     <Compile Include="Factories\IFactory.cs" />
     <Compile Include="Factories\IObservationViewFactory.cs" />
-    <Compile Include="Factories\IProjectViewFactory.cs" />
     <Compile Include="Factories\IStreamItemFactory.cs" />
     <Compile Include="Factories\ObservationViewFactory.cs" />
-    <Compile Include="Factories\ProjectViewFactory.cs" />
-    <Compile Include="Factories\ReferenceSpeciesViewFactory.cs" />
-    <Compile Include="Factories\SpeciesViewFactory.cs" />
     <Compile Include="Factories\StreamItemFactory.cs" />
-    <Compile Include="Factories\TeamViewFactory.cs" />
     <Compile Include="Factories\UserViewFactory.cs" />
     <Compile Include="Hubs\ChatHub.cs" />
     <Compile Include="Notifications\INotificationProcessor.cs" />

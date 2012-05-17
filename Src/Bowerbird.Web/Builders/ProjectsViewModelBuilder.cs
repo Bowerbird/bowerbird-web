@@ -29,7 +29,7 @@ namespace Bowerbird.Web.Builders
         #region Fields
 
         private readonly IDocumentSession _documentSession;
-        private readonly IProjectViewFactory _projectViewFactory;
+        private readonly IAvatarFactory _avatarFactory;
 
         #endregion
 
@@ -37,14 +37,14 @@ namespace Bowerbird.Web.Builders
 
         public ProjectsViewModelBuilder(
             IDocumentSession documentSession,
-            IProjectViewFactory projectViewFactory
+            IAvatarFactory avatarFactory
         )
         {
             Check.RequireNotNull(documentSession, "documentSession");
-            Check.RequireNotNull(projectViewFactory, "projectViewFactory");
+            Check.RequireNotNull(avatarFactory, "avatarFactory");
 
             _documentSession = documentSession;
-            _projectViewFactory = projectViewFactory;
+            _avatarFactory = avatarFactory;
         }
 
         #endregion
@@ -58,10 +58,9 @@ namespace Bowerbird.Web.Builders
             var project = _documentSession
                 .Query<All_Groups.Result, All_Groups>()
                 .AsProjection<All_Groups.Result>()
-                .Where(x => x.Id == idInput.Id)
-                .FirstOrDefault();
+                .FirstOrDefault(x => x.Id == idInput.Id);
 
-            return _projectViewFactory.Make(project);
+            return MakeProject(project);
         }
 
         public object BuildProjectList(PagingInput pagingInput)
@@ -78,97 +77,80 @@ namespace Bowerbird.Web.Builders
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
                 .ToList()
-                .Select(x => _projectViewFactory.Make(x));
+                .Select(MakeProject);
 
-            return new
-            {
-                pagingInput.Page,
-                pagingInput.PageSize,
-                List = results.ToPagedList(
+            return results
+                .ToPagedList(
                     pagingInput.Page,
                     pagingInput.PageSize,
                     stats.TotalResults,
-                    null)
-            };
+                    null);
         }
 
         public object BuildUserProjectList(PagingInput pagingInput)
         {
+            Check.RequireNotNull(pagingInput, "pagingInput");
+
             RavenQueryStatistics stats;
 
             var memberships = _documentSession
                 .Query<All_Users.Result, All_Users>()
-                .Where(x => x.UserId == pagingInput.Id && x.GroupId.Contains("projects/"))
-                .Select(x => x.GroupId)
-                .Statistics(out stats)
-                .Skip(pagingInput.Page)
-                .Take(pagingInput.PageSize)
-                .ToList();
+                .AsProjection<All_Users.Result>()
+                .Where(x => x.UserId == pagingInput.Id)
+                .Include(x => 
+                    x.Groups
+                        .Where(z => z.GroupType == "project")
+                        .SelectMany(y => y.Id));
 
             var results = _documentSession
                 .Query<All_Groups.Result, All_Groups>()
-                .Where(x => x.Id.In(memberships))
-                .Customize(x => x.WaitForNonStaleResults())
-                .Include(x => x.Id)
                 .AsProjection<All_Groups.Result>()
+                .Where(x => x.Id.In(memberships.SelectMany(y => y.Groups.Select(z => z.Id))))
+                .Customize(x => x.WaitForNonStaleResults())
+                .Statistics(out stats)
+                .Skip(pagingInput.Page)
+                .Take(pagingInput.PageSize)
                 .ToList()
-                .Select(x => _projectViewFactory.Make(x));
+                .Select(MakeProject);
 
-            return new
-            {
-                pagingInput.Page,
-                pagingInput.PageSize,
-                List = results.ToPagedList(
+            return results
+                .ToPagedList(
                     pagingInput.Page,
                     pagingInput.PageSize,
                     stats.TotalResults,
-                    null)
-            };
+                    null);
         }
 
-        /// <summary>
-        /// Get all the projects in a given team
-        /// </summary>
         public object BuildTeamProjectList(PagingInput pagingInput)
         {
+            Check.RequireNotNull(pagingInput, "pagingInput");
+
             RavenQueryStatistics stats;
 
-            // team children are projects so get projects for team.
             var teamProjects = _documentSession
                 .Query<GroupAssociation>()
-                .Where(x => x.ParentGroupId == pagingInput.Id)
-                .Include(x => x.ChildGroupId)
+                .Include(x => x.ChildGroup.Id)
+                .Where(x => x.ParentGroup.Id == pagingInput.Id && x.ChildGroup.GroupType == "project");
+
+            var results = _documentSession
+                .Query<All_Groups.Result, All_Groups>()
+                .AsProjection<All_Groups.Result>()
+                .Where(x => x.Id.In(teamProjects.Select(y => y.ChildGroup.Id)))
                 .Statistics(out stats)
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
                 .ToList()
-                .Select(x => x.ChildGroupId);
+                .Select(MakeProject);
 
-            // load the actual projects
-            var results = _documentSession
-                .Query<All_Groups.Result, All_Groups>()
-                .Where(x => x.Project.Id.In(teamProjects))
-                .Customize(x => x.WaitForNonStaleResults())
-                .AsProjection<All_Groups.Result>()
-                .ToList()
-                .Select(x => _projectViewFactory.Make(x));
-
-            return new
-            {
-                pagingInput.Page,
-                pagingInput.PageSize,
-                List = results.ToPagedList(
+            return results
+                .ToPagedList(
                     pagingInput.Page,
                     pagingInput.PageSize,
                     stats.TotalResults,
-                    null)
-            };
+                    null);
         }
 
-        /// <summary>
-        /// Get all the members in a given project
-        /// </summary>
-        public object BuildProjectMemberList(PagingInput pagingInput)
+        public object BuildProjectUserList(PagingInput pagingInput)
         {
             RavenQueryStatistics stats;
 
@@ -176,20 +158,47 @@ namespace Bowerbird.Web.Builders
                 .Query<Member>()
                 .Where(x => x.Group.Id == pagingInput.Id)
                 .Customize(x => x.WaitForNonStaleResults())
+                .Include(x => x.User.Id)
                 .Statistics(out stats)
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
-                .ToList();
+                .ToList()
+                .Select(x => MakeUser(x.User.Id));
 
-            return new
-            {
-                pagingInput.Page,
-                pagingInput.PageSize,
-                List = results.ToPagedList(
+            return results
+                .ToPagedList(
                     pagingInput.Page,
                     pagingInput.PageSize,
                     stats.TotalResults,
-                    null)
+                    null);
+        }
+
+        private object MakeUser(string userId)
+        {
+            return MakeUser(_documentSession.Load<User>(userId));
+        }
+
+        private object MakeUser(User user)
+        {
+            return new
+            {
+                Avatar = _avatarFactory.Make(user),
+                user.Id,
+                user.LastLoggedIn,
+                Name = user.GetName()
+            };
+        }
+
+        private object MakeProject(All_Groups.Result project)
+        {
+            return new
+            {
+                project.Id,
+                project.Project.Name,
+                project.Project.Description,
+                project.Project.Website,
+                Avatar = _avatarFactory.Make(project.Project),
+                project.GroupMemberCount
             };
         }
 
