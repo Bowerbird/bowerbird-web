@@ -112,6 +112,15 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="js\bowerbird\collections\referenceSpeciesCollection.js" />
+    <Content Include="js\bowerbird\collections\speciesCollection.js" />
+    <Content Include="js\bowerbird\collections\organisationCollection.js" />
+    <Content Include="js\bowerbird\collections\teamCollection.js" />
+    <Content Include="js\bowerbird\controllers\referenceSpeciesController.js" />
+    <Content Include="js\bowerbird\controllers\speciesController.js" />
+    <Content Include="js\bowerbird\controllers\organisationController.js" />
+    <Content Include="js\bowerbird\controllers\teamController.js" />
+    <Content Include="js\bowerbird\controllers\projectController.js" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="js\bowerbird\app.js" />
     <Content Include="js\bowerbird\collections\mediaResourceCollection.js" />
@@ -120,18 +129,34 @@
     <Content Include="js\bowerbird\collections\streamItemCollection.js" />
     <Content Include="js\bowerbird\collections\userCollection.js" />
     <Content Include="js\bowerbird\controllers\contributionController.js" />
+    <Content Include="js\bowerbird\models\referenceSpecies.js" />
+    <Content Include="js\bowerbird\models\species.js" />
+    <Content Include="js\bowerbird\models\organisation.js" />
+    <Content Include="js\bowerbird\models\team.js" />
     <Content Include="js\bowerbird\models\mediaResource.js" />
     <Content Include="js\bowerbird\models\observation.js" />
     <Content Include="js\bowerbird\models\project.js" />
     <Content Include="js\bowerbird\models\stream.js" />
     <Content Include="js\bowerbird\models\streamItem.js" />
     <Content Include="js\bowerbird\routers\contributionRouter.js" />
+    <Content Include="js\bowerbird\routers\speciesRouter.js" />
+    <Content Include="js\bowerbird\routers\referenceSpeciesRouter.js" />
+    <Content Include="js\bowerbird\routers\organisationRouter.js" />
+    <Content Include="js\bowerbird\routers\teamRouter.js" />
+    <Content Include="js\bowerbird\routers\projectRouter.js" />
+    <Content Include="js\bowerbird\views\avatarItemView.js" />
+    <Content Include="js\bowerbird\views\referenceSpeciesFormLayoutView.js" />
+    <Content Include="js\bowerbird\views\speciesFormItemView.js" />
+    <Content Include="js\bowerbird\views\organisationFormLayoutView.js" />
+    <Content Include="js\bowerbird\views\teamFormLayoutView.js" />
     <Content Include="js\bowerbird\views\dummyOverlayView.js" />
+    <Content Include="js\bowerbird\views\editAvatarView.js" />
     <Content Include="js\bowerbird\views\editMapView.js" />
     <Content Include="js\bowerbird\views\editMediaView.js" />
     <Content Include="js\bowerbird\views\mediaResourceItemView.js" />
     <Content Include="js\bowerbird\views\observationFormLayoutView.js" />
     <Content Include="js\bowerbird\views\observationLayoutView.js" />
+    <Content Include="js\bowerbird\views\projectFormLayoutView.js" />
     <Content Include="js\bowerbird\views\streamItemView.js" />
     <Content Include="js\bowerbird\views\streamView.js" />
     <Content Include="js\libs\bootstrap\bootstrap-datepicker.js" />
@@ -205,6 +230,12 @@
     <None Include="Views\Projects\Delete.mustache" />
     <None Include="Views\Projects\Stream.mustache" />
     <None Include="Views\Projects\List.mustache" />
+    <None Include="Views\ReferenceSpecies\Create.mustache" />
+    <None Include="Views\ReferenceSpecies\Delete.mustache" />
+    <None Include="Views\ReferenceSpecies\Index.mustache" />
+    <None Include="Views\ReferenceSpecies\List.mustache" />
+    <None Include="Views\Shared\ReferenceSpeciesCreate.mustache" />
+    <None Include="Views\Shared\SpeciesCreate.mustache" />
     <None Include="Views\Shared\Observation.mustache">
       <SubType>Designer</SubType>
     </None>
@@ -363,6 +394,10 @@
     <None Include="Views\Shared\_Layout.mustache">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Views\Species\Create.mustache" />
+    <None Include="Views\Species\Delete.mustache" />
+    <None Include="Views\Species\Index.mustache" />
+    <None Include="Views\Species\List.mustache" />
     <None Include="Views\Teams\Create.mustache" />
     <None Include="Views\Teams\Delete.mustache" />
     <None Include="Views\Teams\Index.mustache" />
@@ -383,7 +418,7 @@
     <None Include="Views\Shared\ObservationMediaResourceUploaded.mustache" />
     <None Include="Views\Shared\ObservationStreamListItem.mustache" />
     <None Include="Views\Shared\OrganisationCreate.mustache" />
-    <None Include="Views\Shared\ProjectCreate.mustache" />
+    <None Include="Views\Shared\ProjectForm.mustache" />
     <None Include="Views\Shared\Sidebar.mustache" />
     <None Include="Views\Shared\SidebarProjectItem.mustache" />
     <None Include="Views\Shared\StreamList.mustache" />
@@ -416,8 +451,6 @@
     <Folder Include="media\document\" />
     <Folder Include="media\image\0\" />
     <Folder Include="media\video\" />
-    <Folder Include="Views\ReferenceSpecies\" />
-    <Folder Include="Views\Species\" />
     <Folder Include="Views\Users\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

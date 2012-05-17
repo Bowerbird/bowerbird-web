@@ -242,7 +242,7 @@ namespace Bowerbird.Web.Controllers
             }
 
             _commandProcessor.Process(
-                new DeleteCommand
+                new ObservationNoteDeleteCommand
                 {
                     Id = idInput.Id,
                     UserId = _userContext.GetAuthenticatedUserId()

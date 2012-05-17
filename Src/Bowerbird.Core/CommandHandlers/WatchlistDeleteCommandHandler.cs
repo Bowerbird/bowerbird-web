@@ -19,7 +19,7 @@ using Raven.Client;
 
 namespace Bowerbird.Core.CommandHandlers
 {
-    public class WatchlistDeleteCommandHandler : ICommandHandler<DeleteCommand>
+    public class WatchlistDeleteCommandHandler : ICommandHandler<WatchlistDeleteCommand>
     {
         #region Members
 
@@ -45,7 +45,7 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Methods
 
-        public void Handle(DeleteCommand command)
+        public void Handle(WatchlistDeleteCommand command)
         {
             Check.RequireNotNull(command, "command");
 

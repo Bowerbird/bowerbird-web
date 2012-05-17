@@ -85,14 +85,26 @@ namespace Bowerbird.Web.Factories
             Check.RequireNotNull(user, "user");
             Check.RequireNotNull(memberships, "memberships");
 
+            var projects = _documentSession
+                .Load<Project>(memberships
+                    .Where(x => x.Group.Id.StartsWith("projects/"))
+                    .Select(x => x.Group.Id))
+                .Select(x => _projectViewFactory.Make(x));
+
+            var teams = _documentSession
+                .Load<Team>(memberships
+                    .Where(x => x.Group.Id.StartsWith("teams/"))
+                    .Select(x => x.Group.Id))
+                .Select(x => _teamViewFactory.Make(x));
+
             return new
             {
                 Avatar = _avatarFactory.Make(user),
                 user.Id,
                 user.LastLoggedIn,
                 Name = user.GetName(),
-                Projects =  _documentSession.Load<Project>(memberships.Where(x => x.Group.Id.StartsWith("projects/")).Select(x => x.Group.Id)).Select(x => _projectViewFactory.Make(x)),
-                Teams = _documentSession.Load<Team>(memberships.Where(x => x.Group.Id.StartsWith("teams/")).Select(x => x.Group.Id)).Select(x => _teamViewFactory.Make(x))
+                Projects = projects,
+                Teams = teams
             };
         }
 

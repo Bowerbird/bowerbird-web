@@ -62,6 +62,8 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Index(IdInput idInput)
         {
+            Check.RequireNotNull(idInput, "idInput");
+
             ViewBag.ReferenceSpecies = _referenceSpeciesViewModelBuilder.BuildReferenceSpecies(idInput);
 
             return View(Form.Index);
@@ -70,18 +72,24 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult GetOne(IdInput idInput)
         {
+            Check.RequireNotNull(idInput, "idInput");
+
             return new JsonNetResult(_referenceSpeciesViewModelBuilder.BuildReferenceSpecies(idInput));
         }
 
         [HttpGet]
         public ActionResult GetMany(PagingInput pagingInput)
         {
+            Check.RequireNotNull(pagingInput, "pagingInput");
+
             return new JsonNetResult(_referenceSpeciesViewModelBuilder.BuildReferenceSpeciesList(pagingInput));
         }
 
         [HttpGet]
         public ActionResult CreateForm(IdInput idInput)
         {
+            Check.Require(idInput != null && idInput.Id != null, "No Group has been supplied for new Reference Species");
+
             if (!_userContext.HasGroupPermission(PermissionNames.CreateReferenceSpecies, idInput.Id))
             {
                 return HttpUnauthorized();
@@ -94,7 +102,9 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult UpdateForm(IdInput idInput)
         {
-            if (!_userContext.HasGroupPermission(PermissionNames.UpdateReferenceSpecies, idInput.Id))
+            Check.RequireNotNull(idInput, "idInput");
+
+            if (!_userContext.HasGroupPermission<ReferenceSpecies>(PermissionNames.UpdateReferenceSpecies, idInput.Id))
             {
                 return HttpUnauthorized();
             }
@@ -108,7 +118,9 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult DeleteForm(IdInput idInput)
         {
-            if (!_userContext.HasGroupPermission(PermissionNames.DeleteReferenceSpecies, idInput.Id))
+            Check.RequireNotNull(idInput, "idInput");
+
+            if (!_userContext.HasGroupPermission<ReferenceSpecies>(PermissionNames.DeleteReferenceSpecies, idInput.Id))
             {
                 return HttpUnauthorized();
             }
@@ -122,7 +134,9 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult Create(ReferenceSpeciesCreateInput createInput)
         {
-            if (!_userContext.HasGroupPermission(PermissionNames.CreateReferenceSpecies, createInput.GroupId))
+            Check.RequireNotNull(createInput, "createInput");
+
+            if (!_userContext.HasGroupPermission(PermissionNames.CreateReferenceSpecies, createInput.GroupId ?? Constants.AppRootId))
             {
                 return HttpUnauthorized();
             }
@@ -150,6 +164,8 @@ namespace Bowerbird.Web.Controllers
         [Transaction]
         public ActionResult Update(ReferenceSpeciesUpdateInput updateInput)
         {
+            Check.RequireNotNull(updateInput, "updateInput");
+
             if (!_userContext.HasGroupPermission<ReferenceSpecies>(PermissionNames.DeleteReferenceSpecies, updateInput.Id))
             {
                 return HttpUnauthorized();
@@ -178,6 +194,8 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult Delete(IdInput idInput)
         {
+            Check.RequireNotNull(idInput, "idInput");
+
             if (!_userContext.HasGroupPermission<ReferenceSpecies>(PermissionNames.DeleteReferenceSpecies, idInput.Id))
             {
                 return HttpUnauthorized();
@@ -189,7 +207,7 @@ namespace Bowerbird.Web.Controllers
             }
 
             _commandProcessor.Process(
-                new DeleteCommand
+                new ReferenceSpeciesDeleteCommand
                 {
                     Id = idInput.Id,
                     UserId = _userContext.GetAuthenticatedUserId()

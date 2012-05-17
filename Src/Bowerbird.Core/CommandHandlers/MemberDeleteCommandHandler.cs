@@ -12,14 +12,17 @@
  
 */
 
+using System.Linq;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Indexes;
 using Raven.Client;
+using Raven.Client.Linq;
 
 namespace Bowerbird.Core.CommandHandlers
 {
-    public class MemberDeleteCommandHandler : ICommandHandler<DeleteCommand>
+    public class MemberDeleteCommandHandler : ICommandHandler<MemberDeleteCommand>
     {
         #region Members
 
@@ -45,14 +48,70 @@ namespace Bowerbird.Core.CommandHandlers
          
         #region Methods
 
-        public void Handle(DeleteCommand command)
+        public void Handle(MemberDeleteCommand command)
         {
             Check.RequireNotNull(command, "command");
 
-            _documentSession.Delete(_documentSession.Load<Member>(command.Id));
+            var group = _documentSession
+                .Query<All_Groups.Result, All_Groups>()
+                .AsProjection<All_Groups.Result>()
+                .Where(x => x.Id == command.GroupId)
+                .FirstOrDefault();
 
-            // we also need to find all the groupAssociations to delete this member from.
-            // if this 
+            if (group.Project != null)
+            {
+                DeleteMember(
+                    command.UserId,
+                    group.Project.Id
+                    );
+            }
+
+            if (group.Team != null)
+            {
+                DeleteMember(
+                    command.UserId,
+                    group.Team.Id
+                    );
+
+                foreach (var childGroupId in group.ChildGroupIds)
+                {
+                    DeleteMember(
+                        command.UserId,
+                        childGroupId
+                        );
+                }
+            }
+
+            if (group.Organisation != null)
+            {
+                DeleteMember(
+                    command.UserId,
+                    group.Organisation.Id
+                    );
+
+                foreach (var childGroupId in group.ChildGroupIds)
+                {
+                    DeleteMember(
+                        command.UserId,
+                        childGroupId
+                        );
+                }
+            }
+        }
+
+        private void DeleteMember(
+            string userId,
+            string groupId
+            )
+        {
+            var member = _documentSession
+                .Query<Member>()
+                .Where(x => x.Group.Id == groupId && x.User.Id == userId);
+
+            if (member != null)
+            {
+                _documentSession.Delete(member);
+            }
         }
 
         #endregion

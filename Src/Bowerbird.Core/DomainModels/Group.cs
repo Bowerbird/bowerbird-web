@@ -15,10 +15,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
-using Bowerbird.Core.Events;
 using Newtonsoft.Json;
 
 namespace Bowerbird.Core.DomainModels
@@ -63,6 +61,8 @@ namespace Bowerbird.Core.DomainModels
 
         public IEnumerable<string> Descendants { get; private set; }
 
+        public abstract string GroupType { get; }
+
         [JsonIgnore]
         IEnumerable<string> IOwnable.Groups
         {
@@ -103,6 +103,6 @@ namespace Bowerbird.Core.DomainModels
             return this;
         }
 
-        #endregion      
+        #endregion
     }
 }

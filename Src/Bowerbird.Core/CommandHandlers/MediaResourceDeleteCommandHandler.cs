@@ -19,7 +19,7 @@ using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Core.CommandHandlers
 {
-    public class MediaResourceDeleteCommandHandler : ICommandHandler<DeleteCommand>
+    public class MediaResourceDeleteCommandHandler : ICommandHandler<MediaResourceDeleteCommand>
     {
         #region Members
 
@@ -45,7 +45,7 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Methods
 
-        public void Handle(DeleteCommand command)
+        public void Handle(MediaResourceDeleteCommand command)
         {
             Check.RequireNotNull(command, "command");
 

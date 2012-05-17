@@ -11,12 +11,10 @@
  * Atlas of Living Australia
  
 */
-
-using System;
-
+				
 namespace Bowerbird.Core.Commands
 {
-    public class DeleteCommand : ICommand
+    public class OrganisationDeleteCommand : ICommand
     {
         #region Fields
 
@@ -28,9 +26,9 @@ namespace Bowerbird.Core.Commands
 
         #region Properties
 
-        public string Id { get; set; }
-
         public string UserId { get; set; }
+
+        public string Id { get; set; }
 
         #endregion
 

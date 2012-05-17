@@ -12,10 +12,13 @@
  
 */
 
+using System.Collections.Generic;
 using System.Linq;
 using Bowerbird.Core.Commands;
+using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Indexes;
 using Raven.Client;
 using Raven.Client.Linq;
 
@@ -47,23 +50,119 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Methods
 
-        public void Handle(MemberCreateCommand memberCreateCommand)
+        public void Handle(MemberCreateCommand command)
         {
-            Check.RequireNotNull(memberCreateCommand, "memberCreateCommand");
+            Check.RequireNotNull(command, "command");
 
-            var member = new Member(
-                _documentSession.Load<User>(memberCreateCommand.CreatedByUserId),
-                _documentSession.Load<User>(memberCreateCommand.UserId),
-                _documentSession.Load<Group>(memberCreateCommand.GroupId),
-                _documentSession.Query<Role>()
-                    .Where(x => x.Id.In(memberCreateCommand.Roles))
-                    .ToList()
-                );
+            var group = _documentSession
+                .Query<All_Groups.Result, All_Groups>()
+                .AsProjection<All_Groups.Result>()
+                .Where(x => x.Id == command.GroupId)
+                .FirstOrDefault();
 
-            _documentSession.Store(member);
+            var user = _documentSession.Load<User>(command.UserId);
+            var createdByUser = _documentSession.Load<User>(command.CreatedByUserId);
+
+            if(group.Project != null)
+            {
+                CreateNewMember(
+                    createdByUser, 
+                    user, 
+                    group.Project, 
+                    GetRoles(command.Roles));
+
+                var team = group
+                    .AncestorGroupIds
+                    .Where(x => x.ToLower().StartsWith("teams"))
+                    .FirstOrDefault();
+
+                if(team != null)
+                {
+                    CreateNewMember(
+                        createdByUser,
+                        user,
+                        _documentSession.Load<Team>(team),
+                        GetRoles(new[] { RoleNames.TeamMember })
+                        );
+                }
+
+                var organisation = group
+                    .AncestorGroupIds
+                    .Where(x => x.ToLower().StartsWith("organisations"))
+                    .FirstOrDefault();
+
+                if (organisation != null)
+                {
+                    CreateNewMember(
+                        createdByUser,
+                        user,
+                        _documentSession.Load<Organisation>(organisation),
+                        GetRoles(new[] { RoleNames.OrganisationMember })
+                        );
+                }
+            }
+
+            if (group.Team != null)
+            {
+                CreateNewMember(
+                    createdByUser,
+                    user,
+                    group.Team,
+                    GetRoles(command.Roles));
+
+                var organisation = group
+                    .AncestorGroupIds
+                    .Where(x => x.ToLower().StartsWith("organisations"))
+                    .FirstOrDefault();
+
+                if (organisation != null)
+                {
+                    CreateNewMember(
+                        createdByUser,
+                        user,
+                        _documentSession.Load<Organisation>(organisation),
+                        GetRoles(new[] { RoleNames.OrganisationMember })
+                        );
+                }
+            }
+
+            if (group.Organisation != null)
+            {
+                CreateNewMember(
+                   createdByUser,
+                   user,
+                   group.Organisation,
+                   GetRoles(command.Roles));
+            }
+        }
+
+        private void CreateNewMember(
+            User createdByUser,
+            User user,
+            Group group,
+            IEnumerable<Role> roles)
+        {
+            Check.RequireNotNull(createdByUser, "createdByUser");
+            Check.RequireNotNull(user, "user");
+            Check.RequireNotNull(group, "group");
+            Check.RequireNotNull(roles, "roles");
+
+            _documentSession.Store(
+                    new Member(
+                        createdByUser,
+                        user,
+                        group,
+                        roles));
+        }
+
+        private IEnumerable<Role> GetRoles(IEnumerable<string> roles)
+        {
+            return _documentSession.Query<Role>()
+                .Where(x => x.Id.In(roles))
+                .ToList();
         }
 
         #endregion
-		
+
     }
 }

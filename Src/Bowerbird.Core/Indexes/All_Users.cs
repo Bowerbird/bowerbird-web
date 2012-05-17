@@ -43,7 +43,8 @@ namespace Bowerbird.Core.Indexes
                                             UserId = member.User.Id,
                                             GroupId = member.Group.Id,
                                             RoleIds = roles.Select(x => x.Id),
-                                            PermissionIds = permissions.Select(x => x.Id)
+                                            PermissionIds = permissions.Select(x => x.Id),
+                                            GroupType = (string)null
                                         });
             
             TransformResults = (database, results) =>

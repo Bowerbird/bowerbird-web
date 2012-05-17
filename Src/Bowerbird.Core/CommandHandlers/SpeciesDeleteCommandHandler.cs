@@ -19,7 +19,7 @@ using Raven.Client;
 
 namespace Bowerbird.Core.CommandHandlers
 {
-    public class SpeciesDeleteCommandHandler : ICommandHandler<DeleteCommand>
+    public class SpeciesDeleteCommandHandler : ICommandHandler<SpeciesDeleteCommand>
     {
         #region Fields
 
@@ -44,8 +44,8 @@ namespace Bowerbird.Core.CommandHandlers
         #endregion
 
         #region Methods
-        		
-        public void Handle(DeleteCommand command)
+
+        public void Handle(SpeciesDeleteCommand command)
         {
             Check.RequireNotNull(command, "command");
 

@@ -21,7 +21,7 @@ using Raven.Client.Linq;
 
 namespace Bowerbird.Core.CommandHandlers
 {
-    public class OrganisationDeleteCommandHandler : ICommandHandler<DeleteCommand>
+    public class OrganisationDeleteCommandHandler : ICommandHandler<OrganisationDeleteCommand>
     {
         #region Members
 
@@ -52,7 +52,7 @@ namespace Bowerbird.Core.CommandHandlers
         /// Remove Organisation from all Project's Ancestors
         /// Remove Organisation
         /// </summary>
-        public void Handle(DeleteCommand command)
+        public void Handle(OrganisationDeleteCommand command)
         {
             Check.RequireNotNull(command, "command");
 

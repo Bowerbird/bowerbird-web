@@ -40,6 +40,11 @@ require.config({
         // Routers are the first port of call, so load em up
         'routers/groupuserrouter',
         'routers/contributionrouter',
+        'routers/projectrouter',
+        'routers/teamrouter',
+        'routers/organisationrouter',
+        'routers/speciesrouter',
+        'routers/referencespeciesrouter',
         // Load top level views, beacuse no one else is gonna do it
         'views/headerview',
         'views/footerview',

@@ -1,25 +1,17 @@
-/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
  * Hamish Crittenden : hamish.crittenden@gmail.com
- 
  Project Manager: 
  * Ken Walker : kwalker@museum.vic.gov.au
- 
  Funded by:
  * Atlas of Living Australia
  
 */
 
 using System;
-using Bowerbird.Core.Config;
-using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Events;
-using Bowerbird.Core.DomainModels.DenormalisedReferences;
-using Bowerbird.Core.Extensions;
 
 namespace Bowerbird.Core.DomainModels
 {
@@ -51,11 +43,15 @@ namespace Bowerbird.Core.DomainModels
 
         #region Properties
 
+        public override string GroupType
+        {
+            get { return "userproject"; }
+        }
+        
         #endregion
 
         #region Methods
 
         #endregion
-
     }
 }

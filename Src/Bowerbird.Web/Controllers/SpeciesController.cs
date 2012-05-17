@@ -3,10 +3,8 @@
  Developers: 
  * Frank Radocaj : frank@radocaj.com
  * Hamish Crittenden : hamish.crittenden@gmail.com
- 
  Project Manager: 
  * Ken Walker : kwalker@museum.vic.gov.au
- 
  Funded by:
  * Atlas of Living Australia
  
@@ -62,6 +60,8 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Index(IdInput idInput)
         {
+            Check.RequireNotNull(idInput, "idInput");
+
             ViewBag.Species = _speciesViewModelBuilder.BuildSpecies(idInput);
 
             return View(Form.Index);
@@ -70,6 +70,8 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Explore(PagingInput pagingInput)
         {
+            Check.RequireNotNull(pagingInput, "pagingInput");
+
             ViewBag.SpeciesList = _speciesViewModelBuilder.BuildSpeciesList(pagingInput);
             
             return View(Form.List);
@@ -78,12 +80,16 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult GetOne(IdInput idInput)
         {
+            Check.RequireNotNull(idInput, "idInput");
+
             return new JsonNetResult(_speciesViewModelBuilder.BuildSpecies(idInput));
         }
 
         [HttpGet]
         public ActionResult GetMany(PagingInput pagingInput)
         {
+            Check.RequireNotNull(pagingInput, "pagingInput");
+
             return new JsonNetResult(_speciesViewModelBuilder.BuildSpeciesList(pagingInput));
         }
 
@@ -91,7 +97,9 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult CreateForm(IdInput idInput)
         {
-            if (!_userContext.HasGroupPermission(PermissionNames.CreateSpecies, idInput.Id))
+            Check.RequireNotNull(idInput, "idInput");
+
+            if (!_userContext.HasGroupPermission(PermissionNames.CreateSpecies, idInput.Id ?? Constants.AppRootId))
             {
                 return HttpUnauthorized();
             }
@@ -103,6 +111,8 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult UpdateForm(IdInput idInput)
         {
+            Check.RequireNotNull(idInput, "idInput");
+
             if (!_userContext.HasGroupPermission(PermissionNames.UpdateSpecies, idInput.Id))
             {
                 return HttpUnauthorized();
@@ -117,6 +127,8 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult DeleteForm(IdInput idInput)
         {
+            Check.RequireNotNull(idInput, "idInput");
+
             if (!_userContext.HasGroupPermission(PermissionNames.DeleteSpecies, idInput.Id))
             {
                 return HttpUnauthorized();
@@ -132,6 +144,8 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult Create(SpeciesCreateInput createInput)
         {
+            Check.RequireNotNull(createInput, "createInput");
+
             if (!_userContext.HasUserProjectPermission(PermissionNames.CreateSpecies))
             {
                 return HttpUnauthorized();
@@ -166,6 +180,8 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult Update(SpeciesUpdateInput updateInput)
         {
+            Check.RequireNotNull(updateInput, "updateInput");
+
             if (!_userContext.HasAppRootPermission(PermissionNames.UpdateSpecies))
             {
                 return HttpUnauthorized();
@@ -200,6 +216,8 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult Delete(IdInput idInput)
         {
+            Check.RequireNotNull(idInput, "idInput");
+
             if (!_userContext.HasGroupPermission<Species>(PermissionNames.DeleteSpecies, idInput.Id))
             {
                 return HttpUnauthorized();
@@ -211,7 +229,7 @@ namespace Bowerbird.Web.Controllers
             }
 
             _commandProcessor.Process(
-                new DeleteCommand
+                new SpeciesDeleteCommand
                 {
                     Id = idInput.Id,
                     UserId = _userContext.GetAuthenticatedUserId()

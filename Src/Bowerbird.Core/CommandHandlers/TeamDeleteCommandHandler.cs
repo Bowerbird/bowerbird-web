@@ -21,7 +21,7 @@ using Raven.Client;
 
 namespace Bowerbird.Core.CommandHandlers
 {
-    public class TeamDeleteCommandHandler : ICommandHandler<DeleteCommand>
+    public class TeamDeleteCommandHandler : ICommandHandler<TeamDeleteCommand>
     {
         #region Members
 
@@ -52,7 +52,7 @@ namespace Bowerbird.Core.CommandHandlers
         /// Remove Team from Project's Ancestors.
         /// Remove Team.
         /// </summary>
-        public void Handle(DeleteCommand command)
+        public void Handle(TeamDeleteCommand command)
         {
             Check.RequireNotNull(command, "command");
 

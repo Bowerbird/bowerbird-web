@@ -17,6 +17,7 @@ using System.Web.Mvc;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Extensions;
 using Bowerbird.Web.Builders;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.ViewModels;
@@ -32,6 +33,7 @@ namespace Bowerbird.Web.Controllers
         private readonly ICommandProcessor _commandProcessor;
         private readonly IUserContext _userContext;
         private readonly IProjectsViewModelBuilder _projectsViewModelBuilder;
+        private readonly ITeamsViewModelBuilder _teamsViewModelBuilder;
         private readonly IStreamItemsViewModelBuilder _streamItemsViewModelBuilder;
         private readonly IObservationsViewModelBuilder _observationsViewModelBuilder;
         private readonly IPostsViewModelBuilder _postsViewModelBuilder;
@@ -46,6 +48,7 @@ namespace Bowerbird.Web.Controllers
             ICommandProcessor commandProcessor,
             IUserContext userContext,
             IProjectsViewModelBuilder projectsViewModelBuilder,
+            ITeamsViewModelBuilder teamsViewModelBuilder,
             IStreamItemsViewModelBuilder streamItemsViewModelBuilder,
             IObservationsViewModelBuilder observationsViewModelBuilder,
             IPostsViewModelBuilder postsViewModelBuilder,
@@ -56,6 +59,7 @@ namespace Bowerbird.Web.Controllers
             Check.RequireNotNull(commandProcessor, "commandProcessor");
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(projectsViewModelBuilder, "projectsViewModelBuilder");
+            Check.RequireNotNull(teamsViewModelBuilder, "teamsViewModelBuilder");
             Check.RequireNotNull(streamItemsViewModelBuilder, "streamItemsViewModelBuilder");
             Check.RequireNotNull(observationsViewModelBuilder, "observationsViewModelBuilder");
             Check.RequireNotNull(postsViewModelBuilder, "postsViewModelBuilder");
@@ -65,6 +69,7 @@ namespace Bowerbird.Web.Controllers
             _commandProcessor = commandProcessor;
             _userContext = userContext;
             _projectsViewModelBuilder = projectsViewModelBuilder;
+            _teamsViewModelBuilder = teamsViewModelBuilder;
             _streamItemsViewModelBuilder = streamItemsViewModelBuilder;
             _observationsViewModelBuilder = observationsViewModelBuilder;
             _postsViewModelBuilder = postsViewModelBuilder;
@@ -196,6 +201,25 @@ namespace Bowerbird.Web.Controllers
                 return HttpUnauthorized();
             }
 
+            ViewBag.Model = new
+            {
+                Project = new {},
+                Teams = _teamsViewModelBuilder.BuildUserTeamList(
+                    new PagingInput()
+                    {
+                        Id = _userContext.GetAuthenticatedUserId(),
+                        Page = Default.PageStart,
+                        PageSize = Default.PageMax
+                    })
+            };
+
+            if(Request.IsAjaxRequest())
+            {
+                return new JsonNetResult(ViewBag.Model);
+            }
+
+            ViewBag.PrerenderedView = "projects";
+
             return View(Form.Create);
         }
 
@@ -203,7 +227,11 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult UpdateForm(IdInput idInput)
         {
-            if (!_userContext.HasGroupPermission(PermissionNames.UpdateProject, idInput.Id))
+            Check.RequireNotNull(idInput, "idInput");
+
+            var projectId = "projects/".AppendWith(idInput.Id);
+
+            if (!_userContext.HasGroupPermission(PermissionNames.UpdateProject, projectId))
             {
                 return HttpUnauthorized();
             }
@@ -217,7 +245,11 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult DeleteForm(IdInput idInput)
         {
-            if (!_userContext.HasGroupPermission(PermissionNames.DeleteProject, idInput.Id))
+            Check.RequireNotNull(idInput, "idInput");
+
+            var projectId = "projects/".AppendWith(idInput.Id);
+
+            if (!_userContext.HasGroupPermission(PermissionNames.DeleteProject, projectId))
             {
                 return HttpUnauthorized();
             }
@@ -274,10 +306,10 @@ namespace Bowerbird.Web.Controllers
             }
 
             _commandProcessor.Process(
-                new DeleteCommand()
+                new MemberDeleteCommand()
                 {
                     UserId = _userContext.GetAuthenticatedUserId(),
-                    Id = idInput.Id
+                    GroupId = idInput.Id
                 });
 
             return JsonSuccess();
@@ -354,7 +386,7 @@ namespace Bowerbird.Web.Controllers
             }
 
             _commandProcessor.Process(
-                new DeleteCommand()
+                new ProjectDeleteCommand()
                 {
                     Id = deleteInput.Id,
                     UserId = _userContext.GetAuthenticatedUserId()

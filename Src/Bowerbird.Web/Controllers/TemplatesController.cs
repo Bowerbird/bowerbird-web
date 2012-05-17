@@ -76,7 +76,7 @@ namespace Bowerbird.Web.Controllers
                 {"OrganisationCreate", null},
                 {"OrganisationItem", null},
                 {"OrganisationList", null},
-                {"ProjectCreate", null},
+                {"ProjectForm", null},
                 {"ProjectItem", null},
                 {"ProjectList", null},
                 {"Sidebar", null},

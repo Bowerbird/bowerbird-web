@@ -135,10 +135,20 @@
     <Compile Include="Commands\CommentCreateCommand.cs" />
     <Compile Include="Commands\CommentDeleteCommand.cs" />
     <Compile Include="Commands\CommentUpdateCommand.cs" />
+    <Compile Include="Commands\FollowUserDeleteCommand.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Commands\GroupAssociationCreateCommand.cs" />
     <Compile Include="Commands\GroupAssociationDeleteCommand.cs" />
+    <Compile Include="Commands\MediaResourceDeleteCommand.cs" />
+    <Compile Include="Commands\MemberDeleteCommand.cs" />
+    <Compile Include="Commands\ObservationDeleteCommand.cs" />
+    <Compile Include="Commands\ObservationNoteDeleteCommand.cs" />
+    <Compile Include="Commands\OrganisationDeleteCommand.cs" />
+    <Compile Include="Commands\PostDeleteCommand.cs" />
+    <Compile Include="Commands\ProjectDeleteCommand.cs" />
+    <Compile Include="Commands\ReferenceSpeciesDeleteCommand.cs" />
     <Compile Include="Commands\SetupSpeciesDataCommand.cs" />
-    <Compile Include="Commands\DeleteCommand.cs" />
     <Compile Include="Commands\FollowUserCreateCommand.cs" />
     <Compile Include="Commands\ReferenceSpeciesCreateCommand.cs" />
     <Compile Include="Commands\ReferenceSpeciesUpdateCommand.cs" />
@@ -153,7 +163,9 @@
     <Compile Include="Commands\PrivateChatSessionDeleteCommand.cs" />
     <Compile Include="Commands\PrivateChatSessionUpdateCommand.cs" />
     <Compile Include="Commands\SpeciesCreateCommand.cs" />
+    <Compile Include="Commands\SpeciesDeleteCommand.cs" />
     <Compile Include="Commands\SpeciesUpdateCommand.cs" />
+    <Compile Include="Commands\TeamDeleteCommand.cs" />
     <Compile Include="Commands\UserSessionCreateCommand.cs" />
     <Compile Include="Commands\UserSessionDeleteCommand.cs" />
     <Compile Include="Commands\UserSessionUpdateCommand.cs" />
@@ -177,6 +189,7 @@
     <Compile Include="Commands\SetupSystemDataCommand.cs" />
     <Compile Include="Commands\UserUpdatePasswordCommand.cs" />
     <Compile Include="Commands\WatchlistCreateCommand.cs" />
+    <Compile Include="Commands\WatchlistDeleteCommand.cs" />
     <Compile Include="Commands\WatchlistUpdateCommand.cs" />
     <Compile Include="Config\BowerbirdMediaConfigurationSection.cs" />
     <Compile Include="Config\BowerbirdEmailConfigurationSection.cs" />

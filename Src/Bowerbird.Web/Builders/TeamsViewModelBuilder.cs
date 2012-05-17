@@ -12,6 +12,7 @@
  
 */
 
+using System;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Indexes;
@@ -100,32 +101,28 @@ namespace Bowerbird.Web.Builders
             RavenQueryStatistics stats;
 
             var memberships = _documentSession
-               .Query<All_Users.Result, All_Users>()
-               .Where(x => x.UserId == pagingInput.Id && x.GroupId.Contains("teams/"))
-               .Include(x => x.GroupId)
-               .Select(x => x.GroupId)
-               .Statistics(out stats)
-               .Skip(pagingInput.Page)
-               .Take(pagingInput.PageSize)
-               .ToList();
+                .Query<All_Users.Result, All_Users>()
+                .AsProjection<All_Users.Result>()
+                .Where(x => x.UserId == pagingInput.Id)
+                .Include(x => x.GroupId)
+                .Statistics(out stats)
+                .Skip(pagingInput.Page)
+                .Take(pagingInput.PageSize)
+                .ToList()
+                .Where(x => x.GroupId.StartsWith("team"))
+                .Select(x => x.GroupId);
 
             var results = _documentSession
-                .Query<All_Groups.Result, All_Groups>()
-                .AsProjection<All_Groups.Result>()
-                .Where(x => x.GroupType == "team" && x.Id.In(memberships))
+                .Query<Team>()
+                .Where(x => x.Id.In(memberships))
                 .ToList()
                 .Select(x => _teamViewFactory.Make(x));
 
-            return new
-            {
+            return results.ToPagedList(
                 pagingInput.Page,
                 pagingInput.PageSize,
-                Teams = results.ToPagedList(
-                    pagingInput.Page,
-                    pagingInput.PageSize,
-                    stats.TotalResults,
-                    null)
-            };
+                stats.TotalResults,
+                null);
         }
 
         public object BuildOrganisationTeamList(PagingInput pagingInput)

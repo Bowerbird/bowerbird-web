@@ -108,6 +108,12 @@ namespace Bowerbird.Core.CommandHandlers
                     AddPermission(PermissionNames.CreatePost, "Create Posts", "Ability to create posts");
                     AddPermission(PermissionNames.UpdatePost, "Update Posts", "Ability to update posts");
                     AddPermission(PermissionNames.DeletePost, "Delete Posts", "Ability to delete posts");
+                    AddPermission(PermissionNames.CreateSpecies, "Create Species", "Ability to create species");
+                    AddPermission(PermissionNames.UpdateSpecies, "Update Species", "Ability to update species");
+                    AddPermission(PermissionNames.DeleteSpecies, "Delete Species", "Ability to delete species");
+                    AddPermission(PermissionNames.CreateReferenceSpecies, "Create Reference Species", "Ability to create reference species");
+                    AddPermission(PermissionNames.UpdateReferenceSpecies, "Update Reference Species", "Ability to update reference species");
+                    AddPermission(PermissionNames.DeleteReferenceSpecies, "Delete Reference Species", "Ability to delete reference species");
 
                     // Roles
                     AddRole("globaladministrator", "Global Administrator", "Administrator of Bowerbird",
@@ -119,7 +125,10 @@ namespace Bowerbird.Core.CommandHandlers
                         PermissionNames.DeleteTeam,
                         PermissionNames.CreateProject,
                         PermissionNames.UpdateProject,
-                        PermissionNames.DeleteProject);
+                        PermissionNames.DeleteProject,
+                        PermissionNames.CreateSpecies,
+                        PermissionNames.UpdateSpecies,
+                        PermissionNames.DeleteSpecies);
                     AddRole("globalmember", "Global Member", "Member of Bowerbird",
                         PermissionNames.CreateObservation,
                         PermissionNames.UpdateObservation,
@@ -134,18 +143,27 @@ namespace Bowerbird.Core.CommandHandlers
                         PermissionNames.DeleteTeam,
                         PermissionNames.CreatePost,
                         PermissionNames.UpdatePost,
-                        PermissionNames.DeletePost);
+                        PermissionNames.DeletePost,
+                        PermissionNames.CreateReferenceSpecies,
+                        PermissionNames.UpdateReferenceSpecies,
+                        PermissionNames.DeleteReferenceSpecies);
                     AddRole("teamadministrator", "Team Administrator", "Administrator of a team",
                         PermissionNames.UpdateTeam,
                         PermissionNames.CreateProject,
                         PermissionNames.UpdateProject,
-                        PermissionNames.DeleteProject);
+                        PermissionNames.DeleteProject,
+                        PermissionNames.CreateReferenceSpecies,
+                        PermissionNames.UpdateReferenceSpecies,
+                        PermissionNames.DeleteReferenceSpecies);
                     AddRole("teammember", "Team Member", "Member of a team",
                         PermissionNames.CreatePost,
                         PermissionNames.UpdatePost,
                         PermissionNames.DeletePost);
                     AddRole("projectadministrator", "Project Administrator", "Administrator of a project",
-                        PermissionNames.UpdateProject);
+                        PermissionNames.UpdateProject,
+                        PermissionNames.CreateReferenceSpecies,
+                        PermissionNames.UpdateReferenceSpecies,
+                        PermissionNames.DeleteReferenceSpecies);
                     AddRole("projectmember", "Project Member", "Member of a project",
                         PermissionNames.CreateObservation,
                         PermissionNames.UpdateObservation,

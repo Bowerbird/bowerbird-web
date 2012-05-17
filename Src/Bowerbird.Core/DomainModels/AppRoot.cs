@@ -50,6 +50,11 @@ namespace Bowerbird.Core.DomainModels
 
         #region Properties
 
+        public override string GroupType
+        {
+            get { return "approot"; }
+        }
+
         #endregion
 
         #region Methods

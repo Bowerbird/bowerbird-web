@@ -269,10 +269,10 @@ namespace Bowerbird.Web.Controllers
             }
 
             _commandProcessor.Process(
-                new DeleteCommand()
+                new MemberDeleteCommand()
                 {
                     UserId = _userContext.GetAuthenticatedUserId(),
-                    Id = idInput.Id
+                    GroupId = idInput.Id
                 });
 
             return JsonSuccess();
@@ -405,7 +405,7 @@ namespace Bowerbird.Web.Controllers
             }
 
             _commandProcessor.Process(
-                new DeleteCommand
+                new OrganisationDeleteCommand
                 {
                     Id = idInput.Id,
                     UserId = _userContext.GetAuthenticatedUserId()

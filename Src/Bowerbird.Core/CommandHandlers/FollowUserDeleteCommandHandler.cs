@@ -19,7 +19,7 @@ using Raven.Client;
 
 namespace Bowerbird.Core.CommandHandlers
 {
-    public class FollowUserDeleteCommandHandler : ICommandHandler<DeleteCommand>
+    public class FollowUserDeleteCommandHandler : ICommandHandler<FollowUserDeleteCommand>
     {
         #region Fields
 
@@ -48,7 +48,7 @@ namespace Bowerbird.Core.CommandHandlers
 
         #endregion
 
-        public void Handle(DeleteCommand command)
+        public void Handle(FollowUserDeleteCommand command)
         {
             Check.RequireNotNull(command, "command");
 

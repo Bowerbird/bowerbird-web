@@ -61,6 +61,11 @@ namespace Bowerbird.Core.DomainModels
 
         public MediaResource Avatar { get; private set; }
 
+        public override string GroupType
+        {
+            get { return "team"; }
+        }
+
         #endregion
 
         #region Methods

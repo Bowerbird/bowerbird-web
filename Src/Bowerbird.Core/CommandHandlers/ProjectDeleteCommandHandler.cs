@@ -20,7 +20,7 @@ using Raven.Client;
 
 namespace Bowerbird.Core.CommandHandlers
 {
-    public class ProjectDeleteCommandHandler : ICommandHandler<DeleteCommand>
+    public class ProjectDeleteCommandHandler : ICommandHandler<ProjectDeleteCommand>
     {
         #region Members
 
@@ -51,7 +51,7 @@ namespace Bowerbird.Core.CommandHandlers
         /// Remove Project.
         /// </summary>
         /// <param name="command"></param>
-        public void Handle(DeleteCommand command)
+        public void Handle(ProjectDeleteCommand command)
         {
             Check.RequireNotNull(command, "command");
 
