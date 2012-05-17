@@ -20,7 +20,7 @@ using System.Collections.Generic;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public class Watchlist : DomainModel, INamedDomainModel, IOwnable
+    public class Watchlist : DomainModel, IOwnable
     {
         #region Members
 

@@ -36,8 +36,10 @@ namespace Bowerbird.Web.ViewModels
         [Required(ErrorMessage = "Please enter the observed on date and time")]
         public DateTime ObservedOn { get; set; }
 
+        [Required]
         public string Latitude { get; set; }
 
+        [Required]
         public string Longitude { get; set; }
 
         public string Address { get; set; }
@@ -45,10 +47,13 @@ namespace Bowerbird.Web.ViewModels
         [Required]
         public bool IsIdentificationRequired { get; set; }
 
+        [Required]
+        public bool AnonymiseLocation { get; set; }
+
         [Required(ErrorMessage = "Please select an observation category")]
         public string Category { get; set; }
 
-        public List<ObservationMediaItem> AddMedia { get; set; }
+        public List<ObservationMediaItem> Media { get; set; }
 
         public List<string> Projects { get; set; }
 

@@ -106,7 +106,7 @@ if (jQuery) (function ($) {
         }
 
         if (options.length == 0) {
-            html += '<label style="padding:0 13px">No Projects</label>';
+            html += '<label style="padding:0 13px">' + (o.noOptionsText ? o.noOptionsText : '-') + '</label>';
         }
 
         return html;

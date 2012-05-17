@@ -126,7 +126,7 @@ namespace Bowerbird.Web.Config
 
             routes.MapRoute(
                 controllerName + "-get-one",
-                controllerName + "/{id}",
+                controllerName + "/{id}", 
                 new { controller = controllerName, action = "getone" },
                 new { httpMethod = new HttpMethodConstraint("GET"), id = @"^((?!create|update|delete).*)$" });
 
@@ -138,13 +138,13 @@ namespace Bowerbird.Web.Config
 
             routes.MapRoute(
                 controllerName + "-update-form",
-                controllerName + "/update/{id}",
+                controllerName + "/{id}/update",
                 new { controller = controllerName, action = "updateform" },
                 new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("GET") });
 
             routes.MapRoute(
                 controllerName + "-delete-form",
-                controllerName + "/delete/{id}",
+                controllerName + "/{id}/delete",
                 new { controller = controllerName, action = "deleteform" },
                 new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("GET") });
 
@@ -156,17 +156,17 @@ namespace Bowerbird.Web.Config
                 new[] { "Bowerbird.Web.Controllers" });
 
             routes.MapRoute(
-                controllerName + "-delete",
-                controllerName + "/{id}",
-                new { controller = controllerName, action = "delete" },
-                new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("DELETE") },
-                new[] { "Bowerbird.Web.Controllers" });
-
-            routes.MapRoute(
                 controllerName + "-create",
                 controllerName + "/",
                 new { controller = controllerName, action = "create" },
                 new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("POST") },
+                new[] { "Bowerbird.Web.Controllers" });
+
+            routes.MapRoute(
+                controllerName + "-delete",
+                controllerName + "/{id}",
+                new { controller = controllerName, action = "delete" },
+                new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("DELETE") },
                 new[] { "Bowerbird.Web.Controllers" });
         }
 

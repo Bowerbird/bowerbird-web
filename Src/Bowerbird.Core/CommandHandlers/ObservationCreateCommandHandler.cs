@@ -56,7 +56,7 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(observationCreateCommand, "observationCreateCommand");
 
-            var mediaResourceIds = observationCreateCommand.AddMedia.Select(x => x.Item1);
+            var mediaResourceIds = observationCreateCommand.Media.Select(x => x.Item1);
 
             var mediaResources = _documentSession
                 .Query<MediaResource>()
@@ -74,8 +74,8 @@ namespace Bowerbird.Core.CommandHandlers
                                      select new
                                      {
                                          mediaResource,
-                                         description = observationCreateCommand.AddMedia.Single(x => x.Item1.ToLower() == mediaResource.Id.ToLower()).Item2,
-                                         licence = observationCreateCommand.AddMedia.Single(x => x.Item1.ToLower() == mediaResource.Id.ToLower()).Item3
+                                         description = observationCreateCommand.Media.Single(x => x.Item1.ToLower() == mediaResource.Id.ToLower()).Item2,
+                                         licence = observationCreateCommand.Media.Single(x => x.Item1.ToLower() == mediaResource.Id.ToLower()).Item3
                                      })
                                      .Select(x => new Tuple<MediaResource, string, string>(x.mediaResource, x.description, x.licence));
 
@@ -98,6 +98,7 @@ namespace Bowerbird.Core.CommandHandlers
                 observationCreateCommand.Longitude,
                 observationCreateCommand.Address,
                 observationCreateCommand.IsIdentificationRequired,
+                observationCreateCommand.AnonymiseLocation,
                 observationCreateCommand.Category,
                 userProject,
                 projects,

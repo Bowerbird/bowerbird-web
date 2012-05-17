@@ -11,11 +11,10 @@
 define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editmapview', 'views/editmediaview', 'datepicker', 'multiselect'], function ($, _, Backbone, app, ich, EditMapView, EditMediaView) {
 
     var ObservationFormLayoutView = Backbone.Marionette.Layout.extend({
-        tagName: 'section',
 
-        className: 'form single-medium',
+        className: 'form single-medium observation-form',
 
-        id: 'observation-form',
+        template: 'ObservationForm',
 
         regions: {
             media: '#media-resources-fieldset',
@@ -30,13 +29,36 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editmapview', '
             'change input#Address': '_contentChanged',
             'change input#Latitude': '_latLongChanged',
             'change input#Longitude': '_latLongChanged',
+            'change input#IsIdentificationRequired': '_isIdentificationRequiredChanged',
             'change input#AnonymiseLocation': '_anonymiseLocationChanged',
             'change #projects-field input:checkbox': '_projectsChanged',
             'change #category-field input:checkbox': '_categoryChanged',
             'click #media-resource-import-button': '_showImportMedia'
         },
 
-        onRender: function () {
+        initialize: function (options) {
+            this.categories = options.categories;
+        },
+
+        serializeData: function () {
+            return {
+                Model: {
+                    Observation: this.model.toJSON(),
+                    Categories: this.categories
+                }
+            };
+        },
+
+        onShow: function () {
+            this._showDetails();
+        },
+
+        showBootstrappedDetails: function () {
+            this.initializeRegions();
+            this._showDetails();
+        },
+
+        _showDetails: function () {
             var editMapView = new EditMapView({ el: '#location-fieldset', model: this.model });
             this.map.attachView(editMapView);
             editMapView.render();
@@ -45,11 +67,12 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editmapview', '
             this.media.attachView(editMediaView);
             editMediaView.render();
 
-            this.observedOnDatePicker = $('#ObservedOn').datepicker();
+            this.observedOnDatePicker = this.$el.find('#ObservedOn').datepicker();
 
-            this.categoryListSelectView = $("#Category").multiSelect({
+            this.categoryListSelectView = this.$el.find("#Category").multiSelect({
                 selectAll: false,
                 singleSelect: true,
+                noOptionsText: 'No Categories',
                 noneSelected: '<span>Select Category</span>',
                 oneOrMoreSelected: function (selectedOptions) {
                     var $selectedHtml = $('<span />');
@@ -65,9 +88,10 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editmapview', '
             // Add project options
             this.$el.find('#Projects').append(ich.ProjectSelectItem({ Projects: app.authenticatedUser.projects.toJSON() }));
 
-            this.projectListSelectView = this.$el.find("#Projects").multiSelect({
+            this.projectListSelectView = this.$el.find('#Projects').multiSelect({
                 selectAll: false,
                 messageText: 'You can select more than one project',
+                noOptionsText: 'No Projects',
                 noneSelected: '<span>Select Projects</span>',
                 renderOption: function (id, option) {
                     var html = '<label><input style="display:none;" type="checkbox" name="' + id + '[]" value="' + option.value + '"';
@@ -118,6 +142,11 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editmapview', '
             if (newPosition.Latitude != null && newPosition.Longitude != null && (oldPosition.Latitude !== newPosition.Latitude || oldPosition.Longitude !== newPosition.Longitude)) {
                 this.editMapView.changeMarkerPosition(this.model.get('Latitude'), this.model.get('Longitude'));
             }
+        },
+
+        _isIdentificationRequiredChanged: function (e) {
+            var $checkbox = $(e.currentTarget);
+            this.model.set({ IsIdentificationRequired: $checkbox.attr('checked') == 'checked' ? true : false });
         },
 
         _anonymiseLocationChanged: function (e) {

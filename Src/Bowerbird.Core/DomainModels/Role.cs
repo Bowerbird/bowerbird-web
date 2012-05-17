@@ -22,13 +22,10 @@ using Newtonsoft.Json;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public class Role : DomainModel, INamedDomainModel
+    public class Role : DomainModel
     {
 
         #region Members
-
-        [JsonIgnore]
-        private List<DenormalisedNamedDomainModelReference<Permission>> _permissions;
 
         #endregion
 
@@ -56,11 +53,7 @@ namespace Bowerbird.Core.DomainModels
             Name = name;
             Description = description;
 
-            Permissions = permissions.Select(permission =>
-            {
-                DenormalisedNamedDomainModelReference<Permission> denorm = permission;
-                return denorm;
-            }).ToList();
+            Permissions = permissions.ToList();
         }
 
         #endregion
@@ -71,11 +64,7 @@ namespace Bowerbird.Core.DomainModels
 
         public string Description { get; private set; }
 
-        public IEnumerable<DenormalisedNamedDomainModelReference<Permission>> Permissions 
-        {
-            get { return _permissions; }
-            private set { _permissions = new List<DenormalisedNamedDomainModelReference<Permission>>(value); }
-        }
+        public IEnumerable<Permission> Permissions { get; private set; }
 
         #endregion
 
@@ -83,7 +72,7 @@ namespace Bowerbird.Core.DomainModels
 
         private void InitMembers()
         {
-            _permissions = new List<DenormalisedNamedDomainModelReference<Permission>>();
+            Permissions = new List<Permission>();
         }
 
         #endregion

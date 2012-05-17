@@ -32,16 +32,6 @@ namespace Bowerbird.Web.ViewModels
 
         public string Licence { get; set; }
 
-        public string OriginalImageUri { get; set; }
-
-        public string LargeImageUri { get; set; }
-
-        public string MediumImageUri { get; set; }
-
-        public string SmallImageUri { get; set; }
-
-        public string ThumbnailImageUri { get; set; }
-
         #endregion
 
         #region Methods

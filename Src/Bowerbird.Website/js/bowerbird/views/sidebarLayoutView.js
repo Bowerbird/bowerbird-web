@@ -47,7 +47,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/user', 'views/sidebar
                 $(this.el).find('a.user-stream').on('click', function (e) {
                     e.preventDefault();
                     app.groupUserRouter.navigate($(this).attr('href'));
-                    app.vent.trigger('home:show');
+                    //app.vent.trigger('home:show');
                     return false;
                 });
             },

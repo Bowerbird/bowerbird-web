@@ -90,7 +90,7 @@ namespace Bowerbird.Web.Builders
         {
             var projectsInTeam = _documentSession
                 .Query<GroupAssociation>()
-                .Where(x => x.ParentGroupId == pagingInput.Id)
+                .Where(x => x.ParentGroup.Id == pagingInput.Id)
                 .Include(x => x.ChildGroupId)
                 .Select(x => x.ChildGroupId)
                 .ToList();

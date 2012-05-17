@@ -234,7 +234,7 @@
     <Compile Include="DomainModels\DenormalisedReferences\DenormalisedObservationReference.cs" />
     <Compile Include="DomainModels\IAssignableId.cs" />
     <Compile Include="DomainModels\Member.cs" />
-    <Compile Include="DomainModels\DenormalisedReferences\DenormalisedNamedDomainModelReference.cs" />
+    <Compile Include="DomainModels\DenormalisedReferences\DenormalisedGroupReference.cs" />
     <Compile Include="DomainModels\ObservationNote.cs" />
     <Compile Include="DomainModels\Sessions\PrivateChatSession.cs" />
     <Compile Include="DomainModels\Sessions\UserSession.cs" />

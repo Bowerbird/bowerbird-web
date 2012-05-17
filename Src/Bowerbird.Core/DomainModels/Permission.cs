@@ -19,7 +19,7 @@ using Bowerbird.Core.DomainModels.DenormalisedReferences;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public class Permission : DomainModel, INamedDomainModel
+    public class Permission : DomainModel
     {
         #region Members
 

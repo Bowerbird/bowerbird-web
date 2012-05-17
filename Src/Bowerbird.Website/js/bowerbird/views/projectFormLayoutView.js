@@ -12,11 +12,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editavatarview'
 
     var ProjectFormLayoutView = Backbone.Marionette.Layout.extend({
 
-        tagName: 'section',
-
-        className: 'form single-medium',
-
-        id: 'project-form',
+        className: 'form single-medium project-form',
 
         template: 'ProjectForm',
 
@@ -34,7 +30,31 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editavatarview'
             'change #team-field input:checkbox': '_teamChanged'
         },
 
-        onRender: function () {
+        initialize: function (options) {
+            this.teams = options.teams;
+        },
+
+        serializeData: function () {
+            return {
+                Model: {
+                    Project: this.model.toJSON(),
+                    Teams: this.teams
+                }
+            };
+        },
+
+        onShow: function () {
+            this._showDetails();
+        },
+
+        showBootstrappedDetails: function () {
+            this.initializeRegions();
+            this._showDetails();
+        },
+
+        _showDetails: function () {
+            // TODO: bind the teams dropdown
+
             var editAvatarView = new EditAvatarView({ el: '#avatar-fieldset' });
             this.avatar.show(editAvatarView);
             editAvatarView.render();

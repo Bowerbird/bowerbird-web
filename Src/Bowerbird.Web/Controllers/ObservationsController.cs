@@ -22,6 +22,8 @@ using Bowerbird.Core.DesignByContract;
 using Bowerbird.Web.Config;
 using System;
 using Bowerbird.Core.Config;
+using Raven.Client;
+using System.Collections;
 
 namespace Bowerbird.Web.Controllers
 {
@@ -33,6 +35,7 @@ namespace Bowerbird.Web.Controllers
         private readonly ICommandProcessor _commandProcessor;
         private readonly IUserContext _userContext;
         private readonly IObservationsViewModelBuilder _viewModelBuilder;
+        private readonly IDocumentSession _documentSession;
 
         #endregion
 
@@ -41,16 +44,19 @@ namespace Bowerbird.Web.Controllers
         public ObservationsController(
             ICommandProcessor commandProcessor,
             IUserContext userContext,
-            IObservationsViewModelBuilder observationsViewModelBuilder
+            IObservationsViewModelBuilder observationsViewModelBuilder,
+            IDocumentSession documentSession
             )
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(observationsViewModelBuilder, "observationsViewModelBuilder");
+            Check.RequireNotNull(documentSession, "documentSession");
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
             _viewModelBuilder = observationsViewModelBuilder;
+            _documentSession = documentSession;
         }
 
         #endregion
@@ -96,19 +102,15 @@ namespace Bowerbird.Web.Controllers
 
             ViewBag.Model = new
             {
-                Observation = new
-                {
-                    Title = string.Empty,
-                    ObservedOn = DateTime.Now.ToString("d MMM yyyy"),
-                    Latitude = string.Empty,
-                    Longitude = string.Empty,
-                    Address = string.Empty,
-                    IsIdentificationRequired = false,
-                    Category = string.Empty,
-                    AddMedia = new string[] {},
-                    Projects = new string[] {}
-                }
+                Create = true,
+                Observation = _viewModelBuilder.BuildObservation(),
+                Categories = GetCategories()
             };
+
+            if (Request.IsAjaxRequest())
+            {
+                return new JsonNetResult(new { Model = ViewBag.Model });
+            }
 
             ViewBag.PrerenderedView = "observations";
 
@@ -124,9 +126,45 @@ namespace Bowerbird.Web.Controllers
                 return HttpUnauthorized();
             }
 
-            ViewBag.Observation = _viewModelBuilder.BuildObservation(idInput);
+            ViewBag.Model = new 
+            {
+                Update = true,
+                Observation = _viewModelBuilder.BuildObservation(idInput),
+                Categories = GetCategories(idInput.Id)
+            };
+
+            if (Request.IsAjaxRequest())
+            {
+                return new JsonNetResult(new { Model = ViewBag.Model });
+            }
+
+            ViewBag.PrerenderedView = "observations";
 
             return View(Form.Update);
+        }
+
+        // HACK: Add to DB!
+        private IEnumerable GetCategories(string id = "") {
+            var categories = new [] { "Mammals", "Invertebrates", "Turkeys", "Apples" };
+            var observation = _documentSession.Load<Observation>("observations/" + id);
+            Func<string, bool> isSelected = null;
+
+            if (observation != null)
+            {
+                isSelected = x => { return x == observation.Category; };
+            }
+            else
+            {
+                isSelected = x => { return false; };
+            }
+
+            return from category in categories
+                   select new 
+                   {
+                        Text = category,
+                        Value = category,
+                        Selected = isSelected(category)
+                   };
         }
 
         [HttpGet]
@@ -166,11 +204,12 @@ namespace Bowerbird.Web.Controllers
                         Longitude = createInput.Longitude,
                         Address = createInput.Address,
                         IsIdentificationRequired = createInput.IsIdentificationRequired,
+                        AnonymiseLocation = createInput.AnonymiseLocation,
                         Category = createInput.Category,
                         ObservedOn = createInput.ObservedOn,
                         UserId = _userContext.GetAuthenticatedUserId(),
                         Projects = createInput.Projects,
-                        AddMedia = createInput.AddMedia.Select(x => new Tuple<string, string, string>(x.MediaResourceId, x.Description, x.Licence))
+                        Media = createInput.Media.Select(x => new Tuple<string, string, string>(x.MediaResourceId, x.Description, x.Licence))
                     });
 
             return JsonSuccess();
@@ -200,6 +239,7 @@ namespace Bowerbird.Web.Controllers
                     Longitude = updateInput.Longitude,
                     Address = updateInput.Address,
                     IsIdentificationRequired = updateInput.IsIdentificationRequired,
+                    AnonymiseLocation = updateInput.AnonymiseLocation,
                     Category = updateInput.Category,
                     ObservedOn = updateInput.ObservedOn,
                     UserId = _userContext.GetAuthenticatedUserId(),

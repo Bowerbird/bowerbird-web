@@ -35,11 +35,9 @@
         <div>
           <select id="Category" name="category">
             <option></option>
-            <option value="Mammals">Mammals</option>
-            <option value="Invertebrates">Invertebrates</option>
-            <option value="Humans">Humans</option>
-            <option value="Plants">Plants</option>
-            <option value="Apples">Apples</option>
+            {{#Model.Categories}}
+            <option value="{{Value}}" {{#Selected}}selected{{/Selected}}>{{Text}}</option>
+            {{/Model.Categories}}
           </select>
         </div>
       </div>
@@ -49,7 +47,7 @@
           <label for="ObservedOn">Observed On</label>
         </div>
         <div>
-          <input type="date" id="ObservedOn" name="observedOn" data-datepicker="datepicker" readonly="" value="{{Model.Observation.ObservedOn}}" />
+          <input type="date" id="ObservedOn" name="observedOn" data-datepicker="datepicker" value="{{Model.Observation.ObservedOn}}" readonly />
           <i></i>
         </div>
       </div>
@@ -69,7 +67,7 @@
         </div>
         <div>
           <div class="checkbox">
-            <input type="checkbox" id="IsIdentificationRequired" name="isidentificationrequired" />
+            <input type="checkbox" id="IsIdentificationRequired" name="isidentificationrequired" {{#Model.Observation.IsIdentificationRequired}}checked{{/Model.Observation.IsIdentificationRequired}} />
             <label for="IsIdentificationRequired">
               <span class="on">Yes</span><span class="bar"></span><span class="off">No</span>Needs ID
             </label>
@@ -87,7 +85,7 @@
             <label for="Address">Address</label>
           </div>
           <div>
-            <input type="text" id="Address" name="address" autocomplete="off" value="{{Address}}" />
+            <input type="text" id="Address" name="address" autocomplete="off" value="{{Model.Observation.Address}}" />
           </div>
         </div>
         <div id="pin-field" class="field">
@@ -104,7 +102,7 @@
             <label for="Latitude">Latitude</label>
           </div>
           <div>
-            <input type="text" id="Latitude" name="latitude" value="{{Latitude}}" />
+            <input type="text" id="Latitude" name="latitude" value="{{Model.Observation.Latitude}}" />
           </div>
         </div>
         <div id="longitude-field" class="field field-part-two">
@@ -112,16 +110,16 @@
             <label for="Longitude">Longitude</label>
           </div>
           <div>
-            <input type="text" id="Longitude" name="longitude" value="{{Longitude}}" />
+            <input type="text" id="Longitude" name="longitude" value="{{Model.Observation.Longitude}}" />
           </div>
         </div>
         <div id="anonymise-location-field" class="field field-checkbox">
           <div>
-            <label>Show Exact Location</label>
+            <label>Hide Exact Location</label>
           </div>
           <div>
             <div class="checkbox">
-              <input type="checkbox" id="AnonymiseLocation" name="anonymiseLocation" />
+              <input type="checkbox" id="AnonymiseLocation" name="anonymiseLocation" {{#Model.Observation.AnonymiseLocation}}checked{{/Model.Observation.AnonymiseLocation}} />
               <label for="AnonymiseLocation">
                 <span class="on">Yes</span><span class="bar"></span><span class="off">No</span>Show Exact Location
               </label>

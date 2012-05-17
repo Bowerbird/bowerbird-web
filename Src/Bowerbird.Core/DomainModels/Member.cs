@@ -60,7 +60,7 @@ namespace Bowerbird.Core.DomainModels
 
         public DenormalisedUserReference User { get; private set; }
 
-        public DenormalisedNamedDomainModelReference<Group> Group { get; private set; }
+        public DenormalisedGroupReference Group { get; private set; }
 
         public IEnumerable<Role> Roles { get; private set; }
 

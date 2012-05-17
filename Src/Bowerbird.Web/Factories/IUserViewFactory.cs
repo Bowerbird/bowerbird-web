@@ -14,15 +14,12 @@
 
 using Bowerbird.Core.DomainModels;
 using System.Collections.Generic;
+using Bowerbird.Core.Indexes;
 
 namespace Bowerbird.Web.Factories
 {
     public interface IUserViewFactory
     {
-        object Make(string userId);
-
-        object Make(User user);
-
-        object Make(User user, IEnumerable<Member> memberships);
+        object Make(All_Users.Result user);
     }
 }

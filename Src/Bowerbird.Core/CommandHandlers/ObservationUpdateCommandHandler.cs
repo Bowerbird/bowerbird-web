@@ -76,6 +76,7 @@ namespace Bowerbird.Core.CommandHandlers
                 observationUpdateCommand.Longitude,
                 observationUpdateCommand.Address,
                 observationUpdateCommand.IsIdentificationRequired,
+                observationUpdateCommand.AnonymiseLocation,
                 observationUpdateCommand.Category
             );
 

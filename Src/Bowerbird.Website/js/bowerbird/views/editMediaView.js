@@ -69,7 +69,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/mediaresource', 'view
             );
 
             if (!tempImage) {
-                log('No support for file/blob');
+                alert('No support for file/blob API!');
             }
 
             data.submit();

@@ -43,6 +43,8 @@ namespace Bowerbird.Core.Commands
 
         public bool IsIdentificationRequired { get; set; }
 
+        public bool AnonymiseLocation { get; set; }
+
         public string Category { get; set; }
 
         public List<Tuple<string, string, string>> AddMediaResources { get; set; }

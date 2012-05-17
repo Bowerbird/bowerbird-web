@@ -24,6 +24,7 @@ using Bowerbird.Web.Factories;
 using Bowerbird.Web.ViewModels;
 using Raven.Client;
 using Raven.Client.Linq;
+using System;
 
 namespace Bowerbird.Web.Builders
 {
@@ -58,23 +59,16 @@ namespace Bowerbird.Web.Builders
 
         #region Methods
 
+        public object BuildObservation()
+        {
+            return _observationViewFactory.Make();
+        }
+
         public object BuildObservation(IdInput idInput)
         {
-            var observation = _documentSession.Load<Observation>(idInput.Id);
+            var observation = _documentSession.Load<Observation>("observations/" + idInput.Id);
 
-            return new 
-            {
-                observation.Address,
-                observation.Id,
-                observation.IsIdentificationRequired,
-                observation.Latitude,
-                observation.Longitude,
-                observation.ObservationCategory,
-                //ObservationMedia = {},
-                observation.ObservedOn,
-                observation.Title,
-                Projects = observation.Groups.Select(x => x.GroupId)
-            };
+            return _observationViewFactory.Make(observation);
         }
 
         public object BuildObservationList(PagingInput pagingInput)
@@ -92,11 +86,13 @@ namespace Bowerbird.Web.Builders
             {
                 pagingInput.Page,
                 pagingInput.PageSize,
-                Observations = observations.ToPagedList(
-                    pagingInput.Page,
-                    pagingInput.PageSize,
-                    stats.TotalResults,
-                    null)
+                Observations = observations
+                    .Select(x => _observationViewFactory.Make(x))
+                    .ToPagedList(
+                        pagingInput.Page,
+                        pagingInput.PageSize,
+                        stats.TotalResults,
+                        null)
             };
         }
         
@@ -112,18 +108,19 @@ namespace Bowerbird.Web.Builders
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
                 .Select(x => x.Observation)
-                .ToList();
+                .ToArray();
 
             return new
             {
                 pagingInput.Page,
                 pagingInput.PageSize,
-                Project = pagingInput.Id != null ? _documentSession.Load<Project>(pagingInput.Id) : null,
-                Observations = observations.ToPagedList(
-                    pagingInput.Page,
-                    pagingInput.PageSize,
-                    stats.TotalResults,
-                    null)
+                Observations = observations
+                    .Select(x => _observationViewFactory.Make(x))
+                    .ToPagedList(
+                        pagingInput.Page,
+                        pagingInput.PageSize,
+                        stats.TotalResults,
+                        null)
             };
         }
 
@@ -146,12 +143,13 @@ namespace Bowerbird.Web.Builders
             {
                 pagingInput.Page,
                 pagingInput.PageSize,
-                CreatedByUser = _documentSession.Load<User>(pagingInput.Id),
-                Observations = observations.ToPagedList(
-                    pagingInput.Page,
-                    pagingInput.PageSize,
-                    stats.TotalResults,
-                    null)
+                Observations = observations
+                    .Select(x => _observationViewFactory.Make(x))
+                    .ToPagedList(
+                        pagingInput.Page,
+                        pagingInput.PageSize,
+                        stats.TotalResults,
+                        null)
             };
         }
 

@@ -52,7 +52,8 @@ namespace Bowerbird.Core.DomainModels
             string longitude, 
             string address,
             bool isIdentificationRequired,
-            string observationCategory,
+            bool anonymiseLocation,
+            string category,
             UserProject userProject,
             IEnumerable<Project> projects,
             IEnumerable<Tuple<MediaResource, string, string>> addMedia)
@@ -73,7 +74,8 @@ namespace Bowerbird.Core.DomainModels
                 longitude, 
                 address,
                 isIdentificationRequired,
-                observationCategory);
+                anonymiseLocation,
+                category);
 
             AddGroup(userProject, createdByUser, createdOn);
 
@@ -109,8 +111,10 @@ namespace Bowerbird.Core.DomainModels
         public string Address { get; private set; }
                
         public bool IsIdentificationRequired { get; private set; }
+
+        public bool AnonymiseLocation { get; private set; }
         
-        public string ObservationCategory { get; private set; }
+        public string Category { get; private set; }
 
         public IEnumerable<ObservationMedia> Media 
         { 
@@ -161,8 +165,9 @@ namespace Bowerbird.Core.DomainModels
             string latitude, 
             string longitude, 
             string address, 
-            bool isIdentificationRequired, 
-            string observationCategory)
+            bool isIdentificationRequired,
+            bool anonymiseLocation,
+            string category)
         {
             Title = title;
             ObservedOn = observedOn;
@@ -170,7 +175,8 @@ namespace Bowerbird.Core.DomainModels
             Longitude = longitude;
             Address = address;
             IsIdentificationRequired = isIdentificationRequired;
-            ObservationCategory = observationCategory;
+            AnonymiseLocation = anonymiseLocation;
+            Category = category;
         }
 
         public Observation UpdateDetails(User updatedByUser, 
@@ -179,8 +185,9 @@ namespace Bowerbird.Core.DomainModels
             string latitude, 
             string longitude, 
             string address, 
-            bool isIdentificationRequired, 
-            string observationCategory)
+            bool isIdentificationRequired,
+            bool anonymiseLocation,
+            string category)
         {
             Check.RequireNotNull(updatedByUser, "updatedByUser");
 
@@ -191,7 +198,8 @@ namespace Bowerbird.Core.DomainModels
                 longitude,
                 address,
                 isIdentificationRequired,
-                observationCategory);
+                anonymiseLocation,
+                category);
 
             EventProcessor.Raise(new DomainModelUpdatedEvent<Observation>(this, updatedByUser));
 

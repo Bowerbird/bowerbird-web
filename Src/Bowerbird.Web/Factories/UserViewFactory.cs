@@ -60,51 +60,32 @@ namespace Bowerbird.Web.Factories
 
         #region Methods
 
-        public object Make(string userId)
-        {
-            var user = _documentSession.Load<User>(userId);
-
-            return Make(user);
-        }
-
-        public object Make(User user)
+        public object Make(All_Users.Result user)
         {
             Check.RequireNotNull(user, "user");
-
-            var memberships = _documentSession.Query<All_Users.Result, All_Users>()
-                .Include(x => x.GroupId)
-                .Where(x => x.UserId == user.Id)
-                .ToList()
-                .Select(x => x.Member);
-
-            return Make(user, memberships);
-        }
-
-        public object Make(User user, IEnumerable<Member> memberships)
-        {
-            Check.RequireNotNull(user, "user");
-            Check.RequireNotNull(memberships, "memberships");
 
             var projects = _documentSession
-                .Load<Project>(memberships
+                .Load<Project>(user
+                    .Memberships
                     .Where(x => x.Group.Id.StartsWith("projects/"))
                     .Select(x => x.Group.Id))
                 .Select(x => _projectViewFactory.Make(x));
 
             var teams = _documentSession
-                .Load<Team>(memberships
+                .Load<Team>(user
+                    .Memberships
                     .Where(x => x.Group.Id.StartsWith("teams/"))
                     .Select(x => x.Group.Id))
                 .Select(x => _teamViewFactory.Make(x));
 
             return new
             {
-                Avatar = _avatarFactory.Make(user),
-                user.Id,
-                user.LastLoggedIn,
-                Name = user.GetName(),
+                Avatar = _avatarFactory.Make(user.User),
+                user.User.Id,
+                user.User.LastLoggedIn,
+                Name = user.User.GetName(),
                 Projects = projects,
-                Teams = teams
+                Teams = teams 
             };
         }
 

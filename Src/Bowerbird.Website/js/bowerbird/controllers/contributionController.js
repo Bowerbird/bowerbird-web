@@ -4,6 +4,7 @@
 /// <reference path="../../libs/underscore/underscore.js" />
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
+/// <reference path="../models/observation.js" />
 
 // ContributionController
 // ----------------------
@@ -15,50 +16,82 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/observationlayoutview'
     var ContributionController = {};
 
     // Helper method to load project layout, taking into account bootstrapped data and prerendered view
-    var showObservationLayoutView = function (id) {
-        //app.vent.trigger('observation:show');
-        var observationLayoutView = null;
-        if (app.prerenderedView.name === 'observations' && !app.prerenderedView.isBound) {
-            observationLayoutView = new ObservationLayoutView({ model: new Observation(app.prerenderedView.Observation) });
-            app.content.attachView(observationLayoutView);
-            //app.prerenderedView.isBound = true;
-        } else {
-            if (id) {
-                observationLayoutView = new ObservationLayoutView(); // TODO: Get observation
-            } else {
-                observationLayoutView = new ObservationLayoutView({ model: new Observation() });
-            }
-            app.content.show(observationLayoutView);
+    var showObservationLayoutView = function (observation) {
+        var observationLayoutView = new ObservationLayoutView({ model: observation });
+        app.content[getShowViewMethodName()](observationLayoutView);
+
+        if (isPrerender()) {
+            observationLayoutView.showBootstrappedDetails();
         }
-        observationLayoutView.render();
+
         return observationLayoutView;
+    };
+
+    var isPrerender = function () {
+        return app.prerenderedView.name === 'observations' && !app.prerenderedView.isBound;
+    };
+
+    var getModel = function (id) {
+        var deferred = new $.Deferred();
+
+        if (isPrerender()) {
+            deferred.resolve(app.prerenderedView.data);
+        } else {
+            var params = {};
+            if (id) {
+                params['id'] = id;
+            }
+            $.ajax({
+                url: '/observations/create',
+                data: params,
+            }).done(function (data) {
+                deferred.resolve(data.Model);
+            });
+        }
+
+        return deferred.promise();
+    };
+
+    var setPrerenderComplete = function () {
+        app.prerenderedView.isBound = true;
+    };
+
+    var getShowViewMethodName = function () {
+        return isPrerender() ? 'attachView' : 'show';
     };
 
     // ContributionController Public API
     // ---------------------------------
 
-    // Show an observation
+    // Show an observation form
     ContributionController.showObservationForm = function (id) {
-        var observationLayoutView = showObservationLayoutView(id);
+        $.when(getModel(id))
+            .done(function (model) {
+                var observation = new Observation(model.Observation);
+                var observationLayoutView = showObservationLayoutView(observation);
+                var options = { model: observation, categories: model.Categories };
 
-        var observationFormLayoutView = new ObservationFormLayoutView({ el: $('.observation-create-form'), model: observationLayoutView.model });
+                if (isPrerender()) {
+                    options['el'] = '.observation-form';
+                }
 
-        if (app.prerenderedView.name === 'observations' && !app.prerenderedView.isBound) {
-            observationLayoutView.main.attachView(observationFormLayoutView);
-        } else {
-            observationLayoutView.main.show(observationFormLayoutView);
-        }
-        observationFormLayoutView.render();
+                var observationFormLayoutView = new ObservationFormLayoutView(options);
+                observationLayoutView.main[getShowViewMethodName()](observationFormLayoutView);
 
-        app.prerenderedView.isBound = true;
+                if (isPrerender()) {
+                    observationFormLayoutView.showBootstrappedDetails();
+                }
+
+                setPrerenderComplete();
+            });
     };
 
     // ContributionController Event Handlers
     // -------------------------------------
 
-    app.vent.on('observation:show', function (id) {
-        ContributionController.showObservationForm(id);
-    });
+    //    app.vent.on('observation:show', function (id) {
+    //        ContributionController.showObservationForm(id);
+    //    });
 
     return ContributionController;
 

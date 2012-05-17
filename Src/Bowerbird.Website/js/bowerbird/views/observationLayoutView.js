@@ -16,11 +16,13 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
     //    });
 
     var ObservationLayoutView = Backbone.Marionette.Layout.extend({
-        tagName: 'section',
+//        tagName: 'section',
 
-        id: 'content',
+//        id: 'content',
 
-        className: 'triple-2 observation',
+        //        className: 'observation',
+
+        className: 'form single-medium observation',
 
         template: 'Observation',
 
@@ -30,8 +32,8 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
             comments: '.comments'
         },
 
-        showCreateForm: function () {
-            log('here');
+        showBootstrappedDetails: function () {
+            this.initializeRegions();
         }
     });
 

@@ -60,7 +60,7 @@ namespace Bowerbird.Core.CommandHandlers
 
             var organisation = _documentSession
                 .Query<Organisation>()
-                .Where(x => x.Descendants.Any(y => y.ToLower() == team.Id))
+                .Where(x => x.Descendants.Any(y => y.Id.ToLower() == team.Id))
                 .FirstOrDefault();
 
             if (organisation != null)
@@ -71,14 +71,14 @@ namespace Bowerbird.Core.CommandHandlers
 
             var projects = _documentSession
                 .Query<Project>()
-                .Where(x => x.Ancestry.Any(y => y.ToLower() == team.Id))
+                .Where(x => x.Ancestry.Any(y => y.Id.ToLower() == team.Id))
                 .ToList();
 
             if(projects.Count > 0)
             {
                 foreach (var project in projects)
                 {
-                    project.Ancestry.ToList().RemoveAll(y => y.ToLower() == team.Id);
+                    project.Ancestry.ToList().RemoveAll(y => y.Id.ToLower() == team.Id);
 
                     _documentSession.Store(project);
                 }

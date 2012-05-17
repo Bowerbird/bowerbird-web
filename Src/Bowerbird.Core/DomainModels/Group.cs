@@ -21,7 +21,7 @@ using Newtonsoft.Json;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public abstract class Group : DomainModel, IOwnable, INamedDomainModel
+    public abstract class Group : DomainModel, IOwnable
     {
         #region Members
 
@@ -57,9 +57,9 @@ namespace Bowerbird.Core.DomainModels
 
         public DenormalisedUserReference User { get; protected set; } // Protected set to allow AppRoot to set it after instantiation
 
-        public IEnumerable<string> Ancestry { get; private set; }
+        public IEnumerable<DenormalisedGroupReference> Ancestry { get; private set; }
 
-        public IEnumerable<string> Descendants { get; private set; }
+        public IEnumerable<DenormalisedGroupReference> Descendants { get; private set; }
 
         public abstract string GroupType { get; }
 
@@ -75,8 +75,8 @@ namespace Bowerbird.Core.DomainModels
 
         private void InitMembers()
         {
-            Ancestry = new List<string>();
-            Descendants = new List<string>();
+            Ancestry = new List<DenormalisedGroupReference>();
+            Descendants = new List<DenormalisedGroupReference>();
         }
 
         protected void SetDetails(string name)
@@ -86,20 +86,20 @@ namespace Bowerbird.Core.DomainModels
 
         public Group SetAncestry(Group groupContainingAncestry)
         {
-            Ancestry = groupContainingAncestry.Ancestry.Union(new [] { groupContainingAncestry.Id });
+            Ancestry = groupContainingAncestry.Ancestry.Union(new DenormalisedGroupReference[] { groupContainingAncestry });
 
             return this;
         }
 
         public Group AddDescendant(Group group)
         {
-            ((List<string>)Descendants).Add(group.Id);
+            ((List<DenormalisedGroupReference>)Descendants).Add(group);
             return this; 
         }
 
         public Group RemoveDescendant(Group group)
         {
-            ((List<string>)Descendants).Remove(group.Id);
+            ((List<DenormalisedGroupReference>)Descendants).Remove(group);
             return this;
         }
 

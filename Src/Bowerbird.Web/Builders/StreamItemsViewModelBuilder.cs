@@ -120,7 +120,7 @@ namespace Bowerbird.Web.Builders
 
             var groups = _documentSession
                 .Query<GroupAssociation>()
-                .Where(x => x.ParentGroupId == pagingInput.Id)
+                .Where(x => x.ParentGroup.Id == pagingInput.Id)
                 .ToList()
                 .Select(x => new { GroupId = x.ChildGroupId })
                 .ToList();

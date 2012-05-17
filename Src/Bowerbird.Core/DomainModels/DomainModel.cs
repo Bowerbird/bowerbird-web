@@ -68,6 +68,24 @@ namespace Bowerbird.Core.DomainModels
             }
         }
 
+        /// <summary>
+        /// Attempts to return the "short" ID. Eg: Id = "abc/123" returns "123"
+        /// </summary>
+        public string ShortId()
+        {
+            if (string.IsNullOrWhiteSpace(_id))
+            {
+                return string.Empty;
+            }
+
+            if (_id.Contains('/'))
+            {
+                return _id.Split('/')[1];
+            }
+
+            return _id;
+        }
+
         [JsonIgnore]
         protected bool CanFireCreatedEvent { get; set; }
 

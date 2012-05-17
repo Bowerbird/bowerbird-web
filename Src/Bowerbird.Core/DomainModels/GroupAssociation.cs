@@ -14,6 +14,7 @@
 
 using System;
 using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.DomainModels.DenormalisedReferences;
 
 namespace Bowerbird.Core.DomainModels
 {
@@ -38,26 +39,19 @@ namespace Bowerbird.Core.DomainModels
             Check.RequireNotNull(childGroup, "childGroup");
             Check.RequireNotNull(createdByUser, "createdByUser");
 
-            ParentGroupId = parentGroup.Id;
-            ChildGroupId = childGroup.Id;
+            ParentGroup = parentGroup;
+            ChildGroup = childGroup;
             CreatedByUserId = createdByUser.Id;
             CreatedDateTime = createdDateTime;
-
-            ParentGroupType = parentGroup.GetType().Name.ToLower();
-            ChildGroupType = childGroup.GetType().Name.ToLower();
         }
 
         #endregion
 
         #region Properties
 
-        public string ParentGroupId { get; private set; }
+        public DenormalisedGroupReference ParentGroup { get; private set; }
 
-        public string ParentGroupType { get; private set; }
-
-        public string ChildGroupId { get; private set; }
-
-        public string ChildGroupType { get; private set; }
+        public DenormalisedGroupReference ChildGroup { get; private set; }
 
         public string CreatedByUserId { get; private set; }
 

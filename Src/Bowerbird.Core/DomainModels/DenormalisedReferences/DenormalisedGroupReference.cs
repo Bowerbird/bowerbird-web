@@ -16,14 +16,7 @@ using Bowerbird.Core.DesignByContract;
 
 namespace Bowerbird.Core.DomainModels.DenormalisedReferences
 {
-    public interface INamedDomainModel
-    {
-        string Id { get; }
-
-        string Name { get; }
-    }
-
-    public class DenormalisedNamedDomainModelReference<T> : ValueObject where T : INamedDomainModel
+    public class DenormalisedGroupReference : ValueObject
     {
         #region Members
 
@@ -37,20 +30,20 @@ namespace Bowerbird.Core.DomainModels.DenormalisedReferences
 
         public string Id { get; private set; }
 
-        public string Name { get; private set; }
+        public string GroupType { get; private set; }
 
         #endregion
 
         #region Methods
 
-        public static implicit operator DenormalisedNamedDomainModelReference<T>(T namedDomainModel)
+        public static implicit operator DenormalisedGroupReference(Group group)
         {
-            Check.RequireNotNull(namedDomainModel, "namedDomainModel");
+            Check.RequireNotNull(group, "group");
 
-            return new DenormalisedNamedDomainModelReference<T>
+            return new DenormalisedGroupReference
             {
-                Id = namedDomainModel.Id, 
-                Name = namedDomainModel.Name
+                Id = group.Id,
+                GroupType = group.GroupType
             };
         }
 

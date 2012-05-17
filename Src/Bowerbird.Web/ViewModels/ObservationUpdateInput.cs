@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Bowerbird.Web.ViewModels
 {
@@ -36,6 +37,9 @@ namespace Bowerbird.Web.ViewModels
         public string Description { get; set; }
 
         public bool IsIdentificationRequired { get; set; }
+
+        [Required]
+        public bool AnonymiseLocation { get; set; }
 
         public string Latitude { get; set; }
 

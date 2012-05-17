@@ -1,7 +1,9 @@
 ﻿<div class="main">
-  {{#Model.Observation}}
-    {{>ObservationForm}}
-  {{/Model.Observation}}
+  {{#Model.Create}}
+    <div class="form single-medium observation-form">
+      {{>ObservationForm}}
+    </div>
+  {{/Model.Create}}
 </div>
 <div class="notes">
 

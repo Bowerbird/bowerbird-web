@@ -18,6 +18,8 @@ namespace Bowerbird.Web.Builders
 {
     public interface IObservationsViewModelBuilder
     {
+        object BuildObservation();
+
         object BuildObservation(IdInput idInput);
 
         object BuildObservationList(PagingInput pagingInput);

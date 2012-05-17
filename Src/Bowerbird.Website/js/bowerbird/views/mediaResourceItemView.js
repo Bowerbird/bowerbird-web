@@ -35,7 +35,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich'], function ($, _, Backb
         },
 
         removeMediaResource: function () {
-            this.trigger('mediaresourceviewremove', this.model, this);
+            this.trigger('mediaresourceview:remove', this.model, this);
             //            var addToRemoveList = false;
             //            if (app.get('newObservation').mediaResources.find(function (mr) { return mr.id == this.model.id; }) != null) {
             //                addToRemoveList = true;
@@ -56,7 +56,6 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich'], function ($, _, Backb
         },
 
         showUploadedMedia: function (mediaResource) {
-            log(mediaResource);
             this.$el.find('div:first-child img').replaceWith($('<img src="' + mediaResource.get('MediumImageUri') + '" alt="" />'));
         }
     });

@@ -74,9 +74,9 @@ namespace Bowerbird.Core.CommandHandlers
                 parentGroup.AddDescendant(project);
                 _documentSession.Store(parentGroup);
 
-                if(parentGroup.Ancestry.Any(x => x.ToLower().Contains("organisations/")))
+                if(parentGroup.Ancestry.Any(x => x.GroupType == "organisation"))
                 {
-                    var grandParent = _documentSession.Load<Organisation>(parentGroup.Ancestry.Select(x => x.ToLower().Contains("organisations/")).FirstOrDefault());
+                    var grandParent = _documentSession.Load<Organisation>(parentGroup.Ancestry.Single(x => x.GroupType == "organisation").Id);
                     grandParent.AddDescendant(project);
                     _documentSession.Store(grandParent);
                 }

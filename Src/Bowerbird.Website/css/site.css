@@ -1440,7 +1440,8 @@ header nav#search-menu
     box-shadow: 0 1px 2px 0 #777777 inset;
     cursor: pointer;
     height: 39px;
-    margin-left: 0;
+    margin-left: -54px;
+    
     position: absolute;
     text-indent: -99999px;
     width: 150px;
@@ -1448,7 +1449,7 @@ header nav#search-menu
 .form .field-checkbox div.checkbox input[type=checkbox]:checked + label {
   -webkit-transition: margin-left 0.3s ease-in-out;
   -moz-transition: margin-left 0.3s ease-in-out;
-  margin-left: -54px;
+  margin-left: 0;
 }
 .form .validation-summary-errors
 {
@@ -2078,7 +2079,7 @@ a.multiSelect
     color: #000000;
     font-family: "open sans",sans-serif;
     font-size: 1em;
-    padding: 8px 37px 8px 12px;
+    padding: 7px 37px 7px 12px;
     width: 100%;
     text-decoration: none;
 }

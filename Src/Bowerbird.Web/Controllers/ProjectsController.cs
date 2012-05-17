@@ -22,6 +22,12 @@ using Bowerbird.Web.Builders;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.ViewModels;
 using Bowerbird.Core.Config;
+using System.Collections;
+using Raven.Client;
+using Raven.Client.Linq;
+using Bowerbird.Core.Indexes;
+using System.Linq;
+using System;
 
 namespace Bowerbird.Web.Controllers
 {
@@ -39,6 +45,7 @@ namespace Bowerbird.Web.Controllers
         private readonly IPostsViewModelBuilder _postsViewModelBuilder;
         private readonly IMemberViewModelBuilder _memberViewModelBuilder;
         private readonly IReferenceSpeciesViewModelBuilder _referenceSpeciesViewModelBuilder;
+        private readonly IDocumentSession _documentSession;
 
         #endregion
 
@@ -53,7 +60,8 @@ namespace Bowerbird.Web.Controllers
             IObservationsViewModelBuilder observationsViewModelBuilder,
             IPostsViewModelBuilder postsViewModelBuilder,
             IMemberViewModelBuilder memberViewModelBuilder,
-            IReferenceSpeciesViewModelBuilder referenceSpeciesViewModelBuilder
+            IReferenceSpeciesViewModelBuilder referenceSpeciesViewModelBuilder,
+            IDocumentSession documentSession
             )
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
@@ -65,6 +73,7 @@ namespace Bowerbird.Web.Controllers
             Check.RequireNotNull(postsViewModelBuilder, "postsViewModelBuilder");
             Check.RequireNotNull(memberViewModelBuilder, "memberViewModelBuilder");
             Check.RequireNotNull(referenceSpeciesViewModelBuilder, "referenceSpeciesViewModelBuilder");
+            Check.RequireNotNull(documentSession, "documentSession");
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
@@ -75,6 +84,7 @@ namespace Bowerbird.Web.Controllers
             _postsViewModelBuilder = postsViewModelBuilder;
             _memberViewModelBuilder = memberViewModelBuilder;
             _referenceSpeciesViewModelBuilder = referenceSpeciesViewModelBuilder;
+            _documentSession = documentSession;
         }
 
         #endregion
@@ -221,6 +231,41 @@ namespace Bowerbird.Web.Controllers
             ViewBag.PrerenderedView = "projects";
 
             return View(Form.Create);
+        }
+
+        private IEnumerable GetTeams(string userId, string projectId = "")
+        {
+            var teamIds = _documentSession
+                .Query<All_Users.Result, All_Users>()
+                .AsProjection<All_Users.Result>()
+                .Include(x => x.Groups.SelectMany(y => y.Id))
+                .Where(x => x.UserId == userId)
+                .ToList()
+                .SelectMany(x => x.Memberships)
+                .Where(x => x.Group.GroupType == "team")
+                .Select(x => x.Group.Id);
+
+            var teams = _documentSession.Load<Team>(teamIds);
+
+            var project = _documentSession.Load<Project>("projects/" + projectId);
+            Func<Team, bool> isSelected = null;
+
+            if (project != null)
+            {
+                isSelected = x => { return project.Ancestry.Any(y => y.Id == x.Id ); };
+            }
+            else
+            {
+                isSelected = x => { return false; };
+            }
+
+            return from team in teams
+                   select new
+                   {
+                       Text = team.Name,
+                       Value = team.ShortId(),
+                       Selected = isSelected(team)
+                   };
         }
 
         [HttpGet]

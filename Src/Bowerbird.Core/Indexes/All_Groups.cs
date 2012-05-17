@@ -46,7 +46,7 @@ namespace Bowerbird.Core.Indexes
                 appRoots => from appRoot in appRoots
                     select new
                     {
-                        GroupType = "approot",
+                        GroupType = appRoot.GroupType,
                         appRoot.Id,
                         GroupMemberCount = 0,
                         ParentGroupId = (string)null,
@@ -59,7 +59,7 @@ namespace Bowerbird.Core.Indexes
                 organisations => from organisation in organisations
                     select new
                     {
-                        GroupType = "organisation",
+                        GroupType = organisation.GroupType,
                         organisation.Id,
                         GroupMemberCount = 0,
                         ParentGroupId = organisation.Ancestry.FirstOrDefault(),
@@ -72,11 +72,11 @@ namespace Bowerbird.Core.Indexes
                 teams => from team in teams
                     select new
                     {
-                        GroupType = "team",
+                        GroupType = team.GroupType,
                         team.Id,
                         GroupMemberCount = 0,
                         ParentGroupId = 
-                            team.Ancestry.Where(x => x.ToLower().Contains("organisations/")).FirstOrDefault()
+                            team.Ancestry.Where(x => x.GroupType == "organisation").FirstOrDefault()
                             ?? team.Ancestry.FirstOrDefault(),
                         ChildGroupIds = new string[] { },
                         AncestorGroupIds = team.Ancestry,
@@ -87,11 +87,11 @@ namespace Bowerbird.Core.Indexes
                 projects => from project in projects
                     select new
                     {
-                        GroupType = "project",
+                        GroupType = project.GroupType,
                         project.Id,
                         GroupMemberCount = 0,
                         ParentGroupId =
-                            project.Ancestry.Where(x => x.ToLower().Contains("teams/")).FirstOrDefault()
+                            project.Ancestry.Where(x => x.GroupType == "team").FirstOrDefault()
                             ?? project.Ancestry.FirstOrDefault(),
                         ChildGroupIds = new string[] { },
                         AncestorGroupIds = project.Ancestry,
@@ -102,7 +102,7 @@ namespace Bowerbird.Core.Indexes
                 userProjects => from userProject in userProjects
                     select new
                     {
-                        GroupType = "userproject",
+                        GroupType = userProject.GroupType,
                         userProject.Id,
                         GroupMemberCount = 0,
                         ParentGroupId = userProject.Ancestry.FirstOrDefault(),
@@ -115,11 +115,11 @@ namespace Bowerbird.Core.Indexes
                 groupAssociations => from groupAssociation in groupAssociations
                     select new
                     {
-                        GroupType = "groupassociation",
-                        Id = groupAssociation.ParentGroupId,
+                        GroupType = groupAssociation.ParentGroup.GroupType,
+                        Id = groupAssociation.ParentGroup.Id,
                         GroupMemberCount = 0,
                         ParentGroupId = (string)null,
-                        ChildGroupIds = new[] { groupAssociation.ChildGroupId },
+                        ChildGroupIds = new[] { groupAssociation.ChildGroup.Id },
                         AncestorGroupIds = new string[] { },
                         DescendantGroupIds = new string[] { }
                     });
@@ -128,7 +128,7 @@ namespace Bowerbird.Core.Indexes
                 members => from member in members
                     select new
                     {
-                        GroupType = (string)null,
+                        GroupType = member.Group.GroupType,
                         member.Group.Id,
                         GroupMemberCount = 1,
                         ParentGroupId = (string)null,

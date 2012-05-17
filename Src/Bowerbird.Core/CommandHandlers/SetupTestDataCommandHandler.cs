@@ -234,8 +234,8 @@ namespace Bowerbird.Core.CommandHandlers
             _documentSession.Store(parentGroup);
              
             // Update parent of parent (organisation) with descendant
-            var parentGroupAssociation = GroupAssociations.Single(x => x.ChildGroupId == parentGroup.Id);
-            var organisation = Organisations.Single(x => x.Id == parentGroupAssociation.ParentGroupId);
+            var parentGroupAssociation = GroupAssociations.Single(x => x.ChildGroup.Id == parentGroup.Id);
+            var organisation = Organisations.Single(x => x.Id == parentGroupAssociation.ParentGroup.Id);
             organisation.AddDescendant(project);
             _documentSession.Store(organisation);
 

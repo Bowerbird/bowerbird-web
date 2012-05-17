@@ -17,6 +17,7 @@ using System.Linq;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Services;
 using Bowerbird.Core.DesignByContract;
+using System;
 
 namespace Bowerbird.Web.Factories
 {
@@ -46,19 +47,38 @@ namespace Bowerbird.Web.Factories
 
         #region Methods
 
+        public object Make()
+        {
+            return new
+            {
+                Title = string.Empty,
+                ObservedOn = DateTime.Now.ToString("d MMM yyyy"),
+                Address = string.Empty,
+                Latitude = string.Empty,
+                Longitude = string.Empty,
+                Category = string.Empty,
+                IsIdentificationRequired = false,
+                AnonymiseLocation = false,
+                Media = new ObservationMedia[] { },
+                Projects = new string[] { }
+            };
+        }
+
         public object Make(Observation observation)
         {
             return new
             {
-                observation.Id,
-                observation.Title,
-                observation.ObservedOn,
-                observation.Address,
-                observation.Latitude,
-                observation.Longitude,
-                observation.ObservationCategory,
-                observation.IsIdentificationRequired,
-                ObservationMedia = MakeObservationMediaItems(observation.Media)
+                Id = observation.ShortId(),
+                Title = observation.Title,
+                ObservedOn = observation.ObservedOn.ToString("d MMM yyyy"),
+                Address = observation.Address,
+                Latitude = observation.Latitude,
+                Longitude = observation.Longitude,
+                Category = observation.Category,
+                IsIdentificationRequired = observation.IsIdentificationRequired,
+                AnonymiseLocation = observation.AnonymiseLocation,
+                Media = MakeObservationMediaItems(observation.Media),
+                Projects =  observation.Groups.Select(x => x.GroupId)
             };
         }
 
@@ -70,6 +90,10 @@ namespace Bowerbird.Web.Factories
                     MediaResourceId = x.MediaResource.Id,
                     x.Description,
                     x.Licence,
+                    x.MediaResource.Metadata,
+                    x.MediaResource.Type,
+                    CreatedByUser = x.MediaResource.CreatedByUser.Id,
+                    UploadedOn = x.MediaResource.UploadedOn.ToString("d MMM yyyy"),
                     OriginalImageUri = _mediaFilePathService.MakeMediaFileUri(x.MediaResource, "original"),
                     LargeImageUri = _mediaFilePathService.MakeMediaFileUri(x.MediaResource, "large"),
                     MediumImageUri = _mediaFilePathService.MakeMediaFileUri(x.MediaResource, "medium"),

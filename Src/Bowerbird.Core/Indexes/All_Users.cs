@@ -16,6 +16,8 @@ using System.Linq;
 using Bowerbird.Core.DomainModels;
 using Raven.Client.Indexes;
 using Raven.Abstractions.Indexing;
+using System.Collections.Generic;
+using Bowerbird.Core.DomainModels.DenormalisedReferences;
 
 namespace Bowerbird.Core.Indexes
 {
@@ -23,13 +25,13 @@ namespace Bowerbird.Core.Indexes
     {
         public class Result
         {
-            public string Id { get; set; }
             public string UserId { get; set; }
-            public string GroupId { get; set; }
-            public object RoleIds { get; set; }
-            public object PermissionIds { get; set; }
-            public Member Member { get; set; }
+            public string[] MemberIds { get; set; }
+            public DenormalisedGroupReference[] Groups { get; set; }
+            public string[] RoleIds { get; set; }
+            public string[] PermissionIds { get; set; }
             public User User { get; set; }
+            public IEnumerable<Member> Memberships { get; set; }
         }
 
         public All_Users()
@@ -39,32 +41,43 @@ namespace Bowerbird.Core.Indexes
                                       let permissions = roles.SelectMany(x => x.Permissions)
                                         select new
                                         {
-                                            member.Id,
                                             UserId = member.User.Id,
-                                            GroupId = member.Group.Id,
+                                            MemberIds = new [] { member.Id },
+                                            Groups = new [] { member.Group },
                                             RoleIds = roles.Select(x => x.Id),
-                                            PermissionIds = permissions.Select(x => x.Id),
-                                            GroupType = (string)null
+                                            PermissionIds = permissions.Select(x => x.Id)
                                         });
-            
+
+            Reduce = results => from result in results
+                                group result by result.UserId
+                                    into g
+                                    select new
+                                    {
+                                        UserId = g.Key,
+                                        MemberIds = g.SelectMany(x => x.MemberIds),
+                                        Groups = g.SelectMany(x => x.Groups),
+                                        RoleIds = g.SelectMany(x => x.RoleIds),
+                                        PermissionIds = g.SelectMany(x => x.PermissionIds)
+                                    };
+
             TransformResults = (database, results) =>
                                 from result in results
-                                let member = database.Load<Member>(result.Id)
                                 let user = database.Load<User>(result.UserId)
+                                let memberships = database.Load<Member>(result.MemberIds)
                                 select new
                                 {
-                                    result.Id,
                                     result.UserId,
-                                    result.GroupId,
+                                    result.MemberIds,
+                                    result.Groups,
                                     result.RoleIds,
                                     result.PermissionIds,
-                                    Member = member,
-                                    User = user
+                                    User = user,
+                                    Memberships = memberships
                                 };
 
-            Store(x => x.Id, FieldStorage.Yes);
             Store(x => x.UserId, FieldStorage.Yes);
-            Store(x => x.GroupId, FieldStorage.Yes);
+            Store(x => x.MemberIds, FieldStorage.Yes);
+            Store(x => x.Groups, FieldStorage.Yes);
             Store(x => x.RoleIds, FieldStorage.Yes);
             Store(x => x.PermissionIds, FieldStorage.Yes);
         }

@@ -44,9 +44,11 @@ namespace Bowerbird.Core.Commands
 
         public bool IsIdentificationRequired { get; set; }
 
+        public bool AnonymiseLocation { get; set; }
+
         public string Category { get; set; }
 
-        public IEnumerable<Tuple<string, string, string>> AddMedia { get; set; }
+        public IEnumerable<Tuple<string, string, string>> Media { get; set; }
 
         public virtual List<string> Projects { get; set; }
 

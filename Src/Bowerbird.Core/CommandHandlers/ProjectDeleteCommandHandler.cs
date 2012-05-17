@@ -59,7 +59,7 @@ namespace Bowerbird.Core.CommandHandlers
 
             var team = _documentSession
                 .Query<Team>()
-                .Where(x => x.Descendants.Any(y => y.ToLower() == project.Id.ToLower()))
+                .Where(x => x.Descendants.Any(y => y.Id.ToLower() == project.Id.ToLower()))
                 .FirstOrDefault();
 
             if(team != null)
@@ -68,7 +68,7 @@ namespace Bowerbird.Core.CommandHandlers
 
                 var organisation = _documentSession
                     .Query<Organisation>()
-                    .Where(x => x.Descendants.Any(y => y.ToLower() == project.Id.ToLower()))
+                    .Where(x => x.Descendants.Any(y => y.Id.ToLower() == project.Id.ToLower()))
                     .FirstOrDefault();
 
                 if(organisation != null)
