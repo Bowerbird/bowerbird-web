@@ -62,7 +62,7 @@ namespace Bowerbird.Test.Core.CommandHandlers
 
             Post deletedPost = null;
 
-            var command = new DeleteCommand()
+            var command = new PostDeleteCommand()
             {
                 Id = post.Id,
                 UserId = user.Id

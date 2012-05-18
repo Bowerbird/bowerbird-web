@@ -74,7 +74,7 @@ namespace Bowerbird.Test.Core.CommandHandlers
                 IsIdentificationRequired = FakeValues.IsTrue,
                 Latitude = FakeValues.Latitude,
                 Longitude = FakeValues.Longitude,
-                AddMedia = new List<Tuple<string,string,string>>(){new Tuple<string, string, string>(imageMediaResource.Id, FakeValues.Message,FakeValues.Message)},
+                Media = new List<Tuple<string,string,string>>(){new Tuple<string, string, string>(imageMediaResource.Id, FakeValues.Message,FakeValues.Message)},
                 Category = FakeValues.Category,
                 ObservedOn = createdDateTime,
                 Title = FakeValues.Title
@@ -104,7 +104,7 @@ namespace Bowerbird.Test.Core.CommandHandlers
             Assert.AreEqual(command.IsIdentificationRequired, newValue.IsIdentificationRequired);
             Assert.AreEqual(command.Latitude, newValue.Latitude);
             Assert.AreEqual(command.Longitude, newValue.Longitude);
-            Assert.AreEqual(command.Category, newValue.ObservationCategory);
+            Assert.AreEqual(command.Category, newValue.Category);
             Assert.AreEqual(command.ObservedOn, newValue.ObservedOn);
             Assert.AreEqual(command.Title, newValue.Title);
         }

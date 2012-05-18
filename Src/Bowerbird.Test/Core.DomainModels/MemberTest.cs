@@ -53,7 +53,7 @@ namespace Bowerbird.Test.Core.DomainModels
                 );
 
             Assert.AreEqual(user.DenormalisedUserReference(), member.User);
-            Assert.AreEqual(FakeObjects.TestProjectWithId().DenormalisedNamedDomainModelReference<Group>(), member.Group);
+            Assert.AreEqual(FakeObjects.TestProjectWithId().DenormalisedGroupReference(), member.Group);
             // Not sure what's happening below.. values are equal.
             //Assert.AreEqual(roles.Select(x => x.DenormalisedRoleReference()).ToList(), member.Roles);
         }

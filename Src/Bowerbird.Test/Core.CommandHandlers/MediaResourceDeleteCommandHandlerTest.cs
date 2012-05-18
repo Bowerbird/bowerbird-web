@@ -60,7 +60,7 @@ namespace Bowerbird.Test.Core.CommandHandlers
 
             MediaResource deleted = null;
 
-            var command = new DeleteCommand()
+            var command = new MediaResourceDeleteCommand()
             {
                 Id = mediaResource.Id,
                 UserId = user.Id

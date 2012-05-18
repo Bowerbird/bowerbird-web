@@ -63,7 +63,7 @@ namespace Bowerbird.Test.Core.CommandHandlers
 
             ObservationNote deletedTeam = null;
 
-            var command = new DeleteCommand()
+            var command = new ObservationNoteDeleteCommand()
             {
                 Id = observationNote.Id,
                 UserId = user.Id

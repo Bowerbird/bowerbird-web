@@ -74,6 +74,7 @@ namespace Bowerbird.Test.Core.CommandHandlers
                 FakeValues.Longitude,
                 FakeValues.Address,
                 FakeValues.IsTrue,
+                FakeValues.IsTrue,
                 FakeValues.Category,
                 FakeObjects.TestUserProjectWithId(),
                 new List<Project>(){FakeObjects.TestProjectWithId()},
@@ -119,7 +120,7 @@ namespace Bowerbird.Test.Core.CommandHandlers
             Assert.AreEqual(command.IsIdentificationRequired, newValue.IsIdentificationRequired);
             Assert.AreEqual(command.Latitude, newValue.Latitude);
             Assert.AreEqual(command.Longitude, newValue.Longitude);
-            Assert.AreEqual(command.Category, newValue.ObservationCategory);
+            Assert.AreEqual(command.Category, newValue.Category);
             Assert.AreEqual(command.Title, newValue.Title);
             Assert.AreEqual(command.ObservedOn, newValue.ObservedOn);
             Assert.AreEqual(command.AddMediaResources.First().Item1, newValue.Media.First().MediaResource.Id);

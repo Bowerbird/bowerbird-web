@@ -3,10 +3,8 @@
  Developers: 
  * Frank Radocaj : frank@radocaj.com
  * Hamish Crittenden : hamish.crittenden@gmail.com
- 
  Project Manager: 
  * Ken Walker : kwalker@museum.vic.gov.au
- 
  Funded by:
  * Atlas of Living Australia
  
@@ -19,9 +17,9 @@ namespace Bowerbird.Test.Utils
 {
     public static class Denormaliser
     {
-        public static DenormalisedNamedDomainModelReference<T> DenormalisedNamedDomainModelReference<T>(this T t) where T : INamedDomainModel
+        public static DenormalisedGroupReference DenormalisedGroupReference(this Group group)
         {
-            DenormalisedNamedDomainModelReference<T> denormalisedReference = t;
+            DenormalisedGroupReference denormalisedReference = group;
 
             return denormalisedReference;
         }
@@ -43,13 +41,6 @@ namespace Bowerbird.Test.Utils
         public static DenormalisedUserReference DenormalisedUserReference(this User user)
         {
             DenormalisedUserReference denormalisedReference = user;
-
-            return denormalisedReference;
-        }
-
-        public static DenormalisedRoleReference DenormalisedRoleReference(this Role role)
-        {
-            DenormalisedRoleReference denormalisedReference = role;
 
             return denormalisedReference;
         }

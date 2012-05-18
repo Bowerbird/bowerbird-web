@@ -48,6 +48,7 @@ namespace Bowerbird.Test.Core.DomainModels
                     FakeValues.Longitude,
                     FakeValues.Address,
                     FakeValues.IsTrue,
+                    FakeValues.IsTrue,
                     FakeValues.Category,
                     FakeObjects.TestUserProjectWithId(),
                     new List<Project>() { FakeObjects.TestProjectWithId() },
@@ -73,7 +74,7 @@ namespace Bowerbird.Test.Core.DomainModels
             Assert.AreEqual(FakeValues.Longitude, observation.Longitude);
             Assert.AreEqual(FakeValues.Address, observation.Address);
             Assert.AreEqual(FakeValues.IsTrue, observation.IsIdentificationRequired);
-            Assert.AreEqual(FakeValues.Category, observation.ObservationCategory);
+            Assert.AreEqual(FakeValues.Category, observation.Category);
             Assert.AreEqual(FakeValues.Title, observation.Title);
         }
 
@@ -95,6 +96,7 @@ namespace Bowerbird.Test.Core.DomainModels
                 FakeValues.Longitude.PrependWith("new"),
                 FakeValues.Address.PrependWith("new"),
                 FakeValues.IsFalse,
+                FakeValues.IsFalse,
                 FakeValues.Category.PrependWith("new")
                 );
 
@@ -104,7 +106,7 @@ namespace Bowerbird.Test.Core.DomainModels
             Assert.AreEqual(FakeValues.Longitude.PrependWith("new"), observation.Longitude);
             Assert.AreEqual(FakeValues.Address.PrependWith("new"), observation.Address);
             Assert.AreEqual(FakeValues.IsFalse, observation.IsIdentificationRequired);
-            Assert.AreEqual(FakeValues.Category.PrependWith("new"), observation.ObservationCategory);
+            Assert.AreEqual(FakeValues.Category.PrependWith("new"), observation.Category);
         }
 
         [Test]

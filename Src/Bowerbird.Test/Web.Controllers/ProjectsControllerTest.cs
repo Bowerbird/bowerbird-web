@@ -3,10 +3,8 @@
  Developers: 
  * Frank Radocaj : frank@radocaj.com
  * Hamish Crittenden : hamish.crittenden@gmail.com
-
  Project Manager: 
  * Ken Walker : kwalker@museum.vic.gov.au
-
  Funded by:
  * Atlas of Living Australia
 
@@ -36,10 +34,10 @@ namespace Bowerbird.Test.Web.Controllers
         private Mock<ICommandProcessor> _mockCommandProcessor;
         private Mock<IUserContext> _mockUserContext;
         private Mock<IProjectsViewModelBuilder> _mockProjectsViewModelBuilder;
+        private Mock<ITeamsViewModelBuilder> _mockTeamsViewModelBuilder;
         private Mock<IStreamItemsViewModelBuilder> _mockStreamItemsViewModelBuilder;
         private Mock<IObservationsViewModelBuilder> _mockObservationsViewModelBuilder;
         private Mock<IPostsViewModelBuilder> _mockPostsViewModelBuilder;
-        private Mock<IMemberViewModelBuilder> _mockMemberViewModelBuilder;
         private Mock<IReferenceSpeciesViewModelBuilder> _mockReferenceSpeciesViewModelBuilder;
         private ProjectsController _controller;
         private IDocumentStore _documentStore;
@@ -51,22 +49,26 @@ namespace Bowerbird.Test.Web.Controllers
             _mockCommandProcessor = new Mock<ICommandProcessor>();
             _mockUserContext = new Mock<IUserContext>();
             _mockProjectsViewModelBuilder = new Mock<IProjectsViewModelBuilder>();
+            _mockTeamsViewModelBuilder = new Mock<ITeamsViewModelBuilder>();
             _mockStreamItemsViewModelBuilder = new Mock<IStreamItemsViewModelBuilder>();
             _mockObservationsViewModelBuilder = new Mock<IObservationsViewModelBuilder>();
             _mockPostsViewModelBuilder = new Mock<IPostsViewModelBuilder>();
-            _mockMemberViewModelBuilder = new Mock<IMemberViewModelBuilder>();
             _mockReferenceSpeciesViewModelBuilder = new Mock<IReferenceSpeciesViewModelBuilder>();
 
-            _controller = new ProjectsController(
-                _mockCommandProcessor.Object,
-                _mockUserContext.Object,
-                _mockProjectsViewModelBuilder.Object,
-                _mockStreamItemsViewModelBuilder.Object,
-                _mockObservationsViewModelBuilder.Object,
-                _mockPostsViewModelBuilder.Object,
-                _mockMemberViewModelBuilder.Object,
-                _mockReferenceSpeciesViewModelBuilder.Object
-                );
+            using (var documentSession = _documentStore.OpenSession())
+            {
+                _controller = new ProjectsController(
+                    _mockCommandProcessor.Object,
+                    _mockUserContext.Object,
+                    _mockProjectsViewModelBuilder.Object,
+                    _mockTeamsViewModelBuilder.Object,
+                    _mockStreamItemsViewModelBuilder.Object,
+                    _mockObservationsViewModelBuilder.Object,
+                    _mockPostsViewModelBuilder.Object,
+                    _mockReferenceSpeciesViewModelBuilder.Object,
+                    documentSession
+                    );
+            }
         }
 
         [TearDown]

@@ -185,6 +185,7 @@ namespace Bowerbird.Test.Utils
                 FakeValues.Longitude,
                 FakeValues.Address,
                 FakeValues.IsTrue,
+                FakeValues.IsTrue,
                 FakeValues.Category,
                 TestUserProjectWithId(),
                 new List<Project>(),

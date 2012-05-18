@@ -48,8 +48,8 @@ namespace Bowerbird.Test.Core.DomainModels
                 FakeValues.CreatedDateTime
                 );
 
-            Assert.AreEqual(FakeObjects.TestTeamWithId().Id, groupAssociation.ParentGroupId);
-            Assert.AreEqual(FakeObjects.TestProjectWithId().Id, groupAssociation.ChildGroupId);
+            Assert.AreEqual(FakeObjects.TestTeamWithId().Id, groupAssociation.ParentGroup.Id);
+            Assert.AreEqual(FakeObjects.TestProjectWithId().Id, groupAssociation.ChildGroup.Id);
             Assert.AreEqual(FakeValues.CreatedDateTime, groupAssociation.CreatedDateTime);
             Assert.AreEqual(FakeObjects.TestUserWithId().Id, groupAssociation.CreatedByUserId);
         }
