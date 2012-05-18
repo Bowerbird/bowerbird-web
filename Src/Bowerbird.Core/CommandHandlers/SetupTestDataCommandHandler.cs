@@ -1,14 +1,11 @@
 ﻿/* Bowerbird V1 
 
  Licensed under MIT 1.1 Public License
-
  Developers: 
  * Frank Radocaj : frank@radocaj.com
  * Hamish Crittenden : hamish.crittenden@gmail.com
- 
  Project Manager: 
  * Ken Walker : kwalker@museum.vic.gov.au
- 
  Funded by:
  * Atlas of Living Australia
  
@@ -21,7 +18,6 @@ using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Raven.Client;
-using Bowerbird.Core.Events;
 using Bowerbird.Core.Config;
 using System.Threading;
 
@@ -29,7 +25,6 @@ namespace Bowerbird.Core.CommandHandlers
 {
     public class SetupTestDataCommandHandler : ICommandHandler<SetupTestDataCommand>
     {
-
         #region Members
 
         private readonly IDocumentStore _documentStore;
@@ -306,6 +301,5 @@ namespace Bowerbird.Core.CommandHandlers
         }
 
         #endregion      
-      
     }
 }

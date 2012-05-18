@@ -34,7 +34,17 @@ namespace Bowerbird.Core.CommandHandlers
         private readonly IDocumentSession _documentSession;
         private readonly ISystemStateManager _systemStateManager;
         private readonly IConfigService _configService;
-        private readonly string[] _speciesFileHeaderColumns = { "Kingdom", "Group Name", "Species Common Names", "Taxonomy", "Order", "Family", "Genus", "Species" };
+        private readonly string[] _speciesFileHeaderColumns = {
+                                                                  "Kingdom", 
+                                                                  "Group Name", 
+                                                                  "Species Common Names", 
+                                                                  "Taxonomy", 
+                                                                  "Order", 
+                                                                  "Family", 
+                                                                  "Genus", 
+                                                                  "Species",
+                                                                  "Synonym"
+                                                              };
 
         #endregion
 
@@ -90,6 +100,7 @@ namespace Bowerbird.Core.CommandHandlers
                             species[5],
                             species[6],
                             species[7],
+                            species[8],
                             false,
                             createdOn
                             )
@@ -143,7 +154,10 @@ namespace Bowerbird.Core.CommandHandlers
 
                     while (reader.Peek() > 0)
                     {
-                        var fieldValues = reader.ReadLine().Split(new[] {'\t'}, StringSplitOptions.None);
+                        var fieldValues = reader
+                            .ReadLine()
+                            .Split(new[] { '\t' }, StringSplitOptions.None)
+                            .Take(_speciesFileHeaderColumns.Length);
 
                         species.Add(fieldValues.Select(x => x.Trim()).ToList());
                     }

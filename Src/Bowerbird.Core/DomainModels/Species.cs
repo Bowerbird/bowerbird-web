@@ -41,6 +41,7 @@ namespace Bowerbird.Core.DomainModels
             string family,
             string genusName,
             string speciesName,
+            string synonym,
             bool proposedAsNewSpecies,
             DateTime createdOn
             )
@@ -58,6 +59,7 @@ namespace Bowerbird.Core.DomainModels
                 family,
                 genusName,
                 speciesName,
+                synonym,
                 proposedAsNewSpecies
                 );
         }
@@ -72,6 +74,7 @@ namespace Bowerbird.Core.DomainModels
             string family,
             string genusName,
             string speciesName,
+            string synonym,
             bool proposedAsNewSpecies,
             DateTime createdOn
             )
@@ -90,6 +93,7 @@ namespace Bowerbird.Core.DomainModels
                 family,
                 genusName,
                 speciesName,
+                synonym,
                 proposedAsNewSpecies
                 );
         }
@@ -113,6 +117,8 @@ namespace Bowerbird.Core.DomainModels
         public string GenusName { get; private set; }
 
         public string SpeciesName { get; private set; }
+
+        public string Synonym { get; private set; }
 
         public bool ProposedAsNewSpecies { get; private set; }
 
@@ -144,6 +150,7 @@ namespace Bowerbird.Core.DomainModels
             string family,
             string genusName,
             string speciesName,
+            string synonym,
             bool proposedAsNewSpecies
             )
         {
@@ -155,6 +162,7 @@ namespace Bowerbird.Core.DomainModels
             Family = family;
             GenusName = genusName;
             SpeciesName = speciesName;
+            Synonym = synonym;
             ProposedAsNewSpecies = proposedAsNewSpecies;
         }
 
@@ -167,6 +175,7 @@ namespace Bowerbird.Core.DomainModels
             string family,
             string genusName,
             string speciesName,
+            string synonym,
             bool proposedAsNewSpecies
             )
         {
@@ -178,6 +187,7 @@ namespace Bowerbird.Core.DomainModels
             Family = family;
             GenusName = genusName;
             SpeciesName = speciesName;
+            Synonym = synonym;
             ProposedAsNewSpecies = proposedAsNewSpecies;
         }
 
