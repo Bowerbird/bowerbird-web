@@ -108,7 +108,7 @@ namespace Bowerbird.Web.Builders
             return _documentSession
                 .Query<All_Groups.Result, All_Groups>()
                 .AsProjection<All_Groups.Result>()
-                .Where(x => x.Group.Id.In(teams))
+                .Where(x => x.Id.In(teams))
                 .Statistics(out stats)
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)

@@ -133,7 +133,7 @@ namespace Bowerbird.Core.CommandHandlers
             {
                 using (var reader = new StreamReader(File.OpenRead(file)))
                 {
-                    var fileHeaderColumns = reader.ReadLine().Split(new[] {'\t'}, StringSplitOptions.None);
+                    var fileHeaderColumns = reader.ReadLine().Split(new[] {'\t'}, StringSplitOptions.None).Take(_speciesFileHeaderColumns.Length);
                     var counter = 0;
 
                     foreach (var col in fileHeaderColumns)
