@@ -124,7 +124,6 @@
     <Compile Include="Builders\AccountViewModelBuilder.cs" />
     <Compile Include="Builders\IAccountViewModelBuilder.cs" />
     <Compile Include="Builders\IBuilder.cs" />
-    <Compile Include="Builders\IMemberViewModelBuilder.cs" />
     <Compile Include="Builders\IObservationNotesViewModelBuilder.cs" />
     <Compile Include="Builders\IObservationsViewModelBuilder.cs" />
     <Compile Include="Builders\IOrganisationsViewModelBuilder.cs" />
@@ -135,7 +134,6 @@
     <Compile Include="Builders\IStreamItemsViewModelBuilder.cs" />
     <Compile Include="Builders\ITeamsViewModelBuilder.cs" />
     <Compile Include="Builders\IUserViewModelBuilder.cs" />
-    <Compile Include="Builders\MemberViewModelBuilder.cs" />
     <Compile Include="Builders\ObservationNotesViewModelBuilder.cs" />
     <Compile Include="Builders\ObservationsViewModelBuilder.cs" />
     <Compile Include="Builders\OrganisationsViewModelBuilder.cs" />
@@ -178,18 +176,14 @@
     <Compile Include="Factories\AvatarFactory.cs" />
     <Compile Include="Factories\IObservationNoteViewFactory.cs" />
     <Compile Include="Factories\ObservationNoteViewFactory.cs" />
-    <Compile Include="Factories\IOrganisationViewFactory.cs" />
-    <Compile Include="Factories\IPostViewFactory.cs" />
-    <Compile Include="Factories\IUserViewFactory.cs" />
-    <Compile Include="Factories\OrganisationViewFactory.cs" />
-    <Compile Include="Factories\PostViewFactory.cs" />
+    <Compile Include="Factories\ObservationViewFactory.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Factories\IAvatarFactory.cs" />
     <Compile Include="Factories\IFactory.cs" />
     <Compile Include="Factories\IObservationViewFactory.cs" />
     <Compile Include="Factories\IStreamItemFactory.cs" />
-    <Compile Include="Factories\ObservationViewFactory.cs" />
     <Compile Include="Factories\StreamItemFactory.cs" />
-    <Compile Include="Factories\UserViewFactory.cs" />
     <Compile Include="Hubs\ChatHub.cs" />
     <Compile Include="Notifications\INotificationProcessor.cs" />
     <Compile Include="Notifications\NotificationProcessor.cs" />

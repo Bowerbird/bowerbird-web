@@ -3,19 +3,19 @@
  Developers: 
  * Frank Radocaj : frank@radocaj.com
  * Hamish Crittenden : hamish.crittenden@gmail.com
- 
  Project Manager: 
  * Ken Walker : kwalker@museum.vic.gov.au
- 
  Funded by:
  * Atlas of Living Australia
  
 */
 
+using System;
 using System.Linq;
 using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Extensions;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Paging;
 using Bowerbird.Core.Repositories;
@@ -32,8 +32,6 @@ namespace Bowerbird.Web.Builders
         #region Fields
 
         private readonly IDocumentSession _documentSession;
-        private readonly IPostViewFactory _postViewFactory;
-        private readonly IStreamItemFactory _streamItemFactory;
         private readonly IAvatarFactory _avatarFactory;
         private readonly IMediaFilePathService _mediaFilePathService;
 
@@ -43,21 +41,15 @@ namespace Bowerbird.Web.Builders
 
         public PostsViewModelBuilder(
             IDocumentSession documentSession,
-            IPostViewFactory postViewFactory,
-            IStreamItemFactory streamItemFactory,
             IAvatarFactory avatarFactory,
             IMediaFilePathService mediaFilePathService
         )
         {
             Check.RequireNotNull(documentSession, "documentSession");
-            Check.RequireNotNull(postViewFactory, "postViewFactory");
-            Check.RequireNotNull(streamItemFactory, "streamItemFactory");
             Check.RequireNotNull(avatarFactory, "avatarFactory");
             Check.RequireNotNull(mediaFilePathService, "mediaFilePathService");
 
             _documentSession = documentSession;
-            _postViewFactory = postViewFactory;
-            _streamItemFactory = streamItemFactory;
             _avatarFactory = avatarFactory;
             _mediaFilePathService = mediaFilePathService;
         }
@@ -70,14 +62,17 @@ namespace Bowerbird.Web.Builders
         {
             Check.RequireNotNull(idInput, "idInput");
 
-            return _postViewFactory.Make(_documentSession.Load<Post>(idInput.Id));
+            return MakePost(_documentSession.Load<Post>(idInput.Id));
         }
 
+        /// <summary>
+        /// PagingInput.Id is User.Id
+        /// </summary>
         public object BuildUserPostList(PagingInput pagingInput)
         {
             RavenQueryStatistics stats;
 
-            var posts = _documentSession
+            return _documentSession
                 .Query<Post>()
                 .Where(x => x.User.Id == pagingInput.Id)
                 .Include(x => x.GroupId)
@@ -86,26 +81,22 @@ namespace Bowerbird.Web.Builders
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
                 .ToList()
-                .Select(x => _postViewFactory.Make(x));
-
-            return new
-            {
-                pagingInput.Id,
-                pagingInput.Page,
-                pagingInput.PageSize,
-                List = posts.ToPagedList(
+                .Select(MakePost)
+                .ToPagedList(
                     pagingInput.Page,
                     pagingInput.PageSize,
                     stats.TotalResults,
-                    null)
-            };
+                    null);
         }
 
+        /// <summary>
+        /// PagingInput.Id is Group.Id
+        /// </summary>
         public object BuildGroupPostList(PagingInput pagingInput)
         {
             RavenQueryStatistics stats;
 
-            var posts = _documentSession
+            return _documentSession
                 .Query<Post>()
                 .Where(x => x.GroupId == pagingInput.Id)
                 .Include(x => x.GroupId)
@@ -114,21 +105,17 @@ namespace Bowerbird.Web.Builders
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
                 .ToList()
-                .Select(x => _postViewFactory.Make(x));
-
-            return new
-            {
-                pagingInput.Id,
-                pagingInput.Page,
-                pagingInput.PageSize,
-                List = posts.ToPagedList(
+                .Select(MakePost)
+                .ToPagedList(
                     pagingInput.Page,
                     pagingInput.PageSize,
                     stats.TotalResults,
-                    null)
-            };
+                    null);
         }
 
+        /// <summary>
+        /// PagingInput.Id is Group.Id
+        /// </summary>
         public object BuildPostStreamItems(PagingInput pagingInput)
         {
             RavenQueryStatistics stats;
@@ -137,16 +124,18 @@ namespace Bowerbird.Web.Builders
                 .Query<All_Contributions.Result, All_Contributions>()
                 .AsProjection<All_Contributions.Result>()
                 .Statistics(out stats)
-                .Include(x => x.ContributionId)
                 .Include(x => x.GroupId)
                 .Where(x => x.ContributionType.Equals("post") && x.GroupId == pagingInput.Id)
                 .OrderByDescending(x => x.CreatedDateTime)
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
                 .ToList()
-                .ToPagedList(pagingInput.Page, pagingInput.PageSize, stats.TotalResults)
-                .PagedListItems
-                .Select(MakeStreamItem);
+                .Select(MakeStreamItem)
+                .ToPagedList(
+                    pagingInput.Page, 
+                    pagingInput.PageSize, 
+                    stats.TotalResults,
+                    null);
         }
 
         private object MakeStreamItem(All_Contributions.Result groupContributionResult)
@@ -154,18 +143,18 @@ namespace Bowerbird.Web.Builders
             object item = null;
             string description = null;
             Group group = null;
-            string postedToGroupType = null;
 
             switch (groupContributionResult.ContributionType)
             {
                 case "Post":
-                    item = _postViewFactory.Make(groupContributionResult.Post);
+                    item = MakePost(groupContributionResult.Post);
                     description = groupContributionResult.Post.User.FirstName + " added a post";
+                    string postedToGroupType = null;
                     group = _documentSession.LoadGroupById(groupContributionResult.Post.GroupId, out postedToGroupType);
                     break;
             }
 
-            return _streamItemFactory.Make(
+            return MakeStreamItem(
                 item,
                 group,
                 "post",
@@ -174,7 +163,7 @@ namespace Bowerbird.Web.Builders
                 description);
         }
 
-        public object MakePost(Post post)
+        private object MakePost(Post post)
         {
             return new
             {
@@ -211,6 +200,37 @@ namespace Bowerbird.Web.Builders
                 comment.CommentedOn,
                 comment.Message,
                 Creator = MakeUser(comment.User.Id)
+            };
+        }
+
+        private static object MakeStreamItem(
+            object item,
+            Group group,
+            string contributionType,
+            User groupUser,
+            DateTime groupCreatedDateTime,
+            string description
+        )
+        {
+            return new
+            {
+                CreatedDateTime = groupCreatedDateTime,
+                CreatedDateTimeDescription = groupCreatedDateTime.Description(),
+                Type = contributionType.ToLower(),
+                User = new
+                {
+                    groupUser.Id,
+                    groupUser.LastLoggedIn,
+                    Name = groupUser.FirstName + " " + groupUser.LastName,
+                    Avatar = new
+                    {
+                        AltTag = groupUser.FirstName + " " + groupUser.LastName,
+                        UrlToImage = groupUser.Avatar != null ? "" : AvatarUris.DefaultUser
+                    }
+                },
+                Item = item,
+                Description = description,
+                Group = group
             };
         }
 

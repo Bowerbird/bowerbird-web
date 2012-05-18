@@ -13,7 +13,6 @@
 using System.Linq;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Web.Factories;
 using Bowerbird.Web.ViewModels;
 using Raven.Client;
 using Raven.Client.Linq;
@@ -26,22 +25,18 @@ namespace Bowerbird.Web.Builders
         #region Fields
 
         private readonly IDocumentSession _documentSession;
-        private readonly IAvatarFactory _avatarFactory;
 
         #endregion
 
         #region Constructors
 
         public SpeciesViewModelBuilder(
-            IDocumentSession documentSession,
-            IAvatarFactory avatarFactory
+            IDocumentSession documentSession
         )
         {
             Check.RequireNotNull(documentSession, "documentSession");
-            Check.RequireNotNull(avatarFactory, "avatarFactory");
 
             _documentSession = documentSession;
-            _avatarFactory = avatarFactory;
         }
 
         #endregion
@@ -65,27 +60,21 @@ namespace Bowerbird.Web.Builders
 
             RavenQueryStatistics stats;
 
-            var results = _documentSession
+            return _documentSession
                 .Query<Species>()
                 .Statistics(out stats)
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
                 .ToList()
-                .Select(MakeSpecies);
-
-            return new
-            {
-                pagingInput.Page,
-                pagingInput.PageSize,
-                SpeciesList = results.ToPagedList(
+                .Select(MakeSpecies)
+                .ToPagedList(
                     pagingInput.Page,
                     pagingInput.PageSize,
                     stats.TotalResults,
-                    null)
-            };
+                    null);
         }
 
-        private object MakeSpecies(Species species)
+        private static object MakeSpecies(Species species)
         {
             return new
             {
@@ -98,11 +87,6 @@ namespace Bowerbird.Web.Builders
                 species.GenusName,
                 species.Family,
                 species.CommonNames
-                //,
-                //species.ProposedAsNewSpecies,
-                //ProposedBy = species.ProposedAsNewSpecies ? MakeUser(species.ProposedByUser.Id) : null,
-                //EndorsedBy = species.ProposedAsNewSpecies ? MakeUser(species.EndorsedByUser.Id) : null,
-                //Creator = MakeUser(species.CreatedByUser.Id)
             };
         }
 

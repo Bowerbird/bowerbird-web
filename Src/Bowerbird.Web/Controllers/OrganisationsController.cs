@@ -35,7 +35,6 @@ namespace Bowerbird.Web.Controllers
         private readonly IStreamItemsViewModelBuilder _streamItemsViewModelBuilder;
         private readonly ITeamsViewModelBuilder _teamsViewModelBuilder;
         private readonly IPostsViewModelBuilder _postsViewModelBuilder;
-        private readonly IMemberViewModelBuilder _memberViewModelBuilder;
         private readonly IReferenceSpeciesViewModelBuilder _referenceSpeciesViewModelBuilder;
 
         #endregion
@@ -49,7 +48,6 @@ namespace Bowerbird.Web.Controllers
             IStreamItemsViewModelBuilder streamItemsViewModelBuilder,
             ITeamsViewModelBuilder teamsViewModelBuilder,
             IPostsViewModelBuilder postsViewModelBuilder,
-            IMemberViewModelBuilder memberViewModelBuilder,
             IReferenceSpeciesViewModelBuilder referenceSpeciesViewModelBuilder
             )
         {
@@ -59,7 +57,6 @@ namespace Bowerbird.Web.Controllers
             Check.RequireNotNull(streamItemsViewModelBuilder, "streamItemsViewModelBuilder");
             Check.RequireNotNull(teamsViewModelBuilder, "teamsViewModelBuilder");
             Check.RequireNotNull(postsViewModelBuilder, "postsViewModelBuilder");
-            Check.RequireNotNull(memberViewModelBuilder, "memberViewModelBuilder");
             Check.RequireNotNull(referenceSpeciesViewModelBuilder, "referenceSpeciesViewModelBuilder");
 
             _commandProcessor = commandProcessor;
@@ -68,7 +65,6 @@ namespace Bowerbird.Web.Controllers
             _streamItemsViewModelBuilder = streamItemsViewModelBuilder;
             _teamsViewModelBuilder = teamsViewModelBuilder;
             _postsViewModelBuilder = postsViewModelBuilder;
-            _memberViewModelBuilder = memberViewModelBuilder;
             _referenceSpeciesViewModelBuilder = referenceSpeciesViewModelBuilder;
         }
 
@@ -148,7 +144,7 @@ namespace Bowerbird.Web.Controllers
             ViewBag.Model = new
             {
                 Organisation = _organisationsViewModelBuilder.BuildOrganisation(new IdInput() { Id = "organisations/" + pagingInput.Id }),
-                Members = _memberViewModelBuilder.BuildOrganisationMemberList(pagingInput)
+                Members = _organisationsViewModelBuilder.BuildOrganisationUserList(pagingInput)
             };
 
             ViewBag.PrerenderedView = "organisations"; // HACK: Need to rethink this

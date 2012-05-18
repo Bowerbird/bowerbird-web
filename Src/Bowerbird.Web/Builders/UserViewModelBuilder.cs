@@ -74,15 +74,14 @@ namespace Bowerbird.Web.Builders
         {
             RavenQueryStatistics stats;
 
-            var results = _documentSession
+            return _documentSession
                 .Query<User>()
+                .Include(x => x.Id)
                 .Statistics(out stats)
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
                 .ToList()
-                .Select(x => MakeUser(x.Id));
-
-           return results
+                .Select(x => MakeUser(x.Id))
                .ToPagedList(
                     pagingInput.Page,
                     pagingInput.PageSize,
@@ -90,20 +89,22 @@ namespace Bowerbird.Web.Builders
                     null);
         }
 
+        /// <summary>
+        /// PagingInput.Id is User.Id where User is User being Followed
+        /// </summary>
         public object BuildUsersFollowingList(PagingInput pagingInput)
         {
             RavenQueryStatistics stats;
 
-            var results = _documentSession
+            return _documentSession
                 .Query<FollowUser>()
                 .Where(x => x.UserToFollow.Id == pagingInput.Id)
+                .Include(x => x.UserToFollow.Id)
                 .Statistics(out stats)
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
                 .ToList()
-                .Select(x => MakeUser(_documentSession.Load<User>(x.Id)));
-
-            return results
+                .Select(x => MakeUser(_documentSession.Load<User>(x.Id)))
                 .ToPagedList(
                     pagingInput.Page,
                     pagingInput.PageSize,
@@ -111,21 +112,23 @@ namespace Bowerbird.Web.Builders
                     null);
         }
 
+        /// <summary>
+        /// PagingInput.Id is User.Id where User is the User following other
+        /// </summary>
         public object BuildUsersBeingFollowedByList(PagingInput pagingInput)
         {
             RavenQueryStatistics stats;
 
-            var results = _documentSession
+            return _documentSession
                 .Query<FollowUser>()
                 .Where(x => x.Follower.Id == pagingInput.Id)
+                .Include(x => x.Follower.Id)
                 .Statistics(out stats)
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
                 .ToList()
-                .Select(x => MakeUser(_documentSession.Load<User>(x.Id)));
-
-            return 
-                results.ToPagedList(
+                .Select(x => MakeUser(_documentSession.Load<User>(x.Id)))
+                .ToPagedList(
                     pagingInput.Page,
                     pagingInput.PageSize,
                     stats.TotalResults,
@@ -174,12 +177,14 @@ namespace Bowerbird.Web.Builders
         {
             Check.RequireNotNull(user, "user");
 
+            // grab the user's groups
             var userGroups = _documentSession
                 .Query<All_Groups.Result, All_Groups>()
                 .AsProjection<All_Groups.Result>()
                 .Where(x => x.Group.Id.In(user.Groups.SelectMany(y => y.Id)))
                 .ToList();
 
+            // make and return the user
             return new
             {
                 Avatar = _avatarFactory.Make(user.User),

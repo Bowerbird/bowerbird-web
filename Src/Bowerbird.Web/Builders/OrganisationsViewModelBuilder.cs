@@ -13,6 +13,7 @@
 */
 
 using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Paging;
 using Bowerbird.Web.Factories;
@@ -27,23 +28,23 @@ namespace Bowerbird.Web.Builders
     {
         #region Fields
 
-        private readonly IOrganisationViewFactory _organisationViewFactory;
         private readonly IDocumentSession _documentSession;
+        private readonly IAvatarFactory _avatarFactory;
 
         #endregion
 
         #region Constructors
 
         public OrganisationsViewModelBuilder(
-            IOrganisationViewFactory organisationViewFactory,
-            IDocumentSession documentSession
+            IDocumentSession documentSession,
+            IAvatarFactory avatarFactory
         )
         {
-            Check.RequireNotNull(organisationViewFactory, "organisationViewFactory");
             Check.RequireNotNull(documentSession, "documentSession");
+            Check.RequireNotNull(avatarFactory, "avatarFactory");
 
-            _organisationViewFactory = organisationViewFactory;
             _documentSession = documentSession;
+            _avatarFactory = avatarFactory;
         }
 
         #endregion
@@ -64,15 +65,14 @@ namespace Bowerbird.Web.Builders
                 .Where(x => x.Id == idInput.Id)
                 .FirstOrDefault();
 
-            return _organisationViewFactory.Make(organisation);
+            return MakeOrganisation(organisation);
         }
 
         public object BuildOrganisationList(PagingInput pagingInput)
         {
             RavenQueryStatistics stats;
 
-
-            var results = _documentSession
+            return _documentSession
                 .Query<All_Groups.Result, All_Groups>()
                 .AsProjection<All_Groups.Result>()
                 .Customize(x => x.WaitForNonStaleResults())
@@ -82,18 +82,68 @@ namespace Bowerbird.Web.Builders
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
                 .ToList()
-                .Select(x => _organisationViewFactory.Make(x));
-
-
-            return new
-            {
-                pagingInput.Page,
-                pagingInput.PageSize,
-                Organisations = results.ToPagedList(
+                .Select(MakeOrganisation)
+                .ToPagedList(
                     pagingInput.Page,
                     pagingInput.PageSize,
                     stats.TotalResults,
-                    null)
+                    null);
+        }
+
+        /// <summary>
+        /// PagingInput.Id is Organisation.Id
+        /// </summary>
+        public object BuildOrganisationUserList(PagingInput pagingInput)
+        {
+            RavenQueryStatistics stats;
+
+            return _documentSession
+                .Query<Member>()
+                .Where(x => x.Group.Id == pagingInput.Id)
+                .Customize(x => x.WaitForNonStaleResults())
+                .Include(x => x.User.Id)
+                .Statistics(out stats)
+                .Skip(pagingInput.Page)
+                .Take(pagingInput.PageSize)
+                .ToList()
+                .Select(x => MakeUser(x.User.Id))
+                .ToPagedList(
+                    pagingInput.Page,
+                    pagingInput.PageSize,
+                    stats.TotalResults,
+                    null);
+        }
+
+        private object MakeOrganisation(All_Groups.Result organisation)
+        {
+            Check.RequireNotNull(organisation, "organisation");
+
+            return new
+            {
+                organisation.Id,
+                organisation.Organisation.Name,
+                organisation.Organisation.Description,
+                organisation.Organisation.Website,
+                Avatar = _avatarFactory.Make(organisation.Organisation),
+                organisation.GroupMemberCount,
+                Teams = 0,
+                Projects = 0
+            };
+        }
+
+        private object MakeUser(string userId)
+        {
+            return MakeUser(_documentSession.Load<User>(userId));
+        }
+
+        private object MakeUser(User user)
+        {
+            return new
+            {
+                Avatar = _avatarFactory.Make(user),
+                user.Id,
+                user.LastLoggedIn,
+                Name = user.GetName()
             };
         }
 

@@ -66,16 +66,15 @@ namespace Bowerbird.Web.Builders
 
             RavenQueryStatistics stats;
 
-            var results = _documentSession
+            return _documentSession
                 .Query<All_ReferenceSpecies.Result, All_ReferenceSpecies>()
                 .AsProjection<All_ReferenceSpecies.Result>()
+                .Include(x => x.ReferenceSpecies.SpeciesId)
                 .Statistics(out stats)
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
                 .ToList()
-                .Select(x => MakeReferenceSpecies(x.ReferenceSpecies));
-
-            return results
+                .Select(x => MakeReferenceSpecies(x.ReferenceSpecies))
                 .ToPagedList(
                     pagingInput.Page,
                     pagingInput.PageSize,
@@ -83,23 +82,25 @@ namespace Bowerbird.Web.Builders
                     null);
         }
 
+        /// <summary>
+        /// PagingInput.Id is Group.Id
+        /// </summary>
         public object BuildGroupReferenceSpeciesList(PagingInput pagingInput)
         {
             Check.RequireNotNull(pagingInput, "pagingInput");
 
             RavenQueryStatistics stats;
 
-            var results = _documentSession
+            return _documentSession
                 .Query<All_ReferenceSpecies.Result, All_ReferenceSpecies>()
                 .AsProjection<All_ReferenceSpecies.Result>()
                 .Where(x => x.GroupId == pagingInput.Id)
+                .Include(x => x.ReferenceSpecies.SpeciesId)
                 .Statistics(out stats)
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
                 .ToList()
-                .Select(x => MakeReferenceSpecies(x.ReferenceSpecies));
-
-            return results
+                .Select(x => MakeReferenceSpecies(x.ReferenceSpecies))
                 .ToPagedList(
                     pagingInput.Page,
                     pagingInput.PageSize,
@@ -136,7 +137,7 @@ namespace Bowerbird.Web.Builders
             };
         }
 
-        private object MakeSpecies(Species species)
+        private static object MakeSpecies(Species species)
         {
             return new
             {

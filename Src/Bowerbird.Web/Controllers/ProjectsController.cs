@@ -43,7 +43,6 @@ namespace Bowerbird.Web.Controllers
         private readonly IStreamItemsViewModelBuilder _streamItemsViewModelBuilder;
         private readonly IObservationsViewModelBuilder _observationsViewModelBuilder;
         private readonly IPostsViewModelBuilder _postsViewModelBuilder;
-        private readonly IMemberViewModelBuilder _memberViewModelBuilder;
         private readonly IReferenceSpeciesViewModelBuilder _referenceSpeciesViewModelBuilder;
         private readonly IDocumentSession _documentSession;
 
@@ -59,7 +58,6 @@ namespace Bowerbird.Web.Controllers
             IStreamItemsViewModelBuilder streamItemsViewModelBuilder,
             IObservationsViewModelBuilder observationsViewModelBuilder,
             IPostsViewModelBuilder postsViewModelBuilder,
-            IMemberViewModelBuilder memberViewModelBuilder,
             IReferenceSpeciesViewModelBuilder referenceSpeciesViewModelBuilder,
             IDocumentSession documentSession
             )
@@ -71,7 +69,6 @@ namespace Bowerbird.Web.Controllers
             Check.RequireNotNull(streamItemsViewModelBuilder, "streamItemsViewModelBuilder");
             Check.RequireNotNull(observationsViewModelBuilder, "observationsViewModelBuilder");
             Check.RequireNotNull(postsViewModelBuilder, "postsViewModelBuilder");
-            Check.RequireNotNull(memberViewModelBuilder, "memberViewModelBuilder");
             Check.RequireNotNull(referenceSpeciesViewModelBuilder, "referenceSpeciesViewModelBuilder");
             Check.RequireNotNull(documentSession, "documentSession");
 
@@ -82,7 +79,6 @@ namespace Bowerbird.Web.Controllers
             _streamItemsViewModelBuilder = streamItemsViewModelBuilder;
             _observationsViewModelBuilder = observationsViewModelBuilder;
             _postsViewModelBuilder = postsViewModelBuilder;
-            _memberViewModelBuilder = memberViewModelBuilder;
             _referenceSpeciesViewModelBuilder = referenceSpeciesViewModelBuilder;
             _documentSession = documentSession;
         }
@@ -163,7 +159,7 @@ namespace Bowerbird.Web.Controllers
             ViewBag.Model = new
             {
                 Project = _projectsViewModelBuilder.BuildProject(new IdInput() { Id = "projects/" + pagingInput.Id }),
-                Members = _memberViewModelBuilder.BuildProjectMemberList(pagingInput)
+                Members = _projectsViewModelBuilder.BuildProjectUserList(pagingInput)
             };
 
             ViewBag.PrerenderedView = "members"; // HACK: Need to rethink this

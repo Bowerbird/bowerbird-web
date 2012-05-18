@@ -280,6 +280,7 @@
     <Compile Include="Events\RequestPasswordResetEvent.cs" />
     <Compile Include="Events\UserLoggedInEvent.cs" />
     <Compile Include="Extensions\CollectionExtensions.cs" />
+    <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\EmailExtensions.cs" />
     <Compile Include="DomainModels\ObservationGroup.cs" />
     <Compile Include="Extensions\GroupExtensions.cs" />

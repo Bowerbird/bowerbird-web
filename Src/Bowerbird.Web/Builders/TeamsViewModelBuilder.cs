@@ -3,10 +3,8 @@
  Developers: 
  * Frank Radocaj : frank@radocaj.com
  * Hamish Crittenden : hamish.crittenden@gmail.com
- 
  Project Manager: 
  * Ken Walker : kwalker@museum.vic.gov.au
- 
  Funded by:
  * Atlas of Living Australia
  
@@ -73,7 +71,7 @@ namespace Bowerbird.Web.Builders
 
             RavenQueryStatistics stats;
 
-            var results = _documentSession
+            return _documentSession
                 .Query<All_Groups.Result, All_Groups>()
                 .AsProjection<All_Groups.Result>()
                 .Customize(x => x.WaitForNonStaleResults())
@@ -83,15 +81,17 @@ namespace Bowerbird.Web.Builders
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
                 .ToList()
-                .Select(MakeTeam);
-
-            return results.ToPagedList(
-                pagingInput.Page,
-                pagingInput.PageSize,
-                stats.TotalResults,
-                null);
+                .Select(MakeTeam)
+                .ToPagedList(
+                    pagingInput.Page,
+                    pagingInput.PageSize,
+                    stats.TotalResults,
+                    null);
         }
 
+        /// <summary>
+        /// PagingInput.Id is User.Id
+        /// </summary>
         public object BuildUserTeamList(PagingInput pagingInput)
         {
             Check.RequireNotNull(pagingInput, "pagingInput");
@@ -102,29 +102,27 @@ namespace Bowerbird.Web.Builders
                 .Query<All_Users.Result, All_Users>()
                 .AsProjection<All_Users.Result>()
                 .Where(x => x.UserId == pagingInput.Id)
-                .Include(x =>
-                         x.Groups
-                             .Where(z => z.GroupType == "team")
-                             .SelectMany(y => y.Id));
+                .Include(x => x.Groups.Where(z => z.GroupType == "team").SelectMany(y => y.Id));
                 
-            var results = _documentSession
+            return _documentSession
                 .Query<All_Groups.Result, All_Groups>()
                 .AsProjection<All_Groups.Result>()
                 .Where(x => x.Group.Id.In(memberships.SelectMany(y => y.Groups.Select(z => z.Id))))
-                .Customize(x => x.WaitForNonStaleResults())
                 .Statistics(out stats)
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
                 .ToList()
-                .Select(MakeTeam);
-
-            return results.ToPagedList(
-                pagingInput.Page,
-                pagingInput.PageSize,
-                stats.TotalResults,
-                null);
+                .Select(MakeTeam)
+                .ToPagedList(
+                    pagingInput.Page,
+                    pagingInput.PageSize,
+                    stats.TotalResults,
+                    null);
         }
 
+        /// <summary>
+        /// PagingInput.Id is Organisation.Id
+        /// </summary>
         public object BuildOrganisationTeamList(PagingInput pagingInput)
         {
             Check.RequireNotNull(pagingInput, "pagingInput");
@@ -133,10 +131,10 @@ namespace Bowerbird.Web.Builders
 
             var organisationTeams = _documentSession
                 .Query<GroupAssociation>()
-                .Include(x => x.ChildGroup.Id)
-                .Where(x => x.ParentGroup.Id == pagingInput.Id && x.ChildGroup.GroupType == "team");
+                .Where(x => x.ParentGroup.Id == pagingInput.Id && x.ChildGroup.GroupType == "team")
+                .Include(x => x.ChildGroup.Id);
 
-            var results = _documentSession
+            return _documentSession
                 .Query<All_Groups.Result, All_Groups>()
                 .AsProjection<All_Groups.Result>()
                 .Where(x => x.Id.In(organisationTeams.Select(y => y.ChildGroup.Id)))
@@ -144,20 +142,24 @@ namespace Bowerbird.Web.Builders
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
                 .ToList()
-                .Select(MakeTeam);
-
-            return results.ToPagedList(
-                pagingInput.Page,
-                pagingInput.PageSize,
-                stats.TotalResults,
-                null);
+                .Select(MakeTeam)
+                .ToPagedList(
+                    pagingInput.Page,
+                    pagingInput.PageSize,
+                    stats.TotalResults,
+                    null);
         }
 
+        /// <summary>
+        /// PagingInput.Id is Team.Id
+        /// </summary>
         public object BuildTeamUserList(PagingInput pagingInput)
         {
+            Check.RequireNotNull(pagingInput, "pagingInput");
+
             RavenQueryStatistics stats;
 
-            var results = _documentSession
+            return _documentSession
                 .Query<Member>()
                 .Where(x => x.Group.Id == pagingInput.Id)
                 .Customize(x => x.WaitForNonStaleResults())
@@ -166,9 +168,7 @@ namespace Bowerbird.Web.Builders
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
                 .ToList()
-                .Select(x => MakeUser(x.User.Id));
-
-            return results
+                .Select(x => MakeUser(x.User.Id))
                 .ToPagedList(
                     pagingInput.Page,
                     pagingInput.PageSize,
