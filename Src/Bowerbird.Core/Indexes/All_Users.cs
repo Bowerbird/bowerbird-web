@@ -18,6 +18,7 @@ using Raven.Client.Indexes;
 using Raven.Abstractions.Indexing;
 using System.Collections.Generic;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
+using System;
 
 namespace Bowerbird.Core.Indexes
 {
@@ -27,26 +28,58 @@ namespace Bowerbird.Core.Indexes
         {
             public string UserId { get; set; }
             public string[] MemberIds { get; set; }
-            public DenormalisedGroupReference[] Groups { get; set; }
-            public string[] RoleIds { get; set; }
-            public string[] PermissionIds { get; set; }
+            public object[] Memberships { get; set; }
+        }
+
+        public class ClientResult
+        {
+            public string UserId { get; set; }
+            public string[] MemberIds { get; set; }
+            public Membership[] Memberships { get; set; }
             public User User { get; set; }
-            public IEnumerable<Member> Memberships { get; set; }
+            public IEnumerable<Member> Members { get; set; }
+        }
+
+        public class Membership
+        {
+            public string Id { get; set; }
+            public DenormalisedGroupReference Group { get; set; }
+            public Role[] Roles { get; set; }
         }
 
         public All_Users()
         {
-            AddMap<Member>(members => from member in members 
+            AddMap<Member>(members => from member in members
                                       let roles = member.Roles
                                       let permissions = roles.SelectMany(x => x.Permissions)
-                                        select new
-                                        {
-                                            UserId = member.User.Id,
-                                            MemberIds = new [] { member.Id },
-                                            Groups = new [] { member.Group },
-                                            RoleIds = roles.Select(x => x.Id),
-                                            PermissionIds = permissions.Select(x => x.Id)
-                                        });
+                                      select new
+                                      {
+                                          UserId = member.User.Id,
+                                          MemberIds = new [] { member.Id },
+                                          Memberships = new
+                                          {
+                                              member.Id,
+                                              @group = new
+                                              {
+                                                  member.Group.Id,
+                                                  member.Group.GroupType
+                                              },
+                                              roles = from role in member.Roles
+                                                      select new
+                                                      {
+                                                          role.Id,
+                                                          role.Name,
+                                                          role.Description,
+                                                          permissions = from permission in role.Permissions
+                                                                        select new
+                                                                        {
+                                                                            permission.Id,
+                                                                            permission.Name,
+                                                                            permission.Description
+                                                                        }
+                                                      }
+                                          }
+                                      });
 
             Reduce = results => from result in results
                                 group result by result.UserId
@@ -55,31 +88,25 @@ namespace Bowerbird.Core.Indexes
                                     {
                                         UserId = g.Key,
                                         MemberIds = g.SelectMany(x => x.MemberIds),
-                                        Groups = g.SelectMany(x => x.Groups),
-                                        RoleIds = g.SelectMany(x => x.RoleIds),
-                                        PermissionIds = g.SelectMany(x => x.PermissionIds)
+                                        Memberships = g.SelectMany(x => x.Memberships)
                                     };
 
             TransformResults = (database, results) =>
                                 from result in results
                                 let user = database.Load<User>(result.UserId)
-                                let memberships = database.Load<Member>(result.MemberIds)
+                                let members = database.Load<Member>(result.MemberIds)
                                 select new
                                 {
                                     result.UserId,
                                     result.MemberIds,
-                                    result.Groups,
-                                    result.RoleIds,
-                                    result.PermissionIds,
+                                    result.Memberships,
                                     User = user,
-                                    Memberships = memberships
+                                    Members = members
                                 };
 
             Store(x => x.UserId, FieldStorage.Yes);
             Store(x => x.MemberIds, FieldStorage.Yes);
-            Store(x => x.Groups, FieldStorage.Yes);
-            Store(x => x.RoleIds, FieldStorage.Yes);
-            Store(x => x.PermissionIds, FieldStorage.Yes);
+            Store(x => x.Memberships, FieldStorage.Yes);
         }
     }
 }

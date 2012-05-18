@@ -21,6 +21,7 @@ using Raven.Client.Linq;
 using Bowerbird.Core.Paging;
 using Bowerbird.Core.Config;
 using Bowerbird.Web.Factories;
+using System;
 
 namespace Bowerbird.Web.Builders
 {
@@ -30,8 +31,6 @@ namespace Bowerbird.Web.Builders
 
         private readonly IUserContext _userContext;
         private readonly IDocumentSession _documentSession;
-        private readonly IStreamItemFactory _streamItemFactory;
-        private readonly IObservationViewFactory _observationViewFactory;
 
         #endregion
 
@@ -39,19 +38,13 @@ namespace Bowerbird.Web.Builders
 
         public StreamItemsViewModelBuilder(
             IUserContext userContext,
-            IDocumentSession documentSession,
-            IStreamItemFactory streamItemFactory,
-            IObservationViewFactory observationViewFactory)
+            IDocumentSession documentSession)
         {
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(documentSession, "documentSession");
-            Check.RequireNotNull(streamItemFactory, "streamItemFactory");
-            Check.RequireNotNull(observationViewFactory, "observationViewFactory");
 
             _userContext = userContext;
             _documentSession = documentSession;
-            _streamItemFactory = streamItemFactory;
-            _observationViewFactory = observationViewFactory;
         }
 
         #endregion
@@ -62,31 +55,6 @@ namespace Bowerbird.Web.Builders
 
         #region Methods
 
-        public PagedList<object> BuildUserStreamItems(PagingInput pagingInput)
-        {
-            RavenQueryStatistics stats;
-
-            var groups = _documentSession
-                .Query<Member>()
-                .Include(x => x.User.Id)
-                .Where(x => x.User.Id == _userContext.GetAuthenticatedUserId())
-                .Select(x => new { GroupId = x.Group.Id })
-                .ToList();
-
-            return _documentSession
-                .Query<All_Contributions.Result, All_Contributions>()
-                .AsProjection<All_Contributions.Result>()
-                .Statistics(out stats)
-                .Include(x => x.ContributionId)
-                .Where(x => x.GroupId.In(groups.Select(y => y.GroupId)))
-                .OrderByDescending(x => x.CreatedDateTime)
-                .Skip((pagingInput.Page - 1) * pagingInput.PageSize)
-                .Take(pagingInput.PageSize)
-                .ToList()
-                .Select(MakeStreamItem)
-                .ToPagedList(pagingInput.Page, pagingInput.PageSize, stats.TotalResults);
-        }
-
         public PagedList<object> BuildHomeStreamItems(PagingInput pagingInput)
         {
             RavenQueryStatistics stats;
@@ -95,8 +63,8 @@ namespace Bowerbird.Web.Builders
                 .Query<Member>()
                 .Include(x => x.User.Id)
                 .Where(x => x.User.Id == _userContext.GetAuthenticatedUserId())
-                .Select(x => new { GroupId = x.Group.Id })
-                .ToList();
+                .ToList()
+                .Select(x => new { GroupId = x.Group.Id });
 
             return _documentSession
                 .Query<All_Contributions.Result, All_Contributions>()
@@ -109,114 +77,192 @@ namespace Bowerbird.Web.Builders
                 .Take(pagingInput.PageSize)
                 .ToList()
                 .Select(MakeStreamItem)
-                .ToPagedList(pagingInput.Page, pagingInput.PageSize, stats.TotalResults);
+                .ToPagedList(
+                    pagingInput.Page, 
+                    pagingInput.PageSize, 
+                    stats.TotalResults);
         }
 
+        /// <summary>
+        /// PagingInput.Id is User.Id
+        /// </summary>
+        public PagedList<object> BuildUserStreamItems(PagingInput pagingInput)
+        {
+            RavenQueryStatistics stats;
+
+            var groups = _documentSession
+                .Query<All_Users.Result, All_Users>()
+                .AsProjection<All_Users.ClientResult>()
+                .Where(x => x.UserId == _userContext.GetAuthenticatedUserId())
+                .ToList()
+                .SelectMany(x => x.Memberships.Select(y => y.Group.Id));
+
+            return _documentSession
+                .Query<All_Contributions.Result, All_Contributions>()
+                .AsProjection<All_Contributions.Result>()
+                .Statistics(out stats)
+                .Include(x => x.ContributionId)
+                .Where(x => x.GroupId.In(groups))
+                .OrderByDescending(x => x.CreatedDateTime)
+                .Skip((pagingInput.Page - 1) * pagingInput.PageSize)
+                .Take(pagingInput.PageSize)
+                .ToList()
+                .Select(MakeStreamItem)
+                .ToPagedList(
+                    pagingInput.Page, 
+                    pagingInput.PageSize, 
+                    stats.TotalResults);
+        }
+
+        /// <summary>
+        /// PagingInput.Id is Group.Id
+        /// </summary>
         public PagedList<object> BuildGroupStreamItems(PagingInput pagingInput)
         {
             RavenQueryStatistics stats;
 
             var groups = _documentSession
-                .Query<GroupAssociation>()
-                .Where(x => x.ParentGroup.Id == pagingInput.Id)
+                .Query<All_Groups.Result, All_Groups>()
+                .Where(x => x.Id == pagingInput.Id)
                 .ToList()
-                .Select(x => new { GroupId = x.ChildGroup.Id })
-                .ToList();
+                .SelectMany(x => x.AncestorGroupIds)
+                .Union(new [] { pagingInput.Id });
 
-            groups.Add(new { GroupId = pagingInput.Id });
+            //groups.Add(new { GroupId = pagingInput.Id });
 
             return _documentSession
                 .Query<All_Contributions.Result, All_Contributions>()
                 .AsProjection<All_Contributions.Result>()
                 .Statistics(out stats)
                 .Include(x => x.ContributionId)
-                .Where(x => x.GroupId.In(groups.Select(y => y.GroupId)))
+                .Where(x => x.GroupId.In(groups))
                 .OrderByDescending(x => x.CreatedDateTime)
                 .Skip((pagingInput.Page - 1) * pagingInput.PageSize)
                 .Take(pagingInput.PageSize)
                 .ToList()
                 .Select(MakeStreamItem)
-                .ToPagedList(pagingInput.Page, pagingInput.PageSize, stats.TotalResults);
+                .ToPagedList(
+                    pagingInput.Page, 
+                    pagingInput.PageSize, 
+                    stats.TotalResults);
         }
 
         private object MakeStreamItem(All_Contributions.Result groupContributionResult)
         {
-            object item = null;
-            string description = null;
-            IEnumerable<string> groups = null;
+            throw new NotImplementedException();
+            //object item = null;
+            //string description = null;
+            //IEnumerable<string> groups = null;
 
-            switch (groupContributionResult.ContributionType)
-            {
-                case "Observation":
-                    item = _observationViewFactory.Make(groupContributionResult.Observation);
-                    description = groupContributionResult.Observation.User.FirstName + " added an observation";
-                    groups = groupContributionResult.Observation.Groups.Select(x => x.GroupId);
-                    break;
-            }
+            //switch (groupContributionResult.ContributionType)
+            //{
+            //    case "Observation":
+            //        item = (Observation)null;//_observationViewFactory.Make(groupContributionResult.Observation);
+            //        description = groupContributionResult.Observation.User.FirstName + " added an observation";
+            //        groups = groupContributionResult.Observation.Groups.Select(x => x.GroupId);
+            //        break;
+            //}
 
-            return _streamItemFactory.Make(
-                item,
-                groups,
-                "observation",
-                groupContributionResult.GroupUser,
-                groupContributionResult.GroupCreatedDateTime,
-                description);
+            //return _streamItemFactory.Make(
+            //    item,
+            //    groups,
+            //    "observation",
+            //    groupContributionResult.GroupUser,
+            //    groupContributionResult.GroupCreatedDateTime,
+            //    description);
         }
 
-        //// Get all stream items for all groups that a particular user is a member of
-        //private PagedList<StreamItem> MakeUserStreamItemList(StreamItemListInput listInput, StreamSortInput sortInput)
+        //public object MakeStreamItem(
+        //    object item,
+        //    IEnumerable<string> groups,
+        //    string contributionType,
+        //    User groupUser,
+        //    DateTime groupCreatedDateTime,
+        //    string description
+        //)
         //{
-        //    RavenQueryStatistics stats;
-
-        //    var groupMemberships = _documentSession
-        //        .Query<Member>()
-        //        .Include(x => x.User.Id)
-        //        .Where(x => x.User.Id == listInput.UserId);
-        //        //.ToList();
-
-        //    var groupContributions = GetContributionsForGroups(groupMemberships)
-        //        .AsProjection<All_Contributions.Result>()
-        //        .Include(x => x.ContributionId)
-        //        .Where(x => x.UserId == listInput.UserId)
-        //        .Statistics(out stats)
-        //        .Skip(listInput.Page)
-        //        .Take(listInput.PageSize)
-        //        .ToList();
-
-        //    //SortResults(groupContributions, sortInput);
-
-        //    //RavenQueryStatistics stats = ProjectGroupContributions(listInput, groupContributions);
-
-        //    return SetStreamItemList(groupContributions, stats, listInput.Page, listInput.PageSize);
+        //    return new
+        //    {
+        //        CreatedDateTime = groupCreatedDateTime,
+        //        CreatedDateTimeDescription = MakeCreatedDateTimeDescription(groupCreatedDateTime),
+        //        Type = contributionType.ToLower(),
+        //        User = new
+        //        {
+        //            groupUser.Id,
+        //            groupUser.LastLoggedIn,
+        //            Name = groupUser.FirstName + " " + groupUser.LastName,
+        //            Avatar = new
+        //            {
+        //                AltTag = groupUser.FirstName + " " + groupUser.LastName,
+        //                UrlToImage = groupUser.Avatar != null ? "" : AvatarUris.DefaultUser
+        //            }
+        //        },
+        //        Item = item,
+        //        Description = description,
+        //        Groups = groups
+        //    };
         //}
 
-        //// Get all items that match the query of a users' watchlist
-        //private StreamItemList MakeWatchlistStreamItemList(StreamItemListInput listInput, StreamSortInput sortInput)
+        //public object Make(
+        //    object item,
+        //    Group group,
+        //    string contributionType,
+        //    User groupUser,
+        //    DateTime groupCreatedDateTime,
+        //    string description
+        //)
         //{
-        //    var memberWatchlists = _documentSession.Load<Watchlist>(listInput.WatchlistId);
+        //    return new
+        //    {
+        //        CreatedDateTime = groupCreatedDateTime,
+        //        CreatedDateTimeDescription = MakeCreatedDateTimeDescription(groupCreatedDateTime),
+        //        Type = contributionType.ToLower(),
+        //        User = new
+        //        {
+        //            groupUser.Id,
+        //            groupUser.LastLoggedIn,
+        //            Name = groupUser.FirstName + " " + groupUser.LastName,
+        //            Avatar = new
+        //            {
+        //                AltTag = groupUser.FirstName + " " + groupUser.LastName,
+        //                UrlToImage = groupUser.Avatar != null ? "" : AvatarUris.DefaultUser
+        //            }
+        //        },
+        //        Item = item,
+        //        Description = description,
+        //        Group = group
+        //    };
+        //}
 
-        //    // TODO: Create an index to query for watchlist 
+        //private static string MakeCreatedDateTimeDescription(DateTime dateTime)
+        //{
+        //    var diff = DateTime.Now.Subtract(dateTime);
 
-        //    //var groupContributions = _documentSession
-        //    //    .Query<GroupContributionResults, All_GroupContributionItems>()
-        //    //    .Include(x => x.ContributionId)
-        //    //    .Where(x => x.GroupId.In(groupMemberships.Select(y => y.Group.Id)));
-
-        //    //SortResults(groupContributions, sortInput);
-
-        //    //RavenQueryStatistics stats;
-
-        //    //groupContributions
-        //    //    .OrderByDescending(x => x.GroupCreatedDateTime)
-        //    //    .AsProjection<GroupContributionResults>()
-        //    //    .Statistics(out stats)
-        //    //    .Skip(listInput.Page)
-        //    //    .Take(listInput.PageSize)
-        //    //    .ToList();
-
-        //    //return SetStreamItemList(groupContributions, stats, listInput.Page, listInput.PageSize);
-
-        //    return new StreamItemList();
+        //    if (diff > new TimeSpan(365, 0, 0, 0)) // Year
+        //    {
+        //        return "more than a year ago";
+        //    }
+        //    else if (diff > new TimeSpan(30, 0, 0, 0)) // Month
+        //    {
+        //        var months = (diff.Days / 30);
+        //        return string.Format("{0} month{1} ago", months, months > 1 ? "s" : string.Empty);
+        //    }
+        //    else if (diff > new TimeSpan(1, 0, 0, 0)) // Day
+        //    {
+        //        return string.Format("{0} day{1} ago", diff.Days, diff.Days > 1 ? "s" : string.Empty);
+        //    }
+        //    else if (diff > new TimeSpan(1, 0, 0)) // Hour
+        //    {
+        //        return string.Format("{0} hour{1} ago", diff.Hours, diff.Hours > 1 ? "s" : string.Empty);
+        //    }
+        //    else if (diff > new TimeSpan(0, 1, 0)) // Minute
+        //    {
+        //        return string.Format("{0} minute{1} ago", diff.Minutes, diff.Minutes > 1 ? "s" : string.Empty);
+        //    }
+        //    else // Second
+        //    {
+        //        return "just now";
+        //    }
         //}
 
         #endregion

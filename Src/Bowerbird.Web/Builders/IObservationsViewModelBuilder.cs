@@ -24,9 +24,7 @@ namespace Bowerbird.Web.Builders
 
         object BuildObservationList(PagingInput pagingInput);
 
-        object BuildObservationStreamItems(PagingInput pagingInput);
-
-        object BuildProjectObservationList(PagingInput pagingInput);
+        object BuildGroupObservationList(PagingInput pagingInput);
 
         object BuildUserObservationList(PagingInput pagingInput);
     }

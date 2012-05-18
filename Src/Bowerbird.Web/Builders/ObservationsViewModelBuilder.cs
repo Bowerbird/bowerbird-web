@@ -25,6 +25,7 @@ using Bowerbird.Web.ViewModels;
 using Raven.Client;
 using Raven.Client.Linq;
 using System;
+using Bowerbird.Core.Services;
 
 namespace Bowerbird.Web.Builders
 {
@@ -32,27 +33,22 @@ namespace Bowerbird.Web.Builders
     {
         #region Fields
 
-        private readonly IObservationViewFactory _observationViewFactory;
-        private readonly IStreamItemFactory _streamItemFactory;
         private readonly IDocumentSession _documentSession;
+        private readonly IMediaFilePathService _mediaFilePathService;
 
         #endregion
 
         #region Constructors
 
         public ObservationsViewModelBuilder(
-            IObservationViewFactory observationViewFactory,
-            IStreamItemFactory streamItemFactory,
-            IDocumentSession documentSession
-        )
+            IDocumentSession documentSession,
+            IMediaFilePathService mediaFilePathService)
         {
-            Check.RequireNotNull(observationViewFactory, "observationViewFactory");
-            Check.RequireNotNull(streamItemFactory, "streamItemFactory");
             Check.RequireNotNull(documentSession, "documentSession");
+            Check.RequireNotNull(mediaFilePathService, "mediaFilePathService");
 
-            _observationViewFactory = observationViewFactory;
-            _streamItemFactory = streamItemFactory;
             _documentSession = documentSession;
+            _mediaFilePathService = mediaFilePathService;
         }
 
         #endregion
@@ -61,46 +57,38 @@ namespace Bowerbird.Web.Builders
 
         public object BuildObservation()
         {
-            return _observationViewFactory.Make();
+            return MakeObservation();
         }
 
         public object BuildObservation(IdInput idInput)
         {
             var observation = _documentSession.Load<Observation>("observations/" + idInput.Id);
 
-            return _observationViewFactory.Make(observation);
+            return MakeObservation(observation);
         }
 
         public object BuildObservationList(PagingInput pagingInput)
         {
             RavenQueryStatistics stats;
 
-            var observations = _documentSession
+            return _documentSession
                 .Query<Observation>()
                 .Statistics(out stats)
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
-                .ToArray();
-
-            return new
-            {
-                pagingInput.Page,
-                pagingInput.PageSize,
-                Observations = observations
-                    .Select(x => _observationViewFactory.Make(x))
-                    .ToPagedList(
-                        pagingInput.Page,
-                        pagingInput.PageSize,
-                        stats.TotalResults,
-                        null)
-            };
+                .ToList()
+                .Select(MakeObservation)
+                .ToPagedList(
+                    pagingInput.Page,
+                    pagingInput.PageSize,
+                    stats.TotalResults);
         }
         
-        public object BuildProjectObservationList(PagingInput pagingInput)
+        public object BuildGroupObservationList(PagingInput pagingInput)
         {
             RavenQueryStatistics stats;
 
-            var observations = _documentSession
+            return _documentSession
                 .Query<All_Contributions.Result, All_Contributions>()
                 .AsProjection<All_Contributions.Result>()
                 .Where(x => x.GroupId == pagingInput.Id)
@@ -108,92 +96,88 @@ namespace Bowerbird.Web.Builders
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
                 .Select(x => x.Observation)
-                .ToArray();
-
-            return new
-            {
-                pagingInput.Page,
-                pagingInput.PageSize,
-                Observations = observations
-                    .Select(x => _observationViewFactory.Make(x))
-                    .ToPagedList(
-                        pagingInput.Page,
-                        pagingInput.PageSize,
-                        stats.TotalResults,
-                        null)
-            };
+                .ToList()
+                .Select(MakeObservation)
+                .ToPagedList(
+                    pagingInput.Page,
+                    pagingInput.PageSize,
+                    stats.TotalResults);
         }
 
         public object BuildUserObservationList(PagingInput pagingInput)
         {
             RavenQueryStatistics stats;
 
-            var observations = _documentSession
+            return _documentSession
                 .Query<All_Contributions.Result, All_Contributions>()
                 .AsProjection<All_Contributions.Result>()
-                .Customize(x => x.Include(pagingInput.Id))
+                .Include(x => x.User.Id)
                 .Where(x => x.User.Id == pagingInput.Id)
                 .Statistics(out stats)
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
                 .Select(x => x.Observation)
-                .ToArray();
+                .ToList()
+                .Select(MakeObservation)
+                .ToPagedList(
+                    pagingInput.Page,
+                    pagingInput.PageSize,
+                    stats.TotalResults);
+        }
 
+        private object MakeObservation()
+        {
             return new
             {
-                pagingInput.Page,
-                pagingInput.PageSize,
-                Observations = observations
-                    .Select(x => _observationViewFactory.Make(x))
-                    .ToPagedList(
-                        pagingInput.Page,
-                        pagingInput.PageSize,
-                        stats.TotalResults,
-                        null)
+                Title = string.Empty,
+                ObservedOn = DateTime.Now.ToString("d MMM yyyy"),
+                Address = string.Empty,
+                Latitude = string.Empty,
+                Longitude = string.Empty,
+                Category = string.Empty,
+                IsIdentificationRequired = false,
+                AnonymiseLocation = false,
+                Media = new ObservationMedia[] { },
+                Projects = new string[] { }
             };
         }
 
-        public object BuildObservationStreamItems(PagingInput pagingInput)
+        private object MakeObservation(Observation observation)
         {
-            RavenQueryStatistics stats;
-
-            return _documentSession
-                .Query<All_Contributions.Result, All_Contributions>()
-                .AsProjection<All_Contributions.Result>()
-                .Statistics(out stats)
-                .Include(x => x.ContributionId)
-                .Where(x => x.ContributionType.Equals("observation") && x.GroupId == pagingInput.Id)
-                .OrderByDescending(x => x.CreatedDateTime)
-                .Skip(pagingInput.Page)
-                .Take(pagingInput.PageSize)
-                .ToList()
-                .ToPagedList(pagingInput.Page, pagingInput.PageSize, stats.TotalResults)
-                .PagedListItems
-                .Select(MakeStreamItem);
+            return new
+            {
+                Id = observation.ShortId(),
+                Title = observation.Title,
+                ObservedOn = observation.ObservedOn.ToString("d MMM yyyy"),
+                Address = observation.Address,
+                Latitude = observation.Latitude,
+                Longitude = observation.Longitude,
+                Category = observation.Category,
+                IsIdentificationRequired = observation.IsIdentificationRequired,
+                AnonymiseLocation = observation.AnonymiseLocation,
+                Media = MakeObservationMediaItems(observation.Media),
+                Projects = observation.Groups.Select(x => x.GroupId)
+            };
         }
 
-        private object MakeStreamItem(All_Contributions.Result groupContributionResult)
+        private IEnumerable<object> MakeObservationMediaItems(IEnumerable<ObservationMedia> observationMedia)
         {
-            object item = null;
-            string description = null;
-            IEnumerable<string> groups = null;
-
-            switch (groupContributionResult.ContributionType)
-            {
-                case "Observation":
-                    item = _observationViewFactory.Make(groupContributionResult.Observation);
-                    description = groupContributionResult.Observation.User.FirstName + " added an observation";
-                    groups = groupContributionResult.Observation.Groups.Select(x => x.GroupId);
-                    break;
-            }
-
-            return _streamItemFactory.Make(
-                item,
-                groups,
-                "observation",
-                groupContributionResult.GroupUser,
-                groupContributionResult.GroupCreatedDateTime,
-                description);
+            return observationMedia.Select(x =>
+                new
+                {
+                    MediaResourceId = x.MediaResource.Id,
+                    x.Description,
+                    x.Licence,
+                    x.MediaResource.Metadata,
+                    x.MediaResource.Type,
+                    CreatedByUser = x.MediaResource.CreatedByUser.Id,
+                    UploadedOn = x.MediaResource.UploadedOn.ToString("d MMM yyyy"),
+                    OriginalImageUri = _mediaFilePathService.MakeMediaFileUri(x.MediaResource, "original"),
+                    LargeImageUri = _mediaFilePathService.MakeMediaFileUri(x.MediaResource, "large"),
+                    MediumImageUri = _mediaFilePathService.MakeMediaFileUri(x.MediaResource, "medium"),
+                    SmallImageUri = _mediaFilePathService.MakeMediaFileUri(x.MediaResource, "small"),
+                    ThumbnailImageUri = _mediaFilePathService.MakeMediaFileUri(x.MediaResource, "thumbnail")
+                });
         }
 
         #endregion

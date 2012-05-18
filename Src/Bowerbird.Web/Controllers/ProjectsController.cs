@@ -117,7 +117,7 @@ namespace Bowerbird.Web.Controllers
             ViewBag.Model = new
             {
                 Project = _projectsViewModelBuilder.BuildProject(new IdInput() { Id = "projects/" + pagingInput.Id }),
-                Observations = _observationsViewModelBuilder.BuildProjectObservationList(pagingInput)
+                Observations = _observationsViewModelBuilder.BuildGroupObservationList(pagingInput)
             };
 
             ViewBag.PrerenderedView = "observations"; // HACK: Need to rethink this
@@ -233,13 +233,11 @@ namespace Bowerbird.Web.Controllers
         {
             var teamIds = _documentSession
                 .Query<All_Users.Result, All_Users>()
-                .AsProjection<All_Users.Result>()
-                .Include(x => x.Groups.SelectMany(y => y.Id))
+                .AsProjection<All_Users.ClientResult>()
+                .Include(x => x.Memberships.Select(y => y.Group.Id))
                 .Where(x => x.UserId == userId)
                 .ToList()
-                .SelectMany(x => x.Memberships)
-                .Where(x => x.Group.GroupType == "team")
-                .Select(x => x.Group.Id);
+                .SelectMany(x => x.Memberships.Where(y => y.Group.GroupType == "team").Select(y => y.Group.Id));
 
             var teams = _documentSession.Load<Team>(teamIds);
 

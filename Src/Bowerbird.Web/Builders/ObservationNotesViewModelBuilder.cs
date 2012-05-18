@@ -24,6 +24,7 @@ using Bowerbird.Web.Factories;
 using Bowerbird.Web.ViewModels;
 using Raven.Client;
 using Raven.Client.Linq;
+using System;
 
 namespace Bowerbird.Web.Builders
 {
@@ -31,8 +32,6 @@ namespace Bowerbird.Web.Builders
     {
         #region Fields
 
-        private readonly IObservationNoteViewFactory _observationNoteViewFactory;
-        private readonly IStreamItemFactory _streamItemFactory;
         private readonly IDocumentSession _documentSession;
 
         #endregion
@@ -40,17 +39,11 @@ namespace Bowerbird.Web.Builders
         #region Constructors
 
         public ObservationNotesViewModelBuilder(
-            IObservationNoteViewFactory observationNoteViewFactory,
-            IStreamItemFactory streamItemFactory,
             IDocumentSession documentSession
         )
         {
-            Check.RequireNotNull(observationNoteViewFactory, "observationNoteViewFactory");
-            Check.RequireNotNull(streamItemFactory, "streamItemFactory");
             Check.RequireNotNull(documentSession, "documentSession");
 
-            _observationNoteViewFactory = observationNoteViewFactory;
-            _streamItemFactory = streamItemFactory;
             _documentSession = documentSession;
         }
 
@@ -62,32 +55,25 @@ namespace Bowerbird.Web.Builders
         {
             Check.RequireNotNull(idInput, "idInput");
 
-            return _observationNoteViewFactory.Make(_documentSession.Load<ObservationNote>(idInput.Id));
+            return MakeObservationNote(_documentSession.Load<ObservationNote>(idInput.Id));
         }
 
         public object BuildObservationNoteList(PagingInput pagingInput)
         {
             RavenQueryStatistics stats;
 
-            var observationNotes = _documentSession
+            return _documentSession
                 .Query<All_Contributions.Result, All_Contributions>()
                 .AsProjection<All_Contributions.Result>()
                 .Statistics(out stats)
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
-                .Select(x => _observationNoteViewFactory.Make(x.ObservationNote))
-                .ToArray();
-
-            return new
-            {
-                pagingInput.Page,
-                pagingInput.PageSize,
-                ObservationNotes = observationNotes.ToPagedList(
+                .ToList()
+                .Select(x => MakeObservationNote(x.ObservationNote))
+                .ToPagedList(
                     pagingInput.Page,
                     pagingInput.PageSize,
-                    stats.TotalResults,
-                    null)
-            };
+                    stats.TotalResults);
         }
         
         public object BuildObservationNoteStreamItems(PagingInput pagingInput)
@@ -104,33 +90,54 @@ namespace Bowerbird.Web.Builders
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
                 .ToList()
-                .ToPagedList(pagingInput.Page, pagingInput.PageSize, stats.TotalResults)
-                .PagedListItems
-                .Select(MakeStreamItem);
+                .Select(MakeStreamItem)
+                .ToPagedList(
+                    pagingInput.Page,
+                    pagingInput.PageSize,
+                    stats.TotalResults);
         }
 
         private object MakeStreamItem(All_Contributions.Result groupContributionResult)
         {
-            object item = null;
-            string description = null;
-            IEnumerable<string> groups = null;
+            throw new NotImplementedException();
+            //object item = null;
+            //string description = null;
+            //IEnumerable<string> groups = null;
 
-            switch (groupContributionResult.ContributionType)
-            {
-                case "ObservationNote":
-                    item = _observationNoteViewFactory.Make(groupContributionResult.ObservationNote);
-                    description = groupContributionResult.ObservationNote.User.FirstName + " added an observation note";
-                    groups = groupContributionResult.Observation.Groups.Select(x => x.GroupId);
-                    break;
-            }
+            //switch (groupContributionResult.ContributionType)
+            //{
+            //    case "ObservationNote":
+            //        item = _observationNoteViewFactory.Make(groupContributionResult.ObservationNote);
+            //        description = groupContributionResult.ObservationNote.User.FirstName + " added an observation note";
+            //        groups = groupContributionResult.Observation.Groups.Select(x => x.GroupId);
+            //        break;
+            //}
 
-            return _streamItemFactory.Make(
-                item,
-                groups,
-                "observationnote",
-                groupContributionResult.GroupUser,
-                groupContributionResult.GroupCreatedDateTime,
-                description);
+            //return _streamItemFactory.Make(
+            //    item,
+            //    groups,
+            //    "observationnote",
+            //    groupContributionResult.GroupUser,
+            //    groupContributionResult.GroupCreatedDateTime,
+            //    description);
+        }
+
+        public object MakeObservationNote(ObservationNote observationNote)
+        {
+            throw new NotImplementedException();
+            //return new
+            //{
+            //    observationNote.Id,
+            //    ObservationId = observationNote.Observation.Id,
+            //    observationNote.CreatedOn,
+            //    observationNote.CommonName,
+            //    observationNote.ScientificName,
+            //    observationNote.Taxonomy,
+            //    observationNote.Descriptions,
+            //    observationNote.References,
+            //    observationNote.Tags,
+            //    CreatedBy = _userViewFactory.Make(observationNote.User.Id)
+            //};
         }
 
         #endregion

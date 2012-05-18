@@ -145,11 +145,11 @@ namespace Bowerbird.Web.Builders
                 .ToList()
                 .Select(x => x.UserId)
                 .Distinct();
-
+             
             var connectedUsers = _documentSession
                 .Query<All_Users.Result, All_Users>()
-                .AsProjection<All_Users.Result>()
-                .Where(x => x.User.Id.In(connectedUserIds))
+                .AsProjection<All_Users.ClientResult>()
+                .Where(x => x.UserId.In(connectedUserIds))
                 .ToList();
 
             return connectedUsers
@@ -173,7 +173,7 @@ namespace Bowerbird.Web.Builders
             };
         }
 
-        private object MakeUser(All_Users.Result user)
+        private object MakeUser(All_Users.ClientResult user)
         {
             Check.RequireNotNull(user, "user");
 
@@ -181,7 +181,7 @@ namespace Bowerbird.Web.Builders
             var userGroups = _documentSession
                 .Query<All_Groups.Result, All_Groups>()
                 .AsProjection<All_Groups.Result>()
-                .Where(x => x.Group.Id.In(user.Groups.SelectMany(y => y.Id)))
+                .Where(x => x.Group.Id.In(user.Memberships.Select(y => y.Id)))
                 .ToList();
 
             // make and return the user

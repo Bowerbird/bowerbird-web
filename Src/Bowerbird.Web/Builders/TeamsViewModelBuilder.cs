@@ -98,16 +98,17 @@ namespace Bowerbird.Web.Builders
 
             RavenQueryStatistics stats;
 
-            var memberships = _documentSession
+            var teams = _documentSession
                 .Query<All_Users.Result, All_Users>()
-                .AsProjection<All_Users.Result>()
+                .AsProjection<All_Users.ClientResult>()
                 .Where(x => x.UserId == pagingInput.Id)
-                .Include(x => x.Groups.Where(z => z.GroupType == "team").SelectMany(y => y.Id));
+                .ToList()
+                .SelectMany(x => x.Memberships.Where(y => y.Group.GroupType == "team").Select(y => y.Group.Id));
                 
             return _documentSession
                 .Query<All_Groups.Result, All_Groups>()
                 .AsProjection<All_Groups.Result>()
-                .Where(x => x.Group.Id.In(memberships.SelectMany(y => y.Groups.Select(z => z.Id))))
+                .Where(x => x.Group.Id.In(teams))
                 .Statistics(out stats)
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
@@ -116,8 +117,7 @@ namespace Bowerbird.Web.Builders
                 .ToPagedList(
                     pagingInput.Page,
                     pagingInput.PageSize,
-                    stats.TotalResults,
-                    null);
+                    stats.TotalResults);
         }
 
         /// <summary>
