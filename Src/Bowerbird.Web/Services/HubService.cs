@@ -544,7 +544,7 @@ namespace Bowerbird.Web.Services
         {
             var group = _documentSession
                 .Query<All_Groups.Result, All_Groups>()
-                .AsProjection<All_Groups.ClientResult>()
+                .AsProjection<All_Groups.Result>()
                 .Where(x => x.GroupId == chatId)
                 .FirstOrDefault();
 

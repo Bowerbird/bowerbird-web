@@ -27,23 +27,9 @@ namespace Bowerbird.Core.Indexes
         {
             public string UserId { get; set; }
             public string[] MemberIds { get; set; }
-            public object[] Memberships { get; set; }
-        }
 
-        public class ClientResult
-        {
-            public string UserId { get; set; }
-            public string[] MemberIds { get; set; }
-            public Membership[] Memberships { get; set; }
             public User User { get; set; }
             public IEnumerable<Member> Members { get; set; }
-        }
-
-        public class Membership
-        {
-            public string Id { get; set; }
-            public DenormalisedGroupReference Group { get; set; }
-            public Role[] Roles { get; set; }
         }
 
         public All_Users()
@@ -54,33 +40,7 @@ namespace Bowerbird.Core.Indexes
                                       select new
                                       {
                                           UserId = member.User.Id,
-                                          MemberIds = new[] { member.Id },
-                                          Memberships = new[]
-                                          {
-                                              new 
-                                              {
-                                                  member.Id,
-                                                  Group = new
-                                                  {
-                                                      member.Group.Id,
-                                                      member.Group.GroupType
-                                                  },
-                                                  Roles = from role in member.Roles
-                                                          select new
-                                                          {
-                                                              role.Id,
-                                                              role.Name,
-                                                              role.Description,
-                                                              Permissions = from permission in role.Permissions
-                                                                            select new
-                                                                            {
-                                                                                permission.Id,
-                                                                                permission.Name,
-                                                                                permission.Description
-                                                                            }
-                                                          }
-                                                }
-                                          }
+                                          MemberIds = new[] { member.Id }
                                       });
 
             Reduce = results => from result in results
@@ -89,8 +49,7 @@ namespace Bowerbird.Core.Indexes
                                     select new
                                     {
                                         UserId = g.Key,
-                                        MemberIds = g.SelectMany(x => x.MemberIds),
-                                        Memberships = g.SelectMany(x => x.Memberships)
+                                        MemberIds = g.SelectMany(x => x.MemberIds)
                                     };
 
             TransformResults = (database, results) =>
@@ -101,14 +60,12 @@ namespace Bowerbird.Core.Indexes
                                 {
                                     result.UserId,
                                     result.MemberIds,
-                                    result.Memberships,
                                     User = user,
                                     Members = members
                                 };
 
             Store(x => x.UserId, FieldStorage.Yes);
             Store(x => x.MemberIds, FieldStorage.Yes);
-            Store(x => x.Memberships, FieldStorage.Yes);
         }
     }
 }

@@ -61,7 +61,7 @@ namespace Bowerbird.Web.Builders
 
             var organisation = _documentSession
                 .Query<All_Groups.Result, All_Groups>()
-                .AsProjection<All_Groups.ClientResult>()
+                .AsProjection<All_Groups.Result>()
                 .Where(x => x.GroupId == idInput.Id)
                 .FirstOrDefault();
 
@@ -74,7 +74,7 @@ namespace Bowerbird.Web.Builders
 
             return _documentSession
                 .Query<All_Groups.Result, All_Groups>()
-                .AsProjection<All_Groups.ClientResult>()
+                .AsProjection<All_Groups.Result>()
                 .Customize(x => x.WaitForNonStaleResults())
                 .Include(x => x.GroupId)
                 .Where(x => x.GroupType == "organisation")
@@ -113,20 +113,18 @@ namespace Bowerbird.Web.Builders
                     stats.TotalResults);
         }
 
-        private object MakeOrganisation(All_Groups.ClientResult organisation)
+        private object MakeOrganisation(All_Groups.Result result)
         {
-            Check.RequireNotNull(organisation, "organisation");
-
             return new
             {
-                Id = organisation.GroupId,
-                organisation.Organisation.Name,
-                organisation.Organisation.Description,
-                organisation.Organisation.Website,
-                Avatar = _avatarFactory.Make(organisation.Organisation),
-                Memberships = organisation.Memberships.Count(),
-                Teams = organisation.DescendantGroups.Where(x => x.GroupType == "team").Select(x => x.Id),
-                Projects = organisation.DescendantGroups.Where(x => x.GroupType == "project").Select(x => x.Id)
+                Id = result.Organisation.Id,
+                result.Organisation.Name,
+                result.Organisation.Description,
+                result.Organisation.Website,
+                Avatar = _avatarFactory.Make(result.Organisation),
+                MemberCount = result.MemberIds.Count()
+                //Teams = result.DescendantGroups.Where(x => x.GroupType == "team").Select(x => x.Id),
+                //Projects = result.DescendantGroups.Where(x => x.GroupType == "project").Select(x => x.Id)
             };
         }
 

@@ -55,7 +55,7 @@ namespace Bowerbird.Web.Builders
 
             var project = _documentSession
                 .Query<All_Groups.Result, All_Groups>()
-                .AsProjection<All_Groups.ClientResult>()
+                .AsProjection<All_Groups.Result>()
                 .FirstOrDefault(x => x.GroupId == idInput.Id);
 
             return MakeProject(project);
@@ -67,7 +67,7 @@ namespace Bowerbird.Web.Builders
 
             return _documentSession
                 .Query<All_Groups.Result, All_Groups>()
-                .AsProjection<All_Groups.ClientResult>()
+                .AsProjection<All_Groups.Result>()
                 .Include(x => x.GroupId)
                 .Where(x => x.GroupType == "project")
                 .Statistics(out stats)
@@ -92,14 +92,14 @@ namespace Bowerbird.Web.Builders
 
             var projects = _documentSession
                 .Query<All_Users.Result, All_Users>()
-                .AsProjection<All_Users.ClientResult>()
+                .AsProjection<All_Users.Result>()
                 .Where(x => x.UserId == pagingInput.Id)
                 .ToList()
-                .SelectMany(x => x.Memberships.Where(y => y.Group.GroupType == "project").Select(y => y.Group.Id));
+                .SelectMany(x => x.Members.Where(y => y.Group.GroupType == "project").Select(y => y.Group.Id));
 
             return _documentSession
                 .Query<All_Groups.Result, All_Groups>()
-                .AsProjection<All_Groups.ClientResult>()
+                .AsProjection<All_Groups.Result>()
                 .Where(x => x.GroupId.In(projects))
                 .Statistics(out stats)
                 .Skip(pagingInput.Page)
@@ -128,7 +128,7 @@ namespace Bowerbird.Web.Builders
 
             return _documentSession
                 .Query<All_Groups.Result, All_Groups>()
-                .AsProjection<All_Groups.ClientResult>()
+                .AsProjection<All_Groups.Result>()
                 .Where(x => x.GroupId.In(teamProjects.Select(y => y.ChildGroup.Id)))
                 .Statistics(out stats)
                 .Skip(pagingInput.Page)
@@ -180,16 +180,16 @@ namespace Bowerbird.Web.Builders
             };
         }
 
-        private object MakeProject(All_Groups.ClientResult project)
+        private object MakeProject(All_Groups.Result result)
         {
             return new
             {
-                Id = project.GroupId,
-                project.Project.Name,
-                project.Project.Description,
-                project.Project.Website,
-                Memberships = project.Memberships.Count(),
-                Avatar = _avatarFactory.Make(project.Project)
+                Id = result.Project.Id,
+                result.Project.Name,
+                result.Project.Description,
+                result.Project.Website,
+                Avatar = _avatarFactory.Make(result.Project),
+                MemberCount = result.MemberIds.Count()
             };
         }
 

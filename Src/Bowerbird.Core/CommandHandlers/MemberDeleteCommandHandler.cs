@@ -19,6 +19,7 @@ using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Indexes;
 using Raven.Client;
 using Raven.Client.Linq;
+using System;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -52,67 +53,69 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(command, "command");
 
-            var group = _documentSession
-                .Query<All_Groups.Result, All_Groups>()
-                .AsProjection<All_Groups.ClientResult>()
-                .Where(x => x.GroupId == command.GroupId)
-                .FirstOrDefault();
+            throw new NotImplementedException();
 
-            if (group.Project != null)
-            {
-                DeleteMember(
-                    command.UserId,
-                    group.Project.Id
-                    );
-            }
+            //var group = _documentSession
+            //    .Query<All_Groups.Result, All_Groups>()
+            //    .AsProjection<All_Groups.Result>()
+            //    .Where(x => x.GroupId == command.GroupId)
+            //    .FirstOrDefault();
 
-            if (group.Team != null)
-            {
-                DeleteMember(
-                    command.UserId,
-                    group.Team.Id
-                    );
+            //if (group.Project != null)
+            //{
+            //    DeleteMember(
+            //        command.UserId,
+            //        group.Project.Id
+            //        );
+            //}
 
-                foreach (var childGroup in group.ChildGroups)
-                {
-                    DeleteMember(
-                        command.UserId,
-                        childGroup.Id
-                        );
-                }
-            }
+            //if (group.Team != null)
+            //{
+            //    DeleteMember(
+            //        command.UserId,
+            //        group.Team.Id
+            //        );
 
-            if (group.Organisation != null)
-            {
-                DeleteMember(
-                    command.UserId,
-                    group.Organisation.Id
-                    );
+            //    foreach (var childGroupId in group.ChildGroupIds)
+            //    {
+            //        DeleteMember(
+            //            command.UserId,
+            //            childGroupId
+            //            );
+            //    }
+            //}
 
-                foreach (var childGroup in group.ChildGroups)
-                {
-                    DeleteMember(
-                        command.UserId,
-                        childGroup.Id
-                        );
-                }
-            }
+            //if (group.Organisation != null)
+            //{
+            //    DeleteMember(
+            //        command.UserId,
+            //        group.Organisation.Id
+            //        );
+
+            //    foreach (var childGroup in group.ChildGroupIds)
+            //    {
+            //        DeleteMember(
+            //            command.UserId,
+            //            childGroup.Id
+            //            );
+            //    }
+            //}
         }
 
-        private void DeleteMember(
-            string userId,
-            string groupId
-            )
-        {
-            var member = _documentSession
-                .Query<Member>()
-                .Where(x => x.Group.Id == groupId && x.User.Id == userId);
+        //private void DeleteMember(
+        //    string userId,
+        //    string groupId
+        //    )
+        //{
+        //    var member = _documentSession
+        //        .Query<Member>()
+        //        .Where(x => x.Group.Id == groupId && x.User.Id == userId);
 
-            if (member != null)
-            {
-                _documentSession.Delete(member);
-            }
-        }
+        //    if (member != null)
+        //    {
+        //        _documentSession.Delete(member);
+        //    }
+        //}
 
         #endregion
     }

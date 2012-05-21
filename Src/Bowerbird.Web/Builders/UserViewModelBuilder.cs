@@ -60,14 +60,37 @@ namespace Bowerbird.Web.Builders
 
         public object BuildAuthenticatedUser()
         {
-            return BuildUser(new IdInput() { Id = _userContext.GetAuthenticatedUserId() });
+            var userId = _userContext.GetAuthenticatedUserId();
+
+            var projects = _documentSession.Query<All_Groups.Result, All_Groups>()
+                    .Where(x => x.UserIds.Any(y => y == userId) && x.GroupType == "project")
+                    .Include(x => userId)
+                    .AsProjection<All_Groups.Result>()
+                    .ToList()
+                    .Select(MakeProject);
+
+            var user = _documentSession.Load<User>(userId);
+
+            return new
+            {
+                User = new
+                {
+                    user.Id,
+                    Avatar = _avatarFactory.Make(user),
+                    user.LastLoggedIn,
+                    Name = user.GetName()
+                },
+                Projects = projects
+            };
         }
 
         public object BuildUser(IdInput idInput)
         {
             Check.RequireNotNull(idInput, "idInput");
 
-            return MakeUser(idInput.Id);
+            var user = _documentSession.Load<User>(idInput.Id);
+
+            return MakeUser(user);
         }
 
         public object BuildUserList(PagingInput pagingInput)
@@ -81,12 +104,11 @@ namespace Bowerbird.Web.Builders
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
                 .ToList()
-                .Select(x => MakeUser(x.Id))
-               .ToPagedList(
+                .Select(MakeUser)
+                .ToPagedList(
                     pagingInput.Page,
                     pagingInput.PageSize,
-                    stats.TotalResults,
-                    null);
+                    stats.TotalResults);
         }
 
         /// <summary>
@@ -149,77 +171,77 @@ namespace Bowerbird.Web.Builders
             return _documentSession
                 .Query<All_Users.Result, All_Users>()
                 .Where(x => x.UserId.In(connectedUserIds))
-                .AsProjection<All_Users.ClientResult>()
+                .AsProjection<All_Users.Result>()
                 .ToList()
-                .Select(MakeUser);
+                .Select(x => MakeUser(x.User));
         }
 
-        private object MakeUser(string userId)
-        {
-            return MakeUser(_documentSession.Load<User>(userId));
-        }
+        //private object MakeUser(string userId)
+        //{
+        //    return MakeUser(_documentSession.Load<User>(userId));
+        //}
 
         private object MakeUser(User user)
         {
             return new
             {
-                Avatar = _avatarFactory.Make(user),
                 user.Id,
+                Avatar = _avatarFactory.Make(user),
                 user.LastLoggedIn,
                 Name = user.GetName()
             };
         }
 
-        //TODO: Change this method to query the All_Groups index.
-        private object MakeUser(All_Users.ClientResult user)
-        {
-            Check.RequireNotNull(user, "user");
+        ////TODO: Change this method to query the All_Groups index.
+        //private object MakeUser(All_Users.ClientResult user)
+        //{
+        //    Check.RequireNotNull(user, "user");
 
-            // grab the user's groups
-            var userGroups = _documentSession
-                .Query<All_Groups.Result, All_Groups>()
-                .AsProjection<All_Groups.ClientResult>()
-                .Where(x => x.Group.Id.In(user.Memberships.Select(y => y.Id)))
-                .ToList();
+        //    // grab the user's groups
+        //    var userGroups = _documentSession
+        //        .Query<All_Groups.Result, All_Groups>()
+        //        .AsProjection<All_Groups.ClientResult>()
+        //        .Where(x => x.Group.Id.In(user.Memberships.Select(y => y.Id)))
+        //        .ToList();
 
-            // make and return the user
-            return new
-            {
-                Avatar = _avatarFactory.Make(user.User),
-                user.User.Id,
-                user.User.LastLoggedIn,
-                Name = user.User.GetName(),
-                Projects = userGroups.Where(x => x.GroupType == "project").Select(MakeProject),
-                Teams = userGroups.Where(x => x.GroupType == "team").Select(MakeTeam)
-            };
-        }
+        //    // make and return the user
+        //    return new
+        //    {
+        //        Avatar = _avatarFactory.Make(user.User),
+        //        user.User.Id,
+        //        user.User.LastLoggedIn,
+        //        Name = user.User.GetName()
+        //        //Projects = userGroups.Where(x => x.GroupType == "project").Select(MakeProject),
+        //        //Teams = userGroups.Where(x => x.GroupType == "team").Select(MakeTeam)
+        //    };
+        //}
 
-        private object MakeProject(All_Groups.ClientResult project)
-        {
-            return new
-            {
-                Id = project.GroupId,
-                project.Project.Name,
-                project.Project.Description,
-                project.Project.Website,
-                Avatar = _avatarFactory.Make(project.Project),
-                Memberships = project.Memberships.Count()
-            };
-        }
-
-        public object MakeTeam(All_Groups.ClientResult team)
+        private object MakeProject(All_Groups.Result result)
         {
             return new
             {
-                Id = team.GroupId,
-                team.Team.Name,
-                team.Team.Description,
-                team.Team.Website,
-                Avatar = _avatarFactory.Make(team.Team),
-                Memberships = team.Memberships.Count(),
-                Projects = 0
+                Id = result.Project.Id,
+                result.Project.Name,
+                result.Project.Description,
+                result.Project.Website,
+                Avatar = _avatarFactory.Make(result.Project),
+                MemberCount = result.MemberIds.Count()
             };
         }
+
+        //public object MakeTeam(All_Groups.ClientResult team)
+        //{
+        //    return new
+        //    {
+        //        Id = team.GroupId,
+        //        team.Team.Name,
+        //        team.Team.Description,
+        //        team.Team.Website,
+        //        Avatar = _avatarFactory.Make(team.Team),
+        //        Memberships = team.Memberships.Count(),
+        //        Projects = 0
+        //    };
+        //}
 
         #endregion
     }

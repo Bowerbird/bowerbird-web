@@ -174,15 +174,9 @@
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="EventHandlers\NotifyObservationCreatedEventHandler.cs" />
     <Compile Include="Factories\AvatarFactory.cs" />
-    <Compile Include="Factories\IObservationNoteViewFactory.cs" />
     <Compile Include="Factories\ObservationNoteViewFactory.cs" />
-    <Compile Include="Factories\ObservationViewFactory.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Factories\IAvatarFactory.cs" />
     <Compile Include="Factories\IFactory.cs" />
-    <Compile Include="Factories\IObservationViewFactory.cs" />
-    <Compile Include="Factories\IStreamItemFactory.cs" />
     <Compile Include="Factories\StreamItemFactory.cs" />
     <Compile Include="Hubs\ChatHub.cs" />
     <Compile Include="Notifications\INotificationProcessor.cs" />
