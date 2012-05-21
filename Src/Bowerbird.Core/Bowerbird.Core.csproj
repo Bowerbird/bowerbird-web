@@ -292,7 +292,6 @@
     <Compile Include="Indexes\All_Users.cs" />
     <Compile Include="Indexes\All_Sessions.cs" />
     <Compile Include="Indexes\All_ReferenceSpecies.cs" />
-    <Compile Include="Indexes\All_UsersTest.cs" />
     <Compile Include="Paging\EnumerableExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Commands\ICommandProcessor.cs" />

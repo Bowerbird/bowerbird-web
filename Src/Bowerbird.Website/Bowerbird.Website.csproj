@@ -424,7 +424,7 @@
     <None Include="Views\Shared\StreamList.mustache" />
     <None Include="Views\Shared\StreamListLoading.mustache" />
     <None Include="Views\Shared\StreamLoadMore.mustache" />
-    <None Include="Views\Shared\TeamCreate.mustache" />
+    <None Include="Views\Shared\TeamForm.mustache" />
     <None Include="Views\Shared\UserItem.mustache" />
     <None Include="Views\Shared\UsersOnlineList.mustache" />
     <None Include="Views\Teams\List.mustache" />

@@ -31,7 +31,12 @@
           <label for="organisation">Organisation</label>
         </div>
         <div>
-          <select id="organisations" name="organisations"></select>
+        <select id="Organisation" name="organisation">
+            <option></option>
+            {{#Model.Organisations}}
+            <option value="{{Value}}" {{#Selected}}selected{{/Selected}}>{{Text}}</option>
+            {{/Model.Organisations}}
+        </select>
         </div>
       </div>
     </fieldset>

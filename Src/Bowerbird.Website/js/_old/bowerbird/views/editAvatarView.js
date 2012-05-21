@@ -1,6 +1,9 @@
 ﻿
 window.Bowerbird.Views.EditAvatarView = Backbone.View.extend({
-    id: 'avatar-fieldset',
+
+    className: 'button media-resource-upload-button',
+
+    template: 'AvatarChooseFile',
 
     events: {
         'click .remove-media-resource-button': 'removeMediaResource'
@@ -21,10 +24,14 @@ window.Bowerbird.Views.EditAvatarView = Backbone.View.extend({
         this.avatarItemView = null;
     },
 
-    render: function () {
-        ich.AvatarChooseFile().appendTo($('#avatar-add-pane'));
+    onShow: function () {
+        this._showDetails();
+    },
+
+    _showDetails: function () {
+        //ich.AvatarChooseFile().appendTo($('#avatar-add-pane'));
         this._initMediaUploader();
-        return this;
+        //return this;
     },
 
     _initMediaUploader: function () {
@@ -96,8 +103,8 @@ window.Bowerbird.Views.EditAvatarView = Backbone.View.extend({
     removeMediaResource: function () {
         this.group.set('Avatar', null);
         this.avatarItemView = null;
-        ich.AvatarChooseFile().appendTo(this.$el.find('#avatar-add-pane'));
+        //        ich.AvatarChooseFile().appendTo(this.$el.find('#avatar-add-pane'));
+        ich["AvatarChooseFile"].appendTo(this.$el.find('#avatar-add-pane'));
         this._initMediaUploader();
     }
-
 });

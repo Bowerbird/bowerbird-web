@@ -12,15 +12,21 @@
  
 */
 
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Indexes;
 using Bowerbird.Web.Builders;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.ViewModels;
 using Bowerbird.Core.Config;
 using System;
+using Raven.Client;
+using Raven.Client.Linq;
 
 namespace Bowerbird.Web.Controllers
 {
@@ -36,6 +42,7 @@ namespace Bowerbird.Web.Controllers
         private readonly IProjectsViewModelBuilder _projectsViewModelBuilder;
         private readonly IPostsViewModelBuilder _postsViewModelBuilder;
         private readonly IReferenceSpeciesViewModelBuilder _referenceSpeciesViewModelBuilder;
+        private readonly IDocumentSession _documentSession;
 
         #endregion
 
@@ -48,7 +55,8 @@ namespace Bowerbird.Web.Controllers
             IStreamItemsViewModelBuilder streamItemsViewModelBuilder,
             IProjectsViewModelBuilder projectsViewModelBuilder,
             IPostsViewModelBuilder postsViewModelBuilder,
-            IReferenceSpeciesViewModelBuilder referenceSpeciesViewModelBuilder
+            IReferenceSpeciesViewModelBuilder referenceSpeciesViewModelBuilder,
+            IDocumentSession documentSession
             )
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
@@ -58,6 +66,7 @@ namespace Bowerbird.Web.Controllers
             Check.RequireNotNull(projectsViewModelBuilder, "projectsViewModelBuilder");
             Check.RequireNotNull(postsViewModelBuilder, "postsViewModelBuilder");
             Check.RequireNotNull(referenceSpeciesViewModelBuilder, "referenceSpeciesViewModelBuilder");
+            Check.RequireNotNull(documentSession, "documentSession");
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
@@ -66,6 +75,7 @@ namespace Bowerbird.Web.Controllers
             _projectsViewModelBuilder = projectsViewModelBuilder;
             _postsViewModelBuilder = postsViewModelBuilder;
             _referenceSpeciesViewModelBuilder = referenceSpeciesViewModelBuilder;
+            _documentSession = documentSession;
         }
 
         #endregion
@@ -182,6 +192,19 @@ namespace Bowerbird.Web.Controllers
             {
                 return HttpUnauthorized();
             }
+
+            ViewBag.Model = new
+            {
+                Team = new { },
+                Organisations = GetOrganisations(_userContext.GetAuthenticatedUserId())
+            };
+
+            if (Request.IsAjaxRequest())
+            {
+                return new JsonNetResult(ViewBag.Model);
+            }
+
+            ViewBag.PrerenderedView = "projects";
 
             return View(Form.Create);
         }
@@ -434,6 +457,38 @@ namespace Bowerbird.Web.Controllers
             );
 
             return JsonSuccess();
+        }
+
+        private IEnumerable GetOrganisations(string userId, string teamId = "")
+        {
+            var organisationIds = _documentSession
+                .Query<All_Users.Result, All_Users>()
+                .AsProjection<All_Users.ClientResult>()
+                .Where(x => x.UserId == userId)
+                .ToList()
+                .SelectMany(x => x.Memberships.Where(y => y.Group.GroupType == "organisation").Select(y => y.Group.Id));
+
+            var organisations = _documentSession.Load<Organisation>(organisationIds);
+
+            var team = _documentSession.Load<Team>("teams/" + teamId);
+            Func<Organisation, bool> isSelected = null;
+
+            if (team != null)
+            {
+                isSelected = x => { return team.Ancestry.Any(y => y.Id == x.Id); };
+            }
+            else
+            {
+                isSelected = x => { return false; };
+            }
+
+            return from organisation in organisations
+                   select new
+                   {
+                       Text = organisation.Name,
+                       Value = organisation.ShortId(),
+                       Selected = isSelected(organisation)
+                   };
         }
 
         #endregion

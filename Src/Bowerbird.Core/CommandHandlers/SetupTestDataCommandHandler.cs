@@ -128,6 +128,13 @@ namespace Bowerbird.Core.CommandHandlers
                 AddTeamMember(Users[2].Id, Teams[0].Id, "teammember");
                 AddTeamMember(Users[2].Id, Teams[1].Id, "teammember");
 
+                AddOrganisationMember(Users[0].Id, Organisations[0].Id, "organisationadministrator");
+                AddOrganisationMember(Users[0].Id, Organisations[1].Id, "organisationadministrator");
+                AddOrganisationMember(Users[1].Id, Organisations[0].Id, "organisationadministrator");
+                AddOrganisationMember(Users[1].Id, Organisations[1].Id, "organisationadministrator");
+                AddOrganisationMember(Users[2].Id, Organisations[0].Id, "organisationadministrator");
+                AddOrganisationMember(Users[2].Id, Organisations[1].Id, "organisationadministrator");
+
                 // Observations
                 AddObservation(Users[0].Id, Projects[0].Id);
                 AddObservation(Users[0].Id, Projects[1].Id);
@@ -260,6 +267,19 @@ namespace Bowerbird.Core.CommandHandlers
             _documentSession.Store(teamMember);
 
             Members.Add(teamMember);
+        }
+
+        private void AddOrganisationMember(string userid, string organisationId, string rolename)
+        {
+            var user = Users.Single(x => x.Id == userid);
+            var organisation = Organisations.Single(x => x.Id == organisationId);
+            var roles = new List<Role>() { Roles.Single(x => x.Id == "roles/" + rolename) };
+
+            var organisationMember = new Member(user, user, organisation, roles);
+
+            _documentSession.Store(organisationMember);
+
+            Members.Add(organisationMember);
         }
 
         private void AddBowerbirdAppMember(string userid, string rolename)

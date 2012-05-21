@@ -5,18 +5,16 @@
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// ProjectFormLayoutView
+// TeamFormLayoutView
 // -------------------------
 
 define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editavatarview', 'multiselect'], function ($, _, Backbone, app, ich, EditAvatarView) {
 
     var TeamFormLayoutView = Backbone.Marionette.Layout.extend({
 
-        tagName: 'section',
+        className: 'form single-medium team-form',
 
-        className: 'form single-medium',
-
-        id: 'team-form',
+        template: 'TeamForm',
 
         regions: {
             avatar: '#avatar-fieldset'
@@ -32,7 +30,43 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editavatarview'
             'change #organisation-field input:checkbox': '_organisationChanged'
         },
 
-        onRender: function () {
+        initialize: function (options) {
+            this.organisations = options.organisations;
+        },
+
+        serializeData: function () {
+            return {
+                Model: {
+                    Team: this.model.toJSON(),
+                    Organisations: this.organisations
+                }
+            };
+        },
+
+        onShow: function () {
+            this._showDetails();
+        },
+
+        showBootstrappedDetails: function(){
+            this.initializeRegions();
+            this._showDetails();
+        },
+
+        _showDetails: function () {
+            this.organisationListSelectView = this.$el.find("#Organisation").multiSelect({
+                selectAll: false,
+                singleSelect: true,
+                noOptionsText: 'No Organisations',
+                noneSelected: 'Select An Organisation',
+                oneOrMoreSelected: function (selectedOptions) {
+                    var $selectedHtml = $('<span />');
+                    _.each(selectedOptions, function (option) {
+                        $selectedHtml.append('<span>' + option.text + '</span> ');
+                    });
+                    return $selectedHtml.children();
+                }
+            });
+
             var editAvatarView = new EditAvatarView({ el: '#avatar-fieldset' });
             this.avatar.show(editAvatarView);
             editAvatarView.render();

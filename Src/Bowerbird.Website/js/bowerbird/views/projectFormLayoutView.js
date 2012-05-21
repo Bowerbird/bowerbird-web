@@ -8,7 +8,7 @@
 // ProjectFormLayoutView
 // -------------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editavatarview', 'multiselect'], function ($, _, Backbone, app, ich, EditAvatarView) {
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', /*'views/editavatarview',*/ 'multiselect'], function ($, _, Backbone, app, ich /*, EditAvatarView*/) {
 
     var ProjectFormLayoutView = Backbone.Marionette.Layout.extend({
 
@@ -53,11 +53,19 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editavatarview'
         },
 
         _showDetails: function () {
-            // TODO: bind the teams dropdown
-
-            var editAvatarView = new EditAvatarView({ el: '#avatar-fieldset' });
-            this.avatar.show(editAvatarView);
-            editAvatarView.render();
+            this.teamListSelectView = this.$el.find("#Team").multiSelect({
+                selectAll: false,
+                singleSelect: true,
+                noOptionsText: 'No Teams',
+                noneSelected: 'Select A Team',
+                oneOrMoreSelected: function (selectedOptions) {
+                    var $selectedHtml = $('<span />');
+                    _.each(selectedOptions, function (option) {
+                        $selectedHtml.append('<span>' + option.text + '</span> ');
+                    });
+                    return $selectedHtml.children();
+                }
+            });
         },
 
         _showImportAvatar: function () {

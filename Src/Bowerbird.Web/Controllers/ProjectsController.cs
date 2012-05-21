@@ -209,15 +209,14 @@ namespace Bowerbird.Web.Controllers
 
             ViewBag.Model = new
             {
-                Project = new {},
+                Project = new
+                              {
+                                  Name = "Enter Name",
+                                  Description = "Enter Description",
+                                  Website = "Enter Website",
+                                  ImgUrl = "../img/default-project-avatar.jpg"
+                              },
                 Teams = GetTeams(_userContext.GetAuthenticatedUserId())
-                //Teams = _teamsViewModelBuilder.BuildUserTeamList(
-                //    new PagingInput()
-                //    {
-                //        Id = _userContext.GetAuthenticatedUserId(),
-                //        Page = Default.PageStart,
-                //        PageSize = Default.PageMax
-                //    })
             };
 
             if(Request.IsAjaxRequest())
@@ -228,38 +227,6 @@ namespace Bowerbird.Web.Controllers
             ViewBag.PrerenderedView = "projects";
 
             return View(Form.Create);
-        }
-
-        private IEnumerable GetTeams(string userId, string projectId = "")
-        {
-            var teamIds = _documentSession
-                .Query<All_Users.Result, All_Users>()
-                .AsProjection<All_Users.ClientResult>()
-                .Where(x => x.UserId == userId)
-                .ToList()
-                .SelectMany(x => x.Memberships.Where(y => y.Group.GroupType == "team").Select(y => y.Group.Id));
-
-            var teams = _documentSession.Load<Team>(teamIds);
-
-            var project = _documentSession.Load<Project>("projects/" + projectId);
-            Func<Team, bool> isSelected = null;
-
-            if (project != null)
-            {
-                isSelected = x => { return project.Ancestry.Any(y => y.Id == x.Id ); };
-            }
-            else
-            {
-                isSelected = x => { return false; };
-            }
-
-            return from team in teams
-                   select new
-                   {
-                       Text = team.Name,
-                       Value = team.ShortId(),
-                       Selected = isSelected(team)
-                   };
         }
 
         [HttpGet]
@@ -376,7 +343,7 @@ namespace Bowerbird.Web.Controllers
                     Name = createInput.Name,
                     UserId = _userContext.GetAuthenticatedUserId(),
                     AvatarId = createInput.Avatar,
-                    TeamId = createInput.Team
+                    TeamId = "teams/".AppendWith(createInput.Team)
                 });
 
             return JsonSuccess();
@@ -432,6 +399,38 @@ namespace Bowerbird.Web.Controllers
                 });
 
             return JsonSuccess();
+        }
+
+        private IEnumerable GetTeams(string userId, string projectId = "")
+        {
+            var teamIds = _documentSession
+                .Query<All_Users.Result, All_Users>()
+                .AsProjection<All_Users.ClientResult>()
+                .Where(x => x.UserId == userId)
+                .ToList()
+                .SelectMany(x => x.Memberships.Where(y => y.Group.GroupType == "team").Select(y => y.Group.Id));
+
+            var teams = _documentSession.Load<Team>(teamIds);
+
+            var project = _documentSession.Load<Project>("projects/" + projectId);
+            Func<Team, bool> isSelected = null;
+
+            if (project != null)
+            {
+                isSelected = x => { return project.Ancestry.Any(y => y.Id == x.Id); };
+            }
+            else
+            {
+                isSelected = x => { return false; };
+            }
+
+            return from team in teams
+                   select new
+                   {
+                       Text = team.Name,
+                       Value = team.ShortId(),
+                       Selected = isSelected(team)
+                   };
         }
 
         #endregion

@@ -8,11 +8,11 @@
 // EditAvatarView
 // -------------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'models/mediaresource', 'views/avataritemview'], function ($, _, Backbone, app, ich, AvatarItemView, loadImage) {
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'models/mediaresource', 'views/avataritemview', 'loadimage'], function ($, _, Backbone, app, ich, AvatarItemView, loadImage) {
 
     EditAvatarView = Backbone.View.extend({
 
-        id: 'avatar-fieldset',
+        className: 'button media-resource-upload-button',
 
         events: {
             'click .remove-media-resource-button': 'removeMediaResource'
@@ -30,14 +30,19 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'models/mediaresource'
             '_onUploadAdd',
             'removeMediaResource'
             );
-            //this.group = options.group;
+            this.group = options.group;
             this.currentUploadKey = 0;
             this.avatarItemView = null;
         },
 
-        onRender: function () {
+        onShow: function () {
+            this._showDetails();
+        },
+
+        _showDetails: function () {
+            //ich.AvatarChooseFile().appendTo($('#avatar-add-pane'));
             this._initMediaUploader();
-            return this;
+            //return this;
         },
 
         _initMediaUploader: function () {
