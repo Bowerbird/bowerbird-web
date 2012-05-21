@@ -79,47 +79,50 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(command, "command");
 
-            try
+            if (!_systemStateManager.SystemDataSetup) // Check if the system needs setting up
             {
-                _systemStateManager.DisableEmailService();
-
-                //var user = _documentSession.Load<User>(command.UserId);
-                var createdOn = DateTime.UtcNow;
-
-                var speciesFromFiles = LoadSpeciesFilesFromFolder(Path.Combine(_configService.GetEnvironmentRootPath(), _configService.GetSpeciesRelativePath()));
-
-                foreach (var species in speciesFromFiles)
+                try
                 {
-                    _documentSession.Store(
-                        new Species(
-                            species[0],
-                            species[1],
-                            species[2].Split(',').ToArray(),
-                            species[3],
-                            species[4],
-                            species[5],
-                            species[6],
-                            species[7],
-                            species[8],
-                            false,
-                            createdOn
-                            )
-                        );
+                    _systemStateManager.DisableEmailService();
+
+                    //var user = _documentSession.Load<User>(command.UserId);
+                    var createdOn = DateTime.UtcNow;
+
+                    var speciesFromFiles = LoadSpeciesFilesFromFolder(Path.Combine(_configService.GetEnvironmentRootPath(), _configService.GetSpeciesRelativePath()));
+
+                    foreach (var species in speciesFromFiles)
+                    {
+                        _documentSession.Store(
+                            new Species(
+                                species[0],
+                                species[1],
+                                species[2].Split(',').ToArray(),
+                                species[3],
+                                species[4],
+                                species[5],
+                                species[6],
+                                species[7],
+                                species[8],
+                                false,
+                                createdOn
+                                )
+                            );
+                    }
+
+                    _documentSession.SaveChanges();
+
+                    while (_documentStore.DatabaseCommands.GetStatistics().StaleIndexes.Length > 0)
+                    {
+                        Thread.Sleep(10);
+                    }
+
+                    _systemStateManager.EnableEmailService();
+
                 }
-
-                _documentSession.SaveChanges();
-
-                while (_documentStore.DatabaseCommands.GetStatistics().StaleIndexes.Length > 0)
+                catch (Exception exception)
                 {
-                    Thread.Sleep(10);
+                    throw new Exception("Could not setup species data.", exception);
                 }
-
-                _systemStateManager.EnableEmailService();
-
-            }
-            catch (Exception exception)
-            {
-                throw new Exception("Could not setup species data.", exception);
             }
         }
 

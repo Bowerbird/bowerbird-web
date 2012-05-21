@@ -18,6 +18,7 @@ using Bowerbird.Core.DomainModels.DenormalisedReferences;
 using Raven.Client.Indexes;
 using Raven.Abstractions.Indexing;
 using Raven.Client.Linq;
+using System.Collections.Generic;
 
 namespace Bowerbird.Core.Indexes
 {
@@ -27,41 +28,20 @@ namespace Bowerbird.Core.Indexes
         {
             public string GroupType { get; set; }
             public string GroupId { get; set; }
-            public object[] Memberships { get; set; }
-            public object ParentGroup { get; set; }
-            public object[] ChildGroups { get; set; }
-            public object[] AncestorGroups { get; set; }
-            public object[] DescendantGroups { get; set; }
+            public string[] MemberIds { get; set; }
+            public string[] UserIds { get; set; }
+            public string ParentGroupId { get; set; }
+            public string[] ChildGroupIds { get; set; }
+            public string[] AncestorGroupIds { get; set; }
+            public string[] DescendantGroupIds { get; set; }
+
             public Group Group { get { return AppRoot ?? Organisation ?? Team ?? Project ?? UserProject ?? (Group)null; } }
             public AppRoot AppRoot { get; set; }
             public Organisation Organisation { get; set; }
             public Team Team { get; set; }
             public Project Project { get; set; }
             public UserProject UserProject { get; set; }
-        }
-
-        public class ClientResult
-        {
-            public string GroupType { get; set; }
-            public string GroupId { get; set; }
-            public Membership[] Memberships { get; set; }
-            public DenormalisedGroupReference ParentGroup { get; set; }
-            public DenormalisedGroupReference[] ChildGroups { get; set; }
-            public DenormalisedGroupReference[] AncestorGroups { get; set; }
-            public DenormalisedGroupReference[] DescendantGroups { get; set; }
-            public Group Group { get { return AppRoot ?? Organisation ?? Team ?? Project ?? UserProject ?? (Group)null; } }
-            public AppRoot AppRoot { get; set; }
-            public Organisation Organisation { get; set; }
-            public Team Team { get; set; }
-            public Project Project { get; set; }
-            public UserProject UserProject { get; set; }
-
-        }
-
-        public class Membership
-        {
-            public string UserId { get; set; }
-            public Role[] Roles { get; set; }
+            public IEnumerable<Member> Members { get; set; }
         }
 
         public All_Groups()
@@ -72,11 +52,12 @@ namespace Bowerbird.Core.Indexes
                             {
                                 appRoot.GroupType,
                                 GroupId = appRoot.Id,
-                                Memberships = new object[] { },
-                                ParentGroup = (object)null,
-                                ChildGroups = new object[] { },
-                                AncestorGroups = new object[] { },
-                                DescendantGroups = new object[] { }
+                                MemberIds = new string[] { },
+                                UserIds = new string[] { },
+                                ParentGroupId = (string)null,
+                                ChildGroupIds = new string[] { },
+                                AncestorGroupIds = new string[] { },
+                                DescendantGroupIds = new string[] { }
                             });
 
             AddMap<Organisation>(
@@ -87,25 +68,14 @@ namespace Bowerbird.Core.Indexes
                     {
                         organisation.GroupType,
                         GroupId = organisation.Id,
-                        Memberships = new object[] { },
-                        ParentGroup = new
-                            {
-                                parentGroup.Id,
-                                parentGroup.GroupType
-                            },
-                        ChildGroups = new object[] { },
-                        AncestorGroups = from ancestor in organisation.Ancestry
-                                           select new
-                                            {
-                                                ancestor.Id,
-                                                ancestor.GroupType
-                                            },
-                        DescendantGroups = from descendant in organisation.Descendants
-                                           select new
-                                            {
-                                                descendant.Id,
-                                                descendant.GroupType
-                                            }
+                        MemberIds = new string[] { },
+                        UserIds = new string[] { },
+                        ParentGroupId = parentGroup.Id,
+                        ChildGroupIds = new string[] { },
+                        AncestorGroupIds = from ancestor in organisation.Ancestry
+                                           select ancestor.Id,
+                        DescendantGroupIds = from descendant in organisation.Descendants
+                                             select descendant.Id
                     });
 
             AddMap<Team>(
@@ -116,25 +86,14 @@ namespace Bowerbird.Core.Indexes
                     {
                         team.GroupType,
                         GroupId = team.Id,
-                        Memberships = new object[] { },
-                        ParentGroup = new
-                            {
-                                parentGroup.Id,
-                                parentGroup.GroupType
-                            },
-                        ChildGroups = new object[] { },
-                        AncestorGroups = from ancestor in team.Ancestry
-                                         select new
-                                         {
-                                             ancestor.Id,
-                                             ancestor.GroupType
-                                         },
-                        DescendantGroups = from descendant in team.Descendants
-                                           select new
-                                           {
-                                               descendant.Id,
-                                               descendant.GroupType
-                                           }
+                        MemberIds = new string[] { },
+                        UserIds = new string[] { },
+                        ParentGroupId = parentGroup.Id,
+                        ChildGroupIds = new string[] { },
+                        AncestorGroupIds = from ancestor in team.Ancestry
+                                           select ancestor.Id,
+                        DescendantGroupIds = from descendant in team.Descendants
+                                             select descendant.Id
                     });
 
             AddMap<Project>(
@@ -144,20 +103,13 @@ namespace Bowerbird.Core.Indexes
                             {
                                 project.GroupType,
                                 GroupId = project.Id,
-                                Memberships = new object[] { },
-                                ParentGroup = new
-                                {
-                                    parentGroup.Id,
-                                    parentGroup.GroupType
-                                },
-                                ChildGroups = new object[] { },
-                                AncestorGroups = from ancestor in project.Ancestry
-                                                 select new
-                                                 {
-                                                     ancestor.Id,
-                                                     ancestor.GroupType
-                                                 },
-                                DescendantGroups = new object[] { }
+                                MemberIds = new string[] { },
+                                UserIds = new string[] { },
+                                ParentGroupId = parentGroup.Id,
+                                ChildGroupIds = new string[] { },
+                                AncestorGroupIds = from ancestor in project.Ancestry
+                                                   select ancestor.Id,
+                                DescendantGroupIds = new string[] { }
                             });
 
             AddMap<UserProject>(
@@ -167,20 +119,13 @@ namespace Bowerbird.Core.Indexes
                                 {
                                     userProject.GroupType,
                                     GroupId = userProject.Id,
-                                    Memberships = new object[] { },
-                                    ParentGroup = new
-                                    {
-                                        parentGroup.Id,
-                                        parentGroup.GroupType
-                                    },
-                                    ChildGroups = new object[] { },
-                                    AncestorGroups = from ancestor in userProject.Ancestry
-                                                     select new
-                                                     {
-                                                         ancestor.Id,
-                                                         ancestor.GroupType
-                                                     },
-                                    DescendantGroups = new object[] { }
+                                    MemberIds = new string[] { },
+                                    UserIds = new string[] { },
+                                    ParentGroupId = parentGroup.Id,
+                                    ChildGroupIds = new string[] { },
+                                    AncestorGroupIds = from ancestor in userProject.Ancestry
+                                                       select ancestor.Id,
+                                    DescendantGroupIds = new string[] { }
                                 });
 
             AddMap<GroupAssociation>(
@@ -189,18 +134,12 @@ namespace Bowerbird.Core.Indexes
                                      {
                                          groupAssociation.ParentGroup.GroupType,
                                          GroupId = groupAssociation.ParentGroup.Id,
-                                         Memberships = new object[] { },
-                                         ParentGroup = (object)null,
-                                         ChildGroups = new[]
-                                                           {
-                                                               new 
-                                                               {
-                                                                  groupAssociation.ChildGroup.Id,
-                                                                  groupAssociation.ChildGroup.GroupType
-                                                               }
-                                                           },
-                                         AncestorGroups = new object[] { },
-                                         DescendantGroups = new object[] { }
+                                         MemberIds = new string[] { },
+                                         UserIds = new string[] { },
+                                         ParentGroupId = (string)null,
+                                         ChildGroupIds = new[] { groupAssociation.ChildGroup.Id },
+                                         AncestorGroupIds = new string[] { },
+                                         DescendantGroupIds = new string[] { }
                                      });
 
             AddMap<Member>(
@@ -209,24 +148,12 @@ namespace Bowerbird.Core.Indexes
                            {
                                member.Group.GroupType,
                                GroupId = member.Group.Id,
-                               Memberships = new object[] 
-                                { 
-                                    new
-                                        {
-                                            UserId = member.User.Id, 
-                                            Roles = from role in member.Roles
-                                                    select new
-                                                    {
-                                                        role.Id,
-                                                        role.Name,
-                                                        role.Description
-                                                    }
-                                        } 
-                                },
-                               ParentGroup = (object)null,
-                               ChildGroups = new object[] { },
-                               AncestorGroups = new object[] { },
-                               DescendantGroups = new object[] { }
+                               MemberIds = new string[] { member.Id },
+                               UserIds = new string[] { member.User.Id },
+                               ParentGroupId = (string)null,
+                               ChildGroupIds = new string[] { },
+                               AncestorGroupIds = new string[] { },
+                               DescendantGroupIds = new string[] { }
                            });
 
             Reduce = results => from result in results
@@ -236,11 +163,12 @@ namespace Bowerbird.Core.Indexes
                                     {
                                         GroupType = g.Select(x => x.GroupType).FirstOrDefault(),
                                         GroupId = g.Key,
-                                        Memberships = g.SelectMany(x => x.Memberships),
-                                        ParentGroup = g.Select(x => x.ParentGroup),
-                                        ChildGroups = g.SelectMany(x => x.ChildGroups),
-                                        AncestorGroups = g.SelectMany(x => x.AncestorGroups),
-                                        DescendantGroups = g.SelectMany(x => x.DescendantGroups)
+                                        MemberIds = g.SelectMany(x => x.MemberIds),
+                                        UserIds = g.SelectMany(x => x.UserIds),
+                                        ParentGroupId = g.Select(x => x.ParentGroupId).Where(x => x != null).FirstOrDefault(),
+                                        ChildGroupIds = g.SelectMany(x => x.ChildGroupIds),
+                                        AncestorGroupIds = g.SelectMany(x => x.AncestorGroupIds),
+                                        DescendantGroupIds = g.SelectMany(x => x.DescendantGroupIds)
                                     };
 
             TransformResults = (database, results) =>
@@ -250,29 +178,33 @@ namespace Bowerbird.Core.Indexes
                 let team = database.Load<Team>(result.GroupId)
                 let project = database.Load<Project>(result.GroupId)
                 let userProject = database.Load<UserProject>(result.GroupId)
+                let members = database.Load<Member>(result.MemberIds)
                 select new
                 {
                     result.GroupType,
                     result.GroupId,
-                    result.Memberships,
-                    result.ParentGroup,
-                    result.ChildGroups,
-                    result.AncestorGroups,
-                    result.DescendantGroups,
+                    result.MemberIds,
+                    result.UserIds,
+                    result.ParentGroupId,
+                    result.ChildGroupIds,
+                    result.AncestorGroupIds,
+                    result.DescendantGroupIds,
                     AppRoot = appRoot,
                     Organisation = organisation,
                     Team = team,
                     Project = project,
-                    UserProject = userProject
+                    UserProject = userProject,
+                    Members = members
                 };
 
             Store(x => x.GroupType, FieldStorage.Yes);
             Store(x => x.GroupId, FieldStorage.Yes);
-            Store(x => x.Memberships, FieldStorage.Yes);
-            Store(x => x.ParentGroup, FieldStorage.Yes);
-            Store(x => x.ChildGroups, FieldStorage.Yes);
-            Store(x => x.AncestorGroups, FieldStorage.Yes);
-            Store(x => x.DescendantGroups, FieldStorage.Yes);
+            Store(x => x.MemberIds, FieldStorage.Yes);
+            Store(x => x.UserIds, FieldStorage.Yes);
+            Store(x => x.ParentGroupId, FieldStorage.Yes);
+            Store(x => x.ChildGroupIds, FieldStorage.Yes);
+            Store(x => x.AncestorGroupIds, FieldStorage.Yes);
+            Store(x => x.DescendantGroupIds, FieldStorage.Yes);
         }
     }
 }

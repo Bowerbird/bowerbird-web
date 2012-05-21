@@ -9,6 +9,8 @@ deploy/*
 *.suo
 *.cache
 *.docstates
+*.orig
+*.ncrunch
 _ReSharper.*
 *.ReSharper
 *.csproj.user

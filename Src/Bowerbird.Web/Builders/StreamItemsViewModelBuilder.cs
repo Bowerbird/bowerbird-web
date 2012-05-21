@@ -92,10 +92,10 @@ namespace Bowerbird.Web.Builders
 
             var groups = _documentSession
                 .Query<All_Users.Result, All_Users>()
-                .AsProjection<All_Users.ClientResult>()
+                .AsProjection<All_Users.Result>()
                 .Where(x => x.UserId == _userContext.GetAuthenticatedUserId())
                 .ToList()
-                .SelectMany(x => x.Memberships.Select(y => y.Group.Id));
+                .SelectMany(x => x.Members.Select(y => y.Group.Id));
 
             return _documentSession
                 .Query<All_Contributions.Result, All_Contributions>()
@@ -123,10 +123,10 @@ namespace Bowerbird.Web.Builders
 
             var groups = _documentSession
                 .Query<All_Groups.Result, All_Groups>()
-                .AsProjection<All_Groups.ClientResult>()
+                .AsProjection<All_Groups.Result>()
                 .Where(x => x.GroupId == pagingInput.Id)
                 .ToList()
-                .SelectMany(x => x.AncestorGroups.Select(y => y.Id))
+                .SelectMany(x => x.AncestorGroupIds)
                 .Union(new [] { pagingInput.Id });
 
             return _documentSession
