@@ -18,7 +18,6 @@ using Raven.Client.Indexes;
 using Raven.Abstractions.Indexing;
 using System.Collections.Generic;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
-using System;
 
 namespace Bowerbird.Core.Indexes
 {
@@ -55,29 +54,32 @@ namespace Bowerbird.Core.Indexes
                                       select new
                                       {
                                           UserId = member.User.Id,
-                                          MemberIds = new [] { member.Id },
-                                          Memberships = new
+                                          MemberIds = new[] { member.Id },
+                                          Memberships = new[]
                                           {
-                                              member.Id,
-                                              @group = new
+                                              new 
                                               {
-                                                  member.Group.Id,
-                                                  member.Group.GroupType
-                                              },
-                                              roles = from role in member.Roles
-                                                      select new
-                                                      {
-                                                          role.Id,
-                                                          role.Name,
-                                                          role.Description,
-                                                          permissions = from permission in role.Permissions
-                                                                        select new
-                                                                        {
-                                                                            permission.Id,
-                                                                            permission.Name,
-                                                                            permission.Description
-                                                                        }
-                                                      }
+                                                  member.Id,
+                                                  Group = new
+                                                  {
+                                                      member.Group.Id,
+                                                      member.Group.GroupType
+                                                  },
+                                                  Roles = from role in member.Roles
+                                                          select new
+                                                          {
+                                                              role.Id,
+                                                              role.Name,
+                                                              role.Description,
+                                                              Permissions = from permission in role.Permissions
+                                                                            select new
+                                                                            {
+                                                                                permission.Id,
+                                                                                permission.Name,
+                                                                                permission.Description
+                                                                            }
+                                                          }
+                                                }
                                           }
                                       });
 

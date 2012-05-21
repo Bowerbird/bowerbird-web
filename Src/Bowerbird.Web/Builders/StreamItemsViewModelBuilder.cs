@@ -123,12 +123,11 @@ namespace Bowerbird.Web.Builders
 
             var groups = _documentSession
                 .Query<All_Groups.Result, All_Groups>()
-                .Where(x => x.Id == pagingInput.Id)
+                .AsProjection<All_Groups.ClientResult>()
+                .Where(x => x.GroupId == pagingInput.Id)
                 .ToList()
-                .SelectMany(x => x.AncestorGroupIds)
+                .SelectMany(x => x.AncestorGroups.Select(y => y.Id))
                 .Union(new [] { pagingInput.Id });
-
-            //groups.Add(new { GroupId = pagingInput.Id });
 
             return _documentSession
                 .Query<All_Contributions.Result, All_Contributions>()

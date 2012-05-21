@@ -55,7 +55,7 @@ namespace Bowerbird.Core.CommandHandlers
             var group = _documentSession
                 .Query<All_Groups.Result, All_Groups>()
                 .AsProjection<All_Groups.Result>()
-                .Where(x => x.Id == command.GroupId)
+                .Where(x => x.GroupId == command.GroupId)
                 .FirstOrDefault();
 
             User targetUser = null;

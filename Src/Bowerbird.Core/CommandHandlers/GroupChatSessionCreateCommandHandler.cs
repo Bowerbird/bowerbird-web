@@ -56,7 +56,7 @@ namespace Bowerbird.Core.CommandHandlers
             var group = _documentSession
                 .Query<All_Groups.Result, All_Groups>()
                 .AsProjection<All_Groups.Result>()
-                .Where(x => x.Id == command.GroupId)
+                .Where(x => x.GroupId == command.GroupId)
                 .FirstOrDefault();
             
             if (group != null)
@@ -64,7 +64,7 @@ namespace Bowerbird.Core.CommandHandlers
                 var groupChatSession = new GroupChatSession(
                    _documentSession.Load<User>(command.UserId),
                    command.ClientId,
-                   group.Id
+                   group.GroupId
                 );
 
                 _documentSession.Store(groupChatSession);

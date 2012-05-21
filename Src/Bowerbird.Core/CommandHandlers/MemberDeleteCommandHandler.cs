@@ -54,8 +54,8 @@ namespace Bowerbird.Core.CommandHandlers
 
             var group = _documentSession
                 .Query<All_Groups.Result, All_Groups>()
-                .AsProjection<All_Groups.Result>()
-                .Where(x => x.Id == command.GroupId)
+                .AsProjection<All_Groups.ClientResult>()
+                .Where(x => x.GroupId == command.GroupId)
                 .FirstOrDefault();
 
             if (group.Project != null)
@@ -73,11 +73,11 @@ namespace Bowerbird.Core.CommandHandlers
                     group.Team.Id
                     );
 
-                foreach (var childGroupId in group.ChildGroupIds)
+                foreach (var childGroup in group.ChildGroups)
                 {
                     DeleteMember(
                         command.UserId,
-                        childGroupId
+                        childGroup.Id
                         );
                 }
             }
@@ -89,11 +89,11 @@ namespace Bowerbird.Core.CommandHandlers
                     group.Organisation.Id
                     );
 
-                foreach (var childGroupId in group.ChildGroupIds)
+                foreach (var childGroup in group.ChildGroups)
                 {
                     DeleteMember(
                         command.UserId,
-                        childGroupId
+                        childGroup.Id
                         );
                 }
             }

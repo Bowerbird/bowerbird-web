@@ -210,13 +210,14 @@ namespace Bowerbird.Web.Controllers
             ViewBag.Model = new
             {
                 Project = new {},
-                Teams = _teamsViewModelBuilder.BuildUserTeamList(
-                    new PagingInput()
-                    {
-                        Id = _userContext.GetAuthenticatedUserId(),
-                        Page = Default.PageStart,
-                        PageSize = Default.PageMax
-                    })
+                Teams = GetTeams(_userContext.GetAuthenticatedUserId())
+                //Teams = _teamsViewModelBuilder.BuildUserTeamList(
+                //    new PagingInput()
+                //    {
+                //        Id = _userContext.GetAuthenticatedUserId(),
+                //        Page = Default.PageStart,
+                //        PageSize = Default.PageMax
+                //    })
             };
 
             if(Request.IsAjaxRequest())
@@ -234,7 +235,6 @@ namespace Bowerbird.Web.Controllers
             var teamIds = _documentSession
                 .Query<All_Users.Result, All_Users>()
                 .AsProjection<All_Users.ClientResult>()
-                .Include(x => x.Memberships.Select(y => y.Group.Id))
                 .Where(x => x.UserId == userId)
                 .ToList()
                 .SelectMany(x => x.Memberships.Where(y => y.Group.GroupType == "team").Select(y => y.Group.Id));

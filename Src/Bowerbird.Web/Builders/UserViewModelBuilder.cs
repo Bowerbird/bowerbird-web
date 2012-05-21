@@ -141,20 +141,17 @@ namespace Bowerbird.Web.Builders
                 .Query<All_Sessions.Results, All_Sessions>()
                 .AsProjection<All_Sessions.Results>()
                 .Include(x => x.UserId)
-                .Where(x => x.Status < (int)Connection.ConnectionStatus.Offline)
+                .Where(x => x.Status < (int) Connection.ConnectionStatus.Offline)
                 .ToList()
                 .Select(x => x.UserId)
                 .Distinct();
-             
-            var connectedUsers = _documentSession
-                .Query<All_Users.Result, All_Users>()
-                .AsProjection<All_Users.ClientResult>()
-                .Where(x => x.UserId.In(connectedUserIds))
-                .ToList();
 
-            return connectedUsers
-                .Select(MakeUser)
-                .ToList();
+            return _documentSession
+                .Query<All_Users.Result, All_Users>()
+                .Where(x => x.UserId.In(connectedUserIds))
+                .AsProjection<All_Users.ClientResult>()
+                .ToList()
+                .Select(MakeUser);
         }
 
         private object MakeUser(string userId)
@@ -173,6 +170,7 @@ namespace Bowerbird.Web.Builders
             };
         }
 
+        //TODO: Change this method to query the All_Groups index.
         private object MakeUser(All_Users.ClientResult user)
         {
             Check.RequireNotNull(user, "user");
@@ -180,7 +178,7 @@ namespace Bowerbird.Web.Builders
             // grab the user's groups
             var userGroups = _documentSession
                 .Query<All_Groups.Result, All_Groups>()
-                .AsProjection<All_Groups.Result>()
+                .AsProjection<All_Groups.ClientResult>()
                 .Where(x => x.Group.Id.In(user.Memberships.Select(y => y.Id)))
                 .ToList();
 
@@ -196,29 +194,29 @@ namespace Bowerbird.Web.Builders
             };
         }
 
-        private object MakeProject(All_Groups.Result project)
+        private object MakeProject(All_Groups.ClientResult project)
         {
             return new
             {
-                project.Id,
+                Id = project.GroupId,
                 project.Project.Name,
                 project.Project.Description,
                 project.Project.Website,
                 Avatar = _avatarFactory.Make(project.Project),
-                project.GroupMemberCount
+                Memberships = project.Memberships.Count()
             };
         }
 
-        public object MakeTeam(All_Groups.Result team)
+        public object MakeTeam(All_Groups.ClientResult team)
         {
             return new
             {
-                team.Id,
+                Id = team.GroupId,
                 team.Team.Name,
                 team.Team.Description,
                 team.Team.Website,
                 Avatar = _avatarFactory.Make(team.Team),
-                team.GroupMemberCount,
+                Memberships = team.Memberships.Count(),
                 Projects = 0
             };
         }

@@ -56,8 +56,8 @@ namespace Bowerbird.Core.CommandHandlers
 
             var group = _documentSession
                 .Query<All_Groups.Result, All_Groups>()
-                .AsProjection<All_Groups.Result>()
-                .Where(x => x.Id == command.GroupId)
+                .AsProjection<All_Groups.ClientResult>()
+                .Where(x => x.GroupId == command.GroupId)
                 .FirstOrDefault();
 
             var user = _documentSession.Load<User>(command.UserId);
@@ -72,8 +72,8 @@ namespace Bowerbird.Core.CommandHandlers
                     GetRoles(command.Roles));
 
                 var team = group
-                    .AncestorGroupIds
-                    .Where(x => x.ToLower().StartsWith("teams"))
+                    .AncestorGroups
+                    .Where(x => x.GroupType == "team")
                     .FirstOrDefault();
 
                 if(team != null)
@@ -81,14 +81,14 @@ namespace Bowerbird.Core.CommandHandlers
                     CreateNewMember(
                         createdByUser,
                         user,
-                        _documentSession.Load<Team>(team),
+                        _documentSession.Load<Team>(team.Id),
                         GetRoles(new[] { RoleNames.TeamMember })
                         );
                 }
 
                 var organisation = group
-                    .AncestorGroupIds
-                    .Where(x => x.ToLower().StartsWith("organisations"))
+                    .AncestorGroups
+                    .Where(x => x.GroupType == "organisations")
                     .FirstOrDefault();
 
                 if (organisation != null)
@@ -96,7 +96,7 @@ namespace Bowerbird.Core.CommandHandlers
                     CreateNewMember(
                         createdByUser,
                         user,
-                        _documentSession.Load<Organisation>(organisation),
+                        _documentSession.Load<Organisation>(organisation.Id),
                         GetRoles(new[] { RoleNames.OrganisationMember })
                         );
                 }
@@ -111,8 +111,8 @@ namespace Bowerbird.Core.CommandHandlers
                     GetRoles(command.Roles));
 
                 var organisation = group
-                    .AncestorGroupIds
-                    .Where(x => x.ToLower().StartsWith("organisations"))
+                    .AncestorGroups
+                    .Where(x => x.GroupType == "organisations")
                     .FirstOrDefault();
 
                 if (organisation != null)
@@ -120,7 +120,7 @@ namespace Bowerbird.Core.CommandHandlers
                     CreateNewMember(
                         createdByUser,
                         user,
-                        _documentSession.Load<Organisation>(organisation),
+                        _documentSession.Load<Organisation>(organisation.Id),
                         GetRoles(new[] { RoleNames.OrganisationMember })
                         );
                 }

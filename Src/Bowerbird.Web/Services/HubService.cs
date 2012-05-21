@@ -544,8 +544,8 @@ namespace Bowerbird.Web.Services
         {
             var group = _documentSession
                 .Query<All_Groups.Result, All_Groups>()
-                .AsProjection<All_Groups.Result>()
-                .Where(x => x.Id == chatId)
+                .AsProjection<All_Groups.ClientResult>()
+                .Where(x => x.GroupId == chatId)
                 .FirstOrDefault();
 
             return group != null ? group.Group.Name : "Unknown Group";

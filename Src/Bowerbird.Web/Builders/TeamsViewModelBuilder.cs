@@ -59,8 +59,8 @@ namespace Bowerbird.Web.Builders
 
             var team = _documentSession
                 .Query<All_Groups.Result, All_Groups>()
-                .AsProjection<All_Groups.Result>()
-                .FirstOrDefault(x => x.Id == idInput.Id);
+                .AsProjection<All_Groups.ClientResult>()
+                .FirstOrDefault(x => x.GroupId == idInput.Id);
 
             return MakeTeam(team);
         }
@@ -73,9 +73,9 @@ namespace Bowerbird.Web.Builders
 
             return _documentSession
                 .Query<All_Groups.Result, All_Groups>()
-                .AsProjection<All_Groups.Result>()
+                .AsProjection<All_Groups.ClientResult>()
                 .Customize(x => x.WaitForNonStaleResults())
-                .Include(x => x.Id)
+                .Include(x => x.GroupId)
                 .Where(x => x.GroupType == "team")
                 .Statistics(out stats)
                 .Skip(pagingInput.Page)
@@ -85,8 +85,7 @@ namespace Bowerbird.Web.Builders
                 .ToPagedList(
                     pagingInput.Page,
                     pagingInput.PageSize,
-                    stats.TotalResults,
-                    null);
+                    stats.TotalResults);
         }
 
         /// <summary>
@@ -107,8 +106,8 @@ namespace Bowerbird.Web.Builders
                 
             return _documentSession
                 .Query<All_Groups.Result, All_Groups>()
-                .AsProjection<All_Groups.Result>()
-                .Where(x => x.Id.In(teams))
+                .AsProjection<All_Groups.ClientResult>()
+                .Where(x => x.GroupId.In(teams))
                 .Statistics(out stats)
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
@@ -136,8 +135,8 @@ namespace Bowerbird.Web.Builders
 
             return _documentSession
                 .Query<All_Groups.Result, All_Groups>()
-                .AsProjection<All_Groups.Result>()
-                .Where(x => x.Id.In(organisationTeams.Select(y => y.ChildGroup.Id)))
+                .AsProjection<All_Groups.ClientResult>()
+                .Where(x => x.GroupId.In(organisationTeams.Select(y => y.ChildGroup.Id)))
                 .Statistics(out stats)
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
@@ -146,8 +145,7 @@ namespace Bowerbird.Web.Builders
                 .ToPagedList(
                     pagingInput.Page,
                     pagingInput.PageSize,
-                    stats.TotalResults,
-                    null);
+                    stats.TotalResults);
         }
 
         /// <summary>
@@ -172,8 +170,7 @@ namespace Bowerbird.Web.Builders
                 .ToPagedList(
                     pagingInput.Page,
                     pagingInput.PageSize,
-                    stats.TotalResults,
-                    null);
+                    stats.TotalResults);
         }
 
         private object MakeUser(string userId)
@@ -192,17 +189,17 @@ namespace Bowerbird.Web.Builders
             };
         }
 
-        private object MakeTeam(All_Groups.Result team)
+        private object MakeTeam(All_Groups.ClientResult team)
         {
             return new
             {
-                team.Id,
+                Id = team.GroupId,
                 team.Team.Name,
                 team.Team.Description,
                 team.Team.Website,
                 Avatar = _avatarFactory.Make(team.Team),
-                team.GroupMemberCount,
-                Projects = 0
+                Memberships = team.Memberships.Count(),
+                Projects = team.ChildGroups.Where(x => x.GroupType == "project").Select(x => x.Id)
             };
         }
 
