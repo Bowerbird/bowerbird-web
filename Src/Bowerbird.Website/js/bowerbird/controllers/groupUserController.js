@@ -32,11 +32,6 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/projectlayoutview', 'm
     // GroupUserController Public API
     // ------------------------------
 
-    // Show the user's home page (i.e.: the "home stream")
-    GroupUserController.showHome = function () {
-        log('home:show');
-    };
-
     // Show a team
     GroupUserController.showTeam = function () {
         log('team:show');

@@ -13,7 +13,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'collections/paginatedcollect
     var StreamItemCollection = PaginatedCollection.extend({
         model: StreamItem,
 
-        baseUrl: '/streamitems',
+        baseUrl: '/stream',
 
         groupOrUser: null,
 
@@ -24,7 +24,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'collections/paginatedcollect
             'getFetchOptions');
             PaginatedCollection.prototype.initialize.apply(this, arguments);
 
-            typeof(options.groupOrUser) != 'undefined' || (this.groupOrUser = options.groupOrUser);
+            typeof (options.groupOrUser) != 'undefined' || (this.groupOrUser = options.groupOrUser);
         },
 
         comparator: function (streamItem1, streamItem2) {
@@ -43,7 +43,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'collections/paginatedcollect
         },
 
         fetchFirstPage: function () {
-            this.firstPage(this.getFetchOptions(false));
+            this.firstPage(this.getFetchOptions(true));
         },
 
         fetchNextPage: function () {
@@ -69,9 +69,9 @@ define(['jquery', 'underscore', 'backbone', 'app', 'collections/paginatedcollect
                     options.data.userId = this.groupOrUser.id;
                 }
             }
-//            if (stream.get('Filter') != null) {
-//                options.data.filter = stream.get('Filter');
-//            }
+            //            if (stream.get('Filter') != null) {
+            //                options.data.filter = stream.get('Filter');
+            //            }
             return options;
         },
 

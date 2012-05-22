@@ -21,13 +21,12 @@ using Raven.Client;
 using Bowerbird.Core.Config;
 using System.Threading;
 
-namespace Bowerbird.Core.CommandHandlers
+namespace Bowerbird.Core.Config
 {
-    public class SetupTestDataCommandHandler : ICommandHandler<SetupTestDataCommand>
+    public class SetupTestData
     {
         #region Members
 
-        private readonly IDocumentStore _documentStore;
         private readonly IDocumentSession _documentSession;
         private readonly ISystemStateManager _systemStateManager;
 
@@ -35,16 +34,13 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Constructors
 
-        public SetupTestDataCommandHandler(
-            IDocumentStore documentStore,
+        public SetupTestData(
             IDocumentSession documentSession,
             ISystemStateManager systemStateManager)
         {
-            Check.RequireNotNull(documentStore, "documentStore");
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(systemStateManager, "systemStateManager");
 
-            _documentStore = documentStore;
             _documentSession = documentSession;
             _systemStateManager = systemStateManager;
         }
@@ -77,13 +73,13 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Methods
 
-        public void Handle(SetupTestDataCommand setupTestDataCommand)
+        public void Execute()
         {
-            Check.RequireNotNull(setupTestDataCommand, "setupTestDataCommand");
-
             try
             {
-                TheAppRoot = null;
+                // Disable all services
+                _systemStateManager.DisableAllServices();
+
                 Organisations = new List<Organisation>();
                 Teams = new List<Team>();
                 Projects = new List<Project>();
@@ -93,9 +89,6 @@ namespace Bowerbird.Core.CommandHandlers
                 GroupAssociations = new List<GroupAssociation>();
                 Roles = _documentSession.Query<Role>().ToList();
                 Users = _documentSession.Query<User>().ToList();
-
-                // Disable emailing while we setup admin users
-                _systemStateManager.DisableEmailService();
 
                 TheAppRoot = _documentSession.Load<AppRoot>(Constants.AppRootId);
 
@@ -150,21 +143,21 @@ namespace Bowerbird.Core.CommandHandlers
                 AddObservation(Users[2].Id, Projects[0].Id);
                 AddObservation(Users[2].Id, Projects[0].Id);
 
-                // Save all data now
+                // Save all system data now
                 _documentSession.SaveChanges();
 
                 // Wait for all stale indexes to complete.
-                while (_documentStore.DatabaseCommands.GetStatistics().StaleIndexes.Length > 0)
+                while (_documentSession.Advanced.DatabaseCommands.GetStatistics().StaleIndexes.Length > 0)
                 {
                     Thread.Sleep(10);
                 }
 
-                // Re-enable emailing
-                _systemStateManager.EnableEmailService();
+                // Enable all services
+                _systemStateManager.EnableAllServices();
             }
             catch (Exception exception)
             {
-                throw new Exception("Could not setup test data.", exception);
+                throw new Exception("Could not setup test data", exception);
             }
         }
 

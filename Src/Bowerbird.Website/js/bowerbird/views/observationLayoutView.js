@@ -9,19 +9,9 @@
 // ---------------------
 
 // Layout of an observation in both edit and view mode
-define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, app) {
-
-    //    var DetailsRegionManager = Backbone.Marionette.Region.extend({
-    //        el: '.details'
-    //    });
+define(['jquery', 'underscore', 'backbone', 'app', 'views/observationformlayoutview'], function ($, _, Backbone, app, ObservationFormLayoutView) {
 
     var ObservationLayoutView = Backbone.Marionette.Layout.extend({
-//        tagName: 'section',
-
-//        id: 'content',
-
-        //        className: 'observation',
-
         className: 'form single-medium observation',
 
         template: 'Observation',
@@ -34,6 +24,21 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
 
         showBootstrappedDetails: function () {
             this.initializeRegions();
+        },
+
+        showObservationForm: function (observation, categories) {
+            var options = { model: observation, categories: categories };
+
+            if (app.isPrerendering('observations')) {
+                options['el'] = '.observation-form';
+            }
+
+            var observationFormLayoutView = new ObservationFormLayoutView(options);
+            this.main[app.getShowViewMethodName('observations')](observationFormLayoutView);
+
+            if (app.isPrerendering('observations')) {
+                observationFormLayoutView.showBootstrappedDetails();
+            }
         }
     });
 

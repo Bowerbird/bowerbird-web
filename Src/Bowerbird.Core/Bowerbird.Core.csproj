@@ -87,8 +87,7 @@
     <Compile Include="CommandHandlers\ReferenceSpeciesDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\ReferenceSpeciesCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\ReferenceSpeciesUpdateCommandHandler.cs" />
-    <Compile Include="CommandHandlers\SetupSpeciesDataCommandHandler.cs" />
-    <Compile Include="CommandHandlers\SetupTestDataCommandHandler.cs" />
+    <Compile Include="Config\SetupTestData.cs" />
     <Compile Include="CommandHandlers\GroupChatMessageCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\GroupChatSessionCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\GroupChatSessionDeleteCommandHandler.cs" />
@@ -128,7 +127,7 @@
     <Compile Include="CommandHandlers\MemberCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\MemberDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\UserUpdateLastLoginCommandHandler.cs" />
-    <Compile Include="CommandHandlers\SetupSystemDataCommandHandler.cs" />
+    <Compile Include="Config\SetupSystem.cs" />
     <Compile Include="CommandHandlers\WatchlistCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\WatchlistDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\WatchlistUpdateCommandHandler.cs" />
@@ -148,11 +147,9 @@
     <Compile Include="Commands\PostDeleteCommand.cs" />
     <Compile Include="Commands\ProjectDeleteCommand.cs" />
     <Compile Include="Commands\ReferenceSpeciesDeleteCommand.cs" />
-    <Compile Include="Commands\SetupSpeciesDataCommand.cs" />
     <Compile Include="Commands\FollowUserCreateCommand.cs" />
     <Compile Include="Commands\ReferenceSpeciesCreateCommand.cs" />
     <Compile Include="Commands\ReferenceSpeciesUpdateCommand.cs" />
-    <Compile Include="Commands\SetupTestDataCommand.cs" />
     <Compile Include="Commands\ActivityCreatedCommand.cs" />
     <Compile Include="Commands\GroupChatMessageCreateCommand.cs" />
     <Compile Include="Commands\GroupChatSessionCreateCommand.cs" />
@@ -186,7 +183,6 @@
     <Compile Include="Commands\ProjectUpdateCommand.cs" />
     <Compile Include="Commands\MemberCreateCommand.cs" />
     <Compile Include="Commands\UserUpdateLastLoginCommand.cs" />
-    <Compile Include="Commands\SetupSystemDataCommand.cs" />
     <Compile Include="Commands\UserUpdatePasswordCommand.cs" />
     <Compile Include="Commands\WatchlistCreateCommand.cs" />
     <Compile Include="Commands\WatchlistDeleteCommand.cs" />
@@ -202,7 +198,6 @@
     <Compile Include="Config\IUserContext.cs" />
     <Compile Include="Config\PermissionChecker.cs" />
     <Compile Include="Config\Permissions.cs" />
-    <Compile Include="Config\SystemState.cs" />
     <Compile Include="Config\SystemStateManager.cs" />
     <Compile Include="DomainModels\AppRoot.cs" />
     <Compile Include="DomainModels\BaseObject.cs" />

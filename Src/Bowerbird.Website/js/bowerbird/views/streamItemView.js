@@ -12,26 +12,33 @@
 define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, app) {
 
     var StreamItemView = Backbone.Marionette.ItemView.extend({
-//        className: 'stream-item',
+        tagName: 'li',
 
-//        initialize: function (options) {
-//            this.streamItem = options.streamItem;
-//        },
+        className: 'stream-item',
 
-//        render: function () {
-//            switch (this.StreamItem.get('Type')) {
-//                case 'observation':
-//                    var streamitemJSON = this.streamItem.toJSON();
-//                    streamitemJSON['ObservedOnDate'] = new Date(parseInt(this.streamItem.get('Item').ObservedOn.substr(6))).format('d MMM yyyy');
-//                    streamitemJSON['ObservedOnTime'] = new Date(parseInt(this.streamItem.get('Item').ObservedOn.substr(6))).format('h:mm');
-//                    streamitemJSON['HighlightMedia'] = streamitemJSON.item.observationMedia[0];
-//                    this.$el.append(ich.ObservationStreamListItem(streamitemJSON)).addClass('observation-stream-item');
-//                    break;
-//                default:
-//                    break;
-//            }
-//            return this;
-//        }
+        template: 'StreamItem',
+
+        serializeData: function () {
+            return {
+                Model: this.model.toJSON()
+            };
+        }
+        //        render: function () {
+        //            switch (this.StreamItem.get('Type')) {
+        //                case 'observation':
+        //                    var streamitemJSON = this.streamItem.toJSON();
+        //                    streamitemJSON['ObservedOnDate'] = new Date(parseInt(this.streamItem.get('Item').ObservedOn.substr(6))).format('d MMM yyyy');
+        //                    streamitemJSON['ObservedOnTime'] = new Date(parseInt(this.streamItem.get('Item').ObservedOn.substr(6))).format('h:mm');
+        //                    streamitemJSON['HighlightMedia'] = streamitemJSON.item.observationMedia[0];
+        //                    this.$el.append(ich.ObservationStreamListItem(streamitemJSON)).addClass('observation-stream-item');
+        //                    break;
+        //                default:
+        //                    break;
+        //            }
+        //            return this;
+        //        }
     });
+
+    return StreamItemView;
 
 });

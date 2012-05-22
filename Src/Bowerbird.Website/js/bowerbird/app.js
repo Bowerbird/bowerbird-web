@@ -10,7 +10,7 @@
 
 // Initialises the app, but does not start rendering. That is done 
 // when app.start() is called
-define(['jquery', 'underscore', 'backbone', 'bootstrap-data', 'models/user', 'collections/usercollection', 'marionette'], function ($, _, Backbone, bootstrapData, User, UserCollection) {
+define(['jquery', 'underscore', 'backbone', 'bootstrap-data', 'models/user', 'collections/usercollection', 'collections/projectcollection', 'marionette'], function ($, _, Backbone, bootstrapData, User, UserCollection, ProjectCollection) {
 
     // Create an instance of the app
     var app = new Backbone.Marionette.Application();
@@ -36,8 +36,8 @@ define(['jquery', 'underscore', 'backbone', 'bootstrap-data', 'models/user', 'co
 
         // Add the authenticated user to the app for future reference
         if (bootstrapData.AuthenticatedUser) {
-            app.authenticatedUser = new User(bootstrapData.AuthenticatedUser);
-            //app.projects.add(bootstrapData.AuthenticatedUser.Projects);
+            app.user = new User(bootstrapData.AuthenticatedUser.User);
+            app.userProjects = new ProjectCollection(bootstrapData.AuthenticatedUser.Projects);
         }
 
         if (bootstrapData.OnlineUsers) {
@@ -59,6 +59,18 @@ define(['jquery', 'underscore', 'backbone', 'bootstrap-data', 'models/user', 'co
             Backbone.history.start({ pushState: true });
         }
     });
+
+    app.isPrerendering = function (name) {
+        return name === app.prerenderedView.name && !app.prerenderedView.isBound;
+    };
+
+    app.setPrerenderComplete = function () {
+        app.prerenderedView.isBound = true;
+    };
+
+    app.getShowViewMethodName = function (name) {
+        return app.isPrerendering(name) ? 'attachView' : 'show';
+    };
 
     // On DOM ready tasks
     $(function () {

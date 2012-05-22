@@ -17,6 +17,8 @@
 using System.Net.Mail;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Config;
+using Raven.Client;
+using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Core.Services
 {
@@ -25,6 +27,7 @@ namespace Bowerbird.Core.Services
             
         #region Members
 
+        private readonly IDocumentSession _documentSession;
         private readonly IConfigService _configService;
         private readonly ISystemStateManager _systemStateManager;
 
@@ -33,12 +36,15 @@ namespace Bowerbird.Core.Services
         #region Constructors
 
         public EmailService(
+            IDocumentSession documentSession,
             IConfigService configService,
             ISystemStateManager systemStateManager)
         {
+            Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(configService, "configService");
             Check.RequireNotNull(systemStateManager, "systemStateManager");
 
+            _documentSession = documentSession;
             _configService = configService;
             _systemStateManager = systemStateManager;
         }
@@ -55,7 +61,9 @@ namespace Bowerbird.Core.Services
         {
             var smtpClient = new SmtpClient();
 
-            if (!_systemStateManager.SendEmails)
+            var appRoot = _documentSession.Load<AppRoot>(Constants.AppRootId);
+
+            if (!appRoot.SendEmails)
             {
                 smtpClient.DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory;
             }

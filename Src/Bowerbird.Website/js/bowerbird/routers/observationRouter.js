@@ -5,12 +5,12 @@
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// ContributionRouter
-// ------------------
+// ObservationRouter
+// -----------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'controllers/contributioncontroller'], function ($, _, Backbone, app, ContributionController) {
+define(['jquery', 'underscore', 'backbone', 'app', 'controllers/observationcontroller'], function ($, _, Backbone, app, ObservationController) {
 
-    var ContributionRouter = Backbone.Marionette.AppRouter.extend({
+    var ObservationRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
             'observations/create': 'showObservationForm',
             'observations/:id/update': 'showObservationForm'
@@ -18,11 +18,11 @@ define(['jquery', 'underscore', 'backbone', 'app', 'controllers/contributioncont
     });
 
     app.addInitializer(function () {
-        this.contributionRouter = new ContributionRouter({
-            controller: ContributionController
+        this.observationRouter = new ObservationRouter({
+            controller: ObservationController
         });
     });
 
-    return ContributionRouter;
+    return ObservationRouter;
 
 });

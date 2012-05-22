@@ -17,7 +17,7 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
         onRender: function () {
             this.$el.find('.new-observation-button').on('click', function (e) {
                 e.preventDefault();
-                app.contributionRouter.navigate($(this).attr('href'), { trigger: true });
+                app.observationRouter.navigate($(this).attr('href'), { trigger: true });
                 return false;
             });
         }

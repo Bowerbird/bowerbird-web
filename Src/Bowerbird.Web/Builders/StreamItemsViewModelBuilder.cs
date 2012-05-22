@@ -31,6 +31,7 @@ namespace Bowerbird.Web.Builders
 
         private readonly IUserContext _userContext;
         private readonly IDocumentSession _documentSession;
+        private readonly IAvatarFactory _avatarFactory;
 
         #endregion
 
@@ -38,13 +39,16 @@ namespace Bowerbird.Web.Builders
 
         public StreamItemsViewModelBuilder(
             IUserContext userContext,
-            IDocumentSession documentSession)
+            IDocumentSession documentSession,
+            IAvatarFactory avatarFactory)
         {
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(documentSession, "documentSession");
+            Check.RequireNotNull(avatarFactory, "avatarFactory");
 
             _userContext = userContext;
             _documentSession = documentSession;
+            _avatarFactory = avatarFactory;
         }
 
         #endregion
@@ -148,19 +152,48 @@ namespace Bowerbird.Web.Builders
 
         private object MakeStreamItem(All_Contributions.Result groupContributionResult)
         {
-            throw new NotImplementedException();
-            //object item = null;
-            //string description = null;
-            //IEnumerable<string> groups = null;
+            object item = null;
+            string description = null;
+            IEnumerable<string> groups = null;
 
-            //switch (groupContributionResult.ContributionType)
-            //{
-            //    case "Observation":
-            //        item = (Observation)null;//_observationViewFactory.Make(groupContributionResult.Observation);
-            //        description = groupContributionResult.Observation.User.FirstName + " added an observation";
-            //        groups = groupContributionResult.Observation.Groups.Select(x => x.GroupId);
-            //        break;
-            //}
+            switch (groupContributionResult.ContributionType)
+            {
+                case "Observation":
+                    item = new
+                    {
+                        Id = groupContributionResult.Observation.ShortId(),
+                        Title = groupContributionResult.Observation.Title,
+                        ObservedOn = groupContributionResult.Observation.ObservedOn.ToString("d MMM yyyy"),
+                        Address = groupContributionResult.Observation.Address,
+                        Latitude = groupContributionResult.Observation.Latitude,
+                        Longitude = groupContributionResult.Observation.Longitude,
+                        Category = groupContributionResult.Observation.Category,
+                        IsIdentificationRequired = groupContributionResult.Observation.IsIdentificationRequired,
+                        AnonymiseLocation = groupContributionResult.Observation.AnonymiseLocation,
+                        //Media = MakeObservationMediaItems(groupContributionResult.Observation.Media),
+                        Projects = groupContributionResult.Observation.Groups.Select(x => x.GroupId)
+                    };
+                    description = groupContributionResult.Observation.User.FirstName + " added an observation";
+                    groups = groupContributionResult.Observation.Groups.Select(x => x.GroupId);
+                    break;
+            }
+
+            return new
+            {
+                CreatedDateTime = groupContributionResult.GroupCreatedDateTime,
+                CreatedDateTimeDescription = MakeCreatedDateTimeDescription(groupContributionResult.GroupCreatedDateTime),
+                Type = groupContributionResult.ContributionType.ToLower(),
+                User = new
+                {
+                    groupContributionResult.GroupUser.Id,
+                    groupContributionResult.GroupUser.LastLoggedIn,
+                    Name = groupContributionResult.GroupUser.GetName(),
+                    Avatar = _avatarFactory.Make(groupContributionResult.GroupUser)
+                },
+                Item = item,
+                Description = description,
+                Groups = groups
+            };
 
             //return _streamItemFactory.Make(
             //    item,
@@ -233,36 +266,36 @@ namespace Bowerbird.Web.Builders
         //    };
         //}
 
-        //private static string MakeCreatedDateTimeDescription(DateTime dateTime)
-        //{
-        //    var diff = DateTime.Now.Subtract(dateTime);
+        private static string MakeCreatedDateTimeDescription(DateTime dateTime)
+        {
+            var diff = DateTime.Now.Subtract(dateTime);
 
-        //    if (diff > new TimeSpan(365, 0, 0, 0)) // Year
-        //    {
-        //        return "more than a year ago";
-        //    }
-        //    else if (diff > new TimeSpan(30, 0, 0, 0)) // Month
-        //    {
-        //        var months = (diff.Days / 30);
-        //        return string.Format("{0} month{1} ago", months, months > 1 ? "s" : string.Empty);
-        //    }
-        //    else if (diff > new TimeSpan(1, 0, 0, 0)) // Day
-        //    {
-        //        return string.Format("{0} day{1} ago", diff.Days, diff.Days > 1 ? "s" : string.Empty);
-        //    }
-        //    else if (diff > new TimeSpan(1, 0, 0)) // Hour
-        //    {
-        //        return string.Format("{0} hour{1} ago", diff.Hours, diff.Hours > 1 ? "s" : string.Empty);
-        //    }
-        //    else if (diff > new TimeSpan(0, 1, 0)) // Minute
-        //    {
-        //        return string.Format("{0} minute{1} ago", diff.Minutes, diff.Minutes > 1 ? "s" : string.Empty);
-        //    }
-        //    else // Second
-        //    {
-        //        return "just now";
-        //    }
-        //}
+            if (diff > new TimeSpan(365, 0, 0, 0)) // Year
+            {
+                return "more than a year ago";
+            }
+            else if (diff > new TimeSpan(30, 0, 0, 0)) // Month
+            {
+                var months = (diff.Days / 30);
+                return string.Format("{0} month{1} ago", months, months > 1 ? "s" : string.Empty);
+            }
+            else if (diff > new TimeSpan(1, 0, 0, 0)) // Day
+            {
+                return string.Format("{0} day{1} ago", diff.Days, diff.Days > 1 ? "s" : string.Empty);
+            }
+            else if (diff > new TimeSpan(1, 0, 0)) // Hour
+            {
+                return string.Format("{0} hour{1} ago", diff.Hours, diff.Hours > 1 ? "s" : string.Empty);
+            }
+            else if (diff > new TimeSpan(0, 1, 0)) // Minute
+            {
+                return string.Format("{0} minute{1} ago", diff.Minutes, diff.Minutes > 1 ? "s" : string.Empty);
+            }
+            else // Second
+            {
+                return "just now";
+            }
+        }
 
         #endregion
     }

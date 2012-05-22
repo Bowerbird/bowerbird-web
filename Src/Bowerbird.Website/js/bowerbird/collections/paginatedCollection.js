@@ -21,21 +21,21 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
 
         fetch: function (options) {
             typeof (options) != 'undefined' || (options = {});
-            this.trigger("fetching");
+            this.trigger("fetching", this);
             var self = this;
             var success = options.success;
             options.success = function (resp) {
-                self.trigger("fetched");
+                self.trigger("fetched", self);
                 if (success) { success(self, resp); }
             };
             return Backbone.Collection.prototype.fetch.call(this, options);
         },
 
         parse: function (resp) {
-            this.page = resp.Page;
-            this.pageSize = resp.PageSize;
-            this.total = resp.TotalResultCount;
-            return resp.PagedListItems;
+            this.page = resp.Model.Page;
+            this.pageSize = resp.Model.PageSize;
+            this.total = resp.Model.TotalResultCount;
+            return resp.Model.PagedListItems;
         },
 
         url: function () {

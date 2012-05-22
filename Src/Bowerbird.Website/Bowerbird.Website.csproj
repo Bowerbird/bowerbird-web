@@ -116,6 +116,7 @@
     <Content Include="js\bowerbird\collections\speciesCollection.js" />
     <Content Include="js\bowerbird\collections\organisationCollection.js" />
     <Content Include="js\bowerbird\collections\teamCollection.js" />
+    <Content Include="js\bowerbird\controllers\homeController.js" />
     <Content Include="js\bowerbird\controllers\referenceSpeciesController.js" />
     <Content Include="js\bowerbird\controllers\speciesController.js" />
     <Content Include="js\bowerbird\controllers\organisationController.js" />
@@ -128,7 +129,7 @@
     <Content Include="js\bowerbird\collections\projectCollection.js" />
     <Content Include="js\bowerbird\collections\streamItemCollection.js" />
     <Content Include="js\bowerbird\collections\userCollection.js" />
-    <Content Include="js\bowerbird\controllers\contributionController.js" />
+    <Content Include="js\bowerbird\controllers\observationController.js" />
     <Content Include="js\bowerbird\models\referenceSpecies.js" />
     <Content Include="js\bowerbird\models\species.js" />
     <Content Include="js\bowerbird\models\organisation.js" />
@@ -138,13 +139,15 @@
     <Content Include="js\bowerbird\models\project.js" />
     <Content Include="js\bowerbird\models\stream.js" />
     <Content Include="js\bowerbird\models\streamItem.js" />
-    <Content Include="js\bowerbird\routers\contributionRouter.js" />
+    <Content Include="js\bowerbird\routers\observationRouter.js" />
+    <Content Include="js\bowerbird\routers\homeRouter.js" />
     <Content Include="js\bowerbird\routers\speciesRouter.js" />
     <Content Include="js\bowerbird\routers\referenceSpeciesRouter.js" />
     <Content Include="js\bowerbird\routers\organisationRouter.js" />
     <Content Include="js\bowerbird\routers\teamRouter.js" />
     <Content Include="js\bowerbird\routers\projectRouter.js" />
     <Content Include="js\bowerbird\views\avatarItemView.js" />
+    <Content Include="js\bowerbird\views\homeLayoutView.js" />
     <Content Include="js\bowerbird\views\referenceSpeciesFormLayoutView.js" />
     <Content Include="js\bowerbird\views\speciesFormItemView.js" />
     <Content Include="js\bowerbird\views\organisationFormLayoutView.js" />
@@ -209,6 +212,7 @@
     <Content Include="js\libs\underscore\underscore.js" />
     <Content Include="js\_old\libs\yepnope.js" />
     <Content Include="species\Butterflies.txt" />
+    <Content Include="species\Legumes.txt" />
     <Content Include="welcome.txt" />
     <None Include="Views\Home\About.mustache" />
     <None Include="Views\Account\LogoutSuccess.mustache" />
@@ -234,6 +238,7 @@
     <None Include="Views\ReferenceSpecies\Delete.mustache" />
     <None Include="Views\ReferenceSpecies\Index.mustache" />
     <None Include="Views\ReferenceSpecies\List.mustache" />
+    <None Include="Views\Shared\StreamItem.mustache" />
     <None Include="Views\Shared\ReferenceSpeciesCreate.mustache" />
     <None Include="Views\Shared\SpeciesCreate.mustache" />
     <None Include="Views\Shared\Observation.mustache">
@@ -416,12 +421,12 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Views\Shared\ObservationMediaResourceUploaded.mustache" />
-    <None Include="Views\Shared\ObservationStreamListItem.mustache" />
+    <None Include="Views\Shared\ObservationStreamItem.mustache" />
     <None Include="Views\Shared\OrganisationForm.mustache" />
     <None Include="Views\Shared\ProjectForm.mustache" />
     <None Include="Views\Shared\Sidebar.mustache" />
     <None Include="Views\Shared\SidebarProjectItem.mustache" />
-    <None Include="Views\Shared\StreamList.mustache" />
+    <None Include="Views\Shared\Stream.mustache" />
     <None Include="Views\Shared\StreamListLoading.mustache" />
     <None Include="Views\Shared\StreamLoadMore.mustache" />
     <None Include="Views\Shared\TeamForm.mustache" />

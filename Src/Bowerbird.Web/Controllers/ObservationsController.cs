@@ -100,17 +100,27 @@ namespace Bowerbird.Web.Controllers
                 return HttpUnauthorized();
             }
 
-            ViewBag.Model = new
-            {
-                Create = true,
-                Observation = _viewModelBuilder.BuildObservation(),
-                Categories = GetCategories()
-            };
+            var observation = _viewModelBuilder.BuildObservation();
+            var categories = GetCategories();
 
             if (Request.IsAjaxRequest())
             {
-                return new JsonNetResult(new { Model = ViewBag.Model });
+                return new JsonNetResult(new
+                {
+                    Model = new 
+                    {
+                        Observation = observation,
+                        Categories = categories
+                    }
+                });
             }
+
+            ViewBag.Model = new
+            {
+                Create = true,
+                Observation = observation,
+                Categories = categories
+            };
 
             ViewBag.PrerenderedView = "observations";
 
@@ -141,30 +151,6 @@ namespace Bowerbird.Web.Controllers
             ViewBag.PrerenderedView = "observations";
 
             return View(Form.Update);
-        }
-
-        // HACK: Add to DB!
-        private IEnumerable GetCategories(string id = "") {
-            var categories = new [] { "Mammals", "Invertebrates", "Turkeys", "Apples" };
-            var observation = _documentSession.Load<Observation>("observations/" + id);
-            Func<string, bool> isSelected = null;
-
-            if (observation != null)
-            {
-                isSelected = x => { return x == observation.Category; };
-            }
-            else
-            {
-                isSelected = x => { return false; };
-            }
-
-            return from category in categories
-                   select new 
-                   {
-                        Text = category,
-                        Value = category,
-                        Selected = isSelected(category)
-                   };
         }
 
         [HttpGet]
@@ -272,6 +258,30 @@ namespace Bowerbird.Web.Controllers
                 });
 
             return JsonSuccess();
+        }
+
+        private IEnumerable GetCategories(string id = "")
+        {
+            var categories = _documentSession.Load<AppRoot>(Constants.AppRootId).Categories;
+            var observation = _documentSession.Load<Observation>("observations/" + id);
+            Func<string, bool> isSelected = null;
+
+            if (observation != null)
+            {
+                isSelected = x => { return x == observation.Category; };
+            }
+            else
+            {
+                isSelected = x => { return false; };
+            }
+
+            return from category in categories
+                   select new
+                   {
+                       Text = category,
+                       Value = category,
+                       Selected = isSelected(category)
+                   };
         }
 
         #endregion

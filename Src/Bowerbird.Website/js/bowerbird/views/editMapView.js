@@ -15,7 +15,6 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/dummyoverlayview', 'jq
         id: 'location-fieldset',
 
         initialize: function (options) {
-            //_.extend(this, Backbone.Events);
             this.observation = options.observation;
             this.mapMarker = null;
             this.zIndex = 0;

@@ -16,6 +16,8 @@ using System.Web.Mvc;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.Config;
+using Bowerbird.Web.ViewModels;
+using Bowerbird.Web.Builders;
 
 namespace Bowerbird.Web.Controllers
 {
@@ -25,6 +27,7 @@ namespace Bowerbird.Web.Controllers
 
         private readonly ICommandProcessor _commandProcessor;
         private readonly IUserContext _userContext;
+        private readonly IStreamItemsViewModelBuilder _streamItemsViewModelBuilder;
 
         #endregion
 
@@ -32,14 +35,17 @@ namespace Bowerbird.Web.Controllers
 
         public HomeController(
             ICommandProcessor commandProcessor,
-            IUserContext userContext
+            IUserContext userContext,
+            IStreamItemsViewModelBuilder streamItemsViewModelBuilder
             )
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
             Check.RequireNotNull(userContext, "userContext");
+            Check.RequireNotNull(streamItemsViewModelBuilder, "streamItemsViewModelBuilder");
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
+            _streamItemsViewModelBuilder = streamItemsViewModelBuilder;
         }
 
         #endregion
@@ -64,6 +70,7 @@ namespace Bowerbird.Web.Controllers
 
             ViewBag.Model = new
             {
+                Stream = true,
                 StreamItems = new object [] {}
             };
 
@@ -72,11 +79,15 @@ namespace Bowerbird.Web.Controllers
             return View();
         }
 
-        public ActionResult SetupTestData()
+        [HttpGet]
+        public ActionResult Stream(PagingInput pagingInput)
         {
-            _commandProcessor.Process(new SetupTestDataCommand());
+            var data = new
+            {
+                Model = _streamItemsViewModelBuilder.BuildHomeStreamItems(pagingInput)
+            };
 
-            return RedirectToAction("index");
+            return new JsonNetResult(data);
         }
 
         #endregion

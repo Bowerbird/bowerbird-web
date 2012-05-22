@@ -22,6 +22,8 @@ using Microsoft.Practices.ServiceLocation;
 using Bowerbird.Core.CommandHandlers;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Config;
+using Raven.Client;
+using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Core.Commands
 {
@@ -31,7 +33,7 @@ namespace Bowerbird.Core.Commands
         #region Members
 
         private readonly IServiceLocator _serviceLocator;
-        private readonly ISystemStateManager _systemStateManager;
+        private readonly IDocumentSession _documentSession;
 
         #endregion
 
@@ -39,13 +41,13 @@ namespace Bowerbird.Core.Commands
 
         public CommandProcessor(
             IServiceLocator serviceLocator,
-            ISystemStateManager systemStateManager)
+            IDocumentSession documentSession)
         {
             Check.RequireNotNull(serviceLocator, "serviceLocator");
-            Check.RequireNotNull(systemStateManager, "systemStateManager");
+            Check.RequireNotNull(documentSession, "documentSession");
 
             _serviceLocator = serviceLocator;
-            _systemStateManager = systemStateManager;
+            _documentSession = documentSession;
         }
 
         #endregion
@@ -60,7 +62,9 @@ namespace Bowerbird.Core.Commands
         {
             Check.RequireNotNull(command, "command");
 
-            if (_systemStateManager.ExecuteCommands)
+            var appRoot = _documentSession.Load<AppRoot>(Constants.AppRootId);
+
+            if (appRoot.ExecuteCommands)
             {
                 Validator.ValidateObject(command, new ValidationContext(command, null, null), true);
 
@@ -82,7 +86,9 @@ namespace Bowerbird.Core.Commands
         {
             Check.RequireNotNull(command, "command");
 
-            if (_systemStateManager.ExecuteCommands)
+            var appRoot = _documentSession.Load<AppRoot>(Constants.AppRootId);
+
+            if (appRoot.ExecuteCommands)
             {
                 Validator.ValidateObject(command, new ValidationContext(command, null, null), true);
 
@@ -104,7 +110,9 @@ namespace Bowerbird.Core.Commands
         {
             Check.RequireNotNull(command, "command");
 
-            if (_systemStateManager.ExecuteCommands)
+            var appRoot = _documentSession.Load<AppRoot>(Constants.AppRootId);
+
+            if (appRoot.ExecuteCommands)
             {
                 foreach (var result in Process<TCommand, TResult>(command))
                 {

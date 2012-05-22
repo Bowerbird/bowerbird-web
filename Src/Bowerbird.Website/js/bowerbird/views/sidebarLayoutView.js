@@ -34,11 +34,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/user', 'views/sidebar
             onRender: function () {
                 $('article').prepend(this.el);
 
-                var projects = new ProjectCollection();
-                _.each(this.model.get('Projects'), function (json) {
-                    projects.add(new Project(json));
-                });
-                var sidebarProjectCollectionView = new SidebarProjectCollectionView({ el: '#project-menu-group-list', collection: projects });
+                var sidebarProjectCollectionView = new SidebarProjectCollectionView({ el: '#project-menu-group-list', collection: this.model.userProjects });
                 this.projectsMenu.attachView(sidebarProjectCollectionView);
 
                 sidebarProjectCollectionView.render();
@@ -58,6 +54,12 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/user', 'views/sidebar
                 });
             },
 
+            serializeData: function () {
+                return {
+                    User: this.model.user
+                };
+            },
+
             showMenu: function (e) {
                 $('.sub-menu-button').removeClass('active');
                 $(e.currentTarget).addClass('active');
@@ -73,9 +75,9 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/user', 'views/sidebar
         // Initialize the sidebar layout
         app.addInitializer(function (options) {
             // Only show sidebar if user is authenticated
-            if (this.authenticatedUser) {
+            if (this.user) {
                 // Render the layout and get it on the screen, first
-                var sidebarLayoutView = new SidebarLayoutView({ model: this.authenticatedUser });
+                var sidebarLayoutView = new SidebarLayoutView({ model: { user: this.user, userProjects: this.userProjects} });
 
                 sidebarLayoutView.on('show', function () {
                     app.vent.trigger('sidebar:rendered');

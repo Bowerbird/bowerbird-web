@@ -37,9 +37,10 @@ require.config({
         'marionette', 
         // Load the bootstrapped data from the inline html
         //'bootstrap-data', 
-        // Routers are the first port of call, so load em up
+    // Routers are the first port of call, so load em up
+        'routers/homerouter',
         'routers/groupuserrouter',
-        'routers/contributionrouter',
+        'routers/observationrouter',
         'routers/projectrouter',
         'routers/teamrouter',
         'routers/organisationrouter',
@@ -49,6 +50,7 @@ require.config({
         'views/headerview',
         'views/footerview',
         'views/sidebarlayoutview',
+        'views/homelayoutview',
         'views/projectlayoutview',
         'views/observationlayoutview'
     ]

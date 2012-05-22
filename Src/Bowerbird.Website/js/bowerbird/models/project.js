@@ -12,7 +12,7 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
 
     var Project = Backbone.Model.extend({
         defaults: {
-            Type: 'Project',
+            Type: 'Project'
         },
 
         idAttribute: 'Id',

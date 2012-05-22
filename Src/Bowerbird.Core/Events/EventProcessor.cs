@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using Microsoft.Practices.ServiceLocation;
 using Bowerbird.Core.EventHandlers;
 using Bowerbird.Core.Config;
+using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Core.Events
 {
@@ -38,9 +39,9 @@ namespace Bowerbird.Core.Events
         {
             try
             {
-                var systemStateManager = ServiceLocator.GetInstance<ISystemStateManager>();
+                var appRoot = ServiceLocator.GetInstance<AppRoot>();
 
-                if (systemStateManager.FireEvents)
+                if (appRoot.FireEvents)
                 {
                     foreach (var handler in ServiceLocator.GetAllInstances<IEventHandler<T>>())
                     {

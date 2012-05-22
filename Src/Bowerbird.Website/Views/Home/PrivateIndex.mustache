@@ -1,11 +1,13 @@
-﻿{{<Title}}Bowerbird - Home{{/Title}}
+﻿{{<Title}}{{/Title}}
 
 <section id="content" class="triple-2">
 	<div class="home">
 		<div class="details">
-			<div id="stream">
-				{{>StreamList}}
+			{{#Model.Stream}}
+			<div class="stream">
+				{{>Stream}}
 			</div>
+			{{/Model.Stream}}
 		</div> 
 	</div>
 </section>

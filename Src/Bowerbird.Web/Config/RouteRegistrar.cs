@@ -61,6 +61,11 @@ namespace Bowerbird.Web.Config
                 "",
                 new {controller = "home", action = "publicindex"});
 
+            routes.MapRoute(
+                "home-index-private-stream",
+                "stream",
+                new { controller = "home", action = "stream" });
+
             RegisterGroupControllerRoutes(routes);
 
             // Load up restful controllers and create routes

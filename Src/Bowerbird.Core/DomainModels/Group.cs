@@ -53,7 +53,7 @@ namespace Bowerbird.Core.DomainModels
 
         public string Name { get; protected set; } // Protected set to allow AppRoot to set it after instantiation
 
-        public DateTime CreatedDateTime { get; private set; }
+        public DateTime CreatedDateTime { get; protected set; } // Protected set to allow AppRoot to set it after instantiation
 
         public DenormalisedUserReference User { get; protected set; } // Protected set to allow AppRoot to set it after instantiation
 

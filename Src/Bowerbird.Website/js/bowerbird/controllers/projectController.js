@@ -14,14 +14,10 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/projectformlayoutview'
 
     var ProjectController = {};
 
-    var isPrerender = function () {
-        return app.prerenderedView.name === 'projects' && !app.prerenderedView.isBound;
-    };
-
     var getModel = function (id) {
         var deferred = new $.Deferred();
 
-        if (isPrerender()) {
+        if (app.isPrerendering('projects')) {
             deferred.resolve(app.prerenderedView.data);
         } else {
             var params = {};
@@ -39,14 +35,6 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/projectformlayoutview'
         return deferred.promise();
     };
 
-    var setPrerenderComplete = function () {
-        app.prerenderedView.isBound = true;
-    };
-
-    var getShowViewMethodName = function () {
-        return isPrerender() ? 'attachView' : 'show';
-    };
-
     // ProjectController Public API
     // ----------------------------
 
@@ -58,13 +46,13 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/projectformlayoutview'
                 var project = new Project(model.Project);
                 var projectFormLayoutView = new ProjectFormLayoutView({ model: project, teams: model.Teams });
 
-                app.content[getShowViewMethodName()](projectFormLayoutView);
+                app.content[app.getShowViewMethodName()](projectFormLayoutView);
 
-                if (isPrerender()) {
+                if (app.isPrerendering('projects')) {
                     projectFormLayoutView.showBootstrappedDetails();
                 }
 
-                setPrerenderComplete();
+                app.setPrerenderComplete();
             });
     };
 
