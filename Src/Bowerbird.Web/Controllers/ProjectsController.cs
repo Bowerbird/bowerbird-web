@@ -405,10 +405,10 @@ namespace Bowerbird.Web.Controllers
         {
             var teamIds = _documentSession
                 .Query<All_Users.Result, All_Users>()
-                .AsProjection<All_Users.ClientResult>()
+                .AsProjection<All_Users.Result>()
                 .Where(x => x.UserId == userId)
                 .ToList()
-                .SelectMany(x => x.Memberships.Where(y => y.Group.GroupType == "team").Select(y => y.Group.Id));
+                .SelectMany(x => x.Members.Where(y => y.Group.GroupType == "team").Select(y => y.Group.Id));
 
             var teams = _documentSession.Load<Team>(teamIds);
 

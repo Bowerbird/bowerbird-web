@@ -97,5 +97,14 @@ namespace Bowerbird.Core.Extensions
         {
             return text.ToLower().Equals(compare.ToLower());
         }
+
+        public static string ShortId(this string longId)
+        {
+            if(longId.Contains("/")) 
+                
+                return longId.Split('/')[1];
+
+            return longId;
+        }
     }
 }
