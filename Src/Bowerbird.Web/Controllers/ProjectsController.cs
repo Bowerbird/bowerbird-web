@@ -214,14 +214,15 @@ namespace Bowerbird.Web.Controllers
                                   Name = "Enter Name",
                                   Description = "Enter Description",
                                   Website = "Enter Website",
-                                  ImgUrl = "../img/default-project-avatar.jpg"
+                                  ImgUrl = "/img/default-project-avatar.jpg"
                               },
+
                 Teams = GetTeams(_userContext.GetAuthenticatedUserId())
             };
 
             if(Request.IsAjaxRequest())
             {
-                return new JsonNetResult(ViewBag.Model);
+                return new JsonNetResult(new { Model = ViewBag.Model });
             }
 
             ViewBag.PrerenderedView = "projects";

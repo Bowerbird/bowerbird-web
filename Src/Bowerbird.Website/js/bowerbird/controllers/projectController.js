@@ -30,7 +30,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/projectformlayoutview'
             }
             $.ajax({
                 url: '/projects/create',
-                data: params,
+                data: params
             }).done(function (data) {
                 deferred.resolve(data.Model);
             });
@@ -52,6 +52,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/projectformlayoutview'
 
     // Show an project form
     ProjectController.showProjectForm = function (id) {
+        log('projectController:showProjectForm');
         $.when(getModel(id))
             .done(function (model) {
                 var project = new Project(model.Project);

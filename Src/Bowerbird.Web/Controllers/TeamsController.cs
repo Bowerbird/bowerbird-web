@@ -195,7 +195,13 @@ namespace Bowerbird.Web.Controllers
 
             ViewBag.Model = new
             {
-                Team = new { },
+                Team = new
+                {
+                    Name = "Enter Name",
+                    Description = "Enter Description",
+                    Website = "Enter Website",
+                    ImgUrl = "../img/default-team-avatar.jpg"
+                },
                 Organisations = GetOrganisations(_userContext.GetAuthenticatedUserId())
             };
 
@@ -204,7 +210,7 @@ namespace Bowerbird.Web.Controllers
                 return new JsonNetResult(ViewBag.Model);
             }
 
-            ViewBag.PrerenderedView = "projects";
+            ViewBag.PrerenderedView = "teams";
 
             return View(Form.Create);
         }

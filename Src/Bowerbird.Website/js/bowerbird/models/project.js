@@ -17,7 +17,7 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
 
         idAttribute: 'Id',
 
-        url: '/projects/',
+        urlRoot: '/projects',
 
         toJSON: function () {
             return {

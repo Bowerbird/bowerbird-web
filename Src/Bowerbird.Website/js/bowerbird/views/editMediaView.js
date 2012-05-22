@@ -16,6 +16,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/mediaresource', 'view
         id: 'media-resources-fieldset',
 
         initialize: function (options) {
+            log('ediMediaView:initialize');
             _.extend(this, Backbone.Events);
             _.bindAll(this,
                 'render',
@@ -28,11 +29,13 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/mediaresource', 'view
         },
 
         render: function () {
+            log('ediMediaView:render');
             this._initMediaUploader();
             return this;
         },
 
         _initMediaUploader: function () {
+            log('ediMediaView:_initMediaUploader');
             $('#fileupload').fileupload({
                 dataType: 'json',
                 paramName: 'file',
@@ -46,6 +49,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/mediaresource', 'view
         filesAdded: 0,  // Used to determine when to fire file upload animations
 
         _onUploadAdd: function (e, data) {
+            log('ediMediaView:_onUploadAdd');
             this.currentUploadKey++;
             var mediaResource = new MediaResource({ Key: this.currentUploadKey.toString() });
             this.model.addMediaResource(mediaResource);
@@ -76,6 +80,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/mediaresource', 'view
         },
 
         _showMediaResourceItemView: function (self, mediaResourceItemView, imageWidth, beginAnimation) {
+            log('ediMediaView:_showMediaResourceItemView');
             $('#media-resource-items')
                 .queue('mediaQueue', function (next) {
                     self.$el.find('#media-resource-add-pane')
@@ -116,6 +121,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/mediaresource', 'view
         },
 
         _onMediaResourceViewRemove: function (model, view) {
+            log('ediMediaView:_onMediaResourceViewRemove');
             //            var addToRemoveList = false;
             //            if (app.get('newObservation').mediaResources.find(function (mr) { return mr.id == this.model.id; }) != null) {
             //                addToRemoveList = true;
@@ -130,10 +136,12 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/mediaresource', 'view
         },
 
         _onSubmitUpload: function (e, data) {
+            log('ediMediaView:_onSubmitUpload');
             data.formData = { Key: this.currentUploadKey, OriginalFileName: data.files[0].name };
         },
 
         _onUploadDone: function (e, data) {
+            log('ediMediaView:_onUploadDone');
             var mediaResource = this.model.mediaResources.find(function (item) {
                 return item.get('Key') === data.result.Key;
             });

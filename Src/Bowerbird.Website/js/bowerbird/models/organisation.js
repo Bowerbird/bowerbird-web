@@ -13,6 +13,11 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
     var Organisation = Backbone.Model.extend({
         defaults: {
             Type: 'Organisation',
+            Avatar: {
+                Id: '',
+                Url: '',
+                AltTag: ''
+            }
         },
 
         idAttribute: 'Id',

@@ -13,10 +13,10 @@ define(['jquery', 'underscore', 'backbone', 'app', 'controllers/groupusercontrol
     var GroupUserRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
             '': 'showHome',
-            'teams/:id': 'showTeam',
-            'projects/:id': 'showProjectStream',
-            'projects/:id/about': 'showProjectAbout',
-            'projects/:id/members': 'showProjectMembers',
+            //'teams/:id': 'showTeam',
+            //'projects/:id': 'showProjectStream',
+            //'projects/:id/about': 'showProjectAbout',
+            //'projects/:id/members': 'showProjectMembers',
             'users/:id': 'showUser'
         }
     });

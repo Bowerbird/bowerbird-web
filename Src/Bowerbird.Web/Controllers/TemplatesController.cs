@@ -73,7 +73,7 @@ namespace Bowerbird.Web.Controllers
                 {"ObservationList", null},
                 {"ObservationMediaResourceUploaded", null},
                 {"ObservationStreamListItem", null},
-                {"OrganisationCreate", null},
+                {"OrganisationForm", null},
                 {"OrganisationItem", null},
                 {"OrganisationList", null},
                 {"ProjectForm", null},

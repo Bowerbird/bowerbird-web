@@ -187,6 +187,24 @@ namespace Bowerbird.Web.Controllers
                 return HttpUnauthorized();
             }
 
+            ViewBag.Model = new
+            {
+                Organisation = new
+                {
+                    Name = "Enter Name",
+                    Description = "Enter Description",
+                    Website = "Enter Website",
+                    ImgUrl = "../img/default-organisation-avatar.jpg"
+                }
+            };
+
+            if (Request.IsAjaxRequest())
+            {
+                return new JsonNetResult(ViewBag.Model);
+            }
+
+            ViewBag.PrerenderedView = "organisations";
+
             return View(Form.Create);
         }
 

@@ -42,8 +42,16 @@
     </fieldset>
     <fieldset id="media-resources-fieldset">
       <legend>Avatar Image</legend>
-      <div id="avatar-field">
-        <img src="{{Model.Project.ImgUrl}}" />
+      <div id="avatar" class="field">
+          <div>
+              <label for="avatar">Project Avatar</label>
+            </div>
+          <div id="avatar-field" class="field">
+            <img src="{{Model.Project.ImgUrl}}" />
+          </div>
+          <div id="avatar-upload-button" class="button avatar-upload-button">
+            Change Avatar<input id="fileupload" type="file" name="file" multiple="" />
+        </div>
       </div>
     </fieldset>
     <fieldset>

@@ -37,10 +37,12 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editmapview', '
         },
 
         initialize: function (options) {
+            log('observationFormLayoutView:initialize');
             this.categories = options.categories;
         },
 
         serializeData: function () {
+            log('observationFormLayoutView:serializeData');
             return {
                 Model: {
                     Observation: this.model.toJSON(),
@@ -50,15 +52,18 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editmapview', '
         },
 
         onShow: function () {
+            log('observationFormLayoutView:onShow');
             this._showDetails();
         },
 
         showBootstrappedDetails: function () {
+            log('observationFormLayoutView:showBootStrappedDetails');
             this.initializeRegions();
             this._showDetails();
         },
 
         _showDetails: function () {
+            log('observationFormLayoutView:_showDetails');
             var editMapView = new EditMapView({ el: '#location-fieldset', model: this.model });
             this.map.attachView(editMapView);
             editMapView.render();

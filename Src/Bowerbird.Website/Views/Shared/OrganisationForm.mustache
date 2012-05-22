@@ -7,7 +7,7 @@
           <label for="name">Name</label>
         </div>
         <div>
-          <input type="text" id="name" name="name" value="{{Name}}" />
+          <input type="text" id="name" name="name" value="{{Model.Organisation.Name}}" />
         </div>
       </div>
       <div id="description-field" class="field">
@@ -15,7 +15,7 @@
           <label for="description">Description</label>
         </div>
         <div>
-          <textarea rows="4" cols="100" id="description" name="description">{{Description}}</textarea>
+          <textarea rows="4" cols="100" id="description" name="description">{{Model.Organisation.Description}}</textarea>
         </div>
       </div>
       <div id="website-field" class="field">
@@ -23,19 +23,21 @@
           <label for="website">Website</label>
         </div>
         <div>
-          <input type="text" id="website" name="website" value="{{Website}}" />
+          <input type="text" id="website" name="website" value="{{Model.Organisation.Website}}" />
         </div>
       </div>
     </fieldset>
     <fieldset id="media-resources-fieldset">
       <legend>Avatar Image</legend>
-      <div id="avatar-field" class="field">
-        <div>
-          <label for="Avatar">Upload an Avatar Image</label>
-        </div>
-        <div id="media-uploader">
-          <div id="avatar-add-pane"></div>
-          <div id="avatar-viewer"></div>
+            <div id="avatar" class="field">
+          <div>
+              <label for="avatar">Organisation Avatar</label>
+            </div>
+          <div id="avatar-field" class="field">
+            <img src="{{Model.Organisation.ImgUrl}}" />
+          </div>
+          <div id="avatar-upload-button" class="button avatar-upload-button">
+            Change Avatar<input id="fileupload" type="file" name="file" multiple="" />
         </div>
       </div>
     </fieldset>

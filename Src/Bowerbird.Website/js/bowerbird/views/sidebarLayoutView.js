@@ -44,9 +44,15 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/user', 'views/sidebar
                 sidebarProjectCollectionView.render();
 
                 var that = this;
-                $(this.el).find('a.user-stream').on('click', function (e) {
+                this.$el.find('a.user-stream').on('click', function (e) {
                     e.preventDefault();
-                    app.groupUserRouter.navigate($(this).attr('href'));
+                    app.groupUserRouter.navigate($(this).attr('href'), { trigger: true });
+                    //app.vent.trigger('home:show');
+                    return false;
+                });
+                this.$el.find('#project-menu-group-list .menu-group-options a').on('click', function (e) {
+                    e.preventDefault();
+                    app.projectRouter.navigate($(this).attr('href'), { trigger: true });
                     //app.vent.trigger('home:show');
                     return false;
                 });

@@ -8,7 +8,7 @@
 // TeamFormLayoutView
 // -------------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editavatarview', 'multiselect'], function ($, _, Backbone, app, ich, EditAvatarView) {
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'multiselect', 'loadimage', 'fileupload'], function ($, _, Backbone, app, ich, loadImage) {
 
     var TeamFormLayoutView = Backbone.Marionette.Layout.extend({
 
@@ -31,10 +31,12 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editavatarview'
         },
 
         initialize: function (options) {
+            log('teamFormLayoutView.initialize');
             this.organisations = options.organisations;
         },
 
         serializeData: function () {
+            log('teamFormLayoutView.serializeData');
             return {
                 Model: {
                     Team: this.model.toJSON(),
@@ -44,15 +46,18 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editavatarview'
         },
 
         onShow: function () {
+            log('teamFormLayoutView.onShow');
             this._showDetails();
         },
 
-        showBootstrappedDetails: function(){
+        showBootstrappedDetails: function () {
+            log('teamFormLayoutView.showBootstrappedDetails');
             this.initializeRegions();
             this._showDetails();
         },
 
         _showDetails: function () {
+            log('teamFormLayoutView._showDetails');
             this.organisationListSelectView = this.$el.find("#Organisation").multiSelect({
                 selectAll: false,
                 singleSelect: true,
@@ -73,10 +78,12 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editavatarview'
         },
 
         _showImportAvatar: function () {
+            log('teamFormLayoutView._showImportAvatar');
             alert('Coming soon');
         },
 
         _contentChanged: function (e) {
+            log('teamFormLayoutView._contentChanged');
             var target = $(e.currentTarget);
             var data = {};
             data[target.attr('id')] = target.attr('value');
@@ -84,6 +91,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editavatarview'
         },
 
         _organisationChanged: function (e) {
+            log('teamFormLayoutView._organisationChanged');
             var $checkbox = $(e.currentTarget);
             if ($checkbox.attr('checked') === 'checked') {
                 this.model.set('Organisation', $checkbox.attr('value'));
