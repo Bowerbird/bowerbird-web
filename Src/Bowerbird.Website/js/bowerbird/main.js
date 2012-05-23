@@ -28,7 +28,7 @@ require.config({
         multiselect: '/js/libs/jquery.multiselect/jquery.multiselect',
         loadimage: '/js/libs/jquery.fileupload/load-image', 
         fileupload: '/js/libs/jquery.fileupload/jquery.fileupload',
-        signalr: '/js/libs/jquery.signalr/jquery.signalr.js'
+        signalr: '/js/libs/jquery.signalr/jquery.signalr'
     },
     priority: [
         'ich', 
