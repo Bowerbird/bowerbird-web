@@ -61,9 +61,14 @@ namespace Bowerbird.Core.DomainModels
             {
                 _id = value;
 
-                if (CanFireCreatedEvent)
+                // Set CanFireEvents to true so that all subsequent events can be fired
+                CanFireEvents = true;
+
+                // If there is a create event set, fire it now that we have a real ID
+                if (CreateEvent != null)
                 {
-                    FireCreateEvent();
+                    FireEvent(CreateEvent);
+                    CreateEvent = null;
                 }
             }
         }
@@ -86,12 +91,31 @@ namespace Bowerbird.Core.DomainModels
             return _id;
         }
 
+        /// <summary>
+        /// Used to determine if events will be fired. Default is set to false
+        /// </summary>
         [JsonIgnore]
-        protected bool CanFireCreatedEvent { get; set; }
+        protected bool CanFireEvents { get; set; }
 
-        protected virtual void FireCreateEvent()
+        [JsonIgnore]
+        private IDomainEvent CreateEvent { get; set; }
+
+        /// <summary>
+        /// Fires the specified event if CanFireEvents is true. If the event can't be fired AND the event is of 
+        /// type DomainModelCreatedEvent<>, then it will be cached and fired at the next opportunity
+        /// </summary>
+        protected void FireEvent(IDomainEvent domainEvent)
         {
-            CanFireCreatedEvent = false;
+            if (CanFireEvents)
+            {
+                EventProcessor.Raise(domainEvent);
+                return;
+            }
+
+            if (domainEvent.GetType().GetGenericTypeDefinition() == typeof(DomainModelCreatedEvent<>))
+            {
+                CreateEvent = domainEvent;
+            }
         }
 
         public override bool Equals(object obj)

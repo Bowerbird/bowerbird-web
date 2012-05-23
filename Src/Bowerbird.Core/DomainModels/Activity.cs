@@ -13,13 +13,15 @@
 */
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
 using Newtonsoft.Json;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public class ObservationGroup : ValueObject
+    public class Activity : DomainModel
     {
         #region Members
 
@@ -27,33 +29,40 @@ namespace Bowerbird.Core.DomainModels
 
         #region Constructors
 
-        protected ObservationGroup()
+        protected Activity()
         {
         }
 
-        public ObservationGroup(
-            Group group,
-            User createdByUser,
-            DateTime createdDateTime)
+        public Activity(
+            string type,
+            DateTime createdDateTime, 
+            string createdByUser,
+            object content,
+            object subContent)
             : this()
         {
-            Check.RequireNotNull(group, "group");
             Check.RequireNotNull(createdByUser, "createdByUser");
 
-            Group = group;
-            User = createdByUser;
+            Type = type;
             CreatedDateTime = createdDateTime;
+            UserId = createdByUser;
+            Content = content;
+            SubContent = subContent;
         }
 
         #endregion
 
         #region Properties
 
-        public DenormalisedGroupReference Group { get; private set; }
-
-        public DenormalisedUserReference User { get; private set; }
+        public string Type { get; private set; }
 
         public DateTime CreatedDateTime { get; private set; }
+
+        public string UserId { get; private set; }
+
+        public object Content { get; private set; }
+
+        public object SubContent { get; private set; }
 
         #endregion
 

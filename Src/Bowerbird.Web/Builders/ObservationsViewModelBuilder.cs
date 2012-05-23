@@ -156,7 +156,7 @@ namespace Bowerbird.Web.Builders
                 IsIdentificationRequired = observation.IsIdentificationRequired,
                 AnonymiseLocation = observation.AnonymiseLocation,
                 Media = MakeObservationMediaItems(observation.Media),
-                Projects = observation.Groups.Select(x => x.GroupId)
+                Projects = observation.Groups.Select(x => x.Group.Id)
             };
         }
 

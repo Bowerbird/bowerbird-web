@@ -2,6 +2,23 @@
 
 <section id="content" class="triple-2">
 	<div class="home">
+		<h2>Home</h2>
+		<div class="summary">
+
+		</div>
+		<div class="tab-bar">
+		  <ul class="tabs">
+			<li>
+			  <a href="/{{Model.Project.Id}}" class="selected">Activity</a>
+			</li>
+			<li>
+			  <a href="/{{Model.Project.Id}}/observations">Observations</a>
+			</li>
+			<li>
+			  <a href="/{{Model.Project.Id}}/posts">Posts</a>
+			</li>
+		  </ul>
+		</div>
 		<div class="details">
 			{{#Model.Stream}}
 			<div class="stream">

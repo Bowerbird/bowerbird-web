@@ -48,7 +48,7 @@ namespace Bowerbird.Core.DomainModels
                 website,
                 avatar);
 
-            EventProcessor.Raise(new DomainModelCreatedEvent<Team>(this, createdByUser.Id));
+            FireEvent(new DomainModelCreatedEvent<Team>(this, createdByUser.Id));
         }
 
         #endregion
@@ -89,7 +89,7 @@ namespace Bowerbird.Core.DomainModels
                 website,
                 avatar);
 
-            EventProcessor.Raise(new DomainModelUpdatedEvent<Team>(this, updatedByUser));
+            FireEvent(new DomainModelUpdatedEvent<Team>(this, updatedByUser));
 
             return this;
         }

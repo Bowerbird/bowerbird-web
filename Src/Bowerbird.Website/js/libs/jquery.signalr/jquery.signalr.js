@@ -1,4 +1,6 @@
-﻿/// <reference path="jquery-1.6.2.js" />
+﻿define(['jquery'], function (jQuery) {
+
+/// <reference path="jquery-1.6.2.js" />
 (function ($, window) {
     /// <param name="$" type="jQuery" />
     "use strict";
@@ -884,3 +886,5 @@
     $.connection = $.signalR = signalR;
 
 } (window.jQuery, window));
+
+});

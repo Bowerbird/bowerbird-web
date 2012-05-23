@@ -84,6 +84,8 @@ namespace Bowerbird.Web.App_Start
             ServiceLocator.SetLocatorProvider(() => new NinjectServiceLocator(kernel));
 
             SignalR.Hosting.AspNet.AspNetHost.SetResolver(new SignalR.Ninject.NinjectDependencyResolver(kernel));
+
+            EventProcessor.ServiceLocator = ServiceLocator.Current;
         }
     }
 }

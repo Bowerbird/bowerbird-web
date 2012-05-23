@@ -41,7 +41,7 @@ namespace Bowerbird.Core.Extensions
 
             if(results != null)
             {
-                ids = subQuery.Invoke(results);
+                ids = subQuery(results);
             }
 
             return results;

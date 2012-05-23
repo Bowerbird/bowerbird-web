@@ -20,6 +20,7 @@ using Microsoft.Practices.ServiceLocation;
 using Bowerbird.Core.EventHandlers;
 using Bowerbird.Core.Config;
 using Bowerbird.Core.DomainModels;
+using Raven.Client;
 
 namespace Bowerbird.Core.Events
 {
@@ -39,7 +40,7 @@ namespace Bowerbird.Core.Events
         {
             try
             {
-                var appRoot = ServiceLocator.GetInstance<AppRoot>();
+                var appRoot = ServiceLocator.GetInstance<IDocumentSession>().Load<AppRoot>(Constants.AppRootId);
 
                 if (appRoot.FireEvents)
                 {

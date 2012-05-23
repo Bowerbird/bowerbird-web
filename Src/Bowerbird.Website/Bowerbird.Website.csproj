@@ -116,6 +116,7 @@
     <Content Include="js\bowerbird\collections\speciesCollection.js" />
     <Content Include="js\bowerbird\collections\organisationCollection.js" />
     <Content Include="js\bowerbird\collections\teamCollection.js" />
+    <Content Include="js\bowerbird\controllers\activityController.js" />
     <Content Include="js\bowerbird\controllers\homeController.js" />
     <Content Include="js\bowerbird\controllers\referenceSpeciesController.js" />
     <Content Include="js\bowerbird\controllers\speciesController.js" />
@@ -139,6 +140,7 @@
     <Content Include="js\bowerbird\models\project.js" />
     <Content Include="js\bowerbird\models\stream.js" />
     <Content Include="js\bowerbird\models\streamItem.js" />
+    <Content Include="js\bowerbird\routers\activityRouter.js" />
     <Content Include="js\bowerbird\routers\observationRouter.js" />
     <Content Include="js\bowerbird\routers\homeRouter.js" />
     <Content Include="js\bowerbird\routers\speciesRouter.js" />
@@ -189,8 +191,8 @@
     <Content Include="js\bowerbird\routers\groupUserRouter.js" />
     <Content Include="js\libs\jquery\jquery-1.7.2-min.js" />
     <Content Include="js\libs\jquery\jquery-1.7.2.js" />
-    <Content Include="js\libs\signalr\jquery.signalR.js" />
-    <Content Include="js\libs\signalr\jquery.signalR.min.js" />
+    <Content Include="js\libs\jquery.signalr\jquery.signalr.js" />
+    <Content Include="js\libs\jquery.signalr\jquery.signalr-min.js" />
     <Content Include="js\libs\require\async.js" />
     <Content Include="js\libs\require\goog.js" />
     <Content Include="js\libs\require\propertyparser.js" />

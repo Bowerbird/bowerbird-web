@@ -45,7 +45,7 @@ namespace Bowerbird.Core.DomainModels.DenormalisedReferences
             return new DenormalisedObservationReference
             {
                 Id = observation.Id,
-                Groups = observation.Groups.Select(x => x.GroupId).ToList()
+                Groups = observation.Groups.Select(x => x.Group.Id).ToList()
             };
         }
 

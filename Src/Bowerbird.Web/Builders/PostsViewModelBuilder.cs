@@ -140,27 +140,28 @@ namespace Bowerbird.Web.Builders
 
         private object MakeStreamItem(All_Contributions.Result groupContributionResult)
         {
-            object item = null;
-            string description = null;
-            Group group = null;
+            throw new NotImplementedException();
+            //object item = null;
+            //string description = null;
+            //Group group = null;
 
-            switch (groupContributionResult.ContributionType)
-            {
-                case "Post":
-                    item = MakePost(groupContributionResult.Post);
-                    description = groupContributionResult.Post.User.FirstName + " added a post";
-                    string postedToGroupType = null;
-                    group = _documentSession.LoadGroupById(groupContributionResult.Post.GroupId, out postedToGroupType);
-                    break;
-            }
+            //switch (groupContributionResult.ContributionType)
+            //{
+            //    case "Post":
+            //        item = MakePost(groupContributionResult.Post);
+            //        description = groupContributionResult.Post.User.FirstName + " added a post";
+            //        string postedToGroupType = null;
+            //        group = groupContributionResult.GroupId
+            //        break;
+            //}
 
-            return MakeStreamItem(
-                item,
-                group,
-                "post",
-                groupContributionResult.GroupUser,
-                groupContributionResult.GroupCreatedDateTime,
-                description);
+            //return MakeStreamItem(
+            //    item,
+            //    group,
+            //    "post",
+            //    groupContributionResult.GroupUser,
+            //    groupContributionResult.GroupCreatedDateTime,
+            //    description);
         }
 
         private object MakePost(Post post)
@@ -203,36 +204,36 @@ namespace Bowerbird.Web.Builders
             };
         }
 
-        private static object MakeStreamItem(
-            object item,
-            Group group,
-            string contributionType,
-            User groupUser,
-            DateTime groupCreatedDateTime,
-            string description
-        )
-        {
-            return new
-            {
-                CreatedDateTime = groupCreatedDateTime,
-                CreatedDateTimeDescription = groupCreatedDateTime.Description(),
-                Type = contributionType.ToLower(),
-                User = new
-                {
-                    groupUser.Id,
-                    groupUser.LastLoggedIn,
-                    Name = groupUser.FirstName + " " + groupUser.LastName,
-                    Avatar = new
-                    {
-                        AltTag = groupUser.FirstName + " " + groupUser.LastName,
-                        UrlToImage = groupUser.Avatar != null ? "" : AvatarUris.DefaultUser
-                    }
-                },
-                Item = item,
-                Description = description,
-                Group = group
-            };
-        }
+        //private static object MakeStreamItem(
+        //    object item,
+        //    Group group,
+        //    string contributionType,
+        //    User groupUser,
+        //    DateTime groupCreatedDateTime,
+        //    string description
+        //)
+        //{
+        //    return new
+        //    {
+        //        CreatedDateTime = groupCreatedDateTime,
+        //        CreatedDateTimeDescription = groupCreatedDateTime.Description(),
+        //        Type = contributionType.ToLower(),
+        //        User = new
+        //        {
+        //            groupUser.Id,
+        //            groupUser.LastLoggedIn,
+        //            Name = groupUser.FirstName + " " + groupUser.LastName,
+        //            Avatar = new
+        //            {
+        //                AltTag = groupUser.FirstName + " " + groupUser.LastName,
+        //                UrlToImage = groupUser.Avatar != null ? "" : AvatarUris.DefaultUser
+        //            }
+        //        },
+        //        Item = item,
+        //        Description = description,
+        //        Group = group
+        //    };
+        //}
 
         #endregion
     }

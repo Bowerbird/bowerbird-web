@@ -36,8 +36,6 @@ namespace Bowerbird.Web.App_Start
         /// </summary>
         public static void PostStart()
         {
-            EventProcessor.ServiceLocator = ServiceLocator.Current;
-
             ViewEngines.Engines.Clear();
 
             //var mustacheExtensionFormats = new[]

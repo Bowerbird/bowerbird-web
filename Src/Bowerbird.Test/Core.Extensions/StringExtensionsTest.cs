@@ -70,20 +70,6 @@ namespace Bowerbird.Test.Core.Extensions
 
         [Test]
         [Category(TestCategory.Unit)] 
-        public void StringExtensions_FormatWith_Passing_Invalid_Format_String_Throws_DesignByContractException()
-        {
-            Assert.IsTrue(BowerbirdThrows.Exception<DesignByContractException>(() => "abc".FormatWith("def")));
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)] 
-        public void StringExtensions_FormatWith_PassingFormatString_And_ParamString_Returns_FormattedText()
-        {
-            Assert.IsTrue("abc{0}ghi".FormatWith("def").Equals("abcdefghi"));
-        }
-
-        [Test]
-        [Category(TestCategory.Unit)] 
         public void StringExtensions_AppendWith_Passing_Starting_Text_And_Appender_Text_Returns_FormattedText()
         {
             Assert.IsTrue("abc".AppendWith("def").Equals("abcdef"));

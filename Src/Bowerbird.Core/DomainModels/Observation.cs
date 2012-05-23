@@ -89,7 +89,7 @@ namespace Bowerbird.Core.DomainModels
                 AddMedia(media.Item1, media.Item2, media.Item3);
             }
 
-            CanFireCreatedEvent = true;
+            FireEvent(new DomainModelCreatedEvent<Observation>(this, User.Id));
         }
 
         #endregion
@@ -139,7 +139,7 @@ namespace Bowerbird.Core.DomainModels
         [JsonIgnore]
         IEnumerable<string> IOwnable.Groups
         {
-            get { return this.Groups.Select(x => x.GroupId); }
+            get { return this.Groups.Select(x => x.Group.Id); }
         }
 
         #endregion
@@ -152,12 +152,6 @@ namespace Bowerbird.Core.DomainModels
             _observationMedia = new List<ObservationMedia>();
             _observationGroups = new List<ObservationGroup>();
             _observationNotes = new List<DenormalisedObservationNoteReference>();
-        }
-
-        protected override void FireCreateEvent()
-        {
-            EventProcessor.Raise(new DomainModelCreatedEvent<Observation>(this, User.Id));
-            base.FireCreateEvent();
         }
 
         private void SetDetails(string title, 
@@ -201,7 +195,7 @@ namespace Bowerbird.Core.DomainModels
                 anonymiseLocation,
                 category);
 
-            EventProcessor.Raise(new DomainModelUpdatedEvent<Observation>(this, updatedByUser));
+            FireEvent(new DomainModelUpdatedEvent<Observation>(this, updatedByUser));
 
             return this;
         }
@@ -231,16 +225,13 @@ namespace Bowerbird.Core.DomainModels
             Check.RequireNotNull(group, "group");
             Check.RequireNotNull(createdByUser, "createdByUser");
 
-            if (_observationGroups.All(x => x.GroupId != group.Id))
+            if (_observationGroups.All(x => x.Group.Id != group.Id))
             {
                 var observationGroup = new ObservationGroup(group, createdByUser, createdDateTime);
 
                 _observationGroups.Add(observationGroup);
 
-                if (CanFireCreatedEvent)
-                {
-                    EventProcessor.Raise(new DomainModelCreatedEvent<ObservationGroup>(observationGroup, createdByUser.Id));
-                }
+                FireEvent(new DomainModelCreatedEvent<ObservationGroup>(observationGroup, createdByUser.Id));
             }
 
             return this;
@@ -248,9 +239,9 @@ namespace Bowerbird.Core.DomainModels
 
         public Observation RemoveGroup(string groupId)
         {
-            if (_observationGroups.Any(x => x.GroupId == groupId))
+            if (_observationGroups.Any(x => x.Group.Id == groupId))
             {
-                _observationGroups.RemoveAll(x => x.GroupId == groupId);
+                _observationGroups.RemoveAll(x => x.Group.Id == groupId);
             }
 
             return this;

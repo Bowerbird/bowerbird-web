@@ -68,13 +68,11 @@
     <Reference Include="NLog">
       <HintPath>..\packages\NLog.2.0.0.2000\lib\net40\NLog.dll</HintPath>
     </Reference>
-    <Reference Include="Nustache.Core, Version=1.12.3.6, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\Nustache.Core.dll</HintPath>
+    <Reference Include="Nustache.Core">
+      <HintPath>..\packages\Nustache.1.12.4.29\lib\net20\Nustache.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Nustache.Mvc3, Version=1.12.3.6, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\Nustache.Mvc3.dll</HintPath>
+    <Reference Include="Nustache.Mvc3">
+      <HintPath>..\packages\Nustache.Mvc3.1.12.4.29\lib\net40\Nustache.Mvc3.dll</HintPath>
     </Reference>
     <Reference Include="Raven.Abstractions">
       <HintPath>..\packages\RavenDB.1.0.888\lib\net40\Raven.Abstractions.dll</HintPath>
@@ -179,6 +177,7 @@
     <Compile Include="Factories\IFactory.cs" />
     <Compile Include="Factories\StreamItemFactory.cs" />
     <Compile Include="Hubs\ChatHub.cs" />
+    <Compile Include="Hubs\ActivityHub.cs" />
     <Compile Include="Notifications\INotificationProcessor.cs" />
     <Compile Include="Notifications\NotificationProcessor.cs" />
     <Compile Include="Services\HubService.cs" />

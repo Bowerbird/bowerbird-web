@@ -18,11 +18,11 @@ using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Events;
 using Bowerbird.Core.Extensions;
 using Bowerbird.Core.Services;
-using FluentEmail;
+using Bowerbird.Core.Config;
 
 namespace Bowerbird.Core.EventHandlers
 {
-    public class SendRequestPasswordResetEmailEventHandler : IEventHandler<RequestPasswordResetEvent>
+    public class SendRequestPasswordResetEmail : IEventHandler<RequestPasswordResetEvent>
     {
             
         #region Members
@@ -34,7 +34,7 @@ namespace Bowerbird.Core.EventHandlers
 
         #region Constructors
 
-        public SendRequestPasswordResetEmailEventHandler(
+        public SendRequestPasswordResetEmail(
             IEmailService emailService,
             IConfigService configService)
         {
@@ -61,7 +61,7 @@ namespace Bowerbird.Core.EventHandlers
                 .From(_configService.GetEmailAdminAccount(), "Bowerbird")
                 .To(requestPasswordResetEvent.User.Email)
                 .Subject("Bowerbird password reset request")
-                .UsingTemplateFromResource("RequestPasswordResetEmail", new { requestPasswordResetEvent.User.FirstName, ResetUri = string.Format(_configService.GetEnvironmentRootUri() + _configService.GetEmailResetPasswordRelativeUri(), requestPasswordResetEvent.User.ResetPasswordKey)})
+                .UsingTemplate("RequestPasswordResetEmail", new { requestPasswordResetEvent.User.FirstName, ResetUri = string.Format(_configService.GetEnvironmentRootUri() + _configService.GetEmailResetPasswordRelativeUri(), requestPasswordResetEvent.User.ResetPasswordKey) })
                 .Message;
 
             _emailService.SendMailMessage(message);

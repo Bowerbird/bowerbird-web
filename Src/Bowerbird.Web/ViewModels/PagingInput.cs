@@ -55,6 +55,21 @@ namespace Bowerbird.Web.ViewModels
             PageSize = Default.PageSize;
         }
 
+        public int GetPage()
+        {
+            return Page > 0 ? Page : 1;
+        }
+
+        public int GetPageSize()
+        {
+            return PageSize > 0 && PageSize < 50 ? PageSize : 10;
+        }
+
+        public int GetSkipIndex()
+        {
+            return (GetPage() - 1) * GetPageSize();
+        }
+
         #endregion
     }
 }

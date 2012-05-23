@@ -77,8 +77,8 @@ namespace Bowerbird.Core.Config
         {
             try
             {
-                // Disable all services
-                _systemStateManager.DisableAllServices();
+                // Disable email service to avoid emails going out to fake users/teams/orgs
+                _systemStateManager.DisableEmailService();
 
                 Organisations = new List<Organisation>();
                 Teams = new List<Team>();

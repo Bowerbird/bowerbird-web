@@ -33,27 +33,6 @@ namespace Bowerbird.Core.Extensions
                 ).IsMatch(emailAddress);
         }
 
-        public static string FormatWith(this string text, string param1)
-        {
-            Check.Ensure(text.Contains("{0}"), "string was not in propper format");
-
-            return string.Format(text, param1);
-        }
-
-        public static string FormatWith(this string text, string param1, string param2)
-        {
-            Check.Require(text.Contains("{0}"), text + " does not contain the placeholder '{0}'");
-
-            return string.Format(text, param1, param2);
-        }
-
-        public static string FormatWith(this string text, string param1, string param2, string param3)
-        {
-            Check.Require(text.Contains("{0}"), text + " does not contain the placeholder '{0}'");
-
-            return string.Format(text, param1, param2, param3);
-        }
-
         public static string AppendWith(this string text, string param1)
         {
             return string.Format("{0}{1}", text, param1);

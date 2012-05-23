@@ -68,22 +68,22 @@ namespace Bowerbird.Web.Builders
                 .Include(x => x.User.Id)
                 .Where(x => x.User.Id == _userContext.GetAuthenticatedUserId())
                 .ToList()
-                .Select(x => new { GroupId = x.Group.Id });
+                .Select(x => x.Group.Id);
 
             return _documentSession
                 .Query<All_Contributions.Result, All_Contributions>()
                 .AsProjection<All_Contributions.Result>()
                 .Statistics(out stats)
                 .Include(x => x.ContributionId)
-                .Where(x => x.GroupId.In(groups.Select(y => y.GroupId)))
+                .Where(x => x.GroupId.In(groups))
                 .OrderByDescending(x => x.CreatedDateTime)
-                .Skip((pagingInput.Page - 1) * pagingInput.PageSize)
-                .Take(pagingInput.PageSize)
+                .Skip(pagingInput.GetSkipIndex())
+                .Take(pagingInput.GetPageSize())
                 .ToList()
                 .Select(MakeStreamItem)
                 .ToPagedList(
-                    pagingInput.Page, 
-                    pagingInput.PageSize, 
+                    pagingInput.GetPage(), 
+                    pagingInput.GetPageSize(), 
                     stats.TotalResults);
         }
 
@@ -99,7 +99,8 @@ namespace Bowerbird.Web.Builders
                 .AsProjection<All_Users.Result>()
                 .Where(x => x.UserId == _userContext.GetAuthenticatedUserId())
                 .ToList()
-                .SelectMany(x => x.Members.Select(y => y.Group.Id));
+                .SelectMany(x => x.Members)
+                .Select(x => x.Group.Id);
 
             return _documentSession
                 .Query<All_Contributions.Result, All_Contributions>()
@@ -108,13 +109,13 @@ namespace Bowerbird.Web.Builders
                 .Include(x => x.ContributionId)
                 .Where(x => x.GroupId.In(groups))
                 .OrderByDescending(x => x.CreatedDateTime)
-                .Skip((pagingInput.Page - 1) * pagingInput.PageSize)
-                .Take(pagingInput.PageSize)
+                .Skip(pagingInput.GetSkipIndex())
+                .Take(pagingInput.GetPageSize())
                 .ToList()
                 .Select(MakeStreamItem)
                 .ToPagedList(
-                    pagingInput.Page, 
-                    pagingInput.PageSize, 
+                    pagingInput.GetPage(), 
+                    pagingInput.GetPageSize(), 
                     stats.TotalResults);
         }
 
@@ -140,13 +141,13 @@ namespace Bowerbird.Web.Builders
                 .Include(x => x.ContributionId)
                 .Where(x => x.GroupId.In(groups))
                 .OrderByDescending(x => x.CreatedDateTime)
-                .Skip((pagingInput.Page - 1) * pagingInput.PageSize)
-                .Take(pagingInput.PageSize)
+                .Skip(pagingInput.GetSkipIndex())
+                .Take(pagingInput.GetPageSize())
                 .ToList()
                 .Select(MakeStreamItem)
                 .ToPagedList(
-                    pagingInput.Page, 
-                    pagingInput.PageSize, 
+                    pagingInput.GetPage(),
+                    pagingInput.GetPageSize(), 
                     stats.TotalResults);
         }
 
@@ -171,10 +172,10 @@ namespace Bowerbird.Web.Builders
                         IsIdentificationRequired = groupContributionResult.Observation.IsIdentificationRequired,
                         AnonymiseLocation = groupContributionResult.Observation.AnonymiseLocation,
                         //Media = MakeObservationMediaItems(groupContributionResult.Observation.Media),
-                        Projects = groupContributionResult.Observation.Groups.Select(x => x.GroupId)
+                        Projects = groupContributionResult.Observation.Groups.Select(x => x.Group.Id)
                     };
                     description = groupContributionResult.Observation.User.FirstName + " added an observation";
-                    groups = groupContributionResult.Observation.Groups.Select(x => x.GroupId);
+                    groups = groupContributionResult.Observation.Groups.Select(x => x.Group.Id);
                     break;
             }
 

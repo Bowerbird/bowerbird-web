@@ -63,8 +63,6 @@ namespace Bowerbird.Core.DomainModels
                 lastName,
                 string.Empty,
                 null);
-
-            //EventProcessor.Raise(new DomainModelCreatedEvent<User>(this, this.Id));
         }
 
         #endregion
@@ -179,7 +177,7 @@ namespace Bowerbird.Core.DomainModels
                 description,
                 avatar);
 
-            EventProcessor.Raise(new DomainModelUpdatedEvent<User>(this, this));
+            FireEvent(new DomainModelUpdatedEvent<User>(this, this));
 
             return this;
         }
@@ -188,7 +186,7 @@ namespace Bowerbird.Core.DomainModels
         {
             LastLoggedIn = DateTime.Now;
 
-            EventProcessor.Raise(new UserLoggedInEvent(this));
+            FireEvent(new UserLoggedInEvent(this));
 
             return this;
         }
@@ -197,7 +195,7 @@ namespace Bowerbird.Core.DomainModels
         {
             ResetPasswordKey = Guid.NewGuid().ToString();
 
-            EventProcessor.Raise(new RequestPasswordResetEvent(){ User = this });
+            FireEvent(new RequestPasswordResetEvent() { User = this });
 
             return this;
         }

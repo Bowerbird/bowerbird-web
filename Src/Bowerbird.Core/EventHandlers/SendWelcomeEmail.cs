@@ -19,11 +19,11 @@ using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Extensions;
 using Bowerbird.Core.Services;
-using FluentEmail;
+using Bowerbird.Core.Config;
 
 namespace Bowerbird.Core.EventHandlers
 {
-    public class SendWelcomeEmailEventHandler : IEventHandler<DomainModelCreatedEvent<User>>
+    public class SendWelcomeEmail : IEventHandler<DomainModelCreatedEvent<User>>
     {
 
         #region Members
@@ -35,7 +35,7 @@ namespace Bowerbird.Core.EventHandlers
 
         #region Constructors
 
-        public SendWelcomeEmailEventHandler(
+        public SendWelcomeEmail(
             IEmailService emailService,
             IConfigService configService)
         {
@@ -58,14 +58,14 @@ namespace Bowerbird.Core.EventHandlers
         {
             Check.RequireNotNull(userCreatedEvent, "userCreatedEvent");
 
-            //var message = Email
-            //    .From(_configService.GetEmailAdminAccount(), "Bowerbird")
-            //    .To(userCreatedEvent.DomainModel.Email)
-            //    .Subject("Bowerbird account verification")
-            //    .UsingTemplateFromResource("WelcomeEmail", new { userCreatedEvent.DomainModel.FirstName })
-            //    .Message;
+            var message = Email
+                .From(_configService.GetEmailAdminAccount(), "Bowerbird")
+                .To(userCreatedEvent.DomainModel.Email)
+                .Subject("Bowerbird account verification")
+                .UsingTemplate("WelcomeEmail", new { userCreatedEvent.DomainModel.FirstName })
+                .Message;
 
-            //_emailService.SendMailMessage(message);
+            _emailService.SendMailMessage(message);
         }
 
         #endregion      

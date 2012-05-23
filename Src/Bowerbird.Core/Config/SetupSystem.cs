@@ -98,23 +98,24 @@ namespace Bowerbird.Core.Config
                 // Save the approot to be available for all subsequent setup
                 _documentSession.SaveChanges();
 
-                // Disable all services
-                _systemStateManager.DisableAllServices();
-
                 // Add permissions first
                 AddPermissions();
 
                 // Add roles, using permissions
                 AddRoles();
 
+                // Add species data
+                AddSpecies();
+
+                // Enable event & command processors to log user activity
+                _systemStateManager.EnableCommandProcessor();
+                _systemStateManager.EnableEventProcessor();
+
                 // Add system admins
                 AddAdminUsers();
 
                 // Set the user now that we have one
                 SetAppRootUser(Users[0].Id);
-
-                // Add species data
-                AddSpecies();
 
                 // Save all system data now
                 _documentSession.SaveChanges();

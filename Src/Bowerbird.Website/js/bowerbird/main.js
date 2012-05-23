@@ -27,7 +27,8 @@ require.config({
         date: '/js/libs/date/date',
         multiselect: '/js/libs/jquery.multiselect/jquery.multiselect',
         loadimage: '/js/libs/jquery.fileupload/load-image', 
-        fileupload: '/js/libs/jquery.fileupload/jquery.fileupload'
+        fileupload: '/js/libs/jquery.fileupload/jquery.fileupload',
+        signalr: '/js/libs/jquery.signalr/jquery.signalr.js'
     },
     priority: [
         'ich', 
@@ -35,9 +36,7 @@ require.config({
         'underscore',
         'backbone', 
         'marionette', 
-        // Load the bootstrapped data from the inline html
-        //'bootstrap-data', 
-    // Routers are the first port of call, so load em up
+        // Routers are the first port of call, so load em up
         'routers/homerouter',
         'routers/groupuserrouter',
         'routers/observationrouter',
