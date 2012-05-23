@@ -12,6 +12,12 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
 
     var Project = Backbone.Model.extend({
         defaults: {
+            Id: '',
+            Name: '',
+            Description: '',
+            Website: '',
+            Avatar: null,
+            Team: null,
             Type: 'Project'
         },
 
@@ -29,6 +35,10 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
                 Team: this.get('Team'),
                 Type: 'Project'
             };
+        },
+
+        setAvatar: function (mediaResource) {
+            this.set('Avatar', mediaResource.id);
         }
     });
 

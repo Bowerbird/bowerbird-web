@@ -20,16 +20,19 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich'], function ($, _, Backb
             'click .remove-media-resource-button': 'removeMediaResource'
         },
 
-        template: "AvatarUploaded",
+        //template: "AvatarUploaded",
 
         initialize: function (options) {
             _.extend(this, Backbone.Events);
-            _.bindAll(this, 'showTempMedia', 'showUploadedMedia');
+            _.bindAll(this,
+            'showTempMedia',
+            'showUploadedMedia'
+            );
             this.mediaResource = options.MediaResource;
             this.mediaResource.on('change:mediumImageUri', this.showUploadedMedia);
         },
 
-        onRender: function () {
+        render: function () {
 //            this.$el.append(ich.AvatarUploaded(this.MediaResource.toJSON()));
 //            return this;
         },

@@ -11,6 +11,7 @@
 */
 
 using System.Linq;
+using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Indexes;
@@ -59,6 +60,19 @@ namespace Bowerbird.Web.Builders
                 .FirstOrDefault(x => x.GroupId == idInput.Id);
 
             return MakeProject(project);
+        }
+
+        public object BuildNewProject()
+        {
+            return new
+            {
+                Id = "",
+                Name = "New Project",
+                Description = "New Project",
+                Website = "",
+                Avatar = _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Project, "New Project"),
+                MemberCount = 1
+            };
         }
 
         public object BuildProjectList(PagingInput pagingInput)
@@ -184,7 +198,7 @@ namespace Bowerbird.Web.Builders
         {
             return new
             {
-                Id = result.Project.Id,
+                result.Project.Id,
                 result.Project.Name,
                 result.Project.Description,
                 result.Project.Website,

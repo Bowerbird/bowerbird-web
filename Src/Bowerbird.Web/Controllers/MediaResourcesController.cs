@@ -83,9 +83,9 @@ namespace Bowerbird.Web.Controllers
 
         [HttpPost]
         [Authorize]
-        public ActionResult AvatarUpload(string key, string originalFileName, HttpPostedFileBase file)
+        public ActionResult AvatarUpload(HttpPostedFileBase file, string recordType)
         {
-            return ProcessPostedImage(key, originalFileName, file, "user");
+            return ProcessPostedImage(string.Empty, string.Empty, file, recordType);
         }
 
         private ActionResult ProcessPostedImage(string key, string originalFileName, HttpPostedFileBase file, string recordType)

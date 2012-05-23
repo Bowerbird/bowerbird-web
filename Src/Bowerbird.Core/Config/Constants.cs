@@ -12,6 +12,8 @@
  
 */
 
+using System;
+
 namespace Bowerbird.Core.Config
 {
     public static class Constants
@@ -20,12 +22,49 @@ namespace Bowerbird.Core.Config
         public static string AppRootId = "bowerbird/approot";
     }
 
+    /// <summary>
+    /// Set an Avatar Type when creating new entity which requires a blank Avatar.
+    /// Possibilities are Project, Team, Organisation and User
+    /// </summary>
+    public enum AvatarDefaultType
+    {
+        Project,
+        Team,
+        Organisation,
+        User
+    }
+
     public static class AvatarUris
     {
         public static string DefaultUser = "/img/default-user-avatar.jpg";
         public static string DefaultProject = "/img/default-project-avatar.jpg";
         public static string DefaultTeam = "/img/default-team-avatar.jpg";
         public static string DefaultOrganisation = "/img/default-organisation-avatar.jpg";
+
+        public static string AvatarTypeUris(this AvatarDefaultType avatarType)
+        {
+            switch (avatarType)
+            {
+                case AvatarDefaultType.Project:
+                    {
+                        return DefaultProject;
+                    }
+                case AvatarDefaultType.Team:
+                    {
+                        return DefaultTeam;
+                    }
+                case AvatarDefaultType.Organisation:
+                    {
+                        return DefaultOrganisation;
+                    }
+                case AvatarDefaultType.User:
+                    {
+                        return DefaultUser;
+                    }
+                default:
+                throw new ApplicationException("No Avatar Type Specified");
+            }
+        }
     }
 
     public static class ActivitySender
@@ -126,4 +165,5 @@ namespace Bowerbird.Core.Config
         public static int PageSize = 10;
         public static int PageMax = 100;
     }
+
 }

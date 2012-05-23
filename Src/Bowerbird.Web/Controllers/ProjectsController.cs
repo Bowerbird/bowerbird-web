@@ -214,7 +214,11 @@ namespace Bowerbird.Web.Controllers
                                   Name = "Enter Name",
                                   Description = "Enter Description",
                                   Website = "Enter Website",
-                                  ImgUrl = "/img/default-project-avatar.jpg"
+                                  Avatar = new
+                                    {
+                                        UrlToImage = "../img/default-team-avatar.jpg",
+                                        AltTag = "Project"
+                                    }
                               },
 
                 Teams = GetTeams(_userContext.GetAuthenticatedUserId())
@@ -327,7 +331,11 @@ namespace Bowerbird.Web.Controllers
         [HttpPost]
         public ActionResult Create(ProjectCreateInput createInput)
         {
-            if (!_userContext.HasGroupPermission(PermissionNames.CreateProject, createInput.Team ?? Constants.AppRootId))
+            Check.RequireNotNull(createInput, "createInput");
+
+            var groupId = createInput.Team != null ? createInput.Team.PrependWith("teams/") : Constants.AppRootId;
+
+            if (!_userContext.HasGroupPermission(PermissionNames.CreateProject, groupId))
             {
                 return HttpUnauthorized();
             }

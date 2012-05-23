@@ -131,6 +131,7 @@
     <Content Include="js\bowerbird\collections\streamItemCollection.js" />
     <Content Include="js\bowerbird\collections\userCollection.js" />
     <Content Include="js\bowerbird\controllers\observationController.js" />
+    <Content Include="js\bowerbird\models\avatar.js" />
     <Content Include="js\bowerbird\models\referenceSpecies.js" />
     <Content Include="js\bowerbird\models\species.js" />
     <Content Include="js\bowerbird\models\organisation.js" />
