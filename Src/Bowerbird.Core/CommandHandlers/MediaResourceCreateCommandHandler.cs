@@ -78,7 +78,7 @@ namespace Bowerbird.Core.CommandHandlers
                 {
                     case "image":
                         string extension = "jpg";
-                        if(Path.HasExtension(command.OriginalFileName))
+                        if (Path.HasExtension(command.OriginalFileName))
                         {
                             extension = Path.GetExtension(command.OriginalFileName).Replace(".", string.Empty).ToLower();
                         }
@@ -104,7 +104,7 @@ namespace Bowerbird.Core.CommandHandlers
                         }
                         else if (command.Usage == "user")
                         {
-                            SaveUserImages(
+                            SaveAvatarImages(
                                 command.Stream,
                                 mediaResource.Id,
                                 extension
@@ -113,6 +113,14 @@ namespace Bowerbird.Core.CommandHandlers
                         else if (command.Usage == "post")
                         {
                             SavePostImages(
+                                command.Stream,
+                                mediaResource.Id,
+                                extension
+                                );
+                        }
+                        else if (command.Usage == "avatar")
+                        {
+                            SaveAvatarImages(
                                 command.Stream,
                                 mediaResource.Id,
                                 extension
@@ -148,7 +156,7 @@ namespace Bowerbird.Core.CommandHandlers
                 .Cleanup();
         }
 
-        private void SaveUserImages(Stream stream, string imageMediaResourceId, string extension)
+        private void SaveAvatarImages(Stream stream, string imageMediaResourceId, string extension)
         {
             ImageUtility
                 .Load(stream)
@@ -158,8 +166,14 @@ namespace Bowerbird.Core.CommandHandlers
                 .Resize(new ImageDimensions(100, 100), true, ImageResizeMode.Crop)
                 .SaveAs(_mediaFilePathService.MakeMediaFilePath(imageMediaResourceId, "image", "profile", extension))
                 .Reset()
+                .Resize(new ImageDimensions(130, 120), true, ImageResizeMode.Crop)
+                .SaveAs(_mediaFilePathService.MakeMediaFilePath(imageMediaResourceId, "image", "small", extension))
+                .Reset()
                 .Resize(new ImageDimensions(670, 600), true, ImageResizeMode.Crop)
                 .SaveAs(_mediaFilePathService.MakeMediaFilePath(imageMediaResourceId, "image", "medium", extension))
+                .Reset()
+                .Resize(new ImageDimensions(1600, 1200), true, ImageResizeMode.Crop)
+                .SaveAs(_mediaFilePathService.MakeMediaFilePath(imageMediaResourceId, "image", "large", extension))
                 .Cleanup();
         }
 
@@ -169,6 +183,9 @@ namespace Bowerbird.Core.CommandHandlers
                 .Load(stream)
                 .Resize(new ImageDimensions(42, 42), true, ImageResizeMode.Crop)
                 .SaveAs(_mediaFilePathService.MakeMediaFilePath(imageMediaResourceId, "image", "thumbnail", extension))
+                .Reset()
+                .Resize(new ImageDimensions(100, 100), true, ImageResizeMode.Crop)
+                .SaveAs(_mediaFilePathService.MakeMediaFilePath(imageMediaResourceId, "image", "profile", extension))
                 .Reset()
                 .Resize(new ImageDimensions(130, 120), true, ImageResizeMode.Crop)
                 .SaveAs(_mediaFilePathService.MakeMediaFilePath(imageMediaResourceId, "image", "small", extension))
@@ -187,6 +204,9 @@ namespace Bowerbird.Core.CommandHandlers
                 .Load(stream)
                 .Resize(new ImageDimensions(42, 42), true, ImageResizeMode.Crop)
                 .SaveAs(_mediaFilePathService.MakeMediaFilePath(imageMediaResourceId, "image", "thumbnail", extension))
+                .Reset()
+                .Resize(new ImageDimensions(100, 100), true, ImageResizeMode.Crop)
+                .SaveAs(_mediaFilePathService.MakeMediaFilePath(imageMediaResourceId, "image", "profile", extension))
                 .Reset()
                 .Resize(new ImageDimensions(130, 120), true, ImageResizeMode.Crop)
                 .SaveAs(_mediaFilePathService.MakeMediaFilePath(imageMediaResourceId, "image", "small", extension))

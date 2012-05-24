@@ -39,17 +39,36 @@
           </select>
         </div>
       </div>
-    </fieldset>
-    <fieldset id="avatar-fieldset">
-      <legend>Avatar Image</legend>
-        <div id="avatar-viewer" class="field">
-      </div>
-      <div id="avatar-add-pane" class="field">
-        <div id="media-resource-upload-button" class="button media-resource-upload-button">
-            Change Avatar Image<input id="fileupload" type="file" name="file" multiple="" />
+      <div class="field">
+        <div>
+            <label for="avatar">Project Avatar</label>
         </div>
-      </div>
+            <div id="avatar-viewer" class="field avatar-field">
+        </div>
+        <div id="avatar-upload-button" class="field button avatar-upload-button">
+            Change Avatar<input id="fileupload" type="file" name="file" multiple="" class="avatar-uploader" />
+        </div>
+    </div>
+
     </fieldset>
+
+
+    <!--<fieldset id="Fieldset1" class="field">-->
+    
+    <!--</fieldset>-->
+
+
+<!--    <fieldset id="avatar-fieldset" class="field">
+        <legend>Avatar Image</legend>
+        <label for="avatar">Avatar</label>
+        <div id="avatar-viewer" class="field avatar-field">
+        </div>
+        <div id="avatar-upload-button" class="field button avatar-upload-button">
+            Change Avatar<input id="fileupload" type="file" name="file" multiple="" class="avatar-uploader" />
+        </div>
+    </fieldset>-->
+
+
     <fieldset>
       <input type="button" value="Save" id="save" />
       <input type="button" value="Cancel" id="cancel" />

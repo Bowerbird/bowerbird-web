@@ -209,18 +209,7 @@ namespace Bowerbird.Web.Controllers
 
             ViewBag.Model = new
             {
-                Project = new
-                              {
-                                  Name = "Enter Name",
-                                  Description = "Enter Description",
-                                  Website = "Enter Website",
-                                  Avatar = new
-                                    {
-                                        UrlToImage = "../img/default-team-avatar.jpg",
-                                        AltTag = "Project"
-                                    }
-                              },
-
+                Project = _projectsViewModelBuilder.BuildNewProject(),
                 Teams = GetTeams(_userContext.GetAuthenticatedUserId())
             };
 
@@ -328,7 +317,7 @@ namespace Bowerbird.Web.Controllers
 
         [Transaction]
         [Authorize]
-        [HttpPost]
+        [HttpPut]
         public ActionResult Create(ProjectCreateInput createInput)
         {
             Check.RequireNotNull(createInput, "createInput");
@@ -360,7 +349,7 @@ namespace Bowerbird.Web.Controllers
 
         [Transaction]
         [Authorize]
-        [HttpPut]
+        [HttpPost]
         public ActionResult Update(ProjectUpdateInput updateInput) 
         {
             if (!_userContext.HasGroupPermission<Project>(PermissionNames.UpdateProject, updateInput.ProjectId))

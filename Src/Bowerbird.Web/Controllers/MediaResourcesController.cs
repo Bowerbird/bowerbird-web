@@ -83,9 +83,9 @@ namespace Bowerbird.Web.Controllers
 
         [HttpPost]
         [Authorize]
-        public ActionResult AvatarUpload(HttpPostedFileBase file, string recordType)
+        public ActionResult AvatarUpload(HttpPostedFileBase file)
         {
-            return ProcessPostedImage(string.Empty, string.Empty, file, recordType);
+            return ProcessPostedImage(string.Empty, string.Empty, file, "avatar");
         }
 
         private ActionResult ProcessPostedImage(string key, string originalFileName, HttpPostedFileBase file, string recordType)
@@ -111,8 +111,9 @@ namespace Bowerbird.Web.Controllers
                         mediaResource.Metadata,
                         mediaResource.Type,
                         mediaResource.UploadedOn,
-                        // HACK
                         MediumImageUri = _mediaFilePathService.MakeMediaFileUri(mediaResource, "medium"),
+                        ProfileImageUri = _mediaFilePathService.MakeMediaFileUri(mediaResource, "profile"),
+                        ThumbImageUri = _mediaFilePathService.MakeMediaFileUri(mediaResource, "thumbnail"),
                         Key = key
                     });
             }

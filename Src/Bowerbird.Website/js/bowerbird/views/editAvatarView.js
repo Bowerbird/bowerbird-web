@@ -15,10 +15,6 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/avataritemview'
 
         id: 'avatar-fieldset',
 
-        //        events: {
-        //            'click .remove-media-resource-button': 'removeMediaResource'
-        //        },
-
         initialize: function (options) {
             _.extend(this, Backbone.Events);
             _.bindAll(this,
@@ -26,8 +22,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/avataritemview'
             '_initMediaUploader',
             '_onUploadDone',
             '_onSubmitUpload',
-            '_onUploadAdd'//,
-            //'removeMediaResource'
+            '_onUploadAdd'
             );
             this.model = options.model;
             this.currentUploadKey = 0;
@@ -40,16 +35,6 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/avataritemview'
             $('#avatar-viewer').append('<img src="' + this.model.get('Avatar').UrlToImage + '" />');
             return this;
         },
-
-        //        onShow: function () {
-        //            
-        //        },
-
-        //        _showDetails: function () {
-        //            //ich.AvatarChooseFile().appendTo($('#avatar-add-pane'));
-        //            this._initMediaUploader();
-        //            //return this;
-        //        },
 
         _initMediaUploader: function () {
             $('#fileupload').fileupload({
@@ -67,15 +52,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/avataritemview'
             log('editAvatarView:_onUploadAdd');
             this.currentUploadKey++;
             var mediaResource = new MediaResource({ Key: this.currentUploadKey.toString() });
-            this.model.setAvatar(mediaResource);
-
-            //this.avatarItemView = new AvatarItemView({ model: mediaResource });
-            //avatarItemView.on('avataritemview:remove', this._removeMediaResource);
-            //this.mediaResourceItemViews.push(mediaResourceItemView);
-            //$('#media-resource-add-pane').before(mediaResourceItemView.render().el);
-
-            //$('#avatar-viewer').append(this.avatarItemView.render().el);
-
+            //this.model.setAvatar(mediaResource);
             var self = this;
             var tempImage = loadImage(
                 data.files[0],
@@ -103,32 +80,11 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/avataritemview'
         },
 
         _onUploadDone: function (e, data) {
-            var self = this;
-            this.group.set('Avatar', data.result);
-            this.currentUploadKey++;
-            var mediaResource = new Bowerbird.Models.MediaResource({ Key: self.CurrentUploadKey });
-            this.avatarItemView = new Bowerbird.Views.AvatarItemView({ mediaResource: mediaResource });
-            $('#avatar-add-pane').hide();
-            $('#avatar-viewer').append(this.avatarItemView.render().el);
-            loadImage(
-                data.files[0],
-                function (img) {
-                    if (img instanceof HTMLImageElement) { // FF seems to fire this handler twice, on second time returning error, which we ignore :(
-                        self.avatarItemView.showTempMedia(img);
-                        $('#media-resource-avatar').animate({ scrollLeft: 100000 });
-                    }
-                },
-                {
-                    maxHeight: 220
-                }
-            );
-        },
-
-        _removeMediaResource: function () {
-            this.group.set('Avatar', null);
-            this.avatarItemView = null;
-            this.$el.find('#avatar-add-pane').append(ich.AvatarChooseFile());
-            this._initMediaUploader();
+            log('editAvatarView:_onUploadDone');
+            this.model.set('Avatar', data.result.Id); 
+            var mediaResource = new MediaResource(data.result);
+            //this.$el.find('#avatar-viewer img').replaceWith($('<img src="' + mediaResource.get('ProfileImageUri') + '" alt="" />'));
+            $('#avatar-viewer').empty().append('<img src="' + mediaResource.get('MediumImageUri') + '" width="200px;" />');
         }
     });
 

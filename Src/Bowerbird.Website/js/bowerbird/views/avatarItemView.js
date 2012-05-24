@@ -26,15 +26,19 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich'], function ($, _, Backb
             _.extend(this, Backbone.Events);
             _.bindAll(this,
             'showTempMedia',
-            'showUploadedMedia'
+            '_showUploadedMedia'
             );
-            this.mediaResource = options.MediaResource;
-            this.mediaResource.on('change:mediumImageUri', this.showUploadedMedia);
+            this.mediaResource = options.model;
+            log('avatarItemView.initialize: mediaResource >');
+            log(this.mediaResource);
+            //this.mediaResource.on('change:mediumImageUri', this.showUploadedMedia);
         },
 
         render: function () {
-//            this.$el.append(ich.AvatarUploaded(this.MediaResource.toJSON()));
-//            return this;
+            log('avatarItemView:render');
+            //            this.$el.append(ich.AvatarUploaded(this.MediaResource.toJSON()));
+            //            return this;
+            this._showUploadedMedia();
         },
 
         viewMediaResource: function () {
@@ -47,11 +51,13 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich'], function ($, _, Backb
         },
 
         showTempMedia: function (img) {
+            log('avatarItemView:_showTempMedia');
             this.$el.find('div:first-child img').replaceWith($(img));
         },
 
-        showUploadedMedia: function (mediaResource) {
-            this.$el.find('div:first-child img').replaceWith($('<img src="' + mediaResource.get('MediumImageUri') + '" alt="" />'));
+        _showUploadedMedia: function (mediaResource) {
+            log('avatarItemView:_showUploadedMedia');
+            this.$el.find('div:first-child img').replaceWith($('<img src="' + this.mediaResource.get('MediumImageUri') + '" alt="" />'));
         }
     });
 

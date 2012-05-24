@@ -12,17 +12,18 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
 
     var Organisation = Backbone.Model.extend({
         defaults: {
-            Type: 'Organisation',
-            Avatar: {
-                Id: '',
-                Url: '',
-                AltTag: ''
-            }
+            Id: '',
+            Name: '',
+            Description: '',
+            Website: '',
+            Avatar: null,
+            Team: null,
+            Type: 'Project'
         },
 
         idAttribute: 'Id',
 
-        url: '/organisations/',
+        urlRoot: '/organisations',
 
         toJSON: function () {
             return {
