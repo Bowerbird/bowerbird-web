@@ -76,7 +76,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/ed
         },
 
         _contentChanged: function (e) {
-            log('projectFormLayoutView:contentChanged');
+            log('projectFormLayoutView:_contentChanged');
             var target = $(e.currentTarget);
             var data = {};
             data[target.attr('id')] = target.attr('value');
@@ -84,7 +84,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/ed
         },
 
         _teamChanged: function (e) {
-            log('projectFormLayoutView:teamChanged');
+            log('projectFormLayoutView:_teamChanged');
             var $checkbox = $(e.currentTarget);
             if ($checkbox.attr('checked') === 'checked') {
                 this.model.set('Team', $checkbox.attr('value'));

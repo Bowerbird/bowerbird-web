@@ -209,7 +209,7 @@ namespace Bowerbird.Web.Controllers
 
             ViewBag.Model = new
             {
-                Project = _projectsViewModelBuilder.BuildNewProject(),
+                Project = _projectsViewModelBuilder.BuildProject(),
                 Teams = GetTeams(_userContext.GetAuthenticatedUserId())
             };
 
@@ -317,7 +317,7 @@ namespace Bowerbird.Web.Controllers
 
         [Transaction]
         [Authorize]
-        [HttpPut]
+        [HttpPost]
         public ActionResult Create(ProjectCreateInput createInput)
         {
             Check.RequireNotNull(createInput, "createInput");
@@ -341,7 +341,7 @@ namespace Bowerbird.Web.Controllers
                     Name = createInput.Name,
                     UserId = _userContext.GetAuthenticatedUserId(),
                     AvatarId = createInput.Avatar,
-                    TeamId = "teams/".AppendWith(createInput.Team)
+                    TeamId = groupId
                 });
 
             return JsonSuccess();
@@ -349,7 +349,7 @@ namespace Bowerbird.Web.Controllers
 
         [Transaction]
         [Authorize]
-        [HttpPost]
+        [HttpPut]
         public ActionResult Update(ProjectUpdateInput updateInput) 
         {
             if (!_userContext.HasGroupPermission<Project>(PermissionNames.UpdateProject, updateInput.ProjectId))

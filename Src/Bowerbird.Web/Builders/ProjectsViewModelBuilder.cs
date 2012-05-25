@@ -50,6 +50,18 @@ namespace Bowerbird.Web.Builders
 
         #region Methods
 
+        public object BuildProject()
+        {
+            return new
+            {
+                Name = "New Project",
+                Description = "New Project",
+                Website = "",
+                Avatar = _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Project, "New Project"),
+                MemberCount = 1
+            };
+        }
+
         public object BuildProject(IdInput idInput)
         {
             Check.RequireNotNull(idInput, "idInput");
@@ -60,19 +72,6 @@ namespace Bowerbird.Web.Builders
                 .FirstOrDefault(x => x.GroupId == idInput.Id);
 
             return MakeProject(project);
-        }
-
-        public object BuildNewProject()
-        {
-            return new
-            {
-                Id = "",
-                Name = "New Project",
-                Description = "New Project",
-                Website = "",
-                Avatar = _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Project, "New Project"),
-                MemberCount = 1
-            };
         }
 
         public object BuildProjectList(PagingInput pagingInput)

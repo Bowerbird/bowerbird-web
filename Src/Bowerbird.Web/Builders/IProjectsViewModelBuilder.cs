@@ -16,10 +16,10 @@ namespace Bowerbird.Web.Builders
 {
     public interface IProjectsViewModelBuilder : IBuilder
     {
+        object BuildProject();
+
         object BuildProject(IdInput idInput);
-
-        object BuildNewProject();
-
+        
         object BuildProjectList(PagingInput pagingInput);
 
         object BuildUserProjectList(PagingInput pagingInput);

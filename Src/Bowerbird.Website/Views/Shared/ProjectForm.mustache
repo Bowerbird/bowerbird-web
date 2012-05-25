@@ -1,45 +1,45 @@
-﻿  <h2>New Project</h2>
-  <form action="/projects/create" method="post"  enctype="multipart/form-data">
+﻿<h2>New Project</h2>
+<form action="/projects/create" method="post"  enctype="multipart/form-data">
     <fieldset>
-      <legend>Project Details</legend>
-      <div id="name-field" class="field">
+        <legend>Project Details</legend>
+        <div id="name-field" class="field">
         <div>
-          <label for="name">Name</label>
+            <label for="name">Name</label>
         </div>
         <div>
-          <input type="text" id="name" name="name" value="{{Model.Project.Name}}" />
+            <input type="text" id="Name" name="name" value="{{Model.Project.Name}}" />
         </div>
-      </div>
-      <div id="description-field" class="field">
-        <div>
-          <label for="description">Description</label>
         </div>
+        <div id="description-field" class="field">
         <div>
-          <textarea rows="4" cols="100" id="description" name="description">{{Model.Project.Description}}</textarea>
-        </div>
-      </div>
-      <div id="website-field" class="field">
-        <div>
-          <label for="website">Website</label>
+            <label for="description">Description</label>
         </div>
         <div>
-          <input type="text" id="website" name="website" value="{{Model.Project.Website}}" />
+            <textarea rows="4" cols="100" id="Description" name="description">{{Model.Project.Description}}</textarea>
         </div>
-      </div>
-      <div id="team-field" class="field">
+        </div>
+        <div id="website-field" class="field">
         <div>
-          <label for="team">Team</label>
+            <label for="website">Website</label>
         </div>
         <div>
-          <select id="Team" name="team">
+            <input type="text" id="Website" name="website" value="{{Model.Project.Website}}" />
+        </div>
+        </div>
+        <div id="team-field" class="field">
+        <div>
+            <label for="team">Team</label>
+        </div>
+        <div>
+            <select id="Team" name="team">
             <option></option>
             {{#Model.Teams}}
             <option value="{{Value}}" {{#Selected}}selected{{/Selected}}>{{Text}}</option>
             {{/Model.Teams}}
-          </select>
+            </select>
         </div>
-      </div>
-      <div class="field">
+        </div>
+        <div class="field">
         <div>
             <label for="avatar">Project Avatar</label>
         </div>
@@ -51,7 +51,7 @@
     </div>
     </fieldset>
     <fieldset>
-      <input type="button" value="Save" id="save" />
-      <input type="button" value="Cancel" id="cancel" />
+        <input type="button" value="Save" id="save" />
+        <input type="button" value="Cancel" id="cancel" />
     </fieldset>
-  </form>
+</form>

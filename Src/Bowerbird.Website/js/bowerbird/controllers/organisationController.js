@@ -14,25 +14,46 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/team', 'views/organis
 
     var OrganisationController = {};
 
+    var getModel = function (id) {
+        var deferred = new $.Deferred();
+
+        if (app.isPrerendering('organisations')) {
+            deferred.resolve(app.prerenderedView.data);
+        } else {
+            var params = {};
+            if (id) {
+                params['id'] = id;
+            }
+            $.ajax({
+                url: '/organisations/create',
+                data: params
+            }).done(function (data) {
+                deferred.resolve(data.Model);
+            });
+        }
+        return deferred.promise();
+    };
+
     // OrganisationController Public API
     // ---------------------------------
 
     // Show an organisation
-    OrganisationController.showOrganisationForm = function () {
+    OrganisationController.showOrganisationForm = function (id) {
+        log('organisationController:showOrganisationForm');
+        $.when(getModel(id))
+            .done(function (model) {
+                var organisation = new Organisation(model.Organisation);
+                var organisationFormLayoutView = new OrganisationFormLayoutView({ model: organisation });
 
-        var organisationFormLayoutView = new OrganisationFormLayoutView({ el: $('.organisation-create-form'), model: new Organisation(app.prerenderedView.Organisation) });
+                app.content[app.getShowViewMethodName()](organisationFormLayoutView);
 
-        organisationFormLayoutView.render();
+                if (app.isPrerendering('organisations')) {
+                    organisationFormLayoutView.showBootstrappedDetails();
+                }
 
-        app.prerenderedView.isBound = true;
+                app.setPrerenderComplete();
+            });
     };
-
-    // OrganisationController Event Handlers
-    // -------------------------------------
-
-    app.vent.on('organisation:show', function () {
-        OrganisationController.showOrganisationForm();
-    });
 
     return OrganisationController;
 

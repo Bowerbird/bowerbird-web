@@ -31,7 +31,6 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/team', 'views/teamfor
                 deferred.resolve(data.Model);
             });
         }
-
         return deferred.promise();
     };
 

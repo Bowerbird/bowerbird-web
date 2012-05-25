@@ -1,44 +1,44 @@
-﻿  <h2>New Organisation</h2>
-  <form action="/organisation/create" method="post"  enctype="multipart/form-data">
+﻿<h2>New Organisation</h2>
+<form action="/organisations/create" method="post"  enctype="multipart/form-data">
     <fieldset>
-      <legend>Organisation Details</legend>
-      <div id="name-field" class="field">
+        <legend>Organisation Details</legend>
+        <div id="name-field" class="field">
         <div>
-          <label for="name">Name</label>
+            <label for="name">Name</label>
         </div>
         <div>
-          <input type="text" id="name" name="name" value="{{Model.Organisation.Name}}" />
+            <input type="text" id="Name" name="name" value="{{Model.Organisation.Name}}" />
         </div>
-      </div>
-      <div id="description-field" class="field">
-        <div>
-          <label for="description">Description</label>
         </div>
+        <div id="description-field" class="field">
         <div>
-          <textarea rows="4" cols="100" id="description" name="description">{{Model.Organisation.Description}}</textarea>
-        </div>
-      </div>
-      <div id="website-field" class="field">
-        <div>
-          <label for="website">Website</label>
+            <label for="description">Description</label>
         </div>
         <div>
-          <input type="text" id="website" name="website" value="{{Model.Organisation.Website}}" />
+            <textarea rows="4" cols="100" id="Description" name="description">{{Model.Organisation.Description}}</textarea>
         </div>
-      </div>
-      <div class="field">
+        </div>
+        <div id="website-field" class="field">
         <div>
-          <label for="avatar">Organisation Avatar</label>
+            <label for="website">Website</label>
+        </div>
+        <div>
+            <input type="text" id="Website" name="website" value="{{Model.Organisation.Website}}" />
+        </div>
+        </div>
+        <div class="field">
+        <div>
+            <label for="avatar">Organisation Avatar</label>
         </div>
         <div id="avatar-viewer" class="field avatar-field">
         </div>
         <div id="avatar-upload-button" class="field button avatar-upload-button">
-          Change Avatar<input id="fileupload" type="file" name="file" multiple="" class="avatar-uploader" />
+            Change Avatar<input id="fileupload" type="file" name="file" multiple="" class="avatar-uploader" />
         </div>
-      </div>
+        </div>
     </fieldset>
     <fieldset>
-      <input type="button" value="Save" id="save" />
-      <input type="button" value="Cancel" id="cancel" />
+        <input type="button" value="Save" id="save" />
+        <input type="button" value="Cancel" id="cancel" />
     </fieldset>
-  </form>
+</form>

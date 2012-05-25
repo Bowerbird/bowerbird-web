@@ -12,7 +12,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/ed
 
     var OrganisationFormLayoutView = Backbone.Marionette.Layout.extend({
 
-        className: 'form single-medium organisation-create-form',
+        className: 'form single-medium organisation-form',
 
         tempalte: 'OrganisationForm',
 
@@ -29,6 +29,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/ed
         },
 
         serializeData: function () {
+            log('organisationFormLayoutView:serializeData');
             return {
                 Model: {
                     Organisation: this.model.toJSON()
@@ -37,20 +38,23 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/ed
         },
 
         onShow: function () {
+            log('organisationFormLayoutView:onShow');
             this._showDetails();
         },
 
         showBootstrappedDetails: function () {
+            log('organisationFormLayoutView:showBootstrappedDetails');
             this.initializeRegions();
         },
 
         _showDetails: function () {
-            log('projectFormLayoutView:showDetails');
+            log('organisationFormLayoutView:_showDetails');
             var editAvatarView = new EditAvatarView({ el: '#avatar-fieldset', model: this.model });
             editAvatarView.render();
         },
 
         _contentChanged: function (e) {
+            log('organisationFormLayoutView:_contentChanged');
             var target = $(e.currentTarget);
             var data = {};
             data[target.attr('id')] = target.attr('value');

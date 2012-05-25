@@ -53,11 +53,8 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(command, "command");
 
-            var parentGroup =
-                !string.IsNullOrEmpty(command.TeamId)
-                    ? (Group)_documentSession.Load<Team>(command.TeamId)
-                    : (Group)_documentSession.Load<AppRoot>(Constants.AppRootId);
-
+            var parentGroup = _documentSession.Load<dynamic>(command.TeamId);
+            
             var project = new Project(
                 _documentSession.Load<User>(command.UserId),
                 command.Name,
@@ -74,9 +71,9 @@ namespace Bowerbird.Core.CommandHandlers
                 parentGroup.AddDescendant(project);
                 _documentSession.Store(parentGroup);
 
-                if(parentGroup.Ancestry.Any(x => x.GroupType == "organisation"))
+                if(((Group)parentGroup).Ancestry.Any(x => x.GroupType == "organisation"))
                 {
-                    var grandParent = _documentSession.Load<Organisation>(parentGroup.Ancestry.Single(x => x.GroupType == "organisation").Id);
+                    var grandParent = _documentSession.Load<Organisation>(((Group)parentGroup).Ancestry.Single(x => x.GroupType == "organisation").Id);
                     grandParent.AddDescendant(project);
                     _documentSession.Store(grandParent);
                 }
