@@ -14,25 +14,47 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/team', 'views/teamfor
 
     var TeamController = {};
 
+    var getModel = function (id) {
+        var deferred = new $.Deferred();
+
+        if (app.isPrerendering('teams')) {
+            deferred.resolve(app.prerenderedView.data);
+        } else {
+            var params = {};
+            if (id) {
+                params['id'] = id;
+            }
+            $.ajax({
+                url: '/teams/create',
+                data: params
+            }).done(function (data) {
+                deferred.resolve(data.Model);
+            });
+        }
+
+        return deferred.promise();
+    };
+
     // TeamController Public API
     // ---------------------------------
 
-    // Show a team
-    TeamController.showTeamForm = function () {
+    // Show an team form
+    TeamController.showTeamForm = function (id) {
+        log('teamController:showTeamForm');
+        $.when(getModel(id))
+            .done(function (model) {
+                var team = new Team(model.Team);
+                var teamFormLayoutView = new TeamFormLayoutView({ model: team, organisations: model.Organisations });
 
-        var teamFormLayoutView = new TeamFormLayoutView({ el: $('.team-create-form'), model: new Team(app.prerenderedView.Team) });
+                app.content[app.getShowViewMethodName()](teamFormLayoutView);
 
-        teamFormLayoutView.render();
+                if (app.isPrerendering('teams')) {
+                    teamFormLayoutView.showBootstrappedDetails();
+                }
 
-        app.prerenderedView.isBound = true;
+                app.setPrerenderComplete();
+            });
     };
-
-    // TeamController Event Handlers
-    // -------------------------------------
-
-    app.vent.on('team:show', function () {
-        TeamController.showTeamForm();
-    });
 
     return TeamController;
 

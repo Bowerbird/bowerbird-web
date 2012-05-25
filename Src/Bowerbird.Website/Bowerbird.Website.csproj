@@ -428,13 +428,17 @@
     <None Include="Views\Shared\OrganisationForm.mustache">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Views\Shared\ProjectForm.mustache" />
+    <None Include="Views\Shared\ProjectForm.mustache">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Views\Shared\Sidebar.mustache" />
     <None Include="Views\Shared\SidebarProjectItem.mustache" />
     <None Include="Views\Shared\Stream.mustache" />
     <None Include="Views\Shared\StreamListLoading.mustache" />
     <None Include="Views\Shared\StreamLoadMore.mustache" />
-    <None Include="Views\Shared\TeamForm.mustache" />
+    <None Include="Views\Shared\TeamForm.mustache">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Views\Shared\UserItem.mustache" />
     <None Include="Views\Shared\UsersOnlineList.mustache" />
     <None Include="Views\Teams\List.mustache" />
