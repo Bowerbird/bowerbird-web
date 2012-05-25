@@ -18,6 +18,8 @@ namespace Bowerbird.Web.Builders
     {
         object BuildOrganisation(IdInput idInput);
 
+        object BuildNewOrganisation();
+
         object BuildOrganisationList(PagingInput pagingInput);
 
         object BuildOrganisationUserList(PagingInput pagingInput);

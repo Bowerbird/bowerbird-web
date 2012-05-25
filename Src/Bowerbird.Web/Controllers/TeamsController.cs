@@ -195,18 +195,7 @@ namespace Bowerbird.Web.Controllers
 
             ViewBag.Model = new
             {
-                Team = new
-                {
-                    Name = "Enter Name",
-                    Description = "Enter Description",
-                    Website = "Enter Website",
-                    Avatar = new
-                    {
-                        UrlToImage = "../img/default-team-avatar.jpg",
-                        AltTag = "Project"
-                    }
-                },
-
+                Team = _teamsViewModelBuilder.BuildNewTeam(),
                 Organisations = GetOrganisations(_userContext.GetAuthenticatedUserId())
             };
 

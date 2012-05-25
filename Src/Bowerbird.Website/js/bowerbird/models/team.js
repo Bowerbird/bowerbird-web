@@ -6,18 +6,24 @@
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
 // Team
-// -------
+// ----
 
 define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, app) {
 
     var Team = Backbone.Model.extend({
         defaults: {
-            Type: 'Team',
+            Id: '',
+            Name: '',
+            Description: '',
+            Website: '',
+            Avatar: null,
+            Organisation: null,
+            Type: 'Team'
         },
 
         idAttribute: 'Id',
 
-        url: '/teams/',
+        urlRoot: '/teams',
 
         toJSON: function () {
             return {
@@ -29,6 +35,10 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
                 Organisation: this.get('Organisation'),
                 Type: 'Team'
             };
+        },
+
+        setAvatar: function (mediaResource) {
+            this.set('Avatar', mediaResource.id);
         }
     });
 

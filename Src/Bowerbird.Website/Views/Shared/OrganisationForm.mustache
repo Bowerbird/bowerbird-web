@@ -26,18 +26,14 @@
           <input type="text" id="website" name="website" value="{{Model.Organisation.Website}}" />
         </div>
       </div>
-    </fieldset>
-    <fieldset id="media-resources-fieldset">
-      <legend>Avatar Image</legend>
-            <div id="avatar" class="field">
-          <div>
-              <label for="avatar">Organisation Avatar</label>
-            </div>
-          <div id="avatar-field" class="field">
-            <img src="{{Model.Organisation.ImgUrl}}" />
-          </div>
-          <div id="avatar-upload-button" class="button avatar-upload-button">
-            Change Avatar<input id="fileupload" type="file" name="file" multiple="" />
+      <div class="field">
+        <div>
+          <label for="avatar">Organisation Avatar</label>
+        </div>
+        <div id="avatar-viewer" class="field avatar-field">
+        </div>
+        <div id="avatar-upload-button" class="field button avatar-upload-button">
+          Change Avatar<input id="fileupload" type="file" name="file" multiple="" class="avatar-uploader" />
         </div>
       </div>
     </fieldset>

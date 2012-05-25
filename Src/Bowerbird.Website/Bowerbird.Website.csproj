@@ -425,7 +425,9 @@
     </None>
     <None Include="Views\Shared\ObservationMediaResourceUploaded.mustache" />
     <None Include="Views\Shared\ObservationStreamItem.mustache" />
-    <None Include="Views\Shared\OrganisationForm.mustache" />
+    <None Include="Views\Shared\OrganisationForm.mustache">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Views\Shared\ProjectForm.mustache" />
     <None Include="Views\Shared\Sidebar.mustache" />
     <None Include="Views\Shared\SidebarProjectItem.mustache" />

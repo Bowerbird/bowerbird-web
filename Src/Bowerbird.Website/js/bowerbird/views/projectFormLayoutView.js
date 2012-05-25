@@ -54,16 +54,12 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/ed
         showBootstrappedDetails: function () {
             log('projectFormLayoutView:showBootstrappedDetails');
             this.initializeRegions();
-            //this._showDetails();
         },
 
         _showDetails: function () {
-            log('projectFormLayoutView:showDetails');
-
+            log('projectFormLayoutView:_showDetails');
             var editAvatarView = new EditAvatarView({ el: '#avatar-fieldset', model: this.model });
-            //this.avatar.attachView(editAvatarView);
             editAvatarView.render();
-
             this.teamListSelectView = this.$el.find("#Team").multiSelect({
                 selectAll: false,
                 singleSelect: true,

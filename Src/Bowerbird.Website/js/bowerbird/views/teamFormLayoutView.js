@@ -8,7 +8,7 @@
 // TeamFormLayoutView
 // -------------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'multiselect', 'loadimage', 'fileupload'], function ($, _, Backbone, app, ich, loadImage) {
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/editavatarview', 'multiselect', 'fileupload'], function ($, _, Backbone, app, ich, loadImage, EditAvatarView) {
 
     var TeamFormLayoutView = Backbone.Marionette.Layout.extend({
 
@@ -26,7 +26,6 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'multiselect', 'loadim
             'change input#name': '_contentChanged',
             'change textarea#description': '_contentChanged',
             'change input#website': '_contentChanged',
-            'click #avatar-import-button': '_showImportAvatar',
             'change #organisation-field input:checkbox': '_organisationChanged'
         },
 
@@ -53,11 +52,13 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'multiselect', 'loadim
         showBootstrappedDetails: function () {
             log('teamFormLayoutView.showBootstrappedDetails');
             this.initializeRegions();
-            this._showDetails();
+            //this._showDetails();
         },
 
         _showDetails: function () {
             log('teamFormLayoutView._showDetails');
+            var editAvatarView = new EditAvatarView({ el: '#avatar-fieldset', model: this.model });
+            editAvatarView.render();
             this.organisationListSelectView = this.$el.find("#Organisation").multiSelect({
                 selectAll: false,
                 singleSelect: true,
@@ -71,15 +72,6 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'multiselect', 'loadim
                     return $selectedHtml.children();
                 }
             });
-
-            var editAvatarView = new EditAvatarView({ el: '#avatar-fieldset' });
-            this.avatar.show(editAvatarView);
-            editAvatarView.render();
-        },
-
-        _showImportAvatar: function () {
-            log('teamFormLayoutView._showImportAvatar');
-            alert('Coming soon');
         },
 
         _contentChanged: function (e) {

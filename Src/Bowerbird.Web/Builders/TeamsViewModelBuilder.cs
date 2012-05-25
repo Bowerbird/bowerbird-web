@@ -19,6 +19,7 @@ using Bowerbird.Web.ViewModels;
 using Raven.Client;
 using Raven.Client.Linq;
 using System.Linq;
+using Bowerbird.Core.Config;
 
 namespace Bowerbird.Web.Builders
 {
@@ -63,6 +64,19 @@ namespace Bowerbird.Web.Builders
                 .FirstOrDefault(x => x.GroupId == idInput.Id);
 
             return MakeTeam(team);
+        }
+
+        public object BuildNewTeam()
+        {
+            return new
+            {
+                Id = "",
+                Name = "New Team",
+                Description = "New Team",
+                Website = "",
+                Avatar = _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Team, "New Team"),
+                MemberCount = 1
+            };
         }
 
         public object BuildTeamList(PagingInput pagingInput)

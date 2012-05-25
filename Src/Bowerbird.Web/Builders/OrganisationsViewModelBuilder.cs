@@ -3,10 +3,8 @@
  Developers: 
  * Frank Radocaj : frank@radocaj.com
  * Hamish Crittenden : hamish.crittenden@gmail.com
- 
  Project Manager: 
  * Ken Walker : kwalker@museum.vic.gov.au
- 
  Funded by:
  * Atlas of Living Australia
  
@@ -21,6 +19,7 @@ using Bowerbird.Web.ViewModels;
 using Raven.Client;
 using Raven.Client.Linq;
 using System.Linq;
+using Bowerbird.Core.Config;
 
 namespace Bowerbird.Web.Builders
 {
@@ -66,6 +65,19 @@ namespace Bowerbird.Web.Builders
                 .FirstOrDefault();
 
             return MakeOrganisation(organisation);
+        }
+
+        public object BuildNewOrganisation()
+        {
+            return new
+            {
+                Id = "",
+                Name = "New Organisation",
+                Description = "New Organisation",
+                Website = "",
+                Avatar = _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Organisation, "New Organisation"),
+                MemberCount = 1
+            };
         }
 
         public object BuildOrganisationList(PagingInput pagingInput)

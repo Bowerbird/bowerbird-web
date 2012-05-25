@@ -8,7 +8,7 @@
 // ProjectFormLayoutView
 // -------------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'multiselect', 'loadimage', 'fileupload'], function ($, _, Backbone, app, ich, loadImage) {
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/editavatarview', 'fileupload', 'multiselect'], function ($, _, Backbone, app, ich, loadImage, EditAvatarView) {
 
     var OrganisationFormLayoutView = Backbone.Marionette.Layout.extend({
 
@@ -31,75 +31,23 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'multiselect', 'loadim
         serializeData: function () {
             return {
                 Model: {
-                    Organisations: this.model.toJSON()
+                    Organisation: this.model.toJSON()
                 }
             };
         },
 
         onShow: function () {
             this._showDetails();
-            this._initMediaUploader();
         },
 
         showBootstrappedDetails: function () {
             this.initializeRegions();
-            this._showDetails();
         },
 
-        _initMediaUploader: function () {
-            $('#fileupload').fileupload({
-                dataType: 'json',
-                paramName: 'file',
-                url: '/mediaresource/avatarupload',
-                add: this._onUploadAdd,
-                submit: this._onSubmitUpload,
-                done: this._onUploadDone,
-                limitConcurrentUploads: 1
-            });
-        },
-
-        _onUploadAdd: function (e, data) {
-            var self = this;
-            var tempImage = loadImage(
-                data.files[0],
-                function (img) {
-                    if (img.type === "error") {
-                        log('Error loading image', img);
-                    } else {
-                        this._showTempMedia(img);
-                    }
-                },
-                { maxHeight: 220 }
-            );
-
-            if (!tempImage) {
-                alert('No support for file/blob API!');
-            }
-
-            data.submit();
-        },
-
-        _onSubmitUpload: function (e, data) {
-            data.formData = { Key: this.currentUploadKey, OriginalFileName: data.files[0].name };
-        },
-
-        _onUploadDone: function (e, data) {
-            var mediaResource = this.model.mediaResources.find(function (item) {
-                return item.get('Key') === data.result.Key;
-            });
-            mediaResource.set(data.result);
-            this._showUploadedMedia(mediaResource);
-        },
-
-        _showTempMedia: function (img) {
-            var $image = $(img);
-            this.$el.find('#avatar-field img').replaceWith($image);
-            this.$el.width($image.width());
-            this.imageWidth = $image.width();
-        },
-
-        _showUploadedMedia: function (mediaResource) {
-            this.$el.find('#avatar-field img').replaceWith($('<img src="' + mediaResource.get('MediumImageUri') + '" alt="" />'));
+        _showDetails: function () {
+            log('projectFormLayoutView:showDetails');
+            var editAvatarView = new EditAvatarView({ el: '#avatar-fieldset', model: this.model });
+            editAvatarView.render();
         },
 
         _contentChanged: function (e) {

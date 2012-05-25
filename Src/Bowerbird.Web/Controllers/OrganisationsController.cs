@@ -3,10 +3,8 @@
  Developers: 
  * Frank Radocaj : frank@radocaj.com
  * Hamish Crittenden : hamish.crittenden@gmail.com
- 
  Project Manager: 
  * Ken Walker : kwalker@museum.vic.gov.au
- 
  Funded by:
  * Atlas of Living Australia
  
@@ -189,13 +187,7 @@ namespace Bowerbird.Web.Controllers
 
             ViewBag.Model = new
             {
-                Organisation = new
-                {
-                    Name = "Enter Name",
-                    Description = "Enter Description",
-                    Website = "Enter Website",
-                    ImgUrl = "../img/default-organisation-avatar.jpg"
-                }
+                Organisation = _organisationsViewModelBuilder.BuildNewOrganisation()
             };
 
             if (Request.IsAjaxRequest())

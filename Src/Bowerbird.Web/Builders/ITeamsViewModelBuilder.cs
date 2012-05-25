@@ -18,6 +18,8 @@ namespace Bowerbird.Web.Builders
     {
         object BuildTeam(IdInput idInput);
 
+        object BuildNewTeam();
+
         object BuildTeamList(PagingInput pagingInput);
 
         object BuildUserTeamList(PagingInput pagingInput);

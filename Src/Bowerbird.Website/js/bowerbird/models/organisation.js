@@ -6,7 +6,7 @@
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
 // Organisation
-// -------
+// ------------
 
 define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, app) {
 
@@ -17,8 +17,7 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
             Description: '',
             Website: '',
             Avatar: null,
-            Team: null,
-            Type: 'Project'
+            Type: 'Organisation'
         },
 
         idAttribute: 'Id',
@@ -34,6 +33,10 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
                 Avatar: this.get('Avatar'), // TODO: Fix this to return id?
                 Type: 'Organisation'
             };
+        },
+
+        setAvatar: function (mediaResource) {
+            this.set('Avatar', mediaResource.id);
         }
     });
 
