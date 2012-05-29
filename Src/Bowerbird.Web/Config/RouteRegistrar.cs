@@ -119,6 +119,7 @@ namespace Bowerbird.Web.Config
                 controllerName + "/{id}/{action}",
                 new { controller = controllerName, action = "stream" },
                 new { httpMethod = new HttpMethodConstraint("GET"), id = @"^((?!create|update|delete).*)$", acceptType = new AcceptTypeContstraint("text/html") });
+
         }
 
         private static void CreateRestfulControllerRoute(RouteCollection routes, string controllerName)
@@ -145,13 +146,13 @@ namespace Bowerbird.Web.Config
                 controllerName + "-update-form",
                 controllerName + "/{id}/update",
                 new { controller = controllerName, action = "updateform" },
-                new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("GET") });
+                new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("GET"), id = @"^((?!create|update|delete).*)$" });
 
             routes.MapRoute(
                 controllerName + "-delete-form",
                 controllerName + "/{id}/delete",
                 new { controller = controllerName, action = "deleteform" },
-                new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("GET") });
+                new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("GET"), id = @"^((?!create|update|delete).*)$" });
 
             routes.MapRoute(
                 controllerName + "-update",

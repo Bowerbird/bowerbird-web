@@ -18,8 +18,8 @@ namespace Bowerbird.Web.Builders
     {
         object BuildProject();
 
-        object BuildProject(IdInput idInput);
-        
+        object BuildProject(string projectId);
+
         object BuildProjectList(PagingInput pagingInput);
 
         object BuildUserProjectList(PagingInput pagingInput);

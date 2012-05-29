@@ -23,9 +23,9 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/ed
         events: {
             'click #cancel': '_cancel',
             'click #save': '_save',
-            'change input#name': '_contentChanged',
-            'change textarea#description': '_contentChanged',
-            'change input#website': '_contentChanged',
+            'change input#Name': '_contentChanged',
+            'change textarea#Description': '_contentChanged',
+            'change input#Website': '_contentChanged',
             'change #organisation-field input:checkbox': '_organisationChanged'
         },
 

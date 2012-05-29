@@ -114,6 +114,7 @@
     <Content Include="js\bowerbird\collections\organisationCollection.js" />
     <Content Include="js\bowerbird\collections\teamCollection.js" />
     <Content Include="js\bowerbird\controllers\activityController.js" />
+    <Content Include="js\bowerbird\controllers\postController.js" />
     <Content Include="js\bowerbird\controllers\homeController.js" />
     <Content Include="js\bowerbird\controllers\referenceSpeciesController.js" />
     <Content Include="js\bowerbird\controllers\speciesController.js" />
@@ -129,6 +130,7 @@
     <Content Include="js\bowerbird\collections\userCollection.js" />
     <Content Include="js\bowerbird\controllers\observationController.js" />
     <Content Include="js\bowerbird\models\avatar.js" />
+    <Content Include="js\bowerbird\models\post.js" />
     <Content Include="js\bowerbird\models\referenceSpecies.js" />
     <Content Include="js\bowerbird\models\species.js" />
     <Content Include="js\bowerbird\models\organisation.js" />
@@ -139,6 +141,7 @@
     <Content Include="js\bowerbird\models\stream.js" />
     <Content Include="js\bowerbird\models\streamItem.js" />
     <Content Include="js\bowerbird\routers\activityRouter.js" />
+    <Content Include="js\bowerbird\routers\postRouter.js" />
     <Content Include="js\bowerbird\routers\observationRouter.js" />
     <Content Include="js\bowerbird\routers\homeRouter.js" />
     <Content Include="js\bowerbird\routers\speciesRouter.js" />
@@ -147,6 +150,11 @@
     <Content Include="js\bowerbird\routers\teamRouter.js" />
     <Content Include="js\bowerbird\routers\projectRouter.js" />
     <Content Include="js\bowerbird\views\avatarItemView.js" />
+    <Content Include="js\bowerbird\views\sidebarOrganisationItemView.js" />
+    <Content Include="js\bowerbird\views\sidebarTeamItemView.js" />
+    <Content Include="js\bowerbird\views\sidebarTeamCollectionView.js" />
+    <Content Include="js\bowerbird\views\sidebarOrganisationCollectionView.js" />
+    <Content Include="js\bowerbird\views\postFormLayoutView.js" />
     <Content Include="js\bowerbird\views\homeLayoutView.js" />
     <Content Include="js\bowerbird\views\referenceSpeciesFormLayoutView.js" />
     <Content Include="js\bowerbird\views\speciesFormItemView.js" />
@@ -214,6 +222,10 @@
     <Content Include="species\Butterflies.txt" />
     <Content Include="species\Legumes.txt" />
     <Content Include="welcome.txt" />
+    <None Include="Views\Posts\Create.mustache" />
+    <None Include="Views\Posts\Delete.mustache" />
+    <None Include="Views\Posts\List.mustache" />
+    <None Include="Views\Posts\Update.mustache" />
     <None Include="Views\Home\About.mustache" />
     <None Include="Views\Account\LogoutSuccess.mustache" />
     <None Include="Views\Account\ResetPassword.mustache" />
@@ -230,6 +242,7 @@
     <None Include="Views\Organisations\Create.mustache" />
     <None Include="Views\Organisations\Delete.mustache" />
     <None Include="Views\Organisations\List.mustache" />
+    <None Include="Views\Projects\Update.mustache" />
     <None Include="Views\Projects\Create.mustache" />
     <None Include="Views\Projects\Delete.mustache" />
     <None Include="Views\Projects\Stream.mustache" />
@@ -238,6 +251,11 @@
     <None Include="Views\ReferenceSpecies\Delete.mustache" />
     <None Include="Views\ReferenceSpecies\Index.mustache" />
     <None Include="Views\ReferenceSpecies\List.mustache" />
+    <None Include="Views\Shared\SidebarOrganisationItem.mustache" />
+    <None Include="Views\Shared\SidebarTeamItem.mustache" />
+    <None Include="Views\Shared\PostForm.mustache">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Views\Shared\StreamItem.mustache" />
     <None Include="Views\Shared\ReferenceSpeciesCreate.mustache" />
     <None Include="Views\Shared\SpeciesCreate.mustache" />

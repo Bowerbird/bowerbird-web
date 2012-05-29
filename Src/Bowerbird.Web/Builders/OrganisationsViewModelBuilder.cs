@@ -54,24 +54,23 @@ namespace Bowerbird.Web.Builders
 
         #region Methods
 
-        public object BuildOrganisation(IdInput idInput)
+        public object BuildOrganisation(string organisationId)
         {
-            Check.RequireNotNull(idInput, "idInput");
+            Check.RequireNotNullOrWhitespace(organisationId, "organisationId");
 
             var organisation = _documentSession
                 .Query<All_Groups.Result, All_Groups>()
                 .AsProjection<All_Groups.Result>()
-                .Where(x => x.GroupId == idInput.Id)
+                .Where(x => x.GroupId == organisationId)
                 .FirstOrDefault();
 
             return MakeOrganisation(organisation);
         }
 
-        public object BuildNewOrganisation()
+        public object BuildOrganisation()
         {
             return new
             {
-                Id = "",
                 Name = "New Organisation",
                 Description = "New Organisation",
                 Website = "",

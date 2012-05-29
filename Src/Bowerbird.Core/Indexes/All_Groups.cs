@@ -34,6 +34,7 @@ namespace Bowerbird.Core.Indexes
             public string[] ChildGroupIds { get; set; }
             public string[] AncestorGroupIds { get; set; }
             public string[] DescendantGroupIds { get; set; }
+            public object[] GroupRoleNames { get; set; }
 
             public Group Group { get { return AppRoot ?? Organisation ?? Team ?? Project ?? UserProject ?? (Group)null; } }
             public AppRoot AppRoot { get; set; }
@@ -57,7 +58,8 @@ namespace Bowerbird.Core.Indexes
                                 ParentGroupId = (string)null,
                                 ChildGroupIds = new string[] { },
                                 AncestorGroupIds = new string[] { },
-                                DescendantGroupIds = new string[] { }
+                                DescendantGroupIds = new string[] { },
+                                GroupRoleNames = new object[] { }
                             });
 
             AddMap<Organisation>(
@@ -75,7 +77,8 @@ namespace Bowerbird.Core.Indexes
                         AncestorGroupIds = from ancestor in organisation.Ancestry
                                            select ancestor.Id,
                         DescendantGroupIds = from descendant in organisation.Descendants
-                                             select descendant.Id
+                                             select descendant.Id,
+                        GroupRoleNames = new object[] { }                                             
                     });
 
             AddMap<Team>(
@@ -93,7 +96,8 @@ namespace Bowerbird.Core.Indexes
                         AncestorGroupIds = from ancestor in team.Ancestry
                                            select ancestor.Id,
                         DescendantGroupIds = from descendant in team.Descendants
-                                             select descendant.Id
+                                             select descendant.Id,
+                        GroupRoleNames = new object[] { }
                     });
 
             AddMap<Project>(
@@ -109,7 +113,8 @@ namespace Bowerbird.Core.Indexes
                                 ChildGroupIds = new string[] { },
                                 AncestorGroupIds = from ancestor in project.Ancestry
                                                    select ancestor.Id,
-                                DescendantGroupIds = new string[] { }
+                                DescendantGroupIds = new string[] { },
+                                GroupRoleNames = new object[] { }
                             });
 
             AddMap<UserProject>(
@@ -125,7 +130,8 @@ namespace Bowerbird.Core.Indexes
                                     ChildGroupIds = new string[] { },
                                     AncestorGroupIds = from ancestor in userProject.Ancestry
                                                        select ancestor.Id,
-                                    DescendantGroupIds = new string[] { }
+                                    DescendantGroupIds = new string[] { },
+                                    GroupRoleNames = new object[] { }
                                 });
 
             AddMap<GroupAssociation>(
@@ -139,11 +145,13 @@ namespace Bowerbird.Core.Indexes
                                          ParentGroupId = (string)null,
                                          ChildGroupIds = new[] { groupAssociation.ChildGroup.Id },
                                          AncestorGroupIds = new string[] { },
-                                         DescendantGroupIds = new string[] { }
+                                         DescendantGroupIds = new string[] { },
+                                         GroupRoleNames = new object[] { }
                                      });
 
             AddMap<Member>(
                 members => from member in members
+                           let roleNames = member.Roles.Select(x => x.Name)
                            select new
                            {
                                member.Group.GroupType,
@@ -153,7 +161,8 @@ namespace Bowerbird.Core.Indexes
                                ParentGroupId = (string)null,
                                ChildGroupIds = new string[] { },
                                AncestorGroupIds = new string[] { },
-                               DescendantGroupIds = new string[] { }
+                               DescendantGroupIds = new string[] { },
+                               GroupRoleNames = new object[] { roleNames }
                            });
 
             Reduce = results => from result in results
@@ -168,7 +177,8 @@ namespace Bowerbird.Core.Indexes
                                         ParentGroupId = g.Select(x => x.ParentGroupId).Where(x => x != null).FirstOrDefault(),
                                         ChildGroupIds = g.SelectMany(x => x.ChildGroupIds),
                                         AncestorGroupIds = g.SelectMany(x => x.AncestorGroupIds),
-                                        DescendantGroupIds = g.SelectMany(x => x.DescendantGroupIds)
+                                        DescendantGroupIds = g.SelectMany(x => x.DescendantGroupIds),
+                                        GroupRoleNames = g.SelectMany(x => x.GroupRoleNames.ToList())
                                     };
 
             TransformResults = (database, results) =>
@@ -194,7 +204,8 @@ namespace Bowerbird.Core.Indexes
                     Team = team,
                     Project = project,
                     UserProject = userProject,
-                    Members = members
+                    Members = members,
+                    result.GroupRoleNames
                 };
 
             Store(x => x.GroupType, FieldStorage.Yes);
@@ -205,6 +216,8 @@ namespace Bowerbird.Core.Indexes
             Store(x => x.ChildGroupIds, FieldStorage.Yes);
             Store(x => x.AncestorGroupIds, FieldStorage.Yes);
             Store(x => x.DescendantGroupIds, FieldStorage.Yes);
+            Store(x => x.GroupRoleNames, FieldStorage.Yes);
+            //Store(x => x.Members.SelectMany(y => y.Roles.Select(z => z.Name)), FieldStorage.Yes);
         }
     }
 }

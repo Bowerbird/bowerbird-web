@@ -16,9 +16,9 @@ namespace Bowerbird.Web.Builders
 {
     public interface IOrganisationsViewModelBuilder : IBuilder
     {
-        object BuildOrganisation(IdInput idInput);
+        object BuildOrganisation(string organisationId);
 
-        object BuildNewOrganisation();
+        object BuildOrganisation();
 
         object BuildOrganisationList(PagingInput pagingInput);
 

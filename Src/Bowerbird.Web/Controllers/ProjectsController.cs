@@ -94,9 +94,13 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Stream(PagingInput pagingInput)
         {
+            Check.RequireNotNull(pagingInput, "pagingInput");
+
+            var projectId = "projects/".AppendWith(pagingInput.Id);
+
             ViewBag.Model = new
             {
-                Project = _projectsViewModelBuilder.BuildProject(new IdInput() { Id = "projects/" + pagingInput.Id }),
+                Project = _projectsViewModelBuilder.BuildProject(projectId),
                 StreamItems = _streamItemsViewModelBuilder.BuildGroupStreamItems(pagingInput)
             };
 
@@ -114,9 +118,13 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Observations(PagingInput pagingInput)
         {
+            Check.RequireNotNull(pagingInput, "pagingInput");
+
+            var projectId = "projects/".AppendWith(pagingInput.Id);
+
             ViewBag.Model = new
             {
-                Project = _projectsViewModelBuilder.BuildProject(new IdInput() { Id = "projects/" + pagingInput.Id }),
+                Project = _projectsViewModelBuilder.BuildProject(projectId),
                 Observations = _observationsViewModelBuilder.BuildGroupObservationList(pagingInput)
             };
 
@@ -128,9 +136,13 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult ReferenceSpecies(PagingInput pagingInput)
         {
+            Check.RequireNotNull(pagingInput, "pagingInput");
+
+            var projectId = "projects/".AppendWith(pagingInput.Id);
+
             ViewBag.Model = new
             {
-                Project = _projectsViewModelBuilder.BuildProject(new IdInput() { Id = "projects/" + pagingInput.Id }),
+                Project = _projectsViewModelBuilder.BuildProject(projectId),
                 ReferenceSpecies = _referenceSpeciesViewModelBuilder.BuildGroupReferenceSpeciesList(pagingInput)
             };
 
@@ -142,9 +154,13 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Posts(PagingInput pagingInput)
         {
+            Check.RequireNotNull(pagingInput, "pagingInput");
+
+            var projectId = "projects/".AppendWith(pagingInput.Id);
+
             ViewBag.Model = new
             {
-                Project = _projectsViewModelBuilder.BuildProject(new IdInput() { Id = "projects/" + pagingInput.Id }),
+                Project = _projectsViewModelBuilder.BuildProject(projectId),
                 Posts = _postsViewModelBuilder.BuildGroupPostList(pagingInput)
             };
 
@@ -153,12 +169,18 @@ namespace Bowerbird.Web.Controllers
             return View(Form.Stream);
         }
 
+
+
         [HttpGet]
         public ActionResult Members(PagingInput pagingInput)
         {
+            Check.RequireNotNull(pagingInput, "pagingInput");
+
+            var projectId = "projects/".AppendWith(pagingInput.Id);
+
             ViewBag.Model = new
             {
-                Project = _projectsViewModelBuilder.BuildProject(new IdInput() { Id = "projects/" + pagingInput.Id }),
+                Project = _projectsViewModelBuilder.BuildProject(projectId),
                 Members = _projectsViewModelBuilder.BuildProjectUserList(pagingInput)
             };
 
@@ -170,9 +192,13 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult About(IdInput idInput)
         {
+            Check.RequireNotNull(idInput, "idInput");
+
+            var projectId = "projects/".AppendWith(idInput.Id);
+
             ViewBag.Model = new
             {
-                Project = _projectsViewModelBuilder.BuildProject(new IdInput() { Id = "projects/" + idInput.Id }),
+                Project = _projectsViewModelBuilder.BuildProject(projectId),
             };
 
             return View(Form.About);
@@ -181,6 +207,8 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Explore(PagingInput pagingInput)
         {
+            Check.RequireNotNull(pagingInput, "pagingInput");
+            
             ViewBag.Projects = _projectsViewModelBuilder.BuildProjectList(pagingInput);
 
             return View(Form.List);
@@ -189,12 +217,18 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult GetOne(IdInput idInput)
         {
-            return new JsonNetResult(_projectsViewModelBuilder.BuildProject(idInput));
+            Check.RequireNotNull(idInput, "idInput");
+
+            var projectId = "projects/".AppendWith(idInput.Id);
+
+            return new JsonNetResult(_projectsViewModelBuilder.BuildProject(projectId));
         }
 
         [HttpGet]
         public ActionResult GetMany(PagingInput pagingInput)
         {
+            Check.RequireNotNull(pagingInput, "pagingInput");
+
             return new JsonNetResult(_projectsViewModelBuilder.BuildProjectList(pagingInput));
         }
 
@@ -202,6 +236,8 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult CreateForm(IdInput idInput)
         {
+            Check.RequireNotNull(idInput, "idInput");
+
             if (!_userContext.HasGroupPermission(PermissionNames.CreateProject, idInput.Id ?? Constants.AppRootId))
             {
                 return HttpUnauthorized();
@@ -236,7 +272,11 @@ namespace Bowerbird.Web.Controllers
                 return HttpUnauthorized();
             }
 
-            ViewBag.Project = _projectsViewModelBuilder.BuildProject(idInput);
+            ViewBag.Model = new
+            {
+                Project = _projectsViewModelBuilder.BuildProject(projectId),
+                Teams = GetTeams(_userContext.GetAuthenticatedUserId())
+            };
 
             return View(Form.Update);
         }
@@ -254,9 +294,27 @@ namespace Bowerbird.Web.Controllers
                 return HttpUnauthorized();
             }
 
-            ViewBag.Project = _projectsViewModelBuilder.BuildProject(idInput);
+            ViewBag.Project = _projectsViewModelBuilder.BuildProject(projectId);
 
             return View(Form.Delete);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult PostForm(IdInput idInput)
+        {
+            Check.RequireNotNull(idInput, "idInput");
+
+            var projectId = "projects/".AppendWith(idInput.Id);
+
+            ViewBag.Model = new
+            {
+                Post = _postsViewModelBuilder.BuildPost(projectId)
+            };
+
+            ViewBag.PrerenderedView = "post"; // HACK: Need to rethink this
+
+            return View(Form.Post);
         }
 
         [Transaction]
@@ -266,7 +324,9 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(idInput, "idInput");
 
-            if (!_userContext.HasGroupPermission(PermissionNames.JoinProject, idInput.Id))
+            var projectId = "projects/".AppendWith(idInput.Id);
+
+            if (!_userContext.HasGroupPermission(PermissionNames.JoinProject, projectId))
             {
                 return HttpUnauthorized();
             }
@@ -280,7 +340,7 @@ namespace Bowerbird.Web.Controllers
                 new MemberCreateCommand()
                 {
                     UserId = _userContext.GetAuthenticatedUserId(),
-                    GroupId = idInput.Id,
+                    GroupId = projectId,
                     CreatedByUserId = _userContext.GetAuthenticatedUserId(),
                     Roles = new []{ RoleNames.ProjectMember }
                 });
@@ -295,7 +355,9 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(idInput, "idInput");
 
-            if (!_userContext.HasGroupPermission(PermissionNames.LeaveProject, idInput.Id))
+            var projectId = "projects/".AppendWith(idInput.Id);
+
+            if (!_userContext.HasGroupPermission(PermissionNames.LeaveProject, projectId))
             {
                 return HttpUnauthorized();
             }
@@ -309,7 +371,7 @@ namespace Bowerbird.Web.Controllers
                 new MemberDeleteCommand()
                 {
                     UserId = _userContext.GetAuthenticatedUserId(),
-                    GroupId = idInput.Id
+                    GroupId = projectId
                 });
 
             return JsonSuccess();
@@ -397,6 +459,23 @@ namespace Bowerbird.Web.Controllers
                 });
 
             return JsonSuccess();
+        }
+
+        [Transaction]
+        [Authorize]
+        [HttpPost]
+        public ActionResult Post(PostCreateInput postInput)
+        {
+            Check.RequireNotNull(postInput, "postInput");
+
+            ViewBag.Model = new
+            {
+                Post = _postsViewModelBuilder.BuildPost(postInput.GroupId)
+            };
+
+            ViewBag.PrerenderedView = "post";
+
+            return View(Form.Post);
         }
 
         private IEnumerable GetTeams(string userId, string projectId = "")

@@ -55,6 +55,9 @@ namespace Bowerbird.Web.App_Start
             });
 
             RouteRegistrar.RegisterRoutesTo(RouteTable.Routes);
+            
+            //RouteDebug.RouteDebugger.RewriteRoutesForTesting(RouteTable.Routes);
+            //RouteMagic.
 
             ServiceLocator.Current.GetInstance<ISystemStateManager>().SetupSystem(true);
 

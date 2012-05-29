@@ -3,10 +3,8 @@
  Developers: 
  * Frank Radocaj : frank@radocaj.com
  * Hamish Crittenden : hamish.crittenden@gmail.com
- 
  Project Manager: 
  * Ken Walker : kwalker@museum.vic.gov.au
- 
  Funded by:
  * Atlas of Living Australia
  
@@ -19,6 +17,8 @@ namespace Bowerbird.Web.Builders
     public interface IPostsViewModelBuilder : IBuilder
     {
         object BuildPost(IdInput idInput);
+
+        object BuildPost(string groupId);
 
         object BuildUserPostList(PagingInput pagingInput);
 

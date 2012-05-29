@@ -1,0 +1,27 @@
+﻿<h2>New Post</h2>
+<form action="/posts/create" method="post"  enctype="multipart/form-data">
+    <fieldset>
+        <legend>Post Details</legend>
+        <div id="subject-field" class="field">
+            <div>
+                <label for="subject">Subject</label>
+            </div>
+            <div>
+                <input type="text" id="Subject" name="subject" value="{{Model.Post.Subject}}" />
+            </div>
+            </div>
+            <div id="message-field" class="field">
+            <div>
+                <label for="message">Message</label>
+            </div>
+            <div>
+                <textarea rows="4" cols="100" id="Message" name="message">{{Model.Post.Message}}</textarea>
+            </div>
+        </div>
+    </fieldset>
+    <fieldset>
+        <input type="hidden" value="{{Model.Post.GroupId}}" id="GroupId" />
+        <input type="button" value="Save" id="save" />
+        <input type="button" value="Cancel" id="cancel" />
+    </fieldset>
+</form>

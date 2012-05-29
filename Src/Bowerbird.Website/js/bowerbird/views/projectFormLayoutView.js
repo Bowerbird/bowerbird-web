@@ -19,15 +19,15 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/ed
         template: 'ProjectForm',
 
         regions: {
-            avatar: '#avatar-fieldset',
+            avatar: '#avatar-fieldset'
         },
 
         events: {
             'click #cancel': '_cancel',
             'click #save': '_save',
-            'change input#name': '_contentChanged',
-            'change textarea#description': '_contentChanged',
-            'change input#website': '_contentChanged',
+            'change input#Name': '_contentChanged',
+            'change textarea#Description': '_contentChanged',
+            'change input#Website': '_contentChanged',
             'change #team-field input:checkbox': '_teamChanged'
         },
 
@@ -54,6 +54,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/ed
         showBootstrappedDetails: function () {
             log('projectFormLayoutView:showBootstrappedDetails');
             this.initializeRegions();
+            //this._showDetails();
         },
 
         _showDetails: function () {

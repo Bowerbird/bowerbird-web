@@ -14,6 +14,7 @@ using System.Web.Mvc;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Extensions;
 using Bowerbird.Web.Builders;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.ViewModels;
@@ -77,9 +78,13 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Stream(PagingInput pagingInput)
         {
+            Check.RequireNotNull(pagingInput, "pagingInput");
+
+            var organisationId = "organisations/".AppendWith(pagingInput.Id);
+
             ViewBag.Model = new
             {
-                Team = _organisationsViewModelBuilder.BuildOrganisation(new IdInput() { Id = "organisations/" + pagingInput.Id }),
+                Organisation = _organisationsViewModelBuilder.BuildOrganisation(organisationId),
                 StreamItems = _streamItemsViewModelBuilder.BuildGroupStreamItems(pagingInput)
             };
 
@@ -91,15 +96,21 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult StreamList(PagingInput pagingInput)
         {
+            Check.RequireNotNull(pagingInput, "pagingInput");
+
             return new JsonNetResult(_streamItemsViewModelBuilder.BuildGroupStreamItems(pagingInput));
         }
 
         [HttpGet]
         public ActionResult ReferenceSpecies(PagingInput pagingInput)
         {
+            Check.RequireNotNull(pagingInput, "pagingInput");
+
+            var organisationId = "organisations/".AppendWith(pagingInput.Id);
+
             ViewBag.Model = new
             {
-                Team = _teamsViewModelBuilder.BuildTeam(new IdInput() { Id = "teams/" + pagingInput.Id }),
+                Organisation = _organisationsViewModelBuilder.BuildOrganisation(organisationId),
                 ReferenceSpecies = _referenceSpeciesViewModelBuilder.BuildGroupReferenceSpeciesList(pagingInput)
             };
 
@@ -111,9 +122,13 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Teams(PagingInput pagingInput)
         {
+            Check.RequireNotNull(pagingInput, "pagingInput");
+
+            var organisationId = "organisations/".AppendWith(pagingInput.Id);
+
             ViewBag.Model = new
             {
-                Organisation = _organisationsViewModelBuilder.BuildOrganisation(new IdInput() { Id = "organisations/" + pagingInput.Id }),
+                Organisation = _organisationsViewModelBuilder.BuildOrganisation(organisationId),
                 Teams = _teamsViewModelBuilder.BuildOrganisationTeamList(pagingInput)
             };
 
@@ -125,9 +140,13 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Posts(PagingInput pagingInput)
         {
+            Check.RequireNotNull(pagingInput, "pagingInput");
+
+            var organisationId = "organisations/".AppendWith(pagingInput.Id);
+
             ViewBag.Model = new
             {
-                Organisation = _organisationsViewModelBuilder.BuildOrganisation(new IdInput() { Id = "organisations/" + pagingInput.Id }),
+                Organisation = _organisationsViewModelBuilder.BuildOrganisation(organisationId),
                 Posts = _postsViewModelBuilder.BuildGroupPostList(pagingInput)
             };
 
@@ -137,11 +156,32 @@ namespace Bowerbird.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult Members(PagingInput pagingInput)
+        public ActionResult Post(IdInput idInput)
         {
+            Check.RequireNotNull(idInput, "idInput");
+
+            var organisationId = "organisations/".AppendWith(idInput.Id);
+
             ViewBag.Model = new
             {
-                Organisation = _organisationsViewModelBuilder.BuildOrganisation(new IdInput() { Id = "organisations/" + pagingInput.Id }),
+                Post = _postsViewModelBuilder.BuildPost(organisationId)
+            };
+
+            ViewBag.PrerenderedView = "post"; // HACK: Need to rethink this
+
+            return View(Form.Stream);
+        }
+
+        [HttpGet]
+        public ActionResult Members(PagingInput pagingInput)
+        {
+            Check.RequireNotNull(pagingInput, "pagingInput");
+
+            var organisationId = "organisations/".AppendWith(pagingInput.Id);
+
+            ViewBag.Model = new
+            {
+                Organisation = _organisationsViewModelBuilder.BuildOrganisation(organisationId),
                 Members = _organisationsViewModelBuilder.BuildOrganisationUserList(pagingInput)
             };
 
@@ -159,6 +199,8 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Explore(PagingInput pagingInput)
         {
+            Check.RequireNotNull(pagingInput, "pagingInput");
+
             ViewBag.OrganisationList = _organisationsViewModelBuilder.BuildOrganisationList(pagingInput);
 
             return View(Form.List);
@@ -167,12 +209,18 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult GetOne(IdInput idInput)
         {
-            return new JsonNetResult(_organisationsViewModelBuilder.BuildOrganisation(idInput));
+            Check.RequireNotNull(idInput, "idInput");
+
+            var organisationId = "organisations/".AppendWith(idInput.Id);
+
+            return new JsonNetResult(_organisationsViewModelBuilder.BuildOrganisation(organisationId));
         }
 
         [HttpGet]
         public ActionResult GetMany(PagingInput pagingInput)
         {
+            Check.RequireNotNull(pagingInput, "pagingInput");
+
             return new JsonNetResult(_organisationsViewModelBuilder.BuildOrganisationList(pagingInput));
         }
 
@@ -187,12 +235,15 @@ namespace Bowerbird.Web.Controllers
 
             ViewBag.Model = new
             {
-                Organisation = _organisationsViewModelBuilder.BuildNewOrganisation()
+                Organisation = _organisationsViewModelBuilder.BuildOrganisation()
             };
 
             if (Request.IsAjaxRequest())
             {
-                return new JsonNetResult(ViewBag.Model);
+                return new JsonNetResult(new
+                {
+                    Model = ViewBag.Model
+                });
             }
 
             ViewBag.PrerenderedView = "organisations";
@@ -204,12 +255,16 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult UpdateForm(IdInput idInput)
         {
-            if (!_userContext.HasGroupPermission(PermissionNames.UpdateOrganisation, idInput.Id))
+            Check.RequireNotNull(idInput, "idInput");
+
+            var organisationId = "organisations/".AppendWith(idInput.Id);
+
+            if (!_userContext.HasGroupPermission(PermissionNames.UpdateOrganisation, organisationId))
             {
                 return HttpUnauthorized();
             }
 
-            ViewBag.Organisation = _organisationsViewModelBuilder.BuildOrganisation(idInput);
+            ViewBag.Organisation = _organisationsViewModelBuilder.BuildOrganisation(organisationId);
 
             return View(Form.Update);
         }
@@ -218,12 +273,16 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult DeleteForm(IdInput idInput)
         {
+            Check.RequireNotNull(idInput, "idInput");
+
+            var organisationId = "organisations/".AppendWith(idInput.Id);
+
             if (!_userContext.HasAppRootPermission(PermissionNames.DeleteOrganisation))
             {
                 return HttpUnauthorized();
             }
 
-            ViewBag.Organisation = _organisationsViewModelBuilder.BuildOrganisation(idInput);
+            ViewBag.Organisation = _organisationsViewModelBuilder.BuildOrganisation(organisationId);
 
             return View(Form.Delete);
         }
@@ -235,7 +294,9 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(idInput, "idInput");
 
-            if (!_userContext.HasGroupPermission(PermissionNames.JoinOrganisation, idInput.Id))
+            var organisationId = "organisations/".AppendWith(idInput.Id);
+
+            if (!_userContext.HasGroupPermission(PermissionNames.JoinOrganisation, organisationId))
             {
                 return HttpUnauthorized();
             }
@@ -249,7 +310,7 @@ namespace Bowerbird.Web.Controllers
                 new MemberCreateCommand()
                 {
                     UserId = _userContext.GetAuthenticatedUserId(),
-                    GroupId = idInput.Id,
+                    GroupId = organisationId,
                     CreatedByUserId = _userContext.GetAuthenticatedUserId(),
                     Roles = new[] { RoleNames.OrganisationMember }
                 });
@@ -264,7 +325,9 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(idInput, "idInput");
 
-            if (!_userContext.HasGroupPermission(PermissionNames.LeaveOrganisation, idInput.Id))
+            var organisationId = "organisations/".AppendWith(idInput.Id);
+
+            if (!_userContext.HasGroupPermission(PermissionNames.LeaveOrganisation, organisationId))
             {
                 return HttpUnauthorized();
             }
@@ -290,7 +353,9 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(createInput, "createInput");
 
-            if (!_userContext.HasGroupPermission<Organisation>(PermissionNames.AddTeam, createInput.ParentGroupId))
+            var organisationId = "organisations/".AppendWith(createInput.ParentGroupId);
+
+            if (!_userContext.HasGroupPermission<Organisation>(PermissionNames.AddTeam, organisationId))
             {
                 return HttpUnauthorized();
             }
@@ -317,7 +382,9 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(deleteInput, "deleteInput");
 
-            if (!_userContext.HasGroupPermission<Organisation>(PermissionNames.RemoveTeam, deleteInput.ParentGroupId))
+            var organisationId = "organisations/".AppendWith(deleteInput.ParentGroupId);
+
+            if (!_userContext.HasGroupPermission<Organisation>(PermissionNames.RemoveTeam, organisationId))
             {
                 return HttpUnauthorized();
             }
@@ -343,6 +410,8 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult Create(OrganisationCreateInput createInput)
         {
+            Check.RequireNotNull(createInput, "createInput");
+
             if (!_userContext.HasAppRootPermission(PermissionNames.CreateOrganisation))
             {
                 return HttpUnauthorized();
@@ -371,7 +440,11 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult Update(OrganisationUpdateInput updateInput)
         {
-            if (!_userContext.HasGroupPermission<Organisation>(PermissionNames.UpdateOrganisation, updateInput.Id))
+            Check.RequireNotNull(updateInput, "updateInput");
+
+            var organisationId = "organisations/".AppendWith(updateInput.Id);
+
+            if (!_userContext.HasGroupPermission<Organisation>(PermissionNames.UpdateOrganisation, organisationId))
             {
                 return HttpUnauthorized();
             }
@@ -400,6 +473,10 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult Delete(IdInput idInput)
         {
+            Check.RequireNotNull(idInput, "idInput");
+
+            var organisationId = "organisations/".AppendWith(idInput.Id);
+
             if (!_userContext.HasAppRootPermission(PermissionNames.DeleteOrganisation))
             {
                 return HttpUnauthorized();
@@ -413,7 +490,7 @@ namespace Bowerbird.Web.Controllers
             _commandProcessor.Process(
                 new OrganisationDeleteCommand
                 {
-                    Id = idInput.Id,
+                    Id = organisationId,
                     UserId = _userContext.GetAuthenticatedUserId()
                 });
 

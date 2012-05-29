@@ -58,6 +58,8 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Index(IdInput idInput)
         {
+            Check.RequireNotNull(idInput,"idInput");
+
             ViewBag.Post = _postsViewModelBuilder.BuildPost(idInput);
 
             return View(Form.Index);
@@ -66,12 +68,16 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult GetOne(IdInput idInput)
         {
+            Check.RequireNotNull(idInput, "idInput");
+
             return new JsonNetResult(_postsViewModelBuilder.BuildPost(idInput));
         }
 
         [HttpGet]
         public ActionResult GetMany(PagingInput pagingInput)
         {
+            Check.RequireNotNull(pagingInput, "pagingInput");
+
             return new JsonNetResult(_postsViewModelBuilder.BuildGroupPostList(pagingInput));
         }
 
@@ -79,10 +85,19 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult CreateForm(IdInput idInput)
         {
-            if (!_userContext.HasGroupPermission(PermissionNames.CreateSpecies, idInput.Id))
+            Check.RequireNotNull(idInput, "idInput");
+
+            if (!_userContext.HasGroupPermission(PermissionNames.CreatePost, idInput.Id))
             {
                 return HttpUnauthorized();
             }
+
+            ViewBag.Model = new
+            {
+                Post = _postsViewModelBuilder.BuildPost(idInput.Id)
+            };
+
+            ViewBag.PrerenderedView = "post";
 
             return View(Form.Create);
         }
@@ -91,12 +106,17 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult UpdateForm(IdInput idInput)
         {
+            Check.RequireNotNull(idInput, "idInput");
+
             if (!_userContext.HasUserProjectPermission(PermissionNames.UpdateSpecies))
             {
                 return HttpUnauthorized();
             }
 
-            ViewBag.Post = _postsViewModelBuilder.BuildPost(idInput);
+            ViewBag.Model = new
+            {
+                Post = _postsViewModelBuilder.BuildPost(idInput)
+            };
 
             return View(Form.Update);
         }
@@ -105,12 +125,17 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult DeleteForm(IdInput idInput)
         {
+            Check.RequireNotNull(idInput, "idInput");
+
             if (!_userContext.HasUserProjectPermission(PermissionNames.DeleteSpecies))
             {
                 return HttpUnauthorized();
             }
 
-            ViewBag.Post = _postsViewModelBuilder.BuildPost(idInput);
+            ViewBag.Model = new
+            {
+                Post = _postsViewModelBuilder.BuildPost(idInput)
+            };
 
             return View(Form.Delete);
         }
@@ -120,6 +145,8 @@ namespace Bowerbird.Web.Controllers
         [HttpPost]
         public ActionResult Create(PostCreateInput createInput)
         {
+            Check.RequireNotNull(createInput, "createInput");
+
             if(!_userContext.HasGroupPermission<Post>(createInput.GroupId, PermissionNames.CreatePost))
             {
                 return HttpUnauthorized();
@@ -149,6 +176,8 @@ namespace Bowerbird.Web.Controllers
         [HttpPut]
         public ActionResult Update(PostUpdateInput updateInput)
         {
+            Check.RequireNotNull(updateInput, "updateInput");
+
             if (!_userContext.HasGroupPermission<Post>(PermissionNames.UpdatePost, updateInput.Id))
             {
                 return HttpUnauthorized();
@@ -178,6 +207,8 @@ namespace Bowerbird.Web.Controllers
         [HttpDelete]
         public ActionResult Delete(IdInput deleteInput)
         {
+            Check.RequireNotNull(deleteInput, "deleteInput");
+
             if(!_userContext.HasGroupPermission<Post>(PermissionNames.DeletePost, deleteInput.Id))
             {
                 return HttpUnauthorized();

@@ -69,9 +69,16 @@ namespace Bowerbird.Web.Builders
                     .ToList()
                     .Select(MakeProject);
 
+            // change project group list to query on members
+            var userAdminGroups = _documentSession.Query<All_Groups.Result, All_Groups>()
+                .AsProjection<All_Groups.Result>()
+                .Where(x => x.GroupRoleNames.Any(y => y == "global administrator" || y == "organisation administrator" || y == "team administrator"))
+                .ToList();
+
             var user = _documentSession.Load<User>(userId);
 
-            return new
+            //return new
+            var authenticatedUser = new
             {
                 User = new
                 {
@@ -80,8 +87,13 @@ namespace Bowerbird.Web.Builders
                     user.LastLoggedIn,
                     Name = user.GetName()
                 },
-                Projects = projects
+                Projects = projects,
+                Application = userAdminGroups.Where(x => x.GroupType == "approot").Select(x => x.Group).Count() > 0 ? userAdminGroups.Where(x => x.GroupType == "approot").Select(x => x.Group).FirstOrDefault() : null,
+                Organisations = userAdminGroups.Where(x => x.GroupType == "organisation").Select(x => x.Group).Count() > 0 ? userAdminGroups.Where(x => x.GroupType == "organisation").Select(MakeOrganisation) : null,
+                Teams = userAdminGroups.Where(x => x.GroupType == "team").Select(x => x.Group).Count() > 0 ? userAdminGroups.Where(x => x.GroupType == "team").Select(MakeTeam) : null
             };
+
+            return authenticatedUser;
         }
 
         public object BuildUser(IdInput idInput)
@@ -225,6 +237,32 @@ namespace Bowerbird.Web.Builders
                 result.Project.Description,
                 result.Project.Website,
                 Avatar = _avatarFactory.Make(result.Project),
+                MemberCount = result.MemberIds.Count()
+            };
+        }
+
+        private object MakeTeam(All_Groups.Result result)
+        {
+            return new
+            {
+                Id = result.Team.Id,
+                result.Team.Name,
+                result.Team.Description,
+                result.Team.Website,
+                Avatar = _avatarFactory.Make(result.Team),
+                MemberCount = result.MemberIds.Count()
+            };
+        }
+
+        private object MakeOrganisation(All_Groups.Result result)
+        {
+            return new
+            {
+                Id = result.Organisation.Id,
+                result.Organisation.Name,
+                result.Organisation.Description,
+                result.Organisation.Website,
+                Avatar = _avatarFactory.Make(result.Organisation),
                 MemberCount = result.MemberIds.Count()
             };
         }

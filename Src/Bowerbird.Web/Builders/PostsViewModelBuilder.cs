@@ -15,10 +15,8 @@ using System.Linq;
 using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.Extensions;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Paging;
-using Bowerbird.Core.Repositories;
 using Bowerbird.Core.Services;
 using Bowerbird.Core.Factories;
 using Bowerbird.Web.ViewModels;
@@ -63,6 +61,18 @@ namespace Bowerbird.Web.Builders
             Check.RequireNotNull(idInput, "idInput");
 
             return MakePost(_documentSession.Load<Post>(idInput.Id));
+        }
+
+        public object BuildPost(string groupId)
+        {
+            Check.RequireNotNullOrWhitespace(groupId, "groupId");
+
+            return new
+            {
+                Subject = "New Subject",
+                Message = "New Message",
+                GroupId = groupId
+            };
         }
 
         /// <summary>

@@ -10,7 +10,8 @@
 
 // Initialises the app, but does not start rendering. That is done 
 // when app.start() is called
-define(['jquery', 'underscore', 'backbone', 'bootstrap-data', 'models/user', 'collections/usercollection', 'collections/projectcollection', 'marionette'], function ($, _, Backbone, bootstrapData, User, UserCollection, ProjectCollection) {
+define(['jquery', 'underscore', 'backbone', 'bootstrap-data', 'models/user', 'collections/usercollection', 'collections/projectcollection', 'collections/teamcollection', 'collections/organisationcollection', 'marionette'],
+function ($, _, Backbone, bootstrapData, User, UserCollection, ProjectCollection, TeamCollection, OrganisationCollection) {
 
     // Create an instance of the app
     var app = new Backbone.Marionette.Application();
@@ -38,6 +39,8 @@ define(['jquery', 'underscore', 'backbone', 'bootstrap-data', 'models/user', 'co
         if (bootstrapData.AuthenticatedUser) {
             app.user = new User(bootstrapData.AuthenticatedUser.User);
             app.userProjects = new ProjectCollection(bootstrapData.AuthenticatedUser.Projects);
+            app.teams = new TeamCollection(bootstrapData.AuthenticatedUser.Teams);
+            app.organisations = new OrganisationCollection(bootstrapData.AuthenticatedUser.Organisations);
         }
 
         if (bootstrapData.OnlineUsers) {

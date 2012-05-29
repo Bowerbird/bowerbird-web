@@ -137,6 +137,7 @@ namespace Bowerbird.Core.Config
         public static string Stream = "Stream";
         public static string Observations = "Observations";
         public static string Posts = "Posts";
+        public static string Post = "Post";
         public static string Members = "Members";
         public static string About = "About";
         public static string Create = "Create";

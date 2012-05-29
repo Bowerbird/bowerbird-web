@@ -5,20 +5,20 @@
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// SidebarProjectCollectionView
-// ----------------------------
+// SidebarOrganisationCollectionView
+// ---------------------------------
 
 // A collection of links in the sidebar
-define(['jquery', 'underscore', 'backbone', 'app', 'views/sidebarprojectitemview'], function ($, _, Backbone, app, SidebarProjectItemView) {
+define(['jquery', 'underscore', 'backbone', 'app', 'views/sidebarorganisationitemview'], function ($, _, Backbone, app, SidebarOrganisationItemView) {
 
-    var SidebarProjectCollectionView = Backbone.Marionette.CollectionView.extend({
-        itemView: SidebarProjectItemView,
+    var SidebarOrganisationCollectionView = Backbone.Marionette.CollectionView.extend({
+        itemView: SidebarOrganisationItemView,
 
         appendHtml: function (collectionView, itemView) {
             collectionView.$el.find('.menu-group-options').before(itemView.el);
         }
     });
 
-    return SidebarProjectCollectionView;
+    return SidebarOrganisationCollectionView;
 
 });

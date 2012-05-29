@@ -19,6 +19,7 @@ using System.Web.Mvc;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Extensions;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Web.Builders;
 using Bowerbird.Web.Config;
@@ -145,6 +146,23 @@ namespace Bowerbird.Web.Controllers
         }
 
         [HttpGet]
+        public ActionResult Post(IdInput idInput)
+        {
+            Check.RequireNotNull(idInput, "idInput");
+
+            var teamId = "teams/".AppendWith(idInput.Id);
+
+            ViewBag.Model = new
+            {
+                Post = _postsViewModelBuilder.BuildPost(teamId)
+            };
+
+            ViewBag.PrerenderedView = "post"; // HACK: Need to rethink this
+
+            return View(Form.Stream);
+        }
+
+        [HttpGet]
         public ActionResult Members(PagingInput pagingInput)
         {
             ViewBag.Model = new
@@ -195,7 +213,7 @@ namespace Bowerbird.Web.Controllers
 
             ViewBag.Model = new
             {
-                Team = _teamsViewModelBuilder.BuildNewTeam(),
+                Team = _teamsViewModelBuilder.BuildTeam(),
                 Organisations = GetOrganisations(_userContext.GetAuthenticatedUserId())
             };
 
@@ -352,7 +370,13 @@ namespace Bowerbird.Web.Controllers
         [HttpPost]
         public ActionResult Create(TeamCreateInput createInput)
         {
-            if (!_userContext.HasGroupPermission(PermissionNames.CreateTeam, createInput.Organisation ?? Constants.AppRootId))
+            Check.RequireNotNull(createInput, "createInput");
+
+            var organisationId = createInput.Organisation != null
+                                     ? "organisations/".AppendWith(createInput.Organisation)
+                                     : Constants.AppRootId;
+
+            if (!_userContext.HasGroupPermission(PermissionNames.CreateTeam, organisationId))
             {
                 return HttpUnauthorized();
             }
@@ -368,7 +392,7 @@ namespace Bowerbird.Web.Controllers
                         Description = createInput.Description,
                         Name = createInput.Name,
                         UserId = _userContext.GetAuthenticatedUserId(),
-                        OrganisationId = createInput.Organisation
+                        OrganisationId = organisationId
                     }
                 );
 

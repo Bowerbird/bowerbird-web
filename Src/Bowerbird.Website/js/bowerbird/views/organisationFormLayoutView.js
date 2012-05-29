@@ -5,8 +5,8 @@
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// ProjectFormLayoutView
-// -------------------------
+// OrganisationFormLayoutView
+// --------------------------
 
 define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/editavatarview', 'fileupload', 'multiselect'], function ($, _, Backbone, app, ich, loadImage, EditAvatarView) {
 
@@ -23,9 +23,13 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/ed
         events: {
             'click #cancel': '_cancel',
             'click #save': '_save',
-            'change input#name': '_contentChanged',
-            'change textarea#description': '_contentChanged',
-            'change input#website': '_contentChanged'
+            'change input#Name': '_contentChanged',
+            'change textarea#Description': '_contentChanged',
+            'change input#Website': '_contentChanged'
+        },
+
+        initialize: function (options) {
+            log('organisationFormLayoutView.initialize');
         },
 
         serializeData: function () {

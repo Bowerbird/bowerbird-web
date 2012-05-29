@@ -12,7 +12,8 @@ define(['jquery', 'underscore', 'backbone', 'app', 'controllers/projectcontrolle
 
     var ProjectRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
-            'projects/create': 'showProjectForm'
+            'projects/create': 'showProjectForm',
+            'projects/:id/update': 'showProjectForm'
         }
     });
 

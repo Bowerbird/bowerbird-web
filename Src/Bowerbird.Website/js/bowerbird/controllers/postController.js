@@ -5,19 +5,19 @@
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// ProjectController
-// -----------------
+// PostController
+// --------------
 
 // This is the controller contributions (observations & posts). It contains all of the 
 // high level knowledge of how to run the app when it's in contribution mode.
-define(['jquery', 'underscore', 'backbone', 'app', 'views/projectformlayoutview', 'models/project'], function ($, _, Backbone, app, ProjectFormLayoutView, Project) {
+define(['jquery', 'underscore', 'backbone', 'app', 'views/postformlayoutview', 'models/post'], function ($, _, Backbone, app, PostFormLayoutView, Post) {
 
-    var ProjectController = {};
+    var PostController = {};
 
     var getModel = function (id) {
         var deferred = new $.Deferred();
 
-        if (app.isPrerendering('projects')) {
+        if (app.isPrerendering('posts')) {
             deferred.resolve(app.prerenderedView.data);
         } else {
             var params = {};
@@ -25,7 +25,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/projectformlayoutview'
                 params['id'] = id;
             }
             $.ajax({
-                url: '/projects/create',
+                url: '/posts/create',
                 data: params
             }).done(function (data) {
                 deferred.resolve(data.Model);
@@ -35,28 +35,28 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/projectformlayoutview'
         return deferred.promise();
     };
 
-    // ProjectController Public API
+    // PostController Public API
     // ----------------------------
 
-    // Show an project form
-    ProjectController.showProjectForm = function (id) {
-        log('projectController:showProjectForm');
+    // Show a post form
+    PostController.showPostForm = function (id) {
+        log('postController:showPostForm');
         $.when(getModel(id))
             .done(function (model) {
-                var project = new Project(model.Project);
-                var projectFormLayoutView = new ProjectFormLayoutView({ model: project, teams: model.Teams });
+                var post = new Post(model.Post);
+                var postFormLayoutView = new PostFormLayoutView({ model: post });
 
-                app.content[app.getShowViewMethodName()](projectFormLayoutView);
+                app.content[app.getShowViewMethodName()](postFormLayoutView);
 
-                if (app.isPrerendering('projects')) {
-                    projectFormLayoutView.showBootstrappedDetails();
+                if (app.isPrerendering('posts')) {
+                    postFormLayoutView.showBootstrappedDetails();
                 }
 
                 app.setPrerenderComplete();
             });
         };
 
-    return ProjectController;
+    return PostController;
 
 });
 

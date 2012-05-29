@@ -41,6 +41,7 @@ require.config({
         'routers/groupuserrouter',
         'routers/observationrouter',
         'routers/projectrouter',
+        'routers/postrouter',
         'routers/teamrouter',
         'routers/organisationrouter',
         'routers/speciesrouter',
@@ -62,6 +63,7 @@ require(['backbone', 'ich', 'marionette', '/templates'], function (Backbone, ich
     // together with icanhaz caching
     Backbone.Marionette.Renderer.render = function (template, data) {
         if (template) { // Marionette seems to call this method even if a view is created with a pre-existing DOM element. May need to investigate further.
+            log('asking ich for template ' + template);
             return ich[template](data);
         }
     };

@@ -66,11 +66,10 @@ namespace Bowerbird.Web.Builders
             return MakeTeam(team);
         }
 
-        public object BuildNewTeam()
+        public object BuildTeam()
         {
             return new
             {
-                Id = "",
                 Name = "New Team",
                 Description = "New Team",
                 Website = "",

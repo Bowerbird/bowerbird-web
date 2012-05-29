@@ -62,14 +62,14 @@ namespace Bowerbird.Web.Builders
             };
         }
 
-        public object BuildProject(IdInput idInput)
+        public object BuildProject(string projectId)
         {
-            Check.RequireNotNull(idInput, "idInput");
+            Check.RequireNotNullOrWhitespace(projectId, "projectId");
 
             var project = _documentSession
                 .Query<All_Groups.Result, All_Groups>()
                 .AsProjection<All_Groups.Result>()
-                .FirstOrDefault(x => x.GroupId == idInput.Id);
+                .FirstOrDefault(x => x.GroupId == projectId);
 
             return MakeProject(project);
         }
