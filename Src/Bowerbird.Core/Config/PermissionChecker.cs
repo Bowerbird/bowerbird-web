@@ -63,7 +63,10 @@ namespace Bowerbird.Core.Config
         {
             Check.Ensure(_cachedRoles != null, "PermissionChecker has not been initialised. Call Init() before use.");
 
-            var membership = _documentSession.LoadMember(groupId, userId);
+            var membership = _documentSession
+                .Query<Member>()
+                .Where(x => x.Group.Id == groupId && x.User.Id == userId)
+                .FirstOrDefault();
 
             return _cachedRoles
                 .Where(x => membership.Roles.Any(y => y.Id == x.Id))

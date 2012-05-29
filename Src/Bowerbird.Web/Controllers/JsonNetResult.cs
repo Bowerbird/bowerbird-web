@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json.Serialization;
+using Bowerbird.Web.Config;
 
 namespace Bowerbird.Web.Controllers
 {
@@ -69,7 +70,8 @@ namespace Bowerbird.Web.Controllers
             if (Data != null)
             {
                 JsonTextWriter writer = new JsonTextWriter(response.Output) { Formatting = Formatting };
-                JsonSerializer serializer = JsonSerializer.Create(new JsonSerializerSettings());
+                JsonSerializer serializer = new JsonSerializer();
+                //serializer.Converters.Add(new ExpandoObjectJsonConverter());
                 serializer.Serialize(writer, Data);
                 writer.Flush();
             }
@@ -78,6 +80,4 @@ namespace Bowerbird.Web.Controllers
         #endregion
 
     }
-
-
 }

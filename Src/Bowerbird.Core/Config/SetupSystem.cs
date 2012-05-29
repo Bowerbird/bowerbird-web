@@ -108,8 +108,7 @@ namespace Bowerbird.Core.Config
                 AddSpecies();
 
                 // Enable event & command processors to log user activity
-                _systemStateManager.EnableCommandProcessor();
-                _systemStateManager.EnableEventProcessor();
+                _systemStateManager.SwitchServices(enableEmails: false, enableEvents: true, enableCommands: true);
 
                 // Add system admins
                 AddAdminUsers();
@@ -123,11 +122,11 @@ namespace Bowerbird.Core.Config
                 // Wait for all stale indexes to complete.
                 while (_documentSession.Advanced.DatabaseCommands.GetStatistics().StaleIndexes.Length > 0)
                 {
-                    Thread.Sleep(10);
+                    Thread.Sleep(1000);
                 }
 
                 // Enable all services
-                _systemStateManager.EnableAllServices();
+                _systemStateManager.SwitchServicesOn();
             }
             catch (Exception exception)
             {

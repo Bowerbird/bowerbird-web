@@ -14,9 +14,16 @@
  
 */
 
+using Bowerbird.Core.DomainModels;
+
 namespace Bowerbird.Core.Events
 {
     public interface IDomainEvent
     {
+
+        User User { get; }
+
+        object Sender { get; }
+
     }
 }

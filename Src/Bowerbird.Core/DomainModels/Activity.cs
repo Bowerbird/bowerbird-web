@@ -18,12 +18,18 @@ using System.Linq;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
 using Newtonsoft.Json;
+using System.Dynamic;
+using System.Collections;
+using Raven.Abstractions.Linq;
+using Raven.Json.Linq;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public class Activity : DomainModel
+    public class Activity : DynamicObject
     {
         #region Members
+
+        private Dictionary<string, object> _properties = new Dictionary<string, object>();
 
         #endregion
 
@@ -35,38 +41,55 @@ namespace Bowerbird.Core.DomainModels
 
         public Activity(
             string type,
-            DateTime createdDateTime, 
-            string createdByUser,
-            object content,
-            object subContent)
+            DateTime createdDateTime,
+            string description,
+            dynamic createdByUser,
+            IEnumerable<dynamic> groups)
             : this()
         {
             Check.RequireNotNull(createdByUser, "createdByUser");
+            Check.RequireNotNull(groups, "groups");
+            Check.Require(groups.Count() > 0, "at least one group must be specified");
 
-            Type = type;
-            CreatedDateTime = createdDateTime;
-            UserId = createdByUser;
-            Content = content;
-            SubContent = subContent;
+            // Add these properties to the dictionary. I tried making these properties static, but RavenDB has a bug where static properties on a
+            // DynamicObject type are not serialised.
+            _properties.Add("Type", type);
+            _properties.Add("CreatedDateTime", createdDateTime);
+            _properties.Add("Description", description);
+            _properties.Add("User", createdByUser);
+            _properties.Add("Groups", groups);
         }
 
         #endregion
 
         #region Properties
 
-        public string Type { get; private set; }
-
-        public DateTime CreatedDateTime { get; private set; }
-
-        public string UserId { get; private set; }
-
-        public object Content { get; private set; }
-
-        public object SubContent { get; private set; }
-
         #endregion
 
         #region Methods
+
+        public override IEnumerable<string> GetDynamicMemberNames()
+        {
+            return _properties.Keys;
+        }
+
+        public override bool TryGetMember(GetMemberBinder binder, out object result)
+        {
+            return _properties.TryGetValue(binder.Name, out result);
+        }
+
+        public override bool TrySetMember(SetMemberBinder binder, object value)
+        {
+            _properties[binder.Name] = value;
+            return true;
+        }
+
+        public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)
+        {
+            dynamic method = _properties[binder.Name];
+            result = method(args);
+            return true;
+        }
 
         #endregion
     }

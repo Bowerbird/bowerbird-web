@@ -80,8 +80,6 @@ namespace Bowerbird.Core.DomainModels
             var newComment = new Comment(commentId, createdByUser, createdDateTime, message);
 
             _comments.Add(newComment);
-
-            EventProcessor.Raise(new DomainModelCreatedEvent<Comment>(newComment, createdByUser.Id));
         }
 
         public void RemoveComment(string commentId)

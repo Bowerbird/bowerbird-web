@@ -18,10 +18,11 @@ using System.Linq;
 using Bowerbird.Core.DomainModels;
 using Raven.Client;
 using Raven.Client.Linq;
+using System;
 
 namespace Bowerbird.Core.Repositories
 {
-    public static class UserDocumentSessionExtensions
+    public static class DocumentSessionExtensions
     {
             
         #region Members

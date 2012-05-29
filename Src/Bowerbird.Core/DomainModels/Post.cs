@@ -64,7 +64,7 @@ namespace Bowerbird.Core.DomainModels
                 mediaResources
                 );
 
-            FireEvent(new DomainModelCreatedEvent<Post>(this, createdByUser.Id));
+            FireEvent(new DomainModelCreatedEvent<Post>(this, createdByUser, this), true);
         }
 
         #endregion
@@ -115,7 +115,7 @@ namespace Bowerbird.Core.DomainModels
                 message,
                 mediaResources);
 
-            FireEvent(new DomainModelUpdatedEvent<Post>(this, updatedByUser));
+            FireEvent(new DomainModelUpdatedEvent<Post>(this, updatedByUser, this));
 
             return this;
         }

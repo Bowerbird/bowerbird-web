@@ -17,48 +17,44 @@ using System.Linq;
 using Bowerbird.Core.DomainModels;
 using Raven.Abstractions.Indexing;
 using Raven.Client.Indexes;
+using System.Collections.Generic;
+using Raven.Client;
+using Raven.Client.Connection;
 
 namespace Bowerbird.Core.Indexes
 {
-    public class All_Activities : AbstractMultiMapIndexCreationTask<All_Activities.Result>
+    public class All_Activities
     {
         public class Result
         {
-            public string ActivityId { get; set; }
-            public string ActivityType { get; set; }
+            public string Type { get; set; }
             public string UserId { get; set; }
+            public string[] GroupIds { get; set; }
             public DateTime CreatedDateTime { get; set; }
-
-            public Activity Activity { get; set; }
         }
 
-        public All_Activities()
+        public static void Create(IDocumentStore documentStore)
         {
-            AddMap<Activity>(activities => from activity in activities
-                select new
+            var indexNames = documentStore.DatabaseCommands.GetIndexNames(1, 100);
+
+            if (!documentStore.DatabaseCommands.GetIndexNames(0, 100).Any(x => x == "All/Activities"))
+            {
+                documentStore.DatabaseCommands.PutIndex("All/Activities",
+                new IndexDefinition
                 {
-                    ActivityId = activity.Id,
-                    ActivityType = activity.Type,
-                    activity.UserId,
-                    CreatedDateTime = activity.CreatedDateTime
+                    Map = @"
+                        from activity in docs.Activities
+                        select new { Type = activity.Type, CreatedDateTime = activity.CreatedDateTime, UserId = activity.User.Id, GroupIds = activity.Groups.Select(x => x.Id) };
+                        ",
+
+                    Stores = new Dictionary<string, FieldStorage> {
+                        { "Type", FieldStorage.Yes },
+                        { "UserId", FieldStorage.Yes },
+                        { "GroupIds", FieldStorage.Yes },
+                        { "CreatedDateTime", FieldStorage.Yes }
+                    }
                 });
-
-            TransformResults = (database, results) =>
-                from result in results
-                let activity = database.Load<Activity>(result.ActivityId)
-                select new
-                {
-                    result.ActivityId,
-                    result.ActivityType,
-                    result.UserId,
-                    result.CreatedDateTime,
-                    Activity = activity
-                };
-
-            Store(x => x.ActivityId, FieldStorage.Yes);
-            Store(x => x.ActivityType, FieldStorage.Yes);
-            Store(x => x.UserId, FieldStorage.Yes);
-            Store(x => x.CreatedDateTime, FieldStorage.Yes);
+            }
         }
     }
 }

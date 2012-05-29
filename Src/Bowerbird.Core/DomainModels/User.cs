@@ -177,7 +177,7 @@ namespace Bowerbird.Core.DomainModels
                 description,
                 avatar);
 
-            FireEvent(new DomainModelUpdatedEvent<User>(this, this));
+            FireEvent(new DomainModelUpdatedEvent<User>(this, this, this));
 
             return this;
         }
@@ -186,7 +186,7 @@ namespace Bowerbird.Core.DomainModels
         {
             LastLoggedIn = DateTime.Now;
 
-            FireEvent(new UserLoggedInEvent(this));
+            FireEvent(new UserLoggedInEvent(this, this));
 
             return this;
         }
@@ -195,7 +195,7 @@ namespace Bowerbird.Core.DomainModels
         {
             ResetPasswordKey = Guid.NewGuid().ToString();
 
-            FireEvent(new RequestPasswordResetEvent() { User = this });
+            FireEvent(new RequestPasswordResetEvent(this, this));
 
             return this;
         }

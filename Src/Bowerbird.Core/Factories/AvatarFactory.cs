@@ -3,8 +3,10 @@
  Developers: 
  * Frank Radocaj : frank@radocaj.com
  * Hamish Crittenden : hamish.crittenden@gmail.com
+ 
  Project Manager: 
  * Ken Walker : kwalker@museum.vic.gov.au
+ 
  Funded by:
  * Atlas of Living Australia
  
@@ -15,7 +17,7 @@ using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Services;
 
-namespace Bowerbird.Web.Factories
+namespace Bowerbird.Core.Factories
 {
     public class AvatarFactory : IAvatarFactory
     {
@@ -59,7 +61,7 @@ namespace Bowerbird.Web.Factories
             {
                 AltTag = team.Description,
                 UrlToImage = team.Avatar != null ?
-                    _mediaFilePathService.MakeMediaFileUri(team.Avatar.Id, "image", "profile", team.Avatar.Metadata["format"]) :
+                    _mediaFilePathService.MakeMediaFileUri(team.Avatar.Id, "image", "avatar", team.Avatar.Metadata["metatype"]) :
                     AvatarUris.DefaultTeam
             };
         }
@@ -70,7 +72,7 @@ namespace Bowerbird.Web.Factories
             {
                 AltTag = project.Description,
                 UrlToImage = project.Avatar != null ?
-                    _mediaFilePathService.MakeMediaFileUri(project.Avatar.Id, "image", "profile", project.Avatar.Metadata["format"]) :
+                    _mediaFilePathService.MakeMediaFileUri(project.Avatar.Id, "image", "avatar", project.Avatar.Metadata["metatype"]) :
                     AvatarUris.DefaultProject
             };
         }
@@ -81,7 +83,7 @@ namespace Bowerbird.Web.Factories
             {
                 AltTag = organisation.Description,
                 UrlToImage = organisation.Avatar != null ?
-                    _mediaFilePathService.MakeMediaFileUri(organisation.Avatar.Id, "image", "profile", organisation.Avatar.Metadata["format"]) :
+                    _mediaFilePathService.MakeMediaFileUri(organisation.Avatar.Id, "image", "avatar", organisation.Avatar.Metadata["metatype"]) :
                     AvatarUris.DefaultOrganisation
             };
         }
@@ -92,7 +94,7 @@ namespace Bowerbird.Web.Factories
             {
                 AltTag = string.Format("{0} {1}", user.FirstName, user.LastName),
                 UrlToImage = user.Avatar != null ?
-                    _mediaFilePathService.MakeMediaFileUri(user.Avatar.Id, "image", "profile", user.Avatar.Metadata["format"]) :
+                    _mediaFilePathService.MakeMediaFileUri(user.Avatar.Id, "image", "avatar", user.Avatar.Metadata["metatype"]) :
                     AvatarUris.DefaultUser
             };
         }

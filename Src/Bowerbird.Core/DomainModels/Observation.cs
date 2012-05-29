@@ -89,7 +89,7 @@ namespace Bowerbird.Core.DomainModels
                 AddMedia(media.Item1, media.Item2, media.Item3);
             }
 
-            FireEvent(new DomainModelCreatedEvent<Observation>(this, User.Id));
+            FireEvent(new DomainModelCreatedEvent<Observation>(this, createdByUser, this), true);
         }
 
         #endregion
@@ -195,7 +195,7 @@ namespace Bowerbird.Core.DomainModels
                 anonymiseLocation,
                 category);
 
-            FireEvent(new DomainModelUpdatedEvent<Observation>(this, updatedByUser));
+            FireEvent(new DomainModelUpdatedEvent<Observation>(this, updatedByUser, this));
 
             return this;
         }
@@ -231,7 +231,7 @@ namespace Bowerbird.Core.DomainModels
 
                 _observationGroups.Add(observationGroup);
 
-                FireEvent(new DomainModelCreatedEvent<ObservationGroup>(observationGroup, createdByUser.Id));
+                FireEvent(new DomainModelCreatedEvent<ObservationGroup>(observationGroup, createdByUser, this));
             }
 
             return this;

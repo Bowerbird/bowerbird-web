@@ -131,7 +131,6 @@ namespace Bowerbird.Core.CommandHandlers
                 }
 
                 _documentSession.Store(mediaResource);
-                _documentSession.SaveChanges();
 
                 return mediaResource;
             }

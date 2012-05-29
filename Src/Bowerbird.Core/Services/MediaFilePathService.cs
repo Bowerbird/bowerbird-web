@@ -57,10 +57,25 @@ namespace Bowerbird.Core.Services
         public string MakeMediaFileUri(string mediaResourceId, string mediaType, string storedRepresentation, string extension)
         {
             return string.Format(
-                "{0}/{1}/{2}/{3}-{4}.{5}", 
+                "{0}/{1}/{2}/{3}", 
                 GetCleanMediaRootUri(),
                 mediaType,
                 GetDirectoryName(RecordIdPart(mediaResourceId)),
+                MakeMediaFileName(mediaResourceId, storedRepresentation, extension));
+        }
+
+        public string MakeMediaFileName(MediaResource mediaResource, string storedRepresentation)
+        {
+            return MakeMediaFileName(
+                mediaResource.Id,
+                storedRepresentation,
+                mediaResource.Metadata["format"]);
+        }
+
+        public string MakeMediaFileName(string mediaResourceId, string storedRepresentation, string extension)
+        {
+            return string.Format(
+                "{0}-{1}.{2}",
                 RecordIdPart(mediaResourceId),
                 storedRepresentation,
                 extension);

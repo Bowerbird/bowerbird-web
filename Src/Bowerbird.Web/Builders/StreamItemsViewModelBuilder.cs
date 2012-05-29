@@ -20,8 +20,11 @@ using Raven.Client;
 using Raven.Client.Linq;
 using Bowerbird.Core.Paging;
 using Bowerbird.Core.Config;
-using Bowerbird.Web.Factories;
+using Bowerbird.Core.Factories;
 using System;
+using Bowerbird.Core.Services;
+using System.Dynamic;
+using Raven.Abstractions.Linq;
 
 namespace Bowerbird.Web.Builders
 {
@@ -32,6 +35,7 @@ namespace Bowerbird.Web.Builders
         private readonly IUserContext _userContext;
         private readonly IDocumentSession _documentSession;
         private readonly IAvatarFactory _avatarFactory;
+        private readonly IMediaFilePathService _mediaFilePathService;
 
         #endregion
 
@@ -40,15 +44,18 @@ namespace Bowerbird.Web.Builders
         public StreamItemsViewModelBuilder(
             IUserContext userContext,
             IDocumentSession documentSession,
-            IAvatarFactory avatarFactory)
+            IAvatarFactory avatarFactory,
+            IMediaFilePathService mediaFilePathService)
         {
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(avatarFactory, "avatarFactory");
+            Check.RequireNotNull(mediaFilePathService, "mediaFilePathService");
 
             _userContext = userContext;
             _documentSession = documentSession;
             _avatarFactory = avatarFactory;
+            _mediaFilePathService = mediaFilePathService;
         }
 
         #endregion
@@ -71,19 +78,18 @@ namespace Bowerbird.Web.Builders
                 .Select(x => x.Group.Id);
 
             return _documentSession
-                .Query<All_Contributions.Result, All_Contributions>()
-                .AsProjection<All_Contributions.Result>()
+                .Query<All_Activities.Result>("All/Activities")
                 .Statistics(out stats)
-                .Include(x => x.ContributionId)
-                .Where(x => x.GroupId.In(groups))
+                .Where(x => x.GroupIds.Any(y => y.In(groups)))
                 .OrderByDescending(x => x.CreatedDateTime)
                 .Skip(pagingInput.GetSkipIndex())
                 .Take(pagingInput.GetPageSize())
+                .As<Activity>()                
                 .ToList()
-                .Select(MakeStreamItem)
+                .Cast<object>()
                 .ToPagedList(
-                    pagingInput.GetPage(), 
-                    pagingInput.GetPageSize(), 
+                    pagingInput.GetPage(),
+                    pagingInput.GetPageSize(),
                     stats.TotalResults);
         }
 
@@ -151,6 +157,85 @@ namespace Bowerbird.Web.Builders
                     stats.TotalResults);
         }
 
+        //private dynamic MakeStreamItem2(All_Activities.Result result)
+        //{
+        //    dynamic streamItem = new ExpandoObject();
+
+        //    streamItem.Type = result.ActivityType;
+        //    streamItem.CreatedDateTime = result.CreatedDateTime;
+        //    streamItem.CreatedDateTimeDescription = MakeCreatedDateTimeDescription(result.CreatedDateTime);
+        //    streamItem.Groups = result.GroupIds;
+        //    streamItem.User = new
+        //    {
+        //        result.User.Id,
+        //        result.User.LastLoggedIn,
+        //        Name = result.User.GetName(),
+        //        Avatar = _avatarFactory.Make(result.User)
+        //    };
+
+        //    switch (result.ActivityType)
+        //    {
+        //        case "observationadded":
+        //            var observation = result.Activity.Content as Observation;
+        //            streamItem.Description = string.Format("{0} {1}", result.User.FirstName, "added an observation");
+        //            streamItem.ObservationAdded = new 
+        //            {
+        //                Id = observation.ShortId(),
+        //                Title = observation.Title,
+        //                ObservedOn = observation.ObservedOn.ToString("d MMM yyyy"),
+        //                Address = observation.Address,
+        //                Latitude = observation.Latitude,
+        //                Longitude = observation.Longitude,
+        //                Category = observation.Category,
+        //                IsIdentificationRequired = observation.IsIdentificationRequired,
+        //                AnonymiseLocation = observation.AnonymiseLocation,
+        //                Media = observation.Media.Select(MakeObservationMediaItem),
+        //                Projects = observation.Groups.Select(x => x.Group.Id)
+        //            };
+        //            break;
+        //        case "userjoinedgroup":
+        //            var member = result.Activity.Content as Member;
+        //            var group = _documentSession.Load<dynamic>(member.Group.Id);
+        //            streamItem.Description = string.Format("{0} joined {1}", result.User.FirstName, group.Name);
+        //            streamItem.UserJoinedGroup = new
+        //            {
+        //                Id = member.ShortId(),
+        //                User = result.User,
+        //                Group = new
+        //                {
+        //                    group.Id,
+        //                    group.GroupType,
+        //                    group.Name,
+        //                    Avatar = _avatarFactory.Make(group)
+        //                }
+        //            };
+        //            break;
+        //        default:
+        //            throw new NotImplementedException();
+        //    }
+
+        //    return streamItem;
+        //}
+
+        //private object MakeObservationMediaItem(ObservationMedia observationMedia)
+        //{
+        //    return new
+        //    {
+        //        MediaResourceId = observationMedia.MediaResource.Id,
+        //        observationMedia.Description,
+        //        observationMedia.Licence,
+        //        observationMedia.MediaResource.Metadata,
+        //        observationMedia.MediaResource.Type,
+        //        CreatedByUser = observationMedia.MediaResource.CreatedByUser.Id,
+        //        UploadedOn = observationMedia.MediaResource.UploadedOn.ToString("d MMM yyyy"),
+        //        OriginalImageUri = _mediaFilePathService.MakeMediaFileUri(observationMedia.MediaResource, "original"),
+        //        LargeImageUri = _mediaFilePathService.MakeMediaFileUri(observationMedia.MediaResource, "large"),
+        //        MediumImageUri = _mediaFilePathService.MakeMediaFileUri(observationMedia.MediaResource, "medium"),
+        //        SmallImageUri = _mediaFilePathService.MakeMediaFileUri(observationMedia.MediaResource, "small"),
+        //        ThumbnailImageUri = _mediaFilePathService.MakeMediaFileUri(observationMedia.MediaResource, "thumbnail")
+        //    };
+        //}
+
         private object MakeStreamItem(All_Contributions.Result groupContributionResult)
         {
             object item = null;
@@ -162,6 +247,7 @@ namespace Bowerbird.Web.Builders
                 case "Observation":
                     item = new
                     {
+                        ItemType = "observation",
                         Id = groupContributionResult.Observation.ShortId(),
                         Title = groupContributionResult.Observation.Title,
                         ObservedOn = groupContributionResult.Observation.ObservedOn.ToString("d MMM yyyy"),
@@ -195,77 +281,7 @@ namespace Bowerbird.Web.Builders
                 Description = description,
                 Groups = groups
             };
-
-            //return _streamItemFactory.Make(
-            //    item,
-            //    groups,
-            //    "observation",
-            //    groupContributionResult.GroupUser,
-            //    groupContributionResult.GroupCreatedDateTime,
-            //    description);
         }
-
-        //public object MakeStreamItem(
-        //    object item,
-        //    IEnumerable<string> groups,
-        //    string contributionType,
-        //    User groupUser,
-        //    DateTime groupCreatedDateTime,
-        //    string description
-        //)
-        //{
-        //    return new
-        //    {
-        //        CreatedDateTime = groupCreatedDateTime,
-        //        CreatedDateTimeDescription = MakeCreatedDateTimeDescription(groupCreatedDateTime),
-        //        Type = contributionType.ToLower(),
-        //        User = new
-        //        {
-        //            groupUser.Id,
-        //            groupUser.LastLoggedIn,
-        //            Name = groupUser.FirstName + " " + groupUser.LastName,
-        //            Avatar = new
-        //            {
-        //                AltTag = groupUser.FirstName + " " + groupUser.LastName,
-        //                UrlToImage = groupUser.Avatar != null ? "" : AvatarUris.DefaultUser
-        //            }
-        //        },
-        //        Item = item,
-        //        Description = description,
-        //        Groups = groups
-        //    };
-        //}
-
-        //public object Make(
-        //    object item,
-        //    Group group,
-        //    string contributionType,
-        //    User groupUser,
-        //    DateTime groupCreatedDateTime,
-        //    string description
-        //)
-        //{
-        //    return new
-        //    {
-        //        CreatedDateTime = groupCreatedDateTime,
-        //        CreatedDateTimeDescription = MakeCreatedDateTimeDescription(groupCreatedDateTime),
-        //        Type = contributionType.ToLower(),
-        //        User = new
-        //        {
-        //            groupUser.Id,
-        //            groupUser.LastLoggedIn,
-        //            Name = groupUser.FirstName + " " + groupUser.LastName,
-        //            Avatar = new
-        //            {
-        //                AltTag = groupUser.FirstName + " " + groupUser.LastName,
-        //                UrlToImage = groupUser.Avatar != null ? "" : AvatarUris.DefaultUser
-        //            }
-        //        },
-        //        Item = item,
-        //        Description = description,
-        //        Group = group
-        //    };
-        //}
 
         private static string MakeCreatedDateTimeDescription(DateTime dateTime)
         {

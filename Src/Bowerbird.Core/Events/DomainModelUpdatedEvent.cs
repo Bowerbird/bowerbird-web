@@ -19,7 +19,7 @@ using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Core.Events
 {
-    public class DomainModelUpdatedEvent<T> : IDomainEvent
+    public class DomainModelUpdatedEvent<T> : DomainEventBase
     {
 
         #region Members
@@ -30,22 +30,22 @@ namespace Bowerbird.Core.Events
 
         public DomainModelUpdatedEvent(
             T domainModel,
-            User user)
+            User createdByUser, 
+            object sender)
+            : base(
+            createdByUser,
+            sender)
         {
             Check.RequireNotNull(domainModel, "domainModel");
-            Check.RequireNotNull(user, "user");
-
+            
             DomainModel = domainModel;
-            User = user;
         }
 
         #endregion
 
         #region Properties
 
-        public T DomainModel { get; private set; }
-
-        public User User { get; private set; }
+        public T DomainModel { get; set; }
 
         #endregion
 

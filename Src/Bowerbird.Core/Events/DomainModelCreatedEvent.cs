@@ -19,8 +19,9 @@ using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Core.Events
 {
-    public class DomainModelCreatedEvent<T> : IDomainEvent
+    public class DomainModelCreatedEvent<T> : DomainEventBase
     {
+
         #region Members
 
         #endregion
@@ -29,27 +30,28 @@ namespace Bowerbird.Core.Events
 
         public DomainModelCreatedEvent(
             T domainModel,
-            string createdByUser)
+            User createdByUser, 
+            object sender)
+            : base(
+            createdByUser,
+            sender)
         {
             Check.RequireNotNull(domainModel, "domainModel");
-            Check.RequireNotNullOrWhitespace(createdByUser, "createdByUser");
             
             DomainModel = domainModel;
-            CreatedByUser = createdByUser;
         }
 
         #endregion
 
         #region Properties
 
-        public T DomainModel { get; private set; }
-
-        public string CreatedByUser { get; private set; }
+        public T DomainModel { get; set; }
 
         #endregion
 
         #region Methods
 
         #endregion
+
     }
 }

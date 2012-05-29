@@ -57,6 +57,7 @@ namespace Bowerbird.Web.Config
             Bind<IServiceLocator>().ToMethod(x => ServiceLocator.Current);
             Bind<IJsonSerializer>().To<SignalRJsonConvertAdapter>();
 
+            // Convention based mappings
             Kernel.Scan(x =>
             {
                 x.FromAssemblyContaining(typeof(User));

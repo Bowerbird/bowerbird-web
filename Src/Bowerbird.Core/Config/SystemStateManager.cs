@@ -27,6 +27,7 @@ namespace Bowerbird.Core.Config
 
         private readonly IDocumentSession _documentSession;
         private readonly IConfigService _configService;
+        private readonly ICommandProcessor _commandProcessor;
         private static object _lock = new object();
 
         #endregion
@@ -35,13 +36,16 @@ namespace Bowerbird.Core.Config
 
         public SystemStateManager(
             IDocumentSession documentSession,
-            IConfigService configService)
+            IConfigService configService,
+            ICommandProcessor commandProcessor)
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(configService, "configService");
+            Check.RequireNotNull(commandProcessor, "commandProcessor");
              
             _documentSession = documentSession;
             _configService = configService;
+            _commandProcessor = commandProcessor;
         }
 
         #endregion
@@ -62,89 +66,31 @@ namespace Bowerbird.Core.Config
 
                 if (doSetupTestData)
                 {
-                    SetupTestData setupTestData = new SetupTestData(_documentSession, this);
+                    SetupTestData setupTestData = new SetupTestData(_documentSession, this, _commandProcessor, _configService);
                     setupTestData.Execute();
                 }
             }
         }
 
-        public void DisableEventProcessor()
+        public void SwitchServicesOff()
+        {
+            SwitchServices(false, false, false);
+        }
+
+        public void SwitchServicesOn()
+        {
+            SwitchServices(true, true, true);
+        }
+
+        public void SwitchServices(bool? enableEvents = null, bool? enableEmails = null, bool? enableCommands = null)
         {
             lock (_lock)
             {
                 var systemState = LoadAppRoot();
-                systemState.SetFireEvents(false);
+                systemState.SetFireEvents(enableEvents ?? systemState.FireEvents);
+                systemState.SetSendEmails(enableEmails ?? systemState.SendEmails);
+                systemState.SetExecuteCommands(enableCommands ?? systemState.ExecuteCommands);
                 SaveAppRoot(systemState);
-            }
-        }
-
-        public void EnableEventProcessor()
-        {
-            lock (_lock)
-            {
-                var systemState = LoadAppRoot();
-                systemState.SetFireEvents(true);
-                SaveAppRoot(systemState);
-            }
-        }
-
-        public void DisableEmailService()
-        {
-            lock (_lock)
-            {
-                var systemState = LoadAppRoot();
-                systemState.SetSendEmails(false);
-                SaveAppRoot(systemState);
-            }
-        }
-
-        public void EnableEmailService()
-        {
-            lock (_lock)
-            {
-                var systemState = LoadAppRoot();
-                systemState.SetSendEmails(true);
-                SaveAppRoot(systemState);
-            }
-        }
-
-        public void DisableCommandProcessor()
-        {
-            lock (_lock)
-            {
-                var systemState = LoadAppRoot();
-                systemState.SetExecuteCommands(false);
-                SaveAppRoot(systemState);
-            }
-        }
-
-        public void EnableCommandProcessor()
-        {
-            lock (_lock)
-            {
-                var systemState = LoadAppRoot();
-                systemState.SetExecuteCommands(true);
-                SaveAppRoot(systemState);
-            }
-        }
-
-        public void DisableAllServices()
-        {
-            lock (_lock)
-            {
-                DisableCommandProcessor();
-                DisableEmailService();
-                DisableEventProcessor();
-            }
-        }
-
-        public void EnableAllServices()
-        {
-            lock (_lock)
-            {
-                EnableCommandProcessor();
-                EnableEmailService();
-                EnableEventProcessor();
             }
         }
 

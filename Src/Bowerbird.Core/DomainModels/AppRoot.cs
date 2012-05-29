@@ -42,7 +42,7 @@ namespace Bowerbird.Core.DomainModels
             Id = Constants.AppRootId;
             SystemSetupDate = systemSetupDate;
             Categories = categories;
-            base.Name = "Application Root";
+            base.Name = "Bowerbird";
             base.CreatedDateTime = DateTime.Now;
         }
 

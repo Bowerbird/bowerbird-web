@@ -53,7 +53,7 @@ namespace Bowerbird.Core.DomainModels
                 name,
                 querystringJson);
 
-            FireEvent(new DomainModelUpdatedEvent<Watchlist>(this, createdByUser));
+            FireEvent(new DomainModelUpdatedEvent<Watchlist>(this, createdByUser, this), true);
         }
 
         #endregion
@@ -85,7 +85,7 @@ namespace Bowerbird.Core.DomainModels
         {
             SetDetails(name, querystringJson);
 
-            FireEvent(new DomainModelUpdatedEvent<Watchlist>(this, updatedByUser));
+            FireEvent(new DomainModelUpdatedEvent<Watchlist>(this, updatedByUser, this));
         }
 
         #endregion

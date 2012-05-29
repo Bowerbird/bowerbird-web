@@ -20,6 +20,10 @@ using Bowerbird.Core.DomainModels;
 using Raven.Client;
 using Bowerbird.Core.Config;
 using System.Threading;
+using Bowerbird.Core.Indexes;
+using Raven.Client.Linq;
+using Microsoft.Practices.ServiceLocation;
+using Bowerbird.Core.Services;
 
 namespace Bowerbird.Core.Config
 {
@@ -29,6 +33,8 @@ namespace Bowerbird.Core.Config
 
         private readonly IDocumentSession _documentSession;
         private readonly ISystemStateManager _systemStateManager;
+        private readonly ICommandProcessor _commandProcessor;
+        private readonly IConfigService _configService;
 
         #endregion
 
@@ -36,13 +42,19 @@ namespace Bowerbird.Core.Config
 
         public SetupTestData(
             IDocumentSession documentSession,
-            ISystemStateManager systemStateManager)
+            ISystemStateManager systemStateManager,
+            ICommandProcessor commandProcessor,
+            IConfigService configService)
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(systemStateManager, "systemStateManager");
+            Check.RequireNotNull(commandProcessor, "commandProcessor");
+            Check.RequireNotNull(configService, "configService");
 
             _documentSession = documentSession;
             _systemStateManager = systemStateManager;
+            _commandProcessor = commandProcessor;
+            _configService = configService;
         }
 
         #endregion
@@ -78,7 +90,7 @@ namespace Bowerbird.Core.Config
             try
             {
                 // Disable email service to avoid emails going out to fake users/teams/orgs
-                _systemStateManager.DisableEmailService();
+                _systemStateManager.SwitchServices(enableEmails: false);
 
                 Organisations = new List<Organisation>();
                 Teams = new List<Team>();
@@ -107,6 +119,7 @@ namespace Bowerbird.Core.Config
                 AddProject("Dev Alpha", "Test for Alpha Release", "www.bowerbird.org.au", Users[0].Id, Teams[0].Id);
                 AddProject("Kens Bees", "Bee Project", "www.bowerbird.org.au", Users[2].Id, Teams[1].Id);
 
+                // Members
                 AddProjectMember(Users[0].Id, Projects[0].Id, "projectmember");
                 AddProjectMember(Users[0].Id, Projects[1].Id, "projectmember");
                 AddProjectMember(Users[1].Id, Projects[0].Id, "projectmember");
@@ -114,12 +127,12 @@ namespace Bowerbird.Core.Config
                 AddProjectMember(Users[2].Id, Projects[0].Id, "projectmember");
                 AddProjectMember(Users[2].Id, Projects[1].Id, "projectmember");
 
-                AddTeamMember(Users[0].Id, Teams[0].Id, "teammember");
-                AddTeamMember(Users[0].Id, Teams[1].Id, "teammember");
-                AddTeamMember(Users[1].Id, Teams[0].Id, "teammember");
-                AddTeamMember(Users[1].Id, Teams[1].Id, "teammember");
-                AddTeamMember(Users[2].Id, Teams[0].Id, "teammember");
-                AddTeamMember(Users[2].Id, Teams[1].Id, "teammember");
+                AddTeamMember(Users[0].Id, Teams[0].Id, "teamadministrator");
+                AddTeamMember(Users[0].Id, Teams[1].Id, "teamadministrator");
+                AddTeamMember(Users[1].Id, Teams[0].Id, "teamadministrator");
+                AddTeamMember(Users[1].Id, Teams[1].Id, "teamadministrator");
+                AddTeamMember(Users[2].Id, Teams[0].Id, "teamadministrator");
+                AddTeamMember(Users[2].Id, Teams[1].Id, "teamadministrator");
 
                 AddOrganisationMember(Users[0].Id, Organisations[0].Id, "organisationadministrator");
                 AddOrganisationMember(Users[0].Id, Organisations[1].Id, "organisationadministrator");
@@ -128,20 +141,11 @@ namespace Bowerbird.Core.Config
                 AddOrganisationMember(Users[2].Id, Organisations[0].Id, "organisationadministrator");
                 AddOrganisationMember(Users[2].Id, Organisations[1].Id, "organisationadministrator");
 
+                // Save changes so that we have access to indexes for observation creation
+                _documentSession.SaveChanges();
+                
                 // Observations
-                AddObservation(Users[0].Id, Projects[0].Id);
-                AddObservation(Users[0].Id, Projects[1].Id);
-                AddObservation(Users[0].Id, Projects[0].Id);
-                AddObservation(Users[0].Id, Projects[1].Id);
-                AddObservation(Users[0].Id, Projects[1].Id);
-                AddObservation(Users[1].Id, Projects[0].Id);
-                AddObservation(Users[1].Id, Projects[1].Id);
-                AddObservation(Users[1].Id, Projects[1].Id);
-                AddObservation(Users[1].Id, Projects[0].Id);
-                AddObservation(Users[1].Id, Projects[1].Id);
-                AddObservation(Users[2].Id, Projects[1].Id);
-                AddObservation(Users[2].Id, Projects[0].Id);
-                AddObservation(Users[2].Id, Projects[0].Id);
+                AddObservations();
 
                 // Save all system data now
                 _documentSession.SaveChanges();
@@ -149,11 +153,11 @@ namespace Bowerbird.Core.Config
                 // Wait for all stale indexes to complete.
                 while (_documentSession.Advanced.DatabaseCommands.GetStatistics().StaleIndexes.Length > 0)
                 {
-                    Thread.Sleep(10);
+                    Thread.Sleep(1000);
                 }
 
-                // Enable all services
-                _systemStateManager.EnableAllServices();
+                // Enable emails
+                _systemStateManager.SwitchServices(enableEmails: true);
             }
             catch (Exception exception)
             {
@@ -288,29 +292,84 @@ namespace Bowerbird.Core.Config
             Members.Add(appMember);
         }
 
-        private void AddObservation(string userId, string projectId)
+        private int _observationCount = 0;
+
+        private void AddObservations()
         {
-            //var user = Users.Single(x => x.Id == userId);
-            //var project = Projects.Single(x => x.Id == projectId);
+            var userIds = Users.Select(x => x.Id);
 
-            //var observation = new Observation(
-            //    user,
-            //    "Title goes here",
-            //    DateTime.Now,
-            //    DateTime.Now,
-            //    "23.232323",
-            //    "41.3432423",
-            //    "1 Main St Melbourne",
-            //    true,
-            //    "categoryX",
-            //    );
+            var userProjects = _documentSession
+                .Query<All_Groups.Result, All_Groups>()
+                .AsProjection<All_Groups.Result>()
+                .Where(x => x.GroupType == "userproject" && x.UserIds.Any(y => y.In(userIds)))
+                .ToList()
+                .Select(x => x.UserProject);
 
-            //observation.AddGroup(project, user, DateTime.Now);
+            var projects = _documentSession
+                .Query<All_Groups.Result, All_Groups>()
+                .AsProjection<All_Groups.Result>()
+                .Where(x => x.GroupType == "project" && x.UserIds.Any(y => y.In(userIds)))
+                .ToList()
+                .Select(x => x.Project);
 
-            //_documentSession.Store(observation);
+            AddObservation(Users[1].Id, 0, userProjects.Single(x => x.User.Id == Users[1].Id), projects);
+            AddObservation(Users[2].Id, 3, userProjects.Single(x => x.User.Id == Users[2].Id), projects.Where(x => x.Id == Projects[1].Id));            
+            AddObservation(Users[0].Id, 3, userProjects.Single(x => x.User.Id == Users[0].Id), projects.Where(x => x.Id == Projects[1].Id));
+            AddObservation(Users[0].Id, 4, userProjects.Single(x => x.User.Id == Users[0].Id), projects);
+            //AddObservation(Users[2].Id, 5, userProjects.Single(x => x.User.Id == Users[2].Id), projects);
+            //AddObservation(Users[1].Id, 5, userProjects.Single(x => x.User.Id == Users[1].Id), projects.Where(x => x.Id == Projects[0].Id));
+            //AddObservation(Users[0].Id, 0, userProjects.Single(x => x.User.Id == Users[0].Id), projects.Where(x => x.Id == Projects[0].Id));
+            //AddObservation(Users[1].Id, 6, userProjects.Single(x => x.User.Id == Users[1].Id), projects.Where(x => x.Id == Projects[1].Id));
+            //AddObservation(Users[2].Id, 4, userProjects.Single(x => x.User.Id == Users[2].Id), projects.Where(x => x.Id == Projects[0].Id));
+            //AddObservation(Users[0].Id, 2, userProjects.Single(x => x.User.Id == Users[0].Id), projects);
+            //AddObservation(Users[1].Id, 2, userProjects.Single(x => x.User.Id == Users[1].Id), projects.Where(x => x.Id == Projects[1].Id));
+            //AddObservation(Users[0].Id, 1, userProjects.Single(x => x.User.Id == Users[0].Id), projects);
+            //AddObservation(Users[1].Id, 1, userProjects.Single(x => x.User.Id == Users[1].Id), projects.Where(x => x.Id == Projects[0].Id));
+            //AddObservation(Users[2].Id, 3, userProjects.Single(x => x.User.Id == Users[2].Id), projects);            
+        }
 
-            //Observations.Add(observation);
-            //throw new NotImplementedException();
+        private void AddObservation(string userId, int imageId, UserProject userProject, IEnumerable<Project> projects)
+        {
+            var user = Users.Single(x => x.Id == userId);
+
+            var path = string.Format(@"{0}\media\testdata\{1}.jpg", _configService.GetEnvironmentRootPath(), imageId.ToString());
+
+            MediaResource mediaResource = null;
+
+            using(var stream = System.IO.File.OpenRead(path))
+            {
+                var mediaResourceCreateCommand = new MediaResourceCreateCommand()
+                {
+                    OriginalFileName = "test.jpg",
+                    UploadedOn = DateTime.Now,
+                    Usage = "observation",
+                    UserId = userId,
+                    Stream = stream
+                };
+
+                _commandProcessor.Process<MediaResourceCreateCommand, MediaResource>(mediaResourceCreateCommand, x => { mediaResource = x; });
+
+                stream.Close();
+            }
+
+            var observation = new Observation(
+                user,
+                string.Format("Observation {0}", _observationCount++),
+                DateTime.Now,
+                DateTime.Now,
+                "23.232323",
+                "41.3432423",
+                "1 Main St Melbourne",
+                true,
+                false,
+                "Mammals",
+                userProject,
+                projects,
+                new[] { new Tuple<MediaResource, string, string>(mediaResource, "test", "test") });
+
+            _documentSession.Store(observation);
+
+            Observations.Add(observation);
         }
 
         #endregion      

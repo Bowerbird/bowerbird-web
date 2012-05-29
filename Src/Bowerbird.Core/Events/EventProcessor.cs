@@ -62,6 +62,7 @@ namespace Bowerbird.Core.Events
             }
             catch(Exception ex)
             {
+                throw ex;
                 // this means we're in test mode.
                 // TODO: Handle this in a more elegant way
             }

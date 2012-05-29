@@ -19,7 +19,7 @@ using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Core.Events
 {
-    public class GroupAssociationCreatedEvent : IDomainEvent
+    public class GroupAssociationCreatedEvent : DomainEventBase
     {
         #region Members
 
@@ -30,15 +30,17 @@ namespace Bowerbird.Core.Events
         public GroupAssociationCreatedEvent(
             Group parentGroup,
             Group childGroup,
-            User createdByUser)
+            User createdByUser, 
+            object sender)
+            : base(
+            createdByUser,
+            sender)
         {
             Check.RequireNotNull(parentGroup, "parentGroup");
             Check.RequireNotNull(childGroup, "childGroup");
-            Check.RequireNotNull(createdByUser, "createdByUser");
 
             ParentGroup = parentGroup;
             ChildGroup = childGroup;
-            CreatedByUser = createdByUser;
         }
 
         #endregion
@@ -48,8 +50,6 @@ namespace Bowerbird.Core.Events
         public Group ParentGroup { get; private set; }
 
         public Group ChildGroup { get; private set; }
-
-        public User CreatedByUser { get; private set; }
 
         #endregion
 

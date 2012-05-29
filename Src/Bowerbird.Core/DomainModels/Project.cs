@@ -50,7 +50,7 @@ namespace Bowerbird.Core.DomainModels
                 website,
                 avatar);
 
-            FireEvent(new DomainModelCreatedEvent<Project>(this, createdByUser.Id));
+            FireEvent(new DomainModelCreatedEvent<Project>(this, createdByUser, this), true);
         }
 
         #endregion
@@ -91,7 +91,7 @@ namespace Bowerbird.Core.DomainModels
                 website,
                 avatar);
 
-            FireEvent(new DomainModelUpdatedEvent<Project>(this, updatedByUser));
+            FireEvent(new DomainModelUpdatedEvent<Project>(this, updatedByUser, this));
 
             return this;
         }

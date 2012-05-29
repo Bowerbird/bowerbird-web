@@ -51,7 +51,7 @@ namespace Bowerbird.Core.DomainModels
             Group = group;
             Roles = roles;
 
-            FireEvent(new DomainModelCreatedEvent<Member>(this, createdByUser.Id));
+            FireEvent(new DomainModelCreatedEvent<Member>(this, createdByUser, this), true);
         }
 
         #endregion

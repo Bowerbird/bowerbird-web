@@ -74,7 +74,7 @@ namespace Bowerbird.Core.DomainModels
                 descriptions,
                 references);
 
-            FireEvent(new DomainModelCreatedEvent<ObservationNote>(this, createdByUser.Id));
+            FireEvent(new DomainModelCreatedEvent<ObservationNote>(this, createdByUser, this), true);
         }
 
         #endregion
@@ -169,7 +169,7 @@ namespace Bowerbird.Core.DomainModels
                 descriptions,
                 references);
 
-            FireEvent(new DomainModelUpdatedEvent<ObservationNote>(this, updatedByUser));
+            FireEvent(new DomainModelUpdatedEvent<ObservationNote>(this, updatedByUser, this));
 
             return this;
         }

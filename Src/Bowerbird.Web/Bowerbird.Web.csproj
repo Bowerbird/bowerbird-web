@@ -37,12 +37,6 @@
     <Reference Include="DataAnnotationsExtensions">
       <HintPath>..\packages\DataAnnotationsExtensions.1.0.0.0\lib\NETFramework40\DataAnnotationsExtensions.dll</HintPath>
     </Reference>
-    <Reference Include="FluentValidation, Version=3.2.0.0, Culture=neutral, PublicKeyToken=a82054b837897c66, processorArchitecture=MSIL">
-      <HintPath>..\packages\FluentValidation.3.2.0.0\lib\Net40\FluentValidation.dll</HintPath>
-    </Reference>
-    <Reference Include="FluentValidation.Mvc">
-      <HintPath>..\packages\FluentValidation.MVC3.3.2.0.0\lib\Net40\FluentValidation.Mvc.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
@@ -87,13 +81,13 @@
       <HintPath>..\packages\RavenDB.1.0.888\lib\net40\Raven.Client.MvcIntegration.dll</HintPath>
     </Reference>
     <Reference Include="SignalR">
-      <HintPath>..\packages\SignalR.Server.0.4.0.0\lib\net40\SignalR.dll</HintPath>
+      <HintPath>..\..\Lib\SignalR.0.5.0\SignalR.dll</HintPath>
     </Reference>
     <Reference Include="SignalR.Hosting.AspNet">
-      <HintPath>..\packages\SignalR.Hosting.AspNet.0.4.0.0\lib\net40\SignalR.Hosting.AspNet.dll</HintPath>
+      <HintPath>..\..\Lib\SignalR.0.5.0\SignalR.Hosting.AspNet.dll</HintPath>
     </Reference>
-    <Reference Include="SignalR.Ninject">
-      <HintPath>..\packages\SignalR.Ninject.0.4\lib\net40\SignalR.Ninject.dll</HintPath>
+    <Reference Include="SignalR.Hosting.Common">
+      <HintPath>..\..\Lib\SignalR.0.5.0\SignalR.Hosting.Common.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -145,6 +139,7 @@
     <Compile Include="Config\AcceptTypeContstraint.cs" />
     <Compile Include="Config\AuthenticatedConstraint.cs" />
     <Compile Include="Config\BowerbirdHttpApplication.cs" />
+    <Compile Include="Config\ExpandoObjectJsonConverter.cs" />
     <Compile Include="Config\NinjectBindingModule.cs" />
     <Compile Include="Config\RestfulAttribute.cs" />
     <Compile Include="Config\SignalRJsonConvertAdapter.cs" />
@@ -171,9 +166,7 @@
     <Compile Include="Controllers\TemplatesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="EventHandlers\NotifyObservationCreatedEventHandler.cs" />
-    <Compile Include="Factories\AvatarFactory.cs" />
     <Compile Include="Factories\ObservationNoteViewFactory.cs" />
-    <Compile Include="Factories\IAvatarFactory.cs" />
     <Compile Include="Factories\IFactory.cs" />
     <Compile Include="Factories\StreamItemFactory.cs" />
     <Compile Include="Hubs\ChatHub.cs" />
@@ -182,6 +175,7 @@
     <Compile Include="Notifications\NotificationProcessor.cs" />
     <Compile Include="Services\HubService.cs" />
     <Compile Include="Services\IHubService.cs" />
+    <Compile Include="Test.cs" />
     <Compile Include="Validators\ModelStateException.cs" />
     <Compile Include="Validators\HandleModelStateExceptionAttribute.cs" />
     <Compile Include="Validators\LatLong.cs" />

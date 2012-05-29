@@ -4,13 +4,8 @@ namespace Bowerbird.Core.Config
     public interface ISystemStateManager
     {
         void SetupSystem(bool setupTestData);
-        void DisableAllServices();
-        void DisableCommandProcessor();
-        void DisableEmailService();
-        void DisableEventProcessor();
-        void EnableAllServices();
-        void EnableCommandProcessor();
-        void EnableEmailService();
-        void EnableEventProcessor();
+        void SwitchServicesOff();
+        void SwitchServicesOn();
+        void SwitchServices(bool? enableEvents = null, bool? enableEmails = null, bool? enableCommands = null);
     }
 }

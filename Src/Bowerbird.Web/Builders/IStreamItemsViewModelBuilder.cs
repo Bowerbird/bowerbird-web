@@ -14,14 +14,15 @@
 
 using Bowerbird.Core.Paging;
 using Bowerbird.Web.ViewModels;
+using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Web.Builders
 {
     public interface IStreamItemsViewModelBuilder
     {
-        PagedList<object> BuildUserStreamItems(PagingInput pagingInput);
-
         PagedList<object> BuildHomeStreamItems(PagingInput pagingInput);
+
+        PagedList<object> BuildUserStreamItems(PagingInput pagingInput);
 
         PagedList<object> BuildGroupStreamItems(PagingInput pagingInput);
     }

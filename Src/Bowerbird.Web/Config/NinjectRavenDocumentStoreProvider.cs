@@ -22,6 +22,8 @@ using Ninject.Activation;
 using Raven.Client.Extensions;
 using Raven.Client.Indexes;
 using Bowerbird.Core.Indexes;
+using System.Linq;
+using Raven.Abstractions.Json;
 
 namespace Bowerbird.Web.Config
 {
@@ -76,6 +78,13 @@ namespace Bowerbird.Web.Config
             //                        //prop.Name == "Id";
             //                        prop.Name == "Id";
 
+            // Set type name handling to avoid Raven serialising type info into Activity documents. We load Activities straight out of the 
+            // db and send the to the UI. They need to be clean from the outset. 
+            documentStore.Conventions.CustomizeJsonSerializer = serializer =>
+            {
+                serializer.TypeNameHandling = Newtonsoft.Json.TypeNameHandling.None;
+            };
+
             documentStore.Initialize();
 
             if (hasDefaultDatabase)
@@ -84,6 +93,7 @@ namespace Bowerbird.Web.Config
             }
 
             IndexCreation.CreateIndexes(typeof(All_Groups).Assembly, documentStore);
+            All_Activities.Create(documentStore);
 
             return documentStore;
         }

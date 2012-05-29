@@ -20,7 +20,7 @@ using Bowerbird.Core.Extensions;
 
 namespace Bowerbird.Core.Events
 {
-    public class UserLoggedInEvent : IDomainEvent
+    public class UserLoggedInEvent : DomainEventBase
     {
 
         #region Members
@@ -30,18 +30,17 @@ namespace Bowerbird.Core.Events
         #region Constructors
 
         public UserLoggedInEvent(
-            User user)
+            User user,
+            object sender)
+            : base(
+            user,
+            sender)
         {
-            Check.RequireNotNull(user, "user");
-
-            User = user;
         }
 
         #endregion
 
         #region Properties
-
-        public User User { get; private set; }
 
         #endregion
 
