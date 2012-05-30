@@ -62,23 +62,20 @@ namespace Bowerbird.Web.Builders
         {
             var userId = _userContext.GetAuthenticatedUserId();
 
-            var projects = _documentSession.Query<All_Groups.Result, All_Groups>()
-                    .Where(x => x.UserIds.Any(y => y == userId) && x.GroupType == "project")
+            var groups = _documentSession.Query<All_Groups.Result, All_Groups>()
+                    .Where(x => x.UserIds.Any(y => y == userId))
                     .Include(x => userId)
                     .AsProjection<All_Groups.Result>()
-                    .ToList()
-                    .Select(MakeProject);
-
-            // change project group list to query on members
-            var userAdminGroups = _documentSession.Query<All_Groups.Result, All_Groups>()
-                .AsProjection<All_Groups.Result>()
-                .Where(x => x.GroupRoleNames.Any(y => y == "global administrator" || y == "organisation administrator" || y == "team administrator"))
-                .ToList();
+                    .ToList();
 
             var user = _documentSession.Load<User>(userId);
+            var application = groups.Any(x => x.GroupType == "approot") ? groups.Single(x => x.GroupType == "approot").AppRoot : (AppRoot)null;
+            var organisations = groups.Where(x => x.GroupType == "organisation").Select(MakeOrganisation);
+            var teams = groups.Where(x => x.GroupType == "team").Select(MakeTeam);
+            var projects = groups.Where(x => x.GroupType == "project").Select(MakeProject);
+            var memberships = groups.SelectMany(x => x.Members.Where(y => y.UserId == userId));
 
-            //return new
-            var authenticatedUser = new
+            return new
             {
                 User = new
                 {
@@ -87,13 +84,12 @@ namespace Bowerbird.Web.Builders
                     user.LastLoggedIn,
                     Name = user.GetName()
                 },
+                Application = application,
+                Organisations = organisations,
+                Teams = teams,
                 Projects = projects,
-                Application = userAdminGroups.Where(x => x.GroupType == "approot").Select(x => x.Group).Count() > 0 ? userAdminGroups.Where(x => x.GroupType == "approot").Select(x => x.Group).FirstOrDefault() : null,
-                Organisations = userAdminGroups.Where(x => x.GroupType == "organisation").Select(x => x.Group).Count() > 0 ? userAdminGroups.Where(x => x.GroupType == "organisation").Select(MakeOrganisation) : null,
-                Teams = userAdminGroups.Where(x => x.GroupType == "team").Select(x => x.Group).Count() > 0 ? userAdminGroups.Where(x => x.GroupType == "team").Select(MakeTeam) : null
+                Memberships = memberships
             };
-
-            return authenticatedUser;
         }
 
         public object BuildUser(IdInput idInput)
@@ -227,6 +223,20 @@ namespace Bowerbird.Web.Builders
         //        //Teams = userGroups.Where(x => x.GroupType == "team").Select(MakeTeam)
         //    };
         //}
+
+        private object MakeMember(Member member)
+        {
+            return new
+            {
+                GroupId = member.Group.Id,
+                Roles = from role in member.Roles
+                        select new
+                        {
+                            Id = role.ShortId(),
+                            Permissions = role.Permissions.Select(x => x.ShortId())
+                        }
+            };
+        }
 
         private object MakeProject(All_Groups.Result result)
         {
