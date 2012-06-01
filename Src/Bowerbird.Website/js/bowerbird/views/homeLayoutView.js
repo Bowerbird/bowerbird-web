@@ -32,7 +32,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/streamview', 'collecti
         showStream: function () {
             var streamItemCollection = new StreamItemCollection();
             var options = {
-                model: app.user, 
+                model: app.authenticatedUser.user, 
                 collection: streamItemCollection
             };
 

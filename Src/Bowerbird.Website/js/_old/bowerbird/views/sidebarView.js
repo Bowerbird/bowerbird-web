@@ -20,10 +20,10 @@ window.Bowerbird.Views.SidebarView = Backbone.View.extend({
         'addProjectSideBarItems');
         this.teamSidebarItemViews = [];
         this.projectSidebarItemViews = [];
-        app.teams.on('add', this.addTeamSideBarItem, this);
-        app.projects.on('add', this.addProjectSideBarItem, this);
-        app.teams.on('reset', this.addTeamSideBarItems, this);
-        app.projects.on('reset', this.addProjectSideBarItems, this);
+        app.authenticatedUser.teams.on('add', this.addTeamSideBarItem, this);
+        app.authenticatedUser.projects.on('add', this.addProjectSideBarItem, this);
+        app.authenticatedUser.teams.on('reset', this.addTeamSideBarItems, this);
+        app.authenticatedUser.projects.on('reset', this.addProjectSideBarItems, this);
     },
 
     render: function () {

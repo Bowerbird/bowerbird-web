@@ -101,13 +101,13 @@ function ($, _, Backbone, app, SidebarProjectCollectionView, SidebarTeamCollecti
     // Initialize the sidebar layout
     app.addInitializer(function (options) {
         // Only show sidebar if user is authenticated
-        if (this.user) {
+        if (this.authenticatedUser) {
             var model = {
-                user: this.user,
-                projects: this.projects,
-                teams: this.teams,
-                organisations: this.organisations,
-                appRoot: this.appRoot
+                user: this.authenticatedUser.user,
+                projects: this.authenticatedUser.projects,
+                teams: this.authenticatedUser.teams,
+                organisations: this.authenticatedUser.organisations,
+                appRoot: this.authenticatedUser.appRoot
             };
 
             // Render the layout and get it on the screen, first

@@ -66,7 +66,7 @@ window.Bowerbird.Views.ObservationCreateFormView = Backbone.View.extend({
         });
 
         // on the fly template... change to mustache.
-        $.tmpl('<option value="${id}">${name}</option>', app.projects.toJSONViewModel()).appendTo('#projects');
+        $.tmpl('<option value="${id}">${name}</option>', app.authenticatedUser.projects.toJSONViewModel()).appendTo('#projects');
 
         this.projectListSelectView = $("#projects").multiSelect({
             selectAll: false,

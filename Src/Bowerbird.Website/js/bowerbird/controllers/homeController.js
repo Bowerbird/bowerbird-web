@@ -16,7 +16,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/homelayoutview'], func
     // ----------
 
     HomeController.showHomeStream = function (id) {
-        var homeLayoutView = new HomeLayoutView({ model: app.user });
+        var homeLayoutView = new HomeLayoutView({ model: app.authenticatedUser.user });
 
         app.content[app.getShowViewMethodName('home')](homeLayoutView);
 

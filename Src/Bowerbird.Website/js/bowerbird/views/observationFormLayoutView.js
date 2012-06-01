@@ -91,7 +91,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editmapview', '
             ich.addTemplate('ProjectSelectItem', '{{#Projects}}<option value="{{Id}}">{{Name}}</option>{{/Projects}}');
 
             // Add project options
-            this.$el.find('#Projects').append(ich.ProjectSelectItem({ Projects: app.projects.toJSON() }));
+            this.$el.find('#Projects').append(ich.ProjectSelectItem({ Projects: app.authenticatedUser.projects.toJSON() }));
 
             this.projectListSelectView = this.$el.find('#Projects').multiSelect({
                 selectAll: false,
@@ -103,7 +103,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editmapview', '
                     if (option.selected) {
                         html += ' checked="checked"';
                     }
-                    var project = app.userProjects.get(option.value);
+                    var project = app.authenticatedUser.projects.get(option.value);
 
                     html += ' /><img src="' + project.get('Avatar').UrlToImage + '" alt="" />' + project.get('Name') + '</label>';
                     return html;
@@ -111,7 +111,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editmapview', '
                 oneOrMoreSelected: function (selectedOptions) {
                     var $selectedHtml = $('<div />');
                     _.each(selectedOptions, function (option) {
-                        var project = app.userProjects.get(option.value);
+                        var project = app.authenticatedUser.projects.get(option.value);
                         $selectedHtml.append('<span class="selected-project"><img src="' + project.get('Avatar').UrlToImage + '" alt="" />' + option.text + '</span> ');
                     });
                     return $selectedHtml.children();

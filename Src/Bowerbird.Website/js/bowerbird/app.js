@@ -72,13 +72,6 @@ function ($, _, Backbone, signalr, bootstrapData, User, UserCollection, ProjectC
         // Add the authenticated user to the app for future reference
         if (bootstrapData.AuthenticatedUser) {
             app.authenticatedUser = new AuthenticatedUser(bootstrapData.AuthenticatedUser);
-
-            app.user = new User(bootstrapData.AuthenticatedUser.User);
-            app.memberships = bootstrapData.AuthenticatedUser.Memberships;
-            app.projects = new ProjectCollection(bootstrapData.AuthenticatedUser.Projects);
-            app.teams = new TeamCollection(bootstrapData.AuthenticatedUser.Teams);
-            app.organisations = new OrganisationCollection(bootstrapData.AuthenticatedUser.Organisations);
-            app.appRoot = bootstrapData.AuthenticatedUser.Application;
         }
 
         if (bootstrapData.OnlineUsers) {
@@ -102,10 +95,10 @@ function ($, _, Backbone, signalr, bootstrapData, User, UserCollection, ProjectC
 
         // initialise the hub connection
         $.connection.hub.start({ transport: 'longPolling' }, function () {
-            $.connection.activityHub.registerUserClient(app.user.id)
+            $.connection.activityHub.registerUserClient(app.authenticatedUser.user.id)
                 .done(function () {
                     app.clientId = $.signalR.hub.id;
-                    log('connected as ' + app.user.id + ' with ' + this.clientId);
+                    log('connected as ' + app.authenticatedUser.user.id + ' with ' + this.clientId);
                 })
                 .fail(function (e) {
                     log(e);
