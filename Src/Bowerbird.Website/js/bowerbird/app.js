@@ -4,14 +4,27 @@
 /// <reference path="../libs/underscore/underscore.js" />
 /// <reference path="../libs/backbone/backbone.js" />
 /// <reference path="../libs/backbone.marionette/backbone.marionette.js" />
+/// <reference path="../libs/jquery.signalr/jquery-1.6.2-vsdoc.js" />
 
 // Bowerbird.app
 // -------------
 
 // Initialises the app, but does not start rendering. That is done 
 // when app.start() is called
-define(['jquery', 'underscore', 'backbone', 'bootstrap-data', 'models/user', 'collections/usercollection', 'collections/projectcollection', 'collections/teamcollection', 'collections/organisationcollection', 'marionette'],
-function ($, _, Backbone, bootstrapData, User, UserCollection, ProjectCollection, TeamCollection, OrganisationCollection) {
+define([
+'jquery',
+'underscore',
+'backbone',
+'signalr',
+'bootstrap-data',
+'models/user',
+'collections/usercollection',
+'collections/projectcollection',
+'collections/teamcollection',
+'collections/organisationcollection',
+'marionette'
+],
+function ($, _, Backbone, signalr, bootstrapData, User, UserCollection, ProjectCollection, TeamCollection, OrganisationCollection) {
 
     // Create an instance of the app
     var app = new Backbone.Marionette.Application();
@@ -27,7 +40,7 @@ function ($, _, Backbone, bootstrapData, User, UserCollection, ProjectCollection
         sidebar: '#sidebar',
         content: '#content',
         notifications: '#notifications',
-        onlineUsers: '#online-users'
+        usersonline: '#onlineusers'
     });
 
     // Load the bootstrapped data into place
@@ -61,6 +74,18 @@ function ($, _, Backbone, bootstrapData, User, UserCollection, ProjectCollection
             // Start URL and history routing
             Backbone.history.start({ pushState: true });
         }
+
+        // initialise the hub connection
+        $.connection.hub.start({ transport: 'longPolling' }, function () {
+            $.connection.activityHub.registerUserClient(app.user.id)
+                .done(function () {
+                    app.clientId = $.signalR.hub.id;
+                    log('connected as ' + app.user.id + ' with ' + this.clientId);
+                })
+                .fail(function (e) {
+                    log(e);
+                });
+        });
     });
 
     app.isPrerendering = function (name) {
@@ -79,6 +104,7 @@ function ($, _, Backbone, bootstrapData, User, UserCollection, ProjectCollection
     $(function () {
         // Start the app as soon as the DOM is ready, loading in the bootstrapped data
         app.start(bootstrapData);
+
 
         //        // Register overriding all anchors to channel through router
         //        $('a').on('click', function (e) {

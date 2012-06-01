@@ -2195,6 +2195,20 @@ a.multiSelect:focus
     padding: 5px;
 }
 /* chat and users online */
+#onlineusers
+{
+    float: right;
+    width: 200px;
+    border:1px solid black;   
+}
+#onlineusers .window-title-bar
+{
+    border:1px solid black;   
+}
+#onlineusers .window-body
+{
+    border:1px solid black;   
+}
 .user-window
 {
     background-color: white;

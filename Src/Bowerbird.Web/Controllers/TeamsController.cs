@@ -132,37 +132,6 @@ namespace Bowerbird.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult Posts(PagingInput pagingInput)
-        {
-            ViewBag.Model = new
-            {
-                Team = _teamsViewModelBuilder.BuildTeam(new IdInput() { Id = "teams/" + pagingInput.Id }),
-                Posts = _postsViewModelBuilder.BuildGroupPostList(pagingInput)
-            };
-
-            ViewBag.PrerenderedView = "posts"; // HACK: Need to rethink this
-
-            return View(Form.Stream);
-        }
-
-        [HttpGet]
-        public ActionResult Post(IdInput idInput)
-        {
-            Check.RequireNotNull(idInput, "idInput");
-
-            var teamId = "teams/".AppendWith(idInput.Id);
-
-            ViewBag.Model = new
-            {
-                Post = _postsViewModelBuilder.BuildPost(teamId)
-            };
-
-            ViewBag.PrerenderedView = "post"; // HACK: Need to rethink this
-
-            return View(Form.Stream);
-        }
-
-        [HttpGet]
         public ActionResult Members(PagingInput pagingInput)
         {
             ViewBag.Model = new

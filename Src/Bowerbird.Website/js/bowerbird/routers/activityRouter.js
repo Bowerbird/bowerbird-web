@@ -8,33 +8,24 @@
 // ActivityRouter
 // --------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'controllers/activitycontroller', 'signalr'], function ($, _, Backbone, app, ActivityController) {
+define(['jquery', 'underscore', 'backbone', 'app', 'controllers/activitycontroller'], function ($, _, Backbone, app, ActivityController) {
 
     var ActivityRouter = function (options) {
         this.hub = $.connection.activityHub;
         this.controller = options.controller;
-
         this.hub.newActivity = this.controller.newActivity;
+        this.hub.userStatusUpdate = this.controller.userStatusUpdate;
+
+//        var self = this;
+//        var method = _.bind(this.controller.userStatusUpdate, this.controller);
+//        this.hub.userStatusUpdate = function (result) {
+//            method.call(self.controller, result);
+//        };
     };
-
-    //    _.extend(ActivityRouter.prototype, Events, {
-
-    //    });
 
     app.addInitializer(function () {
         this.activityRouter = new ActivityRouter({
             controller: ActivityController
-        });
-
-        $.connection.hub.start({ transport: 'longPolling' }, function () {
-            this.activityRouter.hub.registerUserClient(userId)
-                    .done(function () {
-                        //app.set('clientId', $.signalR.hub.id);
-                        log('connected as ' + userId + ' with ' + app.get('clientId'));
-                    })
-                    .fail(function (e) {
-                        log(e);
-                    });
         });
     });
 

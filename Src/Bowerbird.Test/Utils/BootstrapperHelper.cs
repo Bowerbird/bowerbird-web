@@ -3,9 +3,11 @@ using Bowerbird.Web.Config;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Ninject;
 using Ninject.Web.Mvc;
+using SignalR;
 using NinjectBootstrapper = Ninject.Web.Mvc.Bootstrapper;
 using Microsoft.Practices.ServiceLocation;
 using NinjectAdapter;
+using NinjectDependencyResolver = Bowerbird.Web.Config.NinjectDependencyResolver;
 
 namespace Bowerbird.Test.Utils
 {
@@ -96,7 +98,7 @@ namespace Bowerbird.Test.Utils
 
             ServiceLocator.SetLocatorProvider(() => new NinjectServiceLocator(kernel));
 
-            SignalR.Hosting.AspNet.AspNetHost.SetResolver(new SignalR.Ninject.NinjectDependencyResolver(kernel));
+            GlobalHost.DependencyResolver = new NinjectDependencyResolver(kernel);
         }
     }
 }

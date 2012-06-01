@@ -9,10 +9,36 @@
 // -----------------
 
 // The left hand side bar that is shown to authenticated users.
-define(['jquery', 'underscore', 'backbone', 'app', 'models/user', 'views/sidebarprojectcollectionview', 'views/sidebarteamcollectionview',
-'views/sidebarorganisationcollectionview', 'collections/projectcollection', 'collections/teamcollection', 'collections/organisationcollection', 
-'models/project', 'models/team', 'models/organisation'],
-function ($, _, Backbone, app, User, SidebarProjectCollectionView, SidebarTeamCollectionView, SidebarOrganisationCollectionView, ProjectCollection, TeamCollection, OrganisationCollection, Project, Team, Organisation) 
+define([
+'jquery',
+'underscore',
+'backbone',
+'app',
+'models/user',
+'views/sidebarprojectcollectionview', 
+'views/sidebarteamcollectionview',
+'views/sidebarorganisationcollectionview',
+'collections/projectcollection',
+'collections/teamcollection', 
+'collections/organisationcollection',
+'models/project',
+'models/team', 
+'models/organisation'],
+function (
+$,
+_,
+Backbone,
+app,
+User,
+SidebarProjectCollectionView,
+SidebarTeamCollectionView,
+SidebarOrganisationCollectionView,
+ProjectCollection,
+TeamCollection,
+OrganisationCollection,
+Project,
+Team, 
+Organisation) 
 {
         var SidebarLayoutView = Backbone.Marionette.Layout.extend({
             tagName: 'section',

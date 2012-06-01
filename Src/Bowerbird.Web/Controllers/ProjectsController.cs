@@ -169,8 +169,6 @@ namespace Bowerbird.Web.Controllers
             return View(Form.Stream);
         }
 
-
-
         [HttpGet]
         public ActionResult Members(PagingInput pagingInput)
         {
@@ -297,24 +295,6 @@ namespace Bowerbird.Web.Controllers
             ViewBag.Project = _projectsViewModelBuilder.BuildProject(projectId);
 
             return View(Form.Delete);
-        }
-
-        [HttpGet]
-        [Authorize]
-        public ActionResult PostForm(IdInput idInput)
-        {
-            Check.RequireNotNull(idInput, "idInput");
-
-            var projectId = "projects/".AppendWith(idInput.Id);
-
-            ViewBag.Model = new
-            {
-                Post = _postsViewModelBuilder.BuildPost(projectId)
-            };
-
-            ViewBag.PrerenderedView = "post"; // HACK: Need to rethink this
-
-            return View(Form.Post);
         }
 
         [Transaction]
@@ -459,23 +439,6 @@ namespace Bowerbird.Web.Controllers
                 });
 
             return JsonSuccess();
-        }
-
-        [Transaction]
-        [Authorize]
-        [HttpPost]
-        public ActionResult Post(PostCreateInput postInput)
-        {
-            Check.RequireNotNull(postInput, "postInput");
-
-            ViewBag.Model = new
-            {
-                Post = _postsViewModelBuilder.BuildPost(postInput.GroupId)
-            };
-
-            ViewBag.PrerenderedView = "post";
-
-            return View(Form.Post);
         }
 
         private IEnumerable GetTeams(string userId, string projectId = "")

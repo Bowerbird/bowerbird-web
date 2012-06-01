@@ -150,6 +150,8 @@
     <Content Include="js\bowerbird\routers\teamRouter.js" />
     <Content Include="js\bowerbird\routers\projectRouter.js" />
     <Content Include="js\bowerbird\views\avatarItemView.js" />
+    <Content Include="js\bowerbird\views\onlineUserItemView.js" />
+    <Content Include="js\bowerbird\views\onlineUsersCompositeView.js" />
     <Content Include="js\bowerbird\views\sidebarOrganisationItemView.js" />
     <Content Include="js\bowerbird\views\sidebarTeamItemView.js" />
     <Content Include="js\bowerbird\views\sidebarTeamCollectionView.js" />
@@ -177,6 +179,9 @@
     <Content Include="js\libs\jquery.fileupload\jquery.iframe-transport.js" />
     <Content Include="js\libs\jquery.fileupload\load-image.js" />
     <Content Include="js\libs\jquery.multiselect\jquery.multiselect.js" />
+    <Content Include="js\libs\jquery.signalr\hubs.js" />
+    <Content Include="js\libs\jquery.signalr\jquery.signalr.js" />
+    <Content Include="js\libs\jquery.signalr\jquery.signalr.min.js" />
     <Content Include="js\libs\jqueryui\autocomplete.js" />
     <Content Include="js\libs\jqueryui\core.js" />
     <Content Include="js\libs\jqueryui\draggable.js" />
@@ -184,6 +189,7 @@
     <Content Include="js\libs\jqueryui\position.js" />
     <Content Include="js\libs\jqueryui\tabs.js" />
     <Content Include="js\libs\jqueryui\widget.js" />
+    <Content Include="js\libs\json\json2.js" />
     <Content Include="js\libs\log.js" />
     <Content Include="js\bowerbird\main.js" />
     <Content Include="js\bowerbird\models\user.js" />
@@ -197,8 +203,6 @@
     <Content Include="js\bowerbird\routers\groupUserRouter.js" />
     <Content Include="js\libs\jquery\jquery-1.7.2-min.js" />
     <Content Include="js\libs\jquery\jquery-1.7.2.js" />
-    <Content Include="js\libs\jquery.signalr\jquery.signalr.js" />
-    <Content Include="js\libs\jquery.signalr\jquery.signalr-min.js" />
     <Content Include="js\libs\require\async.js" />
     <Content Include="js\libs\require\goog.js" />
     <Content Include="js\libs\require\propertyparser.js" />

@@ -13,15 +13,17 @@ require.config({
     baseUrl: '/js/bowerbird',
     //urlArgs: "bust=" + (new Date()).getTime(), // Cache buster
     paths: {
-        jquery : 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery', // jQuery is now AMD compliant
+        jquery: 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery', // jQuery is now AMD compliant
+        json2: '/js/libs/json/json2',
         underscore: '/js/libs/underscore/underscore', // AMD version from https://github.com/amdjs
         backbone: '/js/libs/backbone/backbone', // AMD version from https://github.com/amdjs,
         marionette: '/js/libs/backbone.marionette/backbone.marionette',
         text: '/js/libs/require/text', // Require.js text loader plugin
-        ich: '/js/libs/icanhaz/icanhaz', // Mustache templates cache and renderer
-        goog: '/js/libs/require/goog', // Google async loader
-        propertyParser : '/js/libs/require/propertyparser', // Required by google loader
+        noext: '/js/libs/require/noext', //https://github.com/millermedeiros/requirejs-plugins
         async: '/js/libs/require/async', // Required by google loader
+        goog: '/js/libs/require/goog', // Google async loader
+        propertyParser: '/js/libs/require/propertyparser', // Required by google loader
+        ich: '/js/libs/icanhaz/icanhaz', // Mustache templates cache and renderer
         jqueryui: '/js/libs/jqueryui',
         datepicker: '/js/libs/bootstrap/bootstrap-datepicker',
         date: '/js/libs/date/date',
@@ -31,11 +33,13 @@ require.config({
         signalr: '/js/libs/jquery.signalr/jquery.signalr'
     },
     priority: [
-        'ich', 
+        'ich',
         'jquery', 
+        'json2',
         'underscore',
-        'backbone', 
-        'marionette', 
+        'backbone',
+        'marionette',
+        'signalr',
         // Routers are the first port of call, so load em up
         'routers/homerouter',
         'routers/groupuserrouter',
@@ -46,18 +50,20 @@ require.config({
         'routers/organisationrouter',
         'routers/speciesrouter',
         'routers/referencespeciesrouter',
+        'routers/activityrouter',
         // Load top level views, beacuse no one else is gonna do it
         'views/headerview',
         'views/footerview',
         'views/sidebarlayoutview',
         'views/homelayoutview',
         'views/projectlayoutview',
-        'views/observationlayoutview'
+        'views/observationlayoutview',
+        'views/onlineuserscompositeview'
     ]
 });
 
 // Init dependencies
-require(['backbone', 'ich', 'marionette', '/templates'], function (Backbone, ich) {
+require(['backbone', 'ich', 'marionette', '/templates', 'noext!/signalr/hubs'], function (Backbone, ich) {
 
     // Override the marionette renderer so that it uses mustache templates 
     // together with icanhaz caching

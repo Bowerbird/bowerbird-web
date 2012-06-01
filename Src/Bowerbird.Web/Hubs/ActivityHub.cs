@@ -3,10 +3,8 @@
  Developers: 
  * Frank Radocaj : frank@radocaj.com
  * Hamish Crittenden : hamish.crittenden@gmail.com
- 
  Project Manager: 
  * Ken Walker : kwalker@museum.vic.gov.au
- 
  Funded by:
  * Atlas of Living Australia
  
@@ -17,7 +15,6 @@ using Bowerbird.Web.Services;
 using SignalR.Hubs;
 using Bowerbird.Core.DesignByContract;
 using Raven.Client;
-using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Web.Hubs
 {
@@ -26,17 +23,22 @@ namespace Bowerbird.Web.Hubs
         #region Members
 
         private readonly IDocumentSession _documentSession;
+        private readonly IHubService _hubService;
 
         #endregion
 
         #region Constructors
 
         public ActivityHub(
-            IDocumentSession documentSession)
+            IDocumentSession documentSession,
+            IHubService hubService
+            )
         {
             Check.RequireNotNull(documentSession, "documentSession");
+            Check.RequireNotNull(hubService, "hubService");
 
             _documentSession = documentSession;
+            _hubService = hubService;
         }
 
         #endregion
@@ -50,6 +52,23 @@ namespace Bowerbird.Web.Hubs
         public void NewActivity(object activity)
         {
             Clients.newActivity(activity);
+        }
+
+        public void RegisterUserClient(string userId)
+        {
+            _hubService.UpdateUserOnline(Context.ConnectionId, userId);
+
+            BroadcastUserStatusUpdate(userId);
+        }
+
+        public void BroadcastUserStatusUpdate(string userId)
+        {
+            Clients.userStatusUpdate(_hubService.GetUserProfile(userId));
+        }
+
+        public Task Disconnect()
+        {
+            return Clients.userStatusUpdate(_hubService.GetUserProfile(_hubService.DisconnectClient(Context.ConnectionId)));
         }
 
         #endregion

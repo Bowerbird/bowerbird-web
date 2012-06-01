@@ -97,6 +97,11 @@ namespace Bowerbird.Web.Controllers
                 Post = _postsViewModelBuilder.BuildPost(idInput.Id)
             };
 
+            if (Request.IsAjaxRequest())
+            {
+                return new JsonNetResult(new { Model = ViewBag.Model });
+            }
+
             ViewBag.PrerenderedView = "post";
 
             return View(Form.Create);
@@ -118,6 +123,11 @@ namespace Bowerbird.Web.Controllers
                 Post = _postsViewModelBuilder.BuildPost(idInput)
             };
 
+            if (Request.IsAjaxRequest())
+            {
+                return new JsonNetResult(new { Model = ViewBag.Model });
+            }
+
             return View(Form.Update);
         }
 
@@ -136,6 +146,11 @@ namespace Bowerbird.Web.Controllers
             {
                 Post = _postsViewModelBuilder.BuildPost(idInput)
             };
+
+            if (Request.IsAjaxRequest())
+            {
+                return new JsonNetResult(new { Model = ViewBag.Model });
+            }
 
             return View(Form.Delete);
         }

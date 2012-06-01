@@ -141,6 +141,7 @@
     <Compile Include="Config\BowerbirdHttpApplication.cs" />
     <Compile Include="Config\ExpandoObjectJsonConverter.cs" />
     <Compile Include="Config\NinjectBindingModule.cs" />
+    <Compile Include="Config\NinjectDependencyResolver.cs" />
     <Compile Include="Config\RestfulAttribute.cs" />
     <Compile Include="Config\SignalRJsonConvertAdapter.cs" />
     <Compile Include="Config\MembersAreaRegistration.cs" />

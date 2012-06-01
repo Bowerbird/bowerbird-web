@@ -8,54 +8,36 @@
 // ActivityController
 // ------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'signalr'], function ($, _, Backbone, app) {
+define(['jquery', 'underscore', 'backbone', 'app', 'models/user'], function ($, _, Backbone, app, User) {
 
     var ActivityController = {};
 
+    // Call From Hub
+    ActivityController.newActivity = function (data) {
+        log('activityController.newActivity');
+        log(data);
+        alert('new activity received');
+    };
 
+    // Call From Hub
+    ActivityController.userStatusUpdate = function (data) {
+        log('activityController.userStatusUpdate');
+        log(data);
+        //app.onlineUsers.updateUserStatus(data);
 
-//    var init = function (options) {
-//        this.notificationHub = $.connection.notificationHub;
-//        this.notificationHub.userStatusUpdate = this.userStatusUpdate;
-
-//        this.notificationHub.newNotification = this.newNotification;
-//        this.notificationHub.newStreamItem = this.newStreamItem;
-
-//        this.initHubConnection(options.userId);
-//        log('ActivityRouter.Initialize');
-//    };
-
-//        // TO HUB---------------------------------------
-
-//        initHubConnection: function (userId) {
-//            log('App.initHubConnection');
-//            var self = this;
-//            $.connection.hub.start({ transport: 'longPolling' }, function () {
-//                self.notificationHub.registerUserClient(userId)
-//                    .done(function () {
-//                        app.set('clientId', $.signalR.hub.id);
-//                        log('connected as ' + userId + ' with ' + app.get('clientId'));
-//                    })
-//                    .fail(function (e) {
-//                        log(e);
-//                    });
-//            });
-//        },
-
-//        userStatusUpdate: function (data) {
-//            app.onlineUsers.updateUserStatus(data);
-//        },
-
-//        // FROM HUB-------------------------------------
-
-//        newNotification: function (notification) {
-//            app.notifications.add(notification);
-//        },
-
-//        newStreamItem: function (streamItem) {
-//            app.stream.addStreamItem(streamItem);
-//        }
-//    });
+        if (!app.onlineUsers.contains(data.Id)) {
+            if (data.Status == 2 || data.Status == 3 || data.Status == 'undefined') return;
+            var user = new User(data);
+            app.onlineUsers.add(user);
+        } else {
+            var user = app.onlineUsers.get(data.Id);
+            if (data.Status == 2 || data.Status == 3) {
+                app.onlineUsers.remove(user);
+            } else {
+                user.set('Status', data.Status);
+            }
+        }
+    };
 
     return ActivityController;
 
