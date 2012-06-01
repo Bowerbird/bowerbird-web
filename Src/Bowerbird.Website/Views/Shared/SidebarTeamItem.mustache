@@ -38,7 +38,7 @@
       <li>
         <div>
           <p>
-            <a href="/{{Id}}/about">About this {{Type}}</a>
+            <a href="/{{Id}}/about">About this Team</a>
           </p>
         </div>
       </li>
@@ -46,24 +46,28 @@
       <li>
         <div>
           <p>
-            <a href="/projects/create">Add a Project</a>
-          </p>
-        </div>
-      </li>
-      <li>
-        <div>
-          <p>
             <a href="/posts/create?id={{Id}}">Add a Post</a>
           </p>
         </div>
       </li>
+      {{#Permissions.CreateProject}}
       <li>
         <div>
           <p>
-            <a href="/{{Id}}/update">Edit {{Type}} Details</a>
+            <a href="/projects/create?id={{Id}}">Add a Project</a>
           </p>
         </div>
       </li>
+      {{/Permissions.CreateProject}}
+      {{#Permissions.UpdateTeam}}
+      <li>
+        <div>
+          <p>
+            <a href="/{{Id}}/update">Edit Team Details</a>
+          </p>
+        </div>
+      </li>
+      {{/Permissions.UpdateTeam}}
       <li class="divider"></li>
       <li>
         <div class="chat-menu-item">

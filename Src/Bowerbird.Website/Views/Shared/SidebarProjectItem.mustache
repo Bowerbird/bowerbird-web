@@ -38,7 +38,7 @@
       <li>
         <div>
           <p>
-            <a href="/{{Id}}/about">About this {{Type}}</a>
+            <a href="/{{Id}}/about">About this Project</a>
           </p>
         </div>
       </li>
@@ -46,7 +46,7 @@
       <li>
         <div>
           <p>
-            <a href="/observations/create">Add an Observation</a>
+            <a href="/observations/create?id={{Id}}">Add an Observation</a>
           </p>
         </div>
       </li>
@@ -57,13 +57,15 @@
           </p>
         </div>
       </li>
+      {{#Permissions.UpdateProject}}
       <li>
         <div>
           <p>
-            <a href="/{{Id}}/update">Edit {{Type}} Details</a>
+            <a href="/{{Id}}/update">Edit Project Details</a>
           </p>
         </div>
       </li>
+      {{/Permissions.UpdateProject}}
       <li class="divider"></li>
       <li>
         <div class="chat-menu-item">

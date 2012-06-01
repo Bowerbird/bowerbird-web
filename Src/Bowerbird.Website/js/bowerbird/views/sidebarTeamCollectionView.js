@@ -11,11 +11,26 @@
 // A collection of links in the sidebar
 define(['jquery', 'underscore', 'backbone', 'app', 'views/sidebarteamitemview'], function ($, _, Backbone, app, SidebarTeamItemView) {
 
-    var SidebarTeamCollectionView = Backbone.Marionette.CollectionView.extend({
+    var SidebarTeamCollectionView = Backbone.Marionette.CompositeView.extend({
+        id: 'team-menu-group',
+
+        className: 'menu-group',
+
         itemView: SidebarTeamItemView,
 
+        template: 'SidebarMenuGroup',
+
         appendHtml: function (collectionView, itemView) {
-            collectionView.$el.find('.menu-group-options').before(itemView.el);
+            collectionView.$el.find('.menu-group-items > ul').append(itemView.el);
+        },
+
+        serializeData: function () {
+            return {
+                Model: {
+                    Name: 'team',
+                    Label: 'Teams'
+                }
+            };
         }
     });
 

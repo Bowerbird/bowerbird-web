@@ -50,12 +50,7 @@ namespace Bowerbird.Core.Indexes
         {
             public string GroupId { get; set; }
             public string UserId { get; set; }
-            public RoleResult[] Roles { get; set; }
-        }
-
-        public class RoleResult
-        {
-            public string Id { get; set; }
+            public string[] RoleIds { get; set; }
             public string[] PermissionIds { get; set; }
         }
 
@@ -223,12 +218,8 @@ namespace Bowerbird.Core.Indexes
                         {
                             GroupId = member.Group.Id,
                             UserId = member.User.Id,
-                            Roles = from role in member.Roles
-                                    select new
-                                    {
-                                        Id = role.Id,
-                                        PermissionIds = role.Permissions.Select(x => x.Id)
-                                    }
+                            RoleIds = member.Roles.Select(x => x.Id),
+                            PermissionIds = member.Roles.SelectMany(x => x.Permissions.Select(y => y.Id))
                         }
                 };
 

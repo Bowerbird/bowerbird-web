@@ -11,11 +11,26 @@
 // A collection of links in the sidebar
 define(['jquery', 'underscore', 'backbone', 'app', 'views/sidebarorganisationitemview'], function ($, _, Backbone, app, SidebarOrganisationItemView) {
 
-    var SidebarOrganisationCollectionView = Backbone.Marionette.CollectionView.extend({
+    var SidebarOrganisationCollectionView = Backbone.Marionette.CompositeView.extend({
+        id: 'organisation-menu-group',
+
+        className: 'menu-group',
+
         itemView: SidebarOrganisationItemView,
 
+        template: 'SidebarMenuGroup',
+
         appendHtml: function (collectionView, itemView) {
-            collectionView.$el.find('.menu-group-options').before(itemView.el);
+            collectionView.$el.find('.menu-group-items > ul').append(itemView.el);
+        },
+
+        serializeData: function () {
+            return {
+                Model: {
+                    Name: 'organisation',
+                    Label: 'Organisations'
+                }
+            };
         }
     });
 

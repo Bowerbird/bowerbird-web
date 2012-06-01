@@ -37,11 +37,11 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/team'], function ($, 
             return {
                 Id: this.model.id,
                 Name: this.model.get('Name'),
-                Description: this.model.get('Description'),
-                Website: this.model.get('Website'),
                 Avatar: this.model.get('Avatar'),
-                Organisation: this.model.get('Organisation'),
-                Type: 'Team'
+                Permissions: {
+                    CreateProject: app.authenticatedUser.hasGroupPermission(this.model.id, 'permissions/createproject'),
+                    UpdateTeam: app.authenticatedUser.hasGroupPermission(this.model.id, 'permissions/updateteam')
+                }
             };
         },
 

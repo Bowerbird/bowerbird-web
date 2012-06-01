@@ -12,10 +12,14 @@
 define(['jquery', 'underscore', 'backbone', 'app', 'views/sidebarprojectitemview'], function ($, _, Backbone, app, SidebarProjectItemView) {
 
     var SidebarProjectCollectionView = Backbone.Marionette.CollectionView.extend({
+        tagName: 'ul',
+
+        id: 'project-menu-group-list',
+
         itemView: SidebarProjectItemView,
 
         appendHtml: function (collectionView, itemView) {
-            collectionView.$el.find('.menu-group-options').before(itemView.el);
+            collectionView.$el.append(itemView.el);
         }
     });
 

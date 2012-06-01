@@ -34,6 +34,27 @@ function ($, _, Backbone, signalr, bootstrapData, User, UserCollection, ProjectC
     window.Bowerbird.version = '1.0.0';
     window.Bowerbird.app = app;
 
+    var AuthenticatedUser = function (data) {
+        this.user = new User(data.User);
+        this.memberships = data.Memberships;
+        this.projects = new ProjectCollection(data.Projects);
+        this.teams = new TeamCollection(data.Teams);
+        this.organisations = new OrganisationCollection(data.Organisations);
+        this.appRoot = data.Application;
+
+        this.hasGroupPermission = function (groupId, permissionId) {
+            var membership = _.find(this.memberships, function (m) {
+                return m.GroupId === groupId;
+            });
+            if (!membership) {
+                return false;
+            }
+            return _.any(membership.PermissionIds, function (p) {
+                return p === permissionId;
+            });
+        };
+    };
+
     app.addRegions({
         header: 'header',
         footer: 'footer',
@@ -50,10 +71,14 @@ function ($, _, Backbone, signalr, bootstrapData, User, UserCollection, ProjectC
 
         // Add the authenticated user to the app for future reference
         if (bootstrapData.AuthenticatedUser) {
+            app.authenticatedUser = new AuthenticatedUser(bootstrapData.AuthenticatedUser);
+
             app.user = new User(bootstrapData.AuthenticatedUser.User);
-            app.userProjects = new ProjectCollection(bootstrapData.AuthenticatedUser.Projects);
+            app.memberships = bootstrapData.AuthenticatedUser.Memberships;
+            app.projects = new ProjectCollection(bootstrapData.AuthenticatedUser.Projects);
             app.teams = new TeamCollection(bootstrapData.AuthenticatedUser.Teams);
             app.organisations = new OrganisationCollection(bootstrapData.AuthenticatedUser.Organisations);
+            app.appRoot = bootstrapData.AuthenticatedUser.Application;
         }
 
         if (bootstrapData.OnlineUsers) {

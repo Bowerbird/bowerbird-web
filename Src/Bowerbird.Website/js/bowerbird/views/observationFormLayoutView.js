@@ -91,7 +91,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editmapview', '
             ich.addTemplate('ProjectSelectItem', '{{#Projects}}<option value="{{Id}}">{{Name}}</option>{{/Projects}}');
 
             // Add project options
-            this.$el.find('#Projects').append(ich.ProjectSelectItem({ Projects: app.userProjects.toJSON() }));
+            this.$el.find('#Projects').append(ich.ProjectSelectItem({ Projects: app.projects.toJSON() }));
 
             this.projectListSelectView = this.$el.find('#Projects').multiSelect({
                 selectAll: false,

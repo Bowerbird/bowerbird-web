@@ -109,6 +109,11 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="css\new\global.css" />
+    <Content Include="css\new\media.css" />
+    <Content Include="css\new\normalize.css" />
+    <Content Include="css\new\stream.css" />
+    <Content Include="css\site.css" />
     <Content Include="js\bowerbird\collections\referenceSpeciesCollection.js" />
     <Content Include="js\bowerbird\collections\speciesCollection.js" />
     <Content Include="js\bowerbird\collections\organisationCollection.js" />
@@ -255,6 +260,7 @@
     <None Include="Views\ReferenceSpecies\Delete.mustache" />
     <None Include="Views\ReferenceSpecies\Index.mustache" />
     <None Include="Views\ReferenceSpecies\List.mustache" />
+    <None Include="Views\Shared\SidebarMenuGroup.mustache" />
     <None Include="Views\Shared\SidebarOrganisationItem.mustache" />
     <None Include="Views\Shared\SidebarTeamItem.mustache" />
     <None Include="Views\Shared\PostForm.mustache">
@@ -279,11 +285,10 @@
     <Content Include="apple-touch-icon-57x57-precomposed.png" />
     <Content Include="apple-touch-icon-72x72-precomposed.png" />
     <Content Include="apple-touch-icon-precomposed.png" />
-    <Content Include="css\debug.css" />
+    <Content Include="css\_old\debug.css" />
     <Content Include="css\media.css" />
     <Content Include="css\normalize.css" />
-    <Content Include="css\site.css" />
-    <Content Include="css\_old.css" />
+    <Content Include="css\_old\_old.css" />
     <Content Include="demo\hack.css" />
     <Content Include="demo\hack2.css" />
     <Content Include="demo\internet_explorer.png" />
@@ -451,7 +456,9 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Views\Shared\Sidebar.mustache" />
-    <None Include="Views\Shared\SidebarProjectItem.mustache" />
+    <None Include="Views\Shared\SidebarProjectItem.mustache">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Views\Shared\Stream.mustache" />
     <None Include="Views\Shared\StreamListLoading.mustache" />
     <None Include="Views\Shared\StreamLoadMore.mustache" />

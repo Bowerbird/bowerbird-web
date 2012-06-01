@@ -120,26 +120,26 @@ namespace Bowerbird.Core.Config
                 AddProject("Kens Bees", "Bee Project", "www.bowerbird.org.au", Users[2].Id, Teams[1].Id);
 
                 // Members
-                AddProjectMember(Users[0].Id, Projects[0].Id, "projectmember");
-                AddProjectMember(Users[0].Id, Projects[1].Id, "projectmember");
-                AddProjectMember(Users[1].Id, Projects[0].Id, "projectmember");
-                AddProjectMember(Users[1].Id, Projects[1].Id, "projectmember");
-                AddProjectMember(Users[2].Id, Projects[0].Id, "projectmember");
-                AddProjectMember(Users[2].Id, Projects[1].Id, "projectmember");
+                AddProjectMember(Users[0].Id, Projects[0].Id, "projectadministrator", "projectmember");
+                AddProjectMember(Users[0].Id, Projects[1].Id, "projectadministrator", "projectmember");
+                AddProjectMember(Users[1].Id, Projects[0].Id, "projectadministrator", "projectmember");
+                AddProjectMember(Users[1].Id, Projects[1].Id, "projectadministrator", "projectmember");
+                AddProjectMember(Users[2].Id, Projects[0].Id, "projectadministrator", "projectmember");
+                AddProjectMember(Users[2].Id, Projects[1].Id, "projectadministrator", "projectmember");
 
-                AddTeamMember(Users[0].Id, Teams[0].Id, "teamadministrator");
-                AddTeamMember(Users[0].Id, Teams[1].Id, "teamadministrator");
-                AddTeamMember(Users[1].Id, Teams[0].Id, "teamadministrator");
-                AddTeamMember(Users[1].Id, Teams[1].Id, "teamadministrator");
-                AddTeamMember(Users[2].Id, Teams[0].Id, "teamadministrator");
-                AddTeamMember(Users[2].Id, Teams[1].Id, "teamadministrator");
+                AddTeamMember(Users[0].Id, Teams[0].Id, "teamadministrator", "teammember");
+                AddTeamMember(Users[0].Id, Teams[1].Id, "teamadministrator", "teammember");
+                AddTeamMember(Users[1].Id, Teams[0].Id, "teamadministrator", "teammember");
+                AddTeamMember(Users[1].Id, Teams[1].Id, "teamadministrator", "teammember");
+                AddTeamMember(Users[2].Id, Teams[0].Id, "teamadministrator", "teammember");
+                AddTeamMember(Users[2].Id, Teams[1].Id, "teamadministrator", "teammember");
 
-                AddOrganisationMember(Users[0].Id, Organisations[0].Id, "organisationadministrator");
-                AddOrganisationMember(Users[0].Id, Organisations[1].Id, "organisationadministrator");
-                AddOrganisationMember(Users[1].Id, Organisations[0].Id, "organisationadministrator");
-                AddOrganisationMember(Users[1].Id, Organisations[1].Id, "organisationadministrator");
-                AddOrganisationMember(Users[2].Id, Organisations[0].Id, "organisationadministrator");
-                AddOrganisationMember(Users[2].Id, Organisations[1].Id, "organisationadministrator");
+                AddOrganisationMember(Users[0].Id, Organisations[0].Id, "organisationadministrator", "organisationmember");
+                AddOrganisationMember(Users[0].Id, Organisations[1].Id, "organisationadministrator", "organisationmember");
+                AddOrganisationMember(Users[1].Id, Organisations[0].Id, "organisationadministrator", "organisationmember");
+                AddOrganisationMember(Users[1].Id, Organisations[1].Id, "organisationadministrator", "organisationmember");
+                AddOrganisationMember(Users[2].Id, Organisations[0].Id, "organisationadministrator", "organisationmember");
+                AddOrganisationMember(Users[2].Id, Organisations[1].Id, "organisationadministrator", "organisationmember");
 
                 // Save changes so that we have access to indexes for observation creation
                 _documentSession.SaveChanges();
@@ -241,11 +241,11 @@ namespace Bowerbird.Core.Config
             Projects.Add(project);
         }
 
-        private void AddProjectMember(string userid, string projectId, string rolename)
+        private void AddProjectMember(string userid, string projectId, params string[] roleIds)
         {
             var user = Users.Single(x => x.Id == userid);
             var project = Projects.Single(x => x.Id == projectId);
-            var roles = new List<Role>() { Roles.Single(x => x.Id == "roles/" + rolename) };
+            var roles = Roles.Where(x => roleIds.Any(y => x.Id == "roles/" + y));
 
             var projectMember = new Member(user, user, project, roles);
             _documentSession.Store(projectMember);
@@ -253,11 +253,11 @@ namespace Bowerbird.Core.Config
             Members.Add(projectMember);
         }
 
-        private void AddTeamMember(string userid, string teamId, string rolename)
+        private void AddTeamMember(string userid, string teamId, params string[] roleIds)
         {
             var user = Users.Single(x => x.Id == userid);
             var team = Teams.Single(x => x.Id == teamId);
-            var roles = new List<Role>() { Roles.Single(x => x.Id == "roles/" + rolename) };
+            var roles = Roles.Where(x => roleIds.Any(y => x.Id == "roles/" + y));
 
             var teamMember = new Member(user, user, team, roles);
 
@@ -266,11 +266,11 @@ namespace Bowerbird.Core.Config
             Members.Add(teamMember);
         }
 
-        private void AddOrganisationMember(string userid, string organisationId, string rolename)
+        private void AddOrganisationMember(string userid, string organisationId, params string[] roleIds)
         {
             var user = Users.Single(x => x.Id == userid);
             var organisation = Organisations.Single(x => x.Id == organisationId);
-            var roles = new List<Role>() { Roles.Single(x => x.Id == "roles/" + rolename) };
+            var roles = Roles.Where(x => roleIds.Any(y => x.Id == "roles/" + y));
 
             var organisationMember = new Member(user, user, organisation, roles);
 

@@ -1,13 +1,47 @@
-﻿  <div class="menu-group" id="default-menu-group">
+﻿<div id="action-menu" class="tab-bar small">
+  <ul class="tabs">
+    <li><a href="/projects/create" class="tab-image-button new-project-button">New Project <span></span></a></li>
+    <li><a href="/teams/create" class="tab-image-button browse-projects-button">New Team <span></span></a></li>
+    <li><a href="/organisations/create" class="tab-image-button browse-projects-button">New Organisation <span></span></a></li>
+    <li><a href="/observations/create" class="tab-button browse-projects-button">New Observation <span></span></a></li>
+  </ul>
+</div>  
+<div class="menu-group" id="default-menu-group">
+    <div class="menu-group-items">
       <ul>
-          <li><a href="/" class="user-stream"><img alt="" src="../img/avatar-1.png"><div><p>Home <span>23</span></p></div></a></li>
-          <li><a href="/favourites" class="user-favourites"><img alt="" src="../img/avatar-2.png"><div><p>Favourites</p></div></a></li>
+          <li class="menu-group-item"><a href="/" class="user-stream"><img alt="" src="../img/avatar-1.png"><div><p>Home <span>23</span></p></div></a></li>
+          <li class="menu-group-item"><a href="/users/{{Model.UserId}}" class="user-profile"><img alt="" src="../img/avatar-1.png"><div><p>Your Profile</p></div></a></li>
+          <li class="menu-group-item"><a href="/all" class="all-bowerbird"><img alt="" src="../img/avatar-1.png"><div><p>All Bowerbird Activity</p></div></a></li>
+          <li class="menu-group-item"><a href="/favourites" class="user-favourites"><img alt="" src="../img/avatar-2.png"><div><p>Favourites</p></div></a></li>
       </ul>
+    </div>
   </div>
   <div class="menu-group" id="project-menu-group">
-      <div class="menu-group-title">Projects</div>
-      <ul id="project-menu-group-list">
-          <li class="menu-group-options">
+    <div class="menu-group-title">Projects</div>
+    <div class="menu-group-items">
+      <!--<div class="tab-bar small">
+        <ul class="tabs">
+          <li>
+            <a href="/projects/create" class="tab-image-button new-project-button">
+              New Project <span></span>
+            </a>
+          </li>
+          <li>
+            <a href="/projects" class="tab-image-button browse-projects-button">
+              Browse Projects <span></span>
+            </a>
+          </li>
+        </ul>
+      </div>-->
+      <div id="project-list"></div>
+      <!--<ul id="project-menu-group-list">
+          <li class="menu-group-options tabs">
+            <a href="/projects/create" class="new-project-button">
+              <span></span>
+            </a>
+            <a href="/projects" class="browse-projects-button">
+              <span></span>
+            </a>
               <span>Options</span>
               <div class="sub-menu-button">
                   <span></span>
@@ -17,59 +51,8 @@
                   </ul>
               </div>
           </li>
-      </ul>
+      </ul>-->
+    </div>
   </div>
-  <div class="menu-group" id="watch-menu-group">
-      <div class="menu-group-title">Watch Lists</div>
-      <ul>
-          <li class="menu-group-item"><a href="/watchlists/33"><img src="/img/default-project-avatar.jpg" alt="Test"><div><p>Red Butterflies</p></div></a>
-              <div class="sub-menu-button">
-                  <span></span>
-                  <ul>
-                      <li><div><p><a href="#">View Latest Activity</a></p></div></li>
-                      <li class="divider"></li>
-                      <li><div><p>Edit Watch List Details</p></div></li>
-                  </ul>
-              </div>
-          </li>
-          <li class="menu-group-options">
-              <span>Options</span>
-              <div class="sub-menu-button">
-                  <span></span>
-                  <ul>
-                      <li><div><p><a href="/watchlists/create">Create a New Watch List</a></p></div></li>
-                  </ul>
-              </div>
-          </li>
-      </ul>
-  </div>
-  <div class="menu-group" id="admin-menu-group">
-      <div class="menu-group-title">Management</div>
-      <ul id="admin-menu-group-list">
-          <li class="menu-group-options">
-              <span>Options</span>
-              <div class="sub-menu-button">
-                  <span></span>
-                  <ul>
-                      <li><div><p><a href="/teams/create">Start a New Team</a></p></div></li>
-                      <li><div><p><a href="/organisations/create">Start a New Organisation</a></p></div></li>
-                  </ul>
-              </div>
-          </li>
-      </ul>
-  </div>
-  <!--<div class="menu-group" id="application-menu-group">
-      <div class="menu-group-title">Application Management</div>
-      <ul id="application-menu-group-list">
-          <li class="menu-group-options">
-              <span>Options</span>
-              <div class="sub-menu-button">
-                  <span></span>
-                  <ul>
-                      <li><div><p><a href="/teams/create">Start a New Team</a></p></div></li>
-                        <li><div><p><a href="/organisations/create">Start a New Organisation</a></p></div></li>
-                  </ul>
-              </div>
-          </li>
-      </ul>
-  </div>-->
+<div class="menu-teams"></div>
+<div class="menu-organisations"></div>

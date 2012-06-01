@@ -96,7 +96,8 @@ namespace Bowerbird.Web.Controllers
                 {"UserItem", null},
                 {"UsersOnlineList", null},
                 {"Project", null},
-                {"Observation", null}
+                {"Observation", null},
+                {"SidebarMenuGroup", null}
             };
 
             // Load all templates from Nustache
