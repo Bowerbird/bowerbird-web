@@ -1,16 +1,16 @@
 ﻿<div class="summary">
-  <img src="{{Model.User.Avatar.UrlToImage}}" alt="" />
+  <img src="{{Model.User.Avatar.Files.thumbnail.RelativeUri}}" alt="{{Model.User.FirstName}}" />
   <p class="description">
     {{Model.Description}} <span>{{Model.CreatedDateTimeDescription}}</span>
   </p>
 </div>
-{{#Model.Content.ObservationAdded}}
+{{#Model.ObservationAdded}}
 <div class="details">
-  Observation added
+  {{>ObservationStreamItem}}
 </div>
-{{/Model.Content.ObservationAdded}}
-{{#Model.Content.UserJoinedGroup}}
+{{/Model.ObservationAdded}}
+{{#Model.UserJoinedGroup}}
 <div class="details">
   User joined group
 </div>
-{{/Model.Content.UserJoinedGroup}}
+{{/Model.UserJoinedGroup}}

@@ -298,7 +298,7 @@ namespace Bowerbird.Core.DomainModels
 
         public ObservationMedia GetPrimaryImage()
         {
-            return Media.FirstOrDefault(x => x.MediaResource.Type.ToLower() == "image");
+            return Media.Where(x => x.MediaResource.Type == "image").First();
         }
 
         #endregion

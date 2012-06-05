@@ -21,6 +21,7 @@ using Raven.Client;
 using System;
 using Bowerbird.Core.Config;
 using Raven.Client.Linq;
+using Bowerbird.Core.Factories;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -29,17 +30,21 @@ namespace Bowerbird.Core.CommandHandlers
         #region Members
 
         private readonly IDocumentSession _documentSession;
+        private readonly IAvatarFactory _avatarFactory;
 
         #endregion
 
         #region Constructors
 
         public UserCreateCommandHandler(
-            IDocumentSession documentSession)
+            IDocumentSession documentSession,
+            IAvatarFactory avatarFactory)
         {
             Check.RequireNotNull(documentSession, "documentSession");
+            Check.RequireNotNull(avatarFactory, "avatarFactory");
 
             _documentSession = documentSession;
+            _avatarFactory = avatarFactory;
         }
 
         #endregion
@@ -58,7 +63,8 @@ namespace Bowerbird.Core.CommandHandlers
                 userCreateCommand.Password,
                 userCreateCommand.Email,
                 userCreateCommand.FirstName,
-                userCreateCommand.LastName);
+                userCreateCommand.LastName,
+                _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.User));
             _documentSession.Store(user);
 
             var appRoot = _documentSession.Load<AppRoot>(Constants.AppRootId);

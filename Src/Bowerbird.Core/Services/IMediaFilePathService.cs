@@ -17,11 +17,11 @@ namespace Bowerbird.Core.Services
 {
     public interface IMediaFilePathService
     {
-        string MakeMediaFileUri(MediaResource mediaResource, string storedRepresentation);
+        //string MakeRelativeMediaFileUri(MediaResource mediaResource, string storedRepresentation);
 
-        string MakeMediaFileUri(string mediaResourceId, string mediaType, string storedRepresentation, string extension);
+        string MakeRelativeMediaFileUri(string mediaResourceId, string mediaType, string storedRepresentation, string extension);
 
-        string MakeMediaFileName(MediaResource mediaResource, string storedRepresentation);
+        //string MakeMediaFileName(MediaResource mediaResource, string storedRepresentation);
 
         string MakeMediaFileName(string mediaResourceId, string storedRepresentation, string extension);
 

@@ -1338,7 +1338,7 @@ header nav#search-menu
     text-shadow: 0 1px 0 #FFFFFF;
     text-transform: uppercase;
 }
-#sidebar .menu-group-items
+#sidebar .menu-group > ul
 {
     border-radius: 4px 4px 4px 4px;
     box-shadow: 0 1px 2px 0 #5071A6;
@@ -1352,9 +1352,6 @@ header nav#search-menu
 }
 #sidebar .menu-group-item > a
 {
-    color: #133A68;
-    font-size: 0.9375em;
-    font-weight: 600;
     text-decoration: none;
     background-color: #FFFFFF;
     display: block;
@@ -1390,14 +1387,17 @@ header nav#search-menu
     display: table-cell;
     height: 3.06666667em;
     vertical-align: middle;
-    letter-spacing: -0.019em;
 }
 #sidebar .menu-group-item a > div p
 {
-    line-height: 1.36em;
+    line-height: 1.41em;
     margin: 0;
     overflow: hidden;
     padding: 2px 2px 0 0;
+    color: #133A68;
+    font-size: 0.9375em;
+    font-weight: 600;    
+    /*letter-spacing: -0.019em;*/
 }
 #sidebar .menu-group-item a > div p span
 {
@@ -1421,50 +1421,11 @@ header nav#search-menu
 {
     margin-right: 30px;
 }
-/*#sidebar .menu-group .menu-group-options
-{
-    background-color: #DFEAF6;
-    border-radius: 0 0 4px 4px;
-    padding: 11px 10px;
-}
-#sidebar .menu-group .menu-group-options .sub-menu-button
-{
-    background-color: transparent;
-}
-#sidebar #team-menu-group > ul > li.menu-group-options > span,
-#sidebar #project-menu-group > ul > li.menu-group-options > span,
-#sidebar #watch-menu-group > ul > li.menu-group-options > span
-{
-    color: #6997C5;
-    font-size: 0.79em;
-    font-weight: 600;
-    line-height: 1.3em;
-    text-shadow: 0 1px 0 #FFFFFF;
-}
-#sidebar #team-menu-group > ul > li.menu-group-options > div,
-#sidebar #project-menu-group > ul > li.menu-group-options > div,
-#sidebar #watch-menu-group > ul > li.menu-group-options > div
-{
-    background-color: transparent;
-    border-bottom: medium none;
-    top: -1px;
-}
-#sidebar #team-menu-group > ul > li.menu-group-options > div > span,
-#sidebar #project-menu-group > ul > li.menu-group-options > div > span,
-#sidebar #watch-menu-group > ul > li.menu-group-options > div > span
-{
-    background-color: #94B5D6;
-    border-color: #94B5D6;
-    box-shadow: 0 1px 0 #FFFFFF;
-}
-#sidebar #team-menu-group > ul > li.menu-group-options > div:hover > span,
-#sidebar #project-menu-group > ul > li.menu-group-options > div:hover > span,
-#sidebar #watch-menu-group > ul > li.menu-group-options > div:hover > span
-{
-    background-color: #1B83EB;
-    border-color: #1B83EB;
-}*/
-/* sidebar sub-menu */
+/*
+*
+* Sidebar sub-menu popup
+*
+*/
 #sidebar .sub-menu-button
 {
     border-bottom: 1px solid #CFDDEB;
@@ -1500,14 +1461,13 @@ header nav#search-menu
     border-radius: 4px 4px 4px 4px;
     box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.5);
     display: none;
-    
     left: 24px;
     position: relative;
     top: -18px;
     width: 210px;
     z-index: 9;
+    padding: 0.01em 0;
 }
-/*#sidebar .menu-group ul li > div:hover ul*/
 #sidebar .sub-menu-button.active ul
 {
     display: block;
@@ -1520,38 +1480,17 @@ header nav#search-menu
 #sidebar .sub-menu-button ul li
 {
     list-style: none;
+    margin: 0.7em 0;
 }
-#sidebar .sub-menu-button ul li > div
-{
-    display: block;
-    height: 3.06667em;
-    overflow: hidden;
-    padding-left: 14px;
-    padding-right: 14px;
-}
-#sidebar .sub-menu-button ul li > div p,
-#sidebar .sub-menu-button ul li > div a
+#sidebar .sub-menu-button ul li a,
+#sidebar .sub-menu-button ul li span
 {
     color: #133A68;
+    display: block;
     font-size: 0.9375em;
     font-weight: 600;
+    padding: 0 14px;
     text-decoration: none;
-}
-#sidebar .sub-menu-button ul li:last-child > div
-{
-    border-bottom: none;
-}
-#sidebar .sub-menu-button ul li > div p
-{
-    display: table-cell;
-    height: 3.06667em;
-    letter-spacing: -0.019em;
-    vertical-align: middle;  
-        
-    line-height: 1.36em;
-    margin: 0;
-    overflow: hidden;
-    padding: 2px 2px 0 0;
 }
 #sidebar .sub-menu-button ul li.divider
 {
@@ -1573,7 +1512,7 @@ header nav#search-menu
     margin-bottom: 13px;
 }
 /* selected filter group */
-.project > .summary
+/*.project > .summary
 {
     background-color: #FFFFFF;
     border-radius: 4px 4px 0 0;
@@ -1589,7 +1528,7 @@ header nav#search-menu
     padding-right: 15px;
     height: 187px;
 }
-/*#selected-filter-group > div > h2
+#selected-filter-group > div > h2
 {
     color: #143658;
     font-size: 1.6875em;
@@ -1626,7 +1565,7 @@ header nav#search-menu
     font-weight: 600;
     padding-bottom: 4px;
     padding-top: 8px;
-}*/
+}
 .project > .summary p
 {
     color: #143658;
@@ -1638,4 +1577,4 @@ header nav#search-menu
     overflow: hidden;
     padding-right: 15px;
     padding-top: 12px;
-}
+}*/

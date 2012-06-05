@@ -50,7 +50,8 @@ namespace Bowerbird.Core.DomainModels
             string password,
             string email,
             string firstName, 
-            string lastName) 
+            string lastName,
+            MediaResource avatar) 
             : this() 
         {
             Email = email;
@@ -61,8 +62,7 @@ namespace Bowerbird.Core.DomainModels
             SetDetails(
                 firstName,
                 lastName,
-                string.Empty,
-                null);
+                avatar);
         }
 
         #endregion
@@ -135,11 +135,10 @@ namespace Bowerbird.Core.DomainModels
             return hashedPassword;
         }
 
-        private void SetDetails(string firstName, string lastName, string description, MediaResource avatar)
+        private void SetDetails(string firstName, string lastName, MediaResource avatar)
         {
             FirstName = firstName;
             LastName = lastName;
-            Description = description;
             Avatar = avatar;
         }
 
@@ -174,8 +173,9 @@ namespace Bowerbird.Core.DomainModels
             SetDetails(
                 firstName,
                 lastName,
-                description,
                 avatar);
+
+            Description = description;
 
             FireEvent(new DomainModelUpdatedEvent<User>(this, this, this));
 

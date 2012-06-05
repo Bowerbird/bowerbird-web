@@ -14,12 +14,12 @@ using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Paging;
-using Bowerbird.Core.Factories;
 using Bowerbird.Web.ViewModels;
 using Raven.Client;
 using Raven.Client.Linq;
 using System.Linq;
 using Bowerbird.Core.Config;
+using Bowerbird.Core.Factories;
 
 namespace Bowerbird.Web.Builders
 {
@@ -36,8 +36,7 @@ namespace Bowerbird.Web.Builders
 
         public TeamsViewModelBuilder(
             IDocumentSession documentSession,
-            IAvatarFactory avatarFactory
-        )
+            IAvatarFactory avatarFactory)
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(avatarFactory, "avatarFactory");
@@ -73,7 +72,7 @@ namespace Bowerbird.Web.Builders
                 Name = "New Team",
                 Description = "New Team",
                 Website = "",
-                Avatar = _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Team, "New Team"),
+                Avatar = _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Team),
                 MemberCount = 1
             };
         }
@@ -195,7 +194,7 @@ namespace Bowerbird.Web.Builders
         {
             return new
             {
-                Avatar = _avatarFactory.Make(user),
+                Avatar = user.Avatar,
                 user.Id,
                 user.LastLoggedIn,
                 Name = user.GetName()
@@ -210,7 +209,7 @@ namespace Bowerbird.Web.Builders
                 result.Team.Name,
                 result.Team.Description,
                 result.Team.Website,
-                Avatar = _avatarFactory.Make(result.Team),
+                Avatar = result.Team.Avatar,
                 MemberCount = result.MemberIds.Count()
                 //Projects = result.ChildGroups.Where(x => x.GroupType == "project").Select(x => x.Id)
             };

@@ -45,16 +45,7 @@ namespace Bowerbird.Core.Services
 
         #region Methods
 
-        public string MakeMediaFileUri(MediaResource mediaResource, string storedRepresentation)
-        {
-            return MakeMediaFileUri(
-                mediaResource.Id,
-                mediaResource.Type,
-                storedRepresentation,
-                mediaResource.Metadata["format"]);
-        }
-
-        public string MakeMediaFileUri(string mediaResourceId, string mediaType, string storedRepresentation, string extension)
+        public string MakeRelativeMediaFileUri(string mediaResourceId, string mediaType, string storedRepresentation, string extension)
         {
             return string.Format(
                 "{0}/{1}/{2}/{3}", 
@@ -62,14 +53,6 @@ namespace Bowerbird.Core.Services
                 mediaType,
                 GetDirectoryName(RecordIdPart(mediaResourceId)),
                 MakeMediaFileName(mediaResourceId, storedRepresentation, extension));
-        }
-
-        public string MakeMediaFileName(MediaResource mediaResource, string storedRepresentation)
-        {
-            return MakeMediaFileName(
-                mediaResource.Id,
-                storedRepresentation,
-                mediaResource.Metadata["format"]);
         }
 
         public string MakeMediaFileName(string mediaResourceId, string storedRepresentation, string extension)

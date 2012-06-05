@@ -1,5 +1,5 @@
 ﻿  <a href="/{{Id}}">
-    <img alt="{{Name}}" src="{{Avatar.UrlToImage}}">
+    <img alt="{{Name}}" src="{{Avatar.Files.thumbnail.RelativeUri}}">
       <div>
         <p>{{Name}}</p>
       </div>
@@ -8,71 +8,37 @@
     <span></span>
     <ul>
       <li>
-        <div>
-          <p>
-            <a href="/{{Id}}">View Latest Activity</a>
-          </p>
-        </div>
+        <a href="/{{Id}}">View Latest Activity</a>
       </li>
       <li>
-        <div>
-          <p>
-            <a href="/{{Id}}/observations">View Observations</a>
-          </p>
-        </div>
+        <a href="/{{Id}}/observations">View Observations</a>
       </li>
       <li>
-        <div>
-          <p>
-            <a href="/{{Id}}/posts">View Posts</a>
-          </p>
-        </div>
+        <a href="/{{Id}}/posts">View Posts</a>
       </li>
       <li>
-        <div>
-          <p>
-            <a href="/{{Id}}/members">View Members</a>
-          </p>
-        </div>
+        <a href="/{{Id}}/members">View Members</a>
       </li>
       <li>
-        <div>
-          <p>
-            <a href="/{{Id}}/about">About this Team</a>
-          </p>
-        </div>
+        <a href="/{{Id}}/about">About this Team</a>
       </li>
       <li class="divider"></li>
       <li>
-        <div>
-          <p>
-            <a href="/posts/create?id={{Id}}">Add a Post</a>
-          </p>
-        </div>
+        <a href="/posts/create?id={{Id}}">Add a Post</a>
       </li>
       {{#Permissions.CreateProject}}
       <li>
-        <div>
-          <p>
-            <a href="/projects/create?id={{Id}}">Add a Project</a>
-          </p>
-        </div>
+        <a href="/projects/create?id={{Id}}">Add a Project</a>
       </li>
       {{/Permissions.CreateProject}}
       {{#Permissions.UpdateTeam}}
       <li>
-        <div>
-          <p>
-            <a href="/{{Id}}/update">Edit Team Details</a>
-          </p>
-        </div>
+        <a href="/{{Id}}/update">Edit Team Details</a>
       </li>
       {{/Permissions.UpdateTeam}}
       <li class="divider"></li>
       <li>
-        <div class="chat-menu-item">
-          <p>Join Chat</p>
-        </div>
+        <span class="chat-menu-item">Join Chat</span>
       </li>
     </ul>
   </div>

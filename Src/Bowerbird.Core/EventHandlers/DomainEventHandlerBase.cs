@@ -39,7 +39,13 @@ namespace Bowerbird.Core.EventHandlers
                 type,
                 DateTime.Now,
                 description,
-                domainEvent.User,
+                new 
+                {
+                    domainEvent.User.Id,
+                    domainEvent.User.FirstName,
+                    domainEvent.User.LastName,
+                    domainEvent.User.Avatar
+                },
                 groups);
         }
 

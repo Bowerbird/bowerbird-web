@@ -16,6 +16,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bowerbird.Test", "Bowerbird.Test\Bowerbird.Test.csproj", "{E372C4B3-14CE-4D15-84F4-2F9E4750BC5F}"
 EndProject
 Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = Bowerbird.vsmdi
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Prod|Any CPU = Prod|Any CPU

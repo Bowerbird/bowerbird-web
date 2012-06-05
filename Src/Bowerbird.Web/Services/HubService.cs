@@ -85,12 +85,12 @@ namespace Bowerbird.Web.Services
                 return new
                 {
                     AltTag = user.GetName(),
-                    UrlToImage = _mediaFilePathService.MakeMediaFileUri(
-                        user.Avatar.Id,
-                        "image",
-                        "avatar",
-                        user.Avatar.Metadata["metatype"]
-                        )
+                    //UrlToImage = _mediaFilePathService.MakeMediaFileUri(
+                    //    user.Avatar.Id,
+                    //    "image",
+                    //    "avatar",
+                    //    user.Avatar.Metadata["metatype"]
+                    //    )
                 };
             }
 

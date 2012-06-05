@@ -15,6 +15,8 @@ using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Services;
 using Raven.Client;
+using System.Dynamic;
+using Raven.Abstractions.Linq;
 
 namespace Bowerbird.Core.EventHandlers
 {

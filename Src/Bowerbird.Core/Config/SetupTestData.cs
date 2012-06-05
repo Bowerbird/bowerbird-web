@@ -24,6 +24,7 @@ using Bowerbird.Core.Indexes;
 using Raven.Client.Linq;
 using Microsoft.Practices.ServiceLocation;
 using Bowerbird.Core.Services;
+using Bowerbird.Core.Factories;
 
 namespace Bowerbird.Core.Config
 {
@@ -35,6 +36,7 @@ namespace Bowerbird.Core.Config
         private readonly ISystemStateManager _systemStateManager;
         private readonly ICommandProcessor _commandProcessor;
         private readonly IConfigService _configService;
+        private readonly IAvatarFactory _avatarFactory;
 
         #endregion
 
@@ -44,17 +46,20 @@ namespace Bowerbird.Core.Config
             IDocumentSession documentSession,
             ISystemStateManager systemStateManager,
             ICommandProcessor commandProcessor,
-            IConfigService configService)
+            IConfigService configService,
+            IAvatarFactory avatarFactory)
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(systemStateManager, "systemStateManager");
             Check.RequireNotNull(commandProcessor, "commandProcessor");
             Check.RequireNotNull(configService, "configService");
+            Check.RequireNotNull(avatarFactory, "avatarFactory");
 
             _documentSession = documentSession;
             _systemStateManager = systemStateManager;
             _commandProcessor = commandProcessor;
             _configService = configService;
+            _avatarFactory = avatarFactory;
         }
 
         #endregion
@@ -182,7 +187,7 @@ namespace Bowerbird.Core.Config
 
         private void AddOrganisation(string name, string description, string website, string userid)
         {
-            var organisation = new Organisation(Users.Single(x => x.Id == userid), name, description, website, null, DateTime.Now, TheAppRoot);
+            var organisation = new Organisation(Users.Single(x => x.Id == userid), name, description, website, _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Organisation), DateTime.Now, TheAppRoot);
             _documentSession.Store(organisation);
 
             var groupAssociation = new GroupAssociation(TheAppRoot, organisation, Users.Single(x => x.Id == userid), DateTime.Now);
@@ -199,7 +204,7 @@ namespace Bowerbird.Core.Config
         {
             var parentGroup = Organisations.Single(x => x.Id == organisationId);
             
-            var team = new Team(Users.Single(x => x.Id == userid), name, description, website, null, DateTime.Now, parentGroup);
+            var team = new Team(Users.Single(x => x.Id == userid), name, description, website, _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Team), DateTime.Now, parentGroup);
             _documentSession.Store(team);
 
             var groupAssociation = new GroupAssociation(parentGroup, team, Users.Single(x => x.Id == userid), DateTime.Now);
@@ -219,7 +224,7 @@ namespace Bowerbird.Core.Config
         {
             var parentGroup = Teams.Single(x => x.Id == teamId);
 
-            var project = new Project(Users.Single(x => x.Id == userid), name, description, website, null, DateTime.Now, parentGroup);
+            var project = new Project(Users.Single(x => x.Id == userid), name, description, website, _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Project), DateTime.Now, parentGroup);
             _documentSession.Store(project);
 
 

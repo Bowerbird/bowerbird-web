@@ -18,6 +18,7 @@ using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.Services;
+using Bowerbird.Core.Factories;
 
 namespace Bowerbird.Core.Config
 {
@@ -28,6 +29,7 @@ namespace Bowerbird.Core.Config
         private readonly IDocumentSession _documentSession;
         private readonly IConfigService _configService;
         private readonly ICommandProcessor _commandProcessor;
+        private readonly IAvatarFactory _avatarFactory;
         private static object _lock = new object();
 
         #endregion
@@ -37,15 +39,18 @@ namespace Bowerbird.Core.Config
         public SystemStateManager(
             IDocumentSession documentSession,
             IConfigService configService,
-            ICommandProcessor commandProcessor)
+            ICommandProcessor commandProcessor,
+            IAvatarFactory avatarFactory)
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(configService, "configService");
             Check.RequireNotNull(commandProcessor, "commandProcessor");
+            Check.RequireNotNull(avatarFactory, "avatarFactory");
              
             _documentSession = documentSession;
             _configService = configService;
             _commandProcessor = commandProcessor;
+            _avatarFactory = avatarFactory;
         }
 
         #endregion
@@ -61,12 +66,12 @@ namespace Bowerbird.Core.Config
             var appRoot = LoadAppRoot();
             if (appRoot == null)
             {
-                SetupSystem setupSystem = new SetupSystem(_documentSession, this, _configService);
+                SetupSystem setupSystem = new SetupSystem(_documentSession, this, _configService, _avatarFactory);
                 setupSystem.Execute();
 
                 if (doSetupTestData)
                 {
-                    SetupTestData setupTestData = new SetupTestData(_documentSession, this, _commandProcessor, _configService);
+                    SetupTestData setupTestData = new SetupTestData(_documentSession, this, _commandProcessor, _configService, _avatarFactory);
                     setupTestData.Execute();
                 }
             }

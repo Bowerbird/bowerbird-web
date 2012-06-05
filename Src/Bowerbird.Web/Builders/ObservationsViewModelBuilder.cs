@@ -26,6 +26,8 @@ using Raven.Client;
 using Raven.Client.Linq;
 using System;
 using Bowerbird.Core.Services;
+using Nustache.Core;
+using System.Collections;
 
 namespace Bowerbird.Web.Builders
 {
@@ -155,29 +157,34 @@ namespace Bowerbird.Web.Builders
                 Category = observation.Category,
                 IsIdentificationRequired = observation.IsIdentificationRequired,
                 AnonymiseLocation = observation.AnonymiseLocation,
-                Media = MakeObservationMediaItems(observation.Media),
+                Media = observation.Media.Select(x => MakeObservationMediaItem(x, observation.GetPrimaryImage() == x)),
+                PrimaryImage = MakeObservationMediaItem(observation.GetPrimaryImage(), true),
                 Projects = observation.Groups.Select(x => x.Group.Id)
             };
         }
 
-        private IEnumerable<object> MakeObservationMediaItems(IEnumerable<ObservationMedia> observationMedia)
+        private object MakeObservationMediaItem(ObservationMedia observationMedia, bool isPrimaryImage)
         {
-            return observationMedia.Select(x =>
-                new
-                {
-                    MediaResourceId = x.MediaResource.Id,
-                    x.Description,
-                    x.Licence,
-                    x.MediaResource.Metadata,
-                    x.MediaResource.Type,
-                    CreatedByUser = x.MediaResource.CreatedByUser.Id,
-                    UploadedOn = x.MediaResource.UploadedOn.ToString("d MMM yyyy"),
-                    OriginalImageUri = _mediaFilePathService.MakeMediaFileUri(x.MediaResource, "original"),
-                    LargeImageUri = _mediaFilePathService.MakeMediaFileUri(x.MediaResource, "large"),
-                    MediumImageUri = _mediaFilePathService.MakeMediaFileUri(x.MediaResource, "medium"),
-                    SmallImageUri = _mediaFilePathService.MakeMediaFileUri(x.MediaResource, "small"),
-                    ThumbnailImageUri = _mediaFilePathService.MakeMediaFileUri(x.MediaResource, "thumbnail")
-                });
+            if(observationMedia.MediaResource.Type == "image")
+            {
+                return new
+                    {
+                        IsPrimaryImage = isPrimaryImage,
+                        MediaResourceId = observationMedia.MediaResource.Id,
+                        observationMedia.MediaResource.Type,
+                        observationMedia.Description,
+                        observationMedia.Licence,
+                        CreatedByUser = observationMedia.MediaResource.CreatedByUser.Id,
+                        UploadedOn = observationMedia.MediaResource.UploadedOn,
+                        OriginalImage = observationMedia.MediaResource.Files["original"],
+                        LargeImage = observationMedia.MediaResource.Files["large"],
+                        MediumImage = observationMedia.MediaResource.Files["medium"],
+                        SmallImage = observationMedia.MediaResource.Files["small"],
+                        ThumbnailImage = observationMedia.MediaResource.Files["thumbnail"]
+                    };
+            }
+
+            throw new NotImplementedException();
         }
 
         #endregion

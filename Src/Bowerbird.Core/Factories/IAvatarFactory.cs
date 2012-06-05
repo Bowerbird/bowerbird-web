@@ -19,10 +19,11 @@ namespace Bowerbird.Core.Factories
 {
     public interface IAvatarFactory
     {
-        object MakeDefaultAvatar(AvatarDefaultType avatarType, string altTag);
-        object Make(Team team);
-        object Make(Project project);
-        object Make(Organisation organisation);
-        object Make(User user);
+        MediaResource MakeDefaultAvatar(AvatarDefaultType avatarType);
+        //object MakeDefaultAvatar(AvatarDefaultType avatarType, string altTag);
+        //object Make(Team team);
+        //object Make(Project project);
+        //object Make(Organisation organisation);
+        //object Make(User user);
     }
 }

@@ -1,13 +1,14 @@
-﻿
-
-
-
-/* details */
+﻿/* details */
 .home .tab-bar
 {
-    height: 44px;
+    border-radius: 4px 4px 0 0;
+    box-shadow: 0 1px 2px 0 #5071A6;
 }
-/* stream */
+/* 
+*
+* Stream 
+*
+*/
 .stream 
 {
     background-color: rgba(202, 222, 239, 0.5);
@@ -32,7 +33,7 @@
     text-shadow: 0 -1px 0 #555555;
     width: 300px;
 }
-.stream h2
+/*.stream h2
 {
     color: #6997C5;
     float: left;
@@ -44,7 +45,7 @@
     text-transform: uppercase;
     width: 38%;
 }
-/*.stream > ul
+.stream > ul
 {
     float: right;
     line-height: 0.6em;

@@ -15,7 +15,6 @@ using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Paging;
-using Bowerbird.Core.Factories;
 using Bowerbird.Web.ViewModels;
 using Raven.Client;
 using Raven.Client.Linq;
@@ -27,22 +26,17 @@ namespace Bowerbird.Web.Builders
         #region Fields
 
         private readonly IDocumentSession _documentSession;
-        private readonly IAvatarFactory _avatarFactory;
 
         #endregion
 
         #region Constructors
 
         public ReferenceSpeciesViewModelBuilder(
-            IDocumentSession documentSession,
-            IAvatarFactory avatarFactory
-        )
+            IDocumentSession documentSession)
         {
             Check.RequireNotNull(documentSession, "documentSession");
-            Check.RequireNotNull(avatarFactory, "avatarFactory");
 
             _documentSession = documentSession;
-            _avatarFactory = avatarFactory;
         }
 
         #endregion
@@ -130,7 +124,7 @@ namespace Bowerbird.Web.Builders
         {
             return new
             {
-                Avatar = _avatarFactory.Make(user),
+                Avatar = user.Avatar,
                 user.Id,
                 user.LastLoggedIn,
                 Name = user.GetName()

@@ -108,12 +108,9 @@ namespace Bowerbird.Web.Controllers
                     {
                         mediaResource.Id,
                         mediaResource.CreatedByUser,
-                        mediaResource.Metadata,
                         mediaResource.Type,
                         mediaResource.UploadedOn,
-                        MediumImageUri = _mediaFilePathService.MakeMediaFileUri(mediaResource, "medium"),
-                        ProfileImageUri = _mediaFilePathService.MakeMediaFileUri(mediaResource, "profile"),
-                        ThumbImageUri = _mediaFilePathService.MakeMediaFileUri(mediaResource, "thumbnail"),
+                        mediaResource.Files,
                         Key = key
                     });
             }

@@ -5,35 +5,36 @@
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// SidebarOrganisationCollectionView
-// ---------------------------------
+// SidebarMenuGroupCompositeView
+// -----------------------------
 
 // A collection of links in the sidebar
-define(['jquery', 'underscore', 'backbone', 'app', 'views/sidebarorganisationitemview'], function ($, _, Backbone, app, SidebarOrganisationItemView) {
+define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, app) {
 
-    var SidebarOrganisationCollectionView = Backbone.Marionette.CompositeView.extend({
-        id: 'organisation-menu-group',
-
+    var SidebarMenuGroupCompositeView = Backbone.Marionette.CompositeView.extend({
         className: 'menu-group',
-
-        itemView: SidebarOrganisationItemView,
 
         template: 'SidebarMenuGroup',
 
+        initialize: function (options) {
+            this.type = options.type;
+            this.label = options.label;
+        },
+
         appendHtml: function (collectionView, itemView) {
-            collectionView.$el.find('.menu-group-items > ul').append(itemView.el);
+            collectionView.$el.find('#' + this.type + '-menu-group-list').append(itemView.el);
         },
 
         serializeData: function () {
             return {
                 Model: {
-                    Name: 'organisation',
-                    Label: 'Organisations'
+                    Name: this.type,
+                    Label: this.label
                 }
             };
         }
     });
 
-    return SidebarOrganisationCollectionView;
+    return SidebarMenuGroupCompositeView;
 
 });

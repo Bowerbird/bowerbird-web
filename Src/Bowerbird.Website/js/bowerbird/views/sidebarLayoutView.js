@@ -9,8 +9,8 @@
 // -----------------
 
 // The left hand side bar that is shown to authenticated users.
-define(['jquery', 'underscore', 'backbone', 'app', 'views/sidebarprojectcollectionview', 'views/sidebarteamcollectionview', 'views/sidebarorganisationcollectionview'],
-function ($, _, Backbone, app, SidebarProjectCollectionView, SidebarTeamCollectionView, SidebarOrganisationCollectionView) {
+define(['jquery', 'underscore', 'backbone', 'app', 'views/sidebarmenugroupcompositeview', 'views/sidebarprojectitemview', 'views/sidebarteamitemview', 'views/sidebarorganisationitemview'],
+function ($, _, Backbone, app, SidebarMenuGroupCompositeView, SidebarProjectItemView, SidebarTeamItemView, SidebarOrganisationItemView) {
 
     var SidebarLayoutView = Backbone.Marionette.Layout.extend({
         tagName: 'section',
@@ -22,11 +22,10 @@ function ($, _, Backbone, app, SidebarProjectCollectionView, SidebarTeamCollecti
         template: 'Sidebar',
 
         regions: {
-            projectsMenu: '#project-menu-group #project-list',
+            projectsMenu: '.menu-projects',
             watchlistsMenu: '#watch-menu-group #watch-list',
             teamsMenu: '.menu-teams',
             organisationsMenu: '.menu-organisations'
-            //appRootMenu: '.menu-approot'
         },
 
         events: {
@@ -37,17 +36,20 @@ function ($, _, Backbone, app, SidebarProjectCollectionView, SidebarTeamCollecti
         onRender: function () {
             $('article').prepend(this.el);
 
-            var sidebarProjectCollectionView = new SidebarProjectCollectionView({ collection: this.model.projects });
-            this.projectsMenu.show(sidebarProjectCollectionView);
+            var sidebarProjectCompositeView = new SidebarMenuGroupCompositeView({ id: 'project-menu-group', collection: this.model.projects, type: 'project', label: 'Projects' });
+            sidebarProjectCompositeView.itemView = SidebarProjectItemView;
+            this.projectsMenu.show(sidebarProjectCompositeView);
 
             if (this.model.teams.length > 0) {
-                var sidebarTeamCollectionView = new SidebarTeamCollectionView({ collection: this.model.teams });
-                this.teamsMenu.show(sidebarTeamCollectionView);
+                var sidebarTeamCompositeView = new SidebarMenuGroupCompositeView({ id: 'team-menu-group', collection: this.model.teams, type: 'team', label: 'Teams' });
+                sidebarTeamCompositeView.itemView = SidebarTeamItemView;
+                this.teamsMenu.show(sidebarTeamCompositeView);
             }
 
             if (this.model.organisations.length > 0) {
-                var sidebarOrganisationCollectionView = new SidebarOrganisationCollectionView({ collection: this.model.organisations });
-                this.organisationsMenu.show(sidebarOrganisationCollectionView);
+                var sidebarOrganisationCompositeView = new SidebarMenuGroupCompositeView({ id: 'organisation-menu-group', collection: this.model.organisations, type: 'organisation', label: 'Organisations' });
+                sidebarOrganisationCompositeView.itemView = SidebarOrganisationItemView;
+                this.organisationsMenu.show(sidebarOrganisationCompositeView);
             }
 
             var that = this;
@@ -57,19 +59,19 @@ function ($, _, Backbone, app, SidebarProjectCollectionView, SidebarTeamCollecti
                 //app.vent.trigger('home:show');
                 return false;
             });
-            this.$el.find('#project-menu-group-list .menu-group-options a').on('click', function (e) {
+            this.$el.find('#project-menu-group-list a').on('click', function (e) {
                 e.preventDefault();
                 app.projectRouter.navigate($(this).attr('href'), { trigger: true });
                 //app.vent.trigger('home:show');
                 return false;
             });
-            this.$el.find('#team-menu-group-list .menu-group-options a').on('click', function (e) {
+            this.$el.find('#team-menu-group-list a').on('click', function (e) {
                 e.preventDefault();
                 app.teamRouter.navigate($(this).attr('href'), { trigger: true });
                 //app.vent.trigger('home:show');
                 return false;
             });
-            this.$el.find('#organisation-menu-group-list .menu-group-options a').on('click', function (e) {
+            this.$el.find('#organisation-menu-group-list a').on('click', function (e) {
                 e.preventDefault();
                 app.organisationRouter.navigate($(this).attr('href'), { trigger: true });
                 //app.vent.trigger('home:show');
@@ -79,10 +81,12 @@ function ($, _, Backbone, app, SidebarProjectCollectionView, SidebarTeamCollecti
 
         serializeData: function () {
             return {
-                User: this.model.user,
-                Teams: this.model.teams.length > 0,
-                Organisations: this.model.organisations.length > 0,
-                AppRoot: this.model.appRoot != null
+                Model: {
+                    User: this.model.user.toJSON(),
+                    Teams: this.model.teams.length > 0,
+                    Organisations: this.model.organisations.length > 0,
+                    AppRoot: this.model.appRoot != null
+                }
             };
         },
 

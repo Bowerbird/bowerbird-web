@@ -16,6 +16,8 @@ using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Services;
 using Raven.Client;
+using System.Dynamic;
+using System.IO;
 
 namespace Bowerbird.Core.EventHandlers
 {
@@ -67,7 +69,7 @@ namespace Bowerbird.Core.EventHandlers
 
             activity.ObservationAdded = new
             {
-                Observation = domainEvent.DomainModel
+                Observation = MakeObservation(domainEvent.DomainModel)
             };
 
             _documentSession.Store(activity);
@@ -84,12 +86,56 @@ namespace Bowerbird.Core.EventHandlers
 
             activity.ObservationAdded = new
             {
-                Observation = domainEvent.Sender
+                Observation = MakeObservation(domainEvent.Sender as Observation)
             };
 
             _documentSession.Store(activity);
             _notificationService.SendActivity(activity);
         }
+
+        private object MakeObservation(Observation observation)
+        {
+            return new
+            {
+                Id = observation.ShortId(),
+                Title = observation.Title,
+                ObservedOnDate = observation.ObservedOn.ToString("d MMM yyyy"),
+                ObservedOnTime = observation.ObservedOn.ToShortTimeString(),
+                Address = observation.Address,
+                Latitude = observation.Latitude,
+                Longitude = observation.Longitude,
+                Category = observation.Category,
+                IsIdentificationRequired = observation.IsIdentificationRequired,
+                AnonymiseLocation = observation.AnonymiseLocation,
+                Media = observation.Media, //observation.Media.Select(x => MakeObservationMediaItem(x, observation.GetPrimaryImage() == x)),
+                PrimaryImage = observation.GetPrimaryImage(), //MakeObservationMediaItem(observation.GetPrimaryImage(), true),
+                Projects = observation.Groups.Select(x => x.Group.Id)
+            };
+        }
+
+        //private object MakeObservationMediaItem(ObservationMedia observationMedia, bool isPrimaryImage)
+        //{
+        //    if (observationMedia.MediaResource.Type == "image")
+        //    {
+        //        return new
+        //        {
+        //            IsPrimaryImage = isPrimaryImage,
+        //            MediaResourceId = observationMedia.MediaResource.Id,
+        //            observationMedia.MediaResource.Type,
+        //            observationMedia.Description,
+        //            observationMedia.Licence,
+        //            CreatedByUser = observationMedia.MediaResource.CreatedByUser.Id,
+        //            UploadedOn = observationMedia.MediaResource.UploadedOn,
+        //            OriginalImage = observationMedia.MediaResource.Files["original"],
+        //            LargeImage = observationMedia.MediaResource.Files["large"],
+        //            MediumImage = observationMedia.MediaResource.Files["medium"],
+        //            SmallImage = observationMedia.MediaResource.Files["small"],
+        //            ThumbnailImage = observationMedia.MediaResource.Files["thumbnail"]
+        //        };
+        //    }
+
+        //    throw new NotImplementedException();
+        //}
 
         #endregion      
     }

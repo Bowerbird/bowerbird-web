@@ -19,8 +19,10 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
         template: 'StreamItem',
 
         serializeData: function () {
+            var model = this.model.toJSON();
+            model.CreatedDateTimeDescription = 'just now';
             return {
-                Model: this.model.toJSON()
+                Model: model
             };
         }
         //        render: function () {

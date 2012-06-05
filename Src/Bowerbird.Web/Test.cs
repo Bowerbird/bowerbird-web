@@ -11,7 +11,7 @@
 //    public class Test
 //    {
 //        //[Test]
-//        public void SaveDynamicEntityWithStaticProperties()
+//        public void SaveDynamicEntityWithStronglyTypedProperties()
 //        {
 //            string id = null;
 //            Thing thing = null;
@@ -35,7 +35,7 @@
 //                }
 //            }
 
-//            Assert(thing.SomeValue != null);
+//            Assert.IsTrue(thing.SomeValue != null);
 //        }
 
 //        public class Thing : DynamicObject

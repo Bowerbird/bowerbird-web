@@ -155,12 +155,11 @@
     <Content Include="js\bowerbird\routers\teamRouter.js" />
     <Content Include="js\bowerbird\routers\projectRouter.js" />
     <Content Include="js\bowerbird\views\avatarItemView.js" />
+    <Content Include="js\bowerbird\views\sidebarMenuGroupCompositeView.js" />
     <Content Include="js\bowerbird\views\onlineUserItemView.js" />
     <Content Include="js\bowerbird\views\onlineUsersCompositeView.js" />
     <Content Include="js\bowerbird\views\sidebarOrganisationItemView.js" />
     <Content Include="js\bowerbird\views\sidebarTeamItemView.js" />
-    <Content Include="js\bowerbird\views\sidebarTeamCollectionView.js" />
-    <Content Include="js\bowerbird\views\sidebarOrganisationCollectionView.js" />
     <Content Include="js\bowerbird\views\postFormLayoutView.js" />
     <Content Include="js\bowerbird\views\homeLayoutView.js" />
     <Content Include="js\bowerbird\views\referenceSpeciesFormLayoutView.js" />
@@ -199,7 +198,6 @@
     <Content Include="js\bowerbird\main.js" />
     <Content Include="js\bowerbird\models\user.js" />
     <Content Include="js\bowerbird\views\sidebarProjectItemView.js" />
-    <Content Include="js\bowerbird\views\sidebarProjectCollectionView.js" />
     <Content Include="js\bowerbird\views\footerView.js" />
     <Content Include="js\bowerbird\views\headerView.js" />
     <Content Include="js\bowerbird\views\sidebarLayoutView.js" />

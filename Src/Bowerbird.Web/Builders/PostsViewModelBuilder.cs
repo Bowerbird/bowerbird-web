@@ -18,7 +18,6 @@ using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Paging;
 using Bowerbird.Core.Services;
-using Bowerbird.Core.Factories;
 using Bowerbird.Web.ViewModels;
 using Raven.Client;
 using Raven.Client.Linq;
@@ -30,7 +29,6 @@ namespace Bowerbird.Web.Builders
         #region Fields
 
         private readonly IDocumentSession _documentSession;
-        private readonly IAvatarFactory _avatarFactory;
         private readonly IMediaFilePathService _mediaFilePathService;
 
         #endregion
@@ -39,16 +37,13 @@ namespace Bowerbird.Web.Builders
 
         public PostsViewModelBuilder(
             IDocumentSession documentSession,
-            IAvatarFactory avatarFactory,
             IMediaFilePathService mediaFilePathService
         )
         {
             Check.RequireNotNull(documentSession, "documentSession");
-            Check.RequireNotNull(avatarFactory, "avatarFactory");
             Check.RequireNotNull(mediaFilePathService, "mediaFilePathService");
 
             _documentSession = documentSession;
-            _avatarFactory = avatarFactory;
             _mediaFilePathService = mediaFilePathService;
         }
 
@@ -183,7 +178,7 @@ namespace Bowerbird.Web.Builders
                 post.Message,
                 Creator = MakeUser(post.User.Id),
                 Comments = post.Discussion.Comments.Select(MakeComment),
-                Resources = post.MediaResources.Select(x => _mediaFilePathService.MakeMediaFileUri(x, MediaType.Document))
+                Resources = post.MediaResources
             };
         }
 
@@ -196,7 +191,7 @@ namespace Bowerbird.Web.Builders
         {
             return new
             {
-                Avatar = _avatarFactory.Make(user),
+                Avatar = user.Avatar,
                 user.Id,
                 user.LastLoggedIn,
                 Name = user.GetName()

@@ -14,12 +14,12 @@ using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Paging;
-using Bowerbird.Core.Factories;
 using Bowerbird.Web.ViewModels;
 using Raven.Client;
 using Raven.Client.Linq;
 using System.Linq;
 using Bowerbird.Core.Config;
+using Bowerbird.Core.Factories;
 
 namespace Bowerbird.Web.Builders
 {
@@ -36,8 +36,7 @@ namespace Bowerbird.Web.Builders
 
         public OrganisationsViewModelBuilder(
             IDocumentSession documentSession,
-            IAvatarFactory avatarFactory
-        )
+            IAvatarFactory avatarFactory)
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(avatarFactory, "avatarFactory");
@@ -74,7 +73,7 @@ namespace Bowerbird.Web.Builders
                 Name = "New Organisation",
                 Description = "New Organisation",
                 Website = "",
-                Avatar = _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Organisation, "New Organisation"),
+                Avatar = _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Organisation),
                 MemberCount = 1
             };
         }
@@ -132,7 +131,7 @@ namespace Bowerbird.Web.Builders
                 result.Organisation.Name,
                 result.Organisation.Description,
                 result.Organisation.Website,
-                Avatar = _avatarFactory.Make(result.Organisation),
+                Avatar = result.Organisation.Avatar,
                 MemberCount = result.MemberIds.Count()
                 //Teams = result.DescendantGroups.Where(x => x.GroupType == "team").Select(x => x.Id),
                 //Projects = result.DescendantGroups.Where(x => x.GroupType == "project").Select(x => x.Id)
@@ -148,7 +147,7 @@ namespace Bowerbird.Web.Builders
         {
             return new
             {
-                Avatar = _avatarFactory.Make(user),
+                Avatar = user.Avatar,
                 user.Id,
                 user.LastLoggedIn,
                 Name = user.GetName()

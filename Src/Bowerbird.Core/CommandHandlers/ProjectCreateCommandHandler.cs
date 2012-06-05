@@ -17,6 +17,8 @@ using Bowerbird.Core.DomainModels;
 using Raven.Client;
 using System;
 using Raven.Client.Linq;
+using Bowerbird.Core.Factories;
+using Bowerbird.Core.Config;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -25,17 +27,21 @@ namespace Bowerbird.Core.CommandHandlers
         #region Members
 
         private readonly IDocumentSession _documentSession;
+        private readonly IAvatarFactory _avatarFactory;
 
         #endregion
 
         #region Constructors
 
         public ProjectCreateCommandHandler(
-            IDocumentSession documentSession)
+            IDocumentSession documentSession,
+            IAvatarFactory avatarFactory)
         {
             Check.RequireNotNull(documentSession, "documentSession");
+            Check.RequireNotNull(avatarFactory, "avatarFactory");
 
             _documentSession = documentSession;
+            _avatarFactory = avatarFactory;
         }
 
         #endregion
@@ -57,7 +63,7 @@ namespace Bowerbird.Core.CommandHandlers
                 command.Name,
                 command.Description,
                 command.Website,
-                command.AvatarId != null ? _documentSession.Load<MediaResource>(command.AvatarId) : null,
+                string.IsNullOrWhiteSpace(command.AvatarId) ? _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Project) : _documentSession.Load<MediaResource>(command.AvatarId),
                 DateTime.UtcNow,
                 parentGroup
                 );

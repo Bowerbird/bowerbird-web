@@ -20,7 +20,6 @@ using Raven.Client;
 using Raven.Client.Linq;
 using Bowerbird.Core.Paging;
 using Bowerbird.Core.Config;
-using Bowerbird.Core.Factories;
 using System;
 using Bowerbird.Core.Services;
 using System.Dynamic;
@@ -34,7 +33,6 @@ namespace Bowerbird.Web.Builders
 
         private readonly IUserContext _userContext;
         private readonly IDocumentSession _documentSession;
-        private readonly IAvatarFactory _avatarFactory;
         private readonly IMediaFilePathService _mediaFilePathService;
 
         #endregion
@@ -44,17 +42,14 @@ namespace Bowerbird.Web.Builders
         public StreamItemsViewModelBuilder(
             IUserContext userContext,
             IDocumentSession documentSession,
-            IAvatarFactory avatarFactory,
             IMediaFilePathService mediaFilePathService)
         {
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(documentSession, "documentSession");
-            Check.RequireNotNull(avatarFactory, "avatarFactory");
             Check.RequireNotNull(mediaFilePathService, "mediaFilePathService");
 
             _userContext = userContext;
             _documentSession = documentSession;
-            _avatarFactory = avatarFactory;
             _mediaFilePathService = mediaFilePathService;
         }
 
@@ -257,7 +252,8 @@ namespace Bowerbird.Web.Builders
                         Category = groupContributionResult.Observation.Category,
                         IsIdentificationRequired = groupContributionResult.Observation.IsIdentificationRequired,
                         AnonymiseLocation = groupContributionResult.Observation.AnonymiseLocation,
-                        //Media = MakeObservationMediaItems(groupContributionResult.Observation.Media),
+                        Media = groupContributionResult.Observation.Media.Select(x => MakeObservationMediaItem(x, groupContributionResult.Observation.GetPrimaryImage() == x)),
+                        PrimaryImage = MakeObservationMediaItem(groupContributionResult.Observation.GetPrimaryImage(), true),
                         Projects = groupContributionResult.Observation.Groups.Select(x => x.Group.Id)
                     };
                     description = groupContributionResult.Observation.User.FirstName + " added an observation";
@@ -275,12 +271,36 @@ namespace Bowerbird.Web.Builders
                     groupContributionResult.GroupUser.Id,
                     groupContributionResult.GroupUser.LastLoggedIn,
                     Name = groupContributionResult.GroupUser.GetName(),
-                    Avatar = _avatarFactory.Make(groupContributionResult.GroupUser)
+                    Avatar = groupContributionResult.GroupUser.Avatar
                 },
                 Item = item,
                 Description = description,
                 Groups = groups
             };
+        }
+
+        private object MakeObservationMediaItem(ObservationMedia observationMedia, bool isPrimaryImage)
+        {
+            if (observationMedia.MediaResource.Type == "image")
+            {
+                return new
+                {
+                    IsPrimaryImage = isPrimaryImage,
+                    MediaResourceId = observationMedia.MediaResource.Id,
+                    observationMedia.MediaResource.Type,
+                    observationMedia.Description,
+                    observationMedia.Licence,
+                    CreatedByUser = observationMedia.MediaResource.CreatedByUser.Id,
+                    UploadedOn = observationMedia.MediaResource.UploadedOn,
+                    OriginalImage = observationMedia.MediaResource.Files["original"],
+                    LargeImage = observationMedia.MediaResource.Files["large"],
+                    MediumImage = observationMedia.MediaResource.Files["medium"],
+                    SmallImage = observationMedia.MediaResource.Files["small"],
+                    ThumbnailImage = observationMedia.MediaResource.Files["thumbnail"]
+                };
+            }
+
+            throw new NotImplementedException();
         }
 
         private static string MakeCreatedDateTimeDescription(DateTime dateTime)

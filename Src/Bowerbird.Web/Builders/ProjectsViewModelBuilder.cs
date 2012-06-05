@@ -16,10 +16,10 @@ using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Paging;
-using Bowerbird.Core.Factories;
 using Bowerbird.Web.ViewModels;
 using Raven.Client;
 using Raven.Client.Linq;
+using Bowerbird.Core.Factories;
 
 namespace Bowerbird.Web.Builders
 {
@@ -36,8 +36,7 @@ namespace Bowerbird.Web.Builders
 
         public ProjectsViewModelBuilder(
             IDocumentSession documentSession,
-            IAvatarFactory avatarFactory
-        )
+            IAvatarFactory avatarFactory)
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(avatarFactory, "avatarFactory");
@@ -57,7 +56,7 @@ namespace Bowerbird.Web.Builders
                 Name = "New Project",
                 Description = "New Project",
                 Website = "",
-                Avatar = _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Project, "New Project"),
+                Avatar = _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Project),
                 MemberCount = 1
             };
         }
@@ -186,7 +185,7 @@ namespace Bowerbird.Web.Builders
         {
             return new
             {
-                Avatar = _avatarFactory.Make(user),
+                Avatar = user.Avatar,
                 user.Id,
                 user.LastLoggedIn,
                 Name = user.GetName()
@@ -201,7 +200,7 @@ namespace Bowerbird.Web.Builders
                 result.Project.Name,
                 result.Project.Description,
                 result.Project.Website,
-                Avatar = _avatarFactory.Make(result.Project),
+                Avatar = result.Project.Avatar,
                 MemberCount = result.MemberIds.Count()
             };
         }

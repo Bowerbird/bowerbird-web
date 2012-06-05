@@ -21,6 +21,7 @@ using Bowerbird.Core.ImageUtilities;
 using System.IO;
 using Bowerbird.Core.Services;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -61,72 +62,47 @@ namespace Bowerbird.Core.CommandHandlers
             try
             {
                 string mediaType = DetemineMediaType(command);
-                var metadata = new Dictionary<string, string>();
 
                 var mediaResource = new MediaResource(
                                 mediaType,
                                 _documentSession.Load<User>(command.UserId),
-                                command.UploadedOn,
-                                metadata);
+                                command.UploadedOn);
 
                 _documentSession.Store(mediaResource);
-
-                metadata.Add("size", command.Stream.Length.ToString());
-                metadata.Add("originalfilename", command.OriginalFileName);
 
                 switch (mediaType)
                 {
                     case "image":
-                        string extension = "jpg";
-                        if (Path.HasExtension(command.OriginalFileName))
-                        {
-                            extension = Path.GetExtension(command.OriginalFileName).Replace(".", string.Empty).ToLower();
-                        }
+                        ImageDimensions imageDimensions;
 
-                        ImageDimensions dimensions;
-                        SaveOriginalImageMedia(
-                            command.Stream,
-                            mediaResource.Id,
-                            extension,
-                            out dimensions);
+                        var image = ImageUtility
+                            .Load(command.Stream)
+                            .GetImageDimensions(out imageDimensions);
 
-                        metadata.Add("width", dimensions.Width.ToString());
-                        metadata.Add("height", dimensions.Height.ToString());
-                        metadata.Add("format", extension);
+                        MakeOriginalImageMediaResourceFile(mediaResource, command.OriginalFileName, command.Stream.Length, imageDimensions);
 
                         if (command.Usage == "observation")
                         {
-                            SaveObservationImages(
-                                command.Stream,
-                                mediaResource.Id,
-                                extension
-                                );
-                        }
-                        else if (command.Usage == "user")
-                        {
-                            SaveAvatarImages(
-                                command.Stream,
-                                mediaResource.Id,
-                                extension
-                                );
+                            MakeObservationImageMediaResourceFiles(mediaResource);
                         }
                         else if (command.Usage == "post")
                         {
-                            SavePostImages(
-                                command.Stream,
-                                mediaResource.Id,
-                                extension
-                                );
+                            MakePostImageMediaResourceFiles(mediaResource);
                         }
-                        else if (command.Usage == "avatar")
+                        else if (command.Usage == "user")
                         {
-                            SaveAvatarImages(
-                                command.Stream,
-                                mediaResource.Id,
-                                extension
-                                );
+                            MakeUserImageMediaResourceFiles(mediaResource);
+                        }
+                        else if (command.Usage == "group")
+                        {
+                            MakeGroupImageMediaResourceFiles(mediaResource);
+                        }
+                        else
+                        {
+                            throw new NotImplementedException(string.Format("Can't save images for type: ", mediaType));
                         }
 
+                        SaveImages(image, mediaResource);
                         break;
                 }
 
@@ -146,76 +122,83 @@ namespace Bowerbird.Core.CommandHandlers
             return "image";
         }
 
-        private void SaveOriginalImageMedia(Stream stream, string imageMediaResourceId, string extension, out ImageDimensions imageDimensions)
+        private void MakeOriginalImageMediaResourceFile(MediaResource mediaResource, string originalFileName, long size, ImageDimensions imageDimensions)
         {
-            ImageUtility
-                .Load(stream)
-                .GetImageDimensions(out imageDimensions)
-                .SaveAs(_mediaFilePathService.MakeMediaFilePath(imageMediaResourceId, "image", "original", extension))
-                .Cleanup();
+            string format = "jpeg"; // TODO: Handle formats other than JPEG
+            string extension = "jpg";
+
+            dynamic file = AddImageFile(mediaResource, "original", format, extension, imageDimensions.Width, imageDimensions.Height);
+            file.Size = size.ToString();
+            file.OriginalFilename = originalFileName;
         }
 
-        private void SaveAvatarImages(Stream stream, string imageMediaResourceId, string extension)
+        private void MakeObservationImageMediaResourceFiles(MediaResource mediaResource)
         {
-            ImageUtility
-                .Load(stream)
-                .Resize(new ImageDimensions(42, 42), true, ImageResizeMode.Crop)
-                .SaveAs(_mediaFilePathService.MakeMediaFilePath(imageMediaResourceId, "image", "thumbnail", extension))
-                .Reset()
-                .Resize(new ImageDimensions(100, 100), true, ImageResizeMode.Crop)
-                .SaveAs(_mediaFilePathService.MakeMediaFilePath(imageMediaResourceId, "image", "profile", extension))
-                .Reset()
-                .Resize(new ImageDimensions(130, 120), true, ImageResizeMode.Crop)
-                .SaveAs(_mediaFilePathService.MakeMediaFilePath(imageMediaResourceId, "image", "small", extension))
-                .Reset()
-                .Resize(new ImageDimensions(670, 600), true, ImageResizeMode.Crop)
-                .SaveAs(_mediaFilePathService.MakeMediaFilePath(imageMediaResourceId, "image", "medium", extension))
-                .Reset()
-                .Resize(new ImageDimensions(1600, 1200), true, ImageResizeMode.Crop)
-                .SaveAs(_mediaFilePathService.MakeMediaFilePath(imageMediaResourceId, "image", "large", extension))
-                .Cleanup();
+            AddImageFile(mediaResource, "thumbnail", "jpeg", "jpg", 42, 42);
+            AddImageFile(mediaResource, "small", "jpeg", "jpg", 130, 120);
+            AddImageFile(mediaResource, "medium", "jpeg", "jpg", 670, 600);
+            AddImageFile(mediaResource, "large", "jpeg", "jpg", 1600, 1200);
         }
 
-        private void SaveObservationImages(Stream stream, string imageMediaResourceId, string extension)
+        private void MakePostImageMediaResourceFiles(MediaResource mediaResource)
         {
-            ImageUtility
-                .Load(stream)
-                .Resize(new ImageDimensions(42, 42), true, ImageResizeMode.Crop)
-                .SaveAs(_mediaFilePathService.MakeMediaFilePath(imageMediaResourceId, "image", "thumbnail", extension))
-                .Reset()
-                .Resize(new ImageDimensions(100, 100), true, ImageResizeMode.Crop)
-                .SaveAs(_mediaFilePathService.MakeMediaFilePath(imageMediaResourceId, "image", "profile", extension))
-                .Reset()
-                .Resize(new ImageDimensions(130, 120), true, ImageResizeMode.Crop)
-                .SaveAs(_mediaFilePathService.MakeMediaFilePath(imageMediaResourceId, "image", "small", extension))
-                .Reset()
-                .Resize(new ImageDimensions(670, 600), true, ImageResizeMode.Crop)
-                .SaveAs(_mediaFilePathService.MakeMediaFilePath(imageMediaResourceId, "image", "medium", extension))
-                .Reset()
-                .Resize(new ImageDimensions(1600, 1200), true, ImageResizeMode.Crop)
-                .SaveAs(_mediaFilePathService.MakeMediaFilePath(imageMediaResourceId, "image", "large", extension))
-                .Cleanup();
+            AddImageFile(mediaResource, "thumbnail", "jpeg", "jpg", 42, 42);
+            AddImageFile(mediaResource, "small", "jpeg", "jpg", 130, 120);
+            AddImageFile(mediaResource, "medium", "jpeg", "jpg", 670, 600);
+            AddImageFile(mediaResource, "large", "jpeg", "jpg", 1600, 1200);
         }
 
-        private void SavePostImages(Stream stream, string imageMediaResourceId, string extension)
+        private void MakeUserImageMediaResourceFiles(MediaResource mediaResource)
         {
-            ImageUtility
-                .Load(stream)
-                .Resize(new ImageDimensions(42, 42), true, ImageResizeMode.Crop)
-                .SaveAs(_mediaFilePathService.MakeMediaFilePath(imageMediaResourceId, "image", "thumbnail", extension))
-                .Reset()
-                .Resize(new ImageDimensions(100, 100), true, ImageResizeMode.Crop)
-                .SaveAs(_mediaFilePathService.MakeMediaFilePath(imageMediaResourceId, "image", "profile", extension))
-                .Reset()
-                .Resize(new ImageDimensions(130, 120), true, ImageResizeMode.Crop)
-                .SaveAs(_mediaFilePathService.MakeMediaFilePath(imageMediaResourceId, "image", "small", extension))
-                .Reset()
-                .Resize(new ImageDimensions(670, 600), true, ImageResizeMode.Crop)
-                .SaveAs(_mediaFilePathService.MakeMediaFilePath(imageMediaResourceId, "image", "medium", extension))
-                .Reset()
-                .Resize(new ImageDimensions(1600, 1200), true, ImageResizeMode.Crop)
-                .SaveAs(_mediaFilePathService.MakeMediaFilePath(imageMediaResourceId, "image", "large", extension))
-                .Cleanup();
+            AddImageFile(mediaResource, "thumbnail", "jpeg", "jpg", 42, 42);
+            AddImageFile(mediaResource, "small", "jpeg", "jpg", 130, 120);
+            AddImageFile(mediaResource, "medium", "jpeg", "jpg", 670, 600);
+            AddImageFile(mediaResource, "large", "jpeg", "jpg", 1600, 1200);
+        }
+
+        private void MakeGroupImageMediaResourceFiles(MediaResource mediaResource)
+        {
+            AddImageFile(mediaResource, "thumbnail", "jpeg", "jpg", 42, 42);
+            AddImageFile(mediaResource, "small", "jpeg", "jpg", 130, 120);
+            AddImageFile(mediaResource, "medium", "jpeg", "jpg", 670, 600);
+            AddImageFile(mediaResource, "large", "jpeg", "jpg", 1600, 1200);
+        }
+
+        private MediaResourceFile AddImageFile(MediaResource mediaResource, string storedRepresentation, string format, string extension, int width, int height)
+        {
+            return mediaResource.AddImageFile(
+                storedRepresentation,
+                _mediaFilePathService.MakeMediaFileName(mediaResource.Id, storedRepresentation, extension),
+                _mediaFilePathService.MakeRelativeMediaFileUri(mediaResource.Id, "image", storedRepresentation, extension),
+                format,
+                width,
+                height,
+                extension);
+        }
+
+        private void SaveImages(ImageUtility image, MediaResource mediaResource)
+        {
+            foreach (var file in mediaResource.Files)
+            {
+                dynamic imageFile = file.Value;
+
+                var fullPath = _mediaFilePathService.MakeMediaFilePath(mediaResource.Id, "image", file.Key, imageFile.Extension);
+
+                if (file.Key == "original")
+                {
+                    image
+                        .SaveAs(fullPath);
+                }
+                else
+                {
+                    image
+                        .Reset()
+                        .Resize(new ImageDimensions(imageFile.Width, imageFile.Height), true, ImageResizeMode.Crop)
+                        .SaveAs(fullPath);
+                }
+            }
+
+            image.Cleanup();
         }
 
         #endregion

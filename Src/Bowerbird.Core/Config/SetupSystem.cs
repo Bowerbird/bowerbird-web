@@ -26,6 +26,7 @@ using Bowerbird.Core.Config;
 using System.Threading;
 using Bowerbird.Core.Services;
 using System.IO;
+using Bowerbird.Core.Factories;
 
 namespace Bowerbird.Core.Config
 {
@@ -37,6 +38,7 @@ namespace Bowerbird.Core.Config
         private readonly IDocumentSession _documentSession;
         private readonly ISystemStateManager _systemStateManager;
         private readonly IConfigService _configService;
+        private readonly IAvatarFactory _avatarFactory;
 
         private readonly string[] _speciesFileHeaderColumns = {
                                                                   "Kingdom", 
@@ -57,15 +59,18 @@ namespace Bowerbird.Core.Config
         public SetupSystem(
             IDocumentSession documentSession,
             ISystemStateManager systemStateManager,
-            IConfigService configService)
+            IConfigService configService, 
+            IAvatarFactory avatarFactory)
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(systemStateManager, "systemStateManager");
             Check.RequireNotNull(configService, "configService");
+            Check.RequireNotNull(avatarFactory, "avatarFactory");
 
             _documentSession = documentSession;
             _systemStateManager = systemStateManager;
             _configService = configService;
+            _avatarFactory = avatarFactory;
         }
 
         #endregion
@@ -277,7 +282,7 @@ namespace Bowerbird.Core.Config
 
         private void AddUser(string password, string email, string firstname, string lastname, params string[] roleIds)
         {
-            var user = new User(password, email, firstname, lastname);
+            var user = new User(password, email, firstname, lastname, _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.User));
             _documentSession.Store(user);
 
             var member = new Member(

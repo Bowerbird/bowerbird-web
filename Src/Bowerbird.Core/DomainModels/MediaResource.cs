@@ -16,6 +16,8 @@ using Bowerbird.Core.DesignByContract;
 using System;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
 using System.Collections.Generic;
+using System.Linq;
+using System.Dynamic;
 
 namespace Bowerbird.Core.DomainModels
 {
@@ -27,22 +29,24 @@ namespace Bowerbird.Core.DomainModels
 
         #region Constructors
 
-        protected MediaResource() :base() { }
+        protected MediaResource()
+            : base()
+        {
+            InitMembers();
+        }
 
         public MediaResource(
             string type,
             User createdByUser,
-            DateTime uploadedOn,
-            IDictionary<string, string> metadata)
+            DateTime uploadedOn)
             : this()
         {
-            Check.RequireNotNull(createdByUser, "createdByUser");
-            Check.RequireNotNull(metadata, "metadata");
-
             Type = type;
             UploadedOn = uploadedOn;
-            CreatedByUser = createdByUser;
-            Metadata = metadata;
+            if (createdByUser != null)
+            {
+                CreatedByUser = createdByUser;
+            }
         }
 
         #endregion
@@ -55,12 +59,112 @@ namespace Bowerbird.Core.DomainModels
 
         public DateTime UploadedOn { get; private set; }
 
+        public IDictionary<string, MediaResourceFile> Files { get; private set; }
+
         public IDictionary<string, string> Metadata { get; private set; }
 
         #endregion
 
         #region Methods
 
+        private void InitMembers()
+        {
+            Files = new Dictionary<string, MediaResourceFile>();
+            Metadata = new Dictionary<string, string>();
+        }
+
+        public MediaResource AddMetadata(string key, string value)
+        {
+            if (Metadata.ContainsKey(key))
+            {
+                ((Dictionary<string, string>)Metadata)[key] = value;
+            }
+            else
+            {
+                ((Dictionary<string, string>)Metadata).Add(key, value);
+            }
+
+            return this;
+        }
+
+        private void AddFile(string storedRepresentation, MediaResourceFile file)
+        {
+            if (Files.ContainsKey(storedRepresentation))
+            {
+                ((Dictionary<string, MediaResourceFile>)Files).Remove(storedRepresentation);
+            }
+
+            ((Dictionary<string, MediaResourceFile>)Files).Add(storedRepresentation, file);
+        }
+
+        public MediaResourceFile AddImageFile(string storedRepresentation, string filename, string relativeUri, string format, int width, int height, string extension)
+        {
+            dynamic file = new MediaResourceFile();
+
+            file.RelativeUri = relativeUri;
+            file.Format = format;
+            file.Width = width;
+            file.Height = height;
+            file.Extension = extension;
+
+            AddFile(storedRepresentation, file);
+
+            return file;
+        }
+
         #endregion      
     }
+
+    public class MediaResourceFile : DynamicObject
+    {
+        protected Dictionary<string, object> _properties = new Dictionary<string, object>();
+
+        public override IEnumerable<string> GetDynamicMemberNames()
+        {
+            return _properties.Keys;
+        }
+
+        public override bool TryGetMember(GetMemberBinder binder, out object result)
+        {
+            return _properties.TryGetValue(binder.Name, out result);
+        }
+
+        public override bool TrySetMember(SetMemberBinder binder, object value)
+        {
+            _properties[binder.Name] = value;
+            return true;
+        }
+
+        public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)
+        {
+            dynamic method = _properties[binder.Name];
+            result = method(args);
+            return true;
+        }
+    }
+
+    //public class ImageFile : MediaResourceFile
+    //{
+    //    protected ImageFile()
+    //        : base()
+    //    {
+    //    }
+
+    //    public ImageFile(
+    //        string filename, 
+    //        string relativeUri, 
+    //        string format,
+    //        int width, 
+    //        int height,
+    //        string extension)
+    //        : base()
+    //    {
+    //        _properties.Add("Filename", filename);
+    //        _properties.Add("RelativeUri", relativeUri);
+    //        _properties.Add("Format", format);
+    //        _properties.Add("Width", width);
+    //        _properties.Add("Height", height);
+    //        _properties.Add("Extension", extension);
+    //    }
+    //}
 }

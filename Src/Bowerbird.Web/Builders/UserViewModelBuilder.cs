@@ -14,12 +14,12 @@ using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Paging;
-using Bowerbird.Core.Factories;
 using Bowerbird.Web.ViewModels;
 using Raven.Client;
 using Raven.Client.Linq;
 using System.Collections;
 using Bowerbird.Core.Config;
+using Bowerbird.Core.Factories;
 
 namespace Bowerbird.Web.Builders
 {
@@ -38,8 +38,7 @@ namespace Bowerbird.Web.Builders
         public UserViewModelBuilder(
             IDocumentSession documentSession,
             IUserContext userContext,
-            IAvatarFactory avatarFactory
-        )
+            IAvatarFactory avatarFactory)
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(userContext, "userContext");
@@ -80,7 +79,7 @@ namespace Bowerbird.Web.Builders
                 User = new
                 {
                     user.Id,
-                    Avatar = _avatarFactory.Make(user),
+                    Avatar = user.Avatar,
                     user.LastLoggedIn,
                     Name = user.GetName()
                 },
@@ -194,7 +193,7 @@ namespace Bowerbird.Web.Builders
             return new
             {
                 user.Id,
-                Avatar = _avatarFactory.Make(user),
+                Avatar = user.Avatar,
                 user.LastLoggedIn,
                 Name = user.GetName()
             };
@@ -246,7 +245,7 @@ namespace Bowerbird.Web.Builders
                 result.Project.Name,
                 result.Project.Description,
                 result.Project.Website,
-                Avatar = _avatarFactory.Make(result.Project),
+                Avatar = result.Project.Avatar,
                 MemberCount = result.MemberIds.Count()
             };
         }
@@ -259,7 +258,7 @@ namespace Bowerbird.Web.Builders
                 result.Team.Name,
                 result.Team.Description,
                 result.Team.Website,
-                Avatar = _avatarFactory.Make(result.Team),
+                Avatar = result.Team.Avatar,
                 MemberCount = result.MemberIds.Count()
             };
         }
@@ -272,7 +271,7 @@ namespace Bowerbird.Web.Builders
                 result.Organisation.Name,
                 result.Organisation.Description,
                 result.Organisation.Website,
-                Avatar = _avatarFactory.Make(result.Organisation),
+                Avatar = result.Organisation.Avatar,
                 MemberCount = result.MemberIds.Count()
             };
         }
