@@ -5,10 +5,8 @@
  Developers: 
  * Frank Radocaj : frank@radocaj.com
  * Hamish Crittenden : hamish.crittenden@gmail.com
- 
  Project Manager: 
  * Ken Walker : kwalker@museum.vic.gov.au
- 
  Funded by:
  * Atlas of Living Australia
  
@@ -19,9 +17,8 @@ using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Core.Events
 {
-    public class DomainModelCreatedEvent<T> : DomainEventBase
+    public class DomainModelCreatedEvent<T> : DomainEventBase where T : DomainModel
     {
-
         #region Members
 
         #endregion
@@ -31,12 +28,14 @@ namespace Bowerbird.Core.Events
         public DomainModelCreatedEvent(
             T domainModel,
             User createdByUser, 
-            object sender)
+            DomainModel sender)
             : base(
-            createdByUser,
-            sender)
+                createdByUser,
+                sender
+            )
         {
             Check.RequireNotNull(domainModel, "domainModel");
+            Check.RequireNotNull(sender, "sender");
             
             DomainModel = domainModel;
         }
@@ -52,6 +51,5 @@ namespace Bowerbird.Core.Events
         #region Methods
 
         #endregion
-
     }
 }

@@ -31,7 +31,7 @@ namespace Bowerbird.Core.Events
             Group parentGroup,
             Group childGroup,
             User createdByUser, 
-            object sender)
+            DomainModel sender)
             : base(
             createdByUser,
             sender)

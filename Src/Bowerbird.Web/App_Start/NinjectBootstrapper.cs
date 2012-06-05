@@ -12,6 +12,7 @@
  
 */
 
+using System;
 using Bowerbird.Core.Events;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Ninject;
@@ -74,6 +75,9 @@ namespace Bowerbird.Web.App_Start
             kernel.Load(new NinjectBindingModule());
 
             ServiceLocator.SetLocatorProvider(() => new NinjectServiceLocator(kernel));
+
+            //GlobalHost.Configuration.DisconnectTimeout = TimeSpan.FromSeconds(20);
+            //GlobalHost.Configuration.HeartBeatInterval = TimeSpan.FromSeconds(10);
 
             GlobalHost.DependencyResolver = new NinjectDependencyResolver(kernel);
 

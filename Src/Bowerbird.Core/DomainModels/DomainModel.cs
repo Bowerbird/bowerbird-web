@@ -87,15 +87,17 @@ namespace Bowerbird.Core.DomainModels
         [JsonIgnore]
         private bool CanFireEvents { get; set; }
 
+        protected void EnableEvents()
+        {
+            CanFireEvents = true;
+        }
+
         /// <summary>
         /// Fires the specified event if CanFireEvents is true. Pass true for second param to enable events.
         /// </summary>
-        protected void FireEvent<T>(T domainEvent, bool? enableEvents = false) where T : IDomainEvent
+        protected void FireEvent<T>(T domainEvent, bool enableEvents = false) where T : IDomainEvent
         {
-            if (enableEvents != null)
-            {
-                CanFireEvents = true;
-            }
+            CanFireEvents = enableEvents;
 
             if (CanFireEvents)
             {

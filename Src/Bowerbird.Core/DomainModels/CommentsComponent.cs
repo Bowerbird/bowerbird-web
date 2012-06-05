@@ -57,7 +57,7 @@ namespace Bowerbird.Core.DomainModels
             _comments = new List<Comment>();
         }
 
-        public void AddComment(string message, User createdByUser, DateTime createdDateTime)
+        public Comment AddComment(string message, User createdByUser, DateTime createdDateTime)
         {
             Check.RequireNotNull(createdByUser, "createdByUser");
 
@@ -80,6 +80,8 @@ namespace Bowerbird.Core.DomainModels
             var newComment = new Comment(commentId, createdByUser, createdDateTime, message);
 
             _comments.Add(newComment);
+
+            return newComment;
         }
 
         public void RemoveComment(string commentId)

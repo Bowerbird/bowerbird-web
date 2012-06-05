@@ -3,10 +3,8 @@
  Developers: 
  * Frank Radocaj : frank@radocaj.com
  * Hamish Crittenden : hamish.crittenden@gmail.com
- 
  Project Manager: 
  * Ken Walker : kwalker@museum.vic.gov.au
- 
  Funded by:
  * Atlas of Living Australia
  
@@ -14,7 +12,6 @@
 
 using System.Linq;
 using Bowerbird.Core.Commands;
-using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Raven.Client;
@@ -61,9 +58,10 @@ namespace Bowerbird.Core.CommandHandlers
                 command.Description,
                 command.Website,
                 command.AvatarId != null ? _documentSession.Load<MediaResource>(command.AvatarId) : null,
-                DateTime.UtcNow);
+                DateTime.UtcNow,
+                parentGroup
+                );
 
-            project.SetAncestry(parentGroup);
             _documentSession.Store(project);
 
             if (!string.IsNullOrEmpty(command.TeamId))
@@ -86,8 +84,8 @@ namespace Bowerbird.Core.CommandHandlers
                 _documentSession
                     .Query<Role>()
                     .Where(x => x.Id.Equals("roles/projectadministrator") || x.Id.Equals("roles/projectmember"))
-                    .ToList()
-                );
+                    .ToList(),
+                false);
 
             _documentSession.Store(projectAdministrator);
 

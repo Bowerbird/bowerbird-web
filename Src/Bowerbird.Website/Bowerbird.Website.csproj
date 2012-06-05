@@ -260,6 +260,7 @@
     <None Include="Views\ReferenceSpecies\Delete.mustache" />
     <None Include="Views\ReferenceSpecies\Index.mustache" />
     <None Include="Views\ReferenceSpecies\List.mustache" />
+    <None Include="Views\Shared\OnlineUserItem.mustache" />
     <None Include="Views\Shared\SidebarMenuGroup.mustache" />
     <None Include="Views\Shared\SidebarOrganisationItem.mustache" />
     <None Include="Views\Shared\SidebarTeamItem.mustache" />

@@ -24,9 +24,7 @@ namespace Bowerbird.Core.EventHandlers
     /// - A new observation is created, in which case we only add one activity item representing all groups the observation has been added to;
     /// - An observation being added to a group after the observation's creation.
     /// </summary>
-    public class ActivityObservationAdded : DomainEventHandlerBase, 
-        IEventHandler<DomainModelCreatedEvent<Observation>>, 
-        IEventHandler<DomainModelCreatedEvent<ObservationGroup>>
+    public class ActivityObservationNoteAdded : DomainEventHandlerBase, IEventHandler<DomainModelCreatedEvent<ObservationNote>>
     {
         #region Members
 
@@ -37,7 +35,7 @@ namespace Bowerbird.Core.EventHandlers
 
         #region Constructors
 
-        public ActivityObservationAdded(
+        public ActivityObservationNoteAdded(
             IDocumentSession documentSession,
             INotificationService notificationService
             )
@@ -57,34 +55,19 @@ namespace Bowerbird.Core.EventHandlers
 
         #region Methods
 
-        public void Handle(DomainModelCreatedEvent<Observation> domainEvent)
+        public void Handle(DomainModelCreatedEvent<ObservationNote> domainEvent)
         {
+            var observation = _documentSession.Load<Observation>(domainEvent.DomainModel.Observation.Id);
+            
             dynamic activity = MakeActivity(
                 domainEvent, 
-                "observationadded", 
-                string.Format("{0} add an observation", domainEvent.User.GetName()), 
-                domainEvent.DomainModel.Groups.Select(x => x.Group));
+                "observationnoteadded", 
+                string.Format("{0} added an observation note", domainEvent.User.GetName()), 
+                observation.Groups.Select(x => x.Group));
 
-            activity.ObservationAdded = new
+            activity.ObservationNoteAdded = new
             {
-                Observation = domainEvent.DomainModel
-            };
-
-            _documentSession.Store(activity);
-            _notificationService.SendActivity(activity);
-        }
-
-        public void Handle(DomainModelCreatedEvent<ObservationGroup> domainEvent)
-        {
-            dynamic activity = MakeActivity(
-                domainEvent, 
-                "observationadded", 
-                string.Format("{0} add an observation", domainEvent.User.GetName()), 
-                new[] { domainEvent.DomainModel.Group });
-
-            activity.ObservationAdded = new
-            {
-                Observation = domainEvent.Sender
+                ObservationNote = domainEvent.DomainModel
             };
 
             _documentSession.Store(activity);

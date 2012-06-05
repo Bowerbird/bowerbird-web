@@ -65,9 +65,10 @@ namespace Bowerbird.Core.CommandHandlers
                 command.Description,
                 command.Website,
                 command.AvatarId != null ? _documentSession.Load<MediaResource>(command.AvatarId) : null,
-                DateTime.Now);
+                DateTime.Now,
+                parentGroup);
 
-            organisation.SetAncestry(parentGroup);
+            //organisation.SetAncestry(parentGroup);
             _documentSession.Store(organisation);
 
             var organisationAdministrator = new Member(
@@ -77,7 +78,8 @@ namespace Bowerbird.Core.CommandHandlers
                 _documentSession
                     .Query<Role>()
                     .Where(x => x.Id.Equals("roles/organisationadministrator") || x.Id.Equals("roles/organisationmember"))
-                    .ToList()
+                    .ToList(),
+                false
                 );
 
             _documentSession.Store(organisationAdministrator);

@@ -3,22 +3,18 @@
  Developers: 
  * Frank Radocaj : frank@radocaj.com
  * Hamish Crittenden : hamish.crittenden@gmail.com
- 
  Project Manager: 
  * Ken Walker : kwalker@museum.vic.gov.au
- 
  Funded by:
  * Atlas of Living Australia
  
 */
 
-using System;
 using System.Linq;
 using System.Collections.Generic;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
 using Bowerbird.Core.Events;
-using Newtonsoft.Json;
 
 namespace Bowerbird.Core.DomainModels
 {
@@ -40,7 +36,8 @@ namespace Bowerbird.Core.DomainModels
             User createdByUser,
             User user,
             Group group,
-            IEnumerable<Role> roles)
+            IEnumerable<Role> roles,
+            bool fireCreateEvent = true)
             : this()
         {
             Check.RequireNotNull(user, "user");
@@ -51,7 +48,12 @@ namespace Bowerbird.Core.DomainModels
             Group = group;
             Roles = roles;
 
-            FireEvent(new DomainModelCreatedEvent<Member>(this, createdByUser, this), true);
+            if (fireCreateEvent)
+            {
+                FireEvent(new DomainModelCreatedEvent<Member>(this, createdByUser, this), true);
+            }
+
+            EnableEvents();
         }
 
         #endregion

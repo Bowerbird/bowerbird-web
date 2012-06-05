@@ -18,7 +18,7 @@ using Raven.Client;
 
 namespace Bowerbird.Web.Hubs
 {
-    public class ActivityHub : Hub
+    public class ActivityHub : Hub, IDisconnect
     {
         #region Members
 

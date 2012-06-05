@@ -69,9 +69,9 @@ namespace Bowerbird.Core.CommandHandlers
                 command.Description, 
                 command.Website,
                 command.AvatarId != null ? _documentSession.Load<MediaResource>(command.AvatarId) : null,
-                DateTime.UtcNow);
+                DateTime.UtcNow,
+                parentGroup);
 
-            team.SetAncestry(parentGroup);
             _documentSession.Store(team);
             
             // If team is in an organisation, add team to organisation's Descendants
@@ -91,7 +91,8 @@ namespace Bowerbird.Core.CommandHandlers
                 user,
                 user,
                 team,
-                roles
+                roles,
+                false
                 );
 
             _documentSession.Store(teamAdministrator);

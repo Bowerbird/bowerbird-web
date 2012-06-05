@@ -290,8 +290,8 @@ namespace Bowerbird.Core.Config
             user.AddMembership(member);
             _documentSession.Store(user);
 
-            var userProject = new UserProject(user, DateTime.Now);
-            userProject.SetAncestry(TheAppRoot);
+            var userProject = new UserProject(user, DateTime.Now, TheAppRoot);
+            //userProject.SetAncestry(TheAppRoot);
             _documentSession.Store(userProject);
 
             var userProjectAssociation = new GroupAssociation(TheAppRoot, userProject, user, DateTime.Now);

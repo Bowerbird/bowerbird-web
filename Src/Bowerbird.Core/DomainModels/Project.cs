@@ -39,18 +39,20 @@ namespace Bowerbird.Core.DomainModels
             string description,
             string website,
             MediaResource avatar,
-            DateTime createdDateTime)
+            DateTime createdDateTime,
+            Group parentGroup)
             : base(
             createdByUser,
             name,
-            createdDateTime)
+            createdDateTime,
+            parentGroup)
         {
             SetDetails(
                 description,
                 website,
                 avatar);
 
-            FireEvent(new DomainModelCreatedEvent<Project>(this, createdByUser, this), true);
+            FireEvent(new DomainModelCreatedEvent<Group>(this, createdByUser, this), true);
         }
 
         #endregion
@@ -91,7 +93,7 @@ namespace Bowerbird.Core.DomainModels
                 website,
                 avatar);
 
-            FireEvent(new DomainModelUpdatedEvent<Project>(this, updatedByUser, this));
+            FireEvent(new DomainModelUpdatedEvent<Group>(this, updatedByUser, this));
 
             return this;
         }

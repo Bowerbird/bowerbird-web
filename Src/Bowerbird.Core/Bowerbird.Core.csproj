@@ -232,6 +232,11 @@
     <Compile Include="DomainModels\Watchlist.cs" />
     <Compile Include="EventHandlers\ActivityUserJoinedGroup.cs" />
     <Compile Include="EventHandlers\ActivityObservationAdded.cs" />
+    <Compile Include="EventHandlers\ActivityGroupAdded.cs" />
+    <Compile Include="EventHandlers\ActivityPostAdded.cs" />
+    <Compile Include="EventHandlers\ActivityObservationNoteAdded.cs" />
+    <Compile Include="EventHandlers\ActivityCommentAdded.cs" />
+    <Compile Include="EventHandlers\ActivityUserLoggedIn.cs" />
     <Compile Include="EventHandlers\DomainEventHandlerBase.cs" />
     <Compile Include="EventHandlers\SendRequestPasswordResetEmail.cs" />
     <Compile Include="Events\DomainEventBase.cs" />
@@ -300,6 +305,7 @@
     <Compile Include="Services\IConfigService.cs" />
     <Compile Include="ImageUtilities\ImageUtility.cs" />
     <Compile Include="Services\IMediaFilePathService.cs" />
+    <Compile Include="Services\INotificationService.cs" />
     <Compile Include="Services\IService.cs" />
     <Compile Include="Services\MediaFilePathService.cs" />
   </ItemGroup>

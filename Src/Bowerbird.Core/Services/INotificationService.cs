@@ -1,6 +1,4 @@
-﻿/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -11,17 +9,15 @@
  * Atlas of Living Australia
  
 */
-
+				
 using Bowerbird.Core.DomainModels;
 
-namespace Bowerbird.Core.Events
+namespace Bowerbird.Core.Services
 {
-    public interface IDomainEvent
+    public interface INotificationService : IService
     {
+        void SendActivity(Activity activity);
 
-        User User { get; }
-
-        DomainModel Sender { get; }
-
+        void SendUserStatusUpdate(object userStatus);
     }
 }

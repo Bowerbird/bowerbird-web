@@ -37,7 +37,8 @@ namespace Bowerbird.Core.DomainModels
         protected Group(
             User createdByUser,
             string name,
-            DateTime createdDateTime)
+            DateTime createdDateTime,
+            Group parentGroup)
             : this()
         {
             Check.RequireNotNull(createdByUser, "createdByUser");
@@ -45,6 +46,7 @@ namespace Bowerbird.Core.DomainModels
             Name = name;
             User = createdByUser;
             CreatedDateTime = createdDateTime;
+            SetAncestry(parentGroup);
         }
 
         #endregion

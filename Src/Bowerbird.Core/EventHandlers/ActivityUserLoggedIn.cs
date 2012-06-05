@@ -21,7 +21,7 @@ namespace Bowerbird.Core.EventHandlers
     /// <summary>
     /// Log an activity item when a user joins a group
     /// </summary>
-    public class ActivityUserJoinedGroup : DomainEventHandlerBase, IEventHandler<DomainModelCreatedEvent<Member>>
+    public class ActivityUserLoggedIn : DomainEventHandlerBase, IEventHandler<UserLoggedInEvent>
     {
         #region Members
 
@@ -32,7 +32,7 @@ namespace Bowerbird.Core.EventHandlers
 
         #region Constructors
 
-        public ActivityUserJoinedGroup(
+        public ActivityUserLoggedIn(
             IDocumentSession documentSession,
             INotificationService notificationService
             )
@@ -46,31 +46,19 @@ namespace Bowerbird.Core.EventHandlers
 
         #endregion
 
-        #region Properties
-
-        #endregion
-
         #region Methods
 
-        public void Handle(DomainModelCreatedEvent<Member> domainEvent)
+        public void Handle(UserLoggedInEvent domainEvent)
         {
-            var user = _documentSession.Load<User>(domainEvent.DomainModel.User.Id);
-            var group = _documentSession.Load<dynamic>(domainEvent.DomainModel.Group.Id);
-
-            dynamic activity = MakeActivity(
-                domainEvent, 
-                "userjoinedgroup", 
-                string.Format("{0} joined {1}", user.FirstName, group.Name), 
-                new[] { domainEvent.DomainModel.Group });
-
-            activity.UserJoinedGroup = new
-            {
-                User = user,
-                Group = group
-            };
-
-            _documentSession.Store(activity);
-            _notificationService.SendActivity(activity);
+            _notificationService.SendUserStatusUpdate(
+                new
+                    {
+                        domainEvent.User.Id,
+                        Name = domainEvent.User.GetName(),
+                        domainEvent.User.Avatar,
+                        Status = 0
+                    }
+                );
         }
 
         #endregion

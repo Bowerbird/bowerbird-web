@@ -8,7 +8,7 @@
 // OnlineUserItemView
 // ------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'models/team'], function ($, _, Backbone, app, Team) {
+define(['jquery', 'underscore', 'backbone', 'app', 'models/user'], function ($, _, Backbone, app, User) {
 
     var OnlineUserItemView = Backbone.Marionette.ItemView.extend({
         
@@ -19,51 +19,19 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/team'], function ($, 
         template: 'OnlineUserItem',
 
         events: {
-            'click .chat-menu-item': 'startChat',
-            'click .sub-menu-button': 'viewProfile',
-            'click .sub-menu-button li': 'selectMenuItem'
         },
 
         onRender: function () {
-            var that = this;
-            $(this.el).children('a').on('click', function (e) {
-                e.preventDefault();
-                app.groupUserRouter.navigate($(this).attr('href'));
-                app.vent.trigger('team:show:stream', that.model.id);
-                return false;
-            });
+            
         },
 
         serializeData: function () {
             return {
                 Id: this.model.id,
                 Name: this.model.get('Name'),
-                Description: this.model.get('Description'),
-                Website: this.model.get('Website'),
                 Avatar: this.model.get('Avatar'),
-                Organisation: this.model.get('Organisation'),
-                Type: 'Team'
+                Type: 'User'
             };
-        },
-
-        showMenu: function (e) {
-            $('.sub-menu-button').removeClass('active');
-            $(e.currentTarget).addClass('active');
-            e.stopPropagation();
-        },
-
-        selectMenuItem: function (e) {
-            $('.sub-menu-button').removeClass('active');
-            e.stopPropagation();
-        },
-
-        startChat: function (e) {
-            var chat = app.chats.get(this.sidebarItem.Id);
-            if (chat == null) {
-                chat = new Bowerbird.Models.GroupChat({ Id: this.sidebarItem.Id, Group: this.sidebarItem });
-                app.chats.add(chat);
-            }
-            app.chatRouter.joinChat(chat);
         }
     });
 

@@ -19,7 +19,7 @@ using Newtonsoft.Json;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public class ObservationGroup : ValueObject
+    public class ObservationGroup : DomainModel
     {
         #region Members
 

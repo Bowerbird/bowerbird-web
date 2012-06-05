@@ -37,11 +37,13 @@ namespace Bowerbird.Core.DomainModels
             string description,
             string website,
             MediaResource avatar,
-            DateTime createdDateTime)
+            DateTime createdDateTime,
+            Group parentGroup)
             : base(
             createdByUser,
             name,
-            createdDateTime)
+            createdDateTime,
+            parentGroup)
         {
             SetDetails(
                 description,

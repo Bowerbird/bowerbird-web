@@ -176,6 +176,7 @@
     <Compile Include="Notifications\NotificationProcessor.cs" />
     <Compile Include="Services\HubService.cs" />
     <Compile Include="Services\IHubService.cs" />
+    <Compile Include="Services\NotificationService.cs" />
     <Compile Include="Test.cs" />
     <Compile Include="Validators\ModelStateException.cs" />
     <Compile Include="Validators\HandleModelStateExceptionAttribute.cs" />

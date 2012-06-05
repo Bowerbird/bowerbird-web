@@ -29,7 +29,7 @@ namespace Bowerbird.Core.Events
 
         public RequestPasswordResetEvent(
             User user,
-            object sender)
+            DomainModel sender)
             : base(
             user,
             sender)

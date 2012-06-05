@@ -19,7 +19,6 @@ using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Raven.Client;
 using System;
-using System.Linq;
 using Bowerbird.Core.Config;
 using Raven.Client.Linq;
 
@@ -75,8 +74,7 @@ namespace Bowerbird.Core.CommandHandlers
             user.AddMembership(member);
             _documentSession.Store(user);
 
-            var userProject = new UserProject(user, DateTime.Now);
-            userProject.SetAncestry(appRoot);
+            var userProject = new UserProject(user, DateTime.Now, appRoot);
             _documentSession.Store(userProject);
 
             var userProjectAssociation = new GroupAssociation(appRoot, userProject, user, DateTime.Now);

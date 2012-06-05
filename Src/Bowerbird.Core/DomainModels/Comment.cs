@@ -18,7 +18,7 @@ using Bowerbird.Core.DomainModels.DenormalisedReferences;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public class Comment : IAssignableId
+    public class Comment : DomainModel, IAssignableId
     {
         #region Members
 
@@ -51,8 +51,6 @@ namespace Bowerbird.Core.DomainModels
         #endregion
 
         #region Properties
-
-        public string Id { get; private set; }
 
         public DenormalisedUserReference User { get; private set; }
 

@@ -74,6 +74,7 @@ namespace Bowerbird.Web.Controllers
                 {"ObservationMediaResourceUploaded", null},
                 {"ObservationStreamItem", null},
                 {"OrganisationForm", null},
+                {"OnlineUserItem", null},
                 {"OrganisationItem", null},
                 {"OrganisationList", null},
                 {"PostForm", null},

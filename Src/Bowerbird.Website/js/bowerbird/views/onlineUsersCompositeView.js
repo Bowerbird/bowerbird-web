@@ -8,18 +8,17 @@
 // OnlineUsersCompositeView
 // ----------------------------
 
-// A collection of links in the sidebar
 define([
 'jquery',
 'underscore',
 'backbone',
 'app',
 'views/onlineuseritemview'
-], 
+],
 function ($, _, Backbone, app, OnlineUserItemView) {
 
     var OnlineUsersCompositeView = Backbone.Marionette.CompositeView.extend({
-        
+
         tagname: 'section',
 
         id: 'onlineUsers',
@@ -36,36 +35,36 @@ function ($, _, Backbone, app, OnlineUserItemView) {
         },
 
         events: {
-            //'click .online-user-options .start-chat': 'startUserChat',
-            //'click .online-user-options .view-profile': 'viewUserProfile'
+
         },
 
-        onRender: function(){
+        onRender: function () {
             $('article').append(this.el);
         },
 
         serializeData: function () {
             return {
-                OnlineUsers: this.model.onlineUsers
+                //OnlineUsers: this.model.onlineUsers,
+                Count: this.collection.length
             };
         }
     });
 
     app.addInitializer(function (options) {
-        // Only show online users if user is authenticated
-        if (this.user) {
-            
-            // Render the layout and get it on the screen, first
-            var onlineUsersCompositeView = new OnlineUsersCompositeView({ model: { onlineUsers: options.OnlineUsers } });
 
-            onlineUsersCompositeView.on('show', function () {
-                app.vent.trigger('onlineUsers:rendered');
-            });
+        var passedInUsers = options.OnlineUsers;
+        var appUsers = app.onlineUsers;
 
-            app.usersonline.show(onlineUsersCompositeView);
-        }
+        //var onlineUsersCompositeView = new OnlineUsersCompositeView({ model: { onlineUsers: options.OnlineUsers} });
+        //var onlineUsersCompositeView = new OnlineUsersCompositeView({ model: { onlineUsers: app.onlineUsers} });
+        var onlineUsersCompositeView = new OnlineUsersCompositeView({ model: app.onlineUsers, collection: app.onlineUsers });
+
+        onlineUsersCompositeView.on('show', function () {
+            app.vent.trigger('onlineUsers:rendered');
+        });
+
+        app.usersonline.show(onlineUsersCompositeView);
     });
-
 
     return OnlineUsersCompositeView;
 

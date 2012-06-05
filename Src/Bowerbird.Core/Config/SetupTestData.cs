@@ -182,14 +182,14 @@ namespace Bowerbird.Core.Config
 
         private void AddOrganisation(string name, string description, string website, string userid)
         {
-            var organisation = new Organisation(Users.Single(x => x.Id == userid), name, description, website, null, DateTime.Now);
+            var organisation = new Organisation(Users.Single(x => x.Id == userid), name, description, website, null, DateTime.Now, TheAppRoot);
             _documentSession.Store(organisation);
 
             var groupAssociation = new GroupAssociation(TheAppRoot, organisation, Users.Single(x => x.Id == userid), DateTime.Now);
             GroupAssociations.Add(groupAssociation);
             _documentSession.Store(groupAssociation);
 
-            organisation.SetAncestry(TheAppRoot);
+            //organisation.SetAncestry(TheAppRoot);
             _documentSession.Store(organisation);
 
             Organisations.Add(organisation);
@@ -197,16 +197,16 @@ namespace Bowerbird.Core.Config
 
         private void AddTeam(string name, string description, string website, string userid, string organisationId = null)
         {
-            var team = new Team(Users.Single(x => x.Id == userid), name, description, website, null, DateTime.Now);
-            _documentSession.Store(team);
-
             var parentGroup = Organisations.Single(x => x.Id == organisationId);
+            
+            var team = new Team(Users.Single(x => x.Id == userid), name, description, website, null, DateTime.Now, parentGroup);
+            _documentSession.Store(team);
 
             var groupAssociation = new GroupAssociation(parentGroup, team, Users.Single(x => x.Id == userid), DateTime.Now);
             GroupAssociations.Add(groupAssociation);
             _documentSession.Store(groupAssociation);
 
-            team.SetAncestry(parentGroup);
+            //team.SetAncestry(parentGroup);
             _documentSession.Store(team);
 
             parentGroup.AddDescendant(team);
@@ -217,10 +217,11 @@ namespace Bowerbird.Core.Config
 
         private void AddProject(string name, string description, string website, string userid, string teamId = null)
         {
-            var project = new Project(Users.Single(x => x.Id == userid), name, description, website, null, DateTime.Now);
+            var parentGroup = Teams.Single(x => x.Id == teamId);
+
+            var project = new Project(Users.Single(x => x.Id == userid), name, description, website, null, DateTime.Now, parentGroup);
             _documentSession.Store(project);
 
-            var parentGroup = Teams.Single(x => x.Id == teamId);
 
             var groupAssociation = new GroupAssociation(parentGroup, project, Users.Single(x => x.Id == userid), DateTime.Now);
             GroupAssociations.Add(groupAssociation);

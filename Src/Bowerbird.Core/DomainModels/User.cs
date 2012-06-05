@@ -186,7 +186,7 @@ namespace Bowerbird.Core.DomainModels
         {
             LastLoggedIn = DateTime.Now;
 
-            FireEvent(new UserLoggedInEvent(this, this));
+            FireEvent(new UserLoggedInEvent(this, this), true);
 
             return this;
         }

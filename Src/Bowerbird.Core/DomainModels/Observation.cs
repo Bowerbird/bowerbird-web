@@ -275,7 +275,9 @@ namespace Bowerbird.Core.DomainModels
 
         IContribution IDiscussed.AddComment(string message, User createdByUser, DateTime createdDateTime)
         {
-            Discussion.AddComment(message, createdByUser, createdDateTime);
+            var comment = Discussion.AddComment(message, createdByUser, createdDateTime);
+
+            FireEvent(new DomainModelCreatedEvent<Comment>(comment, createdByUser, this));
 
             return this;
         }

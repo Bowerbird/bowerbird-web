@@ -1,16 +1,24 @@
-﻿using System;
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+
+ Developers: 
+ * Frank Radocaj : frank@radocaj.com
+ * Hamish Crittenden : hamish.crittenden@gmail.com
+ Project Manager: 
+ * Ken Walker : kwalker@museum.vic.gov.au
+ Funded by:
+ * Atlas of Living Australia
+ 
+*/
+
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Dynamic;
 using Bowerbird.Core.Events;
 using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Core.EventHandlers
 {
-    public class DomainEventHandlerBase
+    public abstract class DomainEventHandlerBase
     {
-
         #region Members
 
         #endregion
@@ -25,7 +33,7 @@ namespace Bowerbird.Core.EventHandlers
 
         #region Methods
 
-        protected Activity MakeActivity<T>(DomainModelCreatedEvent<T> domainEvent, string type, string description, IEnumerable<dynamic> groups)
+        protected Activity MakeActivity<T>(DomainModelCreatedEvent<T> domainEvent, string type, string description, IEnumerable<dynamic> groups) where T: DomainModel
         {
             return new Activity(
                 type,
@@ -36,6 +44,5 @@ namespace Bowerbird.Core.EventHandlers
         }
 
         #endregion
-
     }
 }

@@ -1,7 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+
+ Developers: 
+ * Frank Radocaj : frank@radocaj.com
+ * Hamish Crittenden : hamish.crittenden@gmail.com
+ Project Manager: 
+ * Ken Walker : kwalker@museum.vic.gov.au
+ Funded by:
+ * Atlas of Living Australia
+ 
+*/
+				
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.DesignByContract;
 
@@ -9,7 +17,6 @@ namespace Bowerbird.Core.Events
 {
     public abstract class DomainEventBase : IDomainEvent
     {
-
         #region Members
 
         #endregion
@@ -18,7 +25,7 @@ namespace Bowerbird.Core.Events
 
         protected DomainEventBase(
             User user, 
-            object sender)
+            DomainModel sender)
         {
             Check.RequireNotNull(user, "user");
             Check.RequireNotNull(sender, "sender");
@@ -33,13 +40,12 @@ namespace Bowerbird.Core.Events
 
         public User User { get; private set; }
 
-        public object Sender { get; private set; }
+        public DomainModel Sender { get; private set; }
 
         #endregion
 
         #region Methods
 
         #endregion
-
     }
 }

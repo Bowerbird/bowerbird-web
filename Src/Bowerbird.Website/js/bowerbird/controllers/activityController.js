@@ -14,8 +14,9 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/user'], function ($, 
 
     // Call From Hub
     ActivityController.newActivity = function (data) {
-        log('activityController.newActivity');
+        log('activityController.newActivity: ' + data.Description);
         log(data);
+        //data.description
         alert('new activity received');
     };
 
@@ -25,7 +26,10 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/user'], function ($, 
         log(data);
         //app.onlineUsers.updateUserStatus(data);
 
-        if (!app.onlineUsers.contains(data.Id)) {
+        //if (!app.onlineUsers.contains(data.Id)) {
+        //var userExists = 
+
+        if (!_.any(app.onlineUsers,function(user){ return user.id == data.Id; })){
             if (data.Status == 2 || data.Status == 3 || data.Status == 'undefined') return;
             var user = new User(data);
             app.onlineUsers.add(user);
