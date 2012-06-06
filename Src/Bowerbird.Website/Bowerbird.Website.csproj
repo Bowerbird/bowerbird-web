@@ -224,7 +224,7 @@
     <Content Include="js\libs\underscore\underscore.js" />
     <Content Include="js\_old\libs\yepnope.js" />
     <Content Include="species\Butterflies.txt" />
-    <Content Include="species\Legumes.txt" />
+    <Content Include="species\Plants.txt" />
     <Content Include="welcome.txt" />
     <None Include="Views\Posts\Create.mustache" />
     <None Include="Views\Posts\Delete.mustache" />

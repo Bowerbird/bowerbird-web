@@ -1,14 +1,11 @@
 ﻿/* Bowerbird V1 
 
  Licensed under MIT 1.1 Public License
-
  Developers: 
  * Frank Radocaj : frank@radocaj.com
  * Hamish Crittenden : hamish.crittenden@gmail.com
- 
  Project Manager: 
  * Ken Walker : kwalker@museum.vic.gov.au
- 
  Funded by:
  * Atlas of Living Australia
  
@@ -17,12 +14,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Raven.Client;
-using Bowerbird.Core.Events;
-using Bowerbird.Core.Config;
 using System.Threading;
 using Bowerbird.Core.Services;
 using System.IO;
@@ -32,7 +26,6 @@ namespace Bowerbird.Core.Config
 {
     public class SetupSystem
     {
-
         #region Members
 
         private readonly IDocumentSession _documentSession;
@@ -41,6 +34,7 @@ namespace Bowerbird.Core.Config
         private readonly IAvatarFactory _avatarFactory;
 
         private readonly string[] _speciesFileHeaderColumns = {
+                                                                  "Category", 
                                                                   "Kingdom", 
                                                                   "Group Name", 
                                                                   "Species Common Names", 
@@ -327,13 +321,14 @@ namespace Bowerbird.Core.Config
                     new Species(
                         species[0],
                         species[1],
-                        species[2].Split(',').ToArray(),
-                        species[3],
+                        species[2],
+                        species[3].Split(',').ToArray(),
                         species[4],
                         species[5],
                         species[6],
                         species[7],
                         species[8],
+                        species[9],
                         false,
                         createdOn
                         )

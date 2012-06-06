@@ -33,6 +33,7 @@ namespace Bowerbird.Core.DomainModels
         }
 
         public Species(
+            string category,
             string kingdom,
             string group,
             IEnumerable<string> commonNames,
@@ -51,6 +52,7 @@ namespace Bowerbird.Core.DomainModels
             CreatedDateTime = createdOn;
 
             SetDetails(
+                category,
                 kingdom,
                 group,
                 commonNames,
@@ -66,6 +68,7 @@ namespace Bowerbird.Core.DomainModels
 
         public Species(
             User createdByUser,
+            string category,
             string kingdom,
             string group,
             IEnumerable<string> commonNames,
@@ -85,6 +88,7 @@ namespace Bowerbird.Core.DomainModels
             CreatedDateTime = createdOn;
 
             SetDetails(
+                category,
                 kingdom,
                 group,
                 commonNames,
@@ -101,6 +105,8 @@ namespace Bowerbird.Core.DomainModels
         #endregion
 
         #region Properties
+
+        public string Category { get; private set; }
 
         public string Kingdom { get; private set; }
 
@@ -142,6 +148,7 @@ namespace Bowerbird.Core.DomainModels
         }
 
         public void SetDetails(
+            string category,
             string kingdom,
             string group,
             IEnumerable<string> commonNames,
@@ -154,6 +161,7 @@ namespace Bowerbird.Core.DomainModels
             bool proposedAsNewSpecies
             )
         {
+            Category = category;
             Kingdom = kingdom;
             Group = group;
             CommonNames = commonNames;
@@ -167,6 +175,7 @@ namespace Bowerbird.Core.DomainModels
         }
 
         public void UpdateDetails(
+            string category,
             string kingdom,
             string group,
             IEnumerable<string> commonNames,
@@ -179,6 +188,7 @@ namespace Bowerbird.Core.DomainModels
             bool proposedAsNewSpecies
             )
         {
+            Category = category;
             Kingdom = kingdom;
             Group = group;
             CommonNames = commonNames;
