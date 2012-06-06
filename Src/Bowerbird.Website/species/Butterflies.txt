@@ -1,4 +1,4 @@
-Category	Kingdom	Group Name	Species Common Name	Taxonomy	Order	Family	Genus	Species	Synonym
+Category	Kingdom	Group Name	Species Common Names	Taxonomy	Order	Family	Genus	Species	Synonym
 Invertebrates	Animals	Butterflies		Animalia: Arthropoda: Insecta	Lepidoptera	Papilionidae	Graphium	sp.	
 Invertebrates	Animals	Butterflies	Swallowtail - no specific common name	Animalia: Arthropoda: Insecta	Lepidoptera	Papilionidae	Graphium	codrus 	
 Invertebrates	Animals	Butterflies	Swallowtail - no specific common name	Animalia: Arthropoda: Insecta	Lepidoptera	Papilionidae	Graphium	codrus medon	
