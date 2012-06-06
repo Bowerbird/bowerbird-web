@@ -32,6 +32,7 @@ namespace Bowerbird.Core.Config
         private readonly ISystemStateManager _systemStateManager;
         private readonly IConfigService _configService;
         private readonly IAvatarFactory _avatarFactory;
+        private readonly ICommandProcessor _commandProcessor;
 
         private readonly string[] _speciesFileHeaderColumns = {
                                                                   "Category", 
@@ -54,17 +55,20 @@ namespace Bowerbird.Core.Config
             IDocumentSession documentSession,
             ISystemStateManager systemStateManager,
             IConfigService configService, 
-            IAvatarFactory avatarFactory)
+            IAvatarFactory avatarFactory,
+            ICommandProcessor commandProcessor)
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(systemStateManager, "systemStateManager");
             Check.RequireNotNull(configService, "configService");
             Check.RequireNotNull(avatarFactory, "avatarFactory");
+            Check.RequireNotNull(commandProcessor, "commandProcessor");
 
             _documentSession = documentSession;
             _systemStateManager = systemStateManager;
             _configService = configService;
             _avatarFactory = avatarFactory;
+            _commandProcessor = commandProcessor;
         }
 
         #endregion
@@ -121,7 +125,7 @@ namespace Bowerbird.Core.Config
                 // Wait for all stale indexes to complete.
                 while (_documentSession.Advanced.DocumentStore.DatabaseCommands.GetStatistics().StaleIndexes.Length > 0)
                 {
-                    Thread.Sleep(1000);
+                    Thread.Sleep(1500);
                 }
 
                 // Enable all services
@@ -297,9 +301,9 @@ namespace Bowerbird.Core.Config
             _documentSession.Store(userProjectAssociation);
 
             var userProjectmember = new Member(
-                user, 
-                user, 
-                userProject, 
+                user,
+                user,
+                userProject,
                 Roles.Where(x => x.Id == "roles/projectadministrator" || x.Id == "roles/projectmember"));
             _documentSession.Store(userProjectmember);
 
@@ -307,6 +311,17 @@ namespace Bowerbird.Core.Config
             _documentSession.Store(user);
 
             Users.Add(user);
+
+            //UserCreateCommand command = new UserCreateCommand()
+            //{
+            //    FirstName = firstname,
+            //    LastName = lastname,
+            //    Email = email,
+            //    Password = password,
+            //    Roles = new[] { "roles/globalmember", "roles/globaladministrator" } 
+            //};
+
+            //_commandProcessor.Process<UserCreateCommand, User>(command, x => Users.Add(x));
         }
 
         private void AddSpecies()

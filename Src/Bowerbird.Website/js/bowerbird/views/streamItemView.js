@@ -9,21 +9,49 @@
 // --------------
 
 // Shows an individual stream item
-define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, app) {
+define(['jquery', 'underscore', 'backbone', 'app', 'timeago', 'date'], function ($, _, Backbone, app) {
+
+    var parseISO8601 = function (str) {
+        // we assume str is a UTC date ending in 'Z'
+
+        var parts = str.split('T'),
+        dateParts = parts[0].split('-'),
+        timeParts = parts[1].split('Z'),
+        timeSubParts = timeParts[0].split(':'),
+        timeSecParts = timeSubParts[2].split('.'),
+        timeHours = Number(timeSubParts[0]),
+        _date = new Date;
+
+        _date.setUTCFullYear(Number(dateParts[0]));
+        _date.setUTCMonth(Number(dateParts[1]) - 1);
+        _date.setUTCDate(Number(dateParts[2]));
+        _date.setUTCHours(Number(timeHours));
+        _date.setUTCMinutes(Number(timeSubParts[1]));
+        _date.setUTCSeconds(Number(timeSecParts[0]));
+        if (timeSecParts[1]) _date.setUTCMilliseconds(Number(timeSecParts[1]));
+
+        // by using setUTC methods the date has already been converted to local time(?)
+        return _date;
+    };
 
     var StreamItemView = Backbone.Marionette.ItemView.extend({
         tagName: 'li',
 
-        className: 'stream-item',
+        className: 'stream-item observation-stream-item',
 
         template: 'StreamItem',
 
         serializeData: function () {
             var model = this.model.toJSON();
-            model.CreatedDateTimeDescription = 'just now';
+            model.CreatedDateTimeDescription = parseISO8601(this.model.get('CreatedDateTime') + 'Z');
+            model.ObservedOnDescription = ''; //parseISO8601(this.model.get('ObservedOn') + 'Z').format('d MMM yyyy')
             return {
                 Model: model
             };
+        },
+
+        onRender: function () {
+            this.$el.find('.time-description').timeago();
         }
         //        render: function () {
         //            switch (this.StreamItem.get('Type')) {

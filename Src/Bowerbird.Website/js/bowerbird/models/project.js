@@ -16,24 +16,24 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
             Description: '',
             Website: '',
             Avatar: null,
-            Team: null,
-            Type: 'Project'
+            Team: null
+            //Type: 'Project'
         },
 
         idAttribute: 'Id',
 
         urlRoot: '/projects',
 
-        toJSON: function () {
-            return {
-                Name: this.get('Name'),
-                Description: this.get('Description'),
-                Website: this.get('Website'),
-                Avatar: this.get('Avatar'), // TODO: Fix this to return id?
-                Team: this.get('Team'),
-                Type: 'Project'
-            };
-        },
+//        toJSON: function () {
+//            return {
+//                Name: this.get('Name'),
+//                Description: this.get('Description'),
+//                Website: this.get('Website'),
+//                Avatar: this.get('Avatar'), // TODO: Fix this to return id?
+//                Team: this.get('Team'),
+//                Type: 'Project'
+//            };
+//        },
 
         setAvatar: function (mediaResource) {
             this.set('Avatar', mediaResource.id);

@@ -143,7 +143,6 @@
     <Compile Include="Config\AcceptTypeContstraint.cs" />
     <Compile Include="Config\AuthenticatedConstraint.cs" />
     <Compile Include="Config\BowerbirdHttpApplication.cs" />
-    <Compile Include="Config\ExpandoObjectJsonConverter.cs" />
     <Compile Include="Config\NinjectBindingModule.cs" />
     <Compile Include="Config\NinjectDependencyResolver.cs" />
     <Compile Include="Config\RestfulAttribute.cs" />

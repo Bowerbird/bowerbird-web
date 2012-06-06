@@ -30,7 +30,8 @@ require.config({
         multiselect: '/js/libs/jquery.multiselect/jquery.multiselect',
         loadimage: '/js/libs/jquery.fileupload/load-image', 
         fileupload: '/js/libs/jquery.fileupload/jquery.fileupload',
-        signalr: '/js/libs/jquery.signalr/jquery.signalr'
+        signalr: '/js/libs/jquery.signalr/jquery.signalr',
+        timeago: '/js/libs/jquery.timeago/jquery.timeago'
     },
     priority: [
         'ich',

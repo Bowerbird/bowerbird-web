@@ -12,7 +12,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editmapview', '
 
     var ObservationFormLayoutView = Backbone.Marionette.Layout.extend({
 
-        className: 'form single-medium observation-form',
+        className: 'form observation-form',
 
         template: 'ObservationForm',
 
@@ -92,6 +92,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editmapview', '
 
             // Add project options
             this.$el.find('#Projects').append(ich.ProjectSelectItem({ Projects: app.authenticatedUser.projects.toJSON() }));
+            log(ich.ProjectSelectItem({ Projects: app.authenticatedUser.projects.toJSON() }));
 
             this.projectListSelectView = this.$el.find('#Projects').multiSelect({
                 selectAll: false,
@@ -105,14 +106,14 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editmapview', '
                     }
                     var project = app.authenticatedUser.projects.get(option.value);
 
-                    html += ' /><img src="' + project.get('Avatar').UrlToImage + '" alt="" />' + project.get('Name') + '</label>';
+                    html += ' /><img src="' + project.get('Avatar').Files.thumbnail.RelativeUri + '" alt="" />' + project.get('Name') + '</label>';
                     return html;
                 },
                 oneOrMoreSelected: function (selectedOptions) {
                     var $selectedHtml = $('<div />');
                     _.each(selectedOptions, function (option) {
                         var project = app.authenticatedUser.projects.get(option.value);
-                        $selectedHtml.append('<span class="selected-project"><img src="' + project.get('Avatar').UrlToImage + '" alt="" />' + option.text + '</span> ');
+                        $selectedHtml.append('<span class="selected-project"><img src="' + project.get('Avatar').Files.thumbnail.RelativeUri + '" alt="" />' + option.text + '</span> ');
                     });
                     return $selectedHtml.children();
                 }

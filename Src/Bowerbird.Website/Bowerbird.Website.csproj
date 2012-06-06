@@ -183,6 +183,7 @@
     <Content Include="js\libs\jquery.signalr\hubs.js" />
     <Content Include="js\libs\jquery.signalr\jquery.signalr.js" />
     <Content Include="js\libs\jquery.signalr\jquery.signalr.min.js" />
+    <Content Include="js\libs\jquery.timeago\jquery.timeago.js" />
     <Content Include="js\libs\jqueryui\autocomplete.js" />
     <Content Include="js\libs\jqueryui\core.js" />
     <Content Include="js\libs\jqueryui\draggable.js" />

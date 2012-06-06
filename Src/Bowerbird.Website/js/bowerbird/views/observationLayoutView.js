@@ -12,7 +12,7 @@
 define(['jquery', 'underscore', 'backbone', 'app', 'views/observationformlayoutview'], function ($, _, Backbone, app, ObservationFormLayoutView) {
 
     var ObservationLayoutView = Backbone.Marionette.Layout.extend({
-        className: 'form single-medium observation',
+        className: 'observation',
 
         template: 'Observation',
 

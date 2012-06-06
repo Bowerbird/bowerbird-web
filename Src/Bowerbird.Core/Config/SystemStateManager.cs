@@ -66,7 +66,7 @@ namespace Bowerbird.Core.Config
             var appRoot = LoadAppRoot();
             if (appRoot == null)
             {
-                SetupSystem setupSystem = new SetupSystem(_documentSession, this, _configService, _avatarFactory);
+                SetupSystem setupSystem = new SetupSystem(_documentSession, this, _configService, _avatarFactory, _commandProcessor);
                 setupSystem.Execute();
 
                 if (doSetupTestData)

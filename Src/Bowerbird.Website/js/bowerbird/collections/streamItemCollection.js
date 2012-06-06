@@ -8,7 +8,7 @@
 // StreamItemCollection
 // --------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'collections/paginatedcollection', 'models/streamitem', 'models/user', 'models/project'], function ($, _, Backbone, app, PaginatedCollection, StreamItem, User, Project) {
+define(['jquery', 'underscore', 'backbone', 'app', 'collections/paginatedcollection', 'models/streamitem', 'models/user', 'models/project', 'date'], function ($, _, Backbone, app, PaginatedCollection, StreamItem, User, Project) {
 
     var StreamItemCollection = PaginatedCollection.extend({
         model: StreamItem,
@@ -27,19 +27,22 @@ define(['jquery', 'underscore', 'backbone', 'app', 'collections/paginatedcollect
             typeof (options.groupOrUser) != 'undefined' || (this.groupOrUser = options.groupOrUser);
         },
 
-        comparator: function (streamItem1, streamItem2) {
-            var streamItem1CreateDate = new Date(parseInt(streamItem1.get('CreatedDateTime').substr(6)));
-            var streamItem2CreateDate = new Date(parseInt(streamItem2.get('CreatedDateTime').substr(6)));
+        comparator: function (streamItem1) {
+            //            log(streamItem1.get('CreatedDateTime').substr(6));
+            //            log(streamItem2.get('CreatedDateTime').substr(6));
+            //            var streamItem1CreateDate = new Date(parseInt(streamItem1.get('CreatedDateTimeOrder')));
+            //            var streamItem2CreateDate = new Date(parseInt(streamItem2.get('CreatedDateTimeOrder')));
 
-            if (streamItem1CreateDate.isAfter(streamItem2CreateDate)) {
-                return -1;
-            }
+            //            if (streamItem1CreateDate.isAfter(streamItem2CreateDate)) {
+            //                return -1;
+            //            }
 
-            if (streamItem1CreateDate.isBefore(streamItem2CreateDate)) {
-                return 1;
-            }
+            //            if (streamItem1CreateDate.isBefore(streamItem2CreateDate)) {
+            //                return 1;
+            //            }
 
-            return -1;
+            //            return -1;
+            return -parseInt(streamItem1.get('CreatedDateTimeOrder'));
         },
 
         fetchFirstPage: function () {

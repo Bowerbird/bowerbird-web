@@ -55,7 +55,7 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Methods
 
-        public MediaResource Handle(MediaResourceCreateCommand command)
+        public MediaResource HandleReturn(MediaResourceCreateCommand command)
         {
             Check.RequireNotNull(command, "command");
 

@@ -25,7 +25,7 @@ using Bowerbird.Core.Factories;
 
 namespace Bowerbird.Core.CommandHandlers
 {
-    public class UserCreateCommandHandler : ICommandHandler<UserCreateCommand>
+    public class UserCreateCommandHandler : ICommandHandler<UserCreateCommand>, ICommandHandler<UserCreateCommand, User>
     {
         #region Members
 
@@ -56,6 +56,11 @@ namespace Bowerbird.Core.CommandHandlers
         #region Methods
 
         public void Handle(UserCreateCommand userCreateCommand)
+        {
+            HandleReturn(userCreateCommand);
+        }
+
+        public User HandleReturn(UserCreateCommand userCreateCommand)
         {
             Check.RequireNotNull(userCreateCommand, "userCreateCommand");
 
@@ -89,6 +94,8 @@ namespace Bowerbird.Core.CommandHandlers
             var userProjectRoles = _documentSession.Query<Role>().Where(x => x.Id == "roles/projectadministrator" || x.Id == "roles/projectmember");
             var userProjectMember = new Member(user, user, userProject, userProjectRoles);
             _documentSession.Store(userProjectMember);
+
+            return user;
         }
 
         #endregion      

@@ -55,6 +55,7 @@ namespace Bowerbird.Core.DomainModels
             // DynamicObject type are not serialised.
             _properties.Add("Type", type);
             _properties.Add("CreatedDateTime", createdDateTime);
+            _properties.Add("CreatedDateTimeOrder", createdDateTime.ToString("yyyyMMddHHmmssfffffff"));
             _properties.Add("Description", description);
             _properties.Add("User", createdByUser);
             _properties.Add("Groups", groups);

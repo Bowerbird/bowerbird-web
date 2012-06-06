@@ -1,7 +1,7 @@
 ﻿<div class="summary">
   <img src="{{Model.User.Avatar.Files.thumbnail.RelativeUri}}" alt="{{Model.User.FirstName}}" />
   <p class="description">
-    {{Model.Description}} <span>{{Model.CreatedDateTimeDescription}}</span>
+    {{Model.Description}} <abbr class="time-description" title="{{Model.CreatedDateTime}}">{{Model.CreatedDateTimeDescription}}</abbr>
   </p>
 </div>
 {{#Model.ObservationAdded}}

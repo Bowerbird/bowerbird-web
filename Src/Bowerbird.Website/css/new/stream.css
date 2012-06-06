@@ -18,7 +18,7 @@
     position: relative;
     min-height: 500px;
 }
-.stream #load-more
+/*.stream #load-more
 {
     background-color: #59A3FF;
     border-radius: 0 0 4px 4px;
@@ -32,7 +32,7 @@
     text-align: center;
     text-shadow: 0 -1px 0 #555555;
     width: 300px;
-}
+}*/
 /*.stream h2
 {
     color: #6997C5;
@@ -85,6 +85,8 @@
     border-radius: 4px 4px 4px 4px;
     box-shadow: 0 1px 2px 0 #5071a6;
     list-style: none outside none;
+    display: inline-block;
+    width: 96%;
 }
 /*#stream .stream-item:first-child
 {
@@ -119,12 +121,13 @@
     padding-left: 10px;
     vertical-align: top;
 }
-.stream-list .stream-item .summary .description span
+.stream-list .stream-item .summary .description abbr
 {
     color: #8C8C8C;
     font-size: 0.8125em;
+    border-bottom: 1px dotted #BBBBBB;
 }
-.stream-list .stream-item .details
+/*.stream-list .stream-item .details
 {
     color: #133A68;
     padding-bottom: 15px;
@@ -199,8 +202,16 @@
     line-height: 1.3em;
     margin: 0;
     padding: 0 50px 17px;
-}
+}*/
 /* stream observation item */
+.stream-list .observation-stream-item .details h2
+{
+    font-size: 1.8125em;
+    font-weight: 600;
+    letter-spacing: -1px;
+    margin: 0;
+    padding: 10px 15px;
+}
 .stream-list .observation-stream-item .details .images
 {
     float: left;
@@ -215,62 +226,62 @@
     text-align: center;
     width: 100%;
 }
-.stream-list .observation-stream-item .details .images .preview  img
+.stream-list .observation-stream-item .details .images .preview img
 {
     float: left;
     width: 100%;
 }
-#stream .observation-stream-item .details .images .thumbnails
+.stream-list .observation-stream-item .details .images .thumbnails
 {
     padding-top: 1%;
 }
-#stream .observation-stream-item .details .images .thumbnails img
+.stream-list .observation-stream-item .details .images .thumbnails img
 {
     float: left;
     margin-right: 1%;
     width: 19.2%;
 }
-#stream .observation-stream-item .details .images .thumbnails img:last-child
+.stream-list .observation-stream-item .details .images .thumbnails img:last-child
 {
     margin-right: 0;
 }
-#stream .observation-stream-item .details .info
+.stream-list .observation-stream-item .details .info
 {
     float: left;
     width: 28%;
 }
-#stream .observation-stream-item .details .observed
+.stream-list .observation-stream-item .details .observed
 {
     font-size: 0.875em;
     font-weight: 600;
     line-height: 1.25em;
     margin: 0;
 }
-#stream .observation-stream-item .details .observed span
+.stream-list .observation-stream-item .details .observed span
 {
     display: block;
     font-weight: 500;
 }
-#stream .observation-stream-item .details .location
+.stream-list .observation-stream-item .details .location
 {
     font-size: 0.875em;
     font-weight: 600;
     line-height: 1.25em;
     padding-top: 20px;
 }
-#stream .observation-stream-item .details .location .map
+.stream-list .observation-stream-item .details .location .map
 {
     background-color: #F2F6FA;
     height: 200px;
     overflow: hidden;
 }
-#stream .observation-stream-item .details .location .map img
+.stream-list .observation-stream-item .details .location .map img
 {
     height: 200px;
     left: -50%;
     position: relative;
 }
-#stream .observation-stream-item .details .location span
+.stream-list .observation-stream-item .details .location span
 {
     display: block;
     font-weight: 500;

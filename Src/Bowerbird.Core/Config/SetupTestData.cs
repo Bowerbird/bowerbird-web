@@ -158,7 +158,7 @@ namespace Bowerbird.Core.Config
                 // Wait for all stale indexes to complete.
                 while (_documentSession.Advanced.DocumentStore.DatabaseCommands.GetStatistics().StaleIndexes.Length > 0)
                 {
-                    Thread.Sleep(1000);
+                    Thread.Sleep(1500);
                 }
 
                 // Enable emails

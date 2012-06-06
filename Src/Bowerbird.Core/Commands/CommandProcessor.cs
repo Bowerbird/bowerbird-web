@@ -101,7 +101,7 @@ namespace Bowerbird.Core.Commands
 
                 foreach (var handler in handlers)
                 {
-                    yield return handler.Handle(command);
+                    yield return handler.HandleReturn(command);
                 }
             }
         }
