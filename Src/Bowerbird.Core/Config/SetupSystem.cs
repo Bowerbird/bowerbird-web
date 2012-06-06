@@ -125,7 +125,7 @@ namespace Bowerbird.Core.Config
                 _documentSession.SaveChanges();
 
                 // Wait for all stale indexes to complete.
-                while (_documentSession.Advanced.DatabaseCommands.GetStatistics().StaleIndexes.Length > 0)
+                while (_documentSession.Advanced.DocumentStore.DatabaseCommands.GetStatistics().StaleIndexes.Length > 0)
                 {
                     Thread.Sleep(1000);
                 }

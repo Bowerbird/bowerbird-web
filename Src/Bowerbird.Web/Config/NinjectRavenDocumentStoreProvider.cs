@@ -22,8 +22,7 @@ using Ninject.Activation;
 using Raven.Client.Extensions;
 using Raven.Client.Indexes;
 using Bowerbird.Core.Indexes;
-using System.Linq;
-using Raven.Abstractions.Json;
+using Raven.Imports.Newtonsoft.Json;
 
 namespace Bowerbird.Web.Config
 {
@@ -82,7 +81,7 @@ namespace Bowerbird.Web.Config
             // db and send the to the UI. They need to be clean from the outset. 
             documentStore.Conventions.CustomizeJsonSerializer = serializer =>
             {
-                serializer.TypeNameHandling = Newtonsoft.Json.TypeNameHandling.None;
+                serializer.TypeNameHandling = TypeNameHandling.None;
             };
 
             documentStore.Initialize();
