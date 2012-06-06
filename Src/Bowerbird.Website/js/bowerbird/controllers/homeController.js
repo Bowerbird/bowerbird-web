@@ -16,17 +16,19 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/homelayoutview'], func
     // ----------
 
     HomeController.showHomeStream = function (id) {
-        var homeLayoutView = new HomeLayoutView({ model: app.authenticatedUser.user });
+        $(function () {
+            var homeLayoutView = new HomeLayoutView({ model: app.authenticatedUser.user });
 
-        app.content[app.getShowViewMethodName('home')](homeLayoutView);
+            app.content[app.getShowViewMethodName('home')](homeLayoutView);
 
-        if (app.isPrerendering('home')) {
-            homeLayoutView.showBootstrappedDetails();
-        }
+            if (app.isPrerendering('home')) {
+                homeLayoutView.showBootstrappedDetails();
+            }
 
-        homeLayoutView.showStream();
+            homeLayoutView.showStream();
 
-        app.setPrerenderComplete();
+            app.setPrerenderComplete();
+        });
     };
 
     return HomeController;

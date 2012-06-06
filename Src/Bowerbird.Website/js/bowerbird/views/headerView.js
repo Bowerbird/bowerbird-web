@@ -26,15 +26,17 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
     // Initialize the layout and when the layout has been rendered and displayed, 
     // then start the rest of the application
     app.addInitializer(function (options) {
-        // Render the layout and get it on the screen, first
-        var headerView = new HeaderView();
+        $(function () {
+            // Render the layout and get it on the screen, first
+            var headerView = new HeaderView();
 
-        headerView.on('show', function () {
-            app.vent.trigger('headerView:rendered');
+            headerView.on('show', function () {
+                app.vent.trigger('headerView:rendered');
+            });
+
+            app.header.attachView(headerView);
+            headerView.render();
         });
-
-        app.header.attachView(headerView);
-        headerView.render();
     });
 
     return HeaderView;

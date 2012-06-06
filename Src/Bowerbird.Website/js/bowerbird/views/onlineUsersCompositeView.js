@@ -19,28 +19,28 @@ function ($, _, Backbone, app, OnlineUserItemView) {
 
     var OnlineUsersCompositeView = Backbone.Marionette.CompositeView.extend({
 
-        tagname: 'section',
+        //tagname: 'section',
 
-        id: 'onlineUsers',
+        //id: 'onlineUsers',
 
         itemView: OnlineUserItemView,
 
         template: 'UsersOnlineList',
 
-        classname: 'single-1-window',
+        //classname: 'single-1-window',
 
         regions: {
             summary: '#online-user-summary',
             users: '#online-users'
         },
 
-        events: {
+        //        events: {
 
-        },
+        //        },
 
-        onRender: function () {
-            $('article').append(this.el);
-        },
+        //        onRender: function () {
+        //            $('article').append(this.el);
+        //        },
 
         serializeData: function () {
             return {
@@ -51,19 +51,15 @@ function ($, _, Backbone, app, OnlineUserItemView) {
     });
 
     app.addInitializer(function (options) {
+        $(function () {
+            var onlineUsersCompositeView = new OnlineUsersCompositeView({ model: app.onlineUsers, collection: app.onlineUsers });
 
-        var passedInUsers = options.OnlineUsers;
-        var appUsers = app.onlineUsers;
+            onlineUsersCompositeView.on('show', function () {
+                app.vent.trigger('onlineUsers:rendered');
+            });
 
-        //var onlineUsersCompositeView = new OnlineUsersCompositeView({ model: { onlineUsers: options.OnlineUsers} });
-        //var onlineUsersCompositeView = new OnlineUsersCompositeView({ model: { onlineUsers: app.onlineUsers} });
-        var onlineUsersCompositeView = new OnlineUsersCompositeView({ model: app.onlineUsers, collection: app.onlineUsers });
-
-        onlineUsersCompositeView.on('show', function () {
-            app.vent.trigger('onlineUsers:rendered');
+            app.usersonline.show(onlineUsersCompositeView);
         });
-
-        app.usersonline.show(onlineUsersCompositeView);
     });
 
     return OnlineUsersCompositeView;

@@ -104,25 +104,27 @@ function ($, _, Backbone, app, SidebarMenuGroupCompositeView, SidebarProjectItem
 
     // Initialize the sidebar layout
     app.addInitializer(function (options) {
-        // Only show sidebar if user is authenticated
-        if (this.authenticatedUser) {
-            var model = {
-                user: this.authenticatedUser.user,
-                projects: this.authenticatedUser.projects,
-                teams: this.authenticatedUser.teams,
-                organisations: this.authenticatedUser.organisations,
-                appRoot: this.authenticatedUser.appRoot
-            };
+        $(function () {
+            // Only show sidebar if user is authenticated
+            if (app.authenticatedUser) {
+                var model = {
+                    user: app.authenticatedUser.user,
+                    projects: app.authenticatedUser.projects,
+                    teams: app.authenticatedUser.teams,
+                    organisations: app.authenticatedUser.organisations,
+                    appRoot: app.authenticatedUser.appRoot
+                };
 
-            // Render the layout and get it on the screen, first
-            var sidebarLayoutView = new SidebarLayoutView({ model: model });
+                // Render the layout and get it on the screen, first
+                var sidebarLayoutView = new SidebarLayoutView({ model: model });
 
-            sidebarLayoutView.on('show', function () {
-                app.vent.trigger('sidebar:rendered');
-            });
+                sidebarLayoutView.on('show', function () {
+                    app.vent.trigger('sidebar:rendered');
+                });
 
-            app.sidebar.show(sidebarLayoutView);
-        }
+                app.sidebar.show(sidebarLayoutView);
+            }
+        });
     });
 
     return SidebarLayoutView;
