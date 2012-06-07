@@ -164,8 +164,11 @@ namespace Bowerbird.Web.Controllers
                         LastName = accountRegisterInput.LastName,
                         Email = accountRegisterInput.Email,
                         Password = accountRegisterInput.Password,
-                        Roles = new[] { "globalmember" }
+                        Roles = new[] { "roles/globalmember" }
                     });
+
+                // persist user before _userContext.SignUserIn(..)
+                _documentSession.SaveChanges();
 
                 _userContext.SignUserIn(accountRegisterInput.Email.ToLower(), false);
 

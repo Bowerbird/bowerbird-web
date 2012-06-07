@@ -215,7 +215,6 @@
     <Content Include="js\libs\require\text.js" />
     <Content Include="js\libs\underscore\underscore.js" />
     <Content Include="js\_old\libs\yepnope.js" />
-    <Content Include="r.js" />
     <Content Include="species\Butterflies.txt" />
     <Content Include="species\Plants.txt" />
     <Content Include="welcome.txt" />
