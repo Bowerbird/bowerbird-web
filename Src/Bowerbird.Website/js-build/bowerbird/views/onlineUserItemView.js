@@ -1,0 +1,1 @@
+define(["jquery","underscore","backbone","app","models/user"],function(a,b,c,d,e){var f=c.Marionette.ItemView.extend({tagName:"li",className:"online-user",template:"OnlineUserItem",events:{},onRender:function(){},serializeData:function(){return{Id:this.model.id,Name:this.model.get("Name"),Avatar:this.model.get("Avatar"),Type:"User"}}});return f})

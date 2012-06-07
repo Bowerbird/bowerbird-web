@@ -1,0 +1,1 @@
+define(["jquery","underscore","backbone","app","models/mediaresource"],function(a,b,c,d,e){var f=c.Collection.extend({model:e,url:"/mediaresources",initialize:function(){b.extend(this,c.Events)}});return f})

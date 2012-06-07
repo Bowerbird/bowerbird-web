@@ -1,0 +1,1 @@
+define(["jquery","underscore","backbone","app"],function(a,b,c,d){var e=c.Model.extend({defaults:{Name:"",Description:"",Website:"",Avatar:null,Team:null},idAttribute:"Id",urlRoot:"/projects",setAvatar:function(a){this.set("Avatar",a.id)}});return e})

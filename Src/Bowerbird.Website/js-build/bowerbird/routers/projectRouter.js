@@ -1,0 +1,1 @@
+define(["jquery","underscore","backbone","app","controllers/projectcontroller"],function(a,b,c,d,e){var f=c.Marionette.AppRouter.extend({appRoutes:{"projects/create":"showProjectForm","projects/:id/update":"showProjectForm"}});return d.addInitializer(function(){this.projectRouter=new f({controller:e})}),f})

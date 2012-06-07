@@ -1,0 +1,1 @@
+define(["jquery","underscore","backbone","app","controllers/observationcontroller"],function(a,b,c,d,e){var f=c.Marionette.AppRouter.extend({appRoutes:{"observations/create":"showObservationForm","observations/:id/update":"showObservationForm"}});return d.addInitializer(function(){this.observationRouter=new f({controller:e})}),f})

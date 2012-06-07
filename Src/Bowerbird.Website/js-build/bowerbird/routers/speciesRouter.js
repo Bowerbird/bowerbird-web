@@ -1,0 +1,1 @@
+define(["jquery","underscore","backbone","app","controllers/speciescontroller"],function(a,b,c,d,e){var f=c.Marionette.AppRouter.extend({appRoutes:{"species/create":"showSpeciesForm"}});return d.addInitializer(function(){this.speciesRouter=new f({controller:e})}),f})

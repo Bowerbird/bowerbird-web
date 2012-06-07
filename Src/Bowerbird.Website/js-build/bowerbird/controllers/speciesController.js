@@ -1,0 +1,1 @@
+define(["jquery","underscore","backbone","app","models/species","views/speciesformitemview"],function(a,b,c,d,e,f){var g={};return g.showSpeciesForm=function(){var b=new f({el:a(".species-create-form"),model:new e(d.prerenderedView.Species)});b.render(),d.prerenderedView.isBound=!0},d.vent.on("species:show",function(){g.showSpeciesForm()}),g})

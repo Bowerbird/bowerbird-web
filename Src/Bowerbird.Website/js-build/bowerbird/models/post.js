@@ -1,0 +1,1 @@
+define(["jquery","underscore","backbone","app"],function(a,b,c,d){var e=c.Model.extend({defaults:{Subject:"",Message:""},idAttribute:"Id",urlRoot:"/posts",toJSON:function(){return{Subject:this.get("Subject"),Message:this.get("Message")}}});return e})

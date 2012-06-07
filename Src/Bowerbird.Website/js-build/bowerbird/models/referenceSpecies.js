@@ -1,0 +1,1 @@
+define(["jquery","underscore","backbone","app"],function(a,b,c,d){var e=c.Model.extend({defaults:{Species:null,SmartTags:[]},idAttribute:"Id",url:"/referencespecies/",toJSON:function(){return{Id:this.id,Species:this.get("Species"),SmartTags:this.get("SmartTags")}}});return e})
