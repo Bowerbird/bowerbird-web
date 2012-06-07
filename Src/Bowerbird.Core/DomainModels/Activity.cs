@@ -85,13 +85,6 @@ namespace Bowerbird.Core.DomainModels
             return true;
         }
 
-        public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)
-        {
-            dynamic method = _properties[binder.Name];
-            result = method(args);
-            return true;
-        }
-
         #endregion
     }
 }

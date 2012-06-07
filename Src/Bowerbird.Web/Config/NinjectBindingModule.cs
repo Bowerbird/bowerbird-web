@@ -17,7 +17,11 @@
 using Ninject.Modules;
 using Raven.Client;
 using Bowerbird.Core.CommandHandlers;
+using Ninject.Web.Common;
 using Ninject.Extensions.Conventions;
+using Ninject.Extensions.Conventions.BindingBuilder;
+using Ninject.Extensions.Conventions.BindingGenerators;
+using Ninject.Extensions.Conventions.Syntax;
 using Microsoft.Practices.ServiceLocation;
 using Bowerbird.Core.EventHandlers;
 using Bowerbird.Core.DomainModels;
@@ -58,19 +62,12 @@ namespace Bowerbird.Web.Config
             Bind<IJsonSerializer>().To<SignalRJsonConvertAdapter>();
 
             // Convention based mappings
-            Kernel.Scan(x =>
-            {
-                x.FromAssemblyContaining(typeof(User));
-                x.FromCallingAssembly();
-
-                x.BindingGenerators.Add(new GenericBindingGenerator(typeof(ICommandHandler<>)));
-                x.BindingGenerators.Add(new GenericBindingGenerator(typeof(ICommandHandler<,>)));
-                x.BindingGenerators.Add(new GenericBindingGenerator(typeof(IEventHandler<>)));
-                x.BindingGenerators.Add(new DefaultBindingGenerator());
-
-                x.Excluding<PermissionChecker>();
-                x.Excluding<SystemStateManager>();
-            });
+            Kernel.Bind(x => x
+                .FromAssemblyContaining(typeof(User), typeof(NinjectBindingModule))
+                .SelectAllClasses()
+                .Excluding<PermissionChecker>()
+                .Excluding<SystemStateManager>()
+                .BindAllInterfaces());
         }
 
         #endregion

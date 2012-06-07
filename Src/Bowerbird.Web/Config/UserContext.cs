@@ -23,7 +23,6 @@ using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Repositories;
 using Raven.Client;
 using SignalR;
-using SignalR.Hosting.AspNet;
 using SignalR.Hubs;
 using SignalR.Infrastructure;
 using Bowerbird.Web.Hubs;

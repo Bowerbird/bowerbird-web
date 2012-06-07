@@ -15,6 +15,7 @@ using Bowerbird.Core.Services;
 using Bowerbird.Web.Hubs;
 using SignalR;
 using SignalR.Hubs;
+using Bowerbird.Core.DesignByContract;
 
 namespace Bowerbird.Web.Services
 {
@@ -23,7 +24,7 @@ namespace Bowerbird.Web.Services
 
         #region Fields
 
-        private readonly IHubContext _activityHub;
+        private readonly IHubContext _hubContext;
 
         #endregion
 
@@ -31,7 +32,10 @@ namespace Bowerbird.Web.Services
 
         public NotificationService()
         {
-            _activityHub = GlobalHost.ConnectionManager.GetHubContext<ActivityHub>();
+            //Check.RequireNotNull(hubContext, "hubContext");
+
+            //_hubContext = hubContext;
+            _hubContext = GlobalHost.ConnectionManager.GetHubContext<ActivityHub>();
         }
 
         #endregion
@@ -44,12 +48,12 @@ namespace Bowerbird.Web.Services
 
         public void SendActivity(Activity activity)
         {
-            _activityHub.Clients.NewActivity(activity);
+            _hubContext.Clients.NewActivity(activity);
         }
 
         public void SendUserStatusUpdate(object userStatus)
         {
-            _activityHub.Clients.UserStatusUpdate(userStatus);
+            _hubContext.Clients.UserStatusUpdate(userStatus);
         }
 
         #endregion

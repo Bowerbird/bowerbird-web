@@ -37,7 +37,7 @@ namespace Bowerbird.Web.Controllers
 
         //public JsonSerializerSettings SerializerSettings { get; set; }
 
-        public Formatting Formatting { get; set; }
+        //public Formatting Formatting { get; set; }
 
         #endregion
 
@@ -69,9 +69,15 @@ namespace Bowerbird.Web.Controllers
 
             if (Data != null)
             {
-                JsonTextWriter writer = new JsonTextWriter(response.Output) { Formatting = Formatting };
-                JsonSerializer serializer = new JsonSerializer();
-                //serializer.Converters.Add(new ExpandoObjectJsonConverter());
+                //JsonTextWriter writer = new JsonTextWriter(response.Output) { Formatting = Formatting };
+                //JsonSerializer serializer = new JsonSerializer();
+                //serializer.Serialize(writer, Data);
+                //writer.Flush();
+
+                // HACK: RavenDB uses an internalised version of JSON.Net 4.0.8, while Bowerbird references JSON.Net 4.5. When RavenDB returns a DESERIALISED v4.0.8 object 
+                // and then I try to SERIALISE it with v4.5, the out is rubbish. For some reason JArray types don't get serialised at all.
+                var writer = new Raven.Imports.Newtonsoft.Json.JsonTextWriter(response.Output) { Formatting = Raven.Imports.Newtonsoft.Json.Formatting.Indented };
+                var serializer = new Raven.Imports.Newtonsoft.Json.JsonSerializer();
                 serializer.Serialize(writer, Data);
                 writer.Flush();
             }

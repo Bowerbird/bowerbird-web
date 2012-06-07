@@ -380,8 +380,8 @@ namespace Bowerbird.Core.Config
                         }
                         counter++;
                     }
-
-                    while (reader.Peek() > 0)
+                    var count = 0;
+                    while (reader.Peek() > 0 && count < 100) // HACK: Only load 100 species for now
                     {
                         var fieldValues = reader
                             .ReadLine()
@@ -389,6 +389,7 @@ namespace Bowerbird.Core.Config
                             .Take(_speciesFileHeaderColumns.Length);
 
                         species.Add(fieldValues.Select(x => x.Trim()).ToList());
+                        count++;
                     }
                 }
             }

@@ -16,13 +16,14 @@ using System;
 using Bowerbird.Core.Events;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Ninject;
-using Ninject.Web.Mvc;
+using Ninject.Web.Common;
 using Bowerbird.Web.Config;
 using Microsoft.Practices.ServiceLocation;
-using NinjectAdapter;
 using System.Web.Routing;
 using SignalR;
 using NinjectDependencyResolver = Bowerbird.Web.Config.NinjectDependencyResolver;
+using System.Web;
+using NinjectAdapter;
 
 [assembly: WebActivator.PreApplicationStartMethod(typeof(Bowerbird.Web.App_Start.NinjectBootstrapper), "PreStart")]
 [assembly: WebActivator.ApplicationShutdownMethodAttribute(typeof(Bowerbird.Web.App_Start.NinjectBootstrapper), "Stop")]
@@ -38,10 +39,8 @@ namespace Bowerbird.Web.App_Start
         /// </summary>
         public static void PreStart()
         {
-            DynamicModuleUtility.RegisterModule(typeof(OnePerRequestModule));
-
-            DynamicModuleUtility.RegisterModule(typeof(HttpApplicationInitializationModule));
-
+            DynamicModuleUtility.RegisterModule(typeof(OnePerRequestHttpModule));
+            DynamicModuleUtility.RegisterModule(typeof(NinjectHttpModule));
             _ninjectBootstrapper.Initialize(CreateKernel);
         }
 
@@ -60,6 +59,8 @@ namespace Bowerbird.Web.App_Start
         private static IKernel CreateKernel()
         {
             var kernel = new StandardKernel();
+            kernel.Bind<Func<IKernel>>().ToMethod(ctx => () => new Bootstrapper().Kernel);
+            kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
 
             RegisterServices(kernel);
 

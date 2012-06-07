@@ -14,7 +14,7 @@
 
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.Events;
-using NinjectBootstrapper = Ninject.Web.Mvc.Bootstrapper;
+using NinjectBootstrapper = Ninject.Web.Common.Bootstrapper;
 using Bowerbird.Web.Config;
 using Microsoft.Practices.ServiceLocation;
 using System.Web.Mvc;
