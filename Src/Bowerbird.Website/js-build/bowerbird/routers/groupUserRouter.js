@@ -1,1 +1,0 @@
-define(["jquery","underscore","backbone","app","controllers/groupusercontroller"],function(a,b,c,d,e){var f=c.Marionette.AppRouter.extend({appRoutes:{"users/:id":"showUser"}});return d.addInitializer(function(){this.groupUserRouter=new f({controller:e})}),f})

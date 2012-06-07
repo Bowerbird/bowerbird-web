@@ -1,1 +1,0 @@
-define(["jquery","underscore","backbone","app","controllers/postcontroller"],function(a,b,c,d,e){var f=c.Marionette.AppRouter.extend({appRoutes:{"posts/create":"showPostForm","posts/:id/update":"showPostForm"}});return d.addInitializer(function(){this.postRouter=new f({controller:e})}),f})

@@ -1,1 +1,0 @@
-define(["jquery","underscore","backbone","app","models/organisation"],function(a,b,c,d,e){var f=c.Collection.extend({model:e,url:"/organisations",initialize:function(){b.extend(this,c.Events)},toJSONViewModel:function(){var a=[];return b.each(this.models,function(b){a.push(b.toJSONViewModel())}),a}});return f})

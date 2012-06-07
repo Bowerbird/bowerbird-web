@@ -1,1 +1,0 @@
-define(["jquery","underscore","backbone","app"],function(a,b,c,d){var e=c.Model.extend({defaults:{AltTag:0,UrlToImage:"/img/image-upload.png"},idAttribute:"Id"});return MediaResource})

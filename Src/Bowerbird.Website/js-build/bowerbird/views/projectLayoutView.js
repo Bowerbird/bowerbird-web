@@ -1,1 +1,0 @@
-define(["jquery","underscore","backbone","app","models/project","views/streamview"],function(a,b,c,d,e,f){var g=c.Marionette.Layout.extend({tagName:"section",id:"content",className:"triple-2 project",template:"Project",regions:{summary:".summary",details:".details"},showStream:function(a){var b=new f({model:this.model,collection:a});this.details.show(b),b.render()}});return g})

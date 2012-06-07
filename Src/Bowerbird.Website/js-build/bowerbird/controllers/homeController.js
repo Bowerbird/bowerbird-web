@@ -1,1 +1,0 @@
-define(["jquery","underscore","backbone","app","views/homelayoutview"],function(a,b,c,d,e){var f={};return f.showHomeStream=function(b){a(function(){var a=new e({model:d.authenticatedUser.user});d.content[d.getShowViewMethodName("home")](a),d.isPrerendering("home")&&a.showBootstrappedDetails(),a.showStream(),d.setPrerenderComplete()})},f})

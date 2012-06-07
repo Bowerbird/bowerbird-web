@@ -64,7 +64,7 @@ require.config({
 });
 
 // Init dependencies
-require(['backbone', 'ich', 'marionette', '/templates', 'noext!/signalr/hubs'], function (Backbone, ich) {
+require(['backbone', 'ich', 'marionette', 'noext!/templates', 'noext!/signalr/hubs'], function (Backbone, ich) {
 
     // Override the marionette renderer so that it uses mustache templates 
     // together with icanhaz caching

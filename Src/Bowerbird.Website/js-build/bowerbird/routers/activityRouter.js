@@ -1,1 +1,0 @@
-define(["jquery","underscore","backbone","app","controllers/activitycontroller"],function(a,b,c,d,e){var f=function(b){this.hub=a.connection.activityHub,this.controller=b.controller,this.hub.newActivity=this.controller.newActivity,this.hub.userStatusUpdate=this.controller.userStatusUpdate};return d.addInitializer(function(){this.activityRouter=new f({controller:e})}),f})

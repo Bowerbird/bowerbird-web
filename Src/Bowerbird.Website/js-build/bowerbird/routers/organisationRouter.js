@@ -1,1 +1,0 @@
-define(["jquery","underscore","backbone","app","controllers/organisationcontroller"],function(a,b,c,d,e){var f=c.Marionette.AppRouter.extend({appRoutes:{"organisations/create":"showOrganisationForm"}});return d.addInitializer(function(){this.organisationRouter=new f({controller:e})}),f})

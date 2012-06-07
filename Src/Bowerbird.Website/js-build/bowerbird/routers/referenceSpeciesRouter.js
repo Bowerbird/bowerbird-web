@@ -1,1 +1,0 @@
-define(["jquery","underscore","backbone","app","controllers/referencespeciescontroller"],function(a,b,c,d,e){var f=c.Marionette.AppRouter.extend({appRoutes:{"referencespecies/create":"showReferenceSpeciesForm"}});return d.addInitializer(function(){this.referenceSpeciesRouter=new f({controller:e})}),f})

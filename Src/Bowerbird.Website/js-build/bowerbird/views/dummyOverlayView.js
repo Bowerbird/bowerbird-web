@@ -1,1 +1,0 @@
-define(["jquery","underscore","backbone","app","async!http://maps.google.com/maps/api/js?sensor=false&region=AU"],function(a,b,c,d){var e=function(a){this.setMap(a),this.draw=function(){}};return e.prototype=new google.maps.OverlayView,e})

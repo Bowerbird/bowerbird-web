@@ -1,1 +1,0 @@
-define(["jquery","underscore","backbone","app"],function(a,b,c,d){var e=c.Marionette.ItemView.extend({el:"footer"});return d.addInitializer(function(b){a(function(){var a=new e;a.on("show",function(){Bowerbird.app.vent.trigger("footerView:rendered")}),Bowerbird.app.footer.attachView(a),a.render()})}),e})

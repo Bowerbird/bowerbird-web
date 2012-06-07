@@ -1,1 +1,0 @@
-define(["jquery","underscore","backbone","app","controllers/homecontroller"],function(a,b,c,d,e){var f=c.Marionette.AppRouter.extend({appRoutes:{"":"showHomeStream"}});return d.addInitializer(function(){this.homeRouter=new f({controller:e})}),f})

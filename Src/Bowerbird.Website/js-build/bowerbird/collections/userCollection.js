@@ -1,1 +1,0 @@
-define(["jquery","underscore","backbone","models/user"],function(a,b,c,d){var e=c.Collection.extend({model:d,url:"/users",initialize:function(){b.extend(this,c.Events)}});return e})

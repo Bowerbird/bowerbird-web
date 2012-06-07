@@ -1,1 +1,0 @@
-define(["jquery","underscore","backbone","app","controllers/teamcontroller"],function(a,b,c,d,e){var f=c.Marionette.AppRouter.extend({appRoutes:{"teams/create":"showTeamForm"}});return d.addInitializer(function(){this.teamRouter=new f({controller:e})}),f})
