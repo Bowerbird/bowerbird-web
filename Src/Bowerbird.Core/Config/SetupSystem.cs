@@ -155,7 +155,7 @@ namespace Bowerbird.Core.Config
 
             // Create the TempAppRoot to be used before the actual app root is created
             // Once the real temp app root is created, this one is no longer used
-            TheAppRoot = new AppRoot(DateTime.Now, categories);
+            TheAppRoot = new AppRoot(DateTime.UtcNow, categories);
             _documentSession.Store(TheAppRoot);
         }
 
@@ -294,11 +294,11 @@ namespace Bowerbird.Core.Config
             user.AddMembership(member);
             _documentSession.Store(user);
 
-            var userProject = new UserProject(user, DateTime.Now, TheAppRoot);
+            var userProject = new UserProject(user, DateTime.UtcNow, TheAppRoot);
             //userProject.SetAncestry(TheAppRoot);
             _documentSession.Store(userProject);
 
-            var userProjectAssociation = new GroupAssociation(TheAppRoot, userProject, user, DateTime.Now);
+            var userProjectAssociation = new GroupAssociation(TheAppRoot, userProject, user, DateTime.UtcNow);
             _documentSession.Store(userProjectAssociation);
 
             var userProjectmember = new Member(

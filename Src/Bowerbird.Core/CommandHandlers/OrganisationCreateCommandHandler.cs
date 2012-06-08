@@ -70,7 +70,7 @@ namespace Bowerbird.Core.CommandHandlers
                 command.Description,
                 command.Website,
                 string.IsNullOrWhiteSpace(command.AvatarId) ? _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Organisation) : _documentSession.Load<MediaResource>(command.AvatarId),
-                DateTime.Now,
+                DateTime.UtcNow,
                 parentGroup);
 
             //organisation.SetAncestry(parentGroup);

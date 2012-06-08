@@ -14,10 +14,8 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/user'], function ($, 
 
     // Call From Hub
     ActivityController.newActivity = function (data) {
-        log('activityController.newActivity: ' + data.Description);
+        log('activityController.newActivity');
         log(data);
-        //data.description
-        alert('new activity received');
     };
 
     // Call From Hub

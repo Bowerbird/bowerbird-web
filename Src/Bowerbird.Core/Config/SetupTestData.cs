@@ -187,10 +187,10 @@ namespace Bowerbird.Core.Config
 
         private void AddOrganisation(string name, string description, string website, string userid)
         {
-            var organisation = new Organisation(Users.Single(x => x.Id == userid), name, description, website, _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Organisation), DateTime.Now, TheAppRoot);
+            var organisation = new Organisation(Users.Single(x => x.Id == userid), name, description, website, _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Organisation), DateTime.UtcNow, TheAppRoot);
             _documentSession.Store(organisation);
 
-            var groupAssociation = new GroupAssociation(TheAppRoot, organisation, Users.Single(x => x.Id == userid), DateTime.Now);
+            var groupAssociation = new GroupAssociation(TheAppRoot, organisation, Users.Single(x => x.Id == userid), DateTime.UtcNow);
             GroupAssociations.Add(groupAssociation);
             _documentSession.Store(groupAssociation);
 
@@ -203,11 +203,11 @@ namespace Bowerbird.Core.Config
         private void AddTeam(string name, string description, string website, string userid, string organisationId = null)
         {
             var parentGroup = Organisations.Single(x => x.Id == organisationId);
-            
-            var team = new Team(Users.Single(x => x.Id == userid), name, description, website, _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Team), DateTime.Now, parentGroup);
+
+            var team = new Team(Users.Single(x => x.Id == userid), name, description, website, _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Team), DateTime.UtcNow, parentGroup);
             _documentSession.Store(team);
 
-            var groupAssociation = new GroupAssociation(parentGroup, team, Users.Single(x => x.Id == userid), DateTime.Now);
+            var groupAssociation = new GroupAssociation(parentGroup, team, Users.Single(x => x.Id == userid), DateTime.UtcNow);
             GroupAssociations.Add(groupAssociation);
             _documentSession.Store(groupAssociation);
 
@@ -224,11 +224,11 @@ namespace Bowerbird.Core.Config
         {
             var parentGroup = Teams.Single(x => x.Id == teamId);
 
-            var project = new Project(Users.Single(x => x.Id == userid), name, description, website, _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Project), DateTime.Now, parentGroup);
+            var project = new Project(Users.Single(x => x.Id == userid), name, description, website, _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Project), DateTime.UtcNow, parentGroup);
             _documentSession.Store(project);
 
 
-            var groupAssociation = new GroupAssociation(parentGroup, project, Users.Single(x => x.Id == userid), DateTime.Now);
+            var groupAssociation = new GroupAssociation(parentGroup, project, Users.Single(x => x.Id == userid), DateTime.UtcNow);
             GroupAssociations.Add(groupAssociation);
             _documentSession.Store(groupAssociation);
 
@@ -347,7 +347,7 @@ namespace Bowerbird.Core.Config
                 var mediaResourceCreateCommand = new MediaResourceCreateCommand()
                 {
                     OriginalFileName = "test.jpg",
-                    UploadedOn = DateTime.Now,
+                    UploadedOn = DateTime.UtcNow,
                     Usage = "observation",
                     UserId = userId,
                     Stream = stream
@@ -361,8 +361,8 @@ namespace Bowerbird.Core.Config
             var observation = new Observation(
                 user,
                 string.Format("Observation {0}", _observationCount++),
-                DateTime.Now,
-                DateTime.Now,
+                DateTime.UtcNow,
+                DateTime.UtcNow,
                 "23.232323",
                 "41.3432423",
                 "1 Main St Melbourne",

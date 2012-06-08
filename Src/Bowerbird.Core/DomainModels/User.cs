@@ -57,7 +57,7 @@ namespace Bowerbird.Core.DomainModels
             Email = email;
             PasswordSalt = Guid.NewGuid();
             HashedPassword = GetHashedPassword(password);
-            LastLoggedIn = DateTime.Now;
+            LastLoggedIn = DateTime.UtcNow;
 
             SetDetails(
                 firstName,
@@ -184,7 +184,7 @@ namespace Bowerbird.Core.DomainModels
 
         public virtual User UpdateLastLoggedIn()
         {
-            LastLoggedIn = DateTime.Now;
+            LastLoggedIn = DateTime.UtcNow;
 
             FireEvent(new UserLoggedInEvent(this, this), true);
 

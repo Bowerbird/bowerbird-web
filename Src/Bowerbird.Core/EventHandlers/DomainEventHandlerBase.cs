@@ -37,7 +37,7 @@ namespace Bowerbird.Core.EventHandlers
         {
             return new Activity(
                 type,
-                DateTime.Now,
+                DateTime.UtcNow,
                 description,
                 new 
                 {

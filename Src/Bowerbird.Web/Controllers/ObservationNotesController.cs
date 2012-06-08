@@ -116,7 +116,7 @@ namespace Bowerbird.Web.Controllers
             ViewBag.ObservationNote = new
             {
                 ObservationId = idInput.Id,
-                CreatedOn = DateTime.Now.ToString("d MMM yyyy"),
+                CreatedOn = DateTime.UtcNow.ToString("d MMM yyyy"),
                 CommonName = string.Empty,
                 ScientificName = string.Empty,
                 Taxonomy = string.Empty,

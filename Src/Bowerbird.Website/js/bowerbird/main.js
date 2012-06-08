@@ -14,24 +14,24 @@ require.config({
     //urlArgs: "bust=" + (new Date()).getTime(), // Cache buster
     paths: {
         jquery: 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery', // jQuery is now AMD compliant
-        json2: '/js/libs/json/json2',
-        underscore: '/js/libs/underscore/underscore', // AMD version from https://github.com/amdjs
-        backbone: '/js/libs/backbone/backbone', // AMD version from https://github.com/amdjs,
-        marionette: '/js/libs/backbone.marionette/backbone.marionette',
-        text: '/js/libs/require/text', // Require.js text loader plugin
-        noext: '/js/libs/require/noext', //https://github.com/millermedeiros/requirejs-plugins
-        async: '/js/libs/require/async', // Required by google loader
-        goog: '/js/libs/require/goog', // Google async loader
-        propertyParser: '/js/libs/require/propertyparser', // Required by google loader
-        ich: '/js/libs/icanhaz/icanhaz', // Mustache templates cache and renderer
-        jqueryui: '/js/libs/jqueryui',
-        datepicker: '/js/libs/bootstrap/bootstrap-datepicker',
-        date: '/js/libs/date/date',
-        multiselect: '/js/libs/jquery.multiselect/jquery.multiselect',
-        loadimage: '/js/libs/jquery.fileupload/load-image', 
-        fileupload: '/js/libs/jquery.fileupload/jquery.fileupload',
-        signalr: '/js/libs/jquery.signalr/jquery.signalr',
-        timeago: '/js/libs/jquery.timeago/jquery.timeago'
+        json2: '../libs/json/json2',
+        underscore: '../libs/underscore/underscore', // AMD version from https://github.com/amdjs
+        backbone: '../libs/backbone/backbone', // AMD version from https://github.com/amdjs,
+        marionette: '../libs/backbone.marionette/backbone.marionette',
+        text: '../libs/require/text', // Require.js text loader plugin
+        noext: '../libs/require/noext', //https://github.com/millermedeiros/requirejs-plugins
+        async: '../libs/require/async', // Required by google loader
+        goog: '../libs/require/goog', // Google async loader
+        propertyParser: '../libs/require/propertyparser', // Required by google loader
+        ich: '../libs/icanhaz/icanhaz', // Mustache templates cache and renderer
+        jqueryui: '../libs/jqueryui',
+        datepicker: '../libs/bootstrap/bootstrap-datepicker',
+        date: '../libs/date/date',
+        multiselect: '../libs/jquery.multiselect/jquery.multiselect',
+        loadimage: '../libs/jquery.fileupload/load-image', 
+        fileupload: '../libs/jquery.fileupload/jquery.fileupload',
+        signalr: '../libs/jquery.signalr/jquery.signalr',
+        timeago: '../libs/jquery.timeago/jquery.timeago'
     },
     priority: [
         'ich',

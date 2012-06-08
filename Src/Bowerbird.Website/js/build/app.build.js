@@ -50,8 +50,8 @@
         'views/observationlayoutview',
         'views/onlineuserscompositeview'
     ],
-    out: "../main.js",
-    locale: "en-us",
+    out: "../main-verbose.js",
+    //optimize: "none",
     optimize: "uglify",
     uglify: {
         toplevel: true,
@@ -59,7 +59,5 @@
         beautify: false,
         max_line_length: 1000
     },
-    inlineText: true,
-    useStrict: false,
     findNestedDependencies: true
 })

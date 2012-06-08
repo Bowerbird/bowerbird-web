@@ -85,10 +85,10 @@ namespace Bowerbird.Core.CommandHandlers
             user.AddMembership(member);
             _documentSession.Store(user);
 
-            var userProject = new UserProject(user, DateTime.Now, appRoot);
+            var userProject = new UserProject(user, DateTime.UtcNow, appRoot);
             _documentSession.Store(userProject);
 
-            var userProjectAssociation = new GroupAssociation(appRoot, userProject, user, DateTime.Now);
+            var userProjectAssociation = new GroupAssociation(appRoot, userProject, user, DateTime.UtcNow);
             _documentSession.Store(userProjectAssociation);
 
             var userProjectRoles = _documentSession.Query<Role>().Where(x => x.Id == "roles/projectadministrator" || x.Id == "roles/projectmember");

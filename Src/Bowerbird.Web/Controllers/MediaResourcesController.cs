@@ -21,6 +21,7 @@ using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Services;
 using Raven.Client;
 using Bowerbird.Core.Config;
+using Bowerbird.Web.Config;
 
 namespace Bowerbird.Web.Controllers
 {
@@ -69,6 +70,7 @@ namespace Bowerbird.Web.Controllers
 
         [HttpPost]
         [Authorize]
+        [Transaction]
         public ActionResult ObservationUpload(string key, string originalFileName, HttpPostedFileBase file)
         {
             return ProcessPostedImage(key, originalFileName, file, "observation");
@@ -96,7 +98,7 @@ namespace Bowerbird.Web.Controllers
                 {
                     OriginalFileName = originalFileName ?? string.Empty,
                     Stream = file.InputStream,
-                    UploadedOn = DateTime.Now,
+                    UploadedOn = DateTime.UtcNow,
                     Usage = recordType,
                     UserId = _userContext.GetAuthenticatedUserId()
                 };

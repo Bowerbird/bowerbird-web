@@ -340,14 +340,11 @@ namespace Bowerbird.Core.DesignByContract
         }
 
         /// <summary>
-        /// Precondition check - Should not be able to enter a future date.
-        /// 
-        /// This is a lenient function to allow for time zone difference as we are not strictly applying UTC or source timezones to calculate validity so instead
-        /// using a window of two days to assume date validity
+        /// Precondition check - Should not be able to enter a future date. Date must be UTC.
         /// </summary>
-        public static void RequireValidBowerbirdDate(DateTime @date, string variableName)
+        public static void RequireValidBowerbirdDate(DateTime utcDate, string variableName)
         {
-            Require(!(@date > DateTime.Now.AddDays(2)), variableName + " must not be a future date");
+            Require(!(utcDate > DateTime.UtcNow.AddDays(2)), variableName + " must not be a future date");
         }
 
         public static void RequireGreaterThanZero(int number, string variableName)

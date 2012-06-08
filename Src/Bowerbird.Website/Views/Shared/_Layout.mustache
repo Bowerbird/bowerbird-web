@@ -63,13 +63,10 @@
       
     </footer>
     <div id="onlineusers"></div>
-    <!--<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script type="text/javascript">window.jQuery || document.write('\x3C/script type="text/javascript" src="/js/libs/jquery-1.7.1.min.js">\x3C/script>')</script>
-    <script type="text/javascript" src="/js/libs/log.js"></script>-->
     {{^IsStaticLayout}}
-    <script data-main="/js/bowerbird/main" src="/js/libs/require/require.js?v={{#Ver}}{{{Ver}}}{{/Ver}}{{^Ver}}0{{/Ver}}"></script>
     <script type="text/javascript" src="/js/libs/log.js?v={{#Ver}}{{{Ver}}}{{/Ver}}{{^Ver}}0{{/Ver}}"></script>
-    <script data-main="/js/bowerbird/main" src="/js/main.js?v={{#Ver}}{{{Ver}}}{{/Ver}}{{^Ver}}0{{/Ver}}"></script>
+    <script data-main="/js/bowerbird/main.js" src="/js/libs/require/require.js?v={{#Ver}}{{{Ver}}}{{/Ver}}{{^Ver}}0{{/Ver}}"></script>
+    <!--<script data-main="/js/main-verbose" src="/js/libs/require/require.js?v={{#Ver}}{{{Ver}}}{{/Ver}}{{^Ver}}0{{/Ver}}"></script>-->
     <script type="text/javascript">
         define('bootstrap-data', function() {
           log({{{BootstrappedJson}}});

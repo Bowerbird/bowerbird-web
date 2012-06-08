@@ -20,7 +20,7 @@ namespace Bowerbird.Core.Extensions
     {
         public static string Description(this DateTime dateTime)
         {
-            var diff = DateTime.Now.Subtract(dateTime);
+            var diff = DateTime.UtcNow.Subtract(dateTime);
 
             if (diff > new TimeSpan(365, 0, 0, 0)) // Year
             {

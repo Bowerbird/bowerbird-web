@@ -48,12 +48,12 @@ namespace Bowerbird.Web.Services
 
         public void SendActivity(Activity activity)
         {
-            _hubContext.Clients.NewActivity(activity);
+            _hubContext.Clients.newActivity(activity);
         }
 
         public void SendUserStatusUpdate(object userStatus)
         {
-            _hubContext.Clients.UserStatusUpdate(userStatus);
+            _hubContext.Clients.userStatusUpdate(userStatus);
         }
 
         #endregion

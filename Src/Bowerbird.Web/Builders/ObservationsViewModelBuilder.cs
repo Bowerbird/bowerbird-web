@@ -132,7 +132,7 @@ namespace Bowerbird.Web.Builders
             return new
             {
                 Title = string.Empty,
-                ObservedOn = DateTime.Now.ToString("d MMM yyyy"),
+                ObservedOn = DateTime.UtcNow.ToString("d MMM yyyy"),
                 Address = string.Empty,
                 Latitude = string.Empty,
                 Longitude = string.Empty,

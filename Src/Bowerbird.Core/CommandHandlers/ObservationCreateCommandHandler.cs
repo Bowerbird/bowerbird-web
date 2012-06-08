@@ -92,7 +92,7 @@ namespace Bowerbird.Core.CommandHandlers
             var observation = new Observation(
                 user,
                 observationCreateCommand.Title,
-                DateTime.Now,
+                DateTime.UtcNow,
                 observationCreateCommand.ObservedOn,
                 observationCreateCommand.Latitude,
                 observationCreateCommand.Longitude,
@@ -104,23 +104,6 @@ namespace Bowerbird.Core.CommandHandlers
                 projects,
                 addMedia);
 
-            //foreach (var media in addMedia)
-            //{
-            //    observation.AddMedia(media.Item1, media.Item2, media.Item3);
-            //}
-
-            //if (observationCreateCommand.Projects != null && observationCreateCommand.Projects.Count > 0)
-            //{
-            //    var projects = _documentSession
-            //        .Query<Project>()
-            //        .Where(x => x.Id.In(observationCreateCommand.Projects));
-
-            //    foreach (var project in projects)
-            //    {
-            //        observation.AddGroup(project, user, DateTime.Now);
-            //    }
-            //}
-            
             _documentSession.Store(observation);
         }
 

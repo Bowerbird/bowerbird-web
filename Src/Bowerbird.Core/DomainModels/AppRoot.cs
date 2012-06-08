@@ -43,7 +43,7 @@ namespace Bowerbird.Core.DomainModels
             SystemSetupDate = systemSetupDate;
             Categories = categories;
             base.Name = "Bowerbird";
-            base.CreatedDateTime = DateTime.Now;
+            base.CreatedDateTime = DateTime.UtcNow;
         }
 
         #endregion

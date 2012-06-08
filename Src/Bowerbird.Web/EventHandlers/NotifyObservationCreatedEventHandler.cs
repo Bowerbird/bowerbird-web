@@ -86,7 +86,7 @@
 //            var notification = new
 //            {
 //                Action = "newobservation",
-//                OccurredOn = DateTime.Now,
+//                OccurredOn = DateTime.UtcNow,
 //                UserId = @event.CreatedByUser,
 //                AvatarUri = AvatarUris.DefaultUser,
 //                SummaryDescription = @event.DomainModel.User.FirstName + " added an observation",
