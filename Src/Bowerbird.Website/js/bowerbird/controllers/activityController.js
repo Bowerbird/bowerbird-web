@@ -8,26 +8,19 @@
 // ActivityController
 // ------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'models/user'], function ($, _, Backbone, app, User) {
+define(['jquery', 'underscore', 'backbone', 'app', 'models/activity'], function ($, _, Backbone, app, Activity) {
 
     var ActivityController = {};
 
-    // Call From Hub
     ActivityController.newActivity = function (data) {
-        log('activityController.newActivity');
-        log(data);
+        log('activityController.newActivity', this, data);
+        app.activities.add(data);
     };
 
-    // Call From Hub
     ActivityController.userStatusUpdate = function (data) {
-        log('activityController.userStatusUpdate');
-        log(data);
-        //app.onlineUsers.updateUserStatus(data);
+        log('activityController.userStatusUpdate', this, data);
 
-        //if (!app.onlineUsers.contains(data.Id)) {
-        //var userExists = 
-
-        if (!_.any(app.onlineUsers,function(user){ return user.id == data.Id; })){
+        if (!_.any(app.onlineUsers, function (user) { return user.id == data.Id; })) {
             if (data.Status == 2 || data.Status == 3 || data.Status == 'undefined') return;
             var user = new User(data);
             app.onlineUsers.add(user);

@@ -23,6 +23,10 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/project'], function (
             'click .sub-menu-button li': 'selectMenuItem'
         },
 
+        initialize: function () {
+            this.activityCount = 0;
+        },
+
         onRender: function () {
             var that = this;
             $(this.el).children('a').on('click', function (e) {
@@ -31,6 +35,8 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/project'], function (
                 app.vent.trigger('project:show:stream', that.model.id);
                 return false;
             });
+
+            app.vent.on('newactivity:observationadded', this.observationAdded, this);
         },
 
         serializeData: function () {
@@ -62,6 +68,19 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/project'], function (
                 app.chats.add(chat);
             }
             app.chatRouter.joinChat(chat);
+        },
+
+        observationAdded: function (activity) {
+            var self = this;
+            _.each(activity.get('Groups'), function (group) {
+                if (group.Id == self.model.id) {
+                    self.activityCount++;
+                    if (self.activityCount == 1) {
+                        self.$el.find('p').append('<span></span>');
+                    }
+                    self.$el.find('p span').text(self.activityCount);
+                }
+            });
         }
     });
 

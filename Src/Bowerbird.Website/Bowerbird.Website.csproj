@@ -108,6 +108,7 @@
     <Content Include="css\new\normalize.css" />
     <Content Include="css\new\stream.css" />
     <Content Include="css\site.css" />
+    <Content Include="js\bowerbird\collections\activityCollection.js" />
     <Content Include="js\bowerbird\collections\referenceSpeciesCollection.js" />
     <Content Include="js\bowerbird\collections\speciesCollection.js" />
     <Content Include="js\bowerbird\collections\organisationCollection.js" />
@@ -129,6 +130,7 @@
     <Content Include="js\bowerbird\collections\userCollection.js" />
     <Content Include="js\bowerbird\controllers\observationController.js" />
     <Content Include="js\bowerbird\models\avatar.js" />
+    <Content Include="js\bowerbird\models\activity.js" />
     <Content Include="js\bowerbird\models\post.js" />
     <Content Include="js\bowerbird\models\referenceSpecies.js" />
     <Content Include="js\bowerbird\models\species.js" />
@@ -149,6 +151,8 @@
     <Content Include="js\bowerbird\routers\teamRouter.js" />
     <Content Include="js\bowerbird\routers\projectRouter.js" />
     <Content Include="js\bowerbird\views\avatarItemView.js" />
+    <Content Include="js\bowerbird\views\notificationItemView.js" />
+    <Content Include="js\bowerbird\views\notificationsCompositeView.js" />
     <Content Include="js\bowerbird\views\sidebarMenuGroupCompositeView.js" />
     <Content Include="js\bowerbird\views\onlineUserItemView.js" />
     <Content Include="js\bowerbird\views\onlineUsersCompositeView.js" />
@@ -429,7 +433,7 @@
       <SubType>Code</SubType>
     </None>
     <None Include="Views\Shared\Notifications.mustache" />
-    <None Include="Views\Shared\NotificationsItem.mustache" />
+    <None Include="Views\Shared\NotificationItem.mustache" />
     <None Include="Views\Shared\ObservationForm.mustache">
       <SubType>Designer</SubType>
     </None>

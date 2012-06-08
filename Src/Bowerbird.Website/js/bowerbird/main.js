@@ -56,6 +56,7 @@ require.config({
         'views/headerview',
         'views/footerview',
         'views/sidebarlayoutview',
+        'views/notificationscompositeview',
         'views/homelayoutview',
         'views/projectlayoutview',
         'views/observationlayoutview',

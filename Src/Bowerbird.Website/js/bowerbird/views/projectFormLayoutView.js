@@ -54,7 +54,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/ed
         showBootstrappedDetails: function () {
             log('projectFormLayoutView:showBootstrappedDetails');
             this.initializeRegions();
-            //this._showDetails();
+            this._showDetails();
         },
 
         _showDetails: function () {

@@ -153,11 +153,12 @@
     {
         float: left;
         width: 62.5%;
-        margin-right: 0.5%;
+        /*margin-right: 0.5%;*/
     }
     article section.triple-3
     {
-        width: 17.75%;
+        width: 13.95%;
+        margin-left: 0;
     }
 }
 /* @media screen and (min-width: 1200px) */

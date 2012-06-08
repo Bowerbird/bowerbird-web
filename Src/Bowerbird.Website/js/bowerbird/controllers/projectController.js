@@ -46,7 +46,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/projectformlayoutview'
                 var project = new Project(model.Project);
                 var projectFormLayoutView = new ProjectFormLayoutView({ model: project, teams: model.Teams });
 
-                app.content[app.getShowViewMethodName()](projectFormLayoutView);
+                app.content[app.getShowViewMethodName('projects')](projectFormLayoutView);
 
                 if (app.isPrerendering('projects')) {
                     projectFormLayoutView.showBootstrappedDetails();

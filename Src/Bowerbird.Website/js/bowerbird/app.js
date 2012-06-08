@@ -22,9 +22,10 @@ define([
 'collections/projectcollection',
 'collections/teamcollection',
 'collections/organisationcollection',
+'collections/activitycollection',
 'marionette'
 ],
-function ($, _, Backbone, signalr, bootstrapData, User, UserCollection, ProjectCollection, TeamCollection, OrganisationCollection) {
+function ($, _, Backbone, signalr, bootstrapData, User, UserCollection, ProjectCollection, TeamCollection, OrganisationCollection, ActivityCollection) {
 
     // Create an instance of the app
     var app = new Backbone.Marionette.Application();
@@ -84,6 +85,16 @@ function ($, _, Backbone, signalr, bootstrapData, User, UserCollection, ProjectC
             isBound: false, // Flag used to determine if prerenderd view has been bound to the object/DOM model
             data: bootstrapData.Model
         };
+
+        app.activities = new ActivityCollection();
+
+        app.activities.on(
+            'add',
+            function (activity) {
+                this.vent.trigger('newactivity', activity);
+                this.vent.trigger('newactivity:' + activity.get('Type'), activity);
+            },
+            this);
     });
 
     // Only start history once app is fully initialised
@@ -115,6 +126,11 @@ function ($, _, Backbone, signalr, bootstrapData, User, UserCollection, ProjectC
     };
 
     app.getShowViewMethodName = function (name) {
+        if (!name) {
+            var err = new Error("A name must be provided!");
+            err.name = "BowerbirdNoViewNameProvidedError";
+            throw err;
+        }
         return app.isPrerendering(name) ? 'attachView' : 'show';
     };
 
