@@ -1,9 +1,13 @@
 ﻿<div class="summary">
   <img src="{{Model.User.Avatar.Files.thumbnail.RelativeUri}}" alt="{{Model.User.FirstName}}" />
   <p class="name">{{Model.User.FirstName}} {{Model.User.LastName}}</p>
-</div>
-<div class="details ">
   <p class="description">
     {{Model.Description}} <abbr class="time-description" title="{{Model.CreatedDateTime}}">{{Model.CreatedDateTimeDescription}}</abbr>
   </p>
 </div>
+{{#Model.ObservationAdded}}
+<div class="details observation">
+  <p>{{Model.ObservationAdded.Observation.Title}}</p>
+  <img src="{{Model.ObservationAdded.Observation.PrimaryImage.MediaResource.Files.thumbnail.RelativeUri}}" alt="Observation image" />
+</div>
+{{/Model.ObservationAdded}}

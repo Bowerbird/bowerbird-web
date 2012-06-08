@@ -1578,3 +1578,122 @@ header nav#search-menu
     padding-right: 15px;
     padding-top: 12px;
 }*/
+
+/*
+*
+* Notifications
+*
+*/
+#notifications
+{
+    
+}
+#notifications h2
+{
+color: #6997C5;
+    display: block;
+    font-size: 0.75em;
+    font-weight: 700;
+    margin-bottom: 13px;
+    text-shadow: 0 1px 0 #FFFFFF;
+    text-transform: uppercase;
+}
+#notifications > div
+{
+    background-color: rgba(202, 222, 239, 0.5);
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 2px 0 #143658 inset;
+    height: 86%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: absolute;
+    width: 14%;
+}
+#notifications ul
+{
+    padding: 15px 15px 0;  
+}
+#notifications ul li
+{
+    background-color: #FFFFFF;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 2px 0 #5071A6;
+    list-style: none outside none;
+    margin-bottom: 15px;
+}
+#notifications ul li .summary img 
+{
+    border-radius: 4px 0 0 0;
+    float: left;
+    height: 30px;
+    width: 30px;
+    display: block;
+}
+#notifications ul li .summary .name
+{
+    border-bottom: 1px solid #CFDDEB;
+    color: #133A68;
+    display: block;
+    font-size: 0.675em;
+    font-weight: 600;
+    line-height: 2.8em;
+    margin: 0;
+    padding-left: 40px;
+    vertical-align: top;
+}
+#notifications ul li .summary .description
+{
+    background-color: #ECF1F6;
+    border-bottom: 1px solid #CFDDEB;
+    display: block;
+    font-size: 0.73em;
+    line-height: 1.6em;
+    padding: 5px 10px;
+}
+#notifications ul li .details
+{
+    border-top: 1px solid #CFDDEB;
+}
+#notifications ul li .details.observation p
+{
+    color: #133A68;
+    font-size: 0.9em;
+    font-weight: 600;
+    padding: 5px 10px;
+}
+#notifications ul li .details.observation img
+{
+    width: 100%;
+    border-radius: 0 0 4px 4px;
+    display: block;
+}
+/*#notifications ul li .summary .description 
+{
+    color: #133A68;
+    display: inline;
+    font-size: 0.675em;
+    font-weight: 600;
+    line-height: 3em;
+    margin: 0;
+    padding-left: 10px;
+    vertical-align: top;
+}
+#notifications ul li .summary .description span 
+{
+    color: #8C8C8C;
+    font-size: 0.8125em;
+}
+#notifications ul li .details.observation img
+{
+    width: 100%;
+    border-radius: 0 0 4px 4px;
+    display: block;
+}
+#notifications ul li .details.observation div 
+{
+    font-size: 0.9em;
+    font-weight: 600;
+    letter-spacing: -1px;
+    margin: 0;
+    padding: 3px 11px;
+}*/
