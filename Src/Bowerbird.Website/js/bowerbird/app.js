@@ -95,6 +95,8 @@ function ($, _, Backbone, signalr, bootstrapData, User, UserCollection, ProjectC
                 this.vent.trigger('newactivity:' + activity.get('Type'), activity);
             },
             this);
+
+        app.contentHistory = [];
     });
 
     // Only start history once app is fully initialised

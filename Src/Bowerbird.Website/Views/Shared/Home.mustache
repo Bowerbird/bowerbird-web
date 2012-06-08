@@ -1,0 +1,24 @@
+﻿<h2>Home</h2>
+<div class="summary">
+
+</div>
+<div class="tab-bar large">
+  <ul class="tabs">
+    <li>
+      <a class="tab-button selected" href="/">Activity</a>
+    </li>
+    <li>
+      <a class="tab-button" href="/observations">Observations</a>
+    </li>
+    <li>
+      <a class="tab-button" href="/posts">Posts</a>
+    </li>
+  </ul>
+</div>
+<div class="details">
+  {{#Model.Stream}}
+  <div class="stream">
+    {{>Stream}}
+  </div>
+  {{/Model.Stream}}
+</div>

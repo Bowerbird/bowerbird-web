@@ -15,9 +15,20 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/homelayoutview'], func
     // Public API
     // ----------
 
-    HomeController.showHomeStream = function (id) {
+    HomeController.showHomeStream = function () {
         $(function () {
-            var homeLayoutView = new HomeLayoutView({ model: app.authenticatedUser.user });
+            log('showing home', this, this);
+
+            var previousView = _.find(app.contentHistory, function (item) {
+                return item.key == 'home';
+            });
+
+            if (!previousView) {
+                homeLayoutView = new HomeLayoutView({ model: app.authenticatedUser.user });
+                app.contentHistory.push({ key: 'home', view: homeLayoutView });
+            } else {
+                homeLayoutView = previousView.view;
+            }
 
             app.content[app.getShowViewMethodName('home')](homeLayoutView);
 

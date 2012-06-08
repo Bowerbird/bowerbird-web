@@ -181,12 +181,13 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editmapview', '
 
         _cancel: function () {
             //            app.set('newObservation', null);
-            //            app.appUserGroupRouter.navigate(app.stream.get('Uri'), { trigger: false });
-            //            this.trigger('formClosed', this);
+            app.groupUserRouter.navigate('', { trigger: true });
+            //this.trigger('formClosed', this);
         },
 
         _save: function () {
             this.model.save();
+            app.groupUserRouter.navigate('', { trigger: true });
             //            app.appRouter.navigate(app.stream.get('Uri'), { trigger: false });
             //            this.trigger('formClosed', this);
         }

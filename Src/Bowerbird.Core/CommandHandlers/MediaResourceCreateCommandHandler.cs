@@ -133,6 +133,13 @@ namespace Bowerbird.Core.CommandHandlers
             AddImageFile(mediaResource, "small", "jpeg", "jpg", 130, 120);
             AddImageFile(mediaResource, "medium", "jpeg", "jpg", 670, 600);
             AddImageFile(mediaResource, "large", "jpeg", "jpg", 1600, 1200);
+
+            AddImageFile(mediaResource, "ThumbnailSmall", "jpeg", "jpg", 42, 42);
+            AddImageFile(mediaResource, "ThumbnailMedium", "jpeg", "jpg", 100, 100);
+            AddImageFile(mediaResource, "ThumbnailLarge", "jpeg", "jpg", 200, 200);
+            AddImageFile(mediaResource, "FullSmall", "jpeg", "jpg", 130, 120);
+            AddImageFile(mediaResource, "FullMedium", "jpeg", "jpg", 130, 120);
+            AddImageFile(mediaResource, "FullLarge", "jpeg", "jpg", 130, 120);
         }
 
         private void MakePostImageMediaResourceFiles(MediaResource mediaResource)

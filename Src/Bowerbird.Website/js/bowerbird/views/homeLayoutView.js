@@ -12,11 +12,7 @@
 define(['jquery', 'underscore', 'backbone', 'app', 'views/streamview', 'collections/streamitemcollection', 'signalr'], function ($, _, Backbone, app, StreamView, StreamItemCollection) {
 
     var HomeLayoutView = Backbone.Marionette.Layout.extend({
-        tagName: 'section',
-
-        id: 'content',
-
-        className: 'triple-2 home',
+        className: 'home',
 
         template: 'Home',
 
