@@ -53,6 +53,18 @@ function ($, _, Backbone, app, SidebarMenuGroupCompositeView, SidebarProjectItem
             }
 
             var that = this;
+            this.$el.find('#action-menu .new-project-button').on('click', function (e) {
+                e.preventDefault();
+                app.projectRouter.navigate($(this).attr('href'), { trigger: true });
+                //app.vent.trigger('home:show');
+                return false;
+            });
+            this.$el.find('#action-menu .new-observation-button').on('click', function (e) {
+                e.preventDefault();
+                app.projectRouter.navigate($(this).attr('href'), { trigger: true });
+                //app.vent.trigger('home:show');
+                return false;
+            });
             this.$el.find('a.user-stream').on('click', function (e) {
                 e.preventDefault();
                 app.groupUserRouter.navigate($(this).attr('href'), { trigger: true });
@@ -77,6 +89,8 @@ function ($, _, Backbone, app, SidebarMenuGroupCompositeView, SidebarProjectItem
                 //app.vent.trigger('home:show');
                 return false;
             });
+
+            app.authenticatedUser.projects.on('add', this.addProject, this);
         },
 
         serializeData: function () {
@@ -99,6 +113,10 @@ function ($, _, Backbone, app, SidebarMenuGroupCompositeView, SidebarProjectItem
         selectMenuItem: function (e) {
             $('.sub-menu-button').removeClass('active');
             e.stopPropagation();
+        },
+
+        addProject: function (project) {
+            log('project added', this, project);
         }
     });
 

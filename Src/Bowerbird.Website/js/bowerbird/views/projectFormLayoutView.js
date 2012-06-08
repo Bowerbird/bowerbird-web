@@ -14,7 +14,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/ed
 
     var ProjectFormLayoutView = Backbone.Marionette.Layout.extend({
 
-        className: 'form project-form',
+        className: 'form single-medium project-form',
 
         template: 'ProjectForm',
 

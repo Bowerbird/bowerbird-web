@@ -92,7 +92,6 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editmapview', '
 
             // Add project options
             this.$el.find('#Projects').append(ich.ProjectSelectItem({ Projects: app.authenticatedUser.projects.toJSON() }));
-            log(ich.ProjectSelectItem({ Projects: app.authenticatedUser.projects.toJSON() }));
 
             this.projectListSelectView = this.$el.find('#Projects').multiSelect({
                 selectAll: false,

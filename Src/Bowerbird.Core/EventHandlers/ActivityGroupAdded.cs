@@ -67,7 +67,7 @@ namespace Bowerbird.Core.EventHandlers
 
                 dynamic activity = MakeActivity(
                     domainEvent,
-                    "groupcreated",
+                    "groupadded",
                     string.Format("{0} created the {1} {2}", user.GetName(), project.Name, "project"),
                     groups);
 
@@ -88,7 +88,7 @@ namespace Bowerbird.Core.EventHandlers
 
                 dynamic activity = MakeActivity(
                     domainEvent,
-                    "groupcreated",
+                    "groupadded",
                     string.Format("{0} created the {1} {2}", user.GetName(), team.Name, "team"),
                     groups);
 
@@ -109,7 +109,7 @@ namespace Bowerbird.Core.EventHandlers
 
                 dynamic activity = MakeActivity(
                     domainEvent,
-                    "groupcreated",
+                    "groupadded",
                     string.Format("{0} created the {1} {2}", user.GetName(), organisation.Name, "organisation"),
                     groups);
 

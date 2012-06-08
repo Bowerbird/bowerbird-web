@@ -54,6 +54,14 @@ function ($, _, Backbone, signalr, bootstrapData, User, UserCollection, ProjectC
                 return p === permissionId;
             });
         };
+
+        app.vent.on('newactivity:groupadded', function (activity) {
+            log('ssssssssssssssssssssssssssss');
+            var group = activity.get('GroupAdded').Group;
+            if (group.GroupType === 'project') {
+                app.authenticatedUser.projects.add(group);
+            }
+        }, this);
     };
 
     app.addRegions({
