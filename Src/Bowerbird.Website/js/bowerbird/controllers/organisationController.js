@@ -45,7 +45,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/team', 'views/organis
                 var organisation = new Organisation(model.Organisation);
                 var organisationFormLayoutView = new OrganisationFormLayoutView({ model: organisation });
 
-                app.content[app.getShowViewMethodName()](organisationFormLayoutView);
+                app.content[app.getShowViewMethodName('organisations')](organisationFormLayoutView);
 
                 if (app.isPrerendering('organisations')) {
                     organisationFormLayoutView.showBootstrappedDetails();

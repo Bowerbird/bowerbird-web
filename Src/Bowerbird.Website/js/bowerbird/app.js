@@ -109,7 +109,7 @@ function ($, _, Backbone, signalr, bootstrapData, User, UserCollection, ProjectC
             $.connection.activityHub.registerUserClient(app.authenticatedUser.user.id)
                 .done(function () {
                     app.clientId = $.signalR.hub.id;
-                    log('connected as ' + app.authenticatedUser.user.id + ' with ' + this.clientId);
+                    log('connected as ' + app.authenticatedUser.user.id + ' with ' + app.clientId);
                 })
                 .fail(function (e) {
                     log(e);

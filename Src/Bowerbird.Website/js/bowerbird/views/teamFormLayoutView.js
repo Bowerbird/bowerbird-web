@@ -52,7 +52,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/ed
         showBootstrappedDetails: function () {
             log('teamFormLayoutView.showBootstrappedDetails');
             this.initializeRegions();
-            //this._showDetails();
+            this._showDetails();
         },
 
         _showDetails: function () {

@@ -9,6 +9,7 @@ Funded by:
 * Atlas of Living Australia
 */
 
+using System;
 using System.Linq;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
@@ -170,7 +171,7 @@ namespace Bowerbird.Web.Builders
                 .Query<All_Sessions.Results, All_Sessions>()
                 .AsProjection<All_Sessions.Results>()
                 .Include(x => x.UserId)
-                .Where(x => x.Status < (int) Connection.ConnectionStatus.Offline)
+                .Where(x => x.Status < (int) Connection.ConnectionStatus.Offline && x.LatestActivity > DateTime.UtcNow.AddHours(-1))
                 .ToList()
                 .Select(x => x.UserId)
                 .Distinct();

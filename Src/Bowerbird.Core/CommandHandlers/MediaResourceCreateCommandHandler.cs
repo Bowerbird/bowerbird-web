@@ -3,10 +3,8 @@
  Developers: 
  * Frank Radocaj : frank@radocaj.com
  * Hamish Crittenden : hamish.crittenden@gmail.com
- 
  Project Manager: 
  * Ken Walker : kwalker@museum.vic.gov.au
- 
  Funded by:
  * Atlas of Living Australia
  
@@ -18,10 +16,7 @@ using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Commands;
 using Raven.Client;
 using Bowerbird.Core.ImageUtilities;
-using System.IO;
 using Bowerbird.Core.Services;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -99,7 +94,7 @@ namespace Bowerbird.Core.CommandHandlers
                         }
                         else
                         {
-                            throw new NotImplementedException(string.Format("Can't save images for type: ", mediaType));
+                            MakeOtherImageMediaResourceFiles(mediaResource);
                         }
 
                         SaveImages(image, mediaResource);
@@ -157,6 +152,14 @@ namespace Bowerbird.Core.CommandHandlers
         }
 
         private void MakeGroupImageMediaResourceFiles(MediaResource mediaResource)
+        {
+            AddImageFile(mediaResource, "thumbnail", "jpeg", "jpg", 42, 42);
+            AddImageFile(mediaResource, "small", "jpeg", "jpg", 130, 120);
+            AddImageFile(mediaResource, "medium", "jpeg", "jpg", 670, 600);
+            AddImageFile(mediaResource, "large", "jpeg", "jpg", 1600, 1200);
+        }
+
+        private void MakeOtherImageMediaResourceFiles(MediaResource mediaResource)
         {
             AddImageFile(mediaResource, "thumbnail", "jpeg", "jpg", 42, 42);
             AddImageFile(mediaResource, "small", "jpeg", "jpg", 130, 120);

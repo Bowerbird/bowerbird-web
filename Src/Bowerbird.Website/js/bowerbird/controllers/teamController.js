@@ -45,7 +45,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/team', 'views/teamfor
                 var team = new Team(model.Team);
                 var teamFormLayoutView = new TeamFormLayoutView({ model: team, organisations: model.Organisations });
 
-                app.content[app.getShowViewMethodName()](teamFormLayoutView);
+                app.content[app.getShowViewMethodName('teams')](teamFormLayoutView);
 
                 if (app.isPrerendering('teams')) {
                     teamFormLayoutView.showBootstrappedDetails();

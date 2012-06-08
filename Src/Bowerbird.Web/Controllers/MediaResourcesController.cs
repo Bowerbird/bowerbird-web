@@ -106,6 +106,8 @@ namespace Bowerbird.Web.Controllers
                 MediaResource mediaResource = null;
                 _commandProcessor.Process<MediaResourceCreateCommand, MediaResource>(mediaResourceCreateCommand, x => { mediaResource = x; });
 
+                _documentSession.SaveChanges();
+
                 return new JsonNetResult(new
                     {
                         mediaResource.Id,

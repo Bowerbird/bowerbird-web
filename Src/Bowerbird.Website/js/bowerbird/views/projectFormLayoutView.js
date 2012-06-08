@@ -14,7 +14,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/ed
 
     var ProjectFormLayoutView = Backbone.Marionette.Layout.extend({
 
-        className: 'form single-medium project-form',
+        className: 'form project-form',
 
         template: 'ProjectForm',
 
@@ -61,6 +61,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/ed
             log('projectFormLayoutView:_showDetails');
             var editAvatarView = new EditAvatarView({ el: '#avatar-fieldset', model: this.model });
             editAvatarView.render();
+
             this.teamListSelectView = this.$el.find("#Team").multiSelect({
                 selectAll: false,
                 singleSelect: true,
