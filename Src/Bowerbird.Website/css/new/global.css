@@ -45,9 +45,10 @@ body
     background-image: url("/img/background.png");
     font-weight: 400;
     color: #222222;
-    font-family: Arial, Helvetica, san-serif; /*"open sans",sans-serif;*/
+    font-family: "open sans", Arial, Helvetica, san-serif; /*"open sans",sans-serif;*/
     height: 100%;
     min-height: 100%;
+    text-shadow: rgba(0,0,0,0) 0px 0px 1px;
 }
 header {
     position: fixed;

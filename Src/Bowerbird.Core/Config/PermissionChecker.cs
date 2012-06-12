@@ -56,7 +56,7 @@ namespace Bowerbird.Core.Config
 
         public void Init()
         {
-            _cachedRoles = _documentSession.Query<Role>(); // HACK: If we have too many roles, RavenDB won't return them all
+            _cachedRoles = _documentSession.Query<Role>().ToList(); // HACK: If we have too many roles, RavenDB won't return them all
         }
 
         public bool HasGroupPermission(string permissionId, string userId, string groupId)
