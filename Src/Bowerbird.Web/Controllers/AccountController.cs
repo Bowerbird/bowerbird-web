@@ -12,6 +12,7 @@
  
 */
 
+using System;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.Repositories;
 using Bowerbird.Web.Builders;
@@ -170,9 +171,16 @@ namespace Bowerbird.Web.Controllers
                 // persist user before _userContext.SignUserIn(..)
                 _documentSession.SaveChanges();
 
-                _userContext.SignUserIn(accountRegisterInput.Email.ToLower(), false);
+                try
+                {
+                    _userContext.SignUserIn(accountRegisterInput.Email.ToLower(), false);
 
-                return RedirectToAction("PrivateIndex", "home");
+                    return RedirectToAction("PrivateIndex", "home");
+                }
+                catch (Exception)
+                {
+                    return RedirectToAction("Login", "Account");   
+                }
             }
 
             ViewBag.AccountRegister = _accountViewModelBuilder.MakeAccountRegister(accountRegisterInput);
