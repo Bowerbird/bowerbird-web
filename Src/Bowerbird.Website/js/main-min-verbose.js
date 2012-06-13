@@ -16031,12 +16031,20 @@ Project
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// ActivityController
-// ------------------
+// ActivityController & ActivityRouter
+// -----------------------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'models/activity'],
-function ($, _, Backbone, app, Activity) 
-{
+define('controllers/activitycontroller',['jquery', 'underscore', 'backbone', 'app', 'models/activity'],
+function ($, _, Backbone, app, Activity) {
+
+    var ActivityRouter = function (options) {
+        this.hub = $.connection.activityHub;
+        this.controller = options.controller;
+        this.hub.newActivity = this.controller.newActivity;
+        this.hub.userStatusUpdate = this.controller.userStatusUpdate;
+
+    };
+
     var ActivityController = {};
 
     ActivityController.newActivity = function (data) {
@@ -16061,29 +16069,16 @@ function ($, _, Backbone, app, Activity)
         }
     };
 
-    return ActivityController;
-
-});
-
-// ActivityRouter
-// --------------
-define(['jquery', 'underscore', 'backbone', 'app', 'controllers/activitycontroller'],
-function ($, _, Backbone, app, ActivityController) 
-{
-    var ActivityRouter = function (options) {
-        this.hub = $.connection.activityHub;
-        this.controller = options.controller;
-        this.hub.newActivity = this.controller.newActivity;
-        this.hub.userStatusUpdate = this.controller.userStatusUpdate;
-
-    };
-
     app.addInitializer(function () {
         this.activityRouter = new ActivityRouter({
             controller: ActivityController
         });
     });
+
+    return ActivityController;
+
 });
+
 define('timeago',['jquery'], function ($) {
 
 /**
@@ -16538,14 +16533,24 @@ define('collections/streamitemcollection',['jquery', 'underscore', 'backbone', '
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// GroupUserController
-// -------------------
+// GroupUserController & GroupUserRouter
+// -------------------------------------
 
 // This is the controller for groups/users. It contains all of the 
 // high level knowledge of how to run the app when it's in group/user mode.
-define(['jquery', 'underscore', 'backbone', 'app', 'views/projectlayoutview', 'models/project', 'collections/streamitemcollection'],
+define('controllers/groupusercontroller',['jquery', 'underscore', 'backbone', 'app', 'views/projectlayoutview', 'models/project', 'collections/streamitemcollection'],
 function ($, _, Backbone, app, ProjectLayoutView, Project, StreamItemCollection) 
 {
+    var GroupUserRouter = Backbone.Marionette.AppRouter.extend({
+        appRoutes: {
+            //'teams/:id': 'showTeam',
+            //'projects/:id': 'showProjectStream',
+            //'projects/:id/about': 'showProjectAbout',
+            //'projects/:id/members': 'showProjectMembers',
+            'users/:id': 'showUser'
+        }
+    });
+
     var GroupUserController = {};
 
     // Helper method to load project layout, taking into account bootstrapped data and prerendered view
@@ -16651,32 +16656,14 @@ function ($, _, Backbone, app, ProjectLayoutView, Project, StreamItemCollection)
     //        //MailApp.emailList.fetch();
     //    });
 
-
-
-    return GroupUserController;
-
-});
-
-// GroupUserRouter
-// ---------------
-define(['jquery', 'underscore', 'backbone', 'app', 'controllers/groupusercontroller'],
-function ($, _, Backbone, app, GroupUserController) 
-{
-    var GroupUserRouter = Backbone.Marionette.AppRouter.extend({
-        appRoutes: {
-            //'teams/:id': 'showTeam',
-            //'projects/:id': 'showProjectStream',
-            //'projects/:id/about': 'showProjectAbout',
-            //'projects/:id/members': 'showProjectMembers',
-            'users/:id': 'showUser'
-        }
-    });
-
     app.addInitializer(function () {
         this.groupUserRouter = new GroupUserRouter({
             controller: GroupUserController
         });
     });
+
+    return GroupUserController;
+
 });
 /// <reference path="../../libs/log.js" />
 /// <reference path="../../libs/require/require.js" />
@@ -16739,11 +16726,17 @@ define('views/homelayoutview',['jquery', 'underscore', 'backbone', 'app', 'views
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// HomeController
-// --------------
-define(['jquery', 'underscore', 'backbone', 'app', 'views/homelayoutview'],
+// HomeController & HomeRouter
+// ---------------------------
+define('controllers/homecontroller',['jquery', 'underscore', 'backbone', 'app', 'views/homelayoutview'],
 function ($, _, Backbone, app, HomeLayoutView) 
 {
+    var HomeRouter = Backbone.Marionette.AppRouter.extend({
+        appRoutes: {
+            '': 'showHomeStream'
+        }
+    });
+
     var HomeController = {};
 
     // Public API
@@ -16776,26 +16769,14 @@ function ($, _, Backbone, app, HomeLayoutView)
         });
     };
 
-    return HomeController;
-
-});
-
-// HomeRouter
-// ----------
-define(['jquery', 'underscore', 'backbone', 'app', 'controllers/homecontroller'],
-function ($, _, Backbone, app, HomeController) 
-{
-    var HomeRouter = Backbone.Marionette.AppRouter.extend({
-        appRoutes: {
-            '': 'showHomeStream'
-        }
-    });
-
     app.addInitializer(function () {
         this.homeRouter = new HomeRouter({
             controller: HomeController
         });
     });
+
+    return HomeController;
+
 });
 /** @license
  * RequireJS plugin for async dependency load like JSONP and Google Maps
@@ -22062,11 +22043,18 @@ define('models/observation',['jquery', 'underscore', 'backbone', 'app', 'collect
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 /// <reference path="../models/observation.js" />
 
-// ObservationController
-// ---------------------
-define(['jquery', 'underscore', 'backbone', 'app', 'views/observationlayoutview', 'models/observation'], 
+// ObservationController & ObservationRouter
+// -----------------------------------------
+define('controllers/observationcontroller',['jquery', 'underscore', 'backbone', 'app', 'views/observationlayoutview', 'models/observation'], 
 function ($, _, Backbone, app, ObservationLayoutView, Observation) 
 {
+    var ObservationRouter = Backbone.Marionette.AppRouter.extend({
+        appRoutes: {
+            'observations/create': 'showObservationForm',
+            'observations/:id/update': 'showObservationForm'
+        }
+    });
+
     var ObservationController = {};
 
     // Helper method to load project layout, taking into account bootstrapped data and prerendered view
@@ -22122,28 +22110,13 @@ function ($, _, Backbone, app, ObservationLayoutView, Observation)
     //        ContributionController.showObservationForm(id);
     //    });
 
-    return ObservationController;
-
-});
-
-// ObservationRouter
-// -----------------
-define(['jquery', 'underscore', 'backbone', 'app', 'controllers/observationcontroller'], 
-function ($, _, Backbone, app, ObservationController) 
-{
-    var ObservationRouter = Backbone.Marionette.AppRouter.extend({
-        appRoutes: {
-            'observations/create': 'showObservationForm',
-            'observations/:id/update': 'showObservationForm'
-        }
-    });
-
     app.addInitializer(function () {
         this.observationRouter = new ObservationRouter({
             controller: ObservationController
         });
     });
 
+    return ObservationController;
 });
 /// <reference path="../../libs/log.js" />
 /// <reference path="../../libs/require/require.js" />
@@ -22387,11 +22360,17 @@ define('views/organisationformlayoutview',['jquery', 'underscore', 'backbone', '
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// OrganisationController
-// ----------------------
-define(['jquery','underscore','backbone','app','models/team','views/organisationformlayoutview'],
-function ($,_,Backbone,app,Organisation,OrganisationFormLayoutView) 
+// OrganisationController & OrganisationRouter
+// -------------------------------------------
+define('controllers/organisationcontroller',['jquery','underscore','backbone','app','models/team','views/organisationformlayoutview'],
+function ($, _, Backbone, app, Organisation, OrganisationFormLayoutView) 
 {
+    var OrganisationRouter = Backbone.Marionette.AppRouter.extend({
+        appRoutes: {
+            'organisations/create': 'showOrganisationForm'
+        }
+    });
+
     var OrganisationController = {};
 
     var getModel = function (id) {
@@ -22433,28 +22412,16 @@ function ($,_,Backbone,app,Organisation,OrganisationFormLayoutView)
 
                 app.setPrerenderComplete();
             });
-    };
+        };
+
+        app.addInitializer(function () {
+            this.organisationRouter = new OrganisationRouter({
+                controller: OrganisationController
+            });
+        });
 
     return OrganisationController;
 
-});
-
-// OrganisationRouter
-// ------------------
-define(['jquery', 'underscore', 'backbone', 'app', 'controllers/organisationcontroller'],
-function ($, _, Backbone, app, OrganisationController) 
-{
-    var OrganisationRouter = Backbone.Marionette.AppRouter.extend({
-        appRoutes: {
-            'organisations/create': 'showOrganisationForm'
-        }
-    });
-
-    app.addInitializer(function () {
-        this.organisationRouter = new OrganisationRouter({
-            controller: OrganisationController
-        });
-    });
 });
 /// <reference path="../../libs/log.js" />
 /// <reference path="../../libs/require/require.js" />
@@ -22570,12 +22537,18 @@ define('models/post',['jquery', 'underscore', 'backbone', 'app'], function ($, _
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// PostController
-// --------------
-
-define(['jquery', 'underscore', 'backbone', 'app', 'views/postformlayoutview', 'models/post'],
+// PostController & PostRouter
+// ---------------------------
+define('controllers/postcontroller',['jquery', 'underscore', 'backbone', 'app', 'views/postformlayoutview', 'models/post'],
 function ($, _, Backbone, app, PostFormLayoutView, Post) 
 {
+    var PostRouter = Backbone.Marionette.AppRouter.extend({
+        appRoutes: {
+            'posts/create': 'showPostForm',
+            'posts/:id/update': 'showPostForm'
+        }
+    });
+
     var PostController = {};
 
     var getModel = function (id) {
@@ -22620,27 +22593,14 @@ function ($, _, Backbone, app, PostFormLayoutView, Post)
             });
         };
 
+        app.addInitializer(function () {
+            this.postRouter = new PostRouter({
+                controller: PostController
+            });
+        });
+
     return PostController;
 
-});
-
-// PostRouter
-// ----------
-define(['jquery', 'underscore', 'backbone', 'app', 'controllers/postcontroller'],
-function ($, _, Backbone, app, PostController) 
-{
-    var PostRouter = Backbone.Marionette.AppRouter.extend({
-        appRoutes: {
-            'posts/create': 'showPostForm',
-            'posts/:id/update': 'showPostForm'
-        }
-    });
-
-    app.addInitializer(function () {
-        this.postRouter = new PostRouter({
-            controller: PostController
-        });
-    });
 });
 /// <reference path="../../libs/log.js" />
 /// <reference path="../../libs/require/require.js" />
@@ -22756,11 +22716,19 @@ define('views/projectformlayoutview',['jquery', 'underscore', 'backbone', 'app',
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// ProjectController
-// -----------------
-define(['jquery', 'underscore', 'backbone', 'app', 'views/projectformlayoutview', 'collections/exploreprojectcollection', 'models/project'], 
-function ($,_,Backbone,app,ProjectFormLayoutView,ExploreProjectCollection,Project)
+// ProjectController & ProjectRouter
+// ---------------------------------
+define('controllers/projectcontroller',['jquery', 'underscore', 'backbone', 'app', 'views/projectformlayoutview', 'collections/exploreprojectcollection', 'models/project'],
+function ($, _, Backbone, app, ProjectFormLayoutView, ExploreProjectCollection, Project) 
 {
+    var ProjectRouter = Backbone.Marionette.AppRouter.extend({
+        appRoutes: {
+            'projects/explore': 'showProjectExplorer',
+            'projects/create': 'showProjectForm',
+            'projects/:id/update': 'showProjectForm'
+        }
+    });
+
     var ProjectController = {};
 
     var getModel = function (id) {
@@ -22863,28 +22831,14 @@ function ($,_,Backbone,app,ProjectFormLayoutView,ExploreProjectCollection,Projec
             });
     };
 
-    return ProjectController;
-
-});
-
-// ProjectRouter
-// -------------
-define(['jquery', 'underscore', 'backbone', 'app', 'controllers/projectcontroller'],
-function ($, _, Backbone, app, ProjectController) 
-{
-    var ProjectRouter = Backbone.Marionette.AppRouter.extend({
-        appRoutes: {
-            'projects/explore': 'showProjectExplorer',
-            'projects/create': 'showProjectForm',
-            'projects/:id/update': 'showProjectForm'
-        }
-    });
-
     app.addInitializer(function () {
         this.projectRouter = new ProjectRouter({
             controller: ProjectController
         });
     });
+
+    return ProjectController;
+
 });
 /// <reference path="../../libs/log.js" />
 /// <reference path="../../libs/require/require.js" />
@@ -23000,12 +22954,18 @@ define('views/referencespeciesformlayoutview',['jquery', 'underscore', 'backbone
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// ReferenceSpeciesController
-// ----------------------
+// ReferenceSpeciesController & ReferenceSpeciesRouter
+// ---------------------------------------------------
 
-define(['jquery','underscore','backbone','app','models/referencespecies','views/referencespeciesformlayoutview'],
-function ($,_,Backbone,app,ReferenceSpecies,ReferenceSpeciesFormLayoutView) 
+define('controllers/referencespeciescontroller',['jquery','underscore','backbone','app','models/referencespecies','views/referencespeciesformlayoutview'],
+function ($, _, Backbone, app, ReferenceSpecies, ReferenceSpeciesFormLayoutView) 
 {
+    var ReferenceSpeciesRouter = Backbone.Marionette.AppRouter.extend({
+        appRoutes: {
+            'referencespecies/create': 'showReferenceSpeciesForm'
+        }
+    });
+
     var ReferenceSpeciesController = {};
 
     // ReferenceSpeciesController Public API
@@ -23028,26 +22988,14 @@ function ($,_,Backbone,app,ReferenceSpecies,ReferenceSpeciesFormLayoutView)
         ReferenceSpeciesController.showReferenceSpeciesForm();
     });
 
-    return ReferenceSpeciesController;
-
-});
-
-// ReferenceSpeciesRouter
-// ------------------
-define(['jquery','underscore','backbone','app','controllers/referencespeciescontroller'],
-function ($,_,Backbone,app,ReferenceSpeciesController)
-{
-    var ReferenceSpeciesRouter = Backbone.Marionette.AppRouter.extend({
-        appRoutes: {
-            'referencespecies/create': 'showReferenceSpeciesForm'
-        }
-    });
-
     app.addInitializer(function () {
         this.referenceSpeciesRouter = new ReferenceSpeciesRouter({
             controller: ReferenceSpeciesController
         });
     });
+
+    return ReferenceSpeciesController;
+
 });
 /// <reference path="../../libs/log.js" />
 /// <reference path="../../libs/require/require.js" />
@@ -23163,11 +23111,17 @@ define('views/speciesformitemview',['jquery', 'underscore', 'backbone', 'app', '
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// SpeciesController
-// ----------------------
-define(['jquery', 'underscore', 'backbone', 'app', 'models/species', 'views/speciesformitemview'],
+// SpeciesController & SpeciesRouter
+// ---------------------------------
+define('controllers/speciescontroller',['jquery', 'underscore', 'backbone', 'app', 'models/species', 'views/speciesformitemview'],
 function ($, _, Backbone, app, Species, SpeciesFormItemView) 
 {
+    var SpeciesRouter = Backbone.Marionette.AppRouter.extend({
+        appRoutes: {
+            'species/create': 'showSpeciesForm'
+        }
+    });
+
     var SpeciesController = {};
 
     var getModel = function (id) {
@@ -23209,26 +23163,14 @@ function ($, _, Backbone, app, Species, SpeciesFormItemView)
         SpeciesController.showSpeciesForm();
     });
 
-    return SpeciesController;
-
-});
-
-// SpeciesRouter
-// -------------
-define(['jquery','underscore','backbone','app','controllers/speciescontroller'],
-function ($, _, Backbone, app, SpeciesController) 
-{
-    var SpeciesRouter = Backbone.Marionette.AppRouter.extend({
-        appRoutes: {
-            'species/create': 'showSpeciesForm'
-        }
-    });
-
     app.addInitializer(function () {
         this.speciesRouter = new SpeciesRouter({
             controller: SpeciesController
         });
     });
+
+    return SpeciesController;
+
 });
 /// <reference path="../../libs/log.js" />
 /// <reference path="../../libs/require/require.js" />
@@ -23341,11 +23283,17 @@ define('views/teamformlayoutview',['jquery', 'underscore', 'backbone', 'app', 'i
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// TeamController
-// ----------------------
-define(['jquery','underscore','backbone','app','models/team','views/teamformlayoutview'],
-function ($,_,Backbone,app,Team,TeamFormLayoutView) 
+// TeamController & TeamRouter
+// ---------------------------
+define('controllers/teamcontroller',['jquery','underscore','backbone','app','models/team','views/teamformlayoutview'],
+function ($, _, Backbone, app, Team, TeamFormLayoutView) 
 {
+    var TeamRouter = Backbone.Marionette.AppRouter.extend({
+        appRoutes: {
+            'teams/create': 'showTeamForm'
+        }
+    });
+
     var TeamController = {};
 
     var getModel = function (id) {
@@ -23389,25 +23337,14 @@ function ($,_,Backbone,app,Team,TeamFormLayoutView)
             });
     };
 
-    return TeamController;
-});
-
-// TeamRouter
-// ------------------
-define(['jquery','underscore','backbone','app','controllers/teamcontroller'],
-function ($,_,Backbone,app,TeamController) 
-{
-    var TeamRouter = Backbone.Marionette.AppRouter.extend({
-        appRoutes: {
-            'teams/create': 'showTeamForm'
-        }
-    });
-
     app.addInitializer(function () {
         this.teamRouter = new TeamRouter({
             controller: TeamController
         });
     });
+
+    return TeamController;
+
 });
 /// <reference path="../../libs/log.js" />
 /// <reference path="../../libs/require/require.js" />

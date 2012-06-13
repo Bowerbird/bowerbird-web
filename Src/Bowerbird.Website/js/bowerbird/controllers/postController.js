@@ -5,12 +5,18 @@
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// PostController
-// --------------
-
+// PostController & PostRouter
+// ---------------------------
 define(['jquery', 'underscore', 'backbone', 'app', 'views/postformlayoutview', 'models/post'],
 function ($, _, Backbone, app, PostFormLayoutView, Post) 
 {
+    var PostRouter = Backbone.Marionette.AppRouter.extend({
+        appRoutes: {
+            'posts/create': 'showPostForm',
+            'posts/:id/update': 'showPostForm'
+        }
+    });
+
     var PostController = {};
 
     var getModel = function (id) {
@@ -55,25 +61,12 @@ function ($, _, Backbone, app, PostFormLayoutView, Post)
             });
         };
 
+        app.addInitializer(function () {
+            this.postRouter = new PostRouter({
+                controller: PostController
+            });
+        });
+
     return PostController;
 
-});
-
-// PostRouter
-// ----------
-define(['jquery', 'underscore', 'backbone', 'app', 'controllers/postcontroller'],
-function ($, _, Backbone, app, PostController) 
-{
-    var PostRouter = Backbone.Marionette.AppRouter.extend({
-        appRoutes: {
-            'posts/create': 'showPostForm',
-            'posts/:id/update': 'showPostForm'
-        }
-    });
-
-    app.addInitializer(function () {
-        this.postRouter = new PostRouter({
-            controller: PostController
-        });
-    });
 });

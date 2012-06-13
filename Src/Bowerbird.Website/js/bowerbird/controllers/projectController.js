@@ -5,11 +5,19 @@
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// ProjectController
-// -----------------
-define(['jquery', 'underscore', 'backbone', 'app', 'views/projectformlayoutview', 'collections/exploreprojectcollection', 'models/project'], 
-function ($,_,Backbone,app,ProjectFormLayoutView,ExploreProjectCollection,Project)
+// ProjectController & ProjectRouter
+// ---------------------------------
+define(['jquery', 'underscore', 'backbone', 'app', 'views/projectformlayoutview', 'collections/exploreprojectcollection', 'models/project'],
+function ($, _, Backbone, app, ProjectFormLayoutView, ExploreProjectCollection, Project) 
 {
+    var ProjectRouter = Backbone.Marionette.AppRouter.extend({
+        appRoutes: {
+            'projects/explore': 'showProjectExplorer',
+            'projects/create': 'showProjectForm',
+            'projects/:id/update': 'showProjectForm'
+        }
+    });
+
     var ProjectController = {};
 
     var getModel = function (id) {
@@ -112,26 +120,12 @@ function ($,_,Backbone,app,ProjectFormLayoutView,ExploreProjectCollection,Projec
             });
     };
 
-    return ProjectController;
-
-});
-
-// ProjectRouter
-// -------------
-define(['jquery', 'underscore', 'backbone', 'app', 'controllers/projectcontroller'],
-function ($, _, Backbone, app, ProjectController) 
-{
-    var ProjectRouter = Backbone.Marionette.AppRouter.extend({
-        appRoutes: {
-            'projects/explore': 'showProjectExplorer',
-            'projects/create': 'showProjectForm',
-            'projects/:id/update': 'showProjectForm'
-        }
-    });
-
     app.addInitializer(function () {
         this.projectRouter = new ProjectRouter({
             controller: ProjectController
         });
     });
+
+    return ProjectController;
+
 });

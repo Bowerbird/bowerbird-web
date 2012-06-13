@@ -5,11 +5,17 @@
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// SpeciesController
-// ----------------------
+// SpeciesController & SpeciesRouter
+// ---------------------------------
 define(['jquery', 'underscore', 'backbone', 'app', 'models/species', 'views/speciesformitemview'],
 function ($, _, Backbone, app, Species, SpeciesFormItemView) 
 {
+    var SpeciesRouter = Backbone.Marionette.AppRouter.extend({
+        appRoutes: {
+            'species/create': 'showSpeciesForm'
+        }
+    });
+
     var SpeciesController = {};
 
     var getModel = function (id) {
@@ -51,24 +57,12 @@ function ($, _, Backbone, app, Species, SpeciesFormItemView)
         SpeciesController.showSpeciesForm();
     });
 
-    return SpeciesController;
-
-});
-
-// SpeciesRouter
-// -------------
-define(['jquery','underscore','backbone','app','controllers/speciescontroller'],
-function ($, _, Backbone, app, SpeciesController) 
-{
-    var SpeciesRouter = Backbone.Marionette.AppRouter.extend({
-        appRoutes: {
-            'species/create': 'showSpeciesForm'
-        }
-    });
-
     app.addInitializer(function () {
         this.speciesRouter = new SpeciesRouter({
             controller: SpeciesController
         });
     });
+
+    return SpeciesController;
+
 });

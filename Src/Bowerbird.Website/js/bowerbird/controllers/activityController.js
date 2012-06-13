@@ -5,12 +5,20 @@
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// ActivityController
-// ------------------
+// ActivityController & ActivityRouter
+// -----------------------------------
 
 define(['jquery', 'underscore', 'backbone', 'app', 'models/activity'],
-function ($, _, Backbone, app, Activity) 
-{
+function ($, _, Backbone, app, Activity) {
+
+    var ActivityRouter = function (options) {
+        this.hub = $.connection.activityHub;
+        this.controller = options.controller;
+        this.hub.newActivity = this.controller.newActivity;
+        this.hub.userStatusUpdate = this.controller.userStatusUpdate;
+
+    };
+
     var ActivityController = {};
 
     ActivityController.newActivity = function (data) {
@@ -35,26 +43,12 @@ function ($, _, Backbone, app, Activity)
         }
     };
 
-    return ActivityController;
-
-});
-
-// ActivityRouter
-// --------------
-define(['jquery', 'underscore', 'backbone', 'app', 'controllers/activitycontroller'],
-function ($, _, Backbone, app, ActivityController) 
-{
-    var ActivityRouter = function (options) {
-        this.hub = $.connection.activityHub;
-        this.controller = options.controller;
-        this.hub.newActivity = this.controller.newActivity;
-        this.hub.userStatusUpdate = this.controller.userStatusUpdate;
-
-    };
-
     app.addInitializer(function () {
         this.activityRouter = new ActivityRouter({
             controller: ActivityController
         });
     });
+
+    return ActivityController;
+
 });

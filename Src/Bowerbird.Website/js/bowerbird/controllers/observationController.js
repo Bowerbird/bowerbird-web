@@ -6,11 +6,18 @@
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 /// <reference path="../models/observation.js" />
 
-// ObservationController
-// ---------------------
+// ObservationController & ObservationRouter
+// -----------------------------------------
 define(['jquery', 'underscore', 'backbone', 'app', 'views/observationlayoutview', 'models/observation'], 
 function ($, _, Backbone, app, ObservationLayoutView, Observation) 
 {
+    var ObservationRouter = Backbone.Marionette.AppRouter.extend({
+        appRoutes: {
+            'observations/create': 'showObservationForm',
+            'observations/:id/update': 'showObservationForm'
+        }
+    });
+
     var ObservationController = {};
 
     // Helper method to load project layout, taking into account bootstrapped data and prerendered view
@@ -66,26 +73,11 @@ function ($, _, Backbone, app, ObservationLayoutView, Observation)
     //        ContributionController.showObservationForm(id);
     //    });
 
-    return ObservationController;
-
-});
-
-// ObservationRouter
-// -----------------
-define(['jquery', 'underscore', 'backbone', 'app', 'controllers/observationcontroller'], 
-function ($, _, Backbone, app, ObservationController) 
-{
-    var ObservationRouter = Backbone.Marionette.AppRouter.extend({
-        appRoutes: {
-            'observations/create': 'showObservationForm',
-            'observations/:id/update': 'showObservationForm'
-        }
-    });
-
     app.addInitializer(function () {
         this.observationRouter = new ObservationRouter({
             controller: ObservationController
         });
     });
 
+    return ObservationController;
 });

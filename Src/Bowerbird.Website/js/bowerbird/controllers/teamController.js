@@ -5,11 +5,17 @@
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// TeamController
-// ----------------------
+// TeamController & TeamRouter
+// ---------------------------
 define(['jquery','underscore','backbone','app','models/team','views/teamformlayoutview'],
-function ($,_,Backbone,app,Team,TeamFormLayoutView) 
+function ($, _, Backbone, app, Team, TeamFormLayoutView) 
 {
+    var TeamRouter = Backbone.Marionette.AppRouter.extend({
+        appRoutes: {
+            'teams/create': 'showTeamForm'
+        }
+    });
+
     var TeamController = {};
 
     var getModel = function (id) {
@@ -53,23 +59,12 @@ function ($,_,Backbone,app,Team,TeamFormLayoutView)
             });
     };
 
-    return TeamController;
-});
-
-// TeamRouter
-// ------------------
-define(['jquery','underscore','backbone','app','controllers/teamcontroller'],
-function ($,_,Backbone,app,TeamController) 
-{
-    var TeamRouter = Backbone.Marionette.AppRouter.extend({
-        appRoutes: {
-            'teams/create': 'showTeamForm'
-        }
-    });
-
     app.addInitializer(function () {
         this.teamRouter = new TeamRouter({
             controller: TeamController
         });
     });
+
+    return TeamController;
+
 });

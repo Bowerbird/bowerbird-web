@@ -5,12 +5,18 @@
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// ReferenceSpeciesController
-// ----------------------
+// ReferenceSpeciesController & ReferenceSpeciesRouter
+// ---------------------------------------------------
 
 define(['jquery','underscore','backbone','app','models/referencespecies','views/referencespeciesformlayoutview'],
-function ($,_,Backbone,app,ReferenceSpecies,ReferenceSpeciesFormLayoutView) 
+function ($, _, Backbone, app, ReferenceSpecies, ReferenceSpeciesFormLayoutView) 
 {
+    var ReferenceSpeciesRouter = Backbone.Marionette.AppRouter.extend({
+        appRoutes: {
+            'referencespecies/create': 'showReferenceSpeciesForm'
+        }
+    });
+
     var ReferenceSpeciesController = {};
 
     // ReferenceSpeciesController Public API
@@ -33,24 +39,12 @@ function ($,_,Backbone,app,ReferenceSpecies,ReferenceSpeciesFormLayoutView)
         ReferenceSpeciesController.showReferenceSpeciesForm();
     });
 
-    return ReferenceSpeciesController;
-
-});
-
-// ReferenceSpeciesRouter
-// ------------------
-define(['jquery','underscore','backbone','app','controllers/referencespeciescontroller'],
-function ($,_,Backbone,app,ReferenceSpeciesController)
-{
-    var ReferenceSpeciesRouter = Backbone.Marionette.AppRouter.extend({
-        appRoutes: {
-            'referencespecies/create': 'showReferenceSpeciesForm'
-        }
-    });
-
     app.addInitializer(function () {
         this.referenceSpeciesRouter = new ReferenceSpeciesRouter({
             controller: ReferenceSpeciesController
         });
     });
+
+    return ReferenceSpeciesController;
+
 });

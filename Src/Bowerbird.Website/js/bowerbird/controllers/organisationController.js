@@ -5,11 +5,17 @@
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// OrganisationController
-// ----------------------
+// OrganisationController & OrganisationRouter
+// -------------------------------------------
 define(['jquery','underscore','backbone','app','models/team','views/organisationformlayoutview'],
-function ($,_,Backbone,app,Organisation,OrganisationFormLayoutView) 
+function ($, _, Backbone, app, Organisation, OrganisationFormLayoutView) 
 {
+    var OrganisationRouter = Backbone.Marionette.AppRouter.extend({
+        appRoutes: {
+            'organisations/create': 'showOrganisationForm'
+        }
+    });
+
     var OrganisationController = {};
 
     var getModel = function (id) {
@@ -51,26 +57,14 @@ function ($,_,Backbone,app,Organisation,OrganisationFormLayoutView)
 
                 app.setPrerenderComplete();
             });
-    };
+        };
+
+        app.addInitializer(function () {
+            this.organisationRouter = new OrganisationRouter({
+                controller: OrganisationController
+            });
+        });
 
     return OrganisationController;
 
-});
-
-// OrganisationRouter
-// ------------------
-define(['jquery', 'underscore', 'backbone', 'app', 'controllers/organisationcontroller'],
-function ($, _, Backbone, app, OrganisationController) 
-{
-    var OrganisationRouter = Backbone.Marionette.AppRouter.extend({
-        appRoutes: {
-            'organisations/create': 'showOrganisationForm'
-        }
-    });
-
-    app.addInitializer(function () {
-        this.organisationRouter = new OrganisationRouter({
-            controller: OrganisationController
-        });
-    });
 });
