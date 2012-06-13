@@ -44,19 +44,6 @@ namespace Bowerbird.Core.Config
             }
         }
 
-        [ConfigurationProperty("rootPath", DefaultValue = "", IsRequired = true, IsKey = false)]
-        public string RootPath
-        {
-            get
-            {
-                return (string)this["rootPath"];
-            }
-            set
-            {
-                this["rootPath"] = value;
-            }
-        }
-
         #endregion
 
         #region Methods

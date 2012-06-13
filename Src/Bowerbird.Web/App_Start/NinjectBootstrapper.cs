@@ -21,7 +21,6 @@ using Bowerbird.Web.Config;
 using Microsoft.Practices.ServiceLocation;
 using System.Web.Routing;
 using SignalR;
-using NinjectDependencyResolver = Bowerbird.Web.Config.NinjectDependencyResolver;
 using System.Web;
 using NinjectAdapter;
 
@@ -81,8 +80,6 @@ namespace Bowerbird.Web.App_Start
             //GlobalHost.Configuration.HeartBeatInterval = TimeSpan.FromSeconds(10);
 
             GlobalHost.DependencyResolver = new NinjectDependencyResolver(kernel);
-
-            RouteTable.Routes.MapHubs();
 
             EventProcessor.ServiceLocator = ServiceLocator.Current;
         }

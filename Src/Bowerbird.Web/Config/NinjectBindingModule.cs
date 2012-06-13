@@ -27,6 +27,9 @@ using Bowerbird.Core.EventHandlers;
 using Bowerbird.Core.DomainModels;
 using SignalR;
 using Bowerbird.Core.Config;
+using System.Web;
+using Bowerbird.Web.Hubs;
+using SignalR.Hubs;
 
 namespace Bowerbird.Web.Config
 {
@@ -59,7 +62,6 @@ namespace Bowerbird.Web.Config
 
             // Transient scope
             Bind<IServiceLocator>().ToMethod(x => ServiceLocator.Current);
-            Bind<IJsonSerializer>().To<SignalRJsonConvertAdapter>();
 
             // Convention based mappings
             Kernel.Bind(x => x

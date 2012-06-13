@@ -129,7 +129,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\WebsiteBootstrapper.cs" />
     <Compile Include="App_Start\NinjectBootstrapper.cs" />
     <Compile Include="Builders\AccountViewModelBuilder.cs" />
@@ -157,10 +156,10 @@
     <Compile Include="Builders\UserViewModelBuilder.cs" />
     <Compile Include="Config\AcceptTypeContstraint.cs" />
     <Compile Include="Config\AuthenticatedConstraint.cs" />
+    <Compile Include="Config\ConfigService.cs" />
     <Compile Include="Config\NinjectBindingModule.cs" />
     <Compile Include="Config\NinjectDependencyResolver.cs" />
     <Compile Include="Config\RestfulAttribute.cs" />
-    <Compile Include="Config\SignalRJsonConvertAdapter.cs" />
     <Compile Include="Config\NinjectRavenSessionProvider.cs" />
     <Compile Include="Config\NinjectRavenDocumentStoreProvider.cs" />
     <Compile Include="Config\RouteRegistrar.cs" />

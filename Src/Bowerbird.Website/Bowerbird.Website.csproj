@@ -227,76 +227,69 @@
     <Content Include="js\libs\require\goog.js" />
     <Content Include="js\libs\require\noext.js" />
     <Content Include="js\libs\require\propertyparser.js" />
-    <Content Include="js\main-min-verbose.js" />
-    <Content Include="js\main-min.js" />
-    <Content Include="js\_old\bowerbird\views\projectCreateFormView.js" />
-    <Content Include="js\_old\libs\backbone.marionette.js" />
-    <Content Include="js\_old\bowerbird\views\exploreItemView.js" />
-    <Content Include="js\_old\bowerbird\views\exploreView.js" />
     <Content Include="js\libs\backbone.marionette\backbone.marionette.js" />
     <Content Include="js\libs\backbone\backbone.js" />
     <Content Include="js\libs\icanhaz\icanhaz.js" />
     <Content Include="js\libs\require\require.js" />
     <Content Include="js\libs\require\text.js" />
     <Content Include="js\libs\underscore\underscore.js" />
-    <Content Include="js\_old\libs\yepnope.js" />
     <Content Include="species\Butterflies.txt" />
     <Content Include="species\Plants.txt" />
     <Content Include="welcome.txt" />
-    <None Include="Views\Posts\Create.mustache" />
-    <None Include="Views\Posts\Delete.mustache" />
-    <None Include="Views\Posts\List.mustache" />
-    <None Include="Views\Posts\Update.mustache" />
-    <None Include="Views\Home\About.mustache" />
+    <Content Include="Views\Posts\Create.mustache" />
+    <Content Include="Views\Posts\Delete.mustache" />
+    <Content Include="Views\Posts\List.mustache" />
+    <Content Include="Views\Posts\Update.mustache" />
+    <Content Include="Views\Home\About.mustache" />
     <Content Include="Views\Account\LogoutSuccess.mustache" />
     <Content Include="Views\Account\ResetPassword.mustache" />
     <Content Include="Views\Account\Register.mustache" />
     <Content Include="Views\Account\RequestPasswordReset.mustache" />
     <Content Include="Views\Account\RequestPasswordResetSuccess.mustache" />
     <Content Include="Views\Account\Login.mustache" />
-    <None Include="Views\Home\PublicIndex.mustache" />
-    <None Include="Views\Home\PrivateIndex.mustache" />
-    <None Include="Views\Observations\Update.mustache" />
-    <None Include="Views\Observations\Delete.mustache" />
-    <None Include="Views\Observations\Index.mustache" />
-    <None Include="Views\Observations\Create.mustache" />
-    <None Include="Views\Organisations\Create.mustache" />
-    <None Include="Views\Organisations\Delete.mustache" />
-    <None Include="Views\Organisations\List.mustache" />
-    <None Include="Views\Projects\Update.mustache" />
-    <None Include="Views\Projects\Create.mustache" />
-    <None Include="Views\Projects\Delete.mustache" />
-    <None Include="Views\Projects\Stream.mustache" />
-    <None Include="Views\Projects\List.mustache" />
-    <None Include="Views\ReferenceSpecies\Create.mustache" />
-    <None Include="Views\ReferenceSpecies\Delete.mustache" />
-    <None Include="Views\ReferenceSpecies\Index.mustache" />
-    <None Include="Views\ReferenceSpecies\List.mustache" />
-    <None Include="Views\Shared\Home.mustache">
+    <Content Include="Views\Home\PublicIndex.mustache" />
+    <Content Include="Views\Home\PrivateIndex.mustache" />
+    <Content Include="Views\Observations\Update.mustache" />
+    <Content Include="Views\Observations\Delete.mustache" />
+    <Content Include="Views\Observations\Index.mustache" />
+    <Content Include="Views\Observations\Create.mustache" />
+    <Content Include="Views\Organisations\Create.mustache" />
+    <Content Include="Views\Organisations\Delete.mustache" />
+    <Content Include="Views\Organisations\List.mustache" />
+    <Content Include="Views\Projects\Update.mustache" />
+    <Content Include="Views\Projects\Create.mustache" />
+    <Content Include="Views\Projects\Delete.mustache" />
+    <Content Include="Views\Projects\Stream.mustache" />
+    <Content Include="Views\Projects\List.mustache" />
+    <Content Include="Views\ReferenceSpecies\Create.mustache" />
+    <Content Include="Views\ReferenceSpecies\Delete.mustache" />
+    <Content Include="Views\ReferenceSpecies\Index.mustache" />
+    <Content Include="Views\ReferenceSpecies\List.mustache" />
+    <Content Include="Views\Shared\Home.mustache">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="Views\Shared\OnlineUserItem.mustache" />
-    <None Include="Views\Shared\SidebarMenuGroup.mustache" />
-    <None Include="Views\Shared\SidebarOrganisationItem.mustache" />
-    <None Include="Views\Shared\SidebarTeamItem.mustache" />
-    <None Include="Views\Shared\PostForm.mustache">
+    </Content>
+    <Content Include="Views\Shared\OnlineUserItem.mustache" />
+    <Content Include="Views\Shared\SidebarMenuGroup.mustache" />
+    <Content Include="Views\Shared\SidebarOrganisationItem.mustache" />
+    <Content Include="Views\Shared\SidebarTeamItem.mustache" />
+    <Content Include="Views\Shared\PostForm.mustache">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="Views\Shared\StreamItem.mustache" />
-    <None Include="Views\Shared\ReferenceSpeciesCreate.mustache" />
-    <None Include="Views\Shared\SpeciesCreate.mustache" />
-    <None Include="Views\Shared\Observation.mustache">
+    </Content>
+    <Content Include="Views\Shared\StreamItem.mustache" />
+    <Content Include="Views\Shared\ReferenceSpeciesCreate.mustache" />
+    <Content Include="Views\Shared\SpeciesCreate.mustache" />
+    <Content Include="Views\Shared\Observation.mustache">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="Views\Shared\Project.mustache">
+    </Content>
+    <Content Include="Views\Shared\Project.mustache">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="Views\Shared\OrganisationItem.mustache" />
-    <None Include="Views\Shared\ProjectList.mustache" />
-    <None Include="Views\Shared\TeamItem.mustache" />
-    <None Include="Views\Shared\ProjectItem.mustache" />
-    <None Include="Views\Shared\TeamList.mustache" />
-    <None Include="Views\Shared\ObservationList.mustache" />
+    </Content>
+    <Content Include="Views\Shared\OrganisationItem.mustache" />
+    <Content Include="Views\Shared\ProjectList.mustache" />
+    <Content Include="Views\Shared\TeamItem.mustache" />
+    <Content Include="Views\Shared\ProjectItem.mustache" />
+    <Content Include="Views\Shared\TeamList.mustache" />
+    <Content Include="Views\Shared\ObservationList.mustache" />
     <Content Include="apple-touch-icon-114x114-precomposed.png" />
     <Content Include="apple-touch-icon-57x57-precomposed.png" />
     <Content Include="apple-touch-icon-72x72-precomposed.png" />
@@ -345,89 +338,20 @@
     <Content Include="img\wavecut.png" />
     <Content Include="img\whitey.png" />
     <Content Include="img\white_texture.png" />
-    <Content Include="js\_old\bowerbird\collections\groups.js" />
-    <Content Include="js\_old\bowerbird\collections\organisations.js" />
-    <Content Include="js\_old\bowerbird\models\explore.js" />
-    <Content Include="js\_old\bowerbird\models\group.js" />
-    <Content Include="js\_old\bowerbird\notificationRouter.js" />
-    <Content Include="js\_old\bowerbird\app.js" />
-    <Content Include="js\_old\bowerbird\chatRouter.js" />
-    <Content Include="js\_old\bowerbird\collections\chatUsers.js" />
-    <Content Include="js\_old\bowerbird\collections\mediaResources.js" />
-    <Content Include="js\_old\bowerbird\collections\notifications.js" />
-    <Content Include="js\_old\bowerbird\collections\users.js" />
-    <Content Include="js\_old\bowerbird\collections\chatMessages.js" />
-    <Content Include="js\_old\bowerbird\collections\chats.js" />
-    <Content Include="js\_old\bowerbird\collections\paginatedCollection.js" />
-    <Content Include="js\_old\bowerbird\collections\projects.js" />
-    <Content Include="js\_old\bowerbird\collections\streamItems.js" />
-    <Content Include="js\_old\bowerbird\collections\teams.js" />
-    <Content Include="js\_old\bowerbird\models\chat.js" />
-    <Content Include="js\_old\bowerbird\models\chatMessage.js" />
-    <Content Include="js\_old\bowerbird\models\chatUser.js" />
-    <Content Include="js\_old\bowerbird\models\notification.js" />
-    <Content Include="js\_old\bowerbird\models\organisation.js" />
-    <Content Include="js\_old\bowerbird\models\groupChat.js" />
-    <Content Include="js\_old\bowerbird\models\mediaResource.js" />
-    <Content Include="js\_old\bowerbird\models\observation.js" />
-    <Content Include="js\_old\bowerbird\models\project.js" />
-    <Content Include="js\_old\bowerbird\models\stream.js" />
-    <Content Include="js\_old\bowerbird\models\streamItem.js" />
-    <Content Include="js\_old\bowerbird\models\team.js" />
-    <Content Include="js\_old\bowerbird\models\user.js" />
-    <Content Include="js\_old\bowerbird\models\userChat.js" />
-    <Content Include="js\_old\bowerbird\namespace.js" />
-    <Content Include="js\_old\bowerbird\appRouter.js" />
-    <Content Include="js\_old\bowerbird\views\appView.js" />
-    <Content Include="js\_old\bowerbird\views\avatarItemView.js" />
-    <Content Include="js\_old\bowerbird\views\chatView.js" />
-    <Content Include="js\_old\bowerbird\views\notificationItemView.js" />
-    <Content Include="js\_old\bowerbird\views\notificationsView.js" />
-    <Content Include="js\_old\bowerbird\views\editAvatarView.js" />
-    <Content Include="js\_old\bowerbird\views\organisationCreateFormView.js" />
-    <Content Include="js\_old\bowerbird\views\teamCreateFormView.js" />
-    <Content Include="js\_old\bowerbird\views\editMediaView.js" />
-    <Content Include="js\_old\bowerbird\views\editMapView.js" />
-    <Content Include="js\_old\bowerbird\views\mediaResourceItemView.js" />
-    <Content Include="js\_old\bowerbird\views\observationCreateFormView.js" />
-    <Content Include="js\_old\bowerbird\views\sidebarView.js" />
-    <Content Include="js\_old\bowerbird\views\sidebarItemView.js" />
-    <Content Include="js\_old\bowerbird\views\streamListView.js" />
-    <Content Include="js\_old\bowerbird\views\streamListItemView.js" />
-    <Content Include="js\_old\bowerbird\views\streamView.js" />
-    <Content Include="js\_old\bowerbird\views\userOnlineView.js" />
-    <Content Include="js\_old\bowerbird\views\userView.js" />
-    <Content Include="js\_old\libs\bootstrap-datepicker.js" />
-    <Content Include="js\_old\libs\backbone.js" />
-    <Content Include="js\_old\libs\date-min.js" />
-    <Content Include="js\_old\libs\iscroll.js" />
-    <Content Include="js\_old\libs\iCanHaz.js" />
-    <Content Include="js\_old\libs\jquery-1.7.1.min.js" />
-    <Content Include="js\_old\libs\jquery-ui-1.8.18.custom.min.js" />
-    <Content Include="js\_old\libs\jquery.fileupload.js" />
-    <Content Include="js\_old\libs\jquery.iframe-transport.js" />
-    <Content Include="js\_old\libs\jquery.multiSelect.js" />
-    <Content Include="js\_old\libs\jquery.signalR.js" />
-    <Content Include="js\_old\libs\jquery.signalR.min.js" />
-    <Content Include="js\_old\libs\jquery.tmpl.js" />
-    <Content Include="js\_old\libs\json2.js" />
-    <Content Include="js\_old\libs\load-image.js" />
-    <Content Include="js\_old\libs\log.js" />
     <None Include="test\index.html" />
     <None Include="test\qunit\qunit.css" />
     <None Include="test\qunit\qunit.js" />
     <None Include="test\tests.js" />
-    <Content Include="js\_old\libs\underscore-min.js" />
     <Content Include="Lib\SquishIt\AjaxMin.dll" />
     <Content Include="Lib\SquishIt\dotless.Core.dll" />
     <Content Include="Lib\SquishIt\EcmaScript.NET.modified.dll" />
     <Content Include="Lib\SquishIt\SquishIt.Framework.dll" />
     <Content Include="Lib\SquishIt\SquishIt.Mvc.dll" />
     <Content Include="Lib\SquishIt\Yahoo.Yui.Compressor.dll" />
-    <None Include="Views\Shared\Error.mustache">
+    <Content Include="Views\Shared\Error.mustache">
       <SubType>Code</SubType>
-    </None>
-    <None Include="Views\Shared\OrganisationList.mustache" />
+    </Content>
+    <Content Include="Views\Shared\OrganisationList.mustache" />
     <Content Include="Web.Test.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -438,51 +362,51 @@
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
     </Content>
-    <None Include="Views\Shared\_Layout.mustache">
+    <Content Include="Views\Shared\_Layout.mustache">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="Views\Species\Create.mustache" />
-    <None Include="Views\Species\Delete.mustache" />
-    <None Include="Views\Species\Index.mustache" />
-    <None Include="Views\Species\List.mustache" />
-    <None Include="Views\Teams\Create.mustache" />
-    <None Include="Views\Teams\Delete.mustache" />
-    <None Include="Views\Teams\Index.mustache" />
-    <None Include="Views\Organisations\Index.mustache" />
-    <None Include="Views\Shared\AvatarChooseFile.mustache" />
-    <None Include="Views\Shared\AvatarUploaded.mustache" />
-    <None Include="Views\Shared\AvatarUploader.mustache" />
-    <None Include="Views\Shared\ChatMessage.mustache" />
-    <None Include="Views\Shared\ChatUsers.mustache" />
-    <None Include="Views\Shared\ChatWindow.mustache">
+    </Content>
+    <Content Include="Views\Species\Create.mustache" />
+    <Content Include="Views\Species\Delete.mustache" />
+    <Content Include="Views\Species\Index.mustache" />
+    <Content Include="Views\Species\List.mustache" />
+    <Content Include="Views\Teams\Create.mustache" />
+    <Content Include="Views\Teams\Delete.mustache" />
+    <Content Include="Views\Teams\Index.mustache" />
+    <Content Include="Views\Organisations\Index.mustache" />
+    <Content Include="Views\Shared\AvatarChooseFile.mustache" />
+    <Content Include="Views\Shared\AvatarUploaded.mustache" />
+    <Content Include="Views\Shared\AvatarUploader.mustache" />
+    <Content Include="Views\Shared\ChatMessage.mustache" />
+    <Content Include="Views\Shared\ChatUsers.mustache" />
+    <Content Include="Views\Shared\ChatWindow.mustache">
       <SubType>Code</SubType>
-    </None>
-    <None Include="Views\Shared\Notifications.mustache" />
-    <None Include="Views\Shared\NotificationItem.mustache" />
-    <None Include="Views\Shared\ObservationForm.mustache">
+    </Content>
+    <Content Include="Views\Shared\Notifications.mustache" />
+    <Content Include="Views\Shared\NotificationItem.mustache" />
+    <Content Include="Views\Shared\ObservationForm.mustache">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="Views\Shared\ObservationMediaResourceUploaded.mustache" />
-    <None Include="Views\Shared\ObservationStreamItem.mustache" />
-    <None Include="Views\Shared\OrganisationForm.mustache">
+    </Content>
+    <Content Include="Views\Shared\ObservationMediaResourceUploaded.mustache" />
+    <Content Include="Views\Shared\ObservationStreamItem.mustache" />
+    <Content Include="Views\Shared\OrganisationForm.mustache">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="Views\Shared\ProjectForm.mustache">
+    </Content>
+    <Content Include="Views\Shared\ProjectForm.mustache">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="Views\Shared\Sidebar.mustache" />
-    <None Include="Views\Shared\SidebarProjectItem.mustache">
+    </Content>
+    <Content Include="Views\Shared\Sidebar.mustache" />
+    <Content Include="Views\Shared\SidebarProjectItem.mustache">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="Views\Shared\Stream.mustache" />
-    <None Include="Views\Shared\StreamListLoading.mustache" />
-    <None Include="Views\Shared\StreamLoadMore.mustache" />
-    <None Include="Views\Shared\TeamForm.mustache">
+    </Content>
+    <Content Include="Views\Shared\Stream.mustache" />
+    <Content Include="Views\Shared\StreamListLoading.mustache" />
+    <Content Include="Views\Shared\StreamLoadMore.mustache" />
+    <Content Include="Views\Shared\TeamForm.mustache">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="Views\Shared\UserItem.mustache" />
-    <None Include="Views\Shared\UsersOnlineList.mustache" />
-    <None Include="Views\Teams\List.mustache" />
+    </Content>
+    <Content Include="Views\Shared\UserItem.mustache" />
+    <Content Include="Views\Shared\UsersOnlineList.mustache" />
+    <Content Include="Views\Teams\List.mustache" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="404.html" />
@@ -546,9 +470,6 @@
   </ItemGroup>
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <PropertyGroup>
-    <PostBuildEvent>node $(ProjectDir)\js\build\r.js -o $(ProjectDir)\js\build\app.build.js optimize=none out=..\js\main-min-verbose.js
-node $(ProjectDir)\js\build\r.js -o $(ProjectDir)\js\build\app.build.js optimize=uglify out=..\js\main-min.js
-
-</PostBuildEvent>
+    <PostBuildEvent>call "$(SolutionDir)javascript-combine.bat" $(ConfigurationName) $(ProjectDir)</PostBuildEvent>
   </PropertyGroup>
 </Project>

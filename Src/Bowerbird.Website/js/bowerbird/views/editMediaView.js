@@ -73,7 +73,11 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/mediaresource', 'view
             );
 
             if (!tempImage) {
-                alert('No support for file/blob API!');
+                //alert('No support for file/blob API!');
+                //mediaResourceItemView.showMediaPlaceHolder();
+                $(mediaResourceItemView.el).width(280);
+                self.filesAdded++;
+                this._showMediaResourceItemView(this, mediaResourceItemView, 280, self.filesAdded === data.originalFiles.length);
             }
 
             data.submit();
@@ -81,7 +85,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/mediaresource', 'view
 
         _showMediaResourceItemView: function (self, mediaResourceItemView, imageWidth, beginAnimation) {
             log('ediMediaView:_showMediaResourceItemView');
-            $('#media-resource-items')
+            self.$el.find('#media-resource-items')
                 .queue('mediaQueue', function (next) {
                     self.$el.find('#media-resource-add-pane')
                         .animate(
@@ -115,8 +119,9 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/mediaresource', 'view
                 });
 
             if (beginAnimation) {
+                log('beginnning animation');
                 self.filesAdded = 0;
-                $('#media-resource-items').dequeue('mediaQueue');
+                self.$el.find('#media-resource-items').dequeue('mediaQueue');
             }
         },
 

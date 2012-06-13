@@ -75,9 +75,7 @@ namespace Bowerbird.Web.Controllers
                         });
                 }
 
-                #if JS_COMBINE_VERBOSE
-                    ViewBag.JavascriptSource = "main-min-verbose.js";
-                #elif JS_COMBINE_MINIFY
+                #if JS_COMBINE_MINIFY || JS_COMBINE_VERBOSE
                     ViewBag.JavascriptSource = "main-min.js";
                 #else 
                     ViewBag.JavascriptSource = "bowerbird/main.js";

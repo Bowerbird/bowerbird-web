@@ -16,7 +16,7 @@ namespace Bowerbird.Core.Services
 {
     public interface INotificationService : IService
     {
-        void SendActivity(Activity activity);
+        void SendActivity(dynamic activity);
 
         void SendUserStatusUpdate(object userStatus);
     }

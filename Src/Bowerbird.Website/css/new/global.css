@@ -658,6 +658,7 @@ h1
 .form .avatar-uploaded div:first-child img
 {
     height: 220px;
+    width: 220px;
 }
 .form .media-resource-uploaded div:last-child,
 .form .avatar-uploaded div:last-child

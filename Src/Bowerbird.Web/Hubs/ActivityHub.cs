@@ -49,10 +49,10 @@ namespace Bowerbird.Web.Hubs
 
         #region Methods
 
-        public void NewActivity(object activity)
-        {
-            Clients.newActivity(activity);
-        }
+        //public void NewActivity(object activity)
+        //{
+        //    Clients.newActivity(activity);
+        //}
 
         public void RegisterUserClient(string userId)
         {

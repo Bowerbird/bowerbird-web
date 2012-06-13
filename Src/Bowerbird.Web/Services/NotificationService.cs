@@ -30,12 +30,12 @@ namespace Bowerbird.Web.Services
 
         #region Constructors
 
-        public NotificationService()
+        public NotificationService(
+            IHubContext hubContext)
         {
-            //Check.RequireNotNull(hubContext, "hubContext");
+            Check.RequireNotNull(hubContext, "hubContext");
 
-            //_hubContext = hubContext;
-            _hubContext = GlobalHost.ConnectionManager.GetHubContext<ActivityHub>();
+            _hubContext = hubContext;
         }
 
         #endregion
@@ -46,9 +46,12 @@ namespace Bowerbird.Web.Services
 
         #region Methods
 
-        public void SendActivity(Activity activity)
+        public void SendActivity(dynamic activity)
         {
-            _hubContext.Clients.newActivity(activity);
+            foreach(var group in activity.Groups)
+            {
+                _hubContext.Clients["stream-" + group.Id].newActivity(activity);
+            }
         }
 
         public void SendUserStatusUpdate(object userStatus)

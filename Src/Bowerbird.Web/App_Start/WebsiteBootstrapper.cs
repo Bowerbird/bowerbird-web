@@ -14,7 +14,6 @@
 
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.Events;
-using NinjectBootstrapper = Ninject.Web.Common.Bootstrapper;
 using Bowerbird.Web.Config;
 using Microsoft.Practices.ServiceLocation;
 using System.Web.Mvc;
@@ -24,6 +23,7 @@ using Bowerbird.Core.CommandHandlers;
 using Nustache.Mvc;
 using Raven.Client.MvcIntegration;
 using Raven.Client;
+using SignalR;
 
 [assembly: WebActivator.PostApplicationStartMethod(typeof(Bowerbird.Web.App_Start.WebsiteBootstrapper), "PostStart")]
 
@@ -31,33 +31,15 @@ namespace Bowerbird.Web.App_Start
 {
     public static class WebsiteBootstrapper
     {
-        /// <summary>
-        /// Sets up the application ready for use
-        /// </summary>
         public static void PostStart()
         {
             ViewEngines.Engines.Clear();
 
-            //var mustacheExtensionFormats = new[]
-            //{
-            //    "~/Views/{1}/{0}.mustache",
-            //    "~/Views/Shared/{0}.mustache",
-            //    "~/Views/{1}/{0}.html",
-            //    "~/Views/Shared/{0}.html"
-            //};
+            ViewEngines.Engines.Add(new NustacheViewEngine());
 
-            ViewEngines.Engines.Add(new NustacheViewEngine()
-            {
-                //FileExtensions = mustacheExtensionFormats,
-                //MasterLocationFormats = mustacheExtensionFormats,
-                //PartialViewLocationFormats = mustacheExtensionFormats,
-                //ViewLocationFormats = mustacheExtensionFormats
-            });
+            RouteTable.Routes.MapHubs();
 
             RouteRegistrar.RegisterRoutesTo(RouteTable.Routes);
-            
-            //RouteDebug.RouteDebugger.RewriteRoutesForTesting(RouteTable.Routes);
-            //RouteMagic.
 
             ServiceLocator.Current.GetInstance<ISystemStateManager>().SetupSystem(true);
 

@@ -16,17 +16,29 @@
 
 using System.Configuration;
 using Bowerbird.Core.Config;
+using Bowerbird.Core.Services;
+using System.Web;
+using Bowerbird.Core.DesignByContract;
 
-namespace Bowerbird.Core.Services
+namespace Bowerbird.Web.Config
 {
     public class ConfigService : IConfigService
     {
             
         #region Members
 
+        private readonly HttpContextBase _httpContext;
+
         #endregion
 
         #region Constructors
+
+        public ConfigService(HttpContextBase httpContext)
+        {
+            Check.RequireNotNull(httpContext, "httpContext");
+
+            _httpContext = httpContext;
+        }
 
         #endregion
 
@@ -38,7 +50,14 @@ namespace Bowerbird.Core.Services
 
         public string GetEnvironmentRootPath()
         {
-            return ((BowerbirdEnvironmentConfigurationSection)ConfigurationManager.GetSection("bowerbird/environment")).RootPath;
+            string path = _httpContext.Server.MapPath("/");
+
+            if (path.EndsWith("\\bin\\Debug"))
+            {
+                path = path.Replace("\\bin\\Debug", string.Empty);
+            }
+
+            return path;
         }
 
         public string GetEnvironmentRootUri()
