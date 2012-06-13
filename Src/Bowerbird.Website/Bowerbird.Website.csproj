@@ -227,8 +227,6 @@
     <Content Include="js\libs\require\goog.js" />
     <Content Include="js\libs\require\noext.js" />
     <Content Include="js\libs\require\propertyparser.js" />
-    <Content Include="js\main-min-verbose.js" />
-    <Content Include="js\main-min.js" />
     <Content Include="js\_old\bowerbird\views\projectCreateFormView.js" />
     <Content Include="js\_old\libs\backbone.marionette.js" />
     <Content Include="js\_old\bowerbird\views\exploreItemView.js" />
