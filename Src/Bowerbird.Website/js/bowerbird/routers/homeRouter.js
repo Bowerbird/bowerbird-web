@@ -8,20 +8,20 @@
 // HomeRouter
 // ----------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'controllers/homecontroller'], function ($, _, Backbone, app, HomeController) {
+//define(['jquery', 'underscore', 'backbone', 'app', 'controllers/homecontroller'], function ($, _, Backbone, app, HomeController) {
 
-    var HomeRouter = Backbone.Marionette.AppRouter.extend({
-        appRoutes: {
-            '': 'showHomeStream'
-        }
-    });
+//    var HomeRouter = Backbone.Marionette.AppRouter.extend({
+//        appRoutes: {
+//            '': 'showHomeStream'
+//        }
+//    });
 
-    app.addInitializer(function () {
-        this.homeRouter = new HomeRouter({
-            controller: HomeController
-        });
-    });
+//    app.addInitializer(function () {
+//        this.homeRouter = new HomeRouter({
+//            controller: HomeController
+//        });
+//    });
 
-    return HomeRouter;
+//    return HomeRouter;
 
-});
+//});

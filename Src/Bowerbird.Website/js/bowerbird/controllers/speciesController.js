@@ -7,12 +7,30 @@
 
 // SpeciesController
 // ----------------------
-
-// This is the controller contributions (observations & posts). It contains all of the 
-// high level knowledge of how to run the app when it's in contribution mode.
-define(['jquery', 'underscore', 'backbone', 'app', 'models/species', 'views/speciesformitemview'], function ($, _, Backbone, app, Species, SpeciesFormItemView) {
-
+define(['jquery', 'underscore', 'backbone', 'app', 'models/species', 'views/speciesformitemview'],
+function ($, _, Backbone, app, Species, SpeciesFormItemView) 
+{
     var SpeciesController = {};
+
+    var getModel = function (id) {
+        var deferred = new $.Deferred();
+
+        if (app.isPrerendering('species')) {
+            deferred.resolve(app.prerenderedView.data);
+        } else {
+            var params = {};
+            if (id) {
+                params['id'] = id;
+            }
+            $.ajax({
+                url: '/species/create',
+                data: params
+            }).done(function (data) {
+                deferred.resolve(data.Model);
+            });
+        }
+        return deferred.promise();
+    };
 
     // SpeciesController Public API
     // ---------------------------------
@@ -29,11 +47,28 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/species', 'views/spec
 
     // SpeciesController Event Handlers
     // -------------------------------------
-
     app.vent.on('species:show', function () {
         SpeciesController.showSpeciesForm();
     });
 
     return SpeciesController;
 
+});
+
+// SpeciesRouter
+// -------------
+define(['jquery','underscore','backbone','app','controllers/speciescontroller'],
+function ($, _, Backbone, app, SpeciesController) 
+{
+    var SpeciesRouter = Backbone.Marionette.AppRouter.extend({
+        appRoutes: {
+            'species/create': 'showSpeciesForm'
+        }
+    });
+
+    app.addInitializer(function () {
+        this.speciesRouter = new SpeciesRouter({
+            controller: SpeciesController
+        });
+    });
 });

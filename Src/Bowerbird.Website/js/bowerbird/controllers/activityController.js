@@ -8,8 +8,9 @@
 // ActivityController
 // ------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'models/activity'], function ($, _, Backbone, app, Activity) {
-
+define(['jquery', 'underscore', 'backbone', 'app', 'models/activity'],
+function ($, _, Backbone, app, Activity) 
+{
     var ActivityController = {};
 
     ActivityController.newActivity = function (data) {
@@ -36,4 +37,24 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/activity'], function 
 
     return ActivityController;
 
+});
+
+// ActivityRouter
+// --------------
+define(['jquery', 'underscore', 'backbone', 'app', 'controllers/activitycontroller'],
+function ($, _, Backbone, app, ActivityController) 
+{
+    var ActivityRouter = function (options) {
+        this.hub = $.connection.activityHub;
+        this.controller = options.controller;
+        this.hub.newActivity = this.controller.newActivity;
+        this.hub.userStatusUpdate = this.controller.userStatusUpdate;
+
+    };
+
+    app.addInitializer(function () {
+        this.activityRouter = new ActivityRouter({
+            controller: ActivityController
+        });
+    });
 });

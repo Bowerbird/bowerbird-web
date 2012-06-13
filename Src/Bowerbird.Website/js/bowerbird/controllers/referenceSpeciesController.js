@@ -8,10 +8,9 @@
 // ReferenceSpeciesController
 // ----------------------
 
-// This is the controller contributions (observations & posts). It contains all of the 
-// high level knowledge of how to run the app when it's in contribution mode.
-define(['jquery', 'underscore', 'backbone', 'app', 'models/referencespecies', 'views/referencespeciesformlayoutview'], function ($, _, Backbone, app, ReferenceSpecies, ReferenceSpeciesFormLayoutView) {
-
+define(['jquery','underscore','backbone','app','models/referencespecies','views/referencespeciesformlayoutview'],
+function ($,_,Backbone,app,ReferenceSpecies,ReferenceSpeciesFormLayoutView) 
+{
     var ReferenceSpeciesController = {};
 
     // ReferenceSpeciesController Public API
@@ -36,4 +35,22 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/referencespecies', 'v
 
     return ReferenceSpeciesController;
 
+});
+
+// ReferenceSpeciesRouter
+// ------------------
+define(['jquery','underscore','backbone','app','controllers/referencespeciescontroller'],
+function ($,_,Backbone,app,ReferenceSpeciesController)
+{
+    var ReferenceSpeciesRouter = Backbone.Marionette.AppRouter.extend({
+        appRoutes: {
+            'referencespecies/create': 'showReferenceSpeciesForm'
+        }
+    });
+
+    app.addInitializer(function () {
+        this.referenceSpeciesRouter = new ReferenceSpeciesRouter({
+            controller: ReferenceSpeciesController
+        });
+    });
 });

@@ -8,19 +8,19 @@
 // ReferenceSpeciesRouter
 // ------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'controllers/referencespeciescontroller'], function ($, _, Backbone, app, ReferenceSpeciesController) {
+//define(['jquery', 'underscore', 'backbone', 'app', 'controllers/referencespeciescontroller'], function ($, _, Backbone, app, ReferenceSpeciesController) {
 
-    var ReferenceSpeciesRouter = Backbone.Marionette.AppRouter.extend({
-        appRoutes: {
-            'referencespecies/create': 'showReferenceSpeciesForm'
-        }
-    });
+//    var ReferenceSpeciesRouter = Backbone.Marionette.AppRouter.extend({
+//        appRoutes: {
+//            'referencespecies/create': 'showReferenceSpeciesForm'
+//        }
+//    });
 
-    app.addInitializer(function () {
-        this.referenceSpeciesRouter = new ReferenceSpeciesRouter({
-            controller: ReferenceSpeciesController
-        });
-    });
+//    app.addInitializer(function () {
+//        this.referenceSpeciesRouter = new ReferenceSpeciesRouter({
+//            controller: ReferenceSpeciesController
+//        });
+//    });
 
-    return ReferenceSpeciesRouter;
-});
+//    return ReferenceSpeciesRouter;
+//});

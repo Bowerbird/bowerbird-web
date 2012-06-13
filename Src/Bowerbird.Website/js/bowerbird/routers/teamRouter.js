@@ -8,19 +8,19 @@
 // TeamRouter
 // ------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'controllers/teamcontroller'], function ($, _, Backbone, app, TeamController) {
+//define(['jquery', 'underscore', 'backbone', 'app', 'controllers/teamcontroller'], function ($, _, Backbone, app, TeamController) {
 
-    var TeamRouter = Backbone.Marionette.AppRouter.extend({
-        appRoutes: {
-            'teams/create': 'showTeamForm'
-        }
-    });
+//    var TeamRouter = Backbone.Marionette.AppRouter.extend({
+//        appRoutes: {
+//            'teams/create': 'showTeamForm'
+//        }
+//    });
 
-    app.addInitializer(function () {
-        this.teamRouter = new TeamRouter({
-            controller: TeamController
-        });
-    });
+//    app.addInitializer(function () {
+//        this.teamRouter = new TeamRouter({
+//            controller: TeamController
+//        });
+//    });
 
-    return TeamRouter;
-});
+//    return TeamRouter;
+//});

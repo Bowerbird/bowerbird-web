@@ -8,21 +8,21 @@
 // PostRouter
 // ----------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'controllers/postcontroller'], function ($, _, Backbone, app, PostController) {
+//define(['jquery', 'underscore', 'backbone', 'app', 'controllers/postcontroller'], function ($, _, Backbone, app, PostController) {
 
-    var PostRouter = Backbone.Marionette.AppRouter.extend({
-        appRoutes: {
-            'posts/create': 'showPostForm',
-            'posts/:id/update': 'showPostForm'
-        }
-    });
+//    var PostRouter = Backbone.Marionette.AppRouter.extend({
+//        appRoutes: {
+//            'posts/create': 'showPostForm',
+//            'posts/:id/update': 'showPostForm'
+//        }
+//    });
 
-    app.addInitializer(function () {
-        this.postRouter = new PostRouter({
-            controller: PostController
-        });
-    });
+//    app.addInitializer(function () {
+//        this.postRouter = new PostRouter({
+//            controller: PostController
+//        });
+//    });
 
-    return PostRouter;
+//    return PostRouter;
 
-});
+//});

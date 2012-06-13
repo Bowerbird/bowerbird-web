@@ -8,27 +8,27 @@
 // ActivityRouter
 // --------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'controllers/activitycontroller'], function ($, _, Backbone, app, ActivityController) {
+//define(['jquery', 'underscore', 'backbone', 'app', 'controllers/activitycontroller'], function ($, _, Backbone, app, ActivityController) {
 
-    var ActivityRouter = function (options) {
-        this.hub = $.connection.activityHub;
-        this.controller = options.controller;
-        this.hub.newActivity = this.controller.newActivity;
-        this.hub.userStatusUpdate = this.controller.userStatusUpdate;
+//    var ActivityRouter = function (options) {
+//        this.hub = $.connection.activityHub;
+//        this.controller = options.controller;
+//        this.hub.newActivity = this.controller.newActivity;
+//        this.hub.userStatusUpdate = this.controller.userStatusUpdate;
 
-//        var self = this;
-//        var method = _.bind(this.controller.userStatusUpdate, this.controller);
-//        this.hub.userStatusUpdate = function (result) {
-//            method.call(self.controller, result);
-//        };
-    };
+////        var self = this;
+////        var method = _.bind(this.controller.userStatusUpdate, this.controller);
+////        this.hub.userStatusUpdate = function (result) {
+////            method.call(self.controller, result);
+////        };
+//    };
 
-    app.addInitializer(function () {
-        this.activityRouter = new ActivityRouter({
-            controller: ActivityController
-        });
-    });
+//    app.addInitializer(function () {
+//        this.activityRouter = new ActivityRouter({
+//            controller: ActivityController
+//        });
+//    });
 
-    return ActivityRouter;
+//    return ActivityRouter;
 
-});
+//});

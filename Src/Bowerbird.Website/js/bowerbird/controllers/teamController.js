@@ -7,11 +7,9 @@
 
 // TeamController
 // ----------------------
-
-// This is the controller contributions (observations & posts). It contains all of the 
-// high level knowledge of how to run the app when it's in contribution mode.
-define(['jquery', 'underscore', 'backbone', 'app', 'models/team', 'views/teamformlayoutview'], function ($, _, Backbone, app, Team, TeamFormLayoutView) {
-
+define(['jquery','underscore','backbone','app','models/team','views/teamformlayoutview'],
+function ($,_,Backbone,app,Team,TeamFormLayoutView) 
+{
     var TeamController = {};
 
     var getModel = function (id) {
@@ -56,5 +54,22 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/team', 'views/teamfor
     };
 
     return TeamController;
+});
 
+// TeamRouter
+// ------------------
+define(['jquery','underscore','backbone','app','controllers/teamcontroller'],
+function ($,_,Backbone,app,TeamController) 
+{
+    var TeamRouter = Backbone.Marionette.AppRouter.extend({
+        appRoutes: {
+            'teams/create': 'showTeamForm'
+        }
+    });
+
+    app.addInitializer(function () {
+        this.teamRouter = new TeamRouter({
+            controller: TeamController
+        });
+    });
 });

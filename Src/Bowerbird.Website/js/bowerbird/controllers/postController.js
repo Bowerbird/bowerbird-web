@@ -8,10 +8,9 @@
 // PostController
 // --------------
 
-// This is the controller contributions (observations & posts). It contains all of the 
-// high level knowledge of how to run the app when it's in contribution mode.
-define(['jquery', 'underscore', 'backbone', 'app', 'views/postformlayoutview', 'models/post'], function ($, _, Backbone, app, PostFormLayoutView, Post) {
-
+define(['jquery', 'underscore', 'backbone', 'app', 'views/postformlayoutview', 'models/post'],
+function ($, _, Backbone, app, PostFormLayoutView, Post) 
+{
     var PostController = {};
 
     var getModel = function (id) {
@@ -60,37 +59,21 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/postformlayoutview', '
 
 });
 
-//// ProjectController
-//// ----------------------
+// PostRouter
+// ----------
+define(['jquery', 'underscore', 'backbone', 'app', 'controllers/postcontroller'],
+function ($, _, Backbone, app, PostController) 
+{
+    var PostRouter = Backbone.Marionette.AppRouter.extend({
+        appRoutes: {
+            'posts/create': 'showPostForm',
+            'posts/:id/update': 'showPostForm'
+        }
+    });
 
-//// This is the controller contributions (observations & posts). It contains all of the 
-//// high level knowledge of how to run the app when it's in contribution mode.
-//define(['jquery', 'underscore', 'backbone', 'app', 'models/project', 'views/projectformlayoutview'], function ($, _, Backbone, app, Project, ProjectFormLayoutView) {
-
-//    var ProjectController = {};
-
-//    // ProjectController Public API
-//    // ---------------------------------
-
-//    // Show a project
-//    ProjectController.showProjectForm = function () {
-
-//        var projectFormLayoutView = new ProjectFormLayoutView({ el: $('.project-create-form'), model: new Project(app.prerenderedView.Project) });
-//        var editAvatarView = new EditAvatarView({ el: '#avatar-add-pane'});
-
-//        projectFormLayoutView.render();
-//        projectFormLayoutView.avatar.show(editAvatarView);
-
-//        app.prerenderedView.isBound = true;
-//    };
-
-//    // ProjectController Event Handlers
-//    // -------------------------------------
-
-//    app.vent.on('project:show', function () {
-//        ProjectController.showProjectForm();
-//    });
-
-//    return ProjectController;
-
-//});
+    app.addInitializer(function () {
+        this.postRouter = new PostRouter({
+            controller: PostController
+        });
+    });
+});

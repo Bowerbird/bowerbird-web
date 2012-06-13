@@ -206,8 +206,13 @@ namespace Bowerbird.Web.Controllers
         public ActionResult Explore(PagingInput pagingInput)
         {
             Check.RequireNotNull(pagingInput, "pagingInput");
-            
+
             ViewBag.Projects = _projectsViewModelBuilder.BuildProjectList(pagingInput);
+
+            if (Request.IsAjaxRequest())
+            {
+                return new JsonNetResult(new { Model = ViewBag.Model });
+            }
 
             return View(Form.List);
         }
@@ -247,7 +252,7 @@ namespace Bowerbird.Web.Controllers
                 Teams = GetTeams(_userContext.GetAuthenticatedUserId())
             };
 
-            if(Request.IsAjaxRequest())
+            if (Request.IsAjaxRequest())
             {
                 return new JsonNetResult(new { Model = ViewBag.Model });
             }
@@ -322,7 +327,7 @@ namespace Bowerbird.Web.Controllers
                     UserId = _userContext.GetAuthenticatedUserId(),
                     GroupId = projectId,
                     CreatedByUserId = _userContext.GetAuthenticatedUserId(),
-                    Roles = new []{ RoleNames.ProjectMember }
+                    Roles = new[] { RoleNames.ProjectMember }
                 });
 
             return JsonSuccess();
@@ -392,7 +397,7 @@ namespace Bowerbird.Web.Controllers
         [Transaction]
         [Authorize]
         [HttpPut]
-        public ActionResult Update(ProjectUpdateInput updateInput) 
+        public ActionResult Update(ProjectUpdateInput updateInput)
         {
             if (!_userContext.HasGroupPermission<Project>(PermissionNames.UpdateProject, updateInput.ProjectId))
             {
@@ -403,7 +408,7 @@ namespace Bowerbird.Web.Controllers
             {
                 return JsonFailed();
             }
-            
+
             _commandProcessor.Process(
                 new ProjectUpdateCommand()
                 {

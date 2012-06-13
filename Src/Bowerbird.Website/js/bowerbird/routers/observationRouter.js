@@ -8,21 +8,21 @@
 // ObservationRouter
 // -----------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'controllers/observationcontroller'], function ($, _, Backbone, app, ObservationController) {
+//define(['jquery', 'underscore', 'backbone', 'app', 'controllers/observationcontroller'], function ($, _, Backbone, app, ObservationController) {
 
-    var ObservationRouter = Backbone.Marionette.AppRouter.extend({
-        appRoutes: {
-            'observations/create': 'showObservationForm',
-            'observations/:id/update': 'showObservationForm'
-        }
-    });
+//    var ObservationRouter = Backbone.Marionette.AppRouter.extend({
+//        appRoutes: {
+//            'observations/create': 'showObservationForm',
+//            'observations/:id/update': 'showObservationForm'
+//        }
+//    });
 
-    app.addInitializer(function () {
-        this.observationRouter = new ObservationRouter({
-            controller: ObservationController
-        });
-    });
+//    app.addInitializer(function () {
+//        this.observationRouter = new ObservationRouter({
+//            controller: ObservationController
+//        });
+//    });
 
-    return ObservationRouter;
+//    return ObservationRouter;
 
-});
+//});

@@ -7,11 +7,9 @@
 
 // OrganisationController
 // ----------------------
-
-// This is the controller contributions (observations & posts). It contains all of the 
-// high level knowledge of how to run the app when it's in contribution mode.
-define(['jquery', 'underscore', 'backbone', 'app', 'models/team', 'views/organisationformlayoutview'], function ($, _, Backbone, app, Organisation, OrganisationFormLayoutView) {
-
+define(['jquery','underscore','backbone','app','models/team','views/organisationformlayoutview'],
+function ($,_,Backbone,app,Organisation,OrganisationFormLayoutView) 
+{
     var OrganisationController = {};
 
     var getModel = function (id) {
@@ -57,4 +55,22 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/team', 'views/organis
 
     return OrganisationController;
 
+});
+
+// OrganisationRouter
+// ------------------
+define(['jquery', 'underscore', 'backbone', 'app', 'controllers/organisationcontroller'],
+function ($, _, Backbone, app, OrganisationController) 
+{
+    var OrganisationRouter = Backbone.Marionette.AppRouter.extend({
+        appRoutes: {
+            'organisations/create': 'showOrganisationForm'
+        }
+    });
+
+    app.addInitializer(function () {
+        this.organisationRouter = new OrganisationRouter({
+            controller: OrganisationController
+        });
+    });
 });

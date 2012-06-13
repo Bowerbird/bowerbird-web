@@ -23,10 +23,23 @@ define([
 'collections/teamcollection',
 'collections/organisationcollection',
 'collections/activitycollection',
+'collections/exploreprojectcollection',
 'marionette'
 ],
-function ($, _, Backbone, signalr, bootstrapData, User, UserCollection, ProjectCollection, TeamCollection, OrganisationCollection, ActivityCollection) {
-
+function (
+$,
+_,
+Backbone,
+signalr,
+bootstrapData,
+User,
+UserCollection,
+ProjectCollection,
+TeamCollection,
+OrganisationCollection,
+ActivityCollection,
+ExploreProjectCollection) 
+{
     // Create an instance of the app
     var app = new Backbone.Marionette.Application();
 
@@ -56,7 +69,7 @@ function ($, _, Backbone, signalr, bootstrapData, User, UserCollection, ProjectC
         };
 
         app.vent.on('newactivity:groupadded', function (activity) {
-            log('ssssssssssssssssssssssssssss');
+            log('newactivity:groupadded');
             var group = activity.get('GroupAdded').Group;
             if (group.GroupType === 'project') {
                 app.authenticatedUser.projects.add(group);

@@ -8,19 +8,19 @@
 // SpeciesRouter
 // ------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'controllers/speciescontroller'], function ($, _, Backbone, app, SpeciesController) {
+//define(['jquery', 'underscore', 'backbone', 'app', 'controllers/speciescontroller'], function ($, _, Backbone, app, SpeciesController) {
 
-    var SpeciesRouter = Backbone.Marionette.AppRouter.extend({
-        appRoutes: {
-            'species/create': 'showSpeciesForm'
-        }
-    });
+//    var SpeciesRouter = Backbone.Marionette.AppRouter.extend({
+//        appRoutes: {
+//            'species/create': 'showSpeciesForm'
+//        }
+//    });
 
-    app.addInitializer(function () {
-        this.speciesRouter = new SpeciesRouter({
-            controller: SpeciesController
-        });
-    });
+//    app.addInitializer(function () {
+//        this.speciesRouter = new SpeciesRouter({
+//            controller: SpeciesController
+//        });
+//    });
 
-    return SpeciesRouter;
-});
+//    return SpeciesRouter;
+//});

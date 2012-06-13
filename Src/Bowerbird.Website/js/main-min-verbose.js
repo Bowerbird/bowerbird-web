@@ -13389,7 +13389,9 @@ require.config({
         fileupload: '../libs/jquery.fileupload/jquery.fileupload',
         signalr: '../libs/jquery.signalr/jquery.signalr',
         timeago: '../libs/jquery.timeago/jquery.timeago'
-    },
+    }
+    // COMMENT THIS OUT FOR VERBOSE DEBUG VERSION
+    ,
     priority: [
         'ich',
         'jquery', 
@@ -13399,24 +13401,26 @@ require.config({
         'marionette',
         'signalr',
         // Routers are the first port of call, so load em up
-        'routers/homerouter',
-        'routers/groupuserrouter',
-        'routers/observationrouter',
-        'routers/projectrouter',
-        'routers/postrouter',
-        'routers/teamrouter',
-        'routers/organisationrouter',
-        'routers/speciesrouter',
-        'routers/referencespeciesrouter',
-        'routers/activityrouter',
+        'controllers/activitycontroller',
+        'controllers/groupusercontroller',
+        'controllers/homecontroller',
+        'controllers/observationcontroller',
+        'controllers/organisationcontroller',
+        'controllers/postcontroller',
+        'controllers/projectcontroller',
+        'controllers/referencespeciescontroller',
+        'controllers/speciescontroller',
+        'controllers/teamcontroller',
         // Load top level views, beacuse no one else is gonna do it
         'views/headerview',
         'views/footerview',
         'views/sidebarlayoutview',
+        'views/notificationscompositeview',
         'views/homelayoutview',
         'views/projectlayoutview',
         'views/observationlayoutview',
-        'views/onlineuserscompositeview'
+        'views/onlineuserscompositeview',
+        'views/exploreprojectview'
     ]
 });
 
@@ -14911,8 +14915,8 @@ define('models/project',['jquery', 'underscore', 'backbone', 'app'], function ($
             Description: '',
             Website: '',
             Avatar: null,
-            Team: null
-            //Type: 'Project'
+            Team: null,
+            Type: 'Project'
         },
 
         idAttribute: 'Id',
@@ -15125,6 +15129,147 @@ define('collections/organisationcollection',['jquery', 'underscore', 'backbone',
     return OrganisationCollection;
 
 });
+/// <reference path="../../libs/log.js" />
+/// <reference path="../../libs/require/require.js" />
+/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
+/// <reference path="../../libs/underscore/underscore.js" />
+/// <reference path="../../libs/backbone/backbone.js" />
+/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
+
+// Activity
+// --------
+
+define('models/activity',['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
+
+    var Activity = Backbone.Model.extend({
+        idAttribute: 'Id'
+    });
+
+    return Activity;
+
+});
+/// <reference path="../../libs/log.js" />
+/// <reference path="../../libs/require/require.js" />
+/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
+/// <reference path="../../libs/underscore/underscore.js" />
+/// <reference path="../../libs/backbone/backbone.js" />
+/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
+
+// ActivityCollection
+// ------------------
+
+define('collections/activitycollection',['jquery', 'underscore', 'backbone', 'app', 'models/activity'], function ($, _, Backbone, app, Activity) {
+
+    var ActivityCollection = Backbone.Collection.extend({
+        model: Activity,
+
+        initialize: function () {
+            _.extend(this, Backbone.Events);
+        }
+    });
+
+    return ActivityCollection;
+
+});
+/// <reference path="../../libs/log.js" />
+/// <reference path="../../libs/require/require.js" />
+/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
+/// <reference path="../../libs/underscore/underscore.js" />
+/// <reference path="../../libs/backbone/backbone.js" />
+/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
+
+// PaginatedCollection
+// -------------------
+
+// Base of paginated collections
+define('collections/paginatedcollection',['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, app) {
+
+    var PaginatedCollection = Backbone.Collection.extend({
+        initialize: function () {
+            _.extend(this, Backbone.Events);
+            typeof (options) != 'undefined' || (options = {});
+            this.page = 1;
+            typeof (this.pageSize) != 'undefined' || (this.pageSize = 10);
+        },
+
+        fetch: function (options) {
+            typeof (options) != 'undefined' || (options = {});
+            this.trigger("fetching", this);
+            var self = this;
+            var success = options.success;
+            options.success = function (resp) {
+                self.trigger("fetched", self);
+                if (success) { success(self, resp); }
+            };
+            return Backbone.Collection.prototype.fetch.call(this, options);
+        },
+
+        parse: function (resp) {
+            this.page = resp.Model.Page;
+            this.pageSize = resp.Model.PageSize;
+            this.total = resp.Model.TotalResultCount;
+            return resp.Model.PagedListItems;
+        },
+
+        url: function () {
+            return this.baseUrl + '?' + $.param({ page: this.page, pageSize: this.pageSize });
+        },
+
+        pageInfo: function () {
+            var info = {
+                total: this.total,
+                page: this.page,
+                pageSize: this.pageSize,
+                pages: Math.ceil(this.total / this.pageSize),
+                prev: false,
+                next: false
+            };
+
+            var max = Math.min(this.total, this.page * this.pageSize);
+
+            if (this.total == this.pages * this.pageSize) {
+                max = this.total;
+            }
+
+            info.range = [(this.page - 1) * this.pageSize + 1, max];
+
+            if (this.page > 1) {
+                info.prev = this.page - 1;
+            }
+
+            if (this.page < info.pages) {
+                info.next = this.page + 1;
+            }
+
+            return info;
+        },
+
+        firstPage: function (options) {
+            this.page = 1;
+            return this.fetch(options);
+        },
+
+        nextPage: function (options) {
+            if (!this.pageInfo().next) {
+                return false;
+            }
+            this.page = this.page + 1;
+            return this.fetch(options);
+        },
+
+        previousPage: function () {
+            if (!this.pageInfo().prev) {
+                return false;
+            }
+            this.page = this.page - 1;
+            return this.fetch(options);
+        }
+    });
+
+    return PaginatedCollection;
+
+});
+
 /// <reference path="../libs/log.js" />
 /// <reference path="../libs/require/require.js" />
 /// <reference path="../libs/jquery/jquery-1.7.2.js" />
@@ -15149,10 +15294,24 @@ define('app',[
 'collections/projectcollection',
 'collections/teamcollection',
 'collections/organisationcollection',
+'collections/activitycollection',
+'collections/exploreprojectcollection',
 'marionette'
 ],
-function ($, _, Backbone, signalr, bootstrapData, User, UserCollection, ProjectCollection, TeamCollection, OrganisationCollection) {
-
+function (
+$,
+_,
+Backbone,
+signalr,
+bootstrapData,
+User,
+UserCollection,
+ProjectCollection,
+TeamCollection,
+OrganisationCollection,
+ActivityCollection,
+ExploreProjectCollection) 
+{
     // Create an instance of the app
     var app = new Backbone.Marionette.Application();
 
@@ -15180,6 +15339,14 @@ function ($, _, Backbone, signalr, bootstrapData, User, UserCollection, ProjectC
                 return p === permissionId;
             });
         };
+
+        app.vent.on('newactivity:groupadded', function (activity) {
+            log('newactivity:groupadded');
+            var group = activity.get('GroupAdded').Group;
+            if (group.GroupType === 'project') {
+                app.authenticatedUser.projects.add(group);
+            }
+        }, this);
     };
 
     app.addRegions({
@@ -15211,6 +15378,18 @@ function ($, _, Backbone, signalr, bootstrapData, User, UserCollection, ProjectC
             isBound: false, // Flag used to determine if prerenderd view has been bound to the object/DOM model
             data: bootstrapData.Model
         };
+
+        app.activities = new ActivityCollection();
+
+        app.activities.on(
+            'add',
+            function (activity) {
+                this.vent.trigger('newactivity', activity);
+                this.vent.trigger('newactivity:' + activity.get('Type'), activity);
+            },
+            this);
+
+        app.contentHistory = [];
     });
 
     // Only start history once app is fully initialised
@@ -15225,7 +15404,7 @@ function ($, _, Backbone, signalr, bootstrapData, User, UserCollection, ProjectC
             $.connection.activityHub.registerUserClient(app.authenticatedUser.user.id)
                 .done(function () {
                     app.clientId = $.signalR.hub.id;
-                    log('connected as ' + app.authenticatedUser.user.id + ' with ' + this.clientId);
+                    log('connected as ' + app.authenticatedUser.user.id + ' with ' + app.clientId);
                 })
                 .fail(function (e) {
                     log(e);
@@ -15242,6 +15421,11 @@ function ($, _, Backbone, signalr, bootstrapData, User, UserCollection, ProjectC
     };
 
     app.getShowViewMethodName = function (name) {
+        if (!name) {
+            var err = new Error("A name must be provided!");
+            err.name = "BowerbirdNoViewNameProvidedError";
+            throw err;
+        }
         return app.isPrerendering(name) ? 'attachView' : 'show';
     };
 
@@ -15279,162 +15463,6 @@ function ($, _, Backbone, signalr, bootstrapData, User, UserCollection, ProjectC
 
 });
 
-define('timeago',['jquery'], function ($) {
-
-/**
- * Timeago is a jQuery plugin that makes it easy to support automatically
- * updating fuzzy timestamps (e.g. "4 minutes ago" or "about 1 day ago").
- *
- * @name timeago
- * @version 0.11.3
- * @requires jQuery v1.2.3+
- * @author Ryan McGeary
- * @license MIT License - http://www.opensource.org/licenses/mit-license.php
- *
- * For usage and examples, visit:
- * http://timeago.yarp.com/
- *
- * Copyright (c) 2008-2012, Ryan McGeary (ryan -[at]- mcgeary [*dot*] org)
- */
-(function($) {
-  $.timeago = function(timestamp) {
-    if (timestamp instanceof Date) {
-      return inWords(timestamp);
-    } else if (typeof timestamp === "string") {
-      return inWords($.timeago.parse(timestamp));
-    } else if (typeof timestamp === "number") {
-      return inWords(new Date(timestamp));
-    } else {
-      return inWords($.timeago.datetime(timestamp));
-    }
-  };
-  var $t = $.timeago;
-
-  $.extend($.timeago, {
-    settings: {
-      refreshMillis: 60000,
-      allowFuture: false,
-      strings: {
-        prefixAgo: null,
-        prefixFromNow: null,
-        suffixAgo: "ago",
-        suffixFromNow: "from now",
-        seconds: "less than a minute",
-        minute: "about a minute",
-        minutes: "%d minutes",
-        hour: "about an hour",
-        hours: "about %d hours",
-        day: "a day",
-        days: "%d days",
-        month: "about a month",
-        months: "%d months",
-        year: "about a year",
-        years: "%d years",
-        wordSeparator: " ",
-        numbers: []
-      }
-    },
-    inWords: function(distanceMillis) {
-      var $l = this.settings.strings;
-      var prefix = $l.prefixAgo;
-      var suffix = $l.suffixAgo;
-      if (this.settings.allowFuture) {
-        if (distanceMillis < 0) {
-          prefix = $l.prefixFromNow;
-          suffix = $l.suffixFromNow;
-        }
-      }
-
-      var seconds = Math.abs(distanceMillis) / 1000;
-      var minutes = seconds / 60;
-      var hours = minutes / 60;
-      var days = hours / 24;
-      var years = days / 365;
-
-      function substitute(stringOrFunction, number) {
-        var string = $.isFunction(stringOrFunction) ? stringOrFunction(number, distanceMillis) : stringOrFunction;
-        var value = ($l.numbers && $l.numbers[number]) || number;
-        return string.replace(/%d/i, value);
-      }
-
-      var words = seconds < 45 && substitute($l.seconds, Math.round(seconds)) ||
-        seconds < 90 && substitute($l.minute, 1) ||
-        minutes < 45 && substitute($l.minutes, Math.round(minutes)) ||
-        minutes < 90 && substitute($l.hour, 1) ||
-        hours < 24 && substitute($l.hours, Math.round(hours)) ||
-        hours < 42 && substitute($l.day, 1) ||
-        days < 30 && substitute($l.days, Math.round(days)) ||
-        days < 45 && substitute($l.month, 1) ||
-        days < 365 && substitute($l.months, Math.round(days / 30)) ||
-        years < 1.5 && substitute($l.year, 1) ||
-        substitute($l.years, Math.round(years));
-
-      var separator = $l.wordSeparator === undefined ?  " " : $l.wordSeparator;
-      return $.trim([prefix, words, suffix].join(separator));
-    },
-    parse: function(iso8601) {
-      var s = $.trim(iso8601);
-      s = s.replace(/\.\d\d\d+/,""); // remove milliseconds
-      s = s.replace(/-/,"/").replace(/-/,"/");
-      s = s.replace(/T/," ").replace(/Z/," UTC");
-      s = s.replace(/([\+\-]\d\d)\:?(\d\d)/," $1$2"); // -04:00 -> -0400
-      return new Date(s);
-    },
-    datetime: function(elem) {
-      var iso8601 = $t.isTime(elem) ? $(elem).attr("datetime") : $(elem).attr("title");
-      return $t.parse(iso8601);
-    },
-    isTime: function(elem) {
-      // jQuery's `is()` doesn't play well with HTML5 in IE
-      return $(elem).get(0).tagName.toLowerCase() === "time"; // $(elem).is("time");
-    }
-  });
-
-  $.fn.timeago = function() {
-    var self = this;
-    self.each(refresh);
-
-    var $s = $t.settings;
-    if ($s.refreshMillis > 0) {
-      setInterval(function() { self.each(refresh); }, $s.refreshMillis);
-    }
-    return self;
-  };
-
-  function refresh() {
-    var data = prepareData(this);
-    if (!isNaN(data.datetime)) {
-      $(this).text(inWords(data.datetime));
-    }
-    return this;
-  }
-
-  function prepareData(element) {
-    element = $(element);
-    if (!element.data("timeago")) {
-      element.data("timeago", { datetime: $t.datetime(element) });
-      var text = $.trim(element.text());
-      if (text.length > 0 && !($t.isTime(element) && element.attr("title"))) {
-        element.attr("title", text);
-      }
-    }
-    return element.data("timeago");
-  }
-
-  function inWords(date) {
-    return $t.inWords(distance(date));
-  }
-
-  function distance(date) {
-    return (new Date().getTime() - date.getTime());
-  }
-
-  // fix for IE6 suckage
-  document.createElement("abbr");
-  document.createElement("time");
-}(jQuery));
-
-});
 define('date',[],function () {
 /**
  * Copyright (c)2005-2009 Matt Kruse (javascripttoolbox.com)
@@ -15889,6 +15917,336 @@ Date.prototype.add = function(interval, number) {
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
+// ExploreProjectCollection
+// ------------------------
+
+define('collections/exploreprojectcollection',[
+'jquery',
+'underscore',
+'backbone',
+'app',
+'collections/paginatedcollection',
+'models/user',
+'models/project',
+'date'],
+function (
+$,
+_,
+Backbone,
+app,
+PaginatedCollection,
+User,
+Project
+) {
+    var ExploreProjectCollection = PaginatedCollection.extend({
+        
+        model: Project,
+
+        baseUrl: '/projects',
+
+        groupOrUser: null,
+
+        initialize: function () {
+            _.bindAll(this,
+            'onSuccess',
+            'onSuccessWithAddFix',
+            'getFetchOptions');
+            PaginatedCollection.prototype.initialize.apply(this, arguments);
+
+            typeof (options.groupOrUser) != 'undefined' || (this.groupOrUser = options.groupOrUser);
+        },
+
+        comparator: function (streamItem1) {
+            //            log(streamItem1.get('CreatedDateTime').substr(6));
+            //            log(streamItem2.get('CreatedDateTime').substr(6));
+            //            var streamItem1CreateDate = new Date(parseInt(streamItem1.get('CreatedDateTimeOrder')));
+            //            var streamItem2CreateDate = new Date(parseInt(streamItem2.get('CreatedDateTimeOrder')));
+
+            //            if (streamItem1CreateDate.isAfter(streamItem2CreateDate)) {
+            //                return -1;
+            //            }
+
+            //            if (streamItem1CreateDate.isBefore(streamItem2CreateDate)) {
+            //                return 1;
+            //            }
+
+            //            return -1;
+            return -parseInt(streamItem1.get('CreatedDateTimeOrder'));
+        },
+
+        fetchFirstPage: function () {
+            this.firstPage(this.getFetchOptions(true));
+        },
+
+        fetchNextPage: function () {
+            this.nextPage(this.getFetchOptions(true));
+        },
+
+        getFetchOptions: function (add) {
+            var options = {
+                data: {},
+                add: add,
+                success: null
+            };
+            if (add) {
+                options.success = this.onSuccess;
+            } else {
+                options.success = this.onSuccessWithAddFix;
+            }
+            if (this.groupOrUser) {
+                //if (this.groupOrUser instanceof Organisation || this.groupOrUser instanceof Team || this.groupOrUser instanceof Project) {
+                if (this.groupOrUser instanceof Project) {
+                    options.data.groupId = this.groupOrUser.id;
+                } else if (this.groupOrUser instanceof User) {
+                    options.data.userId = this.groupOrUser.id;
+                }
+            }
+            //            if (stream.get('Filter') != null) {
+            //                options.data.filter = stream.get('Filter');
+            //            }
+            return options;
+        },
+
+        onSuccess: function (collection, response) {
+            //app.stream.trigger('fetchingItemsComplete', app.stream, response);
+        },
+
+        onSuccessWithAddFix: function (collection, response) {
+            this.onSuccess(collection, response);
+            // Added the following manual triggering of 'add' event due to Backbone bug: https://github.com/documentcloud/backbone/issues/479
+            var self = this;
+            response.each(function (item, index) {
+                self.trigger('add', item, self, { Index: index });
+            });
+        }
+    });
+
+    return ExploreProjectCollection;
+
+});
+/// <reference path="../../libs/log.js" />
+/// <reference path="../../libs/require/require.js" />
+/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
+/// <reference path="../../libs/underscore/underscore.js" />
+/// <reference path="../../libs/backbone/backbone.js" />
+/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
+
+// ActivityController
+// ------------------
+
+define(['jquery', 'underscore', 'backbone', 'app', 'models/activity'],
+function ($, _, Backbone, app, Activity) 
+{
+    var ActivityController = {};
+
+    ActivityController.newActivity = function (data) {
+        log('activityController.newActivity', this, data);
+        app.activities.add(data);
+    };
+
+    ActivityController.userStatusUpdate = function (data) {
+        log('activityController.userStatusUpdate', this, data);
+
+        if (!_.any(app.onlineUsers, function (user) { return user.id == data.Id; })) {
+            if (data.Status == 2 || data.Status == 3 || data.Status == 'undefined') return;
+            var user = new User(data);
+            app.onlineUsers.add(user);
+        } else {
+            var user = app.onlineUsers.get(data.Id);
+            if (data.Status == 2 || data.Status == 3) {
+                app.onlineUsers.remove(user);
+            } else {
+                user.set('Status', data.Status);
+            }
+        }
+    };
+
+    return ActivityController;
+
+});
+
+// ActivityRouter
+// --------------
+define(['jquery', 'underscore', 'backbone', 'app', 'controllers/activitycontroller'],
+function ($, _, Backbone, app, ActivityController) 
+{
+    var ActivityRouter = function (options) {
+        this.hub = $.connection.activityHub;
+        this.controller = options.controller;
+        this.hub.newActivity = this.controller.newActivity;
+        this.hub.userStatusUpdate = this.controller.userStatusUpdate;
+
+    };
+
+    app.addInitializer(function () {
+        this.activityRouter = new ActivityRouter({
+            controller: ActivityController
+        });
+    });
+});
+define('timeago',['jquery'], function ($) {
+
+/**
+ * Timeago is a jQuery plugin that makes it easy to support automatically
+ * updating fuzzy timestamps (e.g. "4 minutes ago" or "about 1 day ago").
+ *
+ * @name timeago
+ * @version 0.11.3
+ * @requires jQuery v1.2.3+
+ * @author Ryan McGeary
+ * @license MIT License - http://www.opensource.org/licenses/mit-license.php
+ *
+ * For usage and examples, visit:
+ * http://timeago.yarp.com/
+ *
+ * Copyright (c) 2008-2012, Ryan McGeary (ryan -[at]- mcgeary [*dot*] org)
+ */
+(function($) {
+  $.timeago = function(timestamp) {
+    if (timestamp instanceof Date) {
+      return inWords(timestamp);
+    } else if (typeof timestamp === "string") {
+      return inWords($.timeago.parse(timestamp));
+    } else if (typeof timestamp === "number") {
+      return inWords(new Date(timestamp));
+    } else {
+      return inWords($.timeago.datetime(timestamp));
+    }
+  };
+  var $t = $.timeago;
+
+  $.extend($.timeago, {
+    settings: {
+      refreshMillis: 60000,
+      allowFuture: false,
+      strings: {
+        prefixAgo: null,
+        prefixFromNow: null,
+        suffixAgo: "ago",
+        suffixFromNow: "from now",
+        seconds: "less than a minute",
+        minute: "about a minute",
+        minutes: "%d minutes",
+        hour: "about an hour",
+        hours: "about %d hours",
+        day: "a day",
+        days: "%d days",
+        month: "about a month",
+        months: "%d months",
+        year: "about a year",
+        years: "%d years",
+        wordSeparator: " ",
+        numbers: []
+      }
+    },
+    inWords: function(distanceMillis) {
+      var $l = this.settings.strings;
+      var prefix = $l.prefixAgo;
+      var suffix = $l.suffixAgo;
+      if (this.settings.allowFuture) {
+        if (distanceMillis < 0) {
+          prefix = $l.prefixFromNow;
+          suffix = $l.suffixFromNow;
+        }
+      }
+
+      var seconds = Math.abs(distanceMillis) / 1000;
+      var minutes = seconds / 60;
+      var hours = minutes / 60;
+      var days = hours / 24;
+      var years = days / 365;
+
+      function substitute(stringOrFunction, number) {
+        var string = $.isFunction(stringOrFunction) ? stringOrFunction(number, distanceMillis) : stringOrFunction;
+        var value = ($l.numbers && $l.numbers[number]) || number;
+        return string.replace(/%d/i, value);
+      }
+
+      var words = seconds < 45 && substitute($l.seconds, Math.round(seconds)) ||
+        seconds < 90 && substitute($l.minute, 1) ||
+        minutes < 45 && substitute($l.minutes, Math.round(minutes)) ||
+        minutes < 90 && substitute($l.hour, 1) ||
+        hours < 24 && substitute($l.hours, Math.round(hours)) ||
+        hours < 42 && substitute($l.day, 1) ||
+        days < 30 && substitute($l.days, Math.round(days)) ||
+        days < 45 && substitute($l.month, 1) ||
+        days < 365 && substitute($l.months, Math.round(days / 30)) ||
+        years < 1.5 && substitute($l.year, 1) ||
+        substitute($l.years, Math.round(years));
+
+      var separator = $l.wordSeparator === undefined ?  " " : $l.wordSeparator;
+      return $.trim([prefix, words, suffix].join(separator));
+    },
+    parse: function(iso8601) {
+      var s = $.trim(iso8601);
+      s = s.replace(/\.\d\d\d+/,""); // remove milliseconds
+      s = s.replace(/-/,"/").replace(/-/,"/");
+      s = s.replace(/T/," ").replace(/Z/," UTC");
+      s = s.replace(/([\+\-]\d\d)\:?(\d\d)/," $1$2"); // -04:00 -> -0400
+      return new Date(s);
+    },
+    datetime: function(elem) {
+      var iso8601 = $t.isTime(elem) ? $(elem).attr("datetime") : $(elem).attr("title");
+      return $t.parse(iso8601);
+    },
+    isTime: function(elem) {
+      // jQuery's `is()` doesn't play well with HTML5 in IE
+      return $(elem).get(0).tagName.toLowerCase() === "time"; // $(elem).is("time");
+    }
+  });
+
+  $.fn.timeago = function() {
+    var self = this;
+    self.each(refresh);
+
+    var $s = $t.settings;
+    if ($s.refreshMillis > 0) {
+      setInterval(function() { self.each(refresh); }, $s.refreshMillis);
+    }
+    return self;
+  };
+
+  function refresh() {
+    var data = prepareData(this);
+    if (!isNaN(data.datetime)) {
+      $(this).text(inWords(data.datetime));
+    }
+    return this;
+  }
+
+  function prepareData(element) {
+    element = $(element);
+    if (!element.data("timeago")) {
+      element.data("timeago", { datetime: $t.datetime(element) });
+      var text = $.trim(element.text());
+      if (text.length > 0 && !($t.isTime(element) && element.attr("title"))) {
+        element.attr("title", text);
+      }
+    }
+    return element.data("timeago");
+  }
+
+  function inWords(date) {
+    return $t.inWords(distance(date));
+  }
+
+  function distance(date) {
+    return (new Date().getTime() - date.getTime());
+  }
+
+  // fix for IE6 suckage
+  document.createElement("abbr");
+  document.createElement("time");
+}(jQuery));
+
+});
+/// <reference path="../../libs/log.js" />
+/// <reference path="../../libs/require/require.js" />
+/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
+/// <reference path="../../libs/underscore/underscore.js" />
+/// <reference path="../../libs/backbone/backbone.js" />
+/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
+
 // StreamItemView
 // --------------
 
@@ -16026,98 +16384,36 @@ define('views/streamview',['jquery', 'underscore', 'backbone', 'app', 'ich', 'vi
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// PaginatedCollection
-// -------------------
+// ProjectLayoutView
+// -----------------
 
-// Base of paginated collections
-define('collections/paginatedcollection',['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, app) {
+// The left hand side bar that is shown to authenticated users.
+define('views/projectlayoutview',['jquery', 'underscore', 'backbone', 'app', 'models/project', 'views/streamview'], function ($, _, Backbone, app, Project, StreamView) {
 
-    var PaginatedCollection = Backbone.Collection.extend({
-        initialize: function () {
-            _.extend(this, Backbone.Events);
-            typeof (options) != 'undefined' || (options = {});
-            this.page = 1;
-            typeof (this.pageSize) != 'undefined' || (this.pageSize = 10);
+    var ProjectLayoutView = Backbone.Marionette.Layout.extend({
+        tagName: 'section',
+
+        id: 'content',
+
+        className: 'triple-2 project',
+
+        template: 'Project',
+
+        regions: {
+            summary: '.summary',
+            details: '.details'
         },
 
-        fetch: function (options) {
-            typeof (options) != 'undefined' || (options = {});
-            this.trigger("fetching", this);
-            var self = this;
-            var success = options.success;
-            options.success = function (resp) {
-                self.trigger("fetched", self);
-                if (success) { success(self, resp); }
-            };
-            return Backbone.Collection.prototype.fetch.call(this, options);
-        },
-
-        parse: function (resp) {
-            this.page = resp.Model.Page;
-            this.pageSize = resp.Model.PageSize;
-            this.total = resp.Model.TotalResultCount;
-            return resp.Model.PagedListItems;
-        },
-
-        url: function () {
-            return this.baseUrl + '?' + $.param({ page: this.page, pageSize: this.pageSize });
-        },
-
-        pageInfo: function () {
-            var info = {
-                total: this.total,
-                page: this.page,
-                pageSize: this.pageSize,
-                pages: Math.ceil(this.total / this.pageSize),
-                prev: false,
-                next: false
-            };
-
-            var max = Math.min(this.total, this.page * this.pageSize);
-
-            if (this.total == this.pages * this.pageSize) {
-                max = this.total;
-            }
-
-            info.range = [(this.page - 1) * this.pageSize + 1, max];
-
-            if (this.page > 1) {
-                info.prev = this.page - 1;
-            }
-
-            if (this.page < info.pages) {
-                info.next = this.page + 1;
-            }
-
-            return info;
-        },
-
-        firstPage: function (options) {
-            this.page = 1;
-            return this.fetch(options);
-        },
-
-        nextPage: function (options) {
-            if (!this.pageInfo().next) {
-                return false;
-            }
-            this.page = this.page + 1;
-            return this.fetch(options);
-        },
-
-        previousPage: function () {
-            if (!this.pageInfo().prev) {
-                return false;
-            }
-            this.page = this.page - 1;
-            return this.fetch(options);
+        showStream: function (streamItems) {
+            var streamView = new StreamView({ model: this.model, collection: streamItems });
+            this.details.show(streamView);
+            streamView.render();
         }
     });
 
-    return PaginatedCollection;
+    return ProjectLayoutView;
 
-});
-
+}); 
 /// <reference path="../../libs/log.js" />
 /// <reference path="../../libs/require/require.js" />
 /// <reference path="../../libs/jquery/jquery-1.7.2.js" />
@@ -16242,173 +16538,14 @@ define('collections/streamitemcollection',['jquery', 'underscore', 'backbone', '
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// HomeLayoutView
-// --------------
-
-// The left hand side bar that is shown to authenticated users.
-define('views/homelayoutview',['jquery', 'underscore', 'backbone', 'app', 'views/streamview', 'collections/streamitemcollection', 'signalr'], function ($, _, Backbone, app, StreamView, StreamItemCollection) {
-
-    var HomeLayoutView = Backbone.Marionette.Layout.extend({
-        tagName: 'section',
-
-        id: 'content',
-
-        className: 'triple-2 home',
-
-        template: 'Home',
-
-        regions: {
-            summary: '.summary',
-            details: '.details'
-        },
-
-        showBootstrappedDetails: function () {
-            this.initializeRegions();
-        },
-
-        showStream: function () {
-            var streamItemCollection = new StreamItemCollection();
-            var options = {
-                model: app.authenticatedUser.user, 
-                collection: streamItemCollection
-            };
-
-            if (app.isPrerendering('home')) {
-                options['el'] = '.stream';
-            }
-
-            var streamView = new StreamView(options);
-
-            if (app.isPrerendering('home')) {
-                this.details.attachView(streamView);
-                streamView.showBootstrappedDetails();
-            } else {
-                this.details.show(streamView);
-            }
-
-            streamItemCollection.fetchFirstPage();
-        }
-    });
-
-    return HomeLayoutView;
-
-}); 
-/// <reference path="../../libs/log.js" />
-/// <reference path="../../libs/require/require.js" />
-/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
-/// <reference path="../../libs/underscore/underscore.js" />
-/// <reference path="../../libs/backbone/backbone.js" />
-/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
-
-// HomeController
-// --------------
-
-define('controllers/homecontroller',['jquery', 'underscore', 'backbone', 'app', 'views/homelayoutview'], function ($, _, Backbone, app, HomeLayoutView) {
-
-    var HomeController = {};
-
-    // Public API
-    // ----------
-
-    HomeController.showHomeStream = function (id) {
-        $(function () {
-            var homeLayoutView = new HomeLayoutView({ model: app.authenticatedUser.user });
-
-            app.content[app.getShowViewMethodName('home')](homeLayoutView);
-
-            if (app.isPrerendering('home')) {
-                homeLayoutView.showBootstrappedDetails();
-            }
-
-            homeLayoutView.showStream();
-
-            app.setPrerenderComplete();
-        });
-    };
-
-    return HomeController;
-
-});
-
-/// <reference path="../../libs/log.js" />
-/// <reference path="../../libs/require/require.js" />
-/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
-/// <reference path="../../libs/underscore/underscore.js" />
-/// <reference path="../../libs/backbone/backbone.js" />
-/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
-
-// HomeRouter
-// ----------
-
-define('routers/homerouter',['jquery', 'underscore', 'backbone', 'app', 'controllers/homecontroller'], function ($, _, Backbone, app, HomeController) {
-
-    var HomeRouter = Backbone.Marionette.AppRouter.extend({
-        appRoutes: {
-            '': 'showHomeStream'
-        }
-    });
-
-    app.addInitializer(function () {
-        this.homeRouter = new HomeRouter({
-            controller: HomeController
-        });
-    });
-
-    return HomeRouter;
-
-});
-
-/// <reference path="../../libs/log.js" />
-/// <reference path="../../libs/require/require.js" />
-/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
-/// <reference path="../../libs/underscore/underscore.js" />
-/// <reference path="../../libs/backbone/backbone.js" />
-/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
-
-// ProjectLayoutView
-// -----------------
-
-// The left hand side bar that is shown to authenticated users.
-define('views/projectlayoutview',['jquery', 'underscore', 'backbone', 'app', 'models/project', 'views/streamview'], function ($, _, Backbone, app, Project, StreamView) {
-
-    var ProjectLayoutView = Backbone.Marionette.Layout.extend({
-        tagName: 'section',
-
-        id: 'content',
-
-        className: 'triple-2 project',
-
-        template: 'Project',
-
-        regions: {
-            summary: '.summary',
-            details: '.details'
-        },
-
-        showStream: function (streamItems) {
-            var streamView = new StreamView({ model: this.model, collection: streamItems });
-            this.details.show(streamView);
-            streamView.render();
-        }
-    });
-
-    return ProjectLayoutView;
-
-}); 
-/// <reference path="../../libs/log.js" />
-/// <reference path="../../libs/require/require.js" />
-/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
-/// <reference path="../../libs/underscore/underscore.js" />
-/// <reference path="../../libs/backbone/backbone.js" />
-/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
-
 // GroupUserController
 // -------------------
 
 // This is the controller for groups/users. It contains all of the 
 // high level knowledge of how to run the app when it's in group/user mode.
-define('controllers/groupusercontroller',['jquery', 'underscore', 'backbone', 'app', 'views/projectlayoutview', 'models/project', 'collections/streamitemcollection'], function ($, _, Backbone, app, ProjectLayoutView, Project, StreamItemCollection) {
-
+define(['jquery', 'underscore', 'backbone', 'app', 'views/projectlayoutview', 'models/project', 'collections/streamitemcollection'],
+function ($, _, Backbone, app, ProjectLayoutView, Project, StreamItemCollection) 
+{
     var GroupUserController = {};
 
     // Helper method to load project layout, taking into account bootstrapped data and prerendered view
@@ -16520,18 +16657,11 @@ define('controllers/groupusercontroller',['jquery', 'underscore', 'backbone', 'a
 
 });
 
-/// <reference path="../../libs/log.js" />
-/// <reference path="../../libs/require/require.js" />
-/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
-/// <reference path="../../libs/underscore/underscore.js" />
-/// <reference path="../../libs/backbone/backbone.js" />
-/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
-
 // GroupUserRouter
 // ---------------
-
-define('routers/groupuserrouter',['jquery', 'underscore', 'backbone', 'app', 'controllers/groupusercontroller'], function ($, _, Backbone, app, GroupUserController) {
-
+define(['jquery', 'underscore', 'backbone', 'app', 'controllers/groupusercontroller'],
+function ($, _, Backbone, app, GroupUserController) 
+{
     var GroupUserRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
             //'teams/:id': 'showTeam',
@@ -16547,11 +16677,126 @@ define('routers/groupuserrouter',['jquery', 'underscore', 'backbone', 'app', 'co
             controller: GroupUserController
         });
     });
+});
+/// <reference path="../../libs/log.js" />
+/// <reference path="../../libs/require/require.js" />
+/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
+/// <reference path="../../libs/underscore/underscore.js" />
+/// <reference path="../../libs/backbone/backbone.js" />
+/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-    return GroupUserRouter;
+// HomeLayoutView
+// --------------
+
+// The left hand side bar that is shown to authenticated users.
+define('views/homelayoutview',['jquery', 'underscore', 'backbone', 'app', 'views/streamview', 'collections/streamitemcollection', 'signalr'], function ($, _, Backbone, app, StreamView, StreamItemCollection) {
+
+    var HomeLayoutView = Backbone.Marionette.Layout.extend({
+        className: 'home',
+
+        template: 'Home',
+
+        regions: {
+            summary: '.summary',
+            details: '.details'
+        },
+
+        showBootstrappedDetails: function () {
+            this.initializeRegions();
+        },
+
+        showStream: function () {
+            var streamItemCollection = new StreamItemCollection();
+            var options = {
+                model: app.authenticatedUser.user, 
+                collection: streamItemCollection
+            };
+
+            if (app.isPrerendering('home')) {
+                options['el'] = '.stream';
+            }
+
+            var streamView = new StreamView(options);
+
+            if (app.isPrerendering('home')) {
+                this.details.attachView(streamView);
+                streamView.showBootstrappedDetails();
+            } else {
+                this.details.show(streamView);
+            }
+
+            streamItemCollection.fetchFirstPage();
+        }
+    });
+
+    return HomeLayoutView;
+
+}); 
+/// <reference path="../../libs/log.js" />
+/// <reference path="../../libs/require/require.js" />
+/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
+/// <reference path="../../libs/underscore/underscore.js" />
+/// <reference path="../../libs/backbone/backbone.js" />
+/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
+
+// HomeController
+// --------------
+define(['jquery', 'underscore', 'backbone', 'app', 'views/homelayoutview'],
+function ($, _, Backbone, app, HomeLayoutView) 
+{
+    var HomeController = {};
+
+    // Public API
+    // ----------
+
+    HomeController.showHomeStream = function () {
+        $(function () {
+            log('showing home', this, this);
+
+            var previousView = _.find(app.contentHistory, function (item) {
+                return item.key == 'home';
+            });
+
+            if (!previousView) {
+                homeLayoutView = new HomeLayoutView({ model: app.authenticatedUser.user });
+                app.contentHistory.push({ key: 'home', view: homeLayoutView });
+            } else {
+                homeLayoutView = previousView.view;
+            }
+
+            app.content[app.getShowViewMethodName('home')](homeLayoutView);
+
+            if (app.isPrerendering('home')) {
+                homeLayoutView.showBootstrappedDetails();
+            }
+
+            homeLayoutView.showStream();
+
+            app.setPrerenderComplete();
+        });
+    };
+
+    return HomeController;
 
 });
 
+// HomeRouter
+// ----------
+define(['jquery', 'underscore', 'backbone', 'app', 'controllers/homecontroller'],
+function ($, _, Backbone, app, HomeController) 
+{
+    var HomeRouter = Backbone.Marionette.AppRouter.extend({
+        appRoutes: {
+            '': 'showHomeStream'
+        }
+    });
+
+    app.addInitializer(function () {
+        this.homeRouter = new HomeRouter({
+            controller: HomeController
+        });
+    });
+});
 /** @license
  * RequireJS plugin for async dependency load like JSONP and Google Maps
  * Author: Miller Medeiros
@@ -21552,7 +21797,6 @@ define('views/observationformlayoutview',['jquery', 'underscore', 'backbone', 'a
 
             // Add project options
             this.$el.find('#Projects').append(ich.ProjectSelectItem({ Projects: app.authenticatedUser.projects.toJSON() }));
-            log(ich.ProjectSelectItem({ Projects: app.authenticatedUser.projects.toJSON() }));
 
             this.projectListSelectView = this.$el.find('#Projects').multiSelect({
                 selectAll: false,
@@ -21641,12 +21885,13 @@ define('views/observationformlayoutview',['jquery', 'underscore', 'backbone', 'a
 
         _cancel: function () {
             //            app.set('newObservation', null);
-            //            app.appUserGroupRouter.navigate(app.stream.get('Uri'), { trigger: false });
-            //            this.trigger('formClosed', this);
+            app.groupUserRouter.navigate('', { trigger: true });
+            //this.trigger('formClosed', this);
         },
 
         _save: function () {
             this.model.save();
+            app.groupUserRouter.navigate('', { trigger: true });
             //            app.appRouter.navigate(app.stream.get('Uri'), { trigger: false });
             //            this.trigger('formClosed', this);
         }
@@ -21819,9 +22064,9 @@ define('models/observation',['jquery', 'underscore', 'backbone', 'app', 'collect
 
 // ObservationController
 // ---------------------
-
-define('controllers/observationcontroller',['jquery', 'underscore', 'backbone', 'app', 'views/observationlayoutview', 'models/observation'], function ($, _, Backbone, app, ObservationLayoutView, Observation) {
-
+define(['jquery', 'underscore', 'backbone', 'app', 'views/observationlayoutview', 'models/observation'], 
+function ($, _, Backbone, app, ObservationLayoutView, Observation) 
+{
     var ObservationController = {};
 
     // Helper method to load project layout, taking into account bootstrapped data and prerendered view
@@ -21881,18 +22126,11 @@ define('controllers/observationcontroller',['jquery', 'underscore', 'backbone', 
 
 });
 
-/// <reference path="../../libs/log.js" />
-/// <reference path="../../libs/require/require.js" />
-/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
-/// <reference path="../../libs/underscore/underscore.js" />
-/// <reference path="../../libs/backbone/backbone.js" />
-/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
-
 // ObservationRouter
 // -----------------
-
-define('routers/observationrouter',['jquery', 'underscore', 'backbone', 'app', 'controllers/observationcontroller'], function ($, _, Backbone, app, ObservationController) {
-
+define(['jquery', 'underscore', 'backbone', 'app', 'controllers/observationcontroller'], 
+function ($, _, Backbone, app, ObservationController) 
+{
     var ObservationRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
             'observations/create': 'showObservationForm',
@@ -21906,10 +22144,7 @@ define('routers/observationrouter',['jquery', 'underscore', 'backbone', 'app', '
         });
     });
 
-    return ObservationRouter;
-
 });
-
 /// <reference path="../../libs/log.js" />
 /// <reference path="../../libs/require/require.js" />
 /// <reference path="../../libs/jquery/jquery-1.7.2.js" />
@@ -22009,7 +22244,7 @@ define('views/editavatarview',['jquery', 'underscore', 'backbone', 'app', 'ich',
         render: function () {
             log('editAvatarView:render');
             this._initMediaUploader();
-            $('#avatar-viewer').append('<img src="' + this.model.get('Avatar').UrlToImage + '" />');
+            $('#avatar-viewer').append('<img src="' + this.model.get('Avatar').Files.medium.RelativeUri + '" />');
             return this;
         },
 
@@ -22061,7 +22296,7 @@ define('views/editavatarview',['jquery', 'underscore', 'backbone', 'app', 'ich',
             this.model.set('Avatar', data.result.Id); 
             var mediaResource = new MediaResource(data.result);
             //this.$el.find('#avatar-viewer img').replaceWith($('<img src="' + mediaResource.get('ProfileImageUri') + '" alt="" />'));
-            $('#avatar-viewer').empty().append('<img src="' + mediaResource.get('MediumImageUri') + '" width="200px;" />');
+            $('#avatar-viewer').empty().append('<img src="' + mediaResource.get('Files').medium.RelativeUri + '" width="200px;" />');
         }
     });
 
@@ -22070,22 +22305,20 @@ define('views/editavatarview',['jquery', 'underscore', 'backbone', 'app', 'ich',
 /// <reference path="../../libs/log.js" />
 /// <reference path="../../libs/require/require.js" />
 /// <reference path="../../libs/jquery/jquery-1.7.2.js" />
-/// <reference path="../../libs/jquery/jquery.fileupload.js" />
-/// <reference path="../../libs/jquery/load-image.js" />
 /// <reference path="../../libs/underscore/underscore.js" />
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// ProjectFormLayoutView
-// -------------------------
+// OrganisationFormLayoutView
+// --------------------------
 
-define('views/projectformlayoutview',['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/editavatarview', 'fileupload', 'multiselect'], function ($, _, Backbone, app, ich, loadImage, EditAvatarView) {
+define('views/organisationformlayoutview',['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/editavatarview', 'fileupload', 'multiselect'], function ($, _, Backbone, app, ich, loadImage, EditAvatarView) {
 
-    var ProjectFormLayoutView = Backbone.Marionette.Layout.extend({
+    var OrganisationFormLayoutView = Backbone.Marionette.Layout.extend({
 
-        className: 'form single-medium project-form',
+        className: 'form single-medium organisation-form',
 
-        template: 'ProjectForm',
+        tempalte: 'OrganisationForm',
 
         regions: {
             avatar: '#avatar-fieldset'
@@ -22096,71 +22329,45 @@ define('views/projectformlayoutview',['jquery', 'underscore', 'backbone', 'app',
             'click #save': '_save',
             'change input#Name': '_contentChanged',
             'change textarea#Description': '_contentChanged',
-            'change input#Website': '_contentChanged',
-            'change #team-field input:checkbox': '_teamChanged'
+            'change input#Website': '_contentChanged'
         },
 
         initialize: function (options) {
-            log('projectFormLayoutView:initialize');
-            this.teams = options.teams;
+            log('organisationFormLayoutView.initialize');
         },
 
         serializeData: function () {
-            log('projectFormLayoutView:serializeData');
+            log('organisationFormLayoutView:serializeData');
             return {
                 Model: {
-                    Project: this.model.toJSON(),
-                    Teams: this.teams
+                    Organisation: this.model.toJSON()
                 }
             };
         },
 
         onShow: function () {
-            log('projectFormLayoutView:onShow');
+            log('organisationFormLayoutView:onShow');
             this._showDetails();
         },
 
         showBootstrappedDetails: function () {
-            log('projectFormLayoutView:showBootstrappedDetails');
+            log('organisationFormLayoutView:showBootstrappedDetails');
             this.initializeRegions();
-            //this._showDetails();
+            this._showDetails();
         },
 
         _showDetails: function () {
-            log('projectFormLayoutView:_showDetails');
+            log('organisationFormLayoutView:_showDetails');
             var editAvatarView = new EditAvatarView({ el: '#avatar-fieldset', model: this.model });
             editAvatarView.render();
-            this.teamListSelectView = this.$el.find("#Team").multiSelect({
-                selectAll: false,
-                singleSelect: true,
-                noOptionsText: 'No Teams',
-                noneSelected: 'Select A Team',
-                oneOrMoreSelected: function (selectedOptions) {
-                    var $selectedHtml = $('<span />');
-                    _.each(selectedOptions, function (option) {
-                        $selectedHtml.append('<span>' + option.text + '</span> ');
-                    });
-                    return $selectedHtml.children();
-                }
-            });
         },
 
         _contentChanged: function (e) {
-            log('projectFormLayoutView:_contentChanged');
+            log('organisationFormLayoutView:_contentChanged');
             var target = $(e.currentTarget);
             var data = {};
             data[target.attr('id')] = target.attr('value');
             this.model.set(data);
-        },
-
-        _teamChanged: function (e) {
-            log('projectFormLayoutView:_teamChanged');
-            var $checkbox = $(e.currentTarget);
-            if ($checkbox.attr('checked') === 'checked') {
-                this.model.set('Team', $checkbox.attr('value'));
-            } else {
-                this.model.set('Team', '');
-            }
         },
 
         _cancel: function () {
@@ -22171,7 +22378,7 @@ define('views/projectformlayoutview',['jquery', 'underscore', 'backbone', 'app',
         }
     });
 
-    return ProjectFormLayoutView;
+    return OrganisationFormLayoutView;
 });
 /// <reference path="../../libs/log.js" />
 /// <reference path="../../libs/require/require.js" />
@@ -22180,19 +22387,17 @@ define('views/projectformlayoutview',['jquery', 'underscore', 'backbone', 'app',
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// ProjectController
-// -----------------
-
-// This is the controller contributions (observations & posts). It contains all of the 
-// high level knowledge of how to run the app when it's in contribution mode.
-define('controllers/projectcontroller',['jquery', 'underscore', 'backbone', 'app', 'views/projectformlayoutview', 'models/project'], function ($, _, Backbone, app, ProjectFormLayoutView, Project) {
-
-    var ProjectController = {};
+// OrganisationController
+// ----------------------
+define(['jquery','underscore','backbone','app','models/team','views/organisationformlayoutview'],
+function ($,_,Backbone,app,Organisation,OrganisationFormLayoutView) 
+{
+    var OrganisationController = {};
 
     var getModel = function (id) {
         var deferred = new $.Deferred();
 
-        if (app.isPrerendering('projects')) {
+        if (app.isPrerendering('organisations')) {
             deferred.resolve(app.prerenderedView.data);
         } else {
             var params = {};
@@ -22200,104 +22405,57 @@ define('controllers/projectcontroller',['jquery', 'underscore', 'backbone', 'app
                 params['id'] = id;
             }
             $.ajax({
-                url: '/projects/create',
+                url: '/organisations/create',
                 data: params
             }).done(function (data) {
                 deferred.resolve(data.Model);
             });
         }
-
         return deferred.promise();
     };
 
-    // ProjectController Public API
-    // ----------------------------
+    // OrganisationController Public API
+    // ---------------------------------
 
-    // Show an project form
-    ProjectController.showProjectForm = function (id) {
-        log('projectController:showProjectForm');
+    // Show an organisation
+    OrganisationController.showOrganisationForm = function (id) {
+        log('organisationController:showOrganisationForm');
         $.when(getModel(id))
             .done(function (model) {
-                var project = new Project(model.Project);
-                var projectFormLayoutView = new ProjectFormLayoutView({ model: project, teams: model.Teams });
+                var organisation = new Organisation(model.Organisation);
+                var organisationFormLayoutView = new OrganisationFormLayoutView({ model: organisation });
 
-                app.content[app.getShowViewMethodName()](projectFormLayoutView);
+                app.content[app.getShowViewMethodName('organisations')](organisationFormLayoutView);
 
-                if (app.isPrerendering('projects')) {
-                    projectFormLayoutView.showBootstrappedDetails();
+                if (app.isPrerendering('organisations')) {
+                    organisationFormLayoutView.showBootstrappedDetails();
                 }
 
                 app.setPrerenderComplete();
             });
-        };
+    };
 
-    return ProjectController;
+    return OrganisationController;
 
 });
 
-//// ProjectController
-//// ----------------------
-
-//// This is the controller contributions (observations & posts). It contains all of the 
-//// high level knowledge of how to run the app when it's in contribution mode.
-//define(['jquery', 'underscore', 'backbone', 'app', 'models/project', 'views/projectformlayoutview'], function ($, _, Backbone, app, Project, ProjectFormLayoutView) {
-
-//    var ProjectController = {};
-
-//    // ProjectController Public API
-//    // ---------------------------------
-
-//    // Show a project
-//    ProjectController.showProjectForm = function () {
-
-//        var projectFormLayoutView = new ProjectFormLayoutView({ el: $('.project-create-form'), model: new Project(app.prerenderedView.Project) });
-//        var editAvatarView = new EditAvatarView({ el: '#avatar-add-pane'});
-
-//        projectFormLayoutView.render();
-//        projectFormLayoutView.avatar.show(editAvatarView);
-
-//        app.prerenderedView.isBound = true;
-//    };
-
-//    // ProjectController Event Handlers
-//    // -------------------------------------
-
-//    app.vent.on('project:show', function () {
-//        ProjectController.showProjectForm();
-//    });
-
-//    return ProjectController;
-
-//});
-/// <reference path="../../libs/log.js" />
-/// <reference path="../../libs/require/require.js" />
-/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
-/// <reference path="../../libs/underscore/underscore.js" />
-/// <reference path="../../libs/backbone/backbone.js" />
-/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
-
-// ProjectRouter
+// OrganisationRouter
 // ------------------
-
-define('routers/projectrouter',['jquery', 'underscore', 'backbone', 'app', 'controllers/projectcontroller'], function ($, _, Backbone, app, ProjectController) {
-
-    var ProjectRouter = Backbone.Marionette.AppRouter.extend({
+define(['jquery', 'underscore', 'backbone', 'app', 'controllers/organisationcontroller'],
+function ($, _, Backbone, app, OrganisationController) 
+{
+    var OrganisationRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
-            'projects/create': 'showProjectForm',
-            'projects/:id/update': 'showProjectForm'
+            'organisations/create': 'showOrganisationForm'
         }
     });
 
     app.addInitializer(function () {
-        this.projectRouter = new ProjectRouter({
-            controller: ProjectController
+        this.organisationRouter = new OrganisationRouter({
+            controller: OrganisationController
         });
     });
-
-    return ProjectRouter;
-
 });
-
 /// <reference path="../../libs/log.js" />
 /// <reference path="../../libs/require/require.js" />
 /// <reference path="../../libs/jquery/jquery-1.7.2.js" />
@@ -22415,10 +22573,9 @@ define('models/post',['jquery', 'underscore', 'backbone', 'app'], function ($, _
 // PostController
 // --------------
 
-// This is the controller contributions (observations & posts). It contains all of the 
-// high level knowledge of how to run the app when it's in contribution mode.
-define('controllers/postcontroller',['jquery', 'underscore', 'backbone', 'app', 'views/postformlayoutview', 'models/post'], function ($, _, Backbone, app, PostFormLayoutView, Post) {
-
+define(['jquery', 'underscore', 'backbone', 'app', 'views/postformlayoutview', 'models/post'],
+function ($, _, Backbone, app, PostFormLayoutView, Post) 
+{
     var PostController = {};
 
     var getModel = function (id) {
@@ -22467,52 +22624,11 @@ define('controllers/postcontroller',['jquery', 'underscore', 'backbone', 'app', 
 
 });
 
-//// ProjectController
-//// ----------------------
-
-//// This is the controller contributions (observations & posts). It contains all of the 
-//// high level knowledge of how to run the app when it's in contribution mode.
-//define(['jquery', 'underscore', 'backbone', 'app', 'models/project', 'views/projectformlayoutview'], function ($, _, Backbone, app, Project, ProjectFormLayoutView) {
-
-//    var ProjectController = {};
-
-//    // ProjectController Public API
-//    // ---------------------------------
-
-//    // Show a project
-//    ProjectController.showProjectForm = function () {
-
-//        var projectFormLayoutView = new ProjectFormLayoutView({ el: $('.project-create-form'), model: new Project(app.prerenderedView.Project) });
-//        var editAvatarView = new EditAvatarView({ el: '#avatar-add-pane'});
-
-//        projectFormLayoutView.render();
-//        projectFormLayoutView.avatar.show(editAvatarView);
-
-//        app.prerenderedView.isBound = true;
-//    };
-
-//    // ProjectController Event Handlers
-//    // -------------------------------------
-
-//    app.vent.on('project:show', function () {
-//        ProjectController.showProjectForm();
-//    });
-
-//    return ProjectController;
-
-//});
-/// <reference path="../../libs/log.js" />
-/// <reference path="../../libs/require/require.js" />
-/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
-/// <reference path="../../libs/underscore/underscore.js" />
-/// <reference path="../../libs/backbone/backbone.js" />
-/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
-
 // PostRouter
 // ----------
-
-define('routers/postrouter',['jquery', 'underscore', 'backbone', 'app', 'controllers/postcontroller'], function ($, _, Backbone, app, PostController) {
-
+define(['jquery', 'underscore', 'backbone', 'app', 'controllers/postcontroller'],
+function ($, _, Backbone, app, PostController) 
+{
     var PostRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
             'posts/create': 'showPostForm',
@@ -22525,27 +22641,26 @@ define('routers/postrouter',['jquery', 'underscore', 'backbone', 'app', 'control
             controller: PostController
         });
     });
-
-    return PostRouter;
-
 });
 /// <reference path="../../libs/log.js" />
 /// <reference path="../../libs/require/require.js" />
 /// <reference path="../../libs/jquery/jquery-1.7.2.js" />
+/// <reference path="../../libs/jquery/jquery.fileupload.js" />
+/// <reference path="../../libs/jquery/load-image.js" />
 /// <reference path="../../libs/underscore/underscore.js" />
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// TeamFormLayoutView
+// ProjectFormLayoutView
 // -------------------------
 
-define('views/teamformlayoutview',['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/editavatarview', 'multiselect', 'fileupload'], function ($, _, Backbone, app, ich, loadImage, EditAvatarView) {
+define('views/projectformlayoutview',['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/editavatarview', 'fileupload', 'multiselect'], function ($, _, Backbone, app, ich, loadImage, EditAvatarView) {
 
-    var TeamFormLayoutView = Backbone.Marionette.Layout.extend({
+    var ProjectFormLayoutView = Backbone.Marionette.Layout.extend({
 
-        className: 'form single-medium team-form',
+        className: 'form single-medium project-form',
 
-        template: 'TeamForm',
+        template: 'ProjectForm',
 
         regions: {
             avatar: '#avatar-fieldset'
@@ -22557,44 +22672,45 @@ define('views/teamformlayoutview',['jquery', 'underscore', 'backbone', 'app', 'i
             'change input#Name': '_contentChanged',
             'change textarea#Description': '_contentChanged',
             'change input#Website': '_contentChanged',
-            'change #organisation-field input:checkbox': '_organisationChanged'
+            'change #team-field input:checkbox': '_teamChanged'
         },
 
         initialize: function (options) {
-            log('teamFormLayoutView.initialize');
-            this.organisations = options.organisations;
+            log('projectFormLayoutView:initialize');
+            this.teams = options.teams;
         },
 
         serializeData: function () {
-            log('teamFormLayoutView.serializeData');
+            log('projectFormLayoutView:serializeData');
             return {
                 Model: {
-                    Team: this.model.toJSON(),
-                    Organisations: this.organisations
+                    Project: this.model.toJSON(),
+                    Teams: this.teams
                 }
             };
         },
 
         onShow: function () {
-            log('teamFormLayoutView.onShow');
+            log('projectFormLayoutView:onShow');
             this._showDetails();
         },
 
         showBootstrappedDetails: function () {
-            log('teamFormLayoutView.showBootstrappedDetails');
+            log('projectFormLayoutView:showBootstrappedDetails');
             this.initializeRegions();
-            //this._showDetails();
+            this._showDetails();
         },
 
         _showDetails: function () {
-            log('teamFormLayoutView._showDetails');
+            log('projectFormLayoutView:_showDetails');
             var editAvatarView = new EditAvatarView({ el: '#avatar-fieldset', model: this.model });
             editAvatarView.render();
-            this.organisationListSelectView = this.$el.find("#Organisation").multiSelect({
+
+            this.teamListSelectView = this.$el.find("#Team").multiSelect({
                 selectAll: false,
                 singleSelect: true,
-                noOptionsText: 'No Organisations',
-                noneSelected: 'Select An Organisation',
+                noOptionsText: 'No Teams',
+                noneSelected: 'Select A Team',
                 oneOrMoreSelected: function (selectedOptions) {
                     var $selectedHtml = $('<span />');
                     _.each(selectedOptions, function (option) {
@@ -22606,20 +22722,20 @@ define('views/teamformlayoutview',['jquery', 'underscore', 'backbone', 'app', 'i
         },
 
         _contentChanged: function (e) {
-            log('teamFormLayoutView._contentChanged');
+            log('projectFormLayoutView:_contentChanged');
             var target = $(e.currentTarget);
             var data = {};
             data[target.attr('id')] = target.attr('value');
             this.model.set(data);
         },
 
-        _organisationChanged: function (e) {
-            log('teamFormLayoutView._organisationChanged');
+        _teamChanged: function (e) {
+            log('projectFormLayoutView:_teamChanged');
             var $checkbox = $(e.currentTarget);
             if ($checkbox.attr('checked') === 'checked') {
-                this.model.set('Organisation', $checkbox.attr('value'));
+                this.model.set('Team', $checkbox.attr('value'));
             } else {
-                this.model.set('Organisation', '');
+                this.model.set('Team', '');
             }
         },
 
@@ -22631,7 +22747,7 @@ define('views/teamformlayoutview',['jquery', 'underscore', 'backbone', 'app', 'i
         }
     });
 
-    return TeamFormLayoutView;
+    return ProjectFormLayoutView;
 });
 /// <reference path="../../libs/log.js" />
 /// <reference path="../../libs/require/require.js" />
@@ -22640,19 +22756,17 @@ define('views/teamformlayoutview',['jquery', 'underscore', 'backbone', 'app', 'i
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// TeamController
-// ----------------------
-
-// This is the controller contributions (observations & posts). It contains all of the 
-// high level knowledge of how to run the app when it's in contribution mode.
-define('controllers/teamcontroller',['jquery', 'underscore', 'backbone', 'app', 'models/team', 'views/teamformlayoutview'], function ($, _, Backbone, app, Team, TeamFormLayoutView) {
-
-    var TeamController = {};
+// ProjectController
+// -----------------
+define(['jquery', 'underscore', 'backbone', 'app', 'views/projectformlayoutview', 'collections/exploreprojectcollection', 'models/project'], 
+function ($,_,Backbone,app,ProjectFormLayoutView,ExploreProjectCollection,Project)
+{
+    var ProjectController = {};
 
     var getModel = function (id) {
         var deferred = new $.Deferred();
 
-        if (app.isPrerendering('teams')) {
+        if (app.isPrerendering('projects')) {
             deferred.resolve(app.prerenderedView.data);
         } else {
             var params = {};
@@ -22660,401 +22774,117 @@ define('controllers/teamcontroller',['jquery', 'underscore', 'backbone', 'app', 
                 params['id'] = id;
             }
             $.ajax({
-                url: '/teams/create',
+                url: '/projects/create',
                 data: params
             }).done(function (data) {
                 deferred.resolve(data.Model);
             });
         }
+
         return deferred.promise();
     };
 
-    // TeamController Public API
-    // ---------------------------------
-
-    // Show an team form
-    TeamController.showTeamForm = function (id) {
-        log('teamController:showTeamForm');
-        $.when(getModel(id))
-            .done(function (model) {
-                var team = new Team(model.Team);
-                var teamFormLayoutView = new TeamFormLayoutView({ model: team, organisations: model.Organisations });
-
-                app.content[app.getShowViewMethodName()](teamFormLayoutView);
-
-                if (app.isPrerendering('teams')) {
-                    teamFormLayoutView.showBootstrappedDetails();
-                }
-
-                app.setPrerenderComplete();
-            });
-    };
-
-    return TeamController;
-
-});
-/// <reference path="../../libs/log.js" />
-/// <reference path="../../libs/require/require.js" />
-/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
-/// <reference path="../../libs/underscore/underscore.js" />
-/// <reference path="../../libs/backbone/backbone.js" />
-/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
-
-// TeamRouter
-// ------------------
-
-define('routers/teamrouter',['jquery', 'underscore', 'backbone', 'app', 'controllers/teamcontroller'], function ($, _, Backbone, app, TeamController) {
-
-    var TeamRouter = Backbone.Marionette.AppRouter.extend({
-        appRoutes: {
-            'teams/create': 'showTeamForm'
-        }
-    });
-
-    app.addInitializer(function () {
-        this.teamRouter = new TeamRouter({
-            controller: TeamController
-        });
-    });
-
-    return TeamRouter;
-});
-/// <reference path="../../libs/log.js" />
-/// <reference path="../../libs/require/require.js" />
-/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
-/// <reference path="../../libs/underscore/underscore.js" />
-/// <reference path="../../libs/backbone/backbone.js" />
-/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
-
-// OrganisationFormLayoutView
-// --------------------------
-
-define('views/organisationformlayoutview',['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/editavatarview', 'fileupload', 'multiselect'], function ($, _, Backbone, app, ich, loadImage, EditAvatarView) {
-
-    var OrganisationFormLayoutView = Backbone.Marionette.Layout.extend({
-
-        className: 'form single-medium organisation-form',
-
-        tempalte: 'OrganisationForm',
-
-        regions: {
-            avatar: '#avatar-fieldset'
-        },
-
-        events: {
-            'click #cancel': '_cancel',
-            'click #save': '_save',
-            'change input#Name': '_contentChanged',
-            'change textarea#Description': '_contentChanged',
-            'change input#Website': '_contentChanged'
-        },
-
-        initialize: function (options) {
-            log('organisationFormLayoutView.initialize');
-        },
-
-        serializeData: function () {
-            log('organisationFormLayoutView:serializeData');
-            return {
-                Model: {
-                    Organisation: this.model.toJSON()
-                }
-            };
-        },
-
-        onShow: function () {
-            log('organisationFormLayoutView:onShow');
-            this._showDetails();
-        },
-
-        showBootstrappedDetails: function () {
-            log('organisationFormLayoutView:showBootstrappedDetails');
-            this.initializeRegions();
-        },
-
-        _showDetails: function () {
-            log('organisationFormLayoutView:_showDetails');
-            var editAvatarView = new EditAvatarView({ el: '#avatar-fieldset', model: this.model });
-            editAvatarView.render();
-        },
-
-        _contentChanged: function (e) {
-            log('organisationFormLayoutView:_contentChanged');
-            var target = $(e.currentTarget);
-            var data = {};
-            data[target.attr('id')] = target.attr('value');
-            this.model.set(data);
-        },
-
-        _cancel: function () {
-        },
-
-        _save: function () {
-            this.model.save();
-        }
-    });
-
-    return OrganisationFormLayoutView;
-});
-/// <reference path="../../libs/log.js" />
-/// <reference path="../../libs/require/require.js" />
-/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
-/// <reference path="../../libs/underscore/underscore.js" />
-/// <reference path="../../libs/backbone/backbone.js" />
-/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
-
-// OrganisationController
-// ----------------------
-
-// This is the controller contributions (observations & posts). It contains all of the 
-// high level knowledge of how to run the app when it's in contribution mode.
-define('controllers/organisationcontroller',['jquery', 'underscore', 'backbone', 'app', 'models/team', 'views/organisationformlayoutview'], function ($, _, Backbone, app, Organisation, OrganisationFormLayoutView) {
-
-    var OrganisationController = {};
-
-    var getModel = function (id) {
+    //    var getExploreList = function (page, pageSize, sortField, sortDirection, searchQuery) {
+    var getExploreList = function (page, pageSize, sortField, sortDirection, searchQuery) {
         var deferred = new $.Deferred();
 
-        if (app.isPrerendering('organisations')) {
+        if (app.isPrerendering('projects')) {
             deferred.resolve(app.prerenderedView.data);
         } else {
             var params = {};
-            if (id) {
-                params['id'] = id;
-            }
+            //            if (page) {
+            //                params['page'] = page;
+            //            }
+            //            if (pageSize) {
+            //                params['pageSize'] = pageSize;
+            //            }
+            //            if (sortField) {
+            //                params['sortField'] = sortField;
+            //            }
+            //            if (sortDirection) {
+            //                params['sortDirection'] = sortDirection;
+            //            }
+            //            if (searchQuery) {
+            //                params['searchQuery'] = searchQuery;
+            //            }
             $.ajax({
-                url: '/organisations/create',
+                url: '/projects/explore',
                 data: params
             }).done(function (data) {
                 deferred.resolve(data.Model);
             });
         }
+
         return deferred.promise();
     };
 
-    // OrganisationController Public API
-    // ---------------------------------
+    // ProjectController Public API
+    // ----------------------------
 
-    // Show an organisation
-    OrganisationController.showOrganisationForm = function (id) {
-        log('organisationController:showOrganisationForm');
+    // Show an project form
+    ProjectController.showProjectForm = function (id) {
+        log('projectController:showProjectForm');
         $.when(getModel(id))
             .done(function (model) {
-                var organisation = new Organisation(model.Organisation);
-                var organisationFormLayoutView = new OrganisationFormLayoutView({ model: organisation });
+                var project = new Project(model.Project);
+                var projectFormLayoutView = new ProjectFormLayoutView({ model: project, teams: model.Teams });
 
-                app.content[app.getShowViewMethodName()](organisationFormLayoutView);
+                app.content[app.getShowViewMethodName('projects')](projectFormLayoutView);
 
-                if (app.isPrerendering('organisations')) {
-                    organisationFormLayoutView.showBootstrappedDetails();
+                if (app.isPrerendering('projects')) {
+                    projectFormLayoutView.showBootstrappedDetails();
                 }
 
                 app.setPrerenderComplete();
             });
     };
 
-    return OrganisationController;
+    // Show an project form
+    //ProjectController.showProjectExplorer = function (page, pageSize, sortField, sortDirection, searchQuery) {
+    ProjectController.showProjectExplorer = function () {
+        log('projectController:showProjects');
+        //$.when(getExploreList(page, pageSize, sortField, sortDirection, searchQuery))
+        $.when(getExploreList())
+            .done(function (model) {
+                log('got to the ProjectController.showProjects function');
 
-});
-/// <reference path="../../libs/log.js" />
-/// <reference path="../../libs/require/require.js" />
-/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
-/// <reference path="../../libs/underscore/underscore.js" />
-/// <reference path="../../libs/backbone/backbone.js" />
-/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
+                //projectLayoutView.showStream(new StreamItemCollection(app.prerenderedView.data.StreamItems.PagedListItems));
 
-// OrganisationRouter
-// ------------------
+                //                var projects = new PaginatedCollection(model.Project);
+                //                var projectFormLayoutView = new ProjectFormLayoutView({ model: project, teams: model.Teams });
 
-define('routers/organisationrouter',['jquery', 'underscore', 'backbone', 'app', 'controllers/organisationcontroller'], function ($, _, Backbone, app, OrganisationController) {
+                //                app.content[app.getShowViewMethodName('projects')](projectFormLayoutView);
 
-    var OrganisationRouter = Backbone.Marionette.AppRouter.extend({
-        appRoutes: {
-            'organisations/create': 'showOrganisationForm'
-        }
-    });
+                //                if (app.isPrerendering('projects')) {
+                //                    projectFormLayoutView.showBootstrappedDetails();
+                //                }
 
-    app.addInitializer(function () {
-        this.organisationRouter = new OrganisationRouter({
-            controller: OrganisationController
-        });
-    });
-
-    return OrganisationRouter;
-
-});
-
-/// <reference path="../../libs/log.js" />
-/// <reference path="../../libs/require/require.js" />
-/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
-/// <reference path="../../libs/underscore/underscore.js" />
-/// <reference path="../../libs/backbone/backbone.js" />
-/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
-
-// Species
-// -------
-
-define('models/species',['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, app) {
-
-    var Species = Backbone.Model.extend({
-        defaults: {
-            Kingdom: '',
-            Group: '',
-            CommonNames: [],
-            Taxonomy: '',
-            Order: '',
-            Family: '',
-            GenusName: '',
-            SpeciesName: '',
-            ProposedAsNewSpecies: false
-        },
-
-        idAttribute: 'Id',
-
-        url: '/species/',
-
-        toJSON: function () {
-            return {
-                Id: this.id,
-                Kingdom: this.get('Kingdom'),
-                Group: this.get('Group'),
-                CommonNames: this.get('CommonNames'),
-                Taxonomy: this.get('Taxonomy'), // TODO: Fix this to return id?
-                Order: this.get('Order'),
-                Family: this.get('Family'),
-                GenusName: this.get('GenusName'),
-                SpeciesName: this.get('SpeciesName'),
-                ProposedAsNewSpecies: this.get('ProposedAsNewSpecies')
-            };
-        }
-    });
-
-    return Species;
-
-});
-/// <reference path="../../libs/log.js" />
-/// <reference path="../../libs/require/require.js" />
-/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
-/// <reference path="../../libs/underscore/underscore.js" />
-/// <reference path="../../libs/backbone/backbone.js" />
-/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
-
-// SpeciesFormItemView
-// -------------------------
-
-define('views/speciesformitemview',['jquery', 'underscore', 'backbone', 'app', 'ich', 'multiselect'], function ($, _, Backbone, app, ich) {
-
-    var SpeciesFormItemView = Backbone.Marionette.ItemView.extend({
-
-        tagName: 'section',
-
-        className: 'form single-medium',
-
-        id: 'species-form',
-
-        template: 'SpeciesCreate',
-
-        events: {
-            'click #cancel': '_cancel',
-            'click #save': '_save',
-            'change input#kingdom': '_contentChanged',
-            'change input#group': '_contentChanged',
-            'change input#commonnames': '_contentChanged',
-            'change input#taxonomy': '_contentChanged',
-            'change input#order': '_contentChanged',
-            'change input#family': '_contentChanged',
-            'change input#genusname': '_contentChanged',
-            'change input#speciesname': '_contentChanged',
-            'change #proposed-new-species-field input:checkbox': '_proposedNewSpeciesChanged'
-        },
-
-        onRender: function () {
-        },
-        
-        _contentChanged: function (e) {
-            var target = $(e.currentTarget);
-            var data = {};
-            data[target.attr('id')] = target.attr('value');
-            this.model.set(data);
-        },
-
-        _proposedNewSpeciesChanged: function (e) {
-        },
-
-        _cancel: function () {
-        },
-
-        _save: function () {
-            this.model.save();
-        }
-    });
-
-    return SpeciesFormItemView;
-});
-/// <reference path="../../libs/log.js" />
-/// <reference path="../../libs/require/require.js" />
-/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
-/// <reference path="../../libs/underscore/underscore.js" />
-/// <reference path="../../libs/backbone/backbone.js" />
-/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
-
-// SpeciesController
-// ----------------------
-
-// This is the controller contributions (observations & posts). It contains all of the 
-// high level knowledge of how to run the app when it's in contribution mode.
-define('controllers/speciescontroller',['jquery', 'underscore', 'backbone', 'app', 'models/species', 'views/speciesformitemview'], function ($, _, Backbone, app, Species, SpeciesFormItemView) {
-
-    var SpeciesController = {};
-
-    // SpeciesController Public API
-    // ---------------------------------
-
-    // Show a species
-    SpeciesController.showSpeciesForm = function () {
-
-        var speciesFormItemView = new SpeciesFormItemView({ el: $('.species-create-form'), model: new Species(app.prerenderedView.Species) });
-
-        speciesFormItemView.render();
-
-        app.prerenderedView.isBound = true;
+                //                app.setPrerenderComplete();
+            });
     };
 
-    // SpeciesController Event Handlers
-    // -------------------------------------
-
-    app.vent.on('species:show', function () {
-        SpeciesController.showSpeciesForm();
-    });
-
-    return SpeciesController;
+    return ProjectController;
 
 });
-/// <reference path="../../libs/log.js" />
-/// <reference path="../../libs/require/require.js" />
-/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
-/// <reference path="../../libs/underscore/underscore.js" />
-/// <reference path="../../libs/backbone/backbone.js" />
-/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// SpeciesRouter
-// ------------------
-
-define('routers/speciesrouter',['jquery', 'underscore', 'backbone', 'app', 'controllers/speciescontroller'], function ($, _, Backbone, app, SpeciesController) {
-
-    var SpeciesRouter = Backbone.Marionette.AppRouter.extend({
+// ProjectRouter
+// -------------
+define(['jquery', 'underscore', 'backbone', 'app', 'controllers/projectcontroller'],
+function ($, _, Backbone, app, ProjectController) 
+{
+    var ProjectRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
-            'species/create': 'showSpeciesForm'
+            'projects/explore': 'showProjectExplorer',
+            'projects/create': 'showProjectForm',
+            'projects/:id/update': 'showProjectForm'
         }
     });
 
     app.addInitializer(function () {
-        this.speciesRouter = new SpeciesRouter({
-            controller: SpeciesController
+        this.projectRouter = new ProjectRouter({
+            controller: ProjectController
         });
     });
-
-    return SpeciesRouter;
 });
 /// <reference path="../../libs/log.js" />
 /// <reference path="../../libs/require/require.js" />
@@ -23173,10 +23003,9 @@ define('views/referencespeciesformlayoutview',['jquery', 'underscore', 'backbone
 // ReferenceSpeciesController
 // ----------------------
 
-// This is the controller contributions (observations & posts). It contains all of the 
-// high level knowledge of how to run the app when it's in contribution mode.
-define('controllers/referencespeciescontroller',['jquery', 'underscore', 'backbone', 'app', 'models/referencespecies', 'views/referencespeciesformlayoutview'], function ($, _, Backbone, app, ReferenceSpecies, ReferenceSpeciesFormLayoutView) {
-
+define(['jquery','underscore','backbone','app','models/referencespecies','views/referencespeciesformlayoutview'],
+function ($,_,Backbone,app,ReferenceSpecies,ReferenceSpeciesFormLayoutView) 
+{
     var ReferenceSpeciesController = {};
 
     // ReferenceSpeciesController Public API
@@ -23202,18 +23031,12 @@ define('controllers/referencespeciescontroller',['jquery', 'underscore', 'backbo
     return ReferenceSpeciesController;
 
 });
-/// <reference path="../../libs/log.js" />
-/// <reference path="../../libs/require/require.js" />
-/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
-/// <reference path="../../libs/underscore/underscore.js" />
-/// <reference path="../../libs/backbone/backbone.js" />
-/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
 // ReferenceSpeciesRouter
 // ------------------
-
-define('routers/referencespeciesrouter',['jquery', 'underscore', 'backbone', 'app', 'controllers/referencespeciescontroller'], function ($, _, Backbone, app, ReferenceSpeciesController) {
-
+define(['jquery','underscore','backbone','app','controllers/referencespeciescontroller'],
+function ($,_,Backbone,app,ReferenceSpeciesController)
+{
     var ReferenceSpeciesRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
             'referencespecies/create': 'showReferenceSpeciesForm'
@@ -23225,8 +23048,6 @@ define('routers/referencespeciesrouter',['jquery', 'underscore', 'backbone', 'ap
             controller: ReferenceSpeciesController
         });
     });
-
-    return ReferenceSpeciesRouter;
 });
 /// <reference path="../../libs/log.js" />
 /// <reference path="../../libs/require/require.js" />
@@ -23235,80 +23056,358 @@ define('routers/referencespeciesrouter',['jquery', 'underscore', 'backbone', 'ap
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// ActivityController
-// ------------------
+// Species
+// -------
 
-define('controllers/activitycontroller',['jquery', 'underscore', 'backbone', 'app', 'models/user'], function ($, _, Backbone, app, User) {
+define('models/species',['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, app) {
 
-    var ActivityController = {};
+    var Species = Backbone.Model.extend({
+        defaults: {
+            Kingdom: '',
+            Group: '',
+            CommonNames: [],
+            Taxonomy: '',
+            Order: '',
+            Family: '',
+            GenusName: '',
+            SpeciesName: '',
+            ProposedAsNewSpecies: false
+        },
 
-    // Call From Hub
-    ActivityController.newActivity = function (data) {
-        log('activityController.newActivity: ' + data.Description);
-        log(data);
-        //data.description
-        alert('new activity received');
-    };
+        idAttribute: 'Id',
 
-    // Call From Hub
-    ActivityController.userStatusUpdate = function (data) {
-        log('activityController.userStatusUpdate');
-        log(data);
-        //app.onlineUsers.updateUserStatus(data);
+        url: '/species/',
 
-        //if (!app.onlineUsers.contains(data.Id)) {
-        //var userExists = 
-
-        if (!_.any(app.onlineUsers,function(user){ return user.id == data.Id; })){
-            if (data.Status == 2 || data.Status == 3 || data.Status == 'undefined') return;
-            var user = new User(data);
-            app.onlineUsers.add(user);
-        } else {
-            var user = app.onlineUsers.get(data.Id);
-            if (data.Status == 2 || data.Status == 3) {
-                app.onlineUsers.remove(user);
-            } else {
-                user.set('Status', data.Status);
-            }
+        toJSON: function () {
+            return {
+                Id: this.id,
+                Kingdom: this.get('Kingdom'),
+                Group: this.get('Group'),
+                CommonNames: this.get('CommonNames'),
+                Taxonomy: this.get('Taxonomy'), // TODO: Fix this to return id?
+                Order: this.get('Order'),
+                Family: this.get('Family'),
+                GenusName: this.get('GenusName'),
+                SpeciesName: this.get('SpeciesName'),
+                ProposedAsNewSpecies: this.get('ProposedAsNewSpecies')
+            };
         }
-    };
-
-    return ActivityController;
-
-});
-/// <reference path="../../libs/log.js" />
-/// <reference path="../../libs/require/require.js" />
-/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
-/// <reference path="../../libs/underscore/underscore.js" />
-/// <reference path="../../libs/backbone/backbone.js" />
-/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
-
-// ActivityRouter
-// --------------
-
-define('routers/activityrouter',['jquery', 'underscore', 'backbone', 'app', 'controllers/activitycontroller'], function ($, _, Backbone, app, ActivityController) {
-
-    var ActivityRouter = function (options) {
-        this.hub = $.connection.activityHub;
-        this.controller = options.controller;
-        this.hub.newActivity = this.controller.newActivity;
-        this.hub.userStatusUpdate = this.controller.userStatusUpdate;
-
-//        var self = this;
-//        var method = _.bind(this.controller.userStatusUpdate, this.controller);
-//        this.hub.userStatusUpdate = function (result) {
-//            method.call(self.controller, result);
-//        };
-    };
-
-    app.addInitializer(function () {
-        this.activityRouter = new ActivityRouter({
-            controller: ActivityController
-        });
     });
 
-    return ActivityRouter;
+    return Species;
 
+});
+/// <reference path="../../libs/log.js" />
+/// <reference path="../../libs/require/require.js" />
+/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
+/// <reference path="../../libs/underscore/underscore.js" />
+/// <reference path="../../libs/backbone/backbone.js" />
+/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
+
+// SpeciesFormItemView
+// -------------------------
+
+define('views/speciesformitemview',['jquery', 'underscore', 'backbone', 'app', 'ich', 'multiselect'], function ($, _, Backbone, app, ich) {
+
+    var SpeciesFormItemView = Backbone.Marionette.ItemView.extend({
+
+        tagName: 'section',
+
+        className: 'form single-medium',
+
+        id: 'species-form',
+
+        template: 'SpeciesCreate',
+
+        events: {
+            'click #cancel': '_cancel',
+            'click #save': '_save',
+            'change input#kingdom': '_contentChanged',
+            'change input#group': '_contentChanged',
+            'change input#commonnames': '_contentChanged',
+            'change input#taxonomy': '_contentChanged',
+            'change input#order': '_contentChanged',
+            'change input#family': '_contentChanged',
+            'change input#genusname': '_contentChanged',
+            'change input#speciesname': '_contentChanged',
+            'change #proposed-new-species-field input:checkbox': '_proposedNewSpeciesChanged'
+        },
+
+        onRender: function () {
+        },
+        
+        _contentChanged: function (e) {
+            var target = $(e.currentTarget);
+            var data = {};
+            data[target.attr('id')] = target.attr('value');
+            this.model.set(data);
+        },
+
+        _proposedNewSpeciesChanged: function (e) {
+        },
+
+        _cancel: function () {
+        },
+
+        _save: function () {
+            this.model.save();
+        }
+    });
+
+    return SpeciesFormItemView;
+});
+/// <reference path="../../libs/log.js" />
+/// <reference path="../../libs/require/require.js" />
+/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
+/// <reference path="../../libs/underscore/underscore.js" />
+/// <reference path="../../libs/backbone/backbone.js" />
+/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
+
+// SpeciesController
+// ----------------------
+define(['jquery', 'underscore', 'backbone', 'app', 'models/species', 'views/speciesformitemview'],
+function ($, _, Backbone, app, Species, SpeciesFormItemView) 
+{
+    var SpeciesController = {};
+
+    var getModel = function (id) {
+        var deferred = new $.Deferred();
+
+        if (app.isPrerendering('species')) {
+            deferred.resolve(app.prerenderedView.data);
+        } else {
+            var params = {};
+            if (id) {
+                params['id'] = id;
+            }
+            $.ajax({
+                url: '/species/create',
+                data: params
+            }).done(function (data) {
+                deferred.resolve(data.Model);
+            });
+        }
+        return deferred.promise();
+    };
+
+    // SpeciesController Public API
+    // ---------------------------------
+
+    // Show a species
+    SpeciesController.showSpeciesForm = function () {
+
+        var speciesFormItemView = new SpeciesFormItemView({ el: $('.species-create-form'), model: new Species(app.prerenderedView.Species) });
+
+        speciesFormItemView.render();
+
+        app.prerenderedView.isBound = true;
+    };
+
+    // SpeciesController Event Handlers
+    // -------------------------------------
+    app.vent.on('species:show', function () {
+        SpeciesController.showSpeciesForm();
+    });
+
+    return SpeciesController;
+
+});
+
+// SpeciesRouter
+// -------------
+define(['jquery','underscore','backbone','app','controllers/speciescontroller'],
+function ($, _, Backbone, app, SpeciesController) 
+{
+    var SpeciesRouter = Backbone.Marionette.AppRouter.extend({
+        appRoutes: {
+            'species/create': 'showSpeciesForm'
+        }
+    });
+
+    app.addInitializer(function () {
+        this.speciesRouter = new SpeciesRouter({
+            controller: SpeciesController
+        });
+    });
+});
+/// <reference path="../../libs/log.js" />
+/// <reference path="../../libs/require/require.js" />
+/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
+/// <reference path="../../libs/underscore/underscore.js" />
+/// <reference path="../../libs/backbone/backbone.js" />
+/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
+
+// TeamFormLayoutView
+// -------------------------
+
+define('views/teamformlayoutview',['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/editavatarview', 'multiselect', 'fileupload'], function ($, _, Backbone, app, ich, loadImage, EditAvatarView) {
+
+    var TeamFormLayoutView = Backbone.Marionette.Layout.extend({
+
+        className: 'form single-medium team-form',
+
+        template: 'TeamForm',
+
+        regions: {
+            avatar: '#avatar-fieldset'
+        },
+
+        events: {
+            'click #cancel': '_cancel',
+            'click #save': '_save',
+            'change input#Name': '_contentChanged',
+            'change textarea#Description': '_contentChanged',
+            'change input#Website': '_contentChanged',
+            'change #organisation-field input:checkbox': '_organisationChanged'
+        },
+
+        initialize: function (options) {
+            log('teamFormLayoutView.initialize');
+            this.organisations = options.organisations;
+        },
+
+        serializeData: function () {
+            log('teamFormLayoutView.serializeData');
+            return {
+                Model: {
+                    Team: this.model.toJSON(),
+                    Organisations: this.organisations
+                }
+            };
+        },
+
+        onShow: function () {
+            log('teamFormLayoutView.onShow');
+            this._showDetails();
+        },
+
+        showBootstrappedDetails: function () {
+            log('teamFormLayoutView.showBootstrappedDetails');
+            this.initializeRegions();
+            this._showDetails();
+        },
+
+        _showDetails: function () {
+            log('teamFormLayoutView._showDetails');
+            var editAvatarView = new EditAvatarView({ el: '#avatar-fieldset', model: this.model });
+            editAvatarView.render();
+            this.organisationListSelectView = this.$el.find("#Organisation").multiSelect({
+                selectAll: false,
+                singleSelect: true,
+                noOptionsText: 'No Organisations',
+                noneSelected: 'Select An Organisation',
+                oneOrMoreSelected: function (selectedOptions) {
+                    var $selectedHtml = $('<span />');
+                    _.each(selectedOptions, function (option) {
+                        $selectedHtml.append('<span>' + option.text + '</span> ');
+                    });
+                    return $selectedHtml.children();
+                }
+            });
+        },
+
+        _contentChanged: function (e) {
+            log('teamFormLayoutView._contentChanged');
+            var target = $(e.currentTarget);
+            var data = {};
+            data[target.attr('id')] = target.attr('value');
+            this.model.set(data);
+        },
+
+        _organisationChanged: function (e) {
+            log('teamFormLayoutView._organisationChanged');
+            var $checkbox = $(e.currentTarget);
+            if ($checkbox.attr('checked') === 'checked') {
+                this.model.set('Organisation', $checkbox.attr('value'));
+            } else {
+                this.model.set('Organisation', '');
+            }
+        },
+
+        _cancel: function () {
+        },
+
+        _save: function () {
+            this.model.save();
+        }
+    });
+
+    return TeamFormLayoutView;
+});
+/// <reference path="../../libs/log.js" />
+/// <reference path="../../libs/require/require.js" />
+/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
+/// <reference path="../../libs/underscore/underscore.js" />
+/// <reference path="../../libs/backbone/backbone.js" />
+/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
+
+// TeamController
+// ----------------------
+define(['jquery','underscore','backbone','app','models/team','views/teamformlayoutview'],
+function ($,_,Backbone,app,Team,TeamFormLayoutView) 
+{
+    var TeamController = {};
+
+    var getModel = function (id) {
+        var deferred = new $.Deferred();
+
+        if (app.isPrerendering('teams')) {
+            deferred.resolve(app.prerenderedView.data);
+        } else {
+            var params = {};
+            if (id) {
+                params['id'] = id;
+            }
+            $.ajax({
+                url: '/teams/create',
+                data: params
+            }).done(function (data) {
+                deferred.resolve(data.Model);
+            });
+        }
+        return deferred.promise();
+    };
+
+    // TeamController Public API
+    // ---------------------------------
+
+    // Show an team form
+    TeamController.showTeamForm = function (id) {
+        log('teamController:showTeamForm');
+        $.when(getModel(id))
+            .done(function (model) {
+                var team = new Team(model.Team);
+                var teamFormLayoutView = new TeamFormLayoutView({ model: team, organisations: model.Organisations });
+
+                app.content[app.getShowViewMethodName('teams')](teamFormLayoutView);
+
+                if (app.isPrerendering('teams')) {
+                    teamFormLayoutView.showBootstrappedDetails();
+                }
+
+                app.setPrerenderComplete();
+            });
+    };
+
+    return TeamController;
+});
+
+// TeamRouter
+// ------------------
+define(['jquery','underscore','backbone','app','controllers/teamcontroller'],
+function ($,_,Backbone,app,TeamController) 
+{
+    var TeamRouter = Backbone.Marionette.AppRouter.extend({
+        appRoutes: {
+            'teams/create': 'showTeamForm'
+        }
+    });
+
+    app.addInitializer(function () {
+        this.teamRouter = new TeamRouter({
+            controller: TeamController
+        });
+    });
 });
 /// <reference path="../../libs/log.js" />
 /// <reference path="../../libs/require/require.js" />
@@ -23455,6 +23554,10 @@ define('views/sidebarprojectitemview',['jquery', 'underscore', 'backbone', 'app'
             'click .sub-menu-button li': 'selectMenuItem'
         },
 
+        initialize: function () {
+            this.activityCount = 0;
+        },
+
         onRender: function () {
             var that = this;
             $(this.el).children('a').on('click', function (e) {
@@ -23463,6 +23566,8 @@ define('views/sidebarprojectitemview',['jquery', 'underscore', 'backbone', 'app'
                 app.vent.trigger('project:show:stream', that.model.id);
                 return false;
             });
+
+            app.vent.on('newactivity:observationadded', this.observationAdded, this);
         },
 
         serializeData: function () {
@@ -23494,6 +23599,19 @@ define('views/sidebarprojectitemview',['jquery', 'underscore', 'backbone', 'app'
                 app.chats.add(chat);
             }
             app.chatRouter.joinChat(chat);
+        },
+
+        observationAdded: function (activity) {
+            var self = this;
+            _.each(activity.get('Groups'), function (group) {
+                if (group.Id == self.model.id) {
+                    self.activityCount++;
+                    if (self.activityCount == 1) {
+                        self.$el.find('p').append('<span></span>');
+                    }
+                    self.$el.find('p span').text(self.activityCount);
+                }
+            });
         }
     });
 
@@ -23698,6 +23816,18 @@ function ($, _, Backbone, app, SidebarMenuGroupCompositeView, SidebarProjectItem
             }
 
             var that = this;
+            this.$el.find('#action-menu .new-project-button').on('click', function (e) {
+                e.preventDefault();
+                app.projectRouter.navigate($(this).attr('href'), { trigger: true });
+                //app.vent.trigger('home:show');
+                return false;
+            });
+            this.$el.find('#action-menu .new-observation-button').on('click', function (e) {
+                e.preventDefault();
+                app.projectRouter.navigate($(this).attr('href'), { trigger: true });
+                //app.vent.trigger('home:show');
+                return false;
+            });
             this.$el.find('a.user-stream').on('click', function (e) {
                 e.preventDefault();
                 app.groupUserRouter.navigate($(this).attr('href'), { trigger: true });
@@ -23722,6 +23852,8 @@ function ($, _, Backbone, app, SidebarMenuGroupCompositeView, SidebarProjectItem
                 //app.vent.trigger('home:show');
                 return false;
             });
+
+            app.authenticatedUser.projects.on('add', this.addProject, this);
         },
 
         serializeData: function () {
@@ -23744,6 +23876,10 @@ function ($, _, Backbone, app, SidebarMenuGroupCompositeView, SidebarProjectItem
         selectMenuItem: function (e) {
             $('.sub-menu-button').removeClass('active');
             e.stopPropagation();
+        },
+
+        addProject: function (project) {
+            log('project added', this, project);
         }
     });
 
@@ -23782,10 +23918,142 @@ function ($, _, Backbone, app, SidebarMenuGroupCompositeView, SidebarProjectItem
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
+// NotificationItemView
+// --------------------
+
+define('views/notificationitemview',['jquery', 'underscore', 'backbone', 'app', 'timeago', 'date'], function ($, _, Backbone, app) {
+
+    var parseISO8601 = function (str) {
+        // we assume str is a UTC date ending in 'Z'
+
+        var parts = str.split('T'),
+        dateParts = parts[0].split('-'),
+        timeParts = parts[1].split('Z'),
+        timeSubParts = timeParts[0].split(':'),
+        timeSecParts = timeSubParts[2].split('.'),
+        timeHours = Number(timeSubParts[0]),
+        _date = new Date;
+
+        _date.setUTCFullYear(Number(dateParts[0]));
+        _date.setUTCMonth(Number(dateParts[1]) - 1);
+        _date.setUTCDate(Number(dateParts[2]));
+        _date.setUTCHours(Number(timeHours));
+        _date.setUTCMinutes(Number(timeSubParts[1]));
+        _date.setUTCSeconds(Number(timeSecParts[0]));
+        if (timeSecParts[1]) _date.setUTCMilliseconds(Number(timeSecParts[1]));
+
+        // by using setUTC methods the date has already been converted to local time(?)
+        return _date;
+    };
+
+    var NotificationItemView = Backbone.Marionette.ItemView.extend({
+        tagName: 'li',
+
+        className: 'notification-item',
+
+        template: 'NotificationItem',
+
+        serializeData: function () {
+            var model = this.model.toJSON();
+            model.CreatedDateTimeDescription = parseISO8601(this.model.get('CreatedDateTime') + 'Z');
+            //model.ObservedOnDescription = ''; //parseISO8601(this.model.get('ObservedOn') + 'Z').format('d MMM yyyy')
+            return {
+                Model: model
+            };
+        },
+
+        onRender: function () {
+            this.$el.find('.time-description').timeago();
+        }
+        //        render: function () {
+        //            switch (this.StreamItem.get('Type')) {
+        //                case 'observation':
+        //                    var streamitemJSON = this.streamItem.toJSON();
+        //                    streamitemJSON['ObservedOnDate'] = new Date(parseInt(this.streamItem.get('Item').ObservedOn.substr(6))).format('d MMM yyyy');
+        //                    streamitemJSON['ObservedOnTime'] = new Date(parseInt(this.streamItem.get('Item').ObservedOn.substr(6))).format('h:mm');
+        //                    streamitemJSON['HighlightMedia'] = streamitemJSON.item.observationMedia[0];
+        //                    this.$el.append(ich.ObservationStreamListItem(streamitemJSON)).addClass('observation-stream-item');
+        //                    break;
+        //                default:
+        //                    break;
+        //            }
+        //            return this;
+        //        }
+    });
+
+    return NotificationItemView;
+
+});
+/// <reference path="../../libs/log.js" />
+/// <reference path="../../libs/require/require.js" />
+/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
+/// <reference path="../../libs/underscore/underscore.js" />
+/// <reference path="../../libs/backbone/backbone.js" />
+/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
+
+// NotificationsCompositeView
+// --------------------------
+
+// The right hand side bar that is shown to authenticated users.
+define('views/notificationscompositeview',['jquery', 'underscore', 'backbone', 'app', 'views/notificationitemview'],
+function ($, _, Backbone, app, NotificationItemView) {
+
+    var NotificationsCompositeView = Backbone.Marionette.CompositeView.extend({
+        tagName: 'section',
+
+        id: 'notifications',
+
+        className: 'triple-3',
+
+        template: 'Notifications',
+
+        itemView: NotificationItemView,
+
+        onRender: function () {
+            $('article').append(this.el);
+
+            app.vent.on('newactivity', this.newActivity, this);
+        },
+
+        appendHtml: function(collectionView, itemView){
+            collectionView.$el.find('ul').prepend(itemView.el);
+        },
+
+        newActivity: function(activity) {
+        }
+    });
+
+    // Initialize the sidebar layout
+    app.addInitializer(function (options) {
+        $(function () {
+            // Only show notifications if user is authenticated
+            if (app.authenticatedUser) {
+                // Render the layout and get it on the screen, first
+                var notificationsCompositeView = new NotificationsCompositeView({ model: app.authenticatedUser.user, collection: app.activities });
+
+                notificationsCompositeView.on('show', function () {
+                    app.vent.trigger('notifications:rendered');
+                });
+
+                app.notifications.show(notificationsCompositeView);
+            }
+        });
+    });
+
+    return NotificationsCompositeView;
+
+});
+/// <reference path="../../libs/log.js" />
+/// <reference path="../../libs/require/require.js" />
+/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
+/// <reference path="../../libs/underscore/underscore.js" />
+/// <reference path="../../libs/backbone/backbone.js" />
+/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
+
 // OnlineUserItemView
 // ------------------
 
-define('views/onlineuseritemview',['jquery', 'underscore', 'backbone', 'app', 'models/user'], function ($, _, Backbone, app, User) {
+define('views/onlineuseritemview',['jquery', 'underscore', 'backbone', 'app', 'models/user'], function ($, _, Backbone, app) {
 
     var OnlineUserItemView = Backbone.Marionette.ItemView.extend({
         
@@ -23881,5 +24149,110 @@ function ($, _, Backbone, app, OnlineUserItemView) {
     });
 
     return OnlineUsersCompositeView;
+
+});
+/// <reference path="../../libs/log.js" />
+/// <reference path="../../libs/require/require.js" />
+/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
+/// <reference path="../../libs/underscore/underscore.js" />
+/// <reference path="../../libs/backbone/backbone.js" />
+/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
+
+// ExploreProjectItemView
+// ----------------------
+
+// Shows an individual project item
+define('views/exploreprojectitemview',['jquery', 'underscore', 'backbone', 'app', 'models/project'], function ($, _, Backbone, app) {
+
+    var ExploreProjectItemView = Backbone.Marionette.ItemView.extend({
+        
+        className: 'explore-project-item',
+
+        template: 'ProjectItem',
+
+        serializeData: function () {
+            var model = this.model.toJSON();
+            return {
+                Model: model
+            };
+        }
+    });
+
+    return ExploreProjectItemView;
+
+});
+/// <reference path="../../libs/log.js" />
+/// <reference path="../../libs/require/require.js" />
+/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
+/// <reference path="../../libs/underscore/underscore.js" />
+/// <reference path="../../libs/backbone/backbone.js" />
+/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
+
+// ExploreProjectView
+// ------------------
+
+// Shows Explore project items for selected Project
+define('views/exploreprojectview',[
+'jquery',
+'underscore',
+'backbone',
+'app',
+'ich',
+'views/exploreprojectitemview'],
+function (
+$,
+_,
+Backbone,
+app,
+ich, 
+ExploreProjectItemView) {
+
+    var ExploreProjectView = Backbone.Marionette.CompositeView.extend({
+        
+        template: 'ProjectList',
+
+        itemView: ExploreProjectItemView,
+
+        events: {
+            "click #explore-load-more-button": "loadNextExploreItems"
+        },
+
+        initialize: function (options) {
+            this.collection.on('fetching', this.onExploreLoadingStart, this);
+            this.collection.on('fetched', this.onExploreLoadingComplete, this);
+        },
+
+        showBootstrappedDetails: function () {
+        },
+
+        appendHtml: function (collectionView, itemView) {
+            collectionView.$el.find('.explore-list').append(itemView.el);
+        },
+
+        onExploreLoadingStart: function (collection) {
+            this.$el.find('#explore-load-more').remove();
+            this.$el.find('.explore-list').append(ich.StreamListLoading({ Text: 'Loading', ShowLoader: true }));
+        },
+
+        onExploreLoadingComplete: function (collection) {
+            this.toggleNoExpolreItemsStatus(collection);
+            if (collection.pageInfo().next) {
+                this.$el.find('.explore-list > div').append(ich.StreamListLoading());
+            }
+        },
+
+        toggleNoStreamItemsStatus: function (collection) {
+            this.$el.find('#explore-status').remove();
+            if (collection.length === 0) {
+                this.$el.find('.explore-list > div').append(ich.StreamListLoading({ Text: 'No items yet!' }));
+            }
+        },
+
+        loadNextExploreItems: function () {
+            app.stream.setNextPage();
+        }
+    });
+
+    return ExploreProjectView;
 
 });

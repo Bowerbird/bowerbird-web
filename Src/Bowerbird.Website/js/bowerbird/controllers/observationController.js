@@ -8,9 +8,9 @@
 
 // ObservationController
 // ---------------------
-
-define(['jquery', 'underscore', 'backbone', 'app', 'views/observationlayoutview', 'models/observation'], function ($, _, Backbone, app, ObservationLayoutView, Observation) {
-
+define(['jquery', 'underscore', 'backbone', 'app', 'views/observationlayoutview', 'models/observation'], 
+function ($, _, Backbone, app, ObservationLayoutView, Observation) 
+{
     var ObservationController = {};
 
     // Helper method to load project layout, taking into account bootstrapped data and prerendered view
@@ -67,5 +67,25 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/observationlayoutview'
     //    });
 
     return ObservationController;
+
+});
+
+// ObservationRouter
+// -----------------
+define(['jquery', 'underscore', 'backbone', 'app', 'controllers/observationcontroller'], 
+function ($, _, Backbone, app, ObservationController) 
+{
+    var ObservationRouter = Backbone.Marionette.AppRouter.extend({
+        appRoutes: {
+            'observations/create': 'showObservationForm',
+            'observations/:id/update': 'showObservationForm'
+        }
+    });
+
+    app.addInitializer(function () {
+        this.observationRouter = new ObservationRouter({
+            controller: ObservationController
+        });
+    });
 
 });

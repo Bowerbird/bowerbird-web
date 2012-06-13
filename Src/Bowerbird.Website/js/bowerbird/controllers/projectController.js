@@ -7,11 +7,9 @@
 
 // ProjectController
 // -----------------
-
-// This is the controller contributions (observations & posts). It contains all of the 
-// high level knowledge of how to run the app when it's in contribution mode.
-define(['jquery', 'underscore', 'backbone', 'app', 'views/projectformlayoutview', 'models/project'], function ($, _, Backbone, app, ProjectFormLayoutView, Project) {
-
+define(['jquery', 'underscore', 'backbone', 'app', 'views/projectformlayoutview', 'collections/exploreprojectcollection', 'models/project'], 
+function ($,_,Backbone,app,ProjectFormLayoutView,ExploreProjectCollection,Project)
+{
     var ProjectController = {};
 
     var getModel = function (id) {
@@ -26,6 +24,40 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/projectformlayoutview'
             }
             $.ajax({
                 url: '/projects/create',
+                data: params
+            }).done(function (data) {
+                deferred.resolve(data.Model);
+            });
+        }
+
+        return deferred.promise();
+    };
+
+    //    var getExploreList = function (page, pageSize, sortField, sortDirection, searchQuery) {
+    var getExploreList = function (page, pageSize, sortField, sortDirection, searchQuery) {
+        var deferred = new $.Deferred();
+
+        if (app.isPrerendering('projects')) {
+            deferred.resolve(app.prerenderedView.data);
+        } else {
+            var params = {};
+            //            if (page) {
+            //                params['page'] = page;
+            //            }
+            //            if (pageSize) {
+            //                params['pageSize'] = pageSize;
+            //            }
+            //            if (sortField) {
+            //                params['sortField'] = sortField;
+            //            }
+            //            if (sortDirection) {
+            //                params['sortDirection'] = sortDirection;
+            //            }
+            //            if (searchQuery) {
+            //                params['searchQuery'] = searchQuery;
+            //            }
+            $.ajax({
+                url: '/projects/explore',
                 data: params
             }).done(function (data) {
                 deferred.resolve(data.Model);
@@ -54,43 +86,52 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/projectformlayoutview'
 
                 app.setPrerenderComplete();
             });
-        };
+    };
+
+    // Show an project form
+    //ProjectController.showProjectExplorer = function (page, pageSize, sortField, sortDirection, searchQuery) {
+    ProjectController.showProjectExplorer = function () {
+        log('projectController:showProjects');
+        //$.when(getExploreList(page, pageSize, sortField, sortDirection, searchQuery))
+        $.when(getExploreList())
+            .done(function (model) {
+                log('got to the ProjectController.showProjects function');
+
+                //projectLayoutView.showStream(new StreamItemCollection(app.prerenderedView.data.StreamItems.PagedListItems));
+
+                //                var projects = new PaginatedCollection(model.Project);
+                //                var projectFormLayoutView = new ProjectFormLayoutView({ model: project, teams: model.Teams });
+
+                //                app.content[app.getShowViewMethodName('projects')](projectFormLayoutView);
+
+                //                if (app.isPrerendering('projects')) {
+                //                    projectFormLayoutView.showBootstrappedDetails();
+                //                }
+
+                //                app.setPrerenderComplete();
+            });
+    };
 
     return ProjectController;
 
 });
 
-//// ProjectController
-//// ----------------------
+// ProjectRouter
+// -------------
+define(['jquery', 'underscore', 'backbone', 'app', 'controllers/projectcontroller'],
+function ($, _, Backbone, app, ProjectController) 
+{
+    var ProjectRouter = Backbone.Marionette.AppRouter.extend({
+        appRoutes: {
+            'projects/explore': 'showProjectExplorer',
+            'projects/create': 'showProjectForm',
+            'projects/:id/update': 'showProjectForm'
+        }
+    });
 
-//// This is the controller contributions (observations & posts). It contains all of the 
-//// high level knowledge of how to run the app when it's in contribution mode.
-//define(['jquery', 'underscore', 'backbone', 'app', 'models/project', 'views/projectformlayoutview'], function ($, _, Backbone, app, Project, ProjectFormLayoutView) {
-
-//    var ProjectController = {};
-
-//    // ProjectController Public API
-//    // ---------------------------------
-
-//    // Show a project
-//    ProjectController.showProjectForm = function () {
-
-//        var projectFormLayoutView = new ProjectFormLayoutView({ el: $('.project-create-form'), model: new Project(app.prerenderedView.Project) });
-//        var editAvatarView = new EditAvatarView({ el: '#avatar-add-pane'});
-
-//        projectFormLayoutView.render();
-//        projectFormLayoutView.avatar.show(editAvatarView);
-
-//        app.prerenderedView.isBound = true;
-//    };
-
-//    // ProjectController Event Handlers
-//    // -------------------------------------
-
-//    app.vent.on('project:show', function () {
-//        ProjectController.showProjectForm();
-//    });
-
-//    return ProjectController;
-
-//});
+    app.addInitializer(function () {
+        this.projectRouter = new ProjectRouter({
+            controller: ProjectController
+        });
+    });
+});

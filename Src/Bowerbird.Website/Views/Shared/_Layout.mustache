@@ -43,9 +43,9 @@
         </nav>
         <nav id="explore-menu">
           <ul class="explore-menu">
-            <li><a href="#">Projects</a></li>
-            <li><a href="#">Teams</a></li>
-            <li><a href="#">Organisations</a></li>
+            <li><a href="/projects/explore">Projects</a></li>
+            <li><a href="/teams/explore">Teams</a></li>
+            <li><a href="/organisations">Organisations</a></li>
           </ul>
         </nav>
         <nav id="search-menu">
@@ -63,16 +63,13 @@
       
     </footer>
     <div id="onlineusers"></div>
-    {{^IsStaticLayout}}
     <script type="text/javascript" src="/js/libs/log.js?v={{#Ver}}{{{Ver}}}{{/Ver}}{{^Ver}}0{{/Ver}}"></script>
-    <script data-main="/js/bowerbird/main.js" src="/js/libs/require/require.js?v={{#Ver}}{{{Ver}}}{{/Ver}}{{^Ver}}0{{/Ver}}"></script>
-    <!--<script data-main="/js/main-verbose" src="/js/libs/require/require.js?v={{#Ver}}{{{Ver}}}{{/Ver}}{{^Ver}}0{{/Ver}}"></script>-->
+    <script data-main="/js/{{JavascriptSource}}" src="/js/libs/require/require.js?v={{#Ver}}{{{Ver}}}{{/Ver}}{{^Ver}}0{{/Ver}}"></script>
     <script type="text/javascript">
         define('bootstrap-data', function() {
           log({{{BootstrappedJson}}});
           return {{{BootstrappedJson}}};
         });
     </script>
-    {{/IsStaticLayout}}
   </body>
 </html>

@@ -32,7 +32,9 @@ require.config({
         fileupload: '../libs/jquery.fileupload/jquery.fileupload',
         signalr: '../libs/jquery.signalr/jquery.signalr',
         timeago: '../libs/jquery.timeago/jquery.timeago'
-    },
+    }
+    // COMMENT THIS OUT FOR VERBOSE DEBUG VERSION
+    ,
     priority: [
         'ich',
         'jquery', 
@@ -42,16 +44,16 @@ require.config({
         'marionette',
         'signalr',
         // Routers are the first port of call, so load em up
-        'routers/homerouter',
-        'routers/groupuserrouter',
-        'routers/observationrouter',
-        'routers/projectrouter',
-        'routers/postrouter',
-        'routers/teamrouter',
-        'routers/organisationrouter',
-        'routers/speciesrouter',
-        'routers/referencespeciesrouter',
-        'routers/activityrouter',
+        'controllers/activitycontroller',
+        'controllers/groupusercontroller',
+        'controllers/homecontroller',
+        'controllers/observationcontroller',
+        'controllers/organisationcontroller',
+        'controllers/postcontroller',
+        'controllers/projectcontroller',
+        'controllers/referencespeciescontroller',
+        'controllers/speciescontroller',
+        'controllers/teamcontroller',
         // Load top level views, beacuse no one else is gonna do it
         'views/headerview',
         'views/footerview',
@@ -60,7 +62,8 @@ require.config({
         'views/homelayoutview',
         'views/projectlayoutview',
         'views/observationlayoutview',
-        'views/onlineuserscompositeview'
+        'views/onlineuserscompositeview',
+        'views/exploreprojectview'
     ]
 });
 

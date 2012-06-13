@@ -8,24 +8,24 @@
 // GroupUserRouter
 // ---------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'controllers/groupusercontroller'], function ($, _, Backbone, app, GroupUserController) {
+//define(['jquery', 'underscore', 'backbone', 'app', 'controllers/groupusercontroller'], function ($, _, Backbone, app, GroupUserController) {
 
-    var GroupUserRouter = Backbone.Marionette.AppRouter.extend({
-        appRoutes: {
-            //'teams/:id': 'showTeam',
-            //'projects/:id': 'showProjectStream',
-            //'projects/:id/about': 'showProjectAbout',
-            //'projects/:id/members': 'showProjectMembers',
-            'users/:id': 'showUser'
-        }
-    });
+//    var GroupUserRouter = Backbone.Marionette.AppRouter.extend({
+//        appRoutes: {
+//            //'teams/:id': 'showTeam',
+//            //'projects/:id': 'showProjectStream',
+//            //'projects/:id/about': 'showProjectAbout',
+//            //'projects/:id/members': 'showProjectMembers',
+//            'users/:id': 'showUser'
+//        }
+//    });
 
-    app.addInitializer(function () {
-        this.groupUserRouter = new GroupUserRouter({
-            controller: GroupUserController
-        });
-    });
+//    app.addInitializer(function () {
+//        this.groupUserRouter = new GroupUserRouter({
+//            controller: GroupUserController
+//        });
+//    });
 
-    return GroupUserRouter;
+//    return GroupUserRouter;
 
-});
+//});

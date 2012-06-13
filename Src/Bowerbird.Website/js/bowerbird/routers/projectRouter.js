@@ -6,23 +6,35 @@
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
 // ProjectRouter
-// ------------------
+// -------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'controllers/projectcontroller'], function ($, _, Backbone, app, ProjectController) {
+//define([
+//'jquery',
+//'underscore',
+//'backbone',
+//'app',
+//'controllers/projectcontroller'
+//], function (
+//$,
+//_,
+//Backbone,
+//app,
+//ProjectController
+//) {
+//    var ProjectRouter = Backbone.Marionette.AppRouter.extend({
+//        appRoutes: {
+//            'projects/explore': 'showProjectExplorer',
+//            'projects/create': 'showProjectForm',
+//            'projects/:id/update': 'showProjectForm'
+//        }
+//    });
 
-    var ProjectRouter = Backbone.Marionette.AppRouter.extend({
-        appRoutes: {
-            'projects/create': 'showProjectForm',
-            'projects/:id/update': 'showProjectForm'
-        }
-    });
+//    app.addInitializer(function () {
+//        this.projectRouter = new ProjectRouter({
+//            controller: ProjectController
+//        });
+//    });
 
-    app.addInitializer(function () {
-        this.projectRouter = new ProjectRouter({
-            controller: ProjectController
-        });
-    });
+//    return ProjectRouter;
 
-    return ProjectRouter;
-
-});
+//});

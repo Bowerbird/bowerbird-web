@@ -7,9 +7,9 @@
 
 // HomeController
 // --------------
-
-define(['jquery', 'underscore', 'backbone', 'app', 'views/homelayoutview'], function ($, _, Backbone, app, HomeLayoutView) {
-
+define(['jquery', 'underscore', 'backbone', 'app', 'views/homelayoutview'],
+function ($, _, Backbone, app, HomeLayoutView) 
+{
     var HomeController = {};
 
     // Public API
@@ -44,4 +44,22 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/homelayoutview'], func
 
     return HomeController;
 
+});
+
+// HomeRouter
+// ----------
+define(['jquery', 'underscore', 'backbone', 'app', 'controllers/homecontroller'],
+function ($, _, Backbone, app, HomeController) 
+{
+    var HomeRouter = Backbone.Marionette.AppRouter.extend({
+        appRoutes: {
+            '': 'showHomeStream'
+        }
+    });
+
+    app.addInitializer(function () {
+        this.homeRouter = new HomeRouter({
+            controller: HomeController
+        });
+    });
 });

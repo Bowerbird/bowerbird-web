@@ -8,20 +8,20 @@
 // OrganisationRouter
 // ------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'controllers/organisationcontroller'], function ($, _, Backbone, app, OrganisationController) {
+//define(['jquery', 'underscore', 'backbone', 'app', 'controllers/organisationcontroller'], function ($, _, Backbone, app, OrganisationController) {
 
-    var OrganisationRouter = Backbone.Marionette.AppRouter.extend({
-        appRoutes: {
-            'organisations/create': 'showOrganisationForm'
-        }
-    });
+//    var OrganisationRouter = Backbone.Marionette.AppRouter.extend({
+//        appRoutes: {
+//            'organisations/create': 'showOrganisationForm'
+//        }
+//    });
 
-    app.addInitializer(function () {
-        this.organisationRouter = new OrganisationRouter({
-            controller: OrganisationController
-        });
-    });
+//    app.addInitializer(function () {
+//        this.organisationRouter = new OrganisationRouter({
+//            controller: OrganisationController
+//        });
+//    });
 
-    return OrganisationRouter;
+//    return OrganisationRouter;
 
-});
+//});

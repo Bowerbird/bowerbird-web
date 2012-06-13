@@ -8,7 +8,7 @@
 // OnlineUserItemView
 // ------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'models/user'], function ($, _, Backbone, app, User) {
+define(['jquery', 'underscore', 'backbone', 'app', 'models/user'], function ($, _, Backbone, app) {
 
     var OnlineUserItemView = Backbone.Marionette.ItemView.extend({
         
