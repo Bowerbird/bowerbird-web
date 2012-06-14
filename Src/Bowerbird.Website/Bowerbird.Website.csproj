@@ -124,7 +124,6 @@
     <Content Include="css\new\normalize.css" />
     <Content Include="css\new\stream.css" />
     <Content Include="css\site.css" />
-    <Content Include="js\bowerbird-js-minifier-howto.txt" />
     <Content Include="js\bowerbird\collections\activityCollection.js" />
     <Content Include="js\bowerbird\collections\exploreProjectCollection.js" />
     <Content Include="js\bowerbird\collections\referenceSpeciesCollection.js" />

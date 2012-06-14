@@ -185,8 +185,7 @@
     <Compile Include="Factories\StreamItemFactory.cs" />
     <Compile Include="Hubs\ChatHub.cs" />
     <Compile Include="Hubs\ActivityHub.cs" />
-    <Compile Include="Notifications\INotificationProcessor.cs" />
-    <Compile Include="Notifications\NotificationProcessor.cs" />
+    <Compile Include="Config\HubContextAttribute.cs" />
     <Compile Include="Services\HubService.cs" />
     <Compile Include="Services\IHubService.cs" />
     <Compile Include="Services\NotificationService.cs" />

@@ -1,0 +1,24 @@
+How to build Bowerbird
+======================
+
+Dependancies are automatically retrieved from Nuget when the build is started. Optionally, the javascript files can be combined into one file and minified using Node.js together with the require.js optimizer (http://requirejs.org). Bowerbird can be built using one of three javascript options:
+
+- Leave non-minified javascript files in website (easy to debug, not recommended for prod);
+- Combine all javascript files into one readable file (faster than first option). Follow the node.js and uglifier setup before building; 
+- Combine all javascript files and minify source (recommended for prod). Follow the node.js and uglifier setup before building.
+
+
+Steps to build
+--------------
+
+1. Choose the build option above;
+2. If the build option involves combining/minifying, then setup node.js and uglifer as per steps in the section below;
+3. Run build.bat, optionally specifying a javascript option
+
+       build [combine|combine-min]
+
+Setting up node.js and uglifier
+-------------------------------
+
+1. Install node.js and add node.js exe path to %path% system variable
+2. Install uglifier for node: http://freshbrewedcode.com/jonathancreamer/2012/01/10/minify-javascript-using-uglifyjs-and-nodejs/

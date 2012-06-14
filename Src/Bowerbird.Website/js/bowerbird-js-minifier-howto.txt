@@ -1,9 +1,0 @@
-install node.js and add node.js exe path to %path% system variable
-
-install uglifier for node: http://freshbrewedcode.com/jonathancreamer/2012/01/10/minify-javascript-using-uglifyjs-and-nodejs/
-
-navigate to C:\[path_to_code]\bowerbird.web\Src\Bowerbird.Website\js\build\
-
-run command: node r.js -o app.build.js
-
-main.js will be written to js folder (as specified in app.build.js)
