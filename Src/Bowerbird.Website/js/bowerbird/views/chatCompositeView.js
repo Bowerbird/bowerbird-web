@@ -29,22 +29,29 @@ function ($, _, Backbone, app, ich, ChatMessageItemView, ChatUserCollectionView,
             messages: '.chat-messages'
         },
 
-//        serializeData: function () {
-//            log('chatView.serializeData');
-//            var model = this.model.toJSON();
+        //        serializeData: function () {
+        //            log('chatView.serializeData');
+        //            var model = this.model.toJSON();
 
-//            return {
-//                Model: model
-//            };
+        //            return {
+        //                Model: model
+        //            };
+        //        },
+
+//        render: function(){
+//            log('chatView.render');
 //        },
 
         onRender: function () {
             log('chatView.onRender');
+
             $('body').append(this.el);
 
             var chatUserCollectionView = new ChatUserCollectionView({ model: this.model.ChatUsers });
             chatUserCollectionView.itemView = UserItemView;
-            this.users.show(chatUserCollectionView);
+            this.users.appendView(chatUserCollectionView);
+
+
 
             //app.vent.on('newmessage:' + this.ChatId, this.addChatMessage, this);
         },
@@ -52,7 +59,10 @@ function ($, _, Backbone, app, ich, ChatMessageItemView, ChatUserCollectionView,
         sendMessage: function () {
             log('chatView.sendMessage');
             //app.chatRouter.sendMessage(this.$el.find('.new-chat-message').val(), this.chat);
-            this.$el.find('.new-chat-message').val('');
+            var message = this.$el.find('.new-chat-message').val();
+            var chatId = this.model.get('ChatId');
+            log(message, chatId);
+            app.vent.trigger('chats:sendMessage', chatId, message);
         },
 
         closeWindow: function () {

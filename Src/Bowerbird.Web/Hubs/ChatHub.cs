@@ -68,13 +68,13 @@ namespace Bowerbird.Web.Hubs
             Caller.setupChat(setupChat);
 
             // Does this need to be called? If user appears in chat twice.. then not.
-            Clients[chatId].userJoinedChat(
-                new
-                {
-                    ChatId = chatId,
-                    Timestamp = DateTime.UtcNow,
-                    User = _hubService.GetUserProfile(userId)
-                });
+            //Clients[chatId].userJoinedChat(
+            //    new
+            //    {
+            //        ChatId = chatId,
+            //        Timestamp = DateTime.UtcNow,
+            //        User = _hubService.GetUserProfile(userId)
+            //    });
         }
 
         // Callback Methods: chatRequest

@@ -17,7 +17,7 @@ function ($, _, Backbone, app, UserCollection, ChatMessageCollection, User, Chat
 
         //urlRoot: '/chats',
 
-        idAttribute: 'Id',
+        idAttribute: 'id',
 
         initialize: function (options) {
             log('Chat.initialize');
@@ -27,12 +27,12 @@ function ($, _, Backbone, app, UserCollection, ChatMessageCollection, User, Chat
             this.chatId = options.ChatId;
         },
 
-//        toJSON: function () {
-//            return {
-//                ChatUsers: this.get('ChatUsers'),
-//                ChatMessages: this.get('ChatMessages')
-//            };
-//        },
+        //        toJSON: function () {
+        //            return {
+        //                ChatUsers: this.get('ChatUsers'),
+        //                ChatMessages: this.get('ChatMessages')
+        //            };
+        //        },
 
         addChatUser: function (user) {
             // todo: Check if exists already
@@ -45,8 +45,10 @@ function ($, _, Backbone, app, UserCollection, ChatMessageCollection, User, Chat
         },
 
         addChatMessage: function (message) {
+            log('chat.addChatMessage', message);
             // todo: Check if exists already
-            this.Messages.add(message);
+            var chatMessage = new ChatMessage(message);
+            this.Messages.add(chatMessage);
         }
     });
 

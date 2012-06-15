@@ -14,6 +14,7 @@ function ($, _, Backbone, app, Activity) {
     var ActivityRouter = function (options) {
         this.hub = $.connection.activityHub;
         this.controller = options.controller;
+
         this.hub.newActivity = this.controller.newActivity;
         this.hub.userStatusUpdate = this.controller.userStatusUpdate;
 

@@ -15,7 +15,7 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
         this.hub = $.connection.chatHub;
         this.controller = options.controller;
 
-        this.hub.chatMessageReceived = this.controller.receiveMessage;
+        this.hub.chatMessageReceived = this.controller.chatMessageReceived;
         this.hub.typing = this.controller.typing;
         this.hub.userExitedChat = this.controller.userExitedChat;
         this.hub.chatRequest = this.controller.chatRequest;
@@ -43,6 +43,11 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
     app.vent.on('chats:startPrivateChat', function (id) {
         log('chats.startPrivateChat with user: ' + id);
         ChatController.joinChat(id);
+    });
+
+    app.vent.on('chats:sendMessage', function (chatId, message) {
+        log(chatId, message);
+        ChatController.sendMessage(chatId,message);
     });
 
     // join a group/private chat
@@ -73,9 +78,9 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
     };
 
     // send a chat message
-    ChatController.sendMessage = function (message, chat) {
+    ChatController.sendMessage = function (chatId, message) {
         log('chatRouter.sendMessage');
-        this.hub.sendChatMessage(chat.get('Id'), message);
+        this.hub.sendChatMessage(chatId, message);
     };
 
     // ChatController Public API From HUB
@@ -90,7 +95,7 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
 
         var users = new UserCollection(data.Users);
         var messages = new ChatMessageCollection(data.Messages);
-        var chat = new Chat({ ChatId: data.ChatId, Title: data.Title, users: users, messages: messages });
+        var chat = new Chat({ id: data.ChatId, ChatId: data.ChatId, Title: data.Title, ChatUsers: users, ChatMessages: messages });
 
         app.chats.add(chat);
         var chatView = new ChatCompositeView({ model: chat, collection: chat.Messages });
@@ -104,7 +109,7 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
 
         var users = new UserCollection(data.Users);
         var messages = new ChatMessageCollection(data.Messages);
-        var chat = new Chat({ ChatId: data.ChatId, Title: data.Title, ChatUsers: users, ChatMessages: messages });
+        var chat = new Chat({ id: data.ChatId, ChatId: data.ChatId, Title: data.Title, ChatUsers: users, ChatMessages: messages });
 
         app.chats.add(chat);
         var chatView = new ChatCompositeView({ model: chat, collection: chat.Messages });
@@ -122,7 +127,14 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
     ChatController.chatMessageReceived = function (data) {
         log('chatController.chatMessageReceived', this, data);
 
-        app.vent.trigger('newmessage:' + data.ChatId);
+        // find the chat
+        var chat = app.chats.get(data.ChatId);
+
+
+        chat.addChatMessage(data);
+        // add the message
+
+        //app.vent.trigger('newmessage:' + data.ChatId);
     };
 
     // change typing icon for this chat
