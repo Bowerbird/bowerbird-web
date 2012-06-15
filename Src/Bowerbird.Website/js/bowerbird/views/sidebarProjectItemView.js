@@ -8,7 +8,8 @@
 // SidebarItemView
 // ---------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'models/project'], function ($, _, Backbone, app, Project) {
+define(['jquery', 'underscore', 'backbone', 'app', 'models/project'],
+function ($, _, Backbone, app, Project) {
 
     var SidebarProjectItemView = Backbone.Marionette.ItemView.extend({
         tagName: 'li',
@@ -62,12 +63,13 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/project'], function (
         },
 
         startChat: function (e) {
-            var chat = app.chats.get(this.sidebarItem.Id);
-            if (chat == null) {
-                chat = new Bowerbird.Models.GroupChat({ Id: this.sidebarItem.Id, Group: this.sidebarItem });
-                app.chats.add(chat);
-            }
-            app.chatRouter.joinChat(chat);
+            e.preventDefault();
+            app.vent.trigger('chats:startGroupChat', e.currentTarget.id.split("-")[1]);
+            //            var chat = app.chats.get(this.sidebarItem.Id);
+            //            if (chat == null) {
+            //                chat = new Bowerbird.Models.GroupChat({ Id: this.sidebarItem.Id, Group: this.sidebarItem });
+            //                app.chats.add(chat);
+            //            }
         },
 
         observationAdded: function (activity) {

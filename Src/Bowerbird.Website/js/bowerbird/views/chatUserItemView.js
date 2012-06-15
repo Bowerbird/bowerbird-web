@@ -5,25 +5,20 @@
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// OnlineUserItemView
-// ------------------
+// ChatUserItemView
+// ----------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'models/user'], function ($, _, Backbone, app) {
+// Shows a user in a list of participating users within a chat
+define(['jquery', 'underscore', 'backbone', 'app', 'models/user'],
+function ($, _, Backbone, app) 
+{
+    var ChatUserItemView = Backbone.Marionette.ItemView.extend({
 
-    var OnlineUserItemView = Backbone.Marionette.ItemView.extend({
-        
         tagName: 'li',
 
-        className: 'online-user',
+        className: 'chat-user',
 
-        template: 'OnlineUserItem',
-
-        events: {
-        },
-
-        onRender: function () {
-            
-        },
+        template: 'UserItem',
 
         serializeData: function () {
             return {
@@ -35,6 +30,5 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/user'], function ($, 
         }
     });
 
-    return OnlineUserItemView;
-
+    return ChatUserItemView;
 });

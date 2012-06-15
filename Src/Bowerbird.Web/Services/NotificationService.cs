@@ -10,10 +10,8 @@
  
 */
 				
-using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Services;
 using Bowerbird.Web.Hubs;
-using SignalR;
 using SignalR.Hubs;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Web.Config;

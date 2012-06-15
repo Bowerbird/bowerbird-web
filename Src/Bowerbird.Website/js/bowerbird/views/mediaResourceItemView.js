@@ -8,8 +8,9 @@
 // MediaResourceItemView
 // ---------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'ich'], function ($, _, Backbone, app, ich) {
-
+define(['jquery', 'underscore', 'backbone', 'app', 'ich'],
+function ($, _, Backbone, app, ich) 
+{
     var MediaResourceItemView = Backbone.View.extend({
         className: 'media-resource-uploaded',
 

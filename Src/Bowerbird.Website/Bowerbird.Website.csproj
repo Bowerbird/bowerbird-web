@@ -125,12 +125,15 @@
     <Content Include="css\new\stream.css" />
     <Content Include="css\site.css" />
     <Content Include="js\bowerbird\collections\activityCollection.js" />
+    <Content Include="js\bowerbird\collections\chatMessageCollection.js" />
+    <Content Include="js\bowerbird\collections\chatCollection.js" />
     <Content Include="js\bowerbird\collections\exploreProjectCollection.js" />
     <Content Include="js\bowerbird\collections\referenceSpeciesCollection.js" />
     <Content Include="js\bowerbird\collections\speciesCollection.js" />
     <Content Include="js\bowerbird\collections\organisationCollection.js" />
     <Content Include="js\bowerbird\collections\teamCollection.js" />
     <Content Include="js\bowerbird\controllers\activityController.js" />
+    <Content Include="js\bowerbird\controllers\chatController.js" />
     <Content Include="js\bowerbird\controllers\accountController.js" />
     <Content Include="js\bowerbird\controllers\postController.js" />
     <Content Include="js\bowerbird\controllers\homeController.js" />
@@ -149,6 +152,8 @@
     <Content Include="js\bowerbird\controllers\observationController.js" />
     <Content Include="js\bowerbird\models\avatar.js" />
     <Content Include="js\bowerbird\models\activity.js" />
+    <Content Include="js\bowerbird\models\chat.js" />
+    <Content Include="js\bowerbird\models\chatMessage.js" />
     <Content Include="js\bowerbird\models\post.js" />
     <Content Include="js\bowerbird\models\referenceSpecies.js" />
     <Content Include="js\bowerbird\models\species.js" />
@@ -160,13 +165,17 @@
     <Content Include="js\bowerbird\models\stream.js" />
     <Content Include="js\bowerbird\models\streamItem.js" />
     <Content Include="js\bowerbird\views\avatarItemView.js" />
+    <Content Include="js\bowerbird\views\chatMessageItemView.js" />
+    <Content Include="js\bowerbird\views\chatUserCollectionView.js" />
+    <Content Include="js\bowerbird\views\chatUserItemView.js" />
+    <Content Include="js\bowerbird\views\chatCompositeView.js" />
     <Content Include="js\bowerbird\views\exploreProjectItemView.js" />
     <Content Include="js\bowerbird\views\exploreProjectView.js" />
     <Content Include="js\bowerbird\views\notificationItemView.js" />
     <Content Include="js\bowerbird\views\notificationsCompositeView.js" />
     <Content Include="js\bowerbird\views\sidebarMenuGroupCompositeView.js" />
-    <Content Include="js\bowerbird\views\onlineUserItemView.js" />
-    <Content Include="js\bowerbird\views\onlineUsersCompositeView.js" />
+    <Content Include="js\bowerbird\views\userItemView.js" />
+    <Content Include="js\bowerbird\views\onlineUserCompositeView.js" />
     <Content Include="js\bowerbird\views\sidebarOrganisationItemView.js" />
     <Content Include="js\bowerbird\views\sidebarTeamItemView.js" />
     <Content Include="js\bowerbird\views\postFormLayoutView.js" />
@@ -256,7 +265,6 @@
     <Content Include="Views\Shared\Home.mustache">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Shared\OnlineUserItem.mustache" />
     <Content Include="Views\Shared\SidebarMenuGroup.mustache" />
     <Content Include="Views\Shared\SidebarOrganisationItem.mustache" />
     <Content Include="Views\Shared\SidebarTeamItem.mustache" />
@@ -359,8 +367,8 @@
     <Content Include="Views\Shared\AvatarUploaded.mustache" />
     <Content Include="Views\Shared\AvatarUploader.mustache" />
     <Content Include="Views\Shared\ChatMessage.mustache" />
-    <Content Include="Views\Shared\ChatUsers.mustache" />
-    <Content Include="Views\Shared\ChatWindow.mustache">
+    <Content Include="Views\Shared\ChatUserList.mustache" />
+    <Content Include="Views\Shared\Chat.mustache">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Views\Shared\Notifications.mustache" />
@@ -387,7 +395,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Shared\UserItem.mustache" />
-    <Content Include="Views\Shared\UsersOnlineList.mustache" />
+    <Content Include="Views\Shared\OnlineUserList.mustache" />
     <Content Include="Views\Teams\List.mustache" />
   </ItemGroup>
   <ItemGroup>

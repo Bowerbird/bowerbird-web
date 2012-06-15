@@ -24,6 +24,7 @@ define([
     'collections/organisationcollection',
     'collections/activitycollection',
     'collections/exploreprojectcollection',
+    'collections/chatcollection',
     'marionette',
     'signalr'],
     function (
@@ -38,7 +39,9 @@ define([
         TeamCollection,
         OrganisationCollection,
         ActivityCollection,
-        ExploreProjectCollection) {
+        ExploreProjectCollection,
+        ChatCollection
+        ) {
 
         // Create an instance of the app
         var app = new Backbone.Marionette.Application();
@@ -115,13 +118,18 @@ define([
             // Online users
             app.onlineUsers = new UserCollection();
 
+            //chats
+            app.chats = new ChatCollection();
+
             // Add the authenticated user to the app for future reference
             if (bootstrapData.AuthenticatedUser) {
                 app.authenticatedUser = new AuthenticatedUser(bootstrapData.AuthenticatedUser);
             }
 
-            if (bootstrapData.OnlineUsers) {
-                app.onlineUsers.add(bootstrapData.OnlineUsers);
+            if (app.authenticatedUser) {
+                if (bootstrapData.OnlineUsers) {
+                    app.onlineUsers.add(bootstrapData.OnlineUsers);
+                }
             }
 
             // Add the prerendered view string to the app for use by controller duing init of first view
@@ -141,6 +149,7 @@ define([
             },
             this);
 
+
             app.contentHistory = [];
         });
 
@@ -155,7 +164,7 @@ define([
 
                 // initialise the hub connection
                 $.connection.hub.start({ transport: 'longPolling' }, function () {
-                        $.connection.activityHub.registerUserClient(app.authenticatedUser.user.id)
+                    $.connection.activityHub.registerUserClient(app.authenticatedUser.user.id)
                     .done(function () {
                         app.clientId = $.signalR.hub.id;
                         log('connected as ' + app.authenticatedUser.user.id + ' with ' + app.clientId);

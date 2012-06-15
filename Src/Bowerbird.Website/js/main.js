@@ -58,11 +58,13 @@ require([
         'controllers/referencespeciescontroller',
         'controllers/speciescontroller',
         'controllers/teamcontroller',
-        'controllers/accountController',
+        'controllers/accountcontroller',
+        'controllers/chatcontroller',
         'views/headerview',
         'views/footerview',
         'views/sidebarlayoutview',
         'views/notificationscompositeview',
+        'views/onlineusercompositeview',
         '/signalr/hubs?noext'
     ],
     function (app, bootstrapData) {

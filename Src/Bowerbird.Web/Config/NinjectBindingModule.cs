@@ -16,18 +16,12 @@
 
 using Ninject.Modules;
 using Raven.Client;
-using Bowerbird.Core.CommandHandlers;
 using Ninject.Web.Common;
 using Ninject.Extensions.Conventions;
-using Ninject.Extensions.Conventions.BindingBuilder;
-using Ninject.Extensions.Conventions.BindingGenerators;
-using Ninject.Extensions.Conventions.Syntax;
 using Microsoft.Practices.ServiceLocation;
-using Bowerbird.Core.EventHandlers;
 using Bowerbird.Core.DomainModels;
 using SignalR;
 using Bowerbird.Core.Config;
-using System.Web;
 using Bowerbird.Web.Hubs;
 using SignalR.Hubs;
 using System.Linq;

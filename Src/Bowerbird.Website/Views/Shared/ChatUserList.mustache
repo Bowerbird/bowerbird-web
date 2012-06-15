@@ -1,0 +1,8 @@
+﻿<ul class="chat-users">
+{{#ChatUsers}}
+	<li>{{>UserItem}}</li>
+{{/ChatUsers}}
+</ul>
+{{^ChatUsers}}
+	<p>Loading Users...</p>
+{{/ChatUsers}}

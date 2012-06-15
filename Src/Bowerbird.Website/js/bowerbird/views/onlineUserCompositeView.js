@@ -1,4 +1,4 @@
-﻿/// <reference path="../../libs/log.js" />
+﻿ /// <reference path="../../libs/log.js" />
 /// <reference path="../../libs/require/require.js" />
 /// <reference path="../../libs/jquery/jquery-1.7.2.js" />
 /// <reference path="../../libs/underscore/underscore.js" />
@@ -8,24 +8,18 @@
 // OnlineUsersCompositeView
 // ----------------------------
 
-define([
-'jquery',
-'underscore',
-'backbone',
-'app',
-'views/onlineuseritemview'
-],
-function ($, _, Backbone, app, OnlineUserItemView) {
-
-    var OnlineUsersCompositeView = Backbone.Marionette.CompositeView.extend({
+define(['jquery','underscore','backbone','app','views/useritemview'],
+function ($, _, Backbone, app, UserItemView) 
+{
+    var OnlineUserCompositeView = Backbone.Marionette.CompositeView.extend({
 
         //tagname: 'section',
 
         //id: 'onlineUsers',
 
-        itemView: OnlineUserItemView,
+        itemView: UserItemView,
 
-        template: 'UsersOnlineList',
+        template: 'OnlineUserList',
 
         //classname: 'single-1-window',
 
@@ -52,16 +46,16 @@ function ($, _, Backbone, app, OnlineUserItemView) {
 
     app.addInitializer(function (options) {
         $(function () {
-            var onlineUsersCompositeView = new OnlineUsersCompositeView({ model: app.onlineUsers, collection: app.onlineUsers });
+            var onlineUserCompositeView = new OnlineUserCompositeView({ model: app.onlineUsers, collection: app.onlineUsers });
 
-            onlineUsersCompositeView.on('show', function () {
+            onlineUserCompositeView.on('show', function () {
                 app.vent.trigger('onlineUsers:rendered');
             });
 
-            app.usersonline.show(onlineUsersCompositeView);
+            app.usersonline.show(onlineUserCompositeView);
         });
     });
 
-    return OnlineUsersCompositeView;
+    return OnlineUserCompositeView;
 
 });

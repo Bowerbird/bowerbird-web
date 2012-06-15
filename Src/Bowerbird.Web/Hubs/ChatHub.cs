@@ -1,167 +1,174 @@
-﻿///* Bowerbird V1 - Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
-// Developers: 
-// * Frank Radocaj : frank@radocaj.com
-// * Hamish Crittenden : hamish.crittenden@gmail.com
+ Developers: 
+ * Frank Radocaj : frank@radocaj.com
+ * Hamish Crittenden : hamish.crittenden@gmail.com
  
-// Project Manager: 
-// * Ken Walker : kwalker@museum.vic.gov.au
+ Project Manager: 
+ * Ken Walker : kwalker@museum.vic.gov.au
  
-// Funded by:
-// * Atlas of Living Australia
+ Funded by:
+ * Atlas of Living Australia
  
-//*/
+*/
 
-//using System;
-//using System.Linq;
-//using Bowerbird.Core.DomainModels;
-//using Bowerbird.Web.Services;
-//using SignalR.Hubs;
-//using Bowerbird.Core.DesignByContract;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Bowerbird.Core.DomainModels;
+using Bowerbird.Web.Services;
+using SignalR.Hubs;
+using Bowerbird.Core.DesignByContract;
 
-//namespace Bowerbird.Web.Hubs
-//{
-//    public class ChatHub : Hub
-//    {
-//        #region Members
+namespace Bowerbird.Web.Hubs
+{
+    public class ChatHub : Hub, IDisconnect
+    {
+        #region Members
 
-//        private readonly IHubService _hubService;
-//        private const int Online = (int)Connection.ConnectionStatus.Online;
-//        private const int Offline = (int)Connection.ConnectionStatus.Offline;
+        private readonly IHubService _hubService;
+        private const int Online = (int)Connection.ConnectionStatus.Online;
+        private const int Offline = (int)Connection.ConnectionStatus.Offline;
 
-//        #endregion
+        #endregion
 
-//        #region Constructors
+        #region Constructors
 
-//        public ChatHub(
-//            IHubService hubService
-//            )
-//        {
-//            Check.RequireNotNull(hubService, "hubService");
+        public ChatHub(
+            IHubService hubService
+            )
+        {
+            Check.RequireNotNull(hubService, "hubService");
 
-//            _hubService = hubService;
-//        }
+            _hubService = hubService;
+        }
 
-//        #endregion
+        #endregion
 
-//        #region Properties
+        #region Methods
 
-//        #endregion
+        // Callback Methods: setupChat, userJoinedChat
+        public void JoinChat(string chatId)
+        {
+            Groups.Add(Context.ConnectionId, chatId);
 
-//        #region Methods
+            var userId = _hubService.GetClientsUserId(Context.ConnectionId);
 
-//        public void JoinChat(string chatId)
-//        {
-//            AddToGroup(chatId);
+            _hubService.UpdateChatUserStatus(chatId, Context.ConnectionId, userId, Online);
 
-//            var userId = _hubService.GetClientsUserId(Context.ConnectionId);
+            var setupChat = new
+            {
+                ChatId = chatId,
+                Title = _hubService.GetGroupName(chatId),
+                Timestamp = DateTime.UtcNow,
+                Users =
+                    _hubService.GetClientsForChat(chatId).Select(x => x.UserId).Distinct().Select(
+                        x => _hubService.GetUserProfile(x)).ToList(),
+                Messages = _hubService.GetChatMessages(chatId)
+            };
 
-//            _hubService.UpdateChatUserStatus(chatId, Context.ConnectionId, userId, Online);
+            Caller.setupChat(setupChat);
 
-//            var setupChat = new
-//            {
-//                ChatId = chatId,
-//                Title = _hubService.GetGroupName(chatId),
-//                Timestamp = DateTime.UtcNow,
-//                Users =
-//                    _hubService.GetClientsForChat(chatId).Select(x => x.UserId).Distinct().Select(
-//                        x => _hubService.GetUserProfile(x)).ToList(),
-//                Messages = _hubService.GetChatMessages(chatId)
-//            };
+            Clients[chatId].userJoinedChat(
+                new
+                {
+                    ChatId = chatId,
+                    Timestamp = DateTime.UtcNow,
+                    User = _hubService.GetUserProfile(userId)
+                });
+        }
 
-//            Caller.setupChat(setupChat);
+        // Callback Methods: chatRequest
+        public void StartChat(string chatId, string userId)
+        {
+            Groups.Add(Context.ConnectionId, chatId);
 
-//            Clients[chatId].userJoinedChat(
-//                new
-//                {
-//                    ChatId = chatId,
-//                    Timestamp = DateTime.UtcNow,
-//                    User = _hubService.GetUserProfile(userId)
-//                });
-//        }
+            var chatUserId = _hubService.GetClientsUserId(Context.ConnectionId);
 
-//        public void StartChat(string chatId, string userId)
-//        {
-//            AddToGroup(chatId);
+            var fromUser = _hubService.GetUserProfile(chatUserId);
 
-//            var chatUserId = _hubService.GetClientsUserId(Context.ConnectionId);
+            var toUser = _hubService.GetUserProfile(userId);
 
-//            var fromUser = _hubService.GetUserProfile(chatUserId);
+            _hubService.UpdateChatUserStatus(chatId, Context.ConnectionId, chatUserId, Online);
 
-//            var toUser = _hubService.GetUserProfile(userId);
+            var clientIds = _hubService.GetConnectedClientIdsForAUser(userId);
 
-//            _hubService.UpdateChatUserStatus(chatId, Context.ConnectionId, chatUserId, Online);
+            var comeToChat = string.Format("{0} has invited you to chat", fromUser.Name);
 
-//            var clientIds = _hubService.GetConnectedClientIdsForAUser(userId);
+            var chatRequest = new
+            {
+                ChatId = chatId,
+                FromUser = fromUser,
+                ToUser = toUser,
+                Id = Guid.NewGuid().ToString(),
+                Message = comeToChat,
+                Timestamp = DateTime.UtcNow
+            };
 
-//            var comeToChat = string.Format("{0} has invited you to chat", fromUser.Name);
+            foreach (var clientId in clientIds)
+            {
+                Clients[clientId].chatRequest(chatRequest);
+            }
+        }
 
-//            var chatRequest = new
-//            {
-//                ChatId = chatId,
-//                FromUser = fromUser,
-//                ToUser = toUser,
-//                Id = Guid.NewGuid().ToString(),
-//                Message = comeToChat,
-//                Timestamp = DateTime.UtcNow
-//            };
+        // Callback Methods: userExitedChat
+        public void ExitChat(string chatId)
+        {
+            Groups.Remove(Context.ConnectionId, chatId);
 
-//            foreach (var clientId in clientIds)
-//            {
-//                Clients[clientId].chatRequest(chatRequest);
-//            }
-//        }
+            var userId = _hubService.GetClientsUserId(Context.ConnectionId);
 
-//        public void ExitChat(string chatId)
-//        {
-//            RemoveFromGroup(chatId);
+            _hubService.UpdateChatUserStatus(chatId, Context.ConnectionId, userId, Offline);
 
-//            var userId = _hubService.GetClientsUserId(Context.ConnectionId);
+            if (!_hubService.GetClientsForChat(chatId).Select(x => x.UserId).Contains(userId))
+            {
+                Clients[chatId].userExitedChat(
+                    new
+                    {
+                        ChatId = chatId,
+                        User = _hubService.GetUserProfile(userId)
+                    });
+            }
+        }
 
-//            _hubService.UpdateChatUserStatus(chatId, Context.ConnectionId, userId, Offline);
+        // Callback Methods: typing
+        public void Typing(string chatId, bool typing)
+        {
+            var userId = _hubService.GetClientsUserId(Context.ConnectionId);
 
-//            if (!_hubService.GetClientsForChat(chatId).Select(x => x.UserId).Contains(userId))
-//            {
-//                Clients[chatId].userExitedChat(
-//                    new
-//                    {
-//                        ChatId = chatId,
-//                        User = _hubService.GetUserProfile(userId)
-//                    });
-//            }
-//        }
+            Clients[chatId].typing(
+                new
+                {
+                    ChatId = chatId,
+                    Timestamp = DateTime.UtcNow,
+                    Typing = typing,
+                    User = _hubService.GetUserProfile(userId)
+                });
+        }
 
-//        public void Typing(string chatId, bool typing)
-//        {
-//            var userId = _hubService.GetClientsUserId(Context.ConnectionId);
+        // Callback Methods: chatMessageReceived
+        public void SendChatMessage(string chatId, string message)
+        {
+            var userId = _hubService.GetClientsUserId(Context.ConnectionId);
 
-//            Clients[chatId].typing(
-//                new
-//                {
-//                    ChatId = chatId,
-//                    Timestamp = DateTime.UtcNow,
-//                    Typing = typing,
-//                    User = _hubService.GetUserProfile(userId)
-//                });
-//        }
+            _hubService.PersistChatMessage(chatId, userId, message, null);
 
-//        public void SendChatMessage(string chatId, string message)
-//        {
-//            var userId = _hubService.GetClientsUserId(Context.ConnectionId);
+            Clients[chatId].chatMessageReceived(
+                new
+                {
+                    ChatId = chatId,
+                    Timestamp = DateTime.UtcNow,
+                    Id = Guid.NewGuid().ToString(),
+                    User = _hubService.GetUserProfile(userId),
+                    Message = message
+                });
+        }
 
-//            _hubService.PersistChatMessage(chatId, userId, message, null);
+        public Task Disconnect()
+        {
+            return Clients.userStatusUpdate(_hubService.GetUserProfile(_hubService.DisconnectClient(Context.ConnectionId)));
+        }
 
-//            Clients[chatId].chatMessageReceived(
-//                new
-//                {
-//                    ChatId = chatId,
-//                    Timestamp = DateTime.UtcNow,
-//                    Id = Guid.NewGuid().ToString(),
-//                    User = _hubService.GetUserProfile(userId),
-//                    Message = message
-//                });
-//        }
-
-//        #endregion
-//    }
-//}
+        #endregion
+    }
+}

@@ -9,8 +9,9 @@
 // ----------
 
 // Shows stream items for selected user/group
-define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/streamitemview'], function ($, _, Backbone, app, ich, StreamItemView) {
-
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/streamitemview'],
+function ($, _, Backbone, app, ich, StreamItemView) 
+{
     var StreamView = Backbone.Marionette.CompositeView.extend({
         template: 'Stream',
 

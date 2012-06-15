@@ -22,7 +22,6 @@ namespace Bowerbird.Web.Hubs
     {
         #region Members
 
-        private readonly IDocumentSession _documentSession;
         private readonly IHubService _hubService;
 
         #endregion
@@ -30,14 +29,11 @@ namespace Bowerbird.Web.Hubs
         #region Constructors
 
         public ActivityHub(
-            IDocumentSession documentSession,
             IHubService hubService
             )
         {
-            Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(hubService, "hubService");
 
-            _documentSession = documentSession;
             _hubService = hubService;
         }
 
