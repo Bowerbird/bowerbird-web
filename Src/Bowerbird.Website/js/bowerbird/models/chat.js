@@ -15,23 +15,24 @@ function ($, _, Backbone, app, UserCollection, ChatMessageCollection, User, Chat
         defaults: {
         },
 
-        urlRoot: '/chats',
+        //urlRoot: '/chats',
 
         idAttribute: 'Id',
 
         initialize: function (options) {
+            log('Chat.initialize');
             this.Title = options.Title;
             this.ChatUsers = options.users;
             this.Messages = options.messages;
             this.chatId = options.ChatId;
         },
 
-        toJSON: function () {
-            return {
-                ChatUsers: this.get('ChatUsers'),
-                ChatMessages: this.get('ChatMessages')
-            };
-        },
+//        toJSON: function () {
+//            return {
+//                ChatUsers: this.get('ChatUsers'),
+//                ChatMessages: this.get('ChatMessages')
+//            };
+//        },
 
         addChatUser: function (user) {
             // todo: Check if exists already

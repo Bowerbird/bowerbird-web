@@ -14,11 +14,9 @@ function ($, _, Backbone, app, ich, ChatMessageItemView, ChatUserCollectionView,
 {
     var ChatCompositeView = Backbone.Marionette.CompositeView.extend({
 
-        template: "Chat",
+        template: 'Chat',
 
         itemView: ChatMessageItemView,
-
-        className: 'chat',
 
         events: {
             "click .chat-send-message-button": "sendMessage",
@@ -29,16 +27,24 @@ function ($, _, Backbone, app, ich, ChatMessageItemView, ChatUserCollectionView,
             users: '#chat-users'
         },
 
+        serializeData: function () {
+            log('chatView.serializeData');
+            var model = this.model.toJSON();
+
+            return {
+                Model: model
+            };
+        },
+
         onRender: function () {
             log('chatView.onRender');
             $('body').append(this.el);
+            
+            var chatUserCollectionView = new ChatUserCollectionView({ collection: this.model.ChatUsers});
+            chatUserCollectionView.itemView = UserItemView;
+            this.users.attachView(chatUserCollectionView);
 
-                                                                    // is this an attribute or a property?
-            //var chatUsersCompositeView = new ChatUserCollectionView({ collection: this.model.get('ChatUsers')});
-            //chatUsersCompositeView.itemView = UserItemView;
-            //this.users.show(chatUsersCompositeView);
-
-            //app.vent.on('newmessage:' + this.ChatId, this.addChatMessage, this);
+            app.vent.on('newmessage:' + this.ChatId, this.addChatMessage, this);
         },
 
         sendMessage: function () {

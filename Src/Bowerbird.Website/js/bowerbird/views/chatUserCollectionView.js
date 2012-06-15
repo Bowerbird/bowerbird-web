@@ -16,7 +16,7 @@ function ($, _, Backbone, app, ich, UserCollection, UserItemView)
 
         itemView: UserItemView,
 
-        template: 'UserItem',
+        template: 'ChatUserList',
 
         serializeData: function () {
             return this.model.toJson();

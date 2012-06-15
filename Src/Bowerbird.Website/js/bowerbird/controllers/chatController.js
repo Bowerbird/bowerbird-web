@@ -88,19 +88,27 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
     ChatController.setupChat = function (data) {
         log('chatController.setupChat', this, data);
 
-        // Create the Chat model
         var users = new UserCollection(data.Users);
         var messages = new ChatMessageCollection(data.Messages);
         var chat = new Chat({ ChatId: data.ChatId, Title: data.Title, users: users, messages: messages });
-        app.chats.add(chat);
 
-        // Create the Chat View
-        var chatView = new ChatCompositeView({ model: chat, collection: chat.get('Messages') });
+        app.chats.add(chat);
+        var chatView = new ChatCompositeView({ model: chat, collection: chat.Messages });
+        log(chatView);
+        app.chatarea.show(chatView);
     };
 
     // create a new private chat
     ChatController.chatRequest = function (data) {
         log('chatController.chatRequest', this, data);
+
+        var users = new UserCollection(data.Users);
+        var messages = new ChatMessageCollection(data.Messages);
+        var chat = new Chat({ ChatId: data.ChatId, Title: data.Title, users: users, messages: messages });
+
+        app.chats.add(chat);
+        var chatView = new ChatCompositeView({ model: chat, collection: chat.Messages });
+        app.chatarea.show(chatView);
     };
 
     // grab the chat from the chats collection

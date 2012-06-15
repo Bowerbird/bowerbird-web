@@ -85,7 +85,8 @@ define([
             sidebar: '#sidebar',
             content: '#content',
             notifications: '#notifications',
-            usersonline: '#onlineusers'
+            usersonline: '#onlineusers',
+            chatarea: '#chatarea'
         });
 
         app.isPrerendering = function (name) {

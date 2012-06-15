@@ -2271,6 +2271,15 @@ a.multiSelect:focus
     padding: 5px;
 }
 /* chat and users online */
+.half-wide
+{
+    width:50%;
+    display:inline-block;
+}
+.clear
+{
+    clear:both;
+}
 #onlineusers
 {
     float: right;

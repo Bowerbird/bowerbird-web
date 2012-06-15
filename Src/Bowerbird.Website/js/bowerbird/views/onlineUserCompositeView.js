@@ -13,32 +13,17 @@ function ($, _, Backbone, app, UserItemView)
 {
     var OnlineUserCompositeView = Backbone.Marionette.CompositeView.extend({
 
-        //tagname: 'section',
-
-        //id: 'onlineUsers',
-
         itemView: UserItemView,
 
         template: 'OnlineUserList',
-
-        //classname: 'single-1-window',
 
         regions: {
             summary: '#online-user-summary',
             users: '#online-users'
         },
 
-        //        events: {
-
-        //        },
-
-        //        onRender: function () {
-        //            $('article').append(this.el);
-        //        },
-
         serializeData: function () {
             return {
-                //OnlineUsers: this.model.onlineUsers,
                 Count: this.collection.length
             };
         }
