@@ -65,11 +65,6 @@ function ($, _, Backbone, app, Project) {
         startChat: function (e) {
             e.preventDefault();
             app.vent.trigger('chats:startGroupChat', e.currentTarget.id.split("-")[1]);
-            //            var chat = app.chats.get(this.sidebarItem.Id);
-            //            if (chat == null) {
-            //                chat = new Bowerbird.Models.GroupChat({ Id: this.sidebarItem.Id, Group: this.sidebarItem });
-            //                app.chats.add(chat);
-            //            }
         },
 
         observationAdded: function (activity) {

@@ -56,12 +56,8 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/organisation'], funct
         },
 
         startChat: function (e) {
-            var chat = app.chats.get(this.sidebarItem.Id);
-            if (chat == null) {
-                chat = new Bowerbird.Models.GroupChat({ Id: this.sidebarItem.Id, Group: this.sidebarItem });
-                app.chats.add(chat);
-            }
-            app.chatRouter.joinChat(chat);
+            e.preventDefault();
+            app.vent.trigger('chats:startGroupChat', e.currentTarget.id.split("-")[1]);
         }
     });
 
