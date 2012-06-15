@@ -8,7 +8,7 @@
 // StreamItem
 // ----------
 
-define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, app) {
+define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
 
     var StreamItem = Backbone.Model.extend({
         idAttribute: 'Id'

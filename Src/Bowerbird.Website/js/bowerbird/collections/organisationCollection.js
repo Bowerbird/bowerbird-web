@@ -8,7 +8,7 @@
 // OrganisationCollection
 // -----------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'models/organisation'], function ($, _, Backbone, app, Organisation) {
+define(['jquery', 'underscore', 'backbone', 'models/organisation'], function ($, _, Backbone, Organisation) {
 
     var OrganisationCollection = Backbone.Collection.extend({
         model: Organisation,

@@ -9,10 +9,10 @@
 // -------------------
 
 // Base of paginated collections
-define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, app) {
+define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
 
     var PaginatedCollection = Backbone.Collection.extend({
-        initialize: function () {
+        initialize: function (options) {
             _.extend(this, Backbone.Events);
             typeof (options) != 'undefined' || (options = {});
             this.page = 1;

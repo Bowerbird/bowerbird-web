@@ -8,7 +8,7 @@
 // Species
 // -------
 
-define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, app) {
+define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
 
     var Species = Backbone.Model.extend({
         defaults: {

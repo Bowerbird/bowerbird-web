@@ -159,6 +159,7 @@
     <Compile Include="Config\ConfigService.cs" />
     <Compile Include="Config\NinjectBindingModule.cs" />
     <Compile Include="Config\NinjectDependencyResolver.cs" />
+    <Compile Include="Config\NinjectHubContextProvider.cs" />
     <Compile Include="Config\RestfulAttribute.cs" />
     <Compile Include="Config\NinjectRavenSessionProvider.cs" />
     <Compile Include="Config\NinjectRavenDocumentStoreProvider.cs" />

@@ -27,7 +27,6 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
             });
 
             Bowerbird.app.footer.attachView(footerView);
-            footerView.render();
         });
     });
 

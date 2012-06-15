@@ -131,6 +131,7 @@
     <Content Include="js\bowerbird\collections\organisationCollection.js" />
     <Content Include="js\bowerbird\collections\teamCollection.js" />
     <Content Include="js\bowerbird\controllers\activityController.js" />
+    <Content Include="js\bowerbird\controllers\accountController.js" />
     <Content Include="js\bowerbird\controllers\postController.js" />
     <Content Include="js\bowerbird\controllers\homeController.js" />
     <Content Include="js\bowerbird\controllers\referenceSpeciesController.js" />
@@ -158,15 +159,6 @@
     <Content Include="js\bowerbird\models\project.js" />
     <Content Include="js\bowerbird\models\stream.js" />
     <Content Include="js\bowerbird\models\streamItem.js" />
-    <Content Include="js\bowerbird\routers\activityRouter.js" />
-    <Content Include="js\bowerbird\routers\postRouter.js" />
-    <Content Include="js\bowerbird\routers\observationRouter.js" />
-    <Content Include="js\bowerbird\routers\homeRouter.js" />
-    <Content Include="js\bowerbird\routers\speciesRouter.js" />
-    <Content Include="js\bowerbird\routers\referenceSpeciesRouter.js" />
-    <Content Include="js\bowerbird\routers\organisationRouter.js" />
-    <Content Include="js\bowerbird\routers\teamRouter.js" />
-    <Content Include="js\bowerbird\routers\projectRouter.js" />
     <Content Include="js\bowerbird\views\avatarItemView.js" />
     <Content Include="js\bowerbird\views\exploreProjectItemView.js" />
     <Content Include="js\bowerbird\views\exploreProjectView.js" />
@@ -193,8 +185,6 @@
     <Content Include="js\bowerbird\views\projectFormLayoutView.js" />
     <Content Include="js\bowerbird\views\streamItemView.js" />
     <Content Include="js\bowerbird\views\streamView.js" />
-    <Content Include="js\build\app.build.js" />
-    <Content Include="js\build\r.js" />
     <Content Include="js\libs\bootstrap\bootstrap-datepicker.js" />
     <Content Include="js\libs\date\date.js" />
     <Content Include="js\libs\jquery.fileupload\jquery.fileupload.js" />
@@ -211,8 +201,7 @@
     <Content Include="js\libs\jqueryui\tabs.js" />
     <Content Include="js\libs\jqueryui\widget.js" />
     <Content Include="js\libs\json\json2.js" />
-    <Content Include="js\libs\log.js" />
-    <Content Include="js\bowerbird\main.js" />
+    <Content Include="js\libs\log\log.js" />
     <Content Include="js\bowerbird\models\user.js" />
     <Content Include="js\bowerbird\views\sidebarProjectItemView.js" />
     <Content Include="js\bowerbird\views\footerView.js" />
@@ -220,7 +209,6 @@
     <Content Include="js\bowerbird\views\sidebarLayoutView.js" />
     <Content Include="js\bowerbird\views\projectLayoutView.js" />
     <Content Include="js\bowerbird\controllers\groupUserController.js" />
-    <Content Include="js\bowerbird\routers\groupUserRouter.js" />
     <Content Include="js\libs\jquery\jquery-1.7.2.js" />
     <Content Include="js\libs\require\async.js" />
     <Content Include="js\libs\require\goog.js" />
@@ -232,6 +220,7 @@
     <Content Include="js\libs\require\require.js" />
     <Content Include="js\libs\require\text.js" />
     <Content Include="js\libs\underscore\underscore.js" />
+    <Content Include="js\main.js" />
     <Content Include="species\Butterflies.txt" />
     <Content Include="species\Plants.txt" />
     <Content Include="welcome.txt" />
@@ -341,12 +330,6 @@
     <None Include="test\qunit\qunit.css" />
     <None Include="test\qunit\qunit.js" />
     <None Include="test\tests.js" />
-    <Content Include="Lib\SquishIt\AjaxMin.dll" />
-    <Content Include="Lib\SquishIt\dotless.Core.dll" />
-    <Content Include="Lib\SquishIt\EcmaScript.NET.modified.dll" />
-    <Content Include="Lib\SquishIt\SquishIt.Framework.dll" />
-    <Content Include="Lib\SquishIt\SquishIt.Mvc.dll" />
-    <Content Include="Lib\SquishIt\Yahoo.Yui.Compressor.dll" />
     <Content Include="Views\Shared\Error.mustache">
       <SubType>Code</SubType>
     </Content>
@@ -469,6 +452,6 @@
   </ItemGroup>
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <PropertyGroup>
-    <PostBuildEvent>call "$(SolutionDir)\Build\javascript-combine.bat" $(ConfigurationName) $(ProjectDir)</PostBuildEvent>
+    <PostBuildEvent>call "$(SolutionDir)\Build\javascript-combine.bat" $(ConfigurationName) $(ProjectDir) $(SolutionDir)</PostBuildEvent>
   </PropertyGroup>
 </Project>

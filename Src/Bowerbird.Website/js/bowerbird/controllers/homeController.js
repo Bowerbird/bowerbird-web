@@ -8,8 +8,7 @@
 // HomeController & HomeRouter
 // ---------------------------
 define(['jquery', 'underscore', 'backbone', 'app', 'views/homelayoutview'],
-function ($, _, Backbone, app, HomeLayoutView) 
-{
+function ($, _, Backbone, app, HomeLayoutView) {
     var HomeRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
             '': 'showHomeStream'
@@ -28,6 +27,8 @@ function ($, _, Backbone, app, HomeLayoutView)
             var previousView = _.find(app.contentHistory, function (item) {
                 return item.key == 'home';
             });
+
+            var homeLayoutView = null;
 
             if (!previousView) {
                 homeLayoutView = new HomeLayoutView({ model: app.authenticatedUser.user });

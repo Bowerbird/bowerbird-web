@@ -8,7 +8,7 @@
 // Project
 // -------
 
-define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, app) {
+define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
 
     var Project = Backbone.Model.extend({
         defaults: {

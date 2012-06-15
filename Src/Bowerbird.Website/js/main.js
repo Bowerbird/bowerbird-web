@@ -5,10 +5,10 @@
 /// <reference path="../libs/backbone/backbone.js" />
 /// <reference path="../libs/backbone.marionette/backbone.marionette.js" />
 
-// Require Configuration
-// ---------------------
+// Require AMD config
+// ------------------
 
-// Setup
+// Setup config
 require.config({
     baseUrl: '/js/bowerbird',
     //urlArgs: "bust=" + (new Date()).getTime(), // Cache buster
@@ -18,7 +18,6 @@ require.config({
         underscore: '../libs/underscore/underscore', // AMD version from https://github.com/amdjs
         backbone: '../libs/backbone/backbone', // AMD version from https://github.com/amdjs,
         marionette: '../libs/backbone.marionette/backbone.marionette',
-        text: '../libs/require/text', // Require.js text loader plugin
         noext: '../libs/require/noext', //https://github.com/millermedeiros/requirejs-plugins
         async: '../libs/require/async', // Required by google loader
         goog: '../libs/require/goog', // Google async loader
@@ -31,19 +30,24 @@ require.config({
         loadimage: '../libs/jquery.fileupload/load-image', 
         fileupload: '../libs/jquery.fileupload/jquery.fileupload',
         signalr: '../libs/jquery.signalr/jquery.signalr',
-        timeago: '../libs/jquery.timeago/jquery.timeago'
+        timeago: '../libs/jquery.timeago/jquery.timeago',
+        log: '../libs/log/log'
+    },
+    shim: {
+        '/signalr/hubs?noext': ['signalr', 'jquery'] // Load non-AMD signalr hubs script
     }
-    // COMMENT THIS OUT FOR VERBOSE DEBUG VERSION
-    ,
-    priority: [
-        'ich',
-        'jquery', 
-        'json2',
-        'underscore',
+});
+
+// Start app with primary dependancies
+require([
+        'app',
+        'bootstrap-data',
+        'log',
         'backbone',
+        'jquery',
+        'ich',
         'marionette',
-        'signalr',
-        // Routers are the first port of call, so load em up
+        '/templates?noext', // Load templates from server
         'controllers/activitycontroller',
         'controllers/groupusercontroller',
         'controllers/homecontroller',
@@ -54,28 +58,17 @@ require.config({
         'controllers/referencespeciescontroller',
         'controllers/speciescontroller',
         'controllers/teamcontroller',
-        // Load top level views, beacuse no one else is gonna do it
+        'controllers/accountController',
         'views/headerview',
         'views/footerview',
         'views/sidebarlayoutview',
         'views/notificationscompositeview',
-        'views/homelayoutview',
-        'views/projectlayoutview',
-        'views/observationlayoutview',
-        'views/onlineuserscompositeview',
-        'views/exploreprojectview'
-    ]
-});
-
-// Init dependencies
-require(['backbone', 'ich', 'marionette', 'noext!/templates', 'noext!/signalr/hubs'], function (Backbone, ich) {
-
-    // Override the marionette renderer so that it uses mustache templates 
-    // together with icanhaz caching
-    Backbone.Marionette.Renderer.render = function (template, data) {
-        if (template) { // Marionette seems to call this method even if a view is created with a pre-existing DOM element. May need to investigate further.
-            return ich[template](data);
-        }
-    };
-
-});
+        '/signalr/hubs?noext'
+    ],
+    function (app, bootstrapData) {
+        log(bootstrapData);
+        // Start the app as soon as the DOM is ready, loading in the bootstrapped data
+        $(function () {
+            app.start(bootstrapData);
+        });
+    });

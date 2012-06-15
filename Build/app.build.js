@@ -1,12 +1,11 @@
 ({
-    baseUrl: "../bowerbird/",
+    baseUrl: "../src/bowerbird.website/js/bowerbird/",
     paths: {
         jquery: '../libs/jquery/jquery-1.7.2', // jQuery is now AMD compliant
         json2: '../libs/json/json2',
         underscore: '../libs/underscore/underscore',
         backbone: '../libs/backbone/backbone',
         marionette: '../libs/backbone.marionette/backbone.marionette',
-        text: '../libs/require/text',
         noext: '../libs/require/noext',
         async: '../libs/require/async',
         goog: '../libs/require/goog',
@@ -20,18 +19,24 @@
         fileupload: '../libs/jquery.fileupload/jquery.fileupload',
         signalr: '../libs/jquery.signalr/jquery.signalr',
         timeago: '../libs/jquery.timeago/jquery.timeago',
-        'bootstrap-data': 'empty:'
+        log: '../libs/log/log',
+        'bootstrap-data': 'empty:',
+        '/templates': 'empty:',
+        '/signalr/hubs': 'empty:'
     },
-    name: "main",
+    shim: {
+        '/signalr/hubs': ['signalr', 'jquery'] // Load non-AMD signalr hubs script
+    },
+    name: "../main",
     include: [
         'app',
         'ich',
+        'log',
         'jquery',
         'json2',
         'underscore',
         'backbone',
         'marionette',
-        'signalr',
         'controllers/activitycontroller',
         'controllers/groupusercontroller',
         'controllers/homecontroller',
@@ -42,15 +47,11 @@
         'controllers/referencespeciescontroller',
         'controllers/speciescontroller',
         'controllers/teamcontroller',
+        'controllers/accountController',
         'views/headerview',
         'views/footerview',
         'views/sidebarlayoutview',
         'views/notificationscompositeview',
-        'views/homelayoutview',
-        'views/projectlayoutview',
-        'views/observationlayoutview',
-        'views/onlineuserscompositeview',
-        'views/exploreprojectview'
     ],
     out: "../main-min.js",
     optimize: "uglify",

@@ -8,7 +8,7 @@
 // SpeciesCollection
 // -----------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'models/species'], function ($, _, Backbone, app, Species) {
+define(['jquery', 'underscore', 'backbone', 'models/species'], function ($, _, Backbone, Species) {
 
     var SpeciesCollection = Backbone.Collection.extend({
         model: Species,

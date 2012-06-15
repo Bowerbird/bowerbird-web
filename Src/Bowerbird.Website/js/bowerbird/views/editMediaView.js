@@ -56,7 +56,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/mediaresource', 'view
             var mediaResourceItemView = new MediaResourceItemView({ model: mediaResource });
             mediaResourceItemView.on('mediaresourceview:remove', this._onMediaResourceViewRemove);
             this.mediaResourceItemViews.push(mediaResourceItemView);
-            $('#media-resource-add-pane').before(mediaResourceItemView.render().el);
+            this.$el.find('#media-resource-add-pane').before(mediaResourceItemView.render().el);
             var self = this;
             var tempImage = loadImage(
                 data.files[0],
@@ -73,11 +73,9 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/mediaresource', 'view
             );
 
             if (!tempImage) {
-                //alert('No support for file/blob API!');
-                //mediaResourceItemView.showMediaPlaceHolder();
                 $(mediaResourceItemView.el).width(280);
-                self.filesAdded++;
-                this._showMediaResourceItemView(this, mediaResourceItemView, 280, self.filesAdded === data.originalFiles.length);
+                this.filesAdded++;
+                this._showMediaResourceItemView(this, mediaResourceItemView, 280, this.filesAdded === data.originalFiles.length);
             }
 
             data.submit();
@@ -146,7 +144,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/mediaresource', 'view
         },
 
         _onUploadDone: function (e, data) {
-            log('ediMediaView:_onUploadDone');
+            log('ediMediaView:_onUploadDone', this.model);
             var mediaResource = this.model.mediaResources.find(function (item) {
                 return item.get('Key') === data.result.Key;
             });

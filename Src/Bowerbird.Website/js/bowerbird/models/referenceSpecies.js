@@ -8,7 +8,7 @@
 // ReferenceSpecies
 // ----------------
 
-define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, app) {
+define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
 
     var ReferenceSpecies = Backbone.Model.extend({
         defaults: {

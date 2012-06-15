@@ -12,16 +12,14 @@ define([
 'jquery',
 'underscore',
 'backbone',
-'app',
 'collections/paginatedcollection',
 'models/user',
-'models/project',
+'models/project', 
 'date'],
 function (
 $,
 _,
 Backbone,
-app,
 PaginatedCollection,
 User,
 Project

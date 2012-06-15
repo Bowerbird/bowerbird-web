@@ -75,15 +75,17 @@ namespace Bowerbird.Web.Controllers
                         });
                 }
 
-                #if JS_COMBINE_MINIFY || JS_COMBINE_VERBOSE
+#if JS_COMBINE_MINIFY
                     ViewBag.JavascriptSource = "main-min.js";
-                #else 
-                    ViewBag.JavascriptSource = "bowerbird/main.js";
-                #endif
+#elif JS_COMBINE_VERBOSE
+                    ViewBag.JavascriptSource = "main-combined.js";
+#else 
+                    ViewBag.JavascriptSource = "main.js";
+#endif
 
-                #if DEBUG
-                    ViewBag.RavenProfiler = Raven.Client.MvcIntegration.RavenProfiler.CurrentRequestSessions().ToString();
-                #endif
+#if DEBUG
+                ViewBag.RavenProfiler = Raven.Client.MvcIntegration.RavenProfiler.CurrentRequestSessions().ToString();
+#endif
             }
 
             base.OnActionExecuted(filterContext);

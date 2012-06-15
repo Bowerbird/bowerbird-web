@@ -63,9 +63,7 @@ namespace Bowerbird.Web.Config
 
             // Transient scope
             Bind<IServiceLocator>().ToMethod(x => ServiceLocator.Current);
-            Bind<IHubContext>().ToMethod(x => GlobalHost.ConnectionManager.GetHubContext<ActivityHub>()).When(x => 
-                x.Target.GetCustomAttributes(typeof(HubContextAttribute), false).Cast<HubContextAttribute>().Any(y => y.HubType == typeof(ActivityHub))
-            );
+            Bind<IHubContext>().ToProvider<NinjectHubContextProvider>();
 
             // Convention based mappings
             Kernel.Bind(x => x

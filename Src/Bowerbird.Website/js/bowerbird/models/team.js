@@ -8,7 +8,7 @@
 // Team
 // ----
 
-define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, app) {
+define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
 
     var Team = Backbone.Model.extend({
         defaults: {

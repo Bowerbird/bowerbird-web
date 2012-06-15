@@ -8,7 +8,7 @@
 // ProjectCollection
 // -----------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'models/project'], function ($, _, Backbone, app, Project) {
+define(['jquery', 'underscore', 'backbone', 'models/project'], function ($, _, Backbone, Project) {
 
     var ProjectCollection = Backbone.Collection.extend({
         model: Project,

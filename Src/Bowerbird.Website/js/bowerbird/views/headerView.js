@@ -14,7 +14,7 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
     var HeaderView = Backbone.Marionette.ItemView.extend({
         el: 'header',
 
-        onRender: function () {
+        showBootstrappedDetails: function () {
             this.$el.find('.new-observation-button').on('click', function (e) {
                 e.preventDefault();
                 app.observationRouter.navigate($(this).attr('href'), { trigger: true });
@@ -35,7 +35,7 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
             });
 
             app.header.attachView(headerView);
-            headerView.render();
+            headerView.showBootstrappedDetails();
         });
     });
 

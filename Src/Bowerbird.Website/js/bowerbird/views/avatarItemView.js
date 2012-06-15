@@ -10,7 +10,7 @@
 
 define(['jquery', 'underscore', 'backbone', 'app', 'ich'], function ($, _, Backbone, app, ich) {
 
-    AvatarItemView = Backbone.View.extend({
+    var AvatarItemView = Backbone.View.extend({
 
         className: 'avatar-uploaded',
 

@@ -16,7 +16,6 @@ using Bowerbird.Web.Hubs;
 using SignalR;
 using SignalR.Hubs;
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Web.Hubs;
 using Bowerbird.Web.Config;
 
 namespace Bowerbird.Web.Services

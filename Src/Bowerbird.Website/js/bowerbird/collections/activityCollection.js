@@ -8,7 +8,7 @@
 // ActivityCollection
 // ------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'models/activity'], function ($, _, Backbone, app, Activity) {
+define(['jquery', 'underscore', 'backbone', 'models/activity'], function ($, _, Backbone, Activity) {
 
     var ActivityCollection = Backbone.Collection.extend({
         model: Activity,

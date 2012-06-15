@@ -8,7 +8,7 @@
 // StreamItemCollection
 // --------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'collections/paginatedcollection', 'models/streamitem', 'models/user', 'models/project', 'date'], function ($, _, Backbone, app, PaginatedCollection, StreamItem, User, Project) {
+define(['jquery', 'underscore', 'backbone', 'collections/paginatedcollection', 'models/streamitem', 'models/user', 'models/project', 'date'], function ($, _, Backbone, PaginatedCollection, StreamItem, User, Project) {
 
     var StreamItemCollection = PaginatedCollection.extend({
         model: StreamItem,
@@ -17,13 +17,13 @@ define(['jquery', 'underscore', 'backbone', 'app', 'collections/paginatedcollect
 
         groupOrUser: null,
 
-        initialize: function () {
+        initialize: function (options) {
             _.bindAll(this,
             'onSuccess',
             'onSuccessWithAddFix',
             'getFetchOptions');
             PaginatedCollection.prototype.initialize.apply(this, arguments);
-
+            typeof (options) != 'undefined' || (options = {});
             typeof (options.groupOrUser) != 'undefined' || (this.groupOrUser = options.groupOrUser);
         },
 

@@ -643,7 +643,7 @@ h1
     margin-top: 15px;
     overflow: hidden;
     padding: 0;
-    min-width: 100px;
+    /*min-width: 100px;*/
 }
 .form .media-resource-uploaded:hover div:last-child,
 .form .avatar-uploaded:hover div:last-child
@@ -658,7 +658,7 @@ h1
 .form .avatar-uploaded div:first-child img
 {
     height: 220px;
-    width: 220px;
+    /*width: 280px;*/
 }
 .form .media-resource-uploaded div:last-child,
 .form .avatar-uploaded div:last-child

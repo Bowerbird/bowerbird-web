@@ -25,21 +25,6 @@ function ($, _, Backbone, app, ProjectLayoutView, Project, StreamItemCollection)
 
     var GroupUserController = {};
 
-    // Helper method to load project layout, taking into account bootstrapped data and prerendered view
-//    var showProjectLayoutView = function (id) {
-//        var projectLayoutView = null;
-//        if (app.prerenderedView.name === 'projects' && !app.prerenderedView.isBound) {
-//            projectLayoutView = new ProjectLayoutView({ model: new Project(app.prerenderedView.data.Project) });
-//            app.content.attachView(projectLayoutView);
-//            app.prerenderedView.isBound = true;
-//        } else {
-//            projectLayoutView = new ProjectLayoutView(); // TODO: Get project using id...
-//            app.content.show(projectLayoutView);
-//        }
-//        projectLayoutView.render();
-//        return projectLayoutView;
-//    };
-
     // GroupUserController Public API
     // ------------------------------
 

@@ -22,7 +22,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich'], function ($, _, Backb
         initialize: function (options) {
             _.extend(this, Backbone.Events);
             _.bindAll(this, 'showTempMedia', 'showUploadedMedia', 'removeMediaResource');
-            this.model.on('change:MediumImageUri', this.showUploadedMedia);
+            this.model.on('change:Files', this.showUploadedMedia);
         },
 
         render: function () {
@@ -56,7 +56,8 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich'], function ($, _, Backb
         },
 
         showUploadedMedia: function (mediaResource) {
-            this.$el.find('div:first-child img').replaceWith($('<img src="' + mediaResource.get('MediumImageUri') + '" alt="" />'));
+            log('showing uploaded media', mediaResource);
+            this.$el.find('div:first-child img').replaceWith($('<img src="' + mediaResource.get('Files').FullMedium.RelativeUri + '" alt="" />'));
         }
     });
 

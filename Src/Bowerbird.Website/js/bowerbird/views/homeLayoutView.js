@@ -9,7 +9,7 @@
 // --------------
 
 // The left hand side bar that is shown to authenticated users.
-define(['jquery', 'underscore', 'backbone', 'app', 'views/streamview', 'collections/streamitemcollection', 'signalr'], function ($, _, Backbone, app, StreamView, StreamItemCollection) {
+define(['jquery', 'underscore', 'backbone', 'app', 'views/streamview', 'collections/streamitemcollection'], function ($, _, Backbone, app, StreamView, StreamItemCollection) {
 
     var HomeLayoutView = Backbone.Marionette.Layout.extend({
         className: 'home',

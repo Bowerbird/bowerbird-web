@@ -11,7 +11,7 @@
 
 define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/avataritemview', 'loadimage', 'models/mediaresource'], function ($, _, Backbone, app, ich, AvatarItemView, loadImage, MediaResource) {
 
-    EditAvatarView = Backbone.View.extend({
+    var EditAvatarView = Backbone.View.extend({
 
         id: 'avatar-fieldset',
 
