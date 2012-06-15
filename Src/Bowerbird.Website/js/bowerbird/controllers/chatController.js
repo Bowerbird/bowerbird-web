@@ -104,7 +104,7 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
 
         var users = new UserCollection(data.Users);
         var messages = new ChatMessageCollection(data.Messages);
-        var chat = new Chat({ ChatId: data.ChatId, Title: data.Title, users: users, messages: messages });
+        var chat = new Chat({ ChatId: data.ChatId, Title: data.Title, ChatUsers: users, ChatMessages: messages });
 
         app.chats.add(chat);
         var chatView = new ChatCompositeView({ model: chat, collection: chat.Messages });

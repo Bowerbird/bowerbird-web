@@ -18,16 +18,17 @@ function ($, _, Backbone, app)
 
         className: 'chat-user',
 
-        template: 'UserItem',
+        template: 'UserItem'
+//        ,
 
-        serializeData: function () {
-            return {
-                Id: this.model.id,
-                Name: this.model.get('Name'),
-                Avatar: this.model.get('Avatar'),
-                Type: 'User'
-            };
-        }
+//        serializeData: function () {
+//            return {
+//                Id: this.model.id,
+//                Name: this.model.get('Name'),
+//                Avatar: this.model.get('Avatar'),
+//                Type: 'User'
+//            };
+//        }
     });
 
     return ChatUserItemView;

@@ -22,8 +22,8 @@ function ($, _, Backbone, app, UserCollection, ChatMessageCollection, User, Chat
         initialize: function (options) {
             log('Chat.initialize');
             this.Title = options.Title;
-            this.ChatUsers = options.users;
-            this.Messages = options.messages;
+            this.ChatUsers = options.ChatUsers;
+            this.Messages = options.ChatMessages;
             this.chatId = options.ChatId;
         },
 

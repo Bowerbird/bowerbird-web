@@ -18,9 +18,11 @@ function ($, _, Backbone, app, ich, UserCollection, UserItemView)
 
         template: 'ChatUserList',
 
-        serializeData: function () {
-            return this.model.toJson();
-        }
+        className: 'chatusers',
+
+//        serializeData: function () {
+//            return this.model.toJson();
+//        }
 
     });
 

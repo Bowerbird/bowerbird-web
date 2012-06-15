@@ -2280,17 +2280,17 @@ a.multiSelect:focus
 {
     clear:both;
 }
-#onlineusers
+.onlineusers
 {
     float: right;
     width: 200px;
     border:1px solid black;   
 }
-#onlineusers .window-title-bar
+.onlineusers .window-title-bar
 {
     border:1px solid black;   
 }
-#onlineusers .window-body
+onlineusers .window-body
 {
     border:1px solid black;   
 }

@@ -17,6 +17,8 @@ function ($, _, Backbone, app, UserItemView)
 
         template: 'OnlineUserList',
 
+        className: 'onlineusers',
+
         regions: {
             summary: '#online-user-summary',
             users: '#online-users'

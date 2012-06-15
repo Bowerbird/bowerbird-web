@@ -10,13 +10,14 @@
 
 // Shows chat window for a chat
 define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/chatmessageitemview', 'views/chatusercollectionview', 'views/useritemview'],
-function ($, _, Backbone, app, ich, ChatMessageItemView, ChatUserCollectionView, UserItemView) 
-{
+function ($, _, Backbone, app, ich, ChatMessageItemView, ChatUserCollectionView, UserItemView) {
     var ChatCompositeView = Backbone.Marionette.CompositeView.extend({
 
         template: 'Chat',
 
         itemView: ChatMessageItemView,
+
+        className: 'chat-window',
 
         events: {
             "click .chat-send-message-button": "sendMessage",
@@ -24,27 +25,28 @@ function ($, _, Backbone, app, ich, ChatMessageItemView, ChatUserCollectionView,
         },
 
         regions: {
-            users: '#chat-users'
+            users: '#chat-users',
+            messages: '.chat-messages'
         },
 
-        serializeData: function () {
-            log('chatView.serializeData');
-            var model = this.model.toJSON();
+//        serializeData: function () {
+//            log('chatView.serializeData');
+//            var model = this.model.toJSON();
 
-            return {
-                Model: model
-            };
-        },
+//            return {
+//                Model: model
+//            };
+//        },
 
         onRender: function () {
             log('chatView.onRender');
             $('body').append(this.el);
-            
-            var chatUserCollectionView = new ChatUserCollectionView({ collection: this.model.ChatUsers});
-            chatUserCollectionView.itemView = UserItemView;
-            this.users.attachView(chatUserCollectionView);
 
-            app.vent.on('newmessage:' + this.ChatId, this.addChatMessage, this);
+            var chatUserCollectionView = new ChatUserCollectionView({ model: this.model.ChatUsers });
+            chatUserCollectionView.itemView = UserItemView;
+            this.users.show(chatUserCollectionView);
+
+            //app.vent.on('newmessage:' + this.ChatId, this.addChatMessage, this);
         },
 
         sendMessage: function () {
@@ -60,7 +62,7 @@ function ($, _, Backbone, app, ich, ChatMessageItemView, ChatUserCollectionView,
 
         addChatMessage: function (chatMessage) {
             log('chatView.addChatMessage', chatMessage);
-            //this.$el.find('.chat-messages').append(ich.ChatMessage(chatMessage.toJSON()));
+            this.$el.find('.chat-messages').append(ich.ChatMessage(chatMessage.toJSON()));
 
         }
 
