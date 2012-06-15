@@ -13,9 +13,6 @@ function ($, _, Backbone, app, UserCollection, ChatMessageCollection, User, Chat
 
     var Chat = Backbone.Model.extend({
         defaults: {
-            ChatUsers: null,
-            ChatMessages: null,
-            Type: "Group" // can be "Group" or "Private"
         },
 
         urlRoot: '/chats',
@@ -23,8 +20,10 @@ function ($, _, Backbone, app, UserCollection, ChatMessageCollection, User, Chat
         idAttribute: 'Id',
 
         initialize: function (options) {
-            this.chatUsers = new UserCollection();
-            this.chatMessages = new ChatMessageCollection();
+            this.Title = options.Title;
+            this.ChatUsers = options.users;
+            this.Messages = options.messages;
+            this.chatId = options.ChatId;
         },
 
         toJSON: function () {
@@ -35,15 +34,18 @@ function ($, _, Backbone, app, UserCollection, ChatMessageCollection, User, Chat
         },
 
         addChatUser: function (user) {
-            // add new User to chatUsers
+            // todo: Check if exists already
+            this.ChatUsers.add(user);
         },
 
         removeChatUser: function (user) {
-            // remove User from chatUsers
+            // todo: Check if exists already
+            this.ChatUsers.remove(user);
         },
 
         addChatMessage: function (message) {
-            // add ChatMessage to chatMessages
+            // todo: Check if exists already
+            this.Messages.add(message);
         }
     });
 

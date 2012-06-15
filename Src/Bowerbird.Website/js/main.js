@@ -65,6 +65,7 @@ require([
         'views/sidebarlayoutview',
         'views/notificationscompositeview',
         'views/onlineusercompositeview',
+        'views/chatcompositeview',
         '/signalr/hubs?noext'
     ],
     function (app, bootstrapData) {

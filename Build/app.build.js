@@ -52,6 +52,7 @@
         'views/footerview',
         'views/sidebarlayoutview',
         'views/notificationscompositeview',
+        'views/chatcompositeview'
     ],
     out: "../main-min.js",
     optimize: "uglify",

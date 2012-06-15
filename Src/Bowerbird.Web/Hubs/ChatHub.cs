@@ -61,14 +61,13 @@ namespace Bowerbird.Web.Hubs
                 ChatId = chatId,
                 Title = _hubService.GetGroupName(chatId),
                 Timestamp = DateTime.UtcNow,
-                Users =
-                    _hubService.GetClientsForChat(chatId).Select(x => x.UserId).Distinct().Select(
-                        x => _hubService.GetUserProfile(x)).ToList(),
+                Users = _hubService.GetClientsForChat(chatId).Select(x => x.UserId).Distinct().Select(x => _hubService.GetUserProfile(x)).ToArray(),
                 Messages = _hubService.GetChatMessages(chatId)
             };
 
             Caller.setupChat(setupChat);
 
+            // Does this need to be called? If user appears in chat twice.. then not.
             Clients[chatId].userJoinedChat(
                 new
                 {
@@ -98,17 +97,18 @@ namespace Bowerbird.Web.Hubs
             var chatRequest = new
             {
                 ChatId = chatId,
-                FromUser = fromUser,
-                ToUser = toUser,
-                Id = Guid.NewGuid().ToString(),
-                Message = comeToChat,
+                Title = string.Format("{0}...", fromUser.Name),
+                Messages = new [] {new {ChatId = chatId, Message = comeToChat, Timestamp = DateTime.UtcNow}},
+                Users = new[] {fromUser, toUser},
                 Timestamp = DateTime.UtcNow
             };
 
             foreach (var clientId in clientIds)
             {
-                Clients[clientId].chatRequest(chatRequest);
+                Groups.Add(clientId.ToString(), chatId);
             }
+
+            Clients[chatId].chatRequest(chatRequest);
         }
 
         // Callback Methods: userExitedChat

@@ -9,8 +9,8 @@
 // --------
 
 // Shows chat window for a chat
-define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/chatmessageitemview'],
-function ($, _, Backbone, app, ich, ChatMessageItemView) 
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/chatmessageitemview', 'views/chatusercollectionview', 'views/useritemview'],
+function ($, _, Backbone, app, ich, ChatMessageItemView, ChatUserCollectionView, UserItemView) 
 {
     var ChatCompositeView = Backbone.Marionette.CompositeView.extend({
 
@@ -30,16 +30,20 @@ function ($, _, Backbone, app, ich, ChatMessageItemView)
         },
 
         onRender: function () {
-            
+            log('chatView.onRender');
+            $('body').append(this.el);
 
+                                                                    // is this an attribute or a property?
+            //var chatUsersCompositeView = new ChatUserCollectionView({ collection: this.model.get('ChatUsers')});
+            //chatUsersCompositeView.itemView = UserItemView;
+            //this.users.show(chatUsersCompositeView);
 
-            this.$el.append(ich.ChatWindow({ Title: this.chat.get('Title'), Messages: this.chat.chatMessages.toJSON(), ChatUsers: this.chat.chatUsers.toJSON() }));
-            return this;
+            //app.vent.on('newmessage:' + this.ChatId, this.addChatMessage, this);
         },
 
         sendMessage: function () {
             log('chatView.sendMessage');
-            app.chatRouter.sendMessage(this.$el.find('.new-chat-message').val(), this.chat);
+            //app.chatRouter.sendMessage(this.$el.find('.new-chat-message').val(), this.chat);
             this.$el.find('.new-chat-message').val('');
         },
 
@@ -49,14 +53,9 @@ function ($, _, Backbone, app, ich, ChatMessageItemView)
         },
 
         addChatMessage: function (chatMessage) {
-            log('chatView.addChatMessage');
-            this.$el.find('.chat-messages').append(ich.ChatMessage(chatMessage.toJSON()));
-        },
+            log('chatView.addChatMessage', chatMessage);
+            //this.$el.find('.chat-messages').append(ich.ChatMessage(chatMessage.toJSON()));
 
-        changeUsers: function () {
-            var users = this.chat.chatUsers.toJsonViewModel();
-            this.$el.find('.chat-current-users').empty();
-            this.$el.find('.chat-current-users').append(ich.ChatUsers({ ChatUsers: users }));
         }
 
     });
