@@ -54,7 +54,7 @@ namespace Bowerbird.Core.DomainModels
             // Add these properties to the dictionary. I tried making these properties static, but RavenDB has a bug where static properties on a
             // DynamicObject type are not serialised.
             _properties.Add("Type", type);
-            _properties.Add("CreatedDateTime", createdDateTime);
+            _properties.Add("CreatedDateTime", createdDateTime.ToString("yyyy-MM-ddTHH:mm:ssZ"));
             _properties.Add("CreatedDateTimeOrder", createdDateTime.ToString("yyyyMMddHHmmssfffffff"));
             _properties.Add("Description", description);
             _properties.Add("User", createdByUser);

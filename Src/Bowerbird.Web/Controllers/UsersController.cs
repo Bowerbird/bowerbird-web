@@ -80,7 +80,7 @@ namespace Bowerbird.Web.Controllers
             ViewBag.Model = new
             {
                 User = _userViewModelBuilder.BuildUser(new IdInput() { Id = pagingInput.Id }),
-                StreamItems = _streamItemsViewModelBuilder.BuildHomeStreamItems(pagingInput)
+                StreamItems = _streamItemsViewModelBuilder.BuildUserStreamItems(pagingInput)
             };
 
             return View(Form.Stream);
@@ -97,8 +97,8 @@ namespace Bowerbird.Web.Controllers
         {
             ViewBag.Model = new
             {
-                User = _userViewModelBuilder.BuildUser(new IdInput() { Id = pagingInput.Id }),
-                Observations = _streamItemsViewModelBuilder.BuildHomeStreamItems(pagingInput)
+                User = _userViewModelBuilder.BuildUser(new IdInput() { Id = pagingInput.Id })
+                //Observations = _streamItemsViewModelBuilder.BuildHomeStreamItems(pagingInput)
             };
 
             return View(Form.Observations);

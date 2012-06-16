@@ -24,6 +24,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/observationformlayoutv
 
         showBootstrappedDetails: function () {
             this.initializeRegions();
+            this.$el = $('#content .observation');
         },
 
         showObservationForm: function (observation, categories) {

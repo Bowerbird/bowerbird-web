@@ -7,8 +7,8 @@
 
 // HomeController & HomeRouter
 // ---------------------------
-define(['jquery', 'underscore', 'backbone', 'app', 'views/homelayoutview'],
-function ($, _, Backbone, app, HomeLayoutView) {
+define(['jquery', 'underscore', 'backbone', 'app', 'views/homepubliclayoutview', 'views/homeprivatelayoutview'],
+function ($, _, Backbone, app, HomePublicLayoutView, HomePrivateLayoutView) {
     var HomeRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
             '': 'showHomeStream'
@@ -24,17 +24,12 @@ function ($, _, Backbone, app, HomeLayoutView) {
         $(function () {
             log('showing home', this, this);
 
-            var previousView = _.find(app.contentHistory, function (item) {
-                return item.key == 'home';
-            });
-
             var homeLayoutView = null;
 
-            if (!previousView) {
-                homeLayoutView = new HomeLayoutView({ model: app.authenticatedUser.user });
-                app.contentHistory.push({ key: 'home', view: homeLayoutView });
+            if (app.authenticatedUser) {
+                var homeLayoutView = new HomePrivateLayoutView({ model: app.authenticatedUser.user });
             } else {
-                homeLayoutView = previousView.view;
+                var homeLayoutView = new HomePublicLayoutView();
             }
 
             app.content[app.getShowViewMethodName('home')](homeLayoutView);
@@ -43,7 +38,9 @@ function ($, _, Backbone, app, HomeLayoutView) {
                 homeLayoutView.showBootstrappedDetails();
             }
 
-            homeLayoutView.showStream();
+            if (app.authenticatedUser) {
+                homeLayoutView.showStream();
+            }
 
             app.setPrerenderComplete();
         });

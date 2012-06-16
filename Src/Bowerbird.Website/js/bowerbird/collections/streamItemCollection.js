@@ -8,7 +8,7 @@
 // StreamItemCollection
 // --------------------
 
-define(['jquery', 'underscore', 'backbone', 'collections/paginatedcollection', 'models/streamitem', 'models/user', 'models/project', 'date'], function ($, _, Backbone, PaginatedCollection, StreamItem, User, Project) {
+define(['jquery', 'underscore', 'backbone', 'collections/paginatedcollection', 'models/streamitem', 'models/user', 'models/project'], function ($, _, Backbone, PaginatedCollection, StreamItem, User, Project) {
 
     var StreamItemCollection = PaginatedCollection.extend({
         model: StreamItem,
@@ -25,6 +25,10 @@ define(['jquery', 'underscore', 'backbone', 'collections/paginatedcollection', '
             PaginatedCollection.prototype.initialize.apply(this, arguments);
             typeof (options) != 'undefined' || (options = {});
             typeof (options.groupOrUser) != 'undefined' || (this.groupOrUser = options.groupOrUser);
+
+            // Set the moment in time (UTC) around which all stream queries will be performed
+            var now = new Date();
+            this.baselineDateTime = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
         },
 
         comparator: function (streamItem1) {
@@ -46,14 +50,18 @@ define(['jquery', 'underscore', 'backbone', 'collections/paginatedcollection', '
         },
 
         fetchFirstPage: function () {
-            this.firstPage(this.getFetchOptions(true));
+            this.firstPage(this.getFetchOptions(true, 'olderThan'));
         },
 
         fetchNextPage: function () {
-            this.nextPage(this.getFetchOptions(true));
+            this.nextPage(this.getFetchOptions(true, 'olderThan'));
         },
 
-        getFetchOptions: function (add) {
+        fetchNewItems: function () {
+            this.fetch(this.getFetchOptions(true, 'newerThan'));
+        },
+
+        getFetchOptions: function (add, newerOrOlder) {
             var options = {
                 data: {},
                 add: add,
@@ -72,9 +80,10 @@ define(['jquery', 'underscore', 'backbone', 'collections/paginatedcollection', '
                     options.data.userId = this.groupOrUser.id;
                 }
             }
-            //            if (stream.get('Filter') != null) {
-            //                options.data.filter = stream.get('Filter');
-            //            }
+            
+            // Get either items newer than or older than baseline
+            options.data[newerOrOlder] = this.baselineDateTime;
+
             return options;
         },
 

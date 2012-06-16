@@ -9,7 +9,7 @@
 // --------------
 
 // Shows an individual stream item
-define(['jquery', 'underscore', 'backbone', 'app', 'timeago', 'date'], function ($, _, Backbone, app) {
+define(['jquery', 'underscore', 'backbone', 'app', 'timeago'], function ($, _, Backbone, app) {
 
     var parseISO8601 = function (str) {
         // we assume str is a UTC date ending in 'Z'

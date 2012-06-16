@@ -14,8 +14,7 @@ define([
 'backbone',
 'collections/paginatedcollection',
 'models/user',
-'models/project', 
-'date'],
+'models/project'],
 function (
 $,
 _,

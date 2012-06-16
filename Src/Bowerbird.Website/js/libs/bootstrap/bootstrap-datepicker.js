@@ -1,72 +1,72 @@
 define(['jquery', 'date'], function (jQuery) {
-/* ===========================================================
- * bootstrap-datepicker.js v1.3.0
- * http://twitter.github.com/bootstrap/javascript.html#datepicker
- * ===========================================================
- * Copyright 2011 Twitter, Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- * Contributed by Scott Torborg - github.com/storborg
- * Loosely based on jquery.date_input.js by Jon Leighton, heavily updated and
- * rewritten to match bootstrap javascript approach and add UI features.
- * =========================================================== */
+    /* ===========================================================
+    * bootstrap-datepicker.js v1.3.0
+    * http://twitter.github.com/bootstrap/javascript.html#datepicker
+    * ===========================================================
+    * Copyright 2011 Twitter, Inc.
+    *
+    * Licensed under the Apache License, Version 2.0 (the "License");
+    * you may not use this file except in compliance with the License.
+    * You may obtain a copy of the License at
+    *
+    * http://www.apache.org/licenses/LICENSE-2.0
+    *
+    * Unless required by applicable law or agreed to in writing, software
+    * distributed under the License is distributed on an "AS IS" BASIS,
+    * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    * See the License for the specific language governing permissions and
+    * limitations under the License.
+    *
+    * Contributed by Scott Torborg - github.com/storborg
+    * Loosely based on jquery.date_input.js by Jon Leighton, heavily updated and
+    * rewritten to match bootstrap javascript approach and add UI features.
+    * =========================================================== */
 
 
-!function ($) {
+    !function ($) {
 
-    var selector = '[data-datepicker]',
+        var selector = '[data-datepicker]',
       all = [];
 
-    function clearDatePickers(except) {
-        var ii;
-        for (ii = 0; ii < all.length; ii++) {
-            if (all[ii] != except) {
-                all[ii].hide();
+        function clearDatePickers(except) {
+            var ii;
+            for (ii = 0; ii < all.length; ii++) {
+                if (all[ii] != except) {
+                    all[ii].hide();
+                }
             }
         }
-    }
 
-    function DatePicker(element, options) {
-        this.$el = $(element);
-        this.proxy('show').proxy('ahead').proxy('hide').proxy('keyHandler').proxy('selectDate');
+        function DatePicker(element, options) {
+            this.$el = $(element);
+            this.proxy('show').proxy('ahead').proxy('hide').proxy('keyHandler').proxy('selectDate');
 
-        var options = $.extend({}, $.fn.datepicker.defaults, options);
+            var options = $.extend({}, $.fn.datepicker.defaults, options);
 
-        if ((!!options.parse) || (!!options.format) || !this.detectNative()) {
-            $.extend(this, options);
-            this.$el.data('datepicker', this);
-            all.push(this);
-            this.init();
-        }
-    }
-
-    DatePicker.prototype = {
-
-        detectNative: function (el) {
-            // Attempt to activate the native datepicker, if there is a known good
-            // one. If successful, return true. Note that input type="date"
-            // requires that the string be RFC3339, so if the format/parse methods
-            // have been overridden, this won't be used.
-            if (navigator.userAgent.match(/(iPad|iPhone); CPU(\ iPhone)? OS 5_\d/i)) {
-                // jQuery will only change the input type of a detached element.
-                var $marker = $('<span>').insertBefore(this.$el);
-                this.$el.detach().attr('type', 'date').insertAfter($marker);
-                $marker.remove();
-                return true;
+            if ((!!options.parse) || (!!options.format) || !this.detectNative()) {
+                $.extend(this, options);
+                this.$el.data('datepicker', this);
+                all.push(this);
+                this.init();
             }
-            return false;
         }
+
+        DatePicker.prototype = {
+
+            detectNative: function (el) {
+                // Attempt to activate the native datepicker, if there is a known good
+                // one. If successful, return true. Note that input type="date"
+                // requires that the string be RFC3339, so if the format/parse methods
+                // have been overridden, this won't be used.
+                if (navigator.userAgent.match(/(iPad|iPhone); CPU(\ iPhone)? OS 5_\d/i)) {
+                    // jQuery will only change the input type of a detached element.
+                    var $marker = $('<span>').insertBefore(this.$el);
+                    this.$el.detach().attr('type', 'date').insertAfter($marker);
+                    $marker.remove();
+                    return true;
+                }
+                return false;
+            }
 
     , init: function () {
         var $months = this.nav('months', 1);
@@ -206,9 +206,9 @@ define(['jquery', 'date'], function (jQuery) {
 
         var offset = this.$el.offset();
 
-//        this.$picker.css({
-//            marginLeft: (this.$picker.outerWidth() - (this.$picker.outerWidth() * 2) + this.$el.outerWidth()) - 1
-//        }).show();
+        //        this.$picker.css({
+        //            marginLeft: (this.$picker.outerWidth() - (this.$picker.outerWidth() * 2) + this.$el.outerWidth()) - 1
+        //        }).show();
 
         this.$picker.show();
 
@@ -250,14 +250,16 @@ define(['jquery', 'date'], function (jQuery) {
     }
 
     , parse: function (s) {
-        if (Date.isValid(s, 'd MMM yyyy')) {
-            return Date.parseString(s, 'd MMM yyyy');
-        }
-        return null;
+        //        if (Date.isValid(s, 'd MMM yyyy')) {
+        //            return Date.parseString(s, 'd MMM yyyy');
+        //        }
+        //return null;
+        return Date.parseExact(s, 'd MMM yyyy');
     }
 
     , format: function (date) {
-        return date.format('d MMM yyyy');
+        //return date.format('d MMM yyyy');
+        return date.toString('d MMM yyyy');
     }
 
     , ahead: function (months, days) {
@@ -302,28 +304,28 @@ define(['jquery', 'date'], function (jQuery) {
                                 new Date(date.getFullYear(), date.getMonth() + 1, 0),
                                 1);
     }
-    };
+        };
 
-    /* DATEPICKER PLUGIN DEFINITION
-    * ============================ */
+        /* DATEPICKER PLUGIN DEFINITION
+        * ============================ */
 
-    $.fn.datepicker = function (options) {
-        return this.each(function () { new DatePicker(this, options); });
-    };
+        $.fn.datepicker = function (options) {
+            return this.each(function () { new DatePicker(this, options); });
+        };
 
-    $(function () {
-        $(selector).datepicker();
-        $('html').click(clearDatePickers);
-    });
+        $(function () {
+            $(selector).datepicker();
+            $('html').click(clearDatePickers);
+        });
 
-    $.fn.datepicker.DatePicker = DatePicker;
+        $.fn.datepicker.DatePicker = DatePicker;
 
-    $.fn.datepicker.defaults = {
-        monthNames: ["January", "February", "March", "April", "May", "June",
+        $.fn.datepicker.defaults = {
+            monthNames: ["January", "February", "March", "April", "May", "June",
                  "July", "August", "September", "October", "November", "December"]
   , shortDayNames: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
   , startOfWeek: 1
-    };
-} (window.jQuery || window.ender);
+        };
+    } (window.jQuery || window.ender);
 
 });

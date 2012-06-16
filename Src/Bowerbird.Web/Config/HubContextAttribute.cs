@@ -14,6 +14,10 @@ using System;
 
 namespace Bowerbird.Web.Config
 {
+    /// <summary>
+    /// Sets the IHubContext parameter to a specfic SignalR hub to enable runtime loading of specified Hub.
+    /// This attribute is used by Bowerbird.Web.Config.NinjectHubContextProvider.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Parameter, Inherited = false, AllowMultiple = false)]
     public sealed class HubContextAttribute : Attribute
     {

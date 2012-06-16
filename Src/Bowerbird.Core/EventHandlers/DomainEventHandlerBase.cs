@@ -35,6 +35,8 @@ namespace Bowerbird.Core.EventHandlers
 
         protected Activity MakeActivity<T>(DomainModelCreatedEvent<T> domainEvent, string type, string description, IEnumerable<dynamic> groups) where T: DomainModel
         {
+            var now = DateTime.UtcNow;
+
             return new Activity(
                 type,
                 DateTime.UtcNow,

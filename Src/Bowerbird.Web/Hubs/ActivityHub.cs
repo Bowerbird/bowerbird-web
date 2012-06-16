@@ -18,24 +18,15 @@ using Raven.Client;
 
 namespace Bowerbird.Web.Hubs
 {
-    public class ActivityHub : Hub, IDisconnect
+    public class ActivityHub : Hub//, IDisconnect
     {
         #region Members
-
-        private readonly IHubService _hubService;
 
         #endregion
 
         #region Constructors
 
-        public ActivityHub(
-            IHubService hubService
-            )
-        {
-            Check.RequireNotNull(hubService, "hubService");
-
-            _hubService = hubService;
-        }
+        public ActivityHub() {}
 
         #endregion
 
@@ -45,28 +36,40 @@ namespace Bowerbird.Web.Hubs
 
         #region Methods
 
-        //public void NewActivity(object activity)
+        public void JoinGroupStreams(string userId, string[] groupIds)
+        {
+            foreach (var groupId in groupIds)
+            {
+                Groups.Add(Context.ConnectionId, "stream-" + groupId);
+            }
+        }
+
+        public void LeaveGroupStreams(string userId, string[] groupIds)
+        {
+            foreach (var groupId in groupIds)
+            {
+                Groups.Remove(Context.ConnectionId, "stream-" + groupId);
+            }
+        }
+
+        //public void RegisterUserClient(string userId)
         //{
-        //    Clients.newActivity(activity);
+        //    _hubService.UpdateUserOnline(Context.ConnectionId, userId);
+
+        //    BroadcastUserStatusUpdate(userId);
         //}
 
-        public void RegisterUserClient(string userId)
-        {
-            _hubService.UpdateUserOnline(Context.ConnectionId, userId);
+        //public void BroadcastUserStatusUpdate(string userId)
+        //{
+        //    Clients.userStatusUpdate(_hubService.GetUserProfile(userId));
+        //}
 
-            BroadcastUserStatusUpdate(userId);
-        }
-
-        public void BroadcastUserStatusUpdate(string userId)
-        {
-            Clients.userStatusUpdate(_hubService.GetUserProfile(userId));
-        }
-
-        public Task Disconnect()
-        {
-            return Clients.userStatusUpdate(_hubService.GetUserProfile(_hubService.DisconnectClient(Context.ConnectionId)));
-        }
+        //public Task Disconnect()
+        //{
+        //    return Clients.userStatusUpdate(_hubService.GetUserProfile(_hubService.DisconnectClient(Context.ConnectionId)));
+        //}
 
         #endregion
+
     }
 }

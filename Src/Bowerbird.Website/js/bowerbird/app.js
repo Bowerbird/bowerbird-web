@@ -47,9 +47,10 @@ define([
         var app = new Backbone.Marionette.Application();
 
         // Let's pollute the global namespace, just a little, for debug purposes :)
-        window.Bowerbird = window.Bowerbird || {};
-        window.Bowerbird.version = '1.0.0';
-        window.Bowerbird.app = app;
+        window.Bowerbird = window.Bowerbird || {
+            version: '1.0.0',
+            app: app
+        };
 
         var AuthenticatedUser = function (data) {
             this.user = new User(data.User);
@@ -106,6 +107,44 @@ define([
             return app.isPrerendering(name) ? 'attachView' : 'show';
         };
 
+        app.routeHistory = [];
+        app.previousContent = null;
+
+        app.showFormContentView = function (view, name) {
+            if (app.content.currentView) {
+                // Store previous view in cache
+                app.previousContent = {
+                    view: app.content.currentView,
+                    $el: app.content.currentView.$el.detach()
+                };
+
+                // Clear out current view
+                app.content.currentView = null;
+            }
+
+            // Show new view
+            app.content[app.getShowViewMethodName(name)](view);
+        };
+
+        app.showPreviousContentView = function () {
+            if (app.previousContent) {
+                // Close current view
+                app.content.close();
+
+                // Reinstate previous view
+                app.content.$el.append(app.previousContent.$el);
+                app.content.currentView = app.previousContent.view;
+                app.routeHistory.shift();
+                app.homeRouter.navigate(_.first(app.routeHistory));
+
+                // Clear out previous view cache
+                app.previousContent = null;
+            } else {
+                // If we don't have a previous view, take user back to home stream
+                app.homeRouter.navigate('', { trigger: true });
+            }
+        };
+
         // Load the bootstrapped data into place
         app.bind('initialize:before', function () {
             // Override the marionette renderer so that it uses mustache templates 
@@ -116,21 +155,35 @@ define([
                 }
             };
 
-            // Online users
-            app.onlineUsers = new UserCollection();
-
-            //chats
-            app.chats = new ChatCollection();
-
-            // Add the authenticated user to the app for future reference
+            // Add additional capability if authenticated user
             if (bootstrapData.AuthenticatedUser) {
+                // Add the authenticated user to the app for future reference
                 app.authenticatedUser = new AuthenticatedUser(bootstrapData.AuthenticatedUser);
-            }
 
-            if (app.authenticatedUser) {
-                if (bootstrapData.OnlineUsers) {
-                    app.onlineUsers.add(bootstrapData.OnlineUsers);
-                }
+                // Online users
+                app.onlineUsers = new UserCollection();
+
+                // Chats
+                app.chats = new ChatCollection();
+
+                // Notifications
+                app.activities = new ActivityCollection();
+
+                // Add bootstrapped online users
+                app.onlineUsers.add(bootstrapData.OnlineUsers);
+
+                // Subscribe to new activities
+                app.activities.on(
+                    'add',
+                    function (activity) {
+                        this.vent.trigger('newactivity', activity);
+                        this.vent.trigger('newactivity:' + activity.get('Type'), activity);
+                        // Fire an event for each group the activity belongs to
+                        _.each(activity.get('Groups'), function (group) {
+                            this.vent.trigger('newactivity:' + group.Id);
+                        }, app);
+                    },
+                    this);
             }
 
             // Add the prerendered view string to the app for use by controller duing init of first view
@@ -139,19 +192,6 @@ define([
                 isBound: false, // Flag used to determine if prerenderd view has been bound to the object/DOM model
                 data: bootstrapData.Model
             };
-
-            app.activities = new ActivityCollection();
-
-            app.activities.on(
-            'add',
-            function (activity) {
-                this.vent.trigger('newactivity', activity);
-                this.vent.trigger('newactivity:' + activity.get('Type'), activity);
-            },
-            this);
-
-
-            app.contentHistory = [];
         });
 
         app.bind('initialize:after', function () {
@@ -159,20 +199,37 @@ define([
             $(function () {
                 // Only start history once app is fully initialised
                 if (Backbone.history) {
+                    Backbone.history.on('route', function (route, name) {
+                        app.routeHistory.unshift(Backbone.history.fragment);
+                    });
+
                     // Start URL and history routing
                     Backbone.history.start({ pushState: true });
                 }
 
                 // initialise the hub connection
                 $.connection.hub.start({ transport: 'longPolling' }, function () {
-                    $.connection.activityHub.registerUserClient(app.authenticatedUser.user.id)
-                    .done(function () {
-                        app.clientId = $.signalR.hub.id;
-                        log('connected as ' + app.authenticatedUser.user.id + ' with ' + app.clientId);
-                    })
-                    .fail(function (e) {
-                        log(e);
-                    });
+                    // Keep the client id
+                    app.clientId = $.signalR.hub.id;
+                    log('browser connected via signalr as ' + app.clientId);
+
+                    // Subscribe authenticated user to all their groups
+                    if (app.authenticatedUser) {
+                        var memberships = [];
+                        _.each(app.authenticatedUser.memberships, function (membership) {
+                            if (membership.GroupType === 'project' || membership.GroupType === 'team' || membership.GroupType === 'organisation') {
+                                memberships.push(membership);
+                            }
+                        }, memberships);
+
+                        $.connection.activityHub.joinGroupStreams(app.authenticatedUser.user.id, _.pluck(memberships, 'GroupId'))
+                            .done(function () {
+                                log('authenticated user joined groups streams', _.pluck(memberships, 'GroupId'));
+                            })
+                            .fail(function (e) {
+                                log('could not join group streams', e);
+                            });
+                    }
                 });
 
                 // Register closing of all popup menus in entire page

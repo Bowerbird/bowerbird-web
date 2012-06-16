@@ -18,6 +18,7 @@ using Bowerbird.Core.Commands;
 using Bowerbird.Core.Config;
 using Bowerbird.Web.ViewModels;
 using Bowerbird.Web.Builders;
+using System;
 
 namespace Bowerbird.Web.Controllers
 {
@@ -80,11 +81,11 @@ namespace Bowerbird.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult Stream(PagingInput pagingInput)
+        public ActionResult Stream(StreamInput streamInput, PagingInput pagingInput)
         {
             var data = new
             {
-                Model = _streamItemsViewModelBuilder.BuildHomeStreamItems(pagingInput)
+                Model = _streamItemsViewModelBuilder.BuildHomeStreamItems(streamInput, pagingInput)
             };
 
             return new JsonNetResult(data);

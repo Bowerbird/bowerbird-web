@@ -5,13 +5,13 @@
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// HomeLayoutView
-// --------------
+// HomePrivateLayoutView
+// ---------------------
 
-// The left hand side bar that is shown to authenticated users.
+// The home page view when logged in
 define(['jquery', 'underscore', 'backbone', 'app', 'views/streamview', 'collections/streamitemcollection'], function ($, _, Backbone, app, StreamView, StreamItemCollection) {
 
-    var HomeLayoutView = Backbone.Marionette.Layout.extend({
+    var HomePrivateLayoutView = Backbone.Marionette.Layout.extend({
         className: 'home',
 
         template: 'Home',
@@ -23,13 +23,15 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/streamview', 'collecti
 
         showBootstrappedDetails: function () {
             this.initializeRegions();
+            this.$el = $('#content .home');
         },
 
         showStream: function () {
             var streamItemCollection = new StreamItemCollection();
             var options = {
-                model: app.authenticatedUser.user, 
-                collection: streamItemCollection
+                model: app.authenticatedUser.user,
+                collection: streamItemCollection,
+                isHomeStream: true
             };
 
             if (app.isPrerendering('home')) {
@@ -49,6 +51,6 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/streamview', 'collecti
         }
     });
 
-    return HomeLayoutView;
+    return HomePrivateLayoutView;
 
 }); 

@@ -88,7 +88,9 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editmapview', '
                 }
             });
 
-            ich.addTemplate('ProjectSelectItem', '{{#Projects}}<option value="{{Id}}">{{Name}}</option>{{/Projects}}');
+            if (!ich.templates.ProjectSelectItem) {
+                ich.addTemplate('ProjectSelectItem', '{{#Projects}}<option value="{{Id}}">{{Name}}</option>{{/Projects}}');
+            }
 
             // Add project options
             this.$el.find('#Projects').append(ich.ProjectSelectItem({ Projects: app.authenticatedUser.projects.toJSON() }));
@@ -179,16 +181,15 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editmapview', '
         },
 
         _cancel: function () {
-            //            app.set('newObservation', null);
-            app.groupUserRouter.navigate('', { trigger: true });
+            app.showPreviousContentView();
             //this.trigger('formClosed', this);
         },
 
         _save: function () {
             this.model.save();
-            app.groupUserRouter.navigate('', { trigger: true });
-            //            app.appRouter.navigate(app.stream.get('Uri'), { trigger: false });
-            //            this.trigger('formClosed', this);
+            app.showPreviousContentView();
+            //app.appRouter.navigate(app.stream.get('Uri'), { trigger: false });
+            //this.trigger('formClosed', this);
         }
     });
 

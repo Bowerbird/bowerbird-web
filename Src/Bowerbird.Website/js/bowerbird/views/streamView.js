@@ -9,9 +9,8 @@
 // ----------
 
 // Shows stream items for selected user/group
-define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/streamitemview'],
-function ($, _, Backbone, app, ich, StreamItemView) 
-{
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/streamitemview', 'date'],
+function ($, _, Backbone, app, ich, StreamItemView) {
     var StreamView = Backbone.Marionette.CompositeView.extend({
         template: 'Stream',
 
@@ -20,42 +19,102 @@ function ($, _, Backbone, app, ich, StreamItemView)
         className: 'stream',
 
         events: {
-            "click #stream-load-more-button": "loadNextStreamItems"
+            'click #stream-load-more-button': 'onLoadMoreClicked',
+            'click #stream-load-new-button': 'onLoadNewClicked'
         },
 
         initialize: function (options) {
+            _.bindAll(this, 'onNewStreamItemReceived', 'appendHtml');
+
+            this.newItemsCount = 0;
+            this.isHomeStream = options.isHomeStream && options.isHomeStream === true ? true : false;
+
             this.collection.on('fetching', this.onStreamLoadingStart, this);
-            this.collection.on('fetched', this.onsStreamLoadingComplete, this);
+            this.collection.on('fetched', this.onStreamLoadingComplete, this);
+
+            this.newStreamItemsCache = [];
+
+            if (this.isHomeStream) {
+                app.vent.on('newactivity', this.onNewStreamItemReceived);
+            } else {
+                app.vent.on('newactivity:' + this.model.id, this.onNewStreamItemReceived);
+            }
         },
 
         showBootstrappedDetails: function () {
         },
 
         appendHtml: function (collectionView, itemView) {
-            collectionView.$el.find('.stream-list').append(itemView.el);
+            //            if (this.collection.length === 0) {
+            //                //collectionView.$el.find('.stream-list').append(itemView.el);
+            //            } else {
+            var items = this.collection.pluck('Id');
+            var index = _.indexOf(items, itemView.model.id);
+            log(index);
+
+            var $li = collectionView.$el.find('.stream-list > li:eq(' + (index) + ')');
+
+            if ($li.length === 0) {
+                collectionView.$el.find('.stream-list').append(itemView.el);
+            } else {
+                $li.before(itemView.el);
+            }
+
+
+//            if (collectionView.$el.find('.stream-list > li').length === 0) {
+//                collectionView.$el.find('.stream-list').append(itemView.el);
+//            } else {
+//                collectionView.$el.find('.stream-list > li:eq(' + (index) + ')').before(itemView.el);
+//            }
+//            //}
+        },
+
+        onLoadMoreClicked: function () {
+            this.$el.find('.stream-load-more').remove();
+            this.collection.fetchNextPage();
+        },
+
+        onLoadNewClicked: function () {
+            this.$el.find('.stream-load-new').remove();
+            this.collection.add(this.newStreamItemsCache);
+            this.newStreamItemsCache = [];
         },
 
         onStreamLoadingStart: function (collection) {
-            this.$el.find('#stream-load-more').remove();
-            this.$el.find('.stream-list').append(ich.StreamListLoading({ Text: 'Loading', ShowLoader: true }));
+            this.$el.append(ich.StreamMessage({ Text: 'Loading', ShowLoader: true }));
         },
 
-        onsStreamLoadingComplete: function (collection) {
-            this.toggleNoStreamItemsStatus(collection);
-            if (collection.pageInfo().next) {
-                this.$el.find('.stream-list > div').append(ich.StreamListLoading());
-            }
-        },
-
-        toggleNoStreamItemsStatus: function (collection) {
-            this.$el.find('#stream-status').remove();
+        onStreamLoadingComplete: function (collection) {
+            this.$el.find('.stream-message').remove();
             if (collection.length === 0) {
-                this.$el.find('.stream-list > div').append(ich.StreamListLoading({ Text: 'No activity yet! Start now by adding an observation.' }));
+                this.$el.append(ich.StreamMessage({ Text: 'No activity yet! Start now by adding an observation.', ShowLoader: false }));
+            }
+            if (collection.pageInfo().next) {
+                this.$el.append(ich.StreamLoadMore());
             }
         },
 
-        loadNextStreamItems: function () {
-            app.stream.setNextPage();
+        onNewStreamItemReceived: function (streamItem) {
+            var streamItemCreatedDateTime = Date.parseExact(streamItem.get('CreatedDateTime'), 'yyyy-MM-ddTHH:mm:ssZ');
+
+            log('streamItemCreatedDateTime', streamItemCreatedDateTime);
+            log('baselineDateTime', this.collection.baselineDateTime);
+
+            // Only show a new items message if the item is newer than what we have already
+            if (streamItemCreatedDateTime.isAfter(this.collection.baselineDateTime)) {
+                log('is after!');
+                this.newItemsCount++;
+                this.newStreamItemsCache.push(streamItem);
+            }
+
+            if (this.newItemsCount > 0) {
+                // Show load new items button
+                if (this.$el.find('.stream-load-new').length === 0) {
+                    this.$el.prepend(ich.StreamLoadNew());
+                } else {
+                    this.$el.find('#stream-load-new-button').val('Load ' + this.newItemsCount + ' New Items');
+                }
+            }
         }
     });
 

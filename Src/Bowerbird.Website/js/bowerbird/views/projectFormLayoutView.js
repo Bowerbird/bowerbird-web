@@ -54,6 +54,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/ed
         showBootstrappedDetails: function () {
             log('projectFormLayoutView:showBootstrappedDetails');
             this.initializeRegions();
+            this.$el = $('#content .project-form');
             this._showDetails();
         },
 
@@ -96,10 +97,13 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/ed
         },
 
         _cancel: function () {
+            log('hello');
+            app.showPreviousContentView();
         },
 
         _save: function () {
             this.model.save();
+            app.showPreviousContentView();
         }
     });
 

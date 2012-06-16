@@ -64,7 +64,7 @@ namespace Bowerbird.Core.EventHandlers
             dynamic activity = MakeActivity(
                 domainEvent, 
                 "observationadded", 
-                string.Format("{0} add an observation", domainEvent.User.GetName()), 
+                string.Format("{0} added an observation", domainEvent.User.GetName()), 
                 domainEvent.DomainModel.Groups.Select(x => x.Group));
 
             activity.ObservationAdded = new
@@ -81,7 +81,7 @@ namespace Bowerbird.Core.EventHandlers
             dynamic activity = MakeActivity(
                 domainEvent, 
                 "observationadded", 
-                string.Format("{0} add an observation", domainEvent.User.GetName()), 
+                string.Format("{0} added an observation", domainEvent.User.GetName()), 
                 new[] { domainEvent.DomainModel.Group });
 
             activity.ObservationAdded = new

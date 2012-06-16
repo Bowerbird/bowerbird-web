@@ -169,6 +169,7 @@
     <Content Include="js\bowerbird\views\chatUserCollectionView.js" />
     <Content Include="js\bowerbird\views\chatUserItemView.js" />
     <Content Include="js\bowerbird\views\chatCompositeView.js" />
+    <Content Include="js\bowerbird\views\homePublicLayoutView.js" />
     <Content Include="js\bowerbird\views\exploreProjectItemView.js" />
     <Content Include="js\bowerbird\views\exploreProjectView.js" />
     <Content Include="js\bowerbird\views\notificationItemView.js" />
@@ -179,7 +180,7 @@
     <Content Include="js\bowerbird\views\sidebarOrganisationItemView.js" />
     <Content Include="js\bowerbird\views\sidebarTeamItemView.js" />
     <Content Include="js\bowerbird\views\postFormLayoutView.js" />
-    <Content Include="js\bowerbird\views\homeLayoutView.js" />
+    <Content Include="js\bowerbird\views\homePrivateLayoutView.js" />
     <Content Include="js\bowerbird\views\referenceSpeciesFormLayoutView.js" />
     <Content Include="js\bowerbird\views\speciesFormItemView.js" />
     <Content Include="js\bowerbird\views\organisationFormLayoutView.js" />
@@ -195,6 +196,7 @@
     <Content Include="js\bowerbird\views\streamItemView.js" />
     <Content Include="js\bowerbird\views\streamView.js" />
     <Content Include="js\libs\bootstrap\bootstrap-datepicker.js" />
+    <None Include="js\libs\date\date.js.OLD" />
     <Content Include="js\libs\date\date.js" />
     <Content Include="js\libs\jquery.fileupload\jquery.fileupload.js" />
     <Content Include="js\libs\jquery.fileupload\jquery.iframe-transport.js" />
@@ -232,7 +234,6 @@
     <Content Include="js\main.js" />
     <Content Include="species\Butterflies.txt" />
     <Content Include="species\Plants.txt" />
-    <Content Include="welcome.txt" />
     <Content Include="Views\Posts\Create.mustache" />
     <Content Include="Views\Posts\Delete.mustache" />
     <Content Include="Views\Posts\List.mustache" />
@@ -294,13 +295,7 @@
     <Content Include="css\media.css" />
     <Content Include="css\normalize.css" />
     <Content Include="css\_old\_old.css" />
-    <Content Include="demo\hack.css" />
-    <Content Include="demo\hack2.css" />
-    <Content Include="demo\internet_explorer.png" />
-    <Content Include="demo\tests.html" />
-    <Content Include="demo\test_tubes.png" />
     <Content Include="GenericErrorPage.html" />
-    <Content Include="humans.txt" />
     <Content Include="img\avatar-1.png" />
     <Content Include="img\avatar-2.png" />
     <Content Include="img\background.png" />
@@ -389,7 +384,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Shared\Stream.mustache" />
-    <Content Include="Views\Shared\StreamListLoading.mustache" />
+    <Content Include="Views\Shared\StreamMessage.mustache" />
     <Content Include="Views\Shared\StreamLoadMore.mustache" />
     <Content Include="Views\Shared\TeamForm.mustache">
       <SubType>Designer</SubType>
@@ -397,12 +392,11 @@
     <Content Include="Views\Shared\UserItem.mustache" />
     <Content Include="Views\Shared\OnlineUserList.mustache" />
     <Content Include="Views\Teams\List.mustache" />
+    <Content Include="Views\Shared\StreamLoadNew.mustache" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="404.html" />
     <Content Include="apple-touch-icon.png" />
-    <Content Include="crossdomain.xml" />
-    <Content Include="demo\elements.html" />
     <Content Include="favicon.ico" />
     <Content Include="robots.txt" />
     <Content Include="Web.config">

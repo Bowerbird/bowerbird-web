@@ -1,68 +1,68 @@
-﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+﻿///* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
- Developers: 
- * Frank Radocaj : frank@radocaj.com
- * Hamish Crittenden : hamish.crittenden@gmail.com
+// Developers: 
+// * Frank Radocaj : frank@radocaj.com
+// * Hamish Crittenden : hamish.crittenden@gmail.com
  
- Project Manager: 
- * Ken Walker : kwalker@museum.vic.gov.au
+// Project Manager: 
+// * Ken Walker : kwalker@museum.vic.gov.au
  
- Funded by:
- * Atlas of Living Australia
+// Funded by:
+// * Atlas of Living Australia
  
-*/
+//*/
 
-using System.Threading.Tasks;
-using Bowerbird.Web.Services;
-using SignalR.Hubs;
-using Bowerbird.Core.DesignByContract;
+//using System.Threading.Tasks;
+//using Bowerbird.Web.Services;
+//using SignalR.Hubs;
+//using Bowerbird.Core.DesignByContract;
 
-namespace Bowerbird.Web.Hubs
-{
-    public class NotificationHub : Hub, IDisconnect
-    {
-        #region Members
+//namespace Bowerbird.Web.Hubs
+//{
+//    public class NotificationHub : Hub, IDisconnect
+//    {
+//        #region Members
 
-        private readonly IHubService _hubService;
+//        private readonly IHubService _hubService;
 
-        #endregion
+//        #endregion
 
-        #region Constructors
+//        #region Constructors
 
-        public NotificationHub(
-            IHubService hubService
-            )
-        {
-            Check.RequireNotNull(hubService, "hubService");
+//        public NotificationHub(
+//            IHubService hubService
+//            )
+//        {
+//            Check.RequireNotNull(hubService, "hubService");
 
-            _hubService = hubService;
-        }
+//            _hubService = hubService;
+//        }
 
-        #endregion
+//        #endregion
 
-        #region Properties
+//        #region Properties
 
-        #endregion
+//        #endregion
 
-        #region Methods
+//        #region Methods
 
-        public void RegisterUserClient(string userId)
-        {
-            _hubService.UpdateUserOnline(Context.ConnectionId, userId);
+//        public void RegisterUserClient(string userId)
+//        {
+//            _hubService.UpdateUserOnline(Context.ConnectionId, userId);
 
-            BroadcastUserStatusUpdate(userId);
-        }
+//            BroadcastUserStatusUpdate(userId);
+//        }
 
-        public void BroadcastUserStatusUpdate(string userId)
-        {
-            Clients.userStatusUpdate(_hubService.GetUserProfile(userId));
-        }
+//        public void BroadcastUserStatusUpdate(string userId)
+//        {
+//            Clients.userStatusUpdate(_hubService.GetUserProfile(userId));
+//        }
 
-        public Task Disconnect()
-        {
-            return Clients.userStatusUpdate(_hubService.GetUserProfile(_hubService.DisconnectClient(Context.ConnectionId)));
-        }
+//        public Task Disconnect()
+//        {
+//            return Clients.userStatusUpdate(_hubService.GetUserProfile(_hubService.DisconnectClient(Context.ConnectionId)));
+//        }
 
-        #endregion
-    }
-}
+//        #endregion
+//    }
+//}

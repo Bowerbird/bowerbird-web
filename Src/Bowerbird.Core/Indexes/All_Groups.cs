@@ -49,6 +49,7 @@ namespace Bowerbird.Core.Indexes
         public class MemberResult
         {
             public string GroupId { get; set; }
+            public string GroupType { get; set; }
             public string UserId { get; set; }
             public string[] RoleIds { get; set; }
             public string[] PermissionIds { get; set; }
@@ -217,6 +218,7 @@ namespace Bowerbird.Core.Indexes
                         select new
                         {
                             GroupId = member.Group.Id,
+                            GroupType = member.Group.GroupType,
                             UserId = member.User.Id,
                             RoleIds = member.Roles.Select(x => x.Id),
                             PermissionIds = member.Roles.SelectMany(x => x.Permissions.Select(y => y.Id))

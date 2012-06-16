@@ -41,7 +41,7 @@ require.config({
 // Start app with primary dependancies
 require([
         'app',
-        'bootstrap-data',
+        'bootstrap-data', // Get bootstrapped data from inline AMD module
         'log',
         'backbone',
         'jquery',

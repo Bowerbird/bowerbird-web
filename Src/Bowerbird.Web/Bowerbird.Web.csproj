@@ -181,7 +181,6 @@
     <Compile Include="Controllers\TeamsController.cs" />
     <Compile Include="Controllers\TemplatesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
-    <Compile Include="EventHandlers\NotifyObservationCreatedEventHandler.cs" />
     <Compile Include="Factories\IFactory.cs" />
     <Compile Include="Factories\StreamItemFactory.cs" />
     <Compile Include="Hubs\ChatHub.cs" />
@@ -212,6 +211,7 @@
     <Compile Include="ViewModels\OrganisationUpdateInput.cs" />
     <Compile Include="ViewModels\ObservationMediaItem.cs" />
     <Compile Include="ViewModels\SpeciesUpdateInput.cs" />
+    <Compile Include="ViewModels\StreamInput.cs" />
     <Compile Include="ViewModels\TeamCreateInput.cs" />
     <Compile Include="ViewModels\PagingInput.cs" />
     <Compile Include="ViewModels\StreamSortInput.cs" />

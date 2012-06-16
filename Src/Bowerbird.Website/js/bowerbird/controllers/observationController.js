@@ -23,7 +23,8 @@ function ($, _, Backbone, app, ObservationLayoutView, Observation)
     // Helper method to load project layout, taking into account bootstrapped data and prerendered view
     var showObservationLayoutView = function (observation) {
         var observationLayoutView = new ObservationLayoutView({ model: observation });
-        app.content[app.getShowViewMethodName('observations')](observationLayoutView);
+        //app.content[app.getShowViewMethodName('observations')](observationLayoutView);
+        app.showFormContentView(observationLayoutView, 'observations');
 
         if (app.isPrerendering('observations')) {
             observationLayoutView.showBootstrappedDetails();

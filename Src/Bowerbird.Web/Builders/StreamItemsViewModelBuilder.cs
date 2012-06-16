@@ -61,7 +61,7 @@ namespace Bowerbird.Web.Builders
 
         #region Methods
 
-        public PagedList<object> BuildHomeStreamItems(PagingInput pagingInput)
+        public PagedList<object> BuildHomeStreamItems(StreamInput streamInput, PagingInput pagingInput)
         {
             RavenQueryStatistics stats;
 
@@ -72,20 +72,46 @@ namespace Bowerbird.Web.Builders
                 .ToList()
                 .Select(x => x.Group.Id);
 
-            return _documentSession
+            var query = _documentSession
                 .Query<All_Activities.Result>("All/Activities")
                 .Statistics(out stats)
-                .Where(x => x.GroupIds.Any(y => y.In(groups)))
+                .Where(x => x.GroupIds.Any(y => y.In(groups)));
+
+            if (streamInput.NewerThan.HasValue)
+            {
+                query.Where(x => x.CreatedDateTime > streamInput.NewerThan.Value);
+            }
+            else if (streamInput.OlderThan.HasValue)
+            {
+                query.Where(x => x.CreatedDateTime < streamInput.OlderThan.Value);
+            }
+
+            return query
                 .OrderByDescending(x => x.CreatedDateTime)
                 .Skip(pagingInput.GetSkipIndex())
                 .Take(pagingInput.GetPageSize())
-                .As<Activity>()                
+                .As<Activity>()
                 .ToList()
                 .Cast<object>()
                 .ToPagedList(
                     pagingInput.GetPage(),
                     pagingInput.GetPageSize(),
                     stats.TotalResults);
+
+            //return _documentSession
+            //    .Query<All_Activities.Result>("All/Activities")
+            //    .Statistics(out stats)
+            //    .Where(x => x.GroupIds.Any(y => y.In(groups)))
+            //    .OrderByDescending(x => x.CreatedDateTime)
+            //    .Skip(pagingInput.GetSkipIndex())
+            //    .Take(pagingInput.GetPageSize())
+            //    .As<Activity>()                
+            //    .ToList()
+            //    .Cast<object>()
+            //    .ToPagedList(
+            //        pagingInput.GetPage(),
+            //        pagingInput.GetPageSize(),
+            //        stats.TotalResults);
         }
 
         /// <summary>

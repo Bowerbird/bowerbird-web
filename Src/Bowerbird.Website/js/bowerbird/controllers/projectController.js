@@ -86,7 +86,8 @@ function ($, _, Backbone, app, ProjectFormLayoutView, ExploreProjectCollection, 
                 var project = new Project(model.Project);
                 var projectFormLayoutView = new ProjectFormLayoutView({ model: project, teams: model.Teams });
 
-                app.content[app.getShowViewMethodName('projects')](projectFormLayoutView);
+                //app.content[app.getShowViewMethodName('projects')](projectFormLayoutView);
+                app.showFormContentView(projectFormLayoutView, 'projects');
 
                 if (app.isPrerendering('projects')) {
                     projectFormLayoutView.showBootstrappedDetails();
