@@ -61,11 +61,11 @@ namespace Bowerbird.Core.CommandHandlers
             User targetUser = null;
             Group chatGroup = null;
 
-            if(group.Group is Team)
+            if(group.GroupType == "team")
             {
                 chatGroup = _documentSession.Load<Team>(command.GroupId);
             }
-            else if (group.Group is Project)
+            else if (group.GroupType == "project")
             {
                 chatGroup = _documentSession.Load<Project>(command.GroupId);
             }

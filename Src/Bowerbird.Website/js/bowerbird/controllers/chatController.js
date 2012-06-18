@@ -48,7 +48,7 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
     });
 
     app.vent.on('chats:sendMessage', function (chatId, message) {
-        log(chatId, message);
+        //log('chatController:  chatId, message);
         ChatController.sendMessage(chatId, message);
     });
 
@@ -86,7 +86,7 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
 
     // send a chat message
     ChatController.sendMessage = function (chatId, message) {
-        log('chatRouter.sendMessage');
+        log('chatController.sendMessage message:' + message + ' to: ' + chatId);
         this.hub.sendChatMessage(chatId, message);
     };
 

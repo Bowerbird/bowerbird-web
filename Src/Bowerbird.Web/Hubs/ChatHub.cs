@@ -53,39 +53,46 @@ namespace Bowerbird.Web.Hubs
         {
             Check.RequireNotNullOrWhitespace(chatId, "chatId");
 
-            Groups.Add(Context.ConnectionId, chatId);
+            var groupChatId = chatId;
 
             var userId = _hubService.GetClientsUserId(Context.ConnectionId);
 
-            _hubService.UpdateChatUserStatus(chatId, Context.ConnectionId, userId, Online);
+            // Let connected users know another user has joined the chat.
+            Clients[groupChatId].userJoinedChat(
+                new
+                {
+                    ChatId = groupChatId,
+                    Timestamp = DateTime.UtcNow,
+                    User = _hubService.GetUserProfile(userId)
+                });
+
+            Groups.Add(Context.ConnectionId, groupChatId);
+
+            _hubService.UpdateChatUserStatus(groupChatId, Context.ConnectionId, userId, Online);
 
             var setupChat = new
             {
-                ChatId = chatId,
+                ChatId = groupChatId,
                 Title = _hubService.GetGroupName(chatId),
                 Timestamp = DateTime.UtcNow,
-                Users = _hubService.GetClientsForChat(chatId).Select(x => x.UserId).Distinct().Select(x => _hubService.GetUserProfile(x)).ToArray(),
-                Messages = _hubService.GetChatMessages(chatId)
+                Users = _hubService.GetClientsForChat(groupChatId).Select(x => x.UserId).Distinct().Select(x => _hubService.GetUserProfile(x)).ToArray(),
+                Messages = _hubService.GetChatMessages(groupChatId)
             };
 
             Caller.setupChat(setupChat);
-
-            // Does this need to be called? If user appears in chat twice.. then not.
-            //Clients[chatId].userJoinedChat(
-            //    new
-            //    {
-            //        ChatId = chatId,
-            //        Timestamp = DateTime.UtcNow,
-            //        User = _hubService.GetUserProfile(userId)
-            //    });
         }
 
         // Callback Methods: chatRequest
         public void StartChat(string chatId, string userId)
         {
-            Caller.debugToLog("ChatHub.startChat - chatId:{0} userId:{1}".FormatWith(chatId, userId));
+            Check.RequireNotNullOrWhitespace(chatId, "chatId");
+            Check.RequireNotNullOrWhitespace(userId, "userId");
 
-            Groups.Add(Context.ConnectionId, "chat-" + chatId);
+            var privateChatId = chatId;
+
+            Caller.debugToLog(string.Format("ChatHub.startChat - chatId:{0} userId:{1}", privateChatId, userId));
+
+            Groups.Add(Context.ConnectionId, privateChatId);
 
             var chatUserId = _hubService.GetClientsUserId(Context.ConnectionId);
 
@@ -93,7 +100,7 @@ namespace Bowerbird.Web.Hubs
 
             var toUser = _hubService.GetUserProfile(userId);
 
-            _hubService.UpdateChatUserStatus(chatId, Context.ConnectionId, chatUserId, Online);
+            _hubService.UpdateChatUserStatus(privateChatId, Context.ConnectionId, chatUserId, Online);
 
             var clientIds = _hubService.GetConnectedClientIdsForAUser(userId);
 
@@ -101,25 +108,25 @@ namespace Bowerbird.Web.Hubs
 
             var chatRequest = new
             {
-                ChatId = chatId,
+                ChatId = privateChatId,
                 Title = string.Format("{0}...", fromUser.Name),
-                Messages = new [] {new {ChatId = chatId, Message = comeToChat, Timestamp = DateTime.UtcNow}},
+                Messages = new[] { new { ChatId = privateChatId, Message = comeToChat, Timestamp = DateTime.UtcNow } },
                 Users = new[] {fromUser, toUser},
                 Timestamp = DateTime.UtcNow
             };
 
             foreach (var clientId in clientIds)
             {
-                Groups.Add(clientId.ToString(), chatId);
+                Groups.Add(clientId.ToString(), privateChatId);
             }
 
-            Clients[chatId].chatRequest(chatRequest);
+            Clients[privateChatId].chatRequest(chatRequest);
         }
 
         // Callback Methods: userExitedChat
         public void ExitChat(string chatId)
         {
-            Groups.Remove(Context.ConnectionId, "chat-" + chatId);
+            Groups.Remove(Context.ConnectionId, chatId);
 
             var userId = _hubService.GetClientsUserId(Context.ConnectionId);
 
@@ -154,6 +161,10 @@ namespace Bowerbird.Web.Hubs
         // Callback Methods: chatMessageReceived
         public void SendChatMessage(string chatId, string message)
         {
+            //var groupChatId = "chat-" + chatId;
+
+            Caller.debugToLog(string.Format("ChatHub.sendChatMessage - chatId:{0} message:{1}", chatId, message));
+
             var userId = _hubService.GetClientsUserId(Context.ConnectionId);
 
             _hubService.PersistChatMessage(chatId, userId, message, null);
