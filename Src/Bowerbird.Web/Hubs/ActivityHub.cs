@@ -10,8 +10,10 @@
  
 */
 
+using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Web.Services;
 using Raven.Client.Linq;
@@ -83,17 +85,41 @@ namespace Bowerbird.Web.Hubs
 
             _hubService.UpdateUserOnline(Context.ConnectionId, userId);
 
-            BroadcastUserStatusUpdate(userId);
-        }
-
-        public void BroadcastUserStatusUpdate(string userId)
-        {
             Clients.userStatusUpdate(_hubService.GetUserProfile(userId));
+
+            var connectedUserIds = _documentSession
+                .Query<All_Sessions.Results, All_Sessions>()
+                .AsProjection<All_Sessions.Results>()
+                .Include(x => x.UserId)
+                .Where(x => x.Status < (int) Connection.ConnectionStatus.Offline && x.LatestActivity > DateTime.UtcNow.AddHours(-1))
+                .ToList()
+                .Select(x => x.UserId)
+                .Distinct();
+
+            var connectedUsers = _documentSession
+                .Query<All_Users.Result, All_Users>()
+                .Where(x => x.UserId.In(connectedUserIds))
+                .AsProjection<All_Users.Result>()
+                .ToList()
+                .Select(x => MakeUser(x.User));
+
+            Caller.setupOnlineUsers(connectedUsers);
         }
 
         public Task Disconnect()
         {
             return Clients.userStatusUpdate(_hubService.GetUserProfile(_hubService.DisconnectClient(Context.ConnectionId)));
+        }
+
+        private object MakeUser(User user)
+        {
+            return new
+            {
+                user.Id,
+                Avatar = user.Avatar,
+                user.LastLoggedIn,
+                Name = user.GetName()
+            };
         }
 
         #endregion

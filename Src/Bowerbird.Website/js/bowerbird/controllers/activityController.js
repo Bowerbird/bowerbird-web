@@ -17,10 +17,16 @@ function ($, _, Backbone, app, Activity) {
 
         this.hub.newActivity = this.controller.newActivity;
         this.hub.userStatusUpdate = this.controller.userStatusUpdate;
+        this.hub.setupOnlineUsers = this.controller.setupOnlineUsers;
 
+        this.hub.debugToLog = this.controller.debugToLog;
     };
 
     var ActivityController = {};
+
+    ActivityController.debugToLog = function (message) {
+        log(message);
+    }
 
     ActivityController.newActivity = function (data) {
         log('activityController.newActivity', this, data);
@@ -43,6 +49,11 @@ function ($, _, Backbone, app, Activity) {
                 user.set('Status', data.Status);
             }
         }
+    };
+
+    ActivityController.setupOnlineUsers = function (data) {
+        log('activityController.setupOnlineUsers', this, data);
+        app.onlineUsers.add(data);
     };
 
     app.addInitializer(function () {
