@@ -22,6 +22,10 @@ using Bowerbird.Core.DomainModels;
 using Newtonsoft.Json;
 using Bowerbird.Core.Config;
 using Bowerbird.Web.Builders;
+using SignalR.Hubs;
+using SignalR;
+using Bowerbird.Web.Hubs;
+using Bowerbird.Web.Services;
 
 namespace Bowerbird.Web.Controllers
 {
@@ -105,6 +109,14 @@ namespace Bowerbird.Web.Controllers
         {
             return new JsonNetResult("failure");
         }
+
+        protected void DebugToClient(string output)
+        {
+            IDebuggerService debugger = ServiceLocator.Current.GetInstance<IDebuggerService>();
+
+            debugger.DebugToClient(output);
+        }
+        
         #endregion      
     }
 }

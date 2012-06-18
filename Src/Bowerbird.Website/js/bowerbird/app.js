@@ -212,9 +212,22 @@ define([
 
                 // initialise the hub connection
                 $.connection.hub.start({ transport: 'longPolling' }, function () {
+
                     // Keep the client id
                     app.clientId = $.signalR.hub.id;
                     log('browser connected via signalr as ' + app.clientId);
+
+                    // setup the debug hub:
+                    $.connection.debugHub.debugToClient = app.debugToClient;
+
+                    //var debugHub = $.connection.debugHub;
+                    $.connection.debugHub.registerWithDebugger()
+                        .done(function () {
+                            log('Connected to the debugger hub');
+                        })
+                        .fail(function (e) {
+                            log(e)
+                        });
 
                     // Subscribe authenticated user to all their groups
                     if (app.authenticatedUser) {
@@ -232,14 +245,6 @@ define([
                             .fail(function (e) {
                                 log('could not register client with hub', e);
                             });
-
-                        //                        $.connection.activityHub.joinGroupStreams(app.authenticatedUser.user.id, _.pluck(memberships, 'GroupId'))
-                        //                            .done(function () {
-                        //                                log('authenticated user joined groups streams', _.pluck(memberships, 'GroupId'));
-                        //                            })
-                        //                            .fail(function (e) {
-                        //                                log('could not join group streams', e);
-                        //                            });
                     }
                 });
 
@@ -248,8 +253,11 @@ define([
                     $('.sub-menu-button').removeClass('active'); // Make sure to add any new menu button types to the selector
                 });
             });
-
         });
+
+        app.debugToClient = function (text) {
+            log('From Server: ' + text);
+        }
 
         return app;
 

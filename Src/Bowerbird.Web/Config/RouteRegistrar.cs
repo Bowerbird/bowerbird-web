@@ -133,13 +133,19 @@ namespace Bowerbird.Web.Config
                 controllerName + "-get-one",
                 controllerName + "/{id}", 
                 new { controller = controllerName, action = "getone" },
-                new { httpMethod = new HttpMethodConstraint("GET"), id = @"^((?!create|update|delete).*)$" });
+                new { httpMethod = new HttpMethodConstraint("GET"), id = @"^((?!create|update|delete|explore).*)$" });
 
             routes.MapRoute(
                 controllerName + "-create-form",
                 controllerName + "/create",
                 new { controller = controllerName, action = "createform" },
                 new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("GET") });
+
+            routes.MapRoute(
+                controllerName + "-explore",
+                controllerName + "/explore",
+                new { controller = controllerName, action = "explore" },
+                new { httpMethod = new HttpMethodConstraint("GET") });
 
             routes.MapRoute(
                 controllerName + "-update-form",

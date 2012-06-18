@@ -186,7 +186,10 @@
     <Compile Include="Hubs\ChatHub.cs" />
     <Compile Include="Hubs\ActivityHub.cs" />
     <Compile Include="Config\HubContextAttribute.cs" />
+    <Compile Include="Hubs\DebugHub.cs" />
+    <Compile Include="Services\DebuggerService.cs" />
     <Compile Include="Services\HubService.cs" />
+    <Compile Include="Services\IDebuggerService.cs" />
     <Compile Include="Services\IHubService.cs" />
     <Compile Include="Services\NotificationService.cs" />
     <Compile Include="Test.cs" />

@@ -207,13 +207,18 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Explore(PagingInput pagingInput)
         {
+            DebugToClient("Inside the Project/Explore method");
+
             Check.RequireNotNull(pagingInput, "pagingInput");
 
             ViewBag.Projects = _projectsViewModelBuilder.BuildProjectList(pagingInput);
 
             if (Request.IsAjaxRequest())
             {
-                return new JsonNetResult(new { Model = ViewBag.Model });
+                return new JsonNetResult(new 
+                    { 
+                        Model = ViewBag.Model 
+                    });
             }
 
             return View(Form.List);

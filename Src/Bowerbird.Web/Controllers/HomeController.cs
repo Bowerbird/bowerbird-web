@@ -64,6 +64,8 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult PrivateIndex()
         {
+            DebugToClient("Testing the SignalR debugger..");
+
             if (!_userContext.IsUserAuthenticated())
             {
                 return RedirectToAction("PublicIndex");
