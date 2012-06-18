@@ -45,9 +45,6 @@ function ($, _, Backbone, app, ich, StreamItemView) {
         },
 
         appendHtml: function (collectionView, itemView) {
-            //            if (this.collection.length === 0) {
-            //                //collectionView.$el.find('.stream-list').append(itemView.el);
-            //            } else {
             var items = this.collection.pluck('Id');
             var index = _.indexOf(items, itemView.model.id);
             log(index);
@@ -59,14 +56,6 @@ function ($, _, Backbone, app, ich, StreamItemView) {
             } else {
                 $li.before(itemView.el);
             }
-
-
-//            if (collectionView.$el.find('.stream-list > li').length === 0) {
-//                collectionView.$el.find('.stream-list').append(itemView.el);
-//            } else {
-//                collectionView.$el.find('.stream-list > li:eq(' + (index) + ')').before(itemView.el);
-//            }
-//            //}
         },
 
         onLoadMoreClicked: function () {

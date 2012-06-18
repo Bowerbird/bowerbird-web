@@ -97,21 +97,6 @@ namespace Bowerbird.Web.Builders
                     pagingInput.GetPage(),
                     pagingInput.GetPageSize(),
                     stats.TotalResults);
-
-            //return _documentSession
-            //    .Query<All_Activities.Result>("All/Activities")
-            //    .Statistics(out stats)
-            //    .Where(x => x.GroupIds.Any(y => y.In(groups)))
-            //    .OrderByDescending(x => x.CreatedDateTime)
-            //    .Skip(pagingInput.GetSkipIndex())
-            //    .Take(pagingInput.GetPageSize())
-            //    .As<Activity>()                
-            //    .ToList()
-            //    .Cast<object>()
-            //    .ToPagedList(
-            //        pagingInput.GetPage(),
-            //        pagingInput.GetPageSize(),
-            //        stats.TotalResults);
         }
 
         /// <summary>
@@ -149,33 +134,67 @@ namespace Bowerbird.Web.Builders
         /// <summary>
         /// PagingInput.Id is Group.Id
         /// </summary>
-        public PagedList<object> BuildGroupStreamItems(PagingInput pagingInput)
+        public PagedList<object> BuildGroupStreamItems(string groupId, StreamInput streamInput, PagingInput pagingInput)
         {
             RavenQueryStatistics stats;
 
             var groups = _documentSession
-                .Query<All_Groups.Result, All_Groups>()
-                .AsProjection<All_Groups.Result>()
-                .Where(x => x.GroupId == pagingInput.Id)
+                .Query<Member>()
+                .Include(x => x.User.Id)
+                .Where(x => x.User.Id == _userContext.GetAuthenticatedUserId() && x.Group.Id == groupId)
                 .ToList()
-                .SelectMany(x => x.AncestorGroupIds)
-                .Union(new [] { pagingInput.Id });
+                .Select(x => x.Group.Id);
 
-            return _documentSession
-                .Query<All_Contributions.Result, All_Contributions>()
-                .AsProjection<All_Contributions.Result>()
+            var query = _documentSession
+                .Query<All_Activities.Result>("All/Activities")
                 .Statistics(out stats)
-                .Include(x => x.ContributionId)
-                .Where(x => x.GroupId.In(groups))
+                .Where(x => x.GroupIds.Any(y => y == groupId));
+
+            if (streamInput.NewerThan.HasValue)
+            {
+                query.Where(x => x.CreatedDateTime > streamInput.NewerThan.Value);
+            }
+            else if (streamInput.OlderThan.HasValue)
+            {
+                query.Where(x => x.CreatedDateTime < streamInput.OlderThan.Value);
+            }
+
+            return query
                 .OrderByDescending(x => x.CreatedDateTime)
                 .Skip(pagingInput.GetSkipIndex())
                 .Take(pagingInput.GetPageSize())
+                .As<Activity>()
                 .ToList()
-                .Select(MakeStreamItem)
+                .Cast<object>()
                 .ToPagedList(
                     pagingInput.GetPage(),
-                    pagingInput.GetPageSize(), 
+                    pagingInput.GetPageSize(),
                     stats.TotalResults);
+            //RavenQueryStatistics stats;
+
+            //var groups = _documentSession
+            //    .Query<All_Groups.Result, All_Groups>()
+            //    .AsProjection<All_Groups.Result>()
+            //    .Where(x => x.GroupId == pagingInput.Id)
+            //    .ToList()
+            //    .SelectMany(x => x.AncestorGroupIds)
+            //    .Union(new [] { pagingInput.Id });
+
+            //return _documentSession
+            //    .Query<All_Contributions.Result, All_Contributions>()
+            //    .AsProjection<All_Contributions.Result>()
+            //    .Statistics(out stats)
+            //    .Include(x => x.ContributionId)
+            //    .Where(x => x.GroupId.In(groups))
+            //    .OrderByDescending(x => x.CreatedDateTime)
+            //    .Skip(pagingInput.GetSkipIndex())
+            //    .Take(pagingInput.GetPageSize())
+            //    .ToList()
+            //    .Select(MakeStreamItem)
+            //    .ToPagedList(
+            //        pagingInput.GetPage(),
+            //        pagingInput.GetPageSize(), 
+            //        stats.TotalResults);
         }
 
         //private dynamic MakeStreamItem2(All_Activities.Result result)

@@ -37,18 +37,11 @@ function ($, _, Backbone, app, Activity) {
     ActivityController.userStatusUpdate = function (data) {
         log('activityController.userStatusUpdate', this, data);
 
-        if (!_.any(app.onlineUsers, function (user) { return user.id == data.Id; })) {
-            if (data.Status == 2 || data.Status == 3 || data.Status == 'undefined') return;
-            var user = new User(data);
-            app.onlineUsers.add(user);
-        } else {
-            var user = app.onlineUsers.get(data.Id);
-            if (data.Status == 2 || data.Status == 3) {
-                app.onlineUsers.remove(user);
-            } else {
-                user.set('Status', data.Status);
-            }
-        }
+        // If user doesn't exist, add them
+        app.onlineUsers.add(data);
+
+        // Then set their status
+        app.onlineUsers.get(data.Id).set('Status', data.Status);
     };
 
     ActivityController.setupOnlineUsers = function (data) {

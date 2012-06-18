@@ -43,8 +43,6 @@ namespace Bowerbird.Web.ViewModels
 
         public string SortDirection { get; set; }
 
-        public string SearchQuery { get; set; }
-
         #endregion
 
         #region Methods

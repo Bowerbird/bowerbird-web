@@ -1413,8 +1413,8 @@ header nav#search-menu
     line-height: 25px;
     padding: 0 4px;
     position: absolute;
-    right: -4px;
-    top: 11px;
+    top: 12px;
+    left: -7px;
 }
 #sidebar #watch-menu-group .menu-group-item > a,
 #sidebar #project-menu-group .menu-group-item > a,

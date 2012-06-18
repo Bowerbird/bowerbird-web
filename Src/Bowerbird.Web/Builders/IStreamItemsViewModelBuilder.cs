@@ -24,6 +24,6 @@ namespace Bowerbird.Web.Builders
 
         PagedList<object> BuildUserStreamItems(PagingInput pagingInput);
 
-        PagedList<object> BuildGroupStreamItems(PagingInput pagingInput);
+        PagedList<object> BuildGroupStreamItems(string groupId, StreamInput streamInput, PagingInput pagingInput);
     }
 }

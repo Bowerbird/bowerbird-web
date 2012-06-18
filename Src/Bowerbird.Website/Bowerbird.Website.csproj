@@ -169,6 +169,7 @@
     <Content Include="js\bowerbird\views\chatUserCollectionView.js" />
     <Content Include="js\bowerbird\views\chatUserItemView.js" />
     <Content Include="js\bowerbird\views\chatCompositeView.js" />
+    <Content Include="js\bowerbird\views\chatMessageCollectionView.js" />
     <Content Include="js\bowerbird\views\homePublicLayoutView.js" />
     <Content Include="js\bowerbird\views\exploreProjectItemView.js" />
     <Content Include="js\bowerbird\views\exploreProjectView.js" />
@@ -393,6 +394,7 @@
     <Content Include="Views\Shared\OnlineUserList.mustache" />
     <Content Include="Views\Teams\List.mustache" />
     <Content Include="Views\Shared\StreamLoadNew.mustache" />
+    <Content Include="Views\Shared\ChatMessageList.mustache" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="404.html" />

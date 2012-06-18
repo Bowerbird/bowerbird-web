@@ -9,13 +9,13 @@
 // --------
 
 // Shows chat window for a chat
-define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/chatmessageitemview', 'views/chatusercollectionview', 'views/useritemview'],
-function ($, _, Backbone, app, ich, ChatMessageItemView, ChatUserCollectionView, UserItemView) {
-    var ChatCompositeView = Backbone.Marionette.CompositeView.extend({
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/chatmessagecollectionview', 'views/chatusercollectionview'],
+function ($, _, Backbone, app, ich, ChatMessageCollectionView, ChatUserCollectionView) {
+    var ChatLayoutView = Backbone.Marionette.Layout.extend({
 
         template: 'Chat',
 
-        itemView: ChatMessageItemView,
+        //itemView: ChatMessageItemView,
 
         className: 'chat-window',
 
@@ -25,58 +25,44 @@ function ($, _, Backbone, app, ich, ChatMessageItemView, ChatUserCollectionView,
         },
 
         regions: {
-            users: '#chat-users',
-            messages: '.chat-messages'
+            messages: '.chat-messages',
+            users: '.chat-users'
         },
 
-        //        serializeData: function () {
-        //            log('chatView.serializeData');
-        //            var model = this.model.toJSON();
+        serializeData: function () {
+            return {
+                Model: {
+                    Title: this.model.get('Title')
+                }
+            };
+        },
 
-        //            return {
-        //                Model: model
-        //            };
-        //        },
-
-//        render: function(){
-//            log('chatView.render');
-//        },
-
-        onRender: function () {
+        onShow: function () {
             log('chatView.onRender');
 
-            $('body').append(this.el);
+            var chatMessageCollectionView = new ChatMessageCollectionView({ collection: this.model.chatMessages });
+            this.messages.show(chatMessageCollectionView);
+            chatMessageCollectionView.render();
 
-            var chatUserCollectionView = new ChatUserCollectionView({ model: this.model.ChatUsers });
-            chatUserCollectionView.itemView = UserItemView;
-            this.users.appendView(chatUserCollectionView);
-
-
-
-            //app.vent.on('newmessage:' + this.ChatId, this.addChatMessage, this);
+            var chatUserCollectionView = new ChatUserCollectionView({ collection: this.model.chatUsers });
+            this.users.show(chatUserCollectionView);
+            chatUserCollectionView.render();
         },
 
         sendMessage: function () {
             log('chatView.sendMessage');
-            //app.chatRouter.sendMessage(this.$el.find('.new-chat-message').val(), this.chat);
+
             var message = this.$el.find('.new-chat-message').val();
-            var chatId = this.model.get('ChatId');
+            var chatId = this.model.id;
             log(message, chatId);
             app.vent.trigger('chats:sendMessage', chatId, message);
         },
 
         closeWindow: function () {
-            app.chats.remove(this.chat);
+            app.chats.remove(this.model.id);
             this.$el.remove();
-        },
-
-        addChatMessage: function (chatMessage) {
-            log('chatView.addChatMessage', chatMessage);
-            this.$el.find('.chat-messages').append(ich.ChatMessage(chatMessage.toJSON()));
-
         }
-
     });
 
-    return ChatCompositeView;
+    return ChatLayoutView;
 })

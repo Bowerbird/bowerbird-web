@@ -92,27 +92,29 @@ namespace Bowerbird.Web.Controllers
         #region Methods
 
         [HttpGet]
-        public ActionResult Stream(PagingInput pagingInput)
+        public ActionResult Activity(StreamInput streamInput, PagingInput pagingInput)
         {
             Check.RequireNotNull(pagingInput, "pagingInput");
 
             var projectId = "projects/".AppendWith(pagingInput.Id);
 
+            if (Request.IsAjaxRequest())
+            {
+                return new JsonNetResult(new
+                {
+                    Model = _streamItemsViewModelBuilder.BuildGroupStreamItems(projectId, streamInput, pagingInput)
+                });
+            }
+
             ViewBag.Model = new
             {
                 Project = _projectsViewModelBuilder.BuildProject(projectId),
-                StreamItems = _streamItemsViewModelBuilder.BuildGroupStreamItems(pagingInput)
+                StreamItems = _streamItemsViewModelBuilder.BuildGroupStreamItems(projectId, null, pagingInput)
             };
 
             ViewBag.PrerenderedView = "projects"; // HACK: Need to rethink this
 
             return View(Form.Stream);
-        }
-
-        [HttpGet]
-        public ActionResult StreamList(PagingInput pagingInput)
-        {
-            return new JsonNetResult(_streamItemsViewModelBuilder.BuildGroupStreamItems(pagingInput));
         }
 
         [HttpGet]
@@ -224,7 +226,13 @@ namespace Bowerbird.Web.Controllers
 
             var projectId = "projects/".AppendWith(idInput.Id);
 
-            return new JsonNetResult(_projectsViewModelBuilder.BuildProject(projectId));
+            return new JsonNetResult(new
+            {
+                Model = new
+                {
+                    Project = _projectsViewModelBuilder.BuildProject(projectId)
+                }
+            });
         }
 
         [HttpGet]

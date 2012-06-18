@@ -90,6 +90,12 @@ define([
             chatarea: '#chatarea'
         });
 
+        app.chatRegions = [];
+
+        app.showChat = function (chatView) {
+            var chatRegion = new Backbone.Marionette.Region();
+        };
+
         app.isPrerendering = function (name) {
             return name === app.prerenderedView.name && !app.prerenderedView.isBound;
         };
@@ -169,9 +175,6 @@ define([
                 // Notifications
                 app.activities = new ActivityCollection();
 
-                // Add bootstrapped online users
-                app.onlineUsers.add(bootstrapData.OnlineUsers);
-
                 // Subscribe to new activities
                 app.activities.on(
                     'add',
@@ -230,13 +233,13 @@ define([
                                 log('could not register client with hub', e);
                             });
 
-//                        $.connection.activityHub.joinGroupStreams(app.authenticatedUser.user.id, _.pluck(memberships, 'GroupId'))
-//                            .done(function () {
-//                                log('authenticated user joined groups streams', _.pluck(memberships, 'GroupId'));
-//                            })
-//                            .fail(function (e) {
-//                                log('could not join group streams', e);
-//                            });
+                        //                        $.connection.activityHub.joinGroupStreams(app.authenticatedUser.user.id, _.pluck(memberships, 'GroupId'))
+                        //                            .done(function () {
+                        //                                log('authenticated user joined groups streams', _.pluck(memberships, 'GroupId'));
+                        //                            })
+                        //                            .fail(function (e) {
+                        //                                log('could not join group streams', e);
+                        //                            });
                     }
                 });
 

@@ -17,14 +17,19 @@ define(['jquery', 'underscore', 'backbone', 'collections/paginatedcollection', '
 
         groupOrUser: null,
 
-        initialize: function (options) {
+        initialize: function (models, options) {
             _.bindAll(this,
             'onSuccess',
             'onSuccessWithAddFix',
             'getFetchOptions');
             PaginatedCollection.prototype.initialize.apply(this, arguments);
             typeof (options) != 'undefined' || (options = {});
-            typeof (options.groupOrUser) != 'undefined' || (this.groupOrUser = options.groupOrUser);
+
+            if (options.groupOrUser) {
+                this.groupOrUser = options.groupOrUser;
+                this.baseUrl = '/' + options.groupOrUser.id + '/activity';
+                log(this.baseUrl);
+            }
 
             // Set the moment in time (UTC) around which all stream queries will be performed
             var now = new Date();
@@ -80,7 +85,7 @@ define(['jquery', 'underscore', 'backbone', 'collections/paginatedcollection', '
                     options.data.userId = this.groupOrUser.id;
                 }
             }
-            
+
             // Get either items newer than or older than baseline
             options.data[newerOrOlder] = this.baselineDateTime;
 

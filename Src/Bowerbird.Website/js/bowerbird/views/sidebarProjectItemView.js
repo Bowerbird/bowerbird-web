@@ -33,7 +33,7 @@ function ($, _, Backbone, app, Project) {
             $(this.el).children('a').on('click', function (e) {
                 e.preventDefault();
                 app.groupUserRouter.navigate($(this).attr('href'));
-                app.vent.trigger('project:show:stream', that.model.id);
+                //app.vent.trigger('project:show:stream', that.model.id);
                 return false;
             });
 
@@ -68,16 +68,17 @@ function ($, _, Backbone, app, Project) {
         },
 
         observationAdded: function (activity) {
-            var self = this;
             _.each(activity.get('Groups'), function (group) {
-                if (group.Id == self.model.id) {
-                    self.activityCount++;
-                    if (self.activityCount == 1) {
-                        self.$el.find('p').append('<span></span>');
+                if (group.Id == this.model.id) {
+                    this.activityCount++;
+                    if (this.activityCount == 1) {
+                        this.$el.find('p').append('<span title=""></span>');
                     }
-                    self.$el.find('p span').text(self.activityCount);
+                    var title = this.activityCount.toString() + ' New Item' + (this.activityCount > 1 ? 's' : '');
+                    this.$el.find('p span').text(this.activityCount).attr('title', title);
                 }
-            });
+            }, 
+            this);
         }
     });
 

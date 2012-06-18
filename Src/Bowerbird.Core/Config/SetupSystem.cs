@@ -124,10 +124,7 @@ namespace Bowerbird.Core.Config
                 _documentSession.SaveChanges();
 
                 // Wait for all stale indexes to complete.
-                while (_documentSession.Advanced.DocumentStore.DatabaseCommands.GetStatistics().StaleIndexes.Length > 0)
-                {
-                    Thread.Sleep(1500);
-                }
+                WaitForIndexingToFinish();
 
                 // Enable all services
                 _systemStateManager.SwitchServicesOn();
@@ -135,6 +132,14 @@ namespace Bowerbird.Core.Config
             catch (Exception exception)
             {
                 throw new Exception("Could not setup system", exception);
+            }
+        }
+
+        private void WaitForIndexingToFinish()
+        {
+            while (_documentSession.Advanced.DocumentStore.DatabaseCommands.GetStatistics().StaleIndexes.Length > 0)
+            {
+                Thread.Sleep(1500);
             }
         }
 

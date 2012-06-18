@@ -83,12 +83,10 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Stream(StreamInput streamInput, PagingInput pagingInput)
         {
-            var data = new
+            return new JsonNetResult(new 
             {
                 Model = _streamItemsViewModelBuilder.BuildHomeStreamItems(streamInput, pagingInput)
-            };
-
-            return new JsonNetResult(data);
+            });
         }
 
         #endregion

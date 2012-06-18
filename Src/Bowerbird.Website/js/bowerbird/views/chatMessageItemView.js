@@ -21,9 +21,8 @@ function ($, _, Backbone, app)
         template: 'ChatMessage',
 
         serializeData: function () {
-            var model = this.model.toJSON();
             return {
-                Model: model
+                Model: this.model.toJSON()
             };
         }
     });

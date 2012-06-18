@@ -89,7 +89,7 @@ namespace Bowerbird.Web.Controllers
             ViewBag.Model = new
             {
                 Team = _teamsViewModelBuilder.BuildTeam(new IdInput() { Id = "teams/" + pagingInput.Id }),
-                StreamItems = _streamItemsViewModelBuilder.BuildGroupStreamItems(pagingInput)
+                StreamItems = _streamItemsViewModelBuilder.BuildGroupStreamItems(null, null, pagingInput)
             };
 
             ViewBag.PrerenderedView = "teams"; // HACK: Need to rethink this
@@ -100,7 +100,7 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult StreamList(PagingInput pagingInput)
         {
-            return new JsonNetResult(_streamItemsViewModelBuilder.BuildGroupStreamItems(pagingInput));
+            return new JsonNetResult(_streamItemsViewModelBuilder.BuildGroupStreamItems(null, null, pagingInput));
         }
 
         [HttpGet]

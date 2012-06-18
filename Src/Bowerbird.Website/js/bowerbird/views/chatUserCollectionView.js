@@ -10,20 +10,11 @@
 
 // Shows users in a chat
 define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'collections/usercollection', 'views/useritemview'],
-function ($, _, Backbone, app, ich, UserCollection, UserItemView) 
-{
+function ($, _, Backbone, app, ich, UserCollection, UserItemView) {
     var ChatUserCollectionView = Backbone.Marionette.CollectionView.extend({
+        tagName: 'ul',
 
-        itemView: UserItemView,
-
-        template: 'ChatUserList',
-
-        className: 'chatusers',
-
-//        serializeData: function () {
-//            return this.model.toJson();
-//        }
-
+        itemView: UserItemView
     });
 
     return ChatUserCollectionView;

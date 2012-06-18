@@ -1,17 +1,9 @@
 ﻿ <div class="chat-title-bar">
     <span class="window-close"></span>
-    <h3>{{Title}}</h3>
+    <h3>{{Model.Title}}</h3>
   </div>
-  <ul class="chat-messages">
-    {{#Messages}}
-    <li>
-      {{> ChatMessage}}
-    </li>
-    {{/Messages}}
-  </ul>
-<ul id="chat-users">
-    {{>ChatUserList}}
-  </ul>
+  <div class="chat-messages"></div>
+  <div class="chat-users"></div>
   <div class="chat-message-box">
     <textarea class="new-chat-message" autocomplete="off" accesskey="m"></textarea>
     <input type="button" class="chat-send-message-button send" value="Send" />

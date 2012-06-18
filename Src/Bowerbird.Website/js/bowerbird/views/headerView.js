@@ -15,7 +15,7 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
         el: 'header',
 
         showBootstrappedDetails: function () {
-            this.$el.find('a').on('click', function (e) {
+            this.$el.find('#explore-menu a').on('click', function (e) {
                 e.preventDefault();
                 app.observationRouter.navigate($(this).attr('href'), { trigger: true });
                 return false;

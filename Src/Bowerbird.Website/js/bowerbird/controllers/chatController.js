@@ -100,12 +100,12 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
     ChatController.setupChat = function (data) {
         log('chatController.setupChat', this, data);
 
-        var users = new UserCollection(data.Users);
-        var messages = new ChatMessageCollection(data.Messages);
-        var chat = new Chat({ id: data.ChatId, ChatId: data.ChatId, Title: data.Title, ChatUsers: users, ChatMessages: messages });
+        var chatUsers = new UserCollection(data.Users);
+        var chatMessages = new ChatMessageCollection(data.Messages);
+        var chat = new Chat({ Id: data.ChatId, Title: data.Title }, { chatUsers: chatUsers, chatMessages: chatMessages });
 
         app.chats.add(chat);
-        var chatView = new ChatCompositeView({ model: chat, collection: chat.Messages });
+        var chatView = new ChatCompositeView({ model: chat });
         log(chatView);
         app.chatarea.show(chatView);
     };
@@ -114,12 +114,13 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
     ChatController.chatRequest = function (data) {
         log('chatController.chatRequest', this, data);
 
-        var users = new UserCollection(data.Users);
-        var messages = new ChatMessageCollection(data.Messages);
-        var chat = new Chat({ id: data.ChatId, ChatId: data.ChatId, Title: data.Title, ChatUsers: users, ChatMessages: messages });
+        var chatUsers = new UserCollection(data.Users);
+        var chatMessages = new ChatMessageCollection(data.Messages);
+        var chat = new Chat({ Id: data.ChatId, Title: data.Title }, { chatUsers: chatUsers, chatMessages: chatMessages });
 
         app.chats.add(chat);
-        var chatView = new ChatCompositeView({ model: chat, collection: chat.Messages });
+        var chatView = new ChatCompositeView({ model: chat, collection: chat.chatMessages });
+        log(chatView);
         app.chatarea.show(chatView);
     };
 
@@ -138,8 +139,9 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
         var chat = app.chats.get(data.ChatId);
 
 
-        chat.addChatMessage(data);
+        //chat.addChatMessage(data);
         // add the message
+        chat.chatMessages.add(data);
 
         //app.vent.trigger('newmessage:' + data.ChatId);
     };

@@ -148,6 +148,9 @@ namespace Bowerbird.Core.Config
 
                 // Save changes so that we have access to indexes for observation creation
                 _documentSession.SaveChanges();
+
+                // Wait for all stale indexes to complete.
+                WaitForIndexingToFinish();
                 
                 // Observations
                 AddObservations();
@@ -156,10 +159,7 @@ namespace Bowerbird.Core.Config
                 _documentSession.SaveChanges();
 
                 // Wait for all stale indexes to complete.
-                while (_documentSession.Advanced.DocumentStore.DatabaseCommands.GetStatistics().StaleIndexes.Length > 0)
-                {
-                    Thread.Sleep(1500);
-                }
+                WaitForIndexingToFinish();
 
                 // Enable emails
                 _systemStateManager.SwitchServices(enableEmails: true);
@@ -167,6 +167,14 @@ namespace Bowerbird.Core.Config
             catch (Exception exception)
             {
                 throw new Exception("Could not setup test data", exception);
+            }
+        }
+
+        private void WaitForIndexingToFinish()
+        {
+            while (_documentSession.Advanced.DocumentStore.DatabaseCommands.GetStatistics().StaleIndexes.Length > 0)
+            {
+                Thread.Sleep(1500);
             }
         }
 

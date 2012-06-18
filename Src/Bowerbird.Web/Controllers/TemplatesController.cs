@@ -66,6 +66,7 @@ namespace Bowerbird.Web.Controllers
                 {"AvatarUploader", null},
                 {"Chat", null},
                 {"ChatMessage", null},
+                {"ChatMessageList", null},
                 {"ChatUserList", null},
                 {"Home", null},
                 {"NotificationItem", null},

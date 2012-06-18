@@ -85,7 +85,7 @@ namespace Bowerbird.Web.Controllers
             ViewBag.Model = new
             {
                 Organisation = _organisationsViewModelBuilder.BuildOrganisation(organisationId),
-                StreamItems = _streamItemsViewModelBuilder.BuildGroupStreamItems(pagingInput)
+                StreamItems = _streamItemsViewModelBuilder.BuildGroupStreamItems(null, null, pagingInput)
             };
 
             ViewBag.PrerenderedView = "organisations"; // HACK: Need to rethink this
@@ -98,7 +98,7 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(pagingInput, "pagingInput");
 
-            return new JsonNetResult(_streamItemsViewModelBuilder.BuildGroupStreamItems(pagingInput));
+            return new JsonNetResult(_streamItemsViewModelBuilder.BuildGroupStreamItems(null, null, pagingInput));
         }
 
         [HttpGet]

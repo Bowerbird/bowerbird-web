@@ -8,9 +8,8 @@
 // OnlineUsersCompositeView
 // ----------------------------
 
-define(['jquery','underscore','backbone','app','views/useritemview'],
-function ($, _, Backbone, app, UserItemView) 
-{
+define(['jquery', 'underscore', 'backbone', 'app', 'views/useritemview'],
+function ($, _, Backbone, app, UserItemView) {
     var OnlineUserCompositeView = Backbone.Marionette.CompositeView.extend({
 
         itemView: UserItemView,
@@ -24,22 +23,33 @@ function ($, _, Backbone, app, UserItemView)
             users: '#online-users'
         },
 
+        initialize: function (options) {
+            this.collection.on('add', this.updateUserCount, this);
+            this.collection.on('remove', this.updateUserCount, this);
+        },
+
         serializeData: function () {
             return {
                 Count: this.collection.length
             };
+        },
+
+        updateUserCount: function (model, collection) {
+            this.$el.find('#users-online').text(collection.length);
         }
     });
 
     app.addInitializer(function (options) {
         $(function () {
-            var onlineUserCompositeView = new OnlineUserCompositeView({ model: app.onlineUsers, collection: app.onlineUsers });
+            if (app.authenticatedUser) {
+                var onlineUserCompositeView = new OnlineUserCompositeView({ model: app.onlineUsers, collection: app.onlineUsers });
 
-            onlineUserCompositeView.on('show', function () {
-                app.vent.trigger('onlineUsers:rendered');
-            });
+                onlineUserCompositeView.on('show', function () {
+                    app.vent.trigger('onlineUsers:rendered');
+                });
 
-            app.usersonline.show(onlineUserCompositeView);
+                app.usersonline.show(onlineUserCompositeView);
+            }
         });
     });
 

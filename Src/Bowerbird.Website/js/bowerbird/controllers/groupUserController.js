@@ -16,7 +16,7 @@ function ($, _, Backbone, app, ProjectLayoutView, Project, StreamItemCollection)
     var GroupUserRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
             //'teams/:id': 'showTeam',
-            //'projects/:id': 'showProjectStream',
+            'projects/:id': 'showProjectStream',
             //'projects/:id/about': 'showProjectAbout',
             //'projects/:id/members': 'showProjectMembers',
             'users/:id': 'showUser'
@@ -24,6 +24,27 @@ function ($, _, Backbone, app, ProjectLayoutView, Project, StreamItemCollection)
     });
 
     var GroupUserController = {};
+
+    var getModel = function (id) {
+        var deferred = new $.Deferred();
+
+        if (app.isPrerendering('projects')) {
+            deferred.resolve(app.prerenderedView.data);
+        } else {
+            var params = {};
+//            if (id) {
+//                params['id'] = id;
+//            }
+            $.ajax({
+                url: '/projects/' + id,
+                data: params
+            }).done(function (data) {
+                deferred.resolve(data.Model);
+            });
+        }
+
+        return deferred.promise();
+    };
 
     // GroupUserController Public API
     // ------------------------------
@@ -35,9 +56,23 @@ function ($, _, Backbone, app, ProjectLayoutView, Project, StreamItemCollection)
 
     // Show project activity
     GroupUserController.showProjectStream = function (id) {
-        log('project:show:stream');
-        //var projectLayoutView = showProjectLayoutView(id);
-        //projectLayoutView.showStream(new StreamItemCollection(app.prerenderedView.data.StreamItems.PagedListItems));
+        log('showing projects home stream', this, this);
+
+        $.when(getModel(id))
+            .done(function (model) {
+                var project = new Project(model.Project);
+                var projectLayoutView = new ProjectLayoutView({ model: project });
+
+                app.content[app.getShowViewMethodName('projects')](projectLayoutView);
+
+                if (app.isPrerendering('projects')) {
+                    projectLayoutView.showBootstrappedDetails();
+                }
+
+                projectLayoutView.showStream();
+
+                app.setPrerenderComplete();
+            });
     };
 
     // Show project observations
@@ -85,15 +120,15 @@ function ($, _, Backbone, app, ProjectLayoutView, Project, StreamItemCollection)
     // ----------------------------------
 
     app.vent.on('home:show', function (id) {
-        GroupUserController.showHome(id);
+        //GroupUserController.showHome(id);
     });
 
     app.vent.on('project:show:stream', function (id) {
-        GroupUserController.showProjectStream(id);
+        //GroupUserController.showProjectStream(id);
     });
 
     app.vent.on('project:show:observations', function (id) {
-        GroupUserController.showProjectObservations(id);
+        //GroupUserController.showProjectObservations(id);
     });
 
     //    // When the mail app is shown or `inbox` is clicked,

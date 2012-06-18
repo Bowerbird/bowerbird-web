@@ -22,7 +22,7 @@ function ($, _, Backbone, app, HomePublicLayoutView, HomePrivateLayoutView) {
 
     HomeController.showHomeStream = function () {
         $(function () {
-            log('showing home', this, this);
+            log('showing home stream', this, this);
 
             var homeLayoutView = null;
 

@@ -17,14 +17,12 @@ function ($, _, Backbone, app, UserCollection, ChatMessageCollection, User, Chat
 
         //urlRoot: '/chats',
 
-        idAttribute: 'id',
+        idAttribute: 'Id',
 
-        initialize: function (options) {
+        initialize: function (attributes, options) {
             log('Chat.initialize');
-            this.Title = options.Title;
-            this.ChatUsers = options.ChatUsers;
-            this.Messages = options.ChatMessages;
-            this.chatId = options.ChatId;
+            this.chatUsers = options.chatUsers;
+            this.chatMessages = options.chatMessages;
         },
 
         //        toJSON: function () {
@@ -36,19 +34,18 @@ function ($, _, Backbone, app, UserCollection, ChatMessageCollection, User, Chat
 
         addChatUser: function (user) {
             // todo: Check if exists already
-            this.ChatUsers.add(user);
+            this.chatUsers.add(user);
         },
 
-        removeChatUser: function (user) {
+        removeChatUser: function (userId) { 
             // todo: Check if exists already
-            this.ChatUsers.remove(user);
+            this.chatUsers.remove(userId);
         },
 
         addChatMessage: function (message) {
             log('chat.addChatMessage', message);
             // todo: Check if exists already
-            var chatMessage = new ChatMessage(message);
-            this.Messages.add(chatMessage);
+            this.chatMessages.add(message);
         }
     });
 

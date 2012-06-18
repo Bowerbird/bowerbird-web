@@ -8,15 +8,10 @@
 // ProjectLayoutView
 // -----------------
 
-// The left hand side bar that is shown to authenticated users.
-define(['jquery', 'underscore', 'backbone', 'app', 'models/project', 'views/streamview'], function ($, _, Backbone, app, Project, StreamView) {
+define(['jquery', 'underscore', 'backbone', 'app', 'views/streamview', 'collections/streamitemcollection'], function ($, _, Backbone, app, StreamView, StreamItemCollection) {
 
     var ProjectLayoutView = Backbone.Marionette.Layout.extend({
-        tagName: 'section',
-
-        id: 'content',
-
-        className: 'triple-2 project',
+        className: 'project',
 
         template: 'Project',
 
@@ -25,10 +20,28 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/project', 'views/stre
             details: '.details'
         },
 
-        showStream: function (streamItems) {
-            var streamView = new StreamView({ model: this.model, collection: streamItems });
-            this.details.show(streamView);
-            streamView.render();
+        showBootstrappedDetails: function () {
+            this.initializeRegions();
+            this.$el = $('#content .project');
+        },
+
+        showStream: function () {
+            var streamItemCollection = new StreamItemCollection(null, { groupOrUser: this.model });
+            var options = {
+                model: this.model,
+                collection: streamItemCollection
+            };
+            if (app.isPrerendering('projects')) {
+                options['el'] = '.stream';
+            }
+            var streamView = new StreamView(options);
+            if (app.isPrerendering('projects')) {
+                this.details.attachView(streamView);
+                streamView.showBootstrappedDetails();
+            } else {
+                this.details.show(streamView);
+            }
+            streamItemCollection.fetchFirstPage();
         }
     });
 
