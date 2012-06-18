@@ -22,6 +22,8 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
         this.hub.userJoinedChat = this.controller.userJoinedChat;
         this.hub.setupChat = this.controller.setupChat;
 
+        this.hub.debugToLog = this.controller.debugToLog;
+
         //        this.joinChat = this.controller.joinChat;
         //        this.exitChat = this.controller.exitChat;
         //        this.typing = this.controller.typing;
@@ -47,11 +49,16 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
 
     app.vent.on('chats:sendMessage', function (chatId, message) {
         log(chatId, message);
-        ChatController.sendMessage(chatId,message);
+        ChatController.sendMessage(chatId, message);
     });
+
+    ChatController.debugToLog = function (message) {
+        log(message);
+    }
 
     // join a group/private chat
     ChatController.joinChat = function (id) {
+        log('chatController.joinChat: with ' + id);
         if (id.split('/')[0] == 'users') {// instanceof Bowerbird.Models.GroupChat) {
             //this.hub.startChat(id);
             var chatId = ChatController.generateGuid();

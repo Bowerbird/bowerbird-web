@@ -16,6 +16,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Extensions;
 using Bowerbird.Web.Services;
 using SignalR.Hubs;
 using Bowerbird.Core.DesignByContract;
@@ -50,6 +51,8 @@ namespace Bowerbird.Web.Hubs
         // Callback Methods: setupChat, userJoinedChat
         public void JoinChat(string chatId)
         {
+            Check.RequireNotNullOrWhitespace(chatId, "chatId");
+
             Groups.Add(Context.ConnectionId, chatId);
 
             var userId = _hubService.GetClientsUserId(Context.ConnectionId);
@@ -80,7 +83,9 @@ namespace Bowerbird.Web.Hubs
         // Callback Methods: chatRequest
         public void StartChat(string chatId, string userId)
         {
-            Groups.Add(Context.ConnectionId, chatId);
+            Caller.debugToLog("ChatHub.startChat - chatId:{0} userId:{1}".FormatWith(chatId, userId));
+
+            Groups.Add(Context.ConnectionId, "chat-" + chatId);
 
             var chatUserId = _hubService.GetClientsUserId(Context.ConnectionId);
 
@@ -114,7 +119,7 @@ namespace Bowerbird.Web.Hubs
         // Callback Methods: userExitedChat
         public void ExitChat(string chatId)
         {
-            Groups.Remove(Context.ConnectionId, chatId);
+            Groups.Remove(Context.ConnectionId, "chat-" + chatId);
 
             var userId = _hubService.GetClientsUserId(Context.ConnectionId);
 

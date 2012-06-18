@@ -25,15 +25,10 @@ function ($, _, Backbone, app, NotificationItemView) {
 
         onRender: function () {
             $('article').append(this.el);
-
-            app.vent.on('newactivity', this.newActivity, this);
         },
 
         appendHtml: function(collectionView, itemView){
             collectionView.$el.find('ul').prepend(itemView.el);
-        },
-
-        newActivity: function(activity) {
         }
     });
 

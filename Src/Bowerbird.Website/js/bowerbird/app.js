@@ -222,13 +222,21 @@ define([
                             }
                         }, memberships);
 
-                        $.connection.activityHub.joinGroupStreams(app.authenticatedUser.user.id, _.pluck(memberships, 'GroupId'))
+                        $.connection.activityHub.registerUserClient(app.authenticatedUser.user.id)
                             .done(function () {
-                                log('authenticated user joined groups streams', _.pluck(memberships, 'GroupId'));
+                                log('Added user to hub');
                             })
                             .fail(function (e) {
-                                log('could not join group streams', e);
+                                log('could not register client with hub', e);
                             });
+
+//                        $.connection.activityHub.joinGroupStreams(app.authenticatedUser.user.id, _.pluck(memberships, 'GroupId'))
+//                            .done(function () {
+//                                log('authenticated user joined groups streams', _.pluck(memberships, 'GroupId'));
+//                            })
+//                            .fail(function (e) {
+//                                log('could not join group streams', e);
+//                            });
                     }
                 });
 
