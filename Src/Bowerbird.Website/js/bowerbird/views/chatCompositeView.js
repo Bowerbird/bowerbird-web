@@ -12,12 +12,9 @@
 define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/chatmessagecollectionview', 'views/chatusercollectionview'],
 function ($, _, Backbone, app, ich, ChatMessageCollectionView, ChatUserCollectionView) {
     var ChatLayoutView = Backbone.Marionette.Layout.extend({
+        className: 'chat-window',
 
         template: 'Chat',
-
-        //itemView: ChatMessageItemView,
-
-        className: 'chat-window',
 
         events: {
             "click .chat-send-message-button": "sendMessage",
@@ -59,8 +56,7 @@ function ($, _, Backbone, app, ich, ChatMessageCollectionView, ChatUserCollectio
         },
 
         closeWindow: function () {
-            app.chats.remove(this.model.id);
-            this.$el.remove();
+            app.vent.trigger('chats:close', this.model);
         }
     });
 

@@ -167,6 +167,7 @@
     <Content Include="js\bowerbird\models\streamItem.js" />
     <Content Include="js\bowerbird\views\avatarItemView.js" />
     <Content Include="js\bowerbird\views\chatMessageItemView.js" />
+    <Content Include="js\bowerbird\views\chatRegion.js" />
     <Content Include="js\bowerbird\views\chatUserCollectionView.js" />
     <Content Include="js\bowerbird\views\chatUserItemView.js" />
     <Content Include="js\bowerbird\views\chatCompositeView.js" />

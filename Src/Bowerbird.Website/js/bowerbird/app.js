@@ -90,12 +90,6 @@ define([
             chatarea: '#chatarea'
         });
 
-        app.chatRegions = [];
-
-        app.showChat = function (chatView) {
-            var chatRegion = new Backbone.Marionette.Region();
-        };
-
         app.isPrerendering = function (name) {
             return name === app.prerenderedView.name && !app.prerenderedView.isBound;
         };
@@ -171,6 +165,7 @@ define([
 
                 // Chats
                 app.chats = new ChatCollection();
+                app.chatRegions = [];
 
                 // Notifications
                 app.activities = new ActivityCollection();

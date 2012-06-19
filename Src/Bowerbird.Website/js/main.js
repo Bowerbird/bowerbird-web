@@ -34,7 +34,7 @@ require.config({
         log: '../libs/log/log'
     },
     shim: {
-        '/signalr/hubs?noext': ['signalr', 'jquery'] // Load non-AMD signalr hubs script
+        '/signalr/hubs?noext': ['signalr', 'jquery', 'json2'] // Load non-AMD signalr hubs script
     }
 });
 

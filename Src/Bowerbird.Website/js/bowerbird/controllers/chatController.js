@@ -8,8 +8,9 @@
 // ChatController & ChatRouter
 // ---------------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'models/chat', 'collections/usercollection', 'collections/chatmessagecollection', 'views/chatcompositeview'],
-function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, ChatCompositeView) {
+define(['jquery', 'underscore', 'backbone', 'app', 'models/chat', 'collections/usercollection',
+'collections/chatmessagecollection', 'views/chatcompositeview', 'views/chatregion', 'signalr'],
+function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, ChatCompositeView, ChatRegion) {
 
     var ChatRouter = function (options) {
         this.hub = $.connection.chatHub;
@@ -23,16 +24,18 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
         this.hub.setupChat = this.controller.setupChat;
 
         this.hub.debugToLog = this.controller.debugToLog;
-
-        //        this.joinChat = this.controller.joinChat;
-        //        this.exitChat = this.controller.exitChat;
-        //        this.typing = this.controller.typing;
-        //        this.sendMessage = this.controller.sendMessage;
     };
 
     var ChatController = {};
 
     ChatController.hub = $.connection.chatHub;
+
+    var showChat = function (chatView) {
+        var chatRegion = new ChatRegion({ chat: chatView.model });
+        app.chatRegions.push(chatRegion);
+        chatRegion.show(chatView, 'append');
+        return chatRegion;
+    };
 
     // ChatController Public API To HUB
     //---------------------------------
@@ -59,14 +62,15 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
     // join a group/private chat
     ChatController.joinChat = function (id) {
         log('chatController.joinChat: with ' + id);
-        if (id.split('/')[0] == 'users') {// instanceof Bowerbird.Models.GroupChat) {
-            //this.hub.startChat(id);
-            var chatId = ChatController.generateGuid();
-            var userId = id;
-            ChatController.hub.startChat(chatId, userId);
-        }
-        else { //instanceof Bowerbird.Models.UserChat) {
-            ChatController.hub.joinChat(id);
+        if (app.chats.all(function (item) { return item.id != id }, this)) {
+            if (id.split('/')[0] == 'users') {// instanceof Bowerbird.Models.GroupChat) {
+                var chatId = ChatController.generateGuid();
+                var userId = id;
+                ChatController.hub.startChat(chatId, userId);
+            }
+            else { //instanceof Bowerbird.Models.UserChat) {
+                ChatController.hub.joinChat(id);
+            }
         }
     };
 
@@ -105,9 +109,10 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
         var chat = new Chat({ Id: data.ChatId, Title: data.Title }, { chatUsers: chatUsers, chatMessages: chatMessages });
 
         app.chats.add(chat);
-        var chatView = new ChatCompositeView({ model: chat });
+        var chatView = new ChatCompositeView({ id: 'chat-' + data.ChatId, model: chat });
         log(chatView);
-        app.chatarea.show(chatView);
+
+        showChat(chatView);
     };
 
     // create a new private chat
@@ -119,9 +124,10 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
         var chat = new Chat({ Id: data.ChatId, Title: data.Title }, { chatUsers: chatUsers, chatMessages: chatMessages });
 
         app.chats.add(chat);
-        var chatView = new ChatCompositeView({ model: chat, collection: chat.chatMessages });
+        var chatView = new ChatCompositeView({ id: 'chat-' + data.ChatId, model: chat });
         log(chatView);
-        app.chatarea.show(chatView);
+
+        showChat(chatView);
     };
 
     // grab the chat from the chats collection
@@ -164,6 +170,12 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
         };
         return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
     };
+
+    app.vent.on('chats:close', function (chat) {
+        app.chats.remove(chat.id);
+        var chatRegion = _.find(app.chatRegions, function (region) { return region.chat.id === chat.id });
+        chatRegion.close();
+    });
 
     app.addInitializer(function () {
         this.chatRouter = new ChatRouter({
