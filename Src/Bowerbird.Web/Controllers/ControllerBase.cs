@@ -10,21 +10,11 @@
  
 */
 
-using System.Linq;
 using System.Web.Mvc;
-using Bowerbird.Web.Factories;
-using Bowerbird.Web.ViewModels;
 using Microsoft.Practices.ServiceLocation;
-using System.Collections.Generic;
-using Raven.Client;
-using Raven.Client.Linq;
-using Bowerbird.Core.DomainModels;
 using Newtonsoft.Json;
 using Bowerbird.Core.Config;
 using Bowerbird.Web.Builders;
-using SignalR.Hubs;
-using SignalR;
-using Bowerbird.Web.Hubs;
 using Bowerbird.Web.Services;
 
 namespace Bowerbird.Web.Controllers

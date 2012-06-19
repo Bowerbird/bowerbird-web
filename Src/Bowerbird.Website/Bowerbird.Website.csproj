@@ -135,6 +135,7 @@
     <Content Include="js\bowerbird\controllers\activityController.js" />
     <Content Include="js\bowerbird\controllers\chatController.js" />
     <Content Include="js\bowerbird\controllers\accountController.js" />
+    <Content Include="js\bowerbird\controllers\debugController.js" />
     <Content Include="js\bowerbird\controllers\postController.js" />
     <Content Include="js\bowerbird\controllers\homeController.js" />
     <Content Include="js\bowerbird\controllers\referenceSpeciesController.js" />

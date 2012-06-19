@@ -49,6 +49,7 @@ require([
         'marionette',
         '/templates?noext', // Load templates from server
         'controllers/activitycontroller',
+        'controllers/debugcontroller',
         'controllers/groupusercontroller',
         'controllers/homecontroller',
         'controllers/observationcontroller',

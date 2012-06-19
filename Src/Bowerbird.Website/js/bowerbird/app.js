@@ -217,18 +217,6 @@ define([
                     app.clientId = $.signalR.hub.id;
                     log('browser connected via signalr as ' + app.clientId);
 
-                    // setup the debug hub:
-                    $.connection.debugHub.debugToClient = app.debugToClient;
-
-                    //var debugHub = $.connection.debugHub;
-                    $.connection.debugHub.registerWithDebugger()
-                        .done(function () {
-                            log('Connected to the debugger hub');
-                        })
-                        .fail(function (e) {
-                            log(e)
-                        });
-
                     // Subscribe authenticated user to all their groups
                     if (app.authenticatedUser) {
                         var memberships = [];
@@ -254,10 +242,6 @@ define([
                 });
             });
         });
-
-        app.debugToClient = function (text) {
-            log('From Server: ' + text);
-        }
 
         return app;
 
