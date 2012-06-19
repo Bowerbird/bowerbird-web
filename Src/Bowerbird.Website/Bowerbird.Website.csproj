@@ -173,8 +173,8 @@
     <Content Include="js\bowerbird\views\chatCompositeView.js" />
     <Content Include="js\bowerbird\views\chatMessageCollectionView.js" />
     <Content Include="js\bowerbird\views\homePublicLayoutView.js" />
-    <Content Include="js\bowerbird\views\exploreProjectItemView.js" />
-    <Content Include="js\bowerbird\views\exploreProjectView.js" />
+    <Content Include="js\bowerbird\views\projectItemView.js" />
+    <Content Include="js\bowerbird\views\projectCollectionView.js" />
     <Content Include="js\bowerbird\views\notificationItemView.js" />
     <Content Include="js\bowerbird\views\notificationsCompositeView.js" />
     <Content Include="js\bowerbird\views\sidebarMenuGroupCompositeView.js" />

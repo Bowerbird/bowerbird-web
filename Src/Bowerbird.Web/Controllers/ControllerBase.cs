@@ -53,28 +53,28 @@ namespace Bowerbird.Web.Controllers
 
                     ViewBag.AuthenticatedUser = authenticatedUser;
                     ViewBag.BootstrappedJson = JsonConvert.SerializeObject(new
-                        {
-                            AuthenticatedUser = authenticatedUser,
-                            OnlineUsers = userViewModelBuilder.BuildOnlineUsers(),
-                            Model = ViewBag.Model,
-                            PrerenderedView = ViewBag.PrerenderedView
-                        });
+                    {
+                        AuthenticatedUser = authenticatedUser,
+                        OnlineUsers = userViewModelBuilder.BuildOnlineUsers(),
+                        Model = ViewBag.Model,
+                        PrerenderedView = ViewBag.PrerenderedView
+                    });
                 }
                 else
                 {
                     ViewBag.BootstrappedJson = JsonConvert.SerializeObject(new
-                        {
-                            Model = ViewBag.Model,
-                            PrerenderedView = ViewBag.PrerenderedView
-                        });
+                    {
+                        Model = ViewBag.Model,
+                        PrerenderedView = ViewBag.PrerenderedView
+                    });
                 }
 
 #if JS_COMBINE_MINIFY
                     ViewBag.JavascriptSource = "main-min.js";
 #elif JS_COMBINE_VERBOSE
                     ViewBag.JavascriptSource = "main-combined.js";
-#else 
-                    ViewBag.JavascriptSource = "main.js";
+#else
+                ViewBag.JavascriptSource = "main.js";
 #endif
 
 #if DEBUG
@@ -100,13 +100,13 @@ namespace Bowerbird.Web.Controllers
             return new JsonNetResult("failure");
         }
 
-        protected void DebugToClient(string output)
+        protected void DebugToClient(dynamic output)
         {
-            IDebuggerService debugger = ServiceLocator.Current.GetInstance<IDebuggerService>();
+            var debugger = ServiceLocator.Current.GetInstance<IDebuggerService>();
 
             debugger.DebugToClient(output);
         }
-        
-        #endregion      
+
+        #endregion
     }
 }

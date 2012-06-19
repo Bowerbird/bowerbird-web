@@ -16,7 +16,7 @@ function ($, _, Backbone, app, ProjectLayoutView, Project, StreamItemCollection)
     var GroupUserRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
             //'teams/:id': 'showTeam',
-            'projects/:id': 'showProjectStream',
+            //'projects/:id': 'showProjectStream',
             //'projects/:id/about': 'showProjectAbout',
             //'projects/:id/members': 'showProjectMembers',
             'users/:id': 'showUser'

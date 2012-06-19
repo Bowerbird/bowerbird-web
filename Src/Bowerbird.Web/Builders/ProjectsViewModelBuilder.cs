@@ -83,7 +83,7 @@ namespace Bowerbird.Web.Builders
                 .Include(x => x.GroupId)
                 .Where(x => x.GroupType == "project")
                 .Statistics(out stats)
-                .Skip(pagingInput.Page)
+                .Skip(((pagingInput.Page -1) * pagingInput.PageSize))
                 .Take(pagingInput.PageSize)
                 .ToList()
                 .Select(MakeProject)
@@ -185,7 +185,7 @@ namespace Bowerbird.Web.Builders
         {
             return new
             {
-                Avatar = user.Avatar,
+                user.Avatar,
                 user.Id,
                 user.LastLoggedIn,
                 Name = user.GetName()
@@ -194,13 +194,14 @@ namespace Bowerbird.Web.Builders
 
         private object MakeProject(All_Groups.Result result)
         {
+            var projectId = result.Project.Id.Replace("projects/", "");
             return new
             {
-                result.Project.Id,
+                Id = projectId,
                 result.Project.Name,
                 result.Project.Description,
                 result.Project.Website,
-                Avatar = result.Project.Avatar,
+                result.Project.Avatar,
                 MemberCount = result.MemberIds.Count()
             };
         }

@@ -207,18 +207,23 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Explore(PagingInput pagingInput)
         {
-            DebugToClient("Inside the Project/Explore method");
+            DebugToClient(string.Format("SERVER: Project/Explore: page:{0} pageSize:{1}", pagingInput.Page, pagingInput.PageSize));
 
             Check.RequireNotNull(pagingInput, "pagingInput");
 
-            ViewBag.Projects = _projectsViewModelBuilder.BuildProjectList(pagingInput);
+            ViewBag.Model = new
+            {
+                Projects = _projectsViewModelBuilder.BuildProjectList(pagingInput)
+            };
+
+            DebugToClient(ViewBag.Model);
 
             if (Request.IsAjaxRequest())
             {
-                return new JsonNetResult(new 
-                    { 
-                        Model = ViewBag.Model 
-                    });
+                return new JsonNetResult(new
+                {
+                    Model = ViewBag.Model
+                });
             }
 
             return View(Form.List);
@@ -227,6 +232,8 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult GetOne(IdInput idInput)
         {
+            DebugToClient(string.Format("SERVER: Project/GetOne: id:{0}", idInput.Id));
+
             Check.RequireNotNull(idInput, "idInput");
 
             var projectId = "projects/".AppendWith(idInput.Id);
@@ -279,6 +286,8 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult UpdateForm(IdInput idInput)
         {
+            DebugToClient(string.Format("SERVER: [GET]Projects/UpdateForm: id:{0}", idInput.Id));
+
             Check.RequireNotNull(idInput, "idInput");
 
             var projectId = "projects/".AppendWith(idInput.Id);
@@ -293,6 +302,11 @@ namespace Bowerbird.Web.Controllers
                 Project = _projectsViewModelBuilder.BuildProject(projectId),
                 Teams = GetTeams(_userContext.GetAuthenticatedUserId())
             };
+
+            if (Request.IsAjaxRequest())
+            {
+                return new JsonNetResult(new { Model = ViewBag.Model });
+            }
 
             return View(Form.Update);
         }
@@ -320,11 +334,13 @@ namespace Bowerbird.Web.Controllers
         [HttpPost]
         public ActionResult Join(IdInput idInput)
         {
+            DebugToClient(string.Format("SERVER: Projects/Join: id:{0}", idInput.Id));
+
             Check.RequireNotNull(idInput, "idInput");
 
             var projectId = "projects/".AppendWith(idInput.Id);
 
-            if (!_userContext.HasGroupPermission(PermissionNames.JoinProject, projectId))
+            if (!_userContext.HasGroupPermission(PermissionNames.CreateProject, Constants.AppRootId))
             {
                 return HttpUnauthorized();
             }
@@ -412,7 +428,13 @@ namespace Bowerbird.Web.Controllers
         [HttpPut]
         public ActionResult Update(ProjectUpdateInput updateInput)
         {
-            if (!_userContext.HasGroupPermission<Project>(PermissionNames.UpdateProject, updateInput.ProjectId))
+            DebugToClient(updateInput);
+
+            DebugToClient(string.Format("SERVER: [PUT]Projects/Update: id:{0}", updateInput.Id));
+
+            var projectId = "projects/".AppendWith(updateInput.Id);
+
+            if (!_userContext.HasGroupPermission<Project>(PermissionNames.UpdateProject, projectId))
             {
                 return HttpUnauthorized();
             }
@@ -425,10 +447,12 @@ namespace Bowerbird.Web.Controllers
             _commandProcessor.Process(
                 new ProjectUpdateCommand()
                 {
+                    Id = projectId,
                     Description = updateInput.Description,
                     Name = updateInput.Name,
                     UserId = _userContext.GetAuthenticatedUserId(),
-                    AvatarId = updateInput.AvatarId
+                    AvatarId = updateInput.AvatarId,
+                    TeamId = updateInput.TeamId ?? Constants.AppRootId
                 });
 
             return JsonSuccess();

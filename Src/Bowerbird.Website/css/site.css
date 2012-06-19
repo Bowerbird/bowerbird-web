@@ -2504,26 +2504,45 @@ ul.explore-menu
     border: 1px solid black;
     height:100%;
 }
+ul.explore-projects
+{
+    list-style: none;
+}
+.explore-item .explore-summary 
+{
+    margin: 5px;
+}
+.explore-item .explore-summary .explore-avatar
+{
+    margin: 5px;
+}
+.explore-item .explore-details
+{
+    margin: 5px;
+}
+.explore-item .explore-details-property
+{
+    margin: 5px;
+}
+.explore-item .explore-details-value
+{
+    margin: 5px;
+}
+.explore-item .join-project
+{
+    
+}
 .explore-item
 {
     float:left;
     width:200px;
     height:200px;
     margin:10px;
-    border: 1px solid black;
-       
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 2px 0 #5071A6;
 }
-.explore-item-summary {
-    margin: 5px;
-}
-.explore-item-details
-{
-    margin: 5px;
-}
-.explore-item-contents
-{
-    margin: 5px;
-}
+
+
 /*-----------------AVATAR UPLOAD-----------*/
 .explore-avatar
 {
@@ -2534,8 +2553,6 @@ ul.explore-menu
 {
     width:50px;
     height:50px;   
-    border-radius:0 0 10px 0;
-
 }
 .form .avatar-upload-button
 {

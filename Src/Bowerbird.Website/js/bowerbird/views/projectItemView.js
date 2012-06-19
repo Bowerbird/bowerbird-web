@@ -11,20 +11,24 @@
 // Shows an individual project item
 define(['jquery', 'underscore', 'backbone', 'app', 'models/project'], function ($, _, Backbone, app) {
 
-    var ExploreProjectItemView = Backbone.Marionette.ItemView.extend({
-        
+    var ProjectItemView = Backbone.Marionette.ItemView.extend({
+
+        tagName: 'li',
+
         className: 'explore-project-item',
 
         template: 'ProjectItem',
 
-        serializeData: function () {
-            var model = this.model.toJSON();
-            return {
-                Model: model
-            };
+        events: {
+            'click .join-project-button': 'joinProject'
+        },
+
+        joinProject: function (e) {
+            e.preventDefault();
+            app.vent.trigger('joinProject:', this.model);
         }
     });
 
-    return ExploreProjectItemView;
+    return ProjectItemView;
 
 });

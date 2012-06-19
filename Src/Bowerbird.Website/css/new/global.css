@@ -1702,3 +1702,69 @@ color: #6997C5;
     margin: 0;
     padding: 3px 11px;
 }*/
+
+/*--- EXPLORE ---*/
+.explore-list
+{
+    margin-top:50px;   
+    padding:10px;
+    border: 1px dashed black;
+    height:100%;
+}
+ul.explore-projects
+{
+    list-style: none;
+    display: inline;
+}
+.explore-item .explore-summary 
+{
+    margin: 5px;
+}
+.explore-item .explore-summary .explore-avatar img
+{
+    margin: 5px;
+    width:50px;
+    height:50px;   
+    border-radius:10 0 0 0;
+}
+.explore-item .explore-summary .explore-name
+{
+    margin: 5px;
+    vertical-align: top;
+}
+
+.explore-item .explore-details
+{
+    margin: 5px;
+}
+.explore-item .explore-details-property
+{
+    margin: 5px;
+}
+.explore-item .explore-details-value
+{
+    margin: 5px;
+}
+.explore-item .join-project
+{
+    
+}
+div.explore-item
+{
+    background-color: white;
+    display: inline-block;
+    float: left;
+    height: 300px;
+    margin: 10px;
+    width: 200px;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 5px 10px 0 #5071A6;
+}
+div.explore-item:hover
+{
+    transform:rotate(0.5deg);
+    -ms-transform:rotate(0.5deg); /* IE 9 */
+    -moz-transform:rotate(0.5deg); /* Firefox */
+    -webkit-transform:rotate(0.5deg); /* Safari and Chrome */
+    -o-transform:rotate(0.5deg); /* Opera */
+}

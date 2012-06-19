@@ -1,18 +1,17 @@
-﻿<div class="explore-project-item" id="{{Id}}">
-    <div class="explore-item-summary">
-        <span class="explore-avatar"><img src="{{Avatar.UrlToImage}}" /></span><span class="explore-name">{{Name}}</span>
+﻿<div class="explore-item">
+    <div class="explore-summary">
+        <span class="explore-avatar">
+            <img src="{{Avatar.Files.medium.RelativeUri}}" />
+        </span>
+        <span class="explore-name">{{Name}}</span>
     </div>
-    <div class="explore-item-details">
-        <p>{{Team}}</p>
-        <p>{{Website}}</p>
-        <p>{{Description}}</p>
+    <div class="explore-details">
+        {{#Team}}<div class="explore-details-property">Team:</div><div class="explore-details-value">{{Team}}</div>{{/Team}}
+        <div class="explore-details-property">Website</div><div class="explore-details-value">{{Website}}</div>
+        <div class="explore-details-property">Description</div><div class="explore-details-value">{{Description}}</div>
+        <div class="explore-details-property">Members</div><div class="explore-details-value">{{MemberCount}}</div>
     </div>
-    <div class="explore-item-contents">
-        {{#Observations.PagedListItems}}
-	        {{{Observations.PagedListItems.Count}}}
-        {{/Observations.PagedListItems}}
-        {{#Members.PagedListItems}}
-	        {{{Members.PagedListItems.Count}}}
-        {{/Members.PagedListItems}}
+    <div class="join-project">
+        <button value="Join" class="join-project-button">Join </button>
     </div>
 </div>

@@ -12,6 +12,7 @@
  
 */
 
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Bowerbird.Core.Commands;
@@ -60,13 +61,32 @@ namespace Bowerbird.Core.CommandHandlers
                 .AsProjection<All_Groups.Result>()
                 .Where(x => x.GroupId == command.GroupId)
                 .FirstOrDefault();
+            
             var user = _documentSession.Load<User>(command.UserId);
+            
             var createdByUser = _documentSession.Load<User>(command.CreatedByUserId);
-            var roles = _documentSession.Query<Role>()
-                .Where(x => x.Id.In(command.Roles))
-                .ToList();
+            
+            // TODO: FIX THIS HACK - ALL VERY VERBOSE - IN A HURRY..
+            var roles = new List<Role>();
+            Role role;
 
-            var member = new Member(user, user, result.Group, roles);
+            if (command.GroupId.Contains("projects/"))
+            {
+                role = _documentSession.Load<Role>("roles/projectmember");
+                roles.Add(role);
+            }
+            else if(command.GroupId.Contains("teams/"))
+            {
+                role = _documentSession.Load<Role>("roles/teammember");
+                roles.Add(role);
+            }
+            else if(command.GroupId.Contains("organisations/"))
+            {
+                role = _documentSession.Load<Role>("roles/orgnaisationmember");
+                roles.Add(role);
+            }
+            
+            var member = new Member(createdByUser, user, result.Group, roles, true);
 
             _documentSession.Store(member);
         }
