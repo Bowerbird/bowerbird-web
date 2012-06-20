@@ -98,19 +98,27 @@ namespace Bowerbird.Web.Controllers
 
             var projectId = "projects/".AppendWith(pagingInput.Id);
 
-            if (Request.IsAjaxRequest())
-            {
-                return new JsonNetResult(new
-                {
-                    Model = _streamItemsViewModelBuilder.BuildGroupStreamItems(projectId, streamInput, pagingInput)
-                });
-            }
+            //if (Request.IsAjaxRequest())
+            //{
+            //    return new JsonNetResult(new
+            //    {
+            //        Model = _streamItemsViewModelBuilder.BuildGroupStreamItems(projectId, streamInput, pagingInput)
+            //    });
+            //}
 
             ViewBag.Model = new
             {
                 Project = _projectsViewModelBuilder.BuildProject(projectId),
                 StreamItems = _streamItemsViewModelBuilder.BuildGroupStreamItems(projectId, null, pagingInput)
             };
+
+            if (Request.IsAjaxRequest())
+            {
+                return new JsonNetResult(new
+                {
+                    Model = ViewBag.Model
+                });
+            }
 
             ViewBag.PrerenderedView = "projects"; // HACK: Need to rethink this
 
@@ -129,6 +137,14 @@ namespace Bowerbird.Web.Controllers
                 Project = _projectsViewModelBuilder.BuildProject(projectId),
                 Observations = _observationsViewModelBuilder.BuildGroupObservationList(pagingInput)
             };
+
+            if(Request.IsAjaxRequest())
+            {
+                return new JsonNetResult(new
+                {
+                    Model = ViewBag.Model
+                });
+            }
 
             ViewBag.PrerenderedView = "observations"; // HACK: Need to rethink this
 
@@ -207,16 +223,12 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Explore(PagingInput pagingInput)
         {
-            DebugToClient(string.Format("SERVER: Project/Explore: page:{0} pageSize:{1}", pagingInput.Page, pagingInput.PageSize));
-
             Check.RequireNotNull(pagingInput, "pagingInput");
 
             ViewBag.Model = new
             {
                 Projects = _projectsViewModelBuilder.BuildProjectList(pagingInput)
             };
-
-            DebugToClient(ViewBag.Model);
 
             if (Request.IsAjaxRequest())
             {
@@ -232,19 +244,21 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult GetOne(IdInput idInput)
         {
-            DebugToClient(string.Format("SERVER: Project/GetOne: id:{0}", idInput.Id));
-
             Check.RequireNotNull(idInput, "idInput");
 
             var projectId = "projects/".AppendWith(idInput.Id);
 
+            ViewBag.Model = new
+            {
+                Project = _projectsViewModelBuilder.BuildProject(projectId)
+            };
+
             return new JsonNetResult(new
             {
-                Model = new
-                {
-                    Project = _projectsViewModelBuilder.BuildProject(projectId)
-                }
+                Model = ViewBag.Model
             });
+
+            //return View(Form.Index)
         }
 
         [HttpGet]
@@ -286,8 +300,6 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult UpdateForm(IdInput idInput)
         {
-            DebugToClient(string.Format("SERVER: [GET]Projects/UpdateForm: id:{0}", idInput.Id));
-
             Check.RequireNotNull(idInput, "idInput");
 
             var projectId = "projects/".AppendWith(idInput.Id);
@@ -338,7 +350,7 @@ namespace Bowerbird.Web.Controllers
 
             Check.RequireNotNull(idInput, "idInput");
 
-            var projectId = "projects/".AppendWith(idInput.Id);
+            var projectId = idInput.Id.Contains("/") ? idInput.Id : "projects/".AppendWith(idInput.Id);
 
             if (!_userContext.HasGroupPermission(PermissionNames.CreateProject, Constants.AppRootId))
             {
@@ -428,9 +440,7 @@ namespace Bowerbird.Web.Controllers
         [HttpPut]
         public ActionResult Update(ProjectUpdateInput updateInput)
         {
-            DebugToClient(updateInput);
-
-            DebugToClient(string.Format("SERVER: [PUT]Projects/Update: id:{0}", updateInput.Id));
+            Check.RequireNotNull(updateInput, "updateInput");
 
             var projectId = "projects/".AppendWith(updateInput.Id);
 

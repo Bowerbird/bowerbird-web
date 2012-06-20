@@ -1,0 +1,40 @@
+﻿<div class="summary">
+  <img src="{{Model.Organisation.Avatar.Files.medium.RelativeUri}}" alt="" />
+  <h1>{{Model.Organisation.Name}}</h1>
+  <p>{{Model.Organisation.Description}}</p>
+</div>
+<div class="tab-bar">
+  <ul class="tabs">
+    <li>
+      <a href="/organisations/{{Model.Organisation.Id}}" class="selected">Activity</a>
+    </li>
+    <li>
+      <a href="/organisations/{{Model.Organisation.Id}}/observations">Observations</a>
+    </li>
+    <li>
+      <a href="/organisations/{{Model.Organisation.Id}}/posts">Posts</a>
+    </li>
+    <li>
+      <a href="/organisations/{{Model.Organisation.Id}}/members">Members</a>
+    </li>
+    <li>
+      <a href="/organisations/{{Model.Organisation.Id}}/about">About</a>
+    </li>
+  </ul>
+</div>
+<div class="details">
+  <div id="stream">
+    {{#Model.StreamItems}}
+      {{>StreamList}}
+    {{/Model.StreamItems}}
+    <!--<h2>Latest Activity</h2>
+    <ul class="stream-list">
+    </ul>-->
+  </div>
+  <div id="about">
+    <!--<h2>About</h2>-->
+  </div>
+  <div id="members">
+    <!--<h2>Members</h2>-->
+  </div>
+</div> 

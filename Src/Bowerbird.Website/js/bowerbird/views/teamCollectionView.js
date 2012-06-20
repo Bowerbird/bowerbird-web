@@ -5,22 +5,22 @@
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// ExploreProjectView
+// TeamCollectionView
 // ------------------
 
 // Shows Explore project items for selected Project
-define(['jquery','underscore','backbone','app','ich','views/projectitemview'],
-function ($, _, Backbone, app, ich, ProjectItemView) 
+define(['jquery','underscore','backbone','app','ich','views/teamitemview'],
+function ($, _, Backbone, app, ich, TeamItemView) 
 {
-    var ProjectCollectionView = Backbone.Marionette.CollectionView.extend({
+    var TeamCollectionView = Backbone.Marionette.CollectionView.extend({
 
         tagName: 'ul',
 
         className: 'explore-groups',
 
-        itemView: ProjectItemView
+        itemView: TeamItemView
 
     });
 
-    return ProjectCollectionView;
+    return TeamCollectionView;
 });

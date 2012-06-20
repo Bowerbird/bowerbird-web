@@ -1711,7 +1711,7 @@ color: #6997C5;
     border: 1px dashed black;
     height:100%;
 }
-ul.explore-projects
+ul.explore-groups
 {
     list-style: none;
     display: inline;
@@ -1758,13 +1758,9 @@ div.explore-item
     margin: 10px;
     width: 200px;
     border-radius: 4px 4px 4px 4px;
-    box-shadow: 0 5px 10px 0 #5071A6;
+    box-shadow: 0 4px 8px 0 #5071A6;
 }
 div.explore-item:hover
 {
-    transform:rotate(0.5deg);
-    -ms-transform:rotate(0.5deg); /* IE 9 */
-    -moz-transform:rotate(0.5deg); /* Firefox */
-    -webkit-transform:rotate(0.5deg); /* Safari and Chrome */
-    -o-transform:rotate(0.5deg); /* Opera */
+    box-shadow: 0 8px 18px 0 #5071EE;
 }

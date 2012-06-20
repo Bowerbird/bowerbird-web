@@ -1,24 +1,24 @@
 ﻿<div class="summary">
-  <img src="{{Model.Project.Avatar.Files.medium.RelativeUri}}" alt="" />
-  <h1>{{Model.Project.Name}}</h1>
-  <p>{{Model.Project.Description}}</p>
+  <img src="{{Model.Team.Avatar.Files.medium.RelativeUri}}" alt="" />
+  <h1>{{Model.Team.Name}}</h1>
+  <p>{{Model.Team.Description}}</p>
 </div>
 <div class="tab-bar">
   <ul class="tabs">
     <li>
-      <a href="/projects/{{Model.Project.Id}}" class="selected">Activity</a>
+      <a href="/teams/{{Model.Team.Id}}" class="selected">Activity</a>
     </li>
     <li>
-      <a href="/projects/{{Model.Project.Id}}/observations">Observations</a>
+      <a href="/teams/{{Model.Team.Id}}/observations">Observations</a>
     </li>
     <li>
-      <a href="/projects/{{Model.Project.Id}}/posts">Posts</a>
+      <a href="/teams/{{Model.Team.Id}}/posts">Posts</a>
     </li>
     <li>
-      <a href="/projects/{{Model.Project.Id}}/members">Members</a>
+      <a href="/teams/{{Model.Team.Id}}/members">Members</a>
     </li>
     <li>
-      <a href="/projects/{{Model.Project.Id}}/about">About</a>
+      <a href="/teams/{{Model.Team.Id}}/about">About</a>
     </li>
   </ul>
 </div>

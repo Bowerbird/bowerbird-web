@@ -1,15 +1,16 @@
-﻿  <div class="organisation-summary">
-    <p>
-      {{Avatar.UrlToImage}}<h2>{{Name}}</h2>
-    </p>
-    <p>{{Description}}</p>
-    <p>{{Website}}</p>
-  </div>
-  <div class="organisation-contents">
-    {{#Teams.PagedListItems}}
-      {{teamIndexItem}}
-    {{/Teams.PagedListItems}}
-    {{^Teams.PagedListItems}}
-      There are no teams in this organisation
-    {{/Teams.PagedListItems}}
-  </div>
+﻿<div class="explore-item">
+    <div class="explore-summary">
+        <span class="explore-avatar">
+            <img src="{{Avatar.Files.medium.RelativeUri}}" />
+        </span>
+        <span class="explore-name">{{Name}}</span>
+    </div>
+    <div class="explore-details">
+        <div class="explore-details-property">Website</div><div class="explore-details-value">{{Website}}</div>
+        <div class="explore-details-property">Description</div><div class="explore-details-value">{{Description}}</div>
+        <div class="explore-details-property">Members</div><div class="explore-details-value">{{MemberCount}}</div>
+    </div>
+    <div class="view-organisation">
+        <button value="View" class="view-organisation-button">View this Organisation</button>
+    </div>
+</div>

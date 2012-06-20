@@ -16,9 +16,9 @@ namespace Bowerbird.Web.Builders
 {
     public interface ITeamsViewModelBuilder
     {
-        object BuildTeam(IdInput idInput);
-
         object BuildTeam();
+
+        object BuildTeam(string teamId);
 
         object BuildTeamList(PagingInput pagingInput);
 

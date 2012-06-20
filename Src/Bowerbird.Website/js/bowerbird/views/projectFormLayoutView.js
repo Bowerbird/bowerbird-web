@@ -10,7 +10,8 @@
 // ProjectFormLayoutView
 // -------------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/editavatarview', 'fileupload', 'multiselect'], function ($, _, Backbone, app, ich, loadImage, EditAvatarView) {
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/editavatarview', 'fileupload', 'multiselect'], 
+function ($, _, Backbone, app, ich, loadImage, EditAvatarView) {
 
     var ProjectFormLayoutView = Backbone.Marionette.Layout.extend({
 
@@ -97,7 +98,6 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/ed
         },
 
         _cancel: function () {
-            log('hello');
             app.showPreviousContentView();
         },
 

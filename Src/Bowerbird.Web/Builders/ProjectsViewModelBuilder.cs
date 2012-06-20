@@ -195,6 +195,7 @@ namespace Bowerbird.Web.Builders
         private object MakeProject(All_Groups.Result result)
         {
             var projectId = result.Project.Id.Replace("projects/", "");
+
             return new
             {
                 Id = projectId,

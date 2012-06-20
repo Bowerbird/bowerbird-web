@@ -49,6 +49,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/ed
         showBootstrappedDetails: function () {
             log('organisationFormLayoutView:showBootstrappedDetails');
             this.initializeRegions();
+            this.$el = $('#content .organisation-form');
             this._showDetails();
         },
 
@@ -67,6 +68,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/ed
         },
 
         _cancel: function () {
+            app.showPreviousContentView();
         },
 
         _save: function () {

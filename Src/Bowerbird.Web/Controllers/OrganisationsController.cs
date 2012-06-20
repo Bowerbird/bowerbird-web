@@ -35,6 +35,7 @@ namespace Bowerbird.Web.Controllers
         private readonly ITeamsViewModelBuilder _teamsViewModelBuilder;
         private readonly IPostsViewModelBuilder _postsViewModelBuilder;
         private readonly IReferenceSpeciesViewModelBuilder _referenceSpeciesViewModelBuilder;
+        private readonly IObservationsViewModelBuilder _observationsViewModelBuilder;
 
         #endregion
 
@@ -44,6 +45,7 @@ namespace Bowerbird.Web.Controllers
             ICommandProcessor commandProcessor,
             IUserContext userContext,
             IOrganisationsViewModelBuilder organisationsViewModelBuilder,
+            IObservationsViewModelBuilder observationsViewModelBuilder,
             IStreamItemsViewModelBuilder streamItemsViewModelBuilder,
             ITeamsViewModelBuilder teamsViewModelBuilder,
             IPostsViewModelBuilder postsViewModelBuilder,
@@ -53,6 +55,7 @@ namespace Bowerbird.Web.Controllers
             Check.RequireNotNull(commandProcessor, "commandProcessor");
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(organisationsViewModelBuilder, "organisationsViewModelBuilder");
+            Check.RequireNotNull(observationsViewModelBuilder, "observationsViewModelBuilder");
             Check.RequireNotNull(streamItemsViewModelBuilder, "streamItemsViewModelBuilder");
             Check.RequireNotNull(teamsViewModelBuilder, "teamsViewModelBuilder");
             Check.RequireNotNull(postsViewModelBuilder, "postsViewModelBuilder");
@@ -61,6 +64,7 @@ namespace Bowerbird.Web.Controllers
             _commandProcessor = commandProcessor;
             _userContext = userContext;
             _organisationsViewModelBuilder = organisationsViewModelBuilder;
+            _observationsViewModelBuilder = observationsViewModelBuilder;
             _streamItemsViewModelBuilder = streamItemsViewModelBuilder;
             _teamsViewModelBuilder = teamsViewModelBuilder;
             _postsViewModelBuilder = postsViewModelBuilder;
@@ -76,7 +80,7 @@ namespace Bowerbird.Web.Controllers
         #region Methods
 
         [HttpGet]
-        public ActionResult Stream(PagingInput pagingInput)
+        public ActionResult Activity(StreamInput streamInput, PagingInput pagingInput)
         {
             Check.RequireNotNull(pagingInput, "pagingInput");
 
@@ -85,8 +89,16 @@ namespace Bowerbird.Web.Controllers
             ViewBag.Model = new
             {
                 Organisation = _organisationsViewModelBuilder.BuildOrganisation(organisationId),
-                StreamItems = _streamItemsViewModelBuilder.BuildGroupStreamItems(null, null, pagingInput)
+                StreamItems = _streamItemsViewModelBuilder.BuildGroupStreamItems(organisationId, null, pagingInput)
             };
+
+            if(Request.IsAjaxRequest())
+            {
+                return new JsonNetResult(new
+                {
+                    Model = ViewBag.Model
+                });
+            }
 
             ViewBag.PrerenderedView = "organisations"; // HACK: Need to rethink this
 
@@ -94,11 +106,29 @@ namespace Bowerbird.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult StreamList(PagingInput pagingInput)
+        public ActionResult Observations(PagingInput pagingInput)
         {
             Check.RequireNotNull(pagingInput, "pagingInput");
 
-            return new JsonNetResult(_streamItemsViewModelBuilder.BuildGroupStreamItems(null, null, pagingInput));
+            var organisationId = "observations/".AppendWith(pagingInput.Id);
+
+            ViewBag.Model = new
+            {
+                Organisation = _organisationsViewModelBuilder.BuildOrganisation(organisationId),
+                Observations = _observationsViewModelBuilder.BuildGroupObservationList(pagingInput)
+            };
+
+            if (Request.IsAjaxRequest())
+            {
+                return new JsonNetResult(new
+                {
+                    Model = ViewBag.Model
+                });
+            }
+
+            ViewBag.PrerenderedView = "observations"; // HACK: Need to rethink this
+
+            return View(Form.Stream);
         }
 
         [HttpGet]
@@ -199,9 +229,22 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Explore(PagingInput pagingInput)
         {
+            DebugToClient(string.Format("SERVER: Organisations/Explore: page:{0} pageSize:{1}", pagingInput.Page, pagingInput.PageSize));
+
             Check.RequireNotNull(pagingInput, "pagingInput");
 
-            ViewBag.OrganisationList = _organisationsViewModelBuilder.BuildOrganisationList(pagingInput);
+            ViewBag.Model = new
+            {
+                Organisations = _organisationsViewModelBuilder.BuildOrganisationList(pagingInput)                        
+            };
+
+            if(Request.IsAjaxRequest())
+            {
+                return new JsonNetResult(new
+                {
+                    Model = ViewBag.Model
+                });
+            }
 
             return View(Form.List);
         }
@@ -209,11 +252,22 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult GetOne(IdInput idInput)
         {
+            DebugToClient(string.Format("SERVER: Organisation/GetOne: id:{0}", idInput.Id));
+
             Check.RequireNotNull(idInput, "idInput");
 
             var organisationId = "organisations/".AppendWith(idInput.Id);
 
-            return new JsonNetResult(_organisationsViewModelBuilder.BuildOrganisation(organisationId));
+
+            ViewBag.Model = new
+            {
+                Organisation = _organisationsViewModelBuilder.BuildOrganisation(organisationId)                        
+            };
+
+            return new JsonNetResult(new
+            {
+                Model = ViewBag.Model
+            });
         }
 
         [HttpGet]
@@ -255,6 +309,8 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult UpdateForm(IdInput idInput)
         {
+            DebugToClient(string.Format("SERVER: [GET]Organisations/UpdateForm: id:{0}", idInput.Id));
+
             Check.RequireNotNull(idInput, "idInput");
 
             var organisationId = "organisations/".AppendWith(idInput.Id);
@@ -264,7 +320,18 @@ namespace Bowerbird.Web.Controllers
                 return HttpUnauthorized();
             }
 
-            ViewBag.Organisation = _organisationsViewModelBuilder.BuildOrganisation(organisationId);
+            ViewBag.Model = new
+            {
+                Organisation = _organisationsViewModelBuilder.BuildOrganisation(organisationId)
+            };
+
+            if (Request.IsAjaxRequest())
+            {
+                return new JsonNetResult(new
+                {
+                    Model = ViewBag.Model
+                });
+            }
 
             return View(Form.Update);
         }
@@ -440,6 +507,8 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult Update(OrganisationUpdateInput updateInput)
         {
+            DebugToClient(string.Format("SERVER: [PUT]Projects/Update: id:{0}", updateInput.Id));
+
             Check.RequireNotNull(updateInput, "updateInput");
 
             var organisationId = "organisations/".AppendWith(updateInput.Id);
@@ -459,7 +528,7 @@ namespace Bowerbird.Web.Controllers
                 {
                     AvatarId = updateInput.AvatarId,
                     Description = updateInput.Description,
-                    Id = updateInput.Id,
+                    Id = organisationId,
                     Name = updateInput.Name,
                     UserId = _userContext.GetAuthenticatedUserId(),
                     Website = updateInput.Website

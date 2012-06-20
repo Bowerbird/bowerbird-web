@@ -8,7 +8,8 @@
 // TeamFormLayoutView
 // -------------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/editavatarview', 'multiselect', 'fileupload'], function ($, _, Backbone, app, ich, loadImage, EditAvatarView) {
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/editavatarview', 'multiselect', 'fileupload'],
+function ($, _, Backbone, app, ich, loadImage, EditAvatarView) {
 
     var TeamFormLayoutView = Backbone.Marionette.Layout.extend({
 
@@ -52,6 +53,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/ed
         showBootstrappedDetails: function () {
             log('teamFormLayoutView.showBootstrappedDetails');
             this.initializeRegions();
+            this.$el = $('#content .team-form');
             this._showDetails();
         },
 
@@ -59,6 +61,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/ed
             log('teamFormLayoutView._showDetails');
             var editAvatarView = new EditAvatarView({ el: '#avatar-fieldset', model: this.model });
             editAvatarView.render();
+
             this.organisationListSelectView = this.$el.find("#Organisation").multiSelect({
                 selectAll: false,
                 singleSelect: true,
@@ -93,10 +96,14 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/ed
         },
 
         _cancel: function () {
+            app.showPreviousContentView();
         },
 
         _save: function () {
+            log('teamFormLayoutView._save');
+            log(this.model);
             this.model.save();
+            app.showPreviousContentView();
         }
     });
 

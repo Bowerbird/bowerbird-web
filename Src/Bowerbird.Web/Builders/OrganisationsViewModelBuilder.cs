@@ -113,7 +113,7 @@ namespace Bowerbird.Web.Builders
                 .Customize(x => x.WaitForNonStaleResults())
                 .Include(x => x.User.Id)
                 .Statistics(out stats)
-                .Skip(pagingInput.Page)
+                .Skip((pagingInput.Page - 1) * pagingInput.PageSize)
                 .Take(pagingInput.PageSize)
                 .ToList()
                 .Select(x => MakeUser(x.User.Id))

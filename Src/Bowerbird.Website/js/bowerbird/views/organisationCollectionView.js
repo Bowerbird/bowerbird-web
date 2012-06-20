@@ -5,22 +5,22 @@
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// ExploreProjectView
-// ------------------
+// OrganisationCollectionView
+// --------------------------
 
-// Shows Explore project items for selected Project
-define(['jquery','underscore','backbone','app','ich','views/projectitemview'],
-function ($, _, Backbone, app, ich, ProjectItemView) 
+// Shows Explore organisation items
+define(['jquery','underscore','backbone','app','ich','views/organisationitemview'],
+function ($, _, Backbone, app, ich, OrganisationItemView) 
 {
-    var ProjectCollectionView = Backbone.Marionette.CollectionView.extend({
+    var OrganisationCollectionView = Backbone.Marionette.CollectionView.extend({
 
         tagName: 'ul',
 
         className: 'explore-groups',
 
-        itemView: ProjectItemView
+        itemView: OrganisationItemView
 
     });
 
-    return ProjectCollectionView;
+    return OrganisationCollectionView;
 });

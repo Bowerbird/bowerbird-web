@@ -6,9 +6,10 @@
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
 // TeamCollection
-// -----------------
+// --------------
 
-define(['jquery', 'underscore', 'backbone', 'models/team'], function ($, _, Backbone, Team) {
+define(['jquery', 'underscore', 'backbone', 'models/team'], 
+function ($, _, Backbone, Team) {
 
     var TeamCollection = Backbone.Collection.extend({
         model: Team,
@@ -29,5 +30,4 @@ define(['jquery', 'underscore', 'backbone', 'models/team'], function ($, _, Back
     });
 
     return TeamCollection;
-
 });

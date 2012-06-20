@@ -53,18 +53,6 @@ namespace Bowerbird.Web.Builders
 
         #region Methods
 
-        public object BuildTeam(IdInput idInput)
-        {
-            Check.RequireNotNull(idInput, "idInput");
-
-            var team = _documentSession
-                .Query<All_Groups.Result, All_Groups>()
-                .AsProjection<All_Groups.Result>()
-                .FirstOrDefault(x => x.GroupId == idInput.Id);
-
-            return MakeTeam(team);
-        }
-
         public object BuildTeam()
         {
             return new
@@ -75,6 +63,16 @@ namespace Bowerbird.Web.Builders
                 Avatar = _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Team),
                 MemberCount = 1
             };
+        }
+        
+        public object BuildTeam(string teamId)
+        {
+            var team = _documentSession
+                .Query<All_Groups.Result, All_Groups>()
+                .AsProjection<All_Groups.Result>()
+                .FirstOrDefault(x => x.GroupId == teamId);
+
+            return MakeTeam(team);
         }
 
         public object BuildTeamList(PagingInput pagingInput)
@@ -90,7 +88,7 @@ namespace Bowerbird.Web.Builders
                 .Include(x => x.GroupId)
                 .Where(x => x.GroupType == "team")
                 .Statistics(out stats)
-                .Skip(pagingInput.Page)
+                .Skip((pagingInput.Page - 1) * pagingInput.PageSize)
                 .Take(pagingInput.PageSize)
                 .ToList()
                 .Select(MakeTeam)
@@ -194,7 +192,7 @@ namespace Bowerbird.Web.Builders
         {
             return new
             {
-                Avatar = user.Avatar,
+                user.Avatar,
                 user.Id,
                 user.LastLoggedIn,
                 Name = user.GetName()
@@ -203,15 +201,16 @@ namespace Bowerbird.Web.Builders
 
         private object MakeTeam(All_Groups.Result result)
         {
+            var teamId = result.Team.Id.Replace("teams/", "");
+
             return new
             {
-                Id = result.Team.Id,
+                Id = teamId,
                 result.Team.Name,
                 result.Team.Description,
                 result.Team.Website,
-                Avatar = result.Team.Avatar,
-                MemberCount = result.MemberIds.Count()
-                //Projects = result.ChildGroups.Where(x => x.GroupType == "project").Select(x => x.Id)
+                result.Team.Avatar,
+                MemberCount = result.ChildGroupIds.Count()
             };
         }
 

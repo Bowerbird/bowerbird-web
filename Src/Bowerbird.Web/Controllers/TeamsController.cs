@@ -44,6 +44,7 @@ namespace Bowerbird.Web.Controllers
         private readonly IPostsViewModelBuilder _postsViewModelBuilder;
         private readonly IReferenceSpeciesViewModelBuilder _referenceSpeciesViewModelBuilder;
         private readonly IDocumentSession _documentSession;
+        private readonly IObservationsViewModelBuilder _observationsViewModelBuilder;
 
         #endregion
 
@@ -57,7 +58,8 @@ namespace Bowerbird.Web.Controllers
             IProjectsViewModelBuilder projectsViewModelBuilder,
             IPostsViewModelBuilder postsViewModelBuilder,
             IReferenceSpeciesViewModelBuilder referenceSpeciesViewModelBuilder,
-            IDocumentSession documentSession
+            IDocumentSession documentSession,
+            IObservationsViewModelBuilder observationsViewModelBuilder
             )
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
@@ -68,6 +70,7 @@ namespace Bowerbird.Web.Controllers
             Check.RequireNotNull(postsViewModelBuilder, "postsViewModelBuilder");
             Check.RequireNotNull(referenceSpeciesViewModelBuilder, "referenceSpeciesViewModelBuilder");
             Check.RequireNotNull(documentSession, "documentSession");
+            Check.RequireNotNull(observationsViewModelBuilder, "observationsViewModelBuilder");
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
@@ -77,6 +80,7 @@ namespace Bowerbird.Web.Controllers
             _postsViewModelBuilder = postsViewModelBuilder;
             _referenceSpeciesViewModelBuilder = referenceSpeciesViewModelBuilder;
             _documentSession = documentSession;
+            _observationsViewModelBuilder = observationsViewModelBuilder;
         }
 
         #endregion
@@ -84,13 +88,33 @@ namespace Bowerbird.Web.Controllers
         #region Methods
 
         [HttpGet]
-        public ActionResult Stream(PagingInput pagingInput)
+        public ActionResult Activity(StreamInput streamInput, PagingInput pagingInput)
         {
+            Check.RequireNotNull(pagingInput, "pagingInput");
+
+            var teamId = "teams/".AppendWith(pagingInput.Id);
+
+            //if(Request.IsAjaxRequest())
+            //{
+            //    return new JsonNetResult(new
+            //    {
+            //        Model = _streamItemsViewModelBuilder.BuildGroupStreamItems(teamId, streamInput, pagingInput)
+            //    });
+            //}
+
             ViewBag.Model = new
             {
-                Team = _teamsViewModelBuilder.BuildTeam(new IdInput() { Id = "teams/" + pagingInput.Id }),
-                StreamItems = _streamItemsViewModelBuilder.BuildGroupStreamItems(null, null, pagingInput)
+                Team = _teamsViewModelBuilder.BuildTeam(teamId),
+                StreamItems = _streamItemsViewModelBuilder.BuildGroupStreamItems(teamId, null, pagingInput)
             };
+
+            if (Request.IsAjaxRequest())
+            {
+                return new JsonNetResult(new
+                {
+                    Model = ViewBag.Model
+                });
+            }
 
             ViewBag.PrerenderedView = "teams"; // HACK: Need to rethink this
 
@@ -98,17 +122,41 @@ namespace Bowerbird.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult StreamList(PagingInput pagingInput)
+        public ActionResult Observations(PagingInput pagingInput)
         {
-            return new JsonNetResult(_streamItemsViewModelBuilder.BuildGroupStreamItems(null, null, pagingInput));
+            Check.RequireNotNull(pagingInput, "pagingInput");
+
+            var teamId = "teams/".AppendWith(pagingInput.Id);
+
+            ViewBag.Model = new
+            {
+                Team = _teamsViewModelBuilder.BuildTeam(teamId),
+                Observations = _observationsViewModelBuilder.BuildGroupObservationList(pagingInput)        
+            };
+
+            if (Request.IsAjaxRequest())
+            {
+                return new JsonNetResult(new
+                {
+                    Model = ViewBag.Model
+                });
+            }
+
+            ViewBag.PrerenderedView = "observations"; // HACK: Need to rethink this
+
+            return View(Form.Stream);
         }
 
         [HttpGet]
         public ActionResult ReferenceSpecies(PagingInput pagingInput)
         {
+            Check.RequireNotNull(pagingInput, "pagingInput");
+
+            var teamId = "teams/".AppendWith(pagingInput.Id);
+
             ViewBag.Model = new
             {
-                Team = _teamsViewModelBuilder.BuildTeam(new IdInput() { Id = "teams/" + pagingInput.Id }),
+                Team = _teamsViewModelBuilder.BuildTeam(teamId),
                 ReferenceSpecies = _referenceSpeciesViewModelBuilder.BuildGroupReferenceSpeciesList(pagingInput)
             };
 
@@ -120,9 +168,13 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Projects(PagingInput pagingInput)
         {
+            Check.RequireNotNull(pagingInput, "pagingInput");
+
+            var teamId = "teams/".AppendWith(pagingInput.Id);
+
             ViewBag.Model = new
             {
-                Team = _teamsViewModelBuilder.BuildTeam(new IdInput() { Id = "teams/" + pagingInput.Id }),
+                Team = _teamsViewModelBuilder.BuildTeam(teamId),
                 Projects = _projectsViewModelBuilder.BuildTeamProjectList(pagingInput)
             };
 
@@ -134,9 +186,13 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Members(PagingInput pagingInput)
         {
+            Check.RequireNotNull(pagingInput, "pagingInput");
+
+            var teamId = "teams/".AppendWith(pagingInput.Id);
+
             ViewBag.Model = new
             {
-                Team = _teamsViewModelBuilder.BuildTeam(new IdInput() { Id = "teams/" + pagingInput.Id }),
+                Team = _teamsViewModelBuilder.BuildTeam(teamId),
                 Members = _teamsViewModelBuilder.BuildTeamUserList(pagingInput)
             };
 
@@ -154,7 +210,22 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Explore(PagingInput pagingInput)
         {
-            ViewBag.TeamList = _teamsViewModelBuilder.BuildTeamList(pagingInput);
+            DebugToClient(string.Format("SERVER: Teams/Explore: page:{0} pageSize:{1}", pagingInput.Page, pagingInput.PageSize));
+
+            Check.RequireNotNull(pagingInput, "pagingInput");
+
+            ViewBag.Model = new
+            {
+                Teams = _teamsViewModelBuilder.BuildTeamList(pagingInput)
+            };
+
+            if (Request.IsAjaxRequest())
+            {
+                return new JsonNetResult(new
+                {
+                    Model = ViewBag.Model
+                });
+            }
 
             return View(Form.List);
         }
@@ -162,7 +233,19 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult GetOne(IdInput idInput)
         {
-            return new JsonNetResult(_teamsViewModelBuilder.BuildTeam(idInput));
+            DebugToClient(string.Format("SERVER: Teams/GetOne: id:{0}", idInput.Id));
+
+            Check.RequireNotNull(idInput, "idInput");
+
+            var teamId = "teams/".AppendWith(idInput.Id);
+
+            return new JsonNetResult(new
+            {
+                Model = new
+                {
+                    Team = _teamsViewModelBuilder.BuildTeam(teamId)
+                }
+            });
         }
 
         [HttpGet]
@@ -200,12 +283,16 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult UpdateForm(IdInput idInput)
         {
+            Check.RequireNotNull(idInput, "idInput");
+
+            var teamId = "teams/".AppendWith(idInput.Id);
+
             if (!_userContext.HasUserProjectPermission(PermissionNames.UpdateTeam))
             {
                 return HttpUnauthorized();
             }
 
-            ViewBag.Team = _teamsViewModelBuilder.BuildTeam(idInput);
+            ViewBag.Team = _teamsViewModelBuilder.BuildTeam(teamId);
 
             return View(Form.Update);
         }
@@ -214,12 +301,16 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult DeleteForm(IdInput idInput)
         {
+            Check.RequireNotNull(idInput, "idInput");
+
+            var teamId = "teams/".AppendWith(idInput.Id);
+
             if (!_userContext.HasUserProjectPermission(PermissionNames.DeleteTeam))
             {
                 return HttpUnauthorized();
             }
 
-            ViewBag.Team = _teamsViewModelBuilder.BuildTeam(idInput);
+            ViewBag.Team = _teamsViewModelBuilder.BuildTeam(teamId);
 
             return View(Form.Delete);
         }
@@ -373,7 +464,13 @@ namespace Bowerbird.Web.Controllers
         [HttpPut]
         public ActionResult Update(TeamUpdateInput updateInput)
         {
-            if (!_userContext.HasGroupPermission(PermissionNames.UpdateTeam, updateInput.Id))
+            DebugToClient(updateInput);
+
+            DebugToClient(string.Format("SERVER: [PUT]Teams/Update: id:{0}", updateInput.Id));
+
+            var teamId = "teams/".AppendWith(updateInput.Id);
+
+            if (!_userContext.HasGroupPermission(PermissionNames.UpdateTeam, teamId))
             {
                 return HttpUnauthorized();
             }
@@ -386,7 +483,7 @@ namespace Bowerbird.Web.Controllers
             _commandProcessor.Process(
                 new TeamUpdateCommand()
                 {
-                    Id = updateInput.Id,
+                    Id = teamId,
                     Description = updateInput.Description,
                     Name = updateInput.Name,
                     UserId = _userContext.GetAuthenticatedUserId(),

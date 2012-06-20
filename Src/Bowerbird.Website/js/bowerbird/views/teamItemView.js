@@ -5,20 +5,20 @@
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// ProjectItemView
-// ---------------
+// TeamItemView
+// ------------
 
 // Shows an individual project item
-define(['jquery', 'underscore', 'backbone', 'app'],
+define(['jquery', 'underscore', 'backbone', 'app'], 
 function ($, _, Backbone, app) 
 {
-    var ProjectItemView = Backbone.Marionette.ItemView.extend({
+    var TeamItemView = Backbone.Marionette.ItemView.extend({
 
         tagName: 'li',
 
-        className: 'explore-project-item',
+        className: 'explore-team-item',
 
-        template: 'ProjectItem',
+        template: 'TeamItem',
 
         events: {
             'click .join-project-button': 'joinProject'
@@ -30,5 +30,5 @@ function ($, _, Backbone, app)
         }
     });
 
-    return ProjectItemView;
+    return TeamItemView;
 });

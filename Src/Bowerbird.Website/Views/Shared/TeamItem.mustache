@@ -1,24 +1,17 @@
-﻿  <p>Team Item Page</p>
-  <div class="team-summary" id="{{Id}}">
-    <h2>{{Name}}</h2>
-    <p>
-      {{#Avatar}}{{{Avatar.UrlToImage}}}{{/Avatar}}
-    </p>
-    <p>{{Description}}</p>
-    <p>{{Website}}</p>
-	<p>{{#Organisation}}{{{Organisation}}}{{/Organisation}}</p>
-  </div>
-  <!--<div class="team-contents">
-    {{#Projects.PagedListItems}}
-		  {{projectIndexItem}}
-	  {{/Projects.PagedListItems}}
-	  {{^Projects.PagedListItems}}
-		  There are no projects in this team
-	  {{/Projects.PagedListItems}}
-	  {{#Members.PagedListItems}}
-		  {{user}}
-	  {{/Members.PagedListItems}}
-      {{^Members.PagedListItems}}
-		  There are no members in this team
-	  {{/Members.PagedListItems}}
-  </div>-->
+﻿<div class="explore-item">
+    <div class="explore-summary">
+        <span class="explore-avatar">
+            <img src="{{Avatar.Files.medium.RelativeUri}}" />
+        </span>
+        <span class="explore-name">{{Name}}</span>
+    </div>
+    <div class="explore-details">
+        {{#Organisation}}<div class="explore-details-property">Organisation:</div><div class="explore-details-value">{{Organisation}}</div>{{/Organisation}}
+        <div class="explore-details-property">Website</div><div class="explore-details-value">{{Website}}</div>
+        <div class="explore-details-property">Description</div><div class="explore-details-value">{{Description}}</div>
+        <div class="explore-details-property">Members</div><div class="explore-details-value">{{MemberCount}}</div>
+    </div>
+    <div class="view-team">
+        <button value="View" class="view-team-button">View this team</button>
+    </div>
+</div>

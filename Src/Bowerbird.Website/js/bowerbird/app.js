@@ -75,9 +75,44 @@ define([
             app.vent.on('newactivity:groupadded', function (activity) {
                 var group = activity.get('GroupAdded').Group;
                 if (group.GroupType === 'project') {
-                    app.authenticatedUser.projects.add(group);
+                    app.vent.trigger('projectAdded:', group);
+                    if (group.User.Id == app.authenticatedUser.user.id) {
+                        app.authenticatedUser.projects.add(group);
+                    }
                 }
+                if (group.GroupType === 'team') {
+                    app.vent.trigger('teamAdded:', group);
+                    if (group.User.Id == app.authenticatedUser.user.id) {
+                        app.authenticatedUser.teams.add(group);
+                    }
+                }
+                if (group.GroupType === 'organisation') {
+                    app.vent.trigger('organisationAdded:', group);
+                    if (group.User.Id == app.authenticatedUser.user.id) {
+                        app.authenticatedUser.organisations.add(group);
+                    }
+                }
+
             }, this);
+
+            // WORKS WITHOUT THIS ON EXISTING PROJECT (NOT NEWLY STREAMED ONE)
+            //userjoinedgroup
+//            app.vent.on('newactivity:userjoinedgroup', function (activity) {
+//                var group = activity.get('UserJoinedGroup').Group;
+//                var user = activity.get('UserJoinedGroup').User;
+//                if (user.id == app.authenticatedUser.user.id) {
+//                    if (group.GroupType === 'project') {
+//                        app.authenticatedUser.projects.add(group);
+//                    }
+//                    if (group.GroupType === 'team') {
+//                        app.authenticatedUser.teams.add(group);
+//                    }
+
+//                    if (group.GroupType === 'organisation') {
+//                        app.authenticatedUser.organisations.add(group);
+//                    }
+//                }
+//            }, this);
         };
 
         app.addRegions({

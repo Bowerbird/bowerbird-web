@@ -13,6 +13,7 @@
 */
 
 using System;
+using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Caching;
@@ -59,6 +60,16 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+            //var templateFiles = Directory.GetFiles(Server.MapPath("~/Views/Shared"))
+            //    .Where(x => x.EndsWith(".mustache") && !x.StartsWith("_"));
+
+            //var mustacheTemplates = new Dictionary<string, string>();
+
+            //foreach (var templateFile in templateFiles.Where(templateFile => !mustacheTemplates.ContainsKey(Path.GetFileNameWithoutExtension(templateFile))))
+            //{
+            //    mustacheTemplates.Add(Path.GetFileNameWithoutExtension(templateFile), null);
+            //}
+
             var templates = new Dictionary<string, string>()
             {
                 {"AvatarChooseFile", null},
@@ -77,6 +88,7 @@ namespace Bowerbird.Web.Controllers
                 {"ObservationMediaResourceUploaded", null},
                 {"ObservationStreamItem", null},
                 {"OnlineUserList", null},
+                {"Organisation", null},
                 {"OrganisationForm", null},
                 {"OrganisationItem", null},
                 {"OrganisationList", null},
@@ -94,9 +106,10 @@ namespace Bowerbird.Web.Controllers
                 {"SpeciesCreate", null},
                 {"Stream", null},
                 {"StreamItem", null},
-                {"StreamMessage", null},
                 {"StreamLoadMore", null},
                 {"StreamLoadNew", null},
+                {"StreamMessage", null},
+                {"Team", null},
                 {"TeamForm", null},
                 {"TeamItem", null},
                 {"TeamList", null},
@@ -104,13 +117,13 @@ namespace Bowerbird.Web.Controllers
             };
 
             // Load all templates from Nustache
-            foreach(var templateName in templates.Keys.ToList())
+            foreach (var templateName in templates.Keys.ToList())
             {
                 templates[templateName] = LoadTemplateSource(templateName);
             }
 
             // Concatenate all templates into a JSON array ie. "[{name: 'abc', source: '<html>'}]
-            string templatesJson = string.Join(",", 
+            string templatesJson = string.Join(",",
                 templates.Select(
                     x => string.Format("{{name: '{0}', source: '{1}'}}", x.Key, x.Value.Replace("\r\n", " ").Replace("'", "&#39;"))));
 

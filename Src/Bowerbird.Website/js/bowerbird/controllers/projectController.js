@@ -25,9 +25,14 @@ function ($, _, Backbone, app, ProjectLayoutView, ProjectFormLayoutView, Project
         ProjectController.joinProject(project);
     });
 
+    app.vent.on('projectAdded:', function (project) {
+        if (ProjectController.projectCollection) {
+            ProjectController.projectCollection.add(project);
+        }
+    });
+
     var getModel = function (id) {
         var deferred = new $.Deferred();
-
         if (app.isPrerendering('projects')) {
             deferred.resolve(app.prerenderedView.data);
         } else {
@@ -40,8 +45,7 @@ function ($, _, Backbone, app, ProjectLayoutView, ProjectFormLayoutView, Project
                 }).done(function (data) {
                     deferred.resolve(data.Model);
                 });
-            }
-            else {
+            } else {
                 $.ajax({
                     url: '/projects/create'
                 }).done(function (data) {
@@ -49,13 +53,11 @@ function ($, _, Backbone, app, ProjectLayoutView, ProjectFormLayoutView, Project
                 });
             }
         }
-
         return deferred.promise();
     };
 
     var getExploreList = function (page, pageSize, sortField, sortDirection, searchQuery) {
         var deferred = new $.Deferred();
-
         if (app.isPrerendering('projects')) {
             deferred.resolve(app.prerenderedView.data);
         } else {
@@ -82,7 +84,6 @@ function ($, _, Backbone, app, ProjectLayoutView, ProjectFormLayoutView, Project
                 deferred.resolve(data.Model);
             });
         }
-
         return deferred.promise();
     };
 
@@ -92,23 +93,17 @@ function ($, _, Backbone, app, ProjectLayoutView, ProjectFormLayoutView, Project
     // Show project activity
     ProjectController.showProjectStream = function (id) {
         log('showing projects home stream', this, this);
-
         $.when(getModel(id))
             .done(function (model) {
                 var project = new Project(model.Project);
                 log('HACK: injected projects/ into project id value');
                 project.set('Id', 'projects/' + id);
                 var projectLayoutView = new ProjectLayoutView({ model: project });
-
-                //app.content[app.getShowViewMethodName('projects')](projectLayoutView);
                 app.showFormContentView(projectLayoutView, 'projects');
-
                 if (app.isPrerendering('projects')) {
                     projectLayoutView.showBootstrappedDetails();
                 }
-
                 projectLayoutView.showStream();
-
                 app.setPrerenderComplete();
             });
     };
@@ -120,46 +115,27 @@ function ($, _, Backbone, app, ProjectLayoutView, ProjectFormLayoutView, Project
             .done(function (model) {
                 var project = new Project(model.Project);
                 var projectFormLayoutView = new ProjectFormLayoutView({ model: project, teams: model.Teams });
-
                 app.showFormContentView(projectFormLayoutView, 'projects');
-
                 if (app.isPrerendering('projects')) {
                     projectFormLayoutView.showBootstrappedDetails();
                 }
-
                 app.setPrerenderComplete();
             });
     };
 
-    // Show an project form
+    // Show an project explore
     ProjectController.showProjectExplorer = function () {
         log('projectController:showProjects');
         $.when(getExploreList())
             .done(function (model) {
-                var projectCollection = new ProjectCollection(model.Projects.PagedListItems);
-
-                var projectCollectionView = new ProjectCollectionView({ collection: projectCollection });
-
-                //app.showFormContentView(projectCollectionView, 'projectexplorer');
-                app.content[app.getShowViewMethodName('projects')](projectCollectionView);
-
-                if (app.isPrerendering('projectexplorer')) {
+                ProjectController.projectCollection = new ProjectCollection(model.Projects.PagedListItems);
+                var projectCollectionView = new ProjectCollectionView({ collection: ProjectController.projectCollection });
+                app.showFormContentView(projectCollectionView, 'projects');
+                //app.content[app.getShowViewMethodName('projects')](projectCollectionView);
+                if (app.isPrerendering('projects')) {
                     projectCollectionView.showBootstrappedDetails();
                 }
-
                 app.setPrerenderComplete();
-                //projectLayoutView.showStream(new StreamItemCollection(app.prerenderedView.data.StreamItems.PagedListItems));
-
-                //                var projects = new PaginatedCollection(model.Project);
-                //                var projectFormLayoutView = new ProjectFormLayoutView({ model: project, teams: model.Teams });
-
-                //                app.content[app.getShowViewMethodName('projects')](projectFormLayoutView);
-
-                //                if (app.isPrerendering('projects')) {
-                //                    projectFormLayoutView.showBootstrappedDetails();
-                //                }
-
-                //                app.setPrerenderComplete();
             });
     };
 

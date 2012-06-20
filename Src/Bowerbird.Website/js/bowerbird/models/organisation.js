@@ -23,15 +23,15 @@ define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
 
         urlRoot: '/organisations',
 
-        toJSON: function () {
-            return {
-                Name: this.get('Name'),
-                Description: this.get('Description'),
-                Website: this.get('Website'),
-                Avatar: this.get('Avatar'), // TODO: Fix this to return id?
-                Type: 'Organisation'
-            };
-        },
+//        toJSON: function () {
+//            return {
+//                Name: this.get('Name'),
+//                Description: this.get('Description'),
+//                Website: this.get('Website'),
+//                Avatar: this.get('Avatar'), // TODO: Fix this to return id?
+//                Type: 'Organisation'
+//            };
+//        },
 
         setAvatar: function (mediaResource) {
             this.set('Avatar', mediaResource.id);

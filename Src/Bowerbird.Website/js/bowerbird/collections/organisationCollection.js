@@ -6,9 +6,10 @@
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
 // OrganisationCollection
-// -----------------
+// ----------------------
 
-define(['jquery', 'underscore', 'backbone', 'models/organisation'], function ($, _, Backbone, Organisation) {
+define(['jquery', 'underscore', 'backbone', 'models/organisation'], 
+function ($, _, Backbone, Organisation) {
 
     var OrganisationCollection = Backbone.Collection.extend({
         model: Organisation,
@@ -29,5 +30,4 @@ define(['jquery', 'underscore', 'backbone', 'models/organisation'], function ($,
     });
 
     return OrganisationCollection;
-
 });
