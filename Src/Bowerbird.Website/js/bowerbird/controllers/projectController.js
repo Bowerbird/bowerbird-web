@@ -96,9 +96,12 @@ function ($, _, Backbone, app, ProjectLayoutView, ProjectFormLayoutView, Project
         $.when(getModel(id))
             .done(function (model) {
                 var project = new Project(model.Project);
+                log('HACK: injected projects/ into project id value');
+                project.set('Id', 'projects/' + id);
                 var projectLayoutView = new ProjectLayoutView({ model: project });
 
-                app.content[app.getShowViewMethodName('projects')](projectLayoutView);
+                //app.content[app.getShowViewMethodName('projects')](projectLayoutView);
+                app.showFormContentView(projectLayoutView, 'projects');
 
                 if (app.isPrerendering('projects')) {
                     projectLayoutView.showBootstrappedDetails();
