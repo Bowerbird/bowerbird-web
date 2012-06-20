@@ -25,6 +25,10 @@ function ($, _, Backbone, app, ProjectLayoutView, ProjectFormLayoutView, Project
         ProjectController.joinProject(project);
     });
 
+    app.vent.on('viewProject:', function (project) {
+        ProjectController.showProjectStream(project.id);
+    });
+
     app.vent.on('projectAdded:', function (project) {
         if (ProjectController.projectCollection) {
             ProjectController.projectCollection.add(project);

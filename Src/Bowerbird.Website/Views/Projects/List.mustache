@@ -1,9 +1,11 @@
-﻿<div class="explore-list">
-    <h2>Projects in Bowerbird</h2>
-	{{#ProjectList.Projects}}
-        {{>ProjectList}}
-	{{/ProjectList.Projects}}
-	{{^ProjectList.Projects}}
-        No Projects in Bowerbird
-	{{/ProjectList.Projects}}
-</div>
+﻿{{<Title}}Explore Projects - {{/Title}}
+<section id="content" class="triple-2">
+<ul class="explore-groups">
+	{{#Model.Projects}}
+      <li class="explore-project-item">{{>ProjectItem}}</li>
+	{{/Model.Projects}}
+</ul>
+{{^Model.Projects}}
+    No Projects in Bowerbird
+{{/Model.Projects}}
+</section>

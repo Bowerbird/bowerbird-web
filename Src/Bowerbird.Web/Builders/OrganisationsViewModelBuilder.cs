@@ -89,7 +89,7 @@ namespace Bowerbird.Web.Builders
                 .Include(x => x.GroupId)
                 .Where(x => x.GroupType == "organisation")
                 .Statistics(out stats)
-                .Skip(pagingInput.Page)
+                .Skip((pagingInput.Page - 1) * pagingInput.PageSize)
                 .Take(pagingInput.PageSize)
                 .ToList()
                 .Select(MakeOrganisation)
@@ -125,14 +125,16 @@ namespace Bowerbird.Web.Builders
 
         private object MakeOrganisation(All_Groups.Result result)
         {
+            var organisationId = result.Organisation.Id.Replace("organisations/", "");
+
             return new
             {
-                Id = result.Organisation.Id,
+                Id = organisationId,
                 result.Organisation.Name,
                 result.Organisation.Description,
                 result.Organisation.Website,
                 Avatar = result.Organisation.Avatar,
-                MemberCount = result.MemberIds.Count()
+                MemberCount = result.DescendantGroupIds.Count()
                 //Teams = result.DescendantGroups.Where(x => x.GroupType == "team").Select(x => x.Id),
                 //Projects = result.DescendantGroups.Where(x => x.GroupType == "project").Select(x => x.Id)
             };

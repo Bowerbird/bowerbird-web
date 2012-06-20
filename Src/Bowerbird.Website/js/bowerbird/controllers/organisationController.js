@@ -31,6 +31,10 @@ function ($, _, Backbone, app, OrganisationLayoutView, OrganisationFormLayoutVie
         }
     });
 
+    app.vent.on('viewOrganisation:', function (organisation) {
+        OrganisationController.showOrganisationStream(organisation.id);
+    });
+
     var getModel = function (id) {
         var deferred = new $.Deferred();
         if (app.isPrerendering('organisations')) {

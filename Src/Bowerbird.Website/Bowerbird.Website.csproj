@@ -267,7 +267,9 @@
     <Content Include="Views\Projects\Create.mustache" />
     <Content Include="Views\Projects\Delete.mustache" />
     <Content Include="Views\Projects\Stream.mustache" />
-    <Content Include="Views\Projects\List.mustache" />
+    <Content Include="Views\Projects\List.mustache">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\ReferenceSpecies\Create.mustache" />
     <Content Include="Views\ReferenceSpecies\Delete.mustache" />
     <Content Include="Views\ReferenceSpecies\Index.mustache" />

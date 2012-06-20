@@ -1,11 +1,10 @@
-﻿<div class="team-list">
-    <br />
-    <br />
-    <h2>Teams in Bowerbird</h2>
-	{{#Teams}}
-        {{>TeamItem}}
-	{{/Teams}}
-	{{^Teams}}
-        No Teams in Bowerbird
-	{{#Teams}}
-</div>
+﻿{{<Title}}Explore Teams -{{/Title}}
+<section id="content" class="triple-2">
+<ul class="explore-groups">
+  {{#Model.Teams}}
+  <li class="explore-team-item">{{>TeamItem}}</li>
+  {{/Model.Teams}}
+</ul>{{^Model.Teams}}
+No Teams in Bowerbird
+{{/Model.Teams}}
+</section>

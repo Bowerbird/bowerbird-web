@@ -98,27 +98,19 @@ namespace Bowerbird.Web.Controllers
 
             var projectId = "projects/".AppendWith(pagingInput.Id);
 
-            //if (Request.IsAjaxRequest())
-            //{
-            //    return new JsonNetResult(new
-            //    {
-            //        Model = _streamItemsViewModelBuilder.BuildGroupStreamItems(projectId, streamInput, pagingInput)
-            //    });
-            //}
+            if (Request.IsAjaxRequest())
+            {
+                return new JsonNetResult(new
+                {
+                    Model = _streamItemsViewModelBuilder.BuildGroupStreamItems(projectId, streamInput, pagingInput)
+                });
+            }
 
             ViewBag.Model = new
             {
                 Project = _projectsViewModelBuilder.BuildProject(projectId),
                 StreamItems = _streamItemsViewModelBuilder.BuildGroupStreamItems(projectId, null, pagingInput)
             };
-
-            if (Request.IsAjaxRequest())
-            {
-                return new JsonNetResult(new
-                {
-                    Model = ViewBag.Model
-                });
-            }
 
             ViewBag.PrerenderedView = "projects"; // HACK: Need to rethink this
 

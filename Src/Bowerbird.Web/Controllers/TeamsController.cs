@@ -94,13 +94,14 @@ namespace Bowerbird.Web.Controllers
 
             var teamId = "teams/".AppendWith(pagingInput.Id);
 
-            //if(Request.IsAjaxRequest())
-            //{
-            //    return new JsonNetResult(new
-            //    {
-            //        Model = _streamItemsViewModelBuilder.BuildGroupStreamItems(teamId, streamInput, pagingInput)
-            //    });
-            //}
+            // Using this, we get stream items but no model.
+            if (Request.IsAjaxRequest())
+            {
+                return new JsonNetResult(new
+                {
+                    Model = _streamItemsViewModelBuilder.BuildGroupStreamItems(teamId, streamInput, pagingInput)
+                });
+            }
 
             ViewBag.Model = new
             {
@@ -108,6 +109,7 @@ namespace Bowerbird.Web.Controllers
                 StreamItems = _streamItemsViewModelBuilder.BuildGroupStreamItems(teamId, null, pagingInput)
             };
 
+            // Using this, we get stream Items AND a model... but Stream items not displayed
             if (Request.IsAjaxRequest())
             {
                 return new JsonNetResult(new

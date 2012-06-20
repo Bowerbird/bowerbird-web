@@ -86,19 +86,19 @@ namespace Bowerbird.Web.Controllers
 
             var organisationId = "organisations/".AppendWith(pagingInput.Id);
 
+            if (Request.IsAjaxRequest())
+            {
+                return new JsonNetResult(new
+                {
+                    Model = _streamItemsViewModelBuilder.BuildGroupStreamItems(organisationId, streamInput, pagingInput)
+                });
+            }
+
             ViewBag.Model = new
             {
                 Organisation = _organisationsViewModelBuilder.BuildOrganisation(organisationId),
                 StreamItems = _streamItemsViewModelBuilder.BuildGroupStreamItems(organisationId, null, pagingInput)
             };
-
-            if(Request.IsAjaxRequest())
-            {
-                return new JsonNetResult(new
-                {
-                    Model = ViewBag.Model
-                });
-            }
 
             ViewBag.PrerenderedView = "organisations"; // HACK: Need to rethink this
 

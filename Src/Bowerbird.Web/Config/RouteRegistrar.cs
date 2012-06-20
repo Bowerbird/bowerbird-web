@@ -112,13 +112,19 @@ namespace Bowerbird.Web.Config
                 controllerName + "-activity",
                 controllerName + "/{id}/activity",
                 new { controller = controllerName, action = "activity" },
-                new { httpMethod = new HttpMethodConstraint("GET"), id = @"^((?!create|update|delete).*)$", acceptType = new AcceptTypeContstraint("application/json") });
+                new { httpMethod = new HttpMethodConstraint("GET"), id = @"^((?!create|update|delete|explore).*)$", acceptType = new AcceptTypeContstraint("application/json") });
 
             routes.MapRoute(
                 controllerName + "-sections",
                 controllerName + "/{id}/{action}",
                 new { controller = controllerName, action = "activity" },
-                new { httpMethod = new HttpMethodConstraint("GET"), id = @"^((?!create|update|delete).*)$", acceptType = new AcceptTypeContstraint("text/html") });
+                new { httpMethod = new HttpMethodConstraint("GET"), id = @"^((?!create|update|delete|explore).*)$", acceptType = new AcceptTypeContstraint("text/html") });
+
+            routes.MapRoute(
+                controllerName + "-explore",
+                controllerName + "/explore",
+                new { controller = controllerName, action = "explore" },
+                new { httpMethod = new HttpMethodConstraint("GET") });
         }
 
         private static void CreateRestfulControllerRoute(RouteCollection routes, string controllerName)
@@ -140,12 +146,6 @@ namespace Bowerbird.Web.Config
                 controllerName + "/create",
                 new { controller = controllerName, action = "createform" },
                 new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("GET") });
-
-            routes.MapRoute(
-                controllerName + "-explore",
-                controllerName + "/explore",
-                new { controller = controllerName, action = "explore" },
-                new { httpMethod = new HttpMethodConstraint("GET") });
 
             routes.MapRoute(
                 controllerName + "-update-form",

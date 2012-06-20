@@ -1,6 +1,11 @@
-﻿<div class="organisation-list">
-    <br />
-    <br />
-    <h2>Organisations in Bowerbird</h2>
-    {{>OrganisationList}}
-</div>
+﻿{{<Title}}Explore Organisations - {{/Title}}
+<section id="content" class="triple-2">
+<ul class="explore-groups">
+  {{#Model.Organisations}}
+    <li class="explore-organisation-item">{{>OrganisationItem}}</li>
+  {{/Model.Organisations}}
+</ul>
+{{^Model.Organisations}}
+  No Organisations in Bowerbird
+  {{/Model.Organisations}}
+</section>

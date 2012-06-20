@@ -20,14 +20,14 @@ function ($, _, Backbone, app)
 
         template: 'OrganisationItem',
 
-//        events: {
-//            'click .join-project-button': 'joinProject'
-//        },
+        events: {
+            'click .view-organisation-button': 'viewOrganisation'
+        },
 
-//        joinProject: function (e) {
-//            e.preventDefault();
-//            app.vent.trigger('joinProject:', this.model);
-//        }
+        viewOrganisation: function (e) {
+            e.preventDefault();
+            app.vent.trigger('viewOrganisation:', this.model);
+        }
     });
 
     return OrganisationItemView;

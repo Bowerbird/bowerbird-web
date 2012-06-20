@@ -27,6 +27,10 @@ function ($, _, Backbone, app, Team, TeamFormLayoutView, TeamLayoutView, TeamCol
         }
     });
 
+    app.vent.on('viewTeam:', function (team) {
+        TeamController.showTeamStream(team.id);
+    });
+
     var getModel = function (id) {
         var deferred = new $.Deferred();
         if (app.isPrerendering('teams')) {

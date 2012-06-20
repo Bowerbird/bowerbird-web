@@ -21,12 +21,18 @@ function ($, _, Backbone, app)
         template: 'ProjectItem',
 
         events: {
-            'click .join-project-button': 'joinProject'
+            'click .join-project-button': 'joinProject',
+            'click .view-project-button': 'viewProject'
         },
 
         joinProject: function (e) {
             e.preventDefault();
             app.vent.trigger('joinProject:', this.model);
+        },
+
+        viewProject: function (e) {
+            e.preventDefault();
+            app.vent.trigger('viewProject:', this.model);
         }
     });
 
