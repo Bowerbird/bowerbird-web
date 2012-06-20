@@ -13,8 +13,8 @@ function ($, _, Backbone, app, ProjectLayoutView, ProjectFormLayoutView, Project
     var ProjectRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
             'projects/explore': 'showProjectExplorer',
+            'projects/:id/update': 'showProjectForm',
             'projects/create': 'showProjectForm',
-            'projects/:id/update': 'showProjectUpdateForm',
             'projects/:id': 'showProjectStream'
         }
     });
@@ -34,29 +34,20 @@ function ($, _, Backbone, app, ProjectLayoutView, ProjectFormLayoutView, Project
             var params = {};
             if (id) {
                 params['id'] = id;
+                $.ajax({
+                    url: '/projects/' + id,
+                    data: params
+                }).done(function (data) {
+                    deferred.resolve(data.Model);
+                });
             }
-            $.ajax({
-                url: '/projects/create',
-                data: params
-            }).done(function (data) {
-                deferred.resolve(data.Model);
-            });
-        }
-
-        return deferred.promise();
-    };
-
-    var getUpdateModel = function (id) {
-        var deferred = new $.Deferred();
-
-        if (app.isPrerendering('projects')) {
-            deferred.resolve(app.prerenderedView.data);
-        } else {
-            $.ajax({
-                url: '/projects/' + id + '/update'
-            }).done(function (data) {
-                deferred.resolve(data.Model);
-            });
+            else {
+                $.ajax({
+                    url: '/projects/create'
+                }).done(function (data) {
+                    deferred.resolve(data.Model);
+                });
+            }
         }
 
         return deferred.promise();
@@ -135,24 +126,6 @@ function ($, _, Backbone, app, ProjectLayoutView, ProjectFormLayoutView, Project
 
                 app.setPrerenderComplete();
             });
-    };
-
-    // Show an project form
-    ProjectController.showProjectUpdateForm = function (id) {
-        log('projectController:showProjectForm');
-        $.when(getUpdateModel(id))
-        .done(function (model) {
-            var project = new Project(model.Project);
-            var projectFormLayoutView = new ProjectFormLayoutView({ model: project, teams: model.Teams });
-
-            app.showFormContentView(projectFormLayoutView, 'projects');
-
-            if (app.isPrerendering('projects')) {
-                projectFormLayoutView.showBootstrappedDetails();
-            }
-
-            app.setPrerenderComplete();
-        });
     };
 
     // Show an project form
