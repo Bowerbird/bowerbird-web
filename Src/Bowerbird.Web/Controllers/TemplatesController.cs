@@ -60,61 +60,7 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            //var templateFiles = Directory.GetFiles(Server.MapPath("~/Views/Shared"))
-            //    .Where(x => x.EndsWith(".mustache") && !x.StartsWith("_"));
-
-            //var mustacheTemplates = new Dictionary<string, string>();
-
-            //foreach (var templateFile in templateFiles.Where(templateFile => !mustacheTemplates.ContainsKey(Path.GetFileNameWithoutExtension(templateFile))))
-            //{
-            //    mustacheTemplates.Add(Path.GetFileNameWithoutExtension(templateFile), null);
-            //}
-
-            var templates = new Dictionary<string, string>()
-            {
-                {"AvatarChooseFile", null},
-                {"AvatarUploaded", null},
-                {"AvatarUploader", null},
-                {"Chat", null},
-                {"ChatMessage", null},
-                {"ChatMessageList", null},
-                {"ChatUserList", null},
-                {"Home", null},
-                {"NotificationItem", null},
-                {"Notifications", null},
-                {"Observation", null},
-                {"ObservationForm", null},
-                {"ObservationList", null},
-                {"ObservationMediaResourceUploaded", null},
-                {"ObservationStreamItem", null},
-                {"OnlineUserList", null},
-                {"Organisation", null},
-                {"OrganisationForm", null},
-                {"OrganisationItem", null},
-                {"OrganisationList", null},
-                {"PostForm", null},
-                {"Project", null},
-                {"ProjectForm", null},
-                {"ProjectItem", null},
-                {"ProjectList", null},
-                {"ReferenceSpeciesCreate", null},
-                {"Sidebar", null},
-                {"SidebarMenuGroup", null},
-                {"SidebarOrganisationItem", null},
-                {"SidebarProjectItem", null},
-                {"SidebarTeamItem", null},
-                {"SpeciesCreate", null},
-                {"Stream", null},
-                {"StreamItem", null},
-                {"StreamLoadMore", null},
-                {"StreamLoadNew", null},
-                {"StreamMessage", null},
-                {"Team", null},
-                {"TeamForm", null},
-                {"TeamItem", null},
-                {"TeamList", null},
-                {"UserItem", null}
-            };
+            var templates = LoadSharedViewNames();
 
             // Load all templates from Nustache
             foreach (var templateName in templates.Keys.ToList())
@@ -135,6 +81,24 @@ namespace Bowerbird.Web.Controllers
                     }});
                 }});
                 ", templatesJson), "text/javascript; charset=UTF-8");
+        }
+
+        /// <summary>
+        /// Iterate through the Shared Views template folder and load all mustache template names excluding layout page
+        /// </summary>
+        /// <returns></returns>
+        private Dictionary<string, string> LoadSharedViewNames()
+        {
+            var templates = new Dictionary<string, string>();
+
+            var templateFiles = Directory.GetFiles(Server.MapPath("~/Views/Shared"))
+                .Where(x => x.EndsWith(".mustache") && !(x.StartsWith("_")));
+
+            foreach (var templateFile in templateFiles.Where(templateFile => !templates.ContainsKey(Path.GetFileNameWithoutExtension(templateFile))))
+            {
+                templates.Add(Path.GetFileNameWithoutExtension(templateFile), null);
+            }
+            return templates;
         }
 
         /// <summary>
