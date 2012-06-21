@@ -29,12 +29,15 @@ namespace Bowerbird.Web.Controllers
     {
         #region Fields
 
+        private List<string> _excludeTemplates = new List<string>() { "_Layout", "Error" };
+
         #endregion
 
         #region Constructors
 
         public TemplatesController()
         {
+
         }
 
         #endregion
@@ -60,7 +63,7 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            var templates = LoadSharedViewNames();
+            var templates = LoadSharedMustacheTemplates();
 
             // Load all templates from Nustache
             foreach (var templateName in templates.Keys.ToList())
@@ -84,20 +87,23 @@ namespace Bowerbird.Web.Controllers
         }
 
         /// <summary>
-        /// Iterate through the Shared Views template folder and load all mustache template names excluding layout page
+        /// Iterate through the Shared Views template folder and load all mustache template names excluding _excludedTemplate names
         /// </summary>
-        /// <returns></returns>
-        private Dictionary<string, string> LoadSharedViewNames()
+        private Dictionary<string, string> LoadSharedMustacheTemplates()
         {
             var templates = new Dictionary<string, string>();
 
-            var templateFiles = Directory.GetFiles(Server.MapPath("~/Views/Shared"))
-                .Where(x => x.EndsWith(".mustache") && !(x.StartsWith("_")));
+            var sharedTemplates = Directory
+                .GetFiles(Server.MapPath("~/Views/Shared"))
+                .Select(Path.GetFileNameWithoutExtension)
+                .Where(x => !_excludeTemplates.Contains(x))
+                .ToList();
 
-            foreach (var templateFile in templateFiles.Where(templateFile => !templates.ContainsKey(Path.GetFileNameWithoutExtension(templateFile))))
+            foreach (var templateName in sharedTemplates.Where(t => !templates.ContainsKey(t)))
             {
-                templates.Add(Path.GetFileNameWithoutExtension(templateFile), null);
+                templates.Add(templateName, null);
             }
+
             return templates;
         }
 

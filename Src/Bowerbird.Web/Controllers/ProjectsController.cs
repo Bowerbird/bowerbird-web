@@ -12,7 +12,6 @@
  
 */
 
-using System.Collections.Generic;
 using System.Web.Mvc;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;

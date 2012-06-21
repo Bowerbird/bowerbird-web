@@ -68,5 +68,4 @@ function ($, _, Backbone, app, PostFormLayoutView, Post)
         });
 
     return PostController;
-
 });

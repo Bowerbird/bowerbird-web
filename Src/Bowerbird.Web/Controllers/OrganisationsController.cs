@@ -229,8 +229,6 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Explore(PagingInput pagingInput)
         {
-            DebugToClient(string.Format("SERVER: Organisations/Explore: page:{0} pageSize:{1}", pagingInput.Page, pagingInput.PageSize));
-
             Check.RequireNotNull(pagingInput, "pagingInput");
 
             ViewBag.Model = new
@@ -252,12 +250,9 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult GetOne(IdInput idInput)
         {
-            DebugToClient(string.Format("SERVER: Organisation/GetOne: id:{0}", idInput.Id));
-
             Check.RequireNotNull(idInput, "idInput");
 
             var organisationId = "organisations/".AppendWith(idInput.Id);
-
 
             ViewBag.Model = new
             {
@@ -309,8 +304,6 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult UpdateForm(IdInput idInput)
         {
-            DebugToClient(string.Format("SERVER: [GET]Organisations/UpdateForm: id:{0}", idInput.Id));
-
             Check.RequireNotNull(idInput, "idInput");
 
             var organisationId = "organisations/".AppendWith(idInput.Id);
@@ -507,8 +500,6 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult Update(OrganisationUpdateInput updateInput)
         {
-            DebugToClient(string.Format("SERVER: [PUT]Projects/Update: id:{0}", updateInput.Id));
-
             Check.RequireNotNull(updateInput, "updateInput");
 
             var organisationId = "organisations/".AppendWith(updateInput.Id);
