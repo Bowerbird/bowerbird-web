@@ -6,11 +6,11 @@
         <span class="explore-name">{{Name}}</span>
     </div>
     <div class="explore-details">
-        <div class="explore-details-property">Website</div><div class="explore-details-value">{{Website}}</div>
-        <div class="explore-details-property">Description</div><div class="explore-details-value">{{Description}}</div>
-        <div class="explore-details-property">Members</div><div class="explore-details-value">{{MemberCount}}</div>
+        {{#Website}}<div class="explore-details-property">Website</div><div class="explore-details-value">{{Website}}</div>{{/Website}}
+        {{#MemberCount}}<div class="explore-details-property">Teams</div><div class="explore-details-value">{{MemberCount}}</div>{{/MemberCount}}
+        {{#Description}}<div class="explore-details-property">Description</div><div class="explore-details-value">{{Description}}</div>{{/Description}}
     </div>
     <div class="view-organisation">
-        <button value="View" class="view-organisation-button">View this Organisation</button>
+        <button value="View" class="view-organisation-button">View Organisation</button>
     </div>
 </div>

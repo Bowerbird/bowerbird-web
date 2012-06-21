@@ -13,6 +13,7 @@ function ($, _, Backbone, app, ProjectLayoutView, ProjectFormLayoutView, Project
     var ProjectRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
             'projects/explore': 'showProjectExplorer',
+            'projects/join': 'joinProject',
             'projects/:id/update': 'showProjectForm',
             'projects/create': 'showProjectForm',
             'projects/:id': 'showProjectStream'

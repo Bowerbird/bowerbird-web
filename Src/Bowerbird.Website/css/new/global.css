@@ -2026,7 +2026,7 @@ li.chat-message .message-text
     
     vertical-align:top;
 }*/
-}*/
+
 
 /*--- EXPLORE ---*/
 .explore-list
@@ -2043,6 +2043,10 @@ ul.explore-groups
 }
 .explore-item .explore-summary 
 {
+    background-image: url("/img/carbon_fibre.png");
+    border: 2px solid #AABBCC;
+    color: white;
+    height: 60px;
     margin: 5px;
 }
 .explore-item .explore-summary .explore-avatar img
@@ -2054,25 +2058,60 @@ ul.explore-groups
 }
 .explore-item .explore-summary .explore-name
 {
-    margin: 5px;
+    display: inline-block;
+    height: 48px;
+    margin-top: 5px;
+    overflow: hidden;
+    padding: 0;
     vertical-align: top;
+    width: 115px;
+    font-weight:bold;
 }
 
 .explore-item .explore-details
 {
+    background-color: #EEEEFF;
+    border: 2px solid #DDEEEE;
+    height: 170px;
     margin: 5px;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 2px 0 #143658 inset;
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
-.explore-item .explore-details-property
+.explore-item .explore-details .explore-details-property
 {
-    margin: 5px;
+    color: #AAAAAA;
+    display: inline-block;
+    font-size: 0.8em;
+    line-height: 10px;
+    margin: 0;
+    padding: 0 5px;
 }
-.explore-item .explore-details-value
+.explore-item .explore-details .explore-details-value
 {
-    margin: 5px;
+    /*height: 12px;
+    line-height: 15px;*/
+    margin-left: 5px;
+    font-size: 0.9em;
 }
-.explore-item .join-project
+.explore-item .join-project,
+.explore-item .view-team,
+.explore-item .view-project,
+.explore-item .view-organisation
 {
-    
+    display: inline-block;
+    margin-left: 5px;
+}
+.explore-item .join-project-button,
+.explore-item .view-team-button,
+.explore-item .view-project-button,
+.explore-item .view-organisation-button
+{
+    height: 40px;
+    width: 190px; 
+    font-size:1.2em;
+    color:#133A68;
 }
 div.explore-item
 {
@@ -2088,4 +2127,27 @@ div.explore-item
 div.explore-item:hover
 {
     box-shadow: 0 8px 18px 0 #5071EE;
+}
+div.click-to-explore:hover
+{
+    display:block;
+    position:absolute;
+    background-color:White;
+    height:300px;
+    width:200px;
+    margin:5px;
+    vertical-align:middle;
+    text-align:center;
+}
+div.click-to-explore
+{
+    position:absolute;
+    display:none;
+    background-color:White;
+    height:290px;
+    width:190px;
+    margin:5px;
+    vertical-align:middle;
+    text-align:center;
+    z-index:1000;
 }

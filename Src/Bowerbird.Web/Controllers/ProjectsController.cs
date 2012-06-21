@@ -490,30 +490,45 @@ namespace Bowerbird.Web.Controllers
                 .Query<All_Users.Result, All_Users>()
                 .AsProjection<All_Users.Result>()
                 .Where(x => x.UserId == userId)
-                .ToList()
-                .SelectMany(x => x.Members.Where(y => y.Group.GroupType == "team").Select(y => y.Group.Id));
+                .ToList();
 
-            var teams = _documentSession.Load<Team>(teamIds);
+            DebugToClient("SERVER: ProjectsController/GetTeams");
+            DebugToClient("-----------------------------------");
 
-            var project = _documentSession.Load<Project>("projects/" + projectId);
-            Func<Team, bool> isSelected = null;
+            DebugToClient(teamIds);
 
-            if (project != null)
+            if (teamIds.Count > 0)
             {
-                isSelected = x => { return project.Ancestry.Any(y => y.Id == x.Id); };
-            }
-            else
-            {
-                isSelected = x => { return false; };
-            }
+                var teamIdsToQuery = teamIds.SelectMany(x => x.Members.Where(y => y.Group.GroupType == "team").Select(y => y.Group.Id));
 
-            return from team in teams
-                   select new
-                   {
-                       Text = team.Name,
-                       Value = team.ShortId(),
-                       Selected = isSelected(team)
-                   };
+                DebugToClient(teamIdsToQuery);
+
+                var teams = _documentSession.Load<Team>(teamIdsToQuery);
+
+                var project = _documentSession.Load<Project>("projects/" + projectId);
+                Func<Team, bool> isSelected = null;
+
+                if (project != null)
+                {
+                    isSelected = x => { return project.Ancestry.Any(y => y.Id == x.Id); };
+                }
+                else
+                {
+                    isSelected = x => { return false; };
+                }
+
+                return from team in teams
+                       select new
+                                  {
+                                      Text = team.Name,
+                                      Value = team.ShortId(),
+                                      Selected = isSelected(team)
+                                  };
+            }
+            else // user doesn't have any teams yet
+            {
+                return null;
+            }
         }
 
         #endregion
