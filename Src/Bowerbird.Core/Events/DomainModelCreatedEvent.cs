@@ -17,7 +17,7 @@ using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Core.Events
 {
-    public class DomainModelCreatedEvent<T> : DomainEventBase where T : DomainModel
+    public class DomainModelCreatedEvent<T> : DomainEventBase
     {
         #region Members
 

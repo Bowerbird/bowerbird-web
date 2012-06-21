@@ -12,9 +12,11 @@
  
 */
 
+using System;
+
 namespace Bowerbird.Core.Commands
 {
-    public class GroupChatSessionDeleteCommand : ICommand
+    public class ChatCreateCommand : ICommand
     {
         #region Fields
 
@@ -26,9 +28,15 @@ namespace Bowerbird.Core.Commands
 
         #region Properties
 
-        public string ClientId { get; set; }
+        public string CreatedByUserId { get; set; }
 
-        public string GroupId { get; set; }
+        public string[] UserIds { get; set; }
+
+        public string ChatId { get; set; }
+
+        public DateTime CreatedDateTime { get; set; }
+
+        public string Message { get; set; }
 
         #endregion
 

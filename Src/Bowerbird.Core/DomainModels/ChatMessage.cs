@@ -18,7 +18,7 @@ using Bowerbird.Core.DomainModels.DenormalisedReferences;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public abstract class Session : ValueObject
+    public class ChatMessage : DomainModel
     {
         #region Fields
 
@@ -26,23 +26,20 @@ namespace Bowerbird.Core.DomainModels
 
         #region Constructors
 
-        protected Session()
+        protected ChatMessage()
         {
         }
 
-        protected Session(
+        public ChatMessage(
             User user,
-            string clientId
-            )
+            DateTime timestamp,
+            string message)
         {
             Check.RequireNotNull(user, "user");
-            Check.RequireNotNullOrWhitespace(clientId, "clientId");
 
             User = user;
-            ClientId = clientId;
-            CreatedDateTime = DateTime.UtcNow;
-            
-            SetDetails((int)Connection.ConnectionStatus.Online);
+            Timestamp = timestamp;
+            Message = message;
         }
 
         #endregion
@@ -51,25 +48,13 @@ namespace Bowerbird.Core.DomainModels
 
         public DenormalisedUserReference User { get; private set; }
 
-        public string ClientId { get; private set; }
+        public DateTime Timestamp { get; private set; }
 
-        public DateTime CreatedDateTime { get; private set; }
-
-        public int Status { get; private set; }
-
+        public string Message { get; private set; }
+        
         #endregion
 
         #region Methods
-
-        protected void SetDetails(int status)
-        {
-            Status = status;
-        }
-
-        public void UpdateDetails(int status)
-        {
-            SetDetails(status);
-        }
 
         #endregion
     }

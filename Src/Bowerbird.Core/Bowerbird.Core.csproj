@@ -54,7 +54,7 @@
       <HintPath>..\..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Json.4.5.6\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\packages\Newtonsoft.Json.4.5.7\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NLog.2.0.0.2000\lib\net40\NLog.dll</HintPath>
@@ -73,6 +73,9 @@
     <Reference Include="Raven.Client.MvcIntegration, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\RavenDB.Client.MvcIntegration.1.2.2010-Unstable\lib\net40\Raven.Client.MvcIntegration.dll</HintPath>
+    </Reference>
+    <Reference Include="SignalR">
+      <HintPath>..\..\packages\SignalR.Server.0.5.0\lib\net40\SignalR.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -98,13 +101,9 @@
     <Compile Include="CommandHandlers\ReferenceSpeciesUpdateCommandHandler.cs" />
     <Compile Include="Config\Email.cs" />
     <Compile Include="Config\SetupTestData.cs" />
-    <Compile Include="CommandHandlers\GroupChatMessageCreateCommandHandler.cs" />
-    <Compile Include="CommandHandlers\GroupChatSessionCreateCommandHandler.cs" />
-    <Compile Include="CommandHandlers\GroupChatSessionDeleteCommandHandler.cs" />
-    <Compile Include="CommandHandlers\GroupChatSessionUpdateCommandHandler.cs" />
-    <Compile Include="CommandHandlers\PrivateChatSessionCreateCommandHandler.cs" />
-    <Compile Include="CommandHandlers\PrivateChatSessionDeleteCommandHandler.cs" />
-    <Compile Include="CommandHandlers\PrivateChatSessionUpdateCommandHandler.cs" />
+    <Compile Include="CommandHandlers\ChatCreateCommandHandler.cs" />
+    <Compile Include="CommandHandlers\ChatDeleteCommandHandler.cs" />
+    <Compile Include="CommandHandlers\ChatUpdateCommandHandler.cs" />
     <Compile Include="CommandHandlers\SpeciesCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\SpeciesDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\SpeciesUpdateCommandHandler.cs" />
@@ -115,7 +114,7 @@
     <Compile Include="CommandHandlers\OrganisationCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\OrganisationDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\OrganisationUpdateCommandHandler.cs" />
-    <Compile Include="CommandHandlers\PrivateChatMessageCreateCommandHandler.cs" />
+    <Compile Include="CommandHandlers\ChatMessageCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\UserUpdateCommandHandler.cs" />
     <Compile Include="CommandHandlers\ObservationNoteCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\UserUpdatePasswordCommandHandler.cs" />
@@ -161,14 +160,10 @@
     <Compile Include="Commands\ReferenceSpeciesCreateCommand.cs" />
     <Compile Include="Commands\ReferenceSpeciesUpdateCommand.cs" />
     <Compile Include="Commands\ActivityCreatedCommand.cs" />
-    <Compile Include="Commands\GroupChatMessageCreateCommand.cs" />
-    <Compile Include="Commands\GroupChatSessionCreateCommand.cs" />
-    <Compile Include="Commands\GroupChatSessionUpdateCommand.cs" />
-    <Compile Include="Commands\GroupChatSessionDeleteCommand.cs" />
-    <Compile Include="Commands\PrivateChatMessageCreateCommand.cs" />
-    <Compile Include="Commands\PrivateChatSessionCreateCommand.cs" />
-    <Compile Include="Commands\PrivateChatSessionDeleteCommand.cs" />
-    <Compile Include="Commands\PrivateChatSessionUpdateCommand.cs" />
+    <Compile Include="Commands\ChatMessageCreateCommand.cs" />
+    <Compile Include="Commands\ChatCreateCommand.cs" />
+    <Compile Include="Commands\ChatDeleteCommand.cs" />
+    <Compile Include="Commands\ChatUpdateCommand.cs" />
     <Compile Include="Commands\SpeciesCreateCommand.cs" />
     <Compile Include="Commands\SpeciesDeleteCommand.cs" />
     <Compile Include="Commands\SpeciesUpdateCommand.cs" />
@@ -214,6 +209,7 @@
     <Compile Include="DomainModels\BaseObject.cs" />
     <Compile Include="DomainModels\BaseObjectEqualityComparer.cs" />
     <Compile Include="DomainModels\CommentsComponent.cs" />
+    <Compile Include="DomainModels\ChatMessage.cs" />
     <Compile Include="DomainModels\IDiscussed.cs" />
     <Compile Include="DomainModels\DenormalisedReferences\DenormalisedRoleReference.cs" />
     <Compile Include="DomainModels\FollowUser.cs" />
@@ -221,16 +217,13 @@
     <Compile Include="DomainModels\DenormalisedReferences\DenormalisedObservationNoteReference.cs" />
     <Compile Include="DomainModels\IContribution.cs" />
     <Compile Include="DomainModels\IOwnable.cs" />
+    <Compile Include="DomainModels\Chat.cs" />
     <Compile Include="DomainModels\ReferenceSpecies.cs" />
     <Compile Include="DomainModels\Species.cs" />
     <Compile Include="DomainModels\UserProject.cs" />
-    <Compile Include="DomainModels\PrivateChatMessage.cs" />
-    <Compile Include="DomainModels\GroupChatMessage.cs" />
-    <Compile Include="DomainModels\Session.cs" />
     <Compile Include="DomainModels\Comment.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DomainModels\Sessions\GroupChatSession.cs" />
     <Compile Include="DomainModels\ObservationMedia.cs" />
     <Compile Include="DomainModels\DenormalisedReferences\DenormalisedMemberReference.cs" />
     <Compile Include="DomainModels\DomainSignatureAttribute.cs" />
@@ -241,20 +234,10 @@
     <Compile Include="DomainModels\Member.cs" />
     <Compile Include="DomainModels\DenormalisedReferences\DenormalisedGroupReference.cs" />
     <Compile Include="DomainModels\ObservationNote.cs" />
-    <Compile Include="DomainModels\Sessions\PrivateChatSession.cs" />
-    <Compile Include="DomainModels\Sessions\UserSession.cs" />
     <Compile Include="DomainModels\Status.cs" />
+    <Compile Include="DomainModels\UserSession.cs" />
     <Compile Include="DomainModels\ValueObject.cs" />
     <Compile Include="DomainModels\Watchlist.cs" />
-    <Compile Include="EventHandlers\ActivityUserJoinedGroup.cs" />
-    <Compile Include="EventHandlers\ActivityObservationAdded.cs" />
-    <Compile Include="EventHandlers\ActivityGroupAdded.cs" />
-    <Compile Include="EventHandlers\ActivityPostAdded.cs" />
-    <Compile Include="EventHandlers\ActivityObservationNoteAdded.cs" />
-    <Compile Include="EventHandlers\ActivityCommentAdded.cs" />
-    <Compile Include="EventHandlers\ActivityUserLoggedIn.cs" />
-    <Compile Include="EventHandlers\DomainEventHandlerBase.cs" />
-    <Compile Include="EventHandlers\SendRequestPasswordResetEmail.cs" />
     <Compile Include="Events\DomainEventBase.cs" />
     <Compile Include="Events\DomainModelCreatedEvent.cs" />
     <Compile Include="Events\GroupAssociationCreatedEvent.cs" />
@@ -290,7 +273,6 @@
     <Compile Include="Events\EventProcessor.cs" />
     <Compile Include="Events\IDomainEvent.cs" />
     <Compile Include="EventHandlers\IEventHandler.cs" />
-    <Compile Include="EventHandlers\SendWelcomeEmail.cs" />
     <Compile Include="Events\RequestPasswordResetEvent.cs" />
     <Compile Include="Events\UserLoggedInEvent.cs" />
     <Compile Include="Extensions\CollectionExtensions.cs" />
@@ -304,7 +286,6 @@
     <Compile Include="Indexes\All_Groups.cs" />
     <Compile Include="Indexes\All_Chats.cs" />
     <Compile Include="Indexes\All_Users.cs" />
-    <Compile Include="Indexes\All_Sessions.cs" />
     <Compile Include="Indexes\All_ReferenceSpecies.cs" />
     <Compile Include="Indexes\All_Activities.cs" />
     <Compile Include="Paging\EnumerableExtensions.cs" />

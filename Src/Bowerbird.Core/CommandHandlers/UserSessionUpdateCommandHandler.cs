@@ -15,8 +15,10 @@
 using System.Linq;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.DomainModels.Sessions;
 using Raven.Client;
+using Raven.Client.Linq;
+using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Indexes;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -46,21 +48,21 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Methods
 
-        // todo: probably masking an error here
         public void Handle(UserSessionUpdateCommand command)
         {
             Check.RequireNotNull(command, "command");
 
-            var userSession = _documentSession.Query<UserSession>()
-                .Where(x => x.ClientId == command.ClientId)
-                .FirstOrDefault();
+            var user = _documentSession
+                .Query<All_Users.Result, All_Users>()
+                .AsProjection<All_Users.Result>()
+                .Where(x => x.ConnectionIds.Any(y => y == command.ConnectionId))
+                .ToList()
+                .First()
+                .User;
 
-            if (userSession != null)
-            {
-                userSession.UpdateDetails(command.LatestActivity, command.Status);
+            user.UpdateSessionLatestActivity(command.ConnectionId);
 
-                _documentSession.Store(userSession);
-            }
+            _documentSession.Store(user);
         }
 
         #endregion

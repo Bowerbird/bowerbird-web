@@ -181,10 +181,22 @@
     <Compile Include="Controllers\TeamsController.cs" />
     <Compile Include="Controllers\TemplatesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="EventHandlers\ActivityCommentAdded.cs" />
+    <Compile Include="EventHandlers\ActivityGroupAdded.cs" />
+    <Compile Include="EventHandlers\ActivityObservationAdded.cs" />
+    <Compile Include="EventHandlers\ActivityObservationNoteAdded.cs" />
+    <Compile Include="EventHandlers\ActivityPostAdded.cs" />
+    <Compile Include="EventHandlers\ActivityUserJoinedGroup.cs" />
+    <Compile Include="EventHandlers\ActivityUserSessionAdded.cs" />
+    <Compile Include="EventHandlers\DomainEventHandlerBase.cs" />
+    <Compile Include="EventHandlers\SendRequestPasswordResetEmail.cs" />
+    <Compile Include="EventHandlers\SendWelcomeEmail.cs" />
     <Compile Include="Factories\IFactory.cs" />
+    <Compile Include="Factories\IUserViewFactory.cs" />
     <Compile Include="Factories\StreamItemFactory.cs" />
+    <Compile Include="Factories\UserViewFactory.cs" />
     <Compile Include="Hubs\ChatHub.cs" />
-    <Compile Include="Hubs\ActivityHub.cs" />
+    <Compile Include="Hubs\GroupHub.cs" />
     <Compile Include="Config\HubContextAttribute.cs" />
     <Compile Include="Hubs\DebugHub.cs" />
     <Compile Include="Services\DebuggerService.cs" />
@@ -218,7 +230,7 @@
     <Compile Include="ViewModels\PagingInput.cs" />
     <Compile Include="ViewModels\StreamSortInput.cs" />
     <Compile Include="ViewModels\TeamUpdateInput.cs" />
-    <Compile Include="Hubs\NotificationHub.cs" />
+    <Compile Include="Hubs\UserHub.cs" />
     <Compile Include="Validators\UniqueEmailAttribute.cs" />
     <Compile Include="ViewModels\AccountRegisterInput.cs" />
     <Compile Include="ViewModels\AccountRequestPasswordResetInput.cs" />
@@ -251,6 +263,7 @@
       <Name>Bowerbird.Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

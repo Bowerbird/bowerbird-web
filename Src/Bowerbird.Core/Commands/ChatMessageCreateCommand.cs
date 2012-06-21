@@ -16,8 +16,9 @@ using System;
 
 namespace Bowerbird.Core.Commands
 {
-    public class PrivateChatSessionCreateCommand : ICommand
+    public class ChatMessageCreateCommand : ICommand
     {
+
         #region Fields
 
         #endregion
@@ -28,22 +29,19 @@ namespace Bowerbird.Core.Commands
 
         #region Properties
 
-        public string UserId { get; set; }
-
         public string ChatId { get; set; }
 
-        public string ClientId { get; set; }
+        public string UserId { get; set; }
 
-        public DateTime CreatedDateTime { get; set; }
+        public DateTime Timestamp { get; set; }
 
-        public DateTime LatestActivity { get; set; }
-
-        public int Status { get; set; }
+        public string Message { get; set; }
 
         #endregion
 
         #region Methods
 
         #endregion
+
     }
 }

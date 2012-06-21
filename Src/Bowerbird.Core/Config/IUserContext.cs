@@ -15,6 +15,7 @@
 */
 
 using Bowerbird.Core.DomainModels;
+using SignalR.Hubs;
 
 namespace Bowerbird.Core.Config
 {
@@ -28,6 +29,18 @@ namespace Bowerbird.Core.Config
         bool HasEmailCookieValue();
 
         string GetEmailCookieValue();
+
+        void SendActivityToGroupChannel(dynamic activity);
+
+        void AddAuthenticatedUserToUserChannel(string userId, string connectionId);
+
+        dynamic GetAuthenticatedUserChannel(string userId);
+
+        void AddAuthenticatedUserSessionToOnlineUsersChannel(string connectionId);
+
+        dynamic GetOnlinerUsersChannel();
+
+        dynamic GetGroupChannel(string groupId);
 
         void SignUserIn(string email, bool keepUserLoggedIn);
 

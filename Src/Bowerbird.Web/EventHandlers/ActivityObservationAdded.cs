@@ -18,8 +18,15 @@ using Bowerbird.Core.Services;
 using Raven.Client;
 using System.Dynamic;
 using System.IO;
+using Bowerbird.Core.EventHandlers;
+using Bowerbird.Web.Config;
+using Bowerbird.Web.Factories;
+using Bowerbird.Web.Builders;
+using SignalR.Hubs;
+using Bowerbird.Web.Hubs;
+using Bowerbird.Core.Config;
 
-namespace Bowerbird.Core.EventHandlers
+namespace Bowerbird.Web.EventHandlers
 {
     /// <summary>
     /// Logs an activity item when an observation is added. The situations in which this can occur are:
@@ -33,7 +40,9 @@ namespace Bowerbird.Core.EventHandlers
         #region Members
 
         private readonly IDocumentSession _documentSession;
-        private readonly INotificationService _notificationService;
+        private readonly IUserViewFactory _userViewFactory;
+        private readonly IUserViewModelBuilder _userViewModelBuilder;
+        private readonly IUserContext _userContext;
 
         #endregion
 
@@ -41,14 +50,20 @@ namespace Bowerbird.Core.EventHandlers
 
         public ActivityObservationAdded(
             IDocumentSession documentSession,
-            INotificationService notificationService
+            IUserViewFactory userViewFactory,
+            IUserViewModelBuilder userViewModelBuilder,
+            IUserContext userContext
             )
         {
             Check.RequireNotNull(documentSession, "documentSession");
-            Check.RequireNotNull(notificationService, "notificationService");
+            Check.RequireNotNull(userViewFactory, "userViewFactory");
+            Check.RequireNotNull(userViewModelBuilder, "userViewModelBuilder");
+            Check.RequireNotNull(userContext, "userContext");
 
             _documentSession = documentSession;
-            _notificationService = notificationService;
+            _userViewFactory = userViewFactory;
+            _userViewModelBuilder = userViewModelBuilder;
+            _userContext = userContext;
         }
 
         #endregion
@@ -73,7 +88,7 @@ namespace Bowerbird.Core.EventHandlers
             };
 
             _documentSession.Store(activity);
-            _notificationService.SendActivity(activity);
+            _userContext.SendActivityToGroupChannel(activity);
         }
 
         public void Handle(DomainModelCreatedEvent<ObservationGroup> domainEvent)
@@ -90,7 +105,7 @@ namespace Bowerbird.Core.EventHandlers
             };
 
             _documentSession.Store(activity);
-            _notificationService.SendActivity(activity);
+            _userContext.SendActivityToGroupChannel(activity);
         }
 
         private object MakeObservation(Observation observation)

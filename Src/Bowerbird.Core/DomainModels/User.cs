@@ -34,6 +34,8 @@ namespace Bowerbird.Core.DomainModels
         private List<DenormalisedMemberReference> _memberships;
         [JsonIgnore]
         private List<Watchlist> _watchlists;
+        [JsonIgnore]
+        private List<UserSession> _sessions;
         private const string _constantSalt = "nf@hskdhI&%dynm^&%";
 
         #endregion
@@ -103,6 +105,12 @@ namespace Bowerbird.Core.DomainModels
             private set { _watchlists = new List<Watchlist>(value); }
         }
 
+        public IEnumerable<UserSession> Sessions
+        {
+            get { return _sessions; }
+            private set { _sessions = new List<UserSession>(value); }
+        }
+
         #endregion
 
         #region Methods
@@ -116,6 +124,7 @@ namespace Bowerbird.Core.DomainModels
         {
             _memberships = new List<DenormalisedMemberReference>();
             _watchlists = new List<Watchlist>();
+            _sessions = new List<UserSession>();
         }
 
         private string GetHashedPassword(string password)
@@ -236,6 +245,38 @@ namespace Bowerbird.Core.DomainModels
             Check.RequireNotNullOrWhitespace(watchlistId, "watchlistId");
 
             _watchlists.RemoveAll(x => x.Id == watchlistId);
+
+            return this;
+        }
+
+        public User AddSession(string connectionId)
+        {
+            var session = new UserSession(connectionId);
+            
+            _sessions.Add(session);
+
+            FireEvent(new DomainModelCreatedEvent<UserSession>(session, this, this));
+
+            return this;
+        }
+
+        public User UpdateSessionLatestActivity(string connectionId)
+        {
+            var session = _sessions.SingleOrDefault(x => x.ConnectionId == connectionId);
+
+            if (session != null)
+            {
+                session.UpdateLatestActivity(DateTime.UtcNow);
+
+                FireEvent(new DomainModelUpdatedEvent<UserSession>(session, this, this));
+            }
+
+            return this;
+        }
+
+        public User RemoveSession(string connectionId)
+        {
+            _sessions.RemoveAll(x => x.ConnectionId == connectionId);
 
             return this;
         }

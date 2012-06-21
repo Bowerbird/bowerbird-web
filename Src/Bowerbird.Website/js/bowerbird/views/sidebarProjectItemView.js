@@ -33,7 +33,6 @@ function ($, _, Backbone, app, Project) {
             $(this.el).children('a').on('click', function (e) {
                 e.preventDefault();
                 app.groupUserRouter.navigate($(this).attr('href'));
-                //app.vent.trigger('project:show:stream', that.model.id);
                 return false;
             });
 
@@ -64,7 +63,7 @@ function ($, _, Backbone, app, Project) {
 
         startChat: function (e) {
             e.preventDefault();
-            app.vent.trigger('chats:startGroupChat', e.currentTarget.id.split("-")[1]);
+            app.vent.trigger('chats:joinGroupChat', this.model);
         },
 
         observationAdded: function (activity) {

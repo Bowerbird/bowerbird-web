@@ -15,14 +15,13 @@
 using System.Linq;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.Indexes;
 using Raven.Client;
 using Raven.Client.Linq;
+using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Core.CommandHandlers
 {
-    public class PrivateChatMessageCreateCommandHandler : ICommandHandler<PrivateChatMessageCreateCommand>
+    public class ChatUpdateCommandHandler : ICommandHandler<ChatUpdateCommand>
     {
         #region Fields
 
@@ -32,8 +31,9 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Constructors
 
-        public PrivateChatMessageCreateCommandHandler(
-            IDocumentSession documentSession)
+        public ChatUpdateCommandHandler(
+            IDocumentSession documentSession
+            )
         {
             Check.RequireNotNull(documentSession, "documentSession");
 
@@ -48,28 +48,28 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Methods
 
-        public void Handle(PrivateChatMessageCreateCommand command)
+        public void Handle(ChatUpdateCommand command)
         {
             Check.RequireNotNull(command, "command");
 
-            User targetUser = null;
+            var chat = _documentSession.Load<Chat>(command.ChatId);
 
-            if (!string.IsNullOrEmpty(command.TargetUserId))
+            var addUsers = _documentSession.Load<User>(command.AddUserIds);
+            foreach(var user in addUsers)
             {
-                targetUser = _documentSession.Load<User>(command.TargetUserId);
+                chat.AddUser(user);
             }
 
-            var chatMessage = new PrivateChatMessage(
-               _documentSession.Load<User>(command.UserId),
-               command.ChatId,
-               targetUser,
-               command.Message,
-               command.Timestamp
-                );
+            var removeUsers = _documentSession.Load<User>(command.RemoveUserIds);
+            foreach (var user in removeUsers)
+            {
+                chat.RemoveUser(user.Id);
+            }
 
-            _documentSession.Store(chatMessage);
+            _documentSession.Store(chat);
         }
 
         #endregion
+
     }
 }

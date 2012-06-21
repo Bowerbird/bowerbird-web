@@ -12,9 +12,9 @@
  
 */
 
-namespace Bowerbird.Core.DomainModels.Sessions
+namespace Bowerbird.Core.Commands
 {
-    public class GroupChatSession : Session
+    public class ChatDeleteCommand : ICommand
     {
         #region Fields
 
@@ -22,25 +22,11 @@ namespace Bowerbird.Core.DomainModels.Sessions
 
         #region Constructors
 
-        protected GroupChatSession()
-        {
-        }
-
-        public GroupChatSession(
-            User user,
-            string clientId,
-            string groupId
-            )
-            : base ( user, clientId)
-        {
-            GroupId = groupId;
-        }
-
         #endregion
 
         #region Properties
 
-        public string GroupId { get; private set; }
+        public string ChatId { get; set; }
 
         #endregion
 

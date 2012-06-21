@@ -21,6 +21,7 @@ using Bowerbird.Core.Services;
 using Bowerbird.Web.ViewModels;
 using Raven.Client;
 using Raven.Client.Linq;
+using Bowerbird.Web.Factories;
 
 namespace Bowerbird.Web.Builders
 {
@@ -29,7 +30,7 @@ namespace Bowerbird.Web.Builders
         #region Fields
 
         private readonly IDocumentSession _documentSession;
-        private readonly IMediaFilePathService _mediaFilePathService;
+        private readonly IUserViewFactory _userViewFactory;
 
         #endregion
 
@@ -37,14 +38,14 @@ namespace Bowerbird.Web.Builders
 
         public PostsViewModelBuilder(
             IDocumentSession documentSession,
-            IMediaFilePathService mediaFilePathService
+            IUserViewFactory userViewFactory
         )
         {
             Check.RequireNotNull(documentSession, "documentSession");
-            Check.RequireNotNull(mediaFilePathService, "mediaFilePathService");
+            Check.RequireNotNull(userViewFactory, "userViewFactory");
 
             _documentSession = documentSession;
-            _mediaFilePathService = mediaFilePathService;
+            _userViewFactory = userViewFactory;
         }
 
         #endregion
@@ -184,18 +185,8 @@ namespace Bowerbird.Web.Builders
 
         private object MakeUser(string userId)
         {
-            return MakeUser(_documentSession.Load<User>(userId));
-        }
-
-        private object MakeUser(User user)
-        {
-            return new
-            {
-                Avatar = user.Avatar,
-                user.Id,
-                user.LastLoggedIn,
-                Name = user.GetName()
-            };
+            // HACK: Massive N+1 problem right here
+            return _userViewFactory.Make(_documentSession.Load<User>(userId));
         }
 
         private object MakeComment(Comment comment)

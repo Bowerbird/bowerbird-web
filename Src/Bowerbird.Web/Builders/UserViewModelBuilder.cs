@@ -21,6 +21,7 @@ using Raven.Client.Linq;
 using System.Collections;
 using Bowerbird.Core.Config;
 using Bowerbird.Core.Factories;
+using Bowerbird.Web.Factories;
 
 namespace Bowerbird.Web.Builders
 {
@@ -30,7 +31,7 @@ namespace Bowerbird.Web.Builders
 
         private readonly IDocumentSession _documentSession;
         private readonly IUserContext _userContext;
-        private readonly IAvatarFactory _avatarFactory;
+        private readonly IUserViewFactory _userViewFactory;
 
         #endregion
 
@@ -39,15 +40,15 @@ namespace Bowerbird.Web.Builders
         public UserViewModelBuilder(
             IDocumentSession documentSession,
             IUserContext userContext,
-            IAvatarFactory avatarFactory)
+            IUserViewFactory userViewFactory)
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(userContext, "userContext");
-            Check.RequireNotNull(avatarFactory, "avatarFactory");
+            Check.RequireNotNull(userViewFactory, "userViewFactory");
 
             _documentSession = documentSession;
             _userContext = userContext;
-            _avatarFactory = avatarFactory;
+            _userViewFactory = userViewFactory;
         }
 
         #endregion
@@ -77,13 +78,7 @@ namespace Bowerbird.Web.Builders
 
             return new
             {
-                User = new
-                {
-                    user.Id,
-                    Avatar = user.Avatar,
-                    user.LastLoggedIn,
-                    Name = user.GetName()
-                },
+                User = _userViewFactory.Make(user),
                 Application = application,
                 Organisations = organisations,
                 Teams = teams,
@@ -96,9 +91,7 @@ namespace Bowerbird.Web.Builders
         {
             Check.RequireNotNull(idInput, "idInput");
 
-            var user = _documentSession.Load<User>(idInput.Id);
-
-            return MakeUser(user);
+            return _userViewFactory.Make(_documentSession.Load<User>(idInput.Id));
         }
 
         public object BuildUserList(PagingInput pagingInput)
@@ -112,117 +105,87 @@ namespace Bowerbird.Web.Builders
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
                 .ToList()
-                .Select(MakeUser)
+                .Select(_userViewFactory.Make)
                 .ToPagedList(
                     pagingInput.Page,
                     pagingInput.PageSize,
                     stats.TotalResults);
         }
 
-        /// <summary>
-        /// PagingInput.Id is User.Id where User is User being Followed
-        /// </summary>
-        public object BuildUsersFollowingList(PagingInput pagingInput)
+        ///// <summary>
+        ///// PagingInput.Id is User.Id where User is User being Followed
+        ///// </summary>
+        //public object BuildUsersFollowingList(PagingInput pagingInput)
+        //{
+        //    RavenQueryStatistics stats;
+
+        //    return _documentSession
+        //        .Query<FollowUser>()
+        //        .Where(x => x.UserToFollow.Id == pagingInput.Id)
+        //        .Include(x => x.UserToFollow.Id)
+        //        .Statistics(out stats)
+        //        .Skip(pagingInput.Page)
+        //        .Take(pagingInput.PageSize)
+        //        .ToList()
+        //        .Select(x => MakeUser(_documentSession.Load<User>(x.Id)))
+        //        .ToPagedList(
+        //            pagingInput.Page,
+        //            pagingInput.PageSize,
+        //            stats.TotalResults,
+        //            null);
+        //}
+
+        ///// <summary>
+        ///// PagingInput.Id is User.Id where User is the User following other
+        ///// </summary>
+        //public object BuildUsersBeingFollowedByList(PagingInput pagingInput)
+        //{
+        //    RavenQueryStatistics stats;
+
+        //    return _documentSession
+        //        .Query<FollowUser>()
+        //        .Where(x => x.Follower.Id == pagingInput.Id)
+        //        .Include(x => x.Follower.Id)
+        //        .Statistics(out stats)
+        //        .Skip(pagingInput.Page)
+        //        .Take(pagingInput.PageSize)
+        //        .ToList()
+        //        .Select(x => MakeUser(_documentSession.Load<User>(x.Id)))
+        //        .ToPagedList(
+        //            pagingInput.Page,
+        //            pagingInput.PageSize,
+        //            stats.TotalResults,
+        //            null);
+        //}
+
+        public object BuildOnlineUsers()
         {
-            RavenQueryStatistics stats;
-
-            return _documentSession
-                .Query<FollowUser>()
-                .Where(x => x.UserToFollow.Id == pagingInput.Id)
-                .Include(x => x.UserToFollow.Id)
-                .Statistics(out stats)
-                .Skip(pagingInput.Page)
-                .Take(pagingInput.PageSize)
-                .ToList()
-                .Select(x => MakeUser(_documentSession.Load<User>(x.Id)))
-                .ToPagedList(
-                    pagingInput.Page,
-                    pagingInput.PageSize,
-                    stats.TotalResults,
-                    null);
-        }
-
-        /// <summary>
-        /// PagingInput.Id is User.Id where User is the User following other
-        /// </summary>
-        public object BuildUsersBeingFollowedByList(PagingInput pagingInput)
-        {
-            RavenQueryStatistics stats;
-
-            return _documentSession
-                .Query<FollowUser>()
-                .Where(x => x.Follower.Id == pagingInput.Id)
-                .Include(x => x.Follower.Id)
-                .Statistics(out stats)
-                .Skip(pagingInput.Page)
-                .Take(pagingInput.PageSize)
-                .ToList()
-                .Select(x => MakeUser(_documentSession.Load<User>(x.Id)))
-                .ToPagedList(
-                    pagingInput.Page,
-                    pagingInput.PageSize,
-                    stats.TotalResults,
-                    null);
-        }
-
-        public IEnumerable BuildOnlineUsers()
-        {
-            var connectedUserIds = _documentSession
-                .Query<All_Sessions.Results, All_Sessions>()
-                .AsProjection<All_Sessions.Results>()
-                .Include(x => x.UserId)
-                .Where(x => x.Status < (int) Connection.ConnectionStatus.Offline && x.LatestActivity > DateTime.UtcNow.AddHours(-1))
-                .ToList()
-                .Select(x => x.UserId)
-                .Distinct();
+            // Return connected users (those users active less than 5 minutes ago)
+            var fiveMinutesAgo = DateTime.UtcNow - TimeSpan.FromMinutes(5);
 
             return _documentSession
                 .Query<All_Users.Result, All_Users>()
-                .Where(x => x.UserId.In(connectedUserIds))
-                .AsProjection<All_Users.Result>()
+                .Where(x => x.LatestActivity.Any(y => y < fiveMinutesAgo))
                 .ToList()
-                .Select(x => MakeUser(x.User));
+                .Select(x => _userViewFactory.Make(x.User));
+
+
+            //var connectedUserIds = _documentSession
+            //    .Query<All_Sessions.Results, All_Sessions>()
+            //    .AsProjection<All_Sessions.Results>()
+            //    .Include(x => x.UserId)
+            //    .Where(x => x.Status < (int) Connection.ConnectionStatus.Offline && x.LatestActivity > DateTime.UtcNow.AddHours(-1))
+            //    .ToList()
+            //    .Select(x => x.UserId)
+            //    .Distinct();
+
+            //return _documentSession
+            //    .Query<All_Users.Result, All_Users>()
+            //    .Where(x => x.UserId.In(connectedUserIds))
+            //    .AsProjection<All_Users.Result>()
+            //    .ToList()
+            //    .Select(x => _userViewFactory.Make(x.User));
         }
-
-        //private object MakeUser(string userId)
-        //{
-        //    return MakeUser(_documentSession.Load<User>(userId));
-        //}
-
-        private object MakeUser(User user)
-        {
-            return new
-            {
-                user.Id,
-                Avatar = user.Avatar,
-                user.LastLoggedIn,
-                Name = user.GetName()
-            };
-        }
-
-        ////TODO: Change this method to query the All_Groups index.
-        //private object MakeUser(All_Users.ClientResult user)
-        //{
-        //    Check.RequireNotNull(user, "user");
-
-        //    // grab the user's groups
-        //    var userGroups = _documentSession
-        //        .Query<All_Groups.Result, All_Groups>()
-        //        .AsProjection<All_Groups.ClientResult>()
-        //        .Where(x => x.Group.Id.In(user.Memberships.Select(y => y.Id)))
-        //        .ToList();
-
-        //    // make and return the user
-        //    return new
-        //    {
-        //        Avatar = _avatarFactory.Make(user.User),
-        //        user.User.Id,
-        //        user.User.LastLoggedIn,
-        //        Name = user.User.GetName()
-        //        //Projects = userGroups.Where(x => x.GroupType == "project").Select(MakeProject),
-        //        //Teams = userGroups.Where(x => x.GroupType == "team").Select(MakeTeam)
-        //    };
-        //}
 
         private object MakeMember(Member member)
         {
@@ -276,20 +239,6 @@ namespace Bowerbird.Web.Builders
                 MemberCount = result.MemberIds.Count()
             };
         }
-
-        //public object MakeTeam(All_Groups.ClientResult team)
-        //{
-        //    return new
-        //    {
-        //        Id = team.GroupId,
-        //        team.Team.Name,
-        //        team.Team.Description,
-        //        team.Team.Website,
-        //        Avatar = _avatarFactory.Make(team.Team),
-        //        Memberships = team.Memberships.Count(),
-        //        Projects = 0
-        //    };
-        //}
 
         #endregion
     }

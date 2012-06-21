@@ -13,10 +13,11 @@
 */
 
 using System;
+using Bowerbird.Core.DomainModels.DenormalisedReferences;
 
-namespace Bowerbird.Core.DomainModels.Sessions
+namespace Bowerbird.Core.DomainModels
 {
-    public class UserSession : Session
+    public class UserSession
     {
         #region Fields
 
@@ -24,26 +25,25 @@ namespace Bowerbird.Core.DomainModels.Sessions
 
         #region Constructors
 
-        protected UserSession()
-        {
-        }
+        protected UserSession() { }
 
         public UserSession(
-            User user,
-            string clientId
-            )
-            : base(user, clientId)
+            string connectionId)
+            : this()
         {
-            LatestActivity = DateTime.UtcNow;
+            ConnectionId = connectionId;
+            CreatedDateTime = DateTime.UtcNow;
 
-            SetDetails(
-                DateTime.UtcNow,
-                (int)Connection.ConnectionStatus.Online);
+            SetDetails(DateTime.UtcNow);
         }
 
         #endregion
 
         #region Properties
+
+        public string ConnectionId { get; private set; }
+
+        public DateTime CreatedDateTime { get; private set; }
 
         public DateTime LatestActivity { get; private set; }
 
@@ -51,17 +51,14 @@ namespace Bowerbird.Core.DomainModels.Sessions
 
         #region Methods
 
-        private void SetDetails(DateTime latestActivity, int status)
+        private void SetDetails(DateTime latestActivity)
         {
             LatestActivity = latestActivity;
-            base.SetDetails(status);
         }
 
-        public void UpdateDetails(
-            DateTime latestActivity,
-            int status)
+        public void UpdateLatestActivity(DateTime latestActivity)
         {
-            SetDetails(latestActivity,status);
+            SetDetails(latestActivity);
         }
 
         #endregion

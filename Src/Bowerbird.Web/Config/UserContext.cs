@@ -37,6 +37,8 @@ namespace Bowerbird.Web.Config
 
         private readonly IDocumentSession _documentSession;
         private readonly IPermissionChecker _permissionChecker;
+        private readonly IHubContext _userHub;
+        private readonly IHubContext _groupHub;
 
         #endregion
 
@@ -44,13 +46,19 @@ namespace Bowerbird.Web.Config
 
         public UserContext(
             IDocumentSession documentSession,
-            IPermissionChecker permissionChecker)
+            IPermissionChecker permissionChecker,
+            [HubContext(typeof(UserHub))] IHubContext userHub,
+            [HubContext(typeof(GroupHub))] IHubContext groupHub)
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(permissionChecker, "permissionChecker");
+            Check.RequireNotNull(userHub, "userHub");
+            Check.RequireNotNull(groupHub, "groupHub");
 
             _documentSession = documentSession;
             _permissionChecker = permissionChecker;
+            _userHub = userHub;
+            _groupHub = groupHub;
         }
 
         #endregion
@@ -79,6 +87,39 @@ namespace Bowerbird.Web.Config
         public string GetEmailCookieValue()
         {
             return GetCookie(Constants.EmailCookieName).Value;
+        }
+
+        public void SendActivityToGroupChannel(dynamic activity)
+        {
+            foreach (var group in activity.Groups)
+            {
+                _groupHub.Clients["group-" + group.Id].newActivity(activity);
+            }
+        }
+
+        public void AddAuthenticatedUserToUserChannel(string userId, string connectionId)
+        {
+            _userHub.Groups.Add(connectionId, "user-" + userId);
+        }
+
+        public dynamic GetAuthenticatedUserChannel(string userId)
+        {
+            return _userHub.Clients["user-" + userId];
+        }
+
+        public void AddAuthenticatedUserSessionToOnlineUsersChannel(string connectionId)
+        {
+            _userHub.Groups.Add(connectionId, "online-users");
+        }
+
+        public dynamic GetOnlinerUsersChannel()
+        {
+            return _userHub.Clients["online-users"];
+        }
+
+        public dynamic GetGroupChannel(string groupId)
+        {
+            return _groupHub.Clients["group-" + groupId];
         }
 
         public void SignUserIn(string email, bool keepUserLoggedIn)

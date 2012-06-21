@@ -16,7 +16,7 @@ using System;
 
 namespace Bowerbird.Core.Commands
 {
-    public class GroupChatSessionUpdateCommand : ICommand
+    public class ChatUpdateCommand : ICommand
     {
         #region Fields
 
@@ -28,15 +28,11 @@ namespace Bowerbird.Core.Commands
 
         #region Properties
 
-        public string ClientId { get; set; }
-        
-        public string UserId { get; set; }
-        
-        public string GroupId { get; set; }
+        public string ChatId { get; set; }
 
-        public DateTime LastActivity { get; set; }
+        public string[] AddUserIds { get; set; }
 
-        public int Status { get; set; }
+        public string[] RemoveUserIds { get; set; }
 
         #endregion
 

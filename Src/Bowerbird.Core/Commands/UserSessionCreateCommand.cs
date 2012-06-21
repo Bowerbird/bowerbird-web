@@ -30,13 +30,11 @@ namespace Bowerbird.Core.Commands
 
         public string UserId { get; set; }
 
-        public string ClientId { get; set; }
+        public string ConnectionId { get; set; }
 
         public DateTime CreatedDateTime { get; set; }
 
         public DateTime LatestActivity { get; set; }
-
-        public int Status { get; set; }
 
         #endregion
 

@@ -15,7 +15,6 @@
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.DomainModels.Sessions;
 using Raven.Client;
 
 namespace Bowerbird.Core.CommandHandlers
@@ -50,12 +49,11 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(command, "command");
 
-            var userSession = new UserSession(
-                _documentSession.Load<User>(command.UserId),
-                command.ClientId
-                );
+            var user = _documentSession.Load<User>(command.UserId);
 
-            _documentSession.Store(userSession);
+            user.AddSession(command.ConnectionId);
+
+            _documentSession.Store(user);
         }
 
         #endregion

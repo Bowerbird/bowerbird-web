@@ -42,48 +42,48 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
                 return p === permissionId;
             });
         };
+    };
 
-        app.vent.on('newactivity:groupadded', function (activity) {
-            var group = activity.get('GroupAdded').Group;
+    app.vent.on('newactivity:groupadded', function (activity) {
+        var group = activity.get('GroupAdded').Group;
+        if (group.GroupType === 'project') {
+            app.vent.trigger('projectAdded:', group);
+            if (group.User.Id == app.authenticatedUser.user.id) {
+                app.authenticatedUser.projects.add(group);
+            }
+        }
+        if (group.GroupType === 'team') {
+            app.vent.trigger('teamAdded:', group);
+            if (group.User.Id == app.authenticatedUser.user.id) {
+                app.authenticatedUser.teams.add(group);
+            }
+        }
+        if (group.GroupType === 'organisation') {
+            app.vent.trigger('organisationAdded:', group);
+            if (group.User.Id == app.authenticatedUser.user.id) {
+                app.authenticatedUser.organisations.add(group);
+            }
+        }
+
+    }, this);
+
+    // WORKS WITHOUT THIS ON EXISTING PROJECT (NOT NEWLY STREAMED ONE)
+    app.vent.on('newactivity:userjoinedgroup', function (activity) {
+        var group = activity.get('UserJoinedGroup').Group;
+        var user = activity.get('UserJoinedGroup').User;
+        if (user.id == app.authenticatedUser.user.id) {
             if (group.GroupType === 'project') {
-                app.vent.trigger('projectAdded:', group);
-                if (group.User.Id == app.authenticatedUser.user.id) {
-                    app.authenticatedUser.projects.add(group);
-                }
+                app.authenticatedUser.projects.add(group);
             }
             if (group.GroupType === 'team') {
-                app.vent.trigger('teamAdded:', group);
-                if (group.User.Id == app.authenticatedUser.user.id) {
-                    app.authenticatedUser.teams.add(group);
-                }
+                app.authenticatedUser.teams.add(group);
             }
+
             if (group.GroupType === 'organisation') {
-                app.vent.trigger('organisationAdded:', group);
-                if (group.User.Id == app.authenticatedUser.user.id) {
-                    app.authenticatedUser.organisations.add(group);
-                }
+                app.authenticatedUser.organisations.add(group);
             }
-
-        }, this);
-
-        // WORKS WITHOUT THIS ON EXISTING PROJECT (NOT NEWLY STREAMED ONE)
-        app.vent.on('newactivity:userjoinedgroup', function (activity) {
-            var group = activity.get('UserJoinedGroup').Group;
-            var user = activity.get('UserJoinedGroup').User;
-            if (user.id == app.authenticatedUser.user.id) {
-                if (group.GroupType === 'project') {
-                    app.authenticatedUser.projects.add(group);
-                }
-                if (group.GroupType === 'team') {
-                    app.authenticatedUser.teams.add(group);
-                }
-
-                if (group.GroupType === 'organisation') {
-                    app.authenticatedUser.organisations.add(group);
-                }
-            }
-        }, this);
-    };
+        }
+    }, this);
 
     app.addRegions({
         header: 'header',
@@ -91,8 +91,7 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
         sidebar: '#sidebar',
         content: '#content',
         notifications: '#notifications',
-        usersonline: '#onlineusers',
-        chatarea: '#chatarea'
+        usersonline: '#onlineusers'
     });
 
     app.isPrerendering = function (name) {
@@ -226,7 +225,7 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
                         }
                     }, memberships);
 
-                    $.connection.activityHub.registerUserClient(app.authenticatedUser.user.id)
+                        $.connection.userHub.registerUserClient(app.authenticatedUser.user.id)
                             .done(function () {
                                 log('Added user to hub');
                             })

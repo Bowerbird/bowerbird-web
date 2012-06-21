@@ -14,8 +14,9 @@ using System;
 using System.Collections.Generic;
 using Bowerbird.Core.Events;
 using Bowerbird.Core.DomainModels;
+using SignalR.Hubs;
 
-namespace Bowerbird.Core.EventHandlers
+namespace Bowerbird.Web.EventHandlers
 {
     public abstract class DomainEventHandlerBase
     {
@@ -33,7 +34,7 @@ namespace Bowerbird.Core.EventHandlers
 
         #region Methods
 
-        protected Activity MakeActivity<T>(DomainModelCreatedEvent<T> domainEvent, string type, string description, IEnumerable<dynamic> groups) where T: DomainModel
+        protected Activity MakeActivity<T>(T domainEvent, string type, string description, IEnumerable<dynamic> groups) where T : IDomainEvent
         {
             var now = DateTime.UtcNow;
 

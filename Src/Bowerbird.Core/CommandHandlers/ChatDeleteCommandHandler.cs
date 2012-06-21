@@ -11,16 +11,17 @@
  * Atlas of Living Australia
  
 */
-
+				
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.DomainModels.Sessions;
 using Raven.Client;
+using Raven.Client.Linq;
+using System.Linq;
+using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Core.CommandHandlers
 {
-    public class PrivateChatSessionCreateCommandHandler : ICommandHandler<PrivateChatSessionCreateCommand>
+    public class ChatDeleteCommandHandler : ICommandHandler<ChatDeleteCommand>
     {
         #region Fields
 
@@ -30,7 +31,7 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Constructors
 
-        public PrivateChatSessionCreateCommandHandler(
+        public ChatDeleteCommandHandler(
             IDocumentSession documentSession
             )
         {
@@ -47,17 +48,13 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Methods
 
-        public void Handle(PrivateChatSessionCreateCommand command)
+        public void Handle(ChatDeleteCommand command)
         {
             Check.RequireNotNull(command, "command");
 
-            var privateChatSession = new PrivateChatSession(
-                _documentSession.Load<User>(command.UserId),
-                command.ClientId,
-                command.ChatId
-                );
+            var chat = _documentSession.Load<Chat>(command.ChatId);
 
-            _documentSession.Store(privateChatSession);
+            _documentSession.Delete(chat);
         }
 
         #endregion

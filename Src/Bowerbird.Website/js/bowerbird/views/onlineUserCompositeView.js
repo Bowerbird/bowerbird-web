@@ -16,16 +16,25 @@ function ($, _, Backbone, app, UserItemView) {
 
         template: 'OnlineUserList',
 
-        className: 'onlineusers',
+        id: 'online-users',
 
-        regions: {
-            summary: '#online-user-summary',
-            users: '#online-users'
+        className: 'window collapsed',
+
+        events: {
+            'click .window-title-bar': 'toggleCollapsed'
         },
 
         initialize: function (options) {
             this.collection.on('add', this.updateUserCount, this);
             this.collection.on('remove', this.updateUserCount, this);
+        },
+
+        appendHtml: function (collectionView, itemView) {
+            collectionView.$el.find('ul').prepend(itemView.el);
+        },
+
+        onShow: function () {
+            $('body').append(this.el);
         },
 
         serializeData: function () {
@@ -35,7 +44,11 @@ function ($, _, Backbone, app, UserItemView) {
         },
 
         updateUserCount: function (model, collection) {
-            this.$el.find('#users-online').text(collection.length);
+            this.$el.find('.user-count').text(collection.length);
+        },
+
+        toggleCollapsed: function () {
+            this.$el.toggleClass('collapsed');
         }
     });
 

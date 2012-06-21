@@ -9,9 +9,8 @@
 // -------------------
 
 // Shows a message from a user in a chat window
-define(['jquery', 'underscore', 'backbone', 'app', 'models/chatmessage'],
-function ($, _, Backbone, app) 
-{
+define(['jquery', 'underscore', 'backbone', 'app', 'models/chatmessage', 'date'],
+function ($, _, Backbone, app) {
     var ChatMessageItemView = Backbone.Marionette.ItemView.extend({
 
         tagName: 'li',
@@ -22,8 +21,17 @@ function ($, _, Backbone, app)
 
         serializeData: function () {
             return {
-                Model: this.model.toJSON()
+                Model: {
+                    From: app.authenticatedUser.user.get('Name') === this.model.get('FromUser').Name ? 'me' : this.model.get('FromUser').Name,
+                    Message: this.model.get('Message').replace(/\n/g, '<br />'),
+                    Time: new Date(this.model.get('Timestamp')).toString('hh:mmtt'),
+                    Timestamp: new Date(this.model.get('Timestamp')).toString()
+                }
             };
+        },
+
+        onRender: function () {
+            app.vent.trigger('chats:itemview:added', this);
         }
     });
 

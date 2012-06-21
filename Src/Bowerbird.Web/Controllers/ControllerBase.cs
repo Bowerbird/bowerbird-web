@@ -53,12 +53,11 @@ namespace Bowerbird.Web.Controllers
 
                     ViewBag.AuthenticatedUser = authenticatedUser;
                     ViewBag.BootstrappedJson = JsonConvert.SerializeObject(new
-                    {
-                        AuthenticatedUser = authenticatedUser,
-                        OnlineUsers = userViewModelBuilder.BuildOnlineUsers(),
-                        Model = ViewBag.Model,
-                        PrerenderedView = ViewBag.PrerenderedView
-                    });
+                        {
+                            AuthenticatedUser = authenticatedUser,
+                            Model = ViewBag.Model,
+                            PrerenderedView = ViewBag.PrerenderedView
+                        });
                 }
                 else
                 {

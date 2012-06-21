@@ -1703,6 +1703,331 @@ color: #6997C5;
     padding: 3px 11px;
 }*/
 
+/*
+*
+* Chat & Users Online
+*
+*/
+/*.user-window
+{
+    background-color: white;
+    border: 1px solid black;
+    bottom: -180px;
+    height: auto;
+    min-height:200px;
+    max-height: 50%;
+    position: fixed;
+    right: 0;
+    width: 200px;
+    padding: 5px;
+}
+.user-window ul
+{
+    list-style-type: none;
+    padding-top: 5px;
+}*/
+.window
+{
+    background-color: #FFFFFF;
+    border-radius: 6px 6px 0 0;
+    box-shadow: 0 7px 7px 2px rgba(0, 0, 0, 0.5);
+    display: block;
+    position: fixed;
+}
+.window.collapsed .window-body
+{
+    display: none;
+}
+.window-title-bar 
+{
+    cursor: pointer;
+    -webkit-border-top-left-radius: 4px;
+    -webkit-border-top-right-radius: 4px;
+    -moz-border-radius-topleft: 4px;
+    -moz-border-radius-topright: 4px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    background-color: #94B5D6;
+    font-weight: 600;
+    text-decoration: none;
+    color: #FFFFFF;
+    text-shadow: 0 -1px 0 gray;
+    padding: 6px 10px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.window-close
+{
+    position:absolute;
+    right:0px;
+    top:0px;
+    width:20px;
+    height:20px;
+    background-image:url("/img/close.gif");
+    background-size:20px 20px;
+}
+#online-users
+{
+    bottom: 0;
+    left: 20px;
+    width: 280px;
+}
+#online-users .window-body
+{
+    height: 400px;
+}
+#online-users .online-users-list
+{
+    height: 356px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+#online-users .window-body > div
+{
+    background-color: #DFEAF6;
+    color: #6997C5;
+    font-size: 0.84em;
+    padding: 10px;
+    text-shadow: 0 1px 0 #FFFFFF;
+}
+#online-users .menu-group-item
+{
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #CFDDEB;
+    display: block;
+    position: relative;
+    list-style: none;
+    cursor: pointer;
+}
+#online-users .menu-group-item > .menu-item-body
+{
+    text-decoration: none;
+    background-color: #FFFFFF;
+    display: block;
+    height: 3.06667em;
+    overflow: hidden;
+}
+#online-users .menu-group-item img 
+{
+    display: block;
+    float: left;
+    margin-right: 13px;
+    height: 100%;
+}
+#online-users .menu-group-item:first-child img 
+{
+    border-radius: 4px 0 0 0;
+}
+#online-users .menu-group-item .menu-item-body > div
+{
+    display: table-cell;
+    height: 3.06666667em;
+    vertical-align: middle;
+}
+#online-users .menu-group-item .menu-item-body > div p
+{
+    line-height: 1.41em;
+    margin: 0;
+    overflow: hidden;
+    padding: 2px 2px 0 0;
+    color: #133A68;
+    font-size: 0.9375em;
+    font-weight: 600;    
+    /*letter-spacing: -0.019em;*/
+}
+#online-users .menu-group-item .menu-item-body > div p span
+{
+    background-image: -moz-linear-gradient(right bottom , #1E5707 33%, #3BAB24 79%);
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 2px 0 #5071A6;
+    color: white;
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 25px;
+    padding: 0 4px;
+    position: absolute;
+    top: 12px;
+    left: -7px;
+}
+#online-users #watch-menu-group .menu-group-item > .menu-item-body,
+#online-users #project-menu-group .menu-group-item > .menu-item-body,
+#online-users #team-menu-group .menu-group-item > .menu-item-body,
+#online-users #organisation-menu-group .menu-group-item > .menu-item-body
+{
+    margin-right: 30px;
+}
+#online-users .sub-menu-button
+{
+    border-bottom: 1px solid #CFDDEB;
+    border-bottom: medium none;
+    cursor: pointer;
+    height: 2.875em;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 30px;
+    border-bottom-right-radius: 4px;
+}
+#online-users .sub-menu-button > span
+{
+    background: url("/img/glyphicons-halflings-white.png") no-repeat scroll -456px -72px #CFDDEB;
+    border: 2px solid #CFDDEB;
+    border-radius: 10px 10px 10px 10px;
+    display: block;
+    height: 14px;
+    left: 2px;
+    position: relative;
+    top: 16px;
+    width: 14px;
+}
+#online-users .sub-menu-button:hover > span
+{
+    background: url("/img/glyphicons-halflings-white.png") no-repeat scroll -456px -72px #1B83EB;
+    border: 2px solid #1B83EB;
+}
+#online-users .sub-menu-button ul
+{
+    background-color: #FFFFFF;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.5);
+    display: none;
+    left: 24px;
+    position: relative;
+    top: -18px;
+    width: 210px;
+    z-index: 9;
+    padding: 0.01em 0;
+}
+#online-users .sub-menu-button.active ul
+{
+    display: block;
+}
+#online-users .sub-menu-button.active > span
+{
+    background: url("/img/glyphicons-halflings-white.png") no-repeat scroll -456px -72px #1B83EB;
+    border: 2px solid #1B83EB;
+}
+#online-users .sub-menu-button ul li
+{
+    list-style: none;
+    margin: 0.7em 0;
+}
+#online-users .sub-menu-button ul li a,
+#online-users .sub-menu-button ul li span
+{
+    color: #133A68;
+    display: block;
+    font-size: 0.9375em;
+    font-weight: 600;
+    padding: 0 14px;
+    text-decoration: none;
+}
+#online-users .sub-menu-button ul li.divider
+{
+    border-bottom: 1px solid #CFDDEB;
+}
+
+
+
+
+
+.chat
+{
+    bottom: 0;
+    width: 280px;
+}
+.chat .window-body
+{
+    height: 400px;
+}
+.chat .chat-messages
+{
+    border-bottom: 1px solid #CFDDEB;
+    height: 297px;
+    overflow-x: auto;
+    overflow-y: scroll;
+}
+.chat .chat-message 
+{
+    padding: 10px 10px 0;
+}
+.chat .chat-message-box
+{
+    background-color: #DFEAF6;
+    height: 92px;
+    padding: 0 10px 10px;
+}
+.chat .chat-message-box .status
+{
+    color: #6997C5;
+    font-size: 0.75em;
+    font-weight: 600;
+    height: 16px;
+    padding: 0 0 10px;
+    text-shadow: 0 1px 0 #FFFFFF;
+    width: 100%;
+}
+.chat .form textarea
+{
+    border-radius: 4px 0 0 4px;
+    float: left;
+    font-size: 0.8em;
+    height: 55px;
+    padding: 4px 6px;
+    width: 193px;
+}
+.chat .chat-send-message-button
+{
+    border-radius: 0 4px 4px 0;
+    float: left;
+    height: 65px;
+    margin: 0;
+    width: 52px;
+    padding: 0;
+}
+.chat .chat-message .user
+{
+    font-size: 0.9em;
+    font-weight: bold;
+}
+.chat .chat-message .timestamp
+{
+    color: #AAAAAA;
+    font-size: 0.7em;
+}
+.chat .chat-message .message
+{
+    display: block;
+    font-size: 0.9em;
+    line-height: 1.2em;
+}
+
+
+
+
+/*.chat-message
+{
+    width:100%;   
+    display:block;
+}
+li.chat-message .message-sender
+{
+    
+    overflow:hidden;
+    font-size:smaller;
+    font-style:italic;
+    min-width:20%;
+    max-width:20%;    
+}
+li.chat-message .message-text
+{
+    width:70%;   
+    
+    vertical-align:top;
+}*/
+}*/
+
 /*--- EXPLORE ---*/
 .explore-list
 {

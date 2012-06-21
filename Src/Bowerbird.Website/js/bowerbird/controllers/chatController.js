@@ -16,20 +16,24 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
         this.hub = $.connection.chatHub;
         this.controller = options.controller;
 
-        this.hub.chatMessageReceived = this.controller.chatMessageReceived;
-        this.hub.typing = this.controller.typing;
-        this.hub.userExitedChat = this.controller.userExitedChat;
-        this.hub.chatRequest = this.controller.chatRequest;
-        this.hub.userJoinedChat = this.controller.userJoinedChat;
-        this.hub.setupChat = this.controller.setupChat;
+        groupChatJoined
+        userJoinedChat
+        userIsTyping
+        chatMessageReceived
 
-        this.hub.debugToLog = this.controller.debugToLog;
+        this.hub.chatMessageReceived = chatMessageReceived;
+        this.hub.userJoinedChat = userJoinedChat;
+        this.hub.groupChatJoined = groupChatJoined;
+        this.hub.userExitedChat = userExitedChat;
+        this.hub.userIsTyping = userIsTyping;
+        this.hub.debugToLog = debugToLog;
     };
 
     var ChatController = {};
 
-    ChatController.hub = $.connection.chatHub;
+    var chatHub = $.connection.chatHub;
 
+    // Shows a chat by creating a new region
     var showChat = function (chatView) {
         var chatRegion = new ChatRegion({ chat: chatView.model });
         app.chatRegions.push(chatRegion);
@@ -37,139 +41,132 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
         return chatRegion;
     };
 
-    // ChatController Public API To HUB
-    //---------------------------------
-
-    app.vent.on('chats:startGroupChat', function (id) {
-        log('chats.startGroupChat with group: ' + id);
-        ChatController.joinChat(id);
-    });
-
-    app.vent.on('chats:startPrivateChat', function (id) {
-        log('chats.startPrivateChat with user: ' + id);
-        ChatController.joinChat(id);
-    });
-
-    app.vent.on('chats:sendMessage', function (chatId, message) {
-        //log('chatController:  chatId, message);
-        ChatController.sendMessage(chatId, message);
-    });
-
-    ChatController.debugToLog = function (message) {
-        log(message);
-    }
-
-    // join a group/private chat
-    ChatController.joinChat = function (id) {
-        log('chatController.joinChat: with ' + id);
-        if (app.chats.all(function (item) { return item.id != id }, this)) {
-            if (id.split('/')[0] == 'users') {// instanceof Bowerbird.Models.GroupChat) {
-                var chatId = ChatController.generateGuid();
-                var userId = id;
-                ChatController.hub.startChat(chatId, userId);
-            }
-            else { //instanceof Bowerbird.Models.UserChat) {
-                ChatController.hub.joinChat(id);
-            }
-        }
-    };
-
-    // leave a chat
-    ChatController.exitChat = function (chat) {
-        log('chatRouter.exitChat');
-        //this.trigger('chatEnded', chat);
-        // and the rest.... 
-        this.hub.exitChat(chat.Id);
-    };
-
-    // toggle typing
-    ChatController.typing = function (id, isTyping) {
-        log('chatRouter.typing');
-        this.hub.typing(id, isTyping);
-    };
-
-    // send a chat message
-    ChatController.sendMessage = function (chatId, message) {
-        log('chatController.sendMessage message:' + message + ' to: ' + chatId);
-        this.hub.sendChatMessage(chatId, message);
-    };
-
-    // ChatController Public API From HUB
-    // ----------------------------------
-
-    // add the chat to the chats collection
-    // create and show a new chat window
-    // push the list of users and messages into the chat
-    // data object has properties:, Title, Timestamp, Users[], Messages[]
-    ChatController.setupChat = function (data) {
-        log('chatController.setupChat', this, data);
-
-        var chatUsers = new UserCollection(data.Users);
-        var chatMessages = new ChatMessageCollection(data.Messages);
-        var chat = new Chat({ Id: data.ChatId, Title: data.Title }, { chatUsers: chatUsers, chatMessages: chatMessages });
-
-        app.chats.add(chat);
-        var chatView = new ChatCompositeView({ id: 'chat-' + data.ChatId, model: chat });
-        log(chatView);
-
-        showChat(chatView);
-    };
-
-    // create a new private chat
-    ChatController.chatRequest = function (data) {
-        log('chatController.chatRequest', this, data);
-
-        var chatUsers = new UserCollection(data.Users);
-        var chatMessages = new ChatMessageCollection(data.Messages);
-        var chat = new Chat({ Id: data.ChatId, Title: data.Title }, { chatUsers: chatUsers, chatMessages: chatMessages });
-
-        app.chats.add(chat);
-        var chatView = new ChatCompositeView({ id: 'chat-' + data.ChatId, model: chat });
-        log(chatView);
-
-        showChat(chatView);
-    };
-
-    // grab the chat from the chats collection
-    // if the user is in the chat, ignore otherwise add
-    ChatController.userJoinedChat = function (data) {
-        log('chatController.userJoinedChat', this, data);
-    };
-
-    // find the chat
-    // pop the message in the chat's message collection
-    ChatController.chatMessageReceived = function (data) {
-        log('chatController.chatMessageReceived', this, data);
-
-        // find the chat
-        var chat = app.chats.get(data.ChatId);
-
-
-        //chat.addChatMessage(data);
-        // add the message
-        chat.chatMessages.add(data);
-
-        //app.vent.trigger('newmessage:' + data.ChatId);
-    };
-
-    // change typing icon for this chat
-    ChatController.typing = function (data) {
-        log('chatController.typing', this, data);
-    };
-
-    // grab the chat from the chats collection
-    // if the user is in the chat, remove them
-    ChatController.userExitedChat = function (data) {
-        log('chatController.userExitedChat', this, data);
-    };
-
-    // used to generate an Guid for a private chat
-    ChatController.generateGuid = function () {
+    // Used to generate an Guid for a private chat
+    var generateGuid = function () {
         var S4 = function () {
             return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
         };
         return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
     };
+
+    // Hub Callbacks
+    // -------------
+
+    // Log info
+    var debugToLog = function (message) {
+        log(message);
+    }
+
+    // Group chat successfully joined
+    var groupChatJoined = function (data) {
+        var chat = app.chats.get(data.ChatId);
+        chat.chatUsers.add(data.Users);
+        chat.chatMessages.add(data.Messages);
+        var chatView = new ChatCompositeView({ id: 'chat-' + chat.id, model: chat });
+        showChat(chatView);
+    };
+
+    // User joined chat
+    var userJoinedChat = function (data) {
+
+    };
+
+    var setupOnlineUsers = function (onlineUsers) {
+        
+    };
+
+    // Chat message received ready to display
+    var chatMessageReceived = function (data) {
+        // Find the chat
+        var chat = app.chats.get(data.ChatId);
+
+        if (chat == null) {
+            var chatUsers = new UserCollection(data.Users);
+            var chatMessages = new ChatMessageCollection();
+            var chat = new Chat({ Id: data.ChatId }, { chatUsers: chatUsers, chatMessages: chatMessages });
+            app.chats.add(chat);
+            var chatView = new ChatCompositeView({ id: 'chat-' + data.ChatId, model: chat });
+            showChat(chatView);
+        }
+
+        // Add the message
+        chat.chatMessages.add(data);
+    };
+
+    // User is typing a message status
+    var userIsTyping = function (data) {
+
+    };
+
+    // User left a chat status
+    var userExitedChat = function (data) {
+
+    };
+
+    // ChatController Public API
+    // -------------------------
+
+    // Initiate a new private chat
+    ChatController.startNewPrivateChat = function (user) {
+        // Check to see if we have this user in a one-on-one private chat already
+        var chatExists = app.chats.any(function (c) {
+            return c.chatType() === 'private' && c.chatUsers.length == 2 && c.chatUsers.any(function (u) { return u.id === user.id }, this);
+        }, this);
+        if (app.authenticatedUser.user.id != user.id && !chatExists) {
+            var chatId = generateGuid();
+            var chatUsers = new UserCollection([app.authenticatedUser.user, user]);
+            var chatMessages = new ChatMessageCollection();
+            var chat = new Chat({ Id: chatId, User: user }, { chatUsers: chatUsers, chatMessages: chatMessages });
+            app.chats.add(chat);
+            var chatView = new ChatCompositeView({ id: 'chat-' + chatId, model: chat });
+            showChat(chatView);
+        }
+    };
+
+    // Join a group chat
+    ChatController.joinGroupChat = function (group) {
+        // Check to see if we have this user in a chat
+        var chatExists = app.chats.any(function (c) { return c.id == group.id; }, this);
+        if (!chatExists) {
+            var chatUsers = new UserCollection();
+            var chatMessages = new ChatMessageCollection();
+            var chat = new Chat({ Id: group.id, Group: group }, { chatUsers: chatUsers, chatMessages: chatMessages });
+            app.chats.add(chat);
+            // Subscribe user to chat
+            chatHub.joinChat(group.id);
+        }
+    };
+
+    // Leave a chat
+    ChatController.exitChat = function (chat) {
+        chatHub.exitChat(chat.Id);
+    };
+
+    // Send typing status to other users
+    ChatController.sendTypingStatus = function (id, isTyping) {
+        log('chatRouter.typing');
+        chatHub.typing(id, isTyping);
+    };
+
+    // Send a chat message
+    ChatController.sendChatMessage = function (chat, message) {
+        chatHub.sendChatMessage(chat.id, message, chat.chatUsers.pluck('Id'));
+    };
+
+    // ChatController Events
+    // ---------------------
+
+    app.vent.on('chats:joinGroupChat', function (group) {
+        ChatController.joinGroupChat(group);
+    });
+
+    app.vent.on('chats:startPrivateChat', function (user) {
+        ChatController.startNewPrivateChat(user);
+    });
+
+    app.vent.on('chats:sendMessage', function (chat, message) {
+        ChatController.sendChatMessage(chat, message);
+    });
 
     app.vent.on('chats:close', function (chat) {
         app.chats.remove(chat.id);

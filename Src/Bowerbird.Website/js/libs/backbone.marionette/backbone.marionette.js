@@ -250,7 +250,8 @@
 
       var viewRendered = view.render();
       $.when(viewRendered).then(function(){
-        that.appendHtml(that, view);
+          that.appendHtml(that, view);
+          that.trigger("item:afteradd", view); // FR added event 19/06/2012
       });
       
       return viewRendered;

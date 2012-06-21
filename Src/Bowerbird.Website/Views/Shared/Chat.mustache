@@ -1,10 +1,12 @@
-﻿ <div class="chat-title-bar">
-    <span class="window-close"></span>
-    <h3>{{Model.Title}}</h3>
+﻿  <div class="window-title-bar">
+    {{Model.Title}}
+    <span class="close"></span>
   </div>
-  <div class="chat-messages"></div>
-  <div class="chat-users"></div>
-  <div class="chat-message-box">
-    <textarea class="new-chat-message" autocomplete="off" accesskey="m"></textarea>
-    <input type="button" class="chat-send-message-button send" value="Send" />
+  <div class="window-body">
+    <div class="chat-messages"></div>
+    <div class="chat-message-box form">
+      <div class="status"></div>
+      <textarea class="new-chat-message" autocomplete="off" accesskey="m" class="chat-message-box-text"></textarea>
+      <button class="chat-send-message-button">Send</button>
+    </div>
   </div>

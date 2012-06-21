@@ -18,6 +18,7 @@ using Raven.Client.Indexes;
 using Raven.Abstractions.Indexing;
 using System.Collections.Generic;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
+using System;
 
 namespace Bowerbird.Core.Indexes
 {
@@ -27,6 +28,8 @@ namespace Bowerbird.Core.Indexes
         {
             public string UserId { get; set; }
             public string[] MemberIds { get; set; }
+            public string[] ConnectionIds { get; set; }
+            public DateTime[] LatestActivity { get; set; }
 
             public User User { get; set; }
             public IEnumerable<Member> Members { get; set; }
@@ -40,7 +43,18 @@ namespace Bowerbird.Core.Indexes
                                       select new
                                       {
                                           UserId = member.User.Id,
-                                          MemberIds = new[] { member.Id }
+                                          MemberIds = new[] { member.Id },
+                                          ConnectionIds = new string[] { },
+                                          LatestActivity = new DateTime[] { }
+                                      });
+
+            AddMap<User>(users => from user in users
+                                      select new
+                                      {
+                                          UserId = user.Id,
+                                          MemberIds = new string[] { },
+                                          ConnectionIds = user.Sessions.Select(x => x.ConnectionId),
+                                          LatestActivity = user.Sessions.Select(x => x.LatestActivity)
                                       });
 
             Reduce = results => from result in results
@@ -49,7 +63,9 @@ namespace Bowerbird.Core.Indexes
                                     select new
                                     {
                                         UserId = g.Key,
-                                        MemberIds = g.SelectMany(x => x.MemberIds)
+                                        MemberIds = g.SelectMany(x => x.MemberIds),
+                                        ConnectionIds = g.SelectMany(x => x.ConnectionIds),
+                                        LatestActivity = g.SelectMany(x => x.LatestActivity)
                                     };
 
             TransformResults = (database, results) =>
@@ -60,12 +76,16 @@ namespace Bowerbird.Core.Indexes
                                 {
                                     result.UserId,
                                     result.MemberIds,
+                                    result.ConnectionIds,
+                                    result.LatestActivity,
                                     User = user,
                                     Members = members
                                 };
 
             Store(x => x.UserId, FieldStorage.Yes);
             Store(x => x.MemberIds, FieldStorage.Yes);
+            Store(x => x.ConnectionIds, FieldStorage.Yes);
+            Store(x => x.LatestActivity, FieldStorage.Yes);
         }
     }
 }

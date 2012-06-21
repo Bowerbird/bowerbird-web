@@ -26,7 +26,7 @@ namespace Bowerbird.Core.Commands
 
         #region Properties
 
-        public string ClientId { get; set; }
+        public string Connectionid { get; set; }
 
         #endregion
 

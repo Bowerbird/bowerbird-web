@@ -1,62 +1,48 @@
-﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+﻿///* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
- Developers: 
- * Frank Radocaj : frank@radocaj.com
- * Hamish Crittenden : hamish.crittenden@gmail.com
+// Developers: 
+// * Frank Radocaj : frank@radocaj.com
+// * Hamish Crittenden : hamish.crittenden@gmail.com
 
- Project Manager: 
- * Ken Walker : kwalker@museum.vic.gov.au
+// Project Manager: 
+// * Ken Walker : kwalker@museum.vic.gov.au
 
- Funded by:
- * Atlas of Living Australia
+// Funded by:
+// * Atlas of Living Australia
 
-*/
+//*/
 
-using System.Linq;
-using Bowerbird.Core.DomainModels.Sessions;
-using Raven.Abstractions.Indexing;
-using Raven.Client.Indexes;
+//using System.Linq;
+//using Raven.Abstractions.Indexing;
+//using Raven.Client.Indexes;
+//using Bowerbird.Core.DomainModels;
+//using System.Collections.Generic;
 
-namespace Bowerbird.Core.Indexes
-{
-    public class All_Chats : AbstractMultiMapIndexCreationTask<All_Chats.Results>
-    {
-        public class Results
-        {
-            public string ClientId { get; set; }
-            public string UserId { get; set; }
-            public string ChatId { get; set; }
-            public int Status { get; set; }
-        }
+//namespace Bowerbird.Core.Indexes
+//{
+//    public class All_Chats : AbstractIndexCreationTask<All_Chats.Results>
+//    {
+//        public class Results
+//        {
+//            public string ChatId { get; set; }
+//            public string[] UserIds { get; set; }
 
-        public All_Chats()
-        {
-            // when chatting to a private group of users, the chatId is the ChatId
-            AddMap<PrivateChatSession>(sessions =>
-                from s in sessions
-                select new
-                {
-                    s.ClientId,
-                    UserId = s.User.Id,
-                    s.Status,
-                    s.ChatId
-                });
+//            public Chat Chat { get; set; }
+//            public IEnumerable<User> Users { get; set; }
+//        }
 
-            // when chatting to a public group of users, the chatId is the GroupId
-            AddMap<GroupChatSession>(sessions =>
-                from s in sessions
-                select new
-                {
-                    s.ClientId,
-                    UserId = s.User.Id,
-                    s.Status,
-                    ChatId = s.GroupId
-                });
+//        public All_Chats()
+//        {
+//            Map<Chat>(chats =>
+//                        from chat in chats
+//                        select new
+//                        {
+//                            ChatId = chat.Id,
+//                            UserIds = chat.Users
+//                        });
 
-            Store(x => x.ClientId, FieldStorage.Yes);
-            Store(x => x.UserId, FieldStorage.Yes);
-            Store(x => x.ChatId, FieldStorage.Yes);
-            Store(x => x.Status, FieldStorage.Yes);
-        }
-    }
-}
+//            Store(x => x.ChatId, FieldStorage.Yes);
+//            Store(x => x.UserIds, FieldStorage.Yes);
+//        }
+//    }
+//}

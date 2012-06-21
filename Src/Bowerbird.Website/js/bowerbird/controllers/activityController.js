@@ -12,11 +12,11 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/activity'],
 function ($, _, Backbone, app, Activity) {
 
     var ActivityRouter = function (options) {
-        this.hub = $.connection.activityHub;
+        this.hub = $.connection.groupHub;
         this.controller = options.controller;
 
         this.hub.newActivity = this.controller.newActivity;
-        this.hub.userStatusUpdate = this.controller.userStatusUpdate;
+        //this.hub.userStatusUpdate = this.controller.userStatusUpdate;
         this.hub.setupOnlineUsers = this.controller.setupOnlineUsers;
 
         this.hub.debugToLog = this.controller.debugToLog;

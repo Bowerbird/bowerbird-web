@@ -1,5 +1,46 @@
-﻿<span class="user-avatar">
+﻿<!--<span class="user-avatar">
     <img src="{{Avatar.UrlToImage}}" alt="{{Avatar.AltTag}}" width="16px;" height="16px;" />
 </span>
 <span class="user-name" id="{{Id}}">{{Name}}</span>
-<span class="user-chat-icon" id="user-{{Id}}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="user-chat-icon" id="user-{{Id}}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>-->
+
+  <div class="menu-item-body" href="/{{Id}}">
+    <img alt="{{Name}}" src="{{Avatar.Files.thumbnail.RelativeUri}}" />
+    <div>
+      <p>{{Name}}</p>
+    </div>
+  </div>
+  <div class="sub-menu-button">
+    <span></span>
+    <ul>
+      <li>
+        <a href="/projects/1">View Latest Activity</a>
+      </li>
+      <li>
+        <a href="/projects/1/observations">View Observations</a>
+      </li>
+      <li>
+        <a href="/projects/1/posts">View Posts</a>
+      </li>
+      <li>
+        <a href="/projects/1/members">View Members</a>
+      </li>
+      <li>
+        <a href="/projects/1/about">About this Project</a>
+      </li>
+      <li class="divider"></li>
+      <li>
+        <a href="/observations/create?id=projects/1">Add an Observation</a>
+      </li>
+      <li>
+        <a href="/posts/create?id=projects/1">Add a Post</a>
+      </li>
+      <li>
+        <a href="/projects/1/update">Edit Project Details</a>
+      </li>
+      <li class="divider"></li>
+      <li>
+        <span id="chat-projects/1" class="chat-menu-item">Join Chat</span>
+      </li>
+    </ul>
+  </div>

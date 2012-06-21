@@ -11,7 +11,7 @@
 define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, app) {
 
     var ChatRegion = Backbone.Marionette.Region.extend({
-        el: '#chatarea',
+        el: 'body',
 
         initialize: function (options) {
             this.chat = options.chat;

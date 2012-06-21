@@ -144,29 +144,29 @@ namespace Bowerbird.Web.Controllers
             return View(Form.Posts);
         }
 
-        [HttpGet]
-        public ActionResult Following(PagingInput pagingInput)
-        {
-            ViewBag.Model = new
-            {
-                User = _userViewModelBuilder.BuildUser(new IdInput() { Id = pagingInput.Id }),
-                Following = _userViewModelBuilder.BuildUsersBeingFollowedByList(pagingInput)
-            };
+        //[HttpGet]
+        //public ActionResult Following(PagingInput pagingInput)
+        //{
+        //    ViewBag.Model = new
+        //    {
+        //        User = _userViewModelBuilder.BuildUser(new IdInput() { Id = pagingInput.Id }),
+        //        Following = _userViewModelBuilder.BuildUsersBeingFollowedByList(pagingInput)
+        //    };
 
-            return View(Form.Following);
-        }
+        //    return View(Form.Following);
+        //}
 
-        [HttpGet]
-        public ActionResult Followers(PagingInput pagingInput)
-        {
-            ViewBag.Model = new
-            {
-                User = _userViewModelBuilder.BuildUser(new IdInput() { Id = pagingInput.Id }),
-                Followers = _userViewModelBuilder.BuildUsersFollowingList(pagingInput)
-            };
+        //[HttpGet]
+        //public ActionResult Followers(PagingInput pagingInput)
+        //{
+        //    ViewBag.Model = new
+        //    {
+        //        User = _userViewModelBuilder.BuildUser(new IdInput() { Id = pagingInput.Id }),
+        //        Followers = _userViewModelBuilder.BuildUsersFollowingList(pagingInput)
+        //    };
 
-            return View(Form.Followers);
-        }
+        //    return View(Form.Followers);
+        //}
 
         [HttpGet]
         public ActionResult About()

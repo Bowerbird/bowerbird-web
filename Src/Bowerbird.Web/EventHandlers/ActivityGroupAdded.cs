@@ -17,8 +17,14 @@ using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Services;
 using Raven.Client;
+using Bowerbird.Core.EventHandlers;
+using SignalR.Hubs;
+using Bowerbird.Web.Factories;
+using Bowerbird.Web.Builders;
+using Bowerbird.Web.Config;
+using Bowerbird.Web.Hubs;
 
-namespace Bowerbird.Core.EventHandlers
+namespace Bowerbird.Web.EventHandlers
 {
     /// <summary>
     /// Log an activity item when a user creates a group
@@ -28,7 +34,9 @@ namespace Bowerbird.Core.EventHandlers
         #region Members
 
         private readonly IDocumentSession _documentSession;
-        private readonly INotificationService _notificationService;
+        private readonly IUserViewFactory _userViewFactory;
+        private readonly IUserViewModelBuilder _userViewModelBuilder;
+        private readonly IUserContext _userContext;
 
         #endregion
 
@@ -36,14 +44,20 @@ namespace Bowerbird.Core.EventHandlers
 
         public ActivityGroupAdded(
             IDocumentSession documentSession,
-            INotificationService notificationService
+            IUserViewFactory userViewFactory,
+            IUserViewModelBuilder userViewModelBuilder,
+            IUserContext userContext
             )
         {
             Check.RequireNotNull(documentSession, "documentSession");
-            Check.RequireNotNull(notificationService, "notificationService");
+            Check.RequireNotNull(userViewFactory, "userViewFactory");
+            Check.RequireNotNull(userViewModelBuilder, "userViewModelBuilder");
+            Check.RequireNotNull(userContext, "userContext");
 
             _documentSession = documentSession;
-            _notificationService = notificationService;
+            _userViewFactory = userViewFactory;
+            _userViewModelBuilder = userViewModelBuilder;
+            _userContext = userContext;
         }
 
         #endregion
@@ -78,7 +92,7 @@ namespace Bowerbird.Core.EventHandlers
                 };
 
                 _documentSession.Store(activity);
-                _notificationService.SendActivity(activity);
+                _userContext.SendActivityToGroupChannel(activity);
             }
 
             if (domainEvent.Sender is Team)
@@ -99,7 +113,7 @@ namespace Bowerbird.Core.EventHandlers
                 };
 
                 _documentSession.Store(activity);
-                _notificationService.SendActivity(activity);
+                _userContext.SendActivityToGroupChannel(activity);
             }
 
             if (domainEvent.Sender is Organisation)
@@ -120,7 +134,7 @@ namespace Bowerbird.Core.EventHandlers
                 };
 
                 _documentSession.Store(activity);
-                _notificationService.SendActivity(activity);
+                _userContext.SendActivityToGroupChannel(activity);
             }
         }
 

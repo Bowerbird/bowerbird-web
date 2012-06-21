@@ -15,9 +15,9 @@
 using System.Linq;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.DomainModels.Sessions;
 using Raven.Client;
 using Raven.Client.Linq;
+using Bowerbird.Core.Indexes;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -47,20 +47,21 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Methods
 
-        // todo: probably masking an error here
         public void Handle(UserSessionDeleteCommand command)
         {
             Check.RequireNotNull(command, "command");
 
-            var session = _documentSession
-                .Query<UserSession>()
-                .Where(x => x.ClientId == command.ClientId)
-                .FirstOrDefault();
+            var user = _documentSession
+                .Query<All_Users.Result, All_Users>()
+                .AsProjection<All_Users.Result>()
+                .Where(x => x.ConnectionIds.Any(y => y == command.Connectionid))
+                .ToList()
+                .First()
+                .User;
 
-            if(session != null)
-            {
-                _documentSession.Delete(session);
-            }
+            user.RemoveSession(command.Connectionid);
+
+            _documentSession.Store(user);
         }
 
         #endregion

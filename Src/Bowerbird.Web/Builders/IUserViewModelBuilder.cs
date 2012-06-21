@@ -23,12 +23,12 @@ namespace Bowerbird.Web.Builders
 
         object BuildUserList(PagingInput pagingInput);
 
-        object BuildUsersFollowingList(PagingInput pagingInput);
+        //object BuildUsersFollowingList(PagingInput pagingInput);
 
-        object BuildUsersBeingFollowedByList(PagingInput pagingInput);
+        //object BuildUsersBeingFollowedByList(PagingInput pagingInput);
 
         object BuildAuthenticatedUser();
 
-        IEnumerable BuildOnlineUsers();
+        object BuildOnlineUsers();
     }
 }

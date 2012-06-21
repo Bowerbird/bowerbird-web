@@ -1,12 +1,8 @@
-﻿  <div class="window-title-bar">
-    <h3>
-      Users online: <span id="users-online">{{Count}}</span>
-    </h3>
+﻿  <div class="window-title-bar" title="Click to collapse window">
+    <span class="user-count">0</span> Users Online
   </div>
   <div class="window-body">
-    <ul class="online-users">
-      {{#OnlineUsers}}
-      <li>{{>UserItem}}</li>
-      {{/OnlineUsers}}
+    <div>Select a user to chat to.</div>
+    <ul class="online-users-list">
     </ul>
   </div>

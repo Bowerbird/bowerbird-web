@@ -13,6 +13,7 @@
 */
 
 using System;
+using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Core.Commands
 {
@@ -28,11 +29,9 @@ namespace Bowerbird.Core.Commands
 
         #region Properties
 
-        public string ClientId { get; set; }
+        public string ConnectionId { get; set; }
 
         public DateTime LatestActivity { get; set; }
-
-        public int Status { get; set; }
 
         #endregion
 

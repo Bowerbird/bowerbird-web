@@ -12,18 +12,17 @@
  
 */
 
+using System.Linq;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.DomainModels.Sessions;
 using Bowerbird.Core.Indexes;
 using Raven.Client;
 using Raven.Client.Linq;
-using System.Linq;
 
 namespace Bowerbird.Core.CommandHandlers
 {
-    public class GroupChatSessionCreateCommandHandler : ICommandHandler<GroupChatSessionCreateCommand>
+    public class ChatMessageCreateCommandHandler : ICommandHandler<ChatMessageCreateCommand>
     {
         #region Fields
 
@@ -33,7 +32,7 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Constructors
 
-        public GroupChatSessionCreateCommandHandler(
+        public ChatMessageCreateCommandHandler(
             IDocumentSession documentSession)
         {
             Check.RequireNotNull(documentSession, "documentSession");
@@ -49,26 +48,15 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Methods
 
-        public void Handle(GroupChatSessionCreateCommand command)
+        public void Handle(ChatMessageCreateCommand command)
         {
             Check.RequireNotNull(command, "command");
 
-            var group = _documentSession
-                .Query<All_Groups.Result, All_Groups>()
-                .AsProjection<All_Groups.Result>()
-                .Where(x => x.GroupId == command.GroupId)
-                .FirstOrDefault();
-            
-            if (group != null)
-            {
-                var groupChatSession = new GroupChatSession(
-                   _documentSession.Load<User>(command.UserId),
-                   command.ClientId,
-                   group.GroupId
-                );
+            var chat = _documentSession.Load<Chat>(command.ChatId);
 
-                _documentSession.Store(groupChatSession);
-            }
+            chat.AddMessage(_documentSession.Load<User>(command.UserId), command.Timestamp, command.Message);
+
+            _documentSession.Store(chat);
         }
 
         #endregion
