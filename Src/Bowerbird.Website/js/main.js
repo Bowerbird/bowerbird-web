@@ -48,6 +48,7 @@ require([
         'ich',
         'marionette',
         '/templates?noext', // Load templates from server
+        'controllers/usercontroller',
         'controllers/activitycontroller',
         'controllers/debugcontroller',
         'controllers/groupusercontroller',

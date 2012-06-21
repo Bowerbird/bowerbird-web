@@ -33,20 +33,26 @@ namespace Bowerbird.Core.DomainModels
             : base()
         {
             InitMembers();
+
+            EnableEvents();
         }
 
         public MediaResource(
             string type,
             User createdByUser,
             DateTime uploadedOn)
-            : this()
+            : base()
         {
+            InitMembers();
+
             Type = type;
             UploadedOn = uploadedOn;
             if (createdByUser != null)
             {
                 CreatedByUser = createdByUser;
             }
+
+            EnableEvents();
         }
 
         #endregion
@@ -142,29 +148,4 @@ namespace Bowerbird.Core.DomainModels
             return true;
         }
     }
-
-    //public class ImageFile : MediaResourceFile
-    //{
-    //    protected ImageFile()
-    //        : base()
-    //    {
-    //    }
-
-    //    public ImageFile(
-    //        string filename, 
-    //        string relativeUri, 
-    //        string format,
-    //        int width, 
-    //        int height,
-    //        string extension)
-    //        : base()
-    //    {
-    //        _properties.Add("Filename", filename);
-    //        _properties.Add("RelativeUri", relativeUri);
-    //        _properties.Add("Format", format);
-    //        _properties.Add("Width", width);
-    //        _properties.Add("Height", height);
-    //        _properties.Add("Extension", extension);
-    //    }
-    //}
 }

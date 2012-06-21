@@ -30,6 +30,8 @@ namespace Bowerbird.Core.DomainModels
             : base()
         {
             InitMembers();
+
+            EnableEvents();
         }
 
         public Species(
@@ -44,8 +46,8 @@ namespace Bowerbird.Core.DomainModels
             string speciesName,
             string synonym,
             bool proposedAsNewSpecies,
-            DateTime createdOn
-            )
+            DateTime createdOn)
+            : base()
         {
             InitMembers();
 
@@ -64,6 +66,8 @@ namespace Bowerbird.Core.DomainModels
                 synonym,
                 proposedAsNewSpecies
                 );
+
+            EnableEvents();
         }
 
         public Species(
@@ -79,8 +83,8 @@ namespace Bowerbird.Core.DomainModels
             string speciesName,
             string synonym,
             bool proposedAsNewSpecies,
-            DateTime createdOn
-            )
+            DateTime createdOn)
+            : base()
         {
             InitMembers();
 
@@ -100,6 +104,8 @@ namespace Bowerbird.Core.DomainModels
                 synonym,
                 proposedAsNewSpecies
                 );
+
+            EnableEvents();
         }
 
         #endregion

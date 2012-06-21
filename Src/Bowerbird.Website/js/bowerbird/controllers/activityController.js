@@ -17,7 +17,7 @@ function ($, _, Backbone, app, Activity) {
 
         this.hub.newActivity = this.controller.newActivity;
         //this.hub.userStatusUpdate = this.controller.userStatusUpdate;
-        this.hub.setupOnlineUsers = this.controller.setupOnlineUsers;
+        //this.hub.setupOnlineUsers = this.controller.setupOnlineUsers;
 
         this.hub.debugToLog = this.controller.debugToLog;
     };
@@ -34,20 +34,20 @@ function ($, _, Backbone, app, Activity) {
         app.activities.add(data);
     };
 
-    ActivityController.userStatusUpdate = function (data) {
-        log('activityController.userStatusUpdate', this, data);
+//    ActivityController.userStatusUpdate = function (data) {
+//        log('activityController.userStatusUpdate', this, data);
 
-        // If user doesn't exist, add them
-        app.onlineUsers.add(data);
+//        // If user doesn't exist, add them
+//        app.onlineUsers.add(data);
 
-        // Then set their status
-        app.onlineUsers.get(data.Id).set('Status', data.Status);
-    };
+//        // Then set their status
+//        app.onlineUsers.get(data.Id).set('Status', data.Status);
+//    };
 
-    ActivityController.setupOnlineUsers = function (data) {
-        log('activityController.setupOnlineUsers', this, data);
-        app.onlineUsers.add(data);
-    };
+//    ActivityController.setupOnlineUsers = function (data) {
+//        log('activityController.setupOnlineUsers', this, data);
+//        app.onlineUsers.add(data);
+//    };
 
     app.addInitializer(function () {
         this.activityRouter = new ActivityRouter({

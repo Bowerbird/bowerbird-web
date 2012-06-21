@@ -57,11 +57,14 @@ namespace Bowerbird.Web.Hubs
         public void JoinChat(string chatId)
         {
             var chat = _documentSession.Load<Chat>(chatId);
-            var user = GetUserByConnectionId(Context.ConnectionId);
+            var messageSender = GetUserByConnectionId(Context.ConnectionId);
 
-            chat.AddUser(user);
+            if (chat == null)
+            {
+                chat = MakeChat(chatId, messageSender, new [] { messageSender });
+            }
+
             _documentSession.Store(chat);
-
             _documentSession.SaveChanges();
             
             //var chatUsers = _documentSession
@@ -129,62 +132,25 @@ namespace Bowerbird.Web.Hubs
                 });
         }
 
-        public void SendChatMessage(string chatId, string message, string[] userIds = null)
+        public void SendChatMessage(string chatId, string message, string[] userIds)
         {
             Caller.debugToLog(string.Format("ChatHub.sendChatMessage - chatId:{0} message:{1}", chatId, message));
 
             var chat = _documentSession.Load<Chat>(chatId);
-            var user = GetUserByConnectionId(Context.ConnectionId);
+            var messageSender = GetUserByConnectionId(Context.ConnectionId);
 
             if (chat == null)
             {
                 var users = _documentSession.Load<User>(userIds).ToList();
-                users.Add(user);
-                chat = new Chat(chatId, user, users, DateTime.UtcNow, message);
+                chat = MakeChat(chatId, messageSender, users, message);
+            }
+            else
+            {
+                chat.AddMessage(messageSender, DateTime.UtcNow, message);
             }
 
-            chat.AddMessage(user, DateTime.UtcNow, message);
-
             _documentSession.Store(chat);
-            //dynamic chatMessage = null;
-
-            //// Create chat if it doesn't exist yet
-            //if (chat == null)
-            //{
-            //    // Get all users
-            //    var allUserIds = userIds.ToList();
-            //    allUserIds.Add(user.Id);
-            //    var allUsers = _documentSession.Load<User>(allUserIds).ToList();
-
-            //    // Get all clientIds for all users that will receive message and add the to signalr group
-            //    foreach (var connectionId in allUsers.SelectMany(x => x.Sessions.Select(y => y.ConnectionId)))
-            //    {
-            //        Groups.Add(connectionId, chatId);
-            //    }
-
-            //    chatMessage = new
-            //    {
-            //        ChatId = chatId,
-            //        Timestamp = DateTime.UtcNow,
-            //        Id = Guid.NewGuid().ToString(),
-            //        FromUser = _userViewFactory.Make(user),
-            //        Message = message,
-            //        Users = allUsers.Select(_userViewFactory.Make)
-            //    };
-            //} 
-            //else
-            //{
-            //    chatMessage = new
-            //    {
-            //        ChatId = chatId,
-            //        Timestamp = DateTime.UtcNow,
-            //        Id = Guid.NewGuid().ToString(),
-            //        FromUser = _userViewFactory.Make(user),
-            //        Message = message
-            //    };
-            //}
-
-            //Clients[chatId].chatMessageReceived(chatMessage);
+            _documentSession.SaveChanges();
         }
 
         public Task Disconnect()
@@ -220,6 +186,11 @@ namespace Bowerbird.Web.Hubs
         private User GetUserByConnectionId(string connectionId)
         {
             return GetUsersByConnectionIds(connectionId).First();
+        }
+
+        private Chat MakeChat(string chatId, User chatInitiator, IEnumerable<User> users, string message = null)
+        {
+            return new Chat(chatId, chatInitiator, users, DateTime.UtcNow, message);
         }
 
         #endregion

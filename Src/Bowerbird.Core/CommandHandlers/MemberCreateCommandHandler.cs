@@ -86,7 +86,7 @@ namespace Bowerbird.Core.CommandHandlers
                 roles.Add(role);
             }
             
-            var member = new Member(createdByUser, user, result.Group, roles, true);
+            var member = new Member(createdByUser, user, result.Group, roles);
 
             _documentSession.Store(member);
         }

@@ -26,6 +26,12 @@ namespace Bowerbird.Core.DomainModels
 
         #region Constructors
 
+        protected FollowUser()
+            : base()
+        {
+            EnableEvents();
+        }
+
         public FollowUser(
             User userToFollow,
             User follower,
@@ -38,17 +44,19 @@ namespace Bowerbird.Core.DomainModels
             UserToFollow = userToFollow;
             Follower = follower;
             CreatedDateTime = createdDateTime;
+
+            EnableEvents();
         }
 
         #endregion
 
         #region Properties
 
-        public DenormalisedUserReference UserToFollow { get; set; }
+        public DenormalisedUserReference UserToFollow { get; private set; }
 
-        public DenormalisedUserReference Follower { get; set; }
+        public DenormalisedUserReference Follower { get; private set; }
 
-        public DateTime CreatedDateTime { get; set; }
+        public DateTime CreatedDateTime { get; private set; }
 
         #endregion
 

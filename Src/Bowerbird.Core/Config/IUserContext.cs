@@ -32,15 +32,21 @@ namespace Bowerbird.Core.Config
 
         void SendActivityToGroupChannel(dynamic activity);
 
-        void AddAuthenticatedUserToUserChannel(string userId, string connectionId);
+        void AddUserToUserChannel(string userId, string connectionId);
 
-        dynamic GetAuthenticatedUserChannel(string userId);
+        void AddUserToOnlineUsersChannel(string connectionId);
 
-        void AddAuthenticatedUserSessionToOnlineUsersChannel(string connectionId);
+        void AddUserToGroupChannel(string groupId, string connectionId);
+
+        void AddUserToChatChannel(string chatId, string connectionId);
+
+        dynamic GetUserChannel(string userId);
 
         dynamic GetOnlinerUsersChannel();
 
         dynamic GetGroupChannel(string groupId);
+
+        dynamic GetChatChannel(string chatId);
 
         void SignUserIn(string email, bool keepUserLoggedIn);
 

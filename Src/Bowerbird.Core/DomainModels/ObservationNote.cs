@@ -42,6 +42,8 @@ namespace Bowerbird.Core.DomainModels
             : base() 
         {
             InitMembers();
+
+            EnableEvents();
         }
 
         public ObservationNote(
@@ -54,13 +56,15 @@ namespace Bowerbird.Core.DomainModels
             IDictionary<string, string> descriptions,
             IDictionary<string, string> references,
             DateTime createdOn)
-            : this()
+            : base()
         {
             Check.RequireNotNull(createdByUser, "createdByUser");
             Check.RequireNotNull(observation, "observation");
             Check.RequireNotNull(descriptions, "descriptions");
             Check.RequireNotNull(references, "references");
             Check.RequireNotNull(tags, "tags");
+
+            InitMembers();
 
             User = createdByUser;
             CreatedOn = createdOn;
@@ -74,7 +78,8 @@ namespace Bowerbird.Core.DomainModels
                 descriptions,
                 references);
 
-            FireEvent(new DomainModelCreatedEvent<ObservationNote>(this, createdByUser, this), true);
+            EnableEvents();
+            FireEvent(new DomainModelCreatedEvent<ObservationNote>(this, createdByUser, this));
         }
 
         #endregion

@@ -46,6 +46,8 @@ namespace Bowerbird.Core.DomainModels
             : base() 
         {
             InitMembers();
+
+            EnableEvents();
         }
 
         public User(
@@ -54,8 +56,10 @@ namespace Bowerbird.Core.DomainModels
             string firstName, 
             string lastName,
             MediaResource avatar) 
-            : this() 
+            : base() 
         {
+            InitMembers();
+
             Email = email;
             PasswordSalt = Guid.NewGuid();
             HashedPassword = GetHashedPassword(password);
@@ -65,6 +69,8 @@ namespace Bowerbird.Core.DomainModels
                 firstName,
                 lastName,
                 avatar);
+
+            EnableEvents();
         }
 
         #endregion
@@ -195,7 +201,7 @@ namespace Bowerbird.Core.DomainModels
         {
             LastLoggedIn = DateTime.UtcNow;
 
-            FireEvent(new UserLoggedInEvent(this, this), true);
+            FireEvent(new UserLoggedInEvent(this, this));
 
             return this;
         }

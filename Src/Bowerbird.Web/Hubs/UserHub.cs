@@ -79,7 +79,8 @@ namespace Bowerbird.Web.Hubs
             _documentSession.Store(user);
             _documentSession.SaveChanges();
 
-            //Groups.Remove(Context.ConnectionId, "onlineusers");
+            Groups.Remove(Context.ConnectionId, "online-users");
+            Groups.Remove(Context.ConnectionId, "user-" + user.Id);
 
             return Task.Factory.StartNew(() => { });
         }

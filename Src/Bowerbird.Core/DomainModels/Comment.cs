@@ -26,14 +26,17 @@ namespace Bowerbird.Core.DomainModels
 
         #region Constructors
 
-        protected Comment() : base() { }
+        protected Comment() : base() 
+        {
+            EnableEvents();
+        }
 
         public Comment(
             string commentId,
             User createdByUser,
             DateTime commentedOn,
             string message)
-            : this()
+            : base()
         {
             Check.RequireNotNull(createdByUser, "createdByUser");
             Check.RequireNotNullOrWhitespace(commentId, "commentId");
@@ -46,6 +49,8 @@ namespace Bowerbird.Core.DomainModels
             SetDetails(
                 message,
                 CommentedOn);
+
+            EnableEvents();
         }
 
         #endregion

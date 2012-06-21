@@ -32,6 +32,8 @@ namespace Bowerbird.Core.DomainModels
         protected ReferenceSpecies()
         {
             InitMembers();
+
+            EnableEvents();
         }
     
         public ReferenceSpecies(
@@ -39,8 +41,8 @@ namespace Bowerbird.Core.DomainModels
             DateTime createdOn,
             string groupId,
             string speciesId,
-            IEnumerable<string> smartTags
-            )
+            IEnumerable<string> smartTags)
+            : base()
         {
             Check.RequireNotNull(createdByUser, "createdByUser");
             Check.RequireNotNullOrWhitespace(groupId, "groupId");
@@ -56,6 +58,8 @@ namespace Bowerbird.Core.DomainModels
                 speciesId,
                 smartTags
                 );
+
+            EnableEvents();
         }
 
         #endregion

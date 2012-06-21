@@ -41,6 +41,8 @@ namespace Bowerbird.Core.DomainModels
             : base() 
         {
             InitMembers();
+
+            EnableEvents();
         }
 
         public Observation(
@@ -57,12 +59,14 @@ namespace Bowerbird.Core.DomainModels
             UserProject userProject,
             IEnumerable<Project> projects,
             IEnumerable<Tuple<MediaResource, string, string>> addMedia)
-            : this()
+            : base()
         {
             Check.RequireNotNull(createdByUser, "createdByUser");
             Check.RequireNotNull(userProject, "userProject");
             Check.RequireNotNull(projects, "projects");
             Check.RequireNotNull(addMedia, "addMedia");
+
+            InitMembers();
 
             User = createdByUser;
             CreatedOn = createdOn;
@@ -89,7 +93,8 @@ namespace Bowerbird.Core.DomainModels
                 AddMedia(media.Item1, media.Item2, media.Item3);
             }
 
-            FireEvent(new DomainModelCreatedEvent<Observation>(this, createdByUser, this), true);
+            EnableEvents();
+            FireEvent(new DomainModelCreatedEvent<Observation>(this, createdByUser, this));
         }
 
         #endregion

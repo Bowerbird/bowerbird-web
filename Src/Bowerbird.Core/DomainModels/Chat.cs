@@ -35,6 +35,8 @@ namespace Bowerbird.Core.DomainModels
             : base()
         {
             InitMembers();
+
+            EnableEvents();
         }
 
         public Chat(
@@ -42,11 +44,13 @@ namespace Bowerbird.Core.DomainModels
             User createdByUser,
             IEnumerable<User> users,
             DateTime createdDateTime, 
-            string message)
-            : this()
+            string message = null)
+            : base()
         {
+            InitMembers();
+
             Id = id;
-            User = createdByUser;
+            CreatedByUser = createdByUser;
             CreatedDateTime = createdDateTime;
 
             foreach (var user in users)
@@ -54,22 +58,33 @@ namespace Bowerbird.Core.DomainModels
                 AddUser(user);
             }
 
-            AddMessage(createdByUser, createdDateTime, message);
+            if (!string.IsNullOrWhiteSpace(message))
+            {
+                AddMessage(createdByUser, createdDateTime, message);
+            }
 
-            FireEvent(new DomainModelCreatedEvent<Chat>(this, createdByUser, this), true);
+            EnableEvents();
+            FireEvent(new DomainModelCreatedEvent<Chat>(this, createdByUser, this));
         }
 
         #endregion
 
         #region Properties
 
-        public DenormalisedUserReference User { get; private set; }
+        public DenormalisedUserReference CreatedByUser { get; private set; }
 
         public DateTime CreatedDateTime { get; private set; }
 
         public IEnumerable<DenormalisedUserReference> Users { get; private set; }
 
+        public Group Group { get; private set; }
+
         public IEnumerable<ChatMessage> Messages { get; private set; }
+
+        public string Type
+        {
+            get { return Group != null ? "group" : "private"; }
+        }
 
         #endregion
 
@@ -96,7 +111,7 @@ namespace Bowerbird.Core.DomainModels
         {
             if(Users.All(x => x.Id != user.Id))
             {
-                ((List<User>)Users).Add(user);
+                ((List<DenormalisedUserReference>)Users).Add(user);
             }
 
             // TODO: Fire event

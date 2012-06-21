@@ -36,6 +36,7 @@ namespace Bowerbird.Core.DomainModels
         #region Constructors
 
         protected Activity()
+            : base()
         {
         }
 
@@ -45,7 +46,7 @@ namespace Bowerbird.Core.DomainModels
             string description,
             dynamic createdByUser,
             IEnumerable<dynamic> groups)
-            : this()
+            : base()
         {
             Check.RequireNotNull(createdByUser, "createdByUser");
             Check.RequireNotNull(groups, "groups");

@@ -18,7 +18,7 @@ using Bowerbird.Core.DomainModels.DenormalisedReferences;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public class ChatMessage : DomainModel
+    public class ChatMessage
     {
         #region Fields
 
@@ -27,6 +27,7 @@ namespace Bowerbird.Core.DomainModels
         #region Constructors
 
         protected ChatMessage()
+            : base()
         {
         }
 
@@ -37,6 +38,7 @@ namespace Bowerbird.Core.DomainModels
         {
             Check.RequireNotNull(user, "user");
 
+            Id = Guid.NewGuid().ToString();
             User = user;
             Timestamp = timestamp;
             Message = message;
@@ -45,6 +47,8 @@ namespace Bowerbird.Core.DomainModels
         #endregion
 
         #region Properties
+
+        public string Id { get; private set; }
 
         public DenormalisedUserReference User { get; private set; }
 

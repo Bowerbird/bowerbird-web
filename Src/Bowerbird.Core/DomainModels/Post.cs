@@ -37,6 +37,8 @@ namespace Bowerbird.Core.DomainModels
             : base()
         {
             InitMembers();
+
+            EnableEvents();
         }
 
         public Post(
@@ -46,13 +48,15 @@ namespace Bowerbird.Core.DomainModels
             string message,
             IEnumerable<MediaResource> mediaResources,
             Group group)
-            : this()
+            : base()
         {
             Check.RequireNotNull(createdByUser, "createdByUser");
             Check.RequireNotNullOrWhitespace(subject, "subject");
             Check.RequireNotNullOrWhitespace(message, "message");
             Check.RequireNotNull(mediaResources, "mediaResources");
             Check.RequireNotNull(group, "group");
+
+            InitMembers();
 
             User = createdByUser;
             CreatedOn = createdOn;
@@ -64,7 +68,8 @@ namespace Bowerbird.Core.DomainModels
                 mediaResources
                 );
 
-            FireEvent(new DomainModelCreatedEvent<Post>(this, createdByUser, this), true);
+            EnableEvents();
+            FireEvent(new DomainModelCreatedEvent<Post>(this, createdByUser, this));
         }
 
         #endregion

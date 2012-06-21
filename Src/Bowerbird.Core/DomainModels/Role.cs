@@ -35,6 +35,8 @@ namespace Bowerbird.Core.DomainModels
             : base()
         {
             InitMembers();
+
+            EnableEvents();
         }
 
         public Role(
@@ -42,18 +44,22 @@ namespace Bowerbird.Core.DomainModels
             string name,
             string description,
             IEnumerable<Permission> permissions)
-            : this()
+            : base()
         {
             Check.RequireNotNullOrWhitespace(id, "id");
             Check.RequireNotNullOrWhitespace(name, "name");
             Check.RequireNotNullOrWhitespace(description, "description");
             Check.RequireNotNull(permissions, "permissions");
 
+            InitMembers();
+
             Id = "roles/" + id;
             Name = name;
             Description = description;
 
             Permissions = permissions.ToList();
+
+            EnableEvents();
         }
 
         #endregion

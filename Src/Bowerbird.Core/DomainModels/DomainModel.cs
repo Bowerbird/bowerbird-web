@@ -84,7 +84,7 @@ namespace Bowerbird.Core.DomainModels
         /// <summary>
         /// Used to determine if events will be fired. Default is set to false
         /// </summary>
-        [JsonIgnore]
+        [Raven.Imports.Newtonsoft.Json.JsonIgnore]
         private bool CanFireEvents { get; set; }
 
         protected void EnableEvents()
@@ -95,10 +95,8 @@ namespace Bowerbird.Core.DomainModels
         /// <summary>
         /// Fires the specified event if CanFireEvents is true. Pass true for second param to enable events.
         /// </summary>
-        protected void FireEvent<T>(T domainEvent, bool enableEvents = false) where T : IDomainEvent
+        protected void FireEvent<T>(T domainEvent) where T : IDomainEvent
         {
-            CanFireEvents = enableEvents;
-
             if (CanFireEvents)
             {
                 EventProcessor.Raise(domainEvent);

@@ -31,6 +31,7 @@ namespace Bowerbird.Core.DomainModels
         protected Project()
             : base()
         {
+            EnableEvents();
         }
 
         public Project(
@@ -52,7 +53,8 @@ namespace Bowerbird.Core.DomainModels
                 website,
                 avatar);
 
-            FireEvent(new DomainModelCreatedEvent<Group>(this, createdByUser, this), true);
+            EnableEvents();
+            FireEvent(new DomainModelCreatedEvent<Group>(this, createdByUser, this));
         }
 
         #endregion

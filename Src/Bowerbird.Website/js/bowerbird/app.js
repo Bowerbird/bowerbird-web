@@ -218,20 +218,13 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
 
                 // Subscribe authenticated user to all their groups
                 if (app.authenticatedUser) {
-                    var memberships = [];
-                    _.each(app.authenticatedUser.memberships, function (membership) {
-                        if (membership.GroupType === 'project' || membership.GroupType === 'team' || membership.GroupType === 'organisation') {
-                            memberships.push(membership);
-                        }
-                    }, memberships);
-
-                        $.connection.userHub.registerUserClient(app.authenticatedUser.user.id)
-                            .done(function () {
-                                log('Added user to hub');
-                            })
-                            .fail(function (e) {
-                                log('could not register client with hub', e);
-                            });
+                    $.connection.userHub.registerUserClient(app.authenticatedUser.user.id)
+                        .done(function () {
+                            log('Added user to hub');
+                        })
+                        .fail(function (e) {
+                            log('could not register client with hub', e);
+                        });
                 }
             });
 

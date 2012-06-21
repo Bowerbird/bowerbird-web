@@ -37,6 +37,7 @@
         'underscore',
         'backbone',
         'marionette',
+        'controllers/usercontroller',
         'controllers/activitycontroller',
         'controllers/groupusercontroller',
         'controllers/homecontroller',

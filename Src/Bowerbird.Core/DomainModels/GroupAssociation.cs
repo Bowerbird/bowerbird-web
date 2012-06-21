@@ -26,7 +26,10 @@ namespace Bowerbird.Core.DomainModels
 
         #region Constructors
 
-        protected GroupAssociation() : base() {}
+        protected GroupAssociation()
+            : base()
+        {
+        }
 
         public GroupAssociation(
             Group parentGroup,

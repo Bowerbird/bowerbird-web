@@ -16,7 +16,7 @@ using Bowerbird.Core.DesignByContract;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public class ObservationMedia : DomainModel
+    public class ObservationMedia
     {
         #region Members
 
@@ -24,14 +24,17 @@ namespace Bowerbird.Core.DomainModels
 
         #region Constructors
 
-        protected ObservationMedia() : base() { }
+        protected ObservationMedia()
+            : base()
+        {
+        }
 
         public ObservationMedia(
             string id,
             MediaResource mediaResource,
             string description,
             string licence)
-            : this()
+            : base()
         {
             Check.RequireNotNull(mediaResource, "mediaResource");
 
@@ -46,6 +49,8 @@ namespace Bowerbird.Core.DomainModels
         #endregion
 
         #region Properties
+
+        public string Id { get; private set; }
 
         public MediaResource MediaResource { get; private set; }
 

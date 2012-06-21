@@ -29,7 +29,10 @@ namespace Bowerbird.Core.DomainModels
 
         #region Constructors
 
-        protected AppRoot() : base() { }
+        protected AppRoot() : base() 
+        {
+            EnableEvents();
+        }
 
         // Special constructor for setup of inital app root object in RavenDB during system setup
         internal AppRoot(
@@ -44,6 +47,8 @@ namespace Bowerbird.Core.DomainModels
             Categories = categories;
             base.Name = "Bowerbird";
             base.CreatedDateTime = DateTime.UtcNow;
+
+            EnableEvents();
         }
 
         #endregion

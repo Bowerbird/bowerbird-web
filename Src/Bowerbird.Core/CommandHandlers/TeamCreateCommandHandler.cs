@@ -96,9 +96,7 @@ namespace Bowerbird.Core.CommandHandlers
                 user,
                 user,
                 team,
-                roles,
-                false
-                );
+                roles);
 
             _documentSession.Store(teamAdministrator);
             

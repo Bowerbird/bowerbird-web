@@ -25,11 +25,14 @@ namespace Bowerbird.Core.DomainModels
 
         #region Constructors
 
-        protected UserSession() { }
+        protected UserSession()
+            : base()
+        {
+        }
 
         public UserSession(
             string connectionId)
-            : this()
+            : base()
         {
             ConnectionId = connectionId;
             CreatedDateTime = DateTime.UtcNow;

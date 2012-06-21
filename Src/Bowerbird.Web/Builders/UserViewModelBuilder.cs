@@ -165,26 +165,10 @@ namespace Bowerbird.Web.Builders
 
             return _documentSession
                 .Query<All_Users.Result, All_Users>()
-                .Where(x => x.LatestActivity.Any(y => y < fiveMinutesAgo))
+                .AsProjection<All_Users.Result>()
+                .Where(x => x.LatestActivity.Any(y => y > fiveMinutesAgo))
                 .ToList()
                 .Select(x => _userViewFactory.Make(x.User));
-
-
-            //var connectedUserIds = _documentSession
-            //    .Query<All_Sessions.Results, All_Sessions>()
-            //    .AsProjection<All_Sessions.Results>()
-            //    .Include(x => x.UserId)
-            //    .Where(x => x.Status < (int) Connection.ConnectionStatus.Offline && x.LatestActivity > DateTime.UtcNow.AddHours(-1))
-            //    .ToList()
-            //    .Select(x => x.UserId)
-            //    .Distinct();
-
-            //return _documentSession
-            //    .Query<All_Users.Result, All_Users>()
-            //    .Where(x => x.UserId.In(connectedUserIds))
-            //    .AsProjection<All_Users.Result>()
-            //    .ToList()
-            //    .Select(x => _userViewFactory.Make(x.User));
         }
 
         private object MakeMember(Member member)

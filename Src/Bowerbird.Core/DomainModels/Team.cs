@@ -29,6 +29,7 @@ namespace Bowerbird.Core.DomainModels
         protected Team()
             : base()
         {
+            EnableEvents();
         }
 
         public Team(
@@ -50,7 +51,8 @@ namespace Bowerbird.Core.DomainModels
                 website,
                 avatar);
 
-            FireEvent(new DomainModelCreatedEvent<Team>(this, createdByUser, this), true);
+            EnableEvents();
+            FireEvent(new DomainModelCreatedEvent<Team>(this, createdByUser, this));
         }
 
         #endregion

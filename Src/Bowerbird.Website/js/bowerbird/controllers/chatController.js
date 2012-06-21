@@ -16,10 +16,10 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
         this.hub = $.connection.chatHub;
         this.controller = options.controller;
 
-        groupChatJoined
-        userJoinedChat
-        userIsTyping
-        chatMessageReceived
+        //        groupChatJoined
+        //        userJoinedChat
+        //        userIsTyping
+        //        chatMessageReceived
 
         this.hub.chatMessageReceived = chatMessageReceived;
         this.hub.userJoinedChat = userJoinedChat;
@@ -72,7 +72,7 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
     };
 
     var setupOnlineUsers = function (onlineUsers) {
-        
+
     };
 
     // Chat message received ready to display
@@ -150,6 +150,8 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
 
     // Send a chat message
     ChatController.sendChatMessage = function (chat, message) {
+        log('here yo');
+        log(chatHub);
         chatHub.sendChatMessage(chat.id, message, chat.chatUsers.pluck('Id'));
     };
 

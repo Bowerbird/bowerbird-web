@@ -83,9 +83,7 @@ namespace Bowerbird.Core.CommandHandlers
                 _documentSession
                     .Query<Role>()
                     .Where(x => x.Id.Equals("roles/organisationadministrator") || x.Id.Equals("roles/organisationmember"))
-                    .ToList(),
-                false
-                );
+                    .ToList());
 
             _documentSession.Store(organisationAdministrator);
             

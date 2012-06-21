@@ -16,6 +16,7 @@ using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Services;
 using Raven.Client;
+using Raven.Client.Linq;
 using System.Dynamic;
 using System.IO;
 using Bowerbird.Core.EventHandlers;
@@ -25,13 +26,14 @@ using Bowerbird.Web.Builders;
 using SignalR.Hubs;
 using Bowerbird.Web.Hubs;
 using Bowerbird.Core.Config;
+using Bowerbird.Core.Indexes;
 
 namespace Bowerbird.Web.EventHandlers
 {
     /// <summary>
     /// Log an activity item when a user joins a group
     /// </summary>
-    public class ActivityUserSessionAdded : 
+    public class UserSessionUpdated : 
         DomainEventHandlerBase, 
         IEventHandler<DomainModelCreatedEvent<UserSession>>,
         IEventHandler<DomainModelUpdatedEvent<UserSession>>
@@ -47,7 +49,7 @@ namespace Bowerbird.Web.EventHandlers
 
         #region Constructors
 
-        public ActivityUserSessionAdded(
+        public UserSessionUpdated(
             IDocumentSession documentSession,
             IUserViewFactory userViewFactory,
             IUserViewModelBuilder userViewModelBuilder,
@@ -71,40 +73,50 @@ namespace Bowerbird.Web.EventHandlers
 
         public void Handle(DomainModelCreatedEvent<UserSession> domainEvent)
         {
-            Execute(domainEvent, domainEvent.DomainModel);
+            Execute(domainEvent, domainEvent.DomainModel, domainEvent.Sender as User);
         }
 
         public void Handle(DomainModelUpdatedEvent<UserSession> domainEvent)
         {
-            Execute(domainEvent, domainEvent.DomainModel);
+            Execute(domainEvent, domainEvent.DomainModel, domainEvent.Sender as User);
         }
 
-        private void Execute(IDomainEvent domainEvent, UserSession userSession)
+        public void Execute(IDomainEvent domainEvent, UserSession userSession, User user)
         {
-            // Add user to the online users group
-            _userContext.AddAuthenticatedUserSessionToOnlineUsersChannel(userSession.ConnectionId);
+            // Add user to the online users channel
+            _userContext.AddUserToOnlineUsersChannel(userSession.ConnectionId);
 
-            // Return connected users (those users active less than 5 minutes ago)
-            var onlineUsers = _userViewModelBuilder.BuildOnlineUsers();
-            _userContext.GetAuthenticatedUserChannel("user-" + domainEvent.User.Id).setupOnlineUsers(onlineUsers);
-
-            var appRoot = _documentSession.Load<AppRoot>(Constants.AppRootId);
-
-            dynamic activity = MakeActivity(
-                domainEvent,
-                "userstatuschanged",
-                string.Format("{0} has updated their status", domainEvent.User.GetName()),
-                new[] { appRoot });
-
-            activity.UserStatusChanged = new
+            // If new user session, send all online users down the wire
+            if (domainEvent is DomainModelCreatedEvent<UserSession>)
             {
-                User = _userViewFactory.Make(domainEvent.User)
-            };
+                // Get all user's memberships and add them to the corresponding group channel
+                var memberships = _documentSession
+                    .Query<All_Users.Result, All_Users>()
+                    .AsProjection<All_Users.Result>()
+                    .Where(x => x.UserId == user.Id)
+                    .ToList()
+                    .SelectMany(x => x.Members);
 
-            _documentSession.Store(activity);
-            _userContext.SendActivityToGroupChannel(activity);
+                foreach (var membership in memberships)
+                {
+                    _userContext.AddUserToGroupChannel(membership.Group.Id, userSession.ConnectionId);
+                }
+
+                // Return connected users (those users active less than 5 minutes ago)
+                var onlineUsers = _userViewModelBuilder.BuildOnlineUsers();
+                _userContext.GetUserChannel(user.Id).setupOnlineUsers(onlineUsers);
+            }
+
+            var userStatus = new 
+                {
+                    User = _userViewFactory.Make(user),
+                    LatestActivity = userSession.LatestActivity
+                };
+
+            _userContext.GetOnlinerUsersChannel().userStatusUpdate(userStatus);
         }
 
         #endregion
+
     }
 }

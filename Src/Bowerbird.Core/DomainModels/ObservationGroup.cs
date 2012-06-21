@@ -19,7 +19,7 @@ using Newtonsoft.Json;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public class ObservationGroup : DomainModel
+    public class ObservationGroup
     {
         #region Members
 
@@ -28,6 +28,7 @@ namespace Bowerbird.Core.DomainModels
         #region Constructors
 
         protected ObservationGroup()
+            : base()
         {
         }
 
@@ -35,7 +36,7 @@ namespace Bowerbird.Core.DomainModels
             Group group,
             User createdByUser,
             DateTime createdDateTime)
-            : this()
+            : base()
         {
             Check.RequireNotNull(group, "group");
             Check.RequireNotNull(createdByUser, "createdByUser");

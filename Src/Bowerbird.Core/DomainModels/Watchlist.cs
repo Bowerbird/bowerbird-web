@@ -34,13 +34,13 @@ namespace Bowerbird.Core.DomainModels
         public Watchlist()
             : base()
         {
+            EnableEvents();
         }
 
         public Watchlist(
             User createdByUser,
             string name,
-            string querystringJson
-            )
+            string querystringJson)
             : base()
         {
             Check.RequireNotNull(createdByUser, "createdByUser");
@@ -53,7 +53,8 @@ namespace Bowerbird.Core.DomainModels
                 name,
                 querystringJson);
 
-            FireEvent(new DomainModelUpdatedEvent<Watchlist>(this, createdByUser, this), true);
+            EnableEvents();
+            FireEvent(new DomainModelUpdatedEvent<Watchlist>(this, createdByUser, this));
         }
 
         #endregion

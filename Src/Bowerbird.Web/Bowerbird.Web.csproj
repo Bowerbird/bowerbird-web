@@ -187,7 +187,8 @@
     <Compile Include="EventHandlers\ActivityObservationNoteAdded.cs" />
     <Compile Include="EventHandlers\ActivityPostAdded.cs" />
     <Compile Include="EventHandlers\ActivityUserJoinedGroup.cs" />
-    <Compile Include="EventHandlers\ActivityUserSessionAdded.cs" />
+    <Compile Include="EventHandlers\UserSessionUpdated.cs" />
+    <Compile Include="EventHandlers\ChatMessageAdded.cs" />
     <Compile Include="EventHandlers\DomainEventHandlerBase.cs" />
     <Compile Include="EventHandlers\SendRequestPasswordResetEmail.cs" />
     <Compile Include="EventHandlers\SendWelcomeEmail.cs" />

@@ -29,6 +29,7 @@ namespace Bowerbird.Core.DomainModels
         protected Organisation()
             : base()
         {
+            EnableEvents();
         }
 
         public Organisation(
@@ -50,7 +51,8 @@ namespace Bowerbird.Core.DomainModels
                 website,
                 avatar);
 
-            FireEvent(new DomainModelCreatedEvent<Organisation>(this, createdByUser, this), true);
+            EnableEvents();
+            FireEvent(new DomainModelCreatedEvent<Organisation>(this, createdByUser, this));
         }
 
         #endregion

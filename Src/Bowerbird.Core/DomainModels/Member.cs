@@ -30,30 +30,29 @@ namespace Bowerbird.Core.DomainModels
             : base()
         {
             InitMembers();
+
+            EnableEvents();
         }
 
         public Member(
             User createdByUser,
             User user,
             Group group,
-            IEnumerable<Role> roles,
-            bool fireCreateEvent = true)
-            : this()
+            IEnumerable<Role> roles)
+            : base()
         {
             Check.RequireNotNull(user, "user");
             Check.RequireNotNull(group, "group");
             Check.Require(roles != null && roles.ToList().Count > 0, "role collection must be not null and contain role items");
 
+            InitMembers();
+
             User = user;
             Group = group;
             Roles = roles;
 
-            if (fireCreateEvent)
-            {
-                FireEvent(new DomainModelCreatedEvent<Member>(this, createdByUser, this), true);
-            }
-
             EnableEvents();
+            FireEvent(new DomainModelCreatedEvent<Member>(this, createdByUser, this));
         }
 
         #endregion

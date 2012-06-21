@@ -37,36 +37,14 @@ namespace Bowerbird.Core.Indexes
 
         public All_Users()
         {
-            AddMap<Member>(members => from member in members
-                                      let roles = member.Roles
-                                      let permissions = roles.SelectMany(x => x.Permissions)
-                                      select new
-                                      {
-                                          UserId = member.User.Id,
-                                          MemberIds = new[] { member.Id },
-                                          ConnectionIds = new string[] { },
-                                          LatestActivity = new DateTime[] { }
-                                      });
-
             AddMap<User>(users => from user in users
                                       select new
                                       {
                                           UserId = user.Id,
-                                          MemberIds = new string[] { },
+                                          MemberIds = user.Memberships.Select(x => x.Id),
                                           ConnectionIds = user.Sessions.Select(x => x.ConnectionId),
                                           LatestActivity = user.Sessions.Select(x => x.LatestActivity)
                                       });
-
-            Reduce = results => from result in results
-                                group result by result.UserId
-                                    into g
-                                    select new
-                                    {
-                                        UserId = g.Key,
-                                        MemberIds = g.SelectMany(x => x.MemberIds),
-                                        ConnectionIds = g.SelectMany(x => x.ConnectionIds),
-                                        LatestActivity = g.SelectMany(x => x.LatestActivity)
-                                    };
 
             TransformResults = (database, results) =>
                                 from result in results
