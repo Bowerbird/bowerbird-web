@@ -1,4 +1,5 @@
 ﻿<div class="explore-item">
+    <div class="click-to-explore">Click to Explore</div>
     <div class="explore-summary">
         <span class="explore-avatar">
             <img src="{{Avatar.Files.medium.RelativeUri}}" />
@@ -7,14 +8,14 @@
     </div>
     <div class="explore-details">
         {{#Team}}<div class="explore-details-property">Team:</div><div class="explore-details-value">{{Team}}</div>{{/Team}}
-        <div class="explore-details-property">Website</div><div class="explore-details-value">{{Website}}</div>
-        <div class="explore-details-property">Description</div><div class="explore-details-value">{{Description}}</div>
-        <div class="explore-details-property">Members</div><div class="explore-details-value">{{MemberCount}}</div>
+        {{#Website}}<div class="explore-details-property">Website</div><div class="explore-details-value">{{Website}}</div>{{/Website}}
+        {{#MemberCount}}<div class="explore-details-property">Members</div><div class="explore-details-value">{{MemberCount}}</div>{{/MemberCount}}
+        {{#Description}}<div class="explore-details-property">Description</div><div class="explore-details-value">{{Description}}</div>{{/Description}}
     </div>
     <div class="join-project">
-        <button value="Join" class="join-project-button">Join this project</button>
+        <button value="Join" class="view-project-button">View Project</button>
     </div>
-    <div class="view-project">
+<!--    <div class="view-project">
         <button value="View" class="view-project-button">View this project</button>
-    </div>
+    </div>-->
 </div>
