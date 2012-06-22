@@ -25,15 +25,17 @@ using Raven.Client.Linq;
 using Bowerbird.Web.Factories;
 using System.Collections.Generic;
 using Bowerbird.Core.Indexes;
+using Bowerbird.Core.Commands;
 
 namespace Bowerbird.Web.Hubs
 {
-    public class ChatHub : Hub, IDisconnect
+    public class ChatHub : Hub//, IDisconnect
     {
         #region Members
 
         private readonly IUserViewFactory _userViewFactory;
         private readonly IDocumentSession _documentSession;
+        private readonly ICommandProcessor _commandProcessor;
 
         #endregion
 
@@ -41,79 +43,61 @@ namespace Bowerbird.Web.Hubs
 
         public ChatHub(
             IUserViewFactory userViewFactory,
-            IDocumentSession documentSession)
+            IDocumentSession documentSession,
+            ICommandProcessor commandProcessor)
         {
             Check.RequireNotNull(userViewFactory, "userViewFactory");
             Check.RequireNotNull(documentSession, "documentSession");
+            Check.RequireNotNull(commandProcessor, "commandProcessor");
 
             _userViewFactory = userViewFactory;
             _documentSession = documentSession;
+            _commandProcessor = commandProcessor;
         }
 
         #endregion
 
         #region Methods
 
-        public void JoinChat(string chatId)
+        public void StartPrivateChat(string chatId, string[] inviteeUserIds)
         {
-            var chat = _documentSession.Load<Chat>(chatId);
-            var messageSender = GetUserByConnectionId(Context.ConnectionId);
+            // Create chat
+            MakeChat(chatId, inviteeUserIds, null);
 
+            _documentSession.SaveChanges();
+        }
+
+        public void JoinChat(string chatId, string groupId)
+        {
+            // Get user by connection id
+            var user = GetUserByConnectionId(Context.ConnectionId);
+
+            // Get chat
+            var chat = _documentSession.Load<Chat>(chatId);
+
+            // Check if chat exists (this is specifically for group chats which may not initially exist
             if (chat == null)
             {
-                chat = MakeChat(chatId, messageSender, new [] { messageSender });
+                // If not, make it and add user to chat
+                MakeChat(chatId, new[] { user.Id }, groupId);
+            }
+            else
+            {
+                // Just add user to existing chat
+                UpdateChat(chatId, new [] { user.Id }, new string[] {});
             }
 
-            _documentSession.Store(chat);
             _documentSession.SaveChanges();
-            
-            //var chatUsers = _documentSession
-            //    .Load<User>(((List<User>)chat.Users).Select(x => x.Id))
-            //    .Select(_userViewFactory.Make);
-
-            //var chatMessageUsers = _documentSession
-            //    .Load<User>(((List<ChatMessage>)chat.Messages).Select(x => x.User.Id));
-
-            //var chatMessages = ((List<ChatMessage>)chat.Messages)
-            //    .OrderByDescending(x => x.Timestamp)
-            //    .Take(30)
-            //    .Select(x => new
-            //    {
-            //        Id = x.Id,
-            //        ChatId = chat.Id,
-            //        FromUser = _userViewFactory.Make(chatMessageUsers.Single(y => y.Id == x.User.Id)),
-            //        Timestamp = x.Timestamp,
-            //        Message = x.Message
-            //    });
-
-            //// Add user connection to signalr chat group
-            //Groups.Add(Context.ConnectionId, chatId);
-
-            //// Return current chat state to user joining chat
-            //Caller.groupChatJoined(new
-            //    {
-            //        ChatId = chatId,
-            //        Users = chatUsers,
-            //        Messages = chatMessages
-            //    });
-
-            //// Let connected users know another user has joined the chat
-            //Clients[chatId].userJoinedChat(
-            //    new
-            //    {
-            //        ChatId = chatId,
-            //        Timestamp = DateTime.UtcNow,
-            //        User = _userViewFactory.Make(user)
-            //    });
         }
 
         public void ExitChat(string chatId)
         {
+            // Get user by connection id
             var user = GetUserByConnectionId(Context.ConnectionId);
-            var chat = _documentSession.Load<Chat>(chatId);
-            
-            chat.RemoveUser(user.Id);
-            _documentSession.Store(chat);
+
+           
+            // Remove user
+            UpdateChat(chatId, new string[] { }, new[] { user.Id });
 
             _documentSession.SaveChanges();
         }
@@ -122,7 +106,7 @@ namespace Bowerbird.Web.Hubs
         {
             var user = GetUserByConnectionId(Context.ConnectionId);
 
-            Clients[chatId].userIsTyping(
+            Clients["chat-" + chatId].userIsTyping(
                 new
                 {
                     ChatId = chatId,
@@ -132,65 +116,86 @@ namespace Bowerbird.Web.Hubs
                 });
         }
 
-        public void SendChatMessage(string chatId, string message, string[] userIds)
+        public void SendChatMessage(string chatId, string message)
         {
-            Caller.debugToLog(string.Format("ChatHub.sendChatMessage - chatId:{0} message:{1}", chatId, message));
-
-            var chat = _documentSession.Load<Chat>(chatId);
-            var messageSender = GetUserByConnectionId(Context.ConnectionId);
-
-            if (chat == null)
-            {
-                var users = _documentSession.Load<User>(userIds).ToList();
-                chat = MakeChat(chatId, messageSender, users, message);
-            }
-            else
-            {
-                chat.AddMessage(messageSender, DateTime.UtcNow, message);
-            }
-
-            _documentSession.Store(chat);
-            _documentSession.SaveChanges();
-        }
-
-        public Task Disconnect()
-        {
+            // Get user by connection id
             var user = GetUserByConnectionId(Context.ConnectionId);
 
-            var chats = _documentSession
-                            .Query<Chat>()
-                            .Where(x => x.Users.Any(y => y.Id == user.Id))
-                            .ToList();
-
-            foreach (var chat in chats)
+            // Add message to chat
+            _commandProcessor.Process(new ChatMessageCreateCommand()
             {
-                chat.RemoveUser(user.Id);
-                _documentSession.Store(chat);
-            }
+                ChatId = chatId,
+                UserId = user.Id,
+                Timestamp = DateTime.UtcNow,
+                Message = message
+            });
 
             _documentSession.SaveChanges();
-
-            return Task.Factory.StartNew(() => { });
         }
 
-        private IEnumerable<User> GetUsersByConnectionIds(params string[] connectionIds)
+        //public Task Disconnect()
+        //{
+        //    // Get user by connection id
+        //    var user = GetUserByConnectionId(Context.ConnectionId);
+
+        //    // Get chats where connection exists
+        //    var chats = _documentSession
+        //                    .Query<Chat>()
+        //                    .Where(x => x.Users.Any(y => y.Id == user.Id))
+        //                    .ToList();
+
+        //    foreach (var chat in chats)
+        //    {
+        //        chat.RemoveUser(user.Id);
+        //        _documentSession.Store(chat);
+        //    }
+
+        //    _documentSession.SaveChanges();
+
+        //    return Task.Factory.StartNew(() => { });
+        //}
+
+        //private IEnumerable<User> GetUsersByConnectionIds(params string[] connectionIds)
+        //{
+        //    return _documentSession
+        //        .Query<All_Users.Result, All_Users>()
+        //        .AsProjection<All_Users.Result>()
+        //        .Where(x => x.ConnectionIds.Any(y => y.In(connectionIds)))
+        //        .ToList()
+        //        .Select(x => x.User);
+        //}
+
+        private User GetUserByConnectionId(string connectionId)
         {
             return _documentSession
                 .Query<All_Users.Result, All_Users>()
                 .AsProjection<All_Users.Result>()
-                .Where(x => x.ConnectionIds.Any(y => y.In(connectionIds)))
+                .Where(x => x.ConnectionIds.Any(y => y == connectionId))
                 .ToList()
-                .Select(x => x.User);
+                .Select(x => x.User)
+                .First();
         }
 
-        private User GetUserByConnectionId(string connectionId)
+        private void MakeChat(string chatId, string[] inviteeUserIds, string groupId)
         {
-            return GetUsersByConnectionIds(connectionId).First();
+            _commandProcessor.Process(new ChatCreateCommand()
+            {
+                ChatId = chatId,
+                CreatedByUserId = GetUserByConnectionId(Context.ConnectionId).Id,
+                CreatedDateTime = DateTime.UtcNow,
+                UserIds = inviteeUserIds,
+                GroupId = groupId
+            });
         }
 
-        private Chat MakeChat(string chatId, User chatInitiator, IEnumerable<User> users, string message = null)
+        private void UpdateChat(string chatId, string[] addUserIds, string[] removeUserIds)
         {
-            return new Chat(chatId, chatInitiator, users, DateTime.UtcNow, message);
+            _commandProcessor.Process(new ChatUpdateCommand()
+            {
+                ChatId = chatId,
+                AddUserIds = addUserIds,
+                RemoveUserIds = removeUserIds
+            });
         }
 
         #endregion

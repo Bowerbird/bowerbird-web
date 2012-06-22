@@ -16,6 +16,9 @@ using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Raven.Client;
+using Raven.Client.Linq;
+using Bowerbird.Core.Indexes;
+using System.Linq;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -52,12 +55,33 @@ namespace Bowerbird.Core.CommandHandlers
 
             var createdByUser = _documentSession.Load<User>(command.CreatedByUserId);
 
-            var chat = new Chat(
-                command.ChatId,
-                createdByUser,
-                _documentSession.Load<User>(command.UserIds),
-                command.CreatedDateTime,
-                command.Message);
+            Chat chat = null;
+
+            if (string.IsNullOrWhiteSpace(command.GroupId))
+            {
+                chat = new Chat(
+                    command.ChatId,
+                    createdByUser,
+                    _documentSession.Load<User>(command.UserIds),
+                    command.CreatedDateTime);
+            }
+            else
+            {
+                var group = _documentSession
+                    .Query<All_Groups.Result, All_Groups>()
+                    .AsProjection<All_Groups.Result>()
+                    .Where(x => x.GroupId == command.GroupId)
+                    .ToList()
+                    .Select(x => x.Group)
+                    .First();
+
+                chat = new Chat(
+                    command.ChatId,
+                    createdByUser,
+                    _documentSession.Load<User>(command.UserIds),
+                    command.CreatedDateTime,
+                    group);
+            }
 
             _documentSession.Store(chat);
         }

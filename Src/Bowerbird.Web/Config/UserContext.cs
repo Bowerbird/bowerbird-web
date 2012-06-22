@@ -121,6 +121,11 @@ namespace Bowerbird.Web.Config
             _chatHub.Groups.Add(connectionId, "chat-" + chatId);
         }
 
+        public void RemoveUserFromChatChannel(string chatId, string connectionId)
+        {
+            _chatHub.Groups.Remove(connectionId, "chat-" + chatId);
+        }
+
         public dynamic GetUserChannel(string userId)
         {
             return _userHub.Clients["user-" + userId];

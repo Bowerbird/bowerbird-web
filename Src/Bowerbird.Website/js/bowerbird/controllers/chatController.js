@@ -13,20 +13,17 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/chat', 'collections/u
 function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, ChatCompositeView, ChatRegion) {
 
     var ChatRouter = function (options) {
-        this.hub = $.connection.chatHub;
         this.controller = options.controller;
+        this.chatHub = $.connection.chatHub;
+        this.userHub = $.connection.userHub;
 
-        //        groupChatJoined
-        //        userJoinedChat
-        //        userIsTyping
-        //        chatMessageReceived
-
-        this.hub.chatMessageReceived = chatMessageReceived;
-        this.hub.userJoinedChat = userJoinedChat;
-        this.hub.groupChatJoined = groupChatJoined;
-        this.hub.userExitedChat = userExitedChat;
-        this.hub.userIsTyping = userIsTyping;
-        this.hub.debugToLog = debugToLog;
+        // Wire up hub callbacks
+        this.chatHub.userIsTyping = userIsTyping;
+        this.userHub.chatJoined = chatJoined;
+        this.chatHub.userJoinedChat = userJoinedChat;
+        this.chatHub.userExitedChat = userExitedChat;
+        this.chatHub.chatMessageReceived = chatMessageReceived;
+        this.chatHub.debugToLog = debugToLog;
     };
 
     var ChatController = {};
@@ -57,49 +54,49 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
         log(message);
     }
 
-    // Group chat successfully joined
-    var groupChatJoined = function (data) {
-        var chat = app.chats.get(data.ChatId);
-        chat.chatUsers.add(data.Users);
-        chat.chatMessages.add(data.Messages);
-        var chatView = new ChatCompositeView({ id: 'chat-' + chat.id, model: chat });
+    // Chat joined
+    var chatJoined = function (chatDetails) {
+        var chatUsers = new UserCollection(chatDetails.Users);
+        var chatMessages = new ChatMessageCollection(chatDetails.Messages);
+        chat = new Chat({ Id: chatDetails.ChatId, Group: chatDetails.Group }, { chatUsers: chatUsers, chatMessages: chatMessages });
+        app.chats.add(chat);
+        var chatView = new ChatCompositeView({ id: 'chat-' + chatDetails.ChatId.replace(/\//g, '-'), model: chat });
         showChat(chatView);
     };
 
     // User joined chat
-    var userJoinedChat = function (data) {
-
+    var userJoinedChat = function (details) {
+        var chat = app.chats.get(details.ChatId);
+        chat.chatUsers.add(details.User);
     };
 
-    var setupOnlineUsers = function (onlineUsers) {
-
+    var userExitedChat = function (details) {
+        var chat = app.chats.get(details.ChatId);
+        chat.chatUsers.remove(details.User.Id);
     };
 
     // Chat message received ready to display
-    var chatMessageReceived = function (data) {
+    var chatMessageReceived = function (chatMessage) {
         // Find the chat
-        var chat = app.chats.get(data.ChatId);
+        var chat = app.chats.get(chatMessage.ChatId);
 
+        // If this is a private chat, then this might be the first message we have received. If so, we need to create the chat
+        // The server will have returned the user list with this initial message
         if (chat == null) {
-            var chatUsers = new UserCollection(data.Users);
+            var chatUsers = new UserCollection(chatMessage.Users);
             var chatMessages = new ChatMessageCollection();
-            var chat = new Chat({ Id: data.ChatId }, { chatUsers: chatUsers, chatMessages: chatMessages });
+            var chat = new Chat({ Id: chatMessage.ChatId, Group: chatMessage.Group }, { chatUsers: chatUsers, chatMessages: chatMessages });
             app.chats.add(chat);
-            var chatView = new ChatCompositeView({ id: 'chat-' + data.ChatId, model: chat });
+            var chatView = new ChatCompositeView({ id: 'chat-' + chatMessage.ChatId.replace(/\//g, '-'), model: chat });
             showChat(chatView);
         }
 
         // Add the message
-        chat.chatMessages.add(data);
+        chat.chatMessages.add(chatMessage);
     };
 
     // User is typing a message status
-    var userIsTyping = function (data) {
-
-    };
-
-    // User left a chat status
-    var userExitedChat = function (data) {
+    var userIsTyping = function (details) {
 
     };
 
@@ -107,39 +104,32 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
     // -------------------------
 
     // Initiate a new private chat
-    ChatController.startNewPrivateChat = function (user) {
+    ChatController.startPrivateChat = function (user) {
         // Check to see if we have this user in a one-on-one private chat already
-        var chatExists = app.chats.any(function (c) {
+        var chat = app.chats.find(function (c) {
             return c.chatType() === 'private' && c.chatUsers.length == 2 && c.chatUsers.any(function (u) { return u.id === user.id }, this);
         }, this);
-        if (app.authenticatedUser.user.id != user.id && !chatExists) {
-            var chatId = generateGuid();
-            var chatUsers = new UserCollection([app.authenticatedUser.user, user]);
-            var chatMessages = new ChatMessageCollection();
-            var chat = new Chat({ Id: chatId, User: user }, { chatUsers: chatUsers, chatMessages: chatMessages });
-            app.chats.add(chat);
-            var chatView = new ChatCompositeView({ id: 'chat-' + chatId, model: chat });
-            showChat(chatView);
+        if (app.authenticatedUser.user.id != user.id && !chat) {
+            chatHub.startPrivateChat('chats/' + generateGuid(), [app.authenticatedUser.user.id, user.id]);
         }
     };
 
     // Join a group chat
     ChatController.joinGroupChat = function (group) {
         // Check to see if we have this user in a chat
-        var chatExists = app.chats.any(function (c) { return c.id == group.id; }, this);
-        if (!chatExists) {
-            var chatUsers = new UserCollection();
-            var chatMessages = new ChatMessageCollection();
-            var chat = new Chat({ Id: group.id, Group: group }, { chatUsers: chatUsers, chatMessages: chatMessages });
-            app.chats.add(chat);
-            // Subscribe user to chat
-            chatHub.joinChat(group.id);
+        var chatId = 'chat/' + group.id;
+        var chat = app.chats.find(function (c) { return c.id == chatId; }, this);
+        if (!chat) {
+            chatHub.joinChat(chatId, group.id);
         }
     };
 
     // Leave a chat
     ChatController.exitChat = function (chat) {
         chatHub.exitChat(chat.Id);
+        app.chats.remove(chat.id);
+        var chatRegion = _.find(app.chatRegions, function (region) { return region.chat.id === chat.id });
+        chatRegion.close();
     };
 
     // Send typing status to other users
@@ -150,9 +140,7 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
 
     // Send a chat message
     ChatController.sendChatMessage = function (chat, message) {
-        log('here yo');
-        log(chatHub);
-        chatHub.sendChatMessage(chat.id, message, chat.chatUsers.pluck('Id'));
+        chatHub.sendChatMessage(chat.id, message);
     };
 
     // ChatController Events
@@ -163,7 +151,7 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
     });
 
     app.vent.on('chats:startPrivateChat', function (user) {
-        ChatController.startNewPrivateChat(user);
+        ChatController.startPrivateChat(user);
     });
 
     app.vent.on('chats:sendMessage', function (chat, message) {
@@ -171,9 +159,7 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
     });
 
     app.vent.on('chats:close', function (chat) {
-        app.chats.remove(chat.id);
-        var chatRegion = _.find(app.chatRegions, function (region) { return region.chat.id === chat.id });
-        chatRegion.close();
+        ChatController.exitChat(chat);
     });
 
     app.addInitializer(function () {

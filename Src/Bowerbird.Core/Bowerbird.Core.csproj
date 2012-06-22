@@ -218,6 +218,7 @@
     <Compile Include="DomainModels\IContribution.cs" />
     <Compile Include="DomainModels\IOwnable.cs" />
     <Compile Include="DomainModels\Chat.cs" />
+    <Compile Include="DomainModels\IPublicGroup.cs" />
     <Compile Include="DomainModels\ReferenceSpecies.cs" />
     <Compile Include="DomainModels\Species.cs" />
     <Compile Include="DomainModels\UserProject.cs" />
@@ -238,6 +239,8 @@
     <Compile Include="DomainModels\UserSession.cs" />
     <Compile Include="DomainModels\ValueObject.cs" />
     <Compile Include="DomainModels\Watchlist.cs" />
+    <Compile Include="Events\UserExitedChatEvent.cs" />
+    <Compile Include="Events\UserJoinedChatEvent.cs" />
     <Compile Include="Events\DomainEventBase.cs" />
     <Compile Include="Events\DomainModelCreatedEvent.cs" />
     <Compile Include="Events\GroupAssociationCreatedEvent.cs" />

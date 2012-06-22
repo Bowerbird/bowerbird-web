@@ -1760,15 +1760,22 @@ color: #6997C5;
     white-space: nowrap;
     overflow: hidden;
 }
-.window-close
+.window-title-bar .close
 {
-    position:absolute;
-    right:0px;
-    top:0px;
-    width:20px;
-    height:20px;
-    background-image:url("/img/close.gif");
-    background-size:20px 20px;
+    background: url("/img/glyphicons-halflings-white.png") no-repeat scroll -312px 0 #CFDDEB;
+    border: 2px solid #CFDDEB;
+    border-radius: 10px 10px 10px 10px;
+    display: block;
+    height: 14px;
+    position: absolute;
+    right: 10px;
+    top: 9px;
+    width: 14px;
+}
+.window-title-bar .close:hover
+{
+    background: url("/img/glyphicons-halflings-white.png") no-repeat scroll -312px 0 #1B83EB;
+    border: 2px solid #1B83EB;    
 }
 #online-users
 {

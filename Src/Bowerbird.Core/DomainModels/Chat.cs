@@ -43,8 +43,7 @@ namespace Bowerbird.Core.DomainModels
             string id,
             User createdByUser,
             IEnumerable<User> users,
-            DateTime createdDateTime, 
-            string message = null)
+            DateTime createdDateTime)
             : base()
         {
             InitMembers();
@@ -58,9 +57,28 @@ namespace Bowerbird.Core.DomainModels
                 AddUser(user);
             }
 
-            if (!string.IsNullOrWhiteSpace(message))
+            EnableEvents();
+            FireEvent(new DomainModelCreatedEvent<Chat>(this, createdByUser, this));
+        }
+
+        public Chat(
+            string id,
+            User createdByUser,
+            IEnumerable<User> users,
+            DateTime createdDateTime,
+            Group group)
+            : base()
+        {
+            InitMembers();
+
+            Id = id;
+            CreatedByUser = createdByUser;
+            CreatedDateTime = createdDateTime;
+            Group = group;
+
+            foreach (var user in users)
             {
-                AddMessage(createdByUser, createdDateTime, message);
+                AddUser(user);
             }
 
             EnableEvents();
@@ -77,11 +95,11 @@ namespace Bowerbird.Core.DomainModels
 
         public IEnumerable<DenormalisedUserReference> Users { get; private set; }
 
-        public Group Group { get; private set; }
+        public DenormalisedGroupReference Group { get; private set; }
 
         public IEnumerable<ChatMessage> Messages { get; private set; }
 
-        public string Type
+        public string ChatType
         {
             get { return Group != null ? "group" : "private"; }
         }
@@ -114,16 +132,16 @@ namespace Bowerbird.Core.DomainModels
                 ((List<DenormalisedUserReference>)Users).Add(user);
             }
 
-            // TODO: Fire event
+            FireEvent(new UserJoinedChatEvent(user, this, this));
 
             return this;
         }
 
-        public Chat RemoveUser(string userId)
+        public Chat RemoveUser(User user)
         {
-            ((List<DenormalisedUserReference>)Users).RemoveAll(x => x.Id == userId);
+            ((List<DenormalisedUserReference>)Users).RemoveAll(x => x.Id == user.Id);
 
-            // TODO: Fire event
+            FireEvent(new UserExitedChatEvent(user, this, this));
 
             return this;
         }

@@ -18,7 +18,7 @@ using Bowerbird.Core.Events;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public class Organisation : Group
+    public class Organisation : Group, IPublicGroup
     {
         #region Members
 
