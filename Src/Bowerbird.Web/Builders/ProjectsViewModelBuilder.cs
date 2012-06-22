@@ -202,8 +202,9 @@ namespace Bowerbird.Web.Builders
                 result.Project.Name,
                 result.Project.Description,
                 result.Project.Website,
-                result.Project.Avatar,
-                MemberCount = result.MemberIds.Count()
+                Avatar = result.Project.Avatar ?? _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Project),
+                MemberCount = result.MemberIds.Count(),
+                AvatarId = result.Project.Avatar != null ? result.Project.Avatar.Id : null
             };
         }
 

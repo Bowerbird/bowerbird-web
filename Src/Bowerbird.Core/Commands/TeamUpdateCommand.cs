@@ -39,6 +39,8 @@ namespace Bowerbird.Core.Commands
         public string Website { get; set; }
 
         public string AvatarId { get; set; }
+
+        public string OrganisationId { get; set; }
         
         #endregion
 

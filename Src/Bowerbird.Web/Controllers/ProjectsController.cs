@@ -431,11 +431,14 @@ namespace Bowerbird.Web.Controllers
         [HttpPut]
         public ActionResult Update(ProjectUpdateInput updateInput)
         {
+            DebugToClient("SERVER: [PUT]Projects/Update ->");
+            DebugToClient(updateInput);
+
             Check.RequireNotNull(updateInput, "updateInput");
 
             var projectId = "projects/".AppendWith(updateInput.Id);
 
-            if (!_userContext.HasGroupPermission<Project>(PermissionNames.UpdateProject, projectId))
+            if (!_userContext.HasGroupPermission(PermissionNames.UpdateProject, projectId))
             {
                 return HttpUnauthorized();
             }

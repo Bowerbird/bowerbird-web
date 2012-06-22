@@ -466,9 +466,9 @@ namespace Bowerbird.Web.Controllers
         [HttpPut]
         public ActionResult Update(TeamUpdateInput updateInput)
         {
-            DebugToClient(updateInput);
-
             DebugToClient(string.Format("SERVER: [PUT]Teams/Update: id:{0}", updateInput.Id));
+
+            DebugToClient(updateInput);
 
             var teamId = "teams/".AppendWith(updateInput.Id);
 
@@ -489,7 +489,8 @@ namespace Bowerbird.Web.Controllers
                     Description = updateInput.Description,
                     Name = updateInput.Name,
                     UserId = _userContext.GetAuthenticatedUserId(),
-                    AvatarId = updateInput.AvatarId
+                    AvatarId = updateInput.AvatarId,
+                    OrganisationId = updateInput.OrganisationId ?? Constants.AppRootId
                 }
             );
 

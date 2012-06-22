@@ -209,8 +209,9 @@ namespace Bowerbird.Web.Builders
                 result.Team.Name,
                 result.Team.Description,
                 result.Team.Website,
-                result.Team.Avatar,
-                MemberCount = result.ChildGroupIds.Count()
+                Avatar = result.Team.Avatar ?? _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Team),
+                MemberCount = result.ChildGroupIds.Count(),
+                AvatarId = result.Team.Avatar != null ? result.Team.Avatar.Id : null
             };
         }
 

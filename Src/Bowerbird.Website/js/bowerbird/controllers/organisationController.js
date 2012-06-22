@@ -8,8 +8,7 @@
 // OrganisationController & OrganisationRouter
 // -------------------------------------------
 define(['jquery', 'underscore', 'backbone', 'app', 'views/organisationlayoutview', 'views/organisationformlayoutview', 'views/organisationcollectionview', 'models/organisation', 'collections/organisationcollection'],
-function ($, _, Backbone, app, OrganisationLayoutView, OrganisationFormLayoutView, OrganisationCollectionView, Organisation, OrganisationCollection) 
-{
+function ($, _, Backbone, app, OrganisationLayoutView, OrganisationFormLayoutView, OrganisationCollectionView, Organisation, OrganisationCollection) {
     var OrganisationRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
             'organisations/explore': 'showOrganisationExplorer',
@@ -21,9 +20,9 @@ function ($, _, Backbone, app, OrganisationLayoutView, OrganisationFormLayoutVie
 
     var OrganisationController = {};
 
-//    app.vent.on('joinOrganisation:', function (organisation) {
-//        OrganisationController.joinOrganisation(organisation);
-//    });
+    //    app.vent.on('joinOrganisation:', function (organisation) {
+    //        OrganisationController.joinOrganisation(organisation);
+    //    });
 
     app.vent.on('organisationAdded:', function (organisation) {
         if (OrganisationController.organisationCollection) {
@@ -117,6 +116,7 @@ function ($, _, Backbone, app, OrganisationLayoutView, OrganisationFormLayoutVie
         log('organisationController:showOrganisationForm');
         $.when(getModel(id))
             .done(function (model) {
+                log(model);
                 var organisation = new Organisation(model.Organisation);
                 var organisationFormLayoutView = new OrganisationFormLayoutView({ model: organisation });
                 app.showFormContentView(organisationFormLayoutView, 'organisations');
@@ -144,11 +144,12 @@ function ($, _, Backbone, app, OrganisationLayoutView, OrganisationFormLayoutVie
     };
 
     app.addInitializer(function () {
+        log('FIRING ORGANISATION ROUTER');
         this.organisationRouter = new OrganisationRouter({
             controller: OrganisationController
         });
+        log('ORGANISATION ROUTER - DONE');
     });
 
     return OrganisationController;
-
 });

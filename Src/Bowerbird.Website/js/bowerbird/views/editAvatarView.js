@@ -27,6 +27,8 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/avataritemview'
             this.model = options.model;
             this.currentUploadKey = 0;
             this.avatarItemView = null;
+            log('EditAvatarView.Model is...:');
+            log(this.model);
         },
 
         render: function () {
@@ -81,7 +83,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/avataritemview'
 
         _onUploadDone: function (e, data) {
             log('editAvatarView:_onUploadDone');
-            this.model.set('Avatar', data.result.Id); 
+            this.model.set('AvatarId', data.result.Id);
             var mediaResource = new MediaResource(data.result);
             //this.$el.find('#avatar-viewer img').replaceWith($('<img src="' + mediaResource.get('ProfileImageUri') + '" alt="" />'));
             $('#avatar-viewer').empty().append('<img src="' + mediaResource.get('Files').medium.RelativeUri + '" width="200px;" />');

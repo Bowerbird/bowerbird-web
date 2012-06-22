@@ -15,7 +15,7 @@ define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
             Name: '',
             Description: '',
             Website: '',
-            Avatar: null,
+            AvatarId: null,
             Team: null,
             Type: 'Project'
         },
@@ -36,7 +36,7 @@ define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
 //        },
 
         setAvatar: function (mediaResource) {
-            this.set('Avatar', mediaResource.id);
+            this.set('AvatarId', mediaResource.id);
         }
     });
 

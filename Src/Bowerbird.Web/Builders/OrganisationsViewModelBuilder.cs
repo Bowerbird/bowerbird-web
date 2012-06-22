@@ -30,6 +30,7 @@ namespace Bowerbird.Web.Builders
 
         private readonly IDocumentSession _documentSession;
         private readonly IUserViewFactory _userViewFactory;
+        private readonly IAvatarFactory _avatarFactory;
 
         #endregion
 
@@ -37,14 +38,16 @@ namespace Bowerbird.Web.Builders
 
         public OrganisationsViewModelBuilder(
             IDocumentSession documentSession,
-            IUserViewFactory userViewFactory
-        )
+            IUserViewFactory userViewFactory,
+            IAvatarFactory avatarFactory)
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(userViewFactory, "userViewFactory");
+            Check.RequireNotNull(avatarFactory, "avatarFactory");
 
             _documentSession = documentSession;
             _userViewFactory = userViewFactory;
+            _avatarFactory = avatarFactory;
         }
 
         #endregion
@@ -75,7 +78,7 @@ namespace Bowerbird.Web.Builders
                 Name = "New Organisation",
                 Description = "New Organisation",
                 Website = "",
-                //Avatar = 7_avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Organisation),
+                Avatar = _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Organisation),
                 MemberCount = 1
             };
         }
@@ -135,16 +138,15 @@ namespace Bowerbird.Web.Builders
                 result.Organisation.Name,
                 result.Organisation.Description,
                 result.Organisation.Website,
-                Avatar = result.Organisation.Avatar,
-                MemberCount = result.DescendantGroupIds.Count()
-                //Teams = result.DescendantGroups.Where(x => x.GroupType == "team").Select(x => x.Id),
-                //Projects = result.DescendantGroups.Where(x => x.GroupType == "project").Select(x => x.Id)
+                result.Organisation.Avatar,
+                MemberCount = result.DescendantGroupIds.Count(),
+                AvatarId = result.Organisation.Avatar != null ? result.Organisation.Avatar.Id : null
             };
         }
 
         private object MakeUser(string userId)
         {
-            // HACK: Massive N+1 problem right here
+            // HACK: Massive N+1 problem right here <- No.. it's included in the query
             return _userViewFactory.Make(_documentSession.Load<User>(userId));
         }
 

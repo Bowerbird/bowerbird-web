@@ -73,6 +73,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/ed
 
         _save: function () {
             this.model.save();
+            app.showPreviousContentView();
         }
     });
 
