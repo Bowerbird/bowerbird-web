@@ -1978,6 +1978,7 @@ color: #6997C5;
     padding: 0 0 10px;
     text-shadow: 0 1px 0 #FFFFFF;
     width: 100%;
+    overflow: hidden;
 }
 .chat .form textarea
 {

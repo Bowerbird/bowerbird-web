@@ -60,11 +60,14 @@ function ($, _, Backbone, app, ich, ChatMessageCollectionView, ChatUserCollectio
                     // prevent default behavior
                     e.preventDefault();
                     // Send the message
-                    that.sendMessage();
+                    if ($.trim($(this).val()).length > 0) {
+                        that.sendMessage();
+                    }
                 }
             });
 
-            this.$el.find('.new-chat-message').keypress(function () {
+            this.$el.find('.new-chat-message').keyup(function () {
+                log('.new-chat-message change', $(this).val());
                 var isTyping = false;
                 if ($(this).val().length > 0) {
                     isTyping = true;
@@ -72,7 +75,9 @@ function ($, _, Backbone, app, ich, ChatMessageCollectionView, ChatUserCollectio
                 app.vent.trigger('chats:useristyping', that.model, isTyping);
             });
 
-            this.model.chatUsers.on('change:IsTyping', this.onTypingStatusChanged, this);
+            this.model.chatUsers.on('change:IsTyping', this.updateTypingStatus, this);
+
+            this.model.chatMessages.on('add', this.onChatMessageAdded, this);
         },
 
         sendMessage: function () {
@@ -94,10 +99,15 @@ function ($, _, Backbone, app, ich, ChatMessageCollectionView, ChatUserCollectio
             this.$el.find('.chat-messages').scrollTop(height);
         },
 
-        onTypingStatusChanged: function (user) {
+        onChatMessageAdded: function (message) {
+            var user = this.model.chatUsers.get(message.get('FromUser').Id).set('IsTyping', false);
+            updateTypingStatus();
+        },
+
+        updateTypingStatus: function () {
             var users = this.model.chatUsers.where({ 'IsTyping': true });
             var names = _.map(users, function (user) { return user.get('Name'); }, this);
-            
+
             var desc = '';
             if (names.length == 1) {
                 desc = names[0] + ' is typing...';
