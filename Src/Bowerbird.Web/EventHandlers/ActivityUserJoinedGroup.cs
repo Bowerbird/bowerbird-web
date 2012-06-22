@@ -37,7 +37,7 @@ namespace Bowerbird.Web.EventHandlers
 
         private readonly IDocumentSession _documentSession;
         private readonly IUserViewFactory _userViewFactory;
-        private readonly IUserViewModelBuilder _userViewModelBuilder;
+        private readonly IGroupViewFactory _groupViewFactory;
         private readonly IUserContext _userContext;
 
         #endregion
@@ -47,18 +47,18 @@ namespace Bowerbird.Web.EventHandlers
         public ActivityUserJoinedGroup(
             IDocumentSession documentSession,
             IUserViewFactory userViewFactory,
-            IUserViewModelBuilder userViewModelBuilder,
+            IGroupViewFactory groupViewFactory,
             IUserContext userContext
             )
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(userViewFactory, "userViewFactory");
-            Check.RequireNotNull(userViewModelBuilder, "userViewModelBuilder");
+            Check.RequireNotNull(groupViewFactory, "groupViewFactory");
             Check.RequireNotNull(userContext, "userContext");
 
             _documentSession = documentSession;
             _userViewFactory = userViewFactory;
-            _userViewModelBuilder = userViewModelBuilder;
+            _groupViewFactory = groupViewFactory;
             _userContext = userContext;
         }
 
@@ -74,6 +74,13 @@ namespace Bowerbird.Web.EventHandlers
         {
             var user = _documentSession.Load<User>(domainEvent.DomainModel.User.Id);
             var group = _documentSession.Load<dynamic>(domainEvent.DomainModel.Group.Id);
+
+            foreach(var session in user.Sessions)
+            {
+                _userContext.AddUserToGroupChannel(domainEvent.DomainModel.Group.Id, session.ConnectionId);
+            }
+
+            _userContext.GetUserChannel(user.Id).joinedGroup(_groupViewFactory.Make(group));
 
             dynamic activity = MakeActivity(
                 domainEvent, 

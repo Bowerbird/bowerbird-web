@@ -2114,15 +2114,21 @@ ul.explore-groups
     display: inline-block;
     margin-left: 5px;
 }
-.explore-item .join-project-button,
 .explore-item .view-team-button,
-.explore-item .view-project-button,
 .explore-item .view-organisation-button
 {
     height: 40px;
     width: 190px; 
     font-size:1.2em;
     color:#133A68;
+}
+.explore-item .join-project-button,
+.explore-item .view-project-button
+{
+    color: #133A68;
+    font-size: 1.2em;
+    height: 40px;
+    width: 90px;
 }
 div.explore-item
 {

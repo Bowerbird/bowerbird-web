@@ -212,13 +212,13 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Explore(PagingInput pagingInput)
         {
-            DebugToClient(string.Format("SERVER: Teams/Explore: page:{0} pageSize:{1}", pagingInput.Page, pagingInput.PageSize));
-
             Check.RequireNotNull(pagingInput, "pagingInput");
+
+            var explorePagingInput = new PagingInput() {Id = pagingInput.Id, PageSize = 100};
 
             ViewBag.Model = new
             {
-                Teams = _teamsViewModelBuilder.BuildTeamList(pagingInput)
+                Teams = _teamsViewModelBuilder.BuildTeamList(explorePagingInput)
             };
 
             if (Request.IsAjaxRequest())

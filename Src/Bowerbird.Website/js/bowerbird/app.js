@@ -67,24 +67,6 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
 
     }, this);
 
-    // WORKS WITHOUT THIS ON EXISTING PROJECT (NOT NEWLY STREAMED ONE)
-    app.vent.on('newactivity:userjoinedgroup', function (activity) {
-        var group = activity.get('UserJoinedGroup').Group;
-        var user = activity.get('UserJoinedGroup').User;
-        if (user.id == app.authenticatedUser.user.id) {
-            if (group.GroupType === 'project') {
-                app.authenticatedUser.projects.add(group);
-            }
-            if (group.GroupType === 'team') {
-                app.authenticatedUser.teams.add(group);
-            }
-
-            if (group.GroupType === 'organisation') {
-                app.authenticatedUser.organisations.add(group);
-            }
-        }
-    }, this);
-
     app.addRegions({
         header: 'header',
         footer: 'footer',

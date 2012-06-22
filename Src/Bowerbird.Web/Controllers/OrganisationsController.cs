@@ -231,9 +231,11 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(pagingInput, "pagingInput");
 
+            var explorePagingInput = new PagingInput() { Id = pagingInput.Id, PageSize = 100 };
+
             ViewBag.Model = new
             {
-                Organisations = _organisationsViewModelBuilder.BuildOrganisationList(pagingInput)                        
+                Organisations = _organisationsViewModelBuilder.BuildOrganisationList(explorePagingInput)                        
             };
 
             if(Request.IsAjaxRequest())

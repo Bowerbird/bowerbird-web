@@ -17,6 +17,7 @@ function ($, _, Backbone, app) {
 
         this.hub.setupOnlineUsers = setupOnlineUsers;
         this.hub.userStatusUpdate = userStatusUpdate;
+        this.hub.joinedGroup = joinedGroup;
     };
 
     var UserController = {};
@@ -38,6 +39,19 @@ function ($, _, Backbone, app) {
     var setupOnlineUsers = function (onlineUsers) {
         log('activityController.setupOnlineUsers', this, onlineUsers);
         app.onlineUsers.add(onlineUsers);
+    };
+
+    var joinedGroup = function (group) {
+        if (group.GroupType === 'project') {
+            app.authenticatedUser.projects.add(group);
+        }
+        if (group.GroupType === 'team') {
+            app.authenticatedUser.teams.add(group);
+        }
+
+        if (group.GroupType === 'organisation') {
+            app.authenticatedUser.organisations.add(group);
+        }
     };
 
     app.addInitializer(function () {
