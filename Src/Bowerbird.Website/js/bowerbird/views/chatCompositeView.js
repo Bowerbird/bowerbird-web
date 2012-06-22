@@ -63,6 +63,16 @@ function ($, _, Backbone, app, ich, ChatMessageCollectionView, ChatUserCollectio
                     that.sendMessage();
                 }
             });
+
+            this.$el.find('.new-chat-message').keypress(function () {
+                var isTyping = false;
+                if ($(this).val().length > 0) {
+                    isTyping = true;
+                }
+                app.vent.trigger('chats:useristyping', that.model, isTyping);
+            });
+
+            this.model.chatUsers.on('change:IsTyping', this.onTypingStatusChanged, this);
         },
 
         sendMessage: function () {
@@ -82,6 +92,20 @@ function ($, _, Backbone, app, ich, ChatMessageCollectionView, ChatUserCollectio
         onItemViewAdded: function (view) {
             var height = this.$el.find('.chat-messages')[0].scrollHeight;
             this.$el.find('.chat-messages').scrollTop(height);
+        },
+
+        onTypingStatusChanged: function (user) {
+            var users = this.model.chatUsers.where({ 'IsTyping': true });
+            var names = _.map(users, function (user) { return user.get('Name'); }, this);
+            
+            var desc = '';
+            if (names.length == 1) {
+                desc = names[0] + ' is typing...';
+            } else if (names.length > 1) {
+                desc = names.join(', ') + ' are typing...';
+            }
+
+            this.$el.find('.status').text(desc);
         }
     });
 

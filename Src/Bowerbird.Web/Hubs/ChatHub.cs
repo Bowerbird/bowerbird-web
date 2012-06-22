@@ -69,6 +69,8 @@ namespace Bowerbird.Web.Hubs
 
         public void JoinChat(string chatId, string groupId)
         {
+            // TODO: Only allow group members to join group chats
+
             // Get user by connection id
             var user = GetUserByConnectionId(Context.ConnectionId);
 
@@ -102,7 +104,7 @@ namespace Bowerbird.Web.Hubs
             _documentSession.SaveChanges();
         }
 
-        public void Typing(string chatId, bool typing)
+        public void Typing(string chatId, bool isTyping)
         {
             var user = GetUserByConnectionId(Context.ConnectionId);
 
@@ -111,7 +113,7 @@ namespace Bowerbird.Web.Hubs
                 {
                     ChatId = chatId,
                     Timestamp = DateTime.UtcNow,
-                    Typing = typing,
+                    IsTyping = isTyping,
                     User = _userViewFactory.Make(user)
                 });
         }

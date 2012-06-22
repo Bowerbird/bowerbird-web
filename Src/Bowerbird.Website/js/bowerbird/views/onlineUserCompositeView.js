@@ -39,16 +39,24 @@ function ($, _, Backbone, app, UserItemView) {
 
         serializeData: function () {
             return {
-                Count: this.collection.length
+                Model: {
+                    Count: this.collection.length,
+                    TitleDescription: this.getTitle(this.collection.length)
+                }
             };
         },
 
         updateUserCount: function (model, collection) {
             this.$el.find('.user-count').text(collection.length);
+            this.$el.find('.title-description').text(this.getTitle(collection.length));
         },
 
         toggleCollapsed: function () {
             this.$el.toggleClass('collapsed');
+        },
+
+        getTitle: function (count) {
+            return 'User' + (count == 1 ? '' : 's') + ' Online';
         }
     });
 

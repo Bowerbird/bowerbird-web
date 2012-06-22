@@ -84,20 +84,24 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
         // The server will have returned the user list with this initial message
         if (chat == null) {
             var chatUsers = new UserCollection(chatMessage.Users);
-            var chatMessages = new ChatMessageCollection();
+            var chatMessages = new ChatMessageCollection([chatMessage]);
             var chat = new Chat({ Id: chatMessage.ChatId, Group: chatMessage.Group }, { chatUsers: chatUsers, chatMessages: chatMessages });
             app.chats.add(chat);
             var chatView = new ChatCompositeView({ id: 'chat-' + chatMessage.ChatId.replace(/\//g, '-'), model: chat });
             showChat(chatView);
+        } else {
+            // Add the message
+            chat.chatMessages.add(chatMessage);
         }
-
-        // Add the message
-        chat.chatMessages.add(chatMessage);
     };
 
     // User is typing a message status
-    var userIsTyping = function (details) {
-
+    var userIsTyping = function (typingDetails) {
+        log('user is typing', typingDetails);
+        if (typingDetails.User.Id != app.authenticatedUser.user.id) {
+            var chat = app.chats.get(typingDetails.ChatId);
+            chat.chatUsers.get(typingDetails.User.Id).set('IsTyping', typingDetails.IsTyping);
+        }
     };
 
     // ChatController Public API
@@ -133,9 +137,8 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
     };
 
     // Send typing status to other users
-    ChatController.sendTypingStatus = function (id, isTyping) {
-        log('chatRouter.typing');
-        chatHub.typing(id, isTyping);
+    ChatController.sendTypingStatus = function (chat, isTyping) {
+        chatHub.typing(chat.id, isTyping);
     };
 
     // Send a chat message
@@ -154,6 +157,10 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
         ChatController.startPrivateChat(user);
     });
 
+    app.vent.on('chats:useristyping', function (chat, isTyping) {
+        ChatController.sendTypingStatus(chat, isTyping);
+    });
+
     app.vent.on('chats:sendMessage', function (chat, message) {
         ChatController.sendChatMessage(chat, message);
     });
@@ -161,6 +168,7 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
     app.vent.on('chats:close', function (chat) {
         ChatController.exitChat(chat);
     });
+    //
 
     app.addInitializer(function () {
         this.chatRouter = new ChatRouter({
