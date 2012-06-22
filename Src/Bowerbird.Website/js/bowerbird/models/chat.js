@@ -20,22 +20,8 @@ function ($, _, Backbone, app, UserCollection, ChatMessageCollection, User, Chat
         idAttribute: 'Id',
 
         initialize: function (attributes, options) {
-            log('Chat.initialize');
             this.chatUsers = options.chatUsers;
             this.chatMessages = options.chatMessages;
-        },
-
-        addChatUser: function (user) {
-            this.chatUsers.add(user);
-        },
-
-        removeChatUser: function (userId) {
-            this.chatUsers.remove(userId);
-        },
-
-        addChatMessage: function (message) {
-            log('chat.addChatMessage', message);
-            this.chatMessages.add(message);
         },
 
         chatType: function () {

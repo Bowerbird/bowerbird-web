@@ -18,7 +18,8 @@ function ($, _, Backbone, app, ich, ChatMessageCollectionView, ChatUserCollectio
 
         events: {
             "click .chat-send-message-button": "sendMessage",
-            'click .window-title-bar': 'toggleCollapsed'
+            'click .window-title-bar': 'toggleCollapsed',
+            'click .window-title-bar .close': 'closeWindow'
         },
 
         regions: {
@@ -30,7 +31,7 @@ function ($, _, Backbone, app, ich, ChatMessageCollectionView, ChatUserCollectio
             if (this.model.chatType() == 'private') {
                 title = _.without(this.model.chatUsers.pluck('Name'), app.authenticatedUser.user.get('Name')).join(', ');
             } else {
-                title = this.model.get('Group').get('Name');
+                title = this.model.get('Group').Name;
             }
             return {
                 Model: {

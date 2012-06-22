@@ -40,6 +40,8 @@ namespace Bowerbird.Core.Config
 
         void AddUserToChatChannel(string chatId, string connectionId);
 
+        void RemoveUserFromChatChannel(string chatId, string connectionId);
+
         dynamic GetUserChannel(string userId);
 
         dynamic GetOnlinerUsersChannel();

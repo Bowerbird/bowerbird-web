@@ -2,8 +2,8 @@
 using Bowerbird.Core.DomainModels;
 namespace Bowerbird.Web.Factories
 {
-    public interface IUserViewFactory : IFactory
+    public interface IGroupViewFactory : IFactory
     {
-        object Make(User user);
+        object Make(Group user);
     }
 }

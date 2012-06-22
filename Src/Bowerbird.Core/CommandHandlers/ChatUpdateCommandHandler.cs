@@ -63,7 +63,7 @@ namespace Bowerbird.Core.CommandHandlers
             var removeUsers = _documentSession.Load<User>(command.RemoveUserIds);
             foreach (var user in removeUsers)
             {
-                chat.RemoveUser(user.Id);
+                chat.RemoveUser(user);
             }
 
             _documentSession.Store(chat);
