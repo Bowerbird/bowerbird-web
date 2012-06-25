@@ -66,6 +66,13 @@ namespace Bowerbird.Web.Config
                 "stream",
                 new { controller = "home", action = "stream" });
 
+            //routes.MapRoute(
+            //    "user-update",
+            //    "user/update",
+            //    new { controller = "user", action = "updateform" },
+            //    new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("GET") });
+
+
             RegisterGroupControllerRoutes(routes);
 
             // Load up restful controllers and create routes

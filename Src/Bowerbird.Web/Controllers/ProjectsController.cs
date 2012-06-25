@@ -95,7 +95,7 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(pagingInput, "pagingInput");
 
-            var projectId = "projects/".AppendWith(pagingInput.Id);
+            var projectId = pagingInput.Id.VerbosifyId<Project>();
 
             if (Request.IsAjaxRequest())
             {
@@ -121,7 +121,7 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(pagingInput, "pagingInput");
 
-            var projectId = "projects/".AppendWith(pagingInput.Id);
+            var projectId = pagingInput.Id.VerbosifyId<Project>();
 
             ViewBag.Model = new
             {
@@ -147,7 +147,7 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(pagingInput, "pagingInput");
 
-            var projectId = "projects/".AppendWith(pagingInput.Id);
+            var projectId = pagingInput.Id.VerbosifyId<Project>();
 
             ViewBag.Model = new
             {
@@ -165,7 +165,7 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(pagingInput, "pagingInput");
 
-            var projectId = "projects/".AppendWith(pagingInput.Id);
+            var projectId = pagingInput.Id.VerbosifyId<Project>();
 
             ViewBag.Model = new
             {
@@ -183,7 +183,7 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(pagingInput, "pagingInput");
 
-            var projectId = "projects/".AppendWith(pagingInput.Id);
+            var projectId = pagingInput.Id.VerbosifyId<Project>();
 
             ViewBag.Model = new
             {
@@ -201,7 +201,7 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(idInput, "idInput");
 
-            var projectId = "projects/".AppendWith(idInput.Id);
+            var projectId = idInput.Id.VerbosifyId<Project>();
 
             ViewBag.Model = new
             {
@@ -239,7 +239,7 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(idInput, "idInput");
 
-            var projectId = "projects/".AppendWith(idInput.Id);
+            var projectId = idInput.Id.VerbosifyId<Project>();
 
             ViewBag.Model = new
             {
@@ -295,7 +295,7 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(idInput, "idInput");
 
-            var projectId = "projects/".AppendWith(idInput.Id);
+            var projectId = idInput.Id.VerbosifyId<Project>();
 
             if (!_userContext.HasGroupPermission(PermissionNames.UpdateProject, projectId))
             {
@@ -322,7 +322,7 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(idInput, "idInput");
 
-            var projectId = "projects/".AppendWith(idInput.Id);
+            var projectId = idInput.Id.VerbosifyId<Project>();
 
             if (!_userContext.HasGroupPermission(PermissionNames.DeleteProject, projectId))
             {
@@ -343,7 +343,7 @@ namespace Bowerbird.Web.Controllers
 
             Check.RequireNotNull(idInput, "idInput");
 
-            var projectId = idInput.Id.Contains("/") ? idInput.Id : "projects/".AppendWith(idInput.Id);
+            var projectId = idInput.Id.VerbosifyId<Project>();
 
             if (!_userContext.HasGroupPermission(PermissionNames.CreateProject, Constants.AppRootId))
             {
@@ -374,7 +374,7 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(idInput, "idInput");
 
-            var projectId = "projects/".AppendWith(idInput.Id);
+            var projectId = idInput.Id.VerbosifyId<Project>();
 
             if (!_userContext.HasGroupPermission(PermissionNames.LeaveProject, projectId))
             {
@@ -403,7 +403,7 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(createInput, "createInput");
 
-            var groupId = createInput.Team != null ? createInput.Team.PrependWith("teams/") : Constants.AppRootId;
+            var groupId = createInput.Team != null ? createInput.Team.VerbosifyId<Team>() : Constants.AppRootId;
 
             if (!_userContext.HasGroupPermission(PermissionNames.CreateProject, groupId))
             {
@@ -438,7 +438,7 @@ namespace Bowerbird.Web.Controllers
 
             Check.RequireNotNull(updateInput, "updateInput");
 
-            var projectId = "projects/".AppendWith(updateInput.Id);
+            var projectId = updateInput.Id.VerbosifyId<Project>();
 
             if (!_userContext.HasGroupPermission(PermissionNames.UpdateProject, projectId))
             {

@@ -61,6 +61,12 @@ namespace Bowerbird.Core.Config
         bool HasAppRootPermission(string permissionId);
 
         /// <summary>
+        /// Ensure user domain model object is being edited by the actual user
+        /// </summary>
+        /// <returns></returns>
+        bool HasUserPermission(string domainModelId);
+
+        /// <summary>
         /// Determine if user has the specified permission to perform a task on their user project
         /// </summary>
         /// <param name="permissionId">The permission name to find</param>

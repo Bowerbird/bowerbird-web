@@ -1,0 +1,44 @@
+﻿<h2>New Project</h2>
+<form action="/user/update" method="post"  enctype="multipart/form-data">
+    <fieldset>
+        <legend>User Details</legend>
+        <div id="first-name-field" class="field">
+        <div>
+            <label for="firstname">First Name</label>
+        </div>
+        <div>
+            <input type="text" id="FirstName" name="firstname" value="{{Model.User.FirstName}}" />
+        </div>
+        </div>
+        <div id="last-name-field" class="field">
+        <div>
+            <label for="lastname">Last Name</label>
+        </div>
+        <div>
+          <input type="text" id="LastName" name="lastname" value="{{Model.User.LastName}}" />
+        </div>
+        </div>
+        <div id="email-field" class="field">
+        <div>
+            <label for="website">Email</label>
+        </div>
+        <div>
+            <input type="text" id="Email" name="email" value="{{Model.User.Email}}" />
+        </div>
+        </div>
+        <div class="field">
+        <div>
+            <label for="avatar">User Avatar</label>
+        </div>
+            <div id="avatar-viewer" class="field avatar-field">
+        </div>
+        <div id="avatar-upload-button" class="field button avatar-upload-button">
+            Change Avatar<input id="fileupload" type="file" name="file" multiple="" class="avatar-uploader" />
+        </div>
+    </div>
+    </fieldset>
+    <fieldset>
+        <input type="button" value="Save" id="save" />
+        <input type="button" value="Cancel" id="cancel" />
+    </fieldset>
+</form>

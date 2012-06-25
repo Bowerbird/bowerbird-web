@@ -30,6 +30,8 @@ namespace Bowerbird.Web.ViewModels
 
         #region Properties
 
+        public string Id { get; set; }
+
         [Required(ErrorMessage = "Please enter your first name")]
         public string FirstName { get; set; }
 

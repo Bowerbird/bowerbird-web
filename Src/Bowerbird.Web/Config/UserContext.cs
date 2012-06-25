@@ -182,6 +182,13 @@ namespace Bowerbird.Web.Config
             return _permissionChecker.HasGroupPermission(permissionId, GetAuthenticatedUserId(), Constants.AppRootId);
         }
 
+        public bool HasUserPermission(string domainModelId)
+        {
+            var user = _documentSession.Load<User>(domainModelId);
+
+            return user != null && user.Id == GetAuthenticatedUserId();
+        }
+
         public bool HasUserProjectPermission(string permissionId) 
         {
             var userProject = _documentSession.Query<UserProject>().Where(x => x.User.Id == GetAuthenticatedUserId()).First();

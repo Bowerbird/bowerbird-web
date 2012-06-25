@@ -281,6 +281,7 @@
     <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="DomainModels\ObservationGroup.cs" />
+    <Compile Include="Extensions\DomainExtensions.cs" />
     <Compile Include="Factories\AvatarFactory.cs" />
     <Compile Include="Factories\IAvatarFactory.cs" />
     <Compile Include="ImageUtilities\ImageInformation.cs" />

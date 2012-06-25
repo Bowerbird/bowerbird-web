@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Bowerbird.Core.Extensions;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.DesignByContract;
 
 namespace Bowerbird.Web.Factories
 {
@@ -24,12 +26,18 @@ namespace Bowerbird.Web.Factories
 
         public object Make(User user)
         {
+            Check.RequireNotNull(user, "user");
+
+            var userId = user.Id.MinifyId<User>();
+
             return new
             {
-                user.Id,
+                Id = userId,
                 Avatar = user.Avatar,
                 user.LastLoggedIn,
-                Name = user.GetName()
+                Name = user.GetName(),
+                FirstName = user.FirstName,
+                LastName = user.LastName
             };
         }
 

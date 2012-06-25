@@ -87,11 +87,11 @@ namespace Bowerbird.Web.Builders
             };
         }
 
-        public object BuildUser(IdInput idInput)
+        public object BuildUser(string userId)
         {
-            Check.RequireNotNull(idInput, "idInput");
+            Check.RequireNotNullOrWhitespace(userId, "userId");
 
-            return _userViewFactory.Make(_documentSession.Load<User>(idInput.Id));
+            return _userViewFactory.Make(_documentSession.Load<User>(userId));
         }
 
         public object BuildUserList(PagingInput pagingInput)

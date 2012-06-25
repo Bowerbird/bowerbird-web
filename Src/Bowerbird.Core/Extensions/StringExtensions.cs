@@ -38,6 +38,11 @@ namespace Bowerbird.Core.Extensions
             return string.Format("{0}{1}", text, param1);
         }
 
+        public static string AppendWith(this string text, string param1, string param2)
+        {
+            return string.Format("{0}{1}{2}", text, param1, param2);
+        }
+
         public static string PrependWith(this string text, string param1)
         {
             return string.Format("{0}{1}", param1, text);

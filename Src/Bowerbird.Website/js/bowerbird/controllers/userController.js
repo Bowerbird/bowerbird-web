@@ -55,8 +55,13 @@ function ($, _, Backbone, app) {
     };
 
     app.addInitializer(function () {
+        var routes = {
+            'users/:id/update': 'showUserForm'
+        };
+
         this.userRouter = new UserRouter({
-            controller: UserController
+            controller: UserController,
+            appRoutes: routes
         });
     });
 

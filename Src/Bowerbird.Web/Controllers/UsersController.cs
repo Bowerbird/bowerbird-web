@@ -19,6 +19,8 @@ using Bowerbird.Web.Builders;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.ViewModels;
 using Bowerbird.Core.Config;
+using Bowerbird.Core.Extensions;
+using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Web.Controllers
 {
@@ -77,9 +79,13 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Stream(PagingInput pagingInput)
         {
+            Check.RequireNotNull(pagingInput, "pagingInput");
+            
+            var userId = pagingInput.Id.VerbosifyId<User>();
+
             ViewBag.Model = new
             {
-                User = _userViewModelBuilder.BuildUser(new IdInput() { Id = pagingInput.Id }),
+                User = _userViewModelBuilder.BuildUser(userId),
                 StreamItems = _streamItemsViewModelBuilder.BuildUserStreamItems(pagingInput)
             };
 
@@ -89,16 +95,21 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult StreamList(PagingInput pagingInput)
         {
+            Check.RequireNotNull(pagingInput, "pagingInput");
+
             return new JsonNetResult(_streamItemsViewModelBuilder.BuildUserStreamItems(pagingInput));
         }
 
         [HttpGet]
         public ActionResult Observations(PagingInput pagingInput)
         {
+            Check.RequireNotNull(pagingInput, "pagingInput");
+
+            var userId = pagingInput.Id.VerbosifyId<User>();
+
             ViewBag.Model = new
             {
-                User = _userViewModelBuilder.BuildUser(new IdInput() { Id = pagingInput.Id })
-                //Observations = _streamItemsViewModelBuilder.BuildHomeStreamItems(pagingInput)
+                User = _userViewModelBuilder.BuildUser(userId)
             };
 
             return View(Form.Observations);
@@ -107,9 +118,13 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Projects(PagingInput pagingInput)
         {
+            Check.RequireNotNull(pagingInput, "pagingInput");
+
+            var userId = pagingInput.Id.VerbosifyId<User>();
+
             ViewBag.Model = new
             {
-                User = _userViewModelBuilder.BuildUser(new IdInput() { Id = pagingInput.Id }),
+                User = _userViewModelBuilder.BuildUser(userId),
                 Projects = _projectsViewModelBuilder.BuildUserProjectList(pagingInput)
             };
 
@@ -121,9 +136,13 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Teams(PagingInput pagingInput)
         {
+            Check.RequireNotNull(pagingInput, "pagingInput");
+
+            var userId = pagingInput.Id.VerbosifyId<User>();
+
             ViewBag.Model = new
             {
-                User = _userViewModelBuilder.BuildUser(new IdInput() { Id = pagingInput.Id }),
+                User = _userViewModelBuilder.BuildUser(userId),
                 Teams = _teamsViewModelBuilder.BuildUserTeamList(pagingInput)
             };
 
@@ -135,9 +154,13 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Posts(PagingInput pagingInput)
         {
+            Check.RequireNotNull(pagingInput, "pagingInput");
+
+            var userId = pagingInput.Id.VerbosifyId<User>();
+
             ViewBag.Model = new
             {
-                User = _userViewModelBuilder.BuildUser(new IdInput() { Id = pagingInput.Id }),
+                User = _userViewModelBuilder.BuildUser(userId),
                 Posts = _postsViewModelBuilder.BuildUserPostList(pagingInput)
             };
 
@@ -177,6 +200,8 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Explore(PagingInput pagingInput)
         {
+            Check.RequireNotNull(pagingInput, "pagingInput");
+
             ViewBag.UserList = _userViewModelBuilder.BuildUserList(pagingInput);
 
             return View(Form.List);
@@ -185,12 +210,18 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult GetOne(IdInput idInput)
         {
-            return new JsonNetResult(_userViewModelBuilder.BuildUser(idInput));
+            Check.RequireNotNull(idInput, "idInput");
+
+            var userId = idInput.Id.VerbosifyId<User>();
+
+            return new JsonNetResult(_userViewModelBuilder.BuildUser(userId));
         }
 
         [HttpGet]
         public ActionResult GetMany(PagingInput pagingInput)
         {
+            Check.RequireNotNull(pagingInput, "pagingInput");
+
             return new JsonNetResult(_userViewModelBuilder.BuildUserList(pagingInput));
         }
 
@@ -207,7 +238,23 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult UpdateForm(IdInput idInput)
         {
-            ViewBag.User = _userViewModelBuilder.BuildUser(idInput);
+            Check.RequireNotNull(idInput, "idInput");
+
+            var userId = idInput.Id.VerbosifyId<User>();
+
+            DebugToClient("SERVER: Users/UpdateForm userId:" + userId); 
+
+            ViewBag.User = _userViewModelBuilder.BuildUser(userId);
+
+            if (Request.IsAjaxRequest())
+            {
+                return new JsonNetResult(new
+                {
+                    Model = ViewBag.Model
+                });
+            }
+
+            ViewBag.PrerenderedView = "users";
 
             return View(Form.Update);
         }
@@ -219,7 +266,11 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult DeleteForm(IdInput idInput)
         {
-            ViewBag.User = _userViewModelBuilder.BuildUser(idInput);
+            Check.RequireNotNull(idInput, "idInput");
+
+            var userId = idInput.Id.VerbosifyId<User>();
+
+            ViewBag.User = _userViewModelBuilder.BuildUser(userId);
 
             return View(Form.Delete);
         }
@@ -239,11 +290,21 @@ namespace Bowerbird.Web.Controllers
         [Transaction]
         public ActionResult Update(UserUpdateInput userUpdateInput)
         {
+            Check.RequireNotNull(userUpdateInput, "userUpdateInput");
+
+            var userId = userUpdateInput.Id.VerbosifyId<User>();
+
+            if (!_userContext.HasUserPermission(userId))
+            {
+                return HttpUnauthorized();
+            }
+
             if (ModelState.IsValid)
             {
                 _commandProcessor.Process(
                     new UserUpdateCommand()
                     {
+                        Id = userUpdateInput.Id,
                         FirstName = userUpdateInput.FirstName,
                         LastName = userUpdateInput.LastName,
                         Email = userUpdateInput.Email,
@@ -256,6 +317,7 @@ namespace Bowerbird.Web.Controllers
 
             ViewBag.User = new
             {
+                userUpdateInput.Id,
                 userUpdateInput.AvatarId,
                 userUpdateInput.Description,
                 userUpdateInput.Email,
