@@ -29,7 +29,7 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
         this.projects = new ProjectCollection(data.Projects);
         this.teams = new TeamCollection(data.Teams);
         this.organisations = new OrganisationCollection(data.Organisations);
-        this.appRoot = data.Application;
+        this.appRoot = data.AppRoot;
 
         this.hasGroupPermission = function (groupId, permissionId) {
             var membership = _.find(this.memberships, function (m) {

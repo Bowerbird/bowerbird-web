@@ -32,8 +32,6 @@ namespace Bowerbird.Core.Config
 
         private readonly IDocumentSession _documentSession;
 
-        private IEnumerable<Role> _cachedRoles;
-
         #endregion
 
         #region Constructors
@@ -54,58 +52,31 @@ namespace Bowerbird.Core.Config
 
         #region Methods
 
-        public void Init()
-        {
-            _cachedRoles = _documentSession.Query<Role>().ToList(); // HACK: If we have too many roles, RavenDB won't return them all
-        }
-
         public bool HasGroupPermission(string permissionId, string userId, string groupId)
         {
-            Check.Ensure(_cachedRoles != null, "PermissionChecker has not been initialised. Call Init() before use.");
+            var user = _documentSession.Load<User>(userId);
 
-            var membership = _documentSession
-                .Query<Member>()
-                .Where(x => x.Group.Id == groupId && x.User.Id == userId)
-                .FirstOrDefault();
-
-            return _cachedRoles
-                .Where(x => membership.Roles.Any(y => y.Id == x.Id))
-                .Any(x => x.Permissions.Any(y => y.Id == "permissions/" + permissionId.ToLower()));
+            return user.Memberships.Where(x => x.Group.Id == groupId).SelectMany(x => x.Roles).SelectMany(x => x.Permissions).Any(x => x.Id == "permissions/" + permissionId.ToLower());
         }
 
         public bool HasGroupPermission<T>(string permissionId, string userId, string domainModelId)
-            where T : DomainModel
+            where T : IOwnable
         {
-            Check.Ensure(_cachedRoles != null, "PermissionChecker has not been initialised. Call Init() before use.");
+            var user = _documentSession.Load<User>(userId);
 
-            var memberships = _documentSession.Query<Member>().Where(x => x.User.Id == userId);
+            T ownable = _documentSession.Load<T>(domainModelId);
 
-            T domainModel = _documentSession.Load<T>(domainModelId);
-
-            if (domainModel is IOwnable)
+            // 1. Check if user is owner
+            if ((((IOwnable)ownable).User.Id == userId))
             {
-                // 1. Check if user is owner
-                if ((((IOwnable)domainModel).User.Id == userId))
-                {
-                    return true;
-                }
-
-                // 2. Check if user has a valid permission
-
-                // 2a. Get all roles that will be checked for permissions. Only memberships that the model also has will be searched
-                var validRoles = memberships.Where(x => ((IOwnable)domainModel).Groups.Any(y => x.Group.Id == y)).SelectMany(x => x.Roles);
-
-                // 2b. Get all permissions that will be searched
-                var permissionsToSearch = _cachedRoles.Where(x => validRoles.Any(y => y.Id == x.Id)).SelectMany(x => x.Permissions);
-
-                // 2c. Search for permission
-                return permissionsToSearch.Any(x => "permissions/" + permissionId.ToLower() == x.Id);
+                return true;
             }
 
-            throw new ArgumentException("The specified model is not configured to be checked for permissions (must implement IOwnable).");
+            // 2. Check if user has a valid permission
+            return user.Memberships.Where(x => ownable.Groups.Any(y => x.Group.Id == y)).SelectMany(x => x.Roles).SelectMany(x => x.Permissions).Any(x => x.Id == "permissions/" + permissionId.ToLower());
         }
 
-        #endregion      
-      
+        #endregion
+
     }
 }

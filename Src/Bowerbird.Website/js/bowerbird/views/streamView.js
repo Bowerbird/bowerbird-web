@@ -37,7 +37,7 @@ function ($, _, Backbone, app, ich, StreamItemView) {
             if (this.isHomeStream) {
                 app.vent.on('newactivity', this.onNewStreamItemReceived);
             } else {
-                app.vent.on('newactivity:' + this.model.id, this.onNewStreamItemReceived);
+                app.vent.on('newactivity:observationadded newactivity:postadded newactivity:observationnoteadded' + this.model.id, this.onNewStreamItemReceived);
             }
         },
 
@@ -84,6 +84,7 @@ function ($, _, Backbone, app, ich, StreamItemView) {
         },
 
         onNewStreamItemReceived: function (streamItem) {
+            this.$el.find('.stream-message').remove();
             var streamItemCreatedDateTime = Date.parseExact(streamItem.get('CreatedDateTime'), 'yyyy-MM-ddTHH:mm:ssZ');
 
             log('streamItemCreatedDateTime', streamItemCreatedDateTime);

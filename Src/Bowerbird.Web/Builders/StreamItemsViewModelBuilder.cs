@@ -65,17 +65,24 @@ namespace Bowerbird.Web.Builders
         {
             RavenQueryStatistics stats;
 
-            var groups = _documentSession
-                .Query<Member>()
-                .Include(x => x.User.Id)
-                .Where(x => x.User.Id == _userContext.GetAuthenticatedUserId())
+            var groupIds = _documentSession
+                .Query<All_Users.Result, All_Users>()
+                .AsProjection<All_Users.Result>()
+                .Where(x => x.UserId == _userContext.GetAuthenticatedUserId())
                 .ToList()
-                .Select(x => x.Group.Id);
+                .SelectMany(x => x.GroupIds);
+
+            var activityTypes = new [] 
+            {
+                "observationadded",
+                "postadded",
+                "observationnoteadded"
+            };
 
             var query = _documentSession
                 .Query<All_Activities.Result>("All/Activities")
                 .Statistics(out stats)
-                .Where(x => x.GroupIds.Any(y => y.In(groups)));
+                .Where(x => x.GroupIds.Any(y => y.In(groupIds)) && x.Type.In(activityTypes));
 
             if (streamInput.NewerThan.HasValue)
             {
@@ -106,20 +113,19 @@ namespace Bowerbird.Web.Builders
         {
             RavenQueryStatistics stats;
 
-            var groups = _documentSession
+            var groupIds = _documentSession
                 .Query<All_Users.Result, All_Users>()
                 .AsProjection<All_Users.Result>()
                 .Where(x => x.UserId == _userContext.GetAuthenticatedUserId())
                 .ToList()
-                .SelectMany(x => x.Members)
-                .Select(x => x.Group.Id);
-
+                .SelectMany(x => x.GroupIds);
+            
             return _documentSession
                 .Query<All_Contributions.Result, All_Contributions>()
                 .AsProjection<All_Contributions.Result>()
                 .Statistics(out stats)
                 .Include(x => x.ContributionId)
-                .Where(x => x.GroupId.In(groups))
+                .Where(x => x.GroupId.In(groupIds))
                 .OrderByDescending(x => x.CreatedDateTime)
                 .Skip(pagingInput.GetSkipIndex())
                 .Take(pagingInput.GetPageSize())
@@ -137,13 +143,6 @@ namespace Bowerbird.Web.Builders
         public PagedList<object> BuildGroupStreamItems(string groupId, StreamInput streamInput, PagingInput pagingInput)
         {
             RavenQueryStatistics stats;
-
-            var groups = _documentSession
-                .Query<Member>()
-                .Include(x => x.User.Id)
-                .Where(x => x.User.Id == _userContext.GetAuthenticatedUserId() && x.Group.Id == groupId)
-                .ToList()
-                .Select(x => x.Group.Id);
 
             var query = _documentSession
                 .Query<All_Activities.Result>("All/Activities")

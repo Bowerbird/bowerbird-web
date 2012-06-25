@@ -19,6 +19,7 @@ using Bowerbird.Core.Config;
 using Bowerbird.Core.Services;
 using System.Web;
 using Bowerbird.Core.DesignByContract;
+using System;
 
 namespace Bowerbird.Web.Config
 {
@@ -27,17 +28,21 @@ namespace Bowerbird.Web.Config
             
         #region Members
 
-        private readonly HttpContextBase _httpContext;
+        //private readonly HttpContextBase _httpContext;
 
         #endregion
 
         #region Constructors
 
-        public ConfigService(HttpContextBase httpContext)
-        {
-            Check.RequireNotNull(httpContext, "httpContext");
+        //public ConfigService(HttpContextBase httpContext)
+        //{
+        //    Check.RequireNotNull(httpContext, "httpContext");
 
-            _httpContext = httpContext;
+        //    _httpContext = httpContext;
+        //}
+
+        public ConfigService()
+        {
         }
 
         #endregion
@@ -50,7 +55,18 @@ namespace Bowerbird.Web.Config
 
         public string GetEnvironmentRootPath()
         {
-            string path = _httpContext.Server.MapPath("/");
+            string path = string.Empty;
+
+            if (HttpContext.Current != null)
+            {
+                path = HttpContext.Current.Server.MapPath("/");
+            }
+            else
+            {
+                throw new Exception("We don't have access to SignalR host context! How?????");
+                // Get it from SignalR
+                //hostContext.Items["System.Web.HttpContext"]
+            }
 
             if (path.EndsWith("\\bin\\Debug"))
             {
@@ -58,6 +74,15 @@ namespace Bowerbird.Web.Config
             }
 
             return path;
+
+            //string path = _httpContext.Server.MapPath("/");
+
+            //if (path.EndsWith("\\bin\\Debug"))
+            //{
+            //    path = path.Replace("\\bin\\Debug", string.Empty);
+            //}
+
+            //return path;
         }
 
         public string GetEnvironmentRootUri()

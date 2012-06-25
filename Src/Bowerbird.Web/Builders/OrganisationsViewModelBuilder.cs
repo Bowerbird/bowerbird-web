@@ -113,15 +113,14 @@ namespace Bowerbird.Web.Builders
             RavenQueryStatistics stats;
 
             return _documentSession
-                .Query<Member>()
-                .Where(x => x.Group.Id == pagingInput.Id)
-                .Customize(x => x.WaitForNonStaleResults())
-                .Include(x => x.User.Id)
+                .Query<All_Users.Result, All_Users>()
+                .AsProjection<All_Users.Result>()
+                .Where(x => x.GroupIds.Any(yield => yield == pagingInput.Id))
                 .Statistics(out stats)
                 .Skip((pagingInput.Page - 1) * pagingInput.PageSize)
                 .Take(pagingInput.PageSize)
                 .ToList()
-                .Select(x => MakeUser(x.User.Id))
+                .Select(x => _userViewFactory.Make(x.User))
                 .ToPagedList(
                     pagingInput.Page,
                     pagingInput.PageSize,
@@ -142,12 +141,6 @@ namespace Bowerbird.Web.Builders
                 MemberCount = result.DescendantGroupIds.Count(),
                 AvatarId = result.Organisation.Avatar != null ? result.Organisation.Avatar.Id : null
             };
-        }
-
-        private object MakeUser(string userId)
-        {
-            // HACK: Massive N+1 problem right here <- No.. it's included in the query
-            return _userViewFactory.Make(_documentSession.Load<User>(userId));
         }
 
         #endregion

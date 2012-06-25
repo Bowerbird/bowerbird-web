@@ -63,11 +63,13 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(command, "command");
 
+            // Get parent group
             var parentGroup =
                 !string.IsNullOrEmpty(command.OrganisationId)
                     ? (Group)_documentSession.Load<Organisation>(command.OrganisationId)
                     : (Group)_documentSession.Load<AppRoot>(Constants.AppRootId);
 
+            // Make team
             var team = new Team(
                 _documentSession.Load<User>(command.UserId), 
                 command.Name, 
@@ -76,7 +78,6 @@ namespace Bowerbird.Core.CommandHandlers
                 string.IsNullOrWhiteSpace(command.AvatarId) ? _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Team) : _documentSession.Load<MediaResource>(command.AvatarId),
                 DateTime.UtcNow,
                 parentGroup);
-
             _documentSession.Store(team);
             
             // If team is in an organisation, add team to organisation's Descendants
@@ -86,28 +87,25 @@ namespace Bowerbird.Core.CommandHandlers
                 _documentSession.Store(parentGroup);
             }
 
-            var user = _documentSession.Load<User>(command.UserId);
-            var roles = _documentSession
-                .Query<Role>()
-                .Where(x => x.Id.In("roles/teamadministrator","roles/teammember"))
-                .ToList();
-
-            var teamAdministrator = new Member(
-                user,
-                user,
-                team,
-                roles);
-
-            _documentSession.Store(teamAdministrator);
-            
+            // Add association to parent group
             var groupAssociation = new GroupAssociation(
                 parentGroup,
                 team,
                 _documentSession.Load<User>(command.UserId),
                 DateTime.UtcNow
                 );
-
             _documentSession.Store(groupAssociation);
+
+            // Add administrator membership to creating user
+            var user = _documentSession.Load<User>(command.UserId);
+            user.AddMembership(
+                user,
+                team,
+                _documentSession
+                    .Query<Role>()
+                    .Where(x => x.Id.In("roles/teamadministrator", "roles/teammember"))
+                    .ToList());
+            _documentSession.Store(user);
         }
 
         #endregion

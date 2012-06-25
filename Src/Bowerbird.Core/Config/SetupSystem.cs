@@ -289,31 +289,21 @@ namespace Bowerbird.Core.Config
             var user = new User(password, email, firstname, lastname, _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.User));
             _documentSession.Store(user);
 
-            var member = new Member(
-                user,
-                user,
+            user.AddMembership(user,
                 TheAppRoot,
                 Roles.Where(x => roleIds.Any(y => x.Id == "roles/" + y)));
-            _documentSession.Store(member);
-
-            user.AddMembership(member);
             _documentSession.Store(user);
 
             var userProject = new UserProject(user, DateTime.UtcNow, TheAppRoot);
-            //userProject.SetAncestry(TheAppRoot);
             _documentSession.Store(userProject);
 
             var userProjectAssociation = new GroupAssociation(TheAppRoot, userProject, user, DateTime.UtcNow);
             _documentSession.Store(userProjectAssociation);
 
-            var userProjectmember = new Member(
-                user,
+            user.AddMembership(
                 user,
                 userProject,
                 Roles.Where(x => x.Id == "roles/projectadministrator" || x.Id == "roles/projectmember"));
-            _documentSession.Store(userProjectmember);
-
-            user.AddMembership(userProjectmember);
             _documentSession.Store(user);
 
             Users.Add(user);

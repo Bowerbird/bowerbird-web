@@ -55,40 +55,20 @@ namespace Bowerbird.Core.CommandHandlers
         public void Handle(MemberCreateCommand command)
         {
             Check.RequireNotNull(command, "command");
-
-            var result = _documentSession
-                .Query<All_Groups.Result, All_Groups>()
-                .AsProjection<All_Groups.Result>()
-                .Where(x => x.GroupId == command.GroupId)
-                .FirstOrDefault();
             
             var user = _documentSession.Load<User>(command.UserId);
-            
-            var createdByUser = _documentSession.Load<User>(command.CreatedByUserId);
-            
-            // TODO: FIX THIS HACK - ALL VERY VERBOSE - IN A HURRY..
-            var roles = new List<Role>();
-            Role role;
 
-            if (command.GroupId.Contains("projects/"))
-            {
-                role = _documentSession.Load<Role>("roles/projectmember");
-                roles.Add(role);
-            }
-            else if(command.GroupId.Contains("teams/"))
-            {
-                role = _documentSession.Load<Role>("roles/teammember");
-                roles.Add(role);
-            }
-            else if(command.GroupId.Contains("organisations/"))
-            {
-                role = _documentSession.Load<Role>("roles/orgnaisationmember");
-                roles.Add(role);
-            }
-            
-            var member = new Member(createdByUser, user, result.Group, roles);
+            user.AddMembership(
+                _documentSession.Load<User>(command.CreatedByUserId),
+                _documentSession
+                    .Query<All_Groups.Result, All_Groups>()
+                    .AsProjection<All_Groups.Result>()
+                    .Where(x => x.GroupId == command.GroupId)
+                    .First()
+                    .Group,
+                _documentSession.Load<Role>(command.Roles));
 
-            _documentSession.Store(member);
+            _documentSession.Store(user);
         }
 
         #endregion

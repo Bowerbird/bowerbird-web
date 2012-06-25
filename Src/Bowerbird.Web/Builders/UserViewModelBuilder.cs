@@ -32,6 +32,7 @@ namespace Bowerbird.Web.Builders
         private readonly IDocumentSession _documentSession;
         private readonly IUserContext _userContext;
         private readonly IUserViewFactory _userViewFactory;
+        private readonly IGroupViewFactory _groupViewFactory;
 
         #endregion
 
@@ -40,15 +41,18 @@ namespace Bowerbird.Web.Builders
         public UserViewModelBuilder(
             IDocumentSession documentSession,
             IUserContext userContext,
-            IUserViewFactory userViewFactory)
+            IUserViewFactory userViewFactory,
+            IGroupViewFactory groupViewFactory)
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(userViewFactory, "userViewFactory");
+            Check.RequireNotNull(groupViewFactory, "groupViewFactory");
 
             _documentSession = documentSession;
             _userContext = userContext;
             _userViewFactory = userViewFactory;
+            _groupViewFactory = groupViewFactory;
         }
 
         #endregion
@@ -61,29 +65,41 @@ namespace Bowerbird.Web.Builders
 
         public object BuildAuthenticatedUser()
         {
-            var userId = _userContext.GetAuthenticatedUserId();
+            //var groups = _documentSession.Query<All_Groups.Result, All_Groups>()
+            //        .Where(x => x.UserIds.Any(y => y == userId))
+            //        .Include(x => userId)
+            //        .AsProjection<All_Groups.Result>()
+            //        .ToList();
 
-            var groups = _documentSession.Query<All_Groups.Result, All_Groups>()
-                    .Where(x => x.UserIds.Any(y => y == userId))
-                    .Include(x => userId)
-                    .AsProjection<All_Groups.Result>()
-                    .ToList();
+            //var user = _documentSession.Load<User>(userId);
+            //var application = groups.Any(x => x.GroupType == "approot") ? groups.Single(x => x.GroupType == "approot").AppRoot : (AppRoot)null;
+            //var organisations = groups.Where(x => x.GroupType == "organisation").Select(MakeOrganisation);
+            //var teams = groups.Where(x => x.GroupType == "team").Select(MakeTeam);
+            //var projects = groups.Where(x => x.GroupType == "project").Select(MakeProject);
+            //var memberships = groups.SelectMany(x => x.Users.Where(y => y.Id == userId));
 
-            var user = _documentSession.Load<User>(userId);
-            var application = groups.Any(x => x.GroupType == "approot") ? groups.Single(x => x.GroupType == "approot").AppRoot : (AppRoot)null;
-            var organisations = groups.Where(x => x.GroupType == "organisation").Select(MakeOrganisation);
-            var teams = groups.Where(x => x.GroupType == "team").Select(MakeTeam);
-            var projects = groups.Where(x => x.GroupType == "project").Select(MakeProject);
-            var memberships = groups.SelectMany(x => x.Members.Where(y => y.UserId == userId));
+            var user = _documentSession.Load<User>(_userContext.GetAuthenticatedUserId());
+
+            var groupResults = _documentSession
+                .Query<All_Groups.Result, All_Groups>()
+                .AsProjection<All_Groups.Result>()
+                .Where(x => x.UserIds.Any(y => y == user.Id))
+                .ToList();
 
             return new
             {
                 User = _userViewFactory.Make(user),
-                Application = application,
-                Organisations = organisations,
-                Teams = teams,
-                Projects = projects,
-                Memberships = memberships
+                AppRoot = groupResults.Where(x => x.Group is AppRoot).Select(x => x.Group as AppRoot).First(),
+                Organisations = groupResults.Where(x => x.Group is Organisation).Select(x => _groupViewFactory.Make(x.Group)),
+                Teams = groupResults.Where(x => x.Group is Team).Select(x => _groupViewFactory.Make(x.Team)),
+                Projects = groupResults.Where(x => x.Group is Project).Select(x => _groupViewFactory.Make(x.Project)),
+                UserProjects = groupResults.Where(x => x.Group is UserProject).Select(x => _groupViewFactory.Make(x.UserProject)),
+                Memberships = user.Memberships.Select(x => new {
+                    GroupId = x.Group.Id,
+                    x.Group.GroupType,
+                    RoleIds = x.Roles.Select(y => y.Id),
+                    PermissionIds = x.Roles.SelectMany(y => y.Permissions).Select(y => y.Id)
+                })
             };
         }
 
@@ -185,44 +201,44 @@ namespace Bowerbird.Web.Builders
             };
         }
 
-        private object MakeProject(All_Groups.Result result)
-        {
-            return new
-            {
-                Id = result.Project.Id,
-                result.Project.Name,
-                result.Project.Description,
-                result.Project.Website,
-                Avatar = result.Project.Avatar,
-                MemberCount = result.MemberIds.Count()
-            };
-        }
+        //private object MakeProject(All_Groups.Result result)
+        //{
+        //    return new
+        //    {
+        //        Id = result.Project.Id,
+        //        result.Project.Name,
+        //        result.Project.Description,
+        //        result.Project.Website,
+        //        Avatar = result.Project.Avatar,
+        //        MemberCount = result.UserIds.Count()
+        //    };
+        //}
 
-        private object MakeTeam(All_Groups.Result result)
-        {
-            return new
-            {
-                Id = result.Team.Id,
-                result.Team.Name,
-                result.Team.Description,
-                result.Team.Website,
-                Avatar = result.Team.Avatar,
-                MemberCount = result.MemberIds.Count()
-            };
-        }
+        //private object MakeTeam(All_Groups.Result result)
+        //{
+        //    return new
+        //    {
+        //        Id = result.Team.Id,
+        //        result.Team.Name,
+        //        result.Team.Description,
+        //        result.Team.Website,
+        //        Avatar = result.Team.Avatar,
+        //        MemberCount = result.UserIds.Count()
+        //    };
+        //}
 
-        private object MakeOrganisation(All_Groups.Result result)
-        {
-            return new
-            {
-                Id = result.Organisation.Id,
-                result.Organisation.Name,
-                result.Organisation.Description,
-                result.Organisation.Website,
-                Avatar = result.Organisation.Avatar,
-                MemberCount = result.MemberIds.Count()
-            };
-        }
+        //private object MakeOrganisation(All_Groups.Result result)
+        //{
+        //    return new
+        //    {
+        //        Id = result.Organisation.Id,
+        //        result.Organisation.Name,
+        //        result.Organisation.Description,
+        //        result.Organisation.Website,
+        //        Avatar = result.Organisation.Avatar,
+        //        MemberCount = result.UserIds.Count()
+        //    };
+        //}
 
         #endregion
     }

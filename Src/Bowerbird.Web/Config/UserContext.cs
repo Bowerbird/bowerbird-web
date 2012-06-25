@@ -194,7 +194,7 @@ namespace Bowerbird.Web.Config
         }
 
         public bool HasGroupPermission<T>(string permissionId, string domainModelId)
-            where T : DomainModel
+            where T : IOwnable
         {
             return _permissionChecker.HasGroupPermission<T>(permissionId, GetAuthenticatedUserId(), domainModelId);
         }

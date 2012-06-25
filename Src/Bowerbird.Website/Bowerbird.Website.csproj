@@ -410,6 +410,9 @@
     <Content Include="Views\Shared\Organisation.mustache">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Web.DebugProd.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="404.html" />

@@ -56,8 +56,10 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(command, "command");
 
+            // Get parent group
             var parentGroup = _documentSession.Load<dynamic>(command.TeamId);
             
+            // Make project
             var project = new Project(
                 _documentSession.Load<User>(command.UserId),
                 command.Name,
@@ -65,11 +67,10 @@ namespace Bowerbird.Core.CommandHandlers
                 command.Website,
                 string.IsNullOrWhiteSpace(command.AvatarId) ? _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Project) : _documentSession.Load<MediaResource>(command.AvatarId),
                 DateTime.UtcNow,
-                parentGroup
-                );
-
+                parentGroup);
             _documentSession.Store(project);
 
+            // If project is in a team, add project to teams's Descendants
             if (!string.IsNullOrEmpty(command.TeamId))
             {
                 parentGroup.AddDescendant(project);
@@ -83,25 +84,25 @@ namespace Bowerbird.Core.CommandHandlers
                 }
             }
 
-            var projectAdministrator = new Member(
-                _documentSession.Load<User>(command.UserId),
-                _documentSession.Load<User>(command.UserId),
-                project,
-                _documentSession
-                    .Query<Role>()
-                    .Where(x => x.Id.Equals("roles/projectadministrator") || x.Id.Equals("roles/projectmember"))
-                    .ToList());
-
-            _documentSession.Store(projectAdministrator);
-
+            // Add an association to parent group
             var groupAssociation = new GroupAssociation(
                 parentGroup,
                 project,
                 _documentSession.Load<User>(command.UserId),
                 DateTime.UtcNow
                 );
-
             _documentSession.Store(groupAssociation);
+
+            // Add administrator membership to creating user
+            var user = _documentSession.Load<User>(command.UserId);
+            user.AddMembership(
+                user,
+                project,
+                _documentSession
+                    .Query<Role>()
+                    .Where(x => x.Id.Equals("roles/projectadministrator") || x.Id.Equals("roles/projectmember"))
+                    .ToList());
+            _documentSession.Store(user);
         }
 
         #endregion

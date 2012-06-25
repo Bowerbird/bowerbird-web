@@ -18,7 +18,7 @@ using Bowerbird.Core.Events;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public class Member : DomainModel
+    public class Member
     {
         #region Members
 
@@ -30,36 +30,26 @@ namespace Bowerbird.Core.DomainModels
             : base()
         {
             InitMembers();
-
-            EnableEvents();
         }
 
         public Member(
             User createdByUser,
-            User user,
             Group group,
             IEnumerable<Role> roles)
             : base()
         {
-            Check.RequireNotNull(user, "user");
             Check.RequireNotNull(group, "group");
             Check.Require(roles != null && roles.ToList().Count > 0, "role collection must be not null and contain role items");
 
             InitMembers();
 
-            User = user;
             Group = group;
             Roles = roles;
-
-            EnableEvents();
-            FireEvent(new DomainModelCreatedEvent<Member>(this, createdByUser, this));
         }
 
         #endregion
 
         #region Properties
-
-        public DenormalisedUserReference User { get; private set; }
 
         public DenormalisedGroupReference Group { get; private set; }
 
@@ -101,6 +91,13 @@ namespace Bowerbird.Core.DomainModels
         public Member RemoveRole(string roleId)
         {
             ((List<Role>)Roles).RemoveAll(x => x.Id == roleId);
+
+            return this;
+        }
+
+        public Member RemoveRoles(IEnumerable<string> roleIds)
+        {
+            ((List<Role>)Roles).RemoveAll(x => roleIds.Any(y => y == x.Id));
 
             return this;
         }

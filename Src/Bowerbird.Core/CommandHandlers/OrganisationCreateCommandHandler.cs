@@ -62,8 +62,9 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(command, "command");
 
-            var parentGroup = _documentSession.Load<AppRoot>(Constants.AppRootId);
+            var appRoot = _documentSession.Load<AppRoot>(Constants.AppRootId);
 
+            // Make organisation
             var organisation = new Organisation(
                 _documentSession.Load<User>(command.UserId),
                 command.Name,
@@ -71,30 +72,27 @@ namespace Bowerbird.Core.CommandHandlers
                 command.Website,
                 string.IsNullOrWhiteSpace(command.AvatarId) ? _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Organisation) : _documentSession.Load<MediaResource>(command.AvatarId),
                 DateTime.UtcNow,
-                parentGroup);
-
-            //organisation.SetAncestry(parentGroup);
+                appRoot);
             _documentSession.Store(organisation);
 
-            var organisationAdministrator = new Member(
+            // Add association to app root
+            var groupAssociation = new GroupAssociation(
+                appRoot,
+                organisation,
                 _documentSession.Load<User>(command.UserId),
-                _documentSession.Load<User>(command.UserId),
+                DateTime.UtcNow);
+            _documentSession.Store(groupAssociation);
+
+            // Add administrator membership to creating user
+            var user = _documentSession.Load<User>(command.UserId);
+            user.AddMembership(
+                user,
                 organisation,
                 _documentSession
                     .Query<Role>()
                     .Where(x => x.Id.Equals("roles/organisationadministrator") || x.Id.Equals("roles/organisationmember"))
                     .ToList());
-
-            _documentSession.Store(organisationAdministrator);
-            
-            var groupAssociation = new GroupAssociation(
-                parentGroup,
-                organisation,
-                _documentSession.Load<User>(command.UserId),
-                DateTime.UtcNow
-                );
-
-            _documentSession.Store(groupAssociation);
+            _documentSession.Store(user);
         }
 
         #endregion

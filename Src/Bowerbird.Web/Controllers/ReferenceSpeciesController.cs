@@ -104,10 +104,10 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(idInput, "idInput");
 
-            if (!_userContext.HasGroupPermission<ReferenceSpecies>(PermissionNames.UpdateReferenceSpecies, idInput.Id))
-            {
-                return HttpUnauthorized();
-            }
+            //if (!_userContext.HasGroupPermission<ReferenceSpecies>(PermissionNames.UpdateReferenceSpecies, idInput.Id))
+            //{
+            //    return HttpUnauthorized();
+            //}
 
             ViewBag.ReferenceSpecies = _referenceSpeciesViewModelBuilder.BuildReferenceSpecies(idInput);
 
@@ -120,10 +120,10 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(idInput, "idInput");
 
-            if (!_userContext.HasGroupPermission<ReferenceSpecies>(PermissionNames.DeleteReferenceSpecies, idInput.Id))
-            {
-                return HttpUnauthorized();
-            }
+            //if (!_userContext.HasGroupPermission<ReferenceSpecies>(PermissionNames.DeleteReferenceSpecies, idInput.Id))
+            //{
+            //    return HttpUnauthorized();
+            //}
 
             ViewBag.ReferenceSpecies = _referenceSpeciesViewModelBuilder.BuildReferenceSpecies(idInput);
 
@@ -166,10 +166,10 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(updateInput, "updateInput");
 
-            if (!_userContext.HasGroupPermission<ReferenceSpecies>(PermissionNames.DeleteReferenceSpecies, updateInput.Id))
-            {
-                return HttpUnauthorized();
-            }
+            //if (!_userContext.HasGroupPermission<ReferenceSpecies>(PermissionNames.DeleteReferenceSpecies, updateInput.Id))
+            //{
+            //    return HttpUnauthorized();
+            //}
 
             if (!ModelState.IsValid)
             {
@@ -196,10 +196,10 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(idInput, "idInput");
 
-            if (!_userContext.HasGroupPermission<ReferenceSpecies>(PermissionNames.DeleteReferenceSpecies, idInput.Id))
-            {
-                return HttpUnauthorized();
-            }
+            //if (!_userContext.HasGroupPermission<ReferenceSpecies>(PermissionNames.DeleteReferenceSpecies, idInput.Id))
+            //{
+            //    return HttpUnauthorized();
+            //}
 
             if (!ModelState.IsValid)
             {

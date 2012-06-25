@@ -20,6 +20,7 @@ using Bowerbird.Web.ViewModels;
 using Raven.Client;
 using Raven.Client.Linq;
 using Bowerbird.Core.Factories;
+using Bowerbird.Web.Factories;
 
 namespace Bowerbird.Web.Builders
 {
@@ -29,6 +30,7 @@ namespace Bowerbird.Web.Builders
 
         private readonly IDocumentSession _documentSession;
         private readonly IAvatarFactory _avatarFactory;
+        private readonly IUserViewFactory _userViewFactory;
 
         #endregion
 
@@ -36,13 +38,16 @@ namespace Bowerbird.Web.Builders
 
         public ProjectsViewModelBuilder(
             IDocumentSession documentSession,
-            IAvatarFactory avatarFactory)
+            IAvatarFactory avatarFactory,
+            IUserViewFactory userViewFactory)
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(avatarFactory, "avatarFactory");
+            Check.RequireNotNull(userViewFactory, "userViewFactory");
 
             _documentSession = documentSession;
             _avatarFactory = avatarFactory;
+            _userViewFactory = userViewFactory;
         }
 
         #endregion
@@ -107,7 +112,7 @@ namespace Bowerbird.Web.Builders
                 .AsProjection<All_Users.Result>()
                 .Where(x => x.UserId == pagingInput.Id)
                 .ToList()
-                .SelectMany(x => x.Members.Where(y => y.Group.GroupType == "project").Select(y => y.Group.Id));
+                .SelectMany(x => x.User.Memberships.Where(y => y.Group.GroupType == "project").Select(y => y.Group.Id));
 
             return _documentSession
                 .Query<All_Groups.Result, All_Groups>()
@@ -161,15 +166,14 @@ namespace Bowerbird.Web.Builders
             RavenQueryStatistics stats;
 
             return _documentSession
-                .Query<Member>()
-                .Where(x => x.Group.Id == pagingInput.Id)
-                .Customize(x => x.WaitForNonStaleResults())
-                .Include(x => x.User.Id)
+                .Query<All_Users.Result, All_Users >()
+                .AsProjection<All_Users.Result>()
+                .Where(x => x.GroupIds.Any(y => y == pagingInput.Id))
                 .Statistics(out stats)
                 .Skip(pagingInput.Page)
                 .Take(pagingInput.PageSize)
                 .ToList()
-                .Select(x => MakeUser(x.User.Id))
+                .Select(x => _userViewFactory.Make(x.User))
                 .ToPagedList(
                     pagingInput.Page,
                     pagingInput.PageSize,
@@ -203,7 +207,7 @@ namespace Bowerbird.Web.Builders
                 result.Project.Description,
                 result.Project.Website,
                 Avatar = result.Project.Avatar ?? _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Project),
-                MemberCount = result.MemberIds.Count(),
+                MemberCount = result.UserIds.Count(),
                 AvatarId = result.Project.Avatar != null ? result.Project.Avatar.Id : null
             };
         }

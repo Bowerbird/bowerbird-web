@@ -95,7 +95,7 @@ namespace Bowerbird.Web.EventHandlers
                     .AsProjection<All_Users.Result>()
                     .Where(x => x.UserId == user.Id)
                     .ToList()
-                    .SelectMany(x => x.Members);
+                    .SelectMany(x => x.User.Memberships);
 
                 foreach (var membership in memberships)
                 {

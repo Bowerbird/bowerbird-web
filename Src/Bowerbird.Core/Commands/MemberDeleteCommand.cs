@@ -33,7 +33,7 @@ namespace Bowerbird.Core.Commands
 
         public string GroupId { get; set; }
 
-        public string DeletedByUserId { get; set; }
+        public string ModifiedByUserId { get; set; }
 
         #endregion
 
