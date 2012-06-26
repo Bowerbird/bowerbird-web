@@ -11,11 +11,11 @@
 define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/editavatarview', 'fileupload', 'multiselect'],
 function ($, _, Backbone, app, ich, loadImage, EditAvatarView) 
 {
-    var OrganisationFormLayoutView = Backbone.Marionette.Layout.extend({
+    var UserFormLayoutView = Backbone.Marionette.Layout.extend({
 
-        className: 'form single-medium organisation-form',
+        className: 'form single-medium user-form',
 
-        template: 'OrganisationForm',
+        template: 'UserForm',
 
         regions: {
             avatar: '#avatar-fieldset'
@@ -24,44 +24,44 @@ function ($, _, Backbone, app, ich, loadImage, EditAvatarView)
         events: {
             'click #cancel': '_cancel',
             'click #save': '_save',
-            'change input#Name': '_contentChanged',
-            'change textarea#Description': '_contentChanged',
-            'change input#Website': '_contentChanged'
+            'change input#FirstName': '_contentChanged',
+            'change input#LastName': '_contentChanged',
+            'change input#Email': '_contentChanged'
         },
 
         initialize: function (options) {
-            log('organisationFormLayoutView.initialize');
+            log('userFormLayoutView.initialize');
         },
 
         serializeData: function () {
-            log('organisationFormLayoutView:serializeData');
+            log('userFormLayoutView:serializeData');
             return {
                 Model: {
-                    Organisation: this.model.toJSON()
+                    User: this.model.toJSON()
                 }
             };
         },
 
         onShow: function () {
-            log('organisationFormLayoutView:onShow');
+            log('userFormLayoutView:onShow');
             this._showDetails();
         },
 
         showBootstrappedDetails: function () {
-            log('organisationFormLayoutView:showBootstrappedDetails');
+            log('userFormLayoutView:showBootstrappedDetails');
             this.initializeRegions();
-            this.$el = $('#content .organisation-form');
+            this.$el = $('#content .user-form');
             this._showDetails();
         },
 
         _showDetails: function () {
-            log('organisationFormLayoutView:_showDetails');
+            log('userFormLayoutView:_showDetails');
             var editAvatarView = new EditAvatarView({ el: '#avatar-fieldset', model: this.model });
             editAvatarView.render();
         },
 
         _contentChanged: function (e) {
-            log('organisationFormLayoutView:_contentChanged');
+            log('userFormLayoutView:_contentChanged');
             var target = $(e.currentTarget);
             var data = {};
             data[target.attr('id')] = target.attr('value');
@@ -78,5 +78,5 @@ function ($, _, Backbone, app, ich, loadImage, EditAvatarView)
         }
     });
 
-    return OrganisationFormLayoutView;
+    return UserFormLayoutView;
 });

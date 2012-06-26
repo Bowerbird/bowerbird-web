@@ -214,7 +214,15 @@ namespace Bowerbird.Web.Controllers
 
             var userId = idInput.Id.VerbosifyId<User>();
 
-            return new JsonNetResult(_userViewModelBuilder.BuildUser(userId));
+            ViewBag.Model = new
+            {
+                User = _userViewModelBuilder.BuildEditableUser(userId)
+            };
+
+            return new JsonNetResult(new
+            {
+                Model = ViewBag.Model
+            });
         }
 
         [HttpGet]
@@ -242,9 +250,12 @@ namespace Bowerbird.Web.Controllers
 
             var userId = idInput.Id.VerbosifyId<User>();
 
-            DebugToClient("SERVER: Users/UpdateForm userId:" + userId); 
+            DebugToClient("SERVER: Users/UpdateForm userId:" + userId);
 
-            ViewBag.User = _userViewModelBuilder.BuildUser(userId);
+            ViewBag.Model = new
+            {
+                User = _userViewModelBuilder.BuildEditableUser(userId)
+            };
 
             if (Request.IsAjaxRequest())
             {

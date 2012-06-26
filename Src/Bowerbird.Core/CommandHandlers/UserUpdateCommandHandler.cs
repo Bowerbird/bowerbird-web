@@ -17,6 +17,7 @@
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Extensions;
 using Raven.Client;
 
 namespace Bowerbird.Core.CommandHandlers
@@ -51,7 +52,9 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(command, "command");
 
-            var user = _documentSession.Load<User>(command.Id);
+            var userId = command.Id.VerbosifyId<User>();
+
+            var user = _documentSession.Load<User>(userId);
 
             user.UpdateDetails(
                 command.FirstName,

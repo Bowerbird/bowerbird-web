@@ -12,10 +12,20 @@ define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
 
     var User = Backbone.Model.extend({
         defaults: {
-            IsTyping: false // Used by chat
+            FirstName: '',
+            LastName: '',
+            Email: '',
+            AvatarId: null,
+            Type: 'User'
         },
 
-        idAttribute: 'Id'
+        idAttribute: 'Id',
+
+        urlRoot: '/users',
+
+        setAvatar: function (mediaResource) {
+            this.set('AvatarId', mediaResource.id);
+        }
     });
 
     return User;

@@ -20,6 +20,11 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
                 app.observationRouter.navigate($(this).attr('href'), { trigger: true });
                 return false;
             });
+            this.$el.find('.user-menu a').on('click', function (e) {
+                e.preventDefault();
+                app.observationRouter.navigate($(this).attr('href'), { trigger: true });
+                return false;
+            });
         }
     });
 

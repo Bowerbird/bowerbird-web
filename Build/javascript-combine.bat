@@ -1,3 +1,7 @@
+Echo %1
+Echo %2
+Echo %3
+
 set jsCombined=false
 set jsMinified=false
 

@@ -91,9 +91,14 @@ namespace Bowerbird.Core.Extensions
             return longId;
         }
 
-        public static string FormatWith(this string text, string param1, string param2)
+        public static string FormatWith(this string formattableText, string param)
         {
-            return string.Format("{0}{1}{2}", text, param1, param2);
+            return string.Format(formattableText, param);
+        }
+
+        public static string FormatWith(this string formattableText, string param1, string param2)
+        {
+            return string.Format(formattableText, param1, param2);
         }
     }
 }

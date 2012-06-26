@@ -171,6 +171,7 @@
     <Content Include="js\bowerbird\views\chatRegion.js" />
     <Content Include="js\bowerbird\views\chatCompositeView.js" />
     <Content Include="js\bowerbird\views\chatMessageCollectionView.js" />
+    <Content Include="js\bowerbird\views\userFormLayoutView.js" />
     <Content Include="js\bowerbird\views\organisationItemView.js" />
     <Content Include="js\bowerbird\views\organisationCollectionView.js" />
     <Content Include="js\bowerbird\views\organisationLayoutView.js" />
@@ -474,6 +475,11 @@
   </ItemGroup>
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <PropertyGroup>
-    <PostBuildEvent>call "$(SolutionDir)\Build\javascript-combine.bat" $(ConfigurationName) $(ProjectDir) $(SolutionDir)</PostBuildEvent>
+    <PostBuildEvent>call "$(SolutionDir)\Build\signalr-hubify.bat" $(SolutionDir) $(ProjectDir)
+call "$(SolutionDir)\Build\javascript-combine.bat" $(ConfigurationName) $(ProjectDir) $(SolutionDir)</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
 </Project>

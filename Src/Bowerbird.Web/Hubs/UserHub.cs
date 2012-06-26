@@ -13,17 +13,14 @@
 */
 
 using System.Threading.Tasks;
-using Bowerbird.Web.Services;
+using Bowerbird.Core.Extensions;
 using SignalR.Hubs;
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Web.Factories;
 using Raven.Client;
 using Raven.Client.Linq;
 using Bowerbird.Core.Indexes;
 using System.Linq;
 using Bowerbird.Core.DomainModels;
-using System;
-using System.Collections.Generic;
 using Bowerbird.Web.Builders;
 
 namespace Bowerbird.Web.Hubs
@@ -58,8 +55,12 @@ namespace Bowerbird.Web.Hubs
 
         #region Methods
 
-        public void RegisterUserClient(string userId)
+        public void RegisterUserClient(string id)
         {
+            Check.RequireNotNullOrWhitespace(id, "id");
+
+            var userId = id.VerbosifyId<User>();
+
             var user = _documentSession.Load<User>(userId);
 
             // Add user to their own group

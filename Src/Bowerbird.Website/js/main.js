@@ -31,10 +31,12 @@ require.config({
         fileupload: '../libs/jquery.fileupload/jquery.fileupload',
         signalr: '../libs/jquery.signalr/jquery.signalr',
         timeago: '../libs/jquery.timeago/jquery.timeago',
-        log: '../libs/log/log'
+        log: '../libs/log/log',
+        hubs: 'hubs'
     },
     shim: {
-        '/signalr/hubs?noext': ['signalr', 'jquery', 'json2'] // Load non-AMD signalr hubs script
+        //'/signalr/hubs?noext': ['signalr', 'jquery', 'json2'] // Load non-AMD signalr hubs script
+        hubs: ['signalr', 'jquery'] // Load non-AMD signalr hubs script
     }
 });
 
@@ -68,14 +70,13 @@ require([
         'views/notificationscompositeview',
         'views/onlineusercompositeview',
         'views/chatcompositeview',
-        '/signalr/hubs?noext'
+        //'/signalr/hubs?noext'
+        'hubs'
     ],
     function (app, bootstrapData) {
         log(bootstrapData);
         // Start the app as soon as the DOM is ready, loading in the bootstrapped data
         $(function () {
             app.start(bootstrapData);
-
-            
         });
     });

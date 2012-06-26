@@ -10,19 +10,19 @@ namespace Bowerbird.Core.Extensions
     {
         public static string MinifyId<T>(this string id) where T : DomainModel
         {
-            string modelType = shortTypeName(typeof(T).ToString().ToLower());
+            string modelType = ShortTypeName(typeof(T).ToString().ToLower());
 
             return MutatedId(modelType, id, true);
         }
 
         public static string VerbosifyId<T>(this string id) where T: DomainModel
         {
-            string modelType = typeof(T).ToString().ToLower();
+            string modelType = ShortTypeName(typeof(T).ToString().ToLower());
 
             return MutatedId(modelType, id, false);
         }
 
-        private static string shortTypeName(string fullyQualifiedTypeName)
+        private static string ShortTypeName(string fullyQualifiedTypeName)
         {
             var tokens = fullyQualifiedTypeName.Split('.');
 
@@ -49,8 +49,7 @@ namespace Bowerbird.Core.Extensions
                     break;
                 case "team":
                     {
-                        if (stripTypeParameter) mutatedId = MinifiedId("teams", id);
-                        else mutatedId = VerbosifiedId("teams", id);
+                        mutatedId = stripTypeParameter ? MinifiedId("teams", id) : VerbosifiedId("teams", id);
                     }
                     break;
                 case "organisation":
@@ -81,12 +80,12 @@ namespace Bowerbird.Core.Extensions
 
         private static string MinifiedId(string prefix, string id)
         {
-            return id.StartsWith("{0}/".AppendWith(prefix)) ? id.Replace("{0}/".AppendWith(prefix), "") : id;
+            return id.StartsWith("{0}/".FormatWith(prefix)) ? id.Replace("{0}/".FormatWith(prefix), "") : id;
         }
 
         private static string VerbosifiedId(string prefix, string id)
         {
-            return id.StartsWith("{0}/".AppendWith(prefix)) ? id : "{0}/{1}".AppendWith(prefix, id);        
+            return id.StartsWith("{0}/".FormatWith(prefix)) ? id : "{0}/{1}".FormatWith(prefix, id);        
         }
     }
 }

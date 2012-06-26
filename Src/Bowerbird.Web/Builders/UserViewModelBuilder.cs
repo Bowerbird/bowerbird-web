@@ -13,6 +13,7 @@ using System;
 using System.Linq;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Extensions;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Paging;
 using Bowerbird.Web.ViewModels;
@@ -108,6 +109,24 @@ namespace Bowerbird.Web.Builders
             Check.RequireNotNullOrWhitespace(userId, "userId");
 
             return _userViewFactory.Make(_documentSession.Load<User>(userId));
+        }
+
+        public object BuildEditableUser(string id)
+        {
+            Check.RequireNotNullOrWhitespace(id, "id");
+
+            var user = _documentSession.Load<User>(id);
+
+            var userId = user.Id.MinifyId<User>();
+
+            return new
+            {
+                Id = userId,
+                user.Avatar,
+                user.LastLoggedIn,
+                user.FirstName,
+                user.LastName
+            };
         }
 
         public object BuildUserList(PagingInput pagingInput)

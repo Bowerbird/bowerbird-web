@@ -144,11 +144,9 @@ function ($, _, Backbone, app, OrganisationLayoutView, OrganisationFormLayoutVie
     };
 
     app.addInitializer(function () {
-        log('FIRING ORGANISATION ROUTER');
         this.organisationRouter = new OrganisationRouter({
             controller: OrganisationController
         });
-        log('ORGANISATION ROUTER - DONE');
     });
 
     return OrganisationController;

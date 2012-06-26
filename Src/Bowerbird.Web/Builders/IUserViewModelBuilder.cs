@@ -21,6 +21,8 @@ namespace Bowerbird.Web.Builders
     {
         object BuildUser(string userId);
 
+        object BuildEditableUser(string userId);
+
         object BuildUserList(PagingInput pagingInput);
 
         //object BuildUsersFollowingList(PagingInput pagingInput);

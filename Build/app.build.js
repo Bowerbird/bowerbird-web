@@ -22,10 +22,12 @@
         log: '../libs/log/log',
         'bootstrap-data': 'empty:',
         '/templates': 'empty:',
-        '/signalr/hubs': 'empty:'
+        //'/signalr/hubs': 'empty:'
+        hubs: 'hubs'
     },
     shim: {
-        '/signalr/hubs': ['signalr', 'jquery'] // Load non-AMD signalr hubs script
+        //'/signalr/hubs': ['signalr', 'jquery'] // Load non-AMD signalr hubs script
+        hubs: ['signalr', 'jquery'] // Load non-AMD signalr hubs script
     },
     name: "../main",
     include: [
@@ -53,7 +55,8 @@
         'views/footerview',
         'views/sidebarlayoutview',
         'views/notificationscompositeview',
-        'views/chatcompositeview'
+        'views/chatcompositeview',
+        'hubs'
     ],
     out: "../main-min.js",
     optimize: "uglify",
