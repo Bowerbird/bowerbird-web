@@ -72,7 +72,7 @@ namespace Bowerbird.Web.EventHandlers
 
         public void Handle(DomainModelCreatedEvent<Member> domainEvent)
         {
-            var user = _documentSession.Load<User>(domainEvent.DomainModel.User.Id);
+            var user = _documentSession.Load<User>(domainEvent.Sender.Id);
             var group = _documentSession.Load<dynamic>(domainEvent.DomainModel.Group.Id);
 
             foreach(var session in user.Sessions)

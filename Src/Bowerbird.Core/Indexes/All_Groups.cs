@@ -29,7 +29,6 @@ namespace Bowerbird.Core.Indexes
         {
             public string GroupType { get; set; }
             public string GroupId { get; set; }
-            public string[] MemberIds { get; set; }
             public string[] UserIds { get; set; }
             public string ParentGroupId { get; set; }
             public string[] ChildGroupIds { get; set; }
@@ -37,22 +36,34 @@ namespace Bowerbird.Core.Indexes
             public string[] DescendantGroupIds { get; set; }
             public string[] GroupRoleIds { get; set; }
 
-            public Group Group { get { return AppRoot ?? Organisation ?? Team ?? Project ?? UserProject ?? (Group)null; } }
             public AppRoot AppRoot { get; set; }
             public Organisation Organisation { get; set; }
             public Team Team { get; set; }
             public Project Project { get; set; }
             public UserProject UserProject { get; set; }
-            public IEnumerable<MemberResult> Members { get; set; }
-        }
+            public IEnumerable<User> Users { get; set; }
 
-        public class MemberResult
-        {
-            public string GroupId { get; set; }
-            public string GroupType { get; set; }
-            public string UserId { get; set; }
-            public string[] RoleIds { get; set; }
-            public string[] PermissionIds { get; set; }
+            public Group Group
+            {
+                get
+                {
+                    switch (GroupType)
+                    {
+                        case "userproject":
+                            return UserProject;
+                        case "project":
+                            return Project;
+                        case "team":
+                            return Team;
+                        case "organisation":
+                            return Organisation;
+                        case "approot":
+                            return AppRoot;
+                        default:
+                            return null;
+                    }
+                }
+            }
         }
 
         public All_Groups()
@@ -63,7 +74,6 @@ namespace Bowerbird.Core.Indexes
                             {
                                 appRoot.GroupType,
                                 GroupId = appRoot.Id,
-                                MemberIds = new string[] { },
                                 UserIds = new string[] { },
                                 ParentGroupId = (string)null,
                                 ChildGroupIds = new string[] { },
@@ -80,7 +90,6 @@ namespace Bowerbird.Core.Indexes
                     {
                         organisation.GroupType,
                         GroupId = organisation.Id,
-                        MemberIds = new string[] { },
                         UserIds = new string[] { },
                         ParentGroupId = parentGroup.Id,
                         ChildGroupIds = new string[] { },
@@ -99,7 +108,6 @@ namespace Bowerbird.Core.Indexes
                     {
                         team.GroupType,
                         GroupId = team.Id,
-                        MemberIds = new string[] { },
                         UserIds = new string[] { },
                         ParentGroupId = parentGroup.Id,
                         ChildGroupIds = new string[] { },
@@ -117,7 +125,6 @@ namespace Bowerbird.Core.Indexes
                             {
                                 project.GroupType,
                                 GroupId = project.Id,
-                                MemberIds = new string[] { },
                                 UserIds = new string[] { },
                                 ParentGroupId = parentGroup.Id,
                                 ChildGroupIds = new string[] { },
@@ -134,7 +141,6 @@ namespace Bowerbird.Core.Indexes
                                 {
                                     userProject.GroupType,
                                     GroupId = userProject.Id,
-                                    MemberIds = new string[] { },
                                     UserIds = new string[] { },
                                     ParentGroupId = parentGroup.Id,
                                     ChildGroupIds = new string[] { },
@@ -150,7 +156,6 @@ namespace Bowerbird.Core.Indexes
                                      {
                                          groupAssociation.ParentGroup.GroupType,
                                          GroupId = groupAssociation.ParentGroup.Id,
-                                         MemberIds = new string[] { },
                                          UserIds = new string[] { },
                                          ParentGroupId = (string)null,
                                          ChildGroupIds = new[] { groupAssociation.ChildGroup.Id },
@@ -159,20 +164,20 @@ namespace Bowerbird.Core.Indexes
                                          GroupRoleIds = new string[] { }
                                      });
 
-            AddMap<Member>(
-                members => from member in members
-                           select new
-                           {
-                               member.Group.GroupType,
-                               GroupId = member.Group.Id,
-                               MemberIds = new string[] { member.Id },
-                               UserIds = new string[] { member.User.Id },
-                               ParentGroupId = (string)null,
-                               ChildGroupIds = new string[] { },
-                               AncestorGroupIds = new string[] { },
-                               DescendantGroupIds = new string[] { },
-                               GroupRoleIds = member.Roles.Select(x => x.Id)
-                           });
+            AddMap<User>(
+                users => from user in users
+                         from member in user.Memberships
+                         select new
+                         {
+                             member.Group.GroupType,
+                             GroupId = member.Group.Id,
+                             UserIds = new string[] {user.Id },
+                             ParentGroupId = (string)null,
+                             ChildGroupIds = new string[] { },
+                             AncestorGroupIds = new string[] { },
+                             DescendantGroupIds = new string[] { },
+                             GroupRoleIds = member.Roles.Select(x => x.Id)
+                         });
 
             Reduce = results => from result in results
                                 group result by result.GroupId
@@ -181,7 +186,6 @@ namespace Bowerbird.Core.Indexes
                                     {
                                         GroupType = g.Select(x => x.GroupType).FirstOrDefault(),
                                         GroupId = g.Key,
-                                        MemberIds = g.SelectMany(x => x.MemberIds),
                                         UserIds = g.SelectMany(x => x.UserIds),
                                         ParentGroupId = g.Select(x => x.ParentGroupId).Where(x => x != null).FirstOrDefault(),
                                         ChildGroupIds = g.SelectMany(x => x.ChildGroupIds),
@@ -197,37 +201,27 @@ namespace Bowerbird.Core.Indexes
                 let team = database.Load<Team>(result.GroupId)
                 let project = database.Load<Project>(result.GroupId)
                 let userProject = database.Load<UserProject>(result.GroupId)
-                let members = database.Load<Member>(result.MemberIds)
+                let users = database.Load<User>(result.UserIds)
                 select new
                 {
                     result.GroupType,
                     result.GroupId,
-                    result.MemberIds,
                     result.UserIds,
                     result.ParentGroupId,
                     result.ChildGroupIds,
                     result.AncestorGroupIds,
                     result.DescendantGroupIds,
                     result.GroupRoleIds,
-                    AppRoot = appRoot,
+                    AppRoot = result.GroupType == "approot" ? appRoot : null,
                     Organisation = organisation,
                     Team = team,
                     Project = project,
                     UserProject = userProject,
-                    Members = from member in members
-                        select new
-                        {
-                            GroupId = member.Group.Id,
-                            GroupType = member.Group.GroupType,
-                            UserId = member.User.Id,
-                            RoleIds = member.Roles.Select(x => x.Id),
-                            PermissionIds = member.Roles.SelectMany(x => x.Permissions.Select(y => y.Id))
-                        }
+                    Users = users
                 };
 
             Store(x => x.GroupType, FieldStorage.Yes);
             Store(x => x.GroupId, FieldStorage.Yes);
-            Store(x => x.MemberIds, FieldStorage.Yes);
             Store(x => x.UserIds, FieldStorage.Yes);
             Store(x => x.ParentGroupId, FieldStorage.Yes);
             Store(x => x.ChildGroupIds, FieldStorage.Yes);

@@ -218,10 +218,10 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(idInput, "idInput");
 
-            if (!_userContext.HasGroupPermission<Species>(PermissionNames.DeleteSpecies, idInput.Id))
-            {
-                return HttpUnauthorized();
-            }
+            //if (!_userContext.HasGroupPermission<Species>(PermissionNames.DeleteSpecies, idInput.Id))
+            //{
+            //    return HttpUnauthorized();
+            //}
 
             if (!ModelState.IsValid)
             {

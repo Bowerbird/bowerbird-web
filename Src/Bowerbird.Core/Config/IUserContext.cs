@@ -85,7 +85,7 @@ namespace Bowerbird.Core.Config
         /// <typeparam name="T">The type of domain model that permission is being queried for</typeparam>
         /// <param name="permissionId">The permission name to find</param>
         /// <param name="domainModelId">The domain model to check for permission</param>
-        bool HasGroupPermission<T>(string permissionId, string domainModelId) where T : DomainModel;
+        bool HasGroupPermission<T>(string permissionId, string domainModelId) where T : IOwnable;
 
     }
 }

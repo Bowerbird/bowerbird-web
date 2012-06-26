@@ -504,7 +504,7 @@ namespace Bowerbird.Web.Controllers
 
             if (teamIds.Count > 0)
             {
-                var teamIdsToQuery = teamIds.SelectMany(x => x.Members.Where(y => y.Group.GroupType == "team").Select(y => y.Group.Id));
+                var teamIdsToQuery = teamIds.SelectMany(x => x.Groups.Where(y => y.GroupType == "team").Select(y => y.Id));
 
                 DebugToClient(teamIdsToQuery);
 

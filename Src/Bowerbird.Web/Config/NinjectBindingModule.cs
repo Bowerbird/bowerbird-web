@@ -25,6 +25,7 @@ using Bowerbird.Core.Config;
 using Bowerbird.Web.Hubs;
 using SignalR.Hubs;
 using System.Linq;
+using System.Web;
 
 namespace Bowerbird.Web.Config
 {
@@ -49,7 +50,6 @@ namespace Bowerbird.Web.Config
         {
             // Singleton scope
             Bind<IDocumentStore>().ToProvider<NinjectRavenDocumentStoreProvider>().InSingletonScope();
-            Bind<IPermissionChecker>().To<PermissionChecker>().InSingletonScope().OnActivation(x => ((PermissionChecker)x).Init());
             Bind<ISystemStateManager>().To<SystemStateManager>().InSingletonScope();
 
             // Request scope
@@ -63,7 +63,6 @@ namespace Bowerbird.Web.Config
             Kernel.Bind(x => x
                 .FromAssemblyContaining(typeof(User), typeof(NinjectBindingModule))
                 .SelectAllClasses()
-                .Excluding<PermissionChecker>()
                 .Excluding<SystemStateManager>()
                 .BindAllInterfaces());
         }

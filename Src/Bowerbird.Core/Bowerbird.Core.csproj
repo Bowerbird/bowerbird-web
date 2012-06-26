@@ -35,7 +35,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugProd|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\DebugVerbose\</OutputPath>
+    <OutputPath>bin\DebugProd\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -94,12 +94,15 @@
     <Compile Include="CommandHandlers\CommentCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\CommentDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\CommentUpdateCommandHandler.cs" />
+    <Compile Include="CommandHandlers\MemberUpdateCommandHandler.cs" />
     <Compile Include="CommandHandlers\FollowUserDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\FollowUserCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\ReferenceSpeciesDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\ReferenceSpeciesCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\ReferenceSpeciesUpdateCommandHandler.cs" />
+    <Compile Include="Commands\MemberUpdateCommand.cs" />
     <Compile Include="Config\Email.cs" />
+    <Compile Include="Config\PermissionChecker.cs" />
     <Compile Include="Config\SetupTestData.cs" />
     <Compile Include="CommandHandlers\ChatCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\ChatDeleteCommandHandler.cs" />
@@ -201,7 +204,6 @@
     <Compile Include="Config\IPermissionChecker.cs" />
     <Compile Include="Config\ISystemStateManager.cs" />
     <Compile Include="Config\IUserContext.cs" />
-    <Compile Include="Config\PermissionChecker.cs" />
     <Compile Include="Config\Permissions.cs" />
     <Compile Include="Config\SystemStateManager.cs" />
     <Compile Include="DomainModels\Activity.cs" />
@@ -216,6 +218,7 @@
     <Compile Include="DomainModels\GroupAssociation.cs" />
     <Compile Include="DomainModels\DenormalisedReferences\DenormalisedObservationNoteReference.cs" />
     <Compile Include="DomainModels\IContribution.cs" />
+    <Compile Include="DomainModels\IGroup.cs" />
     <Compile Include="DomainModels\IOwnable.cs" />
     <Compile Include="DomainModels\Chat.cs" />
     <Compile Include="DomainModels\IPublicGroup.cs" />
@@ -288,7 +291,6 @@
     <Compile Include="ImageUtilities\ImageResizeMode.cs" />
     <Compile Include="Indexes\All_Contributions.cs" />
     <Compile Include="Indexes\All_Groups.cs" />
-    <Compile Include="Indexes\All_Chats.cs" />
     <Compile Include="Indexes\All_Users.cs" />
     <Compile Include="Indexes\All_ReferenceSpecies.cs" />
     <Compile Include="Indexes\All_Activities.cs" />

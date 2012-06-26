@@ -554,14 +554,13 @@ namespace Bowerbird.Web.Controllers
 
         private IEnumerable GetOrganisations(string userId, string teamId = "")
         {
-            var organisationIds = _documentSession
+            var organisations = _documentSession
                 .Query<All_Users.Result, All_Users>()
                 .AsProjection<All_Users.Result>()
                 .Where(x => x.UserId == userId)
                 .ToList()
-                .SelectMany(x => x.Members.Where(y => y.Group.GroupType == "organisation").Select(y => y.Group.Id));
-
-            var organisations = _documentSession.Load<Organisation>(organisationIds);
+                .SelectMany(x => x.Groups.Where(y => y.GroupType == "organisation"))
+                .Cast<Organisation>();
 
             var team = _documentSession.Load<Team>("teams/" + teamId);
             Func<Organisation, bool> isSelected = null;

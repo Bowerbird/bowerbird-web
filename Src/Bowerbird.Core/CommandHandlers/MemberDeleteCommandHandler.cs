@@ -53,69 +53,21 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(command, "command");
 
-            throw new NotImplementedException();
+            var user = _documentSession.Load<User>(command.UserId);
 
-            //var group = _documentSession
-            //    .Query<All_Groups.Result, All_Groups>()
-            //    .AsProjection<All_Groups.Result>()
-            //    .Where(x => x.GroupId == command.GroupId)
-            //    .FirstOrDefault();
+            var modifiedByUser = _documentSession.Load<User>(command.ModifiedByUserId);
 
-            //if (group.Project != null)
-            //{
-            //    DeleteMember(
-            //        command.UserId,
-            //        group.Project.Id
-            //        );
-            //}
+            var group = _documentSession
+                    .Query<All_Groups.Result, All_Groups>()
+                    .AsProjection<All_Groups.Result>()
+                    .Where(x => x.GroupId == command.GroupId)
+                    .First()
+                    .Group;
 
-            //if (group.Team != null)
-            //{
-            //    DeleteMember(
-            //        command.UserId,
-            //        group.Team.Id
-            //        );
+            user.RemoveMembership(modifiedByUser, group);
 
-            //    foreach (var childGroupId in group.ChildGroupIds)
-            //    {
-            //        DeleteMember(
-            //            command.UserId,
-            //            childGroupId
-            //            );
-            //    }
-            //}
-
-            //if (group.Organisation != null)
-            //{
-            //    DeleteMember(
-            //        command.UserId,
-            //        group.Organisation.Id
-            //        );
-
-            //    foreach (var childGroup in group.ChildGroupIds)
-            //    {
-            //        DeleteMember(
-            //            command.UserId,
-            //            childGroup.Id
-            //            );
-            //    }
-            //}
+            _documentSession.Store(user);
         }
-
-        //private void DeleteMember(
-        //    string userId,
-        //    string groupId
-        //    )
-        //{
-        //    var member = _documentSession
-        //        .Query<Member>()
-        //        .Where(x => x.Group.Id == groupId && x.User.Id == userId);
-
-        //    if (member != null)
-        //    {
-        //        _documentSession.Delete(member);
-        //    }
-        //}
 
         #endregion
     }

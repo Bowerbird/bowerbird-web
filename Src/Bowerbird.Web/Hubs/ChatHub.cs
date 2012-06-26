@@ -77,7 +77,7 @@ namespace Bowerbird.Web.Hubs
             // Get chat
             var chat = _documentSession.Load<Chat>(chatId);
 
-            // Check if chat exists (this is specifically for group chats which may not initially exist
+            // Check if chat exists (this is specifically for group chats which may not initially exist)
             if (chat == null)
             {
                 // If not, make it and add user to chat

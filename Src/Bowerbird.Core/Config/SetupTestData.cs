@@ -78,8 +78,6 @@ namespace Bowerbird.Core.Config
 
         private List<Project> Projects { get; set; }
 
-        private List<Member> Members { get; set; }
-
         private List<Observation> Observations { get; set; }
 
         private List<Post> Posts { get; set; }
@@ -100,7 +98,6 @@ namespace Bowerbird.Core.Config
                 Organisations = new List<Organisation>();
                 Teams = new List<Team>();
                 Projects = new List<Project>();
-                Members = new List<Member>();
                 Observations = new List<Observation>();
                 Posts = new List<Post>();
                 GroupAssociations = new List<GroupAssociation>();
@@ -219,7 +216,6 @@ namespace Bowerbird.Core.Config
             GroupAssociations.Add(groupAssociation);
             _documentSession.Store(groupAssociation);
 
-            //team.SetAncestry(parentGroup);
             _documentSession.Store(team);
 
             parentGroup.AddDescendant(team);
@@ -258,52 +254,49 @@ namespace Bowerbird.Core.Config
         private void AddProjectMember(string userid, string projectId, params string[] roleIds)
         {
             var user = Users.Single(x => x.Id == userid);
-            var project = Projects.Single(x => x.Id == projectId);
-            var roles = Roles.Where(x => roleIds.Any(y => x.Id == "roles/" + y));
 
-            var projectMember = new Member(user, user, project, roles);
-            _documentSession.Store(projectMember);
+            user.AddMembership(
+                user,
+                Projects.Single(x => x.Id == projectId),
+                Roles.Where(x => roleIds.Any(y => x.Id == "roles/" + y)));
 
-            Members.Add(projectMember);
+            _documentSession.Store(user);
         }
 
         private void AddTeamMember(string userid, string teamId, params string[] roleIds)
         {
             var user = Users.Single(x => x.Id == userid);
-            var team = Teams.Single(x => x.Id == teamId);
-            var roles = Roles.Where(x => roleIds.Any(y => x.Id == "roles/" + y));
 
-            var teamMember = new Member(user, user, team, roles);
+            user.AddMembership(
+                user,
+                Teams.Single(x => x.Id == teamId),
+                Roles.Where(x => roleIds.Any(y => x.Id == "roles/" + y)));
 
-            _documentSession.Store(teamMember);
-
-            Members.Add(teamMember);
+            _documentSession.Store(user);
         }
 
         private void AddOrganisationMember(string userid, string organisationId, params string[] roleIds)
         {
             var user = Users.Single(x => x.Id == userid);
-            var organisation = Organisations.Single(x => x.Id == organisationId);
-            var roles = Roles.Where(x => roleIds.Any(y => x.Id == "roles/" + y));
 
-            var organisationMember = new Member(user, user, organisation, roles);
+            user.AddMembership(
+                user,
+                Organisations.Single(x => x.Id == organisationId),
+                Roles.Where(x => roleIds.Any(y => x.Id == "roles/" + y)));
 
-            _documentSession.Store(organisationMember);
-
-            Members.Add(organisationMember);
+            _documentSession.Store(user);
         }
 
         private void AddBowerbirdAppMember(string userid, string rolename)
         {
             var user = Users.Single(x => x.Id == userid);
 
-            var roles = new List<Role>() { Roles.Single(x => x.Id == "roles/" + rolename) };
+            user.AddMembership(
+                user,
+                TheAppRoot,
+                new[] { Roles.Single(x => x.Id == "roles/" + rolename) });
 
-            var appMember = new Member(user, user, TheAppRoot, roles);
-
-            _documentSession.Store(appMember);
-
-            Members.Add(appMember);
+            _documentSession.Store(user);
         }
 
         private int _observationCount = 0;

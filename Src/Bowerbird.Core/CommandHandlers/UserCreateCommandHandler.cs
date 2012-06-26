@@ -22,6 +22,8 @@ using System;
 using Bowerbird.Core.Config;
 using Raven.Client.Linq;
 using Bowerbird.Core.Factories;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -64,6 +66,9 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(userCreateCommand, "userCreateCommand");
 
+            var appRoot = _documentSession.Load<AppRoot>(Constants.AppRootId);
+
+            // Make user
             var user = new User(
                 userCreateCommand.Password,
                 userCreateCommand.Email,
@@ -72,28 +77,26 @@ namespace Bowerbird.Core.CommandHandlers
                 _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.User));
             _documentSession.Store(user);
 
-            var appRoot = _documentSession.Load<AppRoot>(Constants.AppRootId);
-            var roles = _documentSession.Query<Role>().Where(x => x.Id.In(userCreateCommand.Roles));
-
-            var member = new Member(
-                user, 
-                user,
-                appRoot, 
-                roles);
-            _documentSession.Store(member);
-
-            user.AddMembership(member);
-            _documentSession.Store(user);
-
+            // Make user project
             var userProject = new UserProject(user, DateTime.UtcNow, appRoot);
             _documentSession.Store(userProject);
 
+            // Make user project association to app root
             var userProjectAssociation = new GroupAssociation(appRoot, userProject, user, DateTime.UtcNow);
             _documentSession.Store(userProjectAssociation);
 
-            var userProjectRoles = _documentSession.Query<Role>().Where(x => x.Id == "roles/projectadministrator" || x.Id == "roles/projectmember");
-            var userProjectMember = new Member(user, user, userProject, userProjectRoles);
-            _documentSession.Store(userProjectMember);
+            // Add app root membership
+            user.AddMembership(
+                user,
+                appRoot,
+                _documentSession.Query<Role>().Where(x => x.Id.In(userCreateCommand.Roles)).ToList());
+
+            // Add administrator membership to user
+            user.AddMembership(
+                user, 
+                userProject, 
+                _documentSession.Query<Role>().Where(x => x.Id == "roles/projectadministrator" || x.Id == "roles/projectmember"));
+            _documentSession.Store(user);
 
             return user;
         }

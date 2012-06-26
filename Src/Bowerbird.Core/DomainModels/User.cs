@@ -31,7 +31,7 @@ namespace Bowerbird.Core.DomainModels
         #region Members
 
         [JsonIgnore]
-        private List<DenormalisedMemberReference> _memberships;
+        private List<Member> _memberships;
         [JsonIgnore]
         private List<Watchlist> _watchlists;
         [JsonIgnore]
@@ -99,10 +99,10 @@ namespace Bowerbird.Core.DomainModels
 
         public MediaResource Avatar { get; private set; }
 
-        public IEnumerable<DenormalisedMemberReference> Memberships 
+        public IEnumerable<Member> Memberships 
         {
             get { return _memberships; }
-            private set { _memberships = new List<DenormalisedMemberReference>(value); }
+            private set { _memberships = new List<Member>(value); }
         }
 
         public IEnumerable<Watchlist> Watchlists
@@ -128,7 +128,7 @@ namespace Bowerbird.Core.DomainModels
 
         private void InitMembers()
         {
-            _memberships = new List<DenormalisedMemberReference>();
+            _memberships = new List<Member>();
             _watchlists = new List<Watchlist>();
             _sessions = new List<UserSession>();
         }
@@ -215,21 +215,50 @@ namespace Bowerbird.Core.DomainModels
             return this;
         }
 
-        public User AddMembership(Member member)
+        public User AddMembership(User createdByUser, Group group, IEnumerable<Role> roles)
         {
-            Check.RequireNotNull(member, "member");
+            Check.RequireNotNull(group, "group");
+            Check.RequireNotNull(roles, "roles");
 
-            if (_memberships.All(x => x.Id != member.Id))
+            var membership = _memberships.SingleOrDefault(x => x.Group.Id == group.Id);
+
+            if (membership == null)
             {
-                _memberships.Add(member);
+                membership = new Member(createdByUser, group, roles);
+                _memberships.Add(membership);
+
+                FireEvent(new DomainModelCreatedEvent<Member>(membership, createdByUser, this));
             }
-            
+            else
+            {
+                membership.AddRoles(roles);
+
+                FireEvent(new DomainModelUpdatedEvent<Member>(membership, createdByUser, this));
+            }
+
             return this;
         }
 
-        public User RemoveMembership(string memberId)
+        public User RemoveMembership(User modifiedByUser, Group group, IEnumerable<Role> roles)
         {
-            _memberships.RemoveAll(x => x.Id == memberId);
+            var membership = _memberships.SingleOrDefault(x => x.Group.Id == group.Id);
+
+            if (membership != null)
+            {
+                membership.RemoveRoles(roles.Select(x => x.Id));
+            }
+
+            if (membership.Roles.Count() == 0)
+            {
+                _memberships.Remove(membership);
+            }
+
+            return this;
+        }
+
+        public User RemoveMembership(User modifiedByUser, Group group)
+        {
+            _memberships.RemoveAll(x => x.Group.Id == group.Id);
 
             return this;
         }
