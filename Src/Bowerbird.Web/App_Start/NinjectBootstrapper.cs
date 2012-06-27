@@ -23,6 +23,8 @@ using System.Web.Routing;
 using SignalR;
 using System.Web;
 using NinjectAdapter;
+using Ninject.Extensions.NamedScope;
+using Ninject.Extensions.ContextPreservation;
 
 [assembly: WebActivator.PreApplicationStartMethod(typeof(Bowerbird.Web.App_Start.NinjectBootstrapper), "PreStart")]
 [assembly: WebActivator.ApplicationShutdownMethodAttribute(typeof(Bowerbird.Web.App_Start.NinjectBootstrapper), "Stop")]

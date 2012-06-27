@@ -86,6 +86,8 @@ namespace Bowerbird.Web.EventHandlers
 
         public void Handle(DomainModelCreatedEvent<Chat> domainEvent)
         {
+            System.Diagnostics.Debug.WriteLine("Async Document Session: {0} HasChanges: {1}, NumberOfRequests: {2}.", ((Raven.Client.Document.DocumentSession)_documentSession).Id, _documentSession.Advanced.HasChanges, _documentSession.Advanced.NumberOfRequests);
+
             // Get chat
             var chat = domainEvent.DomainModel;
 
@@ -137,6 +139,7 @@ namespace Bowerbird.Web.EventHandlers
                                     .Select(x => new 
                                         {
                                             x.Id,
+                                            Type = "usermessage",
                                             ChatId = chat.Id,
                                             x.Timestamp,
                                             x.Message,
@@ -153,8 +156,12 @@ namespace Bowerbird.Web.EventHandlers
             // Notify all users in chat that new user has joined
             var details = new
             {
+                Id = Guid.NewGuid().ToString(),
+                Type = "useradded",
                 ChatId = chat.Id,
-                User = _userViewFactory.Make(domainEvent.User)
+                Timestamp = DateTime.UtcNow,
+                Message = string.Format("{0} has joined the chat", domainEvent.User.GetName()),
+                FromUser = _userViewFactory.Make(domainEvent.User)
             };
             _userContext.GetChatChannel(chat.Id).userJoinedChat(details);
         }
@@ -194,6 +201,7 @@ namespace Bowerbird.Web.EventHandlers
             dynamic chatMessageDetails = new ExpandoObject();
 
             chatMessageDetails.Id = chatMessage.Id;
+            chatMessageDetails.Type = "usermessage";
             chatMessageDetails.ChatId = chat.Id;
             chatMessageDetails.Timestamp = chatMessage.Timestamp;
             chatMessageDetails.FromUser = _userViewFactory.Make(messageSender);
@@ -205,7 +213,7 @@ namespace Bowerbird.Web.EventHandlers
                 chatMessageDetails.Users = users.Select(_userViewFactory.Make);
             }
 
-            _userContext.GetChatChannel(chat.Id).chatMessageReceived(chatMessageDetails);
+            _userContext.GetChatChannel(chat.Id).newChatMessage(chatMessageDetails);
         }
 
         private Group GetGroup(string groupId)

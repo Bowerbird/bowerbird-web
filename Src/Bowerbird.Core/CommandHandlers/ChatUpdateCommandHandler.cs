@@ -67,6 +67,7 @@ namespace Bowerbird.Core.CommandHandlers
             }
 
             _documentSession.Store(chat);
+            _documentSession.SaveChanges();
         }
 
         #endregion

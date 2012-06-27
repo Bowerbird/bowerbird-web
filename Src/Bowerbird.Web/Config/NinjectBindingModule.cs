@@ -26,6 +26,8 @@ using Bowerbird.Web.Hubs;
 using SignalR.Hubs;
 using System.Linq;
 using System.Web;
+using Ninject.Extensions.ContextPreservation;
+using Ninject.Extensions.NamedScope;
 
 namespace Bowerbird.Web.Config
 {
@@ -53,18 +55,42 @@ namespace Bowerbird.Web.Config
             Bind<ISystemStateManager>().To<SystemStateManager>().InSingletonScope();
 
             // Request scope
-            Bind<IDocumentSession>().ToProvider<NinjectRavenSessionProvider>().InRequestScope();
+            Bind<IDocumentSession>().ToProvider<NinjectRavenSessionProvider>().InRequestScope().OnActivation((x) => System.Diagnostics.Debug.WriteLine("HTTP Request Document Session instantiated."));
 
             // Transient scope
             Bind<IServiceLocator>().ToMethod(x => ServiceLocator.Current);
             Bind<IHubContext>().ToProvider<NinjectHubContextProvider>();
 
+            // Named scope
+            // HACK: Experimental loading of chat components into new async thread
+            Bind<Bowerbird.Core.CommandHandlers.ICommandHandler<Bowerbird.Core.Commands.ChatCreateCommand>>().To<Bowerbird.Core.CommandHandlers.ChatCreateCommandHandler>().OnActivation((x) => System.Diagnostics.Debug.WriteLine("ChatCreateCommandHandler instantiated.")).DefinesNamedScope("ASYNC");
+            Bind<Bowerbird.Core.CommandHandlers.ICommandHandler<Bowerbird.Core.Commands.ChatUpdateCommand>>().To<Bowerbird.Core.CommandHandlers.ChatUpdateCommandHandler>().DefinesNamedScope("ASYNC");
+            Bind<Bowerbird.Core.CommandHandlers.ICommandHandler<Bowerbird.Core.Commands.ChatDeleteCommand>>().To<Bowerbird.Core.CommandHandlers.ChatDeleteCommandHandler>().DefinesNamedScope("ASYNC");
+            Bind<Bowerbird.Core.CommandHandlers.ICommandHandler<Bowerbird.Core.Commands.ChatMessageCreateCommand>>().To<Bowerbird.Core.CommandHandlers.ChatMessageCreateCommandHandler>().DefinesNamedScope("ASYNC");
+            Bind<IDocumentSession>().ToProvider<NinjectRavenSessionProvider>().WhenAnyAnchestorNamed("ASYNC").InNamedScope("ASYNC").OnActivation((x) => System.Diagnostics.Debug.WriteLine("Async Document Session instantiated."));
+
+            // HACK: Experimental loading of chat components into new async thread
+            Bind(
+                typeof(Bowerbird.Core.EventHandlers.IEventHandler<Bowerbird.Core.Events.DomainModelCreatedEvent<Bowerbird.Core.DomainModels.Chat>>), 
+                typeof(Bowerbird.Core.EventHandlers.IEventHandler<Bowerbird.Core.Events.DomainModelCreatedEvent<Bowerbird.Core.DomainModels.ChatMessage>>),
+                typeof(Bowerbird.Core.EventHandlers.IEventHandler<Bowerbird.Core.Events.UserJoinedChatEvent>),
+                typeof(Bowerbird.Core.EventHandlers.IEventHandler<Bowerbird.Core.Events.UserExitedChatEvent>))
+                .To<Bowerbird.Web.EventHandlers.ChatUpdated>().OnActivation((x) => System.Diagnostics.Debug.WriteLine("ChatUpdated instantiated.")).DefinesNamedScope("ASYNC");
+
             // Convention based mappings
-            Kernel.Bind(x => x
-                .FromAssemblyContaining(typeof(User), typeof(NinjectBindingModule))
-                .SelectAllClasses()
-                .Excluding<SystemStateManager>()
-                .BindAllInterfaces());
+            Kernel.Bind(x => 
+                {
+                    x
+                    .FromAssemblyContaining(typeof(User), typeof(NinjectBindingModule))
+                    .SelectAllClasses()
+                    .Excluding<SystemStateManager>()
+                    .Excluding<Bowerbird.Core.CommandHandlers.ChatCreateCommandHandler>() // HACK: Experimental loading of chat components into new async thread
+                    .Excluding<Bowerbird.Core.CommandHandlers.ChatUpdateCommandHandler>()
+                    .Excluding<Bowerbird.Core.CommandHandlers.ChatDeleteCommandHandler>()
+                    .Excluding<Bowerbird.Core.CommandHandlers.ChatMessageCreateCommandHandler>()
+                    .Excluding<Bowerbird.Web.EventHandlers.ChatUpdated>()
+                    .BindAllInterfaces();
+                });
         }
 
         #endregion

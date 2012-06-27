@@ -17,6 +17,7 @@ using Bowerbird.Core.EventHandlers;
 using Bowerbird.Core.Config;
 using Bowerbird.Core.DomainModels;
 using Raven.Client;
+using Bowerbird.Core.DesignByContract;
 
 namespace Bowerbird.Core.Events
 {
@@ -32,35 +33,52 @@ namespace Bowerbird.Core.Events
             _actions = null;
         }
 
-        public static void Raise<T>(T args) where T : IDomainEvent
+        public static void Raise<TEvent>(TEvent domainEvent) where TEvent : IDomainEvent
         {
-            try
-            {
-                var appRoot = ServiceLocator.GetInstance<IDocumentSession>().Load<AppRoot>(Constants.AppRootId);
+            Check.RequireNotNull(domainEvent, "domainEvent");
 
-                if (appRoot.FireEvents)
+            var appRoot = ServiceLocator.GetInstance<IDocumentSession>().Load<AppRoot>(Constants.AppRootId);
+
+            if (appRoot.FireEvents)
+            {
+                if (domainEvent is DomainModelCreatedEvent<Chat> || domainEvent is DomainModelCreatedEvent<ChatMessage> || domainEvent is UserJoinedChatEvent || domainEvent is UserExitedChatEvent)
                 {
-                    foreach (var handler in ServiceLocator.GetAllInstances<IEventHandler<T>>())
+                    // HACK: Temp code to test the idea of async eventhandlers in the chat area
+                    System.Threading.Tasks.Task.Factory.StartNew(() =>
                     {
-                        handler.Handle(args);
+                        foreach (var handler in ServiceLocator.GetAllInstances<IEventHandler<TEvent>>())
+                        {
+                            handler.Handle(domainEvent);
+                        }
+
+                        if (_actions == null) return;
+
+                        foreach (var action in _actions)
+                        {
+                            if (action is Action<TEvent>)
+                            {
+                                ((Action<TEvent>)action)(domainEvent);
+                            }
+                        }
+                    });
+                }
+                else
+                {
+                    foreach (var handler in ServiceLocator.GetAllInstances<IEventHandler<TEvent>>())
+                    {
+                        handler.Handle(domainEvent);
                     }
 
                     if (_actions == null) return;
 
                     foreach (var action in _actions)
                     {
-                        if (action is Action<T>)
+                        if (action is Action<TEvent>)
                         {
-                            ((Action<T>) action)(args);
+                            ((Action<TEvent>)action)(domainEvent);
                         }
                     }
                 }
-            }
-            catch(Exception ex)
-            {
-                throw ex;
-                // this means we're in test mode.
-                // TODO: Handle this in a more elegant way
             }
         }
 

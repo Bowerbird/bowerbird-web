@@ -20,18 +20,42 @@ function ($, _, Backbone, app) {
         template: 'ChatMessage',
 
         serializeData: function () {
+            var model = null;
+            if (this.model.get('Type') === 'usermessage') {
+                var timestamp = this.model.get('Timestamp');
+                model = {
+                    UserMessage: {
+                        From: app.authenticatedUser.user.get('Name') === this.model.get('FromUser').Name ? 'me' : this.model.get('FromUser').Name,
+                        Message: this.model.get('Message').replace(/\n/g, '<br />'),
+                        Time: timestamp === '' || timestamp == null ? '' : new Date(timestamp).toString('hh:mmtt'),
+                        Timestamp: new Date(this.model.get('Timestamp')).toString()
+                    }
+                };
+            }
+            if (this.model.get('Type') === 'useradded') {
+                model = {
+                    UserAdded: {
+                        Message: this.model.get('Message')
+                    }
+                };
+            }
             return {
-                Model: {
-                    From: app.authenticatedUser.user.get('Name') === this.model.get('FromUser').Name ? 'me' : this.model.get('FromUser').Name,
-                    Message: this.model.get('Message').replace(/\n/g, '<br />'),
-                    Time: new Date(this.model.get('Timestamp')).toString('hh:mmtt'),
-                    Timestamp: new Date(this.model.get('Timestamp')).toString()
-                }
+                Model: model
             };
         },
 
         onRender: function () {
+            this.$el.addClass(this.model.get('Type'));
             app.vent.trigger('chats:itemview:added', this);
+            this.model.on('change:Timestamp', this.updateTimestamp, this);
+        },
+
+        updateTimestamp: function (model) {
+            log('timestamp updated', model);
+            var timestamp = model.get('Timestamp');
+            if (timestamp != null && timestamp != '') {
+                this.$el.find('.timestamp').text(new Date(timestamp).toString('hh:mmtt'));
+            }
         }
     });
 

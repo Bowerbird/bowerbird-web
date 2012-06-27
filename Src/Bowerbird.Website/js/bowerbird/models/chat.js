@@ -13,8 +13,8 @@ function ($, _, Backbone, app, UserCollection, ChatMessageCollection, User, Chat
 
     var Chat = Backbone.Model.extend({
         defaults: {
-            Group: null,
-            User: null
+            IsStarted: false,
+            Group: null // If group chat, this must be set
         },
 
         idAttribute: 'Id',
@@ -29,6 +29,16 @@ function ($, _, Backbone, app, UserCollection, ChatMessageCollection, User, Chat
                 return 'group';
             }
             return 'private';
+        },
+
+        // Call this method once chat is setup and user can start sending messages
+        start: function (chatDetails) {
+            if (chatDetails) {
+                this.chatUsers.reset(chatDetails.Users);
+                this.chatMessages.reset(chatDetails.Messages);
+            }
+            log('chat started', this.id);
+            this.set('IsStarted', true);
         }
     });
 

@@ -62,22 +62,46 @@ namespace Bowerbird.Core.Commands
         {
             Check.RequireNotNull(command, "command");
 
+            Validator.ValidateObject(command, new ValidationContext(command, null, null), true);
+
             var appRoot = _documentSession.Load<AppRoot>(Constants.AppRootId);
 
             if (appRoot.ExecuteCommands)
             {
-                Validator.ValidateObject(command, new ValidationContext(command, null, null), true);
+                System.Diagnostics.Debug.WriteLine("HTTP Request Document Session: {0} HasChanges: {1}, NumberOfRequests: {2}.", ((Raven.Client.Document.DocumentSession)_documentSession).Id, _documentSession.Advanced.HasChanges, _documentSession.Advanced.NumberOfRequests);
 
-                var handlers = _serviceLocator.GetAllInstances<ICommandHandler<TCommand>>();
-
-                if (handlers == null || !handlers.Any())
+                // HACK: Temp code to test the idea of async commandhandlers in the chat area
+                if (command is ChatCreateCommand || command is ChatUpdateCommand || command is ChatDeleteCommand || command is ChatMessageCreateCommand)
                 {
-                    throw new CommandHandlerNotFoundException(typeof(TCommand));
+                    System.Threading.Tasks.Task.Factory.StartNew(() =>
+                    {
+                        var handlers = _serviceLocator.GetAllInstances<ICommandHandler<TCommand>>();
+
+                        if (handlers == null || !handlers.Any())
+                        {
+                            throw new CommandHandlerNotFoundException(typeof(TCommand));
+                        }
+
+                        foreach (var handler in handlers)
+                        {
+                            handler.Handle(command);
+                        }
+                    });
                 }
-
-                foreach (var handler in handlers)
+                else
                 {
-                    handler.Handle(command);
+                    var handlers = _serviceLocator.GetAllInstances<ICommandHandler<TCommand>>();
+
+                    if (handlers == null || !handlers.Any())
+                    {
+                        throw new CommandHandlerNotFoundException(typeof(TCommand));
+                    }
+
+                    foreach (var handler in handlers)
+                    {
+                        handler.Handle(command);
+
+                    }
                 }
             }
         }

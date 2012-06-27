@@ -80,7 +80,6 @@ function ($, _, Backbone, app, UserFormLayoutView, User)
         if (group.GroupType === 'team') {
             app.authenticatedUser.teams.add(group);
         }
-
         if (group.GroupType === 'organisation') {
             app.authenticatedUser.organisations.add(group);
         }

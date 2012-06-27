@@ -53,37 +53,33 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(command, "command");
 
+            System.Diagnostics.Debug.WriteLine("Async Document Session: {0} HasChanges: {1}, NumberOfRequests: {2}.", ((Raven.Client.Document.DocumentSession)_documentSession).Id, _documentSession.Advanced.HasChanges, _documentSession.Advanced.NumberOfRequests);
+
             var createdByUser = _documentSession.Load<User>(command.CreatedByUserId);
 
             Chat chat = null;
+            Group group = null;
 
-            if (string.IsNullOrWhiteSpace(command.GroupId))
+            if (!string.IsNullOrWhiteSpace(command.GroupId))
             {
-                chat = new Chat(
-                    command.ChatId,
-                    createdByUser,
-                    _documentSession.Load<User>(command.UserIds),
-                    command.CreatedDateTime);
-            }
-            else
-            {
-                var group = _documentSession
+                group = _documentSession
                     .Query<All_Groups.Result, All_Groups>()
                     .AsProjection<All_Groups.Result>()
                     .Where(x => x.GroupId == command.GroupId)
                     .ToList()
                     .Select(x => x.Group)
                     .First();
-
-                chat = new Chat(
-                    command.ChatId,
-                    createdByUser,
-                    _documentSession.Load<User>(command.UserIds),
-                    command.CreatedDateTime,
-                    group);
             }
 
+            chat = new Chat(
+                command.ChatId,
+                createdByUser,
+                _documentSession.Load<User>(command.UserIds),
+                command.CreatedDateTime,
+                group);
+
             _documentSession.Store(chat);
+            _documentSession.SaveChanges();
         }
 
         #endregion

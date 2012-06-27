@@ -54,9 +54,10 @@ namespace Bowerbird.Core.CommandHandlers
 
             var chat = _documentSession.Load<Chat>(command.ChatId);
 
-            chat.AddMessage(_documentSession.Load<User>(command.UserId), command.Timestamp, command.Message);
+            chat.AddMessage(_documentSession.Load<User>(command.UserId), command.Timestamp, command.MessageId, command.Message);
 
             _documentSession.Store(chat);
+            _documentSession.SaveChanges();
         }
 
         #endregion

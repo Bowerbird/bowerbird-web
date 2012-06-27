@@ -26,12 +26,15 @@ function ($, _, Backbone, app, ich, ChatMessageCollectionView, ChatUserCollectio
             messages: '.chat-messages'
         },
 
+        initialize: function (options) {
+        },
+
         serializeData: function () {
             var title = '';
             if (this.model.chatType() == 'private') {
                 title = _.without(this.model.chatUsers.pluck('Name'), app.authenticatedUser.user.get('Name')).join(', ');
             } else {
-                title = this.model.get('Group').Name;
+                title = this.model.get('Group').get('Name');
             }
             return {
                 Model: {
@@ -42,6 +45,9 @@ function ($, _, Backbone, app, ich, ChatMessageCollectionView, ChatUserCollectio
 
         onShow: function () {
             log('chatView.onRender');
+
+            this.$el.find('.chat-send-message-button').attr("disabled", true);
+            this.model.on('change:IsStarted', this.onChatStarted, this);
 
             var left = (app.chats.length * 300) + 20; // (num of chats * width of a chat) + some space between online users
             this.$el.css({ left: left });
@@ -60,19 +66,25 @@ function ($, _, Backbone, app, ich, ChatMessageCollectionView, ChatUserCollectio
                     // prevent default behavior
                     e.preventDefault();
                     // Send the message
-                    if ($.trim($(this).val()).length > 0) {
-                        that.sendMessage();
+                    if (that.model.get('IsStarted') === true) {
+                        that.sendMessage.call(that);
                     }
                 }
             });
 
-            this.$el.find('.new-chat-message').keyup(function () {
-                log('.new-chat-message change', $(this).val());
-                var isTyping = false;
-                if ($(this).val().length > 0) {
-                    isTyping = true;
+            this.wasTyping = false;
+
+            this.$el.find('.new-chat-message').keypress(function () {
+                if (that.model.get('IsStarted') === true) {
+                    var isTyping = false;
+                    if ($(this).val().length > 0) {
+                        isTyping = true;
+                    }
+                    if (that.wasTyping != isTyping) {
+                        app.vent.trigger('chats:useristyping', that.model, isTyping);
+                    }
+                    that.wasTyping = isTyping;
                 }
-                app.vent.trigger('chats:useristyping', that.model, isTyping);
             });
 
             this.model.chatUsers.on('change:IsTyping', this.updateTypingStatus, this);
@@ -80,10 +92,19 @@ function ($, _, Backbone, app, ich, ChatMessageCollectionView, ChatUserCollectio
             this.model.chatMessages.on('add', this.onChatMessageAdded, this);
         },
 
+        onChatStarted: function () {
+            // When chat starts, enable all buttons and add the auth user to the view
+            this.$el.find('.chat-send-message-button').attr("disabled", false);
+            this.user = this.model.chatUsers.get(app.authenticatedUser.user.id);
+        },
+
         sendMessage: function () {
-            var message = this.$el.find('.new-chat-message').val();
-            app.vent.trigger('chats:sendMessage', this.model, message);
-            this.$el.find('.new-chat-message').val('').focus();
+            var $messageTextArea = this.$el.find('.new-chat-message');
+            var message = $.trim($messageTextArea.val());
+            if (message.length > 0) {
+                app.vent.trigger('chats:sendMessage', this.model, message);
+                $messageTextArea.val('').focus();
+            }
         },
 
         closeWindow: function () {
@@ -100,22 +121,26 @@ function ($, _, Backbone, app, ich, ChatMessageCollectionView, ChatUserCollectio
         },
 
         onChatMessageAdded: function (message) {
-            var user = this.model.chatUsers.get(message.get('FromUser').Id).set('IsTyping', false);
-            updateTypingStatus();
+            if (message.get('Type') === 'usermessage') {
+                var user = this.model.chatUsers.get(message.get('FromUser').Id).set('IsTyping', false);
+                this.updateTypingStatus();
+            }
         },
 
         updateTypingStatus: function () {
-            var users = this.model.chatUsers.where({ 'IsTyping': true });
-            var names = _.map(users, function (user) { return user.get('Name'); }, this);
+            if (this.model.get('IsStarted') === true) {
+                var users = _.reject(this.model.chatUsers.where({ 'IsTyping': true }), function (u) { return u.id == this.user.id; }, this);
+                var names = _.map(users, function (user) { return user.get('Name'); }, this);
 
-            var desc = '';
-            if (names.length == 1) {
-                desc = names[0] + ' is typing...';
-            } else if (names.length > 1) {
-                desc = names.join(', ') + ' are typing...';
+                var desc = '';
+                if (names.length == 1) {
+                    desc = names[0] + ' is typing...';
+                } else if (names.length > 1) {
+                    desc = names.join(', ') + ' are typing...';
+                }
+
+                this.$el.find('.status').text(desc);
             }
-
-            this.$el.find('.status').text(desc);
         }
     });
 

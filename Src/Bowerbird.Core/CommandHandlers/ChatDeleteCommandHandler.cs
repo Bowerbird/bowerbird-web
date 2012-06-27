@@ -55,6 +55,7 @@ namespace Bowerbird.Core.CommandHandlers
             var chat = _documentSession.Load<Chat>(command.ChatId);
 
             _documentSession.Delete(chat);
+            _documentSession.SaveChanges();
         }
 
         #endregion
