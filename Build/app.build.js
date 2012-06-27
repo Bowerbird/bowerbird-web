@@ -22,13 +22,12 @@
         log: '../libs/log/log',
         'bootstrap-data': 'empty:',
         '/templates': 'empty:',
-        //'/signalr/hubs': 'empty:'
-        hubs: 'hubs'
+         hubs: 'hubs'
     },
-    shim: {
-        //'/signalr/hubs': ['signalr', 'jquery'] // Load non-AMD signalr hubs script
-        hubs: ['signalr', 'jquery'] // Load non-AMD signalr hubs script
-    },
+//    shim: {
+//        //'/signalr/hubs': ['signalr', 'jquery'] // Load non-AMD signalr hubs script
+//        hubs: ['signalr', 'jquery'] // Load non-AMD signalr hubs script
+//    },
     name: "../main",
     include: [
         'app',

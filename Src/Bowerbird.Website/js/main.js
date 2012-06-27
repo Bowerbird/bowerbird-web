@@ -11,7 +11,6 @@
 // Setup config
 require.config({
     baseUrl: '/js/bowerbird',
-    //urlArgs: "bust=" + (new Date()).getTime(), // Cache buster
     paths: {
         jquery: 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery', // jQuery is now AMD compliant
         json2: '../libs/json/json2',
@@ -33,10 +32,6 @@ require.config({
         timeago: '../libs/jquery.timeago/jquery.timeago',
         log: '../libs/log/log',
         hubs: 'hubs'
-    },
-    shim: {
-        //'/signalr/hubs?noext': ['signalr', 'jquery', 'json2'] // Load non-AMD signalr hubs script
-        hubs: ['signalr', 'jquery'] // Load non-AMD signalr hubs script
     }
 });
 
@@ -70,7 +65,7 @@ require([
         'views/notificationscompositeview',
         'views/onlineusercompositeview',
         'views/chatcompositeview',
-        //'/signalr/hubs?noext'
+        'signalr',
         'hubs'
     ],
     function (app, bootstrapData) {

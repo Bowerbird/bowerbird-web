@@ -9,9 +9,8 @@
 // ---------------------------
 
 define(['jquery', 'underscore', 'backbone', 'app', 'views/userformlayoutview', 'models/user'],
-function ($, _, Backbone, app, UserFormLayoutView, User) {
-
-    //var UserRouter = function (options) {
+function ($, _, Backbone, app, UserFormLayoutView, User) 
+{
     var UserRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes:{
             'users/:id/update': 'showUserForm'
@@ -54,7 +53,6 @@ function ($, _, Backbone, app, UserFormLayoutView, User) {
         }
         return deferred.promise();
     };
-
 
     // Hub Callbacks
     // -------------

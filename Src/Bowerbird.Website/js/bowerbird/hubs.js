@@ -1,3 +1,4 @@
+define(['jquery', 'signalr'], function () {
 /*!
 * SignalR JavaScript Library v0.5.0
 * http://signalr.net/
@@ -257,4 +258,4 @@
         $.extend(left, right);
     };
 
-} (window.jQuery, window));
+} (window.jQuery, window));});

@@ -1,1 +1,1 @@
-%1\Lib\hubify.exe /o:%2\js\bowerbird\hubs.js Condition="'$(OS)' == 'Windows_NT'"
+%1\Lib\hubify.exe /o:%2\js\bowerbird\hubs.js /amd Condition="'$(OS)' == 'Windows_NT'"
