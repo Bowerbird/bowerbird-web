@@ -1959,9 +1959,9 @@ color: #6997C5;
     overflow-x: auto;
     overflow-y: scroll;
 }
-.chat .chat-message 
+.chat .chat-messages > ul
 {
-    padding: 10px 10px 0;
+    padding-bottom: 10px;
 }
 .chat .chat-message-box
 {
@@ -1998,25 +1998,34 @@ color: #6997C5;
     width: 52px;
     padding: 0;
 }
-.chat .chat-message .user
+.chat .chat-message 
+{
+    padding: 10px 10px 0;
+}
+.chat .chat-message.useradded .message
+{
+    display: block;
+    color: #888888;
+    font-size: 0.9em;
+    font-style: italic;  
+    line-height: 1.2em; 
+}
+.chat .chat-message.usermessage .user
 {
     font-size: 0.9em;
     font-weight: bold;
 }
-.chat .chat-message .timestamp
+.chat .chat-message.usermessage .timestamp
 {
     color: #AAAAAA;
     font-size: 0.7em;
 }
-.chat .chat-message .message
+.chat .chat-message.usermessage .message
 {
     display: block;
     font-size: 0.9em;
     line-height: 1.2em;
 }
-
-
-
 
 /*.chat-message
 {

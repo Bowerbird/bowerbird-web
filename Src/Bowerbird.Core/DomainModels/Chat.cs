@@ -43,28 +43,6 @@ namespace Bowerbird.Core.DomainModels
             string id,
             User createdByUser,
             IEnumerable<User> users,
-            DateTime createdDateTime)
-            : base()
-        {
-            InitMembers();
-
-            Id = id;
-            CreatedByUser = createdByUser;
-            CreatedDateTime = createdDateTime;
-
-            foreach (var user in users)
-            {
-                AddUser(user);
-            }
-
-            EnableEvents();
-            FireEvent(new DomainModelCreatedEvent<Chat>(this, createdByUser, this));
-        }
-
-        public Chat(
-            string id,
-            User createdByUser,
-            IEnumerable<User> users,
             DateTime createdDateTime,
             Group group)
             : base()
@@ -74,7 +52,11 @@ namespace Bowerbird.Core.DomainModels
             Id = id;
             CreatedByUser = createdByUser;
             CreatedDateTime = createdDateTime;
-            Group = group;
+
+            if (group != null)
+            {
+                Group = group;
+            }
 
             foreach (var user in users)
             {
@@ -114,9 +96,9 @@ namespace Bowerbird.Core.DomainModels
             Messages = new List<ChatMessage>();
         }
 
-        public Chat AddMessage(User user, DateTime timestamp, string message)
+        public Chat AddMessage(User user, DateTime timestamp, string messageId, string message)
         {
-            var chatMessage = new ChatMessage(user, timestamp, message);
+            var chatMessage = new ChatMessage(messageId, user, timestamp, message);
 
             ((List<ChatMessage>)Messages).Add(chatMessage);
 

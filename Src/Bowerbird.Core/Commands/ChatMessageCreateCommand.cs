@@ -35,6 +35,8 @@ namespace Bowerbird.Core.Commands
 
         public DateTime Timestamp { get; set; }
 
+        public string MessageId { get; set; }
+
         public string Message { get; set; }
 
         #endregion

@@ -32,13 +32,14 @@ namespace Bowerbird.Core.DomainModels
         }
 
         public ChatMessage(
+            string id,
             User user,
             DateTime timestamp,
             string message)
         {
             Check.RequireNotNull(user, "user");
 
-            Id = Guid.NewGuid().ToString();
+            Id = id;
             User = user;
             Timestamp = timestamp;
             Message = message;
