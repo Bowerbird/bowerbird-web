@@ -45,7 +45,7 @@ function ($, _, Backbone, app, ObservationLayoutView, Observation)
             }
             $.ajax({
                 url: '/observations/create',
-                data: params,
+                data: params
             }).done(function (data) {
                 deferred.resolve(data.Model);
             });

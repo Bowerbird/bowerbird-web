@@ -26,7 +26,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'multiselect'], functi
             'click #cancel': '_cancel',
             'click #save': '_save',
             'change input#species': '_contentChanged',
-            'change input#smarttags': '_contentChanged',
+            'change input#smarttags': '_contentChanged'
         },
 
         onRender: function () {

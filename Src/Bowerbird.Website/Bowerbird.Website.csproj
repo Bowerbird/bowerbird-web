@@ -475,8 +475,8 @@
   </ItemGroup>
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <PropertyGroup>
-    <PostBuildEvent>call "$(SolutionDir)\Build\signalr-hubify.bat" $(SolutionDir) $(ProjectDir)
-call "$(SolutionDir)\Build\javascript-combine.bat" $(ConfigurationName) $(ProjectDir) $(SolutionDir)</PostBuildEvent>
+    <PostBuildEvent>"$(SolutionDir)\Build\js-build-tasks.bat" $(SolutionDir) $(ProjectDir)
+</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>
