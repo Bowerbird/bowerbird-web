@@ -41,13 +41,7 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
         };
     };
 
-    // Shows a chat by creating a new region
-    //    var showChat = function (chatView) {
-    //        var chatRegion = new ChatRegion({ chat: chatView.model });
-    //        app.chatRegions.push(chatRegion);
-    //        chatRegion.show(chatView, 'append');
-    //        return chatRegion;
-    //    };
+    // Shows a chat by creating a model, view and adding it to a new region
     var showChat = function (chatId, users, messages, group) {
         var chatUsers = new UserCollection(users);
         var chatMessages = new ChatMessageCollection(messages);
@@ -93,6 +87,7 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
     var userExitedChat = function (details) {
         var chat = app.chats.get(details.ChatId);
         chat.chatUsers.remove(details.User.Id);
+        chat.chatMessages.add(details);
     };
 
     // Chat message received ready to display
@@ -103,13 +98,6 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
         // If this is a private chat, then this might be the first message we have received. If so, we need to create the chat
         // The server will have returned the user list with this initial message
         if (chat == null) {
-            //            var chatUsers = new UserCollection(chatMessage.Users);
-            //            var chatMessages = new ChatMessageCollection([chatMessage]);
-            //            var chat = new Chat({ Id: chatMessage.ChatId, Group: chatMessage.Group }, { chatUsers: chatUsers, chatMessages: chatMessages });
-            //            app.chats.add(chat);
-            //            var chatView = new ChatCompositeView({ id: 'chat-' + chatMessage.ChatId.replace(/\//g, '-'), model: chat });
-            //            showChat(chatView);
-            //            chat.start();
             chat = showChat(chatMessage.ChatId, chatMessage.Users, [chatMessage], chatMessage.Group);
             chat.start();
         } else {
@@ -143,12 +131,6 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
         }, this);
         if (app.authenticatedUser.user.id != user.id && !chat) {
             var chatId = 'chats/' + generateGuid();
-            //            var chatUsers = new UserCollection([user]);
-            //            var chatMessages = new ChatMessageCollection();
-            //            var chat = new Chat({ Id: chatId }, { chatUsers: chatUsers, chatMessages: chatMessages });
-            //            app.chats.add(chat);
-            //            var chatView = new ChatCompositeView({ id: 'chat-' + chatId.replace(/\//g, '-'), model: chat });
-            //            showChat(chatView);
             showChat(chatId, [user], [], null);
             app.chatRouter.joinChat(chatId, [app.authenticatedUser.user.id, user.id], null);
         }
@@ -160,12 +142,6 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
         var chatId = 'chats/' + group.id;
         var chat = app.chats.find(function (c) { return c.id == chatId; }, this);
         if (!chat) {
-            //            var chatUsers = new UserCollection([app.authenticatedUser.user]);
-            //            var chatMessages = new ChatMessageCollection();
-            //            var chat = new Chat({ Id: chatId, Group: group }, { chatUsers: chatUsers, chatMessages: chatMessages });
-            //            app.chats.add(chat);
-            //            var chatView = new ChatCompositeView({ id: 'chat-' + chatId.replace(/\//g, '-'), model: chat });
-            //            showChat(chatView);
             showChat(chatId, [app.authenticatedUser.user], [], group);
             app.chatRouter.joinChat(chatId, [app.authenticatedUser.user.id], group.id);
         }
@@ -173,7 +149,7 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
 
     // Leave a chat
     ChatController.exitChat = function (chat) {
-        app.chatRouter.exitChat(chat.Id);
+        app.chatRouter.exitChat(chat.id);
         app.chats.remove(chat.id);
         var chatRegion = _.find(app.chatRegions, function (region) { return region.chat.id === chat.id });
         chatRegion.close();

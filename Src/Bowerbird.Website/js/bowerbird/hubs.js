@@ -150,6 +150,17 @@ define(['jquery', 'signalr'], function () {
 
     // Create hub signalR instance
     $.extend(signalR, {
+        debugHub: {
+            _: {
+                hubName: 'DebugHub',
+                ignoreMembers: ['registerWithDebugger', 'namespace', 'ignoreMembers', 'callbacks'],
+                connection: function () { return signalR.hub; }
+            },
+
+            registerWithDebugger: function (callback) {
+                return serverCall(this, "RegisterWithDebugger", $.makeArray(arguments));
+            }
+        },
         userHub: {
             _: {
                 hubName: 'UserHub',
@@ -184,29 +195,14 @@ define(['jquery', 'signalr'], function () {
                 return serverCall(this, "Disconnect", $.makeArray(arguments));
             }
         },
-        debugHub: {
-            _: {
-                hubName: 'DebugHub',
-                ignoreMembers: ['registerWithDebugger', 'namespace', 'ignoreMembers', 'callbacks'],
-                connection: function () { return signalR.hub; }
-            },
-
-            registerWithDebugger: function (callback) {
-                return serverCall(this, "RegisterWithDebugger", $.makeArray(arguments));
-            }
-        },
         chatHub: {
             _: {
                 hubName: 'ChatHub',
-                ignoreMembers: ['startPrivateChat', 'joinChat', 'exitChat', 'typing', 'sendChatMessage', 'namespace', 'ignoreMembers', 'callbacks'],
+                ignoreMembers: ['joinChat', 'exitChat', 'typing', 'sendChatMessage', 'namespace', 'ignoreMembers', 'callbacks'],
                 connection: function () { return signalR.hub; }
             },
 
-            startPrivateChat: function (chatId, inviteeUserIds, callback) {
-                return serverCall(this, "StartPrivateChat", $.makeArray(arguments));
-            },
-
-            joinChat: function (chatId, groupId, callback) {
+            joinChat: function (chatId, inviteeUserIds, groupId, callback) {
                 return serverCall(this, "JoinChat", $.makeArray(arguments));
             },
 
@@ -218,7 +214,7 @@ define(['jquery', 'signalr'], function () {
                 return serverCall(this, "Typing", $.makeArray(arguments));
             },
 
-            sendChatMessage: function (chatId, message, callback) {
+            sendChatMessage: function (chatId, messageId, message, callback) {
                 return serverCall(this, "SendChatMessage", $.makeArray(arguments));
             }
         }

@@ -38,11 +38,9 @@ namespace Bowerbird.Web.Factories
         {
             Check.RequireNotNull(user, "user");
 
-            var userId = user.Id.MinifyId<User>();
-
             return new
             {
-                Id = userId,
+                Id = user.Id,
                 user.Avatar,
                 user.LastLoggedIn,
                 Name = user.GetName()

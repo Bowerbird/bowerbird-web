@@ -9,15 +9,14 @@
 // ---------------------------
 
 define(['jquery', 'underscore', 'backbone', 'app', 'views/userformlayoutview', 'models/user'],
-function ($, _, Backbone, app, UserFormLayoutView, User) 
-{
+function ($, _, Backbone, app, UserFormLayoutView, User) {
     var UserRouter = Backbone.Marionette.AppRouter.extend({
-        appRoutes:{
+        appRoutes: {
             'users/:id/update': 'showUserForm'
         }
     });
 
-    var UserHubRouter = function(options) {
+    var UserHubRouter = function (options) {
         this.userHub = options.hub;
 
         this.userHub.setupOnlineUsers = setupOnlineUsers;
@@ -51,6 +50,30 @@ function ($, _, Backbone, app, UserFormLayoutView, User)
                 });
             }
         }
+        return deferred.promise();
+    };
+
+    var getModel2 = function (id) {
+        var url = '';
+
+        if (!id) {
+            url = '/users';
+        } else {
+            url = '/' + id;
+        }
+
+        var deferred = new $.Deferred();
+
+        if (app.isPrerendering('users')) {
+            deferred.resolve(app.prerenderedView.data);
+        } else {
+            $.ajax({
+                url: url
+            }).done(function (data) {
+                deferred.resolve(data.Model);
+            });
+        }
+
         return deferred.promise();
     };
 
@@ -102,7 +125,7 @@ function ($, _, Backbone, app, UserFormLayoutView, User)
 
     app.addInitializer(function () {
         log('userController.initialize');
-        
+
         this.userRouter = new UserRouter({
             controller: UserController
         });

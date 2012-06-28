@@ -180,8 +180,12 @@ namespace Bowerbird.Web.EventHandlers
             // Notify all users in chat that user has left chat
             var details = new
             {
+                Id = Guid.NewGuid().ToString(),
+                Type = "useradded",
                 ChatId = chat.Id,
-                User = _userViewFactory.Make(domainEvent.User)
+                Timestamp = DateTime.UtcNow,
+                Message = string.Format("{0} has left the chat", domainEvent.User.GetName()),
+                FromUser = _userViewFactory.Make(domainEvent.User)
             };
             _userContext.GetChatChannel(chat.Id).userExitedChat(details);
         }

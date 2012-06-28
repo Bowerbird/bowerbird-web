@@ -136,36 +136,42 @@ namespace Bowerbird.Web.Config
 
         private static void CreateRestfulControllerRoute(RouteCollection routes, string controllerName)
         {
+            // Restful get many method
             routes.MapRoute(
                 controllerName + "-get-many",
                 controllerName,
                 new { controller = controllerName, action = "getmany" },
                 new { httpMethod = new HttpMethodConstraint("GET") });
 
+            // Restful get one method
             routes.MapRoute(
                 controllerName + "-get-one",
                 controllerName + "/{id}", 
                 new { controller = controllerName, action = "getone" },
                 new { httpMethod = new HttpMethodConstraint("GET"), id = @"^((?!create|update|delete|explore).*)$" });
 
+            // Non-restful utility method to get data for displaying form
             routes.MapRoute(
                 controllerName + "-create-form",
                 controllerName + "/create",
                 new { controller = controllerName, action = "createform" },
                 new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("GET") });
 
+            // Non-restful utility method to get data for displaying form
             routes.MapRoute(
                 controllerName + "-update-form",
                 controllerName + "/{id}/update",
                 new { controller = controllerName, action = "updateform" },
                 new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("GET"), id = @"^((?!create|update|delete).*)$" });
 
+            // Non-restful utility method to get data for displaying form
             routes.MapRoute(
                 controllerName + "-delete-form",
                 controllerName + "/{id}/delete",
                 new { controller = controllerName, action = "deleteform" },
                 new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("GET"), id = @"^((?!create|update|delete).*)$" });
 
+            // Restful update method
             routes.MapRoute(
                 controllerName + "-update",
                 controllerName + "/{id}",
@@ -173,6 +179,7 @@ namespace Bowerbird.Web.Config
                 new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("PUT") },
                 new[] { "Bowerbird.Web.Controllers" });
 
+            // Restful create method
             routes.MapRoute(
                 controllerName + "-create",
                 controllerName + "/",
@@ -180,6 +187,7 @@ namespace Bowerbird.Web.Config
                 new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("POST") },
                 new[] { "Bowerbird.Web.Controllers" });
 
+            // Restful delete method
             routes.MapRoute(
                 controllerName + "-delete",
                 controllerName + "/{id}",

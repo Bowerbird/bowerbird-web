@@ -40,6 +40,7 @@ namespace Bowerbird.Web.Config
         private readonly IHubContext _userHub;
         private readonly IHubContext _groupHub;
         private readonly IHubContext _chatHub;
+        private static readonly object _chatHubLock = new object();
 
         #endregion
 
@@ -118,12 +119,18 @@ namespace Bowerbird.Web.Config
 
         public void AddUserToChatChannel(string chatId, string connectionId)
         {
-            _chatHub.Groups.Add(connectionId, "chat-" + chatId);
+            lock (_chatHubLock)
+            {
+                _chatHub.Groups.Add(connectionId, "chat-" + chatId);
+            }
         }
 
         public void RemoveUserFromChatChannel(string chatId, string connectionId)
         {
-            _chatHub.Groups.Remove(connectionId, "chat-" + chatId);
+            lock (_chatHubLock)
+            {
+                _chatHub.Groups.Remove(connectionId, "chat-" + chatId);
+            }
         }
 
         public dynamic GetUserChannel(string userId)
