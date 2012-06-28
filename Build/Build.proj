@@ -1,167 +1,85 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Go" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <Import Project="$(MSBuildProjectDirectory)\Build.tasks" />
-
-    <PropertyGroup>
-        <Configuration Condition="$(Configuration) == ''">Debug</Configuration>
-        <ProjectRoot>$(MSBuildProjectDirectory)\..</ProjectRoot>
-        <ArtifactsDir>$(ProjectRoot)\artifacts\$(Configuration)</ArtifactsDir>
-        <TestResultsPath>$(ArtifactsDir)\TestResults</TestResultsPath>
-        <DocsPath>$(ArtifactsDir)\docs</DocsPath>
-        <NuGetToolsPath>$(ProjectRoot)\.nuget</NuGetToolsPath>
-        <NuGetExePath>$(NuGetToolsPath)\nuget.exe</NuGetExePath>
-        <NodeExePath>$(ToolsPath)docu\docu.exe</NodeExePath>
-        <PrereleaseTagWithSeparator Condition="$(PrereleaseTag) != ''">-$(PrereleaseTag)</PrereleaseTagWithSeparator>
-    </PropertyGroup>
-  
-    <PropertyGroup>
-        <MajorVersion>0</MajorVersion>
-        <MinorVersion>Alpha</MinorVersion>
-        <PackageBuild>1</PackageBuild>
-    </PropertyGroup>
-  
-    <PropertyGroup Condition="$(BUILD_NUMBER) != ''">
-        <!-- Ensure that we come up with a new version every 65535 years -->
-        <VersionStartYear>2012</VersionStartYear>
-      
-        <!-- Build number is of the format (CurrentYear - VersionStartYear + 1)(2 digit month)(2 digit day) -->
-        <Build>$([MSBuild]::Add(1, $([MSBuild]::Subtract($([System.DateTime]::Now.Year), $(VersionStartYear)))))$([System.DateTime]::Now.ToString("MMdd"))</Build>
-        <Revision>$(BUILD_NUMBER)</Revision>
-    </PropertyGroup>
-  
-    <PropertyGroup Condition="$(BUILD_NUMBER) == ''">
-        <Build>0</Build>
-        <Revision>0</Revision>
-    </PropertyGroup>
-  
-    <PropertyGroup>
-       <Version>$(MajorVersion).$(MinorVersion).$(Revision).$(Build)</Version>
-       <PackageVersion>$(MajorVersion).$(MinorVersion).$(PackageBuild)$(PrereleaseTagWithSeparator)</PackageVersion>
-       <JsVersion>$(MajorVersion).$(MinorVersion).$(PackageBuild)$(PrereleaseTag)</JsVersion>
-    </PropertyGroup>
-    
-    <ItemGroup>
-        <RegexTransform Include="$(ProjectRoot)\Common\CommonAssemblyInfo.cs">
-            <Find>\d+\.\d+\.\d+\.\d+</Find>
-            <ReplaceWith>$(Version)</ReplaceWith>
-        </RegexTransform>
-        <RegexTransform Include="$(ProjectRoot)\Common\CommonAssemblyInfo.cs">
-            <Find>AssemblyInformationalVersion\("\d+\.\d+\.\d+.\d+"\)</Find>
-            <ReplaceWith>AssemblyInformationalVersion("$(PackageVersion)")</ReplaceWith>
-        </RegexTransform>
-        <RegexTransform Include="$(ProjectRoot)\**\AssemblyInfo.cs">
-            <Find>\d+\.\d+\.\d+\.\d+</Find>
-            <ReplaceWith>$(Version)</ReplaceWith>
-        </RegexTransform>
-        <RegexTransform Include="$(ProjectRoot)\SignalR.Client\Properties\VersionInfo.cs">
-            <Find>\d+\.\d+\.\d+\.\d+</Find>
-            <ReplaceWith>$(Version)</ReplaceWith>
-        </RegexTransform>
-        <RegexTransform Include="$(ProjectRoot)\SignalR\Scripts\jquery.signalR.js">
-            <Find>SignalR JavaScript Library v\d+\.\d+</Find>
-            <ReplaceWith>SignalR JavaScript Library v$(PackageVersion)</ReplaceWith>
-        </RegexTransform>
-        <RegexTransform Include="$(ProjectRoot)\SignalR\Scripts\hubs.js">
-            <Find>SignalR JavaScript Library v\d+\.\d+</Find>
-            <ReplaceWith>SignalR JavaScript Library v$(PackageVersion)</ReplaceWith>
-        </RegexTransform>
-    </ItemGroup>
-    
-    <Target Name="UpdateVersion" Condition="'$(BUILD_NUMBER)' != ''">
-        <RegexTransform Items="@(RegexTransform)" />
-    </Target>
-  
-  <UsingTask AssemblyFile="$(XunitPath)xunit.runner.msbuild.dll"
-             TaskName="Xunit.Runner.MSBuild.xunit" />
-
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets"/>
+  <PropertyGroup>
+    <SolutionRoot>$(MSBuildProjectDirectory)\..</SolutionRoot>
+    <ProjectRoot>$(SolutionRoot)\Src\bowerbird.Website</ProjectRoot>
+    <ArtifactsDir>$(SolutionRoot)\Release</ArtifactsDir>
+    <CurrentBuildDateStamp>$([System.DateTime]::Now.ToString("yyyyMMdd"))</CurrentBuildDateStamp>
+    <CurrentBuildDir>$(ArtifactsDir)\$(Configuration)\$(CurrentBuildDateStamp)</CurrentBuildDir>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VersionMajor>0</VersionMajor>
+    <VersionMinor>1</VersionMinor>
+    <VersionPatch>4</VersionPatch>
+    <VersionPreRelease></VersionPreRelease>
+  </PropertyGroup>
   <ItemGroup>
-    <TestProjects Include="$(ProjectRoot)\SignalR.Tests\bin\$(Configuration)\SignalR.Tests.dll" />
+    <PackageFiles Include="$(ProjectRoot)\**\*.*"
+                  Exclude="$(ProjectRoot)\bin\*.pdb;
+                  $(ProjectRoot)\bin\*.xml;
+                  $(ProjectRoot)\Logs\**\*.*;
+                  $(ProjectRoot)\obj\**\*.*;
+                  $(ProjectRoot)\test\**\*.*;
+                  $(ProjectRoot)\media\**\*.*;
+                  $(ProjectRoot)\**\*.orig;
+                  $(ProjectRoot)\*.config;
+                  $(ProjectRoot)\*.xml;
+                  $(ProjectRoot)\**\*.csproj;
+                  ">
+    </PackageFiles>
+    <MediaFiles Include="$(ProjectRoot)\media\testdata\**\*.*">
+    </MediaFiles>
+    <ConfigFiles Include="$(ProjectRoot)\web.config" >
+    </ConfigFiles>
   </ItemGroup>
-
-  <Target Name="Go" DependsOnTargets="UpdateVersion; Build; BuildDocs; RunTests;">
-  </Target>
-
-  <Target Name="RunTests">
-    <xunit Assembly="%(TestProjects.FullPath)" Xml="$(TestResultsPath)\SignalR.Tests.XunitResults.xml" Verbose="true" />
-  </Target>
-
   <Target Name="CreateOutputDir">
-    <MakeDir Directories="$(ArtifactsDir)" Condition="!Exists('$(ArtifactsDir)')" />
-    <MakeDir Directories="$(TestResultsPath)" Condition="!Exists('$(TestResultsPath)')" />
-    <MakeDir Directories="$(DocsPath)" Condition="!Exists('$(DocsPath)')" />
+    <Message Text="Creating Directory $(CurrentBuildDir)" />
+    <RemoveDir Directories="$(CurrentBuildDir)" />
+    <Delete Files="$(CurrentBuildDir)" />
+    <MakeDir Directories="$(CurrentBuildDir)" />
   </Target>
-
+  <Target Name="BuildMediaDirectories">
+    <MakeDir Directories="$(CurrentBuildDir)\media" />
+    <MakeDir Directories="$(CurrentBuildDir)\media\default" />
+    <MakeDir Directories="$(CurrentBuildDir)\media\document" />
+    <MakeDir Directories="$(CurrentBuildDir)\media\video" />
+    <MakeDir Directories="$(CurrentBuildDir)\media\image" />
+    <MakeDir Directories="$(CurrentBuildDir)\media\image\0" />
+    <MakeDir Directories="$(CurrentBuildDir)\media\image\1" />
+    <MakeDir Directories="$(CurrentBuildDir)\media\image\2" />
+    <MakeDir Directories="$(CurrentBuildDir)\media\image\3" />
+    <MakeDir Directories="$(CurrentBuildDir)\media\image\4" />
+    <MakeDir Directories="$(CurrentBuildDir)\media\image\5" />
+  </Target>
+  <Target Name="ConfigSettingsMessages">
+    <Message Text="Configuration is $(Configuration)" />
+    <Message Text="BuildNumber is $(BuildNumber)" />
+    <Message Text="ProjectRoot is $(ProjectRoot)" />
+    <Message Text="CurrentBuildDir is $(CurrentBuildDir)" />
+  </Target>
+  <Target Name="BuildSolution">
+    <MSBuild Projects="$(SolutionRoot)\Bowerbird.sln" Targets="Build" Properties="Configuration=$(Configuration)" />
+  </Target>
+  <Target Name="CopyFilesToReleaseDir">
+    <Copy SourceFiles="@(PackageFiles)" DestinationFiles="@(PackageFiles->'$(CurrentBuildDir)\%(RecursiveDir)%(Filename)%(Extension)')" />
+    <Copy SourceFiles="@(MediaFiles)" DestinationFiles="@(MediaFiles->'$(CurrentBuildDir)\media\testdata\%(Filename)%(Extension)')" />
+    <Copy SourceFiles="@(ConfigFiles)" DestinationFiles="$(CurrentBuildDir)\web.config" />
+  </Target>
+  <Target Name="ZipUpReleaseFiles">
+    <ItemGroup>
+      <ZipFiles Include="$(CurrentBuildDir)\**\*.*" Exclude="*.zip" />
+    </ItemGroup>
+    <Zip Files="@(ZipFiles)" WorkingDirectory="$(CurrentBuildDir)\$(Configuration)\" ZipFileName="$(CurrentBuildDateStamp)-$(Configuration).zip" ZipLevel="9" />
+  </Target>
+  <Target Name="CopyZipToReleaseDir" DependsOnTargets="ZipUpReleaseFiles">
+    <Copy SourceFiles="$(MSBuildProjectDirectory)\$(CurrentBuildDateStamp)-$(Configuration).zip" DestinationFiles="$(ArtifactsDir)\$(Configuration)\$(CurrentBuildDateStamp).zip" />
+    <Delete Files="$(MSBuildProjectDirectory)\$(CurrentBuildDateStamp)-$(Configuration).zip" />
+  </Target>
   <Target Name="Build" DependsOnTargets="CreateOutputDir">
-    <MSBuild Projects="$(ProjectRoot)\SignalR.sln"
-             Targets="Build"
-             Properties="Configuration=$(Configuration)" />
-
-    <MSBuild Projects="$(ProjectRoot)\SignalR.WP7.sln"
-             Targets="Build"
-             Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\') And Exists('$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\v4.0\Microsoft.Silverlight.WindowsPhone71.Overrides.targets')"
-             Properties="Configuration=$(Configuration)" />
-
-    <MSBuild Projects="$(ProjectRoot)\SignalR.Silverlight.sln"
-             Targets="Build"
-             Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\Silverlight\v4.0') And Exists('$(MSBuildExtensionsPath)\Microsoft\Silverlight\v5.0')"
-             Properties="Configuration=$(Configuration)" />
-  </Target>
-
-  <Target Name="BuildDocs" DependsOnTargets="CreateOutputDir">
-    <ItemGroup>
-      <DocProjects Include="$(ProjectRoot)\SignalR\bin\$(Configuration)\SignalR.dll" />
-      <DocProjects Include="$(ProjectRoot)\SignalR.Client\bin\$(Configuration)\SignalR.Client.dll" />
-      <DocProjects Include="$(ProjectRoot)\SignalR.Hosting.AspNet\bin\$(Configuration)\SignalR.Hosting.AspNet.dll" />
-      <DocProjects Include="$(ProjectRoot)\SignalR.Hosting.Self\bin\$(Configuration)\SignalR.Hosting.Self.dll" />
-      <DocProjects Include="$(ProjectRoot)\SignalR.Hosting.Owin\bin\$(Configuration)\SignalR.Hosting.Owin.dll" />
-      <DocProjects Include="$(ProjectRoot)\SignalR.Hosting.Common\bin\$(Configuration)\SignalR.Hosting.Common.dll" />
-    </ItemGroup>
-    <Exec Command="&quot;$(DocuExePath)&quot; @(DocProjects, ' ')" WorkingDirectory="$(DocsPath)" />
-    <Exec Command="&quot;$(ZipExe)&quot; a ..\..\docs.v$(Version).zip" WorkingDirectory="$(DocsPath)\output" />
-  </Target>
-  
-  <Target Name="BuildPackages" DependsOnTargets="CreateOutputDir">
-    <ItemGroup>
-      <JsPackage Include="$(ProjectRoot)\SignalR\Properties\SignalR.Js.nuspec" />
-      <MetaPackage Include="$(ProjectRoot)\SignalR\Properties\SignalR.All.nuspec" />
-      <Projects Include="$(ProjectRoot)\SignalR\SignalR.csproj" />
-      <Projects Include="$(ProjectRoot)\SignalR.Hosting.AspNet\SignalR.Hosting.AspNet.csproj" />
-      <Projects Include="$(ProjectRoot)\SignalR.Client\SignalR.Client.csproj" />
-      <Projects Include="$(ProjectRoot)\SignalR.Hosting.Self\SignalR.Hosting.Self.csproj" />
-      <Projects Include="$(ProjectRoot)\SignalR.Hosting.Owin\SignalR.Hosting.Owin.csproj" />
-      <Projects Include="$(ProjectRoot)\SignalR.Hosting.Common\SignalR.Hosting.Common.csproj" />
-    </ItemGroup>
-    
-    <MSBuild Projects="%(Projects.Identity)"
-             Targets="Build"
-             Properties="BuildPackage=true;Version=$(PackageVersion);PackageOutputDir=$(ArtifactsDir);Configuration=$(Configuration)" />
-    
-    <!-- Only build WP7 and Silverlight projects if SDK's avaliable -->
-    <MSBuild Projects="$(ProjectRoot)\SignalR.Client.WP7\SignalR.Client.WP7.csproj"
-             Targets="Build"
-             Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\') And Exists('$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\v4.0\Microsoft.Silverlight.WindowsPhone71.Overrides.targets')"
-             Properties="BuildPackage=true;Version=$(PackageVersion);PackageOutputDir=$(ArtifactsDir);Configuration=$(Configuration)" />
-
-    <MSBuild Projects="$(ProjectRoot)\SignalR.Client.Silverlight\SignalR.Client.Silverlight.csproj"
-             Targets="Build"
-             Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\Silverlight\v4.0')"
-             Properties="BuildPackage=true;Version=$(PackageVersion);PackageOutputDir=$(ArtifactsDir);Configuration=$(Configuration)" />
-
-    <MSBuild Projects="$(ProjectRoot)\SignalR.Client.Silverlight5\SignalR.Client.Silverlight5.csproj"
-         Targets="Build"
-         Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\Silverlight\v5.0')"
-         Properties="BuildPackage=true;Version=$(PackageVersion);PackageOutputDir=$(ArtifactsDir);Configuration=$(Configuration)" />
-
-    <RemoveDir Directories="$(ScriptTempPath)" />
-    <MakeDir Directories="$(ScriptTempPath)" />
-    
-    <Copy SourceFiles="$(ProjectRoot)\SignalR\Scripts\jquery.signalR.js" DestinationFiles="$(ScriptTempPath)\jquery.signalR-$(JsVersion).js" />
-    <Copy SourceFiles="$(ProjectRoot)\SignalR\Scripts\jquery.signalR.min.js" DestinationFiles="$(ScriptTempPath)\jquery.signalR-$(JsVersion).min.js" />
-
-    <Exec Command="&quot;$(NuGetExePath)&quot; pack &quot;%(JsPackage.Identity)&quot; -o &quot;$(ArtifactsDir)&quot; -p Version=$(PackageVersion) -basePath &quot;$(ScriptTempPath)&quot;"
-            LogStandardErrorAsError="true" />
-            
-    <Exec Command="&quot;$(NuGetExePath)&quot; pack &quot;%(MetaPackage.Identity)&quot; -o &quot;$(ArtifactsDir)&quot; -p Version=$(PackageVersion) -exclude **\*.cs"
-          LogStandardErrorAsError="true" />
+    <CallTarget Targets="BuildMediaDirectories"/>
+    <CallTarget Targets="ConfigSettingsMessages"/>
+    <CallTarget Targets="BuildSolution"/>
+    <CallTarget Targets="CopyFilesToReleaseDir"/>
+    <CallTarget Targets="CopyZipToReleaseDir"/>
   </Target>
 </Project>

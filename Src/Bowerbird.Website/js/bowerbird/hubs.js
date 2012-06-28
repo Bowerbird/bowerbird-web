@@ -150,26 +150,27 @@ define(['jquery', 'signalr'], function () {
 
     // Create hub signalR instance
     $.extend(signalR, {
-        debugHub: {
+        chatHub: {
             _: {
-                hubName: 'DebugHub',
-                ignoreMembers: ['registerWithDebugger', 'namespace', 'ignoreMembers', 'callbacks'],
+                hubName: 'ChatHub',
+                ignoreMembers: ['joinChat', 'exitChat', 'typing', 'sendChatMessage', 'namespace', 'ignoreMembers', 'callbacks'],
                 connection: function () { return signalR.hub; }
             },
 
-            registerWithDebugger: function (callback) {
-                return serverCall(this, "RegisterWithDebugger", $.makeArray(arguments));
-            }
-        },
-        userHub: {
-            _: {
-                hubName: 'UserHub',
-                ignoreMembers: ['registerUserClient', 'namespace', 'ignoreMembers', 'callbacks'],
-                connection: function () { return signalR.hub; }
+            joinChat: function (chatId, inviteeUserIds, groupId, callback) {
+                return serverCall(this, "JoinChat", $.makeArray(arguments));
             },
 
-            registerUserClient: function (id, callback) {
-                return serverCall(this, "RegisterUserClient", $.makeArray(arguments));
+            exitChat: function (chatId, callback) {
+                return serverCall(this, "ExitChat", $.makeArray(arguments));
+            },
+
+            typing: function (chatId, isTyping, callback) {
+                return serverCall(this, "Typing", $.makeArray(arguments));
+            },
+
+            sendChatMessage: function (chatId, messageId, message, callback) {
+                return serverCall(this, "SendChatMessage", $.makeArray(arguments));
             }
         },
         groupHub: {
@@ -195,27 +196,26 @@ define(['jquery', 'signalr'], function () {
                 return serverCall(this, "Disconnect", $.makeArray(arguments));
             }
         },
-        chatHub: {
+        debugHub: {
             _: {
-                hubName: 'ChatHub',
-                ignoreMembers: ['joinChat', 'exitChat', 'typing', 'sendChatMessage', 'namespace', 'ignoreMembers', 'callbacks'],
+                hubName: 'DebugHub',
+                ignoreMembers: ['registerWithDebugger', 'namespace', 'ignoreMembers', 'callbacks'],
                 connection: function () { return signalR.hub; }
             },
 
-            joinChat: function (chatId, inviteeUserIds, groupId, callback) {
-                return serverCall(this, "JoinChat", $.makeArray(arguments));
+            registerWithDebugger: function (callback) {
+                return serverCall(this, "RegisterWithDebugger", $.makeArray(arguments));
+            }
+        },
+        userHub: {
+            _: {
+                hubName: 'UserHub',
+                ignoreMembers: ['registerUserClient', 'namespace', 'ignoreMembers', 'callbacks'],
+                connection: function () { return signalR.hub; }
             },
 
-            exitChat: function (chatId, callback) {
-                return serverCall(this, "ExitChat", $.makeArray(arguments));
-            },
-
-            typing: function (chatId, isTyping, callback) {
-                return serverCall(this, "Typing", $.makeArray(arguments));
-            },
-
-            sendChatMessage: function (chatId, messageId, message, callback) {
-                return serverCall(this, "SendChatMessage", $.makeArray(arguments));
+            registerUserClient: function (id, callback) {
+                return serverCall(this, "RegisterUserClient", $.makeArray(arguments));
             }
         }
     });
