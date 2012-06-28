@@ -250,7 +250,9 @@ namespace Bowerbird.Web.Controllers
 
             var userId = idInput.Id.VerbosifyId<User>();
 
-            DebugToClient("SERVER: Users/UpdateForm userId:" + userId);
+#if !JS_COMBINE_MINIFY
+    DebugToClient("SERVER: Users/UpdateForm userId:" + userId);
+#endif
 
             ViewBag.Model = new
             {

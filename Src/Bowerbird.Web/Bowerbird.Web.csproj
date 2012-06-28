@@ -34,7 +34,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Prod|AnyCPU'">
     <OutputPath>bin\Prod\</OutputPath>
-    <DefineConstants>JS_COMBINE_VERBOSE</DefineConstants>
+    <DefineConstants>JS_COMBINE_MINIFY</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugProd|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

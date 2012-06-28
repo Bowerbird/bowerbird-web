@@ -96,7 +96,9 @@ namespace Bowerbird.Web.Controllers
 
                 _userContext.SignUserIn(accountLoginInput.Email, accountLoginInput.RememberMe);
 
-                DebugToClient("SERVER: Logged In Successfully as " + accountLoginInput.Email);
+#if !JS_COMBINE_MINIFY
+    DebugToClient("SERVER: Logged In Successfully as " + accountLoginInput.Email);
+#endif
 
                 return RedirectToAction("loggingin", new { returnUrl = accountLoginInput.ReturnUrl });
             }

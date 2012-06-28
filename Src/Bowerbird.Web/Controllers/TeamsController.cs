@@ -235,7 +235,10 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult GetOne(IdInput idInput)
         {
-            DebugToClient(string.Format("SERVER: Teams/GetOne: id:{0}", idInput.Id));
+
+#if !JS_COMBINE_MINIFY
+    DebugToClient(string.Format("SERVER: Teams/GetOne: id:{0}", idInput.Id));
+#endif
 
             Check.RequireNotNull(idInput, "idInput");
 
@@ -466,10 +469,11 @@ namespace Bowerbird.Web.Controllers
         [HttpPut]
         public ActionResult Update(TeamUpdateInput updateInput)
         {
-            DebugToClient(string.Format("SERVER: [PUT]Teams/Update: id:{0}", updateInput.Id));
 
-            DebugToClient(updateInput);
-
+#if !JS_COMBINE_MINIFY
+    DebugToClient(string.Format("SERVER: [PUT]Teams/Update: id:{0}", updateInput.Id));
+    DebugToClient(updateInput);
+#endif
             var teamId = "teams/".AppendWith(updateInput.Id);
 
             if (!_userContext.HasGroupPermission(PermissionNames.UpdateTeam, teamId))

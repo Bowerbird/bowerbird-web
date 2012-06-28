@@ -339,7 +339,10 @@ namespace Bowerbird.Web.Controllers
         [HttpPost]
         public ActionResult Join(IdInput idInput)
         {
-            DebugToClient(string.Format("SERVER: Projects/Join: id:{0}", idInput.Id));
+
+#if !JS_COMBINE_MINIFY
+    DebugToClient(string.Format("SERVER: Projects/Join: id:{0}", idInput.Id));
+#endif
 
             Check.RequireNotNull(idInput, "idInput");
 
@@ -433,9 +436,12 @@ namespace Bowerbird.Web.Controllers
         [HttpPut]
         public ActionResult Update(ProjectUpdateInput updateInput)
         {
-            DebugToClient("SERVER: [PUT]Projects/Update ->");
-            DebugToClient(updateInput);
 
+#if !JS_COMBINE_MINIFY
+    DebugToClient("SERVER: [PUT]Projects/Update ->");
+    DebugToClient(updateInput);
+#endif
+            
             Check.RequireNotNull(updateInput, "updateInput");
 
             var projectId = updateInput.Id.VerbosifyId<Project>();
@@ -497,16 +503,19 @@ namespace Bowerbird.Web.Controllers
                 .Where(x => x.UserId == userId)
                 .ToList();
 
-            DebugToClient("SERVER: ProjectsController/GetTeams");
-            DebugToClient("-----------------------------------");
-
-            DebugToClient(teamIds);
+#if !JS_COMBINE_MINIFY
+    DebugToClient("SERVER: ProjectsController/GetTeams");
+    DebugToClient("-----------------------------------");
+    DebugToClient(teamIds);
+#endif
 
             if (teamIds.Count > 0)
             {
                 var teamIdsToQuery = teamIds.SelectMany(x => x.Groups.Where(y => y.GroupType == "team").Select(y => y.Id));
 
-                DebugToClient(teamIdsToQuery);
+#if !JS_COMBINE_MINIFY
+    DebugToClient(teamIdsToQuery);
+#endif
 
                 var teams = _documentSession.Load<Team>(teamIdsToQuery);
 

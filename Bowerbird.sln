@@ -13,13 +13,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{8DEC69
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{50BF98F5-50FF-4A9A-A853-4863DE43D8AA}"
 	ProjectSection(SolutionItems) = preProject
-		Build\ajaxmin-ify.bat = Build\ajaxmin-ify.bat
 		Build\app.build.js = Build\app.build.js
 		Build\Build.proj = Build\Build.proj
 		Build\Build.tasks = Build\Build.tasks
-		Build\javascript-combine.bat = Build\javascript-combine.bat
+		Build\js-build-tasks.bat = Build\js-build-tasks.bat
 		Build\r.js = Build\r.js
-		Build\signalr-hubify.bat = Build\signalr-hubify.bat
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bowerbird.Minify", "Src\Bowerbird.Minify\Bowerbird.Minify.csproj", "{ECE49F62-0469-4CB0-A593-4895AE493157}"
