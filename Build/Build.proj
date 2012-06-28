@@ -1,17 +1,23 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets"/>
+  <UsingTask TaskName="Microsoft.Build.Tasks.XmlPeek" AssemblyName="Microsoft.Build.Tasks.v4.0, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"/>
+  <UsingTask TaskName="Microsoft.Build.Tasks.XmlPoke" AssemblyName="Microsoft.Build.Tasks.v4.0, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"/>
   <PropertyGroup>
     <SolutionRoot>$(MSBuildProjectDirectory)\..</SolutionRoot>
     <ProjectRoot>$(SolutionRoot)\Src\bowerbird.Website</ProjectRoot>
     <ArtifactsDir>$(SolutionRoot)\Release</ArtifactsDir>
-    <CurrentBuildDateStamp>$([System.DateTime]::Now.ToString("yyyyMMdd"))</CurrentBuildDateStamp>
+    <CurrentBuildDateStamp>$([System.DateTime]::Now.ToString("yyyyMMdd"))-$([System.DateTime]::Now.ToString("hhmm"))</CurrentBuildDateStamp>
+    <CurrentBuildTimeStamp>$([System.DateTime]::Now.ToString("hhmm"))</CurrentBuildTimeStamp>
     <CurrentBuildDir>$(ArtifactsDir)\$(Configuration)\$(CurrentBuildDateStamp)</CurrentBuildDir>
   </PropertyGroup>
   <PropertyGroup>
     <VersionMajor>0</VersionMajor>
     <VersionMinor>1</VersionMinor>
-    <VersionPatch>4</VersionPatch>
+    <VersionPatch>0</VersionPatch>
     <VersionPreRelease></VersionPreRelease>
+  </PropertyGroup>
+  <PropertyGroup>
+    <WebConfig>$(CurrentBuildDir)\Web.config</WebConfig>
   </PropertyGroup>
   <ItemGroup>
     <PackageFiles Include="$(ProjectRoot)\**\*.*"
@@ -24,14 +30,19 @@
                   $(ProjectRoot)\**\*.orig;
                   $(ProjectRoot)\*.config;
                   $(ProjectRoot)\*.xml;
-                  $(ProjectRoot)\**\*.csproj;
-                  ">
+                  $(ProjectRoot)\**\*.csproj;">
     </PackageFiles>
     <MediaFiles Include="$(ProjectRoot)\media\testdata\**\*.*">
     </MediaFiles>
     <ConfigFiles Include="$(ProjectRoot)\web.config" >
     </ConfigFiles>
   </ItemGroup>
+  <Target Name="UpdateWebConfig"  Condition=" '$(CurrentBuildDateStamp)' != '' ">
+      <XmlPoke Namespaces="&lt;Namespace Prefix='msb' Uri='http://schemas.microsoft.com/developer/msbuild/2003'/&gt;"
+          XmlInputPath="$(WebConfig)"
+          Query="//add[@key='StaticContentIncrement']/@value"
+          Value="$(CurrentBuildDateStamp)" />
+    </Target>
   <Target Name="CreateOutputDir">
     <Message Text="Creating Directory $(CurrentBuildDir)" />
     <RemoveDir Directories="$(CurrentBuildDir)" />
@@ -80,6 +91,7 @@
     <CallTarget Targets="ConfigSettingsMessages"/>
     <CallTarget Targets="BuildSolution"/>
     <CallTarget Targets="CopyFilesToReleaseDir"/>
+    <CallTarget Targets="UpdateWebConfig" />
     <CallTarget Targets="CopyZipToReleaseDir"/>
   </Target>
 </Project>
