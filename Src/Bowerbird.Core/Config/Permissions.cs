@@ -56,6 +56,7 @@ namespace Bowerbird.Core.Config
         public static string RemoveTeam = "removeteam";
         public static string AddProject = "addproject";
         public static string RemoveProject = "removeproject";
+        public static string Chat = "chat";
     }
 
     public static class RoleNames

@@ -24,6 +24,8 @@ using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Config;
 using Raven.Client;
 using Bowerbird.Core.DomainModels;
+using NLog;
+using System.Threading.Tasks;
 
 namespace Bowerbird.Core.Commands
 {
@@ -32,6 +34,7 @@ namespace Bowerbird.Core.Commands
 
         #region Members
 
+        private Logger _logger = LogManager.GetLogger("CommandProcessor");
         private readonly IServiceLocator _serviceLocator;
         private readonly IDocumentSession _documentSession;
 
@@ -70,39 +73,31 @@ namespace Bowerbird.Core.Commands
             {
                 System.Diagnostics.Debug.WriteLine("HTTP Request Document Session: {0} HasChanges: {1}, NumberOfRequests: {2}.", ((Raven.Client.Document.DocumentSession)_documentSession).Id, _documentSession.Advanced.HasChanges, _documentSession.Advanced.NumberOfRequests);
 
-                // HACK: Temp code to test the idea of async commandhandlers in the chat area
-                if (command is ChatCreateCommand || command is ChatUpdateCommand || command is ChatDeleteCommand || command is ChatMessageCreateCommand)
+                var handlers = _serviceLocator.GetAllInstances<ICommandHandler<TCommand>>();
+
+                if (handlers == null || !handlers.Any())
                 {
-                    System.Threading.Tasks.Task.Factory.StartNew(() =>
-                    {
-                        var handlers = _serviceLocator.GetAllInstances<ICommandHandler<TCommand>>();
-
-                        if (handlers == null || !handlers.Any())
-                        {
-                            throw new CommandHandlerNotFoundException(typeof(TCommand));
-                        }
-
-                        foreach (var handler in handlers)
-                        {
-                            handler.Handle(command);
-                        }
-                    });
+                    throw new CommandHandlerNotFoundException(typeof(TCommand));
                 }
-                else
+
+                foreach (var handler in handlers)
                 {
-                    var handlers = _serviceLocator.GetAllInstances<ICommandHandler<TCommand>>();
-
-                    if (handlers == null || !handlers.Any())
+                    // HACK: Temp code to test the idea of async commandhandlers in the chat area
+                    if (command is ChatCreateCommand || command is ChatUpdateCommand || command is ChatDeleteCommand || command is ChatMessageCreateCommand)
                     {
-                        throw new CommandHandlerNotFoundException(typeof(TCommand));
+                        Task.Factory.StartNew(() =>
+                        {
+                            _logger.Debug("Executing command '{0}' using command handler '{1}' in new thread", command.GetType().Name, handler.GetType().Name);
+                            handler.Handle(command);
+                        })
+                        .LogExceptions();
                     }
-
-                    foreach (var handler in handlers)
+                    else
                     {
                         handler.Handle(command);
-
                     }
                 }
+
             }
         }
 
@@ -148,4 +143,25 @@ namespace Bowerbird.Core.Commands
         #endregion
    
     }
+
+    public static class TaskExtensions
+    {
+        public static Task LogExceptions(this Task task)
+        {
+            task.ContinueWith(t =>
+            {
+                Logger logger = LogManager.GetLogger("CommandProcessor");
+                var aggException = t.Exception.Flatten();
+                foreach (var exception in aggException.InnerExceptions)
+                {
+                    logger.ErrorException("An error occurred in an asynchronous call", exception);
+                }
+
+            },
+            TaskContinuationOptions.OnlyOnFaulted);
+
+            return task;
+        }
+    }
+
 }

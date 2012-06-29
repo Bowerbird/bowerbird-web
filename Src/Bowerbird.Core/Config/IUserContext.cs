@@ -48,7 +48,13 @@ namespace Bowerbird.Core.Config
 
         dynamic GetGroupChannel(string groupId);
 
-        dynamic GetChatChannel(string chatId);
+        //dynamic GetChatChannel(string chatId);
+
+        void UserJoinedChat(string chatId, object chatMessageDetails);
+
+        void UserExitedChat(string chatId, object chatMessageDetails);
+
+        void NewChatMessage(string chatId, object chatMessageDetails);
 
         void SignUserIn(string email, bool keepUserLoggedIn);
 

@@ -99,18 +99,7 @@ namespace Bowerbird.Web.EventHandlers
             }
 
             // Notify initiator they have joined chat
-            dynamic chatDetails = new ExpandoObject();
-
-            chatDetails.ChatId = chat.Id;
-            chatDetails.Users = users.Select(_userViewFactory.Make);
-            chatDetails.Messages = new object[]{};
-
-            if (chat.ChatType == "group")
-            {
-                chatDetails.Group = _groupViewFactory.Make(GetGroup(chat.Group.Id));
-            }
-            
-            _userContext.GetUserChannel(domainEvent.User.Id).chatJoined(chatDetails);
+            NotifyUserTheyHaveJoinedChat(chat, domainEvent.User.Id);
         }
 
         public void Handle(UserJoinedChatEvent domainEvent)
@@ -125,36 +114,10 @@ namespace Bowerbird.Web.EventHandlers
             }
 
             // Notify user they have joined chat
-            var users = _documentSession.Load<User>(chat.Users.Select(x => x.Id));
-            var chatMessageUsers = _documentSession.Load<User>(chat.Messages.Select(x => x.User.Id).Distinct());
-            
-            dynamic chatDetails = new ExpandoObject();
-
-            chatDetails.ChatId = chat.Id;
-            chatDetails.Users = users.Select(_userViewFactory.Make);
-            chatDetails.Messages = chat
-                                    .Messages
-                                    .OrderByDescending(x => x.Timestamp)
-                                    .Take(30)
-                                    .Select(x => new 
-                                        {
-                                            x.Id,
-                                            Type = "usermessage",
-                                            ChatId = chat.Id,
-                                            x.Timestamp,
-                                            x.Message,
-                                            FromUser = _userViewFactory.Make(chatMessageUsers.Single(y => y.Id == x.User.Id))
-                                        });
-
-            if (chat.ChatType == "group")
-            {
-                chatDetails.Group = _groupViewFactory.Make(GetGroup(chat.Group.Id));
-            }
-            
-            _userContext.GetUserChannel(domainEvent.User.Id).chatJoined(chatDetails);
+            NotifyUserTheyHaveJoinedChat(chat, domainEvent.User.Id);
 
             // Notify all users in chat that new user has joined
-            var details = new
+            var chatMessageDetails = new
             {
                 Id = Guid.NewGuid().ToString(),
                 Type = "useradded",
@@ -163,7 +126,9 @@ namespace Bowerbird.Web.EventHandlers
                 Message = string.Format("{0} has joined the chat", domainEvent.User.GetName()),
                 FromUser = _userViewFactory.Make(domainEvent.User)
             };
-            _userContext.GetChatChannel(chat.Id).userJoinedChat(details);
+
+            //_userContext.GetChatChannel(chat.Id).userJoinedChat(chatMessageDetails);
+            _userContext.UserJoinedChat(chat.Id, chatMessageDetails);
         }
 
         public void Handle(UserExitedChatEvent domainEvent)
@@ -177,8 +142,11 @@ namespace Bowerbird.Web.EventHandlers
                 _userContext.RemoveUserFromChatChannel(chat.Id, session.ConnectionId);
             }
 
+            // Notify all of leaving user's sessions that they have left
+            _userContext.GetUserChannel(domainEvent.User.Id).chatExited(chat.Id);
+
             // Notify all users in chat that user has left chat
-            var details = new
+            var chatMessageDetails = new
             {
                 Id = Guid.NewGuid().ToString(),
                 Type = "useradded",
@@ -187,7 +155,9 @@ namespace Bowerbird.Web.EventHandlers
                 Message = string.Format("{0} has left the chat", domainEvent.User.GetName()),
                 FromUser = _userViewFactory.Make(domainEvent.User)
             };
-            _userContext.GetChatChannel(chat.Id).userExitedChat(details);
+
+            //_userContext.GetChatChannel(chat.Id).userExitedChat(chatMessageDetails);
+            _userContext.UserExitedChat(chat.Id, chatMessageDetails);
         }
 
         public void Handle(DomainModelCreatedEvent<ChatMessage> domainEvent)
@@ -198,26 +168,69 @@ namespace Bowerbird.Web.EventHandlers
             // Get message
             var chatMessage = domainEvent.DomainModel;
 
-            // Send message to clients
+            // Get sender of message
             var messageSender = _documentSession.Load<User>(chatMessage.User.Id);
+
+            // Get all users in chat
             var users = _documentSession.Load<User>(chat.Users.Select(x => x.Id)).ToList();
 
+            // Add the sender in the case that they are re-joining a chat
+            if (users.All(x => x.Id != domainEvent.User.Id))
+            {
+                users.Add(domainEvent.User);
+            }
+
+            // Ensure all users' clients are still subscribed to chat
+            foreach (var connectionId in users.SelectMany(x => x.Sessions.Select(y => y.ConnectionId)))
+            {
+                _userContext.AddUserToChatChannel(chat.Id, connectionId);
+            }
+
+            // Send message to clients
             dynamic chatMessageDetails = new ExpandoObject();
 
             chatMessageDetails.Id = chatMessage.Id;
             chatMessageDetails.Type = "usermessage";
             chatMessageDetails.ChatId = chat.Id;
             chatMessageDetails.Timestamp = chatMessage.Timestamp;
-            chatMessageDetails.FromUser = _userViewFactory.Make(messageSender);
             chatMessageDetails.Message = chatMessage.Message;
+            chatMessageDetails.FromUser = _userViewFactory.Make(messageSender);
 
-            // If this is a private chat, and its the first message returned, then send the user list to all invitees as they don't have it yet
-            if (chat.ChatType == "private" && chat.Messages.Count() == 1)
+            //_userContext.GetChatChannel(chat.Id).newChatMessage(chatMessageDetails);
+            _userContext.NewChatMessage(chat.Id, chatMessageDetails);
+        }
+
+        private void NotifyUserTheyHaveJoinedChat(Chat chat, string userId)
+        {
+            var users = _documentSession.Load<User>(chat.Users.Select(x => x.Id));
+            var chatMessageUsers = _documentSession.Load<User>(chat.Messages.Select(x => x.User.Id).Distinct());
+
+            dynamic chatDetails = new ExpandoObject();
+
+            chatDetails.ChatId = chat.Id;
+            chatDetails.Users = users.Select(_userViewFactory.Make);
+
+            if (chat.ChatType == "group")
             {
-                chatMessageDetails.Users = users.Select(_userViewFactory.Make);
+                chatDetails.Group = _groupViewFactory.Make(GetGroup(chat.Group.Id));
+
+                // Group chat users get some historic messages for context
+                chatDetails.Messages = chat
+                                        .Messages
+                                        .OrderByDescending(x => x.Timestamp)
+                                        .Take(30)
+                                        .Select(x => new
+                                        {
+                                            x.Id,
+                                            Type = "usermessage",
+                                            ChatId = chat.Id,
+                                            x.Timestamp,
+                                            x.Message,
+                                            FromUser = _userViewFactory.Make(chatMessageUsers.Single(y => y.Id == x.User.Id))
+                                        });
             }
 
-            _userContext.GetChatChannel(chat.Id).newChatMessage(chatMessageDetails);
+            _userContext.GetUserChannel(userId).chatJoined(chatDetails);
         }
 
         private Group GetGroup(string groupId)

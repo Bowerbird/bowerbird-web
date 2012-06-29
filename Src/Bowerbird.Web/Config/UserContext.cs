@@ -150,7 +150,34 @@ namespace Bowerbird.Web.Config
 
         public dynamic GetChatChannel(string chatId)
         {
-            return _chatHub.Clients["chat-" + chatId];
+            lock (_chatHubLock)
+            {
+                return _chatHub.Clients["chat-" + chatId];
+            }
+        }
+
+        public void UserJoinedChat(string chatId, object chatMessageDetails)
+        {
+            lock (_chatHubLock)
+            {
+                _chatHub.Clients["chat-" + chatId].userJoinedChat(chatMessageDetails);
+            }
+        }
+
+        public void UserExitedChat(string chatId, object chatMessageDetails)
+        {
+            lock (_chatHubLock)
+            {
+                _chatHub.Clients["chat-" + chatId].userExitedChat(chatMessageDetails);
+            }
+        }
+
+        public void NewChatMessage(string chatId, object chatMessageDetails)
+        {
+            lock (_chatHubLock)
+            {
+                _chatHub.Clients["chat-" + chatId].newChatMessage(chatMessageDetails);
+            }
         }
 
         public void SignUserIn(string email, bool keepUserLoggedIn)

@@ -196,6 +196,7 @@ namespace Bowerbird.Core.Config
             AddPermission(PermissionNames.CreateReferenceSpecies, "Create Reference Species", "Ability to create reference species");
             AddPermission(PermissionNames.UpdateReferenceSpecies, "Update Reference Species", "Ability to update reference species");
             AddPermission(PermissionNames.DeleteReferenceSpecies, "Delete Reference Species", "Ability to delete reference species");
+            AddPermission(PermissionNames.Chat, "Chat", "Chat with othet users");
         }
 
         private void AddPermission(string id, string name, string description)
@@ -222,48 +223,48 @@ namespace Bowerbird.Core.Config
                 PermissionNames.CreateSpecies,
                 PermissionNames.UpdateSpecies,
                 PermissionNames.DeleteSpecies);
+            AddRole("globalmoderator", "Global Community Moderator", "Comunity moderator of Bowerbird",
+                PermissionNames.CreateReferenceSpecies,
+                PermissionNames.UpdateReferenceSpecies,
+                PermissionNames.DeleteReferenceSpecies);
             AddRole("globalmember", "Global Member", "Member of Bowerbird",
                 PermissionNames.CreateObservation,
                 PermissionNames.UpdateObservation,
                 PermissionNames.DeleteObservation,
                 PermissionNames.CreateProject,
                 PermissionNames.UpdateProject,
-                PermissionNames.DeleteProject);
+                PermissionNames.DeleteProject,
+                PermissionNames.Chat);
             AddRole("organisationadministrator", "Organisation Administrator", "Administrator of an organisation",
                 PermissionNames.UpdateOrganisation,
                 PermissionNames.CreateTeam,
                 PermissionNames.UpdateTeam,
-                PermissionNames.DeleteTeam,
+                PermissionNames.DeleteTeam);
+            AddRole("organisationmember", "Organisation Member", "Member of an organisation",
                 PermissionNames.CreatePost,
                 PermissionNames.UpdatePost,
                 PermissionNames.DeletePost,
-                PermissionNames.CreateReferenceSpecies,
-                PermissionNames.UpdateReferenceSpecies,
-                PermissionNames.DeleteReferenceSpecies);
+                PermissionNames.Chat);
             AddRole("teamadministrator", "Team Administrator", "Administrator of a team",
                 PermissionNames.UpdateTeam,
                 PermissionNames.CreateProject,
                 PermissionNames.UpdateProject,
-                PermissionNames.DeleteProject,
-                PermissionNames.CreateReferenceSpecies,
-                PermissionNames.UpdateReferenceSpecies,
-                PermissionNames.DeleteReferenceSpecies);
+                PermissionNames.DeleteProject);
             AddRole("teammember", "Team Member", "Member of a team",
                 PermissionNames.CreatePost,
                 PermissionNames.UpdatePost,
-                PermissionNames.DeletePost);
+                PermissionNames.DeletePost,
+                PermissionNames.Chat);
             AddRole("projectadministrator", "Project Administrator", "Administrator of a project",
-                PermissionNames.UpdateProject,
-                PermissionNames.CreateReferenceSpecies,
-                PermissionNames.UpdateReferenceSpecies,
-                PermissionNames.DeleteReferenceSpecies);
+                PermissionNames.UpdateProject);
             AddRole("projectmember", "Project Member", "Member of a project",
                 PermissionNames.CreateObservation,
                 PermissionNames.UpdateObservation,
                 PermissionNames.DeleteObservation,
                 PermissionNames.CreatePost,
                 PermissionNames.UpdatePost,
-                PermissionNames.DeletePost);
+                PermissionNames.DeletePost,
+                PermissionNames.Chat);
         }
 
         private void AddRole(string id, string name, string description, params string[] permissionIds)

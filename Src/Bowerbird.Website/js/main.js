@@ -44,7 +44,7 @@ require([
         'jquery',
         'ich',
         'marionette',
-        '/templates?noext', // Load templates from server
+        'noext!/templates', // Load templates from server
         'controllers/usercontroller',
         'controllers/activitycontroller',
         'controllers/debugcontroller',

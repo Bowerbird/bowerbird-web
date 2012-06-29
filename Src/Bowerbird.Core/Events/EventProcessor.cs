@@ -41,44 +41,21 @@ namespace Bowerbird.Core.Events
 
             if (appRoot.FireEvents)
             {
-                if (domainEvent is DomainModelCreatedEvent<Chat> || domainEvent is DomainModelCreatedEvent<ChatMessage> || domainEvent is UserJoinedChatEvent || domainEvent is UserExitedChatEvent)
+                foreach (var handler in ServiceLocator.GetAllInstances<IEventHandler<TEvent>>())
                 {
-                    // HACK: Temp code to test the idea of async eventhandlers in the chat area
-                    System.Threading.Tasks.Task.Factory.StartNew(() =>
-                    {
-                        foreach (var handler in ServiceLocator.GetAllInstances<IEventHandler<TEvent>>())
-                        {
-                            handler.Handle(domainEvent);
-                        }
-
-                        if (_actions == null) return;
-
-                        foreach (var action in _actions)
-                        {
-                            if (action is Action<TEvent>)
-                            {
-                                ((Action<TEvent>)action)(domainEvent);
-                            }
-                        }
-                    });
+                    handler.Handle(domainEvent);
                 }
-                else
+
+                if (_actions == null) return;
+
+                foreach (var action in _actions)
                 {
-                    foreach (var handler in ServiceLocator.GetAllInstances<IEventHandler<TEvent>>())
+                    if (action is Action<TEvent>)
                     {
-                        handler.Handle(domainEvent);
-                    }
-
-                    if (_actions == null) return;
-
-                    foreach (var action in _actions)
-                    {
-                        if (action is Action<TEvent>)
-                        {
-                            ((Action<TEvent>)action)(domainEvent);
-                        }
+                        ((Action<TEvent>)action)(domainEvent);
                     }
                 }
+
             }
         }
 

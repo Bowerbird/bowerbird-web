@@ -26,6 +26,8 @@ using Bowerbird.Web.Factories;
 using System.Collections.Generic;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Commands;
+using Bowerbird.Core.Config;
+using System.Dynamic;
 
 namespace Bowerbird.Web.Hubs
 {
@@ -34,8 +36,10 @@ namespace Bowerbird.Web.Hubs
         #region Members
 
         private readonly IUserViewFactory _userViewFactory;
+        private readonly IGroupViewFactory _groupViewFactory;
         private readonly IDocumentSession _documentSession;
         private readonly ICommandProcessor _commandProcessor;
+        private readonly IPermissionChecker _permissionChecker;
 
         #endregion
 
@@ -43,25 +47,78 @@ namespace Bowerbird.Web.Hubs
 
         public ChatHub(
             IUserViewFactory userViewFactory,
+            IGroupViewFactory groupViewFactory,
             IDocumentSession documentSession,
-            ICommandProcessor commandProcessor)
+            ICommandProcessor commandProcessor,
+            IPermissionChecker permissionChecker)
         {
             Check.RequireNotNull(userViewFactory, "userViewFactory");
+            Check.RequireNotNull(groupViewFactory, "groupViewFactory");
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(commandProcessor, "commandProcessor");
+            Check.RequireNotNull(permissionChecker, "permissionChecker");
 
             _userViewFactory = userViewFactory;
+            _groupViewFactory = groupViewFactory;
             _documentSession = documentSession;
             _commandProcessor = commandProcessor;
+            _permissionChecker = permissionChecker;
         }
 
         #endregion
 
         #region Methods
 
+        public dynamic GetChat(string chatId)
+        {
+            var chat = _documentSession.Load<Chat>(chatId);
+            var users = _documentSession.Load<User>(chat.Users.Select(x => x.Id));
+
+            dynamic chatDetails = new ExpandoObject();
+
+            chatDetails.ChatId = chat.Id;
+            chatDetails.Users = users.Select(_userViewFactory.Make);
+
+            if (chat.ChatType == "group")
+            {
+                var group = _documentSession
+                    .Query<All_Groups.Result, All_Groups>()
+                    .AsProjection<All_Groups.Result>()
+                    .Where(x => x.GroupId == chat.Group.Id)
+                    .ToList()
+                    .First()
+                    .Group;
+
+                chatDetails.Group = _groupViewFactory.Make(group);
+
+                var chatMessageUsers = _documentSession.Load<User>(chat.Messages.Select(x => x.User.Id).Distinct());
+
+                // Group chat users get some historic messages for context
+                chatDetails.Messages = chat
+                                        .Messages
+                                        .OrderByDescending(x => x.Timestamp)
+                                        .Take(30)
+                                        .Select(x => new
+                                        {
+                                            x.Id,
+                                            Type = "usermessage",
+                                            ChatId = chat.Id,
+                                            x.Timestamp,
+                                            x.Message,
+                                            FromUser = _userViewFactory.Make(chatMessageUsers.Single(y => y.Id == x.User.Id))
+                                        });
+            }
+
+            return chatDetails;
+        }
+
         public void JoinChat(string chatId, string[] inviteeUserIds, string groupId)
         {
-            // TODO: Only allow group members to join group chats
+            // Only allow users who have permission to chat (in group or app-wide)
+            if(!_permissionChecker.HasGroupPermission(PermissionNames.Chat, Context.User.Identity.Name, string.IsNullOrWhiteSpace(groupId) ? Constants.AppRootId : groupId))
+            {
+                return;
+            }
 
             // Get chat
             var chat = _documentSession.Load<Chat>(chatId);
@@ -126,6 +183,25 @@ namespace Bowerbird.Web.Hubs
                 MessageId = messageId,
                 Message = message
             });
+        }
+
+        private string GenerateHash(string value)
+        {
+            var hash = 0;
+            if (value.Length == 0) return hash.ToString();
+            for (int i = 0; i < value.Length; i++)
+            {
+                var ch = value[i];
+                hash = ((hash << 5) - hash) + ch;
+                hash = hash & hash; // Convert to 32bit integer
+            }
+            return hash.ToString();
+        }
+
+        private string GenerateChatId(IEnumerable<string> ids)
+        {
+            var sortedIds = ids.OrderBy(x => x);
+            return "chats/" + GenerateHash(string.Join(string.Empty, sortedIds.ToArray()));
         }
 
         //public Task Disconnect()
