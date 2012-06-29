@@ -62,6 +62,9 @@
     <Reference Include="Nustache.Core">
       <HintPath>..\..\packages\Nustache.1.12.4.29\lib\net20\Nustache.Core.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Raven.Abstractions, Version=1.2.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\RavenDB.Client.1.2.2010-Unstable\lib\net40\Raven.Abstractions.dll</HintPath>
@@ -89,6 +92,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase">
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandHandlers\CommentCreateCommandHandler.cs" />
@@ -287,6 +293,8 @@
     <Compile Include="Extensions\DomainExtensions.cs" />
     <Compile Include="Factories\AvatarFactory.cs" />
     <Compile Include="Factories\IAvatarFactory.cs" />
+    <Compile Include="ImageUtilities\ExifReader.cs" />
+    <Compile Include="ImageUtilities\ExifTags.cs" />
     <Compile Include="ImageUtilities\ImageInformation.cs" />
     <Compile Include="ImageUtilities\ImageResizeMode.cs" />
     <Compile Include="Indexes\All_Contributions.cs" />

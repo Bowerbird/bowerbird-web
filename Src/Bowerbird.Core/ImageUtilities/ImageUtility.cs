@@ -13,6 +13,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
@@ -23,13 +24,13 @@ namespace Bowerbird.Core.ImageUtilities
 {
     public class ImageUtility
     {
-
         #region Fields
 
         public const string MIME_TYPE_JPEG = @"image/jpeg";
 
         private Bitmap _sourceImage;
         private Bitmap _newImage;
+        private IDictionary<string, object> _exifData;
 
         #endregion
 
@@ -44,9 +45,12 @@ namespace Bowerbird.Core.ImageUtilities
             _newImage = image;
         }
 
-        #endregion
-
-        #region Properties
+        private ImageUtility(Bitmap image, IDictionary<string, object> exifData)
+        {
+            _sourceImage = image;
+            _newImage = image;
+            _exifData = exifData;
+        }
 
         #endregion
 
@@ -58,9 +62,13 @@ namespace Bowerbird.Core.ImageUtilities
 
             imageStream.Seek(0, SeekOrigin.Begin);
 
+            var exifData = new BowerbirdExifReader(imageStream).ExifData;
+
+            imageStream.Seek(0, SeekOrigin.Begin);
+
             image = Image.FromStream(imageStream) as Bitmap;
 
-            return new ImageUtility(image);
+            return new ImageUtility(image, exifData);
         }
 
         /// <summary>
@@ -70,12 +78,16 @@ namespace Bowerbird.Core.ImageUtilities
         {
             Bitmap image = null;
 
+            IDictionary<string, object> exifData = null;
+
             using (MemoryStream memoryStream = new MemoryStream(imageData))
             {
                 image = new Bitmap(memoryStream);
+
+                exifData = new BowerbirdExifReader(memoryStream).ExifData;
             }
 
-            return new ImageUtility(image);
+            return new ImageUtility(image, exifData);
         }
 
         /// <summary>
@@ -87,10 +99,13 @@ namespace Bowerbird.Core.ImageUtilities
 
             Bitmap newImage = new Bitmap(tempImage);
 
+            var exifData = new BowerbirdExifReader(physicalPath).ExifData;
+
             tempImage.Dispose();
+
             tempImage = null;
 
-            return new ImageUtility(newImage);
+            return new ImageUtility(newImage, exifData);
         }
 
         public ImageUtility SaveAs(out Stream imageStream)
@@ -347,6 +362,13 @@ namespace Bowerbird.Core.ImageUtilities
         public ImageUtility GetImageDimensions(out ImageDimensions imageDimensions)
         {
             imageDimensions = new ImageDimensions(_newImage.Width, _newImage.Height);
+
+            return this;
+        }
+
+        public ImageUtility GetExifData(out IDictionary<string, object> exifData)
+        {
+            exifData = _exifData ?? new Dictionary<string, object>();
 
             return this;
         }

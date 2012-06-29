@@ -18,7 +18,6 @@ using System.Web.Mvc;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.Services;
 using Raven.Client;
 using Bowerbird.Core.Config;
 using Bowerbird.Web.Config;
@@ -32,8 +31,6 @@ namespace Bowerbird.Web.Controllers
         private readonly ICommandProcessor _commandProcessor;
         private readonly IUserContext _userContext;
         private readonly IDocumentSession _documentSession;
-        private readonly IConfigService _configService;
-        private readonly IMediaFilePathService _mediaFilePathService;
 
         #endregion
 
@@ -42,22 +39,16 @@ namespace Bowerbird.Web.Controllers
         public MediaResourcesController(
             ICommandProcessor commandProcessor,
             IDocumentSession documentSession,
-            IUserContext userContext,
-            IConfigService configService,
-            IMediaFilePathService mediaFilePathService
+            IUserContext userContext
             )
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(userContext, "userContext");
-            Check.RequireNotNull(configService, "configService");
-            Check.RequireNotNull(mediaFilePathService, "mediaFilePathService");
 
             _commandProcessor = commandProcessor;
             _documentSession = documentSession;
             _userContext = userContext;
-            _configService = configService;
-            _mediaFilePathService = mediaFilePathService;
         }
 
         #endregion
@@ -104,6 +95,7 @@ namespace Bowerbird.Web.Controllers
                 };
 
                 MediaResource mediaResource = null;
+
                 _commandProcessor.Process<MediaResourceCreateCommand, MediaResource>(mediaResourceCreateCommand, x => { mediaResource = x; });
 
                 _documentSession.SaveChanges();

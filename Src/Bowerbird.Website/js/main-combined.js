@@ -17751,7 +17751,7 @@ define('controllers/usercontroller',['jquery', 'underscore', 'backbone', 'app', 
 function ($, _, Backbone, app, UserFormLayoutView, User) {
     var UserRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
-            ':id/update': 'showUserForm'
+            'users/:id/update': 'showUserForm'
         }
     });
 
@@ -17765,7 +17765,7 @@ function ($, _, Backbone, app, UserFormLayoutView, User) {
     var UserController = {};
 
     var getModel = function (id) {
-        var url = 'users';
+        var url = '/users/create';
         if (id) {
             url = id;
         }
@@ -25138,9 +25138,9 @@ function ($, _, Backbone, app, OrganisationLayoutView, OrganisationFormLayoutVie
     var OrganisationRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
             'organisations/explore': 'showOrganisationExplorer',
-            ':id/update': 'showOrganisationForm',
             'organisations/create': 'showOrganisationForm',
-            ':id': 'showOrganisationStream'
+            'organisations/:id/update': 'showOrganisationForm',
+            'organisations/:id': 'showOrganisationStream'
         }
     });
 
@@ -25161,11 +25161,9 @@ function ($, _, Backbone, app, OrganisationLayoutView, OrganisationFormLayoutVie
     });
 
     var getModel = function (id) {
-        var url = '';
-        if (!id) {
-            url = '/organisations';
-        } else {
-            url = '/' + id;
+        var url = '/organisations/create';
+        if (id) {
+            url = id;
         }
         var deferred = new $.Deferred();
         if (app.isPrerendering('organisations')) {
@@ -25394,18 +25392,16 @@ function ($, _, Backbone, app, PostFormLayoutView, Post)
     var PostRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
             'posts/create': 'showPostForm',
-            ':id/update': 'showPostForm'
+            'posts/:id/update': 'showPostForm'
         }
     });
 
     var PostController = {};
 
     var getModel = function (id) {
-        var url = '';
-        if (!id) {
-            url = '/posts';
-        } else {
-            url = '/' + id;
+        var url = '/posts/create';
+        if (id) {
+            url = id;
         }
         var deferred = new $.Deferred();
         if (app.isPrerendering('posts')) {
@@ -25642,8 +25638,8 @@ function ($, _, Backbone, app, ProjectLayoutView, ProjectFormLayoutView, Project
         appRoutes: {
             'projects/explore': 'showProjectExplorer',
             'projects/join': 'joinProject',
-            'projects/:id/update': 'showProjectForm',
             'projects/create': 'showProjectForm',
+            'projects/:id/update': 'showProjectForm',
             'projects/:id': 'showProjectStream'
         }
     });
@@ -25665,7 +25661,7 @@ function ($, _, Backbone, app, ProjectLayoutView, ProjectFormLayoutView, Project
     });
 
     var getModel = function (id) {
-        var url = 'projects';
+        var url = '/projects/create';
         if (id) {
             url = id;
         }
@@ -26364,9 +26360,9 @@ function ($, _, Backbone, app, Team, TeamFormLayoutView, TeamLayoutView, TeamCol
     var TeamRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
             'teams/explore': 'showTeamExplorer',
-            ':id/update': 'showTeamForm',
             'teams/create': 'showTeamForm',
-            ':id': 'showTeamStream'
+            'teams/:id/update': 'showTeamForm',
+            'teams/:id': 'showTeamStream'
         }
     });
 
@@ -26383,11 +26379,9 @@ function ($, _, Backbone, app, Team, TeamFormLayoutView, TeamLayoutView, TeamCol
     });
 
     var getModel = function (id) {
-        var url = '';
-        if (!id) {
-            url = '/teams';
-        } else {
-            url = '/' + id;
+        var url = '/teams/create';
+        if (id) {
+            url = id;
         }
         var deferred = new $.Deferred();
         if (app.isPrerendering('teams')) {

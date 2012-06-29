@@ -83,11 +83,19 @@ namespace Bowerbird.Core.CommandHandlers
                 {
                     case "image":
                         ImageDimensions imageDimensions;
+
+                        IDictionary<string, object> exifData;
                         var imageCreationTasks = new List<ImageCreationTask>();
 
                         var image = ImageUtility
                             .Load(command.Stream)
-                            .GetImageDimensions(out imageDimensions);
+                            .GetImageDimensions(out imageDimensions)
+                            .GetExifData(out exifData);
+
+                        if(exifData != null && exifData.Count > 0)
+                        {
+                            mediaResource.AddExifData(exifData);
+                        }
 
                         MakeOriginalImageMediaResourceFile(mediaResource, imageCreationTasks, command.OriginalFileName, command.Stream.Length, imageDimensions);
 
