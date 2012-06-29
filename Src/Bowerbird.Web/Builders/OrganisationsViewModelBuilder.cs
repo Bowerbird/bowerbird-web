@@ -11,7 +11,6 @@
 */
 
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Paging;
 using Bowerbird.Web.ViewModels;
@@ -129,11 +128,9 @@ namespace Bowerbird.Web.Builders
 
         private object MakeOrganisation(All_Groups.Result result)
         {
-            var organisationId = result.Organisation.Id.Replace("organisations/", "");
-
             return new
             {
-                Id = organisationId,
+                result.Organisation.Id,
                 result.Organisation.Name,
                 result.Organisation.Description,
                 result.Organisation.Website,

@@ -12,8 +12,8 @@ function ($, _, Backbone, app, OrganisationLayoutView, OrganisationFormLayoutVie
     var OrganisationRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
             'organisations/explore': 'showOrganisationExplorer',
-            'organisations/:id/update': 'showOrganisationForm',
             'organisations/create': 'showOrganisationForm',
+            'organisations/:id/update': 'showOrganisationForm',
             'organisations/:id': 'showOrganisationStream'
         }
     });
@@ -35,26 +35,19 @@ function ($, _, Backbone, app, OrganisationLayoutView, OrganisationFormLayoutVie
     });
 
     var getModel = function (id) {
+        var url = '/organisations/create';
+        if (id) {
+            url = id;
+        }
         var deferred = new $.Deferred();
         if (app.isPrerendering('organisations')) {
             deferred.resolve(app.prerenderedView.data);
         } else {
-            var params = {};
-            if (id) {
-                params['id'] = id;
-                $.ajax({
-                    url: '/organisations/' + id,
-                    data: params
-                }).done(function (data) {
-                    deferred.resolve(data.Model);
-                });
-            } else {
-                $.ajax({
-                    url: '/organisations/create'
-                }).done(function (data) {
-                    deferred.resolve(data.Model);
-                });
-            }
+            $.ajax({
+                url: url
+            }).done(function (data) {
+                deferred.resolve(data.Model);
+            });
         }
         return deferred.promise();
     };

@@ -13,7 +13,6 @@
 */
 
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Bowerbird.Core.Commands;
@@ -92,7 +91,7 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(pagingInput, "pagingInput");
 
-            var teamId = "teams/".AppendWith(pagingInput.Id);
+            var teamId = pagingInput.Id.VerbosifyId<Team>();
 
             // Using this, we get stream items but no model.
             if (Request.IsAjaxRequest())
@@ -128,7 +127,7 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(pagingInput, "pagingInput");
 
-            var teamId = "teams/".AppendWith(pagingInput.Id);
+            var teamId = pagingInput.Id.VerbosifyId<Team>();
 
             ViewBag.Model = new
             {
@@ -154,7 +153,7 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(pagingInput, "pagingInput");
 
-            var teamId = "teams/".AppendWith(pagingInput.Id);
+            var teamId = pagingInput.Id.VerbosifyId<Team>();
 
             ViewBag.Model = new
             {
@@ -172,7 +171,7 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(pagingInput, "pagingInput");
 
-            var teamId = "teams/".AppendWith(pagingInput.Id);
+            var teamId = pagingInput.Id.VerbosifyId<Team>();
 
             ViewBag.Model = new
             {
@@ -190,7 +189,7 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(pagingInput, "pagingInput");
 
-            var teamId = "teams/".AppendWith(pagingInput.Id);
+            var teamId = pagingInput.Id.VerbosifyId<Team>();
 
             ViewBag.Model = new
             {
@@ -242,7 +241,7 @@ namespace Bowerbird.Web.Controllers
 
             Check.RequireNotNull(idInput, "idInput");
 
-            var teamId = "teams/".AppendWith(idInput.Id);
+            var teamId = idInput.Id.VerbosifyId<Team>();
 
             return new JsonNetResult(new
             {
@@ -290,7 +289,7 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(idInput, "idInput");
 
-            var teamId = "teams/".AppendWith(idInput.Id);
+            var teamId = idInput.Id.VerbosifyId<Team>();
 
             if (!_userContext.HasUserProjectPermission(PermissionNames.UpdateTeam))
             {
@@ -308,7 +307,7 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(idInput, "idInput");
 
-            var teamId = "teams/".AppendWith(idInput.Id);
+            var teamId = idInput.Id.VerbosifyId<Team>();
 
             if (!_userContext.HasUserProjectPermission(PermissionNames.DeleteTeam))
             {
@@ -474,7 +473,8 @@ namespace Bowerbird.Web.Controllers
     DebugToClient(string.Format("SERVER: [PUT]Teams/Update: id:{0}", updateInput.Id));
     DebugToClient(updateInput);
 #endif
-            var teamId = "teams/".AppendWith(updateInput.Id);
+    
+            var teamId = updateInput.Id.VerbosifyId<Team>();
 
             if (!_userContext.HasGroupPermission(PermissionNames.UpdateTeam, teamId))
             {
@@ -567,6 +567,7 @@ namespace Bowerbird.Web.Controllers
                 .Cast<Organisation>();
 
             var team = _documentSession.Load<Team>("teams/" + teamId);
+
             Func<Organisation, bool> isSelected = null;
 
             if (team != null)

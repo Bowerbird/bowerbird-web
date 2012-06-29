@@ -12,7 +12,6 @@
  
 */
 				
-using Bowerbird.Core.Extensions;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.DesignByContract;
 
@@ -40,7 +39,7 @@ namespace Bowerbird.Web.Factories
 
             return new
             {
-                Id = user.Id,
+                user.Id,
                 user.Avatar,
                 user.LastLoggedIn,
                 Name = user.GetName()

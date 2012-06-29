@@ -193,7 +193,7 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
 
             // initialise the hub connection
             //$.connection.hub.start({ transport: 'longPolling' }, function () {
-            $.connection.hub.start({ transport: 'webSockets' }, function () {
+            $.connection.hub.start({ transport: ['webSockets','longPolling']}, function () {
 
                 // Keep the client id
                 app.clientId = $.signalR.hub.id;

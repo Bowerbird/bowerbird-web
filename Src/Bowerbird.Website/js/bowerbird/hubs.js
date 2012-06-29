@@ -150,27 +150,15 @@ define(['jquery', 'signalr'], function () {
 
     // Create hub signalR instance
     $.extend(signalR, {
-        chatHub: {
+        userHub: {
             _: {
-                hubName: 'ChatHub',
-                ignoreMembers: ['joinChat', 'exitChat', 'typing', 'sendChatMessage', 'namespace', 'ignoreMembers', 'callbacks'],
+                hubName: 'UserHub',
+                ignoreMembers: ['registerUserClient', 'namespace', 'ignoreMembers', 'callbacks'],
                 connection: function () { return signalR.hub; }
             },
 
-            joinChat: function (chatId, inviteeUserIds, groupId, callback) {
-                return serverCall(this, "JoinChat", $.makeArray(arguments));
-            },
-
-            exitChat: function (chatId, callback) {
-                return serverCall(this, "ExitChat", $.makeArray(arguments));
-            },
-
-            typing: function (chatId, isTyping, callback) {
-                return serverCall(this, "Typing", $.makeArray(arguments));
-            },
-
-            sendChatMessage: function (chatId, messageId, message, callback) {
-                return serverCall(this, "SendChatMessage", $.makeArray(arguments));
+            registerUserClient: function (id, callback) {
+                return serverCall(this, "RegisterUserClient", $.makeArray(arguments));
             }
         },
         groupHub: {
@@ -207,15 +195,27 @@ define(['jquery', 'signalr'], function () {
                 return serverCall(this, "RegisterWithDebugger", $.makeArray(arguments));
             }
         },
-        userHub: {
+        chatHub: {
             _: {
-                hubName: 'UserHub',
-                ignoreMembers: ['registerUserClient', 'namespace', 'ignoreMembers', 'callbacks'],
+                hubName: 'ChatHub',
+                ignoreMembers: ['joinChat', 'exitChat', 'typing', 'sendChatMessage', 'namespace', 'ignoreMembers', 'callbacks'],
                 connection: function () { return signalR.hub; }
             },
 
-            registerUserClient: function (id, callback) {
-                return serverCall(this, "RegisterUserClient", $.makeArray(arguments));
+            joinChat: function (chatId, inviteeUserIds, groupId, callback) {
+                return serverCall(this, "JoinChat", $.makeArray(arguments));
+            },
+
+            exitChat: function (chatId, callback) {
+                return serverCall(this, "ExitChat", $.makeArray(arguments));
+            },
+
+            typing: function (chatId, isTyping, callback) {
+                return serverCall(this, "Typing", $.makeArray(arguments));
+            },
+
+            sendChatMessage: function (chatId, messageId, message, callback) {
+                return serverCall(this, "SendChatMessage", $.makeArray(arguments));
             }
         }
     });

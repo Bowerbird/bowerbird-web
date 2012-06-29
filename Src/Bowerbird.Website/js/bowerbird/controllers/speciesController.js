@@ -19,18 +19,18 @@ function ($, _, Backbone, app, Species, SpeciesFormItemView)
     var SpeciesController = {};
 
     var getModel = function (id) {
+        var url = '';
+        if (!id) {
+            url = '/species';
+        } else {
+            url = '/' + id;
+        }
         var deferred = new $.Deferred();
-
         if (app.isPrerendering('species')) {
             deferred.resolve(app.prerenderedView.data);
         } else {
-            var params = {};
-            if (id) {
-                params['id'] = id;
-            }
             $.ajax({
-                url: '/species/create',
-                data: params
+                url: url
             }).done(function (data) {
                 deferred.resolve(data.Model);
             });

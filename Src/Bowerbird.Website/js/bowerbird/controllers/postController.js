@@ -20,23 +20,20 @@ function ($, _, Backbone, app, PostFormLayoutView, Post)
     var PostController = {};
 
     var getModel = function (id) {
+        var url = '/posts/create';
+        if (id) {
+            url = id;
+        }
         var deferred = new $.Deferred();
-
         if (app.isPrerendering('posts')) {
             deferred.resolve(app.prerenderedView.data);
         } else {
-            var params = {};
-            if (id) {
-                params['id'] = id;
-            }
             $.ajax({
-                url: '/posts/create',
-                data: params
+                url: url
             }).done(function (data) {
                 deferred.resolve(data.Model);
             });
         }
-
         return deferred.promise();
     };
 

@@ -19,9 +19,7 @@ using Bowerbird.Core.Paging;
 using Bowerbird.Web.ViewModels;
 using Raven.Client;
 using Raven.Client.Linq;
-using System.Collections;
 using Bowerbird.Core.Config;
-using Bowerbird.Core.Factories;
 using Bowerbird.Web.Factories;
 
 namespace Bowerbird.Web.Builders
@@ -117,15 +115,14 @@ namespace Bowerbird.Web.Builders
 
             var user = _documentSession.Load<User>(id);
 
-            var userId = user.Id.MinifyId<User>();
-
             return new
             {
-                Id = userId,
+                user.Id,
                 user.Avatar,
                 user.LastLoggedIn,
                 user.FirstName,
-                user.LastName
+                user.LastName,
+                user.Email
             };
         }
 

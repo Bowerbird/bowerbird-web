@@ -95,6 +95,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MSBuild.Community.Tasks">
+      <HintPath>..\..\packages\MSBuildTasks.1.3.0.528\lib\net20\MSBuild.Community.Tasks.dll</HintPath>
+    </Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web.WebPages" />
@@ -340,6 +343,7 @@
     <Content Include="img\wavecut.png" />
     <Content Include="img\whitey.png" />
     <Content Include="img\white_texture.png" />
+    <Content Include="packages.config" />
     <None Include="test\index.html" />
     <None Include="test\qunit\qunit.css" />
     <None Include="test\qunit\qunit.js" />

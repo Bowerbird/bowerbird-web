@@ -205,11 +205,9 @@ namespace Bowerbird.Web.Builders
 
         private object MakeTeam(All_Groups.Result result)
         {
-            var teamId = result.Team.Id.Replace("teams/", "");
-
             return new
             {
-                Id = teamId,
+                result.Team.Id,
                 result.Team.Name,
                 result.Team.Description,
                 result.Team.Website,

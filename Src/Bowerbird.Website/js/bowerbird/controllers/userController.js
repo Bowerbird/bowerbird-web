@@ -18,7 +18,6 @@ function ($, _, Backbone, app, UserFormLayoutView, User) {
 
     var UserHubRouter = function (options) {
         this.userHub = options.hub;
-
         this.userHub.setupOnlineUsers = setupOnlineUsers;
         this.userHub.userStatusUpdate = userStatusUpdate;
         this.userHub.joinedGroup = joinedGroup;
@@ -26,44 +25,12 @@ function ($, _, Backbone, app, UserFormLayoutView, User) {
 
     var UserController = {};
 
-    //var userHub = $.connection.chatHub;
-
     var getModel = function (id) {
-        var deferred = new $.Deferred();
-        if (app.isPrerendering('users')) {
-            deferred.resolve(app.prerenderedView.data);
-        } else {
-            var params = {};
-            if (id) {
-                params['id'] = id;
-                $.ajax({
-                    url: '/users/' + id,
-                    data: params
-                }).done(function (data) {
-                    deferred.resolve(data.Model);
-                });
-            } else {
-                $.ajax({
-                    url: '/users/create'
-                }).done(function (data) {
-                    deferred.resolve(data.Model);
-                });
-            }
+        var url = '/users/create';
+        if (id) {
+            url = id;
         }
-        return deferred.promise();
-    };
-
-    var getModel2 = function (id) {
-        var url = '';
-
-        if (!id) {
-            url = '/users';
-        } else {
-            url = '/' + id;
-        }
-
         var deferred = new $.Deferred();
-
         if (app.isPrerendering('users')) {
             deferred.resolve(app.prerenderedView.data);
         } else {
@@ -73,7 +40,6 @@ function ($, _, Backbone, app, UserFormLayoutView, User) {
                 deferred.resolve(data.Model);
             });
         }
-
         return deferred.promise();
     };
 
@@ -132,9 +98,7 @@ function ($, _, Backbone, app, UserFormLayoutView, User) {
         this.userHubRouter = new UserHubRouter({
             hub: $.connection.userHub
         });
-        //log(this.userRouter);
     });
 
     return UserController;
-
 });

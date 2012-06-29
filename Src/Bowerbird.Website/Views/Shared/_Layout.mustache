@@ -20,7 +20,7 @@
           <ul>
             {{#AuthenticatedUser}}
             <li class="user-menu">
-              <a href="/users/{{AuthenticatedUser.User.Id}}/update">{{AuthenticatedUser.User.Name}}</a>
+              <a href="{{AuthenticatedUser.User.Id}}/update">{{AuthenticatedUser.User.Name}}</a>
             </li>
             <li>
               <a href="/account/logout">Logout</a>

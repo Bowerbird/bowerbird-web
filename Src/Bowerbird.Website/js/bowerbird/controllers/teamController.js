@@ -13,8 +13,8 @@ function ($, _, Backbone, app, Team, TeamFormLayoutView, TeamLayoutView, TeamCol
     var TeamRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
             'teams/explore': 'showTeamExplorer',
-            'teams/:id/update': 'showTeamForm',
             'teams/create': 'showTeamForm',
+            'teams/:id/update': 'showTeamForm',
             'teams/:id': 'showTeamStream'
         }
     });
@@ -32,27 +32,19 @@ function ($, _, Backbone, app, Team, TeamFormLayoutView, TeamLayoutView, TeamCol
     });
 
     var getModel = function (id) {
+        var url = '/teams/create';
+        if (id) {
+            url = id;
+        }
         var deferred = new $.Deferred();
         if (app.isPrerendering('teams')) {
             deferred.resolve(app.prerenderedView.data);
         } else {
-            var params = {};
-            if (id) {
-                params['id'] = id;
-                $.ajax({
-                    url: '/teams/' + id,
-                    data: params
-                }).done(function (data) {
-                    deferred.resolve(data.Model);
-                });
-            }
-            else {
-                $.ajax({
-                    url: '/teams/create'
-                }).done(function (data) {
-                    deferred.resolve(data.Model);
-                });
-            }
+            $.ajax({
+                url: url
+            }).done(function (data) {
+                deferred.resolve(data.Model);
+            });
         }
         return deferred.promise();
     };

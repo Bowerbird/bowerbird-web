@@ -14,8 +14,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{50BF98F5-50FF-4A9A-A853-4863DE43D8AA}"
 	ProjectSection(SolutionItems) = preProject
 		Build\app.build.js = Build\app.build.js
-		Build\Build.proj = Build\Build.proj
-		Build\Build.tasks = Build\Build.tasks
+		Build\build.bat = Build\build.bat
+		Build\build.proj = Build\build.proj
+		Build\getting-build-to-work.txt = Build\getting-build-to-work.txt
 		Build\js-build-tasks.bat = Build\js-build-tasks.bat
 		Build\r.js = Build\r.js
 	EndProjectSection

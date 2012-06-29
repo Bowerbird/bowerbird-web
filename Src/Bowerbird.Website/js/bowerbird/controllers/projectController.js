@@ -14,8 +14,8 @@ function ($, _, Backbone, app, ProjectLayoutView, ProjectFormLayoutView, Project
         appRoutes: {
             'projects/explore': 'showProjectExplorer',
             'projects/join': 'joinProject',
-            'projects/:id/update': 'showProjectForm',
             'projects/create': 'showProjectForm',
+            'projects/:id/update': 'showProjectForm',
             'projects/:id': 'showProjectStream'
         }
     });
@@ -37,26 +37,19 @@ function ($, _, Backbone, app, ProjectLayoutView, ProjectFormLayoutView, Project
     });
 
     var getModel = function (id) {
+        var url = '/projects/create';
+        if (id) {
+            url = id;
+        }
         var deferred = new $.Deferred();
         if (app.isPrerendering('projects')) {
             deferred.resolve(app.prerenderedView.data);
         } else {
-            var params = {};
-            if (id) {
-                params['id'] = id;
-                $.ajax({
-                    url: '/projects/' + id,
-                    data: params
-                }).done(function (data) {
-                    deferred.resolve(data.Model);
-                });
-            } else {
-                $.ajax({
-                    url: '/projects/create'
-                }).done(function (data) {
-                    deferred.resolve(data.Model);
-                });
-            }
+            $.ajax({
+                url: url
+            }).done(function (data) {
+                deferred.resolve(data.Model);
+            });
         }
         return deferred.promise();
     };

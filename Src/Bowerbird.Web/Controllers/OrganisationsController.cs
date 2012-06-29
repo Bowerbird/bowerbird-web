@@ -84,7 +84,7 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(pagingInput, "pagingInput");
 
-            var organisationId = "organisations/".AppendWith(pagingInput.Id);
+            var organisationId = pagingInput.Id.VerbosifyId<Organisation>();
 
             if (Request.IsAjaxRequest())
             {
@@ -110,7 +110,7 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(pagingInput, "pagingInput");
 
-            var organisationId = "observations/".AppendWith(pagingInput.Id);
+            var organisationId = pagingInput.Id.VerbosifyId<Organisation>();
 
             ViewBag.Model = new
             {
@@ -136,7 +136,7 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(pagingInput, "pagingInput");
 
-            var organisationId = "organisations/".AppendWith(pagingInput.Id);
+            var organisationId = pagingInput.Id.VerbosifyId<Organisation>();
 
             ViewBag.Model = new
             {
@@ -154,7 +154,7 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(pagingInput, "pagingInput");
 
-            var organisationId = "organisations/".AppendWith(pagingInput.Id);
+            var organisationId = pagingInput.Id.VerbosifyId<Organisation>();
 
             ViewBag.Model = new
             {
@@ -172,7 +172,7 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(pagingInput, "pagingInput");
 
-            var organisationId = "organisations/".AppendWith(pagingInput.Id);
+            var organisationId = pagingInput.Id.VerbosifyId<Organisation>();
 
             ViewBag.Model = new
             {
@@ -190,7 +190,7 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(idInput, "idInput");
 
-            var organisationId = "organisations/".AppendWith(idInput.Id);
+            var organisationId = idInput.Id.VerbosifyId<Organisation>();
 
             ViewBag.Model = new
             {
@@ -207,7 +207,7 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(pagingInput, "pagingInput");
 
-            var organisationId = "organisations/".AppendWith(pagingInput.Id);
+            var organisationId = pagingInput.Id.VerbosifyId<Organisation>();
 
             ViewBag.Model = new
             {
@@ -254,7 +254,7 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(idInput, "idInput");
 
-            var organisationId = "organisations/".AppendWith(idInput.Id);
+            var organisationId = idInput.Id.VerbosifyId<Organisation>();
 
             ViewBag.Model = new
             {
@@ -308,7 +308,7 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(idInput, "idInput");
 
-            var organisationId = "organisations/".AppendWith(idInput.Id);
+            var organisationId = idInput.Id.VerbosifyId<Organisation>();
 
             if (!_userContext.HasGroupPermission(PermissionNames.UpdateOrganisation, organisationId))
             {
@@ -337,7 +337,7 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(idInput, "idInput");
 
-            var organisationId = "organisations/".AppendWith(idInput.Id);
+            var organisationId = idInput.Id.VerbosifyId<Organisation>();
 
             if (!_userContext.HasAppRootPermission(PermissionNames.DeleteOrganisation))
             {
@@ -356,7 +356,7 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(idInput, "idInput");
 
-            var organisationId = "organisations/".AppendWith(idInput.Id);
+            var organisationId = idInput.Id.VerbosifyId<Organisation>();
 
             if (!_userContext.HasGroupPermission(PermissionNames.JoinOrganisation, organisationId))
             {
@@ -387,7 +387,7 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(idInput, "idInput");
 
-            var organisationId = "organisations/".AppendWith(idInput.Id);
+            var organisationId = idInput.Id.VerbosifyId<Organisation>();
 
             if (!_userContext.HasGroupPermission(PermissionNames.LeaveOrganisation, organisationId))
             {
@@ -415,7 +415,7 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(createInput, "createInput");
 
-            var organisationId = "organisations/".AppendWith(createInput.ParentGroupId);
+            var organisationId = createInput.ParentGroupId.VerbosifyId<Organisation>();
 
             if (!_userContext.HasGroupPermission<Organisation>(PermissionNames.AddTeam, organisationId))
             {
@@ -444,7 +444,7 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(deleteInput, "deleteInput");
 
-            var organisationId = "organisations/".AppendWith(deleteInput.ParentGroupId);
+            var organisationId = deleteInput.ParentGroupId.VerbosifyId<Organisation>();
 
             if (!_userContext.HasGroupPermission<Organisation>(PermissionNames.RemoveTeam, organisationId))
             {
@@ -504,7 +504,7 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(updateInput, "updateInput");
 
-            var organisationId = "organisations/".AppendWith(updateInput.Id);
+            var organisationId = updateInput.Id.VerbosifyId<Organisation>();
 
             if (!_userContext.HasGroupPermission<Organisation>(PermissionNames.UpdateOrganisation, organisationId))
             {
@@ -537,7 +537,7 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(idInput, "idInput");
 
-            var organisationId = "organisations/".AppendWith(idInput.Id);
+            var organisationId = idInput.Id.VerbosifyId<Organisation>();
 
             if (!_userContext.HasAppRootPermission(PermissionNames.DeleteOrganisation))
             {

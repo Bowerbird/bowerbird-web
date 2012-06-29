@@ -15599,7 +15599,7 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
 
             // initialise the hub connection
             //$.connection.hub.start({ transport: 'longPolling' }, function () {
-            $.connection.hub.start({ transport: 'webSockets' }, function () {
+            $.connection.hub.start({ transport: ['webSockets','longPolling']}, function () {
 
                 // Keep the client id
                 app.clientId = $.signalR.hub.id;
@@ -17751,13 +17751,12 @@ define('controllers/usercontroller',['jquery', 'underscore', 'backbone', 'app', 
 function ($, _, Backbone, app, UserFormLayoutView, User) {
     var UserRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
-            'users/:id/update': 'showUserForm'
+            ':id/update': 'showUserForm'
         }
     });
 
     var UserHubRouter = function (options) {
         this.userHub = options.hub;
-
         this.userHub.setupOnlineUsers = setupOnlineUsers;
         this.userHub.userStatusUpdate = userStatusUpdate;
         this.userHub.joinedGroup = joinedGroup;
@@ -17765,44 +17764,12 @@ function ($, _, Backbone, app, UserFormLayoutView, User) {
 
     var UserController = {};
 
-    //var userHub = $.connection.chatHub;
-
     var getModel = function (id) {
-        var deferred = new $.Deferred();
-        if (app.isPrerendering('users')) {
-            deferred.resolve(app.prerenderedView.data);
-        } else {
-            var params = {};
-            if (id) {
-                params['id'] = id;
-                $.ajax({
-                    url: '/users/' + id,
-                    data: params
-                }).done(function (data) {
-                    deferred.resolve(data.Model);
-                });
-            } else {
-                $.ajax({
-                    url: '/users/create'
-                }).done(function (data) {
-                    deferred.resolve(data.Model);
-                });
-            }
+        var url = 'users';
+        if (id) {
+            url = id;
         }
-        return deferred.promise();
-    };
-
-    var getModel2 = function (id) {
-        var url = '';
-
-        if (!id) {
-            url = '/users';
-        } else {
-            url = '/' + id;
-        }
-
         var deferred = new $.Deferred();
-
         if (app.isPrerendering('users')) {
             deferred.resolve(app.prerenderedView.data);
         } else {
@@ -17812,7 +17779,6 @@ function ($, _, Backbone, app, UserFormLayoutView, User) {
                 deferred.resolve(data.Model);
             });
         }
-
         return deferred.promise();
     };
 
@@ -17871,13 +17837,10 @@ function ($, _, Backbone, app, UserFormLayoutView, User) {
         this.userHubRouter = new UserHubRouter({
             hub: $.connection.userHub
         });
-        //log(this.userRouter);
     });
 
     return UserController;
-
 });
-
 /// <reference path="../../libs/log.js" />
 /// <reference path="../../libs/require/require.js" />
 /// <reference path="../../libs/jquery/jquery-1.7.2.js" />
@@ -25175,9 +25138,9 @@ function ($, _, Backbone, app, OrganisationLayoutView, OrganisationFormLayoutVie
     var OrganisationRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
             'organisations/explore': 'showOrganisationExplorer',
-            'organisations/:id/update': 'showOrganisationForm',
+            ':id/update': 'showOrganisationForm',
             'organisations/create': 'showOrganisationForm',
-            'organisations/:id': 'showOrganisationStream'
+            ':id': 'showOrganisationStream'
         }
     });
 
@@ -25198,26 +25161,21 @@ function ($, _, Backbone, app, OrganisationLayoutView, OrganisationFormLayoutVie
     });
 
     var getModel = function (id) {
+        var url = '';
+        if (!id) {
+            url = '/organisations';
+        } else {
+            url = '/' + id;
+        }
         var deferred = new $.Deferred();
         if (app.isPrerendering('organisations')) {
             deferred.resolve(app.prerenderedView.data);
         } else {
-            var params = {};
-            if (id) {
-                params['id'] = id;
-                $.ajax({
-                    url: '/organisations/' + id,
-                    data: params
-                }).done(function (data) {
-                    deferred.resolve(data.Model);
-                });
-            } else {
-                $.ajax({
-                    url: '/organisations/create'
-                }).done(function (data) {
-                    deferred.resolve(data.Model);
-                });
-            }
+            $.ajax({
+                url: url
+            }).done(function (data) {
+                deferred.resolve(data.Model);
+            });
         }
         return deferred.promise();
     };
@@ -25436,30 +25394,29 @@ function ($, _, Backbone, app, PostFormLayoutView, Post)
     var PostRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
             'posts/create': 'showPostForm',
-            'posts/:id/update': 'showPostForm'
+            ':id/update': 'showPostForm'
         }
     });
 
     var PostController = {};
 
     var getModel = function (id) {
+        var url = '';
+        if (!id) {
+            url = '/posts';
+        } else {
+            url = '/' + id;
+        }
         var deferred = new $.Deferred();
-
         if (app.isPrerendering('posts')) {
             deferred.resolve(app.prerenderedView.data);
         } else {
-            var params = {};
-            if (id) {
-                params['id'] = id;
-            }
             $.ajax({
-                url: '/posts/create',
-                data: params
+                url: url
             }).done(function (data) {
                 deferred.resolve(data.Model);
             });
         }
-
         return deferred.promise();
     };
 
@@ -25708,26 +25665,19 @@ function ($, _, Backbone, app, ProjectLayoutView, ProjectFormLayoutView, Project
     });
 
     var getModel = function (id) {
+        var url = 'projects';
+        if (id) {
+            url = id;
+        }
         var deferred = new $.Deferred();
         if (app.isPrerendering('projects')) {
             deferred.resolve(app.prerenderedView.data);
         } else {
-            var params = {};
-            if (id) {
-                params['id'] = id;
-                $.ajax({
-                    url: '/projects/' + id,
-                    data: params
-                }).done(function (data) {
-                    deferred.resolve(data.Model);
-                });
-            } else {
-                $.ajax({
-                    url: '/projects/create'
-                }).done(function (data) {
-                    deferred.resolve(data.Model);
-                });
-            }
+            $.ajax({
+                url: url
+            }).done(function (data) {
+                deferred.resolve(data.Model);
+            });
         }
         return deferred.promise();
     };
@@ -26130,18 +26080,18 @@ function ($, _, Backbone, app, Species, SpeciesFormItemView)
     var SpeciesController = {};
 
     var getModel = function (id) {
+        var url = '';
+        if (!id) {
+            url = '/species';
+        } else {
+            url = '/' + id;
+        }
         var deferred = new $.Deferred();
-
         if (app.isPrerendering('species')) {
             deferred.resolve(app.prerenderedView.data);
         } else {
-            var params = {};
-            if (id) {
-                params['id'] = id;
-            }
             $.ajax({
-                url: '/species/create',
-                data: params
+                url: url
             }).done(function (data) {
                 deferred.resolve(data.Model);
             });
@@ -26414,9 +26364,9 @@ function ($, _, Backbone, app, Team, TeamFormLayoutView, TeamLayoutView, TeamCol
     var TeamRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
             'teams/explore': 'showTeamExplorer',
-            'teams/:id/update': 'showTeamForm',
+            ':id/update': 'showTeamForm',
             'teams/create': 'showTeamForm',
-            'teams/:id': 'showTeamStream'
+            ':id': 'showTeamStream'
         }
     });
 
@@ -26433,27 +26383,21 @@ function ($, _, Backbone, app, Team, TeamFormLayoutView, TeamLayoutView, TeamCol
     });
 
     var getModel = function (id) {
+        var url = '';
+        if (!id) {
+            url = '/teams';
+        } else {
+            url = '/' + id;
+        }
         var deferred = new $.Deferred();
         if (app.isPrerendering('teams')) {
             deferred.resolve(app.prerenderedView.data);
         } else {
-            var params = {};
-            if (id) {
-                params['id'] = id;
-                $.ajax({
-                    url: '/teams/' + id,
-                    data: params
-                }).done(function (data) {
-                    deferred.resolve(data.Model);
-                });
-            }
-            else {
-                $.ajax({
-                    url: '/teams/create'
-                }).done(function (data) {
-                    deferred.resolve(data.Model);
-                });
-            }
+            $.ajax({
+                url: url
+            }).done(function (data) {
+                deferred.resolve(data.Model);
+            });
         }
         return deferred.promise();
     };
@@ -27937,27 +27881,15 @@ define('hubs',['jquery', 'signalr'], function () {
 
     // Create hub signalR instance
     $.extend(signalR, {
-        chatHub: {
+        userHub: {
             _: {
-                hubName: 'ChatHub',
-                ignoreMembers: ['joinChat', 'exitChat', 'typing', 'sendChatMessage', 'namespace', 'ignoreMembers', 'callbacks'],
+                hubName: 'UserHub',
+                ignoreMembers: ['registerUserClient', 'namespace', 'ignoreMembers', 'callbacks'],
                 connection: function () { return signalR.hub; }
             },
 
-            joinChat: function (chatId, inviteeUserIds, groupId, callback) {
-                return serverCall(this, "JoinChat", $.makeArray(arguments));
-            },
-
-            exitChat: function (chatId, callback) {
-                return serverCall(this, "ExitChat", $.makeArray(arguments));
-            },
-
-            typing: function (chatId, isTyping, callback) {
-                return serverCall(this, "Typing", $.makeArray(arguments));
-            },
-
-            sendChatMessage: function (chatId, messageId, message, callback) {
-                return serverCall(this, "SendChatMessage", $.makeArray(arguments));
+            registerUserClient: function (id, callback) {
+                return serverCall(this, "RegisterUserClient", $.makeArray(arguments));
             }
         },
         groupHub: {
@@ -27994,15 +27926,27 @@ define('hubs',['jquery', 'signalr'], function () {
                 return serverCall(this, "RegisterWithDebugger", $.makeArray(arguments));
             }
         },
-        userHub: {
+        chatHub: {
             _: {
-                hubName: 'UserHub',
-                ignoreMembers: ['registerUserClient', 'namespace', 'ignoreMembers', 'callbacks'],
+                hubName: 'ChatHub',
+                ignoreMembers: ['joinChat', 'exitChat', 'typing', 'sendChatMessage', 'namespace', 'ignoreMembers', 'callbacks'],
                 connection: function () { return signalR.hub; }
             },
 
-            registerUserClient: function (id, callback) {
-                return serverCall(this, "RegisterUserClient", $.makeArray(arguments));
+            joinChat: function (chatId, inviteeUserIds, groupId, callback) {
+                return serverCall(this, "JoinChat", $.makeArray(arguments));
+            },
+
+            exitChat: function (chatId, callback) {
+                return serverCall(this, "ExitChat", $.makeArray(arguments));
+            },
+
+            typing: function (chatId, isTyping, callback) {
+                return serverCall(this, "Typing", $.makeArray(arguments));
+            },
+
+            sendChatMessage: function (chatId, messageId, message, callback) {
+                return serverCall(this, "SendChatMessage", $.makeArray(arguments));
             }
         }
     });
