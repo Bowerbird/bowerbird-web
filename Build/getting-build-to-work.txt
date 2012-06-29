@@ -6,5 +6,5 @@ Running build.bat:
 1st command line arguement is configuration [debug, debugprod, prod] - default is debug
 2nd command line arguement is build number [1.0.0.0] - default is 0.1.0.0
 
-This will output a copy of the site files into Release\[configuration]\[yyyyMMdd]-[configuration]\ 
-and also a zip of the site files into Release\[configuration]\[yyyyMMdd]-[configuration].zip 
+This will output a copy of the site files into Release\[configuration]\[yyyyMMdd]-[hhmm]\ 
+and also a zip of the site files into Release\[configuration]\[yyyyMMdd]-[hhmm].zip 
