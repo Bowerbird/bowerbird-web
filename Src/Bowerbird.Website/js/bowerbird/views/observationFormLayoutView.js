@@ -8,8 +8,9 @@
 // ObservationFormLayoutView
 // -------------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editmapview', 'views/editmediaview', 'datepicker', 'multiselect'], function ($, _, Backbone, app, ich, EditMapView, EditMediaView) {
-
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editmapview', 'views/editmediaview', 'datepicker', 'multiselect'],
+function ($, _, Backbone, app, ich, EditMapView, EditMediaView) 
+{
     var ObservationFormLayoutView = Backbone.Marionette.Layout.extend({
 
         className: 'form observation-form',
@@ -50,6 +51,21 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editmapview', '
                 }
             };
         },
+
+//        app.vent.on('observationmedia:uploaded', function (media) {
+//            if(media.PhotoLatitude != "" && media.PhotoLongitude != "")
+//            {
+//                var oldPosition = { latitude: this.model.get('Latitude'), longitude: this.model.get('Longitude') };
+//                var newPosition = { latitude: media.PhotoLatitude, longitude: media.PhotoLongitude };
+//            }
+//            this.model.set('Latitude', newPosition.latitude);
+//            this.model.set('Longitude', newPosition.longitude);
+
+//            // Only update pin if the location is different to avoid infinite loop
+//            if (newPosition.Latitude != null && newPosition.Longitude != null && (oldPosition.Latitude !== newPosition.Latitude || oldPosition.Longitude !== newPosition.Longitude)) {
+//                this.editMapView.changeMarkerPosition(this.model.get('Latitude'), this.model.get('Longitude'));
+//            }
+//        },
 
         onShow: function () {
             log('observationFormLayoutView:onShow');

@@ -6,9 +6,9 @@
     <SolutionRoot>$(MSBuildProjectDirectory)\..</SolutionRoot>
     <ProjectRoot>$(SolutionRoot)\Src\bowerbird.Website</ProjectRoot>
     <ArtifactsDir>$(SolutionRoot)\Release</ArtifactsDir>
-    <CurrentBuildDateStamp>$([System.DateTime]::Now.ToString("yyyyMMdd"))-$([System.DateTime]::Now.ToString("hhmm"))</CurrentBuildDateStamp>
+    <CurrentBuildDateStamp>$([System.DateTime]::Now.ToString("yyyyMMdd"))</CurrentBuildDateStamp>
     <CurrentBuildTimeStamp>$([System.DateTime]::Now.ToString("hhmm"))</CurrentBuildTimeStamp>
-    <CurrentBuildDir>$(ArtifactsDir)\$(Configuration)\$(CurrentBuildDateStamp)</CurrentBuildDir>
+    <CurrentBuildDir>$(ArtifactsDir)\$(CurrentBuildDateStamp)-$(Configuration)</CurrentBuildDir>
   </PropertyGroup>
   <PropertyGroup>
     <VersionMajor>0</VersionMajor>
@@ -41,7 +41,7 @@
       <XmlPoke Namespaces="&lt;Namespace Prefix='msb' Uri='http://schemas.microsoft.com/developer/msbuild/2003'/&gt;"
           XmlInputPath="$(WebConfig)"
           Query="//add[@key='StaticContentIncrement']/@value"
-          Value="$(CurrentBuildDateStamp)" />
+          Value="$(CurrentBuildDateStamp)-$(CurrentBuildTimeStamp)" />
     </Target>
   <Target Name="CreateOutputDir">
     <Message Text="Creating Directory $(CurrentBuildDir)" />
@@ -83,7 +83,7 @@
     <Zip Files="@(ZipFiles)" WorkingDirectory="$(CurrentBuildDir)\$(Configuration)\" ZipFileName="$(CurrentBuildDateStamp)-$(Configuration).zip" ZipLevel="9" />
   </Target>
   <Target Name="CopyZipToReleaseDir" DependsOnTargets="ZipUpReleaseFiles">
-    <Copy SourceFiles="$(MSBuildProjectDirectory)\$(CurrentBuildDateStamp)-$(Configuration).zip" DestinationFiles="$(ArtifactsDir)\$(Configuration)\$(CurrentBuildDateStamp).zip" />
+    <Copy SourceFiles="$(MSBuildProjectDirectory)\$(CurrentBuildDateStamp)-$(Configuration).zip" DestinationFiles="$(ArtifactsDir)\$(CurrentBuildDateStamp)-$(Configuration).zip" />
     <Delete Files="$(MSBuildProjectDirectory)\$(CurrentBuildDateStamp)-$(Configuration).zip" />
   </Target>
   <Target Name="Build" DependsOnTargets="CreateOutputDir">

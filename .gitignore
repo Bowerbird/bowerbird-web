@@ -26,3 +26,4 @@ TestResult.xml
 media/
 Release/
 *.chm
+deploy.bat

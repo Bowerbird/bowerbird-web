@@ -18,6 +18,9 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/dummyoverlayview', 'jq
             this.observation = options.observation;
             this.mapMarker = null;
             this.zIndex = 0;
+
+            //Subscribe to media resource changes to update lat long if available
+            this.observation.mediaResources.on('add', this.onMediaResourceAdded, this);
         },
 
         render: function () {
@@ -26,6 +29,10 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/dummyoverlayview', 'jq
             this._initLocationPin();
             return this;
         },
+
+//        onMediaResourceAdded: function (mediaResource) {
+//            mediaResource.get
+//        },
 
         _initMap: function () {
             var g = google.maps;

@@ -49,7 +49,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/mediaresource', 'view
         filesAdded: 0,  // Used to determine when to fire file upload animations
 
         _onUploadAdd: function (e, data) {
-            log('ediMediaView:_onUploadAdd');
+            log('editMediaView:_onUploadAdd');
             this.currentUploadKey++;
             var mediaResource = new MediaResource({ Key: this.currentUploadKey.toString() });
             this.model.addMediaResource(mediaResource);
@@ -149,7 +149,10 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/mediaresource', 'view
                 return item.get('Key') === data.result.Key;
             });
             mediaResource.set(data.result);
+            log('Photo Latitude: ' + data.result.PhotoLatitude);
+            log('Photo Longitude: ' + data.result.PhotoLongitude);
             //$('#media-resource-items').animate({ scrollLeft: 100000 });
+            //app.vent.trigger('observationmedia:uploaded', data.result);
         }
     });
 

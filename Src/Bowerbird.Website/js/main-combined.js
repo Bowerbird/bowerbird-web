@@ -24084,7 +24084,7 @@ define('views/editmediaview',['jquery', 'underscore', 'backbone', 'app', 'models
         filesAdded: 0,  // Used to determine when to fire file upload animations
 
         _onUploadAdd: function (e, data) {
-            log('ediMediaView:_onUploadAdd');
+            log('editMediaView:_onUploadAdd');
             this.currentUploadKey++;
             var mediaResource = new MediaResource({ Key: this.currentUploadKey.toString() });
             this.model.addMediaResource(mediaResource);
@@ -24184,6 +24184,8 @@ define('views/editmediaview',['jquery', 'underscore', 'backbone', 'app', 'models
                 return item.get('Key') === data.result.Key;
             });
             mediaResource.set(data.result);
+            log('Photo Latitude: ' + data.result.PhotoLatitude);
+            log('Photo Longitude: ' + data.result.PhotoLongitude);
             //$('#media-resource-items').animate({ scrollLeft: 100000 });
         }
     });
@@ -24532,8 +24534,9 @@ define('datepicker',['jquery', 'date'], function (jQuery) {
 // ObservationFormLayoutView
 // -------------------------
 
-define('views/observationformlayoutview',['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editmapview', 'views/editmediaview', 'datepicker', 'multiselect'], function ($, _, Backbone, app, ich, EditMapView, EditMediaView) {
-
+define('views/observationformlayoutview',['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editmapview', 'views/editmediaview', 'datepicker', 'multiselect'],
+function ($, _, Backbone, app, ich, EditMapView, EditMediaView) 
+{
     var ObservationFormLayoutView = Backbone.Marionette.Layout.extend({
 
         className: 'form observation-form',
@@ -27960,17 +27963,6 @@ define('hubs',['jquery', 'signalr'], function () {
 
     // Create hub signalR instance
     $.extend(signalR, {
-        debugHub: {
-            _: {
-                hubName: 'DebugHub',
-                ignoreMembers: ['registerWithDebugger', 'namespace', 'ignoreMembers', 'callbacks'],
-                connection: function () { return signalR.hub; }
-            },
-
-            registerWithDebugger: function (callback) {
-                return serverCall(this, "RegisterWithDebugger", $.makeArray(arguments));
-            }
-        },
         userHub: {
             _: {
                 hubName: 'UserHub',
@@ -28003,6 +27995,17 @@ define('hubs',['jquery', 'signalr'], function () {
 
             disconnect: function (callback) {
                 return serverCall(this, "Disconnect", $.makeArray(arguments));
+            }
+        },
+        debugHub: {
+            _: {
+                hubName: 'DebugHub',
+                ignoreMembers: ['registerWithDebugger', 'namespace', 'ignoreMembers', 'callbacks'],
+                connection: function () { return signalR.hub; }
+            },
+
+            registerWithDebugger: function (callback) {
+                return serverCall(this, "RegisterWithDebugger", $.makeArray(arguments));
             }
         },
         chatHub: {
