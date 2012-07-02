@@ -57,7 +57,7 @@ function ($, _, Backbone, app, ich)
         },
 
         showUploadedMedia: function (mediaResource) {
-            log('showing uploaded media', mediaResource);
+            log('MediaResourceItemView.showUploadedMedia', mediaResource);
             this.$el.find('div:first-child img').replaceWith($('<img src="' + mediaResource.get('Files').FullMedium.RelativeUri + '" alt="" />'));
         }
     });

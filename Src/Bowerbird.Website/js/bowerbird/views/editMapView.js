@@ -9,8 +9,9 @@
 // -----------
 
 // View that allows user to choose location on a mpa or via coordinates
-define(['jquery', 'underscore', 'backbone', 'app', 'views/dummyoverlayview', 'jqueryui/autocomplete', 'jqueryui/draggable', 'async!http://maps.google.com/maps/api/js?sensor=false&region=AU'], function ($, _, Backbone, app, DummyOverlayView) {
-
+define(['jquery', 'underscore', 'backbone', 'app', 'views/dummyoverlayview', 'jqueryui/autocomplete', 'jqueryui/draggable', 'async!http://maps.google.com/maps/api/js?sensor=false&region=AU'],
+function ($, _, Backbone, app, DummyOverlayView) 
+{
     var EditMapView = Backbone.View.extend({
         id: 'location-fieldset',
 
@@ -20,7 +21,11 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/dummyoverlayview', 'jq
             this.zIndex = 0;
 
             //Subscribe to media resource changes to update lat long if available
-            this.observation.mediaResources.on('add', this.onMediaResourceAdded, this);
+            //this.observation.mediaResources.on('add', this.onMediaResourceAdded, this);
+            var g = google.maps;
+            app.vent.on('observationmedia:uploaded', function (mediaResource) {
+                this.onMediaResourceAdded(mediaResource);
+            });
         },
 
         render: function () {
@@ -30,9 +35,14 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/dummyoverlayview', 'jq
             return this;
         },
 
-//        onMediaResourceAdded: function (mediaResource) {
-//            mediaResource.get
-//        },
+        onMediaResourceAdded: function (mediaResource) {
+            log('EditMapView.onMediaResourceAdded', mediaResource);
+            var lat = mediaResource.get('PhotoLatitude');
+            var lon = mediaResource.get('PhotoLongitude');
+            var dateTime = mediaResource.get('PhotoDateTime');
+
+            this.changeMarkerPosition(lat, lon);
+        },
 
         _initMap: function () {
             var g = google.maps;

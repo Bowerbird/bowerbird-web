@@ -8,8 +8,9 @@
 // Observation
 // -----------
 
-define(['jquery', 'underscore', 'backbone', 'collections/projectcollection', 'collections/mediaresourcecollection'], function ($, _, Backbone, ProjectCollection, MediaResourceCollection) {
-
+define(['jquery', 'underscore', 'backbone', 'collections/projectcollection', 'collections/mediaresourcecollection'],
+function ($, _, Backbone, ProjectCollection, MediaResourceCollection) 
+{
     var Observation = Backbone.Model.extend({
         defaults: {
             Title: '',

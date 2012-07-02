@@ -9,8 +9,9 @@
 // -------------
 
 // View that allows user to choose location on a mpa or via coordinates
-define(['jquery', 'underscore', 'backbone', 'app', 'models/mediaresource', 'views/mediaresourceitemview', 'loadimage', 'fileupload'], function ($, _, Backbone, app, MediaResource, MediaResourceItemView, loadImage) {
-
+define(['jquery', 'underscore', 'backbone', 'app', 'models/mediaresource', 'views/mediaresourceitemview', 'loadimage', 'fileupload'],
+function ($, _, Backbone, app, MediaResource, MediaResourceItemView, loadImage) 
+{
     var EditMediaView = Backbone.View.extend({
 
         id: 'media-resources-fieldset',
@@ -152,7 +153,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/mediaresource', 'view
             log('Photo Latitude: ' + data.result.PhotoLatitude);
             log('Photo Longitude: ' + data.result.PhotoLongitude);
             //$('#media-resource-items').animate({ scrollLeft: 100000 });
-            //app.vent.trigger('observationmedia:uploaded', data.result);
+            app.vent.trigger('observationmedia:uploaded', mediaResource);
         }
     });
 
