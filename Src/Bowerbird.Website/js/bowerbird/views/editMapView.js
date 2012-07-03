@@ -10,22 +10,16 @@
 
 // View that allows user to choose location on a mpa or via coordinates
 define(['jquery', 'underscore', 'backbone', 'app', 'views/dummyoverlayview', 'jqueryui/autocomplete', 'jqueryui/draggable', 'async!http://maps.google.com/maps/api/js?sensor=false&region=AU'],
-function ($, _, Backbone, app, DummyOverlayView) 
-{
+function ($, _, Backbone, app, DummyOverlayView) {
     var EditMapView = Backbone.View.extend({
         id: 'location-fieldset',
 
         initialize: function (options) {
-            this.observation = options.observation;
+            this.observation = options.model;
             this.mapMarker = null;
             this.zIndex = 0;
 
-            //Subscribe to media resource changes to update lat long if available
-            //this.observation.mediaResources.on('add', this.onMediaResourceAdded, this);
-            var g = google.maps;
-            app.vent.on('observationmedia:uploaded', function (mediaResource) {
-                this.onMediaResourceAdded(mediaResource);
-            });
+            this.observation.mediaResources.on('change:Metadata', this.onMediaResourceFilesChanged, this);
         },
 
         render: function () {
@@ -35,13 +29,14 @@ function ($, _, Backbone, app, DummyOverlayView)
             return this;
         },
 
-        onMediaResourceAdded: function (mediaResource) {
+        onMediaResourceFilesChanged: function (mediaResource) {
             log('EditMapView.onMediaResourceAdded', mediaResource);
-            var lat = mediaResource.get('PhotoLatitude');
-            var lon = mediaResource.get('PhotoLongitude');
-            var dateTime = mediaResource.get('PhotoDateTime');
+            var lat = mediaResource.get('Metadata').Latitude;
+            var lon = mediaResource.get('Metadata').Longitude;
 
-            this.changeMarkerPosition(lat, lon);
+            if ((this.observation.get('Latitude') !== null || this.observation.get('Longitude') !== null) && lat && lon) {
+                this.changeMarkerPosition(lat, lon);
+            }
         },
 
         _initMap: function () {

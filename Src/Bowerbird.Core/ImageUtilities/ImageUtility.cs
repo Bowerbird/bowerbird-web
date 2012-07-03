@@ -19,6 +19,8 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using ExifLib;
+using NLog;
 
 namespace Bowerbird.Core.ImageUtilities
 {
@@ -26,30 +28,26 @@ namespace Bowerbird.Core.ImageUtilities
     {
         #region Fields
 
+        private Logger _logger = LogManager.GetLogger("ImageUtility");
+
         public const string MIME_TYPE_JPEG = @"image/jpeg";
 
         private Bitmap _sourceImage;
         private Bitmap _newImage;
-        private IDictionary<string, object> _exifData;
+        private Stream _imageStream;
 
-        #endregion
+        #endregion  
 
         #region Constructors
 
         /// <summary>
         /// Private constructor to avoid conflicts with chaining initialisation
         /// </summary>
-        private ImageUtility(Bitmap image)
+        private ImageUtility(Bitmap image, Stream imageStream)
         {
             _sourceImage = image;
             _newImage = image;
-        }
-
-        private ImageUtility(Bitmap image, IDictionary<string, object> exifData)
-        {
-            _sourceImage = image;
-            _newImage = image;
-            _exifData = exifData;
+            _imageStream = imageStream;
         }
 
         #endregion
@@ -62,51 +60,49 @@ namespace Bowerbird.Core.ImageUtilities
 
             imageStream.Seek(0, SeekOrigin.Begin);
 
-            var exifData = new BowerbirdExifReader(imageStream).ExifData;
+            image = Image.FromStream(imageStream) as Bitmap;
 
             imageStream.Seek(0, SeekOrigin.Begin);
 
-            image = Image.FromStream(imageStream) as Bitmap;
-
-            return new ImageUtility(image, exifData);
+            return new ImageUtility(image, imageStream);
         }
 
-        /// <summary>
-        /// Loads a copy of the specified image, ready to be manipulated
-        /// </summary>
-        public static ImageUtility Load(byte[] imageData)
-        {
-            Bitmap image = null;
+        ///// <summary>
+        ///// Loads a copy of the specified image, ready to be manipulated
+        ///// </summary>
+        //public static ImageUtility Load(byte[] imageData)
+        //{
+        //    Bitmap image = null;
 
-            IDictionary<string, object> exifData = null;
+        //    IDictionary<string, object> exifData = null;
 
-            using (MemoryStream memoryStream = new MemoryStream(imageData))
-            {
-                image = new Bitmap(memoryStream);
+        //    using (MemoryStream memoryStream = new MemoryStream(imageData))
+        //    {
+        //        image = new Bitmap(memoryStream);
 
-                exifData = new BowerbirdExifReader(memoryStream).ExifData;
-            }
+        //        exifData = new BowerbirdExifReader(memoryStream).ExifData;
+        //    }
 
-            return new ImageUtility(image, exifData);
-        }
+        //    return new ImageUtility(image, exifData);
+        //}
 
-        /// <summary>
-        /// Loads the specified image from file, ready to be manipulated
-        /// </summary>
-        public static ImageUtility Load(string physicalPath)
-        {
-            Bitmap tempImage = Bitmap.FromFile(physicalPath) as Bitmap;
+        ///// <summary>
+        ///// Loads the specified image from file, ready to be manipulated
+        ///// </summary>
+        //public static ImageUtility Load(string physicalPath)
+        //{
+        //    Bitmap tempImage = Bitmap.FromFile(physicalPath) as Bitmap;
 
-            Bitmap newImage = new Bitmap(tempImage);
+        //    Bitmap newImage = new Bitmap(tempImage);
 
-            var exifData = new BowerbirdExifReader(physicalPath).ExifData;
+        //    var exifData = new BowerbirdExifReader(physicalPath).ExifData;
 
-            tempImage.Dispose();
+        //    tempImage.Dispose();
 
-            tempImage = null;
+        //    tempImage = null;
 
-            return new ImageUtility(newImage, exifData);
-        }
+        //    return new ImageUtility(newImage, exifData);
+        //}
 
         public ImageUtility SaveAs(out Stream imageStream)
         {
@@ -368,7 +364,37 @@ namespace Bowerbird.Core.ImageUtilities
 
         public ImageUtility GetExifData(out IDictionary<string, object> exifData)
         {
-            exifData = _exifData ?? new Dictionary<string, object>();
+            exifData = new Dictionary<string, object>();
+
+            ExifReader reader = null;
+
+            try
+            {
+                reader = new ExifReader(_imageStream);
+
+                foreach (ushort tagID in Enum.GetValues(typeof (ExifTags)))
+                {
+                    object val;
+                    if (reader.GetTagValue(tagID, out val))
+                    {
+                        exifData.Add(Enum.GetName(typeof (ExifTags), tagID), val);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.ErrorException("Error extracting EXIF data from image", ex);
+
+                // Error occurred, EXIF may be in inconsistent state, clear it out
+                exifData.Clear();
+            }
+            finally
+            {
+                _imageStream.Seek(0, SeekOrigin.Begin);
+
+                //if (reader != null)
+                //    reader.Cleanup();                
+            }
 
             return this;
         }
@@ -381,11 +407,17 @@ namespace Bowerbird.Core.ImageUtilities
         /// </summary>
         public void Cleanup()
         {
-            _sourceImage.Dispose();
-            _sourceImage = null;
+            if (_sourceImage != null)
+            {
+                _sourceImage.Dispose();
+                _sourceImage = null;
+            }
 
-            _newImage.Dispose();
-            _newImage = null;
+            if (_newImage != null)
+            {
+                _newImage.Dispose();
+                _newImage = null;
+            }
         }
 
         private void BuildGraphics(Graphics graphics)
@@ -405,6 +437,8 @@ namespace Bowerbird.Core.ImageUtilities
 
         public ImageUtility Reset()
         {
+            _imageStream.Seek(0, SeekOrigin.Begin);
+
             _newImage = _sourceImage;
 
             return this;

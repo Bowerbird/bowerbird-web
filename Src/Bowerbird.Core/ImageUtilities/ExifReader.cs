@@ -23,10 +23,11 @@ namespace Bowerbird.Core.ImageUtilities
     /// </summary>
     /// 
     /// Added a public constructor to take a stream as 
-    public class ExifReader : IDisposable
+    public class ExifReader
     {
         //private readonly FileStream fileStream = null;
-        private readonly MemoryStream memoryStream = null;
+        //private readonly MemoryStream memoryStream = null;
+        private readonly Stream _stream = null;
         private readonly BinaryReader reader = null;
 
         /// <summary>
@@ -49,7 +50,7 @@ namespace Bowerbird.Core.ImageUtilities
         /// Added for Bowerbird to handle existing stream input
         /// </summary>
         /// <param name="stream"></param>
-        public ExifReader(MemoryStream stream)
+        public ExifReader(Stream stream)
         {
             // JPEG encoding uses big endian (i.e. Motorola) byte aligns. The TIFF encoding
             // found later in the document will specify the byte aligns used for the
@@ -59,8 +60,8 @@ namespace Bowerbird.Core.ImageUtilities
             try
             {
                 // Open the file in a stream
-                memoryStream = stream;
-                reader = new BinaryReader(memoryStream);
+                _stream = stream;
+                reader = new BinaryReader(_stream);
 
                 // Make sure the file's a JPEG.
                 if (ReadUShort() != 0xFFD8)
@@ -72,12 +73,12 @@ namespace Bowerbird.Core.ImageUtilities
                 // Create an index of all Exif tags found within the document
                 CreateTagIndex();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 // If instantiation fails, make sure there's no mess left behind
-                Dispose();
+                //Dispose();
 
-                throw;
+                throw ex;
             }
         }
 
@@ -185,15 +186,15 @@ namespace Bowerbird.Core.ImageUtilities
         private byte[] ReadBytes(ushort tiffOffset, int byteCount)
         {
             // Keep the current file offset
-            long originalOffset = memoryStream.Position;
+            long originalOffset = _stream.Position;
 
             // Move to the TIFF offset and retrieve the data
-            memoryStream.Seek(tiffOffset + tiffHeaderStart, SeekOrigin.Begin);
+            _stream.Seek(tiffOffset + tiffHeaderStart, SeekOrigin.Begin);
 
             byte[] data = reader.ReadBytes(byteCount);
 
             // Restore the file offset
-            memoryStream.Position = originalOffset;
+            _stream.Position = originalOffset;
 
             return data;
         }
@@ -406,7 +407,7 @@ namespace Bowerbird.Core.ImageUtilities
             uint ifdOffset = ReadUint();
 
             // Note that this offset is from the first byte of the TIFF header. Jump to the IFD.
-            memoryStream.Position = ifdOffset + tiffHeaderStart;
+            _stream.Position = ifdOffset + tiffHeaderStart;
 
             // Catalogue this first IFD (there will be another IFD)
             CatalogueIFD();
@@ -418,7 +419,7 @@ namespace Bowerbird.Core.ImageUtilities
                 throw new Exception("Unable to locate Exif data");
 
             // Jump to the exif SubIFD
-            memoryStream.Position = offset + tiffHeaderStart;
+            _stream.Position = offset + tiffHeaderStart;
 
             // Add the subIFD to the catalogue too
             CatalogueIFD();
@@ -428,7 +429,7 @@ namespace Bowerbird.Core.ImageUtilities
             if (GetTagValue(0x8825, out offset))
             {
                 // Jump to the GPS SubIFD
-                memoryStream.Position = offset + tiffHeaderStart;
+                _stream.Position = offset + tiffHeaderStart;
 
                 // Add the subIFD to the catalogue too
                 CatalogueIFD();
@@ -579,7 +580,7 @@ namespace Bowerbird.Core.ImageUtilities
         private byte[] GetTagBytes(ushort tagID, out ushort tiffDataType, out uint numberOfComponents)
         {
             // Get the tag's offset from the catalogue and do some basic error checks
-            if (memoryStream == null || reader == null || catalogue == null || !catalogue.ContainsKey(tagID))
+            if (_stream == null || reader == null || catalogue == null || !catalogue.ContainsKey(tagID))
             {
                 tiffDataType = 0;
                 numberOfComponents = 0;
@@ -589,7 +590,7 @@ namespace Bowerbird.Core.ImageUtilities
             long tagOffset = catalogue[tagID];
 
             // Jump to the TIFF offset
-            memoryStream.Position = tagOffset;
+            _stream.Position = tagOffset;
 
             // Read the tag number from the file
             ushort currentTagID = ReadUShort();
@@ -638,7 +639,7 @@ namespace Bowerbird.Core.ImageUtilities
                 ushort currentTagNumber = ReadUShort();
 
                 // Record this in the catalogue
-                catalogue[currentTagNumber] = memoryStream.Position - 2;
+                catalogue[currentTagNumber] = _stream.Position - 2;
 
                 // Go to the end of this item (10 bytes, as each entry is 12 bytes long)
                 reader.BaseStream.Seek(10, SeekOrigin.Current);
@@ -649,117 +650,101 @@ namespace Bowerbird.Core.ImageUtilities
 
         #region IDisposable Members
 
-        public void Dispose()
+        public void Cleanup()
         {
             // Make sure the file handle is released
-            if (reader != null)
-                reader.Close();
-            if (memoryStream != null)
-                memoryStream.Close();
+            //if (reader != null)
+            //    reader.Close();
         }
 
         #endregion
     }
 
-    public class BowerbirdExifReader
-    {
-        private IDictionary<string, object> _exifData;
+    //public class BowerbirdExifReader
+    //{
+    //    private IDictionary<string, object> _exifData;
 
-        public BowerbirdExifReader(Stream stream)
-        {
-            try
-            {
-                using (var exifReader = new ExifReader(CopyToMemory(stream)))
-                {
-                    GetExifInfo(exifReader);
-                }
-            }
-            catch (Exception ex)
-            {
+    //    public BowerbirdExifReader(Stream stream)
+    //    {
+    //        using (var exifReader = new ExifReader(stream))
+    //        {
+    //            GetExifInfo(exifReader);
+    //        }
+    //    }
 
-            }
-        }
+    //    public BowerbirdExifReader(string path)
+    //    {
+    //        using (var exifReader = new ExifReader(CopyFileToMemory(path)))
+    //        {
+    //            GetExifInfo(exifReader);
+    //        }
+    //    }
 
-        public BowerbirdExifReader(string path)
-        {
-            try
-            {
-                using (var exifReader = new ExifReader(CopyFileToMemory(path)))
-                {
-                    GetExifInfo(exifReader);
-                }
-            }
-            catch (Exception ex)
-            {
+    //    public IDictionary<string, object> ExifData
+    //    {
+    //        get { return _exifData; }
+    //    }
 
-            }
-        }
+    //    public void GetExifInfo(ExifReader reader)
+    //    {
+    //        _exifData = new Dictionary<string, object>();
 
-        public IDictionary<string, object> ExifData
-        {
-            get { return _exifData; }
-        }
+    //        try
+    //        {
+    //            foreach (ushort tagID in Enum.GetValues(typeof(ExifTags)))
+    //            {
+    //                object val;
+    //                if (reader.GetTagValue(tagID, out val))
+    //                {
+    //                    _exifData.Add(new KeyValuePair<string, object>(Enum.GetName(typeof(ExifTags), tagID), val));
+    //                }
+    //            }
+    //        }
+    //        catch (Exception ex)
+    //        {
+    //            if (reader != null)
+    //                reader.Dispose();
+    //        }
+    //    }
 
-        public void GetExifInfo(ExifReader reader)
-        {
-            _exifData = new Dictionary<string, object>();
+    //    public static MemoryStream CopyToMemory(Stream input)
+    //    {
+    //        var stream = new MemoryStream();
 
-            try
-            {
-                foreach (ushort tagID in Enum.GetValues(typeof(ExifTags)))
-                {
-                    object val;
-                    if (reader.GetTagValue(tagID, out val))
-                    {
-                        _exifData.Add(new KeyValuePair<string, object>(Enum.GetName(typeof(ExifTags), tagID), val));
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                if (reader != null)
-                    reader.Dispose();
-            }
-        }
+    //        input.Position = 0;
 
-        public static MemoryStream CopyToMemory(Stream input)
-        {
-            var stream = new MemoryStream();
+    //        var buffer = new byte[input.Length];
 
-            input.Position = 0;
+    //        int bytesRead;
 
-            var buffer = new byte[input.Length];
+    //        while ((bytesRead = input.Read(buffer, 0, buffer.Length)) > 0)
+    //        {
+    //            stream.Write(buffer, 0, bytesRead);
+    //        }
 
-            int bytesRead;
+    //        stream.Position = 0;
 
-            while ((bytesRead = input.Read(buffer, 0, buffer.Length)) > 0)
-            {
-                stream.Write(buffer, 0, bytesRead);
-            }
+    //        return stream;
+    //    }
 
-            stream.Position = 0;
+    //    public static MemoryStream CopyFileToMemory(string filename)
+    //    {
+    //        var stream = new MemoryStream();
 
-            return stream;
-        }
+    //        var fileStream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 
-        public static MemoryStream CopyFileToMemory(string filename)
-        {
-            var stream = new MemoryStream();
+    //        var buffer = new byte[fileStream.Length];
 
-            var fileStream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+    //        int bytesRead;
 
-            var buffer = new byte[fileStream.Length];
+    //        while ((bytesRead = fileStream.Read(buffer, 0, buffer.Length)) > 0)
+    //        {
+    //            stream.Write(buffer, 0, bytesRead);
+    //        }
 
-            int bytesRead;
+    //        stream.Position = 0;
 
-            while ((bytesRead = fileStream.Read(buffer, 0, buffer.Length)) > 0)
-            {
-                stream.Write(buffer, 0, bytesRead);
-            }
-
-            stream.Position = 0;
-
-            return stream;
-        }
-    }
+    //        return stream;
+    //    }
+    //}
 }

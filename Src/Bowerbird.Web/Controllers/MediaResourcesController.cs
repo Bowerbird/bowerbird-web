@@ -102,9 +102,9 @@ namespace Bowerbird.Web.Controllers
 
                 _documentSession.SaveChanges();
 
-                string photoDateTime, photoLatitude, photoLongitude;
+                //string photoDateTime, photoLatitude, photoLongitude;
 
-                SetExifData(mediaResource, out photoDateTime, out photoLatitude, out photoLongitude);
+                //SetExifData(mediaResource, out photoDateTime, out photoLatitude, out photoLongitude);
 
                 return new JsonNetResult(new
                     {
@@ -113,10 +113,13 @@ namespace Bowerbird.Web.Controllers
                         mediaResource.Type,
                         mediaResource.UploadedOn,
                         mediaResource.Files,
-                        PhotoDateTime = photoDateTime,
-                        PhotoLatitude = photoLatitude,
-                        PhotoLongitude = photoLongitude,
+                        mediaResource.Metadata,
                         Key = key
+
+                        //PhotoDateTime = photoDateTime,
+                        //PhotoLatitude = photoLatitude,
+                        //PhotoLongitude = photoLongitude,
+                        
                     });
             }
             catch (Exception ex)
@@ -125,97 +128,97 @@ namespace Bowerbird.Web.Controllers
             }
         }
 
-        private void SetExifData(MediaResource mediaResource, out string dateTime, out string lat, out string lon)
-        {
-            lat = string.Empty;
-            lon = string.Empty;
+        //private void SetExifData(MediaResource mediaResource, out string dateTime, out string lat, out string lon)
+        //{
+        //    lat = string.Empty;
+        //    lon = string.Empty;
 
-            if(mediaResource.Exifdata.ContainsKey(ExifLib.ExifTags.GPSLatitude.ToString()) &&
-                mediaResource.Exifdata.ContainsKey(ExifLib.ExifTags.GPSLongitude.ToString()) &&
-                mediaResource.Exifdata.ContainsKey(ExifLib.ExifTags.GPSLatitudeRef.ToString()) &&
-                mediaResource.Exifdata.ContainsKey(ExifLib.ExifTags.GPSLongitudeRef.ToString()))
-            {
-                var latitudeConverted = ConvertDegreeAngleToDouble(
-                    mediaResource.Exifdata[ExifLib.ExifTags.GPSLatitude.ToString()] as double[],
-                    mediaResource.Exifdata[ExifLib.ExifTags.GPSLatitudeRef.ToString()] as string);
+        //    if(mediaResource.Exifdata.ContainsKey(ExifLib.ExifTags.GPSLatitude.ToString()) &&
+        //        mediaResource.Exifdata.ContainsKey(ExifLib.ExifTags.GPSLongitude.ToString()) &&
+        //        mediaResource.Exifdata.ContainsKey(ExifLib.ExifTags.GPSLatitudeRef.ToString()) &&
+        //        mediaResource.Exifdata.ContainsKey(ExifLib.ExifTags.GPSLongitudeRef.ToString()))
+        //    {
+        //        var latitudeConverted = ConvertDegreeAngleToDouble(
+        //            mediaResource.Exifdata[ExifLib.ExifTags.GPSLatitude.ToString()] as double[],
+        //            mediaResource.Exifdata[ExifLib.ExifTags.GPSLatitudeRef.ToString()] as string);
                 
-                var longitudeConverted = ConvertDegreeAngleToDouble(
-                    mediaResource.Exifdata[ExifLib.ExifTags.GPSLongitude.ToString()] as double[],
-                    mediaResource.Exifdata[ExifLib.ExifTags.GPSLongitudeRef.ToString()] as string);
+        //        var longitudeConverted = ConvertDegreeAngleToDouble(
+        //            mediaResource.Exifdata[ExifLib.ExifTags.GPSLongitude.ToString()] as double[],
+        //            mediaResource.Exifdata[ExifLib.ExifTags.GPSLongitudeRef.ToString()] as string);
 
-                if (latitudeConverted.HasValue && longitudeConverted.HasValue)
-                {
-                    lat = latitudeConverted.Value.ToString();
-                    lon = longitudeConverted.Value.ToString();
-                }
-            }
+        //        if (latitudeConverted.HasValue && longitudeConverted.HasValue)
+        //        {
+        //            lat = latitudeConverted.Value.ToString();
+        //            lon = longitudeConverted.Value.ToString();
+        //        }
+        //    }
 
-            if (mediaResource.Exifdata.ContainsKey(ExifLib.ExifTags.DateTime.ToString()))
-            {
-                var convertedDateTime = ConvertDateTime(mediaResource.Exifdata[ExifLib.ExifTags.DateTime.ToString()].ToString());
+        //    if (mediaResource.Exifdata.ContainsKey(ExifLib.ExifTags.DateTime.ToString()))
+        //    {
+        //        var convertedDateTime = ConvertDateTime(mediaResource.Exifdata[ExifLib.ExifTags.DateTime.ToString()].ToString());
 
-                dateTime = convertedDateTime.ToString("dd MMM yyyy");
-            }
-            else
-            {
-                dateTime = DateTime.UtcNow.ToString("dd MMM yyyy");
-            }
-        }
+        //        dateTime = convertedDateTime.ToString("dd MMM yyyy");
+        //    }
+        //    else
+        //    {
+        //        dateTime = DateTime.UtcNow.ToString("dd MMM yyyy");
+        //    }
+        //}
 
-        // In geographic coordinates stored as EXIF data, the coordinates for latitude and longitude are stored
-        // as unsigned doubles in an array. Latitudes are the meridian lines parallel with the equator. A negative latitude
-        // will hence fall under the equator. Longitudes are perpendicular to the equator. A negative longitude will occur between
-        // Grenich in the UK (GMD) and the international Date Line which is in the middle of the Pacific Ocean.
-        // Australian latitudes are thus negative and longitudes are positive. In the EXIF data, a latitude is stored in a latitude array,
-        // and it's location relative to grenich is stored in a separate field - in our case "GPSLatitudeRef". A ref of "N" will indicate +'ive.
-        // A ref of "S" will indicate that the Latitude should be -'ive. The Longitude will have an "GPSLongitudeRef" of "E" for +'ive, "W" for -'ive.
-        private double? ConvertDegreeAngleToDouble(double[] coordinates, string orientation)
-        {
-            if (coordinates == null) return null;
+        //// In geographic coordinates stored as EXIF data, the coordinates for latitude and longitude are stored
+        //// as unsigned doubles in an array. Latitudes are the meridian lines parallel with the equator. A negative latitude
+        //// will hence fall under the equator. Longitudes are perpendicular to the equator. A negative longitude will occur between
+        //// Grenich in the UK (GMD) and the international Date Line which is in the middle of the Pacific Ocean.
+        //// Australian latitudes are thus negative and longitudes are positive. In the EXIF data, a latitude is stored in a latitude array,
+        //// and it's location relative to grenich is stored in a separate field - in our case "GPSLatitudeRef". A ref of "N" will indicate +'ive.
+        //// A ref of "S" will indicate that the Latitude should be -'ive. The Longitude will have an "GPSLongitudeRef" of "E" for +'ive, "W" for -'ive.
+        //private double? ConvertDegreeAngleToDouble(double[] coordinates, string orientation)
+        //{
+        //    if (coordinates == null) return null;
 
-            double degrees = coordinates[0], minutes = coordinates[1], seconds = coordinates[2];
+        //    double degrees = coordinates[0], minutes = coordinates[1], seconds = coordinates[2];
 
-            var negative = orientation.ToLower().Equals("w") || orientation.ToLower().Equals("s");
+        //    var negative = orientation.ToLower().Equals("w") || orientation.ToLower().Equals("s");
 
-            if (negative)
-            {
-                // turn it positive, apply arithmetic, then return as negative again
-                return (-1 * degrees) - (minutes / 60) - (seconds / 3600);
-            }
+        //    if (negative)
+        //    {
+        //        // turn it positive, apply arithmetic, then return as negative again
+        //        return (-1 * degrees) - (minutes / 60) - (seconds / 3600);
+        //    }
 
-            return degrees + (minutes / 60) + (seconds / 3600);
-        }
+        //    return degrees + (minutes / 60) + (seconds / 3600);
+        //}
 
-        // DateTime is stored as a string - "yyyy:MM:dd hh:mm:ss" in 24 hour format
-        private DateTime ConvertDateTime(string dateTimeExif)
-        {
-            var dateTimeStringComponents = dateTimeExif.Split(new[] { ':', ' ' });
+        //// DateTime is stored as a string - "yyyy:MM:dd hh:mm:ss" in 24 hour format
+        //private DateTime ConvertDateTime(string dateTimeExif)
+        //{
+        //    var dateTimeStringComponents = dateTimeExif.Split(new[] { ':', ' ' });
 
-            if (dateTimeExif != string.Empty && dateTimeStringComponents.Count() == 6)
-            {
-                var dateTimeIntComponents = new int[dateTimeStringComponents.Count()];
+        //    if (dateTimeExif != string.Empty && dateTimeStringComponents.Count() == 6)
+        //    {
+        //        var dateTimeIntComponents = new int[dateTimeStringComponents.Count()];
 
-                for (var i = 0; i < dateTimeStringComponents.Length; i++)
-                {
-                    int convertedSegment;
-                    if (Int32.TryParse(dateTimeStringComponents[i], out convertedSegment))
-                    {
-                        dateTimeIntComponents[i] = convertedSegment;
-                    }
-                }
+        //        for (var i = 0; i < dateTimeStringComponents.Length; i++)
+        //        {
+        //            int convertedSegment;
+        //            if (Int32.TryParse(dateTimeStringComponents[i], out convertedSegment))
+        //            {
+        //                dateTimeIntComponents[i] = convertedSegment;
+        //            }
+        //        }
 
-                return new DateTime(
-                    dateTimeIntComponents[0], // year
-                    dateTimeIntComponents[1], // month
-                    dateTimeIntComponents[2], // day
-                    dateTimeIntComponents[3], // hour
-                    dateTimeIntComponents[4], // minute
-                    dateTimeIntComponents[5] // second
-                    );
-            }
+        //        return new DateTime(
+        //            dateTimeIntComponents[0], // year
+        //            dateTimeIntComponents[1], // month
+        //            dateTimeIntComponents[2], // day
+        //            dateTimeIntComponents[3], // hour
+        //            dateTimeIntComponents[4], // minute
+        //            dateTimeIntComponents[5] // second
+        //            );
+        //    }
 
-            return DateTime.UtcNow;
-        }
+        //    return DateTime.UtcNow;
+        //}
 
         #endregion
     }

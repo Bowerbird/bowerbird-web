@@ -64,18 +64,27 @@ namespace Bowerbird.Core.Services
                 extension);
         }
 
+        // There is some wierdness in Path.Combine, in that if a path contains an absolute path, only that path is returned..
+        // http://stackoverflow.com/questions/53102/why-does-path-combine-not-properly-concatenate-filenames-that-start-with-path-di
         public string MakeMediaBasePath(int recordId, string mediaType)
         {
             var environmentRootPath = _configService.GetEnvironmentRootPath();
             var mediaRelativePath = _configService.GetMediaRelativePath();
 
-            var path = string.Format("{0}{1}{2}\\{3}",
-                environmentRootPath,
+            //var path = string.Format("{0}{1}{2}\\{3}",
+            //    environmentRootPath,
+            //    mediaRelativePath,
+            //    mediaType,
+            //    GetDirectoryName(recordId));
+
+            var relativePath = Path.Combine(
                 mediaRelativePath,
                 mediaType,
-                GetDirectoryName(recordId));
+                GetDirectoryName(recordId).ToString());
 
-            return path;
+            var actualPath = string.Format("{0}{1}", environmentRootPath, relativePath);
+
+            return actualPath;
         }
 
         public string MakeMediaFilePath(string recordId, string mediaType, string storedRepresentation, string extension)

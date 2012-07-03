@@ -69,7 +69,7 @@ namespace Bowerbird.Core.DomainModels
 
         public IDictionary<string, string> Metadata { get; private set; }
 
-        public IDictionary<string, object> Exifdata { get; private set; }
+        //public IDictionary<string, object> Exifdata { get; private set; }
 
         #endregion
 
@@ -79,7 +79,7 @@ namespace Bowerbird.Core.DomainModels
         {
             Files = new Dictionary<string, MediaResourceFile>();
             Metadata = new Dictionary<string, string>();
-            Exifdata = new Dictionary<string, object>();
+            //Exifdata = new Dictionary<string, object>();
         }
 
         public MediaResource AddMetadata(string key, string value)
@@ -96,10 +96,10 @@ namespace Bowerbird.Core.DomainModels
             return this;
         }
 
-        public void AddExifData(IDictionary<string,object> exifData)
-        {
-            Exifdata = exifData;
-        }
+        //public void AddExifData(IDictionary<string,object> exifData)
+        //{
+        //    Exifdata = exifData;
+        //}
 
         private void AddFile(string storedRepresentation, MediaResourceFile file)
         {

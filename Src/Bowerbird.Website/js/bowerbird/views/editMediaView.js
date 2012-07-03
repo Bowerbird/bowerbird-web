@@ -27,6 +27,7 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, loadImage)
                 '_onUploadAdd');
             this.mediaResourceItemViews = [];
             this.currentUploadKey = 0;
+
         },
 
         render: function () {
@@ -153,7 +154,7 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, loadImage)
             log('Photo Latitude: ' + data.result.PhotoLatitude);
             log('Photo Longitude: ' + data.result.PhotoLongitude);
             //$('#media-resource-items').animate({ scrollLeft: 100000 });
-            app.vent.trigger('observationmedia:uploaded', mediaResource);
+            //app.vent.trigger('observationmedia:uploaded', mediaResource);
         }
     });
 
