@@ -8,8 +8,8 @@
 // ObservationFormLayoutView
 // -------------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editmapview', 'views/editmediaview', 'datepicker', 'multiselect'],
-function ($, _, Backbone, app, ich, EditMapView, EditMediaView) {
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editmapview', 'views/editmediaview', 'views/embeddedVideoView', 'models/embeddedvideo', 'datepicker', 'multiselect', 'jqueryui/dialog'],
+function ($, _, Backbone, app, ich, EditMapView, EditMediaView, EmbeddedVideoView, EmbeddedVideo) {
     var ObservationFormLayoutView = Backbone.Marionette.Layout.extend({
 
         className: 'form observation-form',
@@ -18,7 +18,8 @@ function ($, _, Backbone, app, ich, EditMapView, EditMediaView) {
 
         regions: {
             media: '#media-resources-fieldset',
-            map: '#location-fieldset'
+            map: '#location-fieldset',
+            video: '#video-upload'
         },
 
         events: {
@@ -33,13 +34,13 @@ function ($, _, Backbone, app, ich, EditMapView, EditMediaView) {
             'change input#AnonymiseLocation': '_anonymiseLocationChanged',
             'change #projects-field input:checkbox': '_projectsChanged',
             'change #category-field input:checkbox': '_categoryChanged',
-            'click #media-resource-import-button': '_showImportMedia'
+            'click #media-resource-import-button': '_showImportMedia',
+            'click #media-resource-embed-button': '_showEmbeddedVideo'
         },
 
         initialize: function (options) {
             log('observationFormLayoutView:initialize');
             this.categories = options.categories;
-
             this.model.mediaResources.on('change:Metadata', this.onMediaResourceFilesChanged, this);
         },
 
@@ -127,12 +128,16 @@ function ($, _, Backbone, app, ich, EditMapView, EditMediaView) {
                     return $selectedHtml.children();
                 }
             });
-
-            //var myScroll = new iScroll('media-uploader', { hScroll: true, vScroll: false });
         },
 
         _showImportMedia: function () {
             alert('Coming soon');
+        },
+
+        _showEmbeddedVideo: function () {
+            log('observationFormLayoutView._showEmbeddedVideo');
+            var embeddedVideo = new EmbeddedVideoView({ el: $('#modal-dialog'), model: new EmbeddedVideo() });
+            embeddedVideo.render();
         },
 
         _contentChanged: function (e) {

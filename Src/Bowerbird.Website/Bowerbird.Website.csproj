@@ -159,6 +159,7 @@
     <Content Include="js\bowerbird\models\activity.js" />
     <Content Include="js\bowerbird\models\chat.js" />
     <Content Include="js\bowerbird\models\chatMessage.js" />
+    <Content Include="js\bowerbird\models\embeddedVideo.js" />
     <Content Include="js\bowerbird\models\post.js" />
     <Content Include="js\bowerbird\models\referenceSpecies.js" />
     <Content Include="js\bowerbird\models\species.js" />
@@ -174,6 +175,7 @@
     <Content Include="js\bowerbird\views\chatRegion.js" />
     <Content Include="js\bowerbird\views\chatCompositeView.js" />
     <Content Include="js\bowerbird\views\chatMessageCollectionView.js" />
+    <Content Include="js\bowerbird\views\embeddedVideoView.js" />
     <Content Include="js\bowerbird\views\userFormLayoutView.js" />
     <Content Include="js\bowerbird\views\organisationItemView.js" />
     <Content Include="js\bowerbird\views\organisationCollectionView.js" />
@@ -219,6 +221,7 @@
     <Content Include="js\libs\jqueryui\autocomplete.js" />
     <Content Include="js\libs\jqueryui\core.js" />
     <Content Include="js\libs\jqueryui\draggable.js" />
+    <Content Include="js\libs\jqueryui\dialog.js" />
     <Content Include="js\libs\jqueryui\mouse.js" />
     <Content Include="js\libs\jqueryui\position.js" />
     <Content Include="js\libs\jqueryui\tabs.js" />
@@ -422,6 +425,7 @@
     <Content Include="Web.DebugProd.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
+    <Content Include="Views\Shared\EmbeddedVideo.mustache" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="404.html" />

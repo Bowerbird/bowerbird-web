@@ -1,0 +1,112 @@
+<!---
+http://vimeo.com/37119711
+
+<iframe
+	src="http://player.vimeo.com/video/37119711"
+	width="500" 
+	height="281" 
+	frameborder="0" 
+	allowFullScreen>
+</iframe> 
+
+
+http://www.youtube.com/watch?v=maelqw8o3Nk
+http://youtu.be/maelqw8o3Nk
+
+<iframe 
+	width="560" 
+	height="315" 
+	src="http://www.youtube.com/embed/maelqw8o3Nk" 
+	frameborder="0" 
+	allowfullscreen>
+</iframe>
+
+--->
+
+<html>
+<!--<script type="text/javascript" href="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" />-->
+<script type="text/javascript">
+
+	// patterns
+	var isYoutube1 = /youtube/i;
+	var isYoutube2 = /youtu.be/i;
+	var isVimeo1 = /vimeo/i;
+	var isIframe = /<iframe/i;
+	
+	// regexes
+	var isYoutube1Regex = new RegExp(isYoutube1);
+	var isYoutube2Regex = new RegExp(isYoutube2);
+	var isVimeo1Regex = new RegExp(isVimeo1);
+	var isIframeRegex = new RegExp(isIframe);
+		
+	// urls
+	var youtube1 = "http://www.youtube.com/watch?v=maelqw8o3Nk";
+	var youtube2 = "http://youtu.be/maelqw8o3Nk;"
+	var vimeo1 = "http://vimeo.com/37119711";
+	
+	// embeds
+	var youtubeEmbedded = "<iframe  " &
+		"width='560' " &
+		"height='315' " &
+		"src='http://www.youtube.com/embed/maelqw8o3Nk' " & 
+		"frameborder='0' " &
+		"allowfullscreen> " &
+	"</iframe>";
+	
+	//document.write(str.match(patt1));
+	
+	function checkString(regex, pattern, text){
+		document.write("Testing with regex: " + regex + " pattern: " + pattern + " text: " + text);
+		writeBreak();
+		document.write(regex.exec(text));
+		writeBreak();
+		document.write(text.match(pattern));
+		writeBreak();
+		document.write(pattern.test(text));
+		writeBreak();
+	}
+	
+	function writeBreak(){
+		document.write("<br />");
+	}
+	
+	// Test using a regex object:
+	function isYoutube(text){
+		document.write("Testing if this is a Youtube string");
+		writeBreak();
+		document.write("checking pattern: " + isYoutube1Regex + " > "); document.write(isYoutube1Regex.test(text));
+		writeBreak();
+		document.write(isYoutube2Regex.test(text));
+		writeBreak();
+	}
+	
+	function isVimeo(text){
+	
+	}
+	
+	function isEmbedded(text){
+		var embeddedTextSingleLine = text.replace(/(\r\n|\n|\r)/gm,"");
+		document.write("Testing if this is Embedded in an IFrame");
+		document.write(isIframeRegex.test(text));
+	}
+	
+	function isLink(text){
+	
+	}
+	
+	isYoutube(youtubeEmbedded);
+	writeBreak();
+	isEmbedded(youtubeEmbedded);
+	writeBreak();
+	isYoutube(youtube1);
+	writeBreak();
+	//checkString(isYoutube1Regex, isYoutube1, youtube1);
+	//checkString(isYoutube2Regex, isYoutube2, youtube2);
+	//checkString(isVimeo1Regex, isVimeo1, vimeo1);
+	//checkString(isIframeRegex, isIframe, youtubeEmbedded);
+	
+</script>
+<body>
+	Yo Dude
+</body>
+</html>

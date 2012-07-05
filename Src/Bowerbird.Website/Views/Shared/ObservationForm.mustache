@@ -1,4 +1,5 @@
 ﻿    <form action="/observation/create" method="post"  enctype="multipart/form-data">
+    <div id="video-upload"></div>
     <fieldset>
       <legend>Observation Details</legend>
       <fieldset id="media-resources-fieldset">
@@ -13,7 +14,10 @@
               <div id="media-resource-upload-button" class="button media-resource-upload-button">
                 Choose Files<input id="fileupload" type="file" name="file" multiple="" />
               </div>
-              <input type="button" value="Import From Website" id="media-resource-import-button"/>
+              <div>
+                <input type="button" value="Video From Website" id="media-resource-embed-button"/>
+              </div>
+              <input type="button" value="Image From Website" id="media-resource-import-button"/>
             </div>
           </div>
         </div>
@@ -131,4 +135,5 @@
       <input type="button" value="Save" id="save" />
       <input type="button" value="Cancel" id="cancel" />
     </fieldset>
+
   </form>

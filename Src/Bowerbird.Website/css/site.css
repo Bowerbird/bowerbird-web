@@ -1755,6 +1755,11 @@ header nav#search-menu
     margin: 0;
     padding: 0;
 }
+.form #media-resource-embed-button
+{
+    margin: 18px 0 0;
+    width: 200px;
+}
 .form #media-resource-import-button
 {
     margin: 18px 0 0;
