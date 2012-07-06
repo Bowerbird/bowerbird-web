@@ -54,7 +54,7 @@ namespace Bowerbird.Core.DomainModels
                 avatar);
 
             EnableEvents();
-            FireEvent(new DomainModelCreatedEvent<Group>(this, createdByUser, this));
+            FireEvent(new DomainModelCreatedEvent<Project>(this, createdByUser, this));
         }
 
         #endregion

@@ -37,8 +37,9 @@ namespace Bowerbird.Web.ViewModels
         [Required]
         public string Description { get; set; }
 
-        public string TeamId { get; set; }
+        public string Website { get; set; }
 
+        [Required]
         public string AvatarId { get; set; }
 
         #endregion

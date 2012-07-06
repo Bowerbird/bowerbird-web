@@ -14,14 +14,12 @@ using Bowerbird.Web.ViewModels;
 
 namespace Bowerbird.Web.Builders
 {
-    public interface IOrganisationsViewModelBuilder : IBuilder
+    public interface IOrganisationViewModelBuilder : IBuilder
     {
+        object BuildNewOrganisation();
+
         object BuildOrganisation(string organisationId);
 
-        object BuildOrganisation();
-
         object BuildOrganisationList(PagingInput pagingInput);
-
-        object BuildOrganisationUserList(PagingInput pagingInput);
     }
 }

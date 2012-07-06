@@ -69,35 +69,31 @@ namespace Bowerbird.Core.Commands
 
             var appRoot = _documentSession.Load<AppRoot>(Constants.AppRootId);
 
-            if (appRoot.ExecuteCommands)
+            System.Diagnostics.Debug.WriteLine("HTTP Request Document Session: {0} HasChanges: {1}, NumberOfRequests: {2}.", ((Raven.Client.Document.DocumentSession)_documentSession).Id, _documentSession.Advanced.HasChanges, _documentSession.Advanced.NumberOfRequests);
+
+            var handlers = _serviceLocator.GetAllInstances<ICommandHandler<TCommand>>();
+
+            if (handlers == null || !handlers.Any())
             {
-                System.Diagnostics.Debug.WriteLine("HTTP Request Document Session: {0} HasChanges: {1}, NumberOfRequests: {2}.", ((Raven.Client.Document.DocumentSession)_documentSession).Id, _documentSession.Advanced.HasChanges, _documentSession.Advanced.NumberOfRequests);
+                throw new CommandHandlerNotFoundException(typeof(TCommand));
+            }
 
-                var handlers = _serviceLocator.GetAllInstances<ICommandHandler<TCommand>>();
-
-                if (handlers == null || !handlers.Any())
+            foreach (var handler in handlers)
+            {
+                // HACK: Temp code to test the idea of async commandhandlers in the chat area
+                if (command is ChatCreateCommand || command is ChatUpdateCommand || command is ChatDeleteCommand || command is ChatMessageCreateCommand)
                 {
-                    throw new CommandHandlerNotFoundException(typeof(TCommand));
-                }
-
-                foreach (var handler in handlers)
-                {
-                    // HACK: Temp code to test the idea of async commandhandlers in the chat area
-                    if (command is ChatCreateCommand || command is ChatUpdateCommand || command is ChatDeleteCommand || command is ChatMessageCreateCommand)
+                    Task.Factory.StartNew(() =>
                     {
-                        Task.Factory.StartNew(() =>
-                        {
-                            _logger.Debug("Executing command '{0}' using command handler '{1}' in new thread", command.GetType().Name, handler.GetType().Name);
-                            handler.Handle(command);
-                        })
-                        .LogExceptions();
-                    }
-                    else
-                    {
+                        _logger.Debug("Executing command '{0}' using command handler '{1}' in new thread", command.GetType().Name, handler.GetType().Name);
                         handler.Handle(command);
-                    }
+                    })
+                    .LogExceptions();
                 }
-
+                else
+                {
+                    handler.Handle(command);
+                }
             }
         }
 
@@ -107,21 +103,18 @@ namespace Bowerbird.Core.Commands
 
             var appRoot = _documentSession.Load<AppRoot>(Constants.AppRootId);
 
-            if (appRoot.ExecuteCommands)
+            Validator.ValidateObject(command, new ValidationContext(command, null, null), true);
+
+            var handlers = _serviceLocator.GetAllInstances<ICommandHandler<TCommand, TResult>>();
+
+            if (handlers == null || !handlers.Any())
             {
-                Validator.ValidateObject(command, new ValidationContext(command, null, null), true);
+                throw new CommandHandlerNotFoundException(typeof(TCommand));
+            }
 
-                var handlers = _serviceLocator.GetAllInstances<ICommandHandler<TCommand, TResult>>();
-
-                if (handlers == null || !handlers.Any())
-                {
-                    throw new CommandHandlerNotFoundException(typeof(TCommand));
-                }
-
-                foreach (var handler in handlers)
-                {
-                    yield return handler.HandleReturn(command);
-                }
+            foreach (var handler in handlers)
+            {
+                yield return handler.HandleReturn(command);
             }
         }
 
@@ -131,12 +124,9 @@ namespace Bowerbird.Core.Commands
 
             var appRoot = _documentSession.Load<AppRoot>(Constants.AppRootId);
 
-            if (appRoot.ExecuteCommands)
+            foreach (var result in Process<TCommand, TResult>(command))
             {
-                foreach (var result in Process<TCommand, TResult>(command))
-                {
-                    resultHandler(result);
-                }
+                resultHandler(result);
             }
         }
 

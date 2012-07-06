@@ -28,6 +28,9 @@ using System.Linq;
 using System.Web;
 using Ninject.Extensions.ContextPreservation;
 using Ninject.Extensions.NamedScope;
+using Bowerbird.Web.Factories;
+using Ninject.Extensions.Factory;
+using Bowerbird.Core.Factories;
 
 namespace Bowerbird.Web.Config
 {
@@ -59,19 +62,21 @@ namespace Bowerbird.Web.Config
 
             // Transient scope
             Bind<IServiceLocator>().ToMethod(x => ServiceLocator.Current);
-            Bind<IHubContext>().ToProvider<NinjectHubContextProvider>();
+            Bind<IConnectionManager>().ToMethod(x => GlobalHost.ConnectionManager);
 
-            // Named scope
+            // Thread scope
             // HACK: Experimental loading of chat components into new async thread
             Bind<Bowerbird.Core.CommandHandlers.ICommandHandler<Bowerbird.Core.Commands.ChatCreateCommand>>().To<Bowerbird.Core.CommandHandlers.ChatCreateCommandHandler>().OnActivation((x) => System.Diagnostics.Debug.WriteLine("ChatCreateCommandHandler instantiated.")).DefinesNamedScope("ASYNC");
             Bind<Bowerbird.Core.CommandHandlers.ICommandHandler<Bowerbird.Core.Commands.ChatUpdateCommand>>().To<Bowerbird.Core.CommandHandlers.ChatUpdateCommandHandler>().DefinesNamedScope("ASYNC");
             Bind<Bowerbird.Core.CommandHandlers.ICommandHandler<Bowerbird.Core.Commands.ChatDeleteCommand>>().To<Bowerbird.Core.CommandHandlers.ChatDeleteCommandHandler>().DefinesNamedScope("ASYNC");
             Bind<Bowerbird.Core.CommandHandlers.ICommandHandler<Bowerbird.Core.Commands.ChatMessageCreateCommand>>().To<Bowerbird.Core.CommandHandlers.ChatMessageCreateCommandHandler>().DefinesNamedScope("ASYNC");
-            Bind<IDocumentSession>().ToProvider<NinjectRavenSessionProvider>().WhenAnyAnchestorNamed("ASYNC").InNamedScope("ASYNC").OnActivation((x) => System.Diagnostics.Debug.WriteLine("Async Document Session instantiated."));
+            Bind<IDocumentSession>().ToProvider<NinjectRavenSessionProvider>().WhenAnyAnchestorNamed("ASYNC").InTransientScope().OnActivation((x) => System.Diagnostics.Debug.WriteLine("Async Document Session instantiated."));
+
+            //Bind<IEventHandlerFactory>().ToFactory().DefinesNamedScope("ASYNC");
 
             // HACK: Experimental loading of chat components into new async thread
             Bind(
-                typeof(Bowerbird.Core.EventHandlers.IEventHandler<Bowerbird.Core.Events.DomainModelCreatedEvent<Bowerbird.Core.DomainModels.Chat>>), 
+                typeof(Bowerbird.Core.EventHandlers.IEventHandler<Bowerbird.Core.Events.DomainModelCreatedEvent<Bowerbird.Core.DomainModels.Chat>>),
                 typeof(Bowerbird.Core.EventHandlers.IEventHandler<Bowerbird.Core.Events.DomainModelCreatedEvent<Bowerbird.Core.DomainModels.ChatMessage>>),
                 typeof(Bowerbird.Core.EventHandlers.IEventHandler<Bowerbird.Core.Events.UserJoinedChatEvent>),
                 typeof(Bowerbird.Core.EventHandlers.IEventHandler<Bowerbird.Core.Events.UserExitedChatEvent>))
@@ -90,10 +95,23 @@ namespace Bowerbird.Web.Config
                     .Excluding<Bowerbird.Core.CommandHandlers.ChatMessageCreateCommandHandler>()
                     .Excluding<Bowerbird.Web.EventHandlers.ChatUpdated>()
                     .BindAllInterfaces();
+
+                    //x
+                    //.FromAssemblyContaining<IEventHandlerFactory>()
+                    //.Select(y => y == typeof(IEventHandlerFactory))
+                    //.BindToFactory().Configure(z => z.DefinesNamedScope("ASYNC"));
                 });
         }
 
         #endregion
 
     }
+
+    //public class Thing : StandardInstanceProvider
+    //{
+    //    protected override System.Type GetType(System.Reflection.MethodInfo methodInfo, object[] arguments)
+    //    {
+            
+    //    }
+    //}
 }

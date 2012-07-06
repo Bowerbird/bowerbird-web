@@ -19,8 +19,9 @@ using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Config;
 using Raven.Client;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Services;
 
-namespace Bowerbird.Core.Services
+namespace Bowerbird.Web.Services
 {
     public class EmailService : IEmailService
     {
@@ -63,7 +64,7 @@ namespace Bowerbird.Core.Services
 
             var appRoot = _documentSession.Load<AppRoot>(Constants.AppRootId);
 
-            if (!appRoot.SendEmails)
+            if (appRoot.EmailServiceStatus)
             {
                 smtpClient.DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory;
             }

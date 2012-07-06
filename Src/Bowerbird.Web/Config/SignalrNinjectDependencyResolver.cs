@@ -22,11 +22,11 @@ using SignalR;
 
 namespace Bowerbird.Web.Config
 {
-    public class NinjectDependencyResolver : DefaultDependencyResolver
+    public class SignalrNinjectDependencyResolver : DefaultDependencyResolver
     {
         private readonly IKernel _kernel;
 
-        public NinjectDependencyResolver(IKernel kernel)
+        public SignalrNinjectDependencyResolver(IKernel kernel)
         {
             if (kernel == null)
             {
@@ -38,7 +38,14 @@ namespace Bowerbird.Web.Config
 
         public override object GetService(Type serviceType)
         {
-            return _kernel.TryGet(serviceType) ?? base.GetService(serviceType);
+            if (serviceType == typeof(IConnectionManager)) // HACK: Need to investigate why I get a stack overflow if I don't have this if statement here
+            {
+                return base.GetService(serviceType);
+            }
+            else
+            {
+                return _kernel.TryGet(serviceType) ?? base.GetService(serviceType);
+            }
         }
 
         public override IEnumerable<object> GetServices(Type serviceType)

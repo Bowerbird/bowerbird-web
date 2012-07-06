@@ -86,8 +86,7 @@ namespace Bowerbird.Web.Hubs
                     .AsProjection<All_Groups.Result>()
                     .Where(x => x.GroupId == chat.Group.Id)
                     .ToList()
-                    .First()
-                    .Group;
+                    .First();
 
                 chatDetails.Group = _groupViewFactory.Make(group);
 

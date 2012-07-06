@@ -90,7 +90,7 @@ namespace Bowerbird.Core.CommandHandlers
                 organisation,
                 _documentSession
                     .Query<Role>()
-                    .Where(x => x.Id.Equals("roles/organisationadministrator") || x.Id.Equals("roles/organisationmember"))
+                    .Where(x => x.Id.In("roles/organisationadministrator", "roles/organisationmember"))
                     .ToList());
             _documentSession.Store(user);
         }

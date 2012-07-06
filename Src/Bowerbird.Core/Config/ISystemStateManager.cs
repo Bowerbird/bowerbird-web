@@ -6,6 +6,6 @@ namespace Bowerbird.Core.Config
         void SetupSystem(bool setupTestData);
         void SwitchServicesOff();
         void SwitchServicesOn();
-        void SwitchServices(bool? enableEvents = null, bool? enableEmails = null, bool? enableCommands = null);
+        void SwitchServices(bool? enableEmailService = null, bool? enableChannelService = null);
     }
 }

@@ -12528,24 +12528,13 @@ define('models/project',['jquery', 'underscore', 'backbone'], function ($, _, Ba
             Description: '',
             Website: '',
             AvatarId: null,
-            Team: null,
+            TeamId: null,
             Type: 'Project'
         },
 
         idAttribute: 'Id',
 
         urlRoot: '/projects',
-
-//        toJSON: function () {
-//            return {
-//                Name: this.get('Name'),
-//                Description: this.get('Description'),
-//                Website: this.get('Website'),
-//                Avatar: this.get('Avatar'), // TODO: Fix this to return id?
-//                Team: this.get('Team'),
-//                Type: 'Project'
-//            };
-//        },
 
         setAvatar: function (mediaResource) {
             this.set('AvatarId', mediaResource.id);
@@ -13164,7 +13153,8 @@ function ($, _, Backbone, app, ich) {
 
         _updateLinkToModel: function () {
             if (this.model.validateLink($('#embed-video-link-input').val())) {
-                $('div#embed-video-player').html('<center>' + this.model.get('EmbedScript') + '</center>');
+                var embedScript = this.model.get('EmbedScript')
+                $('div#embed-video-player').html(embedScript);
             }
             else {
                 $('#embed-video-link-input').val(this.model.get('ErrorMessage'));
@@ -13181,7 +13171,7 @@ function ($, _, Backbone, app, ich) {
         },
 
         _cancel: function () {
-            $(':input:#embed-video-script-input').val('');
+            //$(':input:#embed-video-script-input').val('');
             $(':input:#embed-video-link-input').val('');
             $('div#embed-video-player').html('');
             this._resetView();
@@ -13194,7 +13184,7 @@ function ($, _, Backbone, app, ich) {
         },
 
         _clear: function () {
-            $(':input:#embed-video-script-input').val('');
+            //$(':input:#embed-video-script-input').val('');
             $(':input:#embed-video-link-input').val('');
             $('div#embed-video-player').html('');
             this._resetView();
@@ -18290,7 +18280,7 @@ define('views/streamitemview',['jquery', 'underscore', 'backbone', 'app', 'timea
 
         serializeData: function () {
             var model = this.model.toJSON();
-            model.CreatedDateTimeDescription = parseISO8601(this.model.get('CreatedDateTime') + 'Z');
+            model.CreatedDateTimeDescription = parseISO8601(this.model.get('CreatedDateTime'));
             model.ObservedOnDescription = ''; //parseISO8601(this.model.get('ObservedOn') + 'Z').format('d MMM yyyy')
             return {
                 Model: model
@@ -18299,6 +18289,12 @@ define('views/streamitemview',['jquery', 'underscore', 'backbone', 'app', 'timea
 
         onRender: function () {
             this.$el.find('.time-description').timeago();
+
+            this.$el.find('h2 a').on('click', function (e) {
+                e.preventDefault();
+                app.observationRouter.navigate($(this).attr('href'), { trigger: true });
+                return false;
+            });
         }
         //        render: function () {
         //            switch (this.StreamItem.get('Type')) {
@@ -21102,7 +21098,7 @@ define('collections/streamitemcollection',['jquery', 'underscore', 'backbone', '
     var StreamItemCollection = PaginatedCollection.extend({
         model: StreamItem,
 
-        baseUrl: '/stream',
+        baseUrl: '/activity',
 
         groupOrUser: null,
 
@@ -24345,15 +24341,20 @@ define('models/embeddedvideo',['jquery', 'underscore', 'backbone'], function ($,
 
         idAttribute: 'Id',
 
+        initialize: function (options) {
+            log('EmbeddedVideo.initialize', options);
+        },
+
         // check that we have either a youtube link or a vimeo link.
         // if success, create the embed script from the link
         // if failure, return error message
         validateLink: function (linkUri) {
+            log('EmbeddedVideo.validateLink', linkUri);
             if (!(this.isYoutube(linkUri) || this.isVimeo(linkUri))) {
                 this.ErrorMessage = "Link is not a Youtube or Vimeo link";
                 return false;
             }
-            this.model.set('LinkUri', linkUri);
+            this.LinkUri = linkUri;
             this.createEmbedScriptFromLink(this.extractVideoId(linkUri));
             return true;
         },
@@ -24374,24 +24375,24 @@ define('models/embeddedvideo',['jquery', 'underscore', 'backbone'], function ($,
         extractVideoId: function (text) {
             var idString = text.substr(text.lastIndexOf("/") + 1, text.length - text.lastIndexOf("/"));
             if (idString.indexOf("watch?v=") > -1) {
-                this.model.set('VideoId', idString.split("=")[1]);
+                this.VideoId = idString.split("=")[1];
             } else {
-                this.model.set('VideoId', idString);
+                this.VideoId = idString;
             }
         },
 
         // create the embed script from the link
         createEmbedScriptFromLink: function () {
-            var linkUri = this.model.get('LinkUri');
-            var videoId = this.model.get('VideoId');
+            var linkUri = this.LinkUri;
+            var videoId = this.VideoId;
             var embedScript = "";
             if (this.isYoutube(linkUri)) {
-                embedScript = '<iframe width="560" height="315" src="http://www.youtube.com/embed/' + videoId + '" frameborder="0" allowfullscreen></iframe>';
+                embedScript = '<iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;http://www.youtube.com/embed/' + videoId + '&quot; frameborder=&quot;0&quot; allowfullscreen></iframe>';
             }
             else if (this.isVimeo(linkUri)) {
-                embedScript = '<iframe src="http://player.vimeo.com/video/' + videoId + '" width="500" height="281" frameborder="0" allowFullScreen></iframe> ';
+                embedScript = '<iframe src=&quot;http://player.vimeo.com/video/' + videoId + '&quot; width=&quot;500&quot; height=&quot;281&quot; frameborder=&quot;0&quot; allowFullScreen></iframe>';
             }
-            this.set('EmbedScript', embedScript);
+            this.EmbedScript = embedScript;
         }
     });
 
@@ -25849,6 +25850,10 @@ define('views/observationlayoutview',['jquery', 'underscore', 'backbone', 'app',
             this.$el = $('#content .observation');
         },
 
+        showObservationDetails: function (observation) {
+            
+        },
+
         showObservationForm: function (observation, categories) {
             var options = { model: observation, categories: categories };
 
@@ -25986,13 +25991,13 @@ function ($, _, Backbone, ProjectCollection, MediaResourceCollection)
 
 // ObservationController & ObservationRouter
 // -----------------------------------------
-define('controllers/observationcontroller',['jquery', 'underscore', 'backbone', 'app', 'views/observationlayoutview', 'models/observation'], 
-function ($, _, Backbone, app, ObservationLayoutView, Observation) 
-{
+define('controllers/observationcontroller',['jquery', 'underscore', 'backbone', 'app', 'views/observationlayoutview', 'models/observation'],
+function ($, _, Backbone, app, ObservationLayoutView, Observation) {
     var ObservationRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
             'observations/create': 'showObservationForm',
-            'observations/:id/update': 'showObservationForm'
+            'observations/:id/update': 'showObservationForm',
+            'observations/:id': 'showObservationDetails'
         }
     });
 
@@ -26012,28 +26017,36 @@ function ($, _, Backbone, app, ObservationLayoutView, Observation)
     };
 
     var getModel = function (id) {
+        var url = '/observations/create';
+        if (id) {
+            url = id;
+        }
         var deferred = new $.Deferred();
-
         if (app.isPrerendering('observations')) {
             deferred.resolve(app.prerenderedView.data);
         } else {
-            var params = {};
-            if (id) {
-                params['id'] = id;
-            }
             $.ajax({
-                url: '/observations/create',
-                data: params
+                url: url
             }).done(function (data) {
                 deferred.resolve(data.Model);
             });
         }
-
         return deferred.promise();
     };
 
     // Public API
     // ----------
+
+    ObservationController.showObservationDetails = function (id) {
+        $.when(getModel(id))
+            .done(function (model) {
+                log('obs', model);
+                var observation = new Observation(model.Observation);
+                var observationLayoutView = showObservationLayoutView(observation);
+                observationLayoutView.showObservationDetails(observation);
+                app.setPrerenderComplete();
+            });
+    };
 
     ObservationController.showObservationForm = function (id) {
         $.when(getModel(id))
@@ -26609,12 +26622,10 @@ function ($, _, Backbone, app, ich, loadImage, EditAvatarView) {
         },
 
         initialize: function (options) {
-            log('projectFormLayoutView:initialize');
             this.teams = options.teams;
         },
 
         serializeData: function () {
-            log('projectFormLayoutView:serializeData');
             return {
                 Model: {
                     Project: this.model.toJSON(),
@@ -26624,23 +26635,20 @@ function ($, _, Backbone, app, ich, loadImage, EditAvatarView) {
         },
 
         onShow: function () {
-            log('projectFormLayoutView:onShow');
             this._showDetails();
         },
 
         showBootstrappedDetails: function () {
-            log('projectFormLayoutView:showBootstrappedDetails');
             this.initializeRegions();
             this.$el = $('#content .project-form');
             this._showDetails();
         },
 
         _showDetails: function () {
-            log('projectFormLayoutView:_showDetails');
             var editAvatarView = new EditAvatarView({ el: '#avatar-fieldset', model: this.model });
             editAvatarView.render();
 
-            this.teamListSelectView = this.$el.find("#Team").multiSelect({
+            this.teamListSelectView = this.$el.find("#TeamId").multiSelect({
                 selectAll: false,
                 singleSelect: true,
                 noOptionsText: 'No Teams',
@@ -26656,7 +26664,6 @@ function ($, _, Backbone, app, ich, loadImage, EditAvatarView) {
         },
 
         _contentChanged: function (e) {
-            log('projectFormLayoutView:_contentChanged');
             var target = $(e.currentTarget);
             var data = {};
             data[target.attr('id')] = target.attr('value');
@@ -26664,12 +26671,11 @@ function ($, _, Backbone, app, ich, loadImage, EditAvatarView) {
         },
 
         _teamChanged: function (e) {
-            log('projectFormLayoutView:_teamChanged');
             var $checkbox = $(e.currentTarget);
             if ($checkbox.attr('checked') === 'checked') {
-                this.model.set('Team', $checkbox.attr('value'));
+                this.model.set('TeamId', $checkbox.attr('value'));
             } else {
-                this.model.set('Team', '');
+                this.model.set('TeamId', '');
             }
         },
 
@@ -28329,10 +28335,9 @@ function ($, _, Backbone, app, Project) {
         },
 
         onRender: function () {
-            var that = this;
             $(this.el).children('a').on('click', function (e) {
                 e.preventDefault();
-                app.groupUserRouter.navigate($(this).attr('href'));
+                app.groupUserRouter.navigate($(this).attr('href'), { trigger: true });
                 return false;
             });
 
@@ -28376,7 +28381,7 @@ function ($, _, Backbone, app, Project) {
                     var title = this.activityCount.toString() + ' New Item' + (this.activityCount > 1 ? 's' : '');
                     this.$el.find('p span').text(this.activityCount).attr('title', title);
                 }
-            }, 
+            },
             this);
         }
     });
@@ -28414,7 +28419,7 @@ define('views/sidebarteamitemview',['jquery', 'underscore', 'backbone', 'app', '
             var that = this;
             $(this.el).children('a').on('click', function (e) {
                 e.preventDefault();
-                app.groupUserRouter.navigate($(this).attr('href'));
+                app.groupUserRouter.navigate($(this).attr('href'), { trigger: true });
                 app.vent.trigger('team:show:stream', that.model.id);
                 return false;
             });
@@ -28482,7 +28487,7 @@ define('views/sidebarorganisationitemview',['jquery', 'underscore', 'backbone', 
             var that = this;
             $(this.el).children('a').on('click', function (e) {
                 e.preventDefault();
-                app.groupUserRouter.navigate($(this).attr('href'));
+                app.groupUserRouter.navigate($(this).attr('href'), { trigger: true });
                 app.vent.trigger('organisation:show:stream', that.model.id);
                 return false;
             });
@@ -28592,24 +28597,24 @@ function ($, _, Backbone, app, SidebarMenuGroupCompositeView, SidebarProjectItem
                 //app.vent.trigger('home:show');
                 return false;
             });
-            this.$el.find('#project-menu-group-list a').on('click', function (e) {
-                e.preventDefault();
-                app.projectRouter.navigate($(this).attr('href'), { trigger: true });
-                //app.vent.trigger('home:show');
-                return false;
-            });
-            this.$el.find('#team-menu-group-list a').on('click', function (e) {
-                e.preventDefault();
-                app.teamRouter.navigate($(this).attr('href'), { trigger: true });
-                //app.vent.trigger('home:show');
-                return false;
-            });
-            this.$el.find('#organisation-menu-group-list a').on('click', function (e) {
-                e.preventDefault();
-                app.organisationRouter.navigate($(this).attr('href'), { trigger: true });
-                //app.vent.trigger('home:show');
-                return false;
-            });
+//            this.$el.find('#project-menu-group-list a').on('click', function (e) {
+//                e.preventDefault();
+//                app.projectRouter.navigate($(this).attr('href'), { trigger: true });
+//                //app.vent.trigger('home:show');
+//                return false;
+//            });
+//            this.$el.find('#team-menu-group-list a').on('click', function (e) {
+//                e.preventDefault();
+//                app.teamRouter.navigate($(this).attr('href'), { trigger: true });
+//                //app.vent.trigger('home:show');
+//                return false;
+//            });
+//            this.$el.find('#organisation-menu-group-list a').on('click', function (e) {
+//                e.preventDefault();
+//                app.organisationRouter.navigate($(this).attr('href'), { trigger: true });
+//                //app.vent.trigger('home:show');
+//                return false;
+//            });
 
             app.authenticatedUser.projects.on('add', this.addProject, this);
         },
@@ -29061,6 +29066,17 @@ define('hubs',['jquery', 'signalr'], function () {
 
     // Create hub signalR instance
     $.extend(signalR, {
+        debugHub: {
+            _: {
+                hubName: 'DebugHub',
+                ignoreMembers: ['registerWithDebugger', 'namespace', 'ignoreMembers', 'callbacks'],
+                connection: function () { return signalR.hub; }
+            },
+
+            registerWithDebugger: function (callback) {
+                return serverCall(this, "RegisterWithDebugger", $.makeArray(arguments));
+            }
+        },
         userHub: {
             _: {
                 hubName: 'UserHub',
@@ -29068,7 +29084,7 @@ define('hubs',['jquery', 'signalr'], function () {
                 connection: function () { return signalR.hub; }
             },
 
-            registerUserClient: function (id, callback) {
+            registerUserClient: function (userId, callback) {
                 return serverCall(this, "RegisterUserClient", $.makeArray(arguments));
             }
         },
@@ -29093,17 +29109,6 @@ define('hubs',['jquery', 'signalr'], function () {
 
             disconnect: function (callback) {
                 return serverCall(this, "Disconnect", $.makeArray(arguments));
-            }
-        },
-        debugHub: {
-            _: {
-                hubName: 'DebugHub',
-                ignoreMembers: ['registerWithDebugger', 'namespace', 'ignoreMembers', 'callbacks'],
-                connection: function () { return signalR.hub; }
-            },
-
-            registerWithDebugger: function (callback) {
-                return serverCall(this, "RegisterWithDebugger", $.makeArray(arguments));
             }
         },
         chatHub: {

@@ -18,6 +18,7 @@ using Bowerbird.Core.Config;
 using Bowerbird.Core.DomainModels;
 using Raven.Client;
 using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.Factories;
 
 namespace Bowerbird.Core.Events
 {
@@ -39,23 +40,19 @@ namespace Bowerbird.Core.Events
 
             var appRoot = ServiceLocator.GetInstance<IDocumentSession>().Load<AppRoot>(Constants.AppRootId);
 
-            if (appRoot.FireEvents)
+            foreach (var handler in ServiceLocator.GetAllInstances<IEventHandler<TEvent>>())
             {
-                foreach (var handler in ServiceLocator.GetAllInstances<IEventHandler<TEvent>>())
+                handler.Handle(domainEvent);
+            }
+
+            if (_actions == null) return;
+
+            foreach (var action in _actions)
+            {
+                if (action is Action<TEvent>)
                 {
-                    handler.Handle(domainEvent);
+                    ((Action<TEvent>)action)(domainEvent);
                 }
-
-                if (_actions == null) return;
-
-                foreach (var action in _actions)
-                {
-                    if (action is Action<TEvent>)
-                    {
-                        ((Action<TEvent>)action)(domainEvent);
-                    }
-                }
-
             }
         }
 

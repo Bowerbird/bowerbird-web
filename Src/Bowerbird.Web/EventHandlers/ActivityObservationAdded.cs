@@ -25,6 +25,7 @@ using Bowerbird.Web.Builders;
 using SignalR.Hubs;
 using Bowerbird.Web.Hubs;
 using Bowerbird.Core.Config;
+using Bowerbird.Web.Services;
 
 namespace Bowerbird.Web.EventHandlers
 {
@@ -41,8 +42,9 @@ namespace Bowerbird.Web.EventHandlers
 
         private readonly IDocumentSession _documentSession;
         private readonly IUserViewFactory _userViewFactory;
+        private readonly IGroupViewFactory _groupViewFactory;
+        private readonly IBackChannelService _backChannelService;
         private readonly IUserViewModelBuilder _userViewModelBuilder;
-        private readonly IUserContext _userContext;
 
         #endregion
 
@@ -51,19 +53,22 @@ namespace Bowerbird.Web.EventHandlers
         public ActivityObservationAdded(
             IDocumentSession documentSession,
             IUserViewFactory userViewFactory,
-            IUserViewModelBuilder userViewModelBuilder,
-            IUserContext userContext
+            IGroupViewFactory groupViewFactory,
+            IBackChannelService backChannelService,
+            IUserViewModelBuilder userViewModelBuilder
             )
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(userViewFactory, "userViewFactory");
+            Check.RequireNotNull(groupViewFactory, "groupViewFactory");
+            Check.RequireNotNull(backChannelService, "backChannelService");
             Check.RequireNotNull(userViewModelBuilder, "userViewModelBuilder");
-            Check.RequireNotNull(userContext, "userContext");
 
             _documentSession = documentSession;
             _userViewFactory = userViewFactory;
+            _groupViewFactory = groupViewFactory;
+            _backChannelService = backChannelService;
             _userViewModelBuilder = userViewModelBuilder;
-            _userContext = userContext;
         }
 
         #endregion
@@ -88,7 +93,7 @@ namespace Bowerbird.Web.EventHandlers
             };
 
             _documentSession.Store(activity);
-            _userContext.SendActivityToGroupChannel(activity);
+            _backChannelService.SendActivityToGroupChannel(activity);
         }
 
         public void Handle(DomainModelCreatedEvent<ObservationGroup> domainEvent)
@@ -105,14 +110,14 @@ namespace Bowerbird.Web.EventHandlers
             };
 
             _documentSession.Store(activity);
-            _userContext.SendActivityToGroupChannel(activity);
+            _backChannelService.SendActivityToGroupChannel(activity);
         }
 
         private object MakeObservation(Observation observation)
         {
             return new
             {
-                Id = observation.ShortId(),
+                observation.Id,
                 Title = observation.Title,
                 ObservedOnDate = observation.ObservedOn.ToString("d MMM yyyy"),
                 ObservedOnTime = observation.ObservedOn.ToShortTimeString(),
@@ -123,7 +128,7 @@ namespace Bowerbird.Web.EventHandlers
                 IsIdentificationRequired = observation.IsIdentificationRequired,
                 AnonymiseLocation = observation.AnonymiseLocation,
                 Media = observation.Media, //observation.Media.Select(x => MakeObservationMediaItem(x, observation.GetPrimaryImage() == x)),
-                PrimaryImage = observation.GetPrimaryImage(), //MakeObservationMediaItem(observation.GetPrimaryImage(), true),
+                PrimaryMedia = observation.GetPrimaryMedia(), //MakeObservationMediaItem(observation.GetPrimaryImage(), true),
                 Projects = observation.Groups.Select(x => x.Group.Id)
             };
         }

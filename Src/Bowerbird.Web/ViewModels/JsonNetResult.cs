@@ -8,7 +8,7 @@ using System.Web.Mvc;
 using Newtonsoft.Json.Serialization;
 using Bowerbird.Web.Config;
 
-namespace Bowerbird.Web.Controllers
+namespace Bowerbird.Web.ViewModels
 {
     public class JsonNetResult : ActionResult
     {

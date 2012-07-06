@@ -1,27 +1,25 @@
-/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+///* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
- Developers: 
- * Frank Radocaj : frank@radocaj.com
- * Hamish Crittenden : hamish.crittenden@gmail.com
+// Developers: 
+// * Frank Radocaj : frank@radocaj.com
+// * Hamish Crittenden : hamish.crittenden@gmail.com
  
- Project Manager: 
- * Ken Walker : kwalker@museum.vic.gov.au
+// Project Manager: 
+// * Ken Walker : kwalker@museum.vic.gov.au
  
- Funded by:
- * Atlas of Living Australia
+// Funded by:
+// * Atlas of Living Australia
  
-*/
+//*/
 
-using Bowerbird.Web.ViewModels;
+//using Bowerbird.Web.ViewModels;
 
-namespace Bowerbird.Web.Builders
-{
-    public interface IObservationNotesViewModelBuilder
-    {
-        object BuildObservationNote(IdInput idInput);
+//namespace Bowerbird.Web.Builders
+//{
+//    public interface IObservationNotesViewModelBuilder
+//    {
+//        object BuildObservationNote(IdInput idInput);
 
-        object BuildObservationNoteList(PagingInput pagingInput);
-
-        object BuildObservationNoteStreamItems(PagingInput pagingInput);
-    }
-}
+//        object BuildObservationNoteList(PagingInput pagingInput);
+//    }
+//}

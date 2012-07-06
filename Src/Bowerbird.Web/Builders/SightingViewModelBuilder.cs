@@ -31,71 +31,51 @@ using System.Collections;
 
 namespace Bowerbird.Web.Builders
 {
-    public class ObservationsViewModelBuilder : IObservationsViewModelBuilder
+    public class SightingViewModelBuilder : ISightingViewModelBuilder
     {
         #region Fields
 
         private readonly IDocumentSession _documentSession;
-        private readonly IMediaFilePathService _mediaFilePathService;
 
         #endregion
 
         #region Constructors
 
-        public ObservationsViewModelBuilder(
-            IDocumentSession documentSession,
-            IMediaFilePathService mediaFilePathService)
+        public SightingViewModelBuilder(
+            IDocumentSession documentSession)
         {
             Check.RequireNotNull(documentSession, "documentSession");
-            Check.RequireNotNull(mediaFilePathService, "mediaFilePathService");
 
             _documentSession = documentSession;
-            _mediaFilePathService = mediaFilePathService;
         }
 
         #endregion
 
         #region Methods
 
-        public object BuildObservation()
+        public object BuildNewObservation()
         {
             return MakeObservation();
         }
 
-        public object BuildObservation(IdInput idInput)
+        public object BuildSighting(string sightingId)
         {
-            var observation = _documentSession.Load<Observation>("observations/" + idInput.Id);
-
-            return MakeObservation(observation);
+            return MakeObservation(_documentSession.Load<Observation>(sightingId));
         }
 
-        public object BuildObservationList(PagingInput pagingInput)
+        public object BuildGroupSightingList(string groupId, PagingInput pagingInput)
         {
-            RavenQueryStatistics stats;
+            Check.RequireNotNullOrWhitespace(groupId, "groupId");
+            Check.RequireNotNull(pagingInput, "pagingInput");
 
-            return _documentSession
-                .Query<Observation>()
-                .Statistics(out stats)
-                .Skip(pagingInput.Page)
-                .Take(pagingInput.PageSize)
-                .ToList()
-                .Select(MakeObservation)
-                .ToPagedList(
-                    pagingInput.Page,
-                    pagingInput.PageSize,
-                    stats.TotalResults);
-        }
-        
-        public object BuildGroupObservationList(PagingInput pagingInput)
-        {
             RavenQueryStatistics stats;
 
             return _documentSession
                 .Query<All_Contributions.Result, All_Contributions>()
                 .AsProjection<All_Contributions.Result>()
-                .Where(x => x.GroupId == pagingInput.Id)
+                .Where(x => x.GroupId == groupId)
                 .Statistics(out stats)
-                .Skip(pagingInput.Page)
+                .Skip(pagingInput.GetSkipIndex())
                 .Take(pagingInput.PageSize)
                 .Select(x => x.Observation)
                 .ToList()
@@ -106,17 +86,20 @@ namespace Bowerbird.Web.Builders
                     stats.TotalResults);
         }
 
-        public object BuildUserObservationList(PagingInput pagingInput)
+        public object BuildUserSightingList(string userId, PagingInput pagingInput)
         {
+            Check.RequireNotNullOrWhitespace(userId, "userId");
+            Check.RequireNotNull(pagingInput, "pagingInput");
+
             RavenQueryStatistics stats;
 
             return _documentSession
                 .Query<All_Contributions.Result, All_Contributions>()
                 .AsProjection<All_Contributions.Result>()
-                .Include(x => x.User.Id)
-                .Where(x => x.User.Id == pagingInput.Id)
+                .Include(x => x.UserId)
+                .Where(x => x.UserId == userId)
                 .Statistics(out stats)
-                .Skip(pagingInput.Page)
+                .Skip(pagingInput.GetSkipIndex())
                 .Take(pagingInput.PageSize)
                 .Select(x => x.Observation)
                 .ToList()
@@ -148,7 +131,7 @@ namespace Bowerbird.Web.Builders
         {
             return new
             {
-                Id = observation.ShortId(),
+                observation.Id,
                 Title = observation.Title,
                 ObservedOn = observation.ObservedOn.ToString("d MMM yyyy"),
                 Address = observation.Address,
@@ -157,34 +140,10 @@ namespace Bowerbird.Web.Builders
                 Category = observation.Category,
                 IsIdentificationRequired = observation.IsIdentificationRequired,
                 AnonymiseLocation = observation.AnonymiseLocation,
-                Media = observation.Media.Select(x => MakeObservationMediaItem(x, observation.GetPrimaryImage() == x)),
-                PrimaryImage = MakeObservationMediaItem(observation.GetPrimaryImage(), true),
+                observation.Media,
+                PrimaryMedia = observation.GetPrimaryMedia(),
                 Projects = observation.Groups.Select(x => x.Group.Id)
             };
-        }
-
-        private object MakeObservationMediaItem(ObservationMedia observationMedia, bool isPrimaryImage)
-        {
-            if(observationMedia.MediaResource.Type == "image")
-            {
-                return new
-                    {
-                        IsPrimaryImage = isPrimaryImage,
-                        MediaResourceId = observationMedia.MediaResource.Id,
-                        observationMedia.MediaResource.Type,
-                        observationMedia.Description,
-                        observationMedia.Licence,
-                        CreatedByUser = observationMedia.MediaResource.CreatedByUser.Id,
-                        UploadedOn = observationMedia.MediaResource.UploadedOn,
-                        OriginalImage = observationMedia.MediaResource.Files["original"],
-                        LargeImage = observationMedia.MediaResource.Files["large"],
-                        MediumImage = observationMedia.MediaResource.Files["medium"],
-                        SmallImage = observationMedia.MediaResource.Files["small"],
-                        ThumbnailImage = observationMedia.MediaResource.Files["thumbnail"]
-                    };
-            }
-
-            throw new NotImplementedException();
         }
 
         #endregion

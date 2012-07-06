@@ -134,15 +134,15 @@ namespace Bowerbird.Core.DomainModels
 
         public bool ProposedAsNewSpecies { get; private set; }
 
-        public DenormalisedUserReference CreatedByUser { get; set; }
+        public DenormalisedUserReference CreatedByUser { get; private set; }
 
-        public DenormalisedUserReference ProposedByUser { get; set; }
+        public DenormalisedUserReference ProposedByUser { get; private set; }
 
-        public DenormalisedUserReference EndorsedByUser { get; set; }
+        public DenormalisedUserReference EndorsedByUser { get; private set; }
 
-        public DateTime CreatedDateTime { get; set; }
+        public DateTime CreatedDateTime { get; private set; }
 
-        public DateTime ModifiedDateTime { get; set; }
+        public DateTime ModifiedDateTime { get; private set; }
 
         #endregion
 

@@ -3,10 +3,8 @@
  Developers: 
  * Frank Radocaj : frank@radocaj.com
  * Hamish Crittenden : hamish.crittenden@gmail.com
- 
  Project Manager: 
  * Ken Walker : kwalker@museum.vic.gov.au
- 
  Funded by:
  * Atlas of Living Australia
  
@@ -16,16 +14,14 @@ using Bowerbird.Web.ViewModels;
 
 namespace Bowerbird.Web.Builders
 {
-    public interface IObservationsViewModelBuilder
+    public interface IPostViewModelBuilder : IBuilder
     {
-        object BuildObservation();
+        object BuildNewPost(string groupId);
 
-        object BuildObservation(IdInput idInput);
+        object BuildPost(string postId);
 
-        object BuildObservationList(PagingInput pagingInput);
+        object BuildUserPostList(string userId, PagingInput pagingInput);
 
-        object BuildGroupObservationList(PagingInput pagingInput);
-
-        object BuildUserObservationList(PagingInput pagingInput);
+        object BuildGroupPostList(string groupId, PagingInput pagingInput);
     }
 }

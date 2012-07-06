@@ -52,6 +52,9 @@
     <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\..\packages\Castle.Core.3.0.0.4001\lib\net40-client\Castle.Core.dll</HintPath>
+    </Reference>
     <Reference Include="DataAnnotationsExtensions">
       <HintPath>..\..\packages\DataAnnotationsExtensions.1.1.0.0\lib\NETFramework40\DataAnnotationsExtensions.dll</HintPath>
     </Reference>
@@ -73,6 +76,9 @@
     </Reference>
     <Reference Include="Ninject.Extensions.Conventions">
       <HintPath>..\..\packages\Ninject.Extensions.Conventions.3.0.0.11\lib\net40\Ninject.Extensions.Conventions.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Extensions.Factory">
+      <HintPath>..\..\packages\Ninject.Extensions.Factory.3.0.1.0\lib\net40\Ninject.Extensions.Factory.dll</HintPath>
     </Reference>
     <Reference Include="Ninject.Extensions.NamedScope">
       <HintPath>..\..\packages\Ninject.Extensions.NamedScope.3.0.0.5\lib\net40\Ninject.Extensions.NamedScope.dll</HintPath>
@@ -141,31 +147,30 @@
     <Compile Include="Builders\IAccountViewModelBuilder.cs" />
     <Compile Include="Builders\IBuilder.cs" />
     <Compile Include="Builders\IObservationNotesViewModelBuilder.cs" />
-    <Compile Include="Builders\IObservationsViewModelBuilder.cs" />
-    <Compile Include="Builders\IOrganisationsViewModelBuilder.cs" />
-    <Compile Include="Builders\IPostsViewModelBuilder.cs" />
-    <Compile Include="Builders\IProjectsViewModelBuilder.cs" />
+    <Compile Include="Builders\ISightingViewModelBuilder.cs" />
+    <Compile Include="Builders\IOrganisationViewModelBuilder.cs" />
+    <Compile Include="Builders\IPostViewModelBuilder.cs" />
+    <Compile Include="Builders\IProjectViewModelBuilder.cs" />
     <Compile Include="Builders\IReferenceSpeciesViewModelBuilder.cs" />
     <Compile Include="Builders\ISpeciesViewModelBuilder.cs" />
-    <Compile Include="Builders\IStreamItemsViewModelBuilder.cs" />
-    <Compile Include="Builders\ITeamsViewModelBuilder.cs" />
+    <Compile Include="Builders\IActivityViewModelBuilder.cs" />
+    <Compile Include="Builders\ITeamViewModelBuilder.cs" />
     <Compile Include="Builders\IUserViewModelBuilder.cs" />
     <Compile Include="Builders\ObservationNotesViewModelBuilder.cs" />
-    <Compile Include="Builders\ObservationsViewModelBuilder.cs" />
-    <Compile Include="Builders\OrganisationsViewModelBuilder.cs" />
-    <Compile Include="Builders\PostsViewModelBuilder.cs" />
-    <Compile Include="Builders\ProjectsViewModelBuilder.cs" />
+    <Compile Include="Builders\SightingViewModelBuilder.cs" />
+    <Compile Include="Builders\OrganisationViewModelBuilder.cs" />
+    <Compile Include="Builders\PostViewModelBuilder.cs" />
+    <Compile Include="Builders\ProjectViewModelBuilder.cs" />
     <Compile Include="Builders\ReferenceSpeciesViewModelBuilder.cs" />
     <Compile Include="Builders\SpeciesViewModelBuilder.cs" />
-    <Compile Include="Builders\StreamItemsViewModelBuilder.cs" />
-    <Compile Include="Builders\TeamsViewModelBuilder.cs" />
+    <Compile Include="Builders\ActivityViewModelBuilder.cs" />
+    <Compile Include="Builders\TeamViewModelBuilder.cs" />
     <Compile Include="Builders\UserViewModelBuilder.cs" />
     <Compile Include="Config\AcceptTypeContstraint.cs" />
     <Compile Include="Config\AuthenticatedConstraint.cs" />
-    <Compile Include="Config\ConfigService.cs" />
+    <Compile Include="Services\ConfigService.cs" />
     <Compile Include="Config\NinjectBindingModule.cs" />
-    <Compile Include="Config\NinjectDependencyResolver.cs" />
-    <Compile Include="Config\NinjectHubContextProvider.cs" />
+    <Compile Include="Config\SignalrNinjectDependencyResolver.cs" />
     <Compile Include="Config\RestfulAttribute.cs" />
     <Compile Include="Config\NinjectRavenSessionProvider.cs" />
     <Compile Include="Config\NinjectRavenDocumentStoreProvider.cs" />
@@ -175,7 +180,8 @@
     <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\JsonNetResult.cs" />
+    <Compile Include="Services\EmailService.cs" />
+    <Compile Include="ViewModels\JsonNetResult.cs" />
     <Compile Include="Controllers\MediaResourcesController.cs" />
     <Compile Include="Controllers\ObservationNotesController.cs" />
     <Compile Include="Controllers\ObservationsController.cs" />
@@ -206,13 +212,9 @@
     <Compile Include="Factories\UserViewFactory.cs" />
     <Compile Include="Hubs\ChatHub.cs" />
     <Compile Include="Hubs\GroupHub.cs" />
-    <Compile Include="Config\HubContextAttribute.cs" />
     <Compile Include="Hubs\DebugHub.cs" />
     <Compile Include="Services\DebuggerService.cs" />
-    <Compile Include="Services\HubService.cs" />
-    <Compile Include="Services\IDebuggerService.cs" />
-    <Compile Include="Services\IHubService.cs" />
-    <Compile Include="Services\NotificationService.cs" />
+    <Compile Include="Services\BackChannelService.cs" />
     <Compile Include="Validators\ModelStateException.cs" />
     <Compile Include="Validators\HandleModelStateExceptionAttribute.cs" />
     <Compile Include="Validators\LatLong.cs" />
@@ -234,7 +236,7 @@
     <Compile Include="ViewModels\OrganisationUpdateInput.cs" />
     <Compile Include="ViewModels\ObservationMediaItem.cs" />
     <Compile Include="ViewModels\SpeciesUpdateInput.cs" />
-    <Compile Include="ViewModels\StreamInput.cs" />
+    <Compile Include="ViewModels\ActivityInput.cs" />
     <Compile Include="ViewModels\TeamCreateInput.cs" />
     <Compile Include="ViewModels\PagingInput.cs" />
     <Compile Include="ViewModels\StreamSortInput.cs" />

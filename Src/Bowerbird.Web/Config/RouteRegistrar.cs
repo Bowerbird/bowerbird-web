@@ -17,6 +17,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using System.Reflection;
 using Bowerbird.Web.Controllers;
+using System.Collections.Generic;
 
 namespace Bowerbird.Web.Config
 {
@@ -46,320 +47,228 @@ namespace Bowerbird.Web.Config
                 new {favicon = @"(.*/)?favicon.ico(/.*)?"});
 
             routes.MapRoute(
-                "account-resetpassword",
-                "account/resetpassword/{resetpasswordkey}",
-                new {controller = "account", action = "resetpassword", resetpasswordkey = UrlParameter.Optional});
-
-            routes.MapRoute(
-                "home-index-private",
+                "home-privateindex",
                 "",
                 new {controller = "home", action = "privateindex"},
                 new {authorised = new AuthenticatedConstraint()});
 
             routes.MapRoute(
-                "home-index-public",
+                "home-publicindex",
                 "",
                 new {controller = "home", action = "publicindex"});
 
             routes.MapRoute(
-                "home-index-private-stream",
-                "stream",
-                new { controller = "home", action = "stream" });
-
-            //routes.MapRoute(
-            //    "user-update",
-            //    "user/update",
-            //    new { controller = "user", action = "updateform" },
-            //    new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("GET") });
-
-
-            RegisterGroupControllerRoutes(routes);
-
-            // Load up restful controllers and create routes
-            RegisterRestfulControllerRoutes(routes);
-
-            routes.MapRoute("Templates", "templates/{name}",
-                            new {controller = "Template", action = "Get"});
+                "home-activity",
+                "activity",
+                new { controller = "home", action = "activity" },
+                new { acceptType = new AcceptTypeContstraint("application/json", "text/javascript") });
 
             routes.MapRoute(
-                "Default",
-                "{controller}/{action}/{id}",
-                new {controller = "home", action = "index", id = UrlParameter.Optional},
-                new[] {"Bowerbird.Web.Controllers"});
+                "account-resetpassword",
+                "account/resetpassword/{resetpasswordkey}",
+                new { controller = "account", action = "resetpassword", resetpasswordkey = UrlParameter.Optional });
+
+            // Load up restful controllers and create routes based on method name conventions
+            RegisterRestfulControllerRouteConventions(routes);
+
+            routes.MapRoute(
+                "default",
+                "{controller}/{action}",
+                new {controller = "home", action = "index"});
         }
 
-        private static void RegisterGroupControllerRoutes(RouteCollection routes)
+        private static void RegisterRestfulControllerRouteConventions(RouteCollection routes)
         {
-            var controllers = new[] 
-                {
-                    typeof(OrganisationsController).Name.ToLower(),
-                    typeof(TeamsController).Name.ToLower(),
-                    typeof(ProjectsController).Name.ToLower()
-                };
+            var controllers = typeof(RouteRegistrar).Assembly.GetTypes().Where(x => x.BaseType == typeof(Bowerbird.Web.Controllers.ControllerBase));
 
-            foreach (var controller in controllers)
+            foreach (var controller in controllers)//.Where(controller => controller.GetCustomAttributes(true).Any(x => x is RestfulAttribute)))
             {
-                CreateGroupControllerRoute(routes, controller.Replace("controller", "").Trim());
-            }
-        }        
-
-        private static void RegisterRestfulControllerRoutes(RouteCollection routes)
-        {
-            var controllers = Assembly.Load("Bowerbird.Web").GetTypes().Where(x => x.Namespace == "Bowerbird.Web.Controllers" && x.BaseType != null && x.BaseType.Name == "ControllerBase");
-
-            foreach (var controller in controllers.Where(controller => controller.GetCustomAttributes(true).Any(x => x is RestfulAttribute)))
-            {
-                CreateRestfulControllerRoute(routes, controller.Name.ToLower().Replace("controller", "").Trim());
+                CreateRestfulControllerRoutes(routes, controller.Name.ToLower().Replace("controller", "").Trim(), controller.GetMethods().Select(x => x.Name.ToLower()));
             }
         }
 
-        private static void CreateGroupControllerRoute(RouteCollection routes, string controllerName)
+        private static void CreateRestfulControllerRoutes(RouteCollection routes, string controllerName, IEnumerable<string> controllerMethods)
         {
-            routes.MapRoute(
-                controllerName + "-activity",
-                controllerName + "/{id}/activity",
-                new { controller = controllerName, action = "activity" },
-                new { httpMethod = new HttpMethodConstraint("GET"), id = @"^((?!create|update|delete|explore).*)$", acceptType = new AcceptTypeContstraint("application/json") });
+            if (controllerMethods.Contains("list"))
+            {
+                /* 
+                 * Eg: "/users" HTML/JSON GET
+                 * Used to get many users based one some filter criteria as HTML or JSON output
+                 */
+                routes.MapRoute(
+                    controllerName + "-list",
+                    controllerName,
+                    new { controller = controllerName, action = "list" },
+                    new { httpMethod = new HttpMethodConstraint("GET") });
+            }
 
+            if (controllerMethods.Contains("createform"))
+            {
+                /* 
+                 * Eg: "/users/create" HTML/JSON GET
+                 * Used to get create form data as HTML or JSON output
+                 */
+                routes.MapRoute(
+                    controllerName + "-create-form",
+                    controllerName + "/create",
+                    new { controller = controllerName, action = "createform" },
+                    new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("GET") });
+            }
+
+            if (controllerMethods.Contains("updateform"))
+            {
+                /* 
+                 * Eg: "/users/update" HTML/JSON GET
+                 * Used to get update form data based on an ID as HTML or JSON output
+                 */
+                routes.MapRoute(
+                    controllerName + "-update-form",
+                    controllerName + "/{id}/update",
+                    new { controller = controllerName, action = "updateform" },
+                    new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("GET") });
+            }
+
+            if (controllerMethods.Contains("deleteform"))
+            {
+                /* 
+                 * Eg: "/users/delete" HTML/JSON GET
+                 * Used to get delete form data based on an ID as HTML or JSON output
+                 */
+                routes.MapRoute(
+                    controllerName + "-delete-form",
+                    controllerName + "/{id}/delete",
+                    new { controller = controllerName, action = "deleteform" },
+                    new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("GET") });
+            }
+
+            /* 
+            * Eg: "/users/2/activity" HTML/JSON GET
+            * Used to get a page sub-section based on an ID as HTML or JSON output
+            */
             routes.MapRoute(
-                controllerName + "-sections",
+                controllerName + "-section",
                 controllerName + "/{id}/{action}",
-                new { controller = controllerName, action = "activity" },
-                new { httpMethod = new HttpMethodConstraint("GET"), id = @"^((?!create|update|delete|explore).*)$", acceptType = new AcceptTypeContstraint("text/html") });
-
-            routes.MapRoute(
-                controllerName + "-explore",
-                controllerName + "/explore",
-                new { controller = controllerName, action = "explore" },
-                new { httpMethod = new HttpMethodConstraint("GET") });
-        }
-
-        private static void CreateRestfulControllerRoute(RouteCollection routes, string controllerName)
-        {
-            // Restful get many method
-            routes.MapRoute(
-                controllerName + "-get-many",
-                controllerName,
-                new { controller = controllerName, action = "getmany" },
-                new { httpMethod = new HttpMethodConstraint("GET") });
-
-            // Restful get one method
-            routes.MapRoute(
-                controllerName + "-get-one",
-                controllerName + "/{id}", 
-                new { controller = controllerName, action = "getone" },
-                new { httpMethod = new HttpMethodConstraint("GET"), id = @"^((?!create|update|delete|explore).*)$" });
-
-            // Non-restful utility method to get data for displaying form
-            routes.MapRoute(
-                controllerName + "-create-form",
-                controllerName + "/create",
-                new { controller = controllerName, action = "createform" },
+                new { controller = controllerName },
                 new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("GET") });
 
-            // Non-restful utility method to get data for displaying form
-            routes.MapRoute(
-                controllerName + "-update-form",
-                controllerName + "/{id}/update",
-                new { controller = controllerName, action = "updateform" },
-                new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("GET"), id = @"^((?!create|update|delete).*)$" });
+            if (controllerMethods.Contains("index"))
+            {
+                /* 
+                 * Eg: "/users/2" HTML/JSON GET
+                 * Used to get one user based on an ID as HTML or JSON output
+                 */
+                routes.MapRoute(
+                    controllerName + "-index",
+                    controllerName + "/{id}",
+                    new { controller = controllerName, action = "index" },
+                    new { httpMethod = new HttpMethodConstraint("GET") });
+            }
 
-            // Non-restful utility method to get data for displaying form
-            routes.MapRoute(
-                controllerName + "-delete-form",
-                controllerName + "/{id}/delete",
-                new { controller = controllerName, action = "deleteform" },
-                new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("GET"), id = @"^((?!create|update|delete).*)$" });
+            if (controllerMethods.Contains("update"))
+            {
+                /* 
+                 * Eg: "/users/2" HTML/JSON PUT 
+                 * Used to update a user based on an ID with HTML or JSON output
+                 */
+                routes.MapRoute(
+                    controllerName + "-update",
+                    controllerName + "/{id}",
+                    new { controller = controllerName, action = "update" },
+                    new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("PUT") });
+            }
 
-            // Restful update method
-            routes.MapRoute(
-                controllerName + "-update",
-                controllerName + "/{id}",
-                new { controller = controllerName, action = "update" },
-                new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("PUT") },
-                new[] { "Bowerbird.Web.Controllers" });
+            if (controllerMethods.Contains("create"))
+            {
+                /* 
+                 * Eg: "/users/2" HTML/JSON POST 
+                 * Used to create a user with HTML or JSON output
+                 */
+                routes.MapRoute(
+                    controllerName + "-create",
+                    controllerName,
+                    new { controller = controllerName, action = "create" },
+                    new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("POST") });
+            }
 
-            // Restful create method
-            routes.MapRoute(
-                controllerName + "-create",
-                controllerName + "/",
-                new { controller = controllerName, action = "create" },
-                new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("POST") },
-                new[] { "Bowerbird.Web.Controllers" });
+            if (controllerMethods.Contains("delete"))
+            {
+                /* 
+                 * Eg: "/users/2" HTML/JSON DELETE 
+                 * Used to delete a user based on an ID with HTML or JSON output
+                 */
+                routes.MapRoute(
+                    controllerName + "-delete",
+                    controllerName + "/{id}",
+                    new { controller = controllerName, action = "delete" },
+                    new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("DELETE") });
+            }
 
-            // Restful delete method
-            routes.MapRoute(
-                controllerName + "-delete",
-                controllerName + "/{id}",
-                new { controller = controllerName, action = "delete" },
-                new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("DELETE") },
-                new[] { "Bowerbird.Web.Controllers" });
+
+
+
+
+
+
+            //// Restful get many method
+            //routes.MapRoute(
+            //    controllerName + "-get-many",
+            //    controllerName,
+            //    new { controller = controllerName, action = "getmany" },
+            //    new { httpMethod = new HttpMethodConstraint("GET") });
+
+            //// Restful get one method
+            //routes.MapRoute(
+            //    controllerName + "-get-one",
+            //    controllerName + "/{id}", 
+            //    new { controller = controllerName, action = "getone" },
+            //    new { httpMethod = new HttpMethodConstraint("GET"), id = @"^((?!create|update|delete|explore).*)$" });
+
+            //// Non-restful utility method to get data for displaying form
+            //routes.MapRoute(
+            //    controllerName + "-create-form",
+            //    controllerName + "/create",
+            //    new { controller = controllerName, action = "createform" },
+            //    new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("GET") });
+
+            //// Non-restful utility method to get data for displaying form
+            //routes.MapRoute(
+            //    controllerName + "-update-form",
+            //    controllerName + "/{id}/update",
+            //    new { controller = controllerName, action = "updateform" },
+            //    new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("GET"), id = @"^((?!create|update|delete).*)$" });
+
+            //// Non-restful utility method to get data for displaying form
+            //routes.MapRoute(
+            //    controllerName + "-delete-form",
+            //    controllerName + "/{id}/delete",
+            //    new { controller = controllerName, action = "deleteform" },
+            //    new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("GET"), id = @"^((?!create|update|delete).*)$" });
+
+            //// Restful update method
+            //routes.MapRoute(
+            //    controllerName + "-update",
+            //    controllerName + "/{id}",
+            //    new { controller = controllerName, action = "update" },
+            //    new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("PUT") },
+            //    new[] { "Bowerbird.Web.Controllers" });
+
+            //// Restful create method
+            //routes.MapRoute(
+            //    controllerName + "-create",
+            //    controllerName + "/",
+            //    new { controller = controllerName, action = "create" },
+            //    new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("POST") },
+            //    new[] { "Bowerbird.Web.Controllers" });
+
+            //// Restful delete method
+            //routes.MapRoute(
+            //    controllerName + "-delete",
+            //    controllerName + "/{id}",
+            //    new { controller = controllerName, action = "delete" },
+            //    new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("DELETE") },
+            //    new[] { "Bowerbird.Web.Controllers" });
         }
 
         #endregion
     }
 }
-
-#region old manual controller routes
-
-//routes.MapRoute(
-//    "observations-get-many",
-//    "observations",
-//    new {controller = "observations", action = "getmany"},
-//    new {httpMethod = new HttpMethodConstraint("GET")});
-
-//routes.MapRoute(
-//    "observations-get-one",
-//    "observations/{id}",
-//    new {controller = "observations", action = "getone"},
-//    new {httpMethod = new HttpMethodConstraint("GET"), id = @"^((?!create|update|delete).*)$"});
-
-//routes.MapRoute(
-//    "observations-create-form",
-//    "observations/create",
-//    new {controller = "observations", action = "createform"},
-
-//    new {authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("GET")});
-
-//routes.MapRoute(
-//    "observations-update-form",
-//    "observations/update/{id}",
-//    new {controller = "observations", action = "updateform"},
-//    new {authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("GET")});
-
-//routes.MapRoute(
-//    "observations-delete-form",
-//    "observations/delete/{id}",
-//    new {controller = "observations", action = "deleteform"},
-//    new {authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("GET")});
-
-//routes.MapRoute(
-//    "observations-create",
-//    "observations/",
-//    new {controller = "observations", action = "create"},
-//    new {authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("POST")});
-
-//routes.MapRoute(
-//    "observations-update",
-//    "observations/{id}",
-//    new {controller = "observations", action = "update"},
-//    new {authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("PUT")});
-
-//routes.MapRoute(
-//    "observations-delete",
-//    "observations/{id}",
-//    new {controller = "observations", action = "delete"},
-//    new {authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("DELETE")});
-
-//routes.MapRoute(
-//    "projects",
-//    "projects",
-//    new {controller = "projects", action = "list", id = UrlParameter.Optional},
-//    new {httpMethod = new HttpMethodConstraint("GET")},
-//    new[] {"Bowerbird.Web.Controllers"});
-
-//routes.MapRoute(
-//    "project-list",
-//    "projects/{id}",
-//    new {controller = "projects", action = "index", id = UrlParameter.Optional},
-//    new {httpMethod = new HttpMethodConstraint("GET")},
-//    new[] {"Bowerbird.Web.Controllers"});
-
-//routes.MapRoute(
-//    "project-update",
-//    "projects/{id}",
-//    new {controller = "projects", action = "update"},
-//    new {authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("PUT")},
-//    new[] {"Bowerbird.Web.Controllers"});
-
-//routes.MapRoute(
-//    "project-delete",
-//    "projects/{id}",
-//    new {controller = "projects", action = "delete"},
-//    new {authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("DELETE")},
-//    new[] {"Bowerbird.Web.Controllers"});
-
-//routes.MapRoute(
-//    "project-create",
-//    "projects/",
-//    new {controller = "projects", action = "create"},
-//    new {authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("POST")},
-//    new[] {"Bowerbird.Web.Controllers"});
-
-//routes.MapRoute(
-//    "teams",
-//    "teams",
-//    new {controller = "teams", action = "list", id = UrlParameter.Optional},
-//    new {httpMethod = new HttpMethodConstraint("GET")},
-//    new[] {"Bowerbird.Web.Controllers"});
-
-//routes.MapRoute(
-//    "team-list",
-//    "teams/{id}",
-//    new {controller = "teams", action = "list", id = UrlParameter.Optional},
-//    new {httpMethod = new HttpMethodConstraint("GET")},
-//    new[] {"Bowerbird.Web.Controllers"});
-
-//routes.MapRoute(
-//    "team-update",
-//    "teams/{id}",
-//    new {controller = "teams", action = "update"},
-//    new {authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("PUT")},
-//    new[] {"Bowerbird.Web.Controllers"});
-
-//routes.MapRoute(
-//    "team-delete",
-//    "teams/{id}",
-//    new {controller = "teams", action = "delete"},
-//    new {authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("DELETE")},
-//    new[] {"Bowerbird.Web.Controllers"});
-
-//routes.MapRoute(
-//    "team-create",
-//    "teams/",
-//    new {controller = "teams", action = "create"},
-//    new {authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("POST")},
-//    new[] {"Bowerbird.Web.Controllers"});
-
-//routes.MapRoute(
-//    "organisations",
-//    "organisations",
-//    new {controller = "organisations", action = "list", id = UrlParameter.Optional},
-//    new {httpMethod = new HttpMethodConstraint("GET")},
-//    new[] {"Bowerbird.Web.Controllers"});
-
-//routes.MapRoute(
-//    "organisation-list",
-//    "organisations/{id}",
-//    new {controller = "organisations", action = "list", id = UrlParameter.Optional},
-//    new {httpMethod = new HttpMethodConstraint("GET")},
-//    new[] {"Bowerbird.Web.Controllers"});
-
-//routes.MapRoute(
-//    "organisation-update",
-//    "organisations/{id}",
-//    new {controller = "organisations", action = "update"},
-//    new {authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("PUT")},
-//    new[] {"Bowerbird.Web.Controllers.Members"});
-
-//routes.MapRoute(
-//    "organisation-delete",
-//    "organisation/{id}",
-//    new {controller = "organisatiosn", action = "delete"},
-//    new {authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("DELETE")},
-//    new[] {"Bowerbird.Web.Controllers"});
-
-//routes.MapRoute(
-//    "organisation-create",
-//    "organisations/",
-//    new {controller = "organisations", action = "create"},
-//    new {authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("POST")},
-//    new[] {"Bowerbird.Web.Controllers"});
-
-////routes.MapRoute(
-////    "MembersDefault",
-////    "{controller}/{action}/{id}",
-////    new {action = "index", id = UrlParameter.Optional},
-////    new[] {"Bowerbird.Web.Controllers"});
-
-#endregion

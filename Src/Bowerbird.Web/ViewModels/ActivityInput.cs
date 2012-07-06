@@ -17,7 +17,7 @@ using System;
 
 namespace Bowerbird.Web.ViewModels
 {
-    public class StreamInput
+    public class ActivityInput
     {
         #region Fields
 
@@ -29,7 +29,7 @@ namespace Bowerbird.Web.ViewModels
 
         #region Properties
 
-        public string SearchQuery { get; set; }
+        public string Query { get; set; }
 
         public DateTime? NewerThan { get; set; }
 

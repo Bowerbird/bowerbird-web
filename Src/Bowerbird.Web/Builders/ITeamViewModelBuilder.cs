@@ -14,18 +14,14 @@ using Bowerbird.Web.ViewModels;
 
 namespace Bowerbird.Web.Builders
 {
-    public interface ITeamsViewModelBuilder
+    public interface ITeamViewModelBuilder
     {
-        object BuildTeam();
+        object BuildNewTeam();
 
         object BuildTeam(string teamId);
 
-        object BuildTeamList(PagingInput pagingInput);
+        object BuildGroupTeamList(string groupId, PagingInput pagingInput);
 
-        object BuildUserTeamList(PagingInput pagingInput);
-
-        object BuildOrganisationTeamList(PagingInput pagingInput);
-
-        object BuildTeamUserList(PagingInput pagingInput);
+        object BuildUserTeamList(string userId, PagingInput pagingInput);
     }
 }

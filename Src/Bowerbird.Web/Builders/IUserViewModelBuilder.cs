@@ -23,14 +23,10 @@ namespace Bowerbird.Web.Builders
 
         object BuildEditableUser(string userId);
 
-        object BuildUserList(PagingInput pagingInput);
+        object BuildAuthenticatedUser(string userId);
 
-        //object BuildUsersFollowingList(PagingInput pagingInput);
+        object BuildGroupUserList(string groupId, PagingInput pagingInput);
 
-        //object BuildUsersBeingFollowedByList(PagingInput pagingInput);
-
-        object BuildAuthenticatedUser();
-
-        object BuildOnlineUsers();
+        object BuildOnlineUserList();
     }
 }

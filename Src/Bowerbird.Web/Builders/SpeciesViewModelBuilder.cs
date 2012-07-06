@@ -47,11 +47,11 @@ namespace Bowerbird.Web.Builders
 
         #region Methods
 
-        public object BuildSpecies(IdInput idInput)
+        public object BuildSpecies(string speciesId)
         {
-            Check.RequireNotNull(idInput, "idInput");
+            Check.RequireNotNull(speciesId, "speciesId");
 
-            return MakeSpecies(_documentSession.Load<Species>(idInput.Id));
+            return MakeSpecies(_documentSession.Load<Species>(speciesId));
         }
 
         public object BuildSpeciesList(PagingInput pagingInput)
@@ -63,7 +63,7 @@ namespace Bowerbird.Web.Builders
             return _documentSession
                 .Query<Species>()
                 .Statistics(out stats)
-                .Skip(pagingInput.Page)
+                .Skip(pagingInput.GetSkipIndex())
                 .Take(pagingInput.PageSize)
                 .ToList()
                 .Select(MakeSpecies)

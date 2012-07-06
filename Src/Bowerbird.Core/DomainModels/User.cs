@@ -227,13 +227,13 @@ namespace Bowerbird.Core.DomainModels
                 membership = new Member(createdByUser, group, roles);
                 _memberships.Add(membership);
 
-                FireEvent(new DomainModelCreatedEvent<Member>(membership, createdByUser, this));
+                FireEvent(new MemberCreatedEvent(membership, createdByUser, this, group));
             }
             else
             {
                 membership.AddRoles(roles);
 
-                FireEvent(new DomainModelUpdatedEvent<Member>(membership, createdByUser, this));
+                FireEvent(new MemberUpdatedEvent(membership, createdByUser, this, group));
             }
 
             return this;

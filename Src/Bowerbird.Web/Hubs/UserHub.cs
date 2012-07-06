@@ -55,12 +55,8 @@ namespace Bowerbird.Web.Hubs
 
         #region Methods
 
-        public void RegisterUserClient(string id)
+        public void RegisterUserClient(string userId)
         {
-            Check.RequireNotNullOrWhitespace(id, "id");
-
-            var userId = id.VerbosifyId<User>();
-
             var user = _documentSession.Load<User>(userId);
 
             // Add user to their own group

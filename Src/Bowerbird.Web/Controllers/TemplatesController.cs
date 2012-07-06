@@ -49,18 +49,6 @@ namespace Bowerbird.Web.Controllers
         #region Methods
 
         [HttpGet]
-        public PartialViewResult Get(string name)
-        {
-            return PartialView(name);
-        }
-
-        [HttpGet]
-        public PartialViewResult Render(string name, Object model)
-        {
-            return PartialView(name, model);
-        }
-
-        [HttpGet]
         public ActionResult Index()
         {
             var templates = LoadSharedMustacheTemplates();

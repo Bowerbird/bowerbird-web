@@ -37,10 +37,7 @@ namespace Bowerbird.Web.Config
 
         private readonly IDocumentSession _documentSession;
         private readonly IPermissionChecker _permissionChecker;
-        private readonly IHubContext _userHub;
-        private readonly IHubContext _groupHub;
-        private readonly IHubContext _chatHub;
-        private static readonly object _chatHubLock = new object();
+
 
         #endregion
 
@@ -48,22 +45,13 @@ namespace Bowerbird.Web.Config
 
         public UserContext(
             IDocumentSession documentSession,
-            IPermissionChecker permissionChecker,
-            [HubContext(typeof(UserHub))] IHubContext userHub,
-            [HubContext(typeof(GroupHub))] IHubContext groupHub,
-            [HubContext(typeof(ChatHub))] IHubContext chatHub)
+            IPermissionChecker permissionChecker)
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(permissionChecker, "permissionChecker");
-            Check.RequireNotNull(userHub, "userHub");
-            Check.RequireNotNull(groupHub, "groupHub");
-            Check.RequireNotNull(chatHub, "chatHub");
 
             _documentSession = documentSession;
             _permissionChecker = permissionChecker;
-            _userHub = userHub;
-            _groupHub = groupHub;
-            _chatHub = chatHub;
         }
 
         #endregion
@@ -92,92 +80,6 @@ namespace Bowerbird.Web.Config
         public string GetEmailCookieValue()
         {
             return GetCookie(Constants.EmailCookieName).Value;
-        }
-
-        public void SendActivityToGroupChannel(dynamic activity)
-        {
-            foreach (var group in activity.Groups)
-            {
-                _groupHub.Clients["group-" + group.Id].newActivity(activity);
-            }
-        }
-
-        public void AddUserToUserChannel(string userId, string connectionId)
-        {
-            _userHub.Groups.Add(connectionId, "user-" + userId);
-        }
-
-        public void AddUserToOnlineUsersChannel(string connectionId)
-        {
-            _userHub.Groups.Add(connectionId, "online-users");
-        }
-
-        public void AddUserToGroupChannel(string groupId, string connectionId)
-        {
-            _groupHub.Groups.Add(connectionId, "group-" + groupId);
-        }
-
-        public void AddUserToChatChannel(string chatId, string connectionId)
-        {
-            lock (_chatHubLock)
-            {
-                _chatHub.Groups.Add(connectionId, "chat-" + chatId);
-            }
-        }
-
-        public void RemoveUserFromChatChannel(string chatId, string connectionId)
-        {
-            lock (_chatHubLock)
-            {
-                _chatHub.Groups.Remove(connectionId, "chat-" + chatId);
-            }
-        }
-
-        public dynamic GetUserChannel(string userId)
-        {
-            return _userHub.Clients["user-" + userId];
-        }
-
-        public dynamic GetOnlinerUsersChannel()
-        {
-            return _userHub.Clients["online-users"];
-        }
-
-        public dynamic GetGroupChannel(string groupId)
-        {
-            return _groupHub.Clients["group-" + groupId];
-        }
-
-        public dynamic GetChatChannel(string chatId)
-        {
-            lock (_chatHubLock)
-            {
-                return _chatHub.Clients["chat-" + chatId];
-            }
-        }
-
-        public void UserJoinedChat(string chatId, object chatMessageDetails)
-        {
-            lock (_chatHubLock)
-            {
-                _chatHub.Clients["chat-" + chatId].userJoinedChat(chatMessageDetails);
-            }
-        }
-
-        public void UserExitedChat(string chatId, object chatMessageDetails)
-        {
-            lock (_chatHubLock)
-            {
-                _chatHub.Clients["chat-" + chatId].userExitedChat(chatMessageDetails);
-            }
-        }
-
-        public void NewChatMessage(string chatId, object chatMessageDetails)
-        {
-            lock (_chatHubLock)
-            {
-                _chatHub.Clients["chat-" + chatId].newChatMessage(chatMessageDetails);
-            }
         }
 
         public void SignUserIn(string email, bool keepUserLoggedIn)

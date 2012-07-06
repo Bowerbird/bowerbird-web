@@ -28,8 +28,6 @@ namespace Bowerbird.Web.ViewModels
 
         #region Properties
 
-        public string Team { get; set; }
-
         [Required]
         public string Name { get; set; }
 
@@ -38,8 +36,10 @@ namespace Bowerbird.Web.ViewModels
 
         public string Website { get; set; }
 
-        // this is the mediaresourceid of the avatar mediaresrouce
-        public string Avatar { get; set; }
+        [Required]
+        public string AvatarId { get; set; }
+
+        public string TeamId { get; set; }
 
         #endregion
 

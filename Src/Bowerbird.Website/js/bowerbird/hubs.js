@@ -150,6 +150,17 @@ define(['jquery', 'signalr'], function () {
 
     // Create hub signalR instance
     $.extend(signalR, {
+        debugHub: {
+            _: {
+                hubName: 'DebugHub',
+                ignoreMembers: ['registerWithDebugger', 'namespace', 'ignoreMembers', 'callbacks'],
+                connection: function () { return signalR.hub; }
+            },
+
+            registerWithDebugger: function (callback) {
+                return serverCall(this, "RegisterWithDebugger", $.makeArray(arguments));
+            }
+        },
         userHub: {
             _: {
                 hubName: 'UserHub',
@@ -157,7 +168,7 @@ define(['jquery', 'signalr'], function () {
                 connection: function () { return signalR.hub; }
             },
 
-            registerUserClient: function (id, callback) {
+            registerUserClient: function (userId, callback) {
                 return serverCall(this, "RegisterUserClient", $.makeArray(arguments));
             }
         },
@@ -182,17 +193,6 @@ define(['jquery', 'signalr'], function () {
 
             disconnect: function (callback) {
                 return serverCall(this, "Disconnect", $.makeArray(arguments));
-            }
-        },
-        debugHub: {
-            _: {
-                hubName: 'DebugHub',
-                ignoreMembers: ['registerWithDebugger', 'namespace', 'ignoreMembers', 'callbacks'],
-                connection: function () { return signalR.hub; }
-            },
-
-            registerWithDebugger: function (callback) {
-                return serverCall(this, "RegisterWithDebugger", $.makeArray(arguments));
             }
         },
         chatHub: {

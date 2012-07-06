@@ -20,5 +20,7 @@ namespace Bowerbird.Core.Config
         bool HasGroupPermission(string permissionId, string userId, string groupId);
 
         bool HasGroupPermission<T>(string permissionId, string userId, string domainModelId) where T : IOwnable;
+
+        bool DoesExist<T>(string id);
     }
 }

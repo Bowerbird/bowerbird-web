@@ -19,6 +19,7 @@ using System;
 using Raven.Client.Linq;
 using Bowerbird.Core.Factories;
 using Bowerbird.Core.Config;
+using Bowerbird.Core.Indexes;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -57,7 +58,21 @@ namespace Bowerbird.Core.CommandHandlers
             Check.RequireNotNull(command, "command");
 
             // Get parent group
-            var parentGroup = _documentSession.Load<dynamic>(command.TeamId);
+            Group parentGroup = null;
+
+            if (!string.IsNullOrWhiteSpace(command.TeamId))
+            {
+                parentGroup = _documentSession
+                    .Query<All_Groups.Result, All_Groups>()
+                    .Where(x => x.GroupId == command.TeamId)
+                    .ToList()
+                    .First()
+                    .Team;
+            }
+            else
+            {
+                parentGroup = _documentSession.Load<AppRoot>(Constants.AppRootId);
+            }
             
             // Make project
             var project = new Project(
@@ -71,14 +86,14 @@ namespace Bowerbird.Core.CommandHandlers
             _documentSession.Store(project);
 
             // If project is in a team, add project to teams's Descendants
-            if (!string.IsNullOrEmpty(command.TeamId))
+            if (parentGroup is Team)
             {
                 parentGroup.AddDescendant(project);
                 _documentSession.Store(parentGroup);
 
-                if(((Group)parentGroup).Ancestry.Any(x => x.GroupType == "organisation"))
+                if (parentGroup.Ancestry.Any(x => x.GroupType == "organisation"))
                 {
-                    var grandParent = _documentSession.Load<Organisation>(((Group)parentGroup).Ancestry.Single(x => x.GroupType == "organisation").Id);
+                    var grandParent = _documentSession.Load<Organisation>(parentGroup.Ancestry.Single(x => x.GroupType == "organisation").Id);
                     grandParent.AddDescendant(project);
                     _documentSession.Store(grandParent);
                 }
@@ -100,7 +115,7 @@ namespace Bowerbird.Core.CommandHandlers
                 project,
                 _documentSession
                     .Query<Role>()
-                    .Where(x => x.Id.Equals("roles/projectadministrator") || x.Id.Equals("roles/projectmember"))
+                    .Where(x => x.Id.In("roles/projectadministrator", "roles/projectmember"))
                     .ToList());
             _documentSession.Store(user);
         }

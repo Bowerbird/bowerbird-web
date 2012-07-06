@@ -23,6 +23,7 @@ using Bowerbird.Web.Factories;
 using Bowerbird.Web.Builders;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.Hubs;
+using Bowerbird.Web.Services;
 
 namespace Bowerbird.Web.EventHandlers
 {
@@ -35,8 +36,8 @@ namespace Bowerbird.Web.EventHandlers
 
         private readonly IDocumentSession _documentSession;
         private readonly IUserViewFactory _userViewFactory;
-        private readonly IUserViewModelBuilder _userViewModelBuilder;
-        private readonly IUserContext _userContext;
+        private readonly IGroupViewFactory _groupViewFactory;
+        private readonly IBackChannelService _backChannelService;
 
         #endregion
 
@@ -45,19 +46,19 @@ namespace Bowerbird.Web.EventHandlers
         public ActivityGroupAdded(
             IDocumentSession documentSession,
             IUserViewFactory userViewFactory,
-            IUserViewModelBuilder userViewModelBuilder,
-            IUserContext userContext
+            IGroupViewFactory groupViewFactory,
+            IBackChannelService backChannelService
             )
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(userViewFactory, "userViewFactory");
-            Check.RequireNotNull(userViewModelBuilder, "userViewModelBuilder");
-            Check.RequireNotNull(userContext, "userContext");
+            Check.RequireNotNull(groupViewFactory, "groupViewFactory");
+            Check.RequireNotNull(backChannelService, "backChannelService");
 
             _documentSession = documentSession;
             _userViewFactory = userViewFactory;
-            _userViewModelBuilder = userViewModelBuilder;
-            _userContext = userContext;
+            _groupViewFactory = groupViewFactory;
+            _backChannelService = backChannelService;
         }
 
         #endregion
@@ -92,7 +93,7 @@ namespace Bowerbird.Web.EventHandlers
                 };
 
                 _documentSession.Store(activity);
-                _userContext.SendActivityToGroupChannel(activity);
+                _backChannelService.SendActivityToGroupChannel(activity);
             }
 
             if (domainEvent.Sender is Team)
@@ -113,7 +114,7 @@ namespace Bowerbird.Web.EventHandlers
                 };
 
                 _documentSession.Store(activity);
-                _userContext.SendActivityToGroupChannel(activity);
+                _backChannelService.SendActivityToGroupChannel(activity);
             }
 
             if (domainEvent.Sender is Organisation)
@@ -134,7 +135,7 @@ namespace Bowerbird.Web.EventHandlers
                 };
 
                 _documentSession.Store(activity);
-                _userContext.SendActivityToGroupChannel(activity);
+                _backChannelService.SendActivityToGroupChannel(activity);
             }
         }
 

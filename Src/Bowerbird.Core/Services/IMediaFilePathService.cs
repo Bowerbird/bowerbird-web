@@ -13,6 +13,7 @@
 */
 
 using Bowerbird.Core.DomainModels;
+
 namespace Bowerbird.Core.Services
 {
     public interface IMediaFilePathService

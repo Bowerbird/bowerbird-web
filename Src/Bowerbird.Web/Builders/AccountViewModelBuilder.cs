@@ -93,13 +93,6 @@ namespace Bowerbird.Web.Builders
             };
         }
 
-        public bool AreCredentialsValid(string email, string password)
-        {
-            var user = _documentSession.LoadUserByEmail(email);
-
-            return user != null && user.ValidatePassword(password);
-        }
-
         #endregion
     }
 }
