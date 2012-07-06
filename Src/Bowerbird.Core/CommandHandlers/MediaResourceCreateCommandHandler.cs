@@ -22,12 +22,15 @@ using System.Collections.Generic;
 
 namespace Bowerbird.Core.CommandHandlers
 {
-    public class MediaResourceCreateCommandHandler : ICommandHandler<MediaResourceCreateCommand, MediaResource>
+    public class MediaResourceCreateCommandHandler 
+        : ICommandHandler<MediaResourceCreateCommand, MediaResource>,
+        ICommandHandler<VideoResourceCreateCommand>
     {
         #region Members
 
         private readonly IDocumentSession _documentSession;
         private readonly IMediaFilePathService _mediaFilePathService;
+        private readonly IVideoUtility _videoUtility;
 
         private class ImageCreationTask
         {
@@ -48,13 +51,16 @@ namespace Bowerbird.Core.CommandHandlers
 
         public MediaResourceCreateCommandHandler(
             IDocumentSession documentSession,
-            IMediaFilePathService mediaFilePathService)
+            IMediaFilePathService mediaFilePathService,
+            IVideoUtility videoUtility)
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(mediaFilePathService, "mediaFilePathService");
+            Check.RequireNotNull(videoUtility, "videoUtility");
 
             _documentSession = documentSession;
             _mediaFilePathService = mediaFilePathService;
+            _videoUtility = videoUtility;
         }
 
         #endregion
@@ -135,6 +141,39 @@ namespace Bowerbird.Core.CommandHandlers
             }
         }
 
+        public void Handle(VideoResourceCreateCommand command)
+        {
+            Check.RequireNotNull(command, "command");
+
+            var user = _documentSession.Load<User>(command.UserId);
+
+            string provider, videoId, embedString;
+
+            if (_videoUtility.IsValidVideo(command.LinkUri, out embedString, out videoId, out provider))
+            {
+                var videoResource = new MediaResource(
+                    command.Usage,
+                    user,
+                    DateTime.UtcNow,
+                    command.Title,
+                    command.Description,
+                    command.LinkUri,
+                    provider,
+                    videoId);
+
+                MakeVideoMediaResourceFiles(
+                    videoResource,
+                    embedString,
+                    command.LinkUri,
+                    provider,
+                    videoId);
+
+                _documentSession.Store(videoResource);
+
+                videoResource.FireCreatedEvent(user);
+            }
+        }
+
         private string DetemineMediaType(MediaResourceCreateCommand command)
         {
             // TODO: Determine media type here, assume images only for now
@@ -177,6 +216,14 @@ namespace Bowerbird.Core.CommandHandlers
             AddImageFile(mediaResource, imageCreationTasks, "FullSmall", "jpeg", "jpg", 640, 480, false, ImageResizeMode.Normal);
             AddImageFile(mediaResource, imageCreationTasks, "FullMedium", "jpeg", "jpg", 1024, 768, false, ImageResizeMode.Normal);
             AddImageFile(mediaResource, imageCreationTasks, "FullLarge", "jpeg", "jpg", 1280, 1024, false, ImageResizeMode.Normal);
+        }
+
+        private void MakeVideoMediaResourceFiles(MediaResource mediaResource, string embedScript, string linkUri, string provider, string videoId)
+        {
+            mediaResource.AddVideoFile("Fullsize", linkUri, embedScript, provider, videoId, "520", "390");
+            mediaResource.AddVideoFile("Preview", linkUri, embedScript, provider, videoId, "220", "200");
+            mediaResource.AddVideoFile("Small", linkUri, embedScript, provider, videoId, "120", "80");
+            mediaResource.AddVideoFile("Thumb", linkUri, embedScript, provider, videoId, "60", "40");
         }
 
         private void MakePostImageMediaResourceFiles(MediaResource mediaResource, List<ImageCreationTask> imageCreationTasks)

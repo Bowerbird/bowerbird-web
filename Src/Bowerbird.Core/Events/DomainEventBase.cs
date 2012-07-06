@@ -34,6 +34,8 @@ namespace Bowerbird.Core.Events
             Sender = sender;
         }
 
+        protected DomainEventBase() { }
+
         #endregion
 
         #region Properties

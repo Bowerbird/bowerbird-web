@@ -136,7 +136,7 @@ function ($, _, Backbone, app, ich, EditMapView, EditMediaView, EmbeddedVideoVie
 
         _showEmbeddedVideo: function () {
             log('observationFormLayoutView._showEmbeddedVideo');
-            var embeddedVideo = new EmbeddedVideoView({ el: $('#modal-dialog'), model: new EmbeddedVideo() });
+            var embeddedVideo = new EmbeddedVideoView({ el: $('#modal-dialog'), model: new EmbeddedVideo()});
             embeddedVideo.render();
         },
 

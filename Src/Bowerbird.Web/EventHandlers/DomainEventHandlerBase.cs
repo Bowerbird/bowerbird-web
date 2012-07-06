@@ -52,6 +52,17 @@ namespace Bowerbird.Web.EventHandlers
                 groups);
         }
 
+        protected AsynchActivity MakeAsynchActivity<T>(T domainEvent, string type, object model, string clientId) where T : IDomainEvent
+        {
+            var now = DateTime.UtcNow;
+
+            return new AsynchActivity(
+                type,
+                DateTime.UtcNow,
+                model,
+                clientId);
+        }
+
         #endregion
     }
 }

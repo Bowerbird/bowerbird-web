@@ -107,6 +107,7 @@
     <Compile Include="CommandHandlers\ReferenceSpeciesCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\ReferenceSpeciesUpdateCommandHandler.cs" />
     <Compile Include="Commands\MemberUpdateCommand.cs" />
+    <Compile Include="Commands\VideoResourceCreateCommand.cs" />
     <Compile Include="Config\Email.cs" />
     <Compile Include="Config\PermissionChecker.cs" />
     <Compile Include="Config\SetupTestData.cs" />
@@ -218,6 +219,7 @@
     <Compile Include="DomainModels\BaseObjectEqualityComparer.cs" />
     <Compile Include="DomainModels\CommentsComponent.cs" />
     <Compile Include="DomainModels\ChatMessage.cs" />
+    <Compile Include="DomainModels\AsynchActivity.cs" />
     <Compile Include="DomainModels\IDiscussed.cs" />
     <Compile Include="DomainModels\DenormalisedReferences\DenormalisedRoleReference.cs" />
     <Compile Include="DomainModels\FollowUser.cs" />
@@ -248,12 +250,13 @@
     <Compile Include="DomainModels\UserSession.cs" />
     <Compile Include="DomainModels\ValueObject.cs" />
     <Compile Include="DomainModels\Watchlist.cs" />
+    <Compile Include="Events\MediaResourceUploadedEvent.cs" />
     <Compile Include="Events\UserExitedChatEvent.cs" />
     <Compile Include="Events\UserJoinedChatEvent.cs" />
     <Compile Include="Events\DomainEventBase.cs" />
     <Compile Include="Events\DomainModelCreatedEvent.cs" />
     <Compile Include="Events\GroupAssociationCreatedEvent.cs" />
-    <Compile Include="Events\DomainModelUpdatedEvent.cs" />
+    <Compile Include="EventHandlers\DomainModelUpdatedEvent.cs" />
     <Compile Include="Commands\CommandHandlerNotFoundException.cs" />
     <Compile Include="CommandHandlers\UserCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\ObservationUpdateCommandHandler.cs" />
@@ -310,6 +313,8 @@
     <Compile Include="Paging\PageNumber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extensions\DocumentSessionExtensions.cs" />
+    <Compile Include="Services\IVideoUtility.cs" />
+    <Compile Include="Services\VideoUtility.cs" />
     <Compile Include="Services\EmailService.cs" />
     <Compile Include="Services\IEmailService.cs" />
     <Compile Include="Services\IConfigService.cs" />

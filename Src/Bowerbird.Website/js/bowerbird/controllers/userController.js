@@ -21,6 +21,7 @@ function ($, _, Backbone, app, UserFormLayoutView, User) {
         this.userHub.setupOnlineUsers = setupOnlineUsers;
         this.userHub.userStatusUpdate = userStatusUpdate;
         this.userHub.joinedGroup = joinedGroup;
+        this.userHub.mediaResourceCreated = mediaResourceCreated;
     };
 
     var UserController = {};
@@ -72,6 +73,12 @@ function ($, _, Backbone, app, UserFormLayoutView, User) {
         if (group.GroupType === 'organisation') {
             app.authenticatedUser.organisations.add(group);
         }
+    };
+
+    var mediaResourceCreated = function (model) {
+        // detect model type then raise event
+        log('userController.modelCreated', model);
+
     };
 
     // Show an project form

@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Bowerbird.Core.Extensions
 {
@@ -45,6 +46,22 @@ namespace Bowerbird.Core.Extensions
             }
 
             return results;
+        }
+
+        public static string ToCommaString(this IEnumerable<string> strings)
+        {
+            if (!strings.IsNotNullAndHasItems()) return string.Empty;
+
+            var commaString = new StringBuilder();
+
+            foreach (var str in strings)
+            {
+                if (commaString.ToString().Length > 0)
+                    commaString.Append(", ");
+                commaString.Append(str);
+            }
+
+            return commaString.ToString();
         }
     }
 }

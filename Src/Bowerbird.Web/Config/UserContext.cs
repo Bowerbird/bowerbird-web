@@ -180,6 +180,11 @@ namespace Bowerbird.Web.Config
             }
         }
 
+        public void SendModelToUserClient(object model, string clientId)
+        {
+            _userHub.Clients[clientId].asynchModelCreated(model);
+        }
+
         public void SignUserIn(string email, bool keepUserLoggedIn)
         {
             TimeSpan sessionExpiryDuration;
@@ -261,6 +266,6 @@ namespace Bowerbird.Web.Config
         }
 
         #endregion      
-      
+
     }
 }

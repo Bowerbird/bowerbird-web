@@ -40,23 +40,21 @@ function ($, _, Backbone, app, ich) {
         },
 
         _saveEmbeddedVideo: function () {
-            e.preventDefault();
+            this.model.save();
         },
 
         _updateLinkToModel: function () {
-            if (this.model.validateLink($('#embed-video-link-input').val())) {
-                var embedScript = this.model.get('EmbedScript')
-                $('div#embed-video-player').html(embedScript);
-            }
-            else {
-                $('#embed-video-link-input').val(this.model.get('ErrorMessage'));
-            }
+            this.model.previewVideo($('#embed-video-link-input').val());
+            //            if (!this.model.validateLink($('#embed-video-link-input').val())) {
+            //                $('#embed-video-link-input').val(this.model.get('ErrorMessage'));
+            //            }
         },
 
         _viewVideo: function () {
-            var embeddedText = $(':input:#embed-video-script-input').val();
-            if (embeddedText != '') {
-                $('div#embed-video-player').html('<center>' + embeddedText + '</center>');
+            var embedScript = this.model.get('EmbedScript');
+            //var embeddedText = $(':input:#embed-video-script-input').val();
+            if (embedScript != '') {
+                $('div#embed-video-player').html('<center>' + embedScript + '</center>');
                 this._hideElement($('#embed-video-link'));
                 this._showElement($('#embed-video-preview'));
             }

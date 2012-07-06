@@ -46,6 +46,17 @@ namespace Bowerbird.Web.Config
                 new {favicon = @"(.*/)?favicon.ico(/.*)?"});
 
             routes.MapRoute(
+               "video-upload",
+               "videoupload",
+               new { controller = "mediaresources", action = "videoupload" });
+
+            routes.MapRoute(
+               "video-preview",
+               "videopreview",
+               new { controller = "mediaresources", action = "videopreview" });
+            //new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("POST") });
+
+            routes.MapRoute(
                 "account-resetpassword",
                 "account/resetpassword/{resetpasswordkey}",
                 new {controller = "account", action = "resetpassword", resetpasswordkey = UrlParameter.Optional});

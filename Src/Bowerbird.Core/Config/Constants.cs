@@ -158,6 +158,7 @@ namespace Bowerbird.Core.Config
     {
         public static string Image = "image";
         public static string Document = "document";
+        public static string Video = "video";
     }
 
     public static class Default
@@ -165,6 +166,8 @@ namespace Bowerbird.Core.Config
         public static int PageStart = 1;
         public static int PageSize = 10;
         public static int PageMax = 100;
+        public const string MovieWidth = "520";
+        public const string MovieHeight = "390";
     }
 
 }

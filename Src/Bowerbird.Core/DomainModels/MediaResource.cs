@@ -18,6 +18,7 @@ using Bowerbird.Core.DomainModels.DenormalisedReferences;
 using System.Collections.Generic;
 using System.Linq;
 using System.Dynamic;
+using Bowerbird.Core.Events;
 
 namespace Bowerbird.Core.DomainModels
 {
@@ -55,6 +56,36 @@ namespace Bowerbird.Core.DomainModels
             EnableEvents();
         }
 
+        public MediaResource(
+            string type,
+            User createdByUser,
+            DateTime uploadedOn,
+            string title,
+            string description,
+            string link,
+            string provider,
+            string videoId)
+            : base()
+        {
+            InitMembers();
+
+            Type = type;
+            UploadedOn = uploadedOn;
+            if (createdByUser != null)
+            {
+                CreatedByUser = createdByUser;
+            }
+
+            // Add metadata into the Metadata dictionary
+            Metadata.Add("Title", title);
+            Metadata.Add("Description", description);
+            Metadata.Add("Url", link);
+            Metadata.Add("Provider", provider);
+            Metadata.Add("VideoId", videoId);
+
+            EnableEvents();
+        }
+
         #endregion
 
         #region Properties
@@ -69,8 +100,6 @@ namespace Bowerbird.Core.DomainModels
 
         public IDictionary<string, string> Metadata { get; private set; }
 
-        //public IDictionary<string, object> Exifdata { get; private set; }
-
         #endregion
 
         #region Methods
@@ -79,7 +108,6 @@ namespace Bowerbird.Core.DomainModels
         {
             Files = new Dictionary<string, MediaResourceFile>();
             Metadata = new Dictionary<string, string>();
-            //Exifdata = new Dictionary<string, object>();
         }
 
         public MediaResource AddMetadata(string key, string value)
@@ -95,11 +123,6 @@ namespace Bowerbird.Core.DomainModels
 
             return this;
         }
-
-        //public void AddExifData(IDictionary<string,object> exifData)
-        //{
-        //    Exifdata = exifData;
-        //}
 
         private void AddFile(string storedRepresentation, MediaResourceFile file)
         {
@@ -124,6 +147,37 @@ namespace Bowerbird.Core.DomainModels
             AddFile(storedRepresentation, file);
 
             return file;
+        }
+
+        public MediaResourceFile AddVideoFile(
+            string storedRepresentation,
+            string linkUri,
+            string embedText,
+            string provider,
+            string videoId,
+            string width,
+            string height
+            )
+        {
+            dynamic file = new MediaResourceFile();
+
+            file.LinkUri = linkUri;
+            file.EmbedTag = string.Format(embedText, width, height, videoId);
+            file.Provider = provider;
+            file.VideoId = videoId;
+            file.Width = width;
+            file.Height = height;
+
+            AddFile(storedRepresentation, file);
+
+            return file;
+        }
+
+        public void FireCreatedEvent(User createdByUser)
+        {
+            Check.RequireNotNull(createdByUser, "createdByUser");
+
+            FireEvent(new DomainModelCreatedEvent<MediaResource>(this, createdByUser, this));            
         }
 
         #endregion      

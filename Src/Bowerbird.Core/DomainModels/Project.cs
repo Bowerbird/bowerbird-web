@@ -54,6 +54,7 @@ namespace Bowerbird.Core.DomainModels
                 avatar);
 
             EnableEvents();
+
             FireEvent(new DomainModelCreatedEvent<Group>(this, createdByUser, this));
         }
 

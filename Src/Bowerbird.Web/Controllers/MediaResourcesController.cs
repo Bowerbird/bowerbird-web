@@ -23,6 +23,7 @@ using Bowerbird.Core.DomainModels;
 using Raven.Client;
 using Bowerbird.Core.Config;
 using Bowerbird.Web.Config;
+using Bowerbird.Core.Services;
 
 namespace Bowerbird.Web.Controllers
 {
@@ -33,6 +34,7 @@ namespace Bowerbird.Web.Controllers
         private readonly ICommandProcessor _commandProcessor;
         private readonly IUserContext _userContext;
         private readonly IDocumentSession _documentSession;
+        private readonly IVideoUtility _videoUtility;
 
         #endregion
 
@@ -41,16 +43,19 @@ namespace Bowerbird.Web.Controllers
         public MediaResourcesController(
             ICommandProcessor commandProcessor,
             IDocumentSession documentSession,
-            IUserContext userContext
+            IUserContext userContext,
+            IVideoUtility videoUtility
             )
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(userContext, "userContext");
+            Check.RequireNotNull(videoUtility, "videoUtility");
 
             _commandProcessor = commandProcessor;
             _documentSession = documentSession;
             _userContext = userContext;
+            _videoUtility = videoUtility;
         }
 
         #endregion
@@ -60,6 +65,52 @@ namespace Bowerbird.Web.Controllers
         #endregion
 
         #region Methods
+
+        [HttpPost]
+        [Authorize]
+        [Transaction]
+        [ValidateInput(false)]
+        public ActionResult VideoUpload(
+            string Description, 
+            string LinkUri, 
+            string Title)
+        {
+            if (!_userContext.HasGroupPermission(PermissionNames.CreateObservation, Constants.AppRootId))
+            {
+                return HttpUnauthorized();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return JsonFailed();
+            }
+
+            _commandProcessor.Process(new VideoResourceCreateCommand()
+            {
+                Description = Description,
+                LinkUri = LinkUri,
+                Title = Title,
+                UploadedOn = DateTime.UtcNow,
+                Usage = "video",
+                UserId = _userContext.GetAuthenticatedUserId()
+            });
+
+            return JsonSuccess();
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateInput(false)]
+        public ActionResult VideoPreview(string url)
+        {
+            string videoOutput;
+            if (_videoUtility.PreviewVideoTag(url, out videoOutput))
+            {
+                return new JsonNetResult(new { success = false, EmbedTags = videoOutput });
+            }
+
+            return new JsonNetResult(new { success = false, EmbedTags = videoOutput });
+        }
 
         [HttpPost]
         [Authorize]
@@ -127,98 +178,6 @@ namespace Bowerbird.Web.Controllers
                 return new JsonNetResult(new { success = false, error = ex.Message });
             }
         }
-
-        //private void SetExifData(MediaResource mediaResource, out string dateTime, out string lat, out string lon)
-        //{
-        //    lat = string.Empty;
-        //    lon = string.Empty;
-
-        //    if(mediaResource.Exifdata.ContainsKey(ExifLib.ExifTags.GPSLatitude.ToString()) &&
-        //        mediaResource.Exifdata.ContainsKey(ExifLib.ExifTags.GPSLongitude.ToString()) &&
-        //        mediaResource.Exifdata.ContainsKey(ExifLib.ExifTags.GPSLatitudeRef.ToString()) &&
-        //        mediaResource.Exifdata.ContainsKey(ExifLib.ExifTags.GPSLongitudeRef.ToString()))
-        //    {
-        //        var latitudeConverted = ConvertDegreeAngleToDouble(
-        //            mediaResource.Exifdata[ExifLib.ExifTags.GPSLatitude.ToString()] as double[],
-        //            mediaResource.Exifdata[ExifLib.ExifTags.GPSLatitudeRef.ToString()] as string);
-                
-        //        var longitudeConverted = ConvertDegreeAngleToDouble(
-        //            mediaResource.Exifdata[ExifLib.ExifTags.GPSLongitude.ToString()] as double[],
-        //            mediaResource.Exifdata[ExifLib.ExifTags.GPSLongitudeRef.ToString()] as string);
-
-        //        if (latitudeConverted.HasValue && longitudeConverted.HasValue)
-        //        {
-        //            lat = latitudeConverted.Value.ToString();
-        //            lon = longitudeConverted.Value.ToString();
-        //        }
-        //    }
-
-        //    if (mediaResource.Exifdata.ContainsKey(ExifLib.ExifTags.DateTime.ToString()))
-        //    {
-        //        var convertedDateTime = ConvertDateTime(mediaResource.Exifdata[ExifLib.ExifTags.DateTime.ToString()].ToString());
-
-        //        dateTime = convertedDateTime.ToString("dd MMM yyyy");
-        //    }
-        //    else
-        //    {
-        //        dateTime = DateTime.UtcNow.ToString("dd MMM yyyy");
-        //    }
-        //}
-
-        //// In geographic coordinates stored as EXIF data, the coordinates for latitude and longitude are stored
-        //// as unsigned doubles in an array. Latitudes are the meridian lines parallel with the equator. A negative latitude
-        //// will hence fall under the equator. Longitudes are perpendicular to the equator. A negative longitude will occur between
-        //// Grenich in the UK (GMD) and the international Date Line which is in the middle of the Pacific Ocean.
-        //// Australian latitudes are thus negative and longitudes are positive. In the EXIF data, a latitude is stored in a latitude array,
-        //// and it's location relative to grenich is stored in a separate field - in our case "GPSLatitudeRef". A ref of "N" will indicate +'ive.
-        //// A ref of "S" will indicate that the Latitude should be -'ive. The Longitude will have an "GPSLongitudeRef" of "E" for +'ive, "W" for -'ive.
-        //private double? ConvertDegreeAngleToDouble(double[] coordinates, string orientation)
-        //{
-        //    if (coordinates == null) return null;
-
-        //    double degrees = coordinates[0], minutes = coordinates[1], seconds = coordinates[2];
-
-        //    var negative = orientation.ToLower().Equals("w") || orientation.ToLower().Equals("s");
-
-        //    if (negative)
-        //    {
-        //        // turn it positive, apply arithmetic, then return as negative again
-        //        return (-1 * degrees) - (minutes / 60) - (seconds / 3600);
-        //    }
-
-        //    return degrees + (minutes / 60) + (seconds / 3600);
-        //}
-
-        //// DateTime is stored as a string - "yyyy:MM:dd hh:mm:ss" in 24 hour format
-        //private DateTime ConvertDateTime(string dateTimeExif)
-        //{
-        //    var dateTimeStringComponents = dateTimeExif.Split(new[] { ':', ' ' });
-
-        //    if (dateTimeExif != string.Empty && dateTimeStringComponents.Count() == 6)
-        //    {
-        //        var dateTimeIntComponents = new int[dateTimeStringComponents.Count()];
-
-        //        for (var i = 0; i < dateTimeStringComponents.Length; i++)
-        //        {
-        //            int convertedSegment;
-        //            if (Int32.TryParse(dateTimeStringComponents[i], out convertedSegment))
-        //            {
-        //                dateTimeIntComponents[i] = convertedSegment;
-        //            }
-        //        }
-
-        //        return new DateTime(
-        //            dateTimeIntComponents[0], // year
-        //            dateTimeIntComponents[1], // month
-        //            dateTimeIntComponents[2], // day
-        //            dateTimeIntComponents[3], // hour
-        //            dateTimeIntComponents[4], // minute
-        //            dateTimeIntComponents[5] // second
-        //            );
-        //    }
-
-        //    return DateTime.UtcNow;
-        //}
 
         #endregion
     }

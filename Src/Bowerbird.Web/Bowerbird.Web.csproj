@@ -193,6 +193,8 @@
     <Compile Include="EventHandlers\ActivityObservationNoteAdded.cs" />
     <Compile Include="EventHandlers\ActivityPostAdded.cs" />
     <Compile Include="EventHandlers\ActivityUserJoinedGroup.cs" />
+    <Compile Include="EventHandlers\DomainModelUpdatedEvent.cs" />
+    <Compile Include="EventHandlers\MediaResourceUploaded.cs" />
     <Compile Include="EventHandlers\UserSessionUpdated.cs" />
     <Compile Include="EventHandlers\ChatUpdated.cs" />
     <Compile Include="EventHandlers\DomainEventHandlerBase.cs" />
