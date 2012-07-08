@@ -19,7 +19,7 @@ using Bowerbird.Core.DomainModels.DenormalisedReferences;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public class ReferenceSpecies : DomainModel
+    public class ReferenceSpecies
     {
         #region Fields
 
@@ -32,47 +32,33 @@ namespace Bowerbird.Core.DomainModels
         protected ReferenceSpecies()
         {
             InitMembers();
-
-            EnableEvents();
         }
     
         public ReferenceSpecies(
-            User createdByUser,
             DateTime createdOn,
-            string groupId,
-            string speciesId,
+            Species species,
             IEnumerable<string> smartTags)
             : base()
         {
-            Check.RequireNotNull(createdByUser, "createdByUser");
-            Check.RequireNotNullOrWhitespace(groupId, "groupId");
-            Check.RequireNotNullOrWhitespace(speciesId, "speciesId");
+            Check.RequireNotNull(species, "species");
 
             InitMembers();
 
-            User = createdByUser;
             CreatedDateTime = createdOn;
+            SpeciesId = species.Id;
 
-            SetDetails(
-                groupId,
-                speciesId,
-                smartTags
-                );
-
-            EnableEvents();
+            SetDetails(smartTags);
         }
 
         #endregion
 
         #region Properties
 
-        public DenormalisedUserReference User { get; set; }
+        public DateTime CreatedDateTime { get; private set; }
 
-        public DateTime CreatedDateTime { get; set; }
+        public DateTime UpdatedDateTime { get; private set; }
 
-        public string GroupId { get; set; }
-        
-        public string SpeciesId { get; set; }
+        public string SpeciesId { get; private set; }
 
         public IEnumerable<string> SmartTags { get { return _smartTags; } }
         
@@ -85,28 +71,15 @@ namespace Bowerbird.Core.DomainModels
             _smartTags = new List<string>();
         }
 
-        private void SetDetails(
-            string groupId,
-            string speciesId,
-            IEnumerable<string> smartTags
-            )
+        private void SetDetails(IEnumerable<string> smartTags)
         {
-            GroupId = groupId;
-            SpeciesId = speciesId;
             _smartTags = smartTags;
+            UpdatedDateTime = DateTime.UtcNow;
         }
 
-        public void UpdateDetails(
-            string groupId,
-            string speciesId,
-            IEnumerable<string> smartTags
-            )
+        public void UpdateDetails(IEnumerable<string> smartTags)
         {
-            SetDetails(
-                groupId,
-                speciesId,
-                smartTags
-                );
+            SetDetails(smartTags);
         }
 
         #endregion

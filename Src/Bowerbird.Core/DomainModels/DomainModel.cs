@@ -60,32 +60,43 @@ namespace Bowerbird.Core.DomainModels
             protected set
             {
                 _id = value;
+                if (CachedDomainCreatedEventAction != null)
+                {
+                    CachedDomainCreatedEventAction();
+                    CachedDomainCreatedEventAction = null;
+                }
             }
         }
 
-        /// <summary>
-        /// Attempts to return the "short" ID. Eg: Id = "abc/123" returns "123"
-        /// </summary>
-        public string ShortId()
-        {
-            if (string.IsNullOrWhiteSpace(_id))
-            {
-                return string.Empty;
-            }
+        ///// <summary>
+        ///// Attempts to return the "short" ID. Eg: Id = "abc/123" returns "123"
+        ///// </summary>
+        //public string ShortId()
+        //{
+        //    if (string.IsNullOrWhiteSpace(_id))
+        //    {
+        //        return string.Empty;
+        //    }
 
-            if (_id.Contains('/'))
-            {
-                return _id.Split('/')[1];
-            }
+        //    if (_id.Contains('/'))
+        //    {
+        //        return _id.Split('/')[1];
+        //    }
 
-            return _id;
-        }
+        //    return _id;
+        //}
 
         /// <summary>
         /// Used to determine if events will be fired. Default is set to false
         /// </summary>
         [Raven.Imports.Newtonsoft.Json.JsonIgnore]
         private bool CanFireEvents { get; set; }
+
+        /// <summary>
+        /// Cache domain created event until ID is set (model is persisted)
+        /// </summary>
+        [Raven.Imports.Newtonsoft.Json.JsonIgnore]
+        private Action CachedDomainCreatedEventAction { get; set; }
 
         protected void EnableEvents()
         {
@@ -99,7 +110,17 @@ namespace Bowerbird.Core.DomainModels
         {
             if (CanFireEvents)
             {
-                EventProcessor.Raise(domainEvent);
+                if (!string.IsNullOrWhiteSpace(Id))
+                {
+                    EventProcessor.Raise(domainEvent);
+                }
+                else
+                {
+                    if (domainEvent.GetType().IsGenericType && domainEvent.GetType().GetGenericTypeDefinition() == typeof(DomainModelCreatedEvent<>))
+                    {
+                        CachedDomainCreatedEventAction = () => EventProcessor.Raise(domainEvent);
+                    }
+                }
             }
         }
 

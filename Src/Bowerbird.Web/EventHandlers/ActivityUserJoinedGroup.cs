@@ -25,20 +25,27 @@ using Bowerbird.Web.Builders;
 using SignalR.Hubs;
 using Bowerbird.Web.Hubs;
 using Bowerbird.Core.Config;
+using Bowerbird.Core.Indexes;
+using Bowerbird.Web.Services;
 
 namespace Bowerbird.Web.EventHandlers
 {
     /// <summary>
     /// Log an activity item when a user joins a group
     /// </summary>
-    public class ActivityUserJoinedGroup : DomainEventHandlerBase, IEventHandler<DomainModelCreatedEvent<Member>>
+    public class ActivityUserJoinedGroup : 
+        DomainEventHandlerBase, 
+        IEventHandler<DomainModelCreatedEvent<Member>>,
+        IEventHandler<DomainModelCreatedEvent<Project>>,
+        IEventHandler<DomainModelCreatedEvent<Team>>,
+        IEventHandler<DomainModelCreatedEvent<Organisation>>
     {
         #region Members
 
         private readonly IDocumentSession _documentSession;
         private readonly IUserViewFactory _userViewFactory;
         private readonly IGroupViewFactory _groupViewFactory;
-        private readonly IUserContext _userContext;
+        private readonly IBackChannelService _backChannelService;
 
         #endregion
 
@@ -48,18 +55,18 @@ namespace Bowerbird.Web.EventHandlers
             IDocumentSession documentSession,
             IUserViewFactory userViewFactory,
             IGroupViewFactory groupViewFactory,
-            IUserContext userContext
+            IBackChannelService backChannelService
             )
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(userViewFactory, "userViewFactory");
             Check.RequireNotNull(groupViewFactory, "groupViewFactory");
-            Check.RequireNotNull(userContext, "userContext");
+            Check.RequireNotNull(backChannelService, "backChannelService");
 
             _documentSession = documentSession;
             _userViewFactory = userViewFactory;
             _groupViewFactory = groupViewFactory;
-            _userContext = userContext;
+            _backChannelService = backChannelService;
         }
 
         #endregion
@@ -72,32 +79,61 @@ namespace Bowerbird.Web.EventHandlers
 
         public void Handle(DomainModelCreatedEvent<Member> domainEvent)
         {
-            var user = _documentSession.Load<User>(domainEvent.Sender.Id);
-            var group = _documentSession.Load<dynamic>(domainEvent.DomainModel.Group.Id);
-
-            foreach(var session in user.Sessions)
+            if (domainEvent.DomainModel.Group.GroupType != "userproject") // Do not record an activity for user's on userproject
             {
-                _userContext.AddUserToGroupChannel(domainEvent.DomainModel.Group.Id, session.ConnectionId);
+                var groupResult = _documentSession
+                    .Query<All_Groups.Result, All_Groups>()
+                    .Where(x => x.GroupId == domainEvent.DomainModel.Group.Id)
+                    .ToList()
+                    .First();
+
+                Execute(domainEvent, groupResult.Group, groupResult.UserIds.Count(), domainEvent.Sender as User);
+            }
+        }
+
+        public void Handle(DomainModelCreatedEvent<Project> domainEvent)
+        {
+            Execute(domainEvent, domainEvent.DomainModel, 1, domainEvent.User);
+        }
+
+        public void Handle(DomainModelCreatedEvent<Team> domainEvent)
+        {
+            Execute(domainEvent, domainEvent.DomainModel, 1, domainEvent.User);
+        }
+
+        public void Handle(DomainModelCreatedEvent<Organisation> domainEvent)
+        {
+            Execute(domainEvent, domainEvent.DomainModel, 1, domainEvent.User);
+        }
+
+        private void Execute(IDomainEvent domainEvent, Group group, int memberCount, User newMember)
+        {
+            var user = _documentSession.Load<User>(newMember.Id);
+
+            foreach (var session in user.Sessions)
+            {
+                _backChannelService.AddUserToGroupChannel(newMember.Id, session.ConnectionId);
             }
 
-            _userContext.GetUserChannel(user.Id).joinedGroup(_groupViewFactory.Make(group));
+            _backChannelService.SendJoinedGroupToUserChannel(user.Id, _groupViewFactory.Make(group, memberCount));
 
             dynamic activity = MakeActivity(
-                domainEvent, 
-                "userjoinedgroup", 
-                string.Format("{0} joined {1}", user.FirstName, group.Name), 
-                new[] { domainEvent.DomainModel.Group });
+                domainEvent,
+                "userjoinedgroup",
+                string.Format("{0} joined {1}", user.FirstName, group.Name),
+                new[] { group });
 
             activity.UserJoinedGroup = new
             {
                 User = user,
-                Group = group
+                Group = _groupViewFactory.Make(group, memberCount)
             };
 
             _documentSession.Store(activity);
-            _userContext.SendActivityToGroupChannel(activity);
+            _backChannelService.SendActivityToGroupChannel(activity);
         }
 
         #endregion
+
     }
 }

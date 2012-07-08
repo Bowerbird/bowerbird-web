@@ -24,18 +24,19 @@ using System;
 using Bowerbird.Core.Config;
 using Raven.Client;
 using System.Collections;
+using System.Dynamic;
 
 namespace Bowerbird.Web.Controllers
 {
-    [Restful]
     public class ObservationsController : ControllerBase
     {
         #region Members
 
         private readonly ICommandProcessor _commandProcessor;
         private readonly IUserContext _userContext;
-        private readonly IObservationsViewModelBuilder _viewModelBuilder;
+        private readonly ISightingViewModelBuilder _sightingViewModelBuilder;
         private readonly IDocumentSession _documentSession;
+        private readonly IPermissionChecker _permissionChecker;
 
         #endregion
 
@@ -44,19 +45,22 @@ namespace Bowerbird.Web.Controllers
         public ObservationsController(
             ICommandProcessor commandProcessor,
             IUserContext userContext,
-            IObservationsViewModelBuilder observationsViewModelBuilder,
-            IDocumentSession documentSession
+            ISightingViewModelBuilder sightingViewModelBuilder,
+            IDocumentSession documentSession,
+            IPermissionChecker permissionChecker
             )
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
             Check.RequireNotNull(userContext, "userContext");
-            Check.RequireNotNull(observationsViewModelBuilder, "observationsViewModelBuilder");
+            Check.RequireNotNull(sightingViewModelBuilder, "sightingViewModelBuilder");
             Check.RequireNotNull(documentSession, "documentSession");
+            Check.RequireNotNull(permissionChecker, "permissionChecker");
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
-            _viewModelBuilder = observationsViewModelBuilder;
+            _sightingViewModelBuilder = sightingViewModelBuilder;
             _documentSession = documentSession;
+            _permissionChecker = permissionChecker;
         }
 
         #endregion
@@ -64,33 +68,26 @@ namespace Bowerbird.Web.Controllers
         #region Methods
 
         [HttpGet]
-        public ActionResult Index(IdInput idInput)
+        public ActionResult Index(string id)
         {
-            ViewBag.Observation = _viewModelBuilder.BuildObservation(idInput);
+            string observationId = VerbosifyId<Observation>(id);
 
-            return View(Form.Index);
+            if (!_permissionChecker.DoesExist<Observation>(observationId))
+            {
+                return HttpNotFound();
+            }
+
+            var viewModel = new
+                {
+                    Observation = _sightingViewModelBuilder.BuildSighting(observationId)
+                };
+
+            return RestfulResult(
+                viewModel,
+                "observations",
+                "index");
         }
 
-        [HttpGet]
-        public ActionResult Explore(PagingInput pagingInput)
-        {
-            ViewBag.ObservationList = _viewModelBuilder.BuildObservationList(pagingInput);
-
-            return View(Form.List);
-        }
-
-        [HttpGet]
-        public ActionResult GetOne(IdInput idInput)
-        {
-            return new JsonNetResult(_viewModelBuilder.BuildObservation(idInput));
-        }
-
-        [HttpGet]
-        public ActionResult GetMany(PagingInput pagingInput)
-        {
-            return new JsonNetResult(_viewModelBuilder.BuildObservationList(pagingInput));
-        }
-         
         [HttpGet]
         [Authorize]
         public ActionResult CreateForm()
@@ -100,71 +97,79 @@ namespace Bowerbird.Web.Controllers
                 return HttpUnauthorized();
             }
 
-            var observation = _viewModelBuilder.BuildObservation();
-            var categories = GetCategories();
-
-            if (Request.IsAjaxRequest())
-            {
-                return new JsonNetResult(new
+            dynamic viewModel = new ExpandoObject();
+            viewModel = new
                 {
-                    Model = new 
-                    {
-                        Observation = observation,
-                        Categories = categories
-                    }
-                });
-            }
+                    Observation = _sightingViewModelBuilder.BuildNewObservation(),
+                    Categories = GetCategories()
+                };
 
-            ViewBag.Model = new
-            {
-                Create = true,
-                Observation = observation,
-                Categories = categories
-            };
-
-            ViewBag.PrerenderedView = "observations";
-
-            return View(Form.Create);
+            return RestfulResult(
+                viewModel, 
+                "observations", 
+                "create", 
+                new Action<dynamic>(x => x.Model.Create = true));
         }
 
         [HttpGet]
         [Authorize]
-        public ActionResult UpdateForm(IdInput idInput)
+        public ActionResult UpdateForm(string id)
         {
+            string observationId = VerbosifyId<Observation>(id);
+
+            if (!_permissionChecker.DoesExist<Observation>(observationId))
+            {
+                return HttpNotFound();
+            }
+
             if (!_userContext.HasUserProjectPermission(PermissionNames.UpdateObservation))
             {
                 return HttpUnauthorized();
             }
 
-            ViewBag.Model = new 
+            var observation = _sightingViewModelBuilder.BuildSighting(observationId);
+
+            dynamic viewModel = new ExpandoObject();
+            viewModel = new
             {
-                Update = true,
-                Observation = _viewModelBuilder.BuildObservation(idInput),
-                Categories = GetCategories(idInput.Id)
+                Observation = observation,
+                Categories = GetCategories(observationId)
             };
 
-            if (Request.IsAjaxRequest())
-            {
-                return new JsonNetResult(new { Model = ViewBag.Model });
-            }
-
-            ViewBag.PrerenderedView = "observations";
-
-            return View(Form.Update);
+            return RestfulResult(
+                viewModel,
+                "observations",
+                "update", 
+                new Action<dynamic>(x => x.Model.Update = true));
         }
 
         [HttpGet]
         [Authorize]
-        public ActionResult DeleteForm(IdInput idInput)
+        public ActionResult DeleteForm(string id)
         {
+            string observationId = VerbosifyId<Observation>(id);
+
+            if (!_permissionChecker.DoesExist<Observation>(observationId))
+            {
+                return HttpNotFound();
+            }
+
             if (!_userContext.HasUserProjectPermission(PermissionNames.DeleteObservation))
             {
                 return HttpUnauthorized();
             }
 
-            ViewBag.Observation = _viewModelBuilder.BuildObservation(idInput);
+            dynamic viewModel = new ExpandoObject();
+            viewModel = new
+            {
+                Observation = _sightingViewModelBuilder.BuildSighting(observationId)
+            };
 
-            return View(Form.Delete);
+            return RestfulResult(
+                viewModel,
+                "observations",
+                "delete", 
+                new Action<dynamic>(x => x.Model.Delete = true));
         }
 
         [Transaction]
@@ -206,7 +211,14 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult Update(ObservationUpdateInput updateInput)
         {
-            if (!_userContext.HasGroupPermission<Observation>(PermissionNames.UpdateObservation, updateInput.ObservationId))
+            string observationId = VerbosifyId<Observation>(updateInput.Id);
+
+            if (!_permissionChecker.DoesExist<Observation>(observationId))
+            {
+                return HttpNotFound();
+            }
+
+            if (!_userContext.HasGroupPermission<Observation>(PermissionNames.UpdateObservation, observationId))
             {
                 return HttpUnauthorized();
             }
@@ -219,7 +231,7 @@ namespace Bowerbird.Web.Controllers
             _commandProcessor.Process(
                 new ObservationUpdateCommand
                 {
-                    Id = updateInput.ObservationId,
+                    Id = observationId,
                     Title = updateInput.Title,
                     Latitude = updateInput.Latitude,
                     Longitude = updateInput.Longitude,
@@ -238,9 +250,16 @@ namespace Bowerbird.Web.Controllers
         [Transaction]
         [HttpDelete]
         [Authorize]
-        public ActionResult Delete(IdInput idInput)
+        public ActionResult Delete(string id)
         {
-            if (!_userContext.HasGroupPermission<Observation>(PermissionNames.UpdateObservation, idInput.Id))
+            string observationId = VerbosifyId<Observation>(id);
+
+            if (!_permissionChecker.DoesExist<Observation>(observationId))
+            {
+                return HttpNotFound();
+            }
+
+            if (!_userContext.HasGroupPermission<Observation>(PermissionNames.UpdateObservation, observationId))
             {
                 return HttpUnauthorized();
             }
@@ -253,35 +272,31 @@ namespace Bowerbird.Web.Controllers
             _commandProcessor.Process(
                 new ObservationDeleteCommand
                 {
-                    Id = idInput.Id,
+                    Id = id,
                     UserId = _userContext.GetAuthenticatedUserId()
                 });
 
             return JsonSuccess();
         }
 
-        private IEnumerable GetCategories(string id = "")
+        private IEnumerable GetCategories(string observationId = "")
         {
-            var categories = _documentSession.Load<AppRoot>(Constants.AppRootId).Categories;
-            var observation = _documentSession.Load<Observation>("observations/" + id);
-            Func<string, bool> isSelected = null;
+            var category = string.Empty;
 
-            if (observation != null)
+            if (!string.IsNullOrWhiteSpace(observationId))
             {
-                isSelected = x => { return x == observation.Category; };
-            }
-            else
-            {
-                isSelected = x => { return false; };
+                category = _documentSession.Load<Observation>(observationId).Category;
             }
 
-            return from category in categories
-                   select new
+            return _documentSession
+                .Load<AppRoot>(Constants.AppRootId)
+                .Categories
+                .Select(x => new
                    {
-                       Text = category,
-                       Value = category,
-                       Selected = isSelected(category)
-                   };
+                       Text = x,
+                       Value = x,
+                       Selected = x == category
+                   });
         }
 
         #endregion

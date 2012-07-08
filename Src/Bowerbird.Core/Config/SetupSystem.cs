@@ -111,8 +111,7 @@ namespace Bowerbird.Core.Config
                 // Add species data
                 AddSpecies();
 
-                // Enable event & command processors to log user activity
-                _systemStateManager.SwitchServices(enableEmails: false, enableEvents: true, enableCommands: true);
+                _documentSession.SaveChanges();
 
                 // Add system admins
                 AddAdminUsers();
@@ -281,8 +280,13 @@ namespace Bowerbird.Core.Config
         private void AddAdminUsers()
         {
             AddUser("password", "frank@radocaj.com", "Frank", "Radocaj", "globaladministrator", "globalmember");
+            _documentSession.SaveChanges();
+
             AddUser("password", "hcrittenden@museum.vic.gov.au", "Hamish", "Crittenden", "globaladministrator", "globalmember");
+            _documentSession.SaveChanges();
+
             AddUser("password", "kwalker@museum.vic.gov.au", "Ken", "Walker", "globaladministrator", "globalmember");
+            _documentSession.SaveChanges();
         }
 
         private void AddUser(string password, string email, string firstname, string lastname, params string[] roleIds)

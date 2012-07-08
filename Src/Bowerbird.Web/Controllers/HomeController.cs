@@ -28,7 +28,7 @@ namespace Bowerbird.Web.Controllers
 
         private readonly ICommandProcessor _commandProcessor;
         private readonly IUserContext _userContext;
-        private readonly IStreamItemsViewModelBuilder _streamItemsViewModelBuilder;
+        private readonly IActivityViewModelBuilder _activityViewModelBuilder;
 
         #endregion
 
@@ -37,16 +37,16 @@ namespace Bowerbird.Web.Controllers
         public HomeController(
             ICommandProcessor commandProcessor,
             IUserContext userContext,
-            IStreamItemsViewModelBuilder streamItemsViewModelBuilder
+            IActivityViewModelBuilder activityViewModelBuilder
             )
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
             Check.RequireNotNull(userContext, "userContext");
-            Check.RequireNotNull(streamItemsViewModelBuilder, "streamItemsViewModelBuilder");
+            Check.RequireNotNull(activityViewModelBuilder, "activityViewModelBuilder");
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
-            _streamItemsViewModelBuilder = streamItemsViewModelBuilder;
+            _activityViewModelBuilder = activityViewModelBuilder;
         }
 
         #endregion
@@ -62,6 +62,7 @@ namespace Bowerbird.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public ActionResult PrivateIndex()
         {
             if (!_userContext.IsUserAuthenticated())
@@ -75,18 +76,24 @@ namespace Bowerbird.Web.Controllers
                 StreamItems = new object [] {}
             };
 
-            ViewBag.PrerenderedView = "home"; // HACK: Need to rethink this
+            ViewBag.PrerenderedView = "home";
 
             return View();
         }
 
         [HttpGet]
-        public ActionResult Stream(StreamInput streamInput, PagingInput pagingInput)
+        [Authorize]
+        public ActionResult Activity(ActivityInput activityInput, PagingInput pagingInput)
         {
-            return new JsonNetResult(new 
+            if (Request.IsAjaxRequest())
             {
-                Model = _streamItemsViewModelBuilder.BuildHomeStreamItems(streamInput, pagingInput)
-            });
+                return new JsonNetResult(new
+                {
+                    Model = _activityViewModelBuilder.BuildHomeActivityList(_userContext.GetAuthenticatedUserId(), activityInput, pagingInput)
+                });
+            }
+
+            return HttpNotFound();
         }
 
         #endregion

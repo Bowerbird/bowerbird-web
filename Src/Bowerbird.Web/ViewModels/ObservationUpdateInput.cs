@@ -30,7 +30,7 @@ namespace Bowerbird.Web.ViewModels
 
         #region Properties
 
-        public string ObservationId { get; set; }
+        public string Id { get; set; }
 
         public string Address { get; set; }
 

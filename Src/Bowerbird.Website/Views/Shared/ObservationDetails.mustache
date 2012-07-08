@@ -1,0 +1,29 @@
+﻿<h2>{{Model.ObservationAdded.Observation.Title}}</h2>
+<div>
+  <div class="images">
+    <div class="preview">
+      <img src="{{Model.ObservationAdded.Observation.PrimaryImage.MediaResource.Files.FullLarge.RelativeUri}}" alt="{{Model.ObservationAdded.Observation.Title}}" />
+    </div>
+    <div class="thumbnails">
+      {{#Model.ObservationAdded.Observation.Media}}
+      <img src="{{MediaResource.Files.FullSmall.RelativeUri}}" alt="{{Model.ObservationAdded.Observation.Title}}" />
+      {{/Model.ObservationAdded.Observation.Media}}
+    </div>
+  </div>
+  <div class="info">
+    <div class="observed">
+      Observed
+      <span>{{Model.ObservationAdded.Observation.ObservedOnDate}}</span>
+      <span>{{Model.ObservationAdded.Observation.ObservedOnTime}} AEST</span>
+    </div>
+    <div class="location">
+      Location
+      <div class="map">
+        <img src="http://maps.googleapis.com/maps/api/staticmap?zoom=8&size=400x200&scale=2&maptype=terrain&markers=color:blue|{{Model.ObservationAdded.Observation.Latitude}},{{Model.ObservationAdded.Observation.Longitude}}&sensor=false" alt="Map of location" />
+      </div>
+      <span>{{Model.ObservationAdded.Observation.Address}}</span>
+      <span>Latitude {{Model.ObservationAdded.Observation.Latitude}}</span>
+      <span>Longitude {{Model.ObservationAdded.Observation.Longitude}}</span>
+    </div>
+  </div>
+</div>

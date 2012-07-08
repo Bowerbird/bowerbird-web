@@ -92,8 +92,8 @@ namespace Bowerbird.Core.Config
         {
             try
             {
-                // Disable email service to avoid emails going out to fake users/teams/orgs
-                _systemStateManager.SwitchServices(enableEmails: false);
+                // Disable all services
+                _systemStateManager.SwitchServicesOff();
 
                 Organisations = new List<Organisation>();
                 Teams = new List<Team>();
@@ -110,47 +110,53 @@ namespace Bowerbird.Core.Config
                 //AddUser("password", "frank@radocaj.com", "Frank", "Radocaj", "globaladministrator", "globalmember");
 
                 // Organisations
-                AddOrganisation("Bowerbird Test Organisation", "Test for Alpha Rlease", "www.bowerbird.org.au", Users[0].Id);
-                AddOrganisation("Museum Victoria", "Museum Victoria", "www.museumvictoria.com", Users[0].Id);
+                AddOrganisation("Test Organisation", "Test organisation for Alpha release", "www.bowerbird.org.au", Users[0].Id);
+                //AddOrganisation("Museum Victoria", "Museum Victoria", "www.museumvictoria.com", Users[0].Id);
 
                 // Teams
-                AddTeam("Bowerbird Test Team", "Test team for Alpha Release", "www.bowerbird.org.au", Users[0].Id, Organisations[0].Id);
-                AddTeam("Ken Walker tests Bowerbird", "Another Test team for Alpha Release", "www.bowerbird.org.au", Users[2].Id, Organisations[1].Id);
+                AddTeam("Test Team", "Test team for Alpha release", "www.bowerbird.org.au", Users[0].Id, Organisations[0].Id);
+                //AddTeam("Ken Walker tests Bowerbird", "Another Test team for Alpha Release", "www.bowerbird.org.au", Users[0].Id, Organisations[1].Id);
 
                 // Projects
-                AddProject("Dev Alpha", "Test for Alpha Release", "www.bowerbird.org.au", Users[0].Id, Teams[0].Id);
-                AddProject("Kens Bees", "Bee Project", "www.bowerbird.org.au", Users[2].Id, Teams[1].Id);
+                AddProject("Test Project", "Test project for Alpha release", "www.bowerbird.org.au", Users[0].Id, Teams[0].Id);
+                //AddProject("Kens Bees", "Bee Project", "www.bowerbird.org.au", Users[0].Id, Teams[1].Id);
 
-                // Members
-                AddProjectMember(Users[0].Id, Projects[0].Id, "projectadministrator", "projectmember");
-                AddProjectMember(Users[0].Id, Projects[1].Id, "projectadministrator", "projectmember");
-                AddProjectMember(Users[1].Id, Projects[0].Id, "projectadministrator", "projectmember");
-                AddProjectMember(Users[1].Id, Projects[1].Id, "projectadministrator", "projectmember");
-                AddProjectMember(Users[2].Id, Projects[0].Id, "projectadministrator", "projectmember");
-                AddProjectMember(Users[2].Id, Projects[1].Id, "projectadministrator", "projectmember");
+                //// Save changes so that we have access to indexes for observation creation
+                //_documentSession.SaveChanges();
 
-                AddTeamMember(Users[0].Id, Teams[0].Id, "teamadministrator", "teammember");
-                AddTeamMember(Users[0].Id, Teams[1].Id, "teamadministrator", "teammember");
-                AddTeamMember(Users[1].Id, Teams[0].Id, "teamadministrator", "teammember");
-                AddTeamMember(Users[1].Id, Teams[1].Id, "teamadministrator", "teammember");
-                AddTeamMember(Users[2].Id, Teams[0].Id, "teamadministrator", "teammember");
-                AddTeamMember(Users[2].Id, Teams[1].Id, "teamadministrator", "teammember");
-
-                AddOrganisationMember(Users[0].Id, Organisations[0].Id, "organisationadministrator", "organisationmember");
-                AddOrganisationMember(Users[0].Id, Organisations[1].Id, "organisationadministrator", "organisationmember");
-                AddOrganisationMember(Users[1].Id, Organisations[0].Id, "organisationadministrator", "organisationmember");
-                AddOrganisationMember(Users[1].Id, Organisations[1].Id, "organisationadministrator", "organisationmember");
-                AddOrganisationMember(Users[2].Id, Organisations[0].Id, "organisationadministrator", "organisationmember");
-                AddOrganisationMember(Users[2].Id, Organisations[1].Id, "organisationadministrator", "organisationmember");
-
-                // Save changes so that we have access to indexes for observation creation
-                _documentSession.SaveChanges();
-
-                // Wait for all stale indexes to complete.
-                WaitForIndexingToFinish();
+                //// Wait for all stale indexes to complete.
+                //WaitForIndexingToFinish();
                 
-                // Observations
-                AddObservations();
+                // Members
+                //AddProjectMember(Users[0].Id, Projects[0].Id, "projectadministrator", "projectmember");
+                //AddProjectMember(Users[0].Id, Projects[1].Id, "projectadministrator", "projectmember");
+                //AddProjectMember(Users[1].Id, Projects[0].Id, "projectadministrator", "projectmember");
+                //AddProjectMember(Users[1].Id, Projects[1].Id, "projectadministrator", "projectmember");
+                //AddProjectMember(Users[2].Id, Projects[0].Id, "projectadministrator", "projectmember");
+                //AddProjectMember(Users[2].Id, Projects[1].Id, "projectadministrator", "projectmember");
+
+                //AddTeamMember(Users[0].Id, Teams[0].Id, "teamadministrator", "teammember");
+                //AddTeamMember(Users[0].Id, Teams[1].Id, "teamadministrator", "teammember");
+                //AddTeamMember(Users[1].Id, Teams[0].Id, "teamadministrator", "teammember");
+                //AddTeamMember(Users[1].Id, Teams[1].Id, "teamadministrator", "teammember");
+                //AddTeamMember(Users[2].Id, Teams[0].Id, "teamadministrator", "teammember");
+                //AddTeamMember(Users[2].Id, Teams[1].Id, "teamadministrator", "teammember");
+
+                //AddOrganisationMember(Users[0].Id, Organisations[0].Id, "organisationadministrator", "organisationmember");
+                //AddOrganisationMember(Users[0].Id, Organisations[1].Id, "organisationadministrator", "organisationmember");
+                //AddOrganisationMember(Users[1].Id, Organisations[0].Id, "organisationadministrator", "organisationmember");
+                //AddOrganisationMember(Users[1].Id, Organisations[1].Id, "organisationadministrator", "organisationmember");
+                //AddOrganisationMember(Users[2].Id, Organisations[0].Id, "organisationadministrator", "organisationmember");
+                //AddOrganisationMember(Users[2].Id, Organisations[1].Id, "organisationadministrator", "organisationmember");
+
+                //// Save changes so that we have access to indexes for observation creation
+                //_documentSession.SaveChanges();
+
+                //// Wait for all stale indexes to complete.
+                //WaitForIndexingToFinish();
+                
+                //// Observations
+                //AddObservations();
 
                 // Save all system data now
                 _documentSession.SaveChanges();
@@ -158,8 +164,8 @@ namespace Bowerbird.Core.Config
                 // Wait for all stale indexes to complete.
                 WaitForIndexingToFinish();
 
-                // Enable emails
-                _systemStateManager.SwitchServices(enableEmails: true);
+                // Enable all services
+                _systemStateManager.SwitchServicesOn();
             }
             catch (Exception exception)
             {
@@ -192,10 +198,11 @@ namespace Bowerbird.Core.Config
 
         private void AddOrganisation(string name, string description, string website, string userid)
         {
-            var organisation = new Organisation(Users.Single(x => x.Id == userid), name, description, website, _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Organisation), DateTime.UtcNow, TheAppRoot);
+            var user = Users.Single(x => x.Id == userid);
+            var organisation = new Organisation(user, name, description, website, _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Organisation), DateTime.UtcNow, TheAppRoot);
             _documentSession.Store(organisation);
 
-            var groupAssociation = new GroupAssociation(TheAppRoot, organisation, Users.Single(x => x.Id == userid), DateTime.UtcNow);
+            var groupAssociation = new GroupAssociation(TheAppRoot, organisation, user, DateTime.UtcNow);
             GroupAssociations.Add(groupAssociation);
             _documentSession.Store(groupAssociation);
 
@@ -203,16 +210,28 @@ namespace Bowerbird.Core.Config
             _documentSession.Store(organisation);
 
             Organisations.Add(organisation);
+
+            // Add administrator membership to creating user
+            user
+                .AddMembership(
+                user,
+                organisation,
+                _documentSession
+                    .Query<Role>()
+                    .Where(x => x.Id.In("roles/organisationadministrator", "roles/organisationmember"))
+                    .ToList());
+            _documentSession.Store(user);
         }
 
         private void AddTeam(string name, string description, string website, string userid, string organisationId = null)
         {
+            var user = Users.Single(x => x.Id == userid);
             var parentGroup = Organisations.Single(x => x.Id == organisationId);
 
-            var team = new Team(Users.Single(x => x.Id == userid), name, description, website, _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Team), DateTime.UtcNow, parentGroup);
+            var team = new Team(user, name, description, website, _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Team), DateTime.UtcNow, parentGroup);
             _documentSession.Store(team);
 
-            var groupAssociation = new GroupAssociation(parentGroup, team, Users.Single(x => x.Id == userid), DateTime.UtcNow);
+            var groupAssociation = new GroupAssociation(parentGroup, team, user, DateTime.UtcNow);
             GroupAssociations.Add(groupAssociation);
             _documentSession.Store(groupAssociation);
 
@@ -222,17 +241,29 @@ namespace Bowerbird.Core.Config
             _documentSession.Store(parentGroup);
 
             Teams.Add(team);
+
+            // Add administrator membership to creating user
+            user
+                .AddMembership(
+                user,
+                team,
+                _documentSession
+                    .Query<Role>()
+                    .Where(x => x.Id.In("roles/teamadministrator", "roles/teammember"))
+                    .ToList());
+            _documentSession.Store(user);
         }
 
         private void AddProject(string name, string description, string website, string userid, string teamId = null)
         {
+            var user = Users.Single(x => x.Id == userid);
             var parentGroup = Teams.Single(x => x.Id == teamId);
 
-            var project = new Project(Users.Single(x => x.Id == userid), name, description, website, _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Project), DateTime.UtcNow, parentGroup);
+            var project = new Project(user, name, description, website, _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Project), DateTime.UtcNow, parentGroup);
             _documentSession.Store(project);
 
 
-            var groupAssociation = new GroupAssociation(parentGroup, project, Users.Single(x => x.Id == userid), DateTime.UtcNow);
+            var groupAssociation = new GroupAssociation(parentGroup, project, user, DateTime.UtcNow);
             GroupAssociations.Add(groupAssociation);
             _documentSession.Store(groupAssociation);
 
@@ -249,6 +280,17 @@ namespace Bowerbird.Core.Config
             _documentSession.Store(organisation);
 
             Projects.Add(project);
+
+            // Add administrator membership to creating user
+            user
+                .AddMembership(
+                user,
+                project,
+                _documentSession
+                    .Query<Role>()
+                    .Where(x => x.Id.In("roles/projectadministrator", "roles/projectmember"))
+                    .ToList());
+            _documentSession.Store(user);
         }
 
         private void AddProjectMember(string userid, string projectId, params string[] roleIds)

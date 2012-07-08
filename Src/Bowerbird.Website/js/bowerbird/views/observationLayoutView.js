@@ -27,6 +27,10 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/observationformlayoutv
             this.$el = $('#content .observation');
         },
 
+        showObservationDetails: function (observation) {
+            
+        },
+
         showObservationForm: function (observation, categories) {
             var options = { model: observation, categories: categories };
 

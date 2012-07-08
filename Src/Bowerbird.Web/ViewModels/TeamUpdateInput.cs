@@ -39,8 +39,6 @@ namespace Bowerbird.Web.ViewModels
 
         public string AvatarId { get; set; }
 
-        public string OrganisationId { get; set; }
-
         #endregion
 
         #region Methods

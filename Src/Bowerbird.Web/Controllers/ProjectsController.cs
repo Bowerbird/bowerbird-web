@@ -3,10 +3,8 @@
  Developers: 
  * Frank Radocaj : frank@radocaj.com
  * Hamish Crittenden : hamish.crittenden@gmail.com
- 
  Project Manager: 
  * Ken Walker : kwalker@museum.vic.gov.au
- 
  Funded by:
  * Atlas of Living Australia
  
@@ -21,28 +19,28 @@ using Bowerbird.Web.Builders;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.ViewModels;
 using Bowerbird.Core.Config;
+using System;
+using System.Linq;
 using System.Collections;
 using Raven.Client;
 using Raven.Client.Linq;
 using Bowerbird.Core.Indexes;
-using System.Linq;
-using System;
 
 namespace Bowerbird.Web.Controllers
 {
-    [Restful]
     public class ProjectsController : ControllerBase
     {
-        #region Members
+        #region Fields
 
         private readonly ICommandProcessor _commandProcessor;
         private readonly IUserContext _userContext;
-        private readonly IProjectsViewModelBuilder _projectsViewModelBuilder;
-        private readonly ITeamsViewModelBuilder _teamsViewModelBuilder;
-        private readonly IStreamItemsViewModelBuilder _streamItemsViewModelBuilder;
-        private readonly IObservationsViewModelBuilder _observationsViewModelBuilder;
-        private readonly IPostsViewModelBuilder _postsViewModelBuilder;
-        private readonly IReferenceSpeciesViewModelBuilder _referenceSpeciesViewModelBuilder;
+        private readonly IProjectViewModelBuilder _projectViewModelBuilder;
+        private readonly IActivityViewModelBuilder _activityViewModelBuilder;
+        private readonly ITeamViewModelBuilder _teamViewModelBuilder;
+        private readonly IPostViewModelBuilder _postViewModelBuilder;
+        private readonly ISightingViewModelBuilder _sightingViewModelBuilder;
+        private readonly IUserViewModelBuilder _userViewModelBuilder;
+        private readonly IPermissionChecker _permissionChecker;
         private readonly IDocumentSession _documentSession;
 
         #endregion
@@ -52,33 +50,36 @@ namespace Bowerbird.Web.Controllers
         public ProjectsController(
             ICommandProcessor commandProcessor,
             IUserContext userContext,
-            IProjectsViewModelBuilder projectsViewModelBuilder,
-            ITeamsViewModelBuilder teamsViewModelBuilder,
-            IStreamItemsViewModelBuilder streamItemsViewModelBuilder,
-            IObservationsViewModelBuilder observationsViewModelBuilder,
-            IPostsViewModelBuilder postsViewModelBuilder,
-            IReferenceSpeciesViewModelBuilder referenceSpeciesViewModelBuilder,
+            IProjectViewModelBuilder projectViewModelBuilder,
+            ISightingViewModelBuilder sightingViewModelBuilder,
+            IActivityViewModelBuilder activityViewModelBuilder,
+            ITeamViewModelBuilder teamViewModelBuilder,
+            IPostViewModelBuilder postViewModelBuilder,
+            IUserViewModelBuilder userViewModelBuilder,
+            IPermissionChecker permissionChecker,
             IDocumentSession documentSession
             )
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
             Check.RequireNotNull(userContext, "userContext");
-            Check.RequireNotNull(projectsViewModelBuilder, "projectsViewModelBuilder");
-            Check.RequireNotNull(teamsViewModelBuilder, "teamsViewModelBuilder");
-            Check.RequireNotNull(streamItemsViewModelBuilder, "streamItemsViewModelBuilder");
-            Check.RequireNotNull(observationsViewModelBuilder, "observationsViewModelBuilder");
-            Check.RequireNotNull(postsViewModelBuilder, "postsViewModelBuilder");
-            Check.RequireNotNull(referenceSpeciesViewModelBuilder, "referenceSpeciesViewModelBuilder");
+            Check.RequireNotNull(projectViewModelBuilder, "projectViewModelBuilder");
+            Check.RequireNotNull(sightingViewModelBuilder, "sightingViewModelBuilder");
+            Check.RequireNotNull(activityViewModelBuilder, "activityViewModelBuilder");
+            Check.RequireNotNull(teamViewModelBuilder, "teamViewModelBuilder");
+            Check.RequireNotNull(postViewModelBuilder, "postViewModelBuilder");
+            Check.RequireNotNull(userViewModelBuilder, "userViewModelBuilder");
+            Check.RequireNotNull(permissionChecker, "permissionChecker");
             Check.RequireNotNull(documentSession, "documentSession");
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
-            _projectsViewModelBuilder = projectsViewModelBuilder;
-            _teamsViewModelBuilder = teamsViewModelBuilder;
-            _streamItemsViewModelBuilder = streamItemsViewModelBuilder;
-            _observationsViewModelBuilder = observationsViewModelBuilder;
-            _postsViewModelBuilder = postsViewModelBuilder;
-            _referenceSpeciesViewModelBuilder = referenceSpeciesViewModelBuilder;
+            _projectViewModelBuilder = projectViewModelBuilder;
+            _sightingViewModelBuilder = sightingViewModelBuilder;
+            _activityViewModelBuilder = activityViewModelBuilder;
+            _teamViewModelBuilder = teamViewModelBuilder;
+            _postViewModelBuilder = postViewModelBuilder;
+            _userViewModelBuilder = userViewModelBuilder;
+            _permissionChecker = permissionChecker;
             _documentSession = documentSession;
         }
 
@@ -91,264 +92,226 @@ namespace Bowerbird.Web.Controllers
         #region Methods
 
         [HttpGet]
-        public ActionResult Activity(StreamInput streamInput, PagingInput pagingInput)
+        public ActionResult Activity(string id, ActivityInput activityInput, PagingInput pagingInput)
         {
-            Check.RequireNotNull(pagingInput, "pagingInput");
+            string projectId = VerbosifyId<Project>(id);
 
-            var projectId = pagingInput.Id.VerbosifyId<Project>();
-
-            if (Request.IsAjaxRequest())
+            if (!_permissionChecker.DoesExist<Project>(projectId))
             {
-                return new JsonNetResult(new
-                {
-                    Model = _streamItemsViewModelBuilder.BuildGroupStreamItems(projectId, streamInput, pagingInput)
-                });
+                return HttpNotFound();
             }
 
-            ViewBag.Model = new
-            {
-                Project = _projectsViewModelBuilder.BuildProject(projectId),
-                StreamItems = _streamItemsViewModelBuilder.BuildGroupStreamItems(projectId, null, pagingInput)
-            };
+            var viewModel = _activityViewModelBuilder.BuildGroupActivityList(projectId, activityInput, pagingInput);
 
-            ViewBag.PrerenderedView = "projects"; // HACK: Need to rethink this
-
-            return View(Form.Stream);
+            return RestfulResult(
+                viewModel,
+                "projects",
+                "activity");
         }
 
         [HttpGet]
-        public ActionResult Observations(PagingInput pagingInput)
+        public ActionResult Sightings(string id, PagingInput pagingInput)
         {
-            Check.RequireNotNull(pagingInput, "pagingInput");
+            string projectId = VerbosifyId<Project>(id);
 
-            var projectId = pagingInput.Id.VerbosifyId<Project>();
-
-            ViewBag.Model = new
+            if (!_permissionChecker.DoesExist<Project>(projectId))
             {
-                Project = _projectsViewModelBuilder.BuildProject(projectId),
-                Observations = _observationsViewModelBuilder.BuildGroupObservationList(pagingInput)
-            };
-
-            if(Request.IsAjaxRequest())
-            {
-                return new JsonNetResult(new
-                {
-                    Model = ViewBag.Model
-                });
+                return HttpNotFound();
             }
 
-            ViewBag.PrerenderedView = "observations"; // HACK: Need to rethink this
+            var viewModel = new
+            {
+                Project = _projectViewModelBuilder.BuildProject(projectId),
+                Observations = _sightingViewModelBuilder.BuildGroupSightingList(projectId, pagingInput)
+            };
 
-            return View(Form.Stream);
+            return RestfulResult(
+                viewModel,
+                "projects",
+                "sightings");
         }
 
         [HttpGet]
-        public ActionResult ReferenceSpecies(PagingInput pagingInput)
+        public ActionResult Posts(string id, PagingInput pagingInput)
         {
-            Check.RequireNotNull(pagingInput, "pagingInput");
+            string projectId = VerbosifyId<Project>(id);
 
-            var projectId = pagingInput.Id.VerbosifyId<Project>();
-
-            ViewBag.Model = new
+            if (!_permissionChecker.DoesExist<Project>(projectId))
             {
-                Project = _projectsViewModelBuilder.BuildProject(projectId),
-                ReferenceSpecies = _referenceSpeciesViewModelBuilder.BuildGroupReferenceSpeciesList(pagingInput)
-            };
-
-            ViewBag.PrerenderedView = "referencespecies"; // HACK: Need to rethink this
-
-            return View(Form.Stream);
-        }
-
-        [HttpGet]
-        public ActionResult Posts(PagingInput pagingInput)
-        {
-            Check.RequireNotNull(pagingInput, "pagingInput");
-
-            var projectId = pagingInput.Id.VerbosifyId<Project>();
-
-            ViewBag.Model = new
-            {
-                Project = _projectsViewModelBuilder.BuildProject(projectId),
-                Posts = _postsViewModelBuilder.BuildGroupPostList(pagingInput)
-            };
-
-            ViewBag.PrerenderedView = "posts"; // HACK: Need to rethink this
-
-            return View(Form.Stream);
-        }
-
-        [HttpGet]
-        public ActionResult Members(PagingInput pagingInput)
-        {
-            Check.RequireNotNull(pagingInput, "pagingInput");
-
-            var projectId = pagingInput.Id.VerbosifyId<Project>();
-
-            ViewBag.Model = new
-            {
-                Project = _projectsViewModelBuilder.BuildProject(projectId),
-                Members = _projectsViewModelBuilder.BuildProjectUserList(pagingInput)
-            };
-
-            ViewBag.PrerenderedView = "members"; // HACK: Need to rethink this
-
-            return View(Form.Stream);
-        }
-
-        [HttpGet]
-        public ActionResult About(IdInput idInput)
-        {
-            Check.RequireNotNull(idInput, "idInput");
-
-            var projectId = idInput.Id.VerbosifyId<Project>();
-
-            ViewBag.Model = new
-            {
-                Project = _projectsViewModelBuilder.BuildProject(projectId),
-            };
-
-            return View(Form.About);
-        }
-
-        [HttpGet]
-        public ActionResult Explore(PagingInput pagingInput)
-        {
-            Check.RequireNotNull(pagingInput, "pagingInput");
-
-            var explorePagingInput = new PagingInput() {Id = pagingInput.Id, PageSize = 100};
-
-            ViewBag.Model = new
-            {
-                Projects = _projectsViewModelBuilder.BuildProjectList(explorePagingInput)
-            };
-
-            if (Request.IsAjaxRequest())
-            {
-                return new JsonNetResult(new
-                {
-                    Model = ViewBag.Model
-                });
+                return HttpNotFound();
             }
 
-            return View(Form.List);
-        }
-
-        [HttpGet]
-        public ActionResult GetOne(IdInput idInput)
-        {
-            Check.RequireNotNull(idInput, "idInput");
-
-            var projectId = idInput.Id.VerbosifyId<Project>();
-
-            ViewBag.Model = new
+            var viewModel = new
             {
-                Project = _projectsViewModelBuilder.BuildProject(projectId)
+                Project = _projectViewModelBuilder.BuildProject(projectId),
+                Posts = _postViewModelBuilder.BuildGroupPostList(projectId, pagingInput)
             };
 
-            return new JsonNetResult(new
-            {
-                Model = ViewBag.Model
-            });
-
-            //return View(Form.Index)
+            return RestfulResult(
+                viewModel,
+                "projects",
+                "posts");
         }
 
         [HttpGet]
-        public ActionResult GetMany(PagingInput pagingInput)
+        public ActionResult Members(string id, PagingInput pagingInput)
         {
-            Check.RequireNotNull(pagingInput, "pagingInput");
+            string projectId = VerbosifyId<Project>(id);
 
-            return new JsonNetResult(_projectsViewModelBuilder.BuildProjectList(pagingInput));
+            if (!_permissionChecker.DoesExist<Project>(projectId))
+            {
+                return HttpNotFound();
+            }
+
+            var viewModel = new
+            {
+                Project = _projectViewModelBuilder.BuildProject(projectId),
+                Members = _userViewModelBuilder.BuildGroupUserList(projectId, pagingInput)
+            };
+
+            return RestfulResult(
+                viewModel,
+                "projects",
+                "members");
+        }
+
+        [HttpGet]
+        public ActionResult About(string id)
+        {
+            string projectId = VerbosifyId<Project>(id);
+
+            if (!_permissionChecker.DoesExist<Project>(projectId))
+            {
+                return HttpNotFound();
+            }
+
+            throw new NotImplementedException();
+        }
+
+        [HttpGet]
+        public ActionResult Index(string id)
+        {
+            string projectId = VerbosifyId<Project>(id);
+
+            if (!_permissionChecker.DoesExist<Project>(projectId))
+            {
+                return HttpNotFound();
+            }
+
+            var viewModel = new
+            {
+                Project = _projectViewModelBuilder.BuildProject(projectId)
+            };
+
+            return RestfulResult(
+                viewModel,
+                "projects",
+                "index");
+        }
+
+        [HttpGet]
+        public ActionResult List(string groupId, PagingInput pagingInput)
+        {
+            var viewModel = new
+            {
+                Projects = _projectViewModelBuilder.BuildGroupProjectList(groupId, pagingInput)
+            };
+
+            return RestfulResult(
+                viewModel,
+                "projects",
+                "list");
         }
 
         [HttpGet]
         [Authorize]
-        public ActionResult CreateForm(IdInput idInput)
+        public ActionResult CreateForm()
         {
-            Check.RequireNotNull(idInput, "idInput");
-
-            if (!_userContext.HasGroupPermission(PermissionNames.CreateProject, idInput.Id ?? Constants.AppRootId))
+            var viewModel = new
             {
-                return HttpUnauthorized();
-            }
-
-            ViewBag.Model = new
-            {
-                Project = _projectsViewModelBuilder.BuildProject(),
+                Project = _projectViewModelBuilder.BuildNewProject(),
                 Teams = GetTeams(_userContext.GetAuthenticatedUserId())
             };
 
-            if (Request.IsAjaxRequest())
-            {
-                return new JsonNetResult(new { Model = ViewBag.Model });
-            }
-
-            ViewBag.PrerenderedView = "projects";
-
-            return View(Form.Create);
+            return RestfulResult(
+                viewModel,
+                "projects",
+                "create", 
+                new Action<dynamic>(x => x.Model.Create = true));
         }
 
         [HttpGet]
         [Authorize]
-        public ActionResult UpdateForm(IdInput idInput)
+        public ActionResult UpdateForm(string id)
         {
-            Check.RequireNotNull(idInput, "idInput");
+            string projectId = VerbosifyId<Project>(id);
 
-            var projectId = idInput.Id.VerbosifyId<Project>();
+            if (!_permissionChecker.DoesExist<Project>(projectId))
+            {
+                return HttpNotFound();
+            }
 
             if (!_userContext.HasGroupPermission(PermissionNames.UpdateProject, projectId))
             {
                 return HttpUnauthorized();
             }
 
-            ViewBag.Model = new
+            var viewModel = new
             {
-                Project = _projectsViewModelBuilder.BuildProject(projectId),
-                Teams = GetTeams(_userContext.GetAuthenticatedUserId())
+                Project = _projectViewModelBuilder.BuildProject(projectId),
+                Teams = GetTeams(_userContext.GetAuthenticatedUserId(), projectId)
             };
 
-            if (Request.IsAjaxRequest())
-            {
-                return new JsonNetResult(new { Model = ViewBag.Model });
-            }
-
-            return View(Form.Update);
+            return RestfulResult(
+                viewModel,
+                "projects",
+                "update",
+                new Action<dynamic>(x => x.Model.Update = true));
         }
 
         [HttpGet]
         [Authorize]
-        public ActionResult DeleteForm(IdInput idInput)
+        public ActionResult DeleteForm(string id)
         {
-            Check.RequireNotNull(idInput, "idInput");
+            string projectId = VerbosifyId<Project>(id);
 
-            var projectId = idInput.Id.VerbosifyId<Project>();
+            if (!_permissionChecker.DoesExist<Project>(projectId))
+            {
+                return HttpNotFound();
+            }
 
+            // BUG: Fix this to check the parent groups' permission
             if (!_userContext.HasGroupPermission(PermissionNames.DeleteProject, projectId))
             {
                 return HttpUnauthorized();
             }
 
-            ViewBag.Project = _projectsViewModelBuilder.BuildProject(projectId);
+            var viewModel = new
+            {
+                Project = _projectViewModelBuilder.BuildProject(projectId)
+            };
 
-            return View(Form.Delete);
+            return RestfulResult(
+                viewModel,
+                "projects",
+                "delete",
+                new Action<dynamic>(x => x.Model.Delete = true));
         }
 
         [Transaction]
         [Authorize]
         [HttpPost]
-        public ActionResult Join(IdInput idInput)
+        public ActionResult Join(string id)
         {
+            string projectId = VerbosifyId<Project>(id);
 
-#if !JS_COMBINE_MINIFY
-    DebugToClient(string.Format("SERVER: Projects/Join: id:{0}", idInput.Id));
-#endif
+            if (!_permissionChecker.DoesExist<Project>(projectId))
+            {
+                return HttpNotFound();
+            }
 
-            Check.RequireNotNull(idInput, "idInput");
-
-            var projectId = idInput.Id.VerbosifyId<Project>();
-
-            if (!_userContext.HasGroupPermission(PermissionNames.CreateProject, Constants.AppRootId))
+            // TODO: Not sure what this permission check is actually checking???
+            if (!_userContext.HasGroupPermission(PermissionNames.JoinProject, projectId))
             {
                 return HttpUnauthorized();
             }
@@ -373,12 +336,16 @@ namespace Bowerbird.Web.Controllers
         [Transaction]
         [Authorize]
         [HttpPost]
-        public ActionResult Leave(IdInput idInput)
+        public ActionResult Leave(string id)
         {
-            Check.RequireNotNull(idInput, "idInput");
+            string projectId = VerbosifyId<Project>(id);
 
-            var projectId = idInput.Id.VerbosifyId<Project>();
+            if (!_permissionChecker.DoesExist<Project>(projectId))
+            {
+                return HttpNotFound();
+            }
 
+            // TODO: Not sure what this permission check is actually checking???
             if (!_userContext.HasGroupPermission(PermissionNames.LeaveProject, projectId))
             {
                 return HttpUnauthorized();
@@ -400,19 +367,10 @@ namespace Bowerbird.Web.Controllers
         }
 
         [Transaction]
-        [Authorize]
         [HttpPost]
+        [Authorize]
         public ActionResult Create(ProjectCreateInput createInput)
         {
-            Check.RequireNotNull(createInput, "createInput");
-
-            var groupId = createInput.Team != null ? createInput.Team.VerbosifyId<Team>() : Constants.AppRootId;
-
-            if (!_userContext.HasGroupPermission(PermissionNames.CreateProject, groupId))
-            {
-                return HttpUnauthorized();
-            }
-
             if (!ModelState.IsValid)
             {
                 return JsonFailed();
@@ -421,32 +379,30 @@ namespace Bowerbird.Web.Controllers
             _commandProcessor.Process(
                 new ProjectCreateCommand()
                 {
-                    Description = createInput.Description,
-                    Name = createInput.Name,
                     UserId = _userContext.GetAuthenticatedUserId(),
-                    AvatarId = createInput.Avatar,
-                    TeamId = groupId
+                    Name = createInput.Name,
+                    Description = createInput.Description,
+                    Website = createInput.Website,
+                    AvatarId = createInput.AvatarId,
+                    TeamId = createInput.TeamId
                 });
 
             return JsonSuccess();
         }
 
         [Transaction]
-        [Authorize]
         [HttpPut]
+        [Authorize]
         public ActionResult Update(ProjectUpdateInput updateInput)
         {
+            string projectId = VerbosifyId<Project>(updateInput.Id);
 
-#if !JS_COMBINE_MINIFY
-    DebugToClient("SERVER: [PUT]Projects/Update ->");
-    DebugToClient(updateInput);
-#endif
-            
-            Check.RequireNotNull(updateInput, "updateInput");
+            if (!_permissionChecker.DoesExist<Project>(projectId))
+            {
+                return HttpNotFound();
+            }
 
-            var projectId = updateInput.Id.VerbosifyId<Project>();
-
-            if (!_userContext.HasGroupPermission(PermissionNames.UpdateProject, projectId))
+            if (!_userContext.HasGroupPermission<Project>(PermissionNames.UpdateProject, projectId))
             {
                 return HttpUnauthorized();
             }
@@ -459,23 +415,31 @@ namespace Bowerbird.Web.Controllers
             _commandProcessor.Process(
                 new ProjectUpdateCommand()
                 {
-                    Id = projectId,
-                    Description = updateInput.Description,
-                    Name = updateInput.Name,
                     UserId = _userContext.GetAuthenticatedUserId(),
-                    AvatarId = updateInput.AvatarId,
-                    TeamId = updateInput.TeamId ?? Constants.AppRootId
+                    Id = projectId,
+                    Name = updateInput.Name,
+                    Description = updateInput.Description,
+                    Website = updateInput.Website,
+                    AvatarId = updateInput.AvatarId
                 });
 
             return JsonSuccess();
         }
 
         [Transaction]
-        [Authorize]
         [HttpDelete]
-        public ActionResult Delete(IdInput deleteInput)
+        [Authorize]
+        public ActionResult Delete(string id)
         {
-            if (!_userContext.HasGroupPermission<Project>(PermissionNames.DeleteProject, deleteInput.Id))
+            string projectId = VerbosifyId<Project>(id);
+
+            if (!_permissionChecker.DoesExist<Project>(projectId))
+            {
+                return HttpNotFound();
+            }
+
+            // BUG: Fix this to check the parent groups' permission
+            if (!_userContext.HasGroupPermission(PermissionNames.DeleteProject, projectId))
             {
                 return HttpUnauthorized();
             }
@@ -486,63 +450,28 @@ namespace Bowerbird.Web.Controllers
             }
 
             _commandProcessor.Process(
-                new ProjectDeleteCommand()
+                new ProjectDeleteCommand
                 {
-                    Id = deleteInput.Id,
+                    Id = projectId,
                     UserId = _userContext.GetAuthenticatedUserId()
                 });
 
             return JsonSuccess();
         }
 
-        private IEnumerable GetTeams(string userId, string projectId = "")
+        private IEnumerable GetTeams(string userId, string projectId = null)
         {
-            var teamIds = _documentSession
-                .Query<All_Users.Result, All_Users>()
-                .AsProjection<All_Users.Result>()
-                .Where(x => x.UserId == userId)
-                .ToList();
-
-#if !JS_COMBINE_MINIFY
-    DebugToClient("SERVER: ProjectsController/GetTeams");
-    DebugToClient("-----------------------------------");
-    DebugToClient(teamIds);
-#endif
-
-            if (teamIds.Count > 0)
-            {
-                var teamIdsToQuery = teamIds.SelectMany(x => x.Groups.Where(y => y.GroupType == "team").Select(y => y.Id));
-
-#if !JS_COMBINE_MINIFY
-    DebugToClient(teamIdsToQuery);
-#endif
-
-                var teams = _documentSession.Load<Team>(teamIdsToQuery);
-
-                var project = _documentSession.Load<Project>("projects/" + projectId);
-                Func<Team, bool> isSelected = null;
-
-                if (project != null)
-                {
-                    isSelected = x => { return project.Ancestry.Any(y => y.Id == x.Id); };
-                }
-                else
-                {
-                    isSelected = x => { return false; };
-                }
-
-                return from team in teams
-                       select new
-                                  {
-                                      Text = team.Name,
-                                      Value = team.ShortId(),
-                                      Selected = isSelected(team)
-                                  };
-            }
-            else // user doesn't have any teams yet
-            {
-                return null;
-            }
+            return _documentSession
+                .Query<All_Groups.Result, All_Groups>()
+                .AsProjection<All_Groups.Result>()
+                .Where(x => x.UserIds.Any(y => y == userId) && x.GroupType == "team")
+                .ToList()
+                .Select(x => new
+                        {
+                            Text = x.Team.Name,
+                            Value = x.Team.Id,
+                            Selected = x.Team.Descendants.Any(y => y.Id == projectId)
+                        });
         }
 
         #endregion

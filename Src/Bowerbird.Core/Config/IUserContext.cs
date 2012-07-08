@@ -30,32 +30,6 @@ namespace Bowerbird.Core.Config
 
         string GetEmailCookieValue();
 
-        void SendActivityToGroupChannel(dynamic activity);
-
-        void AddUserToUserChannel(string userId, string connectionId);
-
-        void AddUserToOnlineUsersChannel(string connectionId);
-
-        void AddUserToGroupChannel(string groupId, string connectionId);
-
-        void AddUserToChatChannel(string chatId, string connectionId);
-
-        void RemoveUserFromChatChannel(string chatId, string connectionId);
-
-        dynamic GetUserChannel(string userId);
-
-        dynamic GetOnlinerUsersChannel();
-
-        dynamic GetGroupChannel(string groupId);
-
-        //dynamic GetChatChannel(string chatId);
-
-        void UserJoinedChat(string chatId, object chatMessageDetails);
-
-        void UserExitedChat(string chatId, object chatMessageDetails);
-
-        void NewChatMessage(string chatId, object chatMessageDetails);
-
         void SignUserIn(string email, bool keepUserLoggedIn);
 
         void SignUserOut();

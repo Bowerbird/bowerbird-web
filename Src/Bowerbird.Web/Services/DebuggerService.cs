@@ -7,6 +7,8 @@ using SignalR.Hubs;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.Hubs;
 using Bowerbird.Core.DesignByContract;
+using SignalR;
+using Bowerbird.Core.Services;
 
 namespace Bowerbird.Web.Services
 {
@@ -14,17 +16,18 @@ namespace Bowerbird.Web.Services
     {
         #region Fields
 
-        private readonly IHubContext _hubContext;
+        private readonly IConnectionManager _connectionManager;
 
         #endregion
 
         #region Constructors
-        public DebuggerService(
-            [HubContext(typeof(DebugHub))] IHubContext hubContext)
-        {
-            Check.RequireNotNull(hubContext, "hubContext");
 
-            _hubContext = hubContext;
+        public DebuggerService(
+            IConnectionManager connectionManager)
+        {
+            Check.RequireNotNull(connectionManager, "connectionManager");
+
+            _connectionManager = connectionManager;
         }
 
         #endregion
@@ -37,7 +40,7 @@ namespace Bowerbird.Web.Services
 
         public void DebugToClient(object output)
         {
-            _hubContext.Clients.debugToClient(output);
+            _connectionManager.GetHubContext<DebugHub>().Clients.debugToClient(output);
         }
 
         #endregion

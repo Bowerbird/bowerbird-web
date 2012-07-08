@@ -29,7 +29,6 @@ namespace Bowerbird.Web.Builders
         #region Fields
 
         private readonly IDocumentSession _documentSession;
-        private readonly IUserContext _userContext;
         private readonly IUserViewFactory _userViewFactory;
         private readonly IGroupViewFactory _groupViewFactory;
 
@@ -39,17 +38,14 @@ namespace Bowerbird.Web.Builders
 
         public UserViewModelBuilder(
             IDocumentSession documentSession,
-            IUserContext userContext,
             IUserViewFactory userViewFactory,
             IGroupViewFactory groupViewFactory)
         {
             Check.RequireNotNull(documentSession, "documentSession");
-            Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(userViewFactory, "userViewFactory");
             Check.RequireNotNull(groupViewFactory, "groupViewFactory");
 
             _documentSession = documentSession;
-            _userContext = userContext;
             _userViewFactory = userViewFactory;
             _groupViewFactory = groupViewFactory;
         }
@@ -62,46 +58,6 @@ namespace Bowerbird.Web.Builders
 
         #region Methods
 
-        public object BuildAuthenticatedUser()
-        {
-            //var groups = _documentSession.Query<All_Groups.Result, All_Groups>()
-            //        .Where(x => x.UserIds.Any(y => y == userId))
-            //        .Include(x => userId)
-            //        .AsProjection<All_Groups.Result>()
-            //        .ToList();
-
-            //var user = _documentSession.Load<User>(userId);
-            //var application = groups.Any(x => x.GroupType == "approot") ? groups.Single(x => x.GroupType == "approot").AppRoot : (AppRoot)null;
-            //var organisations = groups.Where(x => x.GroupType == "organisation").Select(MakeOrganisation);
-            //var teams = groups.Where(x => x.GroupType == "team").Select(MakeTeam);
-            //var projects = groups.Where(x => x.GroupType == "project").Select(MakeProject);
-            //var memberships = groups.SelectMany(x => x.Users.Where(y => y.Id == userId));
-
-            var user = _documentSession.Load<User>(_userContext.GetAuthenticatedUserId());
-
-            var groupResults = _documentSession
-                .Query<All_Groups.Result, All_Groups>()
-                .AsProjection<All_Groups.Result>()
-                .Where(x => x.UserIds.Any(y => y == user.Id))
-                .ToList();
-
-            return new
-            {
-                User = _userViewFactory.Make(user),
-                AppRoot = groupResults.Where(x => x.Group is AppRoot).Select(x => x.Group as AppRoot).First(),
-                Organisations = groupResults.Where(x => x.Group is Organisation).Select(x => _groupViewFactory.Make(x.Group)),
-                Teams = groupResults.Where(x => x.Group is Team).Select(x => _groupViewFactory.Make(x.Team)),
-                Projects = groupResults.Where(x => x.Group is Project).Select(x => _groupViewFactory.Make(x.Project)),
-                UserProjects = groupResults.Where(x => x.Group is UserProject).Select(x => _groupViewFactory.Make(x.UserProject)),
-                Memberships = user.Memberships.Select(x => new {
-                    GroupId = x.Group.Id,
-                    x.Group.GroupType,
-                    RoleIds = x.Roles.Select(y => y.Id),
-                    PermissionIds = x.Roles.SelectMany(y => y.Permissions).Select(y => y.Id)
-                })
-            };
-        }
-
         public object BuildUser(string userId)
         {
             Check.RequireNotNullOrWhitespace(userId, "userId");
@@ -109,11 +65,11 @@ namespace Bowerbird.Web.Builders
             return _userViewFactory.Make(_documentSession.Load<User>(userId));
         }
 
-        public object BuildEditableUser(string id)
+        public object BuildEditableUser(string userId)
         {
-            Check.RequireNotNullOrWhitespace(id, "id");
+            Check.RequireNotNullOrWhitespace(userId, "userId");
 
-            var user = _documentSession.Load<User>(id);
+            var user = _documentSession.Load<User>(userId);
 
             return new
             {
@@ -126,71 +82,51 @@ namespace Bowerbird.Web.Builders
             };
         }
 
-        public object BuildUserList(PagingInput pagingInput)
+        public object BuildAuthenticatedUser(string userId)
         {
-            RavenQueryStatistics stats;
+            Check.RequireNotNullOrWhitespace(userId, "userId");
 
-            return _documentSession
-                .Query<User>()
-                .Include(x => x.Id)
-                .Statistics(out stats)
-                .Skip(pagingInput.Page)
-                .Take(pagingInput.PageSize)
-                .ToList()
-                .Select(_userViewFactory.Make)
-                .ToPagedList(
-                    pagingInput.Page,
-                    pagingInput.PageSize,
-                    stats.TotalResults);
+            var user = _documentSession.Load<User>(userId);
+
+            var groupResults = _documentSession
+                .Query<All_Groups.Result, All_Groups>()
+                .AsProjection<All_Groups.Result>()
+                .Where(x => x.UserIds.Any(y => y == userId))
+                .ToList();
+
+            return new
+            {
+                User = _userViewFactory.Make(user),
+                AppRoot = groupResults.Where(x => x.Group is AppRoot).Select(x => x.Group as AppRoot).First(),
+                Organisations = groupResults.Where(x => x.Group is Organisation).Select(x => _groupViewFactory.Make(x)),
+                Teams = groupResults.Where(x => x.Group is Team).Select(x => _groupViewFactory.Make(x)),
+                Projects = groupResults.Where(x => x.Group is Project).Select(x => _groupViewFactory.Make(x)),
+                UserProjects = groupResults.Where(x => x.Group is UserProject).Select(x => _groupViewFactory.Make(x)),
+                Memberships = user.Memberships.Select(x => new {
+                    GroupId = x.Group.Id,
+                    x.Group.GroupType,
+                    RoleIds = x.Roles.Select(y => y.Id),
+                    PermissionIds = x.Roles.SelectMany(y => y.Permissions).Select(y => y.Id)
+                })
+            };
         }
 
-        ///// <summary>
-        ///// PagingInput.Id is User.Id where User is User being Followed
-        ///// </summary>
-        //public object BuildUsersFollowingList(PagingInput pagingInput)
-        //{
-        //    RavenQueryStatistics stats;
+        public object BuildGroupUserList(string groupId, PagingInput pagingInput)
+        {
+            Check.RequireNotNullOrWhitespace(groupId, "groupId");
+            Check.RequireNotNull(pagingInput, "pagingInput");
 
-        //    return _documentSession
-        //        .Query<FollowUser>()
-        //        .Where(x => x.UserToFollow.Id == pagingInput.Id)
-        //        .Include(x => x.UserToFollow.Id)
-        //        .Statistics(out stats)
-        //        .Skip(pagingInput.Page)
-        //        .Take(pagingInput.PageSize)
-        //        .ToList()
-        //        .Select(x => MakeUser(_documentSession.Load<User>(x.Id)))
-        //        .ToPagedList(
-        //            pagingInput.Page,
-        //            pagingInput.PageSize,
-        //            stats.TotalResults,
-        //            null);
-        //}
+            return _documentSession
+                .Query<All_Users.Result, All_Users>()
+                .AsProjection<All_Users.Result>()
+                .Where(x => x.GroupIds.Any(y => y == groupId))
+                .Skip(pagingInput.GetSkipIndex())
+                .Take(pagingInput.PageSize)
+                .ToList()
+                .Select(x => _userViewFactory.Make(x.User));
+        }
 
-        ///// <summary>
-        ///// PagingInput.Id is User.Id where User is the User following other
-        ///// </summary>
-        //public object BuildUsersBeingFollowedByList(PagingInput pagingInput)
-        //{
-        //    RavenQueryStatistics stats;
-
-        //    return _documentSession
-        //        .Query<FollowUser>()
-        //        .Where(x => x.Follower.Id == pagingInput.Id)
-        //        .Include(x => x.Follower.Id)
-        //        .Statistics(out stats)
-        //        .Skip(pagingInput.Page)
-        //        .Take(pagingInput.PageSize)
-        //        .ToList()
-        //        .Select(x => MakeUser(_documentSession.Load<User>(x.Id)))
-        //        .ToPagedList(
-        //            pagingInput.Page,
-        //            pagingInput.PageSize,
-        //            stats.TotalResults,
-        //            null);
-        //}
-
-        public object BuildOnlineUsers()
+        public object BuildOnlineUserList()
         {
             // Return connected users (those users active less than 5 minutes ago)
             var fiveMinutesAgo = DateTime.UtcNow - TimeSpan.FromMinutes(5);
@@ -199,6 +135,7 @@ namespace Bowerbird.Web.Builders
                 .Query<All_Users.Result, All_Users>()
                 .AsProjection<All_Users.Result>()
                 .Where(x => x.LatestActivity.Any(y => y > fiveMinutesAgo))
+                .Take(100) //HACK: Need to work out how we will list more than RavenDB max
                 .ToList()
                 .Select(x => _userViewFactory.Make(x.User));
         }
@@ -211,51 +148,13 @@ namespace Bowerbird.Web.Builders
                 Roles = from role in member.Roles
                         select new
                         {
-                            Id = role.ShortId(),
-                            Permissions = role.Permissions.Select(x => x.ShortId())
+                            Id = role.Id,
+                            Permissions = role.Permissions.Select(x => x.Id)
                         }
             };
         }
 
-        //private object MakeProject(All_Groups.Result result)
-        //{
-        //    return new
-        //    {
-        //        Id = result.Project.Id,
-        //        result.Project.Name,
-        //        result.Project.Description,
-        //        result.Project.Website,
-        //        Avatar = result.Project.Avatar,
-        //        MemberCount = result.UserIds.Count()
-        //    };
-        //}
-
-        //private object MakeTeam(All_Groups.Result result)
-        //{
-        //    return new
-        //    {
-        //        Id = result.Team.Id,
-        //        result.Team.Name,
-        //        result.Team.Description,
-        //        result.Team.Website,
-        //        Avatar = result.Team.Avatar,
-        //        MemberCount = result.UserIds.Count()
-        //    };
-        //}
-
-        //private object MakeOrganisation(All_Groups.Result result)
-        //{
-        //    return new
-        //    {
-        //        Id = result.Organisation.Id,
-        //        result.Organisation.Name,
-        //        result.Organisation.Description,
-        //        result.Organisation.Website,
-        //        Avatar = result.Organisation.Avatar,
-        //        MemberCount = result.UserIds.Count()
-        //    };
-        //}
-
         #endregion
+
     }
 }

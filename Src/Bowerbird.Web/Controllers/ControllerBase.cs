@@ -16,6 +16,10 @@ using Newtonsoft.Json;
 using Bowerbird.Core.Config;
 using Bowerbird.Web.Builders;
 using Bowerbird.Web.Services;
+using Bowerbird.Web.ViewModels;
+using Bowerbird.Core.DomainModels;
+using System;
+using Bowerbird.Core.Services;
 
 namespace Bowerbird.Web.Controllers
 {
@@ -49,7 +53,7 @@ namespace Bowerbird.Web.Controllers
                 {
                     var userViewModelBuilder = ServiceLocator.Current.GetInstance<IUserViewModelBuilder>();
 
-                    var authenticatedUser = userViewModelBuilder.BuildAuthenticatedUser();
+                    var authenticatedUser = userViewModelBuilder.BuildAuthenticatedUser(userContext.GetAuthenticatedUserId());
 
                     ViewBag.AuthenticatedUser = authenticatedUser;
                     ViewBag.BootstrappedJson = JsonConvert.SerializeObject(new
@@ -91,12 +95,12 @@ namespace Bowerbird.Web.Controllers
 
         protected ActionResult JsonSuccess()
         {
-            return new JsonNetResult("success");
+            return new JsonNetResult(new { Success = true });
         }
 
         protected ActionResult JsonFailed()
         {
-            return new JsonNetResult("failure");
+            return new JsonNetResult(new { Success = false });
         }
 
         protected void DebugToClient(dynamic output)
@@ -104,6 +108,63 @@ namespace Bowerbird.Web.Controllers
             var debugger = ServiceLocator.Current.GetInstance<IDebuggerService>();
 
             debugger.DebugToClient(output);
+        }
+
+        protected string VerbosifyId<T>(string id)
+        {
+            if (id.Contains("/"))
+            {
+                return id;
+            }
+
+            string name = typeof(T).Name.ToLower();
+
+            if (name.EndsWith("s"))
+            {
+                name = name += "es";
+            }
+            else if (name.EndsWith("y"))
+            {
+                name = name.Substring(0, name.Length - 1) + "ies";
+            }
+            else
+            {
+                name += "s";
+            }
+
+            return string.Format("{0}/{1}", name, id);
+        }
+
+        protected ActionResult RestfulResult(dynamic viewModel, string prerenderedViewName, string htmlViewName, Action<dynamic> htmlViewTask = null)
+        {
+            ActionResult actionResult = null;
+
+            var newViewModel = new { Model = viewModel }; // Wrap the model in a "Model" property to make it work on both client & server Mustache templates
+
+            if (Request.IsAjaxRequest())
+            {
+                actionResult = new JsonNetResult(newViewModel);
+            }
+            else
+            {
+                // Add the prerendered view name that will be used by the client side JS to render bootstrapped data
+                if (!string.IsNullOrWhiteSpace(prerenderedViewName))
+                {
+                    ViewBag.PrerenderedView = prerenderedViewName;
+                }
+
+                // Perform any additional html view tasks on the model
+                if (htmlViewTask != null)
+                {
+                    htmlViewTask(newViewModel);
+                }
+
+                ViewBag.Model = newViewModel;
+
+                actionResult = View(htmlViewName);
+            }
+
+            return actionResult;
         }
 
         #endregion

@@ -27,6 +27,7 @@ using SignalR.Hubs;
 using Bowerbird.Web.Hubs;
 using Bowerbird.Core.Config;
 using Bowerbird.Core.Indexes;
+using Bowerbird.Web.Services;
 
 namespace Bowerbird.Web.EventHandlers
 {
@@ -42,8 +43,9 @@ namespace Bowerbird.Web.EventHandlers
 
         private readonly IDocumentSession _documentSession;
         private readonly IUserViewFactory _userViewFactory;
+        private readonly IGroupViewFactory _groupViewFactory;
+        private readonly IBackChannelService _backChannelService;
         private readonly IUserViewModelBuilder _userViewModelBuilder;
-        private readonly IUserContext _userContext;
 
         #endregion
 
@@ -52,19 +54,22 @@ namespace Bowerbird.Web.EventHandlers
         public UserSessionUpdated(
             IDocumentSession documentSession,
             IUserViewFactory userViewFactory,
-            IUserViewModelBuilder userViewModelBuilder,
-            IUserContext userContext
+            IGroupViewFactory groupViewFactory,
+            IBackChannelService backChannelService,
+            IUserViewModelBuilder userViewModelBuilder
             )
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(userViewFactory, "userViewFactory");
+            Check.RequireNotNull(groupViewFactory, "groupViewFactory");
+            Check.RequireNotNull(backChannelService, "backChannelService");
             Check.RequireNotNull(userViewModelBuilder, "userViewModelBuilder");
-            Check.RequireNotNull(userContext, "userContext");
 
             _documentSession = documentSession;
             _userViewFactory = userViewFactory;
+            _groupViewFactory = groupViewFactory;
+            _backChannelService = backChannelService;
             _userViewModelBuilder = userViewModelBuilder;
-            _userContext = userContext;
         }
 
         #endregion
@@ -84,7 +89,7 @@ namespace Bowerbird.Web.EventHandlers
         public void Execute(IDomainEvent domainEvent, UserSession userSession, User user)
         {
             // Add user to the online users channel
-            _userContext.AddUserToOnlineUsersChannel(userSession.ConnectionId);
+            _backChannelService.AddUserToOnlineUsersChannel(userSession.ConnectionId);
 
             // If new user session, send all online users down the wire
             if (domainEvent is DomainModelCreatedEvent<UserSession>)
@@ -99,12 +104,12 @@ namespace Bowerbird.Web.EventHandlers
 
                 foreach (var membership in memberships)
                 {
-                    _userContext.AddUserToGroupChannel(membership.Group.Id, userSession.ConnectionId);
+                    _backChannelService.AddUserToGroupChannel(membership.Group.Id, userSession.ConnectionId);
                 }
 
                 // Return connected users (those users active less than 5 minutes ago)
-                var onlineUsers = _userViewModelBuilder.BuildOnlineUsers();
-                _userContext.GetUserChannel(user.Id).setupOnlineUsers(onlineUsers);
+                var onlineUsers = _userViewModelBuilder.BuildOnlineUserList();
+                _backChannelService.SendOnlineUsersToUserChannel(user.Id, onlineUsers);
             }
 
             var userStatus = new 
@@ -113,7 +118,7 @@ namespace Bowerbird.Web.EventHandlers
                     LatestActivity = userSession.LatestActivity
                 };
 
-            _userContext.GetOnlinerUsersChannel().userStatusUpdate(userStatus);
+            _backChannelService.SendUserStatusUpdateToOnlineUsersChannel(userStatus);
         }
 
         #endregion

@@ -1,8 +1,8 @@
-﻿    <h2>{{Model.ObservationAdded.Observation.Title}}</h2>
+﻿    <h2><a href="/{{Model.ObservationAdded.Observation.Id}}">{{Model.ObservationAdded.Observation.Title}}</a></h2>
     <div>
       <div class="images">
         <div class="preview">
-          <img src="{{Model.ObservationAdded.Observation.PrimaryImage.MediaResource.Files.FullLarge.RelativeUri}}" alt="{{Model.ObservationAdded.Observation.Title}}" />
+          <img src="{{Model.ObservationAdded.Observation.PrimaryMedia.MediaResource.Files.FullLarge.RelativeUri}}" alt="{{Model.ObservationAdded.Observation.Title}}" />
         </div>
         <div class="thumbnails">
           {{#Model.ObservationAdded.Observation.Media}}

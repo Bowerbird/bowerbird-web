@@ -64,7 +64,7 @@ namespace Bowerbird.Web.App_Start
             kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
 
             RegisterServices(kernel);
-
+            
             return kernel;
         }
 
@@ -81,7 +81,7 @@ namespace Bowerbird.Web.App_Start
             //GlobalHost.Configuration.DisconnectTimeout = TimeSpan.FromSeconds(20);
             //GlobalHost.Configuration.HeartBeatInterval = TimeSpan.FromSeconds(10);
 
-            GlobalHost.DependencyResolver = new NinjectDependencyResolver(kernel);
+            GlobalHost.DependencyResolver = new SignalrNinjectDependencyResolver(kernel);
 
             EventProcessor.ServiceLocator = ServiceLocator.Current;
         }

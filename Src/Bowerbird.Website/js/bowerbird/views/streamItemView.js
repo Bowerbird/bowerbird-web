@@ -43,7 +43,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'timeago'], function ($, _, B
 
         serializeData: function () {
             var model = this.model.toJSON();
-            model.CreatedDateTimeDescription = parseISO8601(this.model.get('CreatedDateTime') + 'Z');
+            model.CreatedDateTimeDescription = parseISO8601(this.model.get('CreatedDateTime'));
             model.ObservedOnDescription = ''; //parseISO8601(this.model.get('ObservedOn') + 'Z').format('d MMM yyyy')
             return {
                 Model: model
@@ -52,6 +52,12 @@ define(['jquery', 'underscore', 'backbone', 'app', 'timeago'], function ($, _, B
 
         onRender: function () {
             this.$el.find('.time-description').timeago();
+
+            this.$el.find('h2 a').on('click', function (e) {
+                e.preventDefault();
+                app.observationRouter.navigate($(this).attr('href'), { trigger: true });
+                return false;
+            });
         }
         //        render: function () {
         //            switch (this.StreamItem.get('Type')) {

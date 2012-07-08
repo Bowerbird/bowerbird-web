@@ -213,10 +213,10 @@ namespace Bowerbird.Core.Indexes
                     result.DescendantGroupIds,
                     result.GroupRoleIds,
                     AppRoot = result.GroupType == "approot" ? appRoot : null,
-                    Organisation = organisation,
-                    Team = team,
-                    Project = project,
-                    UserProject = userProject,
+                    Organisation = result.GroupType == "organisation" ? organisation : null,
+                    Team = result.GroupType == "team" ? team : null,
+                    Project = result.GroupType == "project" ? project : null,
+                    UserProject = result.GroupType == "userproject" ? userProject : null,
                     Users = users
                 };
 

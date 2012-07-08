@@ -21,7 +21,7 @@ using System.Web;
 using Bowerbird.Core.DesignByContract;
 using System;
 
-namespace Bowerbird.Web.Config
+namespace Bowerbird.Web.Services
 {
     public class ConfigService : IConfigService
     {

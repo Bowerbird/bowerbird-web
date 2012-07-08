@@ -23,30 +23,34 @@ using Bowerbird.Web.Factories;
 
 namespace Bowerbird.Web.Builders
 {
-    public class OrganisationsViewModelBuilder : IOrganisationsViewModelBuilder
+    public class OrganisationViewModelBuilder : IOrganisationViewModelBuilder
     {
         #region Fields
 
         private readonly IDocumentSession _documentSession;
         private readonly IUserViewFactory _userViewFactory;
         private readonly IAvatarFactory _avatarFactory;
+        private readonly IGroupViewFactory _groupViewFactory;
 
         #endregion
 
         #region Constructors
 
-        public OrganisationsViewModelBuilder(
+        public OrganisationViewModelBuilder(
             IDocumentSession documentSession,
             IUserViewFactory userViewFactory,
-            IAvatarFactory avatarFactory)
+            IAvatarFactory avatarFactory,
+            IGroupViewFactory groupViewFactory)
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(userViewFactory, "userViewFactory");
             Check.RequireNotNull(avatarFactory, "avatarFactory");
+            Check.RequireNotNull(groupViewFactory, "groupViewFactory");
 
             _documentSession = documentSession;
             _userViewFactory = userViewFactory;
             _avatarFactory = avatarFactory;
+            _groupViewFactory = groupViewFactory;
         }
 
         #endregion
@@ -57,6 +61,18 @@ namespace Bowerbird.Web.Builders
 
         #region Methods
 
+        public object BuildNewOrganisation()
+        {
+            return new
+            {
+                Name = string.Empty,
+                Description = string.Empty,
+                Website = string.Empty,
+                Avatar = _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Organisation),
+                MemberCount = 1
+            };
+        }
+
         public object BuildOrganisation(string organisationId)
         {
             Check.RequireNotNullOrWhitespace(organisationId, "organisationId");
@@ -65,79 +81,31 @@ namespace Bowerbird.Web.Builders
                 .Query<All_Groups.Result, All_Groups>()
                 .AsProjection<All_Groups.Result>()
                 .Where(x => x.GroupId == organisationId)
-                .FirstOrDefault();
+                .First();
 
-            return MakeOrganisation(organisation);
-        }
-
-        public object BuildOrganisation()
-        {
-            return new
-            {
-                Name = "New Organisation",
-                Description = "New Organisation",
-                Website = "",
-                Avatar = _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Organisation),
-                MemberCount = 1
-            };
+            return _groupViewFactory.Make(organisation);
         }
 
         public object BuildOrganisationList(PagingInput pagingInput)
         {
+            Check.RequireNotNull(pagingInput, "pagingInput");
+
             RavenQueryStatistics stats;
 
             return _documentSession
                 .Query<All_Groups.Result, All_Groups>()
                 .AsProjection<All_Groups.Result>()
-                .Customize(x => x.WaitForNonStaleResults())
-                .Include(x => x.GroupId)
                 .Where(x => x.GroupType == "organisation")
                 .Statistics(out stats)
-                .Skip((pagingInput.Page - 1) * pagingInput.PageSize)
+                .Skip(pagingInput.GetSkipIndex())
                 .Take(pagingInput.PageSize)
                 .ToList()
-                .Select(MakeOrganisation)
+                .Select(_groupViewFactory.Make)
                 .ToPagedList(
                     pagingInput.Page,
                     pagingInput.PageSize,
                     stats.TotalResults,
                     null);
-        }
-
-        /// <summary>
-        /// PagingInput.Id is Organisation.Id
-        /// </summary>
-        public object BuildOrganisationUserList(PagingInput pagingInput)
-        {
-            RavenQueryStatistics stats;
-
-            return _documentSession
-                .Query<All_Users.Result, All_Users>()
-                .AsProjection<All_Users.Result>()
-                .Where(x => x.GroupIds.Any(yield => yield == pagingInput.Id))
-                .Statistics(out stats)
-                .Skip((pagingInput.Page - 1) * pagingInput.PageSize)
-                .Take(pagingInput.PageSize)
-                .ToList()
-                .Select(x => _userViewFactory.Make(x.User))
-                .ToPagedList(
-                    pagingInput.Page,
-                    pagingInput.PageSize,
-                    stats.TotalResults);
-        }
-
-        private object MakeOrganisation(All_Groups.Result result)
-        {
-            return new
-            {
-                result.Organisation.Id,
-                result.Organisation.Name,
-                result.Organisation.Description,
-                result.Organisation.Website,
-                result.Organisation.Avatar,
-                MemberCount = result.DescendantGroupIds.Count(),
-                AvatarId = result.Organisation.Avatar != null ? result.Organisation.Avatar.Id : null
-            };
         }
 
         #endregion

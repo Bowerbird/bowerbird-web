@@ -28,14 +28,14 @@
         </div>
         <div id="team-field" class="field">
         <div>
-            <label for="team">Team</label>
+            <label for="teamid">Team</label>
         </div>
         <div>
-            <select id="Team" name="team">
-            <option></option>
-            {{#Model.Teams}}
-            <option value="{{Value}}" {{#Selected}}selected{{/Selected}}>{{Text}}</option>
-            {{/Model.Teams}}
+            <select id="TeamId" name="teamid">
+              <option></option>
+              {{#Model.Teams}}
+              <option value="{{Value}}" {{#Selected}}selected{{/Selected}}>{{Text}}</option>
+              {{/Model.Teams}}
             </select>
         </div>
         </div>

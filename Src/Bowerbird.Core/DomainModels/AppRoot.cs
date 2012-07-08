@@ -34,7 +34,9 @@ namespace Bowerbird.Core.DomainModels
             EnableEvents();
         }
 
-        // Special constructor for setup of inital app root object in RavenDB during system setup
+        /// <summary>
+        /// Special constructor for setup of inital app root object in RavenDB during system setup
+        /// </summary>
         internal AppRoot(
             DateTime systemSetupDate,
             IEnumerable<string> categories)
@@ -64,11 +66,9 @@ namespace Bowerbird.Core.DomainModels
 
         public DateTime SystemSetupDate { get; private set; }
 
-        public bool FireEvents { get; private set; }
+        public bool EmailServiceStatus { get; private set; }
 
-        public bool SendEmails { get; private set; }
-
-        public bool ExecuteCommands { get; private set; }
+        public bool BackChannelServiceStatus { get; private set; }
 
         #endregion
 
@@ -76,9 +76,8 @@ namespace Bowerbird.Core.DomainModels
 
         private void InitMembers()
         {
-            FireEvents = false;
-            SendEmails = false;
-            ExecuteCommands = false;
+            EmailServiceStatus = false;
+            BackChannelServiceStatus = false;
         }
 
         // Special method for setup of inital app root object in RavenDB during system setup
@@ -88,21 +87,15 @@ namespace Bowerbird.Core.DomainModels
             return this;
         }
 
-        public AppRoot SetFireEvents(bool fireEvents)
+        public AppRoot SetEmailServiceStatus(bool emailServiceStatus)
         {
-            FireEvents = fireEvents;
+            EmailServiceStatus = emailServiceStatus;
             return this;
         }
 
-        public AppRoot SetSendEmails(bool sendEmails)
+        public AppRoot SetBackChannelServiceStatus(bool backChannelServiceStatus)
         {
-            SendEmails = sendEmails;
-            return this;
-        }
-
-        public AppRoot SetExecuteCommands(bool executeCommands)
-        {
-            ExecuteCommands = executeCommands;
+            BackChannelServiceStatus = backChannelServiceStatus;
             return this;
         }
 

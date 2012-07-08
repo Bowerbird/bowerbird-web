@@ -23,19 +23,19 @@ using System;
 
 namespace Bowerbird.Web.Controllers
 {
-    [Restful]
     public class OrganisationsController : ControllerBase
     {
         #region Fields
 
         private readonly ICommandProcessor _commandProcessor;
         private readonly IUserContext _userContext;
-        private readonly IOrganisationsViewModelBuilder _organisationsViewModelBuilder;
-        private readonly IStreamItemsViewModelBuilder _streamItemsViewModelBuilder;
-        private readonly ITeamsViewModelBuilder _teamsViewModelBuilder;
-        private readonly IPostsViewModelBuilder _postsViewModelBuilder;
-        private readonly IReferenceSpeciesViewModelBuilder _referenceSpeciesViewModelBuilder;
-        private readonly IObservationsViewModelBuilder _observationsViewModelBuilder;
+        private readonly IOrganisationViewModelBuilder _organisationViewModelBuilder;
+        private readonly IActivityViewModelBuilder _activityViewModelBuilder;
+        private readonly ITeamViewModelBuilder _teamViewModelBuilder;
+        private readonly IPostViewModelBuilder _postViewModelBuilder;
+        private readonly ISightingViewModelBuilder _sightingViewModelBuilder;
+        private readonly IUserViewModelBuilder _userViewModelBuilder;
+        private readonly IPermissionChecker _permissionChecker;
 
         #endregion
 
@@ -44,31 +44,34 @@ namespace Bowerbird.Web.Controllers
         public OrganisationsController(
             ICommandProcessor commandProcessor,
             IUserContext userContext,
-            IOrganisationsViewModelBuilder organisationsViewModelBuilder,
-            IObservationsViewModelBuilder observationsViewModelBuilder,
-            IStreamItemsViewModelBuilder streamItemsViewModelBuilder,
-            ITeamsViewModelBuilder teamsViewModelBuilder,
-            IPostsViewModelBuilder postsViewModelBuilder,
-            IReferenceSpeciesViewModelBuilder referenceSpeciesViewModelBuilder
+            IOrganisationViewModelBuilder organisationViewModelBuilder,
+            ISightingViewModelBuilder sightingViewModelBuilder,
+            IActivityViewModelBuilder activityViewModelBuilder,
+            ITeamViewModelBuilder teamViewModelBuilder,
+            IPostViewModelBuilder postViewModelBuilder,
+            IUserViewModelBuilder userViewModelBuilder,
+            IPermissionChecker permissionChecker
             )
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
             Check.RequireNotNull(userContext, "userContext");
-            Check.RequireNotNull(organisationsViewModelBuilder, "organisationsViewModelBuilder");
-            Check.RequireNotNull(observationsViewModelBuilder, "observationsViewModelBuilder");
-            Check.RequireNotNull(streamItemsViewModelBuilder, "streamItemsViewModelBuilder");
-            Check.RequireNotNull(teamsViewModelBuilder, "teamsViewModelBuilder");
-            Check.RequireNotNull(postsViewModelBuilder, "postsViewModelBuilder");
-            Check.RequireNotNull(referenceSpeciesViewModelBuilder, "referenceSpeciesViewModelBuilder");
+            Check.RequireNotNull(organisationViewModelBuilder, "organisationViewModelBuilder");
+            Check.RequireNotNull(sightingViewModelBuilder, "sightingViewModelBuilder");
+            Check.RequireNotNull(activityViewModelBuilder, "activityViewModelBuilder");
+            Check.RequireNotNull(teamViewModelBuilder, "teamViewModelBuilder");
+            Check.RequireNotNull(postViewModelBuilder, "postViewModelBuilder");
+            Check.RequireNotNull(userViewModelBuilder, "userViewModelBuilder");
+            Check.RequireNotNull(permissionChecker, "permissionChecker");
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
-            _organisationsViewModelBuilder = organisationsViewModelBuilder;
-            _observationsViewModelBuilder = observationsViewModelBuilder;
-            _streamItemsViewModelBuilder = streamItemsViewModelBuilder;
-            _teamsViewModelBuilder = teamsViewModelBuilder;
-            _postsViewModelBuilder = postsViewModelBuilder;
-            _referenceSpeciesViewModelBuilder = referenceSpeciesViewModelBuilder;
+            _organisationViewModelBuilder = organisationViewModelBuilder;
+            _sightingViewModelBuilder = sightingViewModelBuilder;
+            _activityViewModelBuilder = activityViewModelBuilder;
+            _teamViewModelBuilder = teamViewModelBuilder;
+            _postViewModelBuilder = postViewModelBuilder;
+            _userViewModelBuilder = userViewModelBuilder;
+            _permissionChecker = permissionChecker;
         }
 
         #endregion
@@ -80,199 +83,157 @@ namespace Bowerbird.Web.Controllers
         #region Methods
 
         [HttpGet]
-        public ActionResult Activity(StreamInput streamInput, PagingInput pagingInput)
+        public ActionResult Activity(string id, ActivityInput activityInput, PagingInput pagingInput)
         {
-            Check.RequireNotNull(pagingInput, "pagingInput");
+            string organisationId = VerbosifyId<Organisation>(id);
 
-            var organisationId = pagingInput.Id.VerbosifyId<Organisation>();
-
-            if (Request.IsAjaxRequest())
+            if (!_permissionChecker.DoesExist<Organisation>(organisationId))
             {
-                return new JsonNetResult(new
-                {
-                    Model = _streamItemsViewModelBuilder.BuildGroupStreamItems(organisationId, streamInput, pagingInput)
-                });
+                return HttpNotFound();
             }
 
-            ViewBag.Model = new
-            {
-                Organisation = _organisationsViewModelBuilder.BuildOrganisation(organisationId),
-                StreamItems = _streamItemsViewModelBuilder.BuildGroupStreamItems(organisationId, null, pagingInput)
-            };
+            var viewModel = _activityViewModelBuilder.BuildGroupActivityList(organisationId, activityInput, pagingInput);
 
-            ViewBag.PrerenderedView = "organisations"; // HACK: Need to rethink this
-
-            return View(Form.Stream);
+            return RestfulResult(
+                viewModel,
+                "organisations",
+                "activity");
         }
 
         [HttpGet]
-        public ActionResult Observations(PagingInput pagingInput)
+        public ActionResult Sightings(string id, PagingInput pagingInput)
         {
-            Check.RequireNotNull(pagingInput, "pagingInput");
+            string organisationId = VerbosifyId<Organisation>(id);
 
-            var organisationId = pagingInput.Id.VerbosifyId<Organisation>();
-
-            ViewBag.Model = new
+            if (!_permissionChecker.DoesExist<Organisation>(organisationId))
             {
-                Organisation = _organisationsViewModelBuilder.BuildOrganisation(organisationId),
-                Observations = _observationsViewModelBuilder.BuildGroupObservationList(pagingInput)
-            };
-
-            if (Request.IsAjaxRequest())
-            {
-                return new JsonNetResult(new
-                {
-                    Model = ViewBag.Model
-                });
+                return HttpNotFound();
             }
 
-            ViewBag.PrerenderedView = "observations"; // HACK: Need to rethink this
-
-            return View(Form.Stream);
-        }
-
-        [HttpGet]
-        public ActionResult ReferenceSpecies(PagingInput pagingInput)
-        {
-            Check.RequireNotNull(pagingInput, "pagingInput");
-
-            var organisationId = pagingInput.Id.VerbosifyId<Organisation>();
-
-            ViewBag.Model = new
+            var viewModel = new
             {
-                Organisation = _organisationsViewModelBuilder.BuildOrganisation(organisationId),
-                ReferenceSpecies = _referenceSpeciesViewModelBuilder.BuildGroupReferenceSpeciesList(pagingInput)
+                Organisation = _organisationViewModelBuilder.BuildOrganisation(organisationId),
+                Observations = _sightingViewModelBuilder.BuildGroupSightingList(organisationId, pagingInput)
             };
 
-            ViewBag.PrerenderedView = "referencespecies"; // HACK: Need to rethink this
-
-            return View(Form.Stream);
+            return RestfulResult(
+                viewModel,
+                "organisations",
+                "sightings");
         }
 
         [HttpGet]
-        public ActionResult Teams(PagingInput pagingInput)
+        public ActionResult Teams(string id, PagingInput pagingInput)
         {
-            Check.RequireNotNull(pagingInput, "pagingInput");
+            string organisationId = VerbosifyId<Organisation>(id);
 
-            var organisationId = pagingInput.Id.VerbosifyId<Organisation>();
-
-            ViewBag.Model = new
+            if (!_permissionChecker.DoesExist<Organisation>(organisationId))
             {
-                Organisation = _organisationsViewModelBuilder.BuildOrganisation(organisationId),
-                Teams = _teamsViewModelBuilder.BuildOrganisationTeamList(pagingInput)
+                return HttpNotFound();
+            }
+
+            var viewModel = new
+            {
+                Organisation = _organisationViewModelBuilder.BuildOrganisation(organisationId),
+                Teams = _teamViewModelBuilder.BuildGroupTeamList(organisationId, pagingInput)
             };
 
-            ViewBag.PrerenderedView = "organisations"; // HACK: Need to rethink this
-
-            return View(Form.Stream);
+            return RestfulResult(
+                viewModel,
+                "organisations",
+                "teams");
         }
 
         [HttpGet]
-        public ActionResult Posts(PagingInput pagingInput)
+        public ActionResult Posts(string id, PagingInput pagingInput)
         {
-            Check.RequireNotNull(pagingInput, "pagingInput");
+            string organisationId = VerbosifyId<Organisation>(id);
 
-            var organisationId = pagingInput.Id.VerbosifyId<Organisation>();
-
-            ViewBag.Model = new
+            if (!_permissionChecker.DoesExist<Organisation>(organisationId))
             {
-                Organisation = _organisationsViewModelBuilder.BuildOrganisation(organisationId),
-                Posts = _postsViewModelBuilder.BuildGroupPostList(pagingInput)
+                return HttpNotFound();
+            }
+
+            var viewModel = new
+            {
+                Organisation = _organisationViewModelBuilder.BuildOrganisation(organisationId),
+                Posts = _postViewModelBuilder.BuildGroupPostList(organisationId, pagingInput)
             };
 
-            ViewBag.PrerenderedView = "organisations"; // HACK: Need to rethink this
-
-            return View(Form.Stream);
+            return RestfulResult(
+                viewModel,
+                "organisations",
+                "posts");
         }
 
         [HttpGet]
-        public ActionResult Post(IdInput idInput)
+        public ActionResult Members(string id, PagingInput pagingInput)
         {
-            Check.RequireNotNull(idInput, "idInput");
+            string organisationId = VerbosifyId<Organisation>(id);
 
-            var organisationId = idInput.Id.VerbosifyId<Organisation>();
-
-            ViewBag.Model = new
+            if (!_permissionChecker.DoesExist<Organisation>(organisationId))
             {
-                Post = _postsViewModelBuilder.BuildPost(organisationId)
+                return HttpNotFound();
+            }
+
+            var viewModel = new
+            {
+                Organisation = _organisationViewModelBuilder.BuildOrganisation(organisationId),
+                Members = _userViewModelBuilder.BuildGroupUserList(organisationId, pagingInput)
             };
 
-            ViewBag.PrerenderedView = "post"; // HACK: Need to rethink this
-
-            return View(Form.Stream);
+            return RestfulResult(
+                viewModel,
+                "organisations",
+                "members");
         }
 
         [HttpGet]
-        public ActionResult Members(PagingInput pagingInput)
+        public ActionResult About(string id)
         {
-            Check.RequireNotNull(pagingInput, "pagingInput");
+            string organisationId = VerbosifyId<Organisation>(id);
 
-            var organisationId = pagingInput.Id.VerbosifyId<Organisation>();
-
-            ViewBag.Model = new
+            if (!_permissionChecker.DoesExist<Organisation>(organisationId))
             {
-                Organisation = _organisationsViewModelBuilder.BuildOrganisation(organisationId),
-                Members = _organisationsViewModelBuilder.BuildOrganisationUserList(pagingInput)
-            };
+                return HttpNotFound();
+            }
 
-            ViewBag.PrerenderedView = "organisations"; // HACK: Need to rethink this
-
-            return View(Form.Stream);
-        }
-
-        [HttpGet]
-        public ActionResult About()
-        {
             throw new NotImplementedException();
         }
 
         [HttpGet]
-        public ActionResult Explore(PagingInput pagingInput)
+        public ActionResult Index(string id)
         {
-            Check.RequireNotNull(pagingInput, "pagingInput");
+            string organisationId = VerbosifyId<Organisation>(id);
 
-            var explorePagingInput = new PagingInput() { Id = pagingInput.Id, PageSize = 100 };
-
-            ViewBag.Model = new
+            if (!_permissionChecker.DoesExist<Organisation>(organisationId))
             {
-                Organisations = _organisationsViewModelBuilder.BuildOrganisationList(explorePagingInput)                        
-            };
-
-            if(Request.IsAjaxRequest())
-            {
-                return new JsonNetResult(new
-                {
-                    Model = ViewBag.Model
-                });
+                return HttpNotFound();
             }
 
-            return View(Form.List);
-        }
-
-        [HttpGet]
-        public ActionResult GetOne(IdInput idInput)
-        {
-            Check.RequireNotNull(idInput, "idInput");
-
-            var organisationId = idInput.Id.VerbosifyId<Organisation>();
-
-            ViewBag.Model = new
+            var viewModel = new
             {
-                Organisation = _organisationsViewModelBuilder.BuildOrganisation(organisationId)                        
+                Organisation = _organisationViewModelBuilder.BuildOrganisation(organisationId)
             };
 
-            return new JsonNetResult(new
-            {
-                Model = ViewBag.Model
-            });
+            return RestfulResult(
+                viewModel,
+                "organisations",
+                "index");
         }
 
         [HttpGet]
-        public ActionResult GetMany(PagingInput pagingInput)
+        public ActionResult List(PagingInput pagingInput)
         {
-            Check.RequireNotNull(pagingInput, "pagingInput");
+            var viewModel = new
+            {
+                Organisations = _organisationViewModelBuilder.BuildOrganisationList(pagingInput)
+            };
 
-            return new JsonNetResult(_organisationsViewModelBuilder.BuildOrganisationList(pagingInput));
+            return RestfulResult(
+                viewModel,
+                "organisations",
+                "list");
         }
 
         [HttpGet]
@@ -284,80 +245,87 @@ namespace Bowerbird.Web.Controllers
                 return HttpUnauthorized();
             }
 
-            ViewBag.Model = new
+            var viewModel = new
             {
-                Organisation = _organisationsViewModelBuilder.BuildOrganisation()
+                Organisation = _organisationViewModelBuilder.BuildNewOrganisation()
             };
 
-            if (Request.IsAjaxRequest())
-            {
-                return new JsonNetResult(new
-                {
-                    Model = ViewBag.Model
-                });
-            }
-
-            ViewBag.PrerenderedView = "organisations";
-
-            return View(Form.Create);
+            return RestfulResult(
+                viewModel,
+                "organisations",
+                "create", 
+                new Action<dynamic>(x => x.Model.Create = true));
         }
 
         [HttpGet]
         [Authorize]
-        public ActionResult UpdateForm(IdInput idInput)
+        public ActionResult UpdateForm(string id)
         {
-            Check.RequireNotNull(idInput, "idInput");
+            string organisationId = VerbosifyId<Organisation>(id);
 
-            var organisationId = idInput.Id.VerbosifyId<Organisation>();
+            if (!_permissionChecker.DoesExist<Organisation>(organisationId))
+            {
+                return HttpNotFound();
+            }
 
             if (!_userContext.HasGroupPermission(PermissionNames.UpdateOrganisation, organisationId))
             {
                 return HttpUnauthorized();
             }
 
-            ViewBag.Model = new
+            var viewModel = new
             {
-                Organisation = _organisationsViewModelBuilder.BuildOrganisation(organisationId)
+                Organisation = _organisationViewModelBuilder.BuildOrganisation(organisationId)
             };
 
-            if (Request.IsAjaxRequest())
-            {
-                return new JsonNetResult(new
-                {
-                    Model = ViewBag.Model
-                });
-            }
-
-            return View(Form.Update);
+            return RestfulResult(
+                viewModel,
+                "organisations",
+                "update", 
+                new Action<dynamic>(x => x.Model.Update = true));
         }
 
         [HttpGet]
         [Authorize]
-        public ActionResult DeleteForm(IdInput idInput)
+        public ActionResult DeleteForm(string id)
         {
-            Check.RequireNotNull(idInput, "idInput");
+            string organisationId = VerbosifyId<Organisation>(id);
 
-            var organisationId = idInput.Id.VerbosifyId<Organisation>();
+            if (!_permissionChecker.DoesExist<Organisation>(organisationId))
+            {
+                return HttpNotFound();
+            }
 
             if (!_userContext.HasAppRootPermission(PermissionNames.DeleteOrganisation))
             {
                 return HttpUnauthorized();
             }
 
-            ViewBag.Organisation = _organisationsViewModelBuilder.BuildOrganisation(organisationId);
+            var viewModel = new
+            {
+                Organisation = _organisationViewModelBuilder.BuildOrganisation(organisationId)
+            };
 
-            return View(Form.Delete);
+            return RestfulResult(
+                viewModel,
+                "organisations",
+                "delete", 
+                new Action<dynamic>(x => x.Model.Delete = true));
         }
 
         [Transaction]
         [Authorize]
         [HttpPost]
-        public ActionResult Join(IdInput idInput)
+        public ActionResult Join(string id)
         {
-            Check.RequireNotNull(idInput, "idInput");
+            string organisationId = VerbosifyId<Organisation>(id);
 
-            var organisationId = idInput.Id.VerbosifyId<Organisation>();
+            if (!_permissionChecker.DoesExist<Organisation>(organisationId))
+            {
+                return HttpNotFound();
+            }
 
+            // TODO: Not sure what this permission check is actually checking???
             if (!_userContext.HasGroupPermission(PermissionNames.JoinOrganisation, organisationId))
             {
                 return HttpUnauthorized();
@@ -383,12 +351,16 @@ namespace Bowerbird.Web.Controllers
         [Transaction]
         [Authorize]
         [HttpPost]
-        public ActionResult Leave(IdInput idInput)
+        public ActionResult Leave(string id)
         {
-            Check.RequireNotNull(idInput, "idInput");
+            string organisationId = VerbosifyId<Organisation>(id);
 
-            var organisationId = idInput.Id.VerbosifyId<Organisation>();
+            if (!_permissionChecker.DoesExist<Organisation>(organisationId))
+            {
+                return HttpNotFound();
+            }
 
+            // TODO: Not sure what this permission check is actually checking???
             if (!_userContext.HasGroupPermission(PermissionNames.LeaveOrganisation, organisationId))
             {
                 return HttpUnauthorized();
@@ -403,65 +375,7 @@ namespace Bowerbird.Web.Controllers
                 new MemberDeleteCommand()
                 {
                     UserId = _userContext.GetAuthenticatedUserId(),
-                    GroupId = idInput.Id
-                });
-
-            return JsonSuccess();
-        }
-
-        [HttpPost]
-        [Authorize]
-        public ActionResult AddTeam(GroupAssociationCreateInput createInput)
-        {
-            Check.RequireNotNull(createInput, "createInput");
-
-            var organisationId = createInput.ParentGroupId.VerbosifyId<Organisation>();
-
-            if (!_userContext.HasGroupPermission<Organisation>(PermissionNames.AddTeam, organisationId))
-            {
-                return HttpUnauthorized();
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return JsonFailed();
-            }
-
-            _commandProcessor.Process(
-                new GroupAssociationCreateCommand()
-                {
-                    UserId = _userContext.GetAuthenticatedUserId(),
-                    ParentGroupId = createInput.ParentGroupId,
-                    ChildGroupId = createInput.ChildGroupId
-                });
-
-            return JsonSuccess();
-        }
-
-        [HttpPost]
-        [Authorize]
-        public ActionResult RemoveTeam(GroupAssociationDeleteInput deleteInput)
-        {
-            Check.RequireNotNull(deleteInput, "deleteInput");
-
-            var organisationId = deleteInput.ParentGroupId.VerbosifyId<Organisation>();
-
-            if (!_userContext.HasGroupPermission<Organisation>(PermissionNames.RemoveTeam, organisationId))
-            {
-                return HttpUnauthorized();
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return JsonFailed();
-            }
-
-            _commandProcessor.Process(
-                new GroupAssociationDeleteCommand()
-                {
-                    UserId = _userContext.GetAuthenticatedUserId(),
-                    ParentGroupId = deleteInput.ParentGroupId,
-                    ChildGroupId = deleteInput.ChildGroupId
+                    GroupId = organisationId
                 });
 
             return JsonSuccess();
@@ -472,8 +386,6 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult Create(OrganisationCreateInput createInput)
         {
-            Check.RequireNotNull(createInput, "createInput");
-
             if (!_userContext.HasAppRootPermission(PermissionNames.CreateOrganisation))
             {
                 return HttpUnauthorized();
@@ -502,9 +414,12 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult Update(OrganisationUpdateInput updateInput)
         {
-            Check.RequireNotNull(updateInput, "updateInput");
+            string organisationId = VerbosifyId<Organisation>(updateInput.Id);
 
-            var organisationId = updateInput.Id.VerbosifyId<Organisation>();
+            if (!_permissionChecker.DoesExist<Organisation>(organisationId))
+            {
+                return HttpNotFound();
+            }
 
             if (!_userContext.HasGroupPermission<Organisation>(PermissionNames.UpdateOrganisation, organisationId))
             {
@@ -521,7 +436,7 @@ namespace Bowerbird.Web.Controllers
                 {
                     AvatarId = updateInput.AvatarId,
                     Description = updateInput.Description,
-                    Id = organisationId,
+                    Id = updateInput.Id,
                     Name = updateInput.Name,
                     UserId = _userContext.GetAuthenticatedUserId(),
                     Website = updateInput.Website
@@ -533,11 +448,14 @@ namespace Bowerbird.Web.Controllers
         [Transaction]
         [HttpDelete]
         [Authorize]
-        public ActionResult Delete(IdInput idInput)
+        public ActionResult Delete(string id)
         {
-            Check.RequireNotNull(idInput, "idInput");
+            string organisationId = VerbosifyId<Organisation>(id);
 
-            var organisationId = idInput.Id.VerbosifyId<Organisation>();
+            if (!_permissionChecker.DoesExist<Organisation>(organisationId))
+            {
+                return HttpNotFound();
+            }
 
             if (!_userContext.HasAppRootPermission(PermissionNames.DeleteOrganisation))
             {

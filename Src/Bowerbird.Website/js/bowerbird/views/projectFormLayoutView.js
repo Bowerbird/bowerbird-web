@@ -33,12 +33,10 @@ function ($, _, Backbone, app, ich, loadImage, EditAvatarView) {
         },
 
         initialize: function (options) {
-            log('projectFormLayoutView:initialize');
             this.teams = options.teams;
         },
 
         serializeData: function () {
-            log('projectFormLayoutView:serializeData');
             return {
                 Model: {
                     Project: this.model.toJSON(),
@@ -48,23 +46,20 @@ function ($, _, Backbone, app, ich, loadImage, EditAvatarView) {
         },
 
         onShow: function () {
-            log('projectFormLayoutView:onShow');
             this._showDetails();
         },
 
         showBootstrappedDetails: function () {
-            log('projectFormLayoutView:showBootstrappedDetails');
             this.initializeRegions();
             this.$el = $('#content .project-form');
             this._showDetails();
         },
 
         _showDetails: function () {
-            log('projectFormLayoutView:_showDetails');
             var editAvatarView = new EditAvatarView({ el: '#avatar-fieldset', model: this.model });
             editAvatarView.render();
 
-            this.teamListSelectView = this.$el.find("#Team").multiSelect({
+            this.teamListSelectView = this.$el.find("#TeamId").multiSelect({
                 selectAll: false,
                 singleSelect: true,
                 noOptionsText: 'No Teams',
@@ -80,7 +75,6 @@ function ($, _, Backbone, app, ich, loadImage, EditAvatarView) {
         },
 
         _contentChanged: function (e) {
-            log('projectFormLayoutView:_contentChanged');
             var target = $(e.currentTarget);
             var data = {};
             data[target.attr('id')] = target.attr('value');
@@ -88,12 +82,11 @@ function ($, _, Backbone, app, ich, loadImage, EditAvatarView) {
         },
 
         _teamChanged: function (e) {
-            log('projectFormLayoutView:_teamChanged');
             var $checkbox = $(e.currentTarget);
             if ($checkbox.attr('checked') === 'checked') {
-                this.model.set('Team', $checkbox.attr('value'));
+                this.model.set('TeamId', $checkbox.attr('value'));
             } else {
-                this.model.set('Team', '');
+                this.model.set('TeamId', '');
             }
         },
 

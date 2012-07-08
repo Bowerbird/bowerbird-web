@@ -79,23 +79,22 @@ namespace Bowerbird.Core.Config
 
         public void SwitchServicesOff()
         {
-            SwitchServices(false, false, false);
+            SwitchServices(false, false);
         }
 
         public void SwitchServicesOn()
         {
-            SwitchServices(true, true, true);
+            SwitchServices(true, true);
         }
 
-        public void SwitchServices(bool? enableEvents = null, bool? enableEmails = null, bool? enableCommands = null)
+        public void SwitchServices(bool? enableEmailService = null, bool? enableBackChannelService = null)
         {
             lock (_lock)
             {
-                var systemState = LoadAppRoot();
-                systemState.SetFireEvents(enableEvents ?? systemState.FireEvents);
-                systemState.SetSendEmails(enableEmails ?? systemState.SendEmails);
-                systemState.SetExecuteCommands(enableCommands ?? systemState.ExecuteCommands);
-                SaveAppRoot(systemState);
+                var appRoot = LoadAppRoot();
+                appRoot.SetEmailServiceStatus(enableEmailService ?? appRoot.EmailServiceStatus);
+                appRoot.SetBackChannelServiceStatus(enableBackChannelService ?? appRoot.BackChannelServiceStatus);
+                SaveAppRoot(appRoot);
             }
         }
 

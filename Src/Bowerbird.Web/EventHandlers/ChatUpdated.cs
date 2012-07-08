@@ -28,6 +28,7 @@ using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using Bowerbird.Core.Indexes;
+using Bowerbird.Web.Services;
 
 namespace Bowerbird.Web.EventHandlers
 {
@@ -48,8 +49,7 @@ namespace Bowerbird.Web.EventHandlers
         private readonly IDocumentSession _documentSession;
         private readonly IUserViewFactory _userViewFactory;
         private readonly IGroupViewFactory _groupViewFactory;
-        private readonly IUserViewModelBuilder _userViewModelBuilder;
-        private readonly IUserContext _userContext;
+        private readonly IBackChannelService _backChannelService;
 
         #endregion
 
@@ -59,21 +59,18 @@ namespace Bowerbird.Web.EventHandlers
             IDocumentSession documentSession,
             IUserViewFactory userViewFactory,
             IGroupViewFactory groupViewFactory,
-            IUserViewModelBuilder userViewModelBuilder,
-            IUserContext userContext
+            IBackChannelService backChannelService
             )
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(userViewFactory, "userViewFactory");
             Check.RequireNotNull(groupViewFactory, "groupViewFactory");
-            Check.RequireNotNull(userViewModelBuilder, "userViewModelBuilder");
-            Check.RequireNotNull(userContext, "userContext");
+            Check.RequireNotNull(backChannelService, "backChannelService");
 
             _documentSession = documentSession;
             _userViewFactory = userViewFactory;
             _groupViewFactory = groupViewFactory;
-            _userViewModelBuilder = userViewModelBuilder;
-            _userContext = userContext;
+            _backChannelService = backChannelService;
         }
 
         #endregion
@@ -95,7 +92,7 @@ namespace Bowerbird.Web.EventHandlers
             var users = _documentSession.Load<User>(chat.Users.Select(x => x.Id)).ToList();
             foreach (var connectionId in users.SelectMany(x => x.Sessions.Select(y => y.ConnectionId)))
             {
-                _userContext.AddUserToChatChannel(chat.Id, connectionId);
+                _backChannelService.AddUserToChatChannel(chat.Id, connectionId);
             }
 
             // Notify initiator they have joined chat
@@ -110,7 +107,7 @@ namespace Bowerbird.Web.EventHandlers
             // Add user to chat channel
             foreach (var session in domainEvent.User.Sessions)
             {
-                _userContext.AddUserToChatChannel(chat.Id, session.ConnectionId);
+                _backChannelService.AddUserToChatChannel(chat.Id, session.ConnectionId);
             }
 
             // Notify user they have joined chat
@@ -127,8 +124,7 @@ namespace Bowerbird.Web.EventHandlers
                 FromUser = _userViewFactory.Make(domainEvent.User)
             };
 
-            //_userContext.GetChatChannel(chat.Id).userJoinedChat(chatMessageDetails);
-            _userContext.UserJoinedChat(chat.Id, chatMessageDetails);
+            _backChannelService.UserJoinedChatToChatChannel(chat.Id, chatMessageDetails);
         }
 
         public void Handle(UserExitedChatEvent domainEvent)
@@ -139,11 +135,11 @@ namespace Bowerbird.Web.EventHandlers
             // Remove user from chat channel
             foreach (var session in domainEvent.User.Sessions)
             {
-                _userContext.RemoveUserFromChatChannel(chat.Id, session.ConnectionId);
+                _backChannelService.RemoveUserFromChatChannel(chat.Id, session.ConnectionId);
             }
 
             // Notify all of leaving user's sessions that they have left
-            _userContext.GetUserChannel(domainEvent.User.Id).chatExited(chat.Id);
+            _backChannelService.NotifyChatExitedToUserChannel(domainEvent.User.Id, chat.Id);
 
             // Notify all users in chat that user has left chat
             var chatMessageDetails = new
@@ -156,8 +152,7 @@ namespace Bowerbird.Web.EventHandlers
                 FromUser = _userViewFactory.Make(domainEvent.User)
             };
 
-            //_userContext.GetChatChannel(chat.Id).userExitedChat(chatMessageDetails);
-            _userContext.UserExitedChat(chat.Id, chatMessageDetails);
+            _backChannelService.UserExitedChatToChatChannel(chat.Id, chatMessageDetails);
         }
 
         public void Handle(DomainModelCreatedEvent<ChatMessage> domainEvent)
@@ -183,7 +178,7 @@ namespace Bowerbird.Web.EventHandlers
             // Ensure all users' clients are still subscribed to chat
             foreach (var connectionId in users.SelectMany(x => x.Sessions.Select(y => y.ConnectionId)))
             {
-                _userContext.AddUserToChatChannel(chat.Id, connectionId);
+                _backChannelService.AddUserToChatChannel(chat.Id, connectionId);
             }
 
             // Send message to clients
@@ -196,8 +191,7 @@ namespace Bowerbird.Web.EventHandlers
             chatMessageDetails.Message = chatMessage.Message;
             chatMessageDetails.FromUser = _userViewFactory.Make(messageSender);
 
-            //_userContext.GetChatChannel(chat.Id).newChatMessage(chatMessageDetails);
-            _userContext.NewChatMessage(chat.Id, chatMessageDetails);
+            _backChannelService.NewChatMessageToChatChannel(chat.Id, chatMessageDetails);
         }
 
         private void NotifyUserTheyHaveJoinedChat(Chat chat, string userId)
@@ -230,17 +224,16 @@ namespace Bowerbird.Web.EventHandlers
                                         });
             }
 
-            _userContext.GetUserChannel(userId).chatJoined(chatDetails);
+            _backChannelService.NotifyChatJoinedToUserChannel(userId, chatDetails);
         }
 
-        private Group GetGroup(string groupId)
+        private All_Groups.Result GetGroup(string groupId)
         {
             return _documentSession
                 .Query<All_Groups.Result, All_Groups>()
                 .AsProjection<All_Groups.Result>()
                 .Where(x => x.GroupId == groupId)
                 .ToList()
-                .Select(x => x.Group)
                 .First();
         }
 

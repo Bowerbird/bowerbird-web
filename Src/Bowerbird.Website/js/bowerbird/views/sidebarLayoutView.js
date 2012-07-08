@@ -71,24 +71,24 @@ function ($, _, Backbone, app, SidebarMenuGroupCompositeView, SidebarProjectItem
                 //app.vent.trigger('home:show');
                 return false;
             });
-            this.$el.find('#project-menu-group-list a').on('click', function (e) {
-                e.preventDefault();
-                app.projectRouter.navigate($(this).attr('href'), { trigger: true });
-                //app.vent.trigger('home:show');
-                return false;
-            });
-            this.$el.find('#team-menu-group-list a').on('click', function (e) {
-                e.preventDefault();
-                app.teamRouter.navigate($(this).attr('href'), { trigger: true });
-                //app.vent.trigger('home:show');
-                return false;
-            });
-            this.$el.find('#organisation-menu-group-list a').on('click', function (e) {
-                e.preventDefault();
-                app.organisationRouter.navigate($(this).attr('href'), { trigger: true });
-                //app.vent.trigger('home:show');
-                return false;
-            });
+//            this.$el.find('#project-menu-group-list a').on('click', function (e) {
+//                e.preventDefault();
+//                app.projectRouter.navigate($(this).attr('href'), { trigger: true });
+//                //app.vent.trigger('home:show');
+//                return false;
+//            });
+//            this.$el.find('#team-menu-group-list a').on('click', function (e) {
+//                e.preventDefault();
+//                app.teamRouter.navigate($(this).attr('href'), { trigger: true });
+//                //app.vent.trigger('home:show');
+//                return false;
+//            });
+//            this.$el.find('#organisation-menu-group-list a').on('click', function (e) {
+//                e.preventDefault();
+//                app.organisationRouter.navigate($(this).attr('href'), { trigger: true });
+//                //app.vent.trigger('home:show');
+//                return false;
+//            });
 
             app.authenticatedUser.projects.on('add', this.addProject, this);
         },

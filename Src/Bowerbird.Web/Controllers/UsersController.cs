@@ -21,10 +21,10 @@ using Bowerbird.Web.ViewModels;
 using Bowerbird.Core.Config;
 using Bowerbird.Core.Extensions;
 using Bowerbird.Core.DomainModels;
+using System;
 
 namespace Bowerbird.Web.Controllers
 {
-    [Restful]
     public class UsersController : ControllerBase
     {
         #region Members
@@ -32,10 +32,12 @@ namespace Bowerbird.Web.Controllers
         private readonly ICommandProcessor _commandProcessor;
         private readonly IUserContext _userContext;
         private readonly IUserViewModelBuilder _userViewModelBuilder;
-        private readonly IStreamItemsViewModelBuilder _streamItemsViewModelBuilder;
-        private readonly IProjectsViewModelBuilder _projectsViewModelBuilder;
-        private readonly IPostsViewModelBuilder _postsViewModelBuilder;
-        private readonly ITeamsViewModelBuilder _teamsViewModelBuilder;
+        private readonly IActivityViewModelBuilder _activityViewModelBuilder;
+        private readonly IProjectViewModelBuilder _projectViewModelBuilder;
+        private readonly IPostViewModelBuilder _postViewModelBuilder;
+        private readonly ITeamViewModelBuilder _teamViewModelBuilder;
+        private readonly IPermissionChecker _permissionChecker;
+        private readonly ISightingViewModelBuilder _sightingViewModelBuilder;
 
         #endregion
 
@@ -45,27 +47,32 @@ namespace Bowerbird.Web.Controllers
             ICommandProcessor commandProcessor,
             IUserContext userContext,
             IUserViewModelBuilder userViewModelBuilder,
-            IStreamItemsViewModelBuilder streamItemsViewModelBuilder,
-            IProjectsViewModelBuilder projectsViewModelBuilder,
-            IPostsViewModelBuilder postsViewModelBuilder,
-            ITeamsViewModelBuilder teamsViewModelBuilder
-            )
+            IActivityViewModelBuilder activityViewModelBuilder,
+            IProjectViewModelBuilder projectViewModelBuilder,
+            IPostViewModelBuilder postViewModelBuilder,
+            ITeamViewModelBuilder teamViewModelBuilder,
+            IPermissionChecker permissionChecker,
+            ISightingViewModelBuilder sightingViewModelBuilder)
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(userViewModelBuilder, "userViewModelBuilder");
-            Check.RequireNotNull(streamItemsViewModelBuilder, "streamItemsViewModelBuilder");
-            Check.RequireNotNull(projectsViewModelBuilder, "projectsViewModelBuilder");
-            Check.RequireNotNull(postsViewModelBuilder, "postsViewModelBuilder");
-            Check.RequireNotNull(teamsViewModelBuilder, "teamsViewModelBuilder");
+            Check.RequireNotNull(activityViewModelBuilder, "activityViewModelBuilder");
+            Check.RequireNotNull(projectViewModelBuilder, "projectViewModelBuilder");
+            Check.RequireNotNull(postViewModelBuilder, "postViewModelBuilder");
+            Check.RequireNotNull(teamViewModelBuilder, "teamViewModelBuilder");
+            Check.RequireNotNull(permissionChecker, "permissionChecker");
+            Check.RequireNotNull(sightingViewModelBuilder, "sightingViewModelBuilder");
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
             _userViewModelBuilder = userViewModelBuilder;
-            _projectsViewModelBuilder = projectsViewModelBuilder;
-            _postsViewModelBuilder = postsViewModelBuilder;
-            _streamItemsViewModelBuilder = streamItemsViewModelBuilder;
-            _teamsViewModelBuilder = teamsViewModelBuilder;
+            _projectViewModelBuilder = projectViewModelBuilder;
+            _postViewModelBuilder = postViewModelBuilder;
+            _activityViewModelBuilder = activityViewModelBuilder;
+            _teamViewModelBuilder = teamViewModelBuilder;
+            _permissionChecker = permissionChecker;
+            _sightingViewModelBuilder = sightingViewModelBuilder;
         }
 
         #endregion
@@ -77,306 +84,233 @@ namespace Bowerbird.Web.Controllers
         #region Methods
 
         [HttpGet]
-        public ActionResult Stream(PagingInput pagingInput)
+        public ActionResult Activity(string id, ActivityInput activityInput, PagingInput pagingInput)
         {
-            Check.RequireNotNull(pagingInput, "pagingInput");
-            
-            var userId = pagingInput.Id.VerbosifyId<User>();
+            var userId = VerbosifyId<User>(id);
 
-            ViewBag.Model = new
+            if (!_permissionChecker.DoesExist<User>(userId))
             {
-                User = _userViewModelBuilder.BuildUser(userId),
-                StreamItems = _streamItemsViewModelBuilder.BuildUserStreamItems(pagingInput)
+                return HttpNotFound();
+            }
+
+            var viewModel = new
+            {
+                Activities = _activityViewModelBuilder.BuildUserActivityList(id, activityInput, pagingInput)
             };
 
-            return View(Form.Stream);
+            return RestfulResult(
+                viewModel,
+                "users",
+                "activity");
         }
 
         [HttpGet]
-        public ActionResult StreamList(PagingInput pagingInput)
+        public ActionResult Sightings(string id, PagingInput pagingInput)
         {
-            Check.RequireNotNull(pagingInput, "pagingInput");
+            var userId = VerbosifyId<User>(id);
 
-            return new JsonNetResult(_streamItemsViewModelBuilder.BuildUserStreamItems(pagingInput));
-        }
-
-        [HttpGet]
-        public ActionResult Observations(PagingInput pagingInput)
-        {
-            Check.RequireNotNull(pagingInput, "pagingInput");
-
-            var userId = pagingInput.Id.VerbosifyId<User>();
-
-            ViewBag.Model = new
+            if (!_permissionChecker.DoesExist<User>(userId))
             {
-                User = _userViewModelBuilder.BuildUser(userId)
+                return HttpNotFound();
+            }
+
+            var viewModel = new 
+            {
+                Sightings = _sightingViewModelBuilder.BuildUserSightingList(userId, pagingInput)
             };
 
-            return View(Form.Observations);
+            return RestfulResult(
+                viewModel,
+                "users",
+                "sightings");
         }
 
         [HttpGet]
-        public ActionResult Projects(PagingInput pagingInput)
+        public ActionResult Posts(string id, PagingInput pagingInput)
         {
-            Check.RequireNotNull(pagingInput, "pagingInput");
+            var userId = VerbosifyId<User>(id);
 
-            var userId = pagingInput.Id.VerbosifyId<User>();
-
-            ViewBag.Model = new
+            if (!_permissionChecker.DoesExist<User>(userId))
             {
-                User = _userViewModelBuilder.BuildUser(userId),
-                Projects = _projectsViewModelBuilder.BuildUserProjectList(pagingInput)
-            };
+                return HttpNotFound();
+            }
 
-            ViewBag.PrerenderedView = "projects"; // HACK: Need to rethink this
-
-            return View(Form.Stream);
-        }
-
-        [HttpGet]
-        public ActionResult Teams(PagingInput pagingInput)
-        {
-            Check.RequireNotNull(pagingInput, "pagingInput");
-
-            var userId = pagingInput.Id.VerbosifyId<User>();
-
-            ViewBag.Model = new
+            var viewModel = new
             {
-                User = _userViewModelBuilder.BuildUser(userId),
-                Teams = _teamsViewModelBuilder.BuildUserTeamList(pagingInput)
-            };
-
-            ViewBag.PrerenderedView = "projects"; // HACK: Need to rethink this
-
-            return View(Form.Stream);
-        }
-
-        [HttpGet]
-        public ActionResult Posts(PagingInput pagingInput)
-        {
-            Check.RequireNotNull(pagingInput, "pagingInput");
-
-            var userId = pagingInput.Id.VerbosifyId<User>();
-
-            ViewBag.Model = new
-            {
-                User = _userViewModelBuilder.BuildUser(userId),
-                Posts = _postsViewModelBuilder.BuildUserPostList(pagingInput)
-            };
-
-            return View(Form.Posts);
-        }
-
-        //[HttpGet]
-        //public ActionResult Following(PagingInput pagingInput)
-        //{
-        //    ViewBag.Model = new
-        //    {
-        //        User = _userViewModelBuilder.BuildUser(new IdInput() { Id = pagingInput.Id }),
-        //        Following = _userViewModelBuilder.BuildUsersBeingFollowedByList(pagingInput)
-        //    };
-
-        //    return View(Form.Following);
-        //}
-
-        //[HttpGet]
-        //public ActionResult Followers(PagingInput pagingInput)
-        //{
-        //    ViewBag.Model = new
-        //    {
-        //        User = _userViewModelBuilder.BuildUser(new IdInput() { Id = pagingInput.Id }),
-        //        Followers = _userViewModelBuilder.BuildUsersFollowingList(pagingInput)
-        //    };
-
-        //    return View(Form.Followers);
-        //}
-
-        [HttpGet]
-        public ActionResult About()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        [HttpGet]
-        public ActionResult Explore(PagingInput pagingInput)
-        {
-            Check.RequireNotNull(pagingInput, "pagingInput");
-
-            ViewBag.UserList = _userViewModelBuilder.BuildUserList(pagingInput);
-
-            return View(Form.List);
-        }
-
-        [HttpGet]
-        public ActionResult GetOne(IdInput idInput)
-        {
-            Check.RequireNotNull(idInput, "idInput");
-
-            var userId = idInput.Id.VerbosifyId<User>();
-
-            ViewBag.Model = new
-            {
-                User = _userViewModelBuilder.BuildEditableUser(userId)
-            };
-
-            return new JsonNetResult(new
-            {
-                Model = ViewBag.Model
-            });
-        }
-
-        [HttpGet]
-        public ActionResult GetMany(PagingInput pagingInput)
-        {
-            Check.RequireNotNull(pagingInput, "pagingInput");
-
-            return new JsonNetResult(_userViewModelBuilder.BuildUserList(pagingInput));
-        }
-
-        /// <summary>
-        /// Placeholder Method: Keeping Restful Convention
-        /// </summary>
-        [HttpGet]
-        public ActionResult CreateForm()
-        {
-            return RedirectToAction("Register", "Account");
-        }
-
-        [HttpGet]
-        [Authorize]
-        public ActionResult UpdateForm(IdInput idInput)
-        {
-            Check.RequireNotNull(idInput, "idInput");
-
-            var userId = idInput.Id.VerbosifyId<User>();
-
-#if !JS_COMBINE_MINIFY
-    DebugToClient("SERVER: Users/UpdateForm userId:" + userId);
-#endif
-
-            ViewBag.Model = new
-            {
-                User = _userViewModelBuilder.BuildEditableUser(userId)
-            };
-
-            if (Request.IsAjaxRequest())
-            {
-                return new JsonNetResult(new
+                Model = new
                 {
-                    Model = ViewBag.Model
-                });
-            }
-
-            ViewBag.PrerenderedView = "users";
-
-            return View(Form.Update);
-        }
-
-        /// <summary>
-        /// Placeholder Method: Keeping Restful Convention
-        /// </summary>
-        [HttpGet]
-        [Authorize]
-        public ActionResult DeleteForm(IdInput idInput)
-        {
-            Check.RequireNotNull(idInput, "idInput");
-
-            var userId = idInput.Id.VerbosifyId<User>();
-
-            ViewBag.User = _userViewModelBuilder.BuildUser(userId);
-
-            return View(Form.Delete);
-        }
-
-        /// <summary>
-        /// Placeholder Method: Keeping Restful Convention
-        /// </summary>
-        [HttpPost]
-        [Authorize]
-        public ActionResult Create()
-        {
-            return HttpNotFound();
-        }
-
-        [HttpPut]
-        [Authorize]
-        [Transaction]
-        public ActionResult Update(UserUpdateInput userUpdateInput)
-        {
-            Check.RequireNotNull(userUpdateInput, "userUpdateInput");
-
-            var userId = userUpdateInput.Id.VerbosifyId<User>();
-
-            if (!_userContext.HasUserPermission(userId))
-            {
-                return HttpUnauthorized();
-            }
-
-            if (ModelState.IsValid)
-            {
-                _commandProcessor.Process(
-                    new UserUpdateCommand()
-                    {
-                        Id = userUpdateInput.Id,
-                        FirstName = userUpdateInput.FirstName,
-                        LastName = userUpdateInput.LastName,
-                        Email = userUpdateInput.Email,
-                        Description = userUpdateInput.Description,
-                        AvatarId = userUpdateInput.AvatarId
-                    });
-
-                return RedirectToAction("index", "home");
-            }
-
-            ViewBag.User = new
-            {
-                userUpdateInput.Id,
-                userUpdateInput.AvatarId,
-                userUpdateInput.Description,
-                userUpdateInput.Email,
-                userUpdateInput.FirstName,
-                userUpdateInput.LastName
+                    Posts = _postViewModelBuilder.BuildUserPostList(userId, pagingInput)
+                }
             };
 
-            return View(Form.Update);
-        }
-
-        /// <summary>
-        /// Placeholder Method: Keeping Restful Convention
-        /// </summary>
-        [HttpDelete]
-        [Authorize]
-        public ActionResult Delete()
-        {
-            return HttpNotFound();
+            return RestfulResult(
+                viewModel,
+                "users",
+                "posts");
         }
 
         [HttpGet]
-        [Authorize]
-        public ActionResult ChangePassword()
+        public ActionResult About(string id)
         {
-            return View(Form.ChangePassword);
-        }
+            var userId = VerbosifyId<User>(id);
 
-        [HttpPost]
-        [Authorize]
-        [Transaction]
-        public ActionResult ChangePassword(AccountChangePasswordInput accountChangePasswordInput)
-        {
-            if (ModelState.IsValid)
+            if (!_permissionChecker.DoesExist<User>(userId))
             {
-                _commandProcessor.Process(
-                    new UserUpdatePasswordCommand()
-                    {
-                        UserId = _userContext.GetAuthenticatedUserId(),
-                        Password = accountChangePasswordInput.Password
-                    });
-
-                return RedirectToAction("index", "home");
+                return HttpNotFound();
             }
 
-            return View(Form.ChangePassword);
+            throw new NotImplementedException();
         }
+
+        [HttpGet]
+        public ActionResult Index(string id)
+        {
+            var userId = VerbosifyId<User>(id);
+
+            if (!_permissionChecker.DoesExist<User>(userId))
+            {
+                return HttpNotFound();
+            }
+
+            var viewModel = new
+            {
+                Model = new
+                {
+                    User = _userViewModelBuilder.BuildUser(userId)
+                }
+            };
+
+            return RestfulResult(
+                viewModel,
+                "users",
+                "index");
+        }
+
+//        [HttpGet]
+//        [Authorize]
+//        public ActionResult UpdateForm(IdInput idInput)
+//        {
+//            Check.RequireNotNull(idInput, "idInput");
+
+//            var userId = idInput.Id.VerbosifyId<User>();
+
+//#if !JS_COMBINE_MINIFY
+//    DebugToClient("SERVER: Users/UpdateForm userId:" + userId);
+//#endif
+
+//            ViewBag.Model = new
+//            {
+//                User = _userViewModelBuilder.BuildEditableUser(userId)
+//            };
+
+//            if (Request.IsAjaxRequest())
+//            {
+//                return new JsonNetResult(new
+//                {
+//                    Model = ViewBag.Model
+//                });
+//            }
+
+//            ViewBag.PrerenderedView = "users";
+
+//            return View(Form.Update);
+//        }
+
+        ///// <summary>
+        ///// Placeholder Method: Keeping Restful Convention
+        ///// </summary>
+        //[HttpGet]
+        //[Authorize]
+        //public ActionResult DeleteForm(IdInput idInput)
+        //{
+        //    Check.RequireNotNull(idInput, "idInput");
+
+        //    var userId = idInput.Id.VerbosifyId<User>();
+
+        //    ViewBag.User = _userViewModelBuilder.BuildUser(userId);
+
+        //    return View(Form.Delete);
+        //}
+
+        //[HttpPut]
+        //[Authorize]
+        //[Transaction]
+        //public ActionResult Update(UserUpdateInput userUpdateInput)
+        //{
+        //    Check.RequireNotNull(userUpdateInput, "userUpdateInput");
+
+        //    var userId = userUpdateInput.Id.VerbosifyId<User>();
+
+        //    if (!_userContext.HasUserPermission(userId))
+        //    {
+        //        return HttpUnauthorized();
+        //    }
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        _commandProcessor.Process(
+        //            new UserUpdateCommand()
+        //            {
+        //                Id = userUpdateInput.Id,
+        //                FirstName = userUpdateInput.FirstName,
+        //                LastName = userUpdateInput.LastName,
+        //                Email = userUpdateInput.Email,
+        //                Description = userUpdateInput.Description,
+        //                AvatarId = userUpdateInput.AvatarId
+        //            });
+
+        //        return RedirectToAction("index", "home");
+        //    }
+
+        //    ViewBag.User = new
+        //    {
+        //        userUpdateInput.Id,
+        //        userUpdateInput.AvatarId,
+        //        userUpdateInput.Description,
+        //        userUpdateInput.Email,
+        //        userUpdateInput.FirstName,
+        //        userUpdateInput.LastName
+        //    };
+
+        //    return View(Form.Update);
+        //}
+
+        ///// <summary>
+        ///// Placeholder Method: Keeping Restful Convention
+        ///// </summary>
+        //[HttpDelete]
+        //[Authorize]
+        //public ActionResult Delete()
+        //{
+        //    return HttpNotFound();
+        //}
+
+        //[HttpGet]
+        //[Authorize]
+        //public ActionResult ChangePassword()
+        //{
+        //    return View(Form.ChangePassword);
+        //}
+
+        //[HttpPost]
+        //[Authorize]
+        //[Transaction]
+        //public ActionResult ChangePassword(AccountChangePasswordInput accountChangePasswordInput)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _commandProcessor.Process(
+        //            new UserUpdatePasswordCommand()
+        //            {
+        //                UserId = _userContext.GetAuthenticatedUserId(),
+        //                Password = accountChangePasswordInput.Password
+        //            });
+
+        //        return RedirectToAction("index", "home");
+        //    }
+
+        //    return View(Form.ChangePassword);
+        //}
 
         #endregion
     }

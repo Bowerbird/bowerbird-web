@@ -157,7 +157,7 @@ define(['jquery', 'signalr'], function () {
                 connection: function () { return signalR.hub; }
             },
 
-            registerUserClient: function (id, callback) {
+            registerUserClient: function (userId, callback) {
                 return serverCall(this, "RegisterUserClient", $.makeArray(arguments));
             }
         },

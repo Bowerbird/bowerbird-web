@@ -52,9 +52,7 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(command, "command");
 
-            var userId = command.Id.VerbosifyId<User>();
-
-            var user = _documentSession.Load<User>(userId);
+            var user = _documentSession.Load<User>(command.Id);
 
             user.UpdateDetails(
                 command.FirstName,

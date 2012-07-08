@@ -134,7 +134,7 @@ namespace Bowerbird.Core.Config
         public static string Index = "Index";
         public static string PublicIndex = "PublicIndex";
         public static string PrivateIndex = "PrivateIndex";
-        public static string Stream = "Stream";
+        public static string Activity = "Activity";
         public static string Observations = "Observations";
         public static string Posts = "Posts";
         public static string Post = "Post";
@@ -152,6 +152,8 @@ namespace Bowerbird.Core.Config
         public static string RequestPasswordResetSuccess = "RequestPasswordResetSuccess";
         public static string Following = "Following";
         public static string Followers = "Followers";
+        public static string Sightings = "Sightings";
+        public static string Teams = "Teams";
     }
 
     public static class MediaType

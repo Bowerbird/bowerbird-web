@@ -301,9 +301,9 @@ namespace Bowerbird.Core.DomainModels
             return this;
         }
 
-        public ObservationMedia GetPrimaryImage()
+        public ObservationMedia GetPrimaryMedia()
         {
-            return Media.Where(x => x.MediaResource.Type == "image").First();
+            return Media.First();
         }
 
         #endregion

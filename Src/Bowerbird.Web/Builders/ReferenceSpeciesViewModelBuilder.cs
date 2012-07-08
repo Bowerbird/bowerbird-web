@@ -1,152 +1,116 @@
-﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+﻿///* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
- Developers: 
- * Frank Radocaj : frank@radocaj.com
- * Hamish Crittenden : hamish.crittenden@gmail.com
- Project Manager: 
- * Ken Walker : kwalker@museum.vic.gov.au
- Funded by:
- * Atlas of Living Australia
+// Developers: 
+// * Frank Radocaj : frank@radocaj.com
+// * Hamish Crittenden : hamish.crittenden@gmail.com
+// Project Manager: 
+// * Ken Walker : kwalker@museum.vic.gov.au
+// Funded by:
+// * Atlas of Living Australia
  
-*/
+//*/
 
-using System.Linq;
-using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.Indexes;
-using Bowerbird.Core.Paging;
-using Bowerbird.Web.ViewModels;
-using Raven.Client;
-using Raven.Client.Linq;
+//using System.Linq;
+//using Bowerbird.Core.DesignByContract;
+//using Bowerbird.Core.DomainModels;
+//using Bowerbird.Core.Indexes;
+//using Bowerbird.Core.Paging;
+//using Bowerbird.Web.ViewModels;
+//using Raven.Client;
+//using Raven.Client.Linq;
+//using Bowerbird.Web.Factories;
 
-namespace Bowerbird.Web.Builders
-{
-    public class ReferenceSpeciesViewModelBuilder : IReferenceSpeciesViewModelBuilder
-    {
-        #region Fields
+//namespace Bowerbird.Web.Builders
+//{
+//    public class ReferenceSpeciesViewModelBuilder : IReferenceSpeciesViewModelBuilder
+//    {
+//        #region Fields
 
-        private readonly IDocumentSession _documentSession;
+//        private readonly IDocumentSession _documentSession;
+//        private readonly IUserViewFactory _userViewFactory;
 
-        #endregion
+//        #endregion
 
-        #region Constructors
+//        #region Constructors
 
-        public ReferenceSpeciesViewModelBuilder(
-            IDocumentSession documentSession)
-        {
-            Check.RequireNotNull(documentSession, "documentSession");
+//        public ReferenceSpeciesViewModelBuilder(
+//            IDocumentSession documentSession,
+//            IUserViewFactory userViewFactory)
+//        {
+//            Check.RequireNotNull(documentSession, "documentSession");
+//            Check.RequireNotNull(userViewFactory, "userViewFactory");
 
-            _documentSession = documentSession;
-        }
+//            _documentSession = documentSession;
+//            _userViewFactory = userViewFactory;
+//        }
 
-        #endregion
+//        #endregion
 
-        #region Properties
+//        #region Properties
 
-        #endregion
+//        #endregion
 
-        #region Methods
+//        #region Methods
 
-        public object BuildReferenceSpecies(IdInput idInput)
-        {
-            Check.RequireNotNull(idInput, "idInput");
+//        public object BuildReferenceSpecies(string referenceSpeciesId)
+//        {
+//            Check.RequireNotNullOrWhitespace(referenceSpeciesId, "referenceSpeciesId");
 
-            return MakeReferenceSpecies(_documentSession.Load<ReferenceSpecies>(idInput.Id));
-        }
+//            return MakeReferenceSpecies(_documentSession.Load<ReferenceSpecies>(referenceSpeciesId));
+//        }
 
-        public object BuildReferenceSpeciesList(PagingInput pagingInput)
-        {
-            Check.RequireNotNull(pagingInput, "pagingInput");
+//        public object BuildReferenceSpeciesList(PagingInput pagingInput)
+//        {
+//            Check.RequireNotNull(pagingInput, "pagingInput");
 
-            RavenQueryStatistics stats;
+//            RavenQueryStatistics stats;
 
-            return _documentSession
-                .Query<All_ReferenceSpecies.Result, All_ReferenceSpecies>()
-                .AsProjection<All_ReferenceSpecies.Result>()
-                .Include(x => x.ReferenceSpecies.SpeciesId)
-                .Statistics(out stats)
-                .Skip(pagingInput.Page)
-                .Take(pagingInput.PageSize)
-                .ToList()
-                .Select(x => MakeReferenceSpecies(x.ReferenceSpecies))
-                .ToPagedList(
-                    pagingInput.Page,
-                    pagingInput.PageSize,
-                    stats.TotalResults,
-                    null);
-        }
+//            return _documentSession
+//                .Query<All_ReferenceSpecies.Result, All_ReferenceSpecies>()
+//                .AsProjection<All_ReferenceSpecies.Result>()
+//                .Include(x => x.ReferenceSpecies.SpeciesId)
+//                .Include(x => x.ReferenceSpecies.User.Id)
+//                .Statistics(out stats)
+//                .Skip(pagingInput.GetSkipIndex())
+//                .Take(pagingInput.PageSize)
+//                .ToList()
+//                .Select(x => MakeReferenceSpecies(x.ReferenceSpecies))
+//                .ToPagedList(
+//                    pagingInput.Page,
+//                    pagingInput.PageSize,
+//                    stats.TotalResults,
+//                    null);
+//        }
 
-        /// <summary>
-        /// PagingInput.Id is Group.Id
-        /// </summary>
-        public object BuildGroupReferenceSpeciesList(PagingInput pagingInput)
-        {
-            Check.RequireNotNull(pagingInput, "pagingInput");
+//        private object MakeReferenceSpecies(ReferenceSpecies referenceSpecies)
+//        {
+//            return new
+//            {
+//                referenceSpecies.Id,
+//                referenceSpecies.CreatedDateTime,
+//                referenceSpecies.GroupId,
+//                referenceSpecies.SmartTags,
+//                Creator = _userViewFactory.Make(_documentSession.Load<User>(referenceSpecies.User.Id)),
+//                Species = MakeSpecies(_documentSession.Load<Species>(referenceSpecies.SpeciesId))
+//            };
+//        }
 
-            RavenQueryStatistics stats;
+//        private static object MakeSpecies(Species species)
+//        {
+//            return new
+//            {
+//                species.Id,
+//                species.Kingdom,
+//                species.Order,
+//                species.Group,
+//                species.SpeciesName,
+//                species.Taxonomy,
+//                species.GenusName,
+//                species.Family,
+//                species.CommonNames
+//            };
+//        }
 
-            return _documentSession
-                .Query<All_ReferenceSpecies.Result, All_ReferenceSpecies>()
-                .AsProjection<All_ReferenceSpecies.Result>()
-                .Where(x => x.GroupId == pagingInput.Id)
-                .Include(x => x.ReferenceSpecies.SpeciesId)
-                .Statistics(out stats)
-                .Skip(pagingInput.Page)
-                .Take(pagingInput.PageSize)
-                .ToList()
-                .Select(x => MakeReferenceSpecies(x.ReferenceSpecies))
-                .ToPagedList(
-                    pagingInput.Page,
-                    pagingInput.PageSize,
-                    stats.TotalResults,
-                    null);
-        }
-
-        private object MakeReferenceSpecies(ReferenceSpecies referenceSpecies)
-        {
-            return new
-            {
-                referenceSpecies.Id,
-                referenceSpecies.CreatedDateTime,
-                referenceSpecies.GroupId,
-                referenceSpecies.SmartTags,
-                Creator = MakeUser(referenceSpecies.User.Id),
-                Species = MakeSpecies(_documentSession.Load<Species>(referenceSpecies.SpeciesId))
-            };
-        }
-
-        private object MakeUser(string userId)
-        {
-            return MakeUser(_documentSession.Load<User>(userId));
-        }
-
-        private object MakeUser(User user)
-        {
-            return new
-            {
-                Avatar = user.Avatar,
-                user.Id,
-                user.LastLoggedIn,
-                Name = user.GetName()
-            };
-        }
-
-        private static object MakeSpecies(Species species)
-        {
-            return new
-            {
-                species.Id,
-                species.Kingdom,
-                species.Order,
-                species.Group,
-                species.SpeciesName,
-                species.Taxonomy,
-                species.GenusName,
-                species.Family,
-                species.CommonNames
-            };
-        }
-
-        #endregion
-    }
-}
+//        #endregion
+//    }
+//}

@@ -175,7 +175,7 @@
     <Content Include="js\bowerbird\views\chatRegion.js" />
     <Content Include="js\bowerbird\views\chatCompositeView.js" />
     <Content Include="js\bowerbird\views\chatMessageCollectionView.js" />
-    <Content Include="js\bowerbird\views\embeddedVideoView.js" />
+    <Content Include="js\bowerbird\views\observationDetailsView.js" />
     <Content Include="js\bowerbird\views\userFormLayoutView.js" />
     <Content Include="js\bowerbird\views\organisationItemView.js" />
     <Content Include="js\bowerbird\views\organisationCollectionView.js" />
@@ -426,6 +426,9 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Shared\EmbeddedVideo.mustache" />
+    <Content Include="Views\Shared\ObservationDetails.mustache">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="404.html" />

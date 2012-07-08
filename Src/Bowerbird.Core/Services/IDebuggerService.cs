@@ -2,7 +2,7 @@
 using System;
 using Bowerbird.Core.Services;
 
-namespace Bowerbird.Web.Services
+namespace Bowerbird.Core.Services
 {
     public interface IDebuggerService : IService
     {

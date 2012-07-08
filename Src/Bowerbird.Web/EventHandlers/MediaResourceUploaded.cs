@@ -84,7 +84,8 @@ namespace Bowerbird.Web.EventHandlers
                 domainEvent.DomainModel.Files
             };
 
-            _userContext.GetUserChannel(user.Id).mediaResourceCreated(mediaResource);
+            // TODO: Fix this. 
+            //_userContext.GetUserChannel(user.Id).mediaResourceCreated(mediaResource);
         }
 
         #endregion      

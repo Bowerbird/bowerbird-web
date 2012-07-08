@@ -27,7 +27,5 @@ namespace Bowerbird.Web.Builders
         object MakeAccountRequestPasswordReset(AccountRequestPasswordResetInput accountRequestPasswordResetInput);
         
         object MakeAccountResetPassword(AccountResetPasswordInput accountResetPasswordInput);
-        
-        bool AreCredentialsValid(string email, string password);
     }
 }

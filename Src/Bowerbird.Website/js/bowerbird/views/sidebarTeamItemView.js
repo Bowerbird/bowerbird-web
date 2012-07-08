@@ -27,7 +27,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/team'], function ($, 
             var that = this;
             $(this.el).children('a').on('click', function (e) {
                 e.preventDefault();
-                app.groupUserRouter.navigate($(this).attr('href'));
+                app.groupUserRouter.navigate($(this).attr('href'), { trigger: true });
                 app.vent.trigger('team:show:stream', that.model.id);
                 return false;
             });

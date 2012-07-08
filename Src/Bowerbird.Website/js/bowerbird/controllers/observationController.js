@@ -8,13 +8,13 @@
 
 // ObservationController & ObservationRouter
 // -----------------------------------------
-define(['jquery', 'underscore', 'backbone', 'app', 'views/observationlayoutview', 'models/observation'], 
-function ($, _, Backbone, app, ObservationLayoutView, Observation) 
-{
+define(['jquery', 'underscore', 'backbone', 'app', 'views/observationlayoutview', 'models/observation'],
+function ($, _, Backbone, app, ObservationLayoutView, Observation) {
     var ObservationRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
             'observations/create': 'showObservationForm',
-            'observations/:id/update': 'showObservationForm'
+            'observations/:id/update': 'showObservationForm',
+            'observations/:id': 'showObservationDetails'
         }
     });
 
@@ -34,28 +34,36 @@ function ($, _, Backbone, app, ObservationLayoutView, Observation)
     };
 
     var getModel = function (id) {
+        var url = '/observations/create';
+        if (id) {
+            url = id;
+        }
         var deferred = new $.Deferred();
-
         if (app.isPrerendering('observations')) {
             deferred.resolve(app.prerenderedView.data);
         } else {
-            var params = {};
-            if (id) {
-                params['id'] = id;
-            }
             $.ajax({
-                url: '/observations/create',
-                data: params
+                url: url
             }).done(function (data) {
                 deferred.resolve(data.Model);
             });
         }
-
         return deferred.promise();
     };
 
     // Public API
     // ----------
+
+    ObservationController.showObservationDetails = function (id) {
+        $.when(getModel(id))
+            .done(function (model) {
+                log('obs', model);
+                var observation = new Observation(model.Observation);
+                var observationLayoutView = showObservationLayoutView(observation);
+                observationLayoutView.showObservationDetails(observation);
+                app.setPrerenderComplete();
+            });
+    };
 
     ObservationController.showObservationForm = function (id) {
         $.when(getModel(id))

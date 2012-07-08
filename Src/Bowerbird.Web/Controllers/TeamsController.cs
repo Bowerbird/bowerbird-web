@@ -3,47 +3,44 @@
  Developers: 
  * Frank Radocaj : frank@radocaj.com
  * Hamish Crittenden : hamish.crittenden@gmail.com
- 
  Project Manager: 
  * Ken Walker : kwalker@museum.vic.gov.au
- 
  Funded by:
  * Atlas of Living Australia
  
 */
 
-using System.Collections;
-using System.Linq;
 using System.Web.Mvc;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Extensions;
-using Bowerbird.Core.Indexes;
 using Bowerbird.Web.Builders;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.ViewModels;
 using Bowerbird.Core.Config;
 using System;
+using System.Linq;
+using System.Collections;
 using Raven.Client;
 using Raven.Client.Linq;
+using Bowerbird.Core.Indexes;
 
 namespace Bowerbird.Web.Controllers
 {
-    [Restful]
     public class TeamsController : ControllerBase
     {
-        #region Members
+        #region Fields
 
         private readonly ICommandProcessor _commandProcessor;
         private readonly IUserContext _userContext;
-        private readonly ITeamsViewModelBuilder _teamsViewModelBuilder;
-        private readonly IStreamItemsViewModelBuilder _streamItemsViewModelBuilder;
-        private readonly IProjectsViewModelBuilder _projectsViewModelBuilder;
-        private readonly IPostsViewModelBuilder _postsViewModelBuilder;
-        private readonly IReferenceSpeciesViewModelBuilder _referenceSpeciesViewModelBuilder;
+        private readonly ITeamViewModelBuilder _teamViewModelBuilder;
+        private readonly IActivityViewModelBuilder _activityViewModelBuilder;
+        private readonly IPostViewModelBuilder _postViewModelBuilder;
+        private readonly ISightingViewModelBuilder _sightingViewModelBuilder;
+        private readonly IUserViewModelBuilder _userViewModelBuilder;
+        private readonly IPermissionChecker _permissionChecker;
         private readonly IDocumentSession _documentSession;
-        private readonly IObservationsViewModelBuilder _observationsViewModelBuilder;
 
         #endregion
 
@@ -52,281 +49,271 @@ namespace Bowerbird.Web.Controllers
         public TeamsController(
             ICommandProcessor commandProcessor,
             IUserContext userContext,
-            ITeamsViewModelBuilder teamsViewModelBuilder,
-            IStreamItemsViewModelBuilder streamItemsViewModelBuilder,
-            IProjectsViewModelBuilder projectsViewModelBuilder,
-            IPostsViewModelBuilder postsViewModelBuilder,
-            IReferenceSpeciesViewModelBuilder referenceSpeciesViewModelBuilder,
-            IDocumentSession documentSession,
-            IObservationsViewModelBuilder observationsViewModelBuilder
+            ITeamViewModelBuilder teamViewModelBuilder,
+            ISightingViewModelBuilder sightingViewModelBuilder,
+            IActivityViewModelBuilder activityViewModelBuilder,
+            IPostViewModelBuilder postViewModelBuilder,
+            IUserViewModelBuilder userViewModelBuilder,
+            IPermissionChecker permissionChecker,
+            IDocumentSession documentSession
             )
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
             Check.RequireNotNull(userContext, "userContext");
-            Check.RequireNotNull(teamsViewModelBuilder, "teamsViewModelBuilder");
-            Check.RequireNotNull(streamItemsViewModelBuilder, "streamItemsViewModelBuilder");
-            Check.RequireNotNull(projectsViewModelBuilder, "projectsViewModelBuilder");
-            Check.RequireNotNull(postsViewModelBuilder, "postsViewModelBuilder");
-            Check.RequireNotNull(referenceSpeciesViewModelBuilder, "referenceSpeciesViewModelBuilder");
+            Check.RequireNotNull(teamViewModelBuilder, "teamViewModelBuilder");
+            Check.RequireNotNull(sightingViewModelBuilder, "sightingViewModelBuilder");
+            Check.RequireNotNull(activityViewModelBuilder, "activityViewModelBuilder");
+            Check.RequireNotNull(postViewModelBuilder, "postViewModelBuilder");
+            Check.RequireNotNull(userViewModelBuilder, "userViewModelBuilder");
+            Check.RequireNotNull(permissionChecker, "permissionChecker");
             Check.RequireNotNull(documentSession, "documentSession");
-            Check.RequireNotNull(observationsViewModelBuilder, "observationsViewModelBuilder");
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
-            _teamsViewModelBuilder = teamsViewModelBuilder;
-            _streamItemsViewModelBuilder = streamItemsViewModelBuilder;
-            _projectsViewModelBuilder = projectsViewModelBuilder;
-            _postsViewModelBuilder = postsViewModelBuilder;
-            _referenceSpeciesViewModelBuilder = referenceSpeciesViewModelBuilder;
+            _teamViewModelBuilder = teamViewModelBuilder;
+            _sightingViewModelBuilder = sightingViewModelBuilder;
+            _activityViewModelBuilder = activityViewModelBuilder;
+            _postViewModelBuilder = postViewModelBuilder;
+            _userViewModelBuilder = userViewModelBuilder;
+            _permissionChecker = permissionChecker;
             _documentSession = documentSession;
-            _observationsViewModelBuilder = observationsViewModelBuilder;
         }
+
+        #endregion
+
+        #region Properties
 
         #endregion
 
         #region Methods
 
         [HttpGet]
-        public ActionResult Activity(StreamInput streamInput, PagingInput pagingInput)
+        public ActionResult Activity(string id, ActivityInput activityInput, PagingInput pagingInput)
         {
-            Check.RequireNotNull(pagingInput, "pagingInput");
+            string teamId = VerbosifyId<Team>(id);
 
-            var teamId = pagingInput.Id.VerbosifyId<Team>();
-
-            // Using this, we get stream items but no model.
-            if (Request.IsAjaxRequest())
+            if (!_permissionChecker.DoesExist<Team>(teamId))
             {
-                return new JsonNetResult(new
-                {
-                    Model = _streamItemsViewModelBuilder.BuildGroupStreamItems(teamId, streamInput, pagingInput)
-                });
+                return HttpNotFound();
             }
 
-            ViewBag.Model = new
-            {
-                Team = _teamsViewModelBuilder.BuildTeam(teamId),
-                StreamItems = _streamItemsViewModelBuilder.BuildGroupStreamItems(teamId, null, pagingInput)
-            };
+            var viewModel = _activityViewModelBuilder.BuildGroupActivityList(teamId, activityInput, pagingInput);
 
-            // Using this, we get stream Items AND a model... but Stream items not displayed
-            if (Request.IsAjaxRequest())
+            return RestfulResult(
+                viewModel,
+                "teams",
+                "activity");
+        }
+
+        [HttpGet]
+        public ActionResult Sightings(string id, PagingInput pagingInput)
+        {
+            string teamId = VerbosifyId<Team>(id);
+
+            if (!_permissionChecker.DoesExist<Team>(teamId))
             {
-                return new JsonNetResult(new
-                {
-                    Model = ViewBag.Model
-                });
+                return HttpNotFound();
             }
 
-            ViewBag.PrerenderedView = "teams"; // HACK: Need to rethink this
+            var viewModel = new
+            {
+                Team = _teamViewModelBuilder.BuildTeam(teamId),
+                Observations = _sightingViewModelBuilder.BuildGroupSightingList(teamId, pagingInput)
+            };
 
-            return View(Form.Stream);
+            return RestfulResult(
+                viewModel,
+                "teams",
+                "sightings");
         }
 
         [HttpGet]
-        public ActionResult Observations(PagingInput pagingInput)
+        public ActionResult Posts(string id, PagingInput pagingInput)
         {
-            Check.RequireNotNull(pagingInput, "pagingInput");
+            string teamId = VerbosifyId<Team>(id);
 
-            var teamId = pagingInput.Id.VerbosifyId<Team>();
-
-            ViewBag.Model = new
+            if (!_permissionChecker.DoesExist<Team>(teamId))
             {
-                Team = _teamsViewModelBuilder.BuildTeam(teamId),
-                Observations = _observationsViewModelBuilder.BuildGroupObservationList(pagingInput)        
-            };
-
-            if (Request.IsAjaxRequest())
-            {
-                return new JsonNetResult(new
-                {
-                    Model = ViewBag.Model
-                });
+                return HttpNotFound();
             }
 
-            ViewBag.PrerenderedView = "observations"; // HACK: Need to rethink this
-
-            return View(Form.Stream);
-        }
-
-        [HttpGet]
-        public ActionResult ReferenceSpecies(PagingInput pagingInput)
-        {
-            Check.RequireNotNull(pagingInput, "pagingInput");
-
-            var teamId = pagingInput.Id.VerbosifyId<Team>();
-
-            ViewBag.Model = new
+            var viewModel = new
             {
-                Team = _teamsViewModelBuilder.BuildTeam(teamId),
-                ReferenceSpecies = _referenceSpeciesViewModelBuilder.BuildGroupReferenceSpeciesList(pagingInput)
+                Team = _teamViewModelBuilder.BuildTeam(teamId),
+                Posts = _postViewModelBuilder.BuildGroupPostList(teamId, pagingInput)
             };
 
-            ViewBag.PrerenderedView = "referencespecies"; // HACK: Need to rethink this
-
-            return View(Form.Stream);
+            return RestfulResult(
+                viewModel,
+                "teams",
+                "posts");
         }
 
         [HttpGet]
-        public ActionResult Projects(PagingInput pagingInput)
+        public ActionResult Members(string id, PagingInput pagingInput)
         {
-            Check.RequireNotNull(pagingInput, "pagingInput");
+            string teamId = VerbosifyId<Team>(id);
 
-            var teamId = pagingInput.Id.VerbosifyId<Team>();
-
-            ViewBag.Model = new
+            if (!_permissionChecker.DoesExist<Team>(teamId))
             {
-                Team = _teamsViewModelBuilder.BuildTeam(teamId),
-                Projects = _projectsViewModelBuilder.BuildTeamProjectList(pagingInput)
+                return HttpNotFound();
+            }
+
+            var viewModel = new
+            {
+                Team = _teamViewModelBuilder.BuildTeam(teamId),
+                Members = _userViewModelBuilder.BuildGroupUserList(teamId, pagingInput)
             };
 
-            ViewBag.PrerenderedView = "projects"; // HACK: Need to rethink this
-
-            return View(Form.Stream);
+            return RestfulResult(
+                viewModel,
+                "teams",
+                "members");
         }
 
         [HttpGet]
-        public ActionResult Members(PagingInput pagingInput)
+        public ActionResult About(string id)
         {
-            Check.RequireNotNull(pagingInput, "pagingInput");
+            string teamId = VerbosifyId<Team>(id);
 
-            var teamId = pagingInput.Id.VerbosifyId<Team>();
-
-            ViewBag.Model = new
+            if (!_permissionChecker.DoesExist<Team>(teamId))
             {
-                Team = _teamsViewModelBuilder.BuildTeam(teamId),
-                Members = _teamsViewModelBuilder.BuildTeamUserList(pagingInput)
-            };
+                return HttpNotFound();
+            }
 
-            ViewBag.PrerenderedView = "members"; // HACK: Need to rethink this
-
-            return View(Form.Stream);
-        }
-
-        [HttpGet]
-        public ActionResult About()
-        {
             throw new NotImplementedException();
         }
 
         [HttpGet]
-        public ActionResult Explore(PagingInput pagingInput)
+        public ActionResult Index(string id)
         {
-            Check.RequireNotNull(pagingInput, "pagingInput");
+            string teamId = VerbosifyId<Team>(id);
 
-            var explorePagingInput = new PagingInput() {Id = pagingInput.Id, PageSize = 100};
-
-            ViewBag.Model = new
+            if (!_permissionChecker.DoesExist<Team>(teamId))
             {
-                Teams = _teamsViewModelBuilder.BuildTeamList(explorePagingInput)
-            };
-
-            if (Request.IsAjaxRequest())
-            {
-                return new JsonNetResult(new
-                {
-                    Model = ViewBag.Model
-                });
+                return HttpNotFound();
             }
 
-            return View(Form.List);
-        }
-
-        [HttpGet]
-        public ActionResult GetOne(IdInput idInput)
-        {
-
-#if !JS_COMBINE_MINIFY
-    DebugToClient(string.Format("SERVER: Teams/GetOne: id:{0}", idInput.Id));
-#endif
-
-            Check.RequireNotNull(idInput, "idInput");
-
-            var teamId = idInput.Id.VerbosifyId<Team>();
-
-            return new JsonNetResult(new
+            var viewModel = new
             {
-                Model = new
-                {
-                    Team = _teamsViewModelBuilder.BuildTeam(teamId)
-                }
-            });
+                Team = _teamViewModelBuilder.BuildTeam(teamId)
+            };
+
+            return RestfulResult(
+                viewModel,
+                "teams",
+                "index");
         }
 
         [HttpGet]
-        public ActionResult GetMany(PagingInput pagingInput)
+        public ActionResult List(string groupId, PagingInput pagingInput)
         {
-            return new JsonNetResult(_teamsViewModelBuilder.BuildTeamList(pagingInput));
+            var viewModel = new
+            {
+                Teams = _teamViewModelBuilder.BuildGroupTeamList(groupId, pagingInput)
+            };
+
+            return RestfulResult(
+                viewModel,
+                "teams",
+                "list");
         }
 
         [HttpGet]
         [Authorize]
-        public ActionResult CreateForm(IdInput idInput)
+        public ActionResult CreateForm()
         {
-            if (!_userContext.HasGroupPermission(PermissionNames.CreateTeam, idInput.Id ?? Constants.AppRootId))
+            // BUG: Need to check if approot/org has perms
+            if (!_userContext.HasGroupPermission(PermissionNames.CreateTeam, string.Empty))
             {
                 return HttpUnauthorized();
             }
 
-            ViewBag.Model = new
+            var viewModel = new
             {
-                Team = _teamsViewModelBuilder.BuildTeam(),
+                Team = _teamViewModelBuilder.BuildNewTeam(),
                 Organisations = GetOrganisations(_userContext.GetAuthenticatedUserId())
             };
 
-            if (Request.IsAjaxRequest())
-            {
-                return new JsonNetResult(new {Model = ViewBag.Model});
-            }
-
-            ViewBag.PrerenderedView = "teams";
-
-            return View(Form.Create);
+            return RestfulResult(
+                viewModel,
+                "teams",
+                "create",
+                new Action<dynamic>(x => x.Model.Create = true));
         }
 
         [HttpGet]
         [Authorize]
-        public ActionResult UpdateForm(IdInput idInput)
+        public ActionResult UpdateForm(string id)
         {
-            Check.RequireNotNull(idInput, "idInput");
+            string teamId = VerbosifyId<Team>(id);
 
-            var teamId = idInput.Id.VerbosifyId<Team>();
+            if (!_permissionChecker.DoesExist<Team>(teamId))
+            {
+                return HttpNotFound();
+            }
 
-            if (!_userContext.HasUserProjectPermission(PermissionNames.UpdateTeam))
+            if (!_userContext.HasGroupPermission(PermissionNames.UpdateTeam, teamId))
             {
                 return HttpUnauthorized();
             }
 
-            ViewBag.Team = _teamsViewModelBuilder.BuildTeam(teamId);
+            var viewModel = new
+            {
+                Team = _teamViewModelBuilder.BuildTeam(teamId),
+                Organisations = GetOrganisations(_userContext.GetAuthenticatedUserId(), teamId)
+            };
 
-            return View(Form.Update);
+            return RestfulResult(
+                viewModel,
+                "teams",
+                "update",
+                new Action<dynamic>(x => x.Model.Update = true));
         }
 
         [HttpGet]
         [Authorize]
-        public ActionResult DeleteForm(IdInput idInput)
+        public ActionResult DeleteForm(string id)
         {
-            Check.RequireNotNull(idInput, "idInput");
+            string teamId = VerbosifyId<Team>(id);
 
-            var teamId = idInput.Id.VerbosifyId<Team>();
+            if (!_permissionChecker.DoesExist<Team>(teamId))
+            {
+                return HttpNotFound();
+            }
 
-            if (!_userContext.HasUserProjectPermission(PermissionNames.DeleteTeam))
+            // BUG: Fix this to check the parent groups' permission
+            if (!_userContext.HasGroupPermission(PermissionNames.DeleteTeam, teamId))
             {
                 return HttpUnauthorized();
             }
 
-            ViewBag.Team = _teamsViewModelBuilder.BuildTeam(teamId);
+            var viewModel = new
+            {
+                Team = _teamViewModelBuilder.BuildTeam(teamId)
+            };
 
-            return View(Form.Delete);
+            return RestfulResult(
+                viewModel,
+                "teams",
+                "delete",
+                new Action<dynamic>(x => x.Model.Delete = true));
         }
 
         [Transaction]
         [Authorize]
         [HttpPost]
-        public ActionResult Join(IdInput idInput)
+        public ActionResult Join(string id)
         {
-            Check.RequireNotNull(idInput, "idInput");
+            string teamId = VerbosifyId<Team>(id);
 
-            if (!_userContext.HasGroupPermission(PermissionNames.JoinTeam, idInput.Id))
+            if (!_permissionChecker.DoesExist<Team>(teamId))
+            {
+                return HttpNotFound();
+            }
+
+            // TODO: Not sure what this permission check is actually checking???
+            if (!_userContext.HasGroupPermission(PermissionNames.JoinTeam, teamId))
             {
                 return HttpUnauthorized();
             }
@@ -340,7 +327,7 @@ namespace Bowerbird.Web.Controllers
                 new MemberCreateCommand()
                 {
                     UserId = _userContext.GetAuthenticatedUserId(),
-                    GroupId = idInput.Id,
+                    GroupId = teamId,
                     CreatedByUserId = _userContext.GetAuthenticatedUserId(),
                     Roles = new[] { RoleNames.TeamMember }
                 });
@@ -351,11 +338,17 @@ namespace Bowerbird.Web.Controllers
         [Transaction]
         [Authorize]
         [HttpPost]
-        public ActionResult Leave(IdInput idInput)
+        public ActionResult Leave(string id)
         {
-            Check.RequireNotNull(idInput, "idInput");
+            string teamId = VerbosifyId<Team>(id);
 
-            if (!_userContext.HasGroupPermission(PermissionNames.LeaveTeam, idInput.Id))
+            if (!_permissionChecker.DoesExist<Team>(teamId))
+            {
+                return HttpNotFound();
+            }
+
+            // TODO: Not sure what this permission check is actually checking???
+            if (!_userContext.HasGroupPermission(PermissionNames.LeaveTeam, teamId))
             {
                 return HttpUnauthorized();
             }
@@ -369,82 +362,17 @@ namespace Bowerbird.Web.Controllers
                 new MemberDeleteCommand()
                 {
                     UserId = _userContext.GetAuthenticatedUserId(),
-                    GroupId = idInput.Id
-                });
-
-            return JsonSuccess();
-        }
-
-        [HttpPost]
-        [Authorize]
-        public ActionResult AddProject(GroupAssociationCreateInput createInput)
-        {
-            Check.RequireNotNull(createInput, "createInput");
-
-            if (!_userContext.HasGroupPermission<Team>(PermissionNames.AddTeam, createInput.ParentGroupId))
-            {
-                return HttpUnauthorized();
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return JsonFailed();
-            }
-
-            _commandProcessor.Process(
-                new GroupAssociationCreateCommand()
-                {
-                    UserId = _userContext.GetAuthenticatedUserId(),
-                    ParentGroupId = createInput.ParentGroupId,
-                    ChildGroupId = createInput.ChildGroupId
-                });
-
-            return JsonSuccess();
-        }
-
-        [HttpPost]
-        [Authorize]
-        public ActionResult RemoveProject(GroupAssociationDeleteInput deleteInput)
-        {
-            Check.RequireNotNull(deleteInput, "deleteInput");
-
-            if (!_userContext.HasGroupPermission<Team>(PermissionNames.RemoveTeam, deleteInput.ParentGroupId))
-            {
-                return HttpUnauthorized();
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return JsonFailed();
-            }
-
-            _commandProcessor.Process(
-                new GroupAssociationDeleteCommand()
-                {
-                    UserId = _userContext.GetAuthenticatedUserId(),
-                    ParentGroupId = deleteInput.ParentGroupId,
-                    ChildGroupId = deleteInput.ChildGroupId
+                    GroupId = teamId
                 });
 
             return JsonSuccess();
         }
 
         [Transaction]
-        [Authorize]
         [HttpPost]
+        [Authorize]
         public ActionResult Create(TeamCreateInput createInput)
         {
-            Check.RequireNotNull(createInput, "createInput");
-
-            var organisationId = createInput.Organisation != null
-                                     ? "organisations/".AppendWith(createInput.Organisation)
-                                     : Constants.AppRootId;
-
-            if (!_userContext.HasGroupPermission(PermissionNames.CreateTeam, organisationId))
-            {
-                return HttpUnauthorized();
-            }
-
             if (!ModelState.IsValid)
             {
                 return JsonFailed();
@@ -456,7 +384,7 @@ namespace Bowerbird.Web.Controllers
                         Description = createInput.Description,
                         Name = createInput.Name,
                         UserId = _userContext.GetAuthenticatedUserId(),
-                        OrganisationId = organisationId
+                        OrganisationId = createInput.Organisation
                     }
                 );
 
@@ -464,19 +392,18 @@ namespace Bowerbird.Web.Controllers
         }
 
         [Transaction]
-        [Authorize]
         [HttpPut]
+        [Authorize]
         public ActionResult Update(TeamUpdateInput updateInput)
         {
+            string teamId = VerbosifyId<Team>(updateInput.Id);
 
-#if !JS_COMBINE_MINIFY
-    DebugToClient(string.Format("SERVER: [PUT]Teams/Update: id:{0}", updateInput.Id));
-    DebugToClient(updateInput);
-#endif
-    
-            var teamId = updateInput.Id.VerbosifyId<Team>();
+            if (!_permissionChecker.DoesExist<Team>(teamId))
+            {
+                return HttpNotFound();
+            }
 
-            if (!_userContext.HasGroupPermission(PermissionNames.UpdateTeam, teamId))
+            if (!_userContext.HasGroupPermission<Project>(PermissionNames.UpdateProject, teamId))
             {
                 return HttpUnauthorized();
             }
@@ -493,8 +420,7 @@ namespace Bowerbird.Web.Controllers
                     Description = updateInput.Description,
                     Name = updateInput.Name,
                     UserId = _userContext.GetAuthenticatedUserId(),
-                    AvatarId = updateInput.AvatarId,
-                    OrganisationId = updateInput.OrganisationId ?? Constants.AppRootId
+                    AvatarId = updateInput.AvatarId
                 }
             );
 
@@ -502,11 +428,19 @@ namespace Bowerbird.Web.Controllers
         }
 
         [Transaction]
-        [Authorize]
         [HttpDelete]
-        public ActionResult Delete(IdInput deleteInput)
+        [Authorize]
+        public ActionResult Delete(string id)
         {
-            if (!_userContext.HasGroupPermission(PermissionNames.DeleteTeam, deleteInput.Id))
+            string teamId = VerbosifyId<Team>(id);
+
+            if (!_permissionChecker.DoesExist<Team>(teamId))
+            {
+                return HttpNotFound();
+            }
+
+            // BUG: Fix this to check the parent groups' permission
+            if (!_userContext.HasGroupPermission(PermissionNames.DeleteProject, teamId))
             {
                 return HttpUnauthorized();
             }
@@ -517,75 +451,28 @@ namespace Bowerbird.Web.Controllers
             }
 
             _commandProcessor.Process(
-                new TeamDeleteCommand()
+                new TeamDeleteCommand
                 {
-                    Id = deleteInput.Id,
+                    Id = teamId,
                     UserId = _userContext.GetAuthenticatedUserId()
                 });
 
             return JsonSuccess();
         }
 
-        [Transaction]
-        [Authorize]
-        [HttpPost]
-        public ActionResult CreateProject(ProjectCreateInput projectCreateInput, TeamProjectCreateInput teamProjectCreateInput)
+        private object GetOrganisations(string userId, string teamId = null)
         {
-            if(_userContext.HasGroupPermission(teamProjectCreateInput.TeamId, PermissionNames.CreateProject))
-            {
-                return HttpUnauthorized();
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return JsonFailed();
-            }
-
-            _commandProcessor.Process(
-                new TeamProjectCreateCommand()
-                {
-                    UserId = _userContext.GetAuthenticatedUserId(),
-                    Name = projectCreateInput.Name,
-                    Description = projectCreateInput.Description,
-                    Administrators = teamProjectCreateInput.Administrators,
-                    Members = teamProjectCreateInput.Members,
-                    TeamId = teamProjectCreateInput.TeamId
-                }
-            );
-
-            return JsonSuccess();
-        }
-
-        private IEnumerable GetOrganisations(string userId, string teamId = "")
-        {
-            var organisations = _documentSession
-                .Query<All_Users.Result, All_Users>()
-                .AsProjection<All_Users.Result>()
-                .Where(x => x.UserId == userId)
+            return _documentSession
+                .Query<All_Groups.Result, All_Groups>()
+                .AsProjection<All_Groups.Result>()
+                .Where(x => x.UserIds.Any(y => y == userId) && x.GroupType == "organisation")
                 .ToList()
-                .SelectMany(x => x.Groups.Where(y => y.GroupType == "organisation"))
-                .Cast<Organisation>();
-
-            var team = _documentSession.Load<Team>("teams/" + teamId);
-
-            Func<Organisation, bool> isSelected = null;
-
-            if (team != null)
-            {
-                isSelected = x => { return team.Ancestry.Any(y => y.Id == x.Id); };
-            }
-            else
-            {
-                isSelected = x => { return false; };
-            }
-
-            return from organisation in organisations
-                   select new
-                   {
-                       Text = organisation.Name,
-                       Value = organisation.ShortId(),
-                       Selected = isSelected(organisation)
-                   };
+                .Select(x => new
+                {
+                    Text = x.Organisation.Name,
+                    Value = x.Organisation.Id,
+                    Selected = x.Organisation.Descendants.Any(y => y.Id == teamId)
+                });
         }
 
         #endregion

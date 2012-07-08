@@ -24,6 +24,7 @@ using Raven.Client;
 using Bowerbird.Core.Config;
 using Bowerbird.Web.Config;
 using Bowerbird.Core.Services;
+using Bowerbird.Web.ViewModels;
 
 namespace Bowerbird.Web.Controllers
 {

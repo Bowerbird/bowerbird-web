@@ -13,7 +13,7 @@ define(['jquery', 'underscore', 'backbone', 'collections/paginatedcollection', '
     var StreamItemCollection = PaginatedCollection.extend({
         model: StreamItem,
 
-        baseUrl: '/stream',
+        baseUrl: '/activity',
 
         groupOrUser: null,
 

@@ -22,6 +22,7 @@ using System.Web.Mvc;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Web.Config;
 using Bowerbird.Core.Config;
+using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Web.Controllers
 {
@@ -33,6 +34,7 @@ namespace Bowerbird.Web.Controllers
         private readonly IUserContext _userContext;
         private readonly IDocumentSession _documentSession;
         private readonly IAccountViewModelBuilder _accountViewModelBuilder;
+        private readonly IUserViewModelBuilder _userViewModelBuilder;
 
         #endregion
 
@@ -42,18 +44,21 @@ namespace Bowerbird.Web.Controllers
             ICommandProcessor commandProcessor,
             IUserContext userContext,
             IDocumentSession documentSession,
-            IAccountViewModelBuilder accountViewModelBuilder
+            IAccountViewModelBuilder accountViewModelBuilder,
+            IUserViewModelBuilder userViewModelBuilder
             )
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(accountViewModelBuilder, "accountViewModelBuilder");
+            Check.RequireNotNull(userViewModelBuilder, "userViewModelBuilder");
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
             _documentSession = documentSession;
             _accountViewModelBuilder = accountViewModelBuilder;
+            _userViewModelBuilder = userViewModelBuilder;
         }
 
         #endregion
@@ -86,7 +91,7 @@ namespace Bowerbird.Web.Controllers
             Check.RequireNotNull(accountLoginInput, "accountLoginInput");
 
             if (ModelState.IsValid &&
-                _accountViewModelBuilder.AreCredentialsValid(accountLoginInput.Email, accountLoginInput.Password))
+                AreCredentialsValid(accountLoginInput.Email, accountLoginInput.Password))
             {
                 _commandProcessor.Process(
                     new UserUpdateLastLoginCommand()
@@ -261,6 +266,136 @@ namespace Bowerbird.Web.Controllers
             ViewBag.IsStaticLayout = true;
 
             return View(Form.ResetPassword);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult Update()
+        {
+            var userId = _userContext.GetAuthenticatedUserId();
+
+            if (!_userContext.HasUserPermission(userId))
+            {
+                return HttpUnauthorized();
+            }
+
+            var viewModel = new
+            {
+                User = _userViewModelBuilder.BuildEditableUser(userId)
+            };
+
+            return RestfulResult(
+                viewModel,
+                "account",
+                "update",
+                new Action<dynamic>(x => x.Update = true));
+        }
+
+        [HttpPut]
+        [Authorize]
+        [Transaction]
+        public ActionResult Update(UserUpdateInput userUpdateInput)
+        {
+            var userId = VerbosifyId<User>(userUpdateInput.Id);
+
+            if (!_userContext.HasUserPermission(userId))
+            {
+                return HttpUnauthorized();
+            }
+
+            if (ModelState.IsValid)
+            {
+                _commandProcessor.Process(
+                    new UserUpdateCommand()
+                    {
+                        Id = userUpdateInput.Id,
+                        FirstName = userUpdateInput.FirstName,
+                        LastName = userUpdateInput.LastName,
+                        Email = userUpdateInput.Email,
+                        Description = userUpdateInput.Description,
+                        AvatarId = userUpdateInput.AvatarId
+                    });
+
+                if (Request.IsAjaxRequest())
+                {
+                    return JsonSuccess();
+                }
+
+                return RedirectToAction("index", "home");
+            }
+
+            if (Request.IsAjaxRequest())
+            {
+                return JsonFailed();
+            }
+            
+            ViewBag.Model.User = new
+            {
+                userUpdateInput.Id,
+                userUpdateInput.AvatarId,
+                userUpdateInput.Description,
+                userUpdateInput.Email,
+                userUpdateInput.FirstName,
+                userUpdateInput.LastName
+            };
+
+            return View(Form.Update);
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult ChangePassword()
+        {
+            var userId = _userContext.GetAuthenticatedUserId();
+
+            if (!_userContext.HasUserPermission(userId))
+            {
+                return HttpUnauthorized();
+            }
+
+            var viewModel = new {};
+
+            return RestfulResult(
+                viewModel,
+                "account",
+                "changepassword");
+        }
+
+        [HttpPost]
+        [Authorize]
+        [Transaction]
+        public ActionResult ChangePassword(AccountChangePasswordInput accountChangePasswordInput)
+        {
+            if (ModelState.IsValid)
+            {
+                _commandProcessor.Process(
+                    new UserUpdatePasswordCommand()
+                    {
+                        UserId = _userContext.GetAuthenticatedUserId(),
+                        Password = accountChangePasswordInput.Password
+                    });
+
+                if(Request.IsAjaxRequest())
+                {
+                    return JsonSuccess();
+                }
+
+                return RedirectToAction("index", "home");
+            }
+
+            if (Request.IsAjaxRequest())
+            {
+                return JsonFailed();
+            }
+
+            return View(Form.ChangePassword);
+        }
+
+        private bool AreCredentialsValid(string email, string password)
+        {
+            var user = _documentSession.LoadUserByEmail(email);
+
+            return user != null && user.ValidatePassword(password);
         }
 
         #endregion

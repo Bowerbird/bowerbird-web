@@ -29,10 +29,9 @@ function ($, _, Backbone, app, Project) {
         },
 
         onRender: function () {
-            var that = this;
             $(this.el).children('a').on('click', function (e) {
                 e.preventDefault();
-                app.groupUserRouter.navigate($(this).attr('href'));
+                app.groupUserRouter.navigate($(this).attr('href'), { trigger: true });
                 return false;
             });
 
@@ -76,7 +75,7 @@ function ($, _, Backbone, app, Project) {
                     var title = this.activityCount.toString() + ' New Item' + (this.activityCount > 1 ? 's' : '');
                     this.$el.find('p span').text(this.activityCount).attr('title', title);
                 }
-            }, 
+            },
             this);
         }
     });
