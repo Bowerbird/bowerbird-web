@@ -175,6 +175,7 @@
     <Content Include="js\bowerbird\views\chatRegion.js" />
     <Content Include="js\bowerbird\views\chatCompositeView.js" />
     <Content Include="js\bowerbird\views\chatMessageCollectionView.js" />
+    <Content Include="js\bowerbird\views\embeddedVideoView.js" />
     <Content Include="js\bowerbird\views\observationDetailsView.js" />
     <Content Include="js\bowerbird\views\userFormLayoutView.js" />
     <Content Include="js\bowerbird\views\organisationItemView.js" />
