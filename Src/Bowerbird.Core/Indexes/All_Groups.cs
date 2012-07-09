@@ -85,17 +85,18 @@ namespace Bowerbird.Core.Indexes
             AddMap<Organisation>(
                 organisations =>
                     from organisation in organisations
-                    let parentGroup = organisation.Ancestry.FirstOrDefault()
+                    let parentGroup = organisation.AncestorGroups.FirstOrDefault()
                     select new
                     {
                         organisation.GroupType,
                         GroupId = organisation.Id,
                         UserIds = new string[] { },
                         ParentGroupId = parentGroup.Id,
-                        ChildGroupIds = new string[] { },
-                        AncestorGroupIds = from ancestor in organisation.Ancestry
+                        ChildGroupIds = from child in organisation.ChildGroups
+                                        select child.Id,
+                        AncestorGroupIds = from ancestor in organisation.AncestorGroups
                                            select ancestor.Id,
-                        DescendantGroupIds = from descendant in organisation.Descendants
+                        DescendantGroupIds = from descendant in organisation.DescendantGroups
                                              select descendant.Id,
                         GroupRoleIds = new string[] { }                                             
                     });
@@ -103,24 +104,25 @@ namespace Bowerbird.Core.Indexes
             AddMap<Team>(
                 teams =>
                     from team in teams
-                    let parentGroup = team.Ancestry.Where(x => x.GroupType == "organisation").FirstOrDefault() ?? team.Ancestry.FirstOrDefault()
+                    let parentGroup = team.AncestorGroups.Where(x => x.GroupType == "organisation").FirstOrDefault() ?? team.AncestorGroups.FirstOrDefault()
                     select new
                     {
                         team.GroupType,
                         GroupId = team.Id,
                         UserIds = new string[] { },
                         ParentGroupId = parentGroup.Id,
-                        ChildGroupIds = new string[] { },
-                        AncestorGroupIds = from ancestor in team.Ancestry
+                        ChildGroupIds = from child in team.ChildGroups
+                                        select child.Id,
+                        AncestorGroupIds = from ancestor in team.AncestorGroups
                                            select ancestor.Id,
-                        DescendantGroupIds = from descendant in team.Descendants
+                        DescendantGroupIds = from descendant in team.DescendantGroups
                                              select descendant.Id,
                         GroupRoleIds = new string[] { }
                     });
 
             AddMap<Project>(
                 projects => from project in projects
-                            let parentGroup = project.Ancestry.Where(x => x.GroupType == "team").FirstOrDefault() ?? project.Ancestry.FirstOrDefault()
+                            let parentGroup = project.AncestorGroups.Where(x => x.GroupType == "team").FirstOrDefault() ?? project.AncestorGroups.FirstOrDefault()
                             select new
                             {
                                 project.GroupType,
@@ -128,7 +130,7 @@ namespace Bowerbird.Core.Indexes
                                 UserIds = new string[] { },
                                 ParentGroupId = parentGroup.Id,
                                 ChildGroupIds = new string[] { },
-                                AncestorGroupIds = from ancestor in project.Ancestry
+                                AncestorGroupIds = from ancestor in project.AncestorGroups
                                                    select ancestor.Id,
                                 DescendantGroupIds = new string[] { },
                                 GroupRoleIds = new string[] { }
@@ -136,7 +138,7 @@ namespace Bowerbird.Core.Indexes
 
             AddMap<UserProject>(
                 userProjects => from userProject in userProjects
-                                let parentGroup = userProject.Ancestry.FirstOrDefault()
+                                let parentGroup = userProject.AncestorGroups.FirstOrDefault()
                                 select new
                                 {
                                     userProject.GroupType,
@@ -144,25 +146,11 @@ namespace Bowerbird.Core.Indexes
                                     UserIds = new string[] { },
                                     ParentGroupId = parentGroup.Id,
                                     ChildGroupIds = new string[] { },
-                                    AncestorGroupIds = from ancestor in userProject.Ancestry
+                                    AncestorGroupIds = from ancestor in userProject.AncestorGroups
                                                        select ancestor.Id,
                                     DescendantGroupIds = new string[] { },
                                     GroupRoleIds = new string[] { }
                                 });
-
-            AddMap<GroupAssociation>(
-                groupAssociations => from groupAssociation in groupAssociations
-                                     select new
-                                     {
-                                         groupAssociation.ParentGroup.GroupType,
-                                         GroupId = groupAssociation.ParentGroup.Id,
-                                         UserIds = new string[] { },
-                                         ParentGroupId = (string)null,
-                                         ChildGroupIds = new[] { groupAssociation.ChildGroup.Id },
-                                         AncestorGroupIds = new string[] { },
-                                         DescendantGroupIds = new string[] { },
-                                         GroupRoleIds = new string[] { }
-                                     });
 
             AddMap<User>(
                 users => from user in users
@@ -206,12 +194,12 @@ namespace Bowerbird.Core.Indexes
                 {
                     result.GroupType,
                     result.GroupId,
-                    result.UserIds,
+                    UserIds = result.UserIds ?? new string[]{},
                     result.ParentGroupId,
-                    result.ChildGroupIds,
-                    result.AncestorGroupIds,
-                    result.DescendantGroupIds,
-                    result.GroupRoleIds,
+                    ChildGroupIds = result.ChildGroupIds ?? new string[] { },
+                    AncestorGroupIds = result.AncestorGroupIds ?? new string[]{},
+                    DescendantGroupIds = result.DescendantGroupIds ?? new string[]{},
+                    GroupRoleIds = result.GroupRoleIds ?? new string[] { },
                     AppRoot = result.GroupType == "approot" ? appRoot : null,
                     Organisation = result.GroupType == "organisation" ? organisation : null,
                     Team = result.GroupType == "team" ? team : null,

@@ -10,8 +10,8 @@
 
 // This is the controller for groups/users. It contains all of the 
 // high level knowledge of how to run the app when it's in group/user mode.
-define(['jquery', 'underscore', 'backbone', 'app', 'views/projectlayoutview', 'models/project', 'collections/streamitemcollection'],
-function ($, _, Backbone, app, ProjectLayoutView, Project, StreamItemCollection) 
+define(['jquery', 'underscore', 'backbone', 'app', 'views/projectlayoutview', 'models/project', 'collections/activitycollection'],
+function ($, _, Backbone, app, ProjectLayoutView, Project, ActivityCollection) 
 {
     var GroupUserRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {

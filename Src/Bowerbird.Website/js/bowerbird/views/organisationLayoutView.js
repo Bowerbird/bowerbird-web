@@ -8,8 +8,8 @@
 // OrganisationLayoutView
 // ----------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'views/streamview', 'collections/streamitemcollection'], 
-function ($, _, Backbone, app, StreamView, StreamItemCollection) {
+define(['jquery', 'underscore', 'backbone', 'app', 'views/streamview', 'collections/activitycollection'], 
+function ($, _, Backbone, app, StreamView, ActivityCollection) {
 
     var OrganisationLayoutView = Backbone.Marionette.Layout.extend({
         
@@ -28,10 +28,10 @@ function ($, _, Backbone, app, StreamView, StreamItemCollection) {
         },
 
         showStream: function () {
-            var streamItemCollection = new StreamItemCollection(null, { groupOrUser: this.model });
+            var activityCollection = new ActivityCollection(null, { groupOrUser: this.model });
             var options = {
                 model: this.model,
-                collection: streamItemCollection
+                collection: activityCollection
             };
             if (app.isPrerendering('organisations')) {
                 options['el'] = '.stream';
@@ -43,7 +43,7 @@ function ($, _, Backbone, app, StreamView, StreamItemCollection) {
             } else {
                 this.details.show(streamView);
             }
-            streamItemCollection.fetchFirstPage();
+            activityCollection.fetchFirstPage();
         }
     });
 

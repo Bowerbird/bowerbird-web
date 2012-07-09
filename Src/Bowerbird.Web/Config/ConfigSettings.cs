@@ -23,7 +23,7 @@ using System;
 
 namespace Bowerbird.Web.Services
 {
-    public class ConfigService : IConfigService
+    public class ConfigSettings : IConfigSettings
     {
             
         #region Members
@@ -41,7 +41,7 @@ namespace Bowerbird.Web.Services
         //    _httpContext = httpContext;
         //}
 
-        public ConfigService()
+        public ConfigSettings()
         {
         }
 

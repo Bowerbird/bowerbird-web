@@ -168,10 +168,9 @@
     <Compile Include="Builders\UserViewModelBuilder.cs" />
     <Compile Include="Config\AcceptTypeContstraint.cs" />
     <Compile Include="Config\AuthenticatedConstraint.cs" />
-    <Compile Include="Services\ConfigService.cs" />
+    <Compile Include="Config\ConfigSettings.cs" />
     <Compile Include="Config\NinjectBindingModule.cs" />
     <Compile Include="Config\SignalrNinjectDependencyResolver.cs" />
-    <Compile Include="Config\RestfulAttribute.cs" />
     <Compile Include="Config\NinjectRavenSessionProvider.cs" />
     <Compile Include="Config\NinjectRavenDocumentStoreProvider.cs" />
     <Compile Include="Config\RouteRegistrar.cs" />
@@ -180,6 +179,8 @@
     <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Factories\IObservationViewFactory.cs" />
+    <Compile Include="Factories\ObservationViewFactory.cs" />
     <Compile Include="Services\EmailService.cs" />
     <Compile Include="ViewModels\JsonNetResult.cs" />
     <Compile Include="Controllers\MediaResourcesController.cs" />
@@ -199,7 +200,6 @@
     <Compile Include="EventHandlers\ActivityObservationNoteAdded.cs" />
     <Compile Include="EventHandlers\ActivityPostAdded.cs" />
     <Compile Include="EventHandlers\ActivityUserJoinedGroup.cs" />
-    <Compile Include="EventHandlers\DomainModelUpdatedEvent.cs" />
     <Compile Include="EventHandlers\MediaResourceUploaded.cs" />
     <Compile Include="EventHandlers\UserSessionUpdated.cs" />
     <Compile Include="EventHandlers\ChatUpdated.cs" />
@@ -210,12 +210,10 @@
     <Compile Include="Factories\GroupViewFactory.cs" />
     <Compile Include="Factories\IFactory.cs" />
     <Compile Include="Factories\IUserViewFactory.cs" />
-    <Compile Include="Factories\StreamItemFactory.cs" />
     <Compile Include="Factories\UserViewFactory.cs" />
     <Compile Include="Hubs\ChatHub.cs" />
     <Compile Include="Hubs\GroupHub.cs" />
     <Compile Include="Hubs\DebugHub.cs" />
-    <Compile Include="Services\DebuggerService.cs" />
     <Compile Include="Services\BackChannelService.cs" />
     <Compile Include="Validators\ModelStateException.cs" />
     <Compile Include="Validators\HandleModelStateExceptionAttribute.cs" />

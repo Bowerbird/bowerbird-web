@@ -252,7 +252,7 @@
     <Compile Include="Events\DomainEventBase.cs" />
     <Compile Include="Events\DomainModelCreatedEvent.cs" />
     <Compile Include="Events\GroupAssociationCreatedEvent.cs" />
-    <Compile Include="EventHandlers\DomainModelUpdatedEvent.cs" />
+    <Compile Include="Events\DomainModelUpdatedEvent.cs" />
     <Compile Include="Commands\CommandHandlerNotFoundException.cs" />
     <Compile Include="CommandHandlers\UserCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\ObservationUpdateCommandHandler.cs" />
@@ -313,13 +313,12 @@
     <Compile Include="Services\IVideoUtility.cs" />
     <Compile Include="Services\VideoUtility.cs" />
     <Compile Include="Services\IBackChannelService.cs" />
-    <Compile Include="Services\IDebuggerService.cs" />
     <Compile Include="Services\IEmailService.cs" />
-    <Compile Include="Services\IConfigService.cs" />
+    <Compile Include="Config\IConfigSettings.cs" />
     <Compile Include="ImageUtilities\ImageUtility.cs" />
-    <Compile Include="Services\IMediaFilePathService.cs" />
+    <Compile Include="Factories\IMediaFilePathFactory.cs" />
     <Compile Include="Services\IService.cs" />
-    <Compile Include="Services\MediaFilePathService.cs" />
+    <Compile Include="Factories\MediaFilePathFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

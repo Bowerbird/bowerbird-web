@@ -1,29 +1,31 @@
-﻿<h2>{{Model.ObservationAdded.Observation.Title}}</h2>
+﻿<h2>{{Model.Observation.Title}}</h2>
 <div>
   <div class="images">
     <div class="preview">
-      <img src="{{Model.ObservationAdded.Observation.PrimaryImage.MediaResource.Files.FullLarge.RelativeUri}}" alt="{{Model.ObservationAdded.Observation.Title}}" />
+      <img src="{{Model.Observation.PrimaryMedia.MediaResource.Files.FullLarge.RelativeUri}}" alt="{{Model.Observation.Title}}" />
     </div>
+    {{#Model.ShowThumbnails}}
     <div class="thumbnails">
-      {{#Model.ObservationAdded.Observation.Media}}
+      {{#Model.Observation.Media}}
       <img src="{{MediaResource.Files.FullSmall.RelativeUri}}" alt="{{Model.ObservationAdded.Observation.Title}}" />
-      {{/Model.ObservationAdded.Observation.Media}}
+      {{/Model.Observation.Media}}
     </div>
+    {{/Model.ShowThumbnails}}
   </div>
   <div class="info">
     <div class="observed">
       Observed
-      <span>{{Model.ObservationAdded.Observation.ObservedOnDate}}</span>
-      <span>{{Model.ObservationAdded.Observation.ObservedOnTime}} AEST</span>
+      <span>{{Model.Observation.ObservedOnDate}}</span>
+      <span>{{Model.Observation.ObservedOnTime}} AEST</span>
     </div>
     <div class="location">
       Location
       <div class="map">
-        <img src="http://maps.googleapis.com/maps/api/staticmap?zoom=8&size=400x200&scale=2&maptype=terrain&markers=color:blue|{{Model.ObservationAdded.Observation.Latitude}},{{Model.ObservationAdded.Observation.Longitude}}&sensor=false" alt="Map of location" />
+        <img src="http://maps.googleapis.com/maps/api/staticmap?zoom=8&size=400x200&scale=2&maptype=terrain&markers=color:blue|{{Model.Observation.Latitude}},{{Model.Observation.Longitude}}&sensor=false" alt="Map of location" />
       </div>
-      <span>{{Model.ObservationAdded.Observation.Address}}</span>
-      <span>Latitude {{Model.ObservationAdded.Observation.Latitude}}</span>
-      <span>Longitude {{Model.ObservationAdded.Observation.Longitude}}</span>
+      <span>{{Model.Observation.Address}}</span>
+      <span>Latitude {{Model.Observation.Latitude}}</span>
+      <span>Longitude {{Model.Observation.Longitude}}</span>
     </div>
   </div>
 </div>

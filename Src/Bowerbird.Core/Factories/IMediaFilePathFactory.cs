@@ -14,15 +14,11 @@
 
 using Bowerbird.Core.DomainModels;
 
-namespace Bowerbird.Core.Services
+namespace Bowerbird.Core.Factories
 {
-    public interface IMediaFilePathService
+    public interface IMediaFilePathFactory
     {
-        //string MakeRelativeMediaFileUri(MediaResource mediaResource, string storedRepresentation);
-
         string MakeRelativeMediaFileUri(string mediaResourceId, string mediaType, string storedRepresentation, string extension);
-
-        //string MakeMediaFileName(MediaResource mediaResource, string storedRepresentation);
 
         string MakeMediaFileName(string mediaResourceId, string storedRepresentation, string extension);
 

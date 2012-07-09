@@ -29,7 +29,7 @@ namespace Bowerbird.Core.EventHandlers
         #region Members
 
         private readonly IEmailService _emailService;
-        private readonly IConfigService _configService;
+        private readonly IConfigSettings _configSettings;
 
         #endregion
 
@@ -37,13 +37,13 @@ namespace Bowerbird.Core.EventHandlers
 
         public SendWelcomeEmail(
             IEmailService emailService,
-            IConfigService configService)
+            IConfigSettings configService)
         {
             Check.RequireNotNull(emailService, "emailService");
             Check.RequireNotNull(configService, "configService");
 
             _emailService = emailService;
-            _configService = configService;
+            _configSettings = configService;
         }
 
         #endregion
@@ -59,7 +59,7 @@ namespace Bowerbird.Core.EventHandlers
             Check.RequireNotNull(userCreatedEvent, "userCreatedEvent");
 
             var message = Email
-                .From(_configService.GetEmailAdminAccount(), "Bowerbird")
+                .From(_configSettings.GetEmailAdminAccount(), "Bowerbird")
                 .To(userCreatedEvent.DomainModel.Email)
                 .Subject("Bowerbird account verification")
                 .UsingTemplate("WelcomeEmail", new { userCreatedEvent.DomainModel.FirstName })

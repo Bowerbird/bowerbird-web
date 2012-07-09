@@ -11,6 +11,7 @@
 // Shows stream items for selected user/group
 define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/streamitemview', 'date'],
 function ($, _, Backbone, app, ich, StreamItemView) {
+
     var StreamView = Backbone.Marionette.CompositeView.extend({
         template: 'Stream',
 
@@ -34,11 +35,7 @@ function ($, _, Backbone, app, ich, StreamItemView) {
 
             this.newStreamItemsCache = [];
 
-            if (this.isHomeStream) {
-                app.vent.on('newactivity', this.onNewStreamItemReceived);
-            } else {
-                app.vent.on('newactivity:observationadded newactivity:postadded newactivity:observationnoteadded' + this.model.id, this.onNewStreamItemReceived);
-            }
+            app.vent.on('newactivity:observationadded newactivity:postadded newactivity:observationnoteadded', this.onNewStreamItemReceived);
         },
 
         showBootstrappedDetails: function () {
@@ -67,6 +64,7 @@ function ($, _, Backbone, app, ich, StreamItemView) {
             this.$el.find('.stream-load-new').remove();
             this.collection.add(this.newStreamItemsCache);
             this.newStreamItemsCache = [];
+            this.newItemsCount = 0;
         },
 
         onStreamLoadingStart: function (collection) {
@@ -84,6 +82,9 @@ function ($, _, Backbone, app, ich, StreamItemView) {
         },
 
         onNewStreamItemReceived: function (streamItem) {
+            if (_.any(this.newStreamItemsCache, function (item) { return item.id === streamItem.id; }, this)) {
+                return;
+            }
             this.$el.find('.stream-message').remove();
             var streamItemCreatedDateTime = Date.parseExact(streamItem.get('CreatedDateTime'), 'yyyy-MM-ddTHH:mm:ssZ');
 

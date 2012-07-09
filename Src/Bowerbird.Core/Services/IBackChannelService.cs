@@ -19,7 +19,7 @@ namespace Bowerbird.Core.Services
 {
     public interface IBackChannelService : IService
     {
-        #region User channel
+        #region User Channel
 
         /// <summary>
         /// Adds user connection to user's own channel
@@ -102,6 +102,12 @@ namespace Bowerbird.Core.Services
         /// Send user exited acknowledgement to chat channel
         /// </summary>
         void UserExitedChatToChatChannel(string chatId, object chatMessageDetails);
+
+        #endregion
+
+        #region Debug Channel
+
+        void DebugToClient(object output);
 
         #endregion
     }

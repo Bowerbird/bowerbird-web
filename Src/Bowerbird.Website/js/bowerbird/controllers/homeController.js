@@ -21,29 +21,27 @@ function ($, _, Backbone, app, HomePublicLayoutView, HomePrivateLayoutView) {
     // ----------
 
     HomeController.showHomeStream = function () {
-        $(function () {
-            log('showing home stream', this, this);
+        log('showing home stream', this, this);
 
-            var homeLayoutView = null;
+        var homeLayoutView = null;
 
-            if (app.authenticatedUser) {
-                var homeLayoutView = new HomePrivateLayoutView({ model: app.authenticatedUser.user });
-            } else {
-                var homeLayoutView = new HomePublicLayoutView();
-            }
+        if (app.authenticatedUser) {
+            var homeLayoutView = new HomePrivateLayoutView({ model: app.authenticatedUser.user });
+        } else {
+            var homeLayoutView = new HomePublicLayoutView();
+        }
 
-            app.content[app.getShowViewMethodName('home')](homeLayoutView);
+        app.content[app.getShowViewMethodName('home')](homeLayoutView);
 
-            if (app.isPrerendering('home')) {
-                homeLayoutView.showBootstrappedDetails();
-            }
+        if (app.isPrerendering('home')) {
+            homeLayoutView.showBootstrappedDetails();
+        }
 
-            if (app.authenticatedUser) {
-                homeLayoutView.showStream();
-            }
+        if (app.authenticatedUser) {
+            homeLayoutView.showStream();
+        }
 
-            app.setPrerenderComplete();
-        });
+        app.setPrerenderComplete();
     };
 
     app.addInitializer(function () {

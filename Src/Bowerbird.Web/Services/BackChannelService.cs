@@ -41,7 +41,11 @@ namespace Bowerbird.Web.Services
 
         private readonly IDocumentSession _documentSession;
         private readonly IConnectionManager _connectionManager;
+
+        private static readonly object _userHubLock = new object();
+        private static readonly object _groupHubLock = new object();
         private static readonly object _chatHubLock = new object();
+        private static readonly object _debugHubLock = new object();
 
         #endregion
 
@@ -73,35 +77,50 @@ namespace Bowerbird.Web.Services
         {
             if (ChannelServiceOff()) return;
 
-            GetHub<UserHub>().Groups.Add(connectionId, "user-" + userId);
+            lock (_userHubLock)
+            {
+                GetHub<UserHub>().Groups.Add(connectionId, "user-" + userId);
+            }
         }
 
         public void SendJoinedGroupToUserChannel(string userId, object group)
         {
             if (ChannelServiceOff()) return;
 
-            GetHub<UserHub>().Clients["user-" + userId].joinedGroup(group);
+            lock (_userHubLock)
+            {
+                GetHub<UserHub>().Clients["user-" + userId].joinedGroup(group);
+            }
         }
 
         public void SendOnlineUsersToUserChannel(string userId, object onlineUsers)
         {
             if (ChannelServiceOff()) return;
 
-            GetHub<UserHub>().Clients["user-" + userId].setupOnlineUsers(onlineUsers);
+            lock (_userHubLock)
+            {
+                GetHub<UserHub>().Clients["user-" + userId].setupOnlineUsers(onlineUsers);
+            }
         }
 
         public void NotifyChatJoinedToUserChannel(string userId, object chatDetails)
         {
             if (ChannelServiceOff()) return;
 
-            GetHub<UserHub>().Clients["user-" + userId].chatJoined(chatDetails);
+            lock (_userHubLock)
+            {
+                GetHub<UserHub>().Clients["user-" + userId].chatJoined(chatDetails);
+            }
         }
 
         public void NotifyChatExitedToUserChannel(string userId, string chatId)
         {
             if (ChannelServiceOff()) return;
 
-            GetHub<UserHub>().Clients["user-" + userId].chatExited(chatId);
+            lock (_userHubLock)
+            {
+                GetHub<UserHub>().Clients["user-" + userId].chatExited(chatId);
+            }
         }
 
         #endregion
@@ -112,18 +131,24 @@ namespace Bowerbird.Web.Services
         {
             if (ChannelServiceOff()) return;
 
-            GetHub<GroupHub>().Groups.Add(connectionId, "group-" + groupId);
+            lock (_groupHubLock)
+            {
+                GetHub<GroupHub>().Groups.Add(connectionId, "group-" + groupId);
+            }
         }
 
         public void SendActivityToGroupChannel(dynamic activity)
         {
             if (ChannelServiceOff()) return;
 
-            var groupHub = GetHub<GroupHub>();
-
-            foreach (var group in activity.Groups)
+            lock (_groupHubLock)
             {
-                groupHub.Clients["group-" + group.Id].newActivity(activity);
+                var groupHub = GetHub<GroupHub>();
+
+                foreach (var group in activity.Groups)
+                {
+                    groupHub.Clients["group-" + group.Id].newActivity(activity);
+                }
             }
         }
 
@@ -135,14 +160,20 @@ namespace Bowerbird.Web.Services
         {
             if (ChannelServiceOff()) return;
 
-            GetHub<UserHub>().Groups.Add(connectionId, "online-users");
+            lock (_userHubLock)
+            {
+                GetHub<UserHub>().Groups.Add(connectionId, "online-users");
+            }
         }
 
         public void SendUserStatusUpdateToOnlineUsersChannel(object userStatus)
         {
             if (ChannelServiceOff()) return;
 
-            GetHub<UserHub>().Clients["online-users"].userStatusUpdate(userStatus);
+            lock (_userHubLock)
+            {
+                GetHub<UserHub>().Clients["online-users"].userStatusUpdate(userStatus);
+            }
         }
 
         #endregion
@@ -196,6 +227,20 @@ namespace Bowerbird.Web.Services
             lock (_chatHubLock)
             {
                 GetHub<ChatHub>().Clients["chat-" + chatId].newChatMessage(chatMessageDetails);
+            }
+        }
+
+        #endregion
+
+        #region Debug Channel
+
+        public void DebugToClient(object output)
+        {
+            if (ChannelServiceOff()) return;
+
+            lock (_debugHubLock)
+            {
+                _connectionManager.GetHubContext<DebugHub>().Clients.debugToClient(output);
             }
         }
 

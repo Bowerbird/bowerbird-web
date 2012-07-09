@@ -9,7 +9,7 @@
 // ---------------------
 
 // The home page view when logged in
-define(['jquery', 'underscore', 'backbone', 'app', 'views/streamview', 'collections/streamitemcollection'], function ($, _, Backbone, app, StreamView, StreamItemCollection) {
+define(['jquery', 'underscore', 'backbone', 'app', 'views/streamview', 'collections/activitycollection'], function ($, _, Backbone, app, StreamView, ActivityCollection) {
 
     var HomePrivateLayoutView = Backbone.Marionette.Layout.extend({
         className: 'home',
@@ -27,10 +27,10 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/streamview', 'collecti
         },
 
         showStream: function () {
-            var streamItemCollection = new StreamItemCollection();
+            var activityCollection = new ActivityCollection();
             var options = {
                 model: app.authenticatedUser.user,
-                collection: streamItemCollection,
+                collection: activityCollection,
                 isHomeStream: true
             };
 
@@ -47,7 +47,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/streamview', 'collecti
                 this.details.show(streamView);
             }
 
-            streamItemCollection.fetchFirstPage();
+            activityCollection.fetchFirstPage();
         }
     });
 

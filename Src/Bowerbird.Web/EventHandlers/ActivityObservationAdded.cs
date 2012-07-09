@@ -45,6 +45,7 @@ namespace Bowerbird.Web.EventHandlers
         private readonly IGroupViewFactory _groupViewFactory;
         private readonly IBackChannelService _backChannelService;
         private readonly IUserViewModelBuilder _userViewModelBuilder;
+        private readonly IObservationViewFactory _observationViewFactory;
 
         #endregion
 
@@ -55,7 +56,8 @@ namespace Bowerbird.Web.EventHandlers
             IUserViewFactory userViewFactory,
             IGroupViewFactory groupViewFactory,
             IBackChannelService backChannelService,
-            IUserViewModelBuilder userViewModelBuilder
+            IUserViewModelBuilder userViewModelBuilder,
+            IObservationViewFactory observationViewFactory
             )
         {
             Check.RequireNotNull(documentSession, "documentSession");
@@ -63,12 +65,14 @@ namespace Bowerbird.Web.EventHandlers
             Check.RequireNotNull(groupViewFactory, "groupViewFactory");
             Check.RequireNotNull(backChannelService, "backChannelService");
             Check.RequireNotNull(userViewModelBuilder, "userViewModelBuilder");
+            Check.RequireNotNull(observationViewFactory, "observationViewFactory");
 
             _documentSession = documentSession;
             _userViewFactory = userViewFactory;
             _groupViewFactory = groupViewFactory;
             _backChannelService = backChannelService;
             _userViewModelBuilder = userViewModelBuilder;
+            _observationViewFactory = observationViewFactory;
         }
 
         #endregion
@@ -89,7 +93,7 @@ namespace Bowerbird.Web.EventHandlers
 
             activity.ObservationAdded = new
             {
-                Observation = MakeObservation(domainEvent.DomainModel)
+                Observation = _observationViewFactory.Make(domainEvent.DomainModel)
             };
 
             _documentSession.Store(activity);
@@ -106,56 +110,12 @@ namespace Bowerbird.Web.EventHandlers
 
             activity.ObservationAdded = new
             {
-                Observation = MakeObservation(domainEvent.Sender as Observation)
+                Observation = _observationViewFactory.Make(domainEvent.Sender as Observation)
             };
 
             _documentSession.Store(activity);
             _backChannelService.SendActivityToGroupChannel(activity);
         }
-
-        private object MakeObservation(Observation observation)
-        {
-            return new
-            {
-                observation.Id,
-                Title = observation.Title,
-                ObservedOnDate = observation.ObservedOn.ToString("d MMM yyyy"),
-                ObservedOnTime = observation.ObservedOn.ToShortTimeString(),
-                Address = observation.Address,
-                Latitude = observation.Latitude,
-                Longitude = observation.Longitude,
-                Category = observation.Category,
-                IsIdentificationRequired = observation.IsIdentificationRequired,
-                AnonymiseLocation = observation.AnonymiseLocation,
-                Media = observation.Media, //observation.Media.Select(x => MakeObservationMediaItem(x, observation.GetPrimaryImage() == x)),
-                PrimaryMedia = observation.GetPrimaryMedia(), //MakeObservationMediaItem(observation.GetPrimaryImage(), true),
-                Projects = observation.Groups.Select(x => x.Group.Id)
-            };
-        }
-
-        //private object MakeObservationMediaItem(ObservationMedia observationMedia, bool isPrimaryImage)
-        //{
-        //    if (observationMedia.MediaResource.Type == "image")
-        //    {
-        //        return new
-        //        {
-        //            IsPrimaryImage = isPrimaryImage,
-        //            MediaResourceId = observationMedia.MediaResource.Id,
-        //            observationMedia.MediaResource.Type,
-        //            observationMedia.Description,
-        //            observationMedia.Licence,
-        //            CreatedByUser = observationMedia.MediaResource.CreatedByUser.Id,
-        //            UploadedOn = observationMedia.MediaResource.UploadedOn,
-        //            OriginalImage = observationMedia.MediaResource.Files["original"],
-        //            LargeImage = observationMedia.MediaResource.Files["large"],
-        //            MediumImage = observationMedia.MediaResource.Files["medium"],
-        //            SmallImage = observationMedia.MediaResource.Files["small"],
-        //            ThumbnailImage = observationMedia.MediaResource.Files["thumbnail"]
-        //        };
-        //    }
-
-        //    throw new NotImplementedException();
-        //}
 
         #endregion      
     }

@@ -9,8 +9,7 @@
 // -----------
 
 define(['jquery', 'underscore', 'backbone', 'collections/projectcollection', 'collections/mediaresourcecollection'],
-function ($, _, Backbone, ProjectCollection, MediaResourceCollection) 
-{
+function ($, _, Backbone, ProjectCollection, MediaResourceCollection) {
     var Observation = Backbone.Model.extend({
         defaults: {
             Title: '',
@@ -46,6 +45,11 @@ function ($, _, Backbone, ProjectCollection, MediaResourceCollection)
                 IsIdentificationRequired: this.get('IsIdentificationRequired'),
                 Media: this.get('Media')
             };
+        },
+
+        toViewJSON: function () {
+            // returns JSON containing all data for view
+            return Backbone.Model.prototype.toJSON.apply(this, arguments);
         },
 
         addProject: function (id) {

@@ -12,46 +12,28 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/activity'],
 function ($, _, Backbone, app, Activity) {
 
     var ActivityRouter = function (options) {
-        this.hub = $.connection.groupHub;
-        this.controller = options.controller;
+        this.hub = options.groupHub;
 
-        this.hub.newActivity = this.controller.newActivity;
-        //this.hub.userStatusUpdate = this.controller.userStatusUpdate;
-        //this.hub.setupOnlineUsers = this.controller.setupOnlineUsers;
-
-        this.hub.debugToLog = this.controller.debugToLog;
+        this.hub.newActivity = newActivity;
     };
 
     var ActivityController = {};
 
-    ActivityController.debugToLog = function (message) {
-        log(message);
-    }
+    var newActivity = function (data) {
+        var activity = new Activity(data);
 
-    ActivityController.newActivity = function (data) {
-        log('activityController.newActivity', this, data);
-        // TODO: Maybe add another collection that only contains your membership activities for the notification list
-        app.activities.add(data);
+        app.vent.trigger('newactivity', activity);
+        app.vent.trigger('newactivity:' + activity.get('Type'), activity);
+        // Fire an event for each group the activity belongs to
+        _.each(activity.get('Groups'), function (group) {
+            this.vent.trigger('newactivity:' + group.Id, activity);
+            this.vent.trigger('newactivity:' + group.Id + ':' + activity.get('Type'), activity);
+        }, app);
     };
-
-//    ActivityController.userStatusUpdate = function (data) {
-//        log('activityController.userStatusUpdate', this, data);
-
-//        // If user doesn't exist, add them
-//        app.onlineUsers.add(data);
-
-//        // Then set their status
-//        app.onlineUsers.get(data.Id).set('Status', data.Status);
-//    };
-
-//    ActivityController.setupOnlineUsers = function (data) {
-//        log('activityController.setupOnlineUsers', this, data);
-//        app.onlineUsers.add(data);
-//    };
 
     app.addInitializer(function () {
         this.activityRouter = new ActivityRouter({
-            controller: ActivityController
+            groupHub: $.connection.groupHub
         });
     });
 

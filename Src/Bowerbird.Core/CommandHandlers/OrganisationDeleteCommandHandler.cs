@@ -60,27 +60,27 @@ namespace Bowerbird.Core.CommandHandlers
 
             var teams = _documentSession
                .Query<Team>()
-               .Where(x => x.Ancestry.Any(y => y.Id.ToLower() == organisation.Id))
+               .Where(x => x.AncestorGroups.Any(y => y.Id.ToLower() == organisation.Id))
                .ToList();
 
             if (teams.Count > 0)
             {
                 foreach (var team in teams)
                 {
-                    team.Ancestry.ToList().RemoveAll(y => y.Id.ToLower() == organisation.Id);
+                    team.AncestorGroups.ToList().RemoveAll(y => y.Id.ToLower() == organisation.Id);
                     _documentSession.Store(team);
                 }
 
                 var projects = _documentSession
                    .Query<Project>()
-                   .Where(x => x.Ancestry.Any(y => y.Id.ToLower() == organisation.Id))
+                   .Where(x => x.AncestorGroups.Any(y => y.Id.ToLower() == organisation.Id))
                    .ToList();
 
                 if (projects.Count > 0)
                 {
                     foreach (var project in projects)
                     {
-                        project.Ancestry.ToList().RemoveAll(y => y.Id.ToLower() == organisation.Id);
+                        project.AncestorGroups.ToList().RemoveAll(y => y.Id.ToLower() == organisation.Id);
                         _documentSession.Store(project);
                     }
                 }

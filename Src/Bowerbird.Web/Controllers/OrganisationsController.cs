@@ -135,7 +135,7 @@ namespace Bowerbird.Web.Controllers
             var viewModel = new
             {
                 Organisation = _organisationViewModelBuilder.BuildOrganisation(organisationId),
-                Teams = _teamViewModelBuilder.BuildGroupTeamList(organisationId, pagingInput)
+                Teams = _teamViewModelBuilder.BuildGroupTeamList(organisationId, true, pagingInput)
             };
 
             return RestfulResult(

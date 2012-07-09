@@ -9,7 +9,7 @@
 // ---------------------
 
 // Layout of an observation in both edit and view mode
-define(['jquery', 'underscore', 'backbone', 'app', 'views/observationformlayoutview'], function ($, _, Backbone, app, ObservationFormLayoutView) {
+define(['jquery', 'underscore', 'backbone', 'app', 'views/observationdetailsview', 'views/observationformlayoutview'], function ($, _, Backbone, app, ObservationDetailsView, ObservationFormLayoutView) {
 
     var ObservationLayoutView = Backbone.Marionette.Layout.extend({
         className: 'observation',
@@ -28,7 +28,18 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/observationformlayoutv
         },
 
         showObservationDetails: function (observation) {
-            
+            var options = { model: observation };
+
+            if (app.isPrerendering('observations')) {
+                options['el'] = '.observation-details';
+            }
+
+            var observationDetailsView = new ObservationDetailsView(options);
+            this.main[app.getShowViewMethodName('observations')](observationDetailsView);
+
+            if (app.isPrerendering('observations')) {
+                observationDetailsView.showBootstrappedDetails();
+            }
         },
 
         showObservationForm: function (observation, categories) {

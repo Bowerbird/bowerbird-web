@@ -38,13 +38,13 @@ namespace Bowerbird.Web.Config
 
         public override object GetService(Type serviceType)
         {
-            if (serviceType == typeof(IConnectionManager)) // HACK: Need to investigate why I get a stack overflow if I don't have this if statement here
+            if(typeof(SignalR.IConnection).Assembly == serviceType.Assembly) // Push DI for SignalR types to base
             {
                 return base.GetService(serviceType);
             }
             else
             {
-                return _kernel.TryGet(serviceType) ?? base.GetService(serviceType);
+                return _kernel.TryGet(serviceType);
             }
         }
 

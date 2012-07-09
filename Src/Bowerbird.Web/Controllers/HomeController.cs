@@ -70,15 +70,16 @@ namespace Bowerbird.Web.Controllers
                 return RedirectToAction("PublicIndex");
             }
 
-            ViewBag.Model = new
+            var viewModel = new
             {
                 Stream = true,
                 StreamItems = new object [] {}
             };
 
-            ViewBag.PrerenderedView = "home";
-
-            return View();
+            return RestfulResult(
+                viewModel,
+                "home",
+                "privateindex");
         }
 
         [HttpGet]
@@ -90,6 +91,21 @@ namespace Bowerbird.Web.Controllers
                 return new JsonNetResult(new
                 {
                     Model = _activityViewModelBuilder.BuildHomeActivityList(_userContext.GetAuthenticatedUserId(), activityInput, pagingInput)
+                });
+            }
+
+            return HttpNotFound();
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult Notifications(ActivityInput activityInput, PagingInput pagingInput)
+        {
+            if (Request.IsAjaxRequest())
+            {
+                return new JsonNetResult(new
+                {
+                    Model = _activityViewModelBuilder.BuildNotificationActivityList(_userContext.GetAuthenticatedUserId(), activityInput, pagingInput)
                 });
             }
 

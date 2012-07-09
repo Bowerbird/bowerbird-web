@@ -12,7 +12,7 @@ function ($, _, Backbone, app, ProjectLayoutView, ProjectFormLayoutView, Project
 
     var ProjectRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
-            'projects/explore': 'showProjectExplorer',
+            'projects': 'showProjectExplorer',
             'projects/join': 'joinProject',
             'projects/create': 'showProjectForm',
             'projects/:id/update': 'showProjectForm',
@@ -76,7 +76,7 @@ function ($, _, Backbone, app, ProjectLayoutView, ProjectFormLayoutView, Project
             //                params['searchQuery'] = searchQuery;
             //            }
             $.ajax({
-                url: '/projects/explore',
+                url: '/projects',
                 data: params
             }).done(function (data) {
                 deferred.resolve(data.Model);

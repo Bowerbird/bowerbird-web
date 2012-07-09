@@ -39,13 +39,11 @@ function ($, _, Backbone, app, ich, EditMapView, EditMediaView, EmbeddedVideoVie
         },
 
         initialize: function (options) {
-            log('observationFormLayoutView:initialize');
             this.categories = options.categories;
             this.model.mediaResources.on('change:Metadata', this.onMediaResourceFilesChanged, this);
         },
 
         serializeData: function () {
-            log('observationFormLayoutView:serializeData');
             return {
                 Model: {
                     Observation: this.model.toJSON(),
@@ -61,18 +59,15 @@ function ($, _, Backbone, app, ich, EditMapView, EditMediaView, EmbeddedVideoVie
         },
 
         onShow: function () {
-            log('observationFormLayoutView:onShow');
             this._showDetails();
         },
 
         showBootstrappedDetails: function () {
-            log('observationFormLayoutView:showBootStrappedDetails');
             this.initializeRegions();
             this._showDetails();
         },
 
         _showDetails: function () {
-            log('observationFormLayoutView:_showDetails');
             var editMapView = new EditMapView({ el: '#location-fieldset', model: this.model });
             this.map.attachView(editMapView);
             editMapView.render();
@@ -135,7 +130,6 @@ function ($, _, Backbone, app, ich, EditMapView, EditMediaView, EmbeddedVideoVie
         },
 
         _showEmbeddedVideo: function () {
-            log('observationFormLayoutView._showEmbeddedVideo');
             var embeddedVideo = new EmbeddedVideoView({ el: $('#modal-dialog'), model: new EmbeddedVideo()});
             embeddedVideo.render();
         },

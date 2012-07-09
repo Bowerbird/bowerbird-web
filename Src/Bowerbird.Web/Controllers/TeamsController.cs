@@ -210,7 +210,7 @@ namespace Bowerbird.Web.Controllers
         {
             var viewModel = new
             {
-                Teams = _teamViewModelBuilder.BuildGroupTeamList(groupId, pagingInput)
+                Teams = _teamViewModelBuilder.BuildGroupTeamList(groupId, true, pagingInput)
             };
 
             return RestfulResult(
@@ -471,7 +471,7 @@ namespace Bowerbird.Web.Controllers
                 {
                     Text = x.Organisation.Name,
                     Value = x.Organisation.Id,
-                    Selected = x.Organisation.Descendants.Any(y => y.Id == teamId)
+                    Selected = x.Organisation.DescendantGroups.Any(y => y.Id == teamId)
                 });
         }
 

@@ -93,5 +93,13 @@ namespace Bowerbird.Core.Config
         /// value: projectmember
         /// </summary>
         public static string ProjectMember = "projectmember";
+        /// <summary>
+        /// value: userprojectadministrator
+        /// </summary>
+        public static string UserProjectAdministrator = "userprojectadministrator";
+        /// <summary>
+        /// value: projectmember
+        /// </summary>
+        public static string UserProjectMember = "userprojectmember";
     }
 }

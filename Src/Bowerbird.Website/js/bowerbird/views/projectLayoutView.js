@@ -8,7 +8,7 @@
 // ProjectLayoutView
 // -----------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'views/streamview', 'collections/streamitemcollection'], function ($, _, Backbone, app, StreamView, StreamItemCollection) {
+define(['jquery', 'underscore', 'backbone', 'app', 'views/streamview', 'collections/activitycollection'], function ($, _, Backbone, app, StreamView, ActivityCollection) {
 
     var ProjectLayoutView = Backbone.Marionette.Layout.extend({
         className: 'project',
@@ -26,10 +26,10 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/streamview', 'collecti
         },
 
         showStream: function () {
-            var streamItemCollection = new StreamItemCollection(null, { groupOrUser: this.model });
+            var activityCollection = new ActivityCollection(null, { groupOrUser: this.model });
             var options = {
                 model: this.model,
-                collection: streamItemCollection
+                collection: activityCollection
             };
             if (app.isPrerendering('projects')) {
                 options['el'] = '.stream';
@@ -41,7 +41,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/streamview', 'collecti
             } else {
                 this.details.show(streamView);
             }
-            streamItemCollection.fetchFirstPage();
+            activityCollection.fetchFirstPage();
         }
     });
 

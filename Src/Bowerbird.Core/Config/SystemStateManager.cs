@@ -27,7 +27,7 @@ namespace Bowerbird.Core.Config
         #region Members
 
         private readonly IDocumentSession _documentSession;
-        private readonly IConfigService _configService;
+        private readonly IConfigSettings _configSettings;
         private readonly ICommandProcessor _commandProcessor;
         private readonly IAvatarFactory _avatarFactory;
         private static object _lock = new object();
@@ -38,7 +38,7 @@ namespace Bowerbird.Core.Config
 
         public SystemStateManager(
             IDocumentSession documentSession,
-            IConfigService configService,
+            IConfigSettings configService,
             ICommandProcessor commandProcessor,
             IAvatarFactory avatarFactory)
         {
@@ -48,7 +48,7 @@ namespace Bowerbird.Core.Config
             Check.RequireNotNull(avatarFactory, "avatarFactory");
              
             _documentSession = documentSession;
-            _configService = configService;
+            _configSettings = configService;
             _commandProcessor = commandProcessor;
             _avatarFactory = avatarFactory;
         }
@@ -66,12 +66,12 @@ namespace Bowerbird.Core.Config
             var appRoot = LoadAppRoot();
             if (appRoot == null)
             {
-                SetupSystem setupSystem = new SetupSystem(_documentSession, this, _configService, _avatarFactory, _commandProcessor);
+                SetupSystem setupSystem = new SetupSystem(_documentSession, this, _configSettings, _avatarFactory, _commandProcessor);
                 setupSystem.Execute();
 
                 if (doSetupTestData)
                 {
-                    SetupTestData setupTestData = new SetupTestData(_documentSession, this, _commandProcessor, _configService, _avatarFactory);
+                    SetupTestData setupTestData = new SetupTestData(_documentSession, this, _commandProcessor, _configSettings, _avatarFactory);
                     setupTestData.Execute();
                 }
             }

@@ -14,9 +14,9 @@
  
 */
 
-namespace Bowerbird.Core.Services
+namespace Bowerbird.Core.Config
 {
-    public interface IConfigService : IService
+    public interface IConfigSettings
     {
         string GetEnvironmentRootPath();
 

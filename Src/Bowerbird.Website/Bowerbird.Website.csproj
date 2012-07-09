@@ -122,12 +122,12 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="css\new\observation.css" />
     <Content Include="css\new\global.css" />
     <Content Include="css\new\media.css" />
     <Content Include="css\new\normalize.css" />
     <Content Include="css\new\stream.css" />
     <Content Include="css\site.css" />
-    <Content Include="js\bowerbird\collections\activityCollection.js" />
     <Content Include="js\bowerbird\collections\chatMessageCollection.js" />
     <Content Include="js\bowerbird\collections\chatCollection.js" />
     <Content Include="js\bowerbird\collections\exploreProjectCollection.js" />
@@ -152,7 +152,7 @@
     <Content Include="js\bowerbird\collections\mediaResourceCollection.js" />
     <Content Include="js\bowerbird\collections\paginatedCollection.js" />
     <Content Include="js\bowerbird\collections\projectCollection.js" />
-    <Content Include="js\bowerbird\collections\streamItemCollection.js" />
+    <Content Include="js\bowerbird\collections\activityCollection.js" />
     <Content Include="js\bowerbird\collections\userCollection.js" />
     <Content Include="js\bowerbird\controllers\observationController.js" />
     <Content Include="js\bowerbird\models\avatar.js" />
@@ -169,7 +169,6 @@
     <Content Include="js\bowerbird\models\observation.js" />
     <Content Include="js\bowerbird\models\project.js" />
     <Content Include="js\bowerbird\models\stream.js" />
-    <Content Include="js\bowerbird\models\streamItem.js" />
     <Content Include="js\bowerbird\views\avatarItemView.js" />
     <Content Include="js\bowerbird\views\chatMessageItemView.js" />
     <Content Include="js\bowerbird\views\chatRegion.js" />

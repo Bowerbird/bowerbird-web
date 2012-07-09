@@ -21,6 +21,7 @@ using Raven.Client;
 using Raven.Client.Linq;
 using Bowerbird.Core.Factories;
 using Bowerbird.Web.Factories;
+using System.Collections.Generic;
 
 namespace Bowerbird.Web.Builders
 {
@@ -104,25 +105,48 @@ namespace Bowerbird.Web.Builders
                     stats.TotalResults);
         }
 
-        public object BuildGroupProjectList(string groupId, PagingInput pagingInput)
+        public object BuildGroupProjectList(string groupId, bool getAllDescendants, PagingInput pagingInput)
         {
             Check.RequireNotNullOrWhitespace(groupId, "groupId");
             Check.RequireNotNull(pagingInput, "pagingInput");
 
+            var query = _documentSession
+                    .Query<All_Groups.Result, All_Groups>()
+                    .AsProjection<All_Groups.Result>();
+
+            if (groupId == Constants.AppRootId)
+            {
+                if (getAllDescendants)
+                {
+                    query = query
+                        .Where(x => x.GroupType == "project");
+                }
+                else
+                {
+                    query = query
+                        .Where(x => x.GroupType == "project" && x.ParentGroupId == Constants.AppRootId);
+                }
+            }
+            else
+            {
+                var group = _documentSession
+                    .Query<All_Groups.Result, All_Groups>()
+                    .AsProjection<All_Groups.Result>()
+                    .Where(x => x.GroupId == groupId)
+                    .ToList()
+                    .First();
+
+                var descendantGroupIds = getAllDescendants ? group.DescendantGroupIds : group.ChildGroupIds;
+
+                query = query
+                    .Where(x => x.GroupId.In(descendantGroupIds) && x.GroupType == "project");
+            }
+
             RavenQueryStatistics stats;
 
-            // TODO: Probably can be done in one query
-            var teamProjects = _documentSession
-                .Query<GroupAssociation>()
-                .Include(x => x.ChildGroup.Id)
-                .Where(x => x.ParentGroup.Id == groupId && x.ChildGroup.GroupType == "project");
-
-            return _documentSession
-                .Query<All_Groups.Result, All_Groups>()
-                .AsProjection<All_Groups.Result>()
-                .Where(x => x.GroupId.In(teamProjects.Select(y => y.ChildGroup.Id)))
+            return query
                 .Statistics(out stats)
-                .Skip(pagingInput.Page)
+                .Skip(pagingInput.GetSkipIndex())
                 .Take(pagingInput.PageSize)
                 .ToList()
                 .Select(_groupViewFactory.Make)

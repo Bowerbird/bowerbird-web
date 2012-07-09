@@ -42,12 +42,11 @@ define(['jquery', 'underscore', 'backbone', 'app', 'timeago'], function ($, _, B
         template: 'StreamItem',
 
         serializeData: function () {
-            var model = this.model.toJSON();
-            model.CreatedDateTimeDescription = parseISO8601(this.model.get('CreatedDateTime'));
-            model.ObservedOnDescription = ''; //parseISO8601(this.model.get('ObservedOn') + 'Z').format('d MMM yyyy')
-            return {
-                Model: model
-            };
+            var json = { Model: this.model.toJSON() };
+            json.Model.CreatedDateTimeDescription = parseISO8601(this.model.get('CreatedDateTime'));
+            json.Model.ObservedOnDescription = ''; //parseISO8601(this.model.get('ObservedOn') + 'Z').format('d MMM yyyy')
+            json.Model.ShowThumbnails = this.model.get('ObservationAdded').Observation.Media.length > 1 ? true : false;
+            return json;
         },
 
         onRender: function () {

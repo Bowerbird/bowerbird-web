@@ -20,6 +20,7 @@ using Raven.Client;
 using Ninject.Activation;
 using Ninject.Extensions.NamedScope;
 using Ninject.Extensions.ContextPreservation;
+using Bowerbird.Core.Config;
 
 namespace Bowerbird.Web.Config
 {
@@ -29,7 +30,7 @@ namespace Bowerbird.Web.Config
         #region Members
 
         private readonly IDocumentStore _documentStore;
-        private readonly IConfigService _configService;
+        private readonly IConfigSettings _configSettings;
 
         #endregion
 
@@ -37,13 +38,13 @@ namespace Bowerbird.Web.Config
 
         public NinjectRavenSessionProvider(
             IDocumentStore documentStore,
-            IConfigService configService)
+            IConfigSettings configService)
         {
             Check.RequireNotNull(documentStore, "documentStore");
             Check.RequireNotNull(configService, "configService");
 
             _documentStore = documentStore;
-            _configService = configService;
+            _configSettings = configService;
         }
 
         #endregion
@@ -56,9 +57,9 @@ namespace Bowerbird.Web.Config
 
         protected override IDocumentSession CreateInstance(IContext ctx)
         {
-            if (!string.IsNullOrWhiteSpace(_configService.GetDatabaseName()))
+            if (!string.IsNullOrWhiteSpace(_configSettings.GetDatabaseName()))
             {
-                return _documentStore.OpenSession(_configService.GetDatabaseName());
+                return _documentStore.OpenSession(_configSettings.GetDatabaseName());
             }
             else
             {

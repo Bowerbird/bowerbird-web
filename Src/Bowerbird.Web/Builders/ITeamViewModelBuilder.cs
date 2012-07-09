@@ -20,7 +20,7 @@ namespace Bowerbird.Web.Builders
 
         object BuildTeam(string teamId);
 
-        object BuildGroupTeamList(string groupId, PagingInput pagingInput);
+        object BuildGroupTeamList(string groupId, bool getAllDescendants, PagingInput pagingInput);
 
         object BuildUserTeamList(string userId, PagingInput pagingInput);
     }

@@ -29,7 +29,7 @@ namespace Bowerbird.Web.Services
         #region Members
 
         private readonly IDocumentSession _documentSession;
-        private readonly IConfigService _configService;
+        private readonly IConfigSettings _configSettings;
         private readonly ISystemStateManager _systemStateManager;
 
         #endregion
@@ -38,7 +38,7 @@ namespace Bowerbird.Web.Services
 
         public EmailService(
             IDocumentSession documentSession,
-            IConfigService configService,
+            IConfigSettings configService,
             ISystemStateManager systemStateManager)
         {
             Check.RequireNotNull(documentSession, "documentSession");
@@ -46,7 +46,7 @@ namespace Bowerbird.Web.Services
             Check.RequireNotNull(systemStateManager, "systemStateManager");
 
             _documentSession = documentSession;
-            _configService = configService;
+            _configSettings = configService;
             _systemStateManager = systemStateManager;
         }
 
@@ -64,7 +64,7 @@ namespace Bowerbird.Web.Services
 
             var appRoot = _documentSession.Load<AppRoot>(Constants.AppRootId);
 
-            if (appRoot.EmailServiceStatus)
+            if (!appRoot.EmailServiceStatus)
             {
                 smtpClient.DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory;
             }
@@ -73,6 +73,6 @@ namespace Bowerbird.Web.Services
         }
 
         #endregion
-     
+      
     }
 }

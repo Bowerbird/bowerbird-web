@@ -19,6 +19,7 @@ using Raven.Client;
 using Bowerbird.Core.ImageUtilities;
 using Bowerbird.Core.Services;
 using System.Collections.Generic;
+using Bowerbird.Core.Factories;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -29,7 +30,7 @@ namespace Bowerbird.Core.CommandHandlers
         #region Members
 
         private readonly IDocumentSession _documentSession;
-        private readonly IMediaFilePathService _mediaFilePathService;
+        private readonly IMediaFilePathFactory _mediaFilePathFactory;
         private readonly IVideoUtility _videoUtility;
 
         private class ImageCreationTask
@@ -51,15 +52,15 @@ namespace Bowerbird.Core.CommandHandlers
 
         public MediaResourceCreateCommandHandler(
             IDocumentSession documentSession,
-            IMediaFilePathService mediaFilePathService,
+            IMediaFilePathFactory mediaFilePathFactory,
             IVideoUtility videoUtility)
         {
             Check.RequireNotNull(documentSession, "documentSession");
-            Check.RequireNotNull(mediaFilePathService, "mediaFilePathService");
+            Check.RequireNotNull(mediaFilePathFactory, "mediaFilePathFactory");
             Check.RequireNotNull(videoUtility, "videoUtility");
 
             _documentSession = documentSession;
-            _mediaFilePathService = mediaFilePathService;
+            _mediaFilePathFactory = mediaFilePathFactory;
             _videoUtility = videoUtility;
         }
 
@@ -282,8 +283,8 @@ namespace Bowerbird.Core.CommandHandlers
         {
             var mediaResourceFile = mediaResource.AddImageFile(
                 storedRepresentation,
-                _mediaFilePathService.MakeMediaFileName(mediaResource.Id, storedRepresentation, extension),
-                _mediaFilePathService.MakeRelativeMediaFileUri(mediaResource.Id, "image", storedRepresentation, extension),
+                _mediaFilePathFactory.MakeMediaFileName(mediaResource.Id, storedRepresentation, extension),
+                _mediaFilePathFactory.MakeRelativeMediaFileUri(mediaResource.Id, "image", storedRepresentation, extension),
                 format,
                 width,
                 height,
@@ -306,7 +307,7 @@ namespace Bowerbird.Core.CommandHandlers
             {
                 dynamic imageFile = imageCreationTask.File;
 
-                var fullPath = _mediaFilePathService.MakeMediaFilePath(mediaResource.Id, "image", imageCreationTask.StoredRepresentation, imageFile.Extension);
+                var fullPath = _mediaFilePathFactory.MakeMediaFilePath(mediaResource.Id, "image", imageCreationTask.StoredRepresentation, imageFile.Extension);
 
                 if (!imageCreationTask.DoImageManipulation())
                 {

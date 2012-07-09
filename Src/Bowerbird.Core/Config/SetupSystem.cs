@@ -31,7 +31,7 @@ namespace Bowerbird.Core.Config
 
         private readonly IDocumentSession _documentSession;
         private readonly ISystemStateManager _systemStateManager;
-        private readonly IConfigService _configService;
+        private readonly IConfigSettings _configSettings;
         private readonly IAvatarFactory _avatarFactory;
         private readonly ICommandProcessor _commandProcessor;
 
@@ -55,7 +55,7 @@ namespace Bowerbird.Core.Config
         public SetupSystem(
             IDocumentSession documentSession,
             ISystemStateManager systemStateManager,
-            IConfigService configService, 
+            IConfigSettings configService, 
             IAvatarFactory avatarFactory,
             ICommandProcessor commandProcessor)
         {
@@ -67,7 +67,7 @@ namespace Bowerbird.Core.Config
 
             _documentSession = documentSession;
             _systemStateManager = systemStateManager;
-            _configService = configService;
+            _configSettings = configService;
             _avatarFactory = avatarFactory;
             _commandProcessor = commandProcessor;
         }
@@ -264,6 +264,12 @@ namespace Bowerbird.Core.Config
                 PermissionNames.UpdatePost,
                 PermissionNames.DeletePost,
                 PermissionNames.Chat);
+            AddRole("userprojectadministrator", "User Project Administrator", "Administrator of a user project",
+                PermissionNames.UpdateProject);
+            AddRole("userprojectmember", "User Project Member", "Member of a user project",
+                PermissionNames.CreateObservation,
+                PermissionNames.UpdateObservation,
+                PermissionNames.DeleteObservation);
         }
 
         private void AddRole(string id, string name, string description, params string[] permissionIds)
@@ -302,13 +308,10 @@ namespace Bowerbird.Core.Config
             var userProject = new UserProject(user, DateTime.UtcNow, TheAppRoot);
             _documentSession.Store(userProject);
 
-            var userProjectAssociation = new GroupAssociation(TheAppRoot, userProject, user, DateTime.UtcNow);
-            _documentSession.Store(userProjectAssociation);
-
             user.AddMembership(
                 user,
                 userProject,
-                Roles.Where(x => x.Id == "roles/projectadministrator" || x.Id == "roles/projectmember"));
+                Roles.Where(x => x.Id == "roles/userprojectadministrator" || x.Id == "roles/userprojectmember"));
             _documentSession.Store(user);
 
             Users.Add(user);
@@ -329,7 +332,7 @@ namespace Bowerbird.Core.Config
         {
             var createdOn = DateTime.UtcNow;
 
-            var speciesFromFiles = LoadSpeciesFilesFromFolder(Path.Combine(_configService.GetEnvironmentRootPath(), _configService.GetSpeciesRelativePath()));
+            var speciesFromFiles = LoadSpeciesFilesFromFolder(Path.Combine(_configSettings.GetEnvironmentRootPath(), _configSettings.GetSpeciesRelativePath()));
 
             foreach (var species in speciesFromFiles)
             {

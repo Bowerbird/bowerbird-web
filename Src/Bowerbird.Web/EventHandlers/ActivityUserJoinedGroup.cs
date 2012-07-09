@@ -35,7 +35,7 @@ namespace Bowerbird.Web.EventHandlers
     /// </summary>
     public class ActivityUserJoinedGroup : 
         DomainEventHandlerBase, 
-        IEventHandler<DomainModelCreatedEvent<Member>>,
+        IEventHandler<MemberCreatedEvent>,
         IEventHandler<DomainModelCreatedEvent<Project>>,
         IEventHandler<DomainModelCreatedEvent<Team>>,
         IEventHandler<DomainModelCreatedEvent<Organisation>>
@@ -77,17 +77,20 @@ namespace Bowerbird.Web.EventHandlers
 
         #region Methods
 
-        public void Handle(DomainModelCreatedEvent<Member> domainEvent)
+        public void Handle(MemberCreatedEvent domainEvent)
         {
             if (domainEvent.DomainModel.Group.GroupType != "userproject") // Do not record an activity for user's on userproject
             {
                 var groupResult = _documentSession
                     .Query<All_Groups.Result, All_Groups>()
-                    .Where(x => x.GroupId == domainEvent.DomainModel.Group.Id)
+                    .Where(x => x.GroupId == domainEvent.Group.Id)
                     .ToList()
-                    .First();
+                    .FirstOrDefault();
 
-                Execute(domainEvent, groupResult.Group, groupResult.UserIds.Count(), domainEvent.Sender as User);
+                if (groupResult != null)
+                {
+                    Execute(domainEvent, groupResult.Group, groupResult.UserIds.Count(), domainEvent.Sender as User);
+                }
             }
         }
 

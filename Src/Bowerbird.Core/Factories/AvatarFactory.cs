@@ -24,20 +24,9 @@ namespace Bowerbird.Core.Factories
     {
         #region Fields
 
-        //private readonly IMediaFilePathService _mediaFilePathService;
-
         #endregion
 
         #region Constructors
-
-        //public AvatarFactory(
-        //    IMediaFilePathService mediaFilePathService
-        //)
-        //{
-        //    Check.RequireNotNull(mediaFilePathService, "mediaFilePathService");
-
-        //    _mediaFilePathService = mediaFilePathService;
-        //}
 
         #endregion
 
@@ -61,50 +50,6 @@ namespace Bowerbird.Core.Factories
 
             return avatar;
         }
-
-        //public object Make(Team team)
-        //{
-        //    return new
-        //    {
-        //        AltTag = team.Description,
-        //        UrlToImage = team.Avatar != null ?
-        //            _mediaFilePathService.MakeRelativeMediaFileUri(team.Avatar.Id, "image", "avatar", team.Avatar["thumbnail"].Metadata["extension"]) :
-        //            AvatarUris.DefaultTeam
-        //    };
-        //}
-
-        //public object Make(Project project)
-        //{
-        //    return new
-        //    {
-        //        AltTag = project.Description,
-        //        UrlToImage = project.Avatar != null ?
-        //            _mediaFilePathService.MakeRelativeMediaFileUri(project.Avatar.Id, "image", "avatar", project.Avatar["thumbnail"].Metadata["extension"]) :
-        //            AvatarUris.DefaultProject
-        //    };
-        //}
-
-        //public object Make(Organisation organisation)
-        //{
-        //    return new
-        //    {
-        //        AltTag = organisation.Description,
-        //        UrlToImage = organisation.Avatar != null ?
-        //            _mediaFilePathService.MakeRelativeMediaFileUri(organisation.Avatar.Id, "image", "avatar", organisation.Avatar["thumbnail"].Metadata["extension"]) :
-        //            AvatarUris.DefaultOrganisation
-        //    };
-        //}
-
-        //public object Make(User user)
-        //{
-        //    return new
-        //    {
-        //        AltTag = string.Format("{0} {1}", user.FirstName, user.LastName),
-        //        UrlToImage = user.Avatar != null ?
-        //            _mediaFilePathService.MakeRelativeMediaFileUri(user.Avatar.Id, "image", "avatar", user.Avatar["thumbnail"].Metadata["extension"]) :
-        //            AvatarUris.DefaultUser
-        //    };
-        //}
 
         #endregion
     }

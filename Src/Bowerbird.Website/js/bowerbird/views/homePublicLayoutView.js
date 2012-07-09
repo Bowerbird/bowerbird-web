@@ -27,10 +27,10 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
         }
 
 //        showStream: function () {
-//            var streamItemCollection = new StreamItemCollection();
+        //            var activityCollection = new ActivityCollection();
 //            var options = {
 //                model: app.authenticatedUser.user,
-//                collection: streamItemCollection
+        //                collection: activityCollection
 //            };
 
 //            if (app.isPrerendering('home')) {
@@ -46,7 +46,7 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
 //                this.details.show(streamView);
 //            }
 
-//            streamItemCollection.fetchFirstPage();
+        //            activityCollection.fetchFirstPage();
 //        }
     });
 

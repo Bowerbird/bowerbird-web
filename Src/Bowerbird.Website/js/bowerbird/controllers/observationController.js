@@ -57,7 +57,6 @@ function ($, _, Backbone, app, ObservationLayoutView, Observation) {
     ObservationController.showObservationDetails = function (id) {
         $.when(getModel(id))
             .done(function (model) {
-                log('obs', model);
                 var observation = new Observation(model.Observation);
                 var observationLayoutView = showObservationLayoutView(observation);
                 observationLayoutView.showObservationDetails(observation);

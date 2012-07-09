@@ -88,25 +88,16 @@ namespace Bowerbird.Core.CommandHandlers
             // If project is in a team, add project to teams's Descendants
             if (parentGroup is Team)
             {
-                parentGroup.AddDescendant(project);
+                parentGroup.AddChildGroup(project);
                 _documentSession.Store(parentGroup);
 
-                if (parentGroup.Ancestry.Any(x => x.GroupType == "organisation"))
+                if (parentGroup.AncestorGroups.Any(x => x.GroupType == "organisation"))
                 {
-                    var grandParent = _documentSession.Load<Organisation>(parentGroup.Ancestry.Single(x => x.GroupType == "organisation").Id);
-                    grandParent.AddDescendant(project);
+                    var grandParent = _documentSession.Load<Organisation>(parentGroup.AncestorGroups.Single(x => x.GroupType == "organisation").Id);
+                    grandParent.AddDescendantGroup(project);
                     _documentSession.Store(grandParent);
                 }
             }
-
-            // Add an association to parent group
-            var groupAssociation = new GroupAssociation(
-                parentGroup,
-                project,
-                _documentSession.Load<User>(command.UserId),
-                DateTime.UtcNow
-                );
-            _documentSession.Store(groupAssociation);
 
             // Add administrator membership to creating user
             var user = _documentSession.Load<User>(command.UserId);

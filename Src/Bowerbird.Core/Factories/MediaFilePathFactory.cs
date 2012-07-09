@@ -16,25 +16,27 @@ using System;
 using System.IO;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Services;
+using Bowerbird.Core.Config;
 
-namespace Bowerbird.Core.Services
+namespace Bowerbird.Core.Factories
 {
-    public class MediaFilePathService : IMediaFilePathService
+    public class MediaFilePathFactory : IMediaFilePathFactory
     {
         #region Members
 
-        private readonly IConfigService _configService;
+        private readonly IConfigSettings _configSettings;
 
         #endregion
 
         #region Constructors
 
-        public MediaFilePathService(
-            IConfigService configService)
+        public MediaFilePathFactory(
+            IConfigSettings configService)
         {
             Check.Require(configService != null, "configService may not be null");
 
-            _configService = configService;
+            _configSettings = configService;
         }
 
         #endregion
@@ -68,14 +70,8 @@ namespace Bowerbird.Core.Services
         // http://stackoverflow.com/questions/53102/why-does-path-combine-not-properly-concatenate-filenames-that-start-with-path-di
         public string MakeMediaBasePath(int recordId, string mediaType)
         {
-            var environmentRootPath = _configService.GetEnvironmentRootPath();
-            var mediaRelativePath = _configService.GetMediaRelativePath();
-
-            //var path = string.Format("{0}{1}{2}\\{3}",
-            //    environmentRootPath,
-            //    mediaRelativePath,
-            //    mediaType,
-            //    GetDirectoryName(recordId));
+            var environmentRootPath = _configSettings.GetEnvironmentRootPath();
+            var mediaRelativePath = _configSettings.GetMediaRelativePath();
 
             var relativePath = Path.Combine(
                 mediaRelativePath,
@@ -126,7 +122,7 @@ namespace Bowerbird.Core.Services
 
         private string GetCleanMediaRootUri()
         {
-            string mediaRootUri = _configService.GetMediaRootUri();
+            string mediaRootUri = _configSettings.GetMediaRootUri();
 
             if (mediaRootUri.EndsWith("/"))
             {

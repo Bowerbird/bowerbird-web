@@ -46,7 +46,7 @@ namespace Bowerbird.Core.DomainModels
             Name = name;
             User = createdByUser;
             CreatedDateTime = createdDateTime;
-            SetAncestry(parentGroup);
+            AddParentGroup(parentGroup);
         }
 
         #endregion
@@ -59,9 +59,13 @@ namespace Bowerbird.Core.DomainModels
 
         public DenormalisedUserReference User { get; protected set; } // Protected set to allow AppRoot to set it after instantiation
 
-        public IEnumerable<DenormalisedGroupReference> Ancestry { get; private set; }
+        public DenormalisedGroupReference ParentGroup { get; private set; }
 
-        public IEnumerable<DenormalisedGroupReference> Descendants { get; private set; }
+        public IEnumerable<DenormalisedGroupReference> AncestorGroups { get; private set; }
+
+        public IEnumerable<DenormalisedGroupReference> ChildGroups { get; private set; }
+
+        public IEnumerable<DenormalisedGroupReference> DescendantGroups { get; private set; }
 
         public abstract string GroupType { get; }
 
@@ -77,8 +81,9 @@ namespace Bowerbird.Core.DomainModels
 
         private void InitMembers()
         {
-            Ancestry = new List<DenormalisedGroupReference>();
-            Descendants = new List<DenormalisedGroupReference>();
+            ChildGroups = new List<DenormalisedGroupReference>();
+            AncestorGroups = new List<DenormalisedGroupReference>();
+            DescendantGroups = new List<DenormalisedGroupReference>();
         }
 
         protected void SetDetails(string name)
@@ -86,22 +91,37 @@ namespace Bowerbird.Core.DomainModels
             Name = name;
         }
 
-        public Group SetAncestry(Group groupContainingAncestry)
+        public Group AddParentGroup(Group group)
         {
-            Ancestry = groupContainingAncestry.Ancestry.Union(new DenormalisedGroupReference[] { groupContainingAncestry });
+            Check.RequireNotNull(group, "group");
 
+            ParentGroup = group;
+            AncestorGroups = group.AncestorGroups.Union(new DenormalisedGroupReference[] { group });
             return this;
         }
 
-        public Group AddDescendant(Group group)
+        public Group AddChildGroup(Group group)
         {
-            ((List<DenormalisedGroupReference>)Descendants).Add(group);
+            Check.RequireNotNull(group, "group");
+
+            ((List<DenormalisedGroupReference>)ChildGroups).Add(group);
+            ((List<DenormalisedGroupReference>)DescendantGroups).Add(group);
             return this; 
         }
 
-        public Group RemoveDescendant(Group group)
+        public Group AddDescendantGroup(Group group)
         {
-            ((List<DenormalisedGroupReference>)Descendants).Remove(group);
+            Check.RequireNotNull(group, "group");
+
+            ((List<DenormalisedGroupReference>)DescendantGroups).Add(group);
+            return this;
+        }
+
+        public Group RemoveDescendantGroup(Group group)
+        {
+            Check.RequireNotNull(group, "group");
+
+            ((List<DenormalisedGroupReference>)DescendantGroups).RemoveAll(x => x.Id == group.Id);
             return this;
         }
 

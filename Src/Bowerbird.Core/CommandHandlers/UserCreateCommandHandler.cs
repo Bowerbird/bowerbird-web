@@ -81,21 +81,17 @@ namespace Bowerbird.Core.CommandHandlers
             var userProject = new UserProject(user, DateTime.UtcNow, appRoot);
             _documentSession.Store(userProject);
 
-            // Make user project association to app root
-            var userProjectAssociation = new GroupAssociation(appRoot, userProject, user, DateTime.UtcNow);
-            _documentSession.Store(userProjectAssociation);
-
             // Add app root membership
             user.AddMembership(
                 user,
                 appRoot,
                 _documentSession.Query<Role>().Where(x => x.Id.In(userCreateCommand.Roles)).ToList());
 
-            // Add administrator membership to user
+            // Add administrator membership to user project
             user.AddMembership(
                 user, 
                 userProject, 
-                _documentSession.Query<Role>().Where(x => x.Id == "roles/projectadministrator" || x.Id == "roles/projectmember"));
+                _documentSession.Query<Role>().Where(x => x.Id == "roles/userprojectadministrator" || x.Id == "roles/userprojectmember"));
             _documentSession.Store(user);
 
             return user;

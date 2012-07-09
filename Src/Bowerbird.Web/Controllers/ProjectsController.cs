@@ -212,9 +212,21 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult List(string groupId, PagingInput pagingInput)
         {
+            bool getAllDescendants = false;
+            string actualGroupId = null;
+            if (string.IsNullOrWhiteSpace(groupId))
+            {
+                actualGroupId = Constants.AppRootId;
+                getAllDescendants = true;
+            }
+            else
+            {
+                actualGroupId = groupId;
+            }
+
             var viewModel = new
             {
-                Projects = _projectViewModelBuilder.BuildGroupProjectList(groupId, pagingInput)
+                Projects = _projectViewModelBuilder.BuildGroupProjectList(actualGroupId, getAllDescendants, pagingInput)
             };
 
             return RestfulResult(
@@ -310,11 +322,11 @@ namespace Bowerbird.Web.Controllers
                 return HttpNotFound();
             }
 
-            // TODO: Not sure what this permission check is actually checking???
-            if (!_userContext.HasGroupPermission(PermissionNames.JoinProject, projectId))
-            {
-                return HttpUnauthorized();
-            }
+            //// TODO: Not sure what this permission check is actually checking???
+            //if (!_userContext.HasGroupPermission(PermissionNames.JoinProject, projectId))
+            //{
+            //    return HttpUnauthorized();
+            //}
 
             if (!ModelState.IsValid)
             {
@@ -327,7 +339,7 @@ namespace Bowerbird.Web.Controllers
                     UserId = _userContext.GetAuthenticatedUserId(),
                     GroupId = projectId,
                     CreatedByUserId = _userContext.GetAuthenticatedUserId(),
-                    Roles = new[] { RoleNames.ProjectMember }
+                    Roles = new[] { "roles/projectmember" }
                 });
 
             return JsonSuccess();
@@ -470,7 +482,7 @@ namespace Bowerbird.Web.Controllers
                         {
                             Text = x.Team.Name,
                             Value = x.Team.Id,
-                            Selected = x.Team.Descendants.Any(y => y.Id == projectId)
+                            Selected = x.Team.DescendantGroups.Any(y => y.Id == projectId)
                         });
         }
 

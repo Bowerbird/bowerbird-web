@@ -59,16 +59,16 @@ namespace Bowerbird.Web.Controllers
                     ViewBag.BootstrappedJson = JsonConvert.SerializeObject(new
                         {
                             AuthenticatedUser = authenticatedUser,
-                            Model = ViewBag.Model,
-                            PrerenderedView = ViewBag.PrerenderedView
+                            ViewBag.Model,
+                            ViewBag.PrerenderedView
                         });
                 }
                 else
                 {
                     ViewBag.BootstrappedJson = JsonConvert.SerializeObject(new
                     {
-                        Model = ViewBag.Model,
-                        PrerenderedView = ViewBag.PrerenderedView
+                        ViewBag.Model,
+                        ViewBag.PrerenderedView
                     });
                 }
 
@@ -105,7 +105,7 @@ namespace Bowerbird.Web.Controllers
 
         protected void DebugToClient(dynamic output)
         {
-            var debugger = ServiceLocator.Current.GetInstance<IDebuggerService>();
+            var debugger = ServiceLocator.Current.GetInstance<IBackChannelService>();
 
             debugger.DebugToClient(output);
         }
@@ -159,7 +159,7 @@ namespace Bowerbird.Web.Controllers
                     htmlViewTask(newViewModel);
                 }
 
-                ViewBag.Model = newViewModel;
+                ViewBag.Model = viewModel;
 
                 actionResult = View(htmlViewName);
             }

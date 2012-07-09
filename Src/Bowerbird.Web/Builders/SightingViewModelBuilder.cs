@@ -36,17 +36,21 @@ namespace Bowerbird.Web.Builders
         #region Fields
 
         private readonly IDocumentSession _documentSession;
+        private readonly IObservationViewFactory _observationViewFactory;
 
         #endregion
 
         #region Constructors
 
         public SightingViewModelBuilder(
-            IDocumentSession documentSession)
+            IDocumentSession documentSession,
+            IObservationViewFactory observationViewFactory)
         {
             Check.RequireNotNull(documentSession, "documentSession");
+            Check.RequireNotNull(observationViewFactory, "observationViewFactory");
 
             _documentSession = documentSession;
+            _observationViewFactory = observationViewFactory;
         }
 
         #endregion
@@ -55,12 +59,12 @@ namespace Bowerbird.Web.Builders
 
         public object BuildNewObservation()
         {
-            return MakeObservation();
+            return _observationViewFactory.Make();
         }
 
         public object BuildSighting(string sightingId)
         {
-            return MakeObservation(_documentSession.Load<Observation>(sightingId));
+            return _observationViewFactory.Make(_documentSession.Load<Observation>(sightingId));
         }
 
         public object BuildGroupSightingList(string groupId, PagingInput pagingInput)
@@ -79,7 +83,7 @@ namespace Bowerbird.Web.Builders
                 .Take(pagingInput.PageSize)
                 .Select(x => x.Observation)
                 .ToList()
-                .Select(MakeObservation)
+                .Select(_observationViewFactory.Make)
                 .ToPagedList(
                     pagingInput.Page,
                     pagingInput.PageSize,
@@ -103,47 +107,11 @@ namespace Bowerbird.Web.Builders
                 .Take(pagingInput.PageSize)
                 .Select(x => x.Observation)
                 .ToList()
-                .Select(MakeObservation)
+                .Select(_observationViewFactory.Make)
                 .ToPagedList(
                     pagingInput.Page,
                     pagingInput.PageSize,
                     stats.TotalResults);
-        }
-
-        private object MakeObservation()
-        {
-            return new
-            {
-                Title = string.Empty,
-                ObservedOn = DateTime.UtcNow.ToString("d MMM yyyy"),
-                Address = string.Empty,
-                Latitude = string.Empty,
-                Longitude = string.Empty,
-                Category = string.Empty,
-                IsIdentificationRequired = false,
-                AnonymiseLocation = false,
-                Media = new ObservationMedia[] { },
-                Projects = new string[] { }
-            };
-        }
-
-        private object MakeObservation(Observation observation)
-        {
-            return new
-            {
-                observation.Id,
-                Title = observation.Title,
-                ObservedOn = observation.ObservedOn.ToString("d MMM yyyy"),
-                Address = observation.Address,
-                Latitude = observation.Latitude,
-                Longitude = observation.Longitude,
-                Category = observation.Category,
-                IsIdentificationRequired = observation.IsIdentificationRequired,
-                AnonymiseLocation = observation.AnonymiseLocation,
-                observation.Media,
-                PrimaryMedia = observation.GetPrimaryMedia(),
-                Projects = observation.Groups.Select(x => x.Group.Id)
-            };
         }
 
         #endregion

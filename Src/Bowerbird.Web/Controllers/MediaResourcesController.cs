@@ -154,10 +154,6 @@ namespace Bowerbird.Web.Controllers
 
                 _documentSession.SaveChanges();
 
-                //string photoDateTime, photoLatitude, photoLongitude;
-
-                //SetExifData(mediaResource, out photoDateTime, out photoLatitude, out photoLongitude);
-
                 return new JsonNetResult(new
                     {
                         mediaResource.Id,
@@ -167,11 +163,6 @@ namespace Bowerbird.Web.Controllers
                         mediaResource.Files,
                         mediaResource.Metadata,
                         Key = key
-
-                        //PhotoDateTime = photoDateTime,
-                        //PhotoLatitude = photoLatitude,
-                        //PhotoLongitude = photoLongitude,
-                        
                     });
             }
             catch (Exception ex)

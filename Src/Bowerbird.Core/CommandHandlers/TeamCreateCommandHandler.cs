@@ -83,18 +83,9 @@ namespace Bowerbird.Core.CommandHandlers
             // If team is in an organisation, add team to organisation's Descendants
             if(!string.IsNullOrEmpty(command.OrganisationId))
             {
-                parentGroup.AddDescendant(team);
+                parentGroup.AddChildGroup(team);
                 _documentSession.Store(parentGroup);
             }
-
-            // Add association to parent group
-            var groupAssociation = new GroupAssociation(
-                parentGroup,
-                team,
-                _documentSession.Load<User>(command.UserId),
-                DateTime.UtcNow
-                );
-            _documentSession.Store(groupAssociation);
 
             // Add administrator membership to creating user
             var user = _documentSession.Load<User>(command.UserId);

@@ -9,8 +9,8 @@
 // --------------------------
 
 // The right hand side bar that is shown to authenticated users.
-define(['jquery', 'underscore', 'backbone', 'app', 'views/notificationitemview'],
-function ($, _, Backbone, app, NotificationItemView) {
+define(['jquery', 'underscore', 'backbone', 'app', 'views/notificationitemview', 'collections/activitycollection'],
+function ($, _, Backbone, app, NotificationItemView, ActivityCollection) {
 
     var NotificationsCompositeView = Backbone.Marionette.CompositeView.extend({
         tagName: 'section',
@@ -27,26 +27,42 @@ function ($, _, Backbone, app, NotificationItemView) {
             $('article').append(this.el);
         },
 
-        appendHtml: function(collectionView, itemView){
-            collectionView.$el.find('ul').prepend(itemView.el);
+        appendHtml: function (collectionView, itemView) {
+            var items = this.collection.pluck('Id');
+            var index = _.indexOf(items, itemView.model.id);
+            log(index);
+
+            var $li = collectionView.$el.find('ul > li:eq(' + (index) + ')');
+
+            if ($li.length === 0) {
+                collectionView.$el.find('ul').append(itemView.el);
+            } else {
+                $li.before(itemView.el);
+            }
         }
     });
 
     // Initialize the sidebar layout
     app.addInitializer(function (options) {
-        $(function () {
-            // Only show notifications if user is authenticated
-            if (app.authenticatedUser) {
-                // Render the layout and get it on the screen, first
-                var notificationsCompositeView = new NotificationsCompositeView({ model: app.authenticatedUser.user, collection: app.activities });
+        // Only show notifications if user is authenticated
+        if (app.authenticatedUser) {
+            // Setup activity event listening
+            var activityCollection = new ActivityCollection();
+            activityCollection.baseUrl = '/notifications';
+            app.vent.on('newactivity', function (activity) {
+                activityCollection.add(activity);
+            });
 
-                notificationsCompositeView.on('show', function () {
-                    app.vent.trigger('notifications:rendered');
-                });
+            var notificationsCompositeView = new NotificationsCompositeView({ model: app.authenticatedUser.user, collection: activityCollection });
 
-                app.notifications.show(notificationsCompositeView);
-            }
-        });
+            notificationsCompositeView.on('show', function () {
+                app.vent.trigger('notifications:rendered');
+            });
+
+            app.notifications.show(notificationsCompositeView);
+
+            activityCollection.fetchFirstPage();
+        }
     });
 
     return NotificationsCompositeView;

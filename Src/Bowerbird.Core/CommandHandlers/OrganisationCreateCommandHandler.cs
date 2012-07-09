@@ -75,14 +75,6 @@ namespace Bowerbird.Core.CommandHandlers
                 appRoot);
             _documentSession.Store(organisation);
 
-            // Add association to app root
-            var groupAssociation = new GroupAssociation(
-                appRoot,
-                organisation,
-                _documentSession.Load<User>(command.UserId),
-                DateTime.UtcNow);
-            _documentSession.Store(groupAssociation);
-
             // Add administrator membership to creating user
             var user = _documentSession.Load<User>(command.UserId);
             user.AddMembership(

@@ -35,7 +35,7 @@ namespace Bowerbird.Core.Config
         private readonly IDocumentSession _documentSession;
         private readonly ISystemStateManager _systemStateManager;
         private readonly ICommandProcessor _commandProcessor;
-        private readonly IConfigService _configService;
+        private readonly IConfigSettings _configSettings;
         private readonly IAvatarFactory _avatarFactory;
 
         #endregion
@@ -46,7 +46,7 @@ namespace Bowerbird.Core.Config
             IDocumentSession documentSession,
             ISystemStateManager systemStateManager,
             ICommandProcessor commandProcessor,
-            IConfigService configService,
+            IConfigSettings configService,
             IAvatarFactory avatarFactory)
         {
             Check.RequireNotNull(documentSession, "documentSession");
@@ -58,7 +58,7 @@ namespace Bowerbird.Core.Config
             _documentSession = documentSession;
             _systemStateManager = systemStateManager;
             _commandProcessor = commandProcessor;
-            _configService = configService;
+            _configSettings = configService;
             _avatarFactory = avatarFactory;
         }
 
@@ -82,7 +82,7 @@ namespace Bowerbird.Core.Config
 
         private List<Post> Posts { get; set; }
 
-        private List<GroupAssociation> GroupAssociations { get; set; }
+        //private List<GroupAssociation> GroupAssociations { get; set; }
 
         #endregion
 
@@ -100,7 +100,7 @@ namespace Bowerbird.Core.Config
                 Projects = new List<Project>();
                 Observations = new List<Observation>();
                 Posts = new List<Post>();
-                GroupAssociations = new List<GroupAssociation>();
+                //GroupAssociations = new List<GroupAssociation>();
                 Roles = _documentSession.Query<Role>().ToList();
                 Users = _documentSession.Query<User>().ToList();
 
@@ -202,11 +202,6 @@ namespace Bowerbird.Core.Config
             var organisation = new Organisation(user, name, description, website, _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Organisation), DateTime.UtcNow, TheAppRoot);
             _documentSession.Store(organisation);
 
-            var groupAssociation = new GroupAssociation(TheAppRoot, organisation, user, DateTime.UtcNow);
-            GroupAssociations.Add(groupAssociation);
-            _documentSession.Store(groupAssociation);
-
-            //organisation.SetAncestry(TheAppRoot);
             _documentSession.Store(organisation);
 
             Organisations.Add(organisation);
@@ -231,13 +226,9 @@ namespace Bowerbird.Core.Config
             var team = new Team(user, name, description, website, _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Team), DateTime.UtcNow, parentGroup);
             _documentSession.Store(team);
 
-            var groupAssociation = new GroupAssociation(parentGroup, team, user, DateTime.UtcNow);
-            GroupAssociations.Add(groupAssociation);
-            _documentSession.Store(groupAssociation);
-
             _documentSession.Store(team);
 
-            parentGroup.AddDescendant(team);
+            parentGroup.AddChildGroup(team);
             _documentSession.Store(parentGroup);
 
             Teams.Add(team);
@@ -262,21 +253,15 @@ namespace Bowerbird.Core.Config
             var project = new Project(user, name, description, website, _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Project), DateTime.UtcNow, parentGroup);
             _documentSession.Store(project);
 
-
-            var groupAssociation = new GroupAssociation(parentGroup, project, user, DateTime.UtcNow);
-            GroupAssociations.Add(groupAssociation);
-            _documentSession.Store(groupAssociation);
-
-            project.SetAncestry(parentGroup);
+            project.AddParentGroup(parentGroup);
             _documentSession.Store(project);
 
-            parentGroup.AddDescendant(project);
+            parentGroup.AddChildGroup(project);
             _documentSession.Store(parentGroup);
              
             // Update parent of parent (organisation) with descendant
-            var parentGroupAssociation = GroupAssociations.Single(x => x.ChildGroup.Id == parentGroup.Id);
-            var organisation = Organisations.Single(x => x.Id == parentGroupAssociation.ParentGroup.Id);
-            organisation.AddDescendant(project);
+            var organisation = Organisations.First(y => y.Id == parentGroup.AncestorGroups.First(x => x.GroupType == "organisation").Id);
+            organisation.AddDescendantGroup(project);
             _documentSession.Store(organisation);
 
             Projects.Add(project);
@@ -381,7 +366,7 @@ namespace Bowerbird.Core.Config
         {
             var user = Users.Single(x => x.Id == userId);
 
-            var path = string.Format(@"{0}\media\testdata\{1}.jpg", _configService.GetEnvironmentRootPath(), imageId.ToString());
+            var path = string.Format(@"{0}\media\testdata\{1}.jpg", _configSettings.GetEnvironmentRootPath(), imageId.ToString());
 
             MediaResource mediaResource = null;
 

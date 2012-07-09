@@ -23,6 +23,7 @@ using Raven.Client.Extensions;
 using Raven.Client.Indexes;
 using Bowerbird.Core.Indexes;
 using Raven.Imports.Newtonsoft.Json;
+using Bowerbird.Core.Config;
 
 namespace Bowerbird.Web.Config
 {
@@ -31,18 +32,18 @@ namespace Bowerbird.Web.Config
 
         #region Members
 
-        private readonly IConfigService _configService;
+        private readonly IConfigSettings _configSettings;
 
         #endregion
 
         #region Constructors
 
         public NinjectRavenDocumentStoreProvider(
-            IConfigService configService)
+            IConfigSettings configService)
         {
             Check.RequireNotNull(configService, "configService");
 
-            _configService = configService;
+            _configSettings = configService;
         }
 
         #endregion
@@ -57,14 +58,14 @@ namespace Bowerbird.Web.Config
         {
             var documentStore = new DocumentStore
             {
-                Url = _configService.GetDatabaseUrl()
+                Url = _configSettings.GetDatabaseUrl()
             };
 
-            var hasDefaultDatabase = !string.IsNullOrWhiteSpace(_configService.GetDatabaseName());
+            var hasDefaultDatabase = !string.IsNullOrWhiteSpace(_configSettings.GetDatabaseName());
 
             if (hasDefaultDatabase)
             {
-                documentStore.DefaultDatabase = _configService.GetDatabaseName();
+                documentStore.DefaultDatabase = _configSettings.GetDatabaseName();
             }
 
             //documentStore.Conventions.FindIdentityProperty =
@@ -88,7 +89,7 @@ namespace Bowerbird.Web.Config
 
             if (hasDefaultDatabase)
             {
-                documentStore.DatabaseCommands.EnsureDatabaseExists(_configService.GetDatabaseName());
+                documentStore.DatabaseCommands.EnsureDatabaseExists(_configSettings.GetDatabaseName());
             }
 
             IndexCreation.CreateIndexes(typeof(All_Groups).Assembly, documentStore);

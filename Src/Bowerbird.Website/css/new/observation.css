@@ -1,0 +1,203 @@
+﻿/* stream observation item */
+.observation .observation-details
+{
+    background-color: #FFFFFF;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 2px 0 #5071A6;
+    float: left;
+}
+
+.observation .observation-details h2
+{
+    font-size: 1.8125em;
+    font-weight: 600;
+    letter-spacing: -1px;
+    margin: 0;
+    padding: 10px 15px;
+}
+.observation .observation-details h2 a,
+.observation .observation-details h2 a:hover,
+.observation .observation-details h2 a:active,
+.observation .observation-details h2 a:visited
+{
+    color: #222222;
+    text-decoration: none;
+}
+.observation .observation-details .images
+{
+    float: left;
+    /*margin-bottom: 2%;*/
+    padding-right: 2%;
+    width: 70%;
+}
+.observation .observation-details .images .preview
+{
+    max-height: 600px;
+    overflow: hidden;
+    text-align: center;
+    width: 100%;
+}
+.observation .observation-details .images .preview img
+{
+    float: left;
+    width: 100%;
+}
+.observation .observation-details .images .thumbnails
+{
+    padding-top: 1%;
+}
+.observation .observation-details .images .thumbnails img
+{
+    float: left;
+    margin-right: 1%;
+    width: 19.2%;
+}
+.observation .observation-details .images .thumbnails img:last-child
+{
+    margin-right: 0;
+}
+.observation .observation-details .info
+{
+    float: left;
+    width: 28%;
+}
+.observation .observation-details .observed
+{
+    font-size: 0.875em;
+    font-weight: 600;
+    line-height: 1.25em;
+    margin: 0;
+}
+.observation .observation-details .observed span
+{
+    display: block;
+    font-weight: 500;
+}
+.observation .observation-details .location
+{
+    font-size: 0.875em;
+    font-weight: 600;
+    line-height: 1.25em;
+    padding-top: 20px;
+}
+.observation .observation-details .location .map
+{
+    background-color: #F2F6FA;
+    height: 200px;
+    overflow: hidden;
+}
+.observation .observation-details .location .map img
+{
+    height: 200px;
+    left: -50%;
+    position: relative;
+}
+.observation .observation-details .location span
+{
+    display: block;
+    font-weight: 500;
+}
+#stream .observation-details .projects
+{
+    color: #133A68;
+    padding-bottom: 15px;
+    font-weight: 600;
+}
+#stream .observation-details .projects ul
+{
+    margin: 0;
+    padding: 15px 0 0;
+}
+#stream .observation-details .projects li
+{
+    display: inline;
+}
+#stream .observation-details .projects a
+{
+}
+#stream .observation-details .projects a img
+{
+    height: 78px;
+    margin-right: 9px;
+    width: 78px;
+}
+#stream .observation-details .notes
+{
+    clear: both;
+}
+#stream .observation-details .note
+{
+    border-top: 4px solid #AEC8E2;
+    clear: both;
+}
+#stream .observation-details .note .note-details
+{
+    color: #133A68;
+    font-size: 0.875em;
+    font-weight: 600;
+    line-height: 1.2em;
+    padding: 17px;
+    position: relative;
+}
+#stream .observation-details .note .note-details > div:first-child
+{
+    float: left;
+    padding-right: 2%;
+    width: 70%;
+}
+#stream .observation-details .note .note-details > div:last-child
+{
+    float: left;
+    width: 28%;
+}
+#stream .observation-details .note .note-details .description
+{
+}
+#stream .observation-details .note .note-details p
+{
+    font-size: 0.92857143em;
+    font-weight: 500;
+    margin: 0 0 10px;
+}
+#stream .observation-details .note .identification
+{
+}
+#stream .observation-details .note .identification .scientific-name span
+{
+    font-style: italic;
+    display: block;
+}
+#stream .observation-details .note .identification .author
+{
+}
+#stream .observation-details .note .identification .taxonomy
+{
+}
+#stream .observation-details .note .tags ul
+{
+    margin: 0 0 15px 0;
+    padding: 0;
+}
+#stream .observation-details .note .tags li
+{
+    display: inline;
+}
+#stream .observation-details .note .tags a,
+#stream .observation-details .note .tags a:visited
+{
+    background-color: #E1ECF8;
+    border-radius: 4px 4px 4px 4px;
+    color: #133A68;
+    display: inline-block;
+    font-size: 0.86em;
+    font-weight: 500;
+    margin-top: 6px;
+    padding: 1px 5px 3px;
+    text-decoration: none;
+}
+#stream .observation-details .note .tags a:hover,
+#stream .observation-details .note .tags a:active
+{
+    background-color: #3B9CFF;
+    color: #FFFFFF;
+}

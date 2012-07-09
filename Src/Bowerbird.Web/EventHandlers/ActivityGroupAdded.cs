@@ -78,7 +78,7 @@ namespace Bowerbird.Web.EventHandlers
             if (domainEvent.Sender is Project)
             {
                 var project = domainEvent.DomainModel as Project;
-                var groups = _documentSession.Load<dynamic>(project.Ancestry.Select(x => x.Id));
+                var groups = _documentSession.Load<dynamic>(project.AncestorGroups.Select(x => x.Id));
 
                 dynamic activity = MakeActivity(
                     domainEvent,
@@ -99,7 +99,7 @@ namespace Bowerbird.Web.EventHandlers
             if (domainEvent.Sender is Team)
             {
                 var team = domainEvent.DomainModel as Team;
-                var groups = _documentSession.Load<dynamic>(team.Ancestry.Select(x => x.Id));
+                var groups = _documentSession.Load<dynamic>(team.AncestorGroups.Select(x => x.Id));
 
                 dynamic activity = MakeActivity(
                     domainEvent,
@@ -120,7 +120,7 @@ namespace Bowerbird.Web.EventHandlers
             if (domainEvent.Sender is Organisation)
             {
                 var organisation = domainEvent.DomainModel as Team;
-                var groups = _documentSession.Load<dynamic>(organisation.Ancestry.Select(x => x.Id));
+                var groups = _documentSession.Load<dynamic>(organisation.AncestorGroups.Select(x => x.Id));
 
                 dynamic activity = MakeActivity(
                     domainEvent,
