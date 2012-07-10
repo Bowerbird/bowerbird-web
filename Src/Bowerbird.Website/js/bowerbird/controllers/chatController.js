@@ -69,14 +69,6 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
         chatRegion.close();
     };
 
-    // Used to generate an Guid for a private chat
-    var generateGuid = function () {
-        var S4 = function () {
-            return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
-        };
-        return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
-    };
-
     var generateHash = function (value) {
         var hash = 0;
         if (value.length == 0) return hash;
@@ -220,7 +212,7 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
     // Send a chat message
     ChatController.sendChatMessage = function (chat, message) {
         // Add the chat message to the message list so that user sees it instantly
-        var messageId = generateGuid();
+        var messageId = app.generateGuid();
         chat.chatMessages.add({ Id: messageId, Type: 'usermessage', ChatId: chat.id, FromUser: app.authenticatedUser.user.toJSON(), Timestamp: '', Message: message });
         app.chatRouter.sendChatMessage(chat.id, messageId, message);
     };

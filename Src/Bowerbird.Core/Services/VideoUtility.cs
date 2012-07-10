@@ -12,14 +12,8 @@
  
 */
 
-using System;
-using System.IO;
 using System.Linq;
-using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.Config;
 using Bowerbird.Core.Extensions;
-using System.Text.RegularExpressions;
 using System.Collections.Generic;
 
 namespace Bowerbird.Core.Services
@@ -49,33 +43,33 @@ namespace Bowerbird.Core.Services
 
         #region Methods
 
-        public bool PreviewVideoTag(string videoUrl, out string display)
+        public bool PreviewVideoTag(string videoUrl, out string preview)
         {
             var videoProvider = _providers.Where(x => x.IsMatch(videoUrl)).FirstOrDefault();
 
             if (videoProvider != null)
             {
-                display = videoProvider.PreviewVideoTag(videoProvider.VideoId(videoUrl));
+                preview = videoProvider.SrcTag().AppendWith(videoProvider.VideoId(videoUrl));
 
                 return true;
             }
             else
             {
-                display = _errorMessage;
+                preview = _errorMessage;
 
                 return false;
             }
         }
 
-        public bool IsValidVideo(string url, out string embedScript, out string videoId, out string provider)
+        public bool IsValidVideo(string url, out string srcTag, out string videoId, out string provider)
         {
-            embedScript = videoId = provider = string.Empty;
+            srcTag = videoId = provider = string.Empty;
 
             var videoProvider = _providers.Where(x => x.IsMatch(url)).FirstOrDefault();
 
             if (videoProvider != null)
             {
-                embedScript = videoProvider.EmbedScript();
+                srcTag = videoProvider.SrcTag();
                 videoId = videoProvider.VideoId(url);
                 provider = videoProvider.Name();
 
@@ -130,15 +124,13 @@ namespace Bowerbird.Core.Services
             
             string VideoId(string url);
 
-            string PreviewVideoTag(string videoId, string height = Default.MovieHeight, string width = Default.MovieWidth);
-
-            string EmbedScript();
+            string SrcTag();
         }
 
         private class YoutubeVideoProvider : IVideoProvider
         {
             private List<string> _providerDetection;
-            private const string _embedTag = @"<iframe width='{0}' height='{1}' src='http://www.youtube.com/embed/{2}' frameborder='0' allowfullscreen></iframe>";
+            private const string _srcTag = @"http://www.youtube.com/embed/";
         
             public YoutubeVideoProvider()
             {
@@ -150,14 +142,9 @@ namespace Bowerbird.Core.Services
 	            return "Youtube";
             }
 
-            public string EmbedScript()
+            public string SrcTag()
             {
-                return _embedTag;
-            }
-
-            public string PreviewVideoTag(string videoId, string height = Default.MovieHeight, string width = Default.MovieWidth)
-            {
-                return string.Format(_embedTag, width, height, videoId);
+                return _srcTag;
             }
 
             public bool IsMatch(string url)
@@ -201,7 +188,7 @@ namespace Bowerbird.Core.Services
         private class VimeoVideoProvider : IVideoProvider
         {
             private List<string> _providerDetection;
-            private const string _embedTag = @"<iframe width='{0}' height='{1}' src='http://player.vimeo.com/video/{3}'frameborder='0' allowFullScreen></iframe>";
+            private const string _srcTag = @"http://player.vimeo.com/video/";
         
             public VimeoVideoProvider()
             {
@@ -213,14 +200,9 @@ namespace Bowerbird.Core.Services
 	            return "Vimeo";
             }
 
-            public string EmbedScript()
+            public string SrcTag()
             {
-                return _embedTag;
-            }
-
-            public string PreviewVideoTag(string videoId, string height = Default.MovieHeight, string width = Default.MovieWidth)
-            {
-                return string.Format(_embedTag, width, height, videoId);
+                return _srcTag;
             }
 
             public bool IsMatch(string url)

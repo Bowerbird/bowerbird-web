@@ -136,6 +136,13 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
         }
     };
 
+    app.generateGuid = function () {
+        var S4 = function () {
+            return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+        };
+        return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
+    };
+
     // Load the bootstrapped data into place
     app.bind('initialize:before', function () {
         // Override the marionette renderer so that it uses mustache templates 
@@ -191,7 +198,7 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
                 Backbone.history.on('route', function (route, name) {
                     app.routeHistory.unshift(Backbone.history.fragment);
                 });
-
+               
                 // Start URL and history routing
                 Backbone.history.start({ pushState: true });
             }

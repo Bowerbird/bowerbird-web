@@ -429,6 +429,7 @@
     <Content Include="Views\Shared\ObservationDetails.mustache">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Views\Shared\VideoPreview.mustache" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="404.html" />

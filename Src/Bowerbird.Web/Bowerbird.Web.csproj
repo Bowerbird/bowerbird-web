@@ -182,6 +182,7 @@
     <Compile Include="Factories\IObservationViewFactory.cs" />
     <Compile Include="Factories\ObservationViewFactory.cs" />
     <Compile Include="Services\EmailService.cs" />
+    <Compile Include="ViewModels\MediaResourceInput.cs" />
     <Compile Include="ViewModels\JsonNetResult.cs" />
     <Compile Include="Controllers\MediaResourcesController.cs" />
     <Compile Include="Controllers\ObservationNotesController.cs" />

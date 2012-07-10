@@ -60,7 +60,6 @@ namespace Bowerbird.Core.DomainModels
             string type,
             User createdByUser,
             DateTime uploadedOn,
-            string title,
             string description,
             string link,
             string provider,
@@ -77,7 +76,6 @@ namespace Bowerbird.Core.DomainModels
             }
 
             // Add metadata into the Metadata dictionary
-            Metadata.Add("Title", title);
             Metadata.Add("Description", description);
             Metadata.Add("Url", link);
             Metadata.Add("Provider", provider);

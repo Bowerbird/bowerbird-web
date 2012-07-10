@@ -14,12 +14,14 @@ function ($, _, Backbone) {
         defaults: {
             LinkUri: '',
             EmbedScript: '',
+            PreviewScript: '',
             Title: '',
             Description: '',
             Provider: '',
             ErrorMessage: '',
             VideoId: '',
-            MediaType: 'video'
+            MediaType: 'video',
+            Key: ''
         },
 
         urlRoot: '/videoupload',
@@ -28,7 +30,7 @@ function ($, _, Backbone) {
 
         initialize: function (options) {
             log('EmbeddedVideo.initialize', options);
-            _.bindAll(this, 'previewVideo', 'setEmbedScript');
+            _.bindAll(this, 'previewVideo');
         },
 
         // check that we have either a youtube link or a vimeo link.
@@ -44,14 +46,10 @@ function ($, _, Backbone) {
                 log(data);
                 //this.setEmbedScript(data);
                 that.set('EmbedScript', data.EmbedTags);
+                that.set('PreviewScript', data.PreviewTags);
             });
 
             this.set('LinkUri', linkUri);
-        },
-
-        setEmbedScript: function (data) {
-            log('EmbeddedVideo.setEmbedScript');
-            this.set('EmbedScript', data);
         },
 
         getVideoPreview: function (url) {

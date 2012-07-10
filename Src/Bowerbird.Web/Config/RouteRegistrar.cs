@@ -80,6 +80,11 @@ namespace Bowerbird.Web.Config
                new { controller = "mediaresources", action = "videopreview" });
 
             routes.MapRoute(
+               "media-resource-upload",
+               "mediaresourceupload",
+               new { controller = "mediaresources", action = "mediaresourceupload" });
+
+            routes.MapRoute(
                 "account-resetpassword",
                 "account/resetpassword/{resetpasswordkey}",
                 new { controller = "account", action = "resetpassword", resetpasswordkey = UrlParameter.Optional });

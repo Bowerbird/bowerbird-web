@@ -123,6 +123,13 @@ namespace Bowerbird.Web.Services
             }
         }
 
+        public void SendUploadedMediaResourceToUserChannel(string userId, object mediaResource)
+        {
+            if (ChannelServiceOff()) return;
+
+            GetHub<UserHub>().Clients["user-" + userId].mediaResourceUploaded(mediaResource);
+        }
+
         #endregion
 
         #region Group Channel

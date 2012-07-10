@@ -12,12 +12,11 @@
  
 */
 
-using Bowerbird.Core.DomainModels;
 namespace Bowerbird.Core.Services
 {
     public interface IVideoUtility
     {
-        bool PreviewVideoTag(string url, out string display);
+        bool PreviewVideoTag(string videoUrl, out string preview);
 
         bool IsValidVideo(string url, out string embedScript, out string videoId, out string provider);
     }

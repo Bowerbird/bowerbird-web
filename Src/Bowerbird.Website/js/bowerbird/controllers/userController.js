@@ -21,7 +21,7 @@ function ($, _, Backbone, app, UserFormLayoutView, User) {
         this.userHub.setupOnlineUsers = setupOnlineUsers;
         this.userHub.userStatusUpdate = userStatusUpdate;
         this.userHub.joinedGroup = joinedGroup;
-        this.userHub.mediaResourceCreated = mediaResourceCreated;
+        this.userHub.mediaResourceUploaded = mediaResourceUploaded;
     };
 
     var UserController = {};
@@ -75,10 +75,10 @@ function ($, _, Backbone, app, UserFormLayoutView, User) {
         }
     };
 
-    var mediaResourceCreated = function (model) {
+    var mediaResourceUploaded = function (mediaResource) {
         // detect model type then raise event
-        log('userController.modelCreated', model);
-
+        log('userController.mediaResourceUploaded', mediaResource);
+        app.vent.trigger('mediaResourceUploaded:', mediaResource);
     };
 
     // Show an project form

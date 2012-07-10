@@ -10,20 +10,14 @@
  
 */
 				
-using System.Linq;
 using Bowerbird.Core.Events;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Services;
 using Raven.Client;
-using System.Dynamic;
-using System.IO;
 using Bowerbird.Core.EventHandlers;
-using Bowerbird.Web.Config;
 using Bowerbird.Web.Factories;
 using Bowerbird.Web.Builders;
-using SignalR.Hubs;
-using Bowerbird.Web.Hubs;
 using Bowerbird.Core.Config;
 
 namespace Bowerbird.Web.EventHandlers
@@ -41,6 +35,7 @@ namespace Bowerbird.Web.EventHandlers
         private readonly IUserViewFactory _userViewFactory;
         private readonly IUserViewModelBuilder _userViewModelBuilder;
         private readonly IUserContext _userContext;
+        private readonly IBackChannelService _backChannelService;
 
         #endregion
 
@@ -50,18 +45,21 @@ namespace Bowerbird.Web.EventHandlers
             IDocumentSession documentSession,
             IUserViewFactory userViewFactory,
             IUserViewModelBuilder userViewModelBuilder,
-            IUserContext userContext
+            IUserContext userContext,
+            IBackChannelService backChannelService
             )
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(userViewFactory, "userViewFactory");
             Check.RequireNotNull(userViewModelBuilder, "userViewModelBuilder");
             Check.RequireNotNull(userContext, "userContext");
+            Check.RequireNotNull(backChannelService, "backChannelService");
 
             _documentSession = documentSession;
             _userViewFactory = userViewFactory;
             _userViewModelBuilder = userViewModelBuilder;
             _userContext = userContext;
+            _backChannelService = backChannelService;
         }
 
         #endregion
@@ -78,14 +76,13 @@ namespace Bowerbird.Web.EventHandlers
 
             var mediaResource = new
             {
-                Id = domainEvent.DomainModel.Id,
+                domainEvent.DomainModel.Id,
                 domainEvent.DomainModel.Metadata,
                 domainEvent.DomainModel.Type,
                 domainEvent.DomainModel.Files
             };
 
-            // TODO: Fix this. 
-            //_userContext.GetUserChannel(user.Id).mediaResourceCreated(mediaResource);
+            _backChannelService.SendUploadedMediaResourceToUserChannel(domainEvent.User.Id, mediaResource);
         }
 
         #endregion      

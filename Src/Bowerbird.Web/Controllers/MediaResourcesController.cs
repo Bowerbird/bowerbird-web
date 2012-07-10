@@ -74,7 +74,8 @@ namespace Bowerbird.Web.Controllers
         public ActionResult VideoUpload(
             string Description, 
             string LinkUri, 
-            string Title)
+            string Title,
+            string Key)
         {
             if (!_userContext.HasGroupPermission(PermissionNames.CreateObservation, Constants.AppRootId))
             {
@@ -93,6 +94,7 @@ namespace Bowerbird.Web.Controllers
                 Title = Title,
                 UploadedOn = DateTime.UtcNow,
                 Usage = "video",
+                Key = Key,
                 UserId = _userContext.GetAuthenticatedUserId()
             });
 
@@ -101,16 +103,74 @@ namespace Bowerbird.Web.Controllers
 
         [HttpPost]
         [Authorize]
+        [Transaction]
+        [ValidateInput(false)]
+        public ActionResult MediaResourceUpload(MediaResourceInput mediaResourceUpload)
+        {
+            if (!_userContext.HasGroupPermission(PermissionNames.CreateObservation, Constants.AppRootId))
+            {
+                return HttpUnauthorized();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return JsonFailed();
+            }
+
+            if(mediaResourceUpload.MediaType.ToLower().Equals("video"))
+            {
+                _commandProcessor.Process(new MediaResourceCreateCommand()
+                {
+                    Description = mediaResourceUpload.Description,
+                    LinkUri = mediaResourceUpload.LinkUri,
+                    UploadedOn = DateTime.UtcNow,
+                    Key = mediaResourceUpload.Key,
+                    UserId = _userContext.GetAuthenticatedUserId(),
+                    MediaType = mediaResourceUpload.MediaType
+                });
+            }
+
+            if (mediaResourceUpload.MediaType.ToLower().Equals("image"))
+            {
+                return ProcessPostedImage(
+                    mediaResourceUpload.Key,
+                    mediaResourceUpload.OriginalFileName,
+                    mediaResourceUpload.File, 
+                    "observation"
+                );
+
+                //_commandProcessor.Process(new MediaResourceCreateCommand()
+                //{
+                //    UploadedOn = DateTime.UtcNow,
+                //    Key = mediaResourceUpload.Key,
+                //    UserId = _userContext.GetAuthenticatedUserId(),
+                //    MediaType = mediaResourceUpload.MediaType,
+                //    OriginalFileName = mediaResourceUpload.OriginalFileName,
+                //    Stream = mediaResourceUpload.File.InputStream
+                //});
+            }
+
+            return JsonSuccess();
+        }
+
+        /// <summary>
+        /// Used to generate a Preview video by parsing the passed url and returning a blob of renderable markup
+        /// 
+        /// TODO: Change this to pass back a model that can be injected into an ich template instead.
+        /// </summary>
+        [HttpPost]
+        [Authorize]
         [ValidateInput(false)]
         public ActionResult VideoPreview(string url)
         {
-            string videoOutput;
-            if (_videoUtility.PreviewVideoTag(url, out videoOutput))
+            string preview;
+
+            if (_videoUtility.PreviewVideoTag(url, out preview))
             {
-                return new JsonNetResult(new { success = false, EmbedTags = videoOutput });
+                return new JsonNetResult(new { success = true, PreviewTags = preview });
             }
 
-            return new JsonNetResult(new { success = false, EmbedTags = videoOutput });
+            return new JsonNetResult(new { success = false, PreviewTags = preview });
         }
 
         [HttpPost]

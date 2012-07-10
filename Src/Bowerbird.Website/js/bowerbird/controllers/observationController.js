@@ -74,12 +74,17 @@ function ($, _, Backbone, app, ObservationLayoutView, Observation) {
             });
     };
 
+    ObservationController.mediaResourceUploaded = function (e, mediaResource) {
+        app.vent.trigger('mediaResourceUploaded:', mediaResource );
+    };
+
     // Event Handlers
     // --------------
 
     //    app.vent.on('observation:show', function (id) {
     //        ContributionController.showObservationForm(id);
     //    });
+    
 
     app.addInitializer(function () {
         this.observationRouter = new ObservationRouter({

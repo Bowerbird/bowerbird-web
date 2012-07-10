@@ -9,8 +9,7 @@
 // ---------------------
 
 define(['jquery', 'underscore', 'backbone', 'app', 'ich'],
-function ($, _, Backbone, app, ich) 
-{
+function ($, _, Backbone, app, ich) {
     var MediaResourceItemView = Backbone.View.extend({
         className: 'media-resource-uploaded',
 
@@ -22,8 +21,13 @@ function ($, _, Backbone, app, ich)
 
         initialize: function (options) {
             _.extend(this, Backbone.Events);
-            _.bindAll(this, 'showTempMedia', 'showUploadedMedia', 'removeMediaResource');
-            this.model.on('change:Files', this.showUploadedMedia);
+            _.bindAll(this,
+            'showTempImageMedia',
+            'showUploadedImageMedia',
+            'removeMediaResource');
+
+            // if image or video... 
+            this.model.on('change:Files', this.showUploadedImageMedia);
         },
 
         render: function () {
@@ -37,28 +41,25 @@ function ($, _, Backbone, app, ich)
 
         removeMediaResource: function () {
             this.trigger('mediaresourceview:remove', this.model, this);
-            //            var addToRemoveList = false;
-            //            if (app.get('newObservation').mediaResources.find(function (mr) { return mr.id == this.model.id; }) != null) {
-            //                addToRemoveList = true;
-            //            }
-            //            app.get('newObservation').addMediaResources.remove(this.model.id);
-            //            app.get('newObservation').mediaResources.remove(this.model.id);
-            //            if (addToRemoveList) {
-            //                app.get('newObservation').removeMediaResources.add(this.model);
-            //            }
-            //this.remove();
         },
 
-        showTempMedia: function (img) {
+        showTempImageMedia: function (img) {
             var $image = $(img);
             this.$el.find('div:first-child img').replaceWith($image);
             this.$el.width($image.width());
             this.imageWidth = $image.width();
         },
 
-        showUploadedMedia: function (mediaResource) {
+        showUploadedImageMedia: function (mediaResource) {
             log('MediaResourceItemView.showUploadedMedia', mediaResource);
             this.$el.find('div:first-child img').replaceWith($('<img src="' + mediaResource.get('Files').FullMedium.RelativeUri + '" alt="" />'));
+        },
+
+        showVideoMedia: function (mediaResource) {
+            var src = mediaResource.get('Preview');
+            log('MediaResourceItemView.showVideoMedia:', src);
+            this.$el.find('div:first-child').replaceWith(ich.VideoPreview({ Width: 300, Height: 220, Source: src }));
+            //this.$el.append(ich.VideoPreview({ Width: 220, Height: 200, Source: src }));
         }
     });
 

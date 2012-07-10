@@ -76,7 +76,7 @@ function ($, _, Backbone, ProjectCollection, MediaResourceCollection) {
 
         _setMedia: function () {
             var media = this.mediaResources.map(function (mediaResource) {
-                return { MediaResourceId: mediaResource.id, Description: 'stuff', Licence: 'licenceX' }
+                return { MediaResourceId: mediaResource.id, Description: "Description", Licence: 'licenceX' }
             });
             this.set('Media', media);
         }

@@ -8,8 +8,8 @@
 // ObservationFormLayoutView
 // -------------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editmapview', 'views/editmediaview', 'views/embeddedVideoView', 'models/embeddedvideo', 'datepicker', 'multiselect', 'jqueryui/dialog'],
-function ($, _, Backbone, app, ich, EditMapView, EditMediaView, EmbeddedVideoView, EmbeddedVideo) {
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editmapview', 'views/editmediaview', 'datepicker', 'multiselect', 'jqueryui/dialog'],
+function ($, _, Backbone, app, ich, EditMapView, EditMediaView) {
     var ObservationFormLayoutView = Backbone.Marionette.Layout.extend({
 
         className: 'form observation-form',
@@ -34,8 +34,7 @@ function ($, _, Backbone, app, ich, EditMapView, EditMediaView, EmbeddedVideoVie
             'change input#AnonymiseLocation': '_anonymiseLocationChanged',
             'change #projects-field input:checkbox': '_projectsChanged',
             'change #category-field input:checkbox': '_categoryChanged',
-            'click #media-resource-import-button': '_showImportMedia',
-            'click #media-resource-embed-button': '_showEmbeddedVideo'
+            'click #media-resource-import-button': '_showImportMedia'
         },
 
         initialize: function (options) {
@@ -127,11 +126,6 @@ function ($, _, Backbone, app, ich, EditMapView, EditMediaView, EmbeddedVideoVie
 
         _showImportMedia: function () {
             alert('Coming soon');
-        },
-
-        _showEmbeddedVideo: function () {
-            var embeddedVideo = new EmbeddedVideoView({ el: $('#modal-dialog'), model: new EmbeddedVideo()});
-            embeddedVideo.render();
         },
 
         _contentChanged: function (e) {

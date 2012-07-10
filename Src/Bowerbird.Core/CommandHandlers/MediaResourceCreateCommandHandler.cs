@@ -15,6 +15,7 @@ using System.Linq;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Commands;
+using Bowerbird.Core.Extensions;
 using Raven.Client;
 using Bowerbird.Core.ImageUtilities;
 using Bowerbird.Core.Services;
@@ -25,7 +26,7 @@ namespace Bowerbird.Core.CommandHandlers
 {
     public class MediaResourceCreateCommandHandler 
         : ICommandHandler<MediaResourceCreateCommand, MediaResource>,
-        ICommandHandler<VideoResourceCreateCommand>
+        ICommandHandler<MediaResourceCreateCommand>
     {
         #region Members
 
@@ -142,6 +143,112 @@ namespace Bowerbird.Core.CommandHandlers
             }
         }
 
+        public void Handle(MediaResourceCreateCommand command)
+        {
+            Check.RequireNotNull(command, "command");
+
+            ImageUtility image = null;
+
+            try
+            {
+                var mediaType = command.MediaType;
+
+                var user = _documentSession.Load<User>(command.UserId);
+
+                var mediaResource = new MediaResource(
+                                mediaType,
+                                user,
+                                command.UploadedOn);
+
+                switch (mediaType)
+                {
+                    case "image":
+                        {
+                            _documentSession.Store(mediaResource);
+
+                            ImageDimensions imageDimensions;
+
+                            IDictionary<string, object> exifData;
+                            var imageCreationTasks = new List<ImageCreationTask>();
+
+                            image = ImageUtility
+                                .Load(command.Stream)
+                                .GetExifData(out exifData)
+                                .GetImageDimensions(out imageDimensions);
+
+                            MakeOriginalImageMediaResourceFile(
+                                mediaResource, 
+                                imageCreationTasks,
+                                command.OriginalFileName, 
+                                command.Stream.Length,
+                                imageDimensions, 
+                                exifData);
+
+                            if (command.Usage == "observation")
+                            {
+                                MakeObservationImageMediaResourceFiles(mediaResource, imageCreationTasks);
+                            }
+                            else if (command.Usage == "post")
+                            {
+                                MakePostImageMediaResourceFiles(mediaResource, imageCreationTasks);
+                            }
+                            else if (command.Usage == "user")
+                            {
+                                MakeUserImageMediaResourceFiles(mediaResource, imageCreationTasks);
+                            }
+                            else if (command.Usage == "group")
+                            {
+                                MakeGroupImageMediaResourceFiles(mediaResource, imageCreationTasks);
+                            }
+                            else
+                            {
+                                MakeOtherImageMediaResourceFiles(mediaResource, imageCreationTasks);
+                            }
+
+                            SaveImages(image, mediaResource, imageCreationTasks);
+                        }
+                        break;
+
+                    case "video":
+                        {
+                            string provider; // playback service - youtube, vimeo et al
+                            string videoId; // unique identifier for video on playback service
+                            string embedString; // the embed html tags with format options for video id and sizes
+
+
+                            if (_videoUtility.IsValidVideo(command.LinkUri, out embedString, out videoId, out provider))
+                            {
+                                mediaResource.AddMetadata("Description", command.Description)
+                                    .AddMetadata("Url", command.LinkUri)
+                                    .AddMetadata("Provider", provider)
+                                    .AddMetadata("VideoId", videoId)
+                                    .AddMetadata("Key", command.Key);
+                                
+                                MakeVideoMediaResourceFiles(
+                                    mediaResource,
+                                    embedString.AppendWith(videoId),
+                                    command.LinkUri,
+                                    provider,
+                                    videoId);
+                            }
+                        }
+
+                        break;
+                }
+
+                _documentSession.Store(mediaResource);
+
+                mediaResource.FireCreatedEvent(user);
+            }
+            catch (Exception ex)
+            {
+                if (image != null)
+                    image.Cleanup();
+                
+                throw ex;
+            }
+        }
+
         public void Handle(VideoResourceCreateCommand command)
         {
             Check.RequireNotNull(command, "command");
@@ -156,7 +263,6 @@ namespace Bowerbird.Core.CommandHandlers
                     command.Usage,
                     user,
                     DateTime.UtcNow,
-                    command.Title,
                     command.Description,
                     command.LinkUri,
                     provider,
@@ -169,6 +275,8 @@ namespace Bowerbird.Core.CommandHandlers
                     provider,
                     videoId);
 
+                videoResource.AddMetadata("Key", command.Key);
+
                 _documentSession.Store(videoResource);
 
                 videoResource.FireCreatedEvent(user);
@@ -178,7 +286,7 @@ namespace Bowerbird.Core.CommandHandlers
         private string DetemineMediaType(MediaResourceCreateCommand command)
         {
             // TODO: Determine media type here, assume images only for now
-            return "image";
+            return command.MediaType;
         }
 
         private void MakeOriginalImageMediaResourceFile(MediaResource mediaResource, List<ImageCreationTask> imageCreationTasks, string originalFileName, long size, ImageDimensions imageDimensions, IDictionary<string, object> exifData)
@@ -199,18 +307,6 @@ namespace Bowerbird.Core.CommandHandlers
 
         private void MakeObservationImageMediaResourceFiles(MediaResource mediaResource, List<ImageCreationTask> imageCreationTasks)
         {
-            //AddImageFile(mediaResource, "thumbnail", "jpeg", "jpg", 42, 42);
-            //AddImageFile(mediaResource, "small", "jpeg", "jpg", 130, 120);
-            //AddImageFile(mediaResource, "medium", "jpeg", "jpg", 670, 600);
-            //AddImageFile(mediaResource, "large", "jpeg", "jpg", 1600, 1200);
-
-            //AddImageFile(mediaResource, "ThumbnailSmall", "jpeg", "jpg", 42, 42);
-            //AddImageFile(mediaResource, "ThumbnailMedium", "jpeg", "jpg", 100, 100);
-            //AddImageFile(mediaResource, "ThumbnailLarge", "jpeg", "jpg", 200, 200);
-            //AddImageFile(mediaResource, "FullSmall", "jpeg", "jpg", 130, 120);
-            //AddImageFile(mediaResource, "FullMedium", "jpeg", "jpg", 130, 120);
-            //AddImageFile(mediaResource, "FullLarge", "jpeg", "jpg", 130, 120);
-
             AddImageFile(mediaResource, imageCreationTasks, "ThumbnailSmall", "jpeg", "jpg", 42, 42, false, ImageResizeMode.Crop);
             AddImageFile(mediaResource, imageCreationTasks, "ThumbnailMedium", "jpeg", "jpg", 100, 100, false, ImageResizeMode.Crop);
             AddImageFile(mediaResource, imageCreationTasks, "ThumbnailLarge", "jpeg", "jpg", 200, 200, false, ImageResizeMode.Crop);
@@ -229,11 +325,6 @@ namespace Bowerbird.Core.CommandHandlers
 
         private void MakePostImageMediaResourceFiles(MediaResource mediaResource, List<ImageCreationTask> imageCreationTasks)
         {
-            //AddImageFile(mediaResource, "thumbnail", "jpeg", "jpg", 42, 42);
-            //AddImageFile(mediaResource, "small", "jpeg", "jpg", 130, 120);
-            //AddImageFile(mediaResource, "medium", "jpeg", "jpg", 670, 600);
-            //AddImageFile(mediaResource, "large", "jpeg", "jpg", 1600, 1200);
-
             AddImageFile(mediaResource, imageCreationTasks, "thumbnail", "jpeg", "jpg", 42, 42, false, ImageResizeMode.Crop);
             AddImageFile(mediaResource, imageCreationTasks, "small", "jpeg", "jpg", 130, 120, false, ImageResizeMode.Crop);
             AddImageFile(mediaResource, imageCreationTasks, "medium", "jpeg", "jpg", 670, 600, false, ImageResizeMode.Crop);
@@ -242,11 +333,6 @@ namespace Bowerbird.Core.CommandHandlers
 
         private void MakeUserImageMediaResourceFiles(MediaResource mediaResource, List<ImageCreationTask> imageCreationTasks)
         {
-            //AddImageFile(mediaResource, "thumbnail", "jpeg", "jpg", 42, 42);
-            //AddImageFile(mediaResource, "small", "jpeg", "jpg", 130, 120);
-            //AddImageFile(mediaResource, "medium", "jpeg", "jpg", 670, 600);
-            //AddImageFile(mediaResource, "large", "jpeg", "jpg", 1600, 1200);
-
             AddImageFile(mediaResource, imageCreationTasks, "thumbnail", "jpeg", "jpg", 42, 42, false, ImageResizeMode.Crop);
             AddImageFile(mediaResource, imageCreationTasks, "small", "jpeg", "jpg", 130, 120, false, ImageResizeMode.Crop);
             AddImageFile(mediaResource, imageCreationTasks, "medium", "jpeg", "jpg", 670, 600, false, ImageResizeMode.Crop);
@@ -255,11 +341,6 @@ namespace Bowerbird.Core.CommandHandlers
 
         private void MakeGroupImageMediaResourceFiles(MediaResource mediaResource, List<ImageCreationTask> imageCreationTasks)
         {
-            //AddImageFile(mediaResource, "thumbnail", "jpeg", "jpg", 42, 42);
-            //AddImageFile(mediaResource, "small", "jpeg", "jpg", 130, 120);
-            //AddImageFile(mediaResource, "medium", "jpeg", "jpg", 670, 600);
-            //AddImageFile(mediaResource, "large", "jpeg", "jpg", 1600, 1200);
-
             AddImageFile(mediaResource, imageCreationTasks, "thumbnail", "jpeg", "jpg", 42, 42, false, ImageResizeMode.Crop);
             AddImageFile(mediaResource, imageCreationTasks, "small", "jpeg", "jpg", 130, 120, false, ImageResizeMode.Crop);
             AddImageFile(mediaResource, imageCreationTasks, "medium", "jpeg", "jpg", 670, 600, false, ImageResizeMode.Crop);
@@ -268,11 +349,6 @@ namespace Bowerbird.Core.CommandHandlers
 
         private void MakeOtherImageMediaResourceFiles(MediaResource mediaResource, List<ImageCreationTask> imageCreationTasks)
         {
-            //AddImageFile(mediaResource, "thumbnail", "jpeg", "jpg", 42, 42);
-            //AddImageFile(mediaResource, "small", "jpeg", "jpg", 130, 120);
-            //AddImageFile(mediaResource, "medium", "jpeg", "jpg", 670, 600);
-            //AddImageFile(mediaResource, "large", "jpeg", "jpg", 1600, 1200);
-
             AddImageFile(mediaResource, imageCreationTasks, "thumbnail", "jpeg", "jpg", 42, 42, false, ImageResizeMode.Crop);
             AddImageFile(mediaResource, imageCreationTasks, "small", "jpeg", "jpg", 130, 120, false, ImageResizeMode.Crop);
             AddImageFile(mediaResource, imageCreationTasks, "medium", "jpeg", "jpg", 670, 600, false, ImageResizeMode.Crop);

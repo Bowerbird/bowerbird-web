@@ -18,18 +18,18 @@ function ($, _, Backbone, app, ich) {
         template: 'EmbeddedVideo',
 
         events: {
-            'click #embed-video-clear-button': '_clear', // first form part buttons
-            'click #embed-video-cancel-button': '_cancel',
-            'click #embed-video-view-button': '_viewVideo',
-            'change input#embed-video-link-input': '_updateLinkToModel',
-            'click #embed-video-save-button': '_saveEmbeddedVideo', // second form part buttons
-            'click #embed-video-description-clear-button': '_descriptionClear',
-            'click #embed-video-edit-button': '_previewCancel'
+            'click button#embed-video-clear-button': '_clear',
+            'click button#embed-video-cancel-button': '_cancel',
+            'click button#embed-video-next-button': '_next',
+            'change input#embed-video-link-input': '_updateLink',
+            'change textarea#embed-video-description-input': '_updateDescription'
         },
 
         initialize: function (options) {
             log('embeddedVideoView:initialize', options);
             this.model.on('change:Metadata', this.onMediaResourceFilesChanged, this);
+            this.model.set('MediaStep', 0); // empty model.
+            this.model.set('MediaType', 'video');
         },
 
         onRender: function () {
@@ -39,55 +39,59 @@ function ($, _, Backbone, app, ich) {
             return this;
         },
 
-        _saveEmbeddedVideo: function () {
-            this.model.save();
+        // fire this event when the link has been updated
+        _updateLink: function () {
+            log('embeddedVideoView:_updateLink');
+            this.model.previewVideo($('input#embed-video-link-input').val());
         },
 
-        _updateLinkToModel: function () {
-            this.model.previewVideo($('#embed-video-link-input').val());
-            //            if (!this.model.validateLink($('#embed-video-link-input').val())) {
-            //                $('#embed-video-link-input').val(this.model.get('ErrorMessage'));
-            //            }
+        // Fire this event when the description has been updated
+        _updateDescription: function () {
+            this.model.set('Description', $('input#embed-video-description-input').val());
         },
 
-        _viewVideo: function () {
-            var embedScript = this.model.get('EmbedScript');
-            //var embeddedText = $(':input:#embed-video-script-input').val();
-            if (embedScript != '') {
-                $('div#embed-video-player').html('<center>' + embedScript + '</center>');
-                this._hideElement($('#embed-video-link'));
-                this._showElement($('#embed-video-preview'));
+        // remove the current video preview and reset the form..
+        _clear: function () {
+            this._resetView();
+        },
+
+        // no longer adding a new video
+        _cancel: function () {
+            this._resetView();
+            this._hideElement($('div#modal-dialog'));
+        },
+
+        // set form and model back to their original state
+        _resetView: function () {
+            log('embeddedVideoView:_resetView');
+            $('input#embed-video-link-input').val('');
+            $('#embed-video-description-input').val('');
+            $('div#embed-video-player').html('');
+            this.model.set('VisiblePreview', false);
+            this._hideElement($('div#embed-video-preview'));
+        },
+
+        _next: function () {
+            log('embeddedVideoView:_next');
+            // if we've got a valid video, and we've seen it:
+            if (this.model.get('ValidVideo') && this.model.get('VisiblePreview')) {
+                this._save();
+            }
+            // if we've loaded a new video, display it:
+            else if (this.model.get('ValidVideo')) {
+                var src = this.model.get('Preview');
+                this._showElement($('div#embed-video-preview'));
+                $('div#embed-video-player').empty();
+                this.$el.find('div#embed-video-player').append(ich.VideoPreview({ Width: 520, Height: 400, Source: src }));
+                this.model.set('VisiblePreview', true);
             }
         },
 
-        _cancel: function () {
-            //$(':input:#embed-video-script-input').val('');
-            $(':input:#embed-video-link-input').val('');
-            $('div#embed-video-player').html('');
-            this._resetView();
-            this._hideElement($('#modal-dialog'));
-        },
-
-        _previewCancel: function () {
-            this._showElement($('#embed-video-link'));
-            this._hideElement($('#embed-video-preview'));
-        },
-
-        _clear: function () {
-            //$(':input:#embed-video-script-input').val('');
-            $(':input:#embed-video-link-input').val('');
-            $('div#embed-video-player').html('');
-            this._resetView();
-        },
-
-        _descriptionClear: function () {
-            $(':input:#embed-video-title-input').val('');
-            $(':input:#embed-video-description-input').val('');
-        },
-
-        _resetView: function () {
-            this._showElement($('#embed-video-link'));
-            this._hideElement($('#embed-video-preview'));
+        // trigger the editMediaView to save its model with this model in it..
+        _save: function () {
+            this.model.set('Description', $('#embed-video-description-input').val());
+            this.trigger('videouploaded', this.model);
+            this._cancel();
         },
 
         _hideElement: function (el) {

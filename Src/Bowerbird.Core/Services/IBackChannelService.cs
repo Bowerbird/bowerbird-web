@@ -46,6 +46,11 @@ namespace Bowerbird.Core.Services
         /// </summary>
         void NotifyChatExitedToUserChannel(string userId, string chatId);
 
+        /// <summary>
+        /// Pass a newly created media resource object back to the user
+        /// </summary>
+        void SendUploadedMediaResourceToUserChannel(string userId, object mediaResource);
+
         #endregion
 
         #region Group Channel

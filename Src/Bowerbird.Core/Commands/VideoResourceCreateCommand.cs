@@ -34,5 +34,7 @@ namespace Bowerbird.Core.Commands
         public string Usage { get; set; }
 
         public string UserId { get; set; }
+
+        public string Key { get; set; }
     }
 }
