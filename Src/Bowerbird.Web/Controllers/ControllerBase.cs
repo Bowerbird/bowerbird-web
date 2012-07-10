@@ -135,7 +135,7 @@ namespace Bowerbird.Web.Controllers
             return string.Format("{0}/{1}", name, id);
         }
 
-        protected ActionResult RestfulResult(dynamic viewModel, string prerenderedViewName, string htmlViewName, Action<dynamic> htmlViewTask = null)
+        protected ActionResult RestfulResult(dynamic viewModel, string prerenderedViewName, string htmlViewName, Action<dynamic> htmlViewTask = null, Action<dynamic> jsonViewTask = null)
         {
             ActionResult actionResult = null;
 
@@ -143,6 +143,10 @@ namespace Bowerbird.Web.Controllers
 
             if (Request.IsAjaxRequest())
             {
+                if (jsonViewTask != null)
+                {
+                    jsonViewTask(newViewModel);
+                }
                 actionResult = new JsonNetResult(newViewModel);
             }
             else

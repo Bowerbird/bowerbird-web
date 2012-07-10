@@ -79,7 +79,7 @@ namespace Bowerbird.Web.EventHandlers
 
         public void Handle(MemberCreatedEvent domainEvent)
         {
-            if (domainEvent.DomainModel.Group.GroupType != "userproject") // Do not record an activity for user's on userproject
+            if (domainEvent.DomainModel.Group.GroupType != "userproject") // Do not record an activity for user's in userproject
             {
                 var groupResult = _documentSession
                     .Query<All_Groups.Result, All_Groups>()
@@ -89,7 +89,10 @@ namespace Bowerbird.Web.EventHandlers
 
                 if (groupResult != null)
                 {
-                    Execute(domainEvent, groupResult.Group, groupResult.UserIds.Count(), domainEvent.Sender as User);
+                    if (domainEvent.DomainModel.Group.GroupType != "approot")
+                    {
+                        Execute(domainEvent, groupResult.Group, groupResult.UserIds.Count(), domainEvent.Sender as User);
+                    }
                 }
             }
         }
@@ -115,7 +118,7 @@ namespace Bowerbird.Web.EventHandlers
 
             foreach (var session in user.Sessions)
             {
-                _backChannelService.AddUserToGroupChannel(newMember.Id, session.ConnectionId);
+                _backChannelService.AddUserToGroupChannel(group.Id, session.ConnectionId);
             }
 
             _backChannelService.SendJoinedGroupToUserChannel(user.Id, _groupViewFactory.Make(group, memberCount));

@@ -27,7 +27,6 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, loadImage)
                 '_onUploadAdd');
             this.mediaResourceItemViews = [];
             this.currentUploadKey = 0;
-
         },
 
         render: function () {

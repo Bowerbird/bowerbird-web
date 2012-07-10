@@ -217,7 +217,6 @@
     <Compile Include="DomainModels\IDiscussed.cs" />
     <Compile Include="DomainModels\DenormalisedReferences\DenormalisedRoleReference.cs" />
     <Compile Include="DomainModels\FollowUser.cs" />
-    <Compile Include="DomainModels\GroupAssociation.cs" />
     <Compile Include="DomainModels\DenormalisedReferences\DenormalisedObservationNoteReference.cs" />
     <Compile Include="DomainModels\IContribution.cs" />
     <Compile Include="DomainModels\IGroup.cs" />

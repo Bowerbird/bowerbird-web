@@ -58,12 +58,6 @@ namespace Bowerbird.Web.Config
                 new {controller = "home", action = "publicindex"});
 
             routes.MapRoute(
-                "home-activity",
-                "activity",
-                new { controller = "home", action = "activity" },
-                new { acceptType = new AcceptTypeContstraint("application/json", "text/javascript") });
-
-            routes.MapRoute(
                 "home-notifications",
                 "notifications",
                 new { controller = "home", action = "notifications" },

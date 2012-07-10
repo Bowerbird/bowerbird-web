@@ -157,22 +157,6 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
             // Chats
             app.chats = new ChatCollection();
             app.chatRegions = [];
-
-//            // Notifications
-//            app.activities = new ActivityCollection();
-
-//            // Subscribe to new activities
-//            app.activities.on(
-//                    'add',
-//                    function (activity) {
-//                        this.vent.trigger('newactivity', activity);
-//                        this.vent.trigger('newactivity:' + activity.get('Type'), activity);
-//                        // Fire an event for each group the activity belongs to
-//                        _.each(activity.get('Groups'), function (group) {
-//                            this.vent.trigger('newactivity:' + group.Id);
-//                        }, app);
-//                    },
-//                    this);
         }
 
         // Add the prerendered view string to the app for use by controller duing init of first view

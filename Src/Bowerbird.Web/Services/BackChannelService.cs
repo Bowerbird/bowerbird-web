@@ -147,7 +147,7 @@ namespace Bowerbird.Web.Services
 
                 foreach (var group in activity.Groups)
                 {
-                    groupHub.Clients["group-" + group.Id].newActivity(activity);
+                    groupHub.Clients["group-" + group.Id].newActivity(group.Id, activity);
                 }
             }
         }

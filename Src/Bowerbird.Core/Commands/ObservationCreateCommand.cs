@@ -50,9 +50,9 @@ namespace Bowerbird.Core.Commands
 
         public IEnumerable<Tuple<string, string, string>> Media { get; set; }
 
-        public virtual List<string> Projects { get; set; }
+        public IEnumerable<string> Projects { get; set; }
 
-        public virtual string UserId { get; set; }
+        public string UserId { get; set; }
 
         #endregion
 

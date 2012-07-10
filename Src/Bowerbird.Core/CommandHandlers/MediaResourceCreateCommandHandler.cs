@@ -199,18 +199,6 @@ namespace Bowerbird.Core.CommandHandlers
 
         private void MakeObservationImageMediaResourceFiles(MediaResource mediaResource, List<ImageCreationTask> imageCreationTasks)
         {
-            //AddImageFile(mediaResource, "thumbnail", "jpeg", "jpg", 42, 42);
-            //AddImageFile(mediaResource, "small", "jpeg", "jpg", 130, 120);
-            //AddImageFile(mediaResource, "medium", "jpeg", "jpg", 670, 600);
-            //AddImageFile(mediaResource, "large", "jpeg", "jpg", 1600, 1200);
-
-            //AddImageFile(mediaResource, "ThumbnailSmall", "jpeg", "jpg", 42, 42);
-            //AddImageFile(mediaResource, "ThumbnailMedium", "jpeg", "jpg", 100, 100);
-            //AddImageFile(mediaResource, "ThumbnailLarge", "jpeg", "jpg", 200, 200);
-            //AddImageFile(mediaResource, "FullSmall", "jpeg", "jpg", 130, 120);
-            //AddImageFile(mediaResource, "FullMedium", "jpeg", "jpg", 130, 120);
-            //AddImageFile(mediaResource, "FullLarge", "jpeg", "jpg", 130, 120);
-
             AddImageFile(mediaResource, imageCreationTasks, "ThumbnailSmall", "jpeg", "jpg", 42, 42, false, ImageResizeMode.Crop);
             AddImageFile(mediaResource, imageCreationTasks, "ThumbnailMedium", "jpeg", "jpg", 100, 100, false, ImageResizeMode.Crop);
             AddImageFile(mediaResource, imageCreationTasks, "ThumbnailLarge", "jpeg", "jpg", 200, 200, false, ImageResizeMode.Crop);
@@ -229,54 +217,30 @@ namespace Bowerbird.Core.CommandHandlers
 
         private void MakePostImageMediaResourceFiles(MediaResource mediaResource, List<ImageCreationTask> imageCreationTasks)
         {
-            //AddImageFile(mediaResource, "thumbnail", "jpeg", "jpg", 42, 42);
-            //AddImageFile(mediaResource, "small", "jpeg", "jpg", 130, 120);
-            //AddImageFile(mediaResource, "medium", "jpeg", "jpg", 670, 600);
-            //AddImageFile(mediaResource, "large", "jpeg", "jpg", 1600, 1200);
-
-            AddImageFile(mediaResource, imageCreationTasks, "thumbnail", "jpeg", "jpg", 42, 42, false, ImageResizeMode.Crop);
-            AddImageFile(mediaResource, imageCreationTasks, "small", "jpeg", "jpg", 130, 120, false, ImageResizeMode.Crop);
-            AddImageFile(mediaResource, imageCreationTasks, "medium", "jpeg", "jpg", 670, 600, false, ImageResizeMode.Crop);
-            AddImageFile(mediaResource, imageCreationTasks, "large", "jpeg", "jpg", 1600, 1200, false, ImageResizeMode.Crop);
+            AddImageFile(mediaResource, imageCreationTasks, "ThumbnailSmall", "jpeg", "jpg", 42, 42, false, ImageResizeMode.Crop);
+            AddImageFile(mediaResource, imageCreationTasks, "ThumbnailMedium", "jpeg", "jpg", 100, 100, false, ImageResizeMode.Crop);
+            AddImageFile(mediaResource, imageCreationTasks, "ThumbnailLarge", "jpeg", "jpg", 200, 200, false, ImageResizeMode.Crop);
         }
 
         private void MakeUserImageMediaResourceFiles(MediaResource mediaResource, List<ImageCreationTask> imageCreationTasks)
         {
-            //AddImageFile(mediaResource, "thumbnail", "jpeg", "jpg", 42, 42);
-            //AddImageFile(mediaResource, "small", "jpeg", "jpg", 130, 120);
-            //AddImageFile(mediaResource, "medium", "jpeg", "jpg", 670, 600);
-            //AddImageFile(mediaResource, "large", "jpeg", "jpg", 1600, 1200);
-
-            AddImageFile(mediaResource, imageCreationTasks, "thumbnail", "jpeg", "jpg", 42, 42, false, ImageResizeMode.Crop);
-            AddImageFile(mediaResource, imageCreationTasks, "small", "jpeg", "jpg", 130, 120, false, ImageResizeMode.Crop);
-            AddImageFile(mediaResource, imageCreationTasks, "medium", "jpeg", "jpg", 670, 600, false, ImageResizeMode.Crop);
-            AddImageFile(mediaResource, imageCreationTasks, "large", "jpeg", "jpg", 1600, 1200, false, ImageResizeMode.Crop);
+            AddImageFile(mediaResource, imageCreationTasks, "ThumbnailSmall", "jpeg", "jpg", 42, 42, false, ImageResizeMode.Crop);
+            AddImageFile(mediaResource, imageCreationTasks, "ThumbnailMedium", "jpeg", "jpg", 100, 100, false, ImageResizeMode.Crop);
+            AddImageFile(mediaResource, imageCreationTasks, "ThumbnailLarge", "jpeg", "jpg", 200, 200, false, ImageResizeMode.Crop);
         }
 
         private void MakeGroupImageMediaResourceFiles(MediaResource mediaResource, List<ImageCreationTask> imageCreationTasks)
         {
-            //AddImageFile(mediaResource, "thumbnail", "jpeg", "jpg", 42, 42);
-            //AddImageFile(mediaResource, "small", "jpeg", "jpg", 130, 120);
-            //AddImageFile(mediaResource, "medium", "jpeg", "jpg", 670, 600);
-            //AddImageFile(mediaResource, "large", "jpeg", "jpg", 1600, 1200);
-
-            AddImageFile(mediaResource, imageCreationTasks, "thumbnail", "jpeg", "jpg", 42, 42, false, ImageResizeMode.Crop);
-            AddImageFile(mediaResource, imageCreationTasks, "small", "jpeg", "jpg", 130, 120, false, ImageResizeMode.Crop);
-            AddImageFile(mediaResource, imageCreationTasks, "medium", "jpeg", "jpg", 670, 600, false, ImageResizeMode.Crop);
-            AddImageFile(mediaResource, imageCreationTasks, "large", "jpeg", "jpg", 1600, 1200, false, ImageResizeMode.Crop);
+            AddImageFile(mediaResource, imageCreationTasks, "ThumbnailSmall", "jpeg", "jpg", 42, 42, false, ImageResizeMode.Crop);
+            AddImageFile(mediaResource, imageCreationTasks, "ThumbnailMedium", "jpeg", "jpg", 100, 100, false, ImageResizeMode.Crop);
+            AddImageFile(mediaResource, imageCreationTasks, "ThumbnailLarge", "jpeg", "jpg", 200, 200, false, ImageResizeMode.Crop);
         }
 
         private void MakeOtherImageMediaResourceFiles(MediaResource mediaResource, List<ImageCreationTask> imageCreationTasks)
         {
-            //AddImageFile(mediaResource, "thumbnail", "jpeg", "jpg", 42, 42);
-            //AddImageFile(mediaResource, "small", "jpeg", "jpg", 130, 120);
-            //AddImageFile(mediaResource, "medium", "jpeg", "jpg", 670, 600);
-            //AddImageFile(mediaResource, "large", "jpeg", "jpg", 1600, 1200);
-
-            AddImageFile(mediaResource, imageCreationTasks, "thumbnail", "jpeg", "jpg", 42, 42, false, ImageResizeMode.Crop);
-            AddImageFile(mediaResource, imageCreationTasks, "small", "jpeg", "jpg", 130, 120, false, ImageResizeMode.Crop);
-            AddImageFile(mediaResource, imageCreationTasks, "medium", "jpeg", "jpg", 670, 600, false, ImageResizeMode.Crop);
-            AddImageFile(mediaResource, imageCreationTasks, "large", "jpeg", "jpg", 1600, 1200, false, ImageResizeMode.Crop);
+            AddImageFile(mediaResource, imageCreationTasks, "ThumbnailSmall", "jpeg", "jpg", 42, 42, false, ImageResizeMode.Crop);
+            AddImageFile(mediaResource, imageCreationTasks, "ThumbnailMedium", "jpeg", "jpg", 100, 100, false, ImageResizeMode.Crop);
+            AddImageFile(mediaResource, imageCreationTasks, "ThumbnailLarge", "jpeg", "jpg", 200, 200, false, ImageResizeMode.Crop);
         }
 
         private MediaResourceFile AddImageFile(MediaResource mediaResource, List<ImageCreationTask> imageCreationTasks, string storedRepresentation, string format, string extension, int width, int height, bool? determineBestOrientation, ImageResizeMode? imageResizeMode)

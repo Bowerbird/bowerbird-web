@@ -19,6 +19,7 @@ using Bowerbird.Core.Config;
 using Bowerbird.Web.ViewModels;
 using Bowerbird.Web.Builders;
 using System;
+using System.Dynamic;
 
 namespace Bowerbird.Web.Controllers
 {
@@ -29,6 +30,7 @@ namespace Bowerbird.Web.Controllers
         private readonly ICommandProcessor _commandProcessor;
         private readonly IUserContext _userContext;
         private readonly IActivityViewModelBuilder _activityViewModelBuilder;
+        private readonly IUserViewModelBuilder _userViewModelBuilder;
 
         #endregion
 
@@ -37,16 +39,19 @@ namespace Bowerbird.Web.Controllers
         public HomeController(
             ICommandProcessor commandProcessor,
             IUserContext userContext,
-            IActivityViewModelBuilder activityViewModelBuilder
+            IActivityViewModelBuilder activityViewModelBuilder,
+            IUserViewModelBuilder userViewModelBuilder
             )
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(activityViewModelBuilder, "activityViewModelBuilder");
+            Check.RequireNotNull(userViewModelBuilder, "userViewModelBuilder");
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
             _activityViewModelBuilder = activityViewModelBuilder;
+            _userViewModelBuilder = userViewModelBuilder;
         }
 
         #endregion
@@ -63,38 +68,24 @@ namespace Bowerbird.Web.Controllers
 
         [HttpGet]
         [Authorize]
-        public ActionResult PrivateIndex()
+        public ActionResult PrivateIndex(ActivityInput activityInput, PagingInput pagingInput)
         {
             if (!_userContext.IsUserAuthenticated())
             {
                 return RedirectToAction("PublicIndex");
             }
 
-            var viewModel = new
-            {
-                Stream = true,
-                StreamItems = new object [] {}
-            };
+            dynamic viewModel = new ExpandoObject();
+            viewModel.User = _userViewModelBuilder.BuildUser(_userContext.GetAuthenticatedUserId());
 
             return RestfulResult(
                 viewModel,
                 "home",
-                "privateindex");
-        }
-
-        [HttpGet]
-        [Authorize]
-        public ActionResult Activity(ActivityInput activityInput, PagingInput pagingInput)
-        {
-            if (Request.IsAjaxRequest())
-            {
-                return new JsonNetResult(new
-                {
-                    Model = _activityViewModelBuilder.BuildHomeActivityList(_userContext.GetAuthenticatedUserId(), activityInput, pagingInput)
-                });
-            }
-
-            return HttpNotFound();
+                "privateindex",
+                null,
+                new Action<dynamic>(x => {
+                    x.Model.Activities = _activityViewModelBuilder.BuildHomeActivityList(_userContext.GetAuthenticatedUserId(), activityInput, pagingInput);
+                }));
         }
 
         [HttpGet]
@@ -105,7 +96,10 @@ namespace Bowerbird.Web.Controllers
             {
                 return new JsonNetResult(new
                 {
-                    Model = _activityViewModelBuilder.BuildNotificationActivityList(_userContext.GetAuthenticatedUserId(), activityInput, pagingInput)
+                    Model = new
+                    {
+                        Activities = _activityViewModelBuilder.BuildNotificationActivityList(_userContext.GetAuthenticatedUserId(), activityInput, pagingInput)
+                    }
                 });
             }
 

@@ -179,8 +179,8 @@
     <Compile Include="Controllers\CommentController.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Factories\IObservationViewFactory.cs" />
-    <Compile Include="Factories\ObservationViewFactory.cs" />
+    <Compile Include="Factories\ISightingViewFactory.cs" />
+    <Compile Include="Factories\SightingViewFactory.cs" />
     <Compile Include="Services\EmailService.cs" />
     <Compile Include="ViewModels\JsonNetResult.cs" />
     <Compile Include="Controllers\MediaResourcesController.cs" />

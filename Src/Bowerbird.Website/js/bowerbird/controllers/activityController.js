@@ -19,16 +19,13 @@ function ($, _, Backbone, app, Activity) {
 
     var ActivityController = {};
 
-    var newActivity = function (data) {
-        var activity = new Activity(data);
+    var newActivity = function (groupId, activityData) {
+        var activity = new Activity(activityData);
 
         app.vent.trigger('newactivity', activity);
         app.vent.trigger('newactivity:' + activity.get('Type'), activity);
-        // Fire an event for each group the activity belongs to
-        _.each(activity.get('Groups'), function (group) {
-            this.vent.trigger('newactivity:' + group.Id, activity);
-            this.vent.trigger('newactivity:' + group.Id + ':' + activity.get('Type'), activity);
-        }, app);
+        app.vent.trigger('newactivity:' + groupId, activity);
+        app.vent.trigger('newactivity:' + groupId + ':' + activity.get('Type'), activity);
     };
 
     app.addInitializer(function () {

@@ -36,7 +36,7 @@ namespace Bowerbird.Web.Builders
         #region Fields
 
         private readonly IDocumentSession _documentSession;
-        private readonly IObservationViewFactory _observationViewFactory;
+        private readonly ISightingViewFactory _sightingViewFactory;
 
         #endregion
 
@@ -44,13 +44,13 @@ namespace Bowerbird.Web.Builders
 
         public SightingViewModelBuilder(
             IDocumentSession documentSession,
-            IObservationViewFactory observationViewFactory)
+            ISightingViewFactory sightingViewFactory)
         {
             Check.RequireNotNull(documentSession, "documentSession");
-            Check.RequireNotNull(observationViewFactory, "observationViewFactory");
+            Check.RequireNotNull(sightingViewFactory, "sightingViewFactory");
 
             _documentSession = documentSession;
-            _observationViewFactory = observationViewFactory;
+            _sightingViewFactory = sightingViewFactory;
         }
 
         #endregion
@@ -59,12 +59,19 @@ namespace Bowerbird.Web.Builders
 
         public object BuildNewObservation()
         {
-            return _observationViewFactory.Make();
+            return _sightingViewFactory.MakeObservation();
         }
 
         public object BuildSighting(string sightingId)
         {
-            return _observationViewFactory.Make(_documentSession.Load<Observation>(sightingId));
+            var result = _documentSession
+                .Query<All_Contributions.Result, All_Contributions>()
+                .AsProjection<All_Contributions.Result>()
+                .Where(x => x.ContributionId == sightingId)
+                .ToList()
+                .First();
+
+            return _sightingViewFactory.Make(result);
         }
 
         public object BuildGroupSightingList(string groupId, PagingInput pagingInput)
@@ -77,13 +84,12 @@ namespace Bowerbird.Web.Builders
             return _documentSession
                 .Query<All_Contributions.Result, All_Contributions>()
                 .AsProjection<All_Contributions.Result>()
-                .Where(x => x.GroupId == groupId)
+                .Where(x => x.GroupIds.Any(y => y == groupId))
                 .Statistics(out stats)
                 .Skip(pagingInput.GetSkipIndex())
                 .Take(pagingInput.PageSize)
-                .Select(x => x.Observation)
                 .ToList()
-                .Select(_observationViewFactory.Make)
+                .Select(_sightingViewFactory.Make)
                 .ToPagedList(
                     pagingInput.Page,
                     pagingInput.PageSize,
@@ -100,14 +106,12 @@ namespace Bowerbird.Web.Builders
             return _documentSession
                 .Query<All_Contributions.Result, All_Contributions>()
                 .AsProjection<All_Contributions.Result>()
-                .Include(x => x.UserId)
                 .Where(x => x.UserId == userId)
                 .Statistics(out stats)
                 .Skip(pagingInput.GetSkipIndex())
                 .Take(pagingInput.PageSize)
-                .Select(x => x.Observation)
                 .ToList()
-                .Select(_observationViewFactory.Make)
+                .Select(_sightingViewFactory.Make)
                 .ToPagedList(
                     pagingInput.Page,
                     pagingInput.PageSize,

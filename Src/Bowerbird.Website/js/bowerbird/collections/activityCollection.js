@@ -13,7 +13,7 @@ define(['jquery', 'underscore', 'backbone', 'collections/paginatedcollection', '
     var ActivityCollection = PaginatedCollection.extend({
         model: Activity,
 
-        baseUrl: '/activity',
+        baseUrl: '/',
 
         groupOrUser: null,
 
@@ -30,6 +30,19 @@ define(['jquery', 'underscore', 'backbone', 'collections/paginatedcollection', '
             // Set the moment in time (UTC) around which all activity queries will be performed
             var now = new Date();
             this.baselineDateTime = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
+        },
+
+        parse: function (resp) {
+            var activities = null;
+            if (this.groupOrUser) {
+                activities = resp.Model;
+            } else {
+                activities = resp.Model.Activities;
+            }
+            this.page = activities.Page;
+            this.pageSize = activities.PageSize;
+            this.total = activities.TotalResultCount;
+            return activities.PagedListItems;
         },
 
         comparator: function (streamItem) {

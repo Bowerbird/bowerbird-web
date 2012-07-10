@@ -17,6 +17,7 @@ using System.Linq;
 using Bowerbird.Core.DomainModels;
 using Raven.Abstractions.Indexing;
 using Raven.Client.Indexes;
+using System.Collections.Generic;
 
 namespace Bowerbird.Core.Indexes
 {
@@ -24,64 +25,50 @@ namespace Bowerbird.Core.Indexes
     {
         public class Result
         {
+            public string ContributionType { get; set; }
             public string ContributionId { get; set; }
             public string UserId { get; set; }
             public DateTime CreatedDateTime { get; set; }
-            public string GroupId { get; set; }
-            public string GroupUserId { get; set; }
-            public DateTime GroupCreatedDateTime { get; set; }
-            public string ContributionType { get; set; }
+            public string[] GroupIds { get; set; }
+
             public Observation Observation { get; set; }
             public ObservationNote ObservationNote { get; set; }
             public Post Post { get; set; }
             public User User { get; set; }
-            public User GroupUser { get; set; }
         }
 
         public All_Contributions()
         {
-            AddMap<Observation>(observations =>
-                from c in observations
-                from gc in c.Groups
-                where gc.Group.GroupType != "userproject"
+            AddMap<Observation>(observations => from observation in observations
                 select new
                 {
-                    ContributionId = c.Id,
-                    ContributionType = "Observation",
-                    UserId = c.User.Id,
-                    CreatedDateTime = c.CreatedOn,
-                    GroupId = gc.Group.Id,
-                    GroupUserId = gc.User.Id,
-                    GroupCreatedDateTime = gc.CreatedDateTime
+                    ContributionId = observation.Id,
+                    ContributionType = "observation",
+                    UserId = observation.User.Id,
+                    CreatedDateTime = observation.CreatedOn,
+                    GroupIds = observation.Groups.Select(x => x.Group.Id)
                 });
 
-            AddMap<Post>(posts => 
-                from c in posts
+            AddMap<Post>(posts => from post in posts
                 select new
                 {
-                    ContributionId = c.Id,
-                    ContributionType = "Post",
-                    UserId = c.User.Id,
-                    CreatedDateTime = c.CreatedOn,
-                    c.GroupId,
-                    GroupUserId = c.User.Id,
-                    GroupCreatedDateTime = c.CreatedOn
+                    ContributionId = post.Id,
+                    ContributionType = "post",
+                    UserId = post.User.Id,
+                    CreatedDateTime = post.CreatedOn,
+                    GroupIds = new [] { post.GroupId }
                 });
 
-            AddMap<Observation>(observations =>
-                from o in observations
-                from og in o.Groups
-                where og.Group.GroupType != "userproject"
-                from n in o.Notes
+            AddMap<Observation>(observations => 
+                from observation in observations
+                from note in observation.Notes
                 select new
                 {
-                    ContributionId = n.Id,
-                    ContributionType = "ObservationNote",
-                    UserId = n.UserId,
-                    CreatedDateTime = n.CreatedOn,
-                    GroupId = og.Group.Id,
-                    GroupUserId = og.User.Id,
-                    GroupCreatedDateTime = og.CreatedDateTime
+                    ContributionId = note.Id,
+                    ContributionType = "observationnote",
+                    UserId = note.UserId,
+                    CreatedDateTime = note.CreatedOn,
+                    GroupIds = observation.Groups.Select(x => x.Group.Id)
                 });
 
             TransformResults = (database, results) =>
@@ -90,30 +77,24 @@ namespace Bowerbird.Core.Indexes
                 let observationNote = database.Load<ObservationNote>(result.ContributionId)
                 let post = database.Load<Post>(result.ContributionId)
                 let user = database.Load<User>(result.UserId)
-                let groupUser = database.Load<User>(result.GroupUserId)
                 select new
                 {
                     result.ContributionId,
                     result.ContributionType,
                     result.UserId,
                     result.CreatedDateTime,
-                    result.GroupId,
-                    result.GroupUserId,
-                    result.GroupCreatedDateTime,
+                    result.GroupIds,
                     Observation = observation,
                     ObservationNote = observationNote,
                     Post = post,
-                    User = user,
-                    GroupUser = groupUser
+                    User = user
                 };
 
             Store(x => x.ContributionId, FieldStorage.Yes);
             Store(x => x.ContributionType, FieldStorage.Yes);
             Store(x => x.UserId, FieldStorage.Yes);
             Store(x => x.CreatedDateTime, FieldStorage.Yes);
-            Store(x => x.GroupId, FieldStorage.Yes);
-            Store(x => x.GroupUserId, FieldStorage.Yes);
-            Store(x => x.GroupCreatedDateTime, FieldStorage.Yes);
+            Store(x => x.GroupIds, FieldStorage.Yes);
         }
     }
 }

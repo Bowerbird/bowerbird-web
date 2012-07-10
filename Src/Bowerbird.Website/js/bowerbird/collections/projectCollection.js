@@ -19,6 +19,10 @@ define(['jquery', 'underscore', 'backbone', 'models/project'], function ($, _, B
             _.extend(this, Backbone.Events);
         },
 
+        comparator: function (project) {
+            return project.get('Name');
+        },
+
         toJSONViewModel: function () {
             var viewModels = [];
             _.each(this.models, function (project) {
