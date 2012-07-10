@@ -13222,14 +13222,13 @@ function ($, _, Backbone, app, ich) {
         initialize: function (options) {
             log('embeddedVideoView:initialize', options);
             this.model.on('change:Metadata', this.onMediaResourceFilesChanged, this);
-            this.model.set('MediaStep', 0); // empty model.
             this.model.set('MediaType', 'video');
         },
 
         onRender: function () {
             log('embeddedVideoView:onRender');
-            this._showElement($('#modal-dialog'));
             this._resetView();
+            this._showElement($('#modal-dialog'));
             return this;
         },
 
@@ -13253,6 +13252,7 @@ function ($, _, Backbone, app, ich) {
         _cancel: function () {
             this._resetView();
             this._hideElement($('div#modal-dialog'));
+            this._cleanup();
         },
 
         // set form and model back to their original state
@@ -13285,7 +13285,12 @@ function ($, _, Backbone, app, ich) {
         _save: function () {
             this.model.set('Description', $('#embed-video-description-input').val());
             this.trigger('videouploaded', this.model);
-            this._cancel();
+            this._cleanup();
+        },
+
+        _cleanup: function () {
+            this.remove();
+            //this.unbind();
         },
 
         _hideElement: function (el) {
@@ -24211,8 +24216,7 @@ function ($, _, Backbone, app, ich) {
 
 // View that allows user to choose location on a mpa or via coordinates
 define('views/editmediaview',['jquery', 'underscore', 'backbone', 'app', 'models/mediaresource', 'views/mediaresourceitemview', 'views/embeddedVideoView', 'loadimage', 'fileupload'],
-function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVideoView, loadImage)
-{
+function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVideoView, loadImage) {
     var EditMediaView = Backbone.View.extend({
 
         id: 'media-resources-fieldset',
@@ -24311,7 +24315,7 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVid
 
             this.filesAdded++;
             mediaResourceItemView.showVideoMedia(data);
-            this._showMediaResourceItemView(this, mediaResourceItemView, 220, true);
+            this._showMediaResourceItemView(this, mediaResourceItemView, 280, true);
         },
 
         _showMediaResourceItemView: function (self, mediaResourceItemView, imageWidth, beginAnimation) {
@@ -24390,12 +24394,13 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVid
 
         // when we get an uploaded video back from the server, update the id of the mediaresource
         _onVideoUploadDone: function (data) {
-            log('ediMediaView:_onVideoUploadDone', this.model);
+            log('ediMediaView:_onVideoUploadDone', data);
             var mediaResource = this.model.mediaResources.find(function (item) {
                 return item.get('Key') === data.Metadata.Key;
             });
+            log('mediaResource found: ', mediaResource);
             mediaResource.set(data);
-            this.model.addMediaResource(mediaResource);
+            //this.model.addMediaResource(mediaResource);
         }
     });
 
@@ -25978,10 +25983,13 @@ function ($, _, Backbone, ProjectCollection, MediaResourceCollection) {
         },
 
         _setMedia: function () {
+            log('observation._SetMedia');
             var media = this.mediaResources.map(function (mediaResource) {
+                log("the mediaresource being mapped: ", mediaResource);
                 return { MediaResourceId: mediaResource.id, Description: "Description", Licence: 'licenceX' }
             });
             this.set('Media', media);
+            log('The collection of media: ', media);
         }
     });
 

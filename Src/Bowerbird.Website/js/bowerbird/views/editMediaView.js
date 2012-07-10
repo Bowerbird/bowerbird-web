@@ -10,8 +10,7 @@
 
 // View that allows user to choose location on a mpa or via coordinates
 define(['jquery', 'underscore', 'backbone', 'app', 'models/mediaresource', 'views/mediaresourceitemview', 'views/embeddedVideoView', 'loadimage', 'fileupload'],
-function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVideoView, loadImage)
-{
+function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVideoView, loadImage) {
     var EditMediaView = Backbone.View.extend({
 
         id: 'media-resources-fieldset',
@@ -110,7 +109,7 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVid
 
             this.filesAdded++;
             mediaResourceItemView.showVideoMedia(data);
-            this._showMediaResourceItemView(this, mediaResourceItemView, 220, true);
+            this._showMediaResourceItemView(this, mediaResourceItemView, 280, true);
         },
 
         _showMediaResourceItemView: function (self, mediaResourceItemView, imageWidth, beginAnimation) {
@@ -189,12 +188,13 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVid
 
         // when we get an uploaded video back from the server, update the id of the mediaresource
         _onVideoUploadDone: function (data) {
-            log('ediMediaView:_onVideoUploadDone', this.model);
+            log('ediMediaView:_onVideoUploadDone', data);
             var mediaResource = this.model.mediaResources.find(function (item) {
                 return item.get('Key') === data.Metadata.Key;
             });
+            log('mediaResource found: ', mediaResource);
             mediaResource.set(data);
-            this.model.addMediaResource(mediaResource);
+            //this.model.addMediaResource(mediaResource);
         }
     });
 

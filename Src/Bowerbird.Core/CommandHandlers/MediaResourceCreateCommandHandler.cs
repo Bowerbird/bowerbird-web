@@ -286,7 +286,7 @@ namespace Bowerbird.Core.CommandHandlers
         private string DetemineMediaType(MediaResourceCreateCommand command)
         {
             // TODO: Determine media type here, assume images only for now
-            return command.MediaType;
+            return "image";//command.MediaType;
         }
 
         private void MakeOriginalImageMediaResourceFile(MediaResource mediaResource, List<ImageCreationTask> imageCreationTasks, string originalFileName, long size, ImageDimensions imageDimensions, IDictionary<string, object> exifData)

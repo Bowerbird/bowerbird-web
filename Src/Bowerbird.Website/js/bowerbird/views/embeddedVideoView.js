@@ -28,14 +28,13 @@ function ($, _, Backbone, app, ich) {
         initialize: function (options) {
             log('embeddedVideoView:initialize', options);
             this.model.on('change:Metadata', this.onMediaResourceFilesChanged, this);
-            this.model.set('MediaStep', 0); // empty model.
             this.model.set('MediaType', 'video');
         },
 
         onRender: function () {
             log('embeddedVideoView:onRender');
-            this._showElement($('#modal-dialog'));
             this._resetView();
+            this._showElement($('#modal-dialog'));
             return this;
         },
 
@@ -59,6 +58,7 @@ function ($, _, Backbone, app, ich) {
         _cancel: function () {
             this._resetView();
             this._hideElement($('div#modal-dialog'));
+            this._cleanup();
         },
 
         // set form and model back to their original state
@@ -91,7 +91,12 @@ function ($, _, Backbone, app, ich) {
         _save: function () {
             this.model.set('Description', $('#embed-video-description-input').val());
             this.trigger('videouploaded', this.model);
-            this._cancel();
+            this._cleanup();
+        },
+
+        _cleanup: function () {
+            this.remove();
+            //this.unbind();
         },
 
         _hideElement: function (el) {
