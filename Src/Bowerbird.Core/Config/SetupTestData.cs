@@ -110,15 +110,15 @@ namespace Bowerbird.Core.Config
                 //AddUser("password", "frank@radocaj.com", "Frank", "Radocaj", "globaladministrator", "globalmember");
 
                 // Organisations
-                AddOrganisation("Test Organisation", "Test organisation for Alpha release", "www.bowerbird.org.au", Users[0].Id);
+                AddOrganisation("Test Organisation", "Test organisation for Alpha release. " + GetLoremIpsum(), "www.bowerbird.org.au", Users[0].Id);
                 //AddOrganisation("Museum Victoria", "Museum Victoria", "www.museumvictoria.com", Users[0].Id);
 
                 // Teams
-                AddTeam("Test Team", "Test team for Alpha release", "www.bowerbird.org.au", Users[0].Id, Organisations[0].Id);
+                AddTeam("Test Team", "Test team for Alpha release. " + GetLoremIpsum(), "www.bowerbird.org.au", Users[0].Id, Organisations[0].Id);
                 //AddTeam("Ken Walker tests Bowerbird", "Another Test team for Alpha Release", "www.bowerbird.org.au", Users[0].Id, Organisations[1].Id);
 
                 // Projects
-                AddProject("Test Project", "Test project for Alpha release", "www.bowerbird.org.au", Users[0].Id, Teams[0].Id);
+                AddProject("Test Project", "Test project for Alpha release. " + GetLoremIpsum(), "www.bowerbird.org.au", Users[0].Id, Teams[0].Id);
                 //AddProject("Kens Bees", "Bee Project", "www.bowerbird.org.au", Users[0].Id, Teams[1].Id);
 
                 //// Save changes so that we have access to indexes for observation creation
@@ -404,6 +404,11 @@ namespace Bowerbird.Core.Config
             _documentSession.Store(observation);
 
             Observations.Add(observation);
+        }
+
+        private string GetLoremIpsum()
+        {
+            return "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam gravida, ipsum et congue volutpat, elit libero pretium massa, vel luctus lectus purus et lorem. In nec nisi vel ligula adipiscing bibendum a nec felis. In scelerisque massa eu velit aliquam eget ultrices mi porttitor. Integer vel ante at orci fringilla posuere vitae et ligula. Nam luctus dolor sed odio imperdiet ut vulputate neque pellentesque. Nulla mattis velit quis libero ornare ac bibendum nisl fringilla. Proin semper porta augue, at venenatis nisi pharetra eget. In posuere feugiat dui, at laoreet odio elementum mollis. Proin sed arcu enim, ac pulvinar enim. Sed id luctus tortor. Maecenas aliquam quam in nulla fermentum ornare. Praesent at ante turpis. Phasellus mattis est in sapien pretium id gravida justo mollis. Suspendisse potenti. ";
         }
 
         #endregion      

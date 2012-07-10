@@ -16,8 +16,15 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/streamview', 'collecti
         template: 'Project',
 
         regions: {
-            summary: '.summary',
             details: '.details'
+        },
+
+        serializeData: function () {
+            return {
+                Model: {
+                    Project: this.model.toJSON()
+                }
+            };
         },
 
         showBootstrappedDetails: function () {

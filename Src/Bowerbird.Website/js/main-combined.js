@@ -12527,7 +12527,6 @@ define('models/project',['jquery', 'underscore', 'backbone'], function ($, _, Ba
             Name: '',
             Description: '',
             Website: '',
-            AvatarId: null,
             TeamId: null,
             Type: 'Project'
         },
@@ -12563,6 +12562,10 @@ define('collections/projectcollection',['jquery', 'underscore', 'backbone', 'mod
 
         initialize: function () {
             _.extend(this, Backbone.Events);
+        },
+
+        comparator: function (project) {
+            return project.get('Name');
         },
 
         toJSONViewModel: function () {
@@ -12864,7 +12867,7 @@ define('collections/activitycollection',['jquery', 'underscore', 'backbone', 'co
     var ActivityCollection = PaginatedCollection.extend({
         model: Activity,
 
-        baseUrl: '/activity',
+        baseUrl: '/',
 
         groupOrUser: null,
 
@@ -12881,6 +12884,19 @@ define('collections/activitycollection',['jquery', 'underscore', 'backbone', 'co
             // Set the moment in time (UTC) around which all activity queries will be performed
             var now = new Date();
             this.baselineDateTime = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
+        },
+
+        parse: function (resp) {
+            var activities = null;
+            if (this.groupOrUser) {
+                activities = resp.Model;
+            } else {
+                activities = resp.Model.Activities;
+            }
+            this.page = activities.Page;
+            this.pageSize = activities.PageSize;
+            this.total = activities.TotalResultCount;
+            return activities.PagedListItems;
         },
 
         comparator: function (streamItem) {
@@ -15807,22 +15823,6 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
             // Chats
             app.chats = new ChatCollection();
             app.chatRegions = [];
-
-//            // Notifications
-//            app.activities = new ActivityCollection();
-
-//            // Subscribe to new activities
-//            app.activities.on(
-//                    'add',
-//                    function (activity) {
-//                        this.vent.trigger('newactivity', activity);
-//                        this.vent.trigger('newactivity:' + activity.get('Type'), activity);
-//                        // Fire an event for each group the activity belongs to
-//                        _.each(activity.get('Groups'), function (group) {
-//                            this.vent.trigger('newactivity:' + group.Id);
-//                        }, app);
-//                    },
-//                    this);
         }
 
         // Add the prerendered view string to the app for use by controller duing init of first view
@@ -16140,7 +16140,7 @@ define('views/editavatarview',['jquery', 'underscore', 'backbone', 'app', 'ich',
         render: function () {
             log('editAvatarView:render');
             this._initMediaUploader();
-            $('#avatar-viewer').append('<img src="' + this.model.get('Avatar').Files.medium.RelativeUri + '" />');
+            $('#avatar-viewer').append('<img src="' + this.model.get('Avatar').Files.ThumbnailMedium.RelativeUri + '" />');
             return this;
         },
 
@@ -16192,7 +16192,7 @@ define('views/editavatarview',['jquery', 'underscore', 'backbone', 'app', 'ich',
             this.model.set('AvatarId', data.result.Id);
             var mediaResource = new MediaResource(data.result);
             //this.$el.find('#avatar-viewer img').replaceWith($('<img src="' + mediaResource.get('ProfileImageUri') + '" alt="" />'));
-            $('#avatar-viewer').empty().append('<img src="' + mediaResource.get('Files').medium.RelativeUri + '" width="200px;" />');
+            $('#avatar-viewer').empty().append('<img src="' + mediaResource.get('Files').ThumbnailMedium.RelativeUri + '" width="200px;" />');
         }
     });
 
@@ -18122,16 +18122,13 @@ function ($, _, Backbone, app, Activity) {
 
     var ActivityController = {};
 
-    var newActivity = function (data) {
-        var activity = new Activity(data);
+    var newActivity = function (groupId, activityData) {
+        var activity = new Activity(activityData);
 
         app.vent.trigger('newactivity', activity);
         app.vent.trigger('newactivity:' + activity.get('Type'), activity);
-        // Fire an event for each group the activity belongs to
-        _.each(activity.get('Groups'), function (group) {
-            this.vent.trigger('newactivity:' + group.Id, activity);
-            this.vent.trigger('newactivity:' + group.Id + ':' + activity.get('Type'), activity);
-        }, app);
+        app.vent.trigger('newactivity:' + groupId, activity);
+        app.vent.trigger('newactivity:' + groupId + ':' + activity.get('Type'), activity);
     };
 
     app.addInitializer(function () {
@@ -21193,8 +21190,15 @@ define('views/projectlayoutview',['jquery', 'underscore', 'backbone', 'app', 'vi
         template: 'Project',
 
         regions: {
-            summary: '.summary',
             details: '.details'
+        },
+
+        serializeData: function () {
+            return {
+                Model: {
+                    Project: this.model.toJSON()
+                }
+            };
         },
 
         showBootstrappedDetails: function () {
@@ -21462,9 +21466,26 @@ define('views/homeprivatelayoutview',['jquery', 'underscore', 'backbone', 'app',
             details: '.details'
         },
 
+        onShow: function () {
+            this.showDetails();
+        },
+
         showBootstrappedDetails: function () {
             this.initializeRegions();
             this.$el = $('#content .home');
+            this.showDetails();
+        },
+
+        showDetails: function () {
+            var that = this;
+            this.$el.find('.close-intro').on('click', function (e) {
+                e.preventDefault();
+                $('.intro').slideUp('fast', function () {
+                    that.$el.find('.intro').remove();
+                });
+                // TODO: Save intro closed status
+                return false;
+            });
         },
 
         showStream: function () {
@@ -21489,6 +21510,14 @@ define('views/homeprivatelayoutview',['jquery', 'underscore', 'backbone', 'app',
             }
 
             activityCollection.fetchFirstPage();
+        },
+
+        closeIntro: function (e) {
+            log('yo');
+            //e.preventDefault();
+            this.$el.find('.intro').remove();
+            // TODO: Notify server
+            e.stopPropagation();
         }
     });
 
@@ -21518,8 +21547,6 @@ function ($, _, Backbone, app, HomePublicLayoutView, HomePrivateLayoutView) {
     // ----------
 
     HomeController.showHomeStream = function () {
-        log('showing home stream', this, this);
-
         var homeLayoutView = null;
 
         if (app.authenticatedUser) {
@@ -24205,7 +24232,6 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVid
                 '_onImageUploadAdd');
             this.mediaResourceItemViews = [];
             this.currentUploadKey = '';
-
             app.vent.on('mediaResourceUploaded:', this._onVideoUploadDone, this);
         },
 
@@ -25700,14 +25726,14 @@ function ($, _, Backbone, app, ich, EditMapView, EditMediaView) {
                     }
                     var project = app.authenticatedUser.projects.get(option.value);
 
-                    html += ' /><img src="' + project.get('Avatar').Files.thumbnail.RelativeUri + '" alt="" />' + project.get('Name') + '</label>';
+                    html += ' /><img src="' + project.get('Avatar').Files.ThumbnailMedium.RelativeUri + '" alt="" />' + project.get('Name') + '</label>';
                     return html;
                 },
                 oneOrMoreSelected: function (selectedOptions) {
                     var $selectedHtml = $('<div />');
                     _.each(selectedOptions, function (option) {
                         var project = app.authenticatedUser.projects.get(option.value);
-                        $selectedHtml.append('<span class="selected-project"><img src="' + project.get('Avatar').Files.thumbnail.RelativeUri + '" alt="" />' + option.text + '</span> ');
+                        $selectedHtml.append('<span class="selected-project"><img src="' + project.get('Avatar').Files.ThumbnailMedium.RelativeUri + '" alt="" />' + option.text + '</span> ');
                     });
                     return $selectedHtml.children();
                 }
@@ -26838,10 +26864,9 @@ function ($, _, Backbone, app, ProjectLayoutView, ProjectFormLayoutView, Project
         $.when(getModel(id))
             .done(function (model) {
                 var project = new Project(model.Project);
-                log('HACK: injected projects/ into project id value');
-                project.set('Id', 'projects/' + id);
                 var projectLayoutView = new ProjectLayoutView({ model: project });
-                app.showFormContentView(projectLayoutView, 'projects');
+                //app.showFormContentView(projectLayoutView, 'projects');
+                app.content[app.getShowViewMethodName('projects')](projectLayoutView);
                 if (app.isPrerendering('projects')) {
                     projectLayoutView.showBootstrappedDetails();
                 }
@@ -28265,7 +28290,12 @@ define('views/sidebarmenugroupcompositeview',['jquery', 'underscore', 'backbone'
         },
 
         appendHtml: function (collectionView, itemView) {
-            collectionView.$el.find('#' + this.type + '-menu-group-list').append(itemView.el);
+            var index = collectionView.collection.indexOf(itemView.model);
+            if (index === 0) {
+                collectionView.$el.find('#' + this.type + '-menu-group-list').append(itemView.el);
+            } else {
+                collectionView.$el.find('#' + this.type + '-menu-group-list > li').eq(index - 1).after(itemView.el);
+            }
         },
 
         serializeData: function () {
@@ -28312,13 +28342,16 @@ function ($, _, Backbone, app, Project) {
         },
 
         onRender: function () {
+            var that = this;
             $(this.el).children('a').on('click', function (e) {
                 e.preventDefault();
                 app.groupUserRouter.navigate($(this).attr('href'), { trigger: true });
+                that.activityCount = 0;
+                that.$el.find('p span').remove();
                 return false;
             });
 
-            app.vent.on('newactivity:observationadded', this.observationAdded, this);
+            app.vent.on('newactivity:' + this.model.id + ':observationadded newactivity:' + this.model.id + ':postadded newactivity:' + this.model.id + ':observationnoteadded', this.onNewActivityReceived, this);
         },
 
         serializeData: function () {
@@ -28348,9 +28381,9 @@ function ($, _, Backbone, app, Project) {
             app.vent.trigger('chats:joinGroupChat', this.model);
         },
 
-        observationAdded: function (activity) {
+        onNewActivityReceived: function (activity) {
             _.each(activity.get('Groups'), function (group) {
-                if (group.Id == this.model.id) {
+                if (group.Id === this.model.id) {
                     this.activityCount++;
                     if (this.activityCount == 1) {
                         this.$el.find('p').append('<span title=""></span>');
@@ -28574,24 +28607,6 @@ function ($, _, Backbone, app, SidebarMenuGroupCompositeView, SidebarProjectItem
                 //app.vent.trigger('home:show');
                 return false;
             });
-//            this.$el.find('#project-menu-group-list a').on('click', function (e) {
-//                e.preventDefault();
-//                app.projectRouter.navigate($(this).attr('href'), { trigger: true });
-//                //app.vent.trigger('home:show');
-//                return false;
-//            });
-//            this.$el.find('#team-menu-group-list a').on('click', function (e) {
-//                e.preventDefault();
-//                app.teamRouter.navigate($(this).attr('href'), { trigger: true });
-//                //app.vent.trigger('home:show');
-//                return false;
-//            });
-//            this.$el.find('#organisation-menu-group-list a').on('click', function (e) {
-//                e.preventDefault();
-//                app.organisationRouter.navigate($(this).attr('href'), { trigger: true });
-//                //app.vent.trigger('home:show');
-//                return false;
-//            });
 
             app.authenticatedUser.projects.on('add', this.addProject, this);
         },

@@ -1,26 +1,29 @@
-﻿<div class="summary">
-  <img src="{{Model.Project.Avatar.Files.medium.RelativeUri}}" alt="" />
-  <h1>{{Model.Project.Name}}</h1>
-  <p>{{Model.Project.Description}}</p>
-</div>
-<div class="tab-bar">
-  <ul class="tabs">
-    <li>
-      <a href="/projects/{{Model.Project.Id}}" class="selected">Activity</a>
-    </li>
-    <li>
-      <a href="/projects/{{Model.Project.Id}}/observations">Observations</a>
-    </li>
-    <li>
-      <a href="/projects/{{Model.Project.Id}}/posts">Posts</a>
-    </li>
-    <li>
-      <a href="/projects/{{Model.Project.Id}}/members">Members</a>
-    </li>
-    <li>
-      <a href="/projects/{{Model.Project.Id}}/about">About</a>
-    </li>
-  </ul>
+﻿<h2>Project</h2>
+<div class="summary">
+  <img src="{{Model.Project.Avatar.Files.ThumbnailLarge.RelativeUri}}" alt="{{Model.Project.Name}}" />
+  <div>
+    <h1>{{Model.Project.Name}}</h1>
+    <p>{{Model.Project.Description}}</p>
+  </div>
+  <div class="tab-bar large">
+    <ul class="tabs">
+      <li>
+        <a href="/{{Model.Project.Id}}" class="tab-button selected">Activity</a>
+      </li>
+      <li>
+        <a href="/{{Model.Project.Id}}/observations" class="tab-button">Observations</a>
+      </li>
+      <li>
+        <a href="/{{Model.Project.Id}}/posts" class="tab-button">Posts</a>
+      </li>
+      <li>
+        <a href="/{{Model.Project.Id}}/members" class="tab-button">Members</a>
+      </li>
+      <li>
+        <a href="/{{Model.Project.Id}}/about" class="tab-button">About</a>
+      </li>
+    </ul>
+  </div>
 </div>
 <div class="details">
   <div id="stream">

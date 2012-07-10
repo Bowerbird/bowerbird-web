@@ -13,13 +13,16 @@
     {{/Model.ShowThumbnails}}
   </div>
   <div class="info">
+    <div class="user">
+      <img src="{{Model.Observation.User.Avatar.Files.ThumbnailMedium.RelativeUri}}" alt="{{Model.Observation.User.Name}}" />
+      <div>{{Model.Observation.User.Name}}</div>
+    </div>
     <div class="observed">
       Observed
       <span>{{Model.Observation.ObservedOnDate}}</span>
       <span>{{Model.Observation.ObservedOnTime}} AEST</span>
     </div>
     <div class="location">
-      Location
       <div class="map">
         <img src="http://maps.googleapis.com/maps/api/staticmap?zoom=8&size=400x200&scale=2&maptype=terrain&markers=color:blue|{{Model.Observation.Latitude}},{{Model.Observation.Longitude}}&sensor=false" alt="Map of location" />
       </div>

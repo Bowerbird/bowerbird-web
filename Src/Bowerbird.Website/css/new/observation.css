@@ -1,19 +1,29 @@
 ﻿/* stream observation item */
-.observation .observation-details
+.observation .observation-details,
+.observation .notes-details,
+.observation .comments-details
 {
+    width: 100%;
     background-color: #FFFFFF;
     border-radius: 4px 4px 4px 4px;
     box-shadow: 0 1px 2px 0 #5071A6;
     float: left;
 }
-
+.observation .notes-details
+{
+    height: 100px;
+}
+.observation .comments-details
+{
+    height: 100px;
+}
 .observation .observation-details h2
 {
-    font-size: 1.8125em;
+    font-size: 2em;
     font-weight: 600;
     letter-spacing: -1px;
     margin: 0;
-    padding: 10px 15px;
+    padding: 17px 15px;    
 }
 .observation .observation-details h2 a,
 .observation .observation-details h2 a:hover,
@@ -61,12 +71,25 @@
     float: left;
     width: 28%;
 }
+.observation .observation-details .user
+{
+    font-size: 0.875em;
+    font-weight: 600;
+    line-height: 1.25em;
+    margin: 0;
+}
+.observation .observation-details .user img
+{
+    width: 100px;
+    height: 100px;
+}
 .observation .observation-details .observed
 {
     font-size: 0.875em;
     font-weight: 600;
     line-height: 1.25em;
     margin: 0;
+    padding-top: 20px;
 }
 .observation .observation-details .observed span
 {
@@ -200,4 +223,92 @@
 {
     background-color: #3B9CFF;
     color: #FFFFFF;
+}
+
+
+
+/**********************/
+.home .intro
+{
+background-color: #FFFFFF;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 2px 0 #5071A6;
+    margin-bottom: 20px;
+    padding: 15px 30px;
+    position: relative;
+}
+.home .intro h2
+{
+color: #222222;
+    font-size: 1.75em;
+    margin-bottom: 15px;
+}
+.home .intro p
+{
+font-size: 0.875em;
+    line-height: 1.3em;
+}
+.home .intro h3
+{
+font-size: 1.1em;
+    margin-bottom: 0;
+    margin-top: 15px;
+}
+.home .intro .close-intro
+{
+    background: url("/img/glyphicons-halflings-white.png") no-repeat scroll -312px 0 #CFDDEB;
+    border: 2px solid #CFDDEB;
+    border-radius: 10px 10px 10px 10px;
+    display: block;
+    height: 14px;
+    position: absolute;
+    right: 10px;
+    text-indent: -99999px;
+    top: 9px;
+    width: 14px; 
+}
+.home .intro .close-intro:hover
+{
+    background: url("/img/glyphicons-halflings-white.png") no-repeat scroll -312px 0 #1B83EB;
+    border: 2px solid #1B83EB;
+}
+
+/**********************/
+.project > .summary
+{
+    background-color: #FFFFFF;
+    border-radius: 4px 4px 0 0;
+    box-shadow: 0 1px 2px 0 #5071A6;
+}
+.project > .summary img
+{
+    border-radius: 4px 0 0 0;
+    display: block;
+    float: left;
+    margin: 0 15px 0 0;
+    padding: 0;
+}
+.project > .summary h1
+{
+    color: #222222;
+    display: block;
+    overflow: hidden;
+    padding-right: 15px;
+    text-align: left;
+    text-overflow: ellipsis;
+    text-shadow: none;
+    white-space: nowrap;
+}
+.project > .summary p
+{
+    display: block;
+    font-size: 0.875em;
+    line-height: 1.4em;
+    margin: 0 15px 15px 0;
+    max-height: 135px;
+    overflow: hidden;
+}
+.project .tab-bar 
+{
+    clear: both;
 }

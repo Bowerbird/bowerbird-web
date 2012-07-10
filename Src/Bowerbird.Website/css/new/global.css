@@ -36,6 +36,15 @@ body
 }
 /*
 *
+*Hidden elements
+*
+*/
+.hidden
+{
+    display: none;
+}
+/*
+*
 * Body, header, content and footer layouts
 *
 */
@@ -49,6 +58,7 @@ body
     height: 100%;
     min-height: 100%;
     text-shadow: rgba(0,0,0,0) 0px 0px 1px;
+    overflow-y: scroll;
 }
 header {
     position: fixed;
@@ -1412,6 +1422,7 @@ header nav#search-menu
 }
 #sidebar .menu-group-item a > div p span
 {
+    background-color: #3BAB24;
     background-image: -moz-linear-gradient(right bottom , #1E5707 33%, #3BAB24 79%);
     border-radius: 4px 4px 4px 4px;
     box-shadow: 0 1px 2px 0 #5071A6;
@@ -1518,9 +1529,9 @@ header nav#search-menu
     display: block;
     font-size: 0.75em;
     font-weight: 700;
+    line-height: 3em;
     text-shadow: 0 1px 0 #FFFFFF;
     text-transform: uppercase;
-    margin-bottom: 13px;
 }
 /* selected filter group */
 /*.project > .summary
@@ -1601,11 +1612,11 @@ header nav#search-menu
 }
 #notifications h2
 {
-color: #6997C5;
+    color: #6997C5;
     display: block;
     font-size: 0.75em;
     font-weight: 700;
-    margin-bottom: 13px;
+    margin-bottom: 6px;
     text-shadow: 0 1px 0 #FFFFFF;
     text-transform: uppercase;
 }

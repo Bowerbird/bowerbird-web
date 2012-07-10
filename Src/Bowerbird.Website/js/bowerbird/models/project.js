@@ -15,7 +15,6 @@ define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
             Name: '',
             Description: '',
             Website: '',
-            AvatarId: null,
             TeamId: null,
             Type: 'Project'
         },

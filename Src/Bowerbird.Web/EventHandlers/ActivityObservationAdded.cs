@@ -45,7 +45,7 @@ namespace Bowerbird.Web.EventHandlers
         private readonly IGroupViewFactory _groupViewFactory;
         private readonly IBackChannelService _backChannelService;
         private readonly IUserViewModelBuilder _userViewModelBuilder;
-        private readonly IObservationViewFactory _observationViewFactory;
+        private readonly ISightingViewFactory _sightingViewFactory;
 
         #endregion
 
@@ -57,7 +57,7 @@ namespace Bowerbird.Web.EventHandlers
             IGroupViewFactory groupViewFactory,
             IBackChannelService backChannelService,
             IUserViewModelBuilder userViewModelBuilder,
-            IObservationViewFactory observationViewFactory
+            ISightingViewFactory sightingViewFactory
             )
         {
             Check.RequireNotNull(documentSession, "documentSession");
@@ -65,14 +65,14 @@ namespace Bowerbird.Web.EventHandlers
             Check.RequireNotNull(groupViewFactory, "groupViewFactory");
             Check.RequireNotNull(backChannelService, "backChannelService");
             Check.RequireNotNull(userViewModelBuilder, "userViewModelBuilder");
-            Check.RequireNotNull(observationViewFactory, "observationViewFactory");
+            Check.RequireNotNull(sightingViewFactory, "sightingViewFactory");
 
             _documentSession = documentSession;
             _userViewFactory = userViewFactory;
             _groupViewFactory = groupViewFactory;
             _backChannelService = backChannelService;
             _userViewModelBuilder = userViewModelBuilder;
-            _observationViewFactory = observationViewFactory;
+            _sightingViewFactory = sightingViewFactory;
         }
 
         #endregion
@@ -93,7 +93,7 @@ namespace Bowerbird.Web.EventHandlers
 
             activity.ObservationAdded = new
             {
-                Observation = _observationViewFactory.Make(domainEvent.DomainModel)
+                Observation = _sightingViewFactory.Make(domainEvent.DomainModel, domainEvent.User)
             };
 
             _documentSession.Store(activity);
@@ -110,7 +110,7 @@ namespace Bowerbird.Web.EventHandlers
 
             activity.ObservationAdded = new
             {
-                Observation = _observationViewFactory.Make(domainEvent.Sender as Observation)
+                Observation = _sightingViewFactory.Make(domainEvent.Sender as Observation, domainEvent.User)
             };
 
             _documentSession.Store(activity);

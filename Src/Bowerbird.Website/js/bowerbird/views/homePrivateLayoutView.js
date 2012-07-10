@@ -21,9 +21,26 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/streamview', 'collecti
             details: '.details'
         },
 
+        onShow: function () {
+            this.showDetails();
+        },
+
         showBootstrappedDetails: function () {
             this.initializeRegions();
             this.$el = $('#content .home');
+            this.showDetails();
+        },
+
+        showDetails: function () {
+            var that = this;
+            this.$el.find('.close-intro').on('click', function (e) {
+                e.preventDefault();
+                $('.intro').slideUp('fast', function () {
+                    that.$el.find('.intro').remove();
+                });
+                // TODO: Save intro closed status
+                return false;
+            });
         },
 
         showStream: function () {
@@ -48,6 +65,14 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/streamview', 'collecti
             }
 
             activityCollection.fetchFirstPage();
+        },
+
+        closeIntro: function (e) {
+            log('yo');
+            //e.preventDefault();
+            this.$el.find('.intro').remove();
+            // TODO: Notify server
+            e.stopPropagation();
         }
     });
 

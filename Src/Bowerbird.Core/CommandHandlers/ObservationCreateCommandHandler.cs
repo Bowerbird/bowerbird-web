@@ -81,7 +81,7 @@ namespace Bowerbird.Core.CommandHandlers
 
             var projects = new List<Project>();
 
-            if (observationCreateCommand.Projects != null && observationCreateCommand.Projects.Count > 0)
+            if (observationCreateCommand.Projects != null && observationCreateCommand.Projects.Count() > 0)
             {
                 projects = _documentSession
                     .Query<Project>()

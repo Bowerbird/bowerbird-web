@@ -63,11 +63,15 @@
     </article>
     <footer>
     </footer>
-    <script data-main="/js/{{JavascriptSource}}" src="/js/libs/require/require.js?v={{#Ver}}{{{Ver}}}{{/Ver}}{{^Ver}}0{{/Ver}}"></script>
+    <img src="/img/loader.png" alt="" class="hidden" />
+    <!--<script data-main="/js/{{JavascriptSource}}" src="/js/libs/require/require.js?v={{#Ver}}{{{Ver}}}{{/Ver}}{{^Ver}}0{{/Ver}}"></script>-->
+    <script src="/js/libs/require/require.js?v={{#Ver}}{{{Ver}}}{{/Ver}}{{^Ver}}0{{/Ver}}"></script>
     <script type="text/javascript">
-        define('bootstrap-data', function() {
-          return {{{BootstrappedJson}}};
-        });
+      define('bootstrap-data', function() {
+      return {{{BootstrappedJson}}};
+      });
+      // Ideally we wouldn't need the lione below as this would be loaded via data-main attribute, but Opera has a bug: https://github.com/jrburke/requirejs/issues/357
+      require(['/js/{{JavascriptSource}}']);
     </script>
     <!--{{#RavenProfiler}}{{{RavenProfiler}}}{{/RavenProfiler}}-->
   </body>

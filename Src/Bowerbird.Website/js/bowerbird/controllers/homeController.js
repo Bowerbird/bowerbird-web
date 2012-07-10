@@ -21,8 +21,6 @@ function ($, _, Backbone, app, HomePublicLayoutView, HomePrivateLayoutView) {
     // ----------
 
     HomeController.showHomeStream = function () {
-        log('showing home stream', this, this);
-
         var homeLayoutView = null;
 
         if (app.authenticatedUser) {

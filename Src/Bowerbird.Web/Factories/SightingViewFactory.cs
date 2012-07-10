@@ -3,17 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Indexes;
+using Bowerbird.Core.DesignByContract;
 
 namespace Bowerbird.Web.Factories
 {
-    public class ObservationViewFactory : IObservationViewFactory
+    public class SightingViewFactory : ISightingViewFactory
     {
 
         #region Members
 
+        private readonly IUserViewFactory _userViewFactory;
+
         #endregion
 
         #region Constructors
+
+        public SightingViewFactory(IUserViewFactory userViewFactory)
+        {
+            Check.RequireNotNull(userViewFactory, "userViewFactory");
+
+            _userViewFactory = userViewFactory;
+        }
 
         #endregion
 
@@ -23,7 +34,7 @@ namespace Bowerbird.Web.Factories
 
         #region Methods
 
-        public object Make()
+        public object MakeObservation()
         {
             return new
             {
@@ -40,7 +51,12 @@ namespace Bowerbird.Web.Factories
             };
         }
 
-        public object Make(Observation observation)
+        public object Make(All_Contributions.Result result)
+        {
+            return Make(result.Observation, result.User);
+        }
+
+        public object Make(Observation observation, User user)
         {
             return new
             {
@@ -56,7 +72,8 @@ namespace Bowerbird.Web.Factories
                 observation.AnonymiseLocation,
                 observation.Media,
                 PrimaryMedia = observation.GetPrimaryMedia(),
-                Projects = observation.Groups.Select(x => x.Group.Id)
+                Projects = observation.Groups.Select(x => x.Group.Id),
+                User = _userViewFactory.Make(user)
             };
         }
 

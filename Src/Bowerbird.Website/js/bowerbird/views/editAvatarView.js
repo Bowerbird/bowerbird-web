@@ -34,7 +34,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/avataritemview'
         render: function () {
             log('editAvatarView:render');
             this._initMediaUploader();
-            $('#avatar-viewer').append('<img src="' + this.model.get('Avatar').Files.medium.RelativeUri + '" />');
+            $('#avatar-viewer').append('<img src="' + this.model.get('Avatar').Files.ThumbnailMedium.RelativeUri + '" />');
             return this;
         },
 
@@ -86,7 +86,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/avataritemview'
             this.model.set('AvatarId', data.result.Id);
             var mediaResource = new MediaResource(data.result);
             //this.$el.find('#avatar-viewer img').replaceWith($('<img src="' + mediaResource.get('ProfileImageUri') + '" alt="" />'));
-            $('#avatar-viewer').empty().append('<img src="' + mediaResource.get('Files').medium.RelativeUri + '" width="200px;" />');
+            $('#avatar-viewer').empty().append('<img src="' + mediaResource.get('Files').ThumbnailMedium.RelativeUri + '" width="200px;" />');
         }
     });
 

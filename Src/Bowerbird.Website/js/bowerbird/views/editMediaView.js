@@ -31,7 +31,6 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVid
                 '_onImageUploadAdd');
             this.mediaResourceItemViews = [];
             this.currentUploadKey = '';
-
             app.vent.on('mediaResourceUploaded:', this._onVideoUploadDone, this);
         },
 

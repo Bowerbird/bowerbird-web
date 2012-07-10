@@ -14,6 +14,8 @@ namespace Bowerbird.Core.DomainModels
 
         string Name { get; }
 
+        string Description { get; }
+
         MediaResource Avatar { get; }
 
         string GroupType { get; }

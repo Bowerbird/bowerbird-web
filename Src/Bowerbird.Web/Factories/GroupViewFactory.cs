@@ -38,6 +38,7 @@ namespace Bowerbird.Web.Factories
 
             if (result.Group is IPublicGroup)
             {
+                view.Description = ((IPublicGroup)result.Group).Description;
                 view.Avatar = ((IPublicGroup)result.Group).Avatar;
             }
 
@@ -57,6 +58,7 @@ namespace Bowerbird.Web.Factories
 
             if (group is IPublicGroup)
             {
+                view.Description = ((IPublicGroup)group).Description;
                 view.Avatar = ((IPublicGroup)group).Avatar;
             }
 
