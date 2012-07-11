@@ -8,6 +8,11 @@
 {{#Model.ObservationAdded}}
 <div class="details observation">
   <p>{{Model.ObservationAdded.Observation.Title}}</p>
-  <img src="{{Model.ObservationAdded.Observation.PrimaryMedia.MediaResource.Files.ThumbnailMedium.RelativeUri}}" alt="Observation image" />
+  {{#Model.ObservationAdded.Observation.PrimaryMedia.MediaResource.Files.ThumbnailMedium}}
+  `<img src="{{Model.ObservationAdded.Observation.PrimaryMedia.MediaResource.Files.ThumbnailMedium.RelativeUri}}" alt="{{Model.ObservationAdded.Observation.Title}}" />
+  {{/Model.ObservationAdded.Observation.PrimaryMedia.MediaResource.Files.ThumbnailMedium}}
+  {{#Model.ObservationAdded.Observation.PrimaryMedia.MediaResource.Files.Small}}
+  <iframe width="180px" height="120px" src="{{Model.ObservationAdded.Observation.PrimaryMedia.MediaResource.Files.Small.EmbedTag}}" {{PlayerParams=""}} frameborder="0" allowFullScreen=""></iframe>
+  {{/Model.ObservationAdded.Observation.PrimaryMedia.MediaResource.Files.Small}}
 </div>
 {{/Model.ObservationAdded}}

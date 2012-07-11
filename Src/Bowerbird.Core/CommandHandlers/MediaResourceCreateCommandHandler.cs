@@ -283,11 +283,11 @@ namespace Bowerbird.Core.CommandHandlers
 
         private void MakeVideoMediaResourceFiles(MediaResource mediaResource, string embedScript, string linkUri, string provider, string videoId)
         {
-            mediaResource.AddVideoFile("Fullsize", linkUri, embedScript, provider, videoId, "520", "390");
+            mediaResource.AddVideoFile("Fullsize", linkUri, embedScript, provider, videoId, "672", "400");
             mediaResource.AddVideoFile("Preview", linkUri, embedScript, provider, videoId, "220", "200");
             mediaResource.AddVideoFile("Small", linkUri, embedScript, provider, videoId, "120", "80");
             mediaResource.AddVideoFile("Thumb", linkUri, embedScript, provider, videoId, "60", "40");
-        }
+        }   
 
         private void MakePostImageMediaResourceFiles(MediaResource mediaResource, List<ImageCreationTask> imageCreationTasks)
         {
