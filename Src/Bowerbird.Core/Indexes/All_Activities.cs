@@ -44,7 +44,11 @@ namespace Bowerbird.Core.Indexes
                 {
                     Map = @"
                         from activity in docs.Activities
-                        select new { Type = activity.Type, CreatedDateTime = activity.CreatedDateTime, UserId = activity.User.Id, GroupIds = activity.Groups.Select(x => x.Id) };
+                        select new { 
+                            Type = activity.Type, 
+                            CreatedDateTime = activity.CreatedDateTime, 
+                            UserId = activity.User.Id, 
+                            GroupIds = activity.Groups.Select(x => x.Id) };
                         ",
 
                     Stores = new Dictionary<string, FieldStorage> {

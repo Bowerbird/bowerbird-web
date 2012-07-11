@@ -53,9 +53,12 @@ namespace Bowerbird.Web.ViewModels
             HttpResponseBase response = context.HttpContext.Response;
 
             // Incredibly, IE *still* doesn't know what JSON is, so we have to trick it to avoid prompting the user to save the returning JSON
-            if (context.RequestContext.HttpContext.Request.Browser.IsBrowser("IE"))
+            if (context.RequestContext.HttpContext.Request["ie"] != null && Convert.ToBoolean(context.RequestContext.HttpContext.Request["ie"]) == true)
             {
-                response.ContentType = !string.IsNullOrEmpty(ContentType) ? ContentType : "text/html";
+            //}
+            //if (context.RequestContext.HttpContext.Request.Browser.IsBrowser("IE"))
+            //{
+                response.ContentType = "text/html";
             }
             else
             {

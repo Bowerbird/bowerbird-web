@@ -35,6 +35,8 @@ namespace Bowerbird.Core.Indexes
             public string[] AncestorGroupIds { get; set; }
             public string[] DescendantGroupIds { get; set; }
             public string[] GroupRoleIds { get; set; }
+            public string[] ObservationIds { get; set; }
+            public string[] PostIds { get; set; }
 
             public AppRoot AppRoot { get; set; }
             public Organisation Organisation { get; set; }
@@ -79,7 +81,9 @@ namespace Bowerbird.Core.Indexes
                                 ChildGroupIds = new string[] { },
                                 AncestorGroupIds = new string[] { },
                                 DescendantGroupIds = new string[] { },
-                                GroupRoleIds = new string[] { }
+                                GroupRoleIds = new string[] { },
+                                ObservationIds = new string[] { },
+                                PostIds = new string[] { }
                             });
 
             AddMap<Organisation>(
@@ -98,7 +102,9 @@ namespace Bowerbird.Core.Indexes
                                            select ancestor.Id,
                         DescendantGroupIds = from descendant in organisation.DescendantGroups
                                              select descendant.Id,
-                        GroupRoleIds = new string[] { }                                             
+                        GroupRoleIds = new string[] { },
+                        ObservationIds = new string[] { },
+                        PostIds = new string[] { }
                     });
 
             AddMap<Team>(
@@ -117,7 +123,9 @@ namespace Bowerbird.Core.Indexes
                                            select ancestor.Id,
                         DescendantGroupIds = from descendant in team.DescendantGroups
                                              select descendant.Id,
-                        GroupRoleIds = new string[] { }
+                        GroupRoleIds = new string[] { },
+                        ObservationIds = new string[] { },
+                        PostIds = new string[] { }
                     });
 
             AddMap<Project>(
@@ -133,7 +141,9 @@ namespace Bowerbird.Core.Indexes
                                 AncestorGroupIds = from ancestor in project.AncestorGroups
                                                    select ancestor.Id,
                                 DescendantGroupIds = new string[] { },
-                                GroupRoleIds = new string[] { }
+                                GroupRoleIds = new string[] { },
+                                ObservationIds = new string[] { },
+                                PostIds = new string[] { }
                             });
 
             AddMap<UserProject>(
@@ -149,7 +159,9 @@ namespace Bowerbird.Core.Indexes
                                     AncestorGroupIds = from ancestor in userProject.AncestorGroups
                                                        select ancestor.Id,
                                     DescendantGroupIds = new string[] { },
-                                    GroupRoleIds = new string[] { }
+                                    GroupRoleIds = new string[] { },
+                                    ObservationIds = new string[] { },
+                                    PostIds = new string[] { }
                                 });
 
             AddMap<User>(
@@ -164,7 +176,42 @@ namespace Bowerbird.Core.Indexes
                              ChildGroupIds = new string[] { },
                              AncestorGroupIds = new string[] { },
                              DescendantGroupIds = new string[] { },
-                             GroupRoleIds = member.Roles.Select(x => x.Id)
+                             GroupRoleIds = member.Roles.Select(x => x.Id),
+                             ObservationIds = new string[] { },
+                             PostIds = new string[] { }
+                         });
+
+            AddMap<Observation>(
+                observations => from observation in observations
+                         from observationGroup in observation.Groups
+                         select new
+                         {
+                             observationGroup.Group.GroupType,
+                             GroupId = observationGroup.Group.Id,
+                             UserIds = new string[] { },
+                             ParentGroupId = (string)null,
+                             ChildGroupIds = new string[] { },
+                             AncestorGroupIds = new string[] { },
+                             DescendantGroupIds = new string[] { },
+                             GroupRoleIds = new string[] { },
+                             ObservationIds = new [] { observation.Id },
+                             PostIds = new string[] { }
+                         });
+
+            AddMap<Post>(
+                posts => from post in posts
+                         select new
+                         {
+                             post.Group.GroupType,
+                             GroupId = post.Group.Id,
+                             UserIds = new string[] { },
+                             ParentGroupId = (string)null,
+                             ChildGroupIds = new string[] { },
+                             AncestorGroupIds = new string[] { },
+                             DescendantGroupIds = new string[] { },
+                             GroupRoleIds = new string[] { },
+                             ObservationIds = new string[] { },
+                             PostIds = new [] { post.Id }
                          });
 
             Reduce = results => from result in results
@@ -179,7 +226,9 @@ namespace Bowerbird.Core.Indexes
                                         ChildGroupIds = g.SelectMany(x => x.ChildGroupIds),
                                         AncestorGroupIds = g.SelectMany(x => x.AncestorGroupIds),
                                         DescendantGroupIds = g.SelectMany(x => x.DescendantGroupIds),
-                                        GroupRoleIds = g.SelectMany(x => x.GroupRoleIds)
+                                        GroupRoleIds = g.SelectMany(x => x.GroupRoleIds),
+                                        ObservationIds = g.SelectMany(x => x.ObservationIds),
+                                        PostIds = g.SelectMany(x => x.PostIds)
                                     };
 
             TransformResults = (database, results) =>
@@ -200,6 +249,8 @@ namespace Bowerbird.Core.Indexes
                     AncestorGroupIds = result.AncestorGroupIds ?? new string[]{},
                     DescendantGroupIds = result.DescendantGroupIds ?? new string[]{},
                     GroupRoleIds = result.GroupRoleIds ?? new string[] { },
+                    ObservationIds = result.ObservationIds ?? new string[] { },
+                    PostIds = result.PostIds ?? new string[] { },
                     AppRoot = result.GroupType == "approot" ? appRoot : null,
                     Organisation = result.GroupType == "organisation" ? organisation : null,
                     Team = result.GroupType == "team" ? team : null,
@@ -216,6 +267,8 @@ namespace Bowerbird.Core.Indexes
             Store(x => x.AncestorGroupIds, FieldStorage.Yes);
             Store(x => x.DescendantGroupIds, FieldStorage.Yes);
             Store(x => x.GroupRoleIds, FieldStorage.Yes);
+            Store(x => x.ObservationIds, FieldStorage.Yes);
+            Store(x => x.PostIds, FieldStorage.Yes);
         }
     }
 }

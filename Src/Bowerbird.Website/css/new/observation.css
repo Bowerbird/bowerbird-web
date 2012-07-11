@@ -230,7 +230,7 @@
 /**********************/
 .home .intro
 {
-background-color: #FFFFFF;
+    background-color: #FFFFFF;
     border-radius: 4px 4px 4px 4px;
     box-shadow: 0 1px 2px 0 #5071A6;
     margin-bottom: 20px;
@@ -239,13 +239,15 @@ background-color: #FFFFFF;
 }
 .home .intro h2
 {
-color: #222222;
+    color: #222222;
     font-size: 1.75em;
+    font-weight: 600;
+    letter-spacing: -1px;
     margin-bottom: 15px;
 }
 .home .intro p
 {
-font-size: 0.875em;
+    font-size: 0.875em;
     line-height: 1.3em;
 }
 .home .intro h3
@@ -304,11 +306,343 @@ font-size: 1.1em;
     display: block;
     font-size: 0.875em;
     line-height: 1.4em;
-    margin: 0 15px 15px 0;
-    max-height: 135px;
+    margin: 15px 15px 15px 0;
+    max-height: 96px;
     overflow: hidden;
 }
 .project .tab-bar 
 {
     clear: both;
 }
+.project > .summary .badges
+{
+    display: block;
+}
+.project > .summary .badges li
+{
+    background-color: #ECF1F6;
+    border-radius: 4px 4px 4px 4px;
+    display: inline-block;
+    font-size: 0.8em;
+    line-height: 1em;
+    padding: 5px 7px;
+}
+
+
+
+
+
+/****************************************/
+.projects .project-list
+{
+    background-color: rgba(202, 222, 239, 0.5);
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 2px 0 #143658 inset;
+    margin-bottom: 20px;
+    min-height: 500px;
+    padding: 2%;
+    position: relative;    
+}
+.projects .project-list > ul > li
+{
+    background-color: #FFFFFF;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 2px 0 #5071A6;
+    display: inline-block;
+    list-style: none outside none;
+    margin: 0 0 2%;
+    width: 100%;
+    position: relative;
+}
+.projects .project-list > ul > li:last-child {
+    margin: 0;
+}
+.projects .summary
+{
+
+}
+.projects .summary img
+{
+    border-radius: 4px 0 0 0;
+    display: block;
+    float: left;
+    margin: 0 15px 0 0;
+    padding: 0;
+}
+.projects .summary h2
+{
+    font-size: 1.65em;
+    font-weight: 600;
+    letter-spacing: -0.045em;
+    line-height: 1.9em;
+    text-shadow: 0 2px 0 #FFFFFF;
+    vertical-align: top;
+    
+    color: #222222;
+    display: block;
+    overflow: hidden;
+    padding-right: 154px;
+    text-align: left;
+    text-overflow: ellipsis;
+    text-shadow: none;
+    white-space: nowrap;
+}
+.projects .summary p
+{
+    display: block;
+    font-size: 0.875em;
+    line-height: 1.4em;
+    margin: 15px 15px 15px 0;
+    max-height: 96px;
+    overflow: hidden;
+}
+.projects .tab-bar 
+{
+    clear: both;
+    border-radius: 0 0 4px 4px;
+}
+.projects .summary .badges
+{
+    display: block;
+}
+.projects .summary .badges li
+{
+    background-color: #ECF1F6;
+    border-radius: 4px 4px 4px 4px;
+    display: inline-block;
+    font-size: 0.8em;
+    line-height: 1em;
+    padding: 5px 7px;
+}
+.projects .join-project-button,
+.projects .leave-project-button
+{
+        margin: 0;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+.projects .join-project-button
+{
+background: rgb(82,177,82); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(82,177,82,1) 0%, rgba(0,138,0,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(82,177,82,1)), color-stop(100%,rgba(0,138,0,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  rgba(82,177,82,1) 0%,rgba(0,138,0,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  rgba(82,177,82,1) 0%,rgba(0,138,0,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  rgba(82,177,82,1) 0%,rgba(0,138,0,1) 100%); /* IE10+ */
+background: linear-gradient(to bottom,  rgba(82,177,82,1) 0%,rgba(0,138,0,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#52b152', endColorstr='#008a00',GradientType=0 ); /* IE6-9 */
+
+    border-color: #0B7700;
+}
+.projects .join-project-button:hover, 
+.projects .join-project-button:focus 
+{
+    box-shadow: 0 1px 1px 0 rgba(255, 255, 255, 0.4) inset, 0 1px 6px 0 rgba(0, 150, 3, 0.9);
+}
+.projects .leave-project-button
+{
+background: rgb(255,175,75); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(255,175,75,1) 0%, rgba(255,146,10,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,175,75,1)), color-stop(100%,rgba(255,146,10,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  rgba(255,175,75,1) 0%,rgba(255,146,10,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  rgba(255,175,75,1) 0%,rgba(255,146,10,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  rgba(255,175,75,1) 0%,rgba(255,146,10,1) 100%); /* IE10+ */
+background: linear-gradient(to bottom,  rgba(255,175,75,1) 0%,rgba(255,146,10,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffaf4b', endColorstr='#ff920a',GradientType=0 ); /* IE6-9 */
+
+    border-color: #ED8200;
+}
+.projects .leave-project-button:hover, projects .leave-project-button:focus 
+{
+    box-shadow: 0 1px 1px 0 rgba(255, 255, 255, 0.4) inset, 0 1px 6px 0 rgba(255, 179, 86, 0.9);
+}
+/*.projects .project-summary
+{
+    border-bottom: 1px solid #CFDDEB;
+    height: 46px;
+}
+.projects .project-summary img 
+{
+    border-radius: 4px 0 0 0;
+    float: left;
+    height: 46px;
+    width: 46px;    
+}
+.projects .project-name
+{
+color: #133A68;
+    display: inline;
+    font-size: 0.875em;
+    font-weight: 600;
+    line-height: 3.5em;
+    margin: 0;
+    padding-left: 10px;
+    vertical-align: top;    
+}
+.projects .project-details
+{
+    padding: 15px;
+}
+.projects .badges
+{
+    display: block;
+}
+.projects .badges li
+{
+    background-color: #ECF1F6;
+    border-radius: 4px 4px 4px 4px;
+    display: inline-block;
+    font-size: 0.8em;
+    line-height: 1em;
+    padding: 5px 7px;  
+}
+.projects .project-details p 
+{
+    display: block;
+    font-size: 0.875em;
+    line-height: 1.4em;
+    margin: 15px 15px 15px 0;
+    max-height: 96px;
+    overflow: hidden;
+}
+.projects .project-actions
+{
+}*/
+
+
+
+
+
+
+
+
+
+/*--- EXPLORE ---*/
+/*.explore-list
+{
+    margin-top:50px;   
+    padding:10px;
+    border: 1px dashed black;
+    height:100%;
+}
+ul.explore-groups
+{
+    list-style: none;
+    display: inline;
+}
+.explore-item .explore-summary 
+{
+    background-image: url("/img/carbon_fibre.png");
+    border: 2px solid #AABBCC;
+    color: white;
+    height: 60px;
+    margin: 5px;
+}
+.explore-item .explore-summary .explore-avatar img
+{
+    margin: 5px;
+    width:50px;
+    height:50px;   
+    border-radius:10 0 0 0;
+}
+.explore-item .explore-summary .explore-name
+{
+    display: inline-block;
+    height: 48px;
+    margin-top: 5px;
+    overflow: hidden;
+    padding: 0;
+    vertical-align: top;
+    width: 115px;
+    font-weight:bold;
+}
+
+.explore-item .explore-details
+{
+    background-color: #EEEEFF;
+    border: 2px solid #DDEEEE;
+    height: 170px;
+    margin: 5px;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 2px 0 #143658 inset;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+.explore-item .explore-details .explore-details-property
+{
+    color: #AAAAAA;
+    display: inline-block;
+    font-size: 0.8em;
+    line-height: 10px;
+    margin: 0;
+    padding: 0 5px;
+}
+.explore-item .explore-details .explore-details-value
+{
+    margin-left: 5px;
+    font-size: 0.9em;
+}
+.explore-item .join-project,
+.explore-item .view-team,
+.explore-item .view-project,
+.explore-item .view-organisation
+{
+    display: inline-block;
+    margin-left: 5px;
+}
+.explore-item .view-team-button,
+.explore-item .view-organisation-button
+{
+    height: 40px;
+    width: 190px; 
+    font-size:1.2em;
+    color:#133A68;
+}
+.explore-item .join-project-button,
+.explore-item .view-project-button
+{
+    color: #133A68;
+    font-size: 1.2em;
+    height: 40px;
+    width: 90px;
+}
+div.explore-item
+{
+    background-color: white;
+    display: inline-block;
+    float: left;
+    height: 300px;
+    margin: 10px;
+    width: 200px;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 4px 8px 0 #5071A6;
+}
+div.explore-item:hover
+{
+    box-shadow: 0 8px 18px 0 #5071EE;
+}
+div.click-to-explore:hover
+{
+    display:block;
+    position:absolute;
+    background-color:White;
+    height:300px;
+    width:200px;
+    margin:5px;
+    vertical-align:middle;
+    text-align:center;
+}
+div.click-to-explore
+{
+    position:absolute;
+    display:none;
+    background-color:White;
+    height:290px;
+    width:190px;
+    margin:5px;
+    vertical-align:middle;
+    text-align:center;
+    z-index:1000;
+}
+*/

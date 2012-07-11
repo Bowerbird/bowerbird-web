@@ -96,7 +96,7 @@ namespace Bowerbird.Web.EventHandlers
             if(domainEvent.Sender is Post)
             {
                 var post = _documentSession.Load<dynamic>(domainEvent.Sender.Id);
-                var group = _documentSession.Load<dynamic>(((Post) post).GroupId);
+                var group = _documentSession.Load<dynamic>(((Post) post).Group.Id);
 
                 dynamic activity = MakeActivity(
                     domainEvent,

@@ -322,12 +322,6 @@ namespace Bowerbird.Web.Controllers
                 return HttpNotFound();
             }
 
-            //// TODO: Not sure what this permission check is actually checking???
-            //if (!_userContext.HasGroupPermission(PermissionNames.JoinProject, projectId))
-            //{
-            //    return HttpUnauthorized();
-            //}
-
             if (!ModelState.IsValid)
             {
                 return JsonFailed();
@@ -357,11 +351,11 @@ namespace Bowerbird.Web.Controllers
                 return HttpNotFound();
             }
 
-            // TODO: Not sure what this permission check is actually checking???
-            if (!_userContext.HasGroupPermission(PermissionNames.LeaveProject, projectId))
-            {
-                return HttpUnauthorized();
-            }
+            //// TODO: Not sure what this permission check is actually checking???
+            //if (!_userContext.HasGroupPermission(PermissionNames.LeaveProject, projectId))
+            //{
+            //    return HttpUnauthorized();
+            //}
 
             if (!ModelState.IsValid)
             {
@@ -372,7 +366,8 @@ namespace Bowerbird.Web.Controllers
                 new MemberDeleteCommand()
                 {
                     UserId = _userContext.GetAuthenticatedUserId(),
-                    GroupId = projectId
+                    GroupId = projectId,
+                    ModifiedByUserId = _userContext.GetAuthenticatedUserId()
                 });
 
             return JsonSuccess();

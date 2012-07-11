@@ -21,6 +21,14 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/streamview', 'collecti
             details: '.details'
         },
 
+        serializeData: function () {
+            return {
+                Model: {
+                    User: this.model.toJSON()
+                }
+            };
+        },
+
         onShow: function () {
             this.showDetails();
         },
@@ -65,14 +73,6 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/streamview', 'collecti
             }
 
             activityCollection.fetchFirstPage();
-        },
-
-        closeIntro: function (e) {
-            log('yo');
-            //e.preventDefault();
-            this.$el.find('.intro').remove();
-            // TODO: Notify server
-            e.stopPropagation();
         }
     });
 

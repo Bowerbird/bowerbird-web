@@ -60,7 +60,7 @@ namespace Bowerbird.Core.DomainModels
 
             User = createdByUser;
             CreatedOn = createdOn;
-            GroupId = group.Id;
+            Group = group;
 
             SetDetails(
                 subject,
@@ -90,14 +90,14 @@ namespace Bowerbird.Core.DomainModels
             private set { _mediaResources = new List<MediaResource>(value); } 
         }
 
-        public string GroupId { get; private set; }
+        public DenormalisedGroupReference Group { get; private set; }
 
         public CommentsComponent Discussion { get; private set; }
 
         [JsonIgnore]
         IEnumerable<string> IOwnable.Groups
         {
-            get { return new string[] { this.GroupId }; }
+            get { return new string[] { this.Group.Id }; }
         }
 
         #endregion

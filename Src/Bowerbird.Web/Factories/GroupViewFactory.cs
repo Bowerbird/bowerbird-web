@@ -34,7 +34,9 @@ namespace Bowerbird.Web.Factories
             view.Id = result.Group.Id;
             view.Name = result.Group.Name;
             view.GroupType = result.Group.GroupType;
-            view.MemberCount = result.UserIds == null ? 0 : result.UserIds.Count(); // Not sure why this can be null??
+            view.MemberCount = result.UserIds.Count();
+            view.ObservationCount = result.ObservationIds.Count();
+            view.PostCount = result.PostIds.Count();
 
             if (result.Group is IPublicGroup)
             {
@@ -45,7 +47,7 @@ namespace Bowerbird.Web.Factories
             return view;
         }
 
-        public object Make(Group group, int memberCount)
+        public object Make(Group group, int memberCount, int observationCount, int postCount)
         {
             Check.RequireNotNull(group, "group");
 
@@ -55,6 +57,8 @@ namespace Bowerbird.Web.Factories
             view.Name = group.Name;
             view.GroupType = group.GroupType;
             view.MemberCount = memberCount;
+            view.ObservationCount = observationCount;
+            view.PostCount = postCount;
 
             if (group is IPublicGroup)
             {

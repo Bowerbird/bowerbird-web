@@ -17,10 +17,8 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
     var app = new Backbone.Marionette.Application();
 
     // Let's pollute the global namespace, just a little, for debug purposes :)
-    window.Bowerbird = window.Bowerbird || {
-        version: '1.0.0',
-        app: app
-    };
+    window.Bowerbird = window.Bowerbird || {};
+    window.Bowerbird.app = app;
 
     var AuthenticatedUser = function (data) {
         this.user = new User(data.User);
@@ -66,11 +64,11 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
 
     }, this);
 
-//    app.vent.on('showEmbeddedVideo:', function () {
-//        log('app.showEmbeddedVideo:');
-//        var embeddedVideo = new EmbeddedVideoView({ el: '#video-embed-dialog', model: new MediaResource() });
-//        embeddedVideo.render();
-//    });
+    //    app.vent.on('showEmbeddedVideo:', function () {
+    //        log('app.showEmbeddedVideo:');
+    //        var embeddedVideo = new EmbeddedVideoView({ el: '#video-embed-dialog', model: new MediaResource() });
+    //        embeddedVideo.render();
+    //    });
 
     app.addRegions({
         header: 'header',
@@ -96,6 +94,14 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
             throw err;
         }
         return app.isPrerendering(name) ? 'attachView' : 'show';
+    };
+
+    app.updateTitle = function (titleSegment) {
+        var newTitle = 'Bowerbird';
+        if (titleSegment.length > 0) {
+            newTitle = titleSegment + ' - ' + newTitle;
+        }
+        document.title = newTitle;
     };
 
     app.routeHistory = [];

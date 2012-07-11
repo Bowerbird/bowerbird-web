@@ -75,7 +75,7 @@ namespace Bowerbird.Web.EventHandlers
 
         public void Handle(DomainModelCreatedEvent<Post> domainEvent)
         {
-            var group = _documentSession.Load<dynamic>(domainEvent.DomainModel.GroupId);
+            var group = _documentSession.Load<dynamic>(domainEvent.DomainModel.Group.Id);
             
             dynamic activity = MakeActivity(
                 domainEvent, 

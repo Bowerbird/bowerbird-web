@@ -399,11 +399,11 @@ namespace Bowerbird.Web.Controllers
             _commandProcessor.Process(
                 new OrganisationCreateCommand()
                 {
-                    AvatarId = createInput.AvatarId,
-                    Description = createInput.Description,
-                    Name = createInput.Name,
                     UserId = _userContext.GetAuthenticatedUserId(),
-                    Website = createInput.Website
+                    Name = createInput.Name,
+                    Description = createInput.Description,
+                    Website = createInput.Website,
+                    AvatarId = createInput.AvatarId
                 });
 
             return JsonSuccess();
@@ -434,12 +434,12 @@ namespace Bowerbird.Web.Controllers
             _commandProcessor.Process(
                 new OrganisationUpdateCommand
                 {
-                    AvatarId = updateInput.AvatarId,
-                    Description = updateInput.Description,
+                    UserId = _userContext.GetAuthenticatedUserId(),
                     Id = updateInput.Id,
                     Name = updateInput.Name,
-                    UserId = _userContext.GetAuthenticatedUserId(),
-                    Website = updateInput.Website
+                    Description = updateInput.Description,
+                    Website = updateInput.Website,
+                    AvatarId = updateInput.AvatarId
                 });
 
             return JsonSuccess();

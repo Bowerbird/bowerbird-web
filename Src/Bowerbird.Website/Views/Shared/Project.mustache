@@ -3,6 +3,11 @@
   <img src="{{Model.Project.Avatar.Files.ThumbnailLarge.RelativeUri}}" alt="{{Model.Project.Name}}" />
   <div>
     <h1>{{Model.Project.Name}}</h1>
+    <ul class="badges">
+      <li>{{Model.Project.MemberCount}} {{Model.MemberCountDescription}}</li>
+      <li>{{Model.Project.ObservationCount}} {{Model.ObservationCountDescription}}</li>
+      <li>{{Model.Project.PostCount}} {{Model.PostCountDescription}}</li>
+    </ul>
     <p>{{Model.Project.Description}}</p>
   </div>
   <div class="tab-bar large">

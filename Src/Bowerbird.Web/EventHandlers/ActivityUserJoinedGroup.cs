@@ -91,7 +91,7 @@ namespace Bowerbird.Web.EventHandlers
                 {
                     if (domainEvent.DomainModel.Group.GroupType != "approot")
                     {
-                        Execute(domainEvent, groupResult.Group, groupResult.UserIds.Count(), domainEvent.Sender as User);
+                        Execute(domainEvent, groupResult.Group, groupResult.UserIds.Count(), groupResult.ObservationIds.Count(), groupResult.PostIds.Count(), domainEvent.Sender as User);
                     }
                 }
             }
@@ -99,20 +99,20 @@ namespace Bowerbird.Web.EventHandlers
 
         public void Handle(DomainModelCreatedEvent<Project> domainEvent)
         {
-            Execute(domainEvent, domainEvent.DomainModel, 1, domainEvent.User);
+            Execute(domainEvent, domainEvent.DomainModel, 1, 0, 0, domainEvent.User);
         }
 
         public void Handle(DomainModelCreatedEvent<Team> domainEvent)
         {
-            Execute(domainEvent, domainEvent.DomainModel, 1, domainEvent.User);
+            Execute(domainEvent, domainEvent.DomainModel, 1, 0, 0, domainEvent.User);
         }
 
         public void Handle(DomainModelCreatedEvent<Organisation> domainEvent)
         {
-            Execute(domainEvent, domainEvent.DomainModel, 1, domainEvent.User);
+            Execute(domainEvent, domainEvent.DomainModel, 1, 0, 0, domainEvent.User);
         }
 
-        private void Execute(IDomainEvent domainEvent, Group group, int memberCount, User newMember)
+        private void Execute(IDomainEvent domainEvent, Group group, int memberCount, int observationCount, int postCount, User newMember)
         {
             var user = _documentSession.Load<User>(newMember.Id);
 
@@ -121,7 +121,9 @@ namespace Bowerbird.Web.EventHandlers
                 _backChannelService.AddUserToGroupChannel(group.Id, session.ConnectionId);
             }
 
-            _backChannelService.SendJoinedGroupToUserChannel(user.Id, _groupViewFactory.Make(group, memberCount));
+            var groupViewModel = _groupViewFactory.Make(group, memberCount, observationCount, postCount);
+
+            _backChannelService.SendJoinedGroupToUserChannel(user.Id, groupViewModel);
 
             dynamic activity = MakeActivity(
                 domainEvent,
@@ -132,7 +134,7 @@ namespace Bowerbird.Web.EventHandlers
             activity.UserJoinedGroup = new
             {
                 User = user,
-                Group = _groupViewFactory.Make(group, memberCount)
+                Group = groupViewModel
             };
 
             _documentSession.Store(activity);

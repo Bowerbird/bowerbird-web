@@ -56,7 +56,7 @@ namespace Bowerbird.Core.Indexes
                     ContributionType = "post",
                     UserId = post.User.Id,
                     CreatedDateTime = post.CreatedOn,
-                    GroupIds = new [] { post.GroupId }
+                    GroupIds = new [] { post.Group.Id }
                 });
 
             AddMap<Observation>(observations => 

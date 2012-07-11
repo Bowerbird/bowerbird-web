@@ -73,6 +73,8 @@ function ($, _, Backbone, app, SidebarMenuGroupCompositeView, SidebarProjectItem
             });
 
             app.authenticatedUser.projects.on('add', this.addProject, this);
+
+            app.authenticatedUser.projects.on('remove', this.removeProject, this);
         },
 
         serializeData: function () {
@@ -98,7 +100,11 @@ function ($, _, Backbone, app, SidebarMenuGroupCompositeView, SidebarProjectItem
         },
 
         addProject: function (project) {
-            log('project added', this, project);
+            log('project added', project, this);
+        },
+
+        removeProject: function (project) {
+            log('project removed', project, this);
         }
     });
 

@@ -30,8 +30,6 @@ namespace Bowerbird.Core.Commands
 
         public string UserId { get; set; }
 
-        public string TeamId { get; set; }
-
         public string Name { get; set; }
 
         public string Description { get; set; }
@@ -39,6 +37,8 @@ namespace Bowerbird.Core.Commands
         public string Website { get; set; }
 
         public string AvatarId { get; set; }
+
+        public string TeamId { get; set; }
 
         #endregion
 

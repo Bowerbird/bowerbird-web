@@ -9,7 +9,7 @@
 // -------------
 
 // View that allows user to choose location on a mpa or via coordinates
-define(['jquery', 'underscore', 'backbone', 'app', 'models/mediaresource', 'views/mediaresourceitemview', 'views/embeddedVideoView', 'loadimage', 'fileupload'],
+define(['jquery', 'underscore', 'backbone', 'app', 'models/mediaresource', 'views/mediaresourceitemview', 'views/embeddedVideoView', 'loadimage', 'fileupload', 'iframetransport'],
 function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVideoView, loadImage) {
     var EditMediaView = Backbone.View.extend({
 
@@ -67,19 +67,23 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVid
             this.$el.find('#media-resource-add-pane').before(mediaResourceItemView.render().el);
 
             var self = this;
-            var tempImage = loadImage(
-                data.files[0],
-                function (img) {
-                    if (img.type === "error") {
-                        //log('Error loading image', img);
-                    } else {
-                        self.filesAdded++;
-                        mediaResourceItemView.showTempImageMedia(img);
-                        self._showMediaResourceItemView(self, mediaResourceItemView, $(img).width(), self.filesAdded === data.originalFiles.length);
-                    }
-                },
-                { maxHeight: 220 }
-            );
+            var tempImage = null;
+
+            if (!window.isIEFail) {
+                tempImage = loadImage(
+                    data.files[0],
+                    function (img) {
+                        if (img.type === "error") {
+                            //log('Error loading image', img);
+                        } else {
+                            self.filesAdded++;
+                            mediaResourceItemView.showTempImageMedia(img);
+                            self._showMediaResourceItemView(self, mediaResourceItemView, $(img).width(), self.filesAdded === data.originalFiles.length);
+                        }
+                    },
+                    { maxHeight: 220 }
+                );
+            }
 
             if (!tempImage) {
                 $(mediaResourceItemView.el).width(280);
@@ -177,6 +181,9 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVid
         _onSubmitImageUpload: function (e, data) {
             log('ediMediaView:_onSubmitImageUpload');
             data.formData = { Key: this.currentUploadKey, OriginalFileName: data.files[0].name, MediaType: 'image', Usage: 'observation' };
+            if (window.isIEFail) {
+                data.formData.ie = true;
+            }
         },
 
         _onImageUploadDone: function (data) {

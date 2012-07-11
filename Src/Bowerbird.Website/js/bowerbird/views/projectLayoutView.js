@@ -22,7 +22,11 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/streamview', 'collecti
         serializeData: function () {
             return {
                 Model: {
-                    Project: this.model.toJSON()
+                    Project: this.model.toJSON(),
+                    IsMember: _.any(app.authenticatedUser.memberships, function (membership) { return membership.GroupId === this.model.id; }, this),
+                    MemberCountDescription: this.model.get('MemberCount') === 1 ? 'Member' : 'Members',
+                    ObservationCountDescription: this.model.get('ObservationCount') === 1 ? 'Observation' : 'Observations',
+                    PostCountDescription: this.model.get('PostCount') === 1 ? 'Post' : 'Posts'
                 }
             };
         },

@@ -118,7 +118,7 @@ namespace Bowerbird.Core.Config
                 //AddTeam("Ken Walker tests Bowerbird", "Another Test team for Alpha Release", "www.bowerbird.org.au", Users[0].Id, Organisations[1].Id);
 
                 // Projects
-                AddProject("Test Project", "Test project for Alpha release. " + GetLoremIpsum(), "www.bowerbird.org.au", Users[0].Id, Teams[0].Id);
+                //AddProject("Test Project", "Test project for Alpha release. " + GetLoremIpsum(), "www.bowerbird.org.au", Users[0].Id, Teams[0].Id);
                 //AddProject("Kens Bees", "Bee Project", "www.bowerbird.org.au", Users[0].Id, Teams[1].Id);
 
                 //// Save changes so that we have access to indexes for observation creation

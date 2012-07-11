@@ -103,8 +103,8 @@ namespace Bowerbird.Web.Builders
 
             return _documentSession
                 .Query<Post>()
-                .Where(x => x.GroupId == groupId)
-                .Include(x => x.GroupId)
+                .Where(x => x.Group.Id == groupId)
+                .Include(x => x.Group.Id)
                 .OrderByDescending(x => x.CreatedOn)
                 .Statistics(out stats)
                 .Skip(pagingInput.GetSkipIndex())

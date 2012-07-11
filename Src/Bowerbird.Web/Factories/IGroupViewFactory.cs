@@ -7,6 +7,6 @@ namespace Bowerbird.Web.Factories
     {
         object Make(All_Groups.Result result);
 
-        object Make(Group group, int memberCount);
+        object Make(Group group, int memberCount, int observationCount, int postCount);
     }
 }

@@ -10,8 +10,7 @@
 
 // Shows an individual project item
 define(['jquery', 'underscore', 'backbone', 'app'],
-function ($, _, Backbone, app) 
-{
+function ($, _, Backbone, app) {
     var ProjectItemView = Backbone.Marionette.ItemView.extend({
 
         tagName: 'li',
@@ -22,17 +21,31 @@ function ($, _, Backbone, app)
 
         events: {
             'click .join-project-button': 'joinProject',
-            'click .view-project-button': 'viewProject'
+            'click .leave-project-button': 'leaveProject'
+        },
+
+        serializeData: function () {
+            return {
+                Model: {
+                    Project: this.model.toJSON(),
+                    IsMember: _.any(app.authenticatedUser.memberships, function (membership) { return membership.GroupId === this.model.id; }, this),
+                    MemberCountDescription: this.model.get('MemberCount') === 1 ? 'Member' : 'Members',
+                    ObservationCountDescription: this.model.get('ObservationCount') === 1 ? 'Observation' : 'Observations',
+                    PostCountDescription: this.model.get('PostCount') === 1 ? 'Post' : 'Posts'
+                }
+            };
         },
 
         joinProject: function (e) {
             e.preventDefault();
-            app.vent.trigger('joinProject:', this.model);
+            app.vent.trigger('joinProject', this.model);
+            this.$el.find('.join-project-button').replaceWith('<a href="#" class="leave-project-button button">Leave Project</a>');
         },
 
-        viewProject: function (e) {
+        leaveProject: function (e) {
             e.preventDefault();
-            app.vent.trigger('viewProject:', this.model);
+            app.vent.trigger('leaveProject', this.model);
+            this.$el.find('.leave-project-button').replaceWith('<a href="#" class="join-project-button button">Join Project</a>');
         }
     });
 

@@ -66,11 +66,8 @@ namespace Bowerbird.Web.Builders
             Check.RequireNotNull(pagingInput, "pagingInput");
 
             var groupIds = _documentSession
-                .Query<All_Users.Result, All_Users>()
-                .AsProjection<All_Users.Result>()
-                .Where(x => x.UserId == userId)
-                .ToList()
-                .SelectMany(x => x.GroupIds);
+                .Load<User>(userId)
+                .Memberships.Select(x => x.Group.Id);
 
             var query = _documentSession
                 .Query<All_Activities.Result>("All/Activities")
@@ -112,11 +109,8 @@ namespace Bowerbird.Web.Builders
             Check.RequireNotNull(pagingInput, "pagingInput");
 
             var groupIds = _documentSession
-                .Query<All_Users.Result, All_Users>()
-                .AsProjection<All_Users.Result>()
-                .Where(x => x.UserId == userId)
-                .ToList()
-                .SelectMany(x => x.GroupIds);
+                .Load<User>(userId)
+                .Memberships.Select(x => x.Group.Id);
 
             var query = _documentSession
                 .Query<All_Activities.Result>("All/Activities")

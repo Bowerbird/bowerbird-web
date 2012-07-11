@@ -30,7 +30,6 @@ function ($, _, Backbone, app, NotificationItemView, ActivityCollection) {
         appendHtml: function (collectionView, itemView) {
             var items = this.collection.pluck('Id');
             var index = _.indexOf(items, itemView.model.id);
-            log(index);
 
             var $li = collectionView.$el.find('ul > li:eq(' + (index) + ')');
 

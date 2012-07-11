@@ -15734,11 +15734,11 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
 
     }, this);
 
-//    app.vent.on('showEmbeddedVideo:', function () {
-//        log('app.showEmbeddedVideo:');
-//        var embeddedVideo = new EmbeddedVideoView({ el: '#video-embed-dialog', model: new MediaResource() });
-//        embeddedVideo.render();
-//    });
+    //    app.vent.on('showEmbeddedVideo:', function () {
+    //        log('app.showEmbeddedVideo:');
+    //        var embeddedVideo = new EmbeddedVideoView({ el: '#video-embed-dialog', model: new MediaResource() });
+    //        embeddedVideo.render();
+    //    });
 
     app.addRegions({
         header: 'header',
@@ -15764,6 +15764,14 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
             throw err;
         }
         return app.isPrerendering(name) ? 'attachView' : 'show';
+    };
+
+    app.updateTitle = function (titleSegment) {
+        var newTitle = 'Bowerbird';
+        if (titleSegment.length > 0) {
+            newTitle = titleSegment + ' - ' + newTitle;
+        }
+        document.title = newTitle;
     };
 
     app.routeHistory = [];
@@ -21209,11 +21217,17 @@ define('views/projectlayoutview',['jquery', 'underscore', 'backbone', 'app', 'vi
         },
 
         serializeData: function () {
-            return {
+            var json = {
                 Model: {
                     Project: this.model.toJSON()
                 }
             };
+
+            json.Model.Project.MemberCountDescription = this.model.get('MemberCount') === 1 ? 'Member' : 'Members';
+            json.Model.Project.ObservationCountDescription = this.model.get('ObservationCount') === 1 ? 'Observation' : 'Observations';
+            json.Model.Project.PostCountDescription = this.model.get('PostCount') === 1 ? 'Post' : 'Posts';
+
+            return json;
         },
 
         showBootstrappedDetails: function () {
@@ -21562,6 +21576,7 @@ function ($, _, Backbone, app, HomePublicLayoutView, HomePrivateLayoutView) {
     // ----------
 
     HomeController.showHomeStream = function () {
+        app.updateTitle('');
         var homeLayoutView = null;
 
         if (app.authenticatedUser) {
@@ -26074,6 +26089,7 @@ function ($, _, Backbone, app, ObservationLayoutView, Observation) {
         $.when(getModel(id))
             .done(function (model) {
                 var observation = new Observation(model.Observation);
+                app.updateTitle(observation.get('Title'));
                 var observationLayoutView = showObservationLayoutView(observation);
                 observationLayoutView.showObservationDetails(observation);
                 app.setPrerenderComplete();
@@ -26084,6 +26100,12 @@ function ($, _, Backbone, app, ObservationLayoutView, Observation) {
         $.when(getModel(id))
             .done(function (model) {
                 var observation = new Observation(model.Observation);
+                if (observation.id) {
+                    app.updateTitle('Edit Observation');
+                } else {
+                    app.updateTitle('New Observation');
+                }
+                
                 var observationLayoutView = showObservationLayoutView(observation);
                 observationLayoutView.showObservationForm(observation, model.Categories);
                 app.setPrerenderComplete();
@@ -26856,21 +26878,6 @@ function ($, _, Backbone, app, ProjectLayoutView, ProjectFormLayoutView, Project
             deferred.resolve(app.prerenderedView.data);
         } else {
             var params = {};
-            //            if (page) {
-            //                params['page'] = page;
-            //            }
-            //            if (pageSize) {
-            //                params['pageSize'] = pageSize;
-            //            }
-            //            if (sortField) {
-            //                params['sortField'] = sortField;
-            //            }
-            //            if (sortDirection) {
-            //                params['sortDirection'] = sortDirection;
-            //            }
-            //            if (searchQuery) {
-            //                params['searchQuery'] = searchQuery;
-            //            }
             $.ajax({
                 url: '/projects',
                 data: params
@@ -26890,6 +26897,7 @@ function ($, _, Backbone, app, ProjectLayoutView, ProjectFormLayoutView, Project
         $.when(getModel(id))
             .done(function (model) {
                 var project = new Project(model.Project);
+                app.updateTitle(project.get('Name'));
                 var projectLayoutView = new ProjectLayoutView({ model: project });
                 //app.showFormContentView(projectLayoutView, 'projects');
                 app.content[app.getShowViewMethodName('projects')](projectLayoutView);
@@ -26907,6 +26915,11 @@ function ($, _, Backbone, app, ProjectLayoutView, ProjectFormLayoutView, Project
         $.when(getModel(id))
             .done(function (model) {
                 var project = new Project(model.Project);
+                if (project.id) {
+                    app.updateTitle('Edit Project');
+                } else {
+                    app.updateTitle('New Project');
+                }
                 var projectFormLayoutView = new ProjectFormLayoutView({ model: project, teams: model.Teams });
                 app.showFormContentView(projectFormLayoutView, 'projects');
                 if (app.isPrerendering('projects')) {
@@ -26921,6 +26934,7 @@ function ($, _, Backbone, app, ProjectLayoutView, ProjectFormLayoutView, Project
         log('projectController:showProjects');
         $.when(getExploreList())
             .done(function (model) {
+                app.updateTitle('Projects');
                 ProjectController.projectCollection = new ProjectCollection(model.Projects.PagedListItems);
                 var projectCollectionView = new ProjectCollectionView({ collection: ProjectController.projectCollection });
                 app.showFormContentView(projectCollectionView, 'projects');

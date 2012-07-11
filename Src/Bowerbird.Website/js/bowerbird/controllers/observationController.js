@@ -58,6 +58,7 @@ function ($, _, Backbone, app, ObservationLayoutView, Observation) {
         $.when(getModel(id))
             .done(function (model) {
                 var observation = new Observation(model.Observation);
+                app.updateTitle(observation.get('Title'));
                 var observationLayoutView = showObservationLayoutView(observation);
                 observationLayoutView.showObservationDetails(observation);
                 app.setPrerenderComplete();
@@ -68,6 +69,12 @@ function ($, _, Backbone, app, ObservationLayoutView, Observation) {
         $.when(getModel(id))
             .done(function (model) {
                 var observation = new Observation(model.Observation);
+                if (observation.id) {
+                    app.updateTitle('Edit Observation');
+                } else {
+                    app.updateTitle('New Observation');
+                }
+                
                 var observationLayoutView = showObservationLayoutView(observation);
                 observationLayoutView.showObservationForm(observation, model.Categories);
                 app.setPrerenderComplete();

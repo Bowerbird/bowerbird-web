@@ -83,13 +83,18 @@ namespace Bowerbird.Web.Config
                 "account/resetpassword/{resetpasswordkey}",
                 new { controller = "account", action = "resetpassword", resetpasswordkey = UrlParameter.Optional });
 
+            routes.MapRoute(
+                "templates",
+                "templates",
+                new { controller = "templates", action = "index" });
+
             // Load up restful controllers and create routes based on method name conventions
             RegisterRestfulControllerRouteConventions(routes);
 
             routes.MapRoute(
                 "default",
                 "{controller}/{action}",
-                new {controller = "home", action = "index"});
+                new {controller = "home", action = "publicindex"});
         }
 
         private static void RegisterRestfulControllerRouteConventions(RouteCollection routes)
@@ -196,14 +201,14 @@ namespace Bowerbird.Web.Config
             }
 
             /* 
-            * Eg: "/users/2/activity" HTML/JSON GET
+            * Eg: "/users/2/activity" HTML/JSON GET, POST
             * Used to get a page sub-section based on an ID as HTML or JSON output
             */
             routes.MapRoute(
                 controllerName + "-section",
                 controllerName + "/{id}/{action}",
                 new { controller = controllerName },
-                new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("GET") });
+                new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("GET", "POST") });
 
             if (controllerMethods.Contains("index"))
             {

@@ -1,6 +1,7 @@
-﻿{{#PagedListItems}}
-	{{>ProjectItem}}
-{{PagedListItems}}
-{{^PagedListItems}}
-	No projects in the system yet
-{{PagedListItems}}
+﻿<h2>Projects</h2>
+<div class="project-list">
+<ul>
+	{{#Model.Projects}}
+    <li>{{>ProjectItem}}</li>
+	{{/Model.Projects}}
+</ul>

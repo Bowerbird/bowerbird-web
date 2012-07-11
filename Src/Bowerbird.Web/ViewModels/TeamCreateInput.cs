@@ -28,13 +28,17 @@ namespace Bowerbird.Web.ViewModels
 
         #region Properties
 
-        public string Organisation { get; set; }
+        [Required]
+        public string Name { get; set; }
 
         [Required]
         public string Description { get; set; }
 
-        [Required]
-        public string Name { get; set; }
+        public string Website { get; set; }
+
+        public string AvatarId { get; set; }
+
+        public string OrganisationId { get; set; }
 
         #endregion
 

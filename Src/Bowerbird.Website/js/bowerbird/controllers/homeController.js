@@ -21,6 +21,7 @@ function ($, _, Backbone, app, HomePublicLayoutView, HomePrivateLayoutView) {
     // ----------
 
     HomeController.showHomeStream = function () {
+        app.updateTitle('');
         var homeLayoutView = null;
 
         if (app.authenticatedUser) {

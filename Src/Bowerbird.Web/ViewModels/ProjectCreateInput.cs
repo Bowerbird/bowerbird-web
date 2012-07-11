@@ -36,7 +36,6 @@ namespace Bowerbird.Web.ViewModels
 
         public string Website { get; set; }
 
-        [Required]
         public string AvatarId { get; set; }
 
         public string TeamId { get; set; }

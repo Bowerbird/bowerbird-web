@@ -1,21 +1,41 @@
-﻿<div class="explore-item">
-    <div class="click-to-explore">Click to Explore</div>
-    <div class="explore-summary">
-        <span class="explore-avatar">
-            <img src="{{Avatar.Files.ThumbnailMedium.RelativeUri}}" />
-        </span>
-        <span class="explore-name">{{Name}}</span>
-    </div>
-    <div class="explore-details">
-        {{#Team}}<div class="explore-details-property">Team:</div><div class="explore-details-value">{{Team}}</div>{{/Team}}
-        {{#Website}}<div class="explore-details-property">Website</div><div class="explore-details-value">{{Website}}</div>{{/Website}}
-        {{#MemberCount}}<div class="explore-details-property">Members</div><div class="explore-details-value">{{MemberCount}}</div>{{/MemberCount}}
-        {{#Description}}<div class="explore-details-property">Description</div><div class="explore-details-value">{{Description}}</div>{{/Description}}
-    </div>
-    <div class="view-project">
-        <button value="View" class="view-project-button">View</button>
-    </div>
-    <div class="join-project">
-        <button value="Join" class="join-project-button">Join</button>
-    </div>
+﻿<div class="summary">
+  <img src="{{Model.Project.Avatar.Files.ThumbnailLarge.RelativeUri}}" alt="{{Model.Project.Name}}" />
+  <div>
+    <h2>{{Model.Project.Name}}</h2>
+    {{^Model.IsMember}}
+    <a href="#" class="join-project-button button">Join Project</a>
+    {{/Model.IsMember}}
+    {{#Model.IsMember}}
+    <a href="#" class="leave-project-button button">Leave Project</a>
+    {{/Model.IsMember}}
+    <ul class="badges">
+      <li>{{Model.Project.MemberCount}} {{Model.MemberCountDescription}}</li>
+      <li>{{Model.Project.ObservationCount}} {{Model.ObservationCountDescription}}</li>
+      <li>{{Model.Project.PostCount}} {{Model.PostCountDescription}}</li>
+    </ul>
+    <p>{{Model.Project.Description}}</p>
+  </div>
+</div>
+<div class="details">
+</div>
+<div class="sections">
+  <div class="tab-bar large">
+    <ul class="tabs">
+      <li>
+        <a href="/{{Model.Project.Id}}" class="tab-button">Activity</a>
+      </li>
+      <li>
+        <a href="/{{Model.Project.Id}}/observations" class="tab-button">Observations</a>
+      </li>
+      <li>
+        <a href="/{{Model.Project.Id}}/posts" class="tab-button">Posts</a>
+      </li>
+      <li>
+        <a href="/{{Model.Project.Id}}/members" class="tab-button">Members</a>
+      </li>
+      <li>
+        <a href="/{{Model.Project.Id}}/about" class="tab-button">About</a>
+      </li>
+    </ul>
+  </div>
 </div>

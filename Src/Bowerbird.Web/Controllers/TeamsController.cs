@@ -381,10 +381,12 @@ namespace Bowerbird.Web.Controllers
             _commandProcessor.Process(
                 new TeamCreateCommand()
                     {
-                        Description = createInput.Description,
-                        Name = createInput.Name,
                         UserId = _userContext.GetAuthenticatedUserId(),
-                        OrganisationId = createInput.Organisation
+                        Name = createInput.Name,
+                        Description = createInput.Description,
+                        Website = createInput.Website,
+                        AvatarId = createInput.AvatarId,
+                        OrganisationId = createInput.OrganisationId
                     }
                 );
 
@@ -416,10 +418,11 @@ namespace Bowerbird.Web.Controllers
             _commandProcessor.Process(
                 new TeamUpdateCommand()
                 {
-                    Id = teamId,
-                    Description = updateInput.Description,
-                    Name = updateInput.Name,
                     UserId = _userContext.GetAuthenticatedUserId(),
+                    Id = teamId,
+                    Name = updateInput.Name,
+                    Description = updateInput.Description,
+                    Website = updateInput.Website,
                     AvatarId = updateInput.AvatarId
                 }
             );

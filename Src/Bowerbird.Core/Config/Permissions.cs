@@ -46,7 +46,6 @@ namespace Bowerbird.Core.Config
         public static string CreateComment = "createcomment";
         public static string UpdateComment = "updatecomment";
         public static string DeleteComment = "deletecomment";
-        public static string JoinProject = "joinproject";
         public static string LeaveProject = "leaveproject";
         public static string JoinTeam = "jointeam";
         public static string LeaveTeam = "leaveteam";
