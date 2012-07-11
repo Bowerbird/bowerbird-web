@@ -2,12 +2,22 @@
     <div>
       <div class="images">
         <div class="preview">
-          <img src="{{Model.ObservationAdded.Observation.PrimaryMedia.MediaResource.Files.FullLarge.RelativeUri}}" alt="{{Model.ObservationAdded.Observation.Title}}" />
+            {{#Model.ObservationAdded.Observation.PrimaryMedia.MediaResource.Files.FullLarge}}
+                <img src="{{Model.ObservationAdded.Observation.PrimaryMedia.MediaResource.Files.FullLarge.RelativeUri}}" alt="{{Model.ObservationAdded.Observation.Title}}" />
+            {{/Model.ObservationAdded.Observation.PrimaryMedia.MediaResource.Files.FullLarge}}
+            {{#Model.ObservationAdded.Observation.PrimaryMedia.MediaResource.Files.Fullsize}}
+                <iframe width="{{Model.ObservationAdded.Observation.PrimaryMedia.MediaResource.Files.Fullsize.Width}}" height="{{Model.ObservationAdded.Observation.PrimaryMedia.MediaResource.Files.Fullsize.Height}}" src="{{Model.ObservationAdded.Observation.PrimaryMedia.MediaResource.Files.Fullsize.EmbedTag}}" {{PlayerParams}} frameborder="0" allowFullScreen></iframe>
+            {{/Model.ObservationAdded.Observation.PrimaryMedia.MediaResource.Files.Fullsize}}
         </div>
         {{#Model.ShowThumbnails}}
         <div class="thumbnails">
           {{#Model.ObservationAdded.Observation.Media}}
-          <img src="{{MediaResource.Files.FullSmall.RelativeUri}}" alt="{{Model.ObservationAdded.Observation.Title}}" />
+            {{#MediaResource.Files.FullSmall}}
+                <img src="{{MediaResource.Files.FullSmall.RelativeUri}}" alt="{{Model.ObservationAdded.Observation.Title}}" />
+            {{/MediaResource.Files.FullSmall}}
+            {{#MediaResource.Files.Small}}
+                <iframe width="{{MediaResource.Files.Small.Width}}" height="{{MediaResource.Files.Small.Height}}" src="{{MediaResource.Files.Small.EmbedTag}}" {{PlayerParams}} frameborder="0" allowFullScreen></iframe>
+            {{/MediaResource.Files.Small}}
           {{/Model.ObservationAdded.Observation.Media}}
         </div>
         {{/Model.ShowThumbnails}}

@@ -13223,28 +13223,52 @@ function ($, _, Backbone, app, ich) {
             log('embeddedVideoView:initialize', options);
             this.ValidVideo = false;
             this.VisiblePreview = false;
+            this.Preview = '';
             this.model.set('MediaType', 'video');
             //this.model.on('change:Metadata', this.onMediaResourceFilesChanged, this);
             this.model.on('change:Files', this.onMediaResourceFilesChanged, this);
-            this.model.on('videopreviewreturned:', this._onVideoPreviewReturned, this);
         },
 
         onRender: function () {
             log('embeddedVideoView:onRender');
-            this._resetView();
+            //this._resetView();
             this._showElement($('#modal-dialog'));
+            this._hideElement($('div#embed-video-preview'));
             return this;
-        },
-
-         _onVideoPreviewReturned: function (data) {
-            this.Preview = data.PreviewTags;
-            this.ValidVideo = data.success;
         },
 
         // fire this event when the link has been updated
         _updateLink: function () {
             log('embeddedVideoView:_updateLink');
-            this.model.previewVideo($('input#embed-video-link-input').val());
+            this._previewVideo($('input#embed-video-link-input').val());
+        },
+
+        _previewVideo: function (linkUri) {
+            log('EmbeddedVideo.previewVideo', linkUri);
+            var that = this;
+            $.when(this._getVideoPreview(linkUri))
+            .done(function (data) {
+                log(data, data.PreviewTags, data.success);
+                that.Preview = data.PreviewTags;
+                that.ValidVideo = data.success;
+            });
+
+            this.model.set('LinkUri', linkUri);
+        },
+
+        _getVideoPreview: function (url) {
+            log('EmbeddedVideo.getVideoPreview');
+            var deferred = new $.Deferred();
+            var params = {};
+            params['url'] = url;
+            $.ajax({
+                url: '/videopreview',
+                type: "POST",
+                data: params
+            }).done(function (data) {
+                deferred.resolve(data);
+            });
+            return deferred.promise();
         },
 
         // Fire this event when the description has been updated
@@ -13259,7 +13283,6 @@ function ($, _, Backbone, app, ich) {
 
         // no longer adding a new video
         _cancel: function () {
-            this._resetView();
             this._hideElement($('div#modal-dialog'));
             this._cleanup();
         },
@@ -13296,13 +13319,13 @@ function ($, _, Backbone, app, ich) {
         // trigger the editMediaView to save its model with this model in it..
         _save: function () {
             this.model.set('Description', $('#embed-video-description-input').val());
-            this.trigger('videouploaded', this.model);
+            this.trigger('videouploaded', this.model, this.Preview);
+            //this.model.save();
             this._cleanup();
         },
 
         _cleanup: function () {
             this.remove();
-            //this.unbind();
         },
 
         _hideElement: function (el) {
@@ -13349,34 +13372,6 @@ define('models/mediaresource',['jquery', 'underscore', 'backbone'], function ($,
 
         initialize: function (options) {
             log('EmbeddedVideo.initialize', options);
-            _.bindAll(this, 'previewVideo');
-        },
-
-        previewVideo: function (linkUri) {
-            log('EmbeddedVideo.previewVideo', linkUri);
-            var that = this;
-            $.when(this.getVideoPreview(linkUri))
-            .done(function (data) {
-                log(data);
-                this.trigger('videopreviewreturned:', data);
-            });
-
-            this.set('LinkUri', linkUri);
-        },
-
-        getVideoPreview: function (url) {
-            log('EmbeddedVideo.getVideoPreview');
-            var deferred = new $.Deferred();
-            var params = {};
-            params['url'] = url;
-            $.ajax({
-                url: '/videopreview',
-                type: "POST",
-                data: params
-            }).done(function (data) {
-                deferred.resolve(data);
-            });
-            return deferred.promise();
         }
 
     });
@@ -18086,10 +18081,10 @@ function ($, _, Backbone, app, UserFormLayoutView, User) {
         log('userController.mediaResourceUploaded', mediaResource);
 
         if (mediaResource.MediaType == "video") {
-            app.vent.trigger('imagemediaresourceuploaded:', mediaResource);
+            app.vent.trigger('videomediaresourceuploaded:', mediaResource);
         }
         else if (mediaResource.MediaType == "image") {
-            app.vent.trigger('videomediaresourceuploaded:', mediaResource);
+            app.vent.trigger('imagemediaresourceuploaded:', mediaResource);
         }
     };
 
@@ -24208,10 +24203,10 @@ function ($, _, Backbone, app, ich) {
             this.$el.find('div:first-child img').replaceWith($('<img src="' + mediaResource.get('Files').FullMedium.RelativeUri + '" alt="" />'));
         },
 
-        showVideoMedia: function (mediaResource) {
-            var src = mediaResource.get('Preview');
-            log('MediaResourceItemView.showVideoMedia:', src);
-            this.$el.find('div:first-child').replaceWith(ich.VideoPreview({ Width: 300, Height: 220, Source: src }));
+        showVideoMedia: function (preview) {
+            //var src = mediaResource.get('Preview');
+            log('MediaResourceItemView.showVideoMedia:', preview);
+            this.$el.find('div:first-child').replaceWith(ich.VideoPreview({ Width: 300, Height: 220, Source: preview }));
             //this.$el.append(ich.VideoPreview({ Width: 220, Height: 200, Source: src }));
         }
     });
@@ -24312,18 +24307,19 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVid
         },
 
         _showEmbeddedVideo: function () {
+            $('body').append('<div id="modal-dialog" class="make-invisible"></div>');
             var embeddedVideo = new EmbeddedVideoView({ el: $('#modal-dialog'), model: new MediaResource() });
             embeddedVideo.on('videouploaded', this._videoUploadAdd, this);
             embeddedVideo.render();
         },
 
         // once we have a previewable video from the host..
-        _videoUploadAdd: function (data) { // data in this case is a MediaResource
+        _videoUploadAdd: function (data, preview) { // data in this case is a MediaResource
             log('editMediaView:_onVideoUploadAdd');
             this.currentUploadKey = app.generateGuid();
             data.set('Key', this.currentUploadKey);
             this.model.addMediaResource(data);
-            data.save();
+
 
             var mediaResourceItemView = new MediaResourceItemView({ model: data });
             mediaResourceItemView.on('mediaresourceview:remove', this._onMediaResourceViewRemove);
@@ -24331,8 +24327,10 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVid
             this.$el.find('#media-resource-add-pane').before(mediaResourceItemView.render().el);
 
             this.filesAdded++;
-            mediaResourceItemView.showVideoMedia(data);
+            mediaResourceItemView.showVideoMedia(preview);
             this._showMediaResourceItemView(this, mediaResourceItemView, 280, true);
+
+            data.save();
         },
 
         _showMediaResourceItemView: function (self, mediaResourceItemView, imageWidth, beginAnimation) {
@@ -24397,10 +24395,10 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVid
             data.formData = { Key: this.currentUploadKey, OriginalFileName: data.files[0].name, MediaType: 'image', Usage: 'observation' };
         },
 
-        _onImageUploadDone: function (e, data) {
+        _onImageUploadDone: function (data) {
             log('ediMediaView:_onImageUploadDone', this.model);
             var mediaResource = this.model.mediaResources.find(function (item) {
-                return item.get('Key') === data.Key;
+                return item.get('Key') == data.Key;
             });
             mediaResource.set(data);
             //log('Photo Latitude: ' + data.result.PhotoLatitude);
@@ -24413,10 +24411,11 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVid
         _onVideoUploadDone: function (data) {
             log('ediMediaView:_onVideoUploadDone', data);
             var mediaResource = this.model.mediaResources.find(function (item) {
-                return item.get('Key') === data.Key;
+                return item.get('Key') == data.Key;
             });
             log('mediaResource found: ', mediaResource);
             mediaResource.set(data);
+            log('Video Upload set model to: ', data);
             //this.model.addMediaResource(mediaResource);
         }
     });
@@ -25825,6 +25824,8 @@ function ($, _, Backbone, app, ich, EditMapView, EditMediaView) {
         },
 
         _save: function () {
+            log('observationFormLayoutView.save');
+            this.model._setMedia();
             this.model.save();
             app.showPreviousContentView();
             //app.appRouter.navigate(app.stream.get('Uri'), { trigger: false });
