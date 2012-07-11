@@ -246,6 +246,7 @@
     <Content Include="js\libs\require\require.js" />
     <Content Include="js\libs\require\text.js" />
     <Content Include="js\libs\underscore\underscore.js" />
+    <Content Include="js\libs\youtube\player.js" />
     <Content Include="js\main.js" />
     <Content Include="species\Butterflies.txt" />
     <Content Include="species\Plants.txt" />
