@@ -6,7 +6,7 @@
                 <img src="{{Model.ObservationAdded.Observation.PrimaryMedia.MediaResource.Files.FullLarge.RelativeUri}}" alt="{{Model.ObservationAdded.Observation.Title}}" />
             {{/Model.ObservationAdded.Observation.PrimaryMedia.MediaResource.Files.FullLarge}}
             {{#Model.ObservationAdded.Observation.PrimaryMedia.MediaResource.Files.Fullsize}}
-                <iframe width="672px" height="400px" src="{{Model.ObservationAdded.Observation.PrimaryMedia.MediaResource.Files.Fullsize.EmbedTag}}" frameborder="0" allowFullScreen></iframe>
+                <iframe width="672px" height="400px" src="{{Model.ObservationAdded.Observation.PrimaryMedia.MediaResource.Files.Fullsize.EmbedTag}}?showinfo=0" frameborder="0" allowFullScreen></iframe>
             {{/Model.ObservationAdded.Observation.PrimaryMedia.MediaResource.Files.Fullsize}}
         </div>
         <div class="thumbnails">
@@ -15,7 +15,7 @@
               <img src="{{RelativeUri}}" alt="{{Title}}" />
             {{/MediaResource.Files.FullSmall}}
             {{#MediaResource.Files.Small}}
-              <iframe width="240px" height="200px" src="{{EmbedTag}}" frameborder="0" allowFullScreen></iframe>
+              <iframe width="200px" height="160px" src="{{EmbedTag}}?controls=0&showinfo=0" frameborder="0" controls="0" allowFullScreen></iframe>
             {{/MediaResource.Files.Small}}
           {{/Model.ObservationAdded.Observation.Media}}
         </div>

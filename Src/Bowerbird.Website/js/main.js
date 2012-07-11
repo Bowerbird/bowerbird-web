@@ -32,7 +32,9 @@ require.config({
         signalr: '../libs/jquery.signalr/jquery.signalr',
         timeago: '../libs/jquery.timeago/jquery.timeago',
         log: '../libs/log/log',
-        hubs: 'hubs'
+        hubs: 'hubs'//,
+        //youtube: 'http://www.youtube.com/player_api',
+        //player: '../libs/youtube/player'
     }
 });
 
@@ -67,7 +69,9 @@ require([
         'views/onlineusercompositeview',
         'views/chatcompositeview',
         'signalr',
-        'hubs'
+        'hubs'//,
+        //'youtube',
+        //'player'
     ],
     function (app, bootstrapData) {
         log('bootstrapped data', bootstrapData);

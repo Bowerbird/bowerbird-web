@@ -27,3 +27,4 @@ media/
 Release/
 *.chm
 deploy.bat
+GoogleAPIKey/
