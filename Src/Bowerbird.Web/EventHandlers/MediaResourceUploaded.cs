@@ -78,7 +78,8 @@ namespace Bowerbird.Web.EventHandlers
             {
                 domainEvent.DomainModel.Id,
                 domainEvent.DomainModel.Metadata,
-                domainEvent.DomainModel.Type,
+                domainEvent.DomainModel.MediaType,
+                domainEvent.DomainModel.Key,
                 domainEvent.DomainModel.Files
             };
 

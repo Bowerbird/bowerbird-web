@@ -78,7 +78,13 @@ function ($, _, Backbone, app, UserFormLayoutView, User) {
     var mediaResourceUploaded = function (mediaResource) {
         // detect model type then raise event
         log('userController.mediaResourceUploaded', mediaResource);
-        app.vent.trigger('mediaResourceUploaded:', mediaResource);
+
+        if (mediaResource.MediaType == "video") {
+            app.vent.trigger('videomediaresourceuploaded:', mediaResource);
+        }
+        else if (mediaResource.MediaType == "image") {
+            app.vent.trigger('imagemediaresourceuploaded:', mediaResource);
+        }
     };
 
     // Show an project form

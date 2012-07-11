@@ -40,6 +40,8 @@ namespace Bowerbird.Web.ViewModels
 
         public HttpPostedFileBase File { get; set; }
 
+        public string Usage { get; set; }
+
         // Used for Videos 
         public string LinkUri { get; set; }
 

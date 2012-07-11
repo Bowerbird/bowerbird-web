@@ -39,14 +39,14 @@ namespace Bowerbird.Core.DomainModels
         }
 
         public MediaResource(
-            string type,
+            string mediaType,
             User createdByUser,
             DateTime uploadedOn)
             : base()
         {
             InitMembers();
 
-            Type = type;
+            MediaType = mediaType;
             UploadedOn = uploadedOn;
             if (createdByUser != null)
             {
@@ -57,29 +57,22 @@ namespace Bowerbird.Core.DomainModels
         }
 
         public MediaResource(
-            string type,
+            string mediaType,
             User createdByUser,
             DateTime uploadedOn,
-            string description,
-            string link,
-            string provider,
-            string videoId)
+            string key)
             : base()
         {
             InitMembers();
 
-            Type = type;
+            MediaType = mediaType;
             UploadedOn = uploadedOn;
+            Key = key;
+
             if (createdByUser != null)
             {
                 CreatedByUser = createdByUser;
             }
-
-            // Add metadata into the Metadata dictionary
-            Metadata.Add("Description", description);
-            Metadata.Add("Url", link);
-            Metadata.Add("Provider", provider);
-            Metadata.Add("VideoId", videoId);
 
             EnableEvents();
         }
@@ -88,7 +81,9 @@ namespace Bowerbird.Core.DomainModels
 
         #region Properties
 
-        public string Type { get; private set; }
+        public string MediaType { get; private set; }
+
+        public string Key { get; private set; }
 
         public DenormalisedUserReference CreatedByUser { get; private set; }
 

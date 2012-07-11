@@ -187,6 +187,8 @@ function ($, _, Backbone, app, ich, EditMapView, EditMediaView) {
         },
 
         _save: function () {
+            log('observationFormLayoutView.save');
+            this.model._setMedia();
             this.model.save();
             app.showPreviousContentView();
             //app.appRouter.navigate(app.stream.get('Uri'), { trigger: false });

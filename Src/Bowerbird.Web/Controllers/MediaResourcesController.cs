@@ -132,22 +132,16 @@ namespace Bowerbird.Web.Controllers
 
             if (mediaResourceUpload.MediaType.ToLower().Equals("image"))
             {
-                return ProcessPostedImage(
-                    mediaResourceUpload.Key,
-                    mediaResourceUpload.OriginalFileName,
-                    mediaResourceUpload.File, 
-                    "observation"
-                );
-
-                //_commandProcessor.Process(new MediaResourceCreateCommand()
-                //{
-                //    UploadedOn = DateTime.UtcNow,
-                //    Key = mediaResourceUpload.Key,
-                //    UserId = _userContext.GetAuthenticatedUserId(),
-                //    MediaType = mediaResourceUpload.MediaType,
-                //    OriginalFileName = mediaResourceUpload.OriginalFileName,
-                //    Stream = mediaResourceUpload.File.InputStream
-                //});
+                _commandProcessor.Process(new MediaResourceCreateCommand()
+                {
+                    UploadedOn = DateTime.UtcNow,
+                    Key = mediaResourceUpload.Key,
+                    UserId = _userContext.GetAuthenticatedUserId(),
+                    MediaType = mediaResourceUpload.MediaType,
+                    Stream = mediaResourceUpload.File.InputStream,
+                    OriginalFileName = mediaResourceUpload.OriginalFileName,
+                    Usage = mediaResourceUpload.Usage
+                });
             }
 
             return JsonSuccess();
@@ -176,9 +170,9 @@ namespace Bowerbird.Web.Controllers
         [HttpPost]
         [Authorize]
         [Transaction]
-        public ActionResult ObservationUpload(string key, string originalFileName, HttpPostedFileBase file)
+        public ActionResult ObservationUpload(string key, string originalFileName, HttpPostedFileBase file, string mediaType)
         {
-            return ProcessPostedImage(key, originalFileName, file, "observation");
+            return ProcessPostedImage(key, originalFileName, file, "observation", mediaType);
         }
 
         [HttpPost]
@@ -195,7 +189,7 @@ namespace Bowerbird.Web.Controllers
             return ProcessPostedImage(string.Empty, string.Empty, file, "avatar");
         }
 
-        private ActionResult ProcessPostedImage(string key, string originalFileName, HttpPostedFileBase file, string recordType)
+        private ActionResult ProcessPostedImage(string key, string originalFileName, HttpPostedFileBase file, string recordType, string mediaType = "image")
         {
             try
             {
@@ -205,7 +199,9 @@ namespace Bowerbird.Web.Controllers
                     Stream = file.InputStream,
                     UploadedOn = DateTime.UtcNow,
                     Usage = recordType,
-                    UserId = _userContext.GetAuthenticatedUserId()
+                    UserId = _userContext.GetAuthenticatedUserId(),
+                    MediaType = mediaType,
+                    Key = key
                 };
 
                 MediaResource mediaResource = null;
@@ -218,11 +214,11 @@ namespace Bowerbird.Web.Controllers
                     {
                         mediaResource.Id,
                         mediaResource.CreatedByUser,
-                        mediaResource.Type,
+                        mediaResource.MediaType,
                         mediaResource.UploadedOn,
                         mediaResource.Files,
                         mediaResource.Metadata,
-                        Key = key
+                        mediaResource.Key
                     });
             }
             catch (Exception ex)

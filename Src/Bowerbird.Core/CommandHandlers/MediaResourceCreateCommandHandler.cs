@@ -86,7 +86,8 @@ namespace Bowerbird.Core.CommandHandlers
                 var mediaResource = new MediaResource(
                                 mediaType,
                                 _documentSession.Load<User>(command.UserId),
-                                command.UploadedOn);
+                                command.UploadedOn,
+                                command.Key);
 
                 _documentSession.Store(mediaResource);
 
@@ -158,7 +159,8 @@ namespace Bowerbird.Core.CommandHandlers
                 var mediaResource = new MediaResource(
                                 mediaType,
                                 user,
-                                command.UploadedOn);
+                                command.UploadedOn,
+                                command.Key);
 
                 switch (mediaType)
                 {
@@ -215,14 +217,12 @@ namespace Bowerbird.Core.CommandHandlers
                             string videoId; // unique identifier for video on playback service
                             string embedString; // the embed html tags with format options for video id and sizes
 
-
                             if (_videoUtility.IsValidVideo(command.LinkUri, out embedString, out videoId, out provider))
                             {
-                                mediaResource.AddMetadata("Description", command.Description)
+                                mediaResource
                                     .AddMetadata("Url", command.LinkUri)
                                     .AddMetadata("Provider", provider)
-                                    .AddMetadata("VideoId", videoId)
-                                    .AddMetadata("Key", command.Key);
+                                    .AddMetadata("VideoId", videoId);
                                 
                                 MakeVideoMediaResourceFiles(
                                     mediaResource,
@@ -246,40 +246,6 @@ namespace Bowerbird.Core.CommandHandlers
                     image.Cleanup();
                 
                 throw ex;
-            }
-        }
-
-        public void Handle(VideoResourceCreateCommand command)
-        {
-            Check.RequireNotNull(command, "command");
-
-            var user = _documentSession.Load<User>(command.UserId);
-
-            string provider, videoId, embedString;
-
-            if (_videoUtility.IsValidVideo(command.LinkUri, out embedString, out videoId, out provider))
-            {
-                var videoResource = new MediaResource(
-                    command.Usage,
-                    user,
-                    DateTime.UtcNow,
-                    command.Description,
-                    command.LinkUri,
-                    provider,
-                    videoId);
-
-                MakeVideoMediaResourceFiles(
-                    videoResource,
-                    embedString,
-                    command.LinkUri,
-                    provider,
-                    videoId);
-
-                videoResource.AddMetadata("Key", command.Key);
-
-                _documentSession.Store(videoResource);
-
-                videoResource.FireCreatedEvent(user);
             }
         }
 

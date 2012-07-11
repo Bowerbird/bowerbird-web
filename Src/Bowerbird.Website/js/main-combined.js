@@ -13221,8 +13221,12 @@ function ($, _, Backbone, app, ich) {
 
         initialize: function (options) {
             log('embeddedVideoView:initialize', options);
-            this.model.on('change:Metadata', this.onMediaResourceFilesChanged, this);
+            this.ValidVideo = false;
+            this.VisiblePreview = false;
             this.model.set('MediaType', 'video');
+            //this.model.on('change:Metadata', this.onMediaResourceFilesChanged, this);
+            this.model.on('change:Files', this.onMediaResourceFilesChanged, this);
+            this.model.on('videopreviewreturned:', this._onVideoPreviewReturned, this);
         },
 
         onRender: function () {
@@ -13230,6 +13234,11 @@ function ($, _, Backbone, app, ich) {
             this._resetView();
             this._showElement($('#modal-dialog'));
             return this;
+        },
+
+         _onVideoPreviewReturned: function (data) {
+            this.Preview = data.PreviewTags;
+            this.ValidVideo = data.success;
         },
 
         // fire this event when the link has been updated
@@ -13258,26 +13267,29 @@ function ($, _, Backbone, app, ich) {
         // set form and model back to their original state
         _resetView: function () {
             log('embeddedVideoView:_resetView');
+            this.VisiblePreview = false;
             $('input#embed-video-link-input').val('');
             $('#embed-video-description-input').val('');
             $('div#embed-video-player').html('');
-            this.model.set('VisiblePreview', false);
             this._hideElement($('div#embed-video-preview'));
         },
 
+        // this button itself is modal, in that click it once to show a preview, 
+        // then if preview is visible, click again to save the viewed video.
         _next: function () {
             log('embeddedVideoView:_next');
-            // if we've got a valid video, and we've seen it:
-            if (this.model.get('ValidVideo') && this.model.get('VisiblePreview')) {
+            // if we've got a valid video, and we've seen it, we are clicking to save
+            if (this.ValidVideo && this.VisiblePreview) {
                 this._save();
             }
-            // if we've loaded a new video, display it:
-            else if (this.model.get('ValidVideo')) {
-                var src = this.model.get('Preview');
+            // if we've loaded a new video, but haven't seen it, display it:
+            else if (this.ValidVideo) {
+                var src = this.Preview;
                 this._showElement($('div#embed-video-preview'));
                 $('div#embed-video-player').empty();
                 this.$el.find('div#embed-video-player').append(ich.VideoPreview({ Width: 520, Height: 400, Source: src }));
-                this.model.set('VisiblePreview', true);
+                // now we've seen it, so next click we want to save it.
+                this.VisiblePreview = true;
             }
         },
 
@@ -13322,12 +13334,13 @@ define('models/mediaresource',['jquery', 'underscore', 'backbone'], function ($,
     var MediaResource = Backbone.Model.extend({
         defaults: {
             Key: 0,
-            MediumImageUri: '/img/image-upload.png',
+            Files: {
+                FullMedium: {
+                    RelativeUri: '/img/image-upload.png'
+                }
+            },
             MediaType: 'image',
-            Preview: '',
-            Description: '',
-            ValidVideo: false,
-            VisiblePreview: false
+            LinkUri: ''
         },
 
         idAttribute: 'Id',
@@ -13339,17 +13352,13 @@ define('models/mediaresource',['jquery', 'underscore', 'backbone'], function ($,
             _.bindAll(this, 'previewVideo');
         },
 
-        // check that we have either a youtube link or a vimeo link.
-        // if success, create the embed script from the link
-        // if failure, return error message
         previewVideo: function (linkUri) {
             log('EmbeddedVideo.previewVideo', linkUri);
             var that = this;
             $.when(this.getVideoPreview(linkUri))
             .done(function (data) {
                 log(data);
-                that.set('Preview', data.PreviewTags);
-                that.set('ValidVideo', data.success);
+                this.trigger('videopreviewreturned:', data);
             });
 
             this.set('LinkUri', linkUri);
@@ -18075,7 +18084,13 @@ function ($, _, Backbone, app, UserFormLayoutView, User) {
     var mediaResourceUploaded = function (mediaResource) {
         // detect model type then raise event
         log('userController.mediaResourceUploaded', mediaResource);
-        app.vent.trigger('mediaResourceUploaded:', mediaResource);
+
+        if (mediaResource.MediaType == "video") {
+            app.vent.trigger('imagemediaresourceuploaded:', mediaResource);
+        }
+        else if (mediaResource.MediaType == "image") {
+            app.vent.trigger('videomediaresourceuploaded:', mediaResource);
+        }
     };
 
     // Show an project form
@@ -24236,7 +24251,9 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVid
                 '_onImageUploadAdd');
             this.mediaResourceItemViews = [];
             this.currentUploadKey = '';
-            app.vent.on('mediaResourceUploaded:', this._onVideoUploadDone, this);
+
+            app.vent.on('videomediaresourceuploaded:', this._onVideoUploadDone, this);
+            app.vent.on('imagemediaresourceuploaded:', this._onImageUploadDone, this);
         },
 
         render: function () {
@@ -24250,10 +24267,10 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVid
             $('#fileupload').fileupload({
                 dataType: 'json',
                 paramName: 'file',
-                url: '/mediaresources/observationupload',
+                url: '/mediaresources/mediaresourceupload',
                 add: this._onImageUploadAdd,
-                submit: this._onSubmitImageUpload,
-                done: this._onImageUploadDone
+                submit: this._onSubmitImageUpload
+                //done: this._onImageUploadDone
             });
         },
 
@@ -24377,17 +24394,17 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVid
 
         _onSubmitImageUpload: function (e, data) {
             log('ediMediaView:_onSubmitImageUpload');
-            data.formData = { Key: this.currentUploadKey, OriginalFileName: data.files[0].name };
+            data.formData = { Key: this.currentUploadKey, OriginalFileName: data.files[0].name, MediaType: 'image', Usage: 'observation' };
         },
 
         _onImageUploadDone: function (e, data) {
             log('ediMediaView:_onImageUploadDone', this.model);
             var mediaResource = this.model.mediaResources.find(function (item) {
-                return item.get('Key') === data.result.Key;
+                return item.get('Key') === data.Key;
             });
-            mediaResource.set(data.result);
-            log('Photo Latitude: ' + data.result.PhotoLatitude);
-            log('Photo Longitude: ' + data.result.PhotoLongitude);
+            mediaResource.set(data);
+            //log('Photo Latitude: ' + data.result.PhotoLatitude);
+            //log('Photo Longitude: ' + data.result.PhotoLongitude);
             //$('#media-resource-items').animate({ scrollLeft: 100000 });
             //app.vent.trigger('observationmedia:uploaded', mediaResource);
         },
@@ -24396,7 +24413,7 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVid
         _onVideoUploadDone: function (data) {
             log('ediMediaView:_onVideoUploadDone', data);
             var mediaResource = this.model.mediaResources.find(function (item) {
-                return item.get('Key') === data.Metadata.Key;
+                return item.get('Key') === data.Key;
             });
             log('mediaResource found: ', mediaResource);
             mediaResource.set(data);

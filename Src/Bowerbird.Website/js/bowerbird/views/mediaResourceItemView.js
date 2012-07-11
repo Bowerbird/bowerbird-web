@@ -55,10 +55,10 @@ function ($, _, Backbone, app, ich) {
             this.$el.find('div:first-child img').replaceWith($('<img src="' + mediaResource.get('Files').FullMedium.RelativeUri + '" alt="" />'));
         },
 
-        showVideoMedia: function (mediaResource) {
-            var src = mediaResource.get('Preview');
-            log('MediaResourceItemView.showVideoMedia:', src);
-            this.$el.find('div:first-child').replaceWith(ich.VideoPreview({ Width: 300, Height: 220, Source: src }));
+        showVideoMedia: function (preview) {
+            //var src = mediaResource.get('Preview');
+            log('MediaResourceItemView.showVideoMedia:', preview);
+            this.$el.find('div:first-child').replaceWith(ich.VideoPreview({ Width: 300, Height: 220, Source: preview }));
             //this.$el.append(ich.VideoPreview({ Width: 220, Height: 200, Source: src }));
         }
     });
