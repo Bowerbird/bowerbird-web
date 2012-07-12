@@ -221,8 +221,8 @@ h1
 {
     background: none repeat scroll 0 0 rgba(202, 222, 239, 0.8);
     float: left;
-    margin-top: 30px;
-    margin-bottom: 30px;
+    margin-top: 25px;
+    margin-bottom: 25px;
     padding-top: 15px;
     position: relative;
     width: 100%;
@@ -578,13 +578,24 @@ h1
     clear: both;
     float: left;
     height: 286px;
+    white-space: nowrap;
     width: 100%;
 }
 .form .avatar-media-uploader
 {
     width:300px;   
 }
-.form #media-resource-add-pane,
+.form #media-resource-add-pane
+{
+float: right;
+    height: 266px;
+    white-space: normal;
+    width: 270px;
+}
+.form #media-resource-add-pane p
+{
+    margin: 0 0 15px;
+}
 .form #avatar-add-pane
 {
     background-color: rgba(202, 222, 239, 0.6);
@@ -644,7 +655,7 @@ h1
     overflow-x: scroll;
     overflow-y: hidden;
     position: absolute;
-    right: 0;
+    right: 270px;
     white-space: nowrap;
 }
 .form .media-resource-uploaded,
@@ -721,17 +732,26 @@ h1
     padding: 0;
     text-align: center;
 }
-.form .media-resource-upload-button
+.form .file-upload-button
 {
-    cursor: pointer;
+    /*cursor: pointer;
     display: block;
     margin: 32px auto 0;
     overflow: hidden;
     padding: 3px 0;
     position: relative;
-    width: 200px;
+    width: 200px;*/
+    cursor: pointer;
+    display: inline-block;
+    margin-right: 0;
+    overflow: hidden;
+    padding: 3px 0;
+    position: relative;
+    text-align: center;
+    vertical-align: top;
+    width: 110px;
 }
-.form .media-resource-upload-button input
+.form .file-upload-button input
 {
     color: transparent;
     cursor: pointer;
@@ -743,6 +763,51 @@ h1
     top: 0;
     margin: 0;
     padding: 0;
+}
+.form .website-upload-button
+{
+    background: none repeat scroll 0 0 transparent;
+    border: 0 none;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: none;
+    display: inline-block;
+    height: 32px;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    text-shadow: none;
+    top: -1px;
+    vertical-align: top;
+    width: 32px;
+    text-indent: -99999px;
+}
+.form .website-upload-button.youtube
+{
+    background-image: url(/img/youtube.png);
+}
+.form .website-upload-button.youtube:hover
+{
+    box-shadow: 0 1px 1px 0 rgba(255, 255, 255, 0.4) inset, 0 1px 6px 0 rgba(250, 75, 75, 0.9);
+}
+.form .website-upload-button.vimeo
+{
+    background-image: url(/img/vimeo.png);
+}
+.form .website-upload-button.flickr
+{
+    background-image: url(/img/flickr.png);
+}
+.form .website-upload-button.flickr:hover
+{
+    box-shadow: 0 1px 1px 0 rgba(255, 255, 255, 0.4) inset, 0 1px 6px 0 rgba(255, 82, 160, 0.9);
+}
+.form .website-upload-button.picasa
+{
+    background-image: url(/img/picasa.png);
+}
+.form .website-upload-button.picasa:hover
+{
+    box-shadow: 0 1px 1px 0 rgba(255, 255, 255, 0.4) inset, 0 1px 6px 0 rgba(252, 149, 70, 0.9);
 }
 .form #media-resource-embed-button
 {

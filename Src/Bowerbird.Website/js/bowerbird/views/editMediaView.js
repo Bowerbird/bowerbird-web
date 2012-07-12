@@ -16,7 +16,7 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVid
         id: 'media-resources-fieldset',
 
         events: {
-            'click #media-resource-embed-button': '_showEmbeddedVideo'
+            'click #youtube-upload-button': '_showEmbeddedVideo'
         },
 
         initialize: function (options) {
@@ -43,7 +43,7 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVid
 
         _initMediaUploader: function () {
             log('ediMediaView:_initMediaUploader');
-            $('#fileupload').fileupload({
+            this.$el.find('#file').fileupload({
                 dataType: 'json',
                 paramName: 'file',
                 url: '/mediaresources/mediaresourceupload',
@@ -64,7 +64,7 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVid
             var mediaResourceItemView = new MediaResourceItemView({ model: mediaResource });
             mediaResourceItemView.on('mediaresourceview:remove', this._onMediaResourceViewRemove);
             this.mediaResourceItemViews.push(mediaResourceItemView);
-            this.$el.find('#media-resource-add-pane').before(mediaResourceItemView.render().el);
+            this.$el.find('.media-resource-items').append(mediaResourceItemView.render().el);
 
             var self = this;
             var tempImage = null;
@@ -94,7 +94,8 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVid
             data.submit();
         },
 
-        _showEmbeddedVideo: function () {
+        _showEmbeddedVideo: function (e) {
+            e.preventDefault();
             $('body').append('<div id="modal-dialog" class="make-invisible"></div>');
             var embeddedVideo = new EmbeddedVideoView({ el: $('#modal-dialog'), model: new MediaResource() });
             embeddedVideo.on('videouploaded', this._videoUploadAdd, this);

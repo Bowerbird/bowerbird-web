@@ -74,7 +74,7 @@ namespace Bowerbird.Web.EventHandlers
         {
             if(domainEvent.Sender is Observation)
             {
-                var observation = _documentSession.Load<dynamic>(domainEvent.Sender.Id);
+                var observation = domainEvent.Sender as Observation;
 
                 dynamic activity = MakeActivity(
                     domainEvent, 
@@ -95,7 +95,7 @@ namespace Bowerbird.Web.EventHandlers
 
             if(domainEvent.Sender is Post)
             {
-                var post = _documentSession.Load<dynamic>(domainEvent.Sender.Id);
+                var post = domainEvent.Sender as Post;
                 var group = _documentSession.Load<dynamic>(((Post) post).Group.Id);
 
                 dynamic activity = MakeActivity(
