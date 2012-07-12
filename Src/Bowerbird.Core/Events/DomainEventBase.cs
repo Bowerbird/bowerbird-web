@@ -42,7 +42,7 @@ namespace Bowerbird.Core.Events
 
         public User User { get; private set; }
 
-        public DomainModel Sender { get; private set; }
+        public object Sender { get; private set; }
 
         #endregion
 

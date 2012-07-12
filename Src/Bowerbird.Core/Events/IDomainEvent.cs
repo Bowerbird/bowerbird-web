@@ -21,7 +21,7 @@ namespace Bowerbird.Core.Events
 
         User User { get; }
 
-        DomainModel Sender { get; }
+        object Sender { get; }
 
     }
 }

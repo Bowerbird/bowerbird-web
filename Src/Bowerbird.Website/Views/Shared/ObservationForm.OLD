@@ -4,26 +4,22 @@
       <legend>Observation Details</legend>
       <fieldset id="media-resources-fieldset">
         <legend>Images, Videos, Audio</legend>
+        <p>Drag and drop files into the box below, or choose files from your computer or import from other websites.</p>
         <div id="media-uploader">
           <div class="media-resource-items" id="media-resource-items">
-            <!--<div class="media-resource-dropzone">
+            <div class="media-resource-dropzone">
               <p>Drop files here<p>
-            </div>-->
+            </div>
+            <div id="media-resource-add-pane">
+              <div id="media-resource-upload-button" class="button media-resource-upload-button">
+                Choose Files<input id="fileupload" type="file" name="file" multiple="" />
+              </div>
+              <div>
+                <input type="button" value="Video From Website" id="media-resource-embed-button"/>
+              </div>
+              <input type="button" value="Image From Website" id="media-resource-import-button"/>
+            </div>
           </div>
-          <div id="media-resource-add-pane">
-            <p>Upload your files or import from other websites.</p>
-            <div class="button file-upload-button">
-              My Files<input id="file" type="file" name="file" multiple="" />
-            </div>
-            <button id="youtube-upload-button" class="website-upload-button youtube">Youtube</button>
-            <button id="vimeo-upload-button" class="website-upload-button vimeo">Vimeo</button>
-            <button id="flickr-upload-button" class="website-upload-button flickr">Flickr</button>
-            <button id="picasa-upload-button" class="website-upload-button picasa">Picasa</button>
-            <!--<div>
-              <input type="button" value="Video From Website" id="media-resource-embed-button"/>
-            </div>
-            <input type="button" value="Image From Website" id="media-resource-import-button"/>-->
-          </div>          
         </div>
       </fieldset>
       <div id="title-field" class="field">

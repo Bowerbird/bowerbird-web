@@ -17,6 +17,7 @@
         multiselect: '../libs/jquery.multiselect/jquery.multiselect',
         loadimage: '../libs/jquery.fileupload/load-image',
         fileupload: '../libs/jquery.fileupload/jquery.fileupload',
+        iframetransport: '../libs/jquery.fileupload/jquery.iframe-transport',
         signalr: '../libs/jquery.signalr/jquery.signalr',
         timeago: '../libs/jquery.timeago/jquery.timeago',
         log: '../libs/log/log',

@@ -128,6 +128,10 @@
     <Content Include="css\new\normalize.css" />
     <Content Include="css\new\stream.css" />
     <Content Include="css\site.css" />
+    <Content Include="img\flickr.png" />
+    <Content Include="img\picasa.png" />
+    <Content Include="img\vimeo.png" />
+    <Content Include="img\youtube.png" />
     <Content Include="js\bowerbird\collections\chatMessageCollection.js" />
     <Content Include="js\bowerbird\collections\chatCollection.js" />
     <Content Include="js\bowerbird\collections\exploreProjectCollection.js" />
@@ -379,9 +383,9 @@
     </Content>
     <Content Include="Views\Shared\Notifications.mustache" />
     <Content Include="Views\Shared\NotificationItem.mustache" />
-    <Content Include="Views\Shared\ObservationForm.mustache">
+    <None Include="Views\Shared\ObservationForm.mustache">
       <SubType>Designer</SubType>
-    </Content>
+    </None>
     <Content Include="Views\Shared\ObservationMediaResourceUploaded.mustache" />
     <Content Include="Views\Shared\ObservationStreamItem.mustache" />
     <Content Include="Views\Shared\OrganisationForm.mustache">
@@ -424,6 +428,9 @@
     </Content>
     <Content Include="Views\Shared\VideoPreview.mustache" />
     <Content Include="Views\Shared\ImagePreview.mustache" />
+    <None Include="Views\Shared\ObservationForm.OLD">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="404.html" />
