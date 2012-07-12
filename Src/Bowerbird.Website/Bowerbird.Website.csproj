@@ -382,12 +382,16 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="Views\Shared\Notifications.mustache" />
-    <Content Include="Views\Shared\NotificationItem.mustache" />
+    <Content Include="Views\Shared\NotificationItem.mustache">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Views\Shared\ObservationForm.mustache">
       <SubType>Designer</SubType>
     </None>
     <Content Include="Views\Shared\ObservationMediaResourceUploaded.mustache" />
-    <Content Include="Views\Shared\ObservationStreamItem.mustache" />
+    <Content Include="Views\Shared\ObservationStreamItem.mustache">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\Shared\OrganisationForm.mustache">
       <SubType>Designer</SubType>
     </Content>

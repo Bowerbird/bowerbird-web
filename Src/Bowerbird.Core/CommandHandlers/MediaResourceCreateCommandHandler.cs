@@ -133,6 +133,8 @@ namespace Bowerbird.Core.CommandHandlers
                             command.Key);
 
             _documentSession.Store(mediaResource);
+            // looks like we need to call savechanges to actually get an id back
+            _documentSession.SaveChanges();
 
             switch (mediaType)
             {

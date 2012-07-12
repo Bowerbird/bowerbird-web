@@ -114,7 +114,7 @@ namespace Bowerbird.Core.Services
 
             if (exifData != null && exifData.Count > 0)
             {
-                SetImageExifMetadata(mediaResource, file);
+                SetImageExifMetadata(mediaResource, (dynamic)file);
             }
         }
 

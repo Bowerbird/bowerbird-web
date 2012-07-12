@@ -62,7 +62,10 @@ namespace Bowerbird.Web.EventHandlers
                 mediaResourceSender.Metadata,
                 mediaResourceSender.MediaType,
                 mediaResourceSender.Key,
-                mediaResourceSender.Files
+                mediaResourceSender.Image,
+                mediaResourceSender.UploadedOn,
+                mediaResourceSender.User,
+                mediaResourceSender.Video
             };
 
             _backChannelService.SendUploadedMediaResourceToUserChannel(domainEvent.User.Id, mediaResource);

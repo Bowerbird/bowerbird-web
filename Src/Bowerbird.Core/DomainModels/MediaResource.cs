@@ -48,7 +48,7 @@ namespace Bowerbird.Core.DomainModels
 
             // Add these properties to the dictionary. I tried making these properties static, but RavenDB has a bug where static properties on a
             // DynamicObject type are not serialised.
-            _properties.Add("Id", "");
+            _properties.Add("Id", "mediaresources/");
             _properties.Add("MediaType", mediaType);
             _properties.Add("UploadedOn", uploadedOn.ToString("yyyy-MM-ddTHH:mm:ssZ"));
             _properties.Add("Metadata", new Dictionary<string, string>());
@@ -67,7 +67,7 @@ namespace Bowerbird.Core.DomainModels
         {
             get
             {
-                return _properties["Id"].ToString();
+                return _properties["Id"].ToString() ?? string.Empty;
             }
 
             set
@@ -105,13 +105,13 @@ namespace Bowerbird.Core.DomainModels
 
         public MediaResource AddMetadata(string key, string value)
         {
-            if (((IDictionary<string,object>)_properties["Metadata"]).ContainsKey(key))
+            if (((IDictionary<string,string>)_properties["Metadata"]).ContainsKey(key))
             {
-                ((IDictionary<string, object>)_properties["Metadata"])[key] = value;
+                ((IDictionary<string, string>)_properties["Metadata"])[key] = value;
             }
             else
             {
-                ((IDictionary<string, object>)_properties["Metadata"]).Add(key, value);
+                ((IDictionary<string, string>)_properties["Metadata"]).Add(key, value);
             }
 
             return this;
