@@ -21,7 +21,7 @@ using Raven.Client.Linq;
 using Bowerbird.Core.Paging;
 using Bowerbird.Core.Config;
 using System;
-using Bowerbird.Core.Services;
+using Bowerbird.Core.VideoUtilities;
 using System.Dynamic;
 using Raven.Abstractions.Linq;
 

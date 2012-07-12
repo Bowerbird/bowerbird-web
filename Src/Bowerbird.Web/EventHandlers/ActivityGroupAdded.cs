@@ -15,7 +15,7 @@ using Bowerbird.Core.Config;
 using Bowerbird.Core.Events;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.Services;
+using Bowerbird.Core.VideoUtilities;
 using Raven.Client;
 using Bowerbird.Core.EventHandlers;
 using SignalR.Hubs;

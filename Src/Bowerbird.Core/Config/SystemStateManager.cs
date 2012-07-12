@@ -17,7 +17,7 @@ using Raven.Client;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Commands;
-using Bowerbird.Core.Services;
+using Bowerbird.Core.VideoUtilities;
 using Bowerbird.Core.Factories;
 
 namespace Bowerbird.Core.Config

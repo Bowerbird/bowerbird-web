@@ -15,7 +15,7 @@
 */
 
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.Services;
+using Bowerbird.Core.VideoUtilities;
 using Raven.Client.Document;
 using Raven.Client;
 using Ninject.Activation;

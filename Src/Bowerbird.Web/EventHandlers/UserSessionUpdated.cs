@@ -14,7 +14,7 @@ using System.Linq;
 using Bowerbird.Core.Events;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.Services;
+using Bowerbird.Core.VideoUtilities;
 using Raven.Client;
 using Raven.Client.Linq;
 using System.Dynamic;

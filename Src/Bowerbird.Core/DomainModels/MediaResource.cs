@@ -170,37 +170,9 @@ namespace Bowerbird.Core.DomainModels
         {
             Check.RequireNotNull(createdByUser, "createdByUser");
 
-            FireEvent(new DomainModelCreatedEvent<MediaResource>(this, createdByUser, this));            
+            FireEvent(new DomainModelCreatedEvent<MediaResource>(this, createdByUser, this));
         }
 
-        #endregion      
-    }
-
-    public class MediaResourceFile : DynamicObject
-    {
-        protected Dictionary<string, object> _properties = new Dictionary<string, object>();
-
-        public override IEnumerable<string> GetDynamicMemberNames()
-        {
-            return _properties.Keys;
-        }
-
-        public override bool TryGetMember(GetMemberBinder binder, out object result)
-        {
-            return _properties.TryGetValue(binder.Name, out result);
-        }
-
-        public override bool TrySetMember(SetMemberBinder binder, object value)
-        {
-            _properties[binder.Name] = value;
-            return true;
-        }
-
-        public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)
-        {
-            dynamic method = _properties[binder.Name];
-            result = method(args);
-            return true;
-        }
+        #endregion
     }
 }

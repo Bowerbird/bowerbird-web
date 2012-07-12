@@ -19,7 +19,7 @@ using Bowerbird.Test.Utils;
 using NUnit.Framework;
 using Raven.Client;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.Services;
+using Bowerbird.Core.VideoUtilities;
 using Moq;
 
 namespace Bowerbird.Test.Core.CommandHandlers

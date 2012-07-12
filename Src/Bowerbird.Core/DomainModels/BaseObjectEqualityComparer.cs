@@ -28,7 +28,7 @@ namespace Bowerbird.Core.DomainModels
     ///     use IEqualityComparer's GetHashCode() method.
     /// </summary>
     public class BaseObjectEqualityComparer<T> : IEqualityComparer<T>
-        where T : BaseObject
+        where T : DynamicBaseObject
     {
         public bool Equals(T firstObject, T secondObject)
         {

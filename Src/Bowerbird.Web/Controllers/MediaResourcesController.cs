@@ -13,17 +13,16 @@
 */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.VideoUtilities;
+using Bowerbird.Core.VideoUtilities;
 using Raven.Client;
 using Bowerbird.Core.Config;
 using Bowerbird.Web.Config;
-using Bowerbird.Core.Services;
 using Bowerbird.Web.ViewModels;
 
 namespace Bowerbird.Web.Controllers

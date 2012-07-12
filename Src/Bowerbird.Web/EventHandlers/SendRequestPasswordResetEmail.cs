@@ -17,7 +17,7 @@
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Events;
 using Bowerbird.Core.Extensions;
-using Bowerbird.Core.Services;
+using Bowerbird.Core.VideoUtilities;
 using Bowerbird.Core.Config;
 
 namespace Bowerbird.Core.EventHandlers

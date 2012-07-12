@@ -19,7 +19,7 @@ using Bowerbird.Web.Services;
 using Bowerbird.Web.ViewModels;
 using Bowerbird.Core.DomainModels;
 using System;
-using Bowerbird.Core.Services;
+using Bowerbird.Core.VideoUtilities;
 
 namespace Bowerbird.Web.Controllers
 {

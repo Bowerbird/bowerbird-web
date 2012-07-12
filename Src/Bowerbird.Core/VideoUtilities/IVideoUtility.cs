@@ -12,7 +12,7 @@
  
 */
 
-namespace Bowerbird.Core.Services
+namespace Bowerbird.Core.VideoUtilities
 {
     public interface IVideoUtility
     {

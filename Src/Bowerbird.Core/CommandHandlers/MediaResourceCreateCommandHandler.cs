@@ -12,15 +12,15 @@
 
 using System;
 using System.Linq;
+using System.Collections.Generic;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.Extensions;
-using Raven.Client;
+using Bowerbird.Core.VideoUtilities;
 using Bowerbird.Core.ImageUtilities;
-using Bowerbird.Core.Services;
-using System.Collections.Generic;
 using Bowerbird.Core.Factories;
+using Raven.Client;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -33,19 +33,6 @@ namespace Bowerbird.Core.CommandHandlers
         private readonly IDocumentSession _documentSession;
         private readonly IMediaFilePathFactory _mediaFilePathFactory;
         private readonly IVideoUtility _videoUtility;
-
-        private class ImageCreationTask
-        {
-            public MediaResourceFile File { get; set; }
-            public string StoredRepresentation { get; set; }
-            public bool? DetermineBestOrientation { get; set; }
-            public ImageResizeMode? ImageResizeMode { get; set; }
-
-            public bool DoImageManipulation()
-            {
-                return DetermineBestOrientation.HasValue && ImageResizeMode.HasValue;
-            }
-        }
 
         #endregion
 

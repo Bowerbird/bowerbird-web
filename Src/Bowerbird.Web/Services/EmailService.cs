@@ -19,7 +19,7 @@ using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Config;
 using Raven.Client;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.Services;
+using Bowerbird.Core.VideoUtilities;
 
 namespace Bowerbird.Web.Services
 {

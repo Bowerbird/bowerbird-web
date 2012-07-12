@@ -23,7 +23,7 @@ using System.Threading;
 using Bowerbird.Core.Indexes;
 using Raven.Client.Linq;
 using Microsoft.Practices.ServiceLocation;
-using Bowerbird.Core.Services;
+using Bowerbird.Core.VideoUtilities;
 using Bowerbird.Core.Factories;
 
 namespace Bowerbird.Core.Config

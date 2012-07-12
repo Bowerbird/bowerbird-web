@@ -22,7 +22,7 @@ using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Extensions;
 using Bowerbird.Core.Indexes;
-using Bowerbird.Core.Services;
+using Bowerbird.Core.VideoUtilities;
 using Bowerbird.Web.Config;
 using Raven.Client;
 using Raven.Client.Linq;

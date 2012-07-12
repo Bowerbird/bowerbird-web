@@ -25,7 +25,7 @@ using Bowerbird.Web.ViewModels;
 using Raven.Client;
 using Raven.Client.Linq;
 using System;
-using Bowerbird.Core.Services;
+using Bowerbird.Core.VideoUtilities;
 using Nustache.Core;
 using System.Collections;
 

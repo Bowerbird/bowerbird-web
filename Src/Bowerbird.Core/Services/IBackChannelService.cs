@@ -13,9 +13,9 @@ using System.Collections;
 using System.Collections.Generic;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Indexes;
-using Bowerbird.Core.Services;
+using Bowerbird.Core.VideoUtilities;
 
-namespace Bowerbird.Core.Services
+namespace Bowerbird.Core.VideoUtilities
 {
     public interface IBackChannelService : IService
     {

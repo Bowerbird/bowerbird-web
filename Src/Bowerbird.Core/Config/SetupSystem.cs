@@ -19,7 +19,7 @@ using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Raven.Client;
 using System.Threading;
-using Bowerbird.Core.Services;
+using Bowerbird.Core.VideoUtilities;
 using System.IO;
 using Bowerbird.Core.Factories;
 
