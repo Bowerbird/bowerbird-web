@@ -26,9 +26,9 @@ namespace Bowerbird.Core.Events
         #region Constructors
 
         public MediaResourceCreatedEvent(
-            MediaResourceDynamic domainModel,
+            MediaResource domainModel,
             User createdByUser,
-            MediaResourceDynamic sender)
+            MediaResource sender)
         {
             Check.RequireNotNull(domainModel, "domainModel");
             Check.RequireNotNull(sender, "sender");
@@ -43,11 +43,11 @@ namespace Bowerbird.Core.Events
 
         #region Properties
 
-        public MediaResourceDynamic DomainModel { get; set; }
+        public MediaResource DomainModel { get; set; }
 
         public User User { get; private set; }
 
-        public MediaResourceDynamic Sender { get; private set; }
+        public MediaResource Sender { get; private set; }
 
         #endregion
 

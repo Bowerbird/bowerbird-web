@@ -27,7 +27,7 @@ namespace Bowerbird.Core.Events
 
         public MediaResourceUploadedEvent(
             User createdByUser,
-            DomainModel sender
+            object sender
             ):base(createdByUser, sender)
         {
         }

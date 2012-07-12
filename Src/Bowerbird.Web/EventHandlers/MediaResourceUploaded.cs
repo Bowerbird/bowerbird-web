@@ -3,22 +3,19 @@
  Developers: 
  * Frank Radocaj : frank@radocaj.com
  * Hamish Crittenden : hamish.crittenden@gmail.com
+ 
  Project Manager: 
  * Ken Walker : kwalker@museum.vic.gov.au
+ 
  Funded by:
  * Atlas of Living Australia
  
 */
 				
 using Bowerbird.Core.Events;
-using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.VideoUtilities;
-using Raven.Client;
 using Bowerbird.Core.EventHandlers;
-using Bowerbird.Web.Factories;
-using Bowerbird.Web.Builders;
-using Bowerbird.Core.Config;
 
 namespace Bowerbird.Web.EventHandlers
 {
@@ -27,14 +24,10 @@ namespace Bowerbird.Web.EventHandlers
     /// are uploaded in a disconnected, asynch process. Allows model to upload independently of
     /// web request and return back to same client.
     /// </summary>
-    public class MediaResourceUploaded : IEventHandler<DomainModelCreatedEvent<MediaResource>>
+    public class MediaResourceUploaded : IEventHandler<MediaResourceUploadedEvent>
     {
         #region Members
 
-        private readonly IDocumentSession _documentSession;
-        private readonly IUserViewFactory _userViewFactory;
-        private readonly IUserViewModelBuilder _userViewModelBuilder;
-        private readonly IUserContext _userContext;
         private readonly IBackChannelService _backChannelService;
 
         #endregion
@@ -42,23 +35,11 @@ namespace Bowerbird.Web.EventHandlers
         #region Constructors
 
         public MediaResourceUploaded(
-            IDocumentSession documentSession,
-            IUserViewFactory userViewFactory,
-            IUserViewModelBuilder userViewModelBuilder,
-            IUserContext userContext,
             IBackChannelService backChannelService
             )
         {
-            Check.RequireNotNull(documentSession, "documentSession");
-            Check.RequireNotNull(userViewFactory, "userViewFactory");
-            Check.RequireNotNull(userViewModelBuilder, "userViewModelBuilder");
-            Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(backChannelService, "backChannelService");
 
-            _documentSession = documentSession;
-            _userViewFactory = userViewFactory;
-            _userViewModelBuilder = userViewModelBuilder;
-            _userContext = userContext;
             _backChannelService = backChannelService;
         }
 
@@ -70,17 +51,18 @@ namespace Bowerbird.Web.EventHandlers
 
         #region Methods
 
-        public void Handle(DomainModelCreatedEvent<MediaResource> domainEvent)
+        public void Handle(MediaResourceUploadedEvent domainEvent)
         {
-            var user = _documentSession.Load<User>(domainEvent.User.Id);
+            // this somehow needs to extract the mediaResource properties from the event. Cast as dynamic perhaps?
+            var mediaResourceSender = ((dynamic) domainEvent.Sender);
 
             var mediaResource = new
             {
-                domainEvent.DomainModel.Id,
-                domainEvent.DomainModel.Metadata,
-                domainEvent.DomainModel.MediaType,
-                domainEvent.DomainModel.Key,
-                domainEvent.DomainModel.Files
+                mediaResourceSender.Id,
+                mediaResourceSender.Metadata,
+                mediaResourceSender.MediaType,
+                mediaResourceSender.Key,
+                mediaResourceSender.Files
             };
 
             _backChannelService.SendUploadedMediaResourceToUserChannel(domainEvent.User.Id, mediaResource);

@@ -31,7 +31,7 @@ namespace Bowerbird.Core.Events
         public DomainModelUpdatedEvent(
             T domainModel,
             User createdByUser, 
-            DomainModel sender)
+            object sender)
             : base(
             createdByUser,
             sender)

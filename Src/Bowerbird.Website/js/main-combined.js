@@ -24409,7 +24409,7 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVid
         id: 'media-resources-fieldset',
 
         events: {
-            'click #media-resource-embed-button': '_showEmbeddedVideo'
+            'click #youtube-upload-button': '_showEmbeddedVideo'
         },
 
         initialize: function (options) {
@@ -24487,7 +24487,8 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVid
             data.submit();
         },
 
-        _showEmbeddedVideo: function () {
+        _showEmbeddedVideo: function (e) {
+            e.preventDefault();
             $('body').append('<div id="modal-dialog" class="make-invisible"></div>');
             var embeddedVideo = new EmbeddedVideoView({ el: $('#modal-dialog'), model: new MediaResource() });
             embeddedVideo.on('videouploaded', this._videoUploadAdd, this);
@@ -29327,17 +29328,6 @@ define('hubs',['jquery', 'signalr'], function () {
 
     // Create hub signalR instance
     $.extend(signalR, {
-        debugHub: {
-            _: {
-                hubName: 'DebugHub',
-                ignoreMembers: ['registerWithDebugger', 'namespace', 'ignoreMembers', 'callbacks'],
-                connection: function () { return signalR.hub; }
-            },
-
-            registerWithDebugger: function (callback) {
-                return serverCall(this, "RegisterWithDebugger", $.makeArray(arguments));
-            }
-        },
         userHub: {
             _: {
                 hubName: 'UserHub',
@@ -29370,6 +29360,17 @@ define('hubs',['jquery', 'signalr'], function () {
 
             disconnect: function (callback) {
                 return serverCall(this, "Disconnect", $.makeArray(arguments));
+            }
+        },
+        debugHub: {
+            _: {
+                hubName: 'DebugHub',
+                ignoreMembers: ['registerWithDebugger', 'namespace', 'ignoreMembers', 'callbacks'],
+                connection: function () { return signalR.hub; }
+            },
+
+            registerWithDebugger: function (callback) {
+                return serverCall(this, "RegisterWithDebugger", $.makeArray(arguments));
             }
         },
         chatHub: {

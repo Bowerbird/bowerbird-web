@@ -203,22 +203,26 @@ namespace Bowerbird.Web.Controllers
                     Key = key
                 };
 
-                MediaResource mediaResource = null;
+                _commandProcessor.Process(mediaResourceCreateCommand);
 
-                _commandProcessor.Process<MediaResourceCreateCommand, MediaResource>(mediaResourceCreateCommand, x => { mediaResource = x; });
+                return new JsonNetResult(new { success = true});
 
-                _documentSession.SaveChanges();
+                //MediaResource mediaResource = null;
 
-                return new JsonNetResult(new
-                    {
-                        mediaResource.Id,
-                        mediaResource.CreatedByUser,
-                        mediaResource.MediaType,
-                        mediaResource.UploadedOn,
-                        mediaResource.Files,
-                        mediaResource.Metadata,
-                        mediaResource.Key
-                    });
+                //_commandProcessor.Process<MediaResourceCreateCommand, MediaResource>(mediaResourceCreateCommand, x => { mediaResource = x; });
+
+                //_documentSession.SaveChanges();
+
+                //return new JsonNetResult(new
+                //    {
+                //        mediaResource.Id,
+                //        mediaResource.CreatedByUser,
+                //        mediaResource.MediaType,
+                //        mediaResource.UploadedOn,
+                //        mediaResource.Files,
+                //        mediaResource.Metadata,
+                //        mediaResource.Key
+                //    });
             }
             catch (Exception ex)
             {

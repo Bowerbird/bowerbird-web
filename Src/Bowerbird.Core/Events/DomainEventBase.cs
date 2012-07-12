@@ -25,7 +25,7 @@ namespace Bowerbird.Core.Events
 
         protected DomainEventBase(
             User user, 
-            DomainModel sender)
+            object sender)
         {
             Check.RequireNotNull(user, "user");
             Check.RequireNotNull(sender, "sender");

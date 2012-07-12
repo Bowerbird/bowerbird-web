@@ -11,13 +11,13 @@
  * Atlas of Living Australia
  
 */
-				
+
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Core.Services
 {
-    public interface IImageService
+    public interface IVideoService
     {
         void Save(MediaResourceCreateCommand command, MediaResource mediaResource);
     }

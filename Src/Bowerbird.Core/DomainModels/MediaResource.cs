@@ -11,49 +11,28 @@
  * Atlas of Living Australia
  
 */
-
-using Bowerbird.Core.DesignByContract;
+				
 using System;
-using Bowerbird.Core.DomainModels.DenormalisedReferences;
 using System.Collections.Generic;
-using System.Linq;
 using System.Dynamic;
+using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.DomainModels.DenormalisedReferences;
 using Bowerbird.Core.Events;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public class MediaResource : DomainModel
+    public class MediaResource : DynamicObject
     {
         #region Members
+
+        private Dictionary<string, object> _properties = new Dictionary<string, object>();
 
         #endregion
 
         #region Constructors
 
         protected MediaResource()
-            : base()
         {
-            InitMembers();
-
-            EnableEvents();
-        }
-
-        public MediaResource(
-            string mediaType,
-            User createdByUser,
-            DateTime uploadedOn)
-            : base()
-        {
-            InitMembers();
-
-            MediaType = mediaType;
-            UploadedOn = uploadedOn;
-            if (createdByUser != null)
-            {
-                CreatedByUser = createdByUser;
-            }
-
-            EnableEvents();
         }
 
         public MediaResource(
@@ -63,68 +42,89 @@ namespace Bowerbird.Core.DomainModels
             string key)
             : base()
         {
-            InitMembers();
+            Check.RequireNotNullOrWhitespace(mediaType, "mediaType");
+            //Check.RequireNotNullOrWhitespace(key, "key");
+            //Check.RequireNotNull(createdByUser, "createdByUser");
 
-            MediaType = mediaType;
-            UploadedOn = uploadedOn;
-            Key = key;
-
-            if (createdByUser != null)
-            {
-                CreatedByUser = createdByUser;
-            }
-
-            EnableEvents();
+            // Add these properties to the dictionary. I tried making these properties static, but RavenDB has a bug where static properties on a
+            // DynamicObject type are not serialised.
+            _properties.Add("Id", "");
+            _properties.Add("MediaType", mediaType);
+            _properties.Add("UploadedOn", uploadedOn.ToString("yyyy-MM-ddTHH:mm:ssZ"));
+            _properties.Add("Metadata", new Dictionary<string, string>());
+            _properties.Add("Image", new Dictionary<string, MediaResourceFile>());
+            _properties.Add("Video", new Dictionary<string, MediaResourceFile>());
+            _properties.Add("Document", new Dictionary<string, MediaResourceFile>());
+            if(createdByUser != null) _properties.Add("User", (DenormalisedUserReference)createdByUser);
+            if(!string.IsNullOrEmpty(key)) _properties.Add("Key", key);
         }
 
         #endregion
 
         #region Properties
 
-        public string MediaType { get; private set; }
+        public string Id
+        {
+            get
+            {
+                return _properties["Id"].ToString();
+            }
 
-        public string Key { get; private set; }
-
-        public DenormalisedUserReference CreatedByUser { get; private set; }
-
-        public DateTime UploadedOn { get; private set; }
-
-        public IDictionary<string, MediaResourceFile> Files { get; private set; }
-
-        public IDictionary<string, string> Metadata { get; private set; }
+            set
+            {
+                _properties["Id"] = value;
+            }
+        }
 
         #endregion
 
         #region Methods
 
-        private void InitMembers()
+        public override IEnumerable<string> GetDynamicMemberNames()
         {
-            Files = new Dictionary<string, MediaResourceFile>();
-            Metadata = new Dictionary<string, string>();
+            return _properties.Keys;
+        }
+
+        public override bool TryGetMember(GetMemberBinder binder, out object result)
+        {
+            return _properties.TryGetValue(binder.Name, out result);
+        }
+
+        public override bool TrySetMember(SetMemberBinder binder, object value)
+        {
+            _properties[binder.Name] = value;
+            return true;
+        }
+
+        public override bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)
+        {
+            dynamic method = _properties[binder.Name];
+            result = method(args);
+            return true;
         }
 
         public MediaResource AddMetadata(string key, string value)
         {
-            if (Metadata.ContainsKey(key))
+            if (((IDictionary<string,object>)_properties["Metadata"]).ContainsKey(key))
             {
-                ((Dictionary<string, string>)Metadata)[key] = value;
+                ((IDictionary<string, object>)_properties["Metadata"])[key] = value;
             }
             else
             {
-                ((Dictionary<string, string>)Metadata).Add(key, value);
+                ((IDictionary<string, object>)_properties["Metadata"]).Add(key, value);
             }
 
             return this;
         }
 
-        private void AddFile(string storedRepresentation, MediaResourceFile file)
+        private void AddFile(string mediaType, string storedRepresentation, MediaResourceFile file)
         {
-            if (Files.ContainsKey(storedRepresentation))
+            if (((IDictionary<string, MediaResourceFile>)_properties[mediaType]).ContainsKey(storedRepresentation))
             {
-                ((Dictionary<string, MediaResourceFile>)Files).Remove(storedRepresentation);
+                ((IDictionary<string, MediaResourceFile>)_properties[mediaType]).Remove(storedRepresentation);
             }
 
-            ((Dictionary<string, MediaResourceFile>)Files).Add(storedRepresentation, file);
+            ((IDictionary<string, MediaResourceFile>)_properties[mediaType]).Add(storedRepresentation, file);
         }
 
         public MediaResourceFile AddImageFile(string storedRepresentation, string filename, string relativeUri, string format, int width, int height, string extension)
@@ -137,7 +137,7 @@ namespace Bowerbird.Core.DomainModels
             file.Height = height;
             file.Extension = extension;
 
-            AddFile(storedRepresentation, file);
+            AddFile("Image", storedRepresentation, file);
 
             return file;
         }
@@ -161,16 +161,34 @@ namespace Bowerbird.Core.DomainModels
             file.Width = width;
             file.Height = height;
 
-            AddFile(storedRepresentation, file);
+            AddFile("Video", storedRepresentation, file);
 
             return file;
         }
 
-        public void FireCreatedEvent(User createdByUser)
+        public MediaResourceFile AddDocumentFile(
+            string storedRepresentation,
+            string fileName,
+            string author,
+            string documentType,
+            string extension
+            )
         {
-            Check.RequireNotNull(createdByUser, "createdByUser");
+            dynamic file = new MediaResourceFile();
 
-            FireEvent(new DomainModelCreatedEvent<MediaResource>(this, createdByUser, this));
+            file.Name = fileName;
+            file.Author = author;
+            file.DocumentType = documentType;
+            file.Extension = extension;
+
+            AddFile("Document", storedRepresentation, file);
+
+            return file;
+        }
+
+        public void FireCreatedEvent(User updatedByUser)
+        {
+            EventProcessor.Raise(new MediaResourceUploadedEvent(updatedByUser, this));
         }
 
         #endregion

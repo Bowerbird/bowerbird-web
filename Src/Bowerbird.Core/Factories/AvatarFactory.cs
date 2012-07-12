@@ -38,7 +38,7 @@ namespace Bowerbird.Core.Factories
 
         public MediaResource MakeDefaultAvatar(AvatarDefaultType avatarType)
         {
-            var avatar = new MediaResource("image", null, DateTime.UtcNow);
+            var avatar = new MediaResource("image", null, DateTime.UtcNow, Guid.NewGuid().ToString());
 
             var filename = string.Format("default-{0}-avatar.jpg", avatarType.ToString().ToLower());
             var relativeUri = string.Format("/img/{0}", filename);

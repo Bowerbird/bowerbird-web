@@ -223,6 +223,8 @@
     <Compile Include="DomainModels\IOwnable.cs" />
     <Compile Include="DomainModels\Chat.cs" />
     <Compile Include="DomainModels\IPublicGroup.cs" />
+    <Compile Include="DomainModels\MediaResource.cs" />
+    <Compile Include="DomainModels\MediaResourceFile.cs" />
     <Compile Include="DomainModels\ReferenceSpecies.cs" />
     <Compile Include="DomainModels\Species.cs" />
     <Compile Include="DomainModels\UserProject.cs" />
@@ -243,6 +245,7 @@
     <Compile Include="DomainModels\UserSession.cs" />
     <Compile Include="DomainModels\ValueObject.cs" />
     <Compile Include="DomainModels\Watchlist.cs" />
+    <Compile Include="Events\MediaResourceCreatedEvent.cs" />
     <Compile Include="Events\MediaResourceUploadedEvent.cs" />
     <Compile Include="Events\MemberUpdatedEvent.cs" />
     <Compile Include="Events\MemberCreatedEvent.cs" />
@@ -271,7 +274,7 @@
     <Compile Include="DesignByContract\PostconditionException.cs" />
     <Compile Include="DesignByContract\PreconditionException.cs" />
     <Compile Include="DomainModels\DenormalisedReferences\DenormalisedUserReference.cs" />
-    <Compile Include="DomainModels\MediaResource.cs" />
+    <None Include="DomainModels\MediaResource.cs.old" />
     <Compile Include="DomainModels\Observation.cs" />
     <Compile Include="DomainModels\Organisation.cs" />
     <Compile Include="DomainModels\Permission.cs" />
@@ -294,6 +297,7 @@
     <Compile Include="Factories\IEventHandlerFactory.cs" />
     <Compile Include="ImageUtilities\ExifReader.cs" />
     <Compile Include="ImageUtilities\ExifTags.cs" />
+    <Compile Include="ImageUtilities\ImageCreationTask.cs" />
     <Compile Include="ImageUtilities\ImageInformation.cs" />
     <Compile Include="ImageUtilities\ImageResizeMode.cs" />
     <Compile Include="Indexes\All_Contributions.cs" />
@@ -309,8 +313,13 @@
     <Compile Include="Paging\PageNumber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extensions\DocumentSessionExtensions.cs" />
-    <Compile Include="Services\IVideoUtility.cs" />
-    <Compile Include="Services\VideoUtility.cs" />
+    <Compile Include="Services\IImageService.cs" />
+    <Compile Include="Services\ImageService.cs" />
+    <Compile Include="Services\IVideoService.cs" />
+    <Compile Include="Services\VideoService.cs" />
+    <Compile Include="VideoUtilities\IVideoUtility.cs" />
+    <Compile Include="VideoUtilities\IVideoUtilityProvider.cs" />
+    <Compile Include="VideoUtilities\VideoUtility.cs" />
     <Compile Include="Services\IBackChannelService.cs" />
     <Compile Include="Services\IEmailService.cs" />
     <Compile Include="Config\IConfigSettings.cs" />
@@ -318,6 +327,8 @@
     <Compile Include="Factories\IMediaFilePathFactory.cs" />
     <Compile Include="Services\IService.cs" />
     <Compile Include="Factories\MediaFilePathFactory.cs" />
+    <Compile Include="VideoUtilities\VimeoVideoUtilityProvider.cs" />
+    <Compile Include="VideoUtilities\YoutubeVideoUtilityProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
