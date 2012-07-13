@@ -15,8 +15,10 @@
 using System.Linq;
 using Bowerbird.Core.Extensions;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
-namespace Bowerbird.Core.VideoUtilities
+namespace Bowerbird.Core.Utilities
 {
     public class VideoUtility : IVideoUtility
     {
@@ -61,9 +63,9 @@ namespace Bowerbird.Core.VideoUtilities
             }
         }
 
-        public bool IsValidVideo(string url, out string srcTag, out string videoId, out string provider)
+        public bool IsValidVideo(string url, out string srcTag, out string videoId, out string provider, out string apiUrl)
         {
-            srcTag = videoId = provider = string.Empty;
+            srcTag = videoId = provider = apiUrl = string.Empty;
 
             var videoProvider = _providers.Where(x => x.IsMatch(url)).FirstOrDefault();
 
@@ -72,6 +74,7 @@ namespace Bowerbird.Core.VideoUtilities
                 srcTag = videoProvider.SrcTag();
                 videoId = videoProvider.VideoId(url);
                 provider = videoProvider.Name();
+                apiUrl = videoProvider.VideoDataUrl(videoId);
 
                 return true;
             }
@@ -104,6 +107,27 @@ namespace Bowerbird.Core.VideoUtilities
             else
             {
                 return _errorMessage;
+            }
+        }
+
+        public void ExtractVideoData(string videoUrl, string dataBlob, dynamic videoData)
+        {
+            var videoProvider = _providers.Where(x => x.IsMatch(videoUrl)).FirstOrDefault();
+
+            if(videoProvider != null)
+            {
+                //var jsonData = JsonConvert.DeserializeObject<List<string>>(dataBlob);
+                videoData = JsonConvert.DeserializeObject<dynamic>(dataBlob);
+
+                //foreach (var keyValue in videoProvider.VideoData())
+                //{
+                //    var data = jsonData.Select(x => x.Contains(keyValue.Key)).FirstOrDefault();
+
+                //    if(data != null && !string.IsNullOrEmpty(data.ToString()))
+                //    {
+                //        videoData[keyValue.Value] = data.ToString();
+                //    }
+                //}
             }
         }
 

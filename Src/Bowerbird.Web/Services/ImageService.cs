@@ -19,9 +19,10 @@ using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Factories;
-using Bowerbird.Core.ImageUtilities;
+using Bowerbird.Core.Services;
+using Bowerbird.Core.Utilities;
 
-namespace Bowerbird.Core.Services
+namespace Bowerbird.Web.Services
 {
     public class ImageService : IImageService
     {

@@ -11,16 +11,19 @@
  * Atlas of Living Australia
  
 */
-				
+
 using Bowerbird.Core.DomainModels;
 
-namespace Bowerbird.Core.ImageUtilities
+namespace Bowerbird.Core.Utilities
 {
-    internal class ImageCreationTask
+    public class ImageCreationTask
     {
         public MediaResourceFile File { get; set; }
+
         public string StoredRepresentation { get; set; }
+        
         public bool? DetermineBestOrientation { get; set; }
+        
         public ImageResizeMode? ImageResizeMode { get; set; }
 
         public bool DoImageManipulation()

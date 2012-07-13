@@ -295,11 +295,11 @@
     <Compile Include="Factories\AvatarFactory.cs" />
     <Compile Include="Factories\IAvatarFactory.cs" />
     <Compile Include="Factories\IEventHandlerFactory.cs" />
-    <Compile Include="ImageUtilities\ExifReader.cs" />
-    <Compile Include="ImageUtilities\ExifTags.cs" />
-    <Compile Include="ImageUtilities\ImageCreationTask.cs" />
-    <Compile Include="ImageUtilities\ImageInformation.cs" />
-    <Compile Include="ImageUtilities\ImageResizeMode.cs" />
+    <Compile Include="Utilities\ExifReader.cs" />
+    <Compile Include="Utilities\ExifTags.cs" />
+    <Compile Include="Utilities\ImageCreationTask.cs" />
+    <Compile Include="Utilities\ImageInformation.cs" />
+    <Compile Include="Utilities\ImageResizeMode.cs" />
     <Compile Include="Indexes\All_Contributions.cs" />
     <Compile Include="Indexes\All_Groups.cs" />
     <Compile Include="Indexes\All_Users.cs" />
@@ -314,21 +314,19 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extensions\DocumentSessionExtensions.cs" />
     <Compile Include="Services\IImageService.cs" />
-    <Compile Include="Services\ImageService.cs" />
     <Compile Include="Services\IVideoService.cs" />
-    <Compile Include="Services\VideoService.cs" />
-    <Compile Include="VideoUtilities\IVideoUtility.cs" />
-    <Compile Include="VideoUtilities\IVideoUtilityProvider.cs" />
-    <Compile Include="VideoUtilities\VideoUtility.cs" />
+    <Compile Include="Utilities\IVideoUtility.cs" />
+    <Compile Include="Utilities\IVideoUtilityProvider.cs" />
+    <Compile Include="Utilities\VideoUtility.cs" />
     <Compile Include="Services\IBackChannelService.cs" />
     <Compile Include="Services\IEmailService.cs" />
     <Compile Include="Config\IConfigSettings.cs" />
-    <Compile Include="ImageUtilities\ImageUtility.cs" />
+    <Compile Include="Utilities\ImageUtility.cs" />
     <Compile Include="Factories\IMediaFilePathFactory.cs" />
     <Compile Include="Services\IService.cs" />
     <Compile Include="Factories\MediaFilePathFactory.cs" />
-    <Compile Include="VideoUtilities\VimeoVideoUtilityProvider.cs" />
-    <Compile Include="VideoUtilities\YoutubeVideoUtilityProvider.cs" />
+    <Compile Include="Utilities\VimeoVideoUtilityProvider.cs" />
+    <Compile Include="Utilities\YoutubeVideoUtilityProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

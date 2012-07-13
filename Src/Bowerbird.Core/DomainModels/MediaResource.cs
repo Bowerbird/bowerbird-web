@@ -127,7 +127,15 @@ namespace Bowerbird.Core.DomainModels
             ((IDictionary<string, MediaResourceFile>)_properties[mediaType]).Add(storedRepresentation, file);
         }
 
-        public MediaResourceFile AddImageFile(string storedRepresentation, string filename, string relativeUri, string format, int width, int height, string extension)
+        public MediaResourceFile AddImageFile(
+            string storedRepresentation, 
+            string filename, 
+            string relativeUri, 
+            string format, 
+            int width, 
+            int height, 
+            string extension
+            )
         {
             dynamic file = new MediaResourceFile();
 

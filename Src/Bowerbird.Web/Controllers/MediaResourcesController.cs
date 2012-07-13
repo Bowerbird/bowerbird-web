@@ -17,9 +17,7 @@ using System.Web;
 using System.Web.Mvc;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.VideoUtilities;
-using Bowerbird.Core.VideoUtilities;
+using Bowerbird.Core.Utilities;
 using Raven.Client;
 using Bowerbird.Core.Config;
 using Bowerbird.Web.Config;
@@ -206,23 +204,6 @@ namespace Bowerbird.Web.Controllers
                 _commandProcessor.Process(mediaResourceCreateCommand);
 
                 return new JsonNetResult(new { success = true});
-
-                //MediaResource mediaResource = null;
-
-                //_commandProcessor.Process<MediaResourceCreateCommand, MediaResource>(mediaResourceCreateCommand, x => { mediaResource = x; });
-
-                //_documentSession.SaveChanges();
-
-                //return new JsonNetResult(new
-                //    {
-                //        mediaResource.Id,
-                //        mediaResource.CreatedByUser,
-                //        mediaResource.MediaType,
-                //        mediaResource.UploadedOn,
-                //        mediaResource.Files,
-                //        mediaResource.Metadata,
-                //        mediaResource.Key
-                //    });
             }
             catch (Exception ex)
             {

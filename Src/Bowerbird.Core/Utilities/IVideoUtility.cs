@@ -12,12 +12,14 @@
  
 */
 
-namespace Bowerbird.Core.VideoUtilities
+namespace Bowerbird.Core.Utilities
 {
     public interface IVideoUtility
     {
         bool PreviewVideoTag(string videoUrl, out string preview);
 
-        bool IsValidVideo(string url, out string embedScript, out string videoId, out string provider);
+        bool IsValidVideo(string url, out string embedScript, out string videoId, out string provider, out string apiUrl);
+
+        void ExtractVideoData(string videoUrl, string dataBlob, dynamic videoData);
     }
 }

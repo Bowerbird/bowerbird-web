@@ -11,8 +11,10 @@
  * Atlas of Living Australia
  
 */
-				
-namespace Bowerbird.Core.VideoUtilities
+
+using System.Collections.Generic;
+
+namespace Bowerbird.Core.Utilities
 {
     internal interface IVideoUtilityProvider
     {
@@ -23,5 +25,9 @@ namespace Bowerbird.Core.VideoUtilities
         string VideoId(string url);
 
         string SrcTag();
+
+        string VideoDataUrl(string videoId);
+
+        Dictionary<string, string> VideoData();
     }
 }

@@ -22,7 +22,7 @@ using System.Linq;
 using ExifLib;
 using NLog;
 
-namespace Bowerbird.Core.ImageUtilities
+namespace Bowerbird.Core.Utilities
 {
     public class ImageUtility
     {

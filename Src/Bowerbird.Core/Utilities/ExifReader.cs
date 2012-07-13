@@ -8,14 +8,13 @@ http://www.codeproject.com/info/cpol10.aspx
 */
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Text;
 using ExifLib;
 
-namespace Bowerbird.Core.ImageUtilities
+namespace Bowerbird.Core.Utilities
 {
     /// <summary>
     /// A class for reading Exif data from a JPEG file. The file will be open for reading for as long as the class exists.
@@ -660,91 +659,4 @@ namespace Bowerbird.Core.ImageUtilities
         #endregion
     }
 
-    //public class BowerbirdExifReader
-    //{
-    //    private IDictionary<string, object> _exifData;
-
-    //    public BowerbirdExifReader(Stream stream)
-    //    {
-    //        using (var exifReader = new ExifReader(stream))
-    //        {
-    //            GetExifInfo(exifReader);
-    //        }
-    //    }
-
-    //    public BowerbirdExifReader(string path)
-    //    {
-    //        using (var exifReader = new ExifReader(CopyFileToMemory(path)))
-    //        {
-    //            GetExifInfo(exifReader);
-    //        }
-    //    }
-
-    //    public IDictionary<string, object> ExifData
-    //    {
-    //        get { return _exifData; }
-    //    }
-
-    //    public void GetExifInfo(ExifReader reader)
-    //    {
-    //        _exifData = new Dictionary<string, object>();
-
-    //        try
-    //        {
-    //            foreach (ushort tagID in Enum.GetValues(typeof(ExifTags)))
-    //            {
-    //                object val;
-    //                if (reader.GetTagValue(tagID, out val))
-    //                {
-    //                    _exifData.Add(new KeyValuePair<string, object>(Enum.GetName(typeof(ExifTags), tagID), val));
-    //                }
-    //            }
-    //        }
-    //        catch (Exception ex)
-    //        {
-    //            if (reader != null)
-    //                reader.Dispose();
-    //        }
-    //    }
-
-    //    public static MemoryStream CopyToMemory(Stream input)
-    //    {
-    //        var stream = new MemoryStream();
-
-    //        input.Position = 0;
-
-    //        var buffer = new byte[input.Length];
-
-    //        int bytesRead;
-
-    //        while ((bytesRead = input.Read(buffer, 0, buffer.Length)) > 0)
-    //        {
-    //            stream.Write(buffer, 0, bytesRead);
-    //        }
-
-    //        stream.Position = 0;
-
-    //        return stream;
-    //    }
-
-    //    public static MemoryStream CopyFileToMemory(string filename)
-    //    {
-    //        var stream = new MemoryStream();
-
-    //        var fileStream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-
-    //        var buffer = new byte[fileStream.Length];
-
-    //        int bytesRead;
-
-    //        while ((bytesRead = fileStream.Read(buffer, 0, buffer.Length)) > 0)
-    //        {
-    //            stream.Write(buffer, 0, bytesRead);
-    //        }
-
-    //        stream.Position = 0;
-
-    //        return stream;
-    //    }
-    //}
 }
