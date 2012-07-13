@@ -15856,7 +15856,7 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
                 Backbone.history.on('route', function (route, name) {
                     app.routeHistory.unshift(Backbone.history.fragment);
                 });
-               
+
                 // Start URL and history routing
                 Backbone.history.start({ pushState: true });
             }
@@ -24449,6 +24449,8 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVid
         filesAdded: 0,  // Used to determine when to fire file upload animations
 
         _onImageUploadAdd: function (e, data) {
+            this.$el.find('.upload-progress').show();
+
             log('editMediaView:_onImageUploadAdd');
             this.currentUploadKey = app.generateGuid();
             var mediaResource = new MediaResource({ Key: this.currentUploadKey });
@@ -24497,6 +24499,7 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVid
 
         // once we have a previewable video from the host..
         _videoUploadAdd: function (data, preview) { // data in this case is a MediaResource
+            this.$el.find('.upload-progress').show();
             log('editMediaView:_onVideoUploadAdd');
             this.currentUploadKey = app.generateGuid();
             data.set('Key', this.currentUploadKey);
@@ -24506,7 +24509,8 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVid
             var mediaResourceItemView = new MediaResourceItemView({ model: data });
             mediaResourceItemView.on('mediaresourceview:remove', this._onMediaResourceViewRemove);
             this.mediaResourceItemViews.push(mediaResourceItemView);
-            this.$el.find('#media-resource-add-pane').before(mediaResourceItemView.render().el);
+            //this.$el.find('#media-resource-add-pane').before(mediaResourceItemView.render().el);
+            this.$el.find('.media-resource-items').append(mediaResourceItemView.render().el);
 
             this.filesAdded++;
             mediaResourceItemView.showVideoMedia(preview);
@@ -24554,6 +24558,8 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVid
                 log('beginnning animation');
                 self.filesAdded = 0;
                 self.$el.find('#media-resource-items').dequeue('mediaQueue');
+
+                this.$el.find('.upload-progress').hide();
             }
         },
 

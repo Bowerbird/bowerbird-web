@@ -1,5 +1,7 @@
 ﻿  <a href="/{{Id}}">
-    <img alt="{{Name}}" src="{{Avatar.Files.ThumbnailMedium.RelativeUri}}">
+    {{#Avatar}}
+    {{>ImageThumbnailMedium}}
+    {{/Avatar}}
       <div>
         <p>{{Name}}</p>
       </div>

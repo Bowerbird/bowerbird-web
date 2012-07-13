@@ -1,5 +1,7 @@
 ﻿<div class="summary">
-  <img src="{{Model.Organisation.Avatar.Files.ThumbnailMedium.RelativeUri}}" alt="" />
+    {{#Model.Organisation.Avatar}}
+    {{>ImageThumbnailMedium}}
+    {{/Model.Organisation.Avatar}}
   <h1>{{Model.Organisation.Name}}</h1>
   <p>{{Model.Organisation.Description}}</p>
 </div>

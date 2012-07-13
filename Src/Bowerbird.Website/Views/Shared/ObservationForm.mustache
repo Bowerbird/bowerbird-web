@@ -1,5 +1,4 @@
 ﻿    <form action="/observation/create" method="post"  enctype="multipart/form-data">
-    <div id="video-upload"></div>
     <fieldset>
       <legend>Observation Details</legend>
       <fieldset id="media-resources-fieldset">
@@ -11,18 +10,18 @@
             </div>-->
           </div>
           <div id="media-resource-add-pane">
-            <p>Upload your files or import from other websites.</p>
+            <p>Upload your files, or import from other websites.</p>
             <div class="button file-upload-button">
-              My Files<input id="file" type="file" name="file" multiple="" />
+              My Files<input id="file" type="file" name="file" multiple="" value="My Files" />
             </div>
-            <button id="youtube-upload-button" class="website-upload-button youtube">Youtube</button>
-            <button id="vimeo-upload-button" class="website-upload-button vimeo">Vimeo</button>
-            <button id="flickr-upload-button" class="website-upload-button flickr">Flickr</button>
-            <button id="picasa-upload-button" class="website-upload-button picasa">Picasa</button>
-            <!--<div>
-              <input type="button" value="Video From Website" id="media-resource-embed-button"/>
+            <button id="youtube-upload-button" class="website-upload-button youtube" title="Import videos from Youtube">Youtube</button>
+            <button id="vimeo-upload-button" class="website-upload-button vimeo" title="Import your videos from Vimeo">Vimeo</button>
+            <button id="flickr-upload-button" class="website-upload-button flickr" title="Import your photos from Flickr">Flickr</button>
+            <button id="picasa-upload-button" class="website-upload-button picasa" title="Import your photos from Picasa">Picasa</button>
+            <div class="upload-progress">
+                <img alt="" src="/img/loader.png" />
+                <div>Processing 17 files...</div>
             </div>
-            <input type="button" value="Image From Website" id="media-resource-import-button"/>-->
           </div>          
         </div>
       </fieldset>

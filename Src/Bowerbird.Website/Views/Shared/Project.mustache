@@ -1,6 +1,8 @@
 ﻿<h2>Project</h2>
 <div class="summary">
-  <img src="{{Model.Project.Avatar.Files.ThumbnailLarge.RelativeUri}}" alt="{{Model.Project.Name}}" />
+    {{#Model.Project.Avatar}}
+    {{>ImageThumbnailLarge}}
+    {{/Model.Project.Avatar}}
   <div>
     <h1>{{Model.Project.Name}}</h1>
     <ul class="badges">

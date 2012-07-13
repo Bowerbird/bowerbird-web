@@ -17,6 +17,7 @@ using System.Web;
 using System.Web.Mvc;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Utilities;
 using Raven.Client;
 using Bowerbird.Core.Config;

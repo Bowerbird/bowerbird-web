@@ -18,6 +18,7 @@ using System.Dynamic;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
 using Bowerbird.Core.Events;
+using System.Globalization;
 
 namespace Bowerbird.Core.DomainModels
 {
@@ -52,10 +53,16 @@ namespace Bowerbird.Core.DomainModels
             _properties.Add("MediaType", mediaType);
             _properties.Add("UploadedOn", uploadedOn.ToString("yyyy-MM-ddTHH:mm:ssZ"));
             _properties.Add("Metadata", new Dictionary<string, string>());
-            _properties.Add("Image", new Dictionary<string, MediaResourceFile>());
-            _properties.Add("Video", new Dictionary<string, MediaResourceFile>());
-            _properties.Add("Document", new Dictionary<string, MediaResourceFile>());
+
+            if (mediaType != "image" && mediaType == "video" && mediaType == "audio" && mediaType == "document")
+            {
+                throw new ArgumentException(string.Format("The specified mediaType '{0}' is not recognised.", mediaType));
+            }
+
+            _properties.Add(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(mediaType), new Dictionary<string, MediaResourceFile>());
+
             if(createdByUser != null) _properties.Add("User", (DenormalisedUserReference)createdByUser);
+
             if(!string.IsNullOrEmpty(key)) _properties.Add("Key", key);
         }
 
@@ -67,11 +74,14 @@ namespace Bowerbird.Core.DomainModels
         {
             get
             {
-                return _properties["Id"].ToString() ?? string.Empty;
+                return _properties["Id"].ToString();
             }
-
             set
             {
+                if (!_properties.ContainsKey("Id"))
+                {
+                    _properties.Add("Id", string.Empty);
+                }
                 _properties["Id"] = value;
             }
         }

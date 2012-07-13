@@ -385,6 +385,24 @@
     <Content Include="Views\Shared\NotificationItem.mustache">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Views\Shared\ImageThumbnailSmall.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\ImageThumbnailLarge.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\ImageThumbnailMedium.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\ImageFullSmall.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\ImageFullLarge.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\ImageFullMedium.mustache">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Views\Shared\ObservationForm.mustache">
       <SubType>Designer</SubType>
     </None>
@@ -408,7 +426,6 @@
     <Content Include="Views\Shared\TeamForm.mustache">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Shared\UserItem.mustache" />
     <Content Include="Views\Shared\OnlineUserList.mustache" />
     <Content Include="Views\Teams\List.mustache" />
     <Content Include="Views\Shared\StreamLoadNew.mustache" />
