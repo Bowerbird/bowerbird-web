@@ -3,7 +3,8 @@
       <div class="images">
         <div class="preview">
             {{#Model.ObservationAdded.Observation.PrimaryMedia.MediaResource.Image.FullLarge}}
-                <img src="{{Model.ObservationAdded.Observation.PrimaryMedia.MediaResource.Image.FullLarge.RelativeUri}}" alt="{{Model.ObservationAdded.Observation.Title}}" />
+                <img src="{{Model.ObservationAdded.Observation.PrimaryMedia.MediaResource.Image.FullLarge.RelativeUri}}" 
+                alt="{{Model.ObservationAdded.Observation.Title}}" />
             {{/Model.ObservationAdded.Observation.PrimaryMedia.MediaResource.Image.FullLarge}}
             {{#Model.ObservationAdded.Observation.PrimaryMedia.MediaResource.Video.Fullsize}}
                 <iframe width="672px" height="400px" src="{{Model.ObservationAdded.Observation.PrimaryMedia.MediaResource.Video.Fullsize.EmbedTag}}?showinfo=0" frameborder="0" allowFullScreen></iframe>
