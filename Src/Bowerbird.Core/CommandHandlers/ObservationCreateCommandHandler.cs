@@ -58,9 +58,9 @@ namespace Bowerbird.Core.CommandHandlers
 
             var mediaResourceIds = observationCreateCommand.Media.Select(x => x.Item1);
 
-            var mediaResources = _documentSession
-                .Query<MediaResource>()
-                .Where(x => x.Id.In(mediaResourceIds));
+            var mediaResources = _documentSession.Load<dynamic>(mediaResourceIds);
+                //.Query<dynamic>()
+                //.Where(x => x.Id.In(mediaResourceIds));
 
             var userProject = _documentSession
                 .Query<UserProject>()
@@ -70,7 +70,7 @@ namespace Bowerbird.Core.CommandHandlers
 
             var user = _documentSession.Load<User>(observationCreateCommand.UserId);
 
-            var addMedia = (from mediaResource in mediaResources.ToList()
+            var addMedia = (from mediaResource in mediaResources
                                      select new
                                      {
                                          mediaResource,

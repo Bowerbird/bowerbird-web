@@ -1,5 +1,7 @@
 ﻿<div class="summary">
-  <img src="{{Model.User.Avatar.Files.ThumbnailMedium.RelativeUri}}" alt="{{Model.User.FirstName}}" />
+    {{#Model.User.Avatar}}
+    {{>ImageThumbnailMedium}}
+    {{/Model.User.Avatar}}
   <p class="description">
     {{Model.Description}} <abbr class="time-description" title="{{Model.CreatedDateTime}}">{{Model.CreatedDateTimeDescription}}</abbr>
   </p>

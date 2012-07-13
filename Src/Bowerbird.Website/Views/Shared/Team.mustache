@@ -1,5 +1,7 @@
 ﻿<div class="summary">
-  <img src="{{Model.Team.Avatar.Files.ThumbnailMedium.RelativeUri}}" alt="" />
+    {{#Model.Team.Avatar}}
+    {{>ImageThumbnailMedium}}
+    {{/Model.Team.Avatar}}
   <h1>{{Model.Team.Name}}</h1>
   <p>{{Model.Team.Description}}</p>
 </div>

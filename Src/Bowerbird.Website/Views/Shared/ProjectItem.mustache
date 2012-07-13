@@ -1,5 +1,7 @@
 ﻿<div class="summary">
-  <img src="{{Model.Project.Avatar.Files.ThumbnailLarge.RelativeUri}}" alt="{{Model.Project.Name}}" />
+    {{#Model.Project.Avatar}}
+    {{>ImageThumbnailLarge}}
+    {{/Model.Project.Avatar}}
   <div>
     <h2>{{Model.Project.Name}}</h2>
     {{^Model.IsMember}}

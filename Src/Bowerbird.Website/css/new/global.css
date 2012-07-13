@@ -587,10 +587,11 @@ h1
 }
 .form #media-resource-add-pane
 {
-float: right;
+    float: right;
     height: 266px;
+    margin-right: 15px;
     white-space: normal;
-    width: 270px;
+    width: 142px;
 }
 .form #media-resource-add-pane p
 {
@@ -655,7 +656,7 @@ float: right;
     overflow-x: scroll;
     overflow-y: hidden;
     position: absolute;
-    right: 270px;
+    right: 157px;
     white-space: nowrap;
 }
 .form .media-resource-uploaded,
@@ -743,13 +744,14 @@ float: right;
     width: 200px;*/
     cursor: pointer;
     display: inline-block;
+    margin-bottom: 15px;
     margin-right: 0;
     overflow: hidden;
     padding: 3px 0;
     position: relative;
     text-align: center;
     vertical-align: top;
-    width: 110px;
+    width: 138px;
 }
 .form .file-upload-button input
 {
@@ -772,14 +774,12 @@ float: right;
     box-shadow: none;
     display: inline-block;
     height: 32px;
-    margin: 0;
+    margin: 0 0 15px;
     padding: 0;
-    position: relative;
+    text-indent: -99999px;
     text-shadow: none;
-    top: -1px;
     vertical-align: top;
     width: 32px;
-    text-indent: -99999px;
 }
 .form .website-upload-button.youtube
 {
@@ -809,15 +809,27 @@ float: right;
 {
     box-shadow: 0 1px 1px 0 rgba(255, 255, 255, 0.4) inset, 0 1px 6px 0 rgba(252, 149, 70, 0.9);
 }
-.form #media-resource-embed-button
+.form .upload-progress
 {
-    margin: 18px 0 0;
-    width: 200px;
+    color: #4379B0;
+    font-size: 0.8em;
+    font-weight: 600;
+    height: 85px;
+    margin-right: 15px;
+    margin-top: 5px;
+    text-align: center;
+    text-shadow: 0 1px 0 #FFFFFF;
+    text-transform: uppercase;
+    width: 100%;
+    display: none;
 }
-.form #media-resource-import-button
+.form .upload-progress img
 {
-    margin: 18px 0 0;
-    width: 200px;
+    display: block;
+    margin-bottom: 7px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 30px;
 }
 .form #title-field
 {
@@ -2133,6 +2145,33 @@ li.chat-message .message-text
 
 
 /* ---- Modal dialog ---- */
+#modal-dialog2
+{
+    height: 100%;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    position: fixed;
+    z-index: 999;
+    background-color: rgba(0,0,0,0.4);
+    display: none;
+}
+#modal-dialog2 .window
+{
+    border-radius: 6px 6px 6px 6px;
+    height: 450px;
+    left: 50%;
+    margin-left: -290px;
+    position: fixed;
+    top: 18%;
+    width: 580px;
+}
+#add-videos-window
+{
+    
+}
+
+
 div#modal-dialog
 {
     background-color:rgba(0,0,0,0.6);

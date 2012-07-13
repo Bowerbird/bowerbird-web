@@ -188,7 +188,7 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
                 Backbone.history.on('route', function (route, name) {
                     app.routeHistory.unshift(Backbone.history.fragment);
                 });
-               
+
                 // Start URL and history routing
                 Backbone.history.start({ pushState: true });
             }
