@@ -26,7 +26,8 @@ namespace Bowerbird.Core.Utilities
     {
         private List<string> _providerDetection;
         private const string _srcTag = @"http://www.youtube.com/embed/";
-        private const string _apiUrl = @"https://www.googleapis.com/youtube/v3alpha/video?id={0}&key={1}&part=id,snippet";
+        //private const string _apiUrl = @"https://www.googleapis.com/youtube/v3alpha/video?id={0}&key={1}&part=id,snippet";
+        private const string _apiUrl = @"https://www.googleapis.com/youtube/v3alpha/video?id={0}&part=id,snippet";
         private const string _apiKey = "c4fa7bdfa198abf2769a5775885409e9ff560546";
 
         public YoutubeVideoUtilityProvider()
@@ -104,7 +105,7 @@ namespace Bowerbird.Core.Utilities
         /// </summary>
         public string VideoDataUrl(string videoId)
         {
-            return string.Format(_apiUrl, videoId, _apiKey);
+            return string.Format(_apiUrl, videoId);
         }
 
         /// <summary>

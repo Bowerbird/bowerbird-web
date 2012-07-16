@@ -61,9 +61,7 @@ namespace Bowerbird.Core.Utilities
                            {"thumbnail_large","Title"},
                            {"duration","Title"},
                            {"width","Title"},
-                           {"height","Title"},
-                           {"title","Title"},
-                           {"title","Title"}
+                           {"height","Title"}
                        };
         }
 

@@ -108,7 +108,7 @@ namespace Bowerbird.Web.Services
 
                         return JsonConvert.DeserializeObject<dynamic>(data);
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                         apiRequestCount++;
                     }

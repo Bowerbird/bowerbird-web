@@ -56,19 +56,43 @@ namespace Bowerbird.Web.EventHandlers
             // this somehow needs to extract the mediaResource properties from the event. Cast as dynamic perhaps?
             var mediaResourceSender = ((dynamic) domainEvent.Sender);
 
-            var mediaResource = new
+            switch ((string)mediaResourceSender.MediaType)
             {
-                mediaResourceSender.Id,
-                mediaResourceSender.Metadata,
-                mediaResourceSender.MediaType,
-                mediaResourceSender.Key,
-                mediaResourceSender.Image,
-                mediaResourceSender.UploadedOn,
-                mediaResourceSender.User,
-                mediaResourceSender.Video
-            };
+                case "video":
+                {
+                    var mediaResource = new
+                    {
+                        mediaResourceSender.Id,
+                        mediaResourceSender.Metadata,
+                        mediaResourceSender.MediaType,
+                        mediaResourceSender.Key,
+                        mediaResourceSender.Video,
+                        mediaResourceSender.UploadedOn,
+                        mediaResourceSender.User,
+                        mediaResourceSender.VideoData
+                    };
 
-            _backChannelService.SendUploadedMediaResourceToUserChannel(domainEvent.User.Id, mediaResource);
+                    _backChannelService.SendUploadedMediaResourceToUserChannel(domainEvent.User.Id, mediaResource);
+                }
+                break;
+
+                case "image":
+                {
+                    var mediaResource = new
+                    {
+                        mediaResourceSender.Id,
+                        mediaResourceSender.Metadata,
+                        mediaResourceSender.MediaType,
+                        mediaResourceSender.Key,
+                        mediaResourceSender.Image,
+                        mediaResourceSender.UploadedOn,
+                        mediaResourceSender.User
+                    };
+
+                    _backChannelService.SendUploadedMediaResourceToUserChannel(domainEvent.User.Id, mediaResource);
+                }
+                break;
+            }
         }
 
         #endregion      
