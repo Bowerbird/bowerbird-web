@@ -64,21 +64,6 @@ namespace Bowerbird.Web.Config
                 new { acceptType = new AcceptTypeContstraint("application/json", "text/javascript") });
 
             routes.MapRoute(
-               "video-upload",
-               "videoupload",
-               new { controller = "mediaresources", action = "videoupload" });
-
-            routes.MapRoute(
-               "video-preview",
-               "videopreview",
-               new { controller = "mediaresources", action = "videopreview" });
-
-            routes.MapRoute(
-               "media-resource-upload",
-               "mediaresourceupload",
-               new { controller = "mediaresources", action = "mediaresourceupload" });
-
-            routes.MapRoute(
                 "account-resetpassword",
                 "account/resetpassword/{resetpasswordkey}",
                 new { controller = "account", action = "resetpassword", resetpasswordkey = UrlParameter.Optional });

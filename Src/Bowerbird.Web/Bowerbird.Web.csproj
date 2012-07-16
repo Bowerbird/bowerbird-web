@@ -186,7 +186,7 @@
     <Compile Include="Services\EmailService.cs" />
     <Compile Include="Services\ImageService.cs" />
     <Compile Include="Services\VideoService.cs" />
-    <Compile Include="ViewModels\MediaResourceInput.cs" />
+    <Compile Include="ViewModels\MediaResourceCreateInput.cs" />
     <Compile Include="ViewModels\JsonNetResult.cs" />
     <Compile Include="Controllers\MediaResourcesController.cs" />
     <Compile Include="Controllers\ObservationNotesController.cs" />

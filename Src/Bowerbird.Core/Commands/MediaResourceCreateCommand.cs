@@ -33,28 +33,38 @@ namespace Bowerbird.Core.Commands
 
         #region Properties
 
-        // Common properties for all MediaResource types
+        /// <summary>
+        /// Client side idenitifier
+        /// </summary>
+        public string Key { get; set; }
+
         public string UserId { get; set; }
 
         public DateTime UploadedOn { get; set; }
 
-        public string Key { get; set; } // temporary value but persisted for asynch round-trip
+        /// <summary>
+        /// Image, Video, Document, etc
+        /// </summary>
+        public string MediaType { get; set; }
 
-        public string MediaType { get; set; } // video, image, document...
+        /// <summary>
+        /// How the media resource will be used
+        /// </summary>
+        public string Usage { get; set; }
 
-        public string ReccordType { get; set; } // observation, avatar, project...
+        #region Images
 
-        // Image MediaResource properties
         public string OriginalFileName { get; set; }
 
         public Stream Stream { get; set; }
 
-        public string Usage { get; set; }
+        #endregion
 
-        // Video MediaResource properties
-        public string LinkUri { get; set; }
+        #region Videos
 
-        public string Description { get; set; }
+        public string VideoUri { get; set; }
+
+        #endregion
 
         #endregion
 

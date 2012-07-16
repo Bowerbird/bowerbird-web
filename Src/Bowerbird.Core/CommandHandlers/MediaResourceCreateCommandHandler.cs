@@ -49,82 +49,11 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Methods
 
-        //public MediaResource HandleReturn(MediaResourceCreateCommand command)
-        //{
-        //    Check.RequireNotNull(command, "command");
-
-        //    ImageUtility image = null;
-
-        //    try
-        //    {
-        //        string mediaType = DetemineMediaType(command);
-
-        //        var mediaResource = new MediaResource(
-        //                        mediaType,
-        //                        _documentSession.Load<User>(command.UserId),
-        //                        command.UploadedOn,
-        //                        command.Key);
-
-        //        _documentSession.Store(mediaResource);
-
-        //        switch (mediaType)
-        //        {
-        //            case "image":
-        //                ImageDimensions imageDimensions;
-
-        //                IDictionary<string, object> exifData;
-        //                var imageCreationTasks = new List<ImageCreationTask>();
-
-        //                image = ImageUtility
-        //                    .Load(command.Stream)
-        //                    .GetExifData(out exifData)
-        //                    .GetImageDimensions(out imageDimensions);
-
-        //                MakeOriginalImageMediaResourceFile(mediaResource, imageCreationTasks, command.OriginalFileName, command.Stream.Length, imageDimensions, exifData);
-
-        //                if (command.Usage == "observation")
-        //                {
-        //                    MakeObservationImageMediaResourceFiles(mediaResource, imageCreationTasks);
-        //                }
-        //                else if (command.Usage == "post")
-        //                {
-        //                    MakePostImageMediaResourceFiles(mediaResource, imageCreationTasks);
-        //                }
-        //                else if (command.Usage == "user")
-        //                {
-        //                    MakeUserImageMediaResourceFiles(mediaResource, imageCreationTasks);
-        //                }
-        //                else if (command.Usage == "group")
-        //                {
-        //                    MakeGroupImageMediaResourceFiles(mediaResource, imageCreationTasks);
-        //                }
-        //                else
-        //                {
-        //                    MakeOtherImageMediaResourceFiles(mediaResource, imageCreationTasks);
-        //                }
-
-        //                SaveImages(image, mediaResource, imageCreationTasks);
-        //                break;
-        //        }
-
-        //        _documentSession.Store(mediaResource);
-
-        //        return mediaResource;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        if (image != null)
-        //            image.Cleanup();
-
-        //        throw ex;
-        //    }
-        //}
-
         public void Handle(MediaResourceCreateCommand command)
         {
             Check.RequireNotNull(command, "command");
 
-            var mediaType = command.MediaType;
+            var mediaType = command.MediaType.ToLower();
             var user = _documentSession.Load<User>(command.UserId);
             var mediaResource = new MediaResource(
                             mediaType,

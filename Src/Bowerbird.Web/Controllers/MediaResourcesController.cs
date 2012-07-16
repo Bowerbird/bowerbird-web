@@ -69,11 +69,7 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         [Transaction]
         [ValidateInput(false)]
-        public ActionResult VideoUpload(
-            string Description, 
-            string LinkUri, 
-            string Title,
-            string Key)
+        public ActionResult Create(MediaResourceCreateInput mediaResourceCreateInput)
         {
             if (!_userContext.HasGroupPermission(PermissionNames.CreateObservation, Constants.AppRootId))
             {
@@ -85,62 +81,16 @@ namespace Bowerbird.Web.Controllers
                 return JsonFailed();
             }
 
-            _commandProcessor.Process(new VideoResourceCreateCommand()
+            _commandProcessor.Process(new MediaResourceCreateCommand()
             {
-                Description = Description,
-                LinkUri = LinkUri,
-                Title = Title,
+                Key = mediaResourceCreateInput.Key,
+                MediaType = mediaResourceCreateInput.MediaType,
                 UploadedOn = DateTime.UtcNow,
-                Usage = "video",
-                Key = Key,
-                UserId = _userContext.GetAuthenticatedUserId()
+                UserId = _userContext.GetAuthenticatedUserId(),
+                Stream = mediaResourceCreateInput.MediaType.ToLower() == "image" ? mediaResourceCreateInput.File.InputStream : null,
+                OriginalFileName = mediaResourceCreateInput.MediaType.ToLower() == "image" ? mediaResourceCreateInput.OriginalFileName : null,
+                VideoUri = mediaResourceCreateInput.MediaType.ToLower() == "video" ? mediaResourceCreateInput.VideoUri : null
             });
-
-            return JsonSuccess();
-        }
-
-        [HttpPost]
-        [Authorize]
-        [Transaction]
-        [ValidateInput(false)]
-        public ActionResult MediaResourceUpload(MediaResourceInput mediaResourceUpload)
-        {
-            if (!_userContext.HasGroupPermission(PermissionNames.CreateObservation, Constants.AppRootId))
-            {
-                return HttpUnauthorized();
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return JsonFailed();
-            }
-
-            if(mediaResourceUpload.MediaType.ToLower().Equals("video"))
-            {
-                _commandProcessor.Process(new MediaResourceCreateCommand()
-                {
-                    Description = mediaResourceUpload.Description,
-                    LinkUri = mediaResourceUpload.LinkUri,
-                    UploadedOn = DateTime.UtcNow,
-                    Key = mediaResourceUpload.Key,
-                    UserId = _userContext.GetAuthenticatedUserId(),
-                    MediaType = mediaResourceUpload.MediaType
-                });
-            }
-
-            if (mediaResourceUpload.MediaType.ToLower().Equals("image"))
-            {
-                _commandProcessor.Process(new MediaResourceCreateCommand()
-                {
-                    UploadedOn = DateTime.UtcNow,
-                    Key = mediaResourceUpload.Key,
-                    UserId = _userContext.GetAuthenticatedUserId(),
-                    MediaType = mediaResourceUpload.MediaType,
-                    Stream = mediaResourceUpload.File.InputStream,
-                    OriginalFileName = mediaResourceUpload.OriginalFileName,
-                    Usage = mediaResourceUpload.Usage
-                });
-            }
 
             return JsonSuccess();
         }
@@ -165,52 +115,37 @@ namespace Bowerbird.Web.Controllers
             return new JsonNetResult(new { success = false, PreviewTags = preview });
         }
 
-        [HttpPost]
-        [Authorize]
-        [Transaction]
-        public ActionResult ObservationUpload(string key, string originalFileName, HttpPostedFileBase file, string mediaType)
-        {
-            return ProcessPostedImage(key, originalFileName, file, "observation", mediaType);
-        }
+        //[HttpPost]
+        //[Authorize]
+        //public ActionResult AvatarUpload(HttpPostedFileBase file)
+        //{
+        //    return ProcessPostedImage(string.Empty, string.Empty, file, "avatar");
+        //}
 
-        [HttpPost]
-        [Authorize]
-        public ActionResult PostUpload(string key, string originalFileName, HttpPostedFileBase file)
-        {
-            return ProcessPostedImage(key, originalFileName, file, "post");
-        }
+        //private ActionResult ProcessPostedImage(string key, string originalFileName, HttpPostedFileBase file, string recordType, string mediaType = "image")
+        //{
+        //    try
+        //    {
+        //        var mediaResourceCreateCommand = new MediaResourceCreateCommand()
+        //        {
+        //            OriginalFileName = originalFileName ?? string.Empty,
+        //            Stream = file.InputStream,
+        //            UploadedOn = DateTime.UtcNow,
+        //            Usage = recordType,
+        //            UserId = _userContext.GetAuthenticatedUserId(),
+        //            MediaType = mediaType,
+        //            Key = key
+        //        };
 
-        [HttpPost]
-        [Authorize]
-        public ActionResult AvatarUpload(HttpPostedFileBase file)
-        {
-            return ProcessPostedImage(string.Empty, string.Empty, file, "avatar");
-        }
+        //        _commandProcessor.Process(mediaResourceCreateCommand);
 
-        private ActionResult ProcessPostedImage(string key, string originalFileName, HttpPostedFileBase file, string recordType, string mediaType = "image")
-        {
-            try
-            {
-                var mediaResourceCreateCommand = new MediaResourceCreateCommand()
-                {
-                    OriginalFileName = originalFileName ?? string.Empty,
-                    Stream = file.InputStream,
-                    UploadedOn = DateTime.UtcNow,
-                    Usage = recordType,
-                    UserId = _userContext.GetAuthenticatedUserId(),
-                    MediaType = mediaType,
-                    Key = key
-                };
-
-                _commandProcessor.Process(mediaResourceCreateCommand);
-
-                return new JsonNetResult(new { success = true});
-            }
-            catch (Exception ex)
-            {
-                return new JsonNetResult(new { success = false, error = ex.Message });
-            }
-        }
+        //        return new JsonNetResult(new { success = true});
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return new JsonNetResult(new { success = false, error = ex.Message });
+        //    }
+        //}
 
         #endregion
     }

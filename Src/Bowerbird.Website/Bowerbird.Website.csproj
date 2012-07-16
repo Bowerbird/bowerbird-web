@@ -178,7 +178,7 @@
     <Content Include="js\bowerbird\views\chatRegion.js" />
     <Content Include="js\bowerbird\views\chatCompositeView.js" />
     <Content Include="js\bowerbird\views\chatMessageCollectionView.js" />
-    <Content Include="js\bowerbird\views\embeddedVideoView.js" />
+    <Content Include="js\bowerbird\views\videoForm.js" />
     <Content Include="js\bowerbird\views\observationDetailsView.js" />
     <Content Include="js\bowerbird\views\userFormLayoutView.js" />
     <Content Include="js\bowerbird\views\organisationItemView.js" />
@@ -406,7 +406,7 @@
     <None Include="Views\Shared\ObservationForm.mustache">
       <SubType>Designer</SubType>
     </None>
-    <Content Include="Views\Shared\ObservationMediaResourceUploaded.mustache" />
+    <Content Include="Views\Shared\ObservationMediaResourceItem.mustache" />
     <Content Include="Views\Shared\ObservationStreamItem.mustache">
       <SubType>Designer</SubType>
     </Content>
@@ -443,7 +443,7 @@
     <Content Include="Web.DebugProd.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Shared\EmbeddedVideo.mustache" />
+    <Content Include="Views\Shared\VideoForm.mustache" />
     <Content Include="Views\Shared\ObservationDetails.mustache">
       <SubType>Designer</SubType>
     </Content>

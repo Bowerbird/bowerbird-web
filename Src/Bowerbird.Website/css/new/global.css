@@ -201,12 +201,17 @@ h1
 * Forms
 *
 */
-.form form
+#content .form form
 {
     background-color: #DFEAF6;
     border-radius: 4px 4px 4px 4px;
     box-shadow: 0 1px 5px 0 #143658;
     margin-bottom: 20px;
+}
+#modal-dialog .form form
+{
+    background-color: #DFEAF6;
+    border-radius: 0 0 6px 6px;
 }
 .form form > fieldset
 {
@@ -633,17 +638,10 @@ h1
     white-space: nowrap;
     padding:10px;
 }
-
-.form #media-resource-items .media-resource-uploaded,
-.form #avatar-viewer .avatar-uploaded
-{
-    position: relative;
-    white-space: nowrap;
-}
-.form #avatar-viewer > img
+/*.form #avatar-viewer > img
 {
     max-width:200px;   
-}
+}*/
 .form #media-resource-items
 {
     background: none repeat scroll 0 0 rgba(255, 255, 255, 0.6);
@@ -655,24 +653,39 @@ h1
     margin: 0 15px 15px;
     overflow-x: scroll;
     overflow-y: hidden;
+    padding-left: 15px;
     position: absolute;
     right: 157px;
     white-space: nowrap;
 }
-.form .media-resource-uploaded,
-.form .avatar-uploaded
+.form #media-resource-items .media-resource-item
 {
-    background-color: #FFFFFF;
-    box-shadow: 0 1px 2px 0 #5071A6;
+    position: relative;
+    white-space: nowrap;
     display: inline-block;
     height: 220px;
-    margin-left: 15px;
     margin-top: 15px;
-    overflow: hidden;
-    padding: 0;
-    /*min-width: 100px;*/
+    padding: 0 15px 0 0;
 }
-.form .media-resource-uploaded:hover div:last-child,
+.form .media-resource-item > div
+{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #FFFFFF;
+    box-shadow: 0 1px 2px 0 #5071A6;
+}
+.form .media-resource-item .media
+{
+    width: 100%;
+    height: 100%;
+    background-image: url(/img/image-upload.png);
+}
+.form .media-resource-item .options
+{
+    display: none;
+}
+/*.form .media-resource-item:hover div:last-child,
 .form .avatar-uploaded:hover div:last-child
 {
     display: block;
@@ -681,13 +694,12 @@ h1
 {
     margin-right: 15px;
 }
-.form .media-resource-uploaded div:first-child img,
+.form .media-resource-item div:first-child img,
 .form .avatar-uploaded div:first-child img
 {
     height: 220px;
-    /*width: 280px;*/
 }
-.form .media-resource-uploaded div:last-child,
+.form .media-resource-item div:last-child,
 .form .avatar-uploaded div:last-child
 {
     background: none repeat scroll 0 0 rgba(202, 222, 239, 0.8);
@@ -697,7 +709,7 @@ h1
     position: absolute;
     width: 100%;
 }
-.form .media-resource-uploaded div:last-child input,
+.form .media-resource-item div:last-child input,
 .form .avatar-uploaded div:last-child input
 {
     display: block;
@@ -706,11 +718,11 @@ h1
     padding: 2px 10px;
     width: 95px;
 }
-.form .media-resource-uploaded div:last-child input:first-child,
+.form .media-resource-item div:last-child input:first-child,
 .form .avatar-uploaded div:last-child input:first-child
 {
     margin-top: 55px;
-}
+}*/
 .form .media-resource-dropzone
 {
     background: -moz-linear-gradient(center top , #6FAEED 0%, #4096EE 100%) repeat scroll 0 0 transparent;
@@ -1300,20 +1312,6 @@ a.multiSelect:focus
 {
     padding-right: 15px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -2145,7 +2143,7 @@ li.chat-message .message-text
 
 
 /* ---- Modal dialog ---- */
-#modal-dialog2
+#modal-dialog
 {
     height: 100%;
     width: 100%;
@@ -2154,12 +2152,11 @@ li.chat-message .message-text
     position: fixed;
     z-index: 999;
     background-color: rgba(0,0,0,0.4);
-    display: none;
 }
-#modal-dialog2 .window
+#modal-dialog .window
 {
     border-radius: 6px 6px 6px 6px;
-    height: 450px;
+    height: 536px;
     left: 50%;
     margin-left: -290px;
     position: fixed;
@@ -2172,7 +2169,7 @@ li.chat-message .message-text
 }
 
 
-div#modal-dialog
+/*div#modal-dialog
 {
     background-color:rgba(0,0,0,0.6);
     height:100%;
@@ -2190,133 +2187,16 @@ div#modal-dialog
 .make-invisible
 {
     display:none;   
-}
-/* ---- Video Embed ---- */
-div.embed-video-dialog
+}*/
+
+.video-form #video-preview-field > div:last-child
 {
-    width: 600px; 
-    /*height: 500px; */
-    left: 50%; 
-    top: 20%; 
-    margin-left: -300px; 
-    /*margin-top: -300px;*/
-    position:fixed;
-    z-index:1000;
-    padding:0px;
-    border: 1px solid #509EEE;
-    border-radius: 8px 8px 8px 8px;
-    box-shadow: 0 1px 2px 0 #777777 inset;
-    background: none repeat scroll 0 0 rgb(202, 222, 239);
+    padding-right: 0;
 }
-div.embed-video-title
+.video-form .video-preview
 {
-    margin:10px;
-    color: #133A68;
-    font-size: 0.72em;
-    font-weight: 600;
-    text-shadow: 0 1px 0 #FFFFFF;
-}
-div.embed-video-section
-{
-    padding:0 10px 0 10px;
-}
-div.embed-video-buttons
-{
-    height: 40px;
-    margin: 15px 0 10px 10px;
-    width: 100%;
-}
-div.embed-video-section emebed-video-input
-{
-    display:inline-block;
-    width:400px;
-    float:left;
-}
-div.embed-video-section embed-video-buttons
-{
-    display:inline-block;
-    width:160px;
-    padding-left:10px;
-    float:left;
-}
-div.input-row
-{
-    padding:10px 10px 0 10px;
-    display:block;
-}
-span.input-label
-{
-    padding:0px;
-    display:inline-block;
-    width:120px;
-    color: #133A68;
-    font-size: 0.72em;
-    font-weight: 600;
-    text-shadow: 0 1px 0 #FFFFFF;
-    text-transform: uppercase;
-}
-span.input-field
-{
-    padding:0px;
-    display:inline;
-    width:400px;
-}
-span.input-field input,
-span.input-field textarea
-{
-    width:400px;  
-}
-div.row-spacer
-{
-    display:block;
-    text-align:center;
-    line-height:15px;
-}
-div.embed-video-buttons button
-{
-    background: -moz-linear-gradient(center top , #6FAEED 0%, #4096EE 100%) repeat scroll 0 0 transparent;
-    border: 1px solid #1B83EB;
-    border-radius: 4px 4px 4px 4px;
-    box-shadow: 0 1px 1px 0 rgba(255, 255, 255, 0.4) inset;
-    color: #FFFFFF;
-    display: inline-block;
-    font-family: "open sans",sans-serif;
-    font-size: 0.99em;
-    font-weight: 600;
-    margin-right: 20px;
-    min-height: 35px;
-    min-width: 100px;
-    text-shadow: 0 -1px 0 #133A68;
-}
-.button-right
-{
-    float:right;
-}
-.button-left
-{
-    float:left;
+    background-color: red;
+    height: 300px;
 }
 
-div.emebed-video-input textarea,
-div.emebed-video-input input
-{
-    padding:0px;
-    width:100%;
-}
 
-div.embed-video-record
-{
-}
-div.embed-video-player
-{
-    clear: both;
-    max-width: 580px;
-    overflow:hidden;
-    background: black;
-    margin:10px 0 10px 0;
-    box-shadow: 0 1px 2px 0 gray inset;
-}
-div.embed-video-player iframe
-{
-    margin: 0 auto;
-}

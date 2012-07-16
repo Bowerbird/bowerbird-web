@@ -11,8 +11,8 @@
 
 // Initialises the app, but does not start rendering. That is done 
 // when app.start() is called
-define(['jquery', 'underscore', 'backbone', 'ich', 'bootstrap-data', 'models/user', 'collections/usercollection', 'collections/projectcollection', 'collections/teamcollection', 'collections/organisationcollection', 'collections/activitycollection', 'collections/exploreprojectcollection', 'collections/chatcollection', 'views/embeddedVideoView', 'models/mediaresource', 'marionette', 'signalr'],
-function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectCollection, TeamCollection, OrganisationCollection, ActivityCollection, ExploreProjectCollection, ChatCollection, EmbeddedVideoView, MediaResource) {
+define(['jquery', 'underscore', 'backbone', 'ich', 'bootstrap-data', 'models/user', 'collections/usercollection', 'collections/projectcollection', 'collections/teamcollection', 'collections/organisationcollection', 'collections/activitycollection', 'collections/exploreprojectcollection', 'collections/chatcollection', 'models/mediaresource', 'marionette', 'signalr'],
+function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectCollection, TeamCollection, OrganisationCollection, ActivityCollection, ExploreProjectCollection, ChatCollection, MediaResource) {
     // Create an instance of the app
     var app = new Backbone.Marionette.Application();
 
@@ -63,12 +63,6 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
         }
 
     }, this);
-
-    //    app.vent.on('showEmbeddedVideo:', function () {
-    //        log('app.showEmbeddedVideo:');
-    //        var embeddedVideo = new EmbeddedVideoView({ el: '#video-embed-dialog', model: new MediaResource() });
-    //        embeddedVideo.render();
-    //    });
 
     app.addRegions({
         header: 'header',

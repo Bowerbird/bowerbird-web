@@ -16,7 +16,7 @@ using System.Web;
 
 namespace Bowerbird.Web.ViewModels
 {
-    public class MediaResourceInput
+    public class MediaResourceCreateInput
     {
         #region Members
 
@@ -28,27 +28,36 @@ namespace Bowerbird.Web.ViewModels
 
         #region Properties
 
-        // Used for all Media Resources
+        /// <summary>
+        /// The key which is referenced client side upon creation
+        /// </summary>
         public string Key { get; set; }
 
-        public string Description { get; set; }
-
+        /// <summary>
+        /// Image, Video, etc
+        /// </summary>
         public string MediaType { get; set; }
 
-        // Used for Images
+        public string Usage { get; set; }
+
+        #region Images
+
         public string OriginalFileName { get; set; }
 
         public HttpPostedFileBase File { get; set; }
 
-        public string Usage { get; set; }
+        #endregion
 
-        // Used for Videos 
-        public string LinkUri { get; set; }
+        #region Videos
+
+        public string VideoUri { get; set; }
+
+        #endregion
 
         #endregion
 
         #region Methods
 
-        #endregion      
+        #endregion
     }
 }

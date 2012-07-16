@@ -24170,7 +24170,7 @@ function ($, _, Backbone, app, DummyOverlayView) {
 define('views/mediaresourceitemview',['jquery', 'underscore', 'backbone', 'app', 'ich'],
 function ($, _, Backbone, app, ich) {
     var MediaResourceItemView = Backbone.View.extend({
-        className: 'media-resource-uploaded',
+        className: 'media-resource-item',
 
         events: {
             'click .view-media-resource-button': 'viewMediaResource',
@@ -24439,10 +24439,9 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVid
             this.$el.find('#file').fileupload({
                 dataType: 'json',
                 paramName: 'file',
-                url: '/mediaresources/mediaresourceupload',
+                url: '/mediaresources',
                 add: this._onImageUploadAdd,
                 submit: this._onSubmitImageUpload
-                //done: this._onImageUploadDone
             });
         },
 
@@ -24459,7 +24458,7 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVid
             var mediaResourceItemView = new MediaResourceItemView({ model: mediaResource });
             mediaResourceItemView.on('mediaresourceview:remove', this._onMediaResourceViewRemove);
             this.mediaResourceItemViews.push(mediaResourceItemView);
-            this.$el.find('.media-resource-items').append(mediaResourceItemView.render().el);
+            //this.$el.find('.media-resource-items').append(mediaResourceItemView.render().el);
 
             var self = this;
             var tempImage = null;
@@ -24523,18 +24522,19 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVid
             log('ediMediaView:_showMediaResourceItemView');
             self.$el.find('#media-resource-items')
                 .queue('mediaQueue', function (next) {
-                    self.$el.find('#media-resource-add-pane')
-                        .animate(
-                        { left: (imageWidth + 15).toString() + 'px' },
-                        {
-                            duration: 800,
-                            queue: false,
-                            easing: 'swing',
-                            step: function () {
-                                $('#media-resource-items').animate({ scrollLeft: 10000 }, 1);
-                            },
-                            complete: next
-                        });
+
+                    var itemCount = self.$el.find('#media-resource-items > div').length;
+                    self.$el.find('#media-resource-items').append(mediaResourceItemView.render().el);
+
+                    if (self.$el.find('#media-resource-items').innerWidth() + self.$el.find('#media-resource-items').scrollLeft() === self.$el.find('#media-resource-items').get(0).scrollWidth) {
+                        // Don't do any animation
+                        next();
+                    }
+                    else {
+                        var x = self.$el.find('#media-resource-items').get(0).scrollWidth - (self.$el.find('#media-resource-items').innerWidth() + self.$el.find('#media-resource-items').scrollLeft());
+                        // Make space for the new item
+                        $('#media-resource-items').animate({ scrollLeft: '+=' + x.toString() }, 500, 'swing', next);
+                    }
                 })
                 .queue('mediaQueue', function (next) {
                     $(mediaResourceItemView.el)
@@ -24548,7 +24548,6 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVid
                         });
                 })
                 .queue('mediaQueue', function (next) {
-                    self.$el.find('#media-resource-add-pane').css({ left: '' });
                     $(mediaResourceItemView.el).css({ position: 'relative', top: '' });
                     $('#media-resource-items').animate({ scrollLeft: 10000 }, 1);
                     next();
@@ -29334,6 +29333,17 @@ define('hubs',['jquery', 'signalr'], function () {
 
     // Create hub signalR instance
     $.extend(signalR, {
+        debugHub: {
+            _: {
+                hubName: 'DebugHub',
+                ignoreMembers: ['registerWithDebugger', 'namespace', 'ignoreMembers', 'callbacks'],
+                connection: function () { return signalR.hub; }
+            },
+
+            registerWithDebugger: function (callback) {
+                return serverCall(this, "RegisterWithDebugger", $.makeArray(arguments));
+            }
+        },
         userHub: {
             _: {
                 hubName: 'UserHub',
@@ -29366,17 +29376,6 @@ define('hubs',['jquery', 'signalr'], function () {
 
             disconnect: function (callback) {
                 return serverCall(this, "Disconnect", $.makeArray(arguments));
-            }
-        },
-        debugHub: {
-            _: {
-                hubName: 'DebugHub',
-                ignoreMembers: ['registerWithDebugger', 'namespace', 'ignoreMembers', 'callbacks'],
-                connection: function () { return signalR.hub; }
-            },
-
-            registerWithDebugger: function (callback) {
-                return serverCall(this, "RegisterWithDebugger", $.makeArray(arguments));
             }
         },
         chatHub: {

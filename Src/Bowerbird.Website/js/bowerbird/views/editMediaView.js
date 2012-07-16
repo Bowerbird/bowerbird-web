@@ -9,8 +9,8 @@
 // -------------
 
 // View that allows user to choose location on a mpa or via coordinates
-define(['jquery', 'underscore', 'backbone', 'app', 'models/mediaresource', 'views/mediaresourceitemview', 'views/embeddedVideoView', 'loadimage', 'fileupload', 'iframetransport'],
-function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVideoView, loadImage) {
+define(['jquery', 'underscore', 'backbone', 'app', 'models/mediaresource', 'views/mediaresourceitemview', 'views/videoform', 'loadimage', 'fileupload', 'iframetransport'],
+function ($, _, Backbone, app, MediaResource, MediaResourceItemView, VideoForm, loadImage) {
     var EditMediaView = Backbone.View.extend({
 
         id: 'media-resources-fieldset',
@@ -46,10 +46,9 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVid
             this.$el.find('#file').fileupload({
                 dataType: 'json',
                 paramName: 'file',
-                url: '/mediaresources/mediaresourceupload',
+                url: '/mediaresources',
                 add: this._onImageUploadAdd,
                 submit: this._onSubmitImageUpload
-                //done: this._onImageUploadDone
             });
         },
 
@@ -66,7 +65,6 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVid
             var mediaResourceItemView = new MediaResourceItemView({ model: mediaResource });
             mediaResourceItemView.on('mediaresourceview:remove', this._onMediaResourceViewRemove);
             this.mediaResourceItemViews.push(mediaResourceItemView);
-            this.$el.find('.media-resource-items').append(mediaResourceItemView.render().el);
 
             var self = this;
             var tempImage = null;
@@ -99,9 +97,9 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVid
         _showEmbeddedVideo: function (e) {
             e.preventDefault();
             $('body').append('<div id="modal-dialog" class="make-invisible"></div>');
-            var embeddedVideo = new EmbeddedVideoView({ el: $('#modal-dialog'), model: new MediaResource() });
-            embeddedVideo.on('videouploaded', this._videoUploadAdd, this);
-            embeddedVideo.render();
+            var videoForm = new VideoForm({ el: $('#modal-dialog'), model: new MediaResource() });
+            videoForm.on('videouploaded', this._videoUploadAdd, this);
+            videoForm.render();
         },
 
         // once we have a previewable video from the host..
@@ -116,7 +114,6 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVid
             var mediaResourceItemView = new MediaResourceItemView({ model: data });
             mediaResourceItemView.on('mediaresourceview:remove', this._onMediaResourceViewRemove);
             this.mediaResourceItemViews.push(mediaResourceItemView);
-            //this.$el.find('#media-resource-add-pane').before(mediaResourceItemView.render().el);
             this.$el.find('.media-resource-items').append(mediaResourceItemView.render().el);
 
             this.filesAdded++;
@@ -130,18 +127,19 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVid
             log('ediMediaView:_showMediaResourceItemView');
             self.$el.find('#media-resource-items')
                 .queue('mediaQueue', function (next) {
-                    self.$el.find('#media-resource-add-pane')
-                        .animate(
-                        { left: (imageWidth + 15).toString() + 'px' },
-                        {
-                            duration: 800,
-                            queue: false,
-                            easing: 'swing',
-                            step: function () {
-                                $('#media-resource-items').animate({ scrollLeft: 10000 }, 1);
-                            },
-                            complete: next
-                        });
+
+                    var itemCount = self.$el.find('#media-resource-items > div').length;
+                    self.$el.find('#media-resource-items').append(mediaResourceItemView.render().el);
+
+                    if (self.$el.find('#media-resource-items').innerWidth() + self.$el.find('#media-resource-items').scrollLeft() === self.$el.find('#media-resource-items').get(0).scrollWidth) {
+                        // Don't do any animation
+                        next();
+                    }
+                    else {
+                        var x = self.$el.find('#media-resource-items').get(0).scrollWidth - (self.$el.find('#media-resource-items').innerWidth() + self.$el.find('#media-resource-items').scrollLeft());
+                        // Make space for the new item
+                        $('#media-resource-items').animate({ scrollLeft: '+=' + x.toString() }, 500, 'swing', next);
+                    }
                 })
                 .queue('mediaQueue', function (next) {
                     $(mediaResourceItemView.el)
@@ -155,7 +153,6 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVid
                         });
                 })
                 .queue('mediaQueue', function (next) {
-                    self.$el.find('#media-resource-add-pane').css({ left: '' });
                     $(mediaResourceItemView.el).css({ position: 'relative', top: '' });
                     $('#media-resource-items').animate({ scrollLeft: 10000 }, 1);
                     next();
@@ -199,10 +196,6 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVid
                 return item.get('Key') == data.Key;
             });
             mediaResource.set(data);
-            //log('Photo Latitude: ' + data.result.PhotoLatitude);
-            //log('Photo Longitude: ' + data.result.PhotoLongitude);
-            //$('#media-resource-items').animate({ scrollLeft: 100000 });
-            //app.vent.trigger('observationmedia:uploaded', mediaResource);
         },
 
         // when we get an uploaded video back from the server, update the id of the mediaresource
@@ -214,7 +207,6 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVid
             log('mediaResource found: ', mediaResource);
             mediaResource.set(data);
             log('Video Upload set model to: ', data);
-            //this.model.addMediaResource(mediaResource);
         }
     });
 

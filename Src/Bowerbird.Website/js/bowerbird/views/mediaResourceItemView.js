@@ -11,7 +11,7 @@
 define(['jquery', 'underscore', 'backbone', 'app', 'ich'],
 function ($, _, Backbone, app, ich) {
     var MediaResourceItemView = Backbone.View.extend({
-        className: 'media-resource-uploaded',
+        className: 'media-resource-item',
 
         events: {
             'click .view-media-resource-button': 'viewMediaResource',
@@ -31,7 +31,7 @@ function ($, _, Backbone, app, ich) {
         },
 
         render: function () {
-            this.$el.append(ich.ObservationMediaResourceUploaded(this.model.toJSON())).css({ position: 'absolute', top: '-250px' });
+            this.$el.append(ich.ObservationMediaResourceItem(this.model.toJSON())).css({ position: 'absolute', top: '-250px' });
             return this;
         },
 
