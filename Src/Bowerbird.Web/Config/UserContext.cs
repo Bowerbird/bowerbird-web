@@ -167,13 +167,17 @@ namespace Bowerbird.Web.Config
             return HttpContext.Current.Request.Cookies[name];
         }
 
-        #endregion      
-
-    
-
         public void SendModelToUserClient(object model, string clientId)
         {
             throw new NotImplementedException();
         }
+
+        public string GetUserFullName()
+        {
+            return HttpContext.Current.Request.LogonUserIdentity != null ? HttpContext.Current.Request.LogonUserIdentity.Name : string.Empty;
+        }
+
+        #endregion
+
     }
 }

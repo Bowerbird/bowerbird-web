@@ -295,6 +295,8 @@
     <Compile Include="Factories\AvatarFactory.cs" />
     <Compile Include="Factories\IAvatarFactory.cs" />
     <Compile Include="Factories\IEventHandlerFactory.cs" />
+    <Compile Include="Services\IAudioService.cs" />
+    <Compile Include="Services\IDocumentService.cs" />
     <Compile Include="Utilities\ExifReader.cs" />
     <Compile Include="Utilities\ExifTags.cs" />
     <Compile Include="Utilities\ImageCreationTask.cs" />

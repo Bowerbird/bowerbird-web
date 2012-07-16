@@ -74,5 +74,7 @@ namespace Bowerbird.Core.Config
         /// </summary>
         /// <param name="asynchActivity"></param>
         void SendModelToUserClient(object model, string clientId);
+
+        string GetUserFullName();
     }
 }

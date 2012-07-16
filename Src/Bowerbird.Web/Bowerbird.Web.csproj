@@ -181,6 +181,8 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Factories\ISightingViewFactory.cs" />
     <Compile Include="Factories\SightingViewFactory.cs" />
+    <Compile Include="Services\AudioService.cs" />
+    <Compile Include="Services\DocumentService.cs" />
     <Compile Include="Services\EmailService.cs" />
     <Compile Include="Services\ImageService.cs" />
     <Compile Include="Services\VideoService.cs" />

@@ -12,10 +12,20 @@
  
 */
 
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Net;
+using Bowerbird.Core.Utilities;
+using Newtonsoft.Json;
+using DotNetOpenAuth.OAuth2;
+using Google.Apis.Authentication.OAuth2.DotNetOpenAuth;
+//using Google.Apis.Samples.Helper;
+//using Google.Apis.Tasks.v1;
+//using Google.Apis.Tasks.v1.Data;
 
-namespace Bowerbird.Core.Utilities
+namespace Bowerbird.Web.Utilities
 {
     /// <summary>
     /// This provider utility contains logic specific to querying the Youtube API to return videos and metadata
@@ -26,7 +36,11 @@ namespace Bowerbird.Core.Utilities
     {
         private List<string> _providerDetection;
         private const string _srcTag = @"http://www.youtube.com/embed/";
-        private const string _apiUrl = @"http://gdata.youtube.com/feeds/api/videos?q={0}&max-results=1&v=2&alt=jsonc";
+        //private const string _apiUrl = @"https://www.googleapis.com/youtube/v3alpha/video?id={0}&key={1}&part=id,snippet";
+        private const string _apiUrl = @"https://www.googleapis.com/youtube/v3alpha/video?id={0}&part=id,snippet";
+        private const string _apiKey = "c4fa7bdfa198abf2769a5775885409e9ff560546";
+        private const string _clientId = "";
+        private const string _clientSecret = "";
 
         public YoutubeVideoUtilityProvider()
         {
@@ -104,6 +118,49 @@ namespace Bowerbird.Core.Utilities
         public string VideoDataUrl(string videoId)
         {
             return string.Format(_apiUrl, videoId);
+        }
+
+        public dynamic GetVideoDataFromApi(string apiCall)
+        {
+            const int apiRequestAttempts = 3;
+
+            using (var apiWebClient = new WebClient())
+            {
+                int apiRequestCount = 1;
+
+                while (apiRequestCount < apiRequestAttempts)
+                {
+                    try
+                    {
+                        var data = apiWebClient.DownloadString(apiCall);
+
+                        return JsonConvert.DeserializeObject<dynamic>(data);
+                    }
+                    catch (Exception ex)
+                    {
+                        apiRequestCount++;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        private static IAuthorizationState GetAuthorization(NativeApplicationClient arg)
+        {
+            // Get the auth URL:
+            IAuthorizationState state = new AuthorizationState(new[] { TasksService.Scopes.Tasks.GetStringValue() });
+            state.Callback = new Uri(NativeApplicationClient.OutOfBandCallbackUrl);
+            Uri authUri = arg.RequestUserAuthorization(state);
+
+            // Request authorization from the user (by opening a browser window):
+            Process.Start(authUri.ToString());
+            Console.Write("  Authorization Code: ");
+            string authCode = Console.ReadLine();
+            Console.WriteLine();
+
+            // Retrieve the access token by using the authorization code:
+            return arg.ProcessUserAuthorization(authCode, state);
         }
 
         /// <summary>
