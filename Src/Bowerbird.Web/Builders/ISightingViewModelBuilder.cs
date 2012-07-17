@@ -20,6 +20,8 @@ namespace Bowerbird.Web.Builders
     {
         object BuildNewObservation();
 
+        object BuildNewObservationForProject(string projectId);
+
         object BuildSighting(string sightingId);
 
         object BuildGroupSightingList(string groupId, PagingInput pagingInput);

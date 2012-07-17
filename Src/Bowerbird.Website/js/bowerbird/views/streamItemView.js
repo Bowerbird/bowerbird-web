@@ -9,8 +9,8 @@
 // --------------
 
 // Shows an individual stream item
-define(['jquery', 'underscore', 'backbone', 'app', 'timeago'], function ($, _, Backbone, app) {
-
+define(['jquery', 'underscore', 'backbone', 'app', 'timeago'],
+function ($, _, Backbone, app) {
     var parseISO8601 = function (str) {
         // we assume str is a UTC date ending in 'Z'
 
@@ -45,18 +45,32 @@ define(['jquery', 'underscore', 'backbone', 'app', 'timeago'], function ($, _, B
             var json = { Model: this.model.toJSON() };
             json.Model.CreatedDateTimeDescription = parseISO8601(this.model.get('CreatedDateTime'));
             json.Model.ObservedOnDescription = ''; //parseISO8601(this.model.get('ObservedOn') + 'Z').format('d MMM yyyy')
-            json.Model.ShowThumbnails = this.model.get('ObservationAdded').Observation.Media.length > 1 ? true : false;
+            if (json.Model.Type == "observationadded") {
+                json.Model.ShowThumbnails = this.model.get('ObservationAdded').Observation.Media.length > 1 ? true : false;
+            }
+
             return json;
         },
 
         onRender: function () {
             this.$el.find('.time-description').timeago();
 
-            this.$el.find('h2 a').on('click', function (e) {
-                e.preventDefault();
-                app.observationRouter.navigate($(this).attr('href'), { trigger: true });
-                return false;
-            });
+            if (this.model.get('Type') == "observationadded") {
+                this.$el.find('h2 a').on('click', function (e) {
+                    e.preventDefault();
+                    app.observationRouter.navigate($(this).attr('href'), { trigger: true });
+                    return false;
+                });
+            }
+
+            if (this.model.get('Type') == "postadded") {
+                this.$el.find('h2 a').on('click', function (e) {
+                    e.preventDefault();
+                    app.postRouter.navigate($(this).attr('href'), { trigger: true });
+                    return false;
+                });
+            }
+
         }
         //        render: function () {
         //            switch (this.StreamItem.get('Type')) {
@@ -75,5 +89,4 @@ define(['jquery', 'underscore', 'backbone', 'app', 'timeago'], function ($, _, B
     });
 
     return StreamItemView;
-
 });

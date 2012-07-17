@@ -12,22 +12,14 @@
  
 */
 
-using System.Collections.Generic;
 using System.Linq;
-using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.Extensions;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Paging;
 using Bowerbird.Web.Factories;
 using Bowerbird.Web.ViewModels;
 using Raven.Client;
 using Raven.Client.Linq;
-using System;
-using Bowerbird.Core.VideoUtilities;
-using Nustache.Core;
-using System.Collections;
 
 namespace Bowerbird.Web.Builders
 {
@@ -60,6 +52,11 @@ namespace Bowerbird.Web.Builders
         public object BuildNewObservation()
         {
             return _sightingViewFactory.MakeObservation();
+        }
+
+        public object BuildNewObservationForProject(string projectId)
+        {
+            return _sightingViewFactory.MakeObservationForProject(projectId);
         }
 
         public object BuildSighting(string sightingId)

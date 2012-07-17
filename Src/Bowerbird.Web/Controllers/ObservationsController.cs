@@ -90,16 +90,27 @@ namespace Bowerbird.Web.Controllers
 
         [HttpGet]
         [Authorize]
-        public ActionResult CreateForm()
+        public ActionResult CreateForm(string id =  null)
         {
             if (!_userContext.HasUserProjectPermission(PermissionNames.CreateObservation))
             {
                 return HttpUnauthorized();
             }
 
+            if (id != null)
+            {
+                var project = _documentSession.Load<Project>(id);
+
+                if (!_userContext.HasGroupPermission(PermissionNames.CreateObservation, project.Id))
+                {
+                    return HttpUnauthorized();
+                }
+            }
+
             dynamic viewModel = new ExpandoObject();
 
-            viewModel.Observation = _sightingViewModelBuilder.BuildNewObservation();
+            viewModel.Observation = id != null ? _sightingViewModelBuilder.BuildNewObservationForProject(id) : _sightingViewModelBuilder.BuildNewObservation();
+            
             viewModel.Categories = GetCategories();
 
             return RestfulResult(

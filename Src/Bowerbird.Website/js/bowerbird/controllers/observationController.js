@@ -12,7 +12,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/observationlayoutview'
 function ($, _, Backbone, app, ObservationLayoutView, Observation) {
     var ObservationRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
-            'observations/createprojectobservation': 'showProjectObservationForm',
+            'observations/addtoproject': 'showProjectObservationForm',
             'observations/create': 'showObservationForm',
             'observations/:id/update': 'showObservationForm',
             'observations/:id': 'showObservationDetails'
@@ -39,6 +39,21 @@ function ($, _, Backbone, app, ObservationLayoutView, Observation) {
         if (id) {
             url = id;
         }
+        var deferred = new $.Deferred();
+        if (app.isPrerendering('observations')) {
+            deferred.resolve(app.prerenderedView.data);
+        } else {
+            $.ajax({
+                url: url
+            }).done(function (data) {
+                deferred.resolve(data.Model);
+            });
+        }
+        return deferred.promise();
+    };
+
+    var getProjectObservationModel = function (id) {
+        var url = '/observations/create?id='+id;
         var deferred = new $.Deferred();
         if (app.isPrerendering('observations')) {
             deferred.resolve(app.prerenderedView.data);
@@ -83,7 +98,7 @@ function ($, _, Backbone, app, ObservationLayoutView, Observation) {
     };
 
     ObservationController.showProjectObservationForm = function (params) {
-        $.when(getModel(id))
+        $.when(getProjectObservationModel(params.id))
             .done(function (model) {
                 var observation = new Observation(model.Observation);
                 if (observation.id) {
@@ -91,7 +106,7 @@ function ($, _, Backbone, app, ObservationLayoutView, Observation) {
                 } else {
                     app.updateTitle('New Observation');
                 }
-                observation.ProjectId = params.id;
+                //observation.ProjectId = params.id;
 
                 var observationLayoutView = showObservationLayoutView(observation);
                 observationLayoutView.showObservationForm(observation, model.Categories);

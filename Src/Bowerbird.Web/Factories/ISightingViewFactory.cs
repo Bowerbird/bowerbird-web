@@ -7,6 +7,8 @@ namespace Bowerbird.Web.Factories
     {
         object MakeObservation();
 
+        object MakeObservationForProject(string projectId);
+
         object Make(All_Contributions.Result result);
 
         object Make(Observation observation, User user);

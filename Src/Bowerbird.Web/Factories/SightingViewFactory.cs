@@ -51,6 +51,23 @@ namespace Bowerbird.Web.Factories
             };
         }
 
+        public object MakeObservationForProject(string projectId)
+        {
+            return new
+            {
+                Title = string.Empty,
+                ObservedOn = DateTime.UtcNow.ToString("d MMM yyyy"),
+                Address = string.Empty,
+                Latitude = string.Empty,
+                Longitude = string.Empty,
+                Category = string.Empty,
+                IsIdentificationRequired = false,
+                AnonymiseLocation = false,
+                Media = new ObservationMedia[] { },
+                Projects = new string[] { projectId }
+            };
+        }
+
         public object Make(All_Contributions.Result result)
         {
             return Make(result.Observation, result.User);

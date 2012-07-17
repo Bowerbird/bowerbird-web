@@ -11,6 +11,12 @@
   {{>ObservationStreamItem}}
 </div>
 {{/Model.ObservationAdded}}
+{{#Model.PostAdded}}
+<div class="details">
+  {{>PostStreamItem}}
+</div>
+{{/Model.PostAdded}}
+
 {{#Model.UserJoinedGroup}}
 <div class="details">
   User joined group

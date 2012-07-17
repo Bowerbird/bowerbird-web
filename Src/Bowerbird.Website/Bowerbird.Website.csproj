@@ -404,6 +404,9 @@
     <Content Include="Views\Shared\ImageFullMedium.mustache">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Views\Shared\PostStreamItem.mustache">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Views\Shared\ObservationForm.mustache">
       <SubType>Designer</SubType>
     </None>

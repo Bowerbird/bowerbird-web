@@ -22,6 +22,7 @@ function ($, _, Backbone, app, Project) {
             'click .chat-menu-item': 'startChat',
             'click .sub-menu-button': 'showMenu',
             'click li#createnewpost': 'createPost',
+            'click li#createnewobservation': 'createObservation',
             'click .sub-menu-button li': 'selectMenuItem'
         },
 
@@ -70,6 +71,13 @@ function ($, _, Backbone, app, Project) {
             e.preventDefault();
             var location = e.target.attributes["href"]; //$(this).attr('href');
             app.postRouter.navigate(location.nodeValue, { trigger: true });
+            return false;
+        },
+
+        createObservation: function (e) {
+            e.preventDefault();
+            var location = e.target.attributes["href"]; //$(this).attr('href');
+            app.observationRouter.navigate(location.nodeValue, { trigger: true });
             return false;
         },
 
