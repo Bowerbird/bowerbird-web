@@ -58,8 +58,8 @@ namespace Bowerbird.Web.Builders
 
             return new
             {
-                Subject = string.Empty,
-                Message = string.Empty,
+                Subject = "Add a Subject",
+                Message = "Add a Message",
                 GroupId = groupId
             };
         }

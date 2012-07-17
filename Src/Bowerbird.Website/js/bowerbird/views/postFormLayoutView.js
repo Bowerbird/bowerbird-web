@@ -10,8 +10,9 @@
 // PostFormLayoutView
 // -------------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'ich'], function ($, _, Backbone, app, ich) {
-
+define(['jquery', 'underscore', 'backbone', 'app', 'ich'],
+function ($, _, Backbone, app, ich) 
+{
     var PostFormLayoutView = Backbone.Marionette.Layout.extend({
 
         className: 'form single-medium post-form',
@@ -46,6 +47,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich'], function ($, _, Backb
         showBootstrappedDetails: function () {
             log('postFormLayoutView:showBootstrappedDetails');
             this.initializeRegions();
+            this.$el = $('#content .post-form');
             this._showDetails();
         },
 
@@ -62,10 +64,12 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich'], function ($, _, Backb
         },
 
         _cancel: function () {
+            app.showPreviousContentView();
         },
 
         _save: function () {
             this.model.save();
+            app.showPreviousContentView();
         }
     });
 

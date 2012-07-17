@@ -8,10 +8,11 @@
 
 // ObservationController & ObservationRouter
 // -----------------------------------------
-define(['jquery', 'underscore', 'backbone', 'app', 'views/observationlayoutview', 'models/observation'],
+define(['jquery', 'underscore', 'backbone', 'app', 'views/observationlayoutview', 'models/observation', 'queryparams'],
 function ($, _, Backbone, app, ObservationLayoutView, Observation) {
     var ObservationRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
+            'observations/createprojectobservation': 'showProjectObservationForm',
             'observations/create': 'showObservationForm',
             'observations/:id/update': 'showObservationForm',
             'observations/:id': 'showObservationDetails'
@@ -74,7 +75,24 @@ function ($, _, Backbone, app, ObservationLayoutView, Observation) {
                 } else {
                     app.updateTitle('New Observation');
                 }
-                
+
+                var observationLayoutView = showObservationLayoutView(observation);
+                observationLayoutView.showObservationForm(observation, model.Categories);
+                app.setPrerenderComplete();
+            });
+    };
+
+    ObservationController.showProjectObservationForm = function (params) {
+        $.when(getModel(id))
+            .done(function (model) {
+                var observation = new Observation(model.Observation);
+                if (observation.id) {
+                    app.updateTitle('Edit Observation');
+                } else {
+                    app.updateTitle('New Observation');
+                }
+                observation.ProjectId = params.id;
+
                 var observationLayoutView = showObservationLayoutView(observation);
                 observationLayoutView.showObservationForm(observation, model.Categories);
                 app.setPrerenderComplete();
@@ -82,7 +100,7 @@ function ($, _, Backbone, app, ObservationLayoutView, Observation) {
     };
 
     ObservationController.mediaResourceUploaded = function (e, mediaResource) {
-        app.vent.trigger('mediaResourceUploaded:', mediaResource );
+        app.vent.trigger('mediaResourceUploaded:', mediaResource);
     };
 
     // Event Handlers
@@ -91,7 +109,7 @@ function ($, _, Backbone, app, ObservationLayoutView, Observation) {
     //    app.vent.on('observation:show', function (id) {
     //        ContributionController.showObservationForm(id);
     //    });
-    
+
 
     app.addInitializer(function () {
         this.observationRouter = new ObservationRouter({

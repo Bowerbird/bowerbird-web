@@ -213,6 +213,7 @@
     <Content Include="js\bowerbird\views\projectFormLayoutView.js" />
     <Content Include="js\bowerbird\views\streamItemView.js" />
     <Content Include="js\bowerbird\views\streamView.js" />
+    <Content Include="js\libs\backbone.queryparams\backbone.queryparams.js" />
     <Content Include="js\libs\bootstrap\bootstrap-datepicker.js" />
     <None Include="js\libs\date\date.js.OLD" />
     <Content Include="js\libs\date\date.js" />

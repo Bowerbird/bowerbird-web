@@ -13199,156 +13199,6 @@ function ($, _, Backbone, Chat)
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// EmbeddedVideoView
-// -----------------
-
-// Shows an individual project item
-define('views/embeddedVideoView',['jquery', 'underscore', 'backbone', 'app', 'ich'],
-function ($, _, Backbone, app, ich) {
-    var EmbeddedVideoView = Backbone.Marionette.ItemView.extend({
-
-        id: 'embedded-video',
-
-        template: 'EmbeddedVideo',
-
-        events: {
-            'click button#embed-video-clear-button': '_clear',
-            'click button#embed-video-cancel-button': '_cancel',
-            'click button#embed-video-next-button': '_next',
-            'change input#embed-video-link-input': '_updateLink',
-            'change textarea#embed-video-description-input': '_updateDescription'
-        },
-
-        initialize: function (options) {
-            log('embeddedVideoView:initialize', options);
-            this.ValidVideo = false;
-            this.VisiblePreview = false;
-            this.Preview = '';
-            this.model.set('MediaType', 'video');
-            //this.model.on('change:Metadata', this.onMediaResourceFilesChanged, this);
-            this.model.on('change:Files', this.onMediaResourceFilesChanged, this);
-        },
-
-        onRender: function () {
-            log('embeddedVideoView:onRender');
-            //this._resetView();
-            this._showElement($('#modal-dialog'));
-            this._hideElement($('div#embed-video-preview'));
-            return this;
-        },
-
-        // fire this event when the link has been updated
-        _updateLink: function () {
-            log('embeddedVideoView:_updateLink');
-            this._previewVideo($('input#embed-video-link-input').val());
-        },
-
-        _previewVideo: function (linkUri) {
-            log('EmbeddedVideo.previewVideo', linkUri);
-            var that = this;
-            $.when(this._getVideoPreview(linkUri))
-            .done(function (data) {
-                log(data, data.PreviewTags, data.success);
-                that.Preview = data.PreviewTags;
-                that.ValidVideo = data.success;
-            });
-
-            this.model.set('LinkUri', linkUri);
-        },
-
-        _getVideoPreview: function (url) {
-            log('EmbeddedVideo.getVideoPreview');
-            var deferred = new $.Deferred();
-            var params = {};
-            params['url'] = url;
-            $.ajax({
-                url: '/videopreview',
-                type: "POST",
-                data: params
-            }).done(function (data) {
-                deferred.resolve(data);
-            });
-            return deferred.promise();
-        },
-
-        // Fire this event when the description has been updated
-        _updateDescription: function () {
-            this.model.set('Description', $('input#embed-video-description-input').val());
-        },
-
-        // remove the current video preview and reset the form..
-        _clear: function () {
-            this._resetView();
-        },
-
-        // no longer adding a new video
-        _cancel: function () {
-            this._hideElement($('div#modal-dialog'));
-            this._cleanup();
-        },
-
-        // set form and model back to their original state
-        _resetView: function () {
-            log('embeddedVideoView:_resetView');
-            this.VisiblePreview = false;
-            $('input#embed-video-link-input').val('');
-            $('#embed-video-description-input').val('');
-            $('div#embed-video-player').html('');
-            this._hideElement($('div#embed-video-preview'));
-        },
-
-        // this button itself is modal, in that click it once to show a preview, 
-        // then if preview is visible, click again to save the viewed video.
-        _next: function () {
-            log('embeddedVideoView:_next');
-            // if we've got a valid video, and we've seen it, we are clicking to save
-            if (this.ValidVideo && this.VisiblePreview) {
-                this._save();
-            }
-            // if we've loaded a new video, but haven't seen it, display it:
-            else if (this.ValidVideo) {
-                var src = this.Preview;
-                this._showElement($('div#embed-video-preview'));
-                $('div#embed-video-player').empty();
-                this.$el.find('div#embed-video-player').append(ich.VideoPreview({ Width: 520, Height: 400, Source: src }));
-                // now we've seen it, so next click we want to save it.
-                this.VisiblePreview = true;
-            }
-        },
-
-        // trigger the editMediaView to save its model with this model in it..
-        _save: function () {
-            this.model.set('Description', $('#embed-video-description-input').val());
-            this.trigger('videouploaded', this.model, this.Preview);
-            //this.model.save();
-            this._cleanup();
-        },
-
-        _cleanup: function () {
-            this.remove();
-        },
-
-        _hideElement: function (el) {
-            $(el).addClass('make-invisible');
-            $(el).removeClass('make-visible');
-        },
-
-        _showElement: function (el) {
-            $(el).addClass('make-visible');
-            $(el).removeClass('make-invisible');
-        }
-
-    });
-
-    return EmbeddedVideoView;
-});
-/// <reference path="../../libs/log.js" />
-/// <reference path="../../libs/require/require.js" />
-/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
-/// <reference path="../../libs/underscore/underscore.js" />
-/// <reference path="../../libs/backbone/backbone.js" />
-/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
-
 // MediaResource
 // -------------
 
@@ -13356,24 +13206,19 @@ define('models/mediaresource',['jquery', 'underscore', 'backbone'], function ($,
 
     var MediaResource = Backbone.Model.extend({
         defaults: {
-            Key: 0,
+            Key: '',
+            MediaType: '',
             Files: {
                 FullMedium: {
                     RelativeUri: '/img/image-upload.png'
                 }
             },
-            MediaType: 'image',
-            LinkUri: ''
+            VideoUri: ''
         },
 
         idAttribute: 'Id',
 
-        urlRoot: '/mediaresourceupload',
-
-        initialize: function (options) {
-            log('EmbeddedVideo.initialize', options);
-        }
-
+        urlRoot: '/mediaresources'
     });
 
     return MediaResource;
@@ -15679,8 +15524,8 @@ define('signalr',['jquery', 'json2'], function ($) {
 
 // Initialises the app, but does not start rendering. That is done 
 // when app.start() is called
-define('app',['jquery', 'underscore', 'backbone', 'ich', 'bootstrap-data', 'models/user', 'collections/usercollection', 'collections/projectcollection', 'collections/teamcollection', 'collections/organisationcollection', 'collections/activitycollection', 'collections/exploreprojectcollection', 'collections/chatcollection', 'views/embeddedVideoView', 'models/mediaresource', 'marionette', 'signalr'],
-function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectCollection, TeamCollection, OrganisationCollection, ActivityCollection, ExploreProjectCollection, ChatCollection, EmbeddedVideoView, MediaResource) {
+define('app',['jquery', 'underscore', 'backbone', 'ich', 'bootstrap-data', 'models/user', 'collections/usercollection', 'collections/projectcollection', 'collections/teamcollection', 'collections/organisationcollection', 'collections/activitycollection', 'collections/exploreprojectcollection', 'collections/chatcollection', 'models/mediaresource', 'marionette', 'signalr'],
+function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectCollection, TeamCollection, OrganisationCollection, ActivityCollection, ExploreProjectCollection, ChatCollection, MediaResource) {
     // Create an instance of the app
     var app = new Backbone.Marionette.Application();
 
@@ -15731,12 +15576,6 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
         }
 
     }, this);
-
-    //    app.vent.on('showEmbeddedVideo:', function () {
-    //        log('app.showEmbeddedVideo:');
-    //        var embeddedVideo = new EmbeddedVideoView({ el: '#video-embed-dialog', model: new MediaResource() });
-    //        embeddedVideo.render();
-    //    });
 
     app.addRegions({
         header: 'header',
@@ -24190,7 +24029,7 @@ function ($, _, Backbone, app, ich) {
         },
 
         render: function () {
-            this.$el.append(ich.ObservationMediaResourceUploaded(this.model.toJSON())).css({ position: 'absolute', top: '-250px' });
+            this.$el.append(ich.ObservationMediaResourceItem(this.model.toJSON())).css({ position: 'absolute', top: '-250px' });
             return this;
         },
 
@@ -24224,6 +24063,236 @@ function ($, _, Backbone, app, ich) {
 
     return MediaResourceItemView;
 
+});
+/// <reference path="../../libs/log.js" />
+/// <reference path="../../libs/require/require.js" />
+/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
+/// <reference path="../../libs/underscore/underscore.js" />
+/// <reference path="../../libs/backbone/backbone.js" />
+/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
+
+// VideoForm
+// ---------
+
+// Shows an individual project item
+define('views/videoform',['jquery', 'underscore', 'backbone', 'app', 'ich'],
+function ($, _, Backbone, app, ich) {
+    var VideoForm = Backbone.Marionette.ItemView.extend({
+
+        id: 'video-form',
+
+        template: 'VideoForm',
+
+        events: {
+            //'click button#embed-video-clear-button': '_clear',
+            'click .cancel-button': '_cancel',
+            //'click button#embed-video-next-button': '_next',
+            'change input#VideoUri': '_updateLink',
+            //'change textarea#embed-video-description-input': '_updateDescription',
+            'click .close': '_cancel'
+        },
+
+        initialize: function (options) {
+            //log('embeddedVideoView:initialize', options);
+            //this.ValidVideo = false;
+            //this.VisiblePreview = false;
+            //this.Preview = '';
+            this.model.set('MediaType', 'video');
+            //this.model.on('change:Metadata', this.onMediaResourceFilesChanged, this);
+            this.model.on('change:Files', this.onMediaResourceFilesChanged, this);
+        },
+
+        onRender: function () {
+            //log('embeddedVideoView:onRender');
+            //this._resetView();
+            this._showElement($('#modal-dialog'));
+            //this._hideElement($('div#embed-video-preview'));
+            return this;
+        },
+
+        // fire this event when the link has been updated
+        _updateLink: function () {
+            //log('embeddedVideoView:_updateLink');
+            this._previewVideo($('input#VideoUri').val());
+        },
+
+        _previewVideo: function (videoUri) {
+            this._getYoutubeVideo(videoUri);
+            //log('EmbeddedVideo.previewVideo', videoUri);
+            //            var that = this;
+            //            $.when(this._getVideoPreview(videoUri))
+            //                .done(function (data) {
+            //                    log(data, data.PreviewTags, data.success);
+            //                    if (data.success) {
+            //                        that._next(data.PreviewTags);
+            //                    }
+            //                    //that.Preview = data.PreviewTags;
+            //                    //that.ValidVideo = data.success;
+            //                });
+
+            //            this.model.set('VideoUri', videoUri);
+        },
+
+        _getVideoPreview: function (url) {
+            log('EmbeddedVideo.getVideoPreview');
+            var deferred = new $.Deferred();
+            var params = {};
+            params['url'] = url;
+            $.ajax({
+                url: '/mediaresources/videopreview',
+                type: "POST",
+                data: params
+            }).done(function (data) {
+                deferred.resolve(data);
+            });
+            return deferred.promise();
+        },
+
+        _getYoutubeVideo: function (value) {
+            var videoId = '';
+
+            /*
+            Handles the following URLs:
+            http://www.youtube.com/watch?v=0zM3nApSvMg&feature=feedrec_grec_index
+            http://www.youtube.com/user/IngridMichaelsonVEVO#p/a/u/1/QdK8U-VIH_o
+            http://www.youtube.com/v/0zM3nApSvMg?fs=1&amp;hl=en_US&amp;rel=0
+            http://www.youtube.com/watch?v=0zM3nApSvMg#t=0m10s
+            http://www.youtube.com/embed/0zM3nApSvMg?rel=0
+            http://www.youtube.com/watch?v=0zM3nApSvMg
+            http://youtu.be/0zM3nApSvMg
+            */
+            var uriRegExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/;
+            var uriMatch = value.match(uriRegExp);
+            if (uriMatch && uriMatch[2].length == 11) {
+                videoId = uriMatch[2];
+            } else {
+                /*
+                Handles actual Id being entered
+                */
+                var idRegExp = /^[A-Za-z0-9_\-]{8,32}$/;
+                var idMatch = value.match(idRegExp);
+                if (idMatch && idMatch == true) {
+                    videoId = value;
+                } else {
+                    //error
+                }
+            }
+
+            var that = this;
+            $.ajax({
+                type: "GET",
+                dataType: "jsonp",
+                url: 'http://gdata.youtube.com/feeds/api/videos/' + encodeURIComponent(videoId) + '?v=2&alt=json-in-script',
+                success: function (obj) {
+                    log('youtube video data', obj);
+                    that._youtubeFetchDataCallback(obj);
+                }
+            });
+
+
+            //            if (/^https?\:\/\/.+/i.test(tempvar)) {
+            //                tempvar = /[\?\&]v=([^\?\&]+)/.exec(tempvar);
+            //                if (!tempvar) {
+            //                    alert('YouTube video URL has a problem!');
+            //                    return;
+            //                }
+            //                videoid = tempvar[1];
+            //            }
+            //            else {
+            //                if (/^[A-Za-z0-9_\-]{8,32}$/.test(tempvar) == false) {
+            //                    alert('YouTube video ID has a problem!');
+            //                    return;
+            //                }
+            //                videoid = tempvar;
+            //            }
+            //$.getScript('http://gdata.youtube.com/feeds/api/videos/' + encodeURIComponent(videoId) + '?v=2&alt=json-in-script&callback=_youtubeFetchDataCallback');
+
+        },
+
+        _youtubeFetchDataCallback: function (data) {
+            var s = '';
+            s += '<img src="' + data.entry["media$group"]["media$thumbnail"][0].url + '" width="' + data.entry["media$group"]["media$thumbnail"][0].width + '" height="' + data.entry["media$group"]["media$thumbnail"][0].height + '" alt="Default Thumbnail" align="right"/>';
+            s += '<b>Title:</b> ' + data.entry["title"].$t + '<br/>';
+            s += '<b>Author:</b> ' + data.entry["author"][0].name.$t + '<br/>';
+            s += '<b>Published:</b> ' + new Date(data.entry["published"].$t.substr(0, 4), data.entry["published"].$t.substr(5, 2) - 1, data.entry["published"].$t.substr(8, 2)).toLocaleDateString() + '<br/>';
+            s += '<b>Duration:</b> ' + Math.floor(data.entry["media$group"]["yt$duration"].seconds / 60) + ':' + (data.entry["media$group"]["yt$duration"].seconds % 60) + ' (' + data.entry["media$group"]["yt$duration"].seconds + ' seconds)<br/>';
+            s += '<b>Rating:</b> ' + new Number(data.entry["gd$rating"].average).toFixed(1) + ' out of ' + data.entry["gd$rating"].max + '; ' + data.entry["gd$rating"].numRaters + ' rating(s)' + '<br/>';
+            s += '<b>Statistics:</b> ' + data.entry["yt$statistics"].favoriteCount + ' favorite(s); ' + data.entry["yt$statistics"].viewCount + ' view(s)' + '<br/>';
+            s += '<br/>' + data.entry["media$group"]["media$description"].$t.replace(/\n/g, '<br/>') + '<br/>';
+            s += '<br/><a href="' + data.entry["media$group"]["media$player"].url + '" target="_blank">Watch on YouTube</a>';
+            //$('#youtubeDataFetcherOutput').html(s);
+            alert(s);
+        },
+
+        //        // Fire this event when the description has been updated
+        //        _updateDescription: function () {
+        //            this.model.set('Description', $('input#embed-video-description-input').val());
+        //        },
+
+        //        // remove the current video preview and reset the form..
+        //        _clear: function () {
+        //            this._resetView();
+        //        },
+
+        // no longer adding a new video
+        _cancel: function () {
+            this._hideElement($('div#modal-dialog'));
+            this._cleanup();
+        },
+
+        // set form and model back to their original state
+        _resetView: function () {
+            log('embeddedVideoView:_resetView');
+            this.VisiblePreview = false;
+            $('input#embed-video-link-input').val('');
+            $('#embed-video-description-input').val('');
+            $('div#embed-video-player').html('');
+            this._hideElement($('div#embed-video-preview'));
+        },
+
+        // this button itself is modal, in that click it once to show a preview, 
+        // then if preview is visible, click again to save the viewed video.
+        _next: function (preview) {
+            log('embeddedVideoView:_next');
+            // if we've got a valid video, and we've seen it, we are clicking to save
+            //            if (this.ValidVideo && this.VisiblePreview) {
+            //                this._save();
+            //            }
+            // if we've loaded a new video, but haven't seen it, display it:
+            //else if (this.ValidVideo) {
+            //var src = this.Preview;
+            //this._showElement($('div#embed-video-preview'));
+            this.$el.find('.video-preview').empty().append(ich.VideoPreview({ Width: 520, Height: 400, Source: preview }));
+            // now we've seen it, so next click we want to save it.
+            //this.VisiblePreview = true;
+            //}
+        },
+
+        // trigger the editMediaView to save its model with this model in it..
+        _save: function () {
+            this.model.set('Description', $('#embed-video-description-input').val());
+            this.trigger('videouploaded', this.model, this.Preview);
+            //this.model.save();
+            this._cleanup();
+        },
+
+        _cleanup: function () {
+            this.remove();
+        },
+
+        _hideElement: function (el) {
+            $(el).addClass('make-invisible');
+            $(el).removeClass('make-visible');
+        },
+
+        _showElement: function (el) {
+            $(el).addClass('make-visible');
+            $(el).removeClass('make-invisible');
+        }
+
+    });
+
+    return VideoForm;
 });
 /*
  * jQuery Iframe Transport Plugin 1.3
@@ -24402,8 +24471,8 @@ function ($, _, Backbone, app, ich) {
 // -------------
 
 // View that allows user to choose location on a mpa or via coordinates
-define('views/editmediaview',['jquery', 'underscore', 'backbone', 'app', 'models/mediaresource', 'views/mediaresourceitemview', 'views/embeddedVideoView', 'loadimage', 'fileupload', 'iframetransport'],
-function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVideoView, loadImage) {
+define('views/editmediaview',['jquery', 'underscore', 'backbone', 'app', 'models/mediaresource', 'views/mediaresourceitemview', 'views/videoform', 'loadimage', 'fileupload', 'iframetransport'],
+function ($, _, Backbone, app, MediaResource, MediaResourceItemView, VideoForm, loadImage) {
     var EditMediaView = Backbone.View.extend({
 
         id: 'media-resources-fieldset',
@@ -24458,7 +24527,6 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVid
             var mediaResourceItemView = new MediaResourceItemView({ model: mediaResource });
             mediaResourceItemView.on('mediaresourceview:remove', this._onMediaResourceViewRemove);
             this.mediaResourceItemViews.push(mediaResourceItemView);
-            //this.$el.find('.media-resource-items').append(mediaResourceItemView.render().el);
 
             var self = this;
             var tempImage = null;
@@ -24491,9 +24559,9 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVid
         _showEmbeddedVideo: function (e) {
             e.preventDefault();
             $('body').append('<div id="modal-dialog" class="make-invisible"></div>');
-            var embeddedVideo = new EmbeddedVideoView({ el: $('#modal-dialog'), model: new MediaResource() });
-            embeddedVideo.on('videouploaded', this._videoUploadAdd, this);
-            embeddedVideo.render();
+            var videoForm = new VideoForm({ el: $('#modal-dialog'), model: new MediaResource() });
+            videoForm.on('videouploaded', this._videoUploadAdd, this);
+            videoForm.render();
         },
 
         // once we have a previewable video from the host..
@@ -24508,7 +24576,6 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVid
             var mediaResourceItemView = new MediaResourceItemView({ model: data });
             mediaResourceItemView.on('mediaresourceview:remove', this._onMediaResourceViewRemove);
             this.mediaResourceItemViews.push(mediaResourceItemView);
-            //this.$el.find('#media-resource-add-pane').before(mediaResourceItemView.render().el);
             this.$el.find('.media-resource-items').append(mediaResourceItemView.render().el);
 
             this.filesAdded++;
@@ -24591,10 +24658,6 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVid
                 return item.get('Key') == data.Key;
             });
             mediaResource.set(data);
-            //log('Photo Latitude: ' + data.result.PhotoLatitude);
-            //log('Photo Longitude: ' + data.result.PhotoLongitude);
-            //$('#media-resource-items').animate({ scrollLeft: 100000 });
-            //app.vent.trigger('observationmedia:uploaded', mediaResource);
         },
 
         // when we get an uploaded video back from the server, update the id of the mediaresource
@@ -24606,7 +24669,6 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, EmbeddedVid
             log('mediaResource found: ', mediaResource);
             mediaResource.set(data);
             log('Video Upload set model to: ', data);
-            //this.model.addMediaResource(mediaResource);
         }
     });
 
@@ -26658,8 +26720,9 @@ function ($, _, Backbone, app, OrganisationLayoutView, OrganisationFormLayoutVie
 // PostFormLayoutView
 // -------------------------
 
-define('views/postformlayoutview',['jquery', 'underscore', 'backbone', 'app', 'ich'], function ($, _, Backbone, app, ich) {
-
+define('views/postformlayoutview',['jquery', 'underscore', 'backbone', 'app', 'ich'],
+function ($, _, Backbone, app, ich) 
+{
     var PostFormLayoutView = Backbone.Marionette.Layout.extend({
 
         className: 'form single-medium post-form',
@@ -26763,12 +26826,12 @@ define('models/post',['jquery', 'underscore', 'backbone'], function ($, _, Backb
 // PostController & PostRouter
 // ---------------------------
 define('controllers/postcontroller',['jquery', 'underscore', 'backbone', 'app', 'views/postformlayoutview', 'models/post'],
-function ($, _, Backbone, app, PostFormLayoutView, Post) 
-{
+function ($, _, Backbone, app, PostFormLayoutView, Post) {
     var PostRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
-            'posts/create': 'showPostForm',
-            'posts/:id/update': 'showPostForm'
+            'posts/create': 'showCreatePostForm',
+            'posts/create?id=:groupId': 'showCreatePostForm',
+            'posts/:id/update': 'showUpdatePostForm'
         }
     });
 
@@ -26796,14 +26859,14 @@ function ($, _, Backbone, app, PostFormLayoutView, Post)
     // ----------------------------
 
     // Show a post form
-    PostController.showPostForm = function (id) {
+    PostController.showUpdatePostForm = function (id) {
         log('postController:showPostForm');
         $.when(getModel(id))
             .done(function (model) {
                 var post = new Post(model.Post);
                 var postFormLayoutView = new PostFormLayoutView({ model: post });
 
-                app.content[app.getShowViewMethodName()](postFormLayoutView);
+                app.content[app.getShowViewMethodName('posts')](postFormLayoutView);
 
                 if (app.isPrerendering('posts')) {
                     postFormLayoutView.showBootstrappedDetails();
@@ -26811,13 +26874,33 @@ function ($, _, Backbone, app, PostFormLayoutView, Post)
 
                 app.setPrerenderComplete();
             });
-        };
+    };
 
-        app.addInitializer(function () {
-            this.postRouter = new PostRouter({
-                controller: PostController
+    // Show a post form
+        PostController.showCreatePostForm = function (groupId) {
+        log(project);
+        log('postController:showPostForm');
+        $.when(getModel())
+            .done(function (model) {
+                var post = new Post(model.Post);
+                post.set('GroupId', project.id);
+                var postFormLayoutView = new PostFormLayoutView({ model: post });
+
+                app.content[app.getShowViewMethodName('posts')](postFormLayoutView);
+
+                if (app.isPrerendering('posts')) {
+                    postFormLayoutView.showBootstrappedDetails();
+                }
+
+                app.setPrerenderComplete();
             });
+    };
+
+    app.addInitializer(function () {
+        this.postRouter = new PostRouter({
+            controller: PostController
         });
+    });
 
     return PostController;
 });
@@ -28588,6 +28671,7 @@ function ($, _, Backbone, app, Project) {
         events: {
             'click .chat-menu-item': 'startChat',
             'click .sub-menu-button': 'showMenu',
+            //'click li#createnewpost': 'createPost',
             'click .sub-menu-button li': 'selectMenuItem'
         },
 
@@ -28597,6 +28681,14 @@ function ($, _, Backbone, app, Project) {
 
         onRender: function () {
             var that = this;
+            this.$el.find('#createnewpost a').on('click', function (e) {
+                e.preventDefault();
+                var location = e.target.attributes["href"]; //$(this).attr('href');
+                app.postRouter.navigate(location.nodeValue, { trigger: true });
+                //app.projectRouter.navigate($(this).attr('href'), { trigger: true });
+                //app.vent.trigger('home:show');
+                return false;
+            });
             $(this.el).children('a').on('click', function (e) {
                 e.preventDefault();
                 app.groupUserRouter.navigate($(this).attr('href'), { trigger: true });
@@ -28604,7 +28696,7 @@ function ($, _, Backbone, app, Project) {
                 that.$el.find('p span').remove();
                 return false;
             });
-
+            
             app.vent.on('newactivity:' + this.model.id + ':observationadded newactivity:' + this.model.id + ':postadded newactivity:' + this.model.id + ':observationnoteadded', this.onNewActivityReceived, this);
         },
 
@@ -28629,6 +28721,13 @@ function ($, _, Backbone, app, Project) {
             $('.sub-menu-button').removeClass('active');
             e.stopPropagation();
         },
+
+//        createPost: function (e) {
+//            e.preventDefault();
+//            var location = e.target.attributes["href"]; //$(this).attr('href');
+//            app.postRouter.navigate(location.nodeValue, { trigger: true });
+//            return false;
+//        },
 
         startChat: function (e) {
             e.preventDefault();
@@ -29333,17 +29432,6 @@ define('hubs',['jquery', 'signalr'], function () {
 
     // Create hub signalR instance
     $.extend(signalR, {
-        debugHub: {
-            _: {
-                hubName: 'DebugHub',
-                ignoreMembers: ['registerWithDebugger', 'namespace', 'ignoreMembers', 'callbacks'],
-                connection: function () { return signalR.hub; }
-            },
-
-            registerWithDebugger: function (callback) {
-                return serverCall(this, "RegisterWithDebugger", $.makeArray(arguments));
-            }
-        },
         userHub: {
             _: {
                 hubName: 'UserHub',
@@ -29376,6 +29464,17 @@ define('hubs',['jquery', 'signalr'], function () {
 
             disconnect: function (callback) {
                 return serverCall(this, "Disconnect", $.makeArray(arguments));
+            }
+        },
+        debugHub: {
+            _: {
+                hubName: 'DebugHub',
+                ignoreMembers: ['registerWithDebugger', 'namespace', 'ignoreMembers', 'callbacks'],
+                connection: function () { return signalR.hub; }
+            },
+
+            registerWithDebugger: function (callback) {
+                return serverCall(this, "RegisterWithDebugger", $.makeArray(arguments));
             }
         },
         chatHub: {

@@ -13,7 +13,8 @@ define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
     var Post = Backbone.Model.extend({
         defaults: {
             Subject: '',
-            Message: ''
+            Message: '',
+            GroupId: null
         },
 
         idAttribute: 'Id',
@@ -23,7 +24,8 @@ define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
         toJSON: function () {
             return {
                 Subject: this.get('Subject'),
-                Message: this.get('Message')
+                Message: this.get('Message'),
+                GroupId: this.get('GroupId')
             };
         }
 

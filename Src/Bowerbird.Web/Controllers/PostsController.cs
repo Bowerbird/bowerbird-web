@@ -1,247 +1,265 @@
-///* Bowerbird V1 - Licensed under MIT 1.1 Public License
+/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
-// Developers: 
-// * Frank Radocaj : frank@radocaj.com
-// * Hamish Crittenden : hamish.crittenden@gmail.com
+ Developers: 
+ * Frank Radocaj : frank@radocaj.com
+ * Hamish Crittenden : hamish.crittenden@gmail.com
  
-// Project Manager: 
-// * Ken Walker : kwalker@museum.vic.gov.au
+ Project Manager: 
+ * Ken Walker : kwalker@museum.vic.gov.au
  
-// Funded by:
-// * Atlas of Living Australia
+ Funded by:
+ * Atlas of Living Australia
  
-//*/
+*/
 
-//using System.Web.Mvc;
-//using Bowerbird.Core.Commands;
-//using Bowerbird.Core.DesignByContract;
-//using Bowerbird.Core.DomainModels;
-//using Bowerbird.Web.Builders;
-//using Bowerbird.Web.Config;
-//using Bowerbird.Web.ViewModels;
-//using Bowerbird.Core.Config;
+using System;
+using System.Dynamic;
+using System.Web.Mvc;
+using Bowerbird.Core.Commands;
+using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.DomainModels;
+using Bowerbird.Web.Builders;
+using Bowerbird.Web.Config;
+using Bowerbird.Web.ViewModels;
+using Bowerbird.Core.Config;
 
-//namespace Bowerbird.Web.Controllers
-//{
-//    [Restful]
-//    public class PostsController : ControllerBase
-//    {
-//        #region Members
+namespace Bowerbird.Web.Controllers
+{
+    public class PostsController : ControllerBase
+    {
+        #region Members
 
-//        private readonly ICommandProcessor _commandProcessor;
-//        private readonly IUserContext _userContext;
-//        private readonly IPostViewModelBuilder _postViewModelBuilder;
+        private readonly ICommandProcessor _commandProcessor;
+        private readonly IUserContext _userContext;
+        private readonly IPostViewModelBuilder _postViewModelBuilder;
+        private readonly IPermissionChecker _permissionChecker;
 
-//        #endregion
+        #endregion
 
-//        #region Constructors
+        #region Constructors
 
-//        public PostsController(
-//            ICommandProcessor commandProcessor,
-//            IUserContext userContext,
-//            IPostViewModelBuilder postViewModelBuilder
-//            )
-//        {
-//            Check.RequireNotNull(commandProcessor, "commandProcessor");
-//            Check.RequireNotNull(userContext, "userContext");
-//            Check.RequireNotNull(postViewModelBuilder, "postViewModelBuilder");
+        public PostsController(
+            ICommandProcessor commandProcessor,
+            IUserContext userContext,
+            IPostViewModelBuilder postViewModelBuilder,
+            IPermissionChecker permissionChecker
+            )
+        {
+            Check.RequireNotNull(commandProcessor, "commandProcessor");
+            Check.RequireNotNull(userContext, "userContext");
+            Check.RequireNotNull(postViewModelBuilder, "postViewModelBuilder");
+            Check.RequireNotNull(permissionChecker, "permissionChecker");
 
-//            _commandProcessor = commandProcessor;
-//            _userContext = userContext;
-//            _postViewModelBuilder = postViewModelBuilder;
-//        }
+            _commandProcessor = commandProcessor;
+            _userContext = userContext;
+            _postViewModelBuilder = postViewModelBuilder;
+            _permissionChecker = permissionChecker;
+        }
 
-//        #endregion
+        #endregion
 
-//        #region Methods
+        #region Methods
 
-//        [HttpGet]
-//        public ActionResult Index(string id)
-//        {
-//            ViewBag.Post = _postViewModelBuilder.BuildPost(id);
+        [HttpGet]
+        public ActionResult Index(string id)
+        {
+            string postId = VerbosifyId<Post>(id);
 
-//            return View(Form.Index);
-//        }
+            if (!_permissionChecker.DoesExist<Post>(postId))
+            {
+                return HttpNotFound();
+            }
 
-//        [HttpGet]
-//        public ActionResult GetOne(IdInput idInput)
-//        {
-//            Check.RequireNotNull(idInput, "idInput");
+            var viewModel = new
+            {
+                Post = _postViewModelBuilder.BuildPost(id)
+            };
 
-//            return new JsonNetResult(_postsViewModelBuilder.BuildPost(idInput));
-//        }
+            return RestfulResult(
+                viewModel,
+                "posts",
+                "index");
+        }
+        
+        [HttpGet]
+        [Authorize]
+        public ActionResult CreateForm(string id)
+        {
+            //if(!_permissionChecker.DoesExist<>())
 
-//        [HttpGet]
-//        public ActionResult GetMany(PagingInput pagingInput)
-//        {
-//            Check.RequireNotNull(pagingInput, "pagingInput");
+            if (!_userContext.HasUserProjectPermission(PermissionNames.CreateObservation))
+            {
+                return HttpUnauthorized();
+            }
 
-//            return new JsonNetResult(_postsViewModelBuilder.BuildGroupPostList(pagingInput));
-//        }
+            dynamic viewModel = new ExpandoObject();
 
-//        [HttpGet]
-//        [Authorize]
-//        public ActionResult CreateForm(IdInput idInput)
-//        {
-//            Check.RequireNotNull(idInput, "idInput");
+            viewModel.Post = _postViewModelBuilder.BuildNewPost(id);
 
-//            if (!_userContext.HasGroupPermission(PermissionNames.CreatePost, idInput.Id))
-//            {
-//                return HttpUnauthorized();
-//            }
+            return RestfulResult(
+                viewModel,
+                "posts",
+                "create",
+                new Action<dynamic>(x => x.Model.Create = true));
+        }
 
-//            ViewBag.Model = new
-//            {
-//                Post = _postsViewModelBuilder.BuildPost(idInput.Id)
-//            };
+        [HttpGet]
+        [Authorize]
+        public ActionResult UpdateForm(string id)
+        {
+            string postId = VerbosifyId<Post>(id);
 
-//            if (Request.IsAjaxRequest())
-//            {
-//                return new JsonNetResult(new { Model = ViewBag.Model });
-//            }
+            if (!_permissionChecker.DoesExist<Post>(postId))
+            {
+                return HttpNotFound();
+            }
 
-//            ViewBag.PrerenderedView = "post";
+            if (!_userContext.HasUserProjectPermission(PermissionNames.UpdatePost))
+            {
+                return HttpUnauthorized();
+            }
 
-//            return View(Form.Create);
-//        }
+            var post = _postViewModelBuilder.BuildPost(postId);
 
-//        [HttpGet]
-//        [Authorize]
-//        public ActionResult UpdateForm(IdInput idInput)
-//        {
-//            Check.RequireNotNull(idInput, "idInput");
-
-//            if (!_userContext.HasUserProjectPermission(PermissionNames.UpdateSpecies))
-//            {
-//                return HttpUnauthorized();
-//            }
-
-//            ViewBag.Model = new
-//            {
-//                Post = _postsViewModelBuilder.BuildPost(idInput)
-//            };
-
-//            if (Request.IsAjaxRequest())
-//            {
-//                return new JsonNetResult(new { Model = ViewBag.Model });
-//            }
-
-//            return View(Form.Update);
-//        }
-
-//        [HttpGet]
-//        [Authorize]
-//        public ActionResult DeleteForm(IdInput idInput)
-//        {
-//            Check.RequireNotNull(idInput, "idInput");
-
-//            if (!_userContext.HasUserProjectPermission(PermissionNames.DeleteSpecies))
-//            {
-//                return HttpUnauthorized();
-//            }
-
-//            ViewBag.Model = new
-//            {
-//                Post = _postsViewModelBuilder.BuildPost(idInput)
-//            };
-
-//            if (Request.IsAjaxRequest())
-//            {
-//                return new JsonNetResult(new { Model = ViewBag.Model });
-//            }
-
-//            return View(Form.Delete);
-//        }
-
-//        [Transaction]
-//        [Authorize]
-//        [HttpPost]
-//        public ActionResult Create(PostCreateInput createInput)
-//        {
-//            Check.RequireNotNull(createInput, "createInput");
-
-//            if(!_userContext.HasGroupPermission<Post>(createInput.GroupId, PermissionNames.CreatePost))
-//            {
-//                return HttpUnauthorized();
-//            }
-
-//            if (!ModelState.IsValid)
-//            {
-//                return JsonFailed();
-//            }
-
-//            _commandProcessor.Process(
-//                new PostCreateCommand()
-//                {
-//                    UserId = _userContext.GetAuthenticatedUserId(),
-//                    GroupId = createInput.GroupId,
-//                    MediaResources = createInput.MediaResources,
-//                    Message = createInput.Message,
-//                    Subject = createInput.Subject,
-//                    Timestamp = createInput.Timestamp
-//                });
-
-//            return JsonSuccess();
-//        }
-
-//        [Transaction]
-//        [Authorize]
-//        [HttpPut]
-//        public ActionResult Update(PostUpdateInput updateInput)
-//        {
-//            Check.RequireNotNull(updateInput, "updateInput");
-
-//            if (!_userContext.HasGroupPermission<Post>(PermissionNames.UpdatePost, updateInput.Id))
-//            {
-//                return HttpUnauthorized();
-//            }
+            dynamic viewModel = new ExpandoObject();
             
-//            if (!ModelState.IsValid)
-//            {
-//                return JsonFailed();
-//            }
+            viewModel.Post = post;
 
-//            _commandProcessor.Process(
-//                new PostUpdateCommand()
-//                {
-//                    UserId = _userContext.GetAuthenticatedUserId(),
-//                    Id = updateInput.Id,
-//                    MediaResources = updateInput.MediaResources,
-//                    Message = updateInput.Message,
-//                    Subject = updateInput.Subject,
-//                    Timestamp = updateInput.Timestamp
-//                });
+            return RestfulResult(
+                viewModel,
+                "posts",
+                "update",
+                new Action<dynamic>(x => x.Model.Update = true));
+        }
 
-//            return JsonSuccess();
-//        }
+        [HttpGet]
+        [Authorize]
+        public ActionResult DeleteForm(string id)
+        {
+            string postId = VerbosifyId<Post>(id);
 
-//        [Transaction]
-//        [Authorize]
-//        [HttpDelete]
-//        public ActionResult Delete(IdInput deleteInput)
-//        {
-//            Check.RequireNotNull(deleteInput, "deleteInput");
+            if (!_permissionChecker.DoesExist<Post>(postId))
+            {
+                return HttpNotFound();
+            }
 
-//            if(!_userContext.HasGroupPermission<Post>(PermissionNames.DeletePost, deleteInput.Id))
-//            {
-//                return HttpUnauthorized();
-//            }
+            if (!_userContext.HasUserProjectPermission(PermissionNames.DeletePost))
+            {
+                return HttpUnauthorized();
+            }
 
-//            if (!ModelState.IsValid)
-//            {
-//                return JsonFailed();
-//            }
+            var post = _postViewModelBuilder.BuildPost(postId);
 
-//            _commandProcessor.Process(
-//                new PostDeleteCommand()
-//                {
-//                    UserId = _userContext.GetAuthenticatedUserId(),
-//                    Id = deleteInput.Id
-//                });
+            dynamic viewModel = new ExpandoObject();
+            
+            viewModel.Post = post;
 
-//            return JsonSuccess();
-//        }
+            return RestfulResult(
+                viewModel,
+                "posts",
+                "delete", 
+                new Action<dynamic>(x => x.Model.Delete = true));
+        }
 
-//        #endregion
-//    }
-//}
+        [Transaction]
+        [Authorize]
+        [HttpPost]
+        public ActionResult Create(PostCreateInput createInput)
+        {
+            Check.RequireNotNull(createInput, "createInput");
+
+            if (!_userContext.HasGroupPermission(PermissionNames.CreatePost, createInput.GroupId))
+            {
+                return HttpUnauthorized();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return JsonFailed();
+            }
+
+            _commandProcessor.Process(
+                new PostCreateCommand()
+                {
+                    UserId = _userContext.GetAuthenticatedUserId(),
+                    GroupId = createInput.GroupId,
+                    MediaResources = createInput.MediaResources,
+                    Message = createInput.Message,
+                    Subject = createInput.Subject,
+                    Timestamp = createInput.Timestamp
+                });
+
+            return JsonSuccess();
+        }
+
+        [Transaction]
+        [Authorize]
+        [HttpPut]
+        public ActionResult Update(PostUpdateInput updateInput)
+        {
+            Check.RequireNotNull(updateInput, "updateInput");
+
+            if (!_permissionChecker.DoesExist<Post>(updateInput.Id))
+            {
+                return HttpNotFound();
+            }
+
+            if (!_userContext.HasGroupPermission<Post>(PermissionNames.UpdatePost, updateInput.Id))
+            {
+                return HttpUnauthorized();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return JsonFailed();
+            }
+
+            _commandProcessor.Process(
+                new PostUpdateCommand()
+                {
+                    UserId = _userContext.GetAuthenticatedUserId(),
+                    Id = updateInput.Id,
+                    MediaResources = updateInput.MediaResources,
+                    Message = updateInput.Message,
+                    Subject = updateInput.Subject,
+                    Timestamp = updateInput.Timestamp
+                });
+
+            return JsonSuccess();
+        }
+
+        [Transaction]
+        [Authorize]
+        [HttpDelete]
+        public ActionResult Delete(string id)
+        {
+            var postId = VerbosifyId<Post>(id);
+
+            if(!_permissionChecker.DoesExist<Post>(postId))
+            {
+                return HttpNotFound();
+            }
+
+            if (!_userContext.HasGroupPermission<Post>(PermissionNames.DeletePost, postId))
+            {
+                return HttpUnauthorized();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return JsonFailed();
+            }
+
+            _commandProcessor.Process(
+                new PostDeleteCommand()
+                {
+                    UserId = _userContext.GetAuthenticatedUserId(),
+                    Id = postId 
+                });
+
+            return JsonSuccess();
+        }
+
+        #endregion
+    }
+}

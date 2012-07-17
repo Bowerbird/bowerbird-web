@@ -69,6 +69,7 @@ namespace Bowerbird.Core.DomainModels
                 );
 
             EnableEvents();
+
             FireEvent(new DomainModelCreatedEvent<Post>(this, createdByUser, this));
         }
 

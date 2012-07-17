@@ -265,11 +265,17 @@ namespace Bowerbird.Core.Config
                 PermissionNames.DeletePost,
                 PermissionNames.Chat);
             AddRole("userprojectadministrator", "User Project Administrator", "Administrator of a user project",
-                PermissionNames.UpdateProject);
+                PermissionNames.UpdateProject,
+                PermissionNames.CreatePost,
+                PermissionNames.UpdatePost,
+                PermissionNames.DeletePost);
             AddRole("userprojectmember", "User Project Member", "Member of a user project",
                 PermissionNames.CreateObservation,
                 PermissionNames.UpdateObservation,
-                PermissionNames.DeleteObservation);
+                PermissionNames.DeleteObservation,
+                PermissionNames.CreatePost,
+                PermissionNames.UpdatePost,
+                PermissionNames.DeletePost);
         }
 
         private void AddRole(string id, string name, string description, params string[] permissionIds)

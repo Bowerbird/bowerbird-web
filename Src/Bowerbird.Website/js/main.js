@@ -16,6 +16,7 @@ require.config({
         json2: '../libs/json/json2',
         underscore: '../libs/underscore/underscore', // AMD version from https://github.com/amdjs
         backbone: '../libs/backbone/backbone', // AMD version from https://github.com/amdjs,
+        queryparams: '../libs/backbone.queryparams/backbone.queryparams',
         marionette: '../libs/backbone.marionette/backbone.marionette',
         noext: '../libs/require/noext', //https://github.com/millermedeiros/requirejs-plugins
         async: '../libs/require/async', // Required by google loader
@@ -44,6 +45,7 @@ require([
         'bootstrap-data', // Get bootstrapped data from inline AMD module
         'log',
         'backbone',
+        'queryparams',
         'jquery',
         'ich',
         'marionette',

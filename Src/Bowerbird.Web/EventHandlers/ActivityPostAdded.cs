@@ -10,6 +10,7 @@
  
 */
 
+using System.Collections.Generic;
 using System.Linq;
 using Bowerbird.Core.Events;
 using Bowerbird.Core.DomainModels;
@@ -81,7 +82,7 @@ namespace Bowerbird.Web.EventHandlers
                 domainEvent, 
                 "postadded", 
                 string.Format("{0} added a post to the {1} {2}", domainEvent.User.GetName(), ((Group)group).Name, ((Group)group).GroupType), 
-                group);
+                new List<dynamic>(){group});
 
             activity.PostAdded = new
             {

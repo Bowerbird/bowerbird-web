@@ -61,10 +61,10 @@ namespace Bowerbird.Web.Services
 
             // hit up the video utility to validate the url of the file
             // and to query the api for the video's metadata
-            if (_videoUtility.IsValidVideo(command.LinkUri, out embedString, out videoId, out provider, out providerApiUrl))
+            if (_videoUtility.IsValidVideo(command.VideoUri, out embedString, out videoId, out provider, out providerApiUrl))
             {
                 mediaResource
-                    .AddMetadata("Url", command.LinkUri)
+                    .AddMetadata("Url", command.VideoUri)
                     .AddMetadata("Provider", provider)
                     .AddMetadata("VideoId", videoId);
 
@@ -75,7 +75,7 @@ namespace Bowerbird.Web.Services
                 MakeVideoMediaResourceFiles(
                     mediaResource,
                     embedString.AppendWith(videoId),
-                    command.LinkUri,
+                    command.VideoUri,
                     provider,
                     videoId);
             }

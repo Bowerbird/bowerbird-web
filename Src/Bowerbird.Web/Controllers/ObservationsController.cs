@@ -98,11 +98,9 @@ namespace Bowerbird.Web.Controllers
             }
 
             dynamic viewModel = new ExpandoObject();
-            viewModel = new
-                {
-                    Observation = _sightingViewModelBuilder.BuildNewObservation(),
-                    Categories = GetCategories()
-                };
+
+            viewModel.Observation = _sightingViewModelBuilder.BuildNewObservation();
+            viewModel.Categories = GetCategories();
 
             return RestfulResult(
                 viewModel, 
@@ -130,11 +128,9 @@ namespace Bowerbird.Web.Controllers
             var observation = _sightingViewModelBuilder.BuildSighting(observationId);
 
             dynamic viewModel = new ExpandoObject();
-            viewModel = new
-            {
-                Observation = observation,
-                Categories = GetCategories(observationId)
-            };
+
+            viewModel.Observation = observation;
+            viewModel.Categories = GetCategories(observationId);
 
             return RestfulResult(
                 viewModel,
@@ -160,10 +156,8 @@ namespace Bowerbird.Web.Controllers
             }
 
             dynamic viewModel = new ExpandoObject();
-            viewModel = new
-            {
-                Observation = _sightingViewModelBuilder.BuildSighting(observationId)
-            };
+
+            viewModel.Observation = _sightingViewModelBuilder.BuildSighting(observationId);
 
             return RestfulResult(
                 viewModel,

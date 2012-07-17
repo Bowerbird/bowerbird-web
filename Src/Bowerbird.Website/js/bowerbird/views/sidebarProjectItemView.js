@@ -21,6 +21,7 @@ function ($, _, Backbone, app, Project) {
         events: {
             'click .chat-menu-item': 'startChat',
             'click .sub-menu-button': 'showMenu',
+            'click li#createnewpost': 'createPost',
             'click .sub-menu-button li': 'selectMenuItem'
         },
 
@@ -30,9 +31,11 @@ function ($, _, Backbone, app, Project) {
 
         onRender: function () {
             var that = this;
+
             $(this.el).children('a').on('click', function (e) {
                 e.preventDefault();
-                app.groupUserRouter.navigate($(this).attr('href'), { trigger: true });
+                var location = $(this).attr('href');
+                app.groupUserRouter.navigate(location, { trigger: true });
                 that.activityCount = 0;
                 that.$el.find('p span').remove();
                 return false;
@@ -61,6 +64,13 @@ function ($, _, Backbone, app, Project) {
         selectMenuItem: function (e) {
             $('.sub-menu-button').removeClass('active');
             e.stopPropagation();
+        },
+
+        createPost: function (e) {
+            e.preventDefault();
+            var location = e.target.attributes["href"]; //$(this).attr('href');
+            app.postRouter.navigate(location.nodeValue, { trigger: true });
+            return false;
         },
 
         startChat: function (e) {
