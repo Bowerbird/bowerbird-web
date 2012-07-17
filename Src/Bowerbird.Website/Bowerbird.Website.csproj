@@ -178,7 +178,7 @@
     <Content Include="js\bowerbird\views\chatRegion.js" />
     <Content Include="js\bowerbird\views\chatCompositeView.js" />
     <Content Include="js\bowerbird\views\chatMessageCollectionView.js" />
-    <Content Include="js\bowerbird\views\videoForm.js" />
+    <Content Include="js\bowerbird\views\videoFormView.js" />
     <Content Include="js\bowerbird\views\observationDetailsView.js" />
     <Content Include="js\bowerbird\views\userFormLayoutView.js" />
     <Content Include="js\bowerbird\views\organisationItemView.js" />
@@ -494,7 +494,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>65059</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:65060/</IISUrl>
+          <IISUrl>http://localhost:65061/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

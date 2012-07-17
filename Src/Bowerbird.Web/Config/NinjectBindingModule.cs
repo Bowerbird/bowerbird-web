@@ -106,12 +106,4 @@ namespace Bowerbird.Web.Config
         #endregion
 
     }
-
-    //public class Thing : StandardInstanceProvider
-    //{
-    //    protected override System.Type GetType(System.Reflection.MethodInfo methodInfo, object[] arguments)
-    //    {
-            
-    //    }
-    //}
 }

@@ -33,8 +33,7 @@ function ($, _, Backbone, app, ich, EditMapView, EditMediaView) {
             'change input#IsIdentificationRequired': '_isIdentificationRequiredChanged',
             'change input#AnonymiseLocation': '_anonymiseLocationChanged',
             'change #projects-field input:checkbox': '_projectsChanged',
-            'change #category-field input:checkbox': '_categoryChanged',
-            'click #media-resource-import-button': '_showImportMedia'
+            'change #category-field input:checkbox': '_categoryChanged'
         },
 
         initialize: function (options) {
@@ -122,10 +121,6 @@ function ($, _, Backbone, app, ich, EditMapView, EditMediaView) {
                     return $selectedHtml.children();
                 }
             });
-        },
-
-        _showImportMedia: function () {
-            alert('Coming soon');
         },
 
         _contentChanged: function (e) {

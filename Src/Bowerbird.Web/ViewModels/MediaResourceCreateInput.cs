@@ -13,6 +13,7 @@
 */
 
 using System.Web;
+using System.ComponentModel.DataAnnotations;
 
 namespace Bowerbird.Web.ViewModels
 {
@@ -31,13 +32,16 @@ namespace Bowerbird.Web.ViewModels
         /// <summary>
         /// The key which is referenced client side upon creation
         /// </summary>
+        [Required]
         public string Key { get; set; }
 
         /// <summary>
         /// Image, Video, etc
         /// </summary>
+        [Required]
         public string MediaType { get; set; }
 
+        [Required]
         public string Usage { get; set; }
 
         #region Images

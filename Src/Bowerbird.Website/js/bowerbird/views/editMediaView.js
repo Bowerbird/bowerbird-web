@@ -9,25 +9,20 @@
 // -------------
 
 // View that allows user to choose location on a mpa or via coordinates
-define(['jquery', 'underscore', 'backbone', 'app', 'models/mediaresource', 'views/mediaresourceitemview', 'views/videoform', 'loadimage', 'fileupload', 'iframetransport'],
-function ($, _, Backbone, app, MediaResource, MediaResourceItemView, VideoForm, loadImage) {
+define(['jquery', 'underscore', 'backbone', 'app', 'models/mediaresource', 'views/mediaresourceitemview', 'views/videoformview', 'loadimage', 'fileupload', 'iframetransport'],
+function ($, _, Backbone, app, MediaResource, MediaResourceItemView, VideoFormView, loadImage) {
     var EditMediaView = Backbone.View.extend({
 
         id: 'media-resources-fieldset',
 
         events: {
-            'click #youtube-upload-button': '_showEmbeddedVideo'
+            'click #youtube-upload-button': '_showYouTubeVideoForm',
+            'click #vimeo-upload-button': '_showVimeoVideoForm'
         },
 
         initialize: function (options) {
-            log('editMediaView:initialize');
             _.extend(this, Backbone.Events);
-            _.bindAll(this,
-                'render',
-                '_initMediaUploader',
-                '_onImageUploadDone',
-                '_onSubmitImageUpload',
-                '_onImageUploadAdd');
+            _.bindAll(this, 'render', '_initMediaUploader', '_onImageUploadDone', '_onSubmitImageUpload', '_onImageUploadAdd');
             this.mediaResourceItemViews = [];
             this.currentUploadKey = '';
 
@@ -36,13 +31,11 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, VideoForm, 
         },
 
         render: function () {
-            log('ediMediaView:render');
             this._initMediaUploader();
             return this;
         },
 
         _initMediaUploader: function () {
-            log('ediMediaView:_initMediaUploader');
             this.$el.find('#file').fileupload({
                 dataType: 'json',
                 paramName: 'file',
@@ -52,75 +45,83 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, VideoForm, 
             });
         },
 
+        _showYouTubeVideoForm: function (e) {
+            e.preventDefault();
+            this._showVideoForm('youtube');
+        },
+
+        _showVimeoVideoForm: function (e) {
+            e.preventDefault();
+            this._showVideoForm('vimeo');
+        },
+
+        _showVideoForm: function (provider) {
+            $('body').append('<div id="modal-dialog"></div>');
+            var videoFormView = new VideoFormView({ el: $('#modal-dialog'), model: new MediaResource({ MediaType: 'video', Usage: 'observation' }), provider: provider });
+            videoFormView.on('videouploaded', this._onVideoUploadAdd, this);
+            videoFormView.render();
+        },
+
         filesAdded: 0,  // Used to determine when to fire file upload animations
 
         _onImageUploadAdd: function (e, data) {
             this.$el.find('.upload-progress').show();
 
-            log('editMediaView:_onImageUploadAdd');
+            //log('editMediaView:_onImageUploadAdd');
             this.currentUploadKey = app.generateGuid();
             var mediaResource = new MediaResource({ Key: this.currentUploadKey });
             this.model.addMediaResource(mediaResource);
 
-            var mediaResourceItemView = new MediaResourceItemView({ model: mediaResource });
-            mediaResourceItemView.on('mediaresourceview:remove', this._onMediaResourceViewRemove);
-            this.mediaResourceItemViews.push(mediaResourceItemView);
+            //            var mediaResourceItemView = new MediaResourceItemView({ model: mediaResource });
+            //            mediaResourceItemView.on('mediaresourceview:remove', this._onMediaResourceViewRemove);
+            //            this.mediaResourceItemViews.push(mediaResourceItemView);
 
-            var self = this;
-            var tempImage = null;
+            //            var self = this;
+            //            var tempImage = null;
 
-            if (!window.isIEFail) {
-                tempImage = loadImage(
-                    data.files[0],
-                    function (img) {
-                        if (img.type === "error") {
-                            //log('Error loading image', img);
-                        } else {
-                            self.filesAdded++;
-                            mediaResourceItemView.showTempImageMedia(img);
-                            self._showMediaResourceItemView(self, mediaResourceItemView, $(img).width(), self.filesAdded === data.originalFiles.length);
-                        }
-                    },
-                    { maxHeight: 220 }
-                );
-            }
+            //            if (!window.isIEFail) {
+            //                tempImage = loadImage(
+            //                    data.files[0],
+            //                    function (img) {
+            //                        if (img.type === "error") {
+            //                            //log('Error loading image', img);
+            //                        } else {
+            //                            self.filesAdded++;
+            //                            mediaResourceItemView.showTempImageMedia(img);
+            //                            self._showMediaResourceItemView(self, mediaResourceItemView, $(img).width(), self.filesAdded === data.originalFiles.length);
+            //                        }
+            //                    },
+            //                    { maxHeight: 220 }
+            //                );
+            //            }
 
-            if (!tempImage) {
-                $(mediaResourceItemView.el).width(280);
-                this.filesAdded++;
-                this._showMediaResourceItemView(this, mediaResourceItemView, 280, this.filesAdded === data.originalFiles.length);
-            }
+            //            if (!tempImage) {
+            //                $(mediaResourceItemView.el).width(280);
+            //                this.filesAdded++;
+            //                this._showMediaResourceItemView(this, mediaResourceItemView, 280, this.filesAdded === data.originalFiles.length);
+            //            }
 
             data.submit();
         },
 
-        _showEmbeddedVideo: function (e) {
-            e.preventDefault();
-            $('body').append('<div id="modal-dialog" class="make-invisible"></div>');
-            var videoForm = new VideoForm({ el: $('#modal-dialog'), model: new MediaResource() });
-            videoForm.on('videouploaded', this._videoUploadAdd, this);
-            videoForm.render();
-        },
-
-        // once we have a previewable video from the host..
-        _videoUploadAdd: function (data, preview) { // data in this case is a MediaResource
+        _onVideoUploadAdd: function (mediaResource) {
             this.$el.find('.upload-progress').show();
+
             log('editMediaView:_onVideoUploadAdd');
             this.currentUploadKey = app.generateGuid();
-            data.set('Key', this.currentUploadKey);
-            this.model.addMediaResource(data);
+            mediaResource.set('Key', this.currentUploadKey);
+            this.model.addMediaResource(mediaResource);
 
-
-            var mediaResourceItemView = new MediaResourceItemView({ model: data });
-            mediaResourceItemView.on('mediaresourceview:remove', this._onMediaResourceViewRemove);
-            this.mediaResourceItemViews.push(mediaResourceItemView);
-            this.$el.find('.media-resource-items').append(mediaResourceItemView.render().el);
+            //            var mediaResourceItemView = new MediaResourceItemView({ model: mediaResource });
+            //            mediaResourceItemView.on('mediaresourceview:remove', this._onMediaResourceViewRemove);
+            //            this.mediaResourceItemViews.push(mediaResourceItemView);
+            //            this.$el.find('.media-resource-items').append(mediaResourceItemView.render().el);
 
             this.filesAdded++;
-            mediaResourceItemView.showVideoMedia(preview);
-            this._showMediaResourceItemView(this, mediaResourceItemView, 280, true);
+            //mediaResourceItemView.showVideoMedia(preview);
+            //this._showMediaResourceItemView(this, mediaResourceItemView, 280, true);
 
-            data.save();
+            mediaResource.save();
         },
 
         _showMediaResourceItemView: function (self, mediaResourceItemView, imageWidth, beginAnimation) {
@@ -168,7 +169,6 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, VideoForm, 
         },
 
         _onMediaResourceViewRemove: function (model, view) {
-            log('ediMediaView:_onMediaResourceViewRemove');
             //            var addToRemoveList = false;
             //            if (app.get('newObservation').mediaResources.find(function (mr) { return mr.id == this.model.id; }) != null) {
             //                addToRemoveList = true;
@@ -183,7 +183,7 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, VideoForm, 
         },
 
         _onSubmitImageUpload: function (e, data) {
-            log('ediMediaView:_onSubmitImageUpload');
+            //log('ediMediaView:_onSubmitImageUpload');
             data.formData = { Key: this.currentUploadKey, OriginalFileName: data.files[0].name, MediaType: 'image', Usage: 'observation' };
             if (window.isIEFail) {
                 data.formData.ie = true;
@@ -191,7 +191,7 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, VideoForm, 
         },
 
         _onImageUploadDone: function (data) {
-            log('ediMediaView:_onImageUploadDone', this.model);
+            log('editMediaView:_onImageUploadDone', data);
             var mediaResource = this.model.mediaResources.find(function (item) {
                 return item.get('Key') == data.Key;
             });
@@ -200,13 +200,13 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, VideoForm, 
 
         // when we get an uploaded video back from the server, update the id of the mediaresource
         _onVideoUploadDone: function (data) {
-            log('ediMediaView:_onVideoUploadDone', data);
+            log('editMediaView:_onVideoUploadDone', data);
             var mediaResource = this.model.mediaResources.find(function (item) {
                 return item.get('Key') == data.Key;
             });
-            log('mediaResource found: ', mediaResource);
+            //log('mediaResource found: ', mediaResource);
             mediaResource.set(data);
-            log('Video Upload set model to: ', data);
+            //log('Video Upload set model to: ', data);
         }
     });
 

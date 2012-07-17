@@ -387,6 +387,18 @@ h1
 {
     box-shadow: 0 1px 2px 0 #5071A6 inset, 0 1px 6px 0 rgba(80, 158, 238, 0.9);
 }
+.form input::-webkit-input-placeholder
+{
+   color: #94B5D6;
+}
+.form input:-moz-placeholder
+{
+   color: #94B5D6;
+}
+.form input:-ms-input-placeholder
+{
+   color: #94B5D6;
+}
 .form form > fieldset:last-child input[type=submit],
 .form form > fieldset:last-child input[type=button]
 {
@@ -2193,10 +2205,36 @@ li.chat-message .message-text
 {
     padding-right: 0;
 }
-.video-form .video-preview
+.video-form .field .video-preview
 {
-    background-color: red;
-    height: 300px;
+    background: none repeat scroll 0 0 rgba(202, 222, 239, 0.8);
+    height: 310px;
 }
-
-
+.video-form .field .video-preview p
+{
+    background-color: rgba(105, 151, 197, 0.2);
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 2px #6997C5 inset;
+    color: #4379B0;
+    font-size: 0.9em;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-left: 15px;
+    margin-right: 15px;
+    padding-bottom: 17px;
+    padding-left: 0;
+    padding-top: 25px;
+    position: relative;
+    text-align: center;
+    text-shadow: 0 1px 0 #FFFFFF;
+    text-transform: uppercase;
+    top: 80px; 
+}
+.video-form .field .video-preview p img
+{
+    display: block;
+    margin: 0 auto 10px;
+    vertical-align: text-top;
+    width: 30px;
+    height: 30px;
+}
