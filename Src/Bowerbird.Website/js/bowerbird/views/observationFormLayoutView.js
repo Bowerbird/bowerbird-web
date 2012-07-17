@@ -110,14 +110,14 @@ function ($, _, Backbone, app, ich, EditMapView, EditMediaView) {
                     }
                     var project = app.authenticatedUser.projects.get(option.value);
 
-                    html += ' /><img src="' + project.get('Avatar').Files.ThumbnailMedium.RelativeUri + '" alt="" />' + project.get('Name') + '</label>';
+                    html += ' /><img src="' + project.get('Avatar').Image.ThumbnailMedium.RelativeUri + '" alt="" />' + project.get('Name') + '</label>';
                     return html;
                 },
                 oneOrMoreSelected: function (selectedOptions) {
                     var $selectedHtml = $('<div />');
                     _.each(selectedOptions, function (option) {
                         var project = app.authenticatedUser.projects.get(option.value);
-                        $selectedHtml.append('<span class="selected-project"><img src="' + project.get('Avatar').Files.ThumbnailMedium.RelativeUri + '" alt="" />' + option.text + '</span> ');
+                        $selectedHtml.append('<span class="selected-project"><img src="' + project.get('Avatar').Image.ThumbnailMedium.RelativeUri + '" alt="" />' + option.text + '</span> ');
                     });
                     return $selectedHtml.children();
                 }
