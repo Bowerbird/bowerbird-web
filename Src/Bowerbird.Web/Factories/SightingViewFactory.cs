@@ -64,7 +64,8 @@ namespace Bowerbird.Web.Factories
                 IsIdentificationRequired = false,
                 AnonymiseLocation = false,
                 Media = new ObservationMedia[] { },
-                Projects = new string[] { projectId }
+                Projects = new string[] { },
+                ProjectId = projectId
             };
         }
 
