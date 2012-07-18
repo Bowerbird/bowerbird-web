@@ -10,6 +10,7 @@
  
 */
 
+using System.Linq;
 using Bowerbird.Core.Events;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.DesignByContract;
@@ -82,14 +83,15 @@ namespace Bowerbird.Web.EventHandlers
                     string.Format("{0} added a comment to observation {1}", 
                     domainEvent.User.GetName(), 
                     ((Observation)observation).Title), 
-                    ((Observation)observation).Groups);
+                    ((Observation)observation).Groups.Select(x => x.Group));
 
                 activity.ObservationCommentAdded = new
                 {
-                    Post = domainEvent.DomainModel
+                    Comment = domainEvent.DomainModel
                 };
 
                 _documentSession.Store(activity);
+                //_documentSession.SaveChanges();
                 _backChannelService.SendActivityToGroupChannel(activity);
             }
 
@@ -108,7 +110,7 @@ namespace Bowerbird.Web.EventHandlers
 
                 activity.PostCommentAdded = new
                 {
-                    Post = domainEvent.DomainModel
+                    Comment = domainEvent.DomainModel
                 };
 
                 _documentSession.Store(activity);

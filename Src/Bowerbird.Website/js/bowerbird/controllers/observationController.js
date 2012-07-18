@@ -53,7 +53,7 @@ function ($, _, Backbone, app, ObservationLayoutView, Observation) {
     };
 
     var getProjectObservationModel = function (id) {
-        var url = '/observations/create?id='+id;
+        var url = '/observations/create?id=' + id;
         var deferred = new $.Deferred();
         if (app.isPrerendering('observations')) {
             deferred.resolve(app.prerenderedView.data);
@@ -77,6 +77,7 @@ function ($, _, Backbone, app, ObservationLayoutView, Observation) {
                 app.updateTitle(observation.get('Title'));
                 var observationLayoutView = showObservationLayoutView(observation);
                 observationLayoutView.showObservationDetails(observation);
+                //observationLayoutView.showObservationDiscussion(observation);
                 app.setPrerenderComplete();
             });
     };

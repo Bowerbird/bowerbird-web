@@ -13,6 +13,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
 
@@ -35,7 +36,9 @@ namespace Bowerbird.Core.DomainModels
             string commentId,
             User createdByUser,
             DateTime commentedOn,
-            string message)
+            string message,
+            bool isNested = false
+            )
             : base()
         {
             Check.RequireNotNull(createdByUser, "createdByUser");
@@ -45,6 +48,7 @@ namespace Bowerbird.Core.DomainModels
             CommentedOn = commentedOn;
             User = createdByUser;
             Id = commentId;
+            IsNested = isNested;
 
             SetDetails(
                 message,
@@ -57,6 +61,8 @@ namespace Bowerbird.Core.DomainModels
 
         #region Properties
 
+        public List<Comment> ThreadedComments { get; private set; }
+
         public DenormalisedUserReference User { get; private set; }
 
         public DateTime CommentedOn { get; private set; }
@@ -64,6 +70,8 @@ namespace Bowerbird.Core.DomainModels
         public DateTime EditedOn { get; private set; }
 
         public string Message { get; private set; }
+
+        public bool IsNested { get; set; }
 
         #endregion
 
@@ -84,6 +92,13 @@ namespace Bowerbird.Core.DomainModels
                 editedOn);
 
             return this;
+        }
+
+        public Comment AddThreadedComment(Comment comment)
+        {
+            ThreadedComments.Add(comment);
+
+            return comment;
         }
 
         #endregion      

@@ -21,7 +21,8 @@ function ($, _, Backbone, ProjectCollection, MediaResourceCollection) {
             AnonymiseLocation: false,
             Projects: [],
             IsIdentificationRequired: false,
-            Media: []
+            Media: [],
+            Comments: []
         },
 
         urlRoot: '/observations',
@@ -43,7 +44,8 @@ function ($, _, Backbone, ProjectCollection, MediaResourceCollection) {
                 AnonymiseLocation: this.get('AnonymiseLocation'),
                 Projects: this.get('Projects'),
                 IsIdentificationRequired: this.get('IsIdentificationRequired'),
-                Media: this.get('Media')
+                Media: this.get('Media'),
+                Comments: this.get('Comments')
             };
         },
 

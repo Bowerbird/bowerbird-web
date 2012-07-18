@@ -8,8 +8,9 @@
 // ObservationDetailsView
 // ----------------------
 
-define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, app) {
-
+define(['jquery', 'underscore', 'backbone', 'app'],
+function ($, _, Backbone, app) 
+{
     var ObservationDetailsView = Backbone.Marionette.ItemView.extend({
         className: 'observation-details',
 
@@ -30,7 +31,7 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
         },
 
         _showDetails: function () {
-
+            
         }
     });
 

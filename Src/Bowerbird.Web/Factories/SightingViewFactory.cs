@@ -91,7 +91,8 @@ namespace Bowerbird.Web.Factories
                 observation.Media,
                 PrimaryMedia = observation.GetPrimaryMedia(),
                 Projects = observation.Groups.Select(x => x.Group.Id),
-                User = _userViewFactory.Make(user)
+                User = _userViewFactory.Make(user),
+                observation.Discussion.Comments
             };
         }
 

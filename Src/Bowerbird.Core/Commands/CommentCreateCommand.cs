@@ -36,6 +36,8 @@ namespace Bowerbird.Core.Commands
 
         public string Comment { get; set; }
 
+        public string InReplyToCommentId { get; set; }
+
         #endregion
 
         #region Methods

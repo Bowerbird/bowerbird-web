@@ -12,26 +12,14 @@
  
 */
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Bowerbird.Core.CommandHandlers;
-using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.Extensions;
-using Bowerbird.Core.Indexes;
 using Bowerbird.Core.VideoUtilities;
-using Bowerbird.Web.Config;
 using Raven.Client;
-using Raven.Client.Linq;
 using Bowerbird.Core.Config;
-using Bowerbird.Web.Factories;
 using SignalR;
 using Bowerbird.Web.Hubs;
 using SignalR.Hubs;
-using System.Dynamic;
 
 namespace Bowerbird.Web.Services
 {

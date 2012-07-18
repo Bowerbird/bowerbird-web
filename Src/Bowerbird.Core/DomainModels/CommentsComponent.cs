@@ -57,10 +57,17 @@ namespace Bowerbird.Core.DomainModels
             _comments = new List<Comment>();
         }
 
-        public Comment AddComment(string message, User createdByUser, DateTime createdDateTime)
+        /// <summary>
+        /// This Method is to add a comment at the root level of a contribution.
+        /// These comments will have the id 1, 2, 3, 4...
+        /// </summary>
+        public Comment AddComment(
+            string message, 
+            User createdByUser, 
+            DateTime createdDateTime)
         {
             Check.RequireNotNull(createdByUser, "createdByUser");
-
+          
             var commentId = "1";
 
             var comments = _comments
@@ -97,6 +104,22 @@ namespace Bowerbird.Core.DomainModels
 
                 comment.UpdateDetails(modifiedByUser, modifiedDateTime, message);
             }
+        }
+
+        /// <summary>
+        /// This method is to add a comment to a comment.
+        /// These comments will have the id 1.1, 1.1.1, 1.1.2, 2.1, 2.2....
+        /// </summary>
+        public Comment AddThreadedComment(string message,
+            User createdByUser,
+            DateTime createdDateTime,
+            Comment inReplyToComment)
+        {
+            var parentCommentId = inReplyToComment.Id;
+            var siblingCount = inReplyToComment.ThreadedComments.Count;
+            var commentId = string.Format("{0}.{1}", parentCommentId, ++siblingCount);
+            
+            return inReplyToComment.AddThreadedComment(new Comment(commentId, createdByUser, createdDateTime, message, true));
         }
 
         #endregion

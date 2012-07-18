@@ -59,13 +59,78 @@ namespace Bowerbird.Core.CommandHandlers
                 .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
                 .FirstOrDefault();
 
-            ((IDiscussed)contribution).AddComment(
-                command.Comment,
-                _documentSession.Load<User>(command.UserId),
-                command.CommentedOn
-                );
+            if (contribution == null) return;
+
+            switch (contribution.ContributionType)
+            {
+                case "observation":
+                    {
+                        if (!string.IsNullOrWhiteSpace(command.InReplyToCommentId))
+                        {
+                            var inReplyToComment = contribution
+                                .Observation
+                                .Discussion
+                                .Comments
+                                .Where(x => x.Id == command.InReplyToCommentId)
+                                .FirstOrDefault();
+
+                            AddThreadedComment(contribution.Observation, command, inReplyToComment);
+                        }
+                        else
+                        {
+                            AddComment(contribution.Observation, command);
+                        }
+                    }
+                    break;
+
+                case "post":
+                    {
+                        if (!string.IsNullOrWhiteSpace(command.InReplyToCommentId))
+                        {
+                            var inReplyToComment = contribution
+                                .Observation
+                                .Discussion
+                                .Comments
+                                .Where(x => x.Id == command.InReplyToCommentId)
+                                .FirstOrDefault();
+
+                            AddThreadedComment(contribution.Post, command, inReplyToComment);
+                        }
+                        else
+                        {
+                            AddComment(contribution.Post, command);
+                        }
+                    }
+                    break;
+                default:
+                    {
+                        return;
+                    }
+            }
 
             _documentSession.Store(contribution);
+        }
+
+        private void AddComment(IDiscussed contribution, CommentCreateCommand command)
+        {
+            if (string.IsNullOrWhiteSpace(command.InReplyToCommentId))
+            {
+                contribution.AddComment(
+                    command.Comment,
+                    _documentSession.Load<User>(command.UserId),
+                    command.CommentedOn
+                    );
+            }
+        }
+
+        private void AddThreadedComment(IDiscussed contribution, CommentCreateCommand command, Comment comment)
+        {
+            contribution.AddThreadedComment(
+                    command.Comment,
+                    _documentSession.Load<User>(command.UserId),
+                    command.CommentedOn,
+                    comment
+                    );
         }
 
         #endregion

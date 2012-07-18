@@ -288,6 +288,15 @@ namespace Bowerbird.Core.DomainModels
             return this;
         }
 
+        IContribution IDiscussed.AddThreadedComment(string message, User createdByUser, DateTime createdDateTime, Comment commentToRespondTo)
+        {
+            var comment = Discussion.AddThreadedComment(message, createdByUser, createdDateTime, commentToRespondTo);
+
+            FireEvent(new DomainModelCreatedEvent<Comment>(comment, createdByUser, this));
+            
+            return this;
+        }
+
         IContribution IDiscussed.RemoveComment(string commentId)
         {
             Discussion.RemoveComment(commentId);

@@ -12,6 +12,8 @@
  
 */
 
+using System.ComponentModel.DataAnnotations;
+
 namespace Bowerbird.Web.ViewModels
 {
     public class CommentCreateInput
@@ -26,15 +28,20 @@ namespace Bowerbird.Web.ViewModels
 
         #region Properties
 
-        public string Comment { get; set; }
+        public bool IsNested { get; set; }
 
+        [Required]
+        public string Message { get; set; }
+
+        [Required]
         public string ContributionId { get; set; }
+
+        public string ParentCommentId { get; set; }
 
         #endregion
 
         #region Methods
 
         #endregion
-        
     }
 }

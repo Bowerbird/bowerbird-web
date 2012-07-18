@@ -134,6 +134,7 @@
     <Content Include="img\youtube.png" />
     <Content Include="js\bowerbird\collections\chatMessageCollection.js" />
     <Content Include="js\bowerbird\collections\chatCollection.js" />
+    <Content Include="js\bowerbird\collections\commentCollection.js" />
     <Content Include="js\bowerbird\collections\exploreProjectCollection.js" />
     <Content Include="js\bowerbird\collections\referenceSpeciesCollection.js" />
     <Content Include="js\bowerbird\collections\speciesCollection.js" />
@@ -163,6 +164,7 @@
     <Content Include="js\bowerbird\models\activity.js" />
     <Content Include="js\bowerbird\models\chat.js" />
     <Content Include="js\bowerbird\models\chatMessage.js" />
+    <Content Include="js\bowerbird\models\comment.js" />
     <Content Include="js\bowerbird\models\embeddedVideo.js" />
     <Content Include="js\bowerbird\models\post.js" />
     <Content Include="js\bowerbird\models\referenceSpecies.js" />
@@ -178,6 +180,10 @@
     <Content Include="js\bowerbird\views\chatRegion.js" />
     <Content Include="js\bowerbird\views\chatCompositeView.js" />
     <Content Include="js\bowerbird\views\chatMessageCollectionView.js" />
+    <Content Include="js\bowerbird\views\commentFormView.js" />
+    <Content Include="js\bowerbird\views\commentCollectionView.js" />
+    <Content Include="js\bowerbird\views\commentItemView.js" />
+    <Content Include="js\bowerbird\views\discussionLayoutView.js" />
     <Content Include="js\bowerbird\views\videoFormView.js" />
     <Content Include="js\bowerbird\views\observationDetailsView.js" />
     <Content Include="js\bowerbird\views\userFormLayoutView.js" />
@@ -407,6 +413,13 @@
     <Content Include="Views\Shared\PostStreamItem.mustache">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Views\Shared\CommentItem.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\CommentForm.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\Discussion.mustache" />
     <None Include="Views\Shared\ObservationForm.mustache">
       <SubType>Designer</SubType>
     </None>
