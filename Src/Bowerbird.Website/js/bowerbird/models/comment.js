@@ -16,7 +16,8 @@ function ($, _, Backbone)
             Message: '',
             ContributionId: null,
             ParentCommentId: null,
-            IsNested: false
+            IsNested: false,
+            Comments: []
         },
 
         idAttribute: 'Id',
@@ -30,6 +31,7 @@ function ($, _, Backbone)
                 ContributionId: this.get('ContributionId'),
                 ParentCommentId: this.get('ParentCommentId'),
                 IsNested: this.get('IsNested')
+                //Comments: this.get('Comment').Comments.toJSON()
             };
         }
 

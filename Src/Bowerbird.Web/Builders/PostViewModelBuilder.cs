@@ -127,7 +127,8 @@ namespace Bowerbird.Web.Builders
                 post.Message,
                 //Creator = _userViewFactory.Make(_documentSession.Load<User>(post.User.Id)), // TODO: Fix this n+1 prob
                 //Comments = post.Discussion.Comments.Select(MakeComment), // TODO: Fix this n+1 prob
-                Resources = post.MediaResources
+                Resources = post.MediaResources,
+                post.Discussion.Comments
             };
         }
 

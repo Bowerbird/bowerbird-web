@@ -38,26 +38,11 @@ function ($, _, Backbone, app, ObservationDetailsView, ObservationFormLayoutView
             var observationDetailsView = new ObservationDetailsView(options);
             this.main[app.getShowViewMethodName('observations')](observationDetailsView);
 
-            var discussionLayoutView = new DiscussionLayoutView({ comments: observation.get('Comments'), contributionId: observation.id });
+            var discussionLayoutView = new DiscussionLayoutView({ Comments: this.model.get('Comments'), ContributionId: this.model.id });
             this.comments[app.getShowViewMethodName('observations')](discussionLayoutView);
 
             if (app.isPrerendering('observations')) {
                 observationDetailsView.showBootstrappedDetails();
-            }
-        },
-
-        showObservationDiscussion: function (observation) {
-            var options = { comments: observation.get('Comments'), contributionId: observation.id };
-
-            if (app.isPrerendering('observations')) {
-                options['el'] = '.discussion';
-            }
-
-            var discussionLayoutView = new DiscussionLayoutView(options);
-            this.comments[app.getShowViewMethodName('observations')](discussionLayoutView);
-
-            if (app.isPrerendering('observations')) {
-                discussionLayoutView.showBootstrappedDetails();
             }
         },
 

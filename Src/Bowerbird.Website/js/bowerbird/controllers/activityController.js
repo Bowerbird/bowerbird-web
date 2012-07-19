@@ -26,6 +26,11 @@ function ($, _, Backbone, app, Activity) {
         app.vent.trigger('newactivity:' + activity.get('Type'), activity);
         app.vent.trigger('newactivity:' + groupId, activity);
         app.vent.trigger('newactivity:' + groupId + ':' + activity.get('Type'), activity);
+
+        if (activityData.ContributionId) {
+            app.vent.trigger('newactivity:' + activity.get('Type') + ':' + activity.get('ContributionId'), activity);
+            log('triggered: ' + 'newactivity:' + activity.get('Type') + ':' + activity.get('ContributionId'), activity);
+        }
     };
 
     app.addInitializer(function () {

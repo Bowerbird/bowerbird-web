@@ -113,10 +113,11 @@ namespace Bowerbird.Core.DomainModels
         public Comment AddThreadedComment(string message,
             User createdByUser,
             DateTime createdDateTime,
-            Comment inReplyToComment)
+            Comment inReplyToComment
+            )
         {
             var parentCommentId = inReplyToComment.Id;
-            var siblingCount = inReplyToComment.ThreadedComments.Count;
+            var siblingCount = inReplyToComment.Comments.Count;
             var commentId = string.Format("{0}.{1}", parentCommentId, ++siblingCount);
             
             return inReplyToComment.AddThreadedComment(new Comment(commentId, createdByUser, createdDateTime, message, true));

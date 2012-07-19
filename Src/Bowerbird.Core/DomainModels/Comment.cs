@@ -61,7 +61,7 @@ namespace Bowerbird.Core.DomainModels
 
         #region Properties
 
-        public List<Comment> ThreadedComments { get; private set; }
+        public List<Comment> Comments { get; private set; }
 
         public DenormalisedUserReference User { get; private set; }
 
@@ -96,7 +96,7 @@ namespace Bowerbird.Core.DomainModels
 
         public Comment AddThreadedComment(Comment comment)
         {
-            ThreadedComments.Add(comment);
+            Comments.Add(comment);
 
             return comment;
         }

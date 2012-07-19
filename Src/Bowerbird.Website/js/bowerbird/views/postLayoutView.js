@@ -42,7 +42,7 @@ function ($, _, Backbone, app, PostDetailsView, PostFormLayoutView, DiscussionLa
             var postDetailsView = new PostDetailsView(options);
             this.main[app.getShowViewMethodName('posts')](postDetailsView);
 
-            var discussionLayoutView = new DiscussionLayoutView({ comments: post.get('Comments'), contributionId: post.id });
+            var discussionLayoutView = new DiscussionLayoutView({ Comments: post.get('Comments'), ContributionId: post.id });
             this.comments[app.getShowViewMethodName('posts')](discussionLayoutView);
 
             if (app.isPrerendering('posts')) {

@@ -9,8 +9,8 @@
 // ---------------------
 
 // Shows Explore organisation items
-define(['jquery','underscore','backbone','app','ich','views/organisationitemview'],
-function ($, _, Backbone, app, ich, OrganisationItemView) 
+define(['jquery','underscore','backbone','app','ich','views/organisationitemview', 'views/commentcompositeview'],
+function ($, _, Backbone, app, ich, OrganisationItemView, CommentCompositeView) 
 {
     var CommentCollectionView = Backbone.Marionette.CollectionView.extend({
 
@@ -18,7 +18,7 @@ function ($, _, Backbone, app, ich, OrganisationItemView)
 
         className: 'comments',
 
-        itemView: CommentItemView
+        itemView: CommentCompositeView
 
     });
 

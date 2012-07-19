@@ -83,7 +83,8 @@ namespace Bowerbird.Web.EventHandlers
                     string.Format("{0} added a comment to observation {1}", 
                     domainEvent.User.GetName(), 
                     ((Observation)observation).Title), 
-                    ((Observation)observation).Groups.Select(x => x.Group));
+                    ((Observation)observation).Groups.Select(x => x.Group),
+                    observation.Id);
 
                 activity.ObservationCommentAdded = new
                 {
@@ -106,7 +107,8 @@ namespace Bowerbird.Web.EventHandlers
                     string.Format("{0} added a comment to post {1}",
                     domainEvent.User.GetName(),
                     ((Post)post).Subject),
-                    new []{group});
+                    new []{group},
+                    post.Id);
 
                 activity.PostCommentAdded = new
                 {

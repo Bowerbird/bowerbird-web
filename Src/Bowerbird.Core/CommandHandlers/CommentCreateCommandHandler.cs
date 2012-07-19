@@ -65,41 +65,47 @@ namespace Bowerbird.Core.CommandHandlers
             {
                 case "observation":
                     {
+                        var observation = _documentSession.Load<Observation>(contribution.Observation.Id);
+
                         if (!string.IsNullOrWhiteSpace(command.InReplyToCommentId))
                         {
-                            var inReplyToComment = contribution
-                                .Observation
+                            var inReplyToComment = observation
                                 .Discussion
                                 .Comments
                                 .Where(x => x.Id == command.InReplyToCommentId)
                                 .FirstOrDefault();
 
-                            AddThreadedComment(contribution.Observation, command, inReplyToComment);
+                            AddThreadedComment(observation, command, inReplyToComment);
                         }
                         else
                         {
-                            AddComment(contribution.Observation, command);
+                            AddComment(observation, command);
                         }
+
+                        _documentSession.Store(observation);
                     }
                     break;
 
                 case "post":
                     {
+                        var post = _documentSession.Load<Post>(contribution.Post.Id);
+
                         if (!string.IsNullOrWhiteSpace(command.InReplyToCommentId))
                         {
-                            var inReplyToComment = contribution
-                                .Observation
+                            var inReplyToComment = post
                                 .Discussion
                                 .Comments
                                 .Where(x => x.Id == command.InReplyToCommentId)
                                 .FirstOrDefault();
 
-                            AddThreadedComment(contribution.Post, command, inReplyToComment);
+                            AddThreadedComment(post, command, inReplyToComment);
                         }
                         else
                         {
-                            AddComment(contribution.Post, command);
+                            AddComment(post, command);
                         }
+
+                        _documentSession.Store(post);
                     }
                     break;
                 default:
@@ -107,8 +113,6 @@ namespace Bowerbird.Core.CommandHandlers
                         return;
                     }
             }
-
-            _documentSession.Store(contribution);
         }
 
         private void AddComment(IDiscussed contribution, CommentCreateCommand command)

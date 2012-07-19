@@ -3,8 +3,10 @@
  Developers: 
  * Frank Radocaj : frank@radocaj.com
  * Hamish Crittenden : hamish.crittenden@gmail.com
+
  Project Manager: 
  * Ken Walker : kwalker@museum.vic.gov.au
+ 
  Funded by:
  * Atlas of Living Australia
  
@@ -14,7 +16,6 @@ using System;
 using System.Collections.Generic;
 using Bowerbird.Core.Events;
 using Bowerbird.Core.DomainModels;
-using SignalR.Hubs;
 
 namespace Bowerbird.Web.EventHandlers
 {
@@ -34,7 +35,14 @@ namespace Bowerbird.Web.EventHandlers
 
         #region Methods
 
-        protected Activity MakeActivity<T>(T domainEvent, string type, string description, IEnumerable<dynamic> groups) where T : IDomainEvent
+        protected Activity MakeActivity<T>(
+            T domainEvent, 
+            string type, 
+            string description, 
+            IEnumerable<dynamic> groups,
+            string contributionId = (string)null
+            ) 
+            where T : IDomainEvent
         {
             return new Activity(
                 type,
@@ -47,7 +55,8 @@ namespace Bowerbird.Web.EventHandlers
                     domainEvent.User.LastName,
                     domainEvent.User.Avatar
                 },
-                groups);
+                groups,
+                contributionId);
         }
 
         #endregion

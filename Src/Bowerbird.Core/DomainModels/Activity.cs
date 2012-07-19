@@ -16,12 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.DomainModels.DenormalisedReferences;
-using Newtonsoft.Json;
 using System.Dynamic;
-using System.Collections;
-using Raven.Abstractions.Linq;
-using Raven.Json.Linq;
 
 namespace Bowerbird.Core.DomainModels
 {
@@ -45,7 +40,8 @@ namespace Bowerbird.Core.DomainModels
             DateTime createdDateTime,
             string description,
             dynamic createdByUser,
-            IEnumerable<dynamic> groups)
+            IEnumerable<dynamic> groups,
+            string contributionId = (string)null)
             : base()
         {
             Check.RequireNotNull(createdByUser, "createdByUser");
@@ -60,6 +56,14 @@ namespace Bowerbird.Core.DomainModels
             _properties.Add("Description", description);
             _properties.Add("User", createdByUser);
             _properties.Add("Groups", groups);
+
+            // this property is used for posting comments on Posts and Observations
+            // so on the front end, it is possible to apply a new comment to the view
+            // which renders the contribution
+            if (contributionId != null)
+            {
+                _properties.Add("ContributionId", contributionId);
+            }
         }
 
         #endregion
