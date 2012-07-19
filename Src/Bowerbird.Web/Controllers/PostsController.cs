@@ -72,7 +72,7 @@ namespace Bowerbird.Web.Controllers
 
             var viewModel = new
             {
-                Post = _postViewModelBuilder.BuildPost(id)
+                Post = _postViewModelBuilder.BuildPost(postId)
             };
 
             return RestfulResult(

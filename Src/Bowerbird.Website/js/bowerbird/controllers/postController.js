@@ -7,16 +7,26 @@
 
 // PostController & PostRouter
 // ---------------------------
-define(['jquery', 'underscore', 'backbone', 'app', 'views/postformlayoutview', 'models/post', 'queryparams'],
-function ($, _, Backbone, app, PostFormLayoutView, Post) {
+define(['jquery', 'underscore', 'backbone', 'app', 'views/postlayoutview', 'models/post', 'queryparams'],
+function ($, _, Backbone, app, PostLayoutView, Post) {
     var PostRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
             'posts/create': 'showCreatePostForm',
-            'posts/:id/update': 'showUpdatePostForm'
+            'posts/:id/update': 'showUpdatePostForm',
+            'posts/:id': 'showPostDetails'
         }
     });
 
     var PostController = {};
+
+    var showPostLayoutView = function (post) {
+        var postLayoutView = new PostLayoutView({ model: post });
+        app.showFormContentView(postLayoutView, 'posts');
+        if (app.isPrerendering('posts')) {
+            postLayoutView.showBootstrappedDetails();
+        }
+        return postLayoutView;
+    };
 
     var getModel = function (id) {
         var url = '/posts/create';
@@ -51,9 +61,19 @@ function ($, _, Backbone, app, PostFormLayoutView, Post) {
         return deferred.promise();
     };
 
-
     // PostController Public API
     // ----------------------------
+
+    PostController.showPostDetails = function (id) {
+        $.when(getModel(id))
+            .done(function (model) {
+                var post = new Post(model.Post);
+                app.updateTitle(post.get('Subject'));
+                var postLayoutView = showPostLayoutView(post);
+                postLayoutView.showPostDetails(post);
+                app.setPrerenderComplete();
+            });
+    };
 
     // Show a post form
     PostController.showUpdatePostForm = function (id) {
@@ -61,14 +81,9 @@ function ($, _, Backbone, app, PostFormLayoutView, Post) {
         $.when(getModel(id))
             .done(function (model) {
                 var post = new Post(model.Post);
-                var postFormLayoutView = new PostFormLayoutView({ model: post });
-
-                app.content[app.getShowViewMethodName('posts')](postFormLayoutView);
-
-                if (app.isPrerendering('posts')) {
-                    postFormLayoutView.showBootstrappedDetails();
-                }
-
+                app.updateTitle('Edit Post');
+                var postLayoutView = showPostLayoutView(post);
+                postLayoutView.showPostForm(post);
                 app.setPrerenderComplete();
             });
     };
@@ -79,15 +94,9 @@ function ($, _, Backbone, app, PostFormLayoutView, Post) {
         $.when(createModel(params.id))
             .done(function (model) {
                 var post = new Post(model.Post);
-                //post.set('GroupId', project.id);
-                var postFormLayoutView = new PostFormLayoutView({ model: post });
-
-                app.content[app.getShowViewMethodName('posts')](postFormLayoutView);
-
-                if (app.isPrerendering('posts')) {
-                    postFormLayoutView.showBootstrappedDetails();
-                }
-
+                app.updateTitle('New Post');
+                var postLayoutView = showPostLayoutView(post);
+                postLayoutView.showPostForm(post);
                 app.setPrerenderComplete();
             });
     };

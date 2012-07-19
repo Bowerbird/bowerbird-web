@@ -22,7 +22,8 @@ function ($, _, Backbone, app, CommentCollection, Comment, CommentFormView) {
         },
 
         events: {
-            'click .add-comment-button': '_addComment'
+            'click .add-comment-button': '_addComment',
+            'commentcancelled:': '_addNewCommentButton'
         },
 
         serializeData: function () {
@@ -61,6 +62,10 @@ function ($, _, Backbone, app, CommentCollection, Comment, CommentFormView) {
             var newComment = new Comment({ ContributionId: this.contributionId, ParentCommentId: null, IsNested: false });
             var commentFormView = new CommentFormView({ el: $('#addcomment'), model: newComment });
             commentFormView.render();
+        },
+
+        _addNewCommentButton: function () {
+            this.$el.find('#addcomment').append('<input class="add-comment-button" type="button" value="add-new-comment">');
         }
 
     });

@@ -1,0 +1,17 @@
+﻿<h2>Post</h2>
+<div class="main">
+    {{#Model.Create}}
+        <div class="form single-medium observation-form">
+            {{>PostForm}}
+        </div>
+    {{/Model.Create}}
+    {{#Model.Update}}
+        <div class="form single-medium observation-form">
+            {{>PostForm}}
+        </div>
+    {{/Model.Update}}
+</div>
+<h2>Comments</h2>
+<div class="comments">
+  <div class="comments-details"></div>
+</div>

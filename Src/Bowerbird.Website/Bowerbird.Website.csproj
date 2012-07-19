@@ -183,6 +183,8 @@
     <Content Include="js\bowerbird\views\commentFormView.js" />
     <Content Include="js\bowerbird\views\commentCollectionView.js" />
     <Content Include="js\bowerbird\views\commentItemView.js" />
+    <Content Include="js\bowerbird\views\postDetailsView.js" />
+    <Content Include="js\bowerbird\views\postLayoutView.js" />
     <Content Include="js\bowerbird\views\discussionLayoutView.js" />
     <Content Include="js\bowerbird\views\videoFormView.js" />
     <Content Include="js\bowerbird\views\observationDetailsView.js" />
@@ -420,6 +422,13 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Shared\Discussion.mustache" />
+    <Content Include="Views\Posts\Index.mustache" />
+    <Content Include="Views\Shared\Post.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\PostDetails.mustache">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Views\Shared\ObservationForm.mustache">
       <SubType>Designer</SubType>
     </None>
