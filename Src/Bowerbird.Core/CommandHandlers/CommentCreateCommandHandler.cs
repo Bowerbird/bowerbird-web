@@ -122,7 +122,8 @@ namespace Bowerbird.Core.CommandHandlers
                 contribution.AddComment(
                     command.Comment,
                     _documentSession.Load<User>(command.UserId),
-                    command.CommentedOn
+                    command.CommentedOn,
+                    command.ContributionId
                     );
             }
         }
@@ -133,7 +134,8 @@ namespace Bowerbird.Core.CommandHandlers
                     command.Comment,
                     _documentSession.Load<User>(command.UserId),
                     command.CommentedOn,
-                    comment
+                    comment,
+                    command.ContributionId
                     );
         }
 

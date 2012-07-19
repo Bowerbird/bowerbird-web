@@ -64,7 +64,8 @@ namespace Bowerbird.Core.DomainModels
         public Comment AddComment(
             string message, 
             User createdByUser, 
-            DateTime createdDateTime)
+            DateTime createdDateTime,
+            string contributionId)
         {
             Check.RequireNotNull(createdByUser, "createdByUser");
           
@@ -84,7 +85,7 @@ namespace Bowerbird.Core.DomainModels
                 }
             }
 
-            var newComment = new Comment(commentId, createdByUser, createdDateTime, message);
+            var newComment = new Comment(commentId, createdByUser, createdDateTime, message, contributionId);
 
             _comments.Add(newComment);
 
@@ -113,14 +114,15 @@ namespace Bowerbird.Core.DomainModels
         public Comment AddThreadedComment(string message,
             User createdByUser,
             DateTime createdDateTime,
-            Comment inReplyToComment
+            Comment inReplyToComment,
+            string contributionId
             )
         {
             var parentCommentId = inReplyToComment.Id;
-            var siblingCount = inReplyToComment.Comments.Count;
+            var siblingCount = inReplyToComment.Comments != null ? inReplyToComment.Comments.Count : 0;
             var commentId = string.Format("{0}.{1}", parentCommentId, ++siblingCount);
-            
-            return inReplyToComment.AddThreadedComment(new Comment(commentId, createdByUser, createdDateTime, message, true));
+
+            return inReplyToComment.AddThreadedComment(new Comment(commentId, createdByUser, createdDateTime, message, contributionId, true));
         }
 
         #endregion

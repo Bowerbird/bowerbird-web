@@ -1,10 +1,12 @@
 ﻿<div class="comment">
     <img src="{{User.Avatar.UrlToImage}}" alt="{{User.FirstName}} {{User.LastName}}" />
     <p class="description">{{Message}} <span>{{CommentedOn}}</span></p>
+    <div class="comments">
     {{#Comments}}
         {{>CommentItem}}
     {{/Comments}}
-    <div class="add-a-reply">
-        <input type="button" class="add-reply-button" value="Reply" />
+    </div>
+    <div class="reply">
+        
     </div>
 </div>

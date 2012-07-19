@@ -30,6 +30,8 @@ namespace Bowerbird.Core.DomainModels
         protected Comment() : base() 
         {
             EnableEvents();
+
+            InitMembers();
         }
 
         public Comment(
@@ -37,6 +39,7 @@ namespace Bowerbird.Core.DomainModels
             User createdByUser,
             DateTime commentedOn,
             string message,
+            string contributionId,
             bool isNested = false
             )
             : base()
@@ -44,17 +47,21 @@ namespace Bowerbird.Core.DomainModels
             Check.RequireNotNull(createdByUser, "createdByUser");
             Check.RequireNotNullOrWhitespace(commentId, "commentId");
             Check.RequireNotNullOrWhitespace(message, "message");
+            Check.RequireNotNullOrWhitespace(contributionId, "contributionId");
 
             CommentedOn = commentedOn;
             User = createdByUser;
             Id = commentId;
             IsNested = isNested;
+            ContributionId = contributionId;
 
             SetDetails(
                 message,
                 CommentedOn);
 
             EnableEvents();
+
+            InitMembers();
         }
 
         #endregion
@@ -70,6 +77,8 @@ namespace Bowerbird.Core.DomainModels
         public DateTime EditedOn { get; private set; }
 
         public string Message { get; private set; }
+
+        public string ContributionId { get; private set; }
 
         public bool IsNested { get; set; }
 
@@ -96,9 +105,16 @@ namespace Bowerbird.Core.DomainModels
 
         public Comment AddThreadedComment(Comment comment)
         {
+            if(Comments == null) Comments = new List<Comment>();
+
             Comments.Add(comment);
 
             return comment;
+        }
+
+        private void InitMembers()
+        {
+            Comments = new List<Comment>();
         }
 
         #endregion      

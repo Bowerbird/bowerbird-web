@@ -9,8 +9,8 @@
 // ---------------
 
 // Shows an individual project item
-define(['jquery', 'underscore', 'backbone', 'app', 'views/commentformview', 'models/comment'],
-function ($, _, Backbone, app, CommentFormView, Comment) {
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/commentformview', 'models/comment'],
+function ($, _, Backbone, app, ich, CommentFormView, Comment) {
     var CommentCompositeView = Backbone.Marionette.CompositeView.extend({
 
         tagName: 'li',
@@ -19,8 +19,12 @@ function ($, _, Backbone, app, CommentFormView, Comment) {
 
         template: 'CommentItem',
 
+        itemView: CommentCompositeView,
+
         events: {
-            'click .add-reply-button': 'addReply'
+            'click .reply-button': 'addReply',
+            'click .save-reply-button': 'saveReply',
+            'click .cancel-reply-button': 'cancelReply'
         },
 
         initialize: function (options) {
@@ -32,21 +36,29 @@ function ($, _, Backbone, app, CommentFormView, Comment) {
         },
 
         onRender: function () {
-            log('commentItemView.onRender');
+            log('commentCompositeView.onRender');
+            this.$el.find('.reply').append(ich.ReplyForm());
         },
 
         addReply: function (e) {
             e.preventDefault();
-            // we are essentially creating a new comment model, where: 
-            // ParentCommentId is this model's id.
-            // ContributionId is this model's contributionId.
-            // IsNested = true.
-            // Message is blank.
-
-            // create a new comment form, pass in the model and display.
             var model = new Comment({ ContributionId: this.model.get('ContributionId'), ParentCommentId: this.model.id, IsNested: true });
-            var view = new CommentFormView({ model: model });
-            this.$el.find('.add-a-reply').append(view.render());
+            this.$el.find('.reply').empty().append(ich.PostReplyForm());
+        },
+
+        saveReply: function (e) {
+            var model = new Comment({
+                ContributionId: this.model.get('ContributionId'),
+                ParentCommentId: this.model.id,
+                IsNested: true,
+                Message: this.$el.find('.add-reply-text').val()
+            });
+
+            model.save();
+        },
+
+        cancelReply: function (e) {
+            this.$el.find('.reply').empty().append(ich.ReplyForm());
         }
     });
 

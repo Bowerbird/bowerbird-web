@@ -182,7 +182,7 @@
     <Content Include="js\bowerbird\views\chatMessageCollectionView.js" />
     <Content Include="js\bowerbird\views\commentFormView.js" />
     <Content Include="js\bowerbird\views\commentCollectionView.js" />
-    <Content Include="js\bowerbird\views\commentItemView.js" />
+    <Content Include="js\bowerbird\views\commentCompositeView.js" />
     <Content Include="js\bowerbird\views\postDetailsView.js" />
     <Content Include="js\bowerbird\views\postLayoutView.js" />
     <Content Include="js\bowerbird\views\discussionLayoutView.js" />
@@ -427,6 +427,12 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Shared\PostDetails.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\ReplyForm.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\PostReplyForm.mustache">
       <SubType>Designer</SubType>
     </Content>
     <None Include="Views\Shared\ObservationForm.mustache">

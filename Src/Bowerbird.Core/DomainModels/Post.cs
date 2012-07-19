@@ -126,18 +126,18 @@ namespace Bowerbird.Core.DomainModels
             return this;
         }
 
-        IContribution IDiscussed.AddComment(string message, User createdByUser, DateTime createdDateTime)
+        IContribution IDiscussed.AddComment(string message, User createdByUser, DateTime createdDateTime, string contributionId)
         {
-            var comment = Discussion.AddComment(message, createdByUser, createdDateTime);
+            var comment = Discussion.AddComment(message, createdByUser, createdDateTime, contributionId);
 
             FireEvent(new DomainModelCreatedEvent<Comment>(comment, createdByUser, this));
 
             return this;
         }
 
-        IContribution IDiscussed.AddThreadedComment(string message, User createdByUser, DateTime createdDateTime, Comment commentToRespondTo)
+        IContribution IDiscussed.AddThreadedComment(string message, User createdByUser, DateTime createdDateTime, Comment commentToRespondTo, string contributionId)
         {
-            var comment = Discussion.AddThreadedComment(message, createdByUser, createdDateTime, commentToRespondTo);
+            var comment = Discussion.AddThreadedComment(message, createdByUser, createdDateTime, commentToRespondTo, contributionId);
 
             FireEvent(new DomainModelCreatedEvent<Comment>(comment, createdByUser, this));
 

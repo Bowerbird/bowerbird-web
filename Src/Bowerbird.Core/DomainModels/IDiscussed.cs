@@ -18,9 +18,9 @@ namespace Bowerbird.Core.DomainModels
 {
     public interface IDiscussed
     {
-        IContribution AddComment(string message, User createdByUser, DateTime createdDateTime);
+        IContribution AddComment(string message, User createdByUser, DateTime createdDateTime, string contributionId);
 
-        IContribution AddThreadedComment(string message, User createdByUser, DateTime createdDateTime, Comment inReplyToComment);
+        IContribution AddThreadedComment(string message, User createdByUser, DateTime createdDateTime, Comment inReplyToComment, string contributionId);
 
         IContribution RemoveComment(string commentId);
 

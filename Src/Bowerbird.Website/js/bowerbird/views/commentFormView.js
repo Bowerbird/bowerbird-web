@@ -33,7 +33,7 @@ function ($, _, Backbone, app, ich) {
         },
 
         onRender: function () {
-
+            
         },
 
         _onCommentChanged: function () {
