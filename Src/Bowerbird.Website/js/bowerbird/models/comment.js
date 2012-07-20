@@ -9,8 +9,7 @@
 // -------
 
 define(['jquery', 'underscore', 'backbone'],
-function ($, _, Backbone) 
-{
+function ($, _, Backbone) {
     var Comment = Backbone.Model.extend({
         defaults: {
             Message: '',
@@ -33,6 +32,24 @@ function ($, _, Backbone)
                 IsNested: this.get('IsNested')
                 //Comments: this.get('Comment').Comments.toJSON()
             };
+        },
+
+        // keep recursing through Comments collection until comment is found to add to
+        addNestedComment: function (comment, commentIdTokens) {
+            log('comment.addNestedComment', comment, commentIdTokens);
+            // find the comment in Comments to pass comment down to
+            if (commentIdTokens.length > 1) 
+            {
+                // pop the next id off the array, find the comment at that index (minus 1 as naming starts at 1)
+                var index = commentIdTokens.pop();
+                var commentToAddTo = this.get('Comments')[index - 1];
+                commentToAddTo.addNestedComment(comment);
+            }
+            else 
+            {
+                // we are adding the comment to this comments collection
+                Comments.add(comment);
+            }
         }
 
     });

@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
 
@@ -103,7 +104,7 @@ namespace Bowerbird.Core.DomainModels
             return this;
         }
 
-        public Comment AddThreadedComment(Comment comment)
+        public Comment AddComment(Comment comment)
         {
             if(Comments == null) Comments = new List<Comment>();
 
@@ -117,11 +118,12 @@ namespace Bowerbird.Core.DomainModels
             Comments = new List<Comment>();
         }
 
-        #endregion      
-
         void IAssignableId.SetIdTo(string prefix, string assignedId)
         {
             Id = string.Format("{0}/{1}", prefix, assignedId);
         }
+
+        #endregion
+
     }
 }

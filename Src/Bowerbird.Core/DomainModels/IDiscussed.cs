@@ -20,7 +20,7 @@ namespace Bowerbird.Core.DomainModels
     {
         IContribution AddComment(string message, User createdByUser, DateTime createdDateTime, string contributionId);
 
-        IContribution AddThreadedComment(string message, User createdByUser, DateTime createdDateTime, Comment inReplyToComment, string contributionId);
+        IContribution AddThreadedComment(string message, User createdByUser, DateTime createdDateTime, string inReplyToComment, string contributionId);
 
         IContribution RemoveComment(string commentId);
 

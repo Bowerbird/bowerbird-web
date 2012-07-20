@@ -78,10 +78,10 @@ function ($, _, Backbone, app, CommentCollection, Comment, CommentFormView, Comm
         commentActivityReceived: function (commentActivity) {
             if (commentActivity.get('Type') == "postcommentadded") {
                 var comment = new Comment(commentActivity.get('PostCommentAdded').Comment);
-                this.Comments.add(comment);
+                this.Comments.addComment(comment);
             } else if (commentActivity.get('Type') == "observationcommentadded") {
                 var comment = new Comment(commentActivity.get('ObservationCommentAdded').Comment);
-                this.Comments.add(comment);
+                this.Comments.addComment(comment);
             }
         }
 

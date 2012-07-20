@@ -135,7 +135,7 @@ namespace Bowerbird.Core.DomainModels
             return this;
         }
 
-        IContribution IDiscussed.AddThreadedComment(string message, User createdByUser, DateTime createdDateTime, Comment commentToRespondTo, string contributionId)
+        IContribution IDiscussed.AddThreadedComment(string message, User createdByUser, DateTime createdDateTime, string commentToRespondTo, string contributionId)
         {
             var comment = Discussion.AddThreadedComment(message, createdByUser, createdDateTime, commentToRespondTo, contributionId);
 

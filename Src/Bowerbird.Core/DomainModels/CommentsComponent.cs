@@ -114,15 +114,58 @@ namespace Bowerbird.Core.DomainModels
         public Comment AddThreadedComment(string message,
             User createdByUser,
             DateTime createdDateTime,
-            Comment inReplyToComment,
+            string parentCommentId,
             string contributionId
             )
         {
-            var parentCommentId = inReplyToComment.Id;
-            var siblingCount = inReplyToComment.Comments != null ? inReplyToComment.Comments.Count : 0;
+            var parentComment = FindParentComment(parentCommentId);
+
+            Check.RequireNotNull(parentComment, "parentComment");
+
+            var siblingCount = parentComment.Comments != null ? parentComment.Comments.Count : 0;
+
             var commentId = string.Format("{0}.{1}", parentCommentId, ++siblingCount);
 
-            return inReplyToComment.AddThreadedComment(new Comment(commentId, createdByUser, createdDateTime, message, contributionId, true));
+            return parentComment.AddComment(new Comment(commentId, createdByUser, createdDateTime, message, contributionId, true));
+        }
+
+        private Comment FindParentComment(string parentCommentId)
+        {
+            var findParentComment = new Stack<string>(parentCommentId.Split('.'));
+
+            Comment comment = null;
+            int index;
+
+            // get the root comment from the first token of the parent comment id
+            if (ElementAt(findParentComment.Pop(), out index))
+            {
+                comment = Comments.ElementAt(index);
+            }
+
+            while (comment != null && findParentComment.Count > 0)
+            {
+                if (ElementAt(findParentComment.Pop(), out index))
+                {
+                    comment = comment.Comments.ElementAt(index);
+                }
+            }
+
+            return comment;
+        }
+
+        /// <summary>
+        /// Taking a string Id of 4.1.2, we need to find the elementAt of [3][0][1]
+        /// </summary>
+        private static bool ElementAt(string id, out int elementAt)
+        {
+            if (int.TryParse(id, out elementAt))
+            {
+                elementAt = elementAt - 1;
+
+                return elementAt >= 0;
+            }
+
+            return false;
         }
 
         #endregion

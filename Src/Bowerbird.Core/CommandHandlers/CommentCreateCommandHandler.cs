@@ -67,20 +67,7 @@ namespace Bowerbird.Core.CommandHandlers
                     {
                         var observation = _documentSession.Load<Observation>(contribution.Observation.Id);
 
-                        if (!string.IsNullOrWhiteSpace(command.InReplyToCommentId))
-                        {
-                            var inReplyToComment = observation
-                                .Discussion
-                                .Comments
-                                .Where(x => x.Id == command.InReplyToCommentId)
-                                .FirstOrDefault();
-
-                            AddThreadedComment(observation, command, inReplyToComment);
-                        }
-                        else
-                        {
-                            AddComment(observation, command);
-                        }
+                        AddComment(observation, command);
 
                         _documentSession.Store(observation);
                     }
@@ -90,20 +77,7 @@ namespace Bowerbird.Core.CommandHandlers
                     {
                         var post = _documentSession.Load<Post>(contribution.Post.Id);
 
-                        if (!string.IsNullOrWhiteSpace(command.InReplyToCommentId))
-                        {
-                            var inReplyToComment = post
-                                .Discussion
-                                .Comments
-                                .Where(x => x.Id == command.InReplyToCommentId)
-                                .FirstOrDefault();
-
-                            AddThreadedComment(post, command, inReplyToComment);
-                        }
-                        else
-                        {
-                            AddComment(post, command);
-                        }
+                        AddComment(post, command);
 
                         _documentSession.Store(post);
                     }
@@ -126,19 +100,18 @@ namespace Bowerbird.Core.CommandHandlers
                     command.ContributionId
                     );
             }
+            else
+            {
+                contribution.AddThreadedComment(
+                        command.Comment,
+                        _documentSession.Load<User>(command.UserId),
+                        command.CommentedOn,
+                        command.InReplyToCommentId,
+                        command.ContributionId
+                        );    
+            }
         }
-
-        private void AddThreadedComment(IDiscussed contribution, CommentCreateCommand command, Comment comment)
-        {
-            contribution.AddThreadedComment(
-                    command.Comment,
-                    _documentSession.Load<User>(command.UserId),
-                    command.CommentedOn,
-                    comment,
-                    command.ContributionId
-                    );
-        }
-
+        
         #endregion
 
     }
