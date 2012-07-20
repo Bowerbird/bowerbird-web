@@ -54,7 +54,9 @@ namespace Bowerbird.Web.ViewModels
 
         #region Videos
 
-        public string VideoUri { get; set; }
+        public string VideoProviderName { get; set; }
+
+        public string VideoId { get; set; }
 
         #endregion
 

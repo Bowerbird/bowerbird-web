@@ -17,6 +17,7 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using Bowerbird.Core.DesignByContract;
 using Ninject;
 using SignalR;
 
@@ -28,17 +29,14 @@ namespace Bowerbird.Web.Config
 
         public SignalrNinjectDependencyResolver(IKernel kernel)
         {
-            if (kernel == null)
-            {
-                throw new ArgumentNullException("kernel");
-            }
+            Check.RequireNotNull(kernel, "kernel");
 
             _kernel = kernel;
         }
 
         public override object GetService(Type serviceType)
         {
-            if(typeof(SignalR.IConnection).Assembly == serviceType.Assembly) // Push DI for SignalR types to base
+            if (typeof(SignalR.IConnection).Assembly == serviceType.Assembly && serviceType != typeof(SignalR.IJsonSerializer)) // Push DI for SignalR types to base
             {
                 return base.GetService(serviceType);
             }
@@ -50,7 +48,14 @@ namespace Bowerbird.Web.Config
 
         public override IEnumerable<object> GetServices(Type serviceType)
         {
-            return _kernel.GetAll(serviceType).Concat(base.GetServices(serviceType));
+            if (typeof(SignalR.IConnection).Assembly == serviceType.Assembly && serviceType != typeof(SignalR.IJsonSerializer)) // Push DI for SignalR types to base
+            {
+                return base.GetServices(serviceType);
+            }
+            else
+            {
+                return _kernel.GetAll(serviceType);
+            }
         }
     }
 }

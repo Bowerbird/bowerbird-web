@@ -17,9 +17,9 @@
 using System.Net.Mail;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Config;
+using Bowerbird.Core.Services;
 using Raven.Client;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.VideoUtilities;
 
 namespace Bowerbird.Web.Services
 {

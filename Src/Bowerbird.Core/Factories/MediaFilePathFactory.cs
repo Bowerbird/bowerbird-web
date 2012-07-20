@@ -15,8 +15,6 @@
 using System;
 using System.IO;
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.VideoUtilities;
 using Bowerbird.Core.Config;
 
 namespace Bowerbird.Core.Factories

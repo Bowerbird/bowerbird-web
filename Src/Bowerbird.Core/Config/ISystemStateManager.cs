@@ -1,11 +1,17 @@
-﻿using System;
-namespace Bowerbird.Core.Config
+﻿namespace Bowerbird.Core.Config
 {
     public interface ISystemStateManager
     {
         void SetupSystem(bool setupTestData);
         void SwitchServicesOff();
         void SwitchServicesOn();
-        void SwitchServices(bool? enableEmailService = null, bool? enableChannelService = null);
+
+        void SwitchServices(bool? enableEmailService = null,
+                            bool? enableBackChannelService = null,
+                            bool? enableImageService = null,
+                            bool? enableYouTubeVideoService = null,
+                            bool? enableVimeoVideoService = null,
+                            bool? enableDocumentService = null,
+                            bool? enableAudioService = null);
     }
 }

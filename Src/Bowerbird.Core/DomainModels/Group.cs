@@ -17,7 +17,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
-using Newtonsoft.Json;
 
 namespace Bowerbird.Core.DomainModels
 {
@@ -69,7 +68,7 @@ namespace Bowerbird.Core.DomainModels
 
         public abstract string GroupType { get; }
 
-        [JsonIgnore]
+        [Raven.Imports.Newtonsoft.Json.JsonIgnore]
         IEnumerable<string> IOwnable.Groups
         {
             get { return new string[] { this.Id }; }

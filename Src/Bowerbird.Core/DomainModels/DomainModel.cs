@@ -20,8 +20,6 @@ using System.Linq;
 using System.Reflection;
 using System.ComponentModel.DataAnnotations;
 using Bowerbird.Core.Events;
-using Bowerbird.Core.DesignByContract;
-using Newtonsoft.Json;
 
 namespace Bowerbird.Core.DomainModels
 {

@@ -120,15 +120,17 @@ namespace Bowerbird.Core.Utilities
                     imageStream = memoryStream;
                 }
             }
-            catch (Exception)
+            catch (Exception exception)
             {
+                _logger.ErrorException("Error saving image to file", exception);
+
                 if (_newImage != null)
                 {
                     _newImage.Dispose();
                     _newImage = null;
                 }
 
-                throw;
+                throw exception;
             }
 
             return this;
@@ -142,6 +144,8 @@ namespace Bowerbird.Core.Utilities
             }
             catch (Exception exception)
             {
+                _logger.ErrorException("Error saving image to file", exception);
+
                 if (_newImage != null)
                 {
                     _newImage.Dispose();
@@ -391,9 +395,7 @@ namespace Bowerbird.Core.Utilities
             finally
             {
                 _imageStream.Seek(0, SeekOrigin.Begin);
-
-                //if (reader != null)
-                //    reader.Cleanup();                
+           
             }
 
             return this;

@@ -32,10 +32,9 @@ require.config({
         iframetransport: '../libs/jquery.fileupload/jquery.iframe-transport',
         signalr: '../libs/jquery.signalr/jquery.signalr',
         timeago: '../libs/jquery.timeago/jquery.timeago',
+        jsonp: '../libs/jquery.jsonp/jquery.jsonp',
         log: '../libs/log/log',
-        hubs: 'hubs'//,
-        //youtube: 'http://www.youtube.com/player_api',
-        //player: '../libs/youtube/player'
+        hubs: 'hubs'
     }
 });
 
@@ -43,11 +42,13 @@ require.config({
 require([
         'app',
         'bootstrap-data', // Get bootstrapped data from inline AMD module
+        'ich',
         'log',
+        'jquery',
+        'json2', 
+        'underscore',
         'backbone',
         'queryparams',
-        'jquery',
-        'ich',
         'marionette',
         'noext!/templates', // Load templates from server
         'controllers/usercontroller',
@@ -69,11 +70,8 @@ require([
         'views/sidebarlayoutview',
         'views/notificationscompositeview',
         'views/onlineusercompositeview',
-        'views/chatcompositeview',
         'signalr',
-        'hubs'//,
-        //'youtube',
-        //'player'
+        'hubs'
     ],
     function (app, bootstrapData) {
         log('bootstrapped data', bootstrapData);

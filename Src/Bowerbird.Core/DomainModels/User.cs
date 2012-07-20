@@ -16,13 +16,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using System.Security.Cryptography;
 using Bowerbird.Core.Events;
-using Bowerbird.Core.DomainModels.DenormalisedReferences;
 using Bowerbird.Core.Extensions;
-using Newtonsoft.Json;
 
 namespace Bowerbird.Core.DomainModels
 {
@@ -30,11 +27,11 @@ namespace Bowerbird.Core.DomainModels
     {
         #region Members
 
-        [JsonIgnore]
+        [Raven.Imports.Newtonsoft.Json.JsonIgnore]
         private List<Member> _memberships;
-        [JsonIgnore]
+        [Raven.Imports.Newtonsoft.Json.JsonIgnore]
         private List<Watchlist> _watchlists;
-        [JsonIgnore]
+        [Raven.Imports.Newtonsoft.Json.JsonIgnore]
         private List<UserSession> _sessions;
         private const string _constantSalt = "nf@hskdhI&%dynm^&%";
 
@@ -123,7 +120,7 @@ namespace Bowerbird.Core.DomainModels
 
         public string GetName()
         {
-            return FirstName.AppendWith(" ").AppendWith(LastName);
+            return string.Format("{0} {1}", FirstName, LastName); 
         }
 
         private void InitMembers()

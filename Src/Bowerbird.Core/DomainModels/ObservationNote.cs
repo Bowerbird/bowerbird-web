@@ -18,7 +18,6 @@ using Bowerbird.Core.DomainModels.DenormalisedReferences;
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 
 namespace Bowerbird.Core.DomainModels
 {
@@ -26,12 +25,11 @@ namespace Bowerbird.Core.DomainModels
     {
         #region Members
 
-        [JsonIgnore]
+        [Raven.Imports.Newtonsoft.Json.JsonIgnore]
         private Dictionary<string, string> _descriptions;
-        [JsonIgnore]
+        [Raven.Imports.Newtonsoft.Json.JsonIgnore]
         private Dictionary<string, string> _references;
-
-        [JsonIgnore] 
+        [Raven.Imports.Newtonsoft.Json.JsonIgnore] 
         private IEnumerable<string> _tags;
 
         #endregion
@@ -116,7 +114,7 @@ namespace Bowerbird.Core.DomainModels
             private set { _references = new Dictionary<string, string>(value); }
         }
 
-        [JsonIgnore]
+        [Raven.Imports.Newtonsoft.Json.JsonIgnore]
         IEnumerable<string> IOwnable.Groups
         {
             get { return this.Observation.Groups; }

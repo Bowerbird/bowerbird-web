@@ -31,6 +31,8 @@ namespace Bowerbird.Core.DomainModels
 
         protected AppRoot() : base() 
         {
+            InitMembers();
+
             EnableEvents();
         }
 
@@ -43,6 +45,8 @@ namespace Bowerbird.Core.DomainModels
             : base()
         {
             Check.RequireNotNull(categories, "categories");
+
+            InitMembers();
 
             Id = Constants.AppRootId;
             SystemSetupDate = systemSetupDate;
@@ -70,6 +74,16 @@ namespace Bowerbird.Core.DomainModels
 
         public bool BackChannelServiceStatus { get; private set; }
 
+        public bool ImageServiceStatus { get; private set; }
+
+        public bool YouTubeVideoServiceStatus { get; private set; }
+
+        public bool VimeoVideoServiceStatus { get; private set; }
+
+        public bool DocumentServiceStatus { get; private set; }
+
+        public bool AudioServiceStatus { get; private set; }
+
         #endregion
 
         #region Methods
@@ -78,6 +92,11 @@ namespace Bowerbird.Core.DomainModels
         {
             EmailServiceStatus = false;
             BackChannelServiceStatus = false;
+            ImageServiceStatus = false;
+            YouTubeVideoServiceStatus = false;
+            VimeoVideoServiceStatus = false;
+            DocumentServiceStatus = false;
+            AudioServiceStatus = false;
         }
 
         // Special method for setup of inital app root object in RavenDB during system setup
@@ -96,6 +115,36 @@ namespace Bowerbird.Core.DomainModels
         public AppRoot SetBackChannelServiceStatus(bool backChannelServiceStatus)
         {
             BackChannelServiceStatus = backChannelServiceStatus;
+            return this;
+        }
+
+        public AppRoot SetImageServiceStatus(bool imageServiceStatus)
+        {
+            ImageServiceStatus = imageServiceStatus;
+            return this;
+        }
+
+        public AppRoot SetYouTubeVideoServiceStatus(bool youTubeVideoServiceStatus)
+        {
+            YouTubeVideoServiceStatus = youTubeVideoServiceStatus;
+            return this;
+        }
+
+        public AppRoot SetVimeoVideoServiceStatus(bool vimeoVideoServiceStatus)
+        {
+            VimeoVideoServiceStatus = vimeoVideoServiceStatus;
+            return this;
+        }
+
+        public AppRoot SetAudioServiceStatus(bool audioServiceStatus)
+        {
+            AudioServiceStatus = audioServiceStatus;
+            return this;
+        }
+
+        public AppRoot SetDocumentServiceStatus(bool documentServiceStatus)
+        {
+            DocumentServiceStatus = documentServiceStatus;
             return this;
         }
 

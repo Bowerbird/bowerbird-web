@@ -17,27 +17,21 @@ using Bowerbird.Core.Events;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Ninject;
 using Ninject.Web.Common;
-using Bowerbird.Web.Config;
 using Microsoft.Practices.ServiceLocation;
-using System.Web.Routing;
 using SignalR;
 using System.Web;
 using NinjectAdapter;
-using Ninject.Extensions.NamedScope;
-using Ninject.Extensions.ContextPreservation;
 
-[assembly: WebActivator.PreApplicationStartMethod(typeof(Bowerbird.Web.App_Start.NinjectBootstrapper), "PreStart")]
-[assembly: WebActivator.ApplicationShutdownMethodAttribute(typeof(Bowerbird.Web.App_Start.NinjectBootstrapper), "Stop")]
+[assembly: WebActivator.PreApplicationStartMethod(typeof(Bowerbird.Web.Config.NinjectBootstrapper), "PreStart")]
+[assembly: WebActivator.PreApplicationStartMethod(typeof(Bowerbird.Web.Config.NinjectBootstrapper), "PostStart", Order = 1)]
+[assembly: WebActivator.ApplicationShutdownMethodAttribute(typeof(Bowerbird.Web.Config.NinjectBootstrapper), "Stop")]
 
-namespace Bowerbird.Web.App_Start
+namespace Bowerbird.Web.Config
 {
     public static class NinjectBootstrapper
     {
         private static readonly Bootstrapper _ninjectBootstrapper = new Bootstrapper();
 
-        /// <summary>
-        /// Starts the application
-        /// </summary>
         public static void PreStart()
         {
             DynamicModuleUtility.RegisterModule(typeof(OnePerRequestHttpModule));
@@ -45,18 +39,20 @@ namespace Bowerbird.Web.App_Start
             _ninjectBootstrapper.Initialize(CreateKernel);
         }
 
-        /// <summary>
-        /// Stops the application.
-        /// </summary>
+        public static void PostStart()
+        {
+            ServiceLocator.SetLocatorProvider(() => new NinjectServiceLocator(_ninjectBootstrapper.Kernel));
+
+            GlobalHost.DependencyResolver = new SignalrNinjectDependencyResolver(_ninjectBootstrapper.Kernel);
+
+            EventProcessor.ServiceLocator = ServiceLocator.Current;
+        }
+
         public static void Stop()
         {
             _ninjectBootstrapper.ShutDown();
         }
 
-        /// <summary>
-        /// Creates the kernel that will manage your application.
-        /// </summary>
-        /// <returns>The created kernel.</returns>
         private static IKernel CreateKernel()
         {
             var kernel = new StandardKernel();
@@ -68,22 +64,9 @@ namespace Bowerbird.Web.App_Start
             return kernel;
         }
 
-        /// <summary>
-        /// Load modules and services
-        /// </summary>
-        /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
             kernel.Load(new NinjectBindingModule());
-
-            ServiceLocator.SetLocatorProvider(() => new NinjectServiceLocator(kernel));
-
-            //GlobalHost.Configuration.DisconnectTimeout = TimeSpan.FromSeconds(20);
-            //GlobalHost.Configuration.HeartBeatInterval = TimeSpan.FromSeconds(10);
-
-            GlobalHost.DependencyResolver = new SignalrNinjectDependencyResolver(kernel);
-
-            EventProcessor.ServiceLocator = ServiceLocator.Current;
         }
     }
 }

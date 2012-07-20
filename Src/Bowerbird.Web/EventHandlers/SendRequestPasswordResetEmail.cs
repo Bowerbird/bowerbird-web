@@ -16,11 +16,11 @@
 
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Events;
-using Bowerbird.Core.Extensions;
-using Bowerbird.Core.VideoUtilities;
 using Bowerbird.Core.Config;
+using Bowerbird.Core.EventHandlers;
+using Bowerbird.Core.Services;
 
-namespace Bowerbird.Core.EventHandlers
+namespace Bowerbird.Web.EventHandlers
 {
     public class SendRequestPasswordResetEmail : IEventHandler<RequestPasswordResetEvent>
     {

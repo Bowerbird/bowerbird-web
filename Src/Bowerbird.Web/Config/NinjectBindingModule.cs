@@ -14,23 +14,17 @@
  
 */
 
-using Ninject.Modules;
-using Raven.Client;
-using Ninject.Web.Common;
-using Ninject.Extensions.Conventions;
-using Microsoft.Practices.ServiceLocation;
-using Bowerbird.Core.DomainModels;
-using SignalR;
 using Bowerbird.Core.Config;
-using Bowerbird.Web.Hubs;
-using SignalR.Hubs;
-using System.Linq;
-using System.Web;
-using Ninject.Extensions.ContextPreservation;
-using Ninject.Extensions.NamedScope;
-using Bowerbird.Web.Factories;
+using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Services;
+using Microsoft.Practices.ServiceLocation;
+using Ninject.Extensions.Conventions;
 using Ninject.Extensions.Factory;
-using Bowerbird.Core.Factories;
+using Ninject.Extensions.NamedScope;
+using Ninject.Modules;
+using Ninject.Web.Common;
+using Raven.Client;
+using SignalR;
 
 namespace Bowerbird.Web.Config
 {
@@ -63,6 +57,8 @@ namespace Bowerbird.Web.Config
             // Transient scope
             Bind<IServiceLocator>().ToMethod(x => ServiceLocator.Current);
             Bind<IConnectionManager>().ToMethod(x => GlobalHost.ConnectionManager);
+            Bind<IMediaServiceFactory>().ToFactory();
+            Bind<IJsonSerializer>().To<SignalrJsonNetSerializer>();
 
             // Thread scope
             // HACK: Experimental loading of chat components into new async thread
@@ -94,6 +90,7 @@ namespace Bowerbird.Web.Config
                     .Excluding<Bowerbird.Core.CommandHandlers.ChatDeleteCommandHandler>()
                     .Excluding<Bowerbird.Core.CommandHandlers.ChatMessageCreateCommandHandler>()
                     .Excluding<Bowerbird.Web.EventHandlers.ChatUpdated>()
+                    .Excluding<Bowerbird.Web.Config.SignalrJsonNetSerializer>()
                     .BindAllInterfaces();
 
                     //x

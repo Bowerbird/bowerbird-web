@@ -83,6 +83,7 @@ namespace Bowerbird.Web.Controllers
 
             var sharedTemplates = Directory
                 .GetFiles(Server.MapPath("~/Views/Shared"))
+                .Where(x => x.EndsWith(".mustache"))
                 .Select(Path.GetFileNameWithoutExtension)
                 .Where(x => !_excludeTemplates.Contains(x))
                 .ToList();

@@ -19,11 +19,6 @@ using Bowerbird.Web.ViewModels;
 using Raven.Client;
 using Raven.Client.Linq;
 using Bowerbird.Core.Paging;
-using Bowerbird.Core.Config;
-using System;
-using Bowerbird.Core.VideoUtilities;
-using System.Dynamic;
-using Raven.Abstractions.Linq;
 
 namespace Bowerbird.Web.Builders
 {

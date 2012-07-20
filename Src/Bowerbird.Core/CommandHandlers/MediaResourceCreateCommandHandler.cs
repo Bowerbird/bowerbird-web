@@ -10,9 +10,11 @@
  
 */
 
+using System;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Events;
 using Bowerbird.Core.Services;
 using Raven.Client;
 
@@ -24,7 +26,7 @@ namespace Bowerbird.Core.CommandHandlers
 
         private readonly IDocumentSession _documentSession;
         private readonly IImageService _imageService;
-        private readonly IVideoService _videoService;
+        private readonly IMediaServiceFactory _mediaServiceFactory;
 
         #endregion
 
@@ -33,15 +35,15 @@ namespace Bowerbird.Core.CommandHandlers
         public MediaResourceCreateCommandHandler(
             IDocumentSession documentSession,
             IImageService imageService,
-            IVideoService videoService
+            IMediaServiceFactory mediaServiceFactory
             )
         {
             Check.RequireNotNull(documentSession, "documentSession");
-            Check.RequireNotNull(videoService, "videoService");
+            Check.RequireNotNull(mediaServiceFactory, "mediaServiceFactory");
             Check.RequireNotNull(imageService, "imageService");
 
             _documentSession = documentSession;
-            _videoService = videoService;
+            _mediaServiceFactory = mediaServiceFactory;
             _imageService = imageService;
         }
 
@@ -53,36 +55,54 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(command, "command");
 
-            var mediaType = command.MediaType.ToLower();
             var user = _documentSession.Load<User>(command.UserId);
+
             var mediaResource = new MediaResource(
-                            mediaType,
-                            user,
-                            command.UploadedOn,
-                            command.Key);
+                command.MediaType.ToLower(),
+                user,
+                command.UploadedOn,
+                command.Key);
 
             _documentSession.Store(mediaResource);
-            // looks like we need to call savechanges to actually get an id back
+            
+            // Looks like we need to call savechanges to actually get an id back
             _documentSession.SaveChanges();
 
-            switch (mediaType)
-            {
-                case "image":
-                    {
-                        _imageService.Save(command, mediaResource);
-                    }
-                    break;
+            string failureReason = string.Empty;
 
-                case "video":
-                    {
-                        _videoService.Save(command, mediaResource);
-                    }
-                    break;
+            if (GetMediaService(command).Save(command, mediaResource, out failureReason))
+            {
+                _documentSession.Store(mediaResource);
+                mediaResource.FireCreatedEvent(user);
+            }
+            else
+            {
+                _documentSession.Delete(mediaResource);
+                EventProcessor.Raise(new MediaResourceCreateFailedEvent(user, command.Key, failureReason, user));
+            }
+        }
+
+        private IMediaService GetMediaService(MediaResourceCreateCommand command)
+        {
+            string mediaType = command.MediaType.ToLower();
+
+            if (mediaType == "image")
+            {
+                return _mediaServiceFactory.CreateImageService();
+            } 
+            else if (mediaType == "video") 
+            {
+                if (command.VideoProviderName.ToLower() == "youtube")
+                {
+                    return _mediaServiceFactory.CreateYouTubeVideoService();
+                }
+                else if (command.VideoProviderName.ToLower() == "vimeo")
+                {
+                    return _mediaServiceFactory.CreateVimeoVideoService();
+                }
             }
 
-            _documentSession.Store(mediaResource);
-
-            mediaResource.FireCreatedEvent(user);
+            throw new ArgumentException(string.Format("The specified mediatype '{0}' is not supported.", mediaType));
         }
 
         #endregion

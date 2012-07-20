@@ -14,7 +14,7 @@
 
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.VideoUtilities;
+using Bowerbird.Core.Services;
 using Raven.Client;
 using Bowerbird.Core.Config;
 using SignalR;
@@ -111,11 +111,18 @@ namespace Bowerbird.Web.Services
             }
         }
 
-        public void SendUploadedMediaResourceToUserChannel(string userId, object mediaResource)
+        public void NotifyMediaResourceUploadSuccessToUserChannel(string userId, object mediaResource)
         {
             if (ChannelServiceOff()) return;
 
-            GetHub<UserHub>().Clients["user-" + userId].mediaResourceUploaded(mediaResource);
+            GetHub<UserHub>().Clients["user-" + userId].mediaResourceUploadSuccess(mediaResource);
+        }
+
+        public void NotifyMediaResourceUploadFailureToUserChannel(string userId, string key, string reason)
+        {
+            if (ChannelServiceOff()) return;
+
+            GetHub<UserHub>().Clients["user-" + userId].mediaResourceUploadFailure(key, reason);
         }
 
         #endregion

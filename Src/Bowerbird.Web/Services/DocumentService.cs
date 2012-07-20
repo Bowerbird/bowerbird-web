@@ -14,18 +14,15 @@
 
 using System;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.IO;
 using System.Linq;
-using System.Net;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.Extensions;
 using Bowerbird.Core.Services;
-using Bowerbird.Core.Utilities;
-using Newtonsoft.Json;
+using NLog;
+using Raven.Client;
 
 namespace Bowerbird.Web.Services
 {
@@ -33,22 +30,24 @@ namespace Bowerbird.Web.Services
     {
         #region Fields
 
-        private List<string> _acceptedFileTypes;
+        private Logger _logger = LogManager.GetLogger("DocumentService");
+
         private readonly IUserContext _userContext;
+        private readonly IDocumentSession _documentSession;
 
         #endregion
 
         #region Constructors
 
         public DocumentService(
-            IUserContext userContext
-            )
+            IUserContext userContext,
+            IDocumentSession documentSession)
         {
             Check.RequireNotNull(userContext, "userContext");
+            Check.RequireNotNull(documentSession, "documentSession");
 
             _userContext = userContext;
-
-            InitMembers();
+            _documentSession = documentSession;
         }
 
         #endregion
@@ -59,28 +58,45 @@ namespace Bowerbird.Web.Services
 
         #region Methods
 
-        public void Save(MediaResourceCreateCommand command, MediaResource mediaResource)
+        public bool Save(MediaResourceCreateCommand command, MediaResource mediaResource, out string failureReason)
         {
-            if(!string.IsNullOrWhiteSpace(command.OriginalFileName) && _acceptedFileTypes.Any(x => x.Contains(Path.GetExtension(command.OriginalFileName))))
+            if (!_documentSession.Load<AppRoot>(Constants.AppRootId).DocumentServiceStatus)
             {
-                MakeDocumentMediaResourceFiles(mediaResource, command);
+                failureReason = "Word documents and PDF files cannot be uploaded at the moment. Please try again later.";
+                return false;
             }
+
+            try
+            {
+                var extension = Path.GetExtension(command.OriginalFileName) ?? string.Empty;
+
+                var acceptedFileTypes = new List<string>()
+                                      {
+                                          "doc",
+                                          "docx",
+                                          "pdf"
+                                      };
+
+                if (acceptedFileTypes.Any(x => x.Contains(extension)))
+                {
+                    MakeDocumentMediaResourceFiles(mediaResource, command);
+                }
+            }
+            catch (Exception exception)
+            {
+                _logger.ErrorException("Error saving document", exception);
+
+                failureReason = "The file is corrupted or not a valid Word or PDF document and could not be saved. Please check the file and try again.";
+                return false;
+            }
+
+            failureReason = string.Empty;
+            return true;
         }
 
         private void MakeDocumentMediaResourceFiles(MediaResource mediaResource, MediaResourceCreateCommand command)
         {
-            mediaResource.AddDocumentFile("Document", command.Key, _userContext.GetUserFullName(), "document", Path.GetExtension(command.OriginalFileName));
-        }
-
-        private void InitMembers()
-        {
-            _acceptedFileTypes = new List<string>()
-                                      {
-                                          ".doc",
-                                          ".docx",
-                                          ".txt",
-                                          ".pdf"
-                                      };
+            mediaResource.AddDocumentFile("Document", command.Key, _userContext.GetUserFullName(), Path.GetExtension(command.OriginalFileName).ToLower());
         }
 
         #endregion

@@ -14,20 +14,13 @@ using System.Linq;
 using Bowerbird.Core.Events;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.VideoUtilities;
+using Bowerbird.Core.Services;
 using Raven.Client;
 using Raven.Client.Linq;
-using System.Dynamic;
-using System.IO;
 using Bowerbird.Core.EventHandlers;
-using Bowerbird.Web.Config;
 using Bowerbird.Web.Factories;
 using Bowerbird.Web.Builders;
-using SignalR.Hubs;
-using Bowerbird.Web.Hubs;
-using Bowerbird.Core.Config;
 using Bowerbird.Core.Indexes;
-using Bowerbird.Web.Services;
 
 namespace Bowerbird.Web.EventHandlers
 {
@@ -43,7 +36,6 @@ namespace Bowerbird.Web.EventHandlers
 
         private readonly IDocumentSession _documentSession;
         private readonly IUserViewFactory _userViewFactory;
-        private readonly IGroupViewFactory _groupViewFactory;
         private readonly IBackChannelService _backChannelService;
         private readonly IUserViewModelBuilder _userViewModelBuilder;
 
@@ -54,20 +46,17 @@ namespace Bowerbird.Web.EventHandlers
         public UserSessionUpdated(
             IDocumentSession documentSession,
             IUserViewFactory userViewFactory,
-            IGroupViewFactory groupViewFactory,
             IBackChannelService backChannelService,
             IUserViewModelBuilder userViewModelBuilder
             )
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(userViewFactory, "userViewFactory");
-            Check.RequireNotNull(groupViewFactory, "groupViewFactory");
             Check.RequireNotNull(backChannelService, "backChannelService");
             Check.RequireNotNull(userViewModelBuilder, "userViewModelBuilder");
 
             _documentSession = documentSession;
             _userViewFactory = userViewFactory;
-            _groupViewFactory = groupViewFactory;
             _backChannelService = backChannelService;
             _userViewModelBuilder = userViewModelBuilder;
         }

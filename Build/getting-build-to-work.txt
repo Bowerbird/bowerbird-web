@@ -1,3 +1,5 @@
+Download node.js and add to system PATH variable
+
 Download MSI from this project https://github.com/loresoft/msbuildtasks and install to make the extensions link work
 
 from a command line, browse to C:\Projects\bowerbird.web\Build and run build.bat

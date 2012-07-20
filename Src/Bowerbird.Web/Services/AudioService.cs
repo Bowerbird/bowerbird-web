@@ -12,14 +12,15 @@
  
 */
 
-using System.Collections.Generic;
+using System;
 using System.IO;
-using System.Linq;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Services;
+using NLog;
+using Raven.Client;
 
 namespace Bowerbird.Web.Services
 {
@@ -27,21 +28,24 @@ namespace Bowerbird.Web.Services
     {
         #region Fields
 
-        private List<string> _acceptedFileTypes;
+        private Logger _logger = LogManager.GetLogger("AudioService");
+
         private readonly IUserContext _userContext;
+        private readonly IDocumentSession _documentSession;
 
         #endregion
 
         #region Constructors
 
         public AudioService(
-            IUserContext userContext)
+            IUserContext userContext,
+            IDocumentSession documentSession)
         {
             Check.RequireNotNull(userContext, "userContext");
+            Check.RequireNotNull(documentSession, "documentSession");
 
             _userContext = userContext;
-
-            InitMembers();
+            _documentSession = documentSession;
         }
 
         #endregion
@@ -52,26 +56,38 @@ namespace Bowerbird.Web.Services
 
         #region Methods
 
-        public void Save(MediaResourceCreateCommand command, MediaResource mediaResource)
+        public bool Save(MediaResourceCreateCommand command, MediaResource mediaResource, out string failureReason)
         {
-            if(!string.IsNullOrWhiteSpace(command.OriginalFileName) && _acceptedFileTypes.Any(x => x.Contains(Path.GetExtension(command.OriginalFileName))))
+            if (!_documentSession.Load<AppRoot>(Constants.AppRootId).AudioServiceStatus)
             {
-                MakeAudioMediaResourceFiles(mediaResource, command);
+                failureReason = "Audio files cannot be uploaded at the moment. Please try again later.";
+                return false;
             }
+
+            try
+            {
+                var extension = Path.GetExtension(command.OriginalFileName) ?? string.Empty;
+
+                if (extension.ToLower() == "mp3")
+                {
+                    MakeAudioMediaResourceFiles(mediaResource, command);
+                }
+            }
+            catch (Exception exception)
+            {
+                _logger.ErrorException("Error saving audio", exception);
+
+                failureReason = "The file is corrupted or not a valid MP3 and could not be saved. Please check the file and try again.";
+                return false;
+            }
+
+            failureReason = string.Empty;
+            return true;
         }
 
         private void MakeAudioMediaResourceFiles(MediaResource mediaResource, MediaResourceCreateCommand command)
         {
-            mediaResource.AddDocumentFile("Audio", command.Key, _userContext.GetUserFullName(), "audio", Path.GetExtension(command.OriginalFileName));
-        }
-
-        private void InitMembers()
-        {
-            _acceptedFileTypes = new List<string>()
-                                      {
-                                          ".mp3",
-                                          ".wav"
-                                      };
+            mediaResource.AddAudioFile("Audio", command.Key);
         }
 
         #endregion

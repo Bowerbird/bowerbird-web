@@ -36,6 +36,8 @@ function ($, _, Backbone, app, ich, EditMapView, EditMediaView) {
             'change #category-field input:checkbox': '_categoryChanged'
         },
 
+        dateUpdated: false, // When we derive the very first media, we extract the date and update the ObservedOn field. No further updates are allowed.
+
         initialize: function (options) {
             this.categories = options.categories;
             this.model.mediaResources.on('change:Metadata', this.onMediaResourceFilesChanged, this);
@@ -51,9 +53,14 @@ function ($, _, Backbone, app, ich, EditMapView, EditMediaView) {
         },
 
         onMediaResourceFilesChanged: function (mediaResource) {
-            var dateTime = mediaResource.get('Metadata').DateTaken;
-            this.model.set('ObservedOn', dateTime);
-            this.$el.find('#ObservedOn').val(dateTime);
+            if (!this.dateUpdated) {
+                var dateTaken = mediaResource.get('Metadata').DateTaken;
+                if (dateTaken) {
+                    this.dateUpdated = true;
+                    this.model.set('ObservedOn', dateTaken);
+                    this.$el.find('#ObservedOn').val(dateTaken);
+                }
+            }
         },
 
         onShow: function () {
@@ -80,7 +87,7 @@ function ($, _, Backbone, app, ich, EditMapView, EditMediaView) {
                 selectAll: false,
                 singleSelect: true,
                 noOptionsText: 'No Categories',
-                noneSelected: '<span>Select Category</span>',
+                noneSelected: '<span class="default-option">Select Category</span>',
                 oneOrMoreSelected: function (selectedOptions) {
                     var $selectedHtml = $('<span />');
                     _.each(selectedOptions, function (option) {
@@ -101,7 +108,7 @@ function ($, _, Backbone, app, ich, EditMapView, EditMediaView) {
                 selectAll: false,
                 messageText: 'You can select more than one project',
                 noOptionsText: 'No Projects',
-                noneSelected: '<span>Select Projects</span>',
+                noneSelected: '<span class="default-option">Select Projects</span>',
                 renderOption: function (id, option) {
                     var html = '<label><input style="display:none;" type="checkbox" name="' + id + '[]" value="' + option.value + '"';
                     if (option.selected) {
@@ -131,6 +138,10 @@ function ($, _, Backbone, app, ich, EditMapView, EditMediaView) {
 
             if (target.attr('id') === 'Address') {
                 this._latLongChanged(e);
+            }
+
+            if (target.attr('id') === 'ObservedOn') {
+                this.dateUpdated = true;
             }
         },
 
@@ -178,16 +189,16 @@ function ($, _, Backbone, app, ich, EditMapView, EditMediaView) {
 
         _cancel: function () {
             app.showPreviousContentView();
-            //this.trigger('formClosed', this);
         },
 
         _save: function () {
-            log('observationFormLayoutView.save');
+            if (this.media.currentView.progressCount > 0) {
+                return;
+            }
+
             this.model._setMedia();
             this.model.save();
             app.showPreviousContentView();
-            //app.appRouter.navigate(app.stream.get('Uri'), { trigger: false });
-            //this.trigger('formClosed', this);
         }
     });
 

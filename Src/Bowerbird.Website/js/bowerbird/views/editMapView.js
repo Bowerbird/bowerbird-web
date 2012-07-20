@@ -30,11 +30,10 @@ function ($, _, Backbone, app, DummyOverlayView) {
         },
 
         onMediaResourceFilesChanged: function (mediaResource) {
-            log('EditMapView.onMediaResourceAdded', mediaResource);
             var lat = mediaResource.get('Metadata').Latitude;
             var lon = mediaResource.get('Metadata').Longitude;
 
-            if ((this.observation.get('Latitude') !== null || this.observation.get('Longitude') !== null) && lat && lon) {
+            if ((this.observation.get('Latitude') === null && this.observation.get('Longitude') === null) && lat && lon) {
                 this.changeMarkerPosition(lat, lon);
             }
         },

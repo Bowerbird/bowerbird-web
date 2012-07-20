@@ -11,6 +11,7 @@
 // View that allows user to choose location on a mpa or via coordinates
 define(['jquery', 'underscore', 'backbone', 'app', 'models/mediaresource', 'views/mediaresourceitemview', 'views/videoformview', 'loadimage', 'fileupload', 'iframetransport'],
 function ($, _, Backbone, app, MediaResource, MediaResourceItemView, VideoFormView, loadImage) {
+
     var EditMediaView = Backbone.View.extend({
 
         id: 'media-resources-fieldset',
@@ -22,13 +23,15 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, VideoFormVi
 
         initialize: function (options) {
             _.extend(this, Backbone.Events);
-            _.bindAll(this, 'render', '_initMediaUploader', '_onImageUploadDone', '_onSubmitImageUpload', '_onImageUploadAdd');
+            _.bindAll(this, 'render', '_initMediaUploader', '_onMediaResourceUploadSuccess', '_onMediaResourceUploadFailure', '_onImageUploadAdd', '_showMediaResourceItemView');
             this.mediaResourceItemViews = [];
-            this.currentUploadKey = '';
-
-            app.vent.on('videomediaresourceuploaded:', this._onVideoUploadDone, this);
-            app.vent.on('imagemediaresourceuploaded:', this._onImageUploadDone, this);
+            app.vent.on('mediaresourceuploadsuccess', this._onMediaResourceUploadSuccess, this);
+            app.vent.on('mediaresourceuploadfailure', this._onMediaResourceUploadFailure, this);
         },
+
+        progressCount: 0,
+
+        errorCount: 0,
 
         render: function () {
             this._initMediaUploader();
@@ -55,26 +58,23 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, VideoFormVi
             this._showVideoForm('vimeo');
         },
 
-        _showVideoForm: function (provider) {
+        _showVideoForm: function (videoProviderName) {
             $('body').append('<div id="modal-dialog"></div>');
-            var videoFormView = new VideoFormView({ el: $('#modal-dialog'), model: new MediaResource({ MediaType: 'video', Usage: 'observation' }), provider: provider });
+            var videoFormView = new VideoFormView({ el: $('#modal-dialog'), videoProviderName: videoProviderName });
             videoFormView.on('videouploaded', this._onVideoUploadAdd, this);
             videoFormView.render();
         },
 
-        filesAdded: 0,  // Used to determine when to fire file upload animations
-
         _onImageUploadAdd: function (e, data) {
             this.$el.find('.upload-progress').show();
-
-            //log('editMediaView:_onImageUploadAdd');
-            this.currentUploadKey = app.generateGuid();
-            var mediaResource = new MediaResource({ Key: this.currentUploadKey });
+            this._updateProgressCount(1);
+            var key = app.generateGuid();
+            data.formData = { Key: key, OriginalFileName: data.files[0].name, MediaType: 'image', Usage: 'observation' };
+            if (window.isIEFail) {
+                data.formData.ie = true;
+            }
+            var mediaResource = new MediaResource({ Key: key });
             this.model.addMediaResource(mediaResource);
-
-            //            var mediaResourceItemView = new MediaResourceItemView({ model: mediaResource });
-            //            mediaResourceItemView.on('mediaresourceview:remove', this._onMediaResourceViewRemove);
-            //            this.mediaResourceItemViews.push(mediaResourceItemView);
 
             //            var self = this;
             //            var tempImage = null;
@@ -104,109 +104,102 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, VideoFormVi
             data.submit();
         },
 
-        _onVideoUploadAdd: function (mediaResource) {
-            this.$el.find('.upload-progress').show();
-
-            log('editMediaView:_onVideoUploadAdd');
-            this.currentUploadKey = app.generateGuid();
-            mediaResource.set('Key', this.currentUploadKey);
+        _onVideoUploadAdd: function (videoId, videoProviderName) {
+            this._updateProgressCount(1);
+            var mediaResource = new MediaResource({ Key: app.generateGuid(), VideoId: videoId, VideoProviderName: videoProviderName, MediaType: 'video', Usage: 'observation' });
             this.model.addMediaResource(mediaResource);
-
-            //            var mediaResourceItemView = new MediaResourceItemView({ model: mediaResource });
-            //            mediaResourceItemView.on('mediaresourceview:remove', this._onMediaResourceViewRemove);
-            //            this.mediaResourceItemViews.push(mediaResourceItemView);
-            //            this.$el.find('.media-resource-items').append(mediaResourceItemView.render().el);
-
-            this.filesAdded++;
-            //mediaResourceItemView.showVideoMedia(preview);
-            //this._showMediaResourceItemView(this, mediaResourceItemView, 280, true);
-
             mediaResource.save();
         },
 
-        _showMediaResourceItemView: function (self, mediaResourceItemView, imageWidth, beginAnimation) {
-            log('ediMediaView:_showMediaResourceItemView');
-            self.$el.find('#media-resource-items')
-                .queue('mediaQueue', function (next) {
+        _updateProgressCount: function (value) {
+            this.progressCount += value;
+            if (this.progressCount > 0) {
+                this.$el.find('.upload-status .progress > div').text('Processing ' + this.progressCount + ' file' + (this.progressCount > 1 ? 's' : ''));
+                this.$el.find('.upload-status .progress').show();
+            }
+            else {
+                this.$el.find('.upload-status .progress').hide();
+            }
+        },
 
-                    var itemCount = self.$el.find('#media-resource-items > div').length;
-                    self.$el.find('#media-resource-items').append(mediaResourceItemView.render().el);
+        _updateUploadFailure: function (reason) {
+            this._updateProgressCount(-1);
+            this.errorCount++;
+            this.$el.find('.upload-status .message').text(this.errorCount + ' file' + (this.errorCount > 1 ? 's' : '') + ' failed').show();
+        },
 
-                    if (self.$el.find('#media-resource-items').innerWidth() + self.$el.find('#media-resource-items').scrollLeft() === self.$el.find('#media-resource-items').get(0).scrollWidth) {
+        _showMediaResourceItemView: function (mediaResource) {
+            var mediaResourceItemView = new MediaResourceItemView({ model: mediaResource });
+            mediaResourceItemView.on('mediaresourceview:remove', this._onMediaResourceViewRemove);
+            this.mediaResourceItemViews.push(mediaResourceItemView);
+
+            var that = this;
+            this.$el.find('#media-resource-items')
+                .queue(function (next) {
+                    var $mediaResourceItems = that.$el.find('#media-resource-items');
+
+                    // Add the new view
+                    $mediaResourceItems.append(mediaResourceItemView.render().el);
+
+                    if ($mediaResourceItems.innerWidth() + $mediaResourceItems.scrollLeft() === $mediaResourceItems.get(0).scrollWidth) {
                         // Don't do any animation
                         next();
                     }
                     else {
-                        var x = self.$el.find('#media-resource-items').get(0).scrollWidth - (self.$el.find('#media-resource-items').innerWidth() + self.$el.find('#media-resource-items').scrollLeft());
+                        var scrollAmount = ($mediaResourceItems.get(0).scrollWidth - ($mediaResourceItems.innerWidth() + $mediaResourceItems.scrollLeft())) + $mediaResourceItems.scrollLeft();
                         // Make space for the new item
-                        $('#media-resource-items').animate({ scrollLeft: '+=' + x.toString() }, 500, 'swing', next);
+                        $mediaResourceItems.animate(
+                            { scrollLeft: scrollAmount },
+                            {
+                                duration: 100,
+                                //easing: 'swing',
+                                queue: false,
+                                complete: next
+                            });
+
                     }
                 })
-                .queue('mediaQueue', function (next) {
+                .queue(function (next) {
+                    // Slide the view down from the top of the div
                     $(mediaResourceItemView.el)
                         .animate(
-                        { top: '+=250px' },
+                        { top: '+=250' },
                         {
                             duration: 800,
-                            easing: 'swing',
-                            queue: false,
+                            //easing: 'swing',
                             complete: next
                         });
                 })
-                .queue('mediaQueue', function (next) {
+                .queue(function (next) {
+                    // Remove absolute positioning
                     $(mediaResourceItemView.el).css({ position: 'relative', top: '' });
-                    $('#media-resource-items').animate({ scrollLeft: 10000 }, 1);
+                    that._updateProgressCount(-1);
                     next();
                 });
-
-            if (beginAnimation) {
-                log('beginnning animation');
-                self.filesAdded = 0;
-                self.$el.find('#media-resource-items').dequeue('mediaQueue');
-
-                this.$el.find('.upload-progress').hide();
-            }
         },
 
         _onMediaResourceViewRemove: function (model, view) {
-            //            var addToRemoveList = false;
-            //            if (app.get('newObservation').mediaResources.find(function (mr) { return mr.id == this.model.id; }) != null) {
-            //                addToRemoveList = true;
-            //            }
-            //            app.get('newObservation').addMediaResources.remove(this.model.id);
-            //            app.get('newObservation').mediaResources.remove(this.model.id);
-            //            if (addToRemoveList) {
-            //                app.get('newObservation').removeMediaResources.add(this.model);
-            //            }
             this.model.removeMediaResource(model.id);
             view.remove();
         },
 
-        _onSubmitImageUpload: function (e, data) {
-            //log('ediMediaView:_onSubmitImageUpload');
-            data.formData = { Key: this.currentUploadKey, OriginalFileName: data.files[0].name, MediaType: 'image', Usage: 'observation' };
-            if (window.isIEFail) {
-                data.formData.ie = true;
-            }
-        },
-
-        _onImageUploadDone: function (data) {
-            log('editMediaView:_onImageUploadDone', data);
+        _onMediaResourceUploadSuccess: function (data) {
+            log('editMediaView:_onMediaResourceUploadSuccess', data);
             var mediaResource = this.model.mediaResources.find(function (item) {
-                return item.get('Key') == data.Key;
+                return item.get('Key') === data.Key;
             });
             mediaResource.set(data);
+            this._showMediaResourceItemView(mediaResource);
         },
 
-        // when we get an uploaded video back from the server, update the id of the mediaresource
-        _onVideoUploadDone: function (data) {
-            log('editMediaView:_onVideoUploadDone', data);
+        _onMediaResourceUploadFailure: function (key, reason) {
+            log('editMediaView:_onMediaResourceUploadFailure', key, reason);
+
             var mediaResource = this.model.mediaResources.find(function (item) {
-                return item.get('Key') == data.Key;
+                return item.get('Key') === key;
             });
-            //log('mediaResource found: ', mediaResource);
-            mediaResource.set(data);
-            //log('Video Upload set model to: ', data);
+            this.model.mediaResources.remove(mediaResource);
+            this._updateUploadFailure(reason);
         }
     });
 

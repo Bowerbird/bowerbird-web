@@ -9,15 +9,9 @@ Funded by:
 * Atlas of Living Australia
 */
 
-using System.Collections;
-using System.Collections.Generic;
-using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.Indexes;
-using Bowerbird.Core.VideoUtilities;
-
-namespace Bowerbird.Core.VideoUtilities
+namespace Bowerbird.Core.Services
 {
-    public interface IBackChannelService : IService
+    public interface IBackChannelService
     {
         #region User Channel
 
@@ -49,7 +43,12 @@ namespace Bowerbird.Core.VideoUtilities
         /// <summary>
         /// Pass a newly created media resource object back to the user
         /// </summary>
-        void SendUploadedMediaResourceToUserChannel(string userId, object mediaResource);
+        void NotifyMediaResourceUploadSuccessToUserChannel(string userId, object mediaResource);
+
+        /// <summary>
+        /// Notifies user that media resource creation failed
+        /// </summary>
+        void NotifyMediaResourceUploadFailureToUserChannel(string userId, string key, string reason);
 
         #endregion
 

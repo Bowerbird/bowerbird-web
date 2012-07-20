@@ -13208,12 +13208,7 @@ define('models/mediaresource',['jquery', 'underscore', 'backbone'], function ($,
         defaults: {
             Key: '',
             MediaType: '',
-            Files: {
-                FullMedium: {
-                    RelativeUri: '/img/image-upload.png'
-                }
-            },
-            VideoUri: ''
+            VideoId: ''
         },
 
         idAttribute: 'Id',
@@ -15745,6 +15740,270 @@ define('log',[],function () {
     return logger;
 
 });
+define('queryparams',['underscore', 'backbone'],
+function (_, Backbone) {
+    var queryStringParam = /^\?(.*)/;
+    var namedParam = /:([\w\d]+)/g;
+    var splatParam = /\*([\w\d]+)/g;
+    var escapeRegExp = /[-[\]{}()+?.,\\^$|#\s]/g;
+    var queryStrip = /(\?.*)$/;
+    var fragmentStrip = /^([^\?]*)/;
+    Backbone.Router.arrayValueSplit = '|';
+
+    var _getFragment = Backbone.History.prototype.getFragment;
+
+    _.extend(Backbone.History.prototype, {
+        getFragment: function (fragment, forcePushState, excludeQueryString) {
+            fragment = _getFragment.apply(this, arguments);
+            if (excludeQueryString) {
+                fragment = fragment.replace(queryStrip, '');
+            }
+            return fragment;
+        },
+
+        // this will not perform custom query param serialization specific to the router
+        // but will return a map of key/value pairs (the value is a string or array)
+        getQueryParameters: function (fragment, forcePushState) {
+            fragment = _getFragment.apply(this, arguments);
+            // if no query string exists, this will still be the original fragment
+            var queryString = fragment.replace(fragmentStrip, '');
+            var match = queryString.match(queryStringParam);
+            if (match) {
+                queryString = match[1];
+                var rtn = {};
+                iterateQueryString(queryString, function (name, value) {
+                    if (!rtn[name]) {
+                        rtn[name] = value;
+                    } else if (_.isString(rtn[name])) {
+                        rtn[name] = [rtn[name], value];
+                    } else {
+                        rtn[name].push(value);
+                    }
+                });
+                return rtn;
+            } else {
+                // no values
+                return {};
+            }
+        }
+    });
+
+    _.extend(Backbone.Router.prototype, {
+        initialize: function (options) {
+            this.encodedSplatParts = options && options.encodedSplatParts;
+        },
+
+        getFragment: function (fragment, forcePushState, excludeQueryString) {
+            fragment = _getFragment.apply(this, arguments);
+            if (excludeQueryString) {
+                fragment = fragment.replace(queryStrip, '');
+            }
+            return fragment;
+        },
+
+        _routeToRegExp: function (route) {
+            var splatMatch = (splatParam.exec(route) || { index: -1 });
+            var namedMatch = (namedParam.exec(route) || { index: -1 });
+
+            route = route.replace(escapeRegExp, "\\$&")
+                 .replace(namedParam, "([^\/?]*)")
+                 .replace(splatParam, "([^\?]*)");
+            route += '([\?]{1}.*)?';
+
+            var rtn = new RegExp('^' + route + '$');
+
+            // use the rtn value to hold some parameter data
+            if (splatMatch.index >= 0) {
+                // there is a splat
+                if (namedMatch >= 0) {
+                    // negative value will indicate there is a splat match before any named matches
+                    rtn.splatMatch = splatMatch.index - namedMatch.index;
+                } else {
+                    rtn.splatMatch = -1;
+                }
+            }
+
+            return rtn;
+        },
+
+        /**
+        * Given a route, and a URL fragment that it matches, return the array of
+        * extracted parameters.
+        */
+        _extractParameters: function (route, fragment) {
+            var params = route.exec(fragment).slice(1);
+
+            // do we have an additional query string?
+            var match = params.length && params[params.length - 1] && params[params.length - 1].match(queryStringParam);
+            if (match) {
+                var queryString = match[1];
+                var data = {};
+                if (queryString) {
+                    var self = this;
+                    iterateQueryString(queryString, function (name, value) {
+                        self._setParamValue(name, value, data);
+                    });
+                }
+                params[params.length - 1] = data;
+            }
+
+            // decode params
+            var length = params.length;
+            if (route.splatMatch && this.encodedSplatParts) {
+                if (route.splatMatch < 0) {
+                    // splat param is first
+                    return params;
+                } else {
+                    length = length - 1;
+                }
+            }
+
+            for (var i = 0; i < length; i++) {
+                if (_.isString(params[i])) {
+                    params[i] = decodeURIComponent(params[i]);
+                }
+            }
+
+            return params;
+        },
+
+        /**
+        * Set the parameter value on the data hash
+        */
+        _setParamValue: function (key, value, data) {
+            // use '.' to define hash separators
+            var parts = key.split('.');
+            var _data = data;
+            for (var i = 0; i < parts.length; i++) {
+                var part = parts[i];
+                if (i === parts.length - 1) {
+                    // set the value
+                    _data[part] = this._decodeParamValue(value, _data[part]);
+                } else {
+                    _data = _data[part] = _data[part] || {};
+                }
+            }
+        },
+
+        /**
+        * Decode an individual parameter value (or list of values)
+        * @param value the complete value
+        * @param currentValue the currently known value (or list of values)
+        */
+        _decodeParamValue: function (value, currentValue) {
+            // '|' will indicate an array.  Array with 1 value is a=|b - multiple values can be a=b|c
+            var splitChar = Backbone.Router.arrayValueSplit;
+            if (value.indexOf(splitChar) >= 0) {
+                var values = value.split(splitChar);
+                // clean it up
+                for (var i = values.length - 1; i >= 0; i--) {
+                    if (!values[i]) {
+                        values.splice(i, 1);
+                    } else {
+                        values[i] = decodeURIComponent(values[i]);
+                    }
+                }
+                return values;
+            }
+            if (!currentValue) {
+                return decodeURIComponent(value);
+            } else if (_.isArray(currentValue)) {
+                currentValue.push(value);
+                return currentValue;
+            } else {
+                return [currentValue, value];
+            }
+        },
+
+        /**
+        * Return the route fragment with queryParameters serialized to query parameter string
+        */
+        toFragment: function (route, queryParameters) {
+            if (queryParameters) {
+                if (!_.isString(queryParameters)) {
+                    queryParameters = this._toQueryString(queryParameters);
+                }
+                route += '?' + queryParameters;
+            }
+            return route;
+        },
+
+        /**
+        * Serialize the val hash to query parameters and return it.  Use the namePrefix to prefix all param names (for recursion)
+        */
+        _toQueryString: function (val, namePrefix) {
+            var splitChar = Backbone.Router.arrayValueSplit;
+            function encodeSplit(val) { return val.replace(splitChar, encodeURIComponent(splitChar)); }
+
+            if (!val) return '';
+            namePrefix = namePrefix || '';
+            var rtn = '';
+            for (var name in val) {
+                var _val = val[name];
+                if (_.isString(_val) || _.isNumber(_val) || _.isBoolean(_val) || _.isDate(_val)) {
+                    // primitave type
+                    _val = this._toQueryParam(_val);
+                    if (_.isBoolean(_val) || _val) {
+                        rtn += (rtn ? '&' : '') + this._toQueryParamName(name, namePrefix) + '=' + encodeSplit(encodeURIComponent(_val));
+                    }
+                } else if (_.isArray(_val)) {
+                    // arrrays use Backbone.Router.arrayValueSplit separator
+                    var str = '';
+                    for (var i in _val) {
+                        var param = this._toQueryParam(_val[i]);
+                        if (_.isBoolean(param) || param) {
+                            str += splitChar + encodeSplit(param);
+                        }
+                    }
+                    if (str) {
+                        rtn += (rtn ? '&' : '') + this._toQueryParamName(name, namePrefix) + '=' + str;
+                    }
+                } else {
+                    // dig into hash
+                    var result = this._toQueryString(_val, this._toQueryParamName(name, namePrefix, true));
+                    if (result) {
+                        rtn += (rtn ? '&' : '') + result;
+                    }
+                }
+            }
+            return rtn;
+        },
+
+        /**
+        * return the actual parameter name
+        * @param name the parameter name
+        * @param namePrefix the prefix to the name
+        * @param createPrefix true if we're creating a name prefix, false if we're creating the name
+        */
+        _toQueryParamName: function (name, prefix, isPrefix) {
+            return (prefix + name + (isPrefix ? '.' : ''));
+        },
+
+        /**
+        * Return the string representation of the param used for the query string
+        */
+        _toQueryParam: function (param) {
+            if (_.isNull(param) || _.isUndefined(param)) {
+                return null;
+            }
+            if (_.isDate(param)) {
+                return param.getDate().getTime();
+            }
+            return param;
+        }
+    });
+
+    function iterateQueryString(queryString, callback) {
+        var keyValues = queryString.split('&');
+        _.each(keyValues, function (keyValue) {
+            var arr = keyValue.split('=');
+            if (arr.length > 1 && arr[1]) {
+                callback(arr[0], arr[1]);
+            }
+        });
+    }
+
+});
 /*!
  * RequireJS plugin for loading files without adding the JS extension, useful for
  * JSONP services and any other kind of resource that already contain a file
@@ -17867,7 +18126,8 @@ function ($, _, Backbone, app, UserFormLayoutView, User) {
         this.userHub.setupOnlineUsers = setupOnlineUsers;
         this.userHub.userStatusUpdate = userStatusUpdate;
         this.userHub.joinedGroup = joinedGroup;
-        this.userHub.mediaResourceUploaded = mediaResourceUploaded;
+        this.userHub.mediaResourceUploadSuccess = mediaResourceUploadSuccess;
+        this.userHub.mediaResourceUploadFailure = mediaResourceUploadFailure;
     };
 
     var UserController = {};
@@ -17921,16 +18181,12 @@ function ($, _, Backbone, app, UserFormLayoutView, User) {
         }
     };
 
-    var mediaResourceUploaded = function (mediaResource) {
-        // detect model type then raise event
-        log('userController.mediaResourceUploaded', mediaResource);
+    var mediaResourceUploadSuccess = function (mediaResource) {
+        app.vent.trigger('mediaresourceuploadsuccess', mediaResource);
+    };
 
-        if (mediaResource.MediaType == "video") {
-            app.vent.trigger('videomediaresourceuploaded:', mediaResource);
-        }
-        else if (mediaResource.MediaType == "image") {
-            app.vent.trigger('imagemediaresourceuploaded:', mediaResource);
-        }
+    var mediaResourceUploadFailure = function (key, reason) {
+        app.vent.trigger('mediaresourceuploadfailure', key, reason);
     };
 
     // Show an project form
@@ -17989,6 +18245,11 @@ function ($, _, Backbone, app, Activity) {
         app.vent.trigger('newactivity:' + activity.get('Type'), activity);
         app.vent.trigger('newactivity:' + groupId, activity);
         app.vent.trigger('newactivity:' + groupId + ':' + activity.get('Type'), activity);
+
+        if (activityData.ContributionId) {
+            app.vent.trigger('newactivity:' + activity.get('Type') + ':' + activity.get('ContributionId'), activity);
+            log('triggered: ' + 'newactivity:' + activity.get('Type') + ':' + activity.get('ContributionId'), activity);
+        }
     };
 
     app.addInitializer(function () {
@@ -18215,8 +18476,8 @@ define('timeago',['jquery'], function ($) {
 // --------------
 
 // Shows an individual stream item
-define('views/streamitemview',['jquery', 'underscore', 'backbone', 'app', 'timeago'], function ($, _, Backbone, app) {
-
+define('views/streamitemview',['jquery', 'underscore', 'backbone', 'app', 'timeago'],
+function ($, _, Backbone, app) {
     var parseISO8601 = function (str) {
         // we assume str is a UTC date ending in 'Z'
 
@@ -18251,18 +18512,32 @@ define('views/streamitemview',['jquery', 'underscore', 'backbone', 'app', 'timea
             var json = { Model: this.model.toJSON() };
             json.Model.CreatedDateTimeDescription = parseISO8601(this.model.get('CreatedDateTime'));
             json.Model.ObservedOnDescription = ''; //parseISO8601(this.model.get('ObservedOn') + 'Z').format('d MMM yyyy')
-            json.Model.ShowThumbnails = this.model.get('ObservationAdded').Observation.Media.length > 1 ? true : false;
+            if (json.Model.Type == "observationadded") {
+                json.Model.ShowThumbnails = this.model.get('ObservationAdded').Observation.Media.length > 1 ? true : false;
+            }
+
             return json;
         },
 
         onRender: function () {
             this.$el.find('.time-description').timeago();
 
-            this.$el.find('h2 a').on('click', function (e) {
-                e.preventDefault();
-                app.observationRouter.navigate($(this).attr('href'), { trigger: true });
-                return false;
-            });
+            if (this.model.get('Type') == "observationadded") {
+                this.$el.find('h2 a').on('click', function (e) {
+                    e.preventDefault();
+                    app.observationRouter.navigate($(this).attr('href'), { trigger: true });
+                    return false;
+                });
+            }
+
+            if (this.model.get('Type') == "postadded") {
+                this.$el.find('h2 a').on('click', function (e) {
+                    e.preventDefault();
+                    app.postRouter.navigate($(this).attr('href'), { trigger: true });
+                    return false;
+                });
+            }
+
         }
         //        render: function () {
         //            switch (this.StreamItem.get('Type')) {
@@ -18281,7 +18556,6 @@ define('views/streamitemview',['jquery', 'underscore', 'backbone', 'app', 'timea
     });
 
     return StreamItemView;
-
 });
 define('date',[],function () {
 
@@ -21452,8 +21726,9 @@ function ($, _, Backbone, app, HomePublicLayoutView, HomePrivateLayoutView) {
 // ObservationDetailsView
 // ----------------------
 
-define('views/observationdetailsview',['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, app) {
-
+define('views/observationdetailsview',['jquery', 'underscore', 'backbone', 'app'],
+function ($, _, Backbone, app) 
+{
     var ObservationDetailsView = Backbone.Marionette.ItemView.extend({
         className: 'observation-details',
 
@@ -21474,7 +21749,7 @@ define('views/observationdetailsview',['jquery', 'underscore', 'backbone', 'app'
         },
 
         _showDetails: function () {
-
+            
         }
     });
 
@@ -23755,11 +24030,10 @@ function ($, _, Backbone, app, DummyOverlayView) {
         },
 
         onMediaResourceFilesChanged: function (mediaResource) {
-            log('EditMapView.onMediaResourceAdded', mediaResource);
             var lat = mediaResource.get('Metadata').Latitude;
             var lon = mediaResource.get('Metadata').Longitude;
 
-            if ((this.observation.get('Latitude') !== null || this.observation.get('Longitude') !== null) && lat && lon) {
+            if ((this.observation.get('Latitude') === null && this.observation.get('Longitude') === null) && lat && lon) {
                 this.changeMarkerPosition(lat, lon);
             }
         },
@@ -24008,6 +24282,14 @@ function ($, _, Backbone, app, DummyOverlayView) {
 
 define('views/mediaresourceitemview',['jquery', 'underscore', 'backbone', 'app', 'ich'],
 function ($, _, Backbone, app, ich) {
+    var ImageProvider = function (options) {
+
+    };
+
+    var VideoProvider = function (options) {
+
+    };
+
     var MediaResourceItemView = Backbone.View.extend({
         className: 'media-resource-item',
 
@@ -24017,19 +24299,23 @@ function ($, _, Backbone, app, ich) {
             'click .remove-media-resource-button': 'removeMediaResource'
         },
 
+        provider: null,
+
         initialize: function (options) {
             _.extend(this, Backbone.Events);
-            _.bindAll(this,
-            'showTempImageMedia',
-            'showUploadedImageMedia',
-            'removeMediaResource');
 
-            // if image or video... 
-            this.model.on('change:Files', this.showUploadedImageMedia);
+            var mediaType = this.model.get('MediaType');
+            if (mediaType === 'image') {
+                this.provider = new ImageProvider();
+            } else if (mediaType === 'video') {
+                this.provider = new VideoProvider();
+            }
         },
 
         render: function () {
-            this.$el.append(ich.ObservationMediaResourceItem(this.model.toJSON())).css({ position: 'absolute', top: '-250px' });
+            this.$el
+                .append(ich.ObservationMediaResourceItem(this.model.toJSON())).css({ position: 'absolute', top: '-250px' })
+                .css({ width: 280 + 'px' });
             return this;
         },
 
@@ -24039,31 +24325,304 @@ function ($, _, Backbone, app, ich) {
 
         removeMediaResource: function () {
             this.trigger('mediaresourceview:remove', this.model, this);
-        },
-
-        showTempImageMedia: function (img) {
-            var $image = $(img);
-            this.$el.find('div:first-child img').replaceWith($image);
-            this.$el.width($image.width());
-            this.imageWidth = $image.width();
-        },
-
-        showUploadedImageMedia: function (mediaResource) {
-            log('MediaResourceItemView.showUploadedMedia', mediaResource);
-            this.$el.find('div:first-child img').replaceWith($('<img src="' + mediaResource.get('Files').FullMedium.RelativeUri + '" alt="" />'));
-        },
-
-        showVideoMedia: function (preview) {
-            //var src = mediaResource.get('Preview');
-            log('MediaResourceItemView.showVideoMedia:', preview);
-            this.$el.find('div:first-child').replaceWith(ich.VideoPreview({ Width: 300, Height: 220, Source: preview }));
-            //this.$el.append(ich.VideoPreview({ Width: 220, Height: 200, Source: src }));
         }
     });
 
     return MediaResourceItemView;
 
 });
+define('jsonp',['jquery'], function ($) {
+/*
+ * jQuery JSONP Core Plugin 2.3.1 (2012-05-16)
+ *
+ * https://github.com/jaubourg/jquery-jsonp
+ *
+ * Copyright (c) 2012 Julian Aubourg
+ *
+ * This document is licensed as free software under the terms of the
+ * MIT License: http://www.opensource.org/licenses/mit-license.php
+ */
+( function( $ ) {
+
+	// ###################### UTILITIES ##
+
+	// Noop
+	function noop() {
+	}
+
+	// Generic callback
+	function genericCallback( data ) {
+		lastValue = [ data ];
+	}
+
+	// Call if defined
+	function callIfDefined( method , object , parameters , returnFlag ) {
+		try {
+			returnFlag = method && method.apply( object.context || object , parameters );
+		} catch( _ ) {
+			returnFlag = !1;
+		}
+		return returnFlag;
+	}
+
+	// Give joining character given url
+	function qMarkOrAmp( url ) {
+		return /\?/ .test( url ) ? "&" : "?";
+	}
+
+	var // String constants (for better minification)
+		STR_ASYNC = "async",
+		STR_CHARSET = "charset",
+		STR_EMPTY = "",
+		STR_ERROR = "error",
+		STR_INSERT_BEFORE = "insertBefore",
+		STR_JQUERY_JSONP = "_jqjsp",
+		STR_ON = "on",
+		STR_ON_CLICK = STR_ON + "click",
+		STR_ON_ERROR = STR_ON + STR_ERROR,
+		STR_ON_LOAD = STR_ON + "load",
+		STR_ON_READY_STATE_CHANGE = STR_ON + "readystatechange",
+		STR_READY_STATE = "readyState",
+		STR_REMOVE_CHILD = "removeChild",
+		STR_SCRIPT_TAG = "<script>",
+		STR_SUCCESS = "success",
+		STR_TIMEOUT = "timeout",
+
+		// Window
+		win = window,
+		// Deferred
+		Deferred = $.Deferred,
+		// Head element
+		head = $( "head" )[ 0 ] || document.documentElement,
+		// Page cache
+		pageCache = {},
+		// Counter
+		count = 0,
+		// Last returned value
+		lastValue,
+
+		// ###################### DEFAULT OPTIONS ##
+		xOptionsDefaults = {
+			//beforeSend: undefined,
+			//cache: false,
+			callback: STR_JQUERY_JSONP,
+			//callbackParameter: undefined,
+			//charset: undefined,
+			//complete: undefined,
+			//context: undefined,
+			//data: "",
+			//dataFilter: undefined,
+			//error: undefined,
+			//pageCache: false,
+			//success: undefined,
+			//timeout: 0,
+			//traditional: false,
+			url: location.href
+		},
+
+		// opera demands sniffing :/
+		opera = win.opera;
+
+	// ###################### MAIN FUNCTION ##
+	function jsonp( xOptions ) {
+
+		// Build data with default
+		xOptions = $.extend( {} , xOptionsDefaults , xOptions );
+
+		// References to xOptions members (for better minification)
+		var successCallback = xOptions.success,
+			errorCallback = xOptions.error,
+			completeCallback = xOptions.complete,
+			dataFilter = xOptions.dataFilter,
+			callbackParameter = xOptions.callbackParameter,
+			successCallbackName = xOptions.callback,
+			cacheFlag = xOptions.cache,
+			pageCacheFlag = xOptions.pageCache,
+			charset = xOptions.charset,
+			url = xOptions.url,
+			data = xOptions.data,
+			timeout = xOptions.timeout,
+			pageCached,
+
+			// Abort/done flag
+			done = 0,
+
+			// Life-cycle functions
+			cleanUp = noop,
+
+			// Support vars
+			supportOnload,
+			supportOnreadystatechange,
+
+			// Request execution vars
+			firstChild,
+			script,
+			scriptAfter,
+			timeoutTimer;
+
+		// If we have Deferreds:
+		// - substitute callbacks
+		// - promote xOptions to a promise
+		Deferred && Deferred(function( defer ) {
+			defer.done( successCallback ).fail( errorCallback );
+			successCallback = defer.resolve;
+			errorCallback = defer.reject;
+		}).promise( xOptions );
+
+		// Create the abort method
+		xOptions.abort = function() {
+			!( done++ ) && cleanUp();
+		};
+
+		// Call beforeSend if provided (early abort if false returned)
+		if ( callIfDefined( xOptions.beforeSend, xOptions , [ xOptions ] ) === !1 || done ) {
+			return xOptions;
+		}
+
+		// Control entries
+		url = url || STR_EMPTY;
+		data = data ? ( (typeof data) == "string" ? data : $.param( data , xOptions.traditional ) ) : STR_EMPTY;
+
+		// Build final url
+		url += data ? ( qMarkOrAmp( url ) + data ) : STR_EMPTY;
+
+		// Add callback parameter if provided as option
+		callbackParameter && ( url += qMarkOrAmp( url ) + encodeURIComponent( callbackParameter ) + "=?" );
+
+		// Add anticache parameter if needed
+		!cacheFlag && !pageCacheFlag && ( url += qMarkOrAmp( url ) + "_" + ( new Date() ).getTime() + "=" );
+
+		// Replace last ? by callback parameter
+		url = url.replace( /=\?(&|$)/ , "=" + successCallbackName + "$1" );
+
+		// Success notifier
+		function notifySuccess( json ) {
+
+			if ( !( done++ ) ) {
+
+				cleanUp();
+				// Pagecache if needed
+				pageCacheFlag && ( pageCache [ url ] = { s: [ json ] } );
+				// Apply the data filter if provided
+				dataFilter && ( json = dataFilter.apply( xOptions , [ json ] ) );
+				// Call success then complete
+				callIfDefined( successCallback , xOptions , [ json , STR_SUCCESS ] );
+				callIfDefined( completeCallback , xOptions , [ xOptions , STR_SUCCESS ] );
+
+			}
+		}
+
+		// Error notifier
+		function notifyError( type ) {
+
+			if ( !( done++ ) ) {
+
+				// Clean up
+				cleanUp();
+				// If pure error (not timeout), cache if needed
+				pageCacheFlag && type != STR_TIMEOUT && ( pageCache[ url ] = type );
+				// Call error then complete
+				callIfDefined( errorCallback , xOptions , [ xOptions , type ] );
+				callIfDefined( completeCallback , xOptions , [ xOptions , type ] );
+
+			}
+		}
+
+		// Check page cache
+		if ( pageCacheFlag && ( pageCached = pageCache[ url ] ) ) {
+
+			pageCached.s ? notifySuccess( pageCached.s[ 0 ] ) : notifyError( pageCached );
+
+		} else {
+
+			// Install the generic callback
+			// (BEWARE: global namespace pollution ahoy)
+			win[ successCallbackName ] = genericCallback;
+
+			// Create the script tag
+			script = $( STR_SCRIPT_TAG )[ 0 ];
+			script.id = STR_JQUERY_JSONP + count++;
+
+			// Set charset if provided
+			if ( charset ) {
+				script[ STR_CHARSET ] = charset;
+			}
+
+			opera && opera.version() < 11.60 ?
+				// onerror is not supported: do not set as async and assume in-order execution.
+				// Add a trailing script to emulate the event
+				( ( scriptAfter = $( STR_SCRIPT_TAG )[ 0 ] ).text = "document.getElementById('" + script.id + "')." + STR_ON_ERROR + "()" )
+			:
+				// onerror is supported: set the script as async to avoid requests blocking each others
+				( script[ STR_ASYNC ] = STR_ASYNC )
+
+			;
+
+			// Internet Explorer: event/htmlFor trick
+			if ( STR_ON_READY_STATE_CHANGE in script ) {
+
+				script.htmlFor = script.id;
+				script.event = STR_ON_CLICK;
+			}
+
+			// Attached event handlers
+			script[ STR_ON_LOAD ] = script[ STR_ON_ERROR ] = script[ STR_ON_READY_STATE_CHANGE ] = function ( result ) {
+
+				// Test readyState if it exists
+				if ( !script[ STR_READY_STATE ] || !/i/.test( script[ STR_READY_STATE ] ) ) {
+
+					try {
+
+						script[ STR_ON_CLICK ] && script[ STR_ON_CLICK ]();
+
+					} catch( _ ) {}
+
+					result = lastValue;
+					lastValue = 0;
+					result ? notifySuccess( result[ 0 ] ) : notifyError( STR_ERROR );
+
+				}
+			};
+
+			// Set source
+			script.src = url;
+
+			// Re-declare cleanUp function
+			cleanUp = function( i ) {
+				timeoutTimer && clearTimeout( timeoutTimer );
+				script[ STR_ON_READY_STATE_CHANGE ] = script[ STR_ON_LOAD ] = script[ STR_ON_ERROR ] = null;
+				head[ STR_REMOVE_CHILD ]( script );
+				scriptAfter && head[ STR_REMOVE_CHILD ]( scriptAfter );
+			};
+
+			// Append main script
+			head[ STR_INSERT_BEFORE ]( script , ( firstChild = head.firstChild ) );
+
+			// Append trailing script if needed
+			scriptAfter && head[ STR_INSERT_BEFORE ]( scriptAfter , firstChild );
+
+			// If a timeout is needed, install it
+			timeoutTimer = timeout > 0 && setTimeout( function() {
+				notifyError( STR_TIMEOUT );
+			} , timeout );
+
+		}
+
+		return xOptions;
+	}
+
+	// ###################### SETUP FUNCTION ##
+	jsonp.setup = function( xOptions ) {
+		$.extend( xOptionsDefaults , xOptions );
+	};
+
+	// ###################### INSTALL in jQuery ##
+	$.jsonp = jsonp;
+
+} )( jQuery );
+
+});
+
 /// <reference path="../../libs/log.js" />
 /// <reference path="../../libs/require/require.js" />
 /// <reference path="../../libs/jquery/jquery-1.7.2.js" />
@@ -24071,86 +24630,23 @@ function ($, _, Backbone, app, ich) {
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// VideoForm
-// ---------
+// VideoFormView
+// -------------
 
-// Shows an individual project item
-define('views/videoform',['jquery', 'underscore', 'backbone', 'app', 'ich'],
+define('views/videoformview',['jquery', 'underscore', 'backbone', 'app', 'ich', 'jsonp'],
 function ($, _, Backbone, app, ich) {
-    var VideoForm = Backbone.Marionette.ItemView.extend({
 
-        id: 'video-form',
+    var YouTubeVideoProvider = function (options) {
+        this.options = options;
 
-        template: 'VideoForm',
+        this.getJSON = function () {
+            return {
+                name: 'YouTube',
+                placeholderUri: 'http://www.youtube.com'
+            };
+        };
 
-        events: {
-            //'click button#embed-video-clear-button': '_clear',
-            'click .cancel-button': '_cancel',
-            //'click button#embed-video-next-button': '_next',
-            'change input#VideoUri': '_updateLink',
-            //'change textarea#embed-video-description-input': '_updateDescription',
-            'click .close': '_cancel'
-        },
-
-        initialize: function (options) {
-            //log('embeddedVideoView:initialize', options);
-            //this.ValidVideo = false;
-            //this.VisiblePreview = false;
-            //this.Preview = '';
-            this.model.set('MediaType', 'video');
-            //this.model.on('change:Metadata', this.onMediaResourceFilesChanged, this);
-            this.model.on('change:Files', this.onMediaResourceFilesChanged, this);
-        },
-
-        onRender: function () {
-            //log('embeddedVideoView:onRender');
-            //this._resetView();
-            this._showElement($('#modal-dialog'));
-            //this._hideElement($('div#embed-video-preview'));
-            return this;
-        },
-
-        // fire this event when the link has been updated
-        _updateLink: function () {
-            //log('embeddedVideoView:_updateLink');
-            this._previewVideo($('input#VideoUri').val());
-        },
-
-        _previewVideo: function (videoUri) {
-            this._getYoutubeVideo(videoUri);
-            //log('EmbeddedVideo.previewVideo', videoUri);
-            //            var that = this;
-            //            $.when(this._getVideoPreview(videoUri))
-            //                .done(function (data) {
-            //                    log(data, data.PreviewTags, data.success);
-            //                    if (data.success) {
-            //                        that._next(data.PreviewTags);
-            //                    }
-            //                    //that.Preview = data.PreviewTags;
-            //                    //that.ValidVideo = data.success;
-            //                });
-
-            //            this.model.set('VideoUri', videoUri);
-        },
-
-        _getVideoPreview: function (url) {
-            log('EmbeddedVideo.getVideoPreview');
-            var deferred = new $.Deferred();
-            var params = {};
-            params['url'] = url;
-            $.ajax({
-                url: '/mediaresources/videopreview',
-                type: "POST",
-                data: params
-            }).done(function (data) {
-                deferred.resolve(data);
-            });
-            return deferred.promise();
-        },
-
-        _getYoutubeVideo: function (value) {
-            var videoId = '';
-
+        this.getVideoId = function (value) {
             /*
             Handles the following URLs:
             http://www.youtube.com/watch?v=0zM3nApSvMg&feature=feedrec_grec_index
@@ -24164,135 +24660,177 @@ function ($, _, Backbone, app, ich) {
             var uriRegExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/;
             var uriMatch = value.match(uriRegExp);
             if (uriMatch && uriMatch[2].length == 11) {
-                videoId = uriMatch[2];
-            } else {
-                /*
-                Handles actual Id being entered
-                */
-                var idRegExp = /^[A-Za-z0-9_\-]{8,32}$/;
-                var idMatch = value.match(idRegExp);
-                if (idMatch && idMatch == true) {
-                    videoId = value;
-                } else {
-                    //error
-                }
+                return uriMatch[2];
             }
+            return '';
+        };
 
-            var that = this;
-            $.ajax({
-                type: "GET",
-                dataType: "jsonp",
-                url: 'http://gdata.youtube.com/feeds/api/videos/' + encodeURIComponent(videoId) + '?v=2&alt=json-in-script',
-                success: function (obj) {
-                    log('youtube video data', obj);
-                    that._youtubeFetchDataCallback(obj);
+        this.getVideo = function (videoId) {
+            $.jsonp({
+                url: 'http://gdata.youtube.com/feeds/api/videos/' + videoId + '?v=2&alt=json-in-script&callback=?',
+                context: this,
+                success: function (data, status) {
+                    log('youtube video data', data, status);
+                    this.options.onGetVideoSuccess(data.entry['media$group']['yt$videoid']['$t']);
+                },
+                error: function (data, status) {
+                    log('failed to load youtube video', data, status);
+                    this.options.onGetVideoError(data);
                 }
             });
+        };
+    };
 
+    var VimeoVideoProvider = function (options) {
+        this.options = options;
 
-            //            if (/^https?\:\/\/.+/i.test(tempvar)) {
-            //                tempvar = /[\?\&]v=([^\?\&]+)/.exec(tempvar);
-            //                if (!tempvar) {
-            //                    alert('YouTube video URL has a problem!');
-            //                    return;
-            //                }
-            //                videoid = tempvar[1];
-            //            }
-            //            else {
-            //                if (/^[A-Za-z0-9_\-]{8,32}$/.test(tempvar) == false) {
-            //                    alert('YouTube video ID has a problem!');
-            //                    return;
-            //                }
-            //                videoid = tempvar;
-            //            }
-            //$.getScript('http://gdata.youtube.com/feeds/api/videos/' + encodeURIComponent(videoId) + '?v=2&alt=json-in-script&callback=_youtubeFetchDataCallback');
+        this.getJSON = function () {
+            return {
+                name: 'Vimeo',
+                placeholderUri: 'http://www.vimeo.com'
+            };
+        };
 
+        this.getVideoId = function (value) {
+            /*
+            Handles the following URLs:
+            http://www.vimeo.com/7058755
+            */
+            var uriRegExp = /http:\/\/(www\.)?vimeo.com\/(\d+)($|\/)/;
+            var uriMatch = value.match(uriRegExp);
+            if (uriMatch) {
+                return uriMatch[2];
+            }
+            return '';
+        };
+
+        this.getVideo = function (videoId) {
+            $.jsonp({
+                url: 'http://vimeo.com/api/v2/video/' + videoId + '.json?callback=?',
+                context: this,
+                success: function (data, status) {
+                    log('vimeo video data', data, status);
+                    this.options.onGetVideoSuccess(data[0].id);
+                },
+                error: function (data, status) {
+                    log('failed to load vimeo video', data, status);
+                    this.options.onGetVideoError(data);
+                }
+            });
+        };
+    };
+
+    var VideoFormView = Backbone.Marionette.ItemView.extend({
+        id: 'video-form',
+
+        template: 'VideoForm',
+
+        events: {
+            'click .cancel-button': '_cancel',
+            'click .close': '_cancel',
+            'click .add-button': '_add'
         },
 
-        _youtubeFetchDataCallback: function (data) {
-            var s = '';
-            s += '<img src="' + data.entry["media$group"]["media$thumbnail"][0].url + '" width="' + data.entry["media$group"]["media$thumbnail"][0].width + '" height="' + data.entry["media$group"]["media$thumbnail"][0].height + '" alt="Default Thumbnail" align="right"/>';
-            s += '<b>Title:</b> ' + data.entry["title"].$t + '<br/>';
-            s += '<b>Author:</b> ' + data.entry["author"][0].name.$t + '<br/>';
-            s += '<b>Published:</b> ' + new Date(data.entry["published"].$t.substr(0, 4), data.entry["published"].$t.substr(5, 2) - 1, data.entry["published"].$t.substr(8, 2)).toLocaleDateString() + '<br/>';
-            s += '<b>Duration:</b> ' + Math.floor(data.entry["media$group"]["yt$duration"].seconds / 60) + ':' + (data.entry["media$group"]["yt$duration"].seconds % 60) + ' (' + data.entry["media$group"]["yt$duration"].seconds + ' seconds)<br/>';
-            s += '<b>Rating:</b> ' + new Number(data.entry["gd$rating"].average).toFixed(1) + ' out of ' + data.entry["gd$rating"].max + '; ' + data.entry["gd$rating"].numRaters + ' rating(s)' + '<br/>';
-            s += '<b>Statistics:</b> ' + data.entry["yt$statistics"].favoriteCount + ' favorite(s); ' + data.entry["yt$statistics"].viewCount + ' view(s)' + '<br/>';
-            s += '<br/>' + data.entry["media$group"]["media$description"].$t.replace(/\n/g, '<br/>') + '<br/>';
-            s += '<br/><a href="' + data.entry["media$group"]["media$player"].url + '" target="_blank">Watch on YouTube</a>';
-            //$('#youtubeDataFetcherOutput').html(s);
-            alert(s);
+        provider: null,
+        
+        videoId: '',
+
+        serializeData: function () {
+            return {
+                Model: this.provider.getJSON()
+            };
         },
 
-        //        // Fire this event when the description has been updated
-        //        _updateDescription: function () {
-        //            this.model.set('Description', $('input#embed-video-description-input').val());
-        //        },
+        initialize: function (options) {
+            _.bindAll(this, '_loadVideo', '_onGetYouTubeVideo', '_onGetVimeoVideo', '_onGetVideoError', '_updateVideoStatus');
 
-        //        // remove the current video preview and reset the form..
-        //        _clear: function () {
-        //            this._resetView();
-        //        },
+            if (options.videoProviderName === 'youtube') {
+                this.provider = new YouTubeVideoProvider({ onGetVideoSuccess: this._onGetYouTubeVideo, onGetVideoError: this._onGetVideoError });
+            } else if (options.videoProviderName === 'vimeo') {
+                this.provider = new VimeoVideoProvider({ onGetVideoSuccess: this._onGetVimeoVideo, onGetVideoError: this._onGetVideoError });
+            }
+        },
 
-        // no longer adding a new video
+        onRender: function () {
+            var that = this;
+            this.$el.find('#VideoUri').on('change keyup', function (e) {
+                that._loadVideo($(this).val());
+            });
+            this.$el.find('#VideoUri').on('paste', function (e) {
+                setTimeout(function () {
+                    that._loadVideo(that.$el.find('#VideoUri').val());
+                }, 100);
+            });
+            return this;
+        },
+
+        _loadVideo: function (value) {
+            if (value === '') {
+                this.videoId = '';
+                this._updateVideoStatus('none');
+                return;
+            }
+
+            var newVideoId = this.provider.getVideoId(value);
+
+            if (newVideoId === '') {
+                this.videoId = '';
+                this._updateVideoStatus('error');
+                return;
+            }
+
+            if (this.videoId !== newVideoId) {
+                this.videoId = newVideoId;
+                this._updateVideoStatus('loading');
+                this.provider.getVideo(this.videoId);
+            }
+        },
+
+        _updateVideoStatus: function (status, html) {
+            this.$el.find('.field-validation-error, .field-validation-info').remove();
+            this.$el.find('#VideoUri').removeClass('input-validation-error');
+            this.$el.find('.video-preview').html('');
+            switch (status) {
+                case 'success':
+                    this.$el.find('.video-preview').html(html);
+                    break;
+                case 'loading':
+                    this.$el.find('#video-uri-field input').after('<div class="field-validation-info"><img src="/img/loader.png" alt="" />Loading ' + this.provider.getJSON().name + ' video...</div>');
+                    break;
+                case 'error':
+                    this.$el.find('#VideoUri').addClass('input-validation-error');
+                    this.$el.find('#video-uri-field input').after('<div class="field-validation-error">The video link entered is not valid. Please correct the link and try again.</div>');
+                    break;
+                default:
+                    return;
+            }
+        },
+
+        _onGetVimeoVideo: function (videoId) {
+            this._updateVideoStatus('success', '<iframe id="vimeo-video-player" type="text/html" width="520" height="280" src="http://player.vimeo.com/video/' + videoId + '" allowfullscreen></iframe>');
+        },
+
+        _onGetYouTubeVideo: function (videoId) {
+            this._updateVideoStatus('success', '<iframe id="youtube-video-player" type="text/html" width="520" height="280" src="http://www.youtube.com/embed/' + videoId + '?controls=0&modestbranding=1&rel=0&showinfo=0" allowfullscreen></iframe>');
+        },
+
+        _onGetVideoError: function (error) {
+            this._updateVideoStatus('error');
+        },
+
         _cancel: function () {
-            this._hideElement($('div#modal-dialog'));
-            this._cleanup();
-        },
-
-        // set form and model back to their original state
-        _resetView: function () {
-            log('embeddedVideoView:_resetView');
-            this.VisiblePreview = false;
-            $('input#embed-video-link-input').val('');
-            $('#embed-video-description-input').val('');
-            $('div#embed-video-player').html('');
-            this._hideElement($('div#embed-video-preview'));
-        },
-
-        // this button itself is modal, in that click it once to show a preview, 
-        // then if preview is visible, click again to save the viewed video.
-        _next: function (preview) {
-            log('embeddedVideoView:_next');
-            // if we've got a valid video, and we've seen it, we are clicking to save
-            //            if (this.ValidVideo && this.VisiblePreview) {
-            //                this._save();
-            //            }
-            // if we've loaded a new video, but haven't seen it, display it:
-            //else if (this.ValidVideo) {
-            //var src = this.Preview;
-            //this._showElement($('div#embed-video-preview'));
-            this.$el.find('.video-preview').empty().append(ich.VideoPreview({ Width: 520, Height: 400, Source: preview }));
-            // now we've seen it, so next click we want to save it.
-            //this.VisiblePreview = true;
-            //}
-        },
-
-        // trigger the editMediaView to save its model with this model in it..
-        _save: function () {
-            this.model.set('Description', $('#embed-video-description-input').val());
-            this.trigger('videouploaded', this.model, this.Preview);
-            //this.model.save();
-            this._cleanup();
-        },
-
-        _cleanup: function () {
             this.remove();
         },
 
-        _hideElement: function (el) {
-            $(el).addClass('make-invisible');
-            $(el).removeClass('make-visible');
-        },
-
-        _showElement: function (el) {
-            $(el).addClass('make-visible');
-            $(el).removeClass('make-invisible');
+        _add: function () {
+            if (this.videoId !== '') {
+                this.trigger('videouploaded', this.videoId, this.provider.getJSON().name);
+                this.remove();
+            }
         }
-
     });
 
-    return VideoForm;
+    return VideoFormView;
 });
 /*
  * jQuery Iframe Transport Plugin 1.3
@@ -24471,40 +25009,36 @@ function ($, _, Backbone, app, ich) {
 // -------------
 
 // View that allows user to choose location on a mpa or via coordinates
-define('views/editmediaview',['jquery', 'underscore', 'backbone', 'app', 'models/mediaresource', 'views/mediaresourceitemview', 'views/videoform', 'loadimage', 'fileupload', 'iframetransport'],
-function ($, _, Backbone, app, MediaResource, MediaResourceItemView, VideoForm, loadImage) {
+define('views/editmediaview',['jquery', 'underscore', 'backbone', 'app', 'models/mediaresource', 'views/mediaresourceitemview', 'views/videoformview', 'loadimage', 'fileupload', 'iframetransport'],
+function ($, _, Backbone, app, MediaResource, MediaResourceItemView, VideoFormView, loadImage) {
+
     var EditMediaView = Backbone.View.extend({
 
         id: 'media-resources-fieldset',
 
         events: {
-            'click #youtube-upload-button': '_showEmbeddedVideo'
+            'click #youtube-upload-button': '_showYouTubeVideoForm',
+            'click #vimeo-upload-button': '_showVimeoVideoForm'
         },
 
         initialize: function (options) {
-            log('editMediaView:initialize');
             _.extend(this, Backbone.Events);
-            _.bindAll(this,
-                'render',
-                '_initMediaUploader',
-                '_onImageUploadDone',
-                '_onSubmitImageUpload',
-                '_onImageUploadAdd');
+            _.bindAll(this, 'render', '_initMediaUploader', '_onMediaResourceUploadSuccess', '_onMediaResourceUploadFailure', '_onImageUploadAdd', '_showMediaResourceItemView');
             this.mediaResourceItemViews = [];
-            this.currentUploadKey = '';
-
-            app.vent.on('videomediaresourceuploaded:', this._onVideoUploadDone, this);
-            app.vent.on('imagemediaresourceuploaded:', this._onImageUploadDone, this);
+            app.vent.on('mediaresourceuploadsuccess', this._onMediaResourceUploadSuccess, this);
+            app.vent.on('mediaresourceuploadfailure', this._onMediaResourceUploadFailure, this);
         },
 
+        progressCount: 0,
+
+        errorCount: 0,
+
         render: function () {
-            log('ediMediaView:render');
             this._initMediaUploader();
             return this;
         },
 
         _initMediaUploader: function () {
-            log('ediMediaView:_initMediaUploader');
             this.$el.find('#file').fileupload({
                 dataType: 'json',
                 paramName: 'file',
@@ -24514,161 +25048,158 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, VideoForm, 
             });
         },
 
-        filesAdded: 0,  // Used to determine when to fire file upload animations
+        _showYouTubeVideoForm: function (e) {
+            e.preventDefault();
+            this._showVideoForm('youtube');
+        },
+
+        _showVimeoVideoForm: function (e) {
+            e.preventDefault();
+            this._showVideoForm('vimeo');
+        },
+
+        _showVideoForm: function (videoProviderName) {
+            $('body').append('<div id="modal-dialog"></div>');
+            var videoFormView = new VideoFormView({ el: $('#modal-dialog'), videoProviderName: videoProviderName });
+            videoFormView.on('videouploaded', this._onVideoUploadAdd, this);
+            videoFormView.render();
+        },
 
         _onImageUploadAdd: function (e, data) {
             this.$el.find('.upload-progress').show();
-
-            log('editMediaView:_onImageUploadAdd');
-            this.currentUploadKey = app.generateGuid();
-            var mediaResource = new MediaResource({ Key: this.currentUploadKey });
+            this._updateProgressCount(1);
+            var key = app.generateGuid();
+            data.formData = { Key: key, OriginalFileName: data.files[0].name, MediaType: 'image', Usage: 'observation' };
+            if (window.isIEFail) {
+                data.formData.ie = true;
+            }
+            var mediaResource = new MediaResource({ Key: key });
             this.model.addMediaResource(mediaResource);
 
-            var mediaResourceItemView = new MediaResourceItemView({ model: mediaResource });
-            mediaResourceItemView.on('mediaresourceview:remove', this._onMediaResourceViewRemove);
-            this.mediaResourceItemViews.push(mediaResourceItemView);
+            //            var self = this;
+            //            var tempImage = null;
 
-            var self = this;
-            var tempImage = null;
+            //            if (!window.isIEFail) {
+            //                tempImage = loadImage(
+            //                    data.files[0],
+            //                    function (img) {
+            //                        if (img.type === "error") {
+            //                            //log('Error loading image', img);
+            //                        } else {
+            //                            self.filesAdded++;
+            //                            mediaResourceItemView.showTempImageMedia(img);
+            //                            self._showMediaResourceItemView(self, mediaResourceItemView, $(img).width(), self.filesAdded === data.originalFiles.length);
+            //                        }
+            //                    },
+            //                    { maxHeight: 220 }
+            //                );
+            //            }
 
-            if (!window.isIEFail) {
-                tempImage = loadImage(
-                    data.files[0],
-                    function (img) {
-                        if (img.type === "error") {
-                            //log('Error loading image', img);
-                        } else {
-                            self.filesAdded++;
-                            mediaResourceItemView.showTempImageMedia(img);
-                            self._showMediaResourceItemView(self, mediaResourceItemView, $(img).width(), self.filesAdded === data.originalFiles.length);
-                        }
-                    },
-                    { maxHeight: 220 }
-                );
-            }
-
-            if (!tempImage) {
-                $(mediaResourceItemView.el).width(280);
-                this.filesAdded++;
-                this._showMediaResourceItemView(this, mediaResourceItemView, 280, this.filesAdded === data.originalFiles.length);
-            }
+            //            if (!tempImage) {
+            //                $(mediaResourceItemView.el).width(280);
+            //                this.filesAdded++;
+            //                this._showMediaResourceItemView(this, mediaResourceItemView, 280, this.filesAdded === data.originalFiles.length);
+            //            }
 
             data.submit();
         },
 
-        _showEmbeddedVideo: function (e) {
-            e.preventDefault();
-            $('body').append('<div id="modal-dialog" class="make-invisible"></div>');
-            var videoForm = new VideoForm({ el: $('#modal-dialog'), model: new MediaResource() });
-            videoForm.on('videouploaded', this._videoUploadAdd, this);
-            videoForm.render();
+        _onVideoUploadAdd: function (videoId, videoProviderName) {
+            this._updateProgressCount(1);
+            var mediaResource = new MediaResource({ Key: app.generateGuid(), VideoId: videoId, VideoProviderName: videoProviderName, MediaType: 'video', Usage: 'observation' });
+            this.model.addMediaResource(mediaResource);
+            mediaResource.save();
         },
 
-        // once we have a previewable video from the host..
-        _videoUploadAdd: function (data, preview) { // data in this case is a MediaResource
-            this.$el.find('.upload-progress').show();
-            log('editMediaView:_onVideoUploadAdd');
-            this.currentUploadKey = app.generateGuid();
-            data.set('Key', this.currentUploadKey);
-            this.model.addMediaResource(data);
+        _updateProgressCount: function (value) {
+            this.progressCount += value;
+            if (this.progressCount > 0) {
+                this.$el.find('.upload-status .progress > div').text('Processing ' + this.progressCount + ' file' + (this.progressCount > 1 ? 's' : ''));
+                this.$el.find('.upload-status .progress').show();
+            }
+            else {
+                this.$el.find('.upload-status .progress').hide();
+            }
+        },
 
+        _updateUploadFailure: function (reason) {
+            this._updateProgressCount(-1);
+            this.errorCount++;
+            this.$el.find('.upload-status .message').text(this.errorCount + ' file' + (this.errorCount > 1 ? 's' : '') + ' failed').show();
+        },
 
-            var mediaResourceItemView = new MediaResourceItemView({ model: data });
+        _showMediaResourceItemView: function (mediaResource) {
+            var mediaResourceItemView = new MediaResourceItemView({ model: mediaResource });
             mediaResourceItemView.on('mediaresourceview:remove', this._onMediaResourceViewRemove);
             this.mediaResourceItemViews.push(mediaResourceItemView);
-            this.$el.find('.media-resource-items').append(mediaResourceItemView.render().el);
 
-            this.filesAdded++;
-            mediaResourceItemView.showVideoMedia(preview);
-            this._showMediaResourceItemView(this, mediaResourceItemView, 280, true);
+            var that = this;
+            this.$el.find('#media-resource-items')
+                .queue(function (next) {
+                    var $mediaResourceItems = that.$el.find('#media-resource-items');
 
-            data.save();
-        },
+                    // Add the new view
+                    $mediaResourceItems.append(mediaResourceItemView.render().el);
 
-        _showMediaResourceItemView: function (self, mediaResourceItemView, imageWidth, beginAnimation) {
-            log('ediMediaView:_showMediaResourceItemView');
-            self.$el.find('#media-resource-items')
-                .queue('mediaQueue', function (next) {
-
-                    var itemCount = self.$el.find('#media-resource-items > div').length;
-                    self.$el.find('#media-resource-items').append(mediaResourceItemView.render().el);
-
-                    if (self.$el.find('#media-resource-items').innerWidth() + self.$el.find('#media-resource-items').scrollLeft() === self.$el.find('#media-resource-items').get(0).scrollWidth) {
+                    if ($mediaResourceItems.innerWidth() + $mediaResourceItems.scrollLeft() === $mediaResourceItems.get(0).scrollWidth) {
                         // Don't do any animation
                         next();
                     }
                     else {
-                        var x = self.$el.find('#media-resource-items').get(0).scrollWidth - (self.$el.find('#media-resource-items').innerWidth() + self.$el.find('#media-resource-items').scrollLeft());
+                        var scrollAmount = ($mediaResourceItems.get(0).scrollWidth - ($mediaResourceItems.innerWidth() + $mediaResourceItems.scrollLeft())) + $mediaResourceItems.scrollLeft();
                         // Make space for the new item
-                        $('#media-resource-items').animate({ scrollLeft: '+=' + x.toString() }, 500, 'swing', next);
+                        $mediaResourceItems.animate(
+                            { scrollLeft: scrollAmount },
+                            {
+                                duration: 100,
+                                //easing: 'swing',
+                                queue: false,
+                                complete: next
+                            });
+
                     }
                 })
-                .queue('mediaQueue', function (next) {
+                .queue(function (next) {
+                    // Slide the view down from the top of the div
                     $(mediaResourceItemView.el)
                         .animate(
-                        { top: '+=250px' },
+                        { top: '+=250' },
                         {
                             duration: 800,
-                            easing: 'swing',
-                            queue: false,
+                            //easing: 'swing',
                             complete: next
                         });
                 })
-                .queue('mediaQueue', function (next) {
+                .queue(function (next) {
+                    // Remove absolute positioning
                     $(mediaResourceItemView.el).css({ position: 'relative', top: '' });
-                    $('#media-resource-items').animate({ scrollLeft: 10000 }, 1);
+                    that._updateProgressCount(-1);
                     next();
                 });
-
-            if (beginAnimation) {
-                log('beginnning animation');
-                self.filesAdded = 0;
-                self.$el.find('#media-resource-items').dequeue('mediaQueue');
-
-                this.$el.find('.upload-progress').hide();
-            }
         },
 
         _onMediaResourceViewRemove: function (model, view) {
-            log('ediMediaView:_onMediaResourceViewRemove');
-            //            var addToRemoveList = false;
-            //            if (app.get('newObservation').mediaResources.find(function (mr) { return mr.id == this.model.id; }) != null) {
-            //                addToRemoveList = true;
-            //            }
-            //            app.get('newObservation').addMediaResources.remove(this.model.id);
-            //            app.get('newObservation').mediaResources.remove(this.model.id);
-            //            if (addToRemoveList) {
-            //                app.get('newObservation').removeMediaResources.add(this.model);
-            //            }
             this.model.removeMediaResource(model.id);
             view.remove();
         },
 
-        _onSubmitImageUpload: function (e, data) {
-            log('ediMediaView:_onSubmitImageUpload');
-            data.formData = { Key: this.currentUploadKey, OriginalFileName: data.files[0].name, MediaType: 'image', Usage: 'observation' };
-            if (window.isIEFail) {
-                data.formData.ie = true;
-            }
-        },
-
-        _onImageUploadDone: function (data) {
-            log('ediMediaView:_onImageUploadDone', this.model);
+        _onMediaResourceUploadSuccess: function (data) {
+            log('editMediaView:_onMediaResourceUploadSuccess', data);
             var mediaResource = this.model.mediaResources.find(function (item) {
-                return item.get('Key') == data.Key;
+                return item.get('Key') === data.Key;
             });
             mediaResource.set(data);
+            this._showMediaResourceItemView(mediaResource);
         },
 
-        // when we get an uploaded video back from the server, update the id of the mediaresource
-        _onVideoUploadDone: function (data) {
-            log('ediMediaView:_onVideoUploadDone', data);
+        _onMediaResourceUploadFailure: function (key, reason) {
+            log('editMediaView:_onMediaResourceUploadFailure', key, reason);
+
             var mediaResource = this.model.mediaResources.find(function (item) {
-                return item.get('Key') == data.Key;
+                return item.get('Key') === key;
             });
-            log('mediaResource found: ', mediaResource);
-            mediaResource.set(data);
-            log('Video Upload set model to: ', data);
+            this.model.mediaResources.remove(mediaResource);
+            this._updateUploadFailure(reason);
         }
     });
 
@@ -25922,9 +26453,10 @@ function ($, _, Backbone, app, ich, EditMapView, EditMediaView) {
             'change input#IsIdentificationRequired': '_isIdentificationRequiredChanged',
             'change input#AnonymiseLocation': '_anonymiseLocationChanged',
             'change #projects-field input:checkbox': '_projectsChanged',
-            'change #category-field input:checkbox': '_categoryChanged',
-            'click #media-resource-import-button': '_showImportMedia'
+            'change #category-field input:checkbox': '_categoryChanged'
         },
+
+        dateUpdated: false, // When we derive the very first media, we extract the date and update the ObservedOn field. No further updates are allowed.
 
         initialize: function (options) {
             this.categories = options.categories;
@@ -25941,9 +26473,14 @@ function ($, _, Backbone, app, ich, EditMapView, EditMediaView) {
         },
 
         onMediaResourceFilesChanged: function (mediaResource) {
-            var dateTime = mediaResource.get('Metadata').DateTaken;
-            this.model.set('ObservedOn', dateTime);
-            this.$el.find('#ObservedOn').val(dateTime);
+            if (!this.dateUpdated) {
+                var dateTaken = mediaResource.get('Metadata').DateTaken;
+                if (dateTaken) {
+                    this.dateUpdated = true;
+                    this.model.set('ObservedOn', dateTaken);
+                    this.$el.find('#ObservedOn').val(dateTaken);
+                }
+            }
         },
 
         onShow: function () {
@@ -25970,7 +26507,7 @@ function ($, _, Backbone, app, ich, EditMapView, EditMediaView) {
                 selectAll: false,
                 singleSelect: true,
                 noOptionsText: 'No Categories',
-                noneSelected: '<span>Select Category</span>',
+                noneSelected: '<span class="default-option">Select Category</span>',
                 oneOrMoreSelected: function (selectedOptions) {
                     var $selectedHtml = $('<span />');
                     _.each(selectedOptions, function (option) {
@@ -25991,7 +26528,7 @@ function ($, _, Backbone, app, ich, EditMapView, EditMediaView) {
                 selectAll: false,
                 messageText: 'You can select more than one project',
                 noOptionsText: 'No Projects',
-                noneSelected: '<span>Select Projects</span>',
+                noneSelected: '<span class="default-option">Select Projects</span>',
                 renderOption: function (id, option) {
                     var html = '<label><input style="display:none;" type="checkbox" name="' + id + '[]" value="' + option.value + '"';
                     if (option.selected) {
@@ -25999,22 +26536,18 @@ function ($, _, Backbone, app, ich, EditMapView, EditMediaView) {
                     }
                     var project = app.authenticatedUser.projects.get(option.value);
 
-                    html += ' /><img src="' + project.get('Avatar').Files.ThumbnailMedium.RelativeUri + '" alt="" />' + project.get('Name') + '</label>';
+                    html += ' /><img src="' + project.get('Avatar').Image.ThumbnailMedium.RelativeUri + '" alt="" />' + project.get('Name') + '</label>';
                     return html;
                 },
                 oneOrMoreSelected: function (selectedOptions) {
                     var $selectedHtml = $('<div />');
                     _.each(selectedOptions, function (option) {
                         var project = app.authenticatedUser.projects.get(option.value);
-                        $selectedHtml.append('<span class="selected-project"><img src="' + project.get('Avatar').Files.ThumbnailMedium.RelativeUri + '" alt="" />' + option.text + '</span> ');
+                        $selectedHtml.append('<span class="selected-project"><img src="' + project.get('Avatar').Image.ThumbnailMedium.RelativeUri + '" alt="" />' + option.text + '</span> ');
                     });
                     return $selectedHtml.children();
                 }
             });
-        },
-
-        _showImportMedia: function () {
-            alert('Coming soon');
         },
 
         _contentChanged: function (e) {
@@ -26025,6 +26558,10 @@ function ($, _, Backbone, app, ich, EditMapView, EditMediaView) {
 
             if (target.attr('id') === 'Address') {
                 this._latLongChanged(e);
+            }
+
+            if (target.attr('id') === 'ObservedOn') {
+                this.dateUpdated = true;
             }
         },
 
@@ -26072,16 +26609,16 @@ function ($, _, Backbone, app, ich, EditMapView, EditMediaView) {
 
         _cancel: function () {
             app.showPreviousContentView();
-            //this.trigger('formClosed', this);
         },
 
         _save: function () {
-            log('observationFormLayoutView.save');
+            if (this.media.currentView.progressCount > 0) {
+                return;
+            }
+
             this.model._setMedia();
             this.model.save();
             app.showPreviousContentView();
-            //app.appRouter.navigate(app.stream.get('Uri'), { trigger: false });
-            //this.trigger('formClosed', this);
         }
     });
 
@@ -26095,12 +26632,382 @@ function ($, _, Backbone, app, ich, EditMapView, EditMediaView) {
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
+// Comment
+// -------
+
+define('models/comment',['jquery', 'underscore', 'backbone'],
+function ($, _, Backbone) {
+    var Comment = Backbone.Model.extend({
+        defaults: {
+            Message: '',
+            ContributionId: null,
+            ParentCommentId: null,
+            IsNested: false,
+            Comments: []
+        },
+
+        idAttribute: 'Id',
+
+        urlRoot: '/comments',
+
+        toJSON: function () {
+            return {
+                Subject: this.get('Subject'),
+                Message: this.get('Message'),
+                ContributionId: this.get('ContributionId'),
+                ParentCommentId: this.get('ParentCommentId'),
+                IsNested: this.get('IsNested')
+                //Comments: this.get('Comment').Comments.toJSON()
+            };
+        },
+
+        // keep recursing through Comments collection until comment is found to add to
+        addNestedComment: function (comment, commentIdTokens) {
+            log('comment.addNestedComment', comment, commentIdTokens);
+            // find the comment in Comments to pass comment down to
+            if (commentIdTokens.length > 1) 
+            {
+                // pop the next id off the array, find the comment at that index (minus 1 as naming starts at 1)
+                var index = commentIdTokens.pop();
+                var commentToAddTo = this.get('Comments')[index - 1];
+                commentToAddTo.addNestedComment(comment);
+            }
+            else 
+            {
+                // we are adding the comment to this comments collection
+                Comments.add(comment);
+            }
+        }
+
+    });
+
+    return Comment;
+
+});
+/// <reference path="../../libs/log.js" />
+/// <reference path="../../libs/require/require.js" />
+/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
+/// <reference path="../../libs/underscore/underscore.js" />
+/// <reference path="../../libs/backbone/backbone.js" />
+/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
+
+// CommentCollection
+// -----------------
+
+define('collections/commentcollection',['jquery', 'underscore', 'backbone', 'models/comment'],
+function ($, _, Backbone, Comment) {
+    var CommentCollection = Backbone.Collection.extend({
+
+        model: Comment,
+
+        url: '/comments',
+
+        initialize: function () {
+            _.extend(this, Backbone.Events);
+        },
+
+        // find the actual comment within the collection, possibly with nested comments..
+        // this is done by taking the id of the comment, and finding it's parent
+        addComment: function (comment) {
+            log('commentCollection.addComment', comment);
+            if (comment.IsNested) {
+                var commentIdTokens = comment.Id.split('.').reverse();
+                var commentToAddTo = this.at(commentIdTokens.pop() - 1);
+                commentToAddTo.AddNestedComment(comment, commentIdTokens);
+            }
+            else {
+                this.add(comment);
+            }
+        }
+    });
+
+    return CommentCollection;
+});
+/// <reference path="../../libs/log.js" />
+/// <reference path="../../libs/require/require.js" />
+/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
+/// <reference path="../../libs/underscore/underscore.js" />
+/// <reference path="../../libs/backbone/backbone.js" />
+/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
+
+// CommentFormView
+// ---------------
+
+define('views/commentformview',['jquery', 'underscore', 'backbone', 'app', 'ich'],
+function ($, _, Backbone, app, ich) {
+    var CommentFormView = Backbone.Marionette.ItemView.extend({
+
+        id: 'comment-form',
+
+        template: 'CommentForm',
+
+        events: {
+            'click .cancel-add-comment-button': '_cancel',
+            'click .save-comment-button': '_save',
+            'change .add-comment-text': '_onCommentChanged'
+        },
+
+        serializeData: function () {
+            return {
+                Model: this.model.toJSON()
+            };
+        },
+
+        initialize: function (options) {
+
+        },
+
+        onRender: function () {
+            
+        },
+
+        _onCommentChanged: function () {
+            this.model.set('Message', $('.add-comment-text').val());
+        },
+
+        _cancel: function () {
+            this.remove();
+        },
+
+        _save: function () {
+            this.model.save();
+        }
+    });
+
+    return CommentFormView;
+});
+/// <reference path="../../libs/log.js" />
+/// <reference path="../../libs/require/require.js" />
+/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
+/// <reference path="../../libs/underscore/underscore.js" />
+/// <reference path="../../libs/backbone/backbone.js" />
+/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
+
+// OrganisationItemView
+// --------------------
+
+// Shows an individual project item
+define('views/organisationitemview',['jquery', 'underscore', 'backbone', 'app'], 
+function ($, _, Backbone, app) 
+{
+    var OrganisationItemView = Backbone.Marionette.ItemView.extend({
+
+        tagName: 'li',
+
+        className: 'explore-organisation-item',
+
+        template: 'OrganisationItem',
+
+        events: {
+            'click .view-organisation-button': 'viewOrganisation'
+        },
+
+        viewOrganisation: function (e) {
+            e.preventDefault();
+            app.vent.trigger('viewOrganisation:', this.model);
+        }
+    });
+
+    return OrganisationItemView;
+});
+/// <reference path="../../libs/log.js" />
+/// <reference path="../../libs/require/require.js" />
+/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
+/// <reference path="../../libs/underscore/underscore.js" />
+/// <reference path="../../libs/backbone/backbone.js" />
+/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
+
+// CommentItemView
+// ---------------
+
+// Shows an individual project item
+define('views/commentcompositeview',['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/commentformview', 'models/comment'],
+function ($, _, Backbone, app, ich, CommentFormView, Comment) {
+    var CommentCompositeView = Backbone.Marionette.CompositeView.extend({
+
+        tagName: 'li',
+
+        className: 'comment-item',
+
+        template: 'CommentItem',
+
+        itemView: CommentCompositeView,
+
+        events: {
+            'click .reply-button': 'addReply',
+            'click .save-reply-button': 'saveReply',
+            'click .cancel-reply-button': 'cancelReply'
+        },
+
+        initialize: function (options) {
+            //this.Comments = options.Comment.Comments;
+        },
+
+        serializeData: function () {
+            return this.model.toJSON();
+        },
+
+        onRender: function () {
+            log('commentCompositeView.onRender');
+            this.$el.find('.reply').append(ich.ReplyForm());
+        },
+
+        addReply: function (e) {
+            e.preventDefault();
+            var model = new Comment({ ContributionId: this.model.get('ContributionId'), ParentCommentId: this.model.id, IsNested: true });
+            this.$el.find('.reply').empty().append(ich.PostReplyForm());
+        },
+
+        saveReply: function (e) {
+            var model = new Comment({
+                ContributionId: this.model.get('ContributionId'),
+                ParentCommentId: this.model.id,
+                IsNested: true,
+                Message: this.$el.find('.add-reply-text').val()
+            });
+
+            model.save();
+        },
+
+        cancelReply: function (e) {
+            this.$el.find('.reply').empty().append(ich.ReplyForm());
+        }
+    });
+
+    return CommentCompositeView;
+});
+/// <reference path="../../libs/log.js" />
+/// <reference path="../../libs/require/require.js" />
+/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
+/// <reference path="../../libs/underscore/underscore.js" />
+/// <reference path="../../libs/backbone/backbone.js" />
+/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
+
+// CommentCollectionView
+// ---------------------
+
+// Shows Explore organisation items
+define('views/commentcollectionview',['jquery','underscore','backbone','app','ich','views/organisationitemview', 'views/commentcompositeview'],
+function ($, _, Backbone, app, ich, OrganisationItemView, CommentCompositeView) 
+{
+    var CommentCollectionView = Backbone.Marionette.CollectionView.extend({
+
+        tagName: 'ul',
+
+        className: 'comments',
+
+        itemView: CommentCompositeView
+
+    });
+
+    return CommentCollectionView;
+});
+/// <reference path="../../libs/log.js" />
+/// <reference path="../../libs/require/require.js" />
+/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
+/// <reference path="../../libs/underscore/underscore.js" />
+/// <reference path="../../libs/backbone/backbone.js" />
+/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
+
+// DiscussionLayoutView
+// --------------------
+
+define('views/discussionlayoutview',['jquery', 'underscore', 'backbone', 'app', 'collections/commentcollection', 'models/comment', 'views/commentformview', 'views/commentcollectionview'],
+function ($, _, Backbone, app, CommentCollection, Comment, CommentFormView, CommentCollectionView) {
+    var DiscussionLayoutView = Backbone.Marionette.Layout.extend({
+
+        className: 'discussion',
+
+        template: 'Discussion',
+
+        regions: {
+            comments: '#comments',
+            addcomment: '#addcomment'
+        },
+
+        events: {
+            'click .add-comment-button': '_addComment',
+            'commentcancelled:': '_addNewCommentButton'
+        },
+
+        serializeData: function () {
+            return {
+                Model: {
+                    Comments: this.Comments.toJSON(),
+                    ContributionId: this.ContributionId
+                }
+            };
+        },
+
+        // pass these parameters from the host 
+        initialize: function (options) {
+            log('discussionLayoutView.initialize');
+            _.bindAll(this, 'onRender', 'commentActivityReceived');
+            this.ContributionId = options.ContributionId;
+            this.Comments = new CommentCollection(options.Comments);
+        },
+
+        onRender: function () {
+            log('discussionLayoutView.onRender');
+            var commentCollectionView = new CommentCollectionView({ collection: this.Comments });
+            this.comments.show(commentCollectionView);
+            commentCollectionView.render();
+
+            app.vent.on('newactivity:postcommentadded:' + this.ContributionId + ' newactivity:observationcommentadded:' + this.ContributionId, this.commentActivityReceived, this);
+        },
+
+        onShow: function () {
+            log('discussionLayoutView.onShow');
+        },
+
+        showBootstrappedDetails: function () {
+            log('discussionLayoutView.showBootstrappedDetails');
+            this._showDetails();
+        },
+
+        _showDetails: function () {
+        },
+
+        _addComment: function (e) {
+            e.preventDefault();
+            var newComment = new Comment({ ContributionId: this.ContributionId, ParentCommentId: null, IsNested: false });
+            var commentFormView = new CommentFormView({ el: $('#addcomment'), model: newComment });
+            commentFormView.render();
+        },
+
+        _addNewCommentButton: function () {
+            this.$el.find('#addcomment').append('<input class="add-comment-button" type="button" value="add-new-comment">');
+        },
+
+        commentActivityReceived: function (commentActivity) {
+            if (commentActivity.get('Type') == "postcommentadded") {
+                var comment = new Comment(commentActivity.get('PostCommentAdded').Comment);
+                this.Comments.addComment(comment);
+            } else if (commentActivity.get('Type') == "observationcommentadded") {
+                var comment = new Comment(commentActivity.get('ObservationCommentAdded').Comment);
+                this.Comments.addComment(comment);
+            }
+        }
+
+    });
+
+    return DiscussionLayoutView;
+
+});
+/// <reference path="../../libs/log.js" />
+/// <reference path="../../libs/require/require.js" />
+/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
+/// <reference path="../../libs/underscore/underscore.js" />
+/// <reference path="../../libs/backbone/backbone.js" />
+/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
+
 // ObservationLayoutView
 // ---------------------
 
 // Layout of an observation in both edit and view mode
-define('views/observationlayoutview',['jquery', 'underscore', 'backbone', 'app', 'views/observationdetailsview', 'views/observationformlayoutview'], function ($, _, Backbone, app, ObservationDetailsView, ObservationFormLayoutView) {
-
+define('views/observationlayoutview',['jquery', 'underscore', 'backbone', 'app', 'views/observationdetailsview', 'views/observationformlayoutview', 'views/discussionlayoutview'],
+function ($, _, Backbone, app, ObservationDetailsView, ObservationFormLayoutView, DiscussionLayoutView) 
+{
     var ObservationLayoutView = Backbone.Marionette.Layout.extend({
         className: 'observation',
 
@@ -26109,7 +27016,7 @@ define('views/observationlayoutview',['jquery', 'underscore', 'backbone', 'app',
         regions: {
             main: '.main',
             notes: '.notes',
-            comments: '.comments'
+            comments: '.comments-details'
         },
 
         showBootstrappedDetails: function () {
@@ -26126,6 +27033,9 @@ define('views/observationlayoutview',['jquery', 'underscore', 'backbone', 'app',
 
             var observationDetailsView = new ObservationDetailsView(options);
             this.main[app.getShowViewMethodName('observations')](observationDetailsView);
+
+            var discussionLayoutView = new DiscussionLayoutView({ Comments: this.model.get('Comments'), ContributionId: this.model.id });
+            this.comments[app.getShowViewMethodName('observations')](discussionLayoutView);
 
             if (app.isPrerendering('observations')) {
                 observationDetailsView.showBootstrappedDetails();
@@ -26199,7 +27109,8 @@ function ($, _, Backbone, ProjectCollection, MediaResourceCollection) {
             AnonymiseLocation: false,
             Projects: [],
             IsIdentificationRequired: false,
-            Media: []
+            Media: [],
+            Comments: []
         },
 
         urlRoot: '/observations',
@@ -26221,7 +27132,8 @@ function ($, _, Backbone, ProjectCollection, MediaResourceCollection) {
                 AnonymiseLocation: this.get('AnonymiseLocation'),
                 Projects: this.get('Projects'),
                 IsIdentificationRequired: this.get('IsIdentificationRequired'),
-                Media: this.get('Media')
+                Media: this.get('Media'),
+                Comments: this.get('Comments')
             };
         },
 
@@ -26253,13 +27165,10 @@ function ($, _, Backbone, ProjectCollection, MediaResourceCollection) {
         },
 
         _setMedia: function () {
-            log('observation._SetMedia');
             var media = this.mediaResources.map(function (mediaResource) {
-                log("the mediaresource being mapped: ", mediaResource);
-                return { MediaResourceId: mediaResource.id, Description: "Description", Licence: 'licenceX' }
+                return { MediaResourceId: mediaResource.id, Description: "description goes here...", Licence: 'licence goes here...' };
             });
             this.set('Media', media);
-            log('The collection of media: ', media);
         }
     });
 
@@ -26276,10 +27185,11 @@ function ($, _, Backbone, ProjectCollection, MediaResourceCollection) {
 
 // ObservationController & ObservationRouter
 // -----------------------------------------
-define('controllers/observationcontroller',['jquery', 'underscore', 'backbone', 'app', 'views/observationlayoutview', 'models/observation'],
+define('controllers/observationcontroller',['jquery', 'underscore', 'backbone', 'app', 'views/observationlayoutview', 'models/observation', 'queryparams'],
 function ($, _, Backbone, app, ObservationLayoutView, Observation) {
     var ObservationRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
+            'observations/addtoproject': 'showProjectObservationForm',
             'observations/create': 'showObservationForm',
             'observations/:id/update': 'showObservationForm',
             'observations/:id': 'showObservationDetails'
@@ -26319,6 +27229,21 @@ function ($, _, Backbone, app, ObservationLayoutView, Observation) {
         return deferred.promise();
     };
 
+    var getProjectObservationModel = function (id) {
+        var url = '/observations/create?id=' + id;
+        var deferred = new $.Deferred();
+        if (app.isPrerendering('observations')) {
+            deferred.resolve(app.prerenderedView.data);
+        } else {
+            $.ajax({
+                url: url
+            }).done(function (data) {
+                deferred.resolve(data.Model);
+            });
+        }
+        return deferred.promise();
+    };
+
     // Public API
     // ----------
 
@@ -26329,6 +27254,7 @@ function ($, _, Backbone, app, ObservationLayoutView, Observation) {
                 app.updateTitle(observation.get('Title'));
                 var observationLayoutView = showObservationLayoutView(observation);
                 observationLayoutView.showObservationDetails(observation);
+                //observationLayoutView.showObservationDiscussion(observation);
                 app.setPrerenderComplete();
             });
     };
@@ -26342,7 +27268,24 @@ function ($, _, Backbone, app, ObservationLayoutView, Observation) {
                 } else {
                     app.updateTitle('New Observation');
                 }
-                
+
+                var observationLayoutView = showObservationLayoutView(observation);
+                observationLayoutView.showObservationForm(observation, model.Categories);
+                app.setPrerenderComplete();
+            });
+    };
+
+    ObservationController.showProjectObservationForm = function (params) {
+        $.when(getProjectObservationModel(params.id))
+            .done(function (model) {
+                var observation = new Observation(model.Observation);
+                if (observation.id) {
+                    app.updateTitle('Edit Observation');
+                } else {
+                    app.updateTitle('New Observation');
+                }
+                //observation.ProjectId = params.id;
+
                 var observationLayoutView = showObservationLayoutView(observation);
                 observationLayoutView.showObservationForm(observation, model.Categories);
                 app.setPrerenderComplete();
@@ -26350,7 +27293,7 @@ function ($, _, Backbone, app, ObservationLayoutView, Observation) {
     };
 
     ObservationController.mediaResourceUploaded = function (e, mediaResource) {
-        app.vent.trigger('mediaResourceUploaded:', mediaResource );
+        app.vent.trigger('mediaResourceUploaded:', mediaResource);
     };
 
     // Event Handlers
@@ -26359,7 +27302,7 @@ function ($, _, Backbone, app, ObservationLayoutView, Observation) {
     //    app.vent.on('observation:show', function (id) {
     //        ContributionController.showObservationForm(id);
     //    });
-    
+
 
     app.addInitializer(function () {
         this.observationRouter = new ObservationRouter({
@@ -26501,40 +27444,6 @@ function ($, _, Backbone, app, ich, loadImage, EditAvatarView)
     });
 
     return OrganisationFormLayoutView;
-});
-/// <reference path="../../libs/log.js" />
-/// <reference path="../../libs/require/require.js" />
-/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
-/// <reference path="../../libs/underscore/underscore.js" />
-/// <reference path="../../libs/backbone/backbone.js" />
-/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
-
-// OrganisationItemView
-// --------------------
-
-// Shows an individual project item
-define('views/organisationitemview',['jquery', 'underscore', 'backbone', 'app'], 
-function ($, _, Backbone, app) 
-{
-    var OrganisationItemView = Backbone.Marionette.ItemView.extend({
-
-        tagName: 'li',
-
-        className: 'explore-organisation-item',
-
-        template: 'OrganisationItem',
-
-        events: {
-            'click .view-organisation-button': 'viewOrganisation'
-        },
-
-        viewOrganisation: function (e) {
-            e.preventDefault();
-            app.vent.trigger('viewOrganisation:', this.model);
-        }
-    });
-
-    return OrganisationItemView;
 });
 /// <reference path="../../libs/log.js" />
 /// <reference path="../../libs/require/require.js" />
@@ -26711,6 +27620,46 @@ function ($, _, Backbone, app, OrganisationLayoutView, OrganisationFormLayoutVie
 /// <reference path="../../libs/log.js" />
 /// <reference path="../../libs/require/require.js" />
 /// <reference path="../../libs/jquery/jquery-1.7.2.js" />
+/// <reference path="../../libs/underscore/underscore.js" />
+/// <reference path="../../libs/backbone/backbone.js" />
+/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
+
+// ObservationDetailsView
+// ----------------------
+
+define('views/postdetailsview',['jquery', 'underscore', 'backbone', 'app'],
+function ($, _, Backbone, app) 
+{
+    var PostDetailsView = Backbone.Marionette.ItemView.extend({
+        className: 'post-details',
+
+        template: 'PostDetails',
+
+        serializeData: function () {
+            var json = { Model: { Post: this.model.toJSON() } };
+            //json.Model.ShowThumbnails = this.model.get('Media').length > 1 ? true : false;
+            return json;
+        },
+
+        onShow: function () {
+            this._showDetails();
+        },
+
+        showBootstrappedDetails: function () {
+            this._showDetails();
+        },
+
+        _showDetails: function () {
+            
+        }
+    });
+
+    return PostDetailsView;
+
+});
+/// <reference path="../../libs/log.js" />
+/// <reference path="../../libs/require/require.js" />
+/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
 /// <reference path="../../libs/jquery/jquery.fileupload.js" />
 /// <reference path="../../libs/jquery/load-image.js" />
 /// <reference path="../../libs/underscore/underscore.js" />
@@ -26757,6 +27706,7 @@ function ($, _, Backbone, app, ich)
         showBootstrappedDetails: function () {
             log('postFormLayoutView:showBootstrappedDetails');
             this.initializeRegions();
+            this.$el = $('#content .post-form');
             this._showDetails();
         },
 
@@ -26773,14 +27723,102 @@ function ($, _, Backbone, app, ich)
         },
 
         _cancel: function () {
+            app.showPreviousContentView();
         },
 
         _save: function () {
             this.model.save();
+            app.showPreviousContentView();
         }
     });
 
     return PostFormLayoutView;
+});
+/// <reference path="../../libs/log.js" />
+/// <reference path="../../libs/require/require.js" />
+/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
+/// <reference path="../../libs/underscore/underscore.js" />
+/// <reference path="../../libs/backbone/backbone.js" />
+/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
+
+// ObservationLayoutView
+// ---------------------
+
+// Layout of an observation in both edit and view mode
+define('views/postlayoutview',['jquery', 'underscore', 'backbone', 'app', 'views/postdetailsview', 'views/postformlayoutview', 'views/discussionlayoutview'],
+function ($, _, Backbone, app, PostDetailsView, PostFormLayoutView, DiscussionLayoutView) 
+{
+    var PostLayoutView = Backbone.Marionette.Layout.extend({
+        className: 'post',
+
+        template: 'Post',
+
+        regions: {
+            main: '.main',
+            notes: '.notes',
+            comments: '.comments-details'
+        },
+
+        events: {
+            
+        },
+
+        showBootstrappedDetails: function () {
+            this.initializeRegions();
+            this.$el = $('#content .post');
+        },
+
+        showPostDetails: function (post) {
+            var options = { model: post };
+
+            if (app.isPrerendering('posts')) {
+                options['el'] = '.post-details';
+            }
+
+            var postDetailsView = new PostDetailsView(options);
+            this.main[app.getShowViewMethodName('posts')](postDetailsView);
+
+            var discussionLayoutView = new DiscussionLayoutView({ Comments: post.get('Comments'), ContributionId: post.id });
+            this.comments[app.getShowViewMethodName('posts')](discussionLayoutView);
+
+            if (app.isPrerendering('posts')) {
+                postDetailsView.showBootstrappedDetails();
+            }
+        },
+
+        showPostDiscussion: function (post) {
+            var options = { comments: post.get('Comments'), contributionId: post.id };
+
+            if (app.isPrerendering('posts')) {
+                options['el'] = '.discussion';
+            }
+
+            var discussionLayoutView = new DiscussionLayoutView(options);
+            this.comments[app.getShowViewMethodName('posts')](discussionLayoutView);
+
+            if (app.isPrerendering('posts')) {
+                discussionLayoutView.showBootstrappedDetails();
+            }
+        },
+
+        showPostForm: function (post) {
+            var options = { model: post };
+
+            if (app.isPrerendering('posts')) {
+                options['el'] = '.post-form';
+            }
+
+            var postFormLayoutView = new PostFormLayoutView(options);
+            this.main[app.getShowViewMethodName('posts')](postFormLayoutView);
+
+            if (app.isPrerendering('posts')) {
+                postFormLayoutView.showBootstrappedDetails();
+            }
+        }
+    });
+
+    return PostLayoutView;
+
 });
 /// <reference path="../../libs/log.js" />
 /// <reference path="../../libs/require/require.js" />
@@ -26797,7 +27835,8 @@ define('models/post',['jquery', 'underscore', 'backbone'], function ($, _, Backb
     var Post = Backbone.Model.extend({
         defaults: {
             Subject: '',
-            Message: ''
+            Message: '',
+            GroupId: null
         },
 
         idAttribute: 'Id',
@@ -26807,7 +27846,8 @@ define('models/post',['jquery', 'underscore', 'backbone'], function ($, _, Backb
         toJSON: function () {
             return {
                 Subject: this.get('Subject'),
-                Message: this.get('Message')
+                Message: this.get('Message'),
+                GroupId: this.get('GroupId')
             };
         }
 
@@ -26825,17 +27865,26 @@ define('models/post',['jquery', 'underscore', 'backbone'], function ($, _, Backb
 
 // PostController & PostRouter
 // ---------------------------
-define('controllers/postcontroller',['jquery', 'underscore', 'backbone', 'app', 'views/postformlayoutview', 'models/post'],
-function ($, _, Backbone, app, PostFormLayoutView, Post) {
+define('controllers/postcontroller',['jquery', 'underscore', 'backbone', 'app', 'views/postlayoutview', 'models/post', 'queryparams'],
+function ($, _, Backbone, app, PostLayoutView, Post) {
     var PostRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
             'posts/create': 'showCreatePostForm',
-            'posts/create?id=:groupId': 'showCreatePostForm',
-            'posts/:id/update': 'showUpdatePostForm'
+            'posts/:id/update': 'showUpdatePostForm',
+            'posts/:id': 'showPostDetails'
         }
     });
 
     var PostController = {};
+
+    var showPostLayoutView = function (post) {
+        var postLayoutView = new PostLayoutView({ model: post });
+        app.showFormContentView(postLayoutView, 'posts');
+        if (app.isPrerendering('posts')) {
+            postLayoutView.showBootstrappedDetails();
+        }
+        return postLayoutView;
+    };
 
     var getModel = function (id) {
         var url = '/posts/create';
@@ -26855,8 +27904,34 @@ function ($, _, Backbone, app, PostFormLayoutView, Post) {
         return deferred.promise();
     };
 
+    var createModel = function (groupId) {
+        var url = '/posts/create?id=' + groupId;
+        var deferred = new $.Deferred();
+        if (app.isPrerendering('posts')) {
+            deferred.resolve(app.prerenderedView.data);
+        } else {
+            $.ajax({
+                url: url
+            }).done(function (data) {
+                deferred.resolve(data.Model);
+            });
+        }
+        return deferred.promise();
+    };
+
     // PostController Public API
     // ----------------------------
+
+    PostController.showPostDetails = function (id) {
+        $.when(getModel(id))
+            .done(function (model) {
+                var post = new Post(model.Post);
+                app.updateTitle(post.get('Subject'));
+                var postLayoutView = showPostLayoutView(post);
+                postLayoutView.showPostDetails(post);
+                app.setPrerenderComplete();
+            });
+    };
 
     // Show a post form
     PostController.showUpdatePostForm = function (id) {
@@ -26864,34 +27939,22 @@ function ($, _, Backbone, app, PostFormLayoutView, Post) {
         $.when(getModel(id))
             .done(function (model) {
                 var post = new Post(model.Post);
-                var postFormLayoutView = new PostFormLayoutView({ model: post });
-
-                app.content[app.getShowViewMethodName('posts')](postFormLayoutView);
-
-                if (app.isPrerendering('posts')) {
-                    postFormLayoutView.showBootstrappedDetails();
-                }
-
+                app.updateTitle('Edit Post');
+                var postLayoutView = showPostLayoutView(post);
+                postLayoutView.showPostForm(post);
                 app.setPrerenderComplete();
             });
     };
 
     // Show a post form
-        PostController.showCreatePostForm = function (groupId) {
-        log(project);
+    PostController.showCreatePostForm = function (params) {
         log('postController:showPostForm');
-        $.when(getModel())
+        $.when(createModel(params.id))
             .done(function (model) {
                 var post = new Post(model.Post);
-                post.set('GroupId', project.id);
-                var postFormLayoutView = new PostFormLayoutView({ model: post });
-
-                app.content[app.getShowViewMethodName('posts')](postFormLayoutView);
-
-                if (app.isPrerendering('posts')) {
-                    postFormLayoutView.showBootstrappedDetails();
-                }
-
+                app.updateTitle('New Post');
+                var postLayoutView = showPostLayoutView(post);
+                postLayoutView.showPostForm(post);
                 app.setPrerenderComplete();
             });
     };
@@ -28671,7 +29734,8 @@ function ($, _, Backbone, app, Project) {
         events: {
             'click .chat-menu-item': 'startChat',
             'click .sub-menu-button': 'showMenu',
-            //'click li#createnewpost': 'createPost',
+            'click li#createnewpost': 'createPost',
+            'click li#createnewobservation': 'createObservation',
             'click .sub-menu-button li': 'selectMenuItem'
         },
 
@@ -28681,22 +29745,16 @@ function ($, _, Backbone, app, Project) {
 
         onRender: function () {
             var that = this;
-            this.$el.find('#createnewpost a').on('click', function (e) {
-                e.preventDefault();
-                var location = e.target.attributes["href"]; //$(this).attr('href');
-                app.postRouter.navigate(location.nodeValue, { trigger: true });
-                //app.projectRouter.navigate($(this).attr('href'), { trigger: true });
-                //app.vent.trigger('home:show');
-                return false;
-            });
+
             $(this.el).children('a').on('click', function (e) {
                 e.preventDefault();
-                app.groupUserRouter.navigate($(this).attr('href'), { trigger: true });
+                var location = $(this).attr('href');
+                app.groupUserRouter.navigate(location, { trigger: true });
                 that.activityCount = 0;
                 that.$el.find('p span').remove();
                 return false;
             });
-            
+
             app.vent.on('newactivity:' + this.model.id + ':observationadded newactivity:' + this.model.id + ':postadded newactivity:' + this.model.id + ':observationnoteadded', this.onNewActivityReceived, this);
         },
 
@@ -28722,12 +29780,19 @@ function ($, _, Backbone, app, Project) {
             e.stopPropagation();
         },
 
-//        createPost: function (e) {
-//            e.preventDefault();
-//            var location = e.target.attributes["href"]; //$(this).attr('href');
-//            app.postRouter.navigate(location.nodeValue, { trigger: true });
-//            return false;
-//        },
+        createPost: function (e) {
+            e.preventDefault();
+            var location = e.target.attributes["href"]; //$(this).attr('href');
+            app.postRouter.navigate(location.nodeValue, { trigger: true });
+            return false;
+        },
+
+        createObservation: function (e) {
+            e.preventDefault();
+            var location = e.target.attributes["href"]; //$(this).attr('href');
+            app.observationRouter.navigate(location.nodeValue, { trigger: true });
+            return false;
+        },
 
         startChat: function (e) {
             e.preventDefault();
@@ -29282,7 +30347,7 @@ function ($, _, Backbone, app, UserItemView) {
 });
 define('hubs',['jquery', 'signalr'], function () {
 /*!
-* SignalR JavaScript Library v0.5.0
+* SignalR JavaScript Library v0.5.2
 * http://signalr.net/
 *
 * Copyright David Fowler and Damian Edwards 2012
@@ -29432,38 +30497,31 @@ define('hubs',['jquery', 'signalr'], function () {
 
     // Create hub signalR instance
     $.extend(signalR, {
-        userHub: {
+        chatHub: {
             _: {
-                hubName: 'UserHub',
-                ignoreMembers: ['registerUserClient', 'namespace', 'ignoreMembers', 'callbacks'],
+                hubName: 'ChatHub',
+                ignoreMembers: ['exitChat', 'getChat', 'joinChat', 'sendChatMessage', 'typing', 'namespace', 'ignoreMembers', 'callbacks'],
                 connection: function () { return signalR.hub; }
             },
 
-            registerUserClient: function (userId, callback) {
-                return serverCall(this, "RegisterUserClient", $.makeArray(arguments));
-            }
-        },
-        groupHub: {
-            _: {
-                hubName: 'GroupHub',
-                ignoreMembers: ['joinGroups', 'joinGroup', 'leaveGroup', 'disconnect', 'namespace', 'ignoreMembers', 'callbacks'],
-                connection: function () { return signalR.hub; }
+            getChat: function (chatId, callback) {
+                return serverCall(this, "GetChat", $.makeArray(arguments));
             },
 
-            joinGroups: function (userId, callback) {
-                return serverCall(this, "JoinGroups", $.makeArray(arguments));
+            joinChat: function (chatId, groupId, inviteeUserIds, callback) {
+                return serverCall(this, "JoinChat", $.makeArray(arguments));
             },
 
-            joinGroup: function (userId, groupId, callback) {
-                return serverCall(this, "JoinGroup", $.makeArray(arguments));
+            exitChat: function (chatId, callback) {
+                return serverCall(this, "ExitChat", $.makeArray(arguments));
             },
 
-            leaveGroup: function (userId, groupId, callback) {
-                return serverCall(this, "LeaveGroup", $.makeArray(arguments));
+            typing: function (chatId, isTyping, callback) {
+                return serverCall(this, "Typing", $.makeArray(arguments));
             },
 
-            disconnect: function (callback) {
-                return serverCall(this, "Disconnect", $.makeArray(arguments));
+            sendChatMessage: function (chatId, message, messageId, callback) {
+                return serverCall(this, "SendChatMessage", $.makeArray(arguments));
             }
         },
         debugHub: {
@@ -29477,31 +30535,38 @@ define('hubs',['jquery', 'signalr'], function () {
                 return serverCall(this, "RegisterWithDebugger", $.makeArray(arguments));
             }
         },
-        chatHub: {
+        groupHub: {
             _: {
-                hubName: 'ChatHub',
-                ignoreMembers: ['getChat', 'joinChat', 'exitChat', 'typing', 'sendChatMessage', 'namespace', 'ignoreMembers', 'callbacks'],
+                hubName: 'GroupHub',
+                ignoreMembers: ['disconnect', 'joinGroup', 'joinGroups', 'leaveGroup', 'namespace', 'ignoreMembers', 'callbacks'],
                 connection: function () { return signalR.hub; }
             },
 
-            getChat: function (chatId, callback) {
-                return serverCall(this, "GetChat", $.makeArray(arguments));
+            joinGroups: function (userId, callback) {
+                return serverCall(this, "JoinGroups", $.makeArray(arguments));
             },
 
-            joinChat: function (chatId, inviteeUserIds, groupId, callback) {
-                return serverCall(this, "JoinChat", $.makeArray(arguments));
+            joinGroup: function (groupId, userId, callback) {
+                return serverCall(this, "JoinGroup", $.makeArray(arguments));
             },
 
-            exitChat: function (chatId, callback) {
-                return serverCall(this, "ExitChat", $.makeArray(arguments));
+            leaveGroup: function (groupId, userId, callback) {
+                return serverCall(this, "LeaveGroup", $.makeArray(arguments));
             },
 
-            typing: function (chatId, isTyping, callback) {
-                return serverCall(this, "Typing", $.makeArray(arguments));
+            disconnect: function (callback) {
+                return serverCall(this, "Disconnect", $.makeArray(arguments));
+            }
+        },
+        userHub: {
+            _: {
+                hubName: 'UserHub',
+                ignoreMembers: ['registerUserClient', 'namespace', 'ignoreMembers', 'callbacks'],
+                connection: function () { return signalR.hub; }
             },
 
-            sendChatMessage: function (chatId, messageId, message, callback) {
-                return serverCall(this, "SendChatMessage", $.makeArray(arguments));
+            registerUserClient: function (userId, callback) {
+                return serverCall(this, "RegisterUserClient", $.makeArray(arguments));
             }
         }
     });
@@ -29560,6 +30625,7 @@ require.config({
         json2: '../libs/json/json2',
         underscore: '../libs/underscore/underscore', // AMD version from https://github.com/amdjs
         backbone: '../libs/backbone/backbone', // AMD version from https://github.com/amdjs,
+        queryparams: '../libs/backbone.queryparams/backbone.queryparams',
         marionette: '../libs/backbone.marionette/backbone.marionette',
         noext: '../libs/require/noext', //https://github.com/millermedeiros/requirejs-plugins
         async: '../libs/require/async', // Required by google loader
@@ -29575,10 +30641,9 @@ require.config({
         iframetransport: '../libs/jquery.fileupload/jquery.iframe-transport',
         signalr: '../libs/jquery.signalr/jquery.signalr',
         timeago: '../libs/jquery.timeago/jquery.timeago',
+        jsonp: '../libs/jquery.jsonp/jquery.jsonp',
         log: '../libs/log/log',
-        hubs: 'hubs'//,
-        //youtube: 'http://www.youtube.com/player_api',
-        //player: '../libs/youtube/player'
+        hubs: 'hubs'
     }
 });
 
@@ -29586,10 +30651,13 @@ require.config({
 require([
         'app',
         'bootstrap-data', // Get bootstrapped data from inline AMD module
-        'log',
-        'backbone',
-        'jquery',
         'ich',
+        'log',
+        'jquery',
+        'json2', 
+        'underscore',
+        'backbone',
+        'queryparams',
         'marionette',
         'noext!/templates', // Load templates from server
         'controllers/usercontroller',
@@ -29611,11 +30679,8 @@ require([
         'views/sidebarlayoutview',
         'views/notificationscompositeview',
         'views/onlineusercompositeview',
-        'views/chatcompositeview',
         'signalr',
-        'hubs'//,
-        //'youtube',
-        //'player'
+        'hubs'
     ],
     function (app, bootstrapData) {
         log('bootstrapped data', bootstrapData);
@@ -29625,44 +30690,3 @@ require([
         });
     });
 define("../main", function(){});
-
-/// <reference path="../../libs/log.js" />
-/// <reference path="../../libs/require/require.js" />
-/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
-/// <reference path="../../libs/underscore/underscore.js" />
-/// <reference path="../../libs/backbone/backbone.js" />
-/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
-
-// AccountController & AccountRouter
-// ---------------------------------
-
-define('controllers/accountController',['jquery', 'underscore', 'backbone', 'app'],
-function ($, _, Backbone, app, HomeLayoutView) {
-
-    var AccountRouter = Backbone.Marionette.AppRouter.extend({
-        appRoutes: {
-            'account/login': 'showLogin',
-            'account/register': 'showRegister'
-        }
-    });
-
-    var AccountController = {};
-
-    // Public API
-    // ----------
-
-    AccountController.showLogin = function () {
-    };
-
-    AccountController.showRegister = function () {
-    };
-
-    app.addInitializer(function () {
-        this.accountRouter = new AccountRouter({
-            controller: AccountController
-        });
-    });
-
-    return AccountController;
-
-});

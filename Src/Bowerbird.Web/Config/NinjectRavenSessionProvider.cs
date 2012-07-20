@@ -15,11 +15,8 @@
 */
 
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.VideoUtilities;
 using Raven.Client;
 using Ninject.Activation;
-using Ninject.Extensions.NamedScope;
-using Ninject.Extensions.ContextPreservation;
 using Bowerbird.Core.Config;
 
 namespace Bowerbird.Web.Config

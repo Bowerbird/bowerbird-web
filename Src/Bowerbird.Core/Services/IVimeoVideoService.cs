@@ -12,13 +12,9 @@
  
 */
 
-using Bowerbird.Core.Commands;
-using Bowerbird.Core.DomainModels;
-
 namespace Bowerbird.Core.Services
 {
-    public interface IVideoService
+    public interface IVimeoVideoService : IMediaService
     {
-        void Save(MediaResourceCreateCommand command, MediaResource mediaResource);
     }
 }

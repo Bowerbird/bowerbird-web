@@ -17,9 +17,9 @@ using System.Linq;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using NLog;
 using Raven.Client;
 using System.Threading;
-using Bowerbird.Core.VideoUtilities;
 using System.IO;
 using Bowerbird.Core.Factories;
 
@@ -28,6 +28,8 @@ namespace Bowerbird.Core.Config
     public class SetupSystem
     {
         #region Members
+
+        private Logger _logger = LogManager.GetLogger("SetupSystem");
 
         private readonly IDocumentSession _documentSession;
         private readonly ISystemStateManager _systemStateManager;
@@ -130,7 +132,9 @@ namespace Bowerbird.Core.Config
             }
             catch (Exception exception)
             {
-                throw new Exception("Could not setup system", exception);
+                _logger.ErrorException("Could not setup system", exception);
+
+                throw exception;
             }
         }
 

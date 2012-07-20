@@ -12,14 +12,11 @@
 
 using System.Web.Mvc;
 using Microsoft.Practices.ServiceLocation;
-using Newtonsoft.Json;
 using Bowerbird.Core.Config;
 using Bowerbird.Web.Builders;
-using Bowerbird.Web.Services;
 using Bowerbird.Web.ViewModels;
-using Bowerbird.Core.DomainModels;
 using System;
-using Bowerbird.Core.VideoUtilities;
+using Bowerbird.Core.Services;
 
 namespace Bowerbird.Web.Controllers
 {
@@ -56,7 +53,7 @@ namespace Bowerbird.Web.Controllers
                     var authenticatedUser = userViewModelBuilder.BuildAuthenticatedUser(userContext.GetAuthenticatedUserId());
 
                     ViewBag.AuthenticatedUser = authenticatedUser;
-                    ViewBag.BootstrappedJson = JsonConvert.SerializeObject(new
+                    ViewBag.BootstrappedJson = Raven.Imports.Newtonsoft.Json.JsonConvert.SerializeObject(new
                         {
                             AuthenticatedUser = authenticatedUser,
                             ViewBag.Model,
@@ -65,7 +62,7 @@ namespace Bowerbird.Web.Controllers
                 }
                 else
                 {
-                    ViewBag.BootstrappedJson = JsonConvert.SerializeObject(new
+                    ViewBag.BootstrappedJson = Raven.Imports.Newtonsoft.Json.JsonConvert.SerializeObject(new
                     {
                         ViewBag.Model,
                         ViewBag.PrerenderedView

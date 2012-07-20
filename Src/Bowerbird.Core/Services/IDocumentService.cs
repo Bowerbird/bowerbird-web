@@ -17,8 +17,7 @@ using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Core.Services
 {
-    public interface IDocumentService
+    public interface IDocumentService : IMediaService
     {
-        void Save(MediaResourceCreateCommand command, MediaResource mediaResource);
     }
 }

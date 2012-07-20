@@ -17,13 +17,11 @@ using System.Linq;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using NLog;
 using Raven.Client;
-using Bowerbird.Core.Config;
 using System.Threading;
 using Bowerbird.Core.Indexes;
 using Raven.Client.Linq;
-using Microsoft.Practices.ServiceLocation;
-using Bowerbird.Core.VideoUtilities;
 using Bowerbird.Core.Factories;
 
 namespace Bowerbird.Core.Config
@@ -31,6 +29,8 @@ namespace Bowerbird.Core.Config
     public class SetupTestData
     {
         #region Members
+
+        private Logger _logger = LogManager.GetLogger("SetupTestData");
 
         private readonly IDocumentSession _documentSession;
         private readonly ISystemStateManager _systemStateManager;
@@ -169,7 +169,9 @@ namespace Bowerbird.Core.Config
             }
             catch (Exception exception)
             {
-                throw new Exception("Could not setup test data", exception);
+                _logger.ErrorException("Could not setup test data", exception);
+
+                throw exception;
             }
         }
 

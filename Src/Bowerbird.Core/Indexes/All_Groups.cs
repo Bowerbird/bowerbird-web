@@ -14,12 +14,9 @@
 
 using System.Linq;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.DomainModels.DenormalisedReferences;
 using Raven.Client.Indexes;
 using Raven.Abstractions.Indexing;
-using Raven.Client.Linq;
 using System.Collections.Generic;
-using System.Collections;
 
 namespace Bowerbird.Core.Indexes
 {

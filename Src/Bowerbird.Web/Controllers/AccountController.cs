@@ -177,19 +177,12 @@ namespace Bowerbird.Web.Controllers
                         Roles = new[] { "roles/globalmember" }
                     });
 
-                // persist user before _userContext.SignUserIn(..)
+                // HACK: Persist user before _userContext.SignUserIn(..)
                 _documentSession.SaveChanges();
 
-                try
-                {
-                    _userContext.SignUserIn(accountRegisterInput.Email.ToLower(), false);
+                _userContext.SignUserIn(accountRegisterInput.Email.ToLower(), false);
 
-                    return RedirectToAction("PrivateIndex", "home");
-                }
-                catch (Exception)
-                {
-                    return RedirectToAction("Login", "Account");   
-                }
+                return RedirectToAction("PrivateIndex", "home");
             }
 
             ViewBag.AccountRegister = _accountViewModelBuilder.MakeAccountRegister(accountRegisterInput);

@@ -23,6 +23,7 @@ using Raven.Client;
 using Bowerbird.Core.Config;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.ViewModels;
+using Bowerbird.Core.Services;
 
 namespace Bowerbird.Web.Controllers
 {
@@ -33,7 +34,6 @@ namespace Bowerbird.Web.Controllers
         private readonly ICommandProcessor _commandProcessor;
         private readonly IUserContext _userContext;
         private readonly IDocumentSession _documentSession;
-        private readonly IVideoUtility _videoUtility;
 
         #endregion
 
@@ -42,19 +42,16 @@ namespace Bowerbird.Web.Controllers
         public MediaResourcesController(
             ICommandProcessor commandProcessor,
             IDocumentSession documentSession,
-            IUserContext userContext,
-            IVideoUtility videoUtility
+            IUserContext userContext
             )
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(userContext, "userContext");
-            Check.RequireNotNull(videoUtility, "videoUtility");
 
             _commandProcessor = commandProcessor;
             _documentSession = documentSession;
             _userContext = userContext;
-            _videoUtility = videoUtility;
         }
 
         #endregion
@@ -85,34 +82,16 @@ namespace Bowerbird.Web.Controllers
             {
                 Key = mediaResourceCreateInput.Key,
                 MediaType = mediaResourceCreateInput.MediaType,
+                Usage = mediaResourceCreateInput.Usage,
                 UploadedOn = DateTime.UtcNow,
                 UserId = _userContext.GetAuthenticatedUserId(),
                 Stream = mediaResourceCreateInput.MediaType.ToLower() == "image" ? mediaResourceCreateInput.File.InputStream : null,
                 OriginalFileName = mediaResourceCreateInput.MediaType.ToLower() == "image" ? mediaResourceCreateInput.OriginalFileName : null,
-                VideoUri = mediaResourceCreateInput.MediaType.ToLower() == "video" ? mediaResourceCreateInput.VideoUri : null
+                VideoProviderName = mediaResourceCreateInput.MediaType.ToLower() == "video" ? mediaResourceCreateInput.VideoProviderName : null,
+                VideoId = mediaResourceCreateInput.MediaType.ToLower() == "video" ? mediaResourceCreateInput.VideoId : null
             });
 
             return JsonSuccess();
-        }
-
-        /// <summary>
-        /// Used to generate a Preview video by parsing the passed url and returning a blob of renderable markup
-        /// 
-        /// TODO: Change this to pass back a model that can be injected into an ich template instead.
-        /// </summary>
-        [HttpPost]
-        [Authorize]
-        [ValidateInput(false)]
-        public ActionResult VideoPreview(string url)
-        {
-            string preview;
-
-            if (_videoUtility.PreviewVideoTag(url, out preview))
-            {
-                return new JsonNetResult(new { success = true, PreviewTags = preview });
-            }
-
-            return new JsonNetResult(new { success = false, PreviewTags = preview });
         }
 
         //[HttpPost]

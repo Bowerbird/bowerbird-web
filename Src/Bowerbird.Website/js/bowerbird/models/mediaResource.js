@@ -14,12 +14,7 @@ define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
         defaults: {
             Key: '',
             MediaType: '',
-            Files: {
-                FullMedium: {
-                    RelativeUri: '/img/image-upload.png'
-                }
-            },
-            VideoUri: ''
+            VideoId: ''
         },
 
         idAttribute: 'Id',

@@ -15,10 +15,8 @@
 */
 
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.DomainModels.DenormalisedReferences;
 using System.Linq;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 
 namespace Bowerbird.Core.DomainModels
 {

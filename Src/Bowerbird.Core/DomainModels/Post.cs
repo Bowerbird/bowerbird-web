@@ -18,7 +18,6 @@ using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Events;
 using System;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
-using Newtonsoft.Json;
 
 namespace Bowerbird.Core.DomainModels
 {
@@ -26,7 +25,7 @@ namespace Bowerbird.Core.DomainModels
     {
         #region Members
 
-        [JsonIgnore]
+        [Raven.Imports.Newtonsoft.Json.JsonIgnore]
         private List<MediaResource> _mediaResources;
 
         #endregion
@@ -95,7 +94,7 @@ namespace Bowerbird.Core.DomainModels
 
         public CommentsComponent Discussion { get; private set; }
 
-        [JsonIgnore]
+        [Raven.Imports.Newtonsoft.Json.JsonIgnore]
         IEnumerable<string> IOwnable.Groups
         {
             get { return new string[] { this.Group.Id }; }

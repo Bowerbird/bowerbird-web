@@ -8,11 +8,11 @@
 // VideoFormView
 // -------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'ich'],
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'jsonp'],
 function ($, _, Backbone, app, ich) {
 
     var YouTubeVideoProvider = function (options) {
-        this.onGetVideoCallback = options.onGetVideoCallback;
+        this.options = options;
 
         this.getJSON = function () {
             return {
@@ -41,22 +41,23 @@ function ($, _, Backbone, app, ich) {
         };
 
         this.getVideo = function (videoId) {
-            var that = this;
-            $.ajax({
-                type: "GET",
-                dataType: "jsonp",
-                url: 'http://gdata.youtube.com/feeds/api/videos/' + videoId + '?v=2&alt=json-in-script',
-                success: function (data) {
-                    log('youtube video data', data);
-                    var videoId = data.entry['media$group']['yt$videoid']['$t'];
-                    that.onGetVideoCallback(videoId);
+            $.jsonp({
+                url: 'http://gdata.youtube.com/feeds/api/videos/' + videoId + '?v=2&alt=json-in-script&callback=?',
+                context: this,
+                success: function (data, status) {
+                    log('youtube video data', data, status);
+                    this.options.onGetVideoSuccess(data.entry['media$group']['yt$videoid']['$t']);
+                },
+                error: function (data, status) {
+                    log('failed to load youtube video', data, status);
+                    this.options.onGetVideoError(data);
                 }
             });
         };
     };
 
     var VimeoVideoProvider = function (options) {
-        this.onGetVideoCallback = options.onGetVideoCallback;
+        this.options = options;
 
         this.getJSON = function () {
             return {
@@ -79,13 +80,18 @@ function ($, _, Backbone, app, ich) {
         };
 
         this.getVideo = function (videoId) {
-            var that = this;
-            $.ajax('http://vimeo.com/api/v2/video/' + videoId + '.json', { type: 'GET', dataType: 'jsonp' })
-                .done(function (data) {
-                    log('vimeo video data', data);
-                    that.onGetVideoCallback(data[0].id);
-                })
-                .fail(function (x) { log(x); });
+            $.jsonp({
+                url: 'http://vimeo.com/api/v2/video/' + videoId + '.json?callback=?',
+                context: this,
+                success: function (data, status) {
+                    log('vimeo video data', data, status);
+                    this.options.onGetVideoSuccess(data[0].id);
+                },
+                error: function (data, status) {
+                    log('failed to load vimeo video', data, status);
+                    this.options.onGetVideoError(data);
+                }
+            });
         };
     };
 
@@ -101,8 +107,8 @@ function ($, _, Backbone, app, ich) {
         },
 
         provider: null,
-
-        isLoading: false,
+        
+        videoId: '',
 
         serializeData: function () {
             return {
@@ -111,23 +117,21 @@ function ($, _, Backbone, app, ich) {
         },
 
         initialize: function (options) {
-            _.bindAll(this, '_loadVideo', '_onGetYouTubeVideo', '_onGetVimeoVideo', '_updateVideoStatus');
+            _.bindAll(this, '_loadVideo', '_onGetYouTubeVideo', '_onGetVimeoVideo', '_onGetVideoError', '_updateVideoStatus');
 
-            if (options.provider === 'youtube') {
-                this.provider = new YouTubeVideoProvider({ onGetVideoCallback: this._onGetYouTubeVideo });
-            } else if (options.provider === 'vimeo') {
-                this.provider = new VimeoVideoProvider({ onGetVideoCallback: this._onGetVimeoVideo });
+            if (options.videoProviderName === 'youtube') {
+                this.provider = new YouTubeVideoProvider({ onGetVideoSuccess: this._onGetYouTubeVideo, onGetVideoError: this._onGetVideoError });
+            } else if (options.videoProviderName === 'vimeo') {
+                this.provider = new VimeoVideoProvider({ onGetVideoSuccess: this._onGetVimeoVideo, onGetVideoError: this._onGetVideoError });
             }
         },
 
         onRender: function () {
             var that = this;
             this.$el.find('#VideoUri').on('change keyup', function (e) {
-                log('change keyup', e);
                 that._loadVideo($(this).val());
             });
             this.$el.find('#VideoUri').on('paste', function (e) {
-                log('paste', e);
                 setTimeout(function () {
                     that._loadVideo(that.$el.find('#VideoUri').val());
                 }, 100);
@@ -137,49 +141,56 @@ function ($, _, Backbone, app, ich) {
 
         _loadVideo: function (value) {
             if (value === '') {
-                this.model.set('VideoUri', '');
+                this.videoId = '';
                 this._updateVideoStatus('none');
                 return;
             }
 
-            var videoId = this.provider.getVideoId(value);
+            var newVideoId = this.provider.getVideoId(value);
 
-            if (videoId === '') {
-                this.model.set('VideoUri', '');
+            if (newVideoId === '') {
+                this.videoId = '';
                 this._updateVideoStatus('error');
+                return;
             }
 
-            if (this.model.get('VideoUri') !== videoId) {
-                this.model.set('VideoUri', videoId);
+            if (this.videoId !== newVideoId) {
+                this.videoId = newVideoId;
                 this._updateVideoStatus('loading');
-                this.provider.getVideo(videoId);
+                this.provider.getVideo(this.videoId);
             }
         },
 
-        _updateVideoStatus: function (status) {
-            var html = '';
+        _updateVideoStatus: function (status, html) {
+            this.$el.find('.field-validation-error, .field-validation-info').remove();
+            this.$el.find('#VideoUri').removeClass('input-validation-error');
+            this.$el.find('.video-preview').html('');
             switch (status) {
-                case 'none':
-                    html = '<p>Please enter a ' + this.provider.getJSON().name + ' video link</p>';
+                case 'success':
+                    this.$el.find('.video-preview').html(html);
                     break;
                 case 'loading':
-                    html = '<p><img src="/img/loader.png" alt="" />Loading ' + this.provider.getJSON().name + ' video...</p>';
+                    this.$el.find('#video-uri-field input').after('<div class="field-validation-info"><img src="/img/loader.png" alt="" />Loading ' + this.provider.getJSON().name + ' video...</div>');
                     break;
                 case 'error':
-                    html = '<p>The ' + this.provider.getJSON().name + ' video link you entered doesn\'t seem to be working. Please correct the link and try again.</p>';
+                    this.$el.find('#VideoUri').addClass('input-validation-error');
+                    this.$el.find('#video-uri-field input').after('<div class="field-validation-error">The video link entered is not valid. Please correct the link and try again.</div>');
                     break;
                 default:
                     return;
             }
-            this.$el.find('.video-preview').empty().html(html);
         },
 
         _onGetVimeoVideo: function (videoId) {
-            this.$el.find('.video-preview').html('<iframe id="vimeo-video-player" type="text/html" width="550" height="310" src="http://player.vimeo.com/video/' + videoId + '" frameborder="0" allowfullscreen>');
+            this._updateVideoStatus('success', '<iframe id="vimeo-video-player" type="text/html" width="520" height="280" src="http://player.vimeo.com/video/' + videoId + '" allowfullscreen></iframe>');
         },
 
         _onGetYouTubeVideo: function (videoId) {
-            this.$el.find('.video-preview').html('<iframe id="youtube-video-player" type="text/html" width="550" height="310" src="http://www.youtube.com/embed/' + videoId + '?controls=0&modestbranding=1&rel=0&showinfo=0" frameborder="0" allowfullscreen>');
+            this._updateVideoStatus('success', '<iframe id="youtube-video-player" type="text/html" width="520" height="280" src="http://www.youtube.com/embed/' + videoId + '?controls=0&modestbranding=1&rel=0&showinfo=0" allowfullscreen></iframe>');
+        },
+
+        _onGetVideoError: function (error) {
+            this._updateVideoStatus('error');
         },
 
         _cancel: function () {
@@ -187,8 +198,8 @@ function ($, _, Backbone, app, ich) {
         },
 
         _add: function () {
-            if (this.model.get('VideoUri') !== '') {
-                this.trigger('videouploaded', this.model);
+            if (this.videoId !== '') {
+                this.trigger('videouploaded', this.videoId, this.provider.getJSON().name);
                 this.remove();
             }
         }

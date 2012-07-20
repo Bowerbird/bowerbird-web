@@ -16,11 +16,14 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using Bowerbird.Core.Commands;
+using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Factories;
 using Bowerbird.Core.Services;
 using Bowerbird.Core.Utilities;
+using NLog;
+using Raven.Client;
 
 namespace Bowerbird.Web.Services
 {
@@ -28,27 +31,39 @@ namespace Bowerbird.Web.Services
     {
         #region Fields
 
+        private Logger _logger = LogManager.GetLogger("ImageService");
+
         private readonly IMediaFilePathFactory _mediaFilePathFactory;
+        private readonly IDocumentSession _documentSession;
 
         #endregion
 
         #region Constructors
 
         public ImageService(
-            IMediaFilePathFactory mediaFilePathFactory
+            IMediaFilePathFactory mediaFilePathFactory,
+            IDocumentSession documentSession
             )
         {
             Check.RequireNotNull(mediaFilePathFactory, "mediaFilePathFactory");
+            Check.RequireNotNull(documentSession, "documentSession");
 
             _mediaFilePathFactory = mediaFilePathFactory;
+            _documentSession = documentSession;
         }
 
         #endregion
 
         #region Methods
 
-        public void Save(MediaResourceCreateCommand command, MediaResource mediaResource)
+        public bool Save(MediaResourceCreateCommand command, MediaResource mediaResource, out string failureReason)
         {
+            if (!_documentSession.Load<AppRoot>(Constants.AppRootId).ImageServiceStatus)
+            {
+                failureReason = "Image files cannot be uploaded at the moment. Please try again later.";
+                return false;
+            }
+
             ImageUtility image = null;
 
             try
@@ -87,25 +102,34 @@ namespace Bowerbird.Web.Services
                 {
                     MakeGroupImageMediaResourceFiles(mediaResource, imageCreationTasks);
                 }
-                else
-                {
-                    MakeOtherImageMediaResourceFiles(mediaResource, imageCreationTasks);
-                }
 
                 SaveImages(image, mediaResource, imageCreationTasks);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                if (image != null)
-                    image.Cleanup();
+                _logger.ErrorException("Error saving images", exception);
 
-                throw ex;
+                if (image != null)
+                {
+                    image.Cleanup();
+                }
+
+                failureReason = "The file is corrupted or not a valid JPEG and could not be saved. Please check the file and try again.";
+                return false;
             }
+
+            if (image != null)
+            {
+                image.Cleanup();
+            }
+
+            failureReason = string.Empty;
+            return true;
         }
 
         private void MakeOriginalImageMediaResourceFile(MediaResource mediaResource, List<ImageCreationTask> imageCreationTasks, string originalFileName, long size, ImageDimensions imageDimensions, IDictionary<string, object> exifData)
         {
-            string format = "jpeg"; // TODO: Handle formats other than JPEG
+            string format = "jpeg";
             string extension = "jpg";
 
             dynamic file = AddImageFile(mediaResource, imageCreationTasks, "Original", format, extension, imageDimensions.Width, imageDimensions.Height, null, null);
@@ -144,13 +168,6 @@ namespace Bowerbird.Web.Services
         }
 
         private void MakeGroupImageMediaResourceFiles(MediaResource mediaResource, List<ImageCreationTask> imageCreationTasks)
-        {
-            AddImageFile(mediaResource, imageCreationTasks, "ThumbnailSmall", "jpeg", "jpg", 42, 42, false, ImageResizeMode.Crop);
-            AddImageFile(mediaResource, imageCreationTasks, "ThumbnailMedium", "jpeg", "jpg", 100, 100, false, ImageResizeMode.Crop);
-            AddImageFile(mediaResource, imageCreationTasks, "ThumbnailLarge", "jpeg", "jpg", 200, 200, false, ImageResizeMode.Crop);
-        }
-
-        private void MakeOtherImageMediaResourceFiles(MediaResource mediaResource, List<ImageCreationTask> imageCreationTasks)
         {
             AddImageFile(mediaResource, imageCreationTasks, "ThumbnailSmall", "jpeg", "jpg", 42, 42, false, ImageResizeMode.Crop);
             AddImageFile(mediaResource, imageCreationTasks, "ThumbnailMedium", "jpeg", "jpg", 100, 100, false, ImageResizeMode.Crop);
@@ -201,8 +218,6 @@ namespace Bowerbird.Web.Services
                         .SaveAs(fullPath);
                 }
             }
-
-            image.Cleanup();
         }
 
         private void SetImageExifMetadata(MediaResource mediaResource, dynamic originalFile)

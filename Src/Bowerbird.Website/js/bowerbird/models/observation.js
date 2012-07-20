@@ -77,13 +77,10 @@ function ($, _, Backbone, ProjectCollection, MediaResourceCollection) {
         },
 
         _setMedia: function () {
-            log('observation._SetMedia');
             var media = this.mediaResources.map(function (mediaResource) {
-                log("the mediaresource being mapped: ", mediaResource);
-                return { MediaResourceId: mediaResource.id, Description: "Description", Licence: 'licenceX' }
+                return { MediaResourceId: mediaResource.id, Description: "description goes here...", Licence: 'licence goes here...' };
             });
             this.set('Media', media);
-            log('The collection of media: ', media);
         }
     });
 

@@ -1,5 +1,5 @@
-define(['backbone'],
-function (Backbone) {
+define(['underscore', 'backbone'],
+function (_, Backbone) {
     var queryStringParam = /^\?(.*)/;
     var namedParam = /:([\w\d]+)/g;
     var splatParam = /\*([\w\d]+)/g;

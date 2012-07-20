@@ -21,7 +21,8 @@ function ($, _, Backbone, app, UserFormLayoutView, User) {
         this.userHub.setupOnlineUsers = setupOnlineUsers;
         this.userHub.userStatusUpdate = userStatusUpdate;
         this.userHub.joinedGroup = joinedGroup;
-        this.userHub.mediaResourceUploaded = mediaResourceUploaded;
+        this.userHub.mediaResourceUploadSuccess = mediaResourceUploadSuccess;
+        this.userHub.mediaResourceUploadFailure = mediaResourceUploadFailure;
     };
 
     var UserController = {};
@@ -75,16 +76,12 @@ function ($, _, Backbone, app, UserFormLayoutView, User) {
         }
     };
 
-    var mediaResourceUploaded = function (mediaResource) {
-        // detect model type then raise event
-        log('userController.mediaResourceUploaded', mediaResource);
+    var mediaResourceUploadSuccess = function (mediaResource) {
+        app.vent.trigger('mediaresourceuploadsuccess', mediaResource);
+    };
 
-        if (mediaResource.MediaType == "video") {
-            app.vent.trigger('videomediaresourceuploaded:', mediaResource);
-        }
-        else if (mediaResource.MediaType == "image") {
-            app.vent.trigger('imagemediaresourceuploaded:', mediaResource);
-        }
+    var mediaResourceUploadFailure = function (key, reason) {
+        app.vent.trigger('mediaresourceuploadfailure', key, reason);
     };
 
     // Show an project form

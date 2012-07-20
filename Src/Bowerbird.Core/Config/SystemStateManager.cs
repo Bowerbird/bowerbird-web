@@ -11,13 +11,11 @@
  * Atlas of Living Australia
  
 */
-				
-using System;
+                
 using Raven.Client;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Commands;
-using Bowerbird.Core.VideoUtilities;
 using Bowerbird.Core.Factories;
 
 namespace Bowerbird.Core.Config
@@ -79,21 +77,34 @@ namespace Bowerbird.Core.Config
 
         public void SwitchServicesOff()
         {
-            SwitchServices(false, false);
+            SwitchServices(false, false, false, false, false, false, false);
         }
 
         public void SwitchServicesOn()
         {
-            SwitchServices(true, true);
+            SwitchServices(true, true, true, true, true, true, true);
         }
 
-        public void SwitchServices(bool? enableEmailService = null, bool? enableBackChannelService = null)
+        public void SwitchServices(
+            bool? enableEmailService = null, 
+            bool? enableBackChannelService = null, 
+            bool? enableImageService = null, 
+            bool? enableYouTubeVideoService = null, 
+            bool? enableVimeoVideoService = null,
+            bool? enableDocumentService = null,
+            bool? enableAudioService = null
+            )
         {
             lock (_lock)
             {
                 var appRoot = LoadAppRoot();
                 appRoot.SetEmailServiceStatus(enableEmailService ?? appRoot.EmailServiceStatus);
                 appRoot.SetBackChannelServiceStatus(enableBackChannelService ?? appRoot.BackChannelServiceStatus);
+                appRoot.SetImageServiceStatus(enableImageService ?? appRoot.ImageServiceStatus);
+                appRoot.SetYouTubeVideoServiceStatus(enableYouTubeVideoService ?? appRoot.YouTubeVideoServiceStatus);
+                appRoot.SetVimeoVideoServiceStatus(enableVimeoVideoService ?? appRoot.VimeoVideoServiceStatus);
+                appRoot.SetDocumentServiceStatus(enableDocumentService ?? appRoot.DocumentServiceStatus);
+                appRoot.SetAudioServiceStatus(enableAudioService ?? appRoot.AudioServiceStatus);
                 SaveAppRoot(appRoot);
             }
         }

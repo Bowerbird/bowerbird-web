@@ -66,7 +66,8 @@
       <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Json.4.5.6\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Newtonsoft.Json.4.5.7\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Ninject">
       <HintPath>..\..\packages\Ninject.3.0.1.10\lib\net40\Ninject.dll</HintPath>
@@ -110,15 +111,17 @@
     <Reference Include="Raven.Client.MvcIntegration, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\RavenDB.Client.MvcIntegration.1.2.2010-Unstable\lib\net40\Raven.Client.MvcIntegration.dll</HintPath>
     </Reference>
-    <Reference Include="SignalR, Version=0.5.96.10509, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="SignalR, Version=0.5.1.10625, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\SignalR.Server.0.5.0\lib\net40\SignalR.dll</HintPath>
+      <HintPath>..\..\packages\SignalR.Server.0.5.2\lib\net40\SignalR.dll</HintPath>
     </Reference>
-    <Reference Include="SignalR.Hosting.AspNet">
-      <HintPath>..\..\packages\SignalR.Hosting.AspNet.0.5.0\lib\net40\SignalR.Hosting.AspNet.dll</HintPath>
+    <Reference Include="SignalR.Hosting.AspNet, Version=0.5.2.10625, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\SignalR.Hosting.AspNet.0.5.2\lib\net40\SignalR.Hosting.AspNet.dll</HintPath>
     </Reference>
-    <Reference Include="SignalR.Hosting.Common">
-      <HintPath>..\..\packages\SignalR.Hosting.Common.0.5.0\lib\net40\SignalR.Hosting.Common.dll</HintPath>
+    <Reference Include="SignalR.Hosting.Common, Version=0.5.1.10625, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\SignalR.Hosting.Common.0.5.2\lib\net40\SignalR.Hosting.Common.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -141,8 +144,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\WebsiteBootstrapper.cs" />
-    <Compile Include="App_Start\NinjectBootstrapper.cs" />
+    <Compile Include="Config\SignalrJsonNetSerializer.cs" />
+    <Compile Include="Config\WebsiteBootstrapper.cs" />
+    <Compile Include="Config\NinjectBootstrapper.cs" />
     <Compile Include="Builders\AccountViewModelBuilder.cs" />
     <Compile Include="Builders\IAccountViewModelBuilder.cs" />
     <Compile Include="Builders\IBuilder.cs" />
@@ -185,7 +189,9 @@
     <Compile Include="Services\DocumentService.cs" />
     <Compile Include="Services\EmailService.cs" />
     <Compile Include="Services\ImageService.cs" />
-    <Compile Include="Services\VideoService.cs" />
+    <Compile Include="Services\VideoServiceBase.cs" />
+    <Compile Include="Services\VimeoVideoService.cs" />
+    <Compile Include="Services\YouTubeVideoService.cs" />
     <Compile Include="ViewModels\MediaResourceCreateInput.cs" />
     <Compile Include="ViewModels\JsonNetResult.cs" />
     <Compile Include="Controllers\MediaResourcesController.cs" />
@@ -205,7 +211,7 @@
     <Compile Include="EventHandlers\ActivityObservationNoteAdded.cs" />
     <Compile Include="EventHandlers\ActivityPostAdded.cs" />
     <Compile Include="EventHandlers\ActivityUserJoinedGroup.cs" />
-    <Compile Include="EventHandlers\MediaResourceUploaded.cs" />
+    <Compile Include="EventHandlers\MediaResourceUpdated.cs" />
     <Compile Include="EventHandlers\UserSessionUpdated.cs" />
     <Compile Include="EventHandlers\ChatUpdated.cs" />
     <Compile Include="EventHandlers\DomainEventHandlerBase.cs" />

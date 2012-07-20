@@ -162,18 +162,16 @@ namespace Bowerbird.Core.DomainModels
 
         public MediaResourceFile AddVideoFile(
             string storedRepresentation,
-            string linkUri,
-            string embedText,
+            string uri,
             string provider,
             string videoId,
-            string width,
-            string height
+            int width,
+            int height
             )
         {
             dynamic file = new MediaResourceFile();
 
-            file.LinkUri = linkUri;
-            file.EmbedTag = string.Format(embedText, width, height, videoId);
+            file.Uri = uri;
             file.Provider = provider;
             file.VideoId = videoId;
             file.Width = width;
@@ -187,7 +185,6 @@ namespace Bowerbird.Core.DomainModels
         public MediaResourceFile AddDocumentFile(
             string storedRepresentation,
             string fileName,
-            string author,
             string documentType,
             string extension
             )
@@ -195,7 +192,6 @@ namespace Bowerbird.Core.DomainModels
             dynamic file = new MediaResourceFile();
 
             file.Name = fileName;
-            file.Author = author;
             file.DocumentType = documentType;
             file.Extension = extension;
 
@@ -204,9 +200,23 @@ namespace Bowerbird.Core.DomainModels
             return file;
         }
 
+        public MediaResourceFile AddAudioFile(
+            string storedRepresentation,
+            string fileName)
+        {
+            dynamic file = new MediaResourceFile();
+
+            file.Name = fileName;
+            file.Extension = "mp3";
+
+            AddFile("Audio", storedRepresentation, file);
+
+            return file;
+        }
+
         public void FireCreatedEvent(User updatedByUser)
         {
-            EventProcessor.Raise(new MediaResourceUploadedEvent(updatedByUser, this));
+            EventProcessor.Raise(new DomainModelCreatedEvent<MediaResource>(this, updatedByUser, this));
         }
 
         #endregion

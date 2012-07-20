@@ -13,7 +13,7 @@
 using Bowerbird.Core.Events;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.VideoUtilities;
+using Bowerbird.Core.Services;
 using Raven.Client;
 using Raven.Client.Linq;
 using SignalR.Hubs;

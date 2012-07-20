@@ -16,9 +16,9 @@
 
 using System.Net.Mail;
 
-namespace Bowerbird.Core.VideoUtilities
+namespace Bowerbird.Core.Services
 {
-    public interface IEmailService : IService
+    public interface IEmailService
     {
         void SendMailMessage(MailMessage mailMessage);
     }

@@ -14,18 +14,10 @@ using System.Linq;
 using Bowerbird.Core.Events;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.VideoUtilities;
+using Bowerbird.Core.Services;
 using Raven.Client;
-using System.Dynamic;
-using System.IO;
 using Bowerbird.Core.EventHandlers;
-using Bowerbird.Web.Config;
 using Bowerbird.Web.Factories;
-using Bowerbird.Web.Builders;
-using SignalR.Hubs;
-using Bowerbird.Web.Hubs;
-using Bowerbird.Core.Config;
-using Bowerbird.Web.Services;
 
 namespace Bowerbird.Web.EventHandlers
 {

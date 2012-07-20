@@ -12,34 +12,45 @@
  
 */
 
-using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Core.Events
 {
-    public class MediaResourceUploadedEvent : DomainEventBase
+    public class MediaResourceCreateFailedEvent : DomainEventBase
     {
+
         #region Members
 
         #endregion
 
         #region Constructors
 
-        public MediaResourceUploadedEvent(
-            User createdByUser,
-            object sender
-            ):base(createdByUser, sender)
+        public MediaResourceCreateFailedEvent(
+            User user,
+            string key,
+            string reason,
+            DomainModel sender)
+            : base(
+            user,
+            sender)
         {
+            Key = key;
+            Reason = reason;
         }
 
         #endregion
 
         #region Properties
 
+        public string Key { get; private set; }
+
+        public string Reason { get; private set; }
+
         #endregion
 
         #region Methods
 
         #endregion
+
     }
 }

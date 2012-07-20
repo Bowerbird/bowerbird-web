@@ -17,7 +17,6 @@ using Bowerbird.Core.DomainModels;
 using Raven.Client.Indexes;
 using Raven.Abstractions.Indexing;
 using System.Collections.Generic;
-using Bowerbird.Core.DomainModels.DenormalisedReferences;
 using System;
 
 namespace Bowerbird.Core.Indexes

@@ -28,7 +28,7 @@ namespace Bowerbird.Core.Events
         public DomainModelCreatedEvent(
             T domainModel,
             User createdByUser, 
-            DomainModel sender)
+            object sender)
             : base(
                 createdByUser,
                 sender

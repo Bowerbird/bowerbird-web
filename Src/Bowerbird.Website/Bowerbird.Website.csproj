@@ -228,6 +228,7 @@
     <Content Include="js\libs\jquery.fileupload\jquery.fileupload.js" />
     <Content Include="js\libs\jquery.fileupload\jquery.iframe-transport.js" />
     <Content Include="js\libs\jquery.fileupload\load-image.js" />
+    <Content Include="js\libs\jquery.jsonp\jquery.jsonp.js" />
     <Content Include="js\libs\jquery.multiselect\jquery.multiselect.js" />
     <Content Include="js\libs\jquery.signalr\jquery.signalr.js" />
     <Content Include="js\libs\jquery.timeago\jquery.timeago.js" />
@@ -432,7 +433,8 @@
     <Content Include="Views\Shared\ReplyForm.mustache">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Shared\PostReplyForm.mustache">
+    <Content Include="Views\Shared\PostReplyForm.mustache" />
+    <Content Include="Views\Shared\VideoFullMedium.mustache">
       <SubType>Designer</SubType>
     </Content>
     <None Include="Views\Shared\ObservationForm.mustache">
@@ -479,11 +481,6 @@
     <Content Include="Views\Shared\ObservationDetails.mustache">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Shared\VideoPreview.mustache" />
-    <Content Include="Views\Shared\ImagePreview.mustache" />
-    <None Include="Views\Shared\ObservationForm.OLD">
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="404.html" />

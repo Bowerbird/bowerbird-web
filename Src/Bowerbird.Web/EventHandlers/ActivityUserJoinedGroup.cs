@@ -14,19 +14,11 @@ using System.Linq;
 using Bowerbird.Core.Events;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.VideoUtilities;
+using Bowerbird.Core.Services;
 using Raven.Client;
-using System.Dynamic;
-using System.IO;
 using Bowerbird.Core.EventHandlers;
-using Bowerbird.Web.Config;
 using Bowerbird.Web.Factories;
-using Bowerbird.Web.Builders;
-using SignalR.Hubs;
-using Bowerbird.Web.Hubs;
-using Bowerbird.Core.Config;
 using Bowerbird.Core.Indexes;
-using Bowerbird.Web.Services;
 
 namespace Bowerbird.Web.EventHandlers
 {
@@ -43,7 +35,6 @@ namespace Bowerbird.Web.EventHandlers
         #region Members
 
         private readonly IDocumentSession _documentSession;
-        private readonly IUserViewFactory _userViewFactory;
         private readonly IGroupViewFactory _groupViewFactory;
         private readonly IBackChannelService _backChannelService;
 
@@ -53,18 +44,15 @@ namespace Bowerbird.Web.EventHandlers
 
         public ActivityUserJoinedGroup(
             IDocumentSession documentSession,
-            IUserViewFactory userViewFactory,
             IGroupViewFactory groupViewFactory,
             IBackChannelService backChannelService
             )
         {
             Check.RequireNotNull(documentSession, "documentSession");
-            Check.RequireNotNull(userViewFactory, "userViewFactory");
             Check.RequireNotNull(groupViewFactory, "groupViewFactory");
             Check.RequireNotNull(backChannelService, "backChannelService");
 
             _documentSession = documentSession;
-            _userViewFactory = userViewFactory;
             _groupViewFactory = groupViewFactory;
             _backChannelService = backChannelService;
         }

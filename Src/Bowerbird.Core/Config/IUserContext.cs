@@ -15,7 +15,6 @@
 */
 
 using Bowerbird.Core.DomainModels;
-using SignalR.Hubs;
 
 namespace Bowerbird.Core.Config
 {

@@ -16,9 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.Events;
 using Bowerbird.Core.Extensions;
-using Newtonsoft.Json;
 
 namespace Bowerbird.Core.DomainModels
 {
@@ -26,7 +24,7 @@ namespace Bowerbird.Core.DomainModels
     {
         #region Members
 
-        [JsonIgnore]
+        [Raven.Imports.Newtonsoft.Json.JsonIgnore]
         private List<Comment> _comments;
 
         #endregion

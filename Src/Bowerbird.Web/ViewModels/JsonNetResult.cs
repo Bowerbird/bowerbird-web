@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using Newtonsoft.Json;
 using System.Web;
 using System.Web.Mvc;
-using Newtonsoft.Json.Serialization;
-using Bowerbird.Web.Config;
 
 namespace Bowerbird.Web.ViewModels
 {
@@ -83,6 +78,10 @@ namespace Bowerbird.Web.ViewModels
                 var serializer = new Raven.Imports.Newtonsoft.Json.JsonSerializer();
                 serializer.Serialize(writer, Data);
                 writer.Flush();
+                //var writer = new Newtonsoft.Json.JsonTextWriter(response.Output) { Formatting = Newtonsoft.Json.Formatting.Indented };
+                //var serializer = new Newtonsoft.Json.JsonSerializer();
+                //serializer.Serialize(writer, Data);
+                //writer.Flush();
             }
         }
 

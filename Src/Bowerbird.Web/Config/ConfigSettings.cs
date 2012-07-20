@@ -16,9 +16,7 @@
 
 using System.Configuration;
 using Bowerbird.Core.Config;
-using Bowerbird.Core.VideoUtilities;
 using System.Web;
-using Bowerbird.Core.DesignByContract;
 using System;
 
 namespace Bowerbird.Web.Services

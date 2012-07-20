@@ -1,6 +1,6 @@
 define(['jquery', 'signalr'], function () {
 /*!
-* SignalR JavaScript Library v0.5.0
+* SignalR JavaScript Library v0.5.2
 * http://signalr.net/
 *
 * Copyright David Fowler and Damian Edwards 2012
@@ -150,38 +150,31 @@ define(['jquery', 'signalr'], function () {
 
     // Create hub signalR instance
     $.extend(signalR, {
-        userHub: {
+        chatHub: {
             _: {
-                hubName: 'UserHub',
-                ignoreMembers: ['registerUserClient', 'namespace', 'ignoreMembers', 'callbacks'],
+                hubName: 'ChatHub',
+                ignoreMembers: ['exitChat', 'getChat', 'joinChat', 'sendChatMessage', 'typing', 'namespace', 'ignoreMembers', 'callbacks'],
                 connection: function () { return signalR.hub; }
             },
 
-            registerUserClient: function (userId, callback) {
-                return serverCall(this, "RegisterUserClient", $.makeArray(arguments));
-            }
-        },
-        groupHub: {
-            _: {
-                hubName: 'GroupHub',
-                ignoreMembers: ['joinGroups', 'joinGroup', 'leaveGroup', 'disconnect', 'namespace', 'ignoreMembers', 'callbacks'],
-                connection: function () { return signalR.hub; }
+            getChat: function (chatId, callback) {
+                return serverCall(this, "GetChat", $.makeArray(arguments));
             },
 
-            joinGroups: function (userId, callback) {
-                return serverCall(this, "JoinGroups", $.makeArray(arguments));
+            joinChat: function (chatId, groupId, inviteeUserIds, callback) {
+                return serverCall(this, "JoinChat", $.makeArray(arguments));
             },
 
-            joinGroup: function (userId, groupId, callback) {
-                return serverCall(this, "JoinGroup", $.makeArray(arguments));
+            exitChat: function (chatId, callback) {
+                return serverCall(this, "ExitChat", $.makeArray(arguments));
             },
 
-            leaveGroup: function (userId, groupId, callback) {
-                return serverCall(this, "LeaveGroup", $.makeArray(arguments));
+            typing: function (chatId, isTyping, callback) {
+                return serverCall(this, "Typing", $.makeArray(arguments));
             },
 
-            disconnect: function (callback) {
-                return serverCall(this, "Disconnect", $.makeArray(arguments));
+            sendChatMessage: function (chatId, message, messageId, callback) {
+                return serverCall(this, "SendChatMessage", $.makeArray(arguments));
             }
         },
         debugHub: {
@@ -195,31 +188,38 @@ define(['jquery', 'signalr'], function () {
                 return serverCall(this, "RegisterWithDebugger", $.makeArray(arguments));
             }
         },
-        chatHub: {
+        groupHub: {
             _: {
-                hubName: 'ChatHub',
-                ignoreMembers: ['getChat', 'joinChat', 'exitChat', 'typing', 'sendChatMessage', 'namespace', 'ignoreMembers', 'callbacks'],
+                hubName: 'GroupHub',
+                ignoreMembers: ['disconnect', 'joinGroup', 'joinGroups', 'leaveGroup', 'namespace', 'ignoreMembers', 'callbacks'],
                 connection: function () { return signalR.hub; }
             },
 
-            getChat: function (chatId, callback) {
-                return serverCall(this, "GetChat", $.makeArray(arguments));
+            joinGroups: function (userId, callback) {
+                return serverCall(this, "JoinGroups", $.makeArray(arguments));
             },
 
-            joinChat: function (chatId, inviteeUserIds, groupId, callback) {
-                return serverCall(this, "JoinChat", $.makeArray(arguments));
+            joinGroup: function (groupId, userId, callback) {
+                return serverCall(this, "JoinGroup", $.makeArray(arguments));
             },
 
-            exitChat: function (chatId, callback) {
-                return serverCall(this, "ExitChat", $.makeArray(arguments));
+            leaveGroup: function (groupId, userId, callback) {
+                return serverCall(this, "LeaveGroup", $.makeArray(arguments));
             },
 
-            typing: function (chatId, isTyping, callback) {
-                return serverCall(this, "Typing", $.makeArray(arguments));
+            disconnect: function (callback) {
+                return serverCall(this, "Disconnect", $.makeArray(arguments));
+            }
+        },
+        userHub: {
+            _: {
+                hubName: 'UserHub',
+                ignoreMembers: ['registerUserClient', 'namespace', 'ignoreMembers', 'callbacks'],
+                connection: function () { return signalR.hub; }
             },
 
-            sendChatMessage: function (chatId, messageId, message, callback) {
-                return serverCall(this, "SendChatMessage", $.makeArray(arguments));
+            registerUserClient: function (userId, callback) {
+                return serverCall(this, "RegisterUserClient", $.makeArray(arguments));
             }
         }
     });

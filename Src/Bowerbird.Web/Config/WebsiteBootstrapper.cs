@@ -12,22 +12,18 @@
  
 */
 
-using Bowerbird.Core.Commands;
-using Bowerbird.Core.Events;
-using Bowerbird.Web.Config;
 using Microsoft.Practices.ServiceLocation;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Bowerbird.Core.Config;
-using Bowerbird.Core.CommandHandlers;
 using Nustache.Mvc;
 using Raven.Client.MvcIntegration;
 using Raven.Client;
 using SignalR;
 
-[assembly: WebActivator.PostApplicationStartMethod(typeof(Bowerbird.Web.App_Start.WebsiteBootstrapper), "PostStart")]
+[assembly: WebActivator.PostApplicationStartMethod(typeof(Bowerbird.Web.Config.WebsiteBootstrapper), "PostStart", Order = 2)]
 
-namespace Bowerbird.Web.App_Start
+namespace Bowerbird.Web.Config
 {
     public static class WebsiteBootstrapper
     {

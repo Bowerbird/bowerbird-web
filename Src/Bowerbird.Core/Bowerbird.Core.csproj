@@ -53,17 +53,11 @@
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Json.4.5.7\lib\net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="NLog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NLog.2.0.0.2000\lib\net40\NLog.dll</HintPath>
     </Reference>
     <Reference Include="Nustache.Core">
       <HintPath>..\..\packages\Nustache.1.12.4.29\lib\net20\Nustache.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="PresentationCore">
-      <Private>True</Private>
     </Reference>
     <Reference Include="Raven.Abstractions, Version=1.2.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -73,12 +67,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\RavenDB.Client.1.2.2010-Unstable\lib\net40\Raven.Client.Lightweight.dll</HintPath>
     </Reference>
-    <Reference Include="Raven.Client.MvcIntegration, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Raven.Client.MvcIntegration">
       <HintPath>..\..\packages\RavenDB.Client.MvcIntegration.1.2.2010-Unstable\lib\net40\Raven.Client.MvcIntegration.dll</HintPath>
-    </Reference>
-    <Reference Include="SignalR">
-      <HintPath>..\..\packages\SignalR.Server.0.5.0\lib\net40\SignalR.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -92,9 +82,6 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase">
-      <Private>True</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandHandlers\CommentCreateCommandHandler.cs" />
@@ -213,7 +200,6 @@
     <Compile Include="DomainModels\BaseObjectEqualityComparer.cs" />
     <Compile Include="DomainModels\CommentsComponent.cs" />
     <Compile Include="DomainModels\ChatMessage.cs" />
-    <Compile Include="DomainModels\AsynchActivity.cs" />
     <Compile Include="DomainModels\IDiscussed.cs" />
     <Compile Include="DomainModels\DenormalisedReferences\DenormalisedRoleReference.cs" />
     <Compile Include="DomainModels\FollowUser.cs" />
@@ -245,8 +231,7 @@
     <Compile Include="DomainModels\UserSession.cs" />
     <Compile Include="DomainModels\ValueObject.cs" />
     <Compile Include="DomainModels\Watchlist.cs" />
-    <Compile Include="Events\MediaResourceCreatedEvent.cs" />
-    <Compile Include="Events\MediaResourceUploadedEvent.cs" />
+    <Compile Include="Events\MediaResourceCreateFailedEvent.cs" />
     <Compile Include="Events\MemberUpdatedEvent.cs" />
     <Compile Include="Events\MemberCreatedEvent.cs" />
     <Compile Include="Events\UserExitedChatEvent.cs" />
@@ -274,7 +259,6 @@
     <Compile Include="DesignByContract\PostconditionException.cs" />
     <Compile Include="DesignByContract\PreconditionException.cs" />
     <Compile Include="DomainModels\DenormalisedReferences\DenormalisedUserReference.cs" />
-    <None Include="DomainModels\MediaResource.cs.old" />
     <Compile Include="DomainModels\Observation.cs" />
     <Compile Include="DomainModels\Organisation.cs" />
     <Compile Include="DomainModels\Permission.cs" />
@@ -295,8 +279,11 @@
     <Compile Include="Factories\AvatarFactory.cs" />
     <Compile Include="Factories\IAvatarFactory.cs" />
     <Compile Include="Factories\IEventHandlerFactory.cs" />
+    <Compile Include="Services\IYouTubeVideoService.cs" />
+    <Compile Include="Services\IVimeoVideoService.cs" />
     <Compile Include="Services\IAudioService.cs" />
     <Compile Include="Services\IDocumentService.cs" />
+    <Compile Include="Services\IMediaServiceFactory.cs" />
     <Compile Include="Utilities\ExifReader.cs" />
     <Compile Include="Utilities\ExifTags.cs" />
     <Compile Include="Utilities\ImageCreationTask.cs" />
@@ -316,19 +303,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extensions\DocumentSessionExtensions.cs" />
     <Compile Include="Services\IImageService.cs" />
-    <Compile Include="Services\IVideoService.cs" />
-    <Compile Include="Utilities\IVideoUtility.cs" />
-    <Compile Include="Utilities\IVideoUtilityProvider.cs" />
-    <Compile Include="Utilities\VideoUtility.cs" />
+    <Compile Include="Services\IMediaService.cs" />
     <Compile Include="Services\IBackChannelService.cs" />
     <Compile Include="Services\IEmailService.cs" />
     <Compile Include="Config\IConfigSettings.cs" />
     <Compile Include="Utilities\ImageUtility.cs" />
     <Compile Include="Factories\IMediaFilePathFactory.cs" />
-    <Compile Include="Services\IService.cs" />
     <Compile Include="Factories\MediaFilePathFactory.cs" />
-    <Compile Include="Utilities\VimeoVideoUtilityProvider.cs" />
-    <Compile Include="Utilities\YoutubeVideoUtilityProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
