@@ -1,0 +1,42 @@
+﻿<div class="window" id="edit-observation-media-window">
+    <div class="window-title-bar">
+    Media
+    <span class="close" title="Close"></span>
+    </div>
+    <div class="window-body">
+        <div class="form edit-observation-media-form">
+        <form action="">
+            <fieldset>
+                <legend class="hidden">Media Details</legend>
+
+                <div id="description-field" class="field">
+                    <div>
+                        <label for="Description">Description</label>
+                    </div>
+                    <div>
+                        <textarea id="Description" name="description">{{Model.Media.Description}}</textarea>
+                    </div>
+                </div>
+                <p>Optionally apply a Creative Commons licence to this upload media. For more information go to <a target="new" href="http://www.creativecommons.org/">Creative Commons</a>.</p>
+                <div id="licence-field" class="field">
+                    <div>
+                        <label for="Licence">Licence</label>
+                    </div>
+                    <div>
+                        <select id="Licence" name="licence">
+                            <option></option>
+                            {{#Model.Licences}}
+                            <option value="{{Value}}" {{#Selected}}selected{{/Selected}}>{{Text}}</option>
+                            {{/Model.Licences}}
+                        </select>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <input type="button" value="Done" class="done-button" />
+                <input type="button" value="Cancel" class="cancel-button" />
+            </fieldset>
+            </form>
+            </div>
+    </div>
+</div>

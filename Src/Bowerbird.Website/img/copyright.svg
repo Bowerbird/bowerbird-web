@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="200" height="200" fill="none" stroke="black">
+	<clipPath id="c">
+		<path d="M45,45V155H155V111.5H125V88.5H155V45"/>
+	</clipPath>
+	<circle cx="100" cy="100" r="88.5" stroke-width="23"/>
+	<circle cx="100" cy="100" r="42.5" stroke-width="23" clip-path="url(#c)"/>
+</svg>

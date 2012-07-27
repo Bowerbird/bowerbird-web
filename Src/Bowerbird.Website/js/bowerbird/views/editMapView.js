@@ -11,20 +11,24 @@
 // View that allows user to choose location on a mpa or via coordinates
 define(['jquery', 'underscore', 'backbone', 'app', 'views/dummyoverlayview', 'jqueryui/autocomplete', 'jqueryui/draggable', 'async!http://maps.google.com/maps/api/js?sensor=false&region=AU'],
 function ($, _, Backbone, app, DummyOverlayView) {
+
     var EditMapView = Backbone.View.extend({
         id: 'location-fieldset',
 
         initialize: function (options) {
-            this.observation = options.model;
             this.mapMarker = null;
             this.zIndex = 0;
 
-            this.observation.mediaResources.on('change:Metadata', this.onMediaResourceFilesChanged, this);
+            if (this.model.mediaResources) {
+                this.model.mediaResources.on('change:Metadata', this.onMediaResourceFilesChanged, this);
+            }
         },
 
         render: function () {
             this._initMap();
-            this._initAddressField();
+            if (this.model.has('Address')) {
+                this._initAddressField();
+            }
             this._initLocationPin();
             return this;
         },
@@ -33,7 +37,7 @@ function ($, _, Backbone, app, DummyOverlayView) {
             var lat = mediaResource.get('Metadata').Latitude;
             var lon = mediaResource.get('Metadata').Longitude;
 
-            if ((this.observation.get('Latitude') === null && this.observation.get('Longitude') === null) && lat && lon) {
+            if ((this.model.get('Latitude') === '' && this.model.get('Longitude') === '') && lat && lon) {
                 this.changeMarkerPosition(lat, lon);
             }
         },
@@ -73,9 +77,9 @@ function ($, _, Backbone, app, DummyOverlayView) {
                                 value: item.formatted_address,
                                 latitude: item.geometry.location.lat(),
                                 longitude: item.geometry.location.lng()
-                            }
+                            };
                         }));
-                    })
+                    });
                 },
                 //This bit is executed upon selection of an address
                 select: function (event, ui) {
@@ -200,8 +204,8 @@ function ($, _, Backbone, app, DummyOverlayView) {
             return this.zIndex;
         },
 
-        changeMarkerPosition: function (lat, long) {
-            var latlng = new google.maps.LatLng(lat, long);
+        changeMarkerPosition: function (lat, lng) {
+            var latlng = new google.maps.LatLng(lat, lng);
 
             if (this.mapMarker === null) {
                 this._positionMarker(latlng);
@@ -224,15 +228,17 @@ function ($, _, Backbone, app, DummyOverlayView) {
             if (this.mapMarker) {
                 var lat = this.mapMarker.getPosition().lat();
                 var lng = this.mapMarker.getPosition().lng();
-                //            if (this.observation.get('anonymiseLocation') === true) {
+                
+                //            if (this.model.get('anonymiseLocation') === true) {
                 $('#Latitude').val(lat);
                 $('#Longitude').val(lng);
+                
                 //            }
                 //            else {
                 //                $('#latitude').val(parseFloat(lat).toFixed(1));
                 //                $('#longitude').val(parseFloat(lng).toFixed(1));
                 //            }
-                if (fireLatLongFieldsChangeEvent) {
+                if (fireLatLongFieldsChangeEvent || !this.model.has('Address')) {
                     //$('#latitude').change();
                     $('#Longitude').change();
                 }
@@ -247,8 +253,10 @@ function ($, _, Backbone, app, DummyOverlayView) {
         },
 
         _reverseGeocode: function () {
-            if (this.mapMarker) {
-                this.geocoder.geocode({ latLng: this.mapMarker.getPosition() }, this._reverseGeocodeResult);
+            if (this.model.has('Address')) {
+                if (this.mapMarker) {
+                    this.geocoder.geocode({ latLng: this.mapMarker.getPosition() }, this._reverseGeocodeResult);
+                }
             }
         },
 

@@ -18,7 +18,7 @@ using Bowerbird.Core.DomainModels.DenormalisedReferences;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public class ObservationGroup
+    public class SightingGroup
     {
         #region Members
 
@@ -26,12 +26,12 @@ namespace Bowerbird.Core.DomainModels
 
         #region Constructors
 
-        protected ObservationGroup()
+        protected SightingGroup()
             : base()
         {
         }
 
-        public ObservationGroup(
+        public SightingGroup(
             Group group,
             User createdByUser,
             DateTime createdDateTime)

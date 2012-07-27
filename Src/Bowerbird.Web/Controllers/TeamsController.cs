@@ -106,7 +106,7 @@ namespace Bowerbird.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult Sightings(string id, PagingInput pagingInput)
+        public ActionResult Observations(string id, PagingInput pagingInput)
         {
             string teamId = VerbosifyId<Team>(id);
 
@@ -118,7 +118,7 @@ namespace Bowerbird.Web.Controllers
             var viewModel = new
             {
                 Team = _teamViewModelBuilder.BuildTeam(teamId),
-                Observations = _sightingViewModelBuilder.BuildGroupSightingList(teamId, pagingInput)
+                Sightings = _sightingViewModelBuilder.BuildGroupSightingList(teamId, pagingInput)
             };
 
             return RestfulResult(

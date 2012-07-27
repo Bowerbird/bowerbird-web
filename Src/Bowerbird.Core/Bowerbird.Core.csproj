@@ -87,9 +87,15 @@
     <Compile Include="CommandHandlers\CommentCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\CommentDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\CommentUpdateCommandHandler.cs" />
+    <Compile Include="CommandHandlers\RecordCreateCommandHandler.cs" />
+    <Compile Include="CommandHandlers\RecordDeleteCommandHandler.cs" />
+    <Compile Include="CommandHandlers\RecordUpdateCommandHandler.cs" />
     <Compile Include="CommandHandlers\MemberUpdateCommandHandler.cs" />
     <Compile Include="CommandHandlers\FollowUserDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\FollowUserCreateCommandHandler.cs" />
+    <Compile Include="Commands\RecordCreateCommand.cs" />
+    <Compile Include="Commands\RecordDeleteCommand.cs" />
+    <Compile Include="Commands\RecordUpdateCommand.cs" />
     <Compile Include="Commands\MemberUpdateCommand.cs" />
     <Compile Include="Commands\VideoResourceCreateCommand.cs" />
     <Compile Include="Config\Email.cs" />
@@ -110,13 +116,13 @@
     <Compile Include="CommandHandlers\OrganisationUpdateCommandHandler.cs" />
     <Compile Include="CommandHandlers\ChatMessageCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\UserUpdateCommandHandler.cs" />
-    <Compile Include="CommandHandlers\ObservationNoteCreateCommandHandler.cs" />
+    <Compile Include="CommandHandlers\SightingNoteCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\UserUpdatePasswordCommandHandler.cs" />
     <Compile Include="CommandHandlers\MediaResourceDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\MediaResourceCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\ObservationDeleteCommandHandler.cs" />
-    <Compile Include="CommandHandlers\ObservationNoteDeleteCommandHandler.cs" />
-    <Compile Include="CommandHandlers\ObservationNoteUpdateCommandHandler.cs" />
+    <Compile Include="CommandHandlers\SightingNoteDeleteCommandHandler.cs" />
+    <Compile Include="CommandHandlers\SightingNoteUpdateCommandHandler.cs" />
     <Compile Include="CommandHandlers\PostUpdateCommandHandler.cs" />
     <Compile Include="CommandHandlers\TeamCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\TeamDeleteCommandHandler.cs" />
@@ -145,7 +151,7 @@
     <Compile Include="Commands\MediaResourceDeleteCommand.cs" />
     <Compile Include="Commands\MemberDeleteCommand.cs" />
     <Compile Include="Commands\ObservationDeleteCommand.cs" />
-    <Compile Include="Commands\ObservationNoteDeleteCommand.cs" />
+    <Compile Include="Commands\SightingNoteDeleteCommand.cs" />
     <Compile Include="Commands\OrganisationDeleteCommand.cs" />
     <Compile Include="Commands\PostDeleteCommand.cs" />
     <Compile Include="Commands\ProjectDeleteCommand.cs" />
@@ -168,8 +174,8 @@
     <Compile Include="Commands\TeamProjectCreateCommand.cs" />
     <Compile Include="Commands\UserUpdateCommand.cs" />
     <Compile Include="Commands\MediaResourceCreateCommand.cs" />
-    <Compile Include="Commands\ObservationNoteCreateCommand.cs" />
-    <Compile Include="Commands\ObservationNoteUpdateCommand.cs" />
+    <Compile Include="Commands\SightingNoteCreateCommand.cs" />
+    <Compile Include="Commands\SightingNoteUpdateCommand.cs" />
     <Compile Include="Commands\PostUpdateCommand.cs" />
     <Compile Include="Commands\TeamCreateCommand.cs" />
     <Compile Include="Commands\TeamUpdateCommand.cs" />
@@ -200,10 +206,13 @@
     <Compile Include="DomainModels\BaseObjectEqualityComparer.cs" />
     <Compile Include="DomainModels\CommentsComponent.cs" />
     <Compile Include="DomainModels\ChatMessage.cs" />
-    <Compile Include="DomainModels\IDiscussed.cs" />
-    <Compile Include="DomainModels\DenormalisedReferences\DenormalisedRoleReference.cs" />
+    <Compile Include="DomainModels\CommentBase.cs" />
+    <Compile Include="DomainModels\CommentNew.cs" />
+    <Compile Include="DomainModels\IDiscussable.cs" />
+    <Compile Include="DomainModels\Discussion.cs" />
+    <Compile Include="DomainModels\Sighting.cs" />
+    <Compile Include="DomainModels\Observation.cs" />
     <Compile Include="DomainModels\FollowUser.cs" />
-    <Compile Include="DomainModels\DenormalisedReferences\DenormalisedObservationNoteReference.cs" />
     <Compile Include="DomainModels\IContribution.cs" />
     <Compile Include="DomainModels\IGroup.cs" />
     <Compile Include="DomainModels\IOwnable.cs" />
@@ -211,6 +220,7 @@
     <Compile Include="DomainModels\IPublicGroup.cs" />
     <Compile Include="DomainModels\MediaResource.cs" />
     <Compile Include="DomainModels\MediaResourceFile.cs" />
+    <Compile Include="DomainModels\Record.cs" />
     <Compile Include="DomainModels\ReferenceSpecies.cs" />
     <Compile Include="DomainModels\Species.cs" />
     <Compile Include="DomainModels\UserProject.cs" />
@@ -218,15 +228,13 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DomainModels\ObservationMedia.cs" />
-    <Compile Include="DomainModels\DenormalisedReferences\DenormalisedMemberReference.cs" />
     <Compile Include="DomainModels\DomainSignatureAttribute.cs" />
     <Compile Include="DomainModels\DomainModel.cs" />
     <Compile Include="DomainModels\Group.cs" />
-    <Compile Include="DomainModels\DenormalisedReferences\DenormalisedObservationReference.cs" />
     <Compile Include="DomainModels\IAssignableId.cs" />
     <Compile Include="DomainModels\Member.cs" />
     <Compile Include="DomainModels\DenormalisedReferences\DenormalisedGroupReference.cs" />
-    <Compile Include="DomainModels\ObservationNote.cs" />
+    <Compile Include="DomainModels\SightingNote.cs" />
     <Compile Include="DomainModels\Status.cs" />
     <Compile Include="DomainModels\UserSession.cs" />
     <Compile Include="DomainModels\ValueObject.cs" />
@@ -259,7 +267,6 @@
     <Compile Include="DesignByContract\PostconditionException.cs" />
     <Compile Include="DesignByContract\PreconditionException.cs" />
     <Compile Include="DomainModels\DenormalisedReferences\DenormalisedUserReference.cs" />
-    <Compile Include="DomainModels\Observation.cs" />
     <Compile Include="DomainModels\Organisation.cs" />
     <Compile Include="DomainModels\Permission.cs" />
     <Compile Include="DomainModels\Post.cs" />
@@ -274,7 +281,7 @@
     <Compile Include="Events\UserLoggedInEvent.cs" />
     <Compile Include="Extensions\CollectionExtensions.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
-    <Compile Include="DomainModels\ObservationGroup.cs" />
+    <Compile Include="DomainModels\SightingGroup.cs" />
     <Compile Include="Extensions\DomainExtensions.cs" />
     <Compile Include="Factories\AvatarFactory.cs" />
     <Compile Include="Factories\IAvatarFactory.cs" />

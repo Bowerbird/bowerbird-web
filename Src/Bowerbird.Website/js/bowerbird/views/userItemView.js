@@ -14,7 +14,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/user'], function ($, 
 
         tagName: 'li',
 
-        className: 'menu-group-item',
+        className: 'online-user-item',
 
         template: 'UserItem',
 

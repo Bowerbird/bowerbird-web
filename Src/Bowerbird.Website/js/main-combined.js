@@ -13192,33 +13192,6 @@ function ($, _, Backbone, Chat)
 
     return ChatCollection;
 });
-/// <reference path="../../libs/log.js" />
-/// <reference path="../../libs/require/require.js" />
-/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
-/// <reference path="../../libs/underscore/underscore.js" />
-/// <reference path="../../libs/backbone/backbone.js" />
-/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
-
-// MediaResource
-// -------------
-
-define('models/mediaresource',['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
-
-    var MediaResource = Backbone.Model.extend({
-        defaults: {
-            Key: '',
-            MediaType: '',
-            VideoId: ''
-        },
-
-        idAttribute: 'Id',
-
-        urlRoot: '/mediaresources'
-    });
-
-    return MediaResource;
-
-});
 // Backbone.Marionette v0.7.2
 //
 // Copyright (C)2011 Derick Bailey, Muted Solutions, LLC
@@ -15519,8 +15492,8 @@ define('signalr',['jquery', 'json2'], function ($) {
 
 // Initialises the app, but does not start rendering. That is done 
 // when app.start() is called
-define('app',['jquery', 'underscore', 'backbone', 'ich', 'bootstrap-data', 'models/user', 'collections/usercollection', 'collections/projectcollection', 'collections/teamcollection', 'collections/organisationcollection', 'collections/activitycollection', 'collections/exploreprojectcollection', 'collections/chatcollection', 'models/mediaresource', 'marionette', 'signalr'],
-function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectCollection, TeamCollection, OrganisationCollection, ActivityCollection, ExploreProjectCollection, ChatCollection, MediaResource) {
+define('app',['jquery', 'underscore', 'backbone', 'ich', 'bootstrap-data', 'models/user', 'collections/usercollection', 'collections/projectcollection', 'collections/teamcollection', 'collections/organisationcollection', 'collections/activitycollection', 'collections/exploreprojectcollection', 'collections/chatcollection', 'marionette', 'signalr'],
+function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectCollection, TeamCollection, OrganisationCollection, ActivityCollection, ExploreProjectCollection, ChatCollection) {
     // Create an instance of the app
     var app = new Backbone.Marionette.Application();
 
@@ -16216,6 +16189,33 @@ define('views/avataritemview',['jquery', 'underscore', 'backbone', 'app', 'ich']
     });
 
     return AvatarItemView;
+});
+/// <reference path="../../libs/log.js" />
+/// <reference path="../../libs/require/require.js" />
+/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
+/// <reference path="../../libs/underscore/underscore.js" />
+/// <reference path="../../libs/backbone/backbone.js" />
+/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
+
+// MediaResource
+// -------------
+
+define('models/mediaresource',['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
+
+    var MediaResource = Backbone.Model.extend({
+        defaults: {
+            Key: '',
+            MediaType: '',
+            VideoId: ''
+        },
+
+        idAttribute: 'Id',
+
+        urlRoot: '/mediaresources'
+    });
+
+    return MediaResource;
+
 });
 /// <reference path="../../libs/log.js" />
 /// <reference path="../../libs/require/require.js" />
@@ -17572,7 +17572,7 @@ if (jQuery) (function ($) {
         var hasScrollbar = false;
 
         // set the height of the dropdown options
-        if (multiSelectOptions.height() > o.listHeight) {
+        if (multiSelectOptions.height() >= o.listHeight) {
             multiSelectOptions.css("height", o.listHeight + 'px');
             hasScrollbar = true;
         } else {
@@ -17599,7 +17599,7 @@ if (jQuery) (function ($) {
                 multiSelectOptions.find('INPUT:checkbox').attr('checked', $(this).attr('checked')).parent("LABEL").toggleClass('checked', $(this).attr('checked'));
             });
         }
-
+         
         // Handle OptGroup oncheck
         if (o.optGroupSelectable) {
             multiSelectOptions.addClass('optGroupHasCheckboxes');
@@ -17981,9 +17981,9 @@ if (jQuery) (function ($) {
             //var hasScrollbar = false;
 
             // set the height of the dropdown options
-            if (multiSelectOptions.height() > o.listHeight) {
+            if (multiSelectOptions.height() >= o.listHeight) {
                 multiSelectOptions.css("height", o.listHeight + 'px');
-                //hasScrollbar = true;
+                hasScrollbar = true;
             } else {
                 multiSelectOptions.css("height", '');
             }
@@ -18153,7 +18153,7 @@ function ($, _, Backbone, app, UserFormLayoutView, User) {
     // Hub Callbacks
     // -------------
 
-    // Receive a usee status update
+    // Receive a user status update
     var userStatusUpdate = function (userStatus) {
         log('activityController.userStatusUpdate', this, userStatus);
 
@@ -21686,12 +21686,13 @@ function ($, _, Backbone, app, HomePublicLayoutView, HomePrivateLayoutView) {
 
     HomeController.showHomeStream = function () {
         app.updateTitle('');
-        var homeLayoutView = null;
+        
+        var homeLayoutView;
 
         if (app.authenticatedUser) {
-            var homeLayoutView = new HomePrivateLayoutView({ model: app.authenticatedUser.user });
+            homeLayoutView = new HomePrivateLayoutView({ model: app.authenticatedUser.user });
         } else {
-            var homeLayoutView = new HomePublicLayoutView();
+            homeLayoutView = new HomePublicLayoutView();
         }
 
         app.content[app.getShowViewMethodName('home')](homeLayoutView);
@@ -21735,7 +21736,7 @@ function ($, _, Backbone, app)
         template: 'ObservationDetails',
 
         serializeData: function () {
-            var json = { Model: { Observation: this.model.toViewJSON() } };
+            var json = { Model: { Observation: this.model.toJSON() } };
             json.Model.ShowThumbnails = this.model.get('Media').length > 1 ? true : false;
             return json;
         },
@@ -24011,20 +24012,24 @@ $.ui.plugin.add("draggable", "zIndex", {
 // View that allows user to choose location on a mpa or via coordinates
 define('views/editmapview',['jquery', 'underscore', 'backbone', 'app', 'views/dummyoverlayview', 'jqueryui/autocomplete', 'jqueryui/draggable', 'async!http://maps.google.com/maps/api/js?sensor=false&region=AU'],
 function ($, _, Backbone, app, DummyOverlayView) {
+
     var EditMapView = Backbone.View.extend({
         id: 'location-fieldset',
 
         initialize: function (options) {
-            this.observation = options.model;
             this.mapMarker = null;
             this.zIndex = 0;
 
-            this.observation.mediaResources.on('change:Metadata', this.onMediaResourceFilesChanged, this);
+            if (this.model.mediaResources) {
+                this.model.mediaResources.on('change:Metadata', this.onMediaResourceFilesChanged, this);
+            }
         },
 
         render: function () {
             this._initMap();
-            this._initAddressField();
+            if (this.model.has('Address')) {
+                this._initAddressField();
+            }
             this._initLocationPin();
             return this;
         },
@@ -24033,7 +24038,7 @@ function ($, _, Backbone, app, DummyOverlayView) {
             var lat = mediaResource.get('Metadata').Latitude;
             var lon = mediaResource.get('Metadata').Longitude;
 
-            if ((this.observation.get('Latitude') === null && this.observation.get('Longitude') === null) && lat && lon) {
+            if ((this.model.get('Latitude') === '' && this.model.get('Longitude') === '') && lat && lon) {
                 this.changeMarkerPosition(lat, lon);
             }
         },
@@ -24073,9 +24078,9 @@ function ($, _, Backbone, app, DummyOverlayView) {
                                 value: item.formatted_address,
                                 latitude: item.geometry.location.lat(),
                                 longitude: item.geometry.location.lng()
-                            }
+                            };
                         }));
-                    })
+                    });
                 },
                 //This bit is executed upon selection of an address
                 select: function (event, ui) {
@@ -24200,8 +24205,8 @@ function ($, _, Backbone, app, DummyOverlayView) {
             return this.zIndex;
         },
 
-        changeMarkerPosition: function (lat, long) {
-            var latlng = new google.maps.LatLng(lat, long);
+        changeMarkerPosition: function (lat, lng) {
+            var latlng = new google.maps.LatLng(lat, lng);
 
             if (this.mapMarker === null) {
                 this._positionMarker(latlng);
@@ -24224,15 +24229,17 @@ function ($, _, Backbone, app, DummyOverlayView) {
             if (this.mapMarker) {
                 var lat = this.mapMarker.getPosition().lat();
                 var lng = this.mapMarker.getPosition().lng();
-                //            if (this.observation.get('anonymiseLocation') === true) {
+                
+                //            if (this.model.get('anonymiseLocation') === true) {
                 $('#Latitude').val(lat);
                 $('#Longitude').val(lng);
+                
                 //            }
                 //            else {
                 //                $('#latitude').val(parseFloat(lat).toFixed(1));
                 //                $('#longitude').val(parseFloat(lng).toFixed(1));
                 //            }
-                if (fireLatLongFieldsChangeEvent) {
+                if (fireLatLongFieldsChangeEvent || !this.model.has('Address')) {
                     //$('#latitude').change();
                     $('#Longitude').change();
                 }
@@ -24247,8 +24254,10 @@ function ($, _, Backbone, app, DummyOverlayView) {
         },
 
         _reverseGeocode: function () {
-            if (this.mapMarker) {
-                this.geocoder.geocode({ latLng: this.mapMarker.getPosition() }, this._reverseGeocodeResult);
+            if (this.model.has('Address')) {
+                if (this.mapMarker) {
+                    this.geocoder.geocode({ latLng: this.mapMarker.getPosition() }, this._reverseGeocodeResult);
+                }
             }
         },
 
@@ -24277,11 +24286,172 @@ function ($, _, Backbone, app, DummyOverlayView) {
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// MediaResourceItemView
-// ---------------------
+// EditObservationMediaFormView
+// ----------------------------
 
-define('views/mediaresourceitemview',['jquery', 'underscore', 'backbone', 'app', 'ich'],
+define('views/editobservationmediaformview',['jquery', 'underscore', 'backbone', 'app', 'ich', 'multiselect'],
 function ($, _, Backbone, app, ich) {
+
+    var EditObservationMediaFormView = Backbone.Marionette.ItemView.extend({
+        id: 'edit-observation-media-form',
+
+        template: 'EditObservationMediaForm',
+
+        events: {
+            'click .cancel-button': '_cancel',
+            'click .close': '_cancel',
+            'click .done-button': '_done'
+        },
+
+        licenceDetails: [
+              {
+                  Name: 'None (All Rights Reserved)',
+                  Id: ' ',
+                  Description: '',
+                  Icons: ['/img/copyright.svg']
+              },
+              {
+                  Name: 'Attribution',
+                  Id: 'BY',
+                  Description: 'This licence lets others distribute, remix and build upon a work, even commercially, as long as they credit the original creator/s (and any other nominated parties). This is the most accommodating of the licences in terms of what others can do with the work.',
+                  DeedUri: 'http://creativecommons.org/licenses/by/3.0/au',
+                  LegalCodeUri: 'http://creativecommons.org/licenses/by/3.0/au/legalcode',
+                  Icons: ['/img/by.svg']
+              },
+              {
+                  Name: 'Attribution-Share Alike',
+                  Id: 'BY-SA',
+                  Description: 'This licence lets others distribute, remix and build upon the work, even for commercial purposes, as long as they credit the original creator/s (and any other nominated parties) and license any new creations based on the work under the same terms. All new derivative works will carry the same licence, so will also allow commercial use.<br />' +
+                        'In other words, you agree to share your materials with others, if they will share their new works in return. This licence is often compared to the free software licences, known as ‘copyleft.’',
+                  DeedUri: 'http://creativecommons.org/licenses/by-sa/3.0/au',
+                  LegalCodeUri: 'http://creativecommons.org/licenses/by-sa/3.0/au/legalcode',
+                  Icons: ['/img/by.svg', '/img/sa.svg']
+              },
+              {
+                  Name: 'Attribution-No Derivative Works',
+                  Id: 'BY-ND',
+                  Description: 'This licence allows others to distribute the work, even for commercial purposes, as long as the work is unchanged, and the original creator/s (and any other nominated parties) are credited.',
+                  DeedUri: 'http://creativecommons.org/licenses/by-nd/3.0/au',
+                  LegalCodeUri: 'http://creativecommons.org/licenses/by-nd/3.0/au/legalcode',
+                  Icons: ['/img/by.svg', '/img/nd.svg']
+              },
+              {
+                  Name: 'Attribution-Noncommercial',
+                  Id: 'BY-NC',
+                  Description: 'This licence lets others distribute, remix and build upon the work, but only if it is for non-commercial purposes and they credit the original creator/s (and any other nominated parties). They don’t have to license their derivative works on the same terms.',
+                  DeedUri: 'http://creativecommons.org/licenses/by-nc/3.0/au',
+                  LegalCodeUri: 'http://creativecommons.org/licenses/by-nc/3.0/au/legalcode',
+                  Icons: ['/img/by.svg', '/img/nc.svg']
+              },
+              {
+                  Name: 'Creative Commons Attribution-Noncommercial-Share Alike',
+                  Id: 'BY-NC-SA',
+                  Description: 'This licence lets others distribute, remix and build upon the work, but only if it is for non-commercial purposes, they credit the original creator/s (and any other nominated parties) and they license their derivative works under the same terms.',
+                  DeedUri: 'http://creativecommons.org/licenses/by-nc-sa/3.0/au',
+                  LegalCodeUri: 'http://creativecommons.org/licenses/by-nc-sa/3.0/au/legalcode',
+                  Icons: ['/img/by.svg', '/img/nc.svg', '/img/sa.svg']
+              },
+              {
+                  Name: 'Attribution-Noncommercial-No Derivatives',
+                  Id: 'BY-NC-ND',
+                  Description: 'This licence is the most restrictive of the six main licences, allowing redistribution of the work in its current form only. This licence is often called the ‘free advertising’ licence because it allows others to download and share the work as long as they credit the original creator/s (and any other nominated parties), they don’t change the material in any way and they don’t use it commercially.',
+                  DeedUri: 'http://creativecommons.org/licenses/by-nc-nd/3.0/au',
+                  LegalCodeUri: 'http://creativecommons.org/licenses/by-nc-nd/3.0/au/legalcode',
+                  Icons: ['/img/by.svg', '/img/nc.svg', '/img/nd.svg']
+              }
+        ],
+
+        serializeData: function () {
+            return {
+                Model: {
+                    Media: this.model.toJSON(),
+                    Licences: _.map(this.licenceDetails, function (licence) {
+                        return {
+                            Text: licence.Name,
+                            Value: licence.Id,
+                            Selected: licence.Id === 'BY' ? true : false
+                        };
+                    })
+                }
+            };
+        },
+
+        initialize: function (options) {
+            //            _.bindAll(this, '_loadVideo', '_onGetYouTubeVideo', '_onGetVimeoVideo', '_onGetVideoError', '_updateVideoStatus');
+
+            //            if (options.videoProviderName === 'youtube') {
+            //                this.provider = new YouTubeVideoProvider({ onGetVideoSuccess: this._onGetYouTubeVideo, onGetVideoError: this._onGetVideoError });
+            //            } else if (options.videoProviderName === 'vimeo') {
+            //                this.provider = new VimeoVideoProvider({ onGetVideoSuccess: this._onGetVimeoVideo, onGetVideoError: this._onGetVideoError });
+            //            }
+        },
+
+        onRender: function () {
+            var that = this;
+            this.licenceListSelectView = this.$el.find("#Licence").multiSelect({
+                selectAll: false,
+                listHeight: 263,
+                singleSelect: true,
+                noOptionsText: 'No Licences',
+                //noneSelected: '<span class="">None (All Rights Reserved)</span>',
+                renderOption: function (id, option) {
+                    var licence = _.find(that.licenceDetails, function (item) {
+                        return item.Id === option.value;
+                    });
+                    var model = {
+                        Model: {
+                            Licence: licence,
+                            Selected: option.selected
+                        }
+                    };
+                    return ich.LicenceItem(model);
+                },
+                oneOrMoreSelected: function (selectedOptions) {
+                    var $selectedHtml = $('<span />');
+                    _.each(selectedOptions, function (option) {
+                        var licence = _.find(that.licenceDetails, function (item) {
+                            return item.Id === option.value;
+                        });
+                        $selectedHtml.append('<span>' + licence.Name + '</span> ');
+                        for(var x = 0; x < licence.Icons.length; x++) {
+                            $selectedHtml.append('<img src="' + licence.Icons[x] + '" alt="" />');
+                        }
+                    });
+                    return $selectedHtml.children();
+                }
+            });
+
+            return this;
+        },
+
+        _cancel: function () {
+            this.remove();
+        },
+
+        _done: function () {
+            this.trigger('editmediadone', this.$el.find('#Description').val(), this.$el.find('#Licence').val());
+            this.remove();
+            //            if (this.videoId !== '') {
+            //                this.trigger('videouploaded', this.videoId, this.provider.getJSON().name);
+            //                this.remove();
+            //            }
+        }
+    });
+
+    return EditObservationMediaFormView;
+});
+/// <reference path="../../libs/log.js" />
+/// <reference path="../../libs/require/require.js" />
+/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
+/// <reference path="../../libs/underscore/underscore.js" />
+/// <reference path="../../libs/backbone/backbone.js" />
+/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
+
+// ObservationMediaItemView
+// ------------------------
+
+define('views/observationmediaitemview',['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editobservationmediaformview'],
+function ($, _, Backbone, app, ich, EditObservationMediaFormView) {
     var ImageProvider = function (options) {
 
     };
@@ -24290,20 +24460,22 @@ function ($, _, Backbone, app, ich) {
 
     };
 
-    var MediaResourceItemView = Backbone.View.extend({
-        className: 'media-resource-item',
+    var ObservationMediaItemView = Backbone.Marionette.ItemView.extend({
+        className: 'observation-media-item',
 
         events: {
-            'click .view-media-resource-button': 'viewMediaResource',
-            'click .add-caption-button': 'viewMediaResource',
-            'click .remove-media-resource-button': 'removeMediaResource'
+            'click .sub-menu-button': '_showMenu',
+            'click .sub-menu-button li': '_selectMenuItem',
+            'click .view-menu-item': '_viewMedia',
+            'click .edit-menu-item': '_editMediaDetails',
+            'click .remove-menu-item': '_removeMedia'
         },
+
+        template: 'ObservationMediaItem',
 
         provider: null,
 
         initialize: function (options) {
-            _.extend(this, Backbone.Events);
-
             var mediaType = this.model.get('MediaType');
             if (mediaType === 'image') {
                 this.provider = new ImageProvider();
@@ -24312,23 +24484,47 @@ function ($, _, Backbone, app, ich) {
             }
         },
 
-        render: function () {
-            this.$el
-                .append(ich.ObservationMediaResourceItem(this.model.toJSON())).css({ position: 'absolute', top: '-250px' })
-                .css({ width: 280 + 'px' });
+        onRender: function () {
+            this.$el.css({ position: 'absolute', top: '-250px', width: 280 + 'px' });
             return this;
         },
 
-        viewMediaResource: function () {
-            alert('Coming soon');
+        _showMenu: function (e) {
+            $('.sub-menu-button').removeClass('active');
+            $(e.currentTarget).addClass('active');
+            e.stopPropagation();
         },
 
-        removeMediaResource: function () {
-            this.trigger('mediaresourceview:remove', this.model, this);
+        _selectMenuItem: function (e) {
+            $('.sub-menu-button').removeClass('active');
+            e.stopPropagation();
+        },
+
+        _viewMedia: function (e) {
+            e.preventDefault();
+        },
+
+        _editMediaDetails: function (e) {
+            e.preventDefault();
+            $('body').append('<div id="modal-dialog"></div>');
+            log(this.model);
+            var editObservationMediaFormView = new EditObservationMediaFormView({ el: $('#modal-dialog'), model: this.model });
+            editObservationMediaFormView.on('editmediadone', this._onEditMedia, this);
+            editObservationMediaFormView.render();
+        },
+
+        _onEditMedia: function (description, licence) {
+            log('editmediadone', description, licence);
+            this.trigger('detailsedited', { mediaResource: this.model, description: description, licence: licence });
+        },
+
+        _removeMedia: function (e) {
+            e.preventDefault();
+            this.trigger('removemedia', this);
         }
     });
 
-    return MediaResourceItemView;
+    return ObservationMediaItemView;
 
 });
 define('jsonp',['jquery'], function ($) {
@@ -24832,6 +25028,31 @@ function ($, _, Backbone, app, ich) {
 
     return VideoFormView;
 });
+/// <reference path="../../libs/log.js" />
+/// <reference path="../../libs/require/require.js" />
+/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
+/// <reference path="../../libs/underscore/underscore.js" />
+/// <reference path="../../libs/backbone/backbone.js" />
+/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
+
+// MediaResourceCollection
+// -----------------------
+
+define('collections/mediaresourcecollection',['jquery', 'underscore', 'backbone', 'models/mediaresource'], function ($, _, Backbone, MediaResource) {
+
+    var MediaResourceCollection = Backbone.Collection.extend({
+        model: MediaResource,
+
+        url: '/mediaresources',
+
+        initialize: function () {
+            _.extend(this, Backbone.Events);
+        }
+    });
+
+    return MediaResourceCollection;
+
+});
 /*
  * jQuery Iframe Transport Plugin 1.3
  * https://github.com/blueimp/jQuery-File-Upload
@@ -25005,16 +25226,16 @@ function ($, _, Backbone, app, ich) {
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// EditMediaView
-// -------------
+// ObservationMediaFormView
+// ------------------------
 
-// View that allows user to choose location on a mpa or via coordinates
-define('views/editmediaview',['jquery', 'underscore', 'backbone', 'app', 'models/mediaresource', 'views/mediaresourceitemview', 'views/videoformview', 'loadimage', 'fileupload', 'iframetransport'],
-function ($, _, Backbone, app, MediaResource, MediaResourceItemView, VideoFormView, loadImage) {
+define('views/observationmediaformview',['jquery', 'underscore', 'backbone', 'app', 'models/mediaresource', 'views/observationmediaitemview', 'views/videoformview', 'collections/mediaresourcecollection', 'fileupload', 'iframetransport'],
+function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFormView, MediaResourceCollection) {
 
-    var EditMediaView = Backbone.View.extend({
+    var ObservationMediaFormView = Backbone.Marionette.CompositeView.extend({
+        id: 'media-fieldset',
 
-        id: 'media-resources-fieldset',
+        itemView: ObservationMediaItemView,
 
         events: {
             'click #youtube-upload-button': '_showYouTubeVideoForm',
@@ -25022,30 +25243,106 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, VideoFormVi
         },
 
         initialize: function (options) {
-            _.extend(this, Backbone.Events);
-            _.bindAll(this, 'render', '_initMediaUploader', '_onMediaResourceUploadSuccess', '_onMediaResourceUploadFailure', '_onImageUploadAdd', '_showMediaResourceItemView');
-            this.mediaResourceItemViews = [];
+            _.bindAll(this, '_onMediaResourceUploadSuccess', '_onMediaResourceUploadFailure', '_onImageUploadAdd', '_onVideoUploadAdd');
+
+            this.currentUploads = new MediaResourceCollection();
+            this.failedUploads = new MediaResourceCollection();
+
+            this.currentUploads.on('add', this._onCurrentUploadAdded, this);
+            this.failedUploads.on('add', this._onFailedUploadAdded, this);
+
             app.vent.on('mediaresourceuploadsuccess', this._onMediaResourceUploadSuccess, this);
             app.vent.on('mediaresourceuploadfailure', this._onMediaResourceUploadFailure, this);
         },
 
-        progressCount: 0,
-
-        errorCount: 0,
-
-        render: function () {
-            this._initMediaUploader();
-            return this;
-        },
-
-        _initMediaUploader: function () {
+        onRender: function () {
             this.$el.find('#file').fileupload({
                 dataType: 'json',
                 paramName: 'file',
                 url: '/mediaresources',
-                add: this._onImageUploadAdd,
-                submit: this._onSubmitImageUpload
+                add: this._onImageUploadAdd
             });
+        },
+
+        appendHtml: function (collectionView, itemView) {
+            itemView.on('removemedia', this._onMediaRemove, this);
+            itemView.on('detailsedited', this._onMediaUpdated, this);
+
+            var that = this;
+            this.$el.find('.observation-media-items')
+                .queue(function (next) {
+                    var $mediaResourceItems = that.$el.find('.observation-media-items');
+
+                    // Add the new view
+                    $mediaResourceItems.append(itemView.el);
+
+                    if ($mediaResourceItems.innerWidth() + $mediaResourceItems.scrollLeft() === $mediaResourceItems.get(0).scrollWidth) {
+                        // Don't do any animation
+                        next();
+                    }
+                    else {
+                        var scrollAmount = ($mediaResourceItems.get(0).scrollWidth - ($mediaResourceItems.innerWidth() + $mediaResourceItems.scrollLeft())) + $mediaResourceItems.scrollLeft();
+                        // Make space for the new item
+                        $mediaResourceItems.animate(
+                            { scrollLeft: scrollAmount },
+                            {
+                                duration: 100,
+                                //easing: 'swing',
+                                queue: false,
+                                complete: next
+                            });
+
+                    }
+                })
+                .queue(function (next) {
+                    // Slide the view down from the top of the div
+                    $(itemView.el)
+                        .animate(
+                        { top: '+=250' },
+                        {
+                            duration: 800,
+                            //easing: 'swing',
+                            complete: next
+                        });
+                })
+                .queue(function (next) {
+                    // Remove absolute positioning
+                    $(itemView.el).css({ position: 'relative', top: '' });
+
+                    var mediaResource = that.currentUploads.find(function (item) {
+                        return item.get('Key') === itemView.model.get('Key');
+                    });
+                    that.currentUploads.remove(mediaResource);
+
+                    that._updateProgress();
+                    next();
+                });
+        },
+
+        _onMediaRemove: function (mediaResourceItemView) {
+            log('removed', mediaResourceItemView);
+
+            var that = this;
+            this.$el.find('.observation-media-items')
+                .queue(function(next) {
+                    // Slide the view down out of the div
+                    $(mediaResourceItemView.el)
+                        .animate(
+                            { top: '+=250' },
+                            {
+                                duration: 800,
+                                //easing: 'swing',
+                                complete: next
+                            });
+                })
+                .queue(function(next) {
+                    that.model.removeMedia(mediaResourceItemView.model.id);
+                    next();
+                });
+        },
+
+        _onMediaUpdated: function (data) {
+            this.model.updateMedia(data.mediaResource.id, data.description, data.licence);
         },
 
         _showYouTubeVideoForm: function (e) {
@@ -25066,15 +25363,13 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, VideoFormVi
         },
 
         _onImageUploadAdd: function (e, data) {
-            this.$el.find('.upload-progress').show();
-            this._updateProgressCount(1);
             var key = app.generateGuid();
+            this.currentUploads.add({ Key: key });
+
             data.formData = { Key: key, OriginalFileName: data.files[0].name, MediaType: 'image', Usage: 'observation' };
             if (window.isIEFail) {
                 data.formData.ie = true;
             }
-            var mediaResource = new MediaResource({ Key: key });
-            this.model.addMediaResource(mediaResource);
 
             //            var self = this;
             //            var tempImage = null;
@@ -25105,16 +25400,43 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, VideoFormVi
         },
 
         _onVideoUploadAdd: function (videoId, videoProviderName) {
-            this._updateProgressCount(1);
-            var mediaResource = new MediaResource({ Key: app.generateGuid(), VideoId: videoId, VideoProviderName: videoProviderName, MediaType: 'video', Usage: 'observation' });
-            this.model.addMediaResource(mediaResource);
-            mediaResource.save();
+            var key = app.generateGuid();
+            this.currentUploads.add({ Key: key });
+
+            $.ajax({
+                url: '/mediaresources',
+                dataType: 'json',
+                type: 'post',
+                data: {
+                    key: key,
+                    videoId: videoId,
+                    videoProviderName: videoProviderName,
+                    mediaType: 'video',
+                    usage: 'observation'
+                }
+            });
         },
 
-        _updateProgressCount: function (value) {
-            this.progressCount += value;
-            if (this.progressCount > 0) {
-                this.$el.find('.upload-status .progress > div').text('Processing ' + this.progressCount + ' file' + (this.progressCount > 1 ? 's' : ''));
+        _onCurrentUploadAdded: function (mediaResource) {
+            this._updateProgress();
+        },
+
+        _onFailedUploadAdded: function (mediaResource) {
+            var failedCount = this.failedUploads.length;
+            this.$el.find('.upload-status .message').text(failedCount + ' file' + (failedCount > 1 ? 's' : '') + ' failed').show();
+            this._updateProgress();
+        },
+
+        _updateProgress: function () {
+            if (this.model.mediaResources.length > 0) {
+                this.$el.find('.observation-media-items-label').hide();
+            } else {
+                this.$el.find('.observation-media-items-label').show();
+            }
+
+            var currentCount = this.currentUploads.length;
+            if (this.currentUploads.length > 0) {
+                this.$el.find('.upload-status .progress > div').text('Processing ' + currentCount + ' file' + (currentCount > 1 ? 's' : ''));
                 this.$el.find('.upload-status .progress').show();
             }
             else {
@@ -25122,88 +25444,36 @@ function ($, _, Backbone, app, MediaResource, MediaResourceItemView, VideoFormVi
             }
         },
 
-        _updateUploadFailure: function (reason) {
-            this._updateProgressCount(-1);
-            this.errorCount++;
-            this.$el.find('.upload-status .message').text(this.errorCount + ' file' + (this.errorCount > 1 ? 's' : '') + ' failed').show();
-        },
-
-        _showMediaResourceItemView: function (mediaResource) {
-            var mediaResourceItemView = new MediaResourceItemView({ model: mediaResource });
-            mediaResourceItemView.on('mediaresourceview:remove', this._onMediaResourceViewRemove);
-            this.mediaResourceItemViews.push(mediaResourceItemView);
-
-            var that = this;
-            this.$el.find('#media-resource-items')
-                .queue(function (next) {
-                    var $mediaResourceItems = that.$el.find('#media-resource-items');
-
-                    // Add the new view
-                    $mediaResourceItems.append(mediaResourceItemView.render().el);
-
-                    if ($mediaResourceItems.innerWidth() + $mediaResourceItems.scrollLeft() === $mediaResourceItems.get(0).scrollWidth) {
-                        // Don't do any animation
-                        next();
-                    }
-                    else {
-                        var scrollAmount = ($mediaResourceItems.get(0).scrollWidth - ($mediaResourceItems.innerWidth() + $mediaResourceItems.scrollLeft())) + $mediaResourceItems.scrollLeft();
-                        // Make space for the new item
-                        $mediaResourceItems.animate(
-                            { scrollLeft: scrollAmount },
-                            {
-                                duration: 100,
-                                //easing: 'swing',
-                                queue: false,
-                                complete: next
-                            });
-
-                    }
-                })
-                .queue(function (next) {
-                    // Slide the view down from the top of the div
-                    $(mediaResourceItemView.el)
-                        .animate(
-                        { top: '+=250' },
-                        {
-                            duration: 800,
-                            //easing: 'swing',
-                            complete: next
-                        });
-                })
-                .queue(function (next) {
-                    // Remove absolute positioning
-                    $(mediaResourceItemView.el).css({ position: 'relative', top: '' });
-                    that._updateProgressCount(-1);
-                    next();
-                });
-        },
-
-        _onMediaResourceViewRemove: function (model, view) {
-            this.model.removeMediaResource(model.id);
-            view.remove();
-        },
-
         _onMediaResourceUploadSuccess: function (data) {
-            log('editMediaView:_onMediaResourceUploadSuccess', data);
-            var mediaResource = this.model.mediaResources.find(function (item) {
+            var mediaResource = this.currentUploads.find(function (item) {
                 return item.get('Key') === data.Key;
             });
             mediaResource.set(data);
-            this._showMediaResourceItemView(mediaResource);
+            //this.currentUploads.remove(mediaResource);
+            //this.model.mediaResources.add(mediaResource);
+            this.model.addMedia(mediaResource, '', '');
+
+            this._updateProgress();
         },
 
         _onMediaResourceUploadFailure: function (key, reason) {
-            log('editMediaView:_onMediaResourceUploadFailure', key, reason);
-
-            var mediaResource = this.model.mediaResources.find(function (item) {
+            var mediaResource = this.currentUploads.find(function (item) {
                 return item.get('Key') === key;
             });
-            this.model.mediaResources.remove(mediaResource);
-            this._updateUploadFailure(reason);
+
+            this.currentUploads.remove(mediaResource);
+            this.failedUploads.add(mediaResource);
+
+            this._updateProgress();
+        },
+
+        onClose: function () {
+            app.vent.off('mediaresourceuploadsuccess', this._onMediaResourceUploadSuccess, this);
+            app.vent.off('mediaresourceuploadfailure', this._onMediaResourceUploadFailure, this);
         }
     });
 
-    return EditMediaView;
+    return ObservationMediaFormView;
 
 });
 define('datepicker',['jquery', 'date'], function (jQuery) {
@@ -26428,8 +26698,8 @@ $.extend($.ui.dialog.overlay.prototype, {
 // ObservationFormLayoutView
 // -------------------------
 
-define('views/observationformlayoutview',['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editmapview', 'views/editmediaview', 'datepicker', 'multiselect', 'jqueryui/dialog'],
-function ($, _, Backbone, app, ich, EditMapView, EditMediaView) {
+define('views/observationformlayoutview',['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editmapview', 'views/observationmediaformview', 'datepicker', 'multiselect', 'jqueryui/dialog'],
+function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView) {
     var ObservationFormLayoutView = Backbone.Marionette.Layout.extend({
 
         className: 'form observation-form',
@@ -26438,8 +26708,7 @@ function ($, _, Backbone, app, ich, EditMapView, EditMediaView) {
 
         regions: {
             media: '#media-resources-fieldset',
-            map: '#location-fieldset',
-            video: '#video-upload'
+            map: '#location-fieldset'
         },
 
         events: {
@@ -26497,14 +26766,15 @@ function ($, _, Backbone, app, ich, EditMapView, EditMediaView) {
             this.map.attachView(editMapView);
             editMapView.render();
 
-            var editMediaView = new EditMediaView({ el: '#media-resources-fieldset', model: this.model });
-            this.media.attachView(editMediaView);
-            editMediaView.render();
+            var observationMediaFormView = new ObservationMediaFormView({ el: '#media-fieldset', model: this.model, collection: this.model.mediaResources });
+            this.media.attachView(observationMediaFormView);
+            observationMediaFormView.render();
 
             this.observedOnDatePicker = this.$el.find('#ObservedOn').datepicker();
 
             this.categoryListSelectView = this.$el.find("#Category").multiSelect({
                 selectAll: false,
+                listHeight: 263,
                 singleSelect: true,
                 noOptionsText: 'No Categories',
                 noneSelected: '<span class="default-option">Select Category</span>',
@@ -26526,6 +26796,7 @@ function ($, _, Backbone, app, ich, EditMapView, EditMediaView) {
 
             this.projectListSelectView = this.$el.find('#Projects').multiSelect({
                 selectAll: false,
+                listHeight: 263,
                 messageText: 'You can select more than one project',
                 noOptionsText: 'No Projects',
                 noneSelected: '<span class="default-option">Select Projects</span>',
@@ -27068,31 +27339,6 @@ function ($, _, Backbone, app, ObservationDetailsView, ObservationFormLayoutView
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// MediaResourceCollection
-// -----------------------
-
-define('collections/mediaresourcecollection',['jquery', 'underscore', 'backbone', 'models/mediaresource'], function ($, _, Backbone, MediaResource) {
-
-    var MediaResourceCollection = Backbone.Collection.extend({
-        model: MediaResource,
-
-        url: '/mediaresources',
-
-        initialize: function () {
-            _.extend(this, Backbone.Events);
-        }
-    });
-
-    return MediaResourceCollection;
-
-});
-/// <reference path="../../libs/log.js" />
-/// <reference path="../../libs/require/require.js" />
-/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
-/// <reference path="../../libs/underscore/underscore.js" />
-/// <reference path="../../libs/backbone/backbone.js" />
-/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
-
 // Observation
 // -----------
 
@@ -27119,6 +27365,7 @@ function ($, _, Backbone, ProjectCollection, MediaResourceCollection) {
 
         initialize: function (options) {
             this.mediaResources = new MediaResourceCollection();
+            this.media = [];
         },
 
         toJSON: function () {
@@ -27137,10 +27384,10 @@ function ($, _, Backbone, ProjectCollection, MediaResourceCollection) {
             };
         },
 
-        toViewJSON: function () {
-            // returns JSON containing all data for view
-            return Backbone.Model.prototype.toJSON.apply(this, arguments);
-        },
+        //        toViewJSON: function () {
+        //            // returns JSON containing all data for view
+        //            return Backbone.Model.prototype.toJSON.apply(this, arguments);
+        //        },
 
         addProject: function (id) {
             var projects = this.get('Projects');
@@ -27153,20 +27400,51 @@ function ($, _, Backbone, ProjectCollection, MediaResourceCollection) {
             this.set('Projects', _.without(projects, id));
         },
 
-        addMediaResource: function (mediaResource) {
-            mediaResource.on('change', this._setMedia, this);
+        //        addMediaResource: function (mediaResource) {
+        //            mediaResource.on('change', this._setMedia, this);
+        //            this.mediaResources.add(mediaResource);
+        //            this._setMedia();
+        //        },
+
+        //        removeMediaResource: function (id) {
+        //            this.mediaResources.remove(this.mediaResources.get(id));
+        //            this._setMedia();
+        //        },
+
+        //        _setMedia: function () {
+        //            var media = this.mediaResources.map(function (mediaResource) {
+        //                return { MediaResourceId: mediaResource.id, Description: 'description goes here...', Licence: 'licence goes here...' };
+        //            });
+        //            this.set('Media', media);
+        //        }
+
+        addMedia: function (mediaResource, description, licence) {
             this.mediaResources.add(mediaResource);
+            this.media.push({ mediaResource: mediaResource, description: description, licence: licence });
             this._setMedia();
         },
 
-        removeMediaResource: function (id) {
-            this.mediaResources.remove(this.mediaResources.get(id));
+        updateMedia: function (id, description, licence) {
+            var mediaResource = this.mediaResources.get(id);
+            this.media = _.filter(this.media, function (item) {
+                return item.mediaResource.id !== id;
+            });
+            this.media.push({ mediaResource: mediaResource, description: description, licence: licence });
+            this._setMedia();
+        },
+
+        removeMedia: function (id) {
+            var mediaResource = this.mediaResources.get(id);
+            this.mediaResources.remove(mediaResource);
+            this.media = _.filter(this.media, function (item) {
+                return item.mediaResource.id !== id;
+            });
             this._setMedia();
         },
 
         _setMedia: function () {
-            var media = this.mediaResources.map(function (mediaResource) {
-                return { MediaResourceId: mediaResource.id, Description: "description goes here...", Licence: 'licence goes here...' };
+            var media = this.media.map(function (item) {
+                return { MediaResourceId: item.mediaResource.id, Description: item.description, Licence: item.licence };
             });
             this.set('Media', media);
         }
@@ -27185,6 +27463,7 @@ function ($, _, Backbone, ProjectCollection, MediaResourceCollection) {
 
 // ObservationController & ObservationRouter
 // -----------------------------------------
+
 define('controllers/observationcontroller',['jquery', 'underscore', 'backbone', 'app', 'views/observationlayoutview', 'models/observation', 'queryparams'],
 function ($, _, Backbone, app, ObservationLayoutView, Observation) {
     var ObservationRouter = Backbone.Marionette.AppRouter.extend({
@@ -27311,6 +27590,337 @@ function ($, _, Backbone, app, ObservationLayoutView, Observation) {
     });
 
     return ObservationController;
+});
+/// <reference path="../../libs/log.js" />
+/// <reference path="../../libs/require/require.js" />
+/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
+/// <reference path="../../libs/underscore/underscore.js" />
+/// <reference path="../../libs/backbone/backbone.js" />
+/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
+
+// RecordFormView
+// --------------
+
+define('views/recordformview',['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editmapview', 'datepicker', 'multiselect', 'jqueryui/dialog'],
+function ($, _, Backbone, app, ich, EditMapView) {
+
+    var RecordFormView = Backbone.Marionette.Layout.extend({
+
+        className: 'form record-form',
+
+        template: 'RecordForm',
+
+        regions: {
+            //media: '#media-resources-fieldset',
+            map: '#location-fieldset'
+        },
+
+        events: {
+            'click #cancel': '_cancel',
+            'click #save': '_save',
+            //'change input#Title': '_contentChanged',
+            'change input#ObservedOn': '_contentChanged',
+            'change input#Latitude': '_latLongChanged',
+            'change input#Longitude': '_latLongChanged',
+            'change input#AnonymiseLocation': '_anonymiseLocationChanged',
+            'change #projects-field input:checkbox': '_projectsChanged',
+            'change #category-field input:checkbox': '_categoryChanged'
+        },
+
+        initialize: function (options) {
+            this.categories = options.categories;
+        },
+
+        serializeData: function () {
+            return {
+                Model: {
+                    Record: this.model.toJSON(),
+                    Categories: this.categories
+                }
+            };
+        },
+
+        onShow: function () {
+            this._showDetails();
+        },
+
+        showBootstrappedDetails: function () {
+            this.initializeRegions();
+            this._showDetails();
+        },
+
+        _showDetails: function () {
+            var editMapView = new EditMapView({ el: '#location-fieldset', model: this.model });
+            this.map.attachView(editMapView);
+            editMapView.render();
+
+            this.observedOnDatePicker = this.$el.find('#ObservedOn').datepicker();
+
+            this.categoryListSelectView = this.$el.find("#Category").multiSelect({
+                selectAll: false,
+                listHeight: 263,
+                singleSelect: true,
+                noOptionsText: 'No Categories',
+                noneSelected: '<span class="default-option">Select Category</span>',
+                oneOrMoreSelected: function (selectedOptions) {
+                    var $selectedHtml = $('<span />');
+                    _.each(selectedOptions, function (option) {
+                        $selectedHtml.append('<span>' + option.text + '</span> ');
+                    });
+                    return $selectedHtml.children();
+                }
+            });
+
+            if (!ich.templates.ProjectSelectItem) {
+                ich.addTemplate('ProjectSelectItem', '{{#Projects}}<option value="{{Id}}">{{Name}}</option>{{/Projects}}');
+            }
+
+            // Add project options
+            this.$el.find('#Projects').append(ich.ProjectSelectItem({ Projects: app.authenticatedUser.projects.toJSON() }));
+
+            this.projectListSelectView = this.$el.find('#Projects').multiSelect({
+                selectAll: false,
+                listHeight: 263,
+                messageText: 'You can select more than one project',
+                noOptionsText: 'No Projects',
+                noneSelected: '<span class="default-option">Select Projects</span>',
+                renderOption: function (id, option) {
+                    var html = '<label><input style="display:none;" type="checkbox" name="' + id + '[]" value="' + option.value + '"';
+                    if (option.selected) {
+                        html += ' checked="checked"';
+                    }
+                    var project = app.authenticatedUser.projects.get(option.value);
+
+                    html += ' /><img src="' + project.get('Avatar').Image.ThumbnailMedium.RelativeUri + '" alt="" />' + project.get('Name') + '</label>';
+                    return html;
+                },
+                oneOrMoreSelected: function (selectedOptions) {
+                    var $selectedHtml = $('<div />');
+                    _.each(selectedOptions, function (option) {
+                        var project = app.authenticatedUser.projects.get(option.value);
+                        $selectedHtml.append('<span class="selected-project"><img src="' + project.get('Avatar').Image.ThumbnailMedium.RelativeUri + '" alt="" />' + option.text + '</span> ');
+                    });
+                    return $selectedHtml.children();
+                }
+            });
+        },
+
+        _contentChanged: function (e) {
+            var target = $(e.currentTarget);
+            var data = {};
+            data[target.attr('id')] = target.attr('value');
+            this.model.set(data);
+
+            if (target.attr('id') === 'ObservedOn') {
+                this.dateUpdated = true;
+            }
+        },
+
+        _latLongChanged: function (e) {
+            var oldPosition = { latitude: this.model.get('Latitude'), longitude: this.model.get('Longitude') };
+            var newPosition = { latitude: this.$el.find('#Latitude').val(), longitude: this.$el.find('#Longitude').val() };
+
+            this.model.set('Latitude', newPosition.latitude);
+            this.model.set('Longitude', newPosition.longitude);
+            
+            // Only update pin if the location is different to avoid infinite loop
+            if (newPosition.Latitude !== '' && newPosition.Longitude !== '' && (oldPosition.Latitude !== newPosition.Latitude || oldPosition.Longitude !== newPosition.Longitude)) {
+                this.editMapView.changeMarkerPosition(this.model.get('Latitude'), this.model.get('Longitude'));
+            }
+        },
+
+        _anonymiseLocationChanged: function (e) {
+            var $checkbox = $(e.currentTarget);
+            this.model.set({ AnonymiseLocation: $checkbox.attr('checked') == 'checked' ? true : false });
+        },
+
+        _projectsChanged: function (e) {
+            var $checkbox = $(e.currentTarget);
+            if ($checkbox.attr('checked') === 'checked') {
+                var projectId = $checkbox.attr('value');
+                this.model.addProject(projectId);
+            } else {
+                this.model.removeProject($checkbox.attr('value'));
+            }
+        },
+
+        _categoryChanged: function (e) {
+            var $checkbox = $(e.currentTarget);
+            if ($checkbox.attr('checked') === 'checked') {
+                this.model.set('Category', $checkbox.attr('value'));
+            } else {
+                this.model.set('Category', '');
+            }
+        },
+
+        _cancel: function () {
+            app.showPreviousContentView();
+        },
+
+        _save: function () {
+            this.model.save();
+            app.showPreviousContentView();
+        }
+    });
+
+    return RecordFormView;
+
+});
+/// <reference path="../../libs/log.js" />
+/// <reference path="../../libs/require/require.js" />
+/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
+/// <reference path="../../libs/underscore/underscore.js" />
+/// <reference path="../../libs/backbone/backbone.js" />
+/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
+
+// Record
+// ------
+
+define('models/record',['jquery', 'underscore', 'backbone'],
+function ($, _, Backbone) {
+    
+    var Record = Backbone.Model.extend({
+        defaults: {
+            ObservedOn: null,
+            Latitude: null,
+            Longitude: null,
+            Category: '',
+            AnonymiseLocation: false,
+            Projects: [],
+            Comments: []
+        },
+
+        urlRoot: '/records',
+
+        idAttribute: 'Id',
+
+        toJSON: function () {
+            return {
+                ObservedOn: this.get('ObservedOn'),
+                Latitude: this.get('Latitude'),
+                Longitude: this.get('Longitude'),
+                Category: this.get('Category'),
+                AnonymiseLocation: this.get('AnonymiseLocation'),
+                Projects: this.get('Projects'),
+                Comments: this.get('Comments')
+            };
+        },
+
+        addProject: function (id) {
+            var projects = this.get('Projects');
+            projects.push(id);
+            this.set('Projects', projects);
+        },
+
+        removeProject: function (id) {
+            var projects = this.get('Projects');
+            this.set('Projects', _.without(projects, id));
+        }
+    });
+
+    return Record;
+
+});
+/// <reference path="../../libs/log.js" />
+/// <reference path="../../libs/require/require.js" />
+/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
+/// <reference path="../../libs/underscore/underscore.js" />
+/// <reference path="../../libs/backbone/backbone.js" />
+/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
+/// <reference path="../models/observation.js" />
+
+// RecordController & RecordRouter
+// -------------------------------
+
+define('controllers/recordcontroller',['jquery', 'underscore', 'backbone', 'app', 'views/recordformview', 'models/record', 'queryparams'],
+function ($, _, Backbone, app, RecordFormView, Record) {
+
+    var RecordRouter = Backbone.Marionette.AppRouter.extend({
+        appRoutes: {
+            'records/create': 'showRecordForm',
+            'records/:id/update': 'showRecordForm'
+            //'records/:id': 'showRecordDetails'
+        }
+    });
+
+    var RecordController = {};
+
+    //    // Helper method to load project layout, taking into account bootstrapped data and prerendered view
+    //    var showObservationLayoutView = function (observation) {
+    //        var observationLayoutView = new ObservationLayoutView({ model: observation });
+    //        app.showFormContentView(observationLayoutView, 'records');
+
+    //        if (app.isPrerendering('records')) {
+    //            observationLayoutView.showBootstrappedDetails();
+    //        }
+
+    //        return observationLayoutView;
+    //    };
+
+    var getModel = function (id, projectId) {
+        var url = '/records/create';
+        if (projectId) {
+            url += '?id=' + projectId;
+        }
+        if (id) {
+            url = id;
+        }
+        var deferred = new $.Deferred();
+        if (app.isPrerendering('records')) {
+            deferred.resolve(app.prerenderedView.data);
+        } else {
+            $.ajax({
+                url: url
+            }).done(function (data) {
+                deferred.resolve(data.Model);
+            });
+        }
+        return deferred.promise();
+    };
+
+    // Public API
+    // ----------
+
+    //    RecordController.showRecordDetails = function (id) {
+    //        $.when(getModel(id))
+    //            .done(function (model) {
+    //                var record = new Record(model.Record);
+    //                app.updateTitle(record.get('Title'));
+    //                var recordLayoutView = showRecordLayoutView(record);
+    //                recordLayoutView.showRecordDetails(record);
+    //                app.setPrerenderComplete();
+    //            });
+    //    };
+
+    RecordController.showRecordForm = function (id) {
+        $.when(getModel(id))
+            .done(function (model) {
+                var record = new Record(model.Record);
+                if (record.id) {
+                    app.updateTitle('Edit Record');
+                } else {
+                    app.updateTitle('New Record');
+                }
+
+                var recordFormView = new RecordFormView({ model: record, categories: model.Categories });
+                app.showFormContentView(recordFormView, 'records');
+
+                if (app.isPrerendering('records')) {
+                    recordFormView.showBootstrappedDetails();
+                }
+
+                //observationLayoutView.showObservationForm(observation, model.Categories);
+                app.setPrerenderComplete();
+            });
+    };
+
+    app.addInitializer(function () {
+        this.recordRouter = new RecordRouter({
+            controller: RecordController
+        });
+    });
+
+    return RecordController;
 });
 /// <reference path="../../libs/log.js" />
 /// <reference path="../../libs/require/require.js" />
@@ -29676,7 +30286,6 @@ define('views/footerview',['jquery', 'underscore', 'backbone', 'app'], function 
 // SidebarMenuGroupCompositeView
 // -----------------------------
 
-// A collection of links in the sidebar
 define('views/sidebarmenugroupcompositeview',['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, app) {
 
     var SidebarMenuGroupCompositeView = Backbone.Marionette.CompositeView.extend({
@@ -29952,7 +30561,7 @@ define('views/sidebarorganisationitemview',['jquery', 'underscore', 'backbone', 
     return SidebarOrganisationItemView;
 
 });
-/// <reference path="../../libs/log.js" />
+    /// <reference path="../../libs/log.js" />
 /// <reference path="../../libs/require/require.js" />
 /// <reference path="../../libs/jquery/jquery-1.7.2.js" />
 /// <reference path="../../libs/underscore/underscore.js" />
@@ -30006,7 +30615,6 @@ function ($, _, Backbone, app, SidebarMenuGroupCompositeView, SidebarProjectItem
                 this.organisationsMenu.show(sidebarOrganisationCompositeView);
             }
 
-            var that = this;
             this.$el.find('#action-menu .new-project-button').on('click', function (e) {
                 e.preventDefault();
                 app.projectRouter.navigate($(this).attr('href'), { trigger: true });
@@ -30019,6 +30627,12 @@ function ($, _, Backbone, app, SidebarMenuGroupCompositeView, SidebarProjectItem
                 //app.vent.trigger('home:show');
                 return false;
             });
+            this.$el.find('#action-menu .new-record-button').on('click', function (e) {
+                e.preventDefault();
+                app.recordRouter.navigate($(this).attr('href'), { trigger: true });
+                //app.vent.trigger('home:show');
+                return false;
+            });            
             this.$el.find('a.user-stream').on('click', function (e) {
                 e.preventDefault();
                 app.groupUserRouter.navigate($(this).attr('href'), { trigger: true });
@@ -30248,7 +30862,7 @@ define('views/useritemview',['jquery', 'underscore', 'backbone', 'app', 'models/
 
         tagName: 'li',
 
-        className: 'menu-group-item',
+        className: 'online-user-item',
 
         template: 'UserItem',
 
@@ -30278,6 +30892,7 @@ define('views/useritemview',['jquery', 'underscore', 'backbone', 'app', 'models/
 
 define('views/onlineusercompositeview',['jquery', 'underscore', 'backbone', 'app', 'views/useritemview'],
 function ($, _, Backbone, app, UserItemView) {
+    
     var OnlineUserCompositeView = Backbone.Marionette.CompositeView.extend({
 
         itemView: UserItemView,
@@ -30298,6 +30913,7 @@ function ($, _, Backbone, app, UserItemView) {
         },
 
         appendHtml: function (collectionView, itemView) {
+            log('>>>>>>>>>>>>>>>>>>>>>>>>>', itemView);
             collectionView.$el.find('ul').prepend(itemView.el);
         },
 
@@ -30666,6 +31282,7 @@ require([
         'controllers/groupusercontroller',
         'controllers/homecontroller',
         'controllers/observationcontroller',
+        'controllers/recordcontroller',
         'controllers/organisationcontroller',
         'controllers/postcontroller',
         'controllers/projectcontroller',

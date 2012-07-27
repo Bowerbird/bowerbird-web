@@ -48,7 +48,7 @@ function ($, _, Backbone, app, UserFormLayoutView, User) {
     // Hub Callbacks
     // -------------
 
-    // Receive a usee status update
+    // Receive a user status update
     var userStatusUpdate = function (userStatus) {
         log('activityController.userStatusUpdate', this, userStatus);
 

@@ -22,12 +22,13 @@ function ($, _, Backbone, app, HomePublicLayoutView, HomePrivateLayoutView) {
 
     HomeController.showHomeStream = function () {
         app.updateTitle('');
-        var homeLayoutView = null;
+        
+        var homeLayoutView;
 
         if (app.authenticatedUser) {
-            var homeLayoutView = new HomePrivateLayoutView({ model: app.authenticatedUser.user });
+            homeLayoutView = new HomePrivateLayoutView({ model: app.authenticatedUser.user });
         } else {
-            var homeLayoutView = new HomePublicLayoutView();
+            homeLayoutView = new HomePublicLayoutView();
         }
 
         app.content[app.getShowViewMethodName('home')](homeLayoutView);

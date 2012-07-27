@@ -48,6 +48,7 @@
         'controllers/groupusercontroller',
         'controllers/homecontroller',
         'controllers/observationcontroller',
+        'controllers/recordcontroller',
         'controllers/organisationcontroller',
         'controllers/postcontroller',
         'controllers/projectcontroller',

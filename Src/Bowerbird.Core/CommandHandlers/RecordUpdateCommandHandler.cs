@@ -1,6 +1,4 @@
-/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -15,14 +13,18 @@
 */
 
 using System;
+using System.Collections.Generic;
 using Bowerbird.Core.Commands;
+using Bowerbird.Core.Repositories;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Raven.Client;
+using Raven.Client.Linq;
+using System.Linq;
 
 namespace Bowerbird.Core.CommandHandlers
 {
-    public class ObservationNoteUpdateCommandHandler : ICommandHandler<ObservationNoteUpdateCommand>
+    public class RecordUpdateCommandHandler : ICommandHandler<RecordUpdateCommand>
     {
         #region Members
 
@@ -32,7 +34,7 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Constructors
 
-        public ObservationNoteUpdateCommandHandler(
+        public RecordUpdateCommandHandler(
             IDocumentSession documentSession)
         {
             Check.RequireNotNull(documentSession, "documentSession");
@@ -48,25 +50,25 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Methods
 
-        public void Handle(ObservationNoteUpdateCommand command)
+        public void Handle(RecordUpdateCommand command)
         {
             Check.RequireNotNull(command, "command");
 
-            var observationNote = _documentSession.Load<ObservationNote>(command.Id);
+            var record = _documentSession
+                .Load<Record>(command.Id);
 
-            observationNote.UpdateDetails(
+            record.UpdateDetails(
                 _documentSession.Load<User>(command.UserId),
-                command.CommonName,
-                command.ScientificName,
-                command.Taxonomy,
-                command.Tags,
-                command.Descriptions,
-                command.References);
+                command.ObservedOn,
+                command.Latitude,
+                command.Longitude,
+                command.AnonymiseLocation,
+                command.Category
+            );
 
-            _documentSession.Store(observationNote);
+            _documentSession.Store(record);
         }
 
-        #endregion
-
+        #endregion      
     }
 }

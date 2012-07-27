@@ -1,4 +1,4 @@
-/* Bowerbird V1 
+﻿/* Bowerbird V1 
 
  Licensed under MIT 1.1 Public License
 
@@ -14,10 +14,14 @@
  
 */
 
+using System;
+using System.Collections.Generic;
+
 namespace Bowerbird.Core.Commands
 {
-    public class ObservationNoteDeleteCommand : ICommand
+    public class RecordCreateCommand : ICommand
     {
+
         #region Members
 
         #endregion
@@ -28,7 +32,17 @@ namespace Bowerbird.Core.Commands
 
         #region Properties
 
-        public string Id { get; set; }
+        public DateTime ObservedOn { get; set; }
+
+        public string Latitude { get; set; }
+
+        public string Longitude { get; set; }
+
+        public bool AnonymiseLocation { get; set; }
+
+        public string Category { get; set; }
+
+        public IEnumerable<string> Projects { get; set; }
 
         public string UserId { get; set; }
 
@@ -37,5 +51,6 @@ namespace Bowerbird.Core.Commands
         #region Methods
 
         #endregion
+
     }
 }

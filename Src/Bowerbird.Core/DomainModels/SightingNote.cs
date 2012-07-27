@@ -21,7 +21,7 @@ using System.Collections.Generic;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public class ObservationNote : DomainModel, IOwnable, IContribution
+    public class SightingNote
     {
         #region Members
 
@@ -36,17 +36,14 @@ namespace Bowerbird.Core.DomainModels
 
         #region Constructors
 
-        protected ObservationNote() 
+        protected SightingNote() 
             : base() 
         {
             InitMembers();
-
-            EnableEvents();
         }
 
-        public ObservationNote(
+        public SightingNote(
             User createdByUser,
-            Observation observation,
             string commonName, 
             string scientificName, 
             string taxonomy,
@@ -57,7 +54,6 @@ namespace Bowerbird.Core.DomainModels
             : base()
         {
             Check.RequireNotNull(createdByUser, "createdByUser");
-            Check.RequireNotNull(observation, "observation");
             Check.RequireNotNull(descriptions, "descriptions");
             Check.RequireNotNull(references, "references");
             Check.RequireNotNull(tags, "tags");
@@ -66,7 +62,6 @@ namespace Bowerbird.Core.DomainModels
 
             User = createdByUser;
             CreatedOn = createdOn;
-            Observation = observation;
 
             SetDetails(
                 commonName,
@@ -75,20 +70,17 @@ namespace Bowerbird.Core.DomainModels
                 tags,
                 descriptions,
                 references);
-
-            EnableEvents();
-            FireEvent(new DomainModelCreatedEvent<ObservationNote>(this, createdByUser, this));
         }
 
         #endregion
 
         #region Properties
+
+        public string Id { get; private set; }
         
         public DenormalisedUserReference User { get; private set; }
 
         public DateTime CreatedOn { get; private set; }
-        
-        public DenormalisedObservationReference Observation { get; private set; }
         
         public string ScientificName { get; private set; }
         
@@ -112,12 +104,6 @@ namespace Bowerbird.Core.DomainModels
         {
             get { return _references; }
             private set { _references = new Dictionary<string, string>(value); }
-        }
-
-        [Raven.Imports.Newtonsoft.Json.JsonIgnore]
-        IEnumerable<string> IOwnable.Groups
-        {
-            get { return this.Observation.Groups; }
         }
 
         #endregion
@@ -151,7 +137,7 @@ namespace Bowerbird.Core.DomainModels
             References = references.ToDictionary(x => x.Key, x => x.Value);
         }
 
-        public ObservationNote UpdateDetails(
+        public SightingNote UpdateDetails(
             User updatedByUser, 
             string commonName, 
             string scientificName, 
@@ -171,8 +157,6 @@ namespace Bowerbird.Core.DomainModels
                 tags,
                 descriptions,
                 references);
-
-            FireEvent(new DomainModelUpdatedEvent<ObservationNote>(this, updatedByUser, this));
 
             return this;
         }

@@ -10,6 +10,7 @@
 
 define(['jquery', 'underscore', 'backbone', 'app', 'views/useritemview'],
 function ($, _, Backbone, app, UserItemView) {
+    
     var OnlineUserCompositeView = Backbone.Marionette.CompositeView.extend({
 
         itemView: UserItemView,
@@ -30,6 +31,7 @@ function ($, _, Backbone, app, UserItemView) {
         },
 
         appendHtml: function (collectionView, itemView) {
+            log('>>>>>>>>>>>>>>>>>>>>>>>>>', itemView);
             collectionView.$el.find('ul').prepend(itemView.el);
         },
 

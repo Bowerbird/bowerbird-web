@@ -1,4 +1,4 @@
-﻿/// <reference path="../../libs/log.js" />
+﻿    /// <reference path="../../libs/log.js" />
 /// <reference path="../../libs/require/require.js" />
 /// <reference path="../../libs/jquery/jquery-1.7.2.js" />
 /// <reference path="../../libs/underscore/underscore.js" />
@@ -52,7 +52,6 @@ function ($, _, Backbone, app, SidebarMenuGroupCompositeView, SidebarProjectItem
                 this.organisationsMenu.show(sidebarOrganisationCompositeView);
             }
 
-            var that = this;
             this.$el.find('#action-menu .new-project-button').on('click', function (e) {
                 e.preventDefault();
                 app.projectRouter.navigate($(this).attr('href'), { trigger: true });
@@ -65,6 +64,12 @@ function ($, _, Backbone, app, SidebarMenuGroupCompositeView, SidebarProjectItem
                 //app.vent.trigger('home:show');
                 return false;
             });
+            this.$el.find('#action-menu .new-record-button').on('click', function (e) {
+                e.preventDefault();
+                app.recordRouter.navigate($(this).attr('href'), { trigger: true });
+                //app.vent.trigger('home:show');
+                return false;
+            });            
             this.$el.find('a.user-stream').on('click', function (e) {
                 e.preventDefault();
                 app.groupUserRouter.navigate($(this).attr('href'), { trigger: true });

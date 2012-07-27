@@ -53,14 +53,14 @@ namespace Bowerbird.Core.CommandHandlers
         /// <summary>
         /// TODO: Add functionality to update MediaResources
         /// </summary>
-        public void Handle(ObservationUpdateCommand observationUpdateCommand)
+        public void Handle(ObservationUpdateCommand command)
         {
-            Check.RequireNotNull(observationUpdateCommand, "observationUpdateCommand");
+            Check.RequireNotNull(command, "command");
 
             var observation = _documentSession
-                .Load<Observation>(observationUpdateCommand.Id);
+                .Load<Observation>(command.Id);
 
-            var mediaItemsToAdd = observationUpdateCommand
+            var mediaItemsToAdd = command
                 .AddMediaResources
                 .Select(addMediaResource => new Tuple<MediaResource, string, string>(
                     _documentSession.Load<MediaResource>(addMediaResource.Item1), 
@@ -69,15 +69,15 @@ namespace Bowerbird.Core.CommandHandlers
                 .ToList();
 
             observation.UpdateDetails(
-                _documentSession.Load<User>(observationUpdateCommand.UserId),
-                observationUpdateCommand.Title,
-                observationUpdateCommand.ObservedOn,
-                observationUpdateCommand.Latitude,
-                observationUpdateCommand.Longitude,
-                observationUpdateCommand.Address,
-                observationUpdateCommand.IsIdentificationRequired,
-                observationUpdateCommand.AnonymiseLocation,
-                observationUpdateCommand.Category
+                _documentSession.Load<User>(command.UserId),
+                command.Title,
+                command.ObservedOn,
+                command.Latitude,
+                command.Longitude,
+                command.Address,
+                command.IsIdentificationRequired,
+                command.AnonymiseLocation,
+                command.Category
             );
 
             foreach (var observationToAdd in mediaItemsToAdd)
@@ -85,7 +85,7 @@ namespace Bowerbird.Core.CommandHandlers
                 observation.AddMedia(observationToAdd.Item1, observationToAdd.Item2, observationToAdd.Item3);
             }
 
-            foreach (var removeMediaResource in observationUpdateCommand.RemoveMediaResources)
+            foreach (var removeMediaResource in command.RemoveMediaResources)
             {
                 observation.RemoveMedia(removeMediaResource);
             }

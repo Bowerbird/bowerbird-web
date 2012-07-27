@@ -21,7 +21,7 @@ using Bowerbird.Core.DomainModels.DenormalisedReferences;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public class Post : DomainModel, IOwnable, IContribution, IDiscussed
+    public class Post : DomainModel, IOwnable, IDiscussable
     {
         #region Members
 
@@ -92,7 +92,7 @@ namespace Bowerbird.Core.DomainModels
 
         public DenormalisedGroupReference Group { get; private set; }
 
-        public CommentsComponent Discussion { get; private set; }
+        public Discussion Discussion { get; private set; }
 
         [Raven.Imports.Newtonsoft.Json.JsonIgnore]
         IEnumerable<string> IOwnable.Groups
@@ -125,41 +125,9 @@ namespace Bowerbird.Core.DomainModels
             return this;
         }
 
-        IContribution IDiscussed.AddComment(string message, User createdByUser, DateTime createdDateTime, string contributionId)
-        {
-            var comment = Discussion.AddComment(message, createdByUser, createdDateTime, contributionId);
-
-            FireEvent(new DomainModelCreatedEvent<Comment>(comment, createdByUser, this));
-
-            return this;
-        }
-
-        IContribution IDiscussed.AddThreadedComment(string message, User createdByUser, DateTime createdDateTime, string commentToRespondTo, string contributionId)
-        {
-            var comment = Discussion.AddThreadedComment(message, createdByUser, createdDateTime, commentToRespondTo, contributionId);
-
-            FireEvent(new DomainModelCreatedEvent<Comment>(comment, createdByUser, this));
-
-            return this;
-        }
-
-        IContribution IDiscussed.RemoveComment(string commentId)
-        {
-            Discussion.RemoveComment(commentId);
-
-            return this;
-        }
-
-        IContribution IDiscussed.UpdateComment(string commentId, string message, User modifiedByUser, DateTime modifiedDateTime)
-        {
-            Discussion.UpdateComment(commentId, message, modifiedByUser, modifiedDateTime);
-
-            return this;
-        }
-
         private void InitMembers()
         {
-            Discussion = new CommentsComponent();
+            Discussion = new Discussion();
             _mediaResources = new List<MediaResource>();
         }
 

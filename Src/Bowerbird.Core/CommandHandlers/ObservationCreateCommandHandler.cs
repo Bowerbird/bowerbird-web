@@ -52,54 +52,52 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Methods 
 
-        public void Handle(ObservationCreateCommand observationCreateCommand)
+        public void Handle(ObservationCreateCommand command)
         {
-            Check.RequireNotNull(observationCreateCommand, "observationCreateCommand");
+            Check.RequireNotNull(command, "command");
 
-            var mediaResourceIds = observationCreateCommand.Media.Select(x => x.Item1);
+            var mediaResourceIds = command.Media.Select(x => x.Item1);
 
-            var mediaResources = _documentSession.Load<dynamic>(mediaResourceIds);
-                //.Query<dynamic>()
-                //.Where(x => x.Id.In(mediaResourceIds));
+            var mediaResources = _documentSession.Load<MediaResource>(mediaResourceIds);
 
             var userProject = _documentSession
                 .Query<UserProject>()
                 .Include(x => x.User.Id)
-                .Where(x => x.User.Id == observationCreateCommand.UserId)
+                .Where(x => x.User.Id == command.UserId)
                 .First();
 
-            var user = _documentSession.Load<User>(observationCreateCommand.UserId);
+            var user = _documentSession.Load<User>(command.UserId);
 
             var addMedia = (from mediaResource in mediaResources
                                      select new
                                      {
                                          mediaResource,
-                                         description = observationCreateCommand.Media.Single(x => x.Item1.ToLower() == mediaResource.Id.ToLower()).Item2,
-                                         licence = observationCreateCommand.Media.Single(x => x.Item1.ToLower() == mediaResource.Id.ToLower()).Item3
+                                         description = command.Media.Single(x => x.Item1.ToLower() == mediaResource.Id.ToLower()).Item2,
+                                         licence = command.Media.Single(x => x.Item1.ToLower() == mediaResource.Id.ToLower()).Item3
                                      })
                                      .Select(x => new Tuple<MediaResource, string, string>(x.mediaResource, x.description, x.licence));
 
             var projects = new List<Project>();
 
-            if (observationCreateCommand.Projects != null && observationCreateCommand.Projects.Count() > 0)
+            if (command.Projects != null && command.Projects.Count() > 0)
             {
                 projects = _documentSession
                     .Query<Project>()
-                    .Where(x => x.Id.In(observationCreateCommand.Projects))
+                    .Where(x => x.Id.In(command.Projects))
                     .ToList();
             }
 
             var observation = new Observation(
                 user,
-                observationCreateCommand.Title,
+                command.Title,
                 DateTime.UtcNow,
-                observationCreateCommand.ObservedOn,
-                observationCreateCommand.Latitude,
-                observationCreateCommand.Longitude,
-                observationCreateCommand.Address,
-                observationCreateCommand.IsIdentificationRequired,
-                observationCreateCommand.AnonymiseLocation,
-                observationCreateCommand.Category,
+                command.ObservedOn,
+                command.Latitude,
+                command.Longitude,
+                command.Address,
+                command.IsIdentificationRequired,
+                command.AnonymiseLocation,
+                command.Category,
                 userProject,
                 projects,
                 addMedia);

@@ -34,7 +34,7 @@ namespace Bowerbird.Web.Factories
 
         #region Methods
 
-        public object MakeObservation()
+        public object MakeNewObservation(string projectId = null)
         {
             return new
             {
@@ -47,53 +47,70 @@ namespace Bowerbird.Web.Factories
                 IsIdentificationRequired = false,
                 AnonymiseLocation = false,
                 Media = new ObservationMedia[] { },
-                Projects = new string[] { }
+                Projects = string.IsNullOrWhiteSpace(projectId) ? new string[] { } : new string[] { projectId }
             };
         }
 
-        public object MakeObservationForProject(string projectId)
+        public object MakeNewRecord(string projectId = null)
         {
             return new
             {
-                Title = string.Empty,
                 ObservedOn = DateTime.UtcNow.ToString("d MMM yyyy"),
-                Address = string.Empty,
                 Latitude = string.Empty,
                 Longitude = string.Empty,
                 Category = string.Empty,
-                IsIdentificationRequired = false,
                 AnonymiseLocation = false,
-                Media = new ObservationMedia[] { },
-                Projects = new string[] { },
-                ProjectId = projectId
+                Projects = string.IsNullOrWhiteSpace(projectId) ? new string[] { } : new string[] { projectId }
             };
         }
 
         public object Make(All_Contributions.Result result)
         {
-            return Make(result.Observation, result.User);
+            return Make(result.Contribution as Sighting, result.User);
         }
 
-        public object Make(Observation observation, User user)
+        public object Make(Sighting sighting, User user)
         {
-            return new
+            if (sighting is Observation)
             {
-                observation.Id,
-                observation.Title,
-                ObservedOnDate = observation.ObservedOn.ToString("d MMM yyyy"),
-                ObservedOnTime = observation.ObservedOn.ToShortTimeString(),
-                observation.Address,
-                observation.Latitude,
-                observation.Longitude,
-                observation.Category,
-                observation.IsIdentificationRequired,
-                observation.AnonymiseLocation,
-                observation.Media,
-                PrimaryMedia = observation.GetPrimaryMedia(),
-                Projects = observation.Groups.Select(x => x.Group.Id),
-                User = _userViewFactory.Make(user),
-                observation.Discussion.Comments
-            };
+                var observation = sighting as Observation;
+
+                return new
+                {
+                    observation.Id,
+                    observation.Title,
+                    ObservedOnDate = observation.ObservedOn.ToString("d MMM yyyy"),
+                    ObservedOnTime = observation.ObservedOn.ToShortTimeString(),
+                    observation.Address,
+                    observation.Latitude,
+                    observation.Longitude,
+                    observation.Category,
+                    observation.IsIdentificationRequired,
+                    observation.AnonymiseLocation,
+                    observation.Media,
+                    observation.PrimaryMedia,
+                    Projects = observation.Groups.Select(x => x.Group.Id),
+                    User = _userViewFactory.Make(user),
+                    observation.Discussion.Comments
+                };
+            }
+            else
+            {
+                var record = sighting as Record;
+                return new
+                {
+                    record.Id,
+                    ObservedOnDate = record.ObservedOn.ToString("d MMM yyyy"),
+                    ObservedOnTime = record.ObservedOn.ToShortTimeString(),
+                    record.Latitude,
+                    record.Longitude,
+                    record.Category,
+                    record.AnonymiseLocation,
+                    Projects = record.Groups.Select(x => x.Group.Id),
+                    User = _userViewFactory.Make(user),
+                    record.Discussion.Comments
+                };
+            }
         }
 
         #endregion  

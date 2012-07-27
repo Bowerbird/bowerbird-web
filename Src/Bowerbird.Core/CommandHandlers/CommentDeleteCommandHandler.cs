@@ -52,16 +52,16 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(command, "command");
 
-            var contribution = _documentSession
+            var discussable = _documentSession
                 .Query<All_Contributions.Result, All_Contributions>()
                 .AsProjection<All_Contributions.Result>()
                 .Where(x => x.ContributionId == command.ContributionId)
-                .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
-                .FirstOrDefault();
+                .First()
+                .Discussable;
 
-            ((IDiscussed)contribution).RemoveComment(command.Id);
+            discussable.Discussion.RemoveComment(command.Id);
 
-            _documentSession.Store(contribution);
+            _documentSession.Store(discussable);
         }
 
         #endregion

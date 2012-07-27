@@ -1,6 +1,4 @@
-/* Bowerbird V1 
-
- Licensed under MIT 1.1 Public License
+/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -19,7 +17,7 @@ using System.Collections.Generic;
 
 namespace Bowerbird.Core.Commands
 {
-    public class ObservationNoteUpdateCommand : ICommand
+    public class SightingNoteCreateCommand : ICommand
     {
         #region Members
 
@@ -33,7 +31,7 @@ namespace Bowerbird.Core.Commands
 
         public string UserId { get; set; }
 
-        public string Id { get; set; }
+        public string SightingId { get; set; }
 
         public DateTime NotedOn { get; set; }
 

@@ -30,7 +30,6 @@ namespace Bowerbird.Core.DomainModels
         }
 
         public ObservationMedia(
-            string id,
             MediaResource mediaResource,
             string description,
             string licence)
@@ -38,7 +37,6 @@ namespace Bowerbird.Core.DomainModels
         {
             Check.RequireNotNull(mediaResource, "mediaResource");
 
-            Id = id;
             MediaResource = mediaResource;
 
             SetDetails(
@@ -49,8 +47,6 @@ namespace Bowerbird.Core.DomainModels
         #endregion
 
         #region Properties
-
-        public string Id { get; private set; }
 
         public MediaResource MediaResource { get; private set; }
 

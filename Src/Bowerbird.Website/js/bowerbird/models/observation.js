@@ -31,6 +31,7 @@ function ($, _, Backbone, ProjectCollection, MediaResourceCollection) {
 
         initialize: function (options) {
             this.mediaResources = new MediaResourceCollection();
+            this.media = [];
         },
 
         toJSON: function () {
@@ -49,10 +50,10 @@ function ($, _, Backbone, ProjectCollection, MediaResourceCollection) {
             };
         },
 
-        toViewJSON: function () {
-            // returns JSON containing all data for view
-            return Backbone.Model.prototype.toJSON.apply(this, arguments);
-        },
+        //        toViewJSON: function () {
+        //            // returns JSON containing all data for view
+        //            return Backbone.Model.prototype.toJSON.apply(this, arguments);
+        //        },
 
         addProject: function (id) {
             var projects = this.get('Projects');
@@ -65,20 +66,51 @@ function ($, _, Backbone, ProjectCollection, MediaResourceCollection) {
             this.set('Projects', _.without(projects, id));
         },
 
-        addMediaResource: function (mediaResource) {
-            mediaResource.on('change', this._setMedia, this);
+        //        addMediaResource: function (mediaResource) {
+        //            mediaResource.on('change', this._setMedia, this);
+        //            this.mediaResources.add(mediaResource);
+        //            this._setMedia();
+        //        },
+
+        //        removeMediaResource: function (id) {
+        //            this.mediaResources.remove(this.mediaResources.get(id));
+        //            this._setMedia();
+        //        },
+
+        //        _setMedia: function () {
+        //            var media = this.mediaResources.map(function (mediaResource) {
+        //                return { MediaResourceId: mediaResource.id, Description: 'description goes here...', Licence: 'licence goes here...' };
+        //            });
+        //            this.set('Media', media);
+        //        }
+
+        addMedia: function (mediaResource, description, licence) {
             this.mediaResources.add(mediaResource);
+            this.media.push({ mediaResource: mediaResource, description: description, licence: licence });
             this._setMedia();
         },
 
-        removeMediaResource: function (id) {
-            this.mediaResources.remove(this.mediaResources.get(id));
+        updateMedia: function (id, description, licence) {
+            var mediaResource = this.mediaResources.get(id);
+            this.media = _.filter(this.media, function (item) {
+                return item.mediaResource.id !== id;
+            });
+            this.media.push({ mediaResource: mediaResource, description: description, licence: licence });
+            this._setMedia();
+        },
+
+        removeMedia: function (id) {
+            var mediaResource = this.mediaResources.get(id);
+            this.mediaResources.remove(mediaResource);
+            this.media = _.filter(this.media, function (item) {
+                return item.mediaResource.id !== id;
+            });
             this._setMedia();
         },
 
         _setMedia: function () {
-            var media = this.mediaResources.map(function (mediaResource) {
-                return { MediaResourceId: mediaResource.id, Description: "description goes here...", Licence: 'licence goes here...' };
+            var media = this.media.map(function (item) {
+                return { MediaResourceId: item.mediaResource.id, Description: item.description, Licence: item.licence };
             });
             this.set('Media', media);
         }

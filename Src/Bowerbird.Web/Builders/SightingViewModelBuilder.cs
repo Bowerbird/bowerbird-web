@@ -49,22 +49,22 @@ namespace Bowerbird.Web.Builders
 
         #region Methods
 
-        public object BuildNewObservation()
+        public object BuildNewObservation(string projectId = null)
         {
-            return _sightingViewFactory.MakeObservation();
+            return _sightingViewFactory.MakeNewObservation(projectId);
         }
 
-        public object BuildNewObservationForProject(string projectId)
+        public object BuildNewRecord(string projectId = null)
         {
-            return _sightingViewFactory.MakeObservationForProject(projectId);
+            return _sightingViewFactory.MakeNewRecord(projectId);
         }
 
-        public object BuildSighting(string sightingId)
+        public object BuildSighting(string id)
         {
             var result = _documentSession
                 .Query<All_Contributions.Result, All_Contributions>()
                 .AsProjection<All_Contributions.Result>()
-                .Where(x => x.ContributionId == sightingId)
+                .Where(x => x.ContributionId == id && (x.ContributionType == "observation" || x.ContributionType == "record"))
                 .ToList()
                 .First();
 
@@ -81,7 +81,7 @@ namespace Bowerbird.Web.Builders
             return _documentSession
                 .Query<All_Contributions.Result, All_Contributions>()
                 .AsProjection<All_Contributions.Result>()
-                .Where(x => x.GroupIds.Any(y => y == groupId))
+                .Where(x => x.GroupIds.Any(y => y == groupId) && (x.ContributionType == "observation" || x.ContributionType == "record"))
                 .Statistics(out stats)
                 .Skip(pagingInput.GetSkipIndex())
                 .Take(pagingInput.PageSize)
@@ -103,7 +103,7 @@ namespace Bowerbird.Web.Builders
             return _documentSession
                 .Query<All_Contributions.Result, All_Contributions>()
                 .AsProjection<All_Contributions.Result>()
-                .Where(x => x.UserId == userId)
+                .Where(x => x.UserId == userId && (x.ContributionType == "observation" || x.ContributionType == "record"))
                 .Statistics(out stats)
                 .Skip(pagingInput.GetSkipIndex())
                 .Take(pagingInput.PageSize)

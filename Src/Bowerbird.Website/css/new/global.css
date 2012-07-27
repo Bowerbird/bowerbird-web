@@ -198,6 +198,79 @@ h1
 }
 /*
 *
+* Popup menus
+*
+*/
+.sub-menu-button
+{
+    border-bottom: 1px solid #CFDDEB;
+    border-bottom: medium none;
+    cursor: pointer;
+    height: 2.875em;
+    position: absolute;
+    width: 30px;
+    border-bottom-right-radius: 4px;
+}
+.sub-menu-button > span
+{
+    background: url("/img/glyphicons-halflings-white.png") no-repeat scroll -456px -72px #CFDDEB;
+    border: 2px solid #CFDDEB;
+    border-radius: 10px 10px 10px 10px;
+    display: block;
+    height: 14px;
+    left: 2px;
+    position: relative;
+    top: 16px;
+    width: 14px;
+}
+.sub-menu-button:hover > span
+{
+    background: url("/img/glyphicons-halflings-white.png") no-repeat scroll -456px -72px #1B83EB;
+    border: 2px solid #1B83EB;
+}
+.sub-menu-button ul
+{
+    background-color: #FFFFFF;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.5);
+    display: none;
+    left: 24px;
+    position: relative;
+    top: -18px;
+    width: 210px;
+    z-index: 9;
+    padding: 0.01em 0;
+}
+.sub-menu-button.active ul
+{
+    display: block;
+}
+.sub-menu-button.active > span
+{
+    background: url("/img/glyphicons-halflings-white.png") no-repeat scroll -456px -72px #1B83EB;
+    border: 2px solid #1B83EB;
+}
+.sub-menu-button ul li
+{
+    list-style: none;
+    margin: 0.7em 0;
+}
+.sub-menu-button ul li a,
+.sub-menu-button ul li span
+{
+    color: #133A68;
+    display: block;
+    font-size: 0.9375em;
+    font-weight: 600;
+    padding: 0 14px;
+    text-decoration: none;
+}
+.sub-menu-button ul li.divider
+{
+    border-bottom: 1px solid #CFDDEB;
+}
+/*
+*
 * Forms
 *
 */
@@ -225,10 +298,7 @@ h1
 .form form > fieldset fieldset
 {
     background: none repeat scroll 0 0 rgba(202, 222, 239, 0.8);
-    float: left;
-    margin-top: 25px;
     margin-bottom: 25px;
-    padding-top: 15px;
     position: relative;
     width: 100%;
 }
@@ -243,12 +313,11 @@ h1
 .form .field
 {
     -moz-box-sizing: border-box;
-    box-sizing: border-box;
     clear: both;
     float: left;
-    padding: 0 15px 0;
-    width: 100%;
     margin-bottom: 25px;
+    padding: 0 15px;
+    width: 100%;
 }
 .form form > fieldset > .field:last-child
 {
@@ -264,15 +333,17 @@ h1
 }
 .form form > fieldset fieldset legend
 {
-    left: 15px;
-    position: absolute;
-    top: -23px;
+    margin-top: 15px;
+    padding-bottom: 10px;
+    padding-left: 15px;
 }
-.form label span
+.form label span,
+.form legend span
 {
     color: #6997C5;
     font-size: 0.78em;
     padding-left: 3px;
+    line-height: 1em;
 }
 .form label,
 .form form > fieldset fieldset legend
@@ -487,6 +558,7 @@ h1
     text-shadow: none;
     text-transform: none;
     width: 30px;
+    line-height: 1.3em;
 }
 .form .field-checkbox div.checkbox span.bar
 {
@@ -599,7 +671,7 @@ h1
     padding-right: 26px;
     position: relative;
 }
-.form #media-uploader
+.form .media-uploader
 {
     clear: both;
     float: left;
@@ -611,7 +683,7 @@ h1
 {
     width:300px;   
 }
-.form #media-resource-add-pane
+.form .media-add-pane
 {
     float: right;
     height: 266px;
@@ -619,7 +691,7 @@ h1
     white-space: normal;
     width: 142px;
 }
-.form #media-resource-add-pane p
+.form .media-add-pane p
 {
     margin: 0 0 15px;
 }
@@ -663,7 +735,7 @@ h1
 {
     max-width:200px;   
 }*/
-.form #media-resource-items
+.form .observation-media-items
 {
     background: none repeat scroll 0 0 rgba(255, 255, 255, 0.6);
     border: 1px solid #509EEE;
@@ -679,7 +751,12 @@ h1
     right: 157px;
     white-space: nowrap;
 }
-.form #media-resource-items .media-resource-item
+.form .observation-media-items .observation-media-items-label {
+    color: #94B5D6;
+    margin: 110px auto;
+    text-align: center;
+}
+.form .observation-media-items .observation-media-item
 {
     position: relative;
     white-space: nowrap;
@@ -688,69 +765,100 @@ h1
     margin-top: 15px;
     padding: 0 15px 0 0;
 }
-.form .media-resource-item > div
+.form .observation-media-item > div
 {
     width: 100%;
     height: 100%;
-    overflow: hidden;
     background-color: #FFFFFF;
     box-shadow: 0 1px 2px 0 #5071A6;
+    position: relative;
 }
-.form .media-resource-item .media
+.form .observation-media-item .media
 {
     width: 100%;
     height: 100%;
     background-image: url(/img/image-upload.png);
 }
-.form .media-resource-item .media > iframe,
-.form .media-resource-item .media > img
+.form .observation-media-item .media > iframe,
+.form .observation-media-item .media > img
 {
     width: 100%;
     height: 100%;
     border: none;
 }
-.form .media-resource-item .options
+.form .observation-media-item .options
 {
-    display: none;
-}
-/*.form .media-resource-item:hover div:last-child,
-.form .avatar-uploaded:hover div:last-child
-{
-    display: block;
-}
-.form #media-resource-items > div:last-child
-{
-    margin-right: 15px;
-}
-.form .media-resource-item div:first-child img,
-.form .avatar-uploaded div:first-child img
-{
-    height: 220px;
-}
-.form .media-resource-item div:last-child,
-.form .avatar-uploaded div:last-child
-{
-    background: none repeat scroll 0 0 rgba(202, 222, 239, 0.8);
-    bottom: 0;
-    display: none;
-    height: 100%;
+    background-color: #FFFFFF;
+    border-radius: 0 0 4px 0;
+    box-shadow: 0 1px 2px 0 #5071A6;
+    height: 2.875em;
+    left: 0;
     position: absolute;
-    width: 100%;
+    top: 0;
+    width: 32px;
 }
-.form .media-resource-item div:last-child input,
-.form .avatar-uploaded div:last-child input
+.form .observation-media-item .sub-menu-button
 {
-    display: block;
-    font-size: 0.75em;
-    margin: 13px auto 0;
-    padding: 2px 10px;
-    width: 95px;
+    left: 5px;
+    width: 24px;
 }
-.form .media-resource-item div:last-child input:first-child,
-.form .avatar-uploaded div:last-child input:first-child
+.form #licence-field {
+    padding-right: 41px;
+}
+.form #licence-field .multiSelectOptions label img 
 {
-    margin-top: 55px;
-}*/
+    margin: 0;
+    display: inline-block;
+    height: 18px;
+    position: relative;
+    top: 7px;
+    vertical-align: top;
+    width: 18px;   
+}
+.form #licence-field .multiSelectOptions label .licence-name {
+    display: inline-block;
+    white-space: normal;
+    padding-right: 3px;
+}
+.form #licence-field .multiSelectOptions label .licence-description,
+.form #licence-field .multiSelectOptions label .licence-uri  {
+    color: #777777;
+    font-size: 0.8em;
+    line-height: 1.3em;
+    white-space: normal;
+    padding-bottom: 5px;
+}
+.form #licence-field .multiSelectOptions label .licence-uri a
+{
+    color: #1B83EB;
+    text-decoration: none;
+}
+.form #licence-field .multiSelectOptions label.checked .licence-description,
+.form #licence-field .multiSelectOptions label.checked .licence-uri a,
+.form #licence-field .multiSelectOptions label.checked .licence-uri,
+.form #licence-field .multiSelectOptions label:hover .licence-description,
+.form #licence-field .multiSelectOptions label:hover .licence-uri a,
+.form #licence-field .multiSelectOptions label:hover .licence-uri
+{
+    color: #DFEAF6;
+}
+.form #licence-field a.multiSelect > span span {
+    padding-right: 7px;
+}
+.form #licence-field a.multiSelect img {
+    margin: 0;
+    display: inline-block;
+    height: 18px;
+    position: relative;
+    top: 3px;
+    vertical-align: top;
+    width: 18px;
+    margin-right: 3px;
+}
+.form #licence-field .multiSelectOptions label > div:last-child 
+{
+    padding-bottom: 22px;
+}
 .form .media-resource-dropzone
 {
     background: -moz-linear-gradient(center top , #6FAEED 0%, #4096EE 100%) repeat scroll 0 0 transparent;
@@ -775,13 +883,6 @@ h1
 }
 .form .file-upload-button
 {
-    /*cursor: pointer;
-    display: block;
-    margin: 32px auto 0;
-    overflow: hidden;
-    padding: 3px 0;
-    position: relative;
-    width: 200px;*/
     cursor: pointer;
     display: inline-block;
     margin-bottom: 15px;
@@ -881,7 +982,10 @@ h1
 }
 .form #title-field
 {
-    width: 65%;
+    left: 0;
+    position: absolute;
+    right: 125px;
+    width: auto;
 }
 .form #title-field div:last-child
 {
@@ -893,7 +997,7 @@ h1
 }
 .form #observedon-field
 {
-    width: 36%;
+    width: 32%;
     clear: none;
 }
 .form #observedon-field > div > i
@@ -915,23 +1019,20 @@ h1
 .form #requires-identification-field
 {
     clear: none;
-    width: 16%;
+    float: right;
+    width: 125px;
 }
 .form #address-field
 {
-    width: 80%;
-}
-.form #address-field div:last-child
-{
-    padding-right: 107px;
+    width: 100%;
 }
 .form #latitude-field
 {
-    width: 30%;
+    width: 25%;
 }
 .form #longitude-field 
 {
-    width: 30%;
+    width: 25%;
 }
 .form #address 
 {
@@ -941,23 +1042,21 @@ h1
 {
     height: 460px;
     width: 100%;
-    margin-bottom: 15px;
 }
 .form #anonymise-location-field {
     clear: none;
-    float: left;
-    margin-bottom: 20px;
-    width: 40%;
+    float: right;
+    width: 128px;
 }
 .form #pin-field
 {
     clear: none;
-    float: right;
     margin-left: 6%;
     margin-right: 4%;
     padding: 0;
     position: relative;
-    width: 10%;
+    width: 9%;
+    height: 67px;
 }
 .form #pin-field label
 {
@@ -972,12 +1071,12 @@ h1
 }
 .form #category-field
 {
-    width: 35%;
-    clear: none;
+    width: 32%;
+    clear: right;
 }
 .form #projects-field
 {
-    width: 46%;
+    width: 36%;
     clear: none;
 }
 .form #projects-field a.multiSelect .selected-project img
@@ -1563,76 +1662,11 @@ header nav#search-menu
 * Sidebar sub-menu popup
 *
 */
-#sidebar .sub-menu-button
-{
-    border-bottom: 1px solid #CFDDEB;
-    border-bottom: medium none;
-    cursor: pointer;
-    height: 2.875em;
-    position: absolute;
+#sidebar .sub-menu-button {
     right: 0;
     top: 0;
-    width: 30px;
-    border-bottom-right-radius: 4px;
 }
-#sidebar .sub-menu-button > span
-{
-    background: url("/img/glyphicons-halflings-white.png") no-repeat scroll -456px -72px #CFDDEB;
-    border: 2px solid #CFDDEB;
-    border-radius: 10px 10px 10px 10px;
-    display: block;
-    height: 14px;
-    left: 2px;
-    position: relative;
-    top: 16px;
-    width: 14px;
-}
-#sidebar .sub-menu-button:hover > span
-{
-    background: url("/img/glyphicons-halflings-white.png") no-repeat scroll -456px -72px #1B83EB;
-    border: 2px solid #1B83EB;
-}
-#sidebar .sub-menu-button ul
-{
-    background-color: #FFFFFF;
-    border-radius: 4px 4px 4px 4px;
-    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.5);
-    display: none;
-    left: 24px;
-    position: relative;
-    top: -18px;
-    width: 210px;
-    z-index: 9;
-    padding: 0.01em 0;
-}
-#sidebar .sub-menu-button.active ul
-{
-    display: block;
-}
-#sidebar .sub-menu-button.active > span
-{
-    background: url("/img/glyphicons-halflings-white.png") no-repeat scroll -456px -72px #1B83EB;
-    border: 2px solid #1B83EB;
-}
-#sidebar .sub-menu-button ul li
-{
-    list-style: none;
-    margin: 0.7em 0;
-}
-#sidebar .sub-menu-button ul li a,
-#sidebar .sub-menu-button ul li span
-{
-    color: #133A68;
-    display: block;
-    font-size: 0.9375em;
-    font-weight: 600;
-    padding: 0 14px;
-    text-decoration: none;
-}
-#sidebar .sub-menu-button ul li.divider
-{
-    border-bottom: 1px solid #CFDDEB;
-}
+
 /* 
 *
 * Content area 
@@ -1932,7 +1966,7 @@ header nav#search-menu
     padding: 10px;
     text-shadow: 0 1px 0 #FFFFFF;
 }
-#online-users .menu-group-item
+#online-users .online-user-item
 {
     background-color: #FFFFFF;
     border-bottom: 1px solid #CFDDEB;
@@ -1941,7 +1975,21 @@ header nav#search-menu
     list-style: none;
     cursor: pointer;
 }
-#online-users .menu-group-item > .menu-item-body
+#online-users .online-user-item > a {
+    background-color: #FFFFFF;
+    display: block;
+    height: 3.06667em;
+    overflow: hidden;
+    text-decoration: none;
+}
+#online-users .online-user-item img 
+{
+    display: block;
+    float: left;
+    margin-right: 13px;
+    height: 100%;
+}
+/*#online-users .menu-group-item > .menu-item-body
 {
     text-decoration: none;
     background-color: #FFFFFF;
@@ -1975,7 +2023,6 @@ header nav#search-menu
     color: #133A68;
     font-size: 0.9375em;
     font-weight: 600;    
-    /*letter-spacing: -0.019em;*/
 }
 #online-users .menu-group-item .menu-item-body > div p span
 {
@@ -2068,7 +2115,7 @@ header nav#search-menu
 #online-users .sub-menu-button ul li.divider
 {
     border-bottom: 1px solid #CFDDEB;
-}
+}*/
 
 
 

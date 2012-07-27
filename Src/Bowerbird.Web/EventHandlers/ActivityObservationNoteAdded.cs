@@ -26,7 +26,7 @@ namespace Bowerbird.Web.EventHandlers
     /// - A new observation is created, in which case we only add one activity item representing all groups the observation has been added to;
     /// - An observation being added to a group after the observation's creation.
     /// </summary>
-    public class ActivityObservationNoteAdded : DomainEventHandlerBase, IEventHandler<DomainModelCreatedEvent<ObservationNote>>
+    public class ActivityObservationNoteAdded : DomainEventHandlerBase, IEventHandler<DomainModelCreatedEvent<SightingNote>>
     {
         #region Members
 
@@ -65,19 +65,21 @@ namespace Bowerbird.Web.EventHandlers
 
         #region Methods
 
-        public void Handle(DomainModelCreatedEvent<ObservationNote> domainEvent)
+        public void Handle(DomainModelCreatedEvent<SightingNote> domainEvent)
         {
-            var observation = _documentSession.Load<Observation>(domainEvent.DomainModel.Observation.Id);
+            Check.RequireNotNull(domainEvent, "domainEvent");
+
+            var sighting = domainEvent.Sender as Sighting;
             
             dynamic activity = MakeActivity(
                 domainEvent, 
-                "observationnoteadded", 
-                string.Format("{0} added an observation note", domainEvent.User.GetName()), 
-                observation.Groups.Select(x => x.Group));
+                "sightingnoteadded", 
+                string.Format("{0} added a note", domainEvent.User.GetName()), 
+                sighting.Groups.Select(x => x.Group));
 
-            activity.ObservationNoteAdded = new
+            activity.SightingNoteAdded = new
             {
-                ObservationNote = domainEvent.DomainModel
+                SightingNote = domainEvent.DomainModel
             };
 
             _documentSession.Store(activity);

@@ -110,7 +110,7 @@ namespace Bowerbird.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult Sightings(string id, PagingInput pagingInput)
+        public ActionResult Observations(string id, PagingInput pagingInput)
         {
             string projectId = VerbosifyId<Project>(id);
 
@@ -122,7 +122,7 @@ namespace Bowerbird.Web.Controllers
             var viewModel = new
             {
                 Project = _projectViewModelBuilder.BuildProject(projectId),
-                Observations = _sightingViewModelBuilder.BuildGroupSightingList(projectId, pagingInput)
+                Sightings = _sightingViewModelBuilder.BuildGroupSightingList(projectId, pagingInput)
             };
 
             return RestfulResult(

@@ -52,66 +52,22 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(command, "command");
 
-            var contribution = _documentSession
+            var discussable = _documentSession
                 .Query<All_Contributions.Result, All_Contributions>()
                 .AsProjection<All_Contributions.Result>()
                 .Where(x => x.ContributionId == command.ContributionId)
-                .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
-                .FirstOrDefault();
+                .First()
+                .Discussable;
 
-            if (contribution == null) return;
+            discussable.Discussion.AddComment(
+                command.Comment,
+                _documentSession.Load<User>(command.UserId),
+                command.CommentedOn,
+                command.InReplyToCommentId);
 
-            switch (contribution.ContributionType)
-            {
-                case "observation":
-                    {
-                        var observation = _documentSession.Load<Observation>(contribution.Observation.Id);
-
-                        AddComment(observation, command);
-
-                        _documentSession.Store(observation);
-                    }
-                    break;
-
-                case "post":
-                    {
-                        var post = _documentSession.Load<Post>(contribution.Post.Id);
-
-                        AddComment(post, command);
-
-                        _documentSession.Store(post);
-                    }
-                    break;
-                default:
-                    {
-                        return;
-                    }
-            }
+            _documentSession.Store(discussable);
         }
 
-        private void AddComment(IDiscussed contribution, CommentCreateCommand command)
-        {
-            if (string.IsNullOrWhiteSpace(command.InReplyToCommentId))
-            {
-                contribution.AddComment(
-                    command.Comment,
-                    _documentSession.Load<User>(command.UserId),
-                    command.CommentedOn,
-                    command.ContributionId
-                    );
-            }
-            else
-            {
-                contribution.AddThreadedComment(
-                        command.Comment,
-                        _documentSession.Load<User>(command.UserId),
-                        command.CommentedOn,
-                        command.InReplyToCommentId,
-                        command.ContributionId
-                        );    
-            }
-        }
-        
         #endregion
 
     }

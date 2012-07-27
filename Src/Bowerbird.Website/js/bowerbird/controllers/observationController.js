@@ -8,6 +8,7 @@
 
 // ObservationController & ObservationRouter
 // -----------------------------------------
+
 define(['jquery', 'underscore', 'backbone', 'app', 'views/observationlayoutview', 'models/observation', 'queryparams'],
 function ($, _, Backbone, app, ObservationLayoutView, Observation) {
     var ObservationRouter = Backbone.Marionette.AppRouter.extend({

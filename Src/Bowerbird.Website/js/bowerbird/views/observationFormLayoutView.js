@@ -8,8 +8,8 @@
 // ObservationFormLayoutView
 // -------------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editmapview', 'views/editmediaview', 'datepicker', 'multiselect', 'jqueryui/dialog'],
-function ($, _, Backbone, app, ich, EditMapView, EditMediaView) {
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editmapview', 'views/observationmediaformview', 'datepicker', 'multiselect', 'jqueryui/dialog'],
+function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView) {
     var ObservationFormLayoutView = Backbone.Marionette.Layout.extend({
 
         className: 'form observation-form',
@@ -18,8 +18,7 @@ function ($, _, Backbone, app, ich, EditMapView, EditMediaView) {
 
         regions: {
             media: '#media-resources-fieldset',
-            map: '#location-fieldset',
-            video: '#video-upload'
+            map: '#location-fieldset'
         },
 
         events: {
@@ -77,14 +76,15 @@ function ($, _, Backbone, app, ich, EditMapView, EditMediaView) {
             this.map.attachView(editMapView);
             editMapView.render();
 
-            var editMediaView = new EditMediaView({ el: '#media-resources-fieldset', model: this.model });
-            this.media.attachView(editMediaView);
-            editMediaView.render();
+            var observationMediaFormView = new ObservationMediaFormView({ el: '#media-fieldset', model: this.model, collection: this.model.mediaResources });
+            this.media.attachView(observationMediaFormView);
+            observationMediaFormView.render();
 
             this.observedOnDatePicker = this.$el.find('#ObservedOn').datepicker();
 
             this.categoryListSelectView = this.$el.find("#Category").multiSelect({
                 selectAll: false,
+                listHeight: 263,
                 singleSelect: true,
                 noOptionsText: 'No Categories',
                 noneSelected: '<span class="default-option">Select Category</span>',
@@ -106,6 +106,7 @@ function ($, _, Backbone, app, ich, EditMapView, EditMediaView) {
 
             this.projectListSelectView = this.$el.find('#Projects').multiSelect({
                 selectAll: false,
+                listHeight: 263,
                 messageText: 'You can select more than one project',
                 noOptionsText: 'No Projects',
                 noneSelected: '<span class="default-option">Select Projects</span>',

@@ -1,0 +1,94 @@
+﻿    <h2>Record</h2>
+    <form action="/records" method="post"  enctype="multipart/form-data">
+    <fieldset>
+      <legend>Record Details</legend>
+<!--      <div id="title-field" class="field">
+        <div>
+          <label for="Title">Title</label>
+        </div>
+        <div>
+          <input type="text" id="Title" name="title" value="{{Model.Observation.Title}}" />
+        </div>
+      </div>-->
+      <div id="category-field" class="field">
+        <div>
+          <label for="Category">Category <span>Required</span></label>
+        </div>
+        <div>
+          <select id="Category" name="category">
+            <option></option>
+            {{#Model.Categories}}
+            <option value="{{Value}}" {{#Selected}}selected{{/Selected}}>{{Text}}</option>
+            {{/Model.Categories}}
+          </select>
+        </div>
+      </div>
+      <div id="observedon-field" class="field">
+        <div>
+          <label for="ObservedOn">Observed On <span>Required</span></label>
+        </div>
+        <div>
+          <input type="text" id="ObservedOn" name="observedOn" data-datepicker="datepicker" value="{{Model.Record.ObservedOn}}" readonly />
+          <i></i>
+        </div>
+      </div>
+      <div id="projects-field" class="field">
+        <div>
+          <label for="Projects">Projects</label>
+        </div>
+        <div>
+          <select id="Projects" name="projects" multiple=""></select>
+        </div>
+      </div>
+      <fieldset id="location-fieldset">
+        <legend>Location</legend>
+          <p>Drag the pin onto the map or enter an exact co-ordinate.</p>
+        <div id="latitude-field" class="field field-part-one">
+          <div>
+            <label for="Latitude">Latitude <span>Required</span></label>
+          </div>
+          <div>
+            <input type="text" id="Latitude" name="latitude" value="{{Model.Record.Latitude}}" />
+          </div>
+        </div>
+          <div id="longitude-field" class="field field-part-two">
+              <div>
+                  <label for="Longitude">Longitude <span>Required</span></label>
+              </div>
+              <div>
+                  <input type="text" id="Longitude" name="longitude" value="{{Model.Record.Longitude}}" />
+              </div>
+          </div>
+          
+        <div id="pin-field" class="field">
+          <div>
+            <label>Drag Pin</label>
+          </div>
+          <div id="location-pin">
+            <img src="http://maps.gstatic.com/mapfiles/ms/icons/blue-dot.png" width="32" height="32" alt="" />
+          </div>
+        </div>
+
+        <div id="anonymise-location-field" class="field field-checkbox">
+          <div>
+            <label>Hide Location</label>
+          </div>
+          <div>
+            <div class="checkbox">
+              <input type="checkbox" id="AnonymiseLocation" name="anonymiseLocation" {{#Model.Record.AnonymiseLocation}}checked{{/Model.Record.AnonymiseLocation}} />
+              <label for="AnonymiseLocation">
+                <span class="on">Yes</span><span class="bar"></span><span class="off">No</span>Show Exact Location
+              </label>
+            </div>
+          </div>
+        </div>
+        <div id="location-map"></div>
+
+      </fieldset>
+    </fieldset>
+    <fieldset>
+      <input type="button" value="Save" id="save" />
+      <input type="button" value="Cancel" id="cancel" />
+    </fieldset>
+
+  </form>

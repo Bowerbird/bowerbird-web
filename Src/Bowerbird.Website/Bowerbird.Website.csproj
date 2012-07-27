@@ -143,6 +143,7 @@
     <Content Include="js\bowerbird\controllers\activityController.js" />
     <Content Include="js\bowerbird\controllers\chatController.js" />
     <Content Include="js\bowerbird\controllers\accountController.js" />
+    <Content Include="js\bowerbird\controllers\recordController.js" />
     <Content Include="js\bowerbird\controllers\userController.js" />
     <Content Include="js\bowerbird\controllers\debugController.js" />
     <Content Include="js\bowerbird\controllers\postController.js" />
@@ -165,7 +166,7 @@
     <Content Include="js\bowerbird\models\chat.js" />
     <Content Include="js\bowerbird\models\chatMessage.js" />
     <Content Include="js\bowerbird\models\comment.js" />
-    <Content Include="js\bowerbird\models\embeddedVideo.js" />
+    <Content Include="js\bowerbird\models\record.js" />
     <Content Include="js\bowerbird\models\post.js" />
     <Content Include="js\bowerbird\models\referenceSpecies.js" />
     <Content Include="js\bowerbird\models\species.js" />
@@ -183,6 +184,8 @@
     <Content Include="js\bowerbird\views\commentFormView.js" />
     <Content Include="js\bowerbird\views\commentCollectionView.js" />
     <Content Include="js\bowerbird\views\commentCompositeView.js" />
+    <Content Include="js\bowerbird\views\editObservationMediaFormView.js" />
+    <Content Include="js\bowerbird\views\recordFormView.js" />
     <Content Include="js\bowerbird\views\postDetailsView.js" />
     <Content Include="js\bowerbird\views\postLayoutView.js" />
     <Content Include="js\bowerbird\views\discussionLayoutView.js" />
@@ -214,8 +217,8 @@
     <Content Include="js\bowerbird\views\dummyOverlayView.js" />
     <Content Include="js\bowerbird\views\editAvatarView.js" />
     <Content Include="js\bowerbird\views\editMapView.js" />
-    <Content Include="js\bowerbird\views\editMediaView.js" />
-    <Content Include="js\bowerbird\views\mediaResourceItemView.js" />
+    <Content Include="js\bowerbird\views\observationMediaFormView.js" />
+    <Content Include="js\bowerbird\views\observationMediaItemView.js" />
     <Content Include="js\bowerbird\views\observationFormLayoutView.js" />
     <Content Include="js\bowerbird\views\observationLayoutView.js" />
     <Content Include="js\bowerbird\views\projectFormLayoutView.js" />
@@ -437,10 +440,24 @@
     <Content Include="Views\Shared\VideoFullMedium.mustache">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Views\Shared\UserItem.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Records\Create.mustache" />
+    <Content Include="Views\Records\Delete.mustache" />
+    <Content Include="Views\Records\Index.mustache" />
+    <Content Include="Views\Records\Update.mustache" />
+    <Content Include="Views\Shared\EditObservationMediaForm.mustache" />
+    <Content Include="Views\Shared\LicenceItem.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="Views\Shared\RecordForm.mustache">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Views\Shared\ObservationForm.mustache">
       <SubType>Designer</SubType>
     </None>
-    <Content Include="Views\Shared\ObservationMediaResourceItem.mustache" />
+    <Content Include="Views\Shared\ObservationMediaItem.mustache" />
     <Content Include="Views\Shared\ObservationStreamItem.mustache">
       <SubType>Designer</SubType>
     </Content>

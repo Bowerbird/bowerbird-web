@@ -142,7 +142,7 @@ if (jQuery) (function ($) {
         var hasScrollbar = false;
 
         // set the height of the dropdown options
-        if (multiSelectOptions.height() > o.listHeight) {
+        if (multiSelectOptions.height() >= o.listHeight) {
             multiSelectOptions.css("height", o.listHeight + 'px');
             hasScrollbar = true;
         } else {
@@ -169,7 +169,7 @@ if (jQuery) (function ($) {
                 multiSelectOptions.find('INPUT:checkbox').attr('checked', $(this).attr('checked')).parent("LABEL").toggleClass('checked', $(this).attr('checked'));
             });
         }
-
+         
         // Handle OptGroup oncheck
         if (o.optGroupSelectable) {
             multiSelectOptions.addClass('optGroupHasCheckboxes');
@@ -551,9 +551,9 @@ if (jQuery) (function ($) {
             //var hasScrollbar = false;
 
             // set the height of the dropdown options
-            if (multiSelectOptions.height() > o.listHeight) {
+            if (multiSelectOptions.height() >= o.listHeight) {
                 multiSelectOptions.css("height", o.listHeight + 'px');
-                //hasScrollbar = true;
+                hasScrollbar = true;
             } else {
                 multiSelectOptions.css("height", '');
             }

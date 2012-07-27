@@ -12,6 +12,7 @@
  
 */
 
+using System;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Raven.Client;
@@ -19,7 +20,7 @@ using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Core.CommandHandlers
 {
-    public class ObservationNoteDeleteCommandHandler : ICommandHandler<ObservationNoteDeleteCommand>
+    public class SightingNoteDeleteCommandHandler : ICommandHandler<SightingNoteDeleteCommand>
     {
         #region Members
 
@@ -29,7 +30,7 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Constructors
 
-        public ObservationNoteDeleteCommandHandler(
+        public SightingNoteDeleteCommandHandler(
             IDocumentSession documentSession)
         {
             Check.RequireNotNull(documentSession, "documentSession");
@@ -45,11 +46,11 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Methods
 
-        public void Handle(ObservationNoteDeleteCommand command)
+        public void Handle(SightingNoteDeleteCommand command)
         {
             Check.RequireNotNull(command, "command");
 
-            _documentSession.Delete(_documentSession.Load<ObservationNote>(command.Id));
+            throw new NotImplementedException();
         }
 
         #endregion

@@ -1,15 +1,16 @@
-﻿    <form action="/observation/create" method="post"  enctype="multipart/form-data">
+﻿    <form action="/observations" method="post"  enctype="multipart/form-data">
     <fieldset>
       <legend>Observation Details</legend>
-      <fieldset id="media-resources-fieldset">
-        <legend>Images, Videos, Audio</legend>
-        <div id="media-uploader">
-          <div class="media-resource-items" id="media-resource-items">
-            <!--<div class="media-resource-dropzone">
-              <p>Drop files here<p>
-            </div>-->
-          </div>
-          <div id="media-resource-add-pane">
+      <fieldset id="media-fieldset">
+        <legend>Media <span>Required</span></legend>
+        <div class="media-uploader">
+            <div class="observation-media-items">
+                <div class="observation-media-items-label">Add Images, Videos and Audio</div>
+                <!--<div class="media-resource-dropzone">
+                        <p>Drop files here<p>
+                    </div>-->
+            </div>
+          <div class="media-add-pane">
             <p>Upload your files, or import from other websites.</p>
             <div class="button file-upload-button">
               My Files<input id="file" type="file" name="file" multiple="" value="My Files" />
@@ -30,17 +31,32 @@
           </div>          
         </div>
       </fieldset>
-      <div id="title-field" class="field">
+        <div id="title-field" class="field">
+            <div>
+                <label for="Title">Title <span>Required</span></label>
+            </div>
+            <div>
+                <input type="text" id="Title" name="title" value="{{Model.Observation.Title}}" />
+            </div>
+        </div>
+        
+      <div id="requires-identification-field" class="field field-checkbox">
         <div>
-          <label for="Title">Title</label>
+          <label>Needs ID</label>
         </div>
         <div>
-          <input type="text" id="Title" name="title" value="{{Model.Observation.Title}}" />
+          <div class="checkbox">
+            <input type="checkbox" id="IsIdentificationRequired" name="isidentificationrequired" {{#Model.Observation.IsIdentificationRequired}}checked{{/Model.Observation.IsIdentificationRequired}} />
+            <label for="IsIdentificationRequired">
+              <span class="on">Yes</span><span class="bar"></span><span class="off">No</span>Needs ID
+            </label>
+          </div>
         </div>
       </div>
-      <div id="category-field" class="field">
+
+        <div id="category-field" class="field">
         <div>
-          <label for="Category">Category</label>
+          <label for="Category">Category <span>Required</span></label>
         </div>
         <div>
           <select id="Category" name="category">
@@ -53,7 +69,7 @@
       </div>
       <div id="observedon-field" class="field">
         <div>
-          <label for="ObservedOn">Observed On</label>
+          <label for="ObservedOn">Observed On <span>Required</span></label>
         </div>
         <div>
           <input type="text" id="ObservedOn" name="observedOn" data-datepicker="datepicker" value="{{Model.Observation.ObservedOn}}" readonly />
@@ -69,43 +85,24 @@
         </div>
       </div>
 
-      <div id="requires-identification-field" class="field field-checkbox">
-        <div>
-          <label>Needs ID</label>
-        </div>
-        <div>
-          <div class="checkbox">
-            <input type="checkbox" id="IsIdentificationRequired" name="isidentificationrequired" {{#Model.Observation.IsIdentificationRequired}}checked{{/Model.Observation.IsIdentificationRequired}} />
-            <label for="IsIdentificationRequired">
-              <span class="on">Yes</span><span class="bar"></span><span class="off">No</span>Needs ID
-            </label>
-          </div>
-        </div>
-      </div>
+
 
       <fieldset id="location-fieldset">
         <legend>Location</legend>
         <p>Enter an address, drag the pin onto the map or enter an exact co-ordinate.</p>
-        <div id="address-field" class="field">
-          <div>
-            <label for="Address">Address</label>
+          <div id="address-field" class="field">
+              <div>
+                  <label for="Address">Address</label>
+              </div>
+              <div>
+                  <input type="text" id="Address" name="address" autocomplete="off" value="{{Model.Observation.Address}}" />
+              </div>
           </div>
-          <div>
-            <input type="text" id="Address" name="address" autocomplete="off" value="{{Model.Observation.Address}}" />
-          </div>
-        </div>
-        <div id="pin-field" class="field">
-          <div>
-            <label>Drag Pin</label>
-          </div>
-          <div id="location-pin">
-            <img src="http://maps.gstatic.com/mapfiles/ms/icons/blue-dot.png" width="32" height="32" alt="" />
-          </div>
-        </div>
-        <div id="location-map"></div>
+          
+          
         <div id="latitude-field" class="field field-part-one">
           <div>
-            <label for="Latitude">Latitude</label>
+            <label for="Latitude">Latitude <span>Required</span></label>
           </div>
           <div>
             <input type="text" id="Latitude" name="latitude" value="{{Model.Observation.Latitude}}" />
@@ -113,15 +110,25 @@
         </div>
         <div id="longitude-field" class="field field-part-two">
           <div>
-            <label for="Longitude">Longitude</label>
+            <label for="Longitude">Longitude <span>Required</span></label>
           </div>
           <div>
             <input type="text" id="Longitude" name="longitude" value="{{Model.Observation.Longitude}}" />
           </div>
-        </div>
+        </div>          
+          
+          <div id="pin-field" class="field">
+              <div>
+                  <label>Drag Pin</label>
+              </div>
+              <div id="location-pin">
+                  <img src="http://maps.gstatic.com/mapfiles/ms/icons/blue-dot.png" width="32" height="32" alt="" />
+              </div>
+          </div>
+          
         <div id="anonymise-location-field" class="field field-checkbox">
           <div>
-            <label>Hide Exact Location</label>
+            <label>Hide Location</label>
           </div>
           <div>
             <div class="checkbox">
@@ -131,7 +138,11 @@
               </label>
             </div>
           </div>
-        </div>
+        </div>   
+
+          <div id="location-map"></div>
+
+
       </fieldset>
     </fieldset>
     <fieldset>

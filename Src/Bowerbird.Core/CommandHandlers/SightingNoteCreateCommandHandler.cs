@@ -14,20 +14,21 @@
  
 */
 
+using Bowerbird.Core.Commands;
+using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Indexes;
 using Raven.Client;
+using Raven.Client.Linq;
+using System.Linq;
 
 namespace Bowerbird.Core.CommandHandlers
 {
     #region Namespaces
 
-    using Bowerbird.Core.Commands;
-    using Bowerbird.Core.DesignByContract;
-    using Bowerbird.Core.DomainModels;
-    using Bowerbird.Core.Repositories;
-
     #endregion
 
-    public class ObservationNoteCreateCommandHandler : ICommandHandler<ObservationNoteCreateCommand>
+    public class SightingNoteCreateCommandHandler : ICommandHandler<SightingNoteCreateCommand>
     {
         #region Members
 
@@ -37,7 +38,7 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Constructors
 
-        public ObservationNoteCreateCommandHandler(
+        public SightingNoteCreateCommandHandler(
             IDocumentSession documentSession)
         {
             Check.RequireNotNull(documentSession, "documentSession");
@@ -53,22 +54,28 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Methods
 
-        public void Handle(ObservationNoteCreateCommand command)
+        public void Handle(SightingNoteCreateCommand command)
         {
             Check.RequireNotNull(command, "command");
 
-            var observationNote = new ObservationNote(
-                _documentSession.Load<User>(command.UserId),
-                _documentSession.Load<Observation>(command.ObservationId),
+            var sighting = _documentSession
+                               .Query<All_Contributions.Result, All_Contributions>()
+                               .AsProjection<All_Contributions.Result>()
+                               .Where(x => x.ContributionId == command.SightingId)
+                               .First()
+                               .Contribution as Sighting;
+
+            sighting.AddNote(
                 command.CommonName,
                 command.ScientificName,
                 command.Taxonomy,
                 command.Tags,
                 command.Descriptions,
                 command.References,
-                command.NotedOn);
+                command.NotedOn,
+                _documentSession.Load<User>(command.UserId));
 
-            _documentSession.Store(observationNote);
+            _documentSession.Store(sighting);
         }
 
         #endregion

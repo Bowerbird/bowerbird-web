@@ -8,7 +8,6 @@
 // SidebarMenuGroupCompositeView
 // -----------------------------
 
-// A collection of links in the sidebar
 define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, app) {
 
     var SidebarMenuGroupCompositeView = Backbone.Marionette.CompositeView.extend({
