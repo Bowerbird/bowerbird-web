@@ -83,6 +83,9 @@ namespace Bowerbird.Web.Controllers
             return View(Form.Login);
         }
 
+        /// <summary>
+        /// TODO: API - detect a JSON login and pass back a cookie/authToken..
+        /// </summary>
         [HttpPost]
         [ValidateInput(false)]
         [Transaction]
