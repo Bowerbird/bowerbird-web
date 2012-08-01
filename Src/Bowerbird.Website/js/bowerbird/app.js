@@ -39,6 +39,8 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
                 return p === permissionId;
             });
         };
+
+        this.defaultLicence = data.DefaultLicence;
     };
 
     app.vent.on('newactivity:groupadded', function (activity) {

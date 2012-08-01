@@ -139,7 +139,7 @@ namespace Bowerbird.Core.DomainModels
 
         public MediaResourceFile AddImageFile(
             string storedRepresentation, 
-            string filename, 
+            string fileName, 
             string relativeUri, 
             string format, 
             int width, 
@@ -149,6 +149,7 @@ namespace Bowerbird.Core.DomainModels
         {
             dynamic file = new MediaResourceFile();
 
+            file.FileName = fileName;
             file.RelativeUri = relativeUri;
             file.Format = format;
             file.Width = width;
@@ -191,7 +192,7 @@ namespace Bowerbird.Core.DomainModels
         {
             dynamic file = new MediaResourceFile();
 
-            file.Name = fileName;
+            file.FileName = fileName;
             file.DocumentType = documentType;
             file.Extension = extension;
 
@@ -202,12 +203,18 @@ namespace Bowerbird.Core.DomainModels
 
         public MediaResourceFile AddAudioFile(
             string storedRepresentation,
-            string fileName)
+            string fileName,
+            string relativeUri,
+            string format,
+            string extension
+            )
         {
             dynamic file = new MediaResourceFile();
 
             file.Name = fileName;
-            file.Extension = "mp3";
+            file.RelativeUri = relativeUri;
+            file.Format = format;
+            file.Extension = extension;
 
             AddFile("Audio", storedRepresentation, file);
 

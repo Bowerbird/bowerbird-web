@@ -1,9 +1,10 @@
 ﻿<div>
-    <div class="media">
-        {{>VideoFullMedium}}
-        {{>ImageFullMedium}}
-    </div>
-    <div class="options">
+<div class="media">
+    {{#Model.MediaResource}}
+        {{>MediaFull480}}
+    {{/Model.MediaResource}}
+</div>
+<div class="options">
     <div class="sub-menu-button">
         <span></span>
         <ul>
@@ -18,5 +19,17 @@
                 <span class="remove-menu-item">Remove</span>
             </li>
         </ul>
+    </div>
+    <div class="media-details">
+        <div class="overlay"></div>
+        {{#Model.Media.Description}}
+        <p class="description">{{Model.Media.Description}}</p>
+        {{/Model.Media.Description}}
+        <div class="licence-icons">
+            {{#Model.Media.LicenceIcons}}
+            <img src="{{.}}" alt="">
+            {{/Model.Media.LicenceIcons}}
+        </div>
+        <span class="licence-name">{{Model.Media.LicenceName}}</span>
     </div>
 </div>

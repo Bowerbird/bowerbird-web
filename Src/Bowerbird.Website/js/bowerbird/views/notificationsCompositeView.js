@@ -31,10 +31,10 @@ function ($, _, Backbone, app, NotificationItemView, ActivityCollection) {
             var items = this.collection.pluck('Id');
             var index = _.indexOf(items, itemView.model.id);
 
-            var $li = collectionView.$el.find('ul > li:eq(' + (index) + ')');
+            var $li = collectionView.$el.find('.notification-list > li:eq(' + (index) + ')');
 
             if ($li.length === 0) {
-                collectionView.$el.find('ul').append(itemView.el);
+                collectionView.$el.find('.notification-list').append(itemView.el);
             } else {
                 $li.before(itemView.el);
             }

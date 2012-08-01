@@ -16,11 +16,14 @@ function ($, _, Backbone, app, DummyOverlayView) {
         id: 'location-fieldset',
 
         initialize: function (options) {
+            _.extend(this, Backbone.Events);
+            _.bindAll(this, 'onMediaChanged');
             this.mapMarker = null;
             this.zIndex = 0;
 
-            if (this.model.mediaResources) {
-                this.model.mediaResources.on('change:Metadata', this.onMediaResourceFilesChanged, this);
+            // Observations have media, records don't
+            if (this.model.media) {
+                this.model.media.on('add', this.onMediaChanged, this);
             }
         },
 
@@ -33,10 +36,9 @@ function ($, _, Backbone, app, DummyOverlayView) {
             return this;
         },
 
-        onMediaResourceFilesChanged: function (mediaResource) {
-            var lat = mediaResource.get('Metadata').Latitude;
-            var lon = mediaResource.get('Metadata').Longitude;
-
+        onMediaChanged: function (media) {
+            var lat = media.mediaResource.get('Metadata').Latitude;
+            var lon = media.mediaResource.get('Metadata').Longitude;
             if ((this.model.get('Latitude') === '' && this.model.get('Longitude') === '') && lat && lon) {
                 this.changeMarkerPosition(lat, lon);
             }
@@ -46,7 +48,7 @@ function ($, _, Backbone, app, DummyOverlayView) {
             var g = google.maps;
 
             var mapSettings = {
-                center: new g.LatLng(-29.191427, 134.472126), // Centre on Australia
+                center: new g.LatLng(-29.191427, 134.472126), // Centre on Aust ralia
                 zoom: 4,
                 panControl: false,
                 streetViewControl: false,
@@ -228,11 +230,11 @@ function ($, _, Backbone, app, DummyOverlayView) {
             if (this.mapMarker) {
                 var lat = this.mapMarker.getPosition().lat();
                 var lng = this.mapMarker.getPosition().lng();
-                
+
                 //            if (this.model.get('anonymiseLocation') === true) {
                 $('#Latitude').val(lat);
                 $('#Longitude').val(lng);
-                
+
                 //            }
                 //            else {
                 //                $('#latitude').val(parseFloat(lat).toFixed(1));

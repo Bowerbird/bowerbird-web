@@ -122,19 +122,33 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="css\new\circle.player.css" />
     <Content Include="css\new\observation.css" />
     <Content Include="css\new\global.css" />
     <Content Include="css\new\media.css" />
     <Content Include="css\new\normalize.css" />
     <Content Include="css\new\stream.css" />
     <Content Include="css\site.css" />
+    <Content Include="img\audio-player-bgr.jpg" />
+    <Content Include="img\audio-player-buffer.png" />
+    <Content Include="img\audio-player-controls.jpg" />
+    <Content Include="img\audio-player-progress.png" />
+    <Content Include="img\audio-player-progress_sprite.jpg" />
+    <Content Include="img\by.svg" />
+    <Content Include="img\cc.svg" />
+    <Content Include="img\copyright.svg" />
     <Content Include="img\flickr.png" />
+    <Content Include="img\nc.svg" />
+    <Content Include="img\nd.svg" />
+    <Content Include="img\pd.svg" />
     <Content Include="img\picasa.png" />
+    <Content Include="img\sa.svg" />
     <Content Include="img\vimeo.png" />
     <Content Include="img\youtube.png" />
     <Content Include="js\bowerbird\collections\chatMessageCollection.js" />
     <Content Include="js\bowerbird\collections\chatCollection.js" />
     <Content Include="js\bowerbird\collections\commentCollection.js" />
+    <Content Include="js\bowerbird\collections\observationMediaCollection.js" />
     <Content Include="js\bowerbird\collections\exploreProjectCollection.js" />
     <Content Include="js\bowerbird\collections\referenceSpeciesCollection.js" />
     <Content Include="js\bowerbird\collections\speciesCollection.js" />
@@ -161,11 +175,13 @@
     <Content Include="js\bowerbird\collections\activityCollection.js" />
     <Content Include="js\bowerbird\collections\userCollection.js" />
     <Content Include="js\bowerbird\controllers\observationController.js" />
+    <Content Include="js\bowerbird\licences.js" />
     <Content Include="js\bowerbird\models\avatar.js" />
     <Content Include="js\bowerbird\models\activity.js" />
     <Content Include="js\bowerbird\models\chat.js" />
     <Content Include="js\bowerbird\models\chatMessage.js" />
     <Content Include="js\bowerbird\models\comment.js" />
+    <Content Include="js\bowerbird\models\observationMedia.js" />
     <Content Include="js\bowerbird\models\record.js" />
     <Content Include="js\bowerbird\models\post.js" />
     <Content Include="js\bowerbird\models\referenceSpecies.js" />
@@ -231,6 +247,11 @@
     <Content Include="js\libs\jquery.fileupload\jquery.fileupload.js" />
     <Content Include="js\libs\jquery.fileupload\jquery.iframe-transport.js" />
     <Content Include="js\libs\jquery.fileupload\load-image.js" />
+    <Content Include="js\libs\jquery.jplayer\circle.player.js" />
+    <Content Include="js\libs\jquery.jplayer\jplayer.swf" />
+    <Content Include="js\libs\jquery.jplayer\jquery.grab.js" />
+    <Content Include="js\libs\jquery.jplayer\jquery.jplayer.js" />
+    <Content Include="js\libs\jquery.jplayer\jquery.transform.js" />
     <Content Include="js\libs\jquery.jsonp\jquery.jsonp.js" />
     <Content Include="js\libs\jquery.multiselect\jquery.multiselect.js" />
     <Content Include="js\libs\jquery.signalr\jquery.signalr.js" />
@@ -398,24 +419,6 @@
     <Content Include="Views\Shared\NotificationItem.mustache">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Shared\ImageThumbnailSmall.mustache">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Views\Shared\ImageThumbnailLarge.mustache">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Views\Shared\ImageThumbnailMedium.mustache">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Views\Shared\ImageFullSmall.mustache">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Views\Shared\ImageFullLarge.mustache">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Views\Shared\ImageFullMedium.mustache">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="Views\Shared\PostStreamItem.mustache">
       <SubType>Designer</SubType>
     </Content>
@@ -437,9 +440,6 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Shared\PostReplyForm.mustache" />
-    <Content Include="Views\Shared\VideoFullMedium.mustache">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="Views\Shared\UserItem.mustache">
       <SubType>Designer</SubType>
     </Content>
@@ -451,12 +451,18 @@
     <Content Include="Views\Shared\LicenceItem.mustache">
       <SubType>Designer</SubType>
     </Content>
-    <None Include="Views\Shared\RecordForm.mustache">
+    <Content Include="Views\Shared\MediaFull1024.mustache" />
+    <Content Include="Views\Shared\MediaFull768.mustache" />
+    <Content Include="Views\Shared\MediaFull480.mustache" />
+    <Content Include="Views\Shared\MediaSquare200.mustache" />
+    <Content Include="Views\Shared\MediaSquare100.mustache" />
+    <Content Include="Views\Shared\MediaSquare42.mustache" />
+    <Content Include="Views\Shared\RecordForm.mustache">
       <SubType>Designer</SubType>
-    </None>
-    <None Include="Views\Shared\ObservationForm.mustache">
+    </Content>
+    <Content Include="Views\Shared\ObservationForm.mustache">
       <SubType>Designer</SubType>
-    </None>
+    </Content>
     <Content Include="Views\Shared\ObservationMediaItem.mustache" />
     <Content Include="Views\Shared\ObservationStreamItem.mustache">
       <SubType>Designer</SubType>

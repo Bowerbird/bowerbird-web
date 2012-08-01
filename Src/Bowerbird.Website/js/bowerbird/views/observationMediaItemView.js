@@ -8,14 +8,39 @@
 // ObservationMediaItemView
 // ------------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editobservationmediaformview'],
-function ($, _, Backbone, app, ich, EditObservationMediaFormView) {
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editobservationmediaformview', 'licences', 'circleplayer'],
+function ($, _, Backbone, app, ich, EditObservationMediaFormView, licences, CirclePlayer) {
     var ImageProvider = function (options) {
-
+        this.start = function () {
+        };
     };
 
     var VideoProvider = function (options) {
+        this.start = function () {
+        };
+    };
 
+    var AudioProvider = function (options) {
+        this.id = app.generateGuid();
+
+        this.start = function (model) {
+            if (model.mediaResource.get('MediaType') === 'audio') {
+                this.audioPlayer = new CirclePlayer('#audio-player-' + this.id,
+                    {
+                        mp3: model.mediaResource.get('Audio').Full480.RelativeUri
+                    },
+                    {
+                        cssSelectorAncestor: '#audio-player-container-' + this.id,
+                        swfPath: '/js/libs/jquery.jplayer',
+                        supplied: "mp3",
+                        wmode: 'window',
+                        //errorAlerts: true,
+                        solution: 'html, flash'
+                    });
+
+                //$("#jplayer_inspector").jPlayerInspector({ jPlayer: $('#audio-player') });
+            }
+        };
     };
 
     var ObservationMediaItemView = Backbone.Marionette.ItemView.extend({
@@ -33,18 +58,40 @@ function ($, _, Backbone, app, ich, EditObservationMediaFormView) {
 
         provider: null,
 
-        initialize: function (options) {
-            var mediaType = this.model.get('MediaType');
+        initialize: function () {
+            var mediaType = this.model.mediaResource.get('MediaType');
             if (mediaType === 'image') {
                 this.provider = new ImageProvider();
             } else if (mediaType === 'video') {
                 this.provider = new VideoProvider();
+            } else if (mediaType === 'audio') {
+                this.provider = new AudioProvider();
             }
+        },
+
+        serializeData: function () {
+            var licence = licences.get(this.model.get('Licence'));
+            return {
+                Model: {
+                    Media: {
+                        Description: this.model.get('Description'),
+                        LicenceName: licence.Name,
+                        LicenceIcons: licence.Icons
+                    },
+                    MediaResource: this.model.mediaResource.toJSON()
+                }
+            };
         },
 
         onRender: function () {
             this.$el.css({ position: 'absolute', top: '-250px', width: 280 + 'px' });
+            this.$el.find('.cp-jplayer').attr('id', 'audio-player-' + this.provider.id);
+            this.$el.find('.cp-container').attr('id', 'audio-player-container-' + this.provider.id);
             return this;
+        },
+
+        start: function () {
+            this.provider.start(this.model);
         },
 
         _showMenu: function (e) {
@@ -71,9 +118,22 @@ function ($, _, Backbone, app, ich, EditObservationMediaFormView) {
             editObservationMediaFormView.render();
         },
 
-        _onEditMedia: function (description, licence) {
-            log('editmediadone', description, licence);
-            this.trigger('detailsedited', { mediaResource: this.model, description: description, licence: licence });
+        _onEditMedia: function () {
+            log('editmediadone');
+            var licence = licences.get(this.model.get('Licence'));
+            if (this.model.get('Description').trim().length > 0) {
+                if (this.$el.find('.description').length === 0) {
+                    this.$el.find('.overlay').after('<p class="description" />');
+                }
+                this.$el.find('.description').text(this.model.get('Description').trim());
+            } else {
+                this.$el.find('.description').remove();
+            }
+            this.$el.find('.licence-name').text(licence.Name);
+            this.$el.find('.licence-icons img').remove();
+            _.forEach(licence.Icons, function (icon) {
+                this.$el.find('.licence-icons').append('<img src="' + icon + '" alt="" />');
+            }, this);
         },
 
         _removeMedia: function (e) {

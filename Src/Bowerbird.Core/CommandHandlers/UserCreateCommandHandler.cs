@@ -74,7 +74,8 @@ namespace Bowerbird.Core.CommandHandlers
                 userCreateCommand.Email,
                 userCreateCommand.FirstName,
                 userCreateCommand.LastName,
-                _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.User));
+                _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.User),
+                Constants.DefaultLicence);
             _documentSession.Store(user);
 
             // Make user project

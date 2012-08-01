@@ -1,7 +1,7 @@
 ﻿    <h2>Record</h2>
     <form action="/records" method="post"  enctype="multipart/form-data">
     <fieldset>
-      <legend>Record Details</legend>
+      <legend class="hidden">Record Details</legend>
 <!--      <div id="title-field" class="field">
         <div>
           <label for="Title">Title</label>
@@ -41,9 +41,19 @@
         </div>
       </div>
       <fieldset id="location-fieldset">
-        <legend>Location</legend>
-          <p>Drag the pin onto the map or enter an exact co-ordinate.</p>
-        <div id="latitude-field" class="field field-part-one">
+        <legend class="hidden">Location</legend>
+          <p>Enter an address, drag the pin onto the map or enter an exact co-ordinate.</p>
+          
+          <div id="address-field" class="field">
+              <div>
+                  <label for="Address">Locality/Address</label>
+              </div>
+              <div>
+                  <input type="text" id="Address" name="address" autocomplete="off" value="{{Model.Record.Address}}" />
+              </div>
+          </div>          
+
+          <div id="latitude-field" class="field field-part-one">
           <div>
             <label for="Latitude">Latitude <span>Required</span></label>
           </div>

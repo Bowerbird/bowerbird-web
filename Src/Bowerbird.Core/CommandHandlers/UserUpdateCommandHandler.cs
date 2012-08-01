@@ -19,6 +19,7 @@ using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Extensions;
 using Raven.Client;
+using Bowerbird.Core.Config;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -58,7 +59,8 @@ namespace Bowerbird.Core.CommandHandlers
                 command.FirstName,
                 command.LastName,
                 command.Description,
-                string.IsNullOrWhiteSpace(command.AvatarId) ? null : _documentSession.Load<MediaResource>(command.AvatarId));
+                string.IsNullOrWhiteSpace(command.AvatarId) ? null : _documentSession.Load<MediaResource>(command.AvatarId),
+                command.DefaultLicence);
 
             _documentSession.Store(user);
         }

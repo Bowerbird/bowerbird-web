@@ -17,9 +17,12 @@ function ($, _, Backbone, app)
         template: 'ObservationDetails',
 
         serializeData: function () {
-            var json = { Model: { Observation: this.model.toJSON() } };
-            json.Model.ShowThumbnails = this.model.get('Media').length > 1 ? true : false;
-            return json;
+            return {
+                Model: {
+                    Observation: this.model.toJSON(),
+                    ShowThumbnails: this.model.get('Media').length > 1 ? true : false
+                }
+            };
         },
 
         onShow: function () {

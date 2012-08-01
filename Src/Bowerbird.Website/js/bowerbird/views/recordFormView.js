@@ -18,15 +18,14 @@ function ($, _, Backbone, app, ich, EditMapView) {
         template: 'RecordForm',
 
         regions: {
-            //media: '#media-resources-fieldset',
             map: '#location-fieldset'
         },
 
         events: {
             'click #cancel': '_cancel',
             'click #save': '_save',
-            //'change input#Title': '_contentChanged',
             'change input#ObservedOn': '_contentChanged',
+            'change input#Address': '_contentChanged',
             'change input#Latitude': '_latLongChanged',
             'change input#Longitude': '_latLongChanged',
             'change input#AnonymiseLocation': '_anonymiseLocationChanged',
@@ -98,14 +97,14 @@ function ($, _, Backbone, app, ich, EditMapView) {
                     }
                     var project = app.authenticatedUser.projects.get(option.value);
 
-                    html += ' /><img src="' + project.get('Avatar').Image.ThumbnailMedium.RelativeUri + '" alt="" />' + project.get('Name') + '</label>';
+                    html += ' /><img src="' + project.get('Avatar').Image.Square100.RelativeUri + '" alt="" />' + project.get('Name') + '</label>';
                     return html;
                 },
                 oneOrMoreSelected: function (selectedOptions) {
                     var $selectedHtml = $('<div />');
                     _.each(selectedOptions, function (option) {
                         var project = app.authenticatedUser.projects.get(option.value);
-                        $selectedHtml.append('<span class="selected-project"><img src="' + project.get('Avatar').Image.ThumbnailMedium.RelativeUri + '" alt="" />' + option.text + '</span> ');
+                        $selectedHtml.append('<span class="selected-project"><img src="' + project.get('Avatar').Image.Square100.RelativeUri + '" alt="" />' + option.text + '</span> ');
                     });
                     return $selectedHtml.children();
                 }
@@ -118,6 +117,10 @@ function ($, _, Backbone, app, ich, EditMapView) {
             data[target.attr('id')] = target.attr('value');
             this.model.set(data);
 
+            if (target.attr('id') === 'Address') {
+                this._latLongChanged(e);
+            }
+
             if (target.attr('id') === 'ObservedOn') {
                 this.dateUpdated = true;
             }
@@ -129,9 +132,9 @@ function ($, _, Backbone, app, ich, EditMapView) {
 
             this.model.set('Latitude', newPosition.latitude);
             this.model.set('Longitude', newPosition.longitude);
-            
+
             // Only update pin if the location is different to avoid infinite loop
-            if (newPosition.Latitude !== '' && newPosition.Longitude !== '' && (oldPosition.Latitude !== newPosition.Latitude || oldPosition.Longitude !== newPosition.Longitude)) {
+            if (newPosition.Latitude != null && newPosition.Longitude != null && (oldPosition.Latitude !== newPosition.Latitude || oldPosition.Longitude !== newPosition.Longitude)) {
                 this.editMapView.changeMarkerPosition(this.model.get('Latitude'), this.model.get('Longitude'));
             }
         },

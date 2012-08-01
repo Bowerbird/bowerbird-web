@@ -14,6 +14,7 @@ function ($, _, Backbone) {
     var Record = Backbone.Model.extend({
         defaults: {
             ObservedOn: null,
+            Address: '',
             Latitude: null,
             Longitude: null,
             Category: '',

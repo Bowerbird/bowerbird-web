@@ -1,0 +1,24 @@
+﻿{{#Image.Full768}}
+<img src="{{RelativeUri}}" alt="" />
+{{/Image.Full768}}
+{{#Video.Full768}}
+<iframe class="video-player" width="{{Width}}" height="{{Height}}" src="{{Uri}}" allowfullscreen></iframe>
+{{/Video.Full768}}
+{{#Audio.Full768}}
+<div id="audio-player-{{Name}}" class="cp-jplayer"></div>
+<div id="audio-player-container-{{Name}}" class="cp-container">
+	<div class="cp-buffer-holder"> <!-- .cp-gt50 only needed when buffer is > than 50% -->
+		<div class="cp-buffer-1"></div>
+		<div class="cp-buffer-2"></div>
+	</div>
+	<div class="cp-progress-holder"> <!-- .cp-gt50 only needed when progress is > than 50% -->
+		<div class="cp-progress-1"></div>
+		<div class="cp-progress-2"></div>
+	</div>
+	<div class="cp-circle-control"></div>
+	<ul class="cp-controls">
+		<li><a href="#" class="cp-play" tabindex="1">play</a></li>
+		<li><a href="#" class="cp-pause" style="display:none;" tabindex="1">pause</a></li> <!-- Needs the inline style here, or jQuery.show() uses display:inline instead of display:block -->
+	</ul>
+</div>
+{{/Audio.Full768}}

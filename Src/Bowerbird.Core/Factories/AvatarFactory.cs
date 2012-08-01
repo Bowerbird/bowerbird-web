@@ -41,9 +41,9 @@ namespace Bowerbird.Core.Factories
             var filename = string.Format("default-{0}-avatar.jpg", avatarType.ToString().ToLower());
             var relativeUri = string.Format("/img/{0}", filename);
 
-            avatar.AddImageFile("ThumbnailSmall", filename, relativeUri, "jpeg", 42, 42, "jpg");
-            avatar.AddImageFile("ThumbnailMedium", filename, relativeUri, "jpeg", 100, 100, "jpg");
-            avatar.AddImageFile("ThumbnailLarge", filename, relativeUri, "jpeg", 200, 200, "jpg");
+            avatar.AddImageFile("Square42", filename, relativeUri, "jpeg", 42, 42, "jpg");
+            avatar.AddImageFile("Square100", filename, relativeUri, "jpeg", 100, 100, "jpg");
+            avatar.AddImageFile("Square200", filename, relativeUri, "jpeg", 200, 200, "jpg");
 
             return avatar;
         }

@@ -15520,6 +15520,8 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
                 return p === permissionId;
             });
         };
+
+        this.defaultLicence = data.DefaultLicence;
     };
 
     app.vent.on('newactivity:groupadded', function (activity) {
@@ -16205,8 +16207,7 @@ define('models/mediaresource',['jquery', 'underscore', 'backbone'], function ($,
     var MediaResource = Backbone.Model.extend({
         defaults: {
             Key: '',
-            MediaType: '',
-            VideoId: ''
+            MediaType: ''
         },
 
         idAttribute: 'Id',
@@ -24020,8 +24021,8 @@ function ($, _, Backbone, app, DummyOverlayView) {
             this.mapMarker = null;
             this.zIndex = 0;
 
-            if (this.model.mediaResources) {
-                this.model.mediaResources.on('change:Metadata', this.onMediaResourceFilesChanged, this);
+            if (this.model.media) {
+                this.model.media.on('change:Metadata', this.onMediaChanged, this);
             }
         },
 
@@ -24034,9 +24035,9 @@ function ($, _, Backbone, app, DummyOverlayView) {
             return this;
         },
 
-        onMediaResourceFilesChanged: function (mediaResource) {
-            var lat = mediaResource.get('Metadata').Latitude;
-            var lon = mediaResource.get('Metadata').Longitude;
+        onMediaChanged: function (media) {
+            var lat = media.mediaResource.get('Metadata').Latitude;
+            var lon = media.mediaResource.get('Metadata').Longitude;
 
             if ((this.model.get('Latitude') === '' && this.model.get('Longitude') === '') && lat && lon) {
                 this.changeMarkerPosition(lat, lon);
@@ -24279,6 +24280,94 @@ function ($, _, Backbone, app, DummyOverlayView) {
     return EditMapView;
 
 });
+/// <reference path="../libs/log.js" />
+/// <reference path="../libs/require/require.js" />
+/// <reference path="../libs/jquery/jquery-1.7.2.js" />
+/// <reference path="../libs/underscore/underscore.js" />
+/// <reference path="../libs/backbone/backbone.js" />
+/// <reference path="../libs/backbone.marionette/backbone.marionette.js" />
+/// <reference path="../libs/jquery.signalr/jquery-1.6.2-vsdoc.js" />
+
+// Licenes
+// -------
+
+// Bowerbird licences
+define('licences',['underscore'], function (_) {
+
+    var Licences = {};
+
+    var list = [
+        {
+            Name: 'All Rights Reserved',
+            Id: ' ',
+            Description: 'The original creator/s of the work are recognized as the legal owner/s when it comes to fair use of the work by others. The creator holds all of the legal rights to the work unless or until they decide to grant some of those rights to others.',
+            Icons: ['/img/copyright.svg']
+        },
+        {
+            Name: 'Attribution',
+            Id: 'BY',
+            Description: 'This licence lets others distribute, remix and build upon a work, even commercially, as long as they credit the original creator/s (and any other nominated parties). This is the most accommodating of the licences in terms of what others can do with the work.',
+            DeedUri: 'http://creativecommons.org/licenses/by/3.0/au',
+            LegalCodeUri: 'http://creativecommons.org/licenses/by/3.0/au/legalcode',
+            Icons: ['/img/cc.svg', '/img/by.svg']
+        },
+        {
+            Name: 'Attribution-Share Alike',
+            Id: 'BY-SA',
+            Description: 'This licence lets others distribute, remix and build upon the work, even for commercial purposes, as long as they credit the original creator/s (and any other nominated parties) and license any new creations based on the work under the same terms. All new derivative works will carry the same licence, so will also allow commercial use.<br />' +
+            'In other words, you agree to share your materials with others, if they will share their new works in return. This licence is often compared to the free software licences, known as ‘copyleft.’',
+            DeedUri: 'http://creativecommons.org/licenses/by-sa/3.0/au',
+            LegalCodeUri: 'http://creativecommons.org/licenses/by-sa/3.0/au/legalcode',
+            Icons: ['/img/cc.svg', '/img/by.svg', '/img/sa.svg']
+        },
+        {
+            Name: 'Attribution-No Derivative Works',
+            Id: 'BY-ND',
+            Description: 'This licence allows others to distribute the work, even for commercial purposes, as long as the work is unchanged, and the original creator/s (and any other nominated parties) are credited.',
+            DeedUri: 'http://creativecommons.org/licenses/by-nd/3.0/au',
+            LegalCodeUri: 'http://creativecommons.org/licenses/by-nd/3.0/au/legalcode',
+            Icons: ['/img/cc.svg', '/img/by.svg', '/img/nd.svg']
+        },
+        {
+            Name: 'Attribution-Noncommercial',
+            Id: 'BY-NC',
+            Description: 'This licence lets others distribute, remix and build upon the work, but only if it is for non-commercial purposes and they credit the original creator/s (and any other nominated parties). They don’t have to license their derivative works on the same terms.',
+            DeedUri: 'http://creativecommons.org/licenses/by-nc/3.0/au',
+            LegalCodeUri: 'http://creativecommons.org/licenses/by-nc/3.0/au/legalcode',
+            Icons: ['/img/cc.svg', '/img/by.svg', '/img/nc.svg']
+        },
+        {
+            Name: 'Attribution-Noncommercial-Share Alike',
+            Id: 'BY-NC-SA',
+            Description: 'This licence lets others distribute, remix and build upon the work, but only if it is for non-commercial purposes, they credit the original creator/s (and any other nominated parties) and they license their derivative works under the same terms.',
+            DeedUri: 'http://creativecommons.org/licenses/by-nc-sa/3.0/au',
+            LegalCodeUri: 'http://creativecommons.org/licenses/by-nc-sa/3.0/au/legalcode',
+            Icons: ['/img/cc.svg', '/img/by.svg', '/img/nc.svg', '/img/sa.svg']
+        },
+        {
+            Name: 'Attribution-Noncommercial-No Derivatives',
+            Id: 'BY-NC-ND',
+            Description: 'This licence is the most restrictive of the six main licences, allowing redistribution of the work in its current form only. This licence is often called the ‘free advertising’ licence because it allows others to download and share the work as long as they credit the original creator/s (and any other nominated parties), they don’t change the material in any way and they don’t use it commercially.',
+            DeedUri: 'http://creativecommons.org/licenses/by-nc-nd/3.0/au',
+            LegalCodeUri: 'http://creativecommons.org/licenses/by-nc-nd/3.0/au/legalcode',
+            Icons: ['/img/cc.svg', '/img/by.svg', '/img/nc.svg', '/img/nd.svg']
+        }
+    ];
+
+    Licences.get = function (id) {
+        return _.find(list, function (item) {
+            return item.Id === id;
+        },
+        this);
+    };
+
+    Licences.getAll = function () {
+        return list;
+    };
+
+    return Licences;
+
+});
 /// <reference path="../../libs/log.js" />
 /// <reference path="../../libs/require/require.js" />
 /// <reference path="../../libs/jquery/jquery-1.7.2.js" />
@@ -24289,8 +24378,8 @@ function ($, _, Backbone, app, DummyOverlayView) {
 // EditObservationMediaFormView
 // ----------------------------
 
-define('views/editobservationmediaformview',['jquery', 'underscore', 'backbone', 'app', 'ich', 'multiselect'],
-function ($, _, Backbone, app, ich) {
+define('views/editobservationmediaformview',['jquery', 'underscore', 'backbone', 'app', 'ich', 'licences', 'multiselect'],
+function ($, _, Backbone, app, ich, licences) {
 
     var EditObservationMediaFormView = Backbone.Marionette.ItemView.extend({
         id: 'edit-observation-media-form',
@@ -24303,104 +24392,40 @@ function ($, _, Backbone, app, ich) {
             'click .done-button': '_done'
         },
 
-        licenceDetails: [
-              {
-                  Name: 'None (All Rights Reserved)',
-                  Id: ' ',
-                  Description: '',
-                  Icons: ['/img/copyright.svg']
-              },
-              {
-                  Name: 'Attribution',
-                  Id: 'BY',
-                  Description: 'This licence lets others distribute, remix and build upon a work, even commercially, as long as they credit the original creator/s (and any other nominated parties). This is the most accommodating of the licences in terms of what others can do with the work.',
-                  DeedUri: 'http://creativecommons.org/licenses/by/3.0/au',
-                  LegalCodeUri: 'http://creativecommons.org/licenses/by/3.0/au/legalcode',
-                  Icons: ['/img/by.svg']
-              },
-              {
-                  Name: 'Attribution-Share Alike',
-                  Id: 'BY-SA',
-                  Description: 'This licence lets others distribute, remix and build upon the work, even for commercial purposes, as long as they credit the original creator/s (and any other nominated parties) and license any new creations based on the work under the same terms. All new derivative works will carry the same licence, so will also allow commercial use.<br />' +
-                        'In other words, you agree to share your materials with others, if they will share their new works in return. This licence is often compared to the free software licences, known as ‘copyleft.’',
-                  DeedUri: 'http://creativecommons.org/licenses/by-sa/3.0/au',
-                  LegalCodeUri: 'http://creativecommons.org/licenses/by-sa/3.0/au/legalcode',
-                  Icons: ['/img/by.svg', '/img/sa.svg']
-              },
-              {
-                  Name: 'Attribution-No Derivative Works',
-                  Id: 'BY-ND',
-                  Description: 'This licence allows others to distribute the work, even for commercial purposes, as long as the work is unchanged, and the original creator/s (and any other nominated parties) are credited.',
-                  DeedUri: 'http://creativecommons.org/licenses/by-nd/3.0/au',
-                  LegalCodeUri: 'http://creativecommons.org/licenses/by-nd/3.0/au/legalcode',
-                  Icons: ['/img/by.svg', '/img/nd.svg']
-              },
-              {
-                  Name: 'Attribution-Noncommercial',
-                  Id: 'BY-NC',
-                  Description: 'This licence lets others distribute, remix and build upon the work, but only if it is for non-commercial purposes and they credit the original creator/s (and any other nominated parties). They don’t have to license their derivative works on the same terms.',
-                  DeedUri: 'http://creativecommons.org/licenses/by-nc/3.0/au',
-                  LegalCodeUri: 'http://creativecommons.org/licenses/by-nc/3.0/au/legalcode',
-                  Icons: ['/img/by.svg', '/img/nc.svg']
-              },
-              {
-                  Name: 'Creative Commons Attribution-Noncommercial-Share Alike',
-                  Id: 'BY-NC-SA',
-                  Description: 'This licence lets others distribute, remix and build upon the work, but only if it is for non-commercial purposes, they credit the original creator/s (and any other nominated parties) and they license their derivative works under the same terms.',
-                  DeedUri: 'http://creativecommons.org/licenses/by-nc-sa/3.0/au',
-                  LegalCodeUri: 'http://creativecommons.org/licenses/by-nc-sa/3.0/au/legalcode',
-                  Icons: ['/img/by.svg', '/img/nc.svg', '/img/sa.svg']
-              },
-              {
-                  Name: 'Attribution-Noncommercial-No Derivatives',
-                  Id: 'BY-NC-ND',
-                  Description: 'This licence is the most restrictive of the six main licences, allowing redistribution of the work in its current form only. This licence is often called the ‘free advertising’ licence because it allows others to download and share the work as long as they credit the original creator/s (and any other nominated parties), they don’t change the material in any way and they don’t use it commercially.',
-                  DeedUri: 'http://creativecommons.org/licenses/by-nc-nd/3.0/au',
-                  LegalCodeUri: 'http://creativecommons.org/licenses/by-nc-nd/3.0/au/legalcode',
-                  Icons: ['/img/by.svg', '/img/nc.svg', '/img/nd.svg']
-              }
-        ],
-
         serializeData: function () {
             return {
                 Model: {
                     Media: this.model.toJSON(),
-                    Licences: _.map(this.licenceDetails, function (licence) {
+                    Licences: _.map(licences.getAll(), function (licence) {
                         return {
                             Text: licence.Name,
                             Value: licence.Id,
-                            Selected: licence.Id === 'BY' ? true : false
+                            Selected: licence.Id === this.selectedLicence
                         };
-                    })
+                    },
+                    this)
                 }
             };
         },
 
         initialize: function (options) {
-            //            _.bindAll(this, '_loadVideo', '_onGetYouTubeVideo', '_onGetVimeoVideo', '_onGetVideoError', '_updateVideoStatus');
-
-            //            if (options.videoProviderName === 'youtube') {
-            //                this.provider = new YouTubeVideoProvider({ onGetVideoSuccess: this._onGetYouTubeVideo, onGetVideoError: this._onGetVideoError });
-            //            } else if (options.videoProviderName === 'vimeo') {
-            //                this.provider = new VimeoVideoProvider({ onGetVideoSuccess: this._onGetVimeoVideo, onGetVideoError: this._onGetVideoError });
-            //            }
+            _.bindAll(this, 'onRender');
+            this.selectedLicence = this.model.get('Licence');
         },
 
         onRender: function () {
             var that = this;
+            var defaultLicence = licences.get(' ');
             this.licenceListSelectView = this.$el.find("#Licence").multiSelect({
                 selectAll: false,
                 listHeight: 263,
                 singleSelect: true,
                 noOptionsText: 'No Licences',
-                //noneSelected: '<span class="">None (All Rights Reserved)</span>',
+                noneSelected: '<span>' + defaultLicence.Name + '</span><img src="' + defaultLicence.Icons[0] + '" alt="" />',
                 renderOption: function (id, option) {
-                    var licence = _.find(that.licenceDetails, function (item) {
-                        return item.Id === option.value;
-                    });
                     var model = {
                         Model: {
-                            Licence: licence,
+                            Licence: licences.get(option.value),
                             Selected: option.selected
                         }
                     };
@@ -24409,13 +24434,12 @@ function ($, _, Backbone, app, ich) {
                 oneOrMoreSelected: function (selectedOptions) {
                     var $selectedHtml = $('<span />');
                     _.each(selectedOptions, function (option) {
-                        var licence = _.find(that.licenceDetails, function (item) {
-                            return item.Id === option.value;
-                        });
+                        var licence = licences.get(option.value);
                         $selectedHtml.append('<span>' + licence.Name + '</span> ');
-                        for(var x = 0; x < licence.Icons.length; x++) {
+                        for (var x = 0; x < licence.Icons.length; x++) {
                             $selectedHtml.append('<img src="' + licence.Icons[x] + '" alt="" />');
                         }
+                        that.selectedLicence = licence.Id;
                     });
                     return $selectedHtml.children();
                 }
@@ -24429,12 +24453,9 @@ function ($, _, Backbone, app, ich) {
         },
 
         _done: function () {
-            this.trigger('editmediadone', this.$el.find('#Description').val(), this.$el.find('#Licence').val());
+            this.model.set({ Description: this.$el.find('#Description').val(), Licence: this.selectedLicence });
+            this.trigger('editmediadone', this.model);
             this.remove();
-            //            if (this.videoId !== '') {
-            //                this.trigger('videouploaded', this.videoId, this.provider.getJSON().name);
-            //                this.remove();
-            //            }
         }
     });
 
@@ -24450,8 +24471,8 @@ function ($, _, Backbone, app, ich) {
 // ObservationMediaItemView
 // ------------------------
 
-define('views/observationmediaitemview',['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editobservationmediaformview'],
-function ($, _, Backbone, app, ich, EditObservationMediaFormView) {
+define('views/observationmediaitemview',['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editobservationmediaformview', 'licences'],
+function ($, _, Backbone, app, ich, EditObservationMediaFormView, licences) {
     var ImageProvider = function (options) {
 
     };
@@ -24475,13 +24496,27 @@ function ($, _, Backbone, app, ich, EditObservationMediaFormView) {
 
         provider: null,
 
-        initialize: function (options) {
-            var mediaType = this.model.get('MediaType');
+        initialize: function () {
+            var mediaType = this.model.mediaResource.get('MediaType');
             if (mediaType === 'image') {
                 this.provider = new ImageProvider();
             } else if (mediaType === 'video') {
                 this.provider = new VideoProvider();
             }
+        },
+
+        serializeData: function () {
+            var licence = licences.get(this.model.get('Licence'));
+            return {
+                Model: {
+                    Media: {
+                        Description: this.model.get('Description'),
+                        LicenceName: licence.Name,
+                        LicenceIcons: licence.Icons
+                    },
+                    MediaResource: this.model.mediaResource.toJSON()
+                }
+            };
         },
 
         onRender: function () {
@@ -24513,9 +24548,22 @@ function ($, _, Backbone, app, ich, EditObservationMediaFormView) {
             editObservationMediaFormView.render();
         },
 
-        _onEditMedia: function (description, licence) {
-            log('editmediadone', description, licence);
-            this.trigger('detailsedited', { mediaResource: this.model, description: description, licence: licence });
+        _onEditMedia: function () {
+            log('editmediadone');
+            var licence = licences.get(this.model.get('Licence'));
+            if (this.model.get('Description').trim().length > 0) {
+                if (this.$el.find('.description').length === 0) {
+                    this.$el.find('.overlay').after('<p class="description" />');
+                }
+                this.$el.find('.description').text(this.model.get('Description').trim());
+            } else {
+                this.$el.find('.description').remove();
+            }
+            this.$el.find('.licence-name').text(licence.Name);
+            this.$el.find('.licence-icons img').remove();
+            _.forEach(licence.Icons, function (icon) {
+                this.$el.find('.licence-icons').append('<img src="' + icon + '" alt="" />');
+            }, this);
         },
 
         _removeMedia: function (e) {
@@ -25242,7 +25290,7 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
             'click #vimeo-upload-button': '_showVimeoVideoForm'
         },
 
-        initialize: function (options) {
+        initialize: function () {
             _.bindAll(this, '_onMediaResourceUploadSuccess', '_onMediaResourceUploadFailure', '_onImageUploadAdd', '_onVideoUploadAdd');
 
             this.currentUploads = new MediaResourceCollection();
@@ -25271,19 +25319,19 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
             var that = this;
             this.$el.find('.observation-media-items')
                 .queue(function (next) {
-                    var $mediaResourceItems = that.$el.find('.observation-media-items');
+                    var $mediaItems = that.$el.find('.observation-media-items');
 
                     // Add the new view
-                    $mediaResourceItems.append(itemView.el);
+                    $mediaItems.append(itemView.el);
 
-                    if ($mediaResourceItems.innerWidth() + $mediaResourceItems.scrollLeft() === $mediaResourceItems.get(0).scrollWidth) {
+                    if ($mediaItems.innerWidth() + $mediaItems.scrollLeft() === $mediaItems.get(0).scrollWidth) {
                         // Don't do any animation
                         next();
                     }
                     else {
-                        var scrollAmount = ($mediaResourceItems.get(0).scrollWidth - ($mediaResourceItems.innerWidth() + $mediaResourceItems.scrollLeft())) + $mediaResourceItems.scrollLeft();
+                        var scrollAmount = ($mediaItems.get(0).scrollWidth - ($mediaItems.innerWidth() + $mediaItems.scrollLeft())) + $mediaItems.scrollLeft() + 500;
                         // Make space for the new item
-                        $mediaResourceItems.animate(
+                        $mediaItems.animate(
                             { scrollLeft: scrollAmount },
                             {
                                 duration: 100,
@@ -25302,6 +25350,7 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
                         {
                             duration: 800,
                             //easing: 'swing',
+                            queue: false,
                             complete: next
                         });
                 })
@@ -25310,23 +25359,33 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
                     $(itemView.el).css({ position: 'relative', top: '' });
 
                     var mediaResource = that.currentUploads.find(function (item) {
-                        return item.get('Key') === itemView.model.get('Key');
+                        return item.get('Key') === itemView.model.mediaResource.get('Key');
                     });
                     that.currentUploads.remove(mediaResource);
 
                     that._updateProgress();
-                    next();
+                    //next();
+
+                    var $mediaItems = that.$el.find('.observation-media-items');
+                    var scrollAmount = ($mediaItems.get(0).scrollWidth - ($mediaItems.innerWidth() + $mediaItems.scrollLeft())) + $mediaItems.scrollLeft();
+                    // Make space for the new item
+                    $mediaItems.animate(
+                            { scrollLeft: scrollAmount },
+                            {
+                                duration: 100,
+                                //easing: 'swing',
+                                queue: false,
+                                complete: next
+                            });
                 });
         },
 
-        _onMediaRemove: function (mediaResourceItemView) {
-            log('removed', mediaResourceItemView);
-
+        _onMediaRemove: function (mediaItemView) {
             var that = this;
             this.$el.find('.observation-media-items')
-                .queue(function(next) {
+                .queue(function (next) {
                     // Slide the view down out of the div
-                    $(mediaResourceItemView.el)
+                    $(mediaItemView.el)
                         .animate(
                             { top: '+=250' },
                             {
@@ -25335,14 +25394,14 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
                                 complete: next
                             });
                 })
-                .queue(function(next) {
-                    that.model.removeMedia(mediaResourceItemView.model.id);
+                .queue(function (next) {
+                    that.model.removeMedia(mediaItemView.model);
                     next();
                 });
         },
 
-        _onMediaUpdated: function (data) {
-            this.model.updateMedia(data.mediaResource.id, data.description, data.licence);
+        _onMediaUpdated: function () {
+            
         },
 
         _showYouTubeVideoForm: function (e) {
@@ -25428,7 +25487,7 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
         },
 
         _updateProgress: function () {
-            if (this.model.mediaResources.length > 0) {
+            if (this.model.media.length > 0) {
                 this.$el.find('.observation-media-items-label').hide();
             } else {
                 this.$el.find('.observation-media-items-label').show();
@@ -25449,10 +25508,7 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
                 return item.get('Key') === data.Key;
             });
             mediaResource.set(data);
-            //this.currentUploads.remove(mediaResource);
-            //this.model.mediaResources.add(mediaResource);
-            this.model.addMedia(mediaResource, '', '');
-
+            this.model.addMedia(mediaResource, '', app.authenticatedUser.defaultLicence);
             this._updateProgress();
         },
 
@@ -25460,10 +25516,8 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
             var mediaResource = this.currentUploads.find(function (item) {
                 return item.get('Key') === key;
             });
-
             this.currentUploads.remove(mediaResource);
             this.failedUploads.add(mediaResource);
-
             this._updateProgress();
         },
 
@@ -26729,7 +26783,7 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView) {
 
         initialize: function (options) {
             this.categories = options.categories;
-            this.model.mediaResources.on('change:Metadata', this.onMediaResourceFilesChanged, this);
+            //this.model.media.on('change', this.onMediaChanged, this);
         },
 
         serializeData: function () {
@@ -26741,9 +26795,9 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView) {
             };
         },
 
-        onMediaResourceFilesChanged: function (mediaResource) {
+        onMediaChanged: function (media) {
             if (!this.dateUpdated) {
-                var dateTaken = mediaResource.get('Metadata').DateTaken;
+                var dateTaken = media.mediaResource.get('Metadata').DateTaken;
                 if (dateTaken) {
                     this.dateUpdated = true;
                     this.model.set('ObservedOn', dateTaken);
@@ -26766,7 +26820,7 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView) {
             this.map.attachView(editMapView);
             editMapView.render();
 
-            var observationMediaFormView = new ObservationMediaFormView({ el: '#media-fieldset', model: this.model, collection: this.model.mediaResources });
+            var observationMediaFormView = new ObservationMediaFormView({ el: '#media-fieldset', model: this.model, collection: this.model.media });
             this.media.attachView(observationMediaFormView);
             observationMediaFormView.render();
 
@@ -26887,7 +26941,7 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView) {
                 return;
             }
 
-            this.model._setMedia();
+            //this.model._setMedia();
             this.model.save();
             app.showPreviousContentView();
         }
@@ -27339,11 +27393,70 @@ function ($, _, Backbone, app, ObservationDetailsView, ObservationFormLayoutView
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
+// ObservationMedia
+// ----------------
+
+define('models/observationmedia',['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
+
+    var ObservationMedia = Backbone.Model.extend({
+        defaults: {
+            MediaResourceId: '',
+            Description: '',
+            Licence: 'BY-SA'
+        },
+
+        mediaResource: null,
+
+        initialize: function (attr, options) {
+            if (options.mediaResource) {
+                this.setMediaResource(options.mediaResource);
+            }
+        },
+
+        setMediaResource: function (mediaResource) {
+            this.mediaResource = mediaResource;
+            this.set('MediaResourceId', mediaResource.id);
+        }
+    });
+
+    return ObservationMedia;
+
+});
+/// <reference path="../../libs/log.js" />
+/// <reference path="../../libs/require/require.js" />
+/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
+/// <reference path="../../libs/underscore/underscore.js" />
+/// <reference path="../../libs/backbone/backbone.js" />
+/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
+
+// ObservationMediaCollection
+// --------------------------
+
+define('collections/observationmediacollection',['jquery', 'underscore', 'backbone', 'models/observationmedia'], function ($, _, Backbone, ObservationMedia) {
+
+    var ObservationMediaCollection = Backbone.Collection.extend({
+        model: ObservationMedia,
+
+        initialize: function () {
+            _.extend(this, Backbone.Events);
+        }
+    });
+
+    return ObservationMediaCollection;
+
+});
+/// <reference path="../../libs/log.js" />
+/// <reference path="../../libs/require/require.js" />
+/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
+/// <reference path="../../libs/underscore/underscore.js" />
+/// <reference path="../../libs/backbone/backbone.js" />
+/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
+
 // Observation
 // -----------
 
-define('models/observation',['jquery', 'underscore', 'backbone', 'collections/projectcollection', 'collections/mediaresourcecollection'],
-function ($, _, Backbone, ProjectCollection, MediaResourceCollection) {
+define('models/observation',['jquery', 'underscore', 'backbone', 'collections/observationmediacollection', 'models/observationmedia'],
+function ($, _, Backbone, ObservationMediaCollection, ObservationMedia) {
     var Observation = Backbone.Model.extend({
         defaults: {
             Title: '',
@@ -27363,9 +27476,11 @@ function ($, _, Backbone, ProjectCollection, MediaResourceCollection) {
 
         idAttribute: 'Id',
 
-        initialize: function (options) {
-            this.mediaResources = new MediaResourceCollection();
-            this.media = [];
+        initialize: function () {
+            this.media = new ObservationMediaCollection();
+            this.media.on('add', this.onMediaChange, this);
+            this.media.on('change', this.onMediaChange, this);
+            this.media.on('remove', this.onMediaChange, this);
         },
 
         toJSON: function () {
@@ -27384,11 +27499,6 @@ function ($, _, Backbone, ProjectCollection, MediaResourceCollection) {
             };
         },
 
-        //        toViewJSON: function () {
-        //            // returns JSON containing all data for view
-        //            return Backbone.Model.prototype.toJSON.apply(this, arguments);
-        //        },
-
         addProject: function (id) {
             var projects = this.get('Projects');
             projects.push(id);
@@ -27400,53 +27510,19 @@ function ($, _, Backbone, ProjectCollection, MediaResourceCollection) {
             this.set('Projects', _.without(projects, id));
         },
 
-        //        addMediaResource: function (mediaResource) {
-        //            mediaResource.on('change', this._setMedia, this);
-        //            this.mediaResources.add(mediaResource);
-        //            this._setMedia();
-        //        },
-
-        //        removeMediaResource: function (id) {
-        //            this.mediaResources.remove(this.mediaResources.get(id));
-        //            this._setMedia();
-        //        },
-
-        //        _setMedia: function () {
-        //            var media = this.mediaResources.map(function (mediaResource) {
-        //                return { MediaResourceId: mediaResource.id, Description: 'description goes here...', Licence: 'licence goes here...' };
-        //            });
-        //            this.set('Media', media);
-        //        }
-
         addMedia: function (mediaResource, description, licence) {
-            this.mediaResources.add(mediaResource);
-            this.media.push({ mediaResource: mediaResource, description: description, licence: licence });
-            this._setMedia();
+            this.media.add({ MediaResourceId: mediaResource.id, Description: description, Licence: licence }, { mediaResource: mediaResource });
         },
 
-        updateMedia: function (id, description, licence) {
-            var mediaResource = this.mediaResources.get(id);
-            this.media = _.filter(this.media, function (item) {
-                return item.mediaResource.id !== id;
-            });
-            this.media.push({ mediaResource: mediaResource, description: description, licence: licence });
-            this._setMedia();
+        removeMedia: function (media) {
+            this.media.remove(media);
         },
 
-        removeMedia: function (id) {
-            var mediaResource = this.mediaResources.get(id);
-            this.mediaResources.remove(mediaResource);
-            this.media = _.filter(this.media, function (item) {
-                return item.mediaResource.id !== id;
+        onMediaChange: function (media) {
+            var allMedia = this.media.map(function (item) {
+                return item.toJSON();
             });
-            this._setMedia();
-        },
-
-        _setMedia: function () {
-            var media = this.media.map(function (item) {
-                return { MediaResourceId: item.mediaResource.id, Description: item.description, Licence: item.licence };
-            });
-            this.set('Media', media);
+            this.set('Media', allMedia);
         }
     });
 

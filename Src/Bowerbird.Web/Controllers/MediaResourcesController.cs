@@ -82,49 +82,18 @@ namespace Bowerbird.Web.Controllers
             {
                 Key = mediaResourceCreateInput.Key,
                 MediaType = mediaResourceCreateInput.MediaType,
+                MimeType = mediaResourceCreateInput.File != null ? mediaResourceCreateInput.File.ContentType : null,
                 Usage = mediaResourceCreateInput.Usage,
                 UploadedOn = DateTime.UtcNow,
                 UserId = _userContext.GetAuthenticatedUserId(),
-                Stream = mediaResourceCreateInput.MediaType.ToLower() == "image" ? mediaResourceCreateInput.File.InputStream : null,
-                OriginalFileName = mediaResourceCreateInput.MediaType.ToLower() == "image" ? mediaResourceCreateInput.OriginalFileName : null,
-                VideoProviderName = mediaResourceCreateInput.MediaType.ToLower() == "video" ? mediaResourceCreateInput.VideoProviderName : null,
-                VideoId = mediaResourceCreateInput.MediaType.ToLower() == "video" ? mediaResourceCreateInput.VideoId : null
+                Stream = mediaResourceCreateInput.File != null ? mediaResourceCreateInput.File.InputStream : null,
+                OriginalFileName = mediaResourceCreateInput.OriginalFileName,
+                VideoProviderName = mediaResourceCreateInput.VideoProviderName,
+                VideoId = mediaResourceCreateInput.VideoId
             });
 
             return JsonSuccess();
         }
-
-        //[HttpPost]
-        //[Authorize]
-        //public ActionResult AvatarUpload(HttpPostedFileBase file)
-        //{
-        //    return ProcessPostedImage(string.Empty, string.Empty, file, "avatar");
-        //}
-
-        //private ActionResult ProcessPostedImage(string key, string originalFileName, HttpPostedFileBase file, string recordType, string mediaType = "image")
-        //{
-        //    try
-        //    {
-        //        var mediaResourceCreateCommand = new MediaResourceCreateCommand()
-        //        {
-        //            OriginalFileName = originalFileName ?? string.Empty,
-        //            Stream = file.InputStream,
-        //            UploadedOn = DateTime.UtcNow,
-        //            Usage = recordType,
-        //            UserId = _userContext.GetAuthenticatedUserId(),
-        //            MediaType = mediaType,
-        //            Key = key
-        //        };
-
-        //        _commandProcessor.Process(mediaResourceCreateCommand);
-
-        //        return new JsonNetResult(new { success = true});
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return new JsonNetResult(new { success = false, error = ex.Message });
-        //    }
-        //}
 
         #endregion
     }

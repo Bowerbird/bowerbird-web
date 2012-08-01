@@ -10,6 +10,7 @@
 
 define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editmapview', 'views/observationmediaformview', 'datepicker', 'multiselect', 'jqueryui/dialog'],
 function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView) {
+    
     var ObservationFormLayoutView = Backbone.Marionette.Layout.extend({
 
         className: 'form observation-form',
@@ -39,7 +40,7 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView) {
 
         initialize: function (options) {
             this.categories = options.categories;
-            this.model.mediaResources.on('change:Metadata', this.onMediaResourceFilesChanged, this);
+            this.model.media.on('add', this.onMediaChanged, this);
         },
 
         serializeData: function () {
@@ -51,9 +52,9 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView) {
             };
         },
 
-        onMediaResourceFilesChanged: function (mediaResource) {
+        onMediaChanged: function (media) {
             if (!this.dateUpdated) {
-                var dateTaken = mediaResource.get('Metadata').DateTaken;
+                var dateTaken = media.mediaResource.get('Metadata').DateTaken;
                 if (dateTaken) {
                     this.dateUpdated = true;
                     this.model.set('ObservedOn', dateTaken);
@@ -76,7 +77,7 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView) {
             this.map.attachView(editMapView);
             editMapView.render();
 
-            var observationMediaFormView = new ObservationMediaFormView({ el: '#media-fieldset', model: this.model, collection: this.model.mediaResources });
+            var observationMediaFormView = new ObservationMediaFormView({ el: '#media-fieldset', model: this.model, collection: this.model.media });
             this.media.attachView(observationMediaFormView);
             observationMediaFormView.render();
 
@@ -117,14 +118,14 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView) {
                     }
                     var project = app.authenticatedUser.projects.get(option.value);
 
-                    html += ' /><img src="' + project.get('Avatar').Image.ThumbnailMedium.RelativeUri + '" alt="" />' + project.get('Name') + '</label>';
+                    html += ' /><img src="' + project.get('Avatar').Image.Square100.RelativeUri + '" alt="" />' + project.get('Name') + '</label>';
                     return html;
                 },
                 oneOrMoreSelected: function (selectedOptions) {
                     var $selectedHtml = $('<div />');
                     _.each(selectedOptions, function (option) {
                         var project = app.authenticatedUser.projects.get(option.value);
-                        $selectedHtml.append('<span class="selected-project"><img src="' + project.get('Avatar').Image.ThumbnailMedium.RelativeUri + '" alt="" />' + option.text + '</span> ');
+                        $selectedHtml.append('<span class="selected-project"><img src="' + project.get('Avatar').Image.Square100.RelativeUri + '" alt="" />' + option.text + '</span> ');
                     });
                     return $selectedHtml.children();
                 }
@@ -148,7 +149,7 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView) {
 
         _latLongChanged: function (e) {
             var oldPosition = { latitude: this.model.get('Latitude'), longitude: this.model.get('Longitude') };
-            var newPosition = { latitude: $('#Latitude').val(), longitude: $('#Longitude').val() };
+            var newPosition = { latitude: this.$el.find('#Latitude').val(), longitude: this.$el.find('#Longitude').val() };
 
             this.model.set('Latitude', newPosition.latitude);
             this.model.set('Longitude', newPosition.longitude);
@@ -197,7 +198,6 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView) {
                 return;
             }
 
-            this.model._setMedia();
             this.model.save();
             app.showPreviousContentView();
         }

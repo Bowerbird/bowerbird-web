@@ -36,9 +36,8 @@ namespace Bowerbird.Web.ViewModels
         public string Key { get; set; }
 
         /// <summary>
-        /// Image, Video, etc
+        /// Image, Audio, Document or Video (if known)
         /// </summary>
-        [Required]
         public string MediaType { get; set; }
 
         [Required]

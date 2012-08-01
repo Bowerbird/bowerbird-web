@@ -9,11 +9,12 @@
     <link rel="stylesheet" type="text/css" href="/css/new/global.css?v={{#Ver}}{{{Ver}}}{{/Ver}}{{^Ver}}0{{/Ver}}" />
     <link rel="stylesheet" type="text/css" href="/css/new/stream.css?v={{#Ver}}{{{Ver}}}{{/Ver}}{{^Ver}}0{{/Ver}}" />
     <link rel="stylesheet" type="text/css" href="/css/new/observation.css?v={{#Ver}}{{{Ver}}}{{/Ver}}{{^Ver}}0{{/Ver}}" />
+    <link rel="stylesheet" type="text/css" href="/css/new/circle.player.css?v={{#Ver}}{{{Ver}}}{{/Ver}}{{^Ver}}0{{/Ver}}" />
     <link rel="stylesheet" type="text/css" href="/css/new/media.css?v={{#Ver}}{{{Ver}}}{{/Ver}}{{^Ver}}0{{/Ver}}" />
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700" />
   </head>
   <body class="debug">
-    <div id="debug-info"></div>
+      <div id="debug-info"></div>
     <header>
       <div>
         <h1>Bowerbird</h1>
@@ -77,6 +78,6 @@
       // Ideally we wouldn't need the lione below as this would be loaded via data-main attribute, but Opera has a bug: https://github.com/jrburke/requirejs/issues/357
       require(['/js/{{JavascriptSource}}']);
     </script>
-    <!--{{#RavenProfiler}}{{{RavenProfiler}}}{{/RavenProfiler}}-->
+      <!--{{#RavenProfiler}}{{{RavenProfiler}}}{{/RavenProfiler}}-->
   </body>
 </html>

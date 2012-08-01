@@ -77,7 +77,7 @@ define(['jquery', 'date'], function (jQuery) {
         this.$month = $('.name', $months);
         this.$year = $('.name', $years);
 
-        $calendar = $("<div>").addClass('calendar');
+        var $calendar = $("<div>").addClass('calendar');
 
         // Populate day of week headers, realigned by startOfWeek.
         for (var i = 0; i < this.shortDayNames.length; i++) {

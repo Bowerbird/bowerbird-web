@@ -11,7 +11,7 @@
  * Atlas of Living Australia
  
 */
-				
+                
 namespace Bowerbird.Web.ViewModels
 {
     /// <summary>

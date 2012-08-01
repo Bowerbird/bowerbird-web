@@ -50,12 +50,12 @@ namespace Bowerbird.Web.Services
 
             original.Data = data;
 
-            mediaResource.AddVideoFile("ThumbnailSmall", uri, provider, videoId, 42, 42);
-            mediaResource.AddVideoFile("ThumbnailMedium", uri, provider, videoId, 100, 100);
-            mediaResource.AddVideoFile("ThumbnailLarge", uri, provider, videoId, 200, 200);
-            mediaResource.AddVideoFile("FullSmall", uri, provider, videoId, 640, 480);
-            mediaResource.AddVideoFile("FullMedium", uri, provider, videoId, 1024, 768);
-            mediaResource.AddVideoFile("FullLarge", uri, provider, videoId, 1280, 1024);
+            mediaResource.AddVideoFile("Square42", uri, provider, videoId, 42, 42);
+            mediaResource.AddVideoFile("Square100", uri, provider, videoId, 100, 100);
+            mediaResource.AddVideoFile("Square200", uri, provider, videoId, 200, 200);
+            mediaResource.AddVideoFile("Full480", uri, provider, videoId, 640, 480);
+            mediaResource.AddVideoFile("Full768", uri, provider, videoId, 1024, 768);
+            mediaResource.AddVideoFile("Full1024", uri, provider, videoId, 1280, 1024);
         }
 
         /// <summary>

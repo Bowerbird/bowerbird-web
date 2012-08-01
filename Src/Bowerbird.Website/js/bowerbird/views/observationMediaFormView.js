@@ -21,7 +21,7 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
             'click #vimeo-upload-button': '_showVimeoVideoForm'
         },
 
-        initialize: function (options) {
+        initialize: function () {
             _.bindAll(this, '_onMediaResourceUploadSuccess', '_onMediaResourceUploadFailure', '_onImageUploadAdd', '_onVideoUploadAdd');
 
             this.currentUploads = new MediaResourceCollection();
@@ -45,24 +45,23 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
 
         appendHtml: function (collectionView, itemView) {
             itemView.on('removemedia', this._onMediaRemove, this);
-            itemView.on('detailsedited', this._onMediaUpdated, this);
 
             var that = this;
             this.$el.find('.observation-media-items')
                 .queue(function (next) {
-                    var $mediaResourceItems = that.$el.find('.observation-media-items');
+                    var $mediaItems = that.$el.find('.observation-media-items');
 
                     // Add the new view
-                    $mediaResourceItems.append(itemView.el);
+                    $mediaItems.append(itemView.el);
 
-                    if ($mediaResourceItems.innerWidth() + $mediaResourceItems.scrollLeft() === $mediaResourceItems.get(0).scrollWidth) {
+                    if ($mediaItems.innerWidth() + $mediaItems.scrollLeft() === $mediaItems.get(0).scrollWidth) {
                         // Don't do any animation
                         next();
                     }
                     else {
-                        var scrollAmount = ($mediaResourceItems.get(0).scrollWidth - ($mediaResourceItems.innerWidth() + $mediaResourceItems.scrollLeft())) + $mediaResourceItems.scrollLeft();
+                        var scrollAmount = ($mediaItems.get(0).scrollWidth - ($mediaItems.innerWidth() + $mediaItems.scrollLeft())) + $mediaItems.scrollLeft() + 500;
                         // Make space for the new item
-                        $mediaResourceItems.animate(
+                        $mediaItems.animate(
                             { scrollLeft: scrollAmount },
                             {
                                 duration: 100,
@@ -81,6 +80,7 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
                         {
                             duration: 800,
                             //easing: 'swing',
+                            queue: false,
                             complete: next
                         });
                 })
@@ -89,23 +89,36 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
                     $(itemView.el).css({ position: 'relative', top: '' });
 
                     var mediaResource = that.currentUploads.find(function (item) {
-                        return item.get('Key') === itemView.model.get('Key');
+                        return item.get('Key') === itemView.model.mediaResource.get('Key');
                     });
                     that.currentUploads.remove(mediaResource);
 
                     that._updateProgress();
-                    next();
+                    //next();
+
+                    var $mediaItems = that.$el.find('.observation-media-items');
+                    var scrollAmount = ($mediaItems.get(0).scrollWidth - ($mediaItems.innerWidth() + $mediaItems.scrollLeft())) + $mediaItems.scrollLeft();
+
+                    itemView.start();
+
+                    // Make space for the new item
+                    $mediaItems.animate(
+                            { scrollLeft: scrollAmount },
+                            {
+                                duration: 100,
+                                //easing: 'swing',
+                                queue: false,
+                                complete: next
+                            });
                 });
         },
 
-        _onMediaRemove: function (mediaResourceItemView) {
-            log('removed', mediaResourceItemView);
-
+        _onMediaRemove: function (mediaItemView) {
             var that = this;
             this.$el.find('.observation-media-items')
-                .queue(function(next) {
+                .queue(function (next) {
                     // Slide the view down out of the div
-                    $(mediaResourceItemView.el)
+                    $(mediaItemView.el)
                         .animate(
                             { top: '+=250' },
                             {
@@ -114,14 +127,10 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
                                 complete: next
                             });
                 })
-                .queue(function(next) {
-                    that.model.removeMedia(mediaResourceItemView.model.id);
+                .queue(function (next) {
+                    that.model.removeMedia(mediaItemView.model);
                     next();
                 });
-        },
-
-        _onMediaUpdated: function (data) {
-            this.model.updateMedia(data.mediaResource.id, data.description, data.licence);
         },
 
         _showYouTubeVideoForm: function (e) {
@@ -145,7 +154,7 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
             var key = app.generateGuid();
             this.currentUploads.add({ Key: key });
 
-            data.formData = { Key: key, OriginalFileName: data.files[0].name, MediaType: 'image', Usage: 'observation' };
+            data.formData = { Key: key, OriginalFileName: data.files[0].name, MediaType: '', Usage: 'observation' };
             if (window.isIEFail) {
                 data.formData.ie = true;
             }
@@ -187,11 +196,11 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
                 dataType: 'json',
                 type: 'post',
                 data: {
-                    key: key,
-                    videoId: videoId,
-                    videoProviderName: videoProviderName,
-                    mediaType: 'video',
-                    usage: 'observation'
+                    Key: key,
+                    VideoId: videoId,
+                    VideoProviderName: videoProviderName,
+                    MediaType: 'video',
+                    Usage: 'observation'
                 }
             });
         },
@@ -207,7 +216,7 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
         },
 
         _updateProgress: function () {
-            if (this.model.mediaResources.length > 0) {
+            if (this.model.media.length > 0) {
                 this.$el.find('.observation-media-items-label').hide();
             } else {
                 this.$el.find('.observation-media-items-label').show();
@@ -228,10 +237,7 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
                 return item.get('Key') === data.Key;
             });
             mediaResource.set(data);
-            //this.currentUploads.remove(mediaResource);
-            //this.model.mediaResources.add(mediaResource);
-            this.model.addMedia(mediaResource, '', '');
-
+            this.model.addMedia(mediaResource, '', app.authenticatedUser.defaultLicence);
             this._updateProgress();
         },
 
@@ -239,10 +245,8 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
             var mediaResource = this.currentUploads.find(function (item) {
                 return item.get('Key') === key;
             });
-
             this.currentUploads.remove(mediaResource);
             this.failedUploads.add(mediaResource);
-
             this._updateProgress();
         },
 

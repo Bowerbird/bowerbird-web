@@ -150,15 +150,15 @@ namespace Bowerbird.Core.Config
         {
             var categories = new[] 
             {
+                "Amphibians", 
                 "Birds", 
                 "Fishes", 
-                "Mammals", 
-                "Amphibians", 
-                "Reptiles", 
-                "Invertebrates", 
-                "Plants", 
                 "Fungi", 
-                "Others"
+                "Invertebrates", 
+                "Mammals", 
+                "Others",
+                "Plants", 
+                "Reptiles"
             };
 
             // Create the TempAppRoot to be used before the actual app root is created
@@ -307,7 +307,7 @@ namespace Bowerbird.Core.Config
 
         private void AddUser(string password, string email, string firstname, string lastname, params string[] roleIds)
         {
-            var user = new User(password, email, firstname, lastname, _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.User));
+            var user = new User(password, email, firstname, lastname, _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.User), Constants.DefaultLicence);
             _documentSession.Store(user);
 
             user.AddMembership(user,

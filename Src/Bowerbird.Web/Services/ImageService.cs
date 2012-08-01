@@ -94,13 +94,9 @@ namespace Bowerbird.Web.Services
                 {
                     MakePostImageMediaResourceFiles(mediaResource, imageCreationTasks);
                 }
-                else if (command.Usage == "user")
+                else if (command.Usage == "avatar")
                 {
-                    MakeUserImageMediaResourceFiles(mediaResource, imageCreationTasks);
-                }
-                else if (command.Usage == "group")
-                {
-                    MakeGroupImageMediaResourceFiles(mediaResource, imageCreationTasks);
+                    MakeAvatarImageMediaResourceFiles(mediaResource, imageCreationTasks);
                 }
 
                 SaveImages(image, mediaResource, imageCreationTasks);
@@ -145,33 +141,26 @@ namespace Bowerbird.Web.Services
 
         private void MakeObservationImageMediaResourceFiles(MediaResource mediaResource, List<ImageCreationTask> imageCreationTasks)
         {
-            AddImageFile(mediaResource, imageCreationTasks, "ThumbnailSmall", "jpeg", "jpg", 42, 42, false, ImageResizeMode.Crop);
-            AddImageFile(mediaResource, imageCreationTasks, "ThumbnailMedium", "jpeg", "jpg", 100, 100, false, ImageResizeMode.Crop);
-            AddImageFile(mediaResource, imageCreationTasks, "ThumbnailLarge", "jpeg", "jpg", 200, 200, false, ImageResizeMode.Crop);
-            AddImageFile(mediaResource, imageCreationTasks, "FullSmall", "jpeg", "jpg", 640, 480, false, ImageResizeMode.Normal);
-            AddImageFile(mediaResource, imageCreationTasks, "FullMedium", "jpeg", "jpg", 1024, 768, false, ImageResizeMode.Normal);
-            AddImageFile(mediaResource, imageCreationTasks, "FullLarge", "jpeg", "jpg", 1280, 1024, false, ImageResizeMode.Normal);
+            AddImageFile(mediaResource, imageCreationTasks, "Square42", "jpeg", "jpg", 42, 42, false, ImageResizeMode.Crop);
+            AddImageFile(mediaResource, imageCreationTasks, "Square100", "jpeg", "jpg", 100, 100, false, ImageResizeMode.Crop);
+            AddImageFile(mediaResource, imageCreationTasks, "Square200", "jpeg", "jpg", 200, 200, false, ImageResizeMode.Crop);
+            AddImageFile(mediaResource, imageCreationTasks, "Full480", "jpeg", "jpg", 640, 480, false, ImageResizeMode.Normal);
+            AddImageFile(mediaResource, imageCreationTasks, "Full768", "jpeg", "jpg", 1024, 768, false, ImageResizeMode.Normal);
+            AddImageFile(mediaResource, imageCreationTasks, "Full1024", "jpeg", "jpg", 1280, 1024, false, ImageResizeMode.Normal);
         }
 
         private void MakePostImageMediaResourceFiles(MediaResource mediaResource, List<ImageCreationTask> imageCreationTasks)
         {
-            AddImageFile(mediaResource, imageCreationTasks, "ThumbnailSmall", "jpeg", "jpg", 42, 42, false, ImageResizeMode.Crop);
-            AddImageFile(mediaResource, imageCreationTasks, "ThumbnailMedium", "jpeg", "jpg", 100, 100, false, ImageResizeMode.Crop);
-            AddImageFile(mediaResource, imageCreationTasks, "ThumbnailLarge", "jpeg", "jpg", 200, 200, false, ImageResizeMode.Crop);
+            AddImageFile(mediaResource, imageCreationTasks, "Square42", "jpeg", "jpg", 42, 42, false, ImageResizeMode.Crop);
+            AddImageFile(mediaResource, imageCreationTasks, "Square100", "jpeg", "jpg", 100, 100, false, ImageResizeMode.Crop);
+            AddImageFile(mediaResource, imageCreationTasks, "Square200", "jpeg", "jpg", 200, 200, false, ImageResizeMode.Crop);
         }
 
-        private void MakeUserImageMediaResourceFiles(MediaResource mediaResource, List<ImageCreationTask> imageCreationTasks)
+        private void MakeAvatarImageMediaResourceFiles(MediaResource mediaResource, List<ImageCreationTask> imageCreationTasks)
         {
-            AddImageFile(mediaResource, imageCreationTasks, "ThumbnailSmall", "jpeg", "jpg", 42, 42, false, ImageResizeMode.Crop);
-            AddImageFile(mediaResource, imageCreationTasks, "ThumbnailMedium", "jpeg", "jpg", 100, 100, false, ImageResizeMode.Crop);
-            AddImageFile(mediaResource, imageCreationTasks, "ThumbnailLarge", "jpeg", "jpg", 200, 200, false, ImageResizeMode.Crop);
-        }
-
-        private void MakeGroupImageMediaResourceFiles(MediaResource mediaResource, List<ImageCreationTask> imageCreationTasks)
-        {
-            AddImageFile(mediaResource, imageCreationTasks, "ThumbnailSmall", "jpeg", "jpg", 42, 42, false, ImageResizeMode.Crop);
-            AddImageFile(mediaResource, imageCreationTasks, "ThumbnailMedium", "jpeg", "jpg", 100, 100, false, ImageResizeMode.Crop);
-            AddImageFile(mediaResource, imageCreationTasks, "ThumbnailLarge", "jpeg", "jpg", 200, 200, false, ImageResizeMode.Crop);
+            AddImageFile(mediaResource, imageCreationTasks, "Square42", "jpeg", "jpg", 42, 42, false, ImageResizeMode.Crop);
+            AddImageFile(mediaResource, imageCreationTasks, "Square100", "jpeg", "jpg", 100, 100, false, ImageResizeMode.Crop);
+            AddImageFile(mediaResource, imageCreationTasks, "Square200", "jpeg", "jpg", 200, 200, false, ImageResizeMode.Crop);
         }
 
         private MediaResourceFile AddImageFile(MediaResource mediaResource, List<ImageCreationTask> imageCreationTasks, string storedRepresentation, string format, string extension, int width, int height, bool? determineBestOrientation, ImageResizeMode? imageResizeMode)
@@ -244,7 +233,7 @@ namespace Bowerbird.Web.Services
 
             if (originalFile.ExifData.ContainsKey(ExifLib.ExifTags.DateTime.ToString()))
             {
-                var dateTimeTakenExif = originalFile.ExifData[ExifLib.ExifTags.DateTime.ToString()].ToString();
+                //var dateTimeTakenExif = originalFile.ExifData[ExifLib.ExifTags.DateTime.ToString()].ToString();
 
                 var convertedDateTime = ConvertDateTime(originalFile.ExifData[ExifLib.ExifTags.DateTime.ToString()].ToString());
 

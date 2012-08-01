@@ -20,6 +20,11 @@ namespace Bowerbird.Core.Config
     {
         public static string EmailCookieName = "56277e138f774318ab152a84dad7adf9";
         public static string AppRootId = "bowerbird/approot";
+        /// <summary>
+        /// The default licencing scheme for Bowerbird is the Creative Commons "Attribution-NonCommercial-ShareAlike" licence. 
+        /// See: http://creativecommons.org/licenses/by-sa/3.0/au/
+        /// </summary>
+        public static string DefaultLicence = "BY-NC-SA"; 
     }
 
     /// <summary>

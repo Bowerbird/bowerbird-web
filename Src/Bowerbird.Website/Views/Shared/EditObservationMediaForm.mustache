@@ -17,20 +17,25 @@
                         <textarea id="Description" name="description">{{Model.Media.Description}}</textarea>
                     </div>
                 </div>
-                <p>Optionally apply a Creative Commons licence to this upload media. For more information go to <a target="new" href="http://www.creativecommons.org/">Creative Commons</a>.</p>
-                <div id="licence-field" class="field">
-                    <div>
-                        <label for="Licence">Licence</label>
+                
+                <fieldset>
+                    <legend class="hidden">Licencing</legend>
+                    <p>Apply a Creative Commons licence to this media. For more information go to <a target="new" href="http://www.creativecommons.org/">Creative Commons</a>.</p>
+                    <p>To automatically apply a specific licence on all media, go to Account Settings &rarr; Licencing.</p>
+                    <div id="licence-field" class="field">
+                        <div>
+                            <label for="Licence">Licence</label>
+                        </div>  
+                        <div>
+                            <select id="Licence" name="licence">
+                                <option></option>
+                                {{#Model.Licences}}
+                                <option value="{{Value}}" {{#Selected}}selected{{/Selected}}>{{Text}}</option>
+                                {{/Model.Licences}}
+                            </select>
+                        </div>
                     </div>
-                    <div>
-                        <select id="Licence" name="licence">
-                            <option></option>
-                            {{#Model.Licences}}
-                            <option value="{{Value}}" {{#Selected}}selected{{/Selected}}>{{Text}}</option>
-                            {{/Model.Licences}}
-                        </select>
-                    </div>
-                </div>
+                </fieldset>
             </fieldset>
             <fieldset>
                 <input type="button" value="Done" class="done-button" />

@@ -3,14 +3,14 @@
   <div class="images">
     <div class="preview">
       {{#Model.Observation.PrimaryMedia.MediaResource}}
-      {{>ImageFullLarge}}
+        {{>MediaFull768}}
       {{/Model.Observation.PrimaryMedia.MediaResource}}
     </div>
     {{#Model.ShowThumbnails}}
     <div class="thumbnails">
       {{#Model.Observation.Media}}
           {{#MediaResource}}
-          {{>ImageFullSmall}}
+          {{>MediaFull480}}
           {{/MediaResource}}
       {{/Model.Observation.Media}}
     </div>
@@ -19,7 +19,7 @@
   <div class="info">
     <div class="user">
       {{#Model.Observation.User.Avatar}}
-      {{>ImageThumbnailMedium}}
+      {{>MediaSquare100}}
       {{/Model.Observation.User.Avatar}}
       <div>{{Model.Observation.User.Name}}</div>
     </div>

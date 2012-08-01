@@ -107,7 +107,8 @@ namespace Bowerbird.Web.Builders
                     x.Group.GroupType,
                     RoleIds = x.Roles.Select(y => y.Id),
                     PermissionIds = x.Roles.SelectMany(y => y.Permissions).Select(y => y.Id)
-                })
+                }),
+                user.DefaultLicence
             };
         }
 

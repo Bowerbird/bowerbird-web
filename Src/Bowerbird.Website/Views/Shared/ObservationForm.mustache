@@ -1,36 +1,7 @@
 ﻿    <form action="/observations" method="post"  enctype="multipart/form-data">
     <fieldset>
-      <legend>Observation Details</legend>
-      <fieldset id="media-fieldset">
-        <legend>Media <span>Required</span></legend>
-        <div class="media-uploader">
-            <div class="observation-media-items">
-                <div class="observation-media-items-label">Add Images, Videos and Audio</div>
-                <!--<div class="media-resource-dropzone">
-                        <p>Drop files here<p>
-                    </div>-->
-            </div>
-          <div class="media-add-pane">
-            <p>Upload your files, or import from other websites.</p>
-            <div class="button file-upload-button">
-              My Files<input id="file" type="file" name="file" multiple="" value="My Files" />
-            </div>
-            <button id="youtube-upload-button" class="website-upload-button youtube" title="Import videos from Youtube">Youtube</button>
-            <button id="vimeo-upload-button" class="website-upload-button vimeo" title="Import your videos from Vimeo">Vimeo</button>
-            <button id="flickr-upload-button" class="website-upload-button flickr" title="Import your photos from Flickr">Flickr</button>
-            <button id="picasa-upload-button" class="website-upload-button picasa" title="Import your photos from Picasa">Picasa</button>
-              <div class="upload-status">
-                  <div class="progress">
-                      <img alt="" src="/img/loader.png" />
-                      <div></div>
-                  </div>
-                  <div class="message">
-                      
-                  </div>
-              </div>
-          </div>          
-        </div>
-      </fieldset>
+        <legend class="hidden">Observation Details</legend>
+        
         <div id="title-field" class="field">
             <div>
                 <label for="Title">Title <span>Required</span></label>
@@ -53,6 +24,39 @@
           </div>
         </div>
       </div>
+
+        <fieldset id="media-fieldset">
+          <legend class="hidden">Media</legend>
+          <div class="media-uploader field">
+              <label>Media</label>
+              <div class="observation-media-items">
+                  <div class="observation-media-items-label">Add Images, Videos and Audio</div>
+                  <!--<div class="media-resource-dropzone">
+                          <p>Drop files here<p>
+                      </div>-->
+              </div>
+              <div class="media-add-pane">
+                  <p>Upload your files, or import from other websites.</p>
+                  <div class="button file-upload-button">
+                      My Files<input id="file" type="file" name="file" multiple="" value="My Files" />
+                  </div>
+                  <button id="youtube-upload-button" class="website-upload-button youtube" title="Import videos from Youtube">Youtube</button>
+                  <button id="vimeo-upload-button" class="website-upload-button vimeo" title="Import your videos from Vimeo">Vimeo</button>
+                  <button id="flickr-upload-button" class="website-upload-button flickr" title="Import your photos from Flickr">Flickr</button>
+                  <button id="picasa-upload-button" class="website-upload-button picasa" title="Import your photos from Picasa">Picasa</button>
+                  <div class="upload-status">
+                      <div class="progress">
+                          <img alt="" src="/img/loader.png" />
+                          <div></div>
+                      </div>
+                      <div class="message">
+                      
+                      </div>
+                  </div>
+              </div>          
+          </div>
+      </fieldset>
+
 
         <div id="category-field" class="field">
         <div>
@@ -88,11 +92,11 @@
 
 
       <fieldset id="location-fieldset">
-        <legend>Location</legend>
+          <legend class="hidden">Location</legend>
         <p>Enter an address, drag the pin onto the map or enter an exact co-ordinate.</p>
           <div id="address-field" class="field">
               <div>
-                  <label for="Address">Address</label>
+                  <label for="Address">Locality/Address</label>
               </div>
               <div>
                   <input type="text" id="Address" name="address" autocomplete="off" value="{{Model.Observation.Address}}" />

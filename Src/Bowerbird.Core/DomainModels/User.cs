@@ -52,7 +52,8 @@ namespace Bowerbird.Core.DomainModels
             string email,
             string firstName, 
             string lastName,
-            MediaResource avatar) 
+            MediaResource avatar,
+            string defaultLicence) 
             : base() 
         {
             InitMembers();
@@ -65,7 +66,8 @@ namespace Bowerbird.Core.DomainModels
             SetDetails(
                 firstName,
                 lastName,
-                avatar);
+                avatar,
+                defaultLicence);
 
             EnableEvents();
         }
@@ -95,6 +97,8 @@ namespace Bowerbird.Core.DomainModels
         public int FlagsRaised { get; private set; }
 
         public MediaResource Avatar { get; private set; }
+
+        public string DefaultLicence { get; private set; }
 
         public IEnumerable<Member> Memberships 
         {
@@ -147,11 +151,12 @@ namespace Bowerbird.Core.DomainModels
             return hashedPassword;
         }
 
-        private void SetDetails(string firstName, string lastName, MediaResource avatar)
+        private void SetDetails(string firstName, string lastName, MediaResource avatar, string defaultLicence)
         {
             FirstName = firstName;
             LastName = lastName;
             Avatar = avatar;
+            DefaultLicence = defaultLicence;
         }
 
         public bool ValidatePassword(string password)
@@ -180,12 +185,13 @@ namespace Bowerbird.Core.DomainModels
             return this;
         }
 
-        public virtual User UpdateDetails(string firstName, string lastName, string description, MediaResource avatar)
+        public virtual User UpdateDetails(string firstName, string lastName, string description, MediaResource avatar, string defaultLicence)
         {
             SetDetails(
                 firstName,
                 lastName,
-                avatar);
+                avatar,
+                defaultLicence);
 
             Description = description;
 

@@ -553,7 +553,7 @@ if (jQuery) (function ($) {
             // set the height of the dropdown options
             if (multiSelectOptions.height() >= o.listHeight) {
                 multiSelectOptions.css("height", o.listHeight + 'px');
-                hasScrollbar = true;
+                //hasScrollbar = true;
             } else {
                 multiSelectOptions.css("height", '');
             }

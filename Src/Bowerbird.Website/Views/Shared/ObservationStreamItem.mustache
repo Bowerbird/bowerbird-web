@@ -1,24 +1,20 @@
 ﻿    <h2><a href="/{{Model.ObservationAdded.Observation.Id}}">{{Model.ObservationAdded.Observation.Title}}</a></h2>
     <div>
       <div class="images">
-        <div class="preview">
-      {{#Model.ObservationAdded.Observation.PrimaryMedia.MediaResource}}
-      {{>ImageFullLarge}}
-      {{/Model.ObservationAdded.Observation.PrimaryMedia.MediaResource}}
-            {{#Model.ObservationAdded.Observation.PrimaryMedia.MediaResource.Video.Fullsize}}
-                <iframe width="672px" height="400px" src="{{Model.ObservationAdded.Observation.PrimaryMedia.MediaResource.Video.Fullsize.EmbedTag}}?showinfo=0" frameborder="0" allowFullScreen></iframe>
-            {{/Model.ObservationAdded.Observation.PrimaryMedia.MediaResource.Video.Fullsize}}
-        </div>
-        <div class="thumbnails">
-          {{#Model.ObservationAdded.Observation.Media}}
-            {{#MediaResource}}
-                {{>ImageFullSmall}}
-            {{/MediaResource}}
-            {{#MediaResource.Video.Small}}
-              <iframe width="200px" height="160px" src="{{EmbedTag}}?controls=0&showinfo=0" frameborder="0" controls="0" allowFullScreen></iframe>
-            {{/MediaResource.Video.Small}}
-          {{/Model.ObservationAdded.Observation.Media}}
-        </div>
+          <div class="preview">
+              {{#Model.ObservationAdded.Observation.PrimaryMedia.MediaResource}}
+              {{>MediaFull768}}
+              {{/Model.ObservationAdded.Observation.PrimaryMedia.MediaResource}}
+          </div>
+          {{#Model.ShowThumbnails}}
+          <div class="thumbnails">
+              {{#Model.ObservationAdded.Observation.Media}}
+              {{#MediaResource}}
+              {{>MediaFull480}}
+              {{/MediaResource}}
+              {{/Model.ObservationAdded.Observation.Media}}
+          </div>
+          {{/Model.ShowThumbnails}}
       </div>
       <div class="info">
         <div class="observed">
