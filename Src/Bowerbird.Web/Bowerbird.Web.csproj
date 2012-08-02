@@ -206,7 +206,6 @@
     <Compile Include="ViewModels\JsonNetResult.cs" />
     <Compile Include="Controllers\MediaResourcesController.cs" />
     <Compile Include="Controllers\ObservationNotesController.cs" />
-    <None Include="Controllers\ObservationsController.OLD" />
     <Compile Include="Controllers\OrganisationsController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />

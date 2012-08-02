@@ -51,7 +51,8 @@ function ($, _, Backbone, app, ich, EditObservationMediaFormView, licences, Circ
             'click .sub-menu-button li': '_selectMenuItem',
             'click .view-menu-item': '_viewMedia',
             'click .edit-menu-item': '_editMediaDetails',
-            'click .remove-menu-item': '_removeMedia'
+            'click .remove-menu-item': '_removeMedia',
+            'click .primary-menu-item': '_setPrimaryMedia'
         },
 
         template: 'ObservationMediaItem',
@@ -107,6 +108,12 @@ function ($, _, Backbone, app, ich, EditObservationMediaFormView, licences, Circ
 
         _viewMedia: function (e) {
             e.preventDefault();
+            alert('Coming soon');
+        },
+
+        _setPrimaryMedia: function (e) {
+            e.preventDefault();
+            this.trigger('setprimarymedia', this.model);
         },
 
         _editMediaDetails: function (e) {

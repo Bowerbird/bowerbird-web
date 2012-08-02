@@ -17,7 +17,8 @@ function ($, _, Backbone, app, ich) {
         this.getJSON = function () {
             return {
                 name: 'YouTube',
-                placeholderUri: 'http://www.youtube.com'
+                placeholderUri: 'http://www.youtube.com',
+                exampleUri: 'http://www.youtube.com/watch?v=OQSNhk5ICTI'
             };
         };
 
@@ -62,7 +63,8 @@ function ($, _, Backbone, app, ich) {
         this.getJSON = function () {
             return {
                 name: 'Vimeo',
-                placeholderUri: 'http://www.vimeo.com'
+                placeholderUri: 'http://www.vimeo.com',
+                exampleUri: 'http://www.vimeo.com/40000072'
             };
         };
 

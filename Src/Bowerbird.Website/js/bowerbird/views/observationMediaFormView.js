@@ -45,6 +45,7 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
 
         appendHtml: function (collectionView, itemView) {
             itemView.on('removemedia', this._onMediaRemove, this);
+            itemView.on('setprimarymedia', this._onSetPrimaryMedia, this);
 
             var that = this;
             this.$el.find('.observation-media-items')
@@ -131,6 +132,10 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
                     that.model.removeMedia(mediaItemView.model);
                     next();
                 });
+        },
+
+        _onSetPrimaryMedia: function (media) {
+            this.model.setPrimaryMedia(media);
         },
 
         _showYouTubeVideoForm: function (e) {

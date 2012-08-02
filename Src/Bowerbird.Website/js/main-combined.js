@@ -24478,7 +24478,8 @@ function ($, _, Backbone, app, ich, licences) {
                             Selected: option.selected
                         }
                     };
-                    return ich.LicenceItem(model);
+                    
+                    return $('<div />').append(ich.LicenceItem(model)).html();
                 },
                 oneOrMoreSelected: function (selectedOptions) {
                     var $selectedHtml = $('<span />');
@@ -27905,7 +27906,8 @@ function ($, _, Backbone, app, ich, EditObservationMediaFormView, licences, Circ
             'click .sub-menu-button li': '_selectMenuItem',
             'click .view-menu-item': '_viewMedia',
             'click .edit-menu-item': '_editMediaDetails',
-            'click .remove-menu-item': '_removeMedia'
+            'click .remove-menu-item': '_removeMedia',
+            'click .primary-menu-item': '_setPrimaryMedia'
         },
 
         template: 'ObservationMediaItem',
@@ -27961,6 +27963,12 @@ function ($, _, Backbone, app, ich, EditObservationMediaFormView, licences, Circ
 
         _viewMedia: function (e) {
             e.preventDefault();
+            alert('Coming soon');
+        },
+
+        _setPrimaryMedia: function (e) {
+            e.preventDefault();
+            this.trigger('setprimarymedia', this.model);
         },
 
         _editMediaDetails: function (e) {
@@ -28310,7 +28318,8 @@ function ($, _, Backbone, app, ich) {
         this.getJSON = function () {
             return {
                 name: 'YouTube',
-                placeholderUri: 'http://www.youtube.com'
+                placeholderUri: 'http://www.youtube.com',
+                exampleUri: 'http://www.youtube.com/watch?v=OQSNhk5ICTI'
             };
         };
 
@@ -28355,7 +28364,8 @@ function ($, _, Backbone, app, ich) {
         this.getJSON = function () {
             return {
                 name: 'Vimeo',
-                placeholderUri: 'http://www.vimeo.com'
+                placeholderUri: 'http://www.vimeo.com',
+                exampleUri: 'http://www.vimeo.com/40000072'
             };
         };
 
@@ -28738,6 +28748,7 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
 
         appendHtml: function (collectionView, itemView) {
             itemView.on('removemedia', this._onMediaRemove, this);
+            itemView.on('setprimarymedia', this._onSetPrimaryMedia, this);
 
             var that = this;
             this.$el.find('.observation-media-items')
@@ -28824,6 +28835,10 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
                     that.model.removeMedia(mediaItemView.model);
                     next();
                 });
+        },
+
+        _onSetPrimaryMedia: function (media) {
+            this.model.setPrimaryMedia(media);
         },
 
         _showYouTubeVideoForm: function (e) {
@@ -30906,20 +30921,20 @@ function ($, _, Backbone, ObservationMediaCollection, ObservationMedia) {
             this.media.on('remove', this.onMediaChange, this);
         },
 
-//        toJSON: function () {
-//            return {
-//                Title: this.get('Title'),
-//                ObservedOn: this.get('ObservedOn'),
-//                Address: this.get('Address'),
-//                Latitude: this.get('Latitude'),
-//                Longitude: this.get('Longitude'),
-//                Category: this.get('Category'),
-//                AnonymiseLocation: this.get('AnonymiseLocation'),
-//                Projects: this.get('Projects'),
-//                IsIdentificationRequired: this.get('IsIdentificationRequired'),
-//                Media: this.get('Media')
-//            };
-//        },
+        //        toJSON: function () {
+        //            return {
+        //                Title: this.get('Title'),
+        //                ObservedOn: this.get('ObservedOn'),
+        //                Address: this.get('Address'),
+        //                Latitude: this.get('Latitude'),
+        //                Longitude: this.get('Longitude'),
+        //                Category: this.get('Category'),
+        //                AnonymiseLocation: this.get('AnonymiseLocation'),
+        //                Projects: this.get('Projects'),
+        //                IsIdentificationRequired: this.get('IsIdentificationRequired'),
+        //                Media: this.get('Media')
+        //            };
+        //        },
 
         addProject: function (id) {
             var projects = this.get('Projects');
@@ -30945,6 +30960,12 @@ function ($, _, Backbone, ObservationMediaCollection, ObservationMedia) {
                 return item.toJSON();
             });
             this.set('Media', allMedia);
+        },
+
+        setPrimaryMedia: function (media) {
+//            this.media.each(function (item) {
+//                item.set('');
+//            });
         }
     });
 

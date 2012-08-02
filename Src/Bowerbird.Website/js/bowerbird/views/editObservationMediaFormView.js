@@ -59,7 +59,8 @@ function ($, _, Backbone, app, ich, licences) {
                             Selected: option.selected
                         }
                     };
-                    return ich.LicenceItem(model);
+                    
+                    return $('<div />').append(ich.LicenceItem(model)).html();
                 },
                 oneOrMoreSelected: function (selectedOptions) {
                     var $selectedHtml = $('<span />');

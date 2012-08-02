@@ -37,20 +37,20 @@ function ($, _, Backbone, ObservationMediaCollection, ObservationMedia) {
             this.media.on('remove', this.onMediaChange, this);
         },
 
-//        toJSON: function () {
-//            return {
-//                Title: this.get('Title'),
-//                ObservedOn: this.get('ObservedOn'),
-//                Address: this.get('Address'),
-//                Latitude: this.get('Latitude'),
-//                Longitude: this.get('Longitude'),
-//                Category: this.get('Category'),
-//                AnonymiseLocation: this.get('AnonymiseLocation'),
-//                Projects: this.get('Projects'),
-//                IsIdentificationRequired: this.get('IsIdentificationRequired'),
-//                Media: this.get('Media')
-//            };
-//        },
+        //        toJSON: function () {
+        //            return {
+        //                Title: this.get('Title'),
+        //                ObservedOn: this.get('ObservedOn'),
+        //                Address: this.get('Address'),
+        //                Latitude: this.get('Latitude'),
+        //                Longitude: this.get('Longitude'),
+        //                Category: this.get('Category'),
+        //                AnonymiseLocation: this.get('AnonymiseLocation'),
+        //                Projects: this.get('Projects'),
+        //                IsIdentificationRequired: this.get('IsIdentificationRequired'),
+        //                Media: this.get('Media')
+        //            };
+        //        },
 
         addProject: function (id) {
             var projects = this.get('Projects');
@@ -76,6 +76,12 @@ function ($, _, Backbone, ObservationMediaCollection, ObservationMedia) {
                 return item.toJSON();
             });
             this.set('Media', allMedia);
+        },
+
+        setPrimaryMedia: function (media) {
+//            this.media.each(function (item) {
+//                item.set('');
+//            });
         }
     });
 
