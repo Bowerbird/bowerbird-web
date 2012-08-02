@@ -23,9 +23,14 @@
         timeago: '../libs/jquery.timeago/jquery.timeago',
         jsonp: '../libs/jquery.jsonp/jquery.jsonp',
         log: '../libs/log/log',
+        hubs: 'hubs',
+        grab: '../libs/jquery.jplayer/jquery.grab',
+        transform: '../libs/jquery.jplayer/jquery.transform',
+        jplayer: '../libs/jquery.jplayer/jquery.jplayer',
+        circleplayer: '../libs/jquery.jplayer/circle.player',
         'bootstrap-data': 'empty:',
-        '/templates': 'empty:',
-         hubs: 'hubs'
+        '/templates': 'empty:'
+         
     },
 //    shim: {
 //        //'/signalr/hubs': ['signalr', 'jquery'] // Load non-AMD signalr hubs script

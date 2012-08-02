@@ -2064,6 +2064,12 @@ header nav#search-menu
     height: 3.06667em;
     overflow: hidden;
     text-decoration: none;
+    margin-right: 30px;
+}
+#online-users .online-user-item > a > div {
+    display: table-cell;
+    height: 3.06667em;
+    vertical-align: middle;
 }
 #online-users .online-user-item img 
 {
@@ -2071,6 +2077,20 @@ header nav#search-menu
     float: left;
     margin-right: 13px;
     height: 100%;
+}
+#online-users .online-user-item p
+{
+    color: #133A68;
+    font-size: 0.9375em;
+    font-weight: 600;
+    line-height: 1.41em;
+    margin: 0;
+    overflow: hidden;
+    padding: 2px 2px 0 0;
+}
+#online-users .sub-menu-button {
+    right: 0;
+    top: 0;
 }
 /*#online-users .menu-group-item > .menu-item-body
 {

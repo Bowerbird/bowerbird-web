@@ -19,7 +19,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/user'], function ($, 
         template: 'UserItem',
 
         events: {
-            'click .menu-item-body': 'startChat'
+            'click .online-user-item a': 'startChat'
         },
 
         startChat: function (e) {

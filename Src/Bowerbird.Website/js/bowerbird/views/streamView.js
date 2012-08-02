@@ -44,7 +44,7 @@ function ($, _, Backbone, app, ich, StreamItemView) {
         appendHtml: function (collectionView, itemView) {
             var items = this.collection.pluck('Id');
             var index = _.indexOf(items, itemView.model.id);
-            log(index);
+            //log(index);
 
             var $li = collectionView.$el.find('.stream-list > li:eq(' + (index) + ')');
 
@@ -88,8 +88,8 @@ function ($, _, Backbone, app, ich, StreamItemView) {
             this.$el.find('.stream-message').remove();
             var streamItemCreatedDateTime = Date.parseExact(streamItem.get('CreatedDateTime'), 'yyyy-MM-ddTHH:mm:ssZ');
 
-            log('streamItemCreatedDateTime', streamItemCreatedDateTime);
-            log('baselineDateTime', this.collection.baselineDateTime);
+            //log('streamItemCreatedDateTime', streamItemCreatedDateTime);
+            //log('baselineDateTime', this.collection.baselineDateTime);
 
             // Only show a new items message if the item is newer than what we have already
             if (streamItemCreatedDateTime.isAfter(this.collection.baselineDateTime)) {

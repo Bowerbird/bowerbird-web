@@ -415,7 +415,7 @@
     <Content Include="Views\Shared\Chat.mustache">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="Views\Shared\Notifications.mustache" />
+    <None Include="Views\Shared\Notifications.mustache" />
     <Content Include="Views\Shared\NotificationItem.mustache">
       <SubType>Designer</SubType>
     </Content>

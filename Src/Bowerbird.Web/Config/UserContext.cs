@@ -107,7 +107,7 @@ namespace Bowerbird.Web.Config
             string encryptedTicket = FormsAuthentication.Encrypt(authTicket);
 
             // Add the forms auth session cookie to log user in
-            AddCookie(FormsAuthentication.FormsCookieName, encryptedTicket, string.Empty);
+            AddCookie(".BOWERBIRDAUTH", encryptedTicket, string.Empty);
 
             // Add the email into cookie for reference on next login
             AddCookie(Constants.EmailCookieName, email, string.Empty);
