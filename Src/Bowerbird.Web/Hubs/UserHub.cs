@@ -12,6 +12,7 @@
  
 */
 
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Bowerbird.Core.Extensions;
 using SignalR.Hubs;
@@ -25,7 +26,7 @@ using Bowerbird.Web.Builders;
 
 namespace Bowerbird.Web.Hubs
 {
-    public class UserHub : Hub, IDisconnect
+    public class UserHub : Hub, IDisconnect, IConnected
     {
         #region Members
 
@@ -91,6 +92,18 @@ namespace Bowerbird.Web.Hubs
                 .ToList()
                 .Select(x => x.User)
                 .First();
+        }
+
+        public Task Connect()
+        {
+            return null;
+        }
+
+        public Task Reconnect(IEnumerable<string> groups)
+        {
+            //var hasUserGroup = groups.Any(x => x.StartsWith("user-"));
+            //var hasOnlineUserGroup = groups.Any(x => x == "online-users");
+            return null;
         }
 
         #endregion

@@ -30,7 +30,8 @@
                   $(ProjectRoot)\**\*.orig;
                   $(ProjectRoot)\*.config;
                   $(ProjectRoot)\*.xml;
-                  $(ProjectRoot)\**\*.csproj;">
+                  $(ProjectRoot)\**\*.csproj;
+                  $(ProjectRoot)\*.csproj.user;">
     </PackageFiles>
     <MediaFiles Include="$(ProjectRoot)\media\testdata\**\*.*">
     </MediaFiles>

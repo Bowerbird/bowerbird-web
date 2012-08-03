@@ -133,7 +133,7 @@ namespace Bowerbird.Web.Controllers
                 return Redirect(returnUrl);
             }
 
-            return RedirectToAction("PrivateIndex", "home");
+            return RedirectToAction("privateindex", "home");
         }
 
         [HttpGet]
@@ -185,7 +185,7 @@ namespace Bowerbird.Web.Controllers
 
                 _userContext.SignUserIn(accountRegisterInput.Email.ToLower(), false);
 
-                return RedirectToAction("PrivateIndex", "home");
+                return RedirectToAction("privateindex", "home");
             }
 
             ViewBag.AccountRegister = _accountViewModelBuilder.MakeAccountRegister(accountRegisterInput);
@@ -255,7 +255,7 @@ namespace Bowerbird.Web.Controllers
 
                 _userContext.SignUserIn(email, false);
 
-                return RedirectToAction("PrivateIndex", "home");
+                return RedirectToAction("privateindex", "home");
             }
 
             ViewBag.ResetPassword = _accountViewModelBuilder.MakeAccountResetPassword(accountResetPasswordInput);
