@@ -13,6 +13,7 @@
 */
 
 using System;
+using System.Dynamic;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.Repositories;
 using Bowerbird.Web.Builders;
@@ -107,6 +108,19 @@ namespace Bowerbird.Web.Controllers
 #if !JS_COMBINE_MINIFY
     DebugToClient("SERVER: Logged In Successfully as " + accountLoginInput.Email);
 #endif
+
+                if(Request.IsAjaxRequest())
+                {
+                    dynamic viewModel = new ExpandoObject();
+                    viewModel.User = _userViewModelBuilder.BuildUser(_userContext.GetAuthenticatedUserId());
+
+                    return RestfulResult(
+                        viewModel,
+                        "home",
+                        "privateindex",
+                        null,
+                        null);
+                }
 
                 return RedirectToAction("loggingin", new { returnUrl = accountLoginInput.ReturnUrl });
             }
