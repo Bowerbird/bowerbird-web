@@ -14,6 +14,7 @@
  
 */
 
+using System.Net;
 using System.Net.Mail;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Config;
@@ -69,6 +70,9 @@ namespace Bowerbird.Web.Services
                 smtpClient.DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory;
             }
 
+            smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+            smtpClient.Host = "pop.mv.vic.gov.au";
+            smtpClient.Credentials = new NetworkCredential("mv\fradocaj", "bowerbird()");
             smtpClient.SendAsync(mailMessage, null);
         }
 

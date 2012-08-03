@@ -156,6 +156,7 @@ namespace Bowerbird.Core.Config
                 "Fungi", 
                 "Invertebrates", 
                 "Mammals", 
+                "Minerals",
                 "Others",
                 "Plants", 
                 "Reptiles"
