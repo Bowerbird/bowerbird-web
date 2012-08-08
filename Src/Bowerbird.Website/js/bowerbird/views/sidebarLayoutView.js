@@ -52,28 +52,9 @@ function ($, _, Backbone, app, SidebarMenuGroupCompositeView, SidebarProjectItem
                 this.organisationsMenu.show(sidebarOrganisationCompositeView);
             }
 
-            this.$el.find('#action-menu .new-project-button').on('click', function (e) {
+            this.$el.find('#action-menu a, #default-menu-group a').on('click', function (e) {
                 e.preventDefault();
-                app.projectRouter.navigate($(this).attr('href'), { trigger: true });
-                //app.vent.trigger('home:show');
-                return false;
-            });
-            this.$el.find('#action-menu .new-observation-button').on('click', function (e) {
-                e.preventDefault();
-                app.projectRouter.navigate($(this).attr('href'), { trigger: true });
-                //app.vent.trigger('home:show');
-                return false;
-            });
-            this.$el.find('#action-menu .new-record-button').on('click', function (e) {
-                e.preventDefault();
-                app.recordRouter.navigate($(this).attr('href'), { trigger: true });
-                //app.vent.trigger('home:show');
-                return false;
-            });            
-            this.$el.find('a.user-stream').on('click', function (e) {
-                e.preventDefault();
-                app.groupUserRouter.navigate($(this).attr('href'), { trigger: true });
-                //app.vent.trigger('home:show');
+                Backbone.history.navigate($(this).attr('href'), { trigger: true });
                 return false;
             });
 

@@ -38,7 +38,8 @@ require.config({
         grab: '../libs/jquery.jplayer/jquery.grab',
         transform: '../libs/jquery.jplayer/jquery.transform',
         jplayer: '../libs/jquery.jplayer/jquery.jplayer',
-        circleplayer: '../libs/jquery.jplayer/circle.player'
+        circleplayer: '../libs/jquery.jplayer/circle.player',
+        moment: '../libs/moment/moment'
     }
 });
 

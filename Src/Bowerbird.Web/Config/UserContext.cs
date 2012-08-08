@@ -87,14 +87,14 @@ namespace Bowerbird.Web.Config
         //    _userHub.Clients[clientId].asynchModelCreated(model);
         //}
 
-        public void SignUserIn(string email, bool keepUserLoggedIn)
+        public void SignUserIn(string userId, string email, bool keepUserLoggedIn)
         {
             TimeSpan sessionExpiryDuration;
 
             if (keepUserLoggedIn)
             {
-                // 2 week expiry
-                sessionExpiryDuration = new TimeSpan(14, 0, 0, 0);
+                // 10 year expiry
+                sessionExpiryDuration = new TimeSpan(3650, 0, 0, 0);
             }
             else
             {
@@ -102,11 +102,11 @@ namespace Bowerbird.Web.Config
                 sessionExpiryDuration = new TimeSpan(3, 0, 0);
             }
 
-            var authTicket = new FormsAuthenticationTicket(_documentSession.LoadUserByEmail(email).Id, keepUserLoggedIn, Convert.ToInt32(sessionExpiryDuration.TotalMinutes)); // Must be less than cookie expiration, whic we have set to 100 years
+            var authTicket = new FormsAuthenticationTicket(userId, keepUserLoggedIn, Convert.ToInt32(sessionExpiryDuration.TotalMinutes)); // Must be less than cookie expiration, whic we have set to 100 years
 
             string encryptedTicket = FormsAuthentication.Encrypt(authTicket);
 
-            // Add the forms auth session cookie to log user in
+            // Add the forms auth session cookie to log user in 
             AddCookie(".BOWERBIRDAUTH", encryptedTicket, string.Empty);
 
             // Add the email into cookie for reference on next login

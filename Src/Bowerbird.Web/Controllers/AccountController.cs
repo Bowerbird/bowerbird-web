@@ -24,6 +24,7 @@ using Bowerbird.Core.DesignByContract;
 using Bowerbird.Web.Config;
 using Bowerbird.Core.Config;
 using Bowerbird.Core.DomainModels;
+using Raven.Client.Linq;
 
 namespace Bowerbird.Web.Controllers
 {
@@ -75,7 +76,7 @@ namespace Bowerbird.Web.Controllers
         {
             if (_userContext.IsUserAuthenticated())
             {
-                return RedirectToAction("PrivateIndex", "home");
+                return RedirectToAction("privateindex", "home");
             }
 
             ViewBag.AccountLogin = _accountViewModelBuilder.MakeAccountLogin();
@@ -103,7 +104,8 @@ namespace Bowerbird.Web.Controllers
                         Email = accountLoginInput.Email
                     });
 
-                _userContext.SignUserIn(accountLoginInput.Email, accountLoginInput.RememberMe);
+                var user = _documentSession.LoadUserByEmail(accountLoginInput.Email);
+                _userContext.SignUserIn(user.Id, user.Email, accountLoginInput.RememberMe);
 
 #if !JS_COMBINE_MINIFY
     DebugToClient("SERVER: Logged In Successfully as " + accountLoginInput.Email);
@@ -147,7 +149,7 @@ namespace Bowerbird.Web.Controllers
                 return Redirect(returnUrl);
             }
 
-            return RedirectToAction("privateindex", "home");
+            return Redirect("/");
         }
 
         [HttpGet]
@@ -184,7 +186,9 @@ namespace Bowerbird.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _commandProcessor.Process(
+                User user = null;
+
+                _commandProcessor.Process<UserCreateCommand, User>(
                     new UserCreateCommand()
                     {
                         FirstName = accountRegisterInput.FirstName,
@@ -192,14 +196,20 @@ namespace Bowerbird.Web.Controllers
                         Email = accountRegisterInput.Email,
                         Password = accountRegisterInput.Password,
                         Roles = new[] { "roles/globalmember" }
-                    });
+                    },
+                    x => user = x);
 
                 // HACK: Persist user before _userContext.SignUserIn(..)
                 _documentSession.SaveChanges();
 
-                _userContext.SignUserIn(accountRegisterInput.Email.ToLower(), false);
+                // HACK: Wait a couple of seconds to ensure all indexes are up to date
+                var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+                stopwatch.Start();
+                while (stopwatch.ElapsedMilliseconds < 3000) {}
 
-                return RedirectToAction("privateindex", "home");
+                _userContext.SignUserIn(user.Id, accountRegisterInput.Email.ToLower(), false);
+
+                return RedirectToAction("loggingin");
             }
 
             ViewBag.AccountRegister = _accountViewModelBuilder.MakeAccountRegister(accountRegisterInput);
@@ -258,16 +268,16 @@ namespace Bowerbird.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var email = _documentSession.LoadUserByResetPasswordKey(accountResetPasswordInput.ResetPasswordKey).Email;
+                var user = _documentSession.LoadUserByResetPasswordKey(accountResetPasswordInput.ResetPasswordKey);
 
                 _commandProcessor.Process(
                     new UserUpdatePasswordCommand()
                     {
-                        UserId = _documentSession.LoadUserByResetPasswordKey(accountResetPasswordInput.ResetPasswordKey).Id,
+                        UserId = user.Id,
                         Password = accountChangePasswordInput.Password
                     });
 
-                _userContext.SignUserIn(email, false);
+                _userContext.SignUserIn(user.Id, user.Email, false);
 
                 return RedirectToAction("privateindex", "home");
             }

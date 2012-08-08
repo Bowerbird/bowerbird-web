@@ -12,12 +12,9 @@
  
 */
                 
-namespace Bowerbird.Web.ViewModels
+namespace Bowerbird.Core.Commands
 {
-    /// <summary>
-    /// Create/update an observation media item
-    /// </summary>
-    public class ObservationMediaItem
+    public class ObservationMediaCreateCommand
     {
         #region Members
 
@@ -37,7 +34,7 @@ namespace Bowerbird.Web.ViewModels
         /// <summary>
         /// Specify a new item to be created from scatch
         /// </summary>
-        public MediaResourceCreateInput MediaResource { get; set; }
+        public MediaResourceCreateCommand MediaResource { get; set; }
 
         public string Description { get; set; }
 

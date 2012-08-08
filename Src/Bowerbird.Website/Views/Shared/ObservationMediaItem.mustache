@@ -13,7 +13,7 @@
             </li>
             <li class="divider"></li>
             <li>
-                <span class="primary-menu-item">Display As First Media</span>
+                <span class="primary-menu-item">Show This Media First</span>
             </li>
             <li>
                 <span class="edit-menu-item">Edit Details</span>
@@ -34,5 +34,8 @@
             {{/Model.Media.LicenceIcons}}
         </div>
         <span class="licence-name">{{Model.Media.LicenceName}}</span>
+        {{#Model.Media.IsPrimaryMedia}}
+        <p class="primary-media">&bull; Show This Media First</p>
+        {{/Model.Media.IsPrimaryMedia}}
     </div>
 </div>

@@ -28,6 +28,7 @@
         transform: '../libs/jquery.jplayer/jquery.transform',
         jplayer: '../libs/jquery.jplayer/jquery.jplayer',
         circleplayer: '../libs/jquery.jplayer/circle.player',
+        moment: '../libs/moment/moment',
         'bootstrap-data': 'empty:',
         '/templates': 'empty:'
          

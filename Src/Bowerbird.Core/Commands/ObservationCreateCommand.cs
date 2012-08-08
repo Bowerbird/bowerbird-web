@@ -48,7 +48,7 @@ namespace Bowerbird.Core.Commands
 
         public string Category { get; set; }
 
-        public IEnumerable<Tuple<string, string, string>> Media { get; set; }
+        public IEnumerable<ObservationMediaCreateCommand> Media { get; set; }
 
         public IEnumerable<string> Projects { get; set; }
 

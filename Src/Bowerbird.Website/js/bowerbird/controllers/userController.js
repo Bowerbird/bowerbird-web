@@ -12,7 +12,8 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/userformlayoutview', '
 function ($, _, Backbone, app, UserFormLayoutView, User) {
     var UserRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
-            'users/:id/update': 'showUserForm'
+            'users/:id/update': 'showUserForm',
+            'users/:id': 'showUserDetails'
         }
     });
 
@@ -52,10 +53,12 @@ function ($, _, Backbone, app, UserFormLayoutView, User) {
     var userStatusUpdate = function (userStatus) {
         log('activityController.userStatusUpdate', this, userStatus);
 
-        app.onlineUsers.add(userStatus.User);
+        if (!app.onlineUsers.get(userStatus.User.Id)) {
+            app.onlineUsers.add(userStatus.User);
+        }
 
         // Then set their status
-        app.onlineUsers.get(userStatus.User.Id).set('Status', 'Online');
+        app.onlineUsers.get(userStatus.User.Id).set('SessionLatestActivity', userStatus.User.SessionLatestActivity);
     };
 
     // Receive a list of users that are online
@@ -64,6 +67,7 @@ function ($, _, Backbone, app, UserFormLayoutView, User) {
         app.onlineUsers.add(onlineUsers);
     };
 
+    // Receive a user joined group update
     var joinedGroup = function (group) {
         if (group.GroupType === 'project') {
             app.authenticatedUser.projects.add(group);
@@ -76,10 +80,12 @@ function ($, _, Backbone, app, UserFormLayoutView, User) {
         }
     };
 
+    // Receive a media upload success notification
     var mediaResourceUploadSuccess = function (mediaResource) {
         app.vent.trigger('mediaresourceuploadsuccess', mediaResource);
     };
 
+    // Receive a media upload failure notification
     var mediaResourceUploadFailure = function (key, reason) {
         app.vent.trigger('mediaresourceuploadfailure', key, reason);
     };
@@ -97,6 +103,9 @@ function ($, _, Backbone, app, UserFormLayoutView, User) {
                 }
                 app.setPrerenderComplete();
             });
+    };
+
+    UserController.showUserDetails = function (id) {
     };
 
     app.addInitializer(function () {

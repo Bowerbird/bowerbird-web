@@ -1,4 +1,4 @@
-define(['jquery', 'date'], function (jQuery) {
+define(['jquery'], function (jQuery) {
     /* ===========================================================
     * bootstrap-datepicker.js v1.3.0
     * http://twitter.github.com/bootstrap/javascript.html#datepicker

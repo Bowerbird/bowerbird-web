@@ -15,14 +15,9 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
         el: 'header',
 
         showBootstrappedDetails: function () {
-            this.$el.find('#explore-menu a').on('click', function (e) {
+            this.$el.find('#explore-menu a, .user-menu a').on('click', function (e) {
                 e.preventDefault();
-                app.observationRouter.navigate($(this).attr('href'), { trigger: true });
-                return false;
-            });
-            this.$el.find('.user-menu a').on('click', function (e) {
-                e.preventDefault();
-                app.observationRouter.navigate($(this).attr('href'), { trigger: true });
+                Backbone.history.navigate($(this).attr('href'), { trigger: true });
                 return false;
             });
         }

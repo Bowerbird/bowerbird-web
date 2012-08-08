@@ -17,6 +17,10 @@ define(['jquery', 'underscore', 'backbone', 'models/user'], function ($, _, Back
 
         initialize: function () {
             _.extend(this, Backbone.Events);
+        },
+
+        comparator: function (user) {
+            return user.get('Name');
         }
     });
 

@@ -10,19 +10,16 @@
     <span></span>
     <ul>
       <li>
-        <a href="/{{Id}}">View Latest Activity</a>
+        <a href="/{{Id}}">Latest Activity</a>
       </li>
       <li>
-        <a href="/{{Id}}/observations">View Observations</a>
+        <a href="/{{Id}}/posts">Posts</a>
       </li>
       <li>
-        <a href="/{{Id}}/posts">View Posts</a>
+        <a href="/{{Id}}/members">Members</a>
       </li>
       <li>
-        <a href="/{{Id}}/members">View Members</a>
-      </li>
-      <li>
-        <a href="/{{Id}}/about">About this Team</a>
+        <a href="/{{Id}}/about">About {{Name}}</a>
       </li>
       <li class="divider"></li>
       <li>
@@ -35,12 +32,12 @@
       {{/Permissions.CreateProject}}
       {{#Permissions.UpdateTeam}}
       <li>
-        <a href="/{{Id}}/update">Edit Team Details</a>
+        <a href="/{{Id}}/update">Edit Details</a>
       </li>
       {{/Permissions.UpdateTeam}}
       <li class="divider"></li>
       <li>
-        <span class="chat-menu-item" id="chat-{{Id}}">Join Chat</span>
+        <span class="chat-menu-item" id="chat-{{Id}}">Chat</span>
       </li>
     </ul>
   </div>

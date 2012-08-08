@@ -35,6 +35,7 @@ function ($, _, Backbone, ObservationMediaCollection, ObservationMedia) {
             this.media.on('add', this.onMediaChange, this);
             this.media.on('change', this.onMediaChange, this);
             this.media.on('remove', this.onMediaChange, this);
+            this.media.on('change:IsPrimaryMedia', this.onPrimaryMediaChange, this);
         },
 
         //        toJSON: function () {
@@ -64,11 +65,16 @@ function ($, _, Backbone, ObservationMediaCollection, ObservationMedia) {
         },
 
         addMedia: function (mediaResource, description, licence) {
-            this.media.add({ MediaResourceId: mediaResource.id, Description: description, Licence: licence }, { mediaResource: mediaResource });
+            var isPrimaryMedia = this.media.length === 0 ? true : false;
+            this.media.add({ MediaResourceId: mediaResource.id, Description: description, Licence: licence, IsPrimaryMedia: isPrimaryMedia }, { mediaResource: mediaResource });
         },
 
         removeMedia: function (media) {
             this.media.remove(media);
+
+            if (media.get('IsPrimaryMedia') === true && this.media.length > 0) {
+                this.setPrimaryMedia(this.media.first());
+            }
         },
 
         onMediaChange: function (media) {
@@ -79,9 +85,13 @@ function ($, _, Backbone, ObservationMediaCollection, ObservationMedia) {
         },
 
         setPrimaryMedia: function (media) {
-//            this.media.each(function (item) {
-//                item.set('');
-//            });
+            this.media.each(function (item) {
+                if (item.get('MediaResourceId') === media.get('MediaResourceId')) {
+                    item.set('IsPrimaryMedia', true);
+                } else {
+                    item.set('IsPrimaryMedia', false);
+                }
+            }, this);
         }
     });
 

@@ -14,7 +14,8 @@ define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
         defaults: {
             MediaResourceId: '',
             Description: '',
-            Licence: 'BY-SA'
+            Licence: 'BY-SA',
+            IsPrimaryMedia: false
         },
 
         mediaResource: null,

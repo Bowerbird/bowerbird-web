@@ -11,7 +11,9 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/homepubliclayoutview',
 function ($, _, Backbone, app, HomePublicLayoutView, HomePrivateLayoutView) {
     var HomeRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
-            '': 'showHomeStream'
+            '': 'showHomeStream',
+            'all': 'showBowerbirdActivity',
+            'favourites': 'showFavourites'
         }
     });
 
@@ -22,7 +24,7 @@ function ($, _, Backbone, app, HomePublicLayoutView, HomePrivateLayoutView) {
 
     HomeController.showHomeStream = function () {
         app.updateTitle('');
-        
+
         var homeLayoutView;
 
         if (app.authenticatedUser) {
@@ -42,6 +44,12 @@ function ($, _, Backbone, app, HomePublicLayoutView, HomePrivateLayoutView) {
         }
 
         app.setPrerenderComplete();
+    };
+
+    HomeController.showBowerbirdActivity = function() {
+    };
+
+    HomeController.showFavourites = function () {
     };
 
     app.addInitializer(function () {

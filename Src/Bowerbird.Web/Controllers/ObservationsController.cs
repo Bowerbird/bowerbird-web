@@ -204,7 +204,13 @@ namespace Bowerbird.Web.Controllers
                         ObservedOn = createInput.ObservedOn,
                         UserId = _userContext.GetAuthenticatedUserId(),
                         Projects = createInput.Projects,
-                        Media = createInput.Media.Select(x => new Tuple<string, string, string>(x.MediaResourceId, x.Description, x.Licence))
+                        Media = createInput.Media.Select(x => new ObservationMediaCreateCommand() 
+                            { 
+                                MediaResourceId = x.MediaResourceId, 
+                                Description = x.Description, 
+                                Licence = x.Licence, 
+                                IsPrimaryMedia = x.IsPrimaryMedia 
+                            })
                     });
 
             return JsonSuccess();

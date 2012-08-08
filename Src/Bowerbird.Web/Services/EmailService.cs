@@ -61,19 +61,22 @@ namespace Bowerbird.Web.Services
 
         public void SendMailMessage(MailMessage mailMessage)
         {
-            var smtpClient = new SmtpClient();
+            //var smtpClient = new SmtpClient();
 
-            var appRoot = _documentSession.Load<AppRoot>(Constants.AppRootId);
+            //var appRoot = _documentSession.Load<AppRoot>(Constants.AppRootId);
 
-            if (!appRoot.EmailServiceStatus)
-            {
-                smtpClient.DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory;
-            }
+            //if (!appRoot.EmailServiceStatus)
+            //{
+            //    smtpClient.DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory;
+            //}
 
-            smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-            smtpClient.Host = "pop.mv.vic.gov.au";
-            smtpClient.Credentials = new NetworkCredential("mv\fradocaj", "bowerbird()");
-            smtpClient.SendAsync(mailMessage, null);
+            //smtpClient.DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory;
+            //smtpClient.PickupDirectoryLocation = @"c:\projects\bowerbird-web\emails";
+
+            //smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+            //smtpClient.Host = "pop.mv.vic.gov.au";
+            //smtpClient.Credentials = new NetworkCredential(@"mv\\fradocaj", @"bowerbird()");
+            //smtpClient.SendAsync(mailMessage, null);
         }
 
         #endregion

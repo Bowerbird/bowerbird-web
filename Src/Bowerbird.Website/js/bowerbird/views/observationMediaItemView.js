@@ -68,6 +68,7 @@ function ($, _, Backbone, app, ich, EditObservationMediaFormView, licences, Circ
             } else if (mediaType === 'audio') {
                 this.provider = new AudioProvider();
             }
+            this.model.on('change:IsPrimaryMedia', this._onUpdatePrimaryMedia, this);
         },
 
         serializeData: function () {
@@ -77,7 +78,8 @@ function ($, _, Backbone, app, ich, EditObservationMediaFormView, licences, Circ
                     Media: {
                         Description: this.model.get('Description'),
                         LicenceName: licence.Name,
-                        LicenceIcons: licence.Icons
+                        LicenceIcons: licence.Icons,
+                        IsPrimaryMedia: this.model.get('IsPrimaryMedia')
                     },
                     MediaResource: this.model.mediaResource.toJSON()
                 }
@@ -113,13 +115,13 @@ function ($, _, Backbone, app, ich, EditObservationMediaFormView, licences, Circ
 
         _setPrimaryMedia: function (e) {
             e.preventDefault();
-            this.trigger('setprimarymedia', this.model);
+            this.trigger('newprimarymedia', this.model);
         },
 
         _editMediaDetails: function (e) {
             e.preventDefault();
             $('body').append('<div id="modal-dialog"></div>');
-            log(this.model);
+
             var editObservationMediaFormView = new EditObservationMediaFormView({ el: $('#modal-dialog'), model: this.model });
             editObservationMediaFormView.on('editmediadone', this._onEditMedia, this);
             editObservationMediaFormView.render();
@@ -141,6 +143,17 @@ function ($, _, Backbone, app, ich, EditObservationMediaFormView, licences, Circ
             _.forEach(licence.Icons, function (icon) {
                 this.$el.find('.licence-icons').append('<img src="' + icon + '" alt="" />');
             }, this);
+        },
+
+        _onUpdatePrimaryMedia: function (media) {
+            var $elem = this.$el.find('.primary-media');
+            if (media.get('IsPrimaryMedia') === true) {
+                if ($elem.length === 0) {
+                    this.$el.find('.licence-name').after('<p class="primary-media">&bull; Show This Media First</p>');
+                }
+            } else {
+                $elem.remove();
+            }
         },
 
         _removeMedia: function (e) {

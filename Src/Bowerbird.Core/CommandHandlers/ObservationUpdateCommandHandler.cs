@@ -60,13 +60,13 @@ namespace Bowerbird.Core.CommandHandlers
             var observation = _documentSession
                 .Load<Observation>(command.Id);
 
-            var mediaItemsToAdd = command
-                .AddMediaResources
-                .Select(addMediaResource => new Tuple<MediaResource, string, string>(
-                    _documentSession.Load<MediaResource>(addMediaResource.Item1), 
-                    addMediaResource.Item2, 
-                    addMediaResource.Item3))
-                .ToList();
+            //var mediaItemsToAdd = command
+            //    .AddMediaResources
+            //    .Select(addMediaResource => new Tuple<MediaResource, string, string>(
+            //        _documentSession.Load<MediaResource>(addMediaResource.Item1), 
+            //        addMediaResource.Item2, 
+            //        addMediaResource.Item3))
+            //    .ToList();
 
             observation.UpdateDetails(
                 _documentSession.Load<User>(command.UserId),
@@ -80,10 +80,10 @@ namespace Bowerbird.Core.CommandHandlers
                 command.Category
             );
 
-            foreach (var observationToAdd in mediaItemsToAdd)
-            {
-                observation.AddMedia(observationToAdd.Item1, observationToAdd.Item2, observationToAdd.Item3);
-            }
+            //foreach (var observationToAdd in mediaItemsToAdd)
+            //{
+            //    observation.AddMedia(observationToAdd.Item1, observationToAdd.Item2, observationToAdd.Item3);
+            //}
 
             foreach (var removeMediaResource in command.RemoveMediaResources)
             {

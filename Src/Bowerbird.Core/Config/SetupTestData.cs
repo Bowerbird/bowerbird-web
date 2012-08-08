@@ -400,8 +400,7 @@ namespace Bowerbird.Core.Config
                 false,
                 "Mammals",
                 userProject,
-                projects,
-                new[] { new Tuple<MediaResource, string, string>(mediaResource, "test", "test") });
+                projects);
 
             _documentSession.Store(observation);
 

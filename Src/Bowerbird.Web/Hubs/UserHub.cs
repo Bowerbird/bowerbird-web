@@ -101,8 +101,16 @@ namespace Bowerbird.Web.Hubs
 
         public Task Reconnect(IEnumerable<string> groups)
         {
-            //var hasUserGroup = groups.Any(x => x.StartsWith("user-"));
-            //var hasOnlineUserGroup = groups.Any(x => x == "online-users");
+            var user = GetUserByConnectionId(Context.ConnectionId);
+
+            if (user != null)
+            {
+                user.UpdateSessionLatestActivity(Context.ConnectionId);
+
+                _documentSession.Store(user);
+                _documentSession.SaveChanges();
+            }
+
             return null;
         }
 

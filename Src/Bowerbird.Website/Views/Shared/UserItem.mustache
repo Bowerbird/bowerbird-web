@@ -1,32 +1,31 @@
 ﻿  <a>
-    {{#Avatar}}
+    {{#Model.User.Avatar}}
     {{>MediaSquare100}}
-    {{/Avatar}}
+    {{/Model.User.Avatar}}
       <div>
-        <p>{{Name}}</p>
+        <p class="user-name">{{Model.User.Name}}</p>
       </div>
   </a>
   <div class="sub-menu-button">
     <span></span>
     <ul>
       <li>
-        <a href="/{{Id}}">View Latest Activity</a>
+        <a href="/{{Model.User.Id}}">Latest Activity</a>
       </li>
       <li>
-        <a href="/{{Id}}/observations">View Observations</a>
+        <a href="/{{Model.User.Id}}/observations">Sightings</a>
       </li>
       <li>
-        <a href="/{{Id}}/posts">View Posts</a>
+        <a href="/{{Model.User.Id}}/posts">Posts</a>
       </li>
       <li>
-        <a href="/{{Id}}/members">View Members</a>
+        <a href="/{{Model.User.Id}}/about">About {{Model.User.Name}}</a>
       </li>
-      <li>
-        <a href="/{{Id}}/about">About {{Name}}</a>
+      {{#Model.ShowChat}}
+      <li class="divider chat-menu"></li>
+      <li class="chat-menu">
+        <span class="chat-menu-item" id="chat-{{Model.User.Id}}">Chat</span>
       </li>
-      <li class="divider"></li>
-      <li>
-        <span class="chat-menu-item" id="chat-{{Id}}">Join Chat</span>
-      </li>
+      {{/Model.ShowChat}}
     </ul>
   </div>

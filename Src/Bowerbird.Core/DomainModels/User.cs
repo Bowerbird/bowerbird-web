@@ -70,6 +70,8 @@ namespace Bowerbird.Core.DomainModels
                 defaultLicence);
 
             EnableEvents();
+
+            FireEvent(new DomainModelCreatedEvent<User>(this, this, this));
         }
 
         #endregion
@@ -116,6 +118,12 @@ namespace Bowerbird.Core.DomainModels
         {
             get { return _sessions; }
             private set { _sessions = new List<UserSession>(value); }
+        }
+
+        [Raven.Imports.Newtonsoft.Json.JsonIgnore]
+        public DateTime? SessionLatestActivity
+        {
+            get { return _sessions.Count > 0 ? _sessions.Select(x => x.LatestActivity).OrderByDescending(x => x).First() : (DateTime?)null; }
         }
 
         #endregion

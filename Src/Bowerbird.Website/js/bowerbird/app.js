@@ -128,13 +128,13 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
             app.content.$el.append(app.previousContent.$el);
             app.content.currentView = app.previousContent.view;
             app.routeHistory.shift();
-            app.homeRouter.navigate(_.first(app.routeHistory));
+            Backbone.history.navigate(_.first(app.routeHistory));
 
             // Clear out previous view cache
             app.previousContent = null;
         } else {
             // If we don't have a previous view, take user back to home stream
-            app.homeRouter.navigate('', { trigger: true });
+            Backbone.history.navigate('', { trigger: true });
         }
     };
 
@@ -190,7 +190,6 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
             }
 
             // initialise the hub connection
-            //$.connection.hub.start({ transport: 'longPolling' }, function () {
             $.connection.hub.start({ transport: ['webSockets', 'longPolling'] }, function () {
 
                 // Keep the client id

@@ -32,7 +32,8 @@ namespace Bowerbird.Core.DomainModels
         public ObservationMedia(
             MediaResource mediaResource,
             string description,
-            string licence)
+            string licence,
+            bool isPrimaryMedia)
             : base()
         {
             Check.RequireNotNull(mediaResource, "mediaResource");
@@ -41,7 +42,8 @@ namespace Bowerbird.Core.DomainModels
 
             SetDetails(
                 description,
-                licence);
+                licence,
+                isPrimaryMedia);
         }
 
         #endregion
@@ -54,21 +56,25 @@ namespace Bowerbird.Core.DomainModels
 
         public string Licence { get; private set; }
 
+        public bool IsPrimaryMedia { get; private set; }
+
         #endregion
 
         #region Methods
 
-        private void SetDetails(string description, string licence)
+        private void SetDetails(string description, string licence, bool isPrimaryMedia)
         {
             Description = description;
             Licence = licence;
+            IsPrimaryMedia = isPrimaryMedia;
         }
 
-        public ObservationMedia UpdateDetails(string description, string licence)
+        public ObservationMedia UpdateDetails(string description, string licence, bool isPrimaryMedia)
         {
             SetDetails(
                 description,
-                licence);
+                licence,
+                isPrimaryMedia);
 
             return this;
         }

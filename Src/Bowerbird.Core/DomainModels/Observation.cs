@@ -51,8 +51,7 @@ namespace Bowerbird.Core.DomainModels
             bool anonymiseLocation,
             string category,
             UserProject userProject,
-            IEnumerable<Project> projects,
-            IEnumerable<Tuple<MediaResource, string, string>> addMedia
+            IEnumerable<Project> projects
             ) 
             : base(
             createdByUser,
@@ -66,8 +65,6 @@ namespace Bowerbird.Core.DomainModels
             projects
             )
         {
-            Check.RequireNotNull(addMedia, "addMedia");
-
             InitMembers();
 
             SetDetails(
@@ -79,11 +76,6 @@ namespace Bowerbird.Core.DomainModels
                 isIdentificationRequired,
                 anonymiseLocation,
                 category);
-
-            foreach (var media in addMedia)
-            {
-                AddMedia(media.Item1, media.Item2, media.Item3);
-            }
 
             EnableEvents();
 
@@ -168,11 +160,11 @@ namespace Bowerbird.Core.DomainModels
             return this;
         }
 
-        public Observation AddMedia(MediaResource mediaResource, string description, string licence)
+        public Observation AddMedia(MediaResource mediaResource, string description, string licence, bool isPrimaryMedia)
         {
             Check.RequireNotNull(mediaResource, "mediaResource");
 
-            _observationMedia.Add(new ObservationMedia(mediaResource, description, licence));
+            _observationMedia.Add(new ObservationMedia(mediaResource, description, licence, isPrimaryMedia));
 
             return this;
         }

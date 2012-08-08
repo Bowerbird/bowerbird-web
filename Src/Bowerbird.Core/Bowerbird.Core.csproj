@@ -93,6 +93,7 @@
     <Compile Include="CommandHandlers\MemberUpdateCommandHandler.cs" />
     <Compile Include="CommandHandlers\FollowUserDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\FollowUserCreateCommandHandler.cs" />
+    <Compile Include="Commands\ObservationMediaCreateCommand.cs" />
     <Compile Include="Commands\RecordCreateCommand.cs" />
     <Compile Include="Commands\RecordDeleteCommand.cs" />
     <Compile Include="Commands\RecordUpdateCommand.cs" />

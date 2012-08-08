@@ -103,8 +103,7 @@ namespace Bowerbird.Web.EventHandlers
 
             var userStatus = new 
                 {
-                    User = _userViewFactory.Make(user),
-                    LatestActivity = userSession.LatestActivity
+                    User = _userViewFactory.Make(user)
                 };
 
             _backChannelService.SendUserStatusUpdateToOnlineUsersChannel(userStatus);

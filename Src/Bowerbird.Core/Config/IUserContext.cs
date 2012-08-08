@@ -29,7 +29,7 @@ namespace Bowerbird.Core.Config
 
         string GetEmailCookieValue();
 
-        void SignUserIn(string email, bool keepUserLoggedIn);
+        void SignUserIn(string userId, string email, bool keepUserLoggedIn);
 
         void SignUserOut();
 

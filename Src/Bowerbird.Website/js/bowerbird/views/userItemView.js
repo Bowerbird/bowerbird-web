@@ -19,13 +19,71 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/user'], function ($, 
         template: 'UserItem',
 
         events: {
-            'click .online-user-item a': 'startChat'
+            'click .online-user-item a': 'startChat',
+            'click .chat-menu-item': 'startChat',
+            'click .sub-menu-button': 'showMenu',
+            'click .sub-menu-button li': 'selectMenuItem'
+        },
+
+        initialize: function () {
+            _.bindAll(this, 'onStatusChange');
+            this.model.on('statuschange', this.onStatusChange, this);
+        },
+
+        serializeData: function() {
+            return {
+                Model: {
+                    User: this.model.toJSON(),
+                    ShowChat: this.model.id !== app.authenticatedUser.user.id
+                }
+            };
         },
 
         startChat: function (e) {
             app.vent.trigger('chats:startPrivateChat', this.model);
-        }
+        },
 
+        onRender: function () {
+            this.model.enableCheckStatus();
+        },
+
+        showMenu: function (e) {
+            $('.sub-menu-button').removeClass('active');
+            $(e.currentTarget).addClass('active');
+            var position = $(e.currentTarget).offset();
+            var scrollTop = $(window).scrollTop();
+            this.$el.find('.sub-menu-button ul').css({ position: 'fixed' }).css({ top: position.top - scrollTop  + 'px', left: position.left + 25 + 'px' });
+            e.stopPropagation();
+        },
+
+        selectMenuItem: function (e) {
+            $('.sub-menu-button').removeClass('active');
+            e.stopPropagation();
+        },
+
+        onStatusChange: function (userStatus) {
+            var chatMenuCss = {};
+            var actualStatus = '';
+            if (userStatus.user.id === app.authenticatedUser.user.id || userStatus.status === 'online') {
+                actualStatus = 'online';
+                chatMenuCss.display = 'list-item';
+            } else if (userStatus.status === 'away') {
+                actualStatus = 'away';
+                chatMenuCss.display = 'list-item';
+            } else if (userStatus.status === 'offline') {
+                actualStatus = 'offline';
+                chatMenuCss.display = 'none';
+            }
+            this.$el.find('.chat-menu').css(chatMenuCss);
+            this.$el.find('.user-name')
+                .removeClass('online')
+                .removeClass('away')
+                .removeClass('offline')
+                .addClass(actualStatus)
+                .empty()
+                .html(userStatus.user.get('Name') + ' <span>' + actualStatus + '</span>');
+            log(this.model.get('Name') + ' is now ' + actualStatus);
+        }
     });
 
     return UserItemView;

@@ -97,6 +97,7 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
     // Chat joined
     var chatJoined = function (chatDetails) {
         var chat = app.chats.get(chatDetails.ChatId);
+
         // Chat might not exist if this is a group chat and the user has not received any messages on a secondary browser session
         if (chat == null) {
             chat = showChat(chatDetails.ChatId, chatDetails.Users, chatDetails.Messages, chatDetails.Group);

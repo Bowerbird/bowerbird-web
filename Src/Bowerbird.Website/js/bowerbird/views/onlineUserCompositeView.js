@@ -10,7 +10,7 @@
 
 define(['jquery', 'underscore', 'backbone', 'app', 'views/useritemview'],
 function ($, _, Backbone, app, UserItemView) {
-    
+
     var OnlineUserCompositeView = Backbone.Marionette.CompositeView.extend({
 
         itemView: UserItemView,
@@ -26,13 +26,17 @@ function ($, _, Backbone, app, UserItemView) {
         },
 
         initialize: function (options) {
-            this.collection.on('add', this.updateUserCount, this);
-            this.collection.on('remove', this.updateUserCount, this);
+            this.collection.on('add', this.onAdd, this);
+            this.collection.on('remove', this.onRemove, this);
         },
 
         appendHtml: function (collectionView, itemView) {
-            log('>>>>>>>>>>>>>>>>>>>>>>>>>', itemView);
-            collectionView.$el.find('ul').prepend(itemView.el);
+            var index = collectionView.collection.indexOf(itemView.model);
+            if (index === 0 && collectionView.$el.find('.online-users-list > li').length === 0) {
+                collectionView.$el.find('.online-users-list').append(itemView.el);
+            } else {
+                collectionView.$el.find('.online-users-list > li').eq(index - 1).after(itemView.el);
+            }
         },
 
         onShow: function () {
@@ -48,9 +52,14 @@ function ($, _, Backbone, app, UserItemView) {
             };
         },
 
-        updateUserCount: function (model, collection) {
-            this.$el.find('.user-count').text(collection.length);
-            this.$el.find('.title-description').text(this.getTitle(collection.length));
+        onAdd: function (model, collection) {
+            model.on('statuschange', this.onStatusChange, this);
+            this.updateUserCount(collection);
+        },
+
+        onRemove: function (model, collection) {
+            model.off('statuschange');
+            this.updateUserCount(collection);
         },
 
         toggleCollapsed: function () {
@@ -59,6 +68,23 @@ function ($, _, Backbone, app, UserItemView) {
 
         getTitle: function (count) {
             return 'User' + (count == 1 ? '' : 's') + ' Online';
+        },
+
+        onStatusChange: function (user) {
+            this.updateUserCount(this.collection);
+        },
+
+        updateUserCount: function (collection) {
+            var count = 0;
+            collection.each(function (user) {
+                var currentStatus = user.getCurrentStatus();
+                if (currentStatus === 'online' || currentStatus === 'away') {
+                    count++;
+                }
+            });
+
+            this.$el.find('.user-count').text(count);
+            this.$el.find('.title-description').text(this.getTitle(count));
         }
     });
 

@@ -16,8 +16,7 @@
 				<label for="Email">Email</label>
             </div>
             <div>
-				<input type="email" id="Email" name="Email" />
-                <!--@Html.ValidationMessageFor(x => x.Email)-->
+				<input type="email" id="Email" name="Email" value="{{Email}}" />
             </div>
         </div>
         <div class="field">
@@ -26,7 +25,6 @@
             </div>
             <div>
                 <input type="password" id="Password" name="Password" />
-                <!--@Html.ValidationMessage("Password")-->
                 <p><a href="/account/requestpasswordreset">I've forgotten my password</a></p>
             </div>
         </div>

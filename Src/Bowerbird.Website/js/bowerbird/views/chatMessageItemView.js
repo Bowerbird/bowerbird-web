@@ -9,8 +9,8 @@
 // -------------------
 
 // Shows a message from a user in a chat window
-define(['jquery', 'underscore', 'backbone', 'app', 'models/chatmessage', 'date'],
-function ($, _, Backbone, app) {
+define(['jquery', 'underscore', 'backbone', 'app', 'moment'],
+function ($, _, Backbone, app, moment) {
     var ChatMessageItemView = Backbone.Marionette.ItemView.extend({
 
         tagName: 'li',
@@ -27,8 +27,7 @@ function ($, _, Backbone, app) {
                     UserMessage: {
                         From: app.authenticatedUser.user.get('Name') === this.model.get('FromUser').Name ? 'me' : this.model.get('FromUser').Name,
                         Message: this.model.get('Message').replace(/\n/g, '<br />'),
-                        Time: timestamp === '' || timestamp == null ? '' : new Date(timestamp).toString('hh:mmtt'),
-                        Timestamp: new Date(this.model.get('Timestamp')).toString()
+                        Time: timestamp === '' || timestamp == null ? '' : moment(timestamp).format('h:mma')
                     }
                 };
             }
@@ -54,7 +53,7 @@ function ($, _, Backbone, app) {
             log('timestamp updated', model);
             var timestamp = model.get('Timestamp');
             if (timestamp != null && timestamp != '') {
-                this.$el.find('.timestamp').text(new Date(timestamp).toString('hh:mmtt'));
+                this.$el.find('.timestamp').text(moment(timestamp).format('h:mma'));
             }
         }
     });
