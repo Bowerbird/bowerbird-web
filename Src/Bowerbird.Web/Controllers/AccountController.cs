@@ -17,6 +17,7 @@ using System.Dynamic;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.Repositories;
 using Bowerbird.Web.Builders;
+using Bowerbird.Web.Factories;
 using Bowerbird.Web.ViewModels;
 using Raven.Client;
 using System.Web.Mvc;
@@ -37,6 +38,7 @@ namespace Bowerbird.Web.Controllers
         private readonly IDocumentSession _documentSession;
         private readonly IAccountViewModelBuilder _accountViewModelBuilder;
         private readonly IUserViewModelBuilder _userViewModelBuilder;
+        private readonly IUserViewFactory _userViewFactory;
 
         #endregion
 
@@ -47,7 +49,8 @@ namespace Bowerbird.Web.Controllers
             IUserContext userContext,
             IDocumentSession documentSession,
             IAccountViewModelBuilder accountViewModelBuilder,
-            IUserViewModelBuilder userViewModelBuilder
+            IUserViewModelBuilder userViewModelBuilder,
+            IUserViewFactory userViewFactory
             )
         {
             Check.RequireNotNull(commandProcessor, "commandProcessor");
@@ -55,12 +58,14 @@ namespace Bowerbird.Web.Controllers
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(accountViewModelBuilder, "accountViewModelBuilder");
             Check.RequireNotNull(userViewModelBuilder, "userViewModelBuilder");
+            Check.RequireNotNull(userViewFactory, "userViewFactory");
 
             _commandProcessor = commandProcessor;
             _userContext = userContext;
             _documentSession = documentSession;
             _accountViewModelBuilder = accountViewModelBuilder;
             _userViewModelBuilder = userViewModelBuilder;
+            _userViewFactory = userViewFactory;
         }
 
         #endregion
@@ -95,16 +100,17 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(accountLoginInput, "accountLoginInput");
 
+            User user = null;
+
             if (ModelState.IsValid &&
-                AreCredentialsValid(accountLoginInput.Email, accountLoginInput.Password))
+                AreCredentialsValid(accountLoginInput.Email, accountLoginInput.Password, out user))
             {
                 _commandProcessor.Process(
                     new UserUpdateLastLoginCommand()
                     {
                         Email = accountLoginInput.Email
                     });
-
-                var user = _documentSession.LoadUserByEmail(accountLoginInput.Email);
+                
                 _userContext.SignUserIn(user.Id, user.Email, accountLoginInput.RememberMe);
 
 #if !JS_COMBINE_MINIFY
@@ -114,7 +120,7 @@ namespace Bowerbird.Web.Controllers
                 if(Request.IsAjaxRequest())
                 {
                     dynamic viewModel = new ExpandoObject();
-                    viewModel.User = _userViewModelBuilder.BuildUser(_userContext.GetAuthenticatedUserId());
+                    viewModel.User = _userViewFactory.Make(user);
 
                     return RestfulResult(
                         viewModel,
@@ -411,9 +417,9 @@ namespace Bowerbird.Web.Controllers
             return View(Form.ChangePassword);
         }
 
-        private bool AreCredentialsValid(string email, string password)
+        private bool AreCredentialsValid(string email, string password, out User user)
         {
-            var user = _documentSession.LoadUserByEmail(email);
+            user = _documentSession.LoadUserByEmail(email);
 
             return user != null && user.ValidatePassword(password);
         }
