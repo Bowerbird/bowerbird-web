@@ -124,8 +124,8 @@ namespace Bowerbird.Web.Controllers
 
                     return RestfulResult(
                         viewModel,
-                        "home",
-                        "privateindex",
+                        string.Empty,
+                        string.Empty,
                         null,
                         null);
                 }
@@ -213,6 +213,22 @@ namespace Bowerbird.Web.Controllers
                 stopwatch.Start();
                 while (stopwatch.ElapsedMilliseconds < 3000) {}
 
+                // app login
+                if (Request.IsAjaxRequest())
+                {
+                    _userContext.SignUserIn(user.Id, accountRegisterInput.Email.ToLower(), true);
+
+                    dynamic viewModel = new ExpandoObject();
+                    viewModel.User = _userViewFactory.Make(user);
+
+                    return RestfulResult(
+                        viewModel,
+                        string.Empty,
+                        string.Empty,
+                        null,
+                        null);
+                }
+                
                 _userContext.SignUserIn(user.Id, accountRegisterInput.Email.ToLower(), false);
 
                 return RedirectToAction("loggingin");
