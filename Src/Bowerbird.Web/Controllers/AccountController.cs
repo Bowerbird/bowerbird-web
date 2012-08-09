@@ -312,6 +312,27 @@ namespace Bowerbird.Web.Controllers
 
         [HttpGet]
         [Authorize]
+        public ActionResult Profile()
+        {
+            if (Request.IsAjaxRequest())
+            {
+                dynamic viewModel = new ExpandoObject();
+                viewModel.AuthenticatedUser =
+                    _userViewModelBuilder.BuildAuthenticatedUser(_userContext.GetAuthenticatedUserId());
+
+                return RestfulResult(
+                    viewModel,
+                    string.Empty,
+                    string.Empty,
+                    null,
+                    null);
+            }
+
+            return HttpNotFound();
+        }
+
+        [HttpGet]
+        [Authorize]
         public ActionResult Update()
         {
             var userId = _userContext.GetAuthenticatedUserId();
