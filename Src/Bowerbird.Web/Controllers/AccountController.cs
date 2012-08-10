@@ -39,6 +39,7 @@ namespace Bowerbird.Web.Controllers
         private readonly IAccountViewModelBuilder _accountViewModelBuilder;
         private readonly IUserViewModelBuilder _userViewModelBuilder;
         private readonly IUserViewFactory _userViewFactory;
+        private readonly IActivityViewModelBuilder _activityViewModelBuilder;
 
         #endregion
 
@@ -50,6 +51,7 @@ namespace Bowerbird.Web.Controllers
             IDocumentSession documentSession,
             IAccountViewModelBuilder accountViewModelBuilder,
             IUserViewModelBuilder userViewModelBuilder,
+            IActivityViewModelBuilder activityViewModelBuilder,
             IUserViewFactory userViewFactory
             )
         {
@@ -58,6 +60,7 @@ namespace Bowerbird.Web.Controllers
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(accountViewModelBuilder, "accountViewModelBuilder");
             Check.RequireNotNull(userViewModelBuilder, "userViewModelBuilder");
+            Check.RequireNotNull(activityViewModelBuilder, "activityViewModelBuilder");
             Check.RequireNotNull(userViewFactory, "userViewFactory");
 
             _commandProcessor = commandProcessor;
@@ -65,6 +68,7 @@ namespace Bowerbird.Web.Controllers
             _documentSession = documentSession;
             _accountViewModelBuilder = accountViewModelBuilder;
             _userViewModelBuilder = userViewModelBuilder;
+            _activityViewModelBuilder = activityViewModelBuilder;
             _userViewFactory = userViewFactory;
         }
 
@@ -90,9 +94,6 @@ namespace Bowerbird.Web.Controllers
             return View(Form.Login);
         }
 
-        /// <summary>
-        /// TODO: API - detect a JSON login and pass back a cookie/authToken..
-        /// </summary>
         [HttpPost]
         [ValidateInput(false)]
         [Transaction]
@@ -156,6 +157,42 @@ namespace Bowerbird.Web.Controllers
             }
 
             return Redirect("/");
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult Notifications(ActivityInput activityInput, PagingInput pagingInput)
+        {
+            if (Request.IsAjaxRequest())
+            {
+                return new JsonNetResult(new
+                {
+                    Model = new
+                    {
+                        Activities = _activityViewModelBuilder.BuildNotificationActivityList(_userContext.GetAuthenticatedUserId(), activityInput, pagingInput)
+                    }
+                });
+            }
+
+            return HttpNotFound();
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult Activity(ActivityInput activityInput, PagingInput pagingInput)
+        {
+            if(Request.IsAjaxRequest())
+            {
+                return new JsonNetResult(new
+                {
+                    Model = new
+                    {
+                        Activities = _activityViewModelBuilder.BuildHomeActivityList(_userContext.GetAuthenticatedUserId(), activityInput, pagingInput)
+                    }
+                });
+            }
+
+            return HttpNotFound();
         }
 
         [HttpGet]

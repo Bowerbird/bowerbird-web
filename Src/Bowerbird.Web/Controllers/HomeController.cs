@@ -88,24 +88,6 @@ namespace Bowerbird.Web.Controllers
                 }));
         }
 
-        [HttpGet]
-        [Authorize]
-        public ActionResult Notifications(ActivityInput activityInput, PagingInput pagingInput)
-        {
-            if (Request.IsAjaxRequest())
-            {
-                return new JsonNetResult(new
-                {
-                    Model = new
-                    {
-                        Activities = _activityViewModelBuilder.BuildNotificationActivityList(_userContext.GetAuthenticatedUserId(), activityInput, pagingInput)
-                    }
-                });
-            }
-
-            return HttpNotFound();
-        }
-
         #endregion
     }
 }
