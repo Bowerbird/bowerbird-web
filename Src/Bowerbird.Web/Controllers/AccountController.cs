@@ -15,6 +15,7 @@
 using System;
 using System.Dynamic;
 using Bowerbird.Core.Commands;
+using Bowerbird.Core.Infrastructure;
 using Bowerbird.Core.Repositories;
 using Bowerbird.Web.Builders;
 using Bowerbird.Web.Factories;
@@ -33,7 +34,7 @@ namespace Bowerbird.Web.Controllers
     {
         #region Members
 
-        private readonly ICommandProcessor _commandProcessor;
+        private readonly IMessageBus _messageBus;
         private readonly IUserContext _userContext;
         private readonly IDocumentSession _documentSession;
         private readonly IAccountViewModelBuilder _accountViewModelBuilder;
@@ -46,7 +47,7 @@ namespace Bowerbird.Web.Controllers
         #region Constructors
 
         public AccountController(
-            ICommandProcessor commandProcessor,
+            IMessageBus messageBus,
             IUserContext userContext,
             IDocumentSession documentSession,
             IAccountViewModelBuilder accountViewModelBuilder,
@@ -55,7 +56,7 @@ namespace Bowerbird.Web.Controllers
             IUserViewFactory userViewFactory
             )
         {
-            Check.RequireNotNull(commandProcessor, "commandProcessor");
+            Check.RequireNotNull(messageBus, "messageBus");
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(accountViewModelBuilder, "accountViewModelBuilder");
@@ -63,7 +64,7 @@ namespace Bowerbird.Web.Controllers
             Check.RequireNotNull(activityViewModelBuilder, "activityViewModelBuilder");
             Check.RequireNotNull(userViewFactory, "userViewFactory");
 
-            _commandProcessor = commandProcessor;
+            _messageBus = messageBus;
             _userContext = userContext;
             _documentSession = documentSession;
             _accountViewModelBuilder = accountViewModelBuilder;
@@ -106,7 +107,7 @@ namespace Bowerbird.Web.Controllers
             if (ModelState.IsValid &&
                 AreCredentialsValid(accountLoginInput.Email, accountLoginInput.Password, out user))
             {
-                _commandProcessor.Process(
+                _messageBus.Send(
                     new UserUpdateLastLoginCommand()
                     {
                         Email = accountLoginInput.Email
@@ -229,18 +230,17 @@ namespace Bowerbird.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = null;
-
-                _commandProcessor.Process<UserCreateCommand, User>(
+                _messageBus.Send(
                     new UserCreateCommand()
                     {
                         FirstName = accountRegisterInput.FirstName,
                         LastName = accountRegisterInput.LastName,
                         Email = accountRegisterInput.Email,
                         Password = accountRegisterInput.Password,
+                        DefaultLicence = Constants.DefaultLicence,
+                        Timezone = Constants.DefaultTimezone,
                         Roles = new[] { "roles/globalmember" }
-                    },
-                    x => user = x);
+                    });
 
                 // HACK: Persist user before _userContext.SignUserIn(..)
                 _documentSession.SaveChanges();
@@ -250,11 +250,13 @@ namespace Bowerbird.Web.Controllers
                 stopwatch.Start();
                 while (stopwatch.ElapsedMilliseconds < 3000) {}
 
-                // app login
+                User user = _documentSession.LoadUserByEmail(accountRegisterInput.Email);
+
+                _userContext.SignUserIn(user.Id, accountRegisterInput.Email.ToLower(), accountRegisterInput.RememberMe);
+
+                // App login
                 if (Request.IsAjaxRequest())
                 {
-                    _userContext.SignUserIn(user.Id, accountRegisterInput.Email.ToLower(), true);
-
                     dynamic viewModel = new ExpandoObject();
                     viewModel.User = _userViewFactory.Make(user);
 
@@ -265,8 +267,6 @@ namespace Bowerbird.Web.Controllers
                         null,
                         null);
                 }
-                
-                _userContext.SignUserIn(user.Id, accountRegisterInput.Email.ToLower(), false);
 
                 return RedirectToAction("loggingin");
             }
@@ -291,7 +291,7 @@ namespace Bowerbird.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _commandProcessor.Process(
+                _messageBus.Send(
                     new UserRequestPasswordResetCommand()
                     {
                         Email = accountRequestPasswordResetInput.Email
@@ -329,7 +329,7 @@ namespace Bowerbird.Web.Controllers
             {
                 var user = _documentSession.LoadUserByResetPasswordKey(accountResetPasswordInput.ResetPasswordKey);
 
-                _commandProcessor.Process(
+                _messageBus.Send(
                     new UserUpdatePasswordCommand()
                     {
                         UserId = user.Id,
@@ -405,7 +405,7 @@ namespace Bowerbird.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                _commandProcessor.Process(
+                _messageBus.Send(
                     new UserUpdateCommand()
                     {
                         Id = userUpdateInput.Id,
@@ -468,7 +468,7 @@ namespace Bowerbird.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _commandProcessor.Process(
+                _messageBus.Send(
                     new UserUpdatePasswordCommand()
                     {
                         UserId = _userContext.GetAuthenticatedUserId(),

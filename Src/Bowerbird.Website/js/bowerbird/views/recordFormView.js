@@ -97,14 +97,14 @@ function ($, _, Backbone, app, ich, EditMapView) {
                     }
                     var project = app.authenticatedUser.projects.get(option.value);
 
-                    html += ' /><img src="' + project.get('Avatar').Image.Square100.RelativeUri + '" alt="" />' + project.get('Name') + '</label>';
+                    html += ' /><img src="' + project.get('Avatar').Image.Square100.Uri + '" alt="" />' + project.get('Name') + '</label>';
                     return html;
                 },
                 oneOrMoreSelected: function (selectedOptions) {
                     var $selectedHtml = $('<div />');
                     _.each(selectedOptions, function (option) {
                         var project = app.authenticatedUser.projects.get(option.value);
-                        $selectedHtml.append('<span class="selected-project"><img src="' + project.get('Avatar').Image.Square100.RelativeUri + '" alt="" />' + option.text + '</span> ');
+                        $selectedHtml.append('<span class="selected-project"><img src="' + project.get('Avatar').Image.Square100.Uri + '" alt="" />' + option.text + '</span> ');
                     });
                     return $selectedHtml.children();
                 }

@@ -14,9 +14,11 @@
 
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using Bowerbird.Web.Validators;
 
 namespace Bowerbird.Web.ViewModels
 {
+    [ValidMedia]
     public class MediaResourceCreateInput
     {
         #region Members
@@ -36,22 +38,26 @@ namespace Bowerbird.Web.ViewModels
         public string Key { get; set; }
 
         /// <summary>
-        /// Image, Audio, Document or Video (if known)
+        /// Type of media (file, externalvideo)
         /// </summary>
-        public string MediaType { get; set; }
+        [Required]
+        public string Type { get; set; }
 
+        /// <summary>
+        /// How the media will be used (contribution, avatar)
+        /// </summary>
         [Required]
         public string Usage { get; set; }
 
-        #region Images
+        #region File
 
-        public string OriginalFileName { get; set; }
+        public string FileName { get; set; }
 
         public HttpPostedFileBase File { get; set; }
 
         #endregion
 
-        #region Videos
+        #region External Video
 
         public string VideoProviderName { get; set; }
 

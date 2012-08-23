@@ -1,34 +1,55 @@
-﻿    <h2><a href="/{{Model.ObservationAdded.Observation.Id}}">{{Model.ObservationAdded.Observation.Title}}</a></h2>
+﻿    <h2><a href="/{{Observation.Id}}">{{Observation.Title}}</a></h2>
     <div>
       <div class="images">
           <div class="preview">
-              {{#Model.ObservationAdded.Observation.PrimaryMedia.MediaResource}}
-              {{>MediaFull768}}
-              {{/Model.ObservationAdded.Observation.PrimaryMedia.MediaResource}}
+              {{#Observation.PrimaryMedia.MediaResource}}
+              {{>MediaConstrained600}}
+              {{/Observation.PrimaryMedia.MediaResource}}
+              {{#Observation.PrimaryMedia.Description}}
+                <div class="media-details">
+                    <div class="overlay"></div>
+                    <p class="description">{{Observation.PrimaryMedia.Description}}</p>
+                </div>
+              {{/Observation.PrimaryMedia.Description}}
           </div>
-          {{#Model.ShowThumbnails}}
+          {{#ShowThumbnails}}
           <div class="thumbnails">
-              {{#Model.ObservationAdded.Observation.Media}}
+              {{#Observation.Media}}
               {{#MediaResource}}
-              {{>MediaFull480}}
+              {{>MediaSquare200}}
               {{/MediaResource}}
-              {{/Model.ObservationAdded.Observation.Media}}
+              {{/Observation.Media}}
           </div>
-          {{/Model.ShowThumbnails}}
+          {{/ShowThumbnails}}
       </div>
       <div class="info">
         <div class="observed">
           Observed
-          <span>{{Model.ObservationAdded.Observation.ObservedOnDate}}</span>
-          <span>{{Model.ObservationAdded.Observation.ObservedOnTime}} AEST</span>
+          <span>{{ObservedOnDescription}}</span>
         </div>
-        <div class="location">
-          <div class="map">
-            <img src="http://maps.googleapis.com/maps/api/staticmap?zoom=8&size=400x200&scale=2&maptype=terrain&markers=color:blue|{{Model.ObservationAdded.Observation.Latitude}},{{Model.ObservationAdded.Observation.Longitude}}&sensor=false" alt="Map of location" />
+          <div class="location">
+              <div class="map">
+                  <!--<img src="zzhttp://maps.googleapis.com/maps/api/staticmap?zoom=8&size=400x200&scale=2&maptype=terrain&markers=color:blue|{{Model.ObservationAdded.Observation.Latitude}},{{Model.ObservationAdded.Observation.Longitude}}&sensor=false" alt="Map of location" />-->
+              </div>
+              <span>{{Observation.Address}}</span>
+              <!--<span>Latitude {{Observation.Latitude}}</span>
+                  <span>Longitude {{Observation.Longitude}}</span>-->
           </div>
-          <span>{{Model.ObservationAdded.Observation.Address}}</span>
-          <span>Latitude {{Model.ObservationAdded.Observation.Latitude}}</span>
-          <span>Longitude {{Model.ObservationAdded.Observation.Longitude}}</span>
-        </div>
+        {{#ShowProjects}}
+          <div class="observation-projects">
+              Projects 
+              <div class="observation-projects-list">
+                  {{#Observation.Projects}} 
+                  <div class="observation-project">
+                      <a href="{{Id}}">
+                        {{#Avatar}}
+                        {{>MediaSquare200}}
+                        {{/Avatar}}
+                      </a>
+                  </div>
+                {{/Observation.Projects}}
+              </div>
+          </div>
+        {{/ShowProjects}}
       </div>
     </div>

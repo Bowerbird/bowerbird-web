@@ -29,7 +29,7 @@
 //    {
 //        #region Members
 
-//        private readonly ICommandProcessor _commandProcessor;
+//        private readonly IMessageBus _messageBus;
 //        private readonly IUserContext _userContext;
 //        private readonly IObservationNotesViewModelBuilder _observationNotesViewModelBuilder;
 //        private readonly IObservationsViewModelBuilder _observationsViewModelBuilder;
@@ -40,20 +40,20 @@
 //        #region Constructors
 
 //        public ObservationNotesController(
-//            ICommandProcessor commandProcessor,
+//            IMessageBus messageBus,
 //            IUserContext userContext,
 //            IObservationNotesViewModelBuilder observationNotesViewModelBuilder,
 //            IObservationsViewModelBuilder observationsViewModelBuilder,
 //            IPermissionChecker permissionChecker
 //            )
 //        {
-//            Check.RequireNotNull(commandProcessor, "commandProcessor");
+//            Check.RequireNotNull(messageBus, "messageBus");
 //            Check.RequireNotNull(userContext, "userContext");
 //            Check.RequireNotNull(observationNotesViewModelBuilder, "observationNotesViewModelBuilder");
 //            Check.RequireNotNull(observationsViewModelBuilder, "observationsViewModelBuilder");
 //            Check.RequireNotNull(permissionChecker, "permissionChecker");
 
-//            _commandProcessor = commandProcessor;
+//            _messageBus = messageBus;
 //            _userContext = userContext;
 //            _observationNotesViewModelBuilder = observationNotesViewModelBuilder;
 //            _observationsViewModelBuilder = observationsViewModelBuilder;

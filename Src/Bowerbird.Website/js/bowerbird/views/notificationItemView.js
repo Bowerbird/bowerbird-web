@@ -8,30 +8,31 @@
 // NotificationItemView
 // --------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'timeago'], function ($, _, Backbone, app) {
+define(['jquery', 'underscore', 'backbone', 'app', 'moment', 'timeago'], 
+    function ($, _, Backbone, app, moment) {
 
-    var parseISO8601 = function (str) {
-        // we assume str is a UTC date ending in 'Z'
+//    var parseISO8601 = function (str) {
+//        // we assume str is a UTC date ending in 'Z'
 
-        var parts = str.split('T'),
-        dateParts = parts[0].split('-'),
-        timeParts = parts[1].split('Z'),
-        timeSubParts = timeParts[0].split(':'),
-        timeSecParts = timeSubParts[2].split('.'),
-        timeHours = Number(timeSubParts[0]),
-        _date = new Date;
+//        var parts = str.split('T'),
+//        dateParts = parts[0].split('-'),
+//        timeParts = parts[1].split('Z'),
+//        timeSubParts = timeParts[0].split(':'),
+//        timeSecParts = timeSubParts[2].split('.'),
+//        timeHours = Number(timeSubParts[0]),
+//        _date = new Date;
 
-        _date.setUTCFullYear(Number(dateParts[0]));
-        _date.setUTCMonth(Number(dateParts[1]) - 1);
-        _date.setUTCDate(Number(dateParts[2]));
-        _date.setUTCHours(Number(timeHours));
-        _date.setUTCMinutes(Number(timeSubParts[1]));
-        _date.setUTCSeconds(Number(timeSecParts[0]));
-        if (timeSecParts[1]) _date.setUTCMilliseconds(Number(timeSecParts[1]));
+//        _date.setUTCFullYear(Number(dateParts[0]));
+//        _date.setUTCMonth(Number(dateParts[1]) - 1);
+//        _date.setUTCDate(Number(dateParts[2]));
+//        _date.setUTCHours(Number(timeHours));
+//        _date.setUTCMinutes(Number(timeSubParts[1]));
+//        _date.setUTCSeconds(Number(timeSecParts[0]));
+//        if (timeSecParts[1]) _date.setUTCMilliseconds(Number(timeSecParts[1]));
 
-        // by using setUTC methods the date has already been converted to local time(?)
-        return _date;
-    };
+//        // by using setUTC methods the date has already been converted to local time(?)
+//        return _date;
+//    };
 
     var NotificationItemView = Backbone.Marionette.ItemView.extend({
         tagName: 'li',
@@ -41,11 +42,11 @@ define(['jquery', 'underscore', 'backbone', 'app', 'timeago'], function ($, _, B
         template: 'NotificationItem',
 
         serializeData: function () {
-            var model = this.model.toJSON();
-            model.CreatedDateTimeDescription = parseISO8601(this.model.get('CreatedDateTime') + 'Z');
-            //model.ObservedOnDescription = ''; //parseISO8601(this.model.get('ObservedOn') + 'Z').format('d MMM yyyy')
             return {
-                Model: model
+                Model: {
+                    Activity: this.model.toJSON(),
+                    CreatedDateTimeDescription: moment(this.model.get('CreatedDateTime')).format('D MMM YYYY h:mma')
+                }
             };
         },
 

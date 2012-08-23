@@ -1,4 +1,4 @@
-define(['jquery'], function (jQuery) {
+define(['jquery', 'moment'], function (jQuery, moment) {
     /* ===========================================================
     * bootstrap-datepicker.js v1.3.0
     * http://twitter.github.com/bootstrap/javascript.html#datepicker
@@ -254,12 +254,13 @@ define(['jquery'], function (jQuery) {
         //            return Date.parseString(s, 'd MMM yyyy');
         //        }
         //return null;
-        return Date.parseExact(s, 'd MMM yyyy');
+        //return Date.parseExact(s, 'd MMM yyyy');
+        return moment(s, 'D MMM YYYY').toDate();
     }
 
     , format: function (date) {
         //return date.format('d MMM yyyy');
-        return date.toString('d MMM yyyy');
+        return moment(date).format('D MMM YYYY');
     }
 
     , ahead: function (months, days) {

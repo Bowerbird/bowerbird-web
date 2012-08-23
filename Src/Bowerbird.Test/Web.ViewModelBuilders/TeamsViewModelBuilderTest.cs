@@ -56,7 +56,7 @@ namespace Bowerbird.Test.Web.ViewModelBuilders
         #region Constructor tests
 
         [Test]
-        public void TeamsQuery_Constructor_Passed_Null_AvatarFactory()
+        public void TeamsQuery_Constructor_Passed_Null_mediaResourceFactory()
         {
             Assert.False(
                 BowerbirdThrows.Exception<DesignByContractException>(

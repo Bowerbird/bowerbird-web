@@ -20,7 +20,8 @@ function ($, _, Backbone, app)
             return {
                 Model: {
                     Observation: this.model.toJSON(),
-                    ShowThumbnails: this.model.get('Media').length > 1 ? true : false
+                    ShowThumbnails: this.model.get('Media').length > 1 ? true : false,
+                    ShowProjects: this.model.get('ObservationAdded').Observation.Projects.length > 0 ? true : false
                 }
             };
         },

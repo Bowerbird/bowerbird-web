@@ -11,15 +11,14 @@
 */
 
 using System;
-using System.IO;
-using System.Linq;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Events;
+using Bowerbird.Core.Infrastructure;
 using Bowerbird.Core.Services;
-using Bowerbird.Core.Utilities;
 using Raven.Client;
+using Bowerbird.Core.Config;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -29,6 +28,7 @@ namespace Bowerbird.Core.CommandHandlers
 
         private readonly IDocumentSession _documentSession;
         private readonly IMediaServiceFactory _mediaServiceFactory;
+        private readonly IMessageBus _messageBus;
 
         #endregion
 
@@ -36,14 +36,17 @@ namespace Bowerbird.Core.CommandHandlers
 
         public MediaResourceCreateCommandHandler(
             IDocumentSession documentSession,
-            IMediaServiceFactory mediaServiceFactory
+            IMediaServiceFactory mediaServiceFactory,
+            IMessageBus messageBus
             )
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(mediaServiceFactory, "mediaServiceFactory");
+            Check.RequireNotNull(messageBus, "messageBus");
 
             _documentSession = documentSession;
             _mediaServiceFactory = mediaServiceFactory;
+            _messageBus = messageBus;
         }
 
         #endregion
@@ -54,120 +57,31 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(command, "command");
 
-            string mediaType;
-            var user = _documentSession.Load<User>(command.UserId);
+            string failureReason;
 
-            if (IsKnownMediaType(command, out mediaType))
+            if (!GetMediaService(command).Save(command, out failureReason)) 
             {
-                var mediaResource = new MediaResource(
-                    mediaType,
-                    user,
-                    command.UploadedOn,
-                    command.Key);
-
-                _documentSession.Store(mediaResource);
-
-                // Looks like we need to call savechanges to actually get an id back
-                _documentSession.SaveChanges();
-
-                string failureReason;
-
-                if (GetMediaService(mediaType, command).Save(command, mediaResource, out failureReason))
-                {
-                    _documentSession.Store(mediaResource);
-                    mediaResource.FireCreatedEvent(user);
-                }
-                else
-                {
-                    _documentSession.Delete(mediaResource);
-                    EventProcessor.Raise(new MediaResourceCreateFailedEvent(user, command.Key, failureReason, user));
-                }
-            }
-            else
-            {
-                EventProcessor.Raise(new MediaResourceCreateFailedEvent(user, command.Key, "The uploaded file is not an accepted file type.", user));
+                var user = _documentSession.Load<User>(command.UserId);
+                _messageBus.Publish(new MediaResourceCreateFailedEvent(user, command.Key, failureReason, user));
             }
         }
 
-        /// <summary>
-        /// Performs an exhaustive search for hints about what media type the media resource is
-        /// </summary>
-        private bool IsKnownMediaType(MediaResourceCreateCommand command, out string mediaType)
+        private IMediaService GetMediaService(MediaResourceCreateCommand command)
         {
-            mediaType = null;
-
-            // Check if a media types is explicitly specified
-            if (!string.IsNullOrWhiteSpace(command.MediaType))
+            if (command.Type == "file")
             {
-                mediaType = command.MediaType.ToLower();
-                return true;
-            }
+                var mediaTypeInfo = MediaTypeUtility.GetMediaTypeInfoForFile(command.FileStream);
 
-            // Check if a mime type is explicitly specified
-            if (!string.IsNullOrWhiteSpace(command.MimeType))
-            {
-                switch (command.MimeType.ToLower())
+                if (mediaTypeInfo.MediaType == "image")
                 {
-                    case "audio/mpeg":
-                    case "audio/wav":
-                        mediaType = "audio";
-                        return true;
-                    case "image/jpeg":
-                        mediaType = "image";
-                        return true;
+                    return _mediaServiceFactory.CreateImageService();
+                }
+                else if (mediaTypeInfo.MediaType == "audio")
+                {
+                    return _mediaServiceFactory.CreateAudioService();
                 }
             }
-
-            // Check if the original filename (if provided) contains a file extension
-            if (!string.IsNullOrWhiteSpace(command.OriginalFileName) && command.OriginalFileName.Contains("."))
-            {
-                var extension = command.OriginalFileName.Split(new[] {"."}, StringSplitOptions.RemoveEmptyEntries).Last().ToLower();
-
-                switch (extension)
-                {
-                    case "jpeg":
-                    case "jpg":
-                        mediaType = "image";
-                        return true;
-                    case "mp3":
-                    case "wav":
-                        mediaType = "audio";
-                        return true;
-                }
-            }
-
-            // Check if the binary data contains header info
-            if (command.Stream != null)
-            {
-                if (IsJpeg(command.Stream))
-                {
-                    mediaType = "image";
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        private bool IsJpeg(Stream stream)
-        {
-            stream.Seek(0, SeekOrigin.Begin);
-            using (BinaryReader br = new BinaryReader(stream))
-            {
-                UInt16 soi = br.ReadUInt16();  // Start of Image (SOI) marker (FFD8)
-                UInt16 jfif = br.ReadUInt16(); // JFIF marker (FFE0)
-
-                return soi == 0xd8ff && jfif == 0xe0ff;
-            }
-        }
-
-        private IMediaService GetMediaService(string mediaType, MediaResourceCreateCommand command)
-        {
-            if (mediaType == "image")
-            {
-                return _mediaServiceFactory.CreateImageService();
-            } 
-            else if (mediaType == "video") 
+            else if (command.Type == "externalvideo")
             {
                 if (command.VideoProviderName.ToLower() == "youtube")
                 {
@@ -178,12 +92,8 @@ namespace Bowerbird.Core.CommandHandlers
                     return _mediaServiceFactory.CreateVimeoVideoService();
                 }
             }
-            else if (mediaType == "audio")
-            {
-                return _mediaServiceFactory.CreateAudioService();
-            }
 
-            throw new ArgumentException(string.Format("The specified mediatype '{0}' is not supported.", mediaType));
+            throw new ArgumentException(string.Format("A media service could not be found for the specified type '{0}'.", command.Type));
         }
 
         #endregion

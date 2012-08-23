@@ -1,9 +1,11 @@
 ﻿  <a href="/{{Id}}">
-    {{#Avatar}}
-    {{>MediaSquare100}}
-    {{/Avatar}}
+      <div class="avatar">
+        {{#Avatar}}
+        {{>MediaSquare100}}
+        {{/Avatar}}
+      </div>
       <div>
-        <p>{{Name}}</p>
+          <p>{{Name}}</p>
       </div>
   </a>
   <div class="sub-menu-button">
@@ -26,10 +28,10 @@
       </li>
       <li class="divider"></li>
       <li id="createnewobservation">
-        <a href="/observations/addtoproject?id={{Id}}">Add an Observation</a>
+        <a href="/observations/addtoproject?id={{Id}}">New Observation</a>
       </li>
       <li id="createnewpost">
-        <a href="/posts/create?id={{Id}}">Add a Post</a>
+        <a href="/posts/create?id={{Id}}">New Post</a>
       </li>
       {{#Permissions.UpdateProject}}
       <li>

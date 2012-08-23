@@ -35,8 +35,6 @@ namespace Bowerbird.Core.Indexes
 
         public static void Create(IDocumentStore documentStore)
         {
-            var indexNames = documentStore.DatabaseCommands.GetIndexNames(1, 100);
-
             if (!documentStore.DatabaseCommands.GetIndexNames(0, 100).Any(x => x == "All/Activities"))
             {
                 documentStore.DatabaseCommands.PutIndex("All/Activities",

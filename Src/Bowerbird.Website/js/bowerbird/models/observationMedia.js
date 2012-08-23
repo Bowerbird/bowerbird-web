@@ -29,7 +29,12 @@ define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
         setMediaResource: function (mediaResource) {
             this.mediaResource = mediaResource;
             this.set('MediaResourceId', mediaResource.id);
-        }
+
+            if (mediaResource.get('Metadata').Description)
+            {
+                this.set('Description', mediaResource.get('Metadata').Description);
+            }
+    }
     });
 
     return ObservationMedia;

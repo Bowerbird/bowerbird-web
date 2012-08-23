@@ -29,7 +29,6 @@ namespace Bowerbird.Core.DomainModels
         protected Team()
             : base()
         {
-            EnableEvents();
         }
 
         public Team(
@@ -46,13 +45,12 @@ namespace Bowerbird.Core.DomainModels
             createdDateTime,
             parentGroup)
         {
-            SetDetails(
+            SetTeamDetails(
                 description,
                 website,
                 avatar);
 
-            EnableEvents();
-            FireEvent(new DomainModelCreatedEvent<Team>(this, createdByUser, this));
+            ApplyEvent(new DomainModelCreatedEvent<Team>(this, createdByUser, this));
         }
 
         #endregion
@@ -74,7 +72,7 @@ namespace Bowerbird.Core.DomainModels
 
         #region Methods
 
-        private void SetDetails(string description, string website, MediaResource avatar)
+        private void SetTeamDetails(string description, string website, MediaResource avatar)
         {
             Description = description;
             Website = website;
@@ -86,14 +84,14 @@ namespace Bowerbird.Core.DomainModels
             Check.RequireNotNull(updatedByUser, "updatedByUser");
             Check.RequireNotNullOrWhitespace(name, "name");
 
-            SetDetails(name);
+            SetGroupDetails(name);
 
-            SetDetails(
+            SetTeamDetails(
                 description,
                 website,
                 avatar);
 
-            FireEvent(new DomainModelUpdatedEvent<Team>(this, updatedByUser, this));
+            ApplyEvent(new DomainModelUpdatedEvent<Team>(this, updatedByUser, this));
 
             return this;
         }

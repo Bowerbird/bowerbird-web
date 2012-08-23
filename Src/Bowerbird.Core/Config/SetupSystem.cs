@@ -17,6 +17,7 @@ using System.Linq;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Infrastructure;
 using NLog;
 using Raven.Client;
 using System.Threading;
@@ -34,8 +35,8 @@ namespace Bowerbird.Core.Config
         private readonly IDocumentSession _documentSession;
         private readonly ISystemStateManager _systemStateManager;
         private readonly IConfigSettings _configSettings;
-        private readonly IAvatarFactory _avatarFactory;
-        private readonly ICommandProcessor _commandProcessor;
+        private readonly IMediaResourceFactory _mediaResourceFactory;
+        private readonly IMessageBus _messageBus;
 
         private readonly string[] _speciesFileHeaderColumns = {
                                                                   "Category", 
@@ -58,20 +59,20 @@ namespace Bowerbird.Core.Config
             IDocumentSession documentSession,
             ISystemStateManager systemStateManager,
             IConfigSettings configService, 
-            IAvatarFactory avatarFactory,
-            ICommandProcessor commandProcessor)
+            IMediaResourceFactory mediaResourceFactory,
+            IMessageBus messageBus)
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(systemStateManager, "systemStateManager");
             Check.RequireNotNull(configService, "configService");
-            Check.RequireNotNull(avatarFactory, "avatarFactory");
-            Check.RequireNotNull(commandProcessor, "commandProcessor");
+            Check.RequireNotNull(mediaResourceFactory, "mediaResourceFactory");
+            Check.RequireNotNull(messageBus, "messageBus");
 
             _documentSession = documentSession;
             _systemStateManager = systemStateManager;
             _configSettings = configService;
-            _avatarFactory = avatarFactory;
-            _commandProcessor = commandProcessor;
+            _mediaResourceFactory = mediaResourceFactory;
+            _messageBus = messageBus;
         }
 
         #endregion
@@ -134,7 +135,7 @@ namespace Bowerbird.Core.Config
             {
                 _logger.ErrorException("Could not setup system", exception);
 
-                throw exception;
+                throw;
             }
         }
 
@@ -153,7 +154,7 @@ namespace Bowerbird.Core.Config
                 "Amphibians", 
                 "Birds", 
                 "Fishes", 
-                "Fungi", 
+                "Fungi & Lichens", 
                 "Invertebrates", 
                 "Mammals", 
                 "Minerals",
@@ -308,7 +309,8 @@ namespace Bowerbird.Core.Config
 
         private void AddUser(string password, string email, string firstname, string lastname, params string[] roleIds)
         {
-            var user = new User(password, email, firstname, lastname, _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.User), Constants.DefaultLicence);
+            var user = new User(password, email, firstname, lastname, _mediaResourceFactory.MakeDefaultAvatarImage(AvatarDefaultType.User), 
+                Constants.DefaultLicence, Constants.DefaultTimezone);
             _documentSession.Store(user);
 
             user.AddMembership(user,

@@ -85,13 +85,13 @@ namespace Bowerbird.Web.Hubs
 
         private User GetUserByConnectionId(string connectionId)
         {
-            return _documentSession
+            var result = _documentSession
                 .Query<All_Users.Result, All_Users>()
                 .AsProjection<All_Users.Result>()
                 .Where(x => x.ConnectionIds.Any(y => y == connectionId))
-                .ToList()
-                .Select(x => x.User)
-                .First();
+                .FirstOrDefault();
+
+            return result != null ? result.User : null;
         }
 
         public Task Connect()

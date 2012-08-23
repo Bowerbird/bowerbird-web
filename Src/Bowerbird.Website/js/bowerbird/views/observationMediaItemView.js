@@ -24,18 +24,19 @@ function ($, _, Backbone, app, ich, EditObservationMediaFormView, licences, Circ
         this.id = app.generateGuid();
 
         this.start = function (model) {
-            if (model.mediaResource.get('MediaType') === 'audio') {
+            if (model.mediaResource.get('MediaResourceType') === 'audio') {
                 this.audioPlayer = new CirclePlayer('#audio-player-' + this.id,
                     {
-                        mp3: model.mediaResource.get('Audio').Full480.RelativeUri
+                        mp3: model.mediaResource.get('Audio').Constrained480.Uri,
+                        m4a: model.mediaResource.get('Audio').Constrained480.Uri
                     },
                     {
                         cssSelectorAncestor: '#audio-player-container-' + this.id,
                         swfPath: '/js/libs/jquery.jplayer',
-                        supplied: "mp3",
+                        supplied: 'mp3,m4a',
                         wmode: 'window',
                         //errorAlerts: true,
-                        solution: 'html, flash'
+                        solution: 'html,flash'
                     });
 
                 //$("#jplayer_inspector").jPlayerInspector({ jPlayer: $('#audio-player') });
@@ -60,12 +61,12 @@ function ($, _, Backbone, app, ich, EditObservationMediaFormView, licences, Circ
         provider: null,
 
         initialize: function () {
-            var mediaType = this.model.mediaResource.get('MediaType');
-            if (mediaType === 'image') {
+            var mediaResourceType = this.model.mediaResource.get('MediaResourceType');
+            if (mediaResourceType === 'image') {
                 this.provider = new ImageProvider();
-            } else if (mediaType === 'video') {
+            } else if (mediaResourceType === 'video') {
                 this.provider = new VideoProvider();
-            } else if (mediaType === 'audio') {
+            } else if (mediaResourceType === 'audio') {
                 this.provider = new AudioProvider();
             }
             this.model.on('change:IsPrimaryMedia', this._onUpdatePrimaryMedia, this);
@@ -87,7 +88,7 @@ function ($, _, Backbone, app, ich, EditObservationMediaFormView, licences, Circ
         },
 
         onRender: function () {
-            this.$el.css({ position: 'absolute', top: '-250px', width: 280 + 'px' });
+            this.$el.css({ position: 'absolute', top: '-250px', width: 296 + 'px' });
             this.$el.find('.cp-jplayer').attr('id', 'audio-player-' + this.provider.id);
             this.$el.find('.cp-container').attr('id', 'audio-player-container-' + this.provider.id);
             return this;

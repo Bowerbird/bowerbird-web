@@ -455,7 +455,7 @@
     <Content Include="Views\Shared\MediaFull480.mustache" />
     <Content Include="Views\Shared\MediaSquare200.mustache" />
     <Content Include="Views\Shared\MediaSquare100.mustache" />
-    <Content Include="Views\Shared\MediaSquare42.mustache" />
+    <Content Include="Views\Shared\MediaSquare50.mustache" />
     <Content Include="Views\Shared\RecordForm.mustache">
       <SubType>Designer</SubType>
     </Content>
@@ -503,6 +503,9 @@
     <Content Include="Views\Shared\ObservationDetails.mustache">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Views\Shared\MediaConstrained600.mustache" />
+    <Content Include="Views\Shared\MediaConstrained480.mustache" />
+    <Content Include="Views\Shared\MediaConstrained240.mustache" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="404.html" />

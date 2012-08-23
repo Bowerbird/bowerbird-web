@@ -1,24 +1,24 @@
 ﻿<div class="summary">
-    {{#Model.User.Avatar}}
+    {{#Model.Activity.User.Avatar}}
     {{>MediaSquare100}}
-    {{/Model.User.Avatar}}
+    {{/Model.Activity.User.Avatar}}
   <p class="description">
-    {{Model.Description}} <abbr class="time-description" title="{{Model.CreatedDateTime}}">{{Model.CreatedDateTimeDescription}}</abbr>
+    {{Model.Activity.Description}} <abbr class="time-description" title="{{Model.Activity.CreatedDateTime}}">{{Model.CreatedDateTimeDescription}}</abbr>
   </p>
 </div>
-{{#Model.ObservationAdded}}
+{{#Model.Activity.ObservationAdded}}
 <div class="details">
   {{>ObservationStreamItem}}
 </div>
-{{/Model.ObservationAdded}}
-{{#Model.PostAdded}}
+{{/Model.Activity.ObservationAdded}}
+{{#Model.Activity.PostAdded}}
 <div class="details">
   {{>PostStreamItem}}
 </div>
-{{/Model.PostAdded}}
+{{/Model.Activity.PostAdded}}
 
-{{#Model.UserJoinedGroup}}
+{{#Model.Activity.UserJoinedGroup}}
 <div class="details">
   User joined group
 </div>
-{{/Model.UserJoinedGroup}}
+{{/Model.Activity.UserJoinedGroup}}

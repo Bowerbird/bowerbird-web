@@ -7,7 +7,7 @@ http://www.codeproject.com/info/cpol10.aspx
 
 */
 
-namespace ExifLib
+namespace Bowerbird.Web.Utilities
 {
     /// <summary>
     /// All exif tags as per the Exif standard 2.2, JEITA CP-2451
@@ -69,7 +69,7 @@ namespace ExifLib
         Flash = 0x9209,
         FocalLength = 0x920A,
         SubjectArea = 0x9214,
-        MakerNote = 0x927C,
+        //MakerNote = 0x927C, // FR: Unneccessary data
         UserComment = 0x9286,
         SubsecTime = 0x9290,
         SubsecTimeOriginal = 0x9291,

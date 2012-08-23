@@ -13,6 +13,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Bowerbird.Core.DomainModels;
 using Raven.Abstractions.Indexing;
@@ -35,6 +36,10 @@ namespace Bowerbird.Core.Indexes
             public Record Record { get; set; }
             public Post Post { get; set; }
             public User User { get; set; }
+            public IEnumerable<UserProject> UserProjects { get; set; }
+            public IEnumerable<Project> Projects { get; set; }
+            public IEnumerable<Team> Teams { get; set; }
+            public IEnumerable<Organisation> Organisations { get; set; }
             public SightingNote Note
             {
                 get
@@ -46,7 +51,7 @@ namespace Bowerbird.Core.Indexes
                     return null;
                 }
             }
-            public CommentNew Comment
+            public Comment Comment
             {
                 get
                 {
@@ -64,6 +69,18 @@ namespace Bowerbird.Core.Indexes
             public IDiscussable Discussable
             {
                 get { return Observation as IDiscussable ?? Record as IDiscussable ?? Post as IDiscussable; }
+            }
+            public IEnumerable<Group> Groups
+            {
+                get
+                {
+                    List<Group> groups = new List<Group>();
+                    if (UserProjects != null && UserProjects.Count() > 0) groups.AddRange(UserProjects);
+                    if (Projects != null && Projects.Count() > 0) groups.AddRange(Projects);
+                    if (Teams != null && Teams.Count() > 0) groups.AddRange(Teams);
+                    if (Organisations != null && Organisations.Count() > 0) groups.AddRange(Organisations);
+                    return groups;
+                }
             }
         }
 
@@ -152,21 +169,21 @@ namespace Bowerbird.Core.Indexes
 
             TransformResults = (database, results) =>
                 from result in results
-                let observation = database.Load<Observation>(result.ContributionId)
-                let record = database.Load<Record>(result.ContributionId)
-                let post = database.Load<Post>(result.ContributionId)
-                let user = database.Load<User>(result.UserId)
                 select new
                 {
                     result.ContributionId,
                     result.ContributionType,
                     result.UserId,
                     result.CreatedDateTime,
-                    result.GroupIds,
-                    Observation = observation,
-                    Record = record,
-                    Post = post,
-                    User = user
+                    GroupIds = result.GroupIds ?? new string[] {},
+                    Observation = database.Load<Observation>(result.ContributionId),
+                    Record = database.Load<Record>(result.ContributionId),
+                    Post = database.Load<Post>(result.ContributionId),
+                    User = database.Load<User>(result.UserId),
+                    UserProjects = database.Load<UserProject>(result.GroupIds).Where(x => x.GroupType == "userproject"),
+                    Projects = database.Load<UserProject>(result.GroupIds).Where(x => x.GroupType == "project"),
+                    Teams = database.Load<UserProject>(result.GroupIds).Where(x => x.GroupType == "team"),
+                    Organisations = database.Load<UserProject>(result.GroupIds).Where(x => x.GroupType == "organisation")
                 };
 
             Store(x => x.ContributionId, FieldStorage.Yes);

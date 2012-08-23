@@ -30,7 +30,6 @@ namespace Bowerbird.Core.DomainModels
         protected Permission()
             : base()
         {
-            EnableEvents();
         }
 
         public Permission(
@@ -46,8 +45,6 @@ namespace Bowerbird.Core.DomainModels
             Id = "permissions/" + id;
             Name = name;
             Description = description;
-
-            EnableEvents();
         }
 
         #endregion

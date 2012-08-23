@@ -105,7 +105,7 @@
     border-bottom: 1px solid #CFDDEB;
     height: 46px;
 }
-.stream-list .stream-item .summary img
+.stream-list .stream-item .summary .image-media.media-square-100
 {
     border-radius: 4px 0 0 0;
     float: left;
@@ -128,6 +128,10 @@
     color: #8C8C8C;
     font-size: 0.8125em;
     border-bottom: 1px dotted #BBBBBB;
+}
+.stream-list .stream-item .details
+{
+    padding: 2%;
 }
 /*.stream-list .stream-item .details
 {
@@ -212,7 +216,7 @@
     font-weight: 600;
     letter-spacing: -1px;
     margin: 0;
-    padding: 10px 15px;
+    padding: 0 0 10px;
 }
 .stream-list .observation-stream-item .details h2 a,
 .stream-list .observation-stream-item .details h2 a:hover,
@@ -224,10 +228,10 @@
 }
 .stream-list .observation-stream-item .details .images
 {
-    float: left;
-    /*margin-bottom: 2%;*/
+    display: inline-block;
     padding-right: 2%;
-    width: 70%;
+    vertical-align: top;
+    width: 69%;
 }
 .stream-list .observation-stream-item .details .images .preview
 {
@@ -235,37 +239,126 @@
     overflow: hidden;
     text-align: center;
     width: 100%;
+    position: relative;
+}
+/*@media screen and (min-width: 20em) 
+{
+    .stream-list .observation-stream-item .details .images .preview
+    {
+        max-height: 180px;
+    }
+}
+@media screen and (min-width: 37.5em) 
+{
+    .stream-list .observation-stream-item .details .images .preview
+    {
+        max-height: 240px;
+    }
+}
+@media screen and (min-width: 64em) 
+{
+    .stream-list .observation-stream-item .details .images .preview
+    {
+        max-height: 360px;
+    }
 }
 .stream-list .observation-stream-item .details .images .preview img
 {
     float: left;
     width: 100%;
+}*/
+.stream-list .observation-stream-item .details .images .preview .media-details {
+    bottom: 0;
+    position: absolute;
+    width: 100%;
 }
-.stream-list .observation-stream-item .details .images .thumbnails
+.stream-list .observation-stream-item .details .images .preview .overlay 
 {
-    padding-top: 1%;
+    background-color: #000000;
+    bottom: 0;
+    height: 100%;
+    opacity: 0.5;
+    position: absolute;
+    width: 100%;
+    z-index: 0;
 }
-.stream-list .observation-stream-item .details .images .thumbnails img
+.stream-list .observation-stream-item .details .images .preview p.description,
+.stream-list .observation-stream-item .details .images .preview p.primary-media {
+    /*color: #FFFFFF;
+    margin: 5px 15px;
+    max-height: 35px;
+    overflow: hidden;
+    position: relative;
+    text-shadow: none;
+    white-space: normal;
+    z-index: 1;
+    font-size: 0.85em;
+    text-align: left;*/
+    color: rgb(255, 255, 255);
+    font-size: 0.85em;
+    line-height: 1.5em;
+    margin: 5px 15px;
+    max-height: 63px;
+    overflow: hidden;
+    position: relative;
+    text-align: left;
+    text-shadow: none;
+    white-space: normal;
+    z-index: 1;
+}
+.stream-list .observation-stream-item .details .images .thumbnails > div:nth-child(5n+0) {
+    margin-right: 0;
+}
+/*.stream-list .observation-stream-item .details .images .thumbnails img
 {
     float: left;
     margin-right: 1%;
     width: 19.2%;
+}*/
+.stream-list .observation-stream-item .details .images .thumbnails .image-media,
+.stream-list .observation-stream-item .details .images .thumbnails .video-media,
+.stream-list .observation-stream-item .details .images .thumbnails .audio-media {
+    float: left;
+    
+    height: 19.6%;
+    line-height: 1em;
+    margin-right: 0.5%;
+    margin-top: 0.5%;
+    width: 19.6%; 
 }
-.stream-list .observation-stream-item .details .images .thumbnails img:last-child
+.stream-list .observation-stream-item .details .images .thumbnails > div:last-child
 {
     margin-right: 0;
 }
 .stream-list .observation-stream-item .details .info
 {
-    float: left;
+    display: inline-block;
     width: 28%;
 }
-.stream-list .observation-stream-item .details .observed
+.stream-list .observation-stream-item .details .observed,
+.stream-list .observation-stream-item .details .observation-projects
 {
     font-size: 0.875em;
     font-weight: 600;
     line-height: 1.25em;
     margin: 0;
+}
+.stream-list .observation-stream-item .details .observation-projects-list {
+    margin-top: 4px;
+    
+}
+.stream-list .observation-stream-item .details .observation-project {
+    display: block;
+    float: left;
+    margin-right: 1.1%;
+    margin-top: 1.1%;
+    width: 32.6%;
+}
+.stream-list .observation-stream-item .details .observation-project:nth-child(3n+0) {
+    margin-right: 0;
+}
+.stream-list .observation-stream-item .details .observation-projects {
+    margin-top: 20px;
 }
 .stream-list .observation-stream-item .details .observed span
 {
@@ -282,19 +375,42 @@
 .stream-list .observation-stream-item .details .location .map
 {
     background-color: #F2F6FA;
-    height: 200px;
     overflow: hidden;
+    width: 100%;
+    
 }
-.stream-list .observation-stream-item .details .location .map img
+@media screen and (min-width: 20em) 
+{
+    .stream-list .observation-stream-item .details .location .map
+    {
+        height: 4em;
+    }
+}
+@media screen and (min-width: 37.5em) 
+{
+    .stream-list .observation-stream-item .details .location .map
+    {
+        height: 9em;
+    }
+}
+@media screen and (min-width: 64em) 
+{
+    .stream-list .observation-stream-item .details .location .map
+    {
+        height: 14em;
+    }
+}
+/*.stream-list .observation-stream-item .details .location .map img
 {
     height: 200px;
     left: -50%;
     position: relative;
-}
-.stream-list .observation-stream-item .details .location span
+}*/
+.stream-list .observation-stream-item .details .location > span
 {
     display: block;
     font-weight: 500;
+    padding: 5px 5px 0 0;
 }
 #stream .observation-stream-item .projects
 {

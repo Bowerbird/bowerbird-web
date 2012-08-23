@@ -19,7 +19,7 @@ function ($, _, Backbone, ObservationMediaCollection, ObservationMedia) {
             Longitude: null,
             Category: '',
             AnonymiseLocation: false,
-            Projects: [],
+            ProjectIds: [],
             IsIdentificationRequired: false,
             Media: [],
             Comments: [],
@@ -38,30 +38,15 @@ function ($, _, Backbone, ObservationMediaCollection, ObservationMedia) {
             this.media.on('change:IsPrimaryMedia', this.onPrimaryMediaChange, this);
         },
 
-        //        toJSON: function () {
-        //            return {
-        //                Title: this.get('Title'),
-        //                ObservedOn: this.get('ObservedOn'),
-        //                Address: this.get('Address'),
-        //                Latitude: this.get('Latitude'),
-        //                Longitude: this.get('Longitude'),
-        //                Category: this.get('Category'),
-        //                AnonymiseLocation: this.get('AnonymiseLocation'),
-        //                Projects: this.get('Projects'),
-        //                IsIdentificationRequired: this.get('IsIdentificationRequired'),
-        //                Media: this.get('Media')
-        //            };
-        //        },
-
         addProject: function (id) {
-            var projects = this.get('Projects');
+            var projects = this.get('ProjectIds');
             projects.push(id);
-            this.set('Projects', projects);
+            this.set('ProjectIds', projects);
         },
 
         removeProject: function (id) {
-            var projects = this.get('Projects');
-            this.set('Projects', _.without(projects, id));
+            var projects = this.get('ProjectIds');
+            this.set('ProjectIds', _.without(projects, id));
         },
 
         addMedia: function (mediaResource, description, licence) {

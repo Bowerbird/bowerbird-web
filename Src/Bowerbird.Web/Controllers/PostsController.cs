@@ -18,6 +18,7 @@ using System.Web.Mvc;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Infrastructure;
 using Bowerbird.Web.Builders;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.ViewModels;
@@ -29,7 +30,7 @@ namespace Bowerbird.Web.Controllers
     {
         #region Members
 
-        private readonly ICommandProcessor _commandProcessor;
+        private readonly IMessageBus _messageBus;
         private readonly IUserContext _userContext;
         private readonly IPostViewModelBuilder _postViewModelBuilder;
         private readonly IPermissionChecker _permissionChecker;
@@ -39,18 +40,18 @@ namespace Bowerbird.Web.Controllers
         #region Constructors
 
         public PostsController(
-            ICommandProcessor commandProcessor,
+            IMessageBus messageBus,
             IUserContext userContext,
             IPostViewModelBuilder postViewModelBuilder,
             IPermissionChecker permissionChecker
             )
         {
-            Check.RequireNotNull(commandProcessor, "commandProcessor");
+            Check.RequireNotNull(messageBus, "messageBus");
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(postViewModelBuilder, "postViewModelBuilder");
             Check.RequireNotNull(permissionChecker, "permissionChecker");
 
-            _commandProcessor = commandProcessor;
+            _messageBus = messageBus;
             _userContext = userContext;
             _postViewModelBuilder = postViewModelBuilder;
             _permissionChecker = permissionChecker;
@@ -178,7 +179,7 @@ namespace Bowerbird.Web.Controllers
                 return JsonFailed();
             }
 
-            _commandProcessor.Process(
+            _messageBus.Send(
                 new PostCreateCommand()
                 {
                     UserId = _userContext.GetAuthenticatedUserId(),
@@ -214,7 +215,7 @@ namespace Bowerbird.Web.Controllers
                 return JsonFailed();
             }
 
-            _commandProcessor.Process(
+            _messageBus.Send(
                 new PostUpdateCommand()
                 {
                     UserId = _userContext.GetAuthenticatedUserId(),
@@ -250,7 +251,7 @@ namespace Bowerbird.Web.Controllers
                 return JsonFailed();
             }
 
-            _commandProcessor.Process(
+            _messageBus.Send(
                 new PostDeleteCommand()
                 {
                     UserId = _userContext.GetAuthenticatedUserId(),

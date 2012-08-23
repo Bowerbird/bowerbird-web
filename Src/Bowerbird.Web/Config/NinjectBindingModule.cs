@@ -16,7 +16,10 @@
 
 using Bowerbird.Core.Config;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.EventHandlers;
+using Bowerbird.Core.Events;
 using Bowerbird.Core.Services;
+using Bowerbird.Web.EventHandlers;
 using Microsoft.Practices.ServiceLocation;
 using Ninject.Extensions.Conventions;
 using Ninject.Extensions.Factory;

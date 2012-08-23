@@ -44,7 +44,6 @@ function ($, _, Backbone, app, ich, StreamItemView) {
         appendHtml: function (collectionView, itemView) {
             var items = this.collection.pluck('Id');
             var index = _.indexOf(items, itemView.model.id);
-            //log(index);
 
             var $li = collectionView.$el.find('.stream-list > li:eq(' + (index) + ')');
 
@@ -53,6 +52,8 @@ function ($, _, Backbone, app, ich, StreamItemView) {
             } else {
                 $li.before(itemView.el);
             }
+
+            itemView.start();
         },
 
         onLoadMoreClicked: function () {

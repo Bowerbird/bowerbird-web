@@ -47,7 +47,7 @@ namespace Bowerbird.Web.Factories
             return view;
         }
 
-        public object Make(Group group, int memberCount, int observationCount, int postCount)
+        public object Make(Group group)
         {
             Check.RequireNotNull(group, "group");
 
@@ -56,15 +56,25 @@ namespace Bowerbird.Web.Factories
             view.Id = group.Id;
             view.Name = group.Name;
             view.GroupType = group.GroupType;
-            view.MemberCount = memberCount;
-            view.ObservationCount = observationCount;
-            view.PostCount = postCount;
 
             if (group is IPublicGroup)
             {
                 view.Description = ((IPublicGroup)group).Description;
                 view.Avatar = ((IPublicGroup)group).Avatar;
             }
+
+            return view;
+        }
+
+        public object Make(Group group, int memberCount, int observationCount, int postCount)
+        {
+            Check.RequireNotNull(group, "group");
+
+            dynamic view = Make(group);
+
+            view.MemberCount = memberCount;
+            view.ObservationCount = observationCount;
+            view.PostCount = postCount;
 
             return view;
         }

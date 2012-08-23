@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
+using Bowerbird.Core.Events;
 
 namespace Bowerbird.Core.DomainModels
 {
@@ -29,9 +30,6 @@ namespace Bowerbird.Core.DomainModels
         protected Species()
             : base()
         {
-            InitMembers();
-
-            EnableEvents();
         }
 
         public Species(
@@ -49,11 +47,9 @@ namespace Bowerbird.Core.DomainModels
             DateTime createdOn)
             : base()
         {
-            InitMembers();
-
             CreatedDateTime = createdOn;
 
-            SetDetails(
+            SetSpeciesDetails(
                 category,
                 kingdom,
                 group,
@@ -66,8 +62,6 @@ namespace Bowerbird.Core.DomainModels
                 synonym,
                 proposedAsNewSpecies
                 );
-
-            EnableEvents();
         }
 
         public Species(
@@ -86,12 +80,10 @@ namespace Bowerbird.Core.DomainModels
             DateTime createdOn)
             : base()
         {
-            InitMembers();
-
             CreatedByUser = createdByUser;
             CreatedDateTime = createdOn;
 
-            SetDetails(
+            SetSpeciesDetails(
                 category,
                 kingdom,
                 group,
@@ -105,7 +97,7 @@ namespace Bowerbird.Core.DomainModels
                 proposedAsNewSpecies
                 );
 
-            EnableEvents();
+            ApplyEvent(new DomainModelCreatedEvent<Species>(this, createdByUser, this));
         }
 
         #endregion
@@ -148,12 +140,7 @@ namespace Bowerbird.Core.DomainModels
 
         #region Methods
 
-        private void InitMembers()
-        {
-
-        }
-
-        public void SetDetails(
+        public void SetSpeciesDetails(
             string category,
             string kingdom,
             string group,
@@ -191,20 +178,24 @@ namespace Bowerbird.Core.DomainModels
             string genusName,
             string speciesName,
             string synonym,
-            bool proposedAsNewSpecies
+            bool proposedAsNewSpecies,
+            User updatedByUser
             )
         {
-            Category = category;
-            Kingdom = kingdom;
-            Group = group;
-            CommonNames = commonNames;
-            Taxonomy = taxonomy;
-            Order = order;
-            Family = family;
-            GenusName = genusName;
-            SpeciesName = speciesName;
-            Synonym = synonym;
-            ProposedAsNewSpecies = proposedAsNewSpecies;
+            SetSpeciesDetails(
+                category,
+                kingdom,
+                group,
+                commonNames,
+                taxonomy,
+                order,
+                family,
+                genusName,
+                speciesName,
+                synonym,
+                proposedAsNewSpecies);
+
+            ApplyEvent(new DomainModelUpdatedEvent<Species>(this, updatedByUser, this));
         }
 
         #endregion

@@ -26,7 +26,6 @@ namespace Bowerbird.Core.DomainModels
         protected UserProject()
             : base()
         {
-            EnableEvents();
         }
 
         public UserProject(
@@ -39,8 +38,7 @@ namespace Bowerbird.Core.DomainModels
             createdDateTime,
             parentGroup)
         {
-            EnableEvents();
-            FireEvent(new DomainModelCreatedEvent<UserProject>(this, createdByUser, this));
+            ApplyEvent(new DomainModelCreatedEvent<UserProject>(this, createdByUser, this));
         }
 
         #endregion

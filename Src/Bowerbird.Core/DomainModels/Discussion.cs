@@ -43,7 +43,7 @@ namespace Bowerbird.Core.DomainModels
 
         #region Methods
 
-        public CommentNew UpdateDetails(string id, string message, User modifiedByUser, DateTime modifiedDateTime)
+        public Comment UpdateDetails(string id, string message, User modifiedByUser, DateTime modifiedDateTime)
         {
             Check.RequireNotNull(modifiedByUser, "modifiedByUser");
 

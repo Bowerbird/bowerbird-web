@@ -16,6 +16,7 @@ using System.Web.Mvc;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.Config;
+using Bowerbird.Core.Infrastructure;
 using Bowerbird.Web.ViewModels;
 using Bowerbird.Web.Builders;
 using System;
@@ -27,7 +28,7 @@ namespace Bowerbird.Web.Controllers
     {
         #region Members
 
-        private readonly ICommandProcessor _commandProcessor;
+        private readonly IMessageBus _messageBus;
         private readonly IUserContext _userContext;
         private readonly IActivityViewModelBuilder _activityViewModelBuilder;
         private readonly IUserViewModelBuilder _userViewModelBuilder;
@@ -37,18 +38,18 @@ namespace Bowerbird.Web.Controllers
         #region Constructors
 
         public HomeController(
-            ICommandProcessor commandProcessor,
+            IMessageBus messageBus,
             IUserContext userContext,
             IActivityViewModelBuilder activityViewModelBuilder,
             IUserViewModelBuilder userViewModelBuilder
             )
         {
-            Check.RequireNotNull(commandProcessor, "commandProcessor");
+            Check.RequireNotNull(messageBus, "messageBus");
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(activityViewModelBuilder, "activityViewModelBuilder");
             Check.RequireNotNull(userViewModelBuilder, "userViewModelBuilder");
 
-            _commandProcessor = commandProcessor;
+            _messageBus = messageBus;
             _userContext = userContext;
             _activityViewModelBuilder = activityViewModelBuilder;
             _userViewModelBuilder = userViewModelBuilder;

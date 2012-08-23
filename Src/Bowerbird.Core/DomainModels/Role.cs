@@ -33,8 +33,6 @@ namespace Bowerbird.Core.DomainModels
             : base()
         {
             InitMembers();
-
-            EnableEvents();
         }
 
         public Role(
@@ -56,8 +54,6 @@ namespace Bowerbird.Core.DomainModels
             Description = description;
 
             Permissions = permissions.ToList();
-
-            EnableEvents();
         }
 
         #endregion

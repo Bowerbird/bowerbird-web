@@ -47,7 +47,7 @@ function ($, _, Backbone, app, NotificationItemView, ActivityCollection) {
         if (app.authenticatedUser) {
             // Setup activity event listening
             var activityCollection = new ActivityCollection();
-            activityCollection.baseUrl = '/notifications';
+            activityCollection.baseUrl = '/account/notifications';
             app.vent.on('newactivity', function (activity) {
                 activityCollection.add(activity);
             });

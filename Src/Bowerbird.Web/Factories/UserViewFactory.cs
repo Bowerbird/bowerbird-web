@@ -11,7 +11,8 @@
  * Atlas of Living Australia
  
 */
-                
+
+using Bowerbird.Core.Config;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.DesignByContract;
 using System.Linq;

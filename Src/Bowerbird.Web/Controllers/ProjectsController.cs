@@ -15,6 +15,7 @@ using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Extensions;
+using Bowerbird.Core.Infrastructure;
 using Bowerbird.Web.Builders;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.ViewModels;
@@ -32,7 +33,7 @@ namespace Bowerbird.Web.Controllers
     {
         #region Fields
 
-        private readonly ICommandProcessor _commandProcessor;
+        private readonly IMessageBus _messageBus;
         private readonly IUserContext _userContext;
         private readonly IProjectViewModelBuilder _projectViewModelBuilder;
         private readonly IActivityViewModelBuilder _activityViewModelBuilder;
@@ -48,7 +49,7 @@ namespace Bowerbird.Web.Controllers
         #region Constructors
 
         public ProjectsController(
-            ICommandProcessor commandProcessor,
+            IMessageBus messageBus,
             IUserContext userContext,
             IProjectViewModelBuilder projectViewModelBuilder,
             ISightingViewModelBuilder sightingViewModelBuilder,
@@ -60,7 +61,7 @@ namespace Bowerbird.Web.Controllers
             IDocumentSession documentSession
             )
         {
-            Check.RequireNotNull(commandProcessor, "commandProcessor");
+            Check.RequireNotNull(messageBus, "messageBus");
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(projectViewModelBuilder, "projectViewModelBuilder");
             Check.RequireNotNull(sightingViewModelBuilder, "sightingViewModelBuilder");
@@ -71,7 +72,7 @@ namespace Bowerbird.Web.Controllers
             Check.RequireNotNull(permissionChecker, "permissionChecker");
             Check.RequireNotNull(documentSession, "documentSession");
 
-            _commandProcessor = commandProcessor;
+            _messageBus = messageBus;
             _userContext = userContext;
             _projectViewModelBuilder = projectViewModelBuilder;
             _sightingViewModelBuilder = sightingViewModelBuilder;
@@ -327,7 +328,7 @@ namespace Bowerbird.Web.Controllers
                 return JsonFailed();
             }
 
-            _commandProcessor.Process(
+            _messageBus.Send(
                 new MemberCreateCommand()
                 {
                     UserId = _userContext.GetAuthenticatedUserId(),
@@ -362,7 +363,7 @@ namespace Bowerbird.Web.Controllers
                 return JsonFailed();
             }
 
-            _commandProcessor.Process(
+            _messageBus.Send(
                 new MemberDeleteCommand()
                 {
                     UserId = _userContext.GetAuthenticatedUserId(),
@@ -383,7 +384,7 @@ namespace Bowerbird.Web.Controllers
                 return JsonFailed();
             }
 
-            _commandProcessor.Process(
+            _messageBus.Send(
                 new ProjectCreateCommand()
                 {
                     UserId = _userContext.GetAuthenticatedUserId(),
@@ -419,7 +420,7 @@ namespace Bowerbird.Web.Controllers
                 return JsonFailed();
             }
 
-            _commandProcessor.Process(
+            _messageBus.Send(
                 new ProjectUpdateCommand()
                 {
                     UserId = _userContext.GetAuthenticatedUserId(),
@@ -456,7 +457,7 @@ namespace Bowerbird.Web.Controllers
                 return JsonFailed();
             }
 
-            _commandProcessor.Process(
+            _messageBus.Send(
                 new ProjectDeleteCommand
                 {
                     Id = projectId,

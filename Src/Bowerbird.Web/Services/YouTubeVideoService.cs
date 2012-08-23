@@ -13,13 +13,22 @@
 */
 
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Net;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Events;
+using Bowerbird.Core.Factories;
+using Bowerbird.Core.Infrastructure;
 using Bowerbird.Core.Services;
+using Bowerbird.Web.Utilities;
 using NLog;
+using Newtonsoft.Json.Linq;
 using Raven.Client;
+using System.Linq;
 
 namespace Bowerbird.Web.Services
 {
@@ -28,14 +37,17 @@ namespace Bowerbird.Web.Services
     /// Examples of its use can be found at: 
     /// https://developers.google.com/youtube/v3/getting-started
     /// </summary>
-    public class YouTubeVideoService : VideoServiceBase, IYouTubeVideoService
+    public class YouTubeVideoService : IYouTubeVideoService
     {
 
         #region Members
 
         private Logger _logger = LogManager.GetLogger("YouTubeVideoService");
 
+        private readonly IMediaFilePathFactory _mediaFilePathFactory;
+        private readonly IMediaResourceFactory _mediaResourceFactory;
         private readonly IDocumentSession _documentSession;
+        private readonly IMessageBus _messageBus;
 
         private const string _uriFormat = @"http://www.youtube.com/embed/{0}?controls=0&modestbranding=1&rel=0&showinfo=0";
         private const string _apiUriFormat = @"http://gdata.youtube.com/feeds/api/videos/{0}?v=2&alt=json";
@@ -45,11 +57,21 @@ namespace Bowerbird.Web.Services
         #region Constructors
 
         public YouTubeVideoService(
-            IDocumentSession documentSession)
+            IMediaFilePathFactory mediaFilePathFactory,
+            IMediaResourceFactory mediaResourceFactory,
+            IDocumentSession documentSession,
+            IMessageBus messageBus
+            )
         {
+            Check.RequireNotNull(mediaFilePathFactory, "mediaFilePathFactory");
+            Check.RequireNotNull(mediaResourceFactory, "mediaResourceFactory");
             Check.RequireNotNull(documentSession, "documentSession");
+            Check.RequireNotNull(messageBus, "messageBus");
 
+            _mediaFilePathFactory = mediaFilePathFactory;
+            _mediaResourceFactory = mediaResourceFactory;
             _documentSession = documentSession;
+            _messageBus = messageBus;
         }
 
         #endregion
@@ -60,41 +82,125 @@ namespace Bowerbird.Web.Services
 
         #region Methods
 
-        public bool Save(MediaResourceCreateCommand command, MediaResource mediaResource, out string failureReason)
+        public bool Save(MediaResourceCreateCommand command, out string failureReason)
         {
             if (!_documentSession.Load<AppRoot>(Constants.AppRootId).YouTubeVideoServiceStatus)
             {
-                failureReason = "Vimeo video files cannot be imported at the moment. Please try again later.";
+                failureReason = "Youtube video files cannot be imported at the moment. Please try again later.";
                 return false;
             }
+
+            MediaResource mediaResource = null;
+            bool returnValue;
 
             try
             {
                 string apiUri = string.Format(_apiUriFormat, command.VideoId);
 
-                dynamic data = GetVideoDataFromApi(apiUri);
+                JObject data = GetVideoDataFromApi(apiUri);
 
-                //               {
-                //                   {"title","Title"},
-                //                   {"description","Description"},
-                //                   {"duration","Duration"},
-                //                   {"aspectRatio","Aspect"}
-                //               };
+                // Get thumbnail URI
+                var mediaThumbnails = data["entry"]["media$group"]["media$thumbnail"];
+                var mediaThumbnail = mediaThumbnails.Single(x => (string)x["yt$name"] == "hqdefault");
+                var thumbnailUri = (string)mediaThumbnail["url"];
 
-                AddMetadata(mediaResource, "youtube", command.VideoId);
+                var createdByUser = _documentSession.Load<User>(command.UserId);
 
-                MakeVideoMediaResourceFiles(mediaResource, data, string.Format(_uriFormat, command.VideoId), "youtube", command.VideoId);
+                var imageCreationTasks = new List<ImageCreationTask>();
+
+                using (var stream = new MemoryStream(new WebClient().DownloadData(thumbnailUri)))
+                {
+                    var image = ImageUtility.Load(stream);
+
+                    mediaResource = _mediaResourceFactory.MakeContributionExternalVideo(
+                        command.Key,
+                        createdByUser,
+                        command.UploadedOn,
+                        string.Format(_uriFormat, command.VideoId),
+                        "youtube",
+                        data,
+                        command.VideoId,
+                        1024, // As at 08/2012, Youtube states that videos are encoded in 16:9 ratio. 1024x576px is the max size we present in Bowerbird at that ratio
+                        576,
+                        thumbnailUri,
+                        image.GetImageDimensions().Width,
+                        image.GetImageDimensions().Height,
+                        MediaTypeUtility.GetStandardMimeTypeForFile(stream),
+                        GetVideoMetadata(data, command.VideoId),
+                        imageCreationTasks);
+
+                    FileUtility.SaveImages(image, mediaResource, imageCreationTasks, _mediaFilePathFactory);
+
+                    image.Cleanup();
+                }
+
+                _documentSession.Store(mediaResource);
+                _documentSession.SaveChanges();
+
+                _messageBus.Publish(new DomainModelCreatedEvent<MediaResource>(mediaResource, createdByUser, mediaResource));
+
+                failureReason = string.Empty;
+                returnValue = true;
             }
             catch (Exception exception)
             {
                 _logger.ErrorException("Error saving video", exception);
 
-                failureReason = "The video cannot be retrieved from Vimeo. Please check the video and try again.";
-                return false;
+                if (mediaResource != null)
+                {
+                    _documentSession.Delete(mediaResource);
+                    _documentSession.SaveChanges();
+                }
+
+                failureReason = "The video cannot be retrieved from Youtube. Please check the video and try again.";
+                returnValue = false;
             }
 
-            failureReason = string.Empty;
-            return true;
+            return returnValue;
+        }
+
+        private Dictionary<string, string> GetVideoMetadata(JObject data, string videoId)
+        {
+            var metadata = new Dictionary<string, string>();
+
+            metadata.Add("Provider", "youtube");
+            metadata.Add("VideoId", videoId);
+            metadata.Add("Description", (string)data["entry"]["media$group"]["media$description"]["$t"]);
+            metadata.Add("Duration", (string)data["entry"]["media$group"]["yt$duration"]["seconds"]);
+            metadata.Add("Created", ((DateTime)data["entry"]["media$group"]["yt$uploaded"]["$t"]).ToString(Constants.ISO8601DateTimeFormat));
+
+            return metadata;
+        }
+
+        /// <summary>
+        /// Using a web client, grab the video data from the service api try and pull the data 3 times before failing.
+        /// </summary>
+        protected JObject GetVideoDataFromApi(string apiCall)
+        {
+            const int apiRequestAttempts = 3;
+
+            using (var apiWebClient = new WebClient())
+            {
+                int apiRequestCount = 1;
+
+                while (apiRequestCount < apiRequestAttempts)
+                {
+                    try
+                    {
+                        var data = apiWebClient.DownloadString(apiCall);
+
+                        return Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(data);
+                    }
+                    catch (Exception exception)
+                    {
+                        _logger.ErrorException("Error requesting video", exception);
+
+                        apiRequestCount++;
+                    }
+                }
+            }
+
+            return null;
         }
 
         #endregion

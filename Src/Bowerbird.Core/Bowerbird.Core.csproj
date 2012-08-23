@@ -70,6 +70,9 @@
     <Reference Include="Raven.Client.MvcIntegration">
       <HintPath>..\..\packages\RavenDB.Client.MvcIntegration.1.2.2010-Unstable\lib\net40\Raven.Client.MvcIntegration.dll</HintPath>
     </Reference>
+    <Reference Include="ReflectionMagic">
+      <HintPath>..\..\packages\ReflectionMagic.1.1\lib\net40\ReflectionMagic.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -91,8 +94,6 @@
     <Compile Include="CommandHandlers\RecordDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\RecordUpdateCommandHandler.cs" />
     <Compile Include="CommandHandlers\MemberUpdateCommandHandler.cs" />
-    <Compile Include="CommandHandlers\FollowUserDeleteCommandHandler.cs" />
-    <Compile Include="CommandHandlers\FollowUserCreateCommandHandler.cs" />
     <Compile Include="Commands\ObservationMediaCreateCommand.cs" />
     <Compile Include="Commands\RecordCreateCommand.cs" />
     <Compile Include="Commands\RecordDeleteCommand.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="Commands\MemberUpdateCommand.cs" />
     <Compile Include="Commands\VideoResourceCreateCommand.cs" />
     <Compile Include="Config\Email.cs" />
+    <Compile Include="Config\MediaTypeUtility.cs" />
     <Compile Include="Config\PermissionChecker.cs" />
     <Compile Include="Config\SetupTestData.cs" />
     <Compile Include="CommandHandlers\ChatCreateCommandHandler.cs" />
@@ -144,9 +146,6 @@
     <Compile Include="Commands\CommentCreateCommand.cs" />
     <Compile Include="Commands\CommentDeleteCommand.cs" />
     <Compile Include="Commands\CommentUpdateCommand.cs" />
-    <Compile Include="Commands\FollowUserDeleteCommand.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Commands\GroupAssociationCreateCommand.cs" />
     <Compile Include="Commands\GroupAssociationDeleteCommand.cs" />
     <Compile Include="Commands\MediaResourceDeleteCommand.cs" />
@@ -156,7 +155,6 @@
     <Compile Include="Commands\OrganisationDeleteCommand.cs" />
     <Compile Include="Commands\PostDeleteCommand.cs" />
     <Compile Include="Commands\ProjectDeleteCommand.cs" />
-    <Compile Include="Commands\FollowUserCreateCommand.cs" />
     <Compile Include="Commands\ActivityCreatedCommand.cs" />
     <Compile Include="Commands\ChatMessageCreateCommand.cs" />
     <Compile Include="Commands\ChatCreateCommand.cs" />
@@ -203,14 +201,12 @@
     <Compile Include="Config\SystemStateManager.cs" />
     <Compile Include="DomainModels\Activity.cs" />
     <Compile Include="DomainModels\AppRoot.cs" />
-    <Compile Include="DomainModels\BaseObject.cs" />
-    <Compile Include="DomainModels\BaseObjectEqualityComparer.cs" />
-    <Compile Include="DomainModels\CommentsComponent.cs" />
     <Compile Include="DomainModels\ChatMessage.cs" />
     <Compile Include="DomainModels\CommentBase.cs" />
-    <Compile Include="DomainModels\CommentNew.cs" />
+    <Compile Include="DomainModels\Comment.cs" />
     <Compile Include="DomainModels\IDiscussable.cs" />
     <Compile Include="DomainModels\Discussion.cs" />
+    <Compile Include="Factories\ImageCreationTask.cs" />
     <Compile Include="DomainModels\Sighting.cs" />
     <Compile Include="DomainModels\Observation.cs" />
     <Compile Include="DomainModels\FollowUser.cs" />
@@ -225,11 +221,7 @@
     <Compile Include="DomainModels\ReferenceSpecies.cs" />
     <Compile Include="DomainModels\Species.cs" />
     <Compile Include="DomainModels\UserProject.cs" />
-    <Compile Include="DomainModels\Comment.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="DomainModels\ObservationMedia.cs" />
-    <Compile Include="DomainModels\DomainSignatureAttribute.cs" />
     <Compile Include="DomainModels\DomainModel.cs" />
     <Compile Include="DomainModels\Group.cs" />
     <Compile Include="DomainModels\IAssignableId.cs" />
@@ -240,6 +232,8 @@
     <Compile Include="DomainModels\UserSession.cs" />
     <Compile Include="DomainModels\ValueObject.cs" />
     <Compile Include="DomainModels\Watchlist.cs" />
+    <Compile Include="Events\SightingGroupCreatedEvent.cs" />
+    <Compile Include="Events\SightingCreatedEvent.cs" />
     <Compile Include="Events\MediaResourceCreateFailedEvent.cs" />
     <Compile Include="Events\MemberUpdatedEvent.cs" />
     <Compile Include="Events\MemberCreatedEvent.cs" />
@@ -284,19 +278,15 @@
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="DomainModels\SightingGroup.cs" />
     <Compile Include="Extensions\DomainExtensions.cs" />
-    <Compile Include="Factories\AvatarFactory.cs" />
-    <Compile Include="Factories\IAvatarFactory.cs" />
+    <Compile Include="Factories\IMediaResourceFactory.cs" />
     <Compile Include="Factories\IEventHandlerFactory.cs" />
+    <Compile Include="Factories\MediaResourceFactory.cs" />
+    <Compile Include="Infrastructure\IMessageBus.cs" />
     <Compile Include="Services\IYouTubeVideoService.cs" />
     <Compile Include="Services\IVimeoVideoService.cs" />
     <Compile Include="Services\IAudioService.cs" />
     <Compile Include="Services\IDocumentService.cs" />
     <Compile Include="Services\IMediaServiceFactory.cs" />
-    <Compile Include="Utilities\ExifReader.cs" />
-    <Compile Include="Utilities\ExifTags.cs" />
-    <Compile Include="Utilities\ImageCreationTask.cs" />
-    <Compile Include="Utilities\ImageInformation.cs" />
-    <Compile Include="Utilities\ImageResizeMode.cs" />
     <Compile Include="Indexes\All_Contributions.cs" />
     <Compile Include="Indexes\All_Groups.cs" />
     <Compile Include="Indexes\All_Users.cs" />
@@ -315,9 +305,10 @@
     <Compile Include="Services\IBackChannelService.cs" />
     <Compile Include="Services\IEmailService.cs" />
     <Compile Include="Config\IConfigSettings.cs" />
-    <Compile Include="Utilities\ImageUtility.cs" />
     <Compile Include="Factories\IMediaFilePathFactory.cs" />
     <Compile Include="Factories\MediaFilePathFactory.cs" />
+    <Compile Include="Infrastructure\MessageBus.cs" />
+    <Compile Include="Infrastructure\MultipleCommandHandlersFoundException.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

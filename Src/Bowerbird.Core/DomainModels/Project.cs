@@ -31,7 +31,6 @@ namespace Bowerbird.Core.DomainModels
         protected Project()
             : base()
         {
-            EnableEvents();
         }
 
         public Project(
@@ -48,13 +47,12 @@ namespace Bowerbird.Core.DomainModels
             createdDateTime,
             parentGroup)
         {
-            SetDetails(
+            SetProjectDetails(
                 description,
                 website,
                 avatar);
 
-            EnableEvents();
-            FireEvent(new DomainModelCreatedEvent<Project>(this, createdByUser, this));
+            ApplyEvent(new DomainModelCreatedEvent<Project>(this, createdByUser, this));
         }
 
         #endregion
@@ -76,7 +74,7 @@ namespace Bowerbird.Core.DomainModels
 
         #region Methods
 
-        private void SetDetails(string description, string website, MediaResource avatar)
+        private void SetProjectDetails(string description, string website, MediaResource avatar)
         {
             Description = description;
             Website = website;
@@ -88,14 +86,14 @@ namespace Bowerbird.Core.DomainModels
             Check.RequireNotNull(updatedByUser, "updatedByUser");
             Check.RequireNotNullOrWhitespace(name, "name");
 
-            base.SetDetails(name);
+            SetGroupDetails(name);
 
-            this.SetDetails(
+            SetProjectDetails(
                 description,
                 website,
                 avatar);
 
-            FireEvent(new DomainModelUpdatedEvent<Group>(this, updatedByUser, this));
+            ApplyEvent(new DomainModelUpdatedEvent<Group>(this, updatedByUser, this));
 
             return this;
         }

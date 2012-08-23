@@ -15,17 +15,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.Extensions;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public abstract class CommentBase
+    public abstract class CommentBase : DomainModel
     {
         #region Members
 
         [Raven.Imports.Newtonsoft.Json.JsonIgnore]
-        private List<CommentNew> _comments;
+        private List<Comment> _comments;
 
         #endregion
 
@@ -50,14 +48,12 @@ namespace Bowerbird.Core.DomainModels
 
         #region Properties
 
-        public string Id { get; protected set; }
-
         public int SequentialId { get; protected set; }
 
-        public IEnumerable<CommentNew> Comments
+        public IEnumerable<Comment> Comments
         {
             get { return _comments; }
-            private set { _comments = new List<CommentNew>(value); }
+            private set { _comments = new List<Comment>(value); }
         }
 
         #endregion
@@ -66,10 +62,10 @@ namespace Bowerbird.Core.DomainModels
 
         private void InitMembers()
         {
-            Comments = new List<CommentNew>();
+            Comments = new List<Comment>();
         }
 
-        public CommentNew AddComment(
+        public Comment AddComment(
             string message,
             User createdByUser,
             DateTime createdDateTime,
@@ -77,7 +73,7 @@ namespace Bowerbird.Core.DomainModels
         {
             if (parentCommentId == Id)
             {
-                var comment = new CommentNew(createdByUser, createdDateTime, message, this);
+                var comment = new Comment(createdByUser, createdDateTime, message, this);
                 _comments.Add(comment);
 
                 return comment;

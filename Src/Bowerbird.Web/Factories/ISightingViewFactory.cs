@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Indexes;
 namespace Bowerbird.Web.Factories
@@ -11,6 +12,6 @@ namespace Bowerbird.Web.Factories
 
         object Make(All_Contributions.Result result);
 
-        object Make(Sighting sighting, User user);
+        object Make(Sighting sighting, User user, IEnumerable<Project> projects);
     }
 }

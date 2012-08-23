@@ -13,14 +13,12 @@
 */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public class Comment : DomainModel, IAssignableId
+    public class Comment : CommentBase
     {
         #region Members
 
@@ -28,48 +26,34 @@ namespace Bowerbird.Core.DomainModels
 
         #region Constructors
 
-        protected Comment() : base() 
+        protected Comment()
+            : base()
         {
-            EnableEvents();
-
-            InitMembers();
         }
 
         public Comment(
-            string commentId,
             User createdByUser,
             DateTime commentedOn,
             string message,
-            string contributionId,
-            bool isNested = false
-            )
-            : base()
+            CommentBase parentComment) 
+            : base(
+            parentComment)
         {
             Check.RequireNotNull(createdByUser, "createdByUser");
-            Check.RequireNotNullOrWhitespace(commentId, "commentId");
             Check.RequireNotNullOrWhitespace(message, "message");
-            Check.RequireNotNullOrWhitespace(contributionId, "contributionId");
 
-            CommentedOn = commentedOn;
             User = createdByUser;
-            Id = commentId;
-            IsNested = isNested;
-            ContributionId = contributionId;
+            CommentedOn = commentedOn;
 
-            SetDetails(
+            SetCommentDetails(
                 message,
+                createdByUser,
                 CommentedOn);
-
-            EnableEvents();
-
-            InitMembers();
         }
 
         #endregion
 
         #region Properties
-
-        public List<Comment> Comments { get; private set; }
 
         public DenormalisedUserReference User { get; private set; }
 
@@ -77,50 +61,43 @@ namespace Bowerbird.Core.DomainModels
 
         public DateTime EditedOn { get; private set; }
 
+        public DenormalisedUserReference EditedBy { get; private set; }
+
         public string Message { get; private set; }
-
-        public string ContributionId { get; private set; }
-
-        public bool IsNested { get; set; }
 
         #endregion
 
         #region Methods
 
-        private void SetDetails(string message, DateTime editedOn)
+        protected void SetCommentDetails(string message, User modifiedByUser, DateTime modifiedDateTime)
         {
             Message = message;
-            EditedOn = editedOn;
+            EditedBy = modifiedByUser;
+            EditedOn = modifiedDateTime;
         }
 
-        public Comment UpdateDetails(User updatedByUser, DateTime editedOn, string message)
+        public Comment UpdateDetails(string id, string message, User modifiedByUser, DateTime modifiedDateTime)
         {
-            Check.RequireNotNull(updatedByUser, "updatedByUser");
+            Check.RequireNotNull(modifiedByUser, "modifiedByUser");
 
-            SetDetails(
-                message,
-                editedOn);
+            if (Id == id)
+            {
+                SetCommentDetails(message, modifiedByUser, modifiedDateTime);
 
-            return this;
-        }
+                return this;
+            }
 
-        public Comment AddComment(Comment comment)
-        {
-            if(Comments == null) Comments = new List<Comment>();
+            foreach (var childComment in Comments)
+            {
+                var comment = childComment.UpdateDetails(id, message, modifiedByUser, modifiedDateTime);
 
-            Comments.Add(comment);
+                if (comment != null)
+                {
+                    return comment;
+                }
+            }
 
-            return comment;
-        }
-
-        private void InitMembers()
-        {
-            Comments = new List<Comment>();
-        }
-
-        void IAssignableId.SetIdTo(string prefix, string assignedId)
-        {
-            Id = string.Format("{0}/{1}", prefix, assignedId);
+            return null;
         }
 
         #endregion

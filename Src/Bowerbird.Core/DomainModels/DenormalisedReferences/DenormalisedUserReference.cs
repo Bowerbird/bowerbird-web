@@ -16,7 +16,7 @@ using Bowerbird.Core.DesignByContract;
 
 namespace Bowerbird.Core.DomainModels.DenormalisedReferences
 {
-    public class DenormalisedUserReference : ValueObject
+    public class DenormalisedUserReference
     {
         #region Members
 

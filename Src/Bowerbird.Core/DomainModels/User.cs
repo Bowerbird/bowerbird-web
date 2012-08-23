@@ -43,8 +43,6 @@ namespace Bowerbird.Core.DomainModels
             : base() 
         {
             InitMembers();
-
-            EnableEvents();
         }
 
         public User(
@@ -53,7 +51,8 @@ namespace Bowerbird.Core.DomainModels
             string firstName, 
             string lastName,
             MediaResource avatar,
-            string defaultLicence) 
+            string defaultLicence,
+            string timezone) 
             : base() 
         {
             InitMembers();
@@ -67,11 +66,11 @@ namespace Bowerbird.Core.DomainModels
                 firstName,
                 lastName,
                 avatar,
-                defaultLicence);
+                string.Empty,
+                defaultLicence,
+                timezone);
 
-            EnableEvents();
-
-            FireEvent(new DomainModelCreatedEvent<User>(this, this, this));
+            ApplyEvent(new DomainModelCreatedEvent<User>(this, this, this));
         }
 
         #endregion
@@ -101,6 +100,8 @@ namespace Bowerbird.Core.DomainModels
         public MediaResource Avatar { get; private set; }
 
         public string DefaultLicence { get; private set; }
+
+        public string Timezone { get; private set; }
 
         public IEnumerable<Member> Memberships 
         {
@@ -159,12 +160,14 @@ namespace Bowerbird.Core.DomainModels
             return hashedPassword;
         }
 
-        private void SetDetails(string firstName, string lastName, MediaResource avatar, string defaultLicence)
+        private void SetDetails(string firstName, string lastName, MediaResource avatar, string description, string defaultLicence, string timezone)
         {
             FirstName = firstName;
             LastName = lastName;
             Avatar = avatar;
+            Description = description;
             DefaultLicence = defaultLicence;
+            Timezone = timezone;
         }
 
         public bool ValidatePassword(string password)
@@ -193,17 +196,17 @@ namespace Bowerbird.Core.DomainModels
             return this;
         }
 
-        public virtual User UpdateDetails(string firstName, string lastName, string description, MediaResource avatar, string defaultLicence)
+        public virtual User UpdateDetails(string firstName, string lastName, string description, MediaResource avatar, string defaultLicence, string timezone)
         {
             SetDetails(
                 firstName,
                 lastName,
                 avatar,
-                defaultLicence);
+                description,
+                defaultLicence,
+                timezone);
 
-            Description = description;
-
-            FireEvent(new DomainModelUpdatedEvent<User>(this, this, this));
+            ApplyEvent(new DomainModelUpdatedEvent<User>(this, this, this));
 
             return this;
         }
@@ -212,7 +215,7 @@ namespace Bowerbird.Core.DomainModels
         {
             LastLoggedIn = DateTime.UtcNow;
 
-            FireEvent(new UserLoggedInEvent(this, this));
+            ApplyEvent(new UserLoggedInEvent(this, this));
 
             return this;
         }
@@ -221,7 +224,7 @@ namespace Bowerbird.Core.DomainModels
         {
             ResetPasswordKey = Guid.NewGuid().ToString();
 
-            FireEvent(new RequestPasswordResetEvent(this, this));
+            ApplyEvent(new RequestPasswordResetEvent(this, this));
 
             return this;
         }
@@ -238,13 +241,13 @@ namespace Bowerbird.Core.DomainModels
                 membership = new Member(createdByUser, group, roles);
                 _memberships.Add(membership);
 
-                FireEvent(new MemberCreatedEvent(membership, createdByUser, this, group));
+                ApplyEvent(new MemberCreatedEvent(membership, createdByUser, this, group));
             }
             else
             {
                 membership.AddRoles(roles);
 
-                FireEvent(new MemberUpdatedEvent(membership, createdByUser, this, group));
+                ApplyEvent(new MemberUpdatedEvent(membership, createdByUser, this, group));
             }
 
             return this;
@@ -301,7 +304,7 @@ namespace Bowerbird.Core.DomainModels
             
             _sessions.Add(session);
 
-            FireEvent(new DomainModelCreatedEvent<UserSession>(session, this, this));
+            ApplyEvent(new DomainModelCreatedEvent<UserSession>(session, this, this));
 
             return this;
         }
@@ -314,7 +317,7 @@ namespace Bowerbird.Core.DomainModels
             {
                 session.UpdateLatestActivity(DateTime.UtcNow);
 
-                FireEvent(new DomainModelUpdatedEvent<UserSession>(session, this, this));
+                ApplyEvent(new DomainModelUpdatedEvent<UserSession>(session, this, this));
             }
 
             return this;

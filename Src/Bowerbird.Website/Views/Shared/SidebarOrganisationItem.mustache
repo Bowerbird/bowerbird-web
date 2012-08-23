@@ -1,9 +1,11 @@
 ﻿  <a href="/{{Id}}">
-    {{#Avatar}}
-    {{>MediaSquare100}}
-    {{/Avatar}}
+    <div class="avatar">
+      {{#Avatar}}
+      {{>MediaSquare100}}
+      {{/Avatar}}
+    </div>
       <div>
-        <p>{{Name}}</p>
+          <p>{{Name}}</p>
       </div>
   </a>
   <div class="sub-menu-button">
@@ -23,10 +25,10 @@
       </li>
       <li class="divider"></li>
       <li>
-        <a href="/posts/create?id={{Id}}">Add a Post</a>
+        <a href="/posts/create?id={{Id}}">New Post</a>
       </li>
       <li>
-        <a href="/teams/create?id={{Id}}">Add a Team</a>
+        <a href="/teams/create?id={{Id}}">New Team</a>
       </li>
       <li>
         <a href="/{{Id}}/update">Edit Details</a>

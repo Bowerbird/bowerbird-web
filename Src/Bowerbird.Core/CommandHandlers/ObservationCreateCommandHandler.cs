@@ -94,6 +94,12 @@ namespace Bowerbird.Core.CommandHandlers
                 userProject,
                 projects);
 
+            // Ensure at least one media set as primary
+            if(command.Media.All(x => !x.IsPrimaryMedia))
+            {
+                command.Media.First().IsPrimaryMedia = true;
+            }
+
             foreach (var media in command.Media)
             {
                 // TODO: Create any new media resources from scratch

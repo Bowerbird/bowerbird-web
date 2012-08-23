@@ -32,8 +32,6 @@ namespace Bowerbird.Core.DomainModels
         protected AppRoot() : base() 
         {
             InitMembers();
-
-            EnableEvents();
         }
 
         /// <summary>
@@ -53,8 +51,6 @@ namespace Bowerbird.Core.DomainModels
             Categories = categories;
             base.Name = "Bowerbird";
             base.CreatedDateTime = DateTime.UtcNow;
-
-            EnableEvents();
         }
 
         #endregion

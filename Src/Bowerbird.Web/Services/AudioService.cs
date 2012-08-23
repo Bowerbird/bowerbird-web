@@ -14,18 +14,18 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Events;
+using Bowerbird.Core.Infrastructure;
 using Bowerbird.Core.Services;
 using NLog;
 using Raven.Client;
 using System.Linq;
 using Bowerbird.Core.Factories;
-using TagLib;
-using File = System.IO.File;
+using Bowerbird.Web.Utilities;
 
 namespace Bowerbird.Web.Services
 {
@@ -38,16 +38,7 @@ namespace Bowerbird.Web.Services
         private readonly IUserContext _userContext;
         private readonly IDocumentSession _documentSession;
         private readonly IMediaFilePathFactory _mediaFilePathFactory;
-
-        /// <summary>
-        /// Supported audio formats:
-        /// MP3: audio/mpeg
-        /// MP4: audio/mp4 
-        /// OGG: audio/ogg 
-        /// WebM: audio/webm
-        /// WAV: audio/wav
-        /// </summary>
-        private readonly IEnumerable<string> _supportedMimeTypes = new[] { "audio/mpeg", "audio/mp3", "audio/wav" };
+        private readonly IMessageBus _messageBus;
 
         #endregion
 
@@ -56,15 +47,18 @@ namespace Bowerbird.Web.Services
         public AudioService(
             IUserContext userContext,
             IDocumentSession documentSession,
-            IMediaFilePathFactory mediaFilePathFactory)
+            IMediaFilePathFactory mediaFilePathFactory,
+            IMessageBus messageBus)
         {
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(mediaFilePathFactory, "mediaFilePathFactory");
+            Check.RequireNotNull(messageBus, "messageBus");
 
             _userContext = userContext;
             _documentSession = documentSession;
             _mediaFilePathFactory = mediaFilePathFactory;
+            _messageBus = messageBus;
         }
 
         #endregion
@@ -75,7 +69,7 @@ namespace Bowerbird.Web.Services
 
         #region Methods
 
-        public bool Save(MediaResourceCreateCommand command, MediaResource mediaResource, out string failureReason)
+        public bool Save(MediaResourceCreateCommand command, out string failureReason)
         {
             if (!_documentSession.Load<AppRoot>(Constants.AppRootId).AudioServiceStatus)
             {
@@ -83,113 +77,69 @@ namespace Bowerbird.Web.Services
                 return false;
             }
 
+            MediaResource mediaResource = null;
+            bool returnValue;
+
             try
             {
-                var audioFile = TagLib.File.Create(new FileAbstraction(command.Stream, command.OriginalFileName), command.MimeType, ReadStyle.None);
+                var createdByUser = _documentSession.Load<User>(command.UserId);
 
-                if (audioFile.PossiblyCorrupt || !IsSupportedMimeType(audioFile.MimeType))
-                {
-                    failureReason = "The file is corrupted or not a valid audio file and could not be saved. Please check the file and try again.";
-                    return false;
-                }
+                //var audioFile = AudioUtility.Load(command.Stream, command.OriginalFileName, command.MimeType);
 
-                string extension = GetExtension(audioFile.MimeType);
+                //if (!audioFile.IsValidAudioFile())
+                //{
+                //    mediaResource = null;
+                //    failureReason = "The file is corrupted or not a valid audio file and could not be saved. Please check the file and try again.";
+                //    return false;
+                //}
 
-                MakeAudioMediaResourceFiles(mediaResource, command, audioFile, extension);
+                //MakeAudioMediaResourceFiles(mediaResource, command, audioFile);
 
-                string filePath = _mediaFilePathFactory.MakeMediaFilePath(mediaResource.Id, "audio", "Original", extension);
+                //string filePath = _mediaFilePathFactory.MakeMediaFilePath(mediaResource.Id, "audio", "Original", audioFile.GetFileExtension());
 
-                using (var fileStream = File.Create(filePath))
-                {
-                    command.Stream.Seek(0, SeekOrigin.Begin);
-                    command.Stream.CopyTo(fileStream);
-                }
+                //audioFile.Save(filePath);
 
+                _messageBus.Publish(new DomainModelCreatedEvent<MediaResource>(mediaResource, createdByUser, mediaResource));
+
+                failureReason = string.Empty;
+                returnValue = true;
             }
             catch (Exception exception)
             {
                 _logger.ErrorException("Error saving audio", exception);
 
+                if (mediaResource != null)
+                {
+                    _documentSession.Delete(mediaResource);
+                    _documentSession.SaveChanges();
+                }
+
                 failureReason = "The file is corrupted or not a valid audio file and could not be saved. Please check the file and try again.";
-                return false;
+                returnValue = false;
             }
 
-            failureReason = string.Empty;
-            return true;
+            return returnValue;
         }
 
+        //private void MakeAudioMediaResourceFiles(MediaResource mediaResource, MediaResourceCreateCommand command, AudioUtility audioFile)
+        //{
+        //    string fileName = _mediaFilePathFactory.MakeMediaFileName(mediaResource.Id, "Original", audioFile.GetFileExtension());
+        //    string uri = _mediaFilePathFactory.MakeRelativeMediaFileUri(mediaResource.Id, "audio", "Original", audioFile.GetFileExtension());
 
-        private bool IsSupportedMimeType(string mimeType)
-        {
-            return _supportedMimeTypes.Any(x => x == mimeType.ToLower());
-        }
+        //    dynamic original = mediaResource.AddAudioFile("Original", command.OriginalFileName, uri, audioFile.GetMimeType(), audioFile.GetFileExtension());
 
-        private string GetExtension(string mimeType)
-        {
-            switch (mimeType)
-            {
-                case "audio/mpeg":
-                case "audio/mp3": // Chrome (as of v20) returns this non-standard mimetype
-                    return "mp3";
-                case "audio/wav":
-                    return "wav";
-            }
+        //    original.Title = audioFile.GetTitleTagValue();
+        //    original.Copyright = audioFile.GetCopyrightTagValue();
+        //    original.Comment = audioFile.GetCommentTagValue();
 
-            return string.Empty;
-        }
-
-        private void MakeAudioMediaResourceFiles(MediaResource mediaResource, MediaResourceCreateCommand command, TagLib.File audioFile, string extension)
-        {
-            string fileName = _mediaFilePathFactory.MakeMediaFileName(mediaResource.Id, "Original", extension);
-            string relativeUri = _mediaFilePathFactory.MakeRelativeMediaFileUri(mediaResource.Id, "audio", "Original", extension);
-
-            dynamic original = mediaResource.AddAudioFile("Original", command.OriginalFileName, relativeUri, audioFile.MimeType, extension);
-
-            original.Title = audioFile.Tag.Title;
-            original.Copyright = audioFile.Tag.Copyright;
-            original.Comment = audioFile.Tag.Comment;
-
-            mediaResource.AddAudioFile("Square42", fileName, relativeUri, audioFile.MimeType, extension);
-            mediaResource.AddAudioFile("Square100", fileName, relativeUri, audioFile.MimeType, extension);
-            mediaResource.AddAudioFile("Square200", fileName, relativeUri, audioFile.MimeType, extension);
-            mediaResource.AddAudioFile("Full480", fileName, relativeUri, audioFile.MimeType, extension);
-            mediaResource.AddAudioFile("Full768", fileName, relativeUri, audioFile.MimeType, extension);
-            mediaResource.AddAudioFile("Full1024", fileName, relativeUri, audioFile.MimeType, extension);
-        }
+        //    mediaResource.AddAudioFile("Square50", fileName, uri, audioFile.GetMimeType(), audioFile.GetFileExtension());
+        //    mediaResource.AddAudioFile("Square100", fileName, uri, audioFile.GetMimeType(), audioFile.GetFileExtension());
+        //    mediaResource.AddAudioFile("Square200", fileName, uri, audioFile.GetMimeType(), audioFile.GetFileExtension());
+        //    mediaResource.AddAudioFile("Full480", fileName, uri, audioFile.GetMimeType(), audioFile.GetFileExtension());
+        //    mediaResource.AddAudioFile("Full768", fileName, uri, audioFile.GetMimeType(), audioFile.GetFileExtension());
+        //    mediaResource.AddAudioFile("Full1024", fileName, uri, audioFile.GetMimeType(), audioFile.GetFileExtension());
+        //}
 
         #endregion
-    }
-
-    public class FileAbstraction : TagLib.File.IFileAbstraction
-    {
-        private readonly Stream _stream;
-
-        private readonly string _fileName;
-
-        public FileAbstraction(Stream stream, string fileName)
-        {
-            _stream = stream;
-            _fileName = fileName;
-        }
-
-        public string Name
-        {
-            get { return _fileName; }
-        }
-
-        public Stream ReadStream
-        {
-            get { return _stream; }
-        }
-
-        public Stream WriteStream
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public void CloseStream(Stream stream)
-        {
-        }
-
     }
 }

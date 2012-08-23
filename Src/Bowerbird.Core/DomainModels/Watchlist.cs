@@ -34,7 +34,6 @@ namespace Bowerbird.Core.DomainModels
         public Watchlist()
             : base()
         {
-            EnableEvents();
         }
 
         public Watchlist(
@@ -49,12 +48,11 @@ namespace Bowerbird.Core.DomainModels
 
             User = createdByUser;
 
-            SetDetails(
+            SetWatchlistDetails(
                 name,
                 querystringJson);
 
-            EnableEvents();
-            FireEvent(new DomainModelUpdatedEvent<Watchlist>(this, createdByUser, this));
+            ApplyEvent(new DomainModelUpdatedEvent<Watchlist>(this, createdByUser, this));
         }
 
         #endregion
@@ -76,7 +74,7 @@ namespace Bowerbird.Core.DomainModels
 
         #region Methods
 
-        private void SetDetails(string name, string querystringJson)
+        private void SetWatchlistDetails(string name, string querystringJson)
         {
             Name = name;
             QuerystringJson = querystringJson;
@@ -84,9 +82,9 @@ namespace Bowerbird.Core.DomainModels
 
         public void UpdateDetails( User updatedByUser, string name, string querystringJson)
         {
-            SetDetails(name, querystringJson);
+            SetWatchlistDetails(name, querystringJson);
 
-            FireEvent(new DomainModelUpdatedEvent<Watchlist>(this, updatedByUser, this));
+            ApplyEvent(new DomainModelUpdatedEvent<Watchlist>(this, updatedByUser, this));
         }
 
         #endregion

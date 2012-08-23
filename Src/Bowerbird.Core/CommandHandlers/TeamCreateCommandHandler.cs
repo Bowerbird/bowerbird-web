@@ -29,7 +29,7 @@ namespace Bowerbird.Core.CommandHandlers
         #region Members
 
         private readonly IDocumentSession _documentSession;
-        private readonly IAvatarFactory _avatarFactory;
+        private readonly IMediaResourceFactory _mediaResourceFactory;
 
         #endregion
 
@@ -37,13 +37,13 @@ namespace Bowerbird.Core.CommandHandlers
 
         public TeamCreateCommandHandler(
             IDocumentSession documentSession,
-            IAvatarFactory avatarFactory)
+            IMediaResourceFactory mediaResourceFactory)
         {
             Check.RequireNotNull(documentSession, "documentSession");
-            Check.RequireNotNull(avatarFactory, "avatarFactory");
+            Check.RequireNotNull(mediaResourceFactory, "mediaResourceFactory");
 
             _documentSession = documentSession;
-            _avatarFactory = avatarFactory;
+            _mediaResourceFactory = mediaResourceFactory;
         }
 
         #endregion
@@ -75,7 +75,7 @@ namespace Bowerbird.Core.CommandHandlers
                 command.Name, 
                 command.Description, 
                 command.Website,
-                string.IsNullOrWhiteSpace(command.AvatarId) ? _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Team) : _documentSession.Load<MediaResource>(command.AvatarId),
+                string.IsNullOrWhiteSpace(command.AvatarId) ? _mediaResourceFactory.MakeDefaultAvatarImage(AvatarDefaultType.Team) : _documentSession.Load<MediaResource>(command.AvatarId),
                 DateTime.UtcNow,
                 parentGroup);
             _documentSession.Store(team);

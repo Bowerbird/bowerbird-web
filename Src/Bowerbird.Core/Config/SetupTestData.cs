@@ -17,6 +17,7 @@ using System.Linq;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Infrastructure;
 using NLog;
 using Raven.Client;
 using System.Threading;
@@ -34,9 +35,9 @@ namespace Bowerbird.Core.Config
 
         private readonly IDocumentSession _documentSession;
         private readonly ISystemStateManager _systemStateManager;
-        private readonly ICommandProcessor _commandProcessor;
+        private readonly IMessageBus _messageBus;
         private readonly IConfigSettings _configSettings;
-        private readonly IAvatarFactory _avatarFactory;
+        private readonly IMediaResourceFactory _mediaResourceFactory;
 
         #endregion
 
@@ -45,21 +46,21 @@ namespace Bowerbird.Core.Config
         public SetupTestData(
             IDocumentSession documentSession,
             ISystemStateManager systemStateManager,
-            ICommandProcessor commandProcessor,
+            IMessageBus messageBus,
             IConfigSettings configService,
-            IAvatarFactory avatarFactory)
+            IMediaResourceFactory mediaResourceFactory)
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(systemStateManager, "systemStateManager");
-            Check.RequireNotNull(commandProcessor, "commandProcessor");
+            Check.RequireNotNull(messageBus, "messageBus");
             Check.RequireNotNull(configService, "configService");
-            Check.RequireNotNull(avatarFactory, "avatarFactory");
+            Check.RequireNotNull(mediaResourceFactory, "mediaResourceFactory");
 
             _documentSession = documentSession;
             _systemStateManager = systemStateManager;
-            _commandProcessor = commandProcessor;
+            _messageBus = messageBus;
             _configSettings = configService;
-            _avatarFactory = avatarFactory;
+            _mediaResourceFactory = mediaResourceFactory;
         }
 
         #endregion
@@ -201,7 +202,7 @@ namespace Bowerbird.Core.Config
         private void AddOrganisation(string name, string description, string website, string userid)
         {
             var user = Users.Single(x => x.Id == userid);
-            var organisation = new Organisation(user, name, description, website, _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Organisation), DateTime.UtcNow, TheAppRoot);
+            var organisation = new Organisation(user, name, description, website, _mediaResourceFactory.MakeDefaultAvatarImage(AvatarDefaultType.Organisation), DateTime.UtcNow, TheAppRoot);
             _documentSession.Store(organisation);
 
             _documentSession.Store(organisation);
@@ -225,7 +226,7 @@ namespace Bowerbird.Core.Config
             var user = Users.Single(x => x.Id == userid);
             var parentGroup = Organisations.Single(x => x.Id == organisationId);
 
-            var team = new Team(user, name, description, website, _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Team), DateTime.UtcNow, parentGroup);
+            var team = new Team(user, name, description, website, _mediaResourceFactory.MakeDefaultAvatarImage(AvatarDefaultType.Team), DateTime.UtcNow, parentGroup);
             _documentSession.Store(team);
 
             _documentSession.Store(team);
@@ -252,7 +253,7 @@ namespace Bowerbird.Core.Config
             var user = Users.Single(x => x.Id == userid);
             var parentGroup = Teams.Single(x => x.Id == teamId);
 
-            var project = new Project(user, name, description, website, _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Project), DateTime.UtcNow, parentGroup);
+            var project = new Project(user, name, description, website, _mediaResourceFactory.MakeDefaultAvatarImage(AvatarDefaultType.Project), DateTime.UtcNow, parentGroup);
             _documentSession.Store(project);
 
             project.AddParentGroup(parentGroup);
@@ -370,20 +371,18 @@ namespace Bowerbird.Core.Config
 
             var path = string.Format(@"{0}\media\testdata\{1}.jpg", _configSettings.GetEnvironmentRootPath(), imageId.ToString());
 
-            MediaResource mediaResource = null;
-
             using(var stream = System.IO.File.OpenRead(path))
             {
                 var mediaResourceCreateCommand = new MediaResourceCreateCommand()
                 {
-                    OriginalFileName = "test.jpg",
                     UploadedOn = DateTime.UtcNow,
                     Usage = "observation",
                     UserId = userId,
-                    Stream = stream
+                    FileStream = stream,
+                    FileName = "test.jpg"
                 };
 
-                _commandProcessor.Process<MediaResourceCreateCommand, MediaResource>(mediaResourceCreateCommand, x => { mediaResource = x; });
+                _messageBus.Send(mediaResourceCreateCommand);
 
                 stream.Close();
             }

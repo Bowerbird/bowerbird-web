@@ -26,7 +26,7 @@
 //    {
 //        #region Fields
 
-//        private readonly ICommandProcessor _commandProcessor;
+//        private readonly IMessageBus _messageBus;
 //        private readonly IUserContext _userContext;
 //        private readonly ISpeciesViewModelBuilder _speciesViewModelBuilder;
 
@@ -35,16 +35,16 @@
 //        #region Constructors
 
 //        public SpeciesController(
-//            ICommandProcessor commandProcessor,
+//            IMessageBus messageBus,
 //            IUserContext userContext,
 //            ISpeciesViewModelBuilder speciesViewModelBuilder
 //        )
 //        {
-//            Check.RequireNotNull(commandProcessor, "commandProcessor");
+//            Check.RequireNotNull(messageBus, "messageBus");
 //            Check.RequireNotNull(userContext, "userContext");
 //            Check.RequireNotNull(speciesViewModelBuilder, "speciesViewModelBuilder");
 
-//            _commandProcessor = commandProcessor;
+//            _messageBus = messageBus;
 //            _userContext = userContext;
 //            _speciesViewModelBuilder = speciesViewModelBuilder;
 //        }

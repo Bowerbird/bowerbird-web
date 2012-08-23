@@ -168,7 +168,7 @@ namespace Bowerbird.Core.Indexes
                          {
                              member.Group.GroupType,
                              GroupId = member.Group.Id,
-                             UserIds = new string[] {user.Id },
+                             UserIds = new [] {user.Id },
                              ParentGroupId = (string)null,
                              ChildGroupIds = new string[] { },
                              AncestorGroupIds = new string[] { },

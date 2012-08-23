@@ -61,18 +61,18 @@ namespace Bowerbird.Core.DomainModels
             User = createdByUser;
             CreatedOn = createdOn;
 
-            SetDetails(
+            SetSightingDetails(
                 observedOn,
                 latitude, 
                 longitude, 
                 anonymiseLocation,
                 category);
 
-            AddGroup(userProject, createdByUser, createdOn);
+            SetSightingGroup(userProject, createdByUser, createdOn);
 
             foreach (var project in projects)
             {
-                AddGroup(project, createdByUser, createdOn);
+                SetSightingGroup(project, createdByUser, createdOn);
             }
         }
 
@@ -125,7 +125,7 @@ namespace Bowerbird.Core.DomainModels
             Discussion = new Discussion();
         }
 
-        protected void SetDetails(
+        protected void SetSightingDetails(
             DateTime observedOn, 
             string latitude, 
             string longitude, 
@@ -137,6 +137,45 @@ namespace Bowerbird.Core.DomainModels
             Longitude = longitude;
             AnonymiseLocation = anonymiseLocation;
             Category = category;
+        }
+
+        private SightingGroup SetSightingGroup(Group group, User createdByUser, DateTime createdDateTime)
+        {
+            if (_sightingGroups.All(x => x.Group.Id != group.Id))
+            {
+                var sightingGroup = new SightingGroup(group, createdByUser, createdDateTime);
+
+                _sightingGroups.Add(sightingGroup);
+
+                return sightingGroup;
+            }
+
+            return null;
+        }
+
+        private SightingNote SetSightingNote(
+            string commonName,
+            string scientificName,
+            string taxonomy,
+            IEnumerable<string> tags,
+            IDictionary<string, string> descriptions,
+            IDictionary<string, string> references,
+            DateTime createdOn,
+            User createdByUser)
+        {
+            var sightingNote = new SightingNote(
+                createdByUser,
+                commonName,
+                scientificName,
+                taxonomy,
+                tags,
+                descriptions,
+                references,
+                createdOn);
+
+            _sightingNotes.Add(sightingNote);
+
+            return sightingNote;
         }
 
         public Sighting AddNote(
@@ -154,19 +193,10 @@ namespace Bowerbird.Core.DomainModels
             Check.RequireNotNull(references, "references");
             Check.RequireNotNull(createdByUser, "createdByUser");
 
-            var sightingNote = new SightingNote(
-                createdByUser,
-                commonName,
-                scientificName,
-                taxonomy,
-                tags,
-                descriptions,
-                references,
-                createdOn);
+            SightingNote sightingNote = SetSightingNote(commonName, scientificName, taxonomy, tags, descriptions,
+                                                        references, createdOn, createdByUser);
 
-            _sightingNotes.Add(sightingNote);
-
-            FireEvent(new DomainModelCreatedEvent<SightingNote>(sightingNote, createdByUser, this));
+            ApplyEvent(new DomainModelCreatedEvent<SightingNote>(sightingNote, createdByUser, this));
 
             return this;
         }
@@ -183,13 +213,11 @@ namespace Bowerbird.Core.DomainModels
             Check.RequireNotNull(group, "group");
             Check.RequireNotNull(createdByUser, "createdByUser");
 
-            if (_sightingGroups.All(x => x.Group.Id != group.Id))
+            var sightingGroup = SetSightingGroup(group, createdByUser, createdDateTime);
+
+            if(sightingGroup != null)
             {
-                var sightingGroup = new SightingGroup(group, createdByUser, createdDateTime);
-
-                _sightingGroups.Add(sightingGroup);
-
-                FireEvent(new DomainModelCreatedEvent<SightingGroup>(sightingGroup, createdByUser, this));
+                ApplyEvent(new SightingGroupCreatedEvent(sightingGroup, createdByUser, this, group));
             }
 
             return this;

@@ -15,6 +15,7 @@ using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Extensions;
+using Bowerbird.Core.Infrastructure;
 using Bowerbird.Web.Builders;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.ViewModels;
@@ -27,7 +28,7 @@ namespace Bowerbird.Web.Controllers
     {
         #region Fields
 
-        private readonly ICommandProcessor _commandProcessor;
+        private readonly IMessageBus _messageBus;
         private readonly IUserContext _userContext;
         private readonly IOrganisationViewModelBuilder _organisationViewModelBuilder;
         private readonly IActivityViewModelBuilder _activityViewModelBuilder;
@@ -42,7 +43,7 @@ namespace Bowerbird.Web.Controllers
         #region Constructors
 
         public OrganisationsController(
-            ICommandProcessor commandProcessor,
+            IMessageBus messageBus,
             IUserContext userContext,
             IOrganisationViewModelBuilder organisationViewModelBuilder,
             ISightingViewModelBuilder sightingViewModelBuilder,
@@ -53,7 +54,7 @@ namespace Bowerbird.Web.Controllers
             IPermissionChecker permissionChecker
             )
         {
-            Check.RequireNotNull(commandProcessor, "commandProcessor");
+            Check.RequireNotNull(messageBus, "messageBus");
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(organisationViewModelBuilder, "organisationViewModelBuilder");
             Check.RequireNotNull(sightingViewModelBuilder, "sightingViewModelBuilder");
@@ -63,7 +64,7 @@ namespace Bowerbird.Web.Controllers
             Check.RequireNotNull(userViewModelBuilder, "userViewModelBuilder");
             Check.RequireNotNull(permissionChecker, "permissionChecker");
 
-            _commandProcessor = commandProcessor;
+            _messageBus = messageBus;
             _userContext = userContext;
             _organisationViewModelBuilder = organisationViewModelBuilder;
             _sightingViewModelBuilder = sightingViewModelBuilder;
@@ -336,7 +337,7 @@ namespace Bowerbird.Web.Controllers
                 return JsonFailed();
             }
 
-            _commandProcessor.Process(
+            _messageBus.Send(
                 new MemberCreateCommand()
                 {
                     UserId = _userContext.GetAuthenticatedUserId(),
@@ -371,7 +372,7 @@ namespace Bowerbird.Web.Controllers
                 return JsonFailed();
             }
 
-            _commandProcessor.Process(
+            _messageBus.Send(
                 new MemberDeleteCommand()
                 {
                     UserId = _userContext.GetAuthenticatedUserId(),
@@ -396,7 +397,7 @@ namespace Bowerbird.Web.Controllers
                 return JsonFailed();
             }
 
-            _commandProcessor.Process(
+            _messageBus.Send(
                 new OrganisationCreateCommand()
                 {
                     UserId = _userContext.GetAuthenticatedUserId(),
@@ -431,7 +432,7 @@ namespace Bowerbird.Web.Controllers
                 return JsonFailed();
             }
 
-            _commandProcessor.Process(
+            _messageBus.Send(
                 new OrganisationUpdateCommand
                 {
                     UserId = _userContext.GetAuthenticatedUserId(),
@@ -467,7 +468,7 @@ namespace Bowerbird.Web.Controllers
                 return JsonFailed();
             }
 
-            _commandProcessor.Process(
+            _messageBus.Send(
                 new OrganisationDeleteCommand
                 {
                     Id = organisationId,

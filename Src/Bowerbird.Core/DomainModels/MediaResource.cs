@@ -15,10 +15,12 @@
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
 using Bowerbird.Core.Events;
 using System.Globalization;
+using Bowerbird.Core.Factories;
 
 namespace Bowerbird.Core.DomainModels
 {
@@ -37,29 +39,34 @@ namespace Bowerbird.Core.DomainModels
         }
 
         public MediaResource(
-            string mediaType,
+            string mediaResourceType,
             User createdByUser,
             DateTime uploadedOn,
-            string key)
+            string key,
+            Dictionary<string, string> metadata)
             : base()
         {
-            Check.RequireNotNullOrWhitespace(mediaType, "mediaType");
-            //Check.RequireNotNullOrWhitespace(key, "key");
+            Check.RequireNotNullOrWhitespace(mediaResourceType, "mediaResourceType");
+            Check.RequireNotNullOrWhitespace(key, "key");
             //Check.RequireNotNull(createdByUser, "createdByUser");
+            Check.RequireNotNull(metadata, "metadata");
+
+            if (mediaResourceType != Constants.MediaResourceTypes.Image && 
+                mediaResourceType == Constants.MediaResourceTypes.Video && 
+                mediaResourceType == Constants.MediaResourceTypes.Audio &&
+                mediaResourceType == Constants.MediaResourceTypes.Document)
+            {
+                throw new ArgumentException(string.Format("The specified mediaResourceType '{0}' is not recognised.", mediaResourceType));
+            }
 
             // Add these properties to the dictionary. I tried making these properties static, but RavenDB has a bug where static properties on a
             // DynamicObject type are not serialised.
             _properties.Add("Id", "mediaresources/");
-            _properties.Add("MediaType", mediaType);
+            _properties.Add("MediaResourceType", mediaResourceType);
             _properties.Add("UploadedOn", uploadedOn.ToString("yyyy-MM-ddTHH:mm:ssZ"));
-            _properties.Add("Metadata", new Dictionary<string, string>());
+            _properties.Add("Metadata", metadata);
 
-            if (mediaType != "image" && mediaType == "video" && mediaType == "audio" && mediaType == "document")
-            {
-                throw new ArgumentException(string.Format("The specified mediaType '{0}' is not recognised.", mediaType));
-            }
-
-            _properties.Add(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(mediaType), new Dictionary<string, MediaResourceFile>());
+            _properties.Add(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(mediaResourceType), new Dictionary<string, MediaResourceFile>());
 
             if(createdByUser != null) _properties.Add("User", (DenormalisedUserReference)createdByUser);
 
@@ -127,103 +134,27 @@ namespace Bowerbird.Core.DomainModels
             return this;
         }
 
-        private void AddFile(string mediaType, string storedRepresentation, MediaResourceFile file)
-        {
-            if (((IDictionary<string, MediaResourceFile>)_properties[mediaType]).ContainsKey(storedRepresentation))
-            {
-                ((IDictionary<string, MediaResourceFile>)_properties[mediaType]).Remove(storedRepresentation);
-            }
-
-            ((IDictionary<string, MediaResourceFile>)_properties[mediaType]).Add(storedRepresentation, file);
-        }
-
-        public MediaResourceFile AddImageFile(
-            string storedRepresentation, 
-            string fileName, 
-            string relativeUri, 
-            string format, 
-            int width, 
-            int height, 
-            string extension
-            )
-        {
-            dynamic file = new MediaResourceFile();
-
-            file.FileName = fileName;
-            file.RelativeUri = relativeUri;
-            file.Format = format;
-            file.Width = width;
-            file.Height = height;
-            file.Extension = extension;
-
-            AddFile("Image", storedRepresentation, file);
-
-            return file;
-        }
-
-        public MediaResourceFile AddVideoFile(
+        public MediaResourceFile AddFile(
             string storedRepresentation,
             string uri,
-            string provider,
-            string videoId,
             int width,
-            int height
-            )
+            int height)
         {
             dynamic file = new MediaResourceFile();
 
             file.Uri = uri;
-            file.Provider = provider;
-            file.VideoId = videoId;
             file.Width = width;
             file.Height = height;
 
-            AddFile("Video", storedRepresentation, file);
+            var field = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(_properties["MediaResourceType"].ToString());
+            if (((IDictionary<string, MediaResourceFile>)_properties[field]).ContainsKey(storedRepresentation))
+            {
+                ((IDictionary<string, MediaResourceFile>)_properties[field]).Remove(storedRepresentation);
+            }
+
+            ((IDictionary<string, MediaResourceFile>)_properties[field]).Add(storedRepresentation, file);
 
             return file;
-        }
-
-        public MediaResourceFile AddDocumentFile(
-            string storedRepresentation,
-            string fileName,
-            string documentType,
-            string extension
-            )
-        {
-            dynamic file = new MediaResourceFile();
-
-            file.FileName = fileName;
-            file.DocumentType = documentType;
-            file.Extension = extension;
-
-            AddFile("Document", storedRepresentation, file);
-
-            return file;
-        }
-
-        public MediaResourceFile AddAudioFile(
-            string storedRepresentation,
-            string fileName,
-            string relativeUri,
-            string format,
-            string extension
-            )
-        {
-            dynamic file = new MediaResourceFile();
-
-            file.Name = fileName;
-            file.RelativeUri = relativeUri;
-            file.Format = format;
-            file.Extension = extension;
-
-            AddFile("Audio", storedRepresentation, file);
-
-            return file;
-        }
-
-        public void FireCreatedEvent(User updatedByUser)
-        {
-            EventProcessor.Raise(new DomainModelCreatedEvent<MediaResource>(this, updatedByUser, this));
         }
 
         #endregion

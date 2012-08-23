@@ -29,7 +29,7 @@ namespace Bowerbird.Web.Builders
 
         private readonly IDocumentSession _documentSession;
         private readonly IUserViewFactory _userViewFactory;
-        private readonly IAvatarFactory _avatarFactory;
+        private readonly IMediaResourceFactory _mediaResourceFactory;
         private readonly IGroupViewFactory _groupViewFactory;
 
         #endregion
@@ -39,17 +39,17 @@ namespace Bowerbird.Web.Builders
         public OrganisationViewModelBuilder(
             IDocumentSession documentSession,
             IUserViewFactory userViewFactory,
-            IAvatarFactory avatarFactory,
+            IMediaResourceFactory mediaResourceFactory,
             IGroupViewFactory groupViewFactory)
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(userViewFactory, "userViewFactory");
-            Check.RequireNotNull(avatarFactory, "avatarFactory");
+            Check.RequireNotNull(mediaResourceFactory, "mediaResourceFactory");
             Check.RequireNotNull(groupViewFactory, "groupViewFactory");
 
             _documentSession = documentSession;
             _userViewFactory = userViewFactory;
-            _avatarFactory = avatarFactory;
+            _mediaResourceFactory = mediaResourceFactory;
             _groupViewFactory = groupViewFactory;
         }
 
@@ -68,7 +68,7 @@ namespace Bowerbird.Web.Builders
                 Name = string.Empty,
                 Description = string.Empty,
                 Website = string.Empty,
-                Avatar = _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Organisation),
+                Avatar = _mediaResourceFactory.MakeDefaultAvatarImage(AvatarDefaultType.Organisation),
                 MemberCount = 1
             };
         }

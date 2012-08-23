@@ -11,7 +11,8 @@
  * Atlas of Living Australia
  
 */
-                
+
+using Bowerbird.Core.Infrastructure;
 using Raven.Client;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
@@ -26,8 +27,8 @@ namespace Bowerbird.Core.Config
 
         private readonly IDocumentSession _documentSession;
         private readonly IConfigSettings _configSettings;
-        private readonly ICommandProcessor _commandProcessor;
-        private readonly IAvatarFactory _avatarFactory;
+        private readonly IMessageBus _messageBus;
+        private readonly IMediaResourceFactory _mediaResourceFactory;
         private static object _lock = new object();
 
         #endregion
@@ -37,18 +38,18 @@ namespace Bowerbird.Core.Config
         public SystemStateManager(
             IDocumentSession documentSession,
             IConfigSettings configService,
-            ICommandProcessor commandProcessor,
-            IAvatarFactory avatarFactory)
+            IMessageBus messageBus,
+            IMediaResourceFactory mediaResourceFactory)
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(configService, "configService");
-            Check.RequireNotNull(commandProcessor, "commandProcessor");
-            Check.RequireNotNull(avatarFactory, "avatarFactory");
+            Check.RequireNotNull(messageBus, "messageBus");
+            Check.RequireNotNull(mediaResourceFactory, "mediaResourceFactory");
              
             _documentSession = documentSession;
             _configSettings = configService;
-            _commandProcessor = commandProcessor;
-            _avatarFactory = avatarFactory;
+            _messageBus = messageBus;
+            _mediaResourceFactory = mediaResourceFactory;
         }
 
         #endregion
@@ -64,12 +65,12 @@ namespace Bowerbird.Core.Config
             var appRoot = LoadAppRoot();
             if (appRoot == null)
             {
-                SetupSystem setupSystem = new SetupSystem(_documentSession, this, _configSettings, _avatarFactory, _commandProcessor);
+                SetupSystem setupSystem = new SetupSystem(_documentSession, this, _configSettings, _mediaResourceFactory, _messageBus);
                 setupSystem.Execute();
 
                 if (doSetupTestData)
                 {
-                    SetupTestData setupTestData = new SetupTestData(_documentSession, this, _commandProcessor, _configSettings, _avatarFactory);
+                    SetupTestData setupTestData = new SetupTestData(_documentSession, this, _messageBus, _configSettings, _mediaResourceFactory);
                     setupTestData.Execute();
                 }
             }

@@ -35,8 +35,6 @@ namespace Bowerbird.Core.DomainModels
             : base()
         {
             InitMembers();
-
-            EnableEvents();
         }
 
         public Observation(
@@ -67,19 +65,12 @@ namespace Bowerbird.Core.DomainModels
         {
             InitMembers();
 
-            SetDetails(
+            SetObservationDetails(
                 title,
-                observedOn,
-                latitude,
-                longitude,
                 address,
-                isIdentificationRequired,
-                anonymiseLocation,
-                category);
+                isIdentificationRequired);
 
-            EnableEvents();
-
-            FireEvent(new DomainModelCreatedEvent<Observation>(this, createdByUser, this));
+            ApplyEvent(new SightingCreatedEvent(this, createdByUser, this, projects));
         }
 
         #endregion
@@ -100,7 +91,7 @@ namespace Bowerbird.Core.DomainModels
 
         public ObservationMedia PrimaryMedia
         {
-            get { return _observationMedia.First(); }
+            get { return _observationMedia.Single(x => x.IsPrimaryMedia); }
         }
 
         #endregion
@@ -112,25 +103,14 @@ namespace Bowerbird.Core.DomainModels
             _observationMedia = new List<ObservationMedia>();
         }
 
-        private void SetDetails(string title,
-            DateTime observedOn,
-            string latitude,
-            string longitude,
+        private void SetObservationDetails(
+            string title,
             string address,
-            bool isIdentificationRequired,
-            bool anonymiseLocation,
-            string category)
+            bool isIdentificationRequired)
         {
             Title = title;
             Address = address;
             IsIdentificationRequired = isIdentificationRequired;
-
-            base.SetDetails(
-                observedOn,
-                latitude,
-                longitude,
-                anonymiseLocation,
-                category);
         }
 
         public Observation UpdateDetails(User updatedByUser,
@@ -145,17 +125,19 @@ namespace Bowerbird.Core.DomainModels
         {
             Check.RequireNotNull(updatedByUser, "updatedByUser");
 
-            SetDetails(
-                title,
+            SetSightingDetails(
                 observedOn,
                 latitude,
                 longitude,
-                address,
-                isIdentificationRequired,
                 anonymiseLocation,
                 category);
 
-            FireEvent(new DomainModelUpdatedEvent<Observation>(this, updatedByUser, this));
+            SetObservationDetails(
+                title,
+                address,
+                isIdentificationRequired);
+
+            ApplyEvent(new DomainModelUpdatedEvent<Observation>(this, updatedByUser, this));
 
             return this;
         }

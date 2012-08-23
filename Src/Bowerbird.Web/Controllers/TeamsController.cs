@@ -15,6 +15,7 @@ using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Extensions;
+using Bowerbird.Core.Infrastructure;
 using Bowerbird.Web.Builders;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.ViewModels;
@@ -32,7 +33,7 @@ namespace Bowerbird.Web.Controllers
     {
         #region Fields
 
-        private readonly ICommandProcessor _commandProcessor;
+        private readonly IMessageBus _messageBus;
         private readonly IUserContext _userContext;
         private readonly ITeamViewModelBuilder _teamViewModelBuilder;
         private readonly IActivityViewModelBuilder _activityViewModelBuilder;
@@ -47,7 +48,7 @@ namespace Bowerbird.Web.Controllers
         #region Constructors
 
         public TeamsController(
-            ICommandProcessor commandProcessor,
+            IMessageBus messageBus,
             IUserContext userContext,
             ITeamViewModelBuilder teamViewModelBuilder,
             ISightingViewModelBuilder sightingViewModelBuilder,
@@ -58,7 +59,7 @@ namespace Bowerbird.Web.Controllers
             IDocumentSession documentSession
             )
         {
-            Check.RequireNotNull(commandProcessor, "commandProcessor");
+            Check.RequireNotNull(messageBus, "messageBus");
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(teamViewModelBuilder, "teamViewModelBuilder");
             Check.RequireNotNull(sightingViewModelBuilder, "sightingViewModelBuilder");
@@ -68,7 +69,7 @@ namespace Bowerbird.Web.Controllers
             Check.RequireNotNull(permissionChecker, "permissionChecker");
             Check.RequireNotNull(documentSession, "documentSession");
 
-            _commandProcessor = commandProcessor;
+            _messageBus = messageBus;
             _userContext = userContext;
             _teamViewModelBuilder = teamViewModelBuilder;
             _sightingViewModelBuilder = sightingViewModelBuilder;
@@ -323,7 +324,7 @@ namespace Bowerbird.Web.Controllers
                 return JsonFailed();
             }
 
-            _commandProcessor.Process(
+            _messageBus.Send(
                 new MemberCreateCommand()
                 {
                     UserId = _userContext.GetAuthenticatedUserId(),
@@ -358,7 +359,7 @@ namespace Bowerbird.Web.Controllers
                 return JsonFailed();
             }
 
-            _commandProcessor.Process(
+            _messageBus.Send(
                 new MemberDeleteCommand()
                 {
                     UserId = _userContext.GetAuthenticatedUserId(),
@@ -378,7 +379,7 @@ namespace Bowerbird.Web.Controllers
                 return JsonFailed();
             }
 
-            _commandProcessor.Process(
+            _messageBus.Send(
                 new TeamCreateCommand()
                     {
                         UserId = _userContext.GetAuthenticatedUserId(),
@@ -415,7 +416,7 @@ namespace Bowerbird.Web.Controllers
                 return JsonFailed();
             }
 
-            _commandProcessor.Process(
+            _messageBus.Send(
                 new TeamUpdateCommand()
                 {
                     UserId = _userContext.GetAuthenticatedUserId(),
@@ -453,7 +454,7 @@ namespace Bowerbird.Web.Controllers
                 return JsonFailed();
             }
 
-            _commandProcessor.Process(
+            _messageBus.Send(
                 new TeamDeleteCommand
                 {
                     Id = teamId,

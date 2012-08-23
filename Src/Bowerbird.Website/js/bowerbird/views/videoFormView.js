@@ -72,8 +72,10 @@ function ($, _, Backbone, app, ich) {
             /*
             Handles the following URLs:
             http://www.vimeo.com/7058755
+            https://www.vimeo.com/7058755
+            http://vimeo.com/7058755
             */
-            var uriRegExp = /http:\/\/(www\.)?vimeo.com\/(\d+)($|\/)/;
+            var uriRegExp = /^.*(www\.)?vimeo.com\/(\d+)($|\/)/;
             var uriMatch = value.match(uriRegExp);
             if (uriMatch) {
                 return uriMatch[2];

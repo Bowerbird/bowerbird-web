@@ -17352,7 +17352,7 @@ define('models/mediaresource',['jquery', 'underscore', 'backbone'], function ($,
     var MediaResource = Backbone.Model.extend({
         defaults: {
             Key: '',
-            MediaType: ''
+            MediaResourceType: ''
         },
 
         idAttribute: 'Id',
@@ -17399,7 +17399,7 @@ define('views/editavatarview',['jquery', 'underscore', 'backbone', 'app', 'ich',
 
         render: function () {
             this._initMediaUploader();
-            $('#avatar-viewer').append('<img src="' + this.model.get('Avatar').Image.Square200.RelativeUri + '" />');
+            $('#avatar-viewer').append('<img src="' + this.model.get('Avatar').Image.Square200.Uri + '" />');
             return this;
         },
 
@@ -17423,7 +17423,7 @@ define('views/editavatarview',['jquery', 'underscore', 'backbone', 'app', 'ich',
         _onImageUploadAdd: function (e, data) {
             this.key = app.generateGuid();
 
-            data.formData = { Key: this.key, OriginalFileName: data.files[0].name, MediaType: '', Usage: 'avatar' };
+            data.formData = { Key: this.key, FileName: data.files[0].name, Type: 'file', Usage: 'avatar' };
             if (window.isIEFail) {
                 data.formData.ie = true;
             }
@@ -17442,7 +17442,7 @@ define('views/editavatarview',['jquery', 'underscore', 'backbone', 'app', 'ich',
             this.model.set('AvatarId', mediaResource.id);
             //this.model.addMedia(mediaResource, '', app.authenticatedUser.defaultLicence);
             //this._updateProgress();
-            $('#avatar-viewer').empty().append('<img src="' + mediaResource.get('Image').Square200.RelativeUri + '" alt="" />');
+            $('#avatar-viewer').empty().append('<img src="' + mediaResource.get('Image').Square200.Uri + '" alt="" />');
         },
 
         _onMediaResourceUploadFailure: function (key, reason) {
@@ -17491,7 +17491,7 @@ define('views/editavatarview',['jquery', 'underscore', 'backbone', 'app', 'ich',
         //            this.model.set('AvatarId', data.result.Id);
         //            var mediaResource = new MediaResource(data.result);
         //            //this.$el.find('#avatar-viewer img').replaceWith($('<img src="' + mediaResource.get('ProfileImageUri') + '" alt="" />'));
-        //            $('#avatar-viewer').empty().append('<img src="' + mediaResource.get('Files').ThumbnailMedium.RelativeUri + '" width="200px;" />');
+        //            $('#avatar-viewer').empty().append('<img src="' + mediaResource.get('Files').ThumbnailMedium.Uri + '" width="200px;" />');
         //        }
         onClose: function () {
             app.vent.off('mediaresourceuploadsuccess', this._onMediaResourceUploadSuccess, this);
@@ -19675,30 +19675,8 @@ define('timeago',['jquery'], function ($) {
 // --------------
 
 // Shows an individual stream item
-define('views/streamitemview',['jquery', 'underscore', 'backbone', 'app', 'timeago'],
-function ($, _, Backbone, app) {
-    var parseISO8601 = function (str) {
-        // we assume str is a UTC date ending in 'Z'
-
-        var parts = str.split('T'),
-        dateParts = parts[0].split('-'),
-        timeParts = parts[1].split('Z'),
-        timeSubParts = timeParts[0].split(':'),
-        timeSecParts = timeSubParts[2].split('.'),
-        timeHours = Number(timeSubParts[0]),
-        _date = new Date;
-
-        _date.setUTCFullYear(Number(dateParts[0]));
-        _date.setUTCMonth(Number(dateParts[1]) - 1);
-        _date.setUTCDate(Number(dateParts[2]));
-        _date.setUTCHours(Number(timeHours));
-        _date.setUTCMinutes(Number(timeSubParts[1]));
-        _date.setUTCSeconds(Number(timeSecParts[0]));
-        if (timeSecParts[1]) _date.setUTCMilliseconds(Number(timeSecParts[1]));
-
-        // by using setUTC methods the date has already been converted to local time(?)
-        return _date;
-    };
+define('views/streamitemview',['jquery', 'underscore', 'backbone', 'app', 'moment', 'timeago'],
+function ($, _, Backbone, app, moment) {
 
     var StreamItemView = Backbone.Marionette.ItemView.extend({
         tagName: 'li',
@@ -19708,11 +19686,16 @@ function ($, _, Backbone, app) {
         template: 'StreamItem',
 
         serializeData: function () {
-            var json = { Model: this.model.toJSON() };
-            json.Model.CreatedDateTimeDescription = parseISO8601(this.model.get('CreatedDateTime'));
-            json.Model.ObservedOnDescription = ''; //parseISO8601(this.model.get('ObservedOn') + 'Z').format('d MMM yyyy')
-            if (json.Model.Type == "observationadded") {
-                json.Model.ShowThumbnails = this.model.get('ObservationAdded').Observation.Media.length > 1 ? true : false;
+            var json = {
+                Model: {
+                    Activity: this.model.toJSON(),
+                    CreatedDateTimeDescription: moment(this.model.get('CreatedDateTime')).format('D MMM YYYY h:mma')
+                }
+            };
+            if (json.Model.Activity.ObservationAdded) {
+                json.Model.Activity.ObservationAdded.ShowThumbnails = this.model.get('ObservationAdded').Observation.Media.length > 1 ? true : false;
+                json.Model.Activity.ObservationAdded.ShowProjects = this.model.get('ObservationAdded').Observation.Projects.length > 0 ? true : false;
+                json.Model.Activity.ObservationAdded.ObservedOnDescription = moment(this.model.get('ObservationAdded').Observation.ObservedOn).format('D MMM YYYY h:mma');
             }
 
             return json;
@@ -19727,31 +19710,87 @@ function ($, _, Backbone, app) {
                     app.observationRouter.navigate($(this).attr('href'), { trigger: true });
                     return false;
                 });
+
+                var mapOptions = {
+                    zoom: 9,
+                    center: new google.maps.LatLng(-33, 151),
+                    disableDefaultUI: true,
+                    scrollwheel: false,
+                    disableDoubleClickZoom: false,
+                    draggable: false,
+                    keyboardShortcuts: false,
+                    mapTypeId: google.maps.MapTypeId.TERRAIN
+                }
+
+                var map = new google.maps.Map(this.$el.find('.map').get(0), mapOptions);
+                this.map = map;
+
+                var point = new google.maps.LatLng(this.model.get('ObservationAdded').Observation.Latitude, this.model.get('ObservationAdded').Observation.Longitude);
+                this.point = point;
+
+                var image = new google.maps.MarkerImage('http://maps.gstatic.com/mapfiles/ms/icons/blue-dot.png',
+                    new google.maps.Size(32, 32),
+                    new google.maps.Point(0, 0),
+                    new google.maps.Point(15, 32)
+                );
+
+                var shadow = new google.maps.MarkerImage("http://maps.gstatic.com/mapfiles/kml/paddle/A_maps.shadow.png",
+                    new google.maps.Size(59, 32),
+                    new google.maps.Point(0, 0),
+                    new google.maps.Point(15, 32)
+                );
+
+                var mapMarker = new google.maps.Marker({
+                    position: point,
+                    map: map,
+                    clickable: false,
+                    draggable: false,
+                    icon: image,
+                    shadow: shadow
+                });
+
+                //var newPoint = new google.maps.LatLng(point.lat(), point.lng());
+
+                var $map = this.$el.find('.map');
+                var $location = this.$el.find('.location');
+                var resizeTimer;
+                $(window).resize(function () {
+                    clearTimeout(resizeTimer);
+                    resizeTimer = setTimeout(function () {
+                        $map.width($location.width() + 'px');
+                        google.maps.event.trigger(map, 'resize');
+                        map.panTo(point);
+                    }, 100);
+                });
+
+                //                log('width', $location.width());
+                //                $map.width($location.width() + 'px')
+                //                google.maps.event.trigger(map, 'resize');
+                //map.panTo(point);
             }
 
             if (this.model.get('Type') == "postadded") {
                 this.$el.find('h2 a').on('click', function (e) {
                     e.preventDefault();
                     app.postRouter.navigate($(this).attr('href'), { trigger: true });
+
                     return false;
                 });
             }
 
+            return this;
+        },
+
+        start: function () {
+            if (this.model.get('Type') == "observationadded") {
+                var $map = this.$el.find('.map');
+                var $location = this.$el.find('.location');
+
+                $map.width($location.width() + 'px')
+                google.maps.event.trigger(this.map, 'resize');
+                this.map.panTo(this.point);
+            }
         }
-        //        render: function () {
-        //            switch (this.StreamItem.get('Type')) {
-        //                case 'observation':
-        //                    var streamitemJSON = this.streamItem.toJSON();
-        //                    streamitemJSON['ObservedOnDate'] = new Date(parseInt(this.streamItem.get('Item').ObservedOn.substr(6))).format('d MMM yyyy');
-        //                    streamitemJSON['ObservedOnTime'] = new Date(parseInt(this.streamItem.get('Item').ObservedOn.substr(6))).format('h:mm');
-        //                    streamitemJSON['HighlightMedia'] = streamitemJSON.item.observationMedia[0];
-        //                    this.$el.append(ich.ObservationStreamListItem(streamitemJSON)).addClass('observation-stream-item');
-        //                    break;
-        //                default:
-        //                    break;
-        //            }
-        //            return this;
-        //        }
     });
 
     return StreamItemView;
@@ -22437,7 +22476,6 @@ function ($, _, Backbone, app, ich, StreamItemView) {
         appendHtml: function (collectionView, itemView) {
             var items = this.collection.pluck('Id');
             var index = _.indexOf(items, itemView.model.id);
-            //log(index);
 
             var $li = collectionView.$el.find('.stream-list > li:eq(' + (index) + ')');
 
@@ -22446,6 +22484,8 @@ function ($, _, Backbone, app, ich, StreamItemView) {
             } else {
                 $li.before(itemView.el);
             }
+
+            itemView.start();
         },
 
         onLoadMoreClicked: function () {
@@ -22946,7 +22986,8 @@ function ($, _, Backbone, app)
             return {
                 Model: {
                     Observation: this.model.toJSON(),
-                    ShowThumbnails: this.model.get('Media').length > 1 ? true : false
+                    ShowThumbnails: this.model.get('Media').length > 1 ? true : false,
+                    ShowProjects: this.model.get('ObservationAdded').Observation.Projects.length > 0 ? true : false
                 }
             };
         },
@@ -25264,7 +25305,7 @@ function ($, _, Backbone, app, DummyOverlayView) {
                 panControl: false,
                 streetViewControl: false,
                 mapTypeControl: true,
-                scrollwheel: false,
+                scrollwheel: true,
                 mapTypeId: g.MapTypeId.TERRAIN
             };
 
@@ -25430,11 +25471,9 @@ function ($, _, Backbone, app, DummyOverlayView) {
                 this._reverseGeocode();
             }
 
-            if (!this.map.getBounds().contains(this.mapMarker.getPosition())) {
-                var position = this.mapMarker.getPosition();
-                var newPoint = new google.maps.LatLng(position.lat() + .02, position.lng());
-                this.map.panTo(newPoint);
-            }
+            var position = this.mapMarker.getPosition();
+            var newPoint = new google.maps.LatLng(position.lat() + .02, position.lng());
+            this.map.panTo(newPoint);
         },
 
         _displayLatLong: function (fireLatLongFieldsChangeEvent) {
@@ -29041,18 +29080,19 @@ function ($, _, Backbone, app, ich, EditObservationMediaFormView, licences, Circ
         this.id = app.generateGuid();
 
         this.start = function (model) {
-            if (model.mediaResource.get('MediaType') === 'audio') {
+            if (model.mediaResource.get('MediaResourceType') === 'audio') {
                 this.audioPlayer = new CirclePlayer('#audio-player-' + this.id,
                     {
-                        mp3: model.mediaResource.get('Audio').Full480.RelativeUri
+                        mp3: model.mediaResource.get('Audio').Constrained480.Uri,
+                        m4a: model.mediaResource.get('Audio').Constrained480.Uri
                     },
                     {
                         cssSelectorAncestor: '#audio-player-container-' + this.id,
                         swfPath: '/js/libs/jquery.jplayer',
-                        supplied: "mp3",
+                        supplied: 'mp3,m4a',
                         wmode: 'window',
                         //errorAlerts: true,
-                        solution: 'html, flash'
+                        solution: 'html,flash'
                     });
 
                 //$("#jplayer_inspector").jPlayerInspector({ jPlayer: $('#audio-player') });
@@ -29077,12 +29117,12 @@ function ($, _, Backbone, app, ich, EditObservationMediaFormView, licences, Circ
         provider: null,
 
         initialize: function () {
-            var mediaType = this.model.mediaResource.get('MediaType');
-            if (mediaType === 'image') {
+            var mediaResourceType = this.model.mediaResource.get('MediaResourceType');
+            if (mediaResourceType === 'image') {
                 this.provider = new ImageProvider();
-            } else if (mediaType === 'video') {
+            } else if (mediaResourceType === 'video') {
                 this.provider = new VideoProvider();
-            } else if (mediaType === 'audio') {
+            } else if (mediaResourceType === 'audio') {
                 this.provider = new AudioProvider();
             }
             this.model.on('change:IsPrimaryMedia', this._onUpdatePrimaryMedia, this);
@@ -29104,7 +29144,7 @@ function ($, _, Backbone, app, ich, EditObservationMediaFormView, licences, Circ
         },
 
         onRender: function () {
-            this.$el.css({ position: 'absolute', top: '-250px', width: 280 + 'px' });
+            this.$el.css({ position: 'absolute', top: '-250px', width: 296 + 'px' });
             this.$el.find('.cp-jplayer').attr('id', 'audio-player-' + this.provider.id);
             this.$el.find('.cp-container').attr('id', 'audio-player-container-' + this.provider.id);
             return this;
@@ -29548,8 +29588,10 @@ function ($, _, Backbone, app, ich) {
             /*
             Handles the following URLs:
             http://www.vimeo.com/7058755
+            https://www.vimeo.com/7058755
+            http://vimeo.com/7058755
             */
-            var uriRegExp = /http:\/\/(www\.)?vimeo.com\/(\d+)($|\/)/;
+            var uriRegExp = /^.*(www\.)?vimeo.com\/(\d+)($|\/)/;
             var uriMatch = value.match(uriRegExp);
             if (uriMatch) {
                 return uriMatch[2];
@@ -30037,7 +30079,7 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
             var key = app.generateGuid();
             this.currentUploads.add({ Key: key });
 
-            data.formData = { Key: key, OriginalFileName: data.files[0].name, MediaType: '', Usage: 'observation' };
+            data.formData = { Key: key, FileName: data.files[0].name, Type: 'file', Usage: 'contribution' };
             if (window.isIEFail) {
                 data.formData.ie = true;
             }
@@ -30082,8 +30124,8 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
                     Key: key,
                     VideoId: videoId,
                     VideoProviderName: videoProviderName,
-                    MediaType: 'video',
-                    Usage: 'observation'
+                    Type: 'externalvideo',
+                    Usage: 'contribution'
                 }
             });
         },
@@ -30142,7 +30184,7 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
     return ObservationMediaFormView;
 
 });
-define('datepicker',['jquery'], function (jQuery) {
+define('datepicker',['jquery', 'moment'], function (jQuery, moment) {
     /* ===========================================================
     * bootstrap-datepicker.js v1.3.0
     * http://twitter.github.com/bootstrap/javascript.html#datepicker
@@ -30398,12 +30440,13 @@ define('datepicker',['jquery'], function (jQuery) {
         //            return Date.parseString(s, 'd MMM yyyy');
         //        }
         //return null;
-        return Date.parseExact(s, 'd MMM yyyy');
+        //return Date.parseExact(s, 'd MMM yyyy');
+        return moment(s, 'D MMM YYYY').toDate();
     }
 
     , format: function (date) {
         //return date.format('d MMM yyyy');
-        return date.toString('d MMM yyyy');
+        return moment(date).format('D MMM YYYY');
     }
 
     , ahead: function (months, days) {
@@ -31364,9 +31407,9 @@ $.extend($.ui.dialog.overlay.prototype, {
 // ObservationFormLayoutView
 // -------------------------
 
-define('views/observationformlayoutview',['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editmapview', 'views/observationmediaformview', 'datepicker', 'multiselect', 'jqueryui/dialog'],
-function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView) {
-    
+define('views/observationformlayoutview',['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editmapview', 'views/observationmediaformview', 'moment', 'datepicker', 'multiselect', 'jqueryui/dialog'],
+function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView, moment) {
+
     var ObservationFormLayoutView = Backbone.Marionette.Layout.extend({
 
         className: 'form observation-form',
@@ -31382,7 +31425,7 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView) {
             'click #cancel': '_cancel',
             'click #save': '_save',
             'change input#Title': '_contentChanged',
-            'change input#ObservedOn': '_contentChanged',
+            'change input#ObservedOn': '_observedOnChanged',
             'change input#Address': '_contentChanged',
             'change input#Latitude': '_latLongChanged',
             'change input#Longitude': '_latLongChanged',
@@ -31392,7 +31435,7 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView) {
             'change #category-field input:checkbox': '_categoryChanged'
         },
 
-        dateUpdated: false, // When we derive the very first media, we extract the date and update the ObservedOn field. No further updates are allowed.
+        observedOnUpdated: false, // When we derive the very first media, we extract the date and update the ObservedOn field. No further updates are allowed.
 
         initialize: function (options) {
             this.categories = options.categories;
@@ -31409,13 +31452,11 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView) {
         },
 
         onMediaChanged: function (media) {
-            if (!this.dateUpdated) {
-                var dateTaken = media.mediaResource.get('Metadata').DateTaken;
-                if (dateTaken) {
-                    this.dateUpdated = true;
-                    this.model.set('ObservedOn', dateTaken);
-                    this.$el.find('#ObservedOn').val(dateTaken);
-                }
+            if (!this.observedOnUpdated && media.mediaResource.get('Metadata').Created) {
+                var created = moment(media.mediaResource.get('Metadata').Created);
+                this.observedOnUpdated = true;
+                this.model.set('ObservedOn', media.mediaResource.get('Metadata').Created);
+                this.$el.find('#ObservedOn').val(created.format('D MMM YYYY'));
             }
         },
 
@@ -31437,6 +31478,7 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView) {
             this.media.attachView(observationMediaFormView);
             observationMediaFormView.render();
 
+            this.$el.find('#ObservedOn').val(moment(this.model.get('ObservedOn')).format('D MMM YYYY'));
             this.observedOnDatePicker = this.$el.find('#ObservedOn').datepicker();
 
             this.categoryListSelectView = this.$el.find("#Category").multiSelect({
@@ -31474,14 +31516,14 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView) {
                     }
                     var project = app.authenticatedUser.projects.get(option.value);
 
-                    html += ' /><img src="' + project.get('Avatar').Image.Square100.RelativeUri + '" alt="" />' + project.get('Name') + '</label>';
+                    html += ' /><img src="' + project.get('Avatar').Image.Square100.Uri + '" alt="" />' + project.get('Name') + '</label>';
                     return html;
                 },
                 oneOrMoreSelected: function (selectedOptions) {
                     var $selectedHtml = $('<div />');
                     _.each(selectedOptions, function (option) {
                         var project = app.authenticatedUser.projects.get(option.value);
-                        $selectedHtml.append('<span class="selected-project"><img src="' + project.get('Avatar').Image.Square100.RelativeUri + '" alt="" />' + option.text + '</span> ');
+                        $selectedHtml.append('<span class="selected-project"><img src="' + project.get('Avatar').Image.Square100.Uri + '" alt="" />' + option.text + '</span> ');
                     });
                     return $selectedHtml.children();
                 }
@@ -31497,10 +31539,10 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView) {
             if (target.attr('id') === 'Address') {
                 this._latLongChanged(e);
             }
+        },
 
-            if (target.attr('id') === 'ObservedOn') {
-                this.dateUpdated = true;
-            }
+        _observedOnChanged: function (e) {
+            this.observedOnUpdated = true;
         },
 
         _latLongChanged: function (e) {
@@ -32029,7 +32071,12 @@ define('models/observationmedia',['jquery', 'underscore', 'backbone'], function 
         setMediaResource: function (mediaResource) {
             this.mediaResource = mediaResource;
             this.set('MediaResourceId', mediaResource.id);
-        }
+
+            if (mediaResource.get('Metadata').Description)
+            {
+                this.set('Description', mediaResource.get('Metadata').Description);
+            }
+    }
     });
 
     return ObservationMedia;
@@ -32079,7 +32126,7 @@ function ($, _, Backbone, ObservationMediaCollection, ObservationMedia) {
             Longitude: null,
             Category: '',
             AnonymiseLocation: false,
-            Projects: [],
+            ProjectIds: [],
             IsIdentificationRequired: false,
             Media: [],
             Comments: [],
@@ -32098,30 +32145,15 @@ function ($, _, Backbone, ObservationMediaCollection, ObservationMedia) {
             this.media.on('change:IsPrimaryMedia', this.onPrimaryMediaChange, this);
         },
 
-        //        toJSON: function () {
-        //            return {
-        //                Title: this.get('Title'),
-        //                ObservedOn: this.get('ObservedOn'),
-        //                Address: this.get('Address'),
-        //                Latitude: this.get('Latitude'),
-        //                Longitude: this.get('Longitude'),
-        //                Category: this.get('Category'),
-        //                AnonymiseLocation: this.get('AnonymiseLocation'),
-        //                Projects: this.get('Projects'),
-        //                IsIdentificationRequired: this.get('IsIdentificationRequired'),
-        //                Media: this.get('Media')
-        //            };
-        //        },
-
         addProject: function (id) {
-            var projects = this.get('Projects');
+            var projects = this.get('ProjectIds');
             projects.push(id);
-            this.set('Projects', projects);
+            this.set('ProjectIds', projects);
         },
 
         removeProject: function (id) {
-            var projects = this.get('Projects');
-            this.set('Projects', _.without(projects, id));
+            var projects = this.get('ProjectIds');
+            this.set('ProjectIds', _.without(projects, id));
         },
 
         addMedia: function (mediaResource, description, licence) {
@@ -32395,14 +32427,14 @@ function ($, _, Backbone, app, ich, EditMapView) {
                     }
                     var project = app.authenticatedUser.projects.get(option.value);
 
-                    html += ' /><img src="' + project.get('Avatar').Image.Square100.RelativeUri + '" alt="" />' + project.get('Name') + '</label>';
+                    html += ' /><img src="' + project.get('Avatar').Image.Square100.Uri + '" alt="" />' + project.get('Name') + '</label>';
                     return html;
                 },
                 oneOrMoreSelected: function (selectedOptions) {
                     var $selectedHtml = $('<div />');
                     _.each(selectedOptions, function (option) {
                         var project = app.authenticatedUser.projects.get(option.value);
-                        $selectedHtml.append('<span class="selected-project"><img src="' + project.get('Avatar').Image.Square100.RelativeUri + '" alt="" />' + option.text + '</span> ');
+                        $selectedHtml.append('<span class="selected-project"><img src="' + project.get('Avatar').Image.Square100.Uri + '" alt="" />' + option.text + '</span> ');
                     });
                     return $selectedHtml.children();
                 }
@@ -35399,30 +35431,31 @@ function ($, _, Backbone, app, SidebarMenuGroupCompositeView, SidebarProjectItem
 // NotificationItemView
 // --------------------
 
-define('views/notificationitemview',['jquery', 'underscore', 'backbone', 'app', 'timeago'], function ($, _, Backbone, app) {
+define('views/notificationitemview',['jquery', 'underscore', 'backbone', 'app', 'moment', 'timeago'], 
+    function ($, _, Backbone, app, moment) {
 
-    var parseISO8601 = function (str) {
-        // we assume str is a UTC date ending in 'Z'
+//    var parseISO8601 = function (str) {
+//        // we assume str is a UTC date ending in 'Z'
 
-        var parts = str.split('T'),
-        dateParts = parts[0].split('-'),
-        timeParts = parts[1].split('Z'),
-        timeSubParts = timeParts[0].split(':'),
-        timeSecParts = timeSubParts[2].split('.'),
-        timeHours = Number(timeSubParts[0]),
-        _date = new Date;
+//        var parts = str.split('T'),
+//        dateParts = parts[0].split('-'),
+//        timeParts = parts[1].split('Z'),
+//        timeSubParts = timeParts[0].split(':'),
+//        timeSecParts = timeSubParts[2].split('.'),
+//        timeHours = Number(timeSubParts[0]),
+//        _date = new Date;
 
-        _date.setUTCFullYear(Number(dateParts[0]));
-        _date.setUTCMonth(Number(dateParts[1]) - 1);
-        _date.setUTCDate(Number(dateParts[2]));
-        _date.setUTCHours(Number(timeHours));
-        _date.setUTCMinutes(Number(timeSubParts[1]));
-        _date.setUTCSeconds(Number(timeSecParts[0]));
-        if (timeSecParts[1]) _date.setUTCMilliseconds(Number(timeSecParts[1]));
+//        _date.setUTCFullYear(Number(dateParts[0]));
+//        _date.setUTCMonth(Number(dateParts[1]) - 1);
+//        _date.setUTCDate(Number(dateParts[2]));
+//        _date.setUTCHours(Number(timeHours));
+//        _date.setUTCMinutes(Number(timeSubParts[1]));
+//        _date.setUTCSeconds(Number(timeSecParts[0]));
+//        if (timeSecParts[1]) _date.setUTCMilliseconds(Number(timeSecParts[1]));
 
-        // by using setUTC methods the date has already been converted to local time(?)
-        return _date;
-    };
+//        // by using setUTC methods the date has already been converted to local time(?)
+//        return _date;
+//    };
 
     var NotificationItemView = Backbone.Marionette.ItemView.extend({
         tagName: 'li',
@@ -35432,11 +35465,11 @@ define('views/notificationitemview',['jquery', 'underscore', 'backbone', 'app', 
         template: 'NotificationItem',
 
         serializeData: function () {
-            var model = this.model.toJSON();
-            model.CreatedDateTimeDescription = parseISO8601(this.model.get('CreatedDateTime') + 'Z');
-            //model.ObservedOnDescription = ''; //parseISO8601(this.model.get('ObservedOn') + 'Z').format('d MMM yyyy')
             return {
-                Model: model
+                Model: {
+                    Activity: this.model.toJSON(),
+                    CreatedDateTimeDescription: moment(this.model.get('CreatedDateTime')).format('D MMM YYYY h:mma')
+                }
             };
         },
 
@@ -35511,7 +35544,7 @@ function ($, _, Backbone, app, NotificationItemView, ActivityCollection) {
         if (app.authenticatedUser) {
             // Setup activity event listening
             var activityCollection = new ActivityCollection();
-            activityCollection.baseUrl = '/notifications';
+            activityCollection.baseUrl = '/account/notifications';
             app.vent.on('newactivity', function (activity) {
                 activityCollection.add(activity);
             });

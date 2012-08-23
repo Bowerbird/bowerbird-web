@@ -17,6 +17,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Extensions;
+using Bowerbird.Core.Infrastructure;
 using Bowerbird.Web.Services;
 using SignalR.Hubs;
 using Bowerbird.Core.DesignByContract;
@@ -38,7 +39,7 @@ namespace Bowerbird.Web.Hubs
         private readonly IUserViewFactory _userViewFactory;
         private readonly IGroupViewFactory _groupViewFactory;
         private readonly IDocumentSession _documentSession;
-        private readonly ICommandProcessor _commandProcessor;
+        private readonly IMessageBus _messageBus;
         private readonly IPermissionChecker _permissionChecker;
 
         #endregion
@@ -49,19 +50,19 @@ namespace Bowerbird.Web.Hubs
             IUserViewFactory userViewFactory,
             IGroupViewFactory groupViewFactory,
             IDocumentSession documentSession,
-            ICommandProcessor commandProcessor,
+            IMessageBus messageBus,
             IPermissionChecker permissionChecker)
         {
             Check.RequireNotNull(userViewFactory, "userViewFactory");
             Check.RequireNotNull(groupViewFactory, "groupViewFactory");
             Check.RequireNotNull(documentSession, "documentSession");
-            Check.RequireNotNull(commandProcessor, "commandProcessor");
+            Check.RequireNotNull(messageBus, "messageBus");
             Check.RequireNotNull(permissionChecker, "permissionChecker");
 
             _userViewFactory = userViewFactory;
             _groupViewFactory = groupViewFactory;
             _documentSession = documentSession;
-            _commandProcessor = commandProcessor;
+            _messageBus = messageBus;
             _permissionChecker = permissionChecker;
         }
 
@@ -126,7 +127,7 @@ namespace Bowerbird.Web.Hubs
             if (chat == null)
             {
                 // If not, make it and add users to chat
-                _commandProcessor.Process(new ChatCreateCommand()
+                _messageBus.SendAsync(new ChatCreateCommand()
                 {
                     ChatId = chatId,
                     CreatedByUserId = Context.User.Identity.Name,
@@ -138,7 +139,7 @@ namespace Bowerbird.Web.Hubs
             else
             {
                 // Just add users to existing chat
-                _commandProcessor.Process(new ChatUpdateCommand()
+                _messageBus.SendAsync(new ChatUpdateCommand()
                 {
                     ChatId = chatId,
                     AddUserIds = inviteeUserIds,
@@ -150,7 +151,7 @@ namespace Bowerbird.Web.Hubs
         public void ExitChat(string chatId)
         {
             // Remove user
-            _commandProcessor.Process(new ChatUpdateCommand()
+            _messageBus.SendAsync(new ChatUpdateCommand()
             {
                 ChatId = chatId,
                 AddUserIds = new string[] { },
@@ -174,7 +175,7 @@ namespace Bowerbird.Web.Hubs
         public void SendChatMessage(string chatId, string messageId, string message)
         {
             // Add message to chat
-            _commandProcessor.Process(new ChatMessageCreateCommand()
+            _messageBus.SendAsync(new ChatMessageCreateCommand()
             {
                 ChatId = chatId,
                 UserId = Context.User.Identity.Name,

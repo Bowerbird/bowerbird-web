@@ -45,13 +45,12 @@ namespace Bowerbird.Core.Factories
 
         #region Methods
 
-        public string MakeRelativeMediaFileUri(string mediaResourceId, string mediaType, string storedRepresentation, string extension)
+        public string MakeRelativeMediaFileUri(string mediaResourceId, string storedRepresentation, string extension)
         {
             return string.Format(
-                "{0}/{1}/{2}/{3}", 
+                "{0}/{1}/{2}", 
                 GetCleanMediaRootUri(),
-                mediaType,
-                GetDirectoryName(RecordIdPart(mediaResourceId)),
+                GetDirectoryName(mediaResourceId),
                 MakeMediaFileName(mediaResourceId, storedRepresentation, extension));
         }
 
@@ -64,41 +63,38 @@ namespace Bowerbird.Core.Factories
                 extension);
         }
 
-        // There is some wierdness in Path.Combine, in that if a path contains an absolute path, only that path is returned..
+        // There is some weirdness in Path.Combine, in that if a path contains an absolute path, only that path is returned..
         // http://stackoverflow.com/questions/53102/why-does-path-combine-not-properly-concatenate-filenames-that-start-with-path-di
-        public string MakeMediaBasePath(int recordId, string mediaType)
+        public string MakeMediaBasePath(string mediaResourceId)
         {
-            var environmentRootPath = _configSettings.GetEnvironmentRootPath();
-            var mediaRelativePath = _configSettings.GetMediaRelativePath();
-
             var relativePath = Path.Combine(
-                mediaRelativePath,
-                mediaType,
-                GetDirectoryName(recordId).ToString());
+                _configSettings.GetMediaRelativePath(),
+                GetDirectoryName(mediaResourceId));
 
-            var actualPath = string.Format("{0}{1}", environmentRootPath, relativePath);
-
-            return actualPath;
+            return string.Format(
+                "{0}{1}", 
+                _configSettings.GetEnvironmentRootPath(), 
+                relativePath);
         }
 
-        public string MakeMediaFilePath(string recordId, string mediaType, string storedRepresentation, string extension)
+        public string MakeMediaFilePath(string mediaResourceId, string storedRepresentation, string extension)
         {
-            string mediaPath = MakeMediaBasePath(RecordIdPart(recordId), mediaType);
-            string filename = string.Format("{0}-{1}.{2}", RecordIdPart(recordId), storedRepresentation, extension);
+            string mediaPath = MakeMediaBasePath(mediaResourceId);
+            string filename = MakeMediaFileName(mediaResourceId, storedRepresentation, extension);
 
             return Path.Combine(mediaPath, filename);
         }
 
-        private static int GetDirectoryName(int mediaResourceId)
+        private static string GetDirectoryName(string mediaResourceId)
         {
-            int x = Round(mediaResourceId, 3);
+            int x = Round(RecordIdPart(mediaResourceId), 3);
 
             if(x == 0)
             {
-                return 0;
+                return 0.ToString();
             }
 
-            return x/1000;
+            return (x/1000).ToString();
         }
 
         /// <summary>

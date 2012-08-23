@@ -1,67 +1,64 @@
-﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+﻿///* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
- Developers: 
- * Frank Radocaj : frank@radocaj.com
- * Hamish Crittenden : hamish.crittenden@gmail.com
+// Developers: 
+// * Frank Radocaj : frank@radocaj.com
+// * Hamish Crittenden : hamish.crittenden@gmail.com
  
- Project Manager: 
- * Ken Walker : kwalker@museum.vic.gov.au
+// Project Manager: 
+// * Ken Walker : kwalker@museum.vic.gov.au
  
- Funded by:
- * Atlas of Living Australia
+// Funded by:
+// * Atlas of Living Australia
  
-*/
+//*/
 
-using System;
-using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.DomainModels.DenormalisedReferences;
+//using System;
+//using Bowerbird.Core.DesignByContract;
+//using Bowerbird.Core.DomainModels.DenormalisedReferences;
 
-namespace Bowerbird.Core.DomainModels
-{
-    public class FollowUser : DomainModel
-    {
-        #region Fields
+//namespace Bowerbird.Core.DomainModels
+//{
+//    public class FollowUser : DomainModel
+//    {
+//        #region Fields
 
-        #endregion
+//        #endregion
 
-        #region Constructors
+//        #region Constructors
 
-        protected FollowUser()
-            : base()
-        {
-            EnableEvents();
-        }
+//        protected FollowUser()
+//            : base()
+//        {
+//        }
 
-        public FollowUser(
-            User userToFollow,
-            User follower,
-            DateTime createdDateTime
-            )
-        {
-            Check.RequireNotNull(userToFollow, "userToFollow");
-            Check.RequireNotNull(follower, "follower");
+//        public FollowUser(
+//            User userToFollow,
+//            User follower,
+//            DateTime createdDateTime
+//            )
+//        {
+//            Check.RequireNotNull(userToFollow, "userToFollow");
+//            Check.RequireNotNull(follower, "follower");
 
-            UserToFollow = userToFollow;
-            Follower = follower;
-            CreatedDateTime = createdDateTime;
+//            UserToFollow = userToFollow;
+//            Follower = follower;
+//            CreatedDateTime = createdDateTime;
+//        }
 
-            EnableEvents();
-        }
+//        #endregion
 
-        #endregion
+//        #region Properties
 
-        #region Properties
+//        public DenormalisedUserReference UserToFollow { get; private set; }
 
-        public DenormalisedUserReference UserToFollow { get; private set; }
+//        public DenormalisedUserReference Follower { get; private set; }
 
-        public DenormalisedUserReference Follower { get; private set; }
+//        public DateTime CreatedDateTime { get; private set; }
 
-        public DateTime CreatedDateTime { get; private set; }
+//        #endregion
 
-        #endregion
+//        #region Methods
 
-        #region Methods
-
-        #endregion
-    }
-}
+//        #endregion
+//    }
+//}

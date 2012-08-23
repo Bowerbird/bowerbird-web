@@ -32,7 +32,6 @@ namespace Bowerbird.Core.DomainModels
         protected Record()
             : base()
         {
-            EnableEvents();
         }
 
         public Record(
@@ -58,9 +57,7 @@ namespace Bowerbird.Core.DomainModels
             projects
             )
         {
-            EnableEvents();
-
-            FireEvent(new DomainModelCreatedEvent<Record>(this, createdByUser, this));
+            ApplyEvent(new SightingCreatedEvent(this, createdByUser, this, projects));
         }
 
         #endregion
@@ -80,14 +77,14 @@ namespace Bowerbird.Core.DomainModels
         {
             Check.RequireNotNull(updatedByUser, "updatedByUser");
 
-            base.SetDetails(
+            SetSightingDetails(
                 observedOn,
                 latitude,
                 longitude,
                 anonymiseLocation,
                 category);
 
-            FireEvent(new DomainModelUpdatedEvent<Record>(this, updatedByUser, this));
+            ApplyEvent(new DomainModelUpdatedEvent<Record>(this, updatedByUser, this));
 
             return this;
         }

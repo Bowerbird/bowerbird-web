@@ -32,17 +32,21 @@ namespace Bowerbird.Web.Config
         #region Members
 
         private readonly IConfigSettings _configSettings;
+        private readonly RavenDocumentStoreListener _ravenDocumentStoreListener;
 
         #endregion
 
         #region Constructors
 
         public NinjectRavenDocumentStoreProvider(
-            IConfigSettings configService)
+            IConfigSettings configService,
+            RavenDocumentStoreListener ravenDocumentStoreListener)
         {
             Check.RequireNotNull(configService, "configService");
+            Check.RequireNotNull(ravenDocumentStoreListener, "ravenDocumentStoreListener");
 
             _configSettings = configService;
+            _ravenDocumentStoreListener = ravenDocumentStoreListener;
         }
 
         #endregion
@@ -83,6 +87,8 @@ namespace Bowerbird.Web.Config
             {
                 serializer.TypeNameHandling = TypeNameHandling.None;
             };
+
+            documentStore.RegisterListener(_ravenDocumentStoreListener);
 
             documentStore.Initialize();
 

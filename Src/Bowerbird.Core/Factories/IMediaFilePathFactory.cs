@@ -12,18 +12,16 @@
  
 */
 
-using Bowerbird.Core.DomainModels;
-
 namespace Bowerbird.Core.Factories
 {
     public interface IMediaFilePathFactory
     {
-        string MakeRelativeMediaFileUri(string mediaResourceId, string mediaType, string storedRepresentation, string extension);
+        string MakeRelativeMediaFileUri(string mediaResourceId, string storedRepresentation, string extension);
 
         string MakeMediaFileName(string mediaResourceId, string storedRepresentation, string extension);
 
-        string MakeMediaBasePath(int mediaResourceId, string mediaType);
+        string MakeMediaBasePath(string mediaResourceId);
 
-        string MakeMediaFilePath(string mediaResourceId, string mediaType, string storedRepresentation, string extension);
+        string MakeMediaFilePath(string mediaResourceId, string storedRepresentation, string extension);
     }
 }

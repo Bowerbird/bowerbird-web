@@ -29,7 +29,7 @@ namespace Bowerbird.Web.Builders
         #region Fields
 
         private readonly IDocumentSession _documentSession;
-        private readonly IAvatarFactory _avatarFactory;
+        private readonly IMediaResourceFactory _mediaResourceFactory;
         private readonly IUserViewFactory _userViewFactory;
         private readonly IGroupViewFactory _groupViewFactory;
 
@@ -39,17 +39,17 @@ namespace Bowerbird.Web.Builders
 
         public TeamViewModelBuilder(
             IDocumentSession documentSession,
-            IAvatarFactory avatarFactory,
+            IMediaResourceFactory mediaResourceFactory,
             IUserViewFactory userViewFactory,
             IGroupViewFactory groupViewFactory)
         {
             Check.RequireNotNull(documentSession, "documentSession");
-            Check.RequireNotNull(avatarFactory, "avatarFactory");
+            Check.RequireNotNull(mediaResourceFactory, "mediaResourceFactory");
             Check.RequireNotNull(userViewFactory, "userViewFactory");
             Check.RequireNotNull(groupViewFactory, "groupViewFactory");
 
             _documentSession = documentSession;
-            _avatarFactory = avatarFactory;
+            _mediaResourceFactory = mediaResourceFactory;
             _userViewFactory = userViewFactory;
             _groupViewFactory = groupViewFactory;
         }
@@ -69,7 +69,7 @@ namespace Bowerbird.Web.Builders
                 Name = string.Empty,
                 Description = string.Empty,
                 Website = string.Empty,
-                Avatar = _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.Team),
+                Avatar = _mediaResourceFactory.MakeDefaultAvatarImage(AvatarDefaultType.Team),
                 MemberCount = 1
             };
         }

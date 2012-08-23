@@ -43,6 +43,8 @@ namespace Bowerbird.Core.Commands
 
         public string DefaultLicence { get; set; }
 
+        public string Timezone { get; set; }
+
         #endregion
 
         #region Methods

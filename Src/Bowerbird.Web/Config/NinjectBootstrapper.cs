@@ -13,7 +13,6 @@
 */
 
 using System;
-using Bowerbird.Core.Events;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Ninject;
 using Ninject.Web.Common;
@@ -44,8 +43,6 @@ namespace Bowerbird.Web.Config
             ServiceLocator.SetLocatorProvider(() => new NinjectServiceLocator(_ninjectBootstrapper.Kernel));
 
             GlobalHost.DependencyResolver = new SignalrNinjectDependencyResolver(_ninjectBootstrapper.Kernel);
-
-            EventProcessor.ServiceLocator = ServiceLocator.Current;
         }
 
         public static void Stop()

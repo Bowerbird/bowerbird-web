@@ -12,7 +12,6 @@
  
 */
 
-using System.Dynamic;
 using System.Collections.Generic;
 using System;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
@@ -25,8 +24,6 @@ namespace Bowerbird.Core.DomainModels
     {
         #region Fields
 
-        private Dictionary<string, object> _properties = new Dictionary<string, object>();
-
         #endregion
 
         #region Constructors
@@ -35,8 +32,6 @@ namespace Bowerbird.Core.DomainModels
             : base()
         {
             InitMembers();
-
-            EnableEvents();
         }
 
         public Chat(
@@ -60,11 +55,10 @@ namespace Bowerbird.Core.DomainModels
 
             foreach (var user in users)
             {
-                AddUser(user);
+                SetUser(user);
             }
 
-            EnableEvents();
-            FireEvent(new DomainModelCreatedEvent<Chat>(this, createdByUser, this));
+            ApplyEvent(new DomainModelCreatedEvent<Chat>(this, createdByUser, this));
         }
 
         #endregion
@@ -96,25 +90,35 @@ namespace Bowerbird.Core.DomainModels
             Messages = new List<ChatMessage>();
         }
 
+        private User SetUser(User user)
+        {
+            if (Users.All(x => x.Id != user.Id))
+            {
+                ((List<DenormalisedUserReference>)Users).Add(user);
+
+                return user;
+            }
+
+            return null;
+        }
+
         public Chat AddMessage(User user, DateTime timestamp, string messageId, string message)
         {
             var chatMessage = new ChatMessage(messageId, user, timestamp, message);
 
             ((List<ChatMessage>)Messages).Add(chatMessage);
 
-            FireEvent(new DomainModelCreatedEvent<ChatMessage>(chatMessage, user, this));
+            ApplyEvent(new DomainModelCreatedEvent<ChatMessage>(chatMessage, user, this));
 
             return this;
         }
 
         public Chat AddUser(User user)
         {
-            if(Users.All(x => x.Id != user.Id))
+            if (SetUser(user) != null)
             {
-                ((List<DenormalisedUserReference>)Users).Add(user);
+                ApplyEvent(new UserJoinedChatEvent(user, this, this));
             }
-
-            FireEvent(new UserJoinedChatEvent(user, this, this));
 
             return this;
         }
@@ -123,7 +127,7 @@ namespace Bowerbird.Core.DomainModels
         {
             ((List<DenormalisedUserReference>)Users).RemoveAll(x => x.Id == user.Id);
 
-            FireEvent(new UserExitedChatEvent(user, this, this));
+            ApplyEvent(new UserExitedChatEvent(user, this, this));
 
             return this;
         }

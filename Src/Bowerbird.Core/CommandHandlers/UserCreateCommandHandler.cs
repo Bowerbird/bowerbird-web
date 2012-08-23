@@ -32,7 +32,7 @@ namespace Bowerbird.Core.CommandHandlers
         #region Members
 
         private readonly IDocumentSession _documentSession;
-        private readonly IAvatarFactory _avatarFactory;
+        private readonly IMediaResourceFactory _mediaResourceFactory;
 
         #endregion
 
@@ -40,13 +40,13 @@ namespace Bowerbird.Core.CommandHandlers
 
         public UserCreateCommandHandler(
             IDocumentSession documentSession,
-            IAvatarFactory avatarFactory)
+            IMediaResourceFactory mediaResourceFactory)
         {
             Check.RequireNotNull(documentSession, "documentSession");
-            Check.RequireNotNull(avatarFactory, "avatarFactory");
+            Check.RequireNotNull(mediaResourceFactory, "mediaResourceFactory");
 
             _documentSession = documentSession;
-            _avatarFactory = avatarFactory;
+            _mediaResourceFactory = mediaResourceFactory;
         }
 
         #endregion
@@ -74,8 +74,9 @@ namespace Bowerbird.Core.CommandHandlers
                 userCreateCommand.Email,
                 userCreateCommand.FirstName,
                 userCreateCommand.LastName,
-                _avatarFactory.MakeDefaultAvatar(AvatarDefaultType.User),
-                Constants.DefaultLicence);
+                _mediaResourceFactory.MakeDefaultAvatarImage(AvatarDefaultType.User),
+                userCreateCommand.DefaultLicence,
+                userCreateCommand.Timezone);
             _documentSession.Store(user);
 
             // Make user project

@@ -67,8 +67,8 @@ namespace Bowerbird.Core.Indexes
                                 select new
                                 {
                                     result.UserId,
-                                    result.GroupIds,
-                                    result.ConnectionIds,
+                                    GroupIds = result.GroupIds ?? new string [] {},
+                                    ConnectionIds = result.ConnectionIds ?? new string[] {},
                                     result.LatestActivity,
                                     User = database.Load<User>(result.UserId),
                                     UserProjects = database.Load<UserProject>(result.GroupIds),

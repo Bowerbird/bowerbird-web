@@ -15,6 +15,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Infrastructure;
 using Bowerbird.Web.Builders;
 using Bowerbird.Web.ViewModels;
 using Bowerbird.Core.Commands;
@@ -32,7 +33,7 @@ namespace Bowerbird.Web.Controllers
     {
         #region Members
 
-        private readonly ICommandProcessor _commandProcessor;
+        private readonly IMessageBus _messageBus;
         private readonly IUserContext _userContext;
         private readonly ISightingViewModelBuilder _sightingViewModelBuilder;
         private readonly IDocumentSession _documentSession;
@@ -43,20 +44,20 @@ namespace Bowerbird.Web.Controllers
         #region Constructors
 
         public ObservationsController(
-            ICommandProcessor commandProcessor,
+            IMessageBus messageBus,
             IUserContext userContext,
             ISightingViewModelBuilder sightingViewModelBuilder,
             IDocumentSession documentSession,
             IPermissionChecker permissionChecker
             )
         {
-            Check.RequireNotNull(commandProcessor, "commandProcessor");
+            Check.RequireNotNull(messageBus, "messageBus");
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(sightingViewModelBuilder, "sightingViewModelBuilder");
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(permissionChecker, "permissionChecker");
 
-            _commandProcessor = commandProcessor;
+            _messageBus = messageBus;
             _userContext = userContext;
             _sightingViewModelBuilder = sightingViewModelBuilder;
             _documentSession = documentSession;
@@ -191,7 +192,7 @@ namespace Bowerbird.Web.Controllers
                 return JsonFailed();
             }
 
-            _commandProcessor.Process(
+            _messageBus.Send(
                 new ObservationCreateCommand()
                     {
                         Title = createInput.Title,
@@ -203,7 +204,7 @@ namespace Bowerbird.Web.Controllers
                         Category = createInput.Category,
                         ObservedOn = createInput.ObservedOn,
                         UserId = _userContext.GetAuthenticatedUserId(),
-                        Projects = createInput.Projects,
+                        Projects = createInput.ProjectIds,
                         Media = createInput.Media.Select(x => new ObservationMediaCreateCommand() 
                             { 
                                 MediaResourceId = x.MediaResourceId, 
@@ -238,7 +239,7 @@ namespace Bowerbird.Web.Controllers
                 return JsonFailed();
             }
 
-            _commandProcessor.Process(
+            _messageBus.Send(
                 new ObservationUpdateCommand
                 {
                     Id = observationId,
@@ -251,7 +252,7 @@ namespace Bowerbird.Web.Controllers
                     Category = updateInput.Category,
                     ObservedOn = updateInput.ObservedOn,
                     UserId = _userContext.GetAuthenticatedUserId(),
-                    Projects = updateInput.Projects
+                    Projects = updateInput.ProjectIds
                 });
 
             return JsonSuccess();
@@ -279,7 +280,7 @@ namespace Bowerbird.Web.Controllers
                 return JsonFailed();
             }
 
-            _commandProcessor.Process(
+            _messageBus.Send(
                 new ObservationDeleteCommand
                 {
                     Id = id,

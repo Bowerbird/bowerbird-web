@@ -9,30 +9,8 @@
 // --------------
 
 // Shows an individual stream item
-define(['jquery', 'underscore', 'backbone', 'app', 'timeago'],
-function ($, _, Backbone, app) {
-    var parseISO8601 = function (str) {
-        // we assume str is a UTC date ending in 'Z'
-
-        var parts = str.split('T'),
-        dateParts = parts[0].split('-'),
-        timeParts = parts[1].split('Z'),
-        timeSubParts = timeParts[0].split(':'),
-        timeSecParts = timeSubParts[2].split('.'),
-        timeHours = Number(timeSubParts[0]),
-        _date = new Date;
-
-        _date.setUTCFullYear(Number(dateParts[0]));
-        _date.setUTCMonth(Number(dateParts[1]) - 1);
-        _date.setUTCDate(Number(dateParts[2]));
-        _date.setUTCHours(Number(timeHours));
-        _date.setUTCMinutes(Number(timeSubParts[1]));
-        _date.setUTCSeconds(Number(timeSecParts[0]));
-        if (timeSecParts[1]) _date.setUTCMilliseconds(Number(timeSecParts[1]));
-
-        // by using setUTC methods the date has already been converted to local time(?)
-        return _date;
-    };
+define(['jquery', 'underscore', 'backbone', 'app', 'moment', 'timeago'],
+function ($, _, Backbone, app, moment) {
 
     var StreamItemView = Backbone.Marionette.ItemView.extend({
         tagName: 'li',
@@ -42,11 +20,16 @@ function ($, _, Backbone, app) {
         template: 'StreamItem',
 
         serializeData: function () {
-            var json = { Model: this.model.toJSON() };
-            json.Model.CreatedDateTimeDescription = parseISO8601(this.model.get('CreatedDateTime'));
-            json.Model.ObservedOnDescription = ''; //parseISO8601(this.model.get('ObservedOn') + 'Z').format('d MMM yyyy')
-            if (json.Model.Type == "observationadded") {
-                json.Model.ShowThumbnails = this.model.get('ObservationAdded').Observation.Media.length > 1 ? true : false;
+            var json = {
+                Model: {
+                    Activity: this.model.toJSON(),
+                    CreatedDateTimeDescription: moment(this.model.get('CreatedDateTime')).format('D MMM YYYY h:mma')
+                }
+            };
+            if (json.Model.Activity.ObservationAdded) {
+                json.Model.Activity.ObservationAdded.ShowThumbnails = this.model.get('ObservationAdded').Observation.Media.length > 1 ? true : false;
+                json.Model.Activity.ObservationAdded.ShowProjects = this.model.get('ObservationAdded').Observation.Projects.length > 0 ? true : false;
+                json.Model.Activity.ObservationAdded.ObservedOnDescription = moment(this.model.get('ObservationAdded').Observation.ObservedOn).format('D MMM YYYY h:mma');
             }
 
             return json;
@@ -61,31 +44,87 @@ function ($, _, Backbone, app) {
                     app.observationRouter.navigate($(this).attr('href'), { trigger: true });
                     return false;
                 });
+
+                var mapOptions = {
+                    zoom: 9,
+                    center: new google.maps.LatLng(-33, 151),
+                    disableDefaultUI: true,
+                    scrollwheel: false,
+                    disableDoubleClickZoom: false,
+                    draggable: false,
+                    keyboardShortcuts: false,
+                    mapTypeId: google.maps.MapTypeId.TERRAIN
+                }
+
+                var map = new google.maps.Map(this.$el.find('.map').get(0), mapOptions);
+                this.map = map;
+
+                var point = new google.maps.LatLng(this.model.get('ObservationAdded').Observation.Latitude, this.model.get('ObservationAdded').Observation.Longitude);
+                this.point = point;
+
+                var image = new google.maps.MarkerImage('http://maps.gstatic.com/mapfiles/ms/icons/blue-dot.png',
+                    new google.maps.Size(32, 32),
+                    new google.maps.Point(0, 0),
+                    new google.maps.Point(15, 32)
+                );
+
+                var shadow = new google.maps.MarkerImage("http://maps.gstatic.com/mapfiles/kml/paddle/A_maps.shadow.png",
+                    new google.maps.Size(59, 32),
+                    new google.maps.Point(0, 0),
+                    new google.maps.Point(15, 32)
+                );
+
+                var mapMarker = new google.maps.Marker({
+                    position: point,
+                    map: map,
+                    clickable: false,
+                    draggable: false,
+                    icon: image,
+                    shadow: shadow
+                });
+
+                //var newPoint = new google.maps.LatLng(point.lat(), point.lng());
+
+                var $map = this.$el.find('.map');
+                var $location = this.$el.find('.location');
+                var resizeTimer;
+                $(window).resize(function () {
+                    clearTimeout(resizeTimer);
+                    resizeTimer = setTimeout(function () {
+                        $map.width($location.width() + 'px');
+                        google.maps.event.trigger(map, 'resize');
+                        map.panTo(point);
+                    }, 100);
+                });
+
+                //                log('width', $location.width());
+                //                $map.width($location.width() + 'px')
+                //                google.maps.event.trigger(map, 'resize');
+                //map.panTo(point);
             }
 
             if (this.model.get('Type') == "postadded") {
                 this.$el.find('h2 a').on('click', function (e) {
                     e.preventDefault();
                     app.postRouter.navigate($(this).attr('href'), { trigger: true });
+
                     return false;
                 });
             }
 
+            return this;
+        },
+
+        start: function () {
+            if (this.model.get('Type') == "observationadded") {
+                var $map = this.$el.find('.map');
+                var $location = this.$el.find('.location');
+
+                $map.width($location.width() + 'px')
+                google.maps.event.trigger(this.map, 'resize');
+                this.map.panTo(this.point);
+            }
         }
-        //        render: function () {
-        //            switch (this.StreamItem.get('Type')) {
-        //                case 'observation':
-        //                    var streamitemJSON = this.streamItem.toJSON();
-        //                    streamitemJSON['ObservedOnDate'] = new Date(parseInt(this.streamItem.get('Item').ObservedOn.substr(6))).format('d MMM yyyy');
-        //                    streamitemJSON['ObservedOnTime'] = new Date(parseInt(this.streamItem.get('Item').ObservedOn.substr(6))).format('h:mm');
-        //                    streamitemJSON['HighlightMedia'] = streamitemJSON.item.observationMedia[0];
-        //                    this.$el.append(ich.ObservationStreamListItem(streamitemJSON)).addClass('observation-stream-item');
-        //                    break;
-        //                default:
-        //                    break;
-        //            }
-        //            return this;
-        //        }
     });
 
     return StreamItemView;

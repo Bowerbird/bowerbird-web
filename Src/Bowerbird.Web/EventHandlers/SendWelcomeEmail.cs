@@ -59,8 +59,7 @@ namespace Bowerbird.Web.EventHandlers
             Check.RequireNotNull(userCreatedEvent, "userCreatedEvent");
 
             var message = Email
-                //.From(_configSettings.GetEmailAdminAccount(), "Bowerbird")
-                .From("fradocaj@museum.vic.gov.au", "Bowerbird")
+                .From("noreply@bowerbird.org.au", "Bowerbird")
                 .To(userCreatedEvent.DomainModel.Email)
                 .Subject("Bowerbird account verification")
                 .UsingTemplate("WelcomeEmail", new { userCreatedEvent.DomainModel.FirstName })

@@ -159,7 +159,7 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
             var key = app.generateGuid();
             this.currentUploads.add({ Key: key });
 
-            data.formData = { Key: key, OriginalFileName: data.files[0].name, MediaType: '', Usage: 'observation' };
+            data.formData = { Key: key, FileName: data.files[0].name, Type: 'file', Usage: 'contribution' };
             if (window.isIEFail) {
                 data.formData.ie = true;
             }
@@ -204,8 +204,8 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
                     Key: key,
                     VideoId: videoId,
                     VideoProviderName: videoProviderName,
-                    MediaType: 'video',
-                    Usage: 'observation'
+                    Type: 'externalvideo',
+                    Usage: 'contribution'
                 }
             });
         },

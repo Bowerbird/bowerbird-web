@@ -14,6 +14,9 @@
 
 namespace Bowerbird.Core.Services
 {
+    /// <summary>
+    /// Please note that this factory DOES NOT have an implementation. Ninject creates a concrete class at initialisation.
+    /// </summary>
     public interface IMediaServiceFactory
     {
         IAudioService CreateAudioService();

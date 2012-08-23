@@ -85,7 +85,7 @@ namespace Bowerbird.Core.DomainModels
             DescendantGroups = new List<DenormalisedGroupReference>();
         }
 
-        protected void SetDetails(string name)
+        protected void SetGroupDetails(string name)
         {
             Name = name;
         }

@@ -43,29 +43,24 @@ namespace Bowerbird.Core.Commands
         public DateTime UploadedOn { get; set; }
 
         /// <summary>
-        /// Image, Video, Audio or Document (if known)
+        /// Type of media (File, ExternalVideo)
         /// </summary>
-        public string MediaType { get; set; }
+        public string Type { get; set; }
 
         /// <summary>
-        /// Mimetype of media (if known)
-        /// </summary>
-        public string MimeType { get; set; }
-
-        /// <summary>
-        /// How the media resource will be used
+        /// How the media will be used (Contribution, Avatar)
         /// </summary>
         public string Usage { get; set; }
 
-        #region Images
+        #region File
 
-        public string OriginalFileName { get; set; }
+        public string FileName { get; set; }
 
-        public Stream Stream { get; set; }
+        public Stream FileStream { get; set; }
 
         #endregion
 
-        #region Videos
+        #region ExternalVideo
 
         public string VideoProviderName { get; set; }
 

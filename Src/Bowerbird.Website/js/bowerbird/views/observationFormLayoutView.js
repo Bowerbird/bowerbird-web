@@ -8,9 +8,9 @@
 // ObservationFormLayoutView
 // -------------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editmapview', 'views/observationmediaformview', 'datepicker', 'multiselect', 'jqueryui/dialog'],
-function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView) {
-    
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editmapview', 'views/observationmediaformview', 'moment', 'datepicker', 'multiselect', 'jqueryui/dialog'],
+function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView, moment) {
+
     var ObservationFormLayoutView = Backbone.Marionette.Layout.extend({
 
         className: 'form observation-form',
@@ -26,7 +26,7 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView) {
             'click #cancel': '_cancel',
             'click #save': '_save',
             'change input#Title': '_contentChanged',
-            'change input#ObservedOn': '_contentChanged',
+            'change input#ObservedOn': '_observedOnChanged',
             'change input#Address': '_contentChanged',
             'change input#Latitude': '_latLongChanged',
             'change input#Longitude': '_latLongChanged',
@@ -36,7 +36,7 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView) {
             'change #category-field input:checkbox': '_categoryChanged'
         },
 
-        dateUpdated: false, // When we derive the very first media, we extract the date and update the ObservedOn field. No further updates are allowed.
+        observedOnUpdated: false, // When we derive the very first media, we extract the date and update the ObservedOn field. No further updates are allowed.
 
         initialize: function (options) {
             this.categories = options.categories;
@@ -53,13 +53,11 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView) {
         },
 
         onMediaChanged: function (media) {
-            if (!this.dateUpdated) {
-                var dateTaken = media.mediaResource.get('Metadata').DateTaken;
-                if (dateTaken) {
-                    this.dateUpdated = true;
-                    this.model.set('ObservedOn', dateTaken);
-                    this.$el.find('#ObservedOn').val(dateTaken);
-                }
+            if (!this.observedOnUpdated && media.mediaResource.get('Metadata').Created) {
+                var created = moment(media.mediaResource.get('Metadata').Created);
+                this.observedOnUpdated = true;
+                this.model.set('ObservedOn', media.mediaResource.get('Metadata').Created);
+                this.$el.find('#ObservedOn').val(created.format('D MMM YYYY'));
             }
         },
 
@@ -81,6 +79,7 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView) {
             this.media.attachView(observationMediaFormView);
             observationMediaFormView.render();
 
+            this.$el.find('#ObservedOn').val(moment(this.model.get('ObservedOn')).format('D MMM YYYY'));
             this.observedOnDatePicker = this.$el.find('#ObservedOn').datepicker();
 
             this.categoryListSelectView = this.$el.find("#Category").multiSelect({
@@ -118,14 +117,14 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView) {
                     }
                     var project = app.authenticatedUser.projects.get(option.value);
 
-                    html += ' /><img src="' + project.get('Avatar').Image.Square100.RelativeUri + '" alt="" />' + project.get('Name') + '</label>';
+                    html += ' /><img src="' + project.get('Avatar').Image.Square100.Uri + '" alt="" />' + project.get('Name') + '</label>';
                     return html;
                 },
                 oneOrMoreSelected: function (selectedOptions) {
                     var $selectedHtml = $('<div />');
                     _.each(selectedOptions, function (option) {
                         var project = app.authenticatedUser.projects.get(option.value);
-                        $selectedHtml.append('<span class="selected-project"><img src="' + project.get('Avatar').Image.Square100.RelativeUri + '" alt="" />' + option.text + '</span> ');
+                        $selectedHtml.append('<span class="selected-project"><img src="' + project.get('Avatar').Image.Square100.Uri + '" alt="" />' + option.text + '</span> ');
                     });
                     return $selectedHtml.children();
                 }
@@ -141,10 +140,10 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView) {
             if (target.attr('id') === 'Address') {
                 this._latLongChanged(e);
             }
+        },
 
-            if (target.attr('id') === 'ObservedOn') {
-                this.dateUpdated = true;
-            }
+        _observedOnChanged: function (e) {
+            this.observedOnUpdated = true;
         },
 
         _latLongChanged: function (e) {

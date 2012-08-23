@@ -53,7 +53,7 @@ function ($, _, Backbone, app, DummyOverlayView) {
                 panControl: false,
                 streetViewControl: false,
                 mapTypeControl: true,
-                scrollwheel: false,
+                scrollwheel: true,
                 mapTypeId: g.MapTypeId.TERRAIN
             };
 
@@ -219,11 +219,9 @@ function ($, _, Backbone, app, DummyOverlayView) {
                 this._reverseGeocode();
             }
 
-            if (!this.map.getBounds().contains(this.mapMarker.getPosition())) {
-                var position = this.mapMarker.getPosition();
-                var newPoint = new google.maps.LatLng(position.lat() + .02, position.lng());
-                this.map.panTo(newPoint);
-            }
+            var position = this.mapMarker.getPosition();
+            var newPoint = new google.maps.LatLng(position.lat() + .02, position.lng());
+            this.map.panTo(newPoint);
         },
 
         _displayLatLong: function (fireLatLongFieldsChangeEvent) {

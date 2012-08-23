@@ -14,21 +14,23 @@
 
 using Bowerbird.Core.DomainModels;
 
-namespace Bowerbird.Core.Utilities
+namespace Bowerbird.Core.Factories
 {
     public class ImageCreationTask
     {
         public MediaResourceFile File { get; set; }
 
         public string StoredRepresentation { get; set; }
-        
+
         public bool? DetermineBestOrientation { get; set; }
-        
-        public ImageResizeMode? ImageResizeMode { get; set; }
+
+        public string ImageResizeMode { get; set; }
+
+        public string MimeType { get; set; }
 
         public bool DoImageManipulation()
         {
-            return DetermineBestOrientation.HasValue && ImageResizeMode.HasValue;
+            return DetermineBestOrientation.HasValue && !string.IsNullOrWhiteSpace(ImageResizeMode);
         }
     }
 }

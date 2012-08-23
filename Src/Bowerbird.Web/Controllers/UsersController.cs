@@ -15,6 +15,7 @@
 using System.Web.Mvc;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.Infrastructure;
 using Bowerbird.Web.Builders;
 using Bowerbird.Web.Config;
 using Bowerbird.Web.ViewModels;
@@ -29,7 +30,7 @@ namespace Bowerbird.Web.Controllers
     {
         #region Members
 
-        private readonly ICommandProcessor _commandProcessor;
+        private readonly IMessageBus _messageBus;
         private readonly IUserContext _userContext;
         private readonly IUserViewModelBuilder _userViewModelBuilder;
         private readonly IActivityViewModelBuilder _activityViewModelBuilder;
@@ -44,7 +45,7 @@ namespace Bowerbird.Web.Controllers
         #region Constructors
 
         public UsersController(
-            ICommandProcessor commandProcessor,
+            IMessageBus messageBus,
             IUserContext userContext,
             IUserViewModelBuilder userViewModelBuilder,
             IActivityViewModelBuilder activityViewModelBuilder,
@@ -54,7 +55,7 @@ namespace Bowerbird.Web.Controllers
             IPermissionChecker permissionChecker,
             ISightingViewModelBuilder sightingViewModelBuilder)
         {
-            Check.RequireNotNull(commandProcessor, "commandProcessor");
+            Check.RequireNotNull(messageBus, "messageBus");
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(userViewModelBuilder, "userViewModelBuilder");
             Check.RequireNotNull(activityViewModelBuilder, "activityViewModelBuilder");
@@ -64,7 +65,7 @@ namespace Bowerbird.Web.Controllers
             Check.RequireNotNull(permissionChecker, "permissionChecker");
             Check.RequireNotNull(sightingViewModelBuilder, "sightingViewModelBuilder");
 
-            _commandProcessor = commandProcessor;
+            _messageBus = messageBus;
             _userContext = userContext;
             _userViewModelBuilder = userViewModelBuilder;
             _projectViewModelBuilder = projectViewModelBuilder;

@@ -38,6 +38,10 @@ namespace Bowerbird.Core.Commands
 
         public string Password { get; set; }
 
+        public string DefaultLicence { get; set; }
+
+        public string Timezone { get; set; }
+
         public IEnumerable<string> Roles { get; set; }
 
         #endregion

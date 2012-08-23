@@ -17,6 +17,7 @@ using Bowerbird.Core.Extensions;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Paging;
 using Bowerbird.Web.ViewModels;
+using NodaTime;
 using Raven.Client;
 using Raven.Client.Linq;
 using Bowerbird.Core.Config;
@@ -108,7 +109,8 @@ namespace Bowerbird.Web.Builders
                     RoleIds = x.Roles.Select(y => y.Id),
                     PermissionIds = x.Roles.SelectMany(y => y.Permissions).Select(y => y.Id)
                 }),
-                user.DefaultLicence
+                user.DefaultLicence,
+                TimezoneOffset = DateTimeZoneProviders.Tzdb[user.Timezone].GetOffsetFromUtc(new Instant()).ToString()
             };
         }
 

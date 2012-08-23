@@ -1,4 +1,4 @@
-﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+﻿ /* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -13,16 +13,20 @@
 */
 
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Collections.Generic;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Events;
 using Bowerbird.Core.Factories;
+using Bowerbird.Core.Infrastructure;
 using Bowerbird.Core.Services;
-using Bowerbird.Core.Utilities;
+using Bowerbird.Web.Utilities;
 using NLog;
+using NodaTime;
 using Raven.Client;
 
 namespace Bowerbird.Web.Services
@@ -34,7 +38,9 @@ namespace Bowerbird.Web.Services
         private Logger _logger = LogManager.GetLogger("ImageService");
 
         private readonly IMediaFilePathFactory _mediaFilePathFactory;
+        private readonly IMediaResourceFactory _mediaResourceFactory;
         private readonly IDocumentSession _documentSession;
+        private readonly IMessageBus _messageBus;
 
         #endregion
 
@@ -42,21 +48,27 @@ namespace Bowerbird.Web.Services
 
         public ImageService(
             IMediaFilePathFactory mediaFilePathFactory,
-            IDocumentSession documentSession
+            IMediaResourceFactory mediaResourceFactory,
+            IDocumentSession documentSession,
+            IMessageBus messageBus
             )
         {
             Check.RequireNotNull(mediaFilePathFactory, "mediaFilePathFactory");
+            Check.RequireNotNull(mediaResourceFactory, "mediaResourceFactory");
             Check.RequireNotNull(documentSession, "documentSession");
+            Check.RequireNotNull(messageBus, "messageBus");
 
             _mediaFilePathFactory = mediaFilePathFactory;
+            _mediaResourceFactory = mediaResourceFactory;
             _documentSession = documentSession;
+            _messageBus = messageBus;
         }
 
         #endregion
 
         #region Methods
 
-        public bool Save(MediaResourceCreateCommand command, MediaResource mediaResource, out string failureReason)
+        public bool Save(MediaResourceCreateCommand command, out string failureReason)
         {
             if (!_documentSession.Load<AppRoot>(Constants.AppRootId).ImageServiceStatus)
             {
@@ -64,182 +76,146 @@ namespace Bowerbird.Web.Services
                 return false;
             }
 
+            MediaResource mediaResource = null;
             ImageUtility image = null;
+            bool returnValue;
 
             try
             {
-                ImageDimensions imageDimensions;
-
-                IDictionary<string, object> exifData;
                 var imageCreationTasks = new List<ImageCreationTask>();
 
-                image = ImageUtility
-                    .Load(command.Stream)
-                    .GetExifData(out exifData)
-                    .GetImageDimensions(out imageDimensions);
+                image = ImageUtility.Load(command.FileStream);
 
-                MakeOriginalImageMediaResourceFile(
-                    mediaResource,
-                    imageCreationTasks,
-                    command.OriginalFileName,
-                    command.Stream.Length,
-                    imageDimensions,
-                    exifData);
+                var createdByUser = _documentSession.Load<User>(command.UserId);
 
-                if (command.Usage == "observation")
+                if (command.Usage == "contribution")
                 {
-                    MakeObservationImageMediaResourceFiles(mediaResource, imageCreationTasks);
-                }
-                else if (command.Usage == "post")
-                {
-                    MakePostImageMediaResourceFiles(mediaResource, imageCreationTasks);
+                    mediaResource = MakeContributionImage(
+                        createdByUser,
+                        image,
+                        imageCreationTasks,
+                        command);
                 }
                 else if (command.Usage == "avatar")
                 {
-                    MakeAvatarImageMediaResourceFiles(mediaResource, imageCreationTasks);
+                    mediaResource = MakeAvatarImage(
+                        createdByUser,
+                        image,
+                        imageCreationTasks,
+                        command);
+                }
+                else
+                {
+                    throw new ArgumentException("The specified usage '" + command.Usage + "' is not recognised.");
                 }
 
-                SaveImages(image, mediaResource, imageCreationTasks);
+                FileUtility.SaveImages(image, mediaResource, imageCreationTasks, _mediaFilePathFactory);
+
+                _documentSession.Store(mediaResource);
+                _documentSession.SaveChanges();
+
+                _messageBus.Publish(new DomainModelCreatedEvent<MediaResource>(mediaResource, createdByUser, mediaResource));
+
+                failureReason = string.Empty;
+                returnValue = true;
             }
             catch (Exception exception)
             {
                 _logger.ErrorException("Error saving images", exception);
 
+                if (mediaResource != null)
+                {
+                    _documentSession.Delete(mediaResource);
+                    _documentSession.SaveChanges();
+                }
+
+                failureReason = "The file is corrupted or not a valid JPEG and could not be saved. Please check the file and try again.";
+                returnValue = false;
+            }
+            finally
+            {
                 if (image != null)
                 {
                     image.Cleanup();
                 }
-
-                failureReason = "The file is corrupted or not a valid JPEG and could not be saved. Please check the file and try again.";
-                return false;
             }
 
-            if (image != null)
+            return returnValue;
+        }
+
+        private MediaResource MakeContributionImage(User createdByUser, ImageUtility image, List<ImageCreationTask> imageCreationTasks, MediaResourceCreateCommand command)
+        {
+            IDictionary<string, object> exifData = image.GetExifData();
+            ImageDimensions imageDimensions = image.GetImageDimensions();
+
+            var metadata = new Dictionary<string, string>();
+
+            if (exifData.Count > 0)
             {
-                image.Cleanup();
+                metadata = GetImageExifMetadata(exifData, createdByUser.Timezone);
             }
 
-            failureReason = string.Empty;
-            return true;
+            return _mediaResourceFactory.MakeContributionImage(
+                command.Key,
+                createdByUser,
+                command.UploadedOn,
+                command.FileName,
+                imageDimensions.Width,
+                imageDimensions.Height,
+                command.FileStream.Length,
+                exifData,
+                image.GetImageMimeType(),
+                metadata,
+                imageCreationTasks);
         }
 
-        private void MakeOriginalImageMediaResourceFile(MediaResource mediaResource, List<ImageCreationTask> imageCreationTasks, string originalFileName, long size, ImageDimensions imageDimensions, IDictionary<string, object> exifData)
+        private MediaResource MakeAvatarImage(User createdByUser, ImageUtility image, List<ImageCreationTask> imageCreationTasks, MediaResourceCreateCommand command)
         {
-            string format = "jpeg";
-            string extension = "jpg";
+            ImageDimensions imageDimensions = image.GetImageDimensions();
 
-            dynamic file = AddImageFile(mediaResource, imageCreationTasks, "Original", format, extension, imageDimensions.Width, imageDimensions.Height, null, null);
-            file.Size = size.ToString();
-            file.OriginalFilename = originalFileName;
-            file.ExifData = exifData;
-
-            if (exifData != null && exifData.Count > 0)
-            {
-                SetImageExifMetadata(mediaResource, (dynamic)file);
-            }
+            return _mediaResourceFactory.MakeAvatarImage(
+                command.Key,
+                createdByUser,
+                command.UploadedOn,
+                command.FileName,
+                imageDimensions.Width,
+                imageDimensions.Height,
+                image.GetImageMimeType(),
+                imageCreationTasks);
         }
 
-        private void MakeObservationImageMediaResourceFiles(MediaResource mediaResource, List<ImageCreationTask> imageCreationTasks)
+        private Dictionary<string, string> GetImageExifMetadata(IDictionary<string, object> exifData, string timezone)
         {
-            AddImageFile(mediaResource, imageCreationTasks, "Square42", "jpeg", "jpg", 42, 42, false, ImageResizeMode.Crop);
-            AddImageFile(mediaResource, imageCreationTasks, "Square100", "jpeg", "jpg", 100, 100, false, ImageResizeMode.Crop);
-            AddImageFile(mediaResource, imageCreationTasks, "Square200", "jpeg", "jpg", 200, 200, false, ImageResizeMode.Crop);
-            AddImageFile(mediaResource, imageCreationTasks, "Full480", "jpeg", "jpg", 640, 480, false, ImageResizeMode.Normal);
-            AddImageFile(mediaResource, imageCreationTasks, "Full768", "jpeg", "jpg", 1024, 768, false, ImageResizeMode.Normal);
-            AddImageFile(mediaResource, imageCreationTasks, "Full1024", "jpeg", "jpg", 1280, 1024, false, ImageResizeMode.Normal);
-        }
+            var metadata = new Dictionary<string, string>();
 
-        private void MakePostImageMediaResourceFiles(MediaResource mediaResource, List<ImageCreationTask> imageCreationTasks)
-        {
-            AddImageFile(mediaResource, imageCreationTasks, "Square42", "jpeg", "jpg", 42, 42, false, ImageResizeMode.Crop);
-            AddImageFile(mediaResource, imageCreationTasks, "Square100", "jpeg", "jpg", 100, 100, false, ImageResizeMode.Crop);
-            AddImageFile(mediaResource, imageCreationTasks, "Square200", "jpeg", "jpg", 200, 200, false, ImageResizeMode.Crop);
-        }
-
-        private void MakeAvatarImageMediaResourceFiles(MediaResource mediaResource, List<ImageCreationTask> imageCreationTasks)
-        {
-            AddImageFile(mediaResource, imageCreationTasks, "Square42", "jpeg", "jpg", 42, 42, false, ImageResizeMode.Crop);
-            AddImageFile(mediaResource, imageCreationTasks, "Square100", "jpeg", "jpg", 100, 100, false, ImageResizeMode.Crop);
-            AddImageFile(mediaResource, imageCreationTasks, "Square200", "jpeg", "jpg", 200, 200, false, ImageResizeMode.Crop);
-        }
-
-        private MediaResourceFile AddImageFile(MediaResource mediaResource, List<ImageCreationTask> imageCreationTasks, string storedRepresentation, string format, string extension, int width, int height, bool? determineBestOrientation, ImageResizeMode? imageResizeMode)
-        {
-            var mediaResourceFile = mediaResource.AddImageFile(
-                storedRepresentation,
-                _mediaFilePathFactory.MakeMediaFileName(mediaResource.Id, storedRepresentation, extension),
-                _mediaFilePathFactory.MakeRelativeMediaFileUri(mediaResource.Id, "image", storedRepresentation, extension),
-                format,
-                width,
-                height,
-                extension);
-
-            imageCreationTasks.Add(new ImageCreationTask
-            {
-                File = mediaResourceFile,
-                StoredRepresentation = storedRepresentation,
-                DetermineBestOrientation = determineBestOrientation,
-                ImageResizeMode = imageResizeMode
-            });
-
-            return mediaResourceFile;
-        }
-
-        private void SaveImages(ImageUtility image, MediaResource mediaResource, List<ImageCreationTask> imageCreationTasks)
-        {
-            foreach (var imageCreationTask in imageCreationTasks)
-            {
-                dynamic imageFile = imageCreationTask.File;
-
-                var fullPath = _mediaFilePathFactory.MakeMediaFilePath(mediaResource.Id, "image", imageCreationTask.StoredRepresentation, imageFile.Extension);
-
-                if (!imageCreationTask.DoImageManipulation())
-                {
-                    image
-                        .Reset()
-                        .SaveAs(fullPath);
-                }
-                else
-                {
-                    image
-                        .Reset()
-                        .Resize(new ImageDimensions(imageFile.Width, imageFile.Height), imageCreationTask.DetermineBestOrientation.Value, imageCreationTask.ImageResizeMode.Value)
-                        .SaveAs(fullPath);
-                }
-            }
-        }
-
-        private void SetImageExifMetadata(MediaResource mediaResource, dynamic originalFile)
-        {
-            if (originalFile.ExifData.ContainsKey(ExifLib.ExifTags.GPSLatitude.ToString()) &&
-                originalFile.ExifData.ContainsKey(ExifLib.ExifTags.GPSLongitude.ToString()) &&
-                originalFile.ExifData.ContainsKey(ExifLib.ExifTags.GPSLatitudeRef.ToString()) &&
-                originalFile.ExifData.ContainsKey(ExifLib.ExifTags.GPSLongitudeRef.ToString()))
+            if (exifData.ContainsKey(ExifTags.GPSLatitude.ToString()) &&
+                exifData.ContainsKey(ExifTags.GPSLongitude.ToString()) &&
+                exifData.ContainsKey(ExifTags.GPSLatitudeRef.ToString()) &&
+                exifData.ContainsKey(ExifTags.GPSLongitudeRef.ToString()))
             {
                 var latitudeConverted = ConvertDegreeAngleToDouble(
-                    originalFile.ExifData[ExifLib.ExifTags.GPSLatitude.ToString()] as double[],
-                    originalFile.ExifData[ExifLib.ExifTags.GPSLatitudeRef.ToString()] as string);
+                    exifData[ExifTags.GPSLatitude.ToString()] as double[],
+                    exifData[ExifTags.GPSLatitudeRef.ToString()] as string);
 
                 var longitudeConverted = ConvertDegreeAngleToDouble(
-                    originalFile.ExifData[ExifLib.ExifTags.GPSLongitude.ToString()] as double[],
-                    originalFile.ExifData[ExifLib.ExifTags.GPSLongitudeRef.ToString()] as string);
+                    exifData[ExifTags.GPSLongitude.ToString()] as double[],
+                    exifData[ExifTags.GPSLongitudeRef.ToString()] as string);
 
                 if (latitudeConverted.HasValue && longitudeConverted.HasValue)
                 {
-                    mediaResource.AddMetadata("Latitude", latitudeConverted.Value.ToString());
-                    mediaResource.AddMetadata("Longitude", longitudeConverted.Value.ToString());
+                    metadata.Add("Latitude", latitudeConverted.Value.ToString());
+                    metadata.Add("Longitude", longitudeConverted.Value.ToString());
                 }
             }
 
-            if (originalFile.ExifData.ContainsKey(ExifLib.ExifTags.DateTime.ToString()))
+            if (exifData.ContainsKey(ExifTags.DateTimeOriginal.ToString()))
             {
-                //var dateTimeTakenExif = originalFile.ExifData[ExifLib.ExifTags.DateTime.ToString()].ToString();
+                DateTime convertedDateTime = ConvertDateTime(exifData[ExifTags.DateTimeOriginal.ToString()].ToString(), timezone);
 
-                var convertedDateTime = ConvertDateTime(originalFile.ExifData[ExifLib.ExifTags.DateTime.ToString()].ToString());
-
-                // TODO: Format date into ISO8601 yyyy-MM-ddThh:mm:ssZ - also, is the EXIF datetime local/UTC time?
-                mediaResource.AddMetadata("DateTaken", convertedDateTime.ToString("dd MMM yyyy"));
+                metadata.Add("Created", convertedDateTime.ToString("yyyy-MM-ddTHH:mm:ssZ"));
             }
+
+            return metadata;
         }
 
         // In geographic coordinates stored as EXIF data, the coordinates for latitude and longitude are stored
@@ -266,8 +242,15 @@ namespace Bowerbird.Web.Services
             return degrees + (minutes / 60) + (seconds / 3600);
         }
 
-        // DateTime is stored as a string - "yyyy:MM:dd hh:mm:ss" in 24 hour format
-        private DateTime ConvertDateTime(string dateTimeExif)
+        /// <summary>
+        /// EXIF DateTime is stored as a string - "yyyy:MM:dd hh:mm:ss" in 24 hour format.
+        /// 
+        /// Since EXIF datetime does not store timezone info, making the time ambiguous, we grab the user's specified timezone
+        /// and assume the image was taken in that timezone.
+        /// 
+        /// If we don't have a parseable datetime, we set the time to now.
+        /// </summary>
+        private DateTime ConvertDateTime(string dateTimeExif, string timezone)
         {
             var dateTimeStringComponents = dateTimeExif.Split(new[] { ':', ' ' });
 
@@ -284,14 +267,21 @@ namespace Bowerbird.Web.Services
                     }
                 }
 
-                return new DateTime(
-                    dateTimeIntComponents[0], // year
-                    dateTimeIntComponents[1], // month
-                    dateTimeIntComponents[2], // day
-                    dateTimeIntComponents[3], // hour
-                    dateTimeIntComponents[4], // minute
-                    dateTimeIntComponents[5] // second
-                    );
+                // Get data into a local time object (no time zone specified)
+                var localDateTime = new LocalDateTime(
+                        dateTimeIntComponents[0], // year
+                        dateTimeIntComponents[1], // month
+                        dateTimeIntComponents[2], // day
+                        dateTimeIntComponents[3], // hour
+                        dateTimeIntComponents[4], // minute
+                        dateTimeIntComponents[5], // second
+                        CalendarSystem.Iso);
+
+                // Put the local date time into a timezone
+                var zonedDateTime = localDateTime.InZoneLeniently(DateTimeZoneProviders.Tzdb[timezone]);
+
+                // Get the UTC date time of the given local date time in the given time zone
+                return zonedDateTime.WithZone(DateTimeZone.Utc).ToDateTimeUtc();
             }
 
             return DateTime.UtcNow;

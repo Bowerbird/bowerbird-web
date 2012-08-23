@@ -18,7 +18,7 @@ using System.Web.Mvc;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.Utilities;
+using Bowerbird.Core.Infrastructure;
 using Raven.Client;
 using Bowerbird.Core.Config;
 using Bowerbird.Web.Config;
@@ -31,7 +31,7 @@ namespace Bowerbird.Web.Controllers
     {
         #region Fields
 
-        private readonly ICommandProcessor _commandProcessor;
+        private readonly IMessageBus _messageBus;
         private readonly IUserContext _userContext;
         private readonly IDocumentSession _documentSession;
 
@@ -40,16 +40,16 @@ namespace Bowerbird.Web.Controllers
         #region Constructors
 
         public MediaResourcesController(
-            ICommandProcessor commandProcessor,
+            IMessageBus messageBus,
             IDocumentSession documentSession,
             IUserContext userContext
             )
         {
-            Check.RequireNotNull(commandProcessor, "commandProcessor");
+            Check.RequireNotNull(messageBus, "messageBus");
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(userContext, "userContext");
 
-            _commandProcessor = commandProcessor;
+            _messageBus = messageBus;
             _documentSession = documentSession;
             _userContext = userContext;
         }
@@ -78,16 +78,15 @@ namespace Bowerbird.Web.Controllers
                 return JsonFailed();
             }
 
-            _commandProcessor.Process(new MediaResourceCreateCommand()
+            _messageBus.Send(new MediaResourceCreateCommand()
             {
                 Key = mediaResourceCreateInput.Key,
-                MediaType = mediaResourceCreateInput.MediaType,
-                MimeType = mediaResourceCreateInput.File != null ? mediaResourceCreateInput.File.ContentType : null,
-                Usage = mediaResourceCreateInput.Usage,
+                Type = mediaResourceCreateInput.Type.ToLower(),
+                Usage = mediaResourceCreateInput.Usage.ToLower(),
                 UploadedOn = DateTime.UtcNow,
                 UserId = _userContext.GetAuthenticatedUserId(),
-                Stream = mediaResourceCreateInput.File != null ? mediaResourceCreateInput.File.InputStream : null,
-                OriginalFileName = mediaResourceCreateInput.OriginalFileName,
+                FileStream = mediaResourceCreateInput.File != null ? mediaResourceCreateInput.File.InputStream : null,
+                FileName = mediaResourceCreateInput.FileName,
                 VideoProviderName = mediaResourceCreateInput.VideoProviderName,
                 VideoId = mediaResourceCreateInput.VideoId
             });

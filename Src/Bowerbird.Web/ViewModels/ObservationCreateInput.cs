@@ -55,7 +55,7 @@ namespace Bowerbird.Web.ViewModels
 
         public List<ObservationMediaItem> Media { get; set; }
 
-        public List<string> Projects { get; set; }
+        public List<string> ProjectIds { get; set; }
 
         #endregion
 

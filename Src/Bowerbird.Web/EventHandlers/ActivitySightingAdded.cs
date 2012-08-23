@@ -9,7 +9,8 @@
  * Atlas of Living Australia
  
 */
-                
+
+using System.Collections.Generic;
 using System.Linq;
 using Bowerbird.Core.Events;
 using Bowerbird.Core.DomainModels;
@@ -22,14 +23,13 @@ using Bowerbird.Web.Factories;
 namespace Bowerbird.Web.EventHandlers
 {
     /// <summary>
-    /// Logs an activity item when an observation is added. The situations in which this can occur are:
-    /// - A new observation is created, in which case we only add one activity item representing all groups the observation has been added to;
-    /// - An observation being added to a group after the observation's creation.
+    /// Logs an activity item when a sighting is added. The situations in which this can occur are:
+    /// - A new sighting is created, in which case we only add one activity item representing all groups the sighting has been added to;
+    /// - A sighting being added to a group after the sighting's creation.
     /// </summary>
-    public class ActivitySightingAdded : DomainEventHandlerBase, 
-        IEventHandler<DomainModelCreatedEvent<Observation>>,
-        IEventHandler<DomainModelCreatedEvent<Record>>, 
-        IEventHandler<DomainModelCreatedEvent<SightingGroup>>
+    public class ActivitySightingAdded : DomainEventHandlerBase,
+        IEventHandler<SightingCreatedEvent>,
+        IEventHandler<SightingGroupCreatedEvent>
     {
         #region Members
 
@@ -64,54 +64,46 @@ namespace Bowerbird.Web.EventHandlers
 
         #region Methods
 
-        public void Handle(DomainModelCreatedEvent<Observation> domainEvent)
+        public void Handle(SightingCreatedEvent domainEvent)
         {
-            dynamic activity = MakeActivity(
-                domainEvent, 
-                "observationadded", 
-                string.Format("{0} added an observation", domainEvent.User.GetName()), 
-                domainEvent.DomainModel.Groups.Select(x => x.Group));
-
-            activity.ObservationAdded = new
-            {
-                Observation = _sightingViewFactory.Make(domainEvent.DomainModel, domainEvent.User)
-            };
-
-            _documentSession.Store(activity);
-            _backChannelService.SendActivityToGroupChannel(activity);
+            Execute(domainEvent, domainEvent.DomainModel, domainEvent.Projects);
         }
 
-        public void Handle(DomainModelCreatedEvent<Record> domainEvent)
+        public void Handle(SightingGroupCreatedEvent domainEvent)
         {
-            dynamic activity = MakeActivity(
-                domainEvent,
-                "recordadded",
-                string.Format("{0} added a record", domainEvent.User.GetName()),
-                domainEvent.DomainModel.Groups.Select(x => x.Group));
-
-            activity.RecordAdded = new
+            if (domainEvent.Group is Project)
             {
-                Record = _sightingViewFactory.Make(domainEvent.DomainModel, domainEvent.User)
-            };
-
-            _documentSession.Store(activity);
-            _backChannelService.SendActivityToGroupChannel(activity);
+                Execute(domainEvent, domainEvent.Sender as Sighting, new [] { domainEvent.Group as Project });
+            }
         }
 
-        public void Handle(DomainModelCreatedEvent<SightingGroup> domainEvent)
+        private void Execute(IDomainEvent domainEvent, Sighting sighting, IEnumerable<Project> projects)
         {
+            string sightingType = sighting is Observation ? "observation" : "record";
+
             dynamic activity = MakeActivity(
                 domainEvent,
-                "sightingadded",
-                string.Format("{0} added {1}", domainEvent.User.GetName(), domainEvent.Sender is Observation ? "an observation" : "a record"), 
-                new[] { domainEvent.DomainModel.Group });
+                sightingType + "added",
+                string.Format("{0} added {1}", domainEvent.User.GetName(), sighting is Observation ? "an observation" : "a record"),
+                sighting.Groups.Select(x => x.Group));
 
-            activity.SightingAdded = new
+            if (sighting is Observation)
             {
-                Sighting = _sightingViewFactory.Make(domainEvent.Sender as Sighting, domainEvent.User)
-            };
+                activity.ObservationAdded = new
+                {
+                    Observation = _sightingViewFactory.Make(sighting, domainEvent.User, projects)
+                };
+            }
+            else
+            {
+                activity.RecordAdded = new
+                {
+                    Record = _sightingViewFactory.Make(sighting, domainEvent.User, projects)
+                };
+            }
 
             _documentSession.Store(activity);
+            _documentSession.SaveChanges();
             _backChannelService.SendActivityToGroupChannel(activity);
         }
 

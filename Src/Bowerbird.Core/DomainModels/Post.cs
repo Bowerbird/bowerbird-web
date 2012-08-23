@@ -36,8 +36,6 @@ namespace Bowerbird.Core.DomainModels
             : base()
         {
             InitMembers();
-
-            EnableEvents();
         }
 
         public Post(
@@ -61,15 +59,13 @@ namespace Bowerbird.Core.DomainModels
             CreatedOn = createdOn;
             Group = group;
 
-            SetDetails(
+            SetPostDetails(
                 subject,
                 message,
                 mediaResources
                 );
 
-            EnableEvents();
-
-            FireEvent(new DomainModelCreatedEvent<Post>(this, createdByUser, this));
+            ApplyEvent(new DomainModelCreatedEvent<Post>(this, createdByUser, this));
         }
 
         #endregion
@@ -104,7 +100,7 @@ namespace Bowerbird.Core.DomainModels
 
         #region Methods
 
-        private void SetDetails(string subject, string message, IEnumerable<MediaResource> mediaResources)
+        private void SetPostDetails(string subject, string message, IEnumerable<MediaResource> mediaResources)
         {
             Subject = subject;
             Message = message;
@@ -115,12 +111,12 @@ namespace Bowerbird.Core.DomainModels
         {
             Check.RequireNotNull(updatedByUser, "updatedByUser");
 
-            SetDetails(
+            SetPostDetails(
                 subject,
                 message,
                 mediaResources);
 
-            FireEvent(new DomainModelUpdatedEvent<Post>(this, updatedByUser, this));
+            ApplyEvent(new DomainModelUpdatedEvent<Post>(this, updatedByUser, this));
 
             return this;
         }

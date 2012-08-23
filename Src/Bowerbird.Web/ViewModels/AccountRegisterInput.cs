@@ -47,6 +47,8 @@ namespace Bowerbird.Web.ViewModels
         [StringLength(1000, MinimumLength = 6, ErrorMessage = "Passwords must be at least 6 characters in length")]
         public string Password { get; set; }
 
+        public bool RememberMe { get; set; }
+
         #endregion
 
         #region Methods

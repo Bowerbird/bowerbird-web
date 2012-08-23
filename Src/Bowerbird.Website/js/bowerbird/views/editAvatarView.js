@@ -34,7 +34,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/avataritemview'
 
         render: function () {
             this._initMediaUploader();
-            $('#avatar-viewer').append('<img src="' + this.model.get('Avatar').Image.Square200.RelativeUri + '" />');
+            $('#avatar-viewer').append('<img src="' + this.model.get('Avatar').Image.Square200.Uri + '" />');
             return this;
         },
 
@@ -58,7 +58,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/avataritemview'
         _onImageUploadAdd: function (e, data) {
             this.key = app.generateGuid();
 
-            data.formData = { Key: this.key, OriginalFileName: data.files[0].name, MediaType: '', Usage: 'avatar' };
+            data.formData = { Key: this.key, FileName: data.files[0].name, Type: 'file', Usage: 'avatar' };
             if (window.isIEFail) {
                 data.formData.ie = true;
             }
@@ -77,7 +77,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/avataritemview'
             this.model.set('AvatarId', mediaResource.id);
             //this.model.addMedia(mediaResource, '', app.authenticatedUser.defaultLicence);
             //this._updateProgress();
-            $('#avatar-viewer').empty().append('<img src="' + mediaResource.get('Image').Square200.RelativeUri + '" alt="" />');
+            $('#avatar-viewer').empty().append('<img src="' + mediaResource.get('Image').Square200.Uri + '" alt="" />');
         },
 
         _onMediaResourceUploadFailure: function (key, reason) {
@@ -126,7 +126,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/avataritemview'
         //            this.model.set('AvatarId', data.result.Id);
         //            var mediaResource = new MediaResource(data.result);
         //            //this.$el.find('#avatar-viewer img').replaceWith($('<img src="' + mediaResource.get('ProfileImageUri') + '" alt="" />'));
-        //            $('#avatar-viewer').empty().append('<img src="' + mediaResource.get('Files').ThumbnailMedium.RelativeUri + '" width="200px;" />');
+        //            $('#avatar-viewer').empty().append('<img src="' + mediaResource.get('Files').ThumbnailMedium.Uri + '" width="200px;" />');
         //        }
         onClose: function () {
             app.vent.off('mediaresourceuploadsuccess', this._onMediaResourceUploadSuccess, this);

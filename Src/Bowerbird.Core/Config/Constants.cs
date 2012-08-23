@@ -13,18 +13,95 @@
 */
 
 using System;
+using System.Collections.Generic;
 
 namespace Bowerbird.Core.Config
 {
     public static class Constants
     {
+        /// <summary>
+        /// The email cookie name
+        /// </summary>
         public static string EmailCookieName = "56277e138f774318ab152a84dad7adf9";
+
+        /// <summary>
+        /// The ID of the single AppRoot object
+        /// </summary>
         public static string AppRootId = "bowerbird/approot";
+
         /// <summary>
         /// The default licencing scheme for Bowerbird is the Creative Commons "Attribution-NonCommercial-ShareAlike" licence. 
         /// See: http://creativecommons.org/licenses/by-sa/3.0/au/
         /// </summary>
-        public static string DefaultLicence = "BY-NC-SA"; 
+        public static string DefaultLicence = "BY-NC-SA";
+
+        /// <summary>
+        /// All data is stored in UTC (also GMT or Zulu) time, but displayed in the user's specified timezone. 
+        /// 
+        /// The default timezone in zoneinfo (tz) format, if not specified by the user is "Australia/Melbourne" or GMT+10:00 relative to UTC
+        /// time (non-daylight savings). At the time of writing, this equated to Microsoft Windows format "AUS Eastern Standard Time". For more 
+        /// info about zoneinfo data: http://www.iana.org/time-zones
+        /// </summary>
+        public static string DefaultTimezone = "Australia/Melbourne";
+
+        /// <summary>
+        /// Time format used throught Bowerbird
+        /// </summary>
+        public static string ISO8601DateTimeFormat = "yyyy-MM-ddThh:mm:ssZ";
+
+        public static class ImageMimeTypes
+        {
+            /// <summary>
+            /// Standard mimetype for JPEG images ("image/jpeg")
+            /// </summary>
+            public static string Jpeg = "image/jpeg";
+
+            /// <summary>
+            /// Standard mimetype for TIFF images ("image/tiff")
+            /// </summary>
+            public static string Tiff = "image/tiff";
+
+            /// <summary>
+            /// Standard mimetype for GIF images ("image/gif")
+            /// </summary>
+            public static string Gif = "image/gif";
+
+            /// <summary>
+            /// Standard mimetype for PNG images ("image/png")
+            /// </summary>
+            public static string Png = "image/png";
+
+            /// <summary>
+            /// Standard mimetype for BMP images ("image/bmp")
+            /// </summary>
+            public static string Bmp = "image/bmp";            
+        }
+
+        public static class AudioMimeTypes
+        {
+            /// <summary>
+            /// Standard mimetype for MP3 audio ("audio/mpeg")
+            /// </summary>
+            public static string Mp3 = "audio/mpeg";
+
+            /// <summary>
+            /// Standard mimetype for M4A (MP4 container) audio ("audio/m4a")
+            /// </summary>
+            public static string M4a = "audio/m4a";
+
+            /// <summary>
+            /// Standard mimetype for WAV audio ("audio/wav")
+            /// </summary>
+            public static string Wav = "audio/wav";
+        }
+
+        public static class MediaResourceTypes
+        {
+            public static string Image = "image";
+            public static string Audio = "audio";
+            public static string Video = "video";
+            public static string Document = "document";
+        }
     }
 
     /// <summary>
@@ -159,13 +236,6 @@ namespace Bowerbird.Core.Config
         public static string Followers = "Followers";
         public static string Sightings = "Sightings";
         public static string Teams = "Teams";
-    }
-
-    public static class MediaType
-    {
-        public static string Image = "image";
-        public static string Document = "document";
-        public static string Video = "video";
     }
 
     public static class Default

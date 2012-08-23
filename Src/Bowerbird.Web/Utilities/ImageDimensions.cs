@@ -14,7 +14,7 @@
 				
 using System;
 
-namespace Bowerbird.Core.Utilities
+namespace Bowerbird.Web.Utilities
 {
     public class ImageDimensions
     {
