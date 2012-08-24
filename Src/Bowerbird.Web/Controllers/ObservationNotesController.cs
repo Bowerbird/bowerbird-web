@@ -33,7 +33,7 @@
 //        private readonly IUserContext _userContext;
 //        private readonly IObservationNotesViewModelBuilder _observationNotesViewModelBuilder;
 //        private readonly IObservationsViewModelBuilder _observationsViewModelBuilder;
-//        private readonly IPermissionChecker _permissionChecker;
+//        private readonly IPermissionManager _permissionManager;
 
 //        #endregion
 
@@ -44,20 +44,20 @@
 //            IUserContext userContext,
 //            IObservationNotesViewModelBuilder observationNotesViewModelBuilder,
 //            IObservationsViewModelBuilder observationsViewModelBuilder,
-//            IPermissionChecker permissionChecker
+//            IPermissionManager permissionManager
 //            )
 //        {
 //            Check.RequireNotNull(messageBus, "messageBus");
 //            Check.RequireNotNull(userContext, "userContext");
 //            Check.RequireNotNull(observationNotesViewModelBuilder, "observationNotesViewModelBuilder");
 //            Check.RequireNotNull(observationsViewModelBuilder, "observationsViewModelBuilder");
-//            Check.RequireNotNull(permissionChecker, "permissionChecker");
+//            Check.RequireNotNull(permissionManager, "permissionManager");
 
 //            _messageBus = messageBus;
 //            _userContext = userContext;
 //            _observationNotesViewModelBuilder = observationNotesViewModelBuilder;
 //            _observationsViewModelBuilder = observationsViewModelBuilder;
-//            _permissionChecker = permissionChecker;
+//            _permissionManager = permissionManager;
 //        }
 
 //        #endregion
@@ -69,7 +69,7 @@
 //        {
 //            Check.RequireNotNull(idInput, "idInput");
 
-//            if(!_permissionChecker.DoesExist<ObservationNote>(idInput.Id))
+//            if(!_permissionManager.DoesExist<ObservationNote>(idInput.Id))
 //            {
 //                return HttpNotFound();
 //            }

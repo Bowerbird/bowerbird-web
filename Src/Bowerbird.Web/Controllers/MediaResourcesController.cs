@@ -13,12 +13,14 @@
 */
 
 using System;
+using System.IO;
 using System.Web;
 using System.Web.Mvc;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Infrastructure;
+using Bowerbird.Core.Utilities;
 using Raven.Client;
 using Bowerbird.Core.Config;
 using Bowerbird.Web.Config;
@@ -78,22 +80,45 @@ namespace Bowerbird.Web.Controllers
                 return JsonFailed();
             }
 
+            var type = mediaResourceCreateInput.Type.ToLower();
+
             _messageBus.Send(new MediaResourceCreateCommand()
             {
                 Key = mediaResourceCreateInput.Key,
-                Type = mediaResourceCreateInput.Type.ToLower(),
+                Type = type,
                 Usage = mediaResourceCreateInput.Usage.ToLower(),
                 UploadedOn = DateTime.UtcNow,
                 UserId = _userContext.GetAuthenticatedUserId(),
-                FileStream = mediaResourceCreateInput.File != null ? mediaResourceCreateInput.File.InputStream : null,
-                FileName = mediaResourceCreateInput.FileName,
-                VideoProviderName = mediaResourceCreateInput.VideoProviderName,
-                VideoId = mediaResourceCreateInput.VideoId
+                // File properties
+                FileStream = type == "file" && mediaResourceCreateInput.File != null ? mediaResourceCreateInput.File.InputStream : null,
+                FileName = type == "file" ? mediaResourceCreateInput.FileName : null,
+                FileMimeType = type == "file" ? GetSupportedMimeType(mediaResourceCreateInput.File.InputStream, mediaResourceCreateInput.FileName, mediaResourceCreateInput.File.ContentType) : null,
+                // External Video properties
+                VideoProviderName = type == "externalvideo" ? mediaResourceCreateInput.VideoProviderName : null,
+                VideoId = type == "externalvideo" ? mediaResourceCreateInput.VideoId : null
             });
 
             return JsonSuccess();
         }
 
-        #endregion
+        private string GetSupportedMimeType(Stream stream, string filename, string mimeType)
+        {
+            string foundMimeType = string.Empty;
+            ImageUtility image;
+            AudioUtility audio;
+
+            if (ImageUtility.TryLoad(stream, out image))
+            {
+                foundMimeType = image.GetMimeType();
+            }
+            else if (AudioUtility.TryLoad(stream, filename, mimeType, out audio))
+            {
+                foundMimeType = audio.GetMimeType();
+            }
+
+            return MediaTypeUtility.GetStandardMimeTypeForMimeType(foundMimeType);
+        }
+
+        #endregion 
     }
 }

@@ -25,7 +25,7 @@ using Bowerbird.Core.Repositories;
 
 namespace Bowerbird.Core.Config
 {
-    public class PermissionChecker : IPermissionChecker
+    public class PermissionChecker : IPermissionManager
     {
 
         #region Members

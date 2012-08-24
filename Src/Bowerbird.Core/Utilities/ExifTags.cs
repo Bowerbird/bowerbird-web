@@ -7,7 +7,7 @@ http://www.codeproject.com/info/cpol10.aspx
 
 */
 
-namespace Bowerbird.Web.Utilities
+namespace Bowerbird.Core.Utilities
 {
     /// <summary>
     /// All exif tags as per the Exif standard 2.2, JEITA CP-2451

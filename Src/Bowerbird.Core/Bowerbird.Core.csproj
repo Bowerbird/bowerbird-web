@@ -59,6 +59,9 @@
     <Reference Include="Nustache.Core">
       <HintPath>..\..\packages\Nustache.1.12.4.29\lib\net20\Nustache.Core.dll</HintPath>
     </Reference>
+    <Reference Include="policy.2.0.taglib-sharp">
+      <HintPath>..\..\packages\taglib.2.1.0.0\lib\policy.2.0.taglib-sharp.dll</HintPath>
+    </Reference>
     <Reference Include="Raven.Abstractions, Version=1.2.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\RavenDB.Client.1.2.2010-Unstable\lib\net40\Raven.Abstractions.dll</HintPath>
@@ -85,6 +88,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="taglib-sharp">
+      <HintPath>..\..\packages\taglib.2.1.0.0\lib\taglib-sharp.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandHandlers\CommentCreateCommandHandler.cs" />
@@ -100,9 +106,14 @@
     <Compile Include="Commands\RecordUpdateCommand.cs" />
     <Compile Include="Commands\MemberUpdateCommand.cs" />
     <Compile Include="Commands\VideoResourceCreateCommand.cs" />
-    <Compile Include="Config\Email.cs" />
-    <Compile Include="Config\MediaTypeUtility.cs" />
-    <Compile Include="Config\PermissionChecker.cs" />
+    <Compile Include="Utilities\AudioFileAbstraction.cs" />
+    <Compile Include="Utilities\AudioUtility.cs" />
+    <Compile Include="Utilities\Email.cs" />
+    <Compile Include="Utilities\ExifReader.cs" />
+    <Compile Include="Utilities\ExifTags.cs" />
+    <Compile Include="Utilities\ImageUtility.cs" />
+    <Compile Include="Utilities\MediaTypeUtility.cs" />
+    <Compile Include="Config\PermissionManager.cs" />
     <Compile Include="Config\SetupTestData.cs" />
     <Compile Include="CommandHandlers\ChatCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\ChatDeleteCommandHandler.cs" />
@@ -194,7 +205,7 @@
     <Compile Include="Config\BowerbirdEnvironmentConfigurationSection.cs" />
     <Compile Include="Config\Constants.cs" />
     <Compile Include="Config\BowerbirdSpeciesConfigurationSection.cs" />
-    <Compile Include="Config\IPermissionChecker.cs" />
+    <Compile Include="Config\IPermissionManager.cs" />
     <Compile Include="Config\ISystemStateManager.cs" />
     <Compile Include="Config\IUserContext.cs" />
     <Compile Include="Config\Permissions.cs" />
@@ -206,7 +217,7 @@
     <Compile Include="DomainModels\Comment.cs" />
     <Compile Include="DomainModels\IDiscussable.cs" />
     <Compile Include="DomainModels\Discussion.cs" />
-    <Compile Include="Factories\ImageCreationTask.cs" />
+    <Compile Include="Utilities\ImageCreationTask.cs" />
     <Compile Include="DomainModels\Sighting.cs" />
     <Compile Include="DomainModels\Observation.cs" />
     <Compile Include="DomainModels\FollowUser.cs" />
@@ -250,7 +261,6 @@
     <Compile Include="CommandHandlers\ICommandHandler.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Commands\CommandProcessor.cs" />
     <Compile Include="Commands\UserCreateCommand.cs" />
     <Compile Include="Commands\ObservationUpdateCommand.cs" />
     <Compile Include="Commands\ObservationCreateCommand.cs" />
@@ -269,7 +279,6 @@
     <Compile Include="DomainModels\Role.cs" />
     <Compile Include="DomainModels\Team.cs" />
     <Compile Include="DomainModels\User.cs" />
-    <Compile Include="Events\EventProcessor.cs" />
     <Compile Include="Events\IDomainEvent.cs" />
     <Compile Include="EventHandlers\IEventHandler.cs" />
     <Compile Include="Events\RequestPasswordResetEvent.cs" />
@@ -278,6 +287,7 @@
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="DomainModels\SightingGroup.cs" />
     <Compile Include="Extensions\DomainExtensions.cs" />
+    <Compile Include="Utilities\ImageDimensions.cs" />
     <Compile Include="Factories\IMediaResourceFactory.cs" />
     <Compile Include="Factories\IEventHandlerFactory.cs" />
     <Compile Include="Factories\MediaResourceFactory.cs" />
@@ -294,7 +304,6 @@
     <Compile Include="Indexes\All_Activities.cs" />
     <Compile Include="Paging\EnumerableExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="Commands\ICommandProcessor.cs" />
     <Compile Include="Paging\PagedList.cs" />
     <Compile Include="Paging\PagedListItem.cs" />
     <Compile Include="Paging\PageNumber.cs" />

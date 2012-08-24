@@ -19,6 +19,7 @@ using Bowerbird.Core.Events;
 using Bowerbird.Core.Config;
 using Bowerbird.Core.EventHandlers;
 using Bowerbird.Core.Services;
+using Bowerbird.Core.Utilities;
 
 namespace Bowerbird.Web.EventHandlers
 {

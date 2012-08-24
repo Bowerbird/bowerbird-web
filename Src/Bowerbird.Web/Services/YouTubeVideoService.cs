@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.Config;
@@ -24,11 +25,11 @@ using Bowerbird.Core.Events;
 using Bowerbird.Core.Factories;
 using Bowerbird.Core.Infrastructure;
 using Bowerbird.Core.Services;
-using Bowerbird.Web.Utilities;
+using Bowerbird.Core.Utilities;
 using NLog;
-using Newtonsoft.Json.Linq;
 using Raven.Client;
-using System.Linq;
+using Raven.Imports.Newtonsoft.Json;
+using Raven.Imports.Newtonsoft.Json.Linq;
 
 namespace Bowerbird.Web.Services
 {
@@ -120,16 +121,14 @@ namespace Bowerbird.Web.Services
                         "youtube",
                         data,
                         command.VideoId,
-                        1024, // As at 08/2012, Youtube states that videos are encoded in 16:9 ratio. 1024x576px is the max size we present in Bowerbird at that ratio
-                        576,
+                        ImageDimensions.MakeRectangle(1024, 576), // As at 08/2012, Youtube states that videos are encoded in 16:9 ratio. 1024x576px is the max size we present in Bowerbird at that ratio
                         thumbnailUri,
-                        image.GetImageDimensions().Width,
-                        image.GetImageDimensions().Height,
-                        MediaTypeUtility.GetStandardMimeTypeForFile(stream),
+                        image.GetDimensions(),
+                        MediaTypeUtility.GetStandardMimeTypeForMimeType(image.GetMimeType()),
                         GetVideoMetadata(data, command.VideoId),
                         imageCreationTasks);
 
-                    FileUtility.SaveImages(image, mediaResource, imageCreationTasks, _mediaFilePathFactory);
+                    image.Save(mediaResource, imageCreationTasks, _mediaFilePathFactory);
 
                     image.Cleanup();
                 }
@@ -189,7 +188,7 @@ namespace Bowerbird.Web.Services
                     {
                         var data = apiWebClient.DownloadString(apiCall);
 
-                        return Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(data);
+                        return JsonConvert.DeserializeObject<dynamic>(data);
                     }
                     catch (Exception exception)
                     {

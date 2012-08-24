@@ -19669,21 +19669,32 @@ define('timeago',['jquery'], function ($) {
 /// <reference path="../../libs/jquery/jquery-1.7.2.js" />
 /// <reference path="../../libs/underscore/underscore.js" />
 /// <reference path="../../libs/backbone/backbone.js" />
+/// <reference path="../../libs/icanhaz/icanhaz.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
 // StreamItemView
 // --------------
 
 // Shows an individual stream item
-define('views/streamitemview',['jquery', 'underscore', 'backbone', 'app', 'moment', 'timeago'],
-function ($, _, Backbone, app, moment) {
+define('views/streamitemview',['jquery', 'underscore', 'backbone', 'ich', 'app', 'moment', 'timeago'],
+function ($, _, Backbone, ich, app, moment) {
 
     var StreamItemView = Backbone.Marionette.ItemView.extend({
         tagName: 'li',
 
         className: 'stream-item observation-stream-item',
 
+        events: {
+            'click .thumbnails > div': 'showMedia'
+        },
+
         template: 'StreamItem',
+
+        currentObservationMedia: null,
+
+        initialize: function (options) {
+            _.bindAll(this, 'resizeElements');
+        },
 
         serializeData: function () {
             var json = {
@@ -19711,6 +19722,10 @@ function ($, _, Backbone, app, moment) {
                     return false;
                 });
 
+                this.currentObservationMedia = _.find(this.model.get('ObservationAdded').Observation.Media, function (item) {
+                    return item.IsPrimaryMedia;
+                });
+
                 var mapOptions = {
                     zoom: 9,
                     center: new google.maps.LatLng(-33, 151),
@@ -19720,7 +19735,7 @@ function ($, _, Backbone, app, moment) {
                     draggable: false,
                     keyboardShortcuts: false,
                     mapTypeId: google.maps.MapTypeId.TERRAIN
-                }
+                };
 
                 var map = new google.maps.Map(this.$el.find('.map').get(0), mapOptions);
                 this.map = map;
@@ -19749,24 +19764,14 @@ function ($, _, Backbone, app, moment) {
                     shadow: shadow
                 });
 
-                //var newPoint = new google.maps.LatLng(point.lat(), point.lng());
-
-                var $map = this.$el.find('.map');
-                var $location = this.$el.find('.location');
                 var resizeTimer;
+                var resizeElements = this.resizeElements;
                 $(window).resize(function () {
                     clearTimeout(resizeTimer);
                     resizeTimer = setTimeout(function () {
-                        $map.width($location.width() + 'px');
-                        google.maps.event.trigger(map, 'resize');
-                        map.panTo(point);
+                        resizeElements();
                     }, 100);
                 });
-
-                //                log('width', $location.width());
-                //                $map.width($location.width() + 'px')
-                //                google.maps.event.trigger(map, 'resize');
-                //map.panTo(point);
             }
 
             if (this.model.get('Type') == "postadded") {
@@ -19781,13 +19786,33 @@ function ($, _, Backbone, app, moment) {
             return this;
         },
 
+        resizeElements: function () {
+            // Resize video and audio in observations
+            if (this.currentObservationMedia) { //&& (this.currentObservationMedia.MediaResource.Video || this.currentObservationMedia.MediaResource.Audio)) {
+                var newWidth = (600 / 800) * this.$el.find('.preview').width();
+                this.$el.find('.preview .video-media > iframe, .preview .audio-media.media-constrained-600, .preview .image-media').height(newWidth + 'px');
+            }
+
+            // Resize maps in sightings
+            this.$el.find('.map').width(this.$el.find('.location').width() + 'px');
+            google.maps.event.trigger(this.map, 'resize');
+            this.map.panTo(this.point);
+        },
+
+        showMedia: function (e) {
+            var index = this.$el.find('.thumbnails > div').index(e.currentTarget);
+            this.currentObservationMedia = this.model.get('ObservationAdded').Observation.Media[index];
+            var descriptionHtml = '';
+            if (this.currentObservationMedia.Description && this.currentObservationMedia.Description !== '') {
+                descriptionHtml = '<div class="media-details"><div class="overlay"></div><p class="description">' + this.currentObservationMedia.Description + '</div>';
+            }
+            this.$el.find('.preview').html(ich.MediaConstrained600(this.currentObservationMedia.MediaResource) + descriptionHtml);
+            this.resizeElements();
+        },
+
         start: function () {
             if (this.model.get('Type') == "observationadded") {
-                var $map = this.$el.find('.map');
-                var $location = this.$el.find('.location');
-
-                $map.width($location.width() + 'px')
-                google.maps.event.trigger(this.map, 'resize');
+                this.resizeElements();
                 this.map.panTo(this.point);
             }
         }
@@ -29083,8 +29108,8 @@ function ($, _, Backbone, app, ich, EditObservationMediaFormView, licences, Circ
             if (model.mediaResource.get('MediaResourceType') === 'audio') {
                 this.audioPlayer = new CirclePlayer('#audio-player-' + this.id,
                     {
-                        mp3: model.mediaResource.get('Audio').Constrained480.Uri,
-                        m4a: model.mediaResource.get('Audio').Constrained480.Uri
+                        mp3: model.mediaResource.get('Audio').Constrained600.Uri,
+                        m4a: model.mediaResource.get('Audio').Constrained600.Uri
                     },
                     {
                         cssSelectorAncestor: '#audio-player-container-' + this.id,
@@ -29957,7 +29982,7 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
         onRender: function () {
             this.$el.find('#file').fileupload({
                 dataType: 'json',
-                paramName: 'file',
+                paramName: 'File',
                 url: '/mediaresources',
                 add: this._onImageUploadAdd
             });
@@ -30079,7 +30104,12 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
             var key = app.generateGuid();
             this.currentUploads.add({ Key: key });
 
-            data.formData = { Key: key, FileName: data.files[0].name, Type: 'file', Usage: 'contribution' };
+            data.formData = {
+                Key: key,
+                Type: 'file', 
+                Usage: 'contribution',
+                FileName: data.files[0].name
+            };
             if (window.isIEFail) {
                 data.formData.ie = true;
             }
@@ -30122,10 +30152,10 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
                 type: 'post',
                 data: {
                     Key: key,
-                    VideoId: videoId,
-                    VideoProviderName: videoProviderName,
                     Type: 'externalvideo',
-                    Usage: 'contribution'
+                    Usage: 'contribution',
+                    VideoId: videoId,
+                    VideoProviderName: videoProviderName
                 }
             });
         },

@@ -41,7 +41,7 @@ namespace Bowerbird.Web.Controllers
         private readonly IPostViewModelBuilder _postViewModelBuilder;
         private readonly ISightingViewModelBuilder _sightingViewModelBuilder;
         private readonly IUserViewModelBuilder _userViewModelBuilder;
-        private readonly IPermissionChecker _permissionChecker;
+        private readonly IPermissionManager _permissionManager;
         private readonly IDocumentSession _documentSession;
 
         #endregion
@@ -57,7 +57,7 @@ namespace Bowerbird.Web.Controllers
             ITeamViewModelBuilder teamViewModelBuilder,
             IPostViewModelBuilder postViewModelBuilder,
             IUserViewModelBuilder userViewModelBuilder,
-            IPermissionChecker permissionChecker,
+            IPermissionManager permissionManager,
             IDocumentSession documentSession
             )
         {
@@ -69,7 +69,7 @@ namespace Bowerbird.Web.Controllers
             Check.RequireNotNull(teamViewModelBuilder, "teamViewModelBuilder");
             Check.RequireNotNull(postViewModelBuilder, "postViewModelBuilder");
             Check.RequireNotNull(userViewModelBuilder, "userViewModelBuilder");
-            Check.RequireNotNull(permissionChecker, "permissionChecker");
+            Check.RequireNotNull(permissionManager, "permissionManager");
             Check.RequireNotNull(documentSession, "documentSession");
 
             _messageBus = messageBus;
@@ -80,7 +80,7 @@ namespace Bowerbird.Web.Controllers
             _teamViewModelBuilder = teamViewModelBuilder;
             _postViewModelBuilder = postViewModelBuilder;
             _userViewModelBuilder = userViewModelBuilder;
-            _permissionChecker = permissionChecker;
+            _permissionManager = permissionManager;
             _documentSession = documentSession;
         }
 
@@ -97,7 +97,7 @@ namespace Bowerbird.Web.Controllers
         {
             string projectId = VerbosifyId<Project>(id);
 
-            if (!_permissionChecker.DoesExist<Project>(projectId))
+            if (!_permissionManager.DoesExist<Project>(projectId))
             {
                 return HttpNotFound();
             }
@@ -115,7 +115,7 @@ namespace Bowerbird.Web.Controllers
         {
             string projectId = VerbosifyId<Project>(id);
 
-            if (!_permissionChecker.DoesExist<Project>(projectId))
+            if (!_permissionManager.DoesExist<Project>(projectId))
             {
                 return HttpNotFound();
             }
@@ -137,7 +137,7 @@ namespace Bowerbird.Web.Controllers
         {
             string projectId = VerbosifyId<Project>(id);
 
-            if (!_permissionChecker.DoesExist<Project>(projectId))
+            if (!_permissionManager.DoesExist<Project>(projectId))
             {
                 return HttpNotFound();
             }
@@ -159,7 +159,7 @@ namespace Bowerbird.Web.Controllers
         {
             string projectId = VerbosifyId<Project>(id);
 
-            if (!_permissionChecker.DoesExist<Project>(projectId))
+            if (!_permissionManager.DoesExist<Project>(projectId))
             {
                 return HttpNotFound();
             }
@@ -181,7 +181,7 @@ namespace Bowerbird.Web.Controllers
         {
             string projectId = VerbosifyId<Project>(id);
 
-            if (!_permissionChecker.DoesExist<Project>(projectId))
+            if (!_permissionManager.DoesExist<Project>(projectId))
             {
                 return HttpNotFound();
             }
@@ -194,7 +194,7 @@ namespace Bowerbird.Web.Controllers
         {
             string projectId = VerbosifyId<Project>(id);
 
-            if (!_permissionChecker.DoesExist<Project>(projectId))
+            if (!_permissionManager.DoesExist<Project>(projectId))
             {
                 return HttpNotFound();
             }
@@ -259,7 +259,7 @@ namespace Bowerbird.Web.Controllers
         {
             string projectId = VerbosifyId<Project>(id);
 
-            if (!_permissionChecker.DoesExist<Project>(projectId))
+            if (!_permissionManager.DoesExist<Project>(projectId))
             {
                 return HttpNotFound();
             }
@@ -288,7 +288,7 @@ namespace Bowerbird.Web.Controllers
         {
             string projectId = VerbosifyId<Project>(id);
 
-            if (!_permissionChecker.DoesExist<Project>(projectId))
+            if (!_permissionManager.DoesExist<Project>(projectId))
             {
                 return HttpNotFound();
             }
@@ -318,7 +318,7 @@ namespace Bowerbird.Web.Controllers
         {
             string projectId = VerbosifyId<Project>(id);
 
-            if (!_permissionChecker.DoesExist<Project>(projectId))
+            if (!_permissionManager.DoesExist<Project>(projectId))
             {
                 return HttpNotFound();
             }
@@ -347,7 +347,7 @@ namespace Bowerbird.Web.Controllers
         {
             string projectId = VerbosifyId<Project>(id);
 
-            if (!_permissionChecker.DoesExist<Project>(projectId))
+            if (!_permissionManager.DoesExist<Project>(projectId))
             {
                 return HttpNotFound();
             }
@@ -405,7 +405,7 @@ namespace Bowerbird.Web.Controllers
         {
             string projectId = VerbosifyId<Project>(updateInput.Id);
 
-            if (!_permissionChecker.DoesExist<Project>(projectId))
+            if (!_permissionManager.DoesExist<Project>(projectId))
             {
                 return HttpNotFound();
             }
@@ -441,7 +441,7 @@ namespace Bowerbird.Web.Controllers
         {
             string projectId = VerbosifyId<Project>(id);
 
-            if (!_permissionChecker.DoesExist<Project>(projectId))
+            if (!_permissionManager.DoesExist<Project>(projectId))
             {
                 return HttpNotFound();
             }

@@ -95,22 +95,22 @@ namespace Bowerbird.Core.CommandHandlers
                 userProject, 
                 _documentSession.Query<Role>().Where(x => x.Id == "roles/userprojectadministrator" || x.Id == "roles/userprojectmember"));
 
-            // HACK: Registers user in small number of initial projects for now
-            // 7, 8, 3, 4
-            var projects = _documentSession.Load<Project>(new[] { "projects/4", "projects/7" });
+            //// HACK: Registers user in small number of initial projects for now
+            //// 7, 8, 3, 4
+            //var projects = _documentSession.Load<Project>(new[] { "projects/4", "projects/7" });
 
-            var role = _documentSession.Query<Role>().Where(x => x.Id == "roles/projectmember");
+            //var role = _documentSession.Query<Role>().Where(x => x.Id == "roles/projectmember");
 
-            foreach (var project in projects)
-            {
-                if (project != null)
-                {
-                    user.AddMembership(
-                        user,
-                        project,
-                        role);
-                }
-            }
+            //foreach (var project in projects)
+            //{
+            //    if (project != null)
+            //    {
+            //        user.AddMembership(
+            //            user,
+            //            project,
+            //            role);
+            //    }
+            //}
 
             _documentSession.Store(user);
 

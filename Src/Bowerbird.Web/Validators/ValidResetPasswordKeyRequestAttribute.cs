@@ -47,8 +47,6 @@ namespace Bowerbird.Web.Validators
 
         #region Methods
 
-        #endregion      
-      
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             string resetPasswordKey = string.IsNullOrEmpty(value as string) ? string.Empty : value as string;
@@ -62,6 +60,8 @@ namespace Bowerbird.Web.Validators
 
             return ValidationResult.Success;
         }
+
+        #endregion      
 
     }
 }

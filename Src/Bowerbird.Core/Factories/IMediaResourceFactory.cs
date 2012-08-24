@@ -2,10 +2,7 @@ using System;
 using System.Collections.Generic;
 using Bowerbird.Core.Config;
 using Bowerbird.Core.DomainModels;
-
-namespace Bowerbird.Core.Factories
-{
-}
+using Bowerbird.Core.Utilities;
 
 namespace Bowerbird.Core.Factories
 {
@@ -19,8 +16,7 @@ namespace Bowerbird.Core.Factories
             User createdByUser,
             DateTime createdOn,
             string originalFileName,
-            int originalWidth,
-            int originalHeight,
+            ImageDimensions originalImageDimensions,
             string originalImageMimeType,
             List<ImageCreationTask> imageCreationTasks);
 
@@ -29,8 +25,7 @@ namespace Bowerbird.Core.Factories
             User createdByUser,
             DateTime createdOn,
             string originalFileName,
-            int originalWidth,
-            int originalHeight,
+            ImageDimensions originalImageDimensions,
             long originalSize,
             IDictionary<string, object> originalExifData,
             string originalImageMimeType,
@@ -45,16 +40,22 @@ namespace Bowerbird.Core.Factories
             string provider,
             object providerData,
             string videoId,
-            int videoWidth,
-            int videoHeight,
+            ImageDimensions originalVideoDimensions,
             string originalThumbnailUri,
-            int originalThumbnailWidth,
-            int originalThumbnailHeight,
+            ImageDimensions originalThumbnailDimensions,
             string originalThumbnailMimeType,
             Dictionary<string, string> metadata,
             List<ImageCreationTask> imageCreationTasks);
 
-        MediaResource MakeContributionAudio();
+        MediaResource MakeContributionAudio(
+            string key,
+            User createdByUser,
+            DateTime createdOn,
+            string originalFileName,
+            object id3Data,
+            string standardMimeType,
+            Dictionary<string, string> metadata);
+
         MediaResource MakeContributionDocument();
     }
 }

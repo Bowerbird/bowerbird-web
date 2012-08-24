@@ -25,11 +25,11 @@ using Bowerbird.Core.Events;
 using Bowerbird.Core.Factories;
 using Bowerbird.Core.Infrastructure;
 using Bowerbird.Core.Services;
-using Bowerbird.Web.Utilities;
+using Bowerbird.Core.Utilities;
 using NLog;
-using Newtonsoft.Json.Linq;
 using NodaTime;
 using Raven.Client;
+using Raven.Imports.Newtonsoft.Json;
 
 namespace Bowerbird.Web.Services
 {
@@ -121,16 +121,14 @@ namespace Bowerbird.Web.Services
                         "vimeo",
                         data,
                         command.VideoId,
-                        videoWidth,
-                        videoHeight,
+                        ImageDimensions.MakeRectangle(videoWidth, videoHeight),
                         thumbnailUri,
-                        image.GetImageDimensions().Width,
-                        image.GetImageDimensions().Height,
-                        MediaTypeUtility.GetStandardMimeTypeForFile(stream),
+                        image.GetDimensions(),
+                        MediaTypeUtility.GetStandardMimeTypeForMimeType(image.GetMimeType()),
                         GetVideoMetadata(data, command.VideoId),
                         imageCreationTasks);
 
-                    FileUtility.SaveImages(image, mediaResource, imageCreationTasks, _mediaFilePathFactory);
+                    image.Save(mediaResource, imageCreationTasks, _mediaFilePathFactory);
 
                     image.Cleanup();
                 }
@@ -241,7 +239,7 @@ namespace Bowerbird.Web.Services
                     {
                         var data = apiWebClient.DownloadString(apiCall);
 
-                        return Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(data);
+                        return JsonConvert.DeserializeObject<dynamic>(data);
                     }
                     catch (Exception exception)
                     {

@@ -58,6 +58,11 @@ namespace Bowerbird.Core.Commands
 
         public Stream FileStream { get; set; }
 
+        /// <summary>
+        /// The parsed, check and supported mime type of the file
+        /// </summary>
+        public string FileMimeType { get; set; }
+
         #endregion
 
         #region ExternalVideo

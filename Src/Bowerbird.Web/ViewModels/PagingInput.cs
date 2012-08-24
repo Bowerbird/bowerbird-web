@@ -47,8 +47,8 @@ namespace Bowerbird.Web.ViewModels
 
         public void InitMembers()
         {
-            Page = Default.PageStart;
-            PageSize = Default.PageSize;
+            Page = DefaultPaging.PageStart;
+            PageSize = DefaultPaging.PageSize;
         }
 
         public int GetPage()
@@ -58,7 +58,8 @@ namespace Bowerbird.Web.ViewModels
 
         public int GetPageSize()
         {
-            return PageSize > 0 && PageSize < 50 ? PageSize : 10;
+            // Do not allow paging sizes of greater than 30 to avoid performance/ravendb issues
+            return PageSize > 0 && PageSize <= 30 ? PageSize : 10;
         }
 
         public int GetSkipIndex()

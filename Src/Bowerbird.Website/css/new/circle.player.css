@@ -17,6 +17,14 @@
 	background: url("/img/audio-player-bgr.jpg") 0 0 no-repeat;
 	padding: 48px;
 	-webkit-tap-highlight-color:rgba(0,0,0,0);
+	
+	
+
+    margin: -104px;
+    padding: 48px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
 }
 
 .cp-container :focus {

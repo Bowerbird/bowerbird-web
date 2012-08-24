@@ -24,7 +24,7 @@ using Bowerbird.Core.Events;
 using Bowerbird.Core.Factories;
 using Bowerbird.Core.Infrastructure;
 using Bowerbird.Core.Services;
-using Bowerbird.Web.Utilities;
+using Bowerbird.Core.Utilities;
 using NLog;
 using NodaTime;
 using Raven.Client;
@@ -109,7 +109,7 @@ namespace Bowerbird.Web.Services
                     throw new ArgumentException("The specified usage '" + command.Usage + "' is not recognised.");
                 }
 
-                FileUtility.SaveImages(image, mediaResource, imageCreationTasks, _mediaFilePathFactory);
+                image.Save(mediaResource, imageCreationTasks, _mediaFilePathFactory);
 
                 _documentSession.Store(mediaResource);
                 _documentSession.SaveChanges();
@@ -146,7 +146,7 @@ namespace Bowerbird.Web.Services
         private MediaResource MakeContributionImage(User createdByUser, ImageUtility image, List<ImageCreationTask> imageCreationTasks, MediaResourceCreateCommand command)
         {
             IDictionary<string, object> exifData = image.GetExifData();
-            ImageDimensions imageDimensions = image.GetImageDimensions();
+            ImageDimensions imageDimensions = image.GetDimensions();
 
             var metadata = new Dictionary<string, string>();
 
@@ -160,27 +160,25 @@ namespace Bowerbird.Web.Services
                 createdByUser,
                 command.UploadedOn,
                 command.FileName,
-                imageDimensions.Width,
-                imageDimensions.Height,
+                imageDimensions,
                 command.FileStream.Length,
                 exifData,
-                image.GetImageMimeType(),
+                image.GetMimeType(),
                 metadata,
                 imageCreationTasks);
         }
 
         private MediaResource MakeAvatarImage(User createdByUser, ImageUtility image, List<ImageCreationTask> imageCreationTasks, MediaResourceCreateCommand command)
         {
-            ImageDimensions imageDimensions = image.GetImageDimensions();
+            ImageDimensions imageDimensions = image.GetDimensions();
 
             return _mediaResourceFactory.MakeAvatarImage(
                 command.Key,
                 createdByUser,
                 command.UploadedOn,
                 command.FileName,
-                imageDimensions.Width,
-                imageDimensions.Height,
-                image.GetImageMimeType(),
+                imageDimensions,
+                image.GetMimeType(),
                 imageCreationTasks);
         }
 

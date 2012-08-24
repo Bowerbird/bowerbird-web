@@ -19,13 +19,12 @@ using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Events;
+using Bowerbird.Core.Factories;
 using Bowerbird.Core.Infrastructure;
 using Bowerbird.Core.Services;
+using Bowerbird.Core.Utilities;
 using NLog;
 using Raven.Client;
-using System.Linq;
-using Bowerbird.Core.Factories;
-using Bowerbird.Web.Utilities;
 
 namespace Bowerbird.Web.Services
 {
@@ -39,6 +38,7 @@ namespace Bowerbird.Web.Services
         private readonly IDocumentSession _documentSession;
         private readonly IMediaFilePathFactory _mediaFilePathFactory;
         private readonly IMessageBus _messageBus;
+        private readonly IMediaResourceFactory _mediaResourceFactory;
 
         #endregion
 
@@ -48,17 +48,20 @@ namespace Bowerbird.Web.Services
             IUserContext userContext,
             IDocumentSession documentSession,
             IMediaFilePathFactory mediaFilePathFactory,
-            IMessageBus messageBus)
+            IMessageBus messageBus,
+            IMediaResourceFactory mediaResourceFactory)
         {
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(mediaFilePathFactory, "mediaFilePathFactory");
             Check.RequireNotNull(messageBus, "messageBus");
+            Check.RequireNotNull(mediaResourceFactory, "mediaResourceFactory");
 
             _userContext = userContext;
             _documentSession = documentSession;
             _mediaFilePathFactory = mediaFilePathFactory;
             _messageBus = messageBus;
+            _mediaResourceFactory = mediaResourceFactory;
         }
 
         #endregion
@@ -84,20 +87,20 @@ namespace Bowerbird.Web.Services
             {
                 var createdByUser = _documentSession.Load<User>(command.UserId);
 
-                //var audioFile = AudioUtility.Load(command.Stream, command.OriginalFileName, command.MimeType);
+                var audio = AudioUtility.Load(command.FileStream, command.FileName, command.FileMimeType);
 
-                //if (!audioFile.IsValidAudioFile())
-                //{
-                //    mediaResource = null;
-                //    failureReason = "The file is corrupted or not a valid audio file and could not be saved. Please check the file and try again.";
-                //    return false;
-                //}
+                mediaResource = _mediaResourceFactory.MakeContributionAudio(
+                    command.Key,
+                    createdByUser,
+                    command.UploadedOn,
+                    command.FileName,
+                    new Object(),
+                    command.FileMimeType,
+                    GetAudioMetadata(audio));
 
-                //MakeAudioMediaResourceFiles(mediaResource, command, audioFile);
+                string filePath = _mediaFilePathFactory.MakeMediaFilePath(mediaResource.Id, "Original", MediaTypeUtility.GetStandardExtensionForMimeType(command.FileMimeType));
 
-                //string filePath = _mediaFilePathFactory.MakeMediaFilePath(mediaResource.Id, "audio", "Original", audioFile.GetFileExtension());
-
-                //audioFile.Save(filePath);
+                audio.SaveAs(filePath);
 
                 _messageBus.Publish(new DomainModelCreatedEvent<MediaResource>(mediaResource, createdByUser, mediaResource));
 
@@ -121,24 +124,15 @@ namespace Bowerbird.Web.Services
             return returnValue;
         }
 
-        //private void MakeAudioMediaResourceFiles(MediaResource mediaResource, MediaResourceCreateCommand command, AudioUtility audioFile)
-        //{
-        //    string fileName = _mediaFilePathFactory.MakeMediaFileName(mediaResource.Id, "Original", audioFile.GetFileExtension());
-        //    string uri = _mediaFilePathFactory.MakeRelativeMediaFileUri(mediaResource.Id, "audio", "Original", audioFile.GetFileExtension());
+        private Dictionary<string, string> GetAudioMetadata(AudioUtility audio)
+        {
+            var metadata = new Dictionary<string, string>();
 
-        //    dynamic original = mediaResource.AddAudioFile("Original", command.OriginalFileName, uri, audioFile.GetMimeType(), audioFile.GetFileExtension());
+            metadata.Add("Description", audio.GetTitleTag());
+            metadata.Add("Duration", audio.GetDuration().ToString());
 
-        //    original.Title = audioFile.GetTitleTagValue();
-        //    original.Copyright = audioFile.GetCopyrightTagValue();
-        //    original.Comment = audioFile.GetCommentTagValue();
-
-        //    mediaResource.AddAudioFile("Square50", fileName, uri, audioFile.GetMimeType(), audioFile.GetFileExtension());
-        //    mediaResource.AddAudioFile("Square100", fileName, uri, audioFile.GetMimeType(), audioFile.GetFileExtension());
-        //    mediaResource.AddAudioFile("Square200", fileName, uri, audioFile.GetMimeType(), audioFile.GetFileExtension());
-        //    mediaResource.AddAudioFile("Full480", fileName, uri, audioFile.GetMimeType(), audioFile.GetFileExtension());
-        //    mediaResource.AddAudioFile("Full768", fileName, uri, audioFile.GetMimeType(), audioFile.GetFileExtension());
-        //    mediaResource.AddAudioFile("Full1024", fileName, uri, audioFile.GetMimeType(), audioFile.GetFileExtension());
-        //}
+            return metadata;
+        }
 
         #endregion
     }

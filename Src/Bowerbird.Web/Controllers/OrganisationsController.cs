@@ -36,7 +36,7 @@ namespace Bowerbird.Web.Controllers
         private readonly IPostViewModelBuilder _postViewModelBuilder;
         private readonly ISightingViewModelBuilder _sightingViewModelBuilder;
         private readonly IUserViewModelBuilder _userViewModelBuilder;
-        private readonly IPermissionChecker _permissionChecker;
+        private readonly IPermissionManager _permissionManager;
 
         #endregion
 
@@ -51,7 +51,7 @@ namespace Bowerbird.Web.Controllers
             ITeamViewModelBuilder teamViewModelBuilder,
             IPostViewModelBuilder postViewModelBuilder,
             IUserViewModelBuilder userViewModelBuilder,
-            IPermissionChecker permissionChecker
+            IPermissionManager permissionManager
             )
         {
             Check.RequireNotNull(messageBus, "messageBus");
@@ -62,7 +62,7 @@ namespace Bowerbird.Web.Controllers
             Check.RequireNotNull(teamViewModelBuilder, "teamViewModelBuilder");
             Check.RequireNotNull(postViewModelBuilder, "postViewModelBuilder");
             Check.RequireNotNull(userViewModelBuilder, "userViewModelBuilder");
-            Check.RequireNotNull(permissionChecker, "permissionChecker");
+            Check.RequireNotNull(permissionManager, "permissionManager");
 
             _messageBus = messageBus;
             _userContext = userContext;
@@ -72,7 +72,7 @@ namespace Bowerbird.Web.Controllers
             _teamViewModelBuilder = teamViewModelBuilder;
             _postViewModelBuilder = postViewModelBuilder;
             _userViewModelBuilder = userViewModelBuilder;
-            _permissionChecker = permissionChecker;
+            _permissionManager = permissionManager;
         }
 
         #endregion
@@ -88,7 +88,7 @@ namespace Bowerbird.Web.Controllers
         {
             string organisationId = VerbosifyId<Organisation>(id);
 
-            if (!_permissionChecker.DoesExist<Organisation>(organisationId))
+            if (!_permissionManager.DoesExist<Organisation>(organisationId))
             {
                 return HttpNotFound();
             }
@@ -106,7 +106,7 @@ namespace Bowerbird.Web.Controllers
         {
             string organisationId = VerbosifyId<Organisation>(id);
 
-            if (!_permissionChecker.DoesExist<Organisation>(organisationId))
+            if (!_permissionManager.DoesExist<Organisation>(organisationId))
             {
                 return HttpNotFound();
             }
@@ -128,7 +128,7 @@ namespace Bowerbird.Web.Controllers
         {
             string organisationId = VerbosifyId<Organisation>(id);
 
-            if (!_permissionChecker.DoesExist<Organisation>(organisationId))
+            if (!_permissionManager.DoesExist<Organisation>(organisationId))
             {
                 return HttpNotFound();
             }
@@ -150,7 +150,7 @@ namespace Bowerbird.Web.Controllers
         {
             string organisationId = VerbosifyId<Organisation>(id);
 
-            if (!_permissionChecker.DoesExist<Organisation>(organisationId))
+            if (!_permissionManager.DoesExist<Organisation>(organisationId))
             {
                 return HttpNotFound();
             }
@@ -172,7 +172,7 @@ namespace Bowerbird.Web.Controllers
         {
             string organisationId = VerbosifyId<Organisation>(id);
 
-            if (!_permissionChecker.DoesExist<Organisation>(organisationId))
+            if (!_permissionManager.DoesExist<Organisation>(organisationId))
             {
                 return HttpNotFound();
             }
@@ -194,7 +194,7 @@ namespace Bowerbird.Web.Controllers
         {
             string organisationId = VerbosifyId<Organisation>(id);
 
-            if (!_permissionChecker.DoesExist<Organisation>(organisationId))
+            if (!_permissionManager.DoesExist<Organisation>(organisationId))
             {
                 return HttpNotFound();
             }
@@ -207,7 +207,7 @@ namespace Bowerbird.Web.Controllers
         {
             string organisationId = VerbosifyId<Organisation>(id);
 
-            if (!_permissionChecker.DoesExist<Organisation>(organisationId))
+            if (!_permissionManager.DoesExist<Organisation>(organisationId))
             {
                 return HttpNotFound();
             }
@@ -264,7 +264,7 @@ namespace Bowerbird.Web.Controllers
         {
             string organisationId = VerbosifyId<Organisation>(id);
 
-            if (!_permissionChecker.DoesExist<Organisation>(organisationId))
+            if (!_permissionManager.DoesExist<Organisation>(organisationId))
             {
                 return HttpNotFound();
             }
@@ -292,7 +292,7 @@ namespace Bowerbird.Web.Controllers
         {
             string organisationId = VerbosifyId<Organisation>(id);
 
-            if (!_permissionChecker.DoesExist<Organisation>(organisationId))
+            if (!_permissionManager.DoesExist<Organisation>(organisationId))
             {
                 return HttpNotFound();
             }
@@ -321,7 +321,7 @@ namespace Bowerbird.Web.Controllers
         {
             string organisationId = VerbosifyId<Organisation>(id);
 
-            if (!_permissionChecker.DoesExist<Organisation>(organisationId))
+            if (!_permissionManager.DoesExist<Organisation>(organisationId))
             {
                 return HttpNotFound();
             }
@@ -356,7 +356,7 @@ namespace Bowerbird.Web.Controllers
         {
             string organisationId = VerbosifyId<Organisation>(id);
 
-            if (!_permissionChecker.DoesExist<Organisation>(organisationId))
+            if (!_permissionManager.DoesExist<Organisation>(organisationId))
             {
                 return HttpNotFound();
             }
@@ -417,7 +417,7 @@ namespace Bowerbird.Web.Controllers
         {
             string organisationId = VerbosifyId<Organisation>(updateInput.Id);
 
-            if (!_permissionChecker.DoesExist<Organisation>(organisationId))
+            if (!_permissionManager.DoesExist<Organisation>(organisationId))
             {
                 return HttpNotFound();
             }
@@ -453,7 +453,7 @@ namespace Bowerbird.Web.Controllers
         {
             string organisationId = VerbosifyId<Organisation>(id);
 
-            if (!_permissionChecker.DoesExist<Organisation>(organisationId))
+            if (!_permissionManager.DoesExist<Organisation>(organisationId))
             {
                 return HttpNotFound();
             }

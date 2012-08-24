@@ -40,7 +40,7 @@ namespace Bowerbird.Web.Hubs
         private readonly IGroupViewFactory _groupViewFactory;
         private readonly IDocumentSession _documentSession;
         private readonly IMessageBus _messageBus;
-        private readonly IPermissionChecker _permissionChecker;
+        private readonly IPermissionManager _permissionManager;
 
         #endregion
 
@@ -51,19 +51,19 @@ namespace Bowerbird.Web.Hubs
             IGroupViewFactory groupViewFactory,
             IDocumentSession documentSession,
             IMessageBus messageBus,
-            IPermissionChecker permissionChecker)
+            IPermissionManager permissionManager)
         {
             Check.RequireNotNull(userViewFactory, "userViewFactory");
             Check.RequireNotNull(groupViewFactory, "groupViewFactory");
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(messageBus, "messageBus");
-            Check.RequireNotNull(permissionChecker, "permissionChecker");
+            Check.RequireNotNull(permissionManager, "permissionManager");
 
             _userViewFactory = userViewFactory;
             _groupViewFactory = groupViewFactory;
             _documentSession = documentSession;
             _messageBus = messageBus;
-            _permissionChecker = permissionChecker;
+            _permissionManager = permissionManager;
         }
 
         #endregion
@@ -115,7 +115,7 @@ namespace Bowerbird.Web.Hubs
         public void JoinChat(string chatId, string[] inviteeUserIds, string groupId)
         {
             // Only allow users who have permission to chat (in group or app-wide)
-            if(!_permissionChecker.HasGroupPermission(PermissionNames.Chat, Context.User.Identity.Name, string.IsNullOrWhiteSpace(groupId) ? Constants.AppRootId : groupId))
+            if(!_permissionManager.HasGroupPermission(PermissionNames.Chat, Context.User.Identity.Name, string.IsNullOrWhiteSpace(groupId) ? Constants.AppRootId : groupId))
             {
                 return;
             }

@@ -12,12 +12,11 @@
  
 */
 
-using Bowerbird.Core.Infrastructure;
-using Raven.Client;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.Commands;
 using Bowerbird.Core.Factories;
+using Bowerbird.Core.Infrastructure;
+using Raven.Client;
 
 namespace Bowerbird.Core.Config
 {

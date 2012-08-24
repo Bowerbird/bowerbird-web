@@ -27,8 +27,8 @@ function ($, _, Backbone, app, ich, EditObservationMediaFormView, licences, Circ
             if (model.mediaResource.get('MediaResourceType') === 'audio') {
                 this.audioPlayer = new CirclePlayer('#audio-player-' + this.id,
                     {
-                        mp3: model.mediaResource.get('Audio').Constrained480.Uri,
-                        m4a: model.mediaResource.get('Audio').Constrained480.Uri
+                        mp3: model.mediaResource.get('Audio').Constrained600.Uri,
+                        m4a: model.mediaResource.get('Audio').Constrained600.Uri
                     },
                     {
                         cssSelectorAncestor: '#audio-player-container-' + this.id,

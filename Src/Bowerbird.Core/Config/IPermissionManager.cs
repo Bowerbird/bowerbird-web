@@ -15,7 +15,7 @@
 using Bowerbird.Core.DomainModels;
 namespace Bowerbird.Core.Config
 {
-    public interface IPermissionChecker
+    public interface IPermissionManager
     {
         bool HasGroupPermission(string permissionId, string userId, string groupId);
 

@@ -105,9 +105,6 @@
     <Reference Include="Nustache.Mvc3">
       <HintPath>..\..\packages\Nustache.Mvc3.1.12.4.29\lib\net40\Nustache.Mvc3.dll</HintPath>
     </Reference>
-    <Reference Include="policy.2.0.taglib-sharp">
-      <HintPath>..\..\packages\taglib.2.1.0.0\lib\policy.2.0.taglib-sharp.dll</HintPath>
-    </Reference>
     <Reference Include="Raven.Abstractions, Version=1.2.0.0, Culture=neutral, PublicKeyToken=37f41c7f99471593, processorArchitecture=MSIL">
       <HintPath>..\..\packages\RavenDB.Client.1.2.2010-Unstable\lib\net40\Raven.Abstractions.dll</HintPath>
     </Reference>
@@ -148,9 +145,6 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="taglib-sharp">
-      <HintPath>..\..\packages\taglib.2.1.0.0\lib\taglib-sharp.dll</HintPath>
-    </Reference>
     <Reference Include="WebActivator">
       <HintPath>..\..\packages\WebActivator.1.5.1\lib\net40\WebActivator.dll</HintPath>
     </Reference>
@@ -206,14 +200,9 @@
     <Compile Include="Services\ImageService.cs" />
     <Compile Include="Services\VimeoVideoService.cs" />
     <Compile Include="Services\YouTubeVideoService.cs" />
-    <Compile Include="Utilities\AudioFileAbstraction.cs" />
-    <Compile Include="Utilities\AudioUtility.cs" />
-    <Compile Include="Utilities\ExifReader.cs" />
-    <Compile Include="Utilities\ExifTags.cs" />
-    <Compile Include="Utilities\FileUtility.cs" />
-    <Compile Include="Utilities\ImageDimensions.cs" />
-    <Compile Include="Utilities\ImageUtility.cs" />
-    <Compile Include="Validators\ValidMediaAttribute.cs" />
+    <Compile Include="Validators\ValidExternalVideoAttribute.cs" />
+    <Compile Include="Validators\ValidFileAttribute.cs" />
+    <Compile Include="Validators\ValidMediaResourceAttribute.cs" />
     <Compile Include="ViewModels\RecordCreateInput.cs" />
     <Compile Include="ViewModels\RecordUpdateInput.cs" />
     <Compile Include="ViewModels\MediaResourceCreateInput.cs" />
@@ -308,7 +297,9 @@
       <Name>Bowerbird.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Utilities\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

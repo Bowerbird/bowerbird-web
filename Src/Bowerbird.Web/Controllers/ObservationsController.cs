@@ -37,7 +37,7 @@ namespace Bowerbird.Web.Controllers
         private readonly IUserContext _userContext;
         private readonly ISightingViewModelBuilder _sightingViewModelBuilder;
         private readonly IDocumentSession _documentSession;
-        private readonly IPermissionChecker _permissionChecker;
+        private readonly IPermissionManager _permissionManager;
 
         #endregion
 
@@ -48,20 +48,20 @@ namespace Bowerbird.Web.Controllers
             IUserContext userContext,
             ISightingViewModelBuilder sightingViewModelBuilder,
             IDocumentSession documentSession,
-            IPermissionChecker permissionChecker
+            IPermissionManager permissionManager
             )
         {
             Check.RequireNotNull(messageBus, "messageBus");
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(sightingViewModelBuilder, "sightingViewModelBuilder");
             Check.RequireNotNull(documentSession, "documentSession");
-            Check.RequireNotNull(permissionChecker, "permissionChecker");
+            Check.RequireNotNull(permissionManager, "permissionManager");
 
             _messageBus = messageBus;
             _userContext = userContext;
             _sightingViewModelBuilder = sightingViewModelBuilder;
             _documentSession = documentSession;
-            _permissionChecker = permissionChecker;
+            _permissionManager = permissionManager;
         }
 
         #endregion
@@ -73,7 +73,7 @@ namespace Bowerbird.Web.Controllers
         {
             string observationId = VerbosifyId<Observation>(id);
 
-            if (!_permissionChecker.DoesExist<Observation>(observationId))
+            if (!_permissionManager.DoesExist<Observation>(observationId))
             {
                 return HttpNotFound();
             }
@@ -126,7 +126,7 @@ namespace Bowerbird.Web.Controllers
         {
             string observationId = VerbosifyId<Observation>(id);
 
-            if (!_permissionChecker.DoesExist<Observation>(observationId))
+            if (!_permissionManager.DoesExist<Observation>(observationId))
             {
                 return HttpNotFound();
             }
@@ -156,7 +156,7 @@ namespace Bowerbird.Web.Controllers
         {
             string observationId = VerbosifyId<Observation>(id);
 
-            if (!_permissionChecker.DoesExist<Observation>(observationId))
+            if (!_permissionManager.DoesExist<Observation>(observationId))
             {
                 return HttpNotFound();
             }
@@ -224,7 +224,7 @@ namespace Bowerbird.Web.Controllers
         {
             string observationId = VerbosifyId<Observation>(updateInput.Id);
 
-            if (!_permissionChecker.DoesExist<Observation>(observationId))
+            if (!_permissionManager.DoesExist<Observation>(observationId))
             {
                 return HttpNotFound();
             }
@@ -265,7 +265,7 @@ namespace Bowerbird.Web.Controllers
         {
             string observationId = VerbosifyId<Observation>(id);
 
-            if (!_permissionChecker.DoesExist<Observation>(observationId))
+            if (!_permissionManager.DoesExist<Observation>(observationId))
             {
                 return HttpNotFound();
             }

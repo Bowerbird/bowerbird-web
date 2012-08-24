@@ -13,7 +13,7 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 
-namespace Bowerbird.Web.Utilities
+namespace Bowerbird.Core.Utilities
 {
     /// <summary>
     /// A class for reading Exif data from a JPEG file. The file will be open for reading for as long as the class exists.

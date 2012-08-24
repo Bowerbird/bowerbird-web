@@ -17,8 +17,8 @@ using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Events;
 using Bowerbird.Core.Infrastructure;
 using Bowerbird.Core.Services;
+using Bowerbird.Core.Utilities;
 using Raven.Client;
-using Bowerbird.Core.Config;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -70,13 +70,13 @@ namespace Bowerbird.Core.CommandHandlers
         {
             if (command.Type == "file")
             {
-                var mediaTypeInfo = MediaTypeUtility.GetMediaTypeInfoForFile(command.FileStream);
+                var mediaType = MediaTypeUtility.GetMediaTypeInfoForMimeType(command.FileMimeType).MediaType;
 
-                if (mediaTypeInfo.MediaType == "image")
+                if (mediaType == "image")
                 {
                     return _mediaServiceFactory.CreateImageService();
                 }
-                else if (mediaTypeInfo.MediaType == "audio")
+                if (mediaType == "audio")
                 {
                     return _mediaServiceFactory.CreateAudioService();
                 }
@@ -87,7 +87,7 @@ namespace Bowerbird.Core.CommandHandlers
                 {
                     return _mediaServiceFactory.CreateYouTubeVideoService();
                 }
-                else if (command.VideoProviderName.ToLower() == "vimeo")
+                if (command.VideoProviderName.ToLower() == "vimeo")
                 {
                     return _mediaServiceFactory.CreateVimeoVideoService();
                 }

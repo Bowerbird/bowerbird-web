@@ -20,13 +20,8 @@ using System.Web;
 using System.Web.Security;
 using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.Repositories;
-using Raven.Client;
-using SignalR;
-using SignalR.Hubs;
-using SignalR.Infrastructure;
-using Bowerbird.Web.Hubs;
 using Bowerbird.Core.DomainModels;
+using Raven.Client;
 
 namespace Bowerbird.Web.Config
 {
@@ -36,7 +31,7 @@ namespace Bowerbird.Web.Config
         #region Members
 
         private readonly IDocumentSession _documentSession;
-        private readonly IPermissionChecker _permissionChecker;
+        private readonly IPermissionManager _permissionManager;
 
 
         #endregion
@@ -45,13 +40,13 @@ namespace Bowerbird.Web.Config
 
         public UserContext(
             IDocumentSession documentSession,
-            IPermissionChecker permissionChecker)
+            IPermissionManager permissionManager)
         {
             Check.RequireNotNull(documentSession, "documentSession");
-            Check.RequireNotNull(permissionChecker, "permissionChecker");
+            Check.RequireNotNull(permissionManager, "permissionManager");
 
             _documentSession = documentSession;
-            _permissionChecker = permissionChecker;
+            _permissionManager = permissionManager;
         }
 
         #endregion
@@ -120,7 +115,7 @@ namespace Bowerbird.Web.Config
 
         public bool HasAppRootPermission(string permissionId)
         {
-            return _permissionChecker.HasGroupPermission(permissionId, GetAuthenticatedUserId(), Constants.AppRootId);
+            return _permissionManager.HasGroupPermission(permissionId, GetAuthenticatedUserId(), Constants.AppRootId);
         }
 
         public bool HasUserPermission(string domainModelId)
@@ -133,18 +128,18 @@ namespace Bowerbird.Web.Config
         public bool HasUserProjectPermission(string permissionId) 
         {
             var userProject = _documentSession.Query<UserProject>().Where(x => x.User.Id == GetAuthenticatedUserId()).First();
-            return _permissionChecker.HasGroupPermission(permissionId, GetAuthenticatedUserId(), userProject.Id);
+            return _permissionManager.HasGroupPermission(permissionId, GetAuthenticatedUserId(), userProject.Id);
         }
 
         public bool HasGroupPermission(string permissionId, string groupId)
         {
-            return _permissionChecker.HasGroupPermission(permissionId, GetAuthenticatedUserId(), groupId);
+            return _permissionManager.HasGroupPermission(permissionId, GetAuthenticatedUserId(), groupId);
         }
 
         public bool HasGroupPermission<T>(string permissionId, string domainModelId)
             where T : IOwnable
         {
-            return _permissionChecker.HasGroupPermission<T>(permissionId, GetAuthenticatedUserId(), domainModelId);
+            return _permissionManager.HasGroupPermission<T>(permissionId, GetAuthenticatedUserId(), domainModelId);
         }
 
         private void AddCookie(string name, string value, string domain)

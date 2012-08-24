@@ -37,7 +37,7 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
         onRender: function () {
             this.$el.find('#file').fileupload({
                 dataType: 'json',
-                paramName: 'file',
+                paramName: 'File',
                 url: '/mediaresources',
                 add: this._onImageUploadAdd
             });
@@ -159,7 +159,12 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
             var key = app.generateGuid();
             this.currentUploads.add({ Key: key });
 
-            data.formData = { Key: key, FileName: data.files[0].name, Type: 'file', Usage: 'contribution' };
+            data.formData = {
+                Key: key,
+                Type: 'file', 
+                Usage: 'contribution',
+                FileName: data.files[0].name
+            };
             if (window.isIEFail) {
                 data.formData.ie = true;
             }
@@ -202,10 +207,10 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
                 type: 'post',
                 data: {
                     Key: key,
-                    VideoId: videoId,
-                    VideoProviderName: videoProviderName,
                     Type: 'externalvideo',
-                    Usage: 'contribution'
+                    Usage: 'contribution',
+                    VideoId: videoId,
+                    VideoProviderName: videoProviderName
                 }
             });
         },

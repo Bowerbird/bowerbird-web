@@ -1,10 +1,24 @@
-﻿using System;
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+
+ Developers: 
+ * Frank Radocaj : frank@radocaj.com
+ * Hamish Crittenden : hamish.crittenden@gmail.com
+ 
+ Project Manager: 
+ * Ken Walker : kwalker@museum.vic.gov.au
+ 
+ Funded by:
+ * Atlas of Living Australia
+ 
+*/
+
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Bowerbird.Core.Config;
 
-namespace Bowerbird.Core.Config
+namespace Bowerbird.Core.Utilities
 {
     public class MediaTypeUtility
     {
@@ -50,11 +64,14 @@ namespace Bowerbird.Core.Config
                         { "audio/x-mpg", Constants.AudioMimeTypes.Mp3 },
                         { "audio/x-mpegaudio", Constants.AudioMimeTypes.Mp3 },
                         { "audio/mp4", Constants.AudioMimeTypes.M4a },
+                        { "taglib/mp3", Constants.AudioMimeTypes.Mp3 }, // Returned by the taglib library that is used to parse the audio file
                         { Constants.AudioMimeTypes.M4a, Constants.AudioMimeTypes.M4a },
                         { "audio/x-m4a", Constants.AudioMimeTypes.M4a },
+                        { "taglib/m4a", Constants.AudioMimeTypes.M4a }, // Returned by the taglib library that is used to parse the audio file
                         { Constants.AudioMimeTypes.Wav, Constants.AudioMimeTypes.Wav },
                         { "audio/x-wav", Constants.AudioMimeTypes.Wav },
-                        { "x-pn-wav", Constants.AudioMimeTypes.Wav }
+                        { "x-pn-wav", Constants.AudioMimeTypes.Wav },
+                        { "taglib/wav", Constants.AudioMimeTypes.Wav } // Returned by the taglib library that is used to parse the audio file
                     },
                     new Dictionary<string, string>
                     {
@@ -71,7 +88,7 @@ namespace Bowerbird.Core.Config
                     new Dictionary<string, string>
                     {
                         { Constants.ImageMimeTypes.Jpeg, "jpg" },
-                        { Constants.ImageMimeTypes.Tiff, "tiff" },
+                        { Constants.ImageMimeTypes.Tiff, "tif" },
                         { Constants.ImageMimeTypes.Png, "png" },
                         { Constants.ImageMimeTypes.Bmp, "bmp" },
                         { Constants.ImageMimeTypes.Gif, "gif" }
@@ -136,12 +153,6 @@ namespace Bowerbird.Core.Config
                 .Any(x => x.ContainsFileExtension(fileExtension));
         }
 
-        public static bool IsSupportedFile(Stream stream)
-        {
-            var mimeType = GetImageMimeTypeForStream(stream) ?? GetAudioMimeTypeForStream(stream);
-            return !string.IsNullOrWhiteSpace(mimeType);
-        }
-
         public static MediaTypeInfo GetMediaTypeInfoForMediaType(string mediaType)
         {
             return SupportedMediaTypeInfo()
@@ -160,12 +171,12 @@ namespace Bowerbird.Core.Config
                 .Single(x => x.ContainsFileExtension(fileExtension));
         }
 
-        public static MediaTypeInfo GetMediaTypeInfoForFile(Stream stream)
-        {
-            var mimeType = GetStandardMimeTypeForFile(stream);
-            return SupportedMediaTypeInfo()
-                .Single(x => x.ContainsMimeType(mimeType));
-        }
+        //public static MediaTypeInfo GetMediaTypeInfoForFile(Stream stream)
+        //{
+        //    var mimeType = GetStandardMimeTypeForFile(stream);
+        //    return SupportedMediaTypeInfo()
+        //        .Single(x => x.ContainsMimeType(mimeType));
+        //}
 
         /// <summary>
         /// Gets the standard file extension for the specified mimetype  (which may be a variant of a valid file extension)
@@ -187,60 +198,22 @@ namespace Bowerbird.Core.Config
                 .GetStandardMimeTypeForMimeType(mimeType);
         }
 
-        /// <summary>
-        /// Gets the standard mimetype for a given stream
-        /// </summary>
-        public static string GetStandardMimeTypeForFile(Stream stream)
-        {
-            var mimeType = GetImageMimeTypeForStream(stream) ?? GetAudioMimeTypeForStream(stream);
-            return GetStandardMimeTypeForMimeType(mimeType);
-        }
+        ///// <summary>
+        ///// Gets the standard mimetype for a given image file.
+        ///// </summary>
+        //public static string GetStandardMimeTypeForImageFile(Stream stream)
+        //{
+        //    return GetStandardMimeTypeForMimeType(ImageUtility.Load(stream).GetMimeType());
+        //}
 
-        /// <summary>
-        /// Determines image mimetype. Adapted from: http://stackoverflow.com/questions/210650/validate-image-from-file-in-c-sharp
-        /// </summary>
-        private static string GetImageMimeTypeForStream(Stream stream)
-        {
-            var bmp = Encoding.ASCII.GetBytes("BM");        // BMP
-            var gif = Encoding.ASCII.GetBytes("GIF");       // GIF
-            var png = new byte[] { 137, 80, 78, 71 };       // PNG
-            var tiff = new byte[] { 73, 73, 42 };           // TIFF
-            var tiff2 = new byte[] { 77, 77, 42 };          // TIFF
-            var jpeg = new byte[] { 255, 216, 255, 224 };   // JPEG
-            var jpeg2 = new byte[] { 255, 216, 255, 225 };  // JPEG Canon
-
-            stream.Seek(0, SeekOrigin.Begin);
-            var reader = new BinaryReader(stream);
-            stream.Seek(0, SeekOrigin.Begin);
-            byte[] bytes = reader.ReadBytes(10);
-
-            if (bmp.SequenceEqual(bytes.Take(bmp.Length)))
-                return Constants.ImageMimeTypes.Bmp;
-
-            reader.BaseStream.Seek(0, SeekOrigin.Begin);
-
-            if (gif.SequenceEqual(bytes.Take(gif.Length)))
-                return Constants.ImageMimeTypes.Gif;
-
-            if (png.SequenceEqual(bytes.Take(png.Length)))
-                return Constants.ImageMimeTypes.Png;
-
-            if (tiff.SequenceEqual(bytes.Take(tiff.Length)) || tiff2.SequenceEqual(bytes.Take(tiff2.Length)))
-                return Constants.ImageMimeTypes.Tiff;
-
-            if (jpeg.SequenceEqual(bytes.Take(jpeg.Length)) || jpeg2.SequenceEqual(bytes.Take(jpeg2.Length)))
-                return Constants.ImageMimeTypes.Jpeg;
-
-            return null;
-        }
-
-        /// <summary>
-        /// Determines audio mimetype
-        /// </summary>
-        private static string GetAudioMimeTypeForStream(Stream stream)
-        {
-            return null;
-        }
+        ///// <summary>
+        ///// Gets the standard mimetype for a given audio file. The provided filename and mimetypes are used by the audio
+        ///// detector to assist in detection.
+        ///// </summary>
+        //public static string GetStandardMimeTypeForAudioFile(Stream stream, string filename, string mimeType)
+        //{
+        //    return GetStandardMimeTypeForMimeType(AudioUtility.Load(stream, filename, mimeType).GetMimeType());
+        //}
 
         #endregion
 

@@ -33,7 +33,7 @@ namespace Bowerbird.Web.Controllers
         private readonly IMessageBus _messageBus;
         private readonly IUserContext _userContext;
         private readonly IPostViewModelBuilder _postViewModelBuilder;
-        private readonly IPermissionChecker _permissionChecker;
+        private readonly IPermissionManager _permissionManager;
 
         #endregion
 
@@ -43,18 +43,18 @@ namespace Bowerbird.Web.Controllers
             IMessageBus messageBus,
             IUserContext userContext,
             IPostViewModelBuilder postViewModelBuilder,
-            IPermissionChecker permissionChecker
+            IPermissionManager permissionManager
             )
         {
             Check.RequireNotNull(messageBus, "messageBus");
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(postViewModelBuilder, "postViewModelBuilder");
-            Check.RequireNotNull(permissionChecker, "permissionChecker");
+            Check.RequireNotNull(permissionManager, "permissionManager");
 
             _messageBus = messageBus;
             _userContext = userContext;
             _postViewModelBuilder = postViewModelBuilder;
-            _permissionChecker = permissionChecker;
+            _permissionManager = permissionManager;
         }
 
         #endregion
@@ -66,7 +66,7 @@ namespace Bowerbird.Web.Controllers
         {
             string postId = VerbosifyId<Post>(id);
 
-            if (!_permissionChecker.DoesExist<Post>(postId))
+            if (!_permissionManager.DoesExist<Post>(postId))
             {
                 return HttpNotFound();
             }
@@ -86,7 +86,7 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult CreateForm(string id)
         {
-            //if(!_permissionChecker.DoesExist<>())
+            //if(!_permissionManager.DoesExist<>())
 
             if (!_userContext.HasUserProjectPermission(PermissionNames.CreateObservation))
             {
@@ -110,7 +110,7 @@ namespace Bowerbird.Web.Controllers
         {
             string postId = VerbosifyId<Post>(id);
 
-            if (!_permissionChecker.DoesExist<Post>(postId))
+            if (!_permissionManager.DoesExist<Post>(postId))
             {
                 return HttpNotFound();
             }
@@ -139,7 +139,7 @@ namespace Bowerbird.Web.Controllers
         {
             string postId = VerbosifyId<Post>(id);
 
-            if (!_permissionChecker.DoesExist<Post>(postId))
+            if (!_permissionManager.DoesExist<Post>(postId))
             {
                 return HttpNotFound();
             }
@@ -200,7 +200,7 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(updateInput, "updateInput");
 
-            if (!_permissionChecker.DoesExist<Post>(updateInput.Id))
+            if (!_permissionManager.DoesExist<Post>(updateInput.Id))
             {
                 return HttpNotFound();
             }
@@ -236,7 +236,7 @@ namespace Bowerbird.Web.Controllers
         {
             var postId = VerbosifyId<Post>(id);
 
-            if(!_permissionChecker.DoesExist<Post>(postId))
+            if(!_permissionManager.DoesExist<Post>(postId))
             {
                 return HttpNotFound();
             }
