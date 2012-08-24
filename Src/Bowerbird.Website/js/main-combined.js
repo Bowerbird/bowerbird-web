@@ -19693,7 +19693,7 @@ function ($, _, Backbone, ich, app, moment) {
         currentObservationMedia: null,
 
         initialize: function (options) {
-            _.bindAll(this, 'resizeElements');
+            _.bindAll(this, 'resizeElements', 'showMedia');
         },
 
         serializeData: function () {
@@ -19803,10 +19803,11 @@ function ($, _, Backbone, ich, app, moment) {
             var index = this.$el.find('.thumbnails > div').index(e.currentTarget);
             this.currentObservationMedia = this.model.get('ObservationAdded').Observation.Media[index];
             var descriptionHtml = '';
+            this.$el.find('.preview').empty().append(ich.MediaConstrained600(this.currentObservationMedia.MediaResource));
             if (this.currentObservationMedia.Description && this.currentObservationMedia.Description !== '') {
-                descriptionHtml = '<div class="media-details"><div class="overlay"></div><p class="description">' + this.currentObservationMedia.Description + '</div>';
-            }
-            this.$el.find('.preview').html(ich.MediaConstrained600(this.currentObservationMedia.MediaResource) + descriptionHtml);
+                descriptionHtml = '<div class="media-details"><div class="overlay"></div><p class="description">' + this.currentObservationMedia.Description + '</p></div>';
+                this.$el.find('.preview').append(descriptionHtml);
+            }            
             this.resizeElements();
         },
 
