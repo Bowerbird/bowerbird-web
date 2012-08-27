@@ -14,6 +14,7 @@
 
 using System.Linq;
 using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Paging;
 using Bowerbird.Web.Factories;
@@ -104,6 +105,32 @@ namespace Bowerbird.Web.Builders
                 .Query<All_Contributions.Result, All_Contributions>()
                 .AsProjection<All_Contributions.Result>()
                 .Where(x => x.UserId == userId && (x.ContributionType == "observation" || x.ContributionType == "record"))
+                .Statistics(out stats)
+                .Skip(pagingInput.GetSkipIndex())
+                .Take(pagingInput.PageSize)
+                .ToList()
+                .Select(_sightingViewFactory.Make)
+                .ToPagedList(
+                    pagingInput.Page,
+                    pagingInput.PageSize,
+                    stats.TotalResults);
+        }
+
+        public object BuildAllUserProjectsSightingList(string userId, PagingInput pagingInput)
+        {
+            Check.RequireNotNullOrWhitespace(userId, "userId");
+            Check.RequireNotNull(pagingInput, "pagingInput");
+
+            RavenQueryStatistics stats;
+
+            var groupIds = _documentSession
+                .Load<User>(userId)
+                .Memberships.Select(x => x.Group.Id);
+
+            return _documentSession
+                .Query<All_Contributions.Result, All_Contributions>()
+                .AsProjection<All_Contributions.Result>()
+                .Where(x => x.GroupIds.Any(y => y.In(groupIds)) && (x.ContributionType == "observation" || x.ContributionType == "record"))
                 .Statistics(out stats)
                 .Skip(pagingInput.GetSkipIndex())
                 .Take(pagingInput.PageSize)

@@ -27,5 +27,7 @@ namespace Bowerbird.Web.Builders
         object BuildGroupSightingList(string groupId, PagingInput pagingInput);
 
         object BuildUserSightingList(string userId, PagingInput pagingInput);
+
+        object BuildAllUserProjectsSightingList(string userId, PagingInput pagingInput);
     }
 }

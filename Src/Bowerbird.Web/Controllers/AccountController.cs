@@ -41,6 +41,8 @@ namespace Bowerbird.Web.Controllers
         private readonly IUserViewModelBuilder _userViewModelBuilder;
         private readonly IUserViewFactory _userViewFactory;
         private readonly IActivityViewModelBuilder _activityViewModelBuilder;
+        private readonly ISightingViewModelBuilder _sightingViewModelBuilder;
+        private readonly IPostViewModelBuilder _postViewModelBuilder;
 
         #endregion
 
@@ -53,7 +55,9 @@ namespace Bowerbird.Web.Controllers
             IAccountViewModelBuilder accountViewModelBuilder,
             IUserViewModelBuilder userViewModelBuilder,
             IActivityViewModelBuilder activityViewModelBuilder,
-            IUserViewFactory userViewFactory
+            IUserViewFactory userViewFactory,
+            ISightingViewModelBuilder sightingViewModelBuilder,
+            IPostViewModelBuilder postViewModelBuilder
             )
         {
             Check.RequireNotNull(messageBus, "messageBus");
@@ -63,6 +67,8 @@ namespace Bowerbird.Web.Controllers
             Check.RequireNotNull(userViewModelBuilder, "userViewModelBuilder");
             Check.RequireNotNull(activityViewModelBuilder, "activityViewModelBuilder");
             Check.RequireNotNull(userViewFactory, "userViewFactory");
+            Check.RequireNotNull(sightingViewModelBuilder, "sightingViewModelBuilder");
+            Check.RequireNotNull(postViewModelBuilder, "postViewModelBuilder");
 
             _messageBus = messageBus;
             _userContext = userContext;
@@ -71,6 +77,8 @@ namespace Bowerbird.Web.Controllers
             _userViewModelBuilder = userViewModelBuilder;
             _activityViewModelBuilder = activityViewModelBuilder;
             _userViewFactory = userViewFactory;
+            _sightingViewModelBuilder = sightingViewModelBuilder;
+            _postViewModelBuilder = postViewModelBuilder;
         }
 
         #endregion
@@ -158,42 +166,6 @@ namespace Bowerbird.Web.Controllers
             }
 
             return Redirect("/");
-        }
-
-        [HttpGet]
-        [Authorize]
-        public ActionResult Notifications(ActivityInput activityInput, PagingInput pagingInput)
-        {
-            if (Request.IsAjaxRequest())
-            {
-                return new JsonNetResult(new
-                {
-                    Model = new
-                    {
-                        Activities = _activityViewModelBuilder.BuildNotificationActivityList(_userContext.GetAuthenticatedUserId(), activityInput, pagingInput)
-                    }
-                });
-            }
-
-            return HttpNotFound();
-        }
-
-        [HttpGet]
-        [Authorize]
-        public ActionResult Activity(ActivityInput activityInput, PagingInput pagingInput)
-        {
-            if(Request.IsAjaxRequest())
-            {
-                return new JsonNetResult(new
-                {
-                    Model = new
-                    {
-                        Activities = _activityViewModelBuilder.BuildHomeActivityList(_userContext.GetAuthenticatedUserId(), activityInput, pagingInput)
-                    }
-                });
-            }
-
-            return HttpNotFound();
         }
 
         [HttpGet]
@@ -360,9 +332,140 @@ namespace Bowerbird.Web.Controllers
                 return RestfulResult(
                     viewModel,
                     string.Empty,
+                    string.Empty
+                    );
+            }
+
+            return HttpNotFound();
+        }
+
+        /// <summary>
+        /// Get a paged list of all the sightings a user has created
+        /// </summary>
+        [HttpGet]
+        [Authorize]
+        public ActionResult MySightings(PagingInput pagingInput)
+        {
+            if (Request.IsAjaxRequest())
+            {
+                var viewModel = new
+                {
+                    Sightings =_sightingViewModelBuilder.BuildUserSightingList(_userContext.GetAuthenticatedUserId(), pagingInput)
+                };
+
+                return RestfulResult(
+                    viewModel,
                     string.Empty,
-                    null,
-                    null);
+                    string.Empty
+                    );
+            }
+
+            return HttpNotFound();
+        }
+
+        /// <summary>
+        /// Get a paged list of all the sightings in all a user's projects
+        /// </summary>
+        [HttpGet]
+        [Authorize]
+        public ActionResult AllSightings(PagingInput pagingInput)
+        {
+            if (Request.IsAjaxRequest())
+            {
+                var viewModel = new
+                {
+                    Sightings = _sightingViewModelBuilder.BuildAllUserProjectsSightingList(_userContext.GetAuthenticatedUserId(), pagingInput)
+                };
+
+                return RestfulResult(
+                    viewModel,
+                    string.Empty,
+                    string.Empty
+                    );
+            }
+
+            return HttpNotFound();
+        }
+
+        /// <summary>
+        /// Get a paged list of all the sightings a user has created
+        /// </summary>
+        [HttpGet]
+        [Authorize]
+        public ActionResult MyPosts(PagingInput pagingInput)
+        {
+            if (Request.IsAjaxRequest())
+            {
+                var viewModel = new
+                {
+                    Sightings = _postViewModelBuilder.BuildUserPostList(_userContext.GetAuthenticatedUserId(), pagingInput)
+                };
+
+                return RestfulResult(
+                    viewModel,
+                    string.Empty,
+                    string.Empty
+                    );
+            }
+
+            return HttpNotFound();
+        }
+
+        /// <summary>
+        /// Get a paged list of all the sightings in all a user's projects
+        /// </summary>
+        [HttpGet]
+        [Authorize]
+        public ActionResult AllPosts(PagingInput pagingInput)
+        {
+            if (Request.IsAjaxRequest())
+            {
+                var viewModel = new
+                {
+                    Sightings = _postViewModelBuilder.BuildAllUserGroupsPostList(_userContext.GetAuthenticatedUserId(), pagingInput)
+                };
+
+                return RestfulResult(
+                    viewModel,
+                    string.Empty,
+                    string.Empty
+                    );
+            }
+
+            return HttpNotFound();
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult Notifications(ActivityInput activityInput, PagingInput pagingInput)
+        {
+            if (Request.IsAjaxRequest())
+            {
+                return new JsonNetResult(new
+                {
+                    Model = new
+                    {
+                        Activities = _activityViewModelBuilder.BuildNotificationActivityList(_userContext.GetAuthenticatedUserId(), activityInput, pagingInput)
+                    }
+                });
+            }
+
+            return HttpNotFound();
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult Activity(ActivityInput activityInput, PagingInput pagingInput)
+        {
+            if (Request.IsAjaxRequest())
+            {
+                return new JsonNetResult(new
+                {
+                    Model = new
+                    {
+                        Activities = _activityViewModelBuilder.BuildHomeActivityList(_userContext.GetAuthenticatedUserId(), activityInput, pagingInput)
+                    }
+                });
             }
 
             return HttpNotFound();

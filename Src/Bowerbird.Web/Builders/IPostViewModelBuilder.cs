@@ -23,5 +23,7 @@ namespace Bowerbird.Web.Builders
         object BuildUserPostList(string userId, PagingInput pagingInput);
 
         object BuildGroupPostList(string groupId, PagingInput pagingInput);
+
+        object BuildAllUserGroupsPostList(string userId, PagingInput pagingInput);
     }
 }

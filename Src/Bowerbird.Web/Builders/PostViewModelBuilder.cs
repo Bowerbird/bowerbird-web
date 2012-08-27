@@ -90,6 +90,34 @@ namespace Bowerbird.Web.Builders
                     null);
         }
 
+
+        public object BuildAllUserGroupsPostList(string userId, PagingInput pagingInput)
+        {
+            Check.RequireNotNullOrWhitespace(userId, "userId");
+            Check.RequireNotNull(pagingInput, "pagingInput");
+
+            RavenQueryStatistics stats;
+
+            var groupIds = _documentSession
+                .Load<User>(userId)
+                .Memberships.Select(x => x.Group.Id);
+
+            return _documentSession
+                .Query<Post>()
+                .Where(x => x.Group.Id.In(groupIds))
+                .Include(x => x.Group.Id)
+                .OrderByDescending(x => x.CreatedOn)
+                .Statistics(out stats)
+                .Skip(pagingInput.GetSkipIndex())
+                .Take(pagingInput.PageSize)
+                .ToList()
+                .Select(MakePost)
+                .ToPagedList(
+                    pagingInput.Page,
+                    pagingInput.PageSize,
+                    stats.TotalResults);
+        }
+
         public object BuildGroupPostList(string groupId, PagingInput pagingInput)
         {
             Check.RequireNotNullOrWhitespace(groupId, "groupId");
