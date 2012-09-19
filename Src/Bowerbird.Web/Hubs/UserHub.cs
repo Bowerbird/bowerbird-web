@@ -69,6 +69,19 @@ namespace Bowerbird.Web.Hubs
             _documentSession.SaveChanges();
         }
 
+        public void UpdateUserClientStatus(string userId)
+        {
+            var user = GetUserByConnectionId(Context.ConnectionId);
+
+            if (user != null)
+            {
+                user.UpdateSessionLatestActivity(Context.ConnectionId);
+
+                _documentSession.Store(user);
+                _documentSession.SaveChanges();
+            }
+        }
+
         public Task Disconnect()
         {
             // Remove this connection session from user
