@@ -67,16 +67,11 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/avataritemview'
         },
 
         _onMediaResourceUploadSuccess: function (data) {
-            //            var mediaResource = this.currentUploads.find(function (item) {
-            //                return item.get('Key') === data.Key;
-            //            });
-            //            mediaResource.set(data);
             var mediaResource = new MediaResource(data);
             log('here', mediaResource);
             this.model.avatar = mediaResource;
             this.model.set('AvatarId', mediaResource.id);
-            //this.model.addMedia(mediaResource, '', app.authenticatedUser.defaultLicence);
-            //this._updateProgress();
+
             $('#avatar-viewer').empty().append('<img src="' + mediaResource.get('Image').Square200.Uri + '" alt="" />');
         },
 

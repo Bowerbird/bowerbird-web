@@ -106,7 +106,7 @@ namespace Bowerbird.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult Observations(string id, PagingInput pagingInput)
+        public ActionResult Sightings(string id, PagingInput pagingInput)
         {
             var userId = VerbosifyId<User>(id);
 

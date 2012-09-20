@@ -16720,7 +16720,7 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
     };
 
     app.updateTitle = function (titleSegment) {
-        var newTitle = 'Bowerbird';
+        var newTitle = 'BowerBird';
         if (titleSegment.length > 0) {
             newTitle = titleSegment + ' - ' + newTitle;
         }
@@ -17432,16 +17432,11 @@ define('views/editavatarview',['jquery', 'underscore', 'backbone', 'app', 'ich',
         },
 
         _onMediaResourceUploadSuccess: function (data) {
-            //            var mediaResource = this.currentUploads.find(function (item) {
-            //                return item.get('Key') === data.Key;
-            //            });
-            //            mediaResource.set(data);
             var mediaResource = new MediaResource(data);
             log('here', mediaResource);
             this.model.avatar = mediaResource;
             this.model.set('AvatarId', mediaResource.id);
-            //this.model.addMedia(mediaResource, '', app.authenticatedUser.defaultLicence);
-            //this._updateProgress();
+
             $('#avatar-viewer').empty().append('<img src="' + mediaResource.get('Image').Square200.Uri + '" alt="" />');
         },
 
@@ -18784,9 +18779,9 @@ if (jQuery) (function ($) {
 
         // Handle selectAll oncheck
         if (o.selectAll) {
-            multiSelectOptions.find('INPUT.selectAll').click(function () {
+            multiSelectOptions.find('input.selectAll').click(function () {
                 // update all the child checkboxes
-                multiSelectOptions.find('INPUT:checkbox').attr('checked', $(this).attr('checked')).parent("LABEL").toggleClass('checked', $(this).attr('checked'));
+                multiSelectOptions.find('input:checkbox').attr('checked', $(this).attr('checked')).parent("label").toggleClass('checked', $(this).attr('checked'));
             });
         }
          
@@ -18794,22 +18789,22 @@ if (jQuery) (function ($) {
         if (o.optGroupSelectable) {
             multiSelectOptions.addClass('optGroupHasCheckboxes');
 
-            multiSelectOptions.find('INPUT.optGroup').click(function () {
+            multiSelectOptions.find('input.optGroup').click(function () {
                 // update all the child checkboxes
-                $(this).parent().next().find('INPUT:checkbox').attr('checked', $(this).attr('checked')).parent("LABEL").toggleClass('checked', $(this).attr('checked'));
+                $(this).parent().next().find('input:checkbox').attr('checked', $(this).attr('checked')).parent("label").toggleClass('checked', $(this).attr('checked'));
             });
         }
 
         // Handle all checkboxes
-        multiSelectOptions.find('INPUT:checkbox').click(function () {
+        multiSelectOptions.find('input:checkbox').click(function () {
             var o = multiSelect.data("config");
             var multiSelectOptions = multiSelect.next('.multiSelectOptions');
 
             // set the label checked class
             if (o.singleSelect) { // deselect all except the current item if in single mode
-                multiSelectOptions.find('INPUT:checkbox').not($(this)).attr('checked', false).parent("LABEL").toggleClass('checked', false);
+                multiSelectOptions.find('input:checkbox').not($(this)).attr('checked', false).parent("label").toggleClass('checked', false);
             }
-            $(this).parent("LABEL").toggleClass('checked', $(this).attr('checked'));
+            $(this).parent("label").toggleClass('checked', $(this).attr('checked'));
 
             updateSelected.call(multiSelect);
             multiSelect.focus();
@@ -18828,7 +18823,7 @@ if (jQuery) (function ($) {
 
         // Initial display
         multiSelectOptions.each(function () {
-            $(this).find('INPUT:checked').parent().addClass('checked');
+            $(this).find('input:checked').parent().addClass('checked');
         });
 
         // Initialize selected and select all 
@@ -18836,17 +18831,17 @@ if (jQuery) (function ($) {
 
         // Initialize optgroups
         if (o.optGroupSelectable) {
-            multiSelectOptions.find('LABEL.optGroup').each(function () {
+            multiSelectOptions.find('label.optGroup').each(function () {
                 updateOptGroup.call(multiSelect, $(this));
             });
         }
 
         // Handle hovers
-        multiSelectOptions.find('LABEL:has(INPUT)').hover(function () {
-            $(this).parent().find('LABEL').removeClass('hover');
+        multiSelectOptions.find('label:has(input)').hover(function () {
+            $(this).parent().find('label').removeClass('hover');
             $(this).addClass('hover');
         }, function () {
-            $(this).parent().find('LABEL').removeClass('hover');
+            $(this).parent().find('label').removeClass('hover');
         });
 
         // Keyboard
@@ -18871,14 +18866,14 @@ if (jQuery) (function ($) {
                 }
                 // Down || Up
                 if (e.keyCode == 40 || e.keyCode == 38) {
-                    var allOptions = multiSelectOptions.find('LABEL');
+                    var allOptions = multiSelectOptions.find('label');
                     var oldHoverIndex = allOptions.index(allOptions.filter('.hover'));
                     var newHoverIndex = -1;
 
                     // if there is no current highlighted item then highlight the first item
                     if (oldHoverIndex < 0) {
                         // Default to first item
-                        multiSelectOptions.find('LABEL:first').addClass('hover');
+                        multiSelectOptions.find('label:first').addClass('hover');
                     }
                     // else if we are moving down and there is a next item then move
                     else if (e.keyCode == 40 && oldHoverIndex < allOptions.length - 1) {
@@ -18902,17 +18897,17 @@ if (jQuery) (function ($) {
 
                 // Enter, Space
                 if (e.keyCode == 13 || e.keyCode == 32) {
-                    var selectedCheckbox = multiSelectOptions.find('LABEL.hover INPUT:checkbox');
+                    var selectedCheckbox = multiSelectOptions.find('label.hover input:checkbox');
 
                     if (o.singleSelect) { // deselect all except the current item if in single mode
-                        multiSelectOptions.find('INPUT:checkbox').not(selectedCheckbox).attr('checked', false).parent("LABEL").toggleClass('checked', false);
+                        multiSelectOptions.find('input:checkbox').not(selectedCheckbox).attr('checked', false).parent("label").toggleClass('checked', false);
                     }
                     // Set the checkbox (and label class)
-                    selectedCheckbox.attr('checked', !selectedCheckbox.attr('checked')).parent("LABEL").toggleClass('checked', selectedCheckbox.attr('checked'));
+                    selectedCheckbox.attr('checked', !selectedCheckbox.attr('checked')).parent("label").toggleClass('checked', selectedCheckbox.attr('checked'));
 
                     // if the checkbox was the select all then set all the checkboxes
                     if (selectedCheckbox.hasClass("selectAll")) {
-                        multiSelectOptions.find('INPUT:checkbox').attr('checked', selectedCheckbox.attr('checked')).parent("LABEL").addClass('checked').toggleClass('checked', selectedCheckbox.attr('checked'));
+                        multiSelectOptions.find('input:checkbox').attr('checked', selectedCheckbox.attr('checked')).parent("label").addClass('checked').toggleClass('checked', selectedCheckbox.attr('checked'));
                     }
 
                     updateSelected.call(multiSelect);
@@ -18930,9 +18925,9 @@ if (jQuery) (function ($) {
                 // Any other standard keyboard character (try and match the first character of an option)
                 if (e.keyCode >= 33 && e.keyCode <= 126) {
                     // find the next matching item after the current hovered item
-                    var match = multiSelectOptions.find('LABEL:startsWith(' + String.fromCharCode(e.keyCode) + ')');
+                    var match = multiSelectOptions.find('label:startsWith(' + String.fromCharCode(e.keyCode) + ')');
 
-                    var currentHoverIndex = match.index(match.filter('LABEL.hover'));
+                    var currentHoverIndex = match.index(match.filter('label.hover'));
 
                     // filter the set to any items after the current hovered item
                     var afterHoverMatch = match.filter(function (index) {
@@ -18940,11 +18935,11 @@ if (jQuery) (function ($) {
                     });
 
                     // if there were no item after the current hovered item then try using the full search results (filtered to the first one)
-                    match = (afterHoverMatch.length >= 1 ? afterHoverMatch : match).filter("LABEL:first");
+                    match = (afterHoverMatch.length >= 1 ? afterHoverMatch : match).filter("label:first");
 
                     if (match.length == 1) {
                         // if we found a match then move the hover
-                        multiSelectOptions.find('LABEL.hover').removeClass('hover');
+                        multiSelectOptions.find('label.hover').removeClass('hover');
                         match.addClass('hover');
 
                         adjustViewPort(multiSelectOptions);
@@ -18955,12 +18950,12 @@ if (jQuery) (function ($) {
                 if (e.keyCode == 38 || e.keyCode == 40 || e.keyCode == 13 || e.keyCode == 32) { //up, down, enter, space - show
                     // Show dropdown
                     $(this).removeClass('focus').trigger('click');
-                    multiSelectOptions.find('LABEL:first').addClass('hover');
+                    multiSelectOptions.find('label:first').addClass('hover');
                     return false;
                 }
                 //  Tab key
                 if (e.keyCode == 9) {
-                    // Shift focus to next INPUT element on page
+                    // Shift focus to next input element on page
                     multiSelectOptions.next(':input').focus();
                     return true;
                 }
@@ -18973,15 +18968,15 @@ if (jQuery) (function ($) {
     // Adjust the viewport if necessary
     function adjustViewPort(multiSelectOptions) {
         // check for and move down
-        var selectionBottom = multiSelectOptions.find('LABEL.hover').position().top + multiSelectOptions.find('LABEL.hover').outerHeight();
+        var selectionBottom = multiSelectOptions.find('label.hover').position().top + multiSelectOptions.find('label.hover').outerHeight();
 
         if (selectionBottom > multiSelectOptions.innerHeight()) {
             multiSelectOptions.scrollTop(multiSelectOptions.scrollTop() + selectionBottom - multiSelectOptions.innerHeight());
         }
 
         // check for and move up						
-        if (multiSelectOptions.find('LABEL.hover').position().top < 0) {
-            multiSelectOptions.scrollTop(multiSelectOptions.scrollTop() + multiSelectOptions.find('LABEL.hover').position().top);
+        if (multiSelectOptions.find('label.hover').position().top < 0) {
+            multiSelectOptions.scrollTop(multiSelectOptions.scrollTop() + multiSelectOptions.find('label.hover').position().top);
         }
     }
 
@@ -18993,14 +18988,14 @@ if (jQuery) (function ($) {
         // Determine if the optgroup should be checked
         if (o.optGroupSelectable) {
             var optGroupSelected = true;
-            $(optGroup).next().find('INPUT:checkbox').each(function () {
+            $(optGroup).next().find('input:checkbox').each(function () {
                 if (!$(this).attr('checked')) {
                     optGroupSelected = false;
                     return false;
                 }
             });
 
-            $(optGroup).find('INPUT.optGroup').attr('checked', optGroupSelected).parent("LABEL").toggleClass('checked', optGroupSelected);
+            $(optGroup).find('input.optGroup').attr('checked', optGroupSelected).parent("label").toggleClass('checked', optGroupSelected);
         }
     }
 
@@ -19014,7 +19009,7 @@ if (jQuery) (function ($) {
         var selectAll = true;
         var display = '';
         var selectedOptions = [];
-        multiSelectOptions.find('INPUT:checkbox').not('.selectAll, .optGroup').each(function () {
+        multiSelectOptions.find('input:checkbox').not('.selectAll, .optGroup').each(function () {
             if ($(this).attr('checked')) {
                 i++;
                 display = display + $(this).parent().text() + ', ';
@@ -19042,7 +19037,7 @@ if (jQuery) (function ($) {
 
         // Determine if Select All should be checked
         if (o.selectAll) {
-            multiSelectOptions.find('INPUT.selectAll').attr('checked', selectAll).parent("LABEL").toggleClass('checked', selectAll);
+            multiSelectOptions.find('input.selectAll').attr('checked', selectAll).parent("label").toggleClass('checked', selectAll);
         }
     }
 
@@ -19147,6 +19142,7 @@ if (jQuery) (function ($) {
         multiSelectOptionsHide: function () {
             $(this).removeClass('active').removeClass('hover').next('.multiSelectOptions').css('visibility', 'hidden');
             $(this).removeClass('active').removeClass('hover').next('.multiSelectOptions').css('display', 'none');
+            $(this).next('.multiSelectOptions').css('height', 'auto');
         },
 
         // Show the dropdown
@@ -19157,7 +19153,7 @@ if (jQuery) (function ($) {
 
             // Hide any open option boxes
             $('.multiSelect').multiSelectOptionsHide();
-            multiSelectOptions.find('LABEL').removeClass('hover');
+            multiSelectOptions.find('label').removeClass('hover');
             multiSelect.addClass('active').next('.multiSelectOptions').css('visibility', 'visible');
             multiSelect.addClass('active').next('.multiSelectOptions').css('display', 'block');
             multiSelect.focus();
@@ -19182,18 +19178,20 @@ if (jQuery) (function ($) {
 
             // set the width of the dropdown options
             multiSelectOptions.css("width", multiSelect.outerWidth() - 2/*border*/ + 'px');
-            /**FR**/
-
+            multiSelectOptions.css("min-width", '260px');
+            
             // Position it
             var offset = multiSelect.position();
             multiSelect.next('.multiSelectOptions').css({ top: offset.top + $(this).outerHeight() + 'px' });
-            multiSelect.next('.multiSelectOptions').css({ left: offset.left + 'px' });
+            //multiSelect.next('.multiSelectOptions').css({ left: offset.left + 'px' });
+            multiSelect.next('.multiSelectOptions').css({ right: '0' });
+            /**FR**/
         },
 
         // get a coma-delimited list of selected values
         selectedValuesString: function () {
             var selectedValues = "";
-            $(this).next('.multiSelectOptions').find('INPUT:checkbox:checked').not('.optGroup, .selectAll').each(function () {
+            $(this).next('.multiSelectOptions').find('input:checkbox:checked').not('.optGroup, .selectAll').each(function () {
                 selectedValues += $(this).attr('value') + ",";
             });
             // trim any end comma and surounding whitespace
@@ -22527,7 +22525,7 @@ function ($, _, Backbone, app, ich, StreamItemView) {
         },
 
         onStreamLoadingStart: function (collection) {
-            this.$el.append(ich.StreamMessage({ Text: 'Loading', ShowLoader: true }));
+            this.$el.append(ich.StreamMessage({ ShowLoader: true }));
         },
 
         onStreamLoadingComplete: function (collection) {
@@ -22598,7 +22596,7 @@ define('views/projectlayoutview',['jquery', 'underscore', 'backbone', 'app', 'vi
                     Project: this.model.toJSON(),
                     IsMember: _.any(app.authenticatedUser.memberships, function (membership) { return membership.GroupId === this.model.id; }, this),
                     MemberCountDescription: this.model.get('MemberCount') === 1 ? 'Member' : 'Members',
-                    ObservationCountDescription: this.model.get('ObservationCount') === 1 ? 'Observation' : 'Observations',
+                    ObservationCountDescription: this.model.get('ObservationCount') === 1 ? 'Sighting' : 'Sightings',
                     PostCountDescription: this.model.get('PostCount') === 1 ? 'Post' : 'Posts'
                 }
             };
@@ -22891,8 +22889,8 @@ define('views/homeprivatelayoutview',['jquery', 'underscore', 'backbone', 'app',
             var that = this;
             this.$el.find('.close-intro').on('click', function (e) {
                 e.preventDefault();
-                $('.intro').slideUp('fast', function () {
-                    that.$el.find('.intro').remove();
+                that.$el.find('#intro').slideUp('fast', function () {
+                    that.$el.find('#intro').remove();
                 });
                 // TODO: Save intro closed status
                 return false;
@@ -25290,12 +25288,59 @@ $.ui.plugin.add("draggable", "zIndex", {
 define('views/editmapview',['jquery', 'underscore', 'backbone', 'app', 'views/dummyoverlayview', 'jqueryui/autocomplete', 'jqueryui/draggable', 'async!http://maps.google.com/maps/api/js?sensor=false&region=AU'],
 function ($, _, Backbone, app, DummyOverlayView) {
 
+    var australia = new google.maps.LatLng(-29.191427, 134.472126); // Centre on Australia
+
+    var ExpandMapControl = function (controlDiv, map, callback) {
+
+        // Set CSS styles for the DIV containing the control
+        // Setting padding to 5 px will offset the control
+        // from the edge of the map
+        controlDiv.style.padding = '5px';
+
+        // Set CSS for the control UI
+        var controlUI = document.createElement('div');
+        controlUI.title = 'Expand the size of the map';
+        controlUI.setAttribute('id', 'expand-map-widget');
+        controlUI.innerHTML = 'Expand Map';
+        controlDiv.appendChild(controlUI);
+
+        google.maps.event.addDomListener(controlUI, 'click', function () {
+            callback();
+        });
+
+    };
+
+    var CentreMapControl = function (controlDiv, map, callback) {
+
+        // Set CSS styles for the DIV containing the control
+        // Setting padding to 5 px will offset the control
+        // from the edge of the map
+        controlDiv.style.padding = '5px';
+
+        // Set CSS for the control UI
+        var controlUI = document.createElement('div');
+        controlUI.title = 'Centre on marker';
+        controlUI.setAttribute('id', 'centre-map-widget');
+        controlUI.innerHTML = 'Centre Pin';
+        controlDiv.appendChild(controlUI);
+
+        // Setup the click event listeners: simply set the map to australia
+        //        google.maps.event.addDomListener(controlUI, 'click', function () {
+        //            map.setCenter(australia);
+        //        });
+
+        google.maps.event.addDomListener(controlUI, 'click', function () {
+            callback();
+        });
+
+    };
+
     var EditMapView = Backbone.View.extend({
-        id: 'location-fieldset',
+        id: 'location-details',
 
         initialize: function (options) {
             _.extend(this, Backbone.Events);
-            _.bindAll(this, 'onMediaChanged');
+            _.bindAll(this, 'onMediaChanged', '_expandMap', '_centreMap');
             this.mapMarker = null;
             this.zIndex = 0;
 
@@ -25326,7 +25371,7 @@ function ($, _, Backbone, app, DummyOverlayView) {
             var g = google.maps;
 
             var mapSettings = {
-                center: new g.LatLng(-29.191427, 134.472126), // Centre on Aust ralia
+                center: australia,
                 zoom: 4,
                 panControl: false,
                 streetViewControl: false,
@@ -25342,6 +25387,48 @@ function ($, _, Backbone, app, DummyOverlayView) {
             // Add a dummy overlay for later use.
             // Needed for API v3 to convert pixels to latlng.
             this.dummy = new DummyOverlayView(this.map);
+
+            // Create the DIV to hold the control and
+            // call the ExpandMapControl() constructor passing
+            // in this DIV.
+            var expandMapControlDiv = document.createElement('div');
+            var expandMapControl = new ExpandMapControl(expandMapControlDiv, this.map, this._expandMap);
+            expandMapControlDiv.index = 2;
+            this.map.controls[g.ControlPosition.TOP_RIGHT].push(expandMapControlDiv);
+
+            // Create the DIV to hold the control and
+            // call the CentreMapControl() constructor passing
+            // in this DIV.
+            var centreMapControlDiv = document.createElement('div');
+            var centreMapControl = new CentreMapControl(centreMapControlDiv, this.map, this._centreMap);
+            centreMapControlDiv.index = 1;
+            this.map.controls[g.ControlPosition.TOP_RIGHT].push(centreMapControlDiv);
+
+            this.mapExpanded = false;
+        },
+
+        _expandMap: function () {
+            if (this.mapExpanded) {
+                this.$el.find('#location-map').css('height', '242px');
+                this.mapExpanded = false;
+                this.$el.find('#expand-map-widget').text('Expand Map');
+            } else {
+                this.$el.find('#location-map').css('height', '600px');
+                this.mapExpanded = true;
+                this.$el.find('#expand-map-widget').text('Shrink Map');
+            }
+
+            var currentCentre = this.map.getCenter();
+
+            google.maps.event.trigger(this.map, 'resize');
+
+            this.map.panTo(currentCentre);
+        },
+
+        _centreMap: function () {
+            if (this.mapMarker) {
+                this.map.panTo(this.mapMarker.position);
+            }
         },
 
         _initAddressField: function () {
@@ -25510,6 +25597,7 @@ function ($, _, Backbone, app, DummyOverlayView) {
                 //            if (this.model.get('anonymiseLocation') === true) {
                 $('#Latitude').val(lat);
                 $('#Longitude').val(lng);
+                this.$el.find('#lat-long').text(lat + ', ' + lng);
 
                 //            }
                 //            else {
@@ -25556,6 +25644,112 @@ function ($, _, Backbone, app, DummyOverlayView) {
     return EditMapView;
 
 });
+
+//var map;
+//var chicago = new google.maps.LatLng(41.850033, -87.6500523);
+
+///**
+//* The HomeControl adds a control to the map that
+//* returns the user to the control's defined home.
+//*/
+
+//// Define a property to hold the Home state
+//HomeControl.prototype.home_ = null;
+
+//// Define setters and getters for this property
+//HomeControl.prototype.getHome = function () {
+//    return this.home_;
+//}
+
+//HomeControl.prototype.setHome = function (home) {
+//    this.home_ = home;
+//}
+
+//function HomeControl(controlDiv, map, home) {
+
+//    // We set up a variable for this since we're adding
+//    // event listeners later.
+//    var control = this;
+
+//    // Set the home property upon construction
+//    control.home_ = home;
+
+//    // Set CSS styles for the DIV containing the control
+//    // Setting padding to 5 px will offset the control
+//    // from the edge of the map
+//    controlDiv.style.padding = '5px';
+
+//    // Set CSS for the control border
+//    var goHomeUI = document.createElement('div');
+//    goHomeUI.style.backgroundColor = 'white';
+//    goHomeUI.style.borderStyle = 'solid';
+//    goHomeUI.style.borderWidth = '2px';
+//    goHomeUI.style.cursor = 'pointer';
+//    goHomeUI.style.textAlign = 'center';
+//    goHomeUI.title = 'Click to set the map to Home';
+//    controlDiv.appendChild(goHomeUI);
+
+//    // Set CSS for the control interior
+//    var goHomeText = document.createElement('div');
+//    goHomeText.style.fontFamily = 'Arial,sans-serif';
+//    goHomeText.style.fontSize = '12px';
+//    goHomeText.style.paddingLeft = '4px';
+//    goHomeText.style.paddingRight = '4px';
+//    goHomeText.innerHTML = '<b>Home</b>';
+//    goHomeUI.appendChild(goHomeText);
+
+//    // Set CSS for the setHome control border
+//    var setHomeUI = document.createElement('div');
+//    setHomeUI.style.backgroundColor = 'white';
+//    setHomeUI.style.borderStyle = 'solid';
+//    setHomeUI.style.borderWidth = '2px';
+//    setHomeUI.style.cursor = 'pointer';
+//    setHomeUI.style.textAlign = 'center';
+//    setHomeUI.title = 'Click to set Home to the current center';
+//    controlDiv.appendChild(setHomeUI);
+
+//    // Set CSS for the control interior
+//    var setHomeText = document.createElement('div');
+//    setHomeText.style.fontFamily = 'Arial,sans-serif';
+//    setHomeText.style.fontSize = '12px';
+//    setHomeText.style.paddingLeft = '4px';
+//    setHomeText.style.paddingRight = '4px';
+//    setHomeText.innerHTML = '<b>Set Home</b>';
+//    setHomeUI.appendChild(setHomeText);
+
+//    // Setup the click event listener for Home:
+//    // simply set the map to the control's current home property.
+//    google.maps.event.addDomListener(goHomeUI, 'click', function () {
+//        var currentHome = control.getHome();
+//        map.setCenter(currentHome);
+//    });
+
+//    // Setup the click event listener for Set Home:
+//    // Set the control's home to the current Map center.
+//    google.maps.event.addDomListener(setHomeUI, 'click', function () {
+//        var newHome = map.getCenter();
+//        control.setHome(newHome);
+//    });
+//}
+
+//function initialize() {
+//    var mapDiv = document.getElementById('map_canvas');
+//    var mapOptions = {
+//        zoom: 12,
+//        center: chicago,
+//        mapTypeId: google.maps.MapTypeId.ROADMAP
+//    }
+//    map = new google.maps.Map(mapDiv, mapOptions);
+
+//    // Create the DIV to hold the control and
+//    // call the HomeControl() constructor passing
+//    // in this DIV.
+//    var homeControlDiv = document.createElement('div');
+//    var homeControl = new HomeControl(homeControlDiv, map, chicago);
+
+//    homeControlDiv.index = 1;
+//    map.controls[google.maps.ControlPosition.TOP_RIGHT].push(homeControlDiv);
+//};
 /// <reference path="../libs/log.js" />
 /// <reference path="../libs/require/require.js" />
 /// <reference path="../libs/jquery/jquery-1.7.2.js" />
@@ -29716,7 +29910,7 @@ function ($, _, Backbone, app, ich) {
                     this.$el.find('.video-preview').html(html);
                     break;
                 case 'loading':
-                    this.$el.find('#video-uri-field input').after('<div class="field-validation-info"><img src="/img/loader.png" alt="" />Loading ' + this.provider.getJSON().name + ' video...</div>');
+                    this.$el.find('#video-uri-field input').after('<div class="field-validation-info"><img src="/img/loader.gif" alt="" />Loading ' + this.provider.getJSON().name + ' video...</div>');
                     break;
                 case 'error':
                     this.$el.find('#VideoUri').addClass('input-validation-error');
@@ -29944,6 +30138,53 @@ define('collections/mediaresourcecollection',['jquery', 'underscore', 'backbone'
 
 }));
 
+define('progress',['jquery'], function($) {
+
+(function($) {
+    // Simple wrapper around jQuery animate to simplify animating progress from your app
+    // Inputs: Progress as a percent, Callback
+    // TODO: Add options and jQuery UI support.
+    $.fn.animateProgress = function(progress, callback) {
+        return this.each(function() {
+            $(this).animate({
+                    width: progress + '%'
+                }, {
+                    duration: 2000,
+                    // swing or linear
+                    easing: 'swing',
+                    // this gets called every step of the animation, and updates the label
+                    step: function(progress) {
+                        var labelEl = $('.ui-label', this),
+                            valueEl = $('.value', labelEl);
+                        if (Math.ceil(progress) < 20 && $('.ui-label', this).is(":visible")) {
+                            labelEl.hide();
+                        } else {
+                            if (labelEl.is(":hidden")) {
+                                labelEl.fadeIn();
+                            }
+                            ;
+                        }
+                        if (Math.ceil(progress) == 100) {
+                            labelEl.text('Completed');
+                            setTimeout(function() {
+                                labelEl.fadeOut();
+                            }, 1000);
+                        } else {
+                            valueEl.text(Math.ceil(progress) + '%');
+                        }
+                    },
+                    complete: function(scope, i, elem) {
+                        if (callback) {
+                            callback.call(this, i, elem);
+                        }
+                        ;
+                    }
+                });
+        });
+    };
+})(jQuery);
+
+});
 /// <reference path="../../libs/log.js" />
 /// <reference path="../../libs/require/require.js" />
 /// <reference path="../../libs/jquery/jquery-1.7.2.js" />
@@ -29954,11 +30195,22 @@ define('collections/mediaresourcecollection',['jquery', 'underscore', 'backbone'
 // ObservationMediaFormView
 // ------------------------
 
-define('views/observationmediaformview',['jquery', 'underscore', 'backbone', 'app', 'models/mediaresource', 'views/observationmediaitemview', 'views/videoformview', 'collections/mediaresourcecollection', 'fileupload', 'iframetransport'],
+define('views/observationmediaformview',['jquery', 'underscore', 'backbone', 'app', 'models/mediaresource', 'views/observationmediaitemview', 'views/videoformview', 'collections/mediaresourcecollection', 'fileupload', 'iframetransport', 'progress'],
 function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFormView, MediaResourceCollection) {
 
+    var MediaUpload = Backbone.Model.extend({
+        defaults: {
+            progressStatus: 'waiting',
+            successStatus: ''
+        }
+    });
+
+    var MediaUploadCollection = Backbone.Collection.extend({
+        model: MediaUpload
+    });
+
     var ObservationMediaFormView = Backbone.Marionette.CompositeView.extend({
-        id: 'media-fieldset',
+        id: 'media-details',
 
         itemView: ObservationMediaItemView,
 
@@ -29968,13 +30220,10 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
         },
 
         initialize: function () {
-            _.bindAll(this, '_onMediaResourceUploadSuccess', '_onMediaResourceUploadFailure', '_onImageUploadAdd', '_onVideoUploadAdd');
+            _.bindAll(this, '_onMediaResourceUploadSuccess', '_onMediaResourceUploadFailure', '_onFileUploadAdd', '_onFileUploadSend', '_onFileUploadDone', '_onFileUploadFail', '_onVideoUploadAdd');
 
-            this.currentUploads = new MediaResourceCollection();
-            this.failedUploads = new MediaResourceCollection();
-
-            this.currentUploads.on('add', this._onCurrentUploadAdded, this);
-            this.failedUploads.on('add', this._onFailedUploadAdded, this);
+            this.mediaUploads = new MediaUploadCollection();
+            this.mediaUploads.on('change:progressStatus', this._updateProgress, this);
 
             app.vent.on('mediaresourceuploadsuccess', this._onMediaResourceUploadSuccess, this);
             app.vent.on('mediaresourceuploadfailure', this._onMediaResourceUploadFailure, this);
@@ -29985,7 +30234,10 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
                 dataType: 'json',
                 paramName: 'File',
                 url: '/mediaresources',
-                add: this._onImageUploadAdd
+                add: this._onFileUploadAdd, // on file selected
+                send: this._onFileUploadSend, // on request submit
+                done: this._onFileUploadDone, // on successful upload
+                fail: this._onFileUploadFail // on errored upload
             });
         },
 
@@ -30002,7 +30254,7 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
                     $mediaItems.append(itemView.el);
 
                     if ($mediaItems.innerWidth() + $mediaItems.scrollLeft() === $mediaItems.get(0).scrollWidth) {
-                        // Don't do any animation
+                        // Don't do any scrolling, just move to next step
                         next();
                     }
                     else {
@@ -30035,20 +30287,15 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
                     // Remove absolute positioning
                     $(itemView.el).css({ position: 'relative', top: '' });
 
-                    var mediaResource = that.currentUploads.find(function (item) {
-                        return item.get('Key') === itemView.model.mediaResource.get('Key');
-                    });
-                    that.currentUploads.remove(mediaResource);
-
-                    that._updateProgress();
-                    //next();
+                    var upload = that.mediaUploads.get(itemView.model.mediaResource.get('Key'));
+                    upload.set('progressStatus', 'complete');
 
                     var $mediaItems = that.$el.find('.observation-media-items');
                     var scrollAmount = ($mediaItems.get(0).scrollWidth - ($mediaItems.innerWidth() + $mediaItems.scrollLeft())) + $mediaItems.scrollLeft();
 
                     itemView.start();
 
-                    // Make space for the new item
+                    // Scroll the new item into view
                     $mediaItems.animate(
                             { scrollLeft: scrollAmount },
                             {
@@ -30076,6 +30323,7 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
                 })
                 .queue(function (next) {
                     that.model.removeMedia(mediaItemView.model);
+                    that._showOrHideMediaLabel();
                     next();
                 });
         },
@@ -30101,51 +30349,69 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
             videoFormView.render();
         },
 
-        _onImageUploadAdd: function (e, data) {
+        _onFileUploadAdd: function (e, data) {
             var key = app.generateGuid();
-            this.currentUploads.add({ Key: key });
+
+            this.mediaUploads.add({
+                id: key,
+                mediaType: 'file',
+                filename: data.files[0].name
+            });
 
             data.formData = {
                 Key: key,
-                Type: 'file', 
+                Type: 'file',
                 Usage: 'contribution',
-                FileName: data.files[0].name
+                Filename: data.files[0].name
             };
             if (window.isIEFail) {
                 data.formData.ie = true;
             }
 
-            //            var self = this;
-            //            var tempImage = null;
-
-            //            if (!window.isIEFail) {
-            //                tempImage = loadImage(
-            //                    data.files[0],
-            //                    function (img) {
-            //                        if (img.type === "error") {
-            //                            //log('Error loading image', img);
-            //                        } else {
-            //                            self.filesAdded++;
-            //                            mediaResourceItemView.showTempImageMedia(img);
-            //                            self._showMediaResourceItemView(self, mediaResourceItemView, $(img).width(), self.filesAdded === data.originalFiles.length);
-            //                        }
-            //                    },
-            //                    { maxHeight: 220 }
-            //                );
-            //            }
-
-            //            if (!tempImage) {
-            //                $(mediaResourceItemView.el).width(280);
-            //                this.filesAdded++;
-            //                this._showMediaResourceItemView(this, mediaResourceItemView, 280, this.filesAdded === data.originalFiles.length);
-            //            }
-
             data.submit();
+        },
+
+        _onFileUploadSend: function (e, data) {
+            var upload = this.mediaUploads.get(data.formData.Key);
+
+            upload.set({
+                progressStatus: 'uploading'
+            });
+        },
+
+        _onFileUploadDone: function (e, data) {
+            var upload = this.mediaUploads.get(data.formData.Key);
+
+            if (data.result.Success === true) {
+                upload.set({
+                    progressStatus: 'processing'
+                });
+            } else {
+                upload.set({
+                    progressStatus: 'complete',
+                    successStatus: 'fail'
+                });
+            }
+        },
+
+        _onFileUploadFail: function (e, data) {
+            var upload = this.mediaUploads.get(data.formData.Key);
+
+            upload.set({
+                progressStatus: 'complete',
+                successStatus: 'fail'
+            });
         },
 
         _onVideoUploadAdd: function (videoId, videoProviderName) {
             var key = app.generateGuid();
-            this.currentUploads.add({ Key: key });
+
+            this.mediaUploads.add({
+                id: key,
+                mediaType: 'externalvideo',
+                videoId: videoId,
+                videoProviderName: videoProviderName
+            });
 
             $.ajax({
                 url: '/mediaresources',
@@ -30161,49 +30427,94 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
             });
         },
 
-        _onCurrentUploadAdded: function (mediaResource) {
-            this._updateProgress();
+        _updateProgress: function (mediaUpload) {
+            this._showOrHideMediaLabel();
+
+            var uploads = this.mediaUploads.map(function (upload) {
+                return {
+                    id: upload.id,
+                    progressStatus: upload.get('progressStatus'),
+                    successStatus: upload.get('successStatus')
+                };
+            });
+            var that = this;
+
+            this.$el.find('#upload-progress-status')
+                    .queue(function (next) {
+                        var totalCount = uploads.length;
+                        var waitingCount = _.filter(uploads, function (upload) { return upload.progressStatus === 'waiting'; }).length;
+                        var uploadingCount = _.filter(uploads, function (upload) { return upload.progressStatus === 'uploading'; }).length;
+                        var processingCount = _.filter(uploads, function (upload) { return upload.progressStatus === 'processing'; }).length;
+                        var loadingCount = _.filter(uploads, function (upload) { return upload.progressStatus === 'loading'; }).length;
+                        var completeCount = _.filter(uploads, function (upload) { return upload.progressStatus === 'complete'; }).length;
+                        var failureCount = _.filter(uploads, function (upload) { return upload.successStatus === 'fail'; }).length;
+
+                        if (completeCount < totalCount) {
+                            var total = totalCount * 5;
+                            var current = waitingCount * 0.1 + (uploadingCount * 1) + (processingCount * 3) + (loadingCount * 4) + (completeCount * 5);
+
+                            var progress = Math.round((current * 100) / total);
+
+                            that.$el.find('#upload-progress-message').text('Adding ' + totalCount + ' file' + (totalCount > 1 ? 's' : ''));
+
+                            log('progress', progress + '%', uploads, mediaUpload);
+                            that.$el.find('#upload-progress-bar .ui-progress').css('width', progress + '%');
+
+                            that.$el.find('#upload-progress-status').css('visibility', 'visible');
+                        }
+                        else {
+                            log('progress', '100%', uploads, mediaUpload);
+                            that.$el.find('#upload-progress-bar .ui-progress').css('width', '100%');
+
+                            setTimeout((function () {
+                                that.$el.find('#upload-progress-status').css('visibility', 'hidden');
+                                that.mediaUploads.reset(null, { silent: true });
+                            }), 200);
+                        }
+
+                        if (failureCount > 0) {
+                            var desc = failureCount > 1 ? 'files' : 'file';
+                            that.$el.find('#upload-error')
+                                .html(failureCount + ' media ' + desc + ' failed to be uploaded. <a href="#" id="upload-error-info-button">Click here to view more info</a>.')
+                                .show();
+                        }
+
+                        next();
+                    });
         },
 
-        _onFailedUploadAdded: function (mediaResource) {
-            var failedCount = this.failedUploads.length;
-            this.$el.find('.upload-status .message').text(failedCount + ' file' + (failedCount > 1 ? 's' : '') + ' failed').show();
-            this._updateProgress();
-        },
-
-        _updateProgress: function () {
+        _showOrHideMediaLabel: function () {
             if (this.model.media.length > 0) {
                 this.$el.find('.observation-media-items-label').hide();
             } else {
                 this.$el.find('.observation-media-items-label').show();
             }
-
-            var currentCount = this.currentUploads.length;
-            if (this.currentUploads.length > 0) {
-                this.$el.find('.upload-status .progress > div').text('Processing ' + currentCount + ' file' + (currentCount > 1 ? 's' : ''));
-                this.$el.find('.upload-status .progress').show();
-            }
-            else {
-                this.$el.find('.upload-status .progress').hide();
-            }
         },
 
         _onMediaResourceUploadSuccess: function (data) {
-            var mediaResource = this.currentUploads.find(function (item) {
-                return item.get('Key') === data.Key;
-            });
-            mediaResource.set(data);
-            this.model.addMedia(mediaResource, '', app.authenticatedUser.defaultLicence);
-            this._updateProgress();
+            var that = this;
+
+            setTimeout((function () {
+                var upload = that.mediaUploads.get(data.Key);
+
+                upload.set({
+                    progressStatus: 'loading',
+                    successStatus: 'success',
+                    mediaResource: new MediaResource(data)
+                });
+
+                that.model.addMedia(upload.get('mediaResource'), '', app.authenticatedUser.defaultLicence);
+            }), 1000);
         },
 
         _onMediaResourceUploadFailure: function (key, reason) {
-            var mediaResource = this.currentUploads.find(function (item) {
-                return item.get('Key') === key;
+            var upload = this.mediaUploads.get(data.Key);
+
+            upload.set({
+                progressStatus: 'complete',
+                successStatus: 'fail',
+                errorMessage: reason
             });
-            this.currentUploads.remove(mediaResource);
-            this.failedUploads.add(mediaResource);
-            this._updateProgress();
         },
 
         onClose: function () {
@@ -30214,6 +30525,98 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
 
     return ObservationMediaFormView;
 
+});
+/// <reference path="../../libs/log.js" />
+/// <reference path="../../libs/require/require.js" />
+/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
+/// <reference path="../../libs/underscore/underscore.js" />
+/// <reference path="../../libs/backbone/backbone.js" />
+/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
+
+// IdentificationFormView
+// ----------------------
+
+define('views/identificationformview',['jquery', 'underscore', 'backbone', 'app', 'ich', 'jsonp'],
+function ($, _, Backbone, app, ich) {
+
+    var IdentificationFormView = Backbone.Marionette.ItemView.extend({
+        id: 'identification-form',
+
+        template: 'IdentificationForm',
+
+        events: {
+            'click .cancel-button': '_cancel',
+            'click .close': '_cancel',
+            'click .add-button': '_add'
+        },
+
+        serializeData: function () {
+            return {
+                //Model: this.provider.getJSON()
+            };
+        },
+
+        initialize: function (options) {
+            //            _.bindAll(this, '_loadVideo', '_onGetYouTubeVideo', '_onGetVimeoVideo', '_onGetVideoError', '_updateVideoStatus');
+
+            //            if (options.videoProviderName === 'youtube') {
+            //                this.provider = new YouTubeVideoProvider({ onGetVideoSuccess: this._onGetYouTubeVideo, onGetVideoError: this._onGetVideoError });
+            //            } else if (options.videoProviderName === 'vimeo') {
+            //                this.provider = new VimeoVideoProvider({ onGetVideoSuccess: this._onGetVimeoVideo, onGetVideoError: this._onGetVideoError });
+            //            }
+        },
+
+        onRender: function () {
+            //            var that = this;
+            //            this.$el.find('#VideoUri').on('change keyup', function (e) {
+            //                that._loadVideo($(this).val());
+            //            });
+            //            this.$el.find('#VideoUri').on('paste', function (e) {
+            //                setTimeout(function () {
+            //                    that._loadVideo(that.$el.find('#VideoUri').val());
+            //                }, 100);
+            //            });
+
+            $("#SearchIdentification").autocomplete({
+                source: function (request, onComplete) {
+                    log('stuff', request, onComplete);
+
+
+                    //var deferred = new $.Deferred();
+
+                    $.ajax({
+                        url: '/species?query=' + request.term
+                    }).done(function (data) {
+                        log('ddddd', data);
+                        //deferred.resolve(data.Model);
+                        //[ { label: "Choice1", value: "value1" }, ... ]
+                        onComplete([]);
+                    });
+                },
+                minLength: 2,
+                select: function (event, ui) {
+                    log(ui.item ?
+					"Selected: " + ui.item.value + " aka " + ui.item.id :
+					"Nothing selected, input was " + this.value);
+                }
+            });
+
+            return this;
+        },
+
+        _cancel: function () {
+            this.remove();
+        },
+
+        _add: function () {
+            //if (this.videoId !== '') {
+            this.trigger('identificationdone');
+            this.remove();
+            //}
+        }
+    });
+
+    return IdentificationFormView;
 });
 define('datepicker',['jquery', 'moment'], function (jQuery, moment) {
     /* ===========================================================
@@ -30472,12 +30875,12 @@ define('datepicker',['jquery', 'moment'], function (jQuery, moment) {
         //        }
         //return null;
         //return Date.parseExact(s, 'd MMM yyyy');
-        return moment(s, 'D MMM YYYY').toDate();
+        return moment(s, 'D MMMM YYYY').toDate();
     }
 
     , format: function (date) {
         //return date.format('d MMM yyyy');
-        return moment(date).format('D MMM YYYY');
+        return moment(date).format('D MMMM YYYY');
     }
 
     , ahead: function (months, days) {
@@ -31438,8 +31841,8 @@ $.extend($.ui.dialog.overlay.prototype, {
 // ObservationFormLayoutView
 // -------------------------
 
-define('views/observationformlayoutview',['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editmapview', 'views/observationmediaformview', 'moment', 'datepicker', 'multiselect', 'jqueryui/dialog'],
-function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView, moment) {
+define('views/observationformlayoutview',['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editmapview', 'views/observationmediaformview', 'views/identificationformview', 'moment', 'datepicker', 'multiselect', 'jqueryui/dialog'],
+function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView, IdentificationFormView, moment) {
 
     var ObservationFormLayoutView = Backbone.Marionette.Layout.extend({
 
@@ -31463,12 +31866,15 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView, momen
             'change input#IsIdentificationRequired': '_isIdentificationRequiredChanged',
             'change input#AnonymiseLocation': '_anonymiseLocationChanged',
             'change #projects-field input:checkbox': '_projectsChanged',
-            'change #category-field input:checkbox': '_categoryChanged'
+            'change #category-field input:checkbox': '_categoryChanged',
+            'click #location-options-button': '_locationOptionsClicked',
+            'click #identify-observation-option': '_showIdentificationForm'
         },
 
         observedOnUpdated: false, // When we derive the very first media, we extract the date and update the ObservedOn field. No further updates are allowed.
 
         initialize: function (options) {
+            _.bindAll(this, '_showIdentificationForm');
             this.categories = options.categories;
             this.model.media.on('add', this.onMediaChanged, this);
         },
@@ -31501,21 +31907,22 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView, momen
         },
 
         _showDetails: function () {
-            var editMapView = new EditMapView({ el: '#location-fieldset', model: this.model });
+            var editMapView = new EditMapView({ el: '#location-details', model: this.model });
             this.map.attachView(editMapView);
             editMapView.render();
 
-            var observationMediaFormView = new ObservationMediaFormView({ el: '#media-fieldset', model: this.model, collection: this.model.media });
+            var observationMediaFormView = new ObservationMediaFormView({ el: '#media-details', model: this.model, collection: this.model.media });
             this.media.attachView(observationMediaFormView);
             observationMediaFormView.render();
 
-            this.$el.find('#ObservedOn').val(moment(this.model.get('ObservedOn')).format('D MMM YYYY'));
+            this.$el.find('#ObservedOn').val(moment(this.model.get('ObservedOn')).format('D MMMM YYYY'));
             this.observedOnDatePicker = this.$el.find('#ObservedOn').datepicker();
 
-            this.categoryListSelectView = this.$el.find("#Category").multiSelect({
+            this.categoryListSelectView = this.$el.find('#Category').multiSelect({
                 selectAll: false,
-                listHeight: 263,
+                listHeight: 260,
                 singleSelect: true,
+                messageText: 'Select a category, or <a href="#" id="identify-observation-option">identify the observation now</a>',
                 noOptionsText: 'No Categories',
                 noneSelected: '<span class="default-option">Select Category</span>',
                 oneOrMoreSelected: function (selectedOptions) {
@@ -31536,7 +31943,7 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView, momen
 
             this.projectListSelectView = this.$el.find('#Projects').multiSelect({
                 selectAll: false,
-                listHeight: 263,
+                listHeight: 260,
                 messageText: 'You can select more than one project',
                 noOptionsText: 'No Projects',
                 noneSelected: '<span class="default-option">Select Projects</span>',
@@ -31554,7 +31961,7 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView, momen
                     var $selectedHtml = $('<div />');
                     _.each(selectedOptions, function (option) {
                         var project = app.authenticatedUser.projects.get(option.value);
-                        $selectedHtml.append('<span class="selected-project"><img src="' + project.get('Avatar').Image.Square100.Uri + '" alt="" />' + option.text + '</span> ');
+                        $selectedHtml.append('<span class="selected-project"><img src="' + project.get('Avatar').Image.Square100.Uri + '" alt="" /></span> ');
                     });
                     return $selectedHtml.children();
                 }
@@ -31570,6 +31977,18 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView, momen
             if (target.attr('id') === 'Address') {
                 this._latLongChanged(e);
             }
+        },
+
+        _showIdentificationForm: function (e) {
+            $('body').append('<div id="modal-dialog"></div>');
+            var identificationFormView = new IdentificationFormView({ el: $('#modal-dialog') });
+            identificationFormView.on('identificationdone', this._onIdentificationDone, this);
+
+            $('#Category').multiSelectOptionsHide();
+
+            identificationFormView.render();
+
+            e.stopPropagation();
         },
 
         _observedOnChanged: function (e) {
@@ -31616,6 +32035,10 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView, momen
             } else {
                 this.model.set('Category', '');
             }
+        },
+
+        _locationOptionsClicked: function (e) {
+            this.$el.find('#location-options').toggle();
         },
 
         _cancel: function () {
@@ -34979,13 +35402,23 @@ define('views/headerview',['jquery', 'underscore', 'backbone', 'app'], function 
 
     var HeaderView = Backbone.Marionette.ItemView.extend({
         el: 'header',
+        
+        events: {
+            'click .sub-menu-button': 'showMenu'
+        },
 
         showBootstrappedDetails: function () {
-            this.$el.find('#explore-menu a, .user-menu a').on('click', function (e) {
+            this.$el.find('#explore-menu a').on('click', function (e) {
                 e.preventDefault();
                 Backbone.history.navigate($(this).attr('href'), { trigger: true });
                 return false;
             });
+        },
+        
+        showMenu: function (e) {
+            $('.sub-menu-button').removeClass('active');
+            $(e.currentTarget).addClass('active');
+            e.stopPropagation();
         }
     });
 
@@ -35124,8 +35557,7 @@ function ($, _, Backbone, app, Project) {
 
             $(this.el).children('a').on('click', function (e) {
                 e.preventDefault();
-                var location = $(this).attr('href');
-                app.groupUserRouter.navigate(location, { trigger: true });
+                Backbone.history.navigate($(this).attr('href'), { trigger: true });
                 that.activityCount = 0;
                 that.$el.find('p span').remove();
                 return false;
@@ -35347,7 +35779,7 @@ function ($, _, Backbone, app, SidebarMenuGroupCompositeView, SidebarProjectItem
 
         id: 'sidebar',
 
-        className: 'triple-1',
+        className: 'double-1',
 
         template: 'Sidebar',
 
@@ -35359,8 +35791,8 @@ function ($, _, Backbone, app, SidebarMenuGroupCompositeView, SidebarProjectItem
         },
 
         events: {
-            'click .menu-group-options .sub-menu-button': 'showMenu',
-            'click .menu-group-options .sub-menu-button li': 'selectMenuItem'
+            'click #default-menu-group .sub-menu-button': 'showMenu'
+            //'click .menu-group-options .sub-menu-button li': 'selectMenuItem'
         },
 
         onRender: function () {
@@ -36097,6 +36529,7 @@ require.config({
         transform: '../libs/jquery.jplayer/jquery.transform',
         jplayer: '../libs/jquery.jplayer/jquery.jplayer',
         circleplayer: '../libs/jquery.jplayer/circle.player',
+        progress: '../libs/jquery.animateprogress/jquery.animate-progress',
         moment: '../libs/moment/moment'
     }
 });

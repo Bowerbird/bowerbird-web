@@ -3,42 +3,46 @@
 
 <section id="content" class="single-small">
 
-<div class="form">
-<h2>Login</h2>
+    <div class="login">
+        <h2>Login</h2>
+		<div class="form">
+		    <form action="/account/login" method="post">
+		        <!--@Html.ValidationSummary(true, "Sorry, we couldn't verify your email and password.")-->
 
-<form action="/account/login" method="post">
-    <!--@Html.ValidationSummary(true, "Sorry, we couldn't verify your email and password.")-->
-
-    <fieldset>
-        <legend class="hidden">Login Details</legend>
-        <div class="field">
-            <div>
-				<label for="Email">Email</label>
-            </div>
-            <div>
-				<input type="email" id="Email" name="Email" value="{{Email}}" />
-            </div>
+		        <fieldset>
+		            <legend class="hidden">Login Details</legend>
+		            <div class="field">
+		                <div>
+		                    <label for="Email">Email</label>
+		                </div>
+		                <div>
+		                    <input type="email" id="Email" name="Email" value="{{Email}}" />
+		                </div>
+		            </div>
+		            <div class="field">
+		                <div>
+		                    <label for="Password">Password</label>
+		                </div>
+		                <div>
+		                    <input type="password" id="Password" name="Password" />
+		                    <p><a href="/account/requestpasswordreset">I've forgotten my password</a></p>
+		                </div>
+		            </div>
+		            <div class="field">
+		                <div>
+		                    <input type="checkbox" id="RememberMe" name="RememberMe" />
+		                    <label for="RememberMe">Keep Me Logged In</label>
+		                </div>
+		            </div>
+		        </fieldset>
+		        <fieldset>
+		            <input type="submit" value="Login" />
+		        </fieldset>
+		    </form>
+		</div>
+        <div class="call-to-action">
+            <h2>Not a member of BowerBird yet?</h2>
+            <p>Come and <a href="/account/register">join the community</a></p>
         </div>
-        <div class="field">
-            <div>
-                <label for="Password">Password</label>
-            </div>
-            <div>
-                <input type="password" id="Password" name="Password" />
-                <p><a href="/account/requestpasswordreset">I've forgotten my password</a></p>
-            </div>
-        </div>
-        <div class="field">
-            <div>
-			<input type="checkbox" id="RememberMe" name="RememberMe" />
-            <label for="RememberMe">Keep Me Logged In</label>
-            </div>
-        </div>
-    </fieldset>
-    <fieldset>
-        <input type="submit" value="Login" />
-    </fieldset>
-</form>
-
-</div>
+    </div>
 </section>

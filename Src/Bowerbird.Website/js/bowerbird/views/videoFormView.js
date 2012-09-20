@@ -174,7 +174,7 @@ function ($, _, Backbone, app, ich) {
                     this.$el.find('.video-preview').html(html);
                     break;
                 case 'loading':
-                    this.$el.find('#video-uri-field input').after('<div class="field-validation-info"><img src="/img/loader.png" alt="" />Loading ' + this.provider.getJSON().name + ' video...</div>');
+                    this.$el.find('#video-uri-field input').after('<div class="field-validation-info"><img src="/img/loader.gif" alt="" />Loading ' + this.provider.getJSON().name + ' video...</div>');
                     break;
                 case 'error':
                     this.$el.find('#VideoUri').addClass('input-validation-error');

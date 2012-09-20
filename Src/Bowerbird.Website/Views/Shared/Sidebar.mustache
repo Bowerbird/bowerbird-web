@@ -1,15 +1,34 @@
-﻿<div id="action-menu" class="tab-bar small">
-  <ul class="tabs">
-      <li><a href="/observations/create" class="tab-button new-observation-button">New Observation <span></span></a></li>
-      <li><a href="/records/create" class="tab-button new-record-button">New Record <span></span></a></li>
-      <li><a href="/projects/create" class="tab-button new-project-button">New Project <span></span></a></li>
+﻿<div id="action-menu" class="">
+  <ul class="">
+      <li><a href="/observations/create" class="button new-observation-button">New Observation <span></span></a></li>
+      <li><a href="/records/create" class="button new-record-button">New Record <span></span></a></li>
+      <li><a href="/projects/create" class="button new-project-button">New Project <span></span></a></li>
   </ul>
 </div>  
 <div class="menu-group" id="default-menu-group">
   <ul>
-      <li class="menu-group-item"><a href="/" class="user-stream"><div class="avatar"><img alt="" src="/img/avatar-1.png" /></div><div><p>Home</p></div></a></li>
-      <li class="menu-group-item"><a href="/{{Model.User.Id}}" class="user-profile"><div class="avatar"><img alt="" src="/img/default-team-avatar.jpg"></div><div><p>Your Profile</p></div></a></li>
-      <li class="menu-group-item"><a href="/all" class="all-bowerbird"><div class="avatar"><img alt="" src="/img/avatar-1.png" /></div><div><p>All Bowerbird Activity</p></div></a></li>
+      <li class="menu-group-item"><a href="/" class="user-stream"><div class="avatar"><img alt="" src="/img/home.png" /></div><div><p>Home</p></div></a>
+        <div class="sub-menu-button">
+          <span></span>
+          <ul>
+            <li>
+              <a href="/">Latest Activity</a>
+            </li>
+            <li>
+              <a href="#">Sightings</a>
+            </li>
+            <li>
+              <a href="#">Posts</a>
+            </li>
+            <li class="divider"></li>
+            <li>
+              <a href="/activity">All BowerBird Activity</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <!--<li class="menu-group-item"><a href="/{{Model.User.Id}}" class="user-profile"><div class="avatar"><img alt="" src="/img/default-team-avatar.jpg"></div><div><p>Your Profile</p></div></a></li>-->
+      <!--<li class="menu-group-item"><a href="/all" class="all-bowerbird"><div class="avatar"><img alt="" src="/img/avatar-1.png" /></div><div><p>All Bowerbird Activity</p></div></a></li>-->
       <li class="menu-group-item"><a href="/favourites" class="user-favourites"><div class="avatar"><img alt="" src="/img/favourites.png" /></div><div><p>Favourites</p></div></a></li>
   </ul>
 </div>

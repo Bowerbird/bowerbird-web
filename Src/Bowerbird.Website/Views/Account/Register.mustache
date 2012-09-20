@@ -3,57 +3,52 @@
 
 <section id="content" class="single-small">
 
-<div class="form">
-<h2>Register</h2>
+    <div class="register">
+        <h2>Join</h2>
+		<div class="form">
+		    <form action="/account/register" method="post">
+		        <!--@Html.ValidationSummary(true, "There were some problems with your registration.")-->
 
-<form action="/account/register" method="post">
-    <!--@Html.ValidationSummary(true, "There were some problems with your registration.")-->
-
-    <fieldset>
-        <legend class="hidden">Register Details</legend>
-        <p>Please fill in the details below to register. An email will be sent to you to confirm that your email address is correct.</p>
-        <div class="field field-part-one">
-            <div>
-				<label for="FirstName">First Name</label>
-            </div>
-            <div>
-                <input type="text" id="FirstName" name="FirstName" value="{{AccountRegister.FirstName}}" />
-                <!--@Html.ValidationMessageFor(x => x.FirstName)-->
-            </div>
-        </div>
-        <div class="field field-part-two">
-            <div>
-                <label for="LastName">Last Name</label>
-            </div>
-            <div>
-                <input type="text" id="LastName" name="LastName" value="{{AccountRegister.LastName}}" />
-                <!--@Html.ValidationMessageFor(x => x.LastName)-->
-            </div>
-        </div>
-        <div class="field">
-            <div>
-                <label for="Email">Email</label>
-            </div>
-            <div>
-                <input type="email" id="Email" name="Email" value="{{AccountRegister.Email}}" />
-                <!--@Html.ValidationMessageFor(x => x.Email)-->
-            </div>
-        </div>
-        <div class="field">
-            <div>
-                <label for="Password">Password</label>
-            </div>
-            <div>
-                <input type="password" id="Password" name="Password" />
-                <!--@Html.ValidationMessage("password")-->
-                <p>Passwords must be at least 6 characters in length.</p>
-            </div>
-        </div>
-    </fieldset>
-    <fieldset>
-        <input type="submit" value="Register" />
-    </fieldset>
-</form>
-
-</div>
+		        <fieldset>
+		            <legend class="hidden">Join Details</legend>
+		            <p>Please fill in the details below to join BowerBird. An email will be sent to you to confirm that your email address is correct.</p>
+		            <div class="field">
+		                <div>
+		                    <label for="Name">Name</label>
+		                </div>
+		                <div>
+		                    <input type="text" id="Name" name="Name" value="{{AccountRegister.Name}}" />
+		                    <!--@Html.ValidationMessageFor(x => x.Name)-->
+		                </div>
+		            </div>
+		            <div class="field">
+		                <div>
+		                    <label for="Email">Email</label>
+		                </div>
+		                <div>
+		                    <input type="email" id="Email" name="Email" value="{{AccountRegister.Email}}" />
+		                    <!--@Html.ValidationMessageFor(x => x.Email)-->
+		                </div>
+		            </div>
+		            <div class="field">
+		                <div>
+		                    <label for="Password">Password</label>
+		                </div>
+		                <div>
+		                    <input type="password" id="Password" name="Password" />
+		                    <!--@Html.ValidationMessage("password")-->
+		                    <p>Passwords must be at least 6 characters in length.</p>
+		                </div>
+		            </div>
+		        </fieldset>
+		        <fieldset>
+		            <input type="submit" value="Join" />
+		        </fieldset>
+		    </form>
+		</div>
+		<div class="call-to-action">
+			<h2>Already a BowerBird member?</h2>
+		    <p>Go to the <a href="/account/login">login page</a></p>
+		</div>
+    </div>
 </section>

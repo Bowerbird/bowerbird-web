@@ -3,67 +3,88 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>{{>Title}}Bowerbird</title>
+    <title>{{>Title}}BowerBird</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" type="text/css" href="/css/new/normalize.css?v={{#Ver}}{{{Ver}}}{{/Ver}}{{^Ver}}0{{/Ver}}" />
     <link rel="stylesheet" type="text/css" href="/css/new/global.css?v={{#Ver}}{{{Ver}}}{{/Ver}}{{^Ver}}0{{/Ver}}" />
     <link rel="stylesheet" type="text/css" href="/css/new/stream.css?v={{#Ver}}{{{Ver}}}{{/Ver}}{{^Ver}}0{{/Ver}}" />
     <link rel="stylesheet" type="text/css" href="/css/new/observation.css?v={{#Ver}}{{{Ver}}}{{/Ver}}{{^Ver}}0{{/Ver}}" />
     <link rel="stylesheet" type="text/css" href="/css/new/circle.player.css?v={{#Ver}}{{{Ver}}}{{/Ver}}{{^Ver}}0{{/Ver}}" />
+    <link rel="stylesheet" type="text/css" href="/css/new/progressbar.css?v={{#Ver}}{{{Ver}}}{{/Ver}}{{^Ver}}0{{/Ver}}" />
     <link rel="stylesheet" type="text/css" href="/css/new/media.css?v={{#Ver}}{{{Ver}}}{{/Ver}}{{^Ver}}0{{/Ver}}" />
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700" />
   </head>
   <body class="debug">
       <div id="debug-info"></div>
     <header>
-      <div>
-        <h1>Bowerbird</h1>
-        <nav id="account-menu">
-          <ul>
-            {{#AuthenticatedUser}}
-            <li class="user-menu">
-              <a href="{{AuthenticatedUser.User.Id}}/update">{{AuthenticatedUser.User.Name}}</a>
-            </li>
-            <li>
-              <a href="/account/logout">Logout</a>
-            </li>
-            <!--<li class="observations-menu">
-              <a href="/observations/create" class="new-observation-button">
-                <img src="/img/observation-button.png" alt="" />
-              </a>
-            </li>-->
-            {{/AuthenticatedUser}}
-            {{^AuthenticatedUser}}
-            <li>
-              <a href="/account/login">Login</a>
-            </li>
-            <li>
-              <a href="/account/register">Register</a>
-            </li>
-            {{/AuthenticatedUser}}
-          </ul>
-        </nav>
-        <nav id="explore-menu">
-          <ul class="explore-menu">
-            <li><a href="/projects">Projects</a></li>
-            <li><a href="/teams">Teams</a></li>
-            <li><a href="/organisations">Organisations</a></li>
-          </ul>
-        </nav>
-        <nav id="search-menu">
-          <div>
-            <label for="search">Search</label>
-            <input type="text" value="" name="search" id="search" placeholder="Search for observations, people and groups" />
-          </div>
-        </nav>
-      </div>
+        <div>
+            <h1><a href="/"><img src="/img/logo2.svg" alt="" /></a></h1>
+            <nav id="explore-menu">
+                <ul>
+                    <li>
+                        <a href="/sightings">Sightings</a>
+                    </li>
+                    <li>
+                        <a href="/projects">Projects</a>
+                    </li>
+                    <li>
+                        <a href="/teams">Teams</a>
+                    </li>
+                    <li>
+                        <a href="/organisations">Organisations</a>
+                    </li>
+                </ul>
+            </nav>
+          <nav id="account-menu">
+              <ul>
+                {{#AuthenticatedUser}}
+                <li class="user-menu-item">
+                  <span class="small-icon"></span>
+                  <span class="user-name">{{AuthenticatedUser.User.Name}}</span>
+
+                  <div class="sub-menu-button">
+                    <span></span>
+                    <ul>
+                      <li>
+                        <a href="/{{AuthenticatedUser.User.Id}}">View Your Public Profile</a>
+                      </li>
+                      <li class="divider"></li>
+                      <li>
+                        <a href="/account/preferences">Edit Preferences</a>
+                      </li>
+                      <li>
+                        <a href="/account/update">Edit Account Details</a>
+                      </li>
+                      <li class="divider"></li>
+                      <li>
+                        <a href="/account/logout">Logout</a>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+                {{/AuthenticatedUser}}
+                {{^AuthenticatedUser}}
+                <li>
+                  <a href="/account/login">Login</a>
+                </li>
+                <li>
+                  <a href="/account/register">Join</a>
+                </li>
+                {{/AuthenticatedUser}}
+              </ul>
+            </nav>
+            <nav id="search-menu">
+                <label for="search">Search</label>
+                <input type="text" value="" name="search" id="search" placeholder="Search" />
+            </nav>
+        </div>
     </header>
     <article>
         {{>Body}}
     </article>
     <footer>
     </footer>
-    <img src="/img/loader.png" alt="" class="hidden" />
+    <img src="/img/loader.gif" alt="" class="hidden" />
     <!--[if lte IE 9]>
     <script type="text/javascript">
       window.isIEFail = true;

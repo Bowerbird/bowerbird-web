@@ -8,11 +8,22 @@
 // ObservationMediaFormView
 // ------------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'models/mediaresource', 'views/observationmediaitemview', 'views/videoformview', 'collections/mediaresourcecollection', 'fileupload', 'iframetransport'],
+define(['jquery', 'underscore', 'backbone', 'app', 'models/mediaresource', 'views/observationmediaitemview', 'views/videoformview', 'collections/mediaresourcecollection', 'fileupload', 'iframetransport', 'progress'],
 function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFormView, MediaResourceCollection) {
 
+    var MediaUpload = Backbone.Model.extend({
+        defaults: {
+            progressStatus: 'waiting',
+            successStatus: ''
+        }
+    });
+
+    var MediaUploadCollection = Backbone.Collection.extend({
+        model: MediaUpload
+    });
+
     var ObservationMediaFormView = Backbone.Marionette.CompositeView.extend({
-        id: 'media-fieldset',
+        id: 'media-details',
 
         itemView: ObservationMediaItemView,
 
@@ -22,13 +33,10 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
         },
 
         initialize: function () {
-            _.bindAll(this, '_onMediaResourceUploadSuccess', '_onMediaResourceUploadFailure', '_onImageUploadAdd', '_onVideoUploadAdd');
+            _.bindAll(this, '_onMediaResourceUploadSuccess', '_onMediaResourceUploadFailure', '_onFileUploadAdd', '_onFileUploadSend', '_onFileUploadDone', '_onFileUploadFail', '_onVideoUploadAdd');
 
-            this.currentUploads = new MediaResourceCollection();
-            this.failedUploads = new MediaResourceCollection();
-
-            this.currentUploads.on('add', this._onCurrentUploadAdded, this);
-            this.failedUploads.on('add', this._onFailedUploadAdded, this);
+            this.mediaUploads = new MediaUploadCollection();
+            this.mediaUploads.on('change:progressStatus', this._updateProgress, this);
 
             app.vent.on('mediaresourceuploadsuccess', this._onMediaResourceUploadSuccess, this);
             app.vent.on('mediaresourceuploadfailure', this._onMediaResourceUploadFailure, this);
@@ -39,7 +47,10 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
                 dataType: 'json',
                 paramName: 'File',
                 url: '/mediaresources',
-                add: this._onImageUploadAdd
+                add: this._onFileUploadAdd, // on file selected
+                send: this._onFileUploadSend, // on request submit
+                done: this._onFileUploadDone, // on successful upload
+                fail: this._onFileUploadFail // on errored upload
             });
         },
 
@@ -56,7 +67,7 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
                     $mediaItems.append(itemView.el);
 
                     if ($mediaItems.innerWidth() + $mediaItems.scrollLeft() === $mediaItems.get(0).scrollWidth) {
-                        // Don't do any animation
+                        // Don't do any scrolling, just move to next step
                         next();
                     }
                     else {
@@ -89,20 +100,15 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
                     // Remove absolute positioning
                     $(itemView.el).css({ position: 'relative', top: '' });
 
-                    var mediaResource = that.currentUploads.find(function (item) {
-                        return item.get('Key') === itemView.model.mediaResource.get('Key');
-                    });
-                    that.currentUploads.remove(mediaResource);
-
-                    that._updateProgress();
-                    //next();
+                    var upload = that.mediaUploads.get(itemView.model.mediaResource.get('Key'));
+                    upload.set('progressStatus', 'complete');
 
                     var $mediaItems = that.$el.find('.observation-media-items');
                     var scrollAmount = ($mediaItems.get(0).scrollWidth - ($mediaItems.innerWidth() + $mediaItems.scrollLeft())) + $mediaItems.scrollLeft();
 
                     itemView.start();
 
-                    // Make space for the new item
+                    // Scroll the new item into view
                     $mediaItems.animate(
                             { scrollLeft: scrollAmount },
                             {
@@ -130,6 +136,7 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
                 })
                 .queue(function (next) {
                     that.model.removeMedia(mediaItemView.model);
+                    that._showOrHideMediaLabel();
                     next();
                 });
         },
@@ -155,51 +162,69 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
             videoFormView.render();
         },
 
-        _onImageUploadAdd: function (e, data) {
+        _onFileUploadAdd: function (e, data) {
             var key = app.generateGuid();
-            this.currentUploads.add({ Key: key });
+
+            this.mediaUploads.add({
+                id: key,
+                mediaType: 'file',
+                filename: data.files[0].name
+            });
 
             data.formData = {
                 Key: key,
-                Type: 'file', 
+                Type: 'file',
                 Usage: 'contribution',
-                FileName: data.files[0].name
+                Filename: data.files[0].name
             };
             if (window.isIEFail) {
                 data.formData.ie = true;
             }
 
-            //            var self = this;
-            //            var tempImage = null;
-
-            //            if (!window.isIEFail) {
-            //                tempImage = loadImage(
-            //                    data.files[0],
-            //                    function (img) {
-            //                        if (img.type === "error") {
-            //                            //log('Error loading image', img);
-            //                        } else {
-            //                            self.filesAdded++;
-            //                            mediaResourceItemView.showTempImageMedia(img);
-            //                            self._showMediaResourceItemView(self, mediaResourceItemView, $(img).width(), self.filesAdded === data.originalFiles.length);
-            //                        }
-            //                    },
-            //                    { maxHeight: 220 }
-            //                );
-            //            }
-
-            //            if (!tempImage) {
-            //                $(mediaResourceItemView.el).width(280);
-            //                this.filesAdded++;
-            //                this._showMediaResourceItemView(this, mediaResourceItemView, 280, this.filesAdded === data.originalFiles.length);
-            //            }
-
             data.submit();
+        },
+
+        _onFileUploadSend: function (e, data) {
+            var upload = this.mediaUploads.get(data.formData.Key);
+
+            upload.set({
+                progressStatus: 'uploading'
+            });
+        },
+
+        _onFileUploadDone: function (e, data) {
+            var upload = this.mediaUploads.get(data.formData.Key);
+
+            if (data.result.Success === true) {
+                upload.set({
+                    progressStatus: 'processing'
+                });
+            } else {
+                upload.set({
+                    progressStatus: 'complete',
+                    successStatus: 'fail'
+                });
+            }
+        },
+
+        _onFileUploadFail: function (e, data) {
+            var upload = this.mediaUploads.get(data.formData.Key);
+
+            upload.set({
+                progressStatus: 'complete',
+                successStatus: 'fail'
+            });
         },
 
         _onVideoUploadAdd: function (videoId, videoProviderName) {
             var key = app.generateGuid();
-            this.currentUploads.add({ Key: key });
+
+            this.mediaUploads.add({
+                id: key,
+                mediaType: 'externalvideo',
+                videoId: videoId,
+                videoProviderName: videoProviderName
+            });
 
             $.ajax({
                 url: '/mediaresources',
@@ -215,49 +240,94 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
             });
         },
 
-        _onCurrentUploadAdded: function (mediaResource) {
-            this._updateProgress();
+        _updateProgress: function (mediaUpload) {
+            this._showOrHideMediaLabel();
+
+            var uploads = this.mediaUploads.map(function (upload) {
+                return {
+                    id: upload.id,
+                    progressStatus: upload.get('progressStatus'),
+                    successStatus: upload.get('successStatus')
+                };
+            });
+            var that = this;
+
+            this.$el.find('#upload-progress-status')
+                    .queue(function (next) {
+                        var totalCount = uploads.length;
+                        var waitingCount = _.filter(uploads, function (upload) { return upload.progressStatus === 'waiting'; }).length;
+                        var uploadingCount = _.filter(uploads, function (upload) { return upload.progressStatus === 'uploading'; }).length;
+                        var processingCount = _.filter(uploads, function (upload) { return upload.progressStatus === 'processing'; }).length;
+                        var loadingCount = _.filter(uploads, function (upload) { return upload.progressStatus === 'loading'; }).length;
+                        var completeCount = _.filter(uploads, function (upload) { return upload.progressStatus === 'complete'; }).length;
+                        var failureCount = _.filter(uploads, function (upload) { return upload.successStatus === 'fail'; }).length;
+
+                        if (completeCount < totalCount) {
+                            var total = totalCount * 5;
+                            var current = waitingCount * 0.1 + (uploadingCount * 1) + (processingCount * 3) + (loadingCount * 4) + (completeCount * 5);
+
+                            var progress = Math.round((current * 100) / total);
+
+                            that.$el.find('#upload-progress-message').text('Adding ' + totalCount + ' file' + (totalCount > 1 ? 's' : ''));
+
+                            log('progress', progress + '%', uploads, mediaUpload);
+                            that.$el.find('#upload-progress-bar .ui-progress').css('width', progress + '%');
+
+                            that.$el.find('#upload-progress-status').css('visibility', 'visible');
+                        }
+                        else {
+                            log('progress', '100%', uploads, mediaUpload);
+                            that.$el.find('#upload-progress-bar .ui-progress').css('width', '100%');
+
+                            setTimeout((function () {
+                                that.$el.find('#upload-progress-status').css('visibility', 'hidden');
+                                that.mediaUploads.reset(null, { silent: true });
+                            }), 200);
+                        }
+
+                        if (failureCount > 0) {
+                            var desc = failureCount > 1 ? 'files' : 'file';
+                            that.$el.find('#upload-error')
+                                .html(failureCount + ' media ' + desc + ' failed to be uploaded. <a href="#" id="upload-error-info-button">Click here to view more info</a>.')
+                                .show();
+                        }
+
+                        next();
+                    });
         },
 
-        _onFailedUploadAdded: function (mediaResource) {
-            var failedCount = this.failedUploads.length;
-            this.$el.find('.upload-status .message').text(failedCount + ' file' + (failedCount > 1 ? 's' : '') + ' failed').show();
-            this._updateProgress();
-        },
-
-        _updateProgress: function () {
+        _showOrHideMediaLabel: function () {
             if (this.model.media.length > 0) {
                 this.$el.find('.observation-media-items-label').hide();
             } else {
                 this.$el.find('.observation-media-items-label').show();
             }
-
-            var currentCount = this.currentUploads.length;
-            if (this.currentUploads.length > 0) {
-                this.$el.find('.upload-status .progress > div').text('Processing ' + currentCount + ' file' + (currentCount > 1 ? 's' : ''));
-                this.$el.find('.upload-status .progress').show();
-            }
-            else {
-                this.$el.find('.upload-status .progress').hide();
-            }
         },
 
         _onMediaResourceUploadSuccess: function (data) {
-            var mediaResource = this.currentUploads.find(function (item) {
-                return item.get('Key') === data.Key;
-            });
-            mediaResource.set(data);
-            this.model.addMedia(mediaResource, '', app.authenticatedUser.defaultLicence);
-            this._updateProgress();
+            var that = this;
+
+            setTimeout((function () {
+                var upload = that.mediaUploads.get(data.Key);
+
+                upload.set({
+                    progressStatus: 'loading',
+                    successStatus: 'success',
+                    mediaResource: new MediaResource(data)
+                });
+
+                that.model.addMedia(upload.get('mediaResource'), '', app.authenticatedUser.defaultLicence);
+            }), 1000);
         },
 
         _onMediaResourceUploadFailure: function (key, reason) {
-            var mediaResource = this.currentUploads.find(function (item) {
-                return item.get('Key') === key;
+            var upload = this.mediaUploads.get(data.Key);
+
+            upload.set({
+                progressStatus: 'complete',
+                successStatus: 'fail',
+                errorMessage: reason
             });
-            this.currentUploads.remove(mediaResource);
-            this.failedUploads.add(mediaResource);
-            this._updateProgress();
         },
 
         onClose: function () {

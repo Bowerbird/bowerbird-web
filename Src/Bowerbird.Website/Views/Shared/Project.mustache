@@ -1,36 +1,36 @@
-﻿<h2>Project</h2>
+﻿<h2><span class="small-icon"></span>Project</h2>
 <div class="summary">
     {{#Model.Project.Avatar}}
     {{>MediaSquare200}}
     {{/Model.Project.Avatar}}
-  <div>
-    <h1>{{Model.Project.Name}}</h1>
-    <ul class="badges">
-      <li>{{Model.Project.MemberCount}} {{Model.MemberCountDescription}}</li>
-      <li>{{Model.Project.ObservationCount}} {{Model.ObservationCountDescription}}</li>
-      <li>{{Model.Project.PostCount}} {{Model.PostCountDescription}}</li>
-    </ul>
-    <p>{{Model.Project.Description}}</p>
-  </div>
-  <div class="tab-bar large">
-    <ul class="tabs">
-      <li>
-        <a href="/{{Model.Project.Id}}" class="tab-button selected">Activity</a>
-      </li>
-      <li>
-        <a href="/{{Model.Project.Id}}/observations" class="tab-button">Observations</a>
-      </li>
-      <li>
-        <a href="/{{Model.Project.Id}}/posts" class="tab-button">Posts</a>
-      </li>
-      <li>
-        <a href="/{{Model.Project.Id}}/members" class="tab-button">Members</a>
-      </li>
-      <li>
-        <a href="/{{Model.Project.Id}}/about" class="tab-button">About</a>
-      </li>
-    </ul>
-  </div>
+    <div>
+        <h1>{{Model.Project.Name}}</h1>
+        <ul class="badges">
+            <li>{{Model.Project.MemberCount}} {{Model.MemberCountDescription}}</li>
+            <li>{{Model.Project.ObservationCount}} {{Model.ObservationCountDescription}}</li>
+            <li>{{Model.Project.PostCount}} {{Model.PostCountDescription}}</li>
+        </ul>
+        <p>{{Model.Project.Description}}</p>
+    </div>
+</div>
+<div class="tab-bar large">
+  <ul class="tabs">
+    <li>
+      <a href="/{{Model.Project.Id}}" class="tab-button selected">Activity</a>
+    </li>
+    <li>
+      <a href="/{{Model.Project.Id}}/sightings" class="tab-button">Sightings</a>
+    </li>
+    <li>
+      <a href="/{{Model.Project.Id}}/posts" class="tab-button">Posts</a>
+    </li>
+    <li>
+      <a href="/{{Model.Project.Id}}/members" class="tab-button">Members</a>
+    </li>
+    <li>
+      <a href="/{{Model.Project.Id}}/about" class="tab-button">About</a>
+    </li>
+  </ul>
 </div>
 <div class="details">
   <div id="stream">

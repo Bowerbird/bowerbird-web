@@ -34,68 +34,33 @@ namespace Bowerbird.Core.DomainModels
 
         public Species(
             string category,
-            string kingdom,
-            string group,
+            string commonGroupName,
             IEnumerable<string> commonNames,
-            string taxonomy,
-            string order,
-            string family,
+            string kingdomName,
+            string phylumName,
+            string className,
+            string orderName,
+            string familyName,
             string genusName,
             string speciesName,
-            string synonym,
-            bool proposedAsNewSpecies,
-            DateTime createdOn)
+            DateTime createdOn,
+            User createdByUser)
             : base()
         {
             CreatedDateTime = createdOn;
-
-            SetSpeciesDetails(
-                category,
-                kingdom,
-                group,
-                commonNames,
-                taxonomy,
-                order,
-                family,
-                genusName,
-                speciesName,
-                synonym,
-                proposedAsNewSpecies
-                );
-        }
-
-        public Species(
-            User createdByUser,
-            string category,
-            string kingdom,
-            string group,
-            IEnumerable<string> commonNames,
-            string taxonomy,
-            string order,
-            string family,
-            string genusName,
-            string speciesName,
-            string synonym,
-            bool proposedAsNewSpecies,
-            DateTime createdOn)
-            : base()
-        {
             CreatedByUser = createdByUser;
-            CreatedDateTime = createdOn;
 
             SetSpeciesDetails(
                 category,
-                kingdom,
-                group,
+                commonGroupName,
                 commonNames,
-                taxonomy,
-                order,
-                family,
+                kingdomName,
+                phylumName,
+                className,
+                orderName,
+                familyName,
                 genusName,
-                speciesName,
-                synonym,
-                proposedAsNewSpecies
-                );
+                speciesName);
 
             ApplyEvent(new DomainModelCreatedEvent<Species>(this, createdByUser, this));
         }
@@ -106,35 +71,27 @@ namespace Bowerbird.Core.DomainModels
 
         public string Category { get; private set; }
 
-        public string Kingdom { get; private set; }
-
-        public string Group { get; private set; }
+        public string CommonGroupName { get; private set; }
 
         public IEnumerable<string> CommonNames { get; private set; }
 
-        public string Taxonomy { get; private set; }
+        public string KingdomName { get; private set; }
 
-        public string Order { get; private set; }
+        public string PhylumName { get; private set; }
 
-        public string Family { get; private set; }
+        public string ClassName { get; private set; }
+
+        public string OrderName { get; private set; }
+
+        public string FamilyName { get; private set; }
 
         public string GenusName { get; private set; }
 
         public string SpeciesName { get; private set; }
 
-        public string Synonym { get; private set; }
-
-        public bool ProposedAsNewSpecies { get; private set; }
-
         public DenormalisedUserReference CreatedByUser { get; private set; }
 
-        public DenormalisedUserReference ProposedByUser { get; private set; }
-
-        public DenormalisedUserReference EndorsedByUser { get; private set; }
-
         public DateTime CreatedDateTime { get; private set; }
-
-        public DateTime ModifiedDateTime { get; private set; }
 
         #endregion
 
@@ -142,58 +99,54 @@ namespace Bowerbird.Core.DomainModels
 
         public void SetSpeciesDetails(
             string category,
-            string kingdom,
-            string group,
+            string commonGroupName,
             IEnumerable<string> commonNames,
-            string taxonomy,
-            string order,
-            string family,
+            string kingdomName,
+            string phylumName,
+            string className,
+            string orderName,
+            string familyName,
             string genusName,
-            string speciesName,
-            string synonym,
-            bool proposedAsNewSpecies
+            string speciesName
             )
         {
             Category = category;
-            Kingdom = kingdom;
-            Group = group;
+            CommonGroupName = commonGroupName;
             CommonNames = commonNames;
-            Taxonomy = taxonomy;
-            Order = order;
-            Family = family;
+            KingdomName = kingdomName;
+            PhylumName = phylumName;
+            ClassName = className;
+            OrderName = orderName;
+            FamilyName = familyName;
             GenusName = genusName;
             SpeciesName = speciesName;
-            Synonym = synonym;
-            ProposedAsNewSpecies = proposedAsNewSpecies;
         }
 
         public void UpdateDetails(
             string category,
-            string kingdom,
-            string group,
+            string commonGroupName,
             IEnumerable<string> commonNames,
-            string taxonomy,
-            string order,
-            string family,
+            string kingdomName,
+            string phylumName,
+            string className,
+            string orderName,
+            string familyName,
             string genusName,
             string speciesName,
-            string synonym,
-            bool proposedAsNewSpecies,
             User updatedByUser
             )
         {
             SetSpeciesDetails(
                 category,
-                kingdom,
-                group,
+                commonGroupName,
                 commonNames,
-                taxonomy,
-                order,
-                family,
+                kingdomName,
+                phylumName,
+                className,
+                orderName,
+                familyName,
                 genusName,
-                speciesName,
-                synonym,
-                proposedAsNewSpecies);
+                speciesName);
 
             ApplyEvent(new DomainModelUpdatedEvent<Species>(this, updatedByUser, this));
         }

@@ -69,7 +69,7 @@ function ($, _, Backbone, app, ich, StreamItemView) {
         },
 
         onStreamLoadingStart: function (collection) {
-            this.$el.append(ich.StreamMessage({ Text: 'Loading', ShowLoader: true }));
+            this.$el.append(ich.StreamMessage({ ShowLoader: true }));
         },
 
         onStreamLoadingComplete: function (collection) {

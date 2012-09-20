@@ -255,12 +255,12 @@ define(['jquery', 'moment'], function (jQuery, moment) {
         //        }
         //return null;
         //return Date.parseExact(s, 'd MMM yyyy');
-        return moment(s, 'D MMM YYYY').toDate();
+        return moment(s, 'D MMMM YYYY').toDate();
     }
 
     , format: function (date) {
         //return date.format('d MMM yyyy');
-        return moment(date).format('D MMM YYYY');
+        return moment(date).format('D MMMM YYYY');
     }
 
     , ahead: function (months, days) {

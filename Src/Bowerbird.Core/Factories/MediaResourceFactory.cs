@@ -59,15 +59,15 @@ namespace Bowerbird.Core.Factories
             _documentSession.Store(mediaResource);
             _documentSession.SaveChanges();
 
-            var fileName = string.Format("default-{0}-avatar.jpg", avatarType.ToString().ToLower());
-            var uri = string.Format("/img/{0}", fileName);
-             
-            dynamic original = mediaResource.AddFile("Original", uri, 400, 400);
+            string avatarTypeName = avatarType.ToString().ToLower();
+            string uriFormat = "/img/{0}-Square{1}.jpg";            
+ 
+            dynamic original = mediaResource.AddFile("Original", string.Format(uriFormat, avatarTypeName, 400), 400, 400);
             original.MimeType = Constants.ImageMimeTypes.Jpeg;
 
-            mediaResource.AddFile("Square50", uri, 50, 50);
-            mediaResource.AddFile("Square100", uri, 100, 100);
-            mediaResource.AddFile("Square200", uri, 200, 200);
+            mediaResource.AddFile("Square50", string.Format(uriFormat, avatarTypeName, 100), 100, 100);
+            mediaResource.AddFile("Square100", string.Format(uriFormat, avatarTypeName, 200), 200, 200);
+            mediaResource.AddFile("Square200", string.Format(uriFormat, avatarTypeName, 400), 400, 400);
 
             return mediaResource;
         }
@@ -88,9 +88,9 @@ namespace Bowerbird.Core.Factories
             dynamic original = AddImageFile(mediaResource, "Original", originalImageMimeType, originalImageDimensions, null, imageCreationTasks);
             original.MimeType = originalImageMimeType;
 
-            AddImageFile(mediaResource, "Square50", Constants.ImageMimeTypes.Jpeg, ImageDimensions.MakeSquare(50), ImageResizeMode.Crop, imageCreationTasks);
-            AddImageFile(mediaResource, "Square100", Constants.ImageMimeTypes.Jpeg, ImageDimensions.MakeSquare(100), ImageResizeMode.Crop, imageCreationTasks);
-            AddImageFile(mediaResource, "Square200", Constants.ImageMimeTypes.Jpeg, ImageDimensions.MakeSquare(200), ImageResizeMode.Crop, imageCreationTasks);
+            AddImageFile(mediaResource, "Square50", Constants.ImageMimeTypes.Jpeg, ImageDimensions.MakeSquare(100), ImageResizeMode.Crop, imageCreationTasks);
+            AddImageFile(mediaResource, "Square100", Constants.ImageMimeTypes.Jpeg, ImageDimensions.MakeSquare(200), ImageResizeMode.Crop, imageCreationTasks);
+            AddImageFile(mediaResource, "Square200", Constants.ImageMimeTypes.Jpeg, ImageDimensions.MakeSquare(400), ImageResizeMode.Crop, imageCreationTasks);
 
             _documentSession.Store(mediaResource);
             _documentSession.SaveChanges();

@@ -13,13 +13,23 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
 
     var HeaderView = Backbone.Marionette.ItemView.extend({
         el: 'header',
+        
+        events: {
+            'click .sub-menu-button': 'showMenu'
+        },
 
         showBootstrappedDetails: function () {
-            this.$el.find('#explore-menu a, .user-menu a').on('click', function (e) {
+            this.$el.find('#explore-menu a').on('click', function (e) {
                 e.preventDefault();
                 Backbone.history.navigate($(this).attr('href'), { trigger: true });
                 return false;
             });
+        },
+        
+        showMenu: function (e) {
+            $('.sub-menu-button').removeClass('active');
+            $(e.currentTarget).addClass('active');
+            e.stopPropagation();
         }
     });
 

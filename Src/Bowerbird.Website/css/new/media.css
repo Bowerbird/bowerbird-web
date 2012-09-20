@@ -9,9 +9,8 @@
     article section.single-big,
     article section.single-medium,
     article section.single-small,
-    article section.triple-1,
-    article section.triple-2,
-    article section.triple-3
+    article section.double-1,
+    article section.double-2
     {
         margin-left: 1.2%;
         margin-right: 1.2%;
@@ -35,10 +34,10 @@
     article section.single-small
     {
     }
-    article section.triple-1
+    article section.double-1
     {
     }
-    article section.triple-2
+    article section.double-2
     {
     }
     article section.triple-3
@@ -71,27 +70,32 @@
         margin-top: 1.3%;
         width: 40%;
     }
-    article section.triple-1
+    header h1 {
+        height: 56px;
+        margin-left: 2.2%;
+        width: 25%;
+    }
+    article section.double-1
     {
         float: left;
         width: 25%;
-        margin-left: 1.2%;
-        margin-right: 1.2%;
-        margin-top: 1.3%;
+        margin-left: 2.2%;
+        margin-right: 2.2%;
+        margin-top: 2.3%;
     }
-    article section.triple-2
+    article section.double-2
     {
         float: left;
         margin-left: 0;
-        margin-right: 1.2%;
+        margin-right: 2.2%;
         margin-top: 1.3%;
-        width: 71.4%;
+        width: 68.4%;
     }
-    article section.triple-3
+    /*article section.triple-3
     {
         float: left;
         width: 74.5%;
-    }
+    }*/
     footer
     {
         clear: both;
@@ -113,10 +117,10 @@
     article section.single-small
     {
     }
-    article section.triple-1
+    article section.double-1
     {
     }
-    article section.triple-2
+    article section.double-2
     {
     }
     article section.triple-3
@@ -144,22 +148,26 @@
         margin-top: 1.3%;
         width: 40%;
     }
-    article section.triple-1
+    header h1 {
+        width: 18.75%;
+    }
+    article section.double-1
     {
         float: left;
         width: 18.75%;
     }
-    article section.triple-2
+    article section.double-2
     {
         float: left;
         width: 62.5%;
+        width: 74.65%;
         /*margin-right: 0.5%;*/
     }
-    article section.triple-3
+    /*article section.triple-3
     {
         width: 13.95%;
         margin-left: 0;
-    }
+    }*/
 }
 /* @media screen and (min-width: 1200px) */
 @media screen and (min-width: 75em) 
@@ -169,7 +177,9 @@
         /* Zoom baseline grid to 17/16 = 1.0625 */
     }
 }
-
+section.triple-3 {
+    display: none;
+}
 /* =============================================================================
    Print styles.
    Inlined to avoid required HTTP connection: www.phpied.com/delay-loading-your-print-css/

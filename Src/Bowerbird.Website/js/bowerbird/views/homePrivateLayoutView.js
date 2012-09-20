@@ -43,8 +43,8 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/streamview', 'collecti
             var that = this;
             this.$el.find('.close-intro').on('click', function (e) {
                 e.preventDefault();
-                $('.intro').slideUp('fast', function () {
-                    that.$el.find('.intro').remove();
+                that.$el.find('#intro').slideUp('fast', function () {
+                    that.$el.find('#intro').remove();
                 });
                 // TODO: Save intro closed status
                 return false;

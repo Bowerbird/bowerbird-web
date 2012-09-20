@@ -17,7 +17,7 @@ function ($, _, Backbone, app, SidebarMenuGroupCompositeView, SidebarProjectItem
 
         id: 'sidebar',
 
-        className: 'triple-1',
+        className: 'double-1',
 
         template: 'Sidebar',
 
@@ -29,8 +29,8 @@ function ($, _, Backbone, app, SidebarMenuGroupCompositeView, SidebarProjectItem
         },
 
         events: {
-            'click .menu-group-options .sub-menu-button': 'showMenu',
-            'click .menu-group-options .sub-menu-button li': 'selectMenuItem'
+            'click #default-menu-group .sub-menu-button': 'showMenu'
+            //'click .menu-group-options .sub-menu-button li': 'selectMenuItem'
         },
 
         onRender: function () {

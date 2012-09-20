@@ -93,7 +93,7 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
     };
 
     app.updateTitle = function (titleSegment) {
-        var newTitle = 'Bowerbird';
+        var newTitle = 'BowerBird';
         if (titleSegment.length > 0) {
             newTitle = titleSegment + ' - ' + newTitle;
         }

@@ -111,11 +111,6 @@ namespace Bowerbird.Core.Config
                 // Add roles, using permissions
                 AddRoles();
 
-                // Add species data
-                AddSpecies();
-
-                _documentSession.SaveChanges();
-
                 // Add system admins
                 AddAdminUsers();
 
@@ -123,6 +118,11 @@ namespace Bowerbird.Core.Config
                 SetAppRootUser(Users[0].Id);
 
                 // Save all system data now
+                _documentSession.SaveChanges();
+
+                // Add species data
+                AddSpecies();
+
                 _documentSession.SaveChanges();
 
                 // Wait for all stale indexes to complete.
@@ -349,21 +349,51 @@ namespace Bowerbird.Core.Config
 
             foreach (var species in speciesFromFiles)
             {
+                if(species.Count < 8)
+                {
+                    var x = 1;
+                }
+
+                var commonNameData = species[2].Replace(@"""", string.Empty).Replace(" or ", ",").Split(',').Select(x => x.Trim()).ToArray();
+
+                var taxonomyData = species[3].Split(':').Select(x => x.Trim()).ToArray();
+
+                if(commonNameData.Count() == 0)
+                {
+                    var y = 1;
+                }
+
+
+                if (taxonomyData[0] == "Ascomycota" || taxonomyData[0] == "Basidiomycota")
+                {
+                    taxonomyData = new[] { "Fungi", taxonomyData[0], taxonomyData[1] };
+                }
+                else if(taxonomyData[0] == "Minerals")
+                {
+                    taxonomyData = new[] { "Minerals", string.Empty, string.Empty };
+                }
+                else
+                {
+                    if (taxonomyData.Count() != 3)
+                    {
+                        var z = 1;
+                    }
+                }
+
                 _documentSession.Store(
                     new Species(
-                        species[0],
-                        species[1],
-                        species[2],
-                        species[3].Split(',').ToArray(),
-                        species[4],
-                        species[5],
-                        species[6],
-                        species[7],
-                        species[8],
-                        species[9],
-                        false,
-                        createdOn
-                        )
+                        species[0].Trim(), // Category
+                        species[1].Replace(@"""", string.Empty).Trim(), // Common group name
+                        commonNameData, // Common names
+                        taxonomyData[0], // Kingdom 
+                        taxonomyData[1], // Phylum
+                        taxonomyData[2], // Class
+                        species[4].Trim(), // Order
+                        species[5].Trim(), // Family
+                        species[6].Trim(), // Genus
+                        species[7].Trim(), // Species
+                        createdOn,
+                        Users[0])
                     );
             }
         }
@@ -378,24 +408,24 @@ namespace Bowerbird.Core.Config
             {
                 using (var reader = new StreamReader(File.OpenRead(file)))
                 {
-                    var fileHeaderColumns = reader.ReadLine().Split(new[] { '\t' }, StringSplitOptions.None).Take(_speciesFileHeaderColumns.Length);
-                    var counter = 0;
+                    //var fileHeaderColumns = reader.ReadLine().Split(new[] { '\t' }, StringSplitOptions.None).Take(_speciesFileHeaderColumns.Length);
+                    //var counter = 0;
 
-                    foreach (var col in fileHeaderColumns)
-                    {
-                        if (!_speciesFileHeaderColumns[counter].ToLower().Equals(col.ToLower()))
-                        {
-                            throw new ApplicationException(
-                                String.Format(
-                                    "The header for column number {0} is {1} but should be {2} in species upload file {3}",
-                                    counter + 1,
-                                    col,
-                                    _speciesFileHeaderColumns[counter],
-                                    file
-                                    ));
-                        }
-                        counter++;
-                    }
+                    //foreach (var col in fileHeaderColumns)
+                    //{
+                    //    if (!_speciesFileHeaderColumns[counter].ToLower().Equals(col.ToLower()))
+                    //    {
+                    //        throw new ApplicationException(
+                    //            String.Format(
+                    //                "The header for column number {0} is {1} but should be {2} in species upload file {3}",
+                    //                counter + 1,
+                    //                col,
+                    //                _speciesFileHeaderColumns[counter],
+                    //                file
+                    //                ));
+                    //    }
+                    //    counter++;
+                    //}
                     var count = 0;
                     while (reader.Peek() > 0 && count < 100) // HACK: Only load 100 species for now
                     {

@@ -35,8 +35,7 @@ function ($, _, Backbone, app, Project) {
 
             $(this.el).children('a').on('click', function (e) {
                 e.preventDefault();
-                var location = $(this).attr('href');
-                app.groupUserRouter.navigate(location, { trigger: true });
+                Backbone.history.navigate($(this).attr('href'), { trigger: true });
                 that.activityCount = 0;
                 that.$el.find('p span').remove();
                 return false;

@@ -127,6 +127,7 @@
     <Content Include="css\new\global.css" />
     <Content Include="css\new\media.css" />
     <Content Include="css\new\normalize.css" />
+    <Content Include="css\new\progressbar.css" />
     <Content Include="css\new\stream.css" />
     <Content Include="css\site.css" />
     <Content Include="img\audio-player-bgr.jpg" />
@@ -199,6 +200,7 @@
     <Content Include="js\bowerbird\views\commentFormView.js" />
     <Content Include="js\bowerbird\views\commentCollectionView.js" />
     <Content Include="js\bowerbird\views\commentCompositeView.js" />
+    <Content Include="js\bowerbird\views\identificationFormView.js" />
     <Content Include="js\bowerbird\views\editObservationMediaFormView.js" />
     <Content Include="js\bowerbird\views\recordFormView.js" />
     <Content Include="js\bowerbird\views\postDetailsView.js" />
@@ -242,6 +244,7 @@
     <Content Include="js\libs\backbone.queryparams\backbone.queryparams.js" />
     <Content Include="js\libs\bootstrap\bootstrap-datepicker.js" />
     <Content Include="js\libs\date\date.js" />
+    <Content Include="js\libs\jquery.animateprogress\jquery.animate-progress.js" />
     <Content Include="js\libs\jquery.fileupload\jquery.fileupload.js" />
     <Content Include="js\libs\jquery.fileupload\jquery.iframe-transport.js" />
     <Content Include="js\libs\jquery.fileupload\load-image.js" />
@@ -285,8 +288,6 @@
     <Content Include="js\libs\underscore\underscore.js" />
     <Content Include="js\libs\youtube\player.js" />
     <Content Include="js\main.js" />
-    <Content Include="species\Butterflies.txt" />
-    <Content Include="species\Plants.txt" />
     <Content Include="Views\Posts\Create.mustache" />
     <Content Include="Views\Posts\Delete.mustache" />
     <Content Include="Views\Posts\List.mustache" />
@@ -492,7 +493,7 @@
     <Content Include="Views\Shared\Organisation.mustache">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Users\Update.mustache" />
+    <Content Include="Views\Account\Update.mustache" />
     <Content Include="Views\Shared\UserForm.mustache">
       <SubType>Designer</SubType>
     </Content>
@@ -528,6 +529,7 @@
     <Folder Include="media\image\0\" />
     <Folder Include="media\testdata\" />
     <Folder Include="media\video\" />
+    <Folder Include="Views\Users\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

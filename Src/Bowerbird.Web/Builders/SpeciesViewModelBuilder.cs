@@ -13,6 +13,7 @@
 using System.Linq;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Indexes;
 using Bowerbird.Web.ViewModels;
 using Raven.Client;
 using Raven.Client.Linq;
@@ -54,24 +55,38 @@ namespace Bowerbird.Web.Builders
             return MakeSpecies(_documentSession.Load<Species>(speciesId));
         }
 
-        public object BuildSpeciesList(PagingInput pagingInput)
+        public object BuildSpeciesList(SpeciesQueryInput query, PagingInput pagingInput)
         {
             Check.RequireNotNull(pagingInput, "pagingInput");
 
             RavenQueryStatistics stats;
 
-            return _documentSession
-                .Query<Species>()
+            var aaa = _documentSession
+                .Query<All_Species.Result, All_Species>()
                 .Statistics(out stats)
-                .Skip(pagingInput.GetSkipIndex())
-                .Take(pagingInput.PageSize)
-                .ToList()
-                .Select(MakeSpecies)
-                .ToPagedList(
-                    pagingInput.Page,
-                    pagingInput.PageSize,
-                    stats.TotalResults,
-                    null);
+                //.Where(x => x.QueryField == query.Query)
+                .Take(20)
+                .As<Species>()
+                .ToList();
+            //.Select(MakeSpecies);
+
+
+            return aaa;
+
+            //RavenQueryStatistics stats;
+
+            //return _documentSession
+            //    .Query<Species>()
+            //    .Statistics(out stats)
+            //    .Skip(pagingInput.GetSkipIndex())
+            //    .Take(pagingInput.PageSize)
+            //    .ToList()
+            //    .Select(MakeSpecies)
+            //    .ToPagedList(
+            //        pagingInput.Page,
+            //        pagingInput.PageSize,
+            //        stats.TotalResults,
+            //        null);
         }
 
         private static object MakeSpecies(Species species)
@@ -79,14 +94,15 @@ namespace Bowerbird.Web.Builders
             return new
             {
                 species.Id,
-                species.Kingdom,
-                species.Order,
-                species.Group,
-                species.SpeciesName,
-                species.Taxonomy,
+                species.CommonGroupName,
+                species.CommonNames,
+                species.KingdomName,
+                species.PhylumName,
+                species.ClassName,
+                species.OrderName,
+                species.FamilyName,
                 species.GenusName,
-                species.Family,
-                species.CommonNames
+                species.SpeciesName
             };
         }
 

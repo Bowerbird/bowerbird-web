@@ -203,6 +203,7 @@
     <Compile Include="Validators\ValidExternalVideoAttribute.cs" />
     <Compile Include="Validators\ValidFileAttribute.cs" />
     <Compile Include="Validators\ValidMediaResourceAttribute.cs" />
+    <Compile Include="ViewModels\SpeciesQueryInput.cs" />
     <Compile Include="ViewModels\RecordCreateInput.cs" />
     <Compile Include="ViewModels\RecordUpdateInput.cs" />
     <Compile Include="ViewModels\MediaResourceCreateInput.cs" />

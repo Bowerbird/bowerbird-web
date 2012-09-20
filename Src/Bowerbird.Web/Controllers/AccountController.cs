@@ -339,36 +339,36 @@ namespace Bowerbird.Web.Controllers
             return HttpNotFound();
         }
 
-        /// <summary>
-        /// Get a paged list of all the sightings a user has created
-        /// </summary>
-        [HttpGet]
-        [Authorize]
-        public ActionResult MySightings(PagingInput pagingInput)
-        {
-            if (Request.IsAjaxRequest())
-            {
-                var viewModel = new
-                {
-                    Sightings =_sightingViewModelBuilder.BuildUserSightingList(_userContext.GetAuthenticatedUserId(), pagingInput)
-                };
+        ///// <summary>
+        ///// Get a paged list of all the sightings a user has created
+        ///// </summary>
+        //[HttpGet]
+        //[Authorize]
+        //public ActionResult MySightings(PagingInput pagingInput)
+        //{
+        //    if (Request.IsAjaxRequest())
+        //    {
+        //        var viewModel = new
+        //        {
+        //            Sightings =_sightingViewModelBuilder.BuildUserSightingList(_userContext.GetAuthenticatedUserId(), pagingInput)
+        //        };
 
-                return RestfulResult(
-                    viewModel,
-                    string.Empty,
-                    string.Empty
-                    );
-            }
+        //        return RestfulResult(
+        //            viewModel,
+        //            string.Empty,
+        //            string.Empty
+        //            );
+        //    }
 
-            return HttpNotFound();
-        }
+        //    return HttpNotFound();
+        //}
 
         /// <summary>
         /// Get a paged list of all the sightings in all a user's projects
         /// </summary>
         [HttpGet]
         [Authorize]
-        public ActionResult AllSightings(PagingInput pagingInput)
+        public ActionResult Sightings(PagingInput pagingInput)
         {
             if (Request.IsAjaxRequest())
             {
@@ -387,36 +387,36 @@ namespace Bowerbird.Web.Controllers
             return HttpNotFound();
         }
 
-        /// <summary>
-        /// Get a paged list of all the sightings a user has created
-        /// </summary>
-        [HttpGet]
-        [Authorize]
-        public ActionResult MyPosts(PagingInput pagingInput)
-        {
-            if (Request.IsAjaxRequest())
-            {
-                var viewModel = new
-                {
-                    Sightings = _postViewModelBuilder.BuildUserPostList(_userContext.GetAuthenticatedUserId(), pagingInput)
-                };
+        ///// <summary>
+        ///// Get a paged list of all the sightings a user has created
+        ///// </summary>
+        //[HttpGet]
+        //[Authorize]
+        //public ActionResult MyPosts(PagingInput pagingInput)
+        //{
+        //    if (Request.IsAjaxRequest())
+        //    {
+        //        var viewModel = new
+        //        {
+        //            Sightings = _postViewModelBuilder.BuildUserPostList(_userContext.GetAuthenticatedUserId(), pagingInput)
+        //        };
 
-                return RestfulResult(
-                    viewModel,
-                    string.Empty,
-                    string.Empty
-                    );
-            }
+        //        return RestfulResult(
+        //            viewModel,
+        //            string.Empty,
+        //            string.Empty
+        //            );
+        //    }
 
-            return HttpNotFound();
-        }
+        //    return HttpNotFound();
+        //}
 
         /// <summary>
         /// Get a paged list of all the sightings in all a user's projects
         /// </summary>
         [HttpGet]
         [Authorize]
-        public ActionResult AllPosts(PagingInput pagingInput)
+        public ActionResult Posts(PagingInput pagingInput)
         {
             if (Request.IsAjaxRequest())
             {
@@ -482,16 +482,15 @@ namespace Bowerbird.Web.Controllers
                 return HttpUnauthorized();
             }
 
-            var viewModel = new
-            {
-                User = _userViewModelBuilder.BuildEditableUser(userId)
-            };
+            dynamic viewModel = new ExpandoObject();
+
+            viewModel.User = _userViewModelBuilder.BuildEditableUser(userId);
 
             return RestfulResult(
                 viewModel,
                 "account",
                 "update",
-                new Action<dynamic>(x => x.Update = true));
+                new Action<dynamic>(x => x.Model.Update = true));
         }
 
         [HttpPut]
@@ -499,19 +498,12 @@ namespace Bowerbird.Web.Controllers
         [Transaction]
         public ActionResult Update(UserUpdateInput userUpdateInput)
         {
-            var userId = VerbosifyId<User>(userUpdateInput.Id);
-
-            if (!_userContext.HasUserPermission(userId))
-            {
-                return HttpUnauthorized();
-            }
-
             if (ModelState.IsValid)
             {
                 _messageBus.Send(
                     new UserUpdateCommand()
                     {
-                        Id = userUpdateInput.Id,
+                        Id = _userContext.GetAuthenticatedUserId(),
                         FirstName = userUpdateInput.FirstName,
                         LastName = userUpdateInput.LastName,
                         Email = userUpdateInput.Email,
@@ -534,7 +526,6 @@ namespace Bowerbird.Web.Controllers
             
             ViewBag.Model.User = new
             {
-                userUpdateInput.Id,
                 userUpdateInput.AvatarId,
                 userUpdateInput.Description,
                 userUpdateInput.Email,

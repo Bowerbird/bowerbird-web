@@ -1,153 +1,235 @@
 ﻿    <form action="/observations" method="post"  enctype="multipart/form-data">
     <fieldset>
         <legend class="hidden">Observation Details</legend>
+
+      <div class="field-row">
+
+      <div id="media-details" class="media-field field">
+        <label>
+          Media <span>Required</span>
+        </label>
+
+        <div class="media-view-pane">
+        
+        <div class="observation-media-items">
+          <div class="observation-media-items-label">Add Images, Videos and Audio</div>
+          <!--<div class="media-resource-dropzone">
+                      <p>Drop files here<p>
+                  </div>-->
+        </div>
+
+        </div>
+
+
+        <div class="media-add-pane">
+          <p>Upload your media files, or import from other websites.</p>
+          <div class="button file-upload-button">
+            Add Media<input id="file" type="file" name="file" multiple="" value="Add Media" />
+          </div>
+
+          <!--<button id="youtube-upload-button" class="website-upload-button youtube" title="Import videos from Youtube">Youtube</button>
+          <button id="vimeo-upload-button" class="website-upload-button vimeo" title="Import your videos from Vimeo">Vimeo</button>
+          <button id="flickr-upload-button" class="website-upload-button flickr" title="Import your photos from Flickr">Flickr</button>
+          <button id="picasa-upload-button" class="website-upload-button picasa" title="Import your photos from Picasa">Picasa</button>-->
+
+          <div id="upload-progress-status">
+            <div id="upload-progress-message"></div>
+            <div class="ui-progress-bar ui-container" id="upload-progress-bar">
+              <div class="ui-progress" style="width: 7%;">
+                <span class="ui-label" style="display:none;">
+                  <!--Loading Resources-->
+                  <b class="value">7%</b>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div id="upload-error">
+            
+          </div>
+          
+        </div>
+      </div>
+        
+      </div>
+
+      <div class="field-row">
+        
         
         <div id="title-field" class="field">
             <div>
-                <label for="Title">Title <span>Required</span></label>
+                <label for="Title">
+                    Title <span>Required</span>
+                </label>
             </div>
             <div>
                 <input type="text" id="Title" name="title" value="{{Model.Observation.Title}}" />
             </div>
-        </div>
-        
-      <div id="requires-identification-field" class="field field-checkbox">
-        <div>
-          <label>Needs ID</label>
-        </div>
-        <div>
-          <div class="checkbox">
-            <input type="checkbox" id="IsIdentificationRequired" name="isidentificationrequired" {{#Model.Observation.IsIdentificationRequired}}checked{{/Model.Observation.IsIdentificationRequired}} />
-            <label for="IsIdentificationRequired">
-              <span class="on">Yes</span><span class="bar"></span><span class="off">No</span>Needs ID
-            </label>
           </div>
-        </div>
-      </div>
 
-        <fieldset id="media-fieldset">
-          <legend class="hidden">Media</legend>
-          <div class="media-uploader field">
-              <label>Media</label>
-              <div class="observation-media-items">
-                  <div class="observation-media-items-label">Add Images, Videos and Audio</div>
-                  <!--<div class="media-resource-dropzone">
-                          <p>Drop files here<p>
-                      </div>-->
-              </div>
-              <div class="media-add-pane">
-                  <p>Upload your files, or import from other websites.</p>
-                  <div class="button file-upload-button">
-                      My Files<input id="file" type="file" name="file" multiple="" value="My Files" />
-                  </div>
-                  <button id="youtube-upload-button" class="website-upload-button youtube" title="Import videos from Youtube">Youtube</button>
-                  <button id="vimeo-upload-button" class="website-upload-button vimeo" title="Import your videos from Vimeo">Vimeo</button>
-                  <button id="flickr-upload-button" class="website-upload-button flickr" title="Import your photos from Flickr">Flickr</button>
-                  <button id="picasa-upload-button" class="website-upload-button picasa" title="Import your photos from Picasa">Picasa</button>
-                  <div class="upload-status">
-                      <div class="progress">
-                          <img alt="" src="/img/loader.png" />
-                          <div></div>
-                      </div>
-                      <div class="message">
-                      
-                      </div>
-                  </div>
-              </div>          
-          </div>
-      </fieldset>
-
-
-        <div id="category-field" class="field">
-        <div>
-          <label for="Category">Category <span>Required</span></label>
-        </div>
-        <div>
-          <select id="Category" name="category">
-            <option></option>
-            {{#Model.Categories}}
-            <option value="{{Value}}" {{#Selected}}selected{{/Selected}}>{{Text}}</option>
-            {{/Model.Categories}}
-          </select>
-        </div>
-      </div>
-      <div id="observedon-field" class="field">
-        <div>
-          <label for="ObservedOn">Observed On <span>Required</span></label>
-        </div>
-        <div>
-          <input type="text" id="ObservedOn" name="observedOn" data-datepicker="datepicker" value="{{Model.Observation.ObservedOn}}" readonly />
-          <i></i>
-        </div>
-      </div>
-      <div id="projects-field" class="field">
-        <div>
-          <label for="Projects">Projects</label>
-        </div>
-        <div>
-          <select id="Projects" name="projects" multiple=""></select>
-        </div>
-      </div>
-
-
-
-      <fieldset id="location-fieldset">
-          <legend class="hidden">Location</legend>
-        <p>Enter an address, drag the pin onto the map or enter an exact co-ordinate.</p>
-          <div id="address-field" class="field">
-              <div>
-                  <label for="Address">Locality/Address</label>
-              </div>
-              <div>
-                  <input type="text" id="Address" name="address" autocomplete="off" value="{{Model.Observation.Address}}" />
-              </div>
-          </div>
-          
-          
-        <div id="latitude-field" class="field field-part-one">
-          <div>
-            <label for="Latitude">Latitude <span>Required</span></label>
-          </div>
-          <div>
-            <input type="text" id="Latitude" name="latitude" value="{{Model.Observation.Latitude}}" />
-          </div>
-        </div>
-        <div id="longitude-field" class="field field-part-two">
-          <div>
-            <label for="Longitude">Longitude <span>Required</span></label>
-          </div>
-          <div>
-            <input type="text" id="Longitude" name="longitude" value="{{Model.Observation.Longitude}}" />
-          </div>
-        </div>          
-          
-          <div id="pin-field" class="field">
-              <div>
-                  <label>Drag Pin</label>
-              </div>
-              <div id="location-pin">
-                  <img src="http://maps.gstatic.com/mapfiles/ms/icons/blue-dot.png" width="32" height="32" alt="" />
-              </div>
-          </div>
-          
-        <div id="anonymise-location-field" class="field field-checkbox">
-          <div>
-            <label>Hide Location</label>
-          </div>
-          <div>
-            <div class="checkbox">
-              <input type="checkbox" id="AnonymiseLocation" name="anonymiseLocation" {{#Model.Observation.AnonymiseLocation}}checked{{/Model.Observation.AnonymiseLocation}} />
-              <label for="AnonymiseLocation">
-                <span class="on">Yes</span><span class="bar"></span><span class="off">No</span>Show Exact Location
+      
+      
+      
+          <div id="category-field" class="field">
+            <div>
+              <label for="Category">
+                Identification <span>Required</span>
               </label>
             </div>
+            <div>
+              <select id="Category" name="category">
+                <option></option>
+                {{#Model.Categories}}
+                <option value="{{Value}}" {{#Selected}}selected=""{{/Selected}}>{{Text}}</option>
+                {{/Model.Categories}}
+              </select>
+        </div>
+      </div>
+
+      </div>
+
+
+      <div class="field-row">
+
+
+        <div id="location-details">
+
+
+          <!--<p>Enter an address, drag the pin onto the map or enter an exact co-ordinate.</p>-->
+          <div id="address-field" class="field">
+            <div>
+              <label for="Address">Locality/Address</label>
+            </div>
+            <div>
+              <input type="text" id="Address" name="address" autocomplete="off" value="{{Model.Observation.Address}}" />
+
+
+            
+
+              
+
+            </div>
           </div>
-        </div>   
+
+
+          <div id="pin-field" class="field">
+            <div>
+              <label>Drag Pin</label>
+            </div>
+            <div>
+              <div id="location-pin">
+                <img src="http://maps.gstatic.com/mapfiles/ms/icons/blue-dot.png" width="32" height="32" alt="" />
+              </div>
+            </div>
+          </div>
+
+
+          <button type="button" id="location-options-button">
+            <span>Options</span>
+          </button>
+          
+          
+
+          <div id="location-options">
+            
+            
+            
+            
+
+            <div id="latitude-field" class="field">
+              <div>
+                <label for="Latitude">
+                  Latitude <span>Required</span>
+                </label>
+              </div>
+              <div>
+                <input type="text" id="Latitude" name="latitude" value="{{Model.Observation.Latitude}}" />
+              </div>
+            </div>
+
+
+
+            <div id="longitude-field" class="field">
+              <div>
+                <label for="Longitude">
+                  Longitude <span>Required</span>
+                </label>
+              </div>
+              <div>
+                <input type="text" id="Longitude" name="longitude" value="{{Model.Observation.Longitude}}" />
+              </div>
+            </div>
+
+
+            
+
+            <div id="anonymise-location-field" class="field field-checkbox">
+              <div>
+                <label>Hide Location</label>
+              </div>
+              <div>
+                <div class="checkbox">
+                  <input type="checkbox" id="AnonymiseLocation" name="anonymiseLocation" {{#Model.Observation.AnonymiseLocation}}checked=""{{/Model.Observation.AnonymiseLocation}} />
+                  <label for="AnonymiseLocation">
+                    <span class="on">Yes</span><span class="bar"></span><span class="off">No</span>Show Exact Location
+                  </label>
+                </div>
+              </div>
+            </div>
+            
+
+
+
+          </div>
 
           <div id="location-map"></div>
 
 
-      </fieldset>
+          <div id="location-coordinates">
+            <div>Location</div> <span id="lat-long">None</span>
+          </div>
+          
+          
+        </div>
+        
+        
+        
+
+
+        <div id="observedon-field" class="field">
+          <div>
+            <label for="ObservedOn">
+              Sighted <span>Required</span>
+            </label>
+          </div>
+          <div>
+            <input type="text" id="ObservedOn" name="observedOn" data-datepicker="datepicker" value="{{Model.Observation.ObservedOn}}" readonly="" />
+            <i></i>
+          </div>
+        </div>
+        
+
+
+
+        <div id="projects-field" class="field">
+          <div>
+            <label for="Projects">Projects</label>
+          </div>
+          <div>
+            <select id="Projects" name="projects" multiple=""></select>
+          </div>
+        </div>
+
+
+      </div>
+
+
+
+
+
+
+
+
     </fieldset>
     <fieldset>
       <input type="button" value="Save" id="save" />

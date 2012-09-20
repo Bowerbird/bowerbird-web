@@ -1798,11 +1798,6 @@ header nav#search-menu
 {
     cursor: pointer;
 }
-.form #requires-identification-field
-{
-    clear: none;
-    width: 16%;
-}
 .form #address-field
 {
     width: 80%;
@@ -2601,6 +2596,7 @@ ul.explore-projects
     display:block;
     width:226px;
 }
+
 .form .avatar-field
 {
     -moz-box-sizing: border-box;

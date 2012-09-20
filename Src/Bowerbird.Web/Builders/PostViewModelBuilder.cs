@@ -64,7 +64,7 @@ namespace Bowerbird.Web.Builders
         {
             Check.RequireNotNullOrWhitespace(postId, "postId");
 
-            return MakePost(_documentSession.Load<Post>(postId));
+            return  MakePost(_documentSession.Load<Post>(postId));
         }
 
         public object BuildUserPostList(string userId, PagingInput pagingInput)

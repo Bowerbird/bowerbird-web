@@ -8,8 +8,8 @@
 // ObservationFormLayoutView
 // -------------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editmapview', 'views/observationmediaformview', 'moment', 'datepicker', 'multiselect', 'jqueryui/dialog'],
-function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView, moment) {
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editmapview', 'views/observationmediaformview', 'views/identificationformview', 'moment', 'datepicker', 'multiselect', 'jqueryui/dialog'],
+function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView, IdentificationFormView, moment) {
 
     var ObservationFormLayoutView = Backbone.Marionette.Layout.extend({
 
@@ -33,12 +33,15 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView, momen
             'change input#IsIdentificationRequired': '_isIdentificationRequiredChanged',
             'change input#AnonymiseLocation': '_anonymiseLocationChanged',
             'change #projects-field input:checkbox': '_projectsChanged',
-            'change #category-field input:checkbox': '_categoryChanged'
+            'change #category-field input:checkbox': '_categoryChanged',
+            'click #location-options-button': '_locationOptionsClicked',
+            'click #identify-observation-option': '_showIdentificationForm'
         },
 
         observedOnUpdated: false, // When we derive the very first media, we extract the date and update the ObservedOn field. No further updates are allowed.
 
         initialize: function (options) {
+            _.bindAll(this, '_showIdentificationForm');
             this.categories = options.categories;
             this.model.media.on('add', this.onMediaChanged, this);
         },
@@ -71,21 +74,22 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView, momen
         },
 
         _showDetails: function () {
-            var editMapView = new EditMapView({ el: '#location-fieldset', model: this.model });
+            var editMapView = new EditMapView({ el: '#location-details', model: this.model });
             this.map.attachView(editMapView);
             editMapView.render();
 
-            var observationMediaFormView = new ObservationMediaFormView({ el: '#media-fieldset', model: this.model, collection: this.model.media });
+            var observationMediaFormView = new ObservationMediaFormView({ el: '#media-details', model: this.model, collection: this.model.media });
             this.media.attachView(observationMediaFormView);
             observationMediaFormView.render();
 
-            this.$el.find('#ObservedOn').val(moment(this.model.get('ObservedOn')).format('D MMM YYYY'));
+            this.$el.find('#ObservedOn').val(moment(this.model.get('ObservedOn')).format('D MMMM YYYY'));
             this.observedOnDatePicker = this.$el.find('#ObservedOn').datepicker();
 
-            this.categoryListSelectView = this.$el.find("#Category").multiSelect({
+            this.categoryListSelectView = this.$el.find('#Category').multiSelect({
                 selectAll: false,
-                listHeight: 263,
+                listHeight: 260,
                 singleSelect: true,
+                messageText: 'Select a category, or <a href="#" id="identify-observation-option">identify the observation now</a>',
                 noOptionsText: 'No Categories',
                 noneSelected: '<span class="default-option">Select Category</span>',
                 oneOrMoreSelected: function (selectedOptions) {
@@ -106,7 +110,7 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView, momen
 
             this.projectListSelectView = this.$el.find('#Projects').multiSelect({
                 selectAll: false,
-                listHeight: 263,
+                listHeight: 260,
                 messageText: 'You can select more than one project',
                 noOptionsText: 'No Projects',
                 noneSelected: '<span class="default-option">Select Projects</span>',
@@ -124,7 +128,7 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView, momen
                     var $selectedHtml = $('<div />');
                     _.each(selectedOptions, function (option) {
                         var project = app.authenticatedUser.projects.get(option.value);
-                        $selectedHtml.append('<span class="selected-project"><img src="' + project.get('Avatar').Image.Square100.Uri + '" alt="" />' + option.text + '</span> ');
+                        $selectedHtml.append('<span class="selected-project"><img src="' + project.get('Avatar').Image.Square100.Uri + '" alt="" /></span> ');
                     });
                     return $selectedHtml.children();
                 }
@@ -140,6 +144,18 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView, momen
             if (target.attr('id') === 'Address') {
                 this._latLongChanged(e);
             }
+        },
+
+        _showIdentificationForm: function (e) {
+            $('body').append('<div id="modal-dialog"></div>');
+            var identificationFormView = new IdentificationFormView({ el: $('#modal-dialog') });
+            identificationFormView.on('identificationdone', this._onIdentificationDone, this);
+
+            $('#Category').multiSelectOptionsHide();
+
+            identificationFormView.render();
+
+            e.stopPropagation();
         },
 
         _observedOnChanged: function (e) {
@@ -186,6 +202,10 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView, momen
             } else {
                 this.model.set('Category', '');
             }
+        },
+
+        _locationOptionsClicked: function (e) {
+            this.$el.find('#location-options').toggle();
         },
 
         _cancel: function () {

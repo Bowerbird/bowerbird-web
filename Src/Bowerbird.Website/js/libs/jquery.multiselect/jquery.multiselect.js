@@ -164,9 +164,9 @@ if (jQuery) (function ($) {
 
         // Handle selectAll oncheck
         if (o.selectAll) {
-            multiSelectOptions.find('INPUT.selectAll').click(function () {
+            multiSelectOptions.find('input.selectAll').click(function () {
                 // update all the child checkboxes
-                multiSelectOptions.find('INPUT:checkbox').attr('checked', $(this).attr('checked')).parent("LABEL").toggleClass('checked', $(this).attr('checked'));
+                multiSelectOptions.find('input:checkbox').attr('checked', $(this).attr('checked')).parent("label").toggleClass('checked', $(this).attr('checked'));
             });
         }
          
@@ -174,22 +174,22 @@ if (jQuery) (function ($) {
         if (o.optGroupSelectable) {
             multiSelectOptions.addClass('optGroupHasCheckboxes');
 
-            multiSelectOptions.find('INPUT.optGroup').click(function () {
+            multiSelectOptions.find('input.optGroup').click(function () {
                 // update all the child checkboxes
-                $(this).parent().next().find('INPUT:checkbox').attr('checked', $(this).attr('checked')).parent("LABEL").toggleClass('checked', $(this).attr('checked'));
+                $(this).parent().next().find('input:checkbox').attr('checked', $(this).attr('checked')).parent("label").toggleClass('checked', $(this).attr('checked'));
             });
         }
 
         // Handle all checkboxes
-        multiSelectOptions.find('INPUT:checkbox').click(function () {
+        multiSelectOptions.find('input:checkbox').click(function () {
             var o = multiSelect.data("config");
             var multiSelectOptions = multiSelect.next('.multiSelectOptions');
 
             // set the label checked class
             if (o.singleSelect) { // deselect all except the current item if in single mode
-                multiSelectOptions.find('INPUT:checkbox').not($(this)).attr('checked', false).parent("LABEL").toggleClass('checked', false);
+                multiSelectOptions.find('input:checkbox').not($(this)).attr('checked', false).parent("label").toggleClass('checked', false);
             }
-            $(this).parent("LABEL").toggleClass('checked', $(this).attr('checked'));
+            $(this).parent("label").toggleClass('checked', $(this).attr('checked'));
 
             updateSelected.call(multiSelect);
             multiSelect.focus();
@@ -208,7 +208,7 @@ if (jQuery) (function ($) {
 
         // Initial display
         multiSelectOptions.each(function () {
-            $(this).find('INPUT:checked').parent().addClass('checked');
+            $(this).find('input:checked').parent().addClass('checked');
         });
 
         // Initialize selected and select all 
@@ -216,17 +216,17 @@ if (jQuery) (function ($) {
 
         // Initialize optgroups
         if (o.optGroupSelectable) {
-            multiSelectOptions.find('LABEL.optGroup').each(function () {
+            multiSelectOptions.find('label.optGroup').each(function () {
                 updateOptGroup.call(multiSelect, $(this));
             });
         }
 
         // Handle hovers
-        multiSelectOptions.find('LABEL:has(INPUT)').hover(function () {
-            $(this).parent().find('LABEL').removeClass('hover');
+        multiSelectOptions.find('label:has(input)').hover(function () {
+            $(this).parent().find('label').removeClass('hover');
             $(this).addClass('hover');
         }, function () {
-            $(this).parent().find('LABEL').removeClass('hover');
+            $(this).parent().find('label').removeClass('hover');
         });
 
         // Keyboard
@@ -251,14 +251,14 @@ if (jQuery) (function ($) {
                 }
                 // Down || Up
                 if (e.keyCode == 40 || e.keyCode == 38) {
-                    var allOptions = multiSelectOptions.find('LABEL');
+                    var allOptions = multiSelectOptions.find('label');
                     var oldHoverIndex = allOptions.index(allOptions.filter('.hover'));
                     var newHoverIndex = -1;
 
                     // if there is no current highlighted item then highlight the first item
                     if (oldHoverIndex < 0) {
                         // Default to first item
-                        multiSelectOptions.find('LABEL:first').addClass('hover');
+                        multiSelectOptions.find('label:first').addClass('hover');
                     }
                     // else if we are moving down and there is a next item then move
                     else if (e.keyCode == 40 && oldHoverIndex < allOptions.length - 1) {
@@ -282,17 +282,17 @@ if (jQuery) (function ($) {
 
                 // Enter, Space
                 if (e.keyCode == 13 || e.keyCode == 32) {
-                    var selectedCheckbox = multiSelectOptions.find('LABEL.hover INPUT:checkbox');
+                    var selectedCheckbox = multiSelectOptions.find('label.hover input:checkbox');
 
                     if (o.singleSelect) { // deselect all except the current item if in single mode
-                        multiSelectOptions.find('INPUT:checkbox').not(selectedCheckbox).attr('checked', false).parent("LABEL").toggleClass('checked', false);
+                        multiSelectOptions.find('input:checkbox').not(selectedCheckbox).attr('checked', false).parent("label").toggleClass('checked', false);
                     }
                     // Set the checkbox (and label class)
-                    selectedCheckbox.attr('checked', !selectedCheckbox.attr('checked')).parent("LABEL").toggleClass('checked', selectedCheckbox.attr('checked'));
+                    selectedCheckbox.attr('checked', !selectedCheckbox.attr('checked')).parent("label").toggleClass('checked', selectedCheckbox.attr('checked'));
 
                     // if the checkbox was the select all then set all the checkboxes
                     if (selectedCheckbox.hasClass("selectAll")) {
-                        multiSelectOptions.find('INPUT:checkbox').attr('checked', selectedCheckbox.attr('checked')).parent("LABEL").addClass('checked').toggleClass('checked', selectedCheckbox.attr('checked'));
+                        multiSelectOptions.find('input:checkbox').attr('checked', selectedCheckbox.attr('checked')).parent("label").addClass('checked').toggleClass('checked', selectedCheckbox.attr('checked'));
                     }
 
                     updateSelected.call(multiSelect);
@@ -310,9 +310,9 @@ if (jQuery) (function ($) {
                 // Any other standard keyboard character (try and match the first character of an option)
                 if (e.keyCode >= 33 && e.keyCode <= 126) {
                     // find the next matching item after the current hovered item
-                    var match = multiSelectOptions.find('LABEL:startsWith(' + String.fromCharCode(e.keyCode) + ')');
+                    var match = multiSelectOptions.find('label:startsWith(' + String.fromCharCode(e.keyCode) + ')');
 
-                    var currentHoverIndex = match.index(match.filter('LABEL.hover'));
+                    var currentHoverIndex = match.index(match.filter('label.hover'));
 
                     // filter the set to any items after the current hovered item
                     var afterHoverMatch = match.filter(function (index) {
@@ -320,11 +320,11 @@ if (jQuery) (function ($) {
                     });
 
                     // if there were no item after the current hovered item then try using the full search results (filtered to the first one)
-                    match = (afterHoverMatch.length >= 1 ? afterHoverMatch : match).filter("LABEL:first");
+                    match = (afterHoverMatch.length >= 1 ? afterHoverMatch : match).filter("label:first");
 
                     if (match.length == 1) {
                         // if we found a match then move the hover
-                        multiSelectOptions.find('LABEL.hover').removeClass('hover');
+                        multiSelectOptions.find('label.hover').removeClass('hover');
                         match.addClass('hover');
 
                         adjustViewPort(multiSelectOptions);
@@ -335,12 +335,12 @@ if (jQuery) (function ($) {
                 if (e.keyCode == 38 || e.keyCode == 40 || e.keyCode == 13 || e.keyCode == 32) { //up, down, enter, space - show
                     // Show dropdown
                     $(this).removeClass('focus').trigger('click');
-                    multiSelectOptions.find('LABEL:first').addClass('hover');
+                    multiSelectOptions.find('label:first').addClass('hover');
                     return false;
                 }
                 //  Tab key
                 if (e.keyCode == 9) {
-                    // Shift focus to next INPUT element on page
+                    // Shift focus to next input element on page
                     multiSelectOptions.next(':input').focus();
                     return true;
                 }
@@ -353,15 +353,15 @@ if (jQuery) (function ($) {
     // Adjust the viewport if necessary
     function adjustViewPort(multiSelectOptions) {
         // check for and move down
-        var selectionBottom = multiSelectOptions.find('LABEL.hover').position().top + multiSelectOptions.find('LABEL.hover').outerHeight();
+        var selectionBottom = multiSelectOptions.find('label.hover').position().top + multiSelectOptions.find('label.hover').outerHeight();
 
         if (selectionBottom > multiSelectOptions.innerHeight()) {
             multiSelectOptions.scrollTop(multiSelectOptions.scrollTop() + selectionBottom - multiSelectOptions.innerHeight());
         }
 
         // check for and move up						
-        if (multiSelectOptions.find('LABEL.hover').position().top < 0) {
-            multiSelectOptions.scrollTop(multiSelectOptions.scrollTop() + multiSelectOptions.find('LABEL.hover').position().top);
+        if (multiSelectOptions.find('label.hover').position().top < 0) {
+            multiSelectOptions.scrollTop(multiSelectOptions.scrollTop() + multiSelectOptions.find('label.hover').position().top);
         }
     }
 
@@ -373,14 +373,14 @@ if (jQuery) (function ($) {
         // Determine if the optgroup should be checked
         if (o.optGroupSelectable) {
             var optGroupSelected = true;
-            $(optGroup).next().find('INPUT:checkbox').each(function () {
+            $(optGroup).next().find('input:checkbox').each(function () {
                 if (!$(this).attr('checked')) {
                     optGroupSelected = false;
                     return false;
                 }
             });
 
-            $(optGroup).find('INPUT.optGroup').attr('checked', optGroupSelected).parent("LABEL").toggleClass('checked', optGroupSelected);
+            $(optGroup).find('input.optGroup').attr('checked', optGroupSelected).parent("label").toggleClass('checked', optGroupSelected);
         }
     }
 
@@ -394,7 +394,7 @@ if (jQuery) (function ($) {
         var selectAll = true;
         var display = '';
         var selectedOptions = [];
-        multiSelectOptions.find('INPUT:checkbox').not('.selectAll, .optGroup').each(function () {
+        multiSelectOptions.find('input:checkbox').not('.selectAll, .optGroup').each(function () {
             if ($(this).attr('checked')) {
                 i++;
                 display = display + $(this).parent().text() + ', ';
@@ -422,7 +422,7 @@ if (jQuery) (function ($) {
 
         // Determine if Select All should be checked
         if (o.selectAll) {
-            multiSelectOptions.find('INPUT.selectAll').attr('checked', selectAll).parent("LABEL").toggleClass('checked', selectAll);
+            multiSelectOptions.find('input.selectAll').attr('checked', selectAll).parent("label").toggleClass('checked', selectAll);
         }
     }
 
@@ -527,6 +527,7 @@ if (jQuery) (function ($) {
         multiSelectOptionsHide: function () {
             $(this).removeClass('active').removeClass('hover').next('.multiSelectOptions').css('visibility', 'hidden');
             $(this).removeClass('active').removeClass('hover').next('.multiSelectOptions').css('display', 'none');
+            $(this).next('.multiSelectOptions').css('height', 'auto');
         },
 
         // Show the dropdown
@@ -537,7 +538,7 @@ if (jQuery) (function ($) {
 
             // Hide any open option boxes
             $('.multiSelect').multiSelectOptionsHide();
-            multiSelectOptions.find('LABEL').removeClass('hover');
+            multiSelectOptions.find('label').removeClass('hover');
             multiSelect.addClass('active').next('.multiSelectOptions').css('visibility', 'visible');
             multiSelect.addClass('active').next('.multiSelectOptions').css('display', 'block');
             multiSelect.focus();
@@ -562,18 +563,20 @@ if (jQuery) (function ($) {
 
             // set the width of the dropdown options
             multiSelectOptions.css("width", multiSelect.outerWidth() - 2/*border*/ + 'px');
-            /**FR**/
-
+            multiSelectOptions.css("min-width", '260px');
+            
             // Position it
             var offset = multiSelect.position();
             multiSelect.next('.multiSelectOptions').css({ top: offset.top + $(this).outerHeight() + 'px' });
-            multiSelect.next('.multiSelectOptions').css({ left: offset.left + 'px' });
+            //multiSelect.next('.multiSelectOptions').css({ left: offset.left + 'px' });
+            multiSelect.next('.multiSelectOptions').css({ right: '0' });
+            /**FR**/
         },
 
         // get a coma-delimited list of selected values
         selectedValuesString: function () {
             var selectedValues = "";
-            $(this).next('.multiSelectOptions').find('INPUT:checkbox:checked').not('.optGroup, .selectAll').each(function () {
+            $(this).next('.multiSelectOptions').find('input:checkbox:checked').not('.optGroup, .selectAll').each(function () {
                 selectedValues += $(this).attr('value') + ",";
             });
             // trim any end comma and surounding whitespace

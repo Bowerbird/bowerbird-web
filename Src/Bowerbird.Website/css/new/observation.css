@@ -1,4 +1,14 @@
-﻿/* stream observation item */
+﻿#content .observation > h2 span {
+    background-position: -140px -48px;
+}
+/* form observation */
+.observation .main {
+    background-color: rgb(227, 227, 227);
+    border-radius: 4px 4px 4px 4px;
+    padding: 2%;
+}
+
+/* stream observation item */
 .observation .observation-details,
 .observation .notes-details,
 .observation .comments-details
@@ -228,59 +238,91 @@
 
 
 /**********************/
-.home .intro
+#content .home > h2 span {
+    background-position: -6px -48px;
+}
+.call-to-action
 {
-    background-color: #FFFFFF;
+    background-color: rgb(232, 228, 219);
     border-radius: 4px 4px 4px 4px;
-    box-shadow: 0 1px 2px 0 #5071A6;
+    box-shadow: 0 1px 2px 0 rgb(51, 51, 51);
     margin-bottom: 20px;
-    padding: 15px 30px;
+    padding: 25px;
     position: relative;
 }
-.home .intro h2
+.call-to-action h2
 {
-    color: #222222;
-    font-size: 1.75em;
+    color: rgb(67, 50, 17);
+    font-size: 1.2em;
     font-weight: 600;
-    letter-spacing: -1px;
+    letter-spacing: -0.03em;
     margin-bottom: 15px;
+    text-shadow: 0 1px 0 rgb(255, 255, 255);
 }
-.home .intro p
-{
-    font-size: 0.875em;
-    line-height: 1.3em;
+.home .call-to-action h2 {
+    font-size: 1.4em;
 }
-.home .intro h3
+.call-to-action p
 {
-font-size: 1.1em;
+    color: rgb(97, 80, 47);
+    font-size: 0.844em;
+    font-weight: 500;
+    line-height: 1.5em;
+    text-shadow: 0 1px 0 rgb(255, 255, 255);
+}
+.call-to-action h3
+{
+    color: rgb(67, 50, 17);
+    font-size: 0.95em;
+    font-weight: 600;
+    letter-spacing: -0.01em;
     margin-bottom: 0;
     margin-top: 15px;
+    text-shadow: 0 1px 0 rgb(255, 255, 255);
 }
-.home .intro .close-intro
+.call-to-action .close-intro
 {
-    background: url("/img/glyphicons-halflings-white.png") no-repeat scroll -312px 0 #CFDDEB;
-    border: 2px solid #CFDDEB;
+    background: url("/img/glyphicons-halflings-white.png") no-repeat scroll -312px 0 rgb(67, 50, 17);
+    border: 2px solid rgb(67, 50, 17);
     border-radius: 10px 10px 10px 10px;
     display: block;
-    height: 14px;
+    height: 18px;
     position: absolute;
     right: 10px;
     text-indent: -99999px;
     top: 9px;
-    width: 14px; 
+    width: 18px;
 }
-.home .intro .close-intro:hover
+.call-to-action p a,
+.call-to-action p a:active,
+.call-to-action p a:visited
+{
+    color: rgb(64, 64, 64);
+}
+.call-to-action p a:hover {
+    color: rgb(27, 131, 235);
+}
+.call-to-action .close-intro:hover
 {
     background: url("/img/glyphicons-halflings-white.png") no-repeat scroll -312px 0 #1B83EB;
     border: 2px solid #1B83EB;
 }
 
 /**********************/
+.project > h2 span {
+    background-position: -33px -48px;
+}
 .project > .summary
 {
-    background-color: #FFFFFF;
-    border-radius: 4px 4px 0 0;
-    box-shadow: 0 1px 2px 0 #5071A6;
+    background-color: rgb(255, 255, 255);
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 2px 0 rgb(51, 51, 51);
+    height: 200px;
+    position: relative;
+    width: 100%;
+}
+.project > .details {
+    background-color: rgb(227, 227, 227);
 }
 .project > .summary .image-media {
     margin: 0 15px 0 0;
@@ -292,8 +334,12 @@ font-size: 1.1em;
 }
 .project > .summary h1
 {
-    color: #222222;
+    color: rgb(34, 34, 34);
     display: block;
+    font-size: 1.6em;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.8em;
     overflow: hidden;
     padding-right: 15px;
     text-align: left;
@@ -313,6 +359,7 @@ font-size: 1.1em;
 .project .tab-bar 
 {
     clear: both;
+    padding: 2% 2% 0;
 }
 .project > .summary .badges
 {

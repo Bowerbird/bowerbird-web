@@ -3,52 +3,55 @@
     <fieldset>
         <legend class="hidden">Project Details</legend>
         <div id="name-field" class="field">
-        <div>
-            <label for="name">Name</label>
-        </div>
-        <div>
-            <input type="text" id="Name" name="name" value="{{Model.Project.Name}}" />
-        </div>
+          <div>
+              <label for="name">Name</label>
+          </div>
+          <div>
+              <input type="text" id="Name" name="name" value="{{Model.Project.Name}}" />
+          </div>
         </div>
         <div id="description-field" class="field">
+            <div>
+                <label for="description">Description</label>
+            </div>
+            <div>
+                <textarea rows="4" cols="100" id="Description" name="description">{{Model.Project.Description}}</textarea>
+            </div>
+        </div>
+      <div class="field-row">
+      <div class="field avatar-field">
         <div>
-            <label for="description">Description</label>
+          <label for="avatar">Project Avatar</label>
         </div>
         <div>
-            <textarea rows="4" cols="100" id="Description" name="description">{{Model.Project.Description}}</textarea>
+          <div id="avatar-viewer"></div>
+          <div id="avatar-upload-button" class="button avatar-upload-button">
+            Edit<input id="file" type="file" name="file" multiple="" value="Edit Avatar" />
+          </div>
         </div>
-        </div>
+      </div>
         <div id="website-field" class="field">
-        <div>
-            <label for="website">Website</label>
+          <div>
+              <label for="website">Website</label>
+          </div>
+          <div>
+              <input type="text" id="Website" name="website" value="{{Model.Project.Website}}" />
+          </div>
         </div>
-        <div>
-            <input type="text" id="Website" name="website" value="{{Model.Project.Website}}" />
-        </div>
-        </div>
-        <div id="team-field" class="field">
-        <div>
-            <label for="teamid">Team</label>
-        </div>
-        <div>
-            <select id="TeamId" name="teamid">
-              <option></option>
-              {{#Model.Teams}}
-              <option value="{{Value}}" {{#Selected}}selected{{/Selected}}>{{Text}}</option>
-              {{/Model.Teams}}
-            </select>
-        </div>
-        </div>
-        <div class="field">
-        <div>
-            <label for="avatar">Project Avatar</label>
-        </div>
-            <div id="avatar-viewer" class="field avatar-field">
-        </div>
-        <div id="avatar-upload-button" class="field button avatar-upload-button">
-            Change Avatar<input id="fileupload" type="file" name="file" multiple="" class="avatar-uploader" />
-        </div>
-    </div>
+      <div id="team-field" class="field">
+          <div>
+              <label for="teamid">Team</label>
+          </div>
+          <div>
+              <select id="TeamId" name="teamid">
+                  <option></option>
+                  {{#Model.Teams}}
+                  <option value="{{Value}}" {{#Selected}}selected{{/Selected}}>{{Text}}</option>
+                  {{/Model.Teams}}
+              </select>
+          </div>
+      </div>
+      </div>
     </fieldset>
     <fieldset>
         <input type="button" value="Save" id="save" />

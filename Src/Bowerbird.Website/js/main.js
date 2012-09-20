@@ -39,6 +39,7 @@ require.config({
         transform: '../libs/jquery.jplayer/jquery.transform',
         jplayer: '../libs/jquery.jplayer/jquery.jplayer',
         circleplayer: '../libs/jquery.jplayer/circle.player',
+        progress: '../libs/jquery.animateprogress/jquery.animate-progress',
         moment: '../libs/moment/moment'
     }
 });

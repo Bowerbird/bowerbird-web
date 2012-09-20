@@ -20,6 +20,6 @@ namespace Bowerbird.Web.Builders
     {
         object BuildSpecies(string speciesId);
 
-        object BuildSpeciesList(PagingInput pagingInput);
+        object BuildSpeciesList(SpeciesQueryInput query, PagingInput pagingInput);
     }
 }
