@@ -28,6 +28,7 @@ function ($, _, Backbone, app) {
 
         initialize: function () {
             _.bindAll(this, 'onStatusChange', 'onUpdateUserStatus', 'onRender');
+            this.onStatusChange({ user: this.model, status: this.model.getCurrentStatus() });
             this.model.on('statuschange', this.onStatusChange, this);
             if (this.model.id === app.authenticatedUser.user.id) {
                 this.model.on('pollserver', this.onUpdateUserStatus, this);
@@ -44,7 +45,9 @@ function ($, _, Backbone, app) {
         },
 
         startChat: function (e) {
-            app.vent.trigger('chats:startPrivateChat', this.model);
+            if (this.model.getCurrentStatus() != 'offline') {
+                app.vent.trigger('chats:startPrivateChat', this.model);
+            }
         },
 
         onRender: function () {
