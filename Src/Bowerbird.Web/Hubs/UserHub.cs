@@ -12,9 +12,8 @@
  
 */
 
-using System.Collections.Generic;
+using System;
 using System.Threading.Tasks;
-using Bowerbird.Core.Extensions;
 using SignalR.Hubs;
 using Bowerbird.Core.DesignByContract;
 using Raven.Client;
@@ -26,7 +25,7 @@ using Bowerbird.Web.Builders;
 
 namespace Bowerbird.Web.Hubs
 {
-    public class UserHub : Hub, IDisconnect, IConnected
+    public class UserHub : Hub, IDisconnect
     {
         #region Members
 
@@ -69,13 +68,16 @@ namespace Bowerbird.Web.Hubs
             _documentSession.SaveChanges();
         }
 
-        public void UpdateUserClientStatus(string userId)
+        /// <summary>
+        /// Passing heartbeat and interactivity from the client to keep the time structure independent of the server
+        /// </summary>
+        public void UpdateUserClientStatus(string userId, DateTime latestHeartbeat, DateTime latestInteractivity)  
         {
             var user = GetUserByConnectionId(Context.ConnectionId);
 
             if (user != null)
             {
-                user.UpdateSessionLatestActivity(Context.ConnectionId);
+                user.UpdateSessionLatestActivity(Context.ConnectionId, latestHeartbeat, latestInteractivity);
 
                 _documentSession.Store(user);
                 _documentSession.SaveChanges();
@@ -105,26 +107,6 @@ namespace Bowerbird.Web.Hubs
                 .FirstOrDefault();
 
             return result != null ? result.User : null;
-        }
-
-        public Task Connect()
-        {
-            return null;
-        }
-
-        public Task Reconnect(IEnumerable<string> groups)
-        {
-            var user = GetUserByConnectionId(Context.ConnectionId);
-
-            if (user != null)
-            {
-                user.UpdateSessionLatestActivity(Context.ConnectionId);
-
-                _documentSession.Store(user);
-                _documentSession.SaveChanges();
-            }
-
-            return null;
         }
 
         #endregion

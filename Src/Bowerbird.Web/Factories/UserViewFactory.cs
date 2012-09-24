@@ -12,10 +12,8 @@
  
 */
 
-using Bowerbird.Core.Config;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.DesignByContract;
-using System.Linq;
 
 namespace Bowerbird.Web.Factories
 {
@@ -46,7 +44,8 @@ namespace Bowerbird.Web.Factories
                 user.FirstName,
                 user.LastName,
                 Name = user.GetName(),
-                user.SessionLatestActivity
+                user.SessionLatestActivity,
+                user.SessionLatestHeartbeat
             };
         }
 

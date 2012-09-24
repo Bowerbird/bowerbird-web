@@ -49,6 +49,8 @@ namespace Bowerbird.Core.Config
         /// </summary>
         public static string ISO8601DateTimeFormat = "yyyy-MM-ddThh:mm:ssZ";
 
+        public static int MaxUserSessions = 12;
+
         public static class ImageMimeTypes
         {
             /// <summary>

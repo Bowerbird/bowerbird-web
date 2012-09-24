@@ -98,6 +98,7 @@ namespace Bowerbird.Web.EventHandlers
 
                 // Return connected users (those users active less than 5 minutes ago)
                 var onlineUsers = _userViewModelBuilder.BuildOnlineUserList();
+
                 _backChannelService.SendOnlineUsersToUserChannel(user.Id, onlineUsers);
             }
 

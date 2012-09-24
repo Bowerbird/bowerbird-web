@@ -13,7 +13,6 @@
 */
 
 using System;
-using Bowerbird.Core.DomainModels.DenormalisedReferences;
 
 namespace Bowerbird.Core.DomainModels
 {
@@ -37,7 +36,7 @@ namespace Bowerbird.Core.DomainModels
             ConnectionId = connectionId;
             CreatedDateTime = DateTime.UtcNow;
 
-            SetDetails(DateTime.UtcNow);
+            SetDetails(DateTime.UtcNow, DateTime.UtcNow);
         }
 
         #endregion
@@ -48,20 +47,23 @@ namespace Bowerbird.Core.DomainModels
 
         public DateTime CreatedDateTime { get; private set; }
 
+        public DateTime LatestHeartbeat { get; private set; }
+
         public DateTime LatestActivity { get; private set; }
 
         #endregion
 
         #region Methods
 
-        private void SetDetails(DateTime latestActivity)
+        private void SetDetails(DateTime latestHeartbeat, DateTime latestActivity)
         {
+            LatestHeartbeat = latestHeartbeat;
             LatestActivity = latestActivity;
         }
 
-        public void UpdateLatestActivity(DateTime latestActivity)
+        public void UpdateLatestActivity(DateTime latestHeartbeat, DateTime latestActivity)
         {
-            SetDetails(latestActivity);
+            SetDetails(latestHeartbeat, latestActivity);
         }
 
         #endregion

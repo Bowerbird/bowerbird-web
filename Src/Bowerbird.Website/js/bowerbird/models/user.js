@@ -9,7 +9,8 @@
 // User
 // ----
 
-define(['jquery', 'underscore', 'backbone', 'moment'], function ($, _, Backbone, moment) {
+define(['jquery', 'underscore', 'backbone', 'moment', 'models/timer', 'models/tracker'],
+function ($, _, Backbone, moment, Timer, Tracker) {
 
     var User = Backbone.Model.extend({
         defaults: {
@@ -17,7 +18,10 @@ define(['jquery', 'underscore', 'backbone', 'moment'], function ($, _, Backbone,
             LastName: '',
             Email: '',
             AvatarId: null,
-            SessionLatestActivity: null
+            SessionLatestActivity: null,
+            SessionLatestHeartbeat: null,
+            Timer: null,
+            Tracker: null
         },
 
         idAttribute: 'Id',
@@ -25,37 +29,71 @@ define(['jquery', 'underscore', 'backbone', 'moment'], function ($, _, Backbone,
         urlRoot: '/users',
 
         initialize: function () {
-            _.bindAll(this, 'checkStatus');
-            this.on('change:SessionLatestActivity', this.onSessionLatestActivityChange, this);
+            _.bindAll(this, 'startTimer', 'stopTimer', 'timerExpired', 'startTracker', 'stopTracker', 'trackerRegisteredActivity', 'onSessionLatestHeartbeatChange');
+            this.on('change:SessionLatestHeartbeat', this.onSessionLatestHeartbeatChange, this);
         },
 
         setAvatar: function (mediaResource) {
             this.set('AvatarId', mediaResource.id);
         },
 
-        enableCheckStatus: function () {
-            this.checkStatus();
+        startTimer: function () {
+            log('timer started');
+            this.set('Timer', new Timer({ interval: 15000 }));
+            this.get('Timer').on('timerexpired', this.timerExpired, this);
+            this.get('Timer').start();
         },
 
-        onSessionLatestActivityChange: function (user, sessionLatestActivity) {
-            log('user: ' + this.get('Name') + '; latestactivity: ' + sessionLatestActivity, this);
-            this.trigger('statuschange', { user: this, status: this.getCurrentStatus() });
+        stopTimer: function () {
+            if (this.get('Timer')) {
+                this.get('Timer').stop();
+            }
         },
 
-        checkStatus: function () {
-            log('user: ' + this.get('Name') + '; latestactivity: ' + this.get('SessionLatestActivity'), this);
-            this.trigger('statuschange', { user: this, status: this.getCurrentStatus() });
-            var that = this;
-            this.statusTimerId = setTimeout(that.checkStatus, 20000);
-            log('statusTimerId', this.statusTimerId);
+        timerExpired: function () {
+            var self = this;
+            log('user.timerExpired');
+            self.set('SessionLatestHeartbeat', new Date().toJSON());
+        },
+
+        startTracker: function () {
+            var self = this;
+            self.set('Tracker', new Tracker());
+            self.get('Tracker').on('interactivityregisterd', this.trackerRegisteredActivity);
+            self.get('Tracker').start();
+        },
+
+        stopTracker: function () {
+            var self = this;
+            if (self.get('Tracker')) {
+                self.get('Tracker').stop();
+            }
+        },
+
+        trackerRegisteredActivity: function () {
+            var self = this;
+            var logTime = new Date().toJSON();
+            log('Tracker Registered Activity:', logTime);
+            self.set('SessionLatestActivity', logTime);
+        },
+
+        onSessionLatestHeartbeatChange: function (user) {
+            var self = this;
+            log('user: ' + this.get('Name') + '; latestheartbeat: ' + self.get('SessionLatestHeartbeat'), this);
+            self.trigger('statuschange', { user: self, status: self.getCurrentStatus() });
+
+            if (self.get('SessionLatestActivity')) {
+                self.trigger('pollserver', { user: self });
+            }
         },
 
         getCurrentStatus: function () {
             var latestActivity = moment(this.get('SessionLatestActivity'));
-            var now = moment(new Date);
-            if (now - latestActivity > 500000) {
+            var latestHeartbeat = moment(this.get('SessionLatestHeartbeat'));
+
+            if (latestHeartbeat - latestActivity > 600000) { // ten mins
                 return 'offline';
-            } else if (now - latestActivity > 300000) {
+            } else if (latestHeartbeat - latestActivity > 300000) { // five mins
                 return 'away';
             } else {
                 return 'online';

@@ -13,7 +13,6 @@
 */
 
 using System;
-using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Core.Commands
 {
@@ -30,6 +29,8 @@ namespace Bowerbird.Core.Commands
         #region Properties
 
         public string ConnectionId { get; set; }
+
+        public DateTime LatestHeartbeat { get; set; }
 
         public DateTime LatestActivity { get; set; }
 

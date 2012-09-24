@@ -60,7 +60,7 @@ namespace Bowerbird.Core.CommandHandlers
                 .First()
                 .User;
 
-            user.UpdateSessionLatestActivity(command.ConnectionId);
+            user.UpdateSessionLatestActivity(command.ConnectionId, command.LatestHeartbeat, command.LatestActivity);
 
             _documentSession.Store(user);
         }

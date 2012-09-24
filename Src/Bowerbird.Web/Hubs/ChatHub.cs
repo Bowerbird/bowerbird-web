@@ -14,11 +14,8 @@
 
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.Extensions;
 using Bowerbird.Core.Infrastructure;
-using Bowerbird.Web.Services;
 using SignalR.Hubs;
 using Bowerbird.Core.DesignByContract;
 using Raven.Client;

@@ -137,7 +137,7 @@ namespace Bowerbird.Web.Builders
             return _documentSession
                 .Query<All_Users.Result, All_Users>()
                 .AsProjection<All_Users.Result>()
-                .Where(x => x.LatestActivity.Any(y => y > fiveMinutesAgo))
+                .Where(x => x.LatestHeartbeat.Any(y => y > fiveMinutesAgo))
                 .Take(100) //HACK: Need to work out how we will list more than RavenDB max
                 .ToList()
                 .Select(x => _userViewFactory.Make(x.User));

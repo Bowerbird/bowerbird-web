@@ -19,7 +19,6 @@ using System.Text;
 using Bowerbird.Core.DesignByContract;
 using System.Security.Cryptography;
 using Bowerbird.Core.Events;
-using Bowerbird.Core.Extensions;
 
 namespace Bowerbird.Core.DomainModels
 {
@@ -124,7 +123,19 @@ namespace Bowerbird.Core.DomainModels
         [Raven.Imports.Newtonsoft.Json.JsonIgnore]
         public DateTime? SessionLatestActivity
         {
-            get { return _sessions.Count > 0 ? _sessions.Select(x => x.LatestActivity).OrderByDescending(x => x).First() : (DateTime?)null; }
+            get
+            {
+                return _sessions.Count > 0 ? _sessions.Select(x => x.LatestActivity).OrderByDescending(x => x).First() : (DateTime?)null;
+            }
+        }
+
+        [Raven.Imports.Newtonsoft.Json.JsonIgnore]
+        public DateTime? SessionLatestHeartbeat
+        {
+            get
+            {
+                return _sessions.Count > 0 ? _sessions.Select(x => x.LatestHeartbeat).OrderByDescending(x => x).First() : (DateTime?)null;
+            }
         }
 
         #endregion
@@ -301,7 +312,20 @@ namespace Bowerbird.Core.DomainModels
         public User AddSession(string connectionId)
         {
             var session = new UserSession(connectionId);
-            
+
+            //// if we have lots of sessions (more than our const setting) 
+            //// grab all the sessions most likely to still be active
+            //if (_sessions.Count > Constants.MaxUserSessions)
+            //{
+            //     /*
+            //     if there are 100 elements, we have elements [0] to [99] with max of 12 sessions to keep.
+            //     in this example, starting at index 12, we want to remove 87 items. 
+            //     That's all items from [12] to [99].  
+            //      */
+
+            //    _sessions.RemoveRange(Constants.MaxUserSessions, _sessions.Count - Constants.MaxUserSessions - 1);
+            //}
+
             _sessions.Add(session);
 
             ApplyEvent(new DomainModelCreatedEvent<UserSession>(session, this, this));
@@ -309,13 +333,13 @@ namespace Bowerbird.Core.DomainModels
             return this;
         }
 
-        public User UpdateSessionLatestActivity(string connectionId)
+        public User UpdateSessionLatestActivity(string connectionId, DateTime latestHeartbeat, DateTime latestInteractivity)
         {
             var session = _sessions.SingleOrDefault(x => x.ConnectionId == connectionId);
 
             if (session != null)
             {
-                session.UpdateLatestActivity(DateTime.UtcNow);
+                session.UpdateLatestActivity(latestHeartbeat, latestInteractivity);
 
                 ApplyEvent(new DomainModelUpdatedEvent<UserSession>(session, this, this));
             }

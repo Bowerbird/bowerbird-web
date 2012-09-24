@@ -24,6 +24,11 @@ function ($, _, Backbone, app, UserFormLayoutView, User) {
         this.userHub.joinedGroup = joinedGroup;
         this.userHub.mediaResourceUploadSuccess = mediaResourceUploadSuccess;
         this.userHub.mediaResourceUploadFailure = mediaResourceUploadFailure;
+
+        // ping the server with the user's latest activity
+        this.updateUserClientStatus = function (userId, latestHeartbeat, latestInteractivity) {
+            $.connection.userHub.updateUserClientStatus(userId, latestHeartbeat, latestInteractivity);
+        };
     };
 
     var UserController = {};
@@ -49,9 +54,15 @@ function ($, _, Backbone, app, UserFormLayoutView, User) {
     // Hub Callbacks
     // -------------
 
+    // Receive a list of users that are online
+    var setupOnlineUsers = function (onlineUsers) {
+        log('userController.setupOnlineUsers', this, onlineUsers);
+        app.onlineUsers.add(onlineUsers);
+    };
+
     // Receive a user status update
     var userStatusUpdate = function (userStatus) {
-        log('activityController.userStatusUpdate', this, userStatus);
+        log('userController.userStatusUpdate', this, userStatus);
 
         if (!app.onlineUsers.get(userStatus.User.Id)) {
             app.onlineUsers.add(userStatus.User);
@@ -59,12 +70,7 @@ function ($, _, Backbone, app, UserFormLayoutView, User) {
 
         // Then set their status
         app.onlineUsers.get(userStatus.User.Id).set('SessionLatestActivity', userStatus.User.SessionLatestActivity);
-    };
-
-    // Receive a list of users that are online
-    var setupOnlineUsers = function (onlineUsers) {
-        log('activityController.setupOnlineUsers', this, onlineUsers);
-        app.onlineUsers.add(onlineUsers);
+        app.onlineUsers.get(userStatus.User.Id).set('SessionLatestHeartbeat', userStatus.User.SessionLatestHeartbeat);
     };
 
     // Receive a user joined group update

@@ -28,6 +28,7 @@ namespace Bowerbird.Core.Indexes
             public string UserId { get; set; }
             public string[] GroupIds { get; set; }
             public string[] ConnectionIds { get; set; }
+            public DateTime[] LatestHeartbeat { get; set; }
             public DateTime[] LatestActivity { get; set; }
 
             public User User { get; set; }
@@ -59,7 +60,8 @@ namespace Bowerbird.Core.Indexes
                                           UserId = user.Id,
                                           GroupIds = user.Memberships.Select(x => x.Group.Id),
                                           ConnectionIds = user.Sessions.Select(x => x.ConnectionId),
-                                          LatestActivity = user.Sessions.Select(x => x.LatestActivity)
+                                          LatestHeartbeat = user.Sessions.Select(x => x.LatestHeartbeat),
+                                          LatestInteractivity = user.Sessions.Select(x => x.LatestActivity)
                                       });
 
             TransformResults = (database, results) =>
@@ -69,6 +71,7 @@ namespace Bowerbird.Core.Indexes
                                     result.UserId,
                                     GroupIds = result.GroupIds ?? new string [] {},
                                     ConnectionIds = result.ConnectionIds ?? new string[] {},
+                                    result.LatestHeartbeat,
                                     result.LatestActivity,
                                     User = database.Load<User>(result.UserId),
                                     UserProjects = database.Load<UserProject>(result.GroupIds),
@@ -81,6 +84,7 @@ namespace Bowerbird.Core.Indexes
             Store(x => x.UserId, FieldStorage.Yes);
             Store(x => x.GroupIds, FieldStorage.Yes);
             Store(x => x.ConnectionIds, FieldStorage.Yes);
+            Store(x => x.LatestHeartbeat, FieldStorage.Yes);
             Store(x => x.LatestActivity, FieldStorage.Yes);
         }
     }
