@@ -29,7 +29,7 @@ function ($, _, Backbone, moment, Timer, Tracker) {
         urlRoot: '/users',
 
         initialize: function () {
-            _.bindAll(this, 'startTimer', 'stopTimer', 'timerExpired', 'startTracker', 'stopTracker', 'trackerRegisteredActivity', 'onSessionLatestHeartbeatChange');
+            _.bindAll(this, 'startTimer', 'stopTimer', 'timerExpired', 'startTracker', 'stopTracker', 'trackerRegisteredActivity', 'onSessionLatestHeartbeatChange', 'getCurrentStatus');
             this.on('change:SessionLatestHeartbeat', this.onSessionLatestHeartbeatChange, this);
         },
 
@@ -73,27 +73,34 @@ function ($, _, Backbone, moment, Timer, Tracker) {
         trackerRegisteredActivity: function () {
             var self = this;
             var logTime = new Date().toJSON();
-            log('Tracker Registered Activity:', logTime);
+            
+            var status = self.getCurrentStatus();
+            
+            //log('Tracker Registered Activity:', logTime);
             self.set('SessionLatestActivity', logTime);
+            
+            if (status === 'away' || status === 'offline') {
+                self.get('Timer').tickNow();
+            }
         },
 
         onSessionLatestHeartbeatChange: function (user) {
             var self = this;
             log('user: ' + this.get('Name') + '; latestheartbeat: ' + self.get('SessionLatestHeartbeat'), this);
             self.trigger('statuschange', { user: self, status: self.getCurrentStatus() });
-
             if (self.get('SessionLatestActivity')) {
                 self.trigger('pollserver', { user: self });
             }
         },
-
+        
         getCurrentStatus: function () {
-            var latestActivity = moment(this.get('SessionLatestActivity'));
-            var latestHeartbeat = moment(this.get('SessionLatestHeartbeat'));
+            var self = this;
+            var latestActivity = moment(self.get('SessionLatestActivity'));
+            var latestHeartbeat = moment(self.get('SessionLatestHeartbeat'));
 
             if (latestHeartbeat - latestActivity > 600000) { // ten mins
                 return 'offline';
-            } else if (latestHeartbeat - latestActivity > 300000) { // five mins
+            } else if (latestHeartbeat - latestActivity > 90000) { // one & a half mins
                 return 'away';
             } else {
                 return 'online';

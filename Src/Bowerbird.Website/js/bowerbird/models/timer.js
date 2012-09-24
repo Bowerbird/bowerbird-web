@@ -19,7 +19,7 @@ function ($, _, Backbone) {
         },
 
         initialize: function (options) {
-            _.bindAll(this, 'start', 'tick', 'stop');
+            _.bindAll(this, 'start', 'tick', 'stop', 'tickNow');
             if (options.interval) {
                 this.set('interval', options.interval);
             }
@@ -32,6 +32,13 @@ function ($, _, Backbone) {
 
         tick: function () {
             var self = this;
+            self.trigger('timerexpired', this);
+            self.start();
+        },
+
+        tickNow: function () {
+            var self = this;
+            self.stop();
             self.trigger('timerexpired', this);
             self.start();
         },

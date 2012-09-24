@@ -51,7 +51,6 @@ function ($, _, Backbone, app) {
             log('userItemView.onRender');
             var self = this;
             self.model.startTimer();
-
             // if this user is 'Me' track my interactivity to pass back to the server
             if (self.model.id === app.authenticatedUser.user.id) {
                 self.model.startTracker();
@@ -75,7 +74,8 @@ function ($, _, Backbone, app) {
         onStatusChange: function (userStatus) {
             var chatMenuCss = {};
             var actualStatus = '';
-            if (userStatus.user.id === app.authenticatedUser.user.id || userStatus.status === 'online') {
+            //if (userStatus.user.id === app.authenticatedUser.user.id || userStatus.status === 'online') {
+            if (userStatus.status === 'online') {
                 actualStatus = 'online';
                 chatMenuCss.display = 'list-item';
             } else if (userStatus.status === 'away') {
