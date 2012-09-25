@@ -44,8 +44,8 @@ namespace Bowerbird.Web.Factories
                 user.FirstName,
                 user.LastName,
                 Name = user.GetName(),
-                user.SessionLatestActivity,
-                user.SessionLatestHeartbeat
+                LatestActivity = user.SessionLatestActivity,
+                LatestHeartbeat = user.SessionLatestHeartbeat
             };
         }
 

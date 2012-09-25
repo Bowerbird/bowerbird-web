@@ -69,8 +69,8 @@ function ($, _, Backbone, app, UserFormLayoutView, User) {
         }
 
         // Then set their status
-        app.onlineUsers.get(userStatus.User.Id).set('SessionLatestActivity', userStatus.User.SessionLatestActivity);
-        app.onlineUsers.get(userStatus.User.Id).set('SessionLatestHeartbeat', userStatus.User.SessionLatestHeartbeat);
+        app.onlineUsers.get(userStatus.User.Id).set('LatestActivity', userStatus.User.LatestActivity);
+        app.onlineUsers.get(userStatus.User.Id).set('LatestHeartbeat', userStatus.User.LatestHeartbeat);
     };
 
     // Receive a user joined group update

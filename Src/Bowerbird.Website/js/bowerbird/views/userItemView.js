@@ -28,7 +28,6 @@ function ($, _, Backbone, app) {
 
         initialize: function () {
             _.bindAll(this, 'onStatusChange', 'onUpdateUserStatus', 'onRender');
-            //this.onStatusChange({ user: this.model, status: this.model.getCurrentStatus() });
             this.model.on('statuschange', this.onStatusChange, this);
             if (this.model.id === app.authenticatedUser.user.id) {
                 this.model.on('pollserver', this.onUpdateUserStatus, this);
@@ -78,7 +77,6 @@ function ($, _, Backbone, app) {
         onStatusChange: function (userStatus) {
             var chatMenuCss = {};
             var actualStatus = '';
-            //if (userStatus.user.id === app.authenticatedUser.user.id || userStatus.status === 'online') {
             if (userStatus.status === 'online') {
                 actualStatus = 'online';
                 chatMenuCss.display = 'list-item';
@@ -103,10 +101,7 @@ function ($, _, Backbone, app) {
         onUpdateUserStatus: function (userStatus) {
             log('userItemView:onUpdateUserStatus:');
             if (userStatus.user.id === app.authenticatedUser.user.id) {
-                var userId = userStatus.user.id;
-                var latestInteractivity = userStatus.user.get('SessionLatestActivity');
-                var latestHeartbeat = userStatus.user.get('SessionLatestHeartbeat');
-                app.userHubRouter.updateUserClientStatus(userId, latestHeartbeat, latestInteractivity);
+                app.userHubRouter.updateUserClientStatus(userStatus.user.id, userStatus.user.get('LatestHeartbeat'), userStatus.user.get('LatestActivity'));
             }
         }
     });

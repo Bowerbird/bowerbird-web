@@ -18,8 +18,8 @@ function ($, _, Backbone, moment, Timer, Tracker) {
             LastName: '',
             Email: '',
             AvatarId: null,
-            SessionLatestActivity: null,
-            SessionLatestHeartbeat: null,
+            LatestActivity: null,
+            LatestHeartbeat: null,
             Timer: null,
             Tracker: null
         },
@@ -29,8 +29,8 @@ function ($, _, Backbone, moment, Timer, Tracker) {
         urlRoot: '/users',
 
         initialize: function () {
-            _.bindAll(this, 'startTimer', 'stopTimer', 'timerExpired', 'startTracker', 'stopTracker', 'trackerRegisteredActivity', 'onSessionLatestHeartbeatChange', 'getCurrentStatus');
-            this.on('change:SessionLatestHeartbeat', this.onSessionLatestHeartbeatChange, this);
+            _.bindAll(this, 'startTimer', 'stopTimer', 'timerExpired', 'startTracker', 'stopTracker', 'onLatestActivityChanged', 'onLatestHeartbeatChange', 'getCurrentStatus');
+            this.on('change:LatestHeartbeat', this.onLatestHeartbeatChange, this);
         },
 
         setAvatar: function (mediaResource) {
@@ -53,13 +53,13 @@ function ($, _, Backbone, moment, Timer, Tracker) {
         timerExpired: function () {
             var self = this;
             log('user.timerExpired');
-            self.set('SessionLatestHeartbeat', new Date().toJSON());
+            self.set('LatestHeartbeat', new Date().toJSON());
         },
 
         startTracker: function () {
             var self = this;
             self.set('Tracker', new Tracker());
-            self.get('Tracker').on('interactivityregisterd', this.trackerRegisteredActivity);
+            self.get('Tracker').on('interactivityregisterd', this.onLatestActivityChanged);
             self.get('Tracker').start();
         },
 
@@ -70,34 +70,30 @@ function ($, _, Backbone, moment, Timer, Tracker) {
             }
         },
 
-        trackerRegisteredActivity: function () {
+        onLatestActivityChanged: function () {
             var self = this;
             var logTime = new Date().toJSON();
-            
             var status = self.getCurrentStatus();
             
-            log('Tracker Registered Activity:', logTime);
-            self.set('SessionLatestActivity', logTime);
-            
+            self.set('LatestActivity', logTime);
             if (status === 'away' || status === 'offline') {
                 self.get('Timer').tickNow();
             }
         },
 
-        onSessionLatestHeartbeatChange: function (user) {
+        onLatestHeartbeatChange: function (user) {
             var self = this;
-            log('user: ' + this.get('Name') + '; latestheartbeat: ' + self.get('SessionLatestHeartbeat'), this);
             self.trigger('statuschange', { user: self, status: self.getCurrentStatus() });
             
-            if (self.get('SessionLatestActivity')) {
+            if (self.get('LatestActivity')) {
                 self.trigger('pollserver', { user: self });
             }
         },
         
         getCurrentStatus: function () {
             var self = this;
-            var latestActivity = moment(self.get('SessionLatestActivity'));
-            var latestHeartbeat = moment(self.get('SessionLatestHeartbeat'));
+            var latestActivity = moment(self.get('LatestActivity'));
+            var latestHeartbeat = moment(self.get('LatestHeartbeat'));
 
             if (latestHeartbeat - latestActivity > 600000) { // ten mins
                 return 'offline';
