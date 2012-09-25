@@ -76,7 +76,7 @@ function ($, _, Backbone, moment, Timer, Tracker) {
             
             var status = self.getCurrentStatus();
             
-            //log('Tracker Registered Activity:', logTime);
+            log('Tracker Registered Activity:', logTime);
             self.set('SessionLatestActivity', logTime);
             
             if (status === 'away' || status === 'offline') {
@@ -88,6 +88,7 @@ function ($, _, Backbone, moment, Timer, Tracker) {
             var self = this;
             log('user: ' + this.get('Name') + '; latestheartbeat: ' + self.get('SessionLatestHeartbeat'), this);
             self.trigger('statuschange', { user: self, status: self.getCurrentStatus() });
+            
             if (self.get('SessionLatestActivity')) {
                 self.trigger('pollserver', { user: self });
             }

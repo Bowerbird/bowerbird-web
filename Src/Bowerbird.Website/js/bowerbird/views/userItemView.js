@@ -28,7 +28,7 @@ function ($, _, Backbone, app) {
 
         initialize: function () {
             _.bindAll(this, 'onStatusChange', 'onUpdateUserStatus', 'onRender');
-            this.onStatusChange({ user: this.model, status: this.model.getCurrentStatus() });
+            //this.onStatusChange({ user: this.model, status: this.model.getCurrentStatus() });
             this.model.on('statuschange', this.onStatusChange, this);
             if (this.model.id === app.authenticatedUser.user.id) {
                 this.model.on('pollserver', this.onUpdateUserStatus, this);
@@ -53,6 +53,7 @@ function ($, _, Backbone, app) {
         onRender: function () {
             log('userItemView.onRender');
             var self = this;
+            this.onStatusChange({ user: this.model, status: this.model.getCurrentStatus() });
             self.model.startTimer();
             // if this user is 'Me' track my interactivity to pass back to the server
             if (self.model.id === app.authenticatedUser.user.id) {
