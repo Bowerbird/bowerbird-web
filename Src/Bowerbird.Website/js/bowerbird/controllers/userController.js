@@ -27,6 +27,7 @@ function ($, _, Backbone, app, UserFormLayoutView, User) {
 
         // ping the server with the user's latest activity
         this.updateUserClientStatus = function (userId, latestHeartbeat, latestInteractivity) {
+            log(userId, latestHeartbeat, latestInteractivity);
             $.connection.userHub.updateUserClientStatus(userId, latestHeartbeat, latestInteractivity);
         };
     };
