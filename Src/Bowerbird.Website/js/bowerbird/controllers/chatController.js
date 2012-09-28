@@ -92,7 +92,7 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
     // Log info
     var debugToLog = function (message) {
         log(message);
-    }
+    };
 
     // Chat joined
     var chatJoined = function (chatDetails) {
@@ -138,6 +138,7 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
 
     // Chat message received ready to display
     var newChatMessage = function (chatMessage) {
+        log('new chat message:', chatMessage);
         // Find the chat
         var chat = app.chats.get(chatMessage.ChatId);
 
@@ -192,8 +193,10 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
         var chatId = generateChatId([group.id]);
         var chat = app.chats.find(function (c) { return c.id == chatId; }, this);
         if (!chat) {
-            showChat(chatId, [app.authenticatedUser.user], [], group.toJSON());
             app.chatRouter.joinChat(chatId, [app.authenticatedUser.user.id], group.id);
+            showChat(chatId, [app.authenticatedUser.user], [], group.toJSON());
+        } else {
+            showChat(chatId, [app.authenticatedUser.user], [], group.toJSON());
         }
     };
 

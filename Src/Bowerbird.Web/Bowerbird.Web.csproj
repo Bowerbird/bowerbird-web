@@ -291,6 +291,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="_classDiagrams\hubs.cd" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bowerbird.Core\Bowerbird.Core.csproj">
