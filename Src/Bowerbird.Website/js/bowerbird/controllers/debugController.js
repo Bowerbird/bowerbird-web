@@ -27,14 +27,14 @@ function ($, _, Backbone, app) {
 
     DebugController.debugToLog = function (message) {
         log(message);
-    }
+    };
 
     // ChatController Public API From HUB
     // ----------------------------------
 
-    DebugController.debugToClient = function (message) {
+    DebugController.debugToClient = function(message) {
         log(message);
-    }
+    };
 
     app.addInitializer(function () {
         this.debugRouter = new DebugRouter({

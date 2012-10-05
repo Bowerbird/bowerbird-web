@@ -9,7 +9,7 @@
 // ---------------------------------
 
 define(['jquery', 'underscore', 'backbone', 'app'],
-function ($, _, Backbone, app, HomeLayoutView) {
+function ($, _, Backbone, app) {
 
     var AccountRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {

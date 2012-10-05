@@ -81,7 +81,7 @@ function ($, _, Backbone, moment, Timer, Tracker) {
             }
         },
 
-        onLatestHeartbeatChange: function (user) {
+        onLatestHeartbeatChange: function () {
             var self = this;
             self.trigger('statuschange', { user: self, status: self.getCurrentStatus() });
             
