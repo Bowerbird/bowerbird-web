@@ -111,6 +111,7 @@ namespace Bowerbird.Web.Controllers
             dynamic viewModel = new ExpandoObject();
 
             viewModel.Observation = _sightingViewModelBuilder.BuildNewObservation(id);
+            viewModel.CategorySelectList = GetCategorySelectList();
             viewModel.Categories = GetCategories();
 
             return RestfulResult(
@@ -141,7 +142,8 @@ namespace Bowerbird.Web.Controllers
             dynamic viewModel = new ExpandoObject();
 
             viewModel.Observation = observation;
-            viewModel.Categories = GetCategories(observationId);
+            viewModel.CategorySelectList = GetCategorySelectList(observationId);
+            viewModel.Categories = GetCategories();
 
             return RestfulResult(
                 viewModel,
@@ -290,7 +292,7 @@ namespace Bowerbird.Web.Controllers
             return JsonSuccess();
         }
 
-        private IEnumerable GetCategories(string observationId = "")
+        private IEnumerable GetCategorySelectList(string observationId = "")
         {
             var category = string.Empty;
 
@@ -304,10 +306,18 @@ namespace Bowerbird.Web.Controllers
                 .Categories
                 .Select(x => new
                    {
-                       Text = x,
-                       Value = x,
-                       Selected = x == category
+                       Text = x.Name,
+                       Value = x.Name,
+                       Selected = x.Name == category
                    });
+        }
+
+        private IEnumerable GetCategories()
+        {
+            return _documentSession
+                .Load<AppRoot>(Constants.AppRootId)
+                .Categories
+                .ToList();
         }
 
         #endregion

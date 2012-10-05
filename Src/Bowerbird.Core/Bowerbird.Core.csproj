@@ -106,6 +106,9 @@
     <Compile Include="Commands\RecordUpdateCommand.cs" />
     <Compile Include="Commands\MemberUpdateCommand.cs" />
     <Compile Include="Commands\VideoResourceCreateCommand.cs" />
+    <Compile Include="DomainModels\Category.cs" />
+    <Compile Include="DomainModels\TaxonomicRank.cs" />
+    <Compile Include="Indexes\All_CommonNameTaxa.cs" />
     <Compile Include="Utilities\AudioFileAbstraction.cs" />
     <Compile Include="Utilities\AudioUtility.cs" />
     <Compile Include="Utilities\Email.cs" />

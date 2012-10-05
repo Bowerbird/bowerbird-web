@@ -14,10 +14,13 @@
  
 */
 
+using System.Linq;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Repositories;
 using Raven.Client;
+using Raven.Client.Linq;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -51,7 +54,12 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(userUpdateLastLoginCommand, "userUpdateLastLoginCommand");
 
-            var user = _documentSession.LoadUserByEmail(userUpdateLastLoginCommand.Email);
+            var user = _documentSession
+                .Query<All_Users.Result, All_Users>()
+                .AsProjection<All_Users.Result>()
+                .Where(x => x.Email == userUpdateLastLoginCommand.Email)
+                .First()
+                .User;
 
             user.UpdateLastLoggedIn();
 

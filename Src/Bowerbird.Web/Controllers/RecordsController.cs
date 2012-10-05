@@ -291,9 +291,9 @@ namespace Bowerbird.Web.Controllers
                 .Categories
                 .Select(x => new
                    {
-                       Text = x,
-                       Value = x,
-                       Selected = x == category
+                       Text = x.Name,
+                       Value = x.Name,
+                       Selected = x.Name == category
                    });
         }
 

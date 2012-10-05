@@ -14,15 +14,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Infrastructure;
 using NLog;
+using Raven.Abstractions.Commands;
 using Raven.Client;
 using System.Threading;
 using System.IO;
 using Bowerbird.Core.Factories;
+using Raven.Json.Linq;
 
 namespace Bowerbird.Core.Config
 {
@@ -32,11 +35,19 @@ namespace Bowerbird.Core.Config
 
         private Logger _logger = LogManager.GetLogger("SetupSystem");
 
-        private readonly IDocumentSession _documentSession;
+        private int _testImportLimit = 5000; // In test mode, the max number of species to import per kingdom
+
+#if DEBUG
+        private bool _testImport = false;
+#else
+        private bool _testImport = false;
+#endif
+
         private readonly ISystemStateManager _systemStateManager;
         private readonly IConfigSettings _configSettings;
         private readonly IMediaResourceFactory _mediaResourceFactory;
         private readonly IMessageBus _messageBus;
+        private readonly IDocumentStore _documentStore;
 
         private readonly string[] _speciesFileHeaderColumns = {
                                                                   "Category", 
@@ -56,23 +67,23 @@ namespace Bowerbird.Core.Config
         #region Constructors
 
         public SetupSystem(
-            IDocumentSession documentSession,
             ISystemStateManager systemStateManager,
             IConfigSettings configService, 
             IMediaResourceFactory mediaResourceFactory,
-            IMessageBus messageBus)
+            IMessageBus messageBus,
+            IDocumentStore documentStore)
         {
-            Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(systemStateManager, "systemStateManager");
             Check.RequireNotNull(configService, "configService");
             Check.RequireNotNull(mediaResourceFactory, "mediaResourceFactory");
             Check.RequireNotNull(messageBus, "messageBus");
+            Check.RequireNotNull(documentStore, "documentStore");
 
-            _documentSession = documentSession;
-            _systemStateManager = systemStateManager;
+            _systemStateManager = systemStateManager; 
             _configSettings = configService;
             _mediaResourceFactory = mediaResourceFactory;
             _messageBus = messageBus;
+            _documentStore = documentStore;
         }
 
         #endregion
@@ -102,9 +113,6 @@ namespace Bowerbird.Core.Config
                 // Create the temporary AppRoot to be used before the actual app root is created
                 AddAppRoot();
 
-                // Save the approot to be available for all subsequent setup
-                _documentSession.SaveChanges();
-
                 // Add permissions first
                 AddPermissions();
 
@@ -114,16 +122,11 @@ namespace Bowerbird.Core.Config
                 // Add system admins
                 AddAdminUsers();
 
-                // Set the user now that we have one
-                SetAppRootUser(Users[0].Id);
-
-                // Save all system data now
-                _documentSession.SaveChanges();
+                // Wait for all stale indexes to complete.
+                WaitForIndexingToFinish();
 
                 // Add species data
-                AddSpecies();
-
-                _documentSession.SaveChanges();
+                AddAllSpecies();
 
                 // Wait for all stale indexes to complete.
                 WaitForIndexingToFinish();
@@ -141,7 +144,7 @@ namespace Bowerbird.Core.Config
 
         private void WaitForIndexingToFinish()
         {
-            while (_documentSession.Advanced.DocumentStore.DatabaseCommands.GetStatistics().StaleIndexes.Length > 0)
+            while (_documentStore.DatabaseCommands.GetStatistics().StaleIndexes.Length > 0)
             {
                 Thread.Sleep(1500);
             }
@@ -149,183 +152,212 @@ namespace Bowerbird.Core.Config
 
         private void AddAppRoot()
         {
-            var categories = new[] 
+            using (var documentSession = CreateSession())
             {
-                "Amphibians", 
-                "Birds", 
-                "Fishes", 
-                "Fungi & Lichens", 
-                "Invertebrates", 
-                "Mammals", 
-                "Minerals",
-                "Others",
-                "Plants", 
-                "Reptiles"
-            };
+                var categories = new Dictionary<string, string>
+                    {
+                        {"Amphibians", "Animalia: Chordata: Amphibia"},
+                        {"Birds", "Animalia: Chordata: Aves"},
+                        {"Fishes", "Animalia: Chordata"},
+                        {"Fungi & Lichens", "Fungi"},
+                        {"Invertebrates", "Animalia"},
+                        {"Mammals", "Animalia: Chordata: Mammalia"},
+                        {"Minerals", "Minerals"},
+                        {"Others", "Protista"},
+                        {"Plants", "Plantae"},
+                        {"Reptiles", "Animalia: Chordata: Reptilia"}
+                    };
 
-            // Create the TempAppRoot to be used before the actual app root is created
-            // Once the real temp app root is created, this one is no longer used
-            TheAppRoot = new AppRoot(DateTime.UtcNow, categories);
-            _documentSession.Store(TheAppRoot);
-        }
+                // Create the AppRoot without user
+                TheAppRoot = new AppRoot(DateTime.UtcNow, categories);
+                documentSession.Store(TheAppRoot);
 
-        private void SetAppRootUser(string userId)
-        {
-            TheAppRoot.SetCreatedByUser(Users.Single(x => x.Id == userId));
-            _documentSession.Store(TheAppRoot);
+                // Save the approot to be available for all subsequent setup
+                documentSession.SaveChanges();
+            }
         }
 
         private void AddPermissions()
         {
-            AddPermission(PermissionNames.CreateOrganisation, "Create Organisations", "Ability to create organisations");
-            AddPermission(PermissionNames.UpdateOrganisation, "Update Organisations", "Ability to update organisations");
-            AddPermission(PermissionNames.DeleteOrganisation, "Delete Organisations", "Ability to delete organisations");
-            AddPermission(PermissionNames.CreateTeam, "Create Teams", "Ability to create teams");
-            AddPermission(PermissionNames.UpdateTeam, "Update Teams", "Ability to update teams");
-            AddPermission(PermissionNames.DeleteTeam, "Delete Teams", "Ability to delete teams");
-            AddPermission(PermissionNames.CreateProject, "Create Projects", "Ability to create projects");
-            AddPermission(PermissionNames.UpdateProject, "Update Projects", "Ability to update projects");
-            AddPermission(PermissionNames.DeleteProject, "Delete Projects", "Ability to delete projects");
-            AddPermission(PermissionNames.CreateWatchlist, "Create Watchlists", "Ability to create watchlists");
-            AddPermission(PermissionNames.UpdateWatchlist, "Update Watchlists", "Ability to update watchlists");
-            AddPermission(PermissionNames.DeleteWatchlist, "Delete Watchlists", "Ability to delete watchlists");
-            AddPermission(PermissionNames.CreateObservation, "Create Observations", "Ability to create observations");
-            AddPermission(PermissionNames.UpdateObservation, "Update Observations", "Ability to update observations");
-            AddPermission(PermissionNames.DeleteObservation, "Delete Observations", "Ability to delete observations");
-            AddPermission(PermissionNames.CreatePost, "Create Posts", "Ability to create posts");
-            AddPermission(PermissionNames.UpdatePost, "Update Posts", "Ability to update posts");
-            AddPermission(PermissionNames.DeletePost, "Delete Posts", "Ability to delete posts");
-            AddPermission(PermissionNames.CreateSpecies, "Create Species", "Ability to create species");
-            AddPermission(PermissionNames.UpdateSpecies, "Update Species", "Ability to update species");
-            AddPermission(PermissionNames.DeleteSpecies, "Delete Species", "Ability to delete species");
-            AddPermission(PermissionNames.CreateReferenceSpecies, "Create Reference Species", "Ability to create reference species");
-            AddPermission(PermissionNames.UpdateReferenceSpecies, "Update Reference Species", "Ability to update reference species");
-            AddPermission(PermissionNames.DeleteReferenceSpecies, "Delete Reference Species", "Ability to delete reference species");
-            AddPermission(PermissionNames.Chat, "Chat", "Chat with othet users");
+            using (var documentSession = CreateSession())
+            {
+                AddPermission(PermissionNames.CreateOrganisation, "Create Organisations", "Ability to create organisations", documentSession);
+                AddPermission(PermissionNames.UpdateOrganisation, "Update Organisations", "Ability to update organisations", documentSession);
+                AddPermission(PermissionNames.DeleteOrganisation, "Delete Organisations", "Ability to delete organisations", documentSession);
+                AddPermission(PermissionNames.CreateTeam, "Create Teams", "Ability to create teams", documentSession);
+                AddPermission(PermissionNames.UpdateTeam, "Update Teams", "Ability to update teams", documentSession);
+                AddPermission(PermissionNames.DeleteTeam, "Delete Teams", "Ability to delete teams", documentSession);
+                AddPermission(PermissionNames.CreateProject, "Create Projects", "Ability to create projects", documentSession);
+                AddPermission(PermissionNames.UpdateProject, "Update Projects", "Ability to update projects", documentSession);
+                AddPermission(PermissionNames.DeleteProject, "Delete Projects", "Ability to delete projects", documentSession);
+                AddPermission(PermissionNames.CreateWatchlist, "Create Watchlists", "Ability to create watchlists", documentSession);
+                AddPermission(PermissionNames.UpdateWatchlist, "Update Watchlists", "Ability to update watchlists", documentSession);
+                AddPermission(PermissionNames.DeleteWatchlist, "Delete Watchlists", "Ability to delete watchlists", documentSession);
+                AddPermission(PermissionNames.CreateObservation, "Create Observations", "Ability to create observations", documentSession);
+                AddPermission(PermissionNames.UpdateObservation, "Update Observations", "Ability to update observations", documentSession);
+                AddPermission(PermissionNames.DeleteObservation, "Delete Observations", "Ability to delete observations", documentSession);
+                AddPermission(PermissionNames.CreatePost, "Create Posts", "Ability to create posts", documentSession);
+                AddPermission(PermissionNames.UpdatePost, "Update Posts", "Ability to update posts", documentSession);
+                AddPermission(PermissionNames.DeletePost, "Delete Posts", "Ability to delete posts", documentSession);
+                AddPermission(PermissionNames.CreateSpecies, "Create Species", "Ability to create species", documentSession);
+                AddPermission(PermissionNames.UpdateSpecies, "Update Species", "Ability to update species", documentSession);
+                AddPermission(PermissionNames.DeleteSpecies, "Delete Species", "Ability to delete species", documentSession);
+                AddPermission(PermissionNames.CreateReferenceSpecies, "Create Reference Species", "Ability to create reference species", documentSession);
+                AddPermission(PermissionNames.UpdateReferenceSpecies, "Update Reference Species", "Ability to update reference species", documentSession);
+                AddPermission(PermissionNames.DeleteReferenceSpecies, "Delete Reference Species", "Ability to delete reference species", documentSession);
+                AddPermission(PermissionNames.Chat, "Chat", "Chat with othet users", documentSession);
+
+                documentSession.SaveChanges();
+            }
         }
 
-        private void AddPermission(string id, string name, string description)
+        private void AddPermission(string id, string name, string description, IDocumentSession documentSession)
         {
             var permission = new Permission(id, name, description);
 
-            _documentSession.Store(permission);
+            documentSession.Store(permission);
 
             Permissions2.Add(permission);
         }
 
         private void AddRoles()
         {
-            AddRole("globaladministrator", "Global Administrator", "Administrator of Bowerbird",
-                PermissionNames.CreateOrganisation,
-                PermissionNames.UpdateOrganisation,
-                PermissionNames.DeleteOrganisation,
-                PermissionNames.CreateTeam,
-                PermissionNames.UpdateTeam,
-                PermissionNames.DeleteTeam,
-                PermissionNames.CreateProject,
-                PermissionNames.UpdateProject,
-                PermissionNames.DeleteProject,
-                PermissionNames.CreateSpecies,
-                PermissionNames.UpdateSpecies,
-                PermissionNames.DeleteSpecies);
-            AddRole("globalmoderator", "Global Community Moderator", "Comunity moderator of Bowerbird",
-                PermissionNames.CreateReferenceSpecies,
-                PermissionNames.UpdateReferenceSpecies,
-                PermissionNames.DeleteReferenceSpecies);
-            AddRole("globalmember", "Global Member", "Member of Bowerbird",
-                PermissionNames.CreateObservation,
-                PermissionNames.UpdateObservation,
-                PermissionNames.DeleteObservation,
-                PermissionNames.CreateProject,
-                PermissionNames.UpdateProject,
-                PermissionNames.DeleteProject,
-                PermissionNames.Chat);
-            AddRole("organisationadministrator", "Organisation Administrator", "Administrator of an organisation",
-                PermissionNames.UpdateOrganisation,
-                PermissionNames.CreateTeam,
-                PermissionNames.UpdateTeam,
-                PermissionNames.DeleteTeam);
-            AddRole("organisationmember", "Organisation Member", "Member of an organisation",
-                PermissionNames.CreatePost,
-                PermissionNames.UpdatePost,
-                PermissionNames.DeletePost,
-                PermissionNames.Chat);
-            AddRole("teamadministrator", "Team Administrator", "Administrator of a team",
-                PermissionNames.UpdateTeam,
-                PermissionNames.CreateProject,
-                PermissionNames.UpdateProject,
-                PermissionNames.DeleteProject);
-            AddRole("teammember", "Team Member", "Member of a team",
-                PermissionNames.CreatePost,
-                PermissionNames.UpdatePost,
-                PermissionNames.DeletePost,
-                PermissionNames.Chat);
-            AddRole("projectadministrator", "Project Administrator", "Administrator of a project",
-                PermissionNames.UpdateProject);
-            AddRole("projectmember", "Project Member", "Member of a project",
-                PermissionNames.CreateObservation,
-                PermissionNames.UpdateObservation,
-                PermissionNames.DeleteObservation,
-                PermissionNames.CreatePost,
-                PermissionNames.UpdatePost,
-                PermissionNames.DeletePost,
-                PermissionNames.Chat);
-            AddRole("userprojectadministrator", "User Project Administrator", "Administrator of a user project",
-                PermissionNames.UpdateProject,
-                PermissionNames.CreatePost,
-                PermissionNames.UpdatePost,
-                PermissionNames.DeletePost);
-            AddRole("userprojectmember", "User Project Member", "Member of a user project",
-                PermissionNames.CreateObservation,
-                PermissionNames.UpdateObservation,
-                PermissionNames.DeleteObservation,
-                PermissionNames.CreatePost,
-                PermissionNames.UpdatePost,
-                PermissionNames.DeletePost);
+            using (var documentSession = CreateSession())
+            {
+                AddRole("globaladministrator", "Global Administrator", "Administrator of Bowerbird",
+                        documentSession,
+                        PermissionNames.CreateOrganisation,
+                        PermissionNames.UpdateOrganisation,
+                        PermissionNames.DeleteOrganisation,
+                        PermissionNames.CreateTeam,
+                        PermissionNames.UpdateTeam,
+                        PermissionNames.DeleteTeam,
+                        PermissionNames.CreateProject,
+                        PermissionNames.UpdateProject,
+                        PermissionNames.DeleteProject,
+                        PermissionNames.CreateSpecies,
+                        PermissionNames.UpdateSpecies,
+                        PermissionNames.DeleteSpecies);
+                AddRole("globalmoderator", "Global Community Moderator", "Comunity moderator of Bowerbird",
+                        documentSession,
+                        PermissionNames.CreateReferenceSpecies,
+                        PermissionNames.UpdateReferenceSpecies,
+                        PermissionNames.DeleteReferenceSpecies);
+                AddRole("globalmember", "Global Member", "Member of Bowerbird",
+                        documentSession,
+                        PermissionNames.CreateObservation,
+                        PermissionNames.UpdateObservation,
+                        PermissionNames.DeleteObservation,
+                        PermissionNames.CreateProject,
+                        PermissionNames.UpdateProject,
+                        PermissionNames.DeleteProject,
+                        PermissionNames.Chat);
+                AddRole("organisationadministrator", "Organisation Administrator", "Administrator of an organisation",
+                        documentSession,
+                        PermissionNames.UpdateOrganisation,
+                        PermissionNames.CreateTeam,
+                        PermissionNames.UpdateTeam,
+                        PermissionNames.DeleteTeam);
+                AddRole("organisationmember", "Organisation Member", "Member of an organisation",
+                        documentSession,
+                        PermissionNames.CreatePost,
+                        PermissionNames.UpdatePost,
+                        PermissionNames.DeletePost,
+                        PermissionNames.Chat);
+                AddRole("teamadministrator", "Team Administrator", "Administrator of a team",
+                        documentSession,
+                        PermissionNames.UpdateTeam,
+                        PermissionNames.CreateProject,
+                        PermissionNames.UpdateProject,
+                        PermissionNames.DeleteProject);
+                AddRole("teammember", "Team Member", "Member of a team",
+                        documentSession,
+                        PermissionNames.CreatePost,
+                        PermissionNames.UpdatePost,
+                        PermissionNames.DeletePost,
+                        PermissionNames.Chat);
+                AddRole("projectadministrator", "Project Administrator", "Administrator of a project",
+                        documentSession,
+                        PermissionNames.UpdateProject);
+                AddRole("projectmember", "Project Member", "Member of a project",
+                        documentSession,
+                        PermissionNames.CreateObservation,
+                        PermissionNames.UpdateObservation,
+                        PermissionNames.DeleteObservation,
+                        PermissionNames.CreatePost,
+                        PermissionNames.UpdatePost,
+                        PermissionNames.DeletePost,
+                        PermissionNames.Chat);
+                AddRole("userprojectadministrator", "User Project Administrator", "Administrator of a user project",
+                        documentSession,
+                        PermissionNames.UpdateProject,
+                        PermissionNames.CreatePost,
+                        PermissionNames.UpdatePost,
+                        PermissionNames.DeletePost);
+                AddRole("userprojectmember", "User Project Member", "Member of a user project",
+                        documentSession,
+                        PermissionNames.CreateObservation,
+                        PermissionNames.UpdateObservation,
+                        PermissionNames.DeleteObservation,
+                        PermissionNames.CreatePost,
+                        PermissionNames.UpdatePost,
+                        PermissionNames.DeletePost);
+
+                documentSession.SaveChanges();
+            }
         }
 
-        private void AddRole(string id, string name, string description, params string[] permissionIds)
+        private void AddRole(string id, string name, string description, IDocumentSession documentSession, params string[] permissionIds)
         {
             var permissions = Permissions2.Where(x => permissionIds.Any(y => x.Id == "permissions/" + y));
 
             var role = new Role(id, name, description, permissions);
 
-            _documentSession.Store(role);
+            documentSession.Store(role);
 
             Roles.Add(role);
         }
 
         private void AddAdminUsers()
         {
-            AddUser("password", "frank@radocaj.com", "Frank", "Radocaj", "globaladministrator", "globalmember");
-            _documentSession.SaveChanges();
+            using (var documentSession = CreateSession())
+            {
+                AddUser("password", "frank@radocaj.com", "Frank", "Radocaj", documentSession, "globaladministrator", "globalmember");
+                //documentSession.SaveChanges();
 
-            AddUser("password", "hcrittenden@museum.vic.gov.au", "Hamish", "Crittenden", "globaladministrator", "globalmember");
-            _documentSession.SaveChanges();
+                AddUser("password", "hcrittenden@museum.vic.gov.au", "Hamish", "Crittenden", documentSession, "globaladministrator", "globalmember");
+                //documentSession.SaveChanges();
 
-            AddUser("password", "kwalker@museum.vic.gov.au", "Ken", "Walker", "globaladministrator", "globalmember");
-            _documentSession.SaveChanges();
+                AddUser("password", "kwalker@museum.vic.gov.au", "Ken", "Walker", documentSession, "globaladministrator", "globalmember");
+                //documentSession.SaveChanges();
+
+                // Set the user now that we have one
+                TheAppRoot.SetCreatedByUser(Users.First());
+                documentSession.Store(TheAppRoot);
+
+                documentSession.SaveChanges();
+            }
         }
 
-        private void AddUser(string password, string email, string firstname, string lastname, params string[] roleIds)
+        private void AddUser(string password, string email, string firstname, string lastname, IDocumentSession documentSession, params string[] roleIds)
         {
             var user = new User(password, email, firstname, lastname, _mediaResourceFactory.MakeDefaultAvatarImage(AvatarDefaultType.User), 
                 Constants.DefaultLicence, Constants.DefaultTimezone);
-            _documentSession.Store(user);
+            documentSession.Store(user);
 
             user.AddMembership(user,
                 TheAppRoot,
                 Roles.Where(x => roleIds.Any(y => x.Id == "roles/" + y)));
-            _documentSession.Store(user);
+            documentSession.Store(user);
 
             var userProject = new UserProject(user, DateTime.UtcNow, TheAppRoot);
-            _documentSession.Store(userProject);
+            documentSession.Store(userProject);
 
             user.AddMembership(
                 user,
                 userProject,
                 Roles.Where(x => x.Id == "roles/userprojectadministrator" || x.Id == "roles/userprojectmember"));
-            _documentSession.Store(user);
+            documentSession.Store(user);
 
             Users.Add(user);
 
@@ -341,106 +373,393 @@ namespace Bowerbird.Core.Config
             //_commandProcessor.Process<UserCreateCommand, User>(command, x => Users.Add(x));
         }
 
-        private void AddSpecies()
+        private void AddAllSpecies()
         {
-            var createdOn = DateTime.UtcNow;
+            var fileList = Directory.GetFiles(Path.Combine(_configSettings.GetEnvironmentRootPath(), _configSettings.GetSpeciesRelativePath()));
 
-            var speciesFromFiles = LoadSpeciesFilesFromFolder(Path.Combine(_configSettings.GetEnvironmentRootPath(), _configSettings.GetSpeciesRelativePath()));
-
-            foreach (var species in speciesFromFiles)
+            foreach (var file in fileList.Where(x => !Path.GetFileName(x).StartsWith("UTF8-")))
             {
-                if(species.Count < 8)
-                {
-                    var x = 1;
-                }
-
-                var commonNameData = species[2].Replace(@"""", string.Empty).Replace(" or ", ",").Split(',').Select(x => x.Trim()).ToArray();
-
-                var taxonomyData = species[3].Split(':').Select(x => x.Trim()).ToArray();
-
-                if(commonNameData.Count() == 0)
-                {
-                    var y = 1;
-                }
-
-
-                if (taxonomyData[0] == "Ascomycota" || taxonomyData[0] == "Basidiomycota")
-                {
-                    taxonomyData = new[] { "Fungi", taxonomyData[0], taxonomyData[1] };
-                }
-                else if(taxonomyData[0] == "Minerals")
-                {
-                    taxonomyData = new[] { "Minerals", string.Empty, string.Empty };
-                }
-                else
-                {
-                    if (taxonomyData.Count() != 3)
-                    {
-                        var z = 1;
-                    }
-                }
-
-                _documentSession.Store(
-                    new Species(
-                        species[0].Trim(), // Category
-                        species[1].Replace(@"""", string.Empty).Trim(), // Common group name
-                        commonNameData, // Common names
-                        taxonomyData[0], // Kingdom 
-                        taxonomyData[1], // Phylum
-                        taxonomyData[2], // Class
-                        species[4].Trim(), // Order
-                        species[5].Trim(), // Family
-                        species[6].Trim(), // Genus
-                        species[7].Trim(), // Species
-                        createdOn,
-                        Users[0])
-                    );
+                AddSpeciesKingdom(file);
             }
         }
 
-        private IEnumerable<List<string>> LoadSpeciesFilesFromFolder(string folderPath)
+        private bool HasImportLimitBeenReached(int count)
         {
-            var species = new List<List<string>>();
-
-            var fileList = Directory.GetFiles(folderPath);
-
-            foreach (var file in fileList)
+            if (_testImport)
             {
-                using (var reader = new StreamReader(File.OpenRead(file)))
+                return count > _testImportLimit;
+            }
+
+            return false;
+        }
+
+        private void AddSpeciesKingdom(string file)
+        {
+            var count = 0;
+
+            var newFile = Path.Combine(_configSettings.GetEnvironmentRootPath(), _configSettings.GetSpeciesRelativePath(), "UTF8-" + Path.GetFileName(file));
+
+            using (StreamReader reader = new StreamReader(file, Encoding.GetEncoding("iso-8859-1")))
+            {
+                using (StreamWriter writer = new StreamWriter(newFile, false, Encoding.UTF8))
                 {
-                    //var fileHeaderColumns = reader.ReadLine().Split(new[] { '\t' }, StringSplitOptions.None).Take(_speciesFileHeaderColumns.Length);
-                    //var counter = 0;
+                    writer.Write(reader.ReadToEnd());
+                }
+            }
 
-                    //foreach (var col in fileHeaderColumns)
-                    //{
-                    //    if (!_speciesFileHeaderColumns[counter].ToLower().Equals(col.ToLower()))
-                    //    {
-                    //        throw new ApplicationException(
-                    //            String.Format(
-                    //                "The header for column number {0} is {1} but should be {2} in species upload file {3}",
-                    //                counter + 1,
-                    //                col,
-                    //                _speciesFileHeaderColumns[counter],
-                    //                file
-                    //                ));
-                    //    }
-                    //    counter++;
-                    //}
-                    var count = 0;
-                    while (reader.Peek() > 0 && count < 100) // HACK: Only load 100 species for now
+            using (var reader = new StreamReader(File.OpenRead(newFile)))
+            {
+                while (reader.Peek() > 0 && !HasImportLimitBeenReached(count))
+                {
+                    using (var documentSession = CreateSession())
                     {
-                        var fieldValues = reader
-                            .ReadLine()
-                            .Split(new[] { '\t' }, StringSplitOptions.None)
-                            .Take(_speciesFileHeaderColumns.Length);
+                        // This loop batches the ravendb inserts into multiple document sessions, according to best practices for bulk importing
+                        for (int i = 0; i < 2048; i++)
+                        {
+                            string line = reader.ReadLine();
 
-                        species.Add(fieldValues.Select(x => x.Trim()).ToList());
-                        count++;
+                            if (line == null)
+                            {
+                                break;
+                            }
+
+                            count++;
+
+                            if (HasImportLimitBeenReached(count))
+                            {
+                                break;
+                            }
+
+                            var speciesRecord = line
+                                .Split(new[] { '\t' }, StringSplitOptions.None)
+                                .Where(x => x.Trim().Length > 0)
+                                .ToArray();
+
+                            AddSpecies(speciesRecord, documentSession);
+                        }
+
+                        documentSession.SaveChanges();
                     }
                 }
             }
 
-            return species;
+            File.Delete(newFile);
+        }
+
+        private void AddSpecies(string[] speciesRecord, IDocumentSession documentSession)
+        {
+            try
+            {
+                if (speciesRecord.Count() < 8)
+                {
+                    _logger.Log(LogLevel.Error, 
+                                "Record could not be imported, less than 8 columns encountered: {0}",
+                                string.Join("|", speciesRecord));
+                    return;
+                }
+
+                if (speciesRecord.Count() < 8)
+                {
+                    _logger.Log(LogLevel.Error,
+                                "Record could not be imported, less than 8 columns encountered: {0}",
+                                string.Join("|", speciesRecord));
+                    return;
+                }
+
+                string categoryName = CleanCategoryString(speciesRecord[0]);
+
+                IEnumerable<string> commonGroupNames = new string[] {};
+                IEnumerable<string> commonNames = new string[] {};
+
+                var kingdomName = string.Empty;
+                var phylumName = string.Empty;
+                var className = string.Empty;
+                var orderName = string.Empty;
+                var familyName = string.Empty;
+                var genusName = string.Empty;
+                var speciesName = string.Empty;
+                var subSpeciesName = string.Empty;
+                var synonymName = string.Empty;
+
+                if (categoryName.ToLower() == "minerals")
+                {
+                    kingdomName = "Minerals";
+                    speciesName = speciesRecord[7];
+                }
+                else
+                {
+                    #region Common Names
+
+                    commonGroupNames = speciesRecord[1]
+                        .Replace(@"""", " ")
+                        .Replace(" or ", ", ")
+                        .Replace(" and ", ", ")
+                        .Replace(" & ", ", ")
+                        .Replace(" - ", ", ")
+                        .Replace(";", ", ")
+                        .Split(new[] {","}, StringSplitOptions.RemoveEmptyEntries)
+                        .Select(x => CleanCommonGroupNameString(x))
+                        .Where(x => !string.IsNullOrWhiteSpace(x))
+                        .ToArray();
+
+                    commonNames = speciesRecord[2]
+                        .Replace(@"""", " ")
+                        .Replace(" or ", ", ")
+                        .Replace(" and ", ", ")
+                        .Replace(" & ", ", ")
+                        .Replace(" - ", ", ")
+                        .Replace(";", ", ")
+                        .Split(new[] {","}, StringSplitOptions.RemoveEmptyEntries)
+                        .Select(x => CleanCommonNameString(x))
+                        .Where(x => !string.IsNullOrWhiteSpace(x))
+                        .ToArray();
+
+                    #endregion
+
+                    #region Scientific Names
+
+                    var taxonomyData = speciesRecord[3]
+                        .Split(new[] {':'}, StringSplitOptions.RemoveEmptyEntries)
+                        .Select(x => RemoveExtraSpaces(x))
+                        .ToArray();
+
+                    if (taxonomyData[0].ToLower() == "basidiomycota" || taxonomyData[0].ToLower() == "ascomycota")
+                    {
+                        // We add the Fungi Kingdom manually due to source data not explicitly having it in many cases
+                        kingdomName = "Fungi";
+                        phylumName = CleanPhylumString(taxonomyData[0]);
+                        className = taxonomyData.Length > 1 ? CleanClassString(taxonomyData[1]) : string.Empty;
+                    }
+                    else
+                    {
+                        kingdomName = CleanKingdomString(taxonomyData[0]);
+                        phylumName = taxonomyData.Length > 1 ? CleanPhylumString(taxonomyData[1]) : string.Empty;
+                        className = taxonomyData.Length > 2 ? CleanClassString(taxonomyData[2]) : string.Empty;
+                    }
+
+                    orderName = CleanOrderString(speciesRecord[4]);
+                    familyName = CleanFamilyString(speciesRecord[5]);
+                    genusName = CleanGenusString(speciesRecord[6]);
+
+                    if (speciesRecord[7].ToLower().Contains("var.") || speciesRecord[7].ToLower().Contains("subsp."))
+                        // We have potentially found a species that might have a subspecies defined in the same column
+                    {
+                        var speciesData = speciesRecord[7].Split(new[] {"var.", "subsp."}, StringSplitOptions.RemoveEmptyEntries);
+
+                        speciesName = CleanSpeciesString(speciesData[0]);
+
+                        // if we have anything left over, it is a subspecies
+                        subSpeciesName = CleanSubSpeciesString(string.Join(" ", speciesData.Skip(1).Take(100)));
+                    }
+                    else
+                    {
+                        speciesName = CleanSpeciesString(speciesRecord[7]);
+                    }
+
+                    if (speciesRecord.Count() > 8)
+                    {
+                        var synonymData = speciesRecord
+                            .Skip(8)
+                            .Take(10)
+                            .Select(x => RemoveExtraSpaces(x))
+                            .Where(x => !string.IsNullOrWhiteSpace(x))
+                            .Where(x => x.ToLower() != "syn");
+
+                        synonymName = string.Join(" ", synonymData);
+                    }
+
+                    #endregion
+                }
+
+                if (!string.IsNullOrWhiteSpace(speciesName) && speciesName.ToLower() != "sp.") // Don't save records that have no species name and that are species that are only "sp." placeholders
+                {
+                    documentSession.Store(
+                        new Species(
+                            categoryName,
+                            commonGroupNames,
+                            commonNames,
+                            kingdomName,
+                            phylumName,
+                            className,
+                            orderName,
+                            familyName,
+                            genusName,
+                            speciesName,
+                            subSpeciesName,
+                            synonymName,
+                            DateTime.UtcNow,
+                            Users[0])
+                        );
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.ErrorException("Record could not be imported, unknown error: " + string.Join("|", speciesRecord), ex);
+            }
+        }
+
+        private string CleanCategoryString(string val)
+        {
+            return RemoveExtraSpaces(val);
+        }
+
+        private string CleanCommonNameString(string val)
+        {
+            var newVal = RemoveKeywords(val);
+            newVal = RemovePunctuationAndQuotes(newVal);
+            return RemoveExtraSpaces(newVal);
+        }
+
+        private string CleanCommonGroupNameString(string val)
+        {
+            var newVal = RemoveKeywords(val);
+            newVal = RemovePunctuationAndQuotes(newVal);
+            return RemoveExtraSpaces(newVal);
+        }
+
+        private string CleanKingdomString(string val)
+        {
+            var newVal = RemoveKeywords(val);
+            newVal = RemovePunctuationAndQuotes(newVal);
+            return RemoveExtraSpaces(newVal);
+        }
+
+        private string CleanPhylumString(string val)
+        {
+            var newVal = RemoveKeywords(val);
+            newVal = RemovePunctuationAndQuotes(newVal);
+            return RemoveExtraSpaces(newVal);
+        }
+
+        private string CleanClassString(string val)
+        {
+            var newVal = RemoveKeywords(val);
+            newVal = RemovePunctuationAndQuotes(newVal);
+            return RemoveExtraSpaces(newVal);
+        }
+
+        private string CleanOrderString(string val)
+        {
+            var newVal = RemoveKeywords(val);
+            newVal = RemovePunctuationAndQuotes(newVal);
+            return RemoveExtraSpaces(newVal);
+        }
+
+        private string CleanFamilyString(string val)
+        {
+            var newVal = RemoveKeywords(val);
+            newVal = RemovePunctuationAndQuotes(newVal);
+            return RemoveExtraSpaces(newVal);
+        }
+
+        private string CleanGenusString(string val)
+        {
+            var newVal = RemoveKeywords(val);
+            newVal = RemovePunctuationAndQuotes(newVal);
+            return RemoveExtraSpaces(newVal);
+        }
+
+        private string CleanSpeciesString(string val)
+        {
+            var newVal = RemoveKeywords(val);
+            newVal = RemoveQuotes(newVal);
+            return RemoveExtraSpaces(newVal);
+        }
+
+        private string CleanSubSpeciesString(string val)
+        {
+            var newVal = RemoveKeywords(val);
+            newVal = RemoveQuotes(newVal);
+            return RemoveExtraSpaces(newVal);
+        }
+
+        private string RemoveKeywords(string val)
+        {
+            return val
+                .Replace("Unknown", singleSpace)
+                .Replace("unknown", singleSpace)
+                .Replace("Genus Unknown", singleSpace)
+                .Replace("genus unknown", singleSpace)
+                .Replace("Genus unknown", singleSpace)
+                .Replace("Not Applicable", singleSpace)
+                .Replace("Not applicable", singleSpace)
+                .Replace("not applicable", singleSpace)
+                .Replace("Not Assigned", singleSpace)
+                .Replace("Not assigned", singleSpace)
+                .Replace("not assigned", singleSpace)
+                .Replace("None Assigned", singleSpace)
+                .Replace("None assigned", singleSpace)
+                .Replace("none assigned", singleSpace)
+                .Replace("Unplaced", singleSpace)
+                .Replace("unplaced", singleSpace)
+                .Replace("Unranked", singleSpace)
+                .Replace("unranked", singleSpace)
+                .Replace("Incertae Sedis", singleSpace)
+                .Replace("Incertae sedis", singleSpace)
+                .Replace("incertae sedis", singleSpace);
+            //.Replace("sp.", singleSpace)
+            //.Replace("Sp.", singleSpace);
+            //.Replace("cf.", singleSpace)
+            //.Replace("c.f.", singleSpace)
+            //.Replace("aff.", singleSpace)
+            //.Replace("affin", singleSpace);
+        }
+
+        private string RemoveQuotes(string val)
+        {
+            var newVal = val
+                .Replace(@"""", singleSpace)
+                .Trim();
+
+            if (newVal.StartsWith("'") && newVal.EndsWith("'"))
+            {
+                newVal = newVal.Remove(0, 1);
+                newVal = newVal.Remove(newVal.Length - 1, 1);
+            }
+
+            return newVal;
+        }
+
+        private string RemovePunctuationAndQuotes(string val)
+        {
+            var newVal = val
+                .Replace("[", singleSpace)
+                .Replace("]", singleSpace)
+                .Replace("(", singleSpace)
+                .Replace(")", singleSpace)
+                .Replace(".", singleSpace)
+                .Replace(",", singleSpace)
+                .Replace('\t', ' ')
+                .Trim();
+
+            return RemoveQuotes(newVal);
+        }
+
+        private string RemoveExtraSpaces(string val)
+        {
+            var newVal = val;
+
+            while (newVal.Contains(doubleSpace))
+            {
+                newVal = newVal.Replace(doubleSpace, singleSpace);
+            }
+
+            return string.IsNullOrWhiteSpace(newVal) ? string.Empty : newVal.Trim();
+        }
+
+        private string doubleSpace = "  ";
+        private string singleSpace = " ";
+
+        private IDocumentSession CreateSession()
+        {
+            if (!string.IsNullOrWhiteSpace(_configSettings.GetDatabaseName()))
+            {
+                return _documentStore.OpenSession(_configSettings.GetDatabaseName());
+            }
+            else
+            {
+                return _documentStore.OpenSession();
+            }
         }
 
         #endregion      

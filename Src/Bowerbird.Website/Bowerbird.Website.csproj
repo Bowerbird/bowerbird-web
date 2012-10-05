@@ -511,6 +511,11 @@
     <Content Include="Views\Shared\MediaConstrained600.mustache" />
     <Content Include="Views\Shared\MediaConstrained480.mustache" />
     <Content Include="Views\Shared\MediaConstrained240.mustache" />
+    <Content Include="Views\Shared\IdentificationListItem.mustache" />
+    <Content Include="Views\Shared\Identification.mustache" />
+    <Content Include="Views\Shared\IdentificationForm.mustache">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="404.html" />

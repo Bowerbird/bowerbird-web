@@ -28,6 +28,10 @@ namespace Bowerbird.Web.ViewModels
 
         public string Query { get; set; }
 
+        public string Field { get; set; }
+
+        public string Category { get; set; }
+
         #endregion
 
         #region Methods

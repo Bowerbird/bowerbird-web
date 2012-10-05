@@ -16,6 +16,7 @@
 
 using Bowerbird.Core.Config;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using Bowerbird.Core.DesignByContract;
 
@@ -39,7 +40,7 @@ namespace Bowerbird.Core.DomainModels
         /// </summary>
         internal AppRoot(
             DateTime systemSetupDate,
-            IEnumerable<string> categories)
+            IDictionary<string, string> categories)
             : base()
         {
             Check.RequireNotNull(categories, "categories");
@@ -48,7 +49,7 @@ namespace Bowerbird.Core.DomainModels
 
             Id = Constants.AppRootId;
             SystemSetupDate = systemSetupDate;
-            Categories = categories;
+            Categories = categories.Select(x => new Category(x.Key, x.Value));
             base.Name = "Bowerbird";
             base.CreatedDateTime = DateTime.UtcNow;
         }
@@ -62,7 +63,7 @@ namespace Bowerbird.Core.DomainModels
             get { return "approot"; }
         }
 
-        public IEnumerable<string> Categories { get; private set; }
+        public IEnumerable<Category> Categories { get; private set; }
 
         public DateTime SystemSetupDate { get; private set; }
 

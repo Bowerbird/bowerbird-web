@@ -25,6 +25,7 @@ namespace Bowerbird.Core.Config
         #region Members
 
         private readonly IDocumentSession _documentSession;
+        private readonly IDocumentStore _documentStore;
         private readonly IConfigSettings _configSettings;
         private readonly IMessageBus _messageBus;
         private readonly IMediaResourceFactory _mediaResourceFactory;
@@ -36,16 +37,19 @@ namespace Bowerbird.Core.Config
 
         public SystemStateManager(
             IDocumentSession documentSession,
+            IDocumentStore documentStore,
             IConfigSettings configService,
             IMessageBus messageBus,
             IMediaResourceFactory mediaResourceFactory)
         {
             Check.RequireNotNull(documentSession, "documentSession");
+            Check.RequireNotNull(documentStore, "documentStore");
             Check.RequireNotNull(configService, "configService");
             Check.RequireNotNull(messageBus, "messageBus");
             Check.RequireNotNull(mediaResourceFactory, "mediaResourceFactory");
              
             _documentSession = documentSession;
+            _documentStore = documentStore;
             _configSettings = configService;
             _messageBus = messageBus;
             _mediaResourceFactory = mediaResourceFactory;
@@ -64,7 +68,7 @@ namespace Bowerbird.Core.Config
             var appRoot = LoadAppRoot();
             if (appRoot == null)
             {
-                SetupSystem setupSystem = new SetupSystem(_documentSession, this, _configSettings, _mediaResourceFactory, _messageBus);
+                SetupSystem setupSystem = new SetupSystem(this, _configSettings, _mediaResourceFactory, _messageBus, _documentStore);
                 setupSystem.Execute();
 
                 if (doSetupTestData)

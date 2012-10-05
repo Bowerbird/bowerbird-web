@@ -58,11 +58,11 @@ namespace Bowerbird.Web.Controllers
         #region Methods
 
         [HttpGet]
-        public ActionResult List(SpeciesQueryInput query, PagingInput pagingInput)
+        public ActionResult List(SpeciesQueryInput speciesQueryInput, PagingInput pagingInput)
         {
             var viewModel = new
             {
-                Species = _speciesViewModelBuilder.BuildSpeciesList(query, pagingInput)
+                Species = _speciesViewModelBuilder.BuildSpeciesList(speciesQueryInput, pagingInput)
             };
 
             return RestfulResult(

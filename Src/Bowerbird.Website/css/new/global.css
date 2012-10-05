@@ -536,6 +536,21 @@ a.multiSelect:focus,
 {
     box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.3) inset;/*, 0 1px 6px 0 rgba(80, 158, 238, 0.9);*/
 }
+.form input[disabled=disabled],
+.form input[disabled=disabled]:active,
+.form input[disabled=disabled]:hover,
+.form input[disabled=disabled]:focus,
+.button.disabled:active,
+.button.disabled:hover,
+.button.disabled:focus
+{
+    background-color: rgb(168, 168, 168);
+    border-color: rgb(136, 136, 136);
+    color: rgb(218, 218, 218);
+    cursor: auto;
+    text-shadow: 0 -1px 0 rgb(85, 85, 85);
+    box-shadow: 0 1px 1px 0 rgba(255, 255, 255, 0.2) inset;
+}
 .form input::-webkit-input-placeholder
 {
    color: rgb(187, 187, 187);
@@ -1037,6 +1052,10 @@ a.multiSelect:focus,
     vertical-align: top;
     width: 32px;
 }
+#modal-dialog #edit-identification-window {
+    width: 960px;
+    margin-left: -480px;
+}
 .form #selected-identification-field {
     width: 100%;
 }
@@ -1049,16 +1068,196 @@ a.multiSelect:focus,
     padding: 8px 12px;
     width: 100%;
 }
-.form .identification-none {
-    color: rgb(136, 136, 136);
+.form #selected-identification-field #Identification .identification-none {
+    color: rgb(187, 187, 187);
     display: block;
-    margin: 38px 0 auto;
+    margin: 37px auto;
     text-align: center;
-    width: 100%;   
+    width: 100%;
+}
+.form #selected-identification-field #Identification .identification-details img 
+{
+    display: block;
+    float: left;
+    height: 100px;
+    margin-right: 10px;
+    width: 100px;
+}
+.form #selected-identification-field #Identification .identification-name
+{
+}
+.form #selected-identification-field #Identification .identification-rank-type
+{
+    font-size: 0.8em;
+    line-height: 0.9em;
+    margin-bottom: 4px;
+}
+.form #selected-identification-field #Identification .identification-taxonomy
+{
+    /*font-size: 0.8em;
+    line-height: 0.9em;
+    margin-bottom: 4px;*/
+    
+    color: rgb(85, 85, 85);
+    font-size: 0.84em;
+    line-height: 1.1em;
+    padding: 0.3em 0;
+}
+.form #selected-identification-field #Identification .identification-common-names
+{
+    /*font-size: 0.8em;
+    line-height: 0.9em;
+    margin-bottom: 4px;*/
+    color: rgb(136, 136, 136);
+    font-size: 0.84em;
+    line-height: 1.1em;
+    margin-bottom: 0.7em;
+    padding: 0.3em 0;
 }
 .form #search-identification-field {
+    width: 60%;
+    position: relative;
+}
+.form #search-fields-category-field {
+    width: 20%;
+    position: relative;
+}
+.form #search-fields-identification-field {
+    width: 20%;
+}
+.form #SearchIdentification {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+}
+.form #search-identification-field .progress-indicator {
+    height: 15px;
+    position: absolute;
+    right: 13px;
+    top: 39px;
+    width: 15px;
+    display: none;
+}
+.form #SearchFields 
+{
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}
+.form #SearchCategories 
+{
+    border-radius: 0;
+}
+.ui-menu .ui-menu-item a .search-identification-category 
+{
+    display: block;
+    float: left;
+    margin-right: 5px;
+    margin-top: 3px;
+    height: 23px;
+    width: 23px;
+}
+.ui-menu .ui-menu-item a .search-identification-scientific-name {
+    color: rgb(0, 0, 0);
+    padding-top: 3px;
+    white-space: nowrap;
+}
+.ui-menu .ui-menu-item a .search-identification-rank-type 
+{
+    color: rgb(0, 0, 0);
+    font-size: 0.84em;
+    line-height: 1.1em;
+    margin-left: 28px;
+}
+.ui-menu .ui-menu-item a .search-identification-taxonomy 
+{
+    color: rgb(85, 85, 85);
+    font-size: 0.84em;
+    line-height: 1.1em;
+    padding: 0.3em 0;
+    margin-left: 28px;
+}
+.ui-menu .ui-menu-item a .search-identification-common-names,
+.ui-menu .ui-menu-item a .search-identification-synonyms
+{
+    color: rgb(136, 136, 136);
+    font-size: 0.84em;
+    line-height: 1.1em;
+    padding: 0.3em 0;
+    margin-left: 28px;
+}
+.ui-menu .ui-menu-item a .found-text 
+{
+    background-color: rgba(255, 106, 0, 0.9);
+    border-radius: 2px 2px 2px 2px;
+    box-shadow: 0 0 0 3px rgba(255, 106, 0, 0.3);
+    color: rgb(255, 255, 255);
+    display: inline-block;
+}
+.ui-menu .ui-menu-item a .id-part {
+    white-space: nowrap;
+}
+.form #browse-identification-field {
     width: 100%;
-    margin-bottom: 10px;
+}
+.form #browse-identification-field .taxonomic-rank {
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(170, 170, 170);
+    box-shadow: 0 0 2px 1px rgba(119, 119, 119, 0.3) inset;
+    float: left;
+    height: 187px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 14.2778%;
+}
+.form #browse-identification-field .taxonomic-rank .progress-indicator
+{
+    display: block;
+    height: 15px;
+    margin: 76px auto;
+    width: 15px;
+}
+.form #browse-identification-field .taxonomic-rank:first-child 
+{
+    border-radius: 4px 0 0 4px;
+}
+.form #browse-identification-field .taxonomic-rank:last-child 
+{
+    border-radius: 0 4px 4px 0;
+}
+.form #browse-identification-field .taxonomic-rank ul li {
+    border-radius: 4px 4px 4px 4px;
+    color: rgb(34, 34, 34);
+    cursor: pointer;
+    display: block;
+    font-size: 0.8em;
+    font-weight: normal;
+    line-height: 1.7em;
+    margin: 0.3em;
+    padding: 0 0.3em;
+    text-shadow: none;
+    text-transform: none;
+    white-space: nowrap;
+}
+.form #browse-identification-field .taxonomic-rank ul li:hover
+{
+    background-color: #1B83EB;
+    color: #FFFFFF;
+}
+.form #browse-identification-field .taxonomic-rank ul li.selected
+{
+    background-color: rgb(120, 182, 243);
+    color: rgb(255, 255, 255);
+}
+.ui-autocomplete {
+		max-height: 500px;
+		overflow-y: auto;
+		/* prevent horizontal scrollbar */
+		overflow-x: hidden;
+		/* add padding to account for vertical scrollbar */
+		padding-right: 20px;
+}
+/*.ui-menu .ui-menu-item a:hover > div,*/
+.ui-menu .ui-menu-item a.ui-state-hover > div {
+    color: rgb(255, 255, 255);
 }
 .form .website-upload-button.youtube
 {

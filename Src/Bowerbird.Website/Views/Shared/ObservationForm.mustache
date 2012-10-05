@@ -79,12 +79,12 @@
             <div>
               <select id="Category" name="category">
                 <option></option>
-                {{#Model.Categories}}
+                {{#Model.CategorySelectList}}
                 <option value="{{Value}}" {{#Selected}}selected=""{{/Selected}}>{{Text}}</option>
-                {{/Model.Categories}}
+                {{/Model.CategorySelectList}}
               </select>
+            </div>
         </div>
-      </div>
 
       </div>
 

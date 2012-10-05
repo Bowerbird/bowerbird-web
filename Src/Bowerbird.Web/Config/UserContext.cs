@@ -21,7 +21,9 @@ using System.Web.Security;
 using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Indexes;
 using Raven.Client;
+using Raven.Client.Linq;
 
 namespace Bowerbird.Web.Config
 {
@@ -127,8 +129,20 @@ namespace Bowerbird.Web.Config
 
         public bool HasUserProjectPermission(string permissionId) 
         {
-            var userProject = _documentSession.Query<UserProject>().Where(x => x.User.Id == GetAuthenticatedUserId()).First();
-            return _permissionManager.HasGroupPermission(permissionId, GetAuthenticatedUserId(), userProject.Id);
+            var result = _documentSession
+                .Query<All_Users.Result, All_Users>()
+                .AsProjection<All_Users.Result>()
+                .Where(x => x.UserId == GetAuthenticatedUserId())
+                .FirstOrDefault();
+
+            UserProject userProject = null;
+
+            if(result != null)
+            {
+                userProject = result.UserProjects.First();
+            }
+
+            return userProject != null & _permissionManager.HasGroupPermission(permissionId, GetAuthenticatedUserId(), userProject.Id);
         }
 
         public bool HasGroupPermission(string permissionId, string groupId)

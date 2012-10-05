@@ -46,8 +46,8 @@ function ($, _, Backbone, app, ObservationDetailsView, ObservationFormLayoutView
             }
         },
 
-        showObservationForm: function (observation, categories) {
-            var options = { model: observation, categories: categories };
+        showObservationForm: function (observation, categorySelectList, categories) {
+            var options = { model: observation, categorySelectList: categorySelectList, categories: categories };
 
             if (app.isPrerendering('observations')) {
                 options['el'] = '.observation-form';

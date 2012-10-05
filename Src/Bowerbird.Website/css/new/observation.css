@@ -330,7 +330,8 @@
 }
 .project > .summary img
 {
-    border-radius: 4px 0 0 0;
+    border-radius: 4px 0 0 4px;
+    height: 200px;
 }
 .project > .summary h1
 {

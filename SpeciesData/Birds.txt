@@ -113,9 +113,9 @@ Birds	Oystercatchers	Sooty Oystercatcher 	Animalia: Chordata: Aves	Charadriiform
 Birds	Oystercatchers	Pied Oystercatcher	Animalia: Chordata: Aves	Charadriiformes	Haematopodidae	Haematopus	longirostris 
 Birds	Oystercatchers	Oystercatchers	Animalia: Chordata: Aves	Charadriiformes	Haematopodidae	Haematopus	sp.
 Birds	Oystercatchers	Unknown	Animalia: Chordata: Aves	Charadriiformes	Haematopodidae	Unknown	sp.
-Birds	Jacana 	Pheasant-tailed Jacana 	Animalia: Chordata: Aves	Charadriiformes	Jacanidae	Hydrophasianus	chirurgus 
-Birds	Jacana 	Comb-crested Jacana 	Animalia: Chordata: Aves	Charadriiformes	Jacanidae	Irediparra	gallinacea 
-Birds	Jacana 	Unknown	Animalia: Chordata: Aves	Charadriiformes	Jacanidae	Unknown	sp.
+Birds	Jacana	Pheasant-tailed Jacana 	Animalia: Chordata: Aves	Charadriiformes	Jacanidae	Hydrophasianus	chirurgus 
+Birds	Jacana	Comb-crested Jacana 	Animalia: Chordata: Aves	Charadriiformes	Jacanidae	Irediparra	gallinacea 
+Birds	Jacana	Unknown	Animalia: Chordata: Aves	Charadriiformes	Jacanidae	Unknown	sp.
 Birds	"Seagulls, Noddies and Terns"	Black Noddy 	Animalia: Chordata: Aves	Charadriiformes	Laridae	Anous	minutus 
 Birds	"Seagulls, Noddies and Terns"	Black Noddy 	Animalia: Chordata: Aves	Charadriiformes	Laridae	Anous	minutus minutus
 Birds	"Seagulls, Noddies and Terns"	Seagulls and Noddy	Animalia: Chordata: Aves	Charadriiformes	Laridae	Anous	sp.
@@ -309,91 +309,91 @@ Birds	Ibis & Spoonbills	Australian White Ibis 	Animalia: Chordata: Aves	Ciconiif
 Birds	Ibis & Spoonbills	Australian White Ibis 	Animalia: Chordata: Aves	Ciconiiformes	Threskiornithidae	Threskiornis	molucca molucca
 Birds	Ibis & Spoonbills	Straw-necked Ibis 	Animalia: Chordata: Aves	Ciconiiformes	Threskiornithidae	Threskiornis	spinicollis 
 Birds	Ibis & Spoonbills	Ibis	Animalia: Chordata: Aves	Ciconiiformes	Threskiornithidae	Unknown	sp.
-Birds	Pigeons & doves 	Common Emerald Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Chalcophaps	indica 
-Birds	Pigeons & doves 	Common Emerald Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Chalcophaps	indica longirostris
-Birds	Pigeons & doves 	Common Emerald Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Chalcophaps	indica natalis
-Birds	Pigeons & doves 	Common Emerald Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Chalcophaps	indica rogersi
-Birds	Pigeons & doves 	doves	Animalia: Chordata: Aves	Columbiformes	Columbidae	Chalcophaps	sp.
-Birds	Pigeons & doves 	Snow Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Columba	leucomela 
-Birds	Pigeons & doves 	Pigeons and doves	Animalia: Chordata: Aves	Columbiformes	Columbidae	Columba	livia 
-Birds	Pigeons & doves 	Rock Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Columba	livia livia
-Birds	Pigeons & doves 	Pigeons and doves	Animalia: Chordata: Aves	Columbiformes	Columbidae	Columba	sp.
-Birds	Pigeons & doves 	Metallic Pigeon or White-throated Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Columba	vitiensis 
-Birds	Pigeons & doves 	Metallic Pigeon or White-throated Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Columba	vitiensis godmanae
-Birds	Pigeons & doves 	Pied Imperial Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ducula	bicolor 
-Birds	Pigeons & doves 	Pied Imperial Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ducula	bicolor bicolor
-Birds	Pigeons & doves 	Pied Imperial Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ducula	bicolor spilorrhoa
-Birds	Pigeons & doves 	Elegant Imperial Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ducula	concinna 
-Birds	Pigeons & doves 	Collared Imperial Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ducula	mullerii 
-Birds	Pigeons & doves 	Pigeons	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ducula	sp.
-Birds	Pigeons & doves 	Christmas Imperial Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ducula	whartoni 
-Birds	Pigeons & doves 	Diamond Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geopelia	cuneata 
-Birds	Pigeons & doves 	Bar-shouldered Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geopelia	humeralis 
-Birds	Pigeons & doves 	Bar-shouldered Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geopelia	humeralis headlandi
-Birds	Pigeons & doves 	Bar-shouldered Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geopelia	humeralis humeralis
-Birds	Pigeons & doves 	Bar-shouldered Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geopelia	humeralis inexpectata
-Birds	Pigeons & doves 	long-tailed doves	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geopelia	sp.
-Birds	Pigeons & doves 	Zebra Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geopelia	striata 
-Birds	Pigeons & doves 	Zebra Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geopelia	striata placida
-Birds	Pigeons & doves 	Spinifex Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geophaps	plumifera 
-Birds	Pigeons & doves 	Spinifex Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geophaps	plumifera ferruginea
-Birds	Pigeons & doves 	Spinifex Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geophaps	plumifera leucogaster
-Birds	Pigeons & doves 	Spinifex Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geophaps	plumifera plumifera
-Birds	Pigeons & doves 	Squatter Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geophaps	scripta 
-Birds	Pigeons & doves 	Squatter Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geophaps	scripta peninsulae
-Birds	Pigeons & doves 	Squatter Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geophaps	scripta scripta
-Birds	Pigeons & doves 	Partridge Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geophaps	smithii 
-Birds	Pigeons & doves 	Partridge Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geophaps	smithii blaauwi
-Birds	Pigeons & doves 	Partridge Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geophaps	smithii smithii
-Birds	Pigeons & doves 	Pigeons	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geophaps	sp.
-Birds	Pigeons & doves 	Pigeons and doves	Animalia: Chordata: Aves	Columbiformes	Columbidae	Hemiphaga	novaeseelandiae 
-Birds	Pigeons & doves 	New Zealand Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Hemiphaga	novaeseelandiae spadicea
-Birds	Pigeons & doves 	Pigeons	Animalia: Chordata: Aves	Columbiformes	Columbidae	Hemiphaga	sp.
-Birds	Pigeons & doves 	Wonga Pigeon 	Animalia: Chordata: Aves	Columbiformes	Columbidae	Leucosarcia	melanoleuca 
-Birds	Pigeons & doves 	Wonga Pigeon 	Animalia: Chordata: Aves	Columbiformes	Columbidae	Leucosarcia	sp.
-Birds	Pigeons & doves 	Topknot Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Lopholaimus	antarcticus 
-Birds	Pigeons & doves 	Topknot Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Lopholaimus	sp.
-Birds	Pigeons & doves 	Slender-billed Cuckoo-Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Macropygia	amboinensis 
-Birds	Pigeons & doves 	Slender-billed Cuckoo-Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Macropygia	amboinensis phasianella
-Birds	Pigeons & doves 	Slender-billed Cuckoo-Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Macropygia	amboinensis quinkan
-Birds	Pigeons & doves 	Slender-billed Cuckoo-Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Macropygia	amboinensis robinsoni
-Birds	Pigeons & doves 	Crested Pigeon 	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ocyphaps	lophotes 
-Birds	Pigeons & doves 	Crested Pigeon 	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ocyphaps	lophotes lophotes
-Birds	Pigeons & doves 	Crested Pigeon 	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ocyphaps	lophotes whitlocki
-Birds	Pigeons & doves 	Crested Pigeon 	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ocyphaps	sp.
-Birds	Pigeons & doves 	White-quilled Rock Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Petrophassa	albipennis 
-Birds	Pigeons & doves 	White-quilled Rock Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Petrophassa	albipennis albipennis
-Birds	Pigeons & doves 	White-quilled Rock Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Petrophassa	albipennis boothi
-Birds	Pigeons & doves 	Chestnut-quilled Rock Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Petrophassa	rufipennis 
-Birds	Pigeons & doves 	rock pigeons	Animalia: Chordata: Aves	Columbiformes	Columbidae	Petrophassa	sp.
-Birds	Pigeons & doves 	Pigeons and doves	Animalia: Chordata: Aves	Columbiformes	Columbidae	Phaps	chalcoptera 
-Birds	Pigeons & doves 	Flock Bronzewing	Animalia: Chordata: Aves	Columbiformes	Columbidae	Phaps	elegans 
-Birds	Pigeons & doves 	Common Bronzewing	Animalia: Chordata: Aves	Columbiformes	Columbidae	Phaps	elegans elegans
-Birds	Pigeons & doves 	Brush Bronzewing	Animalia: Chordata: Aves	Columbiformes	Columbidae	Phaps	elegans occidentalis
-Birds	Pigeons & doves 	Pigeons and doves	Animalia: Chordata: Aves	Columbiformes	Columbidae	Phaps	histrionica 
-Birds	Pigeons & doves 	bronzewing pigeons	Animalia: Chordata: Aves	Columbiformes	Columbidae	Phaps	sp.
-Birds	Pigeons & doves 	Banded Fruit Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ptilinopus	cinctus 
-Birds	Pigeons & doves 	Banded Fruit Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ptilinopus	cinctus alligator
-Birds	Pigeons & doves 	Orange-bellied Fruit Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ptilinopus	iozonus 
-Birds	Pigeons & doves 	Wompoo Fruit Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ptilinopus	magnificus 
-Birds	Pigeons & doves 	Wompoo Fruit Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ptilinopus	magnificus assimilis
-Birds	Pigeons & doves 	Wompoo Fruit Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ptilinopus	magnificus keri
-Birds	Pigeons & doves 	Wompoo Fruit Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ptilinopus	magnificus magnificus
-Birds	Pigeons & doves 	Rose-crowned Fruit Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ptilinopus	regina 
-Birds	Pigeons & doves 	Rose-crowned Fruit Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ptilinopus	regina ewingii
-Birds	Pigeons & doves 	Rose-crowned Fruit Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ptilinopus	regina regina
-Birds	Pigeons & doves 	fruit doves	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ptilinopus	sp.
-Birds	Pigeons & doves 	Superb Fruit Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ptilinopus	superbus 
-Birds	Pigeons & doves 	Superb Fruit Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ptilinopus	superbus superbus
-Birds	Pigeons & doves 	Spotted dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Streptopelia	chinensis 
-Birds	Pigeons & doves 	Spotted dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Streptopelia	chinensis chinensis
-Birds	Pigeons & doves 	Spotted dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Streptopelia	chinensis tigrina
-Birds	Pigeons & doves 	African Collared Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Streptopelia	roseogrisea 
-Birds	Pigeons & doves 	Laughing dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Streptopelia	senegalensis 
-Birds	Pigeons & doves 	Laughing dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Streptopelia	senegalensis senegalensis
-Birds	Pigeons & doves 	doves	Animalia: Chordata: Aves	Columbiformes	Columbidae	Streptopelia	sp.
-Birds	Pigeons & doves 	Red Turtle Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Streptopelia	tranquebarica 
-Birds	Pigeons & doves 	Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Unknown	sp.
+Birds	Pigeons & doves	Common Emerald Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Chalcophaps	indica 
+Birds	Pigeons & doves	Common Emerald Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Chalcophaps	indica longirostris
+Birds	Pigeons & doves	Common Emerald Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Chalcophaps	indica natalis
+Birds	Pigeons & doves	Common Emerald Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Chalcophaps	indica rogersi
+Birds	Pigeons & doves	doves	Animalia: Chordata: Aves	Columbiformes	Columbidae	Chalcophaps	sp.
+Birds	Pigeons & doves	Snow Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Columba	leucomela 
+Birds	Pigeons & doves	Pigeons and doves	Animalia: Chordata: Aves	Columbiformes	Columbidae	Columba	livia 
+Birds	Pigeons & doves	Rock Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Columba	livia livia
+Birds	Pigeons & doves	Pigeons and doves	Animalia: Chordata: Aves	Columbiformes	Columbidae	Columba	sp.
+Birds	Pigeons & doves	Metallic Pigeon or White-throated Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Columba	vitiensis 
+Birds	Pigeons & doves	Metallic Pigeon or White-throated Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Columba	vitiensis godmanae
+Birds	Pigeons & doves	Pied Imperial Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ducula	bicolor 
+Birds	Pigeons & doves	Pied Imperial Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ducula	bicolor bicolor
+Birds	Pigeons & doves	Pied Imperial Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ducula	bicolor spilorrhoa
+Birds	Pigeons & doves	Elegant Imperial Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ducula	concinna 
+Birds	Pigeons & doves	Collared Imperial Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ducula	mullerii 
+Birds	Pigeons & doves	Pigeons	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ducula	sp.
+Birds	Pigeons & doves	Christmas Imperial Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ducula	whartoni 
+Birds	Pigeons & doves	Diamond Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geopelia	cuneata 
+Birds	Pigeons & doves	Bar-shouldered Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geopelia	humeralis 
+Birds	Pigeons & doves	Bar-shouldered Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geopelia	humeralis headlandi
+Birds	Pigeons & doves	Bar-shouldered Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geopelia	humeralis humeralis
+Birds	Pigeons & doves	Bar-shouldered Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geopelia	humeralis inexpectata
+Birds	Pigeons & doves	long-tailed doves	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geopelia	sp.
+Birds	Pigeons & doves	Zebra Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geopelia	striata 
+Birds	Pigeons & doves	Zebra Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geopelia	striata placida
+Birds	Pigeons & doves	Spinifex Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geophaps	plumifera 
+Birds	Pigeons & doves	Spinifex Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geophaps	plumifera ferruginea
+Birds	Pigeons & doves	Spinifex Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geophaps	plumifera leucogaster
+Birds	Pigeons & doves	Spinifex Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geophaps	plumifera plumifera
+Birds	Pigeons & doves	Squatter Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geophaps	scripta 
+Birds	Pigeons & doves	Squatter Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geophaps	scripta peninsulae
+Birds	Pigeons & doves	Squatter Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geophaps	scripta scripta
+Birds	Pigeons & doves	Partridge Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geophaps	smithii 
+Birds	Pigeons & doves	Partridge Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geophaps	smithii blaauwi
+Birds	Pigeons & doves	Partridge Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geophaps	smithii smithii
+Birds	Pigeons & doves	Pigeons	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geophaps	sp.
+Birds	Pigeons & doves	Pigeons and doves	Animalia: Chordata: Aves	Columbiformes	Columbidae	Hemiphaga	novaeseelandiae 
+Birds	Pigeons & doves	New Zealand Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Hemiphaga	novaeseelandiae spadicea
+Birds	Pigeons & doves	Pigeons	Animalia: Chordata: Aves	Columbiformes	Columbidae	Hemiphaga	sp.
+Birds	Pigeons & doves	Wonga Pigeon 	Animalia: Chordata: Aves	Columbiformes	Columbidae	Leucosarcia	melanoleuca 
+Birds	Pigeons & doves	Wonga Pigeon 	Animalia: Chordata: Aves	Columbiformes	Columbidae	Leucosarcia	sp.
+Birds	Pigeons & doves	Topknot Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Lopholaimus	antarcticus 
+Birds	Pigeons & doves	Topknot Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Lopholaimus	sp.
+Birds	Pigeons & doves	Slender-billed Cuckoo-Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Macropygia	amboinensis 
+Birds	Pigeons & doves	Slender-billed Cuckoo-Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Macropygia	amboinensis phasianella
+Birds	Pigeons & doves	Slender-billed Cuckoo-Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Macropygia	amboinensis quinkan
+Birds	Pigeons & doves	Slender-billed Cuckoo-Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Macropygia	amboinensis robinsoni
+Birds	Pigeons & doves	Crested Pigeon 	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ocyphaps	lophotes 
+Birds	Pigeons & doves	Crested Pigeon 	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ocyphaps	lophotes lophotes
+Birds	Pigeons & doves	Crested Pigeon 	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ocyphaps	lophotes whitlocki
+Birds	Pigeons & doves	Crested Pigeon 	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ocyphaps	sp.
+Birds	Pigeons & doves	White-quilled Rock Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Petrophassa	albipennis 
+Birds	Pigeons & doves	White-quilled Rock Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Petrophassa	albipennis albipennis
+Birds	Pigeons & doves	White-quilled Rock Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Petrophassa	albipennis boothi
+Birds	Pigeons & doves	Chestnut-quilled Rock Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Petrophassa	rufipennis 
+Birds	Pigeons & doves	rock pigeons	Animalia: Chordata: Aves	Columbiformes	Columbidae	Petrophassa	sp.
+Birds	Pigeons & doves	Pigeons and doves	Animalia: Chordata: Aves	Columbiformes	Columbidae	Phaps	chalcoptera 
+Birds	Pigeons & doves	Flock Bronzewing	Animalia: Chordata: Aves	Columbiformes	Columbidae	Phaps	elegans 
+Birds	Pigeons & doves	Common Bronzewing	Animalia: Chordata: Aves	Columbiformes	Columbidae	Phaps	elegans elegans
+Birds	Pigeons & doves	Brush Bronzewing	Animalia: Chordata: Aves	Columbiformes	Columbidae	Phaps	elegans occidentalis
+Birds	Pigeons & doves	Pigeons and doves	Animalia: Chordata: Aves	Columbiformes	Columbidae	Phaps	histrionica 
+Birds	Pigeons & doves	bronzewing pigeons	Animalia: Chordata: Aves	Columbiformes	Columbidae	Phaps	sp.
+Birds	Pigeons & doves	Banded Fruit Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ptilinopus	cinctus 
+Birds	Pigeons & doves	Banded Fruit Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ptilinopus	cinctus alligator
+Birds	Pigeons & doves	Orange-bellied Fruit Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ptilinopus	iozonus 
+Birds	Pigeons & doves	Wompoo Fruit Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ptilinopus	magnificus 
+Birds	Pigeons & doves	Wompoo Fruit Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ptilinopus	magnificus assimilis
+Birds	Pigeons & doves	Wompoo Fruit Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ptilinopus	magnificus keri
+Birds	Pigeons & doves	Wompoo Fruit Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ptilinopus	magnificus magnificus
+Birds	Pigeons & doves	Rose-crowned Fruit Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ptilinopus	regina 
+Birds	Pigeons & doves	Rose-crowned Fruit Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ptilinopus	regina ewingii
+Birds	Pigeons & doves	Rose-crowned Fruit Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ptilinopus	regina regina
+Birds	Pigeons & doves	fruit doves	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ptilinopus	sp.
+Birds	Pigeons & doves	Superb Fruit Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ptilinopus	superbus 
+Birds	Pigeons & doves	Superb Fruit Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ptilinopus	superbus superbus
+Birds	Pigeons & doves	Spotted dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Streptopelia	chinensis 
+Birds	Pigeons & doves	Spotted dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Streptopelia	chinensis chinensis
+Birds	Pigeons & doves	Spotted dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Streptopelia	chinensis tigrina
+Birds	Pigeons & doves	African Collared Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Streptopelia	roseogrisea 
+Birds	Pigeons & doves	Laughing dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Streptopelia	senegalensis 
+Birds	Pigeons & doves	Laughing dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Streptopelia	senegalensis senegalensis
+Birds	Pigeons & doves	doves	Animalia: Chordata: Aves	Columbiformes	Columbidae	Streptopelia	sp.
+Birds	Pigeons & doves	Red Turtle Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Streptopelia	tranquebarica 
+Birds	Pigeons & doves	Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Unknown	sp.
 Birds	Rollers	Oriental Dollarbird	Animalia: Chordata: Aves	Coraciidormes	Coraciidae	Eurystomus	orientalis 
 Birds	Rollers	Oriental Dollarbird	Animalia: Chordata: Aves	Coraciidormes	Coraciidae	Eurystomus	orientalis calonyx
 Birds	Rollers	Oriental Dollarbird	Animalia: Chordata: Aves	Coraciidormes	Coraciidae	Eurystomus	orientalis pacificus
@@ -468,7 +468,7 @@ Birds	Turkeys & Scrubfowls	Orange-footed Scrubfowl	Animalia: Chordata: Aves	Gall
 Birds	Turkeys & Scrubfowls	Orange-footed Scrubfowl	Animalia: Chordata: Aves	Galliformes	Megapopiidae	Megapodius	reinwardt yorki
 Birds	Turkeys & Scrubfowls	Orange-footed Scrubfowl	Animalia: Chordata: Aves	Galliformes	Megapopiidae	Megapodius	sp.
 Birds	Turkeys & Scrubfowls	Scrubfowl	Animalia: Chordata: Aves	Galliformes	Megapopiidae	Unknown	sp.
-Birds	Guineafowl 	Helmeted Guineafowl 	Animalia: Chordata: Aves	Galliformes	Numididae	Numida	meleagris 
+Birds	Guineafowl	Helmeted Guineafowl 	Animalia: Chordata: Aves	Galliformes	Numididae	Numida	meleagris 
 Birds	Guineafowl 	Guineafowl 	Animalia: Chordata: Aves	Galliformes	Numididae	Unknown	sp.
 Birds	Quails	California Quail	Animalia: Chordata: Aves	Galliformes	Odontophoridae	Callipepla	californica 
 Birds	Quails	Quail	Animalia: Chordata: Aves	Galliformes	Odontophoridae	Unknown	sp.
@@ -864,203 +864,203 @@ Birds	Songlarks & Grassbirds	Megalurid Warblers	Animalia: Chordata: Aves	Passeri
 Birds	Songlarks & Grassbirds	Tawny Grassbird 	Animalia: Chordata: Aves	Passeriformes	Megaluridae	Megalurus	timoriensis 
 Birds	Songlarks & Grassbirds	Tawny Grassbird 	Animalia: Chordata: Aves	Passeriformes	Megaluridae	Megalurus	timoriensis alisteri
 Birds	Songlarks & Grassbirds	Grassbird 	Animalia: Chordata: Aves	Passeriformes	Megaluridae	Unknown	sp.
-Birds	Honeyeaters & Australian chats 	Spiny-cheeked Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Acanthagenys	rufogularis 
-Birds	Honeyeaters & Australian chats 	Honeyeaters and Australian chats	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Acanthorhynchus	sp.
-Birds	Honeyeaters & Australian chats 	Western Spinebill	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Acanthorhynchus	superciliosus 
-Birds	Honeyeaters & Australian chats 	Eastern Spinebill	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Acanthorhynchus	tenuirostris 
-Birds	Honeyeaters & Australian chats 	Eastern Spinebill	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Acanthorhynchus	tenuirostris cairnsensis
-Birds	Honeyeaters & Australian chats 	Eastern Spinebill	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Acanthorhynchus	tenuirostris dubius
-Birds	Honeyeaters & Australian chats 	Eastern Spinebill	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Acanthorhynchus	tenuirostris halmaturinus
-Birds	Honeyeaters & Australian chats 	Eastern Spinebill	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Acanthorhynchus	tenuirostris tenuirostris
-Birds	Honeyeaters & Australian chats 	Red Wattlebird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Anthochaera	carunculata 
-Birds	Honeyeaters & Australian chats 	Red Wattlebird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Anthochaera	carunculata carunculata
-Birds	Honeyeaters & Australian chats 	Red Wattlebird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Anthochaera	carunculata clelandi
-Birds	Honeyeaters & Australian chats 	Red Wattlebird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Anthochaera	carunculata woodwardi
-Birds	Honeyeaters & Australian chats 	Little Wattlebird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Anthochaera	chrysoptera 
-Birds	Honeyeaters & Australian chats 	Little Wattlebird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Anthochaera	chrysoptera chrysoptera
-Birds	Honeyeaters & Australian chats 	Little Wattlebird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Anthochaera	chrysoptera halmaturina
-Birds	Honeyeaters & Australian chats 	Little Wattlebird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Anthochaera	chrysoptera tasmanica
-Birds	Honeyeaters & Australian chats 	Honeyeaters and Australian chats	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Anthochaera	lunulata 
-Birds	Honeyeaters & Australian chats 	Yellow Wattlebird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Anthochaera	paradoxa 
-Birds	Honeyeaters & Australian chats 	Yellow Wattlebird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Anthochaera	paradoxa kingi
-Birds	Honeyeaters & Australian chats 	Yellow Wattlebird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Anthochaera	paradoxa paradoxa
-Birds	Honeyeaters & Australian chats 	Regent Honeyeater 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Anthochaera	phrygia 
-Birds	Honeyeaters & Australian chats 	Honeyeaters	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Anthochaera	sp.
-Birds	Honeyeaters & Australian chats 	Gibberbird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Ashbyia	lovensis 
-Birds	Honeyeaters & Australian chats 	Pied Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Certhionyx	variegatus 
-Birds	Honeyeaters & Australian chats 	Banded Honeyeater 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Cissomela	pectoralis 
-Birds	Honeyeaters & Australian chats 	Rufous-banded Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Conopophila	albogularis 
-Birds	Honeyeaters & Australian chats 	Rufous-throated Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Conopophila	rufogularis 
-Birds	Honeyeaters & Australian chats 	Honeyeaters	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Conopophila	sp.
-Birds	Honeyeaters & Australian chats 	Grey Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Conopophila	whitei 
-Birds	Honeyeaters & Australian chats 	Blue-faced Honeyeater or Bananabird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Entomyzon	cyanotis 
-Birds	Honeyeaters & Australian chats 	Blue-faced Honeyeater or Bananabird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Entomyzon	cyanotis albipennis
-Birds	Honeyeaters & Australian chats 	Blue-faced Honeyeater or Bananabird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Entomyzon	cyanotis cyanotis
-Birds	Honeyeaters & Australian chats 	Blue-faced Honeyeater or Bananabird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Entomyzon	cyanotis griseigularis
-Birds	Honeyeaters & Australian chats 	Blue-faced Honeyeater or Bananabird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Entomyzon	sp.
-Birds	Honeyeaters & Australian chats 	White-fronted Chat	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Epthianura	albifrons 
-Birds	Honeyeaters & Australian chats 	Orange Chat	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Epthianura	aurifrons 
-Birds	Honeyeaters & Australian chats 	Yellow Chat	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Epthianura	crocea 
-Birds	Honeyeaters & Australian chats 	Yellow Chat	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Epthianura	crocea crocea
-Birds	Honeyeaters & Australian chats 	Yellow Chat	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Epthianura	crocea macgregori
-Birds	Honeyeaters & Australian chats 	Yellow Chat	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Epthianura	crocea tunneyi
-Birds	Honeyeaters & Australian chats 	Honeyeaters and Australian chats	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Epthianura	sp.
-Birds	Honeyeaters & Australian chats 	Crimson Chat	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Epthianura	tricolor 
-Birds	Honeyeaters & Australian chats 	Tawny-crowned Honeyeater 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Gliciphila	melanops 
-Birds	Honeyeaters & Australian chats 	Tawny-crowned Honeyeater 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Gliciphila	melanops chelidonia
-Birds	Honeyeaters & Australian chats 	Tawny-crowned Honeyeater 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Gliciphila	melanops melanops
-Birds	Honeyeaters & Australian chats 	Green-backed Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Glycichaera	fallax 
-Birds	Honeyeaters & Australian chats 	Green-backed Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Glycichaera	fallax claudi
-Birds	Honeyeaters & Australian chats 	Painted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Grantiella	picta 
-Birds	Honeyeaters & Australian chats 	Yellow-faced Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	chrysops 
-Birds	Honeyeaters & Australian chats 	Yellow-faced Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	chrysops barroni
-Birds	Honeyeaters & Australian chats 	Yellow-faced Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	chrysops chrysops
-Birds	Honeyeaters & Australian chats 	Yellow-faced Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	chrysops samueli
-Birds	Honeyeaters & Australian chats 	Purple-gaped Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	cratitius 
-Birds	Honeyeaters & Australian chats 	Purple-gaped Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	cratitius cratitius
-Birds	Honeyeaters & Australian chats 	Purple-gaped Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	cratitius occidentalis
-Birds	Honeyeaters & Australian chats 	Mangrove Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	fasciogularis 
-Birds	Honeyeaters & Australian chats 	Yellow-tinted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	flavescens 
-Birds	Honeyeaters & Australian chats 	Yellow-tinted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	flavescens flavescens
-Birds	Honeyeaters & Australian chats 	Yellow-tinted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	flavescens melvillensis
-Birds	Honeyeaters & Australian chats 	Yellow-throated Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	flavicollis 
-Birds	Honeyeaters & Australian chats 	Yellow Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	flavus 
-Birds	Honeyeaters & Australian chats 	Yellow Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	flavus addendus
-Birds	Honeyeaters & Australian chats 	Yellow Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	flavus flavus
-Birds	Honeyeaters & Australian chats 	Bridled Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	frenatus 
-Birds	Honeyeaters & Australian chats 	Fuscous Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	fuscus 
-Birds	Honeyeaters & Australian chats 	Fuscous Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	fuscus fuscus
-Birds	Honeyeaters & Australian chats 	Fuscous Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	fuscus subgermana
-Birds	Honeyeaters & Australian chats 	Eungella Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	hindwoodi 
-Birds	Honeyeaters & Australian chats 	Grey-headed Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	keartlandi 
-Birds	Honeyeaters & Australian chats 	White-eared Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	leucotis 
-Birds	Honeyeaters & Australian chats 	White-eared Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	leucotis leucotis
-Birds	Honeyeaters & Australian chats 	White-eared Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	leucotis novaeorciae
-Birds	Honeyeaters & Australian chats 	White-eared Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	leucotis thomasi
-Birds	Honeyeaters & Australian chats 	Yellow-tufted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	melanops 
-Birds	Honeyeaters & Australian chats 	Yellow-tufted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	melanops cassidix
-Birds	Honeyeaters & Australian chats 	Yellow-tufted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	melanops melanops
-Birds	Honeyeaters & Australian chats 	Yellow-tufted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	melanops meltoni
-Birds	Honeyeaters & Australian chats 	Yellow-plumed Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	ornatus 
-Birds	Honeyeaters & Australian chats 	White-plumed Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	penicillatus 
-Birds	Honeyeaters & Australian chats 	White-plumed Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	penicillatus calconi
-Birds	Honeyeaters & Australian chats 	White-plumed Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	penicillatus carteri
-Birds	Honeyeaters & Australian chats 	White-plumed Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	penicillatus leilavalensis
-Birds	Honeyeaters & Australian chats 	White-plumed Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	penicillatus penicillatus
-Birds	Honeyeaters & Australian chats 	Grey-fronted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	plumulus 
-Birds	Honeyeaters & Australian chats 	Grey-fronted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	plumulus graingeri
-Birds	Honeyeaters & Australian chats 	Grey-fronted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	plumulus planasi
-Birds	Honeyeaters & Australian chats 	Grey-fronted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	plumulus plumulus
-Birds	Honeyeaters & Australian chats 	Honeyeaters	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	sp.
-Birds	Honeyeaters & Australian chats 	White-gaped Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	unicolor 
-Birds	Honeyeaters & Australian chats 	Varied Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	versicolor 
-Birds	Honeyeaters & Australian chats 	Varied Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	versicolor versicolor
-Birds	Honeyeaters & Australian chats 	Singing Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	virescens 
-Birds	Honeyeaters & Australian chats 	Singing Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	virescens cooperi
-Birds	Honeyeaters & Australian chats 	Singing Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	virescens forresti
-Birds	Honeyeaters & Australian chats 	Singing Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	virescens sonorus
-Birds	Honeyeaters & Australian chats 	Singing Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	virescens virescens
-Birds	Honeyeaters & Australian chats 	Brown Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichmera	indistincta 
-Birds	Honeyeaters & Australian chats 	Brown Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichmera	indistincta indistincta
-Birds	Honeyeaters & Australian chats 	Brown Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichmera	indistincta melvillensis
-Birds	Honeyeaters & Australian chats 	Brown Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichmera	indistincta ocularis
-Birds	Honeyeaters & Australian chats 	Honeyeaters	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichmera	sp.
-Birds	Honeyeaters & Australian chats 	Yellow-throated Miner	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Manorina	flavigula 
-Birds	Honeyeaters & Australian chats 	Yellow-throated Miner	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Manorina	flavigula flavigula
-Birds	Honeyeaters & Australian chats 	Yellow-throated Miner	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Manorina	flavigula lutea
-Birds	Honeyeaters & Australian chats 	Yellow-throated Miner	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Manorina	flavigula melvillensis
-Birds	Honeyeaters & Australian chats 	Yellow-throated Miner	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Manorina	flavigula obscura
-Birds	Honeyeaters & Australian chats 	Yellow-throated Miner	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Manorina	flavigula wayensis
-Birds	Honeyeaters & Australian chats 	Noisy Miner	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Manorina	melanocephala 
-Birds	Honeyeaters & Australian chats 	Noisy Miner	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Manorina	melanocephala leachi
-Birds	Honeyeaters & Australian chats 	Noisy Miner	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Manorina	melanocephala lepidota
-Birds	Honeyeaters & Australian chats 	Noisy Miner	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Manorina	melanocephala melanocephala
-Birds	Honeyeaters & Australian chats 	Noisy Miner	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Manorina	melanocephala titaniota
-Birds	Honeyeaters & Australian chats 	Bell Miner	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Manorina	melanophrys 
-Birds	Honeyeaters & Australian chats 	Black-eared Miner	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Manorina	melanotis 
-Birds	Honeyeaters & Australian chats 	Miners	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Manorina	sp.
-Birds	Honeyeaters & Australian chats 	White-lined Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Meliphaga	albilineata 
-Birds	Honeyeaters & Australian chats 	White-lined Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Meliphaga	albilineata albilineata
-Birds	Honeyeaters & Australian chats 	Kimberley Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Meliphaga	fordiana 
-Birds	Honeyeaters & Australian chats 	Graceful Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Meliphaga	gracilis 
-Birds	Honeyeaters & Australian chats 	Graceful Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Meliphaga	gracilis gracilis
-Birds	Honeyeaters & Australian chats 	Graceful Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Meliphaga	gracilis imitatrix
-Birds	Honeyeaters & Australian chats 	Lewin's Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Meliphaga	lewinii 
-Birds	Honeyeaters & Australian chats 	Lewin's Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Meliphaga	lewinii amphochlora
-Birds	Honeyeaters & Australian chats 	Lewin's Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Meliphaga	lewinii lewinii
-Birds	Honeyeaters & Australian chats 	Lewin's Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Meliphaga	lewinii mab
-Birds	Honeyeaters & Australian chats 	Yellow-spotted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Meliphaga	notata 
-Birds	Honeyeaters & Australian chats 	Yellow-spotted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Meliphaga	notata mixta
-Birds	Honeyeaters & Australian chats 	Yellow-spotted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Meliphaga	notata notata
-Birds	Honeyeaters & Australian chats 	Honeyeaters	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Meliphaga	sp.
-Birds	Honeyeaters & Australian chats 	Black-headed Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	affinis 
-Birds	Honeyeaters & Australian chats 	White-throated Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	albogularis 
-Birds	Honeyeaters & Australian chats 	White-throated Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	albogularis albogularis
-Birds	Honeyeaters & Australian chats 	White-throated Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	albogularis inopinatus
-Birds	Honeyeaters & Australian chats 	Brown-headed Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	brevirostris 
-Birds	Honeyeaters & Australian chats 	Brown-headed Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	brevirostris brevirostris
-Birds	Honeyeaters & Australian chats 	Brown-headed Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	brevirostris leucogenys
-Birds	Honeyeaters & Australian chats 	Brown-headed Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	brevirostris magnirostris
-Birds	Honeyeaters & Australian chats 	Brown-headed Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	brevirostris mallee
-Birds	Honeyeaters & Australian chats 	Brown-headed Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	brevirostris pallidiceps
-Birds	Honeyeaters & Australian chats 	Brown-headed Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	brevirostris wombeyi
-Birds	Honeyeaters & Australian chats 	Black-chinned Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	gularis 
-Birds	Honeyeaters & Australian chats 	Black-chinned Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	gularis gularis
-Birds	Honeyeaters & Australian chats 	Black-chinned Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	gularis laetior
-Birds	Honeyeaters & Australian chats 	White-naped Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	lunatus 
-Birds	Honeyeaters & Australian chats 	White-naped Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	lunatus chloropsis
-Birds	Honeyeaters & Australian chats 	White-naped Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	lunatus lunatus
-Birds	Honeyeaters & Australian chats 	Honeyeaters	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	sp.
-Birds	Honeyeaters & Australian chats 	Strong-billed Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	validirostris 
-Birds	Honeyeaters & Australian chats 	Red-headed Myzomela	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Myzomela	erythrocephala 
-Birds	Honeyeaters & Australian chats 	Red-headed Myzomela	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Myzomela	erythrocephala erythrocephala
-Birds	Honeyeaters & Australian chats 	Red-headed Myzomela	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Myzomela	erythrocephala infuscata
-Birds	Honeyeaters & Australian chats 	Dusky Myzomela	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Myzomela	obscura 
-Birds	Honeyeaters & Australian chats 	Dusky Myzomela	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Myzomela	obscura fumata
-Birds	Honeyeaters & Australian chats 	Dusky Myzomela	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Myzomela	obscura harterti
-Birds	Honeyeaters & Australian chats 	Dusky Myzomela	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Myzomela	obscura obscura
-Birds	Honeyeaters & Australian chats 	Scarlet Myzomela	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Myzomela	sanguinolenta 
-Birds	Honeyeaters & Australian chats 	Scarlet Myzomela	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Myzomela	sanguinolenta sanguinolenta
-Birds	Honeyeaters & Australian chats 	Honeyeaters	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Myzomela	sp.
-Birds	Honeyeaters & Australian chats 	Silver-crowned Friarbird 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Philemon	argenticeps 
-Birds	Honeyeaters & Australian chats 	Silver-crowned Friarbird 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Philemon	argenticeps argenticeps
-Birds	Honeyeaters & Australian chats 	Silver-crowned Friarbird 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Philemon	argenticeps kempi
-Birds	Honeyeaters & Australian chats 	Helmeted Friarbird 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Philemon	buceroides 
-Birds	Honeyeaters & Australian chats 	Helmeted Friarbird 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Philemon	buceroides ammitophilus
-Birds	Honeyeaters & Australian chats 	Helmeted Friarbird 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Philemon	buceroides gordoni
-Birds	Honeyeaters & Australian chats 	Helmeted Friarbird 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Philemon	buceroides yorki
-Birds	Honeyeaters & Australian chats 	Little Friarbird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Philemon	citreogularis 
-Birds	Honeyeaters & Australian chats 	Little Friarbird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Philemon	citreogularis citreogularis
-Birds	Honeyeaters & Australian chats 	Little Friarbird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Philemon	citreogularis sordidus
-Birds	Honeyeaters & Australian chats 	Noisy Friarbird 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Philemon	corniculatus 
-Birds	Honeyeaters & Australian chats 	Noisy Friarbird 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Philemon	corniculatus corniculatus
-Birds	Honeyeaters & Australian chats 	Noisy Friarbird 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Philemon	corniculatus nodifrons
-Birds	Honeyeaters & Australian chats 	Friarbirds	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Philemon	sp.
-Birds	Honeyeaters & Australian chats 	White-cheeked Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Phylidonyris	niger 
-Birds	Honeyeaters & Australian chats 	White-cheeked Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Phylidonyris	niger gouldii
-Birds	Honeyeaters & Australian chats 	White-cheeked Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Phylidonyris	niger niger
-Birds	Honeyeaters & Australian chats 	New Holland Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Phylidonyris	novaehollandiae 
-Birds	Honeyeaters & Australian chats 	New Holland Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Phylidonyris	novaehollandiae campbelli
-Birds	Honeyeaters & Australian chats 	New Holland Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Phylidonyris	novaehollandiae canescens
-Birds	Honeyeaters & Australian chats 	New Holland Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Phylidonyris	novaehollandiae caudatus
-Birds	Honeyeaters & Australian chats 	New Holland Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Phylidonyris	novaehollandiae longirostris
-Birds	Honeyeaters & Australian chats 	New Holland Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Phylidonyris	novaehollandiae novaehollandiae
-Birds	Honeyeaters & Australian chats 	Crescent Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Phylidonyris	pyrrhoptera 
-Birds	Honeyeaters & Australian chats 	Crescent Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Phylidonyris	pyrrhoptera halmaturina
-Birds	Honeyeaters & Australian chats 	Crescent Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Phylidonyris	pyrrhoptera pyrrhoptera
-Birds	Honeyeaters & Australian chats 	Honeyeaters	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Phylidonyris	sp.
-Birds	Honeyeaters & Australian chats 	Striped Honeyeater 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Plectorhyncha	lanceolata 
-Birds	Honeyeaters & Australian chats 	White-fronted Honeyeater 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Purnella	albifrons 
-Birds	Honeyeaters & Australian chats 	Bar-breasted Honeyeater 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Ramsayornis	fasciatus 
-Birds	Honeyeaters & Australian chats 	Brown-backed Honeyeater 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Ramsayornis	modestus 
-Birds	Honeyeaters & Australian chats 	Black Honeyeater 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Sugomel	niger 
-Birds	Honeyeaters & Australian chats 	White-streaked Honeyeater 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Trichodere	cockerelli 
-Birds	Honeyeaters & Australian chats 	Honeyeater 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Unknown	sp.
-Birds	Honeyeaters & Australian chats 	Tawny-breasted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Xanthotis	flaviventer 
-Birds	Honeyeaters & Australian chats 	Tawny-breasted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Xanthotis	flaviventer filigera
-Birds	Honeyeaters & Australian chats 	Tawny-breasted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Xanthotis	flaviventer saturatior
-Birds	Honeyeaters & Australian chats 	Macleay's Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Xanthotis	macleayanus 
-Birds	Honeyeaters & Australian chats 	Honeyeaters	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Xanthotis	sp.
+Birds	Honeyeaters & Australian chats	Spiny-cheeked Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Acanthagenys	rufogularis 
+Birds	Honeyeaters & Australian chats	Honeyeaters and Australian chats	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Acanthorhynchus	sp.
+Birds	Honeyeaters & Australian chats	Western Spinebill	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Acanthorhynchus	superciliosus 
+Birds	Honeyeaters & Australian chats	Eastern Spinebill	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Acanthorhynchus	tenuirostris 
+Birds	Honeyeaters & Australian chats	Eastern Spinebill	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Acanthorhynchus	tenuirostris cairnsensis
+Birds	Honeyeaters & Australian chats	Eastern Spinebill	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Acanthorhynchus	tenuirostris dubius
+Birds	Honeyeaters & Australian chats	Eastern Spinebill	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Acanthorhynchus	tenuirostris halmaturinus
+Birds	Honeyeaters & Australian chats	Eastern Spinebill	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Acanthorhynchus	tenuirostris tenuirostris
+Birds	Honeyeaters & Australian chats	Red Wattlebird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Anthochaera	carunculata 
+Birds	Honeyeaters & Australian chats	Red Wattlebird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Anthochaera	carunculata carunculata
+Birds	Honeyeaters & Australian chats	Red Wattlebird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Anthochaera	carunculata clelandi
+Birds	Honeyeaters & Australian chats	Red Wattlebird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Anthochaera	carunculata woodwardi
+Birds	Honeyeaters & Australian chats	Little Wattlebird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Anthochaera	chrysoptera 
+Birds	Honeyeaters & Australian chats	Little Wattlebird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Anthochaera	chrysoptera chrysoptera
+Birds	Honeyeaters & Australian chats	Little Wattlebird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Anthochaera	chrysoptera halmaturina
+Birds	Honeyeaters & Australian chats	Little Wattlebird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Anthochaera	chrysoptera tasmanica
+Birds	Honeyeaters & Australian chats	Honeyeaters and Australian chats	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Anthochaera	lunulata 
+Birds	Honeyeaters & Australian chats	Yellow Wattlebird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Anthochaera	paradoxa 
+Birds	Honeyeaters & Australian chats	Yellow Wattlebird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Anthochaera	paradoxa kingi
+Birds	Honeyeaters & Australian chats	Yellow Wattlebird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Anthochaera	paradoxa paradoxa
+Birds	Honeyeaters & Australian chats	Regent Honeyeater 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Anthochaera	phrygia 
+Birds	Honeyeaters & Australian chats	Honeyeaters	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Anthochaera	sp.
+Birds	Honeyeaters & Australian chats	Gibberbird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Ashbyia	lovensis 
+Birds	Honeyeaters & Australian chats	Pied Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Certhionyx	variegatus 
+Birds	Honeyeaters & Australian chats	Banded Honeyeater 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Cissomela	pectoralis 
+Birds	Honeyeaters & Australian chats	Rufous-banded Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Conopophila	albogularis 
+Birds	Honeyeaters & Australian chats	Rufous-throated Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Conopophila	rufogularis 
+Birds	Honeyeaters & Australian chats	Honeyeaters	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Conopophila	sp.
+Birds	Honeyeaters & Australian chats	Grey Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Conopophila	whitei 
+Birds	Honeyeaters & Australian chats	Blue-faced Honeyeater or Bananabird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Entomyzon	cyanotis 
+Birds	Honeyeaters & Australian chats	Blue-faced Honeyeater or Bananabird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Entomyzon	cyanotis albipennis
+Birds	Honeyeaters & Australian chats	Blue-faced Honeyeater or Bananabird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Entomyzon	cyanotis cyanotis
+Birds	Honeyeaters & Australian chats	Blue-faced Honeyeater or Bananabird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Entomyzon	cyanotis griseigularis
+Birds	Honeyeaters & Australian chats	Blue-faced Honeyeater or Bananabird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Entomyzon	sp.
+Birds	Honeyeaters & Australian chats	White-fronted Chat	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Epthianura	albifrons 
+Birds	Honeyeaters & Australian chats	Orange Chat	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Epthianura	aurifrons 
+Birds	Honeyeaters & Australian chats	Yellow Chat	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Epthianura	crocea 
+Birds	Honeyeaters & Australian chats	Yellow Chat	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Epthianura	crocea crocea
+Birds	Honeyeaters & Australian chats	Yellow Chat	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Epthianura	crocea macgregori
+Birds	Honeyeaters & Australian chats	Yellow Chat	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Epthianura	crocea tunneyi
+Birds	Honeyeaters & Australian chats	Honeyeaters and Australian chats	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Epthianura	sp.
+Birds	Honeyeaters & Australian chats	Crimson Chat	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Epthianura	tricolor 
+Birds	Honeyeaters & Australian chats	Tawny-crowned Honeyeater 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Gliciphila	melanops 
+Birds	Honeyeaters & Australian chats	Tawny-crowned Honeyeater 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Gliciphila	melanops chelidonia
+Birds	Honeyeaters & Australian chats	Tawny-crowned Honeyeater 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Gliciphila	melanops melanops
+Birds	Honeyeaters & Australian chats	Green-backed Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Glycichaera	fallax 
+Birds	Honeyeaters & Australian chats	Green-backed Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Glycichaera	fallax claudi
+Birds	Honeyeaters & Australian chats	Painted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Grantiella	picta 
+Birds	Honeyeaters & Australian chats	Yellow-faced Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	chrysops 
+Birds	Honeyeaters & Australian chats	Yellow-faced Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	chrysops barroni
+Birds	Honeyeaters & Australian chats	Yellow-faced Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	chrysops chrysops
+Birds	Honeyeaters & Australian chats	Yellow-faced Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	chrysops samueli
+Birds	Honeyeaters & Australian chats	Purple-gaped Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	cratitius 
+Birds	Honeyeaters & Australian chats	Purple-gaped Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	cratitius cratitius
+Birds	Honeyeaters & Australian chats	Purple-gaped Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	cratitius occidentalis
+Birds	Honeyeaters & Australian chats	Mangrove Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	fasciogularis 
+Birds	Honeyeaters & Australian chats	Yellow-tinted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	flavescens 
+Birds	Honeyeaters & Australian chats	Yellow-tinted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	flavescens flavescens
+Birds	Honeyeaters & Australian chats	Yellow-tinted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	flavescens melvillensis
+Birds	Honeyeaters & Australian chats	Yellow-throated Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	flavicollis 
+Birds	Honeyeaters & Australian chats	Yellow Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	flavus 
+Birds	Honeyeaters & Australian chats	Yellow Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	flavus addendus
+Birds	Honeyeaters & Australian chats	Yellow Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	flavus flavus
+Birds	Honeyeaters & Australian chats	Bridled Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	frenatus 
+Birds	Honeyeaters & Australian chats	Fuscous Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	fuscus 
+Birds	Honeyeaters & Australian chats	Fuscous Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	fuscus fuscus
+Birds	Honeyeaters & Australian chats	Fuscous Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	fuscus subgermana
+Birds	Honeyeaters & Australian chats	Eungella Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	hindwoodi 
+Birds	Honeyeaters & Australian chats	Grey-headed Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	keartlandi 
+Birds	Honeyeaters & Australian chats	White-eared Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	leucotis 
+Birds	Honeyeaters & Australian chats	White-eared Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	leucotis leucotis
+Birds	Honeyeaters & Australian chats	White-eared Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	leucotis novaeorciae
+Birds	Honeyeaters & Australian chats	White-eared Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	leucotis thomasi
+Birds	Honeyeaters & Australian chats	Yellow-tufted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	melanops 
+Birds	Honeyeaters & Australian chats	Yellow-tufted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	melanops cassidix
+Birds	Honeyeaters & Australian chats	Yellow-tufted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	melanops melanops
+Birds	Honeyeaters & Australian chats	Yellow-tufted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	melanops meltoni
+Birds	Honeyeaters & Australian chats	Yellow-plumed Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	ornatus 
+Birds	Honeyeaters & Australian chats	White-plumed Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	penicillatus 
+Birds	Honeyeaters & Australian chats	White-plumed Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	penicillatus calconi
+Birds	Honeyeaters & Australian chats	White-plumed Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	penicillatus carteri
+Birds	Honeyeaters & Australian chats	White-plumed Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	penicillatus leilavalensis
+Birds	Honeyeaters & Australian chats	White-plumed Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	penicillatus penicillatus
+Birds	Honeyeaters & Australian chats	Grey-fronted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	plumulus 
+Birds	Honeyeaters & Australian chats	Grey-fronted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	plumulus graingeri
+Birds	Honeyeaters & Australian chats	Grey-fronted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	plumulus planasi
+Birds	Honeyeaters & Australian chats	Grey-fronted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	plumulus plumulus
+Birds	Honeyeaters & Australian chats	Honeyeaters	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	sp.
+Birds	Honeyeaters & Australian chats	White-gaped Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	unicolor 
+Birds	Honeyeaters & Australian chats	Varied Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	versicolor 
+Birds	Honeyeaters & Australian chats	Varied Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	versicolor versicolor
+Birds	Honeyeaters & Australian chats	Singing Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	virescens 
+Birds	Honeyeaters & Australian chats	Singing Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	virescens cooperi
+Birds	Honeyeaters & Australian chats	Singing Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	virescens forresti
+Birds	Honeyeaters & Australian chats	Singing Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	virescens sonorus
+Birds	Honeyeaters & Australian chats	Singing Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	virescens virescens
+Birds	Honeyeaters & Australian chats	Brown Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichmera	indistincta 
+Birds	Honeyeaters & Australian chats	Brown Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichmera	indistincta indistincta
+Birds	Honeyeaters & Australian chats	Brown Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichmera	indistincta melvillensis
+Birds	Honeyeaters & Australian chats	Brown Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichmera	indistincta ocularis
+Birds	Honeyeaters & Australian chats	Honeyeaters	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichmera	sp.
+Birds	Honeyeaters & Australian chats	Yellow-throated Miner	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Manorina	flavigula 
+Birds	Honeyeaters & Australian chats	Yellow-throated Miner	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Manorina	flavigula flavigula
+Birds	Honeyeaters & Australian chats	Yellow-throated Miner	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Manorina	flavigula lutea
+Birds	Honeyeaters & Australian chats	Yellow-throated Miner	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Manorina	flavigula melvillensis
+Birds	Honeyeaters & Australian chats	Yellow-throated Miner	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Manorina	flavigula obscura
+Birds	Honeyeaters & Australian chats	Yellow-throated Miner	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Manorina	flavigula wayensis
+Birds	Honeyeaters & Australian chats	Noisy Miner	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Manorina	melanocephala 
+Birds	Honeyeaters & Australian chats	Noisy Miner	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Manorina	melanocephala leachi
+Birds	Honeyeaters & Australian chats	Noisy Miner	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Manorina	melanocephala lepidota
+Birds	Honeyeaters & Australian chats	Noisy Miner	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Manorina	melanocephala melanocephala
+Birds	Honeyeaters & Australian chats	Noisy Miner	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Manorina	melanocephala titaniota
+Birds	Honeyeaters & Australian chats	Bell Miner	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Manorina	melanophrys 
+Birds	Honeyeaters & Australian chats	Black-eared Miner	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Manorina	melanotis 
+Birds	Honeyeaters & Australian chats	Miners	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Manorina	sp.
+Birds	Honeyeaters & Australian chats	White-lined Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Meliphaga	albilineata 
+Birds	Honeyeaters & Australian chats	White-lined Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Meliphaga	albilineata albilineata
+Birds	Honeyeaters & Australian chats	Kimberley Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Meliphaga	fordiana 
+Birds	Honeyeaters & Australian chats	Graceful Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Meliphaga	gracilis 
+Birds	Honeyeaters & Australian chats	Graceful Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Meliphaga	gracilis gracilis
+Birds	Honeyeaters & Australian chats	Graceful Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Meliphaga	gracilis imitatrix
+Birds	Honeyeaters & Australian chats	Lewin's Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Meliphaga	lewinii 
+Birds	Honeyeaters & Australian chats	Lewin's Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Meliphaga	lewinii amphochlora
+Birds	Honeyeaters & Australian chats	Lewin's Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Meliphaga	lewinii lewinii
+Birds	Honeyeaters & Australian chats	Lewin's Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Meliphaga	lewinii mab
+Birds	Honeyeaters & Australian chats	Yellow-spotted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Meliphaga	notata 
+Birds	Honeyeaters & Australian chats	Yellow-spotted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Meliphaga	notata mixta
+Birds	Honeyeaters & Australian chats	Yellow-spotted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Meliphaga	notata notata
+Birds	Honeyeaters & Australian chats	Honeyeaters	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Meliphaga	sp.
+Birds	Honeyeaters & Australian chats	Black-headed Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	affinis 
+Birds	Honeyeaters & Australian chats	White-throated Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	albogularis 
+Birds	Honeyeaters & Australian chats	White-throated Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	albogularis albogularis
+Birds	Honeyeaters & Australian chats	White-throated Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	albogularis inopinatus
+Birds	Honeyeaters & Australian chats	Brown-headed Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	brevirostris 
+Birds	Honeyeaters & Australian chats	Brown-headed Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	brevirostris brevirostris
+Birds	Honeyeaters & Australian chats	Brown-headed Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	brevirostris leucogenys
+Birds	Honeyeaters & Australian chats	Brown-headed Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	brevirostris magnirostris
+Birds	Honeyeaters & Australian chats	Brown-headed Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	brevirostris mallee
+Birds	Honeyeaters & Australian chats	Brown-headed Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	brevirostris pallidiceps
+Birds	Honeyeaters & Australian chats	Brown-headed Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	brevirostris wombeyi
+Birds	Honeyeaters & Australian chats	Black-chinned Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	gularis 
+Birds	Honeyeaters & Australian chats	Black-chinned Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	gularis gularis
+Birds	Honeyeaters & Australian chats	Black-chinned Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	gularis laetior
+Birds	Honeyeaters & Australian chats	White-naped Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	lunatus 
+Birds	Honeyeaters & Australian chats	White-naped Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	lunatus chloropsis
+Birds	Honeyeaters & Australian chats	White-naped Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	lunatus lunatus
+Birds	Honeyeaters & Australian chats	Honeyeaters	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	sp.
+Birds	Honeyeaters & Australian chats	Strong-billed Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	validirostris 
+Birds	Honeyeaters & Australian chats	Red-headed Myzomela	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Myzomela	erythrocephala 
+Birds	Honeyeaters & Australian chats	Red-headed Myzomela	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Myzomela	erythrocephala erythrocephala
+Birds	Honeyeaters & Australian chats	Red-headed Myzomela	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Myzomela	erythrocephala infuscata
+Birds	Honeyeaters & Australian chats	Dusky Myzomela	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Myzomela	obscura 
+Birds	Honeyeaters & Australian chats	Dusky Myzomela	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Myzomela	obscura fumata
+Birds	Honeyeaters & Australian chats	Dusky Myzomela	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Myzomela	obscura harterti
+Birds	Honeyeaters & Australian chats	Dusky Myzomela	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Myzomela	obscura obscura
+Birds	Honeyeaters & Australian chats	Scarlet Myzomela	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Myzomela	sanguinolenta 
+Birds	Honeyeaters & Australian chats	Scarlet Myzomela	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Myzomela	sanguinolenta sanguinolenta
+Birds	Honeyeaters & Australian chats	Honeyeaters	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Myzomela	sp.
+Birds	Honeyeaters & Australian chats	Silver-crowned Friarbird 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Philemon	argenticeps 
+Birds	Honeyeaters & Australian chats	Silver-crowned Friarbird 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Philemon	argenticeps argenticeps
+Birds	Honeyeaters & Australian chats	Silver-crowned Friarbird 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Philemon	argenticeps kempi
+Birds	Honeyeaters & Australian chats	Helmeted Friarbird 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Philemon	buceroides 
+Birds	Honeyeaters & Australian chats	Helmeted Friarbird 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Philemon	buceroides ammitophilus
+Birds	Honeyeaters & Australian chats	Helmeted Friarbird 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Philemon	buceroides gordoni
+Birds	Honeyeaters & Australian chats	Helmeted Friarbird 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Philemon	buceroides yorki
+Birds	Honeyeaters & Australian chats	Little Friarbird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Philemon	citreogularis 
+Birds	Honeyeaters & Australian chats	Little Friarbird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Philemon	citreogularis citreogularis
+Birds	Honeyeaters & Australian chats	Little Friarbird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Philemon	citreogularis sordidus
+Birds	Honeyeaters & Australian chats	Noisy Friarbird 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Philemon	corniculatus 
+Birds	Honeyeaters & Australian chats	Noisy Friarbird 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Philemon	corniculatus corniculatus
+Birds	Honeyeaters & Australian chats	Noisy Friarbird 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Philemon	corniculatus nodifrons
+Birds	Honeyeaters & Australian chats	Friarbirds	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Philemon	sp.
+Birds	Honeyeaters & Australian chats	White-cheeked Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Phylidonyris	niger 
+Birds	Honeyeaters & Australian chats	White-cheeked Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Phylidonyris	niger gouldii
+Birds	Honeyeaters & Australian chats	White-cheeked Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Phylidonyris	niger niger
+Birds	Honeyeaters & Australian chats	New Holland Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Phylidonyris	novaehollandiae 
+Birds	Honeyeaters & Australian chats	New Holland Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Phylidonyris	novaehollandiae campbelli
+Birds	Honeyeaters & Australian chats	New Holland Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Phylidonyris	novaehollandiae canescens
+Birds	Honeyeaters & Australian chats	New Holland Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Phylidonyris	novaehollandiae caudatus
+Birds	Honeyeaters & Australian chats	New Holland Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Phylidonyris	novaehollandiae longirostris
+Birds	Honeyeaters & Australian chats	New Holland Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Phylidonyris	novaehollandiae novaehollandiae
+Birds	Honeyeaters & Australian chats	Crescent Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Phylidonyris	pyrrhoptera 
+Birds	Honeyeaters & Australian chats	Crescent Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Phylidonyris	pyrrhoptera halmaturina
+Birds	Honeyeaters & Australian chats	Crescent Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Phylidonyris	pyrrhoptera pyrrhoptera
+Birds	Honeyeaters & Australian chats	Honeyeaters	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Phylidonyris	sp.
+Birds	Honeyeaters & Australian chats	Striped Honeyeater 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Plectorhyncha	lanceolata 
+Birds	Honeyeaters & Australian chats	White-fronted Honeyeater 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Purnella	albifrons 
+Birds	Honeyeaters & Australian chats	Bar-breasted Honeyeater 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Ramsayornis	fasciatus 
+Birds	Honeyeaters & Australian chats	Brown-backed Honeyeater 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Ramsayornis	modestus 
+Birds	Honeyeaters & Australian chats	Black Honeyeater 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Sugomel	niger 
+Birds	Honeyeaters & Australian chats	White-streaked Honeyeater 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Trichodere	cockerelli 
+Birds	Honeyeaters & Australian chats	Honeyeater 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Unknown	sp.
+Birds	Honeyeaters & Australian chats	Tawny-breasted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Xanthotis	flaviventer 
+Birds	Honeyeaters & Australian chats	Tawny-breasted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Xanthotis	flaviventer filigera
+Birds	Honeyeaters & Australian chats	Tawny-breasted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Xanthotis	flaviventer saturatior
+Birds	Honeyeaters & Australian chats	Macleay's Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Xanthotis	macleayanus 
+Birds	Honeyeaters & Australian chats	Honeyeaters	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Xanthotis	sp.
 Birds	Lyrebirds	Albert's Lyrebird 	Animalia: Chordata: Aves	Passeriformes	Menuridae	Menura	alberti 
 Birds	Lyrebirds	Superb Lyrebird	Animalia: Chordata: Aves	Passeriformes	Menuridae	Menura	novaehollandiae 
 Birds	Lyrebirds	Superb Lyrebird	Animalia: Chordata: Aves	Passeriformes	Menuridae	Menura	novaehollandiae edwardi
@@ -1433,20 +1433,20 @@ Birds	Fantails	Northern Fantail	Animalia: Chordata: Aves	Passeriformes	Rhipiduri
 Birds	Fantails	Fantails	Animalia: Chordata: Aves	Passeriformes	Rhipiduridae	Rhipidura	sp.
 Birds	Fantails	Fantails	Animalia: Chordata: Aves	Passeriformes	Rhipiduridae	Unknown	sp.
 Birds	Mynas	Common Myna or Indian Myna Mynah	Animalia: Chordata: Aves	Passeriformes	Sturnidae	Acridotheres	tristis 
-Birds	Mynas & Starlings	Common Myna or Indian Myna Mynah	Animalia: Chordata: Aves	Passeriformes	Sturnidae	Acridotheres	tristis tristis
-Birds	Mynas & Starlings	Singing Starling 	Animalia: Chordata: Aves	Passeriformes	Sturnidae	Aplornis	cantoroides 
-Birds	Mynas & Starlings	Tasman Starling 	Animalia: Chordata: Aves	Passeriformes	Sturnidae	Aplornis	fusca 
-Birds	Mynas & Starlings	Tasman Starling 	Animalia: Chordata: Aves	Passeriformes	Sturnidae	Aplornis	fusca fusca
-Birds	Mynas & Starlings	Tasman Starling 	Animalia: Chordata: Aves	Passeriformes	Sturnidae	Aplornis	fusca hulliana
-Birds	Mynas & Starlings	Metallic Starling 	Animalia: Chordata: Aves	Passeriformes	Sturnidae	Aplornis	metallica 
-Birds	Mynas & Starlings	Metallic Starling 	Animalia: Chordata: Aves	Passeriformes	Sturnidae	Aplornis	metallica metallica
-Birds	Mynas & Starlings	Starlings 	Animalia: Chordata: Aves	Passeriformes	Sturnidae	Aplornis	sp.
-Birds	Mynas & Starlings	Rosy Starling or Rose-coloured Starling	Animalia: Chordata: Aves	Passeriformes	Sturnidae	Sturnus	roseus 
-Birds	Mynas & Starlings	Starlings 	Animalia: Chordata: Aves	Passeriformes	Sturnidae	Sturnus	sp.
-Birds	Mynas & Starlings	Purple-backed Starling or Daurian Starling	Animalia: Chordata: Aves	Passeriformes	Sturnidae	Sturnus	sturninus 
-Birds	Mynas & Starlings	Common Starling	Animalia: Chordata: Aves	Passeriformes	Sturnidae	Sturnus	vulgaris 
-Birds	Mynas & Starlings	Common Starling	Animalia: Chordata: Aves	Passeriformes	Sturnidae	Sturnus	vulgaris vulgaris
-Birds	Mynas	Starling	Animalia: Chordata: Aves	Passeriformes	Sturnidae	Unknown	sp.
+Birds	Mynas	Common Myna or Indian Myna Mynah	Animalia: Chordata: Aves	Passeriformes	Sturnidae	Acridotheres	tristis tristis
+Birds	Starlings	Singing Starling 	Animalia: Chordata: Aves	Passeriformes	Sturnidae	Aplornis	cantoroides 
+Birds	Starlings	Tasman Starling 	Animalia: Chordata: Aves	Passeriformes	Sturnidae	Aplornis	fusca 
+Birds	Starlings	Tasman Starling 	Animalia: Chordata: Aves	Passeriformes	Sturnidae	Aplornis	fusca fusca
+Birds	Starlings	Tasman Starling 	Animalia: Chordata: Aves	Passeriformes	Sturnidae	Aplornis	fusca hulliana
+Birds	Starlings	Metallic Starling 	Animalia: Chordata: Aves	Passeriformes	Sturnidae	Aplornis	metallica 
+Birds	Starlings	Metallic Starling 	Animalia: Chordata: Aves	Passeriformes	Sturnidae	Aplornis	metallica metallica
+Birds	Starlings	Starlings 	Animalia: Chordata: Aves	Passeriformes	Sturnidae	Aplornis	sp.
+Birds	Starlings	Rosy Starling or Rose-coloured Starling	Animalia: Chordata: Aves	Passeriformes	Sturnidae	Sturnus	roseus 
+Birds	Starlings	Starlings 	Animalia: Chordata: Aves	Passeriformes	Sturnidae	Sturnus	sp.
+Birds	Starlings	Purple-backed Starling or Daurian Starling	Animalia: Chordata: Aves	Passeriformes	Sturnidae	Sturnus	sturninus 
+Birds	Starlings	Common Starling	Animalia: Chordata: Aves	Passeriformes	Sturnidae	Sturnus	vulgaris 
+Birds	Starlings	Common Starling	Animalia: Chordata: Aves	Passeriformes	Sturnidae	Sturnus	vulgaris vulgaris
+Birds	Starlings	Starling	Animalia: Chordata: Aves	Passeriformes	Sturnidae	Unknown	sp.
 Birds	Babblers & White-eyes	Silvereye	Animalia: Chordata: Aves	Passeriformes	Timaliidae	Unknown	sp.
 Birds	Babblers & White-eyes	White-chested White-eye	Animalia: Chordata: Aves	Passeriformes	Timaliidae	Zosterops	albogularis 
 Birds	Babblers & White-eyes	Ashy-bellied White-eye	Animalia: Chordata: Aves	Passeriformes	Timaliidae	Zosterops	citrinella
@@ -1486,7 +1486,7 @@ Birds	Thrushes	Bassian Thrush	Animalia: Chordata: Aves	Passeriformes	Turdidae	Zo
 Birds	Thrushes	Bassian Thrush	Animalia: Chordata: Aves	Passeriformes	Turdidae	Zoothera	lunulata halmaturina
 Birds	Thrushes	Bassian Thrush	Animalia: Chordata: Aves	Passeriformes	Turdidae	Zoothera	lunulata lunulata
 Birds	Thrushes	Thrushes	Animalia: Chordata: Aves	Passeriformes	Turdidae	Zoothera	sp.
-Birds	Flamingo 	American Flamingo 	Animalia: Chordata: Aves	Phoenicopteriformes	Phoenicopteridae	Phoenicopterus	ruber 
+Birds	Flamingo	American Flamingo 	Animalia: Chordata: Aves	Phoenicopteriformes	Phoenicopteridae	Phoenicopterus	ruber 
 Birds	Cockatoos	Sulphur-crested Cockatoo	Animalia: Chordata: Aves	Psittaciformes	Cacatuidae	Cacatua	galerita 
 Birds	Cockatoos	Sulphur-crested Cockatoo	Animalia: Chordata: Aves	Psittaciformes	Cacatuidae	Cacatua	galerita fitzroyi
 Birds	Cockatoos	Sulphur-crested Cockatoo	Animalia: Chordata: Aves	Psittaciformes	Cacatuidae	Cacatua	galerita galerita

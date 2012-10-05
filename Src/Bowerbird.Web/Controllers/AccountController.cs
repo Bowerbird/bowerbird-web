@@ -14,7 +14,9 @@
 
 using System;
 using System.Dynamic;
+using System.Linq;
 using Bowerbird.Core.Commands;
+using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Infrastructure;
 using Bowerbird.Core.Repositories;
 using Bowerbird.Web.Builders;
@@ -218,11 +220,17 @@ namespace Bowerbird.Web.Controllers
                 _documentSession.SaveChanges();
 
                 // HACK: Wait a couple of seconds to ensure all indexes are up to date
-                var stopwatch = System.Diagnostics.Stopwatch.StartNew();
-                stopwatch.Start();
-                while (stopwatch.ElapsedMilliseconds < 3000) {}
+                //var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+                //stopwatch.Start();
+                //while (stopwatch.ElapsedMilliseconds < 3000) {}
 
-                User user = _documentSession.LoadUserByEmail(accountRegisterInput.Email);
+                var user = _documentSession
+                    .Query<All_Users.Result, All_Users>()
+                    .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
+                    .AsProjection<All_Users.Result>()
+                    .Where(x => x.Email == accountRegisterInput.Email)
+                    .First()
+                    .User;
 
                 _userContext.SignUserIn(user.Id, accountRegisterInput.Email.ToLower(), accountRegisterInput.RememberMe);
 
@@ -587,7 +595,19 @@ namespace Bowerbird.Web.Controllers
 
         private bool AreCredentialsValid(string email, string password, out User user)
         {
-            user = _documentSession.LoadUserByEmail(email);
+            user = null;
+
+            var result = _documentSession
+                .Query<All_Users.Result, All_Users>()
+                .AsProjection<All_Users.Result>()
+                .Where(x => x.Email == email)
+                .ToList()
+                .FirstOrDefault();
+
+            if(result != null)
+            {
+                user = result.User;
+            }
 
             return user != null && user.ValidatePassword(password);
         }

@@ -30,7 +30,6 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView, Ident
             'change input#Address': '_contentChanged',
             'change input#Latitude': '_latLongChanged',
             'change input#Longitude': '_latLongChanged',
-            'change input#IsIdentificationRequired': '_isIdentificationRequiredChanged',
             'change input#AnonymiseLocation': '_anonymiseLocationChanged',
             'change #projects-field input:checkbox': '_projectsChanged',
             'change #category-field input:checkbox': '_categoryChanged',
@@ -42,6 +41,7 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView, Ident
 
         initialize: function (options) {
             _.bindAll(this, '_showIdentificationForm');
+            this.categorySelectList = options.categorySelectList;
             this.categories = options.categories;
             this.model.media.on('add', this.onMediaChanged, this);
         },
@@ -50,7 +50,7 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView, Ident
             return {
                 Model: {
                     Observation: this.model.toJSON(),
-                    Categories: this.categories
+                    CategorySelectList: this.categorySelectList
                 }
             };
         },
@@ -147,15 +147,34 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView, Ident
         },
 
         _showIdentificationForm: function (e) {
+            e.preventDefault();
+            if (this.model.get('Category') !== '') {
+                var that = this;
+                $.ajax({
+                    url: '/species?query=' + _.find(that.categories, function (item) { return item.Name === this.model.get('Category'); }, that).Taxonomy + '&field=taxonomy'
+                }).done(function (data) {
+                    that._renderIdentificationForm(data.Model.Species[0]);
+                });
+            } else {
+                this._renderIdentificationForm();
+            }
+        },
+
+        _renderIdentificationForm: function (identification) {
             $('body').append('<div id="modal-dialog"></div>');
-            var identificationFormView = new IdentificationFormView({ el: $('#modal-dialog') });
-            identificationFormView.on('identificationdone', this._onIdentificationDone, this);
+            this.identificationFormView = new IdentificationFormView({ el: $('#modal-dialog'), categories: this.categories, categorySelectList: this.categorySelectList, identification: identification });
+            this.identificationFormView.on('identificationdone', this._onIdentificationDone, this);
 
             $('#Category').multiSelectOptionsHide();
 
-            identificationFormView.render();
+            this.identificationFormView.render();
+        },
 
-            e.stopPropagation();
+        _onIdentificationDone: function (identification) {
+            this.$el.find('input[name="Category[]"][value="' + identification.get('Category') + '"]').click();
+            this.$el.find('#Category').html('<span><span>' + identification.get('Category') + '</span></span><i></i>');
+
+            log('category set', this.model.get('Category'));
         },
 
         _observedOnChanged: function (e) {
@@ -173,11 +192,6 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView, Ident
             if (newPosition.Latitude != null && newPosition.Longitude != null && (oldPosition.Latitude !== newPosition.Latitude || oldPosition.Longitude !== newPosition.Longitude)) {
                 this.editMapView.changeMarkerPosition(this.model.get('Latitude'), this.model.get('Longitude'));
             }
-        },
-
-        _isIdentificationRequiredChanged: function (e) {
-            var $checkbox = $(e.currentTarget);
-            this.model.set({ IsIdentificationRequired: $checkbox.attr('checked') == 'checked' ? true : false });
         },
 
         _anonymiseLocationChanged: function (e) {

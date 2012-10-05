@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
 using Bowerbird.Core.Events;
 
@@ -30,11 +31,12 @@ namespace Bowerbird.Core.DomainModels
         protected Species()
             : base()
         {
+            InitMembers();
         }
 
         public Species(
             string category,
-            string commonGroupName,
+            IEnumerable<string> commonGroupNames,
             IEnumerable<string> commonNames,
             string kingdomName,
             string phylumName,
@@ -43,16 +45,20 @@ namespace Bowerbird.Core.DomainModels
             string familyName,
             string genusName,
             string speciesName,
+            string subSpeciesName,
+            string synonym,
             DateTime createdOn,
             User createdByUser)
             : base()
         {
+            InitMembers();
+
             CreatedDateTime = createdOn;
             CreatedByUser = createdByUser;
 
             SetSpeciesDetails(
                 category,
-                commonGroupName,
+                commonGroupNames,
                 commonNames,
                 kingdomName,
                 phylumName,
@@ -60,7 +66,9 @@ namespace Bowerbird.Core.DomainModels
                 orderName,
                 familyName,
                 genusName,
-                speciesName);
+                speciesName,
+                subSpeciesName,
+                synonym);
 
             ApplyEvent(new DomainModelCreatedEvent<Species>(this, createdByUser, this));
         }
@@ -71,60 +79,63 @@ namespace Bowerbird.Core.DomainModels
 
         public string Category { get; private set; }
 
-        public string CommonGroupName { get; private set; }
+        public IEnumerable<string> CommonGroupNames { get; private set; }
 
         public IEnumerable<string> CommonNames { get; private set; }
 
-        public string KingdomName { get; private set; }
+        public IEnumerable<TaxonomicRank> Taxonomy { get; private set; }
 
-        public string PhylumName { get; private set; }
-
-        public string ClassName { get; private set; }
-
-        public string OrderName { get; private set; }
-
-        public string FamilyName { get; private set; }
-
-        public string GenusName { get; private set; }
-
-        public string SpeciesName { get; private set; }
+        public string Synonym { get; private set; }
 
         public DenormalisedUserReference CreatedByUser { get; private set; }
 
         public DateTime CreatedDateTime { get; private set; }
 
+        public string KingdomName { get { return TryGetRankName("kingdom"); } }
+
+        public string PhylumName { get { return TryGetRankName("phylum"); } }
+
+        public string ClassName { get { return TryGetRankName("class"); } }
+
+        public string OrderName { get { return TryGetRankName("order"); } }
+
+        public string FamilyName { get { return TryGetRankName("family"); } }
+
+        public string GenusName { get { return TryGetRankName("genus"); } }
+
+        public string SpeciesName { get { return TryGetRankName("species"); } }
+
+        public string SubSpeciesName { get { return TryGetRankName("subspecies"); } }
+
         #endregion
 
         #region Methods
 
-        public void SetSpeciesDetails(
-            string category,
-            string commonGroupName,
-            IEnumerable<string> commonNames,
-            string kingdomName,
-            string phylumName,
-            string className,
-            string orderName,
-            string familyName,
-            string genusName,
-            string speciesName
-            )
+        private void InitMembers()
         {
-            Category = category;
-            CommonGroupName = commonGroupName;
-            CommonNames = commonNames;
-            KingdomName = kingdomName;
-            PhylumName = phylumName;
-            ClassName = className;
-            OrderName = orderName;
-            FamilyName = familyName;
-            GenusName = genusName;
-            SpeciesName = speciesName;
+            Taxonomy = new List<TaxonomicRank>();
         }
 
-        public void UpdateDetails(
+        private string TryGetRankName(string rankType)
+        {
+            if (Taxonomy.Any(x => x.Type == rankType))
+            {
+                return Taxonomy.Single(x => x.Type == rankType).Name;
+            }
+            return string.Empty;
+        }
+
+        private void SetTaxonomicRank(string name, string type, List<TaxonomicRank> taxonomicRanks)
+        {
+            if (!string.IsNullOrWhiteSpace(name)) 
+            {
+                taxonomicRanks.Add(new TaxonomicRank(name.Trim(), type));
+            }
+        }
+
+        public void SetSpeciesDetails(
             string category,
-            string commonGroupName,
+            IEnumerable<string> commonGroupNames,
             IEnumerable<string> commonNames,
             string kingdomName,
             string phylumName,
@@ -133,12 +144,49 @@ namespace Bowerbird.Core.DomainModels
             string familyName,
             string genusName,
             string speciesName,
+            string subSpeciesName,
+            string synonym
+            )
+        {
+            Category = category;
+            CommonGroupNames = commonGroupNames;
+            CommonNames = commonNames;
+
+            var newTaxonomicRanks = new List<TaxonomicRank>();
+
+            SetTaxonomicRank(kingdomName, "kingdom", newTaxonomicRanks);
+            SetTaxonomicRank(phylumName, "phylum", newTaxonomicRanks);
+            SetTaxonomicRank(className, "class", newTaxonomicRanks);
+            SetTaxonomicRank(orderName, "order", newTaxonomicRanks);
+            SetTaxonomicRank(familyName, "family", newTaxonomicRanks);
+            SetTaxonomicRank(genusName, "genus", newTaxonomicRanks);
+            SetTaxonomicRank(speciesName, "species", newTaxonomicRanks);
+            SetTaxonomicRank(subSpeciesName, "subspecies", newTaxonomicRanks);
+            
+            Taxonomy = newTaxonomicRanks;
+
+            Synonym = synonym;
+        }
+
+        public void UpdateDetails(
+            string category,
+            IEnumerable<string> commonGroupNames,
+            IEnumerable<string> commonNames,
+            string kingdomName,
+            string phylumName,
+            string className,
+            string orderName,
+            string familyName,
+            string genusName,
+            string speciesName,
+            string subSpeciesName,
+            string synonym,
             User updatedByUser
             )
         {
             SetSpeciesDetails(
                 category,
-                commonGroupName,
+                commonGroupNames,
                 commonNames,
                 kingdomName,
                 phylumName,
@@ -146,7 +194,9 @@ namespace Bowerbird.Core.DomainModels
                 orderName,
                 familyName,
                 genusName,
-                speciesName);
+                speciesName,
+                subSpeciesName,
+                synonym);
 
             ApplyEvent(new DomainModelUpdatedEvent<Species>(this, updatedByUser, this));
         }

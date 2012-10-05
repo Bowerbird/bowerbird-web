@@ -1,0 +1,14 @@
+﻿<li>
+	<a href="#">
+		<img alt="" src="/img/category-{{Model.Category}}.png" class="search-identification-category">
+		<div class="search-identification-scientific-name">{{{Model.NameHtml}}}</div>
+		<div class="search-identification-rank-type">({{Model.RankType}})</div>
+		<div class="search-identification-taxonomy">Taxonomy: {{{Model.TaxonomyHtml}}}</div>
+		{{#Model.AllCommonNamesHtml}}
+		<div class="search-identification-common-names">Common names: {{{Model.AllCommonNamesHtml}}}</div>
+		{{/Model.AllCommonNamesHtml}}
+		{{#Model.SynonymsHtml}}
+		<div class="search-identification-synonyms">Synonyms: {{{Model.SynonymsHtml}}}</div>
+		{{/Model.SynonymsHtml}}
+	</a>
+</li>

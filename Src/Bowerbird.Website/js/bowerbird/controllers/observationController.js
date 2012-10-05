@@ -13,7 +13,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/observationlayoutview'
 function ($, _, Backbone, app, ObservationLayoutView, Observation) {
     var ObservationRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
-            'observations/addtoproject': 'showProjectObservationForm',
+            //'observations/addtoproject': 'showProjectObservationForm',
             'observations/create': 'showObservationForm',
             'observations/:id/update': 'showObservationForm',
             'observations/:id': 'showObservationDetails'
@@ -94,27 +94,27 @@ function ($, _, Backbone, app, ObservationLayoutView, Observation) {
                 }
 
                 var observationLayoutView = showObservationLayoutView(observation);
-                observationLayoutView.showObservationForm(observation, model.Categories);
+                observationLayoutView.showObservationForm(observation, model.CategorySelectList, model.Categories);
                 app.setPrerenderComplete();
             });
     };
 
-    ObservationController.showProjectObservationForm = function (params) {
-        $.when(getProjectObservationModel(params.id))
-            .done(function (model) {
-                var observation = new Observation(model.Observation);
-                if (observation.id) {
-                    app.updateTitle('Edit Observation');
-                } else {
-                    app.updateTitle('New Observation');
-                }
-                //observation.ProjectId = params.id;
+//    ObservationController.showProjectObservationForm = function (params) {
+//        $.when(getProjectObservationModel(params.id))
+//            .done(function (model) {
+//                var observation = new Observation(model.Observation);
+//                if (observation.id) {
+//                    app.updateTitle('Edit Observation');
+//                } else {
+//                    app.updateTitle('New Observation');
+//                }
+//                //observation.ProjectId = params.id;
 
-                var observationLayoutView = showObservationLayoutView(observation);
-                observationLayoutView.showObservationForm(observation, model.Categories);
-                app.setPrerenderComplete();
-            });
-    };
+//                var observationLayoutView = showObservationLayoutView(observation);
+//                observationLayoutView.showObservationForm(observation, model.CategorySelectList, model.Categories);
+//                app.setPrerenderComplete();
+//            });
+//    };
 
     ObservationController.mediaResourceUploaded = function (e, mediaResource) {
         app.vent.trigger('mediaResourceUploaded:', mediaResource);
