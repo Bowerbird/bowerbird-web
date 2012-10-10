@@ -1,43 +1,66 @@
-﻿<form action="/user/update" method="post"  enctype="multipart/form-data">
-    <fieldset>
-        <legend class="hidden">User Details</legend>
-        <div id="first-name-field" class="field">
+﻿<div class="form-details">
+<form action="/user/update" method="post"  enctype="multipart/form-data">
+  <fieldset>
+    <legend class="hidden">User Details</legend>
+
+    <p>Edit your account details below. You can also update your public profile description to enable others to more easily find you.</p>
+    <div class="field-row">
+
+      <div class="field avatar-field">
         <div>
-            <label for="firstname">First Name</label>
-        </div>
-        <div>
-            <input type="text" id="FirstName" name="firstname" value="{{Model.User.FirstName}}" />
-        </div>
-        </div>
-        <div id="last-name-field" class="field">
-        <div>
-            <label for="lastname">Last Name</label>
+          <label for="avatar">Avatar</label>
         </div>
         <div>
-          <input type="text" id="LastName" name="lastname" value="{{Model.User.LastName}}" />
+          <div id="avatar-viewer">
+            <img src="/img/user-Square400.jpg" alt="" />
+          </div>
+          <div id="avatar-upload-button" class="button avatar-upload-button">
+            Change<input id="file" type="file" name="file" multiple="" value="Change Avatar" />
+          </div>
         </div>
-        </div>
-        <div id="email-field" class="field">
+      </div>
+      
+      <div id="name-field" class="field">
         <div>
-            <label for="website">Email</label>
+          <label for="Name">
+            Name <span>Required</span>
+          </label>
         </div>
         <div>
-            <input type="text" id="Email" name="email" value="{{Model.User.Email}}" />
+          <input type="text" id="Name" name="name" value="{{Model.User.Name}}" />
         </div>
-        </div>
-        <div class="field">
+      </div>
+      
+      <div id="email-field" class="field">
         <div>
-            <label for="avatar">User Avatar</label>
+          <label for="website">Email <span>Required</span>
+        </label>
         </div>
-            <div id="avatar-viewer" class="field avatar-field">
+        <div>
+          <input type="text" id="Email" name="email" value="{{Model.User.Email}}" />
         </div>
-        <div id="avatar-upload-button" class="field button avatar-upload-button">
-            Change Avatar<input id="fileupload" type="file" name="file" multiple="" class="avatar-uploader" />
-        </div>
+      </div>
+      
     </div>
-    </fieldset>
-    <fieldset>
-        <input type="button" value="Save" id="save" />
-        <input type="button" value="Cancel" id="cancel" />
-    </fieldset>
+    <div class="field-row">
+      
+      
+      <div id="description-field" class="field">
+        <div>
+          <label for="description">Description</label>
+        </div>
+        <div>
+          <textarea rows="4" cols="100" id="Description" name="description">{{Model.User.Description}}</textarea>
+        </div>
+      </div>
+      
+      
+      
+    </div>
+  </fieldset>
+  <fieldset>
+    <input type="button" value="Save" id="save" />
+    <input type="button" value="Cancel" id="cancel" />
+  </fieldset>
 </form>
+</div>

@@ -15,7 +15,7 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
         el: 'header',
         
         events: {
-            'click .sub-menu-button': 'showMenu'
+            'click .user-menu-item': 'showMenu'
         },
 
         showBootstrappedDetails: function () {
@@ -28,7 +28,7 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
         
         showMenu: function (e) {
             $('.sub-menu-button').removeClass('active');
-            $(e.currentTarget).addClass('active');
+            this.$el.find('.sub-menu-button').addClass('active');
             e.stopPropagation();
         }
     });

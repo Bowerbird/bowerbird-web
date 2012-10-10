@@ -41,9 +41,7 @@ namespace Bowerbird.Web.Factories
             {
                 user.Id,
                 user.Avatar,
-                user.FirstName,
-                user.LastName,
-                Name = user.GetName(),
+                user.Name,
                 LatestActivity = user.SessionLatestActivity,
                 LatestHeartbeat = user.SessionLatestHeartbeat
             };

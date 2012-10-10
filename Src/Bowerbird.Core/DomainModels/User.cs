@@ -47,8 +47,7 @@ namespace Bowerbird.Core.DomainModels
         public User(
             string password,
             string email,
-            string firstName, 
-            string lastName,
+            string name,
             MediaResource avatar,
             string defaultLicence,
             string timezone) 
@@ -62,8 +61,7 @@ namespace Bowerbird.Core.DomainModels
             LastLoggedIn = DateTime.UtcNow;
 
             SetDetails(
-                firstName,
-                lastName,
+                name,
                 avatar,
                 string.Empty,
                 defaultLicence,
@@ -78,9 +76,7 @@ namespace Bowerbird.Core.DomainModels
 
         public string Email { get; private set; }
 
-        public string FirstName { get; private set; }
-
-        public string LastName { get; private set; }
+        public string Name { get; private set; }
 
         public string Description { get; private set; }
 
@@ -144,7 +140,7 @@ namespace Bowerbird.Core.DomainModels
 
         public string GetName()
         {
-            return string.Format("{0} {1}", FirstName, LastName); 
+            return Name; 
         }
 
         private void InitMembers()
@@ -171,10 +167,9 @@ namespace Bowerbird.Core.DomainModels
             return hashedPassword;
         }
 
-        private void SetDetails(string firstName, string lastName, MediaResource avatar, string description, string defaultLicence, string timezone)
+        private void SetDetails(string name, MediaResource avatar, string description, string defaultLicence, string timezone)
         {
-            FirstName = firstName;
-            LastName = lastName;
+            Name = name;
             Avatar = avatar;
             Description = description;
             DefaultLicence = defaultLicence;
@@ -207,11 +202,10 @@ namespace Bowerbird.Core.DomainModels
             return this;
         }
 
-        public virtual User UpdateDetails(string firstName, string lastName, string description, MediaResource avatar, string defaultLicence, string timezone)
+        public virtual User UpdateDetails(string name, string description, MediaResource avatar, string defaultLicence, string timezone)
         {
             SetDetails(
-                firstName,
-                lastName,
+                name,
                 avatar,
                 description,
                 defaultLicence,

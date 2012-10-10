@@ -184,10 +184,10 @@ namespace Bowerbird.Core.Config
             }
         }
 
-        //private void AddUser(string password, string email, string firstname, string lastname, params string[] roleIds)
+        //private void AddUser(string password, string email, string name, params string[] roleIds)
         //{
         //    var globalRoles = Roles.Where(x => roleIds.Any(y => x.Id == "roles/" + y));
-        //    var user = new User(password, email, firstname, lastname, globalRoles);
+        //    var user = new User(password, email, name, globalRoles);
         //    _documentSession.Store(user);
         //    Users.Add(user);
 

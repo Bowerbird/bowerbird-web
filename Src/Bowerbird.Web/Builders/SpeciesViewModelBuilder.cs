@@ -16,10 +16,10 @@ using System.Linq;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Indexes;
+using Bowerbird.Core.Paging;
 using Bowerbird.Web.ViewModels;
 using Raven.Client;
 using Raven.Client.Linq;
-using Bowerbird.Core.Paging;
 
 namespace Bowerbird.Web.Builders
 {
@@ -78,30 +78,47 @@ namespace Bowerbird.Web.Builders
                     .Advanced
                     .LuceneQuery<All_Species.Result, All_Species>()
                     .SelectFields<All_Species.Result>("Taxonomy", "Name", "RankPosition", "RankName", "RankType", "ParentRankName", "Ranks", "Category", "SpeciesCount", "CommonGroupNames", "CommonNames", "Synonyms")
+                    .Statistics(out stats)
                     .WhereEquals("RankPosition", 1)
                     .OrderBy(x => x.Name)
                     .Take(50)
                     .ToList()
-                    .Select(x => MakeSpecies(x, string.Empty)));
+                    .Select(x => MakeSpecies(x, true))
+                    .ToPagedList(
+                        pagingInput.GetPage(),
+                        pagingInput.GetPageSize(),
+                        stats.TotalResults
+                    ));
 
-                for(var rankIndex = 1; rankIndex < ranks.Count(); rankIndex++)
+                // Get all the ranks of the specified taxonomy, plus the next rank, so as the user can browse it
+                var rankCountToGet = ranks.Count() + 1 > 8 ? 8 : ranks.Count() + 1;
+                
+                for (var rankIndex = 1; rankIndex < rankCountToGet; rankIndex++)
                 {
                     queryResults.Add(
                         _documentSession
                         .Advanced
                         .LuceneQuery<All_Species.Result, All_Species>()
                         .SelectFields<All_Species.Result>("Taxonomy", "Name", "RankPosition", "RankName", "RankType", "ParentRankName", "Ranks", "Category", "SpeciesCount", "CommonGroupNames", "CommonNames", "Synonyms")
+                        .Statistics(out stats)
                         .WhereEquals("ParentRankName", ranks.ElementAt(rankIndex - 1))
                         .AndAlso()
                         .WhereEquals("RankPosition", rankIndex + 1)
                         .OrderBy(x => x.Name)
                         .Take(50)
                         .ToList()
-                        .Select(x => MakeSpecies(x, string.Empty)));
+                        .Select(x => MakeSpecies(x, true))
+                        .ToPagedList(
+                            pagingInput.GetPage(),
+                            pagingInput.GetPageSize(),
+                            stats.TotalResults
+                        ));
                 }
 
                 return queryResults;
             }
+
+            var getAllNames = false;
 
             var query = _documentSession
                 .Advanced
@@ -112,6 +129,7 @@ namespace Bowerbird.Web.Builders
             if (field.ToLower() == "taxonomy")
             {
                 query.WhereEquals("Taxonomy", queryText);
+                getAllNames = true;
             }
             else if(field.ToLower() == "scientific")
             {
@@ -161,11 +179,33 @@ namespace Bowerbird.Web.Builders
                 .Skip(pagingInput.GetSkipIndex())
                 .Take(pagingInput.GetPageSize())
                 .ToList()
-                .Select(x => MakeSpecies(x, queryText));
+                .Select(x => MakeSpecies(x, getAllNames, queryText))
+                .ToPagedList(
+                    pagingInput.GetPage(),
+                    pagingInput.GetPageSize(),
+                    stats.TotalResults
+                );
         }
 
-        private static object MakeSpecies(All_Species.Result result, string query)
+        private static object MakeSpecies(All_Species.Result result, bool getAllNames = false, string query = "")
         {
+            IEnumerable<string> commonGroupNames = new string[] {};
+            IEnumerable<string> commonNames = new string[] { };
+            IEnumerable<string> synonyms = new string[] { };
+
+            if (getAllNames)
+            {
+                commonGroupNames = result.CommonGroupNames;
+                commonNames = result.CommonNames;
+                synonyms = result.Synonyms;
+            }
+            else
+            {
+                commonGroupNames = result.CommonGroupNames.Where(x => x.ToLower().StartsWith(query.ToLower()));
+                commonNames = result.CommonNames.Where(x => x.ToLower().StartsWith(query.ToLower()));
+                synonyms = result.Synonyms.Where(x => x.ToLower().StartsWith(query.ToLower()));
+            }
+
             return new
             {
                 result.Taxonomy,
@@ -177,9 +217,9 @@ namespace Bowerbird.Web.Builders
                 result.Ranks,
                 result.Category,
                 result.SpeciesCount,
-                CommonGroupNames = result.CommonGroupNames.Where(x => x.ToLower().StartsWith(query.ToLower())),
-                CommonNames = result.CommonNames.Where(x => x.ToLower().StartsWith(query.ToLower())),
-                Synonyms = result.Synonyms.Where(x => x.ToLower().StartsWith(query.ToLower()))
+                CommonGroupNames = commonGroupNames,
+                CommonNames = commonNames,
+                Synonyms = synonyms
             };
         }
 

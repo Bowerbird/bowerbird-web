@@ -75,8 +75,8 @@ function ($, _, Backbone, app, Project) {
 
         createObservation: function (e) {
             e.preventDefault();
-            var location = e.target.attributes["href"]; //$(this).attr('href');
-            app.observationRouter.navigate(location.nodeValue, { trigger: true });
+            //var location = e.target.attributes["href"]; //$(this).attr('href');
+            Backbone.history.navigate(e.target.attributes["href"], { trigger: true });
             return false;
         },
 

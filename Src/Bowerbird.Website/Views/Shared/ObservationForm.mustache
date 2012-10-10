@@ -35,10 +35,9 @@
           <div id="upload-progress-status">
             <div id="upload-progress-message"></div>
             <div class="ui-progress-bar ui-container" id="upload-progress-bar">
-              <div class="ui-progress" style="width: 7%;">
+              <div class="ui-progress" style="width: 0%;">
                 <span class="ui-label" style="display:none;">
-                  <!--Loading Resources-->
-                  <b class="value">7%</b>
+                  <b class="value">0%</b>
                 </span>
               </div>
             </div>
@@ -118,7 +117,7 @@
             </div>
             <div>
               <div id="location-pin">
-                <img src="http://maps.gstatic.com/mapfiles/ms/icons/blue-dot.png" width="32" height="32" alt="" />
+                <img src="/img/map-pin.png" width="38" height="38" alt="" />
               </div>
             </div>
           </div>
@@ -163,12 +162,12 @@
 
             
 
-            <div id="anonymise-location-field" class="field field-checkbox">
+            <div id="anonymise-location-field" class="field field-checkbox-slider">
               <div>
                 <label>Hide Location</label>
               </div>
               <div>
-                <div class="checkbox">
+                <div class="checkbox-slider">
                   <input type="checkbox" id="AnonymiseLocation" name="anonymiseLocation" {{#Model.Observation.AnonymiseLocation}}checked=""{{/Model.Observation.AnonymiseLocation}} />
                   <label for="AnonymiseLocation">
                     <span class="on">Yes</span><span class="bar"></span><span class="off">No</span>Show Exact Location

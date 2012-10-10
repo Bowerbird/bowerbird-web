@@ -62,7 +62,7 @@ namespace Bowerbird.Web.EventHandlers
                 .From(_configSettings.GetEmailAdminAccount(), "Bowerbird")
                 .To(requestPasswordResetEvent.User.Email)
                 .Subject("Bowerbird password reset request")
-                .UsingTemplate("RequestPasswordResetEmail", new { requestPasswordResetEvent.User.FirstName, ResetUri = string.Format(_configSettings.GetEnvironmentRootUri() + _configSettings.GetEmailResetPasswordRelativeUri(), requestPasswordResetEvent.User.ResetPasswordKey) })
+                .UsingTemplate("RequestPasswordResetEmail", new { requestPasswordResetEvent.User.Name, ResetUri = string.Format(_configSettings.GetEnvironmentRootUri() + _configSettings.GetEmailResetPasswordRelativeUri(), requestPasswordResetEvent.User.ResetPasswordKey) })
                 .Message;
 
             _emailService.SendMailMessage(message);

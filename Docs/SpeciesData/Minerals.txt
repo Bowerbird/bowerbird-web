@@ -1,0 +1,1357 @@
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Acanthite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Actinolite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Adamite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Adamite var: Cuprian Adamite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Aegirine
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Aegirine-augite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Aenigmatite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Agardite-(Ce)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Agardite-(Nd)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Agardite-(Y)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Aheylite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Aikinite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Akimotoite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Alabandite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Albite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Albite var: Andesine
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Albite var: Oligoclase
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Alcite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Aldermanite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Aldridgeite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Aleksite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Allactite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Allanite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Allanite-(Ce)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Allanite-(Y)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Allargentum
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Alloclasite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Allophane
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Almandine
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Alstonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Altaite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Aluminite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Alunite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Amarantite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Amblygonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Analcime
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Anatase
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Andalusite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Andalusite var: Chiastolite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Andradite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Andradite var: Melanite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Andradite-Grossular Series
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Angastonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Anglesite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Anhydrite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Ankerite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Annabergite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Annite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Anorthite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Anorthite var: Barium-Anorthite (of Nockolds and Zies)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Anorthite var: Bytownite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Anorthite var: Labradorite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Anorthoclase
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Antarcticite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Anthoinite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Anthophyllite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Antigorite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Antigorite var: Picrolite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Antimony
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Antlerite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Apatite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Aphthitalite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Apophyllite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Apophyllite-(KF)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Apophyllite-(KOH)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Apophyllite-(NaF)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Aragonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Archerite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Ardealite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Arfvedsonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Argentojarosite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Argentopyrite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Argyrodite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Armenite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Arsenic
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Arseniosiderite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Arsenoclasite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Arsenoflorencite-(Ce)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Arsenogorceixite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Arsenolite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Arsenopyrite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Arsentsumebite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Arthurite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Asbolane
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Ashburtonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Assiterite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Atacamite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Augelite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Augite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Augite var: Fassaite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Augite var: Jeffersonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Augite var: Titanian Augite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Aurichalcite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Auricupride
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Aurorite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Aurostibite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Austinite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Autunite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Awaruite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Axinite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Axinite-(Fe)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Axinite-(Mg)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Axinite-(Mn)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Azurite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Babingtonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Baddeleyite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Baileychlore
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Bamfordite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Bannisterite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Barbertonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Barbosalite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Bariopharmacosiderite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Bariosincosite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Barlowite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Barringtonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Barroisite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Baryte
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Baryte var: Baryte Rose
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Barytocalcite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Bassanite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Bastnäsite-(Ce)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Bastnäsite-(La)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Batisite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Baumhauerite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Bavenite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Bayldonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Beaverite-(Cu)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Bechererite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Becquerelite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Beidellite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Bementite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Benjaminite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Beraunite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Berlinite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Bermanite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Bernalite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Berthierine
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Berthierite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Bertrandite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Beryl
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Beryl  var: Emerald
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Beryl var: Aquamarine
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Beryl var: Emerald
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Beryl var: Heliodor
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Beryl var: Vorobyevite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Beryli var: Emerald
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Berzelianite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Betekhtinite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Betpakdalite-CaCa
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Beudantite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Beusite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Beyerite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Bianchite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Billietite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Biotite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Biotite var: Titanian Biotite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Biphosphammite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Birchite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Birnessite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Bismite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Bismoclite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Bismuth
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Bismuthinite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Bismutite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Bismutoferrite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Bityite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Bixbyite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Blixite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Blödite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Bobierrite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Bohdanowiczite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Boleite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Boltwoodite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Boothite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Bornite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Boromullite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Botallackite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Botryogen
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Boulangerite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Bournonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Bracewellite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Brannerite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Brannerite var: Absite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Braunite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Breithauptite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Brianyoungite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Britholite-(Ce)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Brochantite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Brokenhillite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Bromargyrite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Bromellite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Brookite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Brucite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Brushite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Bursaite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Bustamite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Buttgenbachite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Böhmite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Cacoxenite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Calaverite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Calcioancylite-(Nd)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Calcioferrite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Calcite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Calcite var: Cobaltoan Calcite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Calcite var: Ferroan Calcite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Calcite var: Glendonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Calcite var: Iceland Spar
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Calcite var: Manganoan Calcite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Calderónite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Caledonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Cancrinite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Canfieldite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Cannonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Capgaronnite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Carminite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Carnotite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Carrboydite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Carrollite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Cassiterite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Cassiterite var: Wood Tin
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Caysichite-(Y)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Celadonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Celestine
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Celsian
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Cerchiaraite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Cerianite-(Ce)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Cerite-(Ce)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Ceruleite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Cerussite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Cerussite var: Chrome-Cerussite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Cervantite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Chabazite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Chabazite-Ca
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Chabazite-Na
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Chalcanthite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Chalcoalumite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Chalcocite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Chalconatronite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Chalcophanite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Chalcopyrite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Chalcosiderite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Chalcostibite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Chamosite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Chamosite var: Thuringite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Chenevixite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Cheralite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Cheralite-(Ce)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Childrenite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Chlorapatite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Chlorargyrite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Chlorargyrite var: Bromian Chlorargyrite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Chlorargyrite var: Brunsvigite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Chlorargyrite var: Iodian Bromian Chlorargyrite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Chlorite Group
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Chloritoid
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Chloro-potassichastingsite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Chondrodite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Chrisstanleyite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Christelite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Chromite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Chromium
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Chrysoberyl
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Chrysoberyl var: Alexandrite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Chrysocolla
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Chrysotile
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Churchite-(Y)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Cinnabar
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Claringbullite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Clausthalite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Clinoatacamite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Clinobisvanite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Clinochlore
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Clinochlore var: Chromian Clinochlore
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Clinochlore var: Diabantite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Clinochlore var: Ripidolite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Clinochrysotile
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Clinoclase
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Clinoenstatite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Clinoferrosilite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Clinohumite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Clinozoisite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Cloncurryite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Coalingite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Cobalt
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Cobaltaustinite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Cobaltite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Cobaltpentlandite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Coccinite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Coffinite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Cohenite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Collinsite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Coloradoite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Columbite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Columbite-(Fe)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Columbite-(Mn)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Colusite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Compreignacite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Conichalcite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Connellite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Cookeite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Copiapite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Copper
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Coquimbite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Cordierite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Corkite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Cornetite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Cornubite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Cornwallite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Coronadite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Corundum
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Corundum 
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Corundum var: Ruby
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Corundum var: Ruby var: Sapphire
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Corundum var: Sapphire
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Cosalite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Costibite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Coulsellite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Covellite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Cowlesite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Crandallite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Creedite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Cristobalite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Crocoite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Cronstedtite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Cryptomelane
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Ctinolite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Cubanite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Cumengeite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Cummingtonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Cuprite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Cuprite var: Chalcotrichite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Cuprocopiapite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Cuprotungstite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Curite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Cyanotrichite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Cyrilovite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Danalite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Danburite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Danielsite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Datolite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Davidite-(La)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Davidite-(Y)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Decrespignyite-(Y)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Delafossite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Delvauxite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Descloizite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Descloizite var: Cuprian Descloizite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Dewindtite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Diaboleite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Diamond
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Diaphorite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Diaspore
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Dickinsonite-(KMnNa)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Dickite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Dietrichite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Digenite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Diopside
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Diopside var: Chromian Diopside
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Dioptase
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Djurleite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Dolomite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Dolomite var: Ferroan Dolomite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Dolomite var: Manganoan Dolomite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Dolomite var: Zincian Dolomite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Doloresite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Domerockite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Donnayite-(Y)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Dravite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Dufrénite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Dufrénoysite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Duftite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Dumontite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Dundasite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Dussertite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Dypingite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Dyscrasite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Ecandrewsite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Edenite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Edwardsite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Ekatite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Elbaite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Elyite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Emplectite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Enargite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Enstatite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Enstatite var: Bronzite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Eosphorite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Epidote
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Epsomite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Eriochalcite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Erionite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Erionite-Ca
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Erionite-Na
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Ernstite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Erythrite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Eskebornite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Eskolaite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Eucairite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Euchroite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Eucryptite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Eudialyte
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Eulytine
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Euxenite-(Y)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Evansite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Fairfieldite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Falcondoite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Falkmanite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Famatinite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Faustite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Fayalite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Felbertalite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Feldspar Group
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Felsobányaite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Ferberite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Fergusonite-(Y)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Ferricopiapite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Ferrierite-Mg
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Ferrimolybdite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Ferriwinchite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Ferro-Actinolite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Ferro-aluminoceladonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Ferroholmquistite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Ferrohornblende
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Ferrohögbomite-2N2S
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Ferrokaersutite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Ferropargasite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Ferrotschermakite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Ferrowinchite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Finnemanite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Florencite-(Ce)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Florencite-(La)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Fluellite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Fluoborite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Fluocerite-(Ce)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Fluorapatite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Fluorapatite var: Carbonate-rich Fluorapatite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Fluorite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Fluoro-potassicrichterite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Fluorophlogopite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Foggite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Foitite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Formanite-(Y)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Fornacite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Forsterite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Fourmarierite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Fraipontite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Francevillite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Francisite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Franckeite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Franklinite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Françoisite-(Ce)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Françoisite-(Nd)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Freibergite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Freieslebenite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Friedelite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Gadolinite-(Y)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Gahnite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Galena
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Galenobismutite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Ganophyllite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Garnierite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Gartrellite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Gaspéite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Gatehouseite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Gatumbaite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Gearksutite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Gedrite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Geerite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Gehlenite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Geikielite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Gelosaite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Georgeite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Gerhardtite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Gersdorffite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Gibbsite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Gillardite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Gismondine
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Gladite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Glauberite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Glaucodot
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Glauconite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Glaucophane
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Glaukosphaerite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Gmelinite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Gmelinite-Na
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Godlevskite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Goethite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Gold
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Gold var: Electrum
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Goldfieldite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Gonnardite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Gorceixite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Gordaite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Gordonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Goslarite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Goslarite var: Mangangoslarite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Goyazite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Graftonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Grandidierite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Graphite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Graphite var: Cliftonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Greenalite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Greenockite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Greenockite var: Zincian Greenockite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Grimaldiite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Grossular
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Grossular var: Hessonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Groutite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Grunerite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Guanajuatite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Guanine
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Gudmundite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Gunningite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Gypsum
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Gypsum var: Satin Spar Gypsum
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Gypsum var: Selenite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Gyrolite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hafnon
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Halite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Halloysite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Halotrichite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hambergite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hannayite 
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Harmotome
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hastingsite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hauchecornite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hausmannite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hawleyite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Haüyne
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Heazlewoodite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hedenbergite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hedenbergite var: Manganoan Hedenbergite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hedyphane
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Heisenbergite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hellyerite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Helvite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hematite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hematite var: Martite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hematite var: Specularite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hemimorphite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hendricksite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hentschelite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hercynite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Herschelite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hessite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hetaerolite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Heterogenite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Heterosite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Heulandite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hexahydrite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Heyrovskıite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hibschite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hidalgoite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hillite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hinsdalite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hiortdahlite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hisingerite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hoganite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hollandite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Holmquistite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Holtite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hopeite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hornblende
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hulsite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Humite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Huntite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hureaulite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hyalophane
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hydrocerussite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hydrohetaerolite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hydrohonessite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hydrokenoelsmoreite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hydromagnesite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hydroniumjarosite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hydrotalcite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hydroxylapatite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hydroxylapatite var: Carbonate-rich Hydroxylapatite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hydrozincite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hylbrownite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hypersthene
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Högbomite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hörnesite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Hübnerite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Iamond
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Ianthinite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Idaite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Ikunolite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Illite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Ilmenite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Ilmenite var: Iserine
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Ilmenite var: Picroilmenite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Ilsemannite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Ilvaite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Inesite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Iodargyrite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Iowaite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Irarsite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Iridium
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Iridium var: Osmiridium
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Iron
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Iron Iron var: Kamacite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Iron var: Kamacite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Isoferroplatinum
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Isokite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Ixiolite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Jacobsite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Jagüéite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Jahnsite-(CaMnMn)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Jalpaite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Jamesonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Jarosite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Jeppeite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Johannsenite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Johntomaite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Jonassonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Jordanite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Joséite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Joséite-A
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Joséite-B
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Junoite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Kaersutite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Kambaldaite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Kamphaugite-(Y)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Kanoite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Kaolinite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Kapundaite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Kasolite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Katophorite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Kdalaite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Kegelite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Kermesite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Kidwellite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Kieserite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Kimrobinsonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Kingite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Kintoreite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Kipushite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Kleemanite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Klockmannite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Kobellite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Koechlinite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Kolbeckite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Kolitschite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Konyaite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Kornelite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Kornerupine
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Kostovite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Krautite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Krennerite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Krupkaite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Ktenasite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Kutnohorite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Kyanite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Kôzulite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Köttigite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Lanarkite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Langite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Larsenite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Laueite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Laumontite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Laurionite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Laurite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Lavendulan
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Lawsonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Lazulite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Lbite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Lead
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Leadhillite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Leakeite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Lechatelierite var: Fulgurite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Legrandite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Lehiite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Lepidocrocite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Lepidolite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Leucite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Leucophosphite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Leucoxene
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Libethenite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Libethenite var: Zincian Libethenite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Liebigite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Likasite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Lillianite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Lime
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Limonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Linarite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Lingunite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Linnaeite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Lipscombite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Litharge
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Lithiophilite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Lithiophorite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Liversidgeite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Livingstonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Lizardite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Loveringite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Lucasite-(Ce)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Ludwigite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Luetheite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Luinaite-(OH)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Lévyne
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Lévyne-Ca
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Lévyne-Na
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Löllingite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Mackinawite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Maghemite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Magnesian hastingsite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Magnesio-arfvedsonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Magnesiochromite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Magnesiofoitite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Magnesiohastingsite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Magnesiohornblende
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Magnesioriebeckite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Magnesiotaaffeite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Magnesite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Magnesite var: Ferroan Magnesite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Magnetite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Magnetite var: Aluminous Magnetite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Magnetite var: Nickeloan Magnetite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Magnetite var: Titaniferous Magnetite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Magnetite var: Vanado-Magnetite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Majorite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Malachite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Maldonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Mallardite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Mandarinoite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Manganite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Manganochromite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Manganocummingtonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Manganogrunerite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Mansfieldite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Marcasite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Margarite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Marialite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Marshite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Massicot
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Masuyite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Matildite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Matlockite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Maucherite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Mawbyite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Mawsonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Mcguinnessite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Mckinstryite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Meionite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Melanterite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Melanterite var: Cuprian Melanterite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Melonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Mendipite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Mendozavilite-NaFe
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Meneghinite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Merenskyite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Mesolite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Meta-autunite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Metahohmannite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Metanatroautunite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Metaschoepite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Metaswitzerite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Metatorbernite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Metavariscite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Metazeunerite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Meurigite-Na
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Miargyrite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Mica Group
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Michenerite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Microcline
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Microcline var: Amazonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Microlite Group
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Microlite Group var: Cesstibtantite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Microlite Group var: Uranmicrolite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Miersite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Millerite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Millisite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Mimetite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Mimetite var: Bellite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minium
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minnesotaite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minyulite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Mirabilite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Mitridatite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Mixite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Molybdenite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Molybdenite 
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Molybdenum
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Molybdite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Monazite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Monazite-(Ce)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Monazite-(La)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Monazite-(Nd)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Moncheite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Monetite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Monohydrocalcite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Montanite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Montbrayite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Montebrasite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Montgomeryite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Monticellite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Montmorillonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Moolooite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Moraesite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Mordenite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Morenosite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Morinite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Mottramite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Mottramite var: Duhamelite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Mountkeithite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Mpororoite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Mundrabillaite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Murchisite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Murdochite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Muscovite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Muscovite var: Damourite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Muscovite var: Fuchsite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Muscovite var: Fuchsite var: Sericite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Muscovite var: Sericite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Mushistonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Nacrite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Nadorite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Nagyágite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Nalcime
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Namansilite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Namibite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Namuwite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Nantokite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Natanite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Natroalunite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Natrodufrénite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Natrojarosite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Natrolite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Natrolite var: Mooraboolite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Natroniobite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Natropharmacosiderite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Naumannite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Neotocite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Nepheline
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Neptunite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Nesquehonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Newberyite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Nickel
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Nickelalumite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Nickelblödite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Nickeline
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Nickelskutterudite var: Chloanthite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Niedermayrite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Nissonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Nitromagnesite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Noelbensonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Nolanite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Nontronite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Noonkanbahite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Norbergite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Norrishite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Nsutite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Nuffieldite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Nukundamite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Nullaginite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Nyholmite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Népouite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Ocalities
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Offretite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Okenite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Olenite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Olivenite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Olivenite var: Cobaltoan Olivenite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Olivenite var: Zincian Olivenite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Olivine
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Omphacite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Oosterboschite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Opal
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Opal var: Boulder Opal
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Opal var: Crystal Opal
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Opal var: Fire Opal
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Opal var: Harlequin Opal
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Opal var: Hydrophane
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Opal var: Jelly Opal
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Opal var: Milk Opal
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Opal var: Mother of Opal
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Opal var: Opal Matrix
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Opal var: Opal-AN
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Opal var: Pineapple Opal
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Opal var: Pinfire Opal
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Opal var: Pipe Opal
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Opal var: Precious Opal
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Opal var: Red Flash Opal
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Opal var: Shell Opal
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Opal var: White Opal
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Opal var: Wood Opal
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Opal var: Yowah Nut
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Orcelite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Ornite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Orpiment
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Orthoclase
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Orthoserpierite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Osarizawaite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Osmium
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Osmium var: Iridosmine
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Osmium var: Rhodic Nevyanskite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Otavite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Otwayite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Overite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Owyheeite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Oxammite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Oxyplumborome´ite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Paceite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Palladium
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Palladoarsenide
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Palygorskite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Paracostibite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Paradocrasite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Paragonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Parahopeite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Paralaurionite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Paraotwayite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Parasymplesite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Paratacamite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Paratooite-(La)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Paravauxite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Pargasite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Parkerite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Parsonsite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Paulscherrerite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Pearceite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Pecoraite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Pectolite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Pectolite var: Manganoan Pectolite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Peisleyite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Pekoite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Pennantite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Pentlandite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Perhamite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Perite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Perloffite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Perovskite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Perroudite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Petalite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Petterdite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Petzite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Pharmacolite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Pharmacosiderite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Phenakite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Phengite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Philipsbornite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Phillipsite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Phillipsite-Ca
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Phillipsite-K
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Phillipsite-Na
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Phlogopite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Phosgenite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Phosphammite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Phosphohedyphane
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Phosphophyllite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Phosphosiderite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Phosphuranylite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Phurcalite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Pickeringite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Piemontite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Pigeonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Planerite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Platinum
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Platinum var: Ferroan Platinum
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Plattnerite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Plimerite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Plumbogummite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Plumbojarosite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Plumbophyllite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Pollucite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Polybasite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Polydymite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Posnjakite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Potarite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Powellite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Prehnite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Preisingerite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Priderite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Prosopite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Proudite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Proustite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Pseudobrookite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Pseudomalachite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Pseudorutile
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Pucherite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Pumpellyite-(Mg)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Purpurite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Pyrargyrite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Pyrite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Pyrite var: Arsenian Pyrite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Pyrite var: Bravoite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Pyroaurite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Pyrobelonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Pyrochlore Group
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Pyrochlore Supergroup var: Betafite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Pyrolusite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Pyromorphite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Pyromorphite var: Ca-bearing Pyromorphite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Pyrope
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Pyrophanite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Pyrophyllite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Pyrosmalite-(Fe)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Pyrosmalite-(Mn)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Pyrostilpnite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Pyroxmangite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Pyrrhotite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Quartz
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Quartz var: Agate
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Quartz var: Amethyst
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Quartz var: Blue Quartz
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Quartz var: Carnelian
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Quartz var: Chalcedony
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Quartz var: Citrine
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Quartz var: Eye Agate
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Quartz var: Jasper
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Quartz var: Milky Quartz
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Quartz var: Prase
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Quartz var: Rock Crystal
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Quartz var: Rose Quartz
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Quartz var: Rutilated Quartz
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Quartz var: Sceptre Quartz
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Quartz var: Smoky Quartz
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Quartz vvar: Chalcedony
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Quartz vvar: Jasper
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Quartzvar: Milky Quartz
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Quatz var: Rock Crystal
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Rabejacite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Ralstonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Rammelsbergite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Ramsdellite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Raspite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Realgar
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Reevesite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Renierite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Retgersite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Reynoldsite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Rhabdophane-(Ce)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Rhodium
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Rhodochrosite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Rhodonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Rhomboclase
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Rhönite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Richterite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Rickardite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Riebeckite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Ringwoodite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Robertsite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Rockbridgeite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Romanèchite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Roméite Group var: Bismutostibiconite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Roméite Group var: Stetefeldtite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Roméite Group var: Stibiconite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Rooseveltite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Rosasite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Roscoelite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Roselite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Roxbyite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Rozenite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Rucklidgeite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Russellite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Rutheniridosmine
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Ruthenium
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Rutherfordine
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Rutile
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Rutile var: Ilmenorutile
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Rutile var: Niobian Rutile
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Rutile var: Strüverite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Römerite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Safflorite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Saléeite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Samarskite-(Y)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Sampleite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Sanidine
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Santabarbaraite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Saponite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Sapphirine
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Sassolite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Scawtite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Scheelite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Scheelite var: Cuprian Scheelite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Schoepite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Scholzite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Schorl
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Schreibersite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Schuilingite-(Nd)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Schulenbergite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Sclerospathite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Scolecite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Scorodite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Scorzalite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Seamanite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Segelerite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Segnitite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Sekaninaite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Selenium
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Sellaite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Sepiolite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Serpentine Group
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Serpierite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Serpierite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Shandite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Shannonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Shigaite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Sicklerite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Siderate var: Pistomesite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Siderite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Siderite var: Manganoan Siderite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Siderite var: Pistomesite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Siderite var: Zincian Siderite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Siderophyllite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Siegenite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Sieleckiite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Sillimanite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Silver
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Silver var: Amalgam
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Silver var: Antimonial Silver
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Silvialite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Sjögrenite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Sklodowskite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Skutterudite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Skutterudite var: Smaltite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Smectite Group
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Smithsonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Smithsonite var: Monheimite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Smolianinovite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Smythite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Sodalite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Soddyite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Sorosite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Spangolite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Speculite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Sperrylite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Spertiniite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Spessartine
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Sphalerite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Sphalerite var: Marmatite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Spheniscidite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Spherocobaltite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Spinel
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Spinel var: Chromspinel
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Spinel var: Pleonaste
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Spionkopite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Spodumene
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Spriggite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Springcreekite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Stannite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Stannoidite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Staurolite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Stellerite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Stephanite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Stercorite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Stevensite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Stibarsen
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Stibiopalladinite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Stibiotantalite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Stibnite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Stichtite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Stilbite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Stilbite-Na
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Stillwellite-(Ce)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Stilpnomelane
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Stolzite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Strengite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Stromeyerite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Strontianite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Struvite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Sturtite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Stützite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Sudburyite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Sugilite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Sulphur
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Sulvanite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Surinamite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Sussexite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Svanbergite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Switzerite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Sylvanite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Sylvite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Symplesite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Synchysite-(Ce)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Syngenite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Szaibélyite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Szmikite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Sénarmontite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Sérandite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Tacharanite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Taenite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Takovite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Talc
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Tantalite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Tantalite-(Fe)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Tantalite-(Mn)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Tanteuxenite-(Y)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Tapiolite-(Fe)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Taranakite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Tarbuttite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Tasmanite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Teallite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Tellurantimony
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Tellurium
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Tellurobismuthite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Tengerite-(Y)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Tennantite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Tenorite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Tephroite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Testibiopalladite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Tetradymite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Tetraferriannite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Tetrahedrite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Tetrahedrite var: Argentian Tetrahedrite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Tetrahedrite var: Mercurian Tetrahedrite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Tetrawickmanite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Thaumasite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Thenardite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Theophrastite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Thomsonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Thomsonite-Ca
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Thorianite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Thorite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Thorogummite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Thorutite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Threadgoldite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Tiemannite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Tilasite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Tilleyite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Tin
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Tinsleyite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Titanite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Titanite var: Yttrian Titanite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Tivanite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Tobermorite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Tochilinite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Todorokite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Tomichite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Topaz
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Torbernite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Tourmaline
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Tranquillityite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Tremolite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Trevorite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Tridymite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Trilithionite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Triphylite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Triplite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Triploidite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Tripuhyite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Troilite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Trolleite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Trona
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Tsumcorite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Tsumebite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Tsumoite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Tucekite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Tuite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Tulameenite var: Iridian tulameenite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Tungsten
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Tungstite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Turquoise
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Turquoise var: Rashleighite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Tyuyamunite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Törnebohmite-(Ce)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Törnebohmite-(La)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Ullmannite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Umangite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Ungarettiite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Ungemachite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Uraninite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Uraninite var: Pitchblende
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Uranocircite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Uranophane
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Uranopilite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Uranospathite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Uranospinite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Uricite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Ushkovite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Uvarovite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Uvite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Vaesite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Valentinite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Valleriite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Vanadinite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Vanadinite var: Arsenatian Vanadinite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Vandendriesscheite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Variscite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Variscite var: Ferrian Variscite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Vaterite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Vauquelinite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Vermiculite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Vernadite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Vesuvianite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Violarite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Vivianite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Volborthite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Voltaite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Volynskite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Vonsenite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Vésigniéite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Wadeite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Wadsleyite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Wagnerite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Wagnerite var: Magniotriplite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Wairakite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Wakefieldite-(Ce)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Walentaite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Wardite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Waterhouseite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Wavellite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Waylandite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Weberite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Weddellite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Weeksite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Weissite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Werdingite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Whewellite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Whitlockite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Wickmanite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Widgiemoolthalite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Willemite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Willyamite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Winchite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Witherite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Wittichenite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Wittite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Wodginite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Wolfeite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Wolframite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Wollastonite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Woodallite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Woodhouseite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Woodwardite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Wulfenite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Wulfenite var: Chillagite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Wupatkiite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Wurtzite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Wyartite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Wölsendorfite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Wüstite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Xanthoxenite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Xenotime-(Y)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Xonotlite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Yancowinnaite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Yttrotantalite-(Y)
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Zapatalite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Zaratite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Zavaritskite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Zdenekite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Zeolite Group
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Zinc
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Zincochromite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Zincolibethenite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Zincolivenite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Zincrosasite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Zinnwaldite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Zircon
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Zircon var: Cyrtolite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Zirconolite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Zoisite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Zoisite var: Thulite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Zunyite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Zwieselite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	ß-Roselite
+Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	Minerals	ß-Uranophane

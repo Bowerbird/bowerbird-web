@@ -73,14 +73,8 @@ body
     overflow-y: scroll;
 }
 header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
     background-color: rgb(255, 255, 255);
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
-    height: 3.5em;
-    z-index: 10;
 }
 footer
 {
@@ -102,22 +96,6 @@ article
     margin: 0 auto -200px;
     max-width: 1200px;
     min-height: 100%;
-}
-/*
-*
-* Main heading
-*
-*/
-header h1 a
-{
-    display: table-cell;
-    height: 56px;
-    vertical-align: middle;
-}
-header h1 img {
-    /*max-height: 1.1em;*/
-    width: 100%;
-    max-width: 164px;
 }
 /*
 *
@@ -150,22 +128,6 @@ header h1 img {
     font-weight: 600;
     text-decoration: none;
     text-shadow: 0 1px 0 rgb(255, 255, 255);
-}
-.tab-bar .tab-image-button
-{
-    position: relative;
-    text-indent: -99999px;
-}
-.tab-bar .tab-image-button span
-{
-    display: block;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 14px;
-    background-position: -96px -120px;
-    background-image: url("/img/glyphicons-halflings-blue.png");
-    background-repeat: no-repeat;
 }
 .tab-bar .tab-button.selected,
 .tab-bar .tab-image-button.selected
@@ -223,6 +185,27 @@ header h1 img {
     top: 2px;
     width: 15px;
 }
+.small-icon.user-icon {
+    background-position: -113px -48px;
+}
+.small-icon.home-icon {
+    background-position: -6px -48px;
+}
+.small-icon.project-icon {
+    background-position: -33px -48px;
+}
+.small-icon.team-icon {
+    background-position: -60px -48px;
+}
+.small-icon.organisation-icon {
+    background-position: -87px -48px;
+}
+.small-icon.record-icon {
+    background-position: -169px -48px;
+}
+.small-icon.observation-icon {
+    background-position: -143px -48px;
+}
 /*
 *
 * Popup menus
@@ -238,22 +221,38 @@ header h1 img {
     width: 30px;
     border-bottom-right-radius: 4px;
 }
-.sub-menu-button > span
+.sub-menu-button .arrow-icon
 {
-    background: url("/img/glyphicons-halflings-white.png") no-repeat scroll -456px -72px rgb(207, 221, 235);
-    border: 2px solid rgb(207, 221, 235);
-    border-radius: 10px 10px 10px 10px;
-    display: block;
-    height: 18px;
     left: 2px;
     position: relative;
     top: 16px;
+    background-color: rgb(207, 221, 235);
+    background-image: url("/img/icons.png");
+    background-size: 3100% auto;
+    border-radius: 10px 10px 10px 10px;
+    display: block;
+    height: 18px;
     width: 18px;
 }
-.sub-menu-button:hover > span
+.right-arrow-icon 
 {
-    background: url("/img/glyphicons-halflings-white.png") no-repeat scroll -456px -72px #1B83EB;
-    border: 2px solid #1B83EB;
+    background-position: -21px -173px;
+}
+.left-arrow-icon 
+{
+    background-position: -81px -173px;
+}
+.up-arrow-icon 
+{
+    background-position: -199px -173px;
+}
+.down-arrow-icon 
+{
+    background-position: -141px -173px;
+}
+.sub-menu-button:hover .arrow-icon
+{
+    background-color: #1B83EB;
 }
 .sub-menu-button ul
 {
@@ -275,8 +274,7 @@ header h1 img {
 }
 .sub-menu-button.active > span
 {
-    background: url("/img/glyphicons-halflings-white.png") no-repeat scroll -456px -72px #1B83EB;
-    border: 2px solid #1B83EB;
+    background-color: #1B83EB;
 }
 .sub-menu-button ul li
 {
@@ -324,7 +322,6 @@ header h1 img {
     border: 0 solid rgb(221, 221, 221);
     border-radius: 4px 4px 4px 4px;
     box-shadow: 0 1px 2px 0 rgb(51, 51, 51);
-    margin-bottom: 20px;
 }
 #modal-dialog .form form
 {
@@ -336,6 +333,10 @@ header h1 img {
     display: block;
     padding: 2%;
     position: relative;
+}
+.form.form-small form > fieldset
+{
+    padding: 2% 30%;
 }
 .field-row 
 {
@@ -367,9 +368,15 @@ header h1 img {
 {
     display: none;
 }*/
+.form-details {
+    background-color: rgb(227, 227, 227);
+    border-radius: 4px 4px 4px 4px;
+    padding: 2%;
+}
 .form .field
 {
     float: left;
+    width: 100%;
 }
 /*.form form > fieldset > .field:last-child
 {
@@ -417,6 +424,7 @@ header h1 img {
     font-weight: 600;
     line-height: 2em;
     text-shadow: 0 1px 0 rgb(255, 255, 255);
+    cursor: pointer;
 }
 .form legend > span {
     display: block;
@@ -436,9 +444,6 @@ header h1 img {
 }
 .form form > fieldset:last-child
 {
-    padding-right: 15px;
-    padding-top: 15px;
-    padding-bottom: 15px;
     border-top: 1px solid rgb(213, 213, 213);
 }
 .form input[type=text],
@@ -579,7 +584,7 @@ a.multiSelect:focus,
     color: rgb(68, 68, 68);
     font-size: 0.84em;
     line-height: 1.3em;
-    margin: 2% 0;
+    margin: 0 0 10px;
     text-shadow: 0 1px 0 rgb(255, 255, 255);
 }
 .form p a
@@ -588,34 +593,7 @@ a.multiSelect:focus,
     margin: 0 0 15px;
     text-shadow: 0 1px 0 #FFFFFF;
 }
-/*.form .field-checkbox div:last-child {
-    border-radius: 16px 16px 16px 16px;
-    display: block;
-    height: 32px;
-    margin-top: 3px;
-    overflow: hidden;
-    width: 67px;
-}
-.form .field-checkbox div:last-child input[type=checkbox] {
-  display: none;
-}
-.form .field-checkbox div:last-child input[type=checkbox] + label {
-  text-indent: -9999px;
-  display: block;
-  width: 150px;
-  height: 32px;
-  line-height: 32px;
-  background: transparent url(/img/checkbox-sprite-ios5.png) no-repeat -58px 0;
-  -webkit-transition: background-position 0.3s ease-in-out;
-  -moz-transition: background-position 0.3s ease-in-out;
-  cursor: pointer;
-}
-.form .field-checkbox div:last-child input[type=checkbox]:checked + label {
-  -webkit-transition: background-position 0.3s ease-in-out;
-  -moz-transition: background-position 0.3s ease-in-out;
-  background-position: 1px 0;
-}*/
-.form .field-checkbox div.checkbox {
+.form .field-checkbox-slider div.checkbox-slider {
     background-color: rgb(255, 255, 255);
     border: 1px solid rgb(170, 170, 170);
     border-radius: 22px 22px 22px 22px;
@@ -626,23 +604,18 @@ a.multiSelect:focus,
     position: relative;
     width: 96px;
 }
-.form .field-checkbox div.checkbox input[type=checkbox] 
+.form .field-checkbox-slider div.checkbox-slider input[type=checkbox] 
 {
     position: absolute;
     left: -100px;
 }
-.form .field-checkbox div.checkbox input[type=checkbox]:focus + label
-{
-    /*box-shadow: 0 1px 2px 0 #777777 inset, 0 1px 6px 0 rgba(80, 158, 238, 0.4);
-    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.8);*/
-}
-.form .field-checkbox div.checkbox span
+.form .field-checkbox-slider div.checkbox-slider span
 {
     display: block;
     float: left;
 }
-.form .field-checkbox div.checkbox span.on,
-.form .field-checkbox div.checkbox span.off
+.form .field-checkbox-slider div.checkbox-slider span.on,
+.form .field-checkbox-slider div.checkbox-slider span.off
 {
     color: rgb(0, 0, 0);
     font-size: 1.4em;
@@ -655,7 +628,7 @@ a.multiSelect:focus,
     text-transform: none;
     width: 54px;
 }
-.form .field-checkbox div.checkbox span.bar
+.form .field-checkbox-slider div.checkbox-slider span.bar
 {
     background-color: rgb(97, 167, 237);
     border: 1px solid rgb(27, 131, 235);
@@ -671,10 +644,9 @@ a.multiSelect:focus,
     text-shadow: 0 -1px 0 rgb(19, 58, 104);
     width: 40px;
 }
-.form .field-checkbox div.checkbox input[type=checkbox] + label {
+.form .field-checkbox-slider div.checkbox-slider input[type=checkbox] + label {
     -webkit-transition: margin-left 0.3s ease-in-out;
     -moz-transition: margin-left 0.3s ease-in-out;
-    
     border-radius: 22px 22px 22px 22px;
     cursor: pointer;
     height: 41px;
@@ -683,11 +655,68 @@ a.multiSelect:focus,
     text-indent: -99999px;
     width: 150px;
 }
-.form .field-checkbox div.checkbox input[type=checkbox]:checked + label {
+.form .field-checkbox-slider div.checkbox-slider input[type=checkbox]:checked + label {
   -webkit-transition: margin-left 0.3s ease-in-out;
   -moz-transition: margin-left 0.3s ease-in-out;
   margin-left: 0;
 }
+/* Simple checkbox */
+.form .checkbox-simple-control 
+{
+    background: none repeat scroll 0 0 rgb(170, 170, 170);
+    border-radius: 4px 4px 4px 4px;
+    height: 28px;
+    position: relative;
+    width: 28px;
+    display: inline-block;
+}
+.form .checkbox-simple-control input[type="checkbox"] {
+    opacity: 0;
+}
+.form .checkbox-simple-control input[type="checkbox"]:checked + label:after {
+    opacity: 1;
+}
+.form .checkbox-simple-control input[type="checkbox"]:focus + label {
+    box-shadow: 0 0 2px 1px rgba(119, 119, 119, 0.3) inset, 0 0 0 4px rgba(80, 158, 238, 0.4);
+}
+.form .checkbox-simple:hover .checkbox-simple-control label:after {
+    opacity: 0.3;
+}
+.form .checkbox-simple-control label:after {
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    background: none repeat scroll 0 0 transparent;
+    border: 4px solid rgb(0, 0, 0);
+    border-top: none;
+    border-right: none;
+    content: "";
+    height: 4px;
+    left: 6px;
+    opacity: 0;
+    position: absolute;
+    top: 8px;
+    width: 13px;
+}
+.form .checkbox-simple-control label 
+{
+    /*background: -moz-linear-gradient(center top, rgb(34, 34, 34) 0%, rgb(69, 72, 77) 100%) repeat scroll 0 0 transparent;*/
+    background: none repeat scroll 0 0 rgb(255, 255, 255);
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 0 2px 1px rgba(119, 119, 119, 0.3) inset;
+    height: 26px;
+    left: 1px;
+    position: absolute;
+    top: 1px;
+    width: 26px;
+}
+.form .checkbox-simple-label {
+    display: inline-block;
+    margin-left: 3px;
+}
+
 .form .validation-summary-errors
 {
     background: none repeat scroll 0 0 #FF9494;
@@ -1434,7 +1463,7 @@ a.multiSelect:focus,
 .form #anonymise-location-field label{
     float: right;
 }
-.form #anonymise-location-field div.checkbox {
+.form #anonymise-location-field div.checkbox-slider {
     position: absolute;
     right: 0;
     top: 25px;
@@ -1448,14 +1477,17 @@ a.multiSelect:focus,
 }
 .form #pin-field > div:last-child
 {
-    padding-left: 10px;
-    padding-top: 4px;
+    padding-left: 8px;
 }
 .form #location-pin 
 {
-    position: absolute;
+    background-image: url("/img/map-pin-shadow.png");
+    background-position: 5px 5px;
+    background-repeat: no-repeat;
     cursor: pointer;
-    z-index: 8;
+    position: absolute;
+    width: 43px;
+    z-index: 8;    
 }
 .form #latitude-field {
     margin-bottom: 10px;
@@ -1811,12 +1843,6 @@ a.multiSelect i
     vertical-align: middle;
     width: 37px;
 }
-
-#organisation-field a.multiSelect,
-#team-field a.multiSelect
-{
-    width:50%;
-}
 #organisation-field a.multiSelect img,
 #team-field a.multiSelect img
 {
@@ -1842,7 +1868,19 @@ a.multiSelect i
 {
     padding-right: 15px;
 }
-
+.project-form #name-field {
+    float: none;
+    margin-bottom: 10px;
+    margin-left: 145px;
+    width: auto;
+}
+.profile-form #name-field,
+.profile-form #email-field {
+    float: none;
+    margin-bottom: 10px;
+    margin-left: 145px;
+    width: auto;
+}
 
 
 
@@ -1862,14 +1900,86 @@ a.multiSelect i
 * Header 
 *
 */
-#explore-menu
-{
+header.home-header {
+    height: 34.75em;
+}
+header.home-header > div {
+    margin-bottom: 0;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 3.5em;
+    position: relative;
+}
+header.home-header .banner {
+    background-color: rgb(236, 236, 236);
+    height: 27em;
+    margin: 0 2.2%;
+    border-radius: 4px;
+}
+header.home-header .slogan {
     display: block;
-    height: 56px;
-    margin-left: 23%;
-    position: absolute;
+    float: left;
+    height: 27em;
+    padding: 4%;
+    width: 50%;
+}
+header.home-header .slogan .button {
+    display: inline-block;
+    font-size: 1.8em;
+    letter-spacing: -0.01em;
+    line-height: 1.4em;
+    margin-top: 32px;
+    padding: 5px 30px;
+}
+header.home-header .feature-image {
+    display: block;
+    float: left;
+    width: 50%;
+    height: 27em;
+    overflow: hidden;
+}
+header.home-header .feature-image img {
+    border-radius: 0 4px 4px 0;
+    float: right;
+    height: 100%;
+}
+header.home-header h1 img {
+    width: 75%;
+}
+header.home-header p {
+    color: rgb(64, 64, 64);
+    font-size: 2.8em;
+    letter-spacing: -0.04em;
+    line-height: 1.25em;
+    margin-top: 24px;
+    text-shadow: 0 2px 0 rgb(255, 255, 255);
+}
+header.default-header {
+    position: fixed;
     top: 0;
-    width: 400px;
+    left: 0;
+    right: 0;
+    height: 3.5em;
+    z-index: 10;
+}
+header.default-header h1 a
+{
+    display: table-cell;
+    height: 56px;
+    vertical-align: middle;
+}
+header.default-header h1 img {
+    width: 100%;
+    max-width: 164px;
+}
+header.default-header #explore-menu
+{
+    display: inline-block;
+    vertical-align: top;
+}
+header.home-header #explore-menu {
+    font-size: 1.2em;
+    margin-left: 2.2%;
 }
 #explore-menu > ul > li
 {
@@ -1884,52 +1994,70 @@ a.multiSelect i
 #account-menu .user-name
 {
     color: rgb(68, 68, 68);
-    font-size: 0.9375em;
+    font-size: 1.1em;
     font-weight: 600;
     text-decoration: none;
 }
 #account-menu {
+    margin-right: 2.2%;
     max-width: 250px;
     position: absolute;
-    right: 260px;
-    top: 17px;
+    right: 0;
+    top: 16px;
+}
+header.home-header #account-menu {
+    font-size: 1.2em;
+    top: 16px;
 }
 #account-menu .small-icon {
-    background-position: -113px -48px;
     top: -5px;
 }
 #account-menu > ul > li {
-    list-style-type: none;
-}
-#account-menu .user-menu-item .user-name {
     display: inline-block;
-    margin-right: 26px;
-    max-width: 214px;
+    list-style-type: none;
+    margin-left: 20px;
+}
+header.default-header #account-menu .user-menu-item 
+{
+    cursor: pointer;
+}
+header.default-header #account-menu .user-menu-item .user-name {
+    display: inline-block;
+    margin-right: 25px;
+    max-width: 178px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-#account-menu .user-menu-item .sub-menu-button {
+header.default-header #account-menu .user-menu-item .sub-menu-button {
     right: 0;
     top: 0;
     width: 20px;
 }
-#account-menu .user-menu-item .sub-menu-button ul {
+header.default-header #account-menu .user-menu-item .sub-menu-button ul {
     left: -190px;
     top: 8px;
 }
-#account-menu .user-menu-item .sub-menu-button > span {
+header.default-header #account-menu .user-menu-item .sub-menu-button .down-arrow-icon {
     top: 4px;
     left: 0;
     background-color: rgb(204, 204, 204);
     border-color: rgb(204, 204, 204);
 }
-#search-menu {
-    display: block;
+header.default-header #account-menu:hover .user-menu-item .sub-menu-button .down-arrow-icon,
+header.default-header #account-menu .user-menu-item .sub-menu-button.active .down-arrow-icon {
+    background-color: rgb(27, 131, 235);
+}
+header.default-header #search-menu {
+    display: inline-block;
+    padding: 9px 0;
+    vertical-align: top;
+}
+header.home-header #search-menu {
+    bottom: -48px;
     margin-right: 2.2%;
     position: absolute;
     right: 0;
-    top: 11px;
 }
 #search-menu label {
     display: none;
@@ -1941,9 +2069,26 @@ a.multiSelect i
     box-shadow: 0 0 2px 1px rgba(119, 119, 119, 0.3) inset;
     color: rgb(0, 0, 0);
     font-family: "open sans",sans-serif;
-    font-size: 0.9375em;
+    font-size: 1.1em;
     padding: 5px 12px;
+}
+header.default-header #search-menu input[type=text] {
+    width: 86px;
     
+    -webkit-transition: width 1s ease;
+    -moz-transition: width 1s ease;  
+    -o-transition: width 1s ease;  
+    -ms-transition: width 1s ease;  
+    transition: width 1s ease;  
+}
+header.home-header #search-menu input[type=text] 
+{
+    width: 300px;
+    font-size: 1.2em;
+}
+header.default-header #search-menu input[type=text]:focus
+{
+    width: 130px;
 }
 #search-menu input::-webkit-input-placeholder
 {
@@ -1991,13 +2136,15 @@ a.multiSelect i
     margin: 0;
     position: relative;
     text-indent: -99999px;
+    padding: 0;
+    line-height: 0.01em;
 }
 #sidebar #action-menu .button span {
     background-image: url("/img/icons.png");
     background-repeat: no-repeat;
     display: block;
-    position: absolute;
     background-size: 625%;
+    margin: 5px auto 0;
 }
 #sidebar #action-menu .new-observation-button 
 {
@@ -2008,8 +2155,6 @@ a.multiSelect i
 {
     background-position: -1px -1px;
     height: 40px;
-    right: 21px;
-    top: 5px;
     width: 40px;
 }
 #sidebar #action-menu .new-record-button 
@@ -2022,8 +2167,6 @@ a.multiSelect i
 {
     background-position: -84px -1px;
     height: 40px;
-    right: 21px;
-    top: 4px;
     width: 40px;
 }
 #sidebar #action-menu .new-project-button 
@@ -2035,8 +2178,6 @@ a.multiSelect i
 {
     background-position: -42px -1px;
     height: 40px;
-    right: 21px;
-    top: 4px;
     width: 40px;
 }
 #sidebar .menu-group
@@ -2138,15 +2279,6 @@ a.multiSelect i
 #sidebar #organisation-menu-group .menu-group-item > a
 {
     margin-right: 30px;
-}
-#sidebar #project-menu-group .menu-group-title span {
-    background-position: -33px -48px;
-}
-#sidebar #team-menu-group .menu-group-title span {
-    background-position: -60px -48px;
-}
-#sidebar #organisation-menu-group .menu-group-title span {
-    background-position: -87px -48px;
 }
 /*
 *
@@ -2987,4 +3119,234 @@ li.chat-message .message-text
 .audio-media.media-full-1024 
 {
     
+}
+
+
+
+
+
+
+/* Public Home */
+.home-public.single {
+    margin-top: 0;
+}
+.home-public h3 {
+    color: rgb(34, 102, 172);
+    font-size: 1.7em;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 42px;
+    clear: both;
+}
+.home-public .home-what,
+.home-public .home-why,
+.home-public .home-how {
+    margin: 42px 0 0;
+    float: left;
+    width: 100%;
+}
+.home-public .home-what-item {
+    width: 31.8%;
+    margin-right: 2.2%;
+    float: left;
+    color: rgb(68, 68, 68);
+}
+.home-public .home-what-item:last-child 
+{
+    margin-right: 0;
+}
+.home-public .home-what-item img {
+    background-color: #fff;
+    border-radius: 4px;
+    display: block;
+    height: 13em;
+    width: 100%;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px 0 rgb(51, 51, 51);
+}
+.home-public .home-what-item em 
+{
+    font-size: 1.1em;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 2.1em;
+}
+.home-public .home-what-item p {
+    font-size: 0.85em;
+    line-height: 1.5em;
+}
+.home-public .home-why .carousel 
+{
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px 0 rgb(51, 51, 51);
+    height: 27em;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+.home-public .home-why .carousel ul
+{
+    
+}
+.home-public .home-why .carousel li
+{
+    list-style: none;
+    display: block;
+    float: left;
+    width: 100%;
+    height: 27em;
+}
+.home-public .home-why .carousel li img
+{
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+.home-public .home-why .carousel .carousel-button
+{
+    display: block;
+    width: 100px;
+    height: 100%;
+    position: absolute;
+    background-color: silver;
+    opacity: 0.2;
+    cursor: pointer;
+    
+    -webkit-transition: opacity 1s ease;
+    -moz-transition: opacity 1s ease;  
+    -o-transition: opacity 1s ease;  
+    -ms-transition: opacity 1s ease;  
+    transition: opacity 1s ease;
+}
+.home-public .home-why .carousel .previous-button
+{
+    top: 0;
+}
+.home-public .home-why .carousel .carousel-button span {
+    background-image: url("/img/icons.png");
+    background-size: 354% auto;
+    display: block;
+    height: 100px;
+    width: 100px;
+    top: 10em;
+    position: relative;
+}
+.home-public .home-why .carousel .previous-button span
+{
+    background-position: -103px -135px;
+}
+.home-public .home-why .carousel .next-button span
+{
+    background-position: -1px -135px;
+}
+.home-public .home-why .carousel .next-button
+{
+    top: 0;
+    right: 0;
+}
+.home-public .home-why .carousel:hover .carousel-button
+{
+    opacity: 0.5;
+}
+.home-public .home-why .carousel:hover .pagination
+{
+    opacity: 1;
+}
+.home-public .home-why .carousel .pagination
+{
+    position: absolute;
+    text-align: center;
+    top: 22em;
+    width: 100%;
+    opacity: 0.5;
+    
+    -webkit-transition: opacity 1s ease;
+    -moz-transition: opacity 1s ease;  
+    -o-transition: opacity 1s ease;  
+    -ms-transition: opacity 1s ease;  
+    transition: opacity 1s ease;    
+}
+.home-public .home-why .carousel .pagination .pager {
+    border-radius: 24px 24px 24px 24px;
+    cursor: pointer;
+    display: inline-block;
+    height: 20px;
+    margin-right: 7px;
+    padding: 0;
+    width: 20px;
+}
+.home-public .home-why .carousel .pagination .pager.selected {
+    box-shadow: 0 0 0 3px rgba(80, 158, 238, 0.4);
+}
+.home-public .home-why em
+{
+    display: block;
+    font-size: 1.1em;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 2.1em;
+    text-align: center;
+    color: rgb(68, 68, 68);
+}
+.home-public .home-why p {
+    font-size: 0.85em;
+    line-height: 1.5em;
+    text-align: center;
+    color: rgb(68, 68, 68);
+}
+.home-public .home-why p a,
+.home-public .home-why p a:active,
+.home-public .home-why p a:visited {
+    color: rgb(34, 102, 172);
+}
+.home-public .home-how 
+{
+    text-align: center;
+    background-color: rgb(232, 228, 219);
+    border-radius: 4px;
+    margin-top: 64px;
+    margin-bottom: 42px;
+}
+.home-public .home-how h3 {
+    padding-top: 42px;
+}
+.home-public .home-how .carousel
+{
+    display: block;
+    height: 77px;
+    overflow: hidden;
+    position: relative;
+    width: auto;
+}
+.home-public .home-how .carousel ul 
+{
+    
+}
+.home-public .home-how .carousel li {
+    display: block;
+    float: left;
+    height: 79px;
+    list-style: none outside none;
+    padding: 7px;
+    width: 114px;
+}
+.home-public .home-how .carousel li > div
+{
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px 0 rgb(51, 51, 51);
+    width: 104px;
+    height: 69px;
+}
+.home-public .home-how .button {
+    display: inline-block;
+    font-size: 2.2em;
+    letter-spacing: -0.04em;
+    line-height: 1.4em;
+    margin-bottom: 43px;
+    margin-top: 43px;
+    padding: 5px 30px;
 }

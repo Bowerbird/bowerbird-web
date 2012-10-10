@@ -63,7 +63,7 @@ function ($, _, Backbone, app, ich, loadImage, EditAvatarView) {
                 selectAll: false,
                 singleSelect: true,
                 noOptionsText: 'No Teams',
-                noneSelected: 'Select A Team',
+                noneSelected: 'Select a Team',
                 oneOrMoreSelected: function (selectedOptions) {
                     var $selectedHtml = $('<span />');
                     _.each(selectedOptions, function (option) {

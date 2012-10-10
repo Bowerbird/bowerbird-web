@@ -9,12 +9,13 @@
 // ObservationController & ObservationRouter
 // -----------------------------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'views/observationlayoutview', 'models/observation', 'queryparams'],
+define(['jquery', 'underscore', 'backbone', 'app', 'views/observationlayoutview', 'models/observation'],
 function ($, _, Backbone, app, ObservationLayoutView, Observation) {
     var ObservationRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
             //'observations/addtoproject': 'showProjectObservationForm',
             'observations/create': 'showObservationForm',
+            'observations/create?id=:projectId': 'showObservationForm',
             'observations/:id/update': 'showObservationForm',
             'observations/:id': 'showObservationDetails'
         }
@@ -53,20 +54,20 @@ function ($, _, Backbone, app, ObservationLayoutView, Observation) {
         return deferred.promise();
     };
 
-    var getProjectObservationModel = function (id) {
-        var url = '/observations/create?id=' + id;
-        var deferred = new $.Deferred();
-        if (app.isPrerendering('observations')) {
-            deferred.resolve(app.prerenderedView.data);
-        } else {
-            $.ajax({
-                url: url
-            }).done(function (data) {
-                deferred.resolve(data.Model);
-            });
-        }
-        return deferred.promise();
-    };
+//    var getProjectObservationModel = function (id) {
+//        var url = '/observations/create?id=' + id;
+//        var deferred = new $.Deferred();
+//        if (app.isPrerendering('observations')) {
+//            deferred.resolve(app.prerenderedView.data);
+//        } else {
+//            $.ajax({
+//                url: url
+//            }).done(function (data) {
+//                deferred.resolve(data.Model);
+//            });
+//        }
+//        return deferred.promise();
+//    };
 
     // Public API
     // ----------
@@ -83,8 +84,8 @@ function ($, _, Backbone, app, ObservationLayoutView, Observation) {
             });
     };
 
-    ObservationController.showObservationForm = function (id) {
-        $.when(getModel(id))
+    ObservationController.showObservationForm = function (observationId, projectId) {
+        $.when(getModel(observationId))
             .done(function (model) {
                 var observation = new Observation(model.Observation);
                 if (observation.id) {

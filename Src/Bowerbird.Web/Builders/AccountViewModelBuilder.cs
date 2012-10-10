@@ -49,11 +49,12 @@ namespace Bowerbird.Web.Builders
 
         #region Methods
 
-        public object MakeAccountLogin()
+        public object MakeAccountLogin(string returnUrl)
         {
             return new
             {
-                Email = _userContext.HasEmailCookieValue() ? _userContext.GetEmailCookieValue() : string.Empty
+                Email = _userContext.HasEmailCookieValue() ? _userContext.GetEmailCookieValue() : string.Empty,
+                ReturnUrl = returnUrl
             };
         }
 
@@ -71,8 +72,7 @@ namespace Bowerbird.Web.Builders
         {
             return new
             {
-                accountRegisterInput.FirstName,
-                accountRegisterInput.LastName,
+                accountRegisterInput.Name,
                 accountRegisterInput.Email
             };
         }

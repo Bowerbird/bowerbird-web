@@ -12,9 +12,9 @@
 define(['jquery', 'underscore', 'backbone', 'app', 'views/streamview', 'collections/activitycollection'], function ($, _, Backbone, app, StreamView, ActivityCollection) {
 
     var HomePrivateLayoutView = Backbone.Marionette.Layout.extend({
-        className: 'home',
+        className: 'home-private',
 
-        template: 'Home',
+        template: 'HomePrivate',
 
         regions: {
             summary: '.summary',
@@ -35,7 +35,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/streamview', 'collecti
 
         showBootstrappedDetails: function () {
             this.initializeRegions();
-            this.$el = $('#content .home');
+            this.$el = $('#content .home-private');
             this.showDetails();
         },
 

@@ -1,60 +1,70 @@
-﻿<h2>New Project</h2>
+﻿<h2><span class="small-icon project-icon"></span>Project</h2>
+<div class="form-details">
 <form action="/projects/create" method="post"  enctype="multipart/form-data">
-    <fieldset>
-        <legend class="hidden">Project Details</legend>
-        <div id="name-field" class="field">
-          <div>
-              <label for="name">Name</label>
-          </div>
-          <div>
-              <input type="text" id="Name" name="name" value="{{Model.Project.Name}}" />
-          </div>
-        </div>
-        <div id="description-field" class="field">
-            <div>
-                <label for="description">Description</label>
-            </div>
-            <div>
-                <textarea rows="4" cols="100" id="Description" name="description">{{Model.Project.Description}}</textarea>
-            </div>
-        </div>
-      <div class="field-row">
+  <fieldset>
+    <legend class="hidden">Project Details</legend>
+    <div class="field-row">
       <div class="field avatar-field">
         <div>
-          <label for="avatar">Project Avatar</label>
+          <label for="avatar">Avatar</label>
         </div>
         <div>
           <div id="avatar-viewer"></div>
           <div id="avatar-upload-button" class="button avatar-upload-button">
-            Edit<input id="file" type="file" name="file" multiple="" value="Edit Avatar" />
+            Change<input id="file" type="file" name="file" multiple="" value="Change Avatar" />
           </div>
         </div>
       </div>
-        <div id="website-field" class="field">
-          <div>
-              <label for="website">Website</label>
-          </div>
-          <div>
-              <input type="text" id="Website" name="website" value="{{Model.Project.Website}}" />
-          </div>
+      <div id="name-field" class="field">
+        <div>
+          <label for="name">
+            Name <span>Required</span>
+          </label>
         </div>
+        <div>
+          <input type="text" id="Name" name="name" value="{{Model.Project.Name}}" />
+        </div>
+      </div>
+      <div id="website-field" class="field">
+        <div>
+          <label for="website">Website</label>
+        </div>
+        <div>
+          <input type="text" id="Website" name="website" value="{{Model.Project.Website}}" />
+          <p>Add a link to your project's existing website</p>
+        </div>
+      </div>
       <div id="team-field" class="field">
-          <div>
-              <label for="teamid">Team</label>
-          </div>
-          <div>
-              <select id="TeamId" name="teamid">
-                  <option></option>
-                  {{#Model.Teams}}
-                  <option value="{{Value}}" {{#Selected}}selected{{/Selected}}>{{Text}}</option>
-                  {{/Model.Teams}}
-              </select>
-          </div>
+        <div>
+          <label for="teamid">Team</label>
+        </div>
+        <div>
+          <select id="TeamId" name="teamid">
+            <option></option>
+            {{#Model.Teams}}
+            <option value="{{Value}}" {{#Selected}}selected=""{{/Selected}}>{{Text}}</option>
+            {{/Model.Teams}}
+          </select>
+        </div>
       </div>
+    </div>
+    <div class="field-row">
+      <div id="description-field" class="field">
+        <div>
+          <label for="description">
+            Description <span>Required</span>
+          </label>
+        </div>
+        <div>
+          <textarea rows="4" cols="100" id="Description" name="description">{{Model.Project.Description}}</textarea>
+          <p>Describe your project so that others can easily find it and (hopefully) join.</p>
+        </div>
       </div>
-    </fieldset>
-    <fieldset>
-        <input type="button" value="Save" id="save" />
-        <input type="button" value="Cancel" id="cancel" />
-    </fieldset>
+    </div>
+  </fieldset>
+  <fieldset>
+    <input type="button" value="Save" id="save" />
+    <input type="button" value="Cancel" id="cancel" />
+  </fieldset>
 </form>
+</div>

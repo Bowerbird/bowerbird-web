@@ -48,11 +48,6 @@ function ($, _, Backbone, app, DummyOverlayView) {
         controlUI.innerHTML = 'Centre Pin';
         controlDiv.appendChild(controlUI);
 
-        // Setup the click event listeners: simply set the map to australia
-        //        google.maps.event.addDomListener(controlUI, 'click', function () {
-        //            map.setCenter(australia);
-        //        });
-
         google.maps.event.addDomListener(controlUI, 'click', function () {
             callback();
         });
@@ -186,14 +181,16 @@ function ($, _, Backbone, app, DummyOverlayView) {
             });
         },
 
+        inMap: false,
+
         _initLocationPin: function () {
             var self = this;
             $("#location-pin").draggable({
-                //            drag: function (event, ui) {
-                //                var locationPinLeft = ui.helper.offset().left + ui.helper.width() / 2;
-                //                var locationPinTop = ui.helper.offset().top + ui.helper.height() / 2;
-                //                $('#debug-info').text('left: ' + locationPinLeft + ', top: ' + locationPinTop);
-                //            },
+                //                drag: function (event, ui) {
+                //                        var locationPinLeft = ui.helper.offset().left + ui.helper.width() / 2;
+                //                        var locationPinTop = ui.helper.offset().top + ui.helper.height() / 2;
+                //                        $('#debug-info').text('left: ' + locationPinLeft + ', top: ' + locationPinTop);
+                //                },
                 stop: function (event, ui) {
                     var $mapDiv = $(self.map.getDiv());
 
@@ -212,6 +209,7 @@ function ($, _, Backbone, app, DummyOverlayView) {
 
                     // Check if the cursor is inside the map div
                     if (locationX > mapDivLeft && locationX < (mapDivLeft + mapDivWidth) && locationY > mapDivTop && locationY < (mapDivTop + mapDivHeight)) {
+                        self.inMap = true;
                         // Find the object's pixel position in the map container
                         var g = google.maps;
                         var pixelpoint = new g.Point(locationX - mapDivLeft, locationY - mapDivTop + (locationPinHeight / 2));
@@ -222,8 +220,9 @@ function ($, _, Backbone, app, DummyOverlayView) {
 
                         // Create a corresponding marker on the map
                         self._positionMarker(latlng);
-                        self._removeMarkerFromPlaceholder();
                         self._reverseGeocode();
+
+                        //self._removeMarkerFromPlaceholder();
                     }
                 }
             });
@@ -238,16 +237,15 @@ function ($, _, Backbone, app, DummyOverlayView) {
 
             var g = google.maps;
 
-            var image = new g.MarkerImage('http://maps.gstatic.com/mapfiles/ms/icons/blue-dot.png',
-                new g.Size(32, 32),
-                new g.Point(0, 0),
-                new g.Point(15, 32)
-                );
+            var image = new g.MarkerImage('/img/map-pin.png',
+                new g.Size(43, 38),
+                new g.Point(0, 0)
+            );
 
-            var shadow = new g.MarkerImage("http://maps.gstatic.com/mapfiles/kml/paddle/A_maps.shadow.png",
+            var shadow = new g.MarkerImage('/img/map-pin-shadow.png',
                 new g.Size(59, 32),
                 new g.Point(0, 0),
-                new g.Point(15, 32)
+                new g.Point(17, 32)
                 );
 
             this.mapMarker = new g.Marker({
@@ -258,6 +256,7 @@ function ($, _, Backbone, app, DummyOverlayView) {
                 raiseOnDrag: false,
                 icon: image,
                 shadow: shadow,
+                optimized: false,
                 zIndex: this._highestOrder()
             });
 
@@ -285,6 +284,8 @@ function ($, _, Backbone, app, DummyOverlayView) {
             });
 
             this._displayLatLong();
+
+            this._removeMarkerFromPlaceholder();
         },
 
         _highestOrder: function () {
@@ -339,7 +340,9 @@ function ($, _, Backbone, app, DummyOverlayView) {
         },
 
         _removeMarkerFromPlaceholder: function () {
-            $('#location-pin').remove();
+            setTimeout(function () {
+                $('#location-pin').remove();
+            }, 500); // Delay removal until gmaps marker is added
         },
 
         _reverseGeocode: function () {
@@ -368,109 +371,3 @@ function ($, _, Backbone, app, DummyOverlayView) {
     return EditMapView;
 
 });
-
-//var map;
-//var chicago = new google.maps.LatLng(41.850033, -87.6500523);
-
-///**
-//* The HomeControl adds a control to the map that
-//* returns the user to the control's defined home.
-//*/
-
-//// Define a property to hold the Home state
-//HomeControl.prototype.home_ = null;
-
-//// Define setters and getters for this property
-//HomeControl.prototype.getHome = function () {
-//    return this.home_;
-//}
-
-//HomeControl.prototype.setHome = function (home) {
-//    this.home_ = home;
-//}
-
-//function HomeControl(controlDiv, map, home) {
-
-//    // We set up a variable for this since we're adding
-//    // event listeners later.
-//    var control = this;
-
-//    // Set the home property upon construction
-//    control.home_ = home;
-
-//    // Set CSS styles for the DIV containing the control
-//    // Setting padding to 5 px will offset the control
-//    // from the edge of the map
-//    controlDiv.style.padding = '5px';
-
-//    // Set CSS for the control border
-//    var goHomeUI = document.createElement('div');
-//    goHomeUI.style.backgroundColor = 'white';
-//    goHomeUI.style.borderStyle = 'solid';
-//    goHomeUI.style.borderWidth = '2px';
-//    goHomeUI.style.cursor = 'pointer';
-//    goHomeUI.style.textAlign = 'center';
-//    goHomeUI.title = 'Click to set the map to Home';
-//    controlDiv.appendChild(goHomeUI);
-
-//    // Set CSS for the control interior
-//    var goHomeText = document.createElement('div');
-//    goHomeText.style.fontFamily = 'Arial,sans-serif';
-//    goHomeText.style.fontSize = '12px';
-//    goHomeText.style.paddingLeft = '4px';
-//    goHomeText.style.paddingRight = '4px';
-//    goHomeText.innerHTML = '<b>Home</b>';
-//    goHomeUI.appendChild(goHomeText);
-
-//    // Set CSS for the setHome control border
-//    var setHomeUI = document.createElement('div');
-//    setHomeUI.style.backgroundColor = 'white';
-//    setHomeUI.style.borderStyle = 'solid';
-//    setHomeUI.style.borderWidth = '2px';
-//    setHomeUI.style.cursor = 'pointer';
-//    setHomeUI.style.textAlign = 'center';
-//    setHomeUI.title = 'Click to set Home to the current center';
-//    controlDiv.appendChild(setHomeUI);
-
-//    // Set CSS for the control interior
-//    var setHomeText = document.createElement('div');
-//    setHomeText.style.fontFamily = 'Arial,sans-serif';
-//    setHomeText.style.fontSize = '12px';
-//    setHomeText.style.paddingLeft = '4px';
-//    setHomeText.style.paddingRight = '4px';
-//    setHomeText.innerHTML = '<b>Set Home</b>';
-//    setHomeUI.appendChild(setHomeText);
-
-//    // Setup the click event listener for Home:
-//    // simply set the map to the control's current home property.
-//    google.maps.event.addDomListener(goHomeUI, 'click', function () {
-//        var currentHome = control.getHome();
-//        map.setCenter(currentHome);
-//    });
-
-//    // Setup the click event listener for Set Home:
-//    // Set the control's home to the current Map center.
-//    google.maps.event.addDomListener(setHomeUI, 'click', function () {
-//        var newHome = map.getCenter();
-//        control.setHome(newHome);
-//    });
-//}
-
-//function initialize() {
-//    var mapDiv = document.getElementById('map_canvas');
-//    var mapOptions = {
-//        zoom: 12,
-//        center: chicago,
-//        mapTypeId: google.maps.MapTypeId.ROADMAP
-//    }
-//    map = new google.maps.Map(mapDiv, mapOptions);
-
-//    // Create the DIV to hold the control and
-//    // call the HomeControl() constructor passing
-//    // in this DIV.
-//    var homeControlDiv = document.createElement('div');
-//    var homeControl = new HomeControl(homeControlDiv, map, chicago);
-
-//    homeControlDiv.index = 1;
-//    map.controls[google.maps.ControlPosition.TOP_RIGHT].push(homeControlDiv);
-//}

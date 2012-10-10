@@ -30,9 +30,7 @@ namespace Bowerbird.Core.DomainModels.DenormalisedReferences
 
         public string Id { get; private set; }
 
-        public string FirstName { get; private set; }
-
-        public string LastName { get; private set; }
+        public string Name { get; private set; }
 
         #endregion
 
@@ -45,8 +43,7 @@ namespace Bowerbird.Core.DomainModels.DenormalisedReferences
             return new DenormalisedUserReference
             {
                 Id = user.Id,
-                FirstName = user.FirstName,
-                LastName = user.LastName
+                Name = user.Name
             };
         }
 

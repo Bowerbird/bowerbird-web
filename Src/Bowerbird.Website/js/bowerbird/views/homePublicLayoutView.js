@@ -9,45 +9,83 @@
 // --------------------
 
 // The home page view when not logged in
-define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, app) {
+define(['jquery', 'underscore', 'backbone', 'app', 'carousel', 'touchswipe'], function ($, _, Backbone, app) {
 
     var HomePublicLayoutView = Backbone.Marionette.Layout.extend({
-        className: 'home',
+        className: 'home-public',
 
-        template: 'Home',
-
-//        regions: {
-//            summary: '.summary',
-//            details: '.details'
-//        },
+        template: 'HomePublic',
+        
+        initialize: function () {
+            _.bindAll(this, 'showHowWhyItem');
+        },
 
         showBootstrappedDetails: function () {
             this.initializeRegions();
-            this.$el = $('#content .home');
+            this.$el = $('#content .home-public');
+
+            var that = this;
+
+            $(".home-why .carousel ul").carouFredSel({
+                width: "100%",
+                height: '27em',
+                items: {
+                    visible: 1,
+                    height: '27em'
+                },
+                scroll: {
+                    fx: "crossfade"
+                },
+                auto: false,
+                prev: {
+                    button: ".home-why .carousel .previous-button",
+                    key: 90,
+                    onBefore: function (data) {
+                        that.showHowWhyItem(data);
+                    }
+                },
+                next: {
+                    button: ".home-why .carousel .next-button",
+                    key: 88,
+                    onBefore: function (data) {
+                        that.showHowWhyItem(data);
+                    }
+                },
+                pagination: {
+                    container: ".home-why .carousel .pagination",
+                    keys: true,
+                    anchorBuilder: function (nr) {
+                        return '<div class="pager button"></div>';
+                    }
+                },
+                swipe: true
+            });
+            
+           
+            $(".home-how .carousel ul").carouFredSel({
+                width: '100%',
+	            items		: {
+		            width		: 110,
+		            visible		: {
+			            min			: 11,
+			            max			: 15
+		            }
+	            },
+	            auto: {
+		            items 			: 11,
+		            duration		: 35000,
+		            easing			: "linear",
+		            timeoutDuration	: 0,
+		            pauseOnHover	: "immediate"
+	            }
+            });
+        },
+        
+        showHowWhyItem: function(data) {
+            this.$el.find('.home-why .current-caption').fadeOut(function () {
+                $(this).empty().html($(data.items.new).find('.caption').clone()).fadeIn();
+            });
         }
-
-//        showStream: function () {
-        //            var activityCollection = new ActivityCollection();
-//            var options = {
-//                model: app.authenticatedUser.user,
-        //                collection: activityCollection
-//            };
-
-//            if (app.isPrerendering('home')) {
-//                options['el'] = '.stream';
-//            }
-
-//            var streamView = new StreamView(options);
-
-//            if (app.isPrerendering('home')) {
-//                this.details.attachView(streamView);
-//                streamView.showBootstrappedDetails();
-//            } else {
-//                this.details.show(streamView);
-//            }
-
-        //            activityCollection.fetchFirstPage();
-//        }
     });
 
     return HomePublicLayoutView;

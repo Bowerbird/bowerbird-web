@@ -40,6 +40,8 @@ require.config({
         jplayer: '../libs/jquery.jplayer/jquery.jplayer',
         circleplayer: '../libs/jquery.jplayer/circle.player',
         progress: '../libs/jquery.animateprogress/jquery.animate-progress',
+        carousel: '../libs/jquery.carousel/jquery.carousel',
+        touchswipe: '../libs/jquery.carousel/jquery.touchswipe.min',
         moment: '../libs/moment/moment'
     }
 });

@@ -117,7 +117,7 @@ namespace Bowerbird.Web.Config
                     controllerName + "-update",
                     controllerName + "/{id}",
                     new { controller = controllerName, action = "update" },
-                    new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("PUT") });
+                    new { httpMethod = new HttpMethodConstraint("PUT") });
             }
 
             if (controllerMethods.Contains("create"))
@@ -130,7 +130,7 @@ namespace Bowerbird.Web.Config
                     controllerName + "-create",
                     controllerName,
                     new { controller = controllerName, action = "create" },
-                    new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("POST") });
+                    new { httpMethod = new HttpMethodConstraint("POST") });
             }
 
             if (controllerMethods.Contains("delete"))
@@ -143,7 +143,7 @@ namespace Bowerbird.Web.Config
                     controllerName + "-delete",
                     controllerName + "/{id}",
                     new { controller = controllerName, action = "delete" },
-                    new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("DELETE") });
+                    new { httpMethod = new HttpMethodConstraint("DELETE") });
             }
 
             if (controllerMethods.Contains("createform"))
@@ -156,7 +156,7 @@ namespace Bowerbird.Web.Config
                     controllerName + "-create-form",
                     controllerName + "/create",
                     new { controller = controllerName, action = "createform" },
-                    new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("GET") });
+                    new { httpMethod = new HttpMethodConstraint("GET") });
             }
 
             if (controllerMethods.Contains("updateform"))
@@ -169,7 +169,7 @@ namespace Bowerbird.Web.Config
                     controllerName + "-update-form",
                     controllerName + "/{id}/update",
                     new { controller = controllerName, action = "updateform" },
-                    new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("GET") });
+                    new { httpMethod = new HttpMethodConstraint("GET") });
             }
 
             if (controllerMethods.Contains("deleteform"))
@@ -182,7 +182,7 @@ namespace Bowerbird.Web.Config
                     controllerName + "-delete-form",
                     controllerName + "/{id}/delete",
                     new { controller = controllerName, action = "deleteform" },
-                    new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("GET") });
+                    new { httpMethod = new HttpMethodConstraint("GET") });
             }
 
             /* 
@@ -193,7 +193,7 @@ namespace Bowerbird.Web.Config
                 controllerName + "-section",
                 controllerName + "/{id}/{action}",
                 new { controller = controllerName },
-                new { authorised = new AuthenticatedConstraint(), httpMethod = new HttpMethodConstraint("GET", "POST") });
+                new { httpMethod = new HttpMethodConstraint("GET", "POST") });
 
             if (controllerMethods.Contains("index"))
             {

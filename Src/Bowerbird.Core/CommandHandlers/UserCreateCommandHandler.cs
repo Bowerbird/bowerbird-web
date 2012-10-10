@@ -72,8 +72,7 @@ namespace Bowerbird.Core.CommandHandlers
             var user = new User(
                 userCreateCommand.Password,
                 userCreateCommand.Email,
-                userCreateCommand.FirstName,
-                userCreateCommand.LastName,
+                userCreateCommand.Name,
                 _mediaResourceFactory.MakeDefaultAvatarImage(AvatarDefaultType.User),
                 userCreateCommand.DefaultLicence,
                 userCreateCommand.Timezone);

@@ -75,19 +75,26 @@ function ($, _, Backbone, app, ich) {
                 for (var rank = 0; rank < data.Model.Species.length; rank++) {
                     var $list = $('<ul></ul>');
 
-                    for (var x = 0; x < data.Model.Species[rank].length; x++) {
+                    for (var x = 0; x < data.Model.Species[rank].PagedListItems.length; x++) {
                         var selected = '';
 
-                        if ($.trim(rankNames[rank]) === data.Model.Species[rank][x].RankName) {
+                        if ($.trim(rankNames[rank]) === data.Model.Species[rank].PagedListItems[x].RankName) {
                             selected = ' class="selected"';
                         }
 
-                        $('<li' + selected + '>' + data.Model.Species[rank][x].RankName + '</li>').data('item.rank', data.Model.Species[rank][x]).appendTo($list);
+                        $('<li' + selected + '>' + data.Model.Species[rank].PagedListItems[x].RankName + '</li>').data('item.rank', data.Model.Species[rank].PagedListItems[x]).appendTo($list);
                     }
 
                     that.$el.find('#TaxonomicRank' + (rank + 1)).append($list);
                 }
             });
+
+            this.$el.find('#SearchIdentification').keypress(function (event) {
+                if (event.keyCode == 13) {
+                    event.preventDefault();
+                }
+            });
+
 
             this._displaySelectedId(this.identification.get('HasCategory'), this.identification.get('Taxonomy'));
 
@@ -139,7 +146,7 @@ function ($, _, Backbone, app, ich) {
                         url += '&field=' + that.searchField;
                     }
                     if (that.searchCategory != '') {
-                        url += '&category=' + that.searchCategory;
+                        url += '&category=' + encodeURIComponent(that.searchCategory);
                     }
                     url += '&pagesize=50';
 
@@ -147,7 +154,7 @@ function ($, _, Backbone, app, ich) {
                         url: url
                     }).done(function (data) {
                         log('requesting search taxon', data);
-                        var model = _.map(data.Model.Species, function (item) {
+                        var model = _.map(data.Model.Species.PagedListItems, function (item) {
                             return {
                                 value: item.Taxonomy,
                                 label: item.Name,
@@ -248,7 +255,7 @@ function ($, _, Backbone, app, ich) {
                 }).done(function (data) {
                     log('requesting selected taxon', data);
 
-                    that.identification = new Identification(data.Model.Species[0]);
+                    that.identification = new Identification(data.Model.Species.PagedListItems[0]);
 
                     var model = {
                         Model: {
@@ -282,8 +289,8 @@ function ($, _, Backbone, app, ich) {
             }).done(function (data) {
                 var $list = $('<ul></ul>');
 
-                for (var x = 0; x < data.Model.Species.length; x++) {
-                    $('<li>' + data.Model.Species[x].RankName + '</li>').data('item.rank', data.Model.Species[x]).appendTo($list);
+                for (var x = 0; x < data.Model.Species.PagedListItems.length; x++) {
+                    $('<li>' + data.Model.Species.PagedListItems[x].RankName + '</li>').data('item.rank', data.Model.Species.PagedListItems[x]).appendTo($list);
                 }
 
                 that.$el.find('#TaxonomicRank' + rankPosition).empty().append($list);
@@ -295,7 +302,6 @@ function ($, _, Backbone, app, ich) {
         },
 
         _done: function () {
-            log('xxxxxxxxxxxxxxxxxxxxxxx', this.identification);
             this.trigger('identificationdone', this.identification);
             this.remove();
         }

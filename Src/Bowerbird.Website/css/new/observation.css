@@ -1,14 +1,4 @@
-﻿#content .observation > h2 span {
-    background-position: -140px -48px;
-}
-/* form observation */
-.observation .main {
-    background-color: rgb(227, 227, 227);
-    border-radius: 4px 4px 4px 4px;
-    padding: 2%;
-}
-
-/* stream observation item */
+﻿/* stream observation item */
 .observation .observation-details,
 .observation .notes-details,
 .observation .comments-details
@@ -238,15 +228,11 @@
 
 
 /**********************/
-#content .home > h2 span {
-    background-position: -6px -48px;
-}
 .call-to-action
 {
     background-color: rgb(232, 228, 219);
     border-radius: 4px 4px 4px 4px;
     box-shadow: 0 1px 2px 0 rgb(51, 51, 51);
-    margin-bottom: 20px;
     padding: 25px;
     position: relative;
 }
@@ -259,7 +245,14 @@
     margin-bottom: 15px;
     text-shadow: 0 1px 0 rgb(255, 255, 255);
 }
-.home .call-to-action h2 {
+.login .call-to-action,
+.register .call-to-action {
+    margin-top: 20px;
+}
+.home-private .call-to-action {
+    margin-bottom: 20px;
+}
+.home-private .call-to-action h2 {
     font-size: 1.4em;
 }
 .call-to-action p
@@ -309,9 +302,6 @@
 }
 
 /**********************/
-.project > h2 span {
-    background-position: -33px -48px;
-}
 .project > .summary
 {
     background-color: rgb(255, 255, 255);

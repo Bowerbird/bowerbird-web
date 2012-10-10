@@ -77,8 +77,7 @@ namespace Bowerbird.Web.Builders
                 user.Id,
                 user.Avatar,
                 user.LastLoggedIn,
-                user.FirstName,
-                user.LastName,
+                user.Name,
                 user.Email
             };
         }

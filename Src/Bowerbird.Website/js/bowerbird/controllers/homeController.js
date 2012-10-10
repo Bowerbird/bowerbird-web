@@ -46,7 +46,7 @@ function ($, _, Backbone, app, HomePublicLayoutView, HomePrivateLayoutView) {
         app.setPrerenderComplete();
     };
 
-    HomeController.showBowerbirdActivity = function() {
+    HomeController.showBowerbirdActivity = function () {
     };
 
     HomeController.showFavourites = function () {

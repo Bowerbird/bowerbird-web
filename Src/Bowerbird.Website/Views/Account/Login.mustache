@@ -1,48 +1,62 @@
 ﻿{{<Title}}Login - {{/Title}}
 {{<Script}}{{/Script}}
 
-<section id="content" class="single-small">
+<section id="content">
 
-    <div class="login">
-        <h2>Login</h2>
-		<div class="form">
+    <div class="login single">
+        <h2><span class="small-icon user-icon"></span>Login</h2>
+		<div class="form form-small form-details">
 		    <form action="/account/login" method="post">
 		        <!--@Html.ValidationSummary(true, "Sorry, we couldn't verify your email and password.")-->
-
+				<input type="hidden" name="returnUrl" value="{{AccountLogin.ReturnUrl}}" />
 		        <fieldset>
 		            <legend class="hidden">Login Details</legend>
-		            <div class="field">
-		                <div>
-		                    <label for="Email">Email</label>
-		                </div>
-		                <div>
-		                    <input type="email" id="Email" name="Email" value="{{Email}}" />
-		                </div>
-		            </div>
-		            <div class="field">
-		                <div>
-		                    <label for="Password">Password</label>
-		                </div>
-		                <div>
-		                    <input type="password" id="Password" name="Password" />
-		                    <p><a href="/account/requestpasswordreset">I've forgotten my password</a></p>
-		                </div>
-		            </div>
-		            <div class="field">
-		                <div>
-		                    <input type="checkbox" id="RememberMe" name="RememberMe" />
-		                    <label for="RememberMe">Keep Me Logged In</label>
-		                </div>
-		            </div>
+					<div class="field-row">
+						<div class="field">
+							<div>
+								<label for="Email">Email</label>
+							</div>
+							<div>
+								<input type="email" id="Email" name="Email" value="{{AccountLogin.Email}}" />
+							</div>
+						</div>
+					</div>
+					<div class="field-row">
+						<div class="field">
+							<div>
+								<label for="Password">Password</label>
+							</div>
+							<div>
+								<input type="password" id="Password" name="Password" />
+								<p><a href="/account/requestpasswordreset">I've forgotten my password</a></p>
+							</div>
+						</div>
+					</div>
+					<div class="field-row">
+						<div class="field checkbox-simple">
+							<div class="checkbox-simple-control">
+								<input type="checkbox" id="RememberMe" name="RememberMe" />
+								<label for="RememberMe"></label>
+							</div>
+							<div class="checkbox-simple-label">
+								<label for="RememberMe">Keep Me Logged In</label>
+							</div>
+						</div>
+					</div>
 		        </fieldset>
 		        <fieldset>
 		            <input type="submit" value="Login" />
 		        </fieldset>
 		    </form>
+
+
+
 		</div>
+
         <div class="call-to-action">
             <h2>Not a member of BowerBird yet?</h2>
             <p>Come and <a href="/account/register">join the community</a></p>
         </div>
+
     </div>
 </section>

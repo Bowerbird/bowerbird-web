@@ -111,7 +111,7 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView, Ident
             this.projectListSelectView = this.$el.find('#Projects').multiSelect({
                 selectAll: false,
                 listHeight: 260,
-                messageText: 'You can select more than one project',
+                messageText: 'Select the projects to add this sighting to',
                 noOptionsText: 'No Projects',
                 noneSelected: '<span class="default-option">Select Projects</span>',
                 renderOption: function (id, option) {
@@ -153,7 +153,7 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView, Ident
                 $.ajax({
                     url: '/species?query=' + _.find(that.categories, function (item) { return item.Name === this.model.get('Category'); }, that).Taxonomy + '&field=taxonomy'
                 }).done(function (data) {
-                    that._renderIdentificationForm(data.Model.Species[0]);
+                    that._renderIdentificationForm(data.Model.Species.PagedListItems[0]);
                 });
             } else {
                 this._renderIdentificationForm();
@@ -171,6 +171,7 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView, Ident
         },
 
         _onIdentificationDone: function (identification) {
+            log('identification done', identification);
             this.$el.find('input[name="Category[]"][value="' + identification.get('Category') + '"]').click();
             this.$el.find('#Category').html('<span><span>' + identification.get('Category') + '</span></span><i></i>');
 

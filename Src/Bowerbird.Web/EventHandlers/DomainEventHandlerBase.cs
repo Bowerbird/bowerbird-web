@@ -51,8 +51,7 @@ namespace Bowerbird.Web.EventHandlers
                 new 
                 {
                     domainEvent.User.Id,
-                    domainEvent.User.FirstName,
-                    domainEvent.User.LastName,
+                    domainEvent.User.Name,
                     domainEvent.User.Avatar
                 },
                 groups,

@@ -122,6 +122,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="403.html" />
     <Content Include="css\new\circle.player.css" />
     <Content Include="css\new\observation.css" />
     <Content Include="css\new\global.css" />
@@ -266,6 +267,8 @@
     <Content Include="js\libs\bootstrap\bootstrap-datepicker.js" />
     <Content Include="js\libs\date\date.js" />
     <Content Include="js\libs\jquery.animateprogress\jquery.animate-progress.js" />
+    <Content Include="js\libs\jquery.carousel\jquery.carousel.js" />
+    <Content Include="js\libs\jquery.carousel\jquery.touchswipe.min.js" />
     <Content Include="js\libs\jquery.fileupload\jquery.fileupload.js" />
     <Content Include="js\libs\jquery.fileupload\jquery.iframe-transport.js" />
     <Content Include="js\libs\jquery.fileupload\load-image.js" />
@@ -340,12 +343,16 @@
     <Content Include="Views\ReferenceSpecies\Delete.mustache" />
     <Content Include="Views\ReferenceSpecies\Index.mustache" />
     <Content Include="Views\ReferenceSpecies\List.mustache" />
-    <Content Include="Views\Shared\Home.mustache">
+    <Content Include="Views\Shared\HomePrivate.mustache">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Shared\SidebarMenuGroup.mustache" />
-    <Content Include="Views\Shared\SidebarOrganisationItem.mustache" />
-    <Content Include="Views\Shared\SidebarTeamItem.mustache" />
+    <Content Include="Views\Shared\SidebarOrganisationItem.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\SidebarTeamItem.mustache">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\Shared\PostForm.mustache">
       <SubType>Designer</SubType>
     </Content>
@@ -398,9 +405,6 @@
     </Content>
     <Content Include="Web.Prod.config">
       <DependentUpon>Web.config</DependentUpon>
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Views\Shared\_Layout.mustache">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Species\Create.mustache" />
@@ -477,7 +481,9 @@
     <Content Include="Views\Shared\ProjectForm.mustache">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Shared\Sidebar.mustache" />
+    <Content Include="Views\Shared\Sidebar.mustache">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\Shared\SidebarProjectItem.mustache">
       <SubType>Designer</SubType>
     </Content>
@@ -514,6 +520,12 @@
     <Content Include="Views\Shared\IdentificationListItem.mustache" />
     <Content Include="Views\Shared\Identification.mustache" />
     <Content Include="Views\Shared\IdentificationForm.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\HomePublic.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\_Layout.mustache">
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>

@@ -14,8 +14,7 @@ function ($, _, Backbone, moment, Timer, Tracker) {
 
     var User = Backbone.Model.extend({
         defaults: {
-            FirstName: '',
-            LastName: '',
+            Name: '',
             Email: '',
             AvatarId: null,
             LatestActivity: null,

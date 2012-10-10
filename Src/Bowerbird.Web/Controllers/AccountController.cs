@@ -92,14 +92,14 @@ namespace Bowerbird.Web.Controllers
         #region Methods
 
         [HttpGet]
-        public ActionResult Login()
+        public ActionResult Login(string returnUrl)
         {
             if (_userContext.IsUserAuthenticated())
             {
                 return RedirectToAction("privateindex", "home");
             }
 
-            ViewBag.AccountLogin = _accountViewModelBuilder.MakeAccountLogin();
+            ViewBag.AccountLogin = _accountViewModelBuilder.MakeAccountLogin(returnUrl);
             ViewBag.IsStaticLayout = true;
 
             return View(Form.Login);
@@ -162,7 +162,7 @@ namespace Bowerbird.Web.Controllers
                 return RedirectToAction("login");
             }
 
-            if (!string.IsNullOrEmpty(returnUrl))
+            if (!string.IsNullOrWhiteSpace(returnUrl))
             {
                 return Redirect(returnUrl);
             }
@@ -192,6 +192,11 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Register()
         {
+            if (_userContext.IsUserAuthenticated())
+            {
+                return RedirectToAction("privateindex", "home");
+            }
+
             ViewBag.IsStaticLayout = true;
 
             return View(Form.Register);
@@ -207,8 +212,7 @@ namespace Bowerbird.Web.Controllers
                 _messageBus.Send(
                     new UserCreateCommand()
                     {
-                        FirstName = accountRegisterInput.FirstName,
-                        LastName = accountRegisterInput.LastName,
+                        Name = accountRegisterInput.Name,
                         Email = accountRegisterInput.Email,
                         Password = accountRegisterInput.Password,
                         DefaultLicence = Constants.DefaultLicence,
@@ -512,8 +516,7 @@ namespace Bowerbird.Web.Controllers
                     new UserUpdateCommand()
                     {
                         Id = _userContext.GetAuthenticatedUserId(),
-                        FirstName = userUpdateInput.FirstName,
-                        LastName = userUpdateInput.LastName,
+                        Name = userUpdateInput.Name,
                         Email = userUpdateInput.Email,
                         Description = userUpdateInput.Description,
                         AvatarId = userUpdateInput.AvatarId
@@ -537,8 +540,7 @@ namespace Bowerbird.Web.Controllers
                 userUpdateInput.AvatarId,
                 userUpdateInput.Description,
                 userUpdateInput.Email,
-                userUpdateInput.FirstName,
-                userUpdateInput.LastName
+                userUpdateInput.Name
             };
 
             return View(Form.Update);

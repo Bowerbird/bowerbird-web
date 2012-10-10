@@ -1,0 +1,713 @@
+Mammals	Cattle	Blackbuck	Animalia: Chordata: Mammalia	Artiodactyla	Bovidae	Antilope	cervicapra 
+Mammals	Cattle	"Bali Banteng, Bali Cattle, Banteng"	Animalia: Chordata: Mammalia	Artiodactyla	Bovidae	Bos	javanicus 
+Mammals	Cattle	"Bali Banteng, Bali Cattle, Banteng"	Animalia: Chordata: Mammalia	Artiodactyla	Bovidae	Bos	javanicus javanicus
+Mammals	Cattle	European Cattle	Animalia: Chordata: Mammalia	Artiodactyla	Bovidae	Bos	taurus 
+Mammals	Cattle	"Swamp Buffalo, Water Buffalo, Swamp Buffalo"	Animalia: Chordata: Mammalia	Artiodactyla	Bovidae	Bubalus	bubalis 
+Mammals	Cattle	Bubalus	Animalia: Chordata: Mammalia	Artiodactyla	Bovidae	Bubalus	sp. 
+Mammals	Goat	Goat	Animalia: Chordata: Mammalia	Artiodactyla	Bovidae	Capra	hircus 
+Mammals	Cattle	Cattle or Goat	Animalia: Chordata: Mammalia	Artiodactyla	Bovidae	Unknown	sp.
+Mammals	Camel	"Dromedary, One-humped Camel"	Animalia: Chordata: Mammalia	Artiodactyla	Camelidae	Camelus	dromedarius 
+Mammals	Camel	Camel	Animalia: Chordata: Mammalia	Artiodactyla	Camelidae	Unknown	sp.
+Mammals	Deer	Chital	Animalia: Chordata: Mammalia	Artiodactyla	Cervidae	Axis	axis 
+Mammals	Deer	Chital	Animalia: Chordata: Mammalia	Artiodactyla	Cervidae	Axis	axis axis
+Mammals	Deer	Hog Deer	Animalia: Chordata: Mammalia	Artiodactyla	Cervidae	Axis	porcinus 
+Mammals	Deer	porcinus	Animalia: Chordata: Mammalia	Artiodactyla	Cervidae	Axis	porcinus porcinus
+Mammals	Deer	Deer	Animalia: Chordata: Mammalia	Artiodactyla	Cervidae	Axis	sp. 
+Mammals	Deer	Red Deer	Animalia: Chordata: Mammalia	Artiodactyla	Cervidae	Cervus	elaphus 
+Mammals	Deer	Red Deer	Animalia: Chordata: Mammalia	Artiodactyla	Cervidae	Cervus	elaphus scoticus
+Mammals	Deer	Rusa Deer	Animalia: Chordata: Mammalia	Artiodactyla	Cervidae	Cervus	timorensis 
+Mammals	Deer	Rusa Deer	Animalia: Chordata: Mammalia	Artiodactyla	Cervidae	Cervus	timorensis moluccensis
+Mammals	Deer	Rusa Deer	Animalia: Chordata: Mammalia	Artiodactyla	Cervidae	Cervus	timorensis russa
+Mammals	Deer	Sambar	Animalia: Chordata: Mammalia	Artiodactyla	Cervidae	Cervus	unicolor 
+Mammals	Deer	Sambar	Animalia: Chordata: Mammalia	Artiodactyla	Cervidae	Cervus	unicolor equinus
+Mammals	Deer	Sambar	Animalia: Chordata: Mammalia	Artiodactyla	Cervidae	Cervus	unicolor unicolor
+Mammals	Deer	Deer	Animalia: Chordata: Mammalia	Artiodactyla	Cervidae	Cervus	sp. 
+Mammals	Deer	Fallow Deer	Animalia: Chordata: Mammalia	Artiodactyla	Cervidae	Dama	dama 
+Mammals	Deer	Dama	Animalia: Chordata: Mammalia	Artiodactyla	Cervidae	Dama	dama dama
+Mammals	Deer	Dama	Animalia: Chordata: Mammalia	Artiodactyla	Cervidae	Dama	sp. 
+Mammals	Deer	Deer	Animalia: Chordata: Mammalia	Artiodactyla	Cervidae	Unknown	sp.
+Mammals	Pig	Pig	Animalia: Chordata: Mammalia	Artiodactyla	Suidae	Sus	scrofa 
+Mammals	Dogs	"Dingo, Domestic Dog"	Animalia: Chordata: Mammalia	Carnivora	Canidae	Canis	lupus 
+Mammals	Dogs	"Dingo, Domestic Dog"	Animalia: Chordata: Mammalia	Carnivora	Canidae	Canis	lupus dingo
+Mammals	Dogs	"Common Dog, Domestic Dog"	Animalia: Chordata: Mammalia	Carnivora	Canidae	Canis	lupus familiaris
+Mammals	Dogs	Dog	Animalia: Chordata: Mammalia	Carnivora	Canidae	Canis	sp. 
+Mammals	Dogs	"Fox, Red Fox"	Animalia: Chordata: Mammalia	Carnivora	Canidae	Vulpes	vulpes 
+Mammals	Dogs	"Fox, Red Fox"	Animalia: Chordata: Mammalia	Carnivora	Canidae	Vulpes	vulpes vulpes
+Mammals	Dogs	Fox	Animalia: Chordata: Mammalia	Carnivora	Canidae	Vulpes	sp. 
+Mammals	Cats	Cat	Animalia: Chordata: Mammalia	Carnivora	Felidae	Felis	catus 
+Mammals	Seals	New Zealand Fur-seal	Animalia: Chordata: Mammalia	Carnivora	Otariidae	Arctocephalus	forsteri 
+Mammals	Seals	Antarctic Fur-seal	Animalia: Chordata: Mammalia	Carnivora	Otariidae	Arctocephalus	gazella 
+Mammals	Seals	"Australian Fur-seal, Australo-african Fur-seal"	Animalia: Chordata: Mammalia	Carnivora	Otariidae	Arctocephalus	pusillus 
+Mammals	Seals	Australian Fur-seal	Animalia: Chordata: Mammalia	Carnivora	Otariidae	Arctocephalus	pusillus doriferus
+Mammals	Seals	Subantarctic Fur-seal	Animalia: Chordata: Mammalia	Carnivora	Otariidae	Arctocephalus	tropicalis 
+Mammals	Seals	Seal	Animalia: Chordata: Mammalia	Carnivora	Otariidae	Arctocephalus	sp. 
+Mammals	Seals	Australian Sea-lion	Animalia: Chordata: Mammalia	Carnivora	Otariidae	Neophoca	cinerea 
+Mammals	Seals	Hooker's Sea-lion	Animalia: Chordata: Mammalia	Carnivora	Otariidae	Phocarctos	hookeri 
+Mammals	Seals	Unknown	Animalia: Chordata: Mammalia	Carnivora	Otariidae	Unknown	sp.
+Mammals	Seals	Leopard Seal	Animalia: Chordata: Mammalia	Carnivora	Phocidae	Hydrurga	leptonyx 
+Mammals	Seals	Weddell Seal	Animalia: Chordata: Mammalia	Carnivora	Phocidae	Leptonychotes	weddelli 
+Mammals	Seals	Crab-eater Seal	Animalia: Chordata: Mammalia	Carnivora	Phocidae	Lobodon	carcinophagus 
+Mammals	Seals	Southern Elephant Seal	Animalia: Chordata: Mammalia	Carnivora	Phocidae	Mirounga	leonina 
+Mammals	Seals	Ross Seal	Animalia: Chordata: Mammalia	Carnivora	Phocidae	Ommatophoca	rossi 
+Mammals	Seals	Seal	Animalia: Chordata: Mammalia	Carnivora	Phocidae	Unknown	sp.
+Mammals	Whales	Southern Right Whale	Animalia: Chordata: Mammalia	Cetacea	Balaenidae	Eubalaena	australis 
+Mammals	Whales	Whale	Animalia: Chordata: Mammalia	Cetacea	Balaenidae	Eubalaena	sp. 
+Mammals	Whales	Unknown	Animalia: Chordata: Mammalia	Cetacea	Balaenidae	Unknown	sp.
+Mammals	Whales	Dwarf Minke Whale	Animalia: Chordata: Mammalia	Cetacea	Balaenopteridae	Balaenoptera	acutorostrata 
+Mammals	Whales	Antarctic Minke Whale	Animalia: Chordata: Mammalia	Cetacea	Balaenopteridae	Balaenoptera	bonaerensis 
+Mammals	Whales	Sei Whale	Animalia: Chordata: Mammalia	Cetacea	Balaenopteridae	Balaenoptera	borealis 
+Mammals	Whales	Bryde's Whale	Animalia: Chordata: Mammalia	Cetacea	Balaenopteridae	Balaenoptera	edeni 
+Mammals	Whales	Blue Whale	Animalia: Chordata: Mammalia	Cetacea	Balaenopteridae	Balaenoptera	musculus 
+Mammals	Whales	Blue Whale	Animalia: Chordata: Mammalia	Cetacea	Balaenopteridae	Balaenoptera	musculus brevicauda
+Mammals	Whales	Blue Whale	Animalia: Chordata: Mammalia	Cetacea	Balaenopteridae	Balaenoptera	musculus musculus
+Mammals	Whales	Fin Whale	Animalia: Chordata: Mammalia	Cetacea	Balaenopteridae	Balaenoptera	physalus 
+Mammals	Whales	Balaenoptera	Animalia: Chordata: Mammalia	Cetacea	Balaenopteridae	Balaenoptera	sp. 
+Mammals	Whales	Humpback Whale	Animalia: Chordata: Mammalia	Cetacea	Balaenopteridae	Megaptera	novaeangliae 
+Mammals	Whales	Megaptera	Animalia: Chordata: Mammalia	Cetacea	Balaenopteridae	Megaptera	sp. 
+Mammals	Whales	Whale	Animalia: Chordata: Mammalia	Cetacea	Balaenopteridae	Unknown	sp.
+Mammals	Dolphins	Common Dolphin	Animalia: Chordata: Mammalia	Cetacea	Delphinidae	Delphinus	delphis 
+Mammals	Dolphins	Dolphin	Animalia: Chordata: Mammalia	Cetacea	Delphinidae	Delphinus	delphis delphis
+Mammals	Dolphins	Delphinus	Animalia: Chordata: Mammalia	Cetacea	Delphinidae	Delphinus	sp. 
+Mammals	Whales	Pygmy Killer Whale	Animalia: Chordata: Mammalia	Cetacea	Delphinidae	Feresa	attenuata 
+Mammals	Whales	Whale	Animalia: Chordata: Mammalia	Cetacea	Delphinidae	Feresa	sp. 
+Mammals	Whales	Short-finned Pilot Whale	Animalia: Chordata: Mammalia	Cetacea	Delphinidae	Globicephala	macrorhynchus 
+Mammals	Whales	Long-finned Pilot Whale	Animalia: Chordata: Mammalia	Cetacea	Delphinidae	Globicephala	melas edwardii
+Mammals	Whales	Whale	Animalia: Chordata: Mammalia	Cetacea	Delphinidae	Globicephala	sp. 
+Mammals	Dolphins	Risso's Dolphin	Animalia: Chordata: Mammalia	Cetacea	Delphinidae	Grampus	griseus 
+Mammals	Dolphins	Dolphin	Animalia: Chordata: Mammalia	Cetacea	Delphinidae	Grampus	sp. 
+Mammals	Dolphins	Fraser's Dolphin	Animalia: Chordata: Mammalia	Cetacea	Delphinidae	Lagenodelphis	hosei 
+Mammals	Dolphins	Lagenodelphis	Animalia: Chordata: Mammalia	Cetacea	Delphinidae	Lagenodelphis	sp. 
+Mammals	Dolphins	Hourglass Dolphin	Animalia: Chordata: Mammalia	Cetacea	Delphinidae	Lagenorhynchus	cruciger 
+Mammals	Dolphins	Dusky Dolphin	Animalia: Chordata: Mammalia	Cetacea	Delphinidae	Lagenorhynchus	obscurus 
+Mammals	Dolphins	Lagenorhynchus	Animalia: Chordata: Mammalia	Cetacea	Delphinidae	Lagenorhynchus	sp. 
+Mammals	Dolphins	Southern Right Whale Dolphin	Animalia: Chordata: Mammalia	Cetacea	Delphinidae	Lissodelphis	peronii 
+Mammals	Dolphins	Dolphin	Animalia: Chordata: Mammalia	Cetacea	Delphinidae	Lissodelphis	sp. 
+Mammals	Dolphins	Irrawaddy Dolphin	Animalia: Chordata: Mammalia	Cetacea	Delphinidae	Orcaella	brevirostris 
+Mammals	Dolphins	Australian Snubfin Dolphin	Animalia: Chordata: Mammalia	Cetacea	Delphinidae	Orcaella	heinsohni 
+Mammals	Dolphins	Dolphin	Animalia: Chordata: Mammalia	Cetacea	Delphinidae	Orcaella	sp. 
+Mammals	Whales	Killer Whale	Animalia: Chordata: Mammalia	Cetacea	Delphinidae	Orcinus	orca 
+Mammals	Whales	Melon-headed Whale	Animalia: Chordata: Mammalia	Cetacea	Delphinidae	Peponocephala	electra 
+Mammals	Whales	Peponocephala	Animalia: Chordata: Mammalia	Cetacea	Delphinidae	Peponocephala	sp. 
+Mammals	Whales	False Killer Whale	Animalia: Chordata: Mammalia	Cetacea	Delphinidae	Pseudorca	crassidens 
+Mammals	Whales	Whale	Animalia: Chordata: Mammalia	Cetacea	Delphinidae	Pseudorca	sp. 
+Mammals	Dolphins	Indo-pacific Hump-backed Dolphin	Animalia: Chordata: Mammalia	Cetacea	Delphinidae	Sousa	chinensis 
+Mammals	Dolphins	"Pantropical Spotted Dolphin, Spotted Dolphin"	Animalia: Chordata: Mammalia	Cetacea	Delphinidae	Stenella	attenuata 
+Mammals	Dolphins	Striped Dolphin	Animalia: Chordata: Mammalia	Cetacea	Delphinidae	Stenella	coeruleoalba 
+Mammals	Dolphins	"Long-snouted Spinner Dolphin, Spinner Dolphin"	Animalia: Chordata: Mammalia	Cetacea	Delphinidae	Stenella	longirostris 
+Mammals	Dolphins	"Long-snouted Spinner Dolphin, Spinner Dolphin"	Animalia: Chordata: Mammalia	Cetacea	Delphinidae	Stenella	longirostris longirostris
+Mammals	Dolphins	Dolphin	Animalia: Chordata: Mammalia	Cetacea	Delphinidae	Stenella	sp. 
+Mammals	Dolphins	Rough-toothed Dolphin	Animalia: Chordata: Mammalia	Cetacea	Delphinidae	Steno	bredanensis 
+Mammals	Dolphins	Long-beaked Bottle-nosed Dolphin	Animalia: Chordata: Mammalia	Cetacea	Delphinidae	Tursiops	aduncus 
+Mammals	Dolphins	Bottlenose Dolphin	Animalia: Chordata: Mammalia	Cetacea	Delphinidae	Tursiops	truncatus 
+Mammals	Dolphins	Dolphin	Animalia: Chordata: Mammalia	Cetacea	Delphinidae	Tursiops	sp. 
+Mammals	Dolphins	Whale or Dolphin	Animalia: Chordata: Mammalia	Cetacea	Delphinidae	Unknown	sp.
+Mammals	Whales	Unknown	Animalia: Chordata: Mammalia	Cetacea	Delphinidae	Unknown	sp.
+Mammals	Whales	Pygmy Sperm Whale	Animalia: Chordata: Mammalia	Cetacea	Kogiidae	Kogia	breviceps 
+Mammals	Whales	Dwarf Sperm Whale	Animalia: Chordata: Mammalia	Cetacea	Kogiidae	Kogia	simus 
+Mammals	Whales	Whale	Animalia: Chordata: Mammalia	Cetacea	Kogiidae	Kogia	sp. 
+Mammals	Whales	Whale	Animalia: Chordata: Mammalia	Cetacea	Kogiidae	Unknown	sp.
+Mammals	Whales	Pygmy Right Whale	Animalia: Chordata: Mammalia	Cetacea	Neobalaenidae	Caperea	marginata 
+Mammals	Dolphins	Spectacled Porpoise	Animalia: Chordata: Mammalia	Cetacea	Phocoenidae	Phocaena	dioptrica 
+Mammals	Whales	Sperm Whale	Animalia: Chordata: Mammalia	Cetacea	Physeteridae	Physeter	macrocephalus 
+Mammals	Whales	Arnoux's Beaked Whale	Animalia: Chordata: Mammalia	Cetacea	Ziphiidae	Berardius	arnuxii 
+Mammals	Whales	Southern Bottle-nosed Whale	Animalia: Chordata: Mammalia	Cetacea	Ziphiidae	Hyperoodon	planifrons 
+Mammals	Whales	Andrews' Beaked Whale	Animalia: Chordata: Mammalia	Cetacea	Ziphiidae	Mesoplodon	bowdoini 
+Mammals	Whales	Blainville's Beaked Whale	Animalia: Chordata: Mammalia	Cetacea	Ziphiidae	Mesoplodon	densirostris 
+Mammals	Whales	Ginko-toothed Beaked Whale	Animalia: Chordata: Mammalia	Cetacea	Ziphiidae	Mesoplodon	ginkgodens 
+Mammals	Whales	Gray's Beaked Whale	Animalia: Chordata: Mammalia	Cetacea	Ziphiidae	Mesoplodon	grayi 
+Mammals	Whales	Hector's Beaked Whale	Animalia: Chordata: Mammalia	Cetacea	Ziphiidae	Mesoplodon	hectori 
+Mammals	Whales	Strap-toothed Beaked Whale	Animalia: Chordata: Mammalia	Cetacea	Ziphiidae	Mesoplodon	layardii 
+Mammals	Whales	True's Beaked Whale	Animalia: Chordata: Mammalia	Cetacea	Ziphiidae	Mesoplodon	mirus 
+Mammals	Whales	Longman's Beaked Whale	Animalia: Chordata: Mammalia	Cetacea	Ziphiidae	Mesoplodon	pacificus 
+Mammals	Whales	Whale	Animalia: Chordata: Mammalia	Cetacea	Ziphiidae	Mesoplodon	sp. 
+Mammals	Whales	"Shepherd's Beaked Whale, Tasman Beaked Whale"	Animalia: Chordata: Mammalia	Cetacea	Ziphiidae	Tasmacetus	shepherdi 
+Mammals	Whales	Whale	Animalia: Chordata: Mammalia	Cetacea	Ziphiidae	Unknown	sp.
+Mammals	Whales	Cuvier's Beaked Whale	Animalia: Chordata: Mammalia	Cetacea	Ziphiidae	Ziphius	cavirostris 
+Mammals	Bats	Yellow-bellied Sheathtail-bat	Animalia: Chordata: Mammalia	Chiroptera	Emballonuridae	Saccolaimus	flaviventris 
+Mammals	Bats	Papuan Sheathtail-bat	Animalia: Chordata: Mammalia	Chiroptera	Emballonuridae	Saccolaimus	mixtus 
+Mammals	Bats	"Bare-rumped Sheathtail-bat, Naked-rumped Sheathtail-bat"	Animalia: Chordata: Mammalia	Chiroptera	Emballonuridae	Saccolaimus	saccolaimus 
+Mammals	Bats	Bat	Animalia: Chordata: Mammalia	Chiroptera	Emballonuridae	Saccolaimus	sp. 
+Mammals	Bats	"Coastal Sheathtail-bat, North-eastern Sheathtail-bat"	Animalia: Chordata: Mammalia	Chiroptera	Emballonuridae	Taphozous	australis 
+Mammals	Bats	Common Sheathtail-bat	Animalia: Chordata: Mammalia	Chiroptera	Emballonuridae	Taphozous	georgianus 
+Mammals	Bats	Hill's Sheathtail-bat	Animalia: Chordata: Mammalia	Chiroptera	Emballonuridae	Taphozous	hilli 
+Mammals	Bats	"Arnhem Sheathtail-bat, White-striped Sheathtail-bat"	Animalia: Chordata: Mammalia	Chiroptera	Emballonuridae	Taphozous	kapalgensis 
+Mammals	Bats	Troughton's Sheathtail-bat	Animalia: Chordata: Mammalia	Chiroptera	Emballonuridae	Taphozous	troughtoni 
+Mammals	Bats	Bat	Animalia: Chordata: Mammalia	Chiroptera	Emballonuridae	Taphozous	sp. 
+Mammals	Bats	Bat	Animalia: Chordata: Mammalia	Chiroptera	Emballonuridae	Unknown	sp.
+Mammals	Bats	Dusky Leafnosed-bat	Animalia: Chordata: Mammalia	Chiroptera	Hipposideridae	Hipposideros	ater 
+Mammals	Bats	Dusky Leafnosed-bat	Animalia: Chordata: Mammalia	Chiroptera	Hipposideridae	Hipposideros	ater aruensis
+Mammals	Bats	Dusky Leafnosed-bat	Animalia: Chordata: Mammalia	Chiroptera	Hipposideridae	Hipposideros	ater gilberti
+Mammals	Bats	Fawn Leafnosed-bat	Animalia: Chordata: Mammalia	Chiroptera	Hipposideridae	Hipposideros	cervinus 
+Mammals	Bats	Fawn Leafnosed-bat	Animalia: Chordata: Mammalia	Chiroptera	Hipposideridae	Hipposideros	cervinus cervinus
+Mammals	Bats	Diadem Leaf-nosed Bat	Animalia: Chordata: Mammalia	Chiroptera	Hipposideridae	Hipposideros	diadema 
+Mammals	Bats	Diadem Leaf-nosed Bat	Animalia: Chordata: Mammalia	Chiroptera	Hipposideridae	Hipposideros	diadema inornatus
+Mammals	Bats	Diadem Leaf-nosed Bat	Animalia: Chordata: Mammalia	Chiroptera	Hipposideridae	Hipposideros	diadema reginae
+Mammals	Bats	Semon's Leaf-nosed Bat	Animalia: Chordata: Mammalia	Chiroptera	Hipposideridae	Hipposideros	semoni 
+Mammals	Bats	Northern Leaf-nosed Bat	Animalia: Chordata: Mammalia	Chiroptera	Hipposideridae	Hipposideros	stenotis 
+Mammals	Bats	Bat	Animalia: Chordata: Mammalia	Chiroptera	Hipposideridae	Hipposideros	sp. 
+Mammals	Bats	Orange Leaf-nosed Bat	Animalia: Chordata: Mammalia	Chiroptera	Hipposideridae	Rhinonicteris	aurantia 
+Mammals	Bats	Bat	Animalia: Chordata: Mammalia	Chiroptera	Hipposideridae	Unknown	sp.
+Mammals	Bats	Ghost Bat	Animalia: Chordata: Mammalia	Chiroptera	Megadermatidae	Macroderma	gigas 
+Mammals	Bats	"Northern Freetail-bat, Northern Mastiff Bat"	Animalia: Chordata: Mammalia	Chiroptera	Molossidae	Chaerephon	jobensis 
+Mammals	Bats	"Northern Freetail-bat, Northern Mastiff Bat"	Animalia: Chordata: Mammalia	Chiroptera	Molossidae	Chaerephon	jobensis colonicus
+Mammals	Bats	"Beccari's Freetail-bat, Beccari's Mastiff Bat"	Animalia: Chordata: Mammalia	Chiroptera	Molossidae	Mormopterus	beccarii 
+Mammals	Bats	"Beccari's Freetail-bat, Beccari's Mastiff Bat"	Animalia: Chordata: Mammalia	Chiroptera	Molossidae	Mormopterus	beccarii beccarii
+Mammals	Bats	Bristle-nosed free-tailed bat	Animalia: Chordata: Mammalia	Chiroptera	Molossidae	Mormopterus	eleryi 
+Mammals	Bats	Little Northern Freetail-bat	Animalia: Chordata: Mammalia	Chiroptera	Molossidae	Mormopterus	loriae 
+Mammals	Bats	Little Northern Freetail-bat	Animalia: Chordata: Mammalia	Chiroptera	Molossidae	Mormopterus	loriae cobourgiana
+Mammals	Bats	Little Northern Freetail-bat	Animalia: Chordata: Mammalia	Chiroptera	Molossidae	Mormopterus	loriae ridei
+Mammals	Bats	"Eastern Freetail-bat, Eastern Little Mastiff-bat"	Animalia: Chordata: Mammalia	Chiroptera	Molossidae	Mormopterus	norfolkensis 
+Mammals	Bats	"Little Mastiff-bat, Southern Freetail-bat"	Animalia: Chordata: Mammalia	Chiroptera	Molossidae	Mormopterus	planiceps 
+Mammals	Bats	Bat	Animalia: Chordata: Mammalia	Chiroptera	Molossidae	Mormopterus	sp. 
+Mammals	Bats	"Beccari's Freetail-bat, Beccari's Mastiff Bat"	Animalia: Chordata: Mammalia	Chiroptera	Molossidae	Mormopterus	beccarii 
+Mammals	Bats	White-striped Freetail-bat	Animalia: Chordata: Mammalia	Chiroptera	Molossidae	Tadarida	australis 
+Mammals	Bats	White-striped Freetail-bat	Animalia: Chordata: Mammalia	Chiroptera	Molossidae	Tadarida	australis atratus
+Mammals	Bats	White-striped Freetail-bat	Animalia: Chordata: Mammalia	Chiroptera	Molossidae	Tadarida	australis australis
+Mammals	Bats	Tadarida	Animalia: Chordata: Mammalia	Chiroptera	Molossidae	Tadarida	sp. 
+Mammals	Bats	Bat	Animalia: Chordata: Mammalia	Chiroptera	Molossidae	Unknown	sp.
+Mammals	Bats	Bare-backed Fruit-bat	Animalia: Chordata: Mammalia	Chiroptera	Pteropodidae	Dobsonia	magna 
+Mammals	Bats	Bare-backed Fruit-bat	Animalia: Chordata: Mammalia	Chiroptera	Pteropodidae	Dobsonia	magna magna
+Mammals	Bats	Dobsonia	Animalia: Chordata: Mammalia	Chiroptera	Pteropodidae	Dobsonia	sp. 
+Mammals	Bats	Northern Blossom-bat	Animalia: Chordata: Mammalia	Chiroptera	Pteropodidae	Macroglossus	minimus 
+Mammals	Bats	Northern Blossom-bat	Animalia: Chordata: Mammalia	Chiroptera	Pteropodidae	Macroglossus	minimus nanus
+Mammals	Bats	"Pallas's Tube-nosed Bat, Torresian Tube-nosed Bat"	Animalia: Chordata: Mammalia	Chiroptera	Pteropodidae	Nyctimene	cephalotes 
+Mammals	Bats	"Eastern Tube-nosed Bat, Queensland Tube-nosed Bat"	Animalia: Chordata: Mammalia	Chiroptera	Pteropodidae	Nyctimene	robinsoni 
+Mammals	Bats	Black Flying-fox	Animalia: Chordata: Mammalia	Chiroptera	Pteropodidae	Pteropus	alecto 
+Mammals	Bats	gouldii	Animalia: Chordata: Mammalia	Chiroptera	Pteropodidae	Pteropus	alecto gouldii
+Mammals	Bats	Black flying fox	Animalia: Chordata: Mammalia	Chiroptera	Pteropodidae	Pteropus	banakrisi 
+Mammals	Bats	"Dusky Flying-fox, Percy Island Flying Fox"	Animalia: Chordata: Mammalia	Chiroptera	Pteropodidae	Pteropus	brunneus 
+Mammals	Bats	Spectacled Flying-fox	Animalia: Chordata: Mammalia	Chiroptera	Pteropodidae	Pteropus	conspicillatus 
+Mammals	Bats	Spectacled Flying-fox	Animalia: Chordata: Mammalia	Chiroptera	Pteropodidae	Pteropus	conspicillatus conspicillatus
+Mammals	Bats	Large-eared Flying-fox	Animalia: Chordata: Mammalia	Chiroptera	Pteropodidae	Pteropus	macrotis 
+Mammals	Bats	Large-eared Flying-fox	Animalia: Chordata: Mammalia	Chiroptera	Pteropodidae	Pteropus	macrotis epularius
+Mammals	Bats	Nicobar Flying Fox	Animalia: Chordata: Mammalia	Chiroptera	Pteropodidae	Pteropus	melanotus 
+Mammals	Bats	Christmas Island Flying Fox	Animalia: Chordata: Mammalia	Chiroptera	Pteropodidae	Pteropus	melanotus natalis
+Mammals	Bats	Grey-headed Flying-fox	Animalia: Chordata: Mammalia	Chiroptera	Pteropodidae	Pteropus	poliocephalus 
+Mammals	Bats	Little Red Flying-fox	Animalia: Chordata: Mammalia	Chiroptera	Pteropodidae	Pteropus	scapulatus 
+Mammals	Bats	Flying Fox	Animalia: Chordata: Mammalia	Chiroptera	Pteropodidae	Pteropus	sp. 
+Mammals	Bats	"Common Blossom-bat, Eastern Blossom Bat"	Animalia: Chordata: Mammalia	Chiroptera	Pteropodidae	Syconycteris	australis 
+Mammals	Bats	Bat	Animalia: Chordata: Mammalia	Chiroptera	Pteropodidae	Unknown	sp.
+Mammals	Bats	Eastern Horseshoe-bat	Animalia: Chordata: Mammalia	Chiroptera	Rhinolophidae	Rhinolophus	megaphyllus 
+Mammals	Bats	ignifer	Animalia: Chordata: Mammalia	Chiroptera	Rhinolophidae	Rhinolophus	megaphyllus ignifer
+Mammals	Bats	megaphyllus	Animalia: Chordata: Mammalia	Chiroptera	Rhinolophidae	Rhinolophus	megaphyllus megaphyllus
+Mammals	Bats	"Greater Horseshoe-bat, Large-eared Horseshoe-bat"	Animalia: Chordata: Mammalia	Chiroptera	Rhinolophidae	Rhinolophus	philippinensis 
+Mammals	Bats	"Greater Horseshoe-bat, Large-eared Horseshoe-bat"	Animalia: Chordata: Mammalia	Chiroptera	Rhinolophidae	Rhinolophus	philippinensis achilles
+Mammals	Bats	"Greater Horseshoe-bat, Large-eared Horseshoe-bat"	Animalia: Chordata: Mammalia	Chiroptera	Rhinolophidae	Rhinolophus	philippinensis maros
+Mammals	Bats	"Greater Horseshoe-bat, Large-eared Horseshoe-bat"	Animalia: Chordata: Mammalia	Chiroptera	Rhinolophidae	Rhinolophus	philippinensis robertsi
+Mammals	Bats	Bat	Animalia: Chordata: Mammalia	Chiroptera	Rhinolophidae	Rhinolophus	sp. 
+Mammals	Bats	Bat	Animalia: Chordata: Mammalia	Chiroptera	Rhinolophidae	Unknown	sp.
+Mammals	Bats	"Large Pied Bat, Large-eared Pied Bat"	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Chalinolobus	dwyeri 
+Mammals	Bats	Gould's Wattled Bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Chalinolobus	gouldii 
+Mammals	Bats	Gould's Wattled Bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Chalinolobus	gouldii gouldii
+Mammals	Bats	Gould's Wattled Bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Chalinolobus	gouldii venatoris
+Mammals	Bats	Chocolate Wattled Bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Chalinolobus	morio 
+Mammals	Bats	Hoary Wattled Bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Chalinolobus	nigrogriseus 
+Mammals	Bats	Hoary Wattled Bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Chalinolobus	nigrogriseus nigrogriseus
+Mammals	Bats	Hoary Wattled Bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Chalinolobus	nigrogriseus rogersi
+Mammals	Bats	Little Pied Bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Chalinolobus	picatus 
+Mammals	Bats	Western False Pipistrelle	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Falsistrellus	mackenziei 
+Mammals	Bats	Eastern False Pipistrelle	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Falsistrellus	tasmaniensis 
+Mammals	Bats	Pipistrelle	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Falsistrellus	sp. 
+Mammals	Bats	Golden-tipped Bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Kerivoula	papuensis 
+Mammals	Bats	Little Bentwing-bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Miniopterus	australis 
+Mammals	Bats	Little Bentwing-bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Miniopterus	australis australis
+Mammals	Bats	"Bent-wing Bat, Common Bentwing-bat"	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Miniopterus	schreibersii 
+Mammals	Bats	Southern Bent-wing Bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Miniopterus	schreibersii bassanii
+Mammals	Bats	Southern Bent-wing Bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Miniopterus	schreibersii oceanensis
+Mammals	Bats	Northern Bentwing-bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Miniopterus	schreibersii orianae
+Mammals	Bats	Bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Miniopterus	sp. 
+Mammals	Bats	"Tube-nosed Bat, Tube-nosed Insectivorous Bat"	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Murina	florium 
+Mammals	Bats	Small-footed Myotis	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Myotis	australis 
+Mammals	Bats	"Large-footed Myotis, Southern Myotis"	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Myotis	macropus 
+Mammals	Bats	Northern Myotis	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Myotis	moluccarum 
+Mammals	Bats	Myotis	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Myotis	sp. 
+Mammals	Bats	Arnhem Long-eared Bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Nyctophilus	arnhemensis 
+Mammals	Bats	Eastern Long-eared Bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Nyctophilus	bifax 
+Mammals	Bats	Eastern Long-eared Bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Nyctophilus	bifax bifax
+Mammals	Bats	Eastern Long-eared Bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Nyctophilus	bifax daedalus
+Mammals	Bats	Lesser Long-eared Bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Nyctophilus	geoffroyi 
+Mammals	Bats	Lesser Long-eared Bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Nyctophilus	geoffroyi geoffroyi
+Mammals	Bats	Lesser Long-eared Bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Nyctophilus	geoffroyi pacificus
+Mammals	Bats	Lesser Long-eared Bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Nyctophilus	geoffroyi pallescens
+Mammals	Bats	Gould's Long-eared Bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Nyctophilus	gouldi 
+Mammals	Bats	"Lord Howe Island Bat, Lord Howe Long-eared Bat"	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Nyctophilus	howensis 
+Mammals	Bats	Greater Long-eared Bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Nyctophilus	timoriensis 
+Mammals	Bats	Greater Long-eared Bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Nyctophilus	timoriensis major
+Mammals	Bats	Greater Long-eared Bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Nyctophilus	timoriensis sherrini
+Mammals	Bats	Greater Long-eared Bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Nyctophilus	timoriensis timoriensis
+Mammals	Bats	Pygmy Long-eared Bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Nyctophilus	walkeri 
+Mammals	Bats	Bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Nyctophilus	sp. 
+Mammals	Bats	Cape York Pipistrelle	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Pipistrellus	adamsi 
+Mammals	Bats	Christmas Island Pipistrelle	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Pipistrellus	murrayi 
+Mammals	Bats	Northern Pipistrelle	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Pipistrellus	westralis 
+Mammals	Bats	Pipistrelle	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Pipistrellus	sp. 
+Mammals	Bats	Greater Broad-nosed Bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Scoteanax	rueppellii 
+Mammals	Bats	Inland Broad-nosed Bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Scotorepens	balstoni 
+Mammals	Bats	Little Broad-nosed Bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Scotorepens	greyii 
+Mammals	Bats	"Eastern Broad-nosed Bat, South-eastern Broad-nosed Bat"	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Scotorepens	orion 
+Mammals	Bats	Northern Broad-nosed Bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Scotorepens	sanborni 
+Mammals	Bats	Bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Scotorepens	sp. 
+Mammals	Bats	Bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Unknown	sp.
+Mammals	Bats	Inland Forest Bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Vespadelus	baverstocki 
+Mammals	Bats	Northern Cave Bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Vespadelus	caurinus 
+Mammals	Bats	Large Forest Bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Vespadelus	darlingtoni 
+Mammals	Bats	Yellow-lipped Cave Bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Vespadelus	douglasorum 
+Mammals	Bats	Finlayson's Cave Bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Vespadelus	finlaysoni 
+Mammals	Bats	Eastern Forest Bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Vespadelus	pumilus 
+Mammals	Bats	Southern Forest Bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Vespadelus	regulus 
+Mammals	Bats	Eastern Cave Bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Vespadelus	troughtoni 
+Mammals	Bats	Little Forest Bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Vespadelus	vulturnus 
+Mammals	Bats	Bat	Animalia: Chordata: Mammalia	Chiroptera	Vespertilionidae	Vespadelus	sp. 
+Mammals	Kultarr	Kultarr	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Antechinomys	laniger laniger
+Mammals	Kultarr	Kultarr	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Antechinomys	laniger spenceri
+Mammals	Antechinus	Agile Antechinus	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Antechinus	agilis 
+Mammals	Antechinus	Fawn Antechinus	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Antechinus	bellus 
+Mammals	Antechinus	Yellow-footed Antechinus	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Antechinus	flavipes 
+Mammals	Antechinus	Yellow-footed Antechinus	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Antechinus	flavipes flavipes
+Mammals	Antechinus	Yellow-footed Antechinus	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Antechinus	flavipes leucogaster
+Mammals	Antechinus	Yellow-footed Antechinus	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Antechinus	flavipes rubeculus
+Mammals	Antechinus	Yellow-footed Antechinus	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Antechinus	flavipes Unplaced
+Mammals	Antechinus	Atherton Antechinus	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Antechinus	leo 
+Mammals	Antechinus	Cinnamon Antechinus	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Antechinus	minimus 
+Mammals	Antechinus	Swamp Antechinus	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Antechinus	minimus maritimus
+Mammals	Antechinus	Swamp Antechinus	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Antechinus	minimus minimus
+Mammals	Antechinus	Swamp Antechinus	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Antechinus	minimus Unplaced
+Mammals	Antechinus	Brown Antechinus	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Antechinus	stuartii 
+Mammals	Antechinus	Subtropical Antechinus	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Antechinus	subtropicus 
+Mammals	Antechinus	Dusky Antechinus	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Antechinus	swainsonii 
+Mammals	Antechinus	Dusky Antechinus	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Antechinus	swainsonii insulanus
+Mammals	Antechinus	Dusky Antechinus	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Antechinus	swainsonii mimetes
+Mammals	Antechinus	Dusky Antechinus	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Antechinus	swainsonii swainsonii
+Mammals	Antechinus	Antechinus	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Antechinus	sp. 
+Mammals	Dasyurids	Brush-tailed Mulgara	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Dasycercus	blythi 
+Mammals	Dasyurids	Crest-tailed Mulgara	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Dasycercus	cristicauda 
+Mammals	Dasyurids	Mulgara	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Dasycercus	sp. 
+Mammals	Dasyurids	"Little Red Kaluta, Little Red Kaluta"	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Dasykaluta	rosamondae 
+Mammals	Dasyurids	Dasykaluta	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Dasykaluta	sp. 
+Mammals	Dasyurids	Kowari	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Dasyuroides	byrnei 
+Mammals	Dasyurids	Kowari	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Dasyuroides	sp. 
+Mammals	Quolls	"Western Quoll, Chuditch"	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Dasyurus	geoffroii 
+Mammals	Quolls	"Western Quoll, Chuditch"	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Dasyurus	geoffroii fortis
+Mammals	Quolls	Northern Quoll	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Dasyurus	hallucatus 
+Mammals	Quolls	Spotted-tailed Quoll	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Dasyurus	maculatus 
+Mammals	Quolls	Spotted-tailed Quoll	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Dasyurus	maculatus gracilis
+Mammals	Quolls	Spotted-tailed Quoll	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Dasyurus	maculatus maculatus
+Mammals	Quolls	Spotted-tailed Quoll	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Dasyurus	maculatus Unplaced
+Mammals	Quolls	Eastern Quoll	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Dasyurus	viverrinus 
+Mammals	Quolls	Quoll	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Dasyurus	sp. 
+Mammals	Dasyurids	"Ningaui, Wongai Ningaui"	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Ningaui	ridei 
+Mammals	Dasyurids	Pilbara Ningaui	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Ningaui	timealeyi 
+Mammals	Dasyurids	Southern Ningaui	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Ningaui	yvonneae 
+Mammals	Dasyurids	Ningaui	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Ningaui	sp. 
+Mammals	Dasyurids	Dibbler	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Parantechinus	apicalis 
+Mammals	Dasyurids	Northern Dibbler	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Parantechinus	bilarni 
+Mammals	Dasyurids	Dibbler	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Parantechinus	sp. 
+Mammals	Phascogale	Red-tailed Phascogale	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Phascogale	calura 
+Mammals	Phascogale	Planigale	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Phascogale	pirata 
+Mammals	Phascogale	Brush-tailed Phascogale	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Phascogale	tapoatafa 
+Mammals	Phascogale	Phascogale	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Phascogale	sp. 
+Mammals	Planigale	Paucident Planigale	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Planigale	gilesi 
+Mammals	Planigale	Long-tailed Planigale	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Planigale	ingrami 
+Mammals	Planigale	Common Planigale	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Planigale	maculata 
+Mammals	Planigale	Common Planigale	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Planigale	maculata maculata
+Mammals	Planigale	Common Planigale	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Planigale	maculata sinualis
+Mammals	Planigale	Common Planigale	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Planigale	maculata Unplaced
+Mammals	Planigale	Narrow-nosed Planigale	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Planigale	tenuirostris 
+Mammals	Planigale	Planigale	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Planigale	sp. 
+Mammals	False Antechinus	Sandstone False Antechinus	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Pseudantechinus	bilarni 
+Mammals	False Antechinus	Fat-tailed Pseudantechinus	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Pseudantechinus	macdonnellensis 
+Mammals	False Antechinus	Carpentarian Pseudantechinus	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Pseudantechinus	mimulus 
+Mammals	False Antechinus	Ningbing Pseudantechinus	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Pseudantechinus	ningbing 
+Mammals	False Antechinus	"Rory Cooper's False Antechinus, Tan False Antechinus"	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Pseudantechinus	roryi 
+Mammals	False Antechinus	Woolley's Pseudantechinus	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Pseudantechinus	woolleyae 
+Mammals	False Antechinus	Pseudantechinus	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Pseudantechinus	sp. 
+Mammals	Tasmanian Devil	Tasmanian Devil	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Sarcophilus	harrisii 
+Mammals	Dunnarts	Kangaroo Island Dunnart	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Sminthopsis	aitkeni 
+Mammals	Dunnarts	Chestnut Dunnart	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Sminthopsis	archeri 
+Mammals	Dunnarts	Kakadu Dunnart	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Sminthopsis	bindi 
+Mammals	Dunnarts	Fat-tailed Dunnart	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Sminthopsis	crassicaudata 
+Mammals	Dunnarts	Fat-tailed Dunnart	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Sminthopsis	crassicaudata centralis
+Mammals	Dunnarts	Fat-tailed Dunnart	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Sminthopsis	crassicaudata crassicaudata
+Mammals	Dunnarts	Little Long-tailed Dunnart	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Sminthopsis	dolichura 
+Mammals	Dunnarts	Julia Creek Dunnart	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Sminthopsis	douglasi 
+Mammals	Dunnarts	Dusky Dunnart	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Sminthopsis	fuliginosus 
+Mammals	Dunnarts	Gilbert's Dunnart	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Sminthopsis	gilberti 
+Mammals	Dunnarts	White-tailed Dunnart	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Sminthopsis	granulipes 
+Mammals	Dunnarts	Boullanger Island Dunnart	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Sminthopsis	griseoventer boullangerensis
+Mammals	Dunnarts	Boullanger Island Dunnart	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Sminthopsis	griseoventer griseoventer
+Mammals	Dunnarts	Hairy-footed Dunnart	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Sminthopsis	hirtipes 
+Mammals	Dunnarts	White-footed Dunnart	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Sminthopsis	leucopus 
+Mammals	Dunnarts	Long-tailed Dunnart	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Sminthopsis	longicaudata 
+Mammals	Dunnarts	Stripe-faced Dunnart	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Sminthopsis	macroura 
+Mammals	Dunnarts	Stripe-faced Dunnart	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Sminthopsis	macroura froggatti
+Mammals	Dunnarts	Stripe-faced Dunnart	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Sminthopsis	macroura macroura
+Mammals	Dunnarts	Common Dunnart	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Sminthopsis	murina 
+Mammals	Dunnarts	Common Dunnart	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Sminthopsis	murina murina
+Mammals	Dunnarts	Common Dunnart	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Sminthopsis	murina tatei
+Mammals	Dunnarts	Ooldea Dunnart	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Sminthopsis	ooldea 
+Mammals	Dunnarts	Sandhill Dunnart	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Sminthopsis	psammophila 
+Mammals	Dunnarts	Red-cheeked Dunnart	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Sminthopsis	virginiae 
+Mammals	Dunnarts	Red-cheeked Dunnart	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Sminthopsis	virginiae nitela
+Mammals	Dunnarts	Red-cheeked Dunnart	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Sminthopsis	virginiae virginiae
+Mammals	Dunnarts	"Lesser Hairy-footed Dunnart, Grey-bellied Dunnart"	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Sminthopsis	youngsoni 
+Mammals	Dunnarts	Dunnart	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Sminthopsis	sp. 
+Mammals	Kultarr	Dunnart	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Unknown	sp.
+Mammals	Numbats	Numbat	Animalia: Chordata: Mammalia	Dasyuromorphia	Myrmecobiidae	Myrmecobius	fasciatus 
+Mammals	Numbats	Numbat	Animalia: Chordata: Mammalia	Dasyuromorphia	Myrmecobiidae	Myrmecobius	fasciatus fasciatus
+Mammals	Numbats	Numbat	Animalia: Chordata: Mammalia	Dasyuromorphia	Myrmecobiidae	Myrmecobius	fasciatus rufus
+Mammals	Numbats	Numbat	Animalia: Chordata: Mammalia	Dasyuromorphia	Myrmecobiidae	Myrmecobius	sp. 
+Mammals	Numbats	Unknown	Animalia: Chordata: Mammalia	Dasyuromorphia	Myrmecobiidae	Unknown	sp.
+Mammals	Thylacine	Thylacine	Animalia: Chordata: Mammalia	Dasyuromorphia	Thylacinidae	Thylacinus	cynocephalus 
+Mammals	Thylacine	Unknown	Animalia: Chordata: Mammalia	Dasyuromorphia	Thylacinidae	Unknown	sp.
+Mammals	Possums	Feathertail Glider	Animalia: Chordata: Mammalia	Diprotodontia	Acrobatidae	Acrobates	pygmaeus 
+Mammals	Possums	Acrobates	Animalia: Chordata: Mammalia	Diprotodontia	Acrobatidae	Acrobates	sp. 
+Mammals	Possums	Glider	Animalia: Chordata: Mammalia	Diprotodontia	Acrobatidae	Unknown	sp.
+Mammals	Possums	Mountain Pygmy-possum	Animalia: Chordata: Mammalia	Diprotodontia	Burramyidae	Burramys	parvus 
+Mammals	Possums	Possum	Animalia: Chordata: Mammalia	Diprotodontia	Burramyidae	Burramys	sp. 
+Mammals	Possums	Long-tailed Pygmy Possum	Animalia: Chordata: Mammalia	Diprotodontia	Burramyidae	Cercartetus	caudatus 
+Mammals	Possums	Long-tailed Pygmy Possum	Animalia: Chordata: Mammalia	Diprotodontia	Burramyidae	Cercartetus	caudatus macrurus
+Mammals	Possums	Western Pygmy-possum	Animalia: Chordata: Mammalia	Diprotodontia	Burramyidae	Cercartetus	concinnus 
+Mammals	Possums	Western Pygmy-possum	Animalia: Chordata: Mammalia	Diprotodontia	Burramyidae	Cercartetus	concinnus concinnus
+Mammals	Possums	Western Pygmy-possum	Animalia: Chordata: Mammalia	Diprotodontia	Burramyidae	Cercartetus	concinnus minor
+Mammals	Possums	Little Pygmy-possum	Animalia: Chordata: Mammalia	Diprotodontia	Burramyidae	Cercartetus	lepidus 
+Mammals	Possums	Eastern Pygmy-possum	Animalia: Chordata: Mammalia	Diprotodontia	Burramyidae	Cercartetus	nanus 
+Mammals	Possums	Eastern Pygmy-possum	Animalia: Chordata: Mammalia	Diprotodontia	Burramyidae	Cercartetus	nanus nanus
+Mammals	Possums	Eastern Pygmy-possum	Animalia: Chordata: Mammalia	Diprotodontia	Burramyidae	Cercartetus	nanus unicolor
+Mammals	Possums	Possum	Animalia: Chordata: Mammalia	Diprotodontia	Burramyidae	Cercartetus	sp. 
+Mammals	Possums	Possum	Animalia: Chordata: Mammalia	Diprotodontia	Burramyidae	Unknown	sp.
+Mammals	Kangaroos	Bennett's Tree-kangaroo	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Dendrolagus	bennettianus 
+Mammals	Kangaroos	Lumholtz's Tree-kangaroo	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Dendrolagus	lumholtzi 
+Mammals	Kangaroos	Kangaroo	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Dendrolagus	sp. 
+Mammals	Wallabies	Central Hare-wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Lagorchestes	asomatus 
+Mammals	Wallabies	Spectacled Hare-wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Lagorchestes	conspicillatus 
+Mammals	Wallabies	Spectacled Hare-wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Lagorchestes	conspicillatus conspicillatus
+Mammals	Wallabies	Spectacled Hare-wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Lagorchestes	conspicillatus leichardti
+Mammals	Wallabies	Spectacled Hare-wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Lagorchestes	conspicillatus pallidor
+Mammals	Wallabies	"Rufous Hare-wallaby, Mala"	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Lagorchestes	hirsutus 
+Mammals	Wallabies	"Rufous Hare-wallaby, Mala"	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Lagorchestes	hirsutus bernieri
+Mammals	Wallabies	"Rufous Hare-wallaby, Mala"	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Lagorchestes	hirsutus dorreae
+Mammals	Wallabies	"Rufous Hare-wallaby, Mala"	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Lagorchestes	hirsutus hirsutus
+Mammals	Wallabies	Eastern Hare-wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Lagorchestes	leporides 
+Mammals	Wallabies	Wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Lagorchestes	sp. 
+Mammals	Wallabies	Banded Hare-wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Lagostrophus	fasciatus 
+Mammals	Wallabies	Banded Hare-wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Lagostrophus	fasciatus baudinettei
+Mammals	Wallabies	Banded Hare-wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Lagostrophus	fasciatus albipilis
+Mammals	Wallabies	Banded Hare-wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Lagostrophus	fasciatus fasciatus
+Mammals	Wallabies	Wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Lagostrophus	sp. 
+Mammals	Wallabies	Agile Wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Macropus	agilis 
+Mammals	Wallabies	Antilopine Wallaroo	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Macropus	antilopinus 
+Mammals	Wallabies	Black Wallaroo	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Macropus	bernardus 
+Mammals	Wallabies	Black-striped Wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Macropus	dorsalis 
+Mammals	Wallabies	Tammar Wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Macropus	eugenii 
+Mammals	Wallabies	Tammar Wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Macropus	eugenii decres
+Mammals	Wallabies	Tammar Wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Macropus	eugenii derbianus
+Mammals	Wallabies	Tammar Wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Macropus	eugenii eugenii
+Mammals	Kangaroos	Western Grey Kangaroo	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Macropus	fuliginosus 
+Mammals	Kangaroos	Western Grey Kangaroo	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Macropus	fuliginosus fuliginosus
+Mammals	Kangaroos	Western Grey Kangaroo	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Macropus	fuliginosus melanops
+Mammals	Kangaroos	Eastern Grey Kangaroo	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Macropus	giganteus 
+Mammals	Kangaroos	Eastern Grey Kangaroo	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Macropus	giganteus giganteus
+Mammals	Kangaroos	Eastern Grey Kangaroo	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Macropus	giganteus tasmaniensis
+Mammals	Wallabies	Toolache Wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Macropus	greyi 
+Mammals	Wallabies	Western Brush Wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Macropus	irma 
+Mammals	Wallabies	Parma Wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Macropus	parma 
+Mammals	Wallabies	Whiptail Wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Macropus	parryi 
+Mammals	Wallabies	Common Wallaroo	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Macropus	robustus 
+Mammals	Wallabies	Common Wallaroo	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Macropus	robustus erubescens
+Mammals	Wallabies	Common Wallaroo	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Macropus	robustus isabellinus
+Mammals	Wallabies	Common Wallaroo	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Macropus	robustus robustus
+Mammals	Wallabies	Common Wallaroo	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Macropus	robustus woodwardi
+Mammals	Wallabies	Red-necked Wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Macropus	rufogriseus 
+Mammals	Wallabies	Red-necked Wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Macropus	rufogriseus banksianus
+Mammals	Wallabies	Red-necked Wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Macropus	rufogriseus rufogriseus
+Mammals	Kangaroos	Red Kangaroo	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Macropus	rufus 
+Mammals	Kangaroos	Kangaroo	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Macropus	sp. 
+Mammals	Wallabies	Bridled Nailtail Wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Onychogalea	fraenata 
+Mammals	Wallabies	Crescent Nailtail Wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Onychogalea	lunata 
+Mammals	Wallabies	Northern Nailtail Wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Onychogalea	unguifera 
+Mammals	Wallabies	Northern Nailtail Wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Onychogalea	unguifera annulicauda
+Mammals	Wallabies	Northern Nailtail Wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Onychogalea	unguifera unguifera
+Mammals	Wallabies	Wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Onychogalea	sp. 
+Mammals	Wallabies	Allied Rock-wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Petrogale	assimilis 
+Mammals	Wallabies	Short-eared Rock-wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Petrogale	brachyotis 
+Mammals	Wallabies	Warabi	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Petrogale	burbidgei 
+Mammals	Wallabies	Cape York Rock-wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Petrogale	coenensis 
+Mammals	Wallabies	Nabarlek	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Petrogale	concinna 
+Mammals	Wallabies	Nabarlek	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Petrogale	concinna canescens
+Mammals	Wallabies	Nabarlek	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Petrogale	concinna concinna
+Mammals	Wallabies	Nabarlek	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Petrogale	concinna monastria
+Mammals	Wallabies	Godman's Rock-wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Petrogale	godmani 
+Mammals	Wallabies	Herbert's Rock-wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Petrogale	herberti 
+Mammals	Wallabies	Unadorned Rock-wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Petrogale	inornata 
+Mammals	Wallabies	Black-footed Rock-wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Petrogale	lateralis 
+Mammals	Wallabies	Black-footed Rock-wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Petrogale	lateralis hacketti
+Mammals	Wallabies	Black-footed Rock-wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Petrogale	lateralis lateralis
+Mammals	Wallabies	Mareeb Rock-wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Petrogale	mareeba 
+Mammals	Wallabies	Black-footed Rock-wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Petrogale	pearsoni 
+Mammals	Wallabies	Brush-tailed Rock-wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Petrogale	penicillata 
+Mammals	Wallabies	Prosperpine Rock-wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Petrogale	persephone 
+Mammals	Wallabies	Rothschild's Rock-wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Petrogale	rothschildi 
+Mammals	Wallabies	Sharman's Rock-wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Petrogale	sharmani 
+Mammals	Wallabies	Yellow-footed Rock-wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Petrogale	xanthopus 
+Mammals	Wallabies	Yellow-footed Rock-wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Petrogale	xanthopus celeris
+Mammals	Wallabies	Yellow-footed Rock-wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Petrogale	xanthopus xanthopus
+Mammals	Wallabies	Petrogale	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Petrogale	sp. 
+Mammals	Wallabies	Quokka	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Setonix	brachyurus 
+Mammals	Pademelon	Tasmanian Pademelon	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Thylogale	billardierii 
+Mammals	Pademelon	Red-legged Pademelon	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Thylogale	stigmatica coxenii
+Mammals	Pademelon	Red-legged Pademelon	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Thylogale	stigmatica stigmatica
+Mammals	Pademelon	Red-legged Pademelon	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Thylogale	stigmatica wilcoxi
+Mammals	Pademelon	Red-necked Pademelon	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Thylogale	thetis 
+Mammals	Pademelon	Pademelon	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Thylogale	sp. 
+Mammals	Pademelon	Unknown	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Unknown	sp.
+Mammals	Pademelon	Swamp Wallaby	Animalia: Chordata: Mammalia	Diprotodontia	Macropodidae	Wallabia	bicolor 
+Mammals	Possums	Striped Possum	Animalia: Chordata: Mammalia	Diprotodontia	Petauridae	Dactylopsila	trivirgata 
+Mammals	Possums	Striped Possum	Animalia: Chordata: Mammalia	Diprotodontia	Petauridae	Dactylopsila	trivirgata picata
+Mammals	Possums	Leadbeater's Possum	Animalia: Chordata: Mammalia	Diprotodontia	Petauridae	Gymnobelideus	leadbeateri 
+Mammals	Gliders	Yellow-bellied Glider	Animalia: Chordata: Mammalia	Diprotodontia	Petauridae	Petaurus	australis 
+Mammals	Gliders	Yellow-bellied Glider	Animalia: Chordata: Mammalia	Diprotodontia	Petauridae	Petaurus	australis australis
+Mammals	Gliders	Yellow-bellied Glider	Animalia: Chordata: Mammalia	Diprotodontia	Petauridae	Petaurus	australis reginae
+Mammals	Gliders	Sugar Glider	Animalia: Chordata: Mammalia	Diprotodontia	Petauridae	Petaurus	breviceps 
+Mammals	Gliders	Sugar Glider	Animalia: Chordata: Mammalia	Diprotodontia	Petauridae	Petaurus	breviceps ariel
+Mammals	Gliders	Sugar Glider	Animalia: Chordata: Mammalia	Diprotodontia	Petauridae	Petaurus	breviceps breviceps
+Mammals	Gliders	Sugar Glider	Animalia: Chordata: Mammalia	Diprotodontia	Petauridae	Petaurus	breviceps longicaudatus
+Mammals	Gliders	Mahogany Glider	Animalia: Chordata: Mammalia	Diprotodontia	Petauridae	Petaurus	gracilis 
+Mammals	Gliders	Squirrel Glider	Animalia: Chordata: Mammalia	Diprotodontia	Petauridae	Petaurus	norfolcensis 
+Mammals	Gliders	Glider	Animalia: Chordata: Mammalia	Diprotodontia	Petauridae	Petaurus	sp. 
+Mammals	Gliders	Yellow-bellied Glider	Animalia: Chordata: Mammalia	Diprotodontia	Petauridae	Petaurus	australis reginae
+Mammals	Gliders	Glider	Animalia: Chordata: Mammalia	Diprotodontia	Petauridae	Unknown	sp.
+Mammals	Cuscus	Southern Common Cuscus	Animalia: Chordata: Mammalia	Diprotodontia	Phalangeridae	Phalanger	mimicus 
+Mammals	Cuscus	Common Spotted Cuscus	Animalia: Chordata: Mammalia	Diprotodontia	Phalangeridae	Spilocuscus	maculatus 
+Mammals	Cuscus	Common Spotted Cuscus	Animalia: Chordata: Mammalia	Diprotodontia	Phalangeridae	Spilocuscus	maculatus nudicaudatus
+Mammals	Possums	Mountain Brushtail Possum	Animalia: Chordata: Mammalia	Diprotodontia	Phalangeridae	Trichosurus	caninus 
+Mammals	Possums	Mountain Brushtail Possum	Animalia: Chordata: Mammalia	Diprotodontia	Phalangeridae	Trichosurus	cunninghami 
+Mammals	Possums	Common Brushtail Possum	Animalia: Chordata: Mammalia	Diprotodontia	Phalangeridae	Trichosurus	vulpecula 
+Mammals	Possums	Common Brushtail Possum	Animalia: Chordata: Mammalia	Diprotodontia	Phalangeridae	Trichosurus	vulpecula arnhemensis
+Mammals	Possums	Common Brushtail Possum	Animalia: Chordata: Mammalia	Diprotodontia	Phalangeridae	Trichosurus	vulpecula eburacensis
+Mammals	Possums	Common Brushtail Possum	Animalia: Chordata: Mammalia	Diprotodontia	Phalangeridae	Trichosurus	vulpecula fuliginosus
+Mammals	Possums	Common Brushtail Possum	Animalia: Chordata: Mammalia	Diprotodontia	Phalangeridae	Trichosurus	vulpecula hypoleucos
+Mammals	Possums	Common Brushtail Possum	Animalia: Chordata: Mammalia	Diprotodontia	Phalangeridae	Trichosurus	vulpecula johnstoni
+Mammals	Possums	Common Brushtail Possum	Animalia: Chordata: Mammalia	Diprotodontia	Phalangeridae	Trichosurus	vulpecula vulpecula
+Mammals	Possums	Possum	Animalia: Chordata: Mammalia	Diprotodontia	Phalangeridae	Trichosurus	sp. 
+Mammals	Cuscus	Possum	Animalia: Chordata: Mammalia	Diprotodontia	Phalangeridae	Unknown	sp.
+Mammals	Possums	Scaly-tailed Possum	Animalia: Chordata: Mammalia	Diprotodontia	Phalangeridae	Wyulda	squamicaudata 
+Mammals	Koala	Koala	Animalia: Chordata: Mammalia	Diprotodontia	Phascolarctidae	Phascolarctos	cinereus 
+Mammals	Koala	Koala	Animalia: Chordata: Mammalia	Diprotodontia	Phascolarctidae	Phascolarctos	cinereus adustus
+Mammals	Koala	Koala	Animalia: Chordata: Mammalia	Diprotodontia	Phascolarctidae	Phascolarctos	cinereus victor
+Mammals	Bettong	Rufous Bettong	Animalia: Chordata: Mammalia	Diprotodontia	Potoroidae	Aepyprymnus	rufescens 
+Mammals	Bettong	Tasmanian Bettong	Animalia: Chordata: Mammalia	Diprotodontia	Potoroidae	Bettongia	gaimardi 
+Mammals	Bettong	Tasmanian Bettong	Animalia: Chordata: Mammalia	Diprotodontia	Potoroidae	Bettongia	gaimardi cuniculus
+Mammals	Bettong	Tasmanian Bettong	Animalia: Chordata: Mammalia	Diprotodontia	Potoroidae	Bettongia	gaimardi gaimardi
+Mammals	Bettong	Burrowing Bettong	Animalia: Chordata: Mammalia	Diprotodontia	Potoroidae	Bettongia	lesueur 
+Mammals	Bettong	Burrowing Bettong	Animalia: Chordata: Mammalia	Diprotodontia	Potoroidae	Bettongia	lesueur graii
+Mammals	Bettong	Burrowing Bettong	Animalia: Chordata: Mammalia	Diprotodontia	Potoroidae	Bettongia	lesueur lesueur
+Mammals	Bettong	Brush-tailed Bettong	Animalia: Chordata: Mammalia	Diprotodontia	Potoroidae	Bettongia	penicillata 
+Mammals	Bettong	Brush-tailed Bettong	Animalia: Chordata: Mammalia	Diprotodontia	Potoroidae	Bettongia	penicillata ogilbyi
+Mammals	Bettong	Brush-tailed Bettong	Animalia: Chordata: Mammalia	Diprotodontia	Potoroidae	Bettongia	penicillata pencillata
+Mammals	Bettong	Northern Bettong	Animalia: Chordata: Mammalia	Diprotodontia	Potoroidae	Bettongia	tropica 
+Mammals	Bettong	Bettong	Animalia: Chordata: Mammalia	Diprotodontia	Potoroidae	Bettongia	sp. 
+Mammals	Rat-Kangaroos	Desert Rat-kangaroo	Animalia: Chordata: Mammalia	Diprotodontia	Potoroidae	Caloprymnus	campestris 
+Mammals	Rat-Kangaroos	Musky Rat-kangaroo	Animalia: Chordata: Mammalia	Diprotodontia	Potoroidae	Hypsiprymnodon	moschatus 
+Mammals	Potoroos	Gilbert's Potoroo	Animalia: Chordata: Mammalia	Diprotodontia	Potoroidae	Potorous	gilbertii 
+Mammals	Potoroos	Long-footed Potoroo	Animalia: Chordata: Mammalia	Diprotodontia	Potoroidae	Potorous	longipes 
+Mammals	Potoroos	Broad-faced Potoroo	Animalia: Chordata: Mammalia	Diprotodontia	Potoroidae	Potorous	platyops 
+Mammals	Potoroos	Long-nosed Potoroo	Animalia: Chordata: Mammalia	Diprotodontia	Potoroidae	Potorous	tridactylus 
+Mammals	Potoroos	Long-nosed Potoroo	Animalia: Chordata: Mammalia	Diprotodontia	Potoroidae	Potorous	tridactylus apicalis
+Mammals	Potoroos	Long-nosed Potoroo	Animalia: Chordata: Mammalia	Diprotodontia	Potoroidae	Potorous	tridactylus tridactylus
+Mammals	Potoroos	Potoroo	Animalia: Chordata: Mammalia	Diprotodontia	Potoroidae	Potorous	sp. 
+Mammals	Bettong	Bettong	Animalia: Chordata: Mammalia	Diprotodontia	Potoroidae	Unknown	sp.
+Mammals	Possums	Lemuroid Ringtail Possum	Animalia: Chordata: Mammalia	Diprotodontia	Pseudocheiridae	Hemibelideus	lemuroides 
+Mammals	Gliders	Greater Glider	Animalia: Chordata: Mammalia	Diprotodontia	Pseudocheiridae	Petauroides	volans 
+Mammals	Gliders	Greater Glider	Animalia: Chordata: Mammalia	Diprotodontia	Pseudocheiridae	Petauroides	volans minor
+Mammals	Gliders	Greater Glider	Animalia: Chordata: Mammalia	Diprotodontia	Pseudocheiridae	Petauroides	volans volans
+Mammals	Gliders	Glider	Animalia: Chordata: Mammalia	Diprotodontia	Pseudocheiridae	Petauroides	sp. 
+Mammals	Possums	Rock Ringtail Possum	Animalia: Chordata: Mammalia	Diprotodontia	Pseudocheiridae	Petropseudes	dahli 
+Mammals	Possums	Possum	Animalia: Chordata: Mammalia	Diprotodontia	Pseudocheiridae	Petropseudes	sp. 
+Mammals	Possums	Daintree River Ringtail Possum	Animalia: Chordata: Mammalia	Diprotodontia	Pseudocheiridae	Pseudocheirus	cinereus 
+Mammals	Possums	Herbert River Ringtail Possum	Animalia: Chordata: Mammalia	Diprotodontia	Pseudocheiridae	Pseudocheirus	herbertensis 
+Mammals	Possums	Common Ringtail Possum	Animalia: Chordata: Mammalia	Diprotodontia	Pseudocheiridae	Pseudocheirus	peregrinus 
+Mammals	Possums	Common Ringtail Possum	Animalia: Chordata: Mammalia	Diprotodontia	Pseudocheiridae	Pseudocheirus	peregrinus convolutor
+Mammals	Possums	Common Ringtail Possum	Animalia: Chordata: Mammalia	Diprotodontia	Pseudocheiridae	Pseudocheirus	peregrinus cooki
+Mammals	Possums	Common Ringtail Possum	Animalia: Chordata: Mammalia	Diprotodontia	Pseudocheiridae	Pseudocheirus	peregrinus peregrinus
+Mammals	Possums	Common Ringtail Possum	Animalia: Chordata: Mammalia	Diprotodontia	Pseudocheiridae	Pseudocheirus	peregrinus pulcher
+Mammals	Possums	Possum	Animalia: Chordata: Mammalia	Diprotodontia	Pseudocheiridae	Pseudocheirus	sp. 
+Mammals	Possums	Green Ringtail Possum	Animalia: Chordata: Mammalia	Diprotodontia	Pseudocheiridae	Pseudochirops	archeri 
+Mammals	Possums	Possum	Animalia: Chordata: Mammalia	Diprotodontia	Pseudocheiridae	Unknown	sp.
+Mammals	Possums	Honey Possum	Animalia: Chordata: Mammalia	Diprotodontia	Tarsipedidae	Tarsipes	rostratus 
+Mammals	Wombat	Northern Hairy-nosed Wombat	Animalia: Chordata: Mammalia	Diprotodontia	Vombatidae	Lasiorhinus	krefftii 
+Mammals	Wombat	Southern Hairy-nosed Wombat	Animalia: Chordata: Mammalia	Diprotodontia	Vombatidae	Lasiorhinus	latifrons 
+Mammals	Wombat	Wombat	Animalia: Chordata: Mammalia	Diprotodontia	Vombatidae	Lasiorhinus	sp. 
+Mammals	Wombat	Common Wombat	Animalia: Chordata: Mammalia	Diprotodontia	Vombatidae	Vombatus	ursinus 
+Mammals	Wombat	Common Wombat	Animalia: Chordata: Mammalia	Diprotodontia	Vombatidae	Vombatus	ursinus hirsutus
+Mammals	Wombat	Common Wombat	Animalia: Chordata: Mammalia	Diprotodontia	Vombatidae	Vombatus	ursinus tasmaniensis
+Mammals	Wombat	Common Wombat	Animalia: Chordata: Mammalia	Diprotodontia	Vombatidae	Vombatus	ursinus ursinus
+Mammals	Hares & Rabbits	Brown Hare	Animalia: Chordata: Mammalia	Lagomorpha	Leporidae	Lepus	capensis 
+Mammals	Hares & Rabbits	Brown Hare	Animalia: Chordata: Mammalia	Lagomorpha	Leporidae	Lepus	capensis europaeus
+Mammals	Hares & Rabbits	Rabbit	Animalia: Chordata: Mammalia	Lagomorpha	Leporidae	Oryctolagus	cuniculus 
+Mammals	Hares & Rabbits	Rabbit	Animalia: Chordata: Mammalia	Lagomorpha	Leporidae	Oryctolagus	cuniculus cuniculus
+Mammals	Hares & Rabbits	Hare or Rabbit	Animalia: Chordata: Mammalia	Lagomorpha	Leporidae	Unknown	sp.
+Mammals	Platypus	Platypus	Animalia: Chordata: Mammalia	Monotremata	Ornithorhynchidae	Ornithorhynchus	anatinus 
+Mammals	Echidna	Echidna	Animalia: Chordata: Mammalia	Monotremata	Tachyglossidae	Tachyglossus	aculeatus 
+Mammals	Echidna	Short-beaked Echidna	Animalia: Chordata: Mammalia	Monotremata	Tachyglossidae	Tachyglossus	aculeatus aculeatus
+Mammals	Echidna	Short-beaked Echidna	Animalia: Chordata: Mammalia	Monotremata	Tachyglossidae	Tachyglossus	aculeatus multiaculeatus
+Mammals	Echidna	Short-beaked Echidna	Animalia: Chordata: Mammalia	Monotremata	Tachyglossidae	Tachyglossus	aculeatus setosus
+Mammals	Mole	Western Marsupial  Mole	Animalia: Chordata: Mammalia	Notoryctemorphia	Notoryctidae	Notoryctes	caurinus 
+Mammals	Bandicoot	Pig-footed Bandicoot	Animalia: Chordata: Mammalia	Peramelemorphia	Peramelidae	Chaeropus	ecaudatus 
+Mammals	Bandicoot	Golden Bandicoot	Animalia: Chordata: Mammalia	Peramelemorphia	Peramelidae	Isoodon	auratus 
+Mammals	Bandicoot	Golden Bandicoot	Animalia: Chordata: Mammalia	Peramelemorphia	Peramelidae	Isoodon	auratus arnhemensis
+Mammals	Bandicoot	Golden Bandicoot	Animalia: Chordata: Mammalia	Peramelemorphia	Peramelidae	Isoodon	auratus auratus
+Mammals	Bandicoot	Golden Bandicoot	Animalia: Chordata: Mammalia	Peramelemorphia	Peramelidae	Isoodon	auratus barrowensis
+Mammals	Bandicoot	Northern Brown Bandicoot	Animalia: Chordata: Mammalia	Peramelemorphia	Peramelidae	Isoodon	macrourus 
+Mammals	Bandicoot	Northern Brown Bandicoot	Animalia: Chordata: Mammalia	Peramelemorphia	Peramelidae	Isoodon	macrourus macrourus
+Mammals	Bandicoot	Northern Brown Bandicoot	Animalia: Chordata: Mammalia	Peramelemorphia	Peramelidae	Isoodon	macrourus torosa
+Mammals	Bandicoot	Southern Brown Bandicoot	Animalia: Chordata: Mammalia	Peramelemorphia	Peramelidae	Isoodon	obesulus 
+Mammals	Bandicoot	Southern Brown Bandicoot	Animalia: Chordata: Mammalia	Peramelemorphia	Peramelidae	Isoodon	obesulus affinis
+Mammals	Bandicoot	Southern Brown Bandicoot	Animalia: Chordata: Mammalia	Peramelemorphia	Peramelidae	Isoodon	obesulus fusciventer
+Mammals	Bandicoot	Southern Brown Bandicoot	Animalia: Chordata: Mammalia	Peramelemorphia	Peramelidae	Isoodon	obesulus nauticus
+Mammals	Bandicoot	Southern Brown Bandicoot	Animalia: Chordata: Mammalia	Peramelemorphia	Peramelidae	Isoodon	obesulus obesulus
+Mammals	Bandicoot	Southern Brown Bandicoot	Animalia: Chordata: Mammalia	Peramelemorphia	Peramelidae	Isoodon	obesulus peninsulae
+Mammals	Bandicoot	Bandicoot	Animalia: Chordata: Mammalia	Peramelemorphia	Peramelidae	Isoodon	sp. 
+Mammals	Bandicoot	Western Barred Bandicoot	Animalia: Chordata: Mammalia	Peramelemorphia	Peramelidae	Perameles	bougainville 
+Mammals	Bandicoot	Western Barred Bandicoot	Animalia: Chordata: Mammalia	Peramelemorphia	Peramelidae	Perameles	bougainville bougainville
+Mammals	Bandicoot	Western Barred Bandicoot	Animalia: Chordata: Mammalia	Peramelemorphia	Peramelidae	Perameles	bougainville fasciata
+Mammals	Bandicoot	Western Barred Bandicoot	Animalia: Chordata: Mammalia	Peramelemorphia	Peramelidae	Perameles	bougainville myosuros
+Mammals	Bandicoot	Western Barred Bandicoot	Animalia: Chordata: Mammalia	Peramelemorphia	Peramelidae	Perameles	bougainville notina
+Mammals	Bandicoot	Desert Bandicoot	Animalia: Chordata: Mammalia	Peramelemorphia	Peramelidae	Perameles	eremiana 
+Mammals	Bandicoot	Eastern Barred Bandicoot	Animalia: Chordata: Mammalia	Peramelemorphia	Peramelidae	Perameles	gunnii 
+Mammals	Bandicoot	Eastern Barred Bandicoot	Animalia: Chordata: Mammalia	Peramelemorphia	Peramelidae	Perameles	gunnii gunnii
+Mammals	Bandicoot	Eastern Barred Bandicoot	Animalia: Chordata: Mammalia	Peramelemorphia	Peramelidae	Perameles	gunnii subsp
+Mammals	Bandicoot	Long-nosed Bandicoot	Animalia: Chordata: Mammalia	Peramelemorphia	Peramelidae	Perameles	nasuta 
+Mammals	Bandicoot	Long-nosed Bandicoot	Animalia: Chordata: Mammalia	Peramelemorphia	Peramelidae	Perameles	nasuta nasuta
+Mammals	Bandicoot	Bandicoot	Animalia: Chordata: Mammalia	Peramelemorphia	Peramelidae	Perameles	sp. 
+Mammals	Bandicoot	Long-nosed Bandicoot	Animalia: Chordata: Mammalia	Peramelemorphia	Peramelidae	Perameles	nasuta pallescens
+Mammals	Bandicoot	Bandicoot	Animalia: Chordata: Mammalia	Peramelemorphia	Peramelidae	Unknown	sp.
+Mammals	Bandicoot	Rufous Spiny Bandicoot	Animalia: Chordata: Mammalia	Peramelemorphia	Peroryctidae	Echymipera	rufescens 
+Mammals	Bandicoot	Rufous Spiny Bandicoot	Animalia: Chordata: Mammalia	Peramelemorphia	Peroryctidae	Echymipera	rufescens australis
+Mammals	Bilby	Bilby	Animalia: Chordata: Mammalia	Peramelemorphia	Thylacomyidae	Macrotis	lagotis 
+Mammals	Bilby	Bilby	Animalia: Chordata: Mammalia	Peramelemorphia	Thylacomyidae	Macrotis	lagotis cambrica
+Mammals	Bilby	Bilby	Animalia: Chordata: Mammalia	Peramelemorphia	Thylacomyidae	Macrotis	lagotis grandis
+Mammals	Bilby	Bilby	Animalia: Chordata: Mammalia	Peramelemorphia	Thylacomyidae	Macrotis	lagotis interjecta
+Mammals	Bilby	Bilby	Animalia: Chordata: Mammalia	Peramelemorphia	Thylacomyidae	Macrotis	lagotis lagotis
+Mammals	Bilby	Bilby	Animalia: Chordata: Mammalia	Peramelemorphia	Thylacomyidae	Macrotis	lagotis nigripes
+Mammals	Bilby	Bilby	Animalia: Chordata: Mammalia	Peramelemorphia	Thylacomyidae	Macrotis	lagotis sagitta
+Mammals	Bilby	Lesser Bilby	Animalia: Chordata: Mammalia	Peramelemorphia	Thylacomyidae	Macrotis	leucura 
+Mammals	Bilby	Bilby	Animalia: Chordata: Mammalia	Peramelemorphia	Thylacomyidae	Macrotis	sp. 
+Mammals	Donkey	Donkey	Animalia: Chordata: Mammalia	Perissodactyla	Equidae	Equus	asinus 
+Mammals	Horse	"Horse, Brumby"	Animalia: Chordata: Mammalia	Perissodactyla	Equidae	Equus	caballus 
+Mammals	Horse	Horse	Animalia: Chordata: Mammalia	Perissodactyla	Equidae	Equus	sp. 
+Mammals	Rats & Mice	"White-footed Rabbit-rat, White-footed Tree-rat"	Animalia: Chordata: Mammalia	Rodentia	Muridae	Conilurus	albipes 
+Mammals	Rats & Mice	"Brush-tailed Rabbit-rat, Brush-tailed Tree-rat"	Animalia: Chordata: Mammalia	Rodentia	Muridae	Conilurus	penicillatus 
+Mammals	Rats & Mice	"Brush-tailed Rabbit-rat, Brush-tailed Tree-rat"	Animalia: Chordata: Mammalia	Rodentia	Muridae	Conilurus	penicillatus melibius
+Mammals	Rats & Mice	"Brush-tailed Rabbit-rat, Brush-tailed Tree-rat"	Animalia: Chordata: Mammalia	Rodentia	Muridae	Conilurus	penicillatus penicillatus
+Mammals	Rats & Mice	Rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Conilurus	sp. 
+Mammals	Rats & Mice	Water-rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Hydromys	chrysogaster 
+Mammals	Rats & Mice	Forrest's Mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Leggadina	forresti 
+Mammals	Rats & Mice	Lakeland Downs Mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Leggadina	lakedownensis 
+Mammals	Rats & Mice	Mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Leggadina	sp. 
+Mammals	Rats & Mice	Lesser Stick-nest Rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Leporillus	apicalis 
+Mammals	Rats & Mice	Greater Stick-nest Rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Leporillus	conditor 
+Mammals	Rats & Mice	Rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Leporillus	sp. 
+Mammals	Rats & Mice	Broad-toothed Rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Mastacomys	fuscus 
+Mammals	Rats & Mice	Broad-toothed Rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Mastacomys	fuscus fuscus
+Mammals	Rats & Mice	Broad-toothed Rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Mastacomys	fuscus mordicus
+Mammals	Rats & Mice	Rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Mastacomys	sp. 
+Mammals	Rats & Mice	Grassland Melomys	Animalia: Chordata: Mammalia	Rodentia	Muridae	Melomys	burtoni 
+Mammals	Rats & Mice	Cape York Melomys	Animalia: Chordata: Mammalia	Rodentia	Muridae	Melomys	capensis 
+Mammals	Rats & Mice	Fawn-footed Melomys	Animalia: Chordata: Mammalia	Rodentia	Muridae	Melomys	cervinipes 
+Mammals	Rats & Mice	Bramble Cay Melomys	Animalia: Chordata: Mammalia	Rodentia	Muridae	Melomys	rubicola 
+Mammals	Rats & Mice	Melomys	Animalia: Chordata: Mammalia	Rodentia	Muridae	Melomys	sp. 
+Mammals	Rats & Mice	Black-footed Tree-rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Mesembriomys	gouldii 
+Mammals	Rats & Mice	Black-footed Tree-rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Mesembriomys	gouldii gouldii
+Mammals	Rats & Mice	Black-footed Tree-rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Mesembriomys	gouldii melvillensis
+Mammals	Rats & Mice	Black-footed Tree-rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Mesembriomys	gouldii rattoides
+Mammals	Rats & Mice	Golden-backed Tree-rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Mesembriomys	macrurus 
+Mammals	Rats & Mice	Rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Mesembriomys	sp. 
+Mammals	Rats & Mice	House Mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Mus	musculus 
+Mammals	Rats & Mice	House Mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Mus	musculus domesticus
+Mammals	Rats & Mice	Spinifex Hopping-mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Notomys	alexis 
+Mammals	Rats & Mice	Spinifex Hopping-mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Notomys	alexis alexis
+Mammals	Rats & Mice	Spinifex Hopping-mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Notomys	alexis everardensis
+Mammals	Rats & Mice	Spinifex Hopping-mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Notomys	alexis reginae
+Mammals	Rats & Mice	Short-tailed Hopping-mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Notomys	amplus 
+Mammals	Rats & Mice	Northern Hopping-mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Notomys	aquilo 
+Mammals	Rats & Mice	Fawn Hopping-mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Notomys	cervinus 
+Mammals	Rats & Mice	Dusky Hopping-mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Notomys	fuscus 
+Mammals	Rats & Mice	Long-tailed Hopping-mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Notomys	longicaudatus 
+Mammals	Rats & Mice	Big-eared Hopping-mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Notomys	macrotis 
+Mammals	Rats & Mice	Mitchell's Hopping-mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Notomys	mitchellii 
+Mammals	Rats & Mice	Darling Downs Hopping-mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Notomys	mordax 
+Mammals	Rats & Mice	Mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Notomys	sp. 
+Mammals	Rats & Mice	Prehensile-tailed Rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Pogonomys	mollipilosus 
+Mammals	Rats & Mice	Pogonomys	Animalia: Chordata: Mammalia	Rodentia	Muridae	Pogonomys	sp. 
+Mammals	Rats & Mice	Ash-grey Mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Pseudomys	albocinereus 
+Mammals	Rats & Mice	Ash-grey Mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Pseudomys	albocinereus albocinereus
+Mammals	Rats & Mice	Ash-grey Mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Pseudomys	albocinereus squalorum
+Mammals	Rats & Mice	Silky Mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Pseudomys	apodemoides 
+Mammals	Rats & Mice	Plains Rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Pseudomys	australis 
+Mammals	Rats & Mice	Bolam's Mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Pseudomys	bolami 
+Mammals	Rats & Mice	Kakadu Pebble-mound Mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Pseudomys	calabyi 
+Mammals	Rats & Mice	Pebble-mound Mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Pseudomys	chapmani 
+Mammals	Rats & Mice	Delicate Mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Pseudomys	delicatulus 
+Mammals	Rats & Mice	Delicate Mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Pseudomys	delicatulus delicatulus
+Mammals	Rats & Mice	Delicate Mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Pseudomys	delicatulus mimulus
+Mammals	Rats & Mice	Desert Mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Pseudomys	desertor 
+Mammals	Rats & Mice	Alice Springs Mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Pseudomys	fieldi 
+Mammals	Rats & Mice	Smoky Mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Pseudomys	fumeus 
+Mammals	Rats & Mice	Blue-grey Mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Pseudomys	glaucus 
+Mammals	Rats & Mice	Gould's Mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Pseudomys	gouldii 
+Mammals	Rats & Mice	Eastern Chestnut Mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Pseudomys	gracilicaudatus 
+Mammals	Rats & Mice	Sandy Inland Mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Pseudomys	hermannsburgensis 
+Mammals	Rats & Mice	Long-tailed Mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Pseudomys	higginsi 
+Mammals	Rats & Mice	Central Pebble-mound Mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Pseudomys	johnsoni 
+Mammals	Rats & Mice	Kimberley Mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Pseudomys	laborifex 
+Mammals	Rats & Mice	Western Chestnut Mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Pseudomys	nanus 
+Mammals	Rats & Mice	Western Chestnut Mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Pseudomys	nanus ferculinus
+Mammals	Rats & Mice	Western Chestnut Mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Pseudomys	nanus nanus
+Mammals	Rats & Mice	New Holland Mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Pseudomys	novaehollandiae 
+Mammals	Rats & Mice	Western Mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Pseudomys	occidentalis 
+Mammals	Rats & Mice	Hastings River Mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Pseudomys	oralis 
+Mammals	Rats & Mice	"Eastern Pebble-mound Mouse,  North-eastern Mouse"	Animalia: Chordata: Mammalia	Rodentia	Muridae	Pseudomys	patrius 
+Mammals	Rats & Mice	Pilliga Mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Pseudomys	pilligaensis 
+Mammals	Rats & Mice	Heath Rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Pseudomys	shortridgei 
+Mammals	Rats & Mice	Mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Pseudomys	sp. 
+Mammals	Rats & Mice	Dusky Rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Rattus	colletti 
+Mammals	Rats & Mice	"Pacific Rat, Polynesian Rat"	Animalia: Chordata: Mammalia	Rodentia	Muridae	Rattus	exulans 
+Mammals	Rats & Mice	Bush Rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Rattus	fuscipes 
+Mammals	Rats & Mice	Bush Rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Rattus	fuscipes assimilis
+Mammals	Rats & Mice	Bush Rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Rattus	fuscipes coracius
+Mammals	Rats & Mice	Bush Rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Rattus	fuscipes fuscipes
+Mammals	Rats & Mice	Bush Rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Rattus	fuscipes greyi
+Mammals	Rats & Mice	Cape York Rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Rattus	leucopus 
+Mammals	Rats & Mice	Cape York Rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Rattus	leucopus cooktownensis
+Mammals	Rats & Mice	Cape York Rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Rattus	leucopus leucopus
+Mammals	Rats & Mice	Swamp Rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Rattus	lutreolus 
+Mammals	Rats & Mice	Swamp Rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Rattus	lutreolus lacus
+Mammals	Rats & Mice	Swamp Rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Rattus	lutreolus lutreolus
+Mammals	Rats & Mice	Swamp Rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Rattus	lutreolus velutinus
+Mammals	Rats & Mice	Maclear's Rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Rattus	macleari 
+Mammals	Rats & Mice	Christmas Island Rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Rattus	nativitatis 
+Mammals	Rats & Mice	Brown Rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Rattus	norvegicus 
+Mammals	Rats & Mice	Black Rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Rattus	rattus 
+Mammals	Rats & Mice	Canefield Rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Rattus	sordidus 
+Mammals	Rats & Mice	Pale Field-rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Rattus	tunneyi 
+Mammals	Rats & Mice	culmorum	Animalia: Chordata: Mammalia	Rodentia	Muridae	Rattus	tunneyi culmorum
+Mammals	Rats & Mice	tunneyi	Animalia: Chordata: Mammalia	Rodentia	Muridae	Rattus	tunneyi tunneyi
+Mammals	Rats & Mice	Long-haired Rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Rattus	villosissimus 
+Mammals	Rats & Mice	Rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Rattus	sp. 
+Mammals	Rats & Mice	Rat or Mouse	Animalia: Chordata: Mammalia	Rodentia	Muridae	Unknown	sp.
+Mammals	Rats & Mice	"Giant White-tailed Rat, White-tailed Uromys"	Animalia: Chordata: Mammalia	Rodentia	Muridae	Uromys	caudimaculatus 
+Mammals	Rats & Mice	caudimaculatus	Animalia: Chordata: Mammalia	Rodentia	Muridae	Uromys	caudimaculatus caudimaculatus
+Mammals	Rats & Mice	"Masked White-tailed Rat, Thornton Peak Uromys"	Animalia: Chordata: Mammalia	Rodentia	Muridae	Uromys	hadrourus 
+Mammals	Rats & Mice	Uromys	Animalia: Chordata: Mammalia	Rodentia	Muridae	Uromys	sp. 
+Mammals	Rats & Mice	False Water-rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Xeromys	myoides 
+Mammals	Rats & Mice	Common Rock-rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Zyzomys	argurus 
+Mammals	Rats & Mice	Arnhem Land Rock-rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Zyzomys	maini 
+Mammals	Rats & Mice	Carpentarian Rock-rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Zyzomys	palatalis 
+Mammals	Rats & Mice	Central Rock-rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Zyzomys	pedunculatus 
+Mammals	Rats & Mice	"Kimberley Rock-rat, Large Rock-rat"	Animalia: Chordata: Mammalia	Rodentia	Muridae	Zyzomys	woodwardi 
+Mammals	Rats & Mice	Rat	Animalia: Chordata: Mammalia	Rodentia	Muridae	Zyzomys	sp. 
+Mammals	Squirrel	"Five-lined Palm Squirrel, Northern Palm squirrel"	Animalia: Chordata: Mammalia	Rodentia	Sciuridae	Funambulus	pennantii 
+Mammals	Squirrel	"American Grey Squirrel, Eastern Grey Squirrle"	Animalia: Chordata: Mammalia	Rodentia	Sciuridae	Sciurus	carolinensis 
+Mammals	Dugong	Dugong	Animalia: Chordata: Mammalia	Sirenia	Dugongidae	Dugong	dugon 
+Mammals	Shrew	Grey Shrew	Animalia: Chordata: Mammalia	Soricomorpha	Soricidae	Crocidura	attenuata 
+Mammals	Shrew	Christmas Island Shrew	Animalia: Chordata: Mammalia	Soricomorpha	Soricidae	Crocidura	attenuata trichura

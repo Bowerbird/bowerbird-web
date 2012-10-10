@@ -116,7 +116,7 @@ namespace Bowerbird.Web.EventHandlers
             dynamic activity = MakeActivity(
                 domainEvent,
                 "userjoinedgroup",
-                string.Format("{0} joined {1}", user.FirstName, group.Name),
+                string.Format("{0} joined {1}", user.Name, group.Name),
                 new[] { group });
 
             activity.UserJoinedGroup = new

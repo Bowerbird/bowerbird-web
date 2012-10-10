@@ -62,9 +62,14 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult PublicIndex()
         {
-            ViewBag.IsStaticLayout = true;
-
-            return View(Form.PublicIndex);
+            dynamic viewModel = new ExpandoObject();
+            viewModel.HomeHeader = true;
+            
+            return RestfulResult(
+                viewModel,
+                "home",
+                "publicindex",
+                null);
         }
 
         [HttpGet]

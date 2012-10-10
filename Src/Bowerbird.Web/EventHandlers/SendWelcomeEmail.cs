@@ -63,7 +63,7 @@ namespace Bowerbird.Web.EventHandlers
                 .From("noreply@bowerbird.org.au", "Bowerbird")
                 .To(userCreatedEvent.DomainModel.Email)
                 .Subject("Bowerbird account verification")
-                .UsingTemplate("WelcomeEmail", new { userCreatedEvent.DomainModel.FirstName })
+                .UsingTemplate("WelcomeEmail", new { userCreatedEvent.DomainModel.Name })
                 .Message;
 
             _emailService.SendMailMessage(message);

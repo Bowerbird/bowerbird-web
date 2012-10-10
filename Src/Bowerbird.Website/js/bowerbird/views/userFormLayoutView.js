@@ -24,8 +24,7 @@ function ($, _, Backbone, app, ich, loadImage, EditAvatarView)
         events: {
             'click #cancel': '_cancel',
             'click #save': '_save',
-            'change input#FirstName': '_contentChanged',
-            'change input#LastName': '_contentChanged',
+            'change input#Name': '_contentChanged',
             'change input#Email': '_contentChanged'
         },
 

@@ -63,21 +63,25 @@ namespace Bowerbird.Core.CommandHandlers
             // TODO: Create any new media resources from scratch
 
             var userProject = _documentSession
-                .Query<UserProject>()
-                .Include(x => x.User.Id)
-                .Where(x => x.User.Id == command.UserId)
+                .Query<All_Users.Result, All_Users>()
+                .AsProjection<All_Users.Result>()
+                .Where(x => x.UserId == command.UserId)
+                .First()
+                .UserProjects
                 .First();
 
             var user = _documentSession.Load<User>(command.UserId);
 
-            var projects = new List<Project>();
+            IEnumerable<Project> projects = new List<Project>();
 
             if (command.Projects != null && command.Projects.Count() > 0)
             {
                 projects = _documentSession
-                    .Query<Project>()
-                    .Where(x => x.Id.In(command.Projects))
-                    .ToList();
+                    .Query<All_Groups.Result, All_Groups>()
+                    .AsProjection<All_Groups.Result>()
+                    .Where(x => x.GroupId.In(command.Projects))
+                    .ToList()
+                    .Select(x => x.Project);
             }
 
             var observation = new Observation(

@@ -18,7 +18,7 @@ namespace Bowerbird.Web.Builders
 {
     public interface IAccountViewModelBuilder : IBuilder
     {
-        object MakeAccountLogin();
+        object MakeAccountLogin(string returnUrl);
 
         object MakeAccountLogin(AccountLoginInput accountLoginInput);
         

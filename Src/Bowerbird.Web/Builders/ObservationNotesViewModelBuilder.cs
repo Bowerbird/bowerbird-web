@@ -87,7 +87,7 @@
 //            //{
 //            //    case "ObservationNote":
 //            //        item = _observationNoteViewFactory.Make(groupContributionResult.ObservationNote);
-//            //        description = groupContributionResult.ObservationNote.User.FirstName + " added an observation note";
+//            //        description = groupContributionResult.ObservationNote.User.Name + " added an observation note";
 //            //        groups = groupContributionResult.Observation.Groups.Select(x => x.GroupId);
 //            //        break;
 //            //}

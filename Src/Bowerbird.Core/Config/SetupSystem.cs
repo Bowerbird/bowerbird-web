@@ -322,13 +322,13 @@ namespace Bowerbird.Core.Config
         {
             using (var documentSession = CreateSession())
             {
-                AddUser("password", "frank@radocaj.com", "Frank", "Radocaj", documentSession, "globaladministrator", "globalmember");
+                AddUser("password", "frank@radocaj.com", "Frank Radocaj", documentSession, "globaladministrator", "globalmember");
                 //documentSession.SaveChanges();
 
-                AddUser("password", "hcrittenden@museum.vic.gov.au", "Hamish", "Crittenden", documentSession, "globaladministrator", "globalmember");
+                AddUser("password", "hcrittenden@museum.vic.gov.au", "Hamish Crittenden", documentSession, "globaladministrator", "globalmember");
                 //documentSession.SaveChanges();
 
-                AddUser("password", "kwalker@museum.vic.gov.au", "Ken", "Walker", documentSession, "globaladministrator", "globalmember");
+                AddUser("password", "kwalker@museum.vic.gov.au", "Ken Walker", documentSession, "globaladministrator", "globalmember");
                 //documentSession.SaveChanges();
 
                 // Set the user now that we have one
@@ -339,9 +339,9 @@ namespace Bowerbird.Core.Config
             }
         }
 
-        private void AddUser(string password, string email, string firstname, string lastname, IDocumentSession documentSession, params string[] roleIds)
+        private void AddUser(string password, string email, string name, IDocumentSession documentSession, params string[] roleIds)
         {
-            var user = new User(password, email, firstname, lastname, _mediaResourceFactory.MakeDefaultAvatarImage(AvatarDefaultType.User), 
+            var user = new User(password, email, name, _mediaResourceFactory.MakeDefaultAvatarImage(AvatarDefaultType.User), 
                 Constants.DefaultLicence, Constants.DefaultTimezone);
             documentSession.Store(user);
 
@@ -363,8 +363,7 @@ namespace Bowerbird.Core.Config
 
             //UserCreateCommand command = new UserCreateCommand()
             //{
-            //    FirstName = firstname,
-            //    LastName = lastname,
+            //    Name = name,
             //    Email = email,
             //    Password = password,
             //    Roles = new[] { "roles/globalmember", "roles/globaladministrator" } 

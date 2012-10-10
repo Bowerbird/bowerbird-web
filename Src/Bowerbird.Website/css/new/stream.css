@@ -1,5 +1,5 @@
 ﻿/* details */
-.home .tab-bar
+.home-private .tab-bar
 {
     border-radius: 4px 4px 0 0;
     /*box-shadow: 0 1px 2px 0 #5071A6;*/
@@ -823,14 +823,13 @@ ul.explore-menu
     border-top-right-radius: 0;
     cursor: pointer;
     display: inline-block;
-    margin-bottom: 15px;
     margin-right: 0;
     overflow: hidden;
     padding: 3px 0;
     position: relative;
     text-align: center;
     vertical-align: top;
-    width: 124px;
+    width: 126px;
 }
 .form .avatar-upload-button input
 {
@@ -856,15 +855,21 @@ ul.explore-menu
     font-family: "open sans",sans-serif;
     font-size: 1em;
     padding: 13px 13px 7px;
-    width: 98px;
+    width: 126px;
 }
 .form .avatar-field
 {
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    display:block;
-    /*float: left;
-    clear: both;    */
-    padding: 0 15px 0;
-    margin-bottom: 25px;
+    display: block;
+    width: 126px;
+}
+.form #website-field {
+    float: none;
+    margin-bottom: 10px;
+    margin-left: 145px;
+    width: auto;
+}
+.form #team-field {
+    float: none;
+    margin-left: 145px;
+    width: auto;
 }

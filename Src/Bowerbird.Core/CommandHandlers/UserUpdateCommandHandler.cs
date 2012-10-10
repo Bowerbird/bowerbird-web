@@ -56,8 +56,7 @@ namespace Bowerbird.Core.CommandHandlers
             var user = _documentSession.Load<User>(command.Id);
 
             user.UpdateDetails(
-                command.FirstName,
-                command.LastName,
+                command.Name,
                 command.Description,
                 string.IsNullOrWhiteSpace(command.AvatarId) ? null : _documentSession.Load<MediaResource>(command.AvatarId),
                 command.DefaultLicence,
