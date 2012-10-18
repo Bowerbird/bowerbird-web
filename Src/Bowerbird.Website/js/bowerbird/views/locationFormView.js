@@ -5,8 +5,8 @@
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// EditMapView
-// -----------
+// LocationFormView
+// ----------------
 
 // View that allows user to choose location on a mpa or via coordinates
 define(['jquery', 'underscore', 'backbone', 'app', 'views/dummyoverlayview', 'jqueryui/autocomplete', 'jqueryui/draggable', 'async!http://maps.google.com/maps/api/js?sensor=false&region=AU'],
@@ -54,7 +54,7 @@ function ($, _, Backbone, app, DummyOverlayView) {
 
     };
 
-    var EditMapView = Backbone.View.extend({
+    var LocationFormView = Backbone.View.extend({
         id: 'location-details',
 
         initialize: function (options) {
@@ -75,6 +75,15 @@ function ($, _, Backbone, app, DummyOverlayView) {
                 this._initAddressField();
             }
             this._initLocationPin();
+
+            app.vent.on('view:render:complete', function () {
+                var currentCentre = this.map.getCenter();
+
+                google.maps.event.trigger(this.map, 'resize');
+
+                this.map.panTo(currentCentre);
+            }, this);
+
             return this;
         },
 
@@ -91,7 +100,7 @@ function ($, _, Backbone, app, DummyOverlayView) {
 
             var mapSettings = {
                 center: australia,
-                zoom: 4,
+                zoom: 3,
                 panControl: false,
                 streetViewControl: false,
                 mapTypeControl: true,
@@ -368,6 +377,6 @@ function ($, _, Backbone, app, DummyOverlayView) {
         }
     });
 
-    return EditMapView;
+    return LocationFormView;
 
 });

@@ -8,21 +8,8 @@
 // ExploreProjectCollection
 // ------------------------
 
-define([
-'jquery',
-'underscore',
-'backbone',
-'collections/paginatedcollection',
-'models/user',
-'models/project'],
-function (
-$,
-_,
-Backbone,
-PaginatedCollection,
-User,
-Project
-) {
+define(['jquery', 'underscore', 'backbone', 'collections/paginatedcollection', 'models/user', 'models/project'],
+function ($, _, Backbone, PaginatedCollection, User, Project) {
     var ExploreProjectCollection = PaginatedCollection.extend({
         
         model: Project,

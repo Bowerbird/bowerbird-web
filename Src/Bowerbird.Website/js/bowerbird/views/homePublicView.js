@@ -5,14 +5,14 @@
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// HomePublicLayoutView
-// --------------------
+// HomePublicView
+// --------------
 
 // The home page view when not logged in
 define(['jquery', 'underscore', 'backbone', 'app', 'carousel', 'touchswipe'], function ($, _, Backbone, app) {
 
-    var HomePublicLayoutView = Backbone.Marionette.Layout.extend({
-        className: 'home-public',
+    var HomePublicView = Backbone.Marionette.Layout.extend({
+        className: 'home-public single',
 
         template: 'HomePublic',
         
@@ -22,7 +22,6 @@ define(['jquery', 'underscore', 'backbone', 'app', 'carousel', 'touchswipe'], fu
 
         showBootstrappedDetails: function () {
             this.initializeRegions();
-            this.$el = $('#content .home-public');
 
             var that = this;
 
@@ -61,7 +60,6 @@ define(['jquery', 'underscore', 'backbone', 'app', 'carousel', 'touchswipe'], fu
                 swipe: true
             });
             
-           
             $(".home-how .carousel ul").carouFredSel({
                 width: '100%',
 	            items		: {
@@ -88,6 +86,6 @@ define(['jquery', 'underscore', 'backbone', 'app', 'carousel', 'touchswipe'], fu
         }
     });
 
-    return HomePublicLayoutView;
+    return HomePublicView;
 
 }); 

@@ -1,7 +1,8 @@
 ﻿<h2><span class="small-icon home-icon"></span>Home</h2>
+{{#Model.ShowWelcome}}
 <div class="call-to-action" id="intro">
   <a href="#" class="close-intro" title="Close">Close</a>
-  <h2>Hello {{Model.User.Name}}, welcome to BowerBird!</h2>
+  <h2>Welcome to BowerBird, {{Model.User.Name}}!</h2>
   <p>Now that you have joined, please take the time to have a look at the introduction to familiarise yourself with BowerBird.</p>
 
   <h3>Projects</h3>
@@ -15,21 +16,34 @@
   <h3>Learn More</h3>
   <p>There's a lot more to BowerBird than meets the eye. <a href="#">Learn more here</a></p>
 </div>
+{{/Model.ShowWelcome}}
 <div class="tab-bar large">
   <ul class="tabs">
     <li>
-      <a class="tab-button selected" href="/">Activity</a>
+      <a class="tab-button activities-tab-button {{#Model.ShowActivities}}selected{{/Model.ShowActivities}}" href="/">Activity</a>
     </li>
     <li>
-      <a class="tab-button" href="#">Sightings</a>
+      <a class="tab-button sightings-tab-button {{#Model.ShowSightings}}selected{{/Model.ShowSightings}}" href="/sightings">Sightings</a>
     </li>
     <li>
-      <a class="tab-button" href="#">Posts</a>
+      <a class="tab-button posts-tab-button {{#Model.ShowPosts}}selected{{/Model.ShowPosts}}" href="/posts">Posts</a>
     </li>
   </ul>
 </div>
 <div class="details">
+  {{#Model.ShowActivities}}
   <div class="stream">
     {{>Stream}}
   </div>
+  {{/Model.ShowActivities}}
+  {{#Model.ShowSightings}}
+  <div class="sightings">
+    {{>SightingList}}
+  </div>
+  {{/Model.ShowSightings}}
+  {{#Model.ShowPosts}}
+  <div class="posts">
+    {{>PostsList}}
+  </div>
+  {{/Model.ShowPosts}}
 </div>

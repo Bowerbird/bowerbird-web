@@ -25,7 +25,7 @@ namespace Bowerbird.Web.Factories
 
         #region Methods
 
-        public object Make(All_Groups.Result result)
+        public dynamic Make(All_Groups.Result result)
         {
             Check.RequireNotNull(result, "result");
 
@@ -47,7 +47,7 @@ namespace Bowerbird.Web.Factories
             return view;
         }
 
-        public object Make(Group group)
+        public dynamic Make(Group group)
         {
             Check.RequireNotNull(group, "group");
 
@@ -66,7 +66,7 @@ namespace Bowerbird.Web.Factories
             return view;
         }
 
-        public object Make(Group group, int memberCount, int observationCount, int postCount)
+        public dynamic Make(Group group, int memberCount, int observationCount, int postCount)
         {
             Check.RequireNotNull(group, "group");
 

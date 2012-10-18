@@ -28,6 +28,9 @@ input[type="search"]
     -moz-appearance:none;
     -webkit-appearance: none;
 }
+textarea {
+    resize: vertical;
+}
 /* apply a natural box layout model to all elements */
 * 
 {
@@ -105,6 +108,8 @@ article
 .tab-bar
 {
     background-color: rgb(227, 227, 227);
+    width: 100%;
+    float: left;
     /*padding: 6px;
     box-shadow: 0 1px 2px 0 #91AFCD;*/
 }
@@ -216,7 +221,7 @@ article
     border-bottom: 1px solid #CFDDEB;
     border-bottom: medium none;
     cursor: pointer;
-    height: 2.875em;
+    height: 100%;
     position: absolute;
     width: 30px;
     border-bottom-right-radius: 4px;
@@ -308,7 +313,7 @@ article
 }
 .sub-menu-button ul li.divider
 {
-    border-bottom: 1px solid rgb(225, 225, 225);
+    border-bottom: 1px solid rgb(233, 233, 233);
     margin: 0;
 }
 /*
@@ -338,6 +343,10 @@ article
 {
     padding: 2% 30%;
 }
+.form.form-medium form > fieldset
+{
+    padding: 2% 20%;
+}
 .field-row 
 {
     display: block;
@@ -350,72 +359,31 @@ article
 {
     margin-bottom: 0;
 }
-/*.form form > fieldset fieldset
-{
-    padding-top: 15px;
-    position: relative;
-    width: 100%;
-    margin-bottom: 25px;
-    
-    border-bottom: 1px solid rgb(225, 225, 225);
-    border-top: 1px solid rgb(225, 225, 225);
-}
-.form form > fieldset fieldset:last-child
-{
-    margin-bottom: 0;
-}*/
-/*.form form > fieldset > legend 
-{
-    display: none;
-}*/
 .form-details {
     background-color: rgb(227, 227, 227);
     border-radius: 4px 4px 4px 4px;
     padding: 2%;
+    float: left;
+    width: 100%;
 }
 .form .field
 {
     float: left;
     width: 100%;
 }
-/*.form form > fieldset > .field:last-child
-{
-    margin-bottom: 0;
-}*/
 .form .field div p
 {
     margin: 0;
 }
-/*.form fieldset > div .field
-{
-    margin-top: 0;
-}*/
-/*.form form > fieldset fieldset legend
-{
-    margin-top: 15px;
-    padding-bottom: 10px;
-    padding-left: 15px;
+.form legend
+{   
+    margin:0; 
+    padding:0;
+    display: block;
 }
-.form label span,
-.form legend span
-{
-    color: #6997C5;
-    font-size: 0.78em;
-    padding-left: 3px;
-    line-height: 1em;
+.form legend.hidden {
+     display: none;
 }
-.form label,
-.form form > fieldset fieldset legend
-{
-    color: #133A68;
-    font-size: 0.72em;
-    font-weight: 600;
-    text-shadow: 0 1px 0 #FFFFFF;
-    text-transform: uppercase;
-}*/
-.form legend{margin:0; padding:0;display: block;}
-.form legend.hidden{ display: none;}
-/*.form fieldset{margin:30px 0 0 0; width:100%; background:#Fdd;position: relative; top:0px; left:0;}*/
 .form label,
 .form legend > span
 {
@@ -539,7 +507,7 @@ a.multiSelect:focus,
 .form .button:active,
 .button:active
 {
-    box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.3) inset;/*, 0 1px 6px 0 rgba(80, 158, 238, 0.9);*/
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.5) inset;
 }
 .form input[disabled=disabled],
 .form input[disabled=disabled]:active,
@@ -900,6 +868,7 @@ a.multiSelect:focus,
     position: absolute;
     top: 0;
     left: 0;
+    height: 50px;
 }
 .form .observation-media-item .media-details {
     bottom: 0;
@@ -1959,13 +1928,13 @@ header.default-header {
     top: 0;
     left: 0;
     right: 0;
-    height: 3.5em;
+    height: 3.1em;
     z-index: 10;
 }
 header.default-header h1 a
 {
     display: table-cell;
-    height: 56px;
+    height: 51px;
     vertical-align: middle;
 }
 header.default-header h1 img {
@@ -1985,7 +1954,7 @@ header.home-header #explore-menu {
 {
     display: block;
     float: left;
-    line-height: 56px;
+    line-height: 48px;
     padding-right: 20px;
     list-style-type: none;
 }
@@ -1994,7 +1963,7 @@ header.home-header #explore-menu {
 #account-menu .user-name
 {
     color: rgb(68, 68, 68);
-    font-size: 1.1em;
+    font-size: 0.9375em;
     font-weight: 600;
     text-decoration: none;
 }
@@ -2003,7 +1972,7 @@ header.home-header #explore-menu {
     max-width: 250px;
     position: absolute;
     right: 0;
-    top: 16px;
+    top: 12px;
 }
 header.home-header #account-menu {
     font-size: 1.2em;
@@ -2050,7 +2019,7 @@ header.default-header #account-menu .user-menu-item .sub-menu-button.active .dow
 }
 header.default-header #search-menu {
     display: inline-block;
-    padding: 9px 0;
+    padding: 8px 0;
     vertical-align: top;
 }
 header.home-header #search-menu {
@@ -2069,7 +2038,7 @@ header.home-header #search-menu {
     box-shadow: 0 0 2px 1px rgba(119, 119, 119, 0.3) inset;
     color: rgb(0, 0, 0);
     font-family: "open sans",sans-serif;
-    font-size: 1.1em;
+    font-size: 0.9375em;
     padding: 5px 12px;
 }
 header.default-header #search-menu input[type=text] {
@@ -2201,14 +2170,14 @@ header.default-header #search-menu input[type=text]:focus
 #sidebar .menu-group-item
 {
     background-color: #FFFFFF;
-    border-bottom: 1px solid rgb(225, 225, 225);
+    border-bottom: 1px solid rgb(233, 233, 233);
     display: block;
     position: relative;
 }
 #sidebar .menu-group-item > a
 {
     text-decoration: none;
-    background-color: #FFFFFF;
+    
     display: block;
     height: 3.06667em;
     overflow: hidden;
@@ -2272,13 +2241,6 @@ header.default-header #search-menu input[type=text]:focus
     position: absolute;
     top: 12px;
     left: -7px;
-}
-#sidebar #watch-menu-group .menu-group-item > a,
-#sidebar #project-menu-group .menu-group-item > a,
-#sidebar #team-menu-group .menu-group-item > a,
-#sidebar #organisation-menu-group .menu-group-item > a
-{
-    margin-right: 30px;
 }
 /*
 *
@@ -2583,7 +2545,6 @@ header.default-header #search-menu input[type=text]:focus
 #online-users .window-body > div
 {
     background-color: rgb(249, 249, 249);
-    border-bottom: 1px solid rgb(221, 221, 221);
     color: rgb(128, 128, 128);
     font-size: 0.84em;
     padding: 6px 15px;
@@ -2592,7 +2553,7 @@ header.default-header #search-menu input[type=text]:focus
 #online-users .online-user-item
 {
     background-color: #FFFFFF;
-    border-bottom: 1px solid #CFDDEB;
+    border-bottom: 1px solid rgb(233, 233, 233);
     display: block;
     position: relative;
     list-style: none;

@@ -100,7 +100,8 @@ THE SOFTWARE.
   /* Usual setup stuff */
   position: relative;
   display: block;
-  overflow: hidden;
+  overflow: visible; /* FR 11/10/2012 - changed this from hidden to visible and max-width due to IE bug causing page to be very wide (note its still partially an issue) */
+  max-width: 500px; /* FR 11/10/2012 */
   /* Height should be 2px less than .ui-progress-bar so as to not cover borders and give it a look of being inset */
   height: 27px;
   /* Rounds the ends, we specify an excessive amount to make sure they are completely rounded */

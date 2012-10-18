@@ -77,11 +77,11 @@ namespace Bowerbird.Core.Indexes
                                     result.LatestActivity,
                                     result.Email,
                                     User = database.Load<User>(result.UserId),
-                                    UserProjects = database.Load<UserProject>(result.GroupIds),
-                                    Projects = database.Load<Project>(result.GroupIds),
-                                    Teams = database.Load<Team>(result.GroupIds),
-                                    Organsations = database.Load<Organisation>(result.GroupIds),
-                                    AppRoots = database.Load<AppRoot>(result.GroupIds)
+                                    UserProjects = database.Load<UserProject>(result.GroupIds).Where(x => x.GroupType == "userproject"),
+                                    Projects = database.Load<Project>(result.GroupIds).Where(x => x.GroupType == "project"),
+                                    Teams = database.Load<Team>(result.GroupIds).Where(x => x.GroupType == "team"),
+                                    Organsations = database.Load<Organisation>(result.GroupIds).Where(x => x.GroupType == "organisation"),
+                                    AppRoots = database.Load<AppRoot>(result.GroupIds).Where(x => x.GroupType == "approot")
                                 };
 
             Store(x => x.UserId, FieldStorage.Yes);

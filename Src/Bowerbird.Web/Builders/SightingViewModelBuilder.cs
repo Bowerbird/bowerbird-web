@@ -50,9 +50,9 @@ namespace Bowerbird.Web.Builders
 
         #region Methods
 
-        public object BuildNewObservation(string projectId = null)
+        public object BuildNewObservation(string category = "", string projectId = "")
         {
-            return _sightingViewFactory.MakeNewObservation(projectId);
+            return _sightingViewFactory.MakeNewObservation(category, projectId);
         }
 
         public object BuildNewRecord(string projectId = null)
@@ -60,7 +60,7 @@ namespace Bowerbird.Web.Builders
             return _sightingViewFactory.MakeNewRecord(projectId);
         }
 
-        public object BuildSighting(string id)
+        public dynamic BuildSighting(string id)
         {
             var result = _documentSession
                 .Query<All_Contributions.Result, All_Contributions>()
@@ -85,7 +85,7 @@ namespace Bowerbird.Web.Builders
                 .Where(x => x.GroupIds.Any(y => y == groupId) && (x.ContributionType == "observation" || x.ContributionType == "record"))
                 .Statistics(out stats)
                 .Skip(pagingInput.GetSkipIndex())
-                .Take(pagingInput.PageSize)
+                .Take(pagingInput.GetPageSize())
                 .ToList()
                 .Select(_sightingViewFactory.Make)
                 .ToPagedList(
@@ -107,7 +107,7 @@ namespace Bowerbird.Web.Builders
                 .Where(x => x.UserId == userId && (x.ContributionType == "observation" || x.ContributionType == "record"))
                 .Statistics(out stats)
                 .Skip(pagingInput.GetSkipIndex())
-                .Take(pagingInput.PageSize)
+                .Take(pagingInput.GetPageSize())
                 .ToList()
                 .Select(_sightingViewFactory.Make)
                 .ToPagedList(
@@ -133,7 +133,7 @@ namespace Bowerbird.Web.Builders
                 .Where(x => x.GroupIds.Any(y => y.In(groupIds)) && (x.ContributionType == "observation" || x.ContributionType == "record"))
                 .Statistics(out stats)
                 .Skip(pagingInput.GetSkipIndex())
-                .Take(pagingInput.PageSize)
+                .Take(pagingInput.GetPageSize())
                 .ToList()
                 .Select(_sightingViewFactory.Make)
                 .ToPagedList(

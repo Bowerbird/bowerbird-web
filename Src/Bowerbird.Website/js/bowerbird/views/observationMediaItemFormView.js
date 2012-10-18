@@ -5,11 +5,11 @@
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// ObservationMediaItemView
-// ------------------------
+// ObservationMediaItemFormView
+// ----------------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editobservationmediaformview', 'licences', 'circleplayer'],
-function ($, _, Backbone, app, ich, EditObservationMediaFormView, licences, CirclePlayer) {
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/mediaformview', 'licences', 'circleplayer'],
+function ($, _, Backbone, app, ich, MediaFormView, licences, CirclePlayer) {
     var ImageProvider = function (options) {
         this.start = function () {
         };
@@ -44,7 +44,7 @@ function ($, _, Backbone, app, ich, EditObservationMediaFormView, licences, Circ
         };
     };
 
-    var ObservationMediaItemView = Backbone.Marionette.ItemView.extend({
+    var ObservationMediaItemFormView = Backbone.Marionette.ItemView.extend({
         className: 'observation-media-item',
 
         events: {
@@ -123,9 +123,9 @@ function ($, _, Backbone, app, ich, EditObservationMediaFormView, licences, Circ
             e.preventDefault();
             $('body').append('<div id="modal-dialog"></div>');
 
-            var editObservationMediaFormView = new EditObservationMediaFormView({ el: $('#modal-dialog'), model: this.model });
-            editObservationMediaFormView.on('editmediadone', this._onEditMedia, this);
-            editObservationMediaFormView.render();
+            var mediaFormView = new MediaFormView({ el: $('#modal-dialog'), model: this.model });
+            mediaFormView.on('editmediadone', this._onEditMedia, this);
+            mediaFormView.render();
         },
 
         _onEditMedia: function () {
@@ -163,6 +163,6 @@ function ($, _, Backbone, app, ich, EditObservationMediaFormView, licences, Circ
         }
     });
 
-    return ObservationMediaItemView;
+    return ObservationMediaItemFormView;
 
 });

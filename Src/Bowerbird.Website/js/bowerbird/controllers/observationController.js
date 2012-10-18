@@ -9,65 +9,48 @@
 // ObservationController & ObservationRouter
 // -----------------------------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'views/observationlayoutview', 'models/observation'],
-function ($, _, Backbone, app, ObservationLayoutView, Observation) {
+define(['jquery', 'underscore', 'backbone', 'app', 'models/observation', 'views/observationdetailsview', 'views/observationformview'],
+function ($, _, Backbone, app, Observation, ObservationDetailsView, ObservationFormView) {
     var ObservationRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
-            //'observations/addtoproject': 'showProjectObservationForm',
-            'observations/create': 'showObservationForm',
-            'observations/create?id=:projectId': 'showObservationForm',
-            'observations/:id/update': 'showObservationForm',
+            'observations/create*': 'showObservationCreateForm',
+            'observations/:id/update': 'showObservationUpdateForm',
             'observations/:id': 'showObservationDetails'
         }
     });
 
     var ObservationController = {};
 
-    // Helper method to load project layout, taking into account bootstrapped data and prerendered view
-    var showObservationLayoutView = function (observation) {
-        var observationLayoutView = new ObservationLayoutView({ model: observation });
-        //app.content[app.getShowViewMethodName('observations')](observationLayoutView);
-        app.showFormContentView(observationLayoutView, 'observations');
+    var showObservationForm = function (uri) {
+        $.when(getModel(uri))
+            .done(function (model) {
+                var observation = new Observation(model.Observation);
 
-        if (app.isPrerendering('observations')) {
-            observationLayoutView.showBootstrappedDetails();
-        }
+                var options = { model: observation, categorySelectList: model.CategorySelectList, categories: model.Categories, projectsSelectList: model.ProjectsSelectList };
 
-        return observationLayoutView;
+                if (app.isPrerendering('observations')) {
+                    options['el'] = '.observation-form';
+                }
+
+                var observationFormView = new ObservationFormView(options);
+                app.showContentView('Edit Observation', observationFormView, 'observations');
+            });
     };
 
-    var getModel = function (id) {
-        var url = '/observations/create';
-        if (id) {
-            url = id;
-        }
+    var getModel = function (uri, action) {
         var deferred = new $.Deferred();
         if (app.isPrerendering('observations')) {
             deferred.resolve(app.prerenderedView.data);
         } else {
             $.ajax({
-                url: url
+                url: uri,
+                type: action || 'GET'
             }).done(function (data) {
                 deferred.resolve(data.Model);
             });
         }
         return deferred.promise();
     };
-
-//    var getProjectObservationModel = function (id) {
-//        var url = '/observations/create?id=' + id;
-//        var deferred = new $.Deferred();
-//        if (app.isPrerendering('observations')) {
-//            deferred.resolve(app.prerenderedView.data);
-//        } else {
-//            $.ajax({
-//                url: url
-//            }).done(function (data) {
-//                deferred.resolve(data.Model);
-//            });
-//        }
-//        return deferred.promise();
-//    };
 
     // Public API
     // ----------
@@ -76,46 +59,38 @@ function ($, _, Backbone, app, ObservationLayoutView, Observation) {
         $.when(getModel(id))
             .done(function (model) {
                 var observation = new Observation(model.Observation);
-                app.updateTitle(observation.get('Title'));
-                var observationLayoutView = showObservationLayoutView(observation);
-                observationLayoutView.showObservationDetails(observation);
-                //observationLayoutView.showObservationDiscussion(observation);
-                app.setPrerenderComplete();
-            });
-    };
+                
+                var options = { model: observation };
 
-    ObservationController.showObservationForm = function (observationId, projectId) {
-        $.when(getModel(observationId))
-            .done(function (model) {
-                var observation = new Observation(model.Observation);
-                if (observation.id) {
-                    app.updateTitle('Edit Observation');
-                } else {
-                    app.updateTitle('New Observation');
+                if (app.isPrerendering('observations')) {
+                    options['el'] = '.observation';
                 }
 
-                var observationLayoutView = showObservationLayoutView(observation);
-                observationLayoutView.showObservationForm(observation, model.CategorySelectList, model.Categories);
-                app.setPrerenderComplete();
+                var observationDetailsView = new ObservationDetailsView(options);
+                app.showContentView(observation.get('Title'), observationDetailsView, 'observations');
             });
     };
 
-//    ObservationController.showProjectObservationForm = function (params) {
-//        $.when(getProjectObservationModel(params.id))
-//            .done(function (model) {
-//                var observation = new Observation(model.Observation);
-//                if (observation.id) {
-//                    app.updateTitle('Edit Observation');
-//                } else {
-//                    app.updateTitle('New Observation');
-//                }
-//                //observation.ProjectId = params.id;
+    ObservationController.showObservationCreateForm = function (id) {
+        var uri = '/observations/create';
 
-//                var observationLayoutView = showObservationLayoutView(observation);
-//                observationLayoutView.showObservationForm(observation, model.CategorySelectList, model.Categories);
-//                app.setPrerenderComplete();
-//            });
-//    };
+        if (id) {
+            var uriParts = [];
+            if (id.projectid) {
+                uriParts.push('projectid=' + id.projectid);
+            }
+            if (id.category) {
+                uriParts.push('category=' + id.category);
+            }
+            uri += '?' + uriParts.join('&');
+        }
+
+        showObservationForm(uri);
+    };
+
+    ObservationController.showObservationUpdateForm = function (id) {
+        showObservationForm('/observations/' + id + '/update');
+    };
 
     ObservationController.mediaResourceUploaded = function (e, mediaResource) {
         app.vent.trigger('mediaResourceUploaded:', mediaResource);
@@ -123,11 +98,6 @@ function ($, _, Backbone, app, ObservationLayoutView, Observation) {
 
     // Event Handlers
     // --------------
-
-    //    app.vent.on('observation:show', function (id) {
-    //        ContributionController.showObservationForm(id);
-    //    });
-
 
     app.addInitializer(function () {
         this.observationRouter = new ObservationRouter({

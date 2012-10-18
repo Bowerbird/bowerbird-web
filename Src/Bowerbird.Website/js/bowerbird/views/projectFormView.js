@@ -7,15 +7,16 @@
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// ProjectFormLayoutView
-// -------------------------
+// ProjectFormView
+// ---------------
 
 define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/editavatarview', 'fileupload', 'multiselect'], 
 function ($, _, Backbone, app, ich, loadImage, EditAvatarView) {
 
-    var ProjectFormLayoutView = Backbone.Marionette.Layout.extend({
+    var ProjectFormView = Backbone.Marionette.Layout.extend({
+        viewType: 'form',
 
-        className: 'form single-medium project-form',
+        className: 'form form-medium single project-form',
 
         template: 'ProjectForm',
 
@@ -51,7 +52,7 @@ function ($, _, Backbone, app, ich, loadImage, EditAvatarView) {
 
         showBootstrappedDetails: function () {
             this.initializeRegions();
-            this.$el = $('#content .project-form');
+            //this.$el = $('#content .project-form');
             this._showDetails();
         },
 
@@ -100,5 +101,5 @@ function ($, _, Backbone, app, ich, loadImage, EditAvatarView) {
         }
     });
 
-    return ProjectFormLayoutView;
+    return ProjectFormView;
 });

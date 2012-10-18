@@ -5,13 +5,13 @@
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// OnlineUsersCompositeView
-// ----------------------------
+// OnlineUsersView
+// ---------------
 
 define(['jquery', 'underscore', 'backbone', 'app', 'views/useritemview'],
 function ($, _, Backbone, app, UserItemView) {
 
-    var OnlineUserCompositeView = Backbone.Marionette.CompositeView.extend({
+    var OnlineUsersView = Backbone.Marionette.CompositeView.extend({
 
         itemView: UserItemView,
 
@@ -91,17 +91,17 @@ function ($, _, Backbone, app, UserItemView) {
     app.addInitializer(function (options) {
         $(function () {
             if (app.authenticatedUser) {
-                var onlineUserCompositeView = new OnlineUserCompositeView({ model: app.onlineUsers, collection: app.onlineUsers });
+                var onlineUsersView = new OnlineUsersView({ model: app.onlineUsers, collection: app.onlineUsers });
 
-                onlineUserCompositeView.on('show', function () {
+                onlineUsersView.on('show', function () {
                     app.vent.trigger('onlineUsers:rendered');
                 });
 
-                app.usersonline.show(onlineUserCompositeView);
+                app.usersonline.show(onlineUsersView);
             }
         });
     });
 
-    return OnlineUserCompositeView;
+    return OnlineUsersView;
 
 });

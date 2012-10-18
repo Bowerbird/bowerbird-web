@@ -56,8 +56,9 @@
     <Reference Include="NLog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NLog.2.0.0.2000\lib\net40\NLog.dll</HintPath>
     </Reference>
-    <Reference Include="Nustache.Core">
-      <HintPath>..\..\packages\Nustache.1.12.4.29\lib\net20\Nustache.Core.dll</HintPath>
+    <Reference Include="Nustache.Core, Version=1.12.4.29, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\Nustache.Core.dll</HintPath>
     </Reference>
     <Reference Include="policy.2.0.taglib-sharp">
       <HintPath>..\..\packages\taglib.2.1.0.0\lib\policy.2.0.taglib-sharp.dll</HintPath>
@@ -96,10 +97,12 @@
     <Compile Include="CommandHandlers\CommentCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\CommentDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\CommentUpdateCommandHandler.cs" />
+    <Compile Include="CommandHandlers\UserUpdateCallToActionCommandHandler.cs" />
     <Compile Include="CommandHandlers\RecordCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\RecordDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\RecordUpdateCommandHandler.cs" />
     <Compile Include="CommandHandlers\MemberUpdateCommandHandler.cs" />
+    <Compile Include="Commands\UserUpdateCallToActionCommand.cs" />
     <Compile Include="Commands\ObservationMediaCreateCommand.cs" />
     <Compile Include="Commands\RecordCreateCommand.cs" />
     <Compile Include="Commands\RecordDeleteCommand.cs" />

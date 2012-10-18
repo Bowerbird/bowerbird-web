@@ -76,9 +76,9 @@ require([
         'controllers/chatcontroller',
         'views/headerview',
         'views/footerview',
-        'views/sidebarlayoutview',
+        'views/sidebarview',
         'views/notificationscompositeview',
-        'views/onlineusercompositeview',
+        'views/onlineusersview',
         'signalr',
         'hubs'
     ],

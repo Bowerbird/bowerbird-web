@@ -109,7 +109,8 @@ namespace Bowerbird.Web.Builders
                     PermissionIds = x.Roles.SelectMany(y => y.Permissions).Select(y => y.Id)
                 }),
                 user.DefaultLicence,
-                TimezoneOffset = DateTimeZoneProviders.Tzdb[user.Timezone].GetOffsetFromUtc(new Instant()).ToString()
+                TimezoneOffset = DateTimeZoneProviders.Tzdb[user.Timezone].GetOffsetFromUtc(new Instant()).ToString(),
+                user.CallsToAction
             };
         }
 

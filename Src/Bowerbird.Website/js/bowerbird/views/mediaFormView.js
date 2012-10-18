@@ -5,13 +5,13 @@
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// EditObservationMediaFormView
-// ----------------------------
+// MediaFormView
+// -------------
 
 define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'licences', 'multiselect'],
 function ($, _, Backbone, app, ich, licences) {
 
-    var EditObservationMediaFormView = Backbone.Marionette.ItemView.extend({
+    var MediaFormView = Backbone.Marionette.ItemView.extend({
         id: 'edit-observation-media-form',
 
         template: 'EditObservationMediaForm',
@@ -90,5 +90,5 @@ function ($, _, Backbone, app, ich, licences) {
         }
     });
 
-    return EditObservationMediaFormView;
+    return MediaFormView;
 });

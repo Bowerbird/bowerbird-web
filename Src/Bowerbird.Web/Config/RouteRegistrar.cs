@@ -58,15 +58,20 @@ namespace Bowerbird.Web.Config
                 new {controller = "home", action = "publicindex"});
 
             routes.MapRoute(
-                "home-notifications",
+                "account-notifications",
                 "notifications",
-                new { controller = "home", action = "notifications" },
+                new { controller = "account", action = "notifications" },
                 new { acceptType = new AcceptTypeContstraint("application/json", "text/javascript") });
 
             routes.MapRoute(
                 "account-resetpassword",
                 "account/resetpassword/{resetpasswordkey}",
                 new { controller = "account", action = "resetpassword", resetpasswordkey = UrlParameter.Optional });
+
+            routes.MapRoute(
+                "home-sightings",
+                "sightings",
+                new { controller = "home", action = "sightings" });
 
             routes.MapRoute(
                 "templates",

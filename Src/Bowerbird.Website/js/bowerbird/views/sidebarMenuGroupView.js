@@ -5,12 +5,12 @@
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// SidebarMenuGroupCompositeView
-// -----------------------------
+// SidebarMenuGroupView
+// --------------------
 
 define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, app) {
 
-    var SidebarMenuGroupCompositeView = Backbone.Marionette.CompositeView.extend({
+    var SidebarMenuGroupView = Backbone.Marionette.CompositeView.extend({
         className: 'menu-group',
 
         template: 'SidebarMenuGroup',
@@ -39,6 +39,6 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
         }
     });
 
-    return SidebarMenuGroupCompositeView;
+    return SidebarMenuGroupView;
 
 });

@@ -1,11 +1,12 @@
 ﻿<h2>
   <span class="small-icon project-icon"></span>Project
 </h2>
+
 <div class="summary">
-    {{#Model.Project.Avatar}}
-    {{>MediaSquare200}}
-    {{/Model.Project.Avatar}}
-    <div>
+  {{#Model.Project.Avatar}}
+  {{>Avatar200}}
+  {{/Model.Project.Avatar}}
+  <div>
         <h1>{{Model.Project.Name}}</h1>
         <ul class="badges">
             <li>{{Model.Project.MemberCount}} {{Model.MemberCountDescription}}</li>
@@ -35,18 +36,7 @@
   </ul>
 </div>
 <div class="details">
-  <div id="stream">
-    {{#Model.StreamItems}}
-      {{>StreamList}}
-    {{/Model.StreamItems}}
-    <!--<h2>Latest Activity</h2>
-    <ul class="stream-list">
-    </ul>-->
-  </div>
-  <div id="about">
-    <!--<h2>About</h2>-->
-  </div>
-  <div id="members">
-    <!--<h2>Members</h2>-->
+  <div class="stream">
+    <div class="stream-list"></div>
   </div>
 </div> 

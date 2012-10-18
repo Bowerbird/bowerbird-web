@@ -41,6 +41,7 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
         };
 
         this.defaultLicence = data.DefaultLicence;
+        this.callsToAction = data.CallsToAction;
     };
 
     app.vent.on('newactivity:groupadded', function (activity) {
@@ -79,11 +80,11 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
         return name === app.prerenderedView.name && !app.prerenderedView.isBound;
     };
 
-    app.setPrerenderComplete = function () {
+    var setPrerenderComplete = function () {
         app.prerenderedView.isBound = true;
     };
 
-    app.getShowViewMethodName = function (name) {
+    var getShowViewMethodName = function (name) {
         if (!name) {
             var err = new Error("A name must be provided!");
             err.name = "BowerbirdNoViewNameProvidedError";
@@ -92,7 +93,7 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
         return app.isPrerendering(name) ? 'attachView' : 'show';
     };
 
-    app.updateTitle = function (titleSegment) {
+    var updateTitle = function (titleSegment) {
         var newTitle = 'BowerBird';
         if (titleSegment.length > 0) {
             newTitle = titleSegment + ' - ' + newTitle;
@@ -100,38 +101,91 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
         document.title = newTitle;
     };
 
-    app.routeHistory = [];
-    app.previousContent = null;
+    var renderView = function (title, view, name, onShowCallback, showSidebar) {
+        // Update title
+        updateTitle(title);
 
-    app.showFormContentView = function (view, name) {
-        if (app.content.currentView) {
-            // Store previous view in cache
-            app.previousContent = {
-                view: app.content.currentView,
-                $el: app.content.currentView.$el.detach()
-            };
-
-            // Clear out current view
-            app.content.currentView = null;
+        if (!app.isPrerendering(name)) {
+            view.$el.hide();
         }
 
-        // Show new view
-        app.content[app.getShowViewMethodName(name)](view);
+        // Show/attach view
+        app.content[getShowViewMethodName(name)](view);
+
+        // If page is loaded from server, bootstrap UI
+        if (app.isPrerendering(name)) {
+            view.showBootstrappedDetails();
+        }
+
+        // Perform anim
+        if (showSidebar) {
+            $('#sidebar').fadeIn(100);
+        }
+
+        // Show content
+        view.$el.fadeIn(100, function () {
+            onShowCallback();
+            setPrerenderComplete();
+            app.vent.trigger('view:render:complete', view);
+        });
+    };
+
+    app.routeHistory = [];
+
+    app.previousContentView = null;
+
+    app.showContentView = function (title, view, name, onShow) {
+        var onShowCallback = onShow || function () { };
+
+        var isForm = view.viewType === 'form';
+
+        if (app.content.currentView) {
+            // Don't show sidebar on forms because they are full width
+            if (isForm) {
+                $('#sidebar').fadeOut(100);
+            }
+            app.content.currentView.$el.fadeOut(100, function () {
+                // If navigating to a form, we hide and cache the current view so that we can re-show it once user has completed
+                // form task. Provides for better UX.
+                if (isForm) {
+                    // Store previous view in cache
+                    app.previousContentView = {
+                        viewType: app.content.currentView.viewType || 'unknown',
+                        title: document.title.replace(' - BowerBird', ''),
+                        view: app.content.currentView,
+                        $el: app.content.currentView.$el.detach()
+                    };
+
+                    // Clear out current view
+                    app.content.currentView = null;
+                }
+
+                renderView(title, view, name, onShowCallback, !isForm);
+            });
+        } else { // Load page from server, this is the first view
+            renderView(title, view, name, onShowCallback, !isForm);
+        }
     };
 
     app.showPreviousContentView = function () {
-        if (app.previousContent) {
+        if (app.previousContentView) {
             // Close current view
             app.content.close();
 
             // Reinstate previous view
-            app.content.$el.append(app.previousContent.$el);
-            app.content.currentView = app.previousContent.view;
+            app.content.$el.append(app.previousContentView.$el);
+            app.content.currentView = app.previousContentView.view;
             app.routeHistory.shift();
             Backbone.history.navigate(_.first(app.routeHistory));
 
+            updateTitle(app.previousContentView.title);
+
             // Clear out previous view cache
-            app.previousContent = null;
+            app.previousContentView = null;
+
+            // Perform anim
+            $('#sidebar').fadeIn(100);
+            app.content.currentView.$el.fadeIn(100);
         } else {
             // If we don't have a previous view, take user back to home stream
             Backbone.history.navigate('', { trigger: true });
@@ -176,8 +230,20 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
         };
     });
 
+    // Resize the sidebar
+    var resizeSidebar = function () {
+        if ($('#sidebar').length > 0) {
+            log('resizing sidebar', $('header.default-header h1').offset(), $('header.default-header h1').width());
+
+            $('#sidebar').css('width', $('header.default-header h1').width() + 'px');
+            $('#sidebar').css('left', $('header.default-header h1').offset().left + 'px');
+        }
+    };
+
     app.bind('initialize:after', function () {
         // Tasks to perform on DOM ready
+        var that = this;
+
         $(function () {
             // Only start history once app is fully initialised
             if (Backbone.history) {
@@ -212,6 +278,17 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
             $("body").click(function () {
                 $('.sub-menu-button').removeClass('active'); // Make sure to add any new menu button types to the selector
             });
+
+            // Resize the sidebar on window resizing
+            var resizeSidebarTimer;
+            $(window).resize(function () {
+                clearTimeout(resizeSidebarTimer);
+                resizeSidebarTimer = setTimeout(function () {
+                    resizeSidebar();
+                }, 100);
+            });
+
+            resizeSidebar();
         });
     });
 

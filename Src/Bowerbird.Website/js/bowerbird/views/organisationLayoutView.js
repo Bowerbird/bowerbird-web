@@ -8,7 +8,7 @@
 // OrganisationLayoutView
 // ----------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'views/streamview', 'collections/activitycollection'], 
+define(['jquery', 'underscore', 'backbone', 'app', 'views/sightinglistview', 'collections/activitycollection'], 
 function ($, _, Backbone, app, StreamView, ActivityCollection) {
 
     var OrganisationLayoutView = Backbone.Marionette.Layout.extend({

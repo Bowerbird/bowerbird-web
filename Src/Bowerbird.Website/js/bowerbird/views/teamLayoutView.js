@@ -5,10 +5,10 @@
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// ProjectLayoutView
+// TeamLayoutView
 // -----------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'views/streamview', 'collections/activitycollection'], 
+define(['jquery', 'underscore', 'backbone', 'app', 'views/sightinglistview', 'collections/activitycollection'], 
 function ($, _, Backbone, app, StreamView, ActivityCollection) {
 
     var TeamLayoutView = Backbone.Marionette.Layout.extend({

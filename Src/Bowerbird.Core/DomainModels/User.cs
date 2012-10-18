@@ -32,6 +32,8 @@ namespace Bowerbird.Core.DomainModels
         private List<Watchlist> _watchlists;
         [Raven.Imports.Newtonsoft.Json.JsonIgnore]
         private List<UserSession> _sessions;
+        [Raven.Imports.Newtonsoft.Json.JsonIgnore]
+        private List<string> _callsToAction;
         private const string _constantSalt = "nf@hskdhI&%dynm^&%";
 
         #endregion
@@ -98,6 +100,12 @@ namespace Bowerbird.Core.DomainModels
 
         public string Timezone { get; private set; }
 
+        public IEnumerable<string> CallsToAction
+        {
+            get { return _callsToAction; }
+            private set { _callsToAction = new List<string>(value); }
+        }
+
         public IEnumerable<Member> Memberships 
         {
             get { return _memberships; }
@@ -148,6 +156,7 @@ namespace Bowerbird.Core.DomainModels
             _memberships = new List<Member>();
             _watchlists = new List<Watchlist>();
             _sessions = new List<UserSession>();
+            _callsToAction = new List<string>();
         }
 
         private string GetHashedPassword(string password)
@@ -344,6 +353,20 @@ namespace Bowerbird.Core.DomainModels
         public User RemoveSession(string connectionId)
         {
             _sessions.RemoveAll(x => x.ConnectionId == connectionId);
+
+            return this;
+        }
+
+        public User AddCallToAction(string name)
+        {
+            _callsToAction.Add(name);
+
+            return this;
+        }
+
+        public User RemoveCallToAction(string name)
+        {
+            _callsToAction.Remove(name);
 
             return this;
         }

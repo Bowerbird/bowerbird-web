@@ -7,153 +7,110 @@
 
 // ProjectController & ProjectRouter
 // ---------------------------------
-define(['jquery', 'underscore', 'backbone', 'app', 'views/projectlayoutview', 'views/projectformlayoutview', 'views/projectscompositeview', 'models/project', 'collections/projectcollection'],
-function ($, _, Backbone, app, ProjectLayoutView, ProjectFormLayoutView, ProjectsCompositeView, Project, ProjectCollection) {
+define(['jquery', 'underscore', 'backbone', 'app', 'models/project', 'collections/projectcollection', 'views/projectdetailsview', 'views/projectformview', 'views/projectexploreview'],
+function ($, _, Backbone, app, Project, ProjectCollection, ProjectDetailsView, ProjectFormView, ProjectExploreView) {
 
     var ProjectRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
-            'projects': 'showProjectExplorer',
-            'projects/create': 'showProjectForm',
-            'projects/:id/update': 'showProjectForm',
-            'projects/:id': 'showProjectStream'
+            'projects': 'showProjectExplore',
+            'projects/create*': 'showProjectCreateForm',
+            'projects/:id/update': 'showProjectUpdateForm',
+            'projects/:id': 'showProjectDetails'
         }
     });
 
     var ProjectController = {};
 
-    var getModel = function (id) {
-        var url = '/projects/create';
+    var getModel = function (uri, action) {
+        var deferred = new $.Deferred();
+        if (app.isPrerendering('projects')) {
+            deferred.resolve(app.prerenderedView.data);
+        } else {
+            $.ajax({
+                url: uri,
+                type: action || 'GET'
+            }).done(function (data) {
+                deferred.resolve(data.Model);
+            });
+        }
+        return deferred.promise();
+    };
+
+    // Show project form
+    var showProjectForm = function (uri) {
+        $.when(getModel(uri))
+            .done(function (model) {
+                var project = new Project(model.Project);
+
+                var options = { model: project, teams: model.Teams };
+
+                if (app.isPrerendering('projects')) {
+                    options['el'] = '.project-form';
+                }
+
+                var projectFormView = new ProjectFormView(options);
+                app.showContentView('Edit Project', projectFormView, 'projects');
+            });
+    };
+
+    // Public API
+    // ----------
+
+    // Show project details
+    ProjectController.showProjectDetails = function (id) {
+        $.when(getModel(id))
+            .done(function (model) {
+                var project = new Project(model.Project);
+
+                var options = { model: project };
+
+                if (app.isPrerendering('projects')) {
+                    options['el'] = '.project';
+                }
+
+                var projectDetailsView = new ProjectDetailsView(options);
+                app.showContentView(project.get('Name'), projectDetailsView, 'projects', function () {
+                    projectDetailsView.showActivity();
+                });
+            });
+    };
+
+    // Show project create form
+    ProjectController.showProjectCreateForm = function (id) {
+        var uri = '/projects/create';
         if (id) {
-            url = id;
+            uri += id;
         }
-        var deferred = new $.Deferred();
-        if (app.isPrerendering('projects')) {
-            deferred.resolve(app.prerenderedView.data);
-        } else {
-            $.ajax({
-                url: url
-            }).done(function (data) {
-                deferred.resolve(data.Model);
-            });
-        }
-        return deferred.promise();
+        showProjectForm(uri);
     };
 
-    var getExploreList = function (page, pageSize, sortField, sortDirection, searchQuery) {
-        var deferred = new $.Deferred();
-        if (app.isPrerendering('projects')) {
-            deferred.resolve(app.prerenderedView.data);
-        } else {
-            var params = {};
-            $.ajax({
-                url: '/projects',
-                data: params
-            }).done(function (data) {
-                deferred.resolve(data.Model);
-            });
-        }
-        return deferred.promise();
+    // Show project update form
+    ProjectController.showProjectUpdateForm = function (id) {
+        showProjectForm('/projects/' + id + '/update');
     };
 
-    // Join a project
-    var joinProject = function (project) {
-        var deferred = new $.Deferred();
-        $.ajax({
-            url: '/' + project.id + '/join',
-            dataType: 'json',
-            contentType: 'application/json; charset=utf-8',
-            type: 'POST'
-        })
-        .done(function (data) {
-            deferred.resolve(data.Model);
-        });
-
-        return deferred.promise();
-    };
-
-    // Leave a project
-    var leaveProject = function (project) {
-        var deferred = new $.Deferred();
-        $.ajax({
-            url: '/' + project.id + '/leave',
-            dataType: 'json',
-            contentType: 'application/json; charset=utf-8',
-            type: 'POST'
-        })
-        .done(function (data) {
-            deferred.resolve(data.Model);
-            app.authenticatedUser.projects.remove(project.id);
-        });
-
-        return deferred.promise();
-    };
-
-    // ProjectController Public API
-    // ----------------------------
-
-    // Show project activity
-    ProjectController.showProjectStream = function (id) {
-        log('showing projects home stream', this, this);
-        $.when(getModel(id))
+    // Show project explore
+    ProjectController.showProjectExplore = function () {
+        $.when(getModel('/projects'))
             .done(function (model) {
-                var project = new Project(model.Project);
-                app.updateTitle(project.get('Name'));
-                var projectLayoutView = new ProjectLayoutView({ model: project });
-                //app.showFormContentView(projectLayoutView, 'projects');
-                app.content[app.getShowViewMethodName('projects')](projectLayoutView);
-                if (app.isPrerendering('projects')) {
-                    projectLayoutView.showBootstrappedDetails();
-                }
-                projectLayoutView.showStream();
-                app.setPrerenderComplete();
-            });
-    };
-
-    // Show an project form
-    ProjectController.showProjectForm = function (id) {
-        log('projectController:showProjectForm');
-        $.when(getModel(id))
-            .done(function (model) {
-                var project = new Project(model.Project);
-                if (project.id) {
-                    app.updateTitle('Edit Project');
-                } else {
-                    app.updateTitle('New Project');
-                }
-                var projectFormLayoutView = new ProjectFormLayoutView({ model: project, teams: model.Teams });
-                app.showFormContentView(projectFormLayoutView, 'projects');
-                if (app.isPrerendering('projects')) {
-                    projectFormLayoutView.showBootstrappedDetails();
-                }
-                app.setPrerenderComplete();
-            });
-    };
-
-    // Show an project explore
-    ProjectController.showProjectExplorer = function () {
-        log('projectController:showProjects');
-        $.when(getExploreList())
-            .done(function (model) {
-                app.updateTitle('Projects');
                 var projectCollection = new ProjectCollection(model.Projects.PagedListItems);
-                var projectsCompositeView = new ProjectsCompositeView({ model: app.authenticatedUser.user, collection: projectCollection });
-                //var projectCollectionView = new ProjectCollectionView({ collection: ProjectController.projectCollection });
-                //app.showFormContentView(projectCollectionView, 'projects');
-
-                app.content[app.getShowViewMethodName('projects')](projectsCompositeView);
-                if (app.isPrerendering('projects')) {
-                    projectsCompositeView.showBootstrappedDetails();
-                }
-                app.setPrerenderComplete();
+                var projectExploreView = new ProjectExploreView({ model: app.authenticatedUser.user, collection: projectCollection });
+                app.showContentView('Projects', projectExploreView, 'projects');
             });
     };
 
-    app.vent.on('joinProject', function (project) {
-        joinProject(project);
+    // Event Handlers
+    // --------------
+
+    app.vent.on('joinProject', function(project) {
+        $.when(getModel('/' + project.id + '/join', 'POST'));
     });
 
     app.vent.on('leaveProject', function (project) {
-        leaveProject(project);
+        $.when(getModel('/' + project.id + '/leave', 'POST'))
+            .done(function (model) {
+                app.authenticatedUser.projects.remove(project.id);
+            });
     });
 
     app.vent.on('projectAdded:', function (project) {

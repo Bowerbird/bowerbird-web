@@ -56,7 +56,14 @@ namespace Bowerbird.Core.Infrastructure
             }
 
             //_loggingService.Debug(string.Format("Sending Async Command: {0}", command.GetType().Name));
-            Task.Factory.StartNew(state => handler.First().Handle(command), command.GetType().Name);
+            Task.Factory.StartNew(state =>
+                {
+                    //using (IActivationBlock activation = kernel.BeginBlock())
+                    //{
+                        handler.First().Handle(command);
+                    //}
+                }, 
+                command.GetType().Name);
         }
 
         public void Publish<T>(T domainEvent) where T : IDomainEvent

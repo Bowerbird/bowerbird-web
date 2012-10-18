@@ -20,6 +20,22 @@ function ($, _, Backbone, app) {
 
     var AccountController = {};
 
+    var getModel = function (uri, action, data) {
+        var deferred = new $.Deferred();
+        if (app.isPrerendering('account')) {
+            deferred.resolve(app.prerenderedView.data);
+        } else {
+            $.ajax({
+                url: uri,
+                type: action || 'GET',
+                data: data
+            }).done(function (data) {
+                deferred.resolve(data.Model);
+            });
+        }
+        return deferred.promise();
+    };
+
     // Public API
     // ----------
 
@@ -28,6 +44,13 @@ function ($, _, Backbone, app) {
 
     AccountController.showRegister = function () {
     };
+
+    // Event Handlers
+    // --------------
+
+    app.vent.on('close-call-to-action', function (name) {
+        $.when(getModel('/account/closecalltoaction', 'POST', { name: name }));
+    });
 
     app.addInitializer(function () {
         this.accountRouter = new AccountRouter({

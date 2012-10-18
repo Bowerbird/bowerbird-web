@@ -1,0 +1,57 @@
+﻿
+<h2>
+  <a href="/{{Observation.Id}}">{{Title}}</a>
+</h2>
+<div>
+  <div class="images">
+    <div class="preview">
+      {{#PrimaryMedia.MediaResource}}
+      {{>MediaConstrained600}}
+      {{/PrimaryMedia.MediaResource}}
+      {{#PrimaryMedia.Description}}
+      <div class="media-details">
+        <div class="overlay"></div>
+        <p class="description">{{PrimaryMedia.Description}}</p>
+      </div>
+      {{/PrimaryMedia.Description}}
+    </div>
+    {{#ShowThumbnails}}
+    <div class="thumbnails">
+      {{#Media}}
+      {{#MediaResource}}
+      {{>MediaSquare200}}
+      {{/MediaResource}}
+      {{/Media}}
+    </div>
+    {{/ShowThumbnails}}
+  </div>
+  <div class="info">
+    <div class="observed">
+      Observed
+      <span>{{ObservedOnDescription}}</span>
+    </div>
+    <div class="location">
+      <div class="map">
+      </div>
+      <span>{{Address}}</span>
+      <!--<span>Latitude {{Observation.Latitude}}</span>
+                  <span>Longitude {{Observation.Longitude}}</span>-->
+    </div>
+    {{#ShowProjects}}
+    <div class="observation-projects">
+      Projects
+      <div class="observation-projects-list">
+        {{#Projects}}
+        <div class="observation-project">
+          <a href="/{{Id}}">
+            {{#Avatar}}
+            {{>MediaSquare200}}
+            {{/Avatar}}
+          </a>
+        </div>
+        {{/Projects}}
+      </div>
+    </div>
+    {{/ShowProjects}}
+  </div>
+</div>

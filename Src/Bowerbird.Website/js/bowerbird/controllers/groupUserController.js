@@ -10,8 +10,8 @@
 
 // This is the controller for groups/users. It contains all of the 
 // high level knowledge of how to run the app when it's in group/user mode.
-define(['jquery', 'underscore', 'backbone', 'app', 'views/projectlayoutview', 'models/project', 'collections/activitycollection'],
-function ($, _, Backbone, app, ProjectLayoutView, Project, ActivityCollection) 
+define(['jquery', 'underscore', 'backbone', 'app', 'models/project', 'collections/activitycollection'],
+function ($, _, Backbone, app, Project, ActivityCollection) 
 {
     var GroupUserRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
@@ -54,45 +54,45 @@ function ($, _, Backbone, app, ProjectLayoutView, Project, ActivityCollection)
         log('team:show');
     };
 
-    // Show project activity
-    GroupUserController.showProjectStream = function (id) {
-        log('showing projects home stream', this, this);
+//    // Show project activity
+//    GroupUserController.showProjectStream = function (id) {
+//        log('showing projects home stream', this, this);
 
-        $.when(getModel(id))
-            .done(function (model) {
-                var project = new Project(model.Project);
-                var projectLayoutView = new ProjectLayoutView({ model: project });
+//        $.when(getModel(id))
+//            .done(function (model) {
+//                var project = new Project(model.Project);
+//                var projectLayoutView = new ProjectLayoutView({ model: project });
 
-                app.content[app.getShowViewMethodName('projects')](projectLayoutView);
+//                app.content[app.getShowViewMethodName('projects')](projectLayoutView);
 
-                if (app.isPrerendering('projects')) {
-                    projectLayoutView.showBootstrappedDetails();
-                }
+//                if (app.isPrerendering('projects')) {
+//                    projectLayoutView.showBootstrappedDetails();
+//                }
 
-                projectLayoutView.showStream();
+//                projectLayoutView.showStream();
 
-                app.setPrerenderComplete();
-            });
-    };
+//                app.setPrerenderComplete();
+//            });
+//    };
 
     // Show project observations
     GroupUserController.showProjectObservations = function (id) {
         log('project:show:observations');
-        var projectLayoutView = showProjectLayoutView(id);
+//        var projectLayoutView = showProjectLayoutView(id);
         //projectLayout.details.showObservations();
     };
 
     // Show project about
     GroupUserController.showProjectAbout = function (id) {
         log('project:show:about');
-        var projectLayoutView = showProjectLayoutView(id);
+//        var projectLayoutView = showProjectLayoutView(id);
         //projectLayout.details.showAbout();
     };
 
     // Show project members
     GroupUserController.showProjectMembers = function (id) {
         log('project:show:members');
-        var projectLayoutView = showProjectLayoutView(id);
+//        var projectLayoutView = showProjectLayoutView(id);
         //projectLayout.details.showMembers();
     };
 

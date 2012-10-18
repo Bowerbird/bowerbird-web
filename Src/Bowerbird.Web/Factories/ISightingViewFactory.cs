@@ -6,12 +6,12 @@ namespace Bowerbird.Web.Factories
 {
     public interface ISightingViewFactory : IFactory
     {
-        object MakeNewObservation(string projectId = null);
+        object MakeNewObservation(string category = "", string projectId = "");
 
-        object MakeNewRecord(string projectId = null);
+        object MakeNewRecord(string category = "", string projectId = "");
 
-        object Make(All_Contributions.Result result);
+        dynamic Make(All_Contributions.Result result);
 
-        object Make(Sighting sighting, User user, IEnumerable<Project> projects);
+        dynamic Make(Sighting sighting, User user, IEnumerable<Project> projects);
     }
 }

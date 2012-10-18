@@ -1,88 +1,92 @@
-﻿    <form action="/observations" method="post"  enctype="multipart/form-data">
+﻿<h2>
+  <span class="small-icon observation-icon"></span>Observation
+</h2>
+<div class="form-details">
+  <form action="/observations" method="post"  enctype="multipart/form-data">
     <fieldset>
-        <legend class="hidden">Observation Details</legend>
+      <legend class="hidden">Observation Details</legend>
 
       <div class="field-row">
 
-      <div id="media-details" class="media-field field">
-        <label>
-          Media <span>Required</span>
-        </label>
+        <div id="media-details" class="media-field field">
+          <label>
+            Media <span>Required</span>
+          </label>
 
-        <div class="media-view-pane">
-        
-        <div class="observation-media-items">
-          <div class="observation-media-items-label">Add Images, Videos and Audio</div>
-          <!--<div class="media-resource-dropzone">
+          <div class="media-view-pane">
+
+            <div class="observation-media-items">
+              <div class="observation-media-items-label">Add Images, Videos and Audio</div>
+              <!--<div class="media-resource-dropzone">
                       <p>Drop files here<p>
                   </div>-->
-        </div>
+            </div>
 
-        </div>
-
-
-        <div class="media-add-pane">
-          <p>Upload your media files, or import from other websites.</p>
-          <div class="button file-upload-button">
-            Add Media<input id="file" type="file" name="file" multiple="" value="Add Media" />
           </div>
 
-          <!--<button id="youtube-upload-button" class="website-upload-button youtube" title="Import videos from Youtube">Youtube</button>
+
+          <div class="media-add-pane">
+            <p>Upload your media files, or import from other websites.</p>
+            <div class="button file-upload-button">
+              Add Media<input id="file" type="file" name="file" multiple="" value="Add Media" />
+            </div>
+
+            <!--<button id="youtube-upload-button" class="website-upload-button youtube" title="Import videos from Youtube">Youtube</button>
           <button id="vimeo-upload-button" class="website-upload-button vimeo" title="Import your videos from Vimeo">Vimeo</button>
           <button id="flickr-upload-button" class="website-upload-button flickr" title="Import your photos from Flickr">Flickr</button>
           <button id="picasa-upload-button" class="website-upload-button picasa" title="Import your photos from Picasa">Picasa</button>-->
 
-          <div id="upload-progress-status">
-            <div id="upload-progress-message"></div>
-            <div class="ui-progress-bar ui-container" id="upload-progress-bar">
-              <div class="ui-progress" style="width: 0%;">
-                <span class="ui-label" style="display:none;">
-                  <b class="value">0%</b>
-                </span>
+            <div id="upload-progress-status">
+              <div id="upload-progress-message"></div>
+              <div class="ui-progress-bar ui-container" id="upload-progress-bar">
+                <div class="ui-progress" style="width: 0%;">
+                  <span class="ui-label" style="display:none;">
+                    <b class="value">0%</b>
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div id="upload-error">
-            
+            <div id="upload-error">
+
+            </div>
+
           </div>
-          
         </div>
-      </div>
-        
+
       </div>
 
       <div class="field-row">
-        
-        
-        <div id="title-field" class="field">
-            <div>
-                <label for="Title">
-                    Title <span>Required</span>
-                </label>
-            </div>
-            <div>
-                <input type="text" id="Title" name="title" value="{{Model.Observation.Title}}" />
-            </div>
-          </div>
 
-      
-      
-      
-          <div id="category-field" class="field">
-            <div>
-              <label for="Category">
-                Identification <span>Required</span>
-              </label>
-            </div>
-            <div>
-              <select id="Category" name="category">
-                <option></option>
-                {{#Model.CategorySelectList}}
-                <option value="{{Value}}" {{#Selected}}selected=""{{/Selected}}>{{Text}}</option>
-                {{/Model.CategorySelectList}}
-              </select>
-            </div>
+
+        <div id="title-field" class="field">
+          <div>
+            <label for="Title">
+              Title <span>Required</span>
+            </label>
+          </div>
+          <div>
+            <input type="text" id="Title" name="title" value="{{Model.Observation.Title}}" />
+          </div>
+        </div>
+
+
+
+
+        <div id="category-field" class="field">
+          <div>
+            <label for="Category">
+              Identification <span>Required</span>
+            </label>
+          </div>
+          <div>
+            <select id="Category" name="category">
+              <option></option>
+              {{#Model.CategorySelectList}}
+              <option value="{{Value}}" {{#Selected}}selected=""{{/Selected}}>{{Text}}</option>
+              {{/Model.CategorySelectList}}
+            </select>
+          </div>
         </div>
 
       </div>
@@ -103,9 +107,9 @@
               <input type="text" id="Address" name="address" autocomplete="off" value="{{Model.Observation.Address}}" />
 
 
-            
 
-              
+
+
 
             </div>
           </div>
@@ -126,14 +130,14 @@
           <button type="button" id="location-options-button">
             <span>Options</span>
           </button>
-          
-          
+
+
 
           <div id="location-options">
-            
-            
-            
-            
+
+
+
+
 
             <div id="latitude-field" class="field">
               <div>
@@ -160,7 +164,7 @@
             </div>
 
 
-            
+
 
             <div id="anonymise-location-field" class="field field-checkbox-slider">
               <div>
@@ -175,7 +179,7 @@
                 </div>
               </div>
             </div>
-            
+
 
 
 
@@ -185,14 +189,15 @@
 
 
           <div id="location-coordinates">
-            <div>Location</div> <span id="lat-long">None</span>
+            <div>Location</div>
+            <span id="lat-long">None</span>
           </div>
-          
-          
+
+
         </div>
-        
-        
-        
+
+
+
 
 
         <div id="observedon-field" class="field">
@@ -206,7 +211,7 @@
             <i></i>
           </div>
         </div>
-        
+
 
 
 
@@ -215,7 +220,12 @@
             <label for="Projects">Projects</label>
           </div>
           <div>
-            <select id="Projects" name="projects" multiple=""></select>
+            <select id="Projects" name="projects">
+              <option></option>
+              {{#Model.ProjectsSelectList}}
+              <option value="{{Value}}" {{#Selected}}selected=""{{/Selected}}>{{Text}}</option>
+              {{/Model.ProjectsSelectList}}
+            </select>
           </div>
         </div>
 
@@ -236,3 +246,5 @@
     </fieldset>
 
   </form>
+
+</div>

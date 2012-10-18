@@ -52,7 +52,7 @@ function ($, _, Backbone, ich, app, moment) {
             if (this.model.get('Type') == "observationadded") {
                 this.$el.find('h2 a').on('click', function (e) {
                     e.preventDefault();
-                    app.observationRouter.navigate($(this).attr('href'), { trigger: true });
+                    Backbone.history.navigate($(this).attr('href'), { trigger: true });
                     return false;
                 });
 
@@ -77,19 +77,18 @@ function ($, _, Backbone, ich, app, moment) {
                 var point = new google.maps.LatLng(this.model.get('ObservationAdded').Observation.Latitude, this.model.get('ObservationAdded').Observation.Longitude);
                 this.point = point;
 
-                var image = new google.maps.MarkerImage('http://maps.gstatic.com/mapfiles/ms/icons/blue-dot.png',
-                    new google.maps.Size(32, 32),
-                    new google.maps.Point(0, 0),
-                    new google.maps.Point(15, 32)
+                var image = new google.maps.MarkerImage('/img/map-pin.png',
+                    new google.maps.Size(43, 38),
+                    new google.maps.Point(0, 0)
                 );
 
-                var shadow = new google.maps.MarkerImage("http://maps.gstatic.com/mapfiles/kml/paddle/A_maps.shadow.png",
+                var shadow = new google.maps.MarkerImage('/img/map-pin-shadow.png',
                     new google.maps.Size(59, 32),
                     new google.maps.Point(0, 0),
-                    new google.maps.Point(15, 32)
+                    new google.maps.Point(17, 32)
                 );
 
-                var mapMarker = new google.maps.Marker({
+                this.mapMarker = new google.maps.Marker({
                     position: point,
                     map: map,
                     clickable: false,
@@ -141,7 +140,7 @@ function ($, _, Backbone, ich, app, moment) {
             if (this.currentObservationMedia.Description && this.currentObservationMedia.Description !== '') {
                 descriptionHtml = '<div class="media-details"><div class="overlay"></div><p class="description">' + this.currentObservationMedia.Description + '</p></div>';
                 this.$el.find('.preview').append(descriptionHtml);
-            }            
+            }
             this.resizeElements();
         },
 

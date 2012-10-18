@@ -17,17 +17,17 @@
                         var labelEl = $('.ui-label', this),
                             valueEl = $('.value', labelEl);
                         if (Math.ceil(progress) < 20 && $('.ui-label', this).is(":visible")) {
-                            labelEl.hide();
+                            //labelEl.hide();
                         } else {
                             if (labelEl.is(":hidden")) {
-                                labelEl.fadeIn();
+                                //labelEl.fadeIn();
                             }
                             ;
                         }
                         if (Math.ceil(progress) == 100) {
-                            labelEl.text('Completed');
+                            //labelEl.text('Completed');
                             setTimeout(function() {
-                                labelEl.fadeOut();
+                                //labelEl.fadeOut();
                             }, 1000);
                         } else {
                             valueEl.text(Math.ceil(progress) + '%');

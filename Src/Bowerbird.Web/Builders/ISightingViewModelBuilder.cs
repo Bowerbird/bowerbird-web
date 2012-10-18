@@ -18,11 +18,11 @@ namespace Bowerbird.Web.Builders
 {
     public interface ISightingViewModelBuilder
     {
-        object BuildNewObservation(string projectId = null);
+        object BuildNewObservation(string category = "", string projectId = "");
 
-        object BuildNewRecord(string projectId = null);
+        object BuildNewRecord(string projectId = "");
 
-        object BuildSighting(string id);
+        dynamic BuildSighting(string id);
 
         object BuildGroupSightingList(string groupId, PagingInput pagingInput);
 

@@ -22,7 +22,7 @@ function ($, _, Backbone, app, Project) {
             'click .chat-menu-item': 'startChat',
             'click .sub-menu-button': 'showMenu',
             'click li#createnewpost': 'createPost',
-            'click li#createnewobservation': 'createObservation',
+            'click li#createnewobservation a': 'createObservation',
             'click .sub-menu-button li': 'selectMenuItem'
         },
 
@@ -62,21 +62,20 @@ function ($, _, Backbone, app, Project) {
         },
 
         selectMenuItem: function (e) {
-            $('.sub-menu-button').removeClass('active');
+            this.$el.find('.sub-menu-button').removeClass('active');
             e.stopPropagation();
         },
 
         createPost: function (e) {
             e.preventDefault();
-            var location = e.target.attributes["href"]; //$(this).attr('href');
+            var location = e.target.attributes["href"];
             app.postRouter.navigate(location.nodeValue, { trigger: true });
             return false;
         },
 
         createObservation: function (e) {
             e.preventDefault();
-            //var location = e.target.attributes["href"]; //$(this).attr('href');
-            Backbone.history.navigate(e.target.attributes["href"], { trigger: true });
+            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
             return false;
         },
 

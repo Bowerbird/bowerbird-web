@@ -5,14 +5,14 @@
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// SidebarLayoutView
-// -----------------
+// SidebarView
+// -----------
 
 // The left hand side bar that is shown to authenticated users.
-define(['jquery', 'underscore', 'backbone', 'app', 'views/sidebarmenugroupcompositeview', 'views/sidebarprojectitemview', 'views/sidebarteamitemview', 'views/sidebarorganisationitemview'],
-function ($, _, Backbone, app, SidebarMenuGroupCompositeView, SidebarProjectItemView, SidebarTeamItemView, SidebarOrganisationItemView) {
+define(['jquery', 'underscore', 'backbone', 'app', 'views/sidebarmenugroupview', 'views/sidebarprojectitemview', 'views/sidebarteamitemview', 'views/sidebarorganisationitemview'],
+function ($, _, Backbone, app, SidebarMenuGroupView, SidebarProjectItemView, SidebarTeamItemView, SidebarOrganisationItemView) {
 
-    var SidebarLayoutView = Backbone.Marionette.Layout.extend({
+    var SidebarView = Backbone.Marionette.Layout.extend({
         tagName: 'section',
 
         id: 'sidebar',
@@ -36,20 +36,20 @@ function ($, _, Backbone, app, SidebarMenuGroupCompositeView, SidebarProjectItem
         onRender: function () {
             $('article').prepend(this.el);
 
-            var sidebarProjectCompositeView = new SidebarMenuGroupCompositeView({ id: 'project-menu-group', collection: this.model.projects, type: 'project', label: 'Projects' });
-            sidebarProjectCompositeView.itemView = SidebarProjectItemView;
-            this.projectsMenu.show(sidebarProjectCompositeView);
+            var sidebarProjectMenuGroupView = new SidebarMenuGroupView({ id: 'project-menu-group', collection: this.model.projects, type: 'project', label: 'Projects' });
+            sidebarProjectMenuGroupView.itemView = SidebarProjectItemView;
+            this.projectsMenu.show(sidebarProjectMenuGroupView);
 
             if (this.model.teams.length > 0) {
-                var sidebarTeamCompositeView = new SidebarMenuGroupCompositeView({ id: 'team-menu-group', collection: this.model.teams, type: 'team', label: 'Teams' });
-                sidebarTeamCompositeView.itemView = SidebarTeamItemView;
-                this.teamsMenu.show(sidebarTeamCompositeView);
+                var sidebarTeamMenuGroupView = new SidebarMenuGroupView({ id: 'team-menu-group', collection: this.model.teams, type: 'team', label: 'Teams' });
+                sidebarTeamMenuGroupView.itemView = SidebarTeamItemView;
+                this.teamsMenu.show(sidebarTeamMenuGroupView);
             }
 
             if (this.model.organisations.length > 0) {
-                var sidebarOrganisationCompositeView = new SidebarMenuGroupCompositeView({ id: 'organisation-menu-group', collection: this.model.organisations, type: 'organisation', label: 'Organisations' });
-                sidebarOrganisationCompositeView.itemView = SidebarOrganisationItemView;
-                this.organisationsMenu.show(sidebarOrganisationCompositeView);
+                var sidebarOrganisationMenuGroupView = new SidebarMenuGroupView({ id: 'organisation-menu-group', collection: this.model.organisations, type: 'organisation', label: 'Organisations' });
+                sidebarOrganisationMenuGroupView.itemView = SidebarOrganisationItemView;
+                this.organisationsMenu.show(sidebarOrganisationMenuGroupView);
             }
 
             this.$el.find('#action-menu a, #default-menu-group a').on('click', function (e) {
@@ -108,17 +108,19 @@ function ($, _, Backbone, app, SidebarMenuGroupCompositeView, SidebarProjectItem
                 };
 
                 // Render the layout and get it on the screen, first
-                var sidebarLayoutView = new SidebarLayoutView({ model: model });
+                var sidebarView = new SidebarView({ model: model });
 
-                sidebarLayoutView.on('show', function () {
+                sidebarView.on('show', function () {
                     app.vent.trigger('sidebar:rendered');
                 });
 
-                app.sidebar.show(sidebarLayoutView);
+                sidebarView.$el.hide();
+
+                app.sidebar.show(sidebarView);
             }
         });
     });
 
-    return SidebarLayoutView;
+    return SidebarView;
 
 });

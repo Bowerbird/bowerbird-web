@@ -351,102 +351,6 @@ namespace Bowerbird.Web.Controllers
             return HttpNotFound();
         }
 
-        ///// <summary>
-        ///// Get a paged list of all the sightings a user has created
-        ///// </summary>
-        //[HttpGet]
-        //[Authorize]
-        //public ActionResult MySightings(PagingInput pagingInput)
-        //{
-        //    if (Request.IsAjaxRequest())
-        //    {
-        //        var viewModel = new
-        //        {
-        //            Sightings =_sightingViewModelBuilder.BuildUserSightingList(_userContext.GetAuthenticatedUserId(), pagingInput)
-        //        };
-
-        //        return RestfulResult(
-        //            viewModel,
-        //            string.Empty,
-        //            string.Empty
-        //            );
-        //    }
-
-        //    return HttpNotFound();
-        //}
-
-        /// <summary>
-        /// Get a paged list of all the sightings in all a user's projects
-        /// </summary>
-        [HttpGet]
-        [Authorize]
-        public ActionResult Sightings(PagingInput pagingInput)
-        {
-            if (Request.IsAjaxRequest())
-            {
-                var viewModel = new
-                {
-                    Sightings = _sightingViewModelBuilder.BuildAllUserProjectsSightingList(_userContext.GetAuthenticatedUserId(), pagingInput)
-                };
-
-                return RestfulResult(
-                    viewModel,
-                    string.Empty,
-                    string.Empty
-                    );
-            }
-
-            return HttpNotFound();
-        }
-
-        ///// <summary>
-        ///// Get a paged list of all the sightings a user has created
-        ///// </summary>
-        //[HttpGet]
-        //[Authorize]
-        //public ActionResult MyPosts(PagingInput pagingInput)
-        //{
-        //    if (Request.IsAjaxRequest())
-        //    {
-        //        var viewModel = new
-        //        {
-        //            Sightings = _postViewModelBuilder.BuildUserPostList(_userContext.GetAuthenticatedUserId(), pagingInput)
-        //        };
-
-        //        return RestfulResult(
-        //            viewModel,
-        //            string.Empty,
-        //            string.Empty
-        //            );
-        //    }
-
-        //    return HttpNotFound();
-        //}
-
-        /// <summary>
-        /// Get a paged list of all the sightings in all a user's projects
-        /// </summary>
-        [HttpGet]
-        [Authorize]
-        public ActionResult Posts(PagingInput pagingInput)
-        {
-            if (Request.IsAjaxRequest())
-            {
-                var viewModel = new
-                {
-                    Sightings = _postViewModelBuilder.BuildAllUserGroupsPostList(_userContext.GetAuthenticatedUserId(), pagingInput)
-                };
-
-                return RestfulResult(
-                    viewModel,
-                    string.Empty,
-                    string.Empty
-                    );
-            }
-
-            return HttpNotFound();
-        }
-
         [HttpGet]
         [Authorize]
         public ActionResult Notifications(ActivityInput activityInput, PagingInput pagingInput)
@@ -593,6 +497,26 @@ namespace Bowerbird.Web.Controllers
             }
 
             return View(Form.ChangePassword);
+        }
+
+        [HttpPost]
+        [Authorize]
+        [Transaction]
+        public ActionResult CloseCallToAction(string name)
+        {
+            if (Request.IsAjaxRequest())
+            {
+                _messageBus.Send(
+                    new UserUpdateCallToActionCommand()
+                    {
+                        UserId = _userContext.GetAuthenticatedUserId(),
+                        Name = name
+                    });
+
+                return JsonSuccess();
+            }
+
+            return HttpNotFound();
         }
 
         private bool AreCredentialsValid(string email, string password, out User user)

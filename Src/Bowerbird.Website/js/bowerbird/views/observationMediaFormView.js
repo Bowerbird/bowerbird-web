@@ -8,8 +8,8 @@
 // ObservationMediaFormView
 // ------------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'models/mediaresource', 'views/observationmediaitemview', 'views/videoformview', 'collections/mediaresourcecollection', 'fileupload', 'iframetransport', 'progress'],
-function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFormView, MediaResourceCollection) {
+define(['jquery', 'underscore', 'backbone', 'app', 'models/mediaresource', 'views/observationmediaitemformview', 'views/videoformview', 'fileupload', 'iframetransport', 'progress'],
+function ($, _, Backbone, app, MediaResource, ObservationMediaItemFormView, VideoFormView) {
 
     var MediaUpload = Backbone.Model.extend({
         defaults: {
@@ -25,7 +25,7 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
     var ObservationMediaFormView = Backbone.Marionette.CompositeView.extend({
         id: 'media-details',
 
-        itemView: ObservationMediaItemView,
+        itemView: ObservationMediaItemFormView,
 
         events: {
             'click #youtube-upload-button': '_showYouTubeVideoForm',
@@ -185,7 +185,7 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemView, VideoFor
         },
 
         _onFileUploadSend: function (e, data) {
-            var upload = this.mediaUploads.get(data.formData.Key);
+            var upload = this.mediaUploads.get(data.formData.Key || data.formData[0].value); // Not sure why IE decides to make JSON an array?
 
             upload.set({
                 progressStatus: 'uploading'

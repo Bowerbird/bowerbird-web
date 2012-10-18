@@ -5,10 +5,10 @@ namespace Bowerbird.Web.Factories
 {
     public interface IGroupViewFactory : IFactory
     {
-        object Make(Group group);
+        dynamic Make(Group group);
 
-        object Make(All_Groups.Result result);
+        dynamic Make(All_Groups.Result result);
 
-        object Make(Group group, int memberCount, int observationCount, int postCount);
+        dynamic Make(Group group, int memberCount, int observationCount, int postCount);
     }
 }

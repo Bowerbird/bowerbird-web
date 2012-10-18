@@ -3,11 +3,12 @@
 .observation .notes-details,
 .observation .comments-details
 {
-    width: 100%;
-    background-color: #FFFFFF;
+    background-color: rgb(255, 255, 255);
     border-radius: 4px 4px 4px 4px;
-    box-shadow: 0 1px 2px 0 #5071A6;
+    box-shadow: 0 1px 2px 0 rgb(51, 51, 51);
     float: left;
+    padding: 2%;
+    width: 100%;
 }
 .observation .notes-details
 {
@@ -17,13 +18,14 @@
 {
     height: 100px;
 }
-.observation .observation-details h2
+.observation .observation-details h3
 {
     font-size: 2em;
     font-weight: 600;
-    letter-spacing: -1px;
+    letter-spacing: -0.05em;
+    line-height: 1.1em;
     margin: 0;
-    padding: 17px 15px;    
+    padding: 0 0 10px;
 }
 .observation .observation-details h2 a,
 .observation .observation-details h2 a:hover,
@@ -68,8 +70,8 @@
 }
 .observation .observation-details .info
 {
-    float: left;
-    width: 28%;
+    display: inline-block;
+    width: 30%;
 }
 .observation .observation-details .user
 {
@@ -77,6 +79,11 @@
     font-weight: 600;
     line-height: 1.25em;
     margin: 0;
+}
+.observation .observation-details .user > span
+{
+    display: block;
+    padding: 5px 5px 0 0;
 }
 .observation .observation-details .user img
 {
@@ -105,20 +112,35 @@
 }
 .observation .observation-details .location .map
 {
-    background-color: #F2F6FA;
-    height: 200px;
     overflow: hidden;
+    width: 100%;
 }
-.observation .observation-details .location .map img
+@media screen and (min-width: 20em) 
 {
-    height: 200px;
-    left: -50%;
-    position: relative;
+    .observation .observation-details .location .map
+    {
+        height: 4em;
+    }
 }
-.observation .observation-details .location span
+@media screen and (min-width: 37.5em) 
+{
+    .observation .observation-details .location .map
+    {
+        height: 9em;
+    }
+}
+@media screen and (min-width: 64em) 
+{
+    .observation .observation-details .location .map
+    {
+        height: 14em;
+    }
+}
+.observation .observation-details .location > span
 {
     display: block;
     font-weight: 500;
+    padding: 5px 5px 0 0;
 }
 #stream .observation-details .projects
 {
@@ -235,6 +257,8 @@
     box-shadow: 0 1px 2px 0 rgb(51, 51, 51);
     padding: 25px;
     position: relative;
+    width: 100%;
+    float: left;
 }
 .call-to-action h2
 {
@@ -254,6 +278,10 @@
 }
 .home-private .call-to-action h2 {
     font-size: 1.4em;
+}
+.home-private .details {
+    float: left;
+    width: 100%;
 }
 .call-to-action p
 {
@@ -310,9 +338,12 @@
     height: 200px;
     position: relative;
     width: 100%;
+    float: left;
 }
 .project > .details {
     background-color: rgb(227, 227, 227);
+    float: left;
+    width: 100%;
 }
 .project > .summary .image-media {
     margin: 0 15px 0 0;

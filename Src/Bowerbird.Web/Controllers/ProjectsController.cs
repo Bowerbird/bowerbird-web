@@ -10,6 +10,7 @@
  
 */
 
+using System.Dynamic;
 using System.Web.Mvc;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
@@ -199,15 +200,25 @@ namespace Bowerbird.Web.Controllers
                 return HttpNotFound();
             }
 
-            var viewModel = new
-            {
-                Project = _projectViewModelBuilder.BuildProject(projectId)
-            };
+            dynamic project = _projectViewModelBuilder.BuildProject(projectId);
+
+            dynamic viewModel = new ExpandoObject();
+
+            viewModel.Project = project;
+
+            var htmlViewTask = new Action<dynamic>(x =>
+                {
+                    x.Model.IsMember = _userContext.HasGroupPermission<Project>(PermissionNames.CreateObservation, projectId);
+                    x.Model.MemberCountDescription = "Member" + (project.MemberCount == 1 ? string.Empty : "s");
+                    x.Model.ObservationCountDescription = "Sighting" + (project.ObservationCount == 1 ? string.Empty : "s");
+                    x.Model.PostCountDescription = "Post" + (project.PostCount == 1 ? string.Empty : "s");
+                });
 
             return RestfulResult(
                 viewModel,
                 "projects",
-                "index");
+                "index",
+                htmlViewTask);
         }
 
         [HttpGet]
@@ -240,11 +251,10 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult CreateForm()
         {
-            var viewModel = new
-            {
-                Project = _projectViewModelBuilder.BuildNewProject(),
-                Teams = GetTeams(_userContext.GetAuthenticatedUserId())
-            };
+            dynamic viewModel = new ExpandoObject();
+
+            viewModel.Project = _projectViewModelBuilder.BuildNewProject();
+            viewModel.Teams = GetTeams(_userContext.GetAuthenticatedUserId());
 
             return RestfulResult(
                 viewModel,

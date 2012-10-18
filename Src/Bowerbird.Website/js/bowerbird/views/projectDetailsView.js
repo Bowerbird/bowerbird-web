@@ -5,13 +5,15 @@
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// ProjectLayoutView
-// -----------------
+// ProjectDetailsView
+// ------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'views/streamview', 'collections/activitycollection'], function ($, _, Backbone, app, StreamView, ActivityCollection) {
+define(['jquery', 'underscore', 'backbone', 'app', 'views/activitylistview', 'collections/activitycollection'], function ($, _, Backbone, app, ActivityListView, ActivityCollection) {
 
-    var ProjectLayoutView = Backbone.Marionette.Layout.extend({
-        className: 'project',
+    var ProjectDetailsView = Backbone.Marionette.Layout.extend({
+        viewType: 'details',
+
+        className: 'project double',
 
         template: 'Project',
 
@@ -36,7 +38,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/streamview', 'collecti
             this.$el = $('#content .project');
         },
 
-        showStream: function () {
+        showActivity: function () {
             var activityCollection = new ActivityCollection(null, { groupOrUser: this.model });
             var options = {
                 model: this.model,
@@ -45,17 +47,17 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/streamview', 'collecti
             if (app.isPrerendering('projects')) {
                 options['el'] = '.stream';
             }
-            var streamView = new StreamView(options);
+            var activityListView = new ActivityListView(options);
             if (app.isPrerendering('projects')) {
-                this.details.attachView(streamView);
-                streamView.showBootstrappedDetails();
+                this.details.attachView(activityListView);
+                activityListView.showBootstrappedDetails();
             } else {
-                this.details.show(streamView);
+                this.details.show(activityListView);
             }
             activityCollection.fetchFirstPage();
         }
     });
 
-    return ProjectLayoutView;
+    return ProjectDetailsView;
 
 }); 

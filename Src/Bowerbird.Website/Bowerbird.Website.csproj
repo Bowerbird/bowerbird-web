@@ -123,14 +123,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="403.html" />
-    <Content Include="css\new\circle.player.css" />
-    <Content Include="css\new\observation.css" />
-    <Content Include="css\new\global.css" />
-    <Content Include="css\new\media.css" />
-    <Content Include="css\new\normalize.css" />
-    <Content Include="css\new\progressbar.css" />
-    <Content Include="css\new\stream.css" />
-    <Content Include="css\site.css" />
+    <Content Include="css\circle.player.css" />
+    <Content Include="css\observation.css" />
+    <Content Include="css\global.css" />
+    <Content Include="css\media.css" />
+    <Content Include="css\normalize.css" />
+    <Content Include="css\progressbar.css" />
+    <Content Include="css\stream.css" />
     <Content Include="img\audio-avatar.png" />
     <Content Include="img\audio-player-bgr.jpg" />
     <Content Include="img\audio-player-buffer.png" />
@@ -138,15 +137,28 @@
     <Content Include="img\audio-player-progress.png" />
     <Content Include="img\audio-player-progress_sprite.jpg" />
     <Content Include="img\by.svg" />
+    <Content Include="img\category-amphibians.png" />
+    <Content Include="img\category-birds.png" />
+    <Content Include="img\category-fishes.png" />
+    <Content Include="img\category-fungi &amp; lichens.png" />
+    <Content Include="img\category-invertebrates.png" />
+    <Content Include="img\category-mammals.png" />
+    <Content Include="img\category-minerals.png" />
+    <Content Include="img\category-others.png" />
+    <Content Include="img\category-plants.png" />
+    <Content Include="img\category-reptiles.png" />
     <Content Include="img\cc.svg" />
     <Content Include="img\copyright.svg" />
     <Content Include="img\flickr.png" />
     <Content Include="img\home.png" />
     <Content Include="img\icons.png" />
     <Content Include="img\loader.gif" />
+    <Content Include="img\loaderx.gif" />
     <Content Include="img\logo-new4.png" />
     <Content Include="img\logo.svg" />
     <Content Include="img\logo2.svg" />
+    <Content Include="img\map-pin-shadow.png" />
+    <Content Include="img\map-pin.png" />
     <Content Include="img\nc.svg" />
     <Content Include="img\nd.svg" />
     <Content Include="img\organisation-Square100.jpg" />
@@ -169,6 +181,7 @@
     <Content Include="js\bowerbird\collections\chatMessageCollection.js" />
     <Content Include="js\bowerbird\collections\chatCollection.js" />
     <Content Include="js\bowerbird\collections\commentCollection.js" />
+    <Content Include="js\bowerbird\collections\sightingCollection.js" />
     <Content Include="js\bowerbird\collections\observationMediaCollection.js" />
     <Content Include="js\bowerbird\collections\exploreProjectCollection.js" />
     <Content Include="js\bowerbird\collections\referenceSpeciesCollection.js" />
@@ -178,6 +191,7 @@
     <Content Include="js\bowerbird\controllers\activityController.js" />
     <Content Include="js\bowerbird\controllers\chatController.js" />
     <Content Include="js\bowerbird\controllers\accountController.js" />
+    <Content Include="js\bowerbird\models\sighting.js" />
     <Content Include="js\bowerbird\models\tracker.js" />
     <Content Include="js\bowerbird\models\timer.js" />
     <Content Include="js\bowerbird\controllers\recordController.js" />
@@ -222,8 +236,11 @@
     <Content Include="js\bowerbird\views\commentFormView.js" />
     <Content Include="js\bowerbird\views\commentCollectionView.js" />
     <Content Include="js\bowerbird\views\commentCompositeView.js" />
+    <Content Include="js\bowerbird\views\sightingItemView.js" />
+    <Content Include="js\bowerbird\views\sightingListView.js" />
+    <Content Include="js\bowerbird\views\formView.js" />
     <Content Include="js\bowerbird\views\identificationFormView.js" />
-    <Content Include="js\bowerbird\views\editObservationMediaFormView.js" />
+    <Content Include="js\bowerbird\views\mediaFormView.js" />
     <Content Include="js\bowerbird\views\recordFormView.js" />
     <Content Include="js\bowerbird\views\postDetailsView.js" />
     <Content Include="js\bowerbird\views\postLayoutView.js" />
@@ -237,32 +254,31 @@
     <Content Include="js\bowerbird\views\teamItemView.js" />
     <Content Include="js\bowerbird\views\teamLayoutView.js" />
     <Content Include="js\bowerbird\views\teamCollectionView.js" />
-    <Content Include="js\bowerbird\views\homePublicLayoutView.js" />
+    <Content Include="js\bowerbird\views\homePublicView.js" />
     <Content Include="js\bowerbird\views\projectItemView.js" />
-    <Content Include="js\bowerbird\views\projectsCompositeView.js" />
+    <Content Include="js\bowerbird\views\projectExploreView.js" />
     <Content Include="js\bowerbird\views\notificationItemView.js" />
     <Content Include="js\bowerbird\views\notificationsCompositeView.js" />
-    <Content Include="js\bowerbird\views\sidebarMenuGroupCompositeView.js" />
+    <Content Include="js\bowerbird\views\sidebarMenuGroupView.js" />
     <Content Include="js\bowerbird\views\userItemView.js" />
-    <Content Include="js\bowerbird\views\onlineUserCompositeView.js" />
+    <Content Include="js\bowerbird\views\onlineUsersView.js" />
     <Content Include="js\bowerbird\views\sidebarOrganisationItemView.js" />
     <Content Include="js\bowerbird\views\sidebarTeamItemView.js" />
     <Content Include="js\bowerbird\views\postFormLayoutView.js" />
-    <Content Include="js\bowerbird\views\homePrivateLayoutView.js" />
+    <Content Include="js\bowerbird\views\homePrivateView.js" />
     <Content Include="js\bowerbird\views\referenceSpeciesFormLayoutView.js" />
     <Content Include="js\bowerbird\views\speciesFormItemView.js" />
     <Content Include="js\bowerbird\views\organisationFormLayoutView.js" />
     <Content Include="js\bowerbird\views\teamFormLayoutView.js" />
     <Content Include="js\bowerbird\views\dummyOverlayView.js" />
     <Content Include="js\bowerbird\views\editAvatarView.js" />
-    <Content Include="js\bowerbird\views\editMapView.js" />
+    <Content Include="js\bowerbird\views\locationFormView.js" />
     <Content Include="js\bowerbird\views\observationMediaFormView.js" />
-    <Content Include="js\bowerbird\views\observationMediaItemView.js" />
-    <Content Include="js\bowerbird\views\observationFormLayoutView.js" />
-    <Content Include="js\bowerbird\views\observationLayoutView.js" />
-    <Content Include="js\bowerbird\views\projectFormLayoutView.js" />
+    <Content Include="js\bowerbird\views\observationMediaItemFormView.js" />
+    <Content Include="js\bowerbird\views\observationFormView.js" />
+    <Content Include="js\bowerbird\views\projectFormView.js" />
     <Content Include="js\bowerbird\views\streamItemView.js" />
-    <Content Include="js\bowerbird\views\streamView.js" />
+    <Content Include="js\bowerbird\views\activityListView.js" />
     <Content Include="js\libs\backbone.queryparams\backbone.queryparams.js" />
     <Content Include="js\libs\bootstrap\bootstrap-datepicker.js" />
     <Content Include="js\libs\date\date.js" />
@@ -295,8 +311,8 @@
     <Content Include="js\bowerbird\views\sidebarProjectItemView.js" />
     <Content Include="js\bowerbird\views\footerView.js" />
     <Content Include="js\bowerbird\views\headerView.js" />
-    <Content Include="js\bowerbird\views\sidebarLayoutView.js" />
-    <Content Include="js\bowerbird\views\projectLayoutView.js" />
+    <Content Include="js\bowerbird\views\sidebarView.js" />
+    <Content Include="js\bowerbird\views\projectDetailsView.js" />
     <Content Include="js\bowerbird\controllers\groupUserController.js" />
     <Content Include="js\libs\jquery\jquery-1.7.2.js" />
     <Content Include="js\libs\moment\moment.js" />
@@ -375,11 +391,7 @@
     <Content Include="apple-touch-icon-57x57-precomposed.png" />
     <Content Include="apple-touch-icon-72x72-precomposed.png" />
     <Content Include="apple-touch-icon-precomposed.png" />
-    <Content Include="css\_old\debug.css" />
-    <Content Include="css\media.css" />
-    <Content Include="css\normalize.css" />
-    <Content Include="css\_old\_old.css" />
-    <Content Include="GenericErrorPage.html" />
+    <Content Include="500.html" />
     <Content Include="img\favourites.png" />
     <Content Include="img\bgnoise.gif" />
     <Content Include="img\glyphicons-halflings-blue.png" />
@@ -522,12 +534,15 @@
     <Content Include="Views\Shared\IdentificationForm.mustache">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Shared\HomePublic.mustache">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="Views\Shared\_Layout.mustache">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Views\Projects\Index.mustache" />
+    <Content Include="Views\Shared\Avatar200.mustache" />
+    <Content Include="Views\Shared\Avatar50.mustache" />
+    <Content Include="Views\Shared\Avatar100.mustache" />
+    <Content Include="Views\Shared\SightingList.mustache" />
+    <Content Include="Views\Shared\SightingItem.mustache" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="404.html" />
@@ -545,11 +560,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="media\default\" />
-    <Folder Include="media\document\" />
-    <Folder Include="media\image\0\" />
-    <Folder Include="media\testdata\" />
-    <Folder Include="media\video\" />
+    <Folder Include="media\" />
     <Folder Include="Views\Users\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

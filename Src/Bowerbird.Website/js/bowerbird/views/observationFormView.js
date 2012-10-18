@@ -5,21 +5,23 @@
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// ObservationFormLayoutView
-// -------------------------
+// ObservationFormView
+// -------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editmapview', 'views/observationmediaformview', 'views/identificationformview', 'moment', 'datepicker', 'multiselect', 'jqueryui/dialog'],
-function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView, IdentificationFormView, moment) {
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/locationformview', 'views/observationmediaformview', 'views/identificationformview', 'moment', 'datepicker', 'multiselect', 'jqueryui/dialog'],
+function ($, _, Backbone, app, ich, LocationFormView, ObservationMediaFormView, IdentificationFormView, moment) {
 
-    var ObservationFormLayoutView = Backbone.Marionette.Layout.extend({
+    var ObservationFormView = Backbone.Marionette.Layout.extend({
 
-        className: 'form observation-form',
+        viewType: 'form',
+
+        className: 'form single observation-form',
 
         template: 'ObservationForm',
 
         regions: {
             media: '#media-resources-fieldset',
-            map: '#location-fieldset'
+            location: '#location-fieldset'
         },
 
         events: {
@@ -42,6 +44,7 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView, Ident
         initialize: function (options) {
             _.bindAll(this, '_showIdentificationForm');
             this.categorySelectList = options.categorySelectList;
+            this.projectsSelectList = options.projectsSelectList;
             this.categories = options.categories;
             this.model.media.on('add', this.onMediaChanged, this);
         },
@@ -50,7 +53,8 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView, Ident
             return {
                 Model: {
                     Observation: this.model.toJSON(),
-                    CategorySelectList: this.categorySelectList
+                    CategorySelectList: this.categorySelectList,
+                    ProjectsSelectList: this.projectsSelectList
                 }
             };
         },
@@ -74,9 +78,9 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView, Ident
         },
 
         _showDetails: function () {
-            var editMapView = new EditMapView({ el: '#location-details', model: this.model });
-            this.map.attachView(editMapView);
-            editMapView.render();
+            var locationFormView = new LocationFormView({ el: '#location-details', model: this.model });
+            this.location.attachView(locationFormView);
+            locationFormView.render();
 
             var observationMediaFormView = new ObservationMediaFormView({ el: '#media-details', model: this.model, collection: this.model.media });
             this.media.attachView(observationMediaFormView);
@@ -100,13 +104,6 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView, Ident
                     return $selectedHtml.children();
                 }
             });
-
-            if (!ich.templates.ProjectSelectItem) {
-                ich.addTemplate('ProjectSelectItem', '{{#Projects}}<option value="{{Id}}">{{Name}}</option>{{/Projects}}');
-            }
-
-            // Add project options
-            this.$el.find('#Projects').append(ich.ProjectSelectItem({ Projects: app.authenticatedUser.projects.toJSON() }));
 
             this.projectListSelectView = this.$el.find('#Projects').multiSelect({
                 selectAll: false,
@@ -191,7 +188,7 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView, Ident
 
             // Only update pin if the location is different to avoid infinite loop
             if (newPosition.Latitude != null && newPosition.Longitude != null && (oldPosition.Latitude !== newPosition.Latitude || oldPosition.Longitude !== newPosition.Longitude)) {
-                this.editMapView.changeMarkerPosition(this.model.get('Latitude'), this.model.get('Longitude'));
+                this.locationFormView.changeMarkerPosition(this.model.get('Latitude'), this.model.get('Longitude'));
             }
         },
 
@@ -237,6 +234,6 @@ function ($, _, Backbone, app, ich, EditMapView, ObservationMediaFormView, Ident
         }
     });
 
-    return ObservationFormLayoutView;
+    return ObservationFormView;
 
 });

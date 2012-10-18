@@ -5,13 +5,15 @@
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// ProjectsCompositeView
-// ---------------------
+// ProjectExploreView
+// ------------------
 
 define(['jquery','underscore','backbone','app','ich','views/projectitemview'],
 function ($, _, Backbone, app, ich, ProjectItemView) 
 {
-    var ProjectsCompositeView = Backbone.Marionette.CompositeView.extend({
+    var ProjectExploreView = Backbone.Marionette.CompositeView.extend({
+        viewType: 'details',
+        
         className: 'projects',
 
         template: 'ProjectList',
@@ -36,5 +38,5 @@ function ($, _, Backbone, app, ich, ProjectItemView)
         }
     });
 
-    return ProjectsCompositeView;
+    return ProjectExploreView;
 });

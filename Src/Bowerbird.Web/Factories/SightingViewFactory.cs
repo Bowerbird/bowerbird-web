@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using Bowerbird.Core.Config;
@@ -40,7 +41,7 @@ namespace Bowerbird.Web.Factories
 
         #region Methods
 
-        public object MakeNewObservation(string projectId = null)
+        public object MakeNewObservation(string category = "", string projectId = "")
         {
             return new
             {
@@ -49,7 +50,7 @@ namespace Bowerbird.Web.Factories
                 Address = string.Empty,
                 Latitude = string.Empty,
                 Longitude = string.Empty,
-                Category = string.Empty,
+                Category = category,
                 IsIdentificationRequired = false,
                 AnonymiseLocation = false,
                 Media = new ObservationMedia[] { },
@@ -57,64 +58,53 @@ namespace Bowerbird.Web.Factories
             };
         }
 
-        public object MakeNewRecord(string projectId = null)
+        public object MakeNewRecord(string category = "", string projectId = "")
         {
             return new
             {
                 ObservedOn = DateTime.UtcNow,
                 Latitude = string.Empty,
                 Longitude = string.Empty,
-                Category = string.Empty,
+                Category = category,
                 AnonymiseLocation = false,
                 ProjectIds = string.IsNullOrWhiteSpace(projectId) ? new string[] { } : new string[] { projectId }
             };
         }
 
-        public object Make(All_Contributions.Result result)
+        public dynamic Make(All_Contributions.Result result)
         {
             return Make(result.Contribution as Sighting, result.User, result.Projects);
         }
 
-        public object Make(Sighting sighting, User user, IEnumerable<Project> projects)
+        public dynamic Make(Sighting sighting, User user, IEnumerable<Project> projects)
         {
+            dynamic viewModel = new ExpandoObject();
+
+            viewModel.Id = sighting.Id;
+            viewModel.ObservedOn = sighting.ObservedOn;
+            viewModel.Latitude = sighting.Latitude;
+            viewModel.Longitude = sighting.Longitude;
+            viewModel.Category = sighting.Category;
+            viewModel.AnonymiseLocation = sighting.AnonymiseLocation;
+            viewModel.Projects = projects.Select(_groupViewFactory.Make);
+            viewModel.User = _userViewFactory.Make(user);
+            viewModel.Comments = sighting.Discussion.Comments;
+            viewModel.ObservedOnDescription = sighting.ObservedOn.ToString("d MMMM yyyy HH:mm") + sighting.ObservedOn.ToString("tt").ToLower();
+            viewModel.ShowProjects = projects.Any();
+
             if (sighting is Observation)
             {
                 var observation = sighting as Observation;
 
-                return new
-                {
-                    observation.Id,
-                    observation.Title,
-                    observation.ObservedOn,
-                    observation.Address,
-                    observation.Latitude,
-                    observation.Longitude,
-                    observation.Category,
-                    observation.IsIdentificationRequired,
-                    observation.AnonymiseLocation,
-                    observation.Media,
-                    observation.PrimaryMedia,
-                    Projects = projects.Select(_groupViewFactory.Make),
-                    User = _userViewFactory.Make(user),
-                    observation.Discussion.Comments
-                };
+                viewModel.Title = observation.Title;
+                viewModel.Address = observation.Address;
+                viewModel.IsIdentificationRequired = observation.IsIdentificationRequired;
+                viewModel.Media = observation.Media;
+                viewModel.PrimaryMedia = observation.PrimaryMedia;
+                viewModel.ShowThumbnails = observation.Media.Count() > 1;
             }
-            else
-            {
-                var record = sighting as Record;
-                return new
-                {
-                    record.Id,
-                    record.ObservedOn,
-                    record.Latitude,
-                    record.Longitude,
-                    record.Category,
-                    record.AnonymiseLocation,
-                    Projects = projects.Select(_groupViewFactory.Make),
-                    User = _userViewFactory.Make(user),
-                    record.Discussion.Comments
-                };
-            }
+
+            return viewModel;
         }
 
         #endregion  

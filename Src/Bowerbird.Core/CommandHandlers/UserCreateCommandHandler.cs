@@ -94,6 +94,13 @@ namespace Bowerbird.Core.CommandHandlers
                 userProject, 
                 _documentSession.Query<Role>().Where(x => x.Id == "roles/userprojectadministrator" || x.Id == "roles/userprojectmember"));
 
+            // Add calls to action
+            user
+                .AddCallToAction("welcome")
+                .AddCallToAction("first-project")
+                .AddCallToAction("first-observation")
+                .AddCallToAction("first-record");
+
             //// HACK: Registers user in small number of initial projects for now
             //// 7, 8, 3, 4
             //var projects = _documentSession.Load<Project>(new[] { "projects/4", "projects/7" });

@@ -15,6 +15,7 @@
 using System.Linq;
 using System.Web.Mvc;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Infrastructure;
 using Bowerbird.Web.Builders;
 using Bowerbird.Web.ViewModels;
@@ -26,6 +27,7 @@ using Bowerbird.Core.Config;
 using Raven.Client;
 using System.Collections;
 using System.Dynamic;
+using Raven.Client.Linq;
 
 namespace Bowerbird.Web.Controllers
 {
@@ -80,7 +82,7 @@ namespace Bowerbird.Web.Controllers
 
             var viewModel = new
                 {
-                    Observation = _sightingViewModelBuilder.BuildSighting(observationId)
+                    Observation = _sightingViewModelBuilder.BuildSighting(observationId),
                 };
 
             return RestfulResult(
@@ -91,27 +93,28 @@ namespace Bowerbird.Web.Controllers
 
         [HttpGet]
         [Authorize]
-        public ActionResult CreateForm(string id = null)
+        public ActionResult CreateForm(string category = "", string projectId = "")
         {
             if (!_userContext.HasUserProjectPermission(PermissionNames.CreateObservation))
             {
                 return HttpUnauthorized();
             }
 
-            if (!string.IsNullOrWhiteSpace(id))
+            if (!string.IsNullOrWhiteSpace(projectId))
             {
-                var project = _documentSession.Load<Project>(id);
+                var project = _documentSession.Load<Project>(projectId);
 
                 if (!_userContext.HasGroupPermission(PermissionNames.CreateObservation, project.Id))
                 {
-                    return HttpUnauthorized();
+                    return HttpUnauthorized(); // TODO: Probably should return a soft user error suggesting user joins project
                 }
             }
 
             dynamic viewModel = new ExpandoObject();
 
-            viewModel.Observation = _sightingViewModelBuilder.BuildNewObservation(id);
-            viewModel.CategorySelectList = GetCategorySelectList();
+            viewModel.Observation = _sightingViewModelBuilder.BuildNewObservation(category, projectId);
+            viewModel.CategorySelectList = GetCategorySelectList(null, category);
+            viewModel.ProjectsSelectList = GetProjectsSelectList(projectId);
             viewModel.Categories = GetCategories();
 
             return RestfulResult(
@@ -292,10 +295,8 @@ namespace Bowerbird.Web.Controllers
             return JsonSuccess();
         }
 
-        private IEnumerable GetCategorySelectList(string observationId = "")
+        private IEnumerable GetCategorySelectList(string observationId = "", string category = "")
         {
-            var category = string.Empty;
-
             if (!string.IsNullOrWhiteSpace(observationId))
             {
                 category = _documentSession.Load<Observation>(observationId).Category;
@@ -310,6 +311,22 @@ namespace Bowerbird.Web.Controllers
                        Value = x.Name,
                        Selected = x.Name == category
                    });
+        }
+
+        private IEnumerable GetProjectsSelectList(string projectId = "")
+        {
+            return _documentSession
+                .Query<All_Users.Result, All_Users>()
+                .AsProjection<All_Users.Result>()
+                .Where(x => x.UserId == _userContext.GetAuthenticatedUserId())
+                .Single()
+                .Projects
+                .Select(x => new
+                {
+                    Text = x.Name,
+                    Value = x.Id,
+                    Selected = x.Id == projectId
+                });
         }
 
         private IEnumerable GetCategories()

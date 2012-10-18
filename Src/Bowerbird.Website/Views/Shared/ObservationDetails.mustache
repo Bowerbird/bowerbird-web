@@ -1,40 +1,47 @@
-﻿<h2>{{Model.Observation.Title}}</h2>
-<div>
-  <div class="images">
-    <div class="preview">
-      {{#Model.Observation.PrimaryMedia.MediaResource}}
-        {{>MediaFull768}}
-      {{/Model.Observation.PrimaryMedia.MediaResource}}
-    </div>
-    {{#Model.ShowThumbnails}}
-    <div class="thumbnails">
-      {{#Model.Observation.Media}}
+﻿<h2><span class="small-icon observation-icon"></span>Observation</h2>
+<div class="form-details">
+  <div class="observation-details">
+    <h3>{{Model.Observation.Title}}</h3>
+    <div class="images">
+      <div class="preview">
+        {{#Model.Observation.PrimaryMedia.MediaResource}}
+        {{>MediaConstrained600}}
+        {{/Model.Observation.PrimaryMedia.MediaResource}}
+        {{#Model.Observation.PrimaryMedia.Description}}
+        <div class="media-details">
+          <div class="overlay"></div>
+          <p class="description">{{Model.Observation.PrimaryMedia.Description}}</p>
+        </div>
+        {{/Model.Observation.PrimaryMedia.Description}}
+      </div>
+      {{#Model.Observation.ShowThumbnails}}
+      <div class="thumbnails">
+        {{#Model.Observation.Media}}
           {{#MediaResource}}
-          {{>MediaFull480}}
+            {{>MediaSquare200}}
           {{/MediaResource}}
-      {{/Model.Observation.Media}}
+        {{/Model.Observation.Media}}
+      </div>
+      {{/Model.Observation.ShowThumbnails}}
     </div>
-    {{/Model.ShowThumbnails}}
-  </div>
   <div class="info">
     <div class="user">
       {{#Model.Observation.User.Avatar}}
       {{>MediaSquare100}}
       {{/Model.Observation.User.Avatar}}
-      <div>{{Model.Observation.User.Name}}</div>
+      <span>{{Model.Observation.User.Name}}</span>
     </div>
     <div class="observed">
       Observed
-      <span>{{Model.Observation.ObservedOnDate}}</span>
-      <span>{{Model.Observation.ObservedOnTime}} AEST</span>
+      <span>{{Model.Observation.ObservedOnDescription}}</span>
     </div>
     <div class="location">
       <div class="map">
-        <img src="http://maps.googleapis.com/maps/api/staticmap?zoom=8&size=400x200&scale=2&maptype=terrain&markers=color:blue|{{Model.Observation.Latitude}},{{Model.Observation.Longitude}}&sensor=false" alt="Map of location" />
       </div>
       <span>{{Model.Observation.Address}}</span>
-      <span>Latitude {{Model.Observation.Latitude}}</span>
-      <span>Longitude {{Model.Observation.Longitude}}</span>
+      <!--<span>Latitude {{Model.Observation.Latitude}}</span>
+      <span>Longitude {{Model.Observation.Longitude}}</span>-->
     </div>
+  </div>
   </div>
 </div>

@@ -12,15 +12,19 @@
  
 */
 
+using System.Linq;
 using System.Web.Mvc;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.Config;
+using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Infrastructure;
 using Bowerbird.Web.ViewModels;
 using Bowerbird.Web.Builders;
 using System;
 using System.Dynamic;
+using Raven.Client;
+using Raven.Client.Linq;
 
 namespace Bowerbird.Web.Controllers
 {
@@ -31,7 +35,9 @@ namespace Bowerbird.Web.Controllers
         private readonly IMessageBus _messageBus;
         private readonly IUserContext _userContext;
         private readonly IActivityViewModelBuilder _activityViewModelBuilder;
+        private readonly ISightingViewModelBuilder _sightingViewModelBuilder;
         private readonly IUserViewModelBuilder _userViewModelBuilder;
+        private readonly IDocumentSession _documentSession;
 
         #endregion
 
@@ -41,18 +47,24 @@ namespace Bowerbird.Web.Controllers
             IMessageBus messageBus,
             IUserContext userContext,
             IActivityViewModelBuilder activityViewModelBuilder,
-            IUserViewModelBuilder userViewModelBuilder
+            ISightingViewModelBuilder sightingViewModelBuilder,
+            IUserViewModelBuilder userViewModelBuilder,
+            IDocumentSession documentSession
             )
         {
             Check.RequireNotNull(messageBus, "messageBus");
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(activityViewModelBuilder, "activityViewModelBuilder");
+            Check.RequireNotNull(sightingViewModelBuilder, "sightingViewModelBuilder");
             Check.RequireNotNull(userViewModelBuilder, "userViewModelBuilder");
+            Check.RequireNotNull(documentSession, "documentSession");
 
             _messageBus = messageBus;
             _userContext = userContext;
             _activityViewModelBuilder = activityViewModelBuilder;
+            _sightingViewModelBuilder = sightingViewModelBuilder;
             _userViewModelBuilder = userViewModelBuilder;
+            _documentSession = documentSession;
         }
 
         #endregion
@@ -81,18 +93,78 @@ namespace Bowerbird.Web.Controllers
                 return RedirectToAction("PublicIndex");
             }
 
+            var user = _documentSession
+                .Query<All_Users.Result, All_Users>()
+                .AsProjection<All_Users.Result>()
+                .Where(x => x.UserId == _userContext.GetAuthenticatedUserId())
+                .Single();
+
             dynamic viewModel = new ExpandoObject();
             viewModel.User = _userViewModelBuilder.BuildUser(_userContext.GetAuthenticatedUserId());
+            viewModel.Activities = _activityViewModelBuilder.BuildHomeActivityList(_userContext.GetAuthenticatedUserId(), activityInput, pagingInput);
 
             return RestfulResult(
                 viewModel,
                 "home",
                 "privateindex",
-                null,
-                new Action<dynamic>(x => {
-                    x.Model.Activities = _activityViewModelBuilder.BuildHomeActivityList(_userContext.GetAuthenticatedUserId(), activityInput, pagingInput);
+                new Action<dynamic>(x =>
+                {
+                    x.Model.ShowWelcome = user.User.CallsToAction.Contains("welcome");
+                    x.Model.ShowActivities = true;
                 }));
         }
+
+        /// <summary>
+        /// Get a paged list of all the sightings in all projects a user is a member of
+        /// </summary>
+        [HttpGet]
+        [Authorize]
+        public ActionResult Sightings(PagingInput pagingInput)
+        {
+            var user = _documentSession
+                .Query<All_Users.Result, All_Users>()
+                .AsProjection<All_Users.Result>()
+                .Where(x => x.UserId == _userContext.GetAuthenticatedUserId())
+                .Single();
+
+            dynamic viewModel = new ExpandoObject();
+            viewModel.User = _userViewModelBuilder.BuildUser(_userContext.GetAuthenticatedUserId());
+            viewModel.Sightings = _sightingViewModelBuilder.BuildAllUserProjectsSightingList(_userContext.GetAuthenticatedUserId(), pagingInput);
+
+            return RestfulResult(
+                viewModel,
+                "home",
+                "privateindex",
+                new Action<dynamic>(x =>
+                {
+                    x.Model.ShowWelcome = user.User.CallsToAction.Contains("welcome");
+                    x.Model.ShowSightings = true;
+                }));
+        }
+
+        ///// <summary>
+        ///// Get a paged list of all the sightings in all a user's projects
+        ///// </summary>
+        //[HttpGet]
+        //[Authorize]
+        //public ActionResult Posts(PagingInput pagingInput)
+        //{
+        //    if (Request.IsAjaxRequest())
+        //    {
+        //        var viewModel = new
+        //        {
+        //            Sightings = _postViewModelBuilder.BuildAllUserGroupsPostList(_userContext.GetAuthenticatedUserId(), pagingInput)
+        //        };
+
+        //        return RestfulResult(
+        //            viewModel,
+        //            string.Empty,
+        //            string.Empty
+        //            );
+        //    }
+
+        //    return HttpNotFound();
+        //}
 
         #endregion
     }

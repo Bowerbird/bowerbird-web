@@ -8,8 +8,8 @@
 // RecordFormView
 // --------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/editmapview', 'datepicker', 'multiselect', 'jqueryui/dialog'],
-function ($, _, Backbone, app, ich, EditMapView) {
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/locationformview', 'datepicker', 'multiselect', 'jqueryui/dialog'],
+function ($, _, Backbone, app, ich, LocationFormView) {
 
     var RecordFormView = Backbone.Marionette.Layout.extend({
 
@@ -18,7 +18,7 @@ function ($, _, Backbone, app, ich, EditMapView) {
         template: 'RecordForm',
 
         regions: {
-            map: '#location-fieldset'
+            location: '#location-fieldset'
         },
 
         events: {
@@ -56,9 +56,9 @@ function ($, _, Backbone, app, ich, EditMapView) {
         },
 
         _showDetails: function () {
-            var editMapView = new EditMapView({ el: '#location-fieldset', model: this.model });
-            this.map.attachView(editMapView);
-            editMapView.render();
+            var locationFormView = new LocationFormView({ el: '#location-fieldset', model: this.model });
+            this.location.attachView(locationFormView);
+            locationFormView.render();
 
             this.observedOnDatePicker = this.$el.find('#ObservedOn').datepicker();
 
@@ -135,7 +135,7 @@ function ($, _, Backbone, app, ich, EditMapView) {
 
             // Only update pin if the location is different to avoid infinite loop
             if (newPosition.Latitude != null && newPosition.Longitude != null && (oldPosition.Latitude !== newPosition.Latitude || oldPosition.Longitude !== newPosition.Longitude)) {
-                this.editMapView.changeMarkerPosition(this.model.get('Latitude'), this.model.get('Longitude'));
+                this.locationFormView.changeMarkerPosition(this.model.get('Latitude'), this.model.get('Longitude'));
             }
         },
 

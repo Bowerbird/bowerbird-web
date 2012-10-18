@@ -67,11 +67,13 @@ namespace Bowerbird.Web.Builders
                 Description = string.Empty,
                 Website = string.Empty,
                 Avatar = _mediaResourceFactory.MakeDefaultAvatarImage(AvatarDefaultType.Project),
-                MemberCount = 1
+                MemberCount = 1,
+                ObservationCount = 0,
+                PostCount = 0
             };
         }
 
-        public object BuildProject(string projectId)
+        public dynamic BuildProject(string projectId)
         {
             Check.RequireNotNullOrWhitespace(projectId, "projectId");
 
