@@ -19,7 +19,7 @@ function ($, _, Backbone) {
             Longitude: null,
             Category: '',
             AnonymiseLocation: false,
-            Projects: [],
+            ProjectIds: [],
             Comments: []
         },
 
@@ -34,20 +34,20 @@ function ($, _, Backbone) {
                 Longitude: this.get('Longitude'),
                 Category: this.get('Category'),
                 AnonymiseLocation: this.get('AnonymiseLocation'),
-                Projects: this.get('Projects'),
+                ProjectIds: this.get('ProjectIds'),
                 Comments: this.get('Comments')
             };
         },
 
         addProject: function (id) {
-            var projects = this.get('Projects');
+            var projects = this.get('ProjectIds');
             projects.push(id);
-            this.set('Projects', projects);
+            this.set('ProjectIds', projects);
         },
 
         removeProject: function (id) {
-            var projects = this.get('Projects');
-            this.set('Projects', _.without(projects, id));
+            var projects = this.get('ProjectIds');
+            this.set('ProjectIds', _.without(projects, id));
         }
     });
 
