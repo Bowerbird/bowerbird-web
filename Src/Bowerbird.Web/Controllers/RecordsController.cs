@@ -201,7 +201,7 @@ namespace Bowerbird.Web.Controllers
                         Category = createInput.Category,
                         ObservedOn = createInput.ObservedOn,
                         UserId = _userContext.GetAuthenticatedUserId(),
-                        Projects = createInput.Projects
+                        Projects = createInput.ProjectIds
                     });
 
             return JsonSuccess();

@@ -45,7 +45,7 @@ namespace Bowerbird.Web.ViewModels
         [Required(ErrorMessage = "Please select an observation category")]
         public string Category { get; set; }
 
-        public List<string> Projects { get; set; }
+        public List<string> ProjectIds { get; set; }
 
         #endregion
 
