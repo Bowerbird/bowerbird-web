@@ -23,7 +23,7 @@ function ($, _, Backbone, app, Project, ProjectCollection, ProjectDetailsView, P
 
     var getModel = function (uri, action) {
         var deferred = new $.Deferred();
-        if (app.isPrerendering('projects')) {
+        if (app.isPrerenderingView('projects')) {
             deferred.resolve(app.prerenderedView.data);
         } else {
             $.ajax({
@@ -44,7 +44,7 @@ function ($, _, Backbone, app, Project, ProjectCollection, ProjectDetailsView, P
 
                 var options = { model: project, teams: model.Teams };
 
-                if (app.isPrerendering('projects')) {
+                if (app.isPrerenderingView('projects')) {
                     options['el'] = '.project-form';
                 }
 
@@ -64,7 +64,7 @@ function ($, _, Backbone, app, Project, ProjectCollection, ProjectDetailsView, P
 
                 var options = { model: project };
 
-                if (app.isPrerendering('projects')) {
+                if (app.isPrerenderingView('projects')) {
                     options['el'] = '.project';
                 }
 

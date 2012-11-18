@@ -152,6 +152,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config\NumericParamContstraint.cs" />
     <Compile Include="Config\RavenDocumentStoreListener.cs" />
     <Compile Include="Config\SignalrJsonNetSerializer.cs" />
     <Compile Include="Config\WebsiteBootstrapper.cs" />
@@ -159,7 +160,7 @@
     <Compile Include="Builders\AccountViewModelBuilder.cs" />
     <Compile Include="Builders\IAccountViewModelBuilder.cs" />
     <Compile Include="Builders\IBuilder.cs" />
-    <Compile Include="Builders\IObservationNotesViewModelBuilder.cs" />
+    <Compile Include="Builders\ISightingNoteViewModelBuilder.cs" />
     <Compile Include="Builders\ISightingViewModelBuilder.cs" />
     <Compile Include="Builders\IOrganisationViewModelBuilder.cs" />
     <Compile Include="Builders\IPostViewModelBuilder.cs" />
@@ -169,7 +170,7 @@
     <Compile Include="Builders\IActivityViewModelBuilder.cs" />
     <Compile Include="Builders\ITeamViewModelBuilder.cs" />
     <Compile Include="Builders\IUserViewModelBuilder.cs" />
-    <Compile Include="Builders\ObservationNotesViewModelBuilder.cs" />
+    <Compile Include="Builders\SightingNoteViewModelBuilder.cs" />
     <Compile Include="Builders\SightingViewModelBuilder.cs" />
     <Compile Include="Builders\OrganisationViewModelBuilder.cs" />
     <Compile Include="Builders\PostViewModelBuilder.cs" />
@@ -194,6 +195,8 @@
     <Compile Include="Controllers\ObservationsController.cs" />
     <Compile Include="Controllers\RecordsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Factories\ISightingNoteViewFactory.cs" />
+    <Compile Include="Factories\SightingNoteViewFactory.cs" />
     <Compile Include="Factories\ISightingViewFactory.cs" />
     <Compile Include="Factories\SightingViewFactory.cs" />
     <Compile Include="Services\AudioService.cs" />
@@ -211,7 +214,7 @@
     <Compile Include="ViewModels\MediaResourceCreateInput.cs" />
     <Compile Include="ViewModels\JsonNetResult.cs" />
     <Compile Include="Controllers\MediaResourcesController.cs" />
-    <Compile Include="Controllers\ObservationNotesController.cs" />
+    <Compile Include="Controllers\SightingNotesController.cs" />
     <Compile Include="Controllers\OrganisationsController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
@@ -223,7 +226,7 @@
     <Compile Include="EventHandlers\ActivityCommentAdded.cs" />
     <Compile Include="EventHandlers\ActivityGroupAdded.cs" />
     <Compile Include="EventHandlers\ActivitySightingAdded.cs" />
-    <Compile Include="EventHandlers\ActivityObservationNoteAdded.cs" />
+    <Compile Include="EventHandlers\ActivitySightingNoteAdded.cs" />
     <Compile Include="EventHandlers\ActivityPostAdded.cs" />
     <Compile Include="EventHandlers\ActivityUserJoinedGroup.cs" />
     <Compile Include="EventHandlers\MediaResourceUpdated.cs" />
@@ -254,7 +257,7 @@
     <Compile Include="ViewModels\GroupAssociationCreateInput.cs" />
     <Compile Include="ViewModels\GroupAssociationDeleteInput.cs" />
     <Compile Include="ViewModels\ObservationNoteUpdateInput.cs" />
-    <Compile Include="ViewModels\ObservationNoteCreateInput.cs" />
+    <Compile Include="ViewModels\SightingNoteCreateInput.cs" />
     <Compile Include="ViewModels\ReferenceSpeciesCreateInput.cs" />
     <Compile Include="ViewModels\ReferenceSpeciesUpdateInput.cs" />
     <Compile Include="ViewModels\SpeciesCreateInput.cs" />
@@ -293,7 +296,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="_classDiagrams\hubs.cd" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bowerbird.Core\Bowerbird.Core.csproj">

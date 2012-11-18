@@ -1,41 +1,42 @@
 ﻿<div>
-<div class="media">
-    {{#Model.MediaResource}}
-        {{>MediaConstrained480}}
-    {{/Model.MediaResource}}
-</div>
-<div class="options">
-    <div class="sub-menu-button">
-        <span class="arrow-icon right-arrow-icon"></span>
-        <ul>
-            <li>
-                <span class="view-menu-item">View</span>
-            </li>
-            <li class="divider"></li>
-            <li>
-                <span class="primary-menu-item">Show This Media First</span>
-            </li>
-            <li>
-                <span class="edit-menu-item">Edit Details</span>
-            </li>
-            <li>
-                <span class="remove-menu-item">Remove</span>
-            </li>
-        </ul>
+  <div class="media">
+    {{#MediaResource}}
+    {{>MediaConstrained480}}
+    {{/MediaResource}}
+  </div>
+  <div class="options">
+    <div class="sub-menu-button sub-menu">
+      <span class="arrow-icon right-arrow-icon"></span>
+      <ul>
+        <li>
+          <span class="view-menu-item">View</span>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <span class="primary-menu-item">Show This Media First</span>
+        </li>
+        <li>
+          <span class="edit-menu-item">Edit Details</span>
+        </li>
+        <li>
+          <span class="remove-menu-item">Remove</span>
+        </li>
+      </ul>
     </div>
     <div class="media-details">
-        <div class="overlay"></div>
-        {{#Model.Media.Description}}
-        <p class="description">{{Model.Media.Description}}</p>
-        {{/Model.Media.Description}}
-        <div class="licence-icons">
-            {{#Model.Media.LicenceIcons}}
-            <img src="{{.}}" alt="">
-            {{/Model.Media.LicenceIcons}}
+      <div class="overlay"></div>
+      {{#Description}}
+      <p class="description">{{Description}}</p>
+      {{/Description}}
+      <div class="licence-icons">
+        {{#LicenceIcons}}
+        <img src="{{.}}" alt="">
+            {{/LicenceIcons}}
         </div>
-        <span class="licence-name">{{Model.Media.LicenceName}}</span>
-        {{#Model.Media.IsPrimaryMedia}}
-        <p class="primary-media">&bull; Show This Media First</p>
-        {{/Model.Media.IsPrimaryMedia}}
+      <span class="licence-name">{{LicenceName}}</span>
+      {{#IsPrimaryMedia}}
+      <p class="primary-media">&bull; Show This Media First</p>
+      {{/IsPrimaryMedia}}
     </div>
+  </div>
 </div>

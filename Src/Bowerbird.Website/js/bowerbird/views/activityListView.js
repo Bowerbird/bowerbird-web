@@ -9,15 +9,13 @@
 // ----------------
 
 // Shows stream items for selected user/group
-define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/streamitemview', 'date'],
-function ($, _, Backbone, app, ich, StreamItemView) {
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/activityitemview', 'date', 'tipsy'],
+function ($, _, Backbone, app, ich, ActivityItemView) {
 
     var ActivityListView = Backbone.Marionette.CompositeView.extend({
-        template: 'Stream',
+        template: 'ActivityList',
 
-        itemView: StreamItemView,
-
-        className: 'stream',
+        itemView: ActivityItemView,
 
         events: {
             'click #stream-load-more-button': 'onLoadMoreClicked',
@@ -25,65 +23,96 @@ function ($, _, Backbone, app, ich, StreamItemView) {
         },
 
         initialize: function (options) {
-            _.bindAll(this, 'onNewStreamItemReceived', 'appendHtml');
+            _.bindAll(this, 'onNewStreamItemReceived', 'appendHtml', 'onLoadingStart');
 
             this.newItemsCount = 0;
             this.isHomeStream = options.isHomeStream && options.isHomeStream === true ? true : false;
 
-            this.collection.on('fetching', this.onStreamLoadingStart, this);
-            this.collection.on('fetched', this.onStreamLoadingComplete, this);
+            this.collection.on('fetching', this.onLoadingStart, this);
+            this.collection.on('fetched', this.onLoadingComplete, this);
 
             this.newStreamItemsCache = [];
 
-            app.vent.on('newactivity:observationadded newactivity:postadded newactivity:observationnoteadded', this.onNewStreamItemReceived);
+            app.vent.on('newactivity:sightingadded newactivity:postadded newactivity:sightingnoteadded', this.onNewStreamItemReceived);
         },
-        
-        onShow: function() {
-            this.$el = $('.details .stream');            
+
+        onShow: function () {
+            this.refresh();
+        },
+
+        onRender: function () {
+            this._showDetails();
+            this.refresh();
         },
 
         showBootstrappedDetails: function () {
-            
+            var els = this.$el.find('.activity-item');
+            _.each(this.collection.models, function (item, index) {
+                var childView = new ActivityItemView({ model: item });
+                childView.setElement($(els[index]));
+                childView.showBootstrappedDetails();
+                this.storeChild(childView);
+            }, this);
+            this._showDetails();
+        },
+
+        _showDetails: function () {
+            this.$el.find('.tabs li a, .tabs .tab-list-button').not('.list-view-button').tipsy({ gravity: 's' });
+            this.$el.find('.list-view-button').tipsy({ gravity: 'se' });
+
+            this.onLoadingComplete(this.collection);
+        },
+
+        refresh: function () {
+            _.each(this.children, function (childView) {
+                childView.refresh();
+            });
         },
 
         appendHtml: function (collectionView, itemView) {
             var items = this.collection.pluck('Id');
             var index = _.indexOf(items, itemView.model.id);
 
-            var $li = collectionView.$el.find('.stream-list > li:eq(' + (index) + ')');
+            var $li = collectionView.$el.find('.activity-items > li:eq(' + (index) + ')');
+
+            if (itemView.model.get('Type') == "sightingadded") {
+                itemView.$el.addClass('sightingadded-activity-item');
+            } else if (itemView.model.get('Type') == "sightingnoteadded") {
+                itemView.$el.addClass('sightingnoteadded-activity-item');
+            }
 
             if ($li.length === 0) {
-                collectionView.$el.find('.stream-list').append(itemView.el);
+                collectionView.$el.find('.activity-items').append(itemView.el);
             } else {
                 $li.before(itemView.el);
             }
 
-            itemView.start();
+            itemView.refresh();
         },
 
         onLoadMoreClicked: function () {
-            this.$el.find('.stream-load-more').remove();
+            this.$el.find('.stream-message, .stream-load-more').remove();
             this.collection.fetchNextPage();
         },
 
         onLoadNewClicked: function () {
-            this.$el.find('.stream-load-new').remove();
+            this.$el.find('.stream-message, .stream-load-new').remove();
             this.collection.add(this.newStreamItemsCache);
             this.newStreamItemsCache = [];
             this.newItemsCount = 0;
         },
 
-        onStreamLoadingStart: function (collection) {
-            this.$el.append(ich.StreamMessage({ ShowLoader: true }));
+        onLoadingStart: function (collection) {
+            this.$el.find('.activity-list').append(ich.StreamLoading());
         },
 
-        onStreamLoadingComplete: function (collection) {
+        onLoadingComplete: function (collection) {
             this.$el.find('.stream-message').remove();
             if (collection.length === 0) {
-                this.$el.append(ich.StreamMessage({ Text: 'No activity yet! Start now by adding an observation.', ShowLoader: false }));
+                this.$el.find('.activity-list').append(ich.StreamMessage());
             }
             if (collection.pageInfo().next) {
-                this.$el.append(ich.StreamLoadMore());
+                this.$el.find('.activity-list').append(ich.StreamLoadMore());
             }
         },
 
@@ -107,11 +136,19 @@ function ($, _, Backbone, app, ich, StreamItemView) {
             if (this.newItemsCount > 0) {
                 // Show load new items button
                 if (this.$el.find('.stream-load-new').length === 0) {
-                    this.$el.prepend(ich.StreamLoadNew());
+                    this.$el.find('.activity-list').prepend(ich.StreamLoadNew());
                 } else {
                     this.$el.find('#stream-load-new-button').val('Load ' + this.newItemsCount + ' New Items');
                 }
             }
+        },
+
+        showLoading: function () {
+            var that = this;
+            this.$el.find('.stream-message, .stream-load-new, .stream-load-more').fadeOut(100);
+            this.$el.find('.activity-items').fadeOut(100, function () {
+                that.onLoadingStart();
+            });
         }
     });
 

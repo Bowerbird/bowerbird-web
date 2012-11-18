@@ -99,10 +99,23 @@ namespace Bowerbird.Web.Controllers
                 return RedirectToAction("privateindex", "home");
             }
 
-            ViewBag.AccountLogin = _accountViewModelBuilder.MakeAccountLogin(returnUrl);
-            ViewBag.IsStaticLayout = true;
+            //ViewBag.AccountLogin = _accountViewModelBuilder.MakeAccountLogin(returnUrl);
+            //ViewBag.IsStaticLayout = true;
 
-            return View(Form.Login);
+            //return View(Form.Login);
+
+            dynamic viewModel = new ExpandoObject();
+            viewModel.AccountLogin = _accountViewModelBuilder.MakeAccountLogin(returnUrl);
+
+            return RestfulResult(
+                viewModel,
+                "account",
+                "login",
+                new Action<dynamic>(x =>
+                {
+                    //x.Model.ShowWelcome = user.User.CallsToAction.Contains("welcome");
+                    //x.Model.ShowActivities = true;
+                }));
         }
 
         [HttpPost]
@@ -230,7 +243,7 @@ namespace Bowerbird.Web.Controllers
 
                 var user = _documentSession
                     .Query<All_Users.Result, All_Users>()
-                    .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
+                    //.Customize(x => x..WaitForNonStaleResultsAsOfLastWrite())
                     .AsProjection<All_Users.Result>()
                     .Where(x => x.Email == accountRegisterInput.Email)
                     .First()

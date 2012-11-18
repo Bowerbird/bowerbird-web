@@ -27,7 +27,7 @@ function ($, _, Backbone, app, RecordFormView, Record) {
     //        var observationLayoutView = new ObservationLayoutView({ model: observation });
     //        app.showFormContentView(observationLayoutView, 'records');
 
-    //        if (app.isPrerendering('records')) {
+    //        if (app.isPrerenderingView('records')) {
     //            observationLayoutView.showBootstrappedDetails();
     //        }
 
@@ -43,7 +43,7 @@ function ($, _, Backbone, app, RecordFormView, Record) {
             url = id;
         }
         var deferred = new $.Deferred();
-        if (app.isPrerendering('records')) {
+        if (app.isPrerenderingView('records')) {
             deferred.resolve(app.prerenderedView.data);
         } else {
             $.ajax({
@@ -82,7 +82,7 @@ function ($, _, Backbone, app, RecordFormView, Record) {
                 var recordFormView = new RecordFormView({ model: record, categories: model.Categories });
                 app.showFormContentView(recordFormView, 'records');
 
-                if (app.isPrerendering('records')) {
+                if (app.isPrerenderingView('records')) {
                     recordFormView.showBootstrappedDetails();
                 }
 

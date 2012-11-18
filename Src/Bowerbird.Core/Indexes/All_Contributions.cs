@@ -46,7 +46,7 @@ namespace Bowerbird.Core.Indexes
                 {
                     if (Contribution is Sighting)
                     {
-                        return ((Sighting) Contribution).Notes.Single(x => x.Id == ContributionSubId);
+                        return ((Sighting) Contribution).Notes.Single(x => x.Id.ToString() == ContributionSubId);
                     }
                     return null;
                 }
@@ -173,6 +173,7 @@ namespace Bowerbird.Core.Indexes
                 {
                     result.ContributionId,
                     result.ContributionType,
+                    result.ContributionSubId,
                     result.UserId,
                     result.CreatedDateTime,
                     GroupIds = result.GroupIds ?? new string[] {},

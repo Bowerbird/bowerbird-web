@@ -28,18 +28,18 @@ function ($, _, Backbone, app, Observation, ObservationDetailsView, ObservationF
 
                 var options = { model: observation, categorySelectList: model.CategorySelectList, categories: model.Categories, projectsSelectList: model.ProjectsSelectList };
 
-                if (app.isPrerendering('observations')) {
+                if (app.isPrerenderingView('observations')) {
                     options['el'] = '.observation-form';
                 }
 
                 var observationFormView = new ObservationFormView(options);
-                app.showContentView('Edit Observation', observationFormView, 'observations');
+                app.showContentView('Edit Sighting', observationFormView, 'observations');
             });
     };
 
     var getModel = function (uri, action) {
         var deferred = new $.Deferred();
-        if (app.isPrerendering('observations')) {
+        if (app.isPrerenderingView('observations')) {
             deferred.resolve(app.prerenderedView.data);
         } else {
             $.ajax({
@@ -62,7 +62,7 @@ function ($, _, Backbone, app, Observation, ObservationDetailsView, ObservationF
                 
                 var options = { model: observation };
 
-                if (app.isPrerendering('observations')) {
+                if (app.isPrerenderingView('observations')) {
                     options['el'] = '.observation';
                 }
 
@@ -85,7 +85,7 @@ function ($, _, Backbone, app, Observation, ObservationDetailsView, ObservationF
             uri += '?' + uriParts.join('&');
         }
 
-        showObservationForm(uri);
+        showObservationForm(uri, 'PUT');
     };
 
     ObservationController.showObservationUpdateForm = function (id) {

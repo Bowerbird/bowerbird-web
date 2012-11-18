@@ -12,6 +12,7 @@
  
 */
 
+using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using System.Collections.Generic;
 using System;
@@ -49,7 +50,8 @@ namespace Bowerbird.Core.DomainModels
             bool anonymiseLocation,
             string category,
             UserProject userProject,
-            IEnumerable<Project> projects
+            IEnumerable<Project> projects,
+            IEnumerable<Tuple<MediaResource, string, string, bool>> media
             ) 
             : base(
             createdByUser,
@@ -68,7 +70,8 @@ namespace Bowerbird.Core.DomainModels
             SetObservationDetails(
                 title,
                 address,
-                isIdentificationRequired);
+                isIdentificationRequired,
+                media);
 
             ApplyEvent(new SightingCreatedEvent(this, createdByUser, this, projects));
         }
@@ -106,14 +109,24 @@ namespace Bowerbird.Core.DomainModels
         private void SetObservationDetails(
             string title,
             string address,
-            bool isIdentificationRequired)
+            bool isIdentificationRequired,
+            IEnumerable<Tuple<MediaResource, string, string, bool>> media)
         {
             Title = title;
             Address = address;
             IsIdentificationRequired = isIdentificationRequired;
+
+            _observationMedia.Clear();
+
+            foreach (var mediaItem in media)
+            {
+                _observationMedia.Add(new ObservationMedia(mediaItem.Item1, mediaItem.Item2, mediaItem.Item3, mediaItem.Item4));
+            }
         }
 
-        public Observation UpdateDetails(User updatedByUser,
+        public Observation UpdateDetails(
+            User updatedByUser,
+            DateTime updatedOn,
             string title,
             DateTime observedOn,
             string latitude,
@@ -121,39 +134,29 @@ namespace Bowerbird.Core.DomainModels
             string address,
             bool isIdentificationRequired,
             bool anonymiseLocation,
-            string category)
+            string category,
+            IEnumerable<Project> projects,
+            IEnumerable<Tuple<MediaResource, string, string, bool>> media)
         {
             Check.RequireNotNull(updatedByUser, "updatedByUser");
 
             SetSightingDetails(
+                updatedByUser,
+                updatedOn,
                 observedOn,
                 latitude,
                 longitude,
                 anonymiseLocation,
-                category);
+                category,
+                projects);
 
             SetObservationDetails(
                 title,
                 address,
-                isIdentificationRequired);
+                isIdentificationRequired, 
+                media);
 
             ApplyEvent(new DomainModelUpdatedEvent<Observation>(this, updatedByUser, this));
-
-            return this;
-        }
-
-        public Observation AddMedia(MediaResource mediaResource, string description, string licence, bool isPrimaryMedia)
-        {
-            Check.RequireNotNull(mediaResource, "mediaResource");
-
-            _observationMedia.Add(new ObservationMedia(mediaResource, description, licence, isPrimaryMedia));
-
-            return this;
-        }
-
-        public Observation RemoveMedia(string mediaResourceId)
-        {
-            _observationMedia.RemoveAll(x => x.MediaResource.Id == mediaResourceId);
 
             return this;
         }

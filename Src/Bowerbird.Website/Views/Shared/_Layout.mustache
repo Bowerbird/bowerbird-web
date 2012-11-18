@@ -16,100 +16,9 @@
   </head>
   <body class="debug">
     <div id="debug-info"></div>
-    <header class="{{#Model.HomeHeader}}home{{/Model.HomeHeader}}{{^Model.HomeHeader}}default{{/Model.HomeHeader}}-header">
-      <div>
-
- 
-        {{#Model.HomeHeader}}
-        <div class="banner">
-          <div class="slogan">
-            <h1>
-              <img src="/img/logo2.svg" alt="" />
-            </h1>
-            <p>
-              A place to share and discuss Australia’s biodiversity.
-            </p>
-            <a href="/account/register" class="button">Join BowerBird</a>
-          </div>
-          <div class="feature-image">
-            <img src="/media/0/39-Original.jpg" alt="" />
-          </div>
-        </div>
-        {{/Model.HomeHeader}}
-        {{^Model.HomeHeader}}
-        <h1>
-          <a href="/">
-            <img src="/img/logo2.svg" alt="" />
-          </a>
-        </h1>
-        {{/Model.HomeHeader}}
-        <h2 class="hidden">Your Account</h2>
-        <nav id="account-menu">
-          <ul>
-            {{#AuthenticatedUser}}
-            <li class="user-menu-item">
-              <span class="small-icon user-icon"></span>
-              <span class="user-name">{{AuthenticatedUser.User.Name}}</span>
-
-              <div class="sub-menu-button">
-                <span class="arrow-icon down-arrow-icon"></span>
-                <ul>
-                  <li>
-                    <a href="/{{AuthenticatedUser.User.Id}}">View Your Public Profile</a>
-                  </li>
-                  <li class="divider"></li>
-                  <li>
-                    <a href="/account/preferences">Edit Preferences</a>
-                  </li>
-                  <li>
-                    <a href="/account/update">Edit Account Details</a>
-                  </li>
-                  <li class="divider"></li>
-                  <li>
-                    <a href="/account/logout">Logout</a>
-                  </li>
-                </ul>
-              </div>
-            </li>
-            {{/AuthenticatedUser}}
-            {{^AuthenticatedUser}}
-            <li>
-              <a href="/account/login">Login</a>
-            </li>
-            <li>
-              <a href="/account/register">Join</a>
-            </li>
-            {{/AuthenticatedUser}}
-          </ul>
-        </nav>
-
-        <h2 class="hidden">Explore</h2>
-        <nav id="explore-menu">
-          <ul>
-            <li>
-              <a href="/sightings">Sightings</a>
-            </li>
-            <li>
-              <a href="/projects">Projects</a>
-            </li>
-            <li>
-              <a href="/teams">Teams</a>
-            </li>
-            <li>
-              <a href="/organisations">Organisations</a>
-            </li>
-          </ul>
-        </nav>
-
-        <nav id="search-menu">
-          <label for="search">Search</label>
-          <input type="text" value="" name="search" id="search" placeholder="Search" />
-        </nav>
-
-
-
-      </div>
-    </header>
+    <div id="header">
+      {{>Header}}
+    </div>
     <article>
       {{>Body}}
     </article>
@@ -128,7 +37,7 @@
       define('bootstrap-data', function() {
       return {{{BootstrappedJson}}};
       });
-      // Ideally we wouldn't need the lione below as this would be loaded via data-main attribute, but Opera has a bug: https://github.com/jrburke/requirejs/issues/357
+      // Ideally we wouldn't need the line below as this would be loaded via data-main attribute, but Opera has a bug: https://github.com/jrburke/requirejs/issues/357
       require(['/js/{{JavascriptSource}}']);
     </script>
     <!--{{#RavenProfiler}}{{{RavenProfiler}}}{{/RavenProfiler}}-->

@@ -1,0 +1,122 @@
+﻿
+
+      <div class="field-row">
+
+        <div class="add-identification-pane">
+          <p>Identify the sighting by searching for the species, or entering the details.</p>
+          <input type="button" id="add-identification-button" value="Identify the Sighting" />
+        </div>
+
+        <div id="selected-identification-field" class="field">
+          <div>
+            <label>Identification</label>
+          </div>
+          <div>
+            <div id="Identification">
+              {{#Model.Identification}}
+              {{>Identification}}
+              {{/Model.Identification}}
+            </div>
+          </div>
+        </div>
+
+
+
+      </div>
+
+      <div class="description-fields">
+        
+        
+      </div>
+      
+      <div class="field-row">
+
+        <div class="add-identification-pane">
+          <p>Describe the sighting by adding a detailed description.</p>
+        </div>
+        
+        
+        <div id="description-type-field" class="field">
+          <div>
+           
+            <div class="button list-button add-description-type-button sub-menu" tabindex="0">
+              <span class="list-button-label">Add a Description</span>
+              <span class="list-button-arrow down-arrow-icon-blue"></span>
+              <ul>
+                <li data-descriptiongroupid="lookslike" class="list-button-sub-heading">
+                  What does it look like
+                </li>
+                <li>
+                  <a href="#" data-descriptionid="physicaldescription" title="The physical characteristics of the species in the sighting">Physical Description</a>
+                </li>
+                <li>
+                  <a href="#" data-descriptionid="similarspecies" title="How the species sighting is similar to other species">Similar Species</a>
+                </li>
+                <li data-descriptiongroupid="wherefound" class="list-button-sub-heading">
+                  Where does it live
+                </li>
+                <li>
+                  <a href="#" data-descriptionid="distribution" title="The geographic distribution of the species in the sighting">Distribution</a>
+                </li>
+                <li>
+                  <a href="#" data-descriptionid="habitat" title="The habitat of the species in the sighting">Habitat</a>
+                </li>
+                <li>
+                  <a href="#" data-descriptionid="seasonalvariation" title="Any seasonal variation of the species in the sighting">Seasonal Variation</a>
+                </li>
+                <li>
+                  <a href="#" data-descriptionid="conservationstatus" title="The conservation status of the species in the sighting">Conservation Status</a>
+                </li>
+                <li data-descriptiongroupid="whatitdoes" class="list-button-sub-heading">
+                  What does it do
+                </li>
+                <li>
+                  <a href="#" data-descriptionid="behaviour" title="Any behaviour of a species in the sighting">Behaviour</a>
+                </li>
+                <li>
+                  <a href="#" data-descriptionid="food" title="The feeding chracteristics of the species in the sighting">Food</a>
+                </li>
+                <li>
+                  <a href="#" data-descriptionid="lifecycle" title="The life cycle stage or breeding charatcertic of the species in the sighting">Life Cycle</a>
+                </li>
+                <li data-descriptiongroupid="cultural" class="list-button-sub-heading">
+                  Cultural significance
+                </li>
+                <li>
+                  <a href="#" data-descriptionid="indigenouscommonnames" title="Any indigenous common names associated with the sighting">Indigenous Common Names</a>
+                </li>
+                <li>
+                  <a href="#" data-descriptionid="indigenoususage" title="Any special usage in indigenous cultures of the species in the sighting">Usage in Indigenous Culture</a>
+                </li>
+                <li>
+                  <a href="#" data-descriptionid="traditionalstories" title="Any traditional stories associated with the species in the sighting">Traditional Stories</a>
+                </li>
+                <li data-descriptiongroupid="other" class="list-button-sub-heading">
+                  Other
+                </li>
+                <li>
+                  <a href="#" data-descriptionid="general" title="Any general details">General Details</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      
+      <div class="field-row">
+
+        <div class="tags-add-pane">
+        <p>Add tags to the sighting so that it is easier to find in searches.</p>
+        </div>
+        
+        <div id="tags-field" class="field">
+          <div>
+            <label for="Tags">Tags</label>
+          </div>
+          <div>
+            <input type="text" id="Tags" name="tags" />
+          </div>
+        </div>
+      </div>

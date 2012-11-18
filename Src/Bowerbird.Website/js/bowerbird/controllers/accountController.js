@@ -8,8 +8,8 @@
 // AccountController & AccountRouter
 // ---------------------------------
 
-define(['jquery', 'underscore', 'backbone', 'app'],
-function ($, _, Backbone, app) {
+define(['jquery', 'underscore', 'backbone', 'app', 'views/accountloginview', 'views/accountregisterview'],
+function ($, _, Backbone, app, AccountLoginView, AccountRegisterView) {
 
     var AccountRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
@@ -22,7 +22,7 @@ function ($, _, Backbone, app) {
 
     var getModel = function (uri, action, data) {
         var deferred = new $.Deferred();
-        if (app.isPrerendering('account')) {
+        if (app.isPrerenderingView('account')) {
             deferred.resolve(app.prerenderedView.data);
         } else {
             $.ajax({
@@ -40,9 +40,32 @@ function ($, _, Backbone, app) {
     // ----------
 
     AccountController.showLogin = function () {
+        if (app.authenticatedUser) {
+            window.location.replace('/');
+            return;
+        }
+        var options = {};
+        if (app.isPrerenderingView('account')) {
+            options['el'] = '.login';
+        }
+        var accountLoginView = new AccountLoginView(options);
+
+        app.showContentView('Login', accountLoginView, 'account');
     };
 
     AccountController.showRegister = function () {
+        if (app.authenticatedUser) {
+            window.location.replace('/');
+            return;
+        }
+        
+        var options = {};
+        if (app.isPrerenderingView('account')) {
+            options['el'] = '.register';
+        }
+        var accountRegisterView = new AccountRegisterView(options);
+
+        app.showContentView('Join', accountRegisterView, 'account');
     };
 
     // Event Handlers

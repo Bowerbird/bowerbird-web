@@ -29,6 +29,10 @@
         jplayer: '../libs/jquery.jplayer/jquery.jplayer',
         circleplayer: '../libs/jquery.jplayer/circle.player',
         progress: '../libs/jquery.animateprogress/jquery.animate-progress',
+        carousel: '../libs/jquery.carousel/jquery.carousel',
+        touchswipe: '../libs/jquery.carousel/jquery.touchswipe',
+        tipsy: '../libs/jquery.tipsy/jquery.tipsy',
+        tagging: '../libs/jquery.tag-it/jquery.tag-it',
         moment: '../libs/moment/moment',
         'bootstrap-data': 'empty:',
         '/templates': 'empty:'
@@ -64,6 +68,7 @@
         'controllers/teamcontroller',
         'controllers/accountcontroller',
         'controllers/chatcontroller',
+        'controllers/sightingnotecontroller',
         'views/headerview',
         'views/footerview',
         'views/sidebarview',

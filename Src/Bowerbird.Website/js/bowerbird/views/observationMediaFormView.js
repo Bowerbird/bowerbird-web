@@ -40,10 +40,13 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemFormView, Vide
 
             app.vent.on('mediaresourceuploadsuccess', this._onMediaResourceUploadSuccess, this);
             app.vent.on('mediaresourceuploadfailure', this._onMediaResourceUploadFailure, this);
+
+            this.isRendering = true;
         },
 
         onRender: function () {
             this.$el.find('#file').fileupload({
+                type: 'POST',
                 dataType: 'json',
                 paramName: 'File',
                 url: '/mediaresources',
@@ -52,27 +55,71 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemFormView, Vide
                 done: this._onFileUploadDone, // on successful upload
                 fail: this._onFileUploadFail // on errored upload
             });
+
+            this.isRendering = false;
         },
 
         appendHtml: function (collectionView, itemView) {
             itemView.on('removemedia', this._onMediaRemove, this);
             itemView.on('newprimarymedia', this._onNewPrimaryMedia, this);
 
-            var that = this;
-            this.$el.find('.observation-media-items')
-                .queue(function (next) {
-                    var $mediaItems = that.$el.find('.observation-media-items');
+            if (this.isRendering) {
+                var elem = this.$el.find('[class*="observation-media-item-' + itemView.model.get('MediaResourceId') + '"]');
+                itemView.setElement(elem);
+            }
+            else 
+            {
+                var that = this;
+                this.$el.find('.observation-media-items')
+                    .queue(function (next) {
+                        var $mediaItems = that.$el.find('.observation-media-items');
 
-                    // Add the new view
-                    $mediaItems.append(itemView.el);
+                        // Add the new view
+                        $mediaItems.append(itemView.el);
 
-                    if ($mediaItems.innerWidth() + $mediaItems.scrollLeft() === $mediaItems.get(0).scrollWidth) {
-                        // Don't do any scrolling, just move to next step
-                        next();
-                    }
-                    else {
-                        var scrollAmount = ($mediaItems.get(0).scrollWidth - ($mediaItems.innerWidth() + $mediaItems.scrollLeft())) + $mediaItems.scrollLeft() + 500;
-                        // Make space for the new item
+                        if ($mediaItems.innerWidth() + $mediaItems.scrollLeft() === $mediaItems.get(0).scrollWidth) {
+                            // Don't do any scrolling, just move to next step
+                            next();
+                        } else {
+                            var scrollAmount = ($mediaItems.get(0).scrollWidth - ($mediaItems.innerWidth() + $mediaItems.scrollLeft())) + $mediaItems.scrollLeft() + 500;
+                            // Make space for the new item
+                            $mediaItems.animate(
+                                { scrollLeft: scrollAmount },
+                                {
+                                    duration: 100,
+                                    //easing: 'swing',
+                                    queue: false,
+                                    complete: next
+                                });
+
+                        }
+                    })
+                    .queue(function (next) {
+                        // Slide the view down from the top of the div
+                        $(itemView.el)
+                            .animate(
+                                { top: '+=250' },
+                                {
+                                    duration: 800,
+                                    //easing: 'swing',
+                                    queue: false,
+                                    complete: next
+                                });
+                    })
+                    .queue(function (next) {
+                        // Remove absolute positioning
+                        $(itemView.el).css({ position: 'relative', top: '' });
+
+                        var upload = that.mediaUploads.get(itemView.model.mediaResource.get('Key'));
+
+                        upload.set('progressStatus', 'complete');
+
+                        var $mediaItems = that.$el.find('.observation-media-items');
+                        var scrollAmount = ($mediaItems.get(0).scrollWidth - ($mediaItems.innerWidth() + $mediaItems.scrollLeft())) + $mediaItems.scrollLeft();
+
+                        itemView.start();
+
+                        // Scroll the new item into view
                         $mediaItems.animate(
                             { scrollLeft: scrollAmount },
                             {
@@ -81,43 +128,8 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemFormView, Vide
                                 queue: false,
                                 complete: next
                             });
-
-                    }
-                })
-                .queue(function (next) {
-                    // Slide the view down from the top of the div
-                    $(itemView.el)
-                        .animate(
-                        { top: '+=250' },
-                        {
-                            duration: 800,
-                            //easing: 'swing',
-                            queue: false,
-                            complete: next
-                        });
-                })
-                .queue(function (next) {
-                    // Remove absolute positioning
-                    $(itemView.el).css({ position: 'relative', top: '' });
-
-                    var upload = that.mediaUploads.get(itemView.model.mediaResource.get('Key'));
-                    upload.set('progressStatus', 'complete');
-
-                    var $mediaItems = that.$el.find('.observation-media-items');
-                    var scrollAmount = ($mediaItems.get(0).scrollWidth - ($mediaItems.innerWidth() + $mediaItems.scrollLeft())) + $mediaItems.scrollLeft();
-
-                    itemView.start();
-
-                    // Scroll the new item into view
-                    $mediaItems.animate(
-                            { scrollLeft: scrollAmount },
-                            {
-                                duration: 100,
-                                //easing: 'swing',
-                                queue: false,
-                                complete: next
-                            });
-                });
+                    });
+            }
         },
 
         _onMediaRemove: function (mediaItemView) {

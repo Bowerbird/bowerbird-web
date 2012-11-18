@@ -1,10 +1,10 @@
 ﻿<h2>
-  <span class="small-icon observation-icon"></span>Observation
+  <span class="small-icon observation-icon"></span>Sighting
 </h2>
 <div class="form-details">
   <form action="/observations" method="post"  enctype="multipart/form-data">
     <fieldset>
-      <legend class="hidden">Observation Details</legend>
+      <legend class="hidden">Sighting Details</legend>
 
       <div class="field-row">
 
@@ -16,7 +16,14 @@
           <div class="media-view-pane">
 
             <div class="observation-media-items">
+              {{^Model.Observation.Media}}
               <div class="observation-media-items-label">Add Images, Videos and Audio</div>
+              {{/Model.Observation.Media}}
+              {{#Model.Observation.Media}}
+              <div class="observation-media-item-{{MediaResource.Id}} observation-media-item">
+                {{>ObservationMediaItem}}
+              </div>
+              {{/Model.Observation.Media}}
               <!--<div class="media-resource-dropzone">
                       <p>Drop files here<p>
                   </div>-->
@@ -66,7 +73,7 @@
             </label>
           </div>
           <div>
-            <input type="text" id="Title" name="title" value="{{Model.Observation.Title}}" />
+            <input type="text" id="Title" name="title" value="{{Model.Observation.Title}}" title="Enter a brief title that describes your sighting" />
           </div>
         </div>
 
@@ -76,11 +83,11 @@
         <div id="category-field" class="field">
           <div>
             <label for="Category">
-              Identification <span>Required</span>
+              Category <span>Required</span>
             </label>
           </div>
           <div>
-            <select id="Category" name="category">
+            <select id="Category" name="category" title="Select a category or identify the sighting">
               <option></option>
               {{#Model.CategorySelectList}}
               <option value="{{Value}}" {{#Selected}}selected=""{{/Selected}}>{{Text}}</option>
@@ -90,7 +97,6 @@
         </div>
 
       </div>
-
 
       <div class="field-row">
 
@@ -104,7 +110,7 @@
               <label for="Address">Locality/Address</label>
             </div>
             <div>
-              <input type="text" id="Address" name="address" autocomplete="off" value="{{Model.Observation.Address}}" />
+              <input type="text" id="Address" name="address" autocomplete="off" value="{{Model.Observation.Address}}" title="Enter an address or a descriptive location of where the sighting was made" />
 
 
 
@@ -220,7 +226,7 @@
             <label for="Projects">Projects</label>
           </div>
           <div>
-            <select id="Projects" name="projects">
+            <select id="Projects" name="projects" title="Select the projects to add this sighting to" multiple="multiple">
               <option></option>
               {{#Model.ProjectsSelectList}}
               <option value="{{Value}}" {{#Selected}}selected=""{{/Selected}}>{{Text}}</option>
@@ -232,14 +238,31 @@
 
       </div>
 
-
-
-
-
-
-
-
     </fieldset>
+    
+    {{#Model.Create}}
+    
+    <fieldset class="sighting-note-fieldset">
+        <legend class="hidden">Sighting Note Details</legend>
+      
+      <div class="field-row">
+
+        <div class="add-sighting-note-pane">
+          <p>Is there something more you'd like to add? Add a Sighting Note to identify the species, add detailed descriptions or tags.</p>
+        </div>
+
+        <div id="add-sighting-note-field" class="field">
+          <div>
+            <input type="button" value="Add Sighting Note" id="add-sighting-note-button" />
+          </div>
+        </div>
+
+      </div>
+      
+    </fieldset>
+
+    {{/Model.Create}}
+
     <fieldset>
       <input type="button" value="Save" id="save" />
       <input type="button" value="Cancel" id="cancel" />

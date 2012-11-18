@@ -73,7 +73,7 @@ namespace Bowerbird.Web.Validators
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            string email = string.IsNullOrEmpty(value as string) ? string.Empty : value as string;
+            string email = string.IsNullOrEmpty(value as string) ? string.Empty : ((string)value).ToLower();
 
             if (IgnoreAuthenticatedUserEmail)
             {

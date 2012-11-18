@@ -8,34 +8,13 @@
 // IdentificationFormView
 // ----------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'jsonp'],
-function ($, _, Backbone, app, ich) {
-
-    var Identification = Backbone.Model.extend({
-        defaults: {
-            HasCategory: false,
-            Taxonomy: ''
-        },
-
-        initialize: function (attributes) {
-            if (attributes && attributes.Name) {
-                var allCommonNames = _.union(attributes.CommonGroupNames, attributes.CommonNames);
-
-                this.set('HasCategory', attributes.Category != null);
-                this.set('Category', attributes.Category != null ? attributes.Category : '' != null);
-                this.set('Name', attributes.Name);
-                this.set('RankType', attributes.RankType);
-                this.set('Taxonomy', attributes.Taxonomy);
-                this.set('HasCommonNames', allCommonNames.length > 0);
-                this.set('CommonNames', allCommonNames.join(', '));
-            }
-        }
-    });
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'models/identification', 'jsonp'],
+function ($, _, Backbone, app, ich, Identification) {
 
     var IdentificationFormView = Backbone.Marionette.ItemView.extend({
         id: 'identification-form',
 
-        template: 'IdentificationForm',
+        template: 'IdentificationWindow',
 
         events: {
             'click .cancel-button': '_cancel',
@@ -45,11 +24,11 @@ function ($, _, Backbone, app, ich) {
         },
 
         serializeData: function () {
-            log(this.identification);
+            //log(this.identification);
             return {
                 Model: {
                     CategorySelectList: this.categorySelectList,
-                    Identification: this.identification.toJSON()
+                    Identification: this.model.toJSON()
                 }
             };
         },
@@ -57,7 +36,7 @@ function ($, _, Backbone, app, ich) {
         initialize: function (options) {
             this.categories = options.categories;
             this.categorySelectList = options.categorySelectList;
-            this.identification = new Identification(options.identification);
+            //this.identification = new Identification(options.identification);
         },
 
         searchField: '',
@@ -68,9 +47,9 @@ function ($, _, Backbone, app, ich) {
             var that = this;
 
             $.ajax({
-                url: '/species?query=' + this.identification.get('Taxonomy') + '&field=allranks&pagesize=50'
+                url: '/species?query=' + this.model.get('Taxonomy') + '&field=allranks&pagesize=50'
             }).done(function (data) {
-                var rankNames = that.identification.get('Taxonomy').split(':');
+                var rankNames = that.model.get('Taxonomy').split(':');
 
                 for (var rank = 0; rank < data.Model.Species.length; rank++) {
                     var $list = $('<ul></ul>');
@@ -95,8 +74,7 @@ function ($, _, Backbone, app, ich) {
                 }
             });
 
-
-            this._displaySelectedId(this.identification.get('HasCategory'), this.identification.get('Taxonomy'));
+            this._displaySelectedId(this.model.get('HasIdentification'), this.model.get('Taxonomy'));
 
             this.searchCategories = this.$el.find('#SearchCategories').multiSelect({
                 selectAll: false,
@@ -172,7 +150,7 @@ function ($, _, Backbone, app, ich) {
                 },
                 select: function (event, ui) {
                     that.$el.find('#SearchIdentification').val(ui.item.taxon.Name);
-                    that._displaySelectedId(true, ui.item.taxon.Taxonomy);
+                    that._loadAndDisplaySelectedId(true, ui.item.taxon.Taxonomy);
                     return false;
                 }
             }).data('autocomplete')._renderItem = function (ul, item) {
@@ -235,7 +213,7 @@ function ($, _, Backbone, app, ich) {
             this.$el.find('#TaxonomicRank' + rankPosition + ' .progress-indicator').show();
 
             // Set selected identification, if it contains a category
-            this._displaySelectedId(rank.Category != null, rank.Taxonomy);
+            this._loadAndDisplaySelectedId(rank.Category != null, rank.Taxonomy);
 
             this.$el.find('#TaxonomicRank' + parseInt(rank.RankPosition, 10) + ' li').removeClass('selected');
             $(e.target).addClass('selected');
@@ -247,7 +225,7 @@ function ($, _, Backbone, app, ich) {
             return false;
         },
 
-        _displaySelectedId: function (isValidId, taxonomy) {
+        _loadAndDisplaySelectedId: function (isValidId, taxonomy) {
             if (isValidId) {
                 var that = this;
                 $.ajax({
@@ -255,29 +233,23 @@ function ($, _, Backbone, app, ich) {
                 }).done(function (data) {
                     log('requesting selected taxon', data);
 
-                    that.identification = new Identification(data.Model.Species.PagedListItems[0]);
+                    that.model = new Identification(data.Model.Species.PagedListItems[0]);
 
-                    var model = {
-                        Model: {
-                            Identification: that.identification.toJSON()
-                        }
-                    };
-
-                    that.$el.find('#Identification').empty().html(ich.Identification(model));
-
-                    that.$el.find('.done-button').removeAttr('disabled');
+                    that._displaySelectedId(isValidId);
                 });
             } else {
-                this.identification = new Identification();
+                this.model = new Identification();
 
-                var model = {
-                    Model: {
-                        Identification: this.identification.toJSON()
-                    }
-                };
+                this._displaySelectedId(isValidId);
+            }
+        },
 
-                this.$el.find('#Identification').empty().html(ich.Identification(model));
+        _displaySelectedId: function (isValidId) {
+            this.$el.find('#Identification').empty().html(ich.Identification(this.model.toJSON()));
 
+            if (isValidId) {
+                this.$el.find('.done-button').removeAttr('disabled');
+            } else {
                 this.$el.find('.done-button').attr('disabled', 'disabled');
             }
         },
@@ -302,7 +274,7 @@ function ($, _, Backbone, app, ich) {
         },
 
         _done: function () {
-            this.trigger('identificationdone', this.identification);
+            this.trigger('identificationdone', this.model);
             this.remove();
         }
     });

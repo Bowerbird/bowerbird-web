@@ -329,7 +329,7 @@ namespace Bowerbird.Core.Config
             _documentSession.Store(user);
         }
 
-        private int _observationCount = 0;
+        //private int _observationCount = 0;
 
         private void AddObservations()
         {
@@ -349,10 +349,10 @@ namespace Bowerbird.Core.Config
                 .ToList()
                 .Select(x => x.Project);
 
-            AddObservation(Users[1].Id, 0, userProjects.Single(x => x.User.Id == Users[1].Id), projects);
-            AddObservation(Users[2].Id, 3, userProjects.Single(x => x.User.Id == Users[2].Id), projects.Where(x => x.Id == Projects[1].Id));            
-            AddObservation(Users[0].Id, 3, userProjects.Single(x => x.User.Id == Users[0].Id), projects.Where(x => x.Id == Projects[1].Id));
-            AddObservation(Users[0].Id, 4, userProjects.Single(x => x.User.Id == Users[0].Id), projects);
+            //AddObservation(Users[1].Id, 0, userProjects.Single(x => x.User.Id == Users[1].Id), projects);
+            //AddObservation(Users[2].Id, 3, userProjects.Single(x => x.User.Id == Users[2].Id), projects.Where(x => x.Id == Projects[1].Id));            
+            //AddObservation(Users[0].Id, 3, userProjects.Single(x => x.User.Id == Users[0].Id), projects.Where(x => x.Id == Projects[1].Id));
+            //AddObservation(Users[0].Id, 4, userProjects.Single(x => x.User.Id == Users[0].Id), projects);
             //AddObservation(Users[2].Id, 5, userProjects.Single(x => x.User.Id == Users[2].Id), projects);
             //AddObservation(Users[1].Id, 5, userProjects.Single(x => x.User.Id == Users[1].Id), projects.Where(x => x.Id == Projects[0].Id));
             //AddObservation(Users[0].Id, 0, userProjects.Single(x => x.User.Id == Users[0].Id), projects.Where(x => x.Id == Projects[0].Id));
@@ -365,46 +365,46 @@ namespace Bowerbird.Core.Config
             //AddObservation(Users[2].Id, 3, userProjects.Single(x => x.User.Id == Users[2].Id), projects);            
         }
 
-        private void AddObservation(string userId, int imageId, UserProject userProject, IEnumerable<Project> projects)
-        {
-            var user = Users.Single(x => x.Id == userId);
+        //private void AddObservation(string userId, int imageId, UserProject userProject, IEnumerable<Project> projects)
+        //{
+        //    var user = Users.Single(x => x.Id == userId);
 
-            var path = string.Format(@"{0}\media\testdata\{1}.jpg", _configSettings.GetEnvironmentRootPath(), imageId.ToString());
+        //    var path = string.Format(@"{0}\media\testdata\{1}.jpg", _configSettings.GetEnvironmentRootPath(), imageId.ToString());
 
-            using(var stream = System.IO.File.OpenRead(path))
-            {
-                var mediaResourceCreateCommand = new MediaResourceCreateCommand()
-                {
-                    UploadedOn = DateTime.UtcNow,
-                    Usage = "observation",
-                    UserId = userId,
-                    FileStream = stream,
-                    FileName = "test.jpg"
-                };
+        //    using(var stream = System.IO.File.OpenRead(path))
+        //    {
+        //        var mediaResourceCreateCommand = new MediaResourceCreateCommand()
+        //        {
+        //            UploadedOn = DateTime.UtcNow,
+        //            Usage = "observation",
+        //            UserId = userId,
+        //            FileStream = stream,
+        //            FileName = "test.jpg"
+        //        };
 
-                _messageBus.Send(mediaResourceCreateCommand);
+        //        _messageBus.Send(mediaResourceCreateCommand);
 
-                stream.Close();
-            }
+        //        stream.Close();
+        //    }
 
-            var observation = new Observation(
-                user,
-                string.Format("Observation {0}", _observationCount++),
-                DateTime.UtcNow,
-                DateTime.UtcNow,
-                "23.232323",
-                "41.3432423",
-                "1 Main St Melbourne",
-                true,
-                false,
-                "Mammals",
-                userProject,
-                projects);
+        //    var observation = new Observation(
+        //        user,
+        //        string.Format("Observation {0}", _observationCount++),
+        //        DateTime.UtcNow,
+        //        DateTime.UtcNow,
+        //        "23.232323",
+        //        "41.3432423",
+        //        "1 Main St Melbourne",
+        //        true,
+        //        false,
+        //        "Mammals",
+        //        userProject,
+        //        projects);
 
-            _documentSession.Store(observation);
+        //    _documentSession.Store(observation);
 
-            Observations.Add(observation);
-        }
+        //    Observations.Add(observation);
+        //}
 
         private string GetLoremIpsum()
         {

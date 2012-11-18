@@ -8,7 +8,7 @@
 // SidebarItemView
 // ---------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'models/project'],
+define(['jquery', 'underscore', 'backbone', 'app', 'models/project', 'tipsy'],
 function ($, _, Backbone, app, Project) {
 
     var SidebarProjectItemView = Backbone.Marionette.ItemView.extend({
@@ -20,10 +20,10 @@ function ($, _, Backbone, app, Project) {
 
         events: {
             'click .chat-menu-item': 'startChat',
-            'click .sub-menu-button': 'showMenu',
+            'click .sub-menu': 'showMenu',
             'click li#createnewpost': 'createPost',
             'click li#createnewobservation a': 'createObservation',
-            'click .sub-menu-button li': 'selectMenuItem'
+            'click .sub-menu li': 'selectMenuItem'
         },
 
         initialize: function () {
@@ -41,7 +41,9 @@ function ($, _, Backbone, app, Project) {
                 return false;
             });
 
-            app.vent.on('newactivity:' + this.model.id + ':observationadded newactivity:' + this.model.id + ':postadded newactivity:' + this.model.id + ':observationnoteadded', this.onNewActivityReceived, this);
+            app.vent.on('newactivity:' + this.model.id + ':sightingadded newactivity:' + this.model.id + ':postadded newactivity:' + this.model.id + ':sightingnoteadded', this.onNewActivityReceived, this);
+
+            this.$el.find('#project-menu-group-list .sub-menu a, #project-menu-group-list .sub-menu span').tipsy({ gravity: 'w', live: true });
         },
 
         serializeData: function () {
@@ -56,13 +58,13 @@ function ($, _, Backbone, app, Project) {
         },
 
         showMenu: function (e) {
-            $('.sub-menu-button').removeClass('active');
+            $('.sub-menu').removeClass('active');
             $(e.currentTarget).addClass('active');
             e.stopPropagation();
         },
 
         selectMenuItem: function (e) {
-            this.$el.find('.sub-menu-button').removeClass('active');
+            this.$el.find('.sub-menu').removeClass('active');
             e.stopPropagation();
         },
 

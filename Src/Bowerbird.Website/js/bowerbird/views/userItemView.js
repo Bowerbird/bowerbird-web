@@ -22,8 +22,8 @@ function ($, _, Backbone, app) {
         events: {
             'click .online-user-item a': 'startChat',
             'click .chat-menu-item': 'startChat',
-            'click .sub-menu-button': 'showMenu',
-            'click .sub-menu-button li': 'selectMenuItem'
+            'click .sub-menu': 'showMenu',
+            'click .sub-menu li': 'selectMenuItem'
         },
 
         initialize: function () {
@@ -61,16 +61,16 @@ function ($, _, Backbone, app) {
         },
 
         showMenu: function (e) {
-            $('.sub-menu-button').removeClass('active');
+            $('.sub-menu').removeClass('active');
             $(e.currentTarget).addClass('active');
             var position = $(e.currentTarget).offset();
             var scrollTop = $(window).scrollTop();
-            this.$el.find('.sub-menu-button ul').css({ position: 'fixed' }).css({ top: position.top - scrollTop + 'px', left: position.left + 25 + 'px' });
+            this.$el.find('.sub-menu ul').css({ position: 'fixed' }).css({ top: position.top - scrollTop + 'px', left: position.left + 25 + 'px' });
             e.stopPropagation();
         },
 
         selectMenuItem: function (e) {
-            $('.sub-menu-button').removeClass('active');
+            $('.sub-menu').removeClass('active');
             e.stopPropagation();
         },
 

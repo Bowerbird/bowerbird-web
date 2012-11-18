@@ -32,11 +32,11 @@ function ($, _, Backbone, app, StreamView, ActivityCollection) {
                 model: this.model,
                 collection: activityCollection
             };
-            if (app.isPrerendering('teams')) {
+            if (app.isPrerenderingView('teams')) {
                 options['el'] = '.stream';
             }
             var streamView = new StreamView(options);
-            if (app.isPrerendering('teams')) {
+            if (app.isPrerenderingView('teams')) {
                 this.details.attachView(streamView);
                 streamView.showBootstrappedDetails();
             } else {

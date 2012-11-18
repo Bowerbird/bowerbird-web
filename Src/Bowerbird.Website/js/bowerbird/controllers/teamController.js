@@ -37,7 +37,7 @@ function ($, _, Backbone, app, Team, TeamFormLayoutView, TeamLayoutView, TeamCol
             url = id;
         }
         var deferred = new $.Deferred();
-        if (app.isPrerendering('teams')) {
+        if (app.isPrerenderingView('teams')) {
             deferred.resolve(app.prerenderedView.data);
         } else {
             $.ajax({
@@ -51,7 +51,7 @@ function ($, _, Backbone, app, Team, TeamFormLayoutView, TeamLayoutView, TeamCol
 
     var getExploreList = function (page, pageSize, sortField, sortDirection, searchQuery) {
         var deferred = new $.Deferred();
-        if (app.isPrerendering('teams')) {
+        if (app.isPrerenderingView('teams')) {
             deferred.resolve(app.prerenderedView.data);
         } else {
             var params = {};
@@ -94,7 +94,7 @@ function ($, _, Backbone, app, Team, TeamFormLayoutView, TeamLayoutView, TeamCol
                 //app.content[app.getShowViewMethodName('teams')](teamFormLayoutView);
                 app.showFormContentView(teamFormLayoutView, 'teams');
 
-                if (app.isPrerendering('teams')) {
+                if (app.isPrerenderingView('teams')) {
                     teamFormLayoutView.showBootstrappedDetails();
                 }
 
@@ -112,7 +112,7 @@ function ($, _, Backbone, app, Team, TeamFormLayoutView, TeamLayoutView, TeamCol
             team.set('Id', 'teams/' + id);
             var teamLayoutView = new TeamLayoutView({ model: team });
             app.showFormContentView(teamLayoutView, 'teams');
-            if (app.isPrerendering('teams')) {
+            if (app.isPrerenderingView('teams')) {
                 teamLayoutView.showBootstrappedDetails();
             }
             teamLayoutView.showStream();
@@ -129,7 +129,7 @@ function ($, _, Backbone, app, Team, TeamFormLayoutView, TeamLayoutView, TeamCol
                 var teamCollectionView = new TeamCollectionView({ collection: TeamController.teamCollection });
                 //app.content[app.getShowViewMethodName('teams')](teamCollectionView);
                 app.showFormContentView(teamCollectionView, 'teams');
-                if (app.isPrerendering('teams')) {
+                if (app.isPrerenderingView('teams')) {
                     teamCollectionView.showBootstrappedDetails();
                 }
                 app.setPrerenderComplete();

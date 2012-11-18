@@ -1,0 +1,25 @@
+﻿<h2>
+  <span class="small-icon observation-icon"></span>Sighting Note
+</h2>
+<div class="form-details">
+  <div class="sighting">
+    <div class="observation-details">
+      {{#Model.Sighting}}
+      {{>SightingFullDetails}}
+      {{/Model.Sighting}}
+    </div>
+  </div>
+  
+  <form action="/sightingnotes" method="post"  enctype="multipart/form-data">
+    <fieldset class="sighting-note-fieldset">
+      <legend class="hidden">Sighting Note Details</legend>
+      {{>SightingNoteSubForm}}
+    </fieldset>      
+    <fieldset>
+      <input type="button" value="Save" id="save" />
+      <input type="button" value="Cancel" id="cancel" />
+    </fieldset>
+
+  </form>
+
+</div>

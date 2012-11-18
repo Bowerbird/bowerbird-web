@@ -21,10 +21,12 @@ function ($, _, Backbone, PaginatedCollection, Sighting) {
 //            _.bindAll(this,
 //            'onSuccess',
 //            'onSuccessWithAddFix',
-//            'getFetchOptions');
+            //            'getFetchOptions');
+            
+            
             PaginatedCollection.prototype.initialize.apply(this, arguments);
         },
-
+        
 //        comparator: function (streamItem1) {
 //            //            log(streamItem1.get('CreatedDateTime').substr(6));
 //            //            log(streamItem2.get('CreatedDateTime').substr(6));

@@ -44,11 +44,11 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/activitylistview', 'co
                 model: this.model,
                 collection: activityCollection
             };
-            if (app.isPrerendering('projects')) {
+            if (app.isPrerenderingView('projects')) {
                 options['el'] = '.stream';
             }
             var activityListView = new ActivityListView(options);
-            if (app.isPrerendering('projects')) {
+            if (app.isPrerenderingView('projects')) {
                 this.details.attachView(activityListView);
                 activityListView.showBootstrappedDetails();
             } else {

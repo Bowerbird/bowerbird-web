@@ -12,17 +12,26 @@
 define(['jquery', 'underscore', 'backbone', 'app', 'carousel', 'touchswipe'], function ($, _, Backbone, app) {
 
     var HomePublicView = Backbone.Marionette.Layout.extend({
+        viewType: 'detail',
+        
         className: 'home-public single',
 
-        template: 'HomePublic',
-        
+        template: 'HomePublicIndex',
+
         initialize: function () {
             _.bindAll(this, 'showHowWhyItem');
         },
 
+        onShow: function () {
+            this._showDetails();
+        },
+
         showBootstrappedDetails: function () {
             this.initializeRegions();
+            this._showDetails();
+        },
 
+        _showDetails: function () {
             var that = this;
 
             $(".home-why .carousel ul").carouFredSel({
@@ -59,29 +68,29 @@ define(['jquery', 'underscore', 'backbone', 'app', 'carousel', 'touchswipe'], fu
                 },
                 swipe: true
             });
-            
+
             $(".home-how .carousel ul").carouFredSel({
                 width: '100%',
-	            items		: {
-		            width		: 110,
-		            visible		: {
-			            min			: 11,
-			            max			: 15
-		            }
-	            },
-	            auto: {
-		            items 			: 11,
-		            duration		: 35000,
-		            easing			: "linear",
-		            timeoutDuration	: 0,
-		            pauseOnHover	: "immediate"
-	            }
+                items: {
+                    width: 110,
+                    visible: {
+                        min: 11,
+                        max: 15
+                    }
+                },
+                auto: {
+                    items: 11,
+                    duration: 35000,
+                    easing: "linear",
+                    timeoutDuration: 0,
+                    pauseOnHover: "immediate"
+                }
             });
         },
-        
-        showHowWhyItem: function(data) {
+
+        showHowWhyItem: function (data) {
             this.$el.find('.home-why .current-caption').fadeOut(function () {
-                $(this).empty().html($(data.items.new).find('.caption').clone()).fadeIn();
+                $(this).empty().html($(data.items['new']).find('.caption').clone()).fadeIn();
             });
         }
     });

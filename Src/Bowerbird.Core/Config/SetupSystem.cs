@@ -202,9 +202,9 @@ namespace Bowerbird.Core.Config
                 AddPermission(PermissionNames.CreateSpecies, "Create Species", "Ability to create species", documentSession);
                 AddPermission(PermissionNames.UpdateSpecies, "Update Species", "Ability to update species", documentSession);
                 AddPermission(PermissionNames.DeleteSpecies, "Delete Species", "Ability to delete species", documentSession);
-                AddPermission(PermissionNames.CreateReferenceSpecies, "Create Reference Species", "Ability to create reference species", documentSession);
-                AddPermission(PermissionNames.UpdateReferenceSpecies, "Update Reference Species", "Ability to update reference species", documentSession);
-                AddPermission(PermissionNames.DeleteReferenceSpecies, "Delete Reference Species", "Ability to delete reference species", documentSession);
+                //AddPermission(PermissionNames.CreateReferenceSpecies, "Create Reference Species", "Ability to create reference species", documentSession);
+                //AddPermission(PermissionNames.UpdateReferenceSpecies, "Update Reference Species", "Ability to update reference species", documentSession);
+                //AddPermission(PermissionNames.DeleteReferenceSpecies, "Delete Reference Species", "Ability to delete reference species", documentSession);
                 AddPermission(PermissionNames.Chat, "Chat", "Chat with othet users", documentSession);
 
                 documentSession.SaveChanges();
@@ -239,10 +239,10 @@ namespace Bowerbird.Core.Config
                         PermissionNames.UpdateSpecies,
                         PermissionNames.DeleteSpecies);
                 AddRole("globalmoderator", "Global Community Moderator", "Comunity moderator of Bowerbird",
-                        documentSession,
-                        PermissionNames.CreateReferenceSpecies,
-                        PermissionNames.UpdateReferenceSpecies,
-                        PermissionNames.DeleteReferenceSpecies);
+                        documentSession);
+                        //PermissionNames.CreateReferenceSpecies,
+                        //PermissionNames.UpdateReferenceSpecies,
+                        //PermissionNames.DeleteReferenceSpecies);
                 AddRole("globalmember", "Global Member", "Member of Bowerbird",
                         documentSession,
                         PermissionNames.CreateObservation,
@@ -287,6 +287,9 @@ namespace Bowerbird.Core.Config
                         PermissionNames.CreatePost,
                         PermissionNames.UpdatePost,
                         PermissionNames.DeletePost,
+                        PermissionNames.CreateSightingNote,
+                        PermissionNames.UpdateSightingNote,
+                        PermissionNames.DeleteSightingNote,
                         PermissionNames.Chat);
                 AddRole("userprojectadministrator", "User Project Administrator", "Administrator of a user project",
                         documentSession,
@@ -301,7 +304,10 @@ namespace Bowerbird.Core.Config
                         PermissionNames.DeleteObservation,
                         PermissionNames.CreatePost,
                         PermissionNames.UpdatePost,
-                        PermissionNames.DeletePost);
+                        PermissionNames.DeletePost,
+                        PermissionNames.CreateSightingNote,
+                        PermissionNames.UpdateSightingNote,
+                        PermissionNames.DeleteSightingNote);
 
                 documentSession.SaveChanges();
             }
@@ -438,7 +444,7 @@ namespace Bowerbird.Core.Config
                         }
 
                         documentSession.SaveChanges();
-                    }
+                    } 
                 }
             }
 

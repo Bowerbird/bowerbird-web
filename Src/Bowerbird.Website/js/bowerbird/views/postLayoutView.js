@@ -35,7 +35,7 @@ function ($, _, Backbone, app, PostDetailsView, PostFormLayoutView, DiscussionLa
         showPostDetails: function (post) {
             var options = { model: post };
 
-            if (app.isPrerendering('posts')) {
+            if (app.isPrerenderingView('posts')) {
                 options['el'] = '.post-details';
             }
 
@@ -45,7 +45,7 @@ function ($, _, Backbone, app, PostDetailsView, PostFormLayoutView, DiscussionLa
             var discussionLayoutView = new DiscussionLayoutView({ Comments: post.get('Comments'), ContributionId: post.id });
             this.comments[app.getShowViewMethodName('posts')](discussionLayoutView);
 
-            if (app.isPrerendering('posts')) {
+            if (app.isPrerenderingView('posts')) {
                 postDetailsView.showBootstrappedDetails();
             }
         },
@@ -53,14 +53,14 @@ function ($, _, Backbone, app, PostDetailsView, PostFormLayoutView, DiscussionLa
         showPostDiscussion: function (post) {
             var options = { comments: post.get('Comments'), contributionId: post.id };
 
-            if (app.isPrerendering('posts')) {
+            if (app.isPrerenderingView('posts')) {
                 options['el'] = '.discussion';
             }
 
             var discussionLayoutView = new DiscussionLayoutView(options);
             this.comments[app.getShowViewMethodName('posts')](discussionLayoutView);
 
-            if (app.isPrerendering('posts')) {
+            if (app.isPrerenderingView('posts')) {
                 discussionLayoutView.showBootstrappedDetails();
             }
         },
@@ -68,14 +68,14 @@ function ($, _, Backbone, app, PostDetailsView, PostFormLayoutView, DiscussionLa
         showPostForm: function (post) {
             var options = { model: post };
 
-            if (app.isPrerendering('posts')) {
+            if (app.isPrerenderingView('posts')) {
                 options['el'] = '.post-form';
             }
 
             var postFormLayoutView = new PostFormLayoutView(options);
             this.main[app.getShowViewMethodName('posts')](postFormLayoutView);
 
-            if (app.isPrerendering('posts')) {
+            if (app.isPrerenderingView('posts')) {
                 postFormLayoutView.showBootstrappedDetails();
             }
         }

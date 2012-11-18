@@ -68,6 +68,16 @@ namespace Bowerbird.Web.Config
                 "account/resetpassword/{resetpasswordkey}",
                 new { controller = "account", action = "resetpassword", resetpasswordkey = UrlParameter.Optional });
 
+            //routes.MapRoute(
+            //    "account-login",
+            //    "account/login",
+            //    new { controller = "account", action = "login" });
+
+            //routes.MapRoute(
+            //    "account-register",
+            //    "account/register",
+            //    new { controller = "account", action = "register" });
+
             routes.MapRoute(
                 "home-sightings",
                 "sightings",
@@ -77,6 +87,16 @@ namespace Bowerbird.Web.Config
                 "templates",
                 "templates",
                 new { controller = "templates", action = "index" });
+
+            routes.MapRoute(
+                "join-project",
+                "projects/{id}/join",
+                new { controller = "projects", action = "join" });
+
+            routes.MapRoute(
+                "leave-project",
+                "projects/{id}/leave",
+                new { controller = "projects", action = "leave" });
 
             // Load up restful controllers and create routes based on method name conventions
             RegisterRestfulControllerRouteConventions(routes);
@@ -115,20 +135,20 @@ namespace Bowerbird.Web.Config
             if (controllerMethods.Contains("update"))
             {
                 /* 
-                 * Eg: "/users/2" HTML/JSON PUT 
+                 * Eg: "/users/2" HTML/JSON POST 
                  * Used to update a user based on an ID with HTML or JSON output
                  */
                 routes.MapRoute(
                     controllerName + "-update",
                     controllerName + "/{id}",
                     new { controller = controllerName, action = "update" },
-                    new { httpMethod = new HttpMethodConstraint("PUT") });
+                    new { httpMethod = new HttpMethodConstraint("PUT"), id = @"\d+" });
             }
 
             if (controllerMethods.Contains("create"))
             {
                 /* 
-                 * Eg: "/users/2" HTML/JSON POST 
+                 * Eg: "/users/2" HTML/JSON PUT 
                  * Used to create a user with HTML or JSON output
                  */
                 routes.MapRoute(
@@ -197,8 +217,8 @@ namespace Bowerbird.Web.Config
             routes.MapRoute(
                 controllerName + "-section",
                 controllerName + "/{id}/{action}",
-                new { controller = controllerName },
-                new { httpMethod = new HttpMethodConstraint("GET", "POST") });
+                new {controller = controllerName},
+                new { httpMethod = new HttpMethodConstraint("GET") });
 
             if (controllerMethods.Contains("index"))
             {

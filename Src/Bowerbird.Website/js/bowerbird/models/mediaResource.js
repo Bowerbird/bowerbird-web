@@ -12,6 +12,7 @@ define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
 
     var MediaResource = Backbone.Model.extend({
         defaults: {
+            Id: null,
             Key: '',
             MediaResourceType: ''
         },

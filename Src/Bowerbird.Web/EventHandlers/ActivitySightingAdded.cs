@@ -79,12 +79,10 @@ namespace Bowerbird.Web.EventHandlers
 
         private void Execute(IDomainEvent domainEvent, Sighting sighting, IEnumerable<Project> projects)
         {
-            string sightingType = sighting is Observation ? "observation" : "record";
-
             dynamic activity = MakeActivity(
                 domainEvent,
-                sightingType + "added",
-                string.Format("{0} added {1}", domainEvent.User.GetName(), sighting is Observation ? "an observation" : "a record"),
+                "sightingadded", //string.Format("", sighting is Observation ? "observation" : "record"),
+                string.Format("{0} added a sighting", domainEvent.User.GetName()),
                 sighting.Groups.Select(x => x.Group));
 
             if (sighting is Observation)

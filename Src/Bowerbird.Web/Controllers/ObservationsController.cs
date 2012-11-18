@@ -12,6 +12,7 @@
  
 */
 
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using Bowerbird.Core.DomainModels;
@@ -80,10 +81,8 @@ namespace Bowerbird.Web.Controllers
                 return HttpNotFound();
             }
 
-            var viewModel = new
-                {
-                    Observation = _sightingViewModelBuilder.BuildSighting(observationId),
-                };
+            dynamic viewModel = new ExpandoObject();
+            viewModel.Observation = _sightingViewModelBuilder.BuildSighting(observationId);
 
             return RestfulResult(
                 viewModel,
@@ -140,12 +139,13 @@ namespace Bowerbird.Web.Controllers
                 return HttpUnauthorized();
             }
 
-            var observation = _sightingViewModelBuilder.BuildSighting(observationId);
+            var observation = _documentSession.Load<Observation>(observationId);
 
             dynamic viewModel = new ExpandoObject();
 
-            viewModel.Observation = observation;
+            viewModel.Observation = _sightingViewModelBuilder.BuildSighting(observationId);
             viewModel.CategorySelectList = GetCategorySelectList(observationId);
+            viewModel.ProjectsSelectList = GetProjectsSelectList(observation.Groups.Where(x => x.Group.GroupType == "project").Select(x => x.Group.Id).ToArray());
             viewModel.Categories = GetCategories();
 
             return RestfulResult(
@@ -210,7 +210,7 @@ namespace Bowerbird.Web.Controllers
                         ObservedOn = createInput.ObservedOn,
                         UserId = _userContext.GetAuthenticatedUserId(),
                         Projects = createInput.ProjectIds,
-                        Media = createInput.Media.Select(x => new ObservationMediaCreateCommand() 
+                        Media = createInput.Media.Select(x => new ObservationMediaUpdateCommand() 
                             { 
                                 MediaResourceId = x.MediaResourceId, 
                                 Description = x.Description, 
@@ -257,7 +257,14 @@ namespace Bowerbird.Web.Controllers
                     Category = updateInput.Category,
                     ObservedOn = updateInput.ObservedOn,
                     UserId = _userContext.GetAuthenticatedUserId(),
-                    Projects = updateInput.ProjectIds
+                    Projects = updateInput.ProjectIds,
+                    Media = updateInput.Media.Select(x => new ObservationMediaUpdateCommand()
+                    {
+                        MediaResourceId = x.MediaResourceId,
+                        Description = x.Description,
+                        Licence = x.Licence,
+                        IsPrimaryMedia = x.IsPrimaryMedia
+                    })
                 });
 
             return JsonSuccess();
@@ -313,7 +320,7 @@ namespace Bowerbird.Web.Controllers
                    });
         }
 
-        private IEnumerable GetProjectsSelectList(string projectId = "")
+        private IEnumerable GetProjectsSelectList(params string[] projectIds)
         {
             return _documentSession
                 .Query<All_Users.Result, All_Users>()
@@ -325,7 +332,7 @@ namespace Bowerbird.Web.Controllers
                 {
                     Text = x.Name,
                     Value = x.Id,
-                    Selected = x.Id == projectId
+                    Selected = projectIds.Any(y => y == x.Id)
                 });
         }
 

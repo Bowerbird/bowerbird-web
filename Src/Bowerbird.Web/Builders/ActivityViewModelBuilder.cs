@@ -29,9 +29,9 @@ namespace Bowerbird.Web.Builders
         private readonly IDocumentSession _documentSession;
         private readonly IEnumerable<string> _activityTypes = new[] 
             {
-                "observationadded",
-                "postadded",
-                "observationnoteadded"
+                "sightingadded",
+                "sightingnoteadded",
+                "postadded"
             };
 
         #endregion

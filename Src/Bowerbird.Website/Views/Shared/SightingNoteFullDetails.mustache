@@ -1,0 +1,45 @@
+﻿<div class="user">
+  {{#User.Avatar}}
+  {{>MediaSquare100}}
+  {{/User.Avatar}}
+  <span>{{User.Name}}</span>
+</div>
+
+{{#Identification}}
+  <div class="identification">
+    <div class="identification-heading">Identification</div>
+    <div class="identification-details">
+      <img alt="" src="/img/category-{{Category}}.png" />
+      <div class="identification-name">{{Name}}</div>
+      <div class="identification-rank-type">({{RankType}})</div>
+      <div class="identification-taxonomy">Taxonomy: {{Taxonomy}}</div>
+      {{#AllCommonNames}}
+      <div class="identification-common-names">Common Names: {{AllCommonNames}}</div>
+      {{/AllCommonNames}}
+    </div>
+  </div>
+  {{/Identification}}
+
+  {{#Descriptions}}
+  <div class="sighting-note-description {{Id}}">
+    <span>{{Label}}</span>
+    <p>{{Text}}</p>
+  </div>
+  {{/Descriptions}}
+
+  {{#TagCount}}
+  <div class="sighting-note-tags">
+    <span>Tags</span>
+    {{#Tags}}
+    <a href="/search?query={{.}}">{{.}}</a>
+    {{/Tags}}
+  </div>
+  {{/TagCount}}
+  
+  
+
+
+
+
+
+

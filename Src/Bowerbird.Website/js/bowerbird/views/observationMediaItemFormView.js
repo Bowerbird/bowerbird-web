@@ -48,8 +48,8 @@ function ($, _, Backbone, app, ich, MediaFormView, licences, CirclePlayer) {
         className: 'observation-media-item',
 
         events: {
-            'click .sub-menu-button': '_showMenu',
-            'click .sub-menu-button li': '_selectMenuItem',
+            'click .sub-menu': '_showMenu',
+            'click .sub-menu li': '_selectMenuItem',
             'click .view-menu-item': '_viewMedia',
             'click .edit-menu-item': '_editMediaDetails',
             'click .remove-menu-item': '_removeMedia',
@@ -75,15 +75,11 @@ function ($, _, Backbone, app, ich, MediaFormView, licences, CirclePlayer) {
         serializeData: function () {
             var licence = licences.get(this.model.get('Licence'));
             return {
-                Model: {
-                    Media: {
-                        Description: this.model.get('Description'),
-                        LicenceName: licence.Name,
-                        LicenceIcons: licence.Icons,
-                        IsPrimaryMedia: this.model.get('IsPrimaryMedia')
-                    },
-                    MediaResource: this.model.mediaResource.toJSON()
-                }
+                Description: this.model.get('Description'),
+                LicenceName: licence.Name,
+                LicenceIcons: licence.Icons,
+                IsPrimaryMedia: this.model.get('IsPrimaryMedia'),
+                MediaResource: this.model.mediaResource.toJSON()
             };
         },
 
@@ -99,13 +95,13 @@ function ($, _, Backbone, app, ich, MediaFormView, licences, CirclePlayer) {
         },
 
         _showMenu: function (e) {
-            $('.sub-menu-button').removeClass('active');
+            $('.sub-menu').removeClass('active');
             $(e.currentTarget).addClass('active');
             e.stopPropagation();
         },
 
         _selectMenuItem: function (e) {
-            $('.sub-menu-button').removeClass('active');
+            $('.sub-menu').removeClass('active');
             e.stopPropagation();
         },
 

@@ -9,8 +9,8 @@
 // -----------
 
 // The left hand side bar that is shown to authenticated users.
-define(['jquery', 'underscore', 'backbone', 'app', 'views/sidebarmenugroupview', 'views/sidebarprojectitemview', 'views/sidebarteamitemview', 'views/sidebarorganisationitemview'],
-function ($, _, Backbone, app, SidebarMenuGroupView, SidebarProjectItemView, SidebarTeamItemView, SidebarOrganisationItemView) {
+define(['jquery', 'underscore', 'backbone', 'app', 'views/sidebarmenugroupview', 'views/sidebarprojectitemview', 'views/sidebarorganisationitemview', 'tipsy'],
+function ($, _, Backbone, app, SidebarMenuGroupView, SidebarProjectItemView, SidebarOrganisationItemView) {
 
     var SidebarView = Backbone.Marionette.Layout.extend({
         tagName: 'section',
@@ -29,7 +29,7 @@ function ($, _, Backbone, app, SidebarMenuGroupView, SidebarProjectItemView, Sid
         },
 
         events: {
-            'click #default-menu-group .sub-menu-button': 'showMenu'
+            'click #default-menu-group .sub-menu': 'showMenu'
             //'click .menu-group-options .sub-menu-button li': 'selectMenuItem'
         },
 
@@ -39,12 +39,6 @@ function ($, _, Backbone, app, SidebarMenuGroupView, SidebarProjectItemView, Sid
             var sidebarProjectMenuGroupView = new SidebarMenuGroupView({ id: 'project-menu-group', collection: this.model.projects, type: 'project', label: 'Projects' });
             sidebarProjectMenuGroupView.itemView = SidebarProjectItemView;
             this.projectsMenu.show(sidebarProjectMenuGroupView);
-
-            if (this.model.teams.length > 0) {
-                var sidebarTeamMenuGroupView = new SidebarMenuGroupView({ id: 'team-menu-group', collection: this.model.teams, type: 'team', label: 'Teams' });
-                sidebarTeamMenuGroupView.itemView = SidebarTeamItemView;
-                this.teamsMenu.show(sidebarTeamMenuGroupView);
-            }
 
             if (this.model.organisations.length > 0) {
                 var sidebarOrganisationMenuGroupView = new SidebarMenuGroupView({ id: 'organisation-menu-group', collection: this.model.organisations, type: 'organisation', label: 'Organisations' });
@@ -61,6 +55,10 @@ function ($, _, Backbone, app, SidebarMenuGroupView, SidebarProjectItemView, Sid
             app.authenticatedUser.projects.on('add', this.addProject, this);
 
             app.authenticatedUser.projects.on('remove', this.removeProject, this);
+
+            this.$el.find('#action-menu a').not('.new-observation-button').tipsy({ gravity: 'n', html: true });
+            this.$el.find('.new-observation-button').tipsy({ gravity: 'nw', html: true });
+            this.$el.find('#default-menu-group .sub-menu a').tipsy({ gravity: 'w' });
         },
 
         serializeData: function () {
@@ -75,13 +73,13 @@ function ($, _, Backbone, app, SidebarMenuGroupView, SidebarProjectItemView, Sid
         },
 
         showMenu: function (e) {
-            $('.sub-menu-button').removeClass('active');
+            $('.sub-menu').removeClass('active');
             $(e.currentTarget).addClass('active');
             e.stopPropagation();
         },
 
         selectMenuItem: function (e) {
-            $('.sub-menu-button').removeClass('active');
+            $('.sub-menu').removeClass('active');
             e.stopPropagation();
         },
 

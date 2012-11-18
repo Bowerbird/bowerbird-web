@@ -68,7 +68,7 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
     }, this);
 
     app.addRegions({
-        header: 'header',
+        header: '#header',
         footer: 'footer',
         sidebar: '#sidebar',
         content: '#content',
@@ -76,8 +76,12 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
         usersonline: '#onlineusers'
     });
 
-    app.isPrerendering = function (name) {
+    app.isPrerenderingView = function (name) {
         return name === app.prerenderedView.name && !app.prerenderedView.isBound;
+    };
+
+    app.isPrerendering = function () {
+        return !app.prerenderedView.isBound;
     };
 
     var setPrerenderComplete = function () {
@@ -90,7 +94,7 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
             err.name = "BowerbirdNoViewNameProvidedError";
             throw err;
         }
-        return app.isPrerendering(name) ? 'attachView' : 'show';
+        return app.isPrerenderingView(name) ? 'attachView' : 'show';
     };
 
     var updateTitle = function (titleSegment) {
@@ -105,7 +109,7 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
         // Update title
         updateTitle(title);
 
-        if (!app.isPrerendering(name)) {
+        if (!app.isPrerenderingView(name)) {
             view.$el.hide();
         }
 
@@ -113,7 +117,7 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
         app.content[getShowViewMethodName(name)](view);
 
         // If page is loaded from server, bootstrap UI
-        if (app.isPrerendering(name)) {
+        if (app.isPrerenderingView(name)) {
             view.showBootstrappedDetails();
         }
 
@@ -151,7 +155,7 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
                     // Store previous view in cache
                     app.previousContentView = {
                         viewType: app.content.currentView.viewType || 'unknown',
-                        title: document.title.replace(' - BowerBird', ''),
+                        title: document.title.replace('BowerBird', '').replace('-', ''),
                         view: app.content.currentView,
                         $el: app.content.currentView.$el.detach()
                     };
@@ -185,7 +189,9 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
 
             // Perform anim
             $('#sidebar').fadeIn(100);
-            app.content.currentView.$el.fadeIn(100);
+            app.content.currentView.$el.fadeIn(100, function () {
+                app.content.currentView.trigger('reshow');
+            });
         } else {
             // If we don't have a previous view, take user back to home stream
             Backbone.history.navigate('', { trigger: true });
@@ -243,7 +249,7 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
     app.bind('initialize:after', function () {
         // Tasks to perform on DOM ready
         var that = this;
-
+        
         $(function () {
             // Only start history once app is fully initialised
             if (Backbone.history) {
@@ -252,7 +258,7 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
                 });
 
                 // Start URL and history routing
-                Backbone.history.start({ pushState: true });
+                Backbone.history.start({ pushState: true, hashChange: true });
             }
 
             // initialise the hub connection
@@ -276,7 +282,7 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
 
             // Register closing of all popup menus in entire page
             $("body").click(function () {
-                $('.sub-menu-button').removeClass('active'); // Make sure to add any new menu button types to the selector
+                $('.sub-menu').removeClass('active'); // Make sure to add any new menu button types to the selector
             });
 
             // Resize the sidebar on window resizing

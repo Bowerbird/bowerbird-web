@@ -11,7 +11,8 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/homepublicview', 'view
 function ($, _, Backbone, app, HomePublicView, HomePrivateView) {
     var HomeRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
-            '': 'showActivity',
+            '': 'showHome',
+            'sightings?view=:viewType': 'showSightings',
             'sightings': 'showSightings',
             'all': 'showAllBowerbirdActivity',
             'favourites': 'showFavourites'
@@ -22,7 +23,7 @@ function ($, _, Backbone, app, HomePublicView, HomePrivateView) {
 
     var getModel = function (uri, action) {
         var deferred = new $.Deferred();
-        if (app.isPrerendering('home')) {
+        if (app.isPrerenderingView('home')) {
             deferred.resolve(app.prerenderedView.data);
         } else {
             $.ajax({
@@ -38,44 +39,51 @@ function ($, _, Backbone, app, HomePublicView, HomePrivateView) {
     // Public API
     // ----------
 
-    HomeController.showActivity = function () {
+    HomeController.showHome = function () {
         $.when(getModel('/'))
             .done(function (model) {
                 if (app.content.currentView instanceof HomePrivateView) {
-                    app.content.currentView.showActivity(model.Activities);
+                    app.content.currentView.showActivity(model);
                 } else {
                     var homeView;
-
+                    var options = {};
                     if (app.authenticatedUser) {
-                        var options = { model: app.authenticatedUser.user };
-                        if (app.isPrerendering('home')) {
+                        options = { model: app.authenticatedUser.user };
+                        if (app.isPrerenderingView('home')) {
                             options['el'] = '.home-private';
                         }
                         homeView = new HomePrivateView(options);
                     } else {
-                        homeView = new HomePublicView();
+                        if (app.isPrerenderingView('home')) {
+                            options['el'] = '.home-public';
+                        }
+                        homeView = new HomePublicView(options);
                     }
 
                     app.showContentView('', homeView, 'home', function () {
                         if (app.authenticatedUser) {
-                            homeView.showActivity(model.Activities);
+                            homeView.showActivity(model);
                         }
                     });
                 }
             });
     };
 
-    HomeController.showSightings = function () {
-        $.when(getModel('/sightings'))
+    HomeController.showSightings = function (viewType) {
+        if (viewType && app.content.currentView instanceof HomePrivateView) {
+            app.content.currentView.showSightings(null, viewType);
+            return;
+        }
+        $.when(getModel('/sightings' + (viewType ? '?view=' + viewType : '')))
             .done(function (model) {
                 if (app.content.currentView instanceof HomePrivateView) {
-                    app.content.currentView.showSightings(model.Sightings);
+                    app.content.currentView.showSightings(model);
                 } else {
                     var homeView;
 
                     if (app.authenticatedUser) {
                         var options = { model: app.authenticatedUser.user };
-                        if (app.isPrerendering('home')) {
+                        if (app.isPrerenderingView('home')) {
                             options['el'] = '.home-private';
                         }
                         homeView = new HomePrivateView(options);
@@ -85,7 +93,7 @@ function ($, _, Backbone, app, HomePublicView, HomePrivateView) {
 
                     app.showContentView('', homeView, 'home', function () {
                         if (app.authenticatedUser) {
-                            homeView.showSightings(model.Sightings);
+                            homeView.showSightings(model);
                         }
                     });
                 }

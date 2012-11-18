@@ -81,7 +81,7 @@ namespace Bowerbird.Web.Builders
                     .Statistics(out stats)
                     .WhereEquals("RankPosition", 1)
                     .OrderBy(x => x.Name)
-                    .Take(50)
+                    .Take(1024)
                     .ToList()
                     .Select(x => MakeSpecies(x, true))
                     .ToPagedList(
@@ -105,7 +105,7 @@ namespace Bowerbird.Web.Builders
                         .AndAlso()
                         .WhereEquals("RankPosition", rankIndex + 1)
                         .OrderBy(x => x.Name)
-                        .Take(50)
+                        .Take(1024)
                         .ToList()
                         .Select(x => MakeSpecies(x, true))
                         .ToPagedList(

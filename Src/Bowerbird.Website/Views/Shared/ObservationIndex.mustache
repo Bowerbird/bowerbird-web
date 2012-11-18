@@ -1,0 +1,18 @@
+﻿<h2><span class="small-icon observation-icon"></span>Observation</h2>
+<div class="form-details">
+  {{#Model.Observation}}
+  {{>SightingDetails}}
+  {{/Model.Observation}}
+
+  {{#Model.Observation.NoteCount}}
+  <div class="sighting-notes">
+    <h4>Notes</h4>
+    {{#Model.Observation.Notes}}
+    <a id="note{{Id}}"></a>
+    <div class="sighting-note">
+      {{>SightingNoteFullDetails}}
+    </div>
+    {{/Model.Observation.Notes}}
+  </div>
+  {{/Model.Observation.NoteCount}}
+</div>

@@ -17,33 +17,31 @@
   <p>There's a lot more to BowerBird than meets the eye. <a href="#">Learn more here</a></p>
 </div>
 {{/Model.ShowWelcome}}
-<div class="tab-bar large">
-  <ul class="tabs">
-    <li>
-      <a class="tab-button activities-tab-button {{#Model.ShowActivities}}selected{{/Model.ShowActivities}}" href="/">Activity</a>
-    </li>
-    <li>
-      <a class="tab-button sightings-tab-button {{#Model.ShowSightings}}selected{{/Model.ShowSightings}}" href="/sightings">Sightings</a>
-    </li>
-    <li>
-      <a class="tab-button posts-tab-button {{#Model.ShowPosts}}selected{{/Model.ShowPosts}}" href="/posts">Posts</a>
-    </li>
-  </ul>
-</div>
 <div class="details">
-  {{#Model.ShowActivities}}
-  <div class="stream">
-    {{>Stream}}
+  <div class="tab-bar large">
+    <ul class="tabs">
+      <li>
+        <a class="tab-button activities-tab-button {{#Model.ShowActivities}}selected{{/Model.ShowActivities}}" href="/">Activity</a>
+      </li>
+      <li>
+        <a class="tab-button sightings-tab-button {{#Model.ShowSightings}}selected{{/Model.ShowSightings}}" href="/sightings">Sightings</a>
+      </li>
+      <li>
+        <a class="tab-button posts-tab-button {{#Model.ShowPosts}}selected{{/Model.ShowPosts}}" href="/posts">Posts</a>
+      </li>
+    </ul>
   </div>
-  {{/Model.ShowActivities}}
-  {{#Model.ShowSightings}}
-  <div class="sightings">
-    {{>SightingList}}
+  <div class="list">
+    <div>
+      {{#Model.ShowActivities}}
+      {{>ActivityList}}
+      {{/Model.ShowActivities}}
+      {{#Model.ShowSightings}}
+      {{>SightingList}}
+      {{/Model.ShowSightings}}
+      {{#Model.ShowPosts}}
+      {{>PostsList}}
+      {{/Model.ShowPosts}}
+    </div>
   </div>
-  {{/Model.ShowSightings}}
-  {{#Model.ShowPosts}}
-  <div class="posts">
-    {{>PostsList}}
-  </div>
-  {{/Model.ShowPosts}}
 </div>

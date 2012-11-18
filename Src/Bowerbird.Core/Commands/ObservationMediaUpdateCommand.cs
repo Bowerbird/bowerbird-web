@@ -14,7 +14,7 @@
                 
 namespace Bowerbird.Core.Commands
 {
-    public class ObservationMediaCreateCommand
+    public class ObservationMediaUpdateCommand
     {
         #region Members
 
@@ -26,15 +26,7 @@ namespace Bowerbird.Core.Commands
 
         #region Properties
 
-        /// <summary>
-        /// Specify MediaResourceId if it has been created prior
-        /// </summary>
         public string MediaResourceId { get; set; }
-
-        /// <summary>
-        /// Specify a new item to be created from scatch
-        /// </summary>
-        public MediaResourceCreateCommand MediaResource { get; set; }
 
         public string Description { get; set; }
 

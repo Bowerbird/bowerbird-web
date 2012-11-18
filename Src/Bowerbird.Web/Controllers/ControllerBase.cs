@@ -52,7 +52,7 @@ namespace Bowerbird.Web.Controllers
 
                     var authenticatedUser = userViewModelBuilder.BuildAuthenticatedUser(userContext.GetAuthenticatedUserId());
 
-                    ViewBag.AuthenticatedUser = authenticatedUser;
+                    ViewBag.Model.AuthenticatedUser = authenticatedUser;
                     ViewBag.BootstrappedJson = Raven.Imports.Newtonsoft.Json.JsonConvert.SerializeObject(new
                         {
                             AuthenticatedUser = authenticatedUser,

@@ -8,10 +8,11 @@
 // Observation
 // -----------
 
-define(['jquery', 'underscore', 'backbone', 'collections/observationmediacollection', 'models/observationmedia'],
-function ($, _, Backbone, ObservationMediaCollection, ObservationMedia) {
+define(['jquery', 'underscore', 'backbone', 'collections/observationmediacollection', 'models/mediaresource'],
+function ($, _, Backbone, ObservationMediaCollection, MediaResource) {
     var Observation = Backbone.Model.extend({
         defaults: {
+            Id: null,
             Title: '',
             ObservedOn: null,
             Address: '',
@@ -32,6 +33,23 @@ function ($, _, Backbone, ObservationMediaCollection, ObservationMedia) {
 
         initialize: function () {
             this.media = new ObservationMediaCollection();
+
+            if (this.id) {
+                var tempMedia = this.get('Media');
+
+                _.each(tempMedia, function (item) {
+                    var mediaResource = new MediaResource(item.MediaResource);
+                    this.addMedia(mediaResource, item.Description, item.Licence, item.IsPrimaryMedia);
+                }, this);
+
+                var projectIds = [];
+                _.each(this.get('Projects'), function (proj) {
+                    projectIds.push(proj.Id);
+                }, this);
+
+                this.set('ProjectIds', projectIds);
+            }
+
             this.media.on('add', this.onMediaChange, this);
             this.media.on('change', this.onMediaChange, this);
             this.media.on('remove', this.onMediaChange, this);
@@ -49,8 +67,10 @@ function ($, _, Backbone, ObservationMediaCollection, ObservationMedia) {
             this.set('ProjectIds', _.without(projects, id));
         },
 
-        addMedia: function (mediaResource, description, licence) {
-            var isPrimaryMedia = this.media.length === 0 ? true : false;
+        addMedia: function (mediaResource, description, licence, isPrimaryMedia) {
+            if (isPrimaryMedia == null) {
+                isPrimaryMedia = this.media.length === 0 ? true : false;
+            }
             this.media.add({ MediaResourceId: mediaResource.id, Description: description, Licence: licence, IsPrimaryMedia: isPrimaryMedia }, { mediaResource: mediaResource });
         },
 

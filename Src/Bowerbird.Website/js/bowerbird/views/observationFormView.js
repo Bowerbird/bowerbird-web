@@ -8,8 +8,8 @@
 // ObservationFormView
 // -------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/locationformview', 'views/observationmediaformview', 'views/identificationformview', 'moment', 'datepicker', 'multiselect', 'jqueryui/dialog'],
-function ($, _, Backbone, app, ich, LocationFormView, ObservationMediaFormView, IdentificationFormView, moment) {
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'models/sightingnote', 'models/identification', 'views/locationformview', 'views/observationmediaformview', 'views/identificationformview', 'views/sightingnotesubformview', 'moment', 'datepicker', 'multiselect', 'jqueryui/dialog'],
+function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormView, ObservationMediaFormView, IdentificationFormView, SightingNoteSubFormView, moment) {
 
     var ObservationFormView = Backbone.Marionette.Layout.extend({
 
@@ -21,7 +21,8 @@ function ($, _, Backbone, app, ich, LocationFormView, ObservationMediaFormView, 
 
         regions: {
             media: '#media-resources-fieldset',
-            location: '#location-fieldset'
+            location: '#location-fieldset',
+            sightingNoteRegion: '.sighting-note-fieldset'
         },
 
         events: {
@@ -36,7 +37,8 @@ function ($, _, Backbone, app, ich, LocationFormView, ObservationMediaFormView, 
             'change #projects-field input:checkbox': '_projectsChanged',
             'change #category-field input:checkbox': '_categoryChanged',
             'click #location-options-button': '_locationOptionsClicked',
-            'click #identify-observation-option': '_showIdentificationForm'
+            'click #identify-observation-option': '_showIdentificationForm',
+            'click #add-sighting-note-button': 'showSightingNoteForm'
         },
 
         observedOnUpdated: false, // When we derive the very first media, we extract the date and update the ObservedOn field. No further updates are allowed.
@@ -46,6 +48,14 @@ function ($, _, Backbone, app, ich, LocationFormView, ObservationMediaFormView, 
             this.categorySelectList = options.categorySelectList;
             this.projectsSelectList = options.projectsSelectList;
             this.categories = options.categories;
+
+            if (this.model.id) {
+                this.observedOnUpdated = true;
+                this.viewEditMode = 'update';
+            } else {
+                this.viewEditMode = 'create';
+            }
+
             this.model.media.on('add', this.onMediaChanged, this);
         },
 
@@ -54,7 +64,9 @@ function ($, _, Backbone, app, ich, LocationFormView, ObservationMediaFormView, 
                 Model: {
                     Observation: this.model.toJSON(),
                     CategorySelectList: this.categorySelectList,
-                    ProjectsSelectList: this.projectsSelectList
+                    ProjectsSelectList: this.projectsSelectList,
+                    Create: this.viewEditMode === 'create',
+                    Update: this.viewEditMode === 'update'
                 }
             };
         },
@@ -93,7 +105,7 @@ function ($, _, Backbone, app, ich, LocationFormView, ObservationMediaFormView, 
                 selectAll: false,
                 listHeight: 260,
                 singleSelect: true,
-                messageText: 'Select a category, or <a href="#" id="identify-observation-option">identify the observation now</a>',
+                messageText: 'Select a category, or <a href="#" id="identify-observation-option">identify the sighting</a>',
                 noOptionsText: 'No Categories',
                 noneSelected: '<span class="default-option">Select Category</span>',
                 oneOrMoreSelected: function (selectedOptions) {
@@ -130,6 +142,9 @@ function ($, _, Backbone, app, ich, LocationFormView, ObservationMediaFormView, 
                     return $selectedHtml.children();
                 }
             });
+
+            this.$el.find('#Title, #Address').tipsy({ trigger: 'focus', gravity: 'w', fade: true, live: true });
+            this.$el.find('#Category, #Projects').tipsy({ trigger: 'focus', gravity: 'e', fade: true, live: true });
         },
 
         _contentChanged: function (e) {
@@ -145,21 +160,26 @@ function ($, _, Backbone, app, ich, LocationFormView, ObservationMediaFormView, 
 
         _showIdentificationForm: function (e) {
             e.preventDefault();
+
+            // If sighting note exists, and id exists, send it to form;
+            // If category exists, get id and send it to form;
+            // if nohting exists, send empty id to form
+
             if (this.model.get('Category') !== '') {
                 var that = this;
                 $.ajax({
                     url: '/species?query=' + _.find(that.categories, function (item) { return item.Name === this.model.get('Category'); }, that).Taxonomy + '&field=taxonomy'
                 }).done(function (data) {
-                    that._renderIdentificationForm(data.Model.Species.PagedListItems[0]);
+                    that._renderIdentificationForm(new Identification(data.Model.Species.PagedListItems[0]));
                 });
             } else {
-                this._renderIdentificationForm();
+                this._renderIdentificationForm(new Identification());
             }
         },
 
         _renderIdentificationForm: function (identification) {
             $('body').append('<div id="modal-dialog"></div>');
-            this.identificationFormView = new IdentificationFormView({ el: $('#modal-dialog'), categories: this.categories, categorySelectList: this.categorySelectList, identification: identification });
+            this.identificationFormView = new IdentificationFormView({ el: $('#modal-dialog'), categories: this.categories, categorySelectList: this.categorySelectList, model: identification });
             this.identificationFormView.on('identificationdone', this._onIdentificationDone, this);
 
             $('#Category').multiSelectOptionsHide();
@@ -173,10 +193,26 @@ function ($, _, Backbone, app, ich, LocationFormView, ObservationMediaFormView, 
             this.$el.find('#Category').html('<span><span>' + identification.get('Category') + '</span></span><i></i>');
 
             log('category set', this.model.get('Category'));
+
+            this.identification = identification;
+
+            if (!this.sightingNote) {
+                this.sightingNote = new SightingNote();
+            }
+            
+            this.sightingNote.setIdentification(identification);
+
+            if (!this.sightingNoteSubFormView) {
+                this.showSightingNoteForm();
+            }
         },
 
         _observedOnChanged: function (e) {
             this.observedOnUpdated = true;
+            var target = $(e.currentTarget);
+            var data = {};
+            data[target.attr('id')] = target.attr('value');
+            this.model.set(data);
         },
 
         _latLongChanged: function (e) {
@@ -220,6 +256,15 @@ function ($, _, Backbone, app, ich, LocationFormView, ObservationMediaFormView, 
             this.$el.find('#location-options').toggle();
         },
 
+        showSightingNoteForm: function () {
+            if (!this.sightingNote) {
+                this.sightingNote = new SightingNote();
+            }
+            var sightingNoteSubFormView = new SightingNoteSubFormView({ model: this.sightingNote });
+            this.sightingNoteSubFormView = sightingNoteSubFormView;
+            this.sightingNoteRegion.show(sightingNoteSubFormView);
+        },
+
         _cancel: function () {
             app.showPreviousContentView();
         },
@@ -229,6 +274,9 @@ function ($, _, Backbone, app, ich, LocationFormView, ObservationMediaFormView, 
                 return;
             }
 
+            if (this.viewEditMode == 'update') {
+                this.model.set('Id', this.model.id.replace('observations/', ''));
+            }
             this.model.save();
             app.showPreviousContentView();
         }

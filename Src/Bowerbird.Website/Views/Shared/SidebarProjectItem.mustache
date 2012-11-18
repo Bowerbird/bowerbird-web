@@ -8,39 +8,39 @@
           <p>{{Name}}</p>
       </div>
   </a>
-  <div class="sub-menu-button">
+  <div class="sub-menu-button sub-menu">
     <span class="arrow-icon right-arrow-icon"></span>
     <ul>
       <li>
-        <a href="/{{Id}}">Latest Activity</a>
+        <a href="/{{Id}}" title="View the activity in this project">Latest Activity</a>
       </li>
       <li>
-        <a href="/{{Id}}/sightings">Sightings</a>
+        <a href="/{{Id}}/sightings" title="View the sightings in this project">Sightings</a>
       </li>
       <li>
-        <a href="/{{Id}}/posts">Posts</a>
+        <a href="/{{Id}}/posts" title="View the posts in this project">Posts</a>
       </li>
       <li>
-        <a href="/{{Id}}/members">Members</a>
+        <a href="/{{Id}}/members" title="View the members in this project">Members</a>
       </li>
       <li>
-        <a href="/{{Id}}/about">About {{Name}}</a>
+        <a href="/{{Id}}/about" title="View details about this project">About {{Name}}</a>
       </li>
       <li class="divider"></li>
       <li id="createnewobservation">
-        <a href="/observations/create?projectid={{Id}}">New Observation</a>
+        <a href="/observations/create?projectid={{Id}}" title="Add a new observation to this project">New Observation</a>
       </li>
       <li id="createnewpost">
-        <a href="/posts/create?id={{Id}}">New Post</a>
+        <a href="/posts/create?id={{Id}}" title="Add a new post to this project">New Post</a>
       </li>
       {{#Permissions.UpdateProject}}
       <li>
-        <a href="/{{Id}}/update">Edit Details</a>
+        <a href="/{{Id}}/update" title="Edit the details of this project">Edit Details</a>
       </li>
       {{/Permissions.UpdateProject}}
       <li class="divider"></li>
       <li>
-        <span class="chat-menu-item" id="chat-{{Id}}">Chat</span>
+        <span class="chat-menu-item" id="chat-{{Id}}" title="Chat with other project members">Chat</span>
       </li>
     </ul>
   </div>

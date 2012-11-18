@@ -1,8 +1,5 @@
-﻿/* stream observation item */
-.observation .observation-details,
-.observation .notes-details,
-.observation .comments-details
-{
+﻿.observation .observation-details,
+.sighting-note-form .observation-details {
     background-color: rgb(255, 255, 255);
     border-radius: 4px 4px 4px 4px;
     box-shadow: 0 1px 2px 0 rgb(51, 51, 51);
@@ -10,242 +7,309 @@
     padding: 2%;
     width: 100%;
 }
-.observation .notes-details
-{
-    height: 100px;
-}
-.observation .comments-details
-{
-    height: 100px;
-}
-.observation .observation-details h3
-{
-    font-size: 2em;
+.observation h4 {
+    color: rgb(68, 68, 68);
+    font-size: 0.875em;
     font-weight: 600;
-    letter-spacing: -0.05em;
+    margin-top: 2%;
+    text-shadow: 0 1px 0 rgb(255, 255, 255);
+}
+.observation-details
+{
+    padding: 2%;
+}
+.observation-details h3
+{
+    font-size: 1.8125em;
+    font-weight: 600;
+    letter-spacing: -1px;
     line-height: 1.1em;
     margin: 0;
-    padding: 0 0 10px;
+    padding: 0 2% 10px 0;
+    width: 69%;
+    display: inline-block;
 }
-.observation .observation-details h2 a,
-.observation .observation-details h2 a:hover,
-.observation .observation-details h2 a:active,
-.observation .observation-details h2 a:visited
+.observation-details h3 a,
+.observation-details h3 a:hover,
+.observation-details h3 a:active,
+.observation-details h3 a:visited
 {
     color: #222222;
     text-decoration: none;
 }
-.observation .observation-details .images
-{
-    float: left;
-    /*margin-bottom: 2%;*/
-    padding-right: 2%;
-    width: 70%;
+/*.observation-details h3 > a > span:before {
+    content: "View";
 }
-.observation .observation-details .images .preview
+.observation-details h3 > a > span
+{
+    background-color: rgb(207, 221, 235);
+    border-radius: 10px 10px 10px 10px;
+    color: rgb(255, 255, 255);
+    display: inline-block;
+    font-size: 0.4em;
+    height: 19px;
+    letter-spacing: normal;
+    line-height: 1.2em;
+    padding: 3px 8px;
+    vertical-align: middle;
+}
+.observation-details h3 > a:hover > span {
+    background-color: rgb(27, 131, 235);
+}*/
+.observation-details .observation-options {
+    display: inline-block;
+    height: 2.1em;
+    position: relative;
+    vertical-align: top;
+    width: 30%;
+}
+/*.activity-item .observation-action-menu {
+    display: inline-block;
+    height: 2.3em;
+    list-style: none outside none;
+    vertical-align: top;
+    width: 19%;
+}
+.activity-item .actions li {
+    display: block;
+    float: left;
+    height: 100%;
+    list-style: none outside none;
+    width: 33.334%;
+}*/
+.activity-item .actions .button {
+    display: inline-block;
+    padding: 0;
+    position: relative;
+    vertical-align: top;
+}
+.activity-item .actions a.add-favourite-button
+{
+    background-color: rgb(51, 200, 255);
+    border-color: rgb(0, 155, 212);
+    box-shadow: 0 1px 1px 0 rgba(255, 255, 255, 0.5) inset;
+    text-indent: -99999px;
+    line-height: 0.01em;
+    width: 44px;
+}
+.activity-item .actions a.add-note-button,
+.activity-item .actions .edit-observation-button,
+.activity-item .actions .view-button {
+    font-size: 1.1em;
+    line-height: 1.5em;
+    padding: 4px 22px;
+}
+.activity-item .actions .view-button {
+    float: right;
+    margin: 0;
+}
+.activity-item .actions .button span
+{
+    background-image: url("/img/icons.png");
+    background-repeat: no-repeat;
+    background-size: 626% auto;
+    display: block;
+    margin: 2px auto 1px;
+}
+.activity-item .actions .add-favourite-button span
+{
+    background-position: -130px -1px;
+    height: 31px;
+    width: 31px;
+}
+.activity-item .actions .add-favourite-button.active span
+{
+    background-position: -130px -1px;
+}
+.activity-item .actions a.add-favourite-button:hover
+{
+    background-color: #00baff;
+}
+.activity-item .actions a.add-favourite-button:active
+{
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.5) inset;
+}
+.observation-details .observation-options .sub-menu-button {
+    right: -10px;
+    top: -8px;
+}
+.observation-details .images
+{
+    display: inline-block;
+    padding-right: 2%;
+    vertical-align: top;
+    width: 69%;
+}
+.observation-details .images .preview
 {
     max-height: 600px;
     overflow: hidden;
     text-align: center;
     width: 100%;
+    position: relative;
 }
-.observation .observation-details .images .preview img
+.observation-details .images .preview .media-details
 {
-    float: left;
+    bottom: 0;
+    position: absolute;
     width: 100%;
 }
-.observation .observation-details .images .thumbnails
+.observation-details .images .preview .overlay
 {
-    padding-top: 1%;
+    background-color: #000000;
+    bottom: 0;
+    height: 100%;
+    opacity: 0.5;
+    position: absolute;
+    width: 100%;
+    z-index: 0;
 }
-.observation .observation-details .images .thumbnails img
+.observation-details .images .preview p.description,
+.observation-details .images .preview p.primary-media
 {
-    float: left;
-    margin-right: 1%;
-    width: 19.2%;
+    color: rgb(255, 255, 255);
+    font-size: 0.85em;
+    line-height: 1.5em;
+    margin: 5px 15px;
+    max-height: 63px;
+    overflow: hidden;
+    position: relative;
+    text-align: left;
+    text-shadow: none;
+    white-space: normal;
+    z-index: 1;
 }
-.observation .observation-details .images .thumbnails img:last-child
+.observation-details .images .thumbnails > div:nth-child(5n+0)
 {
     margin-right: 0;
 }
-.observation .observation-details .info
+.observation-details .images .thumbnails .image-media,
+.observation-details .images .thumbnails .video-media,
+.observation-details .images .thumbnails .audio-media
+{
+    float: left;
+    height: 19.6%;
+    line-height: 1em;
+    margin-right: 0.5%;
+    margin-top: 0.5%;
+    width: 19.6%;
+    cursor: pointer;
+}
+.observation-details .images .thumbnails > div:last-child
+{
+    margin-right: 0;
+}
+.observation-details .info
 {
     display: inline-block;
     width: 30%;
 }
-.observation .observation-details .user
-{
-    font-size: 0.875em;
-    font-weight: 600;
-    line-height: 1.25em;
-    margin: 0;
-}
-.observation .observation-details .user > span
+.observation-details .user,
+.sighting-note .user,
+.sighting .user
 {
     display: block;
-    padding: 5px 5px 0 0;
+    font-size: 0.875em;
+    font-weight: 600;
+    line-height: 1.7em;
+    vertical-align: top;
 }
-.observation .observation-details .user img
+.observation-details .user {
+    margin-bottom: 14px;
+}
+.sightingadded-activity-item .user,
+.sightingnoteadded-activity-item .user {
+    display: none;
+}
+.observation .user .media-square-100,
+.sighting-note .user .media-square-100,
+.sighting .user .media-square-100 {
+    display: inline-block;
+    width: 35px;
+}
+.observation-details .user > span,
+.sighting-note .user > span,
+.sighting .user > span
 {
-    width: 100px;
-    height: 100px;
+    display: inline-block;
+    padding-top: 5px;
+    vertical-align: top;
 }
-.observation .observation-details .observed
+.observation-details .observed,
+.observation-details .observation-projects
 {
     font-size: 0.875em;
     font-weight: 600;
     line-height: 1.25em;
-    margin: 0;
-    padding-top: 20px;
 }
-.observation .observation-details .observed span
+.observation-details .observation-projects {
+    margin: 20px 0 0;    
+}
+.observation-details .observation-projects-list
+{
+    margin-top: 4px;
+}
+.observation-details .observation-project
+{
+    display: block;
+    float: left;
+    margin-right: 1.1%;
+    margin-top: 1.1%;
+    width: 32.6%;
+}
+.observation-details .observation-project:nth-child(3n+0)
+{
+    margin-right: 0;
+}
+.observation-details .observation-projects
+{
+    
+}
+.observation-details  .observed span
 {
     display: block;
     font-weight: 500;
 }
-.observation .observation-details .location
+.observation-details .location
 {
     font-size: 0.875em;
     font-weight: 600;
     line-height: 1.25em;
     padding-top: 20px;
 }
-.observation .observation-details .location .map
+.observation-details .location .map
 {
     overflow: hidden;
     width: 100%;
 }
 @media screen and (min-width: 20em) 
 {
-    .observation .observation-details .location .map
+    .observation-details .location .map
     {
         height: 4em;
     }
 }
 @media screen and (min-width: 37.5em) 
 {
-    .observation .observation-details .location .map
+    .observation-details .location .map
     {
         height: 9em;
     }
 }
 @media screen and (min-width: 64em) 
 {
-    .observation .observation-details .location .map
+    .observation-details .location .map
     {
-        height: 14em;
+        height: 9.5em;
     }
 }
-.observation .observation-details .location > span
+.observation-details .location > span
 {
     display: block;
     font-weight: 500;
     padding: 5px 5px 0 0;
 }
-#stream .observation-details .projects
-{
-    color: #133A68;
-    padding-bottom: 15px;
-    font-weight: 600;
-}
-#stream .observation-details .projects ul
-{
-    margin: 0;
-    padding: 15px 0 0;
-}
-#stream .observation-details .projects li
-{
-    display: inline;
-}
-#stream .observation-details .projects a
-{
-}
-#stream .observation-details .projects a img
-{
-    height: 78px;
-    margin-right: 9px;
-    width: 78px;
-}
-#stream .observation-details .notes
-{
-    clear: both;
-}
-#stream .observation-details .note
-{
-    border-top: 4px solid #AEC8E2;
-    clear: both;
-}
-#stream .observation-details .note .note-details
-{
-    color: #133A68;
-    font-size: 0.875em;
-    font-weight: 600;
-    line-height: 1.2em;
-    padding: 17px;
-    position: relative;
-}
-#stream .observation-details .note .note-details > div:first-child
-{
-    float: left;
-    padding-right: 2%;
-    width: 70%;
-}
-#stream .observation-details .note .note-details > div:last-child
-{
-    float: left;
-    width: 28%;
-}
-#stream .observation-details .note .note-details .description
-{
-}
-#stream .observation-details .note .note-details p
-{
-    font-size: 0.92857143em;
-    font-weight: 500;
-    margin: 0 0 10px;
-}
-#stream .observation-details .note .identification
-{
-}
-#stream .observation-details .note .identification .scientific-name span
-{
-    font-style: italic;
-    display: block;
-}
-#stream .observation-details .note .identification .author
-{
-}
-#stream .observation-details .note .identification .taxonomy
-{
-}
-#stream .observation-details .note .tags ul
-{
-    margin: 0 0 15px 0;
-    padding: 0;
-}
-#stream .observation-details .note .tags li
-{
-    display: inline;
-}
-#stream .observation-details .note .tags a,
-#stream .observation-details .note .tags a:visited
-{
-    background-color: #E1ECF8;
-    border-radius: 4px 4px 4px 4px;
-    color: #133A68;
-    display: inline-block;
-    font-size: 0.86em;
-    font-weight: 500;
-    margin-top: 6px;
-    padding: 1px 5px 3px;
-    text-decoration: none;
-}
-#stream .observation-details .note .tags a:hover,
-#stream .observation-details .note .tags a:active
-{
-    background-color: #3B9CFF;
-    color: #FFFFFF;
-}
+
 
 
 
@@ -279,8 +343,7 @@
 .home-private .call-to-action h2 {
     font-size: 1.4em;
 }
-.home-private .details {
-    float: left;
+.home-private > .details {
     width: 100%;
 }
 .call-to-action p
@@ -715,3 +778,28 @@ div.click-to-explore
     z-index:1000;
 }
 */
+
+
+.sighting-note-form .observation-details {
+    margin-bottom: 2%;
+}
+.sighting-note-form {
+    width: 95.6%;
+}
+.sighting-note-form form {
+    display: inline-block;
+    width: 100%;
+}
+
+
+.observation .sighting-notes {
+    float: left;
+}
+.observation .sighting-note {
+    background-color: rgb(255, 255, 255);
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 2px 0 rgb(51, 51, 51);
+    float: left;
+    margin-top: 2%;
+    padding: 2%;
+}

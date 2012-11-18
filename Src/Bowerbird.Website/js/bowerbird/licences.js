@@ -6,8 +6,8 @@
 /// <reference path="../libs/backbone.marionette/backbone.marionette.js" />
 /// <reference path="../libs/jquery.signalr/jquery-1.6.2-vsdoc.js" />
 
-// Licenes
-// -------
+// Licences
+// --------
 
 // Bowerbird licences
 define(['underscore'], function (_) {

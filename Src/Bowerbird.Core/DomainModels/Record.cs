@@ -54,8 +54,7 @@ namespace Bowerbird.Core.DomainModels
             anonymiseLocation,
             category,
             userProject,
-            projects
-            )
+            projects)
         {
             ApplyEvent(new SightingCreatedEvent(this, createdByUser, this, projects));
         }
@@ -68,21 +67,27 @@ namespace Bowerbird.Core.DomainModels
 
         #region Methods
 
-        public Record UpdateDetails(User updatedByUser,
+        public Record UpdateDetails(
+            User updatedByUser,
+            DateTime updatedOn,
             DateTime observedOn,
             string latitude,
             string longitude,
             bool anonymiseLocation,
-            string category)
+            string category,
+            IEnumerable<Project> projects)
         {
             Check.RequireNotNull(updatedByUser, "updatedByUser");
 
             SetSightingDetails(
+                updatedByUser,
+                updatedOn,
                 observedOn,
                 latitude,
                 longitude,
                 anonymiseLocation,
-                category);
+                category,
+                projects);
 
             ApplyEvent(new DomainModelUpdatedEvent<Record>(this, updatedByUser, this));
 

@@ -98,6 +98,9 @@
     <Reference Include="NLog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NLog.2.0.0.2000\lib\net40\NLog.dll</HintPath>
     </Reference>
+    <Reference Include="RouteDebugger">
+      <HintPath>..\..\packages\routedebugger.2.1.4.0\lib\net40\RouteDebugger.dll</HintPath>
+    </Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web.WebPages" />
@@ -191,6 +194,10 @@
     <Content Include="js\bowerbird\controllers\activityController.js" />
     <Content Include="js\bowerbird\controllers\chatController.js" />
     <Content Include="js\bowerbird\controllers\accountController.js" />
+    <Content Include="js\bowerbird\controllers\sightingNoteController.js" />
+    <Content Include="js\bowerbird\sightingNoteDescriptions.js" />
+    <Content Include="js\bowerbird\models\identification.js" />
+    <Content Include="js\bowerbird\models\sightingNote.js" />
     <Content Include="js\bowerbird\models\sighting.js" />
     <Content Include="js\bowerbird\models\tracker.js" />
     <Content Include="js\bowerbird\models\timer.js" />
@@ -236,7 +243,12 @@
     <Content Include="js\bowerbird\views\commentFormView.js" />
     <Content Include="js\bowerbird\views\commentCollectionView.js" />
     <Content Include="js\bowerbird\views\commentCompositeView.js" />
-    <Content Include="js\bowerbird\views\sightingItemView.js" />
+    <Content Include="js\bowerbird\views\accountLoginView.js" />
+    <Content Include="js\bowerbird\views\accountRegisterView.js" />
+    <Content Include="js\bowerbird\views\sightingNoteDetailsView.js" />
+    <Content Include="js\bowerbird\views\sightingNoteSubFormView.js" />
+    <Content Include="js\bowerbird\views\observationDetailsView.js" />
+    <Content Include="js\bowerbird\views\sightingNoteFormView.js" />
     <Content Include="js\bowerbird\views\sightingListView.js" />
     <Content Include="js\bowerbird\views\formView.js" />
     <Content Include="js\bowerbird\views\identificationFormView.js" />
@@ -246,7 +258,7 @@
     <Content Include="js\bowerbird\views\postLayoutView.js" />
     <Content Include="js\bowerbird\views\discussionLayoutView.js" />
     <Content Include="js\bowerbird\views\videoFormView.js" />
-    <Content Include="js\bowerbird\views\observationDetailsView.js" />
+    <Content Include="js\bowerbird\views\sightingDetailsView.js" />
     <Content Include="js\bowerbird\views\userFormLayoutView.js" />
     <Content Include="js\bowerbird\views\organisationItemView.js" />
     <Content Include="js\bowerbird\views\organisationCollectionView.js" />
@@ -263,7 +275,6 @@
     <Content Include="js\bowerbird\views\userItemView.js" />
     <Content Include="js\bowerbird\views\onlineUsersView.js" />
     <Content Include="js\bowerbird\views\sidebarOrganisationItemView.js" />
-    <Content Include="js\bowerbird\views\sidebarTeamItemView.js" />
     <Content Include="js\bowerbird\views\postFormLayoutView.js" />
     <Content Include="js\bowerbird\views\homePrivateView.js" />
     <Content Include="js\bowerbird\views\referenceSpeciesFormLayoutView.js" />
@@ -277,14 +288,14 @@
     <Content Include="js\bowerbird\views\observationMediaItemFormView.js" />
     <Content Include="js\bowerbird\views\observationFormView.js" />
     <Content Include="js\bowerbird\views\projectFormView.js" />
-    <Content Include="js\bowerbird\views\streamItemView.js" />
+    <Content Include="js\bowerbird\views\activityItemView.js" />
     <Content Include="js\bowerbird\views\activityListView.js" />
     <Content Include="js\libs\backbone.queryparams\backbone.queryparams.js" />
     <Content Include="js\libs\bootstrap\bootstrap-datepicker.js" />
     <Content Include="js\libs\date\date.js" />
     <Content Include="js\libs\jquery.animateprogress\jquery.animate-progress.js" />
     <Content Include="js\libs\jquery.carousel\jquery.carousel.js" />
-    <Content Include="js\libs\jquery.carousel\jquery.touchswipe.min.js" />
+    <Content Include="js\libs\jquery.carousel\jquery.touchswipe.js" />
     <Content Include="js\libs\jquery.fileupload\jquery.fileupload.js" />
     <Content Include="js\libs\jquery.fileupload\jquery.iframe-transport.js" />
     <Content Include="js\libs\jquery.fileupload\load-image.js" />
@@ -296,7 +307,9 @@
     <Content Include="js\libs\jquery.jsonp\jquery.jsonp.js" />
     <Content Include="js\libs\jquery.multiselect\jquery.multiselect.js" />
     <Content Include="js\libs\jquery.signalr\jquery.signalr.js" />
+    <Content Include="js\libs\jquery.tag-it\jquery.tag-it.js" />
     <Content Include="js\libs\jquery.timeago\jquery.timeago.js" />
+    <Content Include="js\libs\jquery.tipsy\jquery.tipsy.js" />
     <Content Include="js\libs\jqueryui\autocomplete.js" />
     <Content Include="js\libs\jqueryui\core.js" />
     <Content Include="js\libs\jqueryui\draggable.js" />
@@ -359,20 +372,19 @@
     <Content Include="Views\ReferenceSpecies\Delete.mustache" />
     <Content Include="Views\ReferenceSpecies\Index.mustache" />
     <Content Include="Views\ReferenceSpecies\List.mustache" />
-    <Content Include="Views\Shared\HomePrivate.mustache">
+    <Content Include="Views\Shared\HomePrivateIndex.mustache">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Shared\SidebarMenuGroup.mustache" />
     <Content Include="Views\Shared\SidebarOrganisationItem.mustache">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Shared\SidebarTeamItem.mustache">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="Views\Shared\PostForm.mustache">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Shared\StreamItem.mustache" />
+    <Content Include="Views\Shared\ActivityItem.mustache">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\Shared\ReferenceSpeciesCreate.mustache" />
     <Content Include="Views\Shared\SpeciesCreate.mustache" />
     <Content Include="Views\Shared\Observation.mustache">
@@ -484,9 +496,6 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Shared\ObservationMediaItem.mustache" />
-    <Content Include="Views\Shared\ObservationStreamItem.mustache">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="Views\Shared\OrganisationForm.mustache">
       <SubType>Designer</SubType>
     </Content>
@@ -499,7 +508,9 @@
     <Content Include="Views\Shared\SidebarProjectItem.mustache">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Shared\Stream.mustache" />
+    <Content Include="Views\Shared\ActivityList.mustache">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\Shared\StreamMessage.mustache" />
     <Content Include="Views\Shared\StreamLoadMore.mustache" />
     <Content Include="Views\Shared\TeamForm.mustache">
@@ -523,7 +534,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Shared\VideoForm.mustache" />
-    <Content Include="Views\Shared\ObservationDetails.mustache">
+    <Content Include="Views\Shared\ObservationIndex.mustache">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Shared\MediaConstrained600.mustache" />
@@ -541,8 +552,54 @@
     <Content Include="Views\Shared\Avatar200.mustache" />
     <Content Include="Views\Shared\Avatar50.mustache" />
     <Content Include="Views\Shared\Avatar100.mustache" />
-    <Content Include="Views\Shared\SightingList.mustache" />
-    <Content Include="Views\Shared\SightingItem.mustache" />
+    <Content Include="Views\Shared\SightingList.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\TabBar.mustache" />
+    <Content Include="Views\Shared\AccountLogin.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\Header.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\HomePublicIndex.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\AccountRegister.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\SightingNoteForm.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\SightingNotes\Create.mustache" />
+    <Content Include="Views\Shared\ObservationDetails.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\SightingDetails.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\IdentificationWindow.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\SightingNoteDescription.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\SightingNoteSubForm.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\SightingNoteDetails.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\StreamLoading.mustache" />
+    <Content Include="Views\Shared\SightingNoteFullDetails.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\SightingSummaryDetails.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\SightingFullDetails.mustache">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="404.html" />

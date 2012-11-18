@@ -1,2 +1,10 @@
-﻿<ul class="sighting-list">
+﻿<div class="sighting-list">
+  {{>TabBar}}
+  <ul class="sighting-items">
+  {{#Model.Sightings.PagedListItems}}
+  <li class="sighting-item">
+    {{>ObservationDetails}}
+  </li>
+  {{/Model.Sightings.PagedListItems}}
 </ul>
+</div>

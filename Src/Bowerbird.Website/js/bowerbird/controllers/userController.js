@@ -40,7 +40,7 @@ function ($, _, Backbone, app, UserFormLayoutView, User) {
             url = id;
         }
         var deferred = new $.Deferred();
-        if (app.isPrerendering('users')) {
+        if (app.isPrerenderingView('users')) {
             deferred.resolve(app.prerenderedView.data);
         } else {
             $.ajax({
@@ -105,7 +105,7 @@ function ($, _, Backbone, app, UserFormLayoutView, User) {
                 var user = new User(model.User);
                 var userFormLayoutView = new UserFormLayoutView({ model: user });
                 app.showFormContentView(userFormLayoutView, 'users');
-                if (app.isPrerendering('users')) {
+                if (app.isPrerenderingView('users')) {
                     userFormLayoutView.showBootstrappedDetails();
                 }
                 app.setPrerenderComplete();

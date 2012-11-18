@@ -19,8 +19,8 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/organisation'], funct
 
         events: {
             'click .chat-menu-item': 'startChat',
-            'click .sub-menu-button': 'showMenu',
-            'click .sub-menu-button li': 'selectMenuItem'
+            'click .sub-menu': 'showMenu',
+            'click .sub-menu li': 'selectMenuItem'
         },
 
         onRender: function () {
@@ -45,13 +45,13 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/organisation'], funct
         },
 
         showMenu: function (e) {
-            $('.sub-menu-button').removeClass('active');
+            $('.sub-menu').removeClass('active');
             $(e.currentTarget).addClass('active');
             e.stopPropagation();
         },
 
         selectMenuItem: function (e) {
-            $('.sub-menu-button').removeClass('active');
+            $('.sub-menu').removeClass('active');
             e.stopPropagation();
         },
 

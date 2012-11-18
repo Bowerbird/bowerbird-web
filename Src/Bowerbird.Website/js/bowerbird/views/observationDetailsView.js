@@ -14,7 +14,7 @@ function ($, _, Backbone, app, moment) {
     var ObservationDetailsView = Backbone.Marionette.ItemView.extend({
         className: 'observation double',
 
-        template: 'ObservationDetails',
+        template: 'ObservationIndex',
 
         initialize: function (options) {
             _.bindAll(this, 'resizeElements', 'showMedia');
@@ -23,10 +23,10 @@ function ($, _, Backbone, app, moment) {
         serializeData: function () {
             return {
                 Model: {
-                    Observation: this.model.toJSON(),
-                    ShowThumbnails: this.model.get('Media').length > 1 ? true : false,
-                    ShowProjects: this.model.get('Projects').length > 0 ? true : false,
-                    ObservedOnDescription: moment(this.model.get('ObservedOn')).format('D MMM YYYY h:mma')
+                    Observation: this.model.toJSON()
+                    //ShowThumbnails: this.model.get('Media').length > 1 ? true : false,
+                    //ShowProjects: this.model.get('Projects').length > 0 ? true : false,
+                    //ObservedOnDescription: moment(this.model.get('ObservedOn')).format('D MMM YYYY h:mma')
                 }
             };
         },

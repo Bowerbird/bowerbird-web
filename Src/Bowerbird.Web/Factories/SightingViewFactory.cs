@@ -17,6 +17,7 @@ namespace Bowerbird.Web.Factories
 
         private readonly IUserViewFactory _userViewFactory;
         private readonly IGroupViewFactory _groupViewFactory;
+        private readonly ISightingNoteViewFactory _sightingNoteViewFactory;
 
         #endregion
 
@@ -24,13 +25,16 @@ namespace Bowerbird.Web.Factories
 
         public SightingViewFactory(
             IUserViewFactory userViewFactory,
-            IGroupViewFactory groupViewFactory)
+            IGroupViewFactory groupViewFactory,
+            ISightingNoteViewFactory sightingNoteViewFactory)
         {
             Check.RequireNotNull(userViewFactory, "userViewFactory");
             Check.RequireNotNull(groupViewFactory, "groupViewFactory");
+            Check.RequireNotNull(sightingNoteViewFactory, "sightingNoteViewFactory");
 
             _userViewFactory = userViewFactory;
             _groupViewFactory = groupViewFactory;
+            _sightingNoteViewFactory = sightingNoteViewFactory;
         }
 
         #endregion
@@ -90,7 +94,10 @@ namespace Bowerbird.Web.Factories
             viewModel.User = _userViewFactory.Make(user);
             viewModel.Comments = sighting.Discussion.Comments;
             viewModel.ObservedOnDescription = sighting.ObservedOn.ToString("d MMMM yyyy HH:mm") + sighting.ObservedOn.ToString("tt").ToLower();
-            viewModel.ShowProjects = projects.Any();
+            //viewModel.Notes = sighting.Notes.Select(_sightingNoteViewFactory.Make);
+            viewModel.CommentCount = sighting.Discussion.CommentCount;
+            viewModel.ProjectCount = projects.Count();
+            viewModel.NoteCount = sighting.Notes.Count();
 
             if (sighting is Observation)
             {
@@ -101,7 +108,8 @@ namespace Bowerbird.Web.Factories
                 viewModel.IsIdentificationRequired = observation.IsIdentificationRequired;
                 viewModel.Media = observation.Media;
                 viewModel.PrimaryMedia = observation.PrimaryMedia;
-                viewModel.ShowThumbnails = observation.Media.Count() > 1;
+                viewModel.MediaCount = observation.Media.Count();
+                viewModel.ShowMediaThumbnails = observation.Media.Count() > 1;
             }
 
             return viewModel;

@@ -22,7 +22,7 @@ function ($, _, Backbone, app, PostLayoutView, Post) {
     var showPostLayoutView = function (post) {
         var postLayoutView = new PostLayoutView({ model: post });
         app.showFormContentView(postLayoutView, 'posts');
-        if (app.isPrerendering('posts')) {
+        if (app.isPrerenderingView('posts')) {
             postLayoutView.showBootstrappedDetails();
         }
         return postLayoutView;
@@ -34,7 +34,7 @@ function ($, _, Backbone, app, PostLayoutView, Post) {
             url = id;
         }
         var deferred = new $.Deferred();
-        if (app.isPrerendering('posts')) {
+        if (app.isPrerenderingView('posts')) {
             deferred.resolve(app.prerenderedView.data);
         } else {
             $.ajax({
@@ -49,7 +49,7 @@ function ($, _, Backbone, app, PostLayoutView, Post) {
     var createModel = function (groupId) {
         var url = '/posts/create?id=' + groupId;
         var deferred = new $.Deferred();
-        if (app.isPrerendering('posts')) {
+        if (app.isPrerenderingView('posts')) {
             deferred.resolve(app.prerenderedView.data);
         } else {
             $.ajax({

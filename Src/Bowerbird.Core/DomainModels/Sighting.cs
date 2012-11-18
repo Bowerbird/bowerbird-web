@@ -12,6 +12,7 @@
  
 */
 
+using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using System.Collections.Generic;
 using System;
@@ -60,20 +61,17 @@ namespace Bowerbird.Core.DomainModels
 
             User = createdByUser;
             CreatedOn = createdOn;
+            _sightingGroups.Add(new SightingGroup(userProject, createdByUser, createdOn));
 
             SetSightingDetails(
+                createdByUser,
+                createdOn,
                 observedOn,
                 latitude, 
                 longitude, 
                 anonymiseLocation,
-                category);
-
-            SetSightingGroup(userProject, createdByUser, createdOn);
-
-            foreach (var project in projects)
-            {
-                SetSightingGroup(project, createdByUser, createdOn);
-            }
+                category,
+                projects);
         }
 
         #endregion
@@ -126,51 +124,43 @@ namespace Bowerbird.Core.DomainModels
         }
 
         protected void SetSightingDetails(
+            User user,
+            DateTime updatedDateTime,
             DateTime observedOn, 
             string latitude, 
             string longitude, 
             bool anonymiseLocation,
-            string category)
+            string category,
+            IEnumerable<Project> projects)
         {
             ObservedOn = observedOn;
             Latitude = latitude;
             Longitude = longitude;
             AnonymiseLocation = anonymiseLocation;
             Category = category;
-        }
 
-        private SightingGroup SetSightingGroup(Group group, User createdByUser, DateTime createdDateTime)
-        {
-            if (_sightingGroups.All(x => x.Group.Id != group.Id))
+            _sightingGroups.RemoveAll(x => x.Group.GroupType != "userproject");
+
+            foreach (var project in projects)
             {
-                var sightingGroup = new SightingGroup(group, createdByUser, createdDateTime);
-
-                _sightingGroups.Add(sightingGroup);
-
-                return sightingGroup;
+                _sightingGroups.Add(new SightingGroup(project, user, updatedDateTime));
             }
-
-            return null;
         }
 
         private SightingNote SetSightingNote(
-            string commonName,
-            string scientificName,
-            string taxonomy,
+            int id,
+            Identification identification,
             IEnumerable<string> tags,
             IDictionary<string, string> descriptions,
-            IDictionary<string, string> references,
             DateTime createdOn,
             User createdByUser)
         {
             var sightingNote = new SightingNote(
+                id,
                 createdByUser,
-                commonName,
-                scientificName,
-                taxonomy,
+                identification,
                 tags,
                 descriptions,
-                references,
                 createdOn);
 
             _sightingNotes.Add(sightingNote);
@@ -179,56 +169,53 @@ namespace Bowerbird.Core.DomainModels
         }
 
         public Sighting AddNote(
-            string commonName,
-            string scientificName,
-            string taxonomy,
+            Identification identification,
             IEnumerable<string> tags,
             IDictionary<string, string> descriptions,
-            IDictionary<string, string> references,
             DateTime createdOn,
             User createdByUser)
         {
             Check.RequireNotNull(tags, "tags");
             Check.RequireNotNull(descriptions, "descriptions");
-            Check.RequireNotNull(references, "references");
             Check.RequireNotNull(createdByUser, "createdByUser");
 
-            SightingNote sightingNote = SetSightingNote(commonName, scientificName, taxonomy, tags, descriptions,
-                                                        references, createdOn, createdByUser);
+            var maxId = _sightingNotes.Count > 0 ? _sightingNotes.Select(x => x.Id).Max() : 0;
+
+            SightingNote sightingNote = SetSightingNote(maxId + 1, identification, tags, descriptions, createdOn, createdByUser);
 
             ApplyEvent(new DomainModelCreatedEvent<SightingNote>(sightingNote, createdByUser, this));
 
             return this;
         }
 
-        public Sighting RemoveNote(string sightingNoteId)
+        public Sighting RemoveNote(int sightingNoteId)
         {
             _sightingNotes.RemoveAll(x => x.Id == sightingNoteId);
 
             return this;
         }
 
-        public Sighting AddGroup(Group group, User createdByUser, DateTime createdDateTime)
-        {
-            Check.RequireNotNull(group, "group");
-            Check.RequireNotNull(createdByUser, "createdByUser");
+        //public Sighting AddGroup(Group group, User createdByUser, DateTime createdDateTime)
+        //{
+        //    Check.RequireNotNull(group, "group");
+        //    Check.RequireNotNull(createdByUser, "createdByUser");
 
-            var sightingGroup = SetSightingGroup(group, createdByUser, createdDateTime);
+        //    var sightingGroup = SetSightingGroup(group, createdByUser, createdDateTime);
 
-            if(sightingGroup != null)
-            {
-                ApplyEvent(new SightingGroupCreatedEvent(sightingGroup, createdByUser, this, group));
-            }
+        //    if(sightingGroup != null)
+        //    {
+        //        ApplyEvent(new SightingGroupCreatedEvent(sightingGroup, createdByUser, this, group));
+        //    }
 
-            return this;
-        }
+        //    return this;
+        //}
 
-        public Sighting RemoveGroup(string groupId)
-        {
-            _sightingGroups.RemoveAll(x => x.Group.Id == groupId);
+        //public Sighting RemoveGroup(string groupId)
+        //{
+        //    _sightingGroups.RemoveAll(x => x.Group.Id == groupId);
 
-            return this;
-        }
+        //    return this;
+        //}
 
         #endregion
     }

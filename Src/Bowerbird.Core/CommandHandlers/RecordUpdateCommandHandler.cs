@@ -54,19 +54,19 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(command, "command");
 
-            var record = _documentSession
-                .Load<Record>(command.Id);
+            //var record = _documentSession
+            //    .Load<Record>(command.Id);
 
-            record.UpdateDetails(
-                _documentSession.Load<User>(command.UserId),
-                command.ObservedOn,
-                command.Latitude,
-                command.Longitude,
-                command.AnonymiseLocation,
-                command.Category
-            );
+            //record.UpdateDetails(
+            //    _documentSession.Load<User>(command.UserId),
+            //    command.ObservedOn,
+            //    command.Latitude,
+            //    command.Longitude,
+            //    command.AnonymiseLocation,
+            //    command.Category
+            //);
 
-            _documentSession.Store(record);
+            //_documentSession.Store(record);
         }
 
         #endregion      

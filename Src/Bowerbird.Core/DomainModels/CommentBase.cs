@@ -56,6 +56,14 @@ namespace Bowerbird.Core.DomainModels
             private set { _comments = new List<Comment>(value); }
         }
 
+        public int CommentCount
+        {
+            get
+            {
+                return _comments.Aggregate(0, (i, comment) => comment.CommentCount);
+            }
+        }
+
         #endregion
 
         #region Methods

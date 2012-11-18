@@ -40,7 +40,7 @@ function ($, _, Backbone, app, OrganisationLayoutView, OrganisationFormLayoutVie
             url = id;
         }
         var deferred = new $.Deferred();
-        if (app.isPrerendering('organisations')) {
+        if (app.isPrerenderingView('organisations')) {
             deferred.resolve(app.prerenderedView.data);
         } else {
             $.ajax({
@@ -54,7 +54,7 @@ function ($, _, Backbone, app, OrganisationLayoutView, OrganisationFormLayoutVie
 
     var getExploreList = function (page, pageSize, sortField, sortDirection, searchQuery) {
         var deferred = new $.Deferred();
-        if (app.isPrerendering('organisations')) {
+        if (app.isPrerenderingView('organisations')) {
             deferred.resolve(app.prerenderedView.data);
         } else {
             var params = {};
@@ -96,7 +96,7 @@ function ($, _, Backbone, app, OrganisationLayoutView, OrganisationFormLayoutVie
                 organisation.set('Id', 'organisations/' + id);
                 var organisationLayoutView = new OrganisationLayoutView({ model: organisation });
                 app.showFormContentView(organisationLayoutView, 'organisations');
-                if (app.isPrerendering('organisations')) {
+                if (app.isPrerenderingView('organisations')) {
                     organisationLayoutView.showBootstrappedDetails();
                 }
                 organisationLayoutView.showStream();
@@ -113,7 +113,7 @@ function ($, _, Backbone, app, OrganisationLayoutView, OrganisationFormLayoutVie
                 var organisation = new Organisation(model.Organisation);
                 var organisationFormLayoutView = new OrganisationFormLayoutView({ model: organisation });
                 app.showFormContentView(organisationFormLayoutView, 'organisations');
-                if (app.isPrerendering('organisations')) {
+                if (app.isPrerenderingView('organisations')) {
                     organisationFormLayoutView.showBootstrappedDetails();
                 }
                 app.setPrerenderComplete();
@@ -129,7 +129,7 @@ function ($, _, Backbone, app, OrganisationLayoutView, OrganisationFormLayoutVie
                 var organisationCollectionView = new OrganisationCollectionView({ collection: OrganisationController.organisationCollection });
                 app.showFormContentView(organisationCollectionView, 'organisations');
                 //app.content[app.getShowViewMethodName('projects')](projectCollectionView);
-                if (app.isPrerendering('organisations')) {
+                if (app.isPrerenderingView('organisations')) {
                     organisationCollectionView.showBootstrappedDetails();
                 }
                 app.setPrerenderComplete();

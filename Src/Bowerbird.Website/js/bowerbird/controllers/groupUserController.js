@@ -28,7 +28,7 @@ function ($, _, Backbone, app, Project, ActivityCollection)
     var getModel = function (id) {
         var deferred = new $.Deferred();
 
-        if (app.isPrerendering('projects')) {
+        if (app.isPrerenderingView('projects')) {
             deferred.resolve(app.prerenderedView.data);
         } else {
             var params = {};
@@ -65,7 +65,7 @@ function ($, _, Backbone, app, Project, ActivityCollection)
 
 //                app.content[app.getShowViewMethodName('projects')](projectLayoutView);
 
-//                if (app.isPrerendering('projects')) {
+//                if (app.isPrerenderingView('projects')) {
 //                    projectLayoutView.showBootstrappedDetails();
 //                }
 

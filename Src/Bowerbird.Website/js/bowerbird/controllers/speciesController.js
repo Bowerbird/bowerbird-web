@@ -26,7 +26,7 @@ function ($, _, Backbone, app, Species, SpeciesFormItemView)
             url = '/' + id;
         }
         var deferred = new $.Deferred();
-        if (app.isPrerendering('species')) {
+        if (app.isPrerenderingView('species')) {
             deferred.resolve(app.prerenderedView.data);
         } else {
             $.ajax({

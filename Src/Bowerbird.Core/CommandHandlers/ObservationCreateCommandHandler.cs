@@ -57,10 +57,7 @@ namespace Bowerbird.Core.CommandHandlers
             Check.RequireNotNull(command, "command");
 
             var mediaResourceIds = command.Media.Select(x => x.MediaResourceId);
-
             var mediaResources = _documentSession.Load<MediaResource>(mediaResourceIds);
-
-            // TODO: Create any new media resources from scratch
 
             var userProject = _documentSession
                 .Query<All_Users.Result, All_Users>()
@@ -84,6 +81,12 @@ namespace Bowerbird.Core.CommandHandlers
                     .Select(x => x.Project);
             }
 
+            // Ensure at least one media set as primary
+            if(command.Media.All(x => !x.IsPrimaryMedia))
+            {
+                command.Media.First().IsPrimaryMedia = true;
+            }
+
             var observation = new Observation(
                 user,
                 command.Title,
@@ -96,24 +99,13 @@ namespace Bowerbird.Core.CommandHandlers
                 command.AnonymiseLocation,
                 command.Category,
                 userProject,
-                projects);
-
-            // Ensure at least one media set as primary
-            if(command.Media.All(x => !x.IsPrimaryMedia))
-            {
-                command.Media.First().IsPrimaryMedia = true;
-            }
-
-            foreach (var media in command.Media)
-            {
-                // TODO: Create any new media resources from scratch
-
-                observation.AddMedia(
-                    mediaResources.Single(x => x.Id.ToLower() == media.MediaResourceId),
-                    media.Description,
-                    media.Licence,
-                    media.IsPrimaryMedia);
-            }
+                projects,
+                command.Media.Select(x =>
+                new Tuple<MediaResource, string, string, bool>(
+                    mediaResources.Single(y => y.Id == x.MediaResourceId),
+                    x.Description,
+                    x.Licence,
+                    x.IsPrimaryMedia)));
 
             _documentSession.Store(observation);
         }

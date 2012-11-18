@@ -16,11 +16,11 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/activitylistview', 'vi
 
         className: 'home-private double',
 
-        template: 'HomePrivate',
+        template: 'HomePrivateIndex',
 
         regions: {
             summary: '.summary',
-            details: '.details'
+            list: '.list'
         },
 
         events: {
@@ -34,7 +34,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/activitylistview', 'vi
                 Model: {
                     User: this.model.toJSON(),
                     ShowWelcome: _.contains(app.authenticatedUser.callsToAction, 'welcome'),
-                    ShowActivities: this.activeTab === 'activities',
+                    ShowActivities: this.activeTab === 'activities' || this.activeTab === '',
                     ShowSightings: this.activeTab === 'sightings',
                     ShowPosts: this.activeTab === 'posts'
                 }
@@ -44,15 +44,15 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/activitylistview', 'vi
         activeTab: '',
 
         onShow: function () {
-            this.showDetails();
+            this._showDetails();
         },
 
         showBootstrappedDetails: function () {
             this.initializeRegions();
-            this.showDetails();
+            this._showDetails();
         },
 
-        showDetails: function () {
+        _showDetails: function () {
             var that = this;
             this.$el.find('.close-intro').on('click', function (e) {
                 e.preventDefault();
@@ -63,75 +63,93 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/activitylistview', 'vi
                 app.vent.trigger('close-call-to-action', 'welcome');
                 return false;
             });
+
+//            this.on('reshow', function () {
+//                if (this.list.currentView) {
+//                    this.list.currentView.refresh();
+//                }
+//            }, this);
+
+//            app.vent.on('view:render:complete', function () {
+//                this.list.currentView.refresh();
+//            }, this);
         },
 
         showActivityTabSelection: function (e) {
             e.preventDefault();
             this.switchTabHighlight('activities');
+            this.list.currentView.showLoading();
             Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
         },
 
         showSightingsTabSelection: function (e) {
             e.preventDefault();
             this.switchTabHighlight('sightings');
+            this.list.currentView.showLoading();
             Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
         },
 
         showPostsTabSelection: function (e) {
             e.preventDefault();
             this.switchTabHighlight('posts');
+            this.list.currentView.showLoading();
             Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
         },
 
-        showActivity: function () {
+        showActivity: function (model) {
             this.switchTabHighlight('activities');
 
-            var activityCollection = new ActivityCollection();
+            var activityCollection = new ActivityCollection(model.Activities.PagedListItems);
+            activityCollection.setPageInfo(model.Activities);
+
             var options = {
                 model: app.authenticatedUser.user,
                 collection: activityCollection,
                 isHomeStream: true
             };
 
-            if (app.isPrerendering('home')) {
-                options['el'] = '.stream';
+            if (app.isPrerenderingView('home')) {
+                options['el'] = '.list > div';
             }
 
             var activityListView = new ActivityListView(options);
 
-            if (app.isPrerendering('home')) {
-                this.details.attachView(activityListView);
+            if (app.isPrerenderingView('home')) {
+                this.list.attachView(activityListView);
                 activityListView.showBootstrappedDetails();
             } else {
-                this.details.show(activityListView);
+                this.list.show(activityListView);
             }
-
-            activityCollection.fetchFirstPage();
         },
 
-        showSightings: function (sightings) {
+        showSightings: function (model, tab) {
+            if (tab && this.activeTab === 'sightings') {
+                log('showing sub-tab', tab);
+                return;
+            }
+
             this.switchTabHighlight('sightings');
 
-            var sightingCollection = new SightingCollection();
+            var sightingCollection = new SightingCollection(model.Sightings.PagedListItems);
+            sightingCollection.setPageInfo(model.Sightings);
+
             var options = {
                 model: app.authenticatedUser.user,
                 collection: sightingCollection
             };
 
-            if (app.isPrerendering('home')) {
-                options['el'] = '.sightings';
+            if (app.isPrerenderingView('home')) {
+                options['el'] = '.list > div';
             }
 
             var sightingListView = new SightingListView(options);
 
-            if (app.isPrerendering('home')) {
-                this.details.attachView(sightingListView);
+            if (app.isPrerenderingView('home')) {
+                this.list.attachView(sightingListView);
                 sightingListView.showBootstrappedDetails();
             } else {
-                this.details.show(sightingListView);
+                this.list.show(sightingListView);
             }
-
-            sightingCollection.reset(sightings.PagedListItems);
         },
 
         switchTabHighlight: function (tab) {

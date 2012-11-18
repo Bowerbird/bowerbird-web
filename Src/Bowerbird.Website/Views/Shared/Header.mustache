@@ -1,0 +1,90 @@
+﻿<header class="{{#Model.HomeHeader}}home{{/Model.HomeHeader}}{{^Model.HomeHeader}}default{{/Model.HomeHeader}}-header">
+  <div>
+
+    {{#Model.HomeHeader}}
+    <div class="banner">
+      <div class="slogan">
+        <h1>
+          <img src="/img/logo2.svg" alt="" />
+        </h1>
+        <p>
+          A place to share and discuss Australia’s biodiversity.
+        </p>
+        <a href="/account/register" class="button">Join BowerBird</a>
+      </div>
+      <div class="feature-image">
+        <img src="/media/0/39-Original.jpg" alt="" />
+      </div>
+    </div>
+    {{/Model.HomeHeader}}
+    {{^Model.HomeHeader}}
+    <h1>
+      <a href="/">
+        <img src="/img/logo2.svg" alt="" />
+      </a>
+    </h1>
+    {{/Model.HomeHeader}}
+    <h2 class="hidden">Your Account</h2>
+    <nav id="account-menu">
+      <ul>
+        {{#Model.AuthenticatedUser}}
+        <li class="user-menu-item">
+          <span class="small-icon user-icon"></span>
+          <span class="user-name">{{Model.AuthenticatedUser.User.Name}}</span>
+
+          <div class="sub-menu-button sub-menu">
+            <span class="arrow-icon down-arrow-icon"></span>
+            <ul>
+              <li>
+                <a href="/{{Model.AuthenticatedUser.User.Id}}" class="view-your-profile-button">View Your Public Profile</a>
+              </li>
+              <li class="divider"></li>
+              <li>
+                <a href="/account/preferences">Edit Preferences</a>
+              </li>
+              <li>
+                <a href="/account/update">Edit Account Details</a>
+              </li>
+              <li class="divider"></li>
+              <li>
+                <a href="/account/logout">Logout</a>
+              </li>
+            </ul>
+          </div>
+        </li>
+        {{/Model.AuthenticatedUser}}
+        {{^Model.AuthenticatedUser}}
+        <li>
+          <a href="/account/login" class="login-button">Login</a>
+        </li>
+        <li>
+          <a href="/account/register" class="register-button">Join</a>
+        </li>
+        {{/Model.AuthenticatedUser}}
+      </ul>
+    </nav>
+
+    <h2 class="hidden">Explore</h2>
+    <nav id="explore-menu">
+      <ul>
+        <li>
+          <a href="/sightings">Sightings</a>
+        </li>
+        <li>
+          <a href="/projects">Projects</a>
+        </li>
+        <li>
+          <a href="/organisations">Organisations</a>
+        </li>
+      </ul>
+    </nav>
+
+    <nav id="search-menu">
+      <label for="search">Search</label>
+      <input type="text" value="" name="search" id="search" placeholder="Search" />
+    </nav>
+
+
+
+  </div>
+</header>

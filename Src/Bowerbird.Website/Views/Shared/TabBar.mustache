@@ -1,0 +1,54 @@
+﻿<div class="tab-bar tab-bar-right small">
+  <ul class="tabs">
+    {{#Model.ShowSightings}}
+    <li>
+      <div class="tab-list-button sort-button sub-menu" title="Sort by selected option">
+        <span class="tab-list-selection">Latest Added</span>
+        <span class="tab-list-button-arrow down-arrow-icon-blue"></span>
+        <ul>
+          <li><a href="#">Latest Added</a></li>
+          <li>
+            <a href="#">Oldest Added</a>
+          </li>
+          <li class="divider"></li>
+          <li><a href="#">Latest Observed</a></li>
+          <li>
+            <a href="#">Oldest Observed</a>
+          </li>
+          <li><a href="#">Alphabetical (A-Z)</a></li>
+          <li>
+            <a href="#">Alphabetical (Z-A)</a>
+          </li>
+        </ul>
+      </div>
+    </li>
+
+    <!--<li>
+      <div class="tab-list-button sort-direction-button sub-menu" title="Sort in selected direction">
+        <span class="tab-list-selection">Ascending</span>
+        <span class="tab-list-button-arrow down-arrow-icon-blue"></span>
+        <ul>
+          <li><a href="#">Ascending</a></li>
+          <li><a href="#">Descending</a></li>
+        </ul>
+      </div>
+    </li>-->
+    {{/Model.ShowSightings}}
+    <li>
+      <a class="tab-image-button details-view-button selected" href="#" title="View as detailed list">Details</a>
+    </li>
+    {{#Model.ShowSightings}}
+    <li>
+      <a class="tab-image-button thumbnails-view-button" href="/sightings?view=thumbnails" title="View as thumbnail list">Thumbnails</a>
+    </li>
+    {{/Model.ShowSightings}}
+    <li>
+      <a class="tab-image-button list-view-button" href="/sightings?view=list" title="View as summary list">List</a>
+    </li>
+    {{#Model.ShowSightings}}
+    <li>
+      <a class="tab-image-button map-view-button" href="/sightings?view=map" title="View on a map">Map</a>
+    </li>
+    {{/Model.ShowSightings}}
+  </ul>
+</div>

@@ -133,6 +133,11 @@ function ($, _, Backbone, app, DummyOverlayView) {
             this.map.controls[g.ControlPosition.TOP_RIGHT].push(centreMapControlDiv);
 
             this.mapExpanded = false;
+
+            if (this.model.id) {
+                this._positionMarker(new google.maps.LatLng(this.model.get('Latitude'), this.model.get('Longitude')));
+                this._centreMap();
+            }
         },
 
         _expandMap: function () {

@@ -32,10 +32,14 @@ define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
         },
 
         parse: function (resp) {
-            this.page = resp.Model.Page;
-            this.pageSize = resp.Model.PageSize;
-            this.total = resp.Model.TotalResultCount;
+            this.setPageInfo(resp.Model);
             return resp.Model.PagedListItems;
+        },
+
+        setPageInfo: function (model) {
+            this.page = model.Page;
+            this.pageSize = model.PageSize;
+            this.total = model.TotalResultCount;
         },
 
         url: function () {

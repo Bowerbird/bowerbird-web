@@ -103,13 +103,15 @@
     <Compile Include="CommandHandlers\RecordUpdateCommandHandler.cs" />
     <Compile Include="CommandHandlers\MemberUpdateCommandHandler.cs" />
     <Compile Include="Commands\UserUpdateCallToActionCommand.cs" />
-    <Compile Include="Commands\ObservationMediaCreateCommand.cs" />
+    <Compile Include="Commands\ObservationMediaUpdateCommand.cs" />
     <Compile Include="Commands\RecordCreateCommand.cs" />
     <Compile Include="Commands\RecordDeleteCommand.cs" />
     <Compile Include="Commands\RecordUpdateCommand.cs" />
     <Compile Include="Commands\MemberUpdateCommand.cs" />
     <Compile Include="Commands\VideoResourceCreateCommand.cs" />
     <Compile Include="DomainModels\Category.cs" />
+    <Compile Include="DomainModels\Identification.cs" />
+    <Compile Include="DomainModels\SightingNoteDescription.cs" />
     <Compile Include="DomainModels\TaxonomicRank.cs" />
     <Compile Include="Indexes\All_CommonNameTaxa.cs" />
     <Compile Include="Utilities\AudioFileAbstraction.cs" />

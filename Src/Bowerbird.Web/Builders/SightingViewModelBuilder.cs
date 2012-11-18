@@ -12,6 +12,7 @@
  
 */
 
+using System.Collections.Generic;
 using System.Linq;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
@@ -30,6 +31,7 @@ namespace Bowerbird.Web.Builders
 
         private readonly IDocumentSession _documentSession;
         private readonly ISightingViewFactory _sightingViewFactory;
+        private readonly ISightingNoteViewFactory _sightingNoteViewFactory;
 
         #endregion
 
@@ -37,13 +39,16 @@ namespace Bowerbird.Web.Builders
 
         public SightingViewModelBuilder(
             IDocumentSession documentSession,
-            ISightingViewFactory sightingViewFactory)
+            ISightingViewFactory sightingViewFactory,
+            ISightingNoteViewFactory sightingNoteViewFactory)
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(sightingViewFactory, "sightingViewFactory");
+            Check.RequireNotNull(sightingNoteViewFactory, "sightingNoteViewFactory");
 
             _documentSession = documentSession;
             _sightingViewFactory = sightingViewFactory;
+            _sightingNoteViewFactory = sightingNoteViewFactory;
         }
 
         #endregion
@@ -65,11 +70,14 @@ namespace Bowerbird.Web.Builders
             var result = _documentSession
                 .Query<All_Contributions.Result, All_Contributions>()
                 .AsProjection<All_Contributions.Result>()
-                .Where(x => x.ContributionId == id && (x.ContributionType == "observation" || x.ContributionType == "record"))
-                .ToList()
-                .First();
+                .Where(x => x.ContributionId == id && (x.ContributionType == "observation" || x.ContributionType == "record" || x.ContributionType == "note"))
+                .ToList();
 
-            return _sightingViewFactory.Make(result);
+            dynamic sighting = _sightingViewFactory.Make(result.Single(x => x.ContributionType == "observation" || x.ContributionType == "record"));
+
+            sighting.Notes = result.Any(x => x.ContributionType == "note") ? result.Where(x => x.ContributionType == "note").Select(_sightingNoteViewFactory.Make) : new List<object>();
+
+            return sighting;
         }
 
         public object BuildGroupSightingList(string groupId, PagingInput pagingInput)

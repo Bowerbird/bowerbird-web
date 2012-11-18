@@ -26,9 +26,7 @@ namespace Bowerbird.Core.DomainModels
         #region Members
 
         [Raven.Imports.Newtonsoft.Json.JsonIgnore]
-        private Dictionary<string, string> _descriptions;
-        [Raven.Imports.Newtonsoft.Json.JsonIgnore]
-        private Dictionary<string, string> _references;
+        private IEnumerable<SightingNoteDescription> _descriptions;
         [Raven.Imports.Newtonsoft.Json.JsonIgnore] 
         private IEnumerable<string> _tags;
 
@@ -43,50 +41,39 @@ namespace Bowerbird.Core.DomainModels
         }
 
         public SightingNote(
+            int id,
             User createdByUser,
-            string commonName, 
-            string scientificName, 
-            string taxonomy,
+            Identification identification,
             IEnumerable<string> tags,
             IDictionary<string, string> descriptions,
-            IDictionary<string, string> references,
             DateTime createdOn)
-            : base()
+            : this()
         {
             Check.RequireNotNull(createdByUser, "createdByUser");
             Check.RequireNotNull(descriptions, "descriptions");
-            Check.RequireNotNull(references, "references");
             Check.RequireNotNull(tags, "tags");
 
-            InitMembers();
-
+            Id = id;
             User = createdByUser;
             CreatedOn = createdOn;
 
             SetDetails(
-                commonName,
-                scientificName,
-                taxonomy,
+                identification,
                 tags,
-                descriptions,
-                references);
+                descriptions);
         }
 
         #endregion
 
         #region Properties
 
-        public string Id { get; private set; }
+        public int Id { get; private set; }
         
         public DenormalisedUserReference User { get; private set; }
 
         public DateTime CreatedOn { get; private set; }
-        
-        public string ScientificName { get; private set; }
-        
-        public string CommonName { get; private set; }
-        
-        public string Taxonomy { get; private set; }
+
+        public Identification Identification { get; private set; }
         
         public IEnumerable<string> Tags
         {
@@ -94,16 +81,10 @@ namespace Bowerbird.Core.DomainModels
             private set { _tags = new List<string>(value); }
         }
 
-        public IDictionary<string, string> Descriptions 
+        public IEnumerable<SightingNoteDescription> Descriptions 
         {
             get { return _descriptions; }
-            private set { _descriptions = new Dictionary<string,string>(value); }
-        }
-
-        public IDictionary<string, string> References
-        {
-            get { return _references; }
-            private set { _references = new Dictionary<string, string>(value); }
+            private set { _descriptions = new List<SightingNoteDescription>(value); }
         }
 
         #endregion
@@ -112,53 +93,114 @@ namespace Bowerbird.Core.DomainModels
 
         private void InitMembers()
         {
-            _descriptions = new Dictionary<string, string>();
-            _references = new Dictionary<string, string>();
+            _descriptions = new List<SightingNoteDescription>();
             _tags = new List<string>();
         }
 
         protected void SetDetails(
-            string commonName, 
-            string scientificName, 
-            string taxonomy, 
+            Identification identification, 
             IEnumerable<string> tags, 
-            IDictionary<string, string> descriptions, 
-            IDictionary<string, string> references
+            IDictionary<string, string> descriptions
             )
         {
-            Check.RequireNotNull(descriptions, "descriptions");
-            Check.RequireNotNull(references, "references");
-
-            CommonName = commonName;
-            ScientificName = scientificName;
-            Taxonomy = taxonomy;
+            Identification = identification;
             Tags = tags;
-            Descriptions = descriptions.ToDictionary(x => x.Key, x => x.Value);
-            References = references.ToDictionary(x => x.Key, x => x.Value);
+            Descriptions = descriptions.Select(x => MakeSightingNoteDescription(x.Key, x.Value));
         }
 
         public SightingNote UpdateDetails(
             User updatedByUser, 
-            string commonName, 
-            string scientificName, 
-            string taxonomy, 
+            Identification identification, 
             IEnumerable<string> tags, 
-            IDictionary<string, string> descriptions, 
-            IDictionary<string, string> references)
+            IDictionary<string, string> descriptions)
         {
             Check.RequireNotNull(updatedByUser, "updatedByUser");
             Check.RequireNotNull(descriptions, "descriptions");
-            Check.RequireNotNull(references, "references");
 
             SetDetails(
-                commonName,
-                scientificName,
-                taxonomy,
+                identification,
                 tags,
-                descriptions,
-                references);
+                descriptions);
 
             return this;
+        }
+
+        private SightingNoteDescription MakeSightingNoteDescription(string id, string text)
+        {
+            string label = string.Empty;
+            string description = string.Empty;
+            string group = string.Empty;
+
+            switch (id)
+            {
+                case "physicaldescription":
+                    group = "lookslike";
+                    label = "Physical Description";
+                    description = "The physical characteristics of the species in the sighting";
+                    break;
+                case "similarspecies":
+                    group = "lookslike";
+                    label = "Similar Species";
+                    description = "How the species sighting is similar to other species";
+                    break;
+                case "distribution":
+                    group = "wherefound";
+                    label = "Distribution";
+                    description = "The geographic distribution of the species in the sighting";
+                    break;
+                case "habitat":
+                    group = "wherefound";
+                    label = "Habitat";
+                    description = "The habitat of the species in the sighting";
+                    break;
+                case "seasonalvariation":
+                    group = "wherefound";
+                    label = "Seasonal Variation";
+                    description = "Any seasonal variation of the species in the sighting";
+                    break;
+                case "conservationstatus":
+                    group = "wherefound";
+                    label = "Conservation Status";
+                    description = "The conservation status of the species in the sighting";
+                    break;
+                case "behaviour":
+                    group = "whatitdoes";
+                    label = "Behaviour";
+                    description = "Any behaviour of a species in the sighting";
+                    break;
+                case "food":
+                    group = "whatitdoes";
+                    label = "Food";
+                    description = "The feeding chracteristics of the species in the sighting";
+                    break;
+                case "lifecycle":
+                    group = "whatitdoes";
+                    label = "Life Cycle";
+                    description = "The life cycle stage or breeding charatcertic of the species in the sighting";
+                    break;
+                case "indigenouscommonnames":
+                    group = "cultural";
+                    label = "Indigenous Common Names";
+                    description = "Any indigenous common names associated with the sighting";
+                    break;
+                case "indigenoususage":
+                    group = "cultural";
+                    label = "Usage in Indigenous Culture";
+                    description = "Any special usage in indigenous cultures of the species in the sighting";
+                    break;
+                case "traditionalstories":
+                    group = "cultural";
+                    label = "Traditional Stories";
+                    description = "Any traditional stories associated with the species in the sighting";
+                    break;
+                case "general":
+                    group = "other";
+                    label = "General Details";
+                    description = "Any other general details";
+                    break;
+            }
+
+            return new SightingNoteDescription(id, group, label, description, text);
         }
 
         #endregion

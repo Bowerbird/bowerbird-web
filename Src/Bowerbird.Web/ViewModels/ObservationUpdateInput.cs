@@ -32,30 +32,32 @@ namespace Bowerbird.Web.ViewModels
 
         public string Id { get; set; }
 
+        [Required(ErrorMessage = "Please enter a title")]
+        public string Title { get; set; }
+
+        [Required(ErrorMessage = "Please enter the observed on date and time")]
+        public DateTime ObservedOn { get; set; }
+
+        [Required]
+        public string Latitude { get; set; }
+
+        [Required]
+        public string Longitude { get; set; }
+
         public string Address { get; set; }
 
+        /// <summary>
+        /// TODO: Remove, obsolete
+        /// </summary>
         public bool IsIdentificationRequired { get; set; }
 
         [Required]
         public bool AnonymiseLocation { get; set; }
 
-        public string Latitude { get; set; }
-
-        public string Longitude { get; set; }
-
-        public string Title { get; set; }
-
+        [Required(ErrorMessage = "Please select an observation category")]
         public string Category { get; set; }
 
-        public DateTime ObservedOn { get; set; }
-
-        public string UserId { get; set; }
-
-        public Dictionary<string, string> AddMediaResources { get; set; }
-
-        public Dictionary<string, string> MediaResources { get; set; }
-
-        public List<string> RemoveMediaResources { get; set; }
+        public List<ObservationMediaItem> Media { get; set; }
 
         public List<string> ProjectIds { get; set; }
 

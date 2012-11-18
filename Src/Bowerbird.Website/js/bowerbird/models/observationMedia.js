@@ -20,7 +20,7 @@ define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
 
         mediaResource: null,
 
-        initialize: function (attr, options) {
+        initialize: function (attributes, options) {
             if (options.mediaResource) {
                 this.setMediaResource(options.mediaResource);
             }
