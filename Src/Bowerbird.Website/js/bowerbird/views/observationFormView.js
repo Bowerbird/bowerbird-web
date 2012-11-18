@@ -163,7 +163,7 @@ function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormVi
 
             // If sighting note exists, and id exists, send it to form;
             // If category exists, get id and send it to form;
-            // if nohting exists, send empty id to form
+            // if nohting exists, send empty id to form.
 
             if (this.model.get('Category') !== '') {
                 var that = this;

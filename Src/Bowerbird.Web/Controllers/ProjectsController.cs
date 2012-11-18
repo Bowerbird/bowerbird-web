@@ -385,7 +385,7 @@ namespace Bowerbird.Web.Controllers
         }
 
         [Transaction]
-        [HttpPut]
+        [HttpPost]
         [Authorize]
         public ActionResult Create(ProjectCreateInput createInput)
         {
@@ -409,7 +409,7 @@ namespace Bowerbird.Web.Controllers
         }
 
         [Transaction]
-        [HttpPost]
+        [HttpPut]
         [Authorize]
         public ActionResult Update(ProjectUpdateInput updateInput)
         {
