@@ -34,11 +34,6 @@ namespace Bowerbird.Web.ViewModels
         /// </summary>
         public string MediaResourceId { get; set; }
 
-        /// <summary>
-        /// Specify a new item to be created from scatch
-        /// </summary>
-        public MediaResourceCreateInput MediaResource { get; set; }
-
         public string Description { get; set; }
 
         public string Licence { get; set; }
