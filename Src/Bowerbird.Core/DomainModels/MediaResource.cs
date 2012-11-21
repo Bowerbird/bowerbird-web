@@ -93,6 +93,22 @@ namespace Bowerbird.Core.DomainModels
             }
         }
 
+        public string Key
+        {
+            get 
+            { 
+                return _properties["Key"].ToString();
+            }
+            set
+            {
+                if(!_properties.ContainsKey("Key"))
+                {
+                    _properties.Add("Key", string.Empty);
+                }
+                _properties["Key"] = value;
+            }
+        }
+
         #endregion
 
         #region Methods

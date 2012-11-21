@@ -56,8 +56,26 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(command, "command");
 
-            var mediaResourceIds = command.Media.Select(x => x.MediaResourceId);
-            var mediaResources = _documentSession.Load<MediaResource>(mediaResourceIds);
+            List<MediaResource> mediaResources;
+
+            // the presumption here is that there is either media referenced by mediaresourceid or key.
+            bool mediaByResourceId = command.Media.Any(x => x.MediaResourceId != null);
+
+            if (mediaByResourceId)
+            {
+                var mediaResourceIds = command.Media.Select(x => x.MediaResourceId).ToList();
+                
+                mediaResources = _documentSession.Load<MediaResource>(mediaResourceIds).ToList();
+            }
+            else
+            {
+                var mediaResourceIds = command.Media.Select(x => x.Key).ToList();
+
+                mediaResources = _documentSession
+                    .Query<MediaResource>()
+                    .Where(x => x.Key.In(mediaResourceIds))
+                    .ToList();
+            }
 
             var userProject = _documentSession
                 .Query<All_Users.Result, All_Users>()
@@ -100,9 +118,9 @@ namespace Bowerbird.Core.CommandHandlers
                 command.Category,
                 userProject,
                 projects,
-                command.Media.Select(x =>
+                command.Media.Select(x => // command media may either have ids or keys depending on which client...
                 new Tuple<MediaResource, string, string, bool>(
-                    mediaResources.Single(y => y.Id == x.MediaResourceId),
+                    mediaByResourceId ? mediaResources.Single(y => y.Id == x.MediaResourceId) : mediaResources.Single(y => y.Key == x.Key),
                     x.Description,
                     x.Licence,
                     x.IsPrimaryMedia)));

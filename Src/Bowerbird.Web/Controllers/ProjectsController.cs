@@ -103,7 +103,11 @@ namespace Bowerbird.Web.Controllers
                 return HttpNotFound();
             }
 
-            var viewModel = _activityViewModelBuilder.BuildGroupActivityList(projectId, activityInput, pagingInput);
+            //var viewModel = _activityViewModelBuilder.BuildGroupActivityList(projectId, activityInput, pagingInput);
+
+            dynamic viewModel = new ExpandoObject();
+            viewModel.User = _userViewModelBuilder.BuildUser(_userContext.GetAuthenticatedUserId());
+            viewModel.Activities = _activityViewModelBuilder.BuildHomeActivityList(_userContext.GetAuthenticatedUserId(), activityInput, pagingInput);
 
             return RestfulResult(
                 viewModel,

@@ -213,6 +213,7 @@ namespace Bowerbird.Web.Controllers
                         Media = createInput.Media.Select(x => new ObservationMediaUpdateCommand() 
                             { 
                                 MediaResourceId = x.MediaResourceId, 
+                                Key = x.Key,
                                 Description = x.Description, 
                                 Licence = x.Licence, 
                                 IsPrimaryMedia = x.IsPrimaryMedia 

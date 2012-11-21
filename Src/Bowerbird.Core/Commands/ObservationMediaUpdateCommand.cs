@@ -28,6 +28,8 @@ namespace Bowerbird.Core.Commands
 
         public string MediaResourceId { get; set; }
 
+        public string Key { get; set; }
+
         public string Description { get; set; }
 
         public string Licence { get; set; }
