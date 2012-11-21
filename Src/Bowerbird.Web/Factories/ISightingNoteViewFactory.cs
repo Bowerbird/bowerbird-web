@@ -5,7 +5,9 @@ namespace Bowerbird.Web.Factories
 {
     public interface ISightingNoteViewFactory : IFactory
     {
-        object MakeNewSightingNote(string sightingId);
+        object MakeCreateSightingNote(string sightingId);
+
+        object MakeUpdateSightingNote(Sighting sighting, User user, int sightingNoteId);
 
         dynamic Make(All_Contributions.Result result);
 

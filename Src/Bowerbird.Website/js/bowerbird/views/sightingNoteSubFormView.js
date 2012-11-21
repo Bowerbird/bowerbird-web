@@ -8,8 +8,8 @@
 // SightingNoteSubFormView
 // -----------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'models/observation', 'views/sightingdetailsview', 'views/identificationformview', 'sightingnotedescriptions', 'moment', 'datepicker', 'multiselect', 'jqueryui/dialog', 'tipsy', 'tagging'],
-function ($, _, Backbone, app, ich, Observation, SightingDetailsView, IdentificationFormView, sightingNoteDescriptions, moment) {
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'models/identification', 'views/sightingdetailsview', 'views/identificationformview', 'sightingnotedescriptions', 'moment', 'datepicker', 'multiselect', 'jqueryui/dialog', 'tipsy', 'tagging'],
+function ($, _, Backbone, app, ich, Identification, SightingDetailsView, IdentificationFormView, sightingNoteDescriptions, moment) {
 
     var SightingNoteSubFormView = Backbone.Marionette.ItemView.extend({
 
@@ -47,6 +47,7 @@ function ($, _, Backbone, app, ich, Observation, SightingDetailsView, Identifica
 
         onShow: function () {
             this._showDetails();
+            return this;
         },
 
         onRender: function () {
@@ -80,9 +81,12 @@ function ($, _, Backbone, app, ich, Observation, SightingDetailsView, Identifica
             this.$el.find('.add-description-type-button li a').tipsy({ gravity: 'w', live: true });
             this.$el.find('.tagit').attr('title', 'Add tags to the sighting. For multi-word tags, enclose the words in double quotes.').tipsy({ gravity: 'w', trigger: 'manual' });
 
-            //            this.$el.find('#Tags').on('change', function () {
-            //                that.model.set('Tags', $(this).val());
-            //            });
+            this.$el.find('.description-fields textarea').tipsy({ trigger: 'focus', gravity: 'w' });
+
+            _.each(this.model.get('Descriptions'), function (item) {
+                log(item);
+                this.$el.find('li a[data-descriptionid="' + item.Key + '"]').parent().empty();
+            }, this);
 
             // TODO: Filter out already added description fields from list button
         },
@@ -97,13 +101,13 @@ function ($, _, Backbone, app, ich, Observation, SightingDetailsView, Identifica
             //                    that._renderIdentificationForm(data.Model.Species.PagedListItems[0]);
             //                });
             //            } else {
-            this._renderIdentificationForm();
+            this._renderIdentificationForm(this.model.identification || new Identification());
             //}
         },
 
         _renderIdentificationForm: function (identification) {
             $('body').append('<div id="modal-dialog"></div>');
-            this.identificationFormView = new IdentificationFormView({ el: $('#modal-dialog'), categories: this.categories, categorySelectList: this.categorySelectList, identification: identification });
+            this.identificationFormView = new IdentificationFormView({ el: $('#modal-dialog'), categories: this.categories, categorySelectList: this.categorySelectList, model: identification });
             this.identificationFormView.on('identificationdone', this._onIdentificationDone, this);
 
             //$('#Category').multiSelectOptionsHide();
@@ -124,7 +128,11 @@ function ($, _, Backbone, app, ich, Observation, SightingDetailsView, Identifica
         },
 
         showIdentification: function () {
-            this.$el.find('#Identification').html(ich.Identification(this.model.identification.toJSON()));
+            if (this.model.identification) {
+                this.$el.find('#Identification').html(ich.Identification(this.model.identification.toJSON()));
+            } else {
+                this.$el.find('#Identification').html('<span class="identification-none">Not Identified</span>');
+            }
         },
 
         showDescriptionTypes: function (e) {
@@ -142,7 +150,7 @@ function ($, _, Backbone, app, ich, Observation, SightingDetailsView, Identifica
 
             $(e.currentTarget).remove();
 
-            this.$el.find('.description-fields').append(ich.SightingNoteDescription({ DescriptionId: descriptionType.id, DescriptionName: descriptionType.name, DescriptionTitle: descriptionType.description, DescriptionText: '' }));
+            this.$el.find('.description-fields').append(ich.SightingNoteDescription({ Key: descriptionType.id, Value: '', Label: descriptionType.name, Description: descriptionType.description }));
             this.$el.find('#description-' + descriptionType.id).tipsy({ trigger: 'focus', gravity: 'w' });
             $('.sub-menu').removeClass('active');
 

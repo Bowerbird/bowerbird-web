@@ -571,7 +571,7 @@
     <Content Include="Views\Shared\SightingNoteForm.mustache">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\SightingNotes\Create.mustache" />
+    <Content Include="Views\Observations\CreateNote.mustache" />
     <Content Include="Views\Shared\ObservationDetails.mustache">
       <SubType>Designer</SubType>
     </Content>
@@ -600,6 +600,7 @@
     <Content Include="Views\Shared\SightingFullDetails.mustache">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Views\Observations\UpdateNote.mustache" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="404.html" />
@@ -618,6 +619,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="media\" />
+    <Folder Include="Views\SightingNotes\" />
     <Folder Include="Views\Users\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

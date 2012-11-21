@@ -11,7 +11,9 @@
 define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
 
     var Sighting = Backbone.Model.extend({
-        idAttribute: 'Id'
+        idAttribute: 'Id',
+        
+        urlRoot: '/sightings'
     });
 
     return Sighting;

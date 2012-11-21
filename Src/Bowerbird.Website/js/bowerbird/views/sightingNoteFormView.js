@@ -8,8 +8,8 @@
 // SightingNoteFormView
 // --------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'models/observation', 'views/sightingdetailsview', 'views/identificationformview', 'views/sightingnotesubformview', 'sightingnotedescriptions', 'moment', 'datepicker', 'multiselect', 'jqueryui/dialog', 'tipsy', 'tagging'],
-function ($, _, Backbone, app, ich, Observation, SightingDetailsView, IdentificationFormView, SightingNoteSubFormView, sightingNoteDescriptions, moment) {
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/sightingdetailsview', 'views/identificationformview', 'views/sightingnotesubformview', 'sightingnotedescriptions', 'moment', 'datepicker', 'multiselect', 'jqueryui/dialog', 'tipsy', 'tagging'],
+function ($, _, Backbone, app, ich, SightingDetailsView, IdentificationFormView, SightingNoteSubFormView, sightingNoteDescriptions, moment) {
 
     var SightingNoteFormView = Backbone.Marionette.Layout.extend({
 
@@ -34,6 +34,15 @@ function ($, _, Backbone, app, ich, Observation, SightingDetailsView, Identifica
             this.categories = options.categories;
             this.descriptionTypesSelectList = options.descriptionTypesSelectList;
             this.sighting = options.sighting;
+        },
+
+        serializeData: function () {
+            return {
+                Model: {
+                    Sighting:  this.sighting.toJSON(),
+                    SightingNote: this.model.toJSON()
+                }  
+            };
         },
 
         onShow: function () {

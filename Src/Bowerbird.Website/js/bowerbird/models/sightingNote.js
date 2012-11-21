@@ -8,24 +8,45 @@
 // SightingNote
 // ------------
 
-define(['jquery', 'underscore', 'backbone'],
-function ($, _, Backbone) {
+define(['jquery', 'underscore', 'backbone', 'models/identification'],
+function ($, _, Backbone, Identification) {
 
     var SightingNote = Backbone.Model.extend({
         defaults: {
+            Id: null,
             IsCustomIdentification: false,
             SightingId: '',
             Descriptions: [],
-            Tags: ''
+            Tags: '',
+            Taxonomy: ''
         },
 
-        urlRoot: '/sightingnotes',
+        //urlRoot: '/sightingnotes' ,
+
+        url: function () {
+            var url = '/' + this.get('SightingId');
+            if (this.id) {
+                url += '/updatenote/' + this.id;
+            } else {
+                url += '/createnote';
+            }
+            return url;
+        },
 
         idAttribute: 'Id',
 
+        initialize: function (attributes) {
+            if (attributes && attributes.Identification) {
+                this.identification = new Identification(attributes.Identification);
+            }
+            if (attributes && attributes.Descriptions) {
+
+            }
+        },
+
         addDescription: function (id) {
             var list = this.get('Descriptions');
-            var desc = { key: id, value: '' };
+            var desc = { Key: id, Value: '' };
             list.push(desc);
             this.set('Descriptions', list);
         },
@@ -33,8 +54,8 @@ function ($, _, Backbone) {
         setDescription: function (id, text) {
             var list = this.get('Descriptions');
             var newList = _.map(list, function (item) {
-                if (item.key === id) {
-                    item.value = text;
+                if (item.Key === id) {
+                    item.Value = text;
                 }
                 return item;
             });
@@ -42,8 +63,12 @@ function ($, _, Backbone) {
         },
 
         setIdentification: function (identification) {
-            this.set('Taxonomy', identification.get('Taxonomy'));
             this.identification = identification;
+            var taxonomy = '';
+            if (identification) {
+                taxonomy = identification.get('Taxonomy');
+            }
+            this.set('Taxonomy', taxonomy);
         }
     });
 

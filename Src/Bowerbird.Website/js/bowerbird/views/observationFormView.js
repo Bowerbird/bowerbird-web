@@ -38,7 +38,7 @@ function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormVi
             'change #category-field input:checkbox': '_categoryChanged',
             'click #location-options-button': '_locationOptionsClicked',
             'click #identify-observation-option': '_showIdentificationForm',
-            'click #add-sighting-note-button': 'showSightingNoteForm'
+            'click #add-sighting-note-button': '_showSightingNoteForm'
         },
 
         observedOnUpdated: false, // When we derive the very first media, we extract the date and update the ObservedOn field. No further updates are allowed.
@@ -160,13 +160,18 @@ function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormVi
 
         _showIdentificationForm: function (e) {
             e.preventDefault();
+            var that = this;
 
-            // If sighting note exists, and id exists, send it to form;
-            // If category exists, get id and send it to form;
-            // if nohting exists, send empty id to form.
-
-            if (this.model.get('Category') !== '') {
-                var that = this;
+            // If sighting note exists, and id exists, send it to ID form;
+            // Else if category exists, get id and send it to ID form;
+            // Else nothing exists, send empty id to ID form.
+            if (this.sightingNote && this.sightingNote.get('Taxonomy') != '') {
+                $.ajax({
+                    url: '/species?query=' + that.sightingNote.get('Taxonomy') + '&field=taxonomy'
+                }).done(function (data) {
+                    that._renderIdentificationForm(new Identification(data.Model.Species.PagedListItems[0]));
+                });
+            } else if (this.model.get('Category') !== '') {
                 $.ajax({
                     url: '/species?query=' + _.find(that.categories, function (item) { return item.Name === this.model.get('Category'); }, that).Taxonomy + '&field=taxonomy'
                 }).done(function (data) {
@@ -188,23 +193,13 @@ function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormVi
         },
 
         _onIdentificationDone: function (identification) {
-            log('identification done', identification);
-            this.$el.find('input[name="Category[]"][value="' + identification.get('Category') + '"]').click();
-            this.$el.find('#Category').html('<span><span>' + identification.get('Category') + '</span></span><i></i>');
-
-            log('category set', this.model.get('Category'));
-
-            this.identification = identification;
-
-            if (!this.sightingNote) {
-                this.sightingNote = new SightingNote();
+            if (identification.get('Category') !== this.model.get('Category')) {
+                this.$el.find('input[name="Category[]"][value="' + identification.get('Category') + '"]').click();
+                this.$el.find('#Category').html('<span><span>' + identification.get('Category') + '</span></span><i></i>');
             }
-            
-            this.sightingNote.setIdentification(identification);
 
-            if (!this.sightingNoteSubFormView) {
-                this.showSightingNoteForm();
-            }
+            this._setCategory(identification.get('Category'));
+            this._setIdentification(identification);
         },
 
         _observedOnChanged: function (e) {
@@ -244,11 +239,26 @@ function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormVi
         },
 
         _categoryChanged: function (e) {
+            var category = '';
             var $checkbox = $(e.currentTarget);
             if ($checkbox.attr('checked') === 'checked') {
-                this.model.set('Category', $checkbox.attr('value'));
-            } else {
-                this.model.set('Category', '');
+                category = $checkbox.attr('value');
+            }
+            this._setCategory(category);
+            this._setIdentification(null);
+        },
+
+        _setCategory: function (category) {
+            this.model.set('Category', category);
+        },
+
+        _setIdentification: function (identification) {
+            if (identification && !this.sightingNote) {
+                this.sightingNote = new SightingNote();
+                this._showSightingNoteForm();
+            }
+            if (this.sightingNote) {
+                this.sightingNote.setIdentification(identification);
             }
         },
 
@@ -256,7 +266,7 @@ function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormVi
             this.$el.find('#location-options').toggle();
         },
 
-        showSightingNoteForm: function () {
+        _showSightingNoteForm: function () {
             if (!this.sightingNote) {
                 this.sightingNote = new SightingNote();
             }

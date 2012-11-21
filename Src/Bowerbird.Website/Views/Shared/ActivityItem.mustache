@@ -15,7 +15,7 @@
     Add to Favourites <span></span>
   </a>
 
-  <a href="/sightingnotes/create?id={{Id}}" class="button add-note-button" title="&lt;b>Add a note&lt;/b> &lt;br />Add some more information to this sighting, such as an identification, description of behaviour, environment etc, or add some tags">
+  <a href="/{{Id}}/createnote" class="button add-note-button" title="&lt;b>Add a note&lt;/b> &lt;br />Add some more information to this sighting, such as an identification, description of behaviour, environment etc, or add some tags">
     Add Note
   </a>
 
@@ -31,7 +31,7 @@
   {{>SightingNoteDetails}}
 </div>
 <div class="actions">
-  <a href="/sightingnotes/2/update" class="button edit-observation-button" title="&lt;b>Edit this sighting note&lt;/b> &lt;br />Edit the details of this sighting note">
+  <a href="/{{Sighting.Id}}/updatenote/{{SightingNote.Id}}" class="button edit-observation-button" title="&lt;b>Edit this sighting note&lt;/b> &lt;br />Edit the details of this sighting note">
     Edit
   </a>    
   

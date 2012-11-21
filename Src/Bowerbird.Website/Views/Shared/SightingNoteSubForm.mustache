@@ -13,9 +13,12 @@
           </div>
           <div>
             <div id="Identification">
-              {{#Model.Identification}}
+              {{#Identification}}
               {{>Identification}}
-              {{/Model.Identification}}
+              {{/Identification}}
+              {{^Identification}}
+              <span class="identification-none">Not Identified</span>
+              {{/Identification}}
             </div>
           </div>
         </div>
@@ -25,8 +28,10 @@
       </div>
 
       <div class="description-fields">
-        
-        
+        {{#Descriptions}} 
+        {{>SightingNoteDescription}}
+        {{/Descriptions}}
+
       </div>
       
       <div class="field-row">
@@ -116,7 +121,7 @@
             <label for="Tags">Tags</label>
           </div>
           <div>
-            <input type="text" id="Tags" name="tags" />
+            <input type="text" id="Tags" name="tags" value="{{Tags}}" />
           </div>
         </div>
       </div>

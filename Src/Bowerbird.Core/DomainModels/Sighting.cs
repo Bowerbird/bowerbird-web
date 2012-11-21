@@ -188,6 +188,31 @@ namespace Bowerbird.Core.DomainModels
             return this;
         }
 
+        public Sighting UpdateNote(
+            int id,
+            Identification identification,
+            IEnumerable<string> tags,
+            IDictionary<string, string> descriptions,
+            DateTime updatedOn,
+            User updatedByUser)
+        {
+            Check.RequireNotNull(tags, "tags");
+            Check.RequireNotNull(descriptions, "descriptions");
+            Check.RequireNotNull(updatedByUser, "updatedByUser");
+
+            SightingNote sightingNote = _sightingNotes.Single(x => x.Id == id);
+
+            sightingNote.UpdateDetails(
+            updatedByUser,
+            identification,
+            tags,
+            descriptions);
+
+            ApplyEvent(new DomainModelUpdatedEvent<SightingNote>(sightingNote, updatedByUser, this));
+
+            return this;
+        }
+
         public Sighting RemoveNote(int sightingNoteId)
         {
             _sightingNotes.RemoveAll(x => x.Id == sightingNoteId);

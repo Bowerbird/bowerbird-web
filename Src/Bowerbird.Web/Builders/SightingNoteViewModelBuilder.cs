@@ -54,9 +54,35 @@ namespace Bowerbird.Web.Builders
 
         #region Methods
 
-        public object BuildNewSightingNote(string sightingId)
+        public object BuildCreateSightingNote(string sightingId)
         {
-            return _sightingNoteViewFactory.MakeNewSightingNote(sightingId);
+            return _sightingNoteViewFactory.MakeCreateSightingNote(sightingId);
+        }
+
+        public object BuildUpdateSightingNote(string sightingId, int sightingNoteId)
+        {
+            var result = _documentSession
+                .Query<All_Contributions.Result, All_Contributions>()
+                .AsProjection<All_Contributions.Result>()
+                .Where(x => x.ContributionId == sightingId && x.ContributionSubId == sightingNoteId.ToString())
+                .First();
+
+            return _sightingNoteViewFactory.MakeUpdateSightingNote(result.Observation, result.User, sightingNoteId);
+        }
+
+        public dynamic BuildSightingNote(string sightingId, int sightingNoteId)
+        {
+            var results = _documentSession
+                .Query<All_Contributions.Result, All_Contributions>()
+                .AsProjection<All_Contributions.Result>()
+                .Where(x => x.ContributionId == sightingId && (x.ContributionType == "observation" || x.ContributionType == "record"))
+                .ToList();
+
+            var result = results.Single(x => x.ContributionType == "observation" || x.ContributionType == "record");
+
+            dynamic sightingNote = _sightingNoteViewFactory.Make((result.Contribution as Sighting).Notes.Single(x => x.Id == sightingNoteId), result.User);
+
+            return sightingNote;
         }
 
         #endregion

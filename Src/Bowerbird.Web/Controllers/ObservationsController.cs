@@ -41,6 +41,7 @@ namespace Bowerbird.Web.Controllers
         private readonly ISightingViewModelBuilder _sightingViewModelBuilder;
         private readonly IDocumentSession _documentSession;
         private readonly IPermissionManager _permissionManager;
+        private readonly ISightingNoteViewModelBuilder _sightingNoteViewModelBuilder;
 
         #endregion
 
@@ -51,7 +52,8 @@ namespace Bowerbird.Web.Controllers
             IUserContext userContext,
             ISightingViewModelBuilder sightingViewModelBuilder,
             IDocumentSession documentSession,
-            IPermissionManager permissionManager
+            IPermissionManager permissionManager,
+            ISightingNoteViewModelBuilder sightingNoteViewModelBuilder
             )
         {
             Check.RequireNotNull(messageBus, "messageBus");
@@ -59,12 +61,14 @@ namespace Bowerbird.Web.Controllers
             Check.RequireNotNull(sightingViewModelBuilder, "sightingViewModelBuilder");
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(permissionManager, "permissionManager");
+            Check.RequireNotNull(sightingNoteViewModelBuilder, "sightingNoteViewModelBuilder");
 
             _messageBus = messageBus;
             _userContext = userContext;
             _sightingViewModelBuilder = sightingViewModelBuilder;
             _documentSession = documentSession;
             _permissionManager = permissionManager;
+            _sightingNoteViewModelBuilder = sightingNoteViewModelBuilder;
         }
 
         #endregion
@@ -303,6 +307,143 @@ namespace Bowerbird.Web.Controllers
             return JsonSuccess();
         }
 
+        [HttpGet]
+        [Authorize]
+        public ActionResult CreateNoteForm(string id)
+        {
+            // TODO: Check permission to edit this note
+            //if (!_userContext.HasGroupPermission<Observation>(PermissionNames.CreateSightingNote, id))
+            //{
+            //    return HttpUnauthorized();
+            //}
+
+            var observationId = VerbosifyId<Observation>(id);
+
+            dynamic viewModel = new ExpandoObject();
+
+            viewModel.SightingNote = _sightingNoteViewModelBuilder.BuildCreateSightingNote(observationId);
+            viewModel.Sighting = _sightingViewModelBuilder.BuildSighting(observationId);
+            viewModel.DescriptionTypesSelectList = GetDescriptionTypesSelectList();
+            viewModel.CategorySelectList = GetCategorySelectList();
+            viewModel.Categories = GetCategories();
+
+            return RestfulResult(
+                viewModel,
+                "sightingnotes",
+                "createnote",
+                new Action<dynamic>(x => x.Model.Create = true));
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult UpdateNoteForm(string id, int sightingNoteId)
+        {
+            // TODO: Check permission to edit this note
+            //if (!_userContext.HasUserProjectPermission(PermissionNames.UpdateSightingNote))
+            //{
+            //    return HttpUnauthorized();
+            //}
+
+            var observationId = VerbosifyId<Observation>(id);
+
+            dynamic viewModel = new ExpandoObject();
+
+            viewModel.SightingNote = _sightingNoteViewModelBuilder.BuildUpdateSightingNote(observationId, sightingNoteId);
+            viewModel.Sighting = _sightingViewModelBuilder.BuildSighting(observationId);
+            viewModel.DescriptionTypesSelectList = GetDescriptionTypesSelectList();
+            viewModel.CategorySelectList = GetCategorySelectList();
+            viewModel.Categories = GetCategories();
+
+            return RestfulResult(
+                viewModel,
+                "sightingnotes",
+                "updatenote",
+                new Action<dynamic>(x => x.Model.Update = true));
+        }
+
+        [Transaction]
+        [HttpPost]
+        [Authorize]
+        public ActionResult CreateNote(SightingNoteCreateInput createInput)
+        {
+            if (!_userContext.HasGroupPermission<Observation>(PermissionNames.CreateSightingNote, createInput.SightingId))
+            {
+                return HttpUnauthorized();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return JsonFailed();
+            }
+
+            _messageBus.Send(
+                new SightingNoteCreateCommand()
+                {
+                    SightingId = createInput.SightingId,
+                    NotedOn = DateTime.UtcNow,
+                    UserId = _userContext.GetAuthenticatedUserId(),
+                    Descriptions = createInput.Descriptions ?? new Dictionary<string, string>(),
+                    Tags = createInput.Tags ?? string.Empty,
+                    IsCustomIdentification = createInput.IsCustomIdentification,
+                    Taxonomy = createInput.Taxonomy ?? string.Empty,
+                    Category = createInput.Category ?? string.Empty,
+                    Kingdom = createInput.Kingdom ?? string.Empty,
+                    Phylum = createInput.Phylum ?? string.Empty,
+                    Class = createInput.Class ?? string.Empty,
+                    Order = createInput.Order ?? string.Empty,
+                    Family = createInput.Family ?? string.Empty,
+                    Genus = createInput.Genus ?? string.Empty,
+                    Species = createInput.Species ?? string.Empty,
+                    Subspecies = createInput.Subspecies ?? string.Empty,
+                    CommonGroupNames = createInput.CommonGroupNames ?? new string[] { },
+                    CommonNames = createInput.CommonNames ?? new string[] { }
+                });
+
+            return JsonSuccess();
+        }
+
+        [Transaction]
+        [HttpPut]
+        [Authorize]
+        public ActionResult UpdateNote(SightingNoteUpdateInput updateInput)
+        {
+            // TODO: Check permission to edit this note
+            //if (!_userContext.HasGroupPermission<Observation>(PermissionNames.CreateSightingNote, updateInput.Id))
+            //{
+            //    return HttpUnauthorized();
+            //}
+
+            if (!ModelState.IsValid)
+            {
+                return JsonFailed();
+            }
+
+            _messageBus.Send(
+                new SightingNoteUpdateCommand()
+                {
+                    Id = updateInput.Id,
+                    SightingId = updateInput.SightingId,
+                    UserId = _userContext.GetAuthenticatedUserId(),
+                    Descriptions = updateInput.Descriptions ?? new Dictionary<string, string>(),
+                    Tags = updateInput.Tags ?? string.Empty,
+                    IsCustomIdentification = updateInput.IsCustomIdentification,
+                    Taxonomy = updateInput.Taxonomy ?? string.Empty,
+                    Category = updateInput.Category ?? string.Empty,
+                    Kingdom = updateInput.Kingdom ?? string.Empty,
+                    Phylum = updateInput.Phylum ?? string.Empty,
+                    Class = updateInput.Class ?? string.Empty,
+                    Order = updateInput.Order ?? string.Empty,
+                    Family = updateInput.Family ?? string.Empty,
+                    Genus = updateInput.Genus ?? string.Empty,
+                    Species = updateInput.Species ?? string.Empty,
+                    Subspecies = updateInput.Subspecies ?? string.Empty,
+                    CommonGroupNames = updateInput.CommonGroupNames ?? new string[] { },
+                    CommonNames = updateInput.CommonNames ?? new string[] { }
+                });
+
+            return JsonSuccess();
+        }
+
         private IEnumerable GetCategorySelectList(string observationId = "", string category = "")
         {
             if (!string.IsNullOrWhiteSpace(observationId))
@@ -343,6 +484,176 @@ namespace Bowerbird.Web.Controllers
                 .Load<AppRoot>(Constants.AppRootId)
                 .Categories
                 .ToList();
+        }
+
+        private IEnumerable GetDescriptionTypesSelectList()
+        {
+            return new List<object>
+                {
+                    new
+                        {
+                            Text = "Physical Description",
+                            Value = "physicaldescription",
+                            Selected = false
+                        },
+                    new
+                        {
+                            Text = "Similar Species",
+                            Value = "similarspecies",
+                            Selected = false
+                        },
+                    new
+                        {
+                            Text = "Distribution",
+                            Value = "distribution",
+                            Selected = false
+                        },
+                    new
+                        {
+                            Text = "Habitat",
+                            Value = "habitat",
+                            Selected = false
+                        },
+                    new
+                        {
+                            Text = "Seasonal Variation",
+                            Value = "seasonalvariation",
+                            Selected = false
+                        },
+                    new
+                        {
+                            Text = "Behaviour",
+                            Value = "behaviour",
+                            Selected = false
+                        },
+                    new
+                        {
+                            Text = "Food",
+                            Value = "food",
+                            Selected = false
+                        },
+                    new
+                        {
+                            Text = "Life Cycle",
+                            Value = "lifecycle",
+                            Selected = false
+                        },
+                    new
+                        {
+                            Text = "Conservation Status",
+                            Value = "conservationstatus",
+                            Selected = false
+                        },
+                    new
+                        {
+                            Text = "Indigenous Name",
+                            Value = "indigenousname",
+                            Selected = false
+                        },
+                    new
+                        {
+                            Text = "Indigenous Use",
+                            Value = "indigenoususe",
+                            Selected = false
+                        },
+                    new
+                        {
+                            Text = "Indigenous Stories",
+                            Value = "indigenousstories",
+                            Selected = false
+                        },
+                    new
+                        {
+                            Text = "General Details",
+                            Value = "other",
+                            Selected = false
+                        }
+                };
+        }
+
+        private IEnumerable GetDescriptionTypes()
+        {
+            return new List<object>
+                {
+                    new
+                        {
+                            Text = "Physical Description",
+                            Value = "physicaldescription",
+                            Selected = false
+                        },
+                    new
+                        {
+                            Text = "Similar Species",
+                            Value = "similarspecies",
+                            Selected = false
+                        },
+                    new
+                        {
+                            Text = "Distribution",
+                            Value = "distribution",
+                            Selected = false
+                        },
+                    new
+                        {
+                            Text = "Habitat",
+                            Value = "habitat",
+                            Selected = false
+                        },
+                    new
+                        {
+                            Text = "Seasonal Variation",
+                            Value = "seasonalvariation",
+                            Selected = false
+                        },
+                    new
+                        {
+                            Text = "Behaviour",
+                            Value = "behaviour",
+                            Selected = false
+                        },
+                    new
+                        {
+                            Text = "Food",
+                            Value = "food",
+                            Selected = false
+                        },
+                    new
+                        {
+                            Text = "Life Cycle",
+                            Value = "lifecycle",
+                            Selected = false
+                        },
+                    new
+                        {
+                            Text = "Conservation Status",
+                            Value = "conservationstatus",
+                            Selected = false
+                        },
+                    new
+                        {
+                            Text = "Indigenous Name",
+                            Value = "indigenousname",
+                            Selected = false
+                        },
+                    new
+                        {
+                            Text = "Indigenous Use",
+                            Value = "indigenoususe",
+                            Selected = false
+                        },
+                    new
+                        {
+                            Text = "Indigenous Stories",
+                            Value = "indigenousstories",
+                            Selected = false
+                        },
+                    new
+                        {
+                            Text = "General Details",
+                            Value = "other",
+                            Selected = false
+                        }
+                };
         }
 
         #endregion

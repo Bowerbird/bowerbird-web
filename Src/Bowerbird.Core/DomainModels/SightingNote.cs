@@ -105,7 +105,7 @@ namespace Bowerbird.Core.DomainModels
         {
             Identification = identification;
             Tags = tags;
-            Descriptions = descriptions.Select(x => MakeSightingNoteDescription(x.Key, x.Value));
+            Descriptions = descriptions.Where(x => !string.IsNullOrWhiteSpace(x.Value)).Select(x => MakeSightingNoteDescription(x.Key, x.Value));
         }
 
         public SightingNote UpdateDetails(

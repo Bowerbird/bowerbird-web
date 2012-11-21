@@ -41,16 +41,42 @@ namespace Bowerbird.Web.Factories
 
         #region Methods
 
-        public object MakeNewSightingNote(string sightingId)
+        public object MakeCreateSightingNote(string sightingId)
         {
             return new
             {
-                Id = string.Empty,
                 SightingId = sightingId,
                 IsCustomIdentification = false,
+                Identification = (object)null,
                 Tags = string.Empty,
-                Descriptions = new object[] { }
+                Descriptions = new object[] { },
+                Taxonomy = string.Empty
             };
+        }
+
+        public object MakeUpdateSightingNote(Sighting sighting, User user, int sightingNoteId)
+        {
+            var sightingNote = sighting.Notes.Single(x => x.Id == sightingNoteId);
+
+            dynamic viewModel = new ExpandoObject();
+
+            viewModel.Id = sightingNoteId;
+            viewModel.SightingId = sighting.Id;
+            viewModel.IsCustomIdentification = sightingNote.Identification != null && sightingNote.Identification.IsCustomIdentification;
+            viewModel.Identification = sightingNote.Identification;
+            viewModel.Taxonomy = sightingNote.Identification != null ? sightingNote.Identification.Taxonomy : string.Empty;
+            viewModel.Descriptions = sightingNote.Descriptions.Select(x =>
+                                                                      new
+                                                                          {
+                                                                              Key = x.Id,
+                                                                              Value = x.Text,
+                                                                              x.Description,
+                                                                              x.Group,
+                                                                              x.Label
+                                                                          });
+            viewModel.Tags = string.Join(", ", sightingNote.Tags);
+
+            return viewModel;
         }
 
         public dynamic Make(All_Contributions.Result result)
@@ -69,11 +95,13 @@ namespace Bowerbird.Web.Factories
             viewModel.Id = sightingNote.Id;
             viewModel.CreatedOn = sightingNote.CreatedOn;
             viewModel.Identification = sightingNote.Identification;
+            viewModel.Taxonomy = sightingNote.Identification != null ? sightingNote.Identification.Taxonomy : string.Empty;
             viewModel.Descriptions = sightingNote.Descriptions;
             viewModel.Tags = sightingNote.Tags;
             viewModel.User = _userViewFactory.Make(user);
             viewModel.TagCount = sightingNote.Tags.Count();
             viewModel.DescriptionCount = sightingNote.Descriptions.Count();
+            viewModel.AllTags = string.Join(", ", sightingNote.Tags);
 
             return viewModel;
         }

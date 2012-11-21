@@ -219,7 +219,8 @@ namespace Bowerbird.Web.Builders
                 result.SpeciesCount,
                 CommonGroupNames = commonGroupNames,
                 CommonNames = commonNames,
-                Synonyms = synonyms
+                Synonyms = synonyms,
+                AllCommonNames = string.Join(", ", commonGroupNames.Concat(commonNames))
             };
         }
 

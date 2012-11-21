@@ -98,6 +98,30 @@ namespace Bowerbird.Web.Config
                 "projects/{id}/leave",
                 new { controller = "projects", action = "leave" });
 
+            routes.MapRoute(
+                "sighting-note-create-form",
+                "observations/{id}/createnote",
+                new { controller = "observations", action = "createnoteform" },
+                new { httpMethod = new HttpMethodConstraint("GET") });
+
+            routes.MapRoute(
+                "sighting-note-update-form",
+                "observations/{id}/updatenote/{sightingNoteId}",
+                new { controller = "observations", action = "updatenoteform" },
+                new { httpMethod = new HttpMethodConstraint("GET") });
+
+            routes.MapRoute(
+                "sighting-note-create",
+                "observations/{id}/createnote",
+                new { controller = "observations", action = "createnote" },
+                new { httpMethod = new HttpMethodConstraint("POST") });
+
+            routes.MapRoute(
+                "sighting-note-update",
+                "observations/{sightingId}/updatenote/{id}",
+                new { controller = "observations", action = "updatenote" },
+                new { httpMethod = new HttpMethodConstraint("PUT") });
+
             // Load up restful controllers and create routes based on method name conventions
             RegisterRestfulControllerRouteConventions(routes);
 

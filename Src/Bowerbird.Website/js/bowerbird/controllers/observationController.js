@@ -9,10 +9,12 @@
 // ObservationController & ObservationRouter
 // -----------------------------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'models/observation', 'views/observationdetailsview', 'views/observationformview'],
-function ($, _, Backbone, app, Observation, ObservationDetailsView, ObservationFormView) {
+define(['jquery', 'underscore', 'backbone', 'app', 'models/observation', 'models/sighting', 'models/sightingnote', 'views/observationdetailsview', 'views/observationformview', 'views/sightingnoteformview'],
+function ($, _, Backbone, app, Observation, Sighting, SightingNote, ObservationDetailsView, ObservationFormView, SightingNoteFormView) {
     var ObservationRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
+            'observations/:id/createnote': 'showSightingNoteCreateForm',
+            'observations/:sightingId/updatenote/:sightingNoteId': 'showSightingNoteUpdateForm',
             'observations/create*': 'showObservationCreateForm',
             'observations/:id/update': 'showObservationUpdateForm',
             'observations/:id': 'showObservationDetails'
@@ -22,7 +24,7 @@ function ($, _, Backbone, app, Observation, ObservationDetailsView, ObservationF
     var ObservationController = {};
 
     var showObservationForm = function (uri) {
-        $.when(getModel(uri))
+        $.when(getModel(uri, 'observations'))
             .done(function (model) {
                 var observation = new Observation(model.Observation);
 
@@ -37,14 +39,30 @@ function ($, _, Backbone, app, Observation, ObservationDetailsView, ObservationF
             });
     };
 
-    var getModel = function (uri, action) {
+    var showSightingNoteForm = function (uri) {
+        $.when(getModel(uri, 'sightingnotes'))
+        .done(function (model) {
+            var sightingNote = new SightingNote(model.SightingNote);
+
+            var options = { model: sightingNote, sighting: new Sighting(model.Sighting), descriptionTypesSelectList: model.DescriptionTypesSelectList, categories: model.Categories, categorySelectList: model.CategorySelectList };
+
+            if (app.isPrerenderingView('sightingnotes')) {
+                options['el'] = '.sighting-note-form';
+            }
+
+            var sightingNoteFormView = new SightingNoteFormView(options);
+            app.showContentView('Edit Sighting Note', sightingNoteFormView, 'sightingnotes');
+        });
+    };
+
+    var getModel = function (uri, viewName) {
         var deferred = new $.Deferred();
-        if (app.isPrerenderingView('observations')) {
+        if (app.isPrerenderingView(viewName)) {
             deferred.resolve(app.prerenderedView.data);
         } else {
             $.ajax({
-                url: uri,
-                type: action || 'GET'
+                url: uri
+                //type: action
             }).done(function (data) {
                 deferred.resolve(data.Model);
             });
@@ -56,9 +74,9 @@ function ($, _, Backbone, app, Observation, ObservationDetailsView, ObservationF
     // ----------
 
     ObservationController.showObservationDetails = function (id) {
-        $.when(getModel(id))
+        $.when(getModel(id, 'observations'))
             .done(function (model) {
-                var observation = new Observation(model.Observation);
+                var observation = new Sighting(model.Observation);
                 
                 var options = { model: observation };
 
@@ -85,7 +103,7 @@ function ($, _, Backbone, app, Observation, ObservationDetailsView, ObservationF
             uri += '?' + uriParts.join('&');
         }
 
-        showObservationForm(uri, 'PUT');
+        showObservationForm(uri);
     };
 
     ObservationController.showObservationUpdateForm = function (id) {
@@ -94,6 +112,14 @@ function ($, _, Backbone, app, Observation, ObservationDetailsView, ObservationF
 
     ObservationController.mediaResourceUploaded = function (e, mediaResource) {
         app.vent.trigger('mediaResourceUploaded:', mediaResource);
+    };
+
+    ObservationController.showSightingNoteCreateForm = function (id) {
+        showSightingNoteForm('/observations/' + id + '/createnote');
+    };
+
+    ObservationController.showSightingNoteUpdateForm = function (sightingId, sightingNoteId) {
+        showSightingNoteForm('/observations/' + sightingId + '/updatenote/' + sightingNoteId);
     };
 
     // Event Handlers

@@ -10,8 +10,8 @@
 // ----------------
 
 // Shows an individual stream item
-define(['jquery', 'underscore', 'backbone', 'ich', 'app', 'models/observation', 'models/sightingnote', 'views/sightingdetailsview', 'views/sightingnotedetailsview', 'moment', 'timeago', 'tipsy'],
-function ($, _, Backbone, ich, app, Observation, SightingNote, SightingDetailsView, SightingNoteDetailsView, moment) {
+define(['jquery', 'underscore', 'backbone', 'ich', 'app', 'models/sighting', 'models/sightingnote', 'views/sightingdetailsview', 'views/sightingnotedetailsview', 'moment', 'timeago', 'tipsy'],
+function ($, _, Backbone, ich, app, Sighting, SightingNote, SightingDetailsView, SightingNoteDetailsView, moment) {
 
     var ActivityItemView = Backbone.Marionette.Layout.extend({
         tagName: 'li',
@@ -36,12 +36,12 @@ function ($, _, Backbone, ich, app, Observation, SightingNote, SightingDetailsVi
 
         onRender: function () {
             if (this.model.get('Type') === "sightingadded") {
-                var detailsView = new SightingDetailsView({ model: new Observation(this.model.get('ObservationAdded').Observation) });
+                var detailsView = new SightingDetailsView({ model: new Sighting(this.model.get('ObservationAdded').Observation) });
                 this.details.show(detailsView);
             }
 
             if (this.model.get('Type') === "sightingnoteadded") {
-                var detailsView = new SightingNoteDetailsView({ model: new SightingNote(this.model.get('SightingNoteAdded').SightingNote), sighting: new Observation(this.model.get('SightingNoteAdded').Sighting) });
+                var detailsView = new SightingNoteDetailsView({ model: new SightingNote(this.model.get('SightingNoteAdded').SightingNote), sighting: new Sighting(this.model.get('SightingNoteAdded').Sighting) });
                 this.details.show(detailsView);
             }
 
@@ -52,10 +52,10 @@ function ($, _, Backbone, ich, app, Observation, SightingNote, SightingDetailsVi
             this.initializeRegions();
             var detailsView = null;
             if (this.model.get('Type') === "sightingadded") {
-                var detailsView = new SightingDetailsView({ el: this.$el.find('.observation-details'), model: new Observation(this.model.get('ObservationAdded').Observation) });
+                var detailsView = new SightingDetailsView({ el: this.$el.find('.observation-details'), model: new Sighting(this.model.get('ObservationAdded').Observation) });
             }
             if (this.model.get('Type') === "sightingnoteadded") {
-                var detailsView = new SightingNoteDetailsView({ el: this.$el.find('.sighting-note-details'), model: new SightingNote(this.model.get('SightingNoteAdded').SightingNote), sighting: new Observation(this.model.get('SightingNoteAdded').Sighting) });
+                var detailsView = new SightingNoteDetailsView({ el: this.$el.find('.sighting-note-details'), model: new SightingNote(this.model.get('SightingNoteAdded').SightingNote), sighting: new Sighting(this.model.get('SightingNoteAdded').Sighting) });
             }
             this.details.attachView(detailsView);
             detailsView.showBootstrappedDetails();

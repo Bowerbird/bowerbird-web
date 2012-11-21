@@ -13,7 +13,9 @@
   <form action="/sightingnotes" method="post"  enctype="multipart/form-data">
     <fieldset class="sighting-note-fieldset">
       <legend class="hidden">Sighting Note Details</legend>
+      {{#Model.SightingNote}}
       {{>SightingNoteSubForm}}
+      {{/Model.SightingNote}}
     </fieldset>      
     <fieldset>
       <input type="button" value="Save" id="save" />

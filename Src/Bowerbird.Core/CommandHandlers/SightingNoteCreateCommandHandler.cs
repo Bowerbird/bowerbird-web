@@ -114,7 +114,7 @@ namespace Bowerbird.Core.CommandHandlers
 
             sighting.AddNote(
                 identification,
-                command.Tags.Split(new [] { "," }, StringSplitOptions.RemoveEmptyEntries),
+                command.Tags.Split(new [] { "," }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.ToLower()),
                 command.Descriptions,
                 command.NotedOn,
                 _documentSession.Load<User>(command.UserId));

@@ -1,4 +1,4 @@
-/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -14,10 +14,10 @@
 
 using System;
 using System.Collections.Generic;
-
-namespace Bowerbird.Core.Commands
+ 
+namespace Bowerbird.Web.ViewModels
 {
-    public class SightingNoteUpdateCommand : ICommand
+    public class SightingNoteUpdateInput
     {
         #region Members
 
@@ -31,15 +31,11 @@ namespace Bowerbird.Core.Commands
 
         public int Id { get; set; }
 
-        public string UserId { get; set; }
-
         public string SightingId { get; set; }
 
-        public DateTime NotedOn { get; set; }
+        public Dictionary<string,string> Descriptions { get; set; }
 
         public string Tags { get; set; }
-
-        public Dictionary<string, string> Descriptions { get; set; }
 
         /// <summary>
         /// A custom identification consist of all taxa filled out. A non-custom one consists of just Taxonomy, 
@@ -85,6 +81,6 @@ namespace Bowerbird.Core.Commands
 
         #region Methods
 
-        #endregion
+        #endregion      
     }
 }

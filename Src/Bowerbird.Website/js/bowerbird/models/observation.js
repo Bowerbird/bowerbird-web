@@ -35,12 +35,15 @@ function ($, _, Backbone, ObservationMediaCollection, MediaResource) {
             this.media = new ObservationMediaCollection();
 
             if (this.id) {
-                var tempMedia = this.get('Media');
-
-                _.each(tempMedia, function (item) {
+                var newMedia = [];
+                var tempExistingMedia = this.get('Media');
+                _.each(tempExistingMedia, function (item) {
+                    item.MediaResourceId = item.MediaResource.Id;
+                    newMedia.push(item);
                     var mediaResource = new MediaResource(item.MediaResource);
                     this.addMedia(mediaResource, item.Description, item.Licence, item.IsPrimaryMedia);
                 }, this);
+                this.set('Media', newMedia);
 
                 var projectIds = [];
                 _.each(this.get('Projects'), function (proj) {
@@ -71,7 +74,7 @@ function ($, _, Backbone, ObservationMediaCollection, MediaResource) {
             if (isPrimaryMedia == null) {
                 isPrimaryMedia = this.media.length === 0 ? true : false;
             }
-            this.media.add({ MediaResourceId: mediaResource.id, Description: description, Licence: licence, IsPrimaryMedia: isPrimaryMedia }, { mediaResource: mediaResource });
+            this.media.add({ MediaResourceId: mediaResource.get('Id'), Description: description, Licence: licence, IsPrimaryMedia: isPrimaryMedia }, { mediaResource: mediaResource });
         },
 
         removeMedia: function (media) {

@@ -18,6 +18,11 @@ namespace Bowerbird.Web.Builders
 {
     public interface ISightingNoteViewModelBuilder
     {
-        object BuildNewSightingNote(string sightingId);
+        object BuildCreateSightingNote(string sightingId);
+
+        object BuildUpdateSightingNote(string sightingId, int sightingNoteId);
+
+        dynamic BuildSightingNote(string sightingId, int sightingNoteId);
+
     }
 }
