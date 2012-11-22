@@ -106,6 +106,7 @@ namespace Bowerbird.Core.CommandHandlers
             }
 
             var observation = new Observation(
+                command.Key,
                 user,
                 command.Title,
                 DateTime.UtcNow,
@@ -126,6 +127,7 @@ namespace Bowerbird.Core.CommandHandlers
                     x.IsPrimaryMedia)));
 
             _documentSession.Store(observation);
+            _documentSession.SaveChanges();
         }
 
         #endregion      

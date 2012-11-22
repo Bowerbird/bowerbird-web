@@ -244,7 +244,6 @@ namespace Bowerbird.Core.Config
     {
         public static int PageStart = 1;
         public static int PageSize = 10;
-        public static int PageMax = 100;
+        public static int PageMax = 75;
     }
-
 }

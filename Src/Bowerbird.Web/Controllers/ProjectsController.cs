@@ -257,8 +257,7 @@ namespace Bowerbird.Web.Controllers
         {
             dynamic viewModel = new ExpandoObject();
 
-            viewModel.Project = _projectViewModelBuilder.BuildNewProject();
-            viewModel.Teams = GetTeams(_userContext.GetAuthenticatedUserId());
+            viewModel.Project = _projectViewModelBuilder.BuildCreateProject();
 
             return RestfulResult(
                 viewModel,
@@ -283,11 +282,9 @@ namespace Bowerbird.Web.Controllers
                 return HttpUnauthorized();
             }
 
-            var viewModel = new
-            {
-                Project = _projectViewModelBuilder.BuildProject(projectId),
-                Teams = GetTeams(_userContext.GetAuthenticatedUserId(), projectId)
-            };
+            dynamic viewModel = new ExpandoObject();
+
+            viewModel.Project = _projectViewModelBuilder.BuildUpdateProject(projectId);
 
             return RestfulResult(
                 viewModel,
@@ -479,21 +476,6 @@ namespace Bowerbird.Web.Controllers
                 });
 
             return JsonSuccess();
-        }
-
-        private IEnumerable GetTeams(string userId, string projectId = null)
-        {
-            return _documentSession
-                .Query<All_Groups.Result, All_Groups>()
-                .AsProjection<All_Groups.Result>()
-                .Where(x => x.UserIds.Any(y => y == userId) && x.GroupType == "team")
-                .ToList()
-                .Select(x => new
-                        {
-                            Text = x.Team.Name,
-                            Value = x.Team.Id,
-                            Selected = x.Team.DescendantGroups.Any(y => y.Id == projectId)
-                        });
         }
 
         #endregion

@@ -39,6 +39,7 @@ namespace Bowerbird.Core.DomainModels
         }
 
         public Observation(
+            string key,
             User createdByUser,
             string title,
             DateTime createdOn,
@@ -54,6 +55,7 @@ namespace Bowerbird.Core.DomainModels
             IEnumerable<Tuple<MediaResource, string, string, bool>> media
             ) 
             : base(
+            key,
             createdByUser,
             createdOn,
             observedOn,

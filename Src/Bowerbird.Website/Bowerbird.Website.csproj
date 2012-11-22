@@ -259,7 +259,7 @@
     <Content Include="js\bowerbird\views\discussionLayoutView.js" />
     <Content Include="js\bowerbird\views\videoFormView.js" />
     <Content Include="js\bowerbird\views\sightingDetailsView.js" />
-    <Content Include="js\bowerbird\views\userFormLayoutView.js" />
+    <Content Include="js\bowerbird\views\userFormView.js" />
     <Content Include="js\bowerbird\views\organisationItemView.js" />
     <Content Include="js\bowerbird\views\organisationCollectionView.js" />
     <Content Include="js\bowerbird\views\organisationLayoutView.js" />
@@ -479,7 +479,7 @@
     <Content Include="Views\Records\Delete.mustache" />
     <Content Include="Views\Records\Index.mustache" />
     <Content Include="Views\Records\Update.mustache" />
-    <Content Include="Views\Shared\EditObservationMediaForm.mustache" />
+    <Content Include="Views\Shared\MediaForm.mustache" />
     <Content Include="Views\Shared\LicenceItem.mustache">
       <SubType>Designer</SubType>
     </Content>

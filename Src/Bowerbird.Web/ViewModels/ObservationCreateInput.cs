@@ -30,6 +30,8 @@ namespace Bowerbird.Web.ViewModels
 
         #region Properties
 
+        public string Key { get; set; }
+
         [Required(ErrorMessage = "Please enter a title")]
         public string Title { get; set; }
 
@@ -56,6 +58,8 @@ namespace Bowerbird.Web.ViewModels
         public List<ObservationMediaItem> Media { get; set; }
 
         public List<string> ProjectIds { get; set; }
+
+        public SightingNoteCreateInput Note { get; set; }
 
         #endregion
 

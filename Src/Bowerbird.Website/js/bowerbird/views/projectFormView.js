@@ -10,7 +10,7 @@
 // ProjectFormView
 // ---------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/editavatarview', 'fileupload', 'multiselect'], 
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/editavatarview', 'fileupload', 'multiselect'],
 function ($, _, Backbone, app, ich, loadImage, EditAvatarView) {
 
     var ProjectFormView = Backbone.Marionette.Layout.extend({
@@ -29,19 +29,21 @@ function ($, _, Backbone, app, ich, loadImage, EditAvatarView) {
             'click #save': '_save',
             'change input#Name': '_contentChanged',
             'change textarea#Description': '_contentChanged',
-            'change input#Website': '_contentChanged',
-            'change #team-field input:checkbox': '_teamChanged'
+            'change input#Website': '_contentChanged'
         },
 
         initialize: function (options) {
-            this.teams = options.teams;
+            if (this.model.id) {
+                this.viewEditMode = 'update';
+            } else {
+                this.viewEditMode = 'create';
+            }            
         },
 
         serializeData: function () {
             return {
                 Model: {
-                    Project: this.model.toJSON(),
-                    Teams: this.teams
+                    Project: this.model.toJSON()
                 }
             };
         },
@@ -52,27 +54,12 @@ function ($, _, Backbone, app, ich, loadImage, EditAvatarView) {
 
         showBootstrappedDetails: function () {
             this.initializeRegions();
-            //this.$el = $('#content .project-form');
             this._showDetails();
         },
 
         _showDetails: function () {
-            var editAvatarView = new EditAvatarView({ el: '#avatar-fieldset', model: this.model });
+            var editAvatarView = new EditAvatarView({ el: '.avatar-field', model: this.model });
             editAvatarView.render();
-
-            this.teamListSelectView = this.$el.find("#TeamId").multiSelect({
-                selectAll: false,
-                singleSelect: true,
-                noOptionsText: 'No Teams',
-                noneSelected: 'Select a Team',
-                oneOrMoreSelected: function (selectedOptions) {
-                    var $selectedHtml = $('<span />');
-                    _.each(selectedOptions, function (option) {
-                        $selectedHtml.append('<span>' + option.text + '</span> ');
-                    });
-                    return $selectedHtml.children();
-                }
-            });
         },
 
         _contentChanged: function (e) {
@@ -82,20 +69,15 @@ function ($, _, Backbone, app, ich, loadImage, EditAvatarView) {
             this.model.set(data);
         },
 
-        _teamChanged: function (e) {
-            var $checkbox = $(e.currentTarget);
-            if ($checkbox.attr('checked') === 'checked') {
-                this.model.set('TeamId', $checkbox.attr('value'));
-            } else {
-                this.model.set('TeamId', '');
-            }
-        },
-
         _cancel: function () {
             app.showPreviousContentView();
         },
 
         _save: function () {
+            if (this.viewEditMode == 'update') {
+                this.model.set('Id', this.model.id.replace('projects/', ''));
+            }            
+
             this.model.save();
             app.showPreviousContentView();
         }

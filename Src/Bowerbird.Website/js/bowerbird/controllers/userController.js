@@ -8,11 +8,10 @@
 // UserController & UserRouter
 // ---------------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'views/userformlayoutview', 'models/user'],
-function ($, _, Backbone, app, UserFormLayoutView, User) {
+define(['jquery', 'underscore', 'backbone', 'app', 'models/user'],
+function ($, _, Backbone, app, User) {
     var UserRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
-            'users/:id/update': 'showUserForm',
             'users/:id': 'showUserDetails'
         }
     });
@@ -97,20 +96,20 @@ function ($, _, Backbone, app, UserFormLayoutView, User) {
         app.vent.trigger('mediaresourceuploadfailure', key, reason);
     };
 
-    // Show an project form
-    UserController.showUserForm = function (id) {
-        log('userController:showUserForm');
-        $.when(getModel(id))
-            .done(function (model) {
-                var user = new User(model.User);
-                var userFormLayoutView = new UserFormLayoutView({ model: user });
-                app.showFormContentView(userFormLayoutView, 'users');
-                if (app.isPrerenderingView('users')) {
-                    userFormLayoutView.showBootstrappedDetails();
-                }
-                app.setPrerenderComplete();
-            });
-    };
+//    // Show an project form
+//    UserController.showUserForm = function (id) {
+//        log('userController:showUserForm');
+//        $.when(getModel(id))
+//            .done(function (model) {
+//                var user = new User(model.User);
+//                var userFormLayoutView = new UserFormLayoutView({ model: user });
+//                app.showFormContentView(userFormLayoutView, 'users');
+//                if (app.isPrerenderingView('users')) {
+//                    userFormLayoutView.showBootstrappedDetails();
+//                }
+//                app.setPrerenderComplete();
+//            });
+//    };
 
     UserController.showUserDetails = function (id) {
     };

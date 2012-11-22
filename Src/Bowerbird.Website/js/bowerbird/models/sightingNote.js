@@ -21,8 +21,6 @@ function ($, _, Backbone, Identification) {
             Taxonomy: ''
         },
 
-        //urlRoot: '/sightingnotes' ,
-
         url: function () {
             var url = '/' + this.get('SightingId');
             if (this.id) {

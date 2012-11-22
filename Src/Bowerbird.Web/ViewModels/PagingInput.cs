@@ -58,8 +58,8 @@ namespace Bowerbird.Web.ViewModels
 
         public int GetPageSize()
         {
-            // Do not allow paging sizes of greater than 50 to avoid performance/ravendb issues
-            return PageSize > 0 && PageSize <= 50 ? PageSize : 10;
+            // Do not allow paging sizes of greater than 75 to avoid performance/ravendb issues
+            return PageSize > 0 && PageSize <= 75 ? PageSize : 10;
         }
 
         public int GetSkipIndex()

@@ -119,6 +119,7 @@ namespace Bowerbird.Web.Builders
             }
 
             var getAllNames = false;
+            var getAllPages = false;
 
             var query = _documentSession
                 .Advanced
@@ -162,6 +163,8 @@ namespace Bowerbird.Web.Builders
                     .WhereEquals("ParentRankName", queryText)
                     .AndAlso()
                     .WhereEquals("RankPosition", field.ToLower().Replace("rank", string.Empty));
+
+                getAllPages = true;
             }
             else
             {
@@ -177,7 +180,7 @@ namespace Bowerbird.Web.Builders
             return query
                 .OrderBy(x => x.Name)
                 .Skip(pagingInput.GetSkipIndex())
-                .Take(pagingInput.GetPageSize())
+                .Take(getAllPages ? 1024 : pagingInput.GetPageSize())
                 .ToList()
                 .Select(x => MakeSpecies(x, getAllNames, queryText))
                 .ToPagedList(

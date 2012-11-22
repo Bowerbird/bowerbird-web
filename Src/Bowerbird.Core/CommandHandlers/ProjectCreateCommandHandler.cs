@@ -85,20 +85,6 @@ namespace Bowerbird.Core.CommandHandlers
                 parentGroup);
             _documentSession.Store(project);
 
-            // If project is in a team, add project to teams's Descendants
-            if (parentGroup is Team)
-            {
-                parentGroup.AddChildGroup(project);
-                _documentSession.Store(parentGroup);
-
-                if (parentGroup.AncestorGroups.Any(x => x.GroupType == "organisation"))
-                {
-                    var grandParent = _documentSession.Load<Organisation>(parentGroup.AncestorGroups.Single(x => x.GroupType == "organisation").Id);
-                    grandParent.AddDescendantGroup(project);
-                    _documentSession.Store(grandParent);
-                }
-            }
-
             // Add administrator membership to creating user
             var user = _documentSession.Load<User>(command.UserId);
             user.AddMembership(
@@ -109,6 +95,8 @@ namespace Bowerbird.Core.CommandHandlers
                     .Where(x => x.Id.In("roles/projectadministrator", "roles/projectmember"))
                     .ToList());
             _documentSession.Store(user);
+
+            _documentSession.SaveChanges();
         }
 
         #endregion

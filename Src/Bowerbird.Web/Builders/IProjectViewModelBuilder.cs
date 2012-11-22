@@ -16,7 +16,9 @@ namespace Bowerbird.Web.Builders
 {
     public interface IProjectViewModelBuilder : IBuilder
     {
-        object BuildNewProject();
+        object BuildCreateProject();
+
+        object BuildUpdateProject(string projectId);
 
         dynamic BuildProject(string projectId);
 

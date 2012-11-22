@@ -1,3 +1,5 @@
+Reptiles	Crocodiles	Freshwater crocodile	Animalia: Chordata: Reptilia	Crocodylia	Crocodylidae	Crocodylus	johnstoni
+Reptiles	Crocodiles	Saltwater crocodile	Animalia: Chordata: Reptilia	Crocodylia	Crocodylidae	Crocodylus	porosus
 Reptiles	File snakes	Arafura file snake 	Animalia: Chordata: Reptilia	Squamata	Acrochorididae	Acrochordus	arafurae 
 Reptiles	File snakes	Little file snake 	Animalia: Chordata: Reptilia	Squamata	Acrochorididae	Acrochordus	granulatus 
 Reptiles	File snakes	Snake	Animalia: Chordata: Reptilia	Squamata	Acrochorididae	Acrochordus	sp.
@@ -63,6 +65,7 @@ Reptiles	Dragons	Yinnietharra rock dragon 	Animalia: Chordata: Reptilia	Squamata
 Reptiles	Dragons	White-lipped two-lined dragon 	Animalia: Chordata: Reptilia	Squamata	Agamidae	Diporiphora	albilabris 
 Reptiles	Dragons	White-lipped two-lined dragon 	Animalia: Chordata: Reptilia	Squamata	Agamidae	Diporiphora	albilabris albilabris
 Reptiles	Dragons	White-lipped two-lined dragon 	Animalia: Chordata: Reptilia	Squamata	Agamidae	Diporiphora	albilabris sobria
+Reptiles	Dragons	Dragon lizard 	Animalia: Chordata: Reptilia	Squamata	Agamidae	Diporiphora	ameliae
 Reptiles	Dragons	Arnhemland two-lined dragon 	Animalia: Chordata: Reptilia	Squamata	Agamidae	Diporiphora	arnhemica 
 Reptiles	Dragons	Tommy roundhead 	Animalia: Chordata: Reptilia	Squamata	Agamidae	Diporiphora	australis 
 Reptiles	Dragons	Robust two-lined dragon 	Animalia: Chordata: Reptilia	Squamata	Agamidae	Diporiphora	bennettii 
@@ -72,16 +75,24 @@ Reptiles	Dragons	Lally's two-lined dragon 	Animalia: Chordata: Reptilia	Squamata
 Reptiles	Dragons	Pink two-lined dragon 	Animalia: Chordata: Reptilia	Squamata	Agamidae	Diporiphora	linga 
 Reptiles	Dragons	Yellow-sided two-lined dragon 	Animalia: Chordata: Reptilia	Squamata	Agamidae	Diporiphora	magna 
 Reptiles	Dragons	Nobbi dragon 	Animalia: Chordata: Reptilia	Squamata	Agamidae	Diporiphora	nobbi
+Reptiles	Dragons	Dragon-lizards	Animalia: Chordata: Reptilia	Squamata	Agamidae	Diporiphora	paraconvergens
 Reptiles	Dragons	Black-spined nobbi dragon 	Animalia: Chordata: Reptilia	Squamata	Agamidae	Diporiphora	phaeospinosa
+Reptiles	Dragons	Dragon-lizards	Animalia: Chordata: Reptilia	Squamata	Agamidae	Diporiphora	pindan
 Reptiles	Dragons	Pindan two-lined dragon 	Animalia: Chordata: Reptilia	Squamata	Agamidae	Diporiphora	pindan 
 Reptiles	Dragons	Plain-backed two-lined dragon 	Animalia: Chordata: Reptilia	Squamata	Agamidae	Diporiphora	reginae 
-Reptiles	Dragons	Lizards	Animalia: Chordata: Reptilia	Squamata	Agamidae	Diporiphora	sp.
 Reptiles	Dragons	Superb two-lined dragon 	Animalia: Chordata: Reptilia	Squamata	Agamidae	Diporiphora	superba 
+Reptiles	Dragons	Dragon-lizards	Animalia: Chordata: Reptilia	Squamata	Agamidae	Diporiphora	valens
 Reptiles	Dragons	Pilbara two-lined dragon 	Animalia: Chordata: Reptilia	Squamata	Agamidae	Diporiphora	valens 
+Reptiles	Dragons	Dragon-lizards	Animalia: Chordata: Reptilia	Squamata	Agamidae	Diporiphora	vescus
+Reptiles	Dragons	Dragon-lizards	Animalia: Chordata: Reptilia	Squamata	Agamidae	Diporiphora	winneckei
 Reptiles	Dragons	Canegrass dragon 	Animalia: Chordata: Reptilia	Squamata	Agamidae	Diporiphora	winneckei 
 Reptiles	Dragons	Boyd's forest dragon 	Animalia: Chordata: Reptilia	Squamata	Agamidae	Hypsilurus	boydii 
 Reptiles	Dragons	Lizards	Animalia: Chordata: Reptilia	Squamata	Agamidae	Hypsilurus	sp.
 Reptiles	Dragons	Rainforest dragon 	Animalia: Chordata: Reptilia	Squamata	Agamidae	Hypsilurus	spinipes 
+Reptiles	Dragons	Eastern water dragon 	Animalia: Chordata: Reptilia	Squamata	Agamidae	Intellagama	lesueurii 
+Reptiles	Dragons	Eastern water dragon 	Animalia: Chordata: Reptilia	Squamata	Agamidae	Intellagama	lesueurii howitti
+Reptiles	Dragons	Eastern water dragon 	Animalia: Chordata: Reptilia	Squamata	Agamidae	Intellagama	lesueurii lesueurii
+Reptiles	Dragons	Lizards	Animalia: Chordata: Reptilia	Squamata	Agamidae	Intellagama	sp.
 Reptiles	Dragons	Burns dragon	Animalia: Chordata: Reptilia	Squamata	Agamidae	Lophognathus	burnsi 
 Reptiles	Dragons	Gilbert's Lashtail	Animalia: Chordata: Reptilia	Squamata	Agamidae	Lophognathus	gilberti 
 Reptiles	Dragons	Long-snouted Lashtail	Animalia: Chordata: Reptilia	Squamata	Agamidae	Lophognathus	longirostris 
@@ -89,10 +100,6 @@ Reptiles	Dragons	Lizards	Animalia: Chordata: Reptilia	Squamata	Agamidae	Lophogna
 Reptiles	Dragons	Striped Water dragon	Animalia: Chordata: Reptilia	Squamata	Agamidae	Lophognathus	temporalis 
 Reptiles	Dragons	Thorny devil 	Animalia: Chordata: Reptilia	Squamata	Agamidae	Moloch	horridus 
 Reptiles	Dragons	Lizards	Animalia: Chordata: Reptilia	Squamata	Agamidae	Moloch	sp.
-Reptiles	Dragons	Eastern water dragon 	Animalia: Chordata: Reptilia	Squamata	Agamidae	Physignathus	lesueurii 
-Reptiles	Dragons	Eastern water dragon 	Animalia: Chordata: Reptilia	Squamata	Agamidae	Physignathus	lesueurii howitti
-Reptiles	Dragons	Eastern water dragon 	Animalia: Chordata: Reptilia	Squamata	Agamidae	Physignathus	lesueurii lesueurii
-Reptiles	Dragons	Lizards	Animalia: Chordata: Reptilia	Squamata	Agamidae	Physignathus	sp.
 Reptiles	Dragons	Eastern bearded dragon 	Animalia: Chordata: Reptilia	Squamata	Agamidae	Pogona	barbata 
 Reptiles	Dragons	Downs bearded dragon 	Animalia: Chordata: Reptilia	Squamata	Agamidae	Pogona	henrylawsoni 
 Reptiles	Dragons	Small-scaled bearded dragon 	Animalia: Chordata: Reptilia	Squamata	Agamidae	Pogona	microlepidota 
@@ -186,6 +193,7 @@ Reptiles	Elapids	Stagger-banded sea snake 	Animalia: Chordata: Reptilia	Squamata
 Reptiles	Elapids	Leaf-scaled sea snake 	Animalia: Chordata: Reptilia	Squamata	Elapidae	Aipysurus	foliosquama 
 Reptiles	Elapids	Dusky sea snake 	Animalia: Chordata: Reptilia	Squamata	Elapidae	Aipysurus	fuscus 
 Reptiles	Elapids	Olive sea snake 	Animalia: Chordata: Reptilia	Squamata	Elapidae	Aipysurus	laevis 
+Reptiles	Elapids	egg-eating sea snake	Animalia: Chordata: Reptilia	Squamata	Elapidae	Aipysurus	mosaicus
 Reptiles	Elapids	Shark Bay sea snake 	Animalia: Chordata: Reptilia	Squamata	Elapidae	Aipysurus	pooleorum 
 Reptiles	Elapids	Snake	Animalia: Chordata: Reptilia	Squamata	Elapidae	Aipysurus	sp.
 Reptiles	Elapids	Mjoberg's sea snake 	Animalia: Chordata: Reptilia	Squamata	Elapidae	Aipysurus	tenuis 
@@ -278,6 +286,7 @@ Reptiles	Elapids	Belcher's ocean snake	Animalia: Chordata: Reptilia	Squamata	Ela
 Reptiles	Elapids	Dwarf sea snake 	Animalia: Chordata: Reptilia	Squamata	Elapidae	Hydrophis	caerulescens 
 Reptiles	Elapids	Slender-necked sea snake 	Animalia: Chordata: Reptilia	Squamata	Elapidae	Hydrophis	coggeri 
 Reptiles	Elapids	Geometrical sea snake 	Animalia: Chordata: Reptilia	Squamata	Elapidae	Hydrophis	czeblukovi 
+Reptiles	Elapids	rough-scaled sea snake	Animalia: Chordata: Reptilia	Squamata	Elapidae	Hydrophis	donaldi
 Reptiles	Elapids	Elegant sea snake 	Animalia: Chordata: Reptilia	Squamata	Elapidae	Hydrophis	elegans 
 Reptiles	Elapids	Slender sea snake 	Animalia: Chordata: Reptilia	Squamata	Elapidae	Hydrophis	gracilis 
 Reptiles	Elapids	Plain sea snake 	Animalia: Chordata: Reptilia	Squamata	Elapidae	Hydrophis	inornatus 
@@ -324,8 +333,8 @@ Reptiles	Elapids	Mallee black-headed snake 	Animalia: Chordata: Reptilia	Squamat
 Reptiles	Elapids	Mallee black-headed snake 	Animalia: Chordata: Reptilia	Squamata	Elapidae	Parasuta	spectabilis spectabilis
 Reptiles	Elapids	Lake Cronin snake	Animalia: Chordata: Reptilia	Squamata	Elapidae	Paroplocephalus	atriceps 
 Reptiles	Elapids	Snake	Animalia: Chordata: Reptilia	Squamata	Elapidae	Paroplocephalus	sp.
-Reptiles	Elapids	Snake	Animalia: Chordata: Reptilia	Squamata	Elapidae	Pelamis	sp.
 Reptiles	Sea snake	Yellow-bellied sea snake	Animalia: Chordata: Reptilia	Squamata	Elapidae	Pelamis	platurus 
+Reptiles	Elapids	Snake	Animalia: Chordata: Reptilia	Squamata	Elapidae	Pelamis	sp.
 Reptiles	Elapids	Mulga snake 	Animalia: Chordata: Reptilia	Squamata	Elapidae	Pseudechis	australis 
 Reptiles	Elapids	Spotted mulga snake 	Animalia: Chordata: Reptilia	Squamata	Elapidae	Pseudechis	butleri 
 Reptiles	Elapids	Collett's snake 	Animalia: Chordata: Reptilia	Squamata	Elapidae	Pseudechis	collettii 
@@ -380,13 +389,18 @@ Reptiles	Geckos	Clawless gecko 	Animalia: Chordata: Reptilia	Squamata	Gekkonidae
 Reptiles	Geckos	Clawless gecko 	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Crenadactylus	ocellatus ocellatus
 Reptiles	Geckos	Clawless gecko 	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Crenadactylus	ocellatus rostralis
 Reptiles	Geckos	Lizards and Geckos	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Crenadactylus	sp.
+Reptiles	Geckos	bent-toed gecko	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Cyrtodactylus	kimberleyensis
 Reptiles	Geckos	Ring-tailed Gecko 	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Cyrtodactylus	louisiadensis 
 Reptiles	Geckos	Christmas Island Giant Gecko 	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Cyrtodactylus	sadleiri 
 Reptiles	Geckos	Lizards and Geckos	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Cyrtodactylus	sp.
 Reptiles	Geckos	Cape Range Stone Gecko	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Diplodactylus	capensis 
 Reptiles	Geckos	Fat-tailed Diplodactylus	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Diplodactylus	conspicillatus 
 Reptiles	Geckos	Lake Disappointment Ground Gecko	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Diplodactylus	fulleri 
+Reptiles	Geckos	Ranges stone gecko	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Diplodactylus	furcosus
+Reptiles	Geckos	South coast gecko	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Diplodactylus	calcicolus
+Reptiles	Geckos	Desert wood gecko	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Diplodactylus	wiru
 Reptiles	Geckos	Helmeted Gecko 	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Diplodactylus	galeatus 
+Reptiles	Geckos	Northern Pilbara Beak-faced Gecko	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Diplodactylus	galaxias
 Reptiles	Geckos	Western stone gecko 	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Diplodactylus	granariensis 
 Reptiles	Geckos	Western stone gecko 	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Diplodactylus	granariensis granariensis
 Reptiles	Geckos	Western stone gecko 	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Diplodactylus	granariensis rex
@@ -434,6 +448,7 @@ Reptiles	Geckos	"Mourning Gecko, Common Smooth-Scaled Gecko"	Animalia: Chordata:
 Reptiles	Geckos	Slender chained gecko	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Lepidodactylus	pumilus 
 Reptiles	Geckos	Lizards and Geckos	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Lepidodactylus	sp.
 Reptiles	Geckos	White-spotted Ground Gecko	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Lucasium	alboguttatum 
+Reptiles	Geckos	Southern Sandplain Gecko	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Lucasium	bungabinna
 Reptiles	Geckos	Gibber gecko 	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Lucasium	byrnei 
 Reptiles	Geckos	Beaded Gecko	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Lucasium	damaeum 
 Reptiles	Geckos	Pale-striped ground gecko	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Lucasium	immaculatum 
@@ -470,13 +485,14 @@ Reptiles	Geckos	Fringe-toed Velvet Gecko	Animalia: Chordata: Reptilia	Squamata	G
 Reptiles	Geckos	Jewelled Velvet Gecko	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Oedura	gemmata 
 Reptiles	Geckos	Gracile Velvet Gecko	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Oedura	gracilis 
 Reptiles	Geckos	Lesueur's Velvet Gecko	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Oedura	lesueurii 
+Reptiles	Geckos	Clouded Gecko	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Oedura	jacovae
 Reptiles	Geckos	Marbled Velvet Gecko	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Oedura	marmorata 
 Reptiles	Geckos	Ocellated Velvet Gecko	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Oedura	monilis 
 Reptiles	Geckos	Slim Velvet Gecko	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Oedura	obscura 
 Reptiles	Geckos	Reticulated Velvet Gecko	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Oedura	reticulata 
 Reptiles	Geckos	Zigzag Velvet Gecko	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Oedura	rhombifer 
 Reptiles	Geckos	Robust Velvet Gecko	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Oedura	robusta 
-Reptiles	Geckos	Lizards and Geckos	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Oedura	sp.
+Reptiles	Geckos	Quinkan velvet gecko	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Oedura	jowalbinna
 Reptiles	Geckos	Southern Spotted Velvet Gecko	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Oedura	tryoni 
 Reptiles	Geckos	McIlwraith leaf-tailed gecko	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Orraya	occultus 
 Reptiles	Geckos	Lizards and Geckos	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Orraya	sp.
@@ -525,9 +541,63 @@ Reptiles	Geckos	Western Shield spiny- tailed gecko	Animalia: Chordata: Reptilia	
 Reptiles	Geckos	Eastern spiny-tailed gecko	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Strophurus	williamsi 
 Reptiles	Geckos	Mount Augustus spiny- tailed gecko	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Strophurus	wilsoni 
 Reptiles	Geckos	"Thick-tailed, Barking gecko"	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Underwoodisaurus	milii 
+Reptiles	Geckos	Pilbara barking gecko	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Underwoodisaurus	seorsus
 Reptiles	Geckos	Lizards and Geckos	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Underwoodisaurus	sp.
 Reptiles	Geckos	Border Thick-tailed Gecko	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Underwoodisaurus	sphyrurus 
 Reptiles	Geckos	Geckos	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Unknown	sp.
+Reptiles	legless lizards	Eared Worm-lizard	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Aprasia	aurita
+Reptiles	legless lizards	 Exmouth worm-lizard	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Aprasia	fusca
+Reptiles	legless lizards	Shark Bat Worm-lizard	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Aprasia	haroldi
+Reptiles	legless lizards	Mallee Worm-lizard	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Aprasia	inaurita
+Reptiles	legless lizards	Granite Worm-lizard	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Aprasia	parapulchella
+Reptiles	legless lizards	Black-headed worm-lizard	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Aprasia	picturata
+Reptiles	legless lizards	Flinders Ranges Worm-lizard	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Aprasia	pseudopulchella
+Reptiles	legless lizards	Pretty Worm-lizard  	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Aprasia	pulchella
+Reptiles	legless lizards	Sedgelands Worm-lizard	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Aprasia	repens
+Reptiles	legless lizards	Hermite Island Worm-lizard	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Aprasia	rostrata
+Reptiles	legless lizards	Zuytdorp Worm-lizard	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Aprasia	smithi
+Reptiles	legless lizards	"legless lizards, snake-lizards, flap-footed lizards"	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Aprasia	sp.
+Reptiles	legless lizards	Striated Worm-lizard	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Aprasia	striolata
+Reptiles	legless lizards	Marble-faced Delma	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Delma	australis
+Reptiles	legless lizards	Rusty-topped Delma	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Delma	borea
+Reptiles	legless lizards	Unbanded Delma	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Delma	butleri
+Reptiles	legless lizards	Javelin Lizard 	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Delma	concinna
+Reptiles	legless lizards	Javelin Lizard 	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Delma	concinna concinna
+Reptiles	legless lizards	Javelin Lizard 	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Delma	concinna major
+Reptiles	legless lizards	Banded delma	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Delma	desmosa
+Reptiles	legless lizards	Pilbara Delma	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Delma	elegans
+Reptiles	legless lizards	Fraser’s Delma	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Delma	fraseri
+Reptiles	legless lizards	Side-barred Delma	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Delma	grayii
+Reptiles	legless lizards	Neck-barred Delma	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Delma	haroldi
+Reptiles	legless lizards	Many-lined Delma	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Delma	impar
+Reptiles	legless lizards	Patternless Delma	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Delma	inornata
+Reptiles	legless lizards	Single-striped Delma	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Delma	labialis
+Reptiles	legless lizards	Atherton Delma	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Delma	mitella
+Reptiles	legless lizards	Gulfs Delma	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Delma	molleri
+Reptiles	legless lizards	Sharp-snouted Delma	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Delma	nasuta
+Reptiles	legless lizards	Peace Delma	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Delma	pax
+Reptiles	legless lizards	Peterson's Delma	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Delma	petersoni
+Reptiles	legless lizards	Leaden Delma	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Delma	plebeia
+Reptiles	legless lizards	"legless lizards, snake-lizards, flap-footed lizards"	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Delma	sp.
+Reptiles	legless lizards	Teale's delma 	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Delma	tealei
+Reptiles	legless lizards	Excitable Delma	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Delma	tincta
+Reptiles	legless lizards	Collared Delma	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Delma	torquata
+Reptiles	legless lizards	Burton’s Snake-lizard	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Lialis	burtonis
+Reptiles	legless lizards	Burton’s Snake-lizard	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Lialis	sp.
+Reptiles	legless lizards	"legless lizards, snake-lizards, flap-footed lizards"	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Ophidiocephalus	sp.
+Reptiles	legless lizards	Bronzeback	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Ophidiocephalus	taeniatus
+Reptiles	legless lizards	Brigalow Scaly-foot	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Paradelma	orientalis
+Reptiles	legless lizards	"legless lizards, snake-lizards, flap-footed lizards"	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Paradelma	sp.
+Reptiles	legless lizards	Slender Slider	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Pletholax	gracilis
+Reptiles	legless lizards	Slender Slider	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Pletholax	gracilis edelensis
+Reptiles	legless lizards	Slender Slider	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Pletholax	gracilis gracilis
+Reptiles	legless lizards	"legless lizards, snake-lizards, flap-footed lizards"	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Pletholax	sp.
+Reptiles	legless lizards	Southern Scaly-foot	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Pygopus	lepidopodus
+Reptiles	legless lizards	Western Scaly-foot 	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Pygopus	nigriceps
+Reptiles	legless lizards	 Roberts' scaly-foot	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Pygopus	robertsi
+Reptiles	legless lizards	Hooded Scaly-foot	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Pygopus	schraderi
+Reptiles	legless lizards	"legless lizards, snake-lizards, flap-footed lizards"	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Pygopus	sp.
+Reptiles	legless lizards	Northern hooded scaly-foot	Animalia: Chordata: Reptilia	Squamata	Pygopodidae	Pygopus	steelescotti
 Reptiles	Skinks	Three-lined skink	Animalia: Chordata: Reptilia	Squamata	Scincidae	Acritoscincus	duperreyi 
 Reptiles	Skinks	Red-throated Skink	Animalia: Chordata: Reptilia	Squamata	Scincidae	Acritoscincus	platynota 
 Reptiles	Skinks	Lizards and Skinks	Animalia: Chordata: Reptilia	Squamata	Scincidae	Acritoscincus	sp.
@@ -553,8 +623,10 @@ Reptiles	Skinks	Lizards and Skinks	Animalia: Chordata: Reptilia	Squamata	Scincid
 Reptiles	Skinks	Hidden litter-skink	Animalia: Chordata: Reptilia	Squamata	Scincidae	Carlia	abscondita 
 Reptiles	Skinks	Two-spined rainbow skink	Animalia: Chordata: Reptilia	Squamata	Scincidae	Carlia	amax 
 Reptiles	Skinks	Coen rainbow-skink	Animalia: Chordata: Reptilia	Squamata	Scincidae	Carlia	coensis 
+Reptiles	Skinks	skink	Animalia: Chordata: Reptilia	Squamata	Scincidae	Carlia	decora
 Reptiles	Skinks	Sandy rainbow-skink	Animalia: Chordata: Reptilia	Squamata	Scincidae	Carlia	dogare 
 Reptiles	Skinks	Slender rainbow-skink	Animalia: Chordata: Reptilia	Squamata	Scincidae	Carlia	gracilis 
+Reptiles	Skinks	skink	Animalia: Chordata: Reptilia	Squamata	Scincidae	Carlia	inconnexa
 Reptiles	Skinks	Lined rainbow-skink	Animalia: Chordata: Reptilia	Squamata	Scincidae	Carlia	jarnoldae 
 Reptiles	Skinks	Rough brown rainbow-skink	Animalia: Chordata: Reptilia	Squamata	Scincidae	Carlia	johnstonei 
 Reptiles	Skinks	Closed-litter rainbow-skink	Animalia: Chordata: Reptilia	Squamata	Scincidae	Carlia	longipes 
@@ -564,6 +636,7 @@ Reptiles	Skinks	Five-keeled rainbow-skink	Animalia: Chordata: Reptilia	Squamata	
 Reptiles	Skinks	Blue-throated rainbow-skink	Animalia: Chordata: Reptilia	Squamata	Scincidae	Carlia	rhomboidalis 
 Reptiles	Skinks	Crevice rainbow-skink	Animalia: Chordata: Reptilia	Squamata	Scincidae	Carlia	rimula 
 Reptiles	Skinks	Black-throated rainbow-skink	Animalia: Chordata: Reptilia	Squamata	Scincidae	Carlia	rostralis 
+Reptiles	Skinks	skink	Animalia: Chordata: Reptilia	Squamata	Scincidae	Carlia	rubigo
 Reptiles	Skinks	Red-throated rainbow-skink	Animalia: Chordata: Reptilia	Squamata	Scincidae	Carlia	rubrigularis 
 Reptiles	Skinks	Red-sided rainbow-skink	Animalia: Chordata: Reptilia	Squamata	Scincidae	Carlia	rufilatus 
 Reptiles	Skinks	Robust rainbow-skink	Animalia: Chordata: Reptilia	Squamata	Scincidae	Carlia	schmeltzii 
@@ -677,6 +750,7 @@ Reptiles	Skinks	Nasute finesnout ctenotus	Animalia: Chordata: Reptilia	Squamata	
 Reptiles	Skinks	Pin-striped finesnout ctenotus	Animalia: Chordata: Reptilia	Squamata	Scincidae	Ctenotus	nigrilineatus 
 Reptiles	Skinks	Nullum ctenotus	Animalia: Chordata: Reptilia	Squamata	Scincidae	Ctenotus	nullum 
 Reptiles	Skinks	Spotted Ctenotus Skink	Animalia: Chordata: Reptilia	Squamata	Scincidae	Ctenotus	olympicus 
+Reptiles	Skinks	Coastal Plains Skink	Animalia: Chordata: Reptilia	Squamata	Scincidae	Ctenotus	ora
 Reptiles	Skinks	Eastern ctenotus	Animalia: Chordata: Reptilia	Squamata	Scincidae	Ctenotus	orientalis 
 Reptiles	Skinks	North-western wedgesnout ctenotus	Animalia: Chordata: Reptilia	Squamata	Scincidae	Ctenotus	pallescens 
 Reptiles	Skinks	Leopard ctenotus	Animalia: Chordata: Reptilia	Squamata	Scincidae	Ctenotus	pantherinus 
@@ -688,6 +762,7 @@ Reptiles	Skinks	Coarse sands ctenotus	Animalia: Chordata: Reptilia	Squamata	Scin
 Reptiles	Skinks	Red-sided ctenotus	Animalia: Chordata: Reptilia	Squamata	Scincidae	Ctenotus	pulchellus 
 Reptiles	Skinks	Fourteen-lined ctenotus	Animalia: Chordata: Reptilia	Squamata	Scincidae	Ctenotus	quattuordecimlineatus 
 Reptiles	Skinks	Quinkan ctenotus	Animalia: Chordata: Reptilia	Squamata	Scincidae	Ctenotus	quinkan 
+Reptiles	Skinks	Spear-like ctenotus	Animalia: Chordata: Reptilia	Squamata	Scincidae	Ctenotus	quirinus
 Reptiles	Skinks	Cape Heath ctenotus	Animalia: Chordata: Reptilia	Squamata	Scincidae	Ctenotus	rawlinsoni 
 Reptiles	Skinks	Royal ctenotus	Animalia: Chordata: Reptilia	Squamata	Scincidae	Ctenotus	regius 
 Reptiles	Skinks	Crack-dwelling ctenotus	Animalia: Chordata: Reptilia	Squamata	Scincidae	Ctenotus	rimacolus 
@@ -740,8 +815,11 @@ Reptiles	Skinks	Alpine She-oak Skink	Animalia: Chordata: Reptilia	Squamata	Scinc
 Reptiles	Skinks	Lizards and Skinks	Animalia: Chordata: Reptilia	Squamata	Scincidae	Cyclodomorphus	sp.
 Reptiles	Skinks	Saltbush slender blue-tongue	Animalia: Chordata: Reptilia	Squamata	Scincidae	Cyclodomorphus	venustus 
 Reptiles	Skinks	Cunningham's Skink	Animalia: Chordata: Reptilia	Squamata	Scincidae	Egernia	cunninghami 
+Reptiles	Skinks	Western Pilbara Spiny-tailed skink	Animalia: Chordata: Reptilia	Squamata	Scincidae	Egernia	cygnitos
 Reptiles	Skinks	Southern pygmy spiny-tailed skink	Animalia: Chordata: Reptilia	Squamata	Scincidae	Egernia	depressa 
 Reptiles	Skinks	Kimberley crevice-skink	Animalia: Chordata: Reptilia	Squamata	Scincidae	Egernia	douglasi 
+Reptiles	Skinks	Central Pymgy Spiny-tailed skink	Animalia: Chordata: Reptilia	Squamata	Scincidae	Egernia	eos
+Reptiles	Skinks	Eastern Pilbara Spiny-tailed skink	Animalia: Chordata: Reptilia	Squamata	Scincidae	Egernia	epsisolus
 Reptiles	Skinks	Goldfields crevice-skink	Animalia: Chordata: Reptilia	Squamata	Scincidae	Egernia	formosa 
 Reptiles	Skinks	Hosmer's skink	Animalia: Chordata: Reptilia	Squamata	Scincidae	Egernia	hosmeri 
 Reptiles	Skinks	King's Skink	Animalia: Chordata: Reptilia	Squamata	Scincidae	Egernia	kingii 
@@ -766,14 +844,17 @@ Reptiles	Skinks	Littoral whiptail-skink	Animalia: Chordata: Reptilia	Squamata	Sc
 Reptiles	Skinks	Shrub whiptail-skink	Animalia: Chordata: Reptilia	Squamata	Scincidae	Emoia	longicauda 
 Reptiles	Skinks	Christmas Island whiptail-skink	Animalia: Chordata: Reptilia	Squamata	Scincidae	Emoia	nativitatis 
 Reptiles	Skinks	Lizards and Skinks	Animalia: Chordata: Reptilia	Squamata	Scincidae	Emoia	sp.
+Reptiles	Skinks	Antoni	Animalia: Chordata: Reptilia	Squamata	Scincidae	Eremiascincus	antoniorum
 Reptiles	Skinks	Brown-sided bar-lipped skink	Animalia: Chordata: Reptilia	Squamata	Scincidae	Eremiascincus	brongersmai 
+Reptiles	Skinks	skink	Animalia: Chordata: Reptilia	Squamata	Scincidae	Eremiascincus	butlerorum
 Reptiles	Skinks	Orange-sided bar-lipped skink	Animalia: Chordata: Reptilia	Squamata	Scincidae	Eremiascincus	douglasi 
+Reptiles	Skinks	skink	Animalia: Chordata: Reptilia	Squamata	Scincidae	Eremiascincus	emigrans
 Reptiles	Skinks	Narrow-banded sand-swimmer	Animalia: Chordata: Reptilia	Squamata	Scincidae	Eremiascincus	fasciolatus 
 Reptiles	Skinks	Northern bar-lipped skink	Animalia: Chordata: Reptilia	Squamata	Scincidae	Eremiascincus	isolepis 
 Reptiles	Skinks	Mosaic desert skink	Animalia: Chordata: Reptilia	Squamata	Scincidae	Eremiascincus	musivus 
 Reptiles	Skinks	Lowlands bar-lipped skink	Animalia: Chordata: Reptilia	Squamata	Scincidae	Eremiascincus	pardalis 
 Reptiles	Skinks	Broad-banded sand-swimmer	Animalia: Chordata: Reptilia	Squamata	Scincidae	Eremiascincus	richardsonii 
-Reptiles	Skinks	Lizards and Skinks	Animalia: Chordata: Reptilia	Squamata	Scincidae	Eremiascincus	sp.
+Reptiles	Skinks	Lizards and Skinks	Animalia: Chordata: Reptilia	Squamata	Scincidae	Eremiascincus	timorensis
 Reptiles	Skinks	Elf skink	Animalia: Chordata: Reptilia	Squamata	Scincidae	Eroticoscincus	graciloides 
 Reptiles	Skinks	Bar-lipped Sheen-Skink	Animalia: Chordata: Reptilia	Squamata	Scincidae	Eugongylus	rufescens 
 Reptiles	Skinks	Lemon-barred forest-skink	Animalia: Chordata: Reptilia	Squamata	Scincidae	Eulamprus	amplus 
@@ -913,6 +994,7 @@ Reptiles	Skinks	Dotty-tailed robust slider	Animalia: Chordata: Reptilia	Squamata
 Reptiles	Skinks	No common name	Animalia: Chordata: Reptilia	Squamata	Scincidae	Lerista	quadrivincula 
 Reptiles	Skinks	Broad-eyed slider	Animalia: Chordata: Reptilia	Squamata	Scincidae	Lerista	robusta 
 Reptiles	Skinks	Rolfe's slider	Animalia: Chordata: Reptilia	Squamata	Scincidae	Lerista	rolfei 
+Reptiles	Skinks	Rochford slider	Animalia: Chordata: Reptilia	Squamata	Scincidae	Lerista	rochfordensis
 Reptiles	Skinks	Dampierland plain slider	Animalia: Chordata: Reptilia	Squamata	Scincidae	Lerista	separanda 
 Reptiles	Skinks	Fitzroy sandslider	Animalia: Chordata: Reptilia	Squamata	Scincidae	Lerista	simillima 
 Reptiles	Skinks	Lizards and Skinks	Animalia: Chordata: Reptilia	Squamata	Scincidae	Lerista	sp.
@@ -1152,32 +1234,58 @@ Reptiles	Goannas & Monitor lizards	Lace monitor 	Animalia: Chordata: Reptilia	Sq
 Reptiles	Turtles and Tortoises	Pig-nosed turtle	Animalia: Chordata: Reptilia	Testudines	Carettochelyidae	Carettochelys	insculpta 
 Reptiles	Turtles and Tortoises	Pig-nosed turtle	Animalia: Chordata: Reptilia	Testudines	Carettochelyidae	Carettochelys	sp.
 Reptiles	Turtles and Tortoises	Unknown	Animalia: Chordata: Reptilia	Testudines	Carettochelyidae	Unknown	sp.
-Reptiles	Turtles and Tortoises	Gulf Snapping Turtle 	Animalia: Chordata: Reptilia	Testudines	Chelidae	Elseya	lavarackorum 
-Reptiles	Turtles and Tortoises	Mary River Turtle	Animalia: Chordata: Reptilia	Testudines	Chelidae	Elusor	macrurus 
-Reptiles	Turtles and Tortoises	Turtles	Animalia: Chordata: Reptilia	Testudines	Chelidae	Elusor	sp.
-Reptiles	Turtles and Tortoises	Murray river turtle	Animalia: Chordata: Reptilia	Testudines	Chelidae	Emydura	macquarii 
-Reptiles	Turtles and Tortoises	Murray river turtle	Animalia: Chordata: Reptilia	Testudines	Chelidae	Emydura	macquarii emmotti
-Reptiles	Turtles and Tortoises	Murray river turtle	Animalia: Chordata: Reptilia	Testudines	Chelidae	Emydura	macquarii krefftii
-Reptiles	Turtles and Tortoises	Murray river turtle	Animalia: Chordata: Reptilia	Testudines	Chelidae	Emydura	macquarii macquarii
-Reptiles	Turtles and Tortoises	Murray river turtle	Animalia: Chordata: Reptilia	Testudines	Chelidae	Emydura	macquarii nigra
-Reptiles	Turtles and Tortoises	Turtles	Animalia: Chordata: Reptilia	Testudines	Chelidae	Emydura	sp.
-Reptiles	Turtles and Tortoises	Red-bellied short-necked turtle	Animalia: Chordata: Reptilia	Testudines	Chelidae	Emydura	subglobosa 
-Reptiles	Turtles and Tortoises	Red-bellied short-necked turtle	Animalia: Chordata: Reptilia	Testudines	Chelidae	Emydura	subglobosa subglobosa
-Reptiles	Turtles and Tortoises	Red-bellied short-necked turtle	Animalia: Chordata: Reptilia	Testudines	Chelidae	Emydura	subglobosa worrelli
-Reptiles	Turtles and Tortoises	Northern Yellow-faced Turtle 	Animalia: Chordata: Reptilia	Testudines	Chelidae	Emydura	tanybaraga 
-Reptiles	Turtles and Tortoises	Northern red-faced turtle	Animalia: Chordata: Reptilia	Testudines	Chelidae	Emydura	victoriae 
-Reptiles	Turtles and Tortoises	Turtles	Animalia: Chordata: Reptilia	Testudines	Chelidae	Pseudemydura	sp.
-Reptiles	Turtles and Tortoises	Western Swamp Tortoise	Animalia: Chordata: Reptilia	Testudines	Chelidae	Pseudemydura	umbrina 
-Reptiles	Turtles and Tortoises	Fitzroy River Turtle	Animalia: Chordata: Reptilia	Testudines	Chelidae	Rheodytes	leukops 
-Reptiles	Turtles and Tortoises	Turtles	Animalia: Chordata: Reptilia	Testudines	Chelidae	Rheodytes	sp.
-Reptiles	Turtles and Tortoises	Turtles and Tortoises	Animalia: Chordata: Reptilia	Testudines	Chelidae	Unknown	sp.
+Reptiles	Turtles and Tortoises	Turtle 	Animalia: Chordata: Reptilia	Testudines	Chelidae	Chelodina 	sp.
+Reptiles	Turtles and Tortoises	Cann's snake-neck turtle	Animalia: Chordata: Reptilia	Testudines	Chelidae	Chelodina Chelodina	canni 
+Reptiles	Turtles and Tortoises	eastern long-necked turtle	Animalia: Chordata: Reptilia	Testudines	Chelidae	Chelodina Chelodina	longicollis 
+Reptiles	Turtles and Tortoises	Turtle 	Animalia: Chordata: Reptilia	Testudines	Chelidae	Chelodina Chelodina	sp.
+Reptiles	Turtles and Tortoises	Dinner-plate turtle	Animalia: Chordata: Reptilia	Testudines	Chelidae	Chelodina Chelodina	steindachneri 
+Reptiles	Turtles and Tortoises	Arnhem Land Long Neck Turtle	Animalia: Chordata: Reptilia	Testudines	Chelidae	Chelodina Macrochelodina	burrungandjii 
+Reptiles	Turtles and Tortoises	Broad-Shelled Turtle	Animalia: Chordata: Reptilia	Testudines	Chelidae	Chelodina Macrochelodina	expansa 
+Reptiles	Turtles and Tortoises	Northern Snake-Neck Turtle	Animalia: Chordata: Reptilia	Testudines	Chelidae	Chelodina Macrochelodina	rugosa 
+Reptiles	Turtles and Tortoises	Turtle 	Animalia: Chordata: Reptilia	Testudines	Chelidae	Chelodina Macrochelodina	sp.
+Reptiles	Turtles and Tortoises	Narrow-breasted snake-necked turtle	Animalia: Chordata: Reptilia	Testudines	Chelidae	Chelodina Macrodiremys	colliei 
+Reptiles	Turtles and Tortoises	Turtle 	Animalia: Chordata: Reptilia	Testudines	Chelidae	Chelodina Macrodiremys	sp.
+Reptiles	Turtles and Tortoises	White Throated Snapping Turtle	Animalia: Chordata: Reptilia	Testudines	Chelidae	Elseya 	albagula 
+Reptiles	Turtles and Tortoises	northern snapping turtle	Animalia: Chordata: Reptilia	Testudines	Chelidae	Elseya 	dentata 
+Reptiles	Turtles and Tortoises	Irwin's turtle	Animalia: Chordata: Reptilia	Testudines	Chelidae	Elseya 	irwini 
+Reptiles	Turtles and Tortoises	Gulf Snapping Turtle 	Animalia: Chordata: Reptilia	Testudines	Chelidae	Elseya 	lavarackorum 
+Reptiles	Turtles and Tortoises	Turtle 	Animalia: Chordata: Reptilia	Testudines	Chelidae	Elseya 	sp.
+Reptiles	Turtles and Tortoises	Mary River Turtle	Animalia: Chordata: Reptilia	Testudines	Chelidae	Elusor 	macrurus 
+Reptiles	Turtles and Tortoises	Turtle 	Animalia: Chordata: Reptilia	Testudines	Chelidae	Elusor 	sp.
+Reptiles	Turtles and Tortoises	Murray river turtle	Animalia: Chordata: Reptilia	Testudines	Chelidae	Emydura 	macquarii 
+Reptiles	Turtles and Tortoises	Murray river turtle	Animalia: Chordata: Reptilia	Testudines	Chelidae	Emydura 	macquarii emmotti
+Reptiles	Turtles and Tortoises	Murray river turtle	Animalia: Chordata: Reptilia	Testudines	Chelidae	Emydura 	macquarii krefftii
+Reptiles	Turtles and Tortoises	Murray river turtle	Animalia: Chordata: Reptilia	Testudines	Chelidae	Emydura 	macquarii macquarii
+Reptiles	Turtles and Tortoises	Murray river turtle	Animalia: Chordata: Reptilia	Testudines	Chelidae	Emydura 	macquarii nigra
+Reptiles	Turtles and Tortoises	Turtle 	Animalia: Chordata: Reptilia	Testudines	Chelidae	Emydura 	sp.
+Reptiles	Turtles and Tortoises	Red-bellied short-necked turtle	Animalia: Chordata: Reptilia	Testudines	Chelidae	Emydura 	subglobosa 
+Reptiles	Turtles and Tortoises	Red-bellied short-necked turtle	Animalia: Chordata: Reptilia	Testudines	Chelidae	Emydura 	subglobosa subglobosa
+Reptiles	Turtles and Tortoises	Red-bellied short-necked turtle	Animalia: Chordata: Reptilia	Testudines	Chelidae	Emydura 	subglobosa worrelli
+Reptiles	Turtles and Tortoises	Northern Yellow-faced Turtle 	Animalia: Chordata: Reptilia	Testudines	Chelidae	Emydura 	tanybaraga 
+Reptiles	Turtles and Tortoises	Northern red-faced turtle	Animalia: Chordata: Reptilia	Testudines	Chelidae	Emydura 	victoriae 
+Reptiles	Turtles and Tortoises	Turtle 	Animalia: Chordata: Reptilia	Testudines	Chelidae	Pseudemydura 	sp.
+Reptiles	Turtles and Tortoises	Western Swamp Tortoise	Animalia: Chordata: Reptilia	Testudines	Chelidae	Pseudemydura 	umbrina 
+Reptiles	Turtles and Tortoises	Fitzroy River Turtle	Animalia: Chordata: Reptilia	Testudines	Chelidae	Rheodytes 	leukops 
+Reptiles	Turtles and Tortoises	Turtle 	Animalia: Chordata: Reptilia	Testudines	Chelidae	Rheodytes 	sp.
+Reptiles	Turtles and Tortoises	Turtle 	Animalia: Chordata: Reptilia	Testudines	Chelidae	Wollumbinia 	belli 
+Reptiles	Turtles and Tortoises	Georges' turtle	Animalia: Chordata: Reptilia	Testudines	Chelidae	Wollumbinia 	georgesi 
+Reptiles	Turtles and Tortoises	Saw-shelled turtle	Animalia: Chordata: Reptilia	Testudines	Chelidae	Wollumbinia 	latisternum 
+Reptiles	Turtles and Tortoises	Purvis' turtle	Animalia: Chordata: Reptilia	Testudines	Chelidae	Wollumbinia 	purvisi 
+Reptiles	Turtles and Tortoises	Turtle 	Animalia: Chordata: Reptilia	Testudines	Chelidae	Wollumbinia 	sp.
+Reptiles	Turtles and Tortoises	loggerhead sea turtle	Animalia: Chordata: Reptilia	Testudines	Cheloniidae	Caretta	caretta
+Reptiles	Turtles and Tortoises	loggerhead sea turtle	Animalia: Chordata: Reptilia	Testudines	Cheloniidae	Caretta	caretta gigas
+Reptiles	Turtles and Tortoises	turtle 	Animalia: Chordata: Reptilia	Testudines	Cheloniidae	Caretta	sp.
+Reptiles	Turtles and Tortoises	green sea turtle	Animalia: Chordata: Reptilia	Testudines	Cheloniidae	Chelonia	mydas
+Reptiles	Turtles and Tortoises	green sea turtle	Animalia: Chordata: Reptilia	Testudines	Cheloniidae	Chelonia	mydas japonica
+Reptiles	Turtles and Tortoises	turtle 	Animalia: Chordata: Reptilia	Testudines	Cheloniidae	Chelonia	sp.
+Reptiles	Turtles and Tortoises	Hawksbill sea turtle 	Animalia: Chordata: Reptilia	Testudines	Cheloniidae	Eretmochelys	imbricata
 Reptiles	Turtles and Tortoises	Hawksbill sea turtle 	Animalia: Chordata: Reptilia	Testudines	Cheloniidae	Eretmochelys	imbricata bissa
 Reptiles	Turtles and Tortoises	Hawksbill sea turtle 	Animalia: Chordata: Reptilia	Testudines	Cheloniidae	Eretmochelys	imbricata squamata
-Reptiles	Turtles and Tortoises	Olive Ridley Turtle	Animalia: Chordata: Reptilia	Testudines	Cheloniidae	Lepidochelys	olivacea 
-Reptiles	Turtles and Tortoises	Sea turtles	Animalia: Chordata: Reptilia	Testudines	Cheloniidae	Lepidochelys	sp.
-Reptiles	Turtles and Tortoises	Flatback Turtle	Animalia: Chordata: Reptilia	Testudines	Cheloniidae	Natator	depressus 
-Reptiles	Turtles and Tortoises	Sea turtles	Animalia: Chordata: Reptilia	Testudines	Cheloniidae	Natator	sp.
-Reptiles	Turtles and Tortoises	Unknown	Animalia: Chordata: Reptilia	Testudines	Cheloniidae	Unknown	sp.
+Reptiles	Turtles and Tortoises	turtle 	Animalia: Chordata: Reptilia	Testudines	Cheloniidae	Eretmochelys	sp.
+Reptiles	Turtles and Tortoises	Olive Ridley Turtle	Animalia: Chordata: Reptilia	Testudines	Cheloniidae	Lepidochelys	olivacea
+Reptiles	Turtles and Tortoises	turtle 	Animalia: Chordata: Reptilia	Testudines	Cheloniidae	Lepidochelys	sp.
+Reptiles	Turtles and Tortoises	Flatback Turtle	Animalia: Chordata: Reptilia	Testudines	Cheloniidae	Natator	depressus
+Reptiles	Turtles and Tortoises	turtle 	Animalia: Chordata: Reptilia	Testudines	Cheloniidae	Natator	sp.
 Reptiles	Turtles and Tortoises	Leatherbacks Turtle	Animalia: Chordata: Reptilia	Testudines	Dermochelyidae	Dermochelys	coriacea 
 Reptiles	Turtles and Tortoises	Leatherbacks Turtle	Animalia: Chordata: Reptilia	Testudines	Dermochelyidae	Dermochelys	sp.
 Reptiles	Turtles and Tortoises	Turtles and Tortoises	Animalia: Chordata: Reptilia	Testudines	Dermochelyidae	Unknown	sp.

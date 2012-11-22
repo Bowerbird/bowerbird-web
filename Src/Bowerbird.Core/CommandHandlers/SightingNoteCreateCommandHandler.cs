@@ -61,8 +61,19 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(command, "command");
 
-            var sighting = _documentSession
-                .Load<dynamic>(command.SightingId) as Sighting;
+            Sighting sighting;
+
+            if (!string.IsNullOrWhiteSpace(command.SightingId))
+            {
+                sighting = _documentSession.Load<dynamic>(command.SightingId) as Sighting;
+            } 
+            else 
+            {
+                sighting = _documentSession
+                    .Query<Observation>()
+                    .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
+                    .Where(x => x.Key == command.SightingKey).First();
+            }
 
             Identification identification = null;
 
@@ -91,7 +102,7 @@ namespace Bowerbird.Core.CommandHandlers
                         .Advanced
                         .LuceneQuery<All_Species.Result, All_Species>()
                         .SelectFields<All_Species.Result>("Ranks", "Category", "CommonGroupNames", "CommonNames",
-                                                          "Synonyms")
+                                                            "Synonyms")
                         .WhereEquals("Taxonomy", command.Taxonomy)
                         .First();
 
@@ -114,12 +125,13 @@ namespace Bowerbird.Core.CommandHandlers
 
             sighting.AddNote(
                 identification,
-                command.Tags.Split(new [] { "," }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.ToLower()),
+                command.Tags.Split(new[] {","}, StringSplitOptions.RemoveEmptyEntries).Select(x => x.ToLower()),
                 command.Descriptions,
-                command.NotedOn,
+                DateTime.UtcNow,
                 _documentSession.Load<User>(command.UserId));
 
             _documentSession.Store(sighting);
+            _documentSession.SaveChanges();
         }
 
         private string GetRankName(IDictionary<string, string>[] ranks, string rankType)

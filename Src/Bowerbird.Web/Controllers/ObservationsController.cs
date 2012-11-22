@@ -201,28 +201,55 @@ namespace Bowerbird.Web.Controllers
                 return JsonFailed();
             }
 
-            _messageBus.Send(
-                new ObservationCreateCommand()
-                    {
-                        Title = createInput.Title,
-                        Latitude = createInput.Latitude,
-                        Longitude = createInput.Longitude,
-                        Address = createInput.Address,
-                        IsIdentificationRequired = createInput.IsIdentificationRequired,
-                        AnonymiseLocation = createInput.AnonymiseLocation,
-                        Category = createInput.Category,
-                        ObservedOn = createInput.ObservedOn,
-                        UserId = _userContext.GetAuthenticatedUserId(),
-                        Projects = createInput.ProjectIds,
-                        Media = createInput.Media.Select(x => new ObservationMediaUpdateCommand() 
-                            { 
-                                MediaResourceId = x.MediaResourceId, 
-                                Key = x.Key,
-                                Description = x.Description, 
-                                Licence = x.Licence, 
-                                IsPrimaryMedia = x.IsPrimaryMedia 
-                            })
-                    });
+            var key = string.IsNullOrWhiteSpace(createInput.Key) ? Guid.NewGuid().ToString() : createInput.Key;
+
+            _messageBus.Send(new ObservationCreateCommand()
+                {
+                    Key = key,
+                    Title = createInput.Title,
+                    Latitude = createInput.Latitude,
+                    Longitude = createInput.Longitude,
+                    Address = createInput.Address,
+                    IsIdentificationRequired = createInput.IsIdentificationRequired,
+                    AnonymiseLocation = createInput.AnonymiseLocation,
+                    Category = createInput.Category,
+                    ObservedOn = createInput.ObservedOn,
+                    UserId = _userContext.GetAuthenticatedUserId(),
+                    Projects = createInput.ProjectIds,
+                    Media = createInput.Media.Select(x => new ObservationMediaUpdateCommand()
+                        {
+                            MediaResourceId = x.MediaResourceId,
+                            Key = x.Key,
+                            Description = x.Description,
+                            Licence = x.Licence,
+                            IsPrimaryMedia = x.IsPrimaryMedia
+                        })
+                });
+
+            if (createInput.Note != null && IsValidSightingNote(createInput.Note))
+            {
+                _messageBus.Send(
+                    new SightingNoteCreateCommand()
+                        {
+                            SightingKey = key, // We assign this note via the sighting key, rather than Id because we don't have the sighting id yet.
+                            UserId = _userContext.GetAuthenticatedUserId(),
+                            Descriptions = createInput.Note.Descriptions ?? new Dictionary<string, string>(),
+                            Tags = createInput.Note.Tags ?? string.Empty,
+                            IsCustomIdentification = createInput.Note.IsCustomIdentification,
+                            Taxonomy = createInput.Note.Taxonomy ?? string.Empty,
+                            Category = createInput.Note.Category ?? string.Empty,
+                            Kingdom = createInput.Note.Kingdom ?? string.Empty,
+                            Phylum = createInput.Note.Phylum ?? string.Empty,
+                            Class = createInput.Note.Class ?? string.Empty,
+                            Order = createInput.Note.Order ?? string.Empty,
+                            Family = createInput.Note.Family ?? string.Empty,
+                            Genus = createInput.Note.Genus ?? string.Empty,
+                            Species = createInput.Note.Species ?? string.Empty,
+                            Subspecies = createInput.Note.Subspecies ?? string.Empty,
+                            CommonGroupNames = createInput.Note.CommonGroupNames ?? new string[] {},
+                            CommonNames = createInput.Note.CommonNames ?? new string[] {}
+                        });
+            }
 
             return JsonSuccess();
         }
@@ -366,10 +393,10 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult CreateNote(SightingNoteCreateInput createInput)
         {
-            if (!_userContext.HasGroupPermission<Observation>(PermissionNames.CreateSightingNote, createInput.SightingId))
-            {
-                return HttpUnauthorized();
-            }
+            //if (!_userContext.HasGroupPermission<Observation>(PermissionNames.CreateSightingNote, createInput.SightingId))
+            //{
+            //    return HttpUnauthorized();
+            //}
 
             if (!ModelState.IsValid)
             {
@@ -380,7 +407,6 @@ namespace Bowerbird.Web.Controllers
                 new SightingNoteCreateCommand()
                 {
                     SightingId = createInput.SightingId,
-                    NotedOn = DateTime.UtcNow,
                     UserId = _userContext.GetAuthenticatedUserId(),
                     Descriptions = createInput.Descriptions ?? new Dictionary<string, string>(),
                     Tags = createInput.Tags ?? string.Empty,
@@ -442,6 +468,15 @@ namespace Bowerbird.Web.Controllers
                 });
 
             return JsonSuccess();
+        }
+
+        private bool IsValidSightingNote(SightingNoteCreateInput sightingNoteCreateInput)
+        {
+            // At least one of the following items has been filled in:
+            return
+                sightingNoteCreateInput.Descriptions.Where(x => !string.IsNullOrWhiteSpace(x.Key) && !string.IsNullOrWhiteSpace(x.Value)).Count() > 0 || // At least one description
+                sightingNoteCreateInput.Tags.Split(new [] { "," }, StringSplitOptions.RemoveEmptyEntries).Count() > 0 || // At least one tag
+                sightingNoteCreateInput.IsCustomIdentification ? true : !string.IsNullOrWhiteSpace(sightingNoteCreateInput.Taxonomy); // An identification
         }
 
         private IEnumerable GetCategorySelectList(string observationId = "", string category = "")

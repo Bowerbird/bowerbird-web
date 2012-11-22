@@ -35,6 +35,7 @@ namespace Bowerbird.Core.DomainModels
         }
 
         public Record(
+            string key,
             User createdByUser,
             DateTime createdOn,
             DateTime observedOn,
@@ -46,6 +47,7 @@ namespace Bowerbird.Core.DomainModels
             IEnumerable<Project> projects
             ) 
             : base(
+            key,
             createdByUser,
             createdOn,
             observedOn,

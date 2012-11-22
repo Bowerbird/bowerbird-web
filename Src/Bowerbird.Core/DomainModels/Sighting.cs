@@ -42,6 +42,7 @@ namespace Bowerbird.Core.DomainModels
         }
 
         protected Sighting(
+            string key,
             User createdByUser,
             DateTime createdOn,
             DateTime observedOn,
@@ -59,6 +60,7 @@ namespace Bowerbird.Core.DomainModels
 
             InitMembers();
 
+            Key = key;
             User = createdByUser;
             CreatedOn = createdOn;
             _sightingGroups.Add(new SightingGroup(userProject, createdByUser, createdOn));
@@ -77,6 +79,8 @@ namespace Bowerbird.Core.DomainModels
         #endregion
 
         #region Properties
+
+        public string Key { get; private set; }
 
         public DenormalisedUserReference User { get; private set; }
 

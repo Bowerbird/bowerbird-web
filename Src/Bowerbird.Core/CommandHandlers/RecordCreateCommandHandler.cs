@@ -75,6 +75,7 @@ namespace Bowerbird.Core.CommandHandlers
             }
 
             var record = new Record(
+                command.Key,
                 user,
                 DateTime.UtcNow,
                 command.ObservedOn,

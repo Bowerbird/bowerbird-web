@@ -647,15 +647,17 @@ a.multiSelect:focus,
    color: rgb(187, 187, 187);
 }
 .form form > fieldset:last-child input[type=submit],
-.form form > fieldset:last-child input[type=button]
+.form form > fieldset:last-child input[type=button],
+.form form > fieldset:last-child .button
 {
     float: right;
+    font-size: 1.1em;
+    line-height: 1.55em;
     margin-left: 15px;
+    margin-right: 0;
     padding: 4px 22px;
     position: relative;
     right: 0;
-    font-size: 1.1em;
-    margin-right: 0;
 }
 .form p 
 {
@@ -2063,8 +2065,8 @@ a.multiSelect i
     margin-left: 145px;
     width: auto;
 }
-.profile-form #name-field,
-.profile-form #email-field {
+.user-form #name-field,
+.user-form #email-field {
     float: none;
     margin-bottom: 10px;
     margin-left: 145px;
@@ -2992,15 +2994,15 @@ header.default-header #search-menu input[type=text]:focus
 .chat .chat-message-box
 {
     background-color: rgb(241, 241, 241);
-    height: 92px;
+    height: 100%;
     padding: 0 10px 10px;
 }
 .chat .chat-message-box .status
 {
-    color: #6997C5;
+    color: rgb(136, 136, 136);
     font-size: 0.75em;
     font-weight: 600;
-    height: 16px;
+    height: 28px;
     padding: 0 0 10px;
     text-shadow: 0 1px 0 #FFFFFF;
     width: 100%;
@@ -3011,9 +3013,9 @@ header.default-header #search-menu input[type=text]:focus
     border-radius: 4px 0 0 4px;
     float: left;
     font-size: 0.8em;
-    height: 55px;
+    height: 65px;
     padding: 4px 6px;
-    width: 193px;
+    width: 205px;
 }
 .chat .chat-send-message-button
 {

@@ -115,7 +115,7 @@ namespace Bowerbird.Core.Config
                 //AddOrganisation("Museum Victoria", "Museum Victoria", "www.museumvictoria.com", Users[0].Id);
 
                 // Teams
-                AddTeam("Test Team", "Test team for Alpha release. " + GetLoremIpsum(), "www.bowerbird.org.au", Users[0].Id, Organisations[0].Id);
+                //AddTeam("Test Team", "Test team for Alpha release. " + GetLoremIpsum(), "www.bowerbird.org.au", Users[0].Id, Organisations[0].Id);
                 //AddTeam("Ken Walker tests Bowerbird", "Another Test team for Alpha Release", "www.bowerbird.org.au", Users[0].Id, Organisations[1].Id);
 
                 // Projects
@@ -205,7 +205,7 @@ namespace Bowerbird.Core.Config
             var organisation = new Organisation(user, name, description, website, _mediaResourceFactory.MakeDefaultAvatarImage(AvatarDefaultType.Organisation), DateTime.UtcNow, TheAppRoot);
             _documentSession.Store(organisation);
 
-            _documentSession.Store(organisation);
+            //_documentSession.Store(organisation);
 
             Organisations.Add(organisation);
 

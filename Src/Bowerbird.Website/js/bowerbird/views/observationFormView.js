@@ -287,6 +287,11 @@ function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormVi
             if (this.viewEditMode == 'update') {
                 this.model.set('Id', this.model.id.replace('observations/', ''));
             }
+
+            if (this.sightingNote) {
+                this.model.setSightingNote(this.sightingNote);
+            }
+
             this.model.save();
             app.showPreviousContentView();
         }

@@ -59,7 +59,7 @@ namespace Bowerbird.Web.Builders
 
         #region Methods
 
-        public object BuildNewProject()
+        public object BuildCreateProject()
         {
             return new
             {
@@ -67,9 +67,26 @@ namespace Bowerbird.Web.Builders
                 Description = string.Empty,
                 Website = string.Empty,
                 Avatar = _mediaResourceFactory.MakeDefaultAvatarImage(AvatarDefaultType.Project),
-                MemberCount = 1,
-                ObservationCount = 0,
-                PostCount = 0
+                AvatarId = string.Empty
+            };
+        }
+
+        public object BuildUpdateProject(string projectId)
+        {
+            var project = _documentSession
+                .Query<All_Groups.Result, All_Groups>()
+                .AsProjection<All_Groups.Result>()
+                .First(x => x.GroupId == projectId)
+                .Project;
+
+            return new
+            {
+                project.Id,
+                project.Name,
+                project.Description,
+                project.Website,
+                AvatarId = project.Avatar.Id,
+                project.Avatar
             };
         }
 

@@ -42,6 +42,12 @@ namespace Bowerbird.Web.ViewModels
 
         public string AvatarId { get; set; }
 
+        [Required(ErrorMessage = "Please enter your preferred timezone")]
+        public string Timezone { get; set; }
+
+        [Required(ErrorMessage = "Please enter your preferred licencing")]
+        public string DefaultLicence { get; set; }
+
         #endregion
 
         #region Methods

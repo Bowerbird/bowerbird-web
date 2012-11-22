@@ -76,7 +76,7 @@ Amphibians	Tree frogs	Desert Tree Frog or Red Tree Frog	Animalia: Chordata: Amph
 Amphibians	Tree frogs	Tree frogs and allies	Animalia: Chordata: Amphibia	Anura	Hylidae	Litoria	sp.
 Amphibians	Tree frogs	Spotted Tree Frog	Animalia: Chordata: Amphibia	Anura	Hylidae	Litoria	spenceri 
 Amphibians	Tree frogs	Magnificent Tree Frog 	Animalia: Chordata: Amphibia	Anura	Hylidae	Litoria	splendida 
-Amphibians	Tree frogs	Chattering Rock 	Animalia: Chordata: Amphibia	Anura	Hylidae	Litoria	staccato
+Amphibians	Tree frogs	Chattering Rock Frog	Animalia: Chordata: Amphibia	Anura	Hylidae	Litoria	staccato
 Amphibians	Tree frogs	Glandular Frog	Animalia: Chordata: Amphibia	Anura	Hylidae	Litoria	subglandulosa 
 Amphibians	Tree frogs	Tornier's Frog	Animalia: Chordata: Amphibia	Anura	Hylidae	Litoria	tornieri 
 Amphibians	Tree frogs	Tyler's Tree Frog	Animalia: Chordata: Amphibia	Anura	Hylidae	Litoria	tyleri 
@@ -94,12 +94,16 @@ Amphibians	Tree frogs	Slender Frog 	Animalia: Chordata: Amphibia	Anura	Microhyli
 Amphibians	Tree frogs	Rain Frog 	Animalia: Chordata: Amphibia	Anura	Microhylidae	Austrochaperina	pluvialis 
 Amphibians	Tree frogs	Robust Frog	Animalia: Chordata: Amphibia	Anura	Microhylidae	Austrochaperina	robusta 
 Amphibians	Tree frogs	Frogs and Toads	Animalia: Chordata: Amphibia	Anura	Microhylidae	Austrochaperina	sp.
+Amphibians	Tree frogs	Southern Ornate Nursery-frog	Animalia: Chordata: Amphibia	Anura	Microhylidae	Cophixalus	australis
+Amphibians	Tree frogs	Hinchinbrook Island Nursery-frog	Animalia: Chordata: Amphibia	Anura	Microhylidae	Cophixalus	hinchinbrookensis
 Amphibians	Tree frogs	Tapping Nursery Frog	Animalia: Chordata: Amphibia	Anura	Microhylidae	Cophixalus	aenigma 
 Amphibians	Tree frogs	Buzzing Frog 	Animalia: Chordata: Amphibia	Anura	Microhylidae	Cophixalus	bombiens 
 Amphibians	Tree frogs	Elegant Frog	Animalia: Chordata: Amphibia	Anura	Microhylidae	Cophixalus	concinnus 
 Amphibians	Tree frogs	Rattling Frog	Animalia: Chordata: Amphibia	Anura	Microhylidae	Cophixalus	crepitans 
 Amphibians	Tree frogs	Scanty Frog   	Animalia: Chordata: Amphibia	Anura	Microhylidae	Cophixalus	exiguus 
 Amphibians	Tree frogs	Hosmer's Frog   	Animalia: Chordata: Amphibia	Anura	Microhylidae	Cophixalus	hosmeri 
+Amphibians	Tree frogs	kutini boulder frog	Animalia: Chordata: Amphibia	Anura	Microhylidae	Cophixalus	kulakula
+Amphibians	Tree frogs	golden-capped boulder frog	Animalia: Chordata: Amphibia	Anura	Microhylidae	Cophixalus	pakayakulangun
 Amphibians	Tree frogs	Inelegant Frog	Animalia: Chordata: Amphibia	Anura	Microhylidae	Cophixalus	infacetus 
 Amphibians	Tree frogs	Mcdonald's Frog	Animalia: Chordata: Amphibia	Anura	Microhylidae	Cophixalus	mcdonaldi 
 Amphibians	Tree frogs	Mountain-top Nursery-frog	Animalia: Chordata: Amphibia	Anura	Microhylidae	Cophixalus	monticola 
@@ -214,6 +218,7 @@ Amphibians	Southern Frogs	Large Toadlet 	Animalia: Chordata: Amphibia	Anura	Myob
 Amphibians	Southern Frogs	Orange-crowned Toadlet	Animalia: Chordata: Amphibia	Anura	Myobatrachidae	Pseudophryne	occidentalis 
 Amphibians	Southern Frogs	Northern Corroboree Frog 	Animalia: Chordata: Amphibia	Anura	Myobatrachidae	Pseudophryne	pengilleyi 
 Amphibians	Southern Frogs	Copper backed broodfrog	Animalia: Chordata: Amphibia	Anura	Myobatrachidae	Pseudophryne	raveni 
+Amphibians	Southern Frogs	Central Ranges Toadlet	Animalia: Chordata: Amphibia	Anura	Myobatrachidae	Pseudophryne	robinsoni
 Amphibians	Southern Frogs	Southern Toadlet	Animalia: Chordata: Amphibia	Anura	Myobatrachidae	Pseudophryne	semimarmorata 
 Amphibians	Southern Frogs	Toadlets	Animalia: Chordata: Amphibia	Anura	Myobatrachidae	Pseudophryne	sp.
 Amphibians	Southern Frogs	Southern Gastric Brooding Frog	Animalia: Chordata: Amphibia	Anura	Myobatrachidae	Rheobatrachus	silus 

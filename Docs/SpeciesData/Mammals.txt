@@ -271,7 +271,8 @@ Mammals	Antechinus	Atherton Antechinus	Animalia: Chordata: Mammalia	Dasyuromorph
 Mammals	Antechinus	Cinnamon Antechinus	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Antechinus	minimus 
 Mammals	Antechinus	Swamp Antechinus	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Antechinus	minimus maritimus
 Mammals	Antechinus	Swamp Antechinus	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Antechinus	minimus minimus
-Mammals	Antechinus	Swamp Antechinus	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Antechinus	minimus Unplaced
+Mammals	Antechinus	Swamp Antechinus	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Antechinus	minimus
+Mammals	Antechinus	Antechinus	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Antechinus	mysticus
 Mammals	Antechinus	Brown Antechinus	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Antechinus	stuartii 
 Mammals	Antechinus	Subtropical Antechinus	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Antechinus	subtropicus 
 Mammals	Antechinus	Dusky Antechinus	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Antechinus	swainsonii 
@@ -303,6 +304,7 @@ Mammals	Dasyurids	Dibbler	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae
 Mammals	Dasyurids	Northern Dibbler	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Parantechinus	bilarni 
 Mammals	Dasyurids	Dibbler	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Parantechinus	sp. 
 Mammals	Phascogale	Red-tailed Phascogale	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Phascogale	calura 
+Mammals	Phascogale	Phascogale	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Phascogale	hillieri
 Mammals	Phascogale	Planigale	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Phascogale	pirata 
 Mammals	Phascogale	Brush-tailed Phascogale	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Phascogale	tapoatafa 
 Mammals	Phascogale	Phascogale	Animalia: Chordata: Mammalia	Dasyuromorphia	Dasyuridae	Phascogale	sp. 

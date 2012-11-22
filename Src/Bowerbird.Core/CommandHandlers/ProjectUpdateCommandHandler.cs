@@ -62,6 +62,8 @@ namespace Bowerbird.Core.CommandHandlers
                 command.AvatarId != null ? _documentSession.Load<MediaResource>(command.AvatarId) : null);
 
             _documentSession.Store(project);
+
+            _documentSession.SaveChanges();
         }
 
         #endregion				

@@ -14,7 +14,7 @@ function ($, _, Backbone, app, ich, licences) {
     var MediaFormView = Backbone.Marionette.ItemView.extend({
         id: 'edit-observation-media-form',
 
-        template: 'EditObservationMediaForm',
+        template: 'MediaForm',
 
         events: {
             'click .cancel-button': '_cancel',

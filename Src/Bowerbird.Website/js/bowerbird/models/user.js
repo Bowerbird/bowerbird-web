@@ -14,6 +14,7 @@ function ($, _, Backbone, moment, Timer, Tracker) {
 
     var User = Backbone.Model.extend({
         defaults: {
+            Id: null,
             Name: '',
             Email: '',
             AvatarId: null,
@@ -25,7 +26,11 @@ function ($, _, Backbone, moment, Timer, Tracker) {
 
         idAttribute: 'Id',
 
-        urlRoot: '/users',
+        //urlRoot: '/users',
+
+        url: function () {
+            return '/account/update';
+        },
 
         initialize: function () {
             _.bindAll(this, 'startTimer', 'stopTimer', 'timerExpired', 'startTracker', 'stopTracker', 'onLatestActivityChanged', 'onLatestHeartbeatChange', 'getCurrentStatus');

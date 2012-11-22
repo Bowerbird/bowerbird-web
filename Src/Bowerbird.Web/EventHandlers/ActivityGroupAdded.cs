@@ -90,27 +90,6 @@ namespace Bowerbird.Web.EventHandlers
                 _backChannelService.SendActivityToGroupChannel(activity);
             }
 
-            if (domainEvent.Sender is Team)
-            {
-                var team = domainEvent.DomainModel as Team;
-                var groups = _documentSession.Load<dynamic>(team.AncestorGroups.Select(x => x.Id));
-
-                dynamic activity = MakeActivity(
-                    domainEvent,
-                    "groupadded",
-                    string.Format("{0} created the {1} {2}", user.GetName(), team.Name, "team"),
-                    groups);
-
-                activity.GroupAdded = new
-                {
-                    User = user,
-                    Group = team
-                };
-
-                _documentSession.Store(activity);
-                _backChannelService.SendActivityToGroupChannel(activity);
-            }
-
             if (domainEvent.Sender is Organisation)
             {
                 var organisation = domainEvent.DomainModel as Team;

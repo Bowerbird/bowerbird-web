@@ -8348,3 +8348,4 @@ Fungi & Lichens	microsporidians	microsporidians	Fungi: Microspora: Micrisorea	Mi
 Fungi & Lichens	microsporidians	microsporidians	Fungi: Microspora: Micrisorea	Microsporida	Unikaryonidae	Encephalitozoon	intestinalis			
 Fungi & Lichens	microsporidians	microsporidians	Fungi: Microspora: Micrisorea	Microsporida	Unikaryonidae	Enterocytozoon	bieneusi			
 Fungi & Lichens	microsporidians	microsporidians	Fungi: Microspora: Micrisorea	Microsporida	Unikaryonidae	Septata	intestinalis			
+Fungi & Lichens	chytrid fungus	chytrid fungus	Fungi: Chytridiomycota: Chytridiomycetes	Rhizophydiales	Batrachochytridae	Batrachochytrium	dendrobatidis			

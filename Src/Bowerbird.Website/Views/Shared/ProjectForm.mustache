@@ -11,7 +11,7 @@
         <div>
           <div id="avatar-viewer"></div>
           <div id="avatar-upload-button" class="button avatar-upload-button">
-            Change<input id="file" type="file" name="file" multiple="" value="Change Avatar" />
+            Change<input id="file" type="file" name="file" value="Change Avatar" />
           </div>
         </div>
       </div>
@@ -32,19 +32,6 @@
         <div>
           <input type="text" id="Website" name="website" value="{{Model.Project.Website}}" />
           <p>Add a link to your project's existing website</p>
-        </div>
-      </div>
-      <div id="team-field" class="field">
-        <div>
-          <label for="teamid">Team</label>
-        </div>
-        <div>
-          <select id="TeamId" name="teamid">
-            <option></option>
-            {{#Model.Teams}}
-            <option value="{{Value}}" {{#Selected}}selected=""{{/Selected}}>{{Text}}</option>
-            {{/Model.Teams}}
-          </select>
         </div>
       </div>
     </div>

@@ -31,9 +31,9 @@ namespace Bowerbird.Core.Commands
 
         public string UserId { get; set; }
 
-        public string SightingId { get; set; }
+        public string SightingKey { get; set; }
 
-        public DateTime NotedOn { get; set; }
+        public string SightingId { get; set; }
 
         public string Tags { get; set; }
 
@@ -60,7 +60,7 @@ namespace Bowerbird.Core.Commands
         public string Phylum { get; set; }
 
         public string Class { get; set; }
-
+    
         public string Order { get; set; }
 
         public string Family { get; set; }

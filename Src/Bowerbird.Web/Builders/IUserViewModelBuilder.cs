@@ -21,7 +21,7 @@ namespace Bowerbird.Web.Builders
     {
         object BuildUser(string userId);
 
-        object BuildEditableUser(string userId);
+        object BuildUpdateUser(string userId);
 
         object BuildAuthenticatedUser(string userId);
 

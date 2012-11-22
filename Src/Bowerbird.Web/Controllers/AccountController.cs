@@ -13,7 +13,9 @@
 */
 
 using System;
+using System.Collections.Generic;
 using System.Dynamic;
+using System.IO;
 using System.Linq;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.Indexes;
@@ -21,7 +23,9 @@ using Bowerbird.Core.Infrastructure;
 using Bowerbird.Core.Repositories;
 using Bowerbird.Web.Builders;
 using Bowerbird.Web.Factories;
+using Bowerbird.Web.Properties;
 using Bowerbird.Web.ViewModels;
+using NodaTime;
 using Raven.Client;
 using System.Web.Mvc;
 using Bowerbird.Core.DesignByContract;
@@ -413,7 +417,55 @@ namespace Bowerbird.Web.Controllers
 
             dynamic viewModel = new ExpandoObject();
 
-            viewModel.User = _userViewModelBuilder.BuildEditableUser(userId);
+            var user = _documentSession.Load<User>(_userContext.GetAuthenticatedUserId());
+
+            viewModel.User = _userViewModelBuilder.BuildUpdateUser(userId);
+            viewModel.TimezoneSelectList = GetTimeZones(null, user.Timezone);
+            viewModel.LicenceSelectList = new[]
+                {
+                    new 
+                    {
+                        Text = "All Rights Reserved",
+                        Value = " ",
+                        Selected = user.DefaultLicence.Trim() == string.Empty
+                    },
+                    new 
+                    {
+                        Text = "Attribution",
+                        Value = "BY",
+                        Selected = user.DefaultLicence == "BY"
+                    },
+                    new 
+                    {
+                        Text = "Attribution-Share Alike",
+                        Value = "BY-SA",
+                        Selected = user.DefaultLicence == "BY-SA"
+                    },
+                    new 
+                    {
+                        Text = "Attribution-No Derivative Works",
+                        Value = "BY-ND",
+                        Selected = user.DefaultLicence == "BY-ND"
+                    },
+                    new 
+                    {
+                        Text = "Attribution-Noncommercial",
+                        Value = "BY-NC",
+                        Selected = user.DefaultLicence == "BY-NC"
+                    },
+                    new 
+                    {
+                        Text = "Attribution-Noncommercial-Share Alike",
+                        Value = "BY-NC-SA",
+                        Selected = user.DefaultLicence == "BY-NC-SA"
+                    },
+                    new 
+                    {
+                        Text = "Attribution-Noncommercial-No Derivatives",
+                        Value = "BY-NC-ND",
+                        Selected = user.DefaultLicence == "BY-NC-ND"
+                    }
+                };
 
             return RestfulResult(
                 viewModel,
@@ -436,7 +488,9 @@ namespace Bowerbird.Web.Controllers
                         Name = userUpdateInput.Name,
                         Email = userUpdateInput.Email,
                         Description = userUpdateInput.Description,
-                        AvatarId = userUpdateInput.AvatarId
+                        AvatarId = userUpdateInput.AvatarId,
+                        Timezone = userUpdateInput.Timezone,
+                        DefaultLicence = userUpdateInput.DefaultLicence
                     });
 
                 if (Request.IsAjaxRequest())
@@ -549,6 +603,76 @@ namespace Bowerbird.Web.Controllers
             }
 
             return user != null && user.ValidatePassword(password);
+        }
+
+        /// <summary>
+        /// Returns a list of valid timezones as a dictionary, where the key is the timezone id, and the value can be used for display.
+        /// </summary>
+        /// <param name="countryCode">The two-letter country code to get timezones for.  Returns all timezones if null or empty.</param>
+        public object GetTimeZones(string countryCode, string existingTimezone)
+        {
+            var timeZones = string.IsNullOrEmpty(countryCode)
+                                ? Zones.SelectMany(x => x)
+                                : Zones[countryCode.ToUpper()];
+
+            var now = Instant.FromDateTimeUtc(DateTime.UtcNow);
+            var tzdb = DateTimeZoneProviders.Tzdb;
+
+            var list = from id in timeZones
+                       let tz = tzdb[id]
+                       let offset = tz.GetZoneInterval(now).StandardOffset
+                       orderby offset, id
+                       select new
+                       {
+                           Value = id,
+                           Text = string.Format("{0} ({1})", id, offset.ToString("+HH:mm", null)),
+                           Selected = id == existingTimezone
+                       };
+
+            return list;
+        }
+
+
+        private static volatile ILookup<string, string> _zones;
+        private static readonly object SyncRoot = new object();
+
+        private static ILookup<string, string> Zones
+        {
+            get
+            {
+                if (_zones != null)
+                    return _zones;
+
+                lock (SyncRoot)
+                {
+                    if (_zones == null)
+                        _zones = ReadAndParseTimeZones().ToLookup(x => x.Key, x => x.Value);
+                }
+
+                return _zones;
+            }
+        }
+
+        private static IEnumerable<KeyValuePair<string, string>> ReadAndParseTimeZones()
+        {
+            // Simple parser for the zones data, which is embedded as a string resource.
+            // The data is sourced from the zone.tab file from the offical tz database.
+            // TODO: When NodaTime embeds this file, switch to their copy so we don't have to maintain it.
+            using (var reader = new StringReader(Resources.Zones))
+            {
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    // ignore comments and blank lines
+                    if (line.StartsWith("#") || string.IsNullOrWhiteSpace(line))
+                        continue;
+
+                    var data = line.Split('\t');
+                    var key = data[0];
+                    var value = data[2];
+                    yield return new KeyValuePair<string, string>(key, value);
+                }
+            }
         }
 
         #endregion

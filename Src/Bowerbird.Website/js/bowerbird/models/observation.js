@@ -100,6 +100,10 @@ function ($, _, Backbone, ObservationMediaCollection, MediaResource) {
                     item.set('IsPrimaryMedia', false);
                 }
             }, this);
+        },
+
+        setSightingNote: function (sightingNote) {
+            this.set('Note', sightingNote.toJSON());
         }
     });
 

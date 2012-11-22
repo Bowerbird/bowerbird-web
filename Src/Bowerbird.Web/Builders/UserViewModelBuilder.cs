@@ -66,7 +66,7 @@ namespace Bowerbird.Web.Builders
             return _userViewFactory.Make(_documentSession.Load<User>(userId));
         }
 
-        public object BuildEditableUser(string userId)
+        public object BuildUpdateUser(string userId)
         {
             Check.RequireNotNullOrWhitespace(userId, "userId");
 
@@ -75,10 +75,13 @@ namespace Bowerbird.Web.Builders
             return new
             {
                 user.Id,
-                user.Avatar,
-                user.LastLoggedIn,
                 user.Name,
-                user.Email
+                user.Email,
+                user.Description,
+                AvatarId = user.Avatar.Id,
+                user.DefaultLicence,
+                user.Avatar,
+                user.Timezone
             };
         }
 

@@ -8,13 +8,14 @@
 // AccountController & AccountRouter
 // ---------------------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'views/accountloginview', 'views/accountregisterview'],
-function ($, _, Backbone, app, AccountLoginView, AccountRegisterView) {
+define(['jquery', 'underscore', 'backbone', 'app', 'models/user', 'views/accountloginview', 'views/accountregisterview', 'views/userformview'],
+function ($, _, Backbone, app, User, AccountLoginView, AccountRegisterView, UserFormView) {
 
     var AccountRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
             'account/login': 'showLogin',
-            'account/register': 'showRegister'
+            'account/register': 'showRegister',
+            'account/update': 'showUserUpdateForm'
         }
     });
 
@@ -58,7 +59,7 @@ function ($, _, Backbone, app, AccountLoginView, AccountRegisterView) {
             window.location.replace('/');
             return;
         }
-        
+
         var options = {};
         if (app.isPrerenderingView('account')) {
             options['el'] = '.register';
@@ -66,6 +67,24 @@ function ($, _, Backbone, app, AccountLoginView, AccountRegisterView) {
         var accountRegisterView = new AccountRegisterView(options);
 
         app.showContentView('Join', accountRegisterView, 'account');
+    };
+
+    AccountController.showUserUpdateForm = function () {
+        var options = {};
+        if (app.isPrerenderingView('account')) {
+            options['el'] = '.user-form';
+        }
+
+        if (app.isPrerenderingView('account')) {
+            log('user edit', app.prerenderedView.data);
+            options.model = new User(app.prerenderedView.data.User);
+            options.timezoneSelectList = app.prerenderedView.data.TimezoneSelectList;
+            options.licenceSelectList = app.prerenderedView.data.LicenceSelectList;
+        }
+
+        var userFormView = new UserFormView(options);
+
+        app.showContentView('Edit Account Details', userFormView, 'account');
     };
 
     // Event Handlers
