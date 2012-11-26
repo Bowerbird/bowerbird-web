@@ -10,6 +10,7 @@
  
 */
 
+using System.Dynamic;
 using System.Web.Mvc;
 using Microsoft.Practices.ServiceLocation;
 using Bowerbird.Core.Config;
@@ -90,14 +91,38 @@ namespace Bowerbird.Web.Controllers
             return new HttpUnauthorizedResult();
         }
 
-        protected ActionResult JsonSuccess()
+        protected ActionResult JsonSuccess(string action = "")
         {
-            return new JsonNetResult(new { Success = true });
+            dynamic viewModel = new ExpandoObject();
+
+            viewModel.JsonResponse = new { Success = true };
+
+            if (!string.IsNullOrEmpty(action))
+            {
+                viewModel.JsonResponse.Action = action;
+            }
+
+            return RestfulResult(
+                viewModel,
+                null,
+                null);
         }
 
-        protected ActionResult JsonFailed()
+        protected ActionResult JsonFailed(string action = "")
         {
-            return new JsonNetResult(new { Success = false });
+            dynamic viewModel = new ExpandoObject();
+
+            viewModel.JsonResponse = new { Success = false };
+
+            if (!string.IsNullOrEmpty(action))
+            {
+                viewModel.JsonResponse.Action = action;
+            }
+
+            return RestfulResult(
+                viewModel,
+                null,
+                null);
         }
 
         protected void DebugToClient(dynamic output)
@@ -138,7 +163,8 @@ namespace Bowerbird.Web.Controllers
 
             var newViewModel = new { Model = viewModel }; // Wrap the model in a "Model" property to make it work on both client & server Mustache templates
 
-            if (Request.IsAjaxRequest())
+            // Hamish added 23/11/12 the ajax response for empty view names for app debugging.
+            if (Request.IsAjaxRequest() || ((string.IsNullOrEmpty(prerenderedViewName)) && (string.IsNullOrEmpty(htmlViewName))))
             {
                 if (jsonViewTask != null)
                 {
