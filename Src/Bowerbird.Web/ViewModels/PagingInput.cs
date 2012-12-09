@@ -37,17 +37,13 @@ namespace Bowerbird.Web.ViewModels
         
         public int PageSize { get; set; }
 
-        public string SortField { get; set; }
-
-        public string SortDirection { get; set; }
-
         #endregion
 
         #region Methods
 
-        public void InitMembers()
+        private void InitMembers()
         {
-            Page = DefaultPaging.PageStart;
+            Page = 1;
             PageSize = DefaultPaging.PageSize;
         }
 
@@ -58,8 +54,8 @@ namespace Bowerbird.Web.ViewModels
 
         public int GetPageSize()
         {
-            // Do not allow paging sizes of greater than 75 to avoid performance/ravendb issues
-            return PageSize > 0 && PageSize <= 75 ? PageSize : 10;
+            // Do not allow paging sizes of greater than 50 to avoid performance/ravendb issues
+            return PageSize > 0 && PageSize <= DefaultPaging.PageMax ? PageSize : DefaultPaging.PageSize;
         }
 
         public int GetSkipIndex()

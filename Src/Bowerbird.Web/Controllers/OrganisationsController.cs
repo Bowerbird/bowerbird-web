@@ -114,7 +114,7 @@ namespace Bowerbird.Web.Controllers
             var viewModel = new
             {
                 Organisation = _organisationViewModelBuilder.BuildOrganisation(organisationId),
-                Sightings = _sightingViewModelBuilder.BuildGroupSightingList(organisationId, pagingInput)
+                Sightings = _sightingViewModelBuilder.BuildGroupSightingList(organisationId, null)
             };
 
             return RestfulResult(

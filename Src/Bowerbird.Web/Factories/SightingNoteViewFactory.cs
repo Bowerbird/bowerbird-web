@@ -100,8 +100,9 @@ namespace Bowerbird.Web.Factories
             viewModel.Tags = sightingNote.Tags;
             viewModel.User = _userViewFactory.Make(user);
             viewModel.TagCount = sightingNote.Tags.Count();
-            viewModel.DescriptionCount = sightingNote.Descriptions.Count();
+            viewModel.DescriptionCount = sightingNote.Descriptions.Count(); 
             viewModel.AllTags = string.Join(", ", sightingNote.Tags);
+            viewModel.CreatedOnDescription = sightingNote.CreatedOn.ToString("d MMMM yyyy HH:mm") + sightingNote.CreatedOn.ToString("tt").ToLower();
 
             return viewModel;
         }

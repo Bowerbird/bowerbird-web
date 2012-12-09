@@ -71,7 +71,7 @@ namespace Bowerbird.Core.CommandHandlers
             {
                 sighting = _documentSession
                     .Query<Observation>()
-                    .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
+                    //.Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
                     .Where(x => x.Key == command.SightingKey).First();
             }
 
@@ -127,7 +127,7 @@ namespace Bowerbird.Core.CommandHandlers
                 identification,
                 command.Tags.Split(new[] {","}, StringSplitOptions.RemoveEmptyEntries).Select(x => x.ToLower()),
                 command.Descriptions,
-                DateTime.UtcNow,
+                DateTime.UtcNow.AddSeconds(1), // Add a second to avoid notes being published before its parent sighting
                 _documentSession.Load<User>(command.UserId));
 
             _documentSession.Store(sighting);

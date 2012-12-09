@@ -80,73 +80,124 @@ namespace Bowerbird.Web.Builders
             return sighting;
         }
 
-        public object BuildGroupSightingList(string groupId, PagingInput pagingInput)
+        public object BuildGroupSightingList(string groupId, SightingsQueryInput sightingsQueryInput)
         {
             Check.RequireNotNullOrWhitespace(groupId, "groupId");
-            Check.RequireNotNull(pagingInput, "pagingInput");
+            Check.RequireNotNull(sightingsQueryInput, "sightingsQueryInput");
 
-            RavenQueryStatistics stats;
-
-            return _documentSession
+            var query = _documentSession
                 .Query<All_Contributions.Result, All_Contributions>()
                 .AsProjection<All_Contributions.Result>()
-                .Where(x => x.GroupIds.Any(y => y == groupId) && (x.ContributionType == "observation" || x.ContributionType == "record"))
-                .Statistics(out stats)
-                .Skip(pagingInput.GetSkipIndex())
-                .Take(pagingInput.GetPageSize())
-                .ToList()
-                .Select(_sightingViewFactory.Make)
-                .ToPagedList(
-                    pagingInput.Page,
-                    pagingInput.PageSize,
-                    stats.TotalResults);
+                .Where(x => x.GroupIds.Any(y => y == groupId) && (x.ContributionType == "observation" || x.ContributionType == "record"));
+
+            return ExecuteQuery(sightingsQueryInput, query);
+
+                //.Statistics(out stats)
+                //.Skip(pagingInput.GetSkipIndex())
+                //.Take(pagingInput.GetPageSize())
+                //.ToList()
+                //.Select(_sightingViewFactory.Make)
+                //.ToPagedList(
+                //    pagingInput.Page,
+                //    pagingInput.PageSize,
+                //    stats.TotalResults);
         }
 
-        public object BuildUserSightingList(string userId, PagingInput pagingInput)
+        public object BuildUserSightingList(string userId, SightingsQueryInput sightingsQueryInput)
         {
             Check.RequireNotNullOrWhitespace(userId, "userId");
-            Check.RequireNotNull(pagingInput, "pagingInput");
+            Check.RequireNotNull(sightingsQueryInput, "sightingsQueryInput");
 
-            RavenQueryStatistics stats;
-
-            return _documentSession
+            var query = _documentSession
                 .Query<All_Contributions.Result, All_Contributions>()
                 .AsProjection<All_Contributions.Result>()
-                .Where(x => x.UserId == userId && (x.ContributionType == "observation" || x.ContributionType == "record"))
-                .Statistics(out stats)
-                .Skip(pagingInput.GetSkipIndex())
-                .Take(pagingInput.GetPageSize())
-                .ToList()
-                .Select(_sightingViewFactory.Make)
-                .ToPagedList(
-                    pagingInput.Page,
-                    pagingInput.PageSize,
-                    stats.TotalResults);
+                .Where(x => x.UserId == userId && (x.ContributionType == "observation" || x.ContributionType == "record"));
+
+            return ExecuteQuery(sightingsQueryInput, query);
+
+            //.Statistics(out stats)
+            //.Skip(pagingInput.GetSkipIndex())
+            //.Take(pagingInput.GetPageSize())
+            //.ToList()
+            //.Select(_sightingViewFactory.Make)
+            //.ToPagedList(
+            //    pagingInput.Page,
+            //    pagingInput.PageSize,
+            //    stats.TotalResults);
         }
 
-        public object BuildAllUserProjectsSightingList(string userId, PagingInput pagingInput)
+        public object BuildAllUserProjectsSightingList(string userId, SightingsQueryInput queryInput)
         {
             Check.RequireNotNullOrWhitespace(userId, "userId");
-            Check.RequireNotNull(pagingInput, "pagingInput");
-
-            RavenQueryStatistics stats;
+            Check.RequireNotNull(queryInput, "queryInput");
 
             var groupIds = _documentSession
                 .Load<User>(userId)
                 .Memberships.Select(x => x.Group.Id);
 
-            return _documentSession
+            var query = _documentSession
                 .Query<All_Contributions.Result, All_Contributions>()
                 .AsProjection<All_Contributions.Result>()
-                .Where(x => x.GroupIds.Any(y => y.In(groupIds)) && (x.ContributionType == "observation" || x.ContributionType == "record"))
+                .Where(x => x.GroupIds.Any(y => y.In(groupIds)) && (x.ContributionType == "observation" || x.ContributionType == "record"));
+
+            return ExecuteQuery(queryInput, query);
+
+            //switch (queryInput.Sort.ToLower())
+            //{
+            //    default:
+            //    case "latestadded":
+            //        query = query.OrderByDescending(x => x.CreatedDateTime);
+            //        break;
+            //    case "oldestadded":
+            //        query = query.OrderBy(x => x.CreatedDateTime);
+            //        break;
+            //    case "a-z":
+            //        query = query.OrderBy(x => x.SightingTitle);
+            //        break;
+            //    case "z-a":
+            //        query = query.OrderByDescending(x => x.SightingTitle);
+            //        break;
+            //}
+
+            //return query.Skip(queryInput.GetSkipIndex())
+            //    .Take(queryInput.GetPageSize())
+            //    .ToList()
+            //    .Select(_sightingViewFactory.Make)
+            //    .ToPagedList(
+            //        queryInput.Page,
+            //        queryInput.PageSize,
+            //        stats.TotalResults);
+        }
+
+        private object ExecuteQuery(SightingsQueryInput queryInput, IRavenQueryable<All_Contributions.Result> query)
+        {
+            switch (queryInput.Sort.ToLower())
+            {
+                default:
+                case "latestadded":
+                    query = query.OrderByDescending(x => x.CreatedDateTime);
+                    break;
+                case "oldestadded":
+                    query = query.OrderBy(x => x.CreatedDateTime);
+                    break;
+                case "a-z":
+                    query = query.OrderBy(x => x.SightingTitle);
+                    break;
+                case "z-a":
+                    query = query.OrderByDescending(x => x.SightingTitle);
+                    break;
+            }
+
+            RavenQueryStatistics stats;
+
+            return query.Skip(queryInput.GetSkipIndex())
                 .Statistics(out stats)
-                .Skip(pagingInput.GetSkipIndex())
-                .Take(pagingInput.GetPageSize())
+                .Take(queryInput.GetPageSize())
                 .ToList()
                 .Select(_sightingViewFactory.Make)
                 .ToPagedList(
-                    pagingInput.Page,
-                    pagingInput.PageSize,
+                    queryInput.Page,
+                    queryInput.PageSize,
                     stats.TotalResults);
         }
 

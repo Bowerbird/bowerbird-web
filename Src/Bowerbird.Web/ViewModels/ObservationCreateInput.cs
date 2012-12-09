@@ -47,9 +47,6 @@ namespace Bowerbird.Web.ViewModels
         public string Address { get; set; }
 
         [Required]
-        public bool IsIdentificationRequired { get; set; }
-
-        [Required]
         public bool AnonymiseLocation { get; set; }
 
         [Required(ErrorMessage = "Please select an observation category")]

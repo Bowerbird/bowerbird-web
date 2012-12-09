@@ -93,7 +93,7 @@ namespace Bowerbird.Web.Factories
             viewModel.Projects = projects.Select(_groupViewFactory.Make);
             viewModel.User = _userViewFactory.Make(user);
             viewModel.Comments = sighting.Discussion.Comments;
-            viewModel.ObservedOnDescription = sighting.ObservedOn.ToString("d MMMM yyyy HH:mm") + sighting.ObservedOn.ToString("tt").ToLower();
+            viewModel.ObservedOnDescription = sighting.ObservedOn.ToString("d MMM yyyy h:mm") + sighting.ObservedOn.ToString("tt").ToLower();
             //viewModel.Notes = sighting.Notes.Select(_sightingNoteViewFactory.Make);
             viewModel.CommentCount = sighting.Discussion.CommentCount;
             viewModel.ProjectCount = projects.Count();

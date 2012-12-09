@@ -217,11 +217,11 @@
 .observation-details .user {
     margin-bottom: 14px;
 }
-.sightingadded-activity-item .user,
-.sightingnoteadded-activity-item .user {
+.sightingadded-activity-item .user {
     display: none;
 }
 .observation .user .media-square-100,
+.observation-details .user .media-square-100,
 .sighting-note .user .media-square-100,
 .sighting .user .media-square-100 {
     display: inline-block;
@@ -395,13 +395,19 @@
 /**********************/
 .project > .summary
 {
-    background-color: rgb(255, 255, 255);
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: rgb(84, 149, 216);
+    background-origin: padding-box;
+    background-position: center 0;
+    background-repeat: no-repeat;
     border-radius: 4px 4px 4px 4px;
     box-shadow: 0 1px 2px 0 rgb(51, 51, 51);
+    float: left;
     height: 200px;
     position: relative;
     width: 100%;
-    float: left;
+    z-index: 2;  
 }
 .project > .details {
     background-color: rgb(227, 227, 227);
@@ -409,55 +415,57 @@
     width: 100%;
 }
 .project > .summary .image-media {
-    margin: 0 15px 0 0;
-    float: left;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px 0 rgba(1, 1, 1, 0.8);
+    display: block;
+    height: 100px;
+    margin: 12px auto 0;
+    width: 100px;
 }
 .project > .summary img
 {
-    border-radius: 4px 0 0 4px;
-    height: 200px;
+    border-radius: 4px;
 }
 .project > .summary h1
 {
-    color: rgb(34, 34, 34);
+    color: rgb(255, 255, 255);
     display: block;
-    font-size: 1.6em;
-    font-weight: 600;
+    font-size: 2em;
+    font-weight: 700;
     letter-spacing: -0.03em;
-    line-height: 1.8em;
+    line-height: 1.6em;
     overflow: hidden;
-    padding-right: 15px;
-    text-align: left;
+    text-align: center;
     text-overflow: ellipsis;
-    text-shadow: none;
+    text-shadow: 0 1px 0 rgb(0, 0, 0);
     white-space: nowrap;
 }
 .project > .summary p
 {
-    display: block;
+    display: none;
     font-size: 0.875em;
     line-height: 1.4em;
     margin: 15px 15px 15px 0;
     max-height: 96px;
     overflow: hidden;
 }
-.project .tab-bar 
-{
-    clear: both;
-    padding: 2% 2% 0;
-}
 .project > .summary .badges
 {
     display: block;
+    text-align: center;
+    width: 100%;
 }
 .project > .summary .badges li
 {
-    background-color: #ECF1F6;
+    background-color: rgba(0, 0, 0, 0.5);
     border-radius: 4px 4px 4px 4px;
+    color: rgb(255, 255, 255);
     display: inline-block;
-    font-size: 0.8em;
+    font-size: 0.85em;
+    font-weight: 600;
     line-height: 1em;
     padding: 5px 7px;
+    text-shadow: 0 1px 0 rgb(0, 0, 0);
 }
 
 
@@ -803,3 +811,173 @@ div.click-to-explore
     margin-top: 2%;
     padding: 2%;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*.small-sighting-details 
+{
+    background-color: rgb(249, 249, 249);
+    border-radius: 6px 6px 6px 6px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.5);
+    float: left;
+    margin: 2% 2% 2% 0;
+    padding: 1.5%;
+    right: 2%;
+    width: 39%;
+}
+.small-sighting-details h3 
+{
+    display: inline-block;
+    font-size: 1.3em;
+    font-weight: 600;
+    letter-spacing: -1px;
+    line-height: 1.1em;
+    margin: 0;
+    padding: 0 2% 5px 0;
+    width: 69%;
+}
+.small-sighting-details h3 a, 
+.small-sighting-details h3 a:hover, 
+.small-sighting-details h3 a:active, 
+.small-sighting-details h3 a:visited {
+    color: rgb(34, 34, 34);
+    text-decoration: none;
+}
+.small-sighting-details .images {
+    display: inline-block;
+    float: left;
+    width: 100%;
+}
+.small-sighting-details .info 
+{
+    float: left;
+    padding-top: 11px;
+    position: relative;
+    width: 100%;
+}
+.small-sighting-details .user {
+    display: inline-block;
+    float: left;
+    width: 100%;
+}
+.small-sighting-details .user .media-square-100 {
+    float: left;
+    width: 30px;
+}
+.small-sighting-details .user span {
+    display: block;
+    float: left;
+    font-size: 0.875em;
+    font-weight: 600;
+    line-height: 1em;
+    margin-left: 5px;
+    margin-top: 8px;
+}
+.small-sighting-details .observed {
+    display: inline-block;
+    float: left;
+    font-size: 0.8em;
+    font-weight: 600;
+    line-height: 1em;
+    width: 100%;
+}
+.small-sighting-details .observed span 
+{
+    display: block;
+    font-weight: 500;
+    line-height: 1.5em;
+}
+.small-sighting-details .location {
+    display: inline-block;
+    float: left;
+    font-size: 0.8em;
+    line-height: 1.25em;
+    margin-right: 3%;
+    margin-top: 11px;
+    width: 55%;
+}
+.small-sighting-details .location .map {
+    background-color: rgb(221, 221, 221);
+    display: block;
+    height: 85px;
+    width: 100%;
+}
+.small-sighting-details .projects,
+.small-sighting-details .comments,
+.small-sighting-details .notes {
+    display: block;
+    float: left;
+    font-size: 0.8em;
+    font-weight: 600;
+    padding-top: 6px;
+    width: 42%;
+}
+.small-sighting-details .projects
+{
+    padding-top: 11px;
+}
+.small-sighting-details .projects span,
+.small-sighting-details .comments span,
+.small-sighting-details .notes span {
+    background-color: rgb(215, 230, 245);
+    border-radius: 6px 6px 6px 6px;
+    color: rgb(34, 34, 34);
+    display: inline-block;
+    font-size: 1em;
+    font-weight: 700;
+    height: 26px;
+    line-height: 1.9em;
+    margin-right: 2px;
+    text-align: center;
+    text-shadow: 0 0 1px rgb(255, 255, 255);
+    width: 26px;
+}*/

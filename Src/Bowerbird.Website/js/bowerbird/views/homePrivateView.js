@@ -9,7 +9,8 @@
 // ---------------
 
 // The home page view when logged in
-define(['jquery', 'underscore', 'backbone', 'app', 'views/activitylistview', 'views/sightinglistview', 'collections/activitycollection', 'collections/sightingcollection'], function ($, _, Backbone, app, ActivityListView, SightingListView, ActivityCollection, SightingCollection) {
+define(['jquery', 'underscore', 'backbone', 'app', 'views/activitylistview', 'views/sightinglistview'], 
+function ($, _, Backbone, app, ActivityListView, SightingListView) {
 
     var HomePrivateView = Backbone.Marionette.Layout.extend({
         viewType: 'detail',
@@ -63,16 +64,6 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/activitylistview', 'vi
                 app.vent.trigger('close-call-to-action', 'welcome');
                 return false;
             });
-
-//            this.on('reshow', function () {
-//                if (this.list.currentView) {
-//                    this.list.currentView.refresh();
-//                }
-//            }, this);
-
-//            app.vent.on('view:render:complete', function () {
-//                this.list.currentView.refresh();
-//            }, this);
         },
 
         showActivityTabSelection: function (e) {
@@ -96,14 +87,11 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/activitylistview', 'vi
             Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
         },
 
-        showActivity: function (model) {
+        showActivity: function (activityCollection) {
             this.switchTabHighlight('activities');
 
-            var activityCollection = new ActivityCollection(model.Activities.PagedListItems);
-            activityCollection.setPageInfo(model.Activities);
-
             var options = {
-                model: app.authenticatedUser.user,
+                model: this.model,
                 collection: activityCollection,
                 isHomeStream: true
             };
@@ -122,19 +110,11 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/activitylistview', 'vi
             }
         },
 
-        showSightings: function (model, tab) {
-            if (tab && this.activeTab === 'sightings') {
-                log('showing sub-tab', tab);
-                return;
-            }
-
+        showSightings: function (sightingCollection) {
             this.switchTabHighlight('sightings');
 
-            var sightingCollection = new SightingCollection(model.Sightings.PagedListItems);
-            sightingCollection.setPageInfo(model.Sightings);
-
             var options = {
-                model: app.authenticatedUser.user,
+                model: this.model,
                 collection: sightingCollection
             };
 

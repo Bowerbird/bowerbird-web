@@ -22,9 +22,7 @@ function ($, _, Backbone, ObservationMediaCollection, MediaResource) {
             AnonymiseLocation: false,
             ProjectIds: [],
             IsIdentificationRequired: false,
-            Media: [],
-            Comments: [],
-            PrimaryMedia: null
+            Media: []
         },
 
         urlRoot: '/observations',

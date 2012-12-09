@@ -41,6 +41,8 @@ namespace Bowerbird.Web.ViewModels
 
         public string AvatarId { get; set; }
 
+        public string BackgroundId { get; set; }
+
         #endregion
 
         #region Methods

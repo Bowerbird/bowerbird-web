@@ -107,7 +107,7 @@ function ($, _, Backbone, app, ich, ActivityItemView) {
         },
 
         onLoadingComplete: function (collection) {
-            this.$el.find('.stream-message').remove();
+            this.$el.find('.stream-message, .stream-loading').remove();
             if (collection.length === 0) {
                 this.$el.find('.activity-list').append(ich.StreamMessage());
             }

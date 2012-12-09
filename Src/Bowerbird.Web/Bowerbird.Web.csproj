@@ -213,6 +213,7 @@
     <Compile Include="Validators\ValidExternalVideoAttribute.cs" />
     <Compile Include="Validators\ValidFileAttribute.cs" />
     <Compile Include="Validators\ValidMediaResourceAttribute.cs" />
+    <Compile Include="ViewModels\SightingsQueryInput.cs" />
     <Compile Include="ViewModels\SightingNoteUpdateInput.cs" />
     <Compile Include="ViewModels\SpeciesQueryInput.cs" />
     <Compile Include="ViewModels\RecordCreateInput.cs" />
@@ -220,13 +221,11 @@
     <Compile Include="ViewModels\MediaResourceCreateInput.cs" />
     <Compile Include="ViewModels\JsonNetResult.cs" />
     <Compile Include="Controllers\MediaResourcesController.cs" />
-    <Compile Include="Controllers\SightingNotesController.cs" />
     <Compile Include="Controllers\OrganisationsController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\ReferenceSpeciesController.cs" />
     <Compile Include="Controllers\SpeciesController.cs" />
-    <Compile Include="Controllers\TeamsController.cs" />
     <Compile Include="Controllers\TemplatesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="EventHandlers\ActivityCommentAdded.cs" />

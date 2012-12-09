@@ -8,18 +8,28 @@
 // ProjectDetailsView
 // ------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'views/activitylistview', 'collections/activitycollection'], function ($, _, Backbone, app, ActivityListView, ActivityCollection) {
+define(['jquery', 'underscore', 'backbone', 'app', 'views/activitylistview', 'views/sightinglistview'],
+function ($, _, Backbone, app, ActivityListView, SightingListView) {
 
     var ProjectDetailsView = Backbone.Marionette.Layout.extend({
-        viewType: 'details',
+        viewType: 'detail',
 
         className: 'project double',
 
         template: 'Project',
 
         regions: {
-            details: '.details'
+            summary: '.summary',
+            list: '.list'
         },
+
+        events: {
+            'click .activities-tab-button': 'showActivityTabSelection',
+            'click .sightings-tab-button': 'showSightingsTabSelection',
+            'click .posts-tab-button': 'showPostsTabSelection'
+        },
+
+        activeTab: '',
 
         serializeData: function () {
             return {
@@ -35,26 +45,78 @@ define(['jquery', 'underscore', 'backbone', 'app', 'views/activitylistview', 'co
 
         showBootstrappedDetails: function () {
             this.initializeRegions();
-            this.$el = $('#content .project');
+            //this.$el = $('#content .project');
         },
 
-        showActivity: function () {
-            var activityCollection = new ActivityCollection(null, { groupOrUser: this.model });
+        showActivityTabSelection: function (e) {
+            e.preventDefault();
+            this.switchTabHighlight('activities');
+            this.list.currentView.showLoading();
+            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
+        },
+
+        showSightingsTabSelection: function (e) {
+            e.preventDefault();
+            this.switchTabHighlight('sightings');
+            this.list.currentView.showLoading();
+            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
+        },
+
+        showPostsTabSelection: function (e) {
+            e.preventDefault();
+            this.switchTabHighlight('posts');
+            this.list.currentView.showLoading();
+            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
+        },
+
+        showActivity: function (activityCollection) {
+            this.switchTabHighlight('activities');
+
             var options = {
                 model: this.model,
                 collection: activityCollection
             };
+
             if (app.isPrerenderingView('projects')) {
-                options['el'] = '.stream';
+                options['el'] = '.list > div';
             }
+
             var activityListView = new ActivityListView(options);
+
             if (app.isPrerenderingView('projects')) {
-                this.details.attachView(activityListView);
+                this.list.attachView(activityListView);
                 activityListView.showBootstrappedDetails();
             } else {
-                this.details.show(activityListView);
+                this.list.show(activityListView);
             }
-            activityCollection.fetchFirstPage();
+        },
+
+        showSightings: function (sightingCollection) {
+            this.switchTabHighlight('sightings');
+
+            var options = {
+                model: this.model,
+                collection: sightingCollection
+            };
+
+            if (app.isPrerenderingView('projects')) {
+                options['el'] = '.list > div';
+            }
+
+            var sightingListView = new SightingListView(options);
+
+            if (app.isPrerenderingView('projects')) {
+                this.list.attachView(sightingListView);
+                sightingListView.showBootstrappedDetails();
+            } else {
+                this.list.show(sightingListView);
+            }
+        },
+        
+        switchTabHighlight: function (tab) {
+            this.activeTab = tab;
+            this.$el.find('.tab-button').removeClass('selected');
+            this.$el.find('.' + tab + '-tab-button').addClass('selected');
         }
     });
 

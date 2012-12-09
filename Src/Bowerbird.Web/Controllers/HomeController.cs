@@ -119,7 +119,7 @@ namespace Bowerbird.Web.Controllers
         /// </summary>
         [HttpGet]
         [Authorize]
-        public ActionResult Sightings(PagingInput pagingInput)
+        public ActionResult Sightings(SightingsQueryInput queryInput)
         {
             var user = _documentSession
                 .Query<All_Users.Result, All_Users>()
@@ -127,9 +127,38 @@ namespace Bowerbird.Web.Controllers
                 .Where(x => x.UserId == _userContext.GetAuthenticatedUserId())
                 .Single();
 
+            if (queryInput.View.ToLower() == "thumbnails")
+            {
+                queryInput.PageSize = 15;
+            }
+
+            if (queryInput.View.ToLower() == "details")
+            {
+                queryInput.PageSize = 10;
+            }
+
+            if (string.IsNullOrWhiteSpace(queryInput.Sort) || 
+                (queryInput.Sort.ToLower() != "latestadded" && 
+                queryInput.Sort.ToLower() != "oldestadded" &&
+                queryInput.Sort.ToLower() != "a-z" && 
+                queryInput.Sort.ToLower() != "z-a"))
+            {
+                queryInput.Sort = "latestadded";
+            }
+
             dynamic viewModel = new ExpandoObject();
             viewModel.User = _userViewModelBuilder.BuildUser(_userContext.GetAuthenticatedUserId());
-            viewModel.Sightings = _sightingViewModelBuilder.BuildAllUserProjectsSightingList(_userContext.GetAuthenticatedUserId(), pagingInput);
+            viewModel.Sightings = _sightingViewModelBuilder.BuildAllUserProjectsSightingList(_userContext.GetAuthenticatedUserId(), queryInput);
+            viewModel.Query = new
+                {
+                    queryInput.Page,
+                    queryInput.PageSize,
+                    queryInput.Sort,
+                    queryInput.View,
+                    IsThumbnailsView = queryInput.View == "thumbnails",
+                    IsDetailsView = queryInput.View == "details",
+                    IsMapView = queryInput.View == "map"
+                };
 
             return RestfulResult(
                 viewModel,

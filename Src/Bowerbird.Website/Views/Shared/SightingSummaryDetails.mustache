@@ -3,18 +3,12 @@
         {{Title}} <span></span>
       </a>
     </h3>
-    <div>
+    
       <div class="images">
         <div class="preview">
           {{#PrimaryMedia.MediaResource}}
           {{>MediaConstrained480}}
           {{/PrimaryMedia.MediaResource}}
-          {{#PrimaryMedia.Description}}
-          <div class="media-details">
-            <div class="overlay"></div>
-            <p class="description">{{PrimaryMedia.Description}}</p>
-          </div>
-          {{/PrimaryMedia.Description}}
         </div>
       </div>
       <div class="info">
@@ -25,25 +19,17 @@
           {{/User.Avatar}}
           <span>{{User.Name}}</span>
         </div>
-
-        <div class="observed">
-          Sighted
-          <span>{{ObservedOnDescription}}</span>
-        </div>
+        
         <div class="location">
           <div class="map"></div>
           <span>{{Address}}</span>
         </div>
 
-
-        <div class="projects">
-          <span>{{ProjectCount}}</span> Projects
-        </div>
-        <div class="comments">
-          <span>{{CommentCount}}</span> Comments
-        </div>
-        <div class="notes">
-          <span>{{NoteCount}}</span> Notes
-        </div>
+       
+        <div class="observed"><span class="small-icon observation-icon"></span> {{ObservedOnDescription}}</div>
+        <div class="projects"><span class="small-icon project-icon"></span> {{ProjectCount}} Projects</div>
+        <div class="notes"><span class="small-icon note-icon"></span> {{NoteCount}} Notes</div>        
+        <div class="comments"><span class="small-icon comment-icon"></span> {{CommentCount}} Comments</div>        
+        
       </div>
-    </div>
+    

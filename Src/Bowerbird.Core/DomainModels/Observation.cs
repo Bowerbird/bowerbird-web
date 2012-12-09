@@ -47,7 +47,6 @@ namespace Bowerbird.Core.DomainModels
             string latitude,
             string longitude,
             string address,
-            bool isIdentificationRequired,
             bool anonymiseLocation,
             string category,
             UserProject userProject,
@@ -72,7 +71,6 @@ namespace Bowerbird.Core.DomainModels
             SetObservationDetails(
                 title,
                 address,
-                isIdentificationRequired,
                 media);
 
             ApplyEvent(new SightingCreatedEvent(this, createdByUser, this, projects));
@@ -111,12 +109,10 @@ namespace Bowerbird.Core.DomainModels
         private void SetObservationDetails(
             string title,
             string address,
-            bool isIdentificationRequired,
             IEnumerable<Tuple<MediaResource, string, string, bool>> media)
         {
             Title = title;
             Address = address;
-            IsIdentificationRequired = isIdentificationRequired;
 
             _observationMedia.Clear();
 
@@ -134,7 +130,6 @@ namespace Bowerbird.Core.DomainModels
             string latitude,
             string longitude,
             string address,
-            bool isIdentificationRequired,
             bool anonymiseLocation,
             string category,
             IEnumerable<Project> projects,
@@ -155,7 +150,6 @@ namespace Bowerbird.Core.DomainModels
             SetObservationDetails(
                 title,
                 address,
-                isIdentificationRequired, 
                 media);
 
             ApplyEvent(new DomainModelUpdatedEvent<Observation>(this, updatedByUser, this));

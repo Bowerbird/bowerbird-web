@@ -238,6 +238,9 @@ namespace Bowerbird.Core.Utilities
                             ImageAttributes attributes = new ImageAttributes();
                             attributes.SetWrapMode(WrapMode.TileFlipXY);
 
+                            //graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                            //graphics.CompositingQuality = CompositingQuality.HighQuality;
+
                             graphics.DrawImage(_newImage,
                                 new Rectangle((targetWidth - destWidth) / 2, (targetHeight - destHeight) / 2, destWidth, destHeight),
                                 0, 0, _newImage.Width, _newImage.Height,
@@ -391,9 +394,15 @@ namespace Bowerbird.Core.Utilities
 
         private void BuildGraphics(Graphics graphics)
         {
-            graphics.CompositingMode = CompositingMode.SourceCopy;
-            graphics.CompositingQuality = CompositingQuality.HighQuality;
+            //graphics.CompositingMode = CompositingMode.SourceCopy;
+            //graphics.CompositingQuality = CompositingQuality.HighQuality;
+            //graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+
+
             graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            graphics.SmoothingMode = SmoothingMode.HighQuality;
+            graphics.CompositingQuality = CompositingQuality.HighQuality;
+            graphics.PixelOffsetMode = PixelOffsetMode.HighQuality; 
         }
 
         private ImageCodecInfo GetEncoderInfo(string mimeType)

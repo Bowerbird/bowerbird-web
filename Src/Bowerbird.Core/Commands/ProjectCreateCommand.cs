@@ -38,7 +38,7 @@ namespace Bowerbird.Core.Commands
 
         public string AvatarId { get; set; }
 
-        public string TeamId { get; set; }
+        public string BackgroundId { get; set; }
 
         #endregion
 

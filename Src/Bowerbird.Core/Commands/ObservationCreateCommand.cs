@@ -44,8 +44,6 @@ namespace Bowerbird.Core.Commands
 
         public string Address { get; set; }
 
-        public bool IsIdentificationRequired { get; set; }
-
         public bool AnonymiseLocation { get; set; }
 
         public string Category { get; set; }

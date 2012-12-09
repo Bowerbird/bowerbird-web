@@ -19,13 +19,19 @@ define(['jquery', 'underscore', 'backbone', 'collections/paginatedcollection', '
 
         initialize: function (models, options) {
             _.bindAll(this, 'onSuccess', 'onSuccessWithAddFix', 'getFetchOptions');
+
             PaginatedCollection.prototype.initialize.apply(this, arguments);
+            
             typeof (options) != 'undefined' || (options = {});
 
-            if (options.groupOrUser) {
-                this.groupOrUser = options.groupOrUser;
-                this.baseUrl = '/' + options.groupOrUser.id + '/activity';
+            if (options.id) {
+                this.baseUrl = '/' + options.id;
             }
+
+//            if (options.groupOrUser) {
+//                this.groupOrUser = options.groupOrUser;
+//                this.baseUrl = '/' + options.groupOrUser.id + '/activity';
+//            }
 
             // Set the moment in time (UTC) around which all activity queries will be performed
             var now = new Date();

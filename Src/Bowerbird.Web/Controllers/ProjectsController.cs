@@ -117,7 +117,7 @@ namespace Bowerbird.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult Sightings(string id, PagingInput pagingInput)
+        public ActionResult Sightings(string id, SightingsQueryInput queryInput)
         {
             string projectId = VerbosifyId<Project>(id);
 
@@ -126,16 +126,49 @@ namespace Bowerbird.Web.Controllers
                 return HttpNotFound();
             }
 
-            var viewModel = new
+            if (queryInput.View.ToLower() == "thumbnails")
             {
-                Project = _projectViewModelBuilder.BuildProject(projectId),
-                Sightings = _sightingViewModelBuilder.BuildGroupSightingList(projectId, pagingInput)
+                queryInput.PageSize = 15;
+            }
+
+            if (queryInput.View.ToLower() == "details")
+            {
+                queryInput.PageSize = 10;
+            }
+
+            if (string.IsNullOrWhiteSpace(queryInput.Sort) ||
+                (queryInput.Sort.ToLower() != "latestadded" &&
+                queryInput.Sort.ToLower() != "oldestadded" &&
+                queryInput.Sort.ToLower() != "a-z" &&
+                queryInput.Sort.ToLower() != "z-a"))
+            {
+                queryInput.Sort = "latestadded";
+            }
+
+            dynamic viewModel = new ExpandoObject();
+            viewModel.Project = _projectViewModelBuilder.BuildProject(projectId);
+            viewModel.Sightings = _sightingViewModelBuilder.BuildGroupSightingList(projectId, queryInput);
+            viewModel.Query = new
+            {
+                Id = projectId,
+                queryInput.Page,
+                queryInput.PageSize,
+                queryInput.Sort,
+                queryInput.View,
+                IsThumbnailsView = queryInput.View == "thumbnails",
+                IsDetailsView = queryInput.View == "details",
+                IsMapView = queryInput.View == "map"
             };
 
             return RestfulResult(
                 viewModel,
                 "projects",
-                "sightings");
+                "sightings",
+                new Action<dynamic>(x =>
+                {
+                    //x.Model.ShowWelcome = user.User.CallsToAction.Contains("welcome");
+                    //x.Model.ShowSightings = true;
+                }));
         }
 
         [HttpGet]
@@ -196,7 +229,7 @@ namespace Bowerbird.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult Index(string id)
+        public ActionResult Index(string id, ActivityInput activityInput, PagingInput pagingInput)
         {
             string projectId = VerbosifyId<Project>(id);
 
@@ -210,6 +243,7 @@ namespace Bowerbird.Web.Controllers
             dynamic viewModel = new ExpandoObject();
 
             viewModel.Project = project;
+            viewModel.Activities = _activityViewModelBuilder.BuildGroupActivityList(projectId, activityInput, pagingInput);
 
             var htmlViewTask = new Action<dynamic>(x =>
                 {
@@ -217,6 +251,7 @@ namespace Bowerbird.Web.Controllers
                     x.Model.MemberCountDescription = "Member" + (project.MemberCount == 1 ? string.Empty : "s");
                     x.Model.ObservationCountDescription = "Sighting" + (project.ObservationCount == 1 ? string.Empty : "s");
                     x.Model.PostCountDescription = "Post" + (project.PostCount == 1 ? string.Empty : "s");
+                    x.Model.ShowActivities = true;
                 });
 
             return RestfulResult(
@@ -404,7 +439,7 @@ namespace Bowerbird.Web.Controllers
                     Description = createInput.Description,
                     Website = createInput.Website,
                     AvatarId = createInput.AvatarId,
-                    TeamId = createInput.TeamId
+                    BackgroundId = createInput.BackgroundId
                 });
 
             return JsonSuccess();
@@ -440,7 +475,8 @@ namespace Bowerbird.Web.Controllers
                     Name = updateInput.Name,
                     Description = updateInput.Description,
                     Website = updateInput.Website,
-                    AvatarId = updateInput.AvatarId
+                    AvatarId = updateInput.AvatarId,
+                    BackgroundId =  updateInput.BackgroundId
                 });
 
             return JsonSuccess();

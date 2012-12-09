@@ -19,7 +19,7 @@ function ($, _, Backbone, ich, app, Sighting, SightingNote, SightingDetailsView,
         className: 'activity-item',
 
         template: 'ActivityItem',
-        
+
         events: {
             'click .add-note-button': 'showNoteForm',
             'click .view-button': 'showItem',
@@ -27,7 +27,7 @@ function ($, _, Backbone, ich, app, Sighting, SightingNote, SightingDetailsView,
         },
 
         regions: {
-            details: '.details' 
+            details: '.details'
         },
 
         initialize: function (options) {
@@ -36,7 +36,7 @@ function ($, _, Backbone, ich, app, Sighting, SightingNote, SightingDetailsView,
 
         onRender: function () {
             if (this.model.get('Type') === "sightingadded") {
-                var detailsView = new SightingDetailsView({ model: new Sighting(this.model.get('ObservationAdded').Observation) });
+                var detailsView = new SightingDetailsView({ template: 'SightingFullDetails', model: new Sighting(this.model.get('ObservationAdded').Observation) });
                 this.details.show(detailsView);
             }
 
@@ -52,14 +52,14 @@ function ($, _, Backbone, ich, app, Sighting, SightingNote, SightingDetailsView,
             this.initializeRegions();
             var detailsView = null;
             if (this.model.get('Type') === "sightingadded") {
-                var detailsView = new SightingDetailsView({ el: this.$el.find('.observation-details'), model: new Sighting(this.model.get('ObservationAdded').Observation) });
+                var detailsView = new SightingDetailsView({ template: 'SightingFullDetails', el: this.$el.find('.observation-details'), model: new Sighting(this.model.get('ObservationAdded').Observation) });
             }
             if (this.model.get('Type') === "sightingnoteadded") {
                 var detailsView = new SightingNoteDetailsView({ el: this.$el.find('.sighting-note-details'), model: new SightingNote(this.model.get('SightingNoteAdded').SightingNote), sighting: new Sighting(this.model.get('SightingNoteAdded').Sighting) });
             }
             this.details.attachView(detailsView);
             detailsView.showBootstrappedDetails();
-            
+
             this._showDetails();
         },
 
@@ -67,15 +67,19 @@ function ($, _, Backbone, ich, app, Sighting, SightingNote, SightingDetailsView,
             this.$el.find('.time-description').text(moment(this.model.get('CreatedDateTime')).format('D MMMM YYYY h:mma'));
             this.$el.find('.time-description').timeago();
 
-//            if (this.model.get('Type') === 'sightingadded') {
-//                this.$el.find('h3 a').on('click', function (e) {
-//                    e.preventDefault();
-//                    Backbone.history.navigate($(this).attr('href'), { trigger: true });
-//                    return false;
-//                });
-//            }
+            //            if (this.model.get('Type') === 'sightingadded') {
+            //                this.$el.find('h3 a').on('click', function (e) {
+            //                    e.preventDefault();
+            //                    Backbone.history.navigate($(this).attr('href'), { trigger: true });
+            //                    return false;
+            //                });
+            //            }
 
             this.$el.find('.actions a').tipsy({ gravity: 's', html: true });
+
+            if (this.model.get('User').Id !== app.authenticatedUser.user.id) {
+                this.$el.find('.edit-observation-button').hide();
+            }
         },
 
         refresh: function () {
@@ -89,7 +93,7 @@ function ($, _, Backbone, ich, app, Sighting, SightingNote, SightingDetailsView,
             this.$el.find('.actions a').tipsy.revalidate();
             Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
         },
-        
+
         showItem: function (e) {
             e.preventDefault();
             this.$el.find('.actions a').tipsy.revalidate();

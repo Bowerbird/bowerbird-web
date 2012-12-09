@@ -42,6 +42,11 @@ namespace Bowerbird.Web.Factories
             {
                 view.Description = ((IPublicGroup)result.Group).Description;
                 view.Avatar = ((IPublicGroup)result.Group).Avatar;
+
+                if (result.Group is Project)
+                {
+                    view.Background = ((Project)result.Group).Background;
+                }
             }
 
             return view;
@@ -61,6 +66,11 @@ namespace Bowerbird.Web.Factories
             {
                 view.Description = ((IPublicGroup)group).Description;
                 view.Avatar = ((IPublicGroup)group).Avatar;
+
+                if (group is Project)
+                {
+                    view.Background = ((Project) group).Background;
+                }
             }
 
             return view;

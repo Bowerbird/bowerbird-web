@@ -2,7 +2,7 @@
   <span class="small-icon project-icon"></span>Project
 </h2>
 
-<div class="summary">
+<div class="summary" style="background-image: url({{Model.Project.Background.Image.Large.Uri}}">
   {{#Model.Project.Avatar}}
   {{>Avatar200}}
   {{/Model.Project.Avatar}}
@@ -16,10 +16,49 @@
         <p>{{Model.Project.Description}}</p>
     </div>
 </div>
-<div class="tab-bar large">
+
+
+
+<div class="details">
+  <div class="tab-bar large">
+    <ul class="tabs">
+      <li>
+        <a class="tab-button activities-tab-button {{#Model.ShowActivities}}selected{{/Model.ShowActivities}}" href="/{{Model.Project.Id}}">Timeline</a>
+      </li>
+      <li>
+        <a class="tab-button sightings-tab-button {{#Model.ShowSightings}}selected{{/Model.ShowSightings}}" href="/{{Model.Project.Id}}/sightings">Sightings</a>
+      </li>
+      <li>
+        <a class="tab-button posts-tab-button {{#Model.ShowPosts}}selected{{/Model.ShowPosts}}" href="/{{Model.Project.Id}}/posts">Posts</a>
+      </li>
+      <li>
+        <a class="tab-button posts-tab-button {{#Model.ShowMembers}}selected{{/Model.ShowMembers}}" href="/{{Model.Project.Id}}/members">Members</a>
+      </li>
+      <li>
+        <a class="tab-button posts-tab-button {{#Model.ShowAbout}}selected{{/Model.ShowAbout}}" href="/{{Model.Project.Id}}/about">About</a>
+      </li>
+    </ul>
+  </div>
+  <div class="list">
+    <div>
+      {{#Model.ShowActivities}}
+      {{>ActivityList}}
+      {{/Model.ShowActivities}}
+      {{#Model.ShowSightings}}
+      {{>SightingList}}
+      {{/Model.ShowSightings}}
+      {{#Model.ShowPosts}}
+      {{>PostsList}}
+      {{/Model.ShowPosts}}
+    </div>
+  </div>
+</div>
+
+
+<!--<div class="tab-bar large">
   <ul class="tabs">
     <li>
-      <a href="/{{Model.Project.Id}}" class="tab-button selected">Activity</a>
+      <a href="/{{Model.Project.Id}}" class="tab-button selected">Timeline</a>
     </li>
     <li>
       <a href="/{{Model.Project.Id}}/sightings" class="tab-button">Sightings</a>
@@ -39,4 +78,4 @@
   <div class="stream">
     <div class="stream-list"></div>
   </div>
-</div> 
+</div>--> 

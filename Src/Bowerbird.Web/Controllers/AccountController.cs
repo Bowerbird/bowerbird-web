@@ -625,7 +625,7 @@ namespace Bowerbird.Web.Controllers
                        select new
                        {
                            Value = id,
-                           Text = string.Format("{0} ({1})", id, offset.ToString("+HH:mm", null)),
+                           Text = string.Format("{0} ({1})", id.Replace("_", " "), offset.ToString("+HH:mm", null)),
                            Selected = id == existingTimezone
                        };
 

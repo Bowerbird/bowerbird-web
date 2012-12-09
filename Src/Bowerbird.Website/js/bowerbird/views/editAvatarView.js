@@ -19,8 +19,8 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/avataritemview'
             _.extend(this, Backbone.Events);
             _.bindAll(this,
             'render',
-            '_initMediaUploader'
-            //            '_onUploadDone',
+            '_initMediaUploader',
+            '_onImageUploadAdd'
             //            '_onSubmitUpload',
             //            '_onUploadAdd'
             );
@@ -34,7 +34,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/avataritemview'
 
         render: function () {
             this._initMediaUploader();
-            $('#avatar-viewer').append('<img src="' + this.model.get('Avatar').Image.Square200.Uri + '" />');
+            this.$el.find('#avatar-viewer').empty().append('<img src="' + this.model.get('Avatar').Image.Square200.Uri + '" />');
             return this;
         },
 
@@ -48,6 +48,8 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/avataritemview'
         },
 
         _onImageUploadAdd: function (e, data) {
+            this.$el.find('#avatar-viewer').empty().append('<img class="progress-indicator" src="/img/loaderx.gif" alt="" style="width: " />');
+
             this.key = app.generateGuid();
 
             data.formData = { Key: this.key, FileName: data.files[0].name, Type: 'file', Usage: 'avatar' };
@@ -59,12 +61,13 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/avataritemview'
         },
 
         _onMediaResourceUploadSuccess: function (data) {
-            var mediaResource = new MediaResource(data);
-            log('here', mediaResource);
-            this.model.avatar = mediaResource;
-            this.model.set('AvatarId', mediaResource.id);
+            if (this.key === data.Key) {
+                var mediaResource = new MediaResource(data);
+                this.model.avatar = mediaResource;
+                this.model.set('AvatarId', mediaResource.id);
 
-            $('#avatar-viewer').empty().append('<img src="' + mediaResource.get('Image').Square200.Uri + '" alt="" />');
+                this.$el.find('#avatar-viewer').empty().append('<img src="' + mediaResource.get('Image').Square200.Uri + '" alt="" />');
+            }
         },
 
         _onMediaResourceUploadFailure: function (key, reason) {

@@ -7,13 +7,14 @@
 
 // ProjectController & ProjectRouter
 // ---------------------------------
-define(['jquery', 'underscore', 'backbone', 'app', 'models/project', 'collections/projectcollection', 'views/projectdetailsview', 'views/projectformview', 'views/projectexploreview'],
-function ($, _, Backbone, app, Project, ProjectCollection, ProjectDetailsView, ProjectFormView, ProjectExploreView) {
+define(['jquery', 'underscore', 'backbone', 'app', 'models/project', 'collections/projectcollection', 'collections/activitycollection', 'collections/sightingcollection', 'views/projectdetailsview', 'views/projectformview', 'views/projectexploreview'],
+function ($, _, Backbone, app, Project, ProjectCollection, ActivityCollection, SightingCollection, ProjectDetailsView, ProjectFormView, ProjectExploreView) {
 
     var ProjectRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
             'projects': 'showProjectExplore',
             'projects/create*': 'showProjectCreateForm',
+            'projects/:id/sightings*': 'showSightings',
             'projects/:id/update': 'showProjectUpdateForm',
             'projects/:id': 'showProjectDetails'
         }
@@ -61,17 +62,44 @@ function ($, _, Backbone, app, Project, ProjectCollection, ProjectDetailsView, P
         $.when(getModel(id))
             .done(function (model) {
                 var project = new Project(model.Project);
+                var activityCollection = new ActivityCollection(model.Activities.PagedListItems, { id: project.id });
+                activityCollection.setPageInfo(model.Activities);
 
-                var options = { model: project };
+                if (app.content.currentView instanceof ProjectDetailsView && app.content.currentView.model.id === project.id) {
+                    app.content.currentView.showActivity(activityCollection);
+                } else {
+                    var options = { model: project };
+                    if (app.isPrerenderingView('projects')) {
+                        options['el'] = '.project';
+                    }
+                    var projectDetailsView = new ProjectDetailsView(options);
 
-                if (app.isPrerenderingView('projects')) {
-                    options['el'] = '.project';
+                    app.showContentView(project.get('Name'), projectDetailsView, 'projects', function () {
+                        projectDetailsView.showActivity(activityCollection);
+                    });
                 }
+            });
+    };
 
-                var projectDetailsView = new ProjectDetailsView(options);
-                app.showContentView(project.get('Name'), projectDetailsView, 'projects', function () {
-                    projectDetailsView.showActivity();
-                });
+    ProjectController.showSightings = function (id, params) {
+        $.when(getModel('/projects/' + id + '/sightings?view=' + (params && params.view ? params.view : 'thumbnails') + '&sort=' + (params && params.sort ? params.sort : 'latestadded')))
+            .done(function (model) {
+                var project = new Project(model.Project);
+                var sightingCollection = new SightingCollection(model.Sightings.PagedListItems, { projectId: project.id, page: model.Query.page, pageSize: model.Query.PageSize, total: model.Sightings.TotalResultCount, viewType: model.Query.View, sortBy: model.Query.Sort });
+
+                if (app.content.currentView instanceof ProjectDetailsView && app.content.currentView.model.id === project.id) {
+                    app.content.currentView.showSightings(sightingCollection);
+                } else {
+                    var options = { model: project };
+                    if (app.isPrerenderingView('projects')) {
+                        options['el'] = '.project';
+                    }
+                    var projectDetailsView = new ProjectDetailsView(options);
+
+                    app.showContentView(project.get('Name'), projectDetailsView, 'projects', function () {
+                        projectDetailsView.showSightings(sightingCollection);
+                    });
+                }
             });
     };
 
@@ -102,7 +130,7 @@ function ($, _, Backbone, app, Project, ProjectCollection, ProjectDetailsView, P
     // Event Handlers
     // --------------
 
-    app.vent.on('joinProject', function(project) {
+    app.vent.on('joinProject', function (project) {
         $.when(getModel('/' + project.id + '/join', 'POST'));
     });
 

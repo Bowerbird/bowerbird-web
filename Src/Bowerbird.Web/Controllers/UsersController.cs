@@ -117,7 +117,7 @@ namespace Bowerbird.Web.Controllers
 
             var viewModel = new 
             {
-                Sightings = _sightingViewModelBuilder.BuildUserSightingList(userId, pagingInput)
+                Sightings = _sightingViewModelBuilder.BuildUserSightingList(userId, null)
             };
 
             return RestfulResult(

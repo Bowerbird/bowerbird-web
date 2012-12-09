@@ -60,7 +60,7 @@ namespace Bowerbird.Core.Factories
             _documentSession.SaveChanges();
 
             string avatarTypeName = avatarType.ToString().ToLower();
-            string uriFormat = "/img/{0}-Square{1}.jpg";            
+            string uriFormat = "/img/{0}-Square{1}.jpg";
  
             dynamic original = mediaResource.AddFile("Original", string.Format(uriFormat, avatarTypeName, 400), 400, 400);
             original.MimeType = Constants.ImageMimeTypes.Jpeg;
@@ -68,6 +68,23 @@ namespace Bowerbird.Core.Factories
             mediaResource.AddFile("Square50", string.Format(uriFormat, avatarTypeName, 100), 100, 100);
             mediaResource.AddFile("Square100", string.Format(uriFormat, avatarTypeName, 200), 200, 200);
             mediaResource.AddFile("Square200", string.Format(uriFormat, avatarTypeName, 400), 400, 400);
+
+            return mediaResource;
+        }
+
+        public MediaResource MakeDefaultBackgroundImage(string type)
+        {
+            var mediaResource = new MediaResource(Constants.MediaResourceTypes.Image, null, DateTime.UtcNow, Guid.NewGuid().ToString(), new Dictionary<string, string>());
+            _documentSession.Store(mediaResource);
+            _documentSession.SaveChanges();
+
+            string uriFormat = "/img/{0}-background-{1}.png";
+
+            dynamic original = mediaResource.AddFile("Original", string.Format(uriFormat, type, "large"), 1024, 200);
+            original.MimeType = Constants.ImageMimeTypes.Png;
+
+            mediaResource.AddFile("Small", string.Format(uriFormat, type, "small"), 512, 100);
+            mediaResource.AddFile("Large", string.Format(uriFormat, type, "large"), 1024, 200);
 
             return mediaResource;
         }
@@ -91,6 +108,31 @@ namespace Bowerbird.Core.Factories
             AddImageFile(mediaResource, "Square50", Constants.ImageMimeTypes.Jpeg, ImageDimensions.MakeSquare(100), ImageResizeMode.Crop, imageCreationTasks);
             AddImageFile(mediaResource, "Square100", Constants.ImageMimeTypes.Jpeg, ImageDimensions.MakeSquare(200), ImageResizeMode.Crop, imageCreationTasks);
             AddImageFile(mediaResource, "Square200", Constants.ImageMimeTypes.Jpeg, ImageDimensions.MakeSquare(400), ImageResizeMode.Crop, imageCreationTasks);
+
+            _documentSession.Store(mediaResource);
+            _documentSession.SaveChanges();
+
+            return mediaResource;
+        }
+
+        public MediaResource MakeBackgroundImage(
+            string key,
+            User createdByUser,
+            DateTime createdOn,
+            string originalFileName,
+            ImageDimensions originalImageDimensions,
+            string originalImageMimeType,
+            List<ImageCreationTask> imageCreationTasks)
+        {
+            var mediaResource = new MediaResource(Constants.MediaResourceTypes.Image, createdByUser, createdOn, key, new Dictionary<string, string>());
+            _documentSession.Store(mediaResource);
+            _documentSession.SaveChanges();
+
+            dynamic original = AddImageFile(mediaResource, "Original", originalImageMimeType, originalImageDimensions, null, imageCreationTasks);
+            original.MimeType = originalImageMimeType;
+
+            AddImageFile(mediaResource, "Small", Constants.ImageMimeTypes.Jpeg, ImageDimensions.MakeRectangle(512, 100), ImageResizeMode.Crop, imageCreationTasks);
+            AddImageFile(mediaResource, "Large", Constants.ImageMimeTypes.Jpeg, ImageDimensions.MakeRectangle(1024, 200), ImageResizeMode.Crop, imageCreationTasks);
 
             _documentSession.Store(mediaResource);
             _documentSession.SaveChanges();

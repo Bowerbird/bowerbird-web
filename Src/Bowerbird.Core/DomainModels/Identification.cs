@@ -37,11 +37,9 @@ namespace Bowerbird.Core.DomainModels
             IEnumerable<string> synonyms)
             : base()
         {
+            // Can only check for kingdom as some Ids such as Funghi can be identified by kingdom alone
             Check.RequireNotNullOrWhitespace(category, "category");
             Check.RequireNotNullOrWhitespace(kingdom, "kingdom");
-            Check.RequireNotNullOrWhitespace(phylum, "phylum");
-            Check.RequireNotNullOrWhitespace(className, "className");
-            Check.RequireNotNullOrWhitespace(order, "order");
             Check.RequireNotNull(commonGroupNames, "commonGroupNames");
             Check.RequireNotNull(commonNames, "commonNames");
             Check.RequireNotNull(synonyms, "synonyms");

@@ -104,6 +104,14 @@ namespace Bowerbird.Web.Services
                         imageCreationTasks,
                         command);
                 }
+                else if (command.Usage == "background")
+                {
+                    mediaResource = MakeBackgroundImage(
+                        createdByUser,
+                        image,
+                        imageCreationTasks,
+                        command);
+                }
                 else
                 {
                     throw new ArgumentException("The specified usage '" + command.Usage + "' is not recognised.");
@@ -173,6 +181,20 @@ namespace Bowerbird.Web.Services
             ImageDimensions imageDimensions = image.GetDimensions();
 
             return _mediaResourceFactory.MakeAvatarImage(
+                command.Key,
+                createdByUser,
+                command.UploadedOn,
+                command.FileName,
+                imageDimensions,
+                image.GetMimeType(),
+                imageCreationTasks);
+        }
+
+        private MediaResource MakeBackgroundImage(User createdByUser, ImageUtility image, List<ImageCreationTask> imageCreationTasks, MediaResourceCreateCommand command)
+        {
+            ImageDimensions imageDimensions = image.GetDimensions();
+
+            return _mediaResourceFactory.MakeBackgroundImage(
                 command.Key,
                 createdByUser,
                 command.UploadedOn,

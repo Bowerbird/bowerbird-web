@@ -11,7 +11,19 @@ namespace Bowerbird.Core.Factories
         MediaResource MakeDefaultAvatarImage(
             AvatarDefaultType avatarType);
 
+        MediaResource MakeDefaultBackgroundImage(
+            string type);
+
         MediaResource MakeAvatarImage(
+            string key,
+            User createdByUser,
+            DateTime createdOn,
+            string originalFileName,
+            ImageDimensions originalImageDimensions,
+            string originalImageMimeType,
+            List<ImageCreationTask> imageCreationTasks);
+
+        MediaResource MakeBackgroundImage(
             string key,
             User createdByUser,
             DateTime createdOn,

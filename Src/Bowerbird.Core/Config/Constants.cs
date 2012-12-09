@@ -242,8 +242,7 @@ namespace Bowerbird.Core.Config
 
     public static class DefaultPaging
     {
-        public static int PageStart = 1;
         public static int PageSize = 10;
-        public static int PageMax = 75;
+        public static int PageMax = 50;
     }
 }

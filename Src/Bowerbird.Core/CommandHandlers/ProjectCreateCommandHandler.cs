@@ -60,19 +60,7 @@ namespace Bowerbird.Core.CommandHandlers
             // Get parent group
             Group parentGroup = null;
 
-            if (!string.IsNullOrWhiteSpace(command.TeamId))
-            {
-                parentGroup = _documentSession
-                    .Query<All_Groups.Result, All_Groups>()
-                    .Where(x => x.GroupId == command.TeamId)
-                    .ToList()
-                    .First()
-                    .Team;
-            }
-            else
-            {
-                parentGroup = _documentSession.Load<AppRoot>(Constants.AppRootId);
-            }
+            parentGroup = _documentSession.Load<AppRoot>(Constants.AppRootId);
             
             // Make project
             var project = new Project(
@@ -81,6 +69,7 @@ namespace Bowerbird.Core.CommandHandlers
                 command.Description,
                 command.Website,
                 string.IsNullOrWhiteSpace(command.AvatarId) ? _mediaResourceFactory.MakeDefaultAvatarImage(AvatarDefaultType.Project) : _documentSession.Load<MediaResource>(command.AvatarId),
+                string.IsNullOrWhiteSpace(command.BackgroundId) ? _mediaResourceFactory.MakeDefaultBackgroundImage("project") : _documentSession.Load<MediaResource>(command.BackgroundId),
                 DateTime.UtcNow,
                 parentGroup);
             _documentSession.Store(project);

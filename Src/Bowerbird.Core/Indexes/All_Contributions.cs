@@ -32,6 +32,10 @@ namespace Bowerbird.Core.Indexes
             public DateTime CreatedDateTime { get; set; }
             public string[] GroupIds { get; set; }
 
+            // Sighting specific
+            public string SightingTitle { get; set; }
+            public object SightingSightedOn { get; set; }
+
             public Observation Observation { get; set; }
             public Record Record { get; set; }
             public Post Post { get; set; }
@@ -94,7 +98,9 @@ namespace Bowerbird.Core.Indexes
                                                     ContributionType = "observation",
                                                     UserId = observation.User.Id,
                                                     CreatedDateTime = observation.CreatedOn,
-                                                    GroupIds = observation.Groups.Select(x => x.Group.Id)
+                                                    GroupIds = observation.Groups.Select(x => x.Group.Id),
+                                                    SightingTitle = observation.Title,
+                                                    SightingSightedOn = observation.ObservedOn
                                                 });
 
             AddMap<Record>(records => from record in records
@@ -105,7 +111,9 @@ namespace Bowerbird.Core.Indexes
                                                      ContributionType = "record",
                                                      UserId = record.User.Id,
                                                      CreatedDateTime = record.CreatedOn,
-                                                     GroupIds = record.Groups.Select(x => x.Group.Id)
+                                                     GroupIds = record.Groups.Select(x => x.Group.Id),
+                                                     SightingTitle = (string)null,
+                                                     SightingSightedOn = record.ObservedOn
                                                  });
 
             AddMap<Post>(posts => from post in posts
@@ -116,7 +124,9 @@ namespace Bowerbird.Core.Indexes
                                       ContributionType = "post",
                                       UserId = post.User.Id,
                                       CreatedDateTime = post.CreatedOn,
-                                      GroupIds = new[] { post.Group.Id }
+                                      GroupIds = new[] { post.Group.Id },
+                                      SightingTitle = (string)null,
+                                      SightingSightedOn = (object)null
                                   });
 
             AddMap<Observation>(observations => from observation in observations
@@ -128,7 +138,9 @@ namespace Bowerbird.Core.Indexes
                                                     ContributionType = "note",
                                                     UserId = note.User.Id,
                                                     CreatedDateTime = note.CreatedOn,
-                                                    GroupIds = observation.Groups.Select(x => x.Group.Id)
+                                                    GroupIds = observation.Groups.Select(x => x.Group.Id),
+                                                    SightingTitle = (string)null,
+                                                    SightingSightedOn = (object)null
                                                 });
 
             AddMap<Record>(records => from record in records
@@ -140,7 +152,9 @@ namespace Bowerbird.Core.Indexes
                                           ContributionType = "note",
                                           UserId = note.User.Id,
                                           CreatedDateTime = note.CreatedOn,
-                                          GroupIds = record.Groups.Select(x => x.Group.Id)
+                                          GroupIds = record.Groups.Select(x => x.Group.Id),
+                                          SightingTitle = (string)null,
+                                          SightingSightedOn = (object)null
                                       });
 
             AddMap<Observation>(observations => from observation in observations
@@ -152,7 +166,9 @@ namespace Bowerbird.Core.Indexes
                                                     ContributionType = "comment",
                                                     UserId = comment.User.Id,
                                                     CreatedDateTime = comment.CommentedOn,
-                                                    GroupIds = observation.Groups.Select(x => x.Group.Id)
+                                                    GroupIds = observation.Groups.Select(x => x.Group.Id),
+                                                    SightingTitle = (string)null,
+                                                    SightingSightedOn = (object)null
                                                 });
 
             AddMap<Record>(records => from record in records
@@ -164,7 +180,9 @@ namespace Bowerbird.Core.Indexes
                                           ContributionType = "comment",
                                           UserId = comment.User.Id,
                                           CreatedDateTime = comment.CommentedOn,
-                                          GroupIds = record.Groups.Select(x => x.Group.Id)
+                                          GroupIds = record.Groups.Select(x => x.Group.Id),
+                                          SightingTitle = (string)null,
+                                          SightingSightedOn = (object)null
                                       });
 
             TransformResults = (database, results) =>
@@ -193,6 +211,8 @@ namespace Bowerbird.Core.Indexes
             Store(x => x.UserId, FieldStorage.Yes);
             Store(x => x.CreatedDateTime, FieldStorage.Yes);
             Store(x => x.GroupIds, FieldStorage.Yes);
+            Store(x => x.SightingTitle, FieldStorage.Yes);
+            Store(x => x.SightingSightedOn, FieldStorage.Yes);
         }
     }
 }

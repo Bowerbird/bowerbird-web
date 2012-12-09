@@ -10,8 +10,8 @@
 // ProjectFormView
 // ---------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/editavatarview', 'fileupload', 'multiselect'],
-function ($, _, Backbone, app, ich, loadImage, EditAvatarView) {
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/editavatarview', 'views/backgroundimageformview', 'fileupload', 'multiselect'],
+function ($, _, Backbone, app, ich, loadImage, AvatarImageFormView, BackgroundImageFormView) {
 
     var ProjectFormView = Backbone.Marionette.Layout.extend({
         viewType: 'form',
@@ -21,7 +21,8 @@ function ($, _, Backbone, app, ich, loadImage, EditAvatarView) {
         template: 'ProjectForm',
 
         regions: {
-            avatar: '#avatar-fieldset'
+            avatar: '#avatar-fieldset',
+            backgroundRegion: '#background-fieldset'
         },
 
         events: {
@@ -58,8 +59,11 @@ function ($, _, Backbone, app, ich, loadImage, EditAvatarView) {
         },
 
         _showDetails: function () {
-            var editAvatarView = new EditAvatarView({ el: '.avatar-field', model: this.model });
-            editAvatarView.render();
+            var avatarImageFormView = new AvatarImageFormView({ el: '.avatar-field', model: this.model });
+            avatarImageFormView.render();
+
+            var backgroundImageFormView = new BackgroundImageFormView({ el: '.background-field', model: this.model });
+            backgroundImageFormView.render();
         },
 
         _contentChanged: function (e) {

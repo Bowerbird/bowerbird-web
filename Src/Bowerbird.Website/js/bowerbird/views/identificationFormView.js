@@ -55,13 +55,8 @@ function ($, _, Backbone, app, ich, Identification) {
                     var $list = $('<ul></ul>');
 
                     for (var x = 0; x < data.Model.Species[rank].PagedListItems.length; x++) {
-                        var selected = '';
-
-                        if ($.trim(rankNames[rank]) === data.Model.Species[rank].PagedListItems[x].RankName) {
-                            selected = ' class="selected"';
-                        }
-
-                        $('<li' + selected + '>' + data.Model.Species[rank].PagedListItems[x].RankName + '</li>').data('item.rank', data.Model.Species[rank].PagedListItems[x]).appendTo($list);
+                        var selected = $.trim(rankNames[rank]) === data.Model.Species[rank].PagedListItems[x].RankName;
+                        that._appendTaxaToList(data.Model.Species[rank].PagedListItems[x], $list, selected);
                     }
 
                     that.$el.find('#TaxonomicRank' + (rank + 1)).append($list);
@@ -202,7 +197,10 @@ function ($, _, Backbone, app, ich, Identification) {
         _browseSpeciesRank: function (e) {
             e.preventDefault();
 
-            var rank = $(e.target).data('item.rank');
+            var elem = $(e.target).closest('li');
+
+            var rank = elem.data('item.rank');
+
             var rankPosition = parseInt(rank.RankPosition, 10) + 1;
 
             for (var y = rankPosition; y <= 8; y++) {
@@ -216,7 +214,7 @@ function ($, _, Backbone, app, ich, Identification) {
             this._loadAndDisplaySelectedId(rank.Category != null, rank.Taxonomy);
 
             this.$el.find('#TaxonomicRank' + parseInt(rank.RankPosition, 10) + ' li').removeClass('selected');
-            $(e.target).addClass('selected');
+            elem.addClass('selected');
 
             if (rankPosition < 8) {
                 this._requestTaxa('/species?query=' + rank.RankName + '&field=rank' + rankPosition + '&pagesize=50', rankPosition);
@@ -262,11 +260,22 @@ function ($, _, Backbone, app, ich, Identification) {
                 var $list = $('<ul></ul>');
 
                 for (var x = 0; x < data.Model.Species.PagedListItems.length; x++) {
-                    $('<li>' + data.Model.Species.PagedListItems[x].RankName + '</li>').data('item.rank', data.Model.Species.PagedListItems[x]).appendTo($list);
+                    that._appendTaxaToList(data.Model.Species.PagedListItems[x], $list, false);
                 }
 
                 that.$el.find('#TaxonomicRank' + rankPosition).empty().append($list);
             });
+        },
+
+        _appendTaxaToList: function (item, $list, selected) {
+            var selectedHtml = selected ? ' class="selected"' : '';
+            var speciesCountHtml = '';
+
+            if (item.RankType !== 'species' || (item.RankType === 'species' && item.SpeciesCount !== 1)) {
+                var speciesCountHtml = ' <span class="species-count">(' + item.SpeciesCount + ')</span>';
+            }
+
+            $('<li' + selectedHtml + '>' + item.RankName + speciesCountHtml + '</li>').data('item.rank', item).appendTo($list);
         },
 
         _cancel: function () {

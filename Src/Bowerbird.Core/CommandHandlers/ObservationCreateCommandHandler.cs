@@ -114,7 +114,6 @@ namespace Bowerbird.Core.CommandHandlers
                 command.Latitude,
                 command.Longitude,
                 command.Address,
-                command.IsIdentificationRequired,
                 command.AnonymiseLocation,
                 command.Category,
                 userProject,

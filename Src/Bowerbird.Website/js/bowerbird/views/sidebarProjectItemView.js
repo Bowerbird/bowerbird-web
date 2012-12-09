@@ -23,7 +23,7 @@ function ($, _, Backbone, app, Project) {
             'click .sub-menu': 'showMenu',
             'click li#createnewpost': 'createPost',
             'click li#createnewobservation a': 'createObservation',
-            'click .sub-menu li': 'selectMenuItem'
+            'click .sub-menu a': 'selectMenuItem'
         },
 
         initialize: function () {
@@ -33,13 +33,19 @@ function ($, _, Backbone, app, Project) {
         onRender: function () {
             var that = this;
 
-            $(this.el).children('a').on('click', function (e) {
+            this.$el.children('a').on('click', function (e) {
                 e.preventDefault();
                 Backbone.history.navigate($(this).attr('href'), { trigger: true });
                 that.activityCount = 0;
                 that.$el.find('p span').remove();
                 return false;
             });
+
+//            this.$el.find('#action-menu a, #default-menu-group a').on('click', function (e) {
+//                e.preventDefault();
+//                Backbone.history.navigate($(this).attr('href'), { trigger: true });
+//                return false;
+//            });
 
             app.vent.on('newactivity:' + this.model.id + ':sightingadded newactivity:' + this.model.id + ':postadded newactivity:' + this.model.id + ':sightingnoteadded', this.onNewActivityReceived, this);
 
@@ -64,8 +70,16 @@ function ($, _, Backbone, app, Project) {
         },
 
         selectMenuItem: function (e) {
-            this.$el.find('.sub-menu').removeClass('active');
-            e.stopPropagation();
+            e.preventDefault();
+            $('.sub-menu').removeClass('active');
+            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
+            return false;
+        },
+
+        changeSort: function (e) {
+            e.preventDefault();
+            this.clearListAnPrepareShowLoading();
+            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
         },
 
         createPost: function (e) {

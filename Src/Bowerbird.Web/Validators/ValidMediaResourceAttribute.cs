@@ -29,7 +29,7 @@ namespace Bowerbird.Web.Validators
 
         private bool IsValidUsage(string usage)
         {
-            return usage == "contribution" || usage == "avatar";
+            return usage == "contribution" || usage == "avatar" || usage == "background";
         }
 
     }

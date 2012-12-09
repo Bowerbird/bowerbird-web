@@ -67,7 +67,9 @@ namespace Bowerbird.Web.Builders
                 Description = string.Empty,
                 Website = string.Empty,
                 Avatar = _mediaResourceFactory.MakeDefaultAvatarImage(AvatarDefaultType.Project),
-                AvatarId = string.Empty
+                Background = _mediaResourceFactory.MakeDefaultBackgroundImage("project"),
+                AvatarId = string.Empty,
+                BackgroundId = string.Empty
             };
         }
 
@@ -86,7 +88,9 @@ namespace Bowerbird.Web.Builders
                 project.Description,
                 project.Website,
                 AvatarId = project.Avatar.Id,
-                project.Avatar
+                BackgroundId = project.Background.Id,
+                project.Avatar,
+                project.Background
             };
         }
 

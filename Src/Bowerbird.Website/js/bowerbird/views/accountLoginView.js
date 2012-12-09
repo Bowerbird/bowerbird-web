@@ -14,8 +14,21 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
         className: 'login single',
 
         template: 'AccountLogin',
-        
-        initialize: function () {
+
+        initialize: function (options) {
+            this.email = options.email;
+            this.returnUrl = options.returnUrl;
+        },
+
+        serializeData: function () {
+            return {
+                Model: {
+                    AccountLogin: {
+                        Email: this.email,
+                        ReturnUrl: this.returnUrl
+                    }
+                }
+            };
         },
 
         showBootstrappedDetails: function () {

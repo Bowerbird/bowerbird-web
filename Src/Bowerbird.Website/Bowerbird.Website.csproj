@@ -245,6 +245,7 @@
     <Content Include="js\bowerbird\views\commentCompositeView.js" />
     <Content Include="js\bowerbird\views\accountLoginView.js" />
     <Content Include="js\bowerbird\views\accountRegisterView.js" />
+    <Content Include="js\bowerbird\views\backgroundImageFormView.js" />
     <Content Include="js\bowerbird\views\sightingNoteDetailsView.js" />
     <Content Include="js\bowerbird\views\sightingNoteSubFormView.js" />
     <Content Include="js\bowerbird\views\observationDetailsView.js" />
@@ -395,9 +396,7 @@
     </Content>
     <Content Include="Views\Shared\OrganisationItem.mustache" />
     <Content Include="Views\Shared\ProjectList.mustache" />
-    <Content Include="Views\Shared\TeamItem.mustache" />
     <Content Include="Views\Shared\ProjectItem.mustache" />
-    <Content Include="Views\Shared\TeamList.mustache" />
     <Content Include="Views\Shared\ObservationList.mustache" />
     <Content Include="apple-touch-icon-114x114-precomposed.png" />
     <Content Include="apple-touch-icon-57x57-precomposed.png" />
@@ -513,16 +512,10 @@
     </Content>
     <Content Include="Views\Shared\StreamMessage.mustache" />
     <Content Include="Views\Shared\StreamLoadMore.mustache" />
-    <Content Include="Views\Shared\TeamForm.mustache">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="Views\Shared\OnlineUserList.mustache" />
     <Content Include="Views\Teams\List.mustache" />
     <Content Include="Views\Shared\StreamLoadNew.mustache" />
     <Content Include="Views\Shared\ChatMessageList.mustache" />
-    <Content Include="Views\Shared\Team.mustache">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="Views\Shared\Organisation.mustache">
       <SubType>Designer</SubType>
     </Content>
@@ -601,6 +594,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Observations\UpdateNote.mustache" />
+    <Content Include="Views\Shared\SightingTileDetails.mustache">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="404.html" />

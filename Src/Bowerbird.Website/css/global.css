@@ -56,7 +56,7 @@ body
 */
 .hidden
 {
-    display: none;
+    display: none !important;
 }
 /*
 *
@@ -301,6 +301,12 @@ article
 .small-icon.observation-icon {
     background-position: -143px -48px;
 }
+.small-icon.note-icon {
+    background-position: -169px -48px;
+}
+.small-icon.comment-icon {
+    background-position: -224px -48px;
+}
 /*
 *
 * Popup menus
@@ -418,7 +424,7 @@ article
 #content > div > .details {
     background-color: rgb(227, 227, 227);
     border-radius: 4px 4px 4px 4px;
-    padding: 2%;
+    padding: 2% 2% 0;
     position: relative;
     width: 100%;
     float: left;
@@ -938,6 +944,12 @@ a.multiSelect:focus,
 {
     width:300px;   
 }
+.form #avatar-viewer .progress-indicator {
+    display: block;
+    height: 15px;
+    margin: 38px auto 0;
+    width: 15px;
+}
 .form .field > div.media-add-pane
 {
     float: left;
@@ -1281,7 +1293,7 @@ a.multiSelect:focus,
     border: 1px solid rgb(170, 170, 170);
     border-radius: 4px 4px 4px 4px;
     box-shadow: 0 0 2px 1px rgba(119, 119, 119, 0.3) inset;
-    min-height: 101px;
+    min-height: 118px;
     padding: 8px 12px;
     width: 100%;
 }
@@ -1425,6 +1437,9 @@ a.multiSelect:focus,
     overflow: auto;
     width: 14.2778%;
 }
+.form #browse-identification-field .taxonomic-rank > ul 
+{
+}
 .form #browse-identification-field .taxonomic-rank .progress-indicator
 {
     display: block;
@@ -1454,10 +1469,21 @@ a.multiSelect:focus,
     text-transform: none;
     white-space: nowrap;
 }
-.form #browse-identification-field .taxonomic-rank ul li:hover
+.form #browse-identification-field .taxonomic-rank ul li .species-count 
+{
+    color: rgb(153, 153, 153);
+    font-size: 0.85em;
+}
+.form #browse-identification-field .taxonomic-rank ul li:hover,
+.form #browse-identification-field .taxonomic-rank ul li.selected:hover
 {
     background-color: #1B83EB;
-    color: #FFFFFF;
+    color: rgb(255, 255, 255);
+}
+.form #browse-identification-field .taxonomic-rank ul li:hover .species-count,
+.form #browse-identification-field .taxonomic-rank ul li.selected .species-count
+{
+    color: rgb(255, 255, 255);
 }
 .form #browse-identification-field .taxonomic-rank ul li.selected
 {

@@ -253,7 +253,7 @@ namespace Bowerbird.Core.Config
             var user = Users.Single(x => x.Id == userid);
             var parentGroup = Teams.Single(x => x.Id == teamId);
 
-            var project = new Project(user, name, description, website, _mediaResourceFactory.MakeDefaultAvatarImage(AvatarDefaultType.Project), DateTime.UtcNow, parentGroup);
+            var project = new Project(user, name, description, website, _mediaResourceFactory.MakeDefaultAvatarImage(AvatarDefaultType.Project), _mediaResourceFactory.MakeDefaultBackgroundImage("project"), DateTime.UtcNow, parentGroup);
             _documentSession.Store(project);
 
             project.AddParentGroup(parentGroup);

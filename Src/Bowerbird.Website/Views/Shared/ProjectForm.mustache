@@ -33,7 +33,7 @@
           <input type="text" id="Website" name="website" value="{{Model.Project.Website}}" />
           <p>Add a link to your project's existing website</p>
         </div>
-      </div>
+      </div> 
     </div>
     <div class="field-row">
       <div id="description-field" class="field">
@@ -48,6 +48,24 @@
         </div>
       </div>
     </div>
+
+    <div class="field-row">
+      <div class="field background-field">
+        <div>
+          <label for="background">Heading Background Image</label>
+        </div>
+        <div>
+          <div id="background-viewer">
+            <img src="/img/project-background.png" alt="" />
+          </div>
+          <div id="background-upload-button" class="button background-upload-button">
+            Change<input id="file" type="file" name="file" value="Change Background" />
+          </div>
+          <p>Give your project some character by customising the profile background image.</p>
+        </div>
+      </div>
+    </div>
+    
   </fieldset>
   <fieldset>
     <input type="button" value="Save" id="save" />

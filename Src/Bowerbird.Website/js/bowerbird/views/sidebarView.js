@@ -29,8 +29,10 @@ function ($, _, Backbone, app, SidebarMenuGroupView, SidebarProjectItemView, Sid
         },
 
         events: {
-            'click #default-menu-group .sub-menu': 'showMenu'
-            //'click .menu-group-options .sub-menu-button li': 'selectMenuItem'
+            'click #default-menu-group .sub-menu': 'showMenu',
+            'click #default-menu-group .sub-menu a': 'selectMenuItem',
+            'click #action-menu a': 'selectMenuItem',
+            'click #default-menu-group .menu-group-item > a': 'selectMenuItem'
         },
 
         onRender: function () {
@@ -46,11 +48,11 @@ function ($, _, Backbone, app, SidebarMenuGroupView, SidebarProjectItemView, Sid
                 this.organisationsMenu.show(sidebarOrganisationMenuGroupView);
             }
 
-            this.$el.find('#action-menu a, #default-menu-group a').on('click', function (e) {
-                e.preventDefault();
-                Backbone.history.navigate($(this).attr('href'), { trigger: true });
-                return false;
-            });
+//            this.$el.find('#action-menu a').on('click', function (e) {
+//                e.preventDefault();
+//                Backbone.history.navigate($(this).attr('href'), { trigger: true });
+//                return false;
+//            });
 
             app.authenticatedUser.projects.on('add', this.addProject, this);
 
@@ -79,8 +81,10 @@ function ($, _, Backbone, app, SidebarMenuGroupView, SidebarProjectItemView, Sid
         },
 
         selectMenuItem: function (e) {
+            e.preventDefault();
             $('.sub-menu').removeClass('active');
-            e.stopPropagation();
+            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
+            return false;
         },
 
         addProject: function (project) {

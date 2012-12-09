@@ -7,13 +7,12 @@
 
 // HomeController & HomeRouter
 // ---------------------------
-define(['jquery', 'underscore', 'backbone', 'app', 'views/homepublicview', 'views/homeprivateview'],
-function ($, _, Backbone, app, HomePublicView, HomePrivateView) {
+define(['jquery', 'underscore', 'backbone', 'app', 'collections/sightingcollection', 'collections/activitycollection', 'views/homepublicview', 'views/homeprivateview'],
+function ($, _, Backbone, app, SightingCollection, ActivityCollection, HomePublicView, HomePrivateView) {
     var HomeRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
             '': 'showHome',
-            'sightings?view=:viewType': 'showSightings',
-            'sightings': 'showSightings',
+            'sightings*': 'showSightings',
             'all': 'showAllBowerbirdActivity',
             'favourites': 'showFavourites'
         }
@@ -42,8 +41,12 @@ function ($, _, Backbone, app, HomePublicView, HomePrivateView) {
     HomeController.showHome = function () {
         $.when(getModel('/'))
             .done(function (model) {
+
+
                 if (app.content.currentView instanceof HomePrivateView) {
-                    app.content.currentView.showActivity(model);
+                    var activityCollection = new ActivityCollection(model.Activities.PagedListItems);
+                    activityCollection.setPageInfo(model.Activities);                    
+                    app.content.currentView.showActivity(activityCollection);
                 } else {
                     var homeView;
                     var options = {};
@@ -62,22 +65,22 @@ function ($, _, Backbone, app, HomePublicView, HomePrivateView) {
 
                     app.showContentView('', homeView, 'home', function () {
                         if (app.authenticatedUser) {
-                            homeView.showActivity(model);
+                            var activityCollection = new ActivityCollection(model.Activities.PagedListItems);
+                            activityCollection.setPageInfo(model.Activities);                            
+                            homeView.showActivity(activityCollection);
                         }
                     });
                 }
             });
     };
 
-    HomeController.showSightings = function (viewType) {
-        if (viewType && app.content.currentView instanceof HomePrivateView) {
-            app.content.currentView.showSightings(null, viewType);
-            return;
-        }
-        $.when(getModel('/sightings' + (viewType ? '?view=' + viewType : '')))
+    HomeController.showSightings = function (params) {
+        $.when(getModel('/sightings?view=' + (params && params.view ? params.view : 'thumbnails') + '&sort=' + (params && params.sort ? params.sort : 'latestadded')))
             .done(function (model) {
+                var sightingCollection = new SightingCollection(model.Sightings.PagedListItems, { page: model.Query.page, pageSize: model.Query.PageSize, total: model.Sightings.TotalResultCount, viewType: model.Query.View, sortBy: model.Query.Sort });
+
                 if (app.content.currentView instanceof HomePrivateView) {
-                    app.content.currentView.showSightings(model);
+                    app.content.currentView.showSightings(sightingCollection);
                 } else {
                     var homeView;
 
@@ -93,7 +96,7 @@ function ($, _, Backbone, app, HomePublicView, HomePrivateView) {
 
                     app.showContentView('', homeView, 'home', function () {
                         if (app.authenticatedUser) {
-                            homeView.showSightings(model);
+                            homeView.showSightings(sightingCollection);
                         }
                     });
                 }

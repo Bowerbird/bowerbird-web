@@ -13,17 +13,32 @@ function ($, _, Backbone, ich, app, moment) {
 
     var SightingDetailsView = Backbone.Marionette.ItemView.extend({
 
-        template: 'SightingFullDetails',
-
         className: 'observation-details',
 
         events: {
             'click .thumbnails > div': 'showMedia',
-            'click h3 a': 'showSighting'
+            'click .add-note-button': 'showNoteForm',
+            'click .view-button': 'showItem',
+            'click .edit-observation-button': 'showItem',
+            'click h3 a': 'showItem'
         },
 
         initialize: function (options) {
             _.bindAll(this, 'refresh', 'showMedia', 'showNoteForm');
+
+            if (!options.template) {
+                this.template = 'SightingTileDetails';
+            } else {
+                this.template = options.template;
+            }
+
+            this.showLocation = false;
+            this.showThumbnails = false;
+
+            if (this.template == 'SightingFullDetails') {
+                this.showLocation = true;
+                this.showThumbnails = true;
+            }
         },
 
         serializeData: function () {
@@ -55,42 +70,44 @@ function ($, _, Backbone, ich, app, moment) {
                 return item.IsPrimaryMedia;
             });
 
-            var mapOptions = {
-                zoom: 9,
-                center: new google.maps.LatLng(this.model.get('Latitude'), this.model.get('Longitude')),
-                disableDefaultUI: true,
-                scrollwheel: false,
-                disableDoubleClickZoom: false,
-                draggable: false,
-                keyboardShortcuts: false,
-                mapTypeId: google.maps.MapTypeId.TERRAIN
-            };
+            if (this.showLocation) {
+                var mapOptions = {
+                    zoom: 9,
+                    center: new google.maps.LatLng(this.model.get('Latitude'), this.model.get('Longitude')),
+                    disableDefaultUI: true,
+                    scrollwheel: false,
+                    disableDoubleClickZoom: false,
+                    draggable: false,
+                    keyboardShortcuts: false,
+                    mapTypeId: google.maps.MapTypeId.TERRAIN
+                };
 
-            var map = new google.maps.Map(this.$el.find('.map').get(0), mapOptions);
-            this.map = map;
+                var map = new google.maps.Map(this.$el.find('.map').get(0), mapOptions);
+                this.map = map;
 
-            var point = new google.maps.LatLng(Number(this.model.get('Latitude')), Number(this.model.get('Longitude')));
-            this.point = point;
+                var point = new google.maps.LatLng(Number(this.model.get('Latitude')), Number(this.model.get('Longitude')));
+                this.point = point;
 
-            var image = new google.maps.MarkerImage('/img/map-pin.png',
+                var image = new google.maps.MarkerImage('/img/map-pin.png',
                     new google.maps.Size(43, 38),
                     new google.maps.Point(0, 0)
                 );
 
-            var shadow = new google.maps.MarkerImage('/img/map-pin-shadow.png',
+                var shadow = new google.maps.MarkerImage('/img/map-pin-shadow.png',
                     new google.maps.Size(59, 32),
                     new google.maps.Point(0, 0),
                     new google.maps.Point(17, 32)
                 );
 
-            this.mapMarker = new google.maps.Marker({
-                position: point,
-                map: map,
-                clickable: false,
-                draggable: false,
-                icon: image,
-                shadow: shadow
-            });
+                this.mapMarker = new google.maps.Marker({
+                    position: point,
+                    map: map,
+                    clickable: false,
+                    draggable: false,
+                    icon: image,
+                    shadow: shadow
+                });
+            }
 
             var resizeTimer;
             var refresh = this.refresh;
@@ -100,20 +117,28 @@ function ($, _, Backbone, ich, app, moment) {
                     refresh();
                 }, 100);
             });
+
+            this.$el.find('.actions .button').tipsy({ gravity: 's', html: true });
+
+            if (this.model.get('User').Id !== app.authenticatedUser.user.id) {
+                this.$el.find('.edit-observation-button').hide();
+            }
         },
 
         refresh: function () {
             // Resize video and audio in observations
-            if (this.currentObservationMedia) { //&& (this.currentObservationMedia.MediaResource.Video || this.currentObservationMedia.MediaResource.Audio)) {
+            if (this.currentObservationMedia) {
                 var newWidth = (600 / 800) * this.$el.find('.preview').width();
                 this.$el.find('.preview .video-media > iframe, .preview .audio-media.media-constrained-600, .preview .image-media').height(newWidth + 'px');
             }
 
-            // Resize maps in sightings
-            this.map.panTo(this.point);
-            this.$el.find('.map').width(this.$el.find('.location').width() + 'px');
-            google.maps.event.trigger(this.map, 'resize');
-            this.map.panTo(this.point);
+            if (this.showLocation) {
+                // Resize maps in sightings
+                this.map.panTo(this.point);
+                this.$el.find('.map').width(this.$el.find('.location').width() + 'px');
+                google.maps.event.trigger(this.map, 'resize');
+                this.map.panTo(this.point);
+            }
         },
 
         showMedia: function (e) {
@@ -128,14 +153,21 @@ function ($, _, Backbone, ich, app, moment) {
             this.refresh();
         },
 
+//        showNoteForm: function (e) {
+//            e.preventDefault();
+//            this.$el.find('.observation-action-menu a').tipsy.revalidate();
+//            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
+//        },
+        
         showNoteForm: function (e) {
             e.preventDefault();
-            this.$el.find('.observation-action-menu a').tipsy.revalidate();
+            this.$el.find('.actions a').tipsy.revalidate();
             Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
         },
-        
-        showSighting: function (e) {
+
+        showItem: function (e) {
             e.preventDefault();
+            this.$el.find('.actions a').tipsy.revalidate();
             Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
         }
     });

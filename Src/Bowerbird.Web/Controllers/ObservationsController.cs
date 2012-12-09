@@ -210,7 +210,6 @@ namespace Bowerbird.Web.Controllers
                     Latitude = createInput.Latitude,
                     Longitude = createInput.Longitude,
                     Address = createInput.Address,
-                    IsIdentificationRequired = createInput.IsIdentificationRequired,
                     AnonymiseLocation = createInput.AnonymiseLocation,
                     Category = createInput.Category,
                     ObservedOn = createInput.ObservedOn,

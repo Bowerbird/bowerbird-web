@@ -24,10 +24,10 @@ namespace Bowerbird.Web.Builders
 
         dynamic BuildSighting(string id);
 
-        object BuildGroupSightingList(string groupId, PagingInput pagingInput);
+        object BuildGroupSightingList(string groupId, SightingsQueryInput sightingsQueryInput);
 
-        object BuildUserSightingList(string userId, PagingInput pagingInput);
+        object BuildUserSightingList(string userId, SightingsQueryInput sightingsQueryInput);
 
-        object BuildAllUserProjectsSightingList(string userId, PagingInput pagingInput);
+        object BuildAllUserProjectsSightingList(string userId, SightingsQueryInput queryInput);
     }
 }

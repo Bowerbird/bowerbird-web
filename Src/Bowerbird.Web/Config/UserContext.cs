@@ -79,11 +79,6 @@ namespace Bowerbird.Web.Config
             return GetCookie(Constants.EmailCookieName).Value;
         }
 
-        //public void SendModelToUserClient(object model, string clientId)
-        //{
-        //    _userHub.Clients[clientId].asynchModelCreated(model);
-        //}
-
         public void SignUserIn(string userId, string email, bool keepUserLoggedIn)
         {
             TimeSpan sessionExpiryDuration;

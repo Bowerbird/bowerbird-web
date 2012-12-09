@@ -162,8 +162,7 @@ namespace Bowerbird.Core.Config
                         {"Fungi & Lichens", "Fungi"},
                         {"Invertebrates", "Animalia"},
                         {"Mammals", "Animalia: Chordata: Mammalia"},
-                        {"Minerals", "Minerals"},
-                        {"Others", "Protista"},
+                        {"Others", ""},
                         {"Plants", "Plantae"},
                         {"Reptiles", "Animalia: Chordata: Reptilia"}
                     };

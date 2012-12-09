@@ -1,27 +1,12 @@
 Birds	"Ducks, geese and swans"	Garganey	Animalia: Chordata: Aves	Anseriformes	Anatidae	Anas	querquedula 
 Birds	"Ducks, geese and swans"	Australasian Shoveler	Animalia: Chordata: Aves	Anseriformes	Anatidae	Anas	rhynchotis 
-Birds	"Ducks, geese and swans"	"Ducks, mallards, wigeons, teals, pintails and shovelers"	Animalia: Chordata: Aves	Anseriformes	Anatidae	Anas	sp.
 Birds	"Ducks, geese and swans"	Mariana Mallard	Animalia: Chordata: Aves	Anseriformes	Anatidae	Anas	superciliosa 
 Birds	"Ducks, geese and swans"	Mariana Mallard	Animalia: Chordata: Aves	Anseriformes	Anatidae	Anas	superciliosa superciliosa
 Birds	"Ducks, geese and swans"	Raja Shelduck or Radjah Shelduck 	Animalia: Chordata: Aves	Anseriformes	Anatidae	Tadorna	radjah 
 Birds	"Ducks, geese and swans"	Raja Shelduck or Radjah Shelduck 	Animalia: Chordata: Aves	Anseriformes	Anatidae	Tadorna	radjah rufitergum
 Birds	"Ducks, geese and swans"	Australian Shelduck	Animalia: Chordata: Aves	Anseriformes	Anatidae	Tadorna	tadornoides 
 Birds	"Ducks, geese and swans"	Paradise-Shelduck	Animalia: Chordata: Aves	Anseriformes	Anatidae	Tadorna	variegata 
-Birds	"Ducks, geese and swans"	Unknown	Animalia: Chordata: Aves	Anseriformes	Anatidae	Unknown	sp.
 Birds	Geese	Magpie-geese	Animalia: Chordata: Aves	Anseriformes	Anseranatidae	Anseranas	semipalmata 
-Birds	Geese	Unknown	Animalia: Chordata: Aves	Anseriformes	Anseranatidae	Unknown	sp.
-Birds	Buttonquail	Chestnut-backed Buttonquail 	Animalia: Chordata: Aves	Anseriformes	Turnicidae	Turnix	castanotus 
-Birds	Buttonquail	Red-backed Button quail 	Animalia: Chordata: Aves	Anseriformes	Turnicidae	Turnix	maculosus 
-Birds	Buttonquail	Red-backed Button quail 	Animalia: Chordata: Aves	Anseriformes	Turnicidae	Turnix	maculosus melanotus
-Birds	Buttonquail	Black-breasted Button-quail	Animalia: Chordata: Aves	Anseriformes	Turnicidae	Turnix	melanogaster 
-Birds	Buttonquail	Buff-breasted button-quail 	Animalia: Chordata: Aves	Anseriformes	Turnicidae	Turnix	olivii 
-Birds	Buttonquail	Red-chested Button quail 	Animalia: Chordata: Aves	Anseriformes	Turnicidae	Turnix	pyrrhothorax 
-Birds	Buttonquail	Painted Button quail	Animalia: Chordata: Aves	Anseriformes	Turnicidae	Turnix	varius 
-Birds	Buttonquail	Painted Button quail	Animalia: Chordata: Aves	Anseriformes	Turnicidae	Turnix	varius scintillans
-Birds	Buttonquail	Painted Button quail	Animalia: Chordata: Aves	Anseriformes	Turnicidae	Turnix	varius varia
-Birds	Buttonquail	Little Buttonquail 	Animalia: Chordata: Aves	Anseriformes	Turnicidae	Turnix	velox 
-Birds	Buttonquail	Unknown	Animalia: Chordata: Aves	Anseriformes	Turnicidae	Unknown	sp.
-Birds	Swifts	cave-nesting swifts	Animalia: Chordata: Aves	Apodiformes	Apodidae	Aerodramus	sp.
 Birds	Swifts	Australian Swiftlet	Animalia: Chordata: Aves	Apodiformes	Apodidae	Aerodramus	terraereginae 
 Birds	Swifts	Australian Swiftlet	Animalia: Chordata: Aves	Apodiformes	Apodidae	Aerodramus	terraereginae chillagoensis
 Birds	Swifts	Australian Swiftlet	Animalia: Chordata: Aves	Apodiformes	Apodidae	Aerodramus	terraereginae terraereginae
@@ -31,43 +16,31 @@ Birds	Swifts	Little Swift 	Animalia: Chordata: Aves	Apodiformes	Apodidae	Apus	af
 Birds	Swifts	Little Swift 	Animalia: Chordata: Aves	Apodiformes	Apodidae	Apus	affinis nipalensis
 Birds	Swifts	Fork-tailed Swift	Animalia: Chordata: Aves	Apodiformes	Apodidae	Apus	pacificus 
 Birds	Swifts	Fork-tailed Swift	Animalia: Chordata: Aves	Apodiformes	Apodidae	Apus	pacificus pacificus
-Birds	Swifts	Swift	Animalia: Chordata: Aves	Apodiformes	Apodidae	Apus	sp.
 Birds	Swifts	Glossy Swiftlet	Animalia: Chordata: Aves	Apodiformes	Apodidae	Collocalia	esculenta 
 Birds	Swifts	Glossy Swiftlet	Animalia: Chordata: Aves	Apodiformes	Apodidae	Collocalia	esculenta natalis
 Birds	Swifts	Glossy Swiftlet	Animalia: Chordata: Aves	Apodiformes	Apodidae	Collocalia	esculenta nitens
-Birds	Swifts	Glossy Swiftlet	Animalia: Chordata: Aves	Apodiformes	Apodidae	Collocalia	sp.
 Birds	Swifts	White-throated Needletail	Animalia: Chordata: Aves	Apodiformes	Apodidae	Hirundapus	caudacutus 
 Birds	Swifts	White-throated Needletail	Animalia: Chordata: Aves	Apodiformes	Apodidae	Hirundapus	caudacutus caudacutus
-Birds	Swifts	Swifts	Animalia: Chordata: Aves	Apodiformes	Apodidae	Hirundapus	sp.
 Birds	Swifts	Papuan Spine-tailed Swift 	Animalia: Chordata: Aves	Apodiformes	Apodidae	Mearnsia	novaeguineae 
-Birds	Swifts	Swifts	Animalia: Chordata: Aves	Apodiformes	Apodidae	Mearnsia	sp.
-Birds	Swifts	Unknown	Animalia: Chordata: Aves	Apodiformes	Apodidae	Unknown	sp.
 Birds	Nightjars	Savanna Nightjar	Animalia: Chordata: Aves	Caprimulgiformes	Caprimulgidae	Caprimulgus	affinis 
 Birds	Nightjars	Jungle Nightjar	Animalia: Chordata: Aves	Caprimulgiformes	Caprimulgidae	Caprimulgus	indicus 
 Birds	Nightjars	Savanna Nightjar	Animalia: Chordata: Aves	Caprimulgiformes	Caprimulgidae	Caprimulgus	macrurus 
 Birds	Nightjars	Savanna Nightjar	Animalia: Chordata: Aves	Caprimulgiformes	Caprimulgidae	Caprimulgus	macrurus schlegelii
-Birds	Nightjars	Nightjars	Animalia: Chordata: Aves	Caprimulgiformes	Caprimulgidae	Caprimulgus	sp.
 Birds	Nightjars	Spotted Nightjar	Animalia: Chordata: Aves	Caprimulgiformes	Caprimulgidae	Eurostopodus	argus 
 Birds	Nightjars	White-throated Nightjar 	Animalia: Chordata: Aves	Caprimulgiformes	Caprimulgidae	Eurostopodus	mystacalis 
 Birds	Nightjars	White-throated Nightjar 	Animalia: Chordata: Aves	Caprimulgiformes	Caprimulgidae	Eurostopodus	mystacalis mystacalis
-Birds	Nightjars	Nightjars	Animalia: Chordata: Aves	Caprimulgiformes	Caprimulgidae	Eurostopodus	sp.
-Birds	Nightjars	Unknown	Animalia: Chordata: Aves	Caprimulgiformes	Caprimulgidae	Unknown	sp.
 Birds	Frogmouths	Marbled Frogmouth	Animalia: Chordata: Aves	Caprimulgiformes	Podargidae	Podargus	ocellatus 
 Birds	Frogmouths	Marbled Frogmouth	Animalia: Chordata: Aves	Caprimulgiformes	Podargidae	Podargus	ocellatus marmoratus
 Birds	Frogmouths	Marbled Frogmouth	Animalia: Chordata: Aves	Caprimulgiformes	Podargidae	Podargus	ocellatus plumiferus
 Birds	Frogmouths	Papuan Frogmouth	Animalia: Chordata: Aves	Caprimulgiformes	Podargidae	Podargus	papuensis 
 Birds	Frogmouths	Papuan Frogmouth	Animalia: Chordata: Aves	Caprimulgiformes	Podargidae	Podargus	papuensis baileyi
 Birds	Frogmouths	Papuan Frogmouth	Animalia: Chordata: Aves	Caprimulgiformes	Podargidae	Podargus	papuensis rogersi
-Birds	Frogmouths	frogmouth	Animalia: Chordata: Aves	Caprimulgiformes	Podargidae	Podargus	sp.
 Birds	Frogmouths	Tawny Frogmouth	Animalia: Chordata: Aves	Caprimulgiformes	Podargidae	Podargus	strigoides 
 Birds	Frogmouths	Tawny Frogmouth	Animalia: Chordata: Aves	Caprimulgiformes	Podargidae	Podargus	strigoides brachypterus
 Birds	Frogmouths	Tawny Frogmouth	Animalia: Chordata: Aves	Caprimulgiformes	Podargidae	Podargus	strigoides phalaenoides
 Birds	Frogmouths	Nightjars	Animalia: Chordata: Aves	Caprimulgiformes	Podargidae	Podargus	strigoides strigoides
-Birds	Frogmouths	Unknown	Animalia: Chordata: Aves	Caprimulgiformes	Podargidae	Unknown	sp.
 Birds	Stone-curlews	Bush Stone-curlews 	Animalia: Chordata: Aves	Charadriiformes	Burhinidae	Burhinus	grallarius 
-Birds	Stone-curlews	Stone-curlews	Animalia: Chordata: Aves	Charadriiformes	Burhinidae	Burhinus	sp.
 Birds	Stone-curlews	"Stone-curlews, Dikkops or Thick-knees"	Animalia: Chordata: Aves	Charadriiformes	Burhinidae	Esacus	magnirostris 
-Birds	Stone-curlews	Unknown	Animalia: Chordata: Aves	Charadriiformes	Burhinidae	Unknown	sp.
 Birds	"Plovers, dotterels & lapwings"	Kentish Plover	Animalia: Chordata: Aves	Charadriiformes	Charadriidae	Charadrius	alexandrinus 
 Birds	"Plovers, dotterels & lapwings"	Kentish Plover	Animalia: Chordata: Aves	Charadriiformes	Charadriidae	Charadrius	alexandrinus dealbatus
 Birds	"Plovers, dotterels & lapwings"	Caspian Plover 	Animalia: Chordata: Aves	Charadriiformes	Charadriidae	Charadrius	asiaticus 
@@ -83,42 +56,32 @@ Birds	"Plovers, dotterels & lapwings"	Lesser Sand Plover	Animalia: Chordata: Ave
 Birds	"Plovers, dotterels & lapwings"	Lesser Sand Plover	Animalia: Chordata: Aves	Charadriiformes	Charadriidae	Charadrius	mongolus mongolus
 Birds	"Plovers, dotterels & lapwings"	Lesser Sand Plover	Animalia: Chordata: Aves	Charadriiformes	Charadriidae	Charadrius	mongolus stegmanni
 Birds	"Plovers, dotterels & lapwings"	Red-capped Plover	Animalia: Chordata: Aves	Charadriiformes	Charadriidae	Charadrius	ruficapillus 
-Birds	"Plovers, dotterels & lapwings"	Beach-stone Curlew 	Animalia: Chordata: Aves	Charadriiformes	Charadriidae	Charadrius	sp.
 Birds	"Plovers, dotterels & lapwings"	Oriental Plover	Animalia: Chordata: Aves	Charadriiformes	Charadriidae	Charadrius	veredus 
 Birds	"Plovers, dotterels & lapwings"	Black-fronted Dotterel 	Animalia: Chordata: Aves	Charadriiformes	Charadriidae	Elseyornis	melanops 
 Birds	"Plovers, dotterels & lapwings"	Red-kneed Dotterel 	Animalia: Chordata: Aves	Charadriiformes	Charadriidae	Erythrogonys	cinctus 
 Birds	"Plovers, dotterels & lapwings"	American Golden-Plover 	Animalia: Chordata: Aves	Charadriiformes	Charadriidae	Pluvialis	dominicus 
 Birds	"Plovers, dotterels & lapwings"	Pacific Golden Plover	Animalia: Chordata: Aves	Charadriiformes	Charadriidae	Pluvialis	fulva 
-Birds	"Plovers, dotterels & lapwings"	"Plovers, dotterels, and lapwings"	Animalia: Chordata: Aves	Charadriiformes	Charadriidae	Pluvialis	sp.
 Birds	"Plovers, dotterels & lapwings"	Grey Plover 	Animalia: Chordata: Aves	Charadriiformes	Charadriidae	Pluvialis	squatarola 
 Birds	"Plovers, dotterels & lapwings"	Grey Plover 	Animalia: Chordata: Aves	Charadriiformes	Charadriidae	Pluvialis	squatarola squatarola
 Birds	"Plovers, dotterels & lapwings"	Hooded Plover 	Animalia: Chordata: Aves	Charadriiformes	Charadriidae	Thinornis	rubricollis 
-Birds	"Plovers, dotterels & lapwings"	Unknown	Animalia: Chordata: Aves	Charadriiformes	Charadriidae	Unknown	sp.
 Birds	"Plovers, dotterels & lapwings"	Grey-headed Lapwing	Animalia: Chordata: Aves	Charadriiformes	Charadriidae	Vanellus	cinereus 
 Birds	"Plovers, dotterels & lapwings"	Masked Lapwing	Animalia: Chordata: Aves	Charadriiformes	Charadriidae	Vanellus	miles 
 Birds	"Plovers, dotterels & lapwings"	Masked Lapwing	Animalia: Chordata: Aves	Charadriiformes	Charadriidae	Vanellus	miles miles
 Birds	"Plovers, dotterels & lapwings"	Masked Lapwing	Animalia: Chordata: Aves	Charadriiformes	Charadriidae	Vanellus	miles novaehollandiae
-Birds	"Plovers, dotterels & lapwings"	Lapwings	Animalia: Chordata: Aves	Charadriiformes	Charadriidae	Vanellus	sp.
 Birds	"Plovers, dotterels & lapwings"	Banded Lapwing	Animalia: Chordata: Aves	Charadriiformes	Charadriidae	Vanellus	tricolor 
 Birds	Sheathbills	Black-faced Sheathbill 	Animalia: Chordata: Aves	Charadriiformes	Chionidae	Chionis	minor 
 Birds	Sheathbills	Black-faced Sheathbill 	Animalia: Chordata: Aves	Charadriiformes	Chionidae	Chionis	minor nasicornis
-Birds	Sheathbills	Unknown	Animalia: Chordata: Aves	Charadriiformes	Chionidae	Unknown	sp.
 Birds	Pratincoles	Oriental Pratincole	Animalia: Chordata: Aves	Charadriiformes	Glareolidae	Glareola	maldivarum 
 Birds	Pratincoles	Australian Pratincole 	Animalia: Chordata: Aves	Charadriiformes	Glareolidae	Stiltia	isabella 
-Birds	Pratincoles	Unknown	Animalia: Chordata: Aves	Charadriiformes	Glareolidae	Unknown	sp.
 Birds	Oystercatchers	Oystercatchers	Animalia: Chordata: Aves	Charadriiformes	Haematopodidae	Haematopus	finschi 
 Birds	Oystercatchers	South Island Oystercatcher or South Island Pied Oystercatcher 	Animalia: Chordata: Aves	Charadriiformes	Haematopodidae	Haematopus	fuliginosus 
 Birds	Oystercatchers	Sooty Oystercatcher 	Animalia: Chordata: Aves	Charadriiformes	Haematopodidae	Haematopus	fuliginosus fuliginosus
 Birds	Oystercatchers	Sooty Oystercatcher 	Animalia: Chordata: Aves	Charadriiformes	Haematopodidae	Haematopus	fuliginosus opthalmicus
 Birds	Oystercatchers	Pied Oystercatcher	Animalia: Chordata: Aves	Charadriiformes	Haematopodidae	Haematopus	longirostris 
-Birds	Oystercatchers	Oystercatchers	Animalia: Chordata: Aves	Charadriiformes	Haematopodidae	Haematopus	sp.
-Birds	Oystercatchers	Unknown	Animalia: Chordata: Aves	Charadriiformes	Haematopodidae	Unknown	sp.
 Birds	Jacana	Pheasant-tailed Jacana 	Animalia: Chordata: Aves	Charadriiformes	Jacanidae	Hydrophasianus	chirurgus 
 Birds	Jacana	Comb-crested Jacana 	Animalia: Chordata: Aves	Charadriiformes	Jacanidae	Irediparra	gallinacea 
-Birds	Jacana	Unknown	Animalia: Chordata: Aves	Charadriiformes	Jacanidae	Unknown	sp.
 Birds	"Seagulls, Noddies and Terns"	Black Noddy 	Animalia: Chordata: Aves	Charadriiformes	Laridae	Anous	minutus 
 Birds	"Seagulls, Noddies and Terns"	Black Noddy 	Animalia: Chordata: Aves	Charadriiformes	Laridae	Anous	minutus minutus
-Birds	"Seagulls, Noddies and Terns"	Seagulls and Noddy	Animalia: Chordata: Aves	Charadriiformes	Laridae	Anous	sp.
 Birds	"Seagulls, Noddies and Terns"	Brown Noddy or Common Noddy 	Animalia: Chordata: Aves	Charadriiformes	Laridae	Anous	stolidus 
 Birds	"Seagulls, Noddies and Terns"	Brown Noddy or Common Noddy 	Animalia: Chordata: Aves	Charadriiformes	Laridae	Anous	stolidus pileatus
 Birds	"Seagulls, Noddies and Terns"	Australian Lesser Noddy	Animalia: Chordata: Aves	Charadriiformes	Laridae	Anous	tenuirostris 
@@ -128,19 +91,16 @@ Birds	"Seagulls, Noddies and Terns"	Whiskered Tern 	Animalia: Chordata: Aves	Cha
 Birds	"Seagulls, Noddies and Terns"	"White-winged Tern, or White-winged Black Tern"	Animalia: Chordata: Aves	Charadriiformes	Laridae	Chlidonias	leucopterus 
 Birds	"Seagulls, Noddies and Terns"	Black Tern	Animalia: Chordata: Aves	Charadriiformes	Laridae	Chlidonias	niger 
 Birds	"Seagulls, Noddies and Terns"	Black Tern	Animalia: Chordata: Aves	Charadriiformes	Laridae	Chlidonias	niger surinamensis
-Birds	"Seagulls, Noddies and Terns"	Seagulls and Tern	Animalia: Chordata: Aves	Charadriiformes	Laridae	Chlidonias	sp.
 Birds	"Seagulls, Noddies and Terns"	Silver Gull	Animalia: Chordata: Aves	Charadriiformes	Laridae	Chroicocephalus	novaehollandiae 
 Birds	"Seagulls, Noddies and Terns"	Silver Gull	Animalia: Chordata: Aves	Charadriiformes	Laridae	Chroicocephalus	novaehollandiae gunni
 Birds	"Seagulls, Noddies and Terns"	Silver Gull	Animalia: Chordata: Aves	Charadriiformes	Laridae	Chroicocephalus	novaehollandiae novaehollandiae
 Birds	"Seagulls, Noddies and Terns"	Black-headed Gull	Animalia: Chordata: Aves	Charadriiformes	Laridae	Chroicocephalus	ridibundus 
-Birds	"Seagulls, Noddies and Terns"	Seagulls	Animalia: Chordata: Aves	Charadriiformes	Laridae	Chroicocephalus	sp.
 Birds	"Seagulls, Noddies and Terns"	Gull-billed Tern 	Animalia: Chordata: Aves	Charadriiformes	Laridae	Gelochelidon	nilotica 
 Birds	"Seagulls, Noddies and Terns"	Gull-billed Tern 	Animalia: Chordata: Aves	Charadriiformes	Laridae	Gelochelidon	nilotica affinis
 Birds	"Seagulls, Noddies and Terns"	Gull-billed Tern 	Animalia: Chordata: Aves	Charadriiformes	Laridae	Gelochelidon	nilotica macrotarsa
 Birds	"Seagulls, Noddies and Terns"	White Tern 	Animalia: Chordata: Aves	Charadriiformes	Laridae	Gygis	alba 
 Birds	"Seagulls, Noddies and Terns"	White Tern 	Animalia: Chordata: Aves	Charadriiformes	Laridae	Gygis	alba candida
 Birds	"Seagulls, Noddies and Terns"	Caspian Tern 	Animalia: Chordata: Aves	Charadriiformes	Laridae	Hydroprogne	caspia 
-Birds	"Seagulls, Noddies and Terns"	Seagulls and Tern	Animalia: Chordata: Aves	Charadriiformes	Laridae	Hydroprogne	sp.
 Birds	"Seagulls, Noddies and Terns"	Common Gull	Animalia: Chordata: Aves	Charadriiformes	Laridae	Larus	canus 
 Birds	"Seagulls, Noddies and Terns"	Black-tailed Gull 	Animalia: Chordata: Aves	Charadriiformes	Laridae	Larus	crassirostris 
 Birds	"Seagulls, Noddies and Terns"	Kelp Gull 	Animalia: Chordata: Aves	Charadriiformes	Laridae	Larus	dominicanus 
@@ -149,17 +109,14 @@ Birds	"Seagulls, Noddies and Terns"	Lesser Black-backed Gull 	Animalia: Chordata
 Birds	"Seagulls, Noddies and Terns"	Pacific Gull 	Animalia: Chordata: Aves	Charadriiformes	Laridae	Larus	pacificus 
 Birds	"Seagulls, Noddies and Terns"	Pacific Gull 	Animalia: Chordata: Aves	Charadriiformes	Laridae	Larus	pacificus georgii
 Birds	"Seagulls, Noddies and Terns"	Pacific Gull 	Animalia: Chordata: Aves	Charadriiformes	Laridae	Larus	pacificus pacificus
-Birds	"Seagulls, Noddies and Terns"	Seagulls	Animalia: Chordata: Aves	Charadriiformes	Laridae	Larus	sp.
 Birds	"Seagulls, Noddies and Terns"	Laughing Gull	Animalia: Chordata: Aves	Charadriiformes	Laridae	Leucophaeus	atricilla 
 Birds	"Seagulls, Noddies and Terns"	Franklin's Gull 	Animalia: Chordata: Aves	Charadriiformes	Laridae	Leucophaeus	pipixcan 
-Birds	"Seagulls, Noddies and Terns"	Seagulls	Animalia: Chordata: Aves	Charadriiformes	Laridae	Leucophaeus	sp.
 Birds	"Seagulls, Noddies and Terns"	Bridled Tern	Animalia: Chordata: Aves	Charadriiformes	Laridae	Onychoprion	anaethetus 
 Birds	"Seagulls, Noddies and Terns"	Bridled Tern	Animalia: Chordata: Aves	Charadriiformes	Laridae	Onychoprion	anaethetus anaethetus
 Birds	"Seagulls, Noddies and Terns"	Bridled Tern	Animalia: Chordata: Aves	Charadriiformes	Laridae	Onychoprion	anaethetus antarctica
 Birds	"Seagulls, Noddies and Terns"	Sooty Tern	Animalia: Chordata: Aves	Charadriiformes	Laridae	Onychoprion	fuscata 
 Birds	"Seagulls, Noddies and Terns"	Sooty Tern	Animalia: Chordata: Aves	Charadriiformes	Laridae	Onychoprion	fuscata nubilosa
 Birds	"Seagulls, Noddies and Terns"	Sooty Tern	Animalia: Chordata: Aves	Charadriiformes	Laridae	Onychoprion	fuscata serrata
-Birds	"Seagulls, Noddies and Terns"	Seagulls and Tern	Animalia: Chordata: Aves	Charadriiformes	Laridae	Onychoprion	sp.
 Birds	"Seagulls, Noddies and Terns"	Blue Noddy 	Animalia: Chordata: Aves	Charadriiformes	Laridae	Procelsterna	cerulea 
 Birds	"Seagulls, Noddies and Terns"	Roseate Tern 	Animalia: Chordata: Aves	Charadriiformes	Laridae	Sterna	dougallii 
 Birds	"Seagulls, Noddies and Terns"	Roseate Tern 	Animalia: Chordata: Aves	Charadriiformes	Laridae	Sterna	dougallii bangsi
@@ -179,28 +136,20 @@ Birds	"Seagulls, Noddies and Terns"	Little Tern	Animalia: Chordata: Aves	Charadr
 Birds	"Seagulls, Noddies and Terns"	Fairy Tern	Animalia: Chordata: Aves	Charadriiformes	Laridae	Sternula	nereis 
 Birds	"Seagulls, Noddies and Terns"	Fairy Tern	Animalia: Chordata: Aves	Charadriiformes	Laridae	Sternula	nereis exsul
 Birds	"Seagulls, Noddies and Terns"	Fairy Tern	Animalia: Chordata: Aves	Charadriiformes	Laridae	Sternula	nereis nereis
-Birds	"Seagulls, Noddies and Terns"	Tern	Animalia: Chordata: Aves	Charadriiformes	Laridae	Sternula	sp.
 Birds	"Seagulls, Noddies and Terns"	Lesser Crested-Tern 	Animalia: Chordata: Aves	Charadriiformes	Laridae	Thalasseus	bengalensis 
 Birds	"Seagulls, Noddies and Terns"	Lesser Crested-Tern 	Animalia: Chordata: Aves	Charadriiformes	Laridae	Thalasseus	bengalensis torresii
 Birds	"Seagulls, Noddies and Terns"	Greater Crested Tern 	Animalia: Chordata: Aves	Charadriiformes	Laridae	Thalasseus	bergii 
 Birds	"Seagulls, Noddies and Terns"	Greater Crested Tern 	Animalia: Chordata: Aves	Charadriiformes	Laridae	Thalasseus	bergii cristata
-Birds	"Seagulls, Noddies and Terns"	Terns	Animalia: Chordata: Aves	Charadriiformes	Laridae	Thalasseus	sp.
-Birds	"Seagulls, Noddies and Terns"	Terns	Animalia: Chordata: Aves	Charadriiformes	Laridae	Unknown	sp.
 Birds	"Seagulls, Noddies and Terns"	Sabine's Gull 	Animalia: Chordata: Aves	Charadriiformes	Laridae	Xema	sabini 
 Birds	Wanderer	Plains-wanderer	Animalia: Chordata: Aves	Charadriiformes	Pedionomidae	Pedionomus	torquatus 
-Birds	Wanderer	Wanderer	Animalia: Chordata: Aves	Charadriiformes	Pedionomidae	Unknown	sp.
 Birds	Stilts	Banded Stilt 	Animalia: Chordata: Aves	Charadriiformes	Recurvirostridae	Cladorhynchus	leucocephalus 
 Birds	Stilts	"Black-winged Stilt, Common Stilt, or Pied Stilt "	Animalia: Chordata: Aves	Charadriiformes	Recurvirostridae	Himantopus	himantopus 
 Birds	Stilts	"Black-winged Stilt, Common Stilt, or Pied Stilt "	Animalia: Chordata: Aves	Charadriiformes	Recurvirostridae	Himantopus	himantopus leucocephalus
 Birds	Stilts	Red-necked Avocet 	Animalia: Chordata: Aves	Charadriiformes	Recurvirostridae	Recurvirostra	novaehollandiae 
-Birds	Stilts	Avocet 	Animalia: Chordata: Aves	Charadriiformes	Recurvirostridae	Unknown	sp.
 Birds	Snipes	Australian Painted Snipe	Animalia: Chordata: Aves	Charadriiformes	Rostratuildae	Rostratula	australis 
-Birds	Snipes	Painted snipes	Animalia: Chordata: Aves	Charadriiformes	Rostratuildae	Rostratula	sp.
-Birds	Snipes	snipes	Animalia: Chordata: Aves	Charadriiformes	Rostratuildae	Unknown	sp.
 Birds	Sandpipers	Common Sandpiper	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Actitis	hypoleucos 
 Birds	Sandpipers	Ruddy Turnstone 	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Arenaria	interpres 
 Birds	Sandpipers	Ruddy Turnstone 	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Arenaria	interpres interpres
-Birds	Sandpipers	Sandpipers 	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Arenaria	sp.
 Birds	Sandpipers	Upland Sandpiper	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Bartramia	longicauda 
 Birds	Sandpipers	Sharp-tailed Sandpiper	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Calidris	acuminata 
 Birds	Sandpipers	Sanderling	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Calidris	alba 
@@ -215,34 +164,28 @@ Birds	Sandpipers	Stilt Sandpiper	Animalia: Chordata: Aves	Charadriiformes	Scolop
 Birds	Sandpipers	Pectoral Sandpiper	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Calidris	melanotos 
 Birds	Sandpipers	Little Stint	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Calidris	minuta 
 Birds	Sandpipers	Red-necked Stint	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Calidris	ruficollis 
-Birds	Sandpipers	Stint	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Calidris	sp.
 Birds	Sandpipers	Long-toed Stint	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Calidris	subminuta 
 Birds	Sandpipers	Great Knot	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Calidris	tenuirostris 
 Birds	Sandpipers	Latham's Snipe	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Gallinago	hardwickii 
 Birds	Sandpipers	Swinhoe's Snipe	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Gallinago	megala 
-Birds	Sandpipers	Snipe	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Gallinago	sp.
 Birds	Sandpipers	Pin-tailed Snipe	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Gallinago	stenura 
 Birds	Sandpipers	Broad-billed Sandpiper	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Limicola	falcinellus 
 Birds	Sandpipers	Broad-billed Sandpiper	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Limicola	falcinellus sibirica
 Birds	Sandpipers	Short-billed Dowitcher	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Limnodromus	griseus 
 Birds	Sandpipers	Asiatic Dowitcher	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Limnodromus	semipalmatus 
-Birds	Sandpipers	Sandpipers 	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Limnodromus	sp.
 Birds	Sandpipers	Hudsonian Godwit	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Limosa	haemastica 
 Birds	Sandpipers	Bar-tailed Godwit	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Limosa	lapponica 
 Birds	Sandpipers	Bar-tailed Godwit	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Limosa	lapponica baueri
 Birds	Sandpipers	Bar-tailed Godwit	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Limosa	lapponica menzbieri
 Birds	Sandpipers	Black-tailed Godwit	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Limosa	limosa 
 Birds	Sandpipers	Black-tailed Godwit	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Limosa	limosa melanuroides
-Birds	Sandpipers	Godwits	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Limosa	sp.
 Birds	Sandpipers	Eastern Curlew or Far Eastern Curlew 	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Numenius	madagascariensis 
 Birds	Sandpipers	Little Curlew	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Numenius	minutus 
 Birds	Sandpipers	Whimbre	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Numenius	phaeopus 
 Birds	Sandpipers	Whimbre	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Numenius	phaeopus hudsonicus
 Birds	Sandpipers	Whimbre	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Numenius	phaeopus variegatus
-Birds	Sandpipers	Curlews	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Numenius	sp.
 Birds	Sandpipers	Red Phalarope	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Phalaropus	fulicarius 
 Birds	Sandpipers	Red-necked Phalarope	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Phalaropus	lobatus 
-Birds	Sandpipers	Phalaropes	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Phalaropus	sp.
 Birds	Sandpipers	Ruff	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Philomachus	pugnax 
 Birds	Sandpipers	Wilson's phalarope	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Steganopus	tricolor 
 Birds	Sandpipers	Grey-tailed Tattler	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Tringa	brevipes 
@@ -252,11 +195,9 @@ Birds	Sandpipers	Wood Sandpiper	Animalia: Chordata: Aves	Charadriiformes	Scolopa
 Birds	Sandpipers	Nordmann's Greenshank or Spotted Greenshank 	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Tringa	guttifer 
 Birds	Sandpipers	Wandering Tattler	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Tringa	incana 
 Birds	Sandpipers	Common Greenshank	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Tringa	nebularia 
-Birds	Sandpipers	Tattlers	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Tringa	sp.
 Birds	Sandpipers	Marsh Sandpiper	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Tringa	stagnatilis 
 Birds	Sandpipers	Common Redshank or Redshank 	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Tringa	totanus 
 Birds	Sandpipers	Buff-breasted Sandpiper	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Tryngites	subruficollis 
-Birds	Sandpipers	Sandpipers 	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Unknown	sp.
 Birds	Sandpipers	Terek Sandpiper	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Xenus	cinereus 
 Birds	Skuas & Jaegers	Falkland Skua	Animalia: Chordata: Aves	Charadriiformes	Stercorcariidae	Stercorarius	antarcticus 
 Birds	Skuas & Jaegers	Subantarctic Skua	Animalia: Chordata: Aves	Charadriiformes	Stercorcariidae	Stercorarius	antarcticus lonnbergi
@@ -265,8 +206,6 @@ Birds	Skuas & Jaegers	Long-tailed Skua or Long-tailed Jaeger	Animalia: Chordata:
 Birds	Skuas & Jaegers	South Polar Skua	Animalia: Chordata: Aves	Charadriiformes	Stercorcariidae	Stercorarius	maccormicki 
 Birds	Skuas & Jaegers	Parasitic Skua or Arctic Jaeger	Animalia: Chordata: Aves	Charadriiformes	Stercorcariidae	Stercorarius	parasiticus 
 Birds	Skuas & Jaegers	Pomarine Skua or Pomarine Jaeger	Animalia: Chordata: Aves	Charadriiformes	Stercorcariidae	Stercorarius	pomarinus 
-Birds	Skuas & Jaegers	Skuas	Animalia: Chordata: Aves	Charadriiformes	Stercorcariidae	Stercorarius	sp.
-Birds	Skuas & Jaegers	Skuas	Animalia: Chordata: Aves	Charadriiformes	Stercorcariidae	Unknown	sp.
 Birds	Herons	Grey Heron 	Animalia: Chordata: Aves	Ciconiiformes	Ardeidae	Ardea	cinerea 
 Birds	Herons	Cattle Egret	Animalia: Chordata: Aves	Ciconiiformes	Ardeidae	Ardea	ibis 
 Birds	Herons	Cattle Egret	Animalia: Chordata: Aves	Ciconiiformes	Ardeidae	Ardea	ibis coromanda
@@ -298,26 +237,21 @@ Birds	Herons	Rufous Night-heron 	Animalia: Chordata: Aves	Ciconiiformes	Ardeidae
 Birds	Herons	Rufous Night-heron 	Animalia: Chordata: Aves	Ciconiiformes	Ardeidae	Nycticorax	caledonicus australasiae
 Birds	Herons	Black-crowned Night Heron 	Animalia: Chordata: Aves	Ciconiiformes	Ardeidae	Nycticorax	nycticorax 
 Birds	Herons	Black-crowned Night Heron 	Animalia: Chordata: Aves	Ciconiiformes	Ardeidae	Nycticorax	nycticorax nycticorax
-Birds	Herons	Heron	Animalia: Chordata: Aves	Ciconiiformes	Ardeidae	Unknown	sp.
 Birds	Stork	Black-necked Stork 	Animalia: Chordata: Aves	Ciconiiformes	Ciconiidae	Ephippiorhynchus	asiaticus 
 Birds	Stork	Black-necked Stork 	Animalia: Chordata: Aves	Ciconiiformes	Ciconiidae	Ephippiorhynchus	asiaticus australis
-Birds	Stork	Stork	Animalia: Chordata: Aves	Ciconiiformes	Ciconiidae	Unknown	sp.
 Birds	Ibis & Spoonbills	Yellow-billed Spoonbill 	Animalia: Chordata: Aves	Ciconiiformes	Threskiornithidae	Platalea	flavipes 
 Birds	Ibis & Spoonbills	Royal Spoonbill 	Animalia: Chordata: Aves	Ciconiiformes	Threskiornithidae	Platalea	regia 
 Birds	Ibis & Spoonbills	Glossy Ibis 	Animalia: Chordata: Aves	Ciconiiformes	Threskiornithidae	Plegadis	falcinellus 
 Birds	Ibis & Spoonbills	Australian White Ibis 	Animalia: Chordata: Aves	Ciconiiformes	Threskiornithidae	Threskiornis	molucca 
 Birds	Ibis & Spoonbills	Australian White Ibis 	Animalia: Chordata: Aves	Ciconiiformes	Threskiornithidae	Threskiornis	molucca molucca
 Birds	Ibis & Spoonbills	Straw-necked Ibis 	Animalia: Chordata: Aves	Ciconiiformes	Threskiornithidae	Threskiornis	spinicollis 
-Birds	Ibis & Spoonbills	Ibis	Animalia: Chordata: Aves	Ciconiiformes	Threskiornithidae	Unknown	sp.
 Birds	Pigeons & doves	Common Emerald Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Chalcophaps	indica 
 Birds	Pigeons & doves	Common Emerald Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Chalcophaps	indica longirostris
 Birds	Pigeons & doves	Common Emerald Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Chalcophaps	indica natalis
 Birds	Pigeons & doves	Common Emerald Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Chalcophaps	indica rogersi
-Birds	Pigeons & doves	doves	Animalia: Chordata: Aves	Columbiformes	Columbidae	Chalcophaps	sp.
 Birds	Pigeons & doves	Snow Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Columba	leucomela 
 Birds	Pigeons & doves	Pigeons and doves	Animalia: Chordata: Aves	Columbiformes	Columbidae	Columba	livia 
 Birds	Pigeons & doves	Rock Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Columba	livia livia
-Birds	Pigeons & doves	Pigeons and doves	Animalia: Chordata: Aves	Columbiformes	Columbidae	Columba	sp.
 Birds	Pigeons & doves	Metallic Pigeon or White-throated Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Columba	vitiensis 
 Birds	Pigeons & doves	Metallic Pigeon or White-throated Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Columba	vitiensis godmanae
 Birds	Pigeons & doves	Pied Imperial Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ducula	bicolor 
@@ -325,14 +259,12 @@ Birds	Pigeons & doves	Pied Imperial Pigeon	Animalia: Chordata: Aves	Columbiforme
 Birds	Pigeons & doves	Pied Imperial Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ducula	bicolor spilorrhoa
 Birds	Pigeons & doves	Elegant Imperial Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ducula	concinna 
 Birds	Pigeons & doves	Collared Imperial Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ducula	mullerii 
-Birds	Pigeons & doves	Pigeons	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ducula	sp.
 Birds	Pigeons & doves	Christmas Imperial Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ducula	whartoni 
 Birds	Pigeons & doves	Diamond Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geopelia	cuneata 
 Birds	Pigeons & doves	Bar-shouldered Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geopelia	humeralis 
 Birds	Pigeons & doves	Bar-shouldered Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geopelia	humeralis headlandi
 Birds	Pigeons & doves	Bar-shouldered Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geopelia	humeralis humeralis
 Birds	Pigeons & doves	Bar-shouldered Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geopelia	humeralis inexpectata
-Birds	Pigeons & doves	long-tailed doves	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geopelia	sp.
 Birds	Pigeons & doves	Zebra Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geopelia	striata 
 Birds	Pigeons & doves	Zebra Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geopelia	striata placida
 Birds	Pigeons & doves	Spinifex Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geophaps	plumifera 
@@ -345,14 +277,10 @@ Birds	Pigeons & doves	Squatter Pigeon	Animalia: Chordata: Aves	Columbiformes	Col
 Birds	Pigeons & doves	Partridge Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geophaps	smithii 
 Birds	Pigeons & doves	Partridge Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geophaps	smithii blaauwi
 Birds	Pigeons & doves	Partridge Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geophaps	smithii smithii
-Birds	Pigeons & doves	Pigeons	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geophaps	sp.
 Birds	Pigeons & doves	Pigeons and doves	Animalia: Chordata: Aves	Columbiformes	Columbidae	Hemiphaga	novaeseelandiae 
 Birds	Pigeons & doves	New Zealand Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Hemiphaga	novaeseelandiae spadicea
-Birds	Pigeons & doves	Pigeons	Animalia: Chordata: Aves	Columbiformes	Columbidae	Hemiphaga	sp.
 Birds	Pigeons & doves	Wonga Pigeon 	Animalia: Chordata: Aves	Columbiformes	Columbidae	Leucosarcia	melanoleuca 
-Birds	Pigeons & doves	Wonga Pigeon 	Animalia: Chordata: Aves	Columbiformes	Columbidae	Leucosarcia	sp.
 Birds	Pigeons & doves	Topknot Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Lopholaimus	antarcticus 
-Birds	Pigeons & doves	Topknot Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Lopholaimus	sp.
 Birds	Pigeons & doves	Slender-billed Cuckoo-Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Macropygia	amboinensis 
 Birds	Pigeons & doves	Slender-billed Cuckoo-Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Macropygia	amboinensis phasianella
 Birds	Pigeons & doves	Slender-billed Cuckoo-Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Macropygia	amboinensis quinkan
@@ -360,18 +288,15 @@ Birds	Pigeons & doves	Slender-billed Cuckoo-Dove	Animalia: Chordata: Aves	Columb
 Birds	Pigeons & doves	Crested Pigeon 	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ocyphaps	lophotes 
 Birds	Pigeons & doves	Crested Pigeon 	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ocyphaps	lophotes lophotes
 Birds	Pigeons & doves	Crested Pigeon 	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ocyphaps	lophotes whitlocki
-Birds	Pigeons & doves	Crested Pigeon 	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ocyphaps	sp.
 Birds	Pigeons & doves	White-quilled Rock Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Petrophassa	albipennis 
 Birds	Pigeons & doves	White-quilled Rock Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Petrophassa	albipennis albipennis
 Birds	Pigeons & doves	White-quilled Rock Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Petrophassa	albipennis boothi
 Birds	Pigeons & doves	Chestnut-quilled Rock Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Petrophassa	rufipennis 
-Birds	Pigeons & doves	rock pigeons	Animalia: Chordata: Aves	Columbiformes	Columbidae	Petrophassa	sp.
 Birds	Pigeons & doves	Pigeons and doves	Animalia: Chordata: Aves	Columbiformes	Columbidae	Phaps	chalcoptera 
 Birds	Pigeons & doves	Flock Bronzewing	Animalia: Chordata: Aves	Columbiformes	Columbidae	Phaps	elegans 
 Birds	Pigeons & doves	Common Bronzewing	Animalia: Chordata: Aves	Columbiformes	Columbidae	Phaps	elegans elegans
 Birds	Pigeons & doves	Brush Bronzewing	Animalia: Chordata: Aves	Columbiformes	Columbidae	Phaps	elegans occidentalis
 Birds	Pigeons & doves	Pigeons and doves	Animalia: Chordata: Aves	Columbiformes	Columbidae	Phaps	histrionica 
-Birds	Pigeons & doves	bronzewing pigeons	Animalia: Chordata: Aves	Columbiformes	Columbidae	Phaps	sp.
 Birds	Pigeons & doves	Banded Fruit Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ptilinopus	cinctus 
 Birds	Pigeons & doves	Banded Fruit Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ptilinopus	cinctus alligator
 Birds	Pigeons & doves	Orange-bellied Fruit Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ptilinopus	iozonus 
@@ -382,7 +307,6 @@ Birds	Pigeons & doves	Wompoo Fruit Dove	Animalia: Chordata: Aves	Columbiformes	C
 Birds	Pigeons & doves	Rose-crowned Fruit Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ptilinopus	regina 
 Birds	Pigeons & doves	Rose-crowned Fruit Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ptilinopus	regina ewingii
 Birds	Pigeons & doves	Rose-crowned Fruit Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ptilinopus	regina regina
-Birds	Pigeons & doves	fruit doves	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ptilinopus	sp.
 Birds	Pigeons & doves	Superb Fruit Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ptilinopus	superbus 
 Birds	Pigeons & doves	Superb Fruit Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Ptilinopus	superbus superbus
 Birds	Pigeons & doves	Spotted dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Streptopelia	chinensis 
@@ -391,20 +315,15 @@ Birds	Pigeons & doves	Spotted dove	Animalia: Chordata: Aves	Columbiformes	Columb
 Birds	Pigeons & doves	African Collared Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Streptopelia	roseogrisea 
 Birds	Pigeons & doves	Laughing dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Streptopelia	senegalensis 
 Birds	Pigeons & doves	Laughing dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Streptopelia	senegalensis senegalensis
-Birds	Pigeons & doves	doves	Animalia: Chordata: Aves	Columbiformes	Columbidae	Streptopelia	sp.
 Birds	Pigeons & doves	Red Turtle Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Streptopelia	tranquebarica 
-Birds	Pigeons & doves	Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Unknown	sp.
 Birds	Rollers	Oriental Dollarbird	Animalia: Chordata: Aves	Coraciidormes	Coraciidae	Eurystomus	orientalis 
 Birds	Rollers	Oriental Dollarbird	Animalia: Chordata: Aves	Coraciidormes	Coraciidae	Eurystomus	orientalis calonyx
 Birds	Rollers	Oriental Dollarbird	Animalia: Chordata: Aves	Coraciidormes	Coraciidae	Eurystomus	orientalis pacificus
-Birds	Rollers	Dollarbird	Animalia: Chordata: Aves	Coraciidormes	Coraciidae	Eurystomus	sp.
-Birds	Rollers	Dollarbird	Animalia: Chordata: Aves	Coraciidormes	Coraciidae	Unknown	sp.
 Birds	Cuckoos	Chestnut-breasted	Animalia: Chordata: Aves	Coraciidormes	Cuculidae	Cacomantis	castaneiventris 
 Birds	Cuckoos	Chestnut-breasted	Animalia: Chordata: Aves	Coraciidormes	Cuculidae	Cacomantis	castaneiventris castaneiventris
 Birds	Cuckoos	Fan-tailed Cuckoo	Animalia: Chordata: Aves	Coraciidormes	Cuculidae	Cacomantis	flabelliformis 
 Birds	Cuckoos	Fan-tailed Cuckoo	Animalia: Chordata: Aves	Coraciidormes	Cuculidae	Cacomantis	flabelliformis flabelliformis
 Birds	Cuckoos	Pallid Cuckoo 	Animalia: Chordata: Aves	Coraciidormes	Cuculidae	Cacomantis	pallidus 
-Birds	Cuckoos	Cuckoos 	Animalia: Chordata: Aves	Coraciidormes	Cuculidae	Cacomantis	sp.
 Birds	Cuckoos	Brush Cuckoo	Animalia: Chordata: Aves	Coraciidormes	Cuculidae	Cacomantis	variolosus 
 Birds	Cuckoos	Brush Cuckoo	Animalia: Chordata: Aves	Coraciidormes	Cuculidae	Cacomantis	variolosus dumetorum
 Birds	Cuckoos	Brush Cuckoo	Animalia: Chordata: Aves	Coraciidormes	Cuculidae	Cacomantis	variolosus variolosus
@@ -413,7 +332,6 @@ Birds	Coucal	Pheasant Coucal	Animalia: Chordata: Aves	Coraciidormes	Cuculidae	Ce
 Birds	Coucal	Pheasant Coucal	Animalia: Chordata: Aves	Coraciidormes	Cuculidae	Centropus	phasianinus melanurus
 Birds	Coucal	Pheasant Coucal	Animalia: Chordata: Aves	Coraciidormes	Cuculidae	Centropus	phasianinus phasianinus
 Birds	Coucal	Pheasant Coucal	Animalia: Chordata: Aves	Coraciidormes	Cuculidae	Centropus	phasianinus thierfelderi
-Birds	Coucal	Coucals	Animalia: Chordata: Aves	Coraciidormes	Cuculidae	Centropus	sp.
 Birds	Cuckoos	Horsfield's Bronze Cuckoo 	Animalia: Chordata: Aves	Coraciidormes	Cuculidae	Chalcites	basalis 
 Birds	Cuckoos	Shining Bronze Cuckoo 	Animalia: Chordata: Aves	Coraciidormes	Cuculidae	Chalcites	lucidus 
 Birds	Cuckoos	Shining Bronze Cuckoo 	Animalia: Chordata: Aves	Coraciidormes	Cuculidae	Chalcites	lucidus lucidus
@@ -423,24 +341,88 @@ Birds	Cuckoos	Little Bronze-cuckoo 	Animalia: Chordata: Aves	Coraciidormes	Cucul
 Birds	Cuckoos	Little Bronze-cuckoo 	Animalia: Chordata: Aves	Coraciidormes	Cuculidae	Chalcites	minutillus minutillus
 Birds	Cuckoos	Little Bronze-cuckoo 	Animalia: Chordata: Aves	Coraciidormes	Cuculidae	Chalcites	minutillus russatus
 Birds	Cuckoos	Black-eared Cuckoo	Animalia: Chordata: Aves	Coraciidormes	Cuculidae	Chalcites	osculans 
-Birds	Cuckoos	Cuckoos 	Animalia: Chordata: Aves	Coraciidormes	Cuculidae	Chalcites	sp.
 Birds	Cuckoos	Oriental Cuckoo or Horsfields Cuckoo 	Animalia: Chordata: Aves	Coraciidormes	Cuculidae	Cuculus	optatus 
 Birds	Cuckoos	Himalayan Cuckoo 	Animalia: Chordata: Aves	Coraciidormes	Cuculidae	Cuculus	saturatus 
-Birds	Cuckoos	Cuckoos 	Animalia: Chordata: Aves	Coraciidormes	Cuculidae	Cuculus	sp.
 Birds	Cuckoos	Pacific or Eastern Koel	Animalia: Chordata: Aves	Coraciidormes	Cuculidae	Eudynamys	orientalis 
 Birds	Cuckoos	Pacific or Eastern Koel	Animalia: Chordata: Aves	Coraciidormes	Cuculidae	Eudynamys	orientalis cyanocephala
 Birds	Cuckoos	Pacific or Eastern Koel	Animalia: Chordata: Aves	Coraciidormes	Cuculidae	Eudynamys	orientalis subcyanocephala
 Birds	Cuckoos	Asian Koel	Animalia: Chordata: Aves	Coraciidormes	Cuculidae	Eudynamys	scolopaceus 
-Birds	Cuckoos	Cuckoos 	Animalia: Chordata: Aves	Coraciidormes	Cuculidae	Eudynamys	sp.
-Birds	Cuckoos	Cuckoos 	Animalia: Chordata: Aves	Coraciidormes	Cuculidae	Hierococcyx	sp.
 Birds	Cuckoos	Large Hawk-Cuckoo	Animalia: Chordata: Aves	Coraciidormes	Cuculidae	Hierococcyx	sparverioides 
 Birds	Cuckoos	Channel-billed Cuckoo	Animalia: Chordata: Aves	Coraciidormes	Cuculidae	Scythrops	novaehollandiae novaehollandiae
-Birds	Cuckoos	Cuckoos 	Animalia: Chordata: Aves	Coraciidormes	Cuculidae	Scythrops	sp.
-Birds	Cuckoos	Cuckoos 	Animalia: Chordata: Aves	Coraciidormes	Cuculidae	Unknown	sp.
-Birds	Cuckoos	Cuckoos 	Animalia: Chordata: Aves	Coraciidormes	Cuculidae	Urodynamis	sp.
 Birds	Cuckoos	Long-tailed Koel 	Animalia: Chordata: Aves	Coraciidormes	Cuculidae	Urodynamis	taitensis 
 Birds	Bee-eater	Rainbow Bee-eater	Animalia: Chordata: Aves	Coraciidormes	Meropidae	Merops	ornatus 
-Birds	Bee-eater	Bee-eater	Animalia: Chordata: Aves	Coraciidormes	Meropidae	Unknown	sp.
+Birds	"Kingfishers, Hoopoe, Bee-eaters, Rollers, Hornbills"	"Common Kingfisher, Eurasian Kingfisher, River Kingfisher"	Animalia: Chordata: Aves	Coraciiformes	Alcedinidae	Alcedo 	atthis 
+Birds	"Kingfishers, Hoopoe, Bee-eaters, Rollers, Hornbills"	Azure Kingfisher	Animalia: Chordata: Aves	Coraciiformes	Alcedinidae	Ceyx 	azureus 
+Birds	"Kingfishers, Hoopoe, Bee-eaters, Rollers, Hornbills"	Azure Kingfisher	Animalia: Chordata: Aves	Coraciiformes	Alcedinidae	Ceyx 	azureus azureus
+Birds	"Kingfishers, Hoopoe, Bee-eaters, Rollers, Hornbills"	Tasmanian Azure Kingfisher	Animalia: Chordata: Aves	Coraciiformes	Alcedinidae	Ceyx 	azureus diemenensis
+Birds	"Kingfishers, Hoopoe, Bee-eaters, Rollers, Hornbills"	Azure Kingfisher	Animalia: Chordata: Aves	Coraciiformes	Alcedinidae	Ceyx 	azureus ruficollaris
+Birds	"Kingfishers, Hoopoe, Bee-eaters, Rollers, Hornbills"	Little Kingfisher	Animalia: Chordata: Aves	Coraciiformes	Alcedinidae	Ceyx 	pusilla
+Birds	"Kingfishers, Hoopoe, Bee-eaters, Rollers, Hornbills"	Little Kingfisher	Animalia: Chordata: Aves	Coraciiformes	Alcedinidae	Ceyx 	pusilla halli
+Birds	"Kingfishers, Hoopoe, Bee-eaters, Rollers, Hornbills"	Little Kingfisher	Animalia: Chordata: Aves	Coraciiformes	Alcedinidae	Ceyx 	pusilla pusilla
+Birds	"Kingfishers, Hoopoe, Bee-eaters, Rollers, Hornbills"	Little Kingfisher	Animalia: Chordata: Aves	Coraciiformes	Alcedinidae	Ceyx 	pusilla ramsayi
+Birds	"Kingfishers, Hoopoe, Bee-eaters, Rollers, Hornbills"	Laughing Kookaburra	Animalia: Chordata: Aves	Coraciiformes	Alcedinidae	Dacelo 	novaeguineae novaeguineae
+Birds	"Kingfishers, Hoopoe, Bee-eaters, Rollers, Hornbills"	Blue-winged Kookaburra	Animalia: Chordata: Aves	Coraciiformes	Alcedinidae	Dacelo Dacelo	leachii 
+Birds	"Kingfishers, Hoopoe, Bee-eaters, Rollers, Hornbills"	Blue-winged Kookaburra	Animalia: Chordata: Aves	Coraciiformes	Alcedinidae	Dacelo Dacelo	leachii cervina
+Birds	"Kingfishers, Hoopoe, Bee-eaters, Rollers, Hornbills"	Blue-winged Kookaburra	Animalia: Chordata: Aves	Coraciiformes	Alcedinidae	Dacelo Dacelo	leachii leachii
+Birds	"Kingfishers, Hoopoe, Bee-eaters, Rollers, Hornbills"	Blue-winged Kookaburra	Animalia: Chordata: Aves	Coraciiformes	Alcedinidae	Dacelo Dacelo	leachii occidentalis
+Birds	"Kingfishers, Hoopoe, Bee-eaters, Rollers, Hornbills"	Laughing Kookaburra	Animalia: Chordata: Aves	Coraciiformes	Alcedinidae	Dacelo Dacelo	novaeguineae 
+Birds	"Kingfishers, Hoopoe, Bee-eaters, Rollers, Hornbills"	Laughing Kookaburra	Animalia: Chordata: Aves	Coraciiformes	Alcedinidae	Dacelo Dacelo	novaeguineae minor
+Birds	"Kingfishers, Hoopoe, Bee-eaters, Rollers, Hornbills"	Black-capped Kingfisher	Animalia: Chordata: Aves	Coraciiformes	Alcedinidae	Halcyon 	pileata 
+Birds	"Kingfishers, Hoopoe, Bee-eaters, Rollers, Hornbills"	Yellow-billed Kingfisher	Animalia: Chordata: Aves	Coraciiformes	Alcedinidae	Syma 	torotoro 
+Birds	"Kingfishers, Hoopoe, Bee-eaters, Rollers, Hornbills"	Yellow-billed Kingfisher	Animalia: Chordata: Aves	Coraciiformes	Alcedinidae	Syma 	torotoro flavirostris
+Birds	"Kingfishers, Hoopoe, Bee-eaters, Rollers, Hornbills"	Common Paradise-kingfisher	Animalia: Chordata: Aves	Coraciiformes	Alcedinidae	Tanysiptera	galatea
+Birds	"Kingfishers, Hoopoe, Bee-eaters, Rollers, Hornbills"	Little Paradise-kingfisher	Animalia: Chordata: Aves	Coraciiformes	Alcedinidae	Tanysiptera	hydrocharis
+Birds	"Kingfishers, Hoopoe, Bee-eaters, Rollers, Hornbills"	Buff-breasted Paradise-Kingfisher	Animalia: Chordata: Aves	Coraciiformes	Alcedinidae	Tanysiptera 	sylvia sylvia
+Birds	"Kingfishers, Hoopoe, Bee-eaters, Rollers, Hornbills"	Buff-breasted Paradise-Kingfisher	Animalia: Chordata: Aves	Coraciiformes	Alcedinidae	Tanysiptera Uralcyon	sylvia 
+Birds	"Kingfishers, Hoopoe, Bee-eaters, Rollers, Hornbills"	Snow Pigeon	Animalia: Chordata: Aves	Coraciiformes	Alcedinidae	Todiramphus 	sanctus vagans
+Birds	"Kingfishers, Hoopoe, Bee-eaters, Rollers, Hornbills"	Forest Kingfisher	Animalia: Chordata: Aves	Coraciiformes	Alcedinidae	Todiramphus Lazulena	macleayii 
+Birds	"Kingfishers, Hoopoe, Bee-eaters, Rollers, Hornbills"	Forest Kingfisher	Animalia: Chordata: Aves	Coraciiformes	Alcedinidae	Todiramphus Lazulena	macleayii incinctus
+Birds	"Kingfishers, Hoopoe, Bee-eaters, Rollers, Hornbills"	Red-backed Kingfisher	Animalia: Chordata: Aves	Coraciiformes	Alcedinidae	Todiramphus Lazulena	pyrrhopygius 
+Birds	"Kingfishers, Hoopoe, Bee-eaters, Rollers, Hornbills"	Collared Kingfisher	Animalia: Chordata: Aves	Coraciiformes	Alcedinidae	Todiramphus Todiramphus	chloris 
+Birds	"Kingfishers, Hoopoe, Bee-eaters, Rollers, Hornbills"	Collared Kingfisher	Animalia: Chordata: Aves	Coraciiformes	Alcedinidae	Todiramphus Todiramphus	chloris colcloughi
+Birds	"Kingfishers, Hoopoe, Bee-eaters, Rollers, Hornbills"	Collared Kingfisher	Animalia: Chordata: Aves	Coraciiformes	Alcedinidae	Todiramphus Todiramphus	chloris palmeri
+Birds	"Kingfishers, Hoopoe, Bee-eaters, Rollers, Hornbills"	Collared Kingfisher	Animalia: Chordata: Aves	Coraciiformes	Alcedinidae	Todiramphus Todiramphus	chloris pilbara
+Birds	"Kingfishers, Hoopoe, Bee-eaters, Rollers, Hornbills"	Collared Kingfisher	Animalia: Chordata: Aves	Coraciiformes	Alcedinidae	Todiramphus Todiramphus	chloris sordidus
+Birds	"Kingfishers, Hoopoe, Bee-eaters, Rollers, Hornbills"	Forest Kingfisher	Animalia: Chordata: Aves	Coraciiformes	Alcedinidae	Todiramphus Todiramphus	macleayii macleayii
+Birds	"Kingfishers, Hoopoe, Bee-eaters, Rollers, Hornbills"	Sacred Kingfisher	Animalia: Chordata: Aves	Coraciiformes	Alcedinidae	Todiramphus Todiramphus	sanctus 
+Birds	"Kingfishers, Hoopoe, Bee-eaters, Rollers, Hornbills"	Sacred Kingfisher	Animalia: Chordata: Aves	Coraciiformes	Alcedinidae	Todiramphus Todiramphus	sanctus norfolkiensis
+Birds	"Kingfishers, Hoopoe, Bee-eaters, Rollers, Hornbills"	Sacred Kingfisher	Animalia: Chordata: Aves	Coraciiformes	Alcedinidae	Todiramphus Todiramphus	sanctus sanctus
+Birds	"Kingfishers, Hoopoe, Bee-eaters, Rollers, Hornbills"	Dollarbird	Animalia: Chordata: Aves	Coraciiformes	Coraciidae	Eurystomus 	orientalis 
+Birds	"Kingfishers, Hoopoe, Bee-eaters, Rollers, Hornbills"	Dollarbird	Animalia: Chordata: Aves	Coraciiformes	Coraciidae	Eurystomus 	orientalis calonyx
+Birds	"Kingfishers, Hoopoe, Bee-eaters, Rollers, Hornbills"	Dollarbird	Animalia: Chordata: Aves	Coraciiformes	Coraciidae	Eurystomus 	orientalis pacificus
+Birds	"Kingfishers, Hoopoe, Bee-eaters, Rollers, Hornbills"	Rainbow Bee-eater	Animalia: Chordata: Aves	Coraciiformes	Meropidae	Merops 	ornatus 
+Birds	Coucals	Lesser Coucal	Animalia: Chordata: Aves	Cuculiformes	Centropodidae	Centropus Polophilus	bengalensis 
+Birds	Coucals	Pheasant Coucal	Animalia: Chordata: Aves	Cuculiformes	Centropodidae	Centropus Polophilus	phasianinus 
+Birds	Coucals	Pheasant Coucal	Animalia: Chordata: Aves	Cuculiformes	Centropodidae	Centropus Polophilus	phasianinus melanurus
+Birds	Coucals	Pheasant Coucal	Animalia: Chordata: Aves	Cuculiformes	Centropodidae	Centropus Polophilus	phasianinus phasianinus
+Birds	Coucals	Pheasant Coucal	Animalia: Chordata: Aves	Cuculiformes	Centropodidae	Centropus Polophilus	phasianinus thierfelderi
+Birds	Cuckoos	Brush Cuckoo	Animalia: Chordata: Aves	Cuculiformes	Cuculidae	Cacomantis Cacomantis	variolosus 
+Birds	Cuckoos	Brush Cuckoo	Animalia: Chordata: Aves	Cuculiformes	Cuculidae	Cacomantis Cacomantis	variolosus dumetorum
+Birds	Cuckoos	Brush Cuckoo	Animalia: Chordata: Aves	Cuculiformes	Cuculidae	Cacomantis Cacomantis	variolosus variolosus
+Birds	Cuckoos	Chestnut-breasted Cuckoo	Animalia: Chordata: Aves	Cuculiformes	Cuculidae	Cacomantis Vidgenia	castaneiventris 
+Birds	Cuckoos	Chestnut-breasted Cuckoo	Animalia: Chordata: Aves	Cuculiformes	Cuculidae	Cacomantis Vidgenia	castaneiventris castaneiventris
+Birds	Cuckoos	Fan-tailed Cuckoo	Animalia: Chordata: Aves	Cuculiformes	Cuculidae	Cacomantis Vidgenia	flabelliformis 
+Birds	Cuckoos	Fan-tailed Cuckoo	Animalia: Chordata: Aves	Cuculiformes	Cuculidae	Cacomantis Vidgenia	flabelliformis flabelliformis
+Birds	Cuckoos	Pallid Cuckoo	Animalia: Chordata: Aves	Cuculiformes	Cuculidae	Cacomantis Vidgenia	pallidus 
+Birds	Cuckoos	Horsfield's Bronze Cuckoo	Animalia: Chordata: Aves	Cuculiformes	Cuculidae	Chalcites Chalcites	basalis 
+Birds	Cuckoos	Shining Bronze Cuckoo	Animalia: Chordata: Aves	Cuculiformes	Cuculidae	Chalcites Chalcites	lucidus 
+Birds	Cuckoos	Shining Bronze Cuckoo	Animalia: Chordata: Aves	Cuculiformes	Cuculidae	Chalcites Chalcites	lucidus lucidus
+Birds	Cuckoos	Shining Bronze Cuckoo	Animalia: Chordata: Aves	Cuculiformes	Cuculidae	Chalcites Chalcites	lucidus plagosus
+Birds	Cuckoos	Little Bronze Cuckoo	Animalia: Chordata: Aves	Cuculiformes	Cuculidae	Chalcites Chalcites	minutillus 
+Birds	Cuckoos	Little Bronze Cuckoo	Animalia: Chordata: Aves	Cuculiformes	Cuculidae	Chalcites Chalcites	minutillus barnardi
+Birds	Cuckoos	Little Bronze Cuckoo	Animalia: Chordata: Aves	Cuculiformes	Cuculidae	Chalcites Chalcites	minutillus minutillus
+Birds	Cuckoos	Little Bronze Cuckoo	Animalia: Chordata: Aves	Cuculiformes	Cuculidae	Chalcites Chalcites	minutillus russatus
+Birds	Cuckoos	Black-eared Cuckoo	Animalia: Chordata: Aves	Cuculiformes	Cuculidae	Chalcites Misocalius	osculans 
+Birds	Cuckoos	Oriental Cuckoo	Animalia: Chordata: Aves	Cuculiformes	Cuculidae	Cuculus Cuculus	optatus 
+Birds	Cuckoos	Himalayan Cuckoo	Animalia: Chordata: Aves	Cuculiformes	Cuculidae	Cuculus Cuculus	saturatus 
+Birds	Cuckoos	Eastern Koel	Animalia: Chordata: Aves	Cuculiformes	Cuculidae	Eudynamys 	orientalis 
+Birds	Cuckoos	Eastern Koel	Animalia: Chordata: Aves	Cuculiformes	Cuculidae	Eudynamys 	orientalis cyanocephala
+Birds	Cuckoos	Eastern Koel	Animalia: Chordata: Aves	Cuculiformes	Cuculidae	Eudynamys 	orientalis subcyanocephala
+Birds	Cuckoos	Asian Koel	Animalia: Chordata: Aves	Cuculiformes	Cuculidae	Eudynamys 	scolopaceus 
+Birds	Cuckoos	Large Hawk-Cuckoo	Animalia: Chordata: Aves	Cuculiformes	Cuculidae	Hierococcyx 	sparverioides 
+Birds	Cuckoos	Channel-billed Cuckoo	Animalia: Chordata: Aves	Cuculiformes	Cuculidae	Scythrops 	novaehollandiae 
+Birds	Cuckoos	Channel-billed Cuckoo	Animalia: Chordata: Aves	Cuculiformes	Cuculidae	Scythrops 	novaehollandiae novaehollandiae
+Birds	Cuckoos	"Long-tailed Cuckoo, Long-tailed Koel "	Animalia: Chordata: Aves	Cuculiformes	Cuculidae	Urodynamis 	taitensis 
 Birds	Falcons & Kestrels	Brown Falcon	Animalia: Chordata: Aves	Falconiformes	Falconidae	Falco	berigora 
 Birds	Falcons & Kestrels	Brown Falcon	Animalia: Chordata: Aves	Falconiformes	Falconidae	Falco	berigora berigora
 Birds	Falcons & Kestrels	Brown Falcon	Animalia: Chordata: Aves	Falconiformes	Falconidae	Falco	berigora novaeguineae
@@ -454,52 +436,38 @@ Birds	Falcons & Kestrels	Australian Hobby or Little Falcon	Animalia: Chordata: A
 Birds	Falcons & Kestrels	Peregrine Falcon	Animalia: Chordata: Aves	Falconiformes	Falconidae	Falco	peregrinus 
 Birds	Falcons & Kestrels	Peregrine Falcon	Animalia: Chordata: Aves	Falconiformes	Falconidae	Falco	peregrinus macropus
 Birds	Falcons & Kestrels	Black Falcon	Animalia: Chordata: Aves	Falconiformes	Falconidae	Falco	subniger 
-Birds	Falcons & Kestrels	Falcon	Animalia: Chordata: Aves	Falconiformes	Falconidae	Unknown	sp.
 Birds	Turkeys & Scrubfowls	Australian Brush-turkey	Animalia: Chordata: Aves	Galliformes	Megapopiidae	Alectura	lathami 
 Birds	Turkeys & Scrubfowls	Australian Brush-turkey	Animalia: Chordata: Aves	Galliformes	Megapopiidae	Alectura	lathami lathami
 Birds	Turkeys & Scrubfowls	Australian Brush-turkey	Animalia: Chordata: Aves	Galliformes	Megapopiidae	Alectura	lathami purpureicollis
-Birds	Turkeys & Scrubfowls	Mound Builders	Animalia: Chordata: Aves	Galliformes	Megapopiidae	Alectura	sp.
 Birds	Turkeys & Scrubfowls	Malleefowl	Animalia: Chordata: Aves	Galliformes	Megapopiidae	Leipoa	ocellata 
-Birds	Turkeys & Scrubfowls	Malleefowl	Animalia: Chordata: Aves	Galliformes	Megapopiidae	Leipoa	sp.
 Birds	Turkeys & Scrubfowls	Orange-footed Scrubfowl	Animalia: Chordata: Aves	Galliformes	Megapopiidae	Megapodius	reinwardt 
 Birds	Turkeys & Scrubfowls	Orange-footed Scrubfowl	Animalia: Chordata: Aves	Galliformes	Megapopiidae	Megapodius	reinwardt castanonotus
 Birds	Turkeys & Scrubfowls	Orange-footed Scrubfowl	Animalia: Chordata: Aves	Galliformes	Megapopiidae	Megapodius	reinwardt reinwardt
 Birds	Turkeys & Scrubfowls	Orange-footed Scrubfowl	Animalia: Chordata: Aves	Galliformes	Megapopiidae	Megapodius	reinwardt tumulus
 Birds	Turkeys & Scrubfowls	Orange-footed Scrubfowl	Animalia: Chordata: Aves	Galliformes	Megapopiidae	Megapodius	reinwardt yorki
-Birds	Turkeys & Scrubfowls	Orange-footed Scrubfowl	Animalia: Chordata: Aves	Galliformes	Megapopiidae	Megapodius	sp.
-Birds	Turkeys & Scrubfowls	Scrubfowl	Animalia: Chordata: Aves	Galliformes	Megapopiidae	Unknown	sp.
 Birds	Guineafowl	Helmeted Guineafowl 	Animalia: Chordata: Aves	Galliformes	Numididae	Numida	meleagris 
-Birds	Guineafowl 	Guineafowl 	Animalia: Chordata: Aves	Galliformes	Numididae	Unknown	sp.
 Birds	Quails	California Quail	Animalia: Chordata: Aves	Galliformes	Odontophoridae	Callipepla	californica 
-Birds	Quails	Quail	Animalia: Chordata: Aves	Galliformes	Odontophoridae	Unknown	sp.
 Birds	Pheasants & partridges	Stubble Quail	Animalia: Chordata: Aves	Galliformes	Phasianidae	Coturnix	pectoralis 
-Birds	Pheasants & partridges	Quail	Animalia: Chordata: Aves	Galliformes	Phasianidae	Coturnix	sp.
 Birds	Pheasants & partridges	Brown Quail 	Animalia: Chordata: Aves	Galliformes	Phasianidae	Coturnix	ypsilophora 
 Birds	Pheasants & partridges	"Chickens, Grouse, Partridges, Quail, Pheasants, etc"	Animalia: Chordata: Aves	Galliformes	Phasianidae	Coturnix	ypsilophora australis
 Birds	Pheasants & partridges	Brown Quail 	Animalia: Chordata: Aves	Galliformes	Phasianidae	Coturnix	ypsilophora ypsilophora
 Birds	Pheasants & partridges	Blue-breasted Quail 	Animalia: Chordata: Aves	Galliformes	Phasianidae	Excalfactoria	chinensis 
 Birds	Pheasants & partridges	Blue-breasted Quail 	Animalia: Chordata: Aves	Galliformes	Phasianidae	Excalfactoria	chinensis victoriae
-Birds	Pheasants & partridges	Quail	Animalia: Chordata: Aves	Galliformes	Phasianidae	Excalfactoria	sp.
 Birds	Pheasants & partridges	Chicken	Animalia: Chordata: Aves	Galliformes	Phasianidae	Gallus	gallus 
 Birds	Pheasants & partridges	Green Junglefowl	Animalia: Chordata: Aves	Galliformes	Phasianidae	Gallus	varius 
 Birds	Pheasants & partridges	Common Pheasant 	Animalia: Chordata: Aves	Galliformes	Phasianidae	Meleagris	gallopavo 
 Birds	Pheasants & partridges	California Quail	Animalia: Chordata: Aves	Galliformes	Phasianidae	Meleagris	gallopavo gallopavo
 Birds	Pheasants & partridges	Indian peafowl or Blue peafowl 	Animalia: Chordata: Aves	Galliformes	Phasianidae	Pavo	cristatus 
 Birds	Pheasants & partridges	Common Pheasant 	Animalia: Chordata: Aves	Galliformes	Phasianidae	Phasianus	colchicus 
-Birds	Pheasants & partridges	Pheasant 	Animalia: Chordata: Aves	Galliformes	Phasianidae	Unknown	sp.
 Birds	Cranes and Brolgas	Sarus Crane	Animalia: Chordata: Aves	Gruiformes	Gruidae	Grus	antigone 
 Birds	Cranes and Brolgas	Sarus Crane	Animalia: Chordata: Aves	Gruiformes	Gruidae	Grus	antigone gillae
 Birds	Cranes and Brolgas	Brolga	Animalia: Chordata: Aves	Gruiformes	Gruidae	Grus	rubicunda 
-Birds	Cranes and Brolgas	Brolga	Animalia: Chordata: Aves	Gruiformes	Gruidae	Unknown	sp.
 Birds	"Bustards, Floricans and Korhaans"	"Bustards, Floricans and Korhaans"	Animalia: Chordata: Aves	Gruiformes	Otididae	Ardeotis	australis 
-Birds	"Bustards, Floricans and Korhaans"	"Bustards, Floricans and Korhaans"	Animalia: Chordata: Aves	Gruiformes	Otididae	Ardeotis	sp.
-Birds	"Bustards, Floricans and Korhaans"	"Bustards, Floricans and Korhaans"	Animalia: Chordata: Aves	Gruiformes	Otididae	Unknown	sp.
 Birds	Rails	White-browed Crake 	Animalia: Chordata: Aves	Gruiformes	Rallidae	Amaurornis	cinerea 
 Birds	Rails	"Pale-vented Bush-hen, Rufous-tailed Bush-hen or Rufous-tailed Waterhen "	Animalia: Chordata: Aves	Gruiformes	Rallidae	Amaurornis	moluccana 
 Birds	Rails	"Pale-vented Bush-hen, Rufous-tailed Bush-hen or Rufous-tailed Waterhen "	Animalia: Chordata: Aves	Gruiformes	Rallidae	Amaurornis	moluccana ruficrissa
 Birds	Rails	White-breasted Waterhen	Animalia: Chordata: Aves	Gruiformes	Rallidae	Amaurornis	phoenicurus 
 Birds	Rails	White-breasted Waterhen	Animalia: Chordata: Aves	Gruiformes	Rallidae	Amaurornis	phoenicurus javanicus
-Birds	Rails	"Rails, crakes, coots, and gallinules"	Animalia: Chordata: Aves	Gruiformes	Rallidae	Amaurornis	sp.
 Birds	Rails	"Corn Crake, Corncrake or Landrail"	Animalia: Chordata: Aves	Gruiformes	Rallidae	Crex	crex 
 Birds	Rails	Chestnut Rail 	Animalia: Chordata: Aves	Gruiformes	Rallidae	Eulabeornis	castaneoventris 
 Birds	Rails	Chestnut Rail 	Animalia: Chordata: Aves	Gruiformes	Rallidae	Eulabeornis	castaneoventris castaneoventris
@@ -513,7 +481,6 @@ Birds	Rails	Buff-banded Rail	Animalia: Chordata: Aves	Gruiformes	Rallidae	Gallir
 Birds	Rails	Buff-banded Rail	Animalia: Chordata: Aves	Gruiformes	Rallidae	Gallirallus	philippensis macquariensis
 Birds	Rails	Buff-banded Rail	Animalia: Chordata: Aves	Gruiformes	Rallidae	Gallirallus	philippensis mellori
 Birds	Rails	Buff-banded Rail	Animalia: Chordata: Aves	Gruiformes	Rallidae	Gallirallus	philippensis tounelieri
-Birds	Rails	Rails	Animalia: Chordata: Aves	Gruiformes	Rallidae	Gallirallus	sp.
 Birds	Rails	Lord Howe Woodhen	Animalia: Chordata: Aves	Gruiformes	Rallidae	Gallirallus	sylvestris 
 Birds	Rails	Lewin's Rail 	Animalia: Chordata: Aves	Gruiformes	Rallidae	Lewinia	pectoralis 
 Birds	Rails	Lewin's Rail 	Animalia: Chordata: Aves	Gruiformes	Rallidae	Lewinia	pectoralis brachipus
@@ -533,9 +500,7 @@ Birds	Rails	Spotless Crake	Animalia: Chordata: Aves	Gruiformes	Rallidae	Porzana	
 Birds	Rails	Red-legged Crake	Animalia: Chordata: Aves	Gruiformes	Rallidae	Rallina	fasciata 
 Birds	Rails	Red-necked Crake	Animalia: Chordata: Aves	Gruiformes	Rallidae	Rallina	tricolor 
 Birds	Rails	Tasmanian Nativehen 	Animalia: Chordata: Aves	Gruiformes	Rallidae	Tribonyx	mortierii 
-Birds	Rails	Crakes	Animalia: Chordata: Aves	Gruiformes	Rallidae	Tribonyx	sp.
 Birds	Rails	Black-tailed Native-hen 	Animalia: Chordata: Aves	Gruiformes	Rallidae	Tribonyx	ventralis 
-Birds	Rails	Crakes	Animalia: Chordata: Aves	Gruiformes	Rallidae	Unknown	sp.
 Birds	Woodswallows	Black-faced Woodswallow	Animalia: Chordata: Aves	Passeriformes	Artamidae	Artamus	cinereus 
 Birds	Woodswallows	Black-faced Woodswallow	Animalia: Chordata: Aves	Passeriformes	Artamidae	Artamus	cinereus cinereus
 Birds	Woodswallows	Black-faced Woodswallow	Animalia: Chordata: Aves	Passeriformes	Artamidae	Artamus	cinereus dealbatus
@@ -550,15 +515,11 @@ Birds	Woodswallows	Little Woodswallow	Animalia: Chordata: Aves	Passeriformes	Art
 Birds	Woodswallows	Little Woodswallow	Animalia: Chordata: Aves	Passeriformes	Artamidae	Artamus	minor derbyi
 Birds	Woodswallows	Little Woodswallow	Animalia: Chordata: Aves	Passeriformes	Artamidae	Artamus	minor minor
 Birds	Woodswallows	Masked Woodswallow	Animalia: Chordata: Aves	Passeriformes	Artamidae	Artamus	personatus 
-Birds	Woodswallows	Black-faced Woodswallow	Animalia: Chordata: Aves	Passeriformes	Artamidae	Artamus	sp.
 Birds	Woodswallows	White-browed Woodswallow	Animalia: Chordata: Aves	Passeriformes	Artamidae	Artamus	superciliosus 
-Birds	Woodswallows	Woodswallow	Animalia: Chordata: Aves	Passeriformes	Artamidae	Unknown	sp.
 Birds	Scrub-birds	Noisy Scrub-bird	Animalia: Chordata: Aves	Passeriformes	Atrichornithidae	Atrichornis	clamosus 
 Birds	Scrub-birds	Rufous Scrub-bird	Animalia: Chordata: Aves	Passeriformes	Atrichornithidae	Atrichornis	rufescens 
 Birds	Scrub-birds	Rufous Scrub-bird	Animalia: Chordata: Aves	Passeriformes	Atrichornithidae	Atrichornis	rufescens ferrieri
 Birds	Scrub-birds	Rufous Scrub-bird	Animalia: Chordata: Aves	Passeriformes	Atrichornithidae	Atrichornis	rufescens rufescens
-Birds	Scrub-birds	Scrub-birds	Animalia: Chordata: Aves	Passeriformes	Atrichornithidae	Atrichornis	sp.
-Birds	Scrub-birds	Scrub-birds	Animalia: Chordata: Aves	Passeriformes	Atrichornithidae	Unknown	sp.
 Birds	Cuckooshrikes	Barred Cuckooshrike	Animalia: Chordata: Aves	Passeriformes	Campephagidae	Coracina	lineata 
 Birds	Cuckooshrikes	Barred Cuckooshrike	Animalia: Chordata: Aves	Passeriformes	Campephagidae	Coracina	lineata lineata
 Birds	Cuckooshrikes	Ground Cuckooshrike	Animalia: Chordata: Aves	Passeriformes	Campephagidae	Coracina	maxima 
@@ -572,7 +533,6 @@ Birds	Cuckooshrikes	White-bellied Cuckooshrike	Animalia: Chordata: Aves	Passerif
 Birds	Cuckooshrikes	White-bellied Cuckooshrike	Animalia: Chordata: Aves	Passeriformes	Campephagidae	Coracina	papuensis hypoleuca
 Birds	Cuckooshrikes	White-bellied Cuckooshrike	Animalia: Chordata: Aves	Passeriformes	Campephagidae	Coracina	papuensis oriomo
 Birds	Cuckooshrikes	White-bellied Cuckooshrike	Animalia: Chordata: Aves	Passeriformes	Campephagidae	Coracina	papuensis robusta
-Birds	Cuckooshrikes	Cuckoo-shrikes	Animalia: Chordata: Aves	Passeriformes	Campephagidae	Coracina	sp.
 Birds	Cuckooshrikes	Common Cicadabird	Animalia: Chordata: Aves	Passeriformes	Campephagidae	Coracina	tenuirostris 
 Birds	Cuckooshrikes	Common Cicadabird	Animalia: Chordata: Aves	Passeriformes	Campephagidae	Coracina	tenuirostris melvillensis
 Birds	Cuckooshrikes	Common Cicadabird	Animalia: Chordata: Aves	Passeriformes	Campephagidae	Coracina	tenuirostris tenuirostris
@@ -584,7 +544,7 @@ Birds	Cuckooshrikes	Varied Triller	Animalia: Chordata: Aves	Passeriformes	Campep
 Birds	Cuckooshrikes	Long-tailed Triller	Animalia: Chordata: Aves	Passeriformes	Campephagidae	Lalage	leucopyga 
 Birds	Cuckooshrikes	Norfolk Triller	Animalia: Chordata: Aves	Passeriformes	Campephagidae	Lalage	leucopyga leucopyga
 Birds	Cuckooshrikes	White-shouldered Triller	Animalia: Chordata: Aves	Passeriformes	Campephagidae	Lalage	sueurii 
-Birds	Cuckooshrikes	Triller	Animalia: Chordata: Aves	Passeriformes	Campephagidae	Unknown	sp.
+Birds	Cisticolas	Golden-headed Cisticola	Animalia: Chordata: Aves	Passeriformes	Cisticolidae	Cisticola	exilis 
 Birds	Cisticolas	Golden-headed Cisticola	Animalia: Chordata: Aves	Passeriformes	Cisticolidae	Cisticola	exilis alexandrae
 Birds	Cisticolas	Golden-headed Cisticola	Animalia: Chordata: Aves	Passeriformes	Cisticolidae	Cisticola	exilis exilis
 Birds	Cisticolas	Golden-headed Cisticola	Animalia: Chordata: Aves	Passeriformes	Cisticolidae	Cisticola	exilis lineocapilla
@@ -593,9 +553,6 @@ Birds	Cisticolas	Zitting Cisticola	Animalia: Chordata: Aves	Passeriformes	Cistic
 Birds	Cisticolas	Zitting Cisticola	Animalia: Chordata: Aves	Passeriformes	Cisticolidae	Cisticola	juncidis laveryi
 Birds	Cisticolas	Zitting Cisticola	Animalia: Chordata: Aves	Passeriformes	Cisticolidae	Cisticola	juncidis leanyeri
 Birds	Cisticolas	Zitting Cisticola	Animalia: Chordata: Aves	Passeriformes	Cisticolidae	Cisticola	juncidis normani
-Birds	Cisticolas	Cisticolas and Allies	Animalia: Chordata: Aves	Passeriformes	Cisticolidae	Cisticola	sp.
-Birds	Cisticolas	Golden-headed Cisticola	Animalia: Chordata: Aves	Passeriformes	Cisticolidae	Cisticola	exilis 
-Birds	Cisticolas	Cisticola	Animalia: Chordata: Aves	Passeriformes	Cisticolidae	Unknown	sp.
 Birds	Treecreepers	White-browed Treecreeper	Animalia: Chordata: Aves	Passeriformes	Climacteridae	Climacteris	affinis 
 Birds	Treecreepers	White-browed Treecreeper	Animalia: Chordata: Aves	Passeriformes	Climacteridae	Climacteris	affinis affinis
 Birds	Treecreepers	White-browed Treecreeper	Animalia: Chordata: Aves	Passeriformes	Climacteridae	Climacteris	affinis superciliosa
@@ -608,22 +565,18 @@ Birds	Treecreepers	Brown Treecreeper	Animalia: Chordata: Aves	Passeriformes	Clim
 Birds	Treecreepers	Brown Treecreeper	Animalia: Chordata: Aves	Passeriformes	Climacteridae	Climacteris	picumnus picumnus
 Birds	Treecreepers	Brown Treecreeper	Animalia: Chordata: Aves	Passeriformes	Climacteridae	Climacteris	picumnus victoriae
 Birds	Treecreepers	Rufous Treecreeper	Animalia: Chordata: Aves	Passeriformes	Climacteridae	Climacteris	rufa 
-Birds	Treecreepers	Australasian treecreeper	Animalia: Chordata: Aves	Passeriformes	Climacteridae	Climacteris	sp.
 Birds	Treecreepers	White-throated Treecreeper	Animalia: Chordata: Aves	Passeriformes	Climacteridae	Cormobates	leucophaea 
 Birds	Treecreepers	White-throated Treecreeper	Animalia: Chordata: Aves	Passeriformes	Climacteridae	Cormobates	leucophaea grisescens
 Birds	Treecreepers	White-throated Treecreeper	Animalia: Chordata: Aves	Passeriformes	Climacteridae	Cormobates	leucophaea intermedia
 Birds	Treecreepers	White-throated Treecreeper	Animalia: Chordata: Aves	Passeriformes	Climacteridae	Cormobates	leucophaea leucophaea
 Birds	Treecreepers	White-throated Treecreeper	Animalia: Chordata: Aves	Passeriformes	Climacteridae	Cormobates	leucophaea metastasis
 Birds	Treecreepers	White-throated Treecreeper	Animalia: Chordata: Aves	Passeriformes	Climacteridae	Cormobates	leucophaea minor
-Birds	Treecreepers	Australasian treecreeper	Animalia: Chordata: Aves	Passeriformes	Climacteridae	Cormobates	sp.
-Birds	Treecreepers	Treecreeper	Animalia: Chordata: Aves	Passeriformes	Climacteridae	Unknown	sp.
 Birds	Australian mudnester	White-winged Chough 	Animalia: Chordata: Aves	Passeriformes	Corcoracidae	Corcorax	melanorhamphos 
 Birds	Australian mudnester	White-winged Chough 	Animalia: Chordata: Aves	Passeriformes	Corcoracidae	Corcorax	melanorhamphos melanorhamphos
 Birds	Australian mudnester	White-winged Chough 	Animalia: Chordata: Aves	Passeriformes	Corcoracidae	Corcorax	melanorhamphos whiteae
 Birds	Australian mudnester	Apostlebird or Grey Jumper	Animalia: Chordata: Aves	Passeriformes	Corcoracidae	Struthidea	cinerea 
 Birds	Australian mudnester	Apostlebird or Grey Jumper	Animalia: Chordata: Aves	Passeriformes	Corcoracidae	Struthidea	cinerea cinerea
 Birds	Australian mudnester	Apostlebird or Grey Jumper	Animalia: Chordata: Aves	Passeriformes	Corcoracidae	Struthidea	cinerea dalyi
-Birds	Australian mudnester	Apostlebird or Grey Jumper	Animalia: Chordata: Aves	Passeriformes	Corcoracidae	Unknown	sp.
 Birds	Crows & ravens	Little Crow	Animalia: Chordata: Aves	Passeriformes	Corvidae	Corvus	bennetti 
 Birds	Crows & ravens	Australian Raven 	Animalia: Chordata: Aves	Passeriformes	Corvidae	Corvus	coronoides 
 Birds	Crows & ravens	Australian Raven 	Animalia: Chordata: Aves	Passeriformes	Corvidae	Corvus	coronoides coronoides
@@ -636,7 +589,6 @@ Birds	Crows & ravens	House Crow 	Animalia: Chordata: Aves	Passeriformes	Corvidae
 Birds	Crows & ravens	Forest Raven 	Animalia: Chordata: Aves	Passeriformes	Corvidae	Corvus	tasmanicus 
 Birds	Crows & ravens	Forest Raven 	Animalia: Chordata: Aves	Passeriformes	Corvidae	Corvus	tasmanicus boreus
 Birds	Crows & ravens	Forest Raven 	Animalia: Chordata: Aves	Passeriformes	Corvidae	Corvus	tasmanicus tasmanicus
-Birds	Crows & ravens	Raven 	Animalia: Chordata: Aves	Passeriformes	Corvidae	Unknown	sp.
 Birds	"Butcherbirds, Magpies and Currawongs"	Black-backed Butcherbird	Animalia: Chordata: Aves	Passeriformes	Cracticidae	Cracticus	mentalis 
 Birds	"Butcherbirds, Magpies and Currawongs"	Black-backed Butcherbird	Animalia: Chordata: Aves	Passeriformes	Cracticidae	Cracticus	mentalis kempi
 Birds	"Butcherbirds, Magpies and Currawongs"	Pied Butcherbird	Animalia: Chordata: Aves	Passeriformes	Cracticidae	Cracticus	nigrogularis 
@@ -647,7 +599,6 @@ Birds	"Butcherbirds, Magpies and Currawongs"	Black Butcherbird	Animalia: Chordat
 Birds	"Butcherbirds, Magpies and Currawongs"	Black Butcherbird	Animalia: Chordata: Aves	Passeriformes	Cracticidae	Cracticus	quoyi jardini
 Birds	"Butcherbirds, Magpies and Currawongs"	Black Butcherbird	Animalia: Chordata: Aves	Passeriformes	Cracticidae	Cracticus	quoyi rufescens
 Birds	"Butcherbirds, Magpies and Currawongs"	Black Butcherbird	Animalia: Chordata: Aves	Passeriformes	Cracticidae	Cracticus	quoyi spaldingi
-Birds	"Butcherbirds, Magpies and Currawongs"	Butcherbirds	Animalia: Chordata: Aves	Passeriformes	Cracticidae	Cracticus	sp.
 Birds	"Butcherbirds, Magpies and Currawongs"	Grey Butcherbird	Animalia: Chordata: Aves	Passeriformes	Cracticidae	Cracticus	torquatus 
 Birds	"Butcherbirds, Magpies and Currawongs"	Grey Butcherbird	Animalia: Chordata: Aves	Passeriformes	Cracticidae	Cracticus	torquatus argenteus
 Birds	"Butcherbirds, Magpies and Currawongs"	Grey Butcherbird	Animalia: Chordata: Aves	Passeriformes	Cracticidae	Cracticus	torquatus cinereus
@@ -671,14 +622,12 @@ Birds	"Butcherbirds, Magpies and Currawongs"	Pied Currawong 	Animalia: Chordata:
 Birds	"Butcherbirds, Magpies and Currawongs"	Pied Currawong 	Animalia: Chordata: Aves	Passeriformes	Cracticidae	Strepera	graculina magnirostris
 Birds	"Butcherbirds, Magpies and Currawongs"	Pied Currawong 	Animalia: Chordata: Aves	Passeriformes	Cracticidae	Strepera	graculina nebulosa
 Birds	"Butcherbirds, Magpies and Currawongs"	Pied Currawong 	Animalia: Chordata: Aves	Passeriformes	Cracticidae	Strepera	graculina robinsoni
-Birds	"Butcherbirds, Magpies and Currawongs"	Currawongs	Animalia: Chordata: Aves	Passeriformes	Cracticidae	Strepera	sp.
 Birds	"Butcherbirds, Magpies and Currawongs"	Clinking Currawong or Black Magpie	Animalia: Chordata: Aves	Passeriformes	Cracticidae	Strepera	versicolor arguta
 Birds	"Butcherbirds, Magpies and Currawongs"	Grey Currawong	Animalia: Chordata: Aves	Passeriformes	Cracticidae	Strepera	versicolor halmaturina
 Birds	"Butcherbirds, Magpies and Currawongs"	Brown Currawong	Animalia: Chordata: Aves	Passeriformes	Cracticidae	Strepera	versicolor intermedia
 Birds	"Butcherbirds, Magpies and Currawongs"	Black-winged Currawong	Animalia: Chordata: Aves	Passeriformes	Cracticidae	Strepera	versicolor melanoptera
 Birds	"Butcherbirds, Magpies and Currawongs"	Grey Currawong	Animalia: Chordata: Aves	Passeriformes	Cracticidae	Strepera	versicolor plumbea
 Birds	"Butcherbirds, Magpies and Currawongs"	Grey Currawong	Animalia: Chordata: Aves	Passeriformes	Cracticidae	Strepera	versicolor versicolor
-Birds	"Butcherbirds, Magpies and Currawongs"	Currawong	Animalia: Chordata: Aves	Passeriformes	Cracticidae	Unknown	sp.
 Birds	Bristlebirds	Eastern Bristlebird	Animalia: Chordata: Aves	Passeriformes	Dasyornithidae	Dasyornis	brachypterus 
 Birds	Bristlebirds	Eastern Bristlebird	Animalia: Chordata: Aves	Passeriformes	Dasyornithidae	Dasyornis	brachypterus brachypterus
 Birds	Bristlebirds	Eastern Bristlebird	Animalia: Chordata: Aves	Passeriformes	Dasyornithidae	Dasyornis	brachypterus monoides
@@ -687,25 +636,18 @@ Birds	Bristlebirds	Rufous Bristlebird	Animalia: Chordata: Aves	Passeriformes	Das
 Birds	Bristlebirds	Rufous Bristlebird	Animalia: Chordata: Aves	Passeriformes	Dasyornithidae	Dasyornis	broadbenti caryochrous
 Birds	Bristlebirds	Rufous Bristlebird	Animalia: Chordata: Aves	Passeriformes	Dasyornithidae	Dasyornis	broadbenti litoralis
 Birds	Bristlebirds	Western Bristlebird	Animalia: Chordata: Aves	Passeriformes	Dasyornithidae	Dasyornis	longirostris 
-Birds	Bristlebirds	Bristlebirds 	Animalia: Chordata: Aves	Passeriformes	Dasyornithidae	Dasyornis	sp.
 Birds	Bristlebirds	Pilotbird	Animalia: Chordata: Aves	Passeriformes	Dasyornithidae	Pycnoptilus	floccosus 
 Birds	Bristlebirds	Pilotbird	Animalia: Chordata: Aves	Passeriformes	Dasyornithidae	Pycnoptilus	floccosus floccosus
 Birds	Bristlebirds	Pilotbird	Animalia: Chordata: Aves	Passeriformes	Dasyornithidae	Pycnoptilus	floccosus sandlandi
-Birds	Bristlebirds	Pilotbird	Animalia: Chordata: Aves	Passeriformes	Dasyornithidae	Pycnoptilus	sp.
-Birds	Bristlebirds	Pilotbird	Animalia: Chordata: Aves	Passeriformes	Dasyornithidae	Unknown	sp.
 Birds	Drongos	Spangled Drongo	Animalia: Chordata: Aves	Passeriformes	Dicruridae	Dicrurus	bracteatus 
 Birds	Drongos	Spangled Drongo	Animalia: Chordata: Aves	Passeriformes	Dicruridae	Dicrurus	bracteatus atrabectus
 Birds	Drongos	Spangled Drongo	Animalia: Chordata: Aves	Passeriformes	Dicruridae	Dicrurus	bracteatus baileyi
 Birds	Drongos	Spangled Drongo	Animalia: Chordata: Aves	Passeriformes	Dicruridae	Dicrurus	bracteatus bracteatus
 Birds	Drongos	Spangled Drongo	Animalia: Chordata: Aves	Passeriformes	Dicruridae	Dicrurus	bracteatus carbonarius
-Birds	Drongos	Drongos	Animalia: Chordata: Aves	Passeriformes	Dicruridae	Dicrurus	sp.
-Birds	Drongos	Drongos	Animalia: Chordata: Aves	Passeriformes	Dicruridae	Unknown	sp.
 Birds	Yellowhammer	Yellowhammer	Animalia: Chordata: Aves	Passeriformes	Emberizidae	Emberiza	citrinella 
 Birds	Yellowhammer	Yellowhammer	Animalia: Chordata: Aves	Passeriformes	Emberizidae	Emberiza	citrinella caliginosa
-Birds	Yellowhammer	Yellowhammer	Animalia: Chordata: Aves	Passeriformes	Emberizidae	Unknown	sp.
 Birds	Finches	Painted Firetail	Animalia: Chordata: Aves	Passeriformes	Estrildidae	Emblema	pictum 
 Birds	Finches	"Gouldian Finch, Lady Gouldian Finch, Gould's Finch or the Rainbow Finch"	Animalia: Chordata: Aves	Passeriformes	Estrildidae	Erythrura	gouldiae 
-Birds	Finches	Weaver-finch	Animalia: Chordata: Aves	Passeriformes	Estrildidae	Erythrura	sp.
 Birds	Finches	Blue-faced Parrotfinch	Animalia: Chordata: Aves	Passeriformes	Estrildidae	Erythrura	trichroa 
 Birds	Finches	Blue-faced Parrotfinch	Animalia: Chordata: Aves	Passeriformes	Estrildidae	Erythrura	trichroa macgillivrayi
 Birds	Finches	Pictorella Munia	Animalia: Chordata: Aves	Passeriformes	Estrildidae	Heteromunia	pectoralis 
@@ -717,7 +659,6 @@ Birds	Finches	Tricoloured Munia	Animalia: Chordata: Aves	Passeriformes	Estrildid
 Birds	Finches	Pale-headed Munia	Animalia: Chordata: Aves	Passeriformes	Estrildidae	Lonchura	pallida 
 Birds	Finches	"Scaly-breasted Munia, Nutmeg Mannikin or Spice Finch"	Animalia: Chordata: Aves	Passeriformes	Estrildidae	Lonchura	punctulata 
 Birds	Finches	"Scaly-breasted Munia, Nutmeg Mannikin or Spice Finch"	Animalia: Chordata: Aves	Passeriformes	Estrildidae	Lonchura	punctulata topela
-Birds	Finches	Weaver-finch	Animalia: Chordata: Aves	Passeriformes	Estrildidae	Lonchura	sp.
 Birds	Finches	Plum-headed Finch or Cherry Finch	Animalia: Chordata: Aves	Passeriformes	Estrildidae	Neochmia	modesta 
 Birds	Finches	Crimson Finch	Animalia: Chordata: Aves	Passeriformes	Estrildidae	Neochmia	phaeton 
 Birds	Finches	Crimson Finch	Animalia: Chordata: Aves	Passeriformes	Estrildidae	Neochmia	phaeton evangelinae
@@ -726,7 +667,6 @@ Birds	Finches	Star Finch	Animalia: Chordata: Aves	Passeriformes	Estrildidae	Neoc
 Birds	Finches	Star Finch	Animalia: Chordata: Aves	Passeriformes	Estrildidae	Neochmia	ruficauda clarescens
 Birds	Finches	Star Finch	Animalia: Chordata: Aves	Passeriformes	Estrildidae	Neochmia	ruficauda ruficauda
 Birds	Finches	Star Finch	Animalia: Chordata: Aves	Passeriformes	Estrildidae	Neochmia	ruficauda subclarescens
-Birds	Finches	Weaver-finch	Animalia: Chordata: Aves	Passeriformes	Estrildidae	Neochmia	sp.
 Birds	Finches	Red-browed Finch 	Animalia: Chordata: Aves	Passeriformes	Estrildidae	Neochmia	temporalis 
 Birds	Finches	Red-browed Finch 	Animalia: Chordata: Aves	Passeriformes	Estrildidae	Neochmia	temporalis minor
 Birds	Finches	Red-browed Finch 	Animalia: Chordata: Aves	Passeriformes	Estrildidae	Neochmia	temporalis temporalis
@@ -740,21 +680,17 @@ Birds	Finches	Black-throated Finch	Animalia: Chordata: Aves	Passeriformes	Estril
 Birds	Finches	Masked Finch	Animalia: Chordata: Aves	Passeriformes	Estrildidae	Poephila	personata 
 Birds	Finches	Masked Finch	Animalia: Chordata: Aves	Passeriformes	Estrildidae	Poephila	personata leucotis
 Birds	Finches	Masked Finch	Animalia: Chordata: Aves	Passeriformes	Estrildidae	Poephila	personata personata
-Birds	Finches	Weaver-finch	Animalia: Chordata: Aves	Passeriformes	Estrildidae	Poephila	sp.
 Birds	Finches	Beautiful Firetail	Animalia: Chordata: Aves	Passeriformes	Estrildidae	Stagonopleura	bella 
 Birds	Finches	Beautiful Firetail	Animalia: Chordata: Aves	Passeriformes	Estrildidae	Stagonopleura	bella bella
 Birds	Finches	Beautiful Firetail	Animalia: Chordata: Aves	Passeriformes	Estrildidae	Stagonopleura	bella interposita
 Birds	Finches	Beautiful Firetail	Animalia: Chordata: Aves	Passeriformes	Estrildidae	Stagonopleura	bella samueli
 Birds	Finches	Diamond Firetail	Animalia: Chordata: Aves	Passeriformes	Estrildidae	Stagonopleura	guttata 
 Birds	Finches	Red-eared Firetail	Animalia: Chordata: Aves	Passeriformes	Estrildidae	Stagonopleura	oculata 
-Birds	Finches	Firetails	Animalia: Chordata: Aves	Passeriformes	Estrildidae	Stagonopleura	sp.
 Birds	Finches	Double-barred Finch	Animalia: Chordata: Aves	Passeriformes	Estrildidae	Taeniopygia	bichenovii 
 Birds	Finches	Double-barred Finch	Animalia: Chordata: Aves	Passeriformes	Estrildidae	Taeniopygia	bichenovii annulosa
 Birds	Finches	Double-barred Finch	Animalia: Chordata: Aves	Passeriformes	Estrildidae	Taeniopygia	bichenovii bichenovii
 Birds	Finches	Zebra Finch	Animalia: Chordata: Aves	Passeriformes	Estrildidae	Taeniopygia	guttata 
 Birds	Finches	Zebra Finch	Animalia: Chordata: Aves	Passeriformes	Estrildidae	Taeniopygia	guttata castanotis
-Birds	Finches	Weaver-finch	Animalia: Chordata: Aves	Passeriformes	Estrildidae	Taeniopygia	sp.
-Birds	Finches	Finch	Animalia: Chordata: Aves	Passeriformes	Estrildidae	Unknown	sp.
 Birds	Finches	Common Redpoll	Animalia: Chordata: Aves	Passeriformes	Fringillidae	Acanthis	flammea 
 Birds	Finches	Common Redpoll	Animalia: Chordata: Aves	Passeriformes	Fringillidae	Acanthis	flammea cabaret
 Birds	Finches	European Goldfinch or Goldfinch	Animalia: Chordata: Aves	Passeriformes	Fringillidae	Carduelis	carduelis 
@@ -762,7 +698,6 @@ Birds	Finches	European Goldfinch or Goldfinch	Animalia: Chordata: Aves	Passerifo
 Birds	Finches	"European Greenfinch, or Greenfinch"	Animalia: Chordata: Aves	Passeriformes	Fringillidae	Chloris	chloris 
 Birds	Finches	Chaffinch	Animalia: Chordata: Aves	Passeriformes	Fringillidae	Fringilla	coelebs 
 Birds	Finches	Chaffinch	Animalia: Chordata: Aves	Passeriformes	Fringillidae	Fringilla	coelebs gengleri
-Birds	Finches	Chaffinch	Animalia: Chordata: Aves	Passeriformes	Fringillidae	Unknown	sp.
 Birds	Swallows & Martins	Red-rumped Swallow	Animalia: Chordata: Aves	Passeriformes	Hirundinidae	Cecropis	daurica 
 Birds	Swallows & Martins	Red-rumped Swallow	Animalia: Chordata: Aves	Passeriformes	Hirundinidae	Cecropis	daurica japonica
 Birds	Swallows & Martins	White-backed Swallow	Animalia: Chordata: Aves	Passeriformes	Hirundinidae	Cheramoeca	leucosterna 
@@ -772,20 +707,15 @@ Birds	Swallows & Martins	Welcome Swallow	Animalia: Chordata: Aves	Passeriformes	
 Birds	Swallows & Martins	Welcome Swallow	Animalia: Chordata: Aves	Passeriformes	Hirundinidae	Hirundo	neoxena neoxena
 Birds	Swallows & Martins	Barn Swallow	Animalia: Chordata: Aves	Passeriformes	Hirundinidae	Hirundo	rustica 
 Birds	Swallows & Martins	Barn Swallow	Animalia: Chordata: Aves	Passeriformes	Hirundinidae	Hirundo	rustica gutturalis
-Birds	Swallows & Martins	Swallows and martins	Animalia: Chordata: Aves	Passeriformes	Hirundinidae	Hirundo	sp.
 Birds	Swallows & Martins	Pacific Swallow or Hill Swallow	Animalia: Chordata: Aves	Passeriformes	Hirundinidae	Hirundo	tahitica 
 Birds	Swallows & Martins	Pacific Swallow or Hill Swallow	Animalia: Chordata: Aves	Passeriformes	Hirundinidae	Hirundo	tahitica albescens
 Birds	Swallows & Martins	Fairy Martin	Animalia: Chordata: Aves	Passeriformes	Hirundinidae	Petrochelidon	ariel 
 Birds	Swallows & Martins	Tree Martin	Animalia: Chordata: Aves	Passeriformes	Hirundinidae	Petrochelidon	nigricans 
 Birds	Swallows & Martins	Tree Martin	Animalia: Chordata: Aves	Passeriformes	Hirundinidae	Petrochelidon	nigricans neglecta
 Birds	Swallows & Martins	Tree Martin	Animalia: Chordata: Aves	Passeriformes	Hirundinidae	Petrochelidon	nigricans nigricans
-Birds	Swallows & Martins	Martins	Animalia: Chordata: Aves	Passeriformes	Hirundinidae	Petrochelidon	sp.
-Birds	Swallows & Martins	Martins	Animalia: Chordata: Aves	Passeriformes	Hirundinidae	Unknown	sp.
 Birds	Shrikes	Brown Shrike	Animalia: Chordata: Aves	Passeriformes	Laniidae	Lanius	cristatus 
 Birds	Shrikes	Brown Shrike	Animalia: Chordata: Aves	Passeriformes	Laniidae	Lanius	cristatus superciliosus
-Birds	Shrikes	Shrikes	Animalia: Chordata: Aves	Passeriformes	Laniidae	Lanius	sp.
 Birds	Shrikes	Tiger Shrike	Animalia: Chordata: Aves	Passeriformes	Laniidae	Lanius	tigrinus 
-Birds	Shrikes	Shrikes	Animalia: Chordata: Aves	Passeriformes	Laniidae	Unknown	sp.
 Birds	Wrens	Kalkadoon Grasswren	Animalia: Chordata: Aves	Passeriformes	Maluridae	Amytornis	ballarae 
 Birds	Wrens	Grey Grasswren	Animalia: Chordata: Aves	Passeriformes	Maluridae	Amytornis	barbatus 
 Birds	Wrens	Grey Grasswren	Animalia: Chordata: Aves	Passeriformes	Maluridae	Amytornis	barbatus barbatus
@@ -797,7 +727,6 @@ Birds	Wrens	Short-tailed Grasswren	Animalia: Chordata: Aves	Passeriformes	Maluri
 Birds	Wrens	Short-tailed Grasswren	Animalia: Chordata: Aves	Passeriformes	Maluridae	Amytornis	merrotsyi merrotsyi
 Birds	Wrens	Short-tailed Grasswren	Animalia: Chordata: Aves	Passeriformes	Maluridae	Amytornis	merrotsyi pedleri
 Birds	Wrens	Dusky Grasswren	Animalia: Chordata: Aves	Passeriformes	Maluridae	Amytornis	purnelli 
-Birds	Wrens	Wrens	Animalia: Chordata: Aves	Passeriformes	Maluridae	Amytornis	sp.
 Birds	Wrens	Striated Grasswren	Animalia: Chordata: Aves	Passeriformes	Maluridae	Amytornis	striatus 
 Birds	Wrens	Striated Grasswren	Animalia: Chordata: Aves	Passeriformes	Maluridae	Amytornis	striatus rowleyi
 Birds	Wrens	Striated Grasswren	Animalia: Chordata: Aves	Passeriformes	Maluridae	Amytornis	striatus striatus
@@ -833,7 +762,6 @@ Birds	Wrens	Red-backed Fairywren	Animalia: Chordata: Aves	Passeriformes	Malurida
 Birds	Wrens	Red-backed Fairywren	Animalia: Chordata: Aves	Passeriformes	Maluridae	Malurus	melanocephalus cruentatus
 Birds	Wrens	Red-backed Fairywren	Animalia: Chordata: Aves	Passeriformes	Maluridae	Malurus	melanocephalus melanocephalus
 Birds	Wrens	Blue-breasted Fairywren	Animalia: Chordata: Aves	Passeriformes	Maluridae	Malurus	pulcherrimus 
-Birds	Wrens	Fairy Wrens	Animalia: Chordata: Aves	Passeriformes	Maluridae	Malurus	sp.
 Birds	Wrens	Splendid Fairywren	Animalia: Chordata: Aves	Passeriformes	Maluridae	Malurus	splendens 
 Birds	Wrens	Splendid Fairywren	Animalia: Chordata: Aves	Passeriformes	Maluridae	Malurus	splendens emmottorum
 Birds	Wrens	Splendid Fairywren	Animalia: Chordata: Aves	Passeriformes	Maluridae	Malurus	splendens melanotus
@@ -850,22 +778,16 @@ Birds	Wrens	Southern Emu-wren	Animalia: Chordata: Aves	Passeriformes	Maluridae	S
 Birds	Wrens	Southern Emu-wren	Animalia: Chordata: Aves	Passeriformes	Maluridae	Stipiturus	malachurus westernensis
 Birds	Wrens	Mallee Emu-wren	Animalia: Chordata: Aves	Passeriformes	Maluridae	Stipiturus	mallee 
 Birds	Wrens	Rufous-crowned Emu-wren	Animalia: Chordata: Aves	Passeriformes	Maluridae	Stipiturus	ruficeps 
-Birds	Wrens	Wrens	Animalia: Chordata: Aves	Passeriformes	Maluridae	Stipiturus	sp.
-Birds	Wrens	Wrens	Animalia: Chordata: Aves	Passeriformes	Maluridae	Unknown	sp.
 Birds	Songlarks & Grassbirds	Brown Songlark 	Animalia: Chordata: Aves	Passeriformes	Megaluridae	Cincloramphus	cruralis 
 Birds	Songlarks & Grassbirds	Rufous Songlark 	Animalia: Chordata: Aves	Passeriformes	Megaluridae	Cincloramphus	mathewsi 
-Birds	Songlarks & Grassbirds	Songlarks	Animalia: Chordata: Aves	Passeriformes	Megaluridae	Cincloramphus	sp.
 Birds	Songlarks & Grassbirds	Spinifexbird 	Animalia: Chordata: Aves	Passeriformes	Megaluridae	Eremiornis	carteri 
 Birds	Songlarks & Grassbirds	Little Grassbird 	Animalia: Chordata: Aves	Passeriformes	Megaluridae	Megalurus	gramineus 
 Birds	Songlarks & Grassbirds	Little Grassbird 	Animalia: Chordata: Aves	Passeriformes	Megaluridae	Megalurus	gramineus goulburni
 Birds	Songlarks & Grassbirds	Little Grassbird 	Animalia: Chordata: Aves	Passeriformes	Megaluridae	Megalurus	gramineus gramineus
 Birds	Songlarks & Grassbirds	Little Grassbird 	Animalia: Chordata: Aves	Passeriformes	Megaluridae	Megalurus	gramineus thomasi
-Birds	Songlarks & Grassbirds	Megalurid Warblers	Animalia: Chordata: Aves	Passeriformes	Megaluridae	Megalurus	sp.
 Birds	Songlarks & Grassbirds	Tawny Grassbird 	Animalia: Chordata: Aves	Passeriformes	Megaluridae	Megalurus	timoriensis 
 Birds	Songlarks & Grassbirds	Tawny Grassbird 	Animalia: Chordata: Aves	Passeriformes	Megaluridae	Megalurus	timoriensis alisteri
-Birds	Songlarks & Grassbirds	Grassbird 	Animalia: Chordata: Aves	Passeriformes	Megaluridae	Unknown	sp.
 Birds	Honeyeaters & Australian chats	Spiny-cheeked Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Acanthagenys	rufogularis 
-Birds	Honeyeaters & Australian chats	Honeyeaters and Australian chats	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Acanthorhynchus	sp.
 Birds	Honeyeaters & Australian chats	Western Spinebill	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Acanthorhynchus	superciliosus 
 Birds	Honeyeaters & Australian chats	Eastern Spinebill	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Acanthorhynchus	tenuirostris 
 Birds	Honeyeaters & Australian chats	Eastern Spinebill	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Acanthorhynchus	tenuirostris cairnsensis
@@ -885,26 +807,24 @@ Birds	Honeyeaters & Australian chats	Yellow Wattlebird	Animalia: Chordata: Aves	
 Birds	Honeyeaters & Australian chats	Yellow Wattlebird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Anthochaera	paradoxa kingi
 Birds	Honeyeaters & Australian chats	Yellow Wattlebird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Anthochaera	paradoxa paradoxa
 Birds	Honeyeaters & Australian chats	Regent Honeyeater 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Anthochaera	phrygia 
-Birds	Honeyeaters & Australian chats	Honeyeaters	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Anthochaera	sp.
 Birds	Honeyeaters & Australian chats	Gibberbird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Ashbyia	lovensis 
+Birds	Honeyeaters & Australian chats	Bridled Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Bolemoreus	frenatus
+Birds	Honeyeaters & Australian chats	Eungella Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Bolemoreus	hindwoodi
 Birds	Honeyeaters & Australian chats	Pied Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Certhionyx	variegatus 
 Birds	Honeyeaters & Australian chats	Banded Honeyeater 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Cissomela	pectoralis 
 Birds	Honeyeaters & Australian chats	Rufous-banded Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Conopophila	albogularis 
 Birds	Honeyeaters & Australian chats	Rufous-throated Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Conopophila	rufogularis 
-Birds	Honeyeaters & Australian chats	Honeyeaters	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Conopophila	sp.
 Birds	Honeyeaters & Australian chats	Grey Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Conopophila	whitei 
 Birds	Honeyeaters & Australian chats	Blue-faced Honeyeater or Bananabird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Entomyzon	cyanotis 
 Birds	Honeyeaters & Australian chats	Blue-faced Honeyeater or Bananabird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Entomyzon	cyanotis albipennis
 Birds	Honeyeaters & Australian chats	Blue-faced Honeyeater or Bananabird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Entomyzon	cyanotis cyanotis
 Birds	Honeyeaters & Australian chats	Blue-faced Honeyeater or Bananabird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Entomyzon	cyanotis griseigularis
-Birds	Honeyeaters & Australian chats	Blue-faced Honeyeater or Bananabird	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Entomyzon	sp.
 Birds	Honeyeaters & Australian chats	White-fronted Chat	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Epthianura	albifrons 
 Birds	Honeyeaters & Australian chats	Orange Chat	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Epthianura	aurifrons 
 Birds	Honeyeaters & Australian chats	Yellow Chat	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Epthianura	crocea 
 Birds	Honeyeaters & Australian chats	Yellow Chat	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Epthianura	crocea crocea
 Birds	Honeyeaters & Australian chats	Yellow Chat	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Epthianura	crocea macgregori
 Birds	Honeyeaters & Australian chats	Yellow Chat	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Epthianura	crocea tunneyi
-Birds	Honeyeaters & Australian chats	Honeyeaters and Australian chats	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Epthianura	sp.
 Birds	Honeyeaters & Australian chats	Crimson Chat	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Epthianura	tricolor 
 Birds	Honeyeaters & Australian chats	Tawny-crowned Honeyeater 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Gliciphila	melanops 
 Birds	Honeyeaters & Australian chats	Tawny-crowned Honeyeater 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Gliciphila	melanops chelidonia
@@ -951,7 +871,6 @@ Birds	Honeyeaters & Australian chats	Grey-fronted Honeyeater	Animalia: Chordata:
 Birds	Honeyeaters & Australian chats	Grey-fronted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	plumulus graingeri
 Birds	Honeyeaters & Australian chats	Grey-fronted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	plumulus planasi
 Birds	Honeyeaters & Australian chats	Grey-fronted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	plumulus plumulus
-Birds	Honeyeaters & Australian chats	Honeyeaters	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	sp.
 Birds	Honeyeaters & Australian chats	White-gaped Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	unicolor 
 Birds	Honeyeaters & Australian chats	Varied Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	versicolor 
 Birds	Honeyeaters & Australian chats	Varied Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichenostomus	versicolor versicolor
@@ -964,7 +883,6 @@ Birds	Honeyeaters & Australian chats	Brown Honeyeater	Animalia: Chordata: Aves	P
 Birds	Honeyeaters & Australian chats	Brown Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichmera	indistincta indistincta
 Birds	Honeyeaters & Australian chats	Brown Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichmera	indistincta melvillensis
 Birds	Honeyeaters & Australian chats	Brown Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichmera	indistincta ocularis
-Birds	Honeyeaters & Australian chats	Honeyeaters	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Lichmera	sp.
 Birds	Honeyeaters & Australian chats	Yellow-throated Miner	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Manorina	flavigula 
 Birds	Honeyeaters & Australian chats	Yellow-throated Miner	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Manorina	flavigula flavigula
 Birds	Honeyeaters & Australian chats	Yellow-throated Miner	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Manorina	flavigula lutea
@@ -978,7 +896,6 @@ Birds	Honeyeaters & Australian chats	Noisy Miner	Animalia: Chordata: Aves	Passer
 Birds	Honeyeaters & Australian chats	Noisy Miner	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Manorina	melanocephala titaniota
 Birds	Honeyeaters & Australian chats	Bell Miner	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Manorina	melanophrys 
 Birds	Honeyeaters & Australian chats	Black-eared Miner	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Manorina	melanotis 
-Birds	Honeyeaters & Australian chats	Miners	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Manorina	sp.
 Birds	Honeyeaters & Australian chats	White-lined Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Meliphaga	albilineata 
 Birds	Honeyeaters & Australian chats	White-lined Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Meliphaga	albilineata albilineata
 Birds	Honeyeaters & Australian chats	Kimberley Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Meliphaga	fordiana 
@@ -992,7 +909,6 @@ Birds	Honeyeaters & Australian chats	Lewin's Honeyeater	Animalia: Chordata: Aves
 Birds	Honeyeaters & Australian chats	Yellow-spotted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Meliphaga	notata 
 Birds	Honeyeaters & Australian chats	Yellow-spotted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Meliphaga	notata mixta
 Birds	Honeyeaters & Australian chats	Yellow-spotted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Meliphaga	notata notata
-Birds	Honeyeaters & Australian chats	Honeyeaters	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Meliphaga	sp.
 Birds	Honeyeaters & Australian chats	Black-headed Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	affinis 
 Birds	Honeyeaters & Australian chats	White-throated Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	albogularis 
 Birds	Honeyeaters & Australian chats	White-throated Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	albogularis albogularis
@@ -1010,7 +926,6 @@ Birds	Honeyeaters & Australian chats	Black-chinned Honeyeater	Animalia: Chordata
 Birds	Honeyeaters & Australian chats	White-naped Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	lunatus 
 Birds	Honeyeaters & Australian chats	White-naped Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	lunatus chloropsis
 Birds	Honeyeaters & Australian chats	White-naped Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	lunatus lunatus
-Birds	Honeyeaters & Australian chats	Honeyeaters	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	sp.
 Birds	Honeyeaters & Australian chats	Strong-billed Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Melithreptus	validirostris 
 Birds	Honeyeaters & Australian chats	Red-headed Myzomela	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Myzomela	erythrocephala 
 Birds	Honeyeaters & Australian chats	Red-headed Myzomela	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Myzomela	erythrocephala erythrocephala
@@ -1021,7 +936,6 @@ Birds	Honeyeaters & Australian chats	Dusky Myzomela	Animalia: Chordata: Aves	Pas
 Birds	Honeyeaters & Australian chats	Dusky Myzomela	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Myzomela	obscura obscura
 Birds	Honeyeaters & Australian chats	Scarlet Myzomela	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Myzomela	sanguinolenta 
 Birds	Honeyeaters & Australian chats	Scarlet Myzomela	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Myzomela	sanguinolenta sanguinolenta
-Birds	Honeyeaters & Australian chats	Honeyeaters	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Myzomela	sp.
 Birds	Honeyeaters & Australian chats	Silver-crowned Friarbird 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Philemon	argenticeps 
 Birds	Honeyeaters & Australian chats	Silver-crowned Friarbird 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Philemon	argenticeps argenticeps
 Birds	Honeyeaters & Australian chats	Silver-crowned Friarbird 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Philemon	argenticeps kempi
@@ -1035,7 +949,6 @@ Birds	Honeyeaters & Australian chats	Little Friarbird	Animalia: Chordata: Aves	P
 Birds	Honeyeaters & Australian chats	Noisy Friarbird 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Philemon	corniculatus 
 Birds	Honeyeaters & Australian chats	Noisy Friarbird 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Philemon	corniculatus corniculatus
 Birds	Honeyeaters & Australian chats	Noisy Friarbird 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Philemon	corniculatus nodifrons
-Birds	Honeyeaters & Australian chats	Friarbirds	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Philemon	sp.
 Birds	Honeyeaters & Australian chats	White-cheeked Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Phylidonyris	niger 
 Birds	Honeyeaters & Australian chats	White-cheeked Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Phylidonyris	niger gouldii
 Birds	Honeyeaters & Australian chats	White-cheeked Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Phylidonyris	niger niger
@@ -1048,31 +961,25 @@ Birds	Honeyeaters & Australian chats	New Holland Honeyeater	Animalia: Chordata: 
 Birds	Honeyeaters & Australian chats	Crescent Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Phylidonyris	pyrrhoptera 
 Birds	Honeyeaters & Australian chats	Crescent Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Phylidonyris	pyrrhoptera halmaturina
 Birds	Honeyeaters & Australian chats	Crescent Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Phylidonyris	pyrrhoptera pyrrhoptera
-Birds	Honeyeaters & Australian chats	Honeyeaters	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Phylidonyris	sp.
 Birds	Honeyeaters & Australian chats	Striped Honeyeater 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Plectorhyncha	lanceolata 
 Birds	Honeyeaters & Australian chats	White-fronted Honeyeater 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Purnella	albifrons 
 Birds	Honeyeaters & Australian chats	Bar-breasted Honeyeater 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Ramsayornis	fasciatus 
 Birds	Honeyeaters & Australian chats	Brown-backed Honeyeater 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Ramsayornis	modestus 
 Birds	Honeyeaters & Australian chats	Black Honeyeater 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Sugomel	niger 
 Birds	Honeyeaters & Australian chats	White-streaked Honeyeater 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Trichodere	cockerelli 
-Birds	Honeyeaters & Australian chats	Honeyeater 	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Unknown	sp.
 Birds	Honeyeaters & Australian chats	Tawny-breasted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Xanthotis	flaviventer 
 Birds	Honeyeaters & Australian chats	Tawny-breasted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Xanthotis	flaviventer filigera
 Birds	Honeyeaters & Australian chats	Tawny-breasted Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Xanthotis	flaviventer saturatior
 Birds	Honeyeaters & Australian chats	Macleay's Honeyeater	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Xanthotis	macleayanus 
-Birds	Honeyeaters & Australian chats	Honeyeaters	Animalia: Chordata: Aves	Passeriformes	Meliphagidae	Xanthotis	sp.
 Birds	Lyrebirds	Albert's Lyrebird 	Animalia: Chordata: Aves	Passeriformes	Menuridae	Menura	alberti 
 Birds	Lyrebirds	Superb Lyrebird	Animalia: Chordata: Aves	Passeriformes	Menuridae	Menura	novaehollandiae 
 Birds	Lyrebirds	Superb Lyrebird	Animalia: Chordata: Aves	Passeriformes	Menuridae	Menura	novaehollandiae edwardi
 Birds	Lyrebirds	Superb Lyrebird	Animalia: Chordata: Aves	Passeriformes	Menuridae	Menura	novaehollandiae novaehollandiae
 Birds	Lyrebirds	Superb Lyrebird	Animalia: Chordata: Aves	Passeriformes	Menuridae	Menura	novaehollandiae victoriae
-Birds	Lyrebirds	Lyrebird	Animalia: Chordata: Aves	Passeriformes	Menuridae	Menura	sp.
-Birds	Lyrebirds	Lyrebird	Animalia: Chordata: Aves	Passeriformes	Menuridae	Unknown	sp.
 Birds	Flycatchers	Pied Flycatcher 	Animalia: Chordata: Aves	Passeriformes	Monarchidae	Arses	kaupi 
 Birds	Flycatchers	Pied Flycatcher 	Animalia: Chordata: Aves	Passeriformes	Monarchidae	Arses	kaupi kaupi
 Birds	Flycatchers	Pied Flycatcher 	Animalia: Chordata: Aves	Passeriformes	Monarchidae	Arses	kaupi terraereginae
 Birds	Flycatchers	Frill-necked Monarch 	Animalia: Chordata: Aves	Passeriformes	Monarchidae	Arses	lorealis 
-Birds	Flycatchers	Monarch Flycatchers	Animalia: Chordata: Aves	Passeriformes	Monarchidae	Arses	sp.
 Birds	Flycatchers	Frilled Monarch 	Animalia: Chordata: Aves	Passeriformes	Monarchidae	Arses	telescopthalmus 
 Birds	Flycatchers	Frilled Monarch 	Animalia: Chordata: Aves	Passeriformes	Monarchidae	Arses	telescopthalmus harterti
 Birds	Flycatchers	Carterornis	Animalia: Chordata: Aves	Passeriformes	Monarchidae	Carterornis	leucotis 
@@ -1086,7 +993,6 @@ Birds	Flycatchers	Island Monarch 	Animalia: Chordata: Aves	Passeriformes	Monarch
 Birds	Flycatchers	Black-winged Monarch 	Animalia: Chordata: Aves	Passeriformes	Monarchidae	Monarcha	frater 
 Birds	Flycatchers	Black-winged Monarch 	Animalia: Chordata: Aves	Passeriformes	Monarchidae	Monarcha	frater canescens
 Birds	Flycatchers	Black-faced Monarc	Animalia: Chordata: Aves	Passeriformes	Monarchidae	Monarcha	melanopsis 
-Birds	Flycatchers	Monarch Flycatchers	Animalia: Chordata: Aves	Passeriformes	Monarchidae	Monarcha	sp.
 Birds	Flycatchers	Shining Flycatcher	Animalia: Chordata: Aves	Passeriformes	Monarchidae	Myiagra	alecto 
 Birds	Flycatchers	Shining Flycatcher	Animalia: Chordata: Aves	Passeriformes	Monarchidae	Myiagra	alecto melvillensis
 Birds	Flycatchers	Shining Flycatcher	Animalia: Chordata: Aves	Passeriformes	Monarchidae	Myiagra	alecto wardelli
@@ -1100,13 +1006,10 @@ Birds	Flycatchers	Leaden Flycatcher	Animalia: Chordata: Aves	Passeriformes	Monar
 Birds	Flycatchers	Leaden Flycatcher	Animalia: Chordata: Aves	Passeriformes	Monarchidae	Myiagra	rubecula yorki
 Birds	Flycatchers	Broad-billed Flycatcher	Animalia: Chordata: Aves	Passeriformes	Monarchidae	Myiagra	ruficollis 
 Birds	Flycatchers	Broad-billed Flycatcher	Animalia: Chordata: Aves	Passeriformes	Monarchidae	Myiagra	ruficollis mimikae
-Birds	Flycatchers	Flycatchers	Animalia: Chordata: Aves	Passeriformes	Monarchidae	Myiagra	sp.
-Birds	Flycatchers	Monarch Flycatchers	Animalia: Chordata: Aves	Passeriformes	Monarchidae	Symposiachrus	sp.
 Birds	Flycatchers	Spectacled Monarch 	Animalia: Chordata: Aves	Passeriformes	Monarchidae	Symposiachrus	trivirgatus 
 Birds	Flycatchers	Spectacled Monarch 	Animalia: Chordata: Aves	Passeriformes	Monarchidae	Symposiachrus	trivirgatus albiventris
 Birds	Flycatchers	Spectacled Monarch 	Animalia: Chordata: Aves	Passeriformes	Monarchidae	Symposiachrus	trivirgatus gouldii
 Birds	Flycatchers	Spectacled Monarch 	Animalia: Chordata: Aves	Passeriformes	Monarchidae	Symposiachrus	trivirgatus melanorrhous
-Birds	Flycatchers	Monarch 	Animalia: Chordata: Aves	Passeriformes	Monarchidae	Unknown	sp.
 Birds	Pipits and Wagtails	Red-throated Pipit	Animalia: Chordata: Aves	Passeriformes	Motacillidae	Anthus	cervinus 
 Birds	Pipits and Wagtails	Pechora Pipit	Animalia: Chordata: Aves	Passeriformes	Motacillidae	Anthus	gustavi 
 Birds	Pipits and Wagtails	Pechora Pipit	Animalia: Chordata: Aves	Passeriformes	Motacillidae	Anthus	gustavi gustavi
@@ -1115,16 +1018,13 @@ Birds	Pipits and Wagtails	Australasian Pipit	Animalia: Chordata: Aves	Passerifor
 Birds	Pipits and Wagtails	Australasian Pipit	Animalia: Chordata: Aves	Passeriformes	Motacillidae	Anthus	novaeseelandiae bistriatus
 Birds	Pipits and Wagtails	Australasian Pipit	Animalia: Chordata: Aves	Passeriformes	Motacillidae	Anthus	novaeseelandiae novaeseelandiae
 Birds	Pipits and Wagtails	Australasian Pipit	Animalia: Chordata: Aves	Passeriformes	Motacillidae	Anthus	novaeseelandiae rogersi
-Birds	Pipits and Wagtails	Pipits	Animalia: Chordata: Aves	Passeriformes	Motacillidae	Anthus	sp.
 Birds	Pipits and Wagtails	White Wagtail	Animalia: Chordata: Aves	Passeriformes	Motacillidae	Motacilla	alba 
 Birds	Pipits and Wagtails	White Wagtail	Animalia: Chordata: Aves	Passeriformes	Motacillidae	Motacilla	alba leucopsis
 Birds	Pipits and Wagtails	White Wagtail	Animalia: Chordata: Aves	Passeriformes	Motacillidae	Motacilla	alba lugens
 Birds	Pipits and Wagtails	Grey Wagtail	Animalia: Chordata: Aves	Passeriformes	Motacillidae	Motacilla	cinerea 
 Birds	Pipits and Wagtails	Citrine Wagtail or Yellow-headed Wagtail	Animalia: Chordata: Aves	Passeriformes	Motacillidae	Motacilla	citreola 
-Birds	Pipits and Wagtails	Wagtails	Animalia: Chordata: Aves	Passeriformes	Motacillidae	Motacilla	sp.
 Birds	Pipits and Wagtails	Green-headed Yellow Wagtail	Animalia: Chordata: Aves	Passeriformes	Motacillidae	Motacilla	taivana 
 Birds	Pipits and Wagtails	Eastern Yellow Wagtail 	Animalia: Chordata: Aves	Passeriformes	Motacillidae	Motacilla	tschutschensis 
-Birds	Pipits and Wagtails	Wagtail 	Animalia: Chordata: Aves	Passeriformes	Motacillidae	Unknown	sp.
 Birds	Old World flycatchers	Blue-and-white Flycatcher	Animalia: Chordata: Aves	Passeriformes	Musiciapidae	Cyanoptila	cyanomelana 
 Birds	Old World flycatchers	Blue-and-white Flycatcher	Animalia: Chordata: Aves	Passeriformes	Musiciapidae	Cyanoptila	cyanomelana cyanomelana
 Birds	Old World flycatchers	Narcissus Flycatcher 	Animalia: Chordata: Aves	Passeriformes	Musiciapidae	Ficedula	narcissina 
@@ -1132,22 +1032,17 @@ Birds	Old World flycatchers	Narcissus Flycatcher 	Animalia: Chordata: Aves	Passe
 Birds	Old World flycatchers	Blue Rock Thrush 	Animalia: Chordata: Aves	Passeriformes	Musiciapidae	Monticola	solitarius 
 Birds	Old World flycatchers	Blue Rock Thrush 	Animalia: Chordata: Aves	Passeriformes	Musiciapidae	Monticola	solitarius philippensis
 Birds	Old World flycatchers	Isabelline Wheatear	Animalia: Chordata: Aves	Passeriformes	Musiciapidae	Oenanthe	isabellina 
-Birds	Old World flycatchers	Thrush 	Animalia: Chordata: Aves	Passeriformes	Musiciapidae	Unknown	sp.
 Birds	Sunbirds & spiderhunters	Red-capped Flowerpecker	Animalia: Chordata: Aves	Passeriformes	Nectariniidae	Dicaeum	geelvinkianum 
 Birds	Sunbirds & spiderhunters	Mistletoebird	Animalia: Chordata: Aves	Passeriformes	Nectariniidae	Dicaeum	hirundinaceum 
 Birds	Sunbirds & spiderhunters	Mistletoebird	Animalia: Chordata: Aves	Passeriformes	Nectariniidae	Dicaeum	hirundinaceum hirundinaceum
-Birds	Sunbirds & spiderhunters	Flowerpecker	Animalia: Chordata: Aves	Passeriformes	Nectariniidae	Dicaeum	sp.
 Birds	Sunbirds & spiderhunters	Yellow-breasted Sunbird	Animalia: Chordata: Aves	Passeriformes	Nectariniidae	Nectarinia	jugularis 
 Birds	Sunbirds & spiderhunters	Sunbirds and spiderhunters	Animalia: Chordata: Aves	Passeriformes	Nectariniidae	Nectarinia	jugularis frenata
-Birds	Sunbirds & spiderhunters	Mistletoebird	Animalia: Chordata: Aves	Passeriformes	Nectariniidae	Unknown	sp.
 Birds	Sittellas	Varied Sittella	Animalia: Chordata: Aves	Passeriformes	Neosittidae	Daphoenositta	chrysoptera 
 Birds	Sittellas	Varied Sittella	Animalia: Chordata: Aves	Passeriformes	Neosittidae	Daphoenositta	chrysoptera chrysoptera
 Birds	Sittellas	Varied Sittella	Animalia: Chordata: Aves	Passeriformes	Neosittidae	Daphoenositta	chrysoptera leucocephala
 Birds	Sittellas	Varied Sittella	Animalia: Chordata: Aves	Passeriformes	Neosittidae	Daphoenositta	chrysoptera leucoptera
 Birds	Sittellas	Varied Sittella	Animalia: Chordata: Aves	Passeriformes	Neosittidae	Daphoenositta	chrysoptera pileata
 Birds	Sittellas	Varied Sittella	Animalia: Chordata: Aves	Passeriformes	Neosittidae	Daphoenositta	chrysoptera striata
-Birds	Sittellas	Sittellas	Animalia: Chordata: Aves	Passeriformes	Neosittidae	Daphoenositta	sp.
-Birds	Sittellas	Sittellas	Animalia: Chordata: Aves	Passeriformes	Neosittidae	Unknown	sp.
 Birds	Orioles	Green Oriole	Animalia: Chordata: Aves	Passeriformes	Oriolidae	Oriolus	flavocinctus 
 Birds	Orioles	Green Oriole	Animalia: Chordata: Aves	Passeriformes	Oriolidae	Oriolus	flavocinctus flavocinctus
 Birds	Orioles	Green Oriole	Animalia: Chordata: Aves	Passeriformes	Oriolidae	Oriolus	flavocinctus flavotinctus
@@ -1157,18 +1052,14 @@ Birds	Orioles	Olive-backed Oriole 	Animalia: Chordata: Aves	Passeriformes	Orioli
 Birds	Orioles	Olive-backed Oriole 	Animalia: Chordata: Aves	Passeriformes	Oriolidae	Oriolus	sagittatus affinis
 Birds	Orioles	Olive-backed Oriole 	Animalia: Chordata: Aves	Passeriformes	Oriolidae	Oriolus	sagittatus grisescens
 Birds	Orioles	Olive-backed Oriole 	Animalia: Chordata: Aves	Passeriformes	Oriolidae	Oriolus	sagittatus sagittatus
-Birds	Orioles	World orioles	Animalia: Chordata: Aves	Passeriformes	Oriolidae	Oriolus	sp.
 Birds	Orioles	Timor Figbird	Animalia: Chordata: Aves	Passeriformes	Oriolidae	Sphecotheres	vieilloti 
 Birds	Orioles	Figbird	Animalia: Chordata: Aves	Passeriformes	Oriolidae	Sphecotheres	vieilloti ashbyi
 Birds	Orioles	Yellow Figbird	Animalia: Chordata: Aves	Passeriformes	Oriolidae	Sphecotheres	vieilloti flaviventris
 Birds	Orioles	Green/Southern Figbird	Animalia: Chordata: Aves	Passeriformes	Oriolidae	Sphecotheres	vieilloti vieilloti
-Birds	Orioles	Figbird	Animalia: Chordata: Aves	Passeriformes	Oriolidae	Unknown	sp.
-Birds	Logrunners	Logrunners	Animalia: Chordata: Aves	Passeriformes	Orthonychidae	Orthonyx	sp.
 Birds	Logrunners	Chowchilla	Animalia: Chordata: Aves	Passeriformes	Orthonychidae	Orthonyx	spaldingii 
 Birds	Logrunners	Chowchilla	Animalia: Chordata: Aves	Passeriformes	Orthonychidae	Orthonyx	spaldingii melasmena
 Birds	Logrunners	Chowchilla	Animalia: Chordata: Aves	Passeriformes	Orthonychidae	Orthonyx	spaldingii spaldingii
 Birds	Logrunners	Australian Logrunner	Animalia: Chordata: Aves	Passeriformes	Orthonychidae	Orthonyx	temminckii 
-Birds	Logrunners	Chowchilla	Animalia: Chordata: Aves	Passeriformes	Orthonychidae	Unknown	sp.
 Birds	Whistlers	Bower's Shrikethrus	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Colluricincla	boweri 
 Birds	Whistlers	Grey Shrikethrush	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Colluricincla	harmonica 
 Birds	Whistlers	Grey Shrikethrush	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Colluricincla	harmonica brunnea
@@ -1184,7 +1075,6 @@ Birds	Whistlers	Little Shrikethrush	Animalia: Chordata: Aves	Passeriformes	Pachy
 Birds	Whistlers	Little Shrikethrush	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Colluricincla	megarhyncha parvula
 Birds	Whistlers	Little Shrikethrush	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Colluricincla	megarhyncha rufogaster
 Birds	Whistlers	Little Shrikethrush	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Colluricincla	megarhyncha synaptica
-Birds	Whistlers	Shrikethrushes	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Colluricincla	sp.
 Birds	Whistlers	Sandstone Shrikethrush	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Colluricincla	woodwardi 
 Birds	Whistlers	Crested Shrike-tit 	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Falcunculus	frontatus 
 Birds	Whistlers	Crested Shrike-tit 	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Falcunculus	frontatus frontatus
@@ -1224,17 +1114,13 @@ Birds	Whistlers	Red-lored Whistler	Animalia: Chordata: Aves	Passeriformes	Pachyc
 Birds	Whistlers	Grey Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Pachycephala	simplex 
 Birds	Whistlers	Grey Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Pachycephala	simplex peninsulae
 Birds	Whistlers	Grey Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Pachycephala	simplex simplex
-Birds	Whistlers	"Whistlers, shrike-thrushes, shrike-tits, pitohuis and Crested Bellbird"	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Pachycephala	sp.
-Birds	Whistlers	Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Unknown	sp.
 Birds	Birds-of-paradise	Trumpet Manucode	Animalia: Chordata: Aves	Passeriformes	Paradisaeidae	Manucodia	keraudrenii 
 Birds	Birds-of-paradise	Trumpet Manucode	Animalia: Chordata: Aves	Passeriformes	Paradisaeidae	Manucodia	keraudrenii gouldii
 Birds	Birds-of-paradise	Trumpet Manucode	Animalia: Chordata: Aves	Passeriformes	Paradisaeidae	Manucodia	keraudrenii jamesii
 Birds	Birds-of-paradise	Magnificent Riflebird	Animalia: Chordata: Aves	Passeriformes	Paradisaeidae	Ptiloris	magnificus 
 Birds	Birds-of-paradise	Magnificent Riflebird	Animalia: Chordata: Aves	Passeriformes	Paradisaeidae	Ptiloris	magnificus alberti
 Birds	Birds-of-paradise	Paradise Riflebird	Animalia: Chordata: Aves	Passeriformes	Paradisaeidae	Ptiloris	paradiseus 
-Birds	Birds-of-paradise	Riflebirds	Animalia: Chordata: Aves	Passeriformes	Paradisaeidae	Ptiloris	sp.
 Birds	Birds-of-paradise	Victoria's Riflebird	Animalia: Chordata: Aves	Passeriformes	Paradisaeidae	Ptiloris	victoriae 
-Birds	Birds-of-paradise	Riflebird	Animalia: Chordata: Aves	Passeriformes	Paradisaeidae	Unknown	sp.
 Birds	Pardalotes	Spotted Pardalote	Animalia: Chordata: Aves	Passeriformes	Pardalotidae	Pardalotus	punctatus 
 Birds	Pardalotes	Spotted Pardalote	Animalia: Chordata: Aves	Passeriformes	Pardalotidae	Pardalotus	punctatus millitaris
 Birds	Pardalotes	Spotted Pardalote	Animalia: Chordata: Aves	Passeriformes	Pardalotidae	Pardalotus	punctatus punctatus
@@ -1242,8 +1128,6 @@ Birds	Pardalotes	Spotted Pardalote	Animalia: Chordata: Aves	Passeriformes	Pardal
 Birds	Pardalotes	Red-browed Pardalote	Animalia: Chordata: Aves	Passeriformes	Pardalotidae	Pardalotus	rubricatus 
 Birds	Pardalotes	Red-browed Pardalote	Animalia: Chordata: Aves	Passeriformes	Pardalotidae	Pardalotus	rubricatus rubricatus
 Birds	Pardalotes	Red-browed Pardalote	Animalia: Chordata: Aves	Passeriformes	Pardalotidae	Pardalotus	rubricatus yorki
-Birds	Pardalotes	Pardalotes	Animalia: Chordata: Aves	Passeriformes	Pardalotidae	Pardalotus	sp.
-Birds	Pardalotes	Pardalotes	Animalia: Chordata: Aves	Passeriformes	Pardalotidae	Pardalotus	sp.
 Birds	Pardalotes	Striated Pardalote	Animalia: Chordata: Aves	Passeriformes	Pardalotidae	Pardalotus	striatus 
 Birds	Pardalotes	Striated Pardalote	Animalia: Chordata: Aves	Passeriformes	Pardalotidae	Pardalotus	striatus melanocephalus
 Birds	Pardalotes	Striated Pardalote	Animalia: Chordata: Aves	Passeriformes	Pardalotidae	Pardalotus	striatus melvillensis
@@ -1251,24 +1135,19 @@ Birds	Pardalotes	Striated Pardalote	Animalia: Chordata: Aves	Passeriformes	Parda
 Birds	Pardalotes	Striated Pardalote	Animalia: Chordata: Aves	Passeriformes	Pardalotidae	Pardalotus	striatus striatus
 Birds	Pardalotes	Striated Pardalote	Animalia: Chordata: Aves	Passeriformes	Pardalotidae	Pardalotus	striatus substriatus
 Birds	Pardalotes	Striated Pardalote	Animalia: Chordata: Aves	Passeriformes	Pardalotidae	Pardalotus	striatus uropygialis
-Birds	Pardalotes	Pardalote	Animalia: Chordata: Aves	Passeriformes	Pardalotidae	Unknown	sp.
 Birds	Sparrows	House Sparrow	Animalia: Chordata: Aves	Passeriformes	Passeridae	Passer	domesticus 
 Birds	Sparrows	House Sparrow	Animalia: Chordata: Aves	Passeriformes	Passeridae	Passer	domesticus domesticus
 Birds	Sparrows	Eurasian Tree Sparrow	Animalia: Chordata: Aves	Passeriformes	Passeridae	Passer	montanus 
-Birds	Sparrows	Sparrows 	Animalia: Chordata: Aves	Passeriformes	Passeridae	Passer	sp.
-Birds	Sparrows	Sparrows 	Animalia: Chordata: Aves	Passeriformes	Passeridae	Unknown	sp.
+Birds	Robins	Eastern Yellow Robin	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Cryptomicroeca	australis 
+Birds	Robins	Eastern Yellow Robin	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Cryptomicroeca	australis australis
+Birds	Robins	Eastern Yellow Robin	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Cryptomicroeca	australis chrysorrhos
+Birds	Robins	White-breasted Robin	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Cryptomicroeca	georgiana 
+Birds	Robins	Western Yellow Robin	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Cryptomicroeca	griseogularis 
+Birds	Robins	Western Yellow Robin	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Cryptomicroeca	griseogularis griseogularis
+Birds	Robins	Western Yellow Robin	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Cryptomicroeca	griseogularis rosinae
 Birds	Robins	Southern Scrub-robin	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Drymodes	brunneopygia 
-Birds	Robins	Australasian Robins	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Drymodes	sp.
 Birds	Robins	Northern Scrub-robin	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Drymodes	superciliaris 
 Birds	Robins	Northern Scrub-robin	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Drymodes	superciliaris superciliaris
-Birds	Robins	Eastern Yellow Robin	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Eopsaltria	australis 
-Birds	Robins	Eastern Yellow Robin	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Eopsaltria	australis australis
-Birds	Robins	Eastern Yellow Robin	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Eopsaltria	australis chrysorrhos
-Birds	Robins	White-breasted Robin	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Eopsaltria	georgiana 
-Birds	Robins	Western Yellow Robin	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Eopsaltria	griseogularis 
-Birds	Robins	Western Yellow Robin	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Eopsaltria	griseogularis griseogularis
-Birds	Robins	Western Yellow Robin	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Eopsaltria	griseogularis rosinae
-Birds	Robins	Australasian Robins	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Eopsaltria	sp.
 Birds	Robins	Grey-headed Robin	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Heteromyias	cinereifrons 
 Birds	Robins	Hooded Robin 	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Melanodryas	cucullata 
 Birds	Robins	Hooded Robin 	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Melanodryas	cucullata cucullata
@@ -1289,12 +1168,10 @@ Birds	Robins	Lemon-bellied Flyrobin	Animalia: Chordata: Aves	Passeriformes	Petro
 Birds	Robins	Lemon-bellied Flyrobin	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Microeca	flavigaster tormenti
 Birds	Robins	Yellow-legged Flyrobin 	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Microeca	griseoceps 
 Birds	Robins	Yellow-legged Flyrobin 	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Microeca	griseoceps kempi
-Birds	Robins	Australasian Robins	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Microeca	sp.
 Birds	Robins	Mangrove Robin 	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Peneoenanthe	pulverulenta 
 Birds	Robins	Mangrove Robin 	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Peneoenanthe	pulverulenta alligator
 Birds	Robins	Mangrove Robin 	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Peneoenanthe	pulverulenta cinereiceps
 Birds	Robins	Mangrove Robin 	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Peneoenanthe	pulverulenta leucura
-Birds	Robins	Australasian Robins	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Peneoenanthe	sp.
 Birds	Robins	Scarlet Robin	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Petroica	boodang 
 Birds	Robins	Scarlet Robin	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Petroica	boodang boodang
 Birds	Robins	Scarlet Robin	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Petroica	boodang campbelli
@@ -1307,34 +1184,26 @@ Birds	Robins	Pink Robin	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Petro
 Birds	Robins	Pink Robin	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Petroica	rodinogaster inexpectata
 Birds	Robins	Pink Robin	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Petroica	rodinogaster rodinogaster
 Birds	Robins	Rose Robin	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Petroica	rosea 
-Birds	Robins	Australasian Robins	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Petroica	sp.
 Birds	Robins	Buff-sided Robin	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Poecilodryas	cerviniventris 
-Birds	Robins	Australasian Robins	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Poecilodryas	sp.
 Birds	Robins	White-browed Robin	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Poecilodryas	superciliosa 
 Birds	Robins	Pale-yellow Robin 	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Tregellasia	capito 
 Birds	Robins	Pale-yellow Robin 	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Tregellasia	capito capito
 Birds	Robins	Pale-yellow Robin 	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Tregellasia	capito nana
 Birds	Robins	White-faced Robin 	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Tregellasia	leucops 
 Birds	Robins	White-faced Robin 	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Tregellasia	leucops albigularis
-Birds	Robins	Australasian Robins	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Tregellasia	sp.
-Birds	Robins	Robins	Animalia: Chordata: Aves	Passeriformes	Petroicidae	Unknown	sp.
 Birds	Warbler	Arctic Warbler	Animalia: Chordata: Aves	Passeriformes	Phylloscopidae	Phylloscopus	borealis 
-Birds	Warbler	Unknown	Animalia: Chordata: Aves	Passeriformes	Phylloscopidae	Unknown	sp.
 Birds	Pittas	Red-bellied Pitta	Animalia: Chordata: Aves	Passeriformes	Pittidae	Pitta	erythrogaster 
 Birds	Pittas	Red-bellied Pitta	Animalia: Chordata: Aves	Passeriformes	Pittidae	Pitta	erythrogaster digglesi
 Birds	Pittas	Rainbow Pitta	Animalia: Chordata: Aves	Passeriformes	Pittidae	Pitta	iris 
 Birds	Pittas	Rainbow Pitta	Animalia: Chordata: Aves	Passeriformes	Pittidae	Pitta	iris iris
 Birds	Pittas	Rainbow Pitta	Animalia: Chordata: Aves	Passeriformes	Pittidae	Pitta	iris johnstoneiana
 Birds	Pittas	Blue-winged Pitta	Animalia: Chordata: Aves	Passeriformes	Pittidae	Pitta	moluccensis 
-Birds	Pittas	Pittas	Animalia: Chordata: Aves	Passeriformes	Pittidae	Pitta	sp.
 Birds	Pittas	Noisy Pitta	Animalia: Chordata: Aves	Passeriformes	Pittidae	Pitta	versicolor 
 Birds	Pittas	Noisy Pitta	Animalia: Chordata: Aves	Passeriformes	Pittidae	Pitta	versicolor intermedia
 Birds	Pittas	Noisy Pitta	Animalia: Chordata: Aves	Passeriformes	Pittidae	Pitta	versicolor simillima
 Birds	Pittas	Noisy Pitta	Animalia: Chordata: Aves	Passeriformes	Pittidae	Pitta	versicolor versicolor
-Birds	Pittas	Pitta	Animalia: Chordata: Aves	Passeriformes	Pittidae	Unknown	sp.
 Birds	Babblers	Hall's Babbler	Animalia: Chordata: Aves	Passeriformes	Pomatostomidae	Pomatostomus	halli 
 Birds	Babblers	Chestnut-crowned Babbler	Animalia: Chordata: Aves	Passeriformes	Pomatostomidae	Pomatostomus	ruficeps 
-Birds	Babblers	Australasian Babblers	Animalia: Chordata: Aves	Passeriformes	Pomatostomidae	Pomatostomus	sp.
 Birds	Babblers	White-browed Babbler	Animalia: Chordata: Aves	Passeriformes	Pomatostomidae	Pomatostomus	superciliosus 
 Birds	Babblers	White-browed Babbler	Animalia: Chordata: Aves	Passeriformes	Pomatostomidae	Pomatostomus	superciliosus ashbyi
 Birds	Babblers	White-browed Babbler	Animalia: Chordata: Aves	Passeriformes	Pomatostomidae	Pomatostomus	superciliosus centralis
@@ -1343,7 +1212,6 @@ Birds	Babblers	White-browed Babbler	Animalia: Chordata: Aves	Passeriformes	Pomat
 Birds	Babblers	Grey-crowned Babbler	Animalia: Chordata: Aves	Passeriformes	Pomatostomidae	Pomatostomus	temporalis 
 Birds	Babblers	Grey-crowned Babbler	Animalia: Chordata: Aves	Passeriformes	Pomatostomidae	Pomatostomus	temporalis rubeculus
 Birds	Babblers	Grey-crowned Babbler	Animalia: Chordata: Aves	Passeriformes	Pomatostomidae	Pomatostomus	temporalis temporalis
-Birds	Babblers	Babbler	Animalia: Chordata: Aves	Passeriformes	Pomatostomidae	Unknown	sp.
 Birds	Quail-thrush & Whipbirds	Chestnut-backed Quail-thrush	Animalia: Chordata: Aves	Passeriformes	Psophodidae	Cinclosoma	castaneothorax 
 Birds	Quail-thrush & Whipbirds	Chestnut-backed Quail-thrush	Animalia: Chordata: Aves	Passeriformes	Psophodidae	Cinclosoma	castaneothorax castaneothorax
 Birds	Quail-thrush & Whipbirds	Chestnut-backed Quail-thrush	Animalia: Chordata: Aves	Passeriformes	Psophodidae	Cinclosoma	castaneothorax marginatum
@@ -1359,21 +1227,17 @@ Birds	Quail-thrush & Whipbirds	Spotted Quail-thrush	Animalia: Chordata: Aves	Pas
 Birds	Quail-thrush & Whipbirds	Spotted Quail-thrush	Animalia: Chordata: Aves	Passeriformes	Psophodidae	Cinclosoma	punctatum anachoreta
 Birds	Quail-thrush & Whipbirds	Spotted Quail-thrush	Animalia: Chordata: Aves	Passeriformes	Psophodidae	Cinclosoma	punctatum dovei
 Birds	Quail-thrush & Whipbirds	Spotted Quail-thrush	Animalia: Chordata: Aves	Passeriformes	Psophodidae	Cinclosoma	punctatum punctatum
-Birds	Quail-thrush & Whipbirds	Quail-thrushs	Animalia: Chordata: Aves	Passeriformes	Psophodidae	Cinclosoma	sp.
 Birds	Quail-thrush & Whipbirds	Chirruping Wedgebil	Animalia: Chordata: Aves	Passeriformes	Psophodidae	Psophodes	cristatus 
 Birds	Quail-thrush & Whipbirds	Western Whipbird	Animalia: Chordata: Aves	Passeriformes	Psophodidae	Psophodes	nigrogularis 
 Birds	Quail-thrush & Whipbirds	Chiming Wedgebill	Animalia: Chordata: Aves	Passeriformes	Psophodidae	Psophodes	occidentalis 
 Birds	Quail-thrush & Whipbirds	Eastern Whipbird	Animalia: Chordata: Aves	Passeriformes	Psophodidae	Psophodes	olivaceus 
 Birds	Quail-thrush & Whipbirds	Eastern Whipbird	Animalia: Chordata: Aves	Passeriformes	Psophodidae	Psophodes	olivaceus lateralis
 Birds	Quail-thrush & Whipbirds	Eastern Whipbird	Animalia: Chordata: Aves	Passeriformes	Psophodidae	Psophodes	olivaceus olivaceus
-Birds	Quail-thrush & Whipbirds	Whipbirds	Animalia: Chordata: Aves	Passeriformes	Psophodidae	Psophodes	sp.
-Birds	Quail-thrush & Whipbirds	Whipbirds	Animalia: Chordata: Aves	Passeriformes	Psophodidae	Unknown	sp.
 Birds	BowerBirds	Green Catbird	Animalia: Chordata: Aves	Passeriformes	Ptilonorhynchidae	Ailuroedus	crassirostris 
 Birds	BowerBirds	Green Catbird	Animalia: Chordata: Aves	Passeriformes	Ptilonorhynchidae	Ailuroedus	crassirostris crassirostris
 Birds	BowerBirds	Green Catbird	Animalia: Chordata: Aves	Passeriformes	Ptilonorhynchidae	Ailuroedus	crassirostris joanae
 Birds	BowerBirds	Green Catbird	Animalia: Chordata: Aves	Passeriformes	Ptilonorhynchidae	Ailuroedus	crassirostris maculosus
 Birds	BowerBirds	Spotted Catbird	Animalia: Chordata: Aves	Passeriformes	Ptilonorhynchidae	Ailuroedus	melanotis 
-Birds	BowerBirds	Catbirds	Animalia: Chordata: Aves	Passeriformes	Ptilonorhynchidae	Ailuroedus	sp.
 Birds	BowerBirds	Golden Bowerbird 	Animalia: Chordata: Aves	Passeriformes	Ptilonorhynchidae	Amblyornis	newtonianus 
 Birds	BowerBirds	Fawn-breasted Bowerbird	Animalia: Chordata: Aves	Passeriformes	Ptilonorhynchidae	Chlamydera 	cerviniventris 
 Birds	BowerBirds	Fawn-breasted Bowerbird	Animalia: Chordata: Aves	Passeriformes	Ptilonorhynchidae	Chlamydera 	cerviniventris 
@@ -1396,18 +1260,14 @@ Birds	BowerBirds	Spotted Bowerbird	Animalia: Chordata: Aves	Passeriformes	Ptilon
 Birds	BowerBirds	Great Bowerbird 	Animalia: Chordata: Aves	Passeriformes	Ptilonorhynchidae	Ptilonorhynchus	nuchalis 
 Birds	BowerBirds	Great Bowerbird 	Animalia: Chordata: Aves	Passeriformes	Ptilonorhynchidae	Ptilonorhynchus	nuchalis nuchalis
 Birds	BowerBirds	Great Bowerbird 	Animalia: Chordata: Aves	Passeriformes	Ptilonorhynchidae	Ptilonorhynchus	nuchalis orientalis
-Birds	BowerBirds	Bowerbirds	Animalia: Chordata: Aves	Passeriformes	Ptilonorhynchidae	Ptilonorhynchus	sp.
 Birds	BowerBirds	Satin Bowerbird	Animalia: Chordata: Aves	Passeriformes	Ptilonorhynchidae	Ptilonorhynchus	violaceus 
 Birds	BowerBirds	Satin Bowerbird	Animalia: Chordata: Aves	Passeriformes	Ptilonorhynchidae	Ptilonorhynchus	violaceus minor
 Birds	BowerBirds	Satin Bowerbird	Animalia: Chordata: Aves	Passeriformes	Ptilonorhynchidae	Ptilonorhynchus	violaceus violaceus
 Birds	BowerBirds	Tooth-billed Catbird	Animalia: Chordata: Aves	Passeriformes	Ptilonorhynchidae	Scenopoeetes	dentirostris 
 Birds	BowerBirds	Regent Bowerbird	Animalia: Chordata: Aves	Passeriformes	Ptilonorhynchidae	Sericulus	chrysocephalus 
-Birds	BowerBirds	Bowerbird	Animalia: Chordata: Aves	Passeriformes	Ptilonorhynchidae	Unknown	sp.
 Birds	Bulbuls	Red-vented Bulbul	Animalia: Chordata: Aves	Passeriformes	Pycnonotidae	Pycnonotus	cafer 
 Birds	Bulbuls	Red-whiskered Bulbul	Animalia: Chordata: Aves	Passeriformes	Pycnonotidae	Pycnonotus	jocosus 
 Birds	Bulbuls	Red-whiskered Bulbul	Animalia: Chordata: Aves	Passeriformes	Pycnonotidae	Pycnonotus	jocosus jocosus
-Birds	Bulbuls	Bulbuls	Animalia: Chordata: Aves	Passeriformes	Pycnonotidae	Pycnonotus	sp.
-Birds	Bulbuls	Bulbuls	Animalia: Chordata: Aves	Passeriformes	Pycnonotidae	Unknown	sp.
 Birds	Fantails	Grey Fantail	Animalia: Chordata: Aves	Passeriformes	Rhipiduridae	Rhipidura	albiscapa 
 Birds	Fantails	Grey Fantail	Animalia: Chordata: Aves	Passeriformes	Rhipiduridae	Rhipidura	albiscapa albicauda
 Birds	Fantails	Grey Fantail	Animalia: Chordata: Aves	Passeriformes	Rhipiduridae	Rhipidura	albiscapa albiscapa
@@ -1430,8 +1290,6 @@ Birds	Fantails	Rufous Fantail	Animalia: Chordata: Aves	Passeriformes	Rhipidurida
 Birds	Fantails	Northern Fantail	Animalia: Chordata: Aves	Passeriformes	Rhipiduridae	Rhipidura	rufiventris 
 Birds	Fantails	Northern Fantail	Animalia: Chordata: Aves	Passeriformes	Rhipiduridae	Rhipidura	rufiventris gularis
 Birds	Fantails	Northern Fantail	Animalia: Chordata: Aves	Passeriformes	Rhipiduridae	Rhipidura	rufiventris isura
-Birds	Fantails	Fantails	Animalia: Chordata: Aves	Passeriformes	Rhipiduridae	Rhipidura	sp.
-Birds	Fantails	Fantails	Animalia: Chordata: Aves	Passeriformes	Rhipiduridae	Unknown	sp.
 Birds	Mynas	Common Myna or Indian Myna Mynah	Animalia: Chordata: Aves	Passeriformes	Sturnidae	Acridotheres	tristis 
 Birds	Mynas	Common Myna or Indian Myna Mynah	Animalia: Chordata: Aves	Passeriformes	Sturnidae	Acridotheres	tristis tristis
 Birds	Starlings	Singing Starling 	Animalia: Chordata: Aves	Passeriformes	Sturnidae	Aplornis	cantoroides 
@@ -1440,14 +1298,10 @@ Birds	Starlings	Tasman Starling 	Animalia: Chordata: Aves	Passeriformes	Sturnida
 Birds	Starlings	Tasman Starling 	Animalia: Chordata: Aves	Passeriformes	Sturnidae	Aplornis	fusca hulliana
 Birds	Starlings	Metallic Starling 	Animalia: Chordata: Aves	Passeriformes	Sturnidae	Aplornis	metallica 
 Birds	Starlings	Metallic Starling 	Animalia: Chordata: Aves	Passeriformes	Sturnidae	Aplornis	metallica metallica
-Birds	Starlings	Starlings 	Animalia: Chordata: Aves	Passeriformes	Sturnidae	Aplornis	sp.
 Birds	Starlings	Rosy Starling or Rose-coloured Starling	Animalia: Chordata: Aves	Passeriformes	Sturnidae	Sturnus	roseus 
-Birds	Starlings	Starlings 	Animalia: Chordata: Aves	Passeriformes	Sturnidae	Sturnus	sp.
 Birds	Starlings	Purple-backed Starling or Daurian Starling	Animalia: Chordata: Aves	Passeriformes	Sturnidae	Sturnus	sturninus 
 Birds	Starlings	Common Starling	Animalia: Chordata: Aves	Passeriformes	Sturnidae	Sturnus	vulgaris 
 Birds	Starlings	Common Starling	Animalia: Chordata: Aves	Passeriformes	Sturnidae	Sturnus	vulgaris vulgaris
-Birds	Starlings	Starling	Animalia: Chordata: Aves	Passeriformes	Sturnidae	Unknown	sp.
-Birds	Babblers & White-eyes	Silvereye	Animalia: Chordata: Aves	Passeriformes	Timaliidae	Unknown	sp.
 Birds	Babblers & White-eyes	White-chested White-eye	Animalia: Chordata: Aves	Passeriformes	Timaliidae	Zosterops	albogularis 
 Birds	Babblers & White-eyes	Ashy-bellied White-eye	Animalia: Chordata: Aves	Passeriformes	Timaliidae	Zosterops	citrinella
 Birds	Babblers & White-eyes	Ashy-bellied White-eye	Animalia: Chordata: Aves	Passeriformes	Timaliidae	Zosterops	citrinella albiventris
@@ -1465,7 +1319,6 @@ Birds	Babblers & White-eyes	Australian Yellow White-eye	Animalia: Chordata: Aves
 Birds	Babblers & White-eyes	Australian Yellow White-eye	Animalia: Chordata: Aves	Passeriformes	Timaliidae	Zosterops	luteus balstoni
 Birds	Babblers & White-eyes	Australian Yellow White-eye	Animalia: Chordata: Aves	Passeriformes	Timaliidae	Zosterops	luteus luteus
 Birds	Babblers & White-eyes	Christmas Island White-eye	Animalia: Chordata: Aves	Passeriformes	Timaliidae	Zosterops	natalis 
-Birds	Babblers & White-eyes	Tree Babblers	Animalia: Chordata: Aves	Passeriformes	Timaliidae	Zosterops	sp.
 Birds	Babblers & White-eyes	Robust White-eye	Animalia: Chordata: Aves	Passeriformes	Timaliidae	Zosterops	strenuus 
 Birds	Babblers & White-eyes	Slender-billed White-eye	Animalia: Chordata: Aves	Passeriformes	Timaliidae	Zosterops	tenuirostris 
 Birds	Babblers & White-eyes	Slender-billed White-eye	Animalia: Chordata: Aves	Passeriformes	Timaliidae	Zosterops	tenuirostris tenuirostris
@@ -1477,16 +1330,168 @@ Birds	Thrushes	Island Thrush	Animalia: Chordata: Aves	Passeriformes	Turdidae	Tur
 Birds	Thrushes	Christmas Island Thrush	Animalia: Chordata: Aves	Passeriformes	Turdidae	Turdus	poliocephalus erythropleurus
 Birds	Thrushes	Norfolk Thrush	Animalia: Chordata: Aves	Passeriformes	Turdidae	Turdus	poliocephalus poliocephalus
 Birds	Thrushes	Lord Howe Island Thrush	Animalia: Chordata: Aves	Passeriformes	Turdidae	Turdus	poliocephalus vinitinctus
-Birds	Thrushes	Thrushes	Animalia: Chordata: Aves	Passeriformes	Turdidae	Turdus	sp.
-Birds	Thrushes	Thrushes	Animalia: Chordata: Aves	Passeriformes	Turdidae	Unknown	sp.
 Birds	Thrushes	Russet-tailed Thrush	Animalia: Chordata: Aves	Passeriformes	Turdidae	Zoothera	heinei 
 Birds	Thrushes	Russet-tailed Thrush	Animalia: Chordata: Aves	Passeriformes	Turdidae	Zoothera	heinei heinei
 Birds	Thrushes	Bassian Thrush	Animalia: Chordata: Aves	Passeriformes	Turdidae	Zoothera	lunulata 
 Birds	Thrushes	Bassian Thrush	Animalia: Chordata: Aves	Passeriformes	Turdidae	Zoothera	lunulata cuneata
 Birds	Thrushes	Bassian Thrush	Animalia: Chordata: Aves	Passeriformes	Turdidae	Zoothera	lunulata halmaturina
 Birds	Thrushes	Bassian Thrush	Animalia: Chordata: Aves	Passeriformes	Turdidae	Zoothera	lunulata lunulata
-Birds	Thrushes	Thrushes	Animalia: Chordata: Aves	Passeriformes	Turdidae	Zoothera	sp.
+Birds	Darter	Australasian Darter	Animalia: Chordata: Aves	Pelecaniformes	Anhingidae	Anhinga 	novaehollandiae 
+Birds	Frigatebirds	Christmas Island Frigatebird	Animalia: Chordata: Aves	Pelecaniformes	Fregatidae	Fregata 	andrewsi 
+Birds	Frigatebirds	Lesser Frigatebird	Animalia: Chordata: Aves	Pelecaniformes	Fregatidae	Fregata 	ariel 
+Birds	Frigatebirds	Lesser Frigatebird	Animalia: Chordata: Aves	Pelecaniformes	Fregatidae	Fregata 	ariel ariel
+Birds	Frigatebirds	Great Frigatebird	Animalia: Chordata: Aves	Pelecaniformes	Fregatidae	Fregata 	minor 
+Birds	Frigatebirds	Great Frigatebird	Animalia: Chordata: Aves	Pelecaniformes	Fregatidae	Fregata 	minor minor
+Birds	Frigatebirds	Great Frigatebird	Animalia: Chordata: Aves	Pelecaniformes	Fregatidae	Fregata 	minor palmerstoni
+Birds	Pelican	Australian Pelican	Animalia: Chordata: Aves	Pelecaniformes	Pelecanidae	Pelecanus 	conspicillatus 
+Birds	Tropicbird	Red-billed Tropicbird	Animalia: Chordata: Aves	Pelecaniformes	Phaethontidae	Phaethon 	aethereus 
+Birds	Tropicbird	White-tailed Tropicbird	Animalia: Chordata: Aves	Pelecaniformes	Phaethontidae	Phaethon 	lepturus 
+Birds	Tropicbird	Red-tailed Tropicbird	Animalia: Chordata: Aves	Pelecaniformes	Phaethontidae	Phaethon 	rubricauda 
+Birds	Shag	Imperial Shag	Animalia: Chordata: Aves	Pelecaniformes	Phalacrocoracidae	Leucocarbo 	atriceps 
+Birds	Shag	Imperial Shag	Animalia: Chordata: Aves	Pelecaniformes	Phalacrocoracidae	Leucocarbo 	atriceps nivalis
+Birds	Shag	Imperial Shag	Animalia: Chordata: Aves	Pelecaniformes	Phalacrocoracidae	Leucocarbo 	atriceps purpurascens
+Birds	Shag	Kerguelen Shag	Animalia: Chordata: Aves	Pelecaniformes	Phalacrocoracidae	Leucocarbo 	verrucosus 
+Birds	Cormorant	Little Pied Cormorant	Animalia: Chordata: Aves	Pelecaniformes	Phalacrocoracidae	Microcarbo 	melanoleucos 
+Birds	Cormorant	Little Pied Cormorant	Animalia: Chordata: Aves	Pelecaniformes	Phalacrocoracidae	Microcarbo 	melanoleucos melanoleucos
+Birds	Cormorant	Black-faced Cormorant	Animalia: Chordata: Aves	Pelecaniformes	Phalacrocoracidae	Phalacrocorax Anacarbo	fuscescens 
+Birds	Cormorant	Great Cormorant	Animalia: Chordata: Aves	Pelecaniformes	Phalacrocoracidae	Phalacrocorax Phalacrocorax	carbo 
+Birds	Cormorant	Great Cormorant	Animalia: Chordata: Aves	Pelecaniformes	Phalacrocoracidae	Phalacrocorax Phalacrocorax	carbo novaehollandiae
+Birds	Cormorant	Little Black Cormorant	Animalia: Chordata: Aves	Pelecaniformes	Phalacrocoracidae	Phalacrocorax Phalacrocorax	sulcirostris 
+Birds	Cormorant	Pied Cormorant	Animalia: Chordata: Aves	Pelecaniformes	Phalacrocoracidae	Phalacrocorax Phalacrocorax	varius 
+Birds	Cormorant	Pied Cormorant	Animalia: Chordata: Aves	Pelecaniformes	Phalacrocoracidae	Phalacrocorax Phalacrocorax	varius hypoleucos
+Birds	Gannet	Cape Gannet	Animalia: Chordata: Aves	Pelecaniformes	Sulidae	Morus 	capensis 
+Birds	Gannet	Australasian Gannet	Animalia: Chordata: Aves	Pelecaniformes	Sulidae	Morus 	serrator 
+Birds	Booby	Abbott's Booby	Animalia: Chordata: Aves	Pelecaniformes	Sulidae	Papasula 	abbotti 
+Birds	Booby	Masked Booby	Animalia: Chordata: Aves	Pelecaniformes	Sulidae	Sula 	dactylatra 
+Birds	Booby	Masked Booby	Animalia: Chordata: Aves	Pelecaniformes	Sulidae	Sula 	dactylatra bedouti
+Birds	Booby	Masked Booby	Animalia: Chordata: Aves	Pelecaniformes	Sulidae	Sula 	dactylatra personata
+Birds	Booby	Masked Booby	Animalia: Chordata: Aves	Pelecaniformes	Sulidae	Sula 	dactylatra tasmani
+Birds	Booby	Brown Booby	Animalia: Chordata: Aves	Pelecaniformes	Sulidae	Sula 	leucogaster 
+Birds	Booby	Brown Booby	Animalia: Chordata: Aves	Pelecaniformes	Sulidae	Sula 	leucogaster plotus
+Birds	Booby	Red-footed Booby	Animalia: Chordata: Aves	Pelecaniformes	Sulidae	Sula 	sula 
+Birds	Booby	Red-footed Booby	Animalia: Chordata: Aves	Pelecaniformes	Sulidae	Sula 	sula rubripes
 Birds	Flamingo	American Flamingo 	Animalia: Chordata: Aves	Phoenicopteriformes	Phoenicopteridae	Phoenicopterus	ruber 
+Birds	Grebes	Great Crested Grebe	Animalia: Chordata: Aves	Podicidpediformes	Podicipedidae	Podiceps	cristatus 
+Birds	Grebes	Great Crested Grebe	Animalia: Chordata: Aves	Podicidpediformes	Podicipedidae	Podiceps	cristatus christiani
+Birds	Grebes	Hoary-headed Grebe	Animalia: Chordata: Aves	Podicidpediformes	Podicipedidae	Poliocephalus	poliocephalus 
+Birds	Grebes	Australasian Grebe	Animalia: Chordata: Aves	Podicidpediformes	Podicipedidae	Tachybaptus	novaehollandiae 
+Birds	Grebes	Australasian Grebe	Animalia: Chordata: Aves	Podicidpediformes	Podicipedidae	Tachybaptus	novaehollandiae novaehollandiae
+Birds	Grebes	Little Grebe	Animalia: Chordata: Aves	Podicidpediformes	Podicipedidae	Tachybaptus	ruficollis 
+Birds	Albatrosses	Royal Albatross	Animalia: Chordata: Aves	Procellariiformes	Diomedeidae	Diomedea 	epomophora 
+Birds	Albatrosses	Royal Albatross	Animalia: Chordata: Aves	Procellariiformes	Diomedeidae	Diomedea 	epomophora epomophora
+Birds	Albatrosses	Royal Albatross	Animalia: Chordata: Aves	Procellariiformes	Diomedeidae	Diomedea 	epomophora sanfordi
+Birds	Albatrosses	Albatrosses	Animalia: Chordata: Aves	Procellariiformes	Diomedeidae	Diomedea 	exulans 
+Birds	Albatrosses	Wandering Albatross	Animalia: Chordata: Aves	Procellariiformes	Diomedeidae	Diomedea 	exulans antipodensis
+Birds	Albatrosses	Wandering Albatross	Animalia: Chordata: Aves	Procellariiformes	Diomedeidae	Diomedea 	exulans chionoptera
+Birds	Albatrosses	Wandering Albatross	Animalia: Chordata: Aves	Procellariiformes	Diomedeidae	Diomedea 	exulans exulans
+Birds	Albatrosses	Wandering Albatross	Animalia: Chordata: Aves	Procellariiformes	Diomedeidae	Diomedea 	exulans gibsoni
+Birds	Albatrosses	Laysan Albatross	Animalia: Chordata: Aves	Procellariiformes	Diomedeidae	Phoebastria 	immutabilis 
+Birds	Albatrosses	Sooty Albatross	Animalia: Chordata: Aves	Procellariiformes	Diomedeidae	Phoebetria 	fusca 
+Birds	Albatrosses	Light-mantled Sooty Albatross	Animalia: Chordata: Aves	Procellariiformes	Diomedeidae	Phoebetria 	palpebrata 
+Birds	Albatrosses	Albatrosses	Animalia: Chordata: Aves	Procellariiformes	Diomedeidae	Thalassarche 	bulleri 
+Birds	Albatrosses	Shy Albatross	Animalia: Chordata: Aves	Procellariiformes	Diomedeidae	Thalassarche 	cauta 
+Birds	Albatrosses	Shy Albatross	Animalia: Chordata: Aves	Procellariiformes	Diomedeidae	Thalassarche 	cauta cauta
+Birds	Albatrosses	Shy Albatross	Animalia: Chordata: Aves	Procellariiformes	Diomedeidae	Thalassarche 	cauta eremita
+Birds	Albatrosses	Shy Albatross	Animalia: Chordata: Aves	Procellariiformes	Diomedeidae	Thalassarche 	cauta salvini
+Birds	Albatrosses	Shy Albatross	Animalia: Chordata: Aves	Procellariiformes	Diomedeidae	Thalassarche 	cauta steadi
+Birds	Albatrosses	Yellow-nosed Albatross	Animalia: Chordata: Aves	Procellariiformes	Diomedeidae	Thalassarche 	chlororhynchos 
+Birds	Albatrosses	Yellow-nosed Albatross	Animalia: Chordata: Aves	Procellariiformes	Diomedeidae	Thalassarche 	chlororhynchos bassi
+Birds	Albatrosses	Yellow-nosed Albatross	Animalia: Chordata: Aves	Procellariiformes	Diomedeidae	Thalassarche 	chlororhynchos chlororhynchos
+Birds	Albatrosses	Grey-headed Albatross	Animalia: Chordata: Aves	Procellariiformes	Diomedeidae	Thalassarche 	chrysostoma 
+Birds	Albatrosses	Black-browed Albatross	Animalia: Chordata: Aves	Procellariiformes	Diomedeidae	Thalassarche 	melanophris 
+Birds	Albatrosses	Black-browed Albatross	Animalia: Chordata: Aves	Procellariiformes	Diomedeidae	Thalassarche 	melanophris impavida
+Birds	Albatrosses	Black-browed Albatross	Animalia: Chordata: Aves	Procellariiformes	Diomedeidae	Thalassarche 	melanophris melanophris
+Birds	Storm petrels	Leach's Storm-Petrel	Animalia: Chordata: Aves	Procellariiformes	Hydrobatidae	Hydrobates 	leucorhoa 
+Birds	Storm petrels	Leach's Storm-Petrel	Animalia: Chordata: Aves	Procellariiformes	Hydrobatidae	Hydrobates 	leucorhoa leucorhoa
+Birds	Storm petrels	Matsudaira's Storm-Petrel	Animalia: Chordata: Aves	Procellariiformes	Hydrobatidae	Hydrobates 	matsudairae 
+Birds	Storm petrels	Swinhoe's Storm-Petrel	Animalia: Chordata: Aves	Procellariiformes	Hydrobatidae	Hydrobates 	monorrhis 
+Birds	Storm petrels	Tristram's Storm-Petrel	Animalia: Chordata: Aves	Procellariiformes	Hydrobatidae	Hydrobates 	tristrami 
+Birds	Storm petrels	White-bellied Storm-Petrel	Animalia: Chordata: Aves	Procellariiformes	Oceanitidae	Fregetta 	grallaria 
+Birds	Storm petrels	White-bellied Storm-Petrel	Animalia: Chordata: Aves	Procellariiformes	Oceanitidae	Fregetta 	grallaria grallaria
+Birds	Storm petrels	Black-bellied Storm-Petrel	Animalia: Chordata: Aves	Procellariiformes	Oceanitidae	Fregetta 	tropica 
+Birds	Storm petrels	Black-bellied Storm-Petrel	Animalia: Chordata: Aves	Procellariiformes	Oceanitidae	Fregetta 	tropica tropica
+Birds	Storm petrels	Grey-backed Storm-Petrel	Animalia: Chordata: Aves	Procellariiformes	Oceanitidae	Garrodia 	nereis 
+Birds	Storm petrels	Wilson's Storm-Petrel	Animalia: Chordata: Aves	Procellariiformes	Oceanitidae	Oceanites 	oceanicus 
+Birds	Storm petrels	Wilson's Storm-Petrel	Animalia: Chordata: Aves	Procellariiformes	Oceanitidae	Oceanites 	oceanicus exasperatus
+Birds	Storm petrels	Wilson's Storm-Petrel	Animalia: Chordata: Aves	Procellariiformes	Oceanitidae	Oceanites 	oceanicus oceanicus
+Birds	Storm petrels	White-faced Storm-Petrel	Animalia: Chordata: Aves	Procellariiformes	Oceanitidae	Pelagodroma 	marina 
+Birds	Storm petrels	White-faced Storm-Petrel	Animalia: Chordata: Aves	Procellariiformes	Oceanitidae	Pelagodroma 	marina dulciae
+Birds	"Petrels, Prions, Shearwaters"	Buller's Shearwater	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Ardenna 	bulleri 
+Birds	"Petrels, Prions, Shearwaters"	Flesh-footed Shearwater	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Ardenna 	carneipes 
+Birds	"Petrels, Prions, Shearwaters"	Pink-footed Shearwater	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Ardenna 	creatopus 
+Birds	"Petrels, Prions, Shearwaters"	Great Shearwater	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Ardenna 	gravis 
+Birds	"Petrels, Prions, Shearwaters"	Sooty Shearwater	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Ardenna 	grisea 
+Birds	"Petrels, Prions, Shearwaters"	Wedge-tailed Shearwater	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Ardenna 	pacifica 
+Birds	"Petrels, Prions, Shearwaters"	Short-tailed Shearwater	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Ardenna 	tenuirostris 
+Birds	"Petrels, Prions, Shearwaters"	Bulwer's Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Bulweria 	bulwerii 
+Birds	"Petrels, Prions, Shearwaters"	Jouanin's Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Bulweria 	fallax 
+Birds	"Petrels, Prions, Shearwaters"	Streaked Shearwater	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Calonectris 	leucomelas 
+Birds	"Petrels, Prions, Shearwaters"	Cape Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Daption 	capense 
+Birds	"Petrels, Prions, Shearwaters"	Cape Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Daption 	capense australe
+Birds	"Petrels, Prions, Shearwaters"	Cape Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Daption 	capense capense
+Birds	"Petrels, Prions, Shearwaters"	Southern Fulmar	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Fulmarus 	glacialoides 
+Birds	"Petrels, Prions, Shearwaters"	Blue Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Halobaena 	caerulea 
+Birds	"Petrels, Prions, Shearwaters"	Kerguelen Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Lugensa 	brevirostris 
+Birds	"Petrels, Prions, Shearwaters"	Southern Giant-Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Macronectes 	giganteus 
+Birds	"Petrels, Prions, Shearwaters"	Northern Giant-Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Macronectes 	halli 
+Birds	"Petrels, Prions, Shearwaters"	Slender-billed Prion	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Pachyptila 	belcheri 
+Birds	"Petrels, Prions, Shearwaters"	Fulmar Prion	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Pachyptila 	crassirostris 
+Birds	"Petrels, Prions, Shearwaters"	Fulmar Prion	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Pachyptila 	crassirostris eatoni
+Birds	"Petrels, Prions, Shearwaters"	Antarctic Prion	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Pachyptila 	desolata 
+Birds	"Petrels, Prions, Shearwaters"	Salvin's Prion	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Pachyptila 	salvini 
+Birds	"Petrels, Prions, Shearwaters"	Salvin's Prion	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Pachyptila 	salvini macgillivrayi
+Birds	"Petrels, Prions, Shearwaters"	Salvin's Prion	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Pachyptila 	salvini salvini
+Birds	"Petrels, Prions, Shearwaters"	Fairy Prion	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Pachyptila 	turtur 
+Birds	"Petrels, Prions, Shearwaters"	Fairy Prion	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Pachyptila 	turtur subantarctica
+Birds	"Petrels, Prions, Shearwaters"	Fairy Prion	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Pachyptila 	turtur turtur
+Birds	"Petrels, Prions, Shearwaters"	Broad-billed Prion	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Pachyptila 	vittata 
+Birds	"Petrels, Prions, Shearwaters"	Snow Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Pagodroma 	nivea 
+Birds	"Petrels, Prions, Shearwaters"	Snow Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Pagodroma 	nivea confusa
+Birds	"Petrels, Prions, Shearwaters"	Snow Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Pagodroma 	nivea nivea
+Birds	"Petrels, Prions, Shearwaters"	Common Diving-Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Pelecanoides	urinatrix
+Birds	"Petrels, Prions, Shearwaters"	South Georgian Diving-Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Pelecanoides 	georgicus 
+Birds	"Petrels, Prions, Shearwaters"	Common Diving-Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Pelecanoides 	urinatrix 
+Birds	"Petrels, Prions, Shearwaters"	Common Diving-Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Pelecanoides 	urinatrix exsul
+Birds	"Petrels, Prions, Shearwaters"	Common Diving-Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Pelecanoides 	urinatrix urinatrix
+Birds	"Petrels, Prions, Shearwaters"	Grey Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Procellaria Adamastor	cinerea 
+Birds	"Petrels, Prions, Shearwaters"	White-chinned Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Procellaria Procellaria	aequinoctialis 
+Birds	"Petrels, Prions, Shearwaters"	White-chinned Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Procellaria Procellaria	aequinoctialis aequinoctialis
+Birds	"Petrels, Prions, Shearwaters"	Black Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Procellaria Procellaria	parkinsoni 
+Birds	"Petrels, Prions, Shearwaters"	Westland Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Procellaria Procellaria	westlandica 
+Birds	"Petrels, Prions, Shearwaters"	Tahiti Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Pseudobulweria 	rostrata 
+Birds	"Petrels, Prions, Shearwaters"	Tahiti Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Pseudobulweria 	rostrata rostrata
+Birds	"Petrels, Prions, Shearwaters"	Tahiti Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Pseudobulweria 	rostrata trouessarti
+Birds	"Petrels, Prions, Shearwaters"	Barau's Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Pterodroma Aestrelata	baraui 
+Birds	"Petrels, Prions, Shearwaters"	White-necked Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Pterodroma Aestrelata	cervicalis 
+Birds	"Petrels, Prions, Shearwaters"	Juan Fernandez Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Pterodroma Aestrelata	externa 
+Birds	"Petrels, Prions, Shearwaters"	Vanuatu Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Pterodroma Aestrelata	occulta 
+Birds	"Petrels, Prions, Shearwaters"	Cook's Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Pterodroma Cookilaria	cookii 
+Birds	"Petrels, Prions, Shearwaters"	Atlantic Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Pterodroma Cookilaria	incerta 
+Birds	"Petrels, Prions, Shearwaters"	Gould's Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Pterodroma Cookilaria	leucoptera 
+Birds	"Petrels, Prions, Shearwaters"	Gould's Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Pterodroma Cookilaria	leucoptera caledonica
+Birds	"Petrels, Prions, Shearwaters"	Gould's Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Pterodroma Cookilaria	leucoptera leucoptera
+Birds	"Petrels, Prions, Shearwaters"	Black-winged Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Pterodroma Cookilaria	nigripennis 
+Birds	"Petrels, Prions, Shearwaters"	Herald Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Pterodroma Hallstroma	heraldica 
+Birds	"Petrels, Prions, Shearwaters"	Kermadec Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Pterodroma Hallstroma	neglecta 
+Birds	"Petrels, Prions, Shearwaters"	Kermadec Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Pterodroma Hallstroma	neglecta neglecta
+Birds	"Petrels, Prions, Shearwaters"	White-headed Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Pterodroma Pterodroma	lessonii 
+Birds	"Petrels, Prions, Shearwaters"	Great-winged Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Pterodroma Pterodroma	macroptera 
+Birds	"Petrels, Prions, Shearwaters"	Great-winged Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Pterodroma Pterodroma	macroptera gouldi
+Birds	"Petrels, Prions, Shearwaters"	Great-winged Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Pterodroma Pterodroma	macroptera macroptera
+Birds	"Petrels, Prions, Shearwaters"	Providence Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Pterodroma Pterodroma	solandri 
+Birds	"Petrels, Prions, Shearwaters"	Mottled Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Pterodroma Unplaced	inexpectata 
+Birds	"Petrels, Prions, Shearwaters"	Soft-plumaged Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Pterodroma Unplaced	mollis 
+Birds	"Petrels, Prions, Shearwaters"	Little Shearwater	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Puffinus Puffinus	assimilis 
+Birds	"Petrels, Prions, Shearwaters"	Little Shearwater	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Puffinus Puffinus	assimilis assimilis
+Birds	"Petrels, Prions, Shearwaters"	Little Shearwater	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Puffinus Puffinus	assimilis tunneyi
+Birds	"Petrels, Prions, Shearwaters"	Fluttering Shearwater	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Puffinus Puffinus	gavia 
+Birds	"Petrels, Prions, Shearwaters"	Hutton's Shearwater	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Puffinus Puffinus	huttoni 
+Birds	"Petrels, Prions, Shearwaters"	Audubon's Shearwater	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Puffinus Puffinus	lherminieri 
+Birds	"Petrels, Prions, Shearwaters"	Audubon's Shearwater	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Puffinus Puffinus	lherminieri gunax
+Birds	"Petrels, Prions, Shearwaters"	Newell's Shearwater	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Puffinus Puffinus	newelli 
+Birds	"Petrels, Prions, Shearwaters"	Manx Shearwater	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Puffinus Puffinus	puffinus 
+Birds	"Petrels, Prions, Shearwaters"	Manx Shearwater	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Puffinus Puffinus	puffinus puffinus
+Birds	"Petrels, Prions, Shearwaters"	Antarctic Petrel	Animalia: Chordata: Aves	Procellariiformes	Procellariidae	Thalassoica 	antarctica 
 Birds	Cockatoos	Sulphur-crested Cockatoo	Animalia: Chordata: Aves	Psittaciformes	Cacatuidae	Cacatua	galerita 
 Birds	Cockatoos	Sulphur-crested Cockatoo	Animalia: Chordata: Aves	Psittaciformes	Cacatuidae	Cacatua	galerita fitzroyi
 Birds	Cockatoos	Sulphur-crested Cockatoo	Animalia: Chordata: Aves	Psittaciformes	Cacatuidae	Cacatua	galerita galerita
@@ -1498,10 +1503,8 @@ Birds	Cockatoos	Little Corella	Animalia: Chordata: Aves	Psittaciformes	Cacatuida
 Birds	Cockatoos	Little Corella	Animalia: Chordata: Aves	Psittaciformes	Cacatuidae	Cacatua	sanguinea normantoni
 Birds	Cockatoos	Little Corella	Animalia: Chordata: Aves	Psittaciformes	Cacatuidae	Cacatua	sanguinea sanguinea
 Birds	Cockatoos	Little Corella	Animalia: Chordata: Aves	Psittaciformes	Cacatuidae	Cacatua	sanguinea westralensis
-Birds	Cockatoos	Cockatoos	Animalia: Chordata: Aves	Psittaciformes	Cacatuidae	Cacatua	sp.
 Birds	Cockatoos	Long-billed Corella	Animalia: Chordata: Aves	Psittaciformes	Cacatuidae	Cacatua	tenuirostris 
 Birds	Cockatoos	Gang-gang Cockatoo	Animalia: Chordata: Aves	Psittaciformes	Cacatuidae	Callocephalon	fimbriatum 
-Birds	Cockatoos	Cockatoos	Animalia: Chordata: Aves	Psittaciformes	Cacatuidae	Callocephalon	sp.
 Birds	Cockatoos	Red-tailed Black Cockatoo	Animalia: Chordata: Aves	Psittaciformes	Cacatuidae	Calyptorhynchus	banksii 
 Birds	Cockatoos	Red-tailed Black Cockatoo	Animalia: Chordata: Aves	Psittaciformes	Cacatuidae	Calyptorhynchus	banksii banksii
 Birds	Cockatoos	Red-tailed Black Cockatoo	Animalia: Chordata: Aves	Psittaciformes	Cacatuidae	Calyptorhynchus	banksii graptogyne
@@ -1518,31 +1521,21 @@ Birds	Cockatoos	Glossy Black Cockatoo	Animalia: Chordata: Aves	Psittaciformes	Ca
 Birds	Cockatoos	Glossy Black Cockatoo	Animalia: Chordata: Aves	Psittaciformes	Cacatuidae	Calyptorhynchus	lathami halmaturinus
 Birds	Cockatoos	Glossy Black Cockatoo	Animalia: Chordata: Aves	Psittaciformes	Cacatuidae	Calyptorhynchus	lathami lathami
 Birds	Cockatoos	Short-billed Black Cockatoo	Animalia: Chordata: Aves	Psittaciformes	Cacatuidae	Calyptorhynchus	latirostris 
-Birds	Cockatoos	Cockatoos	Animalia: Chordata: Aves	Psittaciformes	Cacatuidae	Calyptorhynchus	sp.
-Birds	Cockatoos	Cockatoos	Animalia: Chordata: Aves	Psittaciformes	Cacatuidae	Calyptorhynchus	sp.
 Birds	Cockatoos	Rose-breasted Cockatoo	Animalia: Chordata: Aves	Psittaciformes	Cacatuidae	Eolophus	roseicapillus 
 Birds	Cockatoos	Rose-breasted Cockatoo	Animalia: Chordata: Aves	Psittaciformes	Cacatuidae	Eolophus	roseicapillus albiceps
 Birds	Cockatoos	Rose-breasted Cockatoo	Animalia: Chordata: Aves	Psittaciformes	Cacatuidae	Eolophus	roseicapillus kuhli
 Birds	Cockatoos	Rose-breasted Cockatoo	Animalia: Chordata: Aves	Psittaciformes	Cacatuidae	Eolophus	roseicapillus roseicapillus
-Birds	Cockatoos	Cockatoos	Animalia: Chordata: Aves	Psittaciformes	Cacatuidae	Eolophus	sp.
 Birds	Cockatoos	Major Mitchell's Cockatoo	Animalia: Chordata: Aves	Psittaciformes	Cacatuidae	Lophochroa	leadbeateri 
 Birds	Cockatoos	Major Mitchell's Cockatoo	Animalia: Chordata: Aves	Psittaciformes	Cacatuidae	Lophochroa	leadbeateri leadbeateri
 Birds	Cockatoos	Major Mitchell's Cockatoo	Animalia: Chordata: Aves	Psittaciformes	Cacatuidae	Lophochroa	leadbeateri mollis
-Birds	Cockatoos	Cockatoos	Animalia: Chordata: Aves	Psittaciformes	Cacatuidae	Lophochroa	sp.
 Birds	Cockatoos	Cockatiel 	Animalia: Chordata: Aves	Psittaciformes	Cacatuidae	Nymphicus	hollandicus 
-Birds	Cockatoos	Cockatoos	Animalia: Chordata: Aves	Psittaciformes	Cacatuidae	Nymphicus	sp.
 Birds	Cockatoos	Palm Cockatoo 	Animalia: Chordata: Aves	Psittaciformes	Cacatuidae	Probosciger	aterrimus 
 Birds	Cockatoos	Palm Cockatoo 	Animalia: Chordata: Aves	Psittaciformes	Cacatuidae	Probosciger	aterrimus macgillivrayi
-Birds	Cockatoos	Cockatoos	Animalia: Chordata: Aves	Psittaciformes	Cacatuidae	Probosciger	sp.
-Birds	Cockatoos	Cockatoos	Animalia: Chordata: Aves	Psittaciformes	Cacatuidae	Unknown	sp.
 Birds	Sittellas	Norfolk Kaka	Animalia: Chordata: Aves	Psittaciformes	Nestoridae	Nestor	productus 
 Birds	"Parrots, Lorikeets & Rosellas"	Australian King Parrot	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Alisterus	scapularis 
 Birds	"Parrots, Lorikeets & Rosellas"	Australian King Parrot	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Alisterus	scapularis minor
 Birds	"Parrots, Lorikeets & Rosellas"	Australian King Parrot	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Alisterus	scapularis scapularis
-Birds	"Parrots, Lorikeets & Rosellas"	True parrots	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Alisterus	sp.
 Birds	"Parrots, Lorikeets & Rosellas"	Red-winged Parrot	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Aprosmictus	erythropterus 
-Birds	"Parrots, Lorikeets & Rosellas"	True parrots	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Aprosmictus	sp.
-Birds	"Parrots, Lorikeets & Rosellas"	True parrots	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Barnardius	sp.
 Birds	"Parrots, Lorikeets & Rosellas"	Australian Ringneck	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Barnardius	zonarius 
 Birds	"Parrots, Lorikeets & Rosellas"	Australian Ringneck	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Barnardius	zonarius barnardi
 Birds	"Parrots, Lorikeets & Rosellas"	Australian Ringneck	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Barnardius	zonarius macgillivrayi
@@ -1552,28 +1545,21 @@ Birds	"Parrots, Lorikeets & Rosellas"	Norfolk Parakeet	Animalia: Chordata: Aves	
 Birds	"Parrots, Lorikeets & Rosellas"	Red-crowned Parakeet	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Cyanoramphus	novaezelandiae 
 Birds	"Parrots, Lorikeets & Rosellas"	Macquarie Parakeet	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Cyanoramphus	novaezelandiae erythrotis
 Birds	"Parrots, Lorikeets & Rosellas"	Lord Howe Red-crowned Parakeet	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Cyanoramphus	novaezelandiae subflavescens
-Birds	"Parrots, Lorikeets & Rosellas"	True parrots	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Cyanoramphus	sp.
 Birds	"Parrots, Lorikeets & Rosellas"	Double-eyed Fig Parrot	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Cyclopsitta	diophthalma 
 Birds	"Parrots, Lorikeets & Rosellas"	Double-eyed Fig Parrot	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Cyclopsitta	diophthalma coxeni
 Birds	"Parrots, Lorikeets & Rosellas"	Double-eyed Fig Parrot	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Cyclopsitta	diophthalma macleayana
 Birds	"Parrots, Lorikeets & Rosellas"	Double-eyed Fig Parrot	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Cyclopsitta	diophthalma marshalli
-Birds	"Parrots, Lorikeets & Rosellas"	True parrots	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Cyclopsitta	sp.
 Birds	"Parrots, Lorikeets & Rosellas"	Eclectus Parrot	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Eclectus	roratus 
 Birds	"Parrots, Lorikeets & Rosellas"	Eclectus Parrot	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Eclectus	roratus macgillivrayi
 Birds	"Parrots, Lorikeets & Rosellas"	Eclectus Parrot	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Eclectus	roratus polychloros
-Birds	"Parrots, Lorikeets & Rosellas"	True parrots	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Eclectus	sp.
 Birds	"Parrots, Lorikeets & Rosellas"	Red-cheeked Parrot	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Geoffroyus	geoffroyi 
 Birds	"Parrots, Lorikeets & Rosellas"	Red-cheeked Parrot	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Geoffroyus	geoffroyi maclennani
-Birds	"Parrots, Lorikeets & Rosellas"	True parrots	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Geoffroyus	sp.
 Birds	"Parrots, Lorikeets & Rosellas"	Musk Lorikeet	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Glossopsitta	concinna 
 Birds	"Parrots, Lorikeets & Rosellas"	Musk Lorikeet	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Glossopsitta	concinna concinna
 Birds	"Parrots, Lorikeets & Rosellas"	Musk Lorikeet	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Glossopsitta	concinna didimus
 Birds	"Parrots, Lorikeets & Rosellas"	Purple-crowned Lorikeet	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Glossopsitta	porphyrocephala 
 Birds	"Parrots, Lorikeets & Rosellas"	Little Lorikeet	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Glossopsitta	pusilla 
-Birds	"Parrots, Lorikeets & Rosellas"	True parrots	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Glossopsitta	sp.
 Birds	"Parrots, Lorikeets & Rosellas"	Swift Parrot	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Lathamus	discolor 
-Birds	"Parrots, Lorikeets & Rosellas"	True parrots	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Lathamus	sp.
-Birds	"Parrots, Lorikeets & Rosellas"	True parrots	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Melopsittacus	sp.
 Birds	"Parrots, Lorikeets & Rosellas"	Budgerigar	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Melopsittacus	undulatus 
 Birds	"Parrots, Lorikeets & Rosellas"	Orange-bellied Parrot	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Neophema	chrysogaster 
 Birds	"Parrots, Lorikeets & Rosellas"	Blue-winged Parrot 	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Neophema	chrysostoma 
@@ -1584,18 +1570,14 @@ Birds	"Parrots, Lorikeets & Rosellas"	Rock Parrot 	Animalia: Chordata: Aves	Psit
 Birds	"Parrots, Lorikeets & Rosellas"	Rock Parrot 	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Neophema	petrophila petrophila
 Birds	"Parrots, Lorikeets & Rosellas"	Rock Parrot 	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Neophema	petrophila zietzi
 Birds	"Parrots, Lorikeets & Rosellas"	Turquoise parrot 	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Neophema	pulchella 
-Birds	"Parrots, Lorikeets & Rosellas"	True parrots	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Neophema	sp.
 Birds	"Parrots, Lorikeets & Rosellas"	Scarlet-chested Parrot 	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Neophema	splendida 
 Birds	"Parrots, Lorikeets & Rosellas"	Bourke's Parrot 	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Neopsephotus	bourkii 
-Birds	"Parrots, Lorikeets & Rosellas"	True parrots	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Neopsephotus	sp.
 Birds	"Parrots, Lorikeets & Rosellas"	Bluebonnet	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Northiella	haematogaster 
 Birds	"Parrots, Lorikeets & Rosellas"	Bluebonnet	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Northiella	haematogaster haematogaster
 Birds	"Parrots, Lorikeets & Rosellas"	Bluebonnet	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Northiella	haematogaster haematorrhous
 Birds	"Parrots, Lorikeets & Rosellas"	Bluebonnet	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Northiella	haematogaster narethae
 Birds	"Parrots, Lorikeets & Rosellas"	Bluebonnet	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Northiella	haematogaster pallescens
-Birds	"Parrots, Lorikeets & Rosellas"	True parrots	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Northiella	sp.
 Birds	"Parrots, Lorikeets & Rosellas"	Night Parrot	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Pezoporus	occidentalis 
-Birds	"Parrots, Lorikeets & Rosellas"	True parrots	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Pezoporus	sp.
 Birds	"Parrots, Lorikeets & Rosellas"	Eastern Ground Parrot	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Pezoporus	wallicus 
 Birds	"Parrots, Lorikeets & Rosellas"	Eastern Ground Parrot	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Pezoporus	wallicus flaviventris
 Birds	"Parrots, Lorikeets & Rosellas"	Eastern Ground Parrot	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Pezoporus	wallicus leachi
@@ -1619,7 +1601,6 @@ Birds	"Parrots, Lorikeets & Rosellas"	Eastern Rosella	Animalia: Chordata: Aves	P
 Birds	"Parrots, Lorikeets & Rosellas"	Western Rosella	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Platycercus	icterotis 
 Birds	"Parrots, Lorikeets & Rosellas"	Western Rosella	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Platycercus	icterotis icterotis
 Birds	"Parrots, Lorikeets & Rosellas"	Western Rosella	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Platycercus	icterotis xanthogenys
-Birds	"Parrots, Lorikeets & Rosellas"	True parrots	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Platycercus	sp.
 Birds	"Parrots, Lorikeets & Rosellas"	Northern Rosella	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Platycercus	venustus 
 Birds	"Parrots, Lorikeets & Rosellas"	Northern Rosella	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Platycercus	venustus hilli
 Birds	"Parrots, Lorikeets & Rosellas"	Northern Rosella	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Platycercus	venustus venustus
@@ -1627,7 +1608,6 @@ Birds	"Parrots, Lorikeets & Rosellas"	Princess Parrot	Animalia: Chordata: Aves	P
 Birds	"Parrots, Lorikeets & Rosellas"	Regent Parrot	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Polytelis	anthopeplus 
 Birds	"Parrots, Lorikeets & Rosellas"	Regent Parrot	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Polytelis	anthopeplus anthopeplus
 Birds	"Parrots, Lorikeets & Rosellas"	Regent Parrot	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Polytelis	anthopeplus monarchoides
-Birds	"Parrots, Lorikeets & Rosellas"	True parrots	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Polytelis	sp.
 Birds	"Parrots, Lorikeets & Rosellas"	Superb Parrot	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Polytelis	swainsonii 
 Birds	"Parrots, Lorikeets & Rosellas"	Golden-shouldered Parrot	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Psephotus	chrysopterygius 
 Birds	"Parrots, Lorikeets & Rosellas"	Hooded Parro	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Psephotus	dissimilis 
@@ -1636,11 +1616,8 @@ Birds	"Parrots, Lorikeets & Rosellas"	Red-rumped Parrot	Animalia: Chordata: Aves
 Birds	"Parrots, Lorikeets & Rosellas"	Red-rumped Parrot	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Psephotus	haematonotus haematonotus
 Birds	"Parrots, Lorikeets & Rosellas"	Red-rumped Parrot	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Psephotus	haematonotus virescens
 Birds	"Parrots, Lorikeets & Rosellas"	Paradise Parrot	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Psephotus	pulcherrimus 
-Birds	"Parrots, Lorikeets & Rosellas"	True parrots	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Psephotus	sp.
 Birds	"Parrots, Lorikeets & Rosellas"	Mulga Parrot	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Psephotus	varius 
-Birds	"Parrots, Lorikeets & Rosellas"	Lorikeet	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Psitteuteles	sp.
 Birds	"Parrots, Lorikeets & Rosellas"	Varied Lorikeet	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Psitteuteles	versicolor 
-Birds	"Parrots, Lorikeets & Rosellas"	True parrots	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Purpureicephalus	sp.
 Birds	"Parrots, Lorikeets & Rosellas"	Red-capped Parrot 	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Purpureicephalus	spurius 
 Birds	"Parrots, Lorikeets & Rosellas"	Scaly-breasted Lorikeet	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Trichoglossus	chlorolepidotus 
 Birds	"Parrots, Lorikeets & Rosellas"	Rainbow Lorikeet	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Trichoglossus	haematodus 
@@ -1649,11 +1626,26 @@ Birds	"Parrots, Lorikeets & Rosellas"	Rainbow Lorikeet	Animalia: Chordata: Aves	
 Birds	"Parrots, Lorikeets & Rosellas"	Rainbow Lorikeet	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Trichoglossus	haematodus moluccanus
 Birds	"Parrots, Lorikeets & Rosellas"	Rainbow Lorikeet	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Trichoglossus	haematodus rubritorquis
 Birds	"Parrots, Lorikeets & Rosellas"	Rainbow Lorikeet	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Trichoglossus	haematodus septentrionalis
-Birds	"Parrots, Lorikeets & Rosellas"	Lorikeet	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Trichoglossus	sp.
-Birds	"Parrots, Lorikeets & Rosellas"	Lorikeet	Animalia: Chordata: Aves	Psittaciformes	Psittacidae	Unknown	sp.
+Birds	Penguins	Emperor Penguin	Animalia: Chordata: Aves	Spenisciformes	Spheniscidae	Aptenodytes	forsteri 
+Birds	Penguins	King Penguin	Animalia: Chordata: Aves	Spenisciformes	Spheniscidae	Aptenodytes	patagonicus 
+Birds	Penguins	Rockhopper Penguin	Animalia: Chordata: Aves	Spenisciformes	Spheniscidae	Eudyptes	chrysocome 
+Birds	Penguins	Rockhopper Penguin	Animalia: Chordata: Aves	Spenisciformes	Spheniscidae	Eudyptes	chrysocome chrysocome
+Birds	Penguins	Rockhopper Penguin	Animalia: Chordata: Aves	Spenisciformes	Spheniscidae	Eudyptes	chrysocome filholi
+Birds	Penguins	Rockhopper Penguin	Animalia: Chordata: Aves	Spenisciformes	Spheniscidae	Eudyptes	chrysocome moseleyi
+Birds	Penguins	Macaroni Penguin	Animalia: Chordata: Aves	Spenisciformes	Spheniscidae	Eudyptes	chrysolophus 
+Birds	Penguins	Fiordland Penguin	Animalia: Chordata: Aves	Spenisciformes	Spheniscidae	Eudyptes	pachyrhynchus 
+Birds	Penguins	Fiordland Penguin	Animalia: Chordata: Aves	Spenisciformes	Spheniscidae	Eudyptes	pachyrhynchus pachyrhynchus
+Birds	Penguins	Fiordland Penguin	Animalia: Chordata: Aves	Spenisciformes	Spheniscidae	Eudyptes	pachyrhynchus robustus
+Birds	Penguins	Erect-crested Penguin	Animalia: Chordata: Aves	Spenisciformes	Spheniscidae	Eudyptes	sclateri 
+Birds	Penguins	Little Penguin	Animalia: Chordata: Aves	Spenisciformes	Spheniscidae	Eudyptula	minor 
+Birds	Penguins	Little Penguin	Animalia: Chordata: Aves	Spenisciformes	Spheniscidae	Eudyptula	minor undina
+Birds	Penguins	Adelie Penguin	Animalia: Chordata: Aves	Spenisciformes	Spheniscidae	Pygoscelis	adeliae 
+Birds	Penguins	Chinstrap Penguin	Animalia: Chordata: Aves	Spenisciformes	Spheniscidae	Pygoscelis	antarcticus 
+Birds	Penguins	Gentoo Penguin	Animalia: Chordata: Aves	Spenisciformes	Spheniscidae	Pygoscelis	papua 
+Birds	Penguins	Gentoo Penguin	Animalia: Chordata: Aves	Spenisciformes	Spheniscidae	Pygoscelis	papua papua
+Birds	Penguins	Magellanic Penguin	Animalia: Chordata: Aves	Spenisciformes	Spheniscidae	Spheniscus	magellanicus 
 Birds	Owls	Buffy Fish-Owl or Malay Fish Owl	Animalia: Chordata: Aves	Strigiformes	Strigidae	Bubo	ketupu 
 Birds	Owls	Buffy Fish-Owl or Malay Fish Owl	Animalia: Chordata: Aves	Strigiformes	Strigidae	Bubo	ketupu ketupu
-Birds	Owls	True owl	Animalia: Chordata: Aves	Strigiformes	Strigidae	Bubo	sp.
 Birds	Owls	Barking Owl 	Animalia: Chordata: Aves	Strigiformes	Strigidae	Ninox	connivens 
 Birds	Owls	Barking Owl 	Animalia: Chordata: Aves	Strigiformes	Strigidae	Ninox	connivens connivens
 Birds	Owls	Barking Owl 	Animalia: Chordata: Aves	Strigiformes	Strigidae	Ninox	connivens peninsularis
@@ -1672,9 +1664,7 @@ Birds	Owls	Rufous Owl 	Animalia: Chordata: Aves	Strigiformes	Strigidae	Ninox	ruf
 Birds	Owls	Rufous Owl 	Animalia: Chordata: Aves	Strigiformes	Strigidae	Ninox	rufa rufa
 Birds	Owls	Brown Hawk-Owl 	Animalia: Chordata: Aves	Strigiformes	Strigidae	Ninox	scutulata 
 Birds	Owls	Brown Hawk-Owl 	Animalia: Chordata: Aves	Strigiformes	Strigidae	Ninox	scutulata japonica
-Birds	Owls	True owl	Animalia: Chordata: Aves	Strigiformes	Strigidae	Ninox	sp.
 Birds	Owls	Powerful Owl 	Animalia: Chordata: Aves	Strigiformes	Strigidae	Ninox	strenua 
-Birds	Owls	Owl	Animalia: Chordata: Aves	Strigiformes	Strigidae	Unknown	sp.
 Birds	Barn-owls	Eastern barn owl	Animalia: Chordata: Aves	Strigiformes	Tytonidae	Tyto	javanica 
 Birds	Barn-owls	Eastern Grass Owl	Animalia: Chordata: Aves	Strigiformes	Tytonidae	Tyto	longimembris 
 Birds	Barn-owls	Australian Masked Owl	Animalia: Chordata: Aves	Strigiformes	Tytonidae	Tyto	novaehollandiae 
@@ -1683,19 +1673,24 @@ Birds	Barn-owls	Australian Masked Owl	Animalia: Chordata: Aves	Strigiformes	Tyto
 Birds	Barn-owls	Australian Masked Owl	Animalia: Chordata: Aves	Strigiformes	Tytonidae	Tyto	novaehollandiae kimberli
 Birds	Barn-owls	Australian Masked Owl	Animalia: Chordata: Aves	Strigiformes	Tytonidae	Tyto	novaehollandiae melvillensis
 Birds	Barn-owls	Australian Masked Owl	Animalia: Chordata: Aves	Strigiformes	Tytonidae	Tyto	novaehollandiae novaehollandiae
-Birds	Barn-owls	Barn-owls	Animalia: Chordata: Aves	Strigiformes	Tytonidae	Tyto	sp.
 Birds	Barn-owls	Sooty Owl 	Animalia: Chordata: Aves	Strigiformes	Tytonidae	Tyto	tenebricosa 
 Birds	Barn-owls	Sooty Owl 	Animalia: Chordata: Aves	Strigiformes	Tytonidae	Tyto	tenebricosa multipunctata
 Birds	Barn-owls	Sooty Owl 	Animalia: Chordata: Aves	Strigiformes	Tytonidae	Tyto	tenebricosa tenebricosa
-Birds	Barn-owls	Unknown	Animalia: Chordata: Aves	Strigiformes	Tytonidae	Unknown	sp.
 Birds	Cassowary & Emu	Southern Cassowary or Double-wattled Cassowary	Animalia: Chordata: Aves	Struthioniformes	Casuariidae	Casuarius	casuarius 
 Birds	Cassowary & Emu	Southern Cassowary or Double-wattled Cassowary	Animalia: Chordata: Aves	Struthioniformes	Casuariidae	Casuarius	casuarius johnsonii
-Birds	Cassowary & Emu	Ratites 	Animalia: Chordata: Aves	Struthioniformes	Casuariidae	Casuarius	sp.
 Birds	Cassowary & Emu	King Island Emu	Animalia: Chordata: Aves	Struthioniformes	Casuariidae	Dromaius	ater 
 Birds	Cassowary & Emu	Kangaroo Island Emu	Animalia: Chordata: Aves	Struthioniformes	Casuariidae	Dromaius	baudinianus 
 Birds	Cassowary & Emu	Emu	Animalia: Chordata: Aves	Struthioniformes	Casuariidae	Dromaius	novaehollandiae 
 Birds	Cassowary & Emu	Emu	Animalia: Chordata: Aves	Struthioniformes	Casuariidae	Dromaius	novaehollandiae diemenianus
 Birds	Cassowary & Emu	Emu	Animalia: Chordata: Aves	Struthioniformes	Casuariidae	Dromaius	novaehollandiae novaehollandiae
-Birds	Cassowary & Emu	Emu	Animalia: Chordata: Aves	Struthioniformes	Casuariidae	Dromaius	sp.
-Birds	Cassowary & Emu	Ratites 	Animalia: Chordata: Aves	Struthioniformes	Casuariidae	Unknown	sp.
 Birds	Ostrich	Ostrich	Animalia: Chordata: Aves	Struthioniformes	Struthionidae	Struthio	camelus 
+Birds	Buttonquail	Chestnut-backed Buttonquail 	Animalia: Chordata: Aves	Turniciformes	Turnicidae	Turnix	castanotus 
+Birds	Buttonquail	Red-backed Button quail 	Animalia: Chordata: Aves	Turniciformes	Turnicidae	Turnix	maculosus 
+Birds	Buttonquail	Red-backed Button quail 	Animalia: Chordata: Aves	Turniciformes	Turnicidae	Turnix	maculosus melanotus
+Birds	Buttonquail	Black-breasted Button-quail	Animalia: Chordata: Aves	Turniciformes	Turnicidae	Turnix	melanogaster 
+Birds	Buttonquail	Buff-breasted button-quail 	Animalia: Chordata: Aves	Turniciformes	Turnicidae	Turnix	olivii 
+Birds	Buttonquail	Red-chested Button quail 	Animalia: Chordata: Aves	Turniciformes	Turnicidae	Turnix	pyrrhothorax 
+Birds	Buttonquail	Painted Button quail	Animalia: Chordata: Aves	Turniciformes	Turnicidae	Turnix	varius 
+Birds	Buttonquail	Painted Button quail	Animalia: Chordata: Aves	Turniciformes	Turnicidae	Turnix	varius scintillans
+Birds	Buttonquail	Painted Button quail	Animalia: Chordata: Aves	Turniciformes	Turnicidae	Turnix	varius varia
+Birds	Buttonquail	Little Buttonquail 	Animalia: Chordata: Aves	Turniciformes	Turnicidae	Turnix	velox 

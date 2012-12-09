@@ -3,8 +3,12 @@
 * Stream 
 *
 */
+.sightingnoteadded-activity-item .sighting-note .user,
+.sightingnoteadded-activity-item .sighting-note .sighting-note-added {
+    display: none;
+}
 .activity-list .activity-item,
-.sighting-list .sighting-item
+.sighting-item.observation-details
 {
     margin: 0 2% 2%;
     background-color: #FFFFFF;
@@ -14,8 +18,9 @@
     display: inline-block;
     margin: 0 0 2%;
     width: 100%;
+    float: left;
 }
-.sighting-list .sighting-item.thumbnail {
+/*.sighting-list .sighting-item.thumbnail {
     margin: 0 2% 2%;
     background-color: #FFFFFF;
     border-radius: 4px 4px 4px 4px;
@@ -24,21 +29,25 @@
     display: inline-block;
     margin: 0 0 2%;
     width: 100%;
-}
-.activity-list .activity-item:last-child,
-.sighting-list .sighting-item:last-child
+}*/
+/*.activity-list .activity-item:last-child,
+.sighting-list .sighting-item.tile-sighting-details:nth-last-child(-n+3)
 {
-    margin: 0;
-}
+    margin-bottom: 0;
+}*/
 .activity-list .activity-item .summary
 {
     background-color: rgb(249, 249, 249);
     border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
     height: 46px;
+}
+
+.activity-list .activity-item .image-media.media-square-100 > img {
+    border-top-left-radius: 4px;
 }
 .activity-list .activity-item .summary .image-media.media-square-100
 {
-    border-radius: 4px 0 0 0;
     float: left;
     height: 46px;
     width: 46px;
@@ -87,16 +96,18 @@
 .stream-loading {
     float: left;
     width: 100%;
+    padding-bottom: 2%;
 }
 .stream-loading img {
     display: block;
     margin: 0 auto;
     width: 32px;
-    padding-top: 2%;
 }
 .stream-load-more
 {
-    padding-top: 2%;
+    float: left;
+    width: 100%;
+    padding-bottom: 2%;
 }
 .stream-load-more .button
 {
@@ -245,10 +256,7 @@
     padding: 5px;
 }
 
-#avatar-uploaded img
-{
-    height:220px;   
-}
+
 
 
 
@@ -288,12 +296,6 @@ ul.explore-menu
 }
 */
 /*-----------------AVATAR UPLOAD-----------*/
-.explore-avatar
-{
-    height: 50px;
-    width: 50px;
-}
-
 .form .avatar-upload-button
 {
     border-top-left-radius: 0;
@@ -346,11 +348,65 @@ ul.explore-menu
     margin-left: 145px;
     width: auto;
 }
-.form #team-field {
-    float: none;
-    margin-left: 145px;
-    width: auto;
+#avatar-uploaded img
+{
+    height:220px;   
 }
+/* background upload */
+.form .background-upload-button
+{
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    cursor: pointer;
+    display: inline-block;
+    margin-right: 0;
+    overflow: hidden;
+    padding: 3px 0;
+    position: relative;
+    text-align: center;
+    vertical-align: top;
+    width: 100%;
+}
+.form .background-upload-button input
+{
+    color: transparent;
+    cursor: pointer;
+    display: block;
+    font-size: 118px;
+    margin: 0;
+    opacity: 0;
+    padding: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.form #background-viewer
+{
+    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.6);
+    border: 1px solid rgb(170, 170, 170);
+    border-radius: 4px 4px 0 0;
+    box-shadow: 0 0 2px 1px rgba(119, 119, 119, 0.3) inset;
+    color: rgb(0, 0, 0);
+    display: block;
+    font-family: "open sans",sans-serif;
+    font-size: 1em;
+    padding: 13px 13px 7px;
+    width: 100%;
+    height: 151px;
+}
+.form #background-viewer > img
+{
+    border-radius: 4px 4px 4px 4px;
+    width: 100%;
+}
+.form #background-viewer .progress-indicator {
+    display: block;
+    height: 15px;
+    margin: 45px auto 0;
+    width: 15px;
+}
+
+
 
 
 
@@ -432,18 +488,19 @@ ul.explore-menu
 .small-sighting-details .images {
     display: inline-block;
     float: left;
-    width: 37%;
+    width: 38%;
 }
 .small-sighting-details .info 
 {
     float: left;
     margin-left: 2%;
     position: relative;
-    width: 61%;
+    width: 60%;
 }
 .small-sighting-details .user {
     display: inline-block;
     float: left;
+    margin-bottom: 11px;
     width: 100%;
 }
 .small-sighting-details .user .media-square-100 {
@@ -459,29 +516,13 @@ ul.explore-menu
     margin-left: 5px;
     margin-top: 6px;
 }
-.small-sighting-details .observed {
-    display: inline-block;
-    float: left;
-    font-size: 0.8em;
-    font-weight: 600;
-    line-height: 1em;
-    margin-top: 11px;
-    width: 100%;
-}
-.small-sighting-details .observed span 
-{
-    display: block;
-    font-weight: 500;
-    line-height: 1.5em;
-}
 .small-sighting-details .location {
     display: inline-block;
     float: left;
     font-size: 0.8em;
     line-height: 1.25em;
     margin-right: 3%;
-    margin-top: 11px;
-    width: 49%;
+    width: 32%;
 }
 .small-sighting-details .location .map {
     background-color: rgb(221, 221, 221);
@@ -489,40 +530,178 @@ ul.explore-menu
     height: 85px;
     width: 100%;
 }
+.small-sighting-details .observed,
 .small-sighting-details .projects,
 .small-sighting-details .comments,
 .small-sighting-details .notes {
-    display: block;
+    display: inline-block;
     float: left;
     font-size: 0.8em;
-    font-weight: 600;
-    padding-top: 6px;
-    width: 42%;
+    font-weight: 500;
+    line-height: 1.1em;
+    width: 48%;
 }
-.small-sighting-details .projects
+.sighting-item.tile-sighting-details
 {
-    padding-top: 11px;
-}
-.small-sighting-details .projects span,
-.small-sighting-details .comments span,
-.small-sighting-details .notes span {
-    background-color: rgb(215, 230, 245);
+    background-color: rgb(249, 249, 249);
     border-radius: 6px 6px 6px 6px;
-    color: rgb(34, 34, 34);
-    display: inline-block;
-    font-size: 1em;
-    font-weight: 700;
-    height: 26px;
-    line-height: 1.9em;
-    margin-right: 2px;
-    text-align: center;
-    text-shadow: 0 0 1px rgb(255, 255, 255);
-    width: 26px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.5);
+    display: block;
+    float: left;
+    margin-bottom: 2%;
+    margin-right: 2%;
+    max-height: 365px;
+    padding: 1.5%;
+    width: 32%;
 }
+.sighting-items .tile-sighting-details:nth-child(3n) {
+    margin-right: 0;
+}
+.tile-sighting-details h3 
+{
+    font-size: 1.3em;
+    font-weight: 600;
+    letter-spacing: -1px;
+    line-height: 1.3em;
+    margin: 0;
+    padding: 0 2% 5px 0;
+    width: 100%;
+}
+.tile-sighting-details h3 a, 
+.tile-sighting-details h3 a:hover, 
+.tile-sighting-details h3 a:active, 
+.tile-sighting-details h3 a:visited {
+    color: rgb(34, 34, 34);
+    text-decoration: none;
+    
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;    
+}
+.tile-sighting-details .images {
+    display: block;
+    width: 100%;
+}
+.tile-sighting-details .info 
+{
+    height: 74px;
+    margin-top: 7px;
+    position: relative;
+    width: 100%;
+}
+.tile-sighting-details .user {
+    display: block;
+    float: left;
+    width: 38%;
+}
+.tile-sighting-details .user .media-square-100 {
+    height: 40px;
+    width: 40px;
+}
+.tile-sighting-details .user span {
+    display: block;
+    font-size: 0.8em;
+    font-weight: 600;
+    height: 32px;
+    line-height: 1.2em;
+    margin-top: 6px;
+    width: 65%;
+}
+.tile-sighting-details .location {
+    display: none;
+}
+.tile-sighting-details .observed,
+.tile-sighting-details .projects,
+.tile-sighting-details .comments,
+.tile-sighting-details .notes {
+    display: block;
+    font-size: 0.8em;
+    font-weight: 500;
+    line-height: 1.1em;
+    margin-left: 38%;
+    width: 62%;
+}
+.tile-sighting-details .actions {
+    background-color: rgb(249, 249, 249);
+    border-radius: 0 0 4px 4px;
+    margin-top: 14px;
+    width: 100%;
+}
+.tile-sighting-details .actions .button {
+    display: inline-block;
+    padding: 0;
+    position: relative;
+    vertical-align: top;
+}
+.tile-sighting-details .actions a.add-favourite-button
+{
+    background-color: rgb(51, 200, 255);
+    border-color: rgb(0, 155, 212);
+    box-shadow: 0 1px 1px 0 rgba(255, 255, 255, 0.5) inset;
+    line-height: 0.01em;
+    text-indent: -99999px;
+    width: 35px;
+}
+.tile-sighting-details .actions a.add-note-button,
+.tile-sighting-details .actions .edit-observation-button,
+.tile-sighting-details .actions .view-button {
+    font-size: 0.8em;
+    line-height: 1;
+    margin-right: 3px;
+    padding: 5px 10px;
+}
+.tile-sighting-details .actions .view-button {
+    float: right;
+    margin: 0;
+}
+.tile-sighting-details .actions .button span
+{
+    background-image: url("/img/icons.png");
+    background-repeat: no-repeat;
+    background-size: 626% auto;
+    display: block;
+    margin: 2px auto 1px;
+}
+.tile-sighting-details .actions .add-favourite-button span
+{
+    background-position: -84px -1px;
+    height: 19px;
+    width: 20px;
+}
+.tile-sighting-details .actions .add-favourite-button.active span
+{
+    background-position: -130px -1px;
+}
+.tile-sighting-details .actions a.add-favourite-button:hover
+{
+    background-color: #00baff;
+}
+.tile-sighting-details .actions a.add-favourite-button:active
+{
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.5) inset;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .sighting-note-details > div,
 .sighting-note > div {
-    margin-top: 2%;
+    margin-top: 1%;
     float: left;
     width: 100%;
 }
@@ -532,7 +711,17 @@ ul.explore-menu
 }
 .sighting-note-details > div:last-child,
 .sighting-note > div:last-child {
-    margin-bottom: 2%;
+    margin-bottom: 1%;
+}
+.sighting-note-added {
+    font-size: 0.875em;
+    font-weight: 600;
+    line-height: 1.25em;
+}
+.sighting-note-added span 
+{
+    display: block;
+    font-weight: 500;
 }
 .sighting-note-description {
     font-size: 0.875em;

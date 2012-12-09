@@ -4,7 +4,7 @@
 <div class="form form-small form-details">
   <form action="/account/login" method="post">
     <!--@Html.ValidationSummary(true, "Sorry, we couldn't verify your email and password.")-->
-    <input type="hidden" name="returnUrl" value="{{AccountLogin.ReturnUrl}}" />
+    <input type="hidden" name="returnUrl" value="{{Model.AccountLogin.ReturnUrl}}" />
     <fieldset>
       <legend class="hidden">Login Details</legend>
       <div class="field-row">
@@ -13,7 +13,7 @@
             <label for="Email">Email</label>
           </div>
           <div>
-            <input type="email" id="Email" name="Email" value="{{AccountLogin.Email}}" />
+            <input type="email" id="Email" name="Email" value="{{Model.AccountLogin.Email}}" />
           </div>
         </div>
       </div>
