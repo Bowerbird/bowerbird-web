@@ -127,7 +127,7 @@ namespace Bowerbird.Core.CommandHandlers
                 identification,
                 command.Tags.Split(new[] {","}, StringSplitOptions.RemoveEmptyEntries).Select(x => x.ToLower()),
                 command.Descriptions,
-                DateTime.UtcNow.AddSeconds(1), // Add a second to avoid notes being published before its parent sighting
+                DateTime.UtcNow.AddSeconds(5), // Add some time to avoid notes being published before its parent sighting (if its being created at the same time as the sigthing)
                 _documentSession.Load<User>(command.UserId));
 
             _documentSession.Store(sighting);

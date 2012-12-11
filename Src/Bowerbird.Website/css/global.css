@@ -804,7 +804,6 @@ a.multiSelect:focus,
 }
 .form .list-button {
     display: inline-block;
-    padding-right: 35px;
     position: relative;
     cursor: pointer;
 }
@@ -819,11 +818,10 @@ a.multiSelect:focus,
     background-image: url("/img/icons.png");
     background-position: -141px -173px;
     background-size: 3100% auto;
-    display: block;
+    display: inline-block;
     height: 18px;
-    position: absolute;
-    right: 12px;
-    top: 5px;
+    position: relative;
+    top: 2px;
     width: 18px;
 }
 .form .list-button ul {
@@ -933,6 +931,11 @@ a.multiSelect:focus,
     white-space: nowrap;
     width: 100%;
     height: 284px;
+}
+.form .add-media-button{
+    text-align: center;
+    white-space: nowrap;
+    width: 100%;
 }
 .form .field > div.media-view-pane {
     float: left;

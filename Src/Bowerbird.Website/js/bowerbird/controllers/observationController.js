@@ -41,18 +41,18 @@ function ($, _, Backbone, app, Observation, Sighting, SightingNote, ObservationD
 
     var showSightingNoteForm = function (uri) {
         $.when(getModel(uri, 'sightingnotes'))
-        .done(function (model) {
-            var sightingNote = new SightingNote(model.SightingNote);
+            .done(function (model) {
+                var sightingNote = new SightingNote(model.SightingNote);
 
-            var options = { model: sightingNote, sighting: new Sighting(model.Sighting), descriptionTypesSelectList: model.DescriptionTypesSelectList, categories: model.Categories, categorySelectList: model.CategorySelectList };
+                var options = { model: sightingNote, sighting: new Sighting(model.Sighting), descriptionTypesSelectList: model.DescriptionTypesSelectList, categories: model.Categories, categorySelectList: model.CategorySelectList };
 
-            if (app.isPrerenderingView('sightingnotes')) {
-                options['el'] = '.sighting-note-form';
-            }
+                if (app.isPrerenderingView('sightingnotes')) {
+                    options['el'] = '.sighting-note-form';
+                }
 
-            var sightingNoteFormView = new SightingNoteFormView(options);
-            app.showContentView('Edit Sighting Note', sightingNoteFormView, 'sightingnotes');
-        });
+                var sightingNoteFormView = new SightingNoteFormView(options);
+                app.showContentView('Edit Sighting Note', sightingNoteFormView, 'sightingnotes');
+            });
     };
 
     var getModel = function (uri, viewName) {
@@ -62,7 +62,6 @@ function ($, _, Backbone, app, Observation, Sighting, SightingNote, ObservationD
         } else {
             $.ajax({
                 url: uri
-                //type: action
             }).done(function (data) {
                 deferred.resolve(data.Model);
             });
@@ -74,10 +73,16 @@ function ($, _, Backbone, app, Observation, Sighting, SightingNote, ObservationD
     // ----------
 
     ObservationController.showObservationDetails = function (id) {
-        $.when(getModel(id, 'observations'))
+        // Beacause IE is using has fragments, we have to fix the id manually for IE
+        var url = id;
+        if (url.indexOf('observations') == -1) {
+            url = '/observations/' + url;
+        }
+
+        $.when(getModel(url, 'observations'))
             .done(function (model) {
                 var observation = new Sighting(model.Observation);
-                
+
                 var options = { model: observation };
 
                 if (app.isPrerenderingView('observations')) {

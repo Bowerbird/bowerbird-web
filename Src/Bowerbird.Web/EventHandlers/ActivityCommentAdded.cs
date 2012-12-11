@@ -74,6 +74,7 @@ namespace Bowerbird.Web.EventHandlers
                 dynamic activity = MakeActivity(
                     domainEvent, 
                     "observationcommentadded", 
+                    domainEvent.DomainModel.CommentedOn,
                     string.Format("{0} added a comment to observation {1}", 
                     domainEvent.User.GetName(), 
                     ((Observation)observation).Title), 
@@ -98,6 +99,7 @@ namespace Bowerbird.Web.EventHandlers
                 dynamic activity = MakeActivity(
                     domainEvent,
                     "postcommentadded",
+                    domainEvent.DomainModel.CommentedOn,
                     string.Format("{0} added a comment to post {1}",
                     domainEvent.User.GetName(),
                     ((Post)post).Subject),

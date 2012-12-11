@@ -39,7 +39,7 @@
       <div id="description-field" class="field">
         <div>
           <label for="description">
-            Description <span>Required</span>
+            Description
           </label>
         </div>
         <div>
@@ -56,12 +56,12 @@
         </div>
         <div>
           <div id="background-viewer">
-            <img src="/img/project-background.png" alt="" />
+            <img src="{{Model.Project.Background.Image.Large.Uri}}" alt="" />
           </div>
           <div id="background-upload-button" class="button background-upload-button">
             Change<input id="file" type="file" name="file" value="Change Background" />
           </div>
-          <p>Give your project some character by customising the profile background image.</p>
+          <p>Give your project some character by customising the heading background image.</p>
         </div>
       </div>
     </div>

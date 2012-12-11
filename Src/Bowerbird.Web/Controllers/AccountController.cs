@@ -237,17 +237,9 @@ namespace Bowerbird.Web.Controllers
                         Roles = new[] { "roles/globalmember" }
                     });
 
-                // HACK: Persist user before _userContext.SignUserIn(..)
-                _documentSession.SaveChanges();
-
-                // HACK: Wait a couple of seconds to ensure all indexes are up to date
-                //var stopwatch = System.Diagnostics.Stopwatch.StartNew();
-                //stopwatch.Start();
-                //while (stopwatch.ElapsedMilliseconds < 3000) {}
-
                 var user = _documentSession
                     .Query<All_Users.Result, All_Users>()
-                    //.Customize(x => x..WaitForNonStaleResultsAsOfLastWrite())
+                    .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())  // Wait for user to be persisted
                     .AsProjection<All_Users.Result>()
                     .Where(x => x.Email == accountRegisterInput.Email)
                     .First()

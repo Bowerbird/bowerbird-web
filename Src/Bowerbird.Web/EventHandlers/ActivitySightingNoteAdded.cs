@@ -94,6 +94,7 @@ namespace Bowerbird.Web.EventHandlers
             dynamic activity = MakeActivity(
                 domainEvent,
                 "sightingnoteadded",
+                domainEvent.DomainModel.CreatedOn,
                 string.Format("{0} {1} a sighting", domainEvent.User.GetName(), description),
                 sighting.Groups.Select(x => x.Group));
 

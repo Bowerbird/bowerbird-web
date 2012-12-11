@@ -214,12 +214,14 @@ function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormVi
             var oldPosition = { latitude: this.model.get('Latitude'), longitude: this.model.get('Longitude') };
             var newPosition = { latitude: this.$el.find('#Latitude').val(), longitude: this.$el.find('#Longitude').val() };
 
+            log('lat/long changed', oldPosition, newPosition);
+
             this.model.set('Latitude', newPosition.latitude);
             this.model.set('Longitude', newPosition.longitude);
-
+            
             // Only update pin if the location is different to avoid infinite loop
-            if (newPosition.Latitude != null && newPosition.Longitude != null && (oldPosition.Latitude !== newPosition.Latitude || oldPosition.Longitude !== newPosition.Longitude)) {
-                this.locationFormView.changeMarkerPosition(this.model.get('Latitude'), this.model.get('Longitude'));
+            if (newPosition.latitude !== null && newPosition.longitude !== null && newPosition.latitude.trim() !== '' && newPosition.longitude.trim() !== '' && (oldPosition.latitude !== newPosition.latitude || oldPosition.longitude !== newPosition.longitude)) {
+                this.location.currentView.changeMarkerPosition(this.model.get('Latitude'), this.model.get('Longitude'), true);
             }
         },
 
@@ -270,7 +272,7 @@ function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormVi
             if (!this.sightingNote) {
                 this.sightingNote = new SightingNote();
             }
-            var sightingNoteSubFormView = new SightingNoteSubFormView({ model: this.sightingNote });
+            var sightingNoteSubFormView = new SightingNoteSubFormView({ model: this.sightingNote, categories: this.categories, categorySelectList: this.categorySelectList });
             this.sightingNoteSubFormView = sightingNoteSubFormView;
             this.sightingNoteRegion.show(sightingNoteSubFormView);
         },

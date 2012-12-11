@@ -41,8 +41,6 @@ function ($, _, Backbone, app, SightingCollection, ActivityCollection, HomePubli
     HomeController.showHome = function () {
         $.when(getModel('/'))
             .done(function (model) {
-
-
                 if (app.content.currentView instanceof HomePrivateView) {
                     var activityCollection = new ActivityCollection(model.Activities.PagedListItems);
                     activityCollection.setPageInfo(model.Activities);                    

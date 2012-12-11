@@ -91,7 +91,7 @@ function ($, _, Backbone, app, DummyOverlayView) {
             var lat = media.mediaResource.get('Metadata').Latitude;
             var lon = media.mediaResource.get('Metadata').Longitude;
             if ((this.model.get('Latitude') === '' && this.model.get('Longitude') === '') && lat && lon) {
-                this.changeMarkerPosition(lat, lon);
+                this.changeMarkerPosition(lat, lon, true);
             }
         },
 
@@ -165,12 +165,12 @@ function ($, _, Backbone, app, DummyOverlayView) {
         },
 
         _initAddressField: function () {
-            var self = this;
+            var that = this;
             // http://tech.cibul.net/geocode-with-google-maps-api-v3/
             this.$el.find("#Address").autocomplete({
                 //This bit uses the geocoder to fetch address values
                 source: function (request, response) {
-                    self.geocoder.geocode({ address: request.term, region: 'AU' }, function (results, status) {
+                    that.geocoder.geocode({ address: request.term, region: 'AU' }, function (results, status) {
                         response($.map(results, function (item) {
                             return {
                                 label: item.formatted_address,
@@ -183,14 +183,15 @@ function ($, _, Backbone, app, DummyOverlayView) {
                 },
                 //This bit is executed upon selection of an address
                 select: function (event, ui) {
-                    var location = new google.maps.LatLng(ui.item.latitude, ui.item.longitude);
-                    self._positionMarker(location);
-                    self._removeMarkerFromPlaceholder();
-                    self._reverseGeocode();
+                    that.changeMarkerPosition(ui.item.latitude, ui.item.longitude, true);
+                    //                    var location = new google.maps.LatLng(ui.item.latitude, ui.item.longitude);
+                    //                    self._positionMarker(location);
+                    //                    //self._removeMarkerFromPlaceholder();
+                    //                    self._reverseGeocode();
 
-                    var position = self.mapMarker.getPosition();
-                    var newPoint = new google.maps.LatLng(position.lat() + .02, position.lng());
-                    self.map.panTo(newPoint);
+                    //                    var position = self.mapMarker.getPosition();
+                    //                    var newPoint = new google.maps.LatLng(position.lat() + .02, position.lng());
+                    //                    self.map.panTo(newPoint);
                 }
             });
         },
@@ -310,22 +311,24 @@ function ($, _, Backbone, app, DummyOverlayView) {
             return this.zIndex;
         },
 
-        changeMarkerPosition: function (lat, lng) {
+        changeMarkerPosition: function (lat, lng, centrePin) {
             var latlng = new google.maps.LatLng(lat, lng);
 
-            if (this.mapMarker === null) {
-                this._positionMarker(latlng);
-                this._removeMarkerFromPlaceholder();
-                this._reverseGeocode();
-            }
-            else {
-                this._positionMarker(latlng);
-                this._reverseGeocode();
-            }
+            //            if (this.mapMarker === null) {
+            //                this._positionMarker(latlng);
+            //                //this._removeMarkerFromPlaceholder();
+            //                this._reverseGeocode();
+            //            }
+            //            else {
+            this._positionMarker(latlng);
+            this._reverseGeocode();
+            //}
 
-            var position = this.mapMarker.getPosition();
-            var newPoint = new google.maps.LatLng(position.lat() + .02, position.lng());
-            this.map.panTo(newPoint);
+            if (centrePin) {
+                var position = this.mapMarker.getPosition();
+                var newPoint = new google.maps.LatLng(position.lat() + .02, position.lng());
+                this.map.panTo(newPoint);
+            }
         },
 
         _displayLatLong: function (fireLatLongFieldsChangeEvent) {

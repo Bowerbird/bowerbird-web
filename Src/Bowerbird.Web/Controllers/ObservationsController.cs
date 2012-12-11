@@ -473,9 +473,9 @@ namespace Bowerbird.Web.Controllers
         {
             // At least one of the following items has been filled in:
             return
-                sightingNoteCreateInput.Descriptions.Where(x => !string.IsNullOrWhiteSpace(x.Key) && !string.IsNullOrWhiteSpace(x.Value)).Count() > 0 || // At least one description
-                sightingNoteCreateInput.Tags.Split(new [] { "," }, StringSplitOptions.RemoveEmptyEntries).Count() > 0 || // At least one tag
-                sightingNoteCreateInput.IsCustomIdentification ? true : !string.IsNullOrWhiteSpace(sightingNoteCreateInput.Taxonomy); // An identification
+                (sightingNoteCreateInput.Descriptions != null && sightingNoteCreateInput.Descriptions.Where(x => !string.IsNullOrWhiteSpace(x.Key) && !string.IsNullOrWhiteSpace(x.Value)).Count() > 0) || // At least one description
+                (sightingNoteCreateInput.Tags != null && sightingNoteCreateInput.Tags.Split(new [] { "," }, StringSplitOptions.RemoveEmptyEntries).Count() > 0) || // At least one tag
+                (sightingNoteCreateInput.IsCustomIdentification ? true : !string.IsNullOrWhiteSpace(sightingNoteCreateInput.Taxonomy)); // An identification
         }
 
         private IEnumerable GetCategorySelectList(string observationId = "", string category = "")

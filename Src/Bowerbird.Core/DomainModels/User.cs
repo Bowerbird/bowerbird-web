@@ -252,7 +252,7 @@ namespace Bowerbird.Core.DomainModels
 
             if (membership == null)
             {
-                membership = new Member(createdByUser, group, roles);
+                membership = new Member(createdByUser, DateTime.UtcNow, group, roles);
                 _memberships.Add(membership);
 
                 ApplyEvent(new MemberCreatedEvent(membership, createdByUser, this, group));

@@ -15,7 +15,6 @@
 using System.Linq;
 using System.Web.Mvc;
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.Commands;
 using Bowerbird.Core.Config;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Infrastructure;
@@ -163,7 +162,7 @@ namespace Bowerbird.Web.Controllers
             return RestfulResult(
                 viewModel,
                 "home",
-                "privateindex",
+                "sightings",
                 new Action<dynamic>(x =>
                 {
                     x.Model.ShowWelcome = user.User.CallsToAction.Contains("welcome");

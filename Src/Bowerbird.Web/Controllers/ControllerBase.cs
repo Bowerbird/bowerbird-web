@@ -10,6 +10,7 @@
  
 */
 
+using System.Linq;
 using System.Dynamic;
 using System.Web.Mvc;
 using Microsoft.Practices.ServiceLocation;
@@ -95,11 +96,11 @@ namespace Bowerbird.Web.Controllers
         {
             dynamic viewModel = new ExpandoObject();
 
-            viewModel.JsonResponse = new { Success = true };
+            viewModel.Success = true;
 
             if (!string.IsNullOrEmpty(action))
             {
-                viewModel.JsonResponse.Action = action;
+                viewModel.Action = action;
             }
 
             return RestfulResult(
@@ -112,11 +113,11 @@ namespace Bowerbird.Web.Controllers
         {
             dynamic viewModel = new ExpandoObject();
 
-            viewModel.JsonResponse = new { Success = false };
+            viewModel.Success = false;
 
             if (!string.IsNullOrEmpty(action))
             {
-                viewModel.JsonResponse.Action = action;
+                viewModel.Action = action;
             }
 
             return RestfulResult(
@@ -162,6 +163,14 @@ namespace Bowerbird.Web.Controllers
             ActionResult actionResult = null;
 
             var newViewModel = new { Model = viewModel }; // Wrap the model in a "Model" property to make it work on both client & server Mustache templates
+
+            // Stupid IE aggressively caches all requests, even *AJAX* requests. So, we have to bust out of the caching 
+            // for IE using this rudimentary browser sniffing. It does the job. 'Nuff said.
+            if (Request.UserAgent.ToLower().Contains("msie"))
+            {
+                Response.Expires = -1;
+                Response.CacheControl = "no-cache";
+            }
 
             // Hamish added 23/11/12 the ajax response for empty view names for app debugging.
             if (Request.IsAjaxRequest() || ((string.IsNullOrEmpty(prerenderedViewName)) && (string.IsNullOrEmpty(htmlViewName))))

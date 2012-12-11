@@ -25,6 +25,11 @@ namespace Bowerbird.Core.Commands
 
         #region Constructors
 
+        public SightingNoteCreateCommand()
+        {
+            InitMembers();
+        }
+
         #endregion
 
         #region Properties
@@ -82,6 +87,12 @@ namespace Bowerbird.Core.Commands
         #endregion
 
         #region Methods
+
+        private void InitMembers()
+        {
+            Tags = string.Empty;
+            Descriptions = new Dictionary<string, string>();
+        }
 
         #endregion
     }

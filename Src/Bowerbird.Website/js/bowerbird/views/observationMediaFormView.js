@@ -205,9 +205,9 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemFormView, Vide
         },
 
         _onFileUploadDone: function (e, data) {
-            var upload = this.mediaUploads.get(data.formData.Key);
+            var upload = this.mediaUploads.get(data.formData.Key || data.formData[0].value);
 
-            if (data.result.Success === true) {
+            if (data.result.Model.Success === true) {
                 upload.set({
                     progressStatus: 'processing'
                 });

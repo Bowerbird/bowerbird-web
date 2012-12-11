@@ -10,6 +10,7 @@
  
 */
 
+using System;
 using System.Linq;
 using Bowerbird.Core.Events;
 using Bowerbird.Core.DomainModels;
@@ -29,7 +30,6 @@ namespace Bowerbird.Web.EventHandlers
         DomainEventHandlerBase, 
         IEventHandler<MemberCreatedEvent>,
         IEventHandler<DomainModelCreatedEvent<Project>>,
-        IEventHandler<DomainModelCreatedEvent<Team>>,
         IEventHandler<DomainModelCreatedEvent<Organisation>>
     {
         #region Members
@@ -79,7 +79,7 @@ namespace Bowerbird.Web.EventHandlers
                 {
                     if (domainEvent.DomainModel.Group.GroupType != "approot")
                     {
-                        Execute(domainEvent, groupResult.Group, groupResult.UserIds.Count(), groupResult.ObservationIds.Count(), groupResult.PostIds.Count(), domainEvent.Sender as User);
+                        Execute(domainEvent, groupResult.Group, groupResult.UserIds.Count(), groupResult.ObservationIds.Count(), groupResult.PostIds.Count(), domainEvent.Sender as User, domainEvent.DomainModel.Created);
                     }
                 }
             }
@@ -87,20 +87,15 @@ namespace Bowerbird.Web.EventHandlers
 
         public void Handle(DomainModelCreatedEvent<Project> domainEvent)
         {
-            Execute(domainEvent, domainEvent.DomainModel, 1, 0, 0, domainEvent.User);
-        }
-
-        public void Handle(DomainModelCreatedEvent<Team> domainEvent)
-        {
-            Execute(domainEvent, domainEvent.DomainModel, 1, 0, 0, domainEvent.User);
+            Execute(domainEvent, domainEvent.DomainModel, 1, 0, 0, domainEvent.User, DateTime.UtcNow);
         }
 
         public void Handle(DomainModelCreatedEvent<Organisation> domainEvent)
         {
-            Execute(domainEvent, domainEvent.DomainModel, 1, 0, 0, domainEvent.User);
+            Execute(domainEvent, domainEvent.DomainModel, 1, 0, 0, domainEvent.User, DateTime.UtcNow);
         }
 
-        private void Execute(IDomainEvent domainEvent, Group group, int memberCount, int observationCount, int postCount, User newMember)
+        private void Execute(IDomainEvent domainEvent, Group group, int memberCount, int observationCount, int postCount, User newMember, DateTime joined)
         {
             var user = _documentSession.Load<User>(newMember.Id);
 
@@ -116,6 +111,7 @@ namespace Bowerbird.Web.EventHandlers
             dynamic activity = MakeActivity(
                 domainEvent,
                 "userjoinedgroup",
+                joined,
                 string.Format("{0} joined {1}", user.Name, group.Name),
                 new[] { group });
 

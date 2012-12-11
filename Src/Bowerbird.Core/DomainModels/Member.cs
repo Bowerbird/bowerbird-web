@@ -10,6 +10,7 @@
  
 */
 
+using System;
 using System.Linq;
 using System.Collections.Generic;
 using Bowerbird.Core.DesignByContract;
@@ -34,6 +35,7 @@ namespace Bowerbird.Core.DomainModels
 
         public Member(
             User createdByUser,
+            DateTime created,
             Group group,
             IEnumerable<Role> roles)
             : base()
@@ -45,6 +47,7 @@ namespace Bowerbird.Core.DomainModels
 
             Group = group;
             Roles = roles;
+            Created = created;
         }
 
         #endregion
@@ -54,6 +57,8 @@ namespace Bowerbird.Core.DomainModels
         public DenormalisedGroupReference Group { get; private set; }
 
         public IEnumerable<Role> Roles { get; private set; }
+
+        public DateTime Created { get; private set; }
 
         #endregion
 

@@ -59,7 +59,13 @@ function ($, _, Backbone, app, Project, ProjectCollection, ActivityCollection, S
 
     // Show project details
     ProjectController.showProjectDetails = function (id) {
-        $.when(getModel(id))
+        // Beacause IE is using has fragments, we have to fix the id manually for IE
+        var url = id;
+        if (url.indexOf('projects') == -1) {
+            url = '/projects/' + url;
+        }
+
+        $.when(getModel(url))
             .done(function (model) {
                 var project = new Project(model.Project);
                 var activityCollection = new ActivityCollection(model.Activities.PagedListItems, { id: project.id });

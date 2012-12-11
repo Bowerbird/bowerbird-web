@@ -483,42 +483,42 @@ namespace Bowerbird.Core.Indexes
                                            AllCategories = new[] { s.Category }
                                        });
 
-            // Minerals Rank 2
-            AddMap<Species>(species => from s in species
-                                       where s.Taxonomy.ElementAt(0).Name == "Minerals"
-                                       select new
-                                       {
-                                           Taxonomy = s.Taxonomy.ElementAt(0).Name + ": " + s.Taxonomy.ElementAt(1).Name,
-                                           Name = s.Taxonomy.ElementAt(1).Name,
-                                           RankPosition = "2",
-                                           RankName = s.Taxonomy.ElementAt(1).Name,
-                                           RankType = "species",
-                                           ParentRankName = s.Taxonomy.ElementAt(0).Name,
-                                           Ranks = new object[]
-                                               {
-                                                   s.Taxonomy.ElementAt(0),
-                                                   s.Taxonomy.ElementAt(1)
-                                               },
-                                           s.Category,
-                                           CommonGroupNames = new string[] { },
-                                           CommonNames = new string[] { },
-                                           Synonyms = new string[] { },
-                                           SpeciesCount = 1,
-                                           AllNames = new object[]
-                                               {
-                                                   s.Taxonomy.ElementAt(0).Name,
-                                                   s.Taxonomy.ElementAt(1).Name
-                                               },
-                                           AllScientificNames = new object[]
-                                               {
-                                                   s.Taxonomy.ElementAt(0).Name,
-                                                   s.Taxonomy.ElementAt(1).Name
-                                               },
-                                           AllCommonNames = new object[]
-                                               {
-                                               },
-                                           AllCategories = new[] { s.Category }
-                                       });
+            //// Minerals Rank 2
+            //AddMap<Species>(species => from s in species
+            //                           where s.Taxonomy.ElementAt(0).Name == "Minerals"
+            //                           select new
+            //                           {
+            //                               Taxonomy = s.Taxonomy.ElementAt(0).Name + ": " + s.Taxonomy.ElementAt(1).Name,
+            //                               Name = s.Taxonomy.ElementAt(1).Name,
+            //                               RankPosition = "2",
+            //                               RankName = s.Taxonomy.ElementAt(1).Name,
+            //                               RankType = "species",
+            //                               ParentRankName = s.Taxonomy.ElementAt(0).Name,
+            //                               Ranks = new object[]
+            //                                   {
+            //                                       s.Taxonomy.ElementAt(0),
+            //                                       s.Taxonomy.ElementAt(1)
+            //                                   },
+            //                               s.Category,
+            //                               CommonGroupNames = new string[] { },
+            //                               CommonNames = new string[] { },
+            //                               Synonyms = new string[] { },
+            //                               SpeciesCount = 1,
+            //                               AllNames = new object[]
+            //                                   {
+            //                                       s.Taxonomy.ElementAt(0).Name,
+            //                                       s.Taxonomy.ElementAt(1).Name
+            //                                   },
+            //                               AllScientificNames = new object[]
+            //                                   {
+            //                                       s.Taxonomy.ElementAt(0).Name,
+            //                                       s.Taxonomy.ElementAt(1).Name
+            //                                   },
+            //                               AllCommonNames = new object[]
+            //                                   {
+            //                                   },
+            //                               AllCategories = new[] { s.Category }
+            //                           });
 
             Reduce = results => from result in results
                                 where result.Taxonomy != "[no-rank-found]"

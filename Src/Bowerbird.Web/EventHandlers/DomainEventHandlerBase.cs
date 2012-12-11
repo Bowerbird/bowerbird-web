@@ -38,6 +38,7 @@ namespace Bowerbird.Web.EventHandlers
         protected Activity MakeActivity<T>(
             T domainEvent, 
             string type, 
+            DateTime created,
             string description, 
             IEnumerable<dynamic> groups,
             string contributionId = (string)null
@@ -46,7 +47,7 @@ namespace Bowerbird.Web.EventHandlers
         {
             return new Activity(
                 type,
-                DateTime.UtcNow,
+                created,
                 description,
                 new 
                 {

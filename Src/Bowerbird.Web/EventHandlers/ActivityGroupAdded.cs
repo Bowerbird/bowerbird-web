@@ -77,6 +77,7 @@ namespace Bowerbird.Web.EventHandlers
                 dynamic activity = MakeActivity(
                     domainEvent,
                     "groupadded",
+                    domainEvent.DomainModel.CreatedDateTime,
                     string.Format("{0} created the {1} {2}", user.GetName(), project.Name, "project"),
                     groups);
 
@@ -98,6 +99,7 @@ namespace Bowerbird.Web.EventHandlers
                 dynamic activity = MakeActivity(
                     domainEvent,
                     "groupadded",
+                    domainEvent.DomainModel.CreatedDateTime,
                     string.Format("{0} created the {1} {2}", user.GetName(), organisation.Name, "organisation"),
                     groups);
 

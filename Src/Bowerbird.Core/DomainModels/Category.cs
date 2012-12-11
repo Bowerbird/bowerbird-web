@@ -40,11 +40,10 @@ namespace Bowerbird.Core.DomainModels
             : base()
         {
             Check.RequireNotNullOrWhitespace(id, "id");
-            Check.RequireNotNullOrWhitespace(taxonomy, "taxonomy");
 
             Id = "categories/" + id;
             Name = id;
-            Taxonomy = taxonomy;
+            Taxonomy = taxonomy ?? string.Empty;
         }
 
         #endregion

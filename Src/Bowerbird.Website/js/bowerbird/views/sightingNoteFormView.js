@@ -31,8 +31,8 @@ function ($, _, Backbone, app, ich, SightingDetailsView, IdentificationFormView,
 
         initialize: function (options) {
             this.categorySelectList = options.categorySelectList;
-            this.categories = options.categories;
             this.descriptionTypesSelectList = options.descriptionTypesSelectList;
+            this.categories = options.categories;
             this.sighting = options.sighting;
         },
 
@@ -50,11 +50,9 @@ function ($, _, Backbone, app, ich, SightingDetailsView, IdentificationFormView,
             this.sightingView = sightingView;
             this.sightingSection.show(sightingView);
 
-            var sightingNoteSubFormView = new SightingNoteSubFormView({ el: this.$el.find('.sighting-note-fieldset'), model: this.model });
+            var sightingNoteSubFormView = new SightingNoteSubFormView({ el: this.$el.find('.sighting-note-fieldset'), model: this.model, categorySelectList: this.categorySelectList, categories: this.categories });
             this.sightingNoteSection.attachView(sightingNoteSubFormView);
             sightingNoteSubFormView.showBootstrappedDetails();
-            //            var sightingNoteSubFormView = new SightingNoteSubFormView({ model: this.model });
-            //            this.sightingNoteSection.show(sightingNoteSubFormView);
 
             this._showDetails();
         },
@@ -74,7 +72,7 @@ function ($, _, Backbone, app, ich, SightingDetailsView, IdentificationFormView,
             this.sightingSection.attachView(sightingView);
             sightingView.showBootstrappedDetails();
 
-            var sightingNoteSubFormView = new SightingNoteSubFormView({ el: this.$el.find('.sighting-note-fieldset'), model: this.model });
+            var sightingNoteSubFormView = new SightingNoteSubFormView({ el: this.$el.find('.sighting-note-fieldset'), model: this.model, categorySelectList: this.categorySelectList, categories: this.categories });
             this.sightingNoteSection.attachView(sightingNoteSubFormView);
             sightingNoteSubFormView.showBootstrappedDetails();
 
