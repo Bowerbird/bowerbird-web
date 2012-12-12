@@ -932,10 +932,17 @@ a.multiSelect:focus,
     width: 100%;
     height: 284px;
 }
-.form .add-media-button{
+.form .add-media-button {
     text-align: center;
     white-space: nowrap;
     width: 100%;
+    display: block;
+    margin-top: 15px;
+}
+.form .add-media-button ul {
+    width: 100%;
+    overflow: auto;
+    top: 32px;
 }
 .form .field > div.media-view-pane {
     float: left;

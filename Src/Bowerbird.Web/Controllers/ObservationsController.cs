@@ -350,6 +350,7 @@ namespace Bowerbird.Web.Controllers
             viewModel.SightingNote = _sightingNoteViewModelBuilder.BuildCreateSightingNote(observationId);
             viewModel.Sighting = _sightingViewModelBuilder.BuildSighting(observationId);
             viewModel.DescriptionTypesSelectList = GetDescriptionTypesSelectList();
+            viewModel.DescriptionTypes = GetDescriptionTypes();
             viewModel.CategorySelectList = GetCategorySelectList();
             viewModel.Categories = GetCategories();
 
@@ -377,6 +378,7 @@ namespace Bowerbird.Web.Controllers
             viewModel.SightingNote = _sightingNoteViewModelBuilder.BuildUpdateSightingNote(observationId, sightingNoteId);
             viewModel.Sighting = _sightingViewModelBuilder.BuildSighting(observationId);
             viewModel.DescriptionTypesSelectList = GetDescriptionTypesSelectList();
+            viewModel.DescriptionTypes = GetDescriptionTypes();
             viewModel.CategorySelectList = GetCategorySelectList();
             viewModel.Categories = GetCategories();
 
@@ -467,6 +469,26 @@ namespace Bowerbird.Web.Controllers
                 });
 
             return JsonSuccess();
+        }
+
+        public ActionResult Categories()
+        {
+            if (Request.IsAjaxRequest())
+            {
+                return RestfulResult(GetCategories(), "", "");
+            }
+
+            return HttpNotFound();
+        }
+
+        public ActionResult DescriptionTypes()
+        {
+            if (Request.IsAjaxRequest())
+            {
+                return RestfulResult(GetDescriptionTypes(), "", "");
+            }
+
+            return HttpNotFound();
         }
 
         private bool IsValidSightingNote(SightingNoteCreateInput sightingNoteCreateInput)
@@ -609,84 +631,84 @@ namespace Bowerbird.Web.Controllers
         {
             return new List<object>
                 {
-                    new
-                        {
-                            Text = "Physical Description",
-                            Value = "physicaldescription",
-                            Selected = false
-                        },
-                    new
-                        {
-                            Text = "Similar Species",
-                            Value = "similarspecies",
-                            Selected = false
-                        },
-                    new
-                        {
-                            Text = "Distribution",
-                            Value = "distribution",
-                            Selected = false
-                        },
-                    new
-                        {
-                            Text = "Habitat",
-                            Value = "habitat",
-                            Selected = false
-                        },
-                    new
-                        {
-                            Text = "Seasonal Variation",
-                            Value = "seasonalvariation",
-                            Selected = false
-                        },
-                    new
-                        {
-                            Text = "Behaviour",
-                            Value = "behaviour",
-                            Selected = false
-                        },
-                    new
-                        {
-                            Text = "Food",
-                            Value = "food",
-                            Selected = false
-                        },
-                    new
-                        {
-                            Text = "Life Cycle",
-                            Value = "lifecycle",
-                            Selected = false
-                        },
-                    new
-                        {
-                            Text = "Conservation Status",
-                            Value = "conservationstatus",
-                            Selected = false
-                        },
-                    new
-                        {
-                            Text = "Indigenous Name",
-                            Value = "indigenousname",
-                            Selected = false
-                        },
-                    new
-                        {
-                            Text = "Indigenous Use",
-                            Value = "indigenoususe",
-                            Selected = false
-                        },
-                    new
-                        {
-                            Text = "Indigenous Stories",
-                            Value = "indigenousstories",
-                            Selected = false
-                        },
-                    new
-                        {
-                            Text = "General Details",
-                            Value = "other",
-                            Selected = false
-                        }
+                    new {
+                        Id = "physicaldescription",
+                        Group = "lookslike",
+                        Name = "Physical Description",
+                        Description = "The physical characteristics of the species in the sighting"
+                    },
+                    new {
+                        Id = "similarspecies",
+                        Group = "lookslike",
+                        Name = "Similar Species",
+                        Description = "How the species sighting is similar to other species"
+                    },
+                    new {
+                        Id = "distribution",
+                        Group = "wherefound",
+                        Name = "Distribution",
+                        Description = "The geographic distribution of the species in the sighting"
+                    },
+                    new {
+                        Id = "habitat",
+                        Group = "wherefound",
+                        Name = "Habitat",
+                        Description = "The habitat of the species in the sighting"
+                    },
+                    new {
+                        Id = "seasonalvariation",
+                        Group = "wherefound",
+                        Name = "Seasonal Variation",
+                        Description = "Any seasonal variation of the species in the sighting"
+                    },
+                    new {
+                        Id = "conservationstatus",
+                        Group = "wherefound",
+                        Name = "Conservation Status",
+                        Description = "The conservation status of the species in the sighting"
+                    },
+                    new {
+                        Id = "behaviour",
+                        Group = "whatitdoes",
+                        Name = "Behaviour",
+                        Description = "Any behaviour of a species in the sighting"
+                    },
+                    new {
+                        Id = "food",
+                        Group = "whatitdoes",
+                        Name = "Food",
+                        Description = "The feeding chracteristics of the species in the sighting"
+                    },
+                    new {
+                        Id = "lifecycle",
+                        Group = "whatitdoes",
+                        Name = "Life Cycle",
+                        Description = "The life cycle stage or breeding charatcertic of the species in the sighting"
+                    },
+                    new {
+                        Id = "indigenouscommonnames",
+                        Group = "cultural",
+                        Name = "Indigenous Common Names",
+                        Description = "Any indigenous common names associated with the sighting"
+                    },
+                    new {
+                        Id = "indigenoususage",
+                        Group = "cultural",
+                        Name = "Usage in Indigenous Culture",
+                        Description = "Any special usage in indigenous cultures of the species in the sighting"
+                    },
+                    new {
+                        Id = "traditionalstories",
+                        Group = "cultural",
+                        Name = "Traditional Stories",
+                        Description = "Any traditional stories associated with the species in the sighting"
+                    },
+                    new {
+                        Id = "general",
+                        Group = "other",
+                        Name = "General Details",
+                        Description = "Any other general details"
+                    }
                 };
         }
 
