@@ -54,6 +54,7 @@ function ($, _, Backbone, app, ich, ActivityItemView) {
                 this.storeChild(childView);
             }, this);
             this._showDetails();
+            this.refresh();
         },
 
         _showDetails: function () {

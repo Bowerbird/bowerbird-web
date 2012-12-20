@@ -152,11 +152,10 @@
     <Content Include="img\category-reptiles.png" />
     <Content Include="img\cc.svg" />
     <Content Include="img\copyright.svg" />
-    <Content Include="img\flickr.png" />
     <Content Include="img\home.png" />
     <Content Include="img\icons.png" />
-    <Content Include="img\loader.gif" />
     <Content Include="img\loaderx.gif" />
+    <Content Include="img\loaderx2.gif" />
     <Content Include="img\logo-new4.png" />
     <Content Include="img\logo.svg" />
     <Content Include="img\logo2.svg" />
@@ -168,19 +167,23 @@
     <Content Include="img\organisation-Square200.jpg" />
     <Content Include="img\organisation-Square400.jpg" />
     <Content Include="img\pd.svg" />
-    <Content Include="img\picasa.png" />
+    <Content Include="img\project-background-2.png" />
+    <Content Include="img\project-background-3.png" />
+    <Content Include="img\project-background-4.png" />
+    <Content Include="img\project-background-5.png" />
+    <Content Include="img\project-background-6.png" />
+    <Content Include="img\project-background-large.png" />
     <Content Include="img\project-Square100.jpg" />
     <Content Include="img\project-Square200.jpg" />
     <Content Include="img\project-Square400.jpg" />
     <Content Include="img\sa.svg" />
+    <Content Include="img\spider.jpg" />
     <Content Include="img\team-Square100.jpg" />
     <Content Include="img\team-Square200.jpg" />
     <Content Include="img\team-Square400.jpg" />
     <Content Include="img\user-Square100.jpg" />
     <Content Include="img\user-Square200.jpg" />
     <Content Include="img\user-Square400.jpg" />
-    <Content Include="img\vimeo.png" />
-    <Content Include="img\youtube.png" />
     <Content Include="js\bowerbird\collections\chatMessageCollection.js" />
     <Content Include="js\bowerbird\collections\chatCollection.js" />
     <Content Include="js\bowerbird\collections\commentCollection.js" />
@@ -245,6 +248,9 @@
     <Content Include="js\bowerbird\views\accountLoginView.js" />
     <Content Include="js\bowerbird\views\accountRegisterView.js" />
     <Content Include="js\bowerbird\views\backgroundImageFormView.js" />
+    <Content Include="js\bowerbird\views\projectAboutView.js" />
+    <Content Include="js\bowerbird\views\userDetailsView.js" />
+    <Content Include="js\bowerbird\views\userListView.js" />
     <Content Include="js\bowerbird\views\sightingNoteDetailsView.js" />
     <Content Include="js\bowerbird\views\sightingNoteSubFormView.js" />
     <Content Include="js\bowerbird\views\observationDetailsView.js" />
@@ -304,6 +310,7 @@
     <Content Include="js\libs\jquery.jplayer\jquery.grab.js" />
     <Content Include="js\libs\jquery.jplayer\jquery.jplayer.js" />
     <Content Include="js\libs\jquery.jplayer\jquery.transform.js" />
+    <Content Include="js\libs\jquery.visualize\jquery.visualize.js" />
     <Content Include="js\libs\jquery.jsonp\jquery.jsonp.js" />
     <Content Include="js\libs\jquery.multiselect\jquery.multiselect.js" />
     <Content Include="js\libs\jquery.signalr\jquery.signalr.js" />
@@ -364,7 +371,6 @@
     <Content Include="Views\Projects\Update.mustache" />
     <Content Include="Views\Projects\Create.mustache" />
     <Content Include="Views\Projects\Delete.mustache" />
-    <Content Include="Views\Projects\Stream.mustache" />
     <Content Include="Views\Projects\List.mustache">
       <SubType>Designer</SubType>
     </Content>
@@ -403,7 +409,6 @@
     <Content Include="apple-touch-icon-precomposed.png" />
     <Content Include="500.html" />
     <Content Include="img\favourites.png" />
-    <Content Include="img\bgnoise.gif" />
     <Content Include="img\glyphicons-halflings-blue.png" />
     <Content Include="img\glyphicons-halflings-white.png" />
     <Content Include="img\glyphicons-halflings.png" />
@@ -433,9 +438,6 @@
     <Content Include="Views\Species\Delete.mustache" />
     <Content Include="Views\Species\Index.mustache" />
     <Content Include="Views\Species\List.mustache" />
-    <Content Include="Views\Teams\Create.mustache" />
-    <Content Include="Views\Teams\Delete.mustache" />
-    <Content Include="Views\Teams\Index.mustache" />
     <Content Include="Views\Organisations\Index.mustache" />
     <Content Include="Views\Shared\AvatarChooseFile.mustache" />
     <Content Include="Views\Shared\AvatarUploaded.mustache" />
@@ -512,7 +514,6 @@
     <Content Include="Views\Shared\StreamMessage.mustache" />
     <Content Include="Views\Shared\StreamLoadMore.mustache" />
     <Content Include="Views\Shared\OnlineUserList.mustache" />
-    <Content Include="Views\Teams\List.mustache" />
     <Content Include="Views\Shared\StreamLoadNew.mustache" />
     <Content Include="Views\Shared\ChatMessageList.mustache" />
     <Content Include="Views\Shared\Organisation.mustache">
@@ -547,7 +548,6 @@
     <Content Include="Views\Shared\SightingList.mustache">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Shared\TabBar.mustache" />
     <Content Include="Views\Shared\AccountLogin.mustache">
       <SubType>Designer</SubType>
     </Content>
@@ -596,6 +596,24 @@
     <Content Include="Views\Shared\SightingTileDetails.mustache">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Views\Shared\UserList.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\UserTileDetails.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Projects\Sightings.mustache" />
+    <Content Include="Views\Projects\Members.mustache" />
+    <Content Include="Views\Projects\About.mustache" />
+    <Content Include="Views\Shared\ProjectAbout.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\ProjectTileDetails.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\ProjectsExplore.mustache">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="404.html" />
@@ -614,8 +632,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="media\" />
-    <Folder Include="Views\SightingNotes\" />
-    <Folder Include="Views\Users\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

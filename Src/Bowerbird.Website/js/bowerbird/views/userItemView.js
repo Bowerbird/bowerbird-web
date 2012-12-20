@@ -61,7 +61,7 @@ function ($, _, Backbone, app) {
         },
 
         showMenu: function (e) {
-            $('.sub-menu').removeClass('active');
+            app.vent.trigger('close-sub-menus');
             $(e.currentTarget).addClass('active');
             var position = $(e.currentTarget).offset();
             var scrollTop = $(window).scrollTop();
@@ -70,7 +70,7 @@ function ($, _, Backbone, app) {
         },
 
         selectMenuItem: function (e) {
-            $('.sub-menu').removeClass('active');
+            app.vent.trigger('close-sub-menus');
             e.stopPropagation();
         },
 

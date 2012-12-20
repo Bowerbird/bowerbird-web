@@ -32,7 +32,6 @@ namespace Bowerbird.Web.Controllers
         private readonly IUserContext _userContext;
         private readonly IOrganisationViewModelBuilder _organisationViewModelBuilder;
         private readonly IActivityViewModelBuilder _activityViewModelBuilder;
-        private readonly ITeamViewModelBuilder _teamViewModelBuilder;
         private readonly IPostViewModelBuilder _postViewModelBuilder;
         private readonly ISightingViewModelBuilder _sightingViewModelBuilder;
         private readonly IUserViewModelBuilder _userViewModelBuilder;
@@ -48,7 +47,6 @@ namespace Bowerbird.Web.Controllers
             IOrganisationViewModelBuilder organisationViewModelBuilder,
             ISightingViewModelBuilder sightingViewModelBuilder,
             IActivityViewModelBuilder activityViewModelBuilder,
-            ITeamViewModelBuilder teamViewModelBuilder,
             IPostViewModelBuilder postViewModelBuilder,
             IUserViewModelBuilder userViewModelBuilder,
             IPermissionManager permissionManager
@@ -59,7 +57,6 @@ namespace Bowerbird.Web.Controllers
             Check.RequireNotNull(organisationViewModelBuilder, "organisationViewModelBuilder");
             Check.RequireNotNull(sightingViewModelBuilder, "sightingViewModelBuilder");
             Check.RequireNotNull(activityViewModelBuilder, "activityViewModelBuilder");
-            Check.RequireNotNull(teamViewModelBuilder, "teamViewModelBuilder");
             Check.RequireNotNull(postViewModelBuilder, "postViewModelBuilder");
             Check.RequireNotNull(userViewModelBuilder, "userViewModelBuilder");
             Check.RequireNotNull(permissionManager, "permissionManager");
@@ -69,7 +66,6 @@ namespace Bowerbird.Web.Controllers
             _organisationViewModelBuilder = organisationViewModelBuilder;
             _sightingViewModelBuilder = sightingViewModelBuilder;
             _activityViewModelBuilder = activityViewModelBuilder;
-            _teamViewModelBuilder = teamViewModelBuilder;
             _postViewModelBuilder = postViewModelBuilder;
             _userViewModelBuilder = userViewModelBuilder;
             _permissionManager = permissionManager;
@@ -124,28 +120,6 @@ namespace Bowerbird.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult Teams(string id, PagingInput pagingInput)
-        {
-            string organisationId = VerbosifyId<Organisation>(id);
-
-            if (!_permissionManager.DoesExist<Organisation>(organisationId))
-            {
-                return HttpNotFound();
-            }
-
-            var viewModel = new
-            {
-                Organisation = _organisationViewModelBuilder.BuildOrganisation(organisationId),
-                Teams = _teamViewModelBuilder.BuildGroupTeamList(organisationId, true, pagingInput)
-            };
-
-            return RestfulResult(
-                viewModel,
-                "organisations",
-                "teams");
-        }
-
-        [HttpGet]
         public ActionResult Posts(string id, PagingInput pagingInput)
         {
             string organisationId = VerbosifyId<Organisation>(id);
@@ -168,7 +142,7 @@ namespace Bowerbird.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult Members(string id, PagingInput pagingInput)
+        public ActionResult Members(string id, UsersQueryInput queryInput)
         {
             string organisationId = VerbosifyId<Organisation>(id);
 
@@ -180,7 +154,7 @@ namespace Bowerbird.Web.Controllers
             var viewModel = new
             {
                 Organisation = _organisationViewModelBuilder.BuildOrganisation(organisationId),
-                Members = _userViewModelBuilder.BuildGroupUserList(organisationId, pagingInput)
+                Members = _userViewModelBuilder.BuildGroupUserList(organisationId, queryInput)
             };
 
             return RestfulResult(

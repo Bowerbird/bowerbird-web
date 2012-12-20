@@ -74,17 +74,17 @@ namespace Bowerbird.Web.Hubs
             Groups.Remove(Context.ConnectionId, "group-" + groupId);
         }
 
-        public Task Disconnect()
-        {
-            // Unregister user from all groups they are a member of
-            var user = GetUserByConnectionId(Context.ConnectionId);
-            foreach (var groupId in GetUserGroups(user.Id))
-            {
-                Groups.Remove(Context.ConnectionId, "group-" + groupId);
-            }
+        //public Task Disconnect()
+        //{
+        //    // Unregister user from all groups they are a member of
+        //    var user = GetUserByConnectionId(Context.ConnectionId);
+        //    foreach (var groupId in GetUserGroups(user.Id))
+        //    {
+        //        Groups.Remove(Context.ConnectionId, "group-" + groupId);
+        //    }
 
-            return Task.Factory.StartNew(() => { });
-        }
+        //    return Task.Factory.StartNew(() => { });
+        //}
 
         private IEnumerable<string> GetUserGroups(string userId)
         {
@@ -95,16 +95,16 @@ namespace Bowerbird.Web.Hubs
                 .Select(x => x.GroupId);
         }
 
-        private User GetUserByConnectionId(string connectionId)
-        {
-            return _documentSession
-                .Query<All_Users.Result, All_Users>()
-                .AsProjection<All_Users.Result>()
-                .Where(x => x.ConnectionIds.Any(y => y == connectionId))
-                .ToList()
-                .Select(x => x.User)
-                .First();
-        }
+        //private User GetUserByConnectionId(string connectionId)
+        //{
+        //    return _documentSession
+        //        .Query<All_Users.Result, All_Users>()
+        //        .AsProjection<All_Users.Result>()
+        //        .Where(x => x.ConnectionIds.Any(y => y == connectionId))
+        //        .ToList()
+        //        .Select(x => x.User)
+        //        .First();
+        //}
 
         #endregion
 

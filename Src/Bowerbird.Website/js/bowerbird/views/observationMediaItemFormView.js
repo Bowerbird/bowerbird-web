@@ -95,13 +95,13 @@ function ($, _, Backbone, app, ich, MediaFormView, licences, CirclePlayer) {
         },
 
         _showMenu: function (e) {
-            $('.sub-menu').removeClass('active');
+            app.vent.trigger('close-sub-menus');
             $(e.currentTarget).addClass('active');
             e.stopPropagation();
         },
 
         _selectMenuItem: function (e) {
-            $('.sub-menu').removeClass('active');
+            app.vent.trigger('close-sub-menus');
             e.stopPropagation();
         },
 

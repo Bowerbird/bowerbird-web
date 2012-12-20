@@ -110,8 +110,6 @@ function ($, _, Backbone, app, ich, Identification, SightingDetailsView, Identif
             this.identificationFormView = new IdentificationFormView({ el: $('#modal-dialog'), categories: this.categories, categorySelectList: this.categorySelectList, model: identification });
             this.identificationFormView.on('identificationdone', this._onIdentificationDone, this);
 
-            //$('#Category').multiSelectOptionsHide();
-
             this.identificationFormView.render();
         },
 
@@ -137,7 +135,7 @@ function ($, _, Backbone, app, ich, Identification, SightingDetailsView, Identif
 
         showDescriptionTypes: function (e) {
             e.preventDefault();
-            $('.sub-menu').removeClass('active');
+            app.vent.trigger('close-sub-menus');
             $(e.currentTarget).addClass('active');
             e.stopPropagation();
         },
@@ -152,7 +150,7 @@ function ($, _, Backbone, app, ich, Identification, SightingDetailsView, Identif
 
             this.$el.find('.description-fields').append(ich.SightingNoteDescription({ Key: descriptionType.id, Value: '', Label: descriptionType.name, Description: descriptionType.description }));
             this.$el.find('#description-' + descriptionType.id).tipsy({ trigger: 'focus', gravity: 'w' });
-            $('.sub-menu').removeClass('active');
+            app.vent.trigger('close-sub-menus');
 
             this.$el.find('.add-description-type-button li a').tipsy.revalidate();
 

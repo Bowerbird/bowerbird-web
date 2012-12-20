@@ -249,7 +249,7 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
     app.bind('initialize:after', function () {
         // Tasks to perform on DOM ready
         var that = this;
-        
+
         $(function () {
             // Only start history once app is fully initialised
             if (Backbone.history) {
@@ -281,8 +281,14 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
             });
 
             // Register closing of all popup menus in entire page
-            $("body").click(function () {
-                $('.sub-menu').removeClass('active'); // Make sure to add any new menu button types to the selector
+            $("body, article, header").click(function () {
+                app.vent.trigger('close-sub-menus');
+            });
+
+            // Catch close menu event and close all types of menus here
+            app.vent.on('close-sub-menus', function() {
+                $('body .sub-menu').removeClass('active'); // Make sure to add any new menu button types to the selector
+                $('body .multiSelect').multiSelectOptionsHide();
             });
 
             // Resize the sidebar on window resizing

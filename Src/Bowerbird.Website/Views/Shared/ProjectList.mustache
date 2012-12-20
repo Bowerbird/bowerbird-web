@@ -1,9 +1,37 @@
-﻿<h2>
-  <span class="small-icon project-icon"></span>Projects
-</h2>
-<div class="project-list">
-<ul>
-	{{#Model.Projects}}
-    <li>{{>ProjectItem}}</li>
-	{{/Model.Projects}}
-</ul>
+﻿<div class="project-list">
+  {{#Model.Query}}
+  <div class="tab-bar tab-bar-right small">
+    <ul class="tabs">
+      <li>
+        <div class="tab-list-button sort-button sub-menu" title="Sort by selected option">
+          <span class="tab-list-selection">Newest</span>
+          <span class="tab-list-button-arrow down-arrow-icon-blue"></span>
+          <ul>
+            <li>
+              <a href="{{Id}}/projects?sort=newest">Newest</a>
+            </li>
+            <li>
+              <a href="{{Id}}/projects?sort=oldest">Oldest</a>
+            </li>
+            <li class="divider"></li>
+            <li>
+              <a href="{{Id}}/projects?sort=a-z">Alphabetical (A-Z)</a>
+            </li>
+            <li>
+              <a href="{{Id}}/projects?sort=z-a">Alphabetical (Z-A)</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </div>
+  {{/Model.Query}}
+  <ul class="project-items">
+    {{#Model.Projects.PagedListItems}}
+    <li class="project-item tile-project-details">
+      {{>ProjectTileDetails}}
+    </li>
+    {{/Model.Projects.PagedListItems}}
+  </ul>
+</div>
+

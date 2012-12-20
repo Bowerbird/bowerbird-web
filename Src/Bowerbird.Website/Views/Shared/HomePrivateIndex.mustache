@@ -1,7 +1,7 @@
 ﻿<h2><span class="small-icon home-icon"></span>Home</h2>
-{{#Model.ShowWelcome}}
-<div class="call-to-action" id="intro">
-  <a href="#" class="close-intro" title="Close">Close</a>
+{{#Model.ShowUserWelcome}}
+<div class="call-to-action" id="user-welcome">
+  <a href="#" class="close-call-to-action" title="Close">Close</a>
   <h2>Welcome to BowerBird, {{Model.User.Name}}!</h2>
   <p>Now that you have joined, please take the time to have a look at the introduction to familiarise yourself with BowerBird.</p>
 
@@ -16,7 +16,7 @@
   <h3>Learn More</h3>
   <p>There's a lot more to BowerBird than meets the eye. <a href="#">Learn more here</a></p>
 </div>
-{{/Model.ShowWelcome}}
+{{/Model.ShowUserWelcome}}
 <div class="details">
   <div class="tab-bar large">
     <ul class="tabs">

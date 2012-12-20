@@ -7,15 +7,18 @@
 
 // ProjectController & ProjectRouter
 // ---------------------------------
-define(['jquery', 'underscore', 'backbone', 'app', 'models/project', 'collections/projectcollection', 'collections/activitycollection', 'collections/sightingcollection', 'views/projectdetailsview', 'views/projectformview', 'views/projectexploreview'],
-function ($, _, Backbone, app, Project, ProjectCollection, ActivityCollection, SightingCollection, ProjectDetailsView, ProjectFormView, ProjectExploreView) {
+define(['jquery', 'underscore', 'backbone', 'app', 'models/project', 'collections/projectcollection', 'collections/activitycollection', 'collections/sightingcollection',
+        'collections/usercollection', 'views/projectdetailsview', 'views/projectformview', 'views/projectexploreview'],
+function ($, _, Backbone, app, Project, ProjectCollection, ActivityCollection, SightingCollection, UserCollection, ProjectDetailsView, ProjectFormView, ProjectExploreView) {
 
     var ProjectRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
-            'projects': 'showProjectExplore',
-            'projects/create*': 'showProjectCreateForm',
+            'projects': 'showExplore',
+            'projects/create*': 'showCreateForm',
             'projects/:id/sightings*': 'showSightings',
-            'projects/:id/update': 'showProjectUpdateForm',
+            'projects/:id/members*': 'showMembers',
+            'projects/:id/about': 'showAbout',
+            'projects/:id/update': 'showUpdateForm',
             'projects/:id': 'showProjectDetails'
         }
     });
@@ -91,7 +94,8 @@ function ($, _, Backbone, app, Project, ProjectCollection, ActivityCollection, S
         $.when(getModel('/projects/' + id + '/sightings?view=' + (params && params.view ? params.view : 'thumbnails') + '&sort=' + (params && params.sort ? params.sort : 'latestadded')))
             .done(function (model) {
                 var project = new Project(model.Project);
-                var sightingCollection = new SightingCollection(model.Sightings.PagedListItems, { projectId: project.id, page: model.Query.page, pageSize: model.Query.PageSize, total: model.Sightings.TotalResultCount, viewType: model.Query.View, sortBy: model.Query.Sort });
+                var sightingCollection = new SightingCollection(model.Sightings.PagedListItems, { projectId: project.id, page: model.Query.page, pageSize: model.Query.PageSize, total: model.Sightings.TotalResultCount,
+                    viewType: model.Query.View, sortBy: model.Query.Sort });
 
                 if (app.content.currentView instanceof ProjectDetailsView && app.content.currentView.model.id === project.id) {
                     app.content.currentView.showSightings(sightingCollection);
@@ -109,8 +113,51 @@ function ($, _, Backbone, app, Project, ProjectCollection, ActivityCollection, S
             });
     };
 
+    ProjectController.showMembers = function (id, params) {
+        $.when(getModel('/projects/' + id + '/members?sort=' + (params && params.sort ? params.sort : 'a-z')))
+        .done(function (model) {
+            var project = new Project(model.Project);
+            var userCollection = new UserCollection(model.Members.PagedListItems, { projectId: project.id, page: model.Query.page, pageSize: model.Query.PageSize, total: model.Members.TotalResultCount, viewType: model.Query.View, sortBy: model.Query.Sort });
+
+            if (app.content.currentView instanceof ProjectDetailsView && app.content.currentView.model.id === project.id) {
+                app.content.currentView.showMembers(userCollection);
+            } else {
+                var options = { model: project };
+                if (app.isPrerenderingView('projects')) {
+                    options['el'] = '.project';
+                }
+                var projectDetailsView = new ProjectDetailsView(options);
+
+                app.showContentView(project.get('Name'), projectDetailsView, 'projects', function () {
+                    projectDetailsView.showMembers(userCollection);
+                });
+            }
+        });
+    };
+
+    ProjectController.showAbout = function (id) {
+        $.when(getModel('/projects/' + id + '/about'))
+        .done(function (model) {
+            var project = new Project(model.Project);
+
+            if (app.content.currentView instanceof ProjectDetailsView && app.content.currentView.model.id === project.id) {
+                app.content.currentView.showAbout(model.ProjectAdministrators, model.ActivityTimeseries);
+            } else {
+                var options = { model: project };
+                if (app.isPrerenderingView('projects')) {
+                    options['el'] = '.project';
+                }
+                var projectDetailsView = new ProjectDetailsView(options);
+
+                app.showContentView(project.get('Name'), projectDetailsView, 'projects', function () {
+                    projectDetailsView.showAbout(model.ProjectAdministrators, model.ActivityTimeseries);
+                });
+            }
+        });
+    };
+
     // Show project create form
-    ProjectController.showProjectCreateForm = function (id) {
+    ProjectController.showCreateForm = function (id) {
         var uri = '/projects/create';
         if (id) {
             uri += id;
@@ -119,18 +166,30 @@ function ($, _, Backbone, app, Project, ProjectCollection, ActivityCollection, S
     };
 
     // Show project update form
-    ProjectController.showProjectUpdateForm = function (id) {
+    ProjectController.showUpdateForm = function (id) {
         showProjectForm('/projects/' + id + '/update');
     };
 
     // Show project explore
-    ProjectController.showProjectExplore = function () {
-        $.when(getModel('/projects'))
-            .done(function (model) {
-                var projectCollection = new ProjectCollection(model.Projects.PagedListItems);
-                var projectExploreView = new ProjectExploreView({ model: app.authenticatedUser.user, collection: projectCollection });
-                app.showContentView('Projects', projectExploreView, 'projects');
+    ProjectController.showExplore = function (params) {
+        $.when(getModel('/projects?sort=' + (params && params.sort ? params.sort : 'newest')))
+        .done(function (model) {
+            var projectCollection = new ProjectCollection(model.Projects.PagedListItems, { page: model.Query.page, pageSize: model.Query.PageSize, total: model.Projects.TotalResultCount, sortBy: model.Query.Sort });
+
+            var options = { collection: projectCollection };
+            
+            if (app.authenticatedUser) {
+                options.model = app.authenticatedUser.user;
+            }
+
+            if (app.isPrerenderingView('projects')) {
+                options['el'] = '.projects';
+            }
+            var projectExploreView = new ProjectExploreView(options);
+
+            app.showContentView('Projects', projectExploreView, 'projects', function () {
             });
+        });
     };
 
     // Event Handlers

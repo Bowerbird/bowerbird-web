@@ -1,0 +1,80 @@
+﻿<div class="project-about">
+
+
+  {{#Model.Project.Description}}
+  <h4>About This Project</h4>
+  
+  <div class="project-description">
+    {{{Model.Project.Description}}}
+  </div>
+  {{/Model.Project.Description}}
+  
+  <h4>Basic Info</h4>
+
+  <div class="project-info">
+    <div id="created">
+      Created <span>{{Model.Project.Created}}</span>
+    </div>
+    {{#Model.Project.Website}}
+    <div id="website">
+      Website <span><a href="{{Model.Project.Website}}" target="new">{{Model.Project.Website}}</a></span>
+    </div>
+    {{/Model.Project.Website}}
+
+    <div id="activity-chart">
+            
+      <table>
+        <caption>Activity in the last 30 days</caption>
+        <thead>
+          <tr>
+            <td></td>
+            {{#Model.ActivityTimeseries}}
+            <th scope="col">{{CreatedDate}}</th>
+            {{/Model.ActivityTimeseries}}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Sightings Made</th>
+            {{#Model.ActivityTimeseries}}
+            <td>{{SightingCount}}</td>
+            {{/Model.ActivityTimeseries}}
+          </tr>
+          <tr>
+            <th scope="row">Notes Added</th>
+            {{#Model.ActivityTimeseries}}
+            <td>{{NoteCount}}</td>
+            {{/Model.ActivityTimeseries}}
+          </tr>
+          <tr>
+            <th scope="row">Posts Added</th>
+            {{#Model.ActivityTimeseries}}
+            <td>{{PostCount}}</td>
+            {{/Model.ActivityTimeseries}}
+          </tr>
+          <tr>
+            <th scope="row">Comments Made</th>
+            {{#Model.ActivityTimeseries}}
+            <td>{{CommentCount}}</td>
+            {{/Model.ActivityTimeseries}}
+          </tr>
+        </tbody>
+      </table>
+      <div id="chart-area"></div>
+    </div>
+  </div>
+
+  <h4>Project Administrators</h4>
+
+  <div>
+    <ul class="user-items">
+    {{#Model.ProjectAdministrators.PagedListItems}}
+      <li class="user-item tile-user-details">
+        {{>UserTileDetails}}
+      </li>
+    {{/Model.ProjectAdministrators.PagedListItems}}
+    </ul>
+  </div>
+  
+  
+</div>

@@ -28,11 +28,6 @@ define(['jquery', 'underscore', 'backbone', 'collections/paginatedcollection', '
                 this.baseUrl = '/' + options.id;
             }
 
-//            if (options.groupOrUser) {
-//                this.groupOrUser = options.groupOrUser;
-//                this.baseUrl = '/' + options.groupOrUser.id + '/activity';
-//            }
-
             // Set the moment in time (UTC) around which all activity queries will be performed
             var now = new Date();
             this.baselineDateTime = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());

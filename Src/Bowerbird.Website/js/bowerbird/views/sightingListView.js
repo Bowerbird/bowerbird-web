@@ -42,20 +42,17 @@ function ($, _, Backbone, app, ich, SightingDetailsView) {
             this.collection.on('fetching', this.onLoadingStart, this);
             this.collection.on('fetched', this.onLoadingComplete, this);
             this.collection.on('reset', this.onLoadingComplete, this);
-
-            //this.newStreamItemsCache = [];
         },
 
         serializeData: function () {
             return {
                 Model: {
-                    //ShowSightings: true,
                     Query: {
                         Id: this.collection.projectId,
                         Page: this.collection.pageSize,
                         PageSize: this.collection.page,
                         View: this.collection.viewType,
-                        Sort: this.collection.sortBy
+                        Sort: this.collection.sortByType
                     }
                 }
             };
@@ -80,6 +77,7 @@ function ($, _, Backbone, app, ich, SightingDetailsView) {
                 this.storeChild(childView);
             }, this);
             this._showDetails();
+            this.refresh();
         },
 
         _showDetails: function () {
@@ -93,7 +91,7 @@ function ($, _, Backbone, app, ich, SightingDetailsView) {
             });
 
             this.onLoadingComplete(this.collection);
-            this.changeSortLabel(this.collection.sortBy);
+            this.changeSortLabel(this.collection.sortByType);
             this.switchTabHighlight(this.collection.viewType);
         },
 
@@ -183,33 +181,6 @@ function ($, _, Backbone, app, ich, SightingDetailsView) {
             }
         },
 
-        //        onNewItemReceived: function (sightingItem) {
-        //            if (_.any(this.newStreamItemsCache, function (item) { return item.id === sightingItem.id; }, this)) {
-        //                return;
-        //            }
-        //            this.$el.find('.stream-message').remove();
-        //            var streamItemCreatedDateTime = Date.parseExact(sightingItem.get('CreatedDateTime'), 'yyyy-MM-ddTHH:mm:ssZ');
-
-        //            //log('streamItemCreatedDateTime', streamItemCreatedDateTime);
-        //            //log('baselineDateTime', this.collection.baselineDateTime);
-
-        //            // Only show a new items message if the item is newer than what we have already
-        //            if (streamItemCreatedDateTime.isAfter(this.collection.baselineDateTime)) {
-        //                log('is after!');
-        //                this.newItemsCount++;
-        //                this.newStreamItemsCache.push(sightingItem);
-        //            }
-
-        //            if (this.newItemsCount > 0) {
-        //                // Show load new items button
-        //                if (this.$el.find('.stream-load-new').length === 0) {
-        //                    this.$el.find('.sighting-list').prepend(ich.StreamLoadNew());
-        //                } else {
-        //                    this.$el.find('#stream-load-new-button').val('Load ' + this.newItemsCount + ' New Items');
-        //                }
-        //            }
-        //        },
-
         onDetailsTabClicked: function (e) {
             e.preventDefault();
             this.clearListAnPrepareShowLoading();
@@ -239,7 +210,7 @@ function ($, _, Backbone, app, ich, SightingDetailsView) {
         },
 
         showSortMenu: function (e) {
-            $('.sub-menu').removeClass('active');
+            app.vent.trigger('close-sub-menus');
             $(e.currentTarget).addClass('active');
             e.stopPropagation();
         },
@@ -247,7 +218,7 @@ function ($, _, Backbone, app, ich, SightingDetailsView) {
         changeSort: function (e) {
             e.preventDefault();
             this.$el.find('.sort-button .tab-list-selection').empty().text($(e.currentTarget).text());
-            $('.sub-menu').removeClass('active');
+            app.vent.trigger('close-sub-menus');
             this.clearListAnPrepareShowLoading();
             Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
             return false;
@@ -258,20 +229,6 @@ function ($, _, Backbone, app, ich, SightingDetailsView) {
             this.$el.find('.sighting-items').empty();
             this.onLoadingStart();
         },
-
-        //        showSortDirectionMenu: function (e) {
-        //            //$(e.currentTarget).toggleClass('visible');
-        //            $('.sub-menu').removeClass('active');
-        //            $(e.currentTarget).addClass('active');
-        //            e.stopPropagation();
-        //        },
-
-        //        changeSortDirection: function (e) {
-        //            e.preventDefault();
-        //        },
-
-        //        switchSortHighlight: function (sort) {
-        //        },
 
         showLoading: function () {
             var that = this;

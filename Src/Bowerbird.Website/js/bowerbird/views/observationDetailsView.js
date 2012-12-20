@@ -8,13 +8,17 @@
 // ObservationDetailsView
 // ----------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'moment', 'timeago', 'async!http://maps.google.com/maps/api/js?sensor=false&region=AU'],
-function ($, _, Backbone, app, moment) {
+define(['jquery', 'underscore', 'backbone', 'ich', 'app', 'moment', 'timeago', 'async!http://maps.google.com/maps/api/js?sensor=false&region=AU'],
+function ($, _, Backbone, ich, app, moment) {
 
     var ObservationDetailsView = Backbone.Marionette.ItemView.extend({
         className: 'observation double',
 
         template: 'ObservationIndex',
+
+        events: {
+            'click .thumbnails > div': 'showMedia'
+        },
 
         initialize: function (options) {
             _.bindAll(this, 'resizeElements', 'showMedia');

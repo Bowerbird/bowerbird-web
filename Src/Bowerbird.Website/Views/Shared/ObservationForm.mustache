@@ -35,36 +35,39 @@
             
             
             
-            <!--<div tabindex="0" class="button list-button add-media-button sub-menu">
+            <div tabindex="0" class="button list-button add-media-button sub-menu" id="add-media-button">
               <span class="list-button-label">Add Media</span>
               <span class="list-button-arrow down-arrow-icon-blue"></span>
               <ul>
                 <li>
-                  <a data-descriptionid="files" href="#" original-title="Files on your computer">My Files</a>
+                  <div data-descriptionid="files" href="#" title="Upload images and audio files from your computer" class="file-upload-button">
+                    <span class="my-files-icon"></span>
+                    My Files<input id="file" type="file" name="file" multiple="" value="Add Media" />
+                  </div>
                 </li>
                 <li>
-                  <a data-descriptionid="youtube" href="#" original-title="Your video on YouTube">YouTube Video</a>
+                  <a data-descriptionid="youtube" href="#" title="Add a video from YouTube" id="youtube-upload-button"><span class="youtube-icon"></span> YouTube Video</a>
                 </li>
                 <li>
-                  <a data-descriptionid="vimeo" href="#" original-title="Your video on Vimeo">Vimeo Video</a>
+                  <a data-descriptionid="vimeo" href="#" title="Add a video from Vimeo" id="vimeo-upload-button"><span class="vimeo-icon"></span>Vimeo Video</a>
+                </li>
+                <!--<li>
+                  <a data-descriptionid="flickr" href="#" original-title="Add a photo from Flickr">Flickr Image</a>
                 </li>
                 <li>
-                  <a data-descriptionid="flickr" href="#" original-title="Your photo on Flickr">Flickr Image</a>
-                </li>
-                <li>
-                  <a data-descriptionid="picasa" href="#" original-title="Your photo on Picasa">Picasa Image</a>
-                </li>
+                  <a data-descriptionid="picasa" href="#" original-title="Add a photo from Picasa">Picasa Image</a>
+                </li>-->
               </ul>
-            </div>-->
-            
-            
-            
-            
-            
-            
-            <div class="button file-upload-button">
-              Add Media<input id="file" type="file" name="file" multiple="" value="Add Media" />
             </div>
+            
+            
+            
+            
+            
+            
+            <!--<div class="button file-upload-button">
+              Add Media<input id="file" type="file" name="file" multiple="" value="Add Media" />
+            </div>-->
 
             <!--<button id="youtube-upload-button" class="website-upload-button youtube" title="Import videos from Youtube">Youtube</button>
           <button id="vimeo-upload-button" class="website-upload-button vimeo" title="Import your videos from Vimeo">Vimeo</button>

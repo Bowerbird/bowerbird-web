@@ -1,0 +1,29 @@
+﻿<div class="user-list">
+  {{#Model.Query}}
+  <div class="tab-bar tab-bar-right small">
+    <ul class="tabs">
+      <li>
+        <div class="tab-list-button sort-button sub-menu" title="Sort by selected option">
+          <span class="tab-list-selection">Latest Added</span>
+          <span class="tab-list-button-arrow down-arrow-icon-blue"></span>
+          <ul>
+            <li>
+              <a href="{{Id}}/members?sort=a-z">Alphabetical (A-Z)</a>
+            </li>
+            <li>
+              <a href="{{Id}}/members?sort=z-a">Alphabetical (Z-A)</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </div>
+  {{/Model.Query}}
+  <ul class="user-items">
+  {{#Model.Members.PagedListItems}}
+  <li class="user-item tile-user-details">
+    {{>UserTileDetails}}
+  </li>
+  {{/Model.Members.PagedListItems}}
+  </ul>
+</div>

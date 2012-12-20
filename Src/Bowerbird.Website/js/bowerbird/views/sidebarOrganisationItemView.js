@@ -45,13 +45,13 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/organisation'], funct
         },
 
         showMenu: function (e) {
-            $('.sub-menu').removeClass('active');
+            app.vent.trigger('close-sub-menus');
             $(e.currentTarget).addClass('active');
             e.stopPropagation();
         },
 
         selectMenuItem: function (e) {
-            $('.sub-menu').removeClass('active');
+            app.vent.trigger('close-sub-menus');
             e.stopPropagation();
         },
 

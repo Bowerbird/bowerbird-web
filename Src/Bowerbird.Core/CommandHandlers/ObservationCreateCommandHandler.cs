@@ -120,7 +120,7 @@ namespace Bowerbird.Core.CommandHandlers
                 projects,
                 command.Media.Select(x => // command media may either have ids or keys depending on which client...
                 new Tuple<MediaResource, string, string, bool>(
-                    mediaByResourceId ? mediaResources.Single(y => y.Id == x.MediaResourceId) : mediaResources.Single(y => y.Key == x.Key),
+                    x.MediaResourceId != null ? mediaResources.Single(y => y.Id == x.MediaResourceId) : mediaResources.Single(y => y.Key == x.Key),
                     x.Description,
                     x.Licence,
                     x.IsPrimaryMedia)));

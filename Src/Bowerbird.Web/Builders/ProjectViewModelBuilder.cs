@@ -103,7 +103,19 @@ namespace Bowerbird.Web.Builders
                 .AsProjection<All_Groups.Result>()
                 .First(x => x.GroupId == projectId);
 
-            return _groupViewFactory.Make(project);
+            return _groupViewFactory.Make(project, true);
+        }
+
+        public object BuildProjectList(ProjectsQueryInput projectsQueryInput)
+        {
+            Check.RequireNotNull(projectsQueryInput, "projectsQueryInput");
+
+            var query = _documentSession
+                .Query<All_Groups.Result, All_Groups>()
+                .AsProjection<All_Groups.Result>()
+                .Where(x => x.GroupType == "project");
+
+            return ExecuteQuery(projectsQueryInput.Sort, projectsQueryInput, query);
         }
 
         public object BuildUserProjectList(string userId, PagingInput pagingInput)
@@ -111,68 +123,40 @@ namespace Bowerbird.Web.Builders
             Check.RequireNotNullOrWhitespace(userId, "userId");
             Check.RequireNotNull(pagingInput, "pagingInput");
 
-            RavenQueryStatistics stats;
-
-            return _documentSession
+            var query = _documentSession
                 .Query<All_Groups.Result, All_Groups>()
                 .AsProjection<All_Groups.Result>()
-                .Where(x => x.GroupType == "project" && x.UserIds.Any(y => y == userId))
-                .Statistics(out stats)
-                .Skip(pagingInput.GetSkipIndex())
-                .Take(pagingInput.PageSize)
-                .ToList()
-                .Select(_groupViewFactory.Make)
-                .ToPagedList(
-                    pagingInput.Page,
-                    pagingInput.PageSize,
-                    stats.TotalResults);
+                .Where(x => x.GroupType == "project" && x.UserIds.Any(y => y == userId));
+
+            return ExecuteQuery("a-z", pagingInput, query);
         }
 
-        public object BuildGroupProjectList(string groupId, bool getAllDescendants, PagingInput pagingInput)
+        private object ExecuteQuery(string sort, PagingInput pagingInput, IRavenQueryable<All_Groups.Result> query)
         {
-            Check.RequireNotNullOrWhitespace(groupId, "groupId");
-            Check.RequireNotNull(pagingInput, "pagingInput");
-
-            var query = _documentSession
-                    .Query<All_Groups.Result, All_Groups>()
-                    .AsProjection<All_Groups.Result>();
-
-            if (groupId == Constants.AppRootId)
+            switch (sort.ToLower())
             {
-                if (getAllDescendants)
-                {
-                    query = query
-                        .Where(x => x.GroupType == "project");
-                }
-                else
-                {
-                    query = query
-                        .Where(x => x.GroupType == "project" && x.ParentGroupId == Constants.AppRootId);
-                }
-            }
-            else
-            {
-                var group = _documentSession
-                    .Query<All_Groups.Result, All_Groups>()
-                    .AsProjection<All_Groups.Result>()
-                    .Where(x => x.GroupId == groupId)
-                    .ToList()
-                    .First();
-
-                var descendantGroupIds = getAllDescendants ? group.DescendantGroupIds : group.ChildGroupIds;
-
-                query = query
-                    .Where(x => x.GroupId.In(descendantGroupIds) && x.GroupType == "project");
+                default:
+                case "newest":
+                    query = query.OrderByDescending(x => x.CreatedDateTime);
+                    break;
+                case "a-z":
+                    query = query.OrderBy(x => x.Name);
+                    break;
+                case "z-a":
+                    query = query.OrderByDescending(x => x.Name);
+                    break;
+                case "oldest":
+                    query = query.OrderBy(x => x.CreatedDateTime);
+                    break;
             }
 
             RavenQueryStatistics stats;
 
-            return query
+            return query.Skip(pagingInput.GetSkipIndex())
                 .Statistics(out stats)
-                .Skip(pagingInput.GetSkipIndex())
-                .Take(pagingInput.PageSize)
+                .Take(pagingInput.GetPageSize())
                 .ToList()
-                .Select(_groupViewFactory.Make)
+                .Select(x => _groupViewFactory.Make(x, true))
                 .ToPagedList(
                     pagingInput.Page,
                     pagingInput.PageSize,

@@ -13,14 +13,12 @@ using System;
 using System.Linq;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.Extensions;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Paging;
 using Bowerbird.Web.ViewModels;
 using NodaTime;
 using Raven.Client;
 using Raven.Client.Linq;
-using Bowerbird.Core.Config;
 using Bowerbird.Web.Factories;
 
 namespace Bowerbird.Web.Builders
@@ -117,19 +115,49 @@ namespace Bowerbird.Web.Builders
             };
         }
 
-        public object BuildGroupUserList(string groupId, PagingInput pagingInput)
+        public object BuildGroupUserList(string groupId, UsersQueryInput usersQueryInput)
         {
             Check.RequireNotNullOrWhitespace(groupId, "groupId");
-            Check.RequireNotNull(pagingInput, "pagingInput");
+            Check.RequireNotNull(usersQueryInput, "usersQueryInput");
 
-            return _documentSession
+            var query = _documentSession
                 .Query<All_Users.Result, All_Users>()
                 .AsProjection<All_Users.Result>()
-                .Where(x => x.GroupIds.Any(y => y == groupId))
-                .Skip(pagingInput.GetSkipIndex())
-                .Take(pagingInput.PageSize)
+                .Where(x => x.GroupIds.Any(y => y == groupId));
+
+            return ExecuteQuery(usersQueryInput.Sort, usersQueryInput, query);
+        }
+
+        public object BuildGroupUserList(string groupId, string role)
+        {
+            Check.RequireNotNullOrWhitespace(groupId, "groupId");
+
+            var query = _documentSession
+                .Advanced.LuceneQuery<All_Users.Result, All_Users>()
+                .SelectFields<All_Users.Result>("UserId", "GroupIds", "ConnectionIds", "SightingCount", "LatestHeartbeat", "LatestActivity", "Name", "Email")
+                .WhereEquals(role.Replace("roles/", ""), groupId);
+
+            //switch (sort.ToLower())
+            //{
+            //    default:
+            //    case "a-z":
+            //        query = query.OrderBy(x => x.Name);
+            //        break;
+            //    case "z-a":
+            //        query = query.OrderByDescending(x => x.Name);
+            //        break;
+            //}
+
+            RavenQueryStatistics stats;
+
+            return query.Statistics(out stats)
+                .Take(50)
                 .ToList()
-                .Select(x => _userViewFactory.Make(x.User));
+                .Select(x => _userViewFactory.Make(x, true))
+                .ToPagedList(
+                    1,
+                    50,
+                    stats.TotalResults);
         }
 
         public object BuildOnlineUserList()
@@ -146,18 +174,30 @@ namespace Bowerbird.Web.Builders
                 .Select(x => _userViewFactory.Make(x.User));
         }
 
-        private object MakeMember(Member member)
+        private object ExecuteQuery(string sort, PagingInput pagingInput, IRavenQueryable<All_Users.Result> query)
         {
-            return new
+            switch (sort.ToLower())
             {
-                GroupId = member.Group.Id,
-                Roles = from role in member.Roles
-                        select new
-                        {
-                            Id = role.Id,
-                            Permissions = role.Permissions.Select(x => x.Id)
-                        }
-            };
+                default:
+                case "a-z":
+                    query = query.OrderBy(x => x.Name);
+                    break;
+                case "z-a":
+                    query = query.OrderByDescending(x => x.Name);
+                    break;
+            }
+
+            RavenQueryStatistics stats;
+
+            return query.Skip(pagingInput.GetSkipIndex())
+                .Statistics(out stats)
+                .Take(pagingInput.GetPageSize())
+                .ToList()
+                .Select(x => _userViewFactory.Make(x, true))
+                .ToPagedList(
+                    pagingInput.Page,
+                    pagingInput.PageSize,
+                    stats.TotalResults);
         }
 
         #endregion

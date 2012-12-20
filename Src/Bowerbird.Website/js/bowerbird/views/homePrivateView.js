@@ -34,7 +34,7 @@ function ($, _, Backbone, app, ActivityListView, SightingListView) {
             return {
                 Model: {
                     User: this.model.toJSON(),
-                    ShowWelcome: _.contains(app.authenticatedUser.callsToAction, 'welcome'),
+                    ShowUserWelcome: _.contains(app.authenticatedUser.callsToAction, 'user-welcome'),
                     ShowActivities: this.activeTab === 'activities' || this.activeTab === '',
                     ShowSightings: this.activeTab === 'sightings',
                     ShowPosts: this.activeTab === 'posts'
@@ -55,13 +55,12 @@ function ($, _, Backbone, app, ActivityListView, SightingListView) {
 
         _showDetails: function () {
             var that = this;
-            this.$el.find('.close-intro').on('click', function (e) {
+            this.$el.find('.close-call-to-action').on('click', function (e) {
                 e.preventDefault();
-                that.$el.find('#intro').slideUp('fast', function () {
-                    that.$el.find('#intro').remove();
+                that.$el.find('.call-to-action').slideUp('fast', function () {
+                    that.$el.find('.call-to-action').remove();
                 });
-                // TODO: Save intro closed status
-                app.vent.trigger('close-call-to-action', 'welcome');
+                app.vent.trigger('close-call-to-action', 'user-welcome');
                 return false;
             });
         },

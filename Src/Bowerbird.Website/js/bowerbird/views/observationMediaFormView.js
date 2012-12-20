@@ -29,11 +29,13 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemFormView, Vide
 
         events: {
             'click #youtube-upload-button': '_showYouTubeVideoForm',
-            'click #vimeo-upload-button': '_showVimeoVideoForm'
+            'click #vimeo-upload-button': '_showVimeoVideoForm',
+            'click #add-media-button': '_showAddMediaOptions',
+            'click .file-upload-button': '_clickFileUpload'
         },
 
         initialize: function () {
-            _.bindAll(this, '_onMediaResourceUploadSuccess', '_onMediaResourceUploadFailure', '_onFileUploadAdd', '_onFileUploadSend', '_onFileUploadDone', '_onFileUploadFail', '_onVideoUploadAdd');
+            _.bindAll(this, '_onMediaResourceUploadSuccess', '_onMediaResourceUploadFailure', '_onFileUploadAdd', '_onFileUploadSend', '_onFileUploadDone', '_onFileUploadFail', '_onVideoUploadAdd', '_showAddMediaOptions', '_clickFileUpload');
 
             this.mediaUploads = new MediaUploadCollection();
             this.mediaUploads.on('change:progressStatus', this._updateProgress, this);
@@ -56,6 +58,8 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemFormView, Vide
                 fail: this._onFileUploadFail // on errored upload
             });
 
+            this.$el.find('#add-media-button ul li a, #add-media-button ul li > div').tipsy({ gravity: 'e', fade: true });
+
             this.isRendering = false;
         },
 
@@ -67,8 +71,7 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemFormView, Vide
                 var elem = this.$el.find('[class*="observation-media-item-' + itemView.model.get('MediaResourceId') + '"]');
                 itemView.setElement(elem);
             }
-            else 
-            {
+            else {
                 var that = this;
                 this.$el.find('.observation-media-items')
                     .queue(function (next) {
@@ -160,18 +163,36 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemFormView, Vide
         _showYouTubeVideoForm: function (e) {
             e.preventDefault();
             this._showVideoForm('youtube');
+            return false;
         },
 
         _showVimeoVideoForm: function (e) {
             e.preventDefault();
             this._showVideoForm('vimeo');
+            return false;
         },
 
         _showVideoForm: function (videoProviderName) {
+            app.vent.trigger('close-sub-menus');
+            this.$el.find('#add-media-button ul li a, #add-media-button ul li > div').tipsy.revalidate();
             $('body').append('<div id="modal-dialog"></div>');
             var videoFormView = new VideoFormView({ el: $('#modal-dialog'), videoProviderName: videoProviderName });
             videoFormView.on('videouploaded', this._onVideoUploadAdd, this);
             videoFormView.render();
+        },
+
+        _showAddMediaOptions: function (e) {
+            e.preventDefault();
+            app.vent.trigger('close-sub-menus');
+            this.$el.find('.add-media-button').addClass('active');
+            return false;
+        },
+
+        _clickFileUpload: function (e) {
+            app.vent.trigger('close-sub-menus');
+            this.$el.find('#add-media-button ul li a, #add-media-button ul li > div').tipsy.revalidate();
+            e.stopPropagation();
+            return true;
         },
 
         _onFileUploadAdd: function (e, data) {

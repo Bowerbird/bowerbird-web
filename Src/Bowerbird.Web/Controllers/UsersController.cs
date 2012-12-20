@@ -36,7 +36,6 @@ namespace Bowerbird.Web.Controllers
         private readonly IActivityViewModelBuilder _activityViewModelBuilder;
         private readonly IProjectViewModelBuilder _projectViewModelBuilder;
         private readonly IPostViewModelBuilder _postViewModelBuilder;
-        private readonly ITeamViewModelBuilder _teamViewModelBuilder;
         private readonly IPermissionManager _permissionManager;
         private readonly ISightingViewModelBuilder _sightingViewModelBuilder;
 
@@ -51,7 +50,6 @@ namespace Bowerbird.Web.Controllers
             IActivityViewModelBuilder activityViewModelBuilder,
             IProjectViewModelBuilder projectViewModelBuilder,
             IPostViewModelBuilder postViewModelBuilder,
-            ITeamViewModelBuilder teamViewModelBuilder,
             IPermissionManager permissionManager,
             ISightingViewModelBuilder sightingViewModelBuilder)
         {
@@ -61,7 +59,6 @@ namespace Bowerbird.Web.Controllers
             Check.RequireNotNull(activityViewModelBuilder, "activityViewModelBuilder");
             Check.RequireNotNull(projectViewModelBuilder, "projectViewModelBuilder");
             Check.RequireNotNull(postViewModelBuilder, "postViewModelBuilder");
-            Check.RequireNotNull(teamViewModelBuilder, "teamViewModelBuilder");
             Check.RequireNotNull(permissionManager, "permissionManager");
             Check.RequireNotNull(sightingViewModelBuilder, "sightingViewModelBuilder");
 
@@ -71,7 +68,6 @@ namespace Bowerbird.Web.Controllers
             _projectViewModelBuilder = projectViewModelBuilder;
             _postViewModelBuilder = postViewModelBuilder;
             _activityViewModelBuilder = activityViewModelBuilder;
-            _teamViewModelBuilder = teamViewModelBuilder;
             _permissionManager = permissionManager;
             _sightingViewModelBuilder = sightingViewModelBuilder;
         }

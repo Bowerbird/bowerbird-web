@@ -25,7 +25,9 @@ namespace Bowerbird.Web.Builders
 
         object BuildAuthenticatedUser(string userId);
 
-        object BuildGroupUserList(string groupId, PagingInput pagingInput);
+        object BuildGroupUserList(string groupId, UsersQueryInput usersQueryInput);
+
+        object BuildGroupUserList(string groupId, string role);
 
         object BuildOnlineUserList();
     }

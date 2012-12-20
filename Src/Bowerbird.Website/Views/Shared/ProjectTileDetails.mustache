@@ -1,0 +1,22 @@
+﻿<h3>
+    <a href="/{{Id}}">
+    {{Name}} <span></span>
+    </a>
+</h3>
+    
+    <div class="avatar">
+      {{#Avatar}}
+      {{>MediaSquare200}}
+      {{/Avatar}}
+    </div>
+    <div class="info">
+
+    <div class="created"><span class="small-icon observation-icon"></span> {{Created}}</div>
+    <div class="sightings"><span class="small-icon observation-icon"></span> {{SightingCount}} Sightings</div>        
+    <div class="members"><span class="small-icon team-icon"></span> {{MemberCount}} Members</div>
+        
+    </div>
+
+<div class="actions">
+  <a href="/{{Id}}" class="button view-button">View</a>
+</div>

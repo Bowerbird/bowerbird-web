@@ -213,6 +213,8 @@
     <Compile Include="Validators\ValidExternalVideoAttribute.cs" />
     <Compile Include="Validators\ValidFileAttribute.cs" />
     <Compile Include="Validators\ValidMediaResourceAttribute.cs" />
+    <Compile Include="ViewModels\ProjectsQueryInput.cs" />
+    <Compile Include="ViewModels\UsersQueryInput.cs" />
     <Compile Include="ViewModels\SightingsQueryInput.cs" />
     <Compile Include="ViewModels\SightingNoteUpdateInput.cs" />
     <Compile Include="ViewModels\SpeciesQueryInput.cs" />

@@ -91,16 +91,6 @@ namespace Bowerbird.Web.Builders
                 .Where(x => x.GroupIds.Any(y => y == groupId) && (x.ContributionType == "observation" || x.ContributionType == "record"));
 
             return ExecuteQuery(sightingsQueryInput, query);
-
-                //.Statistics(out stats)
-                //.Skip(pagingInput.GetSkipIndex())
-                //.Take(pagingInput.GetPageSize())
-                //.ToList()
-                //.Select(_sightingViewFactory.Make)
-                //.ToPagedList(
-                //    pagingInput.Page,
-                //    pagingInput.PageSize,
-                //    stats.TotalResults);
         }
 
         public object BuildUserSightingList(string userId, SightingsQueryInput sightingsQueryInput)
@@ -114,16 +104,6 @@ namespace Bowerbird.Web.Builders
                 .Where(x => x.UserId == userId && (x.ContributionType == "observation" || x.ContributionType == "record"));
 
             return ExecuteQuery(sightingsQueryInput, query);
-
-            //.Statistics(out stats)
-            //.Skip(pagingInput.GetSkipIndex())
-            //.Take(pagingInput.GetPageSize())
-            //.ToList()
-            //.Select(_sightingViewFactory.Make)
-            //.ToPagedList(
-            //    pagingInput.Page,
-            //    pagingInput.PageSize,
-            //    stats.TotalResults);
         }
 
         public object BuildAllUserProjectsSightingList(string userId, SightingsQueryInput queryInput)
@@ -141,32 +121,6 @@ namespace Bowerbird.Web.Builders
                 .Where(x => x.GroupIds.Any(y => y.In(groupIds)) && (x.ContributionType == "observation" || x.ContributionType == "record"));
 
             return ExecuteQuery(queryInput, query);
-
-            //switch (queryInput.Sort.ToLower())
-            //{
-            //    default:
-            //    case "latestadded":
-            //        query = query.OrderByDescending(x => x.CreatedDateTime);
-            //        break;
-            //    case "oldestadded":
-            //        query = query.OrderBy(x => x.CreatedDateTime);
-            //        break;
-            //    case "a-z":
-            //        query = query.OrderBy(x => x.SightingTitle);
-            //        break;
-            //    case "z-a":
-            //        query = query.OrderByDescending(x => x.SightingTitle);
-            //        break;
-            //}
-
-            //return query.Skip(queryInput.GetSkipIndex())
-            //    .Take(queryInput.GetPageSize())
-            //    .ToList()
-            //    .Select(_sightingViewFactory.Make)
-            //    .ToPagedList(
-            //        queryInput.Page,
-            //        queryInput.PageSize,
-            //        stats.TotalResults);
         }
 
         private object ExecuteQuery(SightingsQueryInput queryInput, IRavenQueryable<All_Contributions.Result> query)

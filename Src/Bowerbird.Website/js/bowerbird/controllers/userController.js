@@ -96,21 +96,6 @@ function ($, _, Backbone, app, User) {
         app.vent.trigger('mediaresourceuploadfailure', key, reason);
     };
 
-//    // Show an project form
-//    UserController.showUserForm = function (id) {
-//        log('userController:showUserForm');
-//        $.when(getModel(id))
-//            .done(function (model) {
-//                var user = new User(model.User);
-//                var userFormLayoutView = new UserFormLayoutView({ model: user });
-//                app.showFormContentView(userFormLayoutView, 'users');
-//                if (app.isPrerenderingView('users')) {
-//                    userFormLayoutView.showBootstrappedDetails();
-//                }
-//                app.setPrerenderComplete();
-//            });
-//    };
-
     UserController.showUserDetails = function (id) {
     };
 

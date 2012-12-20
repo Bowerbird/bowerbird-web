@@ -101,16 +101,13 @@ namespace Bowerbird.Web.Controllers
             dynamic viewModel = new ExpandoObject();
             viewModel.User = _userViewModelBuilder.BuildUser(_userContext.GetAuthenticatedUserId());
             viewModel.Activities = _activityViewModelBuilder.BuildHomeActivityList(_userContext.GetAuthenticatedUserId(), activityInput, pagingInput);
+            viewModel.ShowUserWelcome = user.User.CallsToAction.Contains("user-welcome");
+            viewModel.ShowActivities = true;
 
             return RestfulResult(
                 viewModel,
                 "home",
-                "privateindex",
-                new Action<dynamic>(x =>
-                {
-                    x.Model.ShowWelcome = user.User.CallsToAction.Contains("welcome");
-                    x.Model.ShowActivities = true;
-                }));
+                "privateindex");
         }
 
         /// <summary>
@@ -158,16 +155,13 @@ namespace Bowerbird.Web.Controllers
                     IsDetailsView = queryInput.View == "details",
                     IsMapView = queryInput.View == "map"
                 };
+            viewModel.ShowUserWelcome = user.User.CallsToAction.Contains("user-welcome");
+            viewModel.ShowSightings = true;
 
             return RestfulResult(
                 viewModel,
                 "home",
-                "sightings",
-                new Action<dynamic>(x =>
-                {
-                    x.Model.ShowWelcome = user.User.CallsToAction.Contains("welcome");
-                    x.Model.ShowSightings = true;
-                }));
+                "sightings");
         }
 
         ///// <summary>

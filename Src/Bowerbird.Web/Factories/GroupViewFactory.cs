@@ -25,68 +25,57 @@ namespace Bowerbird.Web.Factories
 
         #region Methods
 
-        public dynamic Make(All_Groups.Result result)
-        {
-            Check.RequireNotNull(result, "result");
-
-            dynamic view = new ExpandoObject();
-
-            view.Id = result.Group.Id;
-            view.Name = result.Group.Name;
-            view.GroupType = result.Group.GroupType;
-            view.MemberCount = result.UserIds.Count();
-            view.ObservationCount = result.ObservationIds.Count();
-            view.PostCount = result.PostIds.Count();
-
-            if (result.Group is IPublicGroup)
-            {
-                view.Description = ((IPublicGroup)result.Group).Description;
-                view.Avatar = ((IPublicGroup)result.Group).Avatar;
-
-                if (result.Group is Project)
-                {
-                    view.Background = ((Project)result.Group).Background;
-                }
-            }
-
-            return view;
-        }
-
         public dynamic Make(Group group)
         {
             Check.RequireNotNull(group, "group");
 
-            dynamic view = new ExpandoObject();
+            return MakeBaseGroup(group);
+        }
 
-            view.Id = group.Id;
-            view.Name = group.Name;
-            view.GroupType = group.GroupType;
+        public dynamic Make(All_Groups.Result result, bool fullDetails = false)
+        {
+            Check.RequireNotNull(result, "result");
 
-            if (group is IPublicGroup)
+            dynamic viewModel = MakeBaseGroup(result.Group);
+
+            if (fullDetails)
             {
-                view.Description = ((IPublicGroup)group).Description;
-                view.Avatar = ((IPublicGroup)group).Avatar;
+                viewModel.Created = result.Group.CreatedDateTime.ToString("d MMM yyyy");
+                viewModel.CreatedDateTimeOrder = result.Group.CreatedDateTime.ToString("yyyyMMddHHmmss");
 
-                if (group is Project)
+                if (result.Group is IPublicGroup)
                 {
-                    view.Background = ((Project) group).Background;
+                    viewModel.Background = ((IPublicGroup)result.Group).Background;
+                    viewModel.Website = ((IPublicGroup) result.Group).Website;
+                    viewModel.Description = ((IPublicGroup) result.Group).Description;
+                    viewModel.MemberCount = result.UserIds.Count();
+                    viewModel.PostCount = result.PostIds.Count();
+                }
+                if (result.Group is Project)
+                {
+                    viewModel.SightingCount = result.ObservationIds.Count();
                 }
             }
 
-            return view;
+            return viewModel;
         }
 
-        public dynamic Make(Group group, int memberCount, int observationCount, int postCount)
+        private dynamic MakeBaseGroup(Group group)
         {
             Check.RequireNotNull(group, "group");
 
-            dynamic view = Make(group);
+            dynamic viewModel = new ExpandoObject();
 
-            view.MemberCount = memberCount;
-            view.ObservationCount = observationCount;
-            view.PostCount = postCount;
+            viewModel.Id = group.Id;
+            viewModel.Name = group.Name;
+            viewModel.GroupType = group.GroupType;
 
-            return view;
+            if (group is IPublicGroup)
+            {
+                viewModel.Avatar = ((IPublicGroup)group).Avatar;
+            }
+
+            return viewModel;
         }
 
         #endregion   

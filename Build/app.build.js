@@ -33,6 +33,7 @@
         touchswipe: '../libs/jquery.carousel/jquery.touchswipe',
         tipsy: '../libs/jquery.tipsy/jquery.tipsy',
         tagging: '../libs/jquery.tag-it/jquery.tag-it',
+        visualize: '../libs/jquery.visualize/jquery.visualize',
         moment: '../libs/moment/moment',
         'bootstrap-data': 'empty:',
         '/templates': 'empty:'

@@ -195,11 +195,11 @@ namespace Bowerbird.Web.Hubs
             return hash.ToString();
         }
 
-        private string GenerateChatId(IEnumerable<string> ids)
-        {
-            var sortedIds = ids.OrderBy(x => x);
-            return "chats/" + GenerateHash(string.Join(string.Empty, sortedIds.ToArray()));
-        }
+        //private string GenerateChatId(IEnumerable<string> ids)
+        //{
+        //    var sortedIds = ids.OrderBy(x => x);
+        //    return "chats/" + GenerateHash(string.Join(string.Empty, sortedIds.ToArray()));
+        //}
 
         //public Task Disconnect()
         //{

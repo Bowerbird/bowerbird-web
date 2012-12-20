@@ -57,7 +57,7 @@ function ($, _, Backbone, app) {
         },
 
         showMenu: function (e) {
-            $('.sub-menu').removeClass('active');
+            app.vent.trigger('close-sub-menus');
             this.$el.find('.sub-menu').addClass('active');
             e.stopPropagation();
         }

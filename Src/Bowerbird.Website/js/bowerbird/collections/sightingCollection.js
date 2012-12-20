@@ -22,8 +22,6 @@ function ($, _, Backbone, PaginatedCollection, Sighting) {
 
             PaginatedCollection.prototype.initialize.apply(this, arguments);
 
-            //typeof (options) != 'undefined' || (options = {});
-
             if (options.projectId) {
                 this.baseUrl = '/' + options.projectId + '/sightings';
 
@@ -33,7 +31,7 @@ function ($, _, Backbone, PaginatedCollection, Sighting) {
             this.page = options && options.page ? options.page : 1;
             this.pageSize = options && options.pageSize ? options.pageSize : 15;
             this.total = options && options.total ? options.total : 0;
-            this.sortBy = options && options.sortBy ? options.sortBy : 'latestadded';
+            this.sortByType = options && options.sortBy ? options.sortBy : 'latestadded';
             this.viewType = options && options.viewType ? options.viewType : 'thumbnails';
         },
 
@@ -57,7 +55,7 @@ function ($, _, Backbone, PaginatedCollection, Sighting) {
             var options = {
                 data: {
                     view: this.viewType,
-                    sort: this.sortBy
+                    sort: this.sortByType
                 },
                 add: add,
                 success: null
@@ -67,17 +65,6 @@ function ($, _, Backbone, PaginatedCollection, Sighting) {
             } else {
                 options.success = this.onSuccessWithAddFix;
             }
-            //            if (this.groupOrUser) {
-            //                //if (this.groupOrUser instanceof Organisation || this.groupOrUser instanceof Team || this.groupOrUser instanceof Project) {
-            //                if (this.groupOrUser instanceof Project) {
-            //                    options.data.groupId = this.groupOrUser.id;
-            //                } else if (this.groupOrUser instanceof User) {
-            //                    options.data.userId = this.groupOrUser.id;
-            //                }
-            //            }
-            //            //            if (stream.get('Filter') != null) {
-            //            //                options.data.filter = stream.get('Filter');
-            //            //            }
             return options;
         }
     });

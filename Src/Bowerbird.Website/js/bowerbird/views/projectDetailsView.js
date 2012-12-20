@@ -8,8 +8,8 @@
 // ProjectDetailsView
 // ------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'views/activitylistview', 'views/sightinglistview'],
-function ($, _, Backbone, app, ActivityListView, SightingListView) {
+define(['jquery', 'underscore', 'backbone', 'app', 'views/activitylistview', 'views/sightinglistview', 'views/userlistview', 'views/projectaboutview'],
+function ($, _, Backbone, app, ActivityListView, SightingListView, UserListView, ProjectAboutView) {
 
     var ProjectDetailsView = Backbone.Marionette.Layout.extend({
         viewType: 'detail',
@@ -26,7 +26,9 @@ function ($, _, Backbone, app, ActivityListView, SightingListView) {
         events: {
             'click .activities-tab-button': 'showActivityTabSelection',
             'click .sightings-tab-button': 'showSightingsTabSelection',
-            'click .posts-tab-button': 'showPostsTabSelection'
+            'click .posts-tab-button': 'showPostsTabSelection',
+            'click .members-tab-button': 'showMembersTabSelection',
+            'click .about-tab-button': 'showAboutTabSelection'
         },
 
         activeTab: '',
@@ -37,7 +39,7 @@ function ($, _, Backbone, app, ActivityListView, SightingListView) {
                     Project: this.model.toJSON(),
                     IsMember: _.any(app.authenticatedUser.memberships, function (membership) { return membership.GroupId === this.model.id; }, this),
                     MemberCountDescription: this.model.get('MemberCount') === 1 ? 'Member' : 'Members',
-                    ObservationCountDescription: this.model.get('ObservationCount') === 1 ? 'Sighting' : 'Sightings',
+                    SightingCountDescription: this.model.get('SightingCount') === 1 ? 'Sighting' : 'Sightings',
                     PostCountDescription: this.model.get('PostCount') === 1 ? 'Post' : 'Posts'
                 }
             };
@@ -45,27 +47,34 @@ function ($, _, Backbone, app, ActivityListView, SightingListView) {
 
         showBootstrappedDetails: function () {
             this.initializeRegions();
-            //this.$el = $('#content .project');
         },
 
         showActivityTabSelection: function (e) {
-            e.preventDefault();
-            this.switchTabHighlight('activities');
-            this.list.currentView.showLoading();
-            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
+            this.changeTab(e, 'activities');
         },
 
         showSightingsTabSelection: function (e) {
-            e.preventDefault();
-            this.switchTabHighlight('sightings');
-            this.list.currentView.showLoading();
-            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
+            this.changeTab(e, 'sightings');
         },
 
         showPostsTabSelection: function (e) {
+            this.changeTab(e, 'posts');
+        },
+
+        showMembersTabSelection: function (e) {
+            this.changeTab(e, 'members');
+        },
+
+        showAboutTabSelection: function (e) {
+            this.changeTab(e, 'about');
+        },
+
+        changeTab: function (e, name) {
             e.preventDefault();
-            this.switchTabHighlight('posts');
-            this.list.currentView.showLoading();
+            this.switchTabHighlight(name);
+            if (this.list.currentView.showLoading) {
+                this.list.currentView.showLoading();
+            }
             Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
         },
 
@@ -112,7 +121,53 @@ function ($, _, Backbone, app, ActivityListView, SightingListView) {
                 this.list.show(sightingListView);
             }
         },
-        
+
+        showMembers: function (userCollection) {
+            this.switchTabHighlight('members');
+
+            var options = {
+                model: this.model,
+                collection: userCollection
+            };
+
+            if (app.isPrerenderingView('projects')) {
+                options['el'] = '.list > div';
+            }
+
+            var userListView = new UserListView(options);
+
+            if (app.isPrerenderingView('projects')) {
+                this.list.attachView(userListView);
+                userListView.showBootstrappedDetails();
+            } else {
+                this.list.show(userListView);
+            }
+        },
+
+        showAbout: function (projectAdministrators, activityTimeseries) {
+            this.switchTabHighlight('about');
+
+            var options = {
+                model: this.model
+            };
+
+            if (app.isPrerenderingView('projects')) {
+                options['el'] = '.list > div';
+            }
+
+            options.projectAdministrators = projectAdministrators;
+            options.activityTimeseries = activityTimeseries;
+
+            var projectAboutView = new ProjectAboutView(options);
+
+            if (app.isPrerenderingView('projects')) {
+                this.list.attachView(projectAboutView);
+                projectAboutView.showBootstrappedDetails();
+            } else {
+                this.list.show(projectAboutView);
+            }
+        },
+
         switchTabHighlight: function (tab) {
             this.activeTab = tab;
             this.$el.find('.tab-button').removeClass('selected');

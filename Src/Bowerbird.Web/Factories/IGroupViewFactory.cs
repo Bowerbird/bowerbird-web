@@ -7,8 +7,6 @@ namespace Bowerbird.Web.Factories
     {
         dynamic Make(Group group);
 
-        dynamic Make(All_Groups.Result result);
-
-        dynamic Make(Group group, int memberCount, int observationCount, int postCount);
+        dynamic Make(All_Groups.Result result, bool fullDetails = false);
     }
 }

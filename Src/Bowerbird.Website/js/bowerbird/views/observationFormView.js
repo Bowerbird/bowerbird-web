@@ -218,7 +218,7 @@ function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormVi
 
             this.model.set('Latitude', newPosition.latitude);
             this.model.set('Longitude', newPosition.longitude);
-            
+
             // Only update pin if the location is different to avoid infinite loop
             if (newPosition.latitude !== null && newPosition.longitude !== null && newPosition.latitude.trim() !== '' && newPosition.longitude.trim() !== '' && (oldPosition.latitude !== newPosition.latitude || oldPosition.longitude !== newPosition.longitude)) {
                 this.location.currentView.changeMarkerPosition(this.model.get('Latitude'), this.model.get('Longitude'), true);

@@ -100,7 +100,7 @@ namespace Bowerbird.Web.Builders
                 .Skip(pagingInput.GetSkipIndex())
                 .Take(pagingInput.PageSize)
                 .ToList()
-                .Select(_groupViewFactory.Make)
+                .Select(x => _groupViewFactory.Make(x))
                 .ToPagedList(
                     pagingInput.Page,
                     pagingInput.PageSize,

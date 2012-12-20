@@ -36,7 +36,7 @@ namespace Bowerbird.Core.Indexes
             public string[] CommonGroupNames { get; set; }
             public string[] CommonNames { get; set; }
             public string[] Synonyms { get; set; }
-            public int SpeciesCount { get; set; }
+            public int? SpeciesCount { get; set; }
             public object[] AllNames { get; set; }
             public object[] AllScientificNames { get; set; }
             public object[] AllCommonNames { get; set; }
@@ -83,7 +83,6 @@ namespace Bowerbird.Core.Indexes
 
             // Rank 2
             AddMap<Species>(species => from s in species
-                                       where s.Taxonomy.ElementAt(0).Name != "Minerals"
                                        let hasRank2 = s.Taxonomy.ElementAtOrDefault(1) != null
                                        let rank1Name = s.Taxonomy.ElementAtOrDefault(0) != null ? s.Taxonomy.ElementAt(0).Name : (string)null
                                        let rank2Name = hasRank2 ? s.Taxonomy.ElementAt(1).Name : (string)null
@@ -123,7 +122,6 @@ namespace Bowerbird.Core.Indexes
 
             // Rank 3
             AddMap<Species>(species => from s in species
-                                       where s.Taxonomy.ElementAt(0).Name != "Minerals"
                                        let hasRank3 = s.Taxonomy.ElementAtOrDefault(2) != null
                                        let rank1Name = s.Taxonomy.ElementAtOrDefault(0) != null ? s.Taxonomy.ElementAt(0).Name : (string)null
                                        let rank2Name = s.Taxonomy.ElementAtOrDefault(1) != null ? s.Taxonomy.ElementAt(1).Name : (string)null
@@ -175,7 +173,6 @@ namespace Bowerbird.Core.Indexes
 
             // Rank 4
             AddMap<Species>(species => from s in species
-                                       where s.Taxonomy.ElementAt(0).Name != "Minerals"
                                        let hasRank4 = s.Taxonomy.ElementAtOrDefault(3) != null
                                        let rank1Name = s.Taxonomy.ElementAtOrDefault(0) != null ? s.Taxonomy.ElementAt(0).Name : (string)null
                                        let rank2Name = s.Taxonomy.ElementAtOrDefault(1) != null ? s.Taxonomy.ElementAt(1).Name : (string)null
@@ -233,7 +230,6 @@ namespace Bowerbird.Core.Indexes
 
             // Rank 5
             AddMap<Species>(species => from s in species
-                                       where s.Taxonomy.ElementAt(0).Name != "Minerals"
                                        let hasRank5 = s.Taxonomy.ElementAtOrDefault(4) != null
                                        let rank1Name = s.Taxonomy.ElementAtOrDefault(0) != null ? s.Taxonomy.ElementAt(0).Name : (string)null
                                        let rank2Name = s.Taxonomy.ElementAtOrDefault(1) != null ? s.Taxonomy.ElementAt(1).Name : (string)null
@@ -293,7 +289,6 @@ namespace Bowerbird.Core.Indexes
 
             // Rank 6
             AddMap<Species>(species => from s in species
-                                       where s.Taxonomy.ElementAt(0).Name != "Minerals"
                                        let hasRank6 = s.Taxonomy.ElementAtOrDefault(5) != null
                                        let rank1Name = s.Taxonomy.ElementAtOrDefault(0) != null ? s.Taxonomy.ElementAt(0).Name : (string)null
                                        let rank2Name = s.Taxonomy.ElementAtOrDefault(1) != null ? s.Taxonomy.ElementAt(1).Name : (string)null
@@ -355,7 +350,6 @@ namespace Bowerbird.Core.Indexes
 
             // Rank 7
             AddMap<Species>(species => from s in species
-                                       where s.Taxonomy.ElementAt(0).Name != "Minerals"
                                        let hasRank7 = s.Taxonomy.ElementAtOrDefault(6) != null
                                        let rank1Name = s.Taxonomy.ElementAtOrDefault(0) != null ? s.Taxonomy.ElementAt(0).Name : (string)null
                                        let rank2Name = s.Taxonomy.ElementAtOrDefault(1) != null ? s.Taxonomy.ElementAt(1).Name : (string)null
@@ -419,7 +413,6 @@ namespace Bowerbird.Core.Indexes
 
             // Rank 8
             AddMap<Species>(species => from s in species
-                                       where s.Taxonomy.ElementAt(0).Name != "Minerals"
                                        let hasRank8 = s.Taxonomy.ElementAtOrDefault(7) != null
                                        let rank1Name = s.Taxonomy.ElementAtOrDefault(0) != null ? s.Taxonomy.ElementAt(0).Name : (string)null
                                        let rank2Name = s.Taxonomy.ElementAtOrDefault(1) != null ? s.Taxonomy.ElementAt(1).Name : (string)null
@@ -483,43 +476,6 @@ namespace Bowerbird.Core.Indexes
                                            AllCategories = new[] { s.Category }
                                        });
 
-            //// Minerals Rank 2
-            //AddMap<Species>(species => from s in species
-            //                           where s.Taxonomy.ElementAt(0).Name == "Minerals"
-            //                           select new
-            //                           {
-            //                               Taxonomy = s.Taxonomy.ElementAt(0).Name + ": " + s.Taxonomy.ElementAt(1).Name,
-            //                               Name = s.Taxonomy.ElementAt(1).Name,
-            //                               RankPosition = "2",
-            //                               RankName = s.Taxonomy.ElementAt(1).Name,
-            //                               RankType = "species",
-            //                               ParentRankName = s.Taxonomy.ElementAt(0).Name,
-            //                               Ranks = new object[]
-            //                                   {
-            //                                       s.Taxonomy.ElementAt(0),
-            //                                       s.Taxonomy.ElementAt(1)
-            //                                   },
-            //                               s.Category,
-            //                               CommonGroupNames = new string[] { },
-            //                               CommonNames = new string[] { },
-            //                               Synonyms = new string[] { },
-            //                               SpeciesCount = 1,
-            //                               AllNames = new object[]
-            //                                   {
-            //                                       s.Taxonomy.ElementAt(0).Name,
-            //                                       s.Taxonomy.ElementAt(1).Name
-            //                                   },
-            //                               AllScientificNames = new object[]
-            //                                   {
-            //                                       s.Taxonomy.ElementAt(0).Name,
-            //                                       s.Taxonomy.ElementAt(1).Name
-            //                                   },
-            //                               AllCommonNames = new object[]
-            //                                   {
-            //                                   },
-            //                               AllCategories = new[] { s.Category }
-            //                           });
-
             Reduce = results => from result in results
                                 where result.Taxonomy != "[no-rank-found]"
                                 group result by result.Taxonomy
@@ -559,7 +515,7 @@ namespace Bowerbird.Core.Indexes
                                     CommonGroupNames = result.CommonGroupNames.Distinct(),
                                     CommonNames = result.CommonNames.Distinct(),
                                     Synonyms = result.Synonyms.Distinct(),
-                                    SpeciesCount = result.SpeciesCount == null ? 0 : result.SpeciesCount,
+                                    result.SpeciesCount,
                                     result.AllNames,
                                     result.AllScientificNames,
                                     result.AllCommonNames,

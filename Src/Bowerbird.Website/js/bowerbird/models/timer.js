@@ -26,7 +26,8 @@ function ($, _, Backbone) {
         },
 
         start: function () {
-            var timer = setTimeout(this.tick, this.get('interval'));
+            var self = this;
+            var timer = setTimeout(self.tick, self.get('interval'));
             this.set('timeout', timer);
         },
 
@@ -44,7 +45,8 @@ function ($, _, Backbone) {
         },
 
         stop: function () {
-            clearTimeout(this.get('timeout'));
+            var self = this;
+            clearTimeout(self.get('timeout'));
         }
     });
 

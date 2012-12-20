@@ -1,0 +1,28 @@
+﻿<h2>
+  <span class="small-icon project-icon"></span>Projects
+</h2>
+{{#Model.ShowProjectExploreWelcome}}
+<div class="call-to-action" id="project-explore-welcome">
+  <a href="#" class="close-call-to-action" title="Close">Close</a>
+  <h2>Explore the world of BowerBird projects</h2>
+  <p>Joining projects is the easiest way to get involved in the BowerBird community.</p>
+
+  <p>
+    Being a member of a project you get to:
+  </p>
+  <ul>
+    <li>Add sightings to the project, which then get seen by all the other members of the project;</li>
+    <li>See other member's contributions to the project in your timeline;</li>
+    <li>Quick access to the project in your navigation bar (on the left).</li>
+  </ul>
+
+  <p>Become a member of as many projects as you like. Its as simple as pressing the Join button!</p>
+</div>
+{{/Model.ShowProjectExploreWelcome}}
+<div class="details">
+  <div class="list">
+    <div>
+      {{>ProjectList}}
+    </div>
+  </div>
+</div>

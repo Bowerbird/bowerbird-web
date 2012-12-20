@@ -346,13 +346,23 @@
 .home-private > .details {
     width: 100%;
 }
-.call-to-action p
-{
+
+.call-to-action p {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+.call-to-action p, 
+.call-to-action li {
     color: rgb(97, 80, 47);
     font-size: 0.844em;
     font-weight: 500;
     line-height: 1.5em;
     text-shadow: 0 1px 0 rgb(255, 255, 255);
+}
+.call-to-action ul {
+    margin-bottom: 10px;
+    margin-left: 27px;
+    margin-top: 10px;
 }
 .call-to-action h3
 {
@@ -364,7 +374,7 @@
     margin-top: 15px;
     text-shadow: 0 1px 0 rgb(255, 255, 255);
 }
-.call-to-action .close-intro
+.call-to-action .close-call-to-action
 {
     background: url("/img/glyphicons-halflings-white.png") no-repeat scroll -312px 0 rgb(67, 50, 17);
     border: 2px solid rgb(67, 50, 17);
@@ -386,7 +396,7 @@
 .call-to-action p a:hover {
     color: rgb(27, 131, 235);
 }
-.call-to-action .close-intro:hover
+.call-to-action .close-call-to-action:hover
 {
     background: url("/img/glyphicons-halflings-white.png") no-repeat scroll -312px 0 #1B83EB;
     border: 2px solid #1B83EB;
@@ -469,193 +479,118 @@
 }
 
 
+/******* Project about *******/
+.project-about {
+    
+}
+.project-about h4 {
+    color: rgb(68, 68, 68);
+    font-size: 0.875em;
+    font-weight: 600;
+    text-shadow: 0 1px 0 rgb(255, 255, 255);
+}
+.project-description {
+    background-color: rgb(255, 255, 255);
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 2px 0 rgb(51, 51, 51);
+    font-size: 0.875em;
+    line-height: 1.5em;
+    margin-bottom: 2%;
+    padding: 2%;
+}
+.project-about .project-description p {
+    
+}
+.project-info {
+    background-color: rgb(255, 255, 255);
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 2px 0 rgb(51, 51, 51);
+    font-size: 0.875em;
+    line-height: 1.5em;
+    margin-bottom: 2%;
+    padding: 2%;
+}
+.project-info #created,
+.project-info #website,
+.project-info #activity-chart .visualize .visualize-title {
+    color: rgb(34, 34, 34);
+    font-size: 1em;
+    font-weight: 600;
+    line-height: 1.25em;
+}
 
+.project-info #created span,
+.project-info #website span {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 13px;
+}
+.project-info #website span a,
+.project-info #website span a:hover,
+.project-info #website span a:active,
+.project-info #website span a:visited {
+    color: rgb(34, 34, 34);
+}
 
-
+.project-info #activity-chart {
+    margin-bottom: 41px;
+    margin-top: 27px;
+    padding: 2%;
+}
+.project-info #activity-chart table 
+{
+    display: none;
+}
+.project-info #activity-chart .visualize .visualize-info {
+    background: none repeat scroll 0 0 transparent;
+    border: medium none;
+    font-size: 1em;
+    font-weight: 600;
+    left: -18px;
+    opacity: 1;
+    padding: 0;
+    position: relative;
+    right: auto;
+    top: -23px;
+}
+.project-info #activity-chart .visualize ul.visualize-key {
+    display: block;
+    font-size: 0.95em;
+    font-weight: 500;
+    left: 18px;
+    position: absolute;
+    top: 237px;
+}
+.project-info #activity-chart .visualize-labels-x .label {
+    font-size: 0.8em;
+    line-height: 1em;
+    text-align: center;
+}
+.project-info #activity-chart .visualize-labels-y .label {
+    font-size: 0.8em;
+    line-height: 1em;
+}
+.project-info #activity-chart .visualize-labels-y li span.line {
+    border-style: dotted;
+}
 /****************************************/
 .projects .project-list
 {
-    background-color: rgba(202, 222, 239, 0.5);
-    border-radius: 4px 4px 4px 4px;
-    box-shadow: 0 1px 2px 0 #143658 inset;
-    margin-bottom: 20px;
-    min-height: 500px;
-    padding: 2%;
-    position: relative;    
+    padding-top: 50px;
 }
-.projects .project-list > ul > li
-{
-    background-color: #FFFFFF;
-    border-radius: 4px 4px 4px 4px;
-    box-shadow: 0 1px 2px 0 #5071A6;
-    display: inline-block;
-    list-style: none outside none;
-    margin: 0 0 2%;
-    width: 100%;
-    position: relative;
-}
-.projects .project-list > ul > li:last-child {
-    margin: 0;
-}
-.projects .summary
-{
-
-}
-.projects .summary .image-media
-{
-    border-radius: 4px 0 0 0;
-    display: block;
-    float: left;
-    margin: 0 15px 0 0;
-    padding: 0;
-}
-.projects .summary h2
-{
-    font-size: 1.65em;
-    font-weight: 600;
-    letter-spacing: -0.045em;
-    line-height: 1.9em;
-    text-shadow: 0 2px 0 #FFFFFF;
-    vertical-align: top;
-    
-    color: #222222;
-    display: block;
-    overflow: hidden;
-    padding-right: 154px;
-    text-align: left;
-    text-overflow: ellipsis;
-    text-shadow: none;
-    white-space: nowrap;
-}
-.projects .summary p
-{
-    display: block;
-    font-size: 0.875em;
-    line-height: 1.4em;
-    margin: 15px 15px 15px 0;
-    max-height: 96px;
-    overflow: hidden;
-}
-.projects .tab-bar 
-{
-    clear: both;
-    border-radius: 0 0 4px 4px;
-}
-.projects .summary .badges
-{
-    display: block;
-}
-.projects .summary .badges li
-{
-    background-color: #ECF1F6;
-    border-radius: 4px 4px 4px 4px;
-    display: inline-block;
-    font-size: 0.8em;
-    line-height: 1em;
-    padding: 5px 7px;
-}
-.projects .join-project-button,
-.projects .leave-project-button
-{
-        margin: 0;
-    position: absolute;
-    right: 10px;
-    top: 10px;
-}
-.projects .join-project-button
-{
-background: rgb(82,177,82); /* Old browsers */
-background: -moz-linear-gradient(top,  rgba(82,177,82,1) 0%, rgba(0,138,0,1) 100%); /* FF3.6+ */
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(82,177,82,1)), color-stop(100%,rgba(0,138,0,1))); /* Chrome,Safari4+ */
-background: -webkit-linear-gradient(top,  rgba(82,177,82,1) 0%,rgba(0,138,0,1) 100%); /* Chrome10+,Safari5.1+ */
-background: -o-linear-gradient(top,  rgba(82,177,82,1) 0%,rgba(0,138,0,1) 100%); /* Opera 11.10+ */
-background: -ms-linear-gradient(top,  rgba(82,177,82,1) 0%,rgba(0,138,0,1) 100%); /* IE10+ */
-background: linear-gradient(to bottom,  rgba(82,177,82,1) 0%,rgba(0,138,0,1) 100%); /* W3C */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#52b152', endColorstr='#008a00',GradientType=0 ); /* IE6-9 */
-
+.projects .join-project-button {
+    background-color: rgb(82, 177, 82);
     border-color: #0B7700;
+    text-shadow: 0 -1px 0 #004c00;
 }
-.projects .join-project-button:hover, 
-.projects .join-project-button:focus 
-{
-    box-shadow: 0 1px 1px 0 rgba(255, 255, 255, 0.4) inset, 0 1px 6px 0 rgba(0, 150, 3, 0.9);
-}
-.projects .leave-project-button
-{
-background: rgb(255,175,75); /* Old browsers */
-background: -moz-linear-gradient(top,  rgba(255,175,75,1) 0%, rgba(255,146,10,1) 100%); /* FF3.6+ */
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,175,75,1)), color-stop(100%,rgba(255,146,10,1))); /* Chrome,Safari4+ */
-background: -webkit-linear-gradient(top,  rgba(255,175,75,1) 0%,rgba(255,146,10,1) 100%); /* Chrome10+,Safari5.1+ */
-background: -o-linear-gradient(top,  rgba(255,175,75,1) 0%,rgba(255,146,10,1) 100%); /* Opera 11.10+ */
-background: -ms-linear-gradient(top,  rgba(255,175,75,1) 0%,rgba(255,146,10,1) 100%); /* IE10+ */
-background: linear-gradient(to bottom,  rgba(255,175,75,1) 0%,rgba(255,146,10,1) 100%); /* W3C */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffaf4b', endColorstr='#ff920a',GradientType=0 ); /* IE6-9 */
-
+.projects .leave-project-button {
+    background-color: rgb(255,175,75);
     border-color: #ED8200;
+    text-shadow: 0 -1px 0 #b46300;
 }
-.projects .leave-project-button:hover, projects .leave-project-button:focus 
-{
-    box-shadow: 0 1px 1px 0 rgba(255, 255, 255, 0.4) inset, 0 1px 6px 0 rgba(255, 179, 86, 0.9);
+#project-explore-welcome {
+    margin-bottom: 2%;
 }
-/*.projects .project-summary
-{
-    border-bottom: 1px solid #CFDDEB;
-    height: 46px;
-}
-.projects .project-summary img 
-{
-    border-radius: 4px 0 0 0;
-    float: left;
-    height: 46px;
-    width: 46px;    
-}
-.projects .project-name
-{
-color: #133A68;
-    display: inline;
-    font-size: 0.875em;
-    font-weight: 600;
-    line-height: 3.5em;
-    margin: 0;
-    padding-left: 10px;
-    vertical-align: top;    
-}
-.projects .project-details
-{
-    padding: 15px;
-}
-.projects .badges
-{
-    display: block;
-}
-.projects .badges li
-{
-    background-color: #ECF1F6;
-    border-radius: 4px 4px 4px 4px;
-    display: inline-block;
-    font-size: 0.8em;
-    line-height: 1em;
-    padding: 5px 7px;  
-}
-.projects .project-details p 
-{
-    display: block;
-    font-size: 0.875em;
-    line-height: 1.4em;
-    margin: 15px 15px 15px 0;
-    max-height: 96px;
-    overflow: hidden;
-}
-.projects .project-actions
-{
-}*/
-
-
-
-
-
-
-
 
 
 /*--- EXPLORE ---*/

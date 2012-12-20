@@ -347,7 +347,7 @@ namespace Bowerbird.Core.Config
         private void AddUser(string password, string email, string name, IDocumentSession documentSession, params string[] roleIds)
         {
             var user = new User(password, email, name, _mediaResourceFactory.MakeDefaultAvatarImage(AvatarDefaultType.User), 
-                Constants.DefaultLicence, Constants.DefaultTimezone);
+                Constants.DefaultLicence, Constants.DefaultTimezone, DateTime.UtcNow);
             documentSession.Store(user);
 
             user.AddMembership(user,

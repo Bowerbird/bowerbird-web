@@ -11,11 +11,14 @@
 */
 
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Indexes;
 
 namespace Bowerbird.Web.Factories
 {
     public interface IUserViewFactory : IFactory
     {
         object Make(User user);
+
+        object Make(All_Users.Result result, bool fullDetails = false);
     }
 }

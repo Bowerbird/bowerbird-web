@@ -52,7 +52,8 @@ namespace Bowerbird.Core.DomainModels
             string name,
             MediaResource avatar,
             string defaultLicence,
-            string timezone) 
+            string timezone,
+            DateTime joined) 
             : base() 
         {
             InitMembers();
@@ -61,6 +62,7 @@ namespace Bowerbird.Core.DomainModels
             PasswordSalt = Guid.NewGuid();
             HashedPassword = GetHashedPassword(password);
             LastLoggedIn = DateTime.UtcNow;
+            Joined = joined;
 
             SetDetails(
                 name,
@@ -68,6 +70,13 @@ namespace Bowerbird.Core.DomainModels
                 string.Empty,
                 defaultLicence,
                 timezone);
+
+            
+            AddCallToAction("user-welcome");
+            AddCallToAction("first-create-project-welcome");
+            AddCallToAction("first-create-observation-welcome");
+            AddCallToAction("first-record-welcome");
+            AddCallToAction("project-explore-welcome");
 
             ApplyEvent(new DomainModelCreatedEvent<User>(this, this, this));
         }
@@ -79,6 +88,8 @@ namespace Bowerbird.Core.DomainModels
         public string Email { get; private set; }
 
         public string Name { get; private set; }
+
+        public DateTime Joined { get; private set; }
 
         public string Description { get; private set; }
 
@@ -316,22 +327,12 @@ namespace Bowerbird.Core.DomainModels
         {
             var session = new UserSession(connectionId);
 
-            //// if we have lots of sessions (more than our const setting) 
-            //// grab all the sessions most likely to still be active
-            //if (_sessions.Count > Constants.MaxUserSessions)
-            //{
-            //     /*
-            //     if there are 100 elements, we have elements [0] to [99] with max of 12 sessions to keep.
-            //     in this example, starting at index 12, we want to remove 87 items. 
-            //     That's all items from [12] to [99].  
-            //      */
-
-            //    _sessions.RemoveRange(Constants.MaxUserSessions, _sessions.Count - Constants.MaxUserSessions - 1);
-            //}
-
             _sessions.Add(session);
 
             ApplyEvent(new DomainModelCreatedEvent<UserSession>(session, this, this));
+
+            // Some housekeeping here. Remove all old sessions that are unlikely to still be live.
+            _sessions.RemoveAll(x => x.LatestHeartbeat < DateTime.UtcNow.Subtract(TimeSpan.FromHours(1)));
 
             return this;
         }

@@ -13,6 +13,8 @@ define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
 
     var PaginatedCollection = Backbone.Collection.extend({
         initialize: function (options) {
+            Backbone.Collection.prototype.initialize.apply(this, arguments);
+
             _.extend(this, Backbone.Events);
             typeof (options) != 'undefined' || (options = {});
             this.page = 1;

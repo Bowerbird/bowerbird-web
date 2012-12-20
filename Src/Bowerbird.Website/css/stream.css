@@ -685,8 +685,166 @@ ul.explore-menu
 
 
 
+.tile-user-details {
+    background-color: rgb(249, 249, 249);
+    border-radius: 6px 6px 6px 6px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.5);
+    display: block;
+    float: left;
+    margin-bottom: 2%;
+    margin-right: 2%;
+    max-height: 365px;
+    padding: 1.5%;
+    width: 18.4%;
+}
+.tile-user-details:nth-child(5n) {
+    margin-right: 0;
+}
+.tile-user-details h3 
+{
+    font-size: 1em;
+    font-weight: 600;
+    letter-spacing: -1px;
+    line-height: 1.3em;
+    margin: 0;
+    padding: 0 2% 5px 0;
+    width: 100%;
+}
+.tile-user-details h3 a, 
+.tile-user-details h3 a:hover, 
+.tile-user-details h3 a:active, 
+.tile-user-details h3 a:visited {
+    color: rgb(34, 34, 34);
+    text-decoration: none;
+    
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;    
+}
+.tile-user-details .info 
+{
+    height: 74px;
+    margin-top: 7px;
+    position: relative;
+    width: 100%;
+}
+.tile-user-details .joined,
+.tile-user-details .projects,
+.tile-user-details .organisations,
+.tile-user-details .sightings {
+    display: block;
+    font-size: 0.8em;
+    font-weight: 500;
+    line-height: 1.1em;
+    width: 100%;
+}
+.tile-user-details .actions {
+    background-color: rgb(249, 249, 249);
+    border-radius: 0 0 4px 4px;
+    margin-top: 6px;
+    width: 100%;
+}
+.tile-user-details .actions .button {
+    display: inline-block;
+    padding: 0;
+    position: relative;
+    vertical-align: top;
+}
+.tile-user-details .actions a.add-note-button,
+.tile-user-details .actions .edit-observation-button,
+.tile-user-details .actions .view-button {
+    font-size: 0.8em;
+    line-height: 1;
+    margin-right: 3px;
+    padding: 5px 10px;
+}
+.tile-user-details .actions .view-button {
+    float: right;
+    margin: 0;
+}
 
 
+
+
+/*** Project tile ****/
+.tile-project-details {
+    background-color: rgb(249, 249, 249);
+    border-radius: 6px 6px 6px 6px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.5);
+    display: block;
+    float: left;
+    margin-bottom: 2%;
+    margin-right: 2%;
+    max-height: 416px;
+    padding: 1.5%;
+    width: 32%;
+}
+.tile-project-details:nth-child(3n) {
+    margin-right: 0;
+}
+.tile-project-details h3 
+{
+    font-size: 1.2em;
+    font-weight: 600;
+    letter-spacing: -1px;
+    line-height: 1.3em;
+    margin: 0;
+    padding: 0 2% 5px 0;
+    width: 100%;
+}
+.tile-project-details h3 a, 
+.tile-project-details h3 a:hover, 
+.tile-project-details h3 a:active, 
+.tile-project-details h3 a:visited {
+    color: rgb(34, 34, 34);
+    text-decoration: none;
+    
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;    
+}
+.tile-project-details .info 
+{
+    height: 74px;
+    margin-top: 7px;
+    position: relative;
+    width: 100%;
+}
+.tile-project-details .created,
+.tile-project-details .members,
+.tile-project-details .sightings {
+    display: block;
+    font-size: 0.8em;
+    font-weight: 500;
+    line-height: 1.1em;
+    width: 100%;
+}
+.tile-project-details .actions {
+    background-color: rgb(249, 249, 249);
+    border-radius: 0 0 4px 4px;
+    margin-top: 6px;
+    width: 100%;
+}
+.tile-project-details .actions .button {
+    display: inline-block;
+    padding: 0;
+    position: relative;
+    vertical-align: top;
+}
+.tile-project-details .actions a.join-project-button,
+.tile-project-details .actions a.leave-project-button,
+.tile-project-details .actions .view-button {
+    font-size: 0.8em;
+    line-height: 1;
+    margin-right: 3px;
+    padding: 5px 10px;
+}
+.tile-project-details .actions .view-button {
+    float: right;
+    margin: 0;
+}
 
 
 

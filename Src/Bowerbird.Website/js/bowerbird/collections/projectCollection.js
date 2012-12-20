@@ -5,33 +5,81 @@
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// ProjectCollection
-// -----------------
+// UserCollection
+// --------------
 
-define(['jquery', 'underscore', 'backbone', 'models/project'], function ($, _, Backbone, Project) {
+define(['jquery', 'underscore', 'backbone', 'collections/paginatedcollection', 'models/project'],
+function ($, _, Backbone, PaginatedCollection, Project) {
 
-    var ProjectCollection = Backbone.Collection.extend({
+    var UserCollection = PaginatedCollection.extend({
+
         model: Project,
 
-        url: '/projects',
+        baseUrl: '/projects',
 
-        initialize: function () {
-            _.extend(this, Backbone.Events);
+        initialize: function (items, options) {
+            _.bindAll(this, 'getFetchOptions');
+
+            PaginatedCollection.prototype.initialize.apply(this, arguments);
+
+            typeof (options) != 'undefined' || (options = {});
+
+            this.page = options && options.page ? options.page : 1;
+            this.pageSize = options && options.pageSize ? options.pageSize : 15;
+            this.total = options && options.total ? options.total : 0;
+            this.sortByType = options && options.sortBy ? options.sortBy : 'newest';
         },
 
-        comparator: function (project) {
-            return project.get('Name');
+        comparator: function(project) {
+            if (this.sortByType === 'z-a') {
+                var str = project.get('Name');
+                str = str.toLowerCase();
+                str = str.split('');
+                return _.map(str, function(letter) {
+                    return String.fromCharCode(-(letter.charCodeAt(0)));
+                });
+            } else if (this.sortByType === 'a-z') {
+                return project.get('Name');
+            } else if (this.sortByType === 'oldest') {
+                return project.get('CreatedDateTimeOrder');
+            } else {
+                return -parseInt(project.get('CreatedDateTimeOrder'));
+            }
         },
 
-        toJSONViewModel: function () {
-            var viewModels = [];
-            _.each(this.models, function (project) {
-                viewModels.push(project.toJSONViewModel());
-            });
-            return viewModels;
+        parse: function (resp) {
+            var projects = resp.Model.Projects;
+            this.page = projects.Page;
+            this.pageSize = projects.PageSize;
+            this.total = projects.TotalResultCount;
+            return projects.PagedListItems;
+        },
+
+        fetchFirstPage: function () {
+            this.firstPage(this.getFetchOptions(false));
+        },
+
+        fetchNextPage: function () {
+            this.nextPage(this.getFetchOptions(true));
+        },
+
+        getFetchOptions: function (add) {
+            var options = {
+                data: {
+                    sort: this.sortByType
+                },
+                add: add,
+                success: null
+            };
+            if (add) {
+                options.success = this.onSuccess;
+            } else {
+                options.success = this.onSuccessWithAddFix;
+            }
+            return options;
         }
     });
 
-    return ProjectCollection;
+    return UserCollection;
 
 });

@@ -64,14 +64,14 @@ function ($, _, Backbone, app, Project) {
         },
 
         showMenu: function (e) {
-            $('.sub-menu').removeClass('active');
+            app.vent.trigger('close-sub-menus');
             $(e.currentTarget).addClass('active');
             e.stopPropagation();
         },
 
         selectMenuItem: function (e) {
             e.preventDefault();
-            $('.sub-menu').removeClass('active');
+            app.vent.trigger('close-sub-menus');
             Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
             return false;
         },

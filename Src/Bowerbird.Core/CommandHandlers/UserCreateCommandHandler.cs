@@ -70,7 +70,8 @@ namespace Bowerbird.Core.CommandHandlers
                 userCreateCommand.Name,
                 _mediaResourceFactory.MakeDefaultAvatarImage(AvatarDefaultType.User),
                 userCreateCommand.DefaultLicence,
-                userCreateCommand.Timezone);
+                userCreateCommand.Timezone,
+                DateTime.UtcNow);
             _documentSession.Store(user);
 
             // Make user project
@@ -90,11 +91,7 @@ namespace Bowerbird.Core.CommandHandlers
                 _documentSession.Query<Role>().Where(x => x.Id == "roles/userprojectadministrator" || x.Id == "roles/userprojectmember"));
 
             // Add calls to action
-            user
-                .AddCallToAction("welcome")
-                .AddCallToAction("first-project")
-                .AddCallToAction("first-observation")
-                .AddCallToAction("first-record");
+
 
             //// HACK: Registers user in small number of initial projects for now
             //// 7, 8, 3, 4
