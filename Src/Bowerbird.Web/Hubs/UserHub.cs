@@ -13,7 +13,9 @@
 */
 
 using System;
+using System.Dynamic;
 using System.Threading.Tasks;
+using Bowerbird.Core.Services;
 using SignalR.Hubs;
 using Bowerbird.Core.DesignByContract;
 using Raven.Client;
@@ -25,12 +27,13 @@ using Bowerbird.Web.Builders;
 
 namespace Bowerbird.Web.Hubs
 {
-    public class UserHub : Hub//, IDisconnect
+    public class UserHub : Hub, IDisconnect
     {
         #region Members
 
         private readonly IDocumentSession _documentSession;
         private readonly IUserViewModelBuilder _userViewModelBuilder;
+        private readonly IBackChannelService _backChannelService;
 
         #endregion
 
@@ -38,13 +41,16 @@ namespace Bowerbird.Web.Hubs
 
         public UserHub(
             IDocumentSession documentSession,
-            IUserViewModelBuilder userViewModelBuilder)
+            IUserViewModelBuilder userViewModelBuilder,
+            IBackChannelService backChannelService)
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(userViewModelBuilder, "userViewModelBuilder");
+            Check.RequireNotNull(backChannelService, "backChannelService");
 
             _documentSession = documentSession;
             _userViewModelBuilder = userViewModelBuilder;
+            _backChannelService = backChannelService;
         }
 
         #endregion
@@ -71,7 +77,7 @@ namespace Bowerbird.Web.Hubs
         /// <summary>
         /// Passing heartbeat and interactivity from the client to keep the time structure independent of the server
         /// </summary>
-        public void UpdateUserClientStatus(string userId, DateTime latestHeartbeat, DateTime latestInteractivity)  
+        public dynamic UpdateUserClientStatus(string userId, DateTime latestHeartbeat, DateTime latestInteractivity)
         {
             var user = GetUserByConnectionId(Context.ConnectionId);
 
@@ -82,21 +88,37 @@ namespace Bowerbird.Web.Hubs
                 _documentSession.Store(user);
                 _documentSession.SaveChanges();
             }
+
+            //dynamic response = new ExpandoObject();
+
+            dynamic onlineUsers =  _userViewModelBuilder.BuildOnlineUserList();
+
+            //response.onlineUsers = _userViewModelBuilder.BuildOnlineUserList();
+/*
+#if !JS_COMBINE_MINIFY
+            _backChannelService.DebugToClient("SERVER onlineUsers:");
+            _backChannelService.DebugToClient(onlineUsers);
+#endif
+*/
+            //return response;
+
+            return onlineUsers;
         }
 
-        //public Task Disconnect()
-        //{
-        //    // Remove this connection session from user
-        //    var user = GetUserByConnectionId(Context.ConnectionId);
-        //    user.RemoveSession(Context.ConnectionId);
-        //    _documentSession.Store(user);
-        //    _documentSession.SaveChanges();
+        public Task Disconnect()
+        {
+            // Remove this connection session from user
+            var user = GetUserByConnectionId(Context.ConnectionId);
+            // TODO: This throws an exception when user not found.. 
+            user.RemoveSession(Context.ConnectionId);
+            _documentSession.Store(user);
+            _documentSession.SaveChanges();
 
-        //    Groups.Remove(Context.ConnectionId, "online-users");
-        //    Groups.Remove(Context.ConnectionId, "user-" + user.Id);
+            Groups.Remove(Context.ConnectionId, "online-users");
+            Groups.Remove(Context.ConnectionId, "user-" + user.Id);
 
-        //    return Task.Factory.StartNew(() => { });
-        //}
+            return Task.Factory.StartNew(() => { });
+        }
 
         private User GetUserByConnectionId(string connectionId)
         {

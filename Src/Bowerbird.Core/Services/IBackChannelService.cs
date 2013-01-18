@@ -26,6 +26,11 @@ namespace Bowerbird.Core.Services
         void SendOnlineUsersToUserChannel(string userId, object onlineUsers);
 
         /// <summary>
+        /// Fire a snapshot of the status of all users to a client
+        /// </summary>
+        void SendOnlineUsersUpdateToUserChannel(string userId, object onlineUsers);
+
+        /// <summary>
         /// Send group joining acknowledgement to user's own channel
         /// </summary>
         void SendJoinedGroupToUserChannel(string userId, object group);

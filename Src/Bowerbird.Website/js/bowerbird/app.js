@@ -273,11 +273,18 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
                     $.connection.userHub.registerUserClient(app.authenticatedUser.user.id)
                         .done(function () {
                             log('Added user to hub');
+                            app.onlineUsers.add(app.authenticatedUser.user);
                         })
                         .fail(function (e) {
                             log('could not register client with hub', e);
                         });
                 }
+            });
+
+            $.connection.hub.error(function () {
+                log('ERROR: SignalR Hub blew up!');
+
+                reconnectToHub();
             });
 
             // Register closing of all popup menus in entire page
@@ -286,7 +293,7 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
             });
 
             // Catch close menu event and close all types of menus here
-            app.vent.on('close-sub-menus', function() {
+            app.vent.on('close-sub-menus', function () {
                 $('body .sub-menu').removeClass('active'); // Make sure to add any new menu button types to the selector
                 $('body .multiSelect').multiSelectOptionsHide();
             });
@@ -303,6 +310,28 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
             resizeSidebar();
         });
     });
+
+    var reconnectToHub = function () {
+        $.connection.Hub.stop();
+        log('Doing a Hub Re-Connect');
+        $.connection.hub.start({ transport: ['webSockets', 'longPolling'] }, function () {
+            // Keep the client id
+            app.clientId = $.signalR.hub.id;
+            log('browser re-connected via signalr as ' + app.clientId);
+
+            // Subscribe authenticated user to all their groups
+            if (app.authenticatedUser) {
+                $.connection.userHub.registerUserClient(app.authenticatedUser.user.id)
+                        .done(function () {
+                            log('Added user to hub');
+                            app.onlineUsers.add(app.authenticatedUser.user);
+                        })
+                        .fail(function (e) {
+                            log('could not register client with hub', e);
+                        });
+            }
+        });
+    };
 
     return app;
 

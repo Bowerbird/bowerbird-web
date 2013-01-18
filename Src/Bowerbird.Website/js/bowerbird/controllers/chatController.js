@@ -32,6 +32,7 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
         };
 
         this.joinChat = function (chatId, userIds, groupId) {
+            log('app.chatRouter.joinChat:' + chatId + ' userIds:' + userIds + ' groupId:' + groupId);
             this.chatHub.joinChat(chatId, userIds, groupId);
         };
 
@@ -178,12 +179,15 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
 
     // Initiate a new private chat
     ChatController.startPrivateChat = function (user) {
+        log('ChatController.startPrivateChat:');
         // Check to see if we have this user in a one-on-one private chat already
         var chatId = generateChatId([app.authenticatedUser.user.id, user.id]);
+        log('ChatController.startPrivateChat:' + chatId);
         var chat = app.chats.find(function (c) { return c.id == chatId; }, this);
         if (app.authenticatedUser.user.id != user.id && !chat) { // can't chat with self!
             showChat(chatId, [user], [], null);
             app.chatRouter.joinChat(chatId, [app.authenticatedUser.user.id, user.id], null);
+
         }
     };
 
@@ -195,8 +199,8 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
         if (!chat) {
             showChat(chatId, [app.authenticatedUser.user], [], group.toJSON());
             app.chatRouter.joinChat(chatId, [app.authenticatedUser.user.id], group.id);
-        //} else {
-        //    showChat(chatId, [app.authenticatedUser.user], [], group.toJSON());
+            //} else {
+            //    showChat(chatId, [app.authenticatedUser.user], [], group.toJSON());
         }
     };
 

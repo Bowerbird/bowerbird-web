@@ -81,6 +81,17 @@ namespace Bowerbird.Web.Services
             }
         }
 
+        /// <summary>
+        /// Rather than call all clients when one user updates their status, 
+        /// call the client that updated and pass the status of all the users.
+        /// </summary>
+        public void SendOnlineUsersUpdateToUserChannel(string userId, object onlineUsers)
+        {
+            if (ChannelServiceOff()) return;
+
+            GetHub<UserHub>().Clients["user-" + userId].updateOnlineUsers(onlineUsers);
+        }
+
         public void SendOnlineUsersToUserChannel(string userId, object onlineUsers)
         {
             if (ChannelServiceOff()) return;

@@ -106,8 +106,15 @@ namespace Bowerbird.Web.EventHandlers
                 {
                     User = _userViewFactory.Make(user)
                 };
+            
+            // This is being removed to prevent asynchronous calling to clients to update user's statuses.
+            // Rather than this approach, a call to update user status will respond with the current statuses
+            // of all other online users.
+            //_backChannelService.SendUserStatusUpdateToOnlineUsersChannel(userStatus);
 
-            _backChannelService.SendUserStatusUpdateToOnlineUsersChannel(userStatus);
+            //var updateOnlineUsers = _userViewModelBuilder.BuildOnlineUserList();
+
+            //_backChannelService.SendOnlineUsersUpdateToUserChannel(user.Id, updateOnlineUsers);
         }
 
         #endregion

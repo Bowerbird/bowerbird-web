@@ -634,78 +634,91 @@ namespace Bowerbird.Web.Controllers
                     new {
                         Id = "physicaldescription",
                         Group = "lookslike",
+                        GroupLabel = "Looks Like",
                         Name = "Physical Description",
                         Description = "The physical characteristics of the species in the sighting"
                     },
                     new {
                         Id = "similarspecies",
                         Group = "lookslike",
+                        GroupLabel = "Looks Like",
                         Name = "Similar Species",
                         Description = "How the species sighting is similar to other species"
                     },
                     new {
                         Id = "distribution",
                         Group = "wherefound",
+                        GroupLabel = "Where Found",
                         Name = "Distribution",
                         Description = "The geographic distribution of the species in the sighting"
                     },
                     new {
                         Id = "habitat",
                         Group = "wherefound",
+                        GroupLabel = "Where Found",
                         Name = "Habitat",
                         Description = "The habitat of the species in the sighting"
                     },
                     new {
                         Id = "seasonalvariation",
                         Group = "wherefound",
+                        GroupLabel = "Where Found",
                         Name = "Seasonal Variation",
                         Description = "Any seasonal variation of the species in the sighting"
                     },
                     new {
                         Id = "conservationstatus",
                         Group = "wherefound",
+                        GroupLabel = "Where Found",
                         Name = "Conservation Status",
                         Description = "The conservation status of the species in the sighting"
                     },
                     new {
                         Id = "behaviour",
                         Group = "whatitdoes",
+                        GroupLabel = "What It Does",
                         Name = "Behaviour",
                         Description = "Any behaviour of a species in the sighting"
                     },
                     new {
                         Id = "food",
                         Group = "whatitdoes",
+                        GroupLabel = "What It Does",
                         Name = "Food",
                         Description = "The feeding chracteristics of the species in the sighting"
                     },
                     new {
                         Id = "lifecycle",
                         Group = "whatitdoes",
+                        GroupLabel = "What It Does",
                         Name = "Life Cycle",
                         Description = "The life cycle stage or breeding charatcertic of the species in the sighting"
                     },
                     new {
                         Id = "indigenouscommonnames",
                         Group = "cultural",
+                        GroupLabel = "What It Does",
                         Name = "Indigenous Common Names",
                         Description = "Any indigenous common names associated with the sighting"
                     },
                     new {
                         Id = "indigenoususage",
                         Group = "cultural",
+                        GroupLabel = "Cultural",
                         Name = "Usage in Indigenous Culture",
                         Description = "Any special usage in indigenous cultures of the species in the sighting"
                     },
                     new {
                         Id = "traditionalstories",
                         Group = "cultural",
+                        GroupLabel = "Cultural",
                         Name = "Traditional Stories",
                         Description = "Any traditional stories associated with the species in the sighting"
                     },
                     new {
                         Id = "general",
                         Group = "other",
+                        GroupLabel = "Other",
                         Name = "General Details",
                         Description = "Any other general details"
                     }

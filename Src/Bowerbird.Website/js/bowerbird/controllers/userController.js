@@ -23,12 +23,8 @@ function ($, _, Backbone, app, User) {
         this.userHub.joinedGroup = joinedGroup;
         this.userHub.mediaResourceUploadSuccess = mediaResourceUploadSuccess;
         this.userHub.mediaResourceUploadFailure = mediaResourceUploadFailure;
-
-        // ping the server with the user's latest activity
-        this.updateUserClientStatus = function (userId, latestHeartbeat, latestInteractivity) {
-            log(userId, latestHeartbeat, latestInteractivity);
-            $.connection.userHub.updateUserClientStatus(userId, latestHeartbeat, latestInteractivity);
-        };
+        //this.userHub.updateOnlineUsers = updateOnlineUsers; // not called back from server hub anymore..
+        this.updateUserClientStatus = updateUserClientStatus;
     };
 
     var UserController = {};
@@ -60,17 +56,42 @@ function ($, _, Backbone, app, User) {
         app.onlineUsers.add(onlineUsers);
     };
 
-    // Receive a user status update
-    var userStatusUpdate = function (userStatus) {
-        log('userController.userStatusUpdate', this, userStatus);
+    // ping the server with the user's latest activity
+    // in responding, 
+    var updateUserClientStatus = function (userId, latestHeartbeat, latestInteractivity) {
+        log(userId, latestHeartbeat, latestInteractivity);
 
-        if (!app.onlineUsers.get(userStatus.User.Id)) {
-            app.onlineUsers.add(userStatus.User);
+        this.userHub.updateUserClientStatus(userId, latestHeartbeat, latestInteractivity)
+                .done(function (onlineUsers) {
+                    log('online users received from server:', onlineUsers);
+                    updateOnlineUsers(onlineUsers);
+                })
+                .fail(function (error) {
+                    // TODO: Error handling
+                });
+    };
+
+    var updateOnlineUsers = function (onlineUsers) {
+        log('userController.updateOnlineUsers');
+        // Then set their status
+        _.each(onlineUsers, function (user) {
+            // loop through each of onlineUsers.[] users.. perhaps in a for loop.
+            userStatusUpdate(user);
+        });
+    };
+
+    // This should never be 'called' from the server.
+    // Receive a user status update
+    var userStatusUpdate = function (user) {
+        log('userController.userStatusUpdate', this, user);
+
+        if (!app.onlineUsers.get(user.Id)) {
+            app.onlineUsers.add(user);
         }
 
         // Then set their status
-        app.onlineUsers.get(userStatus.User.Id).set('LatestActivity', userStatus.User.LatestActivity);
-        app.onlineUsers.get(userStatus.User.Id).set('LatestHeartbeat', userStatus.User.LatestHeartbeat);
+        app.onlineUsers.get(user.Id).set('LatestActivity', user.LatestActivity);
+        app.onlineUsers.get(user.Id).set('LatestHeartbeat', user.LatestHeartbeat);
     };
 
     // Receive a user joined group update
@@ -95,6 +116,21 @@ function ($, _, Backbone, app, User) {
     var mediaResourceUploadFailure = function (key, reason) {
         app.vent.trigger('mediaresourceuploadfailure', key, reason);
     };
+
+    //    // Show an project form
+    //    UserController.showUserForm = function (id) {
+    //        log('userController:showUserForm');
+    //        $.when(getModel(id))
+    //            .done(function (model) {
+    //                var user = new User(model.User);
+    //                var userFormLayoutView = new UserFormLayoutView({ model: user });
+    //                app.showFormContentView(userFormLayoutView, 'users');
+    //                if (app.isPrerenderingView('users')) {
+    //                    userFormLayoutView.showBootstrappedDetails();
+    //                }
+    //                app.setPrerenderComplete();
+    //            });
+    //    };
 
     UserController.showUserDetails = function (id) {
     };
