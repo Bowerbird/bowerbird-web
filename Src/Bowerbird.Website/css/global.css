@@ -368,8 +368,7 @@ article
 .sub-menu-button ul
 {
     background-color: #FFFFFF;
-    border-radius: 4px 4px 4px 4px;
-    border: 1px solid rgb(170, 170, 170);
+    border-radius: 2px;
     box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.5);
     display: none;
     left: 24px;
@@ -377,7 +376,7 @@ article
     top: -18px;
     width: 210px;
     z-index: 9;
-    padding: 0.01em 0;
+    /*padding: 0.01em 0;*/
 }
 .sub-menu-button.active ul
 {
@@ -2260,6 +2259,13 @@ header.home-header #explore-menu {
     font-size: 1.2em;
     margin-left: 2.2%;
 }
+header .user-avatar 
+{
+    display: inline-block;
+    height: 30px;
+    vertical-align: top;
+    width: 30px;
+}
 #explore-menu > ul > li
 {
     display: block;
@@ -2282,7 +2288,7 @@ header.home-header #explore-menu {
     max-width: 250px;
     position: absolute;
     right: 0;
-    top: 12px;
+    top: 10px;
 }
 header.home-header #account-menu {
     font-size: 1.2em;
@@ -2302,15 +2308,17 @@ header.default-header #account-menu .user-menu-item
 }
 header.default-header #account-menu .user-menu-item .user-name {
     display: inline-block;
+    margin-left: 2px;
     margin-right: 25px;
-    max-width: 178px;
+    margin-top: 3px;
+    max-width: 168px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 header.default-header #account-menu .user-menu-item .sub-menu-button {
     right: 0;
-    top: 0;
+    top: 2px;
     width: 20px;
 }
 header.default-header #account-menu .user-menu-item .sub-menu-button ul {
@@ -2344,8 +2352,8 @@ header.home-header #search-menu {
 #search-menu input[type=text] {
     background-color: rgb(250, 250, 250);
     border: 1px solid rgb(170, 170, 170);
-    border-radius: 4px 4px 4px 4px;
-    box-shadow: 0 0 2px 1px rgba(119, 119, 119, 0.3) inset;
+    border-radius: 2px 2px 2px 2px;
+    box-shadow: 0 0 2px 1px rgba(119, 119, 119, 0.2) inset;
     color: rgb(0, 0, 0);
     font-family: "open sans",sans-serif;
     font-size: 0.9375em;

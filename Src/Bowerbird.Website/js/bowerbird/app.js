@@ -312,7 +312,7 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
     });
 
     var reconnectToHub = function () {
-        $.connection.Hub.stop();
+        $.connection.hub.stop();
         log('Doing a Hub Re-Connect');
         $.connection.hub.start({ transport: ['webSockets', 'longPolling'] }, function () {
             // Keep the client id

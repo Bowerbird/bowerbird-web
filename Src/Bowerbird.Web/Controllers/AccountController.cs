@@ -619,7 +619,7 @@ namespace Bowerbird.Web.Controllers
                         UserId = _userContext.GetAuthenticatedUserId(),
                         ContributionId = contributionType + "/" + id,
                         Score = score,
-                        SubContributionId = subContributionType + "/" + subId
+                        SubContributionId = !string.IsNullOrWhiteSpace(subContributionType) ? subContributionType + "/" + subId : null
                     });
 
                 return JsonSuccess();

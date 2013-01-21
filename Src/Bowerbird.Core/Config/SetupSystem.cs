@@ -35,7 +35,7 @@ namespace Bowerbird.Core.Config
 
         private Logger _logger = LogManager.GetLogger("SetupSystem");
 
-        private int _testImportLimit = 5000; // In test mode, the max number of species to import per kingdom
+        private int _testImportLimit = 3000; // In test mode, the max number of species to import per kingdom
 
 #if DEBUG
         private bool _testImport = false;
@@ -349,6 +349,15 @@ namespace Bowerbird.Core.Config
                 user,
                 userProject,
                 Roles.Where(x => x.Id == "roles/userprojectadministrator" || x.Id == "roles/userprojectmember"));
+            documentSession.Store(user);
+
+            var favourites = new Favourites(user, DateTime.UtcNow, TheAppRoot);
+            documentSession.Store(favourites);
+
+            user.AddMembership(
+                user,
+                favourites,
+                Roles.Where(x => x.Id == "roles/favouritesadministrator" || x.Id == "roles/favouritesmember"));
             documentSession.Store(user);
 
             Users.Add(user);

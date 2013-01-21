@@ -6,70 +6,70 @@ Fungi & Lichens	Diseases	White mould of bean	Fungi: Ascomycota	Helotiales	Not ap
 Fungi & Lichens	Diseases	Rice blast disease	Fungi: Ascomycota	Hypocreales	Not applicable	Magnaporthe 	oryzae			
 Fungi & Lichens	Diseases	Stem canker of conifer	Fungi: Ascomycota	Hypocreales	Not applicable	Nectria 	fuckeliana 			
 Fungi & Lichens	Diseases	Canola wilt	Fungi: Ascomycota	Hypocreales	Not applicable	Verticillium 	longisporum			
-Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Aphanopsidaceae	Steinia	australis			
-Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Aphanopsidaceae	Steinia	geophana			
-Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Aspidotheliaceae	Aspidothelium	cinerascens			
-Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Aspidotheliaceae	Aspidothelium	fugiens			
-Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Aspidotheliaceae	Aspidothelium	scutellicarpum			
-Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Aspidotheliaceae	Aspidothelium	verruculosum			
-Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Coniocybaceae	Chaenotheca	brunneola			
-Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Coniocybaceae	Chaenotheca	chlorella			
-Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Coniocybaceae	Chaenotheca	citriocephala			
-Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Coniocybaceae	Chaenotheca	confusa			
-Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Coniocybaceae	Chaenotheca	degelii			
-Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Coniocybaceae	Chaenotheca	ferruginea			
-Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Coniocybaceae	Chaenotheca	furfuracea			
-Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Coniocybaceae	Chaenotheca	gracillima			
-Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Coniocybaceae	Chaenotheca	hispidula			
-Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Coniocybaceae	Chaenotheca	hygrophila			
-Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Coniocybaceae	Chaenotheca	stemonea			
-Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Coniocybaceae	Chaenotheca	trichialis			
-Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Coniocybaceae	Coniocybe	ochrocephala			
-Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Coniocybaceae	Coniocybe	rhodocephala			
-Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Coniocybaceae	Sclerophora	sanguinea			
-Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Epigloeaceae	Epigloea	soleiformis			
-Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Gloniaceae	Glonium	circumserpens			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Aphanopsidaceae	Aphanopsidaceae	Steinia	australis			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Aphanopsidaceae	Aphanopsidaceae	Steinia	geophana			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Aspidotheliaceae	Aspidotheliaceae	Aspidothelium	cinerascens			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Aspidotheliaceae	Aspidotheliaceae	Aspidothelium	fugiens			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Aspidotheliaceae	Aspidotheliaceae	Aspidothelium	scutellicarpum			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Aspidotheliaceae	Aspidotheliaceae	Aspidothelium	verruculosum			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Coniocybaceae	Coniocybaceae	Chaenotheca	brunneola			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Coniocybaceae	Coniocybaceae	Chaenotheca	chlorella			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Coniocybaceae	Coniocybaceae	Chaenotheca	citriocephala			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Coniocybaceae	Coniocybaceae	Chaenotheca	confusa			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Coniocybaceae	Coniocybaceae	Chaenotheca	degelii			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Coniocybaceae	Coniocybaceae	Chaenotheca	ferruginea			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Coniocybaceae	Coniocybaceae	Chaenotheca	furfuracea			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Coniocybaceae	Coniocybaceae	Chaenotheca	gracillima			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Coniocybaceae	Coniocybaceae	Chaenotheca	hispidula			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Coniocybaceae	Coniocybaceae	Chaenotheca	hygrophila			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Coniocybaceae	Coniocybaceae	Chaenotheca	stemonea			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Coniocybaceae	Coniocybaceae	Chaenotheca	trichialis			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Coniocybaceae	Coniocybaceae	Coniocybe	ochrocephala			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Coniocybaceae	Coniocybaceae	Coniocybe	rhodocephala			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Coniocybaceae	Coniocybaceae	Sclerophora	sanguinea			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Epigloeaceae	Epigloeaceae	Epigloea	soleiformis			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Gloniaceae	Gloniaceae	Glonium	circumserpens			
 Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Incertae sedis	Abrothallus	parmeliarum			
 Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Incertae sedis	Lichenoconium	echinosporum			
 Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Incertae sedis	Lichenoconium	laevisporum			
 Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Incertae sedis	Vouauxiomyces	brattii			
 Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Incertae sedis	Xanthoriicola	physciae			
-Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Lyrommataceae	Lyromma	nectandrae			
-Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Mastodiaceae	Mastodia	tessellata			
-Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Thelocarpaceae	Melanophloea	montana			
-Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Thelocarpaceae	Melanophloea	pacifica			
-Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Thelocarpaceae	Thelocarpon	cf sphaerosporum			
-Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Thelocarpaceae	Thelocarpon	intermediellum			
-Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Thelocarpaceae	Thelocarpon	laureri			
-Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Thelocarpaceae	Thelocarpon	strasseri			
-Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Xanthopyreniaceae	Collemopsidium	halodytes			
-Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Xanthopyreniaceae	Collemopsidium	heardense			
-Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Xanthopyreniaceae	Collemopsidium	montanum			
-Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Xanthopyreniaceae	Collemopsidium	pyrenuloides			
-Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Xanthopyreniaceae	Collemopsidium	tasmanicum			
-Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Xanthopyreniaceae	Pyrenocollema	montanum			
-Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Xanthopyreniaceae	Pyrenocollema	spp.			
-Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Xanthopyreniaceae	Zwackhiomyces	cladoniae			
-Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Incertae sedis	Xanthopyreniaceae	Zwackhiomyces	kantvilasii			
-Fungi & Lichens	Diseases	Banana freckle 	Fungi: Ascomycota	Not applicable	Botryosphaeriaceae	Guignardia 	musae 			
-Fungi & Lichens	Diseases	Black rot of grape 	Fungi: Ascomycota	Not applicable	Botryosphaeriaceae 	Guignardia 	bidwellii 			
-Fungi & Lichens	Diseases	Black-Stain Root Disease	Fungi: Ascomycota	Not applicable	Mycosphaerellales	Leptographium 	wageneri 			
-Fungi & Lichens	Diseases	Black sigatoka of banana 	Fungi: Ascomycota	Not applicable	Mycosphaerellales	Mycosphaerella 	fijiensis 			
-Fungi & Lichens	Diseases	Asperisporium Black Spot of Papaya	Fungi: Ascomycota	Not Applicable	Not Applicable	Asperisporium 	caricae			
-Fungi & Lichens	Diseases	Camellia flower blight	Fungi: Ascomycota	Not applicable	Not applicable	Ciborinia 	camelliae 			
-Fungi & Lichens	Diseases	Corynespora Brown Spot of Papaya	Fungi: Ascomycota	Not Applicable	Not Applicable	Corynespora	cassiicola			
-Fungi & Lichens	Diseases	Chestnut blight	Fungi: Ascomycota	Not applicable	Not applicable	Cryphonectria 	parasitica 			
-Fungi & Lichens	Diseases	 Sweet Orange Fruit Scab 	Fungi: Ascomycota	Not applicable	Not applicable	Elsinoa	australis			
-Fungi & Lichens	Diseases	Sour Orange Scab	Fungi: Ascomycota	Not applicable	Not applicable	Elsinoa	fawcettii			
-Fungi & Lichens	Diseases	Dry Rot of Citrus	Fungi: Ascomycota	Not applicable	Not applicable	Nematospora 	coryli			
-Fungi & Lichens	Diseases	Dry Rot of Citrus	Fungi: Ascomycota	Not Applicable	Not Applicable	Nematospora 	coryli			
-Fungi & Lichens	Diseases	Late leaf spot of peanut	Fungi: Ascomycota	Not Applicable	Not Applicable	Passalora 	personata 			
-Fungi & Lichens	Diseases	Barley Net Blotch Disease 	Fungi: Ascomycota	Not applicable	Not applicable	Pyrenophora 	teres f. sp. teres			
-Fungi & Lichens	Diseases	Grape root rot	Fungi: Ascomycota	Not applicable	Not applicable	Roesleria 	subterranea 			
-Fungi & Lichens	Diseases	Black Cross Leaf Spot	Fungi: Ascomycota	Not applicable	Phyllachoraceae	Phyllachora	musicola			
-Fungi & Lichens	Diseases	Brown Eye Spot of Coffee	Fungi: Ascomycota	Not applicable	Sclerotiniaceae	Cercospora 	coffeicola			
-Fungi & Lichens	Diseases	Brown rot of stone fruit	Fungi: Ascomycota	Not applicable	Sclerotiniaceae	Monilinia 	spp.			
-Fungi & Lichens	Diseases	Black knot of stone fruits	Fungi: Ascomycota	Not applicable	Venturiaceae	Apiosporina 	morbosa 			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Lyrommataceae	Lyrommataceae	Lyromma	nectandrae			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Mastodiaceae	Mastodiaceae	Mastodia	tessellata			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Thelocarpaceae	Thelocarpaceae	Melanophloea	montana			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Thelocarpaceae	Thelocarpaceae	Melanophloea	pacifica			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Thelocarpaceae	Thelocarpaceae	Thelocarpon	cf sphaerosporum			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Thelocarpaceae	Thelocarpaceae	Thelocarpon	intermediellum			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Thelocarpaceae	Thelocarpaceae	Thelocarpon	laureri			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Thelocarpaceae	Thelocarpaceae	Thelocarpon	strasseri			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Xanthopyreniaceae	Xanthopyreniaceae	Collemopsidium	halodytes			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Xanthopyreniaceae	Xanthopyreniaceae	Collemopsidium	heardense			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Xanthopyreniaceae	Xanthopyreniaceae	Collemopsidium	montanum			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Xanthopyreniaceae	Xanthopyreniaceae	Collemopsidium	pyrenuloides			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Xanthopyreniaceae	Xanthopyreniaceae	Collemopsidium	tasmanicum			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Xanthopyreniaceae	Xanthopyreniaceae	Pyrenocollema	montanum			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Xanthopyreniaceae	Xanthopyreniaceae	Pyrenocollema	spp.			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Xanthopyreniaceae	Xanthopyreniaceae	Zwackhiomyces	cladoniae			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota	Xanthopyreniaceae	Xanthopyreniaceae	Zwackhiomyces	kantvilasii			
+Fungi & Lichens	Diseases	Banana freckle 	Fungi: Ascomycota	Botryosphaeriaceae	Botryosphaeriaceae	Guignardia 	musae 			
+Fungi & Lichens	Diseases	Black rot of grape 	Fungi: Ascomycota	Botryosphaeriaceae	Botryosphaeriaceae 	Guignardia 	bidwellii 			
+Fungi & Lichens	Diseases	Black-Stain Root Disease	Fungi: Ascomycota	Mycosphaerellales	Mycosphaerellales	Leptographium 	wageneri 			
+Fungi & Lichens	Diseases	Black sigatoka of banana 	Fungi: Ascomycota	Mycosphaerellales	Mycosphaerellales	Mycosphaerella 	fijiensis 			
+Fungi & Lichens	Diseases	Asperisporium Black Spot of Papaya	Fungi: Ascomycota	Incertae sedis	Incertae sedis	Asperisporium 	caricae			
+Fungi & Lichens	Diseases	Camellia flower blight	Fungi: Ascomycota	Incertae sedis	Incertae sedis	Ciborinia 	camelliae 			
+Fungi & Lichens	Diseases	Corynespora Brown Spot of Papaya	Fungi: Ascomycota	Incertae sedis	Incertae sedis	Corynespora	cassiicola			
+Fungi & Lichens	Diseases	Chestnut blight	Fungi: Ascomycota	Incertae sedis	Incertae sedis	Cryphonectria 	parasitica 			
+Fungi & Lichens	Diseases	 Sweet Orange Fruit Scab 	Fungi: Ascomycota	Incertae sedis	Incertae sedis	Elsinoa	australis			
+Fungi & Lichens	Diseases	Sour Orange Scab	Fungi: Ascomycota	Incertae sedis	Incertae sedis	Elsinoa	fawcettii			
+Fungi & Lichens	Diseases	Dry Rot of Citrus	Fungi: Ascomycota	Incertae sedis	Incertae sedis	Nematospora 	coryli			
+Fungi & Lichens	Diseases	Dry Rot of Citrus	Fungi: Ascomycota	Incertae sedis	Incertae sedis	Nematospora 	coryli			
+Fungi & Lichens	Diseases	Late leaf spot of peanut	Fungi: Ascomycota	Incertae sedis	Incertae sedis	Passalora 	personata 			
+Fungi & Lichens	Diseases	Barley Net Blotch Disease 	Fungi: Ascomycota	Incertae sedis	Incertae sedis	Pyrenophora 	teres f. sp. teres			
+Fungi & Lichens	Diseases	Grape root rot	Fungi: Ascomycota	Incertae sedis	Incertae sedis	Roesleria 	subterranea 			
+Fungi & Lichens	Diseases	Black Cross Leaf Spot	Fungi: Ascomycota	Phyllachoraceae	Phyllachoraceae	Phyllachora	musicola			
+Fungi & Lichens	Diseases	Brown Eye Spot of Coffee	Fungi: Ascomycota	Sclerotiniaceae	Sclerotiniaceae	Cercospora 	coffeicola			
+Fungi & Lichens	Diseases	Brown rot of stone fruit	Fungi: Ascomycota	Sclerotiniaceae	Sclerotiniaceae	Monilinia 	spp.			
+Fungi & Lichens	Diseases	Black knot of stone fruits	Fungi: Ascomycota	Venturiaceae	Venturiaceae	Apiosporina 	morbosa 			
 Fungi & Lichens	Diseases	Dutch elm disease 	Fungi: Ascomycota	Ophiostomatales 	Not applicable	Ophiostoma	spp.			
 Fungi & Lichens	Diseases	Eastern filbert blight	Fungi: Ascomycota	Valsaceae	Not applicable	Anisogramma 	anomala 			
 Fungi & Lichens	Diseases	White root rot	Fungi: Ascomycota	Xylariales	Not applicable	Rosellinia 	necatrix			
@@ -240,7 +240,7 @@ Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota: Dothideomycet
 Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota: Dothideomycetes	Dothideales	Dacampiaceae	Polycoccum	rugulosarium			
 Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota: Dothideomycetes	Dothideales	Dacampiaceae	Pyrenidium	actinellum			
 Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota: Dothideomycetes	Dothideales	Dacampiaceae	Weddellomyces	gasparriniae			
-Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota: Dothideomycetes	Incertae sedis	Dothideomycetidae	Wentiomyces	tatjanae			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota: Dothideomycetes	Dothideomycetidae	Dothideomycetidae	Wentiomyces	tatjanae			
 Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota: Dothideomycetes	Incertae sedis	Incertae sedis	Buelliella	inops			
 Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota: Dothideomycetes	Incertae sedis	Incertae sedis	Cercidospora	trypetheliza			
 Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota: Dothideomycetes	Incertae sedis	Incertae sedis	Endococcus	alpestris			
@@ -344,6 +344,19 @@ Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota: Dothideomycet
 Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota: Dothideomycetes	Pleosporales	Naetrocymbaceae	Tomasellia	dispora			
 Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota: Dothideomycetes	Pleosporales	Naetrocymbaceae	Tomasellia	gelatinosa			
 Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota: Dothideomycetes	Pleosporales	Pleosporomycetidae	Leptorhaphis	haematommatum			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota: Eurotiomycetes	Eurotiales	Elaphomycetaceae	Elaphomyces	aurantias			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota: Eurotiomycetes	Eurotiales	Elaphomycetaceae	Elaphomyces	austrogranulatus			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota: Eurotiomycetes	Eurotiales	Elaphomycetaceae	Elaphomyces	chlorocarpus			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota: Eurotiomycetes	Eurotiales	Elaphomycetaceae	Elaphomyces	cooloolanus			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota: Eurotiomycetes	Eurotiales	Elaphomycetaceae	Elaphomyces	coralloideus			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota: Eurotiomycetes	Eurotiales	Elaphomycetaceae	Elaphomyces	laetiluteus			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota: Eurotiomycetes	Eurotiales	Elaphomycetaceae	Elaphomyces	nothofagi			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota: Eurotiomycetes	Eurotiales	Elaphomycetaceae	Elaphomyces	pedicellaris			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota: Eurotiomycetes	Eurotiales	Elaphomycetaceae	Elaphomyces	queenslandicus			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota: Eurotiomycetes	Eurotiales	Elaphomycetaceae	Elaphomyces	rugosisporus			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota: Eurotiomycetes	Eurotiales	Elaphomycetaceae	Elaphomyces	suejoyceae			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota: Eurotiomycetes	Eurotiales	Elaphomycetaceae	Elaphomyces	symeae			
+Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota: Eurotiomycetes	Eurotiales	Elaphomycetaceae	Elaphomyces	timgroveii			
 Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota: Eurotiomycetes	incertae sedis	Strigulaceae	Phyllobathelium	nigrum			
 Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota: Eurotiomycetes	incertae sedis	Strigulaceae	Strigula	albicascens			
 Fungi & Lichens	Fungi - Lichen	Lichenized fungi	Fungi: Ascomycota: Eurotiomycetes	incertae sedis	Strigulaceae	Strigula	antillarum			
@@ -5943,6 +5956,7 @@ Fungi & Lichens	Fungi	mushrooms	Fungi: Basidiomycota	Boletales	Boletaceae	Austro
 Fungi & Lichens	Fungi	mushrooms	Fungi: Basidiomycota	Boletales	Boletaceae	Austroboletus	occidentalis			
 Fungi & Lichens	Fungi	mushrooms	Fungi: Basidiomycota	Boletales	Boletaceae	Austroboletus	rostrupii			
 Fungi & Lichens	Fungi	mushrooms	Fungi: Basidiomycota	Boletales	Boletaceae	Austroboletus	subflavidus			
+Fungi & Lichens	Fungi	mushrooms	Fungi: Basidiomycota	Boletales	Boletaceae	Australopilus	subflavidus			
 Fungi & Lichens	Fungi	mushrooms	Fungi: Basidiomycota	Boletales	Boletaceae	Boletellus	ananiceps			
 Fungi & Lichens	Fungi	mushrooms	Fungi: Basidiomycota	Boletales	Boletaceae	Boletellus	coccineus			
 Fungi & Lichens	Fungi	mushrooms	Fungi: Basidiomycota	Boletales	Boletaceae	Boletellus	dissiliens			
@@ -6013,7 +6027,8 @@ Fungi & Lichens	Fungi	mushrooms	Fungi: Basidiomycota	Boletales	Boletaceae	Suillu
 Fungi & Lichens	Fungi	mushrooms	Fungi: Basidiomycota	Boletales	Boletaceae	Suillus	luteus			
 Fungi & Lichens	Fungi	mushrooms	Fungi: Basidiomycota	Boletales	Boletaceae	Suillus	punctatipes			
 Fungi & Lichens	Fungi	mushrooms	Fungi: Basidiomycota	Boletales	Boletaceae	Tylopilus	brevisporus			
-Fungi & Lichens	Fungi	mushrooms	Fungi: Basidiomycota	Boletales	Boletaceae	Tylopilus	chromapes			
+Fungi & Lichens	Fungi	mushrooms	Fungi: Basidiomycota	Boletales	Boletaceae	Harrya	chromapes			
+Fungi & Lichens	Fungi	mushrooms	Fungi: Basidiomycota	Boletales	Boletaceae	Harrya	atriceps			
 Fungi & Lichens	Fungi	mushrooms	Fungi: Basidiomycota	Boletales	Boletaceae	Tylopilus	cyanescens			
 Fungi & Lichens	Fungi	mushrooms	Fungi: Basidiomycota	Boletales	Boletaceae	Tylopilus	cyanogranulifer			
 Fungi & Lichens	Fungi	mushrooms	Fungi: Basidiomycota	Boletales	Boletaceae	Tylopilus	eximius			

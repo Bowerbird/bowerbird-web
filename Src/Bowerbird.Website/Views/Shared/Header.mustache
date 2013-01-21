@@ -29,7 +29,12 @@
       <ul>
         {{#Model.AuthenticatedUser}}
         <li class="user-menu-item">
-          <span class="small-icon user-icon"></span>
+          <!--<span class="small-icon user-icon">-->
+          <span class="user-avatar">
+            {{#User.Avatar}}
+            {{>MediaSquare100}}
+            {{/User.Avatar}}
+          </span>
           <span class="user-name">{{Model.AuthenticatedUser.User.Name}}</span>
 
           <div class="sub-menu-button sub-menu">

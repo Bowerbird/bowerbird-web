@@ -39,13 +39,27 @@ function ($, _, Backbone, app, ich, SightingDetailsView, SightingNoteDetailsView
         },
 
         onShow: function () {
-            var sightingView = new SightingDetailsView({ el: this.$el.find('.observation-details'), model: this.model, template: 'SightingFullFullDetails' });
+            var sightingView = new SightingDetailsView({ el: this.$el.find('.observation-details'), className: 'observation-details', model: this.model, template: 'SightingFullFullDetails' });
             this.sightingView = sightingView;
             this.sightingSection.show(sightingView);
 
             //            var sightingNoteSubFormView = new SightingNoteSubFormView({ el: this.$el.find('.sighting-note-fieldset'), model: this.model, categorySelectList: this.categorySelectList, categories: this.categories });
             //            this.sightingNoteSection.attachView(sightingNoteSubFormView);
             //            sightingNoteSubFormView.showBootstrappedDetails();
+
+            var sightingNoteEls = this.$el.find('.sighting-note');
+            this.sightingNotes.each(function (item, index) {
+                var childView = new SightingNoteDetailsView({ el: $(sightingNoteEls[index]), model: item, tagName: 'li', sighting: this.model });
+                childView.showBootstrappedDetails();
+                childView.delegateEvents();
+            }, this);
+
+            var identificationEls = this.$el.find('.identification');
+            this.identifications.each(function (item, index) {
+                var childView = new IdentificationDetailsView({ el: $(identificationEls[index]), model: item, tagName: 'li', sighting: this.model });
+                childView.showBootstrappedDetails();
+                childView.delegateEvents();
+            }, this);
 
             this._showDetails();
         },

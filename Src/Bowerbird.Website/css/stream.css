@@ -69,8 +69,8 @@
 }
 .stream-message
 {
-    background-color: rgb(220, 220, 220);
-    border-radius: 6px;
+    background-color: rgb(238, 238, 238);
+    border-radius: 2px 2px 2px 2px;
     box-shadow: 0 1px 1px rgba(120, 120, 120, 0.5) inset;
     color: rgb(126, 126, 126);
     float: left;
@@ -1012,7 +1012,7 @@ ul.explore-menu
     text-align: center;
     width: 100%;
 }
-.identification .identification-parts img 
+.identification-parts img 
 {
     display: block;
     float: left;

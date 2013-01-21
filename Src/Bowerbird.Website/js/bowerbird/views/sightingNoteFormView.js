@@ -46,7 +46,7 @@ function ($, _, Backbone, app, ich, SightingDetailsView, IdentificationFormView,
         },
 
         onShow: function () {
-            var sightingView = new SightingDetailsView({ model: this.sighting, template: 'SightingFullFullDetails' });
+            var sightingView = new SightingDetailsView({ model: this.sighting, className: 'observation-details', template: 'SightingFullFullDetails' });
             this.sightingView = sightingView;
             this.sightingSection.show(sightingView);
 
