@@ -33,7 +33,7 @@ function ($, _, Backbone, app, ich, ActivityItemView) {
 
             this.newStreamItemsCache = [];
 
-            app.vent.on('newactivity:sightingadded newactivity:postadded newactivity:sightingnoteadded', this.onNewStreamItemReceived);
+            app.vent.on('newactivity:sightingadded newactivity:postadded newactivity:sightingnoteadded newactivity:identificationadded', this.onNewStreamItemReceived);
         },
 
         onShow: function () {
@@ -76,11 +76,7 @@ function ($, _, Backbone, app, ich, ActivityItemView) {
 
             var $li = collectionView.$el.find('.activity-items > li:eq(' + (index) + ')');
 
-            if (itemView.model.get('Type') == "sightingadded") {
-                itemView.$el.addClass('sightingadded-activity-item');
-            } else if (itemView.model.get('Type') == "sightingnoteadded") {
-                itemView.$el.addClass('sightingnoteadded-activity-item');
-            }
+            itemView.$el.addClass(itemView.model.get('Type') + '-activity-item');
 
             if ($li.length === 0) {
                 collectionView.$el.find('.activity-items').append(itemView.el);

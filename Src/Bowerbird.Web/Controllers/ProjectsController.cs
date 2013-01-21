@@ -538,7 +538,7 @@ namespace Bowerbird.Web.Controllers
             var result = _documentSession
                 .Advanced
                 .LuceneQuery<All_Contributions.Result, All_Contributions>()
-                .SelectFields<All_Contributions.Result>("ContributionId", "ContributionSubId", "ContributionType", "CreatedDateTime")
+                .SelectFields<All_Contributions.Result>("ContributionId", "SubContributionId", "ContributionType", "CreatedDateTime")
                 .WhereGreaterThan(x => x.CreatedDateTime, fromDate)
                 .AndAlso()
                 .WhereIn("GroupIds", new [] { projectId })
@@ -549,7 +549,7 @@ namespace Bowerbird.Web.Controllers
             var contributions = result.Select(x => new
             {
                 x.ContributionId,
-                x.ContributionSubId,
+                x.SubContributionId,
                 x.ContributionType,
                 x.CreatedDateTime
             })

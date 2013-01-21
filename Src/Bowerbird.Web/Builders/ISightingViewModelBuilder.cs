@@ -12,6 +12,7 @@
  
 */
 
+using Bowerbird.Core.DomainModels;
 using Bowerbird.Web.ViewModels;
 
 namespace Bowerbird.Web.Builders

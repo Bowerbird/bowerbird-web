@@ -65,15 +65,5 @@ namespace Bowerbird.Core.Config
         /// <param name="permissionId">The permission name to find</param>
         /// <param name="domainModelId">The domain model to check for permission</param>
         bool HasGroupPermission<T>(string permissionId, string domainModelId) where T : IOwnable;
-
-        /// <summary>
-        /// WIP - trying to send an asynch event to a single user's single client. 
-        /// This is to be used for uploading media resources. Needs to fire back to the client 
-        /// Who uploaded the media to be inserted into the form.
-        /// </summary>
-        /// <param name="asynchActivity"></param>
-        void SendModelToUserClient(object model, string clientId);
-
-        string GetUserFullName();
     }
 }

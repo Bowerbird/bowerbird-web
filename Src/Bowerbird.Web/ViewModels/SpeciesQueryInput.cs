@@ -32,6 +32,8 @@ namespace Bowerbird.Web.ViewModels
 
         public string Category { get; set; }
 
+        public bool LimitCommonNames { get; set; }
+
         #endregion
 
         #region Methods

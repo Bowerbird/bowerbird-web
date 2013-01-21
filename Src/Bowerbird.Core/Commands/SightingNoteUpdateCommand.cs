@@ -46,6 +46,8 @@ namespace Bowerbird.Core.Commands
 
         public Dictionary<string, string> Descriptions { get; set; }
 
+        public string Comments { get; set; }
+
         /// <summary>
         /// A custom identification consist of all taxa filled out. A non-custom one consists of just Taxonomy, 
         /// which is then used to source the identification from our classification index.

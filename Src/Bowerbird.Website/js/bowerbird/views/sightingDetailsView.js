@@ -8,23 +8,25 @@
 // SightingDetailsView
 // -------------------
 
-define(['jquery', 'underscore', 'backbone', 'ich', 'app', 'moment', 'timeago', 'tipsy'],
-function ($, _, Backbone, ich, app, moment) {
+define(['jquery', 'underscore', 'backbone', 'ich', 'app', 'moment', 'voter', 'timeago', 'tipsy'],
+function ($, _, Backbone, ich, app, moment, Voter) {
 
     var SightingDetailsView = Backbone.Marionette.ItemView.extend({
 
-        className: 'observation-details',
-
         events: {
             'click .thumbnails > div': 'showMedia',
+            'click .add-identification-button': 'showIdentificationForm',
             'click .add-note-button': 'showNoteForm',
             'click .view-button': 'showItem',
             'click .edit-observation-button': 'showItem',
-            'click h3 a': 'showItem'
+            'click h3 a': 'showItem',
+            'click .sighting-actions .vote-up': 'voteUp',
+            'click .sighting-actions .vote-down': 'voteDown',
+            'click .sighting-actions .favourites-button': 'addToFavourites'
         },
 
         initialize: function (options) {
-            _.bindAll(this, 'refresh', 'showMedia', 'showNoteForm');
+            _.bindAll(this, 'refresh', 'showMedia', 'showNoteForm', 'showIdentificationForm', 'voteUp', 'voteDown');
 
             if (!options.template) {
                 this.template = 'SightingTileDetails';
@@ -32,10 +34,14 @@ function ($, _, Backbone, ich, app, moment) {
                 this.template = options.template;
             }
 
+            if (options.viewType) {
+                this.viewType = options.viewType;
+            }
+
             this.showLocation = false;
             this.showThumbnails = false;
 
-            if (this.template == 'SightingFullDetails') {
+            if (this.template == 'SightingFullFullDetails' || this.template == 'SightingListItem' || this.template == 'SightingSummaryDetails') {
                 this.showLocation = true;
                 this.showThumbnails = true;
             }
@@ -43,9 +49,8 @@ function ($, _, Backbone, ich, app, moment) {
 
         serializeData: function () {
             var viewModel = this.model.toJSON();
-            //viewModel.ShowThumbnails = this.model.get('Media').length > 1 ? true : false;
-            //viewModel.ShowProjects = this.model.get('Projects').length > 0 ? true : false;
-            viewModel.ObservedOnDescription = moment(this.model.get('ObservedOn')).format('D MMM YYYY h:mma');
+            viewModel.ObservedOnDescription = moment(this.model.get('ObservedOn')).format('D MMM YYYY');
+            viewModel.CreatedOnDescription = moment(this.model.get('CreatedOn')).format('D MMM YYYY');
             return viewModel;
         },
 
@@ -123,6 +128,9 @@ function ($, _, Backbone, ich, app, moment) {
             if (this.model.get('User').Id !== app.authenticatedUser.user.id) {
                 this.$el.find('.edit-observation-button').hide();
             }
+
+            this.$el.find('.vote-up, .vote-down, .add-identification-button, .add-note-button, .add-comment-button').tipsy({ gravity: 'n', html: true });
+            this.$el.find('.favourites-button').tipsy({ gravity: 's', html: true });
         },
 
         refresh: function () {
@@ -153,23 +161,87 @@ function ($, _, Backbone, ich, app, moment) {
             this.refresh();
         },
 
-//        showNoteForm: function (e) {
-//            e.preventDefault();
-//            this.$el.find('.observation-action-menu a').tipsy.revalidate();
-//            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
-//        },
-        
+        showItem: function (e) {
+            e.preventDefault();
+            this.$el.find('.actions a').tipsy.revalidate();
+            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
+        },
+
+        showIdentificationForm: function (e) {
+            e.preventDefault();
+            this.$el.find('.actions a').tipsy.revalidate();
+            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
+        },
+
         showNoteForm: function (e) {
             e.preventDefault();
             this.$el.find('.actions a').tipsy.revalidate();
             Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
         },
 
-        showItem: function (e) {
-            e.preventDefault();
-            this.$el.find('.actions a').tipsy.revalidate();
-            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
+        voteUp: function (e) {
+            //            var scoreModifier = 0;
+            //            if (this.model.get('UserVoteScore') === -1) {
+            //                app.vent.trigger('update-sighting-vote', this.model, 1);
+            //                scoreModifier = 2;
+            //            } else if (this.model.get('UserVoteScore') === 1) {
+            //                app.vent.trigger('update-sighting-vote', this.model, 0);
+            //                scoreModifier = -1;
+            //            } else {
+            //                app.vent.trigger('update-sighting-vote', this.model, 1);
+            //                scoreModifier = 1;
+            //            }
+            //            this.model.set('UserVoteScore', this.model.get('UserVoteScore') + scoreModifier);
+            //            this.model.set('TotalVoteScore', this.model.get('TotalVoteScore') + scoreModifier);
+            Voter.voteUp(this.model);
+
+            this.$el.find('.sighting-actions .vote-down').removeClass().addClass('vote-down button');
+            this.$el.find('.sighting-actions .vote-up').removeClass().addClass('vote-up button user-vote-score' + this.model.get('UserVoteScore'));
+            this.$el.find('.sighting-actions .vote-score').text(this.model.get('TotalVoteScore'));
+        },
+
+        voteDown: function (e) {
+            //            var scoreModifier = 0;
+            //            if (this.model.get('UserVoteScore') === 1) {
+            //                app.vent.trigger('update-sighting-vote', this.model, -1);
+            //                scoreModifier = -2;
+            //            } else if (this.model.get('UserVoteScore') === -1) {
+            //                app.vent.trigger('update-sighting-vote', this.model, 0);
+            //                scoreModifier = 1;
+            //            } else {
+            //                app.vent.trigger('update-sighting-vote', this.model, -1);
+            //                scoreModifier = -1;
+            //            }
+            //            this.model.set('UserVoteScore', this.model.get('UserVoteScore') + scoreModifier);
+            //            this.model.set('TotalVoteScore', this.model.get('TotalVoteScore') + scoreModifier);
+            Voter.voteDown(this.model);
+
+            this.$el.find('.sighting-actions .vote-up').removeClass().addClass('vote-up button');
+            this.$el.find('.sighting-actions .vote-down').removeClass().addClass('vote-down button user-vote-score' + this.model.get('UserVoteScore'));
+            this.$el.find('.sighting-actions .vote-score').text(this.model.get('TotalVoteScore'));
+        },
+
+        addToFavourites: function (e) {
+            //            app.vent.trigger('update-favourites', this.model);
+
+            //            var favouritesModifier = 0;
+            //            var userFavourite = this.model.get('UserFavourite');
+            //            if (userFavourite === true) {
+            //                favouritesModifier = -1;
+            //                userFavourite = false;
+            //            } else {
+            //                favouritesModifier = 1;
+            //                userFavourite = true;
+            //            }
+
+            //            this.model.set('UserFavourite', userFavourite);
+            //            this.model.set('FavouritesCount', this.model.get('FavouritesCount') + favouritesModifier);
+            Voter.addToFavourites(this.model);
+
+            this.$el.find('.sighting-actions .favourites-count').text(this.model.get('FavouritesCount'));
+            this.$el.find('.sighting-actions .favourites-button').toggleClass('selected');
         }
+
     });
 
     return SightingDetailsView;

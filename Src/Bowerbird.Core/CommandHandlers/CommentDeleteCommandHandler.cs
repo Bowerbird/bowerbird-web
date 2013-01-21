@@ -50,18 +50,18 @@ namespace Bowerbird.Core.CommandHandlers
 
         public void Handle(CommentDeleteCommand command)
         {
-            Check.RequireNotNull(command, "command");
+            //Check.RequireNotNull(command, "command");
 
-            var discussable = _documentSession
-                .Query<All_Contributions.Result, All_Contributions>()
-                .AsProjection<All_Contributions.Result>()
-                .Where(x => x.ContributionId == command.ContributionId)
-                .First()
-                .Discussable;
+            //var discussable = _documentSession
+            //    .Query<All_Contributions.Result, All_Contributions>()
+            //    .AsProjection<All_Contributions.Result>()
+            //    .Where(x => x.ContributionId == command.ContributionId)
+            //    .First()
+            //    .Contribution as IDiscussable;
 
-            discussable.Discussion.RemoveComment(command.Id);
+            //discussable.Discussion.RemoveComment(command.Id);
 
-            _documentSession.Store(discussable);
+            //_documentSession.Store(discussable);
         }
 
         #endregion

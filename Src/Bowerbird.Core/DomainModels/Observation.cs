@@ -12,7 +12,6 @@
  
 */
 
-using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using System.Collections.Generic;
 using System;
@@ -83,8 +82,6 @@ namespace Bowerbird.Core.DomainModels
         public string Title { get; private set; }
 
         public string Address { get; private set; }
-
-        public bool IsIdentificationRequired { get; private set; }
 
         public IEnumerable<ObservationMedia> Media
         {

@@ -37,6 +37,8 @@ function ($, _, Backbone, app, ich, SightingDetailsView) {
                 this.activeTab = options.activeTab;
             }
 
+            this.activeTab = this.collection.viewType;
+
             this.newItemsCount = 0;
 
             this.collection.on('fetching', this.onLoadingStart, this);
@@ -69,8 +71,11 @@ function ($, _, Backbone, app, ich, SightingDetailsView) {
 
         showBootstrappedDetails: function () {
             var els = this.$el.find('.sighting-item');
+
+            var template = this.collection.viewType == 'details' ? 'SightingListItem' : null;
+
             _.each(this.collection.models, function (item, index) {
-                var childView = new SightingDetailsView({ model: item, tagName: 'li' });
+                var childView = new SightingDetailsView({ model: item, tagName: 'li', template: template });
                 childView.$el = $(els[index]);
                 childView.showBootstrappedDetails();
                 childView.delegateEvents();
@@ -124,17 +129,17 @@ function ($, _, Backbone, app, ich, SightingDetailsView) {
 
         buildItemView: function (item, ItemView) {
             var template = 'SightingTileDetails';
-            var className = 'tile-sighting-details';
+            var className = ' tile-sighting-details';
             if (this.collection.viewType === 'details') {
-                template = 'SightingFullDetails';
-                className = 'observation-details';
+                template = 'SightingListItem';
+                className = '';
             }
 
             var view = new ItemView({
                 template: template,
                 model: item,
                 tagName: 'li',
-                className: 'sighting-item ' + className
+                className: 'sighting-item' + className
             });
             return view;
         },

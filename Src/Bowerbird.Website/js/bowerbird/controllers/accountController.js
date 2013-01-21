@@ -37,6 +37,30 @@ function ($, _, Backbone, app, User, AccountLoginView, AccountRegisterView, User
         return deferred.promise();
     };
 
+    var updateVote = function (uri, score) {
+        var deferred = new $.Deferred();
+        $.ajax({
+            url: uri,
+            type: 'PUT',
+            data: { score: score }
+        }).done(function (data) {
+            deferred.resolve(data.Model);
+        });
+        return deferred.promise();
+    };
+
+    var updateFavourites = function (sighting) {
+        var deferred = new $.Deferred();
+        $.ajax({
+            url: '/favourites',
+            type: 'PUT',
+            data: { id: sighting.id }
+        }).done(function (data) {
+            deferred.resolve(data.Model);
+        });
+        return deferred.promise();
+    };
+
     var docCookies = {
         getItem: function (sKey) {
             if (!sKey || !this.hasItem(sKey)) { return null; }
@@ -142,6 +166,22 @@ function ($, _, Backbone, app, User, AccountLoginView, AccountRegisterView, User
 
     app.vent.on('close-call-to-action', function (name) {
         $.when(getModel('/account/closecalltoaction', 'POST', { name: name }));
+    });
+
+    app.vent.on('update-sighting-vote', function (sighting, score) {
+        $.when(updateVote('/' + sighting.id + '/vote', score));
+    });
+
+    app.vent.on('update-sighting-note-vote', function (sightingNote, score) {
+        $.when(updateVote('/' + sightingNote.get('SightingId') + '/' + sightingNote.id + '/vote', score));
+    });
+
+    app.vent.on('update-identification-vote', function (identification, score) {
+        $.when(updateVote('/' + identification.get('SightingId') + '/' + identification.id + '/vote', score));
+    });
+
+    app.vent.on('update-favourites', function (sighting) {
+        $.when(updateFavourites(sighting));
     });
 
     app.addInitializer(function () {

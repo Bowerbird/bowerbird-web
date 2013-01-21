@@ -240,7 +240,7 @@
         <div id="observedon-field" class="field">
           <div>
             <label for="ObservedOn">
-              Sighted <span>Required</span>
+              Date Sighted <span>Required</span>
             </label>
           </div>
           <div>
@@ -270,21 +270,41 @@
       </div>
 
     </fieldset>
-    
+
     {{#Model.Create}}
-    
+
+    <fieldset class="sighting-identification-fieldset">
+      <legend class="hidden">Sighting Identification Details</legend>
+
+      <div class="field-row">
+
+        <div class="add-sighting-identification-pane">
+          <p>Identify the species if you know what it is.</p>
+        </div>
+
+        <div id="add-sighting-note-field" class="field">
+          <div>
+            <input type="button" value="Identify" id="add-sighting-identification-button" />
+          </div>
+        </div>
+
+      </div>
+
+    </fieldset>
+
+
     <fieldset class="sighting-note-fieldset">
         <legend class="hidden">Sighting Note Details</legend>
       
       <div class="field-row">
 
         <div class="add-sighting-note-pane">
-          <p>Is there something more you'd like to add? Add a Sighting Note to identify the species, add detailed descriptions or tags.</p>
+          <p>Is there something more you'd like to add? Add a detailed description or some tags.</p>
         </div>
 
         <div id="add-sighting-note-field" class="field">
           <div>
-            <input type="button" value="Add Sighting Note" id="add-sighting-note-button" />
+            <input type="button" value="Describe" id="add-sighting-note-button" />
           </div>
         </div>
 

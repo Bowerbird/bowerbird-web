@@ -1,0 +1,16 @@
+﻿<div class="sighting-summary">
+  {{#User}}
+  {{#Avatar}}
+  {{>MediaSquare100}}
+  {{/Avatar}}
+  <div class="description">
+    <span>{{Name}}</span>
+    <abbr>{{CreatedOnDescription}}</abbr>
+  </div>
+  {{/User}}
+</div>
+<div class="details">
+  <div class="observation-details">
+    {{>SightingFullFullDetails}}
+  </div>
+</div>

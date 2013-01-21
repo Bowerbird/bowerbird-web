@@ -1,0 +1,552 @@
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	abscessus
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	africanum
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	africanum
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	agri
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	aichiense
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	alvei
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	arosiense
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	arupense
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	asiaticum
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	aubagnense
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	aurum
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	austroafricanum
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	avium hominissuis
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	avium paratuberculosis
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	avium silvaticum
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	boenickei
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	bohemicum
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	bolletii
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	botniense
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	bovis
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	bovis BCG
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	branderi
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	brisbanense
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	brumae
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	canariasense
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	canetti
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	caprae
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	caprae
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	celatum
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	chelonae
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	chelonae
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	chimaera
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	chitae
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	chlorophenolicum
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	chubuense
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	colombiense
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	conceptionense
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	confluentis
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	conspicuum
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	cookii
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	cosmeticum
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	diernhoferi
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	doricum
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	duvalii
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	elephantis
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	fallax
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	farcinogenes
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	flavescens
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	florentinum
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	fluoroanthenivorans
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	fortuitum
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	fortuitum
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	fortuitum acetamidolyticum
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	frederiksbergense
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	gadium
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	gastri
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	genavense
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	gilvum
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	goodii
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	gordonae
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	haemophilum
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	hassiacum
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	heckeshornense
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	heidelbergense
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	hiberniae
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	hodleri
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	holsaticum
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	houstonense
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	immunogenum
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	indicus pranii
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	interjectum
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	intermedium
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	intracellulare
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	kansasii
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	komossense
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	kubicae
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	kumamotonense
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	lacus
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	lentiflavum
+Bacteria 	Bacteria 	Leprosy	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	leprae
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	lepraemurium
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	lepromatosis
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	madagascariense
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	mageritense
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	malmoense
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	marinum
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	massiliense
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	microti
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	monacense
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	montefiorense
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	moriokaense
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	mucogenicum
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	murale
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	nebraskense
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	neoaurum
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	neworleansense
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	nonchromogenicum
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	novocastrense
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	obuense
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	palustre
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	parafortuitum
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	parafortuitum
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	parascrofulaceum
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	parmense
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	peregrinum
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	phlei
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	phocaicum
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	pinnipedii
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	porcinum
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	poriferae
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	pseudoshottsii
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	psychrotolerans
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	pulveris
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	pyrenivorans
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	rhodesiae
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	saskatchewanense
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	scrofulaceum
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	senegalense
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	seoulense
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	septicum
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	shimoidei
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	shottsii
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	simiae
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	smegmatis
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	sphagni
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	szulgai
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	terrae
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	thermoresistibile
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	tokaiense
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	triplex
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	triviale
+Bacteria 	Bacteria 	Tuberculosis	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	tuberculosis
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	tusciae
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	ulcerans
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	vaccae
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	vaccae
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	vanbaalenii
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	wolinskyi
+Bacteria 	Bacteria 	Mycobacterium	Bacteria: Actinobacteria: Actinobacteria	Actinomycetales	Mycobacteriaceae	Mycobacterium	xenopi
+Bacteria 	Bacteria 	Oral disease	Bacteria: Bacteroidetes: Bacteroidetes	Bacteroidales	Porphyromonadaceae	Porphyromonas	gingivalis
+Bacteria 	Bacteria 	Chlamydia	Bacteria: Chlamydiae: Chlamydiae	Chlamydiales	Chlamydiaceae	Chlamydia	trachomatis
+Bacteria	Cyanobacteria	blue-green algae	Bacteria: Cyanobacteria	Oscillatoriales	Oscillatoriaceae	Lyngbya	majuscula
+Bacteria	Cyanobacteria	"blue-green algae, sea sawdust"	Bacteria: Cyanobacteria	Oscillatoriales	Phormidiaceae	Trichodesmium	contotrum
+Bacteria	Cyanobacteria	"blue-green algae, sea sawdust"	Bacteria: Cyanobacteria	Oscillatoriales	Phormidiaceae	Trichodesmium	erythraeum
+Bacteria	Cyanobacteria	"blue-green algae, sea sawdust"	Bacteria: Cyanobacteria	Oscillatoriales	Phormidiaceae	Trichodesmium	hildebrandtii
+Bacteria	Cyanobacteria	"blue-green algae, sea sawdust"	Bacteria: Cyanobacteria	Oscillatoriales	Phormidiaceae	Trichodesmium	tenue
+Bacteria	Cyanobacteria	"blue-green algae, sea sawdust"	Bacteria: Cyanobacteria	Oscillatoriales	Phormidiaceae	Trichodesmium	thiebautii
+Bacteria	Cyanobacteria	blue-green algae	Bacteria: Cyanobacteria	Chroococcales	Cyanophyceae	Microcystis	aeruginosa
+Bacteria	Cyanobacteria	blue-green algae	Bacteria: Cyanobacteria	Nostocales	Cyanophyceae	Anabaena	circinalis
+Bacteria 	Cyanobacteria	blue-green algae	Bacteria: Cyanobacteria	Nostocales	Cyanophyceae	Anabaena	cylindrica
+Bacteria	Cyanobacteria	blue-green algae	Bacteria: Cyanobacteria	Nostocales	Cyanophyceae	Aphanizomenon	ovalisporum
+Bacteria 	Cyanobacteria	blue-green algae	Bacteria: Cyanobacteria	Nostocales	Nostocaceae	Cylindrospermopsis	raciborskii
+Bacteria	Cyanobacteria	"blue-green algae, Stromatolites"	Bacteria: Cyanobacteria: Cynophyceae	Chroococcales	Entophysalidaceae	Chlorogloea	endophytica
+Bacteria 	Cyanobacteria	"blue-green algae, Stromatolites"	Bacteria: Cyanobacteria: Cynophyceae	Chroococcales	Entophysalidaceae	Entophysalis	endophytica
+Bacteria	Cyanobacteria	"blue-green algae, Stromatolites"	Bacteria: Cyanobacteria: Cynophyceae	Chroococcales	Entophysalidaceae	Entophysalis	granulosa
+Bacteria 	Cyanobacteria	"blue-green algae, Stromatolites"	Bacteria: Cyanobacteria: Cynophyceae	Chroococcales	Entophysalidaceae	Entophysalis	lemaniae f. lemaniae
+Bacteria	Cyanobacteria	"blue-green algae, Stromatolites"	Bacteria: Cyanobacteria: Cynophyceae	Chroococcales	Entophysalidaceae	Entophysalis	major
+Bacteria 	Cyanobacteria	"blue-green algae, Stromatolites"	Bacteria: Cyanobacteria: Cynophyceae	Chroococcales	Entophysalidaceae	Entophysalis	rivularis
+Bacteria 	Bacteria 	"Hay bacillus, grass bacillus"	Bacteria: Firmicutes: Bacilli	Bacillales	Bacillaceae	Bacillus	subtilis
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	arlettae
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	aureus
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	auricularis
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	capitis
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	caprae
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	carnosus
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	chromogenes
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	cohnii
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	condimenti
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	delphini
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	devriesei
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	epidermidis
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	equorum
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	felis
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	fleurettii
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	gallinarum
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	haemolyticus
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	hominis
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	hyicus
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	intermedius
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	kloosii
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	leei
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	lentus
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	lugdunensis
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	lutrae
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	massiliensis
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	microti
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	muscae
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	nepalensis
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	pasteuri
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	pettenkoferi
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	piscifermentans
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	pseudintermedius
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	pseudolugdunensis
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	pulvereri
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	rostri
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	saccharolyticus
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	saprophyticus
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	schleiferi
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	sciuri
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	simiae
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	simulans
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	stepanovicii
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	succinus
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	vitulinus
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	warneri
+Bacteria	Bacteria	Staphylococcus	Bacteria: Firmicutes: Bacilli	Bacillales	Staphylococcaceae	Staphylococcus	xylosus
+Bacteria	Bacteria	Streptococcus	Bacteria: Firmicutes: Bacilli	Lactobacillales	Streptococcaceae	Streptococcus	agalactiae
+Bacteria	Bacteria	Streptococcus	Bacteria: Firmicutes: Bacilli	Lactobacillales	Streptococcaceae	Streptococcus	anginosus
+Bacteria	Bacteria	Streptococcus	Bacteria: Firmicutes: Bacilli	Lactobacillales	Streptococcaceae	Streptococcus	bovis
+Bacteria	Bacteria	Streptococcus	Bacteria: Firmicutes: Bacilli	Lactobacillales	Streptococcaceae	Streptococcus	canis
+Bacteria	Bacteria	Streptococcus	Bacteria: Firmicutes: Bacilli	Lactobacillales	Streptococcaceae	Streptococcus	constellatus
+Bacteria	Bacteria	Streptococcus	Bacteria: Firmicutes: Bacilli	Lactobacillales	Streptococcaceae	Streptococcus	dysgalactiae
+Bacteria	Bacteria	Streptococcus	Bacteria: Firmicutes: Bacilli	Lactobacillales	Streptococcaceae	Streptococcus	equinus
+Bacteria	Bacteria	Streptococcus	Bacteria: Firmicutes: Bacilli	Lactobacillales	Streptococcaceae	Streptococcus	iniae
+Bacteria	Bacteria	Streptococcus	Bacteria: Firmicutes: Bacilli	Lactobacillales	Streptococcaceae	Streptococcus	intermedius
+Bacteria	Bacteria	Streptococcus	Bacteria: Firmicutes: Bacilli	Lactobacillales	Streptococcaceae	Streptococcus	mitis
+Bacteria	Bacteria	Streptococcus	Bacteria: Firmicutes: Bacilli	Lactobacillales	Streptococcaceae	Streptococcus	mutans
+Bacteria	Bacteria	Streptococcus	Bacteria: Firmicutes: Bacilli	Lactobacillales	Streptococcaceae	Streptococcus	oralis
+Bacteria	Bacteria	Streptococcus	Bacteria: Firmicutes: Bacilli	Lactobacillales	Streptococcaceae	Streptococcus	parasanguinis
+Bacteria	Bacteria	Streptococcus	Bacteria: Firmicutes: Bacilli	Lactobacillales	Streptococcaceae	Streptococcus	peroris
+Bacteria	Bacteria	Streptococcus	Bacteria: Firmicutes: Bacilli	Lactobacillales	Streptococcaceae	Streptococcus	pneumoniae
+Bacteria	Bacteria	Streptococcus	Bacteria: Firmicutes: Bacilli	Lactobacillales	Streptococcaceae	Streptococcus	pyogenes
+Bacteria	Bacteria	Streptococcus	Bacteria: Firmicutes: Bacilli	Lactobacillales	Streptococcaceae	Streptococcus	ratti
+Bacteria	Bacteria	Streptococcus	Bacteria: Firmicutes: Bacilli	Lactobacillales	Streptococcaceae	Streptococcus	salivarius
+Bacteria	Bacteria	Streptococcus	Bacteria: Firmicutes: Bacilli	Lactobacillales	Streptococcaceae	Streptococcus	salivarius thermophilus
+Bacteria	Bacteria	Streptococcus	Bacteria: Firmicutes: Bacilli	Lactobacillales	Streptococcaceae	Streptococcus	sanguinis
+Bacteria	Bacteria	Streptococcus	Bacteria: Firmicutes: Bacilli	Lactobacillales	Streptococcaceae	Streptococcus	sobrinus
+Bacteria	Bacteria	Streptococcus	Bacteria: Firmicutes: Bacilli	Lactobacillales	Streptococcaceae	Streptococcus	suis
+Bacteria	Bacteria	Streptococcus	Bacteria: Firmicutes: Bacilli	Lactobacillales	Streptococcaceae	Streptococcus	uberis
+Bacteria	Bacteria	Streptococcus	Bacteria: Firmicutes: Bacilli	Lactobacillales	Streptococcaceae	Streptococcus	vestibularis
+Bacteria	Bacteria	Streptococcus	Bacteria: Firmicutes: Bacilli	Lactobacillales	Streptococcaceae	Streptococcus	viridans
+Bacteria	Bacteria	Streptococcus	Bacteria: Firmicutes: Bacilli	Lactobacillales	Streptococcaceae	Streptococcus	zooepidemicus
+Bacteria 	Bacteria 	Phytoplasma	Bacteria: Firmicutes: Mollicutes	Acholeplasmatales	Acholeplasmataceae	Phytoplasma	allocasuarinae
+Bacteria 	Bacteria 	Phytoplasma	Bacteria: Firmicutes: Mollicutes	Acholeplasmatales	Acholeplasmataceae	Phytoplasma	asteris
+Bacteria 	Bacteria 	Phytoplasma	Bacteria: Firmicutes: Mollicutes	Acholeplasmatales	Acholeplasmataceae	Phytoplasma	aurantifolia
+Bacteria 	Bacteria 	Phytoplasma	Bacteria: Firmicutes: Mollicutes	Acholeplasmatales	Acholeplasmataceae	Phytoplasma	australiense
+Bacteria 	Bacteria 	Phytoplasma	Bacteria: Firmicutes: Mollicutes	Acholeplasmatales	Acholeplasmataceae	Phytoplasma	brasiliense
+Bacteria 	Bacteria 	Phytoplasma	Bacteria: Firmicutes: Mollicutes	Acholeplasmatales	Acholeplasmataceae	Phytoplasma	castaneae
+Bacteria 	Bacteria 	Phytoplasma	Bacteria: Firmicutes: Mollicutes	Acholeplasmatales	Acholeplasmataceae	Phytoplasma	cocosnigeriae
+Bacteria 	Bacteria 	Phytoplasma	Bacteria: Firmicutes: Mollicutes	Acholeplasmatales	Acholeplasmataceae	Phytoplasma	cocostanzaniae
+Bacteria 	Bacteria 	Phytoplasma	Bacteria: Firmicutes: Mollicutes	Acholeplasmatales	Acholeplasmataceae	Phytoplasma	cynodontis
+Bacteria 	Bacteria 	Phytoplasma	Bacteria: Firmicutes: Mollicutes	Acholeplasmatales	Acholeplasmataceae	Phytoplasma	fraxini
+Bacteria 	Bacteria 	Phytoplasma	Bacteria: Firmicutes: Mollicutes	Acholeplasmatales	Acholeplasmataceae	Phytoplasma	japonicum
+Bacteria 	Bacteria 	Phytoplasma	Bacteria: Firmicutes: Mollicutes	Acholeplasmatales	Acholeplasmataceae	Phytoplasma	luffae
+Bacteria 	Bacteria 	Phytoplasma	Bacteria: Firmicutes: Mollicutes	Acholeplasmatales	Acholeplasmataceae	Phytoplasma	mali
+Bacteria 	Bacteria 	Phytoplasma	Bacteria: Firmicutes: Mollicutes	Acholeplasmatales	Acholeplasmataceae	Phytoplasma	oryzae
+Bacteria 	Bacteria 	Phytoplasma	Bacteria: Firmicutes: Mollicutes	Acholeplasmatales	Acholeplasmataceae	Phytoplasma	palmae
+Bacteria 	Bacteria 	Phytoplasma	Bacteria: Firmicutes: Mollicutes	Acholeplasmatales	Acholeplasmataceae	Phytoplasma	phoenicium
+Bacteria 	Bacteria 	Phytoplasma	Bacteria: Firmicutes: Mollicutes	Acholeplasmatales	Acholeplasmataceae	Phytoplasma	pruni
+Bacteria 	Bacteria 	Phytoplasma	Bacteria: Firmicutes: Mollicutes	Acholeplasmatales	Acholeplasmataceae	Phytoplasma	prunorum
+Bacteria 	Bacteria 	Phytoplasma	Bacteria: Firmicutes: Mollicutes	Acholeplasmatales	Acholeplasmataceae	Phytoplasma	pyri
+Bacteria 	Bacteria 	Phytoplasma	Bacteria: Firmicutes: Mollicutes	Acholeplasmatales	Acholeplasmataceae	Phytoplasma	rhamni
+Bacteria 	Bacteria 	Phytoplasma	Bacteria: Firmicutes: Mollicutes	Acholeplasmatales	Acholeplasmataceae	Phytoplasma	solani
+Bacteria 	Bacteria 	Phytoplasma	Bacteria: Firmicutes: Mollicutes	Acholeplasmatales	Acholeplasmataceae	Phytoplasma	spartii
+Bacteria 	Bacteria 	Phytoplasma	Bacteria: Firmicutes: Mollicutes	Acholeplasmatales	Acholeplasmataceae	Phytoplasma	trifolii
+Bacteria 	Bacteria 	Phytoplasma	Bacteria: Firmicutes: Mollicutes	Acholeplasmatales	Acholeplasmataceae	Phytoplasma	ulmi
+Bacteria 	Bacteria 	Phytoplasma	Bacteria: Firmicutes: Mollicutes	Acholeplasmatales	Acholeplasmataceae	Phytoplasma	vitis
+Bacteria 	Bacteria 	Phytoplasma	Bacteria: Firmicutes: Mollicutes	Acholeplasmatales	Acholeplasmataceae	Phytoplasma	ziziphi
+Bacteria	Bacteria 	Agrobacterium Bacteria	Bacteria: Proteobacteria: Alpha Proteobacteria	Rhizobiales	Rhizobiaceae	Agrobacterium	radiobacter
+Bacteria	Bacteria 	Agrobacterium Bacteria	Bacteria: Proteobacteria: Alpha Proteobacteria	Rhizobiales	Rhizobiaceae	Agrobacterium	rhizogenes
+Bacteria	Bacteria 	Agrobacterium Bacteria	Bacteria: Proteobacteria: Alpha Proteobacteria	Rhizobiales	Rhizobiaceae	Agrobacterium	rubi
+Bacteria	Bacteria 	Agrobacterium Bacteria	Bacteria: Proteobacteria: Alpha Proteobacteria	Rhizobiales	Rhizobiaceae	Agrobacterium	tumefaciens
+Bacteria	Bacteria	Bacteria	Bacteria: Proteobacteria: Betaproteobacteria	Neisseriales	Neisseriaceae	Neisseria	bacilliformis
+Bacteria	Bacteria	Bacteria	Bacteria: Proteobacteria: Betaproteobacteria	Neisseriales	Neisseriaceae	Neisseria	cinerea
+Bacteria	Bacteria	Bacteria	Bacteria: Proteobacteria: Betaproteobacteria	Neisseriales	Neisseriaceae	Neisseria	cuniculi
+Bacteria	Bacteria	Bacteria	Bacteria: Proteobacteria: Betaproteobacteria	Neisseriales	Neisseriaceae	Neisseria	denitrificans
+Bacteria	Bacteria	Bacteria	Bacteria: Proteobacteria: Betaproteobacteria	Neisseriales	Neisseriaceae	Neisseria	elongata
+Bacteria	Bacteria	Bacteria	Bacteria: Proteobacteria: Betaproteobacteria	Neisseriales	Neisseriaceae	Neisseria	flavescens
+Bacteria	Bacteria	Gonorrhea	Bacteria: Proteobacteria: Betaproteobacteria	Neisseriales	Neisseriaceae	Neisseria	gonorrhoeae
+Bacteria	Bacteria	Bacteria	Bacteria: Proteobacteria: Betaproteobacteria	Neisseriales	Neisseriaceae	Neisseria	lactamica
+Bacteria	Bacteria	Bacteria	Bacteria: Proteobacteria: Betaproteobacteria	Neisseriales	Neisseriaceae	Neisseria	macacae
+Bacteria	Bacteria	Bacteria	Bacteria: Proteobacteria: Betaproteobacteria	Neisseriales	Neisseriaceae	Neisseria	meningitidis
+Bacteria	Bacteria	Bacteria	Bacteria: Proteobacteria: Betaproteobacteria	Neisseriales	Neisseriaceae	Neisseria	mucosa
+Bacteria	Bacteria	Bacteria	Bacteria: Proteobacteria: Betaproteobacteria	Neisseriales	Neisseriaceae	Neisseria	pharyngis
+Bacteria	Bacteria	Bacteria	Bacteria: Proteobacteria: Betaproteobacteria	Neisseriales	Neisseriaceae	Neisseria	polysaccharea
+Bacteria	Bacteria	Bacteria	Bacteria: Proteobacteria: Betaproteobacteria	Neisseriales	Neisseriaceae	Neisseria	sicca
+Bacteria	Bacteria	Bacteria	Bacteria: Proteobacteria: Betaproteobacteria	Neisseriales	Neisseriaceae	Neisseria	subflava
+Bacteria	Bacteria	Helicobacter Bacteria	Bacteria: Proteobacteria: Epsilonproteobacteria	Campylobacterales	Helicobacteraceae	Helicobacter	acinonychis
+Bacteria	Bacteria	Helicobacter Bacteria	Bacteria: Proteobacteria: Epsilonproteobacteria	Campylobacterales	Helicobacteraceae	Helicobacter	anseris
+Bacteria	Bacteria	Helicobacter Bacteria	Bacteria: Proteobacteria: Epsilonproteobacteria	Campylobacterales	Helicobacteraceae	Helicobacter	aurati
+Bacteria	Bacteria	Helicobacter Bacteria	Bacteria: Proteobacteria: Epsilonproteobacteria	Campylobacterales	Helicobacteraceae	Helicobacter	bilis
+Bacteria	Bacteria	Helicobacter Bacteria	Bacteria: Proteobacteria: Epsilonproteobacteria	Campylobacterales	Helicobacteraceae	Helicobacter	bizzozeronii
+Bacteria	Bacteria	Helicobacter Bacteria	Bacteria: Proteobacteria: Epsilonproteobacteria	Campylobacterales	Helicobacteraceae	Helicobacter	brantae
+Bacteria	Bacteria	Helicobacter Bacteria	Bacteria: Proteobacteria: Epsilonproteobacteria	Campylobacterales	Helicobacteraceae	Helicobacter	canadensis
+Bacteria	Bacteria	Helicobacter Bacteria	Bacteria: Proteobacteria: Epsilonproteobacteria	Campylobacterales	Helicobacteraceae	Helicobacter	canis
+Bacteria	Bacteria	Helicobacter Bacteria	Bacteria: Proteobacteria: Epsilonproteobacteria	Campylobacterales	Helicobacteraceae	Helicobacter	cetorum
+Bacteria	Bacteria	Helicobacter Bacteria	Bacteria: Proteobacteria: Epsilonproteobacteria	Campylobacterales	Helicobacteraceae	Helicobacter	cholecystus
+Bacteria	Bacteria	Helicobacter Bacteria	Bacteria: Proteobacteria: Epsilonproteobacteria	Campylobacterales	Helicobacteraceae	Helicobacter	cinaedi
+Bacteria	Bacteria	Helicobacter Bacteria	Bacteria: Proteobacteria: Epsilonproteobacteria	Campylobacterales	Helicobacteraceae	Helicobacter	cynogastricus
+Bacteria	Bacteria	Helicobacter Bacteria	Bacteria: Proteobacteria: Epsilonproteobacteria	Campylobacterales	Helicobacteraceae	Helicobacter	felis
+Bacteria	Bacteria	Helicobacter Bacteria	Bacteria: Proteobacteria: Epsilonproteobacteria	Campylobacterales	Helicobacteraceae	Helicobacter	fennelliae
+Bacteria	Bacteria	Helicobacter Bacteria	Bacteria: Proteobacteria: Epsilonproteobacteria	Campylobacterales	Helicobacteraceae	Helicobacter	ganmani
+Bacteria	Bacteria	Helicobacter Bacteria	Bacteria: Proteobacteria: Epsilonproteobacteria	Campylobacterales	Helicobacteraceae	Helicobacter	hepaticus
+Bacteria	Bacteria	Helicobacter Bacteria	Bacteria: Proteobacteria: Epsilonproteobacteria	Campylobacterales	Helicobacteraceae	Helicobacter	marmotae
+Bacteria	Bacteria	Helicobacter Bacteria	Bacteria: Proteobacteria: Epsilonproteobacteria	Campylobacterales	Helicobacteraceae	Helicobacter	mesocricetorum
+Bacteria	Bacteria	Helicobacter Bacteria	Bacteria: Proteobacteria: Epsilonproteobacteria	Campylobacterales	Helicobacteraceae	Helicobacter	muridarum
+Bacteria	Bacteria	Helicobacter Bacteria	Bacteria: Proteobacteria: Epsilonproteobacteria	Campylobacterales	Helicobacteraceae	Helicobacter	mustelae
+Bacteria	Bacteria	Helicobacter Bacteria	Bacteria: Proteobacteria: Epsilonproteobacteria	Campylobacterales	Helicobacteraceae	Helicobacter	pametensis
+Bacteria	Bacteria	Helicobacter Bacteria	Bacteria: Proteobacteria: Epsilonproteobacteria	Campylobacterales	Helicobacteraceae	Helicobacter	pullorum
+Bacteria	Bacteria	Helicobacter Bacteria	Bacteria: Proteobacteria: Epsilonproteobacteria	Campylobacterales	Helicobacteraceae	Helicobacter	pylori
+Bacteria	Bacteria	Helicobacter Bacteria	Bacteria: Proteobacteria: Epsilonproteobacteria	Campylobacterales	Helicobacteraceae	Helicobacter	rappini
+Bacteria	Bacteria	Helicobacter Bacteria	Bacteria: Proteobacteria: Epsilonproteobacteria	Campylobacterales	Helicobacteraceae	Helicobacter	rodentium
+Bacteria	Bacteria	Helicobacter Bacteria	Bacteria: Proteobacteria: Epsilonproteobacteria	Campylobacterales	Helicobacteraceae	Helicobacter	salomonis
+Bacteria	Bacteria	Helicobacter Bacteria	Bacteria: Proteobacteria: Epsilonproteobacteria	Campylobacterales	Helicobacteraceae	Helicobacter	trogontum
+Bacteria	Bacteria	Helicobacter Bacteria	Bacteria: Proteobacteria: Epsilonproteobacteria	Campylobacterales	Helicobacteraceae	Helicobacter	typhlonius
+Bacteria	Bacteria	Helicobacter Bacteria	Bacteria: Proteobacteria: Epsilonproteobacteria	Campylobacterales	Helicobacteraceae	Helicobacter	winghamensis
+Bacteria	Bacteria 	Erwinia Bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Enterobacteriales	Enterobacteriaceae	Erwinia	amylovora
+Bacteria	Bacteria 	Erwinia Bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Enterobacteriales	Enterobacteriaceae	Erwinia	aphidicola
+Bacteria	Bacteria 	Erwinia Bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Enterobacteriales	Enterobacteriaceae	Erwinia	billingiae
+Bacteria	Bacteria 	Erwinia Bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Enterobacteriales	Enterobacteriaceae	Erwinia	chrysanthemi
+Bacteria	Bacteria 	Erwinia Bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Enterobacteriales	Enterobacteriaceae	Erwinia	dacicola
+Bacteria	Bacteria 	Erwinia Bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Enterobacteriales	Enterobacteriaceae	Erwinia	mallotivora
+Bacteria	Bacteria 	Erwinia Bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Enterobacteriales	Enterobacteriaceae	Erwinia	papayae
+Bacteria	Bacteria 	Erwinia Bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Enterobacteriales	Enterobacteriaceae	Erwinia	persicina
+Bacteria	Bacteria 	Erwinia Bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Enterobacteriales	Enterobacteriaceae	Erwinia	psidii
+Bacteria	Bacteria 	Erwinia Bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Enterobacteriales	Enterobacteriaceae	Erwinia	pyrifoliae
+Bacteria	Bacteria 	Erwinia Bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Enterobacteriales	Enterobacteriaceae	Erwinia	rhapontici
+Bacteria	Bacteria 	Erwinia Bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Enterobacteriales	Enterobacteriaceae	Erwinia	toletana
+Bacteria	Bacteria 	Erwinia Bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Enterobacteriales	Enterobacteriaceae	Erwinia	tracheiphila
+Bacteria 	Bacteria 	E. coli	Bacteria: Proteobacteria: Gamma Proteobacteria	Enterobacteriales	Enterobacteriaceae	Escherichia	coli
+Bacteria	Bacteria 	Erwinia Bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Enterobacteriales	Enterobacteriaceae	Pectobacterium	carotovorum
+Bacteria 	Bacteria 	Proteus bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Enterobacteriales	Enterobacteriaceae	Proteus	mirabilis
+Bacteria 	Bacteria 	Salmonella	Bacteria: Proteobacteria: Gamma Proteobacteria	Enterobacteriales	Enterobacteriaceae	Salmonella	bongori
+Bacteria 	Bacteria 	Salmonella	Bacteria: Proteobacteria: Gamma Proteobacteria	Enterobacteriales	Enterobacteriaceae	Salmonella	enterica
+Bacteria 	Bacteria 	Salmonella	Bacteria: Proteobacteria: Gamma Proteobacteria	Enterobacteriales	Enterobacteriaceae	Salmonella	typhi
+Bacteria	Bacteria	"Black Death, Plague"	Bacteria: Proteobacteria: Gamma Proteobacteria	Gammaproteobacteria	Gammaproteobacteria	Yersinia	pestis
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	adelaidensis
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	anisa
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	beliardensis
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	birminghamensis
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	bozemanii
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	brunensis
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	busanensis
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	cherrii
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	cincinnatiensis
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	donaldsonii
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	drancourtii
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	drozanskii
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	erythra
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	fairfieldensis
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	fallonii
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	feeleii
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	geestiana
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	genomospecies 1
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	gratiana
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	gresilensis
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	hackeliae
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	impletisoli
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	israelensis
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	jamestowniensis
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	jordanis
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	lansingensis
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	londiniensis
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	longbeachae
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	lytica
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	maceachernii
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	micdadei
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	moravica
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	nautarum
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	oakridgensis
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	parisiensis
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	pneumophila
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	quateirensis
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	quinlivanii
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	rowbothamii
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	rubrilucens
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	sainthelensi
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	santicrucis
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	shakespearei
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	spiritensis
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	steigerwaltii
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	taurinensis
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	tucsonensis
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	wadsworthii
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	waltersii
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	worsleiensis
+Bacteria	Bacteria 	Legionella Bacteria 	Bacteria: Proteobacteria: Gamma Proteobacteria	Legionellales	Legionellaceae	Legionella	yabuuchiae
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	abietaniphila
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	acidophila
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	aeruginosa
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	agarici
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	agarici
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	alcaligenes
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	alcaliphila
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	alkanolytica
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	amygdali
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	amyloderamosa
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	anguilliseptica
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	antarctica
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	argentinensis
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	asplenii
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	asplenii
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	aurantiaca
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	aureofaciens
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	avellanae
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	azotifigens
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	azotoformans
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	balearica
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	blatchfordae
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	borbori
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	brassicacearum
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	brenneri
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	cannabina
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	caricapapayae
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	cedrina
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	chlororaphis
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	chlororaphis group
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	cichorii
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	citronellolis
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	coenobios
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	congelans
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	coronafaciens
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	corrugata
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	corrugata
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	costantinii
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	cremoricolorata
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	cruciviae
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	delhiensis
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	denitrificans
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	excibis
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	extremorientalis
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	ficuserectae
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	flavescens
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	fluorescens
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	fluorescens group
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	fragi
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	frederiksbergensis
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	fulva
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	fuscovaginae
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	gelidicola
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	gessardii
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	grimontii
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	helianthi
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	indica
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	jessenii
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	jinjuensis
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	kilonensis
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	knackmussii
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	koreensis
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	libanensis
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	lini
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	lundensis
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	lutea
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	luteola
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	mandelii
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	marginalis
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	mediterranea
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	meliae
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	mendocina
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	meridiana
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	migulae
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	monteilii
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	moraviensis
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	mosselii
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	mucidolens
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	nitroreducens
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	oleovorans
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	orientalis
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	oryzihabitans
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	otitidis
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	pachastrellae
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	palleroniana
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	panacis
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	papaveris
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	parafulva
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	peli
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	perolens
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	pertucinogena
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	pertucinogena
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	plecoglossicida
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	poae
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	pohangensis
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	protegens
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	protegens
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	proteolytica
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	pseudoalcaligenes
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	psychrophila
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	psychrotolerans
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	putida
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	putida group
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	rathonis
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	reptilivora
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	resiniphila
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	resinovorans
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	rhizosphaerae
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	rhodesiae
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	rubescens
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	salomonii
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	savastanoi
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	segitis
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	septica
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	simiae
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	straminea
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	stutzeri
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	stutzeri group
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	suis
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	synxantha
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	syringae
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	syringae group
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	taetrolens
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	thermotolerans
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	thivervalensis
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	tolaasii
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	tomato
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	toyotomiensis
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	tremae
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	trivialis
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	turbinellae
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	tuticorinensis
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	umsongensis
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	vancouverensis
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	veronii
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	viridiflava
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	vranovensis
+Bacteria	Bacteria 	Pseudomonas bacteria	Bacteria: Proteobacteria: Gamma Proteobacteria	Pseudomonadales	Pseudomonadaceae	Pseudomonas	xanthomarina
+Bacteria	Bacteria	Xanthomonas	Bacteria: Proteobacteria: Gamma Proteobacteria	Xanthomonadales	Xanthomonadaceae	Xanthomonas	albilineans
+Bacteria	Bacteria	Xanthomonas	Bacteria: Proteobacteria: Gamma Proteobacteria	Xanthomonadales	Xanthomonadaceae	Xanthomonas	alfalfae
+Bacteria	Bacteria	Xanthomonas	Bacteria: Proteobacteria: Gamma Proteobacteria	Xanthomonadales	Xanthomonadaceae	Xanthomonas	ampelina
+Bacteria	Bacteria	Xanthomonas	Bacteria: Proteobacteria: Gamma Proteobacteria	Xanthomonadales	Xanthomonadaceae	Xanthomonas	arboricola
+Bacteria	Bacteria	Xanthomonas	Bacteria: Proteobacteria: Gamma Proteobacteria	Xanthomonadales	Xanthomonadaceae	Xanthomonas	axonopodis
+Bacteria	Bacteria	Xanthomonas	Bacteria: Proteobacteria: Gamma Proteobacteria	Xanthomonadales	Xanthomonadaceae	Xanthomonas	badrii
+Bacteria	Bacteria	Xanthomonas	Bacteria: Proteobacteria: Gamma Proteobacteria	Xanthomonadales	Xanthomonadaceae	Xanthomonas	boreopolis
+Bacteria	Bacteria	Xanthomonas	Bacteria: Proteobacteria: Gamma Proteobacteria	Xanthomonadales	Xanthomonadaceae	Xanthomonas	bromi
+Bacteria	Bacteria	Xanthomonas	Bacteria: Proteobacteria: Gamma Proteobacteria	Xanthomonadales	Xanthomonadaceae	Xanthomonas	campestris
+Bacteria	Bacteria	Xanthomonas	Bacteria: Proteobacteria: Gamma Proteobacteria	Xanthomonadales	Xanthomonadaceae	Xanthomonas	cassavae
+Bacteria	Bacteria	Xanthomonas	Bacteria: Proteobacteria: Gamma Proteobacteria	Xanthomonadales	Xanthomonadaceae	Xanthomonas	citri
+Bacteria	Bacteria	Xanthomonas	Bacteria: Proteobacteria: Gamma Proteobacteria	Xanthomonadales	Xanthomonadaceae	Xanthomonas	codiaei
+Bacteria	Bacteria	Xanthomonas	Bacteria: Proteobacteria: Gamma Proteobacteria	Xanthomonadales	Xanthomonadaceae	Xanthomonas	cucurbitae
+Bacteria	Bacteria	Xanthomonas	Bacteria: Proteobacteria: Gamma Proteobacteria	Xanthomonadales	Xanthomonadaceae	Xanthomonas	cyanopsidis
+Bacteria	Bacteria	Xanthomonas	Bacteria: Proteobacteria: Gamma Proteobacteria	Xanthomonadales	Xanthomonadaceae	Xanthomonas	cynarae
+Bacteria	Bacteria	Xanthomonas	Bacteria: Proteobacteria: Gamma Proteobacteria	Xanthomonadales	Xanthomonadaceae	Xanthomonas	euvesicatoria
+Bacteria	Bacteria	Xanthomonas	Bacteria: Proteobacteria: Gamma Proteobacteria	Xanthomonadales	Xanthomonadaceae	Xanthomonas	fragariae
+Bacteria	Bacteria	Xanthomonas	Bacteria: Proteobacteria: Gamma Proteobacteria	Xanthomonadales	Xanthomonadaceae	Xanthomonas	gardneri
+Bacteria	Bacteria	Xanthomonas	Bacteria: Proteobacteria: Gamma Proteobacteria	Xanthomonadales	Xanthomonadaceae	Xanthomonas	holcicola
+Bacteria	Bacteria	Xanthomonas	Bacteria: Proteobacteria: Gamma Proteobacteria	Xanthomonadales	Xanthomonadaceae	Xanthomonas	hortorum
+Bacteria	Bacteria	Xanthomonas	Bacteria: Proteobacteria: Gamma Proteobacteria	Xanthomonadales	Xanthomonadaceae	Xanthomonas	hyacinthi
+Bacteria	Bacteria	Xanthomonas	Bacteria: Proteobacteria: Gamma Proteobacteria	Xanthomonadales	Xanthomonadaceae	Xanthomonas	maltophilia
+Bacteria	Bacteria	Xanthomonas	Bacteria: Proteobacteria: Gamma Proteobacteria	Xanthomonadales	Xanthomonadaceae	Xanthomonas	malvacearum
+Bacteria	Bacteria	Xanthomonas	Bacteria: Proteobacteria: Gamma Proteobacteria	Xanthomonadales	Xanthomonadaceae	Xanthomonas	manihotis
+Bacteria	Bacteria	Xanthomonas	Bacteria: Proteobacteria: Gamma Proteobacteria	Xanthomonadales	Xanthomonadaceae	Xanthomonas	melonis
+Bacteria	Bacteria	Xanthomonas	Bacteria: Proteobacteria: Gamma Proteobacteria	Xanthomonadales	Xanthomonadaceae	Xanthomonas	oryzae
+Bacteria	Bacteria	Xanthomonas	Bacteria: Proteobacteria: Gamma Proteobacteria	Xanthomonadales	Xanthomonadaceae	Xanthomonas	papavericola
+Bacteria	Bacteria	Xanthomonas	Bacteria: Proteobacteria: Gamma Proteobacteria	Xanthomonadales	Xanthomonadaceae	Xanthomonas	perforans
+Bacteria	Bacteria	Xanthomonas	Bacteria: Proteobacteria: Gamma Proteobacteria	Xanthomonadales	Xanthomonadaceae	Xanthomonas	phaseoli
+Bacteria	Bacteria	Xanthomonas	Bacteria: Proteobacteria: Gamma Proteobacteria	Xanthomonadales	Xanthomonadaceae	Xanthomonas	pisi
+Bacteria	Bacteria	Xanthomonas	Bacteria: Proteobacteria: Gamma Proteobacteria	Xanthomonadales	Xanthomonadaceae	Xanthomonas	populi
+Bacteria	Bacteria	Xanthomonas	Bacteria: Proteobacteria: Gamma Proteobacteria	Xanthomonadales	Xanthomonadaceae	Xanthomonas	sacchari
+Bacteria	Bacteria	Xanthomonas	Bacteria: Proteobacteria: Gamma Proteobacteria	Xanthomonadales	Xanthomonadaceae	Xanthomonas	theicola
+Bacteria	Bacteria	Xanthomonas	Bacteria: Proteobacteria: Gamma Proteobacteria	Xanthomonadales	Xanthomonadaceae	Xanthomonas	translucens
+Bacteria	Bacteria	Xanthomonas	Bacteria: Proteobacteria: Gamma Proteobacteria	Xanthomonadales	Xanthomonadaceae	Xanthomonas	vasicola
+Bacteria	Bacteria	Xanthomonas	Bacteria: Proteobacteria: Gamma Proteobacteria	Xanthomonadales	Xanthomonadaceae	Xanthomonas	vesicatoria
+Bacteria 	Bacteria 	"Syphilis, bejel, pinta, yaws"	Bacteria: Spirochaetes	Spirochaetales	Spirochaetaceae	Treponema	pallidum

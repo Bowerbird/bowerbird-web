@@ -49,11 +49,11 @@ namespace Bowerbird.Web.Factories
                     viewModel.Website = ((IPublicGroup) result.Group).Website;
                     viewModel.Description = ((IPublicGroup) result.Group).Description;
                     viewModel.MemberCount = result.UserIds.Count();
-                    viewModel.PostCount = result.PostIds.Count();
+                    viewModel.PostCount = result.PostCount;
                 }
                 if (result.Group is Project)
                 {
-                    viewModel.SightingCount = result.ObservationIds.Count();
+                    viewModel.SightingCount = result.SightingCount;
                 }
             }
 

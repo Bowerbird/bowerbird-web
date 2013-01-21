@@ -62,21 +62,38 @@ namespace Bowerbird.Core.CommandHandlers
             Check.RequireNotNull(userCreateCommand, "userCreateCommand");
 
             var appRoot = _documentSession.Load<AppRoot>(Constants.AppRootId);
+            var defaultAvatarImage = _mediaResourceFactory.MakeDefaultAvatarImage(AvatarDefaultType.User);
+            var defaultBackgroundImage = _mediaResourceFactory.MakeDefaultBackgroundImage("user");
 
             // Make user
             var user = new User(
                 userCreateCommand.Password,
                 userCreateCommand.Email,
                 userCreateCommand.Name,
-                _mediaResourceFactory.MakeDefaultAvatarImage(AvatarDefaultType.User),
-                userCreateCommand.DefaultLicence,
+                defaultAvatarImage,
+                Constants.DefaultLicence,
                 userCreateCommand.Timezone,
                 DateTime.UtcNow);
             _documentSession.Store(user);
 
-            // Make user project
-            var userProject = new UserProject(user, DateTime.UtcNow, appRoot);
+            // Make user's project group
+            var userProject = new UserProject(
+                user, 
+                userCreateCommand.Name, 
+                string.Empty,
+                string.Empty,
+                defaultAvatarImage,
+                defaultBackgroundImage,
+                DateTime.UtcNow, 
+                appRoot);
             _documentSession.Store(userProject);
+
+            // Make user's favourites group
+            var favourites = new Favourites(
+                user,
+                DateTime.UtcNow,
+                appRoot);
+            _documentSession.Store(favourites);
 
             // Add app root membership
             user.AddMembership(
@@ -90,25 +107,11 @@ namespace Bowerbird.Core.CommandHandlers
                 userProject, 
                 _documentSession.Query<Role>().Where(x => x.Id == "roles/userprojectadministrator" || x.Id == "roles/userprojectmember"));
 
-            // Add calls to action
-
-
-            //// HACK: Registers user in small number of initial projects for now
-            //// 7, 8, 3, 4
-            //var projects = _documentSession.Load<Project>(new[] { "projects/4", "projects/7" });
-
-            //var role = _documentSession.Query<Role>().Where(x => x.Id == "roles/projectmember");
-
-            //foreach (var project in projects)
-            //{
-            //    if (project != null)
-            //    {
-            //        user.AddMembership(
-            //            user,
-            //            project,
-            //            role);
-            //    }
-            //}
+            // Add administrator membership to favourites
+            user.AddMembership(
+                user,
+                favourites,
+                _documentSession.Query<Role>().Where(x => x.Id == "roles/favouritesadministrator" || x.Id == "roles/favouritesmember"));
 
             _documentSession.Store(user);
             _documentSession.SaveChanges();

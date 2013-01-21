@@ -9,11 +9,14 @@
 // ObservationController & ObservationRouter
 // -----------------------------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'models/observation', 'models/sighting', 'models/sightingnote', 'views/observationdetailsview', 'views/observationformview', 'views/sightingnoteformview'],
-function ($, _, Backbone, app, Observation, Sighting, SightingNote, ObservationDetailsView, ObservationFormView, SightingNoteFormView) {
+define(['jquery', 'underscore', 'backbone', 'app', 'models/observation', 'models/sighting', 'models/identification', 'models/sightingnote', 'collections/sightingnotecollection', 'collections/identificationcollection',
+        'views/observationdetailsview', 'views/observationformview', 'views/sightingidentificationformview', 'views/sightingnoteformview'],
+function ($, _, Backbone, app, Observation, Sighting, Identification, SightingNote, SightingNoteCollection, IdentificationCollection, ObservationDetailsView, ObservationFormView, SightingIdentificationFormView, SightingNoteFormView) {
     var ObservationRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
+            'observations/:id/createidentification': 'showSightingIdentificationCreateForm',
             'observations/:id/createnote': 'showSightingNoteCreateForm',
+            'observations/:sightingId/updateidentification/:sightingNoteId': 'showSightingIdentificationUpdateForm',
             'observations/:sightingId/updatenote/:sightingNoteId': 'showSightingNoteUpdateForm',
             'observations/create*': 'showObservationCreateForm',
             'observations/:id/update': 'showObservationUpdateForm',
@@ -39,6 +42,22 @@ function ($, _, Backbone, app, Observation, Sighting, SightingNote, ObservationD
             });
     };
 
+    var showSightingIdentificationForm = function (uri) {
+        $.when(getModel(uri, 'identification'))
+        .done(function (model) {
+            var identification = new Identification(model.Identification);
+
+            var options = { model: identification, sighting: new Sighting(model.Sighting), categories: model.Categories, categorySelectList: model.CategorySelectList };
+
+            if (app.isPrerenderingView('identification')) {
+                options['el'] = '.sighting-identification-form';
+            }
+
+            var sightingIdentificationFormView = new SightingIdentificationFormView(options);
+            app.showContentView('Edit Identification', sightingIdentificationFormView, 'identification');
+        });
+    };
+
     var showSightingNoteForm = function (uri) {
         $.when(getModel(uri, 'sightingnotes'))
             .done(function (model) {
@@ -51,7 +70,7 @@ function ($, _, Backbone, app, Observation, Sighting, SightingNote, ObservationD
                 }
 
                 var sightingNoteFormView = new SightingNoteFormView(options);
-                app.showContentView('Edit Sighting Note', sightingNoteFormView, 'sightingnotes');
+                app.showContentView('Edit Note', sightingNoteFormView, 'sightingnotes');
             });
     };
 
@@ -73,7 +92,7 @@ function ($, _, Backbone, app, Observation, Sighting, SightingNote, ObservationD
     // ----------
 
     ObservationController.showObservationDetails = function (id) {
-        // Beacause IE is using has fragments, we have to fix the id manually for IE
+        // Beacause IE is using hash fragments, we have to fix the id manually for IE
         var url = id;
         if (url.indexOf('observations') == -1) {
             url = '/observations/' + url;
@@ -83,7 +102,14 @@ function ($, _, Backbone, app, Observation, Sighting, SightingNote, ObservationD
             .done(function (model) {
                 var observation = new Sighting(model.Observation);
 
-                var options = { model: observation };
+                var identifications = new IdentificationCollection(model.Observation.Identifications);
+                var sightingNotes = new SightingNoteCollection(model.Observation.Notes);
+
+                var options = {
+                     model: observation,
+                     identifications: identifications,
+                     sightingNotes: sightingNotes
+                };
 
                 if (app.isPrerenderingView('observations')) {
                     options['el'] = '.observation';
@@ -117,6 +143,14 @@ function ($, _, Backbone, app, Observation, Sighting, SightingNote, ObservationD
 
     ObservationController.mediaResourceUploaded = function (e, mediaResource) {
         app.vent.trigger('mediaResourceUploaded:', mediaResource);
+    };
+
+    ObservationController.showSightingIdentificationCreateForm = function (id) {
+        showSightingIdentificationForm('/observations/' + id + '/createidentification');
+    };
+
+    ObservationController.showSightingIdentificationUpdateForm = function (sightingId, identificationId) {
+        showSightingIdentificationForm('/observations/' + sightingId + '/updateidentification/' + identificationId);
     };
 
     ObservationController.showSightingNoteCreateForm = function (id) {

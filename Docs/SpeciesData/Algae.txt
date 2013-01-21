@@ -1,0 +1,899 @@
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Choristocarpales	Choristocarpaceae	Discosporangium	mesarthrocarpum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Choristocarpales	Choristocarpaceae	Discosporangium	mesarthrocarpum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Cutleriales 	Cutleriaceae	Cutleria	adspersa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Cutleriales 	Cutleriaceae	Cutleria	kraftii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Cutleriales 	Cutleriaceae	Cutleria	mollis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Cutleriales 	Cutleriaceae	Cutleria	multifida
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Cutleriales 	Cutleriaceae	Microzonia	velutina
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Desmarestiales	Desmarestiaceae	Desmarestia	aculeata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Desmarestiales	Desmarestiaceae	Desmarestia	chordalis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Desmarestiales	Desmarestiaceae	Desmarestia	confervoides
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Desmarestiales	Desmarestiaceae	Desmarestia	ligulata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Desmarestiales	Desmarestiaceae	Desmarestia	menziesii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Desmarestiales	Desmarestiaceae	Desmarestia 	aculeata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Desmarestiales	Desmarestiaceae	Desmarestia 	chordalis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Desmarestiales	Desmarestiaceae	Desmarestia 	confervoides
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Desmarestiales	Desmarestiaceae	Desmarestia 	ligulata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Desmarestiales	Desmarestiaceae	Desmarestia 	menziesii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Desmarestiales	Desmarestiaceae	Himantothallus	grandifolius
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Desmarestiales	Desmarestiaceae	Himantothallus 	grandifolius
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Desmarestiales 	Arthrocladiaceae	Arthrocladia	villosa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Desmarestiales 	Arthrocladiaceae	Arthrocladia	villosa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Chlanidophora 	microphylla
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Dictyopteris 	acrostichoides
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Dictyopteris 	australis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Dictyopteris 	crassinervia
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Dictyopteris 	delicatula
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Dictyopteris 	gracilis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Dictyopteris 	muelleri
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Dictyopteris 	nigricans
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Dictyopteris 	plagiogramma
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Dictyopteris 	polypodioides
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Dictyopteris 	repens
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Dictyopteris 	serrata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Dictyopteris 	woodwardia
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Dictyota 	acutiloba
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Dictyota 	adnata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Dictyota 	alternifida
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Dictyota 	bartayresiana
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Dictyota 	bartayresiana var. plectens
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Dictyota 	bifurca
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Dictyota 	cervicornis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Dictyota 	ceylanica
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Dictyota 	ciliolata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Dictyota 	ciliolata var. lata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Dictyota 	crispata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Dictyota 	dichotoma
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Dictyota 	dichotoma var. intricata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Dictyota 	diemensis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Dictyota 	divaricata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Dictyota 	fenestrata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Dictyota 	furcellata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Dictyota 	lata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Dictyota 	ligulata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Dictyota 	mertensii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Dictyota 	naevosa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Dictyota 	radicans
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Dictyota 	spiralis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Dilophus 	crinitus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Dilophus 	decumbens
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Dilophus 	fastigiatus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Dilophus 	gunnianus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Dilophus 	intermedius
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Dilophus 	marginatus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Dilophus 	moniliformis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Dilophus 	robustus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Distromium 	decumbens
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Distromium 	didymothrix
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Distromium 	flabellatum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Distromium 	multifidum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Distromium 	skottsbergii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Glossophora 	kunthii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Glossophora 	nigricans
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Homoeostrichus 	canaliculatus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Homoeostrichus 	flabellatus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Homoeostrichus 	olsenii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Homoeostrichus 	sinclairii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Lobophora 	variegata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Lobospira 	bicuspidata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Pachydictyon 	aegerrime
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Pachydictyon 	paniculatum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Pachydictyon 	polycladum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Padina 	antillarum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Padina 	australis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Padina 	boergesenii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Padina 	boryana
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Padina 	crassa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Padina 	elegans
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Padina 	fraseri
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Padina 	gymnospora
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Padina 	pavonica
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Padina 	sanctae-crucis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Phycopteris 	interrupta
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Spatoglossum 	asperum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Spatoglossum 	australasicum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Spatoglossum 	macrodontum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Spatoglossum 	solierii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Stoechospermum 	polypodioides
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Stypopodium 	australasicum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Stypopodium 	flabelliforme
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Stypopodium 	flabelliforme var. rabdoides
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Stypopodium 	fuliginosum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Taonia 	atomaria
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Taonia 	australasica
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Zonaria	angustata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Zonaria	crenata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Zonaria	diesingiana
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Zonaria	spiralis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Zonaria	tournefortii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Dictyotaceae	Zonaria	turneriana
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales	Scoresbyellaceae	Scoresbyella	profunda
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Chlanidophora	microphylla
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Dictyopteris	acrostichoides
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Dictyopteris	australis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Dictyopteris	crassinervia
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Dictyopteris	delicatula
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Dictyopteris	gracilis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Dictyopteris	muelleri
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Dictyopteris	nigricans
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Dictyopteris	plagiogramma
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Dictyopteris	polypodioides
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Dictyopteris	repens
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Dictyopteris	serrata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Dictyopteris	woodwardia
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Dictyota	acutiloba
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Dictyota	adnata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Dictyota	alternifida
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Dictyota	bartayresiana
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Dictyota	bartayresiana var. plectens
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Dictyota	bifurca
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Dictyota	cervicornis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Dictyota	ceylanica
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Dictyota	ciliolata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Dictyota	ciliolata var. lata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Dictyota	crispata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Dictyota	dichotoma
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Dictyota	dichotoma var. intricata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Dictyota	diemensis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Dictyota	divaricata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Dictyota	fenestrata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Dictyota	furcellata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Dictyota	lata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Dictyota	ligulata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Dictyota	mertensii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Dictyota	naevosa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Dictyota	radicans
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Dictyota	spiralis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Dilophus	crinitus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Dilophus	decumbens
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Dilophus	fastigiatus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Dilophus	gunnianus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Dilophus	intermedius
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Dilophus	marginatus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Dilophus	moniliformis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Dilophus	robustus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Distromium	decumbens
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Distromium	didymothrix
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Distromium	flabellatum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Distromium	multifidum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Distromium	skottsbergii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Glossophora	kunthii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Glossophora	nigricans
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Homoeostrichus	canaliculatus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Homoeostrichus	flabellatus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Homoeostrichus	olsenii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Homoeostrichus	sinclairii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Lobophora	variegata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Lobospira	bicuspidata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Pachydictyon	aegerrime
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Pachydictyon	paniculatum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Pachydictyon	polycladum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Padina	antillarum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Padina	australis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Padina	boergesenii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Padina	boryana
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Padina	crassa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Padina	elegans
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Padina	fraseri
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Padina	gymnospora
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Padina	pavonica
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Padina	sanctae-crucis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Phycopteris	interrupta
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Spatoglossum	asperum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Spatoglossum	australasicum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Spatoglossum	macrodontum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Spatoglossum	solierii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Stoechospermum	polypodioides
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Taonia	atomaria
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Taonia	australasica
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Zonaria	angustata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Zonaria	crenata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Zonaria	diesingiana
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Zonaria	spiralis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Zonaria	tournefortii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Dictyotaceae	Zonaria	turneriana
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Dictyotales 	Scoresbyellaceae	Scoresbyella	profunda
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Adenocystaceae	Adenocystis	utricularis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Chnoosporaceae	Chnoospora	implexa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Chnoosporaceae	Chnoospora	minima
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Chnoosporaceae	Chnoospora 	implexa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Chnoosporaceae	Chnoospora 	minima
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Chnoosporaceae	Rosenvingea	intricata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Chnoosporaceae	Rosenvingea	nhatragensis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Chnoosporaceae	Rosenvingea	orientalis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Chnoosporaceae	Rosenvingea 	intricata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Chnoosporaceae	Rosenvingea 	nhatragensis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Chnoosporaceae	Rosenvingea 	orientalis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Chordariaceae	Castagnea	polycarpa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Chordariaceae	Chordaria	cladosiphon
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Chordariaceae	Chordaria	flagelliformis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Chordariaceae	Cladosiphon	filum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Chordariaceae	Cladosiphon	mediterraneus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Chordariaceae	Cladosiphon	vermicularis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Chordariaceae	Eudesme	virescens
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Chordariaceae	Haplogloia	andersonii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Chordariaceae	Haplogloia	moniliformis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Chordariaceae	Liebmannia	leveillei
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Chordariaceae	Mesogloia	vermicularis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Chordariaceae	Mesogloiopsis	tasmanica
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Chordariaceae	Myriocladia	lovenii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Chordariaceae	Myriogloea	sciurus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Chordariaceae	Papenfussiella	extensa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Chordariaceae	Papenfussiella	gracilis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Chordariaceae	Papenfussiella	lutea
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Chordariaceae	Papenfussiella	tristanensis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Chordariaceae	Polycerea	nigrescens
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Chordariaceae	Polycerea	zostericola
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Chordariaceae	Suringariella	harveyana
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Chordariaceae	Tinocladia	australis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Chordariaceae	Tinocladia	crassa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Chordariaceae	Tinocladia	irregularis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Chordariopsidaceae	Chordariopsis	capensis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Corynophlaeaceae	Corynophlaea	cristata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Corynophlaeaceae	Corynophlaea	cystophorae
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Corynophlaeaceae	Corynophlaea	umbellata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Corynophlaeaceae	Cylindrocarpus	microscopicus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Corynophlaeaceae	Leathesia	difformis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Corynophlaeaceae	Leathesia	intermedia
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Corynophlaeaceae	Myriactis	pulvinata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Corynophlaeaceae	Myriactula	arabica
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Corynophlaeaceae	Myriactula	caespitosa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Corynophlaeaceae	Myriactula	filiformis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Corynophlaeaceae	Myriactula	haydenii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Corynophlaeaceae	Petrospongium	rugosum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Delamareaceae	Cladothele	decaisnii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Delamareaceae	Cladothele	striarioides
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Delamareaceae	Membranoptera	crispatula
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Dictyosiphonaceae	Dictyosiphon	foeniculaceus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Giraudiaceae	Flabellonema	codii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Giraudiaceae	Giraudia	robusta
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Giraudiaceae	Giraudia	sphacelarioides
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Leathsiaceae	Acrotrichium	amphibolis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Leathsiaceae	Strepsithalia	aemula
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Leathsiaceae	Strepsithalia	leathesiae
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Leathsiaceae	Strepsithalia	liagorae
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Myrionemataceae	Hecatonemaá	maculans
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Myrionemataceae	Myrionema	corunnae
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Myrionemataceae	Myrionema	incommodum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Myrionemataceae	Myrionema	latipilosum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Myrionemataceae	Myrionema	myriodesmae
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Myrionemataceae	Myrionema	ramulans
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Myrionemataceae	Myrionema	strangulans
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Myrionemataceae	Phycocelis	foecunda
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Myriotrichaceae	Myriotrichia	clavaeformis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Pilayellaceae	Bachelotia	antillarum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Pilayellaceae	Bachelotia 	antillarum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Pilayellaceae	Pilayella	littoralis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Pilayellaceae	Pilayella 	littoralis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Punctariaceae	Asperococcus	bullosus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Punctariaceae	Asperococcus	compressus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Punctariaceae	Asperococcus	fistulosus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Punctariaceae	Punctaria	latifolia
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Punctariaceae	Punctaria	plantaginea
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Punctariaceae	Stictyosiphon	adriaticus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Punctariaceae	Stictyosiphon	soriferus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Scytosiphonaceae	Colpomenia	ecuticulata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Scytosiphonaceae	Colpomenia	ecuticulata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Scytosiphonaceae	Colpomenia	peregrina
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Scytosiphonaceae	Colpomenia	peregrina
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Scytosiphonaceae	Colpomenia	sinuosa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Scytosiphonaceae	Colpomenia	sinuosa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Scytosiphonaceae	Endarachne	binghamiae
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Scytosiphonaceae	Endarachne 	binghamiae
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Scytosiphonaceae	Hydroclathrus	clathratus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Scytosiphonaceae	Hydroclathrus 	clathratus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Scytosiphonaceae	Petalonia	fascia
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Scytosiphonaceae	Petalonia	fascia var. debilis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Scytosiphonaceae	Petalonia 	fascia
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Scytosiphonaceae	Petalonia 	fascia var. debilis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Scytosiphonaceae	Scytosiphon	simplicissimus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Scytosiphonaceae	Scytosiphon 	simplicissimus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Spermatochnaceae	Meneghiniella	brandegeei
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Spermatochnaceae	Nemacystus	decipiens
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Spermatochnaceae	Nemacystus	novae-zelandiae
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Spermatochnaceae	Spermatochnus	paradoxus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Spermatochnaceae	Stilophora	rhizodes
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Spermatochnaceae	Stilopsis	harveyana
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales	Spermatochnaceae	Stilopsis	lejolisii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Adenocystaceae	Adenocystis 	utricularis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Chordariaceae	Castagnea	polycarpa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Chordariaceae	Chordaria 	cladosiphon
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Chordariaceae	Chordaria 	flagelliformis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Chordariaceae	Cladosiphon 	filum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Chordariaceae	Cladosiphon 	mediterraneus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Chordariaceae	Cladosiphon 	vermicularis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Chordariaceae	Eudesme	virescens
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Chordariaceae	Haplogloia	andersonii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Chordariaceae	Haplogloia	moniliformis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Chordariaceae	Liebmannia	leveillei
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Chordariaceae	Mesogloia	vermicularis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Chordariaceae	Mesogloiopsis 	tasmanica
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Chordariaceae	Myriocladia 	lovenii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Chordariaceae	Myriogloea 	sciurus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Chordariaceae	Papenfussiella 	extensa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Chordariaceae	Papenfussiella 	gracilis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Chordariaceae	Papenfussiella 	lutea
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Chordariaceae	Papenfussiella 	tristanensis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Chordariaceae	Polycerea 	nigrescens
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Chordariaceae	Polycerea 	zostericola
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Chordariaceae	Suringariella	harveyana
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Chordariaceae	Tinocladia 	australis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Chordariaceae	Tinocladia 	crassa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Chordariaceae	Tinocladia 	irregularis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Chordariopsidaceae	Chordariopsis 	capensis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Corynophlaeaceae 	Corynophlaea 	cristata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Corynophlaeaceae 	Corynophlaea 	cystophorae
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Corynophlaeaceae 	Corynophlaea 	umbellata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Corynophlaeaceae 	Cylindrocarpus	microscopicus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Corynophlaeaceae 	Leathesia 	difformis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Corynophlaeaceae 	Leathesia 	intermedia
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Corynophlaeaceae 	Myriactis	pulvinata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Corynophlaeaceae 	Myriactula 	arabica
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Corynophlaeaceae 	Myriactula 	caespitosa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Corynophlaeaceae 	Myriactula 	filiformis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Corynophlaeaceae 	Myriactula 	haydenii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Corynophlaeaceae 	Petrospongium	rugosum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Delamareaceae	Cladothele 	decaisnii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Delamareaceae	Cladothele 	striarioides
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Delamareaceae	Membranoptera 	crispatula
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Dictyosiphonaceae	Dictyosiphon 	foeniculaceus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Acinetospora	crinita
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Acinetospora 	crinita
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Asteronema	australe
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Asteronema	ferruginea
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Asteronema	rhodochortonoides
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Asteronema 	australe
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Asteronema 	ferruginea
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Asteronema 	rhodochortonoides
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Ectocarpus	constanciae
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Ectocarpus	elachistaeformis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Ectocarpus	fasciculatus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Ectocarpus	fasciculatus var. macrosporus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Ectocarpus	siliculosus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Ectocarpus	siliculosus f. arctus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Ectocarpus	tamarinii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Ectocarpus 	constanciae
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Ectocarpus 	elachistaeformis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Ectocarpus 	fasciculatus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Ectocarpus 	fasciculatus var. macrosporus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Ectocarpus 	siliculosus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Ectocarpus 	siliculosus f. arctus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Ectocarpus 	tamarinii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Feldmannia	globifera
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Feldmannia	indica
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Feldmannia	irregularis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Feldmannia	lebelii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Feldmannia	paradoxa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Feldmannia	simplex
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Feldmannia 	globifera
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Feldmannia 	indica
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Feldmannia 	irregularis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Feldmannia 	lebelii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Feldmannia 	paradoxa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Feldmannia 	simplex
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Geminocarpus	geminatus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Geminocarpus 	geminatus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Gononema	pectinatum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Gononema	ramosum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Gononema 	pectinatum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Gononema 	ramosum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Hincksia	breviarticulata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Hincksia	granulosa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Hincksia	mitchelliae
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Hincksia	ovata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Hincksia	sandriana
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Hincksia	sordida
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Hincksia 	breviarticulata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Hincksia 	granulosa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Hincksia 	mitchelliae
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Hincksia 	ovata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Hincksia 	sandriana
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Hincksia 	sordida
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Kuckuckia	spinosa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Kuckuckia 	spinosa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Kuetzingiella	battersii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Kuetzingiella	battersii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Sorocarpus	micromorus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Sorocarpus 	micromorus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Streblonema	codiatile
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Streblonema	codiatile
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Streblonema	fasciculatum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Streblonema	fasciculatum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Streblonema	sphaericum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Streblonema	sphaericum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Waerniella	lucifuga
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Waerniella	lucifuga var. australis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Waerniella 	lucifuga
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Waerniella 	lucifuga var. australis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Zosterocarpus	australica
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Zosterocarpus	oedogonium
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Zosterocarpus 	australica
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Ectocarpaceae	Zosterocarpus 	oedogonium
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Elachistaceae	Elachista	antarctica
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Elachistaceae	Elachista	antarctica
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Elachistaceae	Elachista	australis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Elachistaceae	Elachista	australis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Elachistaceae	Elachista	claytoniae
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Elachistaceae	Elachista	claytoniae
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Elachistaceae	Elachista	orbicularis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Elachistaceae	Elachista	orbicularis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Elachistaceae	Halothrix	ephemeralis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Elachistaceae	Halothrix	ephemeralis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Elachistaceae	Halothrix	lumbricalis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Elachistaceae	Halothrix	lumbricalis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Elachistaceae	Leptonematella	falklandica
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Elachistaceae	Leptonematella	fasciculata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Elachistaceae	Leptonematella 	falklandica
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Elachistaceae	Leptonematella 	fasciculata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Giraudiaceae	Flabellonema	codii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Giraudiaceae	Giraudia 	robusta
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Giraudiaceae	Giraudia 	sphacelarioides
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Leathsiaceae	Acrotrichium	amphibolis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Leathsiaceae	Strepsithalia 	aemula
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Leathsiaceae	Strepsithalia 	leathesiae
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Leathsiaceae	Strepsithalia 	liagorae
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Myrionemataceae	Hecatonema	maculans
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Myrionemataceae	Myrionema 	corunnae
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Myrionemataceae	Myrionema 	incommodum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Myrionemataceae	Myrionema 	latipilosum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Myrionemataceae	Myrionema 	myriodesmae
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Myrionemataceae	Myrionema 	ramulans
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Myrionemataceae	Myrionema 	strangulans
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Myrionemataceae	Phycocelis	foecunda
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Myriotrichaceae	Myriotrichia	clavaeformis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Punctariaceae	Asperococcus 	bullosus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Punctariaceae	Asperococcus 	compressus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Punctariaceae	Asperococcus 	fistulosus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Punctariaceae	Punctaria 	latifolia
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Punctariaceae	Punctaria 	plantaginea
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Punctariaceae	Stictyosiphon 	adriaticus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Punctariaceae	Stictyosiphon 	soriferus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Spermatochnaceae	Meneghiniella 	brandegeei
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Spermatochnaceae	Nemacystus 	decipiens
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Spermatochnaceae	Nemacystus 	novae-zelandiae
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Spermatochnaceae	Spermatochnus 	paradoxus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Spermatochnaceae	Stilophora 	rhizodes
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Spermatochnaceae	Stilopsis 	harveyana
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Spermatochnaceae	Stilopsis 	lejolisii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Striariaceae	Striaria	attenuata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ectocarpales 	Striariaceae	Striaria 	attenuata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Cystoseiraceae	Acrocarpia	paniculata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Cystoseiraceae	Acrocarpia	robusta
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Cystoseiraceae	Carpoglossum	confluens
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Cystoseiraceae	Caulocystis	cephalornithos
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Cystoseiraceae	Caulocystis	uvifera
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Cystoseiraceae	Cystophora	botryocystis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Cystoseiraceae	Cystophora	brownii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Cystoseiraceae	Cystophora	congesta
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Cystoseiraceae	Cystophora	cuspidata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Cystoseiraceae	Cystophora	cymodoceae
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Cystoseiraceae	Cystophora	distenta
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Cystoseiraceae	Cystophora	expansa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Cystoseiraceae	Cystophora	gracilis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Cystoseiraceae	Cystophora	grevillei
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Cystoseiraceae	Cystophora	harveyi
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Cystoseiraceae	Cystophora	intermedia
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Cystoseiraceae	Cystophora	monilifera
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Cystoseiraceae	Cystophora	moniliformis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Cystoseiraceae	Cystophora	pectinata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Cystoseiraceae	Cystophora	platylobium
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Cystoseiraceae	Cystophora	polycystidea
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Cystoseiraceae	Cystophora	racemosa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Cystoseiraceae	Cystophora	retorta
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Cystoseiraceae	Cystophora	retroflexa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Cystoseiraceae	Cystophora	scalaris
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Cystoseiraceae	Cystophora	siliquosa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Cystoseiraceae	Cystophora	subfarcinata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Cystoseiraceae	Cystophora	tenuis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Cystoseiraceae	Cystophora	torulosa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Cystoseiraceae	Cystophora	xiphocarpa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Cystoseiraceae	Cystoseira	concatenata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Cystoseiraceae	Cystoseira	trinodis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Cystoseiraceae	Hormophysa	cuneiformis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Cystoseiraceae	Myriodesma	calophyllum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Cystoseiraceae	Myriodesma	harveyanum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Cystoseiraceae	Myriodesma	integrifolium
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Cystoseiraceae	Myriodesma	leptophyllum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Cystoseiraceae	Myriodesma	peronii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Cystoseiraceae	Myriodesma	quercifolium
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Cystoseiraceae	Myriodesma	serrulatum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Cystoseiraceae	Myriodesma	tuberosum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Cystoseiraceae	Platythalia	angustifolia
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Cystoseiraceae	Platythalia	quercifolia
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Cystoseiraceae	Scaberia	agardhii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Durvillaeaceae	Durvillaea	antarctica
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Durvillaeaceae	Durvillaea	potatorum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Fucaceae	Fucus	vesiculosus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Himanthaliaceae	Himanthalia	lorea
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Hormosiraceae	Hormosira	banksii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Notheiaceae	Notheia	anomala
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Notheiaceae	Notheia	anomala
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Carpophyllum	flexuosum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Carpophyllum	maschalocarpum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	amaliae
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	angustifolium
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	aquifolium
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	baccularia
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	biserrula
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	biserrula var. goodiense
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	brachyphyllum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	carpophyllum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	cervicorne
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	cinctum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	cinctum  var. gracilenta
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	claviferum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	compactum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	crassifolium
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	cristaefolium
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	cystocarpum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	dasyphyllum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	decipiens
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	decurrens
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	desvauxii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	distichum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	erosum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	fallax
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	fallax var. cygnorum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	filifolium
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	filifolium var. aciculare
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	fissifolium
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	fissifolium var. furcaefolia
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	flavicans
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	fragile
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	globulariaefolium
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	godeffroyi
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	gracile
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	gracile var. pseudogranulifera
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	granuliferum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	heteromorphum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	howeanum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	ilicifolium
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	ilicifolium var. montebellensis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	ilicifolium var. oocystoides
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	kendrickii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	lacerifolium
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	lanceolatum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	latifolium
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	leptopodum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	ligulatum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	linearifolium
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	linearifolium var. serrulatum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	lophocarpum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	macrophyllum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	mangarevense
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	microcystum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	myriocystum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	neurophorum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	notarisii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	novae-hollandiae
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	novae-hollandiae var. subdistichum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	odontocarpum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	oligocystum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	paradoxum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	parvifolium
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	parvifolium f. runcinata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	peronii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	piluliferum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	plagiophyllum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	podacanthum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	polyacanthum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	polycystum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	siliquosum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	sonderi
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	spinifex
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	spinuligerum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	swartzii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	tenerrimum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	torvum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	tristichum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	varians
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	verruculosum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	vestitum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	vigorosum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	vulgare
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Sargassum	wightii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Turbinaria	conoides
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Turbinaria	decurrens
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Turbinaria	gracilis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Turbinaria	murrayana
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Turbinaria	ornata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Sargassaceae	Turbinaria	turbinata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Seirococcaceae	Phyllospora	comosa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Seirococcaceae	Scytothalia	dorycarpa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales	Seirococcaceae	Seirococcus	axillaris
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Cystoseiraceae	Acrocarpia 	paniculata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Cystoseiraceae	Acrocarpia 	robusta
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Cystoseiraceae	Carpoglossum 	confluens
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Cystoseiraceae	Caulocystis	cephalornithos
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Cystoseiraceae	Caulocystis	uvifera
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Cystoseiraceae	Cystophora 	botryocystis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Cystoseiraceae	Cystophora 	brownii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Cystoseiraceae	Cystophora 	congesta
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Cystoseiraceae	Cystophora 	cuspidata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Cystoseiraceae	Cystophora 	cymodoceae
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Cystoseiraceae	Cystophora 	distenta
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Cystoseiraceae	Cystophora 	expansa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Cystoseiraceae	Cystophora 	gracilis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Cystoseiraceae	Cystophora 	grevillei
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Cystoseiraceae	Cystophora 	harveyi
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Cystoseiraceae	Cystophora 	intermedia
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Cystoseiraceae	Cystophora 	monilifera
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Cystoseiraceae	Cystophora 	moniliformis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Cystoseiraceae	Cystophora 	pectinata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Cystoseiraceae	Cystophora 	platylobium
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Cystoseiraceae	Cystophora 	polycystidea
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Cystoseiraceae	Cystophora 	racemosa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Cystoseiraceae	Cystophora 	retorta
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Cystoseiraceae	Cystophora 	retroflexa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Cystoseiraceae	Cystophora 	scalaris
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Cystoseiraceae	Cystophora 	siliquosa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Cystoseiraceae	Cystophora 	subfarcinata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Cystoseiraceae	Cystophora 	tenuis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Cystoseiraceae	Cystophora 	torulosa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Cystoseiraceae	Cystophora 	xiphocarpa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Cystoseiraceae	Cystoseira 	concatenata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Cystoseiraceae	Cystoseira 	trinodis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Cystoseiraceae	Hormophysa 	cuneiformis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Cystoseiraceae	Myriodesma 	calophyllum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Cystoseiraceae	Myriodesma 	harveyanum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Cystoseiraceae	Myriodesma 	integrifolium
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Cystoseiraceae	Myriodesma 	leptophyllum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Cystoseiraceae	Myriodesma 	peronii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Cystoseiraceae	Myriodesma 	quercifolium
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Cystoseiraceae	Myriodesma 	serrulatum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Cystoseiraceae	Myriodesma 	tuberosum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Cystoseiraceae	Platythalia	angustifolia
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Cystoseiraceae	Platythalia	quercifolia
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Cystoseiraceae	Scaberia 	agardhii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Durvillaeaceae	Durvillaea 	antarctica
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Durvillaeaceae	Durvillaea 	potatorum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Fucaceae	Fucus	vesiculosus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Fucaceae	Xiphophora 	chondrophylla
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Fucaceae	Xiphophora 	gladiata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Himanthaliaceae	Himanthalia 	lorea
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Hormosiraceae	Hormosira 	banksii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Carpophyllum 	flexuosum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Carpophyllum 	maschalocarpum
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	amaliae
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	angustifolium
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	aquifolium
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	baccularia
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	biserrula
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	biserrula var. goodiense
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	brachyphyllum
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	carpophyllum
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	cervicorne
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	cinctum
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	cinctumvar. gracilenta
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	claviferum
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	compactum
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	crassifolium
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	cristaefolium
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	cystocarpum
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	dasyphyllum
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	decipiens
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	decurrens
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	desvauxii
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	distichum
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	erosum
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	fallax
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	fallax var. cygnorum
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	filifolium
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	filifolium var. aciculare
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	fissifolium
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	fissifolium var. furcaefolia
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	flavicans
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	fragile
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	globulariaefolium
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	godeffroyi
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	gracile
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	gracile var. pseudogranulifera
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	granuliferum
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	heteromorphum
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	howeanum
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	ilicifolium
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	ilicifolium var. montebellensis
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	ilicifolium var. oocystoides
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	kendrickii
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	lacerifolium
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	lanceolatum
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	latifolium
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	leptopodum
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	ligulatum
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	linearifolium
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	linearifolium var. serrulatum
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	lophocarpum
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	macrophyllum
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	mangarevense
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	microcystum
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	myriocystum
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	neurophorum
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	notarisii
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	novae-hollandiae
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	novae-hollandiae var. subdistichum
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	odontocarpum
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	oligocystum
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	paradoxum
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	parvifolium
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	parvifolium f. runcinata
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	peronii
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	piluliferum
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	plagiophyllum
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	podacanthum
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	polyacanthum
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	polycystum
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	siliquosum
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	sonderi
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	spinifex
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	spinuligerum
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	swartzii
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	tenerrimum
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	torvum
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	tristichum
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	varians
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	verruculosum
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	vestitum
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	vigorosum
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	vulgare
+Algae	Seaweed	"Seaweed, Gulfweed"	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Sargassum 	wightii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Turbinaria 	conoides
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Turbinaria 	decurrens
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Turbinaria 	gracilis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Turbinaria 	murrayana
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Turbinaria 	ornata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Sargassaceae	Turbinaria 	turbinata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Seirococcaceae	Phyllospora 	comosa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Seirococcaceae	Scytothalia 	dorycarpa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Fucales 	Seirococcaceae	Seirococcus	axillaris
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Laminariales	Alariaceae	Ecklonia	radiata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Laminariales	Alariaceae	Undaria	pinnatifida
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Laminariales	Lessoniaceae	Lessonia 	corrugata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Laminariales	Lessoniaceae	Macrocystis	angustifolia
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Laminariales	Lessoniaceae	Macrocystis	pyrifera
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Laminariales 	Alariaceae	Ecklonia	radiata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Laminariales 	Alariaceae	Undaria	pinnatifida
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Laminariales 	Laminariaceae	Ecklonia	brevipes
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Laminariales 	Laminariaceae	Ecklonia 	brevipes
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Laminariales 	Laminariaceae	Laminaria	digitata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Laminariales 	Laminariaceae	Laminaria 	digitata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Laminariales 	Lessoniaceae	Lessonia	corrugata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Laminariales 	Lessoniaceae	Macrocystis	angustifolia
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Laminariales 	Lessoniaceae	Macrocystis	pyrifera
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ralfsiales	Lithodermataceae 	Lithoderma	antarcticum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ralfsiales	Lithodermataceae 	Lithoderma	fatiscens
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ralfsiales	Lithodermataceae 	Lithoderma	piliferum var. debile
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ralfsiales	Lithodermataceae 	Petroderma	maculiforme
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ralfsiales	Ralfsiaceae	Hapalospongidion	capitatum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ralfsiales	Ralfsiaceae	Hapalospongidion	gelatinosm
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ralfsiales	Ralfsiaceae	Hapalospongidion	schmidtii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ralfsiales	Ralfsiaceae	Pseudolithoderma	australis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ralfsiales	Ralfsiaceae	Ralfsia	australis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ralfsiales	Ralfsiaceae	Ralfsia	expansa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ralfsiales	Ralfsiaceae	Ralfsia	verrucosa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ralfsiales 	Lithodermataceae	Lithoderma	antarcticum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ralfsiales 	Lithodermataceae	Lithoderma	fatiscens
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ralfsiales 	Lithodermataceae	Lithoderma	piliferum var. debile
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ralfsiales 	Lithodermataceae	Petroderma	maculiforme
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ralfsiales 	Ralfsiaceae	Hapalospongidion 	capitatum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ralfsiales 	Ralfsiaceae	Hapalospongidion 	gelatinosm
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ralfsiales 	Ralfsiaceae	Hapalospongidion 	schmidtii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ralfsiales 	Ralfsiaceae	Pseudolithoderma 	australis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ralfsiales 	Ralfsiaceae	Ralfsia 	australis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ralfsiales 	Ralfsiaceae	Ralfsia 	expansa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Ralfsiales 	Ralfsiaceae	Ralfsia 	verrucosa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Scytothamnales	Splachnidiaceae	Splachnidium	rugosum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Scytothamnales 	Scytothamnaceae	Scytothamnus	australis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Scytothamnales 	Scytothamnaceae	Scytothamnus	australis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Scytothamnales 	Scytothamnaceae	Scytothamnus	fasciculatus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Scytothamnales 	Scytothamnaceae	Scytothamnus	fasciculatus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Scytothamnales 	Splachnidiaceae	Splachnidium 	rugosum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales	Sphacelariaceae	Sphacelaria 	biradiata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales	Sphacelariaceae	Sphacelaria 	borneti
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales	Sphacelariaceae	Sphacelaria 	brachygonia
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales	Sphacelariaceae	Sphacelaria 	bracteata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales	Sphacelariaceae	Sphacelaria 	californica
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales	Sphacelariaceae	Sphacelaria 	carpoglossi
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales	Sphacelariaceae	Sphacelaria 	chorizocarpa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales	Sphacelariaceae	Sphacelaria 	cirrosa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales	Sphacelariaceae	Sphacelaria 	divaricata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales	Sphacelariaceae	Sphacelaria 	fusca
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales	Sphacelariaceae	Sphacelaria 	implicata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales	Sphacelariaceae	Sphacelaria 	multiplex
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales	Sphacelariaceae	Sphacelaria 	novae-caledoniae
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales	Sphacelariaceae	Sphacelaria 	novae-hollandiae
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales	Sphacelariaceae	Sphacelaria 	reinkei
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales	Sphacelariaceae	Sphacelaria 	reticulata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales	Sphacelariaceae	Sphacelaria 	rigidula
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales	Sphacelariaceae	Sphacelaria 	spuria
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales	Sphacelariaceae	Sphacelaria 	tribuloides
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales	Sphacelariaceae	Sphacella 	subtilissima
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales	Stypocaulaceae	Alethocladus 	corymbosus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales	Stypocaulaceae	Halopteris 	filicina
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales	Stypocaulaceae	Halopteris 	funicularis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales	Stypocaulaceae	Halopteris 	novae-zelandiae
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales	Stypocaulaceae	Halopteris 	paniculata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales	Stypocaulaceae	Halopteris 	platycena
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales	Stypocaulaceae	Halopteris 	pseudospicata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales	Stypocaulaceae	Halopteris 	ramulosa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales	Stypocaulaceae	Phloiocaulon 	foecundum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales	Stypocaulaceae	Phloiocaulon 	spectabile
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales	Stypocaulaceae	Phloiocaulon 	squamulosum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales	Stypocaulaceae	Ptilopogon 	botryocladus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales	Stypocaulaceae	Stypocaulon 	scoparium
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales 	Cladostephaceae	Cladostephus	spongiosus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales 	Cladostephaceae	Cladostephus 	spongiosus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales 	Sphacelariaceae	Sphacelaria	biradiata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales 	Sphacelariaceae	Sphacelaria	borneti
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales 	Sphacelariaceae	Sphacelaria	brachygonia
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales 	Sphacelariaceae	Sphacelaria	bracteata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales 	Sphacelariaceae	Sphacelaria	californica
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales 	Sphacelariaceae	Sphacelaria	carpoglossi
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales 	Sphacelariaceae	Sphacelaria	chorizocarpa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales 	Sphacelariaceae	Sphacelaria	cirrosa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales 	Sphacelariaceae	Sphacelaria	divaricata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales 	Sphacelariaceae	Sphacelaria	fusca
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales 	Sphacelariaceae	Sphacelaria	implicata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales 	Sphacelariaceae	Sphacelaria	multiplex
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales 	Sphacelariaceae	Sphacelaria	novae-caledoniae
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales 	Sphacelariaceae	Sphacelaria	novae-hollandiae
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales 	Sphacelariaceae	Sphacelaria	reinkei
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales 	Sphacelariaceae	Sphacelaria	reticulata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales 	Sphacelariaceae	Sphacelaria	rigidula
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales 	Sphacelariaceae	Sphacelaria	spuria
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales 	Sphacelariaceae	Sphacelaria	tribuloides
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales 	Sphacelariaceae	Sphacella	subtilissima
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales 	Stypocaulaceae	Alethocladus	corymbosus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales 	Stypocaulaceae	Halopteris	filicina
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales 	Stypocaulaceae	Halopteris	funicularis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales 	Stypocaulaceae	Halopteris	novae-zelandiae
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales 	Stypocaulaceae	Halopteris	paniculata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales 	Stypocaulaceae	Halopteris	platycena
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales 	Stypocaulaceae	Halopteris	pseudospicata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales 	Stypocaulaceae	Halopteris	ramulosa
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales 	Stypocaulaceae	Phloiocaulon	foecundum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales 	Stypocaulaceae	Phloiocaulon	spectabile
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales 	Stypocaulaceae	Phloiocaulon	squamulosum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales 	Stypocaulaceae	Ptilopogon	botryocladus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sphacelariales 	Stypocaulaceae	Stypocaulon	scoparium
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sporochnales	Sporochnaceae	Austronereia	australis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sporochnales	Sporochnaceae	Bellotia 	eriophorum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sporochnales	Sporochnaceae	Carpomitra 	costata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sporochnales	Sporochnaceae	Encyothalia 	cliftonii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sporochnales	Sporochnaceae	Nereia 	filiformis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sporochnales	Sporochnaceae	Nereia 	lophocladia
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sporochnales	Sporochnaceae	Perithalia	caudata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sporochnales	Sporochnaceae	Sporochnema 	tomentosum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sporochnales	Sporochnaceae	Sporochnus 	apodus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sporochnales	Sporochnaceae	Sporochnus 	comosus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sporochnales	Sporochnaceae	Sporochnus 	moorei
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sporochnales	Sporochnaceae	Sporochnus 	pedunculatus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sporochnales	Sporochnaceae	Sporochnus 	radiciformis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sporochnales	Sporochnaceae	Sporochnus 	scoparius
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sporochnales	Sporochnaceae	Sporochnus 	stylosus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sporochnales	Sporochnaceae	Tomaculopsis 	herbertiana
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sporochnales 	Sporochnaceae	Austronereia	australis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sporochnales 	Sporochnaceae	Bellotia	eriophorum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sporochnales 	Sporochnaceae	Carpomitra	costata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sporochnales 	Sporochnaceae	Encyothalia	cliftonii
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sporochnales 	Sporochnaceae	Nereia	filiformis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sporochnales 	Sporochnaceae	Nereia	lophocladia
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sporochnales 	Sporochnaceae	Perithalia	caudata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sporochnales 	Sporochnaceae	Sporochnema	tomentosum
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sporochnales 	Sporochnaceae	Sporochnus	apodus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sporochnales 	Sporochnaceae	Sporochnus	comosus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sporochnales 	Sporochnaceae	Sporochnus	moorei
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sporochnales 	Sporochnaceae	Sporochnus	pedunculatus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sporochnales 	Sporochnaceae	Sporochnus	radiciformis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sporochnales 	Sporochnaceae	Sporochnus	scoparius
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sporochnales 	Sporochnaceae	Sporochnus	stylosus
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Sporochnales 	Sporochnaceae	Tomaculopsis	herbertiana
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Vaucheriales 	Vaucheriaceae	Vaucheria	caloundrensis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Vaucheriales 	Vaucheriaceae	Vaucheria	conifera
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Vaucheriales 	Vaucheriaceae	Vaucheria	glomerata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Vaucheriales 	Vaucheriaceae	Vaucheria	longicaulis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Vaucheriales 	Vaucheriaceae	Vaucheria	velutina
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Vaucheriales 	Vaucheriaceae	Vaucheria 	caloundrensis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Vaucheriales 	Vaucheriaceae	Vaucheria 	conifera
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Vaucheriales 	Vaucheriaceae	Vaucheria 	glomerata
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Vaucheriales 	Vaucheriaceae	Vaucheria 	longicaulis
+Algae	Algae	algae	Chromalveolata: Heterokontophyta: Phaeophyceae	Vaucheriales 	Vaucheriaceae	Vaucheria 	velutina

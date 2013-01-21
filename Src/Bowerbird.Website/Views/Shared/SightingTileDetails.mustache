@@ -1,6 +1,53 @@
-﻿{{>SightingSummaryDetails}}
+﻿  <div class="user">
+    {{#User.Avatar}}
+    {{>MediaSquare100}}
+    {{/User.Avatar}}
+    <span>{{User.Name}}</span>
+  </div>
 
-<div class="actions">
+<h3>
+  <a href="/{{Id}}">
+    {{Title}} <span></span>
+  </a>
+</h3>
+<div class="images">
+  <div class="preview">
+    {{#PrimaryMedia.MediaResource}}
+    {{>MediaConstrained480}}
+    {{/PrimaryMedia.MediaResource}}
+  </div>
+</div>
+<div class="info">
+  <div class="sighting-actions">
+    <div class="votes-badge small">
+      <span class="small-icon vote-icon"></span>
+      <span class="count">{{TotalVoteScore}}</span>
+      <span class="label">votes</span>
+    </div>
+    <div class="favourites-badge small">
+      <span class="small-icon favourite-icon"></span>
+      <span class="count">{{FavouritesCount}}</span>
+      <span class="label">faves</span>
+    </div>
+    <div class="identifications-badge small">
+      <span class="small-icon identification-icon"></span>
+      <span class="count">{{IdentificationCount}}</span>
+      <span class="label">ids</span>
+    </div>
+    <div class="notes-badge small">
+      <span class="small-icon note-icon"></span>
+      <span class="count">{{NoteCount}}</span>
+      <span class="label">notes</span>
+    </div>
+    <div class="comments-badge small">
+      <span class="small-icon comment-icon"></span>
+      <span class="count">{{CommentCount}}</span>
+      <span class="label">disc.</span>
+    </div>
+  </div>
+</div>
+
+<!--<div class="actions">
   <a href="/{{Id}}/favourite" class="button add-favourite-button" title="&lt;b>Add to favourites&lt;/b> &lt;br />Add this sighting to your list of favourites">
     Add to Favourites <span></span>
   </a>
@@ -14,4 +61,4 @@
   </a>
 
   <a href="/{{Id}}" class="button view-button">View</a>
-</div>
+</div>-->

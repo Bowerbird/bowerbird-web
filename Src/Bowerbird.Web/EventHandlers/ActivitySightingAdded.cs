@@ -84,20 +84,21 @@ namespace Bowerbird.Web.EventHandlers
                 "sightingadded",
                 sighting.CreatedOn,
                 string.Format("{0} added a sighting", domainEvent.User.GetName()),
-                sighting.Groups.Select(x => x.Group));
+                sighting.Groups.Select(x => x.Group),
+                sighting.Id);
 
             if (sighting is Observation)
             {
                 activity.ObservationAdded = new
                 {
-                    Observation = _sightingViewFactory.Make(sighting, domainEvent.User, projects)
+                    Observation = _sightingViewFactory.Make(sighting, domainEvent.User, projects, domainEvent.User)
                 };
             }
             else
             {
                 activity.RecordAdded = new
                 {
-                    Record = _sightingViewFactory.Make(sighting, domainEvent.User, projects)
+                    Record = _sightingViewFactory.Make(sighting, domainEvent.User, projects, domainEvent.User)
                 };
             }
 

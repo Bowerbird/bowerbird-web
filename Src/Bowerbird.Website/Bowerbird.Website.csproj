@@ -177,15 +177,14 @@
     <Content Include="img\project-Square400.jpg" />
     <Content Include="img\sa.svg" />
     <Content Include="img\spider.jpg" />
-    <Content Include="img\team-Square100.jpg" />
-    <Content Include="img\team-Square200.jpg" />
-    <Content Include="img\team-Square400.jpg" />
     <Content Include="img\user-Square100.jpg" />
     <Content Include="img\user-Square200.jpg" />
     <Content Include="img\user-Square400.jpg" />
     <Content Include="js\bowerbird\collections\chatMessageCollection.js" />
     <Content Include="js\bowerbird\collections\chatCollection.js" />
     <Content Include="js\bowerbird\collections\commentCollection.js" />
+    <Content Include="js\bowerbird\collections\identificationCollection.js" />
+    <Content Include="js\bowerbird\collections\sightingNoteCollection.js" />
     <Content Include="js\bowerbird\collections\sightingCollection.js" />
     <Content Include="js\bowerbird\collections\observationMediaCollection.js" />
     <Content Include="js\bowerbird\collections\exploreProjectCollection.js" />
@@ -196,6 +195,7 @@
     <Content Include="js\bowerbird\controllers\activityController.js" />
     <Content Include="js\bowerbird\controllers\chatController.js" />
     <Content Include="js\bowerbird\controllers\accountController.js" />
+    <Content Include="js\bowerbird\voter.js" />
     <Content Include="js\bowerbird\sightingNoteDescriptions.js" />
     <Content Include="js\bowerbird\models\identification.js" />
     <Content Include="js\bowerbird\models\sightingNote.js" />
@@ -247,6 +247,9 @@
     <Content Include="js\bowerbird\views\accountLoginView.js" />
     <Content Include="js\bowerbird\views\accountRegisterView.js" />
     <Content Include="js\bowerbird\views\backgroundImageFormView.js" />
+    <Content Include="js\bowerbird\views\identificationDetailsView.js" />
+    <Content Include="js\bowerbird\views\sightingIdentificationSubFormView.js" />
+    <Content Include="js\bowerbird\views\sightingIdentificationFormView.js" />
     <Content Include="js\bowerbird\views\projectAboutView.js" />
     <Content Include="js\bowerbird\views\userDetailsView.js" />
     <Content Include="js\bowerbird\views\userListView.js" />
@@ -408,12 +411,10 @@
     <Content Include="apple-touch-icon-precomposed.png" />
     <Content Include="500.html" />
     <Content Include="img\favourites.png" />
-    <Content Include="img\glyphicons-halflings-blue.png" />
     <Content Include="img\glyphicons-halflings-white.png" />
     <Content Include="img\glyphicons-halflings.png" />
     <Content Include="img\image-upload.png" />
     <Content Include="img\logo.png" />
-    <Content Include="img\thumb-mask.png" />
     <Content Include="packages.config" />
     <None Include="test\index.html" />
     <None Include="test\qunit\qunit.css" />
@@ -563,12 +564,6 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Observations\CreateNote.mustache" />
-    <Content Include="Views\Shared\ObservationDetails.mustache">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Views\Shared\SightingDetails.mustache">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="Views\Shared\IdentificationWindow.mustache">
       <SubType>Designer</SubType>
     </Content>
@@ -578,7 +573,7 @@
     <Content Include="Views\Shared\SightingNoteSubForm.mustache">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Shared\SightingNoteDetails.mustache">
+    <Content Include="Views\Shared\ActivityItemSightingNoteAdded.mustache">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Shared\StreamLoading.mustache" />
@@ -586,9 +581,6 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Shared\SightingSummaryDetails.mustache">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Views\Shared\SightingFullDetails.mustache">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Observations\UpdateNote.mustache" />
@@ -611,6 +603,33 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Shared\ProjectsExplore.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\SightingIdentificationForm.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\SightingIdentificationSubForm.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\ActivityItemIdentificationAdded.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\IdentificationFullDetails.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\ActivityItemSightingAdded.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\SightingFullFullDetails.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\SightingNoteFullFullDetails.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\IdentificationFullFullDetails.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\SightingListItem.mustache">
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>

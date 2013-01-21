@@ -49,6 +49,7 @@ namespace Bowerbird.Web.Controllers
         private readonly IActivityViewModelBuilder _activityViewModelBuilder;
         private readonly ISightingViewModelBuilder _sightingViewModelBuilder;
         private readonly IPostViewModelBuilder _postViewModelBuilder;
+        private readonly IPermissionManager _permissionManager;
 
         #endregion
 
@@ -63,7 +64,8 @@ namespace Bowerbird.Web.Controllers
             IActivityViewModelBuilder activityViewModelBuilder,
             IUserViewFactory userViewFactory,
             ISightingViewModelBuilder sightingViewModelBuilder,
-            IPostViewModelBuilder postViewModelBuilder
+            IPostViewModelBuilder postViewModelBuilder,
+            IPermissionManager permissionManager
             )
         {
             Check.RequireNotNull(messageBus, "messageBus");
@@ -75,6 +77,7 @@ namespace Bowerbird.Web.Controllers
             Check.RequireNotNull(userViewFactory, "userViewFactory");
             Check.RequireNotNull(sightingViewModelBuilder, "sightingViewModelBuilder");
             Check.RequireNotNull(postViewModelBuilder, "postViewModelBuilder");
+            Check.RequireNotNull(permissionManager, "permissionManager");
 
             _messageBus = messageBus;
             _userContext = userContext;
@@ -85,6 +88,7 @@ namespace Bowerbird.Web.Controllers
             _userViewFactory = userViewFactory;
             _sightingViewModelBuilder = sightingViewModelBuilder;
             _postViewModelBuilder = postViewModelBuilder;
+            _permissionManager = permissionManager;
         }
 
         #endregion
@@ -232,7 +236,6 @@ namespace Bowerbird.Web.Controllers
                         Name = accountRegisterInput.Name,
                         Email = accountRegisterInput.Email,
                         Password = accountRegisterInput.Password,
-                        DefaultLicence = Constants.DefaultLicence,
                         Timezone = Constants.DefaultTimezone,
                         Roles = new[] { "roles/globalmember" }
                     });
@@ -597,11 +600,61 @@ namespace Bowerbird.Web.Controllers
             return user != null && user.ValidatePassword(password);
         }
 
+        [HttpPut]
+        [Authorize]
+        [Transaction]
+        public ActionResult UpdateVote(string id, string subId, string contributionType, string subContributionType, int score)
+        {
+            if (score > 1)
+                score = 1;
+
+            if (score < -1)
+                score = -1;
+
+            if (Request.IsAjaxRequest())
+            {
+                _messageBus.Send(
+                    new VoteUpdateCommand()
+                    {
+                        UserId = _userContext.GetAuthenticatedUserId(),
+                        ContributionId = contributionType + "/" + id,
+                        Score = score,
+                        SubContributionId = subContributionType + "/" + subId
+                    });
+
+                return JsonSuccess();
+            }
+
+            return HttpNotFound();
+        }
+
+        [Transaction]
+        [Authorize]
+        [HttpPut]
+        public ActionResult UpdateFavourite(string id)
+        {
+            string observationId = VerbosifyId<Observation>(id);
+
+            if (!ModelState.IsValid)
+            {
+                return JsonFailed();
+            }
+
+            _messageBus.Send(
+                new FavouriteUpdateCommand()
+                {
+                    UserId = _userContext.GetAuthenticatedUserId(),
+                    SightingId = observationId
+                });
+
+            return JsonSuccess();
+        }
+
         /// <summary>
         /// Returns a list of valid timezones as a dictionary, where the key is the timezone id, and the value can be used for display.
         /// </summary>
         /// <param name="countryCode">The two-letter country code to get timezones for.  Returns all timezones if null or empty.</param>
-        public object GetTimeZones(string countryCode, string existingTimezone)
+        private object GetTimeZones(string countryCode, string existingTimezone)
         {
             var timeZones = string.IsNullOrEmpty(countryCode)
                                 ? Zones.SelectMany(x => x)
@@ -623,7 +676,6 @@ namespace Bowerbird.Web.Controllers
 
             return list;
         }
-
 
         private static volatile ILookup<string, string> _zones;
         private static readonly object SyncRoot = new object();

@@ -21,7 +21,7 @@ using Bowerbird.Core.DomainModels.DenormalisedReferences;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public class Post : DomainModel, IOwnable, IDiscussable
+    public class Post : DomainModel, IOwnable, IDiscussable, IContribution
     {
         #region Members
 
@@ -125,6 +125,11 @@ namespace Bowerbird.Core.DomainModels
         {
             Discussion = new Discussion();
             _mediaResources = new List<MediaResource>();
+        }
+
+        public ISubContribution GetSubContribution(string type, string id)
+        {
+            return null;
         }
 
         #endregion

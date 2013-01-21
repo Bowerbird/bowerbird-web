@@ -1,35 +1,20 @@
-﻿    <h3>
-      <a href="/{{Id}}">
-        {{Title}} <span></span>
-      </a>
-    </h3>
-    
-      <div class="images">
-        <div class="preview">
-          {{#PrimaryMedia.MediaResource}}
-          {{>MediaConstrained480}}
-          {{/PrimaryMedia.MediaResource}}
-        </div>
-      </div>
-      <div class="info">
-
-        <div class="user">
-          {{#User.Avatar}}
-          {{>MediaSquare100}}
-          {{/User.Avatar}}
-          <span>{{User.Name}}</span>
-        </div>
-        
-        <div class="location">
-          <div class="map"></div>
-          <span>{{Address}}</span>
-        </div>
-
-       
-        <div class="observed"><span class="small-icon observation-icon"></span> {{ObservedOnDescription}}</div>
-        <div class="projects"><span class="small-icon project-icon"></span> {{ProjectCount}} Projects</div>
-        <div class="notes"><span class="small-icon note-icon"></span> {{NoteCount}} Notes</div>        
-        <div class="comments"><span class="small-icon comment-icon"></span> {{CommentCount}} Comments</div>        
-        
-      </div>
-    
+﻿<div class="images">
+  <div class="preview">
+    {{#PrimaryMedia.MediaResource}}
+    {{>MediaConstrained480}}
+    {{/PrimaryMedia.MediaResource}}
+  </div>
+</div>
+<div class="info">
+  <div class="sighting-actions">
+  <div class="votes-badge"><span class="small-icon vote-icon"></span> <span class="count">{{TotalVoteScore}}</span> <span class="label">votes</span></div>
+  <div class="favourites-badge"><span class="small-icon favourite-icon"></span> <span class="count">{{FavouritesCount}}</span> <span class="label">faves</span></div>
+  <div class="identifications-badge"><span class="small-icon identification-icon"></span> <span class="count">{{IdentificationCount}}</span> <span class="label">ids</span></div>
+  <div class="notes-badge"><span class="small-icon note-icon"></span> <span class="count">{{NoteCount}}</span> <span class="label">notes</span></div>
+  <div class="comments-badge"><span class="small-icon comment-icon"></span> <span class="count">{{CommentCount}}</span> <span class="label">disc.</span></div>
+  </div>
+  <div class="sighting-sighted"><span>Sighted</span> {{ObservedOnDescription}}</div>
+  <div class="location">
+    <div class="map"></div>
+  </div>
+</div>

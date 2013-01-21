@@ -18,6 +18,7 @@ namespace Bowerbird.Web.Factories
         private readonly IUserViewFactory _userViewFactory;
         private readonly IGroupViewFactory _groupViewFactory;
         private readonly ISightingNoteViewFactory _sightingNoteViewFactory;
+        private readonly IUserContext _userContext;
 
         #endregion
 
@@ -26,15 +27,18 @@ namespace Bowerbird.Web.Factories
         public SightingViewFactory(
             IUserViewFactory userViewFactory,
             IGroupViewFactory groupViewFactory,
-            ISightingNoteViewFactory sightingNoteViewFactory)
+            ISightingNoteViewFactory sightingNoteViewFactory,
+            IUserContext userContext)
         {
             Check.RequireNotNull(userViewFactory, "userViewFactory");
             Check.RequireNotNull(groupViewFactory, "groupViewFactory");
             Check.RequireNotNull(sightingNoteViewFactory, "sightingNoteViewFactory");
+            Check.RequireNotNull(userContext, "userContext");
 
             _userViewFactory = userViewFactory;
             _groupViewFactory = groupViewFactory;
             _sightingNoteViewFactory = sightingNoteViewFactory;
+            _userContext = userContext;
         }
 
         #endregion
@@ -55,7 +59,6 @@ namespace Bowerbird.Web.Factories
                 Latitude = string.Empty,
                 Longitude = string.Empty,
                 Category = category,
-                IsIdentificationRequired = false,
                 AnonymiseLocation = false,
                 Media = new ObservationMedia[] { },
                 ProjectIds = string.IsNullOrWhiteSpace(projectId) ? new string[] { } : new string[] { projectId }
@@ -75,12 +78,7 @@ namespace Bowerbird.Web.Factories
             };
         }
 
-        public dynamic Make(All_Contributions.Result result)
-        {
-            return Make(result.Contribution as Sighting, result.User, result.Projects);
-        }
-
-        public dynamic Make(Sighting sighting, User user, IEnumerable<Project> projects)
+        public dynamic Make(Sighting sighting, User user, IEnumerable<Group> projects, User authenticatedUser)
         {
             dynamic viewModel = new ExpandoObject();
 
@@ -90,14 +88,26 @@ namespace Bowerbird.Web.Factories
             viewModel.Longitude = sighting.Longitude;
             viewModel.Category = sighting.Category;
             viewModel.AnonymiseLocation = sighting.AnonymiseLocation;
-            viewModel.Projects = projects.Select(_groupViewFactory.Make);
+            viewModel.Projects = projects.Where(x => x.GroupType =="project").Select(_groupViewFactory.Make);
             viewModel.User = _userViewFactory.Make(user);
-            viewModel.Comments = sighting.Discussion.Comments;
-            viewModel.ObservedOnDescription = sighting.ObservedOn.ToString("d MMM yyyy h:mm") + sighting.ObservedOn.ToString("tt").ToLower();
-            //viewModel.Notes = sighting.Notes.Select(_sightingNoteViewFactory.Make);
+            viewModel.ObservedOnDescription = sighting.ObservedOn.ToString("d MMM yyyy");
+            viewModel.CreatedOnDescription = sighting.CreatedOn.ToString("d MMM yyyy");
             viewModel.CommentCount = sighting.Discussion.CommentCount;
-            viewModel.ProjectCount = projects.Count();
+            viewModel.ProjectCount = projects.Count(x => x.GroupType == "project");
             viewModel.NoteCount = sighting.Notes.Count();
+            viewModel.IdentificationCount = sighting.Identifications.Count();
+            viewModel.FavouritesCount = sighting.Groups.Count(x => x.Group.GroupType == "favourites");
+            viewModel.TotalVoteScore = sighting.Votes.Sum(x => x.Score);
+
+            // Current user-specific properties
+            if (authenticatedUser != null)
+            {
+                var userId = authenticatedUser.Id;
+                var favouritesId = authenticatedUser.Memberships.Single(x => x.Group.GroupType == "favourites").Group.Id;
+                
+                viewModel.UserVoteScore = sighting.Votes.Any(x => x.User.Id == userId) ? sighting.Votes.Single(x => x.User.Id == userId).Score : 0;
+                viewModel.UserFavourite = sighting.Groups.Any(x => x.Group.Id == favouritesId);
+            }
 
             if (sighting is Observation)
             {
@@ -105,7 +115,6 @@ namespace Bowerbird.Web.Factories
 
                 viewModel.Title = observation.Title;
                 viewModel.Address = observation.Address;
-                viewModel.IsIdentificationRequired = observation.IsIdentificationRequired;
                 viewModel.Media = observation.Media;
                 viewModel.PrimaryMedia = observation.PrimaryMedia;
                 viewModel.MediaCount = observation.Media.Count();

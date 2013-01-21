@@ -44,8 +44,9 @@
   {{/Model.Query.IsThumbnailsView}}
 
   {{#Model.Query.IsDetailsView}}
-  <li class="sighting-item observation-details">
-    {{>SightingFullDetails}}
+  <li class="sighting-item">
+
+    {{>SightingListItem}}
   </li>
   {{/Model.Query.IsDetailsView}}
 

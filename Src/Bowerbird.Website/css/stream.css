@@ -3,80 +3,69 @@
 * Stream 
 *
 */
-.sightingnoteadded-activity-item .sighting-note .user,
-.sightingnoteadded-activity-item .sighting-note .sighting-note-added {
-    display: none;
-}
 .activity-list .activity-item,
-.sighting-item.observation-details
+.sighting-item /*.observation-details*/
 {
-    margin: 0 2% 2%;
-    background-color: #FFFFFF;
-    border-radius: 4px 4px 4px 4px;
-    box-shadow: 0 1px 2px 0 rgb(51, 51, 51);
-    list-style: none outside none;
+    background-color: rgb(255, 255, 255);
+    border-radius: 2px 2px 2px 2px;
+    box-shadow: 0 1px 1px 1px rgba(51, 51, 51, 0.3);
     display: inline-block;
-    margin: 0 0 2%;
-    width: 100%;
     float: left;
-}
-/*.sighting-list .sighting-item.thumbnail {
-    margin: 0 2% 2%;
-    background-color: #FFFFFF;
-    border-radius: 4px 4px 4px 4px;
-    box-shadow: 0 1px 2px 0 rgb(51, 51, 51);
     list-style: none outside none;
-    display: inline-block;
     margin: 0 0 2%;
     width: 100%;
-}*/
-/*.activity-list .activity-item:last-child,
-.sighting-list .sighting-item.tile-sighting-details:nth-last-child(-n+3)
-{
-    margin-bottom: 0;
-}*/
+}
 .activity-list .activity-item .summary
 {
     background-color: rgb(249, 249, 249);
-    border-top-right-radius: 4px;
-    border-top-left-radius: 4px;
-    height: 46px;
-}
-
-.activity-list .activity-item .image-media.media-square-100 > img {
-    border-top-left-radius: 4px;
+    border-bottom: 1px solid rgb(221, 221, 221);
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    float: left;
+    padding: 1em;
+    width: 100%;
 }
 .activity-list .activity-item .summary .image-media.media-square-100
 {
+    display: inline-block;
     float: left;
     height: 46px;
     width: 46px;
 }
 .activity-list .activity-item .summary .description
 {
-    color: rgb(68, 68, 68);
-    display: inline;
-    font-size: 0.875em;
+    display: inline-block;
+    font-size: 1em;
     font-weight: 600;
-    line-height: 3.5em;
+    letter-spacing: -0.02em;
     margin: 0;
-    padding-left: 10px;
+    padding-left: 0.5em;
     vertical-align: top;
+}
+.activity-list .activity-item .description > span {
+    display: inline-block;
+    float: left;
+    line-height: 1.6em;
+    text-shadow: 0 1px 0 rgb(255, 255, 255);
+    width: 100%;
 }
 .activity-list .activity-item .summary .description abbr
 {
     border-bottom: 1px dotted rgb(187, 187, 187);
     color: rgb(128, 128, 128);
-    font-size: 0.86em;
+    display: inline-block;
+    float: left;
+    font-size: 0.85em;
     font-weight: 400;
+    line-height: 1.2em;
     text-shadow: 0 1px 0 rgb(255, 255, 255);
 }
 .activity-list .activity-item .actions {
-    background-color: rgb(249, 249, 249);
-    border-radius: 0 0 4px 4px;
+    border-radius: 0 0 2px 2px;
     padding: 2%;
     width: 100%;
     float: left;
+    display: none;
 }
 .stream-message
 {
@@ -453,61 +442,72 @@ ul.explore-menu
 
 .sighting-note-details {
     float: left;
-    padding: 2% 2% 0;
     width: 100%;
 }
-.small-sighting-details 
+.sighting-summary-details 
 {
-    background-color: rgb(249, 249, 249);
-    border-radius: 6px 6px 6px 6px;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.5);
     display: block;
     float: left;
-    padding: 1.5%;
-    right: 2%;
-    width: 96%;
+    padding: 0.5em 0 0.5em 0.5em;
+    width: 68%;
 }
-.small-sighting-details h3 
+.sighting-summary-details h3 
 {
-    display: inline-block;
-    font-size: 1.3em;
+    display: block;
+    float: right;
+    font-size: 1.1em;
     font-weight: 600;
-    letter-spacing: -1px;
+    letter-spacing: -0.03em;
     line-height: 1.1em;
-    margin: 0;
-    padding: 0 2% 5px 0;
-    width: 69%;
+    width: 40%;
 }
-.small-sighting-details h3 a, 
-.small-sighting-details h3 a:hover, 
-.small-sighting-details h3 a:active, 
-.small-sighting-details h3 a:visited {
+.sighting-summary-details h3 span {
+    color: rgb(187, 187, 187);
+    display: block;
+    font-size: 0.75em;
+    font-weight: 600;
+    letter-spacing: normal;
+    line-height: 1em;
+    padding-bottom: 5px;   
+}
+.sighting-summary-details h3 a, 
+.sighting-summary-details h3 a:hover, 
+.sighting-summary-details h3 a:active, 
+.sighting-summary-details h3 a:visited {
     color: rgb(34, 34, 34);
     text-decoration: none;
 }
-.small-sighting-details .images {
+.sighting-summary-details .images {
     display: inline-block;
     float: left;
-    width: 38%;
-}
-.small-sighting-details .info 
-{
-    float: left;
-    margin-left: 2%;
-    position: relative;
+    padding-right: 1em;
     width: 60%;
 }
-.small-sighting-details .user {
+.sighting-summary-details .info 
+{
+    float: left;
+    position: relative;
+    width: 40%;
+}
+.sighting-summary-details .sighting-actions {
+    float: left;
+    margin-top: 0.5em;
+    width: 100%;
+}
+.sighting-summary-details .sighting-actions .comments-badge {
+    margin-right: 0;
+}
+.sighting-summary-details .user {
     display: inline-block;
     float: left;
     margin-bottom: 11px;
     width: 100%;
 }
-.small-sighting-details .user .media-square-100 {
+.sighting-summary-details .user .media-square-100 {
     float: left;
     width: 26px;
 }
-.small-sighting-details .user span {
+.sighting-summary-details .user span {
     display: block;
     float: left;
     font-size: 0.8em;
@@ -516,55 +516,61 @@ ul.explore-menu
     margin-left: 5px;
     margin-top: 6px;
 }
-.small-sighting-details .location {
-    display: inline-block;
+.sighting-summary-details .location {
+    display: block;
     float: left;
     font-size: 0.8em;
     line-height: 1.25em;
-    margin-right: 3%;
-    width: 32%;
+    margin-top: 0.7em;
+    width: 100%;
 }
-.small-sighting-details .location .map {
+.sighting-summary-details .location .map {
     background-color: rgb(221, 221, 221);
     display: block;
     height: 85px;
     width: 100%;
 }
-.small-sighting-details .observed,
-.small-sighting-details .projects,
-.small-sighting-details .comments,
-.small-sighting-details .notes {
-    display: inline-block;
+.sighting-summary-details .sighting-sighted,
+.sighting-summary-details .projects,
+.sighting-summary-details .comments,
+.sighting-summary-details .notes {
+    border-top: 1px dotted rgb(221, 221, 221);
+    display: block;
     float: left;
     font-size: 0.8em;
     font-weight: 500;
     line-height: 1.1em;
-    width: 48%;
+    margin-top: 0.5em;
+    padding-top: 0.5em;
+    width: 100%;
+}
+.sighting-summary-details .sighting-sighted > span {
+    font-weight: 600;
 }
 .sighting-item.tile-sighting-details
 {
-    background-color: rgb(249, 249, 249);
-    border-radius: 6px 6px 6px 6px;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.5);
+    background-color: rgb(255, 255, 255);
+    border-radius: 2px 2px 2px 2px;
+    box-shadow: 0 1px 1px 1px rgba(51, 51, 51, 0.3);
     display: block;
     float: left;
-    margin-bottom: 2%;
-    margin-right: 2%;
-    max-height: 365px;
-    padding: 1.5%;
-    width: 32%;
+    margin-bottom: 1.5%;
+    margin-right: 1.5%;
+    width: 32.3333%;
 }
 .sighting-items .tile-sighting-details:nth-child(3n) {
     margin-right: 0;
 }
 .tile-sighting-details h3 
 {
-    font-size: 1.3em;
+    float: left;
+    font-size: 1.1em;
     font-weight: 600;
-    letter-spacing: -1px;
-    line-height: 1.3em;
-    margin: 0;
-    padding: 0 2% 5px 0;
+    letter-spacing: -0.03em;
+    line-height: 1.2em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    padding-top: 0.5em;
     width: 100%;
 }
 .tile-sighting-details h3 a, 
@@ -581,37 +587,42 @@ ul.explore-menu
 }
 .tile-sighting-details .images {
     display: block;
+    float: left;
+    padding: 0.5em;
     width: 100%;
 }
 .tile-sighting-details .info 
 {
-    height: 74px;
-    margin-top: 7px;
-    position: relative;
+    display: block;
+    float: left;
+    padding: 0 0.5em 0.5em;
     width: 100%;
 }
 .tile-sighting-details .user {
+    background-color: rgb(249, 249, 249);
+    border-bottom: 1px solid rgb(221, 221, 221);
     display: block;
     float: left;
-    width: 38%;
+    padding: 0.5em;
+    width: 100%;
 }
 .tile-sighting-details .user .media-square-100 {
-    height: 40px;
-    width: 40px;
+    display: block;
+    float: left;
+    height: 25px;
+    margin-right: 0.3em;
+    width: 25px;
 }
 .tile-sighting-details .user span {
     display: block;
     font-size: 0.8em;
     font-weight: 600;
-    height: 32px;
-    line-height: 1.2em;
-    margin-top: 6px;
-    width: 65%;
+    line-height: 1.8em;
 }
 .tile-sighting-details .location {
     display: none;
 }
-.tile-sighting-details .observed,
+.tile-sighting-details .sighting-sighted,
 .tile-sighting-details .projects,
 .tile-sighting-details .comments,
 .tile-sighting-details .notes {
@@ -856,20 +867,18 @@ ul.explore-menu
 
 
 
-
-.sighting-note-details > div,
-.sighting-note > div {
-    margin-top: 1%;
+.sighting-note-details .sighting-note {
+    border-top: 1px solid rgb(221, 221, 221);
     float: left;
+    padding-bottom: 0.5em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
     width: 100%;
 }
-.sighting-note-details > div:first-child,
-.sighting-note > div:first-child {
-    margin-top: 0;
-}
-.sighting-note-details > div:last-child,
-.sighting-note > div:last-child {
-    margin-bottom: 1%;
+.sighting-note-details .sighting-note > div:first-child {
+    float: left;
+    padding-right: 1em;
+    width: 70%;
 }
 .sighting-note-added {
     font-size: 0.875em;
@@ -878,51 +887,116 @@ ul.explore-menu
 }
 .sighting-note-added span 
 {
-    display: block;
     font-weight: 500;
 }
-.sighting-note-description {
+.sighting-note-details .sighting-note-description {
+    float: left;
     font-size: 0.875em;
+    padding-top: 0.5em;
+    width: 100%;
 }
-.sighting-note-description span {
+.sighting-note-details .sighting-note-description span {
     font-weight: 600;
 }
-.sighting-note-description p {
-    background-color: rgb(242, 242, 242);
-    border-radius: 4px 4px 4px 4px;
+.sighting-note-details .sighting-note-description p {
     font-size: 0.95em;
     font-weight: 500;
     line-height: 1.35em;
-    padding: 1.5%;
     text-shadow: 0 1px 0 rgb(255, 255, 255);
 }
-.sighting-note-tags a {
+.sighting-note-details .sighting-note-tags {
+    float: left;
+    padding-top: 0.5em;
+    width: 100%;
+}
+.sighting-note-details .sighting-note-tags a {
     background-color: rgb(237, 244, 250);
-    border: 2px solid rgb(171, 208, 245);
-    border-radius: 6px 6px 6px 6px;
+    border: 1px solid rgb(171, 208, 245);
+    border-radius: 4px 4px 4px 4px;
     color: rgb(0, 0, 0);
-    font-size: 1em;
+    font-size: 0.825em;
     line-height: inherit;
-    padding: 0.1em 0.4em;
+    padding: 0.1em 0.4em 0.2em;
     position: relative;
     text-decoration: none;
 }
-.sighting-note-tags a:hover {
+.sighting-note-details .sighting-note-tags a:hover {
     border-color: rgb(67, 146, 225);
 }
-.sighting-note-tags span {
+.sighting-note-details .sighting-note-tags span {
     display: block;
     font-weight: 600;
     font-size: 0.875em;
     margin-bottom: 5px;
 }
 /* Identification */
-.identification .identification-details {
-    background-color: rgb(243, 255, 241);
-    border: 1px solid rgb(14, 122, 0);
-    border-radius: 4px 4px 4px 4px;
+.identification {
+    border-top: 1px solid rgb(221, 221, 221);
     float: left;
-    padding: 1.5%;
+    padding-bottom: 0.5em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    width: 100%;
+}
+.identification .info,
+.sighting-note .info 
+{
+    float: left;
+    width: 30%;
+}
+.activity-item .identification .info,
+.activity-item .sighting-note .info 
+{
+    margin-top: 0.5em;
+}
+.identification-details .identification > div:first-child {
+    float: left;
+    padding-right: 1em;
+    width: 70%;
+}
+.identification-details .identification-panel {
+    float: left;
+    padding-top: 0.5em;
+    width: 100%;
+}
+.identification-details .identification-comments,
+.sighting-note-details .sighting-note-comments {
+    border-top: 1px dotted rgb(221, 221, 221);
+    float: left;
+    margin-top: 0.5em;
+    min-height: 30px;
+    padding-top: 0.5em;
+    position: relative;
+    width: 100%;
+}
+.identification-comments .image-media.media-square-100,
+.sighting-note-comments .image-media.media-square-100 {
+    display: block;
+    height: 25px;
+    position: absolute;
+    top: 0.5em;
+    width: 25px;
+}
+.identification-details .identification-comments span,
+.sighting-note-details .sighting-note-comments span {
+    display: block;
+    float: left;
+    font-size: 0.875em;
+    font-weight: 600;
+    line-height: 1.25em;
+    padding-left: 30px;
+}
+.identification-details .identification-comments p,
+.sighting-note-details .sighting-note-comments p 
+{
+    color: rgb(136, 136, 136);
+    display: block;
+    float: left;
+    font-size: 0.84em;
+    font-weight: 500;
+    line-height: 1.3em;
+    padding-left: 30px;
+    text-shadow: 0 1px 0 rgb(255, 255, 255);
     width: 100%;
 }
 .identification-heading {
@@ -931,8 +1005,6 @@ ul.explore-menu
     line-height: 1.25em;
     padding-bottom: 4px;
 }
-.identification {
-}
 .identification .identification-none {
     color: rgb(187, 187, 187);
     display: block;
@@ -940,7 +1012,7 @@ ul.explore-menu
     text-align: center;
     width: 100%;
 }
-.identification .identification-details img 
+.identification .identification-parts img 
 {
     display: block;
     float: left;

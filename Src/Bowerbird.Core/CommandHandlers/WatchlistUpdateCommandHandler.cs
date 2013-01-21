@@ -1,66 +1,66 @@
-﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+﻿///* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
- Developers: 
- * Frank Radocaj : frank@radocaj.com
- * Hamish Crittenden : hamish.crittenden@gmail.com
+// Developers: 
+// * Frank Radocaj : frank@radocaj.com
+// * Hamish Crittenden : hamish.crittenden@gmail.com
  
- Project Manager: 
- * Ken Walker : kwalker@museum.vic.gov.au
+// Project Manager: 
+// * Ken Walker : kwalker@museum.vic.gov.au
  
- Funded by:
- * Atlas of Living Australia
+// Funded by:
+// * Atlas of Living Australia
  
-*/
+//*/
 
-using Bowerbird.Core.Commands;
-using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.DomainModels;
-using Raven.Client;
+//using Bowerbird.Core.Commands;
+//using Bowerbird.Core.DesignByContract;
+//using Bowerbird.Core.DomainModels;
+//using Raven.Client;
 
-namespace Bowerbird.Core.CommandHandlers
-{
-    public class WatchlistUpdateCommandHandler : ICommandHandler<WatchlistUpdateCommand>
-    {
-        #region Members
+//namespace Bowerbird.Core.CommandHandlers
+//{
+//    public class WatchlistUpdateCommandHandler : ICommandHandler<WatchlistUpdateCommand>
+//    {
+//        #region Members
 
-        private readonly IDocumentSession _documentSession;
+//        private readonly IDocumentSession _documentSession;
 
-        #endregion
+//        #endregion
 
-        #region Constructors
+//        #region Constructors
 
-        public WatchlistUpdateCommandHandler(
-            IDocumentSession documentSession)
-        {
-            Check.RequireNotNull(documentSession, "documentSession");
+//        public WatchlistUpdateCommandHandler(
+//            IDocumentSession documentSession)
+//        {
+//            Check.RequireNotNull(documentSession, "documentSession");
 
-            _documentSession = documentSession;
-        }
+//            _documentSession = documentSession;
+//        }
 
-        #endregion
+//        #endregion
 
-        #region Properties
+//        #region Properties
 
-        #endregion
+//        #endregion
 
-        #region Methods
+//        #region Methods
 
-        public void Handle(WatchlistUpdateCommand command)
-        {
-            Check.RequireNotNull(command, "command");
+//        public void Handle(WatchlistUpdateCommand command)
+//        {
+//            Check.RequireNotNull(command, "command");
 
-            var watchlist = _documentSession.Load<Watchlist>(command.Id);
+//            var watchlist = _documentSession.Load<Watchlist>(command.Id);
 
-            watchlist.UpdateDetails(
-                _documentSession.Load<User>(command.UserId),
-                command.Name,
-                command.JsonQuerystring
-                );
+//            watchlist.UpdateDetails(
+//                _documentSession.Load<User>(command.UserId),
+//                command.Name,
+//                command.JsonQuerystring
+//                );
 
-            _documentSession.Store(watchlist);
-        }
+//            _documentSession.Store(watchlist);
+//        }
 
-        #endregion
+//        #endregion
 
-    }
-}
+//    }
+//}

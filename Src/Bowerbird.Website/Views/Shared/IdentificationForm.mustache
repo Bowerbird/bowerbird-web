@@ -1,121 +1,4 @@
-﻿<!--<div class="window" id="edit-identification-window">
-    <div class="window-title-bar">
-    Identification
-    <span class="close" title="Close"></span>
-    </div>
-    <div class="window-body">
-        <div class="form edit-identification-form">
-        <form action="">
-            <fieldset>
-                <legend class="hidden">Identification Details</legend>
-
-              <p>Identify the sighting by searching for a common or scientific name or by browsing through the taxonomic tree.</p>
-
-
-              <div class="field-row">
-
-
-
-                <div id="selected-identification-field" class="field">
-                  <div>
-                    <label>Selected Identification</label>
-                  </div>
-                  <div>
-                    <div id="Identification">
-                      {{>Identification}}
-                    </div>
-                  </div>
-                </div>
-
-
-
-              </div>              
-              
-              
-
-              <div class="field-row">
-
-
-                <div id="search-identification-field" class="field">
-                  <div>
-                    <label for="SearchIdentification">Search</label>
-                  </div>
-                  <div>
-                    <input type="text" id="SearchIdentification" />
-                    <img class="progress-indicator" src="/img/loaderx.gif" alt="" />
-                  </div>
-                </div>
-
-
-
-                <div id="search-fields-category-field" class="field">
-                  <div>
-                    <label for="SearchCategories">In Category</label>
-                  </div>
-                  <div>
-                    <select id="SearchCategories">
-                      <option value="all">All Categories</option>
-                      {{#Model.CategorySelectList}}
-                      <option value="{{Value}}" {{#Selected}}selected=""{{/Selected}}>{{Text}}</option>
-                      {{/Model.CategorySelectList}}
-                    </select>
-                  </div>
-                </div>
-                
-                
-                
-                <div id="search-fields-identification-field" class="field">
-                  <div>
-                    <label for="SearchFields">In Field</label>
-                  </div>
-                  <div>
-                    <select id="SearchFields">
-                      <option value="all">All Names</option>
-                      <option value="scientific">Scientific Names</option>
-                      <option value="common">Common Names</option>
-                    </select>
-                  </div>
-                </div>
-
-
-
-              </div>
-              <div class="field-row">
-
-
-
-                <div id="browse-identification-field" class="field">
-                  <div>
-                    <label>Browse</label>
-                  </div>
-                  <div class="taxonomic-ranks">
-                    <div class="taxonomic-rank" id="TaxonomicRank1"></div>
-                    <div class="taxonomic-rank" id="TaxonomicRank2"></div>
-                    <div class="taxonomic-rank" id="TaxonomicRank3"></div>
-                    <div class="taxonomic-rank" id="TaxonomicRank4"></div>
-                    <div class="taxonomic-rank" id="TaxonomicRank5"></div>
-                    <div class="taxonomic-rank" id="TaxonomicRank6"></div>
-                    <div class="taxonomic-rank" id="TaxonomicRank7"></div>
-                  </div>
-                </div>
-
-
-
-              </div>
-              
-              
-
-              
-              
-            </fieldset>
-            <fieldset>
-                <input type="button" value="Done" class="done-button" disabled="disabled" />
-                <input type="button" value="Cancel" class="cancel-button" />
-            </fieldset>
-            </form>
-            </div>
-    </div>
-</div>-->
+﻿
 <p>Identify the sighting by searching for a common or scientific name or by browsing through the taxonomic tree.</p>
 
 
@@ -151,7 +34,7 @@
     </div>
     <div>
       <input type="text" id="SearchIdentification" />
-      <img class="progress-indicator" src="/img/loaderx.gif" alt="" />
+      <img class="progress-indicator" src="/img/loader-small.gif" alt="" />
     </div>
   </div>
 
@@ -211,3 +94,4 @@
 
 
 </div>
+

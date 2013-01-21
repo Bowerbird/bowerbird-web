@@ -1,0 +1,18 @@
+﻿<div class="identification-details">
+  <div class="sighting-summary-details">
+    {{#Sighting}}
+    <h3>
+      <span>Identification of sighting</span>
+      <a href="/{{Id}}">
+        {{Title}} <span></span>
+      </a>
+    </h3>
+    {{>SightingSummaryDetails}}
+    {{/Sighting}}
+  </div>
+  <div class="identification">
+    {{#Identification}}
+    {{>IdentificationFullFullDetails}}
+    {{/Identification}}
+  </div>
+</div>

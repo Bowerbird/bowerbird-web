@@ -362,6 +362,8 @@ Reptiles	Geckos	Arnhemland watercourse Dtella 	Animalia: Chordata: Reptilia	Squa
 Reptiles	Geckos	Pilbara Dtella	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Gehyra	pilbara 
 Reptiles	Geckos	Spotted Dtella	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Gehyra	punctata 
 Reptiles	Geckos	Purplish Dtella	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Gehyra	purpurascens 
+Reptiles	Geckos	Small wedge-toed gecko	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Gehyra	spheniscus
+Reptiles	Geckos	Multi-pored gecko	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Gehyra	multiporosa
 Reptiles	Geckos	Robust Dtella	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Gehyra	robusta 
 Reptiles	Geckos	Tree Dtella	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Gehyra	variegata 
 Reptiles	Geckos	Crocodile-faced Dtella	Animalia: Chordata: Reptilia	Squamata	Gekkonidae	Gehyra	xenopus 
@@ -629,6 +631,7 @@ Reptiles	Skinks	Grand ctenotus	Animalia: Chordata: Reptilia	Squamata	Scincidae	C
 Reptiles	Skinks	Grand ctenotus	Animalia: Chordata: Reptilia	Squamata	Scincidae	Ctenotus	grandis grandis
 Reptiles	Skinks	Grand ctenotus	Animalia: Chordata: Reptilia	Squamata	Scincidae	Ctenotus	grandis titan
 Reptiles	Skinks	Spotted-necked ctenotus	Animalia: Chordata: Reptilia	Squamata	Scincidae	Ctenotus	greeri 
+Reptiles	Skinks	Chained ctenotus	Animalia: Chordata: Reptilia	Squamata	Scincidae	Ctenotus	halysis
 Reptiles	Skinks	Nimble ctenotus	Animalia: Chordata: Reptilia	Squamata	Scincidae	Ctenotus	hanloni 
 Reptiles	Skinks	No common name	Animalia: Chordata: Reptilia	Squamata	Scincidae	Ctenotus	harringtonensis 
 Reptiles	Skinks	Stout ctenotus	Animalia: Chordata: Reptilia	Squamata	Scincidae	Ctenotus	hebetior 
@@ -649,6 +652,7 @@ Reptiles	Skinks	Orange-tailed finesnout ctenotus	Animalia: Chordata: Reptilia	Sq
 Reptiles	Skinks	Leonhard's ctenotus	Animalia: Chordata: Reptilia	Squamata	Scincidae	Ctenotus	leonhardii 
 Reptiles	Skinks	Maryan's ctenotus	Animalia: Chordata: Reptilia	Squamata	Scincidae	Ctenotus	maryani 
 Reptiles	Skinks	Whiptail ctenotus	Animalia: Chordata: Reptilia	Squamata	Scincidae	Ctenotus	mastigura 
+Reptiles	Skinks	Median-striped ctenotus	Animalia: Chordata: Reptilia	Squamata	Scincidae	Ctenotus	mesotes
 Reptiles	Skinks	Soldier ctenotus	Animalia: Chordata: Reptilia	Squamata	Scincidae	Ctenotus	militaris 
 Reptiles	Skinks	Checker-sided ctenotus	Animalia: Chordata: Reptilia	Squamata	Scincidae	Ctenotus	mimetes 
 Reptiles	Skinks	Atherton ctenotus	Animalia: Chordata: Reptilia	Squamata	Scincidae	Ctenotus	monticola 
@@ -700,6 +704,7 @@ Reptiles	Skinks	Hinchinbrook ctenotus	Animalia: Chordata: Reptilia	Squamata	Scin
 Reptiles	Skinks	Spotted ctenotus	Animalia: Chordata: Reptilia	Squamata	Scincidae	Ctenotus	uber 
 Reptiles	Skinks	Spotted ctenotus	Animalia: Chordata: Reptilia	Squamata	Scincidae	Ctenotus	uber johnstonei
 Reptiles	Skinks	Spotted ctenotus	Animalia: Chordata: Reptilia	Squamata	Scincidae	Ctenotus	uber uber
+Reptiles	Skinks	Uneven-striped ctenotus	Animalia: Chordata: Reptilia	Squamata	Scincidae	Ctenotus	vagus
 Reptiles	Skinks	Scant-striped ctenotus	Animalia: Chordata: Reptilia	Squamata	Scincidae	Ctenotus	vertebralis 
 Reptiles	Skinks	Wide-striped ctenotus	Animalia: Chordata: Reptilia	Squamata	Scincidae	Ctenotus	xenopleura 
 Reptiles	Skinks	Ten-lined ctenotus	Animalia: Chordata: Reptilia	Squamata	Scincidae	Ctenotus	yampiensis 
@@ -1044,6 +1049,7 @@ Reptiles	Blind snakes	Centralian blind snake 	Animalia: Chordata: Reptilia	Squam
 Reptiles	Blind snakes	Cape York striped blind snake 	Animalia: Chordata: Reptilia	Squamata	Typhlopidae	Ramphotyphlops	chamodracaena 
 Reptiles	Blind snakes	Northern blind snake 	Animalia: Chordata: Reptilia	Squamata	Typhlopidae	Ramphotyphlops	diversus 
 Reptiles	Blind snakes	Interior blind snake 	Animalia: Chordata: Reptilia	Squamata	Typhlopidae	Ramphotyphlops	endoterus 
+Reptiles	Blind snakes	Christmas Island Blind Snake	Animalia: Chordata: Reptilia	Squamata	Typhlopidae	Ramphotyphlops	exocoeti
 Reptiles	Blind snakes	Blind Snake - no common name	Animalia: Chordata: Reptilia	Squamata	Typhlopidae	Ramphotyphlops	ganei 
 Reptiles	Blind snakes	Long-beaked blind snake 	Animalia: Chordata: Reptilia	Squamata	Typhlopidae	Ramphotyphlops	grypus 
 Reptiles	Blind snakes	Top end blind snake 	Animalia: Chordata: Reptilia	Squamata	Typhlopidae	Ramphotyphlops	guentheri 

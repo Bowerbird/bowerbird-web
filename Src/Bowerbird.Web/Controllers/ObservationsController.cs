@@ -225,6 +225,31 @@ namespace Bowerbird.Web.Controllers
                         })
                 });
 
+            if (createInput.Identification != null && IsValidIdentification(createInput.Identification))
+            {
+                _messageBus.Send(
+                    new IdentificationCreateCommand()
+                    {
+                        SightingKey = key, // We assign this note via the sighting key, rather than Id because we don't have the sighting id yet.
+                        UserId = _userContext.GetAuthenticatedUserId(),
+                        Comments = createInput.Identification.Comments ?? string.Empty,
+                        IsCustomIdentification = createInput.Identification.IsCustomIdentification,
+                        Taxonomy = createInput.Identification.Taxonomy ?? string.Empty,
+                        Category = createInput.Identification.Category ?? string.Empty,
+                        Kingdom = createInput.Identification.Kingdom ?? string.Empty,
+                        Phylum = createInput.Identification.Phylum ?? string.Empty,
+                        Class = createInput.Identification.Class ?? string.Empty,
+                        Order = createInput.Identification.Order ?? string.Empty,
+                        Family = createInput.Identification.Family ?? string.Empty,
+                        Genus = createInput.Identification.Genus ?? string.Empty,
+                        Species = createInput.Identification.Species ?? string.Empty,
+                        Subspecies = createInput.Identification.Subspecies ?? string.Empty,
+                        CommonGroupNames = createInput.Identification.CommonGroupNames ?? new string[] { },
+                        CommonNames = createInput.Identification.CommonNames ?? new string[] { },
+                        Synonyms = createInput.Identification.Synonyms ?? new string[] { }
+                    });
+            }
+
             if (createInput.Note != null && IsValidSightingNote(createInput.Note))
             {
                 _messageBus.Send(
@@ -233,20 +258,7 @@ namespace Bowerbird.Web.Controllers
                             SightingKey = key, // We assign this note via the sighting key, rather than Id because we don't have the sighting id yet.
                             UserId = _userContext.GetAuthenticatedUserId(),
                             Descriptions = createInput.Note.Descriptions ?? new Dictionary<string, string>(),
-                            Tags = createInput.Note.Tags ?? string.Empty,
-                            IsCustomIdentification = createInput.Note.IsCustomIdentification,
-                            Taxonomy = createInput.Note.Taxonomy ?? string.Empty,
-                            Category = createInput.Note.Category ?? string.Empty,
-                            Kingdom = createInput.Note.Kingdom ?? string.Empty,
-                            Phylum = createInput.Note.Phylum ?? string.Empty,
-                            Class = createInput.Note.Class ?? string.Empty,
-                            Order = createInput.Note.Order ?? string.Empty,
-                            Family = createInput.Note.Family ?? string.Empty,
-                            Genus = createInput.Note.Genus ?? string.Empty,
-                            Species = createInput.Note.Species ?? string.Empty,
-                            Subspecies = createInput.Note.Subspecies ?? string.Empty,
-                            CommonGroupNames = createInput.Note.CommonGroupNames ?? new string[] {},
-                            CommonNames = createInput.Note.CommonNames ?? new string[] {}
+                            Tags = createInput.Note.Tags ?? string.Empty
                         });
             }
 
@@ -283,7 +295,6 @@ namespace Bowerbird.Web.Controllers
                     Latitude = updateInput.Latitude,
                     Longitude = updateInput.Longitude,
                     Address = updateInput.Address,
-                    IsIdentificationRequired = updateInput.IsIdentificationRequired,
                     AnonymiseLocation = updateInput.AnonymiseLocation,
                     Category = updateInput.Category,
                     ObservedOn = updateInput.ObservedOn,
@@ -335,6 +346,32 @@ namespace Bowerbird.Web.Controllers
 
         [HttpGet]
         [Authorize]
+        public ActionResult CreateIdentificationForm(string id)
+        {
+            // TODO: Check permission to edit this note
+            //if (!_userContext.HasGroupPermission<Observation>(PermissionNames.CreateSightingNote, id))
+            //{
+            //    return HttpUnauthorized();
+            //}
+
+            var observationId = VerbosifyId<Observation>(id);
+
+            dynamic viewModel = new ExpandoObject();
+
+            viewModel.Identification = _sightingNoteViewModelBuilder.BuildCreateIdentification(observationId);
+            viewModel.Sighting = _sightingViewModelBuilder.BuildSighting(observationId);
+            viewModel.CategorySelectList = GetCategorySelectList();
+            viewModel.Categories = GetCategories();
+
+            return RestfulResult(
+                viewModel,
+                "identification",
+                "createidentification",
+                new Action<dynamic>(x => x.Model.Create = true));
+        }
+
+        [HttpGet]
+        [Authorize]
         public ActionResult CreateNoteForm(string id)
         {
             // TODO: Check permission to edit this note
@@ -359,6 +396,32 @@ namespace Bowerbird.Web.Controllers
                 "sightingnotes",
                 "createnote",
                 new Action<dynamic>(x => x.Model.Create = true));
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult UpdateIdentificationForm(string id, int identificationId)
+        {
+            // TODO: Check permission to edit this note
+            //if (!_userContext.HasUserProjectPermission(PermissionNames.UpdateSightingNote))
+            //{
+            //    return HttpUnauthorized();
+            //}
+
+            var observationId = VerbosifyId<Observation>(id);
+
+            dynamic viewModel = new ExpandoObject();
+
+            viewModel.Identification = _sightingNoteViewModelBuilder.BuildUpdateIdentification(observationId, identificationId);
+            viewModel.Sighting = _sightingViewModelBuilder.BuildSighting(observationId);
+            viewModel.CategorySelectList = GetCategorySelectList();
+            viewModel.Categories = GetCategories();
+
+            return RestfulResult(
+                viewModel,
+                "identification",
+                "updateidentification",
+                new Action<dynamic>(x => x.Model.Update = true));
         }
 
         [HttpGet]
@@ -411,6 +474,33 @@ namespace Bowerbird.Web.Controllers
                     UserId = _userContext.GetAuthenticatedUserId(),
                     Descriptions = createInput.Descriptions ?? new Dictionary<string, string>(),
                     Tags = createInput.Tags ?? string.Empty,
+                    Comments = createInput.Comments
+                });
+
+            return JsonSuccess();
+        }
+
+        [Transaction]
+        [HttpPost]
+        [Authorize]
+        public ActionResult CreateIdentification(IdentificationCreateInput createInput)
+        {
+            //if (!_userContext.HasGroupPermission<Observation>(PermissionNames.CreateSightingNote, createInput.SightingId))
+            //{
+            //    return HttpUnauthorized();
+            //}
+
+            if (!ModelState.IsValid)
+            {
+                return JsonFailed();
+            }
+
+            _messageBus.Send(
+                new IdentificationCreateCommand()
+                {
+                    SightingId = createInput.SightingId,
+                    UserId = _userContext.GetAuthenticatedUserId(),
+                    Comments = createInput.Comments ?? string.Empty,
                     IsCustomIdentification = createInput.IsCustomIdentification,
                     Taxonomy = createInput.Taxonomy ?? string.Empty,
                     Category = createInput.Category ?? string.Empty,
@@ -423,7 +513,8 @@ namespace Bowerbird.Web.Controllers
                     Species = createInput.Species ?? string.Empty,
                     Subspecies = createInput.Subspecies ?? string.Empty,
                     CommonGroupNames = createInput.CommonGroupNames ?? new string[] { },
-                    CommonNames = createInput.CommonNames ?? new string[] { }
+                    CommonNames = createInput.CommonNames ?? new string[] { },
+                    Synonyms = createInput.Synonyms ?? new string[] { }
                 });
 
             return JsonSuccess();
@@ -452,7 +543,35 @@ namespace Bowerbird.Web.Controllers
                     SightingId = updateInput.SightingId,
                     UserId = _userContext.GetAuthenticatedUserId(),
                     Descriptions = updateInput.Descriptions ?? new Dictionary<string, string>(),
-                    Tags = updateInput.Tags ?? string.Empty,
+                    Tags = updateInput.Tags ?? string.Empty
+                });
+
+            return JsonSuccess();
+        }
+
+        [Transaction]
+        [HttpPut]
+        [Authorize]
+        public ActionResult UpdateIdentification(IdentificationUpdateInput updateInput)
+        {
+            // TODO: Check permission to edit this note
+            //if (!_userContext.HasGroupPermission<Observation>(PermissionNames.CreateSightingNote, updateInput.Id))
+            //{
+            //    return HttpUnauthorized();
+            //}
+
+            if (!ModelState.IsValid)
+            {
+                return JsonFailed();
+            }
+
+            _messageBus.Send(
+                new IdentificationUpdateCommand()
+                {
+                    Id = updateInput.Id,
+                    SightingId = updateInput.SightingId,
+                    UserId = _userContext.GetAuthenticatedUserId(),
+                    Comments = updateInput.Comments,
                     IsCustomIdentification = updateInput.IsCustomIdentification,
                     Taxonomy = updateInput.Taxonomy ?? string.Empty,
                     Category = updateInput.Category ?? string.Empty,
@@ -465,11 +584,54 @@ namespace Bowerbird.Web.Controllers
                     Species = updateInput.Species ?? string.Empty,
                     Subspecies = updateInput.Subspecies ?? string.Empty,
                     CommonGroupNames = updateInput.CommonGroupNames ?? new string[] { },
-                    CommonNames = updateInput.CommonNames ?? new string[] { }
+                    CommonNames = updateInput.CommonNames ?? new string[] { },
+                    Synonyms = updateInput.Synonyms ?? new string[] { }
                 });
 
             return JsonSuccess();
         }
+
+        //[HttpPost]
+        //[Authorize]
+        //[Transaction]
+        //public ActionResult CreateVote(string id, string subId)
+        //{
+        //    if (Request.IsAjaxRequest())
+        //    {
+        //        _messageBus.Send(
+        //            new VoteCreateCommand()
+        //            {
+        //                UserId = _userContext.GetAuthenticatedUserId(),
+        //                ContributionId = id,
+        //                SubContributionId = subId
+        //            });
+
+        //        return JsonSuccess();
+        //    }
+
+        //    return HttpNotFound();
+        //}
+
+        //[HttpDelete]
+        //[Authorize]
+        //[Transaction]
+        //public ActionResult DeleteVote(string id, string subId)
+        //{
+        //    if (Request.IsAjaxRequest())
+        //    {
+        //        _messageBus.Send(
+        //            new VoteDeleteCommand()
+        //            {
+        //                UserId = _userContext.GetAuthenticatedUserId(),
+        //                ContributionId = id,
+        //                SubContributionId = subId
+        //            });
+
+        //        return JsonSuccess();
+        //    }
+
+        //    return HttpNotFound();
+        //}
 
         public ActionResult Categories()
         {
@@ -491,13 +653,18 @@ namespace Bowerbird.Web.Controllers
             return HttpNotFound();
         }
 
+        private bool IsValidIdentification(IdentificationCreateInput identificationCreateInput)
+        {
+            // At least one of the following items has been filled in:
+            return identificationCreateInput.IsCustomIdentification ? true : !string.IsNullOrWhiteSpace(identificationCreateInput.Taxonomy); // An identification
+        }
+
         private bool IsValidSightingNote(SightingNoteCreateInput sightingNoteCreateInput)
         {
             // At least one of the following items has been filled in:
             return
                 (sightingNoteCreateInput.Descriptions != null && sightingNoteCreateInput.Descriptions.Where(x => !string.IsNullOrWhiteSpace(x.Key) && !string.IsNullOrWhiteSpace(x.Value)).Count() > 0) || // At least one description
-                (sightingNoteCreateInput.Tags != null && sightingNoteCreateInput.Tags.Split(new [] { "," }, StringSplitOptions.RemoveEmptyEntries).Count() > 0) || // At least one tag
-                (sightingNoteCreateInput.IsCustomIdentification ? true : !string.IsNullOrWhiteSpace(sightingNoteCreateInput.Taxonomy)); // An identification
+                (sightingNoteCreateInput.Tags != null && sightingNoteCreateInput.Tags.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries).Count() > 0); // At least one tag
         }
 
         private IEnumerable GetCategorySelectList(string observationId = "", string category = "")

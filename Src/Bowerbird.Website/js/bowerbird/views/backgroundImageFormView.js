@@ -48,7 +48,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'models/m
         },
 
         _onImageUploadAdd: function (e, data) {
-            this.$el.find('#background-viewer').empty().append('<img class="progress-indicator" src="/img/loaderx.gif" alt="" style="width: " />');
+            this.$el.find('#background-viewer').empty().append('<img class="progress-indicator" src="/img/loader-small.gif" alt="" style="width: " />');
 
             this.key = app.generateGuid();
 

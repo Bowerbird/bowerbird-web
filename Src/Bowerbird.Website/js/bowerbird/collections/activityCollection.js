@@ -10,6 +10,13 @@
 
 define(['jquery', 'underscore', 'backbone', 'collections/paginatedcollection', 'models/activity', 'models/user', 'models/project'], function ($, _, Backbone, PaginatedCollection, Activity, User, Project) {
 
+    var padDateTime = function (val) {
+        if (val < 10) {
+            return '0' + val.toString();
+        }
+        return val.toString();
+    };
+
     var ActivityCollection = PaginatedCollection.extend({
         model: Activity,
 
@@ -21,7 +28,7 @@ define(['jquery', 'underscore', 'backbone', 'collections/paginatedcollection', '
             _.bindAll(this, 'onSuccess', 'onSuccessWithAddFix', 'getFetchOptions');
 
             PaginatedCollection.prototype.initialize.apply(this, arguments);
-            
+
             typeof (options) != 'undefined' || (options = {});
 
             if (options.id) {
@@ -83,7 +90,7 @@ define(['jquery', 'underscore', 'backbone', 'collections/paginatedcollection', '
             }
 
             // Get either items newer than or older than baseline
-            options.data[newerOrOlder] = this.baselineDateTime;
+            options.data[newerOrOlder] = this.baselineDateTime.getFullYear() + '-' + padDateTime(this.baselineDateTime.getMonth() + 1) + '-' + padDateTime(this.baselineDateTime.getDate()) + 'T' + padDateTime(this.baselineDateTime.getHours()) + ':' + padDateTime(this.baselineDateTime.getMinutes()) + ':' + padDateTime(this.baselineDateTime.getSeconds()) + 'Z';
 
             return options;
         },

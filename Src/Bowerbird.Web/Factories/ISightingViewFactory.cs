@@ -10,8 +10,8 @@ namespace Bowerbird.Web.Factories
 
         object MakeNewRecord(string category = "", string projectId = "");
 
-        dynamic Make(All_Contributions.Result result);
+        //dynamic Make(All_Contributions.Result result, User authenticatedUser);
 
-        dynamic Make(Sighting sighting, User user, IEnumerable<Project> projects);
+        dynamic Make(Sighting sighting, User user, IEnumerable<Group> projects, User authenticatedUser);
     }
 }

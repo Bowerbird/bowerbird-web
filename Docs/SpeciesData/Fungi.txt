@@ -4076,6 +4076,7 @@ Fungi & Lichens	Fungi	Gilled mushrooms	Fungi: Basidiomycota	Agaricales	Agaricace
 Fungi & Lichens	Fungi	Common Field Mushroom	Fungi: Basidiomycota	Agaricales	Agaricaceae	Agaricus	campestris			
 Fungi & Lichens	Fungi	Gilled mushrooms	Fungi: Basidiomycota	Agaricales	Agaricaceae	Agaricus	carminescens			
 Fungi & Lichens	Fungi	Gilled mushrooms	Fungi: Basidiomycota	Agaricales	Agaricaceae	Agaricus	cinereocyaneus			
+Fungi & Lichens	Fungi	Gilled mushrooms	Fungi: Basidiomycota	Agaricales	Agaricaceae	Agaricus	colpeteus			
 Fungi & Lichens	Fungi	Gilled mushrooms	Fungi: Basidiomycota	Agaricales	Agaricaceae	Agaricus	comtulus			
 Fungi & Lichens	Fungi	Gilled mushrooms	Fungi: Basidiomycota	Agaricales	Agaricaceae	Agaricus	cretaceus			
 Fungi & Lichens	Fungi	Gilled mushrooms	Fungi: Basidiomycota	Agaricales	Agaricaceae	Agaricus	devoniensis			

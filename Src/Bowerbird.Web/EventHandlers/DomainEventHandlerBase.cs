@@ -41,7 +41,8 @@ namespace Bowerbird.Web.EventHandlers
             DateTime created,
             string description, 
             IEnumerable<dynamic> groups,
-            string contributionId = (string)null
+            string contributionId = (string)null,
+            string subContributionId = (string)null
             ) 
             where T : IDomainEvent
         {
@@ -56,7 +57,8 @@ namespace Bowerbird.Web.EventHandlers
                     domainEvent.User.Avatar
                 },
                 groups,
-                contributionId);
+                contributionId,
+                subContributionId);
         }
 
         #endregion

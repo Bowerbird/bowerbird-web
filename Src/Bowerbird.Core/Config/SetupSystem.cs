@@ -183,28 +183,31 @@ namespace Bowerbird.Core.Config
                 AddPermission(PermissionNames.CreateOrganisation, "Create Organisations", "Ability to create organisations", documentSession);
                 AddPermission(PermissionNames.UpdateOrganisation, "Update Organisations", "Ability to update organisations", documentSession);
                 AddPermission(PermissionNames.DeleteOrganisation, "Delete Organisations", "Ability to delete organisations", documentSession);
-                AddPermission(PermissionNames.CreateTeam, "Create Teams", "Ability to create teams", documentSession);
-                AddPermission(PermissionNames.UpdateTeam, "Update Teams", "Ability to update teams", documentSession);
-                AddPermission(PermissionNames.DeleteTeam, "Delete Teams", "Ability to delete teams", documentSession);
                 AddPermission(PermissionNames.CreateProject, "Create Projects", "Ability to create projects", documentSession);
                 AddPermission(PermissionNames.UpdateProject, "Update Projects", "Ability to update projects", documentSession);
                 AddPermission(PermissionNames.DeleteProject, "Delete Projects", "Ability to delete projects", documentSession);
-                AddPermission(PermissionNames.CreateWatchlist, "Create Watchlists", "Ability to create watchlists", documentSession);
-                AddPermission(PermissionNames.UpdateWatchlist, "Update Watchlists", "Ability to update watchlists", documentSession);
-                AddPermission(PermissionNames.DeleteWatchlist, "Delete Watchlists", "Ability to delete watchlists", documentSession);
+                //AddPermission(PermissionNames.CreateWatchlist, "Create Watchlists", "Ability to create watchlists", documentSession);
+                //AddPermission(PermissionNames.UpdateWatchlist, "Update Watchlists", "Ability to update watchlists", documentSession);
+                //AddPermission(PermissionNames.DeleteWatchlist, "Delete Watchlists", "Ability to delete watchlists", documentSession);
                 AddPermission(PermissionNames.CreateObservation, "Create Observations", "Ability to create observations", documentSession);
                 AddPermission(PermissionNames.UpdateObservation, "Update Observations", "Ability to update observations", documentSession);
                 AddPermission(PermissionNames.DeleteObservation, "Delete Observations", "Ability to delete observations", documentSession);
                 AddPermission(PermissionNames.CreatePost, "Create Posts", "Ability to create posts", documentSession);
                 AddPermission(PermissionNames.UpdatePost, "Update Posts", "Ability to update posts", documentSession);
                 AddPermission(PermissionNames.DeletePost, "Delete Posts", "Ability to delete posts", documentSession);
+                AddPermission(PermissionNames.CreateIdentification, "Create Identifications", "Ability to create identifications", documentSession);
+                AddPermission(PermissionNames.UpdateIdentification, "Update Identifications", "Ability to update identifications", documentSession);
+                AddPermission(PermissionNames.DeleteIdentification, "Delete Identifications", "Ability to delete identifications", documentSession);
+                AddPermission(PermissionNames.CreateSightingNote, "Create Sighting Notes", "Ability to create sighting notes", documentSession);
+                AddPermission(PermissionNames.UpdateSightingNote, "Update Sighting Notes", "Ability to update sighting notes", documentSession);
+                AddPermission(PermissionNames.DeleteSightingNote, "Delete Sighting Notes", "Ability to delete sighting notes", documentSession);
                 AddPermission(PermissionNames.CreateSpecies, "Create Species", "Ability to create species", documentSession);
                 AddPermission(PermissionNames.UpdateSpecies, "Update Species", "Ability to update species", documentSession);
                 AddPermission(PermissionNames.DeleteSpecies, "Delete Species", "Ability to delete species", documentSession);
                 //AddPermission(PermissionNames.CreateReferenceSpecies, "Create Reference Species", "Ability to create reference species", documentSession);
                 //AddPermission(PermissionNames.UpdateReferenceSpecies, "Update Reference Species", "Ability to update reference species", documentSession);
                 //AddPermission(PermissionNames.DeleteReferenceSpecies, "Delete Reference Species", "Ability to delete reference species", documentSession);
-                AddPermission(PermissionNames.Chat, "Chat", "Chat with othet users", documentSession);
+                AddPermission(PermissionNames.Chat, "Chat", "Chat with other users", documentSession);
 
                 documentSession.SaveChanges();
             }
@@ -228,53 +231,34 @@ namespace Bowerbird.Core.Config
                         PermissionNames.CreateOrganisation,
                         PermissionNames.UpdateOrganisation,
                         PermissionNames.DeleteOrganisation,
-                        PermissionNames.CreateTeam,
-                        PermissionNames.UpdateTeam,
-                        PermissionNames.DeleteTeam,
                         PermissionNames.CreateProject,
                         PermissionNames.UpdateProject,
                         PermissionNames.DeleteProject,
                         PermissionNames.CreateSpecies,
                         PermissionNames.UpdateSpecies,
                         PermissionNames.DeleteSpecies);
-                AddRole("globalmoderator", "Global Community Moderator", "Comunity moderator of Bowerbird",
+                AddRole("globalmoderator", "Global Community Moderator", "Community moderator of Bowerbird",
                         documentSession);
-                        //PermissionNames.CreateReferenceSpecies,
-                        //PermissionNames.UpdateReferenceSpecies,
-                        //PermissionNames.DeleteReferenceSpecies);
                 AddRole("globalmember", "Global Member", "Member of Bowerbird",
                         documentSession,
                         PermissionNames.CreateObservation,
                         PermissionNames.UpdateObservation,
                         PermissionNames.DeleteObservation,
                         PermissionNames.CreateProject,
-                        PermissionNames.UpdateProject,
-                        PermissionNames.DeleteProject,
                         PermissionNames.Chat);
                 AddRole("organisationadministrator", "Organisation Administrator", "Administrator of an organisation",
                         documentSession,
-                        PermissionNames.UpdateOrganisation,
-                        PermissionNames.CreateTeam,
-                        PermissionNames.UpdateTeam,
-                        PermissionNames.DeleteTeam);
+                        PermissionNames.UpdateOrganisation);
                 AddRole("organisationmember", "Organisation Member", "Member of an organisation",
                         documentSession,
                         PermissionNames.CreatePost,
                         PermissionNames.UpdatePost,
                         PermissionNames.DeletePost,
                         PermissionNames.Chat);
-                AddRole("teamadministrator", "Team Administrator", "Administrator of a team",
-                        documentSession,
-                        PermissionNames.UpdateTeam,
-                        PermissionNames.CreateProject,
-                        PermissionNames.UpdateProject,
-                        PermissionNames.DeleteProject);
-                AddRole("teammember", "Team Member", "Member of a team",
-                        documentSession,
-                        PermissionNames.CreatePost,
-                        PermissionNames.UpdatePost,
-                        PermissionNames.DeletePost,
-                        PermissionNames.Chat);
+                AddRole("favouritesadministrator", "Favourites Administrator", "Administrator of a favourites group",
+                        documentSession);
+                AddRole("favouritesmember", "Favourites Member", "Member of a favourites group",
+                        documentSession);
                 AddRole("projectadministrator", "Project Administrator", "Administrator of a project",
                         documentSession,
                         PermissionNames.UpdateProject);
@@ -346,7 +330,10 @@ namespace Bowerbird.Core.Config
 
         private void AddUser(string password, string email, string name, IDocumentSession documentSession, params string[] roleIds)
         {
-            var user = new User(password, email, name, _mediaResourceFactory.MakeDefaultAvatarImage(AvatarDefaultType.User), 
+            var defaultAvatarImage = _mediaResourceFactory.MakeDefaultAvatarImage(AvatarDefaultType.User);
+            var defaultBackgroundImage = _mediaResourceFactory.MakeDefaultBackgroundImage("user");
+
+            var user = new User(password, email, name, defaultAvatarImage, 
                 Constants.DefaultLicence, Constants.DefaultTimezone, DateTime.UtcNow);
             documentSession.Store(user);
 
@@ -355,7 +342,7 @@ namespace Bowerbird.Core.Config
                 Roles.Where(x => roleIds.Any(y => x.Id == "roles/" + y)));
             documentSession.Store(user);
 
-            var userProject = new UserProject(user, DateTime.UtcNow, TheAppRoot);
+            var userProject = new UserProject(user, name, string.Empty, string.Empty, defaultAvatarImage, defaultBackgroundImage, DateTime.UtcNow, TheAppRoot);
             documentSession.Store(userProject);
 
             user.AddMembership(

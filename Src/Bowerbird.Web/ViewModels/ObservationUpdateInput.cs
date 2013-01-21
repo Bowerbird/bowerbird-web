@@ -46,11 +46,6 @@ namespace Bowerbird.Web.ViewModels
 
         public string Address { get; set; }
 
-        /// <summary>
-        /// TODO: Remove, obsolete
-        /// </summary>
-        public bool IsIdentificationRequired { get; set; }
-
         [Required]
         public bool AnonymiseLocation { get; set; }
 

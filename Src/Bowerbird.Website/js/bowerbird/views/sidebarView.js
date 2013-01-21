@@ -48,12 +48,6 @@ function ($, _, Backbone, app, SidebarMenuGroupView, SidebarProjectItemView, Sid
                 this.organisationsMenu.show(sidebarOrganisationMenuGroupView);
             }
 
-//            this.$el.find('#action-menu a').on('click', function (e) {
-//                e.preventDefault();
-//                Backbone.history.navigate($(this).attr('href'), { trigger: true });
-//                return false;
-//            });
-
             app.authenticatedUser.projects.on('add', this.addProject, this);
 
             app.authenticatedUser.projects.on('remove', this.removeProject, this);

@@ -1,5 +1,4 @@
-Birds	"Ducks, geese and swans"	Garganey	Animalia: Chordata: Aves	Anseriformes	Anatidae	Anas	querquedula 
-Birds	"Ducks, geese and swans"	Australasian Shoveler	Animalia: Chordata: Aves	Anseriformes	Anatidae	Anas	rhynchotis 
+Birds	"Ducks, geese and swans"	Garganey	Animalia: Chordata: Aves	Anseriformes	Anatidae	Anas	platyrhynchos
 Birds	"Ducks, geese and swans"	Mariana Mallard	Animalia: Chordata: Aves	Anseriformes	Anatidae	Anas	superciliosa 
 Birds	"Ducks, geese and swans"	Mariana Mallard	Animalia: Chordata: Aves	Anseriformes	Anatidae	Anas	superciliosa superciliosa
 Birds	"Ducks, geese and swans"	Raja Shelduck or Radjah Shelduck 	Animalia: Chordata: Aves	Anseriformes	Anatidae	Tadorna	radjah 
@@ -7,6 +6,7 @@ Birds	"Ducks, geese and swans"	Raja Shelduck or Radjah Shelduck 	Animalia: Chord
 Birds	"Ducks, geese and swans"	Australian Shelduck	Animalia: Chordata: Aves	Anseriformes	Anatidae	Tadorna	tadornoides 
 Birds	"Ducks, geese and swans"	Paradise-Shelduck	Animalia: Chordata: Aves	Anseriformes	Anatidae	Tadorna	variegata 
 Birds	Geese	Magpie-geese	Animalia: Chordata: Aves	Anseriformes	Anseranatidae	Anseranas	semipalmata 
+Birds	Swifts	Australian Owlet-nightjar	Animalia: Chordata: Aves	Apodiformes	Aegothelidae	Aegotheles (Aegotheles)	cristatus
 Birds	Swifts	Australian Swiftlet	Animalia: Chordata: Aves	Apodiformes	Apodidae	Aerodramus	terraereginae 
 Birds	Swifts	Australian Swiftlet	Animalia: Chordata: Aves	Apodiformes	Apodidae	Aerodramus	terraereginae chillagoensis
 Birds	Swifts	Australian Swiftlet	Animalia: Chordata: Aves	Apodiformes	Apodidae	Aerodramus	terraereginae terraereginae
@@ -146,7 +146,7 @@ Birds	Stilts	Banded Stilt 	Animalia: Chordata: Aves	Charadriiformes	Recurvirostr
 Birds	Stilts	"Black-winged Stilt, Common Stilt, or Pied Stilt "	Animalia: Chordata: Aves	Charadriiformes	Recurvirostridae	Himantopus	himantopus 
 Birds	Stilts	"Black-winged Stilt, Common Stilt, or Pied Stilt "	Animalia: Chordata: Aves	Charadriiformes	Recurvirostridae	Himantopus	himantopus leucocephalus
 Birds	Stilts	Red-necked Avocet 	Animalia: Chordata: Aves	Charadriiformes	Recurvirostridae	Recurvirostra	novaehollandiae 
-Birds	Snipes	Australian Painted Snipe	Animalia: Chordata: Aves	Charadriiformes	Rostratuildae	Rostratula	australis 
+Birds	Snipes	Australian Painted Snipe	Animalia: Chordata: Aves	Charadriiformes	Rostratulidae	Rostratula	australis 
 Birds	Sandpipers	Common Sandpiper	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Actitis	hypoleucos 
 Birds	Sandpipers	Ruddy Turnstone 	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Arenaria	interpres 
 Birds	Sandpipers	Ruddy Turnstone 	Animalia: Chordata: Aves	Charadriiformes	Scolopacidae	Arenaria	interpres interpres
@@ -279,7 +279,7 @@ Birds	Pigeons & doves	Partridge Pigeon	Animalia: Chordata: Aves	Columbiformes	Co
 Birds	Pigeons & doves	Partridge Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Geophaps	smithii smithii
 Birds	Pigeons & doves	Pigeons and doves	Animalia: Chordata: Aves	Columbiformes	Columbidae	Hemiphaga	novaeseelandiae 
 Birds	Pigeons & doves	New Zealand Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Hemiphaga	novaeseelandiae spadicea
-Birds	Pigeons & doves	Wonga Pigeon 	Animalia: Chordata: Aves	Columbiformes	Columbidae	Leucosarcia	melanoleuca 
+Birds	Pigeons & doves	Wonga Pigeon 	Animalia: Chordata: Aves	Columbiformes	Columbidae	Leucosarcia	melanoleuca
 Birds	Pigeons & doves	Topknot Pigeon	Animalia: Chordata: Aves	Columbiformes	Columbidae	Lopholaimus	antarcticus 
 Birds	Pigeons & doves	Slender-billed Cuckoo-Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Macropygia	amboinensis 
 Birds	Pigeons & doves	Slender-billed Cuckoo-Dove	Animalia: Chordata: Aves	Columbiformes	Columbidae	Macropygia	amboinensis phasianella
@@ -423,6 +423,37 @@ Birds	Cuckoos	Large Hawk-Cuckoo	Animalia: Chordata: Aves	Cuculiformes	Cuculidae	
 Birds	Cuckoos	Channel-billed Cuckoo	Animalia: Chordata: Aves	Cuculiformes	Cuculidae	Scythrops 	novaehollandiae 
 Birds	Cuckoos	Channel-billed Cuckoo	Animalia: Chordata: Aves	Cuculiformes	Cuculidae	Scythrops 	novaehollandiae novaehollandiae
 Birds	Cuckoos	"Long-tailed Cuckoo, Long-tailed Koel "	Animalia: Chordata: Aves	Cuculiformes	Cuculidae	Urodynamis 	taitensis 
+Birds	"Goshawks, Kites, Harriers, Eagles"	Brown Goshawk	Animalia: Chordata: Aves	Falconiformes	Accipitridae	Accipiter Leucospiza	fasciatus 
+Birds	"Goshawks, Kites, Harriers, Eagles"	Brown Goshawk	Animalia: Chordata: Aves	Falconiformes	Accipitridae	Accipiter Leucospiza	fasciatus didimus
+Birds	"Goshawks, Kites, Harriers, Eagles"	Brown Goshawk	Animalia: Chordata: Aves	Falconiformes	Accipitridae	Accipiter Leucospiza	fasciatus fasciatus
+Birds	"Goshawks, Kites, Harriers, Eagles"	Variable Goshawk	Animalia: Chordata: Aves	Falconiformes	Accipitridae	Accipiter Leucospiza	hiogaster 
+Birds	"Goshawks, Kites, Harriers, Eagles"	Variable Goshawk	Animalia: Chordata: Aves	Falconiformes	Accipitridae	Accipiter Leucospiza	hiogaster natalis
+Birds	"Goshawks, Kites, Harriers, Eagles"	Grey Goshawk	Animalia: Chordata: Aves	Falconiformes	Accipitridae	Accipiter Leucospiza	novaehollandiae 
+Birds	"Goshawks, Kites, Harriers, Eagles"	Collared Sparrowhawk	Animalia: Chordata: Aves	Falconiformes	Accipitridae	Accipiter Paraspizias	cirrocephalus 
+Birds	"Goshawks, Kites, Harriers, Eagles"	Collared Sparrowhawk	Animalia: Chordata: Aves	Falconiformes	Accipitridae	Accipiter Paraspizias	cirrocephalus cirrocephalus
+Birds	"Goshawks, Kites, Harriers, Eagles"	Gurney's Eagle	Animalia: Chordata: Aves	Falconiformes	Accipitridae	Aquila Aquila	gurneyi 
+Birds	"Goshawks, Kites, Harriers, Eagles"	Wedge-tailed Eagle	Animalia: Chordata: Aves	Falconiformes	Accipitridae	Aquila Uroaetus	audax 
+Birds	"Goshawks, Kites, Harriers, Eagles"	Wedge-tailed Eagle	Animalia: Chordata: Aves	Falconiformes	Accipitridae	Aquila Uroaetus	audax audax
+Birds	"Goshawks, Kites, Harriers, Eagles"	Wedge-tailed Eagle	Animalia: Chordata: Aves	Falconiformes	Accipitridae	Aquila Uroaetus	audax fleayi
+Birds	"Goshawks, Kites, Harriers, Eagles"	Pacific Baza	Animalia: Chordata: Aves	Falconiformes	Accipitridae	Aviceda Aviceda	subcristata 
+Birds	"Goshawks, Kites, Harriers, Eagles"	Pacific Baza	Animalia: Chordata: Aves	Falconiformes	Accipitridae	Aviceda Aviceda	subcristata subcristata
+Birds	"Goshawks, Kites, Harriers, Eagles"	Swamp Harrier	Animalia: Chordata: Aves	Falconiformes	Accipitridae	Circus 	approximans 
+Birds	"Goshawks, Kites, Harriers, Eagles"	Spotted Harrier	Animalia: Chordata: Aves	Falconiformes	Accipitridae	Circus 	assimilis 
+Birds	"Goshawks, Kites, Harriers, Eagles"	Black-shouldered Kite	Animalia: Chordata: Aves	Falconiformes	Accipitridae	Elanus 	axillaris 
+Birds	"Goshawks, Kites, Harriers, Eagles"	Letter-winged Kite	Animalia: Chordata: Aves	Falconiformes	Accipitridae	Elanus 	scriptus 
+Birds	"Goshawks, Kites, Harriers, Eagles"	Red Goshawk	Animalia: Chordata: Aves	Falconiformes	Accipitridae	Erythrotriorchis 	radiatus 
+Birds	"Goshawks, Kites, Harriers, Eagles"	White-bellied Sea-Eagle	Animalia: Chordata: Aves	Falconiformes	Accipitridae	Haliaeetus Pontoaetus	leucogaster 
+Birds	"Goshawks, Kites, Harriers, Eagles"	Brahminy Kite	Animalia: Chordata: Aves	Falconiformes	Accipitridae	Haliastur 	indus 
+Birds	"Goshawks, Kites, Harriers, Eagles"	Brahminy Kite	Animalia: Chordata: Aves	Falconiformes	Accipitridae	Haliastur 	indus girrenera
+Birds	"Goshawks, Kites, Harriers, Eagles"	Whistling Kite	Animalia: Chordata: Aves	Falconiformes	Accipitridae	Haliastur 	sphenurus 
+Birds	"Goshawks, Kites, Harriers, Eagles"	Black-breasted Buzzard	Animalia: Chordata: Aves	Falconiformes	Accipitridae	Hamirostra 	melanosternon 
+Birds	"Goshawks, Kites, Harriers, Eagles"	Little Eagle	Animalia: Chordata: Aves	Falconiformes	Accipitridae	Hieraaetus Hieraaetus	morphnoides 
+Birds	"Goshawks, Kites, Harriers, Eagles"	Little Eagle	Animalia: Chordata: Aves	Falconiformes	Accipitridae	Hieraaetus Hieraaetus	morphnoides morphnoides
+Birds	"Goshawks, Kites, Harriers, Eagles"	Square-tailed Kite	Animalia: Chordata: Aves	Falconiformes	Accipitridae	Lophoictinia 	isura 
+Birds	"Goshawks, Kites, Harriers, Eagles"	Black Kite	Animalia: Chordata: Aves	Falconiformes	Accipitridae	Milvus 	migrans 
+Birds	"Goshawks, Kites, Harriers, Eagles"	Black Kite	Animalia: Chordata: Aves	Falconiformes	Accipitridae	Milvus 	migrans affinis
+Birds	"Goshawks, Kites, Harriers, Eagles"	Eastern Osprey	Animalia: Chordata: Aves	Falconiformes	Accipitridae	Pandion 	cristatus 
+Birds	"Goshawks, Kites, Harriers, Eagles"	Oriental Honey-buzzard	Animalia: Chordata: Aves	Falconiformes	Accipitridae	Pernis 	ptilorynchus 
 Birds	Falcons & Kestrels	Brown Falcon	Animalia: Chordata: Aves	Falconiformes	Falconidae	Falco	berigora 
 Birds	Falcons & Kestrels	Brown Falcon	Animalia: Chordata: Aves	Falconiformes	Falconidae	Falco	berigora berigora
 Birds	Falcons & Kestrels	Brown Falcon	Animalia: Chordata: Aves	Falconiformes	Falconidae	Falco	berigora novaeguineae
@@ -436,6 +467,15 @@ Birds	Falcons & Kestrels	Australian Hobby or Little Falcon	Animalia: Chordata: A
 Birds	Falcons & Kestrels	Peregrine Falcon	Animalia: Chordata: Aves	Falconiformes	Falconidae	Falco	peregrinus 
 Birds	Falcons & Kestrels	Peregrine Falcon	Animalia: Chordata: Aves	Falconiformes	Falconidae	Falco	peregrinus macropus
 Birds	Falcons & Kestrels	Black Falcon	Animalia: Chordata: Aves	Falconiformes	Falconidae	Falco	subniger 
+Birds	Scrub fowl	Australian Brush-turkey	Animalia: Chordata: Aves	Galliformes	Megapodiidae	Alectura 	lathami 
+Birds	Scrub fowl	Australian Brush-turkey	Animalia: Chordata: Aves	Galliformes	Megapodiidae	Alectura 	lathami lathami
+Birds	Scrub fowl	Australian Brush-turkey	Animalia: Chordata: Aves	Galliformes	Megapodiidae	Alectura 	lathami purpureicollis
+Birds	Scrub fowl	Malleefowl	Animalia: Chordata: Aves	Galliformes	Megapodiidae	Leipoa 	ocellata 
+Birds	Scrub fowl	Orange-footed Scrubfowl	Animalia: Chordata: Aves	Galliformes	Megapodiidae	Megapodius Megapodius	reinwardt 
+Birds	Scrub fowl	Orange-footed Scrubfowl	Animalia: Chordata: Aves	Galliformes	Megapodiidae	Megapodius Megapodius	reinwardt castanonotus
+Birds	Scrub fowl	Orange-footed Scrubfowl	Animalia: Chordata: Aves	Galliformes	Megapodiidae	Megapodius Megapodius	reinwardt reinwardt
+Birds	Scrub fowl	Orange-footed Scrubfowl	Animalia: Chordata: Aves	Galliformes	Megapodiidae	Megapodius Megapodius	reinwardt tumulus
+Birds	Scrub fowl	Orange-footed Scrubfowl	Animalia: Chordata: Aves	Galliformes	Megapodiidae	Megapodius Megapodius	reinwardt yorki
 Birds	Turkeys & Scrubfowls	Australian Brush-turkey	Animalia: Chordata: Aves	Galliformes	Megapopiidae	Alectura	lathami 
 Birds	Turkeys & Scrubfowls	Australian Brush-turkey	Animalia: Chordata: Aves	Galliformes	Megapopiidae	Alectura	lathami lathami
 Birds	Turkeys & Scrubfowls	Australian Brush-turkey	Animalia: Chordata: Aves	Galliformes	Megapopiidae	Alectura	lathami purpureicollis
@@ -501,6 +541,145 @@ Birds	Rails	Red-legged Crake	Animalia: Chordata: Aves	Gruiformes	Rallidae	Rallin
 Birds	Rails	Red-necked Crake	Animalia: Chordata: Aves	Gruiformes	Rallidae	Rallina	tricolor 
 Birds	Rails	Tasmanian Nativehen 	Animalia: Chordata: Aves	Gruiformes	Rallidae	Tribonyx	mortierii 
 Birds	Rails	Black-tailed Native-hen 	Animalia: Chordata: Aves	Gruiformes	Rallidae	Tribonyx	ventralis 
+Birds	Whistlers	Inland Thornbill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthiza Acanthiza	apicalis
+Birds	Whistlers	Inland Thornbill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthiza Acanthiza	apicalis 
+Birds	Whistlers	Inland Thornbill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthiza Acanthiza	apicalis albiventris
+Birds	Whistlers	Inland Thornbill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthiza Acanthiza	apicalis apicalis
+Birds	Whistlers	Inland Thornbill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthiza Acanthiza	apicalis cinerascens
+Birds	Whistlers	Inland Thornbill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthiza Acanthiza	apicalis whitlocki
+Birds	Whistlers	Tasmanian Thornbill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthiza Acanthiza	ewingii 
+Birds	Whistlers	Tasmanian Thornbill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthiza Acanthiza	ewingii ewingii
+Birds	Whistlers	Tasmanian Thornbill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthiza Acanthiza	ewingii rufifrons
+Birds	Whistlers	Mountain Thornbill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthiza Acanthiza	katherina 
+Birds	Whistlers	Brown Thornbill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthiza Acanthiza	pusilla 
+Birds	Whistlers	Brown Thornbill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthiza Acanthiza	pusilla archibaldi
+Birds	Whistlers	Brown Thornbill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthiza Acanthiza	pusilla dawsonensis
+Birds	Whistlers	Brown Thornbill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthiza Acanthiza	pusilla diemenensis
+Birds	Whistlers	Brown Thornbill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthiza Acanthiza	pusilla pusilla
+Birds	Whistlers	Brown Thornbill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthiza Acanthiza	pusilla zietzi
+Birds	Whistlers	Yellow-rumped Thornbill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthiza Geobasileus	chrysorrhoa 
+Birds	Whistlers	Yellow-rumped Thornbill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthiza Geobasileus	chrysorrhoa chrysorrhoa
+Birds	Whistlers	Yellow-rumped Thornbill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthiza Geobasileus	chrysorrhoa leachi
+Birds	Whistlers	Yellow-rumped Thornbill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthiza Geobasileus	chrysorrhoa leighi
+Birds	Whistlers	Yellow-rumped Thornbill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthiza Geobasileus	chrysorrhoa normantoni
+Birds	Whistlers	Western Thornbill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthiza Geobasileus	inornata 
+Birds	Whistlers	Slender-billed Thornbill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthiza Geobasileus	iredalei 
+Birds	Whistlers	Slender-billed Thornbill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthiza Geobasileus	iredalei hedleyi
+Birds	Whistlers	Slender-billed Thornbill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthiza Geobasileus	iredalei iredalei
+Birds	Whistlers	Slender-billed Thornbill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthiza Geobasileus	iredalei rosinae
+Birds	Whistlers	Buff-rumped Thornbill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthiza Geobasileus	reguloides 
+Birds	Whistlers	Buff-rumped Thornbill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthiza Geobasileus	reguloides australis
+Birds	Whistlers	Buff-rumped Thornbill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthiza Geobasileus	reguloides nesa
+Birds	Whistlers	Buff-rumped Thornbill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthiza Geobasileus	reguloides reguloides
+Birds	Whistlers	Australasian warblers	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthiza Geobasileus	reguloides squamata
+Birds	Whistlers	Chestnut-rumped Thornbill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthiza Geobasileus	uropygialis 
+Birds	Whistlers	Slaty-backed Thornbill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthiza Milligania	robustirostris 
+Birds	Whistlers	Striated Thornbill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthiza Subacanthiza	lineata 
+Birds	Whistlers	Striated Thornbill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthiza Subacanthiza	lineata alberti
+Birds	Whistlers	Striated Thornbill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthiza Subacanthiza	lineata clelandi
+Birds	Whistlers	Striated Thornbill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthiza Subacanthiza	lineata lineata
+Birds	Whistlers	Striated Thornbill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthiza Subacanthiza	lineata whitei
+Birds	Whistlers	Yellow Thornbill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthiza Subacanthiza	nana 
+Birds	Whistlers	Yellow Thornbill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthiza Subacanthiza	nana flava
+Birds	Whistlers	Yellow Thornbill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthiza Subacanthiza	nana modesta
+Birds	Whistlers	Yellow Thornbill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthiza Subacanthiza	nana nana
+Birds	Whistlers	Scrubtit	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthornis 	magna 
+Birds	Whistlers	Scrubtit	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthornis 	magna greeniana
+Birds	Whistlers	Scrubtit	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Acanthornis 	magna magna
+Birds	Whistlers	Southern Whiteface	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Aphelocephala 	leucopsis 
+Birds	Whistlers	Southern Whiteface	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Aphelocephala 	leucopsis castaneiventris
+Birds	Whistlers	Southern Whiteface	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Aphelocephala 	leucopsis leucopsis
+Birds	Whistlers	Banded Whiteface	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Aphelocephala 	nigricincta 
+Birds	Whistlers	Chestnut-breasted Whiteface	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Aphelocephala 	pectoralis 
+Birds	Whistlers	Rufous Fieldwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Calamanthus Calamanthus	campestris 
+Birds	Whistlers	Rufous Fieldwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Calamanthus Calamanthus	campestris campestris
+Birds	Whistlers	Rufous Fieldwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Calamanthus Calamanthus	campestris dorrie
+Birds	Whistlers	Rufous Fieldwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Calamanthus Calamanthus	campestris hartogi
+Birds	Whistlers	Rufous Fieldwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Calamanthus Calamanthus	campestris isabellinus
+Birds	Whistlers	Rufous Fieldwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Calamanthus Calamanthus	campestris montanellus
+Birds	Whistlers	Rufous Fieldwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Calamanthus Calamanthus	campestris rubiginosus
+Birds	Whistlers	Rufous Fieldwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Calamanthus Calamanthus	campestris Unplaced
+Birds	Whistlers	Rufous Fieldwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Calamanthus Calamanthus	campestris wayensis
+Birds	Whistlers	Rufous Fieldwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Calamanthus Calamanthus	campestris winiam
+Birds	Whistlers	Striated Fieldwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Calamanthus Calamanthus	fuliginosus
+Birds	Whistlers	Striated Fieldwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Calamanthus Calamanthus	fuliginosus 
+Birds	Whistlers	Striated Fieldwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Calamanthus Calamanthus	fuliginosus albiloris
+Birds	Whistlers	Striated Fieldwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Calamanthus Calamanthus	fuliginosus bourneorum
+Birds	Whistlers	Striated Fieldwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Calamanthus Calamanthus	fuliginosus diemenensis
+Birds	Whistlers	Striated Fieldwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Calamanthus Calamanthus	fuliginosus fuliginosus
+Birds	Whistlers	Speckled Warbler	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Chthonicola 	sagittata 
+Birds	Whistlers	Green-backed Gerygone	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Gerygone 	chloronota 
+Birds	Whistlers	Green-backed Gerygone	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Gerygone 	chloronota chloronota
+Birds	Whistlers	Green-backed Gerygone	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Gerygone 	chloronota darwini
+Birds	Whistlers	Western Gerygone	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Gerygone 	fusca 
+Birds	Whistlers	Western Gerygone	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Gerygone 	fusca exsul
+Birds	Whistlers	Western Gerygone	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Gerygone 	fusca fusca
+Birds	Whistlers	Western Gerygone	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Gerygone 	fusca mungi
+Birds	Whistlers	Lord Howe Gerygone	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Gerygone 	insularis 
+Birds	Whistlers	Mangrove Gerygone	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Gerygone 	levigaster 
+Birds	Whistlers	Mangrove Gerygone	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Gerygone 	levigaster cantator
+Birds	Whistlers	Mangrove Gerygone	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Gerygone 	levigaster levigaster
+Birds	Whistlers	Large-billed Gerygone	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Gerygone 	magnirostris 
+Birds	Whistlers	Large-billed Gerygone	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Gerygone 	magnirostris brunneipectus
+Birds	Whistlers	Large-billed Gerygone	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Gerygone 	magnirostris cairnsensis
+Birds	Whistlers	Large-billed Gerygone	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Gerygone 	magnirostris magnirostris
+Birds	Whistlers	Norfolk Island Gerygone	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Gerygone 	modesta 
+Birds	Whistlers	Brown Gerygone	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Gerygone 	mouki 
+Birds	Whistlers	Brown Gerygone	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Gerygone 	mouki amalia
+Birds	Whistlers	Brown Gerygone	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Gerygone 	mouki mouki
+Birds	Whistlers	Brown Gerygone	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Gerygone 	mouki richmondi
+Birds	Whistlers	Australasian warblers	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Gerygone 	olivacea 
+Birds	Whistlers	Australasian warblers	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Gerygone 	olivacea cinerascens
+Birds	Whistlers	Australasian warblers	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Gerygone 	olivacea olivacea
+Birds	Whistlers	Australasian warblers	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Gerygone 	olivacea rogersi
+Birds	Whistlers	Fairy Gerygone	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Gerygone 	palpebrosa 
+Birds	Whistlers	Fairy Gerygone	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Gerygone 	palpebrosa flavida
+Birds	Whistlers	Fairy Gerygone	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Gerygone 	palpebrosa personata
+Birds	Whistlers	Dusky Gerygone	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Gerygone 	tenebrosa 
+Birds	Whistlers	Dusky Gerygone	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Gerygone 	tenebrosa christophori
+Birds	Whistlers	Dusky Gerygone	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Gerygone 	tenebrosa tenebrosa
+Birds	Whistlers	Shy Heathwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Hylacola 	cautus 
+Birds	Whistlers	Shy Heathwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Hylacola 	cautus cautus
+Birds	Whistlers	Shy Heathwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Hylacola 	cautus halmaturinus
+Birds	Whistlers	Shy Heathwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Hylacola 	cautus macrorhynchus
+Birds	Whistlers	Shy Heathwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Hylacola 	cautus whitlocki
+Birds	Whistlers	Chestnut-rumped Heathwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Hylacola 	pyrrhopygia 
+Birds	Whistlers	Chestnut-rumped Heathwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Hylacola 	pyrrhopygia parkeri
+Birds	Whistlers	Chestnut-rumped Heathwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Hylacola 	pyrrhopygia pedleri
+Birds	Whistlers	Chestnut-rumped Heathwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Hylacola 	pyrrhopygia pyrrhopygia
+Birds	Whistlers	Fernwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Oreoscopus 	gutturalis 
+Birds	Whistlers	Rockwarbler	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Origma 	solitaria 
+Birds	Whistlers	Redthroat	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Pyrrholaemus 	brunneus 
+Birds	Whistlers	Tropical Scrubwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Sericornis Arfakornis	beccarii 
+Birds	Whistlers	Large-billed Scrubwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Sericornis Arfakornis	magnirostra 
+Birds	Whistlers	Large-billed Scrubwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Sericornis Arfakornis	magnirostra howei
+Birds	Whistlers	Large-billed Scrubwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Sericornis Arfakornis	magnirostra magnirostra
+Birds	Whistlers	Large-billed Scrubwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Sericornis Arfakornis	magnirostra minimus
+Birds	Whistlers	Large-billed Scrubwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Sericornis Arfakornis	magnirostra viridior
+Birds	Whistlers	Yellow-throated Scrubwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Sericornis Sericornis	citreogularis 
+Birds	Whistlers	Yellow-throated Scrubwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Sericornis Sericornis	citreogularis cairnsi
+Birds	Whistlers	Yellow-throated Scrubwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Sericornis Sericornis	citreogularis citreogularis
+Birds	Whistlers	Yellow-throated Scrubwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Sericornis Sericornis	citreogularis intermedius
+Birds	Whistlers	White-browed Scrubwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Sericornis Sericornis	frontalis
+Birds	Whistlers	White-browed Scrubwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Sericornis Sericornis	frontalis 
+Birds	Whistlers	White-browed Scrubwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Sericornis Sericornis	frontalis ashbyi
+Birds	Whistlers	White-browed Scrubwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Sericornis Sericornis	frontalis balstoni
+Birds	Whistlers	White-browed Scrubwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Sericornis Sericornis	frontalis flindersi
+Birds	Whistlers	White-browed Scrubwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Sericornis Sericornis	frontalis frontalis
+Birds	Whistlers	White-browed Scrubwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Sericornis Sericornis	frontalis harterti
+Birds	Whistlers	White-browed Scrubwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Sericornis Sericornis	frontalis laevigaster
+Birds	Whistlers	White-browed Scrubwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Sericornis Sericornis	frontalis maculatus
+Birds	Whistlers	White-browed Scrubwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Sericornis Sericornis	frontalis mellori
+Birds	Whistlers	White-browed Scrubwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Sericornis Sericornis	frontalis rosinae
+Birds	Whistlers	White-browed Scrubwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Sericornis Sericornis	frontalis tregellasi
+Birds	Whistlers	White-browed Scrubwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Sericornis Sericornis	frontalis tweedi
+Birds	Whistlers	Tasmanian Scrubwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Sericornis Sericornis	humilis 
+Birds	Whistlers	Atherton Scrubwren	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Sericornis Sericornis	keri 
+Birds	Whistlers	Weebill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Smicrornis 	brevirostris 
+Birds	Whistlers	Weebill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Smicrornis 	brevirostris brevirostris
+Birds	Whistlers	Weebill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Smicrornis 	brevirostris flavescens
+Birds	Whistlers	Weebill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Smicrornis 	brevirostris occidentalis
+Birds	Whistlers	Weebill	Animalia: Chordata: Aves	Passeriformes	Acanthizidae	Smicrornis 	brevirostris ochrogaster
 Birds	Woodswallows	Black-faced Woodswallow	Animalia: Chordata: Aves	Passeriformes	Artamidae	Artamus	cinereus 
 Birds	Woodswallows	Black-faced Woodswallow	Animalia: Chordata: Aves	Passeriformes	Artamidae	Artamus	cinereus cinereus
 Birds	Woodswallows	Black-faced Woodswallow	Animalia: Chordata: Aves	Passeriformes	Artamidae	Artamus	cinereus dealbatus
@@ -1060,60 +1239,60 @@ Birds	Logrunners	Chowchilla	Animalia: Chordata: Aves	Passeriformes	Orthonychidae
 Birds	Logrunners	Chowchilla	Animalia: Chordata: Aves	Passeriformes	Orthonychidae	Orthonyx	spaldingii melasmena
 Birds	Logrunners	Chowchilla	Animalia: Chordata: Aves	Passeriformes	Orthonychidae	Orthonyx	spaldingii spaldingii
 Birds	Logrunners	Australian Logrunner	Animalia: Chordata: Aves	Passeriformes	Orthonychidae	Orthonyx	temminckii 
-Birds	Whistlers	Bower's Shrikethrus	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Colluricincla	boweri 
-Birds	Whistlers	Grey Shrikethrush	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Colluricincla	harmonica 
-Birds	Whistlers	Grey Shrikethrush	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Colluricincla	harmonica brunnea
-Birds	Whistlers	Grey Shrikethrush	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Colluricincla	harmonica harmonica
-Birds	Whistlers	Grey Shrikethrush	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Colluricincla	harmonica rufiventris
-Birds	Whistlers	Grey Shrikethrush	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Colluricincla	harmonica strigata
-Birds	Whistlers	Grey Shrikethrush	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Colluricincla	harmonica superciliosa
-Birds	Whistlers	Little Shrikethrush	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Colluricincla	megarhyncha 
-Birds	Whistlers	Little Shrikethrush	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Colluricincla	megarhyncha aelptes
-Birds	Whistlers	Little Shrikethrush	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Colluricincla	megarhyncha gouldii
-Birds	Whistlers	Little Shrikethrush	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Colluricincla	megarhyncha griseata
-Birds	Whistlers	Little Shrikethrush	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Colluricincla	megarhyncha normani
-Birds	Whistlers	Little Shrikethrush	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Colluricincla	megarhyncha parvula
-Birds	Whistlers	Little Shrikethrush	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Colluricincla	megarhyncha rufogaster
-Birds	Whistlers	Little Shrikethrush	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Colluricincla	megarhyncha synaptica
-Birds	Whistlers	Sandstone Shrikethrush	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Colluricincla	woodwardi 
-Birds	Whistlers	Crested Shrike-tit 	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Falcunculus	frontatus 
-Birds	Whistlers	Crested Shrike-tit 	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Falcunculus	frontatus frontatus
-Birds	Whistlers	Crested Shrike-tit 	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Falcunculus	frontatus leucogaster
-Birds	Whistlers	Crested Shrike-tit 	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Falcunculus	frontatus whitei
-Birds	Whistlers	Crested Bellbird 	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Oreoica	gutturalis 
-Birds	Whistlers	Crested Bellbird 	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Oreoica	gutturalis gutturalis
-Birds	Whistlers	Crested Bellbird 	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Oreoica	gutturalis pallescens
-Birds	Whistlers	Gilbert's Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Pachycephala	inornata 
-Birds	Whistlers	White-breasted Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Pachycephala	lanioides 
-Birds	Whistlers	White-breasted Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Pachycephala	lanioides carnarvoni
-Birds	Whistlers	White-breasted Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Pachycephala	lanioides fretorum
-Birds	Whistlers	White-breasted Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Pachycephala	lanioides lanioides
-Birds	Whistlers	Mangrove Golden Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Pachycephala	melanura 
-Birds	Whistlers	Mangrove Golden Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Pachycephala	melanura melanura
-Birds	Whistlers	Mangrove Golden Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Pachycephala	melanura robusta
-Birds	Whistlers	Mangrove Golden Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Pachycephala	melanura spinicaudus
-Birds	Whistlers	Olive Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Pachycephala	olivacea 
-Birds	Whistlers	Olive Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Pachycephala	olivacea apatetes
-Birds	Whistlers	Olive Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Pachycephala	olivacea bathychroa
-Birds	Whistlers	Olive Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Pachycephala	olivacea hesperus
-Birds	Whistlers	Olive Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Pachycephala	olivacea macphersoniana
-Birds	Whistlers	Olive Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Pachycephala	olivacea olivacea
-Birds	Whistlers	Australian Golden Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Pachycephala	pectoralis 
-Birds	Whistlers	Lord Howe Golden Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Pachycephala	pectoralis contempta
-Birds	Whistlers	Australian Golden Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Pachycephala	pectoralis fuliginosa
-Birds	Whistlers	Australian Golden Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Pachycephala	pectoralis glaucura
-Birds	Whistlers	Australian Golden Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Pachycephala	pectoralis pectoralis
-Birds	Whistlers	Norfolk Golden Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Pachycephala	pectoralis xanthoprocta
-Birds	Whistlers	Australian Golden Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Pachycephala	pectoralis youngi
-Birds	Whistlers	Rufous Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Pachycephala	rufiventris 
-Birds	Whistlers	Rufous Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Pachycephala	rufiventris falcata
-Birds	Whistlers	Rufous Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Pachycephala	rufiventris minor
-Birds	Whistlers	Rufous Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Pachycephala	rufiventris pallida
-Birds	Whistlers	Rufous Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Pachycephala	rufiventris rufiventris
-Birds	Whistlers	Red-lored Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Pachycephala	rufogularis 
-Birds	Whistlers	Grey Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Pachycephala	simplex 
-Birds	Whistlers	Grey Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Pachycephala	simplex peninsulae
-Birds	Whistlers	Grey Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycxephalidae	Pachycephala	simplex simplex
+Birds	Whistlers	Bower's Shrikethrus	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Colluricincla	boweri 
+Birds	Whistlers	Grey Shrikethrush	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Colluricincla	harmonica 
+Birds	Whistlers	Grey Shrikethrush	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Colluricincla	harmonica brunnea
+Birds	Whistlers	Grey Shrikethrush	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Colluricincla	harmonica harmonica
+Birds	Whistlers	Grey Shrikethrush	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Colluricincla	harmonica rufiventris
+Birds	Whistlers	Grey Shrikethrush	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Colluricincla	harmonica strigata
+Birds	Whistlers	Grey Shrikethrush	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Colluricincla	harmonica superciliosa
+Birds	Whistlers	Little Shrikethrush	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Colluricincla	megarhyncha 
+Birds	Whistlers	Little Shrikethrush	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Colluricincla	megarhyncha aelptes
+Birds	Whistlers	Little Shrikethrush	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Colluricincla	megarhyncha gouldii
+Birds	Whistlers	Little Shrikethrush	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Colluricincla	megarhyncha griseata
+Birds	Whistlers	Little Shrikethrush	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Colluricincla	megarhyncha normani
+Birds	Whistlers	Little Shrikethrush	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Colluricincla	megarhyncha parvula
+Birds	Whistlers	Little Shrikethrush	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Colluricincla	megarhyncha rufogaster
+Birds	Whistlers	Little Shrikethrush	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Colluricincla	megarhyncha synaptica
+Birds	Whistlers	Sandstone Shrikethrush	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Colluricincla	woodwardi 
+Birds	Whistlers	Crested Shrike-tit 	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Falcunculus	frontatus 
+Birds	Whistlers	Crested Shrike-tit 	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Falcunculus	frontatus frontatus
+Birds	Whistlers	Crested Shrike-tit 	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Falcunculus	frontatus leucogaster
+Birds	Whistlers	Crested Shrike-tit 	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Falcunculus	frontatus whitei
+Birds	Whistlers	Crested Bellbird 	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Oreoica	gutturalis 
+Birds	Whistlers	Crested Bellbird 	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Oreoica	gutturalis gutturalis
+Birds	Whistlers	Crested Bellbird 	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Oreoica	gutturalis pallescens
+Birds	Whistlers	Gilbert's Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Pachycephala	inornata 
+Birds	Whistlers	White-breasted Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Pachycephala	lanioides 
+Birds	Whistlers	White-breasted Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Pachycephala	lanioides carnarvoni
+Birds	Whistlers	White-breasted Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Pachycephala	lanioides fretorum
+Birds	Whistlers	White-breasted Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Pachycephala	lanioides lanioides
+Birds	Whistlers	Mangrove Golden Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Pachycephala	melanura 
+Birds	Whistlers	Mangrove Golden Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Pachycephala	melanura melanura
+Birds	Whistlers	Mangrove Golden Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Pachycephala	melanura robusta
+Birds	Whistlers	Mangrove Golden Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Pachycephala	melanura spinicaudus
+Birds	Whistlers	Olive Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Pachycephala	olivacea 
+Birds	Whistlers	Olive Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Pachycephala	olivacea apatetes
+Birds	Whistlers	Olive Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Pachycephala	olivacea bathychroa
+Birds	Whistlers	Olive Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Pachycephala	olivacea hesperus
+Birds	Whistlers	Olive Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Pachycephala	olivacea macphersoniana
+Birds	Whistlers	Olive Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Pachycephala	olivacea olivacea
+Birds	Whistlers	Australian Golden Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Pachycephala	pectoralis 
+Birds	Whistlers	Lord Howe Golden Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Pachycephala	pectoralis contempta
+Birds	Whistlers	Australian Golden Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Pachycephala	pectoralis fuliginosa
+Birds	Whistlers	Australian Golden Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Pachycephala	pectoralis glaucura
+Birds	Whistlers	Australian Golden Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Pachycephala	pectoralis pectoralis
+Birds	Whistlers	Norfolk Golden Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Pachycephala	pectoralis xanthoprocta
+Birds	Whistlers	Australian Golden Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Pachycephala	pectoralis youngi
+Birds	Whistlers	Rufous Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Pachycephala	rufiventris 
+Birds	Whistlers	Rufous Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Pachycephala	rufiventris falcata
+Birds	Whistlers	Rufous Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Pachycephala	rufiventris minor
+Birds	Whistlers	Rufous Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Pachycephala	rufiventris pallida
+Birds	Whistlers	Rufous Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Pachycephala	rufiventris rufiventris
+Birds	Whistlers	Red-lored Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Pachycephala	rufogularis 
+Birds	Whistlers	Grey Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Pachycephala	simplex 
+Birds	Whistlers	Grey Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Pachycephala	simplex peninsulae
+Birds	Whistlers	Grey Whistler	Animalia: Chordata: Aves	Passeriformes	Pachycephalidae	Pachycephala	simplex simplex
 Birds	Birds-of-paradise	Trumpet Manucode	Animalia: Chordata: Aves	Passeriformes	Paradisaeidae	Manucodia	keraudrenii 
 Birds	Birds-of-paradise	Trumpet Manucode	Animalia: Chordata: Aves	Passeriformes	Paradisaeidae	Manucodia	keraudrenii gouldii
 Birds	Birds-of-paradise	Trumpet Manucode	Animalia: Chordata: Aves	Passeriformes	Paradisaeidae	Manucodia	keraudrenii jamesii
@@ -1694,3 +1873,19 @@ Birds	Buttonquail	Painted Button quail	Animalia: Chordata: Aves	Turniciformes	Tu
 Birds	Buttonquail	Painted Button quail	Animalia: Chordata: Aves	Turniciformes	Turnicidae	Turnix	varius scintillans
 Birds	Buttonquail	Painted Button quail	Animalia: Chordata: Aves	Turniciformes	Turnicidae	Turnix	varius varia
 Birds	Buttonquail	Little Buttonquail 	Animalia: Chordata: Aves	Turniciformes	Turnicidae	Turnix	velox 
+Birds	Larks	Eurasian Skylark	Animalia: Chordata: Aves	Passeriformes	Alaudidae	Alauda 	arvensis 
+Birds	Larks	Eurasian Skylark	Animalia: Chordata: Aves	Passeriformes	Alaudidae	Alauda 	arvensis arvensis
+Birds	Larks	Horsfield's Bushlark	Animalia: Chordata: Aves	Passeriformes	Alaudidae	Mirafra Mirafra	javanica 
+Birds	Larks	Horsfield's Bushlark	Animalia: Chordata: Aves	Passeriformes	Alaudidae	Mirafra Mirafra	javanica athertonensis
+Birds	Larks	Horsfield's Bushlark	Animalia: Chordata: Aves	Passeriformes	Alaudidae	Mirafra Mirafra	javanica forresti
+Birds	Larks	Horsfield's Bushlark	Animalia: Chordata: Aves	Passeriformes	Alaudidae	Mirafra Mirafra	javanica halli
+Birds	Larks	Horsfield's Bushlark	Animalia: Chordata: Aves	Passeriformes	Alaudidae	Mirafra Mirafra	javanica horsfieldii
+Birds	Larks	Horsfield's Bushlark	Animalia: Chordata: Aves	Passeriformes	Alaudidae	Mirafra Mirafra	javanica melvillensis
+Birds	Larks	Horsfield's Bushlark	Animalia: Chordata: Aves	Passeriformes	Alaudidae	Mirafra Mirafra	javanica rufescens
+Birds	Larks	Horsfield's Bushlark	Animalia: Chordata: Aves	Passeriformes	Alaudidae	Mirafra Mirafra	javanica secunda
+Birds	Larks	Horsfield's Bushlark	Animalia: Chordata: Aves	Passeriformes	Alaudidae	Mirafra Mirafra	javanica soderbergi
+Birds	Larks	Horsfield's Bushlark	Animalia: Chordata: Aves	Passeriformes	Alaudidae	Mirafra Mirafra	javanica woodwardi
+Birds	"Marsh warbler, Tree warbler, Acrocephalid warblers"	Australian Reed-Warbler	Animalia: Chordata: Aves	Passeriformes	Acrocephalidae	Acrocephalus (Acrocephalus)	australis
+Birds	"Marsh warbler, Tree warbler, Acrocephalid warblers"	Australian Reed-Warbler	Animalia: Chordata: Aves	Passeriformes	Acrocephalidae	Acrocephalus (Acrocephalus)	australis australis
+Birds	"Marsh warbler, Tree warbler, Acrocephalid warblers"	Australian Reed-Warbler	Animalia: Chordata: Aves	Passeriformes	Acrocephalidae	Acrocephalus (Acrocephalus)	australis gouldi
+Birds	"Marsh warbler, Tree warbler, Acrocephalid warblers"	Oriental Reed-Warbler	Animalia: Chordata: Aves	Passeriformes	Acrocephalidae	Acrocephalus (Acrocephalus)	orientalis

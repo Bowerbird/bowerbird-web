@@ -21,7 +21,7 @@ using System.Collections.Generic;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public class SightingNote
+    public class SightingNote : ISubContribution
     {
         #region Members
 
@@ -29,6 +29,8 @@ namespace Bowerbird.Core.DomainModels
         private IEnumerable<SightingNoteDescription> _descriptions;
         [Raven.Imports.Newtonsoft.Json.JsonIgnore] 
         private IEnumerable<string> _tags;
+        [Raven.Imports.Newtonsoft.Json.JsonIgnore]
+        private List<Vote> _votes;
 
         #endregion
 
@@ -43,9 +45,9 @@ namespace Bowerbird.Core.DomainModels
         public SightingNote(
             int id,
             User createdByUser,
-            Identification identification,
             IEnumerable<string> tags,
             IDictionary<string, string> descriptions,
+            string comments,
             DateTime createdOn)
             : this()
         {
@@ -53,28 +55,29 @@ namespace Bowerbird.Core.DomainModels
             Check.RequireNotNull(descriptions, "descriptions");
             Check.RequireNotNull(tags, "tags");
 
-            Id = id;
+            SequentialId = id;
+            Id = "notes/" + id.ToString();
             User = createdByUser;
             CreatedOn = createdOn;
 
             SetDetails(
-                identification,
                 tags,
-                descriptions);
+                descriptions,
+                comments);
         }
 
         #endregion
 
         #region Properties
 
-        public int Id { get; private set; }
+        public string Id { get; private set; }
+
+        public int SequentialId { get; private set; }
         
         public DenormalisedUserReference User { get; private set; }
 
         public DateTime CreatedOn { get; private set; }
 
-        public Identification Identification { get; private set; }
-        
         public IEnumerable<string> Tags
         {
             get { return _tags; }
@@ -87,6 +90,14 @@ namespace Bowerbird.Core.DomainModels
             private set { _descriptions = new List<SightingNoteDescription>(value); }
         }
 
+        public IEnumerable<Vote> Votes
+        {
+            get { return _votes; }
+            private set { _votes = new List<Vote>(value); }
+        }
+
+        public string Comments { get; private set; }
+
         #endregion
 
         #region Methods
@@ -95,34 +106,72 @@ namespace Bowerbird.Core.DomainModels
         {
             _descriptions = new List<SightingNoteDescription>();
             _tags = new List<string>();
+            _votes = new List<Vote>();
         }
 
         protected void SetDetails(
-            Identification identification, 
             IEnumerable<string> tags, 
-            IDictionary<string, string> descriptions
-            )
+            IDictionary<string, string> descriptions,
+            string comments)
         {
-            Identification = identification;
             Tags = tags;
             Descriptions = descriptions.Where(x => !string.IsNullOrWhiteSpace(x.Value)).Select(x => MakeSightingNoteDescription(x.Key, x.Value));
+            Comments = comments;
         }
 
         public SightingNote UpdateDetails(
             User updatedByUser, 
-            Identification identification, 
             IEnumerable<string> tags, 
-            IDictionary<string, string> descriptions)
+            IDictionary<string, string> descriptions,
+            string comments)
         {
             Check.RequireNotNull(updatedByUser, "updatedByUser");
             Check.RequireNotNull(descriptions, "descriptions");
 
             SetDetails(
-                identification,
                 tags,
-                descriptions);
+                descriptions,
+                comments);
 
             return this;
+        }
+
+        private Vote SetVote(
+            int id,
+            int score,
+            DateTime createdOn,
+            User createdByUser)
+        {
+            var vote = new Vote(
+                id,
+                createdByUser,
+                score,
+                createdOn);
+
+            _votes.Add(vote);
+
+            return vote;
+        }
+
+        public Vote UpdateVote(
+            int score,
+            DateTime createdOn,
+            User createdByUser)
+        {
+            Check.RequireNotNull(createdByUser, "createdByUser");
+
+            _votes.RemoveAll(x => x.User.Id == createdByUser.Id);
+
+            if (score != 0)
+            {
+                var maxId = _votes.Count > 0 ? _votes.Select(x => x.SequentialId).Max() : 0;
+
+                Vote vote = SetVote(maxId + 1, score, createdOn, createdByUser);
+
+                return vote;
+            }
+
+            return null;
         }
 
         private SightingNoteDescription MakeSightingNoteDescription(string id, string text)
@@ -201,6 +250,11 @@ namespace Bowerbird.Core.DomainModels
             }
 
             return new SightingNoteDescription(id, group, label, description, text);
+        }
+
+        public ISubContribution GetSubContribution(string type, string id)
+        {
+            return null;
         }
 
         #endregion

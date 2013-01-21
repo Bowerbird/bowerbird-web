@@ -32,3 +32,4 @@ GoogleAPIKey/
 Src/Bowerbird.Website/js/main-combined.js
 Src/Bowerbird.Website/js/main-min.js
 Src/Bowerbird.Website/js/bowerbird/hubs.js
+*.DS_Store

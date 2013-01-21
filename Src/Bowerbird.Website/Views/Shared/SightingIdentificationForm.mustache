@@ -1,0 +1,38 @@
+﻿<h2>
+  <span class="small-icon observation-icon"></span>Identification
+</h2>
+<div class="form-details">
+  <div class="sighting-summary">
+    {{#Model.Sighting.User}}
+    {{#Avatar}}
+    {{>MediaSquare100}}
+    {{/Avatar}}
+    <div class="description">
+      <span>{{Name}}</span>
+      <abbr>{{Model.Sighting.CreatedOnDescription}}</abbr>
+    </div>
+    {{/Model.Sighting.User}}
+  </div>
+  <div class="sighting">
+    <div class="observation-details">
+      {{#Model.Sighting}}
+      {{>SightingFullFullDetails}}
+      {{/Model.Sighting}}
+    </div>
+  </div>
+
+  <form action="/identifications" method="post"  enctype="multipart/form-data">
+    <fieldset class="sighting-identification-fieldset">
+      <legend class="hidden">Identification Details</legend>
+      {{#Model.SightingIdentification}}
+      {{>SightingIdentificationSubForm}}
+      {{/Model.SightingIdentification}}
+    </fieldset>
+    <fieldset>
+      <input type="button" value="Save" id="save" />
+      <input type="button" value="Cancel" id="cancel" />
+    </fieldset>
+
+  </form>
+
+</div>

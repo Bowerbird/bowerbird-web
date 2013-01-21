@@ -12,22 +12,66 @@ define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
 
     var Identification = Backbone.Model.extend({
         defaults: {
-            HasIdentification: false,
-            Taxonomy: ''
+            Id: null,
+            SightingId: '',
+            Comments: null,
+            RankType: null,
+            Name: null,
+            AllCommonNames: null,
+            IsCustomIdentification: false,
+            Taxonomy: null,
+            Category: null,
+            Kingdom: null,
+            Phylum: null,
+            Class: null,
+            Order: null,
+            Family: null,
+            Genus: null,
+            Species: null,
+            Subspecies: null,
+            CommonGroupNames: [],
+            CommonNames: [],
+            Synonyms: []
         },
 
-        initialize: function (attributes) {
-            if (attributes && attributes.Name) {
-                var allCommonNames = _.union(attributes.CommonGroupNames, attributes.CommonNames);
-
-                this.set('HasIdentification', attributes.Category != null);
-                this.set('Category', attributes.Category != null ? attributes.Category : '');
-                this.set('Name', attributes.Name);
-                this.set('RankType', attributes.RankType);
-                this.set('Taxonomy', attributes.Taxonomy);
-                this.set('HasCommonNames', allCommonNames.length > 0);
-                this.set('CommonNames', allCommonNames.join(', '));
+        url: function () {
+            var url = '/' + this.get('SightingId');
+            if (this.id) {
+                url += '/updateidentification/' + this.id;
+            } else {
+                url += '/createidentification';
             }
+            return url;
+        },
+
+        idAttribute: 'Id',
+
+        isValid: function () {
+            if (this.get('IsCustomIdentification') === true) {
+                return this.get('Kingdom') !== '';
+            } else {
+                return this.get('Taxonomy') !== '';
+            }
+        },
+
+        clearId: function () {
+            this.set('IsCustomIdentification', false);
+            this.set('RankType', null);
+            this.set('Name', null);
+            this.set('AllCommonNames', null);
+            this.set('Taxonomy', null);
+            this.set('Category', null);
+            this.set('Kingdom', null);
+            this.set('Phylum', null);
+            this.set('Class', null);
+            this.set('Order', null);
+            this.set('Family', null);
+            this.set('Genus', null);
+            this.set('Species', null);
+            this.set('Subspecies', null);
+            this.set('CommonGroupNames', []);
+            this.set('CommonNames', []);
+            this.set('Synonyms', []);
         }
     });
 

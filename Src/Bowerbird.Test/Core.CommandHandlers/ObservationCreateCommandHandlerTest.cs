@@ -71,7 +71,6 @@ namespace Bowerbird.Test.Core.CommandHandlers
             {
                 UserId = user.Id,
                 Address = FakeValues.Address,
-                IsIdentificationRequired = FakeValues.IsTrue,
                 Latitude = FakeValues.Latitude,
                 Longitude = FakeValues.Longitude,
                 Media = new List<Tuple<string,string,string>>(){new Tuple<string, string, string>(imageMediaResource.Id, FakeValues.Message,FakeValues.Message)},
@@ -101,7 +100,6 @@ namespace Bowerbird.Test.Core.CommandHandlers
 
             Assert.IsNotNull(newValue);
             Assert.AreEqual(command.Address, newValue.Address);
-            Assert.AreEqual(command.IsIdentificationRequired, newValue.IsIdentificationRequired);
             Assert.AreEqual(command.Latitude, newValue.Latitude);
             Assert.AreEqual(command.Longitude, newValue.Longitude);
             Assert.AreEqual(command.Category, newValue.Category);

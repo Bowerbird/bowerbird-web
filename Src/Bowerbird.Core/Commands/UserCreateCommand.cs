@@ -32,11 +32,7 @@ namespace Bowerbird.Core.Commands
 
         public string Name { get; set; }
 
-        public string Description { get; set; }
-
         public string Password { get; set; }
-
-        public string DefaultLicence { get; set; }
 
         public string Timezone { get; set; }
 

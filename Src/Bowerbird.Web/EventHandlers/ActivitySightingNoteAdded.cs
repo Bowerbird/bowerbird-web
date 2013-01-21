@@ -72,38 +72,21 @@ namespace Bowerbird.Web.EventHandlers
 
             var sighting = domainEvent.Sender as Sighting;
 
-            var descriptionActions = new List<string>();
-
-            if(domainEvent.DomainModel.Identification != null)
-            {
-                descriptionActions.Add("identified");
-            }
-            if(domainEvent.DomainModel.Descriptions.Count() > 0)
-            {
-                descriptionActions.Add("described");
-            }
-            if (domainEvent.DomainModel.Tags.Count() > 0)
-            {
-                descriptionActions.Add("tagged");
-            }
-
-            string description = descriptionActions.Count() == 2 ? string.Join(" and ", descriptionActions) : 
-                descriptionActions.Count() == 3 ? string.Join(", ", descriptionActions.Take(2)) + " and " + descriptionActions.Last() : 
-                descriptionActions.First();
-
             dynamic activity = MakeActivity(
                 domainEvent,
                 "sightingnoteadded",
                 domainEvent.DomainModel.CreatedOn,
-                string.Format("{0} {1} a sighting", domainEvent.User.GetName(), description),
-                sighting.Groups.Select(x => x.Group));
+                string.Format("{0} described a sighting", domainEvent.User.GetName()),
+                sighting.Groups.Select(x => x.Group),
+                sighting.Id,
+                domainEvent.DomainModel.Id.ToString());
 
             var projects = _documentSession.Load<Project>(sighting.Groups.Where(x => x.Group.GroupType == "project").Select(x => x.Group.Id));
 
             activity.SightingNoteAdded = new
             {
-                Sighting = _sightingViewFactory.Make(sighting, domainEvent.User, projects),
-                SightingNote = _sightingNoteViewFactory.Make(domainEvent.DomainModel, domainEvent.User)
+                Sighting = _sightingViewFactory.Make(sighting, domainEvent.User, projects, domainEvent.User),
+                SightingNote = _sightingNoteViewFactory.Make(sighting, domainEvent.DomainModel, domainEvent.User, domainEvent.User)
             };
 
             _documentSession.Store(activity);

@@ -77,7 +77,7 @@ body
 }
 header {
     background-color: rgb(255, 255, 255);
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.25);
 }
 footer
 {
@@ -109,15 +109,12 @@ article
 {
     width: 100%;
     float: left;
-    padding: 0 0 2% 0;
 }
 .tab-bar.tab-bar-right
 {
     display: inline-block;
     float: none;
     padding-bottom: 0;
-    padding-right: 2%;
-    padding-top: 2%;
     position: absolute;
     right: 0;
     top: 0;
@@ -139,15 +136,15 @@ article
 .tab-bar .tab-image-button,
 .tab-bar .tab-list-button
 {
-    background-color: rgb(183, 201, 218);
-    border-radius: 4px 4px 4px 4px;
-    color: rgb(29, 74, 117);
+    border: 1px solid rgb(153, 153, 153);
+    border-radius: 2px 2px 2px 2px;
+    color: rgb(68, 68, 68);
     display: block;
     font-size: 1em;
     font-weight: 600;
+    position: relative;
     text-decoration: none;
     text-shadow: 0 1px 0 rgb(255, 255, 255);
-    position: relative;
 }
 .tab-bar .tab-image-button {
     text-indent: -99999px;
@@ -159,10 +156,10 @@ article
 .tab-bar .tab-image-button.selected,
 .tab-bar .tab-list-button.active
 {
-    background-color: rgb(105, 163, 221);
-    color: #FFFFFF;
-    text-shadow: 0 -1px 0 rgb(68, 68, 68);
-    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.5) inset;    
+    background-color: rgb(135, 144, 154);
+    border: 1px solid rgb(135, 144, 154);
+    color: rgb(255, 255, 255);
+    text-shadow: 0 -1px 0 rgb(85, 85, 85);
 }
 .tab-bar .tab-button:hover,
 .tab-bar .tab-image-button:hover,
@@ -176,7 +173,7 @@ article
 }
 .tab-bar .tab-button:active
 {
-    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.5) inset;    
+    box-shadow: 0 2px 1px 0 rgba(0, 0, 0, 0.5) inset;
 }
 .tab-list-button > ul {
     background-color: white;
@@ -307,6 +304,15 @@ article
 .small-icon.comment-icon {
     background-position: -224px -48px;
 }
+.small-icon.identification-icon {
+    background-position: -224px -75px;
+}
+.small-icon.vote-icon {
+    background-position: -142px -75px;
+}
+.small-icon.favourite-icon {
+    background-position: -197px -75px;
+}
 /*
 *
 * Popup menus
@@ -327,7 +333,7 @@ article
     left: 2px;
     position: relative;
     top: 16px;
-    background-color: rgb(207, 221, 235);
+    background-color: rgb(204, 204, 204);
     background-image: url("/img/icons.png");
     background-size: 3100% auto;
     border-radius: 10px 10px 10px 10px;
@@ -410,6 +416,7 @@ article
     font-weight: 600;
     padding: 8px 13px;
     text-decoration: none;
+    line-height: 1.5em;
 }
 .sub-menu-button ul li.divider
 {
@@ -421,7 +428,13 @@ article
 * Forms
 *
 */
-#content > div > .details {
+#content > div > .list-details {
+    position: relative;
+    width: 100%;
+    float: left;
+    min-height: 700px;
+}
+/*#content > div > .form-details {
     background-color: rgb(227, 227, 227);
     border-radius: 4px 4px 4px 4px;
     padding: 2% 2% 0;
@@ -429,13 +442,14 @@ article
     width: 100%;
     float: left;
     min-height: 700px;
-}
+}*/
 #content .form form
 {
     background-color: #f9f9f9;
-    border: 0 solid rgb(221, 221, 221);
-    border-radius: 4px 4px 4px 4px;
-    box-shadow: 0 1px 2px 0 rgb(51, 51, 51);
+    /*border: 0 solid rgb(221, 221, 221);
+    border-radius: 2px;
+    box-shadow: 0 1px 1px 1px rgba(51, 51, 51, 0.3);*/
+    float: left;
 }
 #modal-dialog .form form
 {
@@ -445,7 +459,7 @@ article
 .form form > fieldset
 {
     display: block;
-    padding: 2%;
+    padding: 1em;
     position: relative;
 }
 .form.form-small form > fieldset
@@ -462,16 +476,16 @@ article
     float: left;
     position: relative;
     width: 100%;
-    margin-bottom: 10px;
+    margin-bottom: 0.5em;
 }
 .field-row:last-child 
 {
     margin-bottom: 0;
 }
 .form-details {
-    background-color: rgb(227, 227, 227);
-    border-radius: 4px 4px 4px 4px;
-    padding: 2%;
+    background-color: rgb(255, 255, 255);
+    border-radius: 2px 2px 2px 2px;
+    box-shadow: 0 1px 1px 1px rgba(51, 51, 51, 0.3);
     float: left;
     width: 100%;
 }
@@ -532,7 +546,7 @@ article
 .input-field
 {
     border: 1px solid rgb(170, 170, 170);
-    border-radius: 4px 4px 4px 4px;
+    border-radius: 2px;
     box-shadow: 0 0 2px 1px rgba(119, 119, 119, 0.3) inset;
     color: #000000;
     font-size: 1em;
@@ -585,9 +599,9 @@ a.multiSelect:focus,
 .form .button,
 .button
 {
-    background-color: rgb(97, 167, 237);
-    border: 1px solid rgb(48, 138, 227);
-    border-radius: 4px 4px 4px 4px;
+    background-color: rgb(105, 163, 221);
+    border: 1px solid rgb(83, 120, 156);
+    border-radius: 2px;
     color: #FFFFFF;
     font-size: 0.99em;
     font-weight: 600;
@@ -595,7 +609,7 @@ a.multiSelect:focus,
     text-shadow: #133A68 0 -1px 0;
     margin-right: 15px;
     font-family: "open sans",sans-serif;
-    box-shadow: 0 1px 1px 0 rgba(255, 255, 255, 0.2) inset;
+    /*box-shadow: 0 1px 1px 0 rgba(255, 255, 255, 0.2) inset;*/
     text-decoration: none;
 }
 .form input[type=submit]:hover,
@@ -610,8 +624,8 @@ a.multiSelect:focus,
 .button:focus,
 .button.focus
 {
-    /*box-shadow: 0 1px 1px 0 rgba(255, 255, 255, 0.4) inset, 0 1px 6px 0 rgba(80, 158, 238, 0.9);*/
-    background-color: rgb(67, 146, 225);
+    background-color: rgb(27, 131, 235);
+    border-color: rgb(27, 131, 235);
 }
 .form input[type=submit]:active,
 .form input[type=button]:active,
@@ -620,7 +634,7 @@ a.multiSelect:focus,
 .button:active,
 .button.active
 {
-    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.5) inset;
+    box-shadow: 0 2px 1px 0 rgba(0, 0, 0, 0.5) inset;
 }
 .form input[disabled=disabled],
 .form input[disabled=disabled]:active,
@@ -635,7 +649,6 @@ a.multiSelect:focus,
     color: rgb(218, 218, 218);
     cursor: auto;
     text-shadow: 0 -1px 0 rgb(85, 85, 85);
-    box-shadow: 0 1px 1px 0 rgba(255, 255, 255, 0.2) inset;
 }
 .button.small {
     font-size: 0.7em;
@@ -975,7 +988,7 @@ a.multiSelect:focus,
 .form #avatar-field {
     background: none repeat scroll 0 0 rgba(255, 255, 255, 0.6);
     border: 1px solid #509EEE;
-    border-radius: 4px 4px 4px 4px;
+    border-radius: 2px;
     box-shadow: 0 1px 2px 0 #777777 inset;
     height: 220px;
     width:220px;
@@ -990,7 +1003,7 @@ a.multiSelect:focus,
 {
     background-color: rgb(255, 255, 255);
     border: 1px solid rgb(170, 170, 170);
-    border-radius: 4px 4px 4px 4px;
+    border-radius: 2px;
     box-shadow: 0 0 2px 1px rgba(119, 119, 119, 0.3) inset;
     height: 258px;
     overflow-x: scroll;
@@ -1047,7 +1060,7 @@ a.multiSelect:focus,
 .form .observation-media-item .sub-menu-button
 {
     background-color: #FFFFFF;
-    border-radius: 0 0 4px 0;
+    border-radius: 0 0 2px 0;
     padding-left: 8px;
     width: 38px;    
     box-shadow: 0 1px 2px 0 #5071A6;
@@ -1286,7 +1299,7 @@ a.multiSelect:focus,
 .form .add-identification-pane {
     float: right;
     margin-top: 1.5em;
-    width: 26%;
+    width: 30%;
 }
 .form #add-identification-button {
     width: 100%;
@@ -1298,13 +1311,15 @@ a.multiSelect:focus,
     text-align: center;
 }
 .form #tags-field {
-    width: 72%;
+    padding-right: 1em;
+    width: 70%;
 }
 .form .tags-add-pane {
     float: right;
     margin-top: 1.5em;
-    width: 26%;
+    width: 30%;
 }
+.form .add-sighting-identification-pane,
 .form .add-sighting-note-pane {
     float: right;
     width: 26%;
@@ -1318,17 +1333,23 @@ a.multiSelect:focus,
     padding: 1% 2%;
     text-align: center;
 }
+.form .sighting-identification-fieldset,
 .form .sighting-note-fieldset {
-    border-top: 1px solid rgb(213, 213, 213);
+    border-top: 1px solid rgb(221, 221, 221);
+    padding: 1em;
 }
 .form #selected-identification-field #Identification {
     background-color: rgb(238, 238, 238);
     border: 1px solid rgb(170, 170, 170);
-    border-radius: 4px 4px 4px 4px;
+    border-radius: 2px;
     box-shadow: 0 0 2px 1px rgba(119, 119, 119, 0.3) inset;
     min-height: 118px;
     padding: 8px 12px;
     width: 100%;
+}
+.form #selected-identification-field {
+    padding-right: 1em;
+    width: 70%;
 }
 .form #selected-identification-field #Identification .identification-none {
     color: rgb(187, 187, 187);
@@ -1337,7 +1358,7 @@ a.multiSelect:focus,
     text-align: center;
     width: 100%;
 }
-.form #selected-identification-field #Identification .identification-details img 
+.form #selected-identification-field #Identification .identification-panel img 
 {
     display: block;
     float: left;
@@ -1537,9 +1558,9 @@ a.multiSelect:focus,
 }
 .form .my-files-icon {
     background-image: url("/img/icons.png");
-    background-position: -111px -105px;
+    background-position: -116px -109px;
     background-repeat: no-repeat;
-    background-size: 618% auto;
+    background-size: 640% auto;
     display: inline-block;
     height: 31px;
     margin-right: 2px;
@@ -1548,9 +1569,9 @@ a.multiSelect:focus,
 }
 .form .youtube-icon {
     background-image: url("/img/icons.png");
-    background-position: -143px -73px;
+    background-position: -149px -76px;
     background-repeat: no-repeat;
-    background-size: 618% auto;
+    background-size: 640% auto;
     display: inline-block;
     height: 31px;
     margin-right: 2px;
@@ -1559,9 +1580,9 @@ a.multiSelect:focus,
 }
 .form .vimeo-icon {
     background-image: url("/img/icons.png");
-    background-position: -111px -73px;
+    background-position: -116px -77px;
     background-repeat: no-repeat;
-    background-size: 618% auto;
+    background-size: 640% auto;
     display: inline-block;
     height: 31px;
     margin-right: 5px;
@@ -1696,8 +1717,8 @@ a.multiSelect:focus,
 }
 .form #location-coordinates {
     background-color: rgb(234, 234, 234);
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
     float: left;
     font-size: 0.8em;
     padding: 5px;
@@ -1791,11 +1812,13 @@ a.multiSelect:focus,
     clear: none;
 }
 .form .description-field {
-    width: 72%;
+    padding-right: 1em;
+    width: 70%;
 }
 .form #description-type-field {
-    width: 72%;
     margin-top: 1.3em;
+    padding-right: 1em;
+    width: 70%;
 }
 .ui-autocomplete
 {
@@ -1834,7 +1857,7 @@ a.multiSelect:focus,
     background-clip: padding-box;
     background-color: #FFFFFF;
     border-color: rgba(0, 0, 0, 0.2);
-    border-radius: 4px 4px 4px 4px;
+    border-radius: 2px;
     border-style: solid;
     border-width: 1px;
     box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.5);
@@ -1986,7 +2009,7 @@ a.multiSelect
     display: -moz-inline-stack;
     display: inline-block;
     border: 1px solid rgb(170, 170, 170);
-    border-radius: 4px 4px 4px 4px;
+    border-radius: 2px;
     box-shadow: 0 0 2px 1px rgba(119, 119, 119, 0.3) inset;
     color: rgb(0, 0, 0);
     font-family: "open sans",sans-serif;
@@ -2030,7 +2053,7 @@ a.multiSelect i
     background: #FFFFFF;
     background-clip: padding-box;
     border-color: rgba(0, 0, 0, 0.2);
-    border-radius: 4px 4px 4px 4px;
+    border-radius: 2px;
     border-style: solid;
     border-width: 1px;
     box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.5);
@@ -2372,8 +2395,7 @@ header.default-header #search-menu input[type=text]:focus
 }
 #sidebar #action-menu
 {
-    border-radius: 4px 4px 4px 4px;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+    border-radius: 2px;
     clear: both;
     display: inline-block;
     margin-bottom: 18px;
@@ -2445,15 +2467,15 @@ header.default-header #search-menu input[type=text]:focus
 {
     color: rgb(68, 68, 68);
     display: block;
-    font-size: 0.85em;
+    font-size: 1em;
     font-weight: 600;
     line-height: 3em;
     text-shadow: 0 1px 0 rgb(255, 255, 255);
 }
 #sidebar .menu-group > ul
 {
-    border-radius: 4px 4px 4px 4px;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+    border-radius: 2px;
+    box-shadow: 0 1px 1px 1px rgba(51, 51, 51, 0.3);
 }
 #sidebar .menu-group-item
 {
@@ -2473,19 +2495,23 @@ header.default-header #search-menu input[type=text]:focus
 #sidebar .menu-group-item:first-child,
 #sidebar .menu-group-item:first-child > a
 {
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
 }
 #sidebar .menu-group-item:last-child,
 #sidebar .menu-group-item:last-child > a
 {
     border-bottom: none;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
 }
 #sidebar .menu-group-item:first-child img 
 {
-    border-radius: 4px 0 0 0;
+    border-radius: 2px 0 0 0;
+}
+#sidebar .menu-group-item:last-child img 
+{
+     border-radius: 0 0 0 2px;
 }
 #sidebar .menu-group-item a > div
 {
@@ -2505,29 +2531,30 @@ header.default-header #search-menu input[type=text]:focus
 }
 #sidebar .menu-group-item a > div p
 {
-    line-height: 1.41em;
+    line-height: 1.46em;
     margin: 0;
     overflow: hidden;
     padding: 2px 36px 0 0;
     color: rgb(68, 68, 68);
-    font-size: 0.9375em;
+    font-size: 0.945em;
     font-weight: 600;
 }
 #sidebar .menu-group-item a > div p span
 {
-    background-color: #3BAB24;
-    background-image: -moz-linear-gradient(right bottom , #1E5707 33%, #3BAB24 79%);
+    background-color: rgb(27, 131, 235);
+    border: 1px solid rgb(255, 255, 255);
     border-radius: 4px 4px 4px 4px;
-    box-shadow: 0 1px 2px 0 #5071A6;
     color: white;
     display: inline-block;
-    font-size: 11px;
-    font-weight: 700;
-    line-height: 25px;
-    padding: 0 4px;
-    position: absolute;
-    top: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    height: 21px;
     left: -7px;
+    line-height: 18px;
+    padding: 0 2px;
+    position: absolute;
+    text-align: right;
+    top: 15px;
 }
 /*
 *
@@ -2548,79 +2575,12 @@ header.default-header #search-menu input[type=text]:focus
 {
     color: rgb(68, 68, 68);
     display: block;
-    font-size: 0.85em;
+    font-size: 1em;
     font-weight: 600;
+    letter-spacing: -0.02em;
     line-height: 3em;
     text-shadow: 0 1px 0 rgb(255, 255, 255);
 }
-/* selected filter group */
-/*.project > .summary
-{
-    background-color: #FFFFFF;
-    border-radius: 4px 4px 0 0;
-    height: 187px;
-    -webkit-box-shadow: 0px 1px 2px 0px #91AFCD;
-    -moz-box-shadow: 0px 1px 2px 0px #91AFCD;
-    box-shadow: 0px 1px 2px 0px #91AFCD; 
-}
-.project > .summary img
-{
-    border-radius: 4px 0 0 0;
-    float: left;
-    padding-right: 15px;
-    height: 187px;
-}
-#selected-filter-group > div > h2
-{
-    color: #143658;
-    font-size: 1.6875em;
-    font-weight: 600;
-    letter-spacing: -1px;
-    line-height: 1em;
-    margin: 0;
-    overflow: hidden;
-    padding-bottom: 10px;
-    padding-top: 10px;
-    white-space: nowrap;
-}
-#selected-filter-group > div > ul
-{
-    border-bottom: 1px solid #CFDDEB;
-    border-top: 1px solid #CFDDEB;
-    display: block;
-}
-#selected-filter-group > div > ul li
-{
-    color: #AAAAAA;
-    display: inline-block;
-    font-size: 0.69em;
-    line-height: 1em;
-    padding: 26px 4px 0 0;
-    text-align: center;
-    width: 6.2em;
-}
-#selected-filter-group > div > ul li span
-{
-    color: #000000;
-    display: block;
-    font-size: 1.2em;
-    font-weight: 600;
-    padding-bottom: 4px;
-    padding-top: 8px;
-}
-.project > .summary p
-{
-    color: #143658;
-    font-size: 0.8125em;
-    font-weight: 500;
-    line-height: 1.25em;
-    margin: 0;
-    max-height: 50px;
-    overflow: hidden;
-    padding-right: 15px;
-    padding-top: 12px;
-}*/
-
 /*
 *
 * Notifications
@@ -3637,7 +3597,7 @@ ul.tagit li {
 }
 ul.tagit li.tagit-choice {
     background-color: rgb(237, 244, 250);
-    border: 2px solid rgb(171, 208, 245);
+    border: 1px solid rgb(171, 208, 245);
     border-radius: 6px 6px 6px 6px;
     line-height: inherit;
     padding: 0.1em 18px 0.1em 0.4em;

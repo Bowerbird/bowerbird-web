@@ -456,6 +456,7 @@ Mammals	Echidna	Echidna	Animalia: Chordata: Mammalia	Monotremata	Tachyglossidae	
 Mammals	Echidna	Short-beaked Echidna	Animalia: Chordata: Mammalia	Monotremata	Tachyglossidae	Tachyglossus	aculeatus aculeatus
 Mammals	Echidna	Short-beaked Echidna	Animalia: Chordata: Mammalia	Monotremata	Tachyglossidae	Tachyglossus	aculeatus multiaculeatus
 Mammals	Echidna	Short-beaked Echidna	Animalia: Chordata: Mammalia	Monotremata	Tachyglossidae	Tachyglossus	aculeatus setosus
+Mammals	Echidna	Western Long-Beaked Echidna	Animalia: Chordata: Mammalia	Monotremata	Tachyglossidae	Zaglossus	bruijnii
 Mammals	Mole	Western Marsupial  Mole	Animalia: Chordata: Mammalia	Notoryctemorphia	Notoryctidae	Notoryctes	caurinus 
 Mammals	Bandicoot	Pig-footed Bandicoot	Animalia: Chordata: Mammalia	Peramelemorphia	Peramelidae	Chaeropus	ecaudatus 
 Mammals	Bandicoot	Golden Bandicoot	Animalia: Chordata: Mammalia	Peramelemorphia	Peramelidae	Isoodon	auratus 

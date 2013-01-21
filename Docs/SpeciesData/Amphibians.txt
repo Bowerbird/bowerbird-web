@@ -178,7 +178,7 @@ Amphibians	Southern Frogs	Tawny Frog	Animalia: Chordata: Amphibia	Anura	Myobatra
 Amphibians	Southern Frogs	Kunapalari Frog	Animalia: Chordata: Amphibia	Anura	Myobatrachidae	Neobatrachus	kunapalari 
 Amphibians	Southern Frogs	Humming Frog	Animalia: Chordata: Amphibia	Anura	Myobatrachidae	Neobatrachus	pelobatoides 
 Amphibians	Southern Frogs	Painted Burrowing Frog	Animalia: Chordata: Amphibia	Anura	Myobatrachidae	Neobatrachus	pictus 
-Amphibians	Southern Frogs	Sudell's Frog 	Animalia: Chordata: Amphibia	Anura	Myobatrachidae	Neobatrachus	sudelli 
+Amphibians	Southern Frogs	Sudell's Frog 	Animalia: Chordata: Amphibia	Anura	Myobatrachidae	Neobatrachus	sudellae
 Amphibians	Southern Frogs	Shoemaker Frog 	Animalia: Chordata: Amphibia	Anura	Myobatrachidae	Neobatrachus	sutor 
 Amphibians	Southern Frogs	Goldfield's Bull Frog	Animalia: Chordata: Amphibia	Anura	Myobatrachidae	Neobatrachus	wilsmorei 
 Amphibians	Southern Frogs	Crucifix Toad	Animalia: Chordata: Amphibia	Anura	Myobatrachidae	Notaden	bennettii 

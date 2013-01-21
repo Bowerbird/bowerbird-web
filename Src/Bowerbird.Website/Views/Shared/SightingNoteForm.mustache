@@ -2,10 +2,21 @@
   <span class="small-icon observation-icon"></span>Sighting Note
 </h2>
 <div class="form-details">
+  <div class="sighting-summary">
+    {{#Model.Sighting.User}}
+    {{#Avatar}}
+    {{>MediaSquare100}}
+    {{/Avatar}}
+    <div class="description">
+      <span>{{Name}}</span>
+      <abbr>{{Model.Sighting.CreatedOnDescription}}</abbr>
+    </div>
+    {{/Model.Sighting.User}}
+  </div>
   <div class="sighting">
     <div class="observation-details">
       {{#Model.Sighting}}
-      {{>SightingFullDetails}}
+      {{>SightingFullFullDetails}}
       {{/Model.Sighting}}
     </div>
   </div>

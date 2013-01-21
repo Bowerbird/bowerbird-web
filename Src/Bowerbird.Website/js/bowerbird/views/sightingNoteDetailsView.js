@@ -8,20 +8,19 @@
 // SightingNoteDetailsView
 // -----------------------
 
-define(['jquery', 'underscore', 'backbone', 'ich', 'app', 'moment', 'timeago', 'tipsy'],
-function ($, _, Backbone, ich, app, moment) {
+define(['jquery', 'underscore', 'backbone', 'ich', 'app', 'moment', 'voter', 'timeago', 'tipsy'],
+function ($, _, Backbone, ich, app, moment, Voter) {
 
     var SightingNoteDetailsView = Backbone.Marionette.ItemView.extend({
-
-        template: 'SightingNoteDetails',
+        template: 'ActivityItemSightingNoteAdded',
 
         events: {
-            'click h3 a': 'showSighting'
+            'click h3 a': 'showSighting',
+            'click .vote-panel .vote-up': 'voteUp',
+            'click .vote-panel .vote-down': 'voteDown'
         },
 
         initialize: function (options) {
-            _.bindAll(this, 'refresh');
-
             this.sighting = options.sighting;
         },
 
@@ -30,9 +29,6 @@ function ($, _, Backbone, ich, app, moment) {
                 SightingNote: this.model.toJSON(),
                 Sighting: this.sighting.toJSON()
             };
-            //            viewModel.ShowThumbnails = this.model.get('Media').length > 1 ? true : false;
-            //            viewModel.ShowProjects = this.model.get('Projects').length > 0 ? true : false;
-            //            viewModel.ObservedOnDescription = moment(this.model.get('ObservedOn')).format('D MMM YYYY h:mma');
             return viewModel;
         },
 
@@ -40,12 +36,10 @@ function ($, _, Backbone, ich, app, moment) {
 
         onShow: function () {
             this._showDetails();
-            //this.refresh();
         },
 
         onRender: function () {
             this._showDetails();
-            //this.refresh();
         },
 
         showBootstrappedDetails: function () {
@@ -53,94 +47,42 @@ function ($, _, Backbone, ich, app, moment) {
         },
 
         _showDetails: function () {
-//            this.currentObservationMedia = _.find(this.model.get('Media'), function (item) {
-//                return item.IsPrimaryMedia;
-//            });
-
-            var mapOptions = {
-                zoom: 9,
-                center: new google.maps.LatLng(this.sighting.get('Latitude'), this.sighting.get('Longitude')),
-                disableDefaultUI: true,
-                scrollwheel: false,
-                disableDoubleClickZoom: false,
-                draggable: false,
-                keyboardShortcuts: false,
-                mapTypeId: google.maps.MapTypeId.TERRAIN
-            };
-
-            var map = new google.maps.Map(this.$el.find('.map').get(0), mapOptions);
-            this.map = map;
-
-            var point = new google.maps.LatLng(Number(this.sighting.get('Latitude')), Number(this.sighting.get('Longitude')));
-            this.point = point;
-
-            var image = new google.maps.MarkerImage('/img/map-pin.png',
-                    new google.maps.Size(43, 38),
-                    new google.maps.Point(0, 0)
-                );
-
-            var shadow = new google.maps.MarkerImage('/img/map-pin-shadow.png',
-                    new google.maps.Size(59, 32),
-                    new google.maps.Point(0, 0),
-                    new google.maps.Point(17, 32)
-                );
-
-            this.mapMarker = new google.maps.Marker({
-                position: point,
-                map: map,
-                clickable: false,
-                draggable: false,
-                icon: image,
-                shadow: shadow
-            });
-
-            var resizeTimer;
-            var refresh = this.refresh;
-            $(window).resize(function () {
-                clearTimeout(resizeTimer);
-                resizeTimer = setTimeout(function () {
-                    refresh();
-                }, 100);
-            });
-
-            //this.$el.find('.observation-action-menu a').tipsy({ gravity: 'n', html: true });
+            this.$el.find('.vote-up, .vote-down, .add-comment-button').tipsy({ gravity: 'n', html: true });
         },
 
-        refresh: function () {
-            // Resize video and audio in observations
-//            if (this.currentObservationMedia) { //&& (this.currentObservationMedia.MediaResource.Video || this.currentObservationMedia.MediaResource.Audio)) {
-//                var newWidth = (600 / 800) * this.$el.find('.preview').width();
-//                this.$el.find('.preview .video-media > iframe, .preview .audio-media.media-constrained-600, .preview .image-media').height(newWidth + 'px');
-//            }
-
-            // Resize maps in sightings
-            this.map.panTo(this.point);
-            this.$el.find('.map').width(this.$el.find('.location').width() + 'px');
-            google.maps.event.trigger(this.map, 'resize');
-            this.map.panTo(this.point);
-        },
-
-        showMedia: function (e) {
-            var index = this.$el.find('.thumbnails > div').index(e.currentTarget);
-            this.currentObservationMedia = this.model.get('Media')[index];
-            var descriptionHtml = '';
-            this.$el.find('.preview').empty().append(ich.MediaConstrained600(this.currentObservationMedia.MediaResource));
-            if (this.currentObservationMedia.Description && this.currentObservationMedia.Description !== '') {
-                descriptionHtml = '<div class="media-details"><div class="overlay"></div><p class="description">' + this.currentObservationMedia.Description + '</p></div>';
-                this.$el.find('.preview').append(descriptionHtml);
-            }
-            this.refresh();
-        },
-
-        showNoteForm: function (e) {
-            e.preventDefault();
-            this.$el.find('.observation-action-menu a').tipsy.revalidate();
-            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
-        },
+//        showNoteForm: function (e) {
+//            e.preventDefault();
+//            this.$el.find('.observation-action-menu a').tipsy.revalidate();
+//            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
+//        },
 
         showSighting: function (e) {
             e.preventDefault();
             Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
+        },
+
+        voteUp: function (e) {
+            log('voting!');
+            Voter.voteUp(this.model);
+
+            this.$el.find('.vote-panel .vote-down').removeClass().addClass('vote-down button');
+            this.$el.find('.vote-panel .vote-up').removeClass().addClass('vote-up button user-vote-score' + this.model.get('UserVoteScore'));
+            this.$el.find('.vote-panel .vote-score').text(this.model.get('TotalVoteScore'));
+        },
+
+        voteDown: function (e) {
+            Voter.voteDown(this.model);
+
+            this.$el.find('.vote-panel .vote-up').removeClass().addClass('vote-up button');
+            this.$el.find('.vote-panel .vote-down').removeClass().addClass('vote-down button user-vote-score' + this.model.get('UserVoteScore'));
+            this.$el.find('.vote-panel .vote-score').text(this.model.get('TotalVoteScore'));
+        },
+
+        addToFavourites: function (e) {
+            Voter.addToFavourites(this.model);
+
+            this.$el.find('.favourites-panel .favourites-count').text(this.model.get('FavouritesCount'));
+            this.$el.find('.favourites-panel .favourites-button').toggleClass('selected');
         }
     });
 

@@ -21,7 +21,6 @@ function ($, _, Backbone, ObservationMediaCollection, MediaResource) {
             Category: '',
             AnonymiseLocation: false,
             ProjectIds: [],
-            IsIdentificationRequired: false,
             Media: []
         },
 

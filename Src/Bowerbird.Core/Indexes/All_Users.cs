@@ -37,8 +37,8 @@ namespace Bowerbird.Core.Indexes
 
             public User User { get; set; }
             public IEnumerable<UserProject> UserProjects { get; set; }
+            public IEnumerable<Favourites> Favourites { get; set; }
             public IEnumerable<Project> Projects { get; set; }
-            public IEnumerable<Team> Teams { get; set; }
             public IEnumerable<Organisation> Organisations { get; set; }
             public IEnumerable<AppRoot> AppRoots { get; set; }
             public IEnumerable<Group> Groups
@@ -46,11 +46,11 @@ namespace Bowerbird.Core.Indexes
                 get
                 {
                     List<Group> groups = new List<Group>();
-                    if (UserProjects != null && UserProjects.Count() > 0) groups.AddRange(UserProjects);
-                    if (Projects != null && Projects.Count() > 0) groups.AddRange(Projects);
-                    if (Teams != null && Teams.Count() > 0) groups.AddRange(Teams);
-                    if (Organisations != null && Organisations.Count() > 0) groups.AddRange(Organisations);
-                    if (AppRoots != null && AppRoots.Count() > 0) groups.AddRange(AppRoots);
+                    if (UserProjects != null) groups.AddRange(UserProjects);
+                    if (Favourites != null) groups.AddRange(Favourites);
+                    if (Projects != null) groups.AddRange(Projects);
+                    if (Organisations != null) groups.AddRange(Organisations);
+                    if (AppRoots != null) groups.AddRange(AppRoots);
                     return groups;
                 }
             }
@@ -141,8 +141,8 @@ namespace Bowerbird.Core.Indexes
                                     result.Email,
                                     User = database.Load<User>(result.UserId),
                                     UserProjects = database.Load<UserProject>(result.GroupIds).Where(x => x.GroupType == "userproject"),
+                                    Favourites = database.Load<Favourites>(result.GroupIds).Where(x => x.GroupType == "favourites"),
                                     Projects = database.Load<Project>(result.GroupIds).Where(x => x.GroupType == "project"),
-                                    Teams = database.Load<Team>(result.GroupIds).Where(x => x.GroupType == "team"),
                                     Organsations = database.Load<Organisation>(result.GroupIds).Where(x => x.GroupType == "organisation"),
                                     AppRoots = database.Load<AppRoot>(result.GroupIds).Where(x => x.GroupType == "approot")
                                 };

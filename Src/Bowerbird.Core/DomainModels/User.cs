@@ -29,8 +29,6 @@ namespace Bowerbird.Core.DomainModels
         [Raven.Imports.Newtonsoft.Json.JsonIgnore]
         private List<Member> _memberships;
         [Raven.Imports.Newtonsoft.Json.JsonIgnore]
-        private List<Watchlist> _watchlists;
-        [Raven.Imports.Newtonsoft.Json.JsonIgnore]
         private List<UserSession> _sessions;
         [Raven.Imports.Newtonsoft.Json.JsonIgnore]
         private List<string> _callsToAction;
@@ -123,12 +121,6 @@ namespace Bowerbird.Core.DomainModels
             private set { _memberships = new List<Member>(value); }
         }
 
-        public IEnumerable<Watchlist> Watchlists
-        {
-            get { return _watchlists; }
-            private set { _watchlists = new List<Watchlist>(value); }
-        }
-
         public IEnumerable<UserSession> Sessions
         {
             get { return _sessions; }
@@ -165,7 +157,6 @@ namespace Bowerbird.Core.DomainModels
         private void InitMembers()
         {
             _memberships = new List<Member>();
-            _watchlists = new List<Watchlist>();
             _sessions = new List<UserSession>();
             _callsToAction = new List<string>();
         }
@@ -298,27 +289,6 @@ namespace Bowerbird.Core.DomainModels
         public User RemoveMembership(User modifiedByUser, Group group)
         {
             _memberships.RemoveAll(x => x.Group.Id == group.Id);
-
-            return this;
-        }
-
-        public User AddWatchlist(Watchlist watchlist)
-        {
-            Check.RequireNotNull(watchlist, "watchlist");
-
-            if(_watchlists.All(x => (x.Name != watchlist.Name)))
-            {
-                _watchlists.Add(watchlist);
-            }
-
-            return this;
-        }
-
-        public User RemoveWatchlist(string watchlistId)
-        {
-            Check.RequireNotNullOrWhitespace(watchlistId, "watchlistId");
-
-            _watchlists.RemoveAll(x => x.Id == watchlistId);
 
             return this;
         }

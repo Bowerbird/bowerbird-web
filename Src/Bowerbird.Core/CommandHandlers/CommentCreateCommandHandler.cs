@@ -50,22 +50,22 @@ namespace Bowerbird.Core.CommandHandlers
 
         public void Handle(CommentCreateCommand command)
         {
-            Check.RequireNotNull(command, "command");
+            //Check.RequireNotNull(command, "command");
 
-            var discussable = _documentSession
-                .Query<All_Contributions.Result, All_Contributions>()
-                .AsProjection<All_Contributions.Result>()
-                .Where(x => x.ContributionId == command.ContributionId)
-                .First()
-                .Discussable;
+            //var discussable = _documentSession
+            //    .Query<All_Contributions.Result, All_Contributions>()
+            //    .AsProjection<All_Contributions.Result>()
+            //    .Where(x => x.ContributionId == command.ContributionId)
+            //    .First()
+            //    .Contribution as IDiscussable;
 
-            discussable.Discussion.AddComment(
-                command.Comment,
-                _documentSession.Load<User>(command.UserId),
-                command.CommentedOn,
-                command.InReplyToCommentId);
+            //discussable.Discussion.AddComment(
+            //    command.Comment,
+            //    _documentSession.Load<User>(command.UserId),
+            //    command.CommentedOn,
+            //    command.InReplyToCommentId);
 
-            _documentSession.Store(discussable);
+            //_documentSession.Store(discussable);
         }
 
         #endregion

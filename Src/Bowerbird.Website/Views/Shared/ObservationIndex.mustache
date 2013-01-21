@@ -1,18 +1,63 @@
-﻿<h2><span class="small-icon observation-icon"></span>Observation</h2>
+﻿<h2><span class="small-icon observation-icon"></span>Sighting</h2>
 <div class="form-details">
-  {{#Model.Observation}}
-  {{>SightingDetails}}
-  {{/Model.Observation}}
-
-  {{#Model.Observation.NoteCount}}
-  <div class="sighting-notes">
-    <h4>Notes</h4>
-    {{#Model.Observation.Notes}}
-    <a id="note{{Id}}"></a>
-    <div class="sighting-note">
-      {{>SightingNoteFullDetails}}
+  <div class="sighting-summary">
+    {{#Model.Observation.User}}
+    {{#Avatar}}
+    {{>MediaSquare100}}
+    {{/Avatar}}
+    <div class="description">
+      <span>{{Name}}</span>
+      <abbr>{{Model.Observation.CreatedOnDescription}}</abbr>
     </div>
-    {{/Model.Observation.Notes}}
+    {{/Model.Observation.User}}
   </div>
-  {{/Model.Observation.NoteCount}}
+  {{#Model.Observation}}
+  <div class="sighting-observation-full-details">
+    <div class="observation-details">
+      {{>SightingFullFullDetails}}
+    </div>
+  </div>
+  {{/Model.Observation}}
+  <div class="identifications">
+    <div class="add-identification-heading">
+      <h4>Identifications</h4>
+    </div>
+    <ul class="identifications-list">
+    {{#Model.Observation.Identifications}}
+    <li class="identification">
+      <a id="identification{{Id}}"></a>
+      {{>IdentificationFullFullDetails}}
+    </li>
+      {{/Model.Observation.Identifications}}
+    </ul>
+    {{^Model.Observation.IdentificationCount}}
+    <div class="no-sighting-notes">
+      <p>This sighting hasn't been identified yet! Be the first to identify this sighting.</p>
+    </div>
+    {{/Model.Observation.IdentificationCount}}
+    <div class="add-identification">
+      <a href="#" class="button add-identification-button">Identify This Sighting</a>
+    </div>
+  </div>
+  <div class="sighting-notes">
+    <div class="add-sighting-notes-heading">
+      <h4>Notes</h4>
+    </div>
+    <ul>
+    {{#Model.Observation.Notes}}
+    <li class="sighting-note">
+      <a id="note{{Id}}"></a>
+      {{>SightingNoteFullFullDetails}}
+    </li>
+    {{/Model.Observation.Notes}}
+    </ul>
+    {{^Model.Observation.NoteCount}}
+    <div class="no-sighting-notes">
+      <p>This sighting hasn't been described yet! Be the first to describe this sighting.</p>
+    </div>
+    {{/Model.Observation.NoteCount}}
+    <div class="add-sighting-note">
+      <a href="#" class="button add-sighting-note-button">Describe This Sighting</a>
+    </div>
+  </div>
 </div>

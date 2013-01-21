@@ -14,6 +14,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Indexes;
@@ -32,6 +33,7 @@ namespace Bowerbird.Web.Builders
         private readonly IDocumentSession _documentSession;
         private readonly ISightingViewFactory _sightingViewFactory;
         private readonly ISightingNoteViewFactory _sightingNoteViewFactory;
+        private readonly IUserContext _userContext;
 
         #endregion
 
@@ -40,15 +42,18 @@ namespace Bowerbird.Web.Builders
         public SightingViewModelBuilder(
             IDocumentSession documentSession,
             ISightingViewFactory sightingViewFactory,
-            ISightingNoteViewFactory sightingNoteViewFactory)
+            ISightingNoteViewFactory sightingNoteViewFactory,
+            IUserContext userContext)
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(sightingViewFactory, "sightingViewFactory");
             Check.RequireNotNull(sightingNoteViewFactory, "sightingNoteViewFactory");
+            Check.RequireNotNull(userContext, "userContext");
 
             _documentSession = documentSession;
             _sightingViewFactory = sightingViewFactory;
             _sightingNoteViewFactory = sightingNoteViewFactory;
+            _userContext = userContext;
         }
 
         #endregion
@@ -67,17 +72,26 @@ namespace Bowerbird.Web.Builders
 
         public dynamic BuildSighting(string id)
         {
-            var result = _documentSession
+            var authenticatedUser = _userContext.IsUserAuthenticated() ? _documentSession.Load<User>(_userContext.GetAuthenticatedUserId()) : null;
+
+            var results = _documentSession
                 .Query<All_Contributions.Result, All_Contributions>()
                 .AsProjection<All_Contributions.Result>()
-                .Where(x => x.ContributionId == id && (x.ContributionType == "observation" || x.ContributionType == "record" || x.ContributionType == "note"))
+                .Where(x => x.ContributionId == id)
                 .ToList();
 
-            dynamic sighting = _sightingViewFactory.Make(result.Single(x => x.ContributionType == "observation" || x.ContributionType == "record"));
+            var sightingResult = results.First(x => x.ContributionType == "observation" || x.ContributionType == "record");
 
-            sighting.Notes = result.Any(x => x.ContributionType == "note") ? result.Where(x => x.ContributionType == "note").Select(_sightingNoteViewFactory.Make) : new List<object>();
+            var sighting = sightingResult.Contribution as Sighting;
+            var projects = sightingResult.Groups;
+            var user = sightingResult.User;
 
-            return sighting;
+            dynamic viewModel = _sightingViewFactory.Make(sighting, user, projects, authenticatedUser);
+
+            viewModel.Identifications = results.Where(x => x.ContributionType == "identification").Select(x => _sightingNoteViewFactory.Make(sighting, x.Contribution as IdentificationNew, x.User, authenticatedUser));
+            viewModel.Notes = results.Where(x => x.ContributionType == "note").Select(x => _sightingNoteViewFactory.Make(sighting, x.Contribution as SightingNote, x.User, authenticatedUser));
+
+            return viewModel;
         }
 
         public object BuildGroupSightingList(string groupId, SightingsQueryInput sightingsQueryInput)
@@ -144,11 +158,13 @@ namespace Bowerbird.Web.Builders
 
             RavenQueryStatistics stats;
 
+            var authenticatedUser = _documentSession.Load<User>(_userContext.GetAuthenticatedUserId());
+
             return query.Skip(queryInput.GetSkipIndex())
                 .Statistics(out stats)
                 .Take(queryInput.GetPageSize())
                 .ToList()
-                .Select(_sightingViewFactory.Make)
+                .Select(x => _sightingViewFactory.Make(x.Contribution as Sighting, x.User, x.Groups, authenticatedUser))
                 .ToPagedList(
                     queryInput.Page,
                     queryInput.PageSize,

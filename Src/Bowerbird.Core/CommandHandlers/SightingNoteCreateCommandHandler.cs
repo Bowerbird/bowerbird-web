@@ -75,72 +75,15 @@ namespace Bowerbird.Core.CommandHandlers
                     .Where(x => x.Key == command.SightingKey).First();
             }
 
-            Identification identification = null;
-
-            if (!string.IsNullOrWhiteSpace(command.Taxonomy))
-            {
-                if (command.IsCustomIdentification)
-                {
-                    identification = new Identification(
-                        true,
-                        command.Category,
-                        command.Kingdom,
-                        command.Phylum,
-                        command.Class,
-                        command.Order,
-                        command.Family,
-                        command.Genus,
-                        command.Species,
-                        command.Subspecies,
-                        command.CommonGroupNames,
-                        command.CommonNames,
-                        command.Synonyms);
-                }
-                else
-                {
-                    var result = _documentSession
-                        .Advanced
-                        .LuceneQuery<All_Species.Result, All_Species>()
-                        .SelectFields<All_Species.Result>("Ranks", "Category", "CommonGroupNames", "CommonNames",
-                                                            "Synonyms")
-                        .WhereEquals("Taxonomy", command.Taxonomy)
-                        .First();
-
-                    identification = new Identification(
-                        false,
-                        result.Category,
-                        GetRankName(result.Ranks, "kingdom"),
-                        GetRankName(result.Ranks, "phylum"),
-                        GetRankName(result.Ranks, "class"),
-                        GetRankName(result.Ranks, "order"),
-                        GetRankName(result.Ranks, "family"),
-                        GetRankName(result.Ranks, "genus"),
-                        GetRankName(result.Ranks, "species"),
-                        GetRankName(result.Ranks, "subspecies"),
-                        result.CommonGroupNames ?? new string[] {},
-                        result.CommonNames ?? new string[] {},
-                        result.Synonyms ?? new string[] {});
-                }
-            }
-
             sighting.AddNote(
-                identification,
                 command.Tags.Split(new[] {","}, StringSplitOptions.RemoveEmptyEntries).Select(x => x.ToLower()),
                 command.Descriptions,
-                DateTime.UtcNow.AddSeconds(5), // Add some time to avoid notes being published before its parent sighting (if its being created at the same time as the sigthing)
+                command.Comments,
+                DateTime.UtcNow.AddSeconds(5), // Add some time to avoid notes being published before its parent sighting (if its being created at the same time as the sighting)
                 _documentSession.Load<User>(command.UserId));
 
             _documentSession.Store(sighting);
             _documentSession.SaveChanges();
-        }
-
-        private string GetRankName(IDictionary<string, string>[] ranks, string rankType)
-        {
-            if(ranks.Any(x => x["Type"] == rankType))
-            {
-                return ranks.First(x => x["Type"] == rankType)["Name"] ?? string.Empty;
-            }
-            return string.Empty;
         }
 
         #endregion

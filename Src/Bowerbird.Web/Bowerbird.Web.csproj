@@ -194,6 +194,7 @@
     <Compile Include="Controllers\ObservationsController.cs" />
     <Compile Include="Controllers\RecordsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="EventHandlers\ActivityIdentificationAdded.cs" />
     <Compile Include="Factories\ISightingNoteViewFactory.cs" />
     <Compile Include="Factories\SightingNoteViewFactory.cs" />
     <Compile Include="Factories\ISightingViewFactory.cs" />
@@ -212,6 +213,8 @@
     <Compile Include="Validators\ValidExternalVideoAttribute.cs" />
     <Compile Include="Validators\ValidFileAttribute.cs" />
     <Compile Include="Validators\ValidMediaResourceAttribute.cs" />
+    <Compile Include="ViewModels\IdentificationCreateInput.cs" />
+    <Compile Include="ViewModels\IdentificationUpdateInput.cs" />
     <Compile Include="ViewModels\ProjectsQueryInput.cs" />
     <Compile Include="ViewModels\UsersQueryInput.cs" />
     <Compile Include="ViewModels\SightingsQueryInput.cs" />

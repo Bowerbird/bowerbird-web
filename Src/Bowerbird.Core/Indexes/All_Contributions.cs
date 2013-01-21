@@ -1,4 +1,4 @@
-﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+﻿    /* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -27,7 +27,7 @@ namespace Bowerbird.Core.Indexes
         {
             public string ContributionType { get; set; }
             public string ContributionId { get; set; }
-            public string ContributionSubId { get; set; }
+            public string SubContributionId { get; set; }
             public string UserId { get; set; }
             public DateTime CreatedDateTime { get; set; }
             public string[] GroupIds { get; set; }
@@ -41,48 +41,52 @@ namespace Bowerbird.Core.Indexes
             public Post Post { get; set; }
             public User User { get; set; }
             public IEnumerable<UserProject> UserProjects { get; set; }
+            public IEnumerable<Favourites> Favourites { get; set; }
             public IEnumerable<Project> Projects { get; set; }
-            public IEnumerable<Team> Teams { get; set; }
             public IEnumerable<Organisation> Organisations { get; set; }
-            public SightingNote Note
+
+            public IContribution Contribution 
             {
                 get
                 {
-                    if (Contribution is Sighting)
+                    var contribution = Observation as IContribution ?? Record as IContribution ?? Post as IContribution;
+
+                    if (ContributionType == "observation" || ContributionType == "record" || ContributionType == "post")
                     {
-                        return ((Sighting) Contribution).Notes.Single(x => x.Id.ToString() == ContributionSubId);
+                        return contribution;
                     }
+
+                    if (ContributionType == "identification" || ContributionType == "note" || ContributionType == "vote")
+                    {
+                        return contribution.GetSubContribution(ContributionType, SubContributionId);
+                    }
+
                     return null;
                 }
             }
-            public Comment Comment
+
+            public IContribution ParentContribution
             {
                 get
                 {
-                    if (Contribution is IDiscussable)
+                    if (ContributionType == "identification" || ContributionType == "note" || ContributionType == "vote")
                     {
-                        return ((IDiscussable)Contribution).Discussion.Comments.Single(x => x.Id == ContributionSubId);
+                        return Observation as IContribution ?? Record as IContribution ?? Post as IContribution;
                     }
+
                     return null;
                 }
             }
-            public object Contribution 
-            {
-                get { return Observation as object ?? Record as object ?? Post as object; }
-            }
-            public IDiscussable Discussable
-            {
-                get { return Observation as IDiscussable ?? Record as IDiscussable ?? Post as IDiscussable; }
-            }
+
             public IEnumerable<Group> Groups
             {
                 get
                 {
                     List<Group> groups = new List<Group>();
-                    if (UserProjects != null && UserProjects.Count() > 0) groups.AddRange(UserProjects);
-                    if (Projects != null && Projects.Count() > 0) groups.AddRange(Projects);
-                    if (Teams != null && Teams.Count() > 0) groups.AddRange(Teams);
-                    if (Organisations != null && Organisations.Count() > 0) groups.AddRange(Organisations);
+                    if (UserProjects != null) groups.AddRange(UserProjects);
+                    if (Favourites != null) groups.AddRange(Favourites);
+                    if (Projects != null) groups.AddRange(Projects);
+                    if (Organisations != null) groups.AddRange(Organisations);
                     return groups;
                 }
             }
@@ -90,11 +94,12 @@ namespace Bowerbird.Core.Indexes
 
         public All_Contributions()
         {
+            // Observations
             AddMap<Observation>(observations => from observation in observations
                                                 select new
                                                 {
                                                     ContributionId = observation.Id,
-                                                    ContributionSubId = (string)null,
+                                                    SubContributionId = (string)null,
                                                     ContributionType = "observation",
                                                     UserId = observation.User.Id,
                                                     CreatedDateTime = observation.CreatedOn,
@@ -103,11 +108,12 @@ namespace Bowerbird.Core.Indexes
                                                     SightingSightedOn = observation.ObservedOn
                                                 });
 
+            // Records
             AddMap<Record>(records => from record in records
                                                  select new
                                                  {
                                                      ContributionId = record.Id,
-                                                     ContributionSubId = (string)null,
+                                                     SubContributionId = (string)null,
                                                      ContributionType = "record",
                                                      UserId = record.User.Id,
                                                      CreatedDateTime = record.CreatedOn,
@@ -116,11 +122,12 @@ namespace Bowerbird.Core.Indexes
                                                      SightingSightedOn = record.ObservedOn
                                                  });
 
+            // Posts
             AddMap<Post>(posts => from post in posts
                                   select new
                                   {
                                       ContributionId = post.Id,
-                                      ContributionSubId = (string)null,
+                                      SubContributionId = (string)null,
                                       ContributionType = "post",
                                       UserId = post.User.Id,
                                       CreatedDateTime = post.CreatedOn,
@@ -129,12 +136,13 @@ namespace Bowerbird.Core.Indexes
                                       SightingSightedOn = (object)null
                                   });
 
+            // Observation Notes
             AddMap<Observation>(observations => from observation in observations
                                                 from note in observation.Notes
                                                 select new
                                                 {
                                                     ContributionId = observation.Id,
-                                                    ContributionSubId = note.Id,
+                                                    SubContributionId = note.Id,
                                                     ContributionType = "note",
                                                     UserId = note.User.Id,
                                                     CreatedDateTime = note.CreatedOn,
@@ -143,12 +151,13 @@ namespace Bowerbird.Core.Indexes
                                                     SightingSightedOn = (object)null
                                                 });
 
+            // Record Notes
             AddMap<Record>(records => from record in records
                                       from note in record.Notes
                                       select new
                                       {
                                           ContributionId = record.Id,
-                                          ContributionSubId = note.Id,
+                                          SubContributionId = note.Id,
                                           ContributionType = "note",
                                           UserId = note.User.Id,
                                           CreatedDateTime = note.CreatedOn,
@@ -157,41 +166,118 @@ namespace Bowerbird.Core.Indexes
                                           SightingSightedOn = (object)null
                                       });
 
+            // Observation Comments
             AddMap<Observation>(observations => from observation in observations
                                                 from comment in observation.Discussion.Comments
                                                 select new
                                                 {
                                                     ContributionId = observation.Id,
-                                                    ContributionSubId = comment.Id,
+                                                    SubContributionId = comment.Id,
                                                     ContributionType = "comment",
                                                     UserId = comment.User.Id,
-                                                    CreatedDateTime = comment.CommentedOn,
+                                                    CreatedDateTime = comment.CreatedOn,
                                                     GroupIds = observation.Groups.Select(x => x.Group.Id),
                                                     SightingTitle = (string)null,
                                                     SightingSightedOn = (object)null
                                                 });
 
+            // Record Comments
             AddMap<Record>(records => from record in records
                                       from comment in record.Discussion.Comments
                                       select new
                                       {
                                           ContributionId = record.Id,
-                                          ContributionSubId = comment.Id,
+                                          SubContributionId = comment.Id,
                                           ContributionType = "comment",
                                           UserId = comment.User.Id,
-                                          CreatedDateTime = comment.CommentedOn,
+                                          CreatedDateTime = comment.CreatedOn,
                                           GroupIds = record.Groups.Select(x => x.Group.Id),
                                           SightingTitle = (string)null,
                                           SightingSightedOn = (object)null
                                       });
 
+            // Observation Identifications
+            AddMap<Observation>(observations => from observation in observations
+                                                from identification in observation.Identifications
+                                                select new
+                                                {
+                                                    ContributionId = observation.Id,
+                                                    SubContributionId = identification.Id,
+                                                    ContributionType = "identification",
+                                                    UserId = identification.User.Id,
+                                                    CreatedDateTime = identification.CreatedOn,
+                                                    GroupIds = observation.Groups.Select(x => x.Group.Id),
+                                                    SightingTitle = (string)null,
+                                                    SightingSightedOn = (object)null
+                                                });
+
+            // Record Identifications
+            AddMap<Record>(records => from record in records
+                                      from identification in record.Identifications
+                                      select new
+                                      {
+                                          ContributionId = record.Id,
+                                          SubContributionId = identification.Id,
+                                          ContributionType = "identification",
+                                          UserId = identification.User.Id,
+                                          CreatedDateTime = identification.CreatedOn,
+                                          GroupIds = record.Groups.Select(x => x.Group.Id),
+                                          SightingTitle = (string)null,
+                                          SightingSightedOn = (object)null
+                                      });
+
+            // Observation Votes
+            AddMap<Observation>(observations => from observation in observations
+                                                from vote in observation.Votes
+                                                select new
+                                                    {
+                                                        ContributionId = observation.Id,
+                                                        SubContributionId = vote.Id,
+                                                        ContributionType = "vote",
+                                                        UserId = vote.User.Id,
+                                                        CreatedDateTime = vote.CreatedOn,
+                                                        GroupIds = new string[] {},
+                                                        SightingTitle = (string) null,
+                                                        SightingSightedOn = (object) null
+                                                    });
+
+            // Record Votes
+            AddMap<Record>(records => from record in records
+                                      from vote in record.Votes
+                                      select new
+                                          {
+                                              ContributionId = record.Id,
+                                              SubContributionId = vote.Id,
+                                              ContributionType = "vote",
+                                              UserId = vote.User.Id,
+                                              CreatedDateTime = vote.CreatedOn,
+                                              GroupIds = new string[] {},
+                                              SightingTitle = (string) null,
+                                              SightingSightedOn = (object) null
+                                          });
+
+            Reduce = (results => from result in results
+                                 group result by new { result.ContributionId, result.SubContributionId, result.ContributionType }
+                                 into g
+                                 select new
+                                     {
+                                        g.Key.ContributionId,
+                                        g.Key.SubContributionId,
+                                        g.Key.ContributionType,
+                                        UserId = g.Select(x => x.UserId).Where(x => x != null).FirstOrDefault(),
+                                        CreatedDateTime = g.Select(x => x.CreatedDateTime).Where(x => x != null).FirstOrDefault(),
+                                        GroupIds = g.SelectMany(x => x.GroupIds),
+                                        SightingTitle = g.Select(x => x.SightingTitle).Where(x => x != null).FirstOrDefault(),
+                                        SightingSightedOn = g.Select(x => x.SightingSightedOn).Where(x => x != null).FirstOrDefault()
+                                     });
+
             TransformResults = (database, results) =>
                 from result in results
                 select new
                 {
-                    result.ContributionId,
                     result.ContributionType,
-                    result.ContributionSubId,
+                    result.ContributionId,
+                    result.SubContributionId,
                     result.UserId,
                     result.CreatedDateTime,
                     GroupIds = result.GroupIds ?? new string[] {},
@@ -200,13 +286,13 @@ namespace Bowerbird.Core.Indexes
                     Post = database.Load<Post>(result.ContributionId),
                     User = database.Load<User>(result.UserId),
                     UserProjects = database.Load<UserProject>(result.GroupIds).Where(x => x.GroupType == "userproject"),
+                    Favourites = database.Load<UserProject>(result.GroupIds).Where(x => x.GroupType == "favourites"),
                     Projects = database.Load<UserProject>(result.GroupIds).Where(x => x.GroupType == "project"),
-                    Teams = database.Load<UserProject>(result.GroupIds).Where(x => x.GroupType == "team"),
                     Organisations = database.Load<UserProject>(result.GroupIds).Where(x => x.GroupType == "organisation")
                 };
 
             Store(x => x.ContributionId, FieldStorage.Yes);
-            Store(x => x.ContributionSubId, FieldStorage.Yes);
+            Store(x => x.SubContributionId, FieldStorage.Yes);
             Store(x => x.ContributionType, FieldStorage.Yes);
             Store(x => x.UserId, FieldStorage.Yes);
             Store(x => x.CreatedDateTime, FieldStorage.Yes);

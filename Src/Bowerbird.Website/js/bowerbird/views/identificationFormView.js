@@ -34,9 +34,12 @@ function ($, _, Backbone, app, ich, Identification) {
         },
 
         initialize: function (options) {
+            _.bindAll(this, '_displaySelectedId');
+
             this.categories = options.categories;
             this.categorySelectList = options.categorySelectList;
-            //this.identification = new Identification(options.identification);
+
+            this.model.on('change:Taxonomy', this._displaySelectedId);
         },
 
         searchField: '',
@@ -69,7 +72,7 @@ function ($, _, Backbone, app, ich, Identification) {
                 }
             });
 
-            this._displaySelectedId(this.model.get('HasIdentification'), this.model.get('Taxonomy'));
+            //this._displaySelectedId();
 
             this.searchCategories = this.$el.find('#SearchCategories').multiSelect({
                 selectAll: false,
@@ -114,7 +117,7 @@ function ($, _, Backbone, app, ich, Identification) {
             this.$el.find('#SearchIdentification').autocomplete({
                 source: function (request, response) {
                     that.$el.find('#search-identification-field .progress-indicator').show();
-                    var url = '/species?query=' + request.term;
+                    var url = '/species?query=' + request.term + '&limitcommonnames=true';
                     if (that.searchField != '') {
                         url += '&field=' + that.searchField;
                     }
@@ -145,7 +148,7 @@ function ($, _, Backbone, app, ich, Identification) {
                 },
                 select: function (event, ui) {
                     that.$el.find('#SearchIdentification').val(ui.item.taxon.Name);
-                    that._loadAndDisplaySelectedId(true, ui.item.taxon.Taxonomy);
+                    that._loadSelectedId(ui.item.taxon.Taxonomy);
                     return false;
                 }
             }).data('autocomplete')._renderItem = function (ul, item) {
@@ -207,11 +210,15 @@ function ($, _, Backbone, app, ich, Identification) {
                 this.$el.find('#TaxonomicRank' + y).empty();
             }
 
-            this.$el.find('#TaxonomicRank' + rankPosition).append('<img class="progress-indicator" src="/img/loaderx.gif" alt="" /> ');
+            this.$el.find('#TaxonomicRank' + rankPosition).append('<img class="progress-indicator" src="/img/loader-small.gif" alt="" /> ');
             this.$el.find('#TaxonomicRank' + rankPosition + ' .progress-indicator').show();
 
             // Set selected identification, if it contains a category
-            this._loadAndDisplaySelectedId(rank.Category != null, rank.Taxonomy);
+            if (rank.Category != null) {
+                this._loadSelectedId(rank.Taxonomy);
+            } else {
+                this.model.clearId();
+            }
 
             this.$el.find('#TaxonomicRank' + parseInt(rank.RankPosition, 10) + ' li').removeClass('selected');
             elem.addClass('selected');
@@ -223,31 +230,34 @@ function ($, _, Backbone, app, ich, Identification) {
             return false;
         },
 
-        _loadAndDisplaySelectedId: function (isValidId, taxonomy) {
-            if (isValidId) {
-                var that = this;
-                $.ajax({
-                    url: '/species?query=' + taxonomy + '&field=taxonomy'
-                }).done(function (data) {
-                    log('requesting selected taxon', data);
+        _loadSelectedId: function (taxonomy) {
+            var that = this;
+            $.ajax({
+                url: '/species?query=' + taxonomy + '&field=taxonomy'
+            }).done(function (data) {
+                log('requesting selected taxon', data);
 
-                    that.model = new Identification(data.Model.Species.PagedListItems[0]);
+                var item = data.Model.Species.PagedListItems[0];
 
-                    that._displaySelectedId(isValidId);
-                });
-            } else {
-                this.model = new Identification();
+                var data = {
+                    IsCustomIdentification: false,
+                    Taxonomy: item.Taxonomy,
+                    Category: item.Category,
+                    Name: item.Name,
+                    RankType: item.RankType,
+                    AllCommonNames: item.AllCommonNames
+                };
 
-                this._displaySelectedId(isValidId);
-            }
+                that.model.set(data);
+            });
         },
 
-        _displaySelectedId: function (isValidId) {
-            this.$el.find('#Identification').empty().html(ich.Identification(this.model.toJSON()));
-
-            if (isValidId) {
+        _displaySelectedId: function () {
+            if (this.model.isValid()) {
+                this.$el.find('#Identification').empty().html(ich.Identification(this.model.toJSON()));
                 this.$el.find('.done-button').removeAttr('disabled');
             } else {
+                this.$el.find('#Identification').empty().html('<span class="identification-none">Not Identified</span>');
                 this.$el.find('.done-button').attr('disabled', 'disabled');
             }
         },

@@ -33,7 +33,6 @@ namespace Bowerbird.Web.Config
         private readonly IDocumentSession _documentSession;
         private readonly IPermissionManager _permissionManager;
 
-
         #endregion
 
         #region Constructors
@@ -167,16 +166,6 @@ namespace Bowerbird.Web.Config
         private HttpCookie GetCookie(string name)
         {
             return HttpContext.Current.Request.Cookies[name];
-        }
-
-        public void SendModelToUserClient(object model, string clientId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public string GetUserFullName()
-        {
-            return HttpContext.Current.Request.LogonUserIdentity != null ? HttpContext.Current.Request.LogonUserIdentity.Name : string.Empty;
         }
 
         #endregion

@@ -18,7 +18,7 @@ using Bowerbird.Core.DomainModels.DenormalisedReferences;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public class Comment : CommentBase
+    public class Comment : CommentBase, IContribution, ISubContribution
     {
         #region Members
 
@@ -33,7 +33,7 @@ namespace Bowerbird.Core.DomainModels
 
         public Comment(
             User createdByUser,
-            DateTime commentedOn,
+            DateTime createdOn,
             string message,
             CommentBase parentComment) 
             : base(
@@ -43,12 +43,12 @@ namespace Bowerbird.Core.DomainModels
             Check.RequireNotNullOrWhitespace(message, "message");
 
             User = createdByUser;
-            CommentedOn = commentedOn;
+            CreatedOn = createdOn;
 
             SetCommentDetails(
                 message,
                 createdByUser,
-                CommentedOn);
+                createdOn);
         }
 
         #endregion
@@ -57,7 +57,7 @@ namespace Bowerbird.Core.DomainModels
 
         public DenormalisedUserReference User { get; private set; }
 
-        public DateTime CommentedOn { get; private set; }
+        public DateTime CreatedOn { get; private set; }
 
         public DateTime EditedOn { get; private set; }
 
@@ -97,6 +97,11 @@ namespace Bowerbird.Core.DomainModels
                 }
             }
 
+            return null;
+        }
+
+        public ISubContribution GetSubContribution(string type, string id)
+        {
             return null;
         }
 

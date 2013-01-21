@@ -58,7 +58,9 @@ namespace Bowerbird.Web.ViewModels
 
         public SightingNoteCreateInput Note { get; set; }
 
-        #endregion
+        public IdentificationCreateInput Identification { get; set; }
+
+        #endregion 
 
         #region Methods
 

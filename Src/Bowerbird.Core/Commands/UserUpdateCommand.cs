@@ -37,7 +37,11 @@ namespace Bowerbird.Core.Commands
 
         public string Description { get; set; }
 
+        public string Website { get; set; }
+
         public string AvatarId { get; set; }
+
+        public string BackgroundId { get; set; }
 
         public string DefaultLicence { get; set; }
 

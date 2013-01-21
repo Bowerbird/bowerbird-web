@@ -19,40 +19,33 @@ namespace Bowerbird.Core.Config
         public static string CreateOrganisation = "createorganisation";
         public static string UpdateOrganisation = "updateorganisation";
         public static string DeleteOrganisation = "deleteorganisation";
-        public static string CreateTeam = "createteam";
-        public static string UpdateTeam = "updateteam";
-        public static string DeleteTeam = "deleteteam";
         public static string CreateProject = "createproject";
         public static string UpdateProject = "updateproject";
         public static string DeleteProject = "deleteproject";
-        public static string CreateWatchlist = "createwatchlist";
-        public static string UpdateWatchlist = "updatewatchlist";
-        public static string DeleteWatchlist = "deletewatchlist";
+        //public static string CreateWatchlist = "createwatchlist";
+        //public static string UpdateWatchlist = "updatewatchlist";
+        //public static string DeleteWatchlist = "deletewatchlist";
         public static string CreateObservation = "createobservation";
         public static string UpdateObservation = "updateobservation";
         public static string DeleteObservation = "deleteobservation";
         public static string CreateSightingNote = "createsightingnote";
         public static string UpdateSightingNote = "updatesightingnote";
         public static string DeleteSightingNote = "deletesightingnote";
+        public static string CreateIdentification = "createidentification";
+        public static string UpdateIdentification = "updateidentification";
+        public static string DeleteIdentification = "deleteidentification";
         public static string CreatePost = "createpost";
         public static string UpdatePost = "updatepost";
         public static string DeletePost = "deletepost";
         public static string CreateSpecies = "createspecies";
         public static string UpdateSpecies = "updatespecies";
         public static string DeleteSpecies = "deletespecices";
-        //public static string CreateReferenceSpecies = "createreferencespecies";
-        //public static string UpdateReferenceSpecies = "updatereferencespecies";
-        //public static string DeleteReferenceSpecies = "deletereferencespecies";
         public static string CreateComment = "createcomment";
         public static string UpdateComment = "updatecomment";
         public static string DeleteComment = "deletecomment";
         public static string LeaveProject = "leaveproject";
-        public static string JoinTeam = "jointeam";
-        public static string LeaveTeam = "leaveteam";
         public static string JoinOrganisation = "joinorganisation";
         public static string LeaveOrganisation = "leaveorganisation";
-        public static string AddTeam = "addteam";
-        public static string RemoveTeam = "removeteam";
         public static string AddProject = "addproject";
         public static string RemoveProject = "removeproject";
         public static string Chat = "chat";
@@ -77,13 +70,13 @@ namespace Bowerbird.Core.Config
         /// </summary>
         public static string OrganisationMember = "organisationmember";
         /// <summary>
-        /// value: teamadministrator
+        /// value: favouritesadministrator
         /// </summary>
-        public static string TeamAdministrator = "teamadministrator";
+        public static string FavouritesAdministrator = "favouritesadministrator";
         /// <summary>
-        /// value: teammember
+        /// value: favouritesmember
         /// </summary>
-        public static string TeamMember = "teammember";
+        public static string FavouritesMember = "favouritesmember";
         /// <summary>
         /// value: projectadministrator
         /// </summary>

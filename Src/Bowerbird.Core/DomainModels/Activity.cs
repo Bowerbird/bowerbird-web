@@ -41,7 +41,8 @@ namespace Bowerbird.Core.DomainModels
             string description,
             dynamic createdByUser,
             IEnumerable<dynamic> groups,
-            string contributionId = (string)null)
+            string contributionId = (string)null,
+            string subContributionId = (string)null)
             : base()
         {
             Check.RequireNotNull(createdByUser, "createdByUser");
@@ -60,15 +61,33 @@ namespace Bowerbird.Core.DomainModels
             // this property is used for posting comments on Posts and Observations
             // so on the front end, it is possible to apply a new comment to the view
             // which renders the contribution
-            if (contributionId != null)
-            {
-                _properties.Add("ContributionId", contributionId);
-            }
+            _properties.Add("ContributionId", contributionId);
+            _properties.Add("SubContributionId", subContributionId);
         }
 
         #endregion
 
         #region Properties
+
+        //[Raven.Imports.Newtonsoft.Json.JsonIgnore]
+        //public ActivityData Data  
+        //{
+        //    get
+        //    {
+        //        return new ActivityData
+        //            {
+        //                Id = _properties.ContainsKey("Id") ? _properties["Id"].ToString() : null,
+        //                Type = _properties["Type"].ToString(),
+        //                CreatedDateTime = _properties["CreatedDateTime"].ToString(),
+        //                CreatedDateTimeOrder = _properties["CreatedDateTimeOrder"].ToString(),
+        //                Description = _properties["Description"].ToString(),
+        //                User = _properties["User"],
+        //                Groups = _properties["Groups"],
+        //                ContributionId = _properties.ContainsKey("ContributionId") ? _properties["ContributionId"].ToString() : null,
+        //                SubContributionId = _properties.ContainsKey("SubContributionId") ? _properties["SubContributionId"].ToString() : null
+        //            };
+        //    }
+        //}
 
         #endregion
 
@@ -91,5 +110,27 @@ namespace Bowerbird.Core.DomainModels
         }
 
         #endregion
+
+        //public class ActivityData
+        //{
+        //    public string Id { get; set; }
+
+        //    public string Type { get; set; }
+
+        //    public string CreatedDateTime { get; set; }
+
+        //    public string CreatedDateTimeOrder { get; set; }
+
+        //    public string Description { get; set; }
+
+        //    public dynamic User { get; set; }
+
+        //    public dynamic Groups { get; set; }
+
+        //    public string ContributionId { get; set; }
+
+        //    public string SubContributionId { get; set; }
+        //}
+
     }
 }

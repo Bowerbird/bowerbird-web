@@ -11,11 +11,12 @@
 */
 
 using System;
+using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Events;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public class UserProject : Group
+    public class UserProject : Group, IPublicGroup
     {
         #region Members
 
@@ -30,20 +31,39 @@ namespace Bowerbird.Core.DomainModels
 
         public UserProject(
             User createdByUser,
+            string name,
+            string description,
+            string website,
+            MediaResource avatar,
+            MediaResource background,
             DateTime createdDateTime,
             Group parentGroup)
             : base(
             createdByUser,
-            "User Group",
+            name,
             createdDateTime,
             parentGroup)
         {
+            SetUserProjectDetails(
+                description,
+                website,
+                avatar,
+                background);
+
             ApplyEvent(new DomainModelCreatedEvent<UserProject>(this, createdByUser, this));
         }
 
         #endregion
 
         #region Properties
+
+        public string Description { get; private set; }
+
+        public string Website { get; private set; }
+
+        public MediaResource Avatar { get; private set; }
+
+        public MediaResource Background { get; private set; }
 
         public override string GroupType
         {
@@ -53,6 +73,34 @@ namespace Bowerbird.Core.DomainModels
         #endregion
 
         #region Methods
+
+        private void SetUserProjectDetails(string description, string website, MediaResource avatar, MediaResource background)
+        {
+            Description = description;
+            Website = website;
+            Avatar = avatar;
+            Background = background;
+        }
+
+        public UserProject UpdateDetails(User updatedByUser, string name, string description, string website, MediaResource avatar, MediaResource background)
+        {
+            Check.RequireNotNull(updatedByUser, "updatedByUser");
+            Check.RequireNotNullOrWhitespace(name, "name");
+            Check.RequireNotNullOrWhitespace(name, "avatar");
+            Check.RequireNotNullOrWhitespace(name, "background");
+
+            SetGroupDetails(name);
+
+            SetUserProjectDetails(
+                description,
+                website,
+                avatar,
+                background);
+
+            ApplyEvent(new DomainModelUpdatedEvent<Group>(this, updatedByUser, this));
+
+            return this;
+        }
 
         #endregion
     }

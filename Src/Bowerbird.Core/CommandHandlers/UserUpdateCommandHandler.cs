@@ -14,6 +14,7 @@
  
 */
 
+using System.Linq;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
@@ -62,7 +63,18 @@ namespace Bowerbird.Core.CommandHandlers
                 command.DefaultLicence,
                 command.Timezone);
 
+            var userProject = _documentSession.Load<UserProject>(user.Memberships.Single(x => x.Group.GroupType == "userproject").Group.Id);
+
+            userProject.UpdateDetails(
+                user,
+                command.Name,
+                command.Description,
+                command.Website,
+                string.IsNullOrWhiteSpace(command.AvatarId) ? null : _documentSession.Load<MediaResource>(command.AvatarId),
+                string.IsNullOrWhiteSpace(command.BackgroundId) ? null : _documentSession.Load<MediaResource>(command.BackgroundId));
+
             _documentSession.Store(user);
+            _documentSession.Store(userProject);
         }
 
         #endregion      

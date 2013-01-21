@@ -83,7 +83,7 @@ namespace Bowerbird.Web.Builders
                     .OrderBy(x => x.Name)
                     .Take(1024)
                     .ToList()
-                    .Select(x => MakeSpecies(x, true))
+                    .Select(x => MakeSpecies(x, speciesQueryInput.LimitCommonNames))
                     .ToPagedList(
                         pagingInput.GetPage(),
                         pagingInput.GetPageSize(),
@@ -107,7 +107,7 @@ namespace Bowerbird.Web.Builders
                         .OrderBy(x => x.Name)
                         .Take(1024)
                         .ToList()
-                        .Select(x => MakeSpecies(x, true))
+                        .Select(x => MakeSpecies(x, speciesQueryInput.LimitCommonNames))
                         .ToPagedList(
                             pagingInput.GetPage(),
                             pagingInput.GetPageSize(),
@@ -118,7 +118,6 @@ namespace Bowerbird.Web.Builders
                 return queryResults;
             }
 
-            var getAllNames = false;
             var getAllPages = false;
 
             var query = _documentSession
@@ -130,7 +129,6 @@ namespace Bowerbird.Web.Builders
             if (field.ToLower() == "taxonomy")
             {
                 query.WhereEquals("Taxonomy", queryText);
-                getAllNames = true;
             }
             else if(field.ToLower() == "scientific")
             {
@@ -182,7 +180,7 @@ namespace Bowerbird.Web.Builders
                 .Skip(pagingInput.GetSkipIndex())
                 .Take(getAllPages ? 1024 : pagingInput.GetPageSize())
                 .ToList()
-                .Select(x => MakeSpecies(x, getAllNames, queryText))
+                .Select(x => MakeSpecies(x, speciesQueryInput.LimitCommonNames, queryText))
                 .ToPagedList(
                     pagingInput.GetPage(),
                     pagingInput.GetPageSize(),
@@ -190,23 +188,23 @@ namespace Bowerbird.Web.Builders
                 );
         }
 
-        private static object MakeSpecies(All_Species.Result result, bool getAllNames = false, string query = "")
+        private static object MakeSpecies(All_Species.Result result, bool limitCommonNames = false, string query = "")
         {
             IEnumerable<string> commonGroupNames = new string[] {};
             IEnumerable<string> commonNames = new string[] { };
             IEnumerable<string> synonyms = new string[] { };
 
-            if (getAllNames)
-            {
-                commonGroupNames = result.CommonGroupNames;
-                commonNames = result.CommonNames;
-                synonyms = result.Synonyms;
-            }
-            else
+            if (limitCommonNames)
             {
                 commonGroupNames = result.CommonGroupNames.Where(x => x.ToLower().StartsWith(query.ToLower()));
                 commonNames = result.CommonNames.Where(x => x.ToLower().StartsWith(query.ToLower()));
                 synonyms = result.Synonyms.Where(x => x.ToLower().StartsWith(query.ToLower()));
+            }
+            else
+            {
+                commonGroupNames = result.CommonGroupNames;
+                commonNames = result.CommonNames;
+                synonyms = result.Synonyms;
             }
 
             return new

@@ -134,7 +134,7 @@ namespace Bowerbird.Web.Controllers
             }
 
             if (string.IsNullOrWhiteSpace(queryInput.Sort) || 
-                (queryInput.Sort.ToLower() != "latestadded" && 
+                (queryInput.Sort.ToLower() != "latestadded" &&  
                 queryInput.Sort.ToLower() != "oldestadded" &&
                 queryInput.Sort.ToLower() != "a-z" && 
                 queryInput.Sort.ToLower() != "z-a"))
@@ -186,7 +186,7 @@ namespace Bowerbird.Web.Controllers
         //    }
 
         //    return HttpNotFound();
-        //}
+        //}  
 
         #endregion
     }

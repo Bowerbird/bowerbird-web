@@ -122,6 +122,54 @@ namespace Bowerbird.Web.Config
                 new { controller = "observations", action = "updatenote" },
                 new { httpMethod = new HttpMethodConstraint("PUT") });
 
+            routes.MapRoute(
+                "sighting-identification-create-form",
+                "observations/{id}/createidentification",
+                new { controller = "observations", action = "createidentificationform" },
+                new { httpMethod = new HttpMethodConstraint("GET") });
+
+            routes.MapRoute(
+                "sighting-identification-update-form",
+                "observations/{id}/updateidentification/{sightingNoteId}",
+                new { controller = "observations", action = "updateidentificationform" },
+                new { httpMethod = new HttpMethodConstraint("GET") });
+
+            routes.MapRoute(
+                "identification-create",
+                "observations/{id}/createidentification",
+                new { controller = "observations", action = "createidentification" },
+                new { httpMethod = new HttpMethodConstraint("POST") });
+
+            routes.MapRoute(
+                "identification-update",
+                "observations/{sightingId}/updateidentification/{id}",
+                new { controller = "observations", action = "updateidentification" },
+                new { httpMethod = new HttpMethodConstraint("PUT") });
+
+            routes.MapRoute(
+                "account-sighting-vote-update",
+                "observations/{id}/vote",
+                new { controller = "account", action = "updatevote", contributionType = "observations", subContributionType = "" },
+                new { httpMethod = new HttpMethodConstraint("PUT") });
+
+            routes.MapRoute(
+                "account-sighting-note-vote-update",
+                "observations/{id}/notes/{subid}/vote",
+                new { controller = "account", action = "updatevote", contributionType = "observations", subContributionType = "notes" },
+                new { httpMethod = new HttpMethodConstraint("PUT") });
+
+            routes.MapRoute(
+                "account-identification-vote-update",
+                "observations/{id}/identifications/{subid}/vote",
+                new { controller = "account", action = "updatevote", contributionType = "observations", subContributionType = "identifications" },
+                new { httpMethod = new HttpMethodConstraint("PUT") });
+
+            routes.MapRoute(
+                "account-favourites-update",
+                "favourites",
+                new { controller = "account", action = "updatefavourite" },
+                new { httpMethod = new HttpMethodConstraint("PUT") });
+
             // Load up restful controllers and create routes based on method name conventions
             RegisterRestfulControllerRouteConventions(routes);
 

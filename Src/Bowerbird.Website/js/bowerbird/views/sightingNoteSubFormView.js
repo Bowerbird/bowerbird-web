@@ -20,7 +20,8 @@ function ($, _, Backbone, app, ich, Identification, SightingDetailsView, Identif
             'click .add-description-type-button li a': 'addDescription',
             'click #add-identification-button': '_showIdentificationForm',
             'change .description-fields textarea': '_descriptionChanged',
-            'change #Tags': '_onTagsChanged'
+            'change #Tags': '_onTagsChanged',
+            'change #Comments': '_onCommentsChanged'
         },
 
         initialize: function (options) {
@@ -165,6 +166,10 @@ function ($, _, Backbone, app, ich, Identification, SightingDetailsView, Identif
             //            log('tags changed', e.target.value, tag);
             //            this.model.set('Tags', e.target.value);
             this.model.set('Tags', $(e.target).val());
+        },
+
+        _onCommentsChanged: function (e) {
+            this.model.set('Comments', $(e.currentTarget).val());
         },
 
         _descriptionChanged: function (e) {

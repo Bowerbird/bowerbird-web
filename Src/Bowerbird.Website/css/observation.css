@@ -1,33 +1,28 @@
-﻿.observation .observation-details,
-.sighting-note-form .observation-details {
-    background-color: rgb(255, 255, 255);
-    border-radius: 4px 4px 4px 4px;
-    box-shadow: 0 1px 2px 0 rgb(51, 51, 51);
+﻿.observation .observation-details {
     float: left;
-    padding: 2%;
     width: 100%;
 }
 .observation h4 {
     color: rgb(68, 68, 68);
-    font-size: 0.875em;
+    font-size: 1em;
     font-weight: 600;
-    margin-top: 2%;
     text-shadow: 0 1px 0 rgb(255, 255, 255);
 }
 .observation-details
 {
-    padding: 2%;
+    float: left;
+    padding: 0.5em;
 }
 .observation-details h3
 {
-    font-size: 1.8125em;
+    display: block;
+    float: right;
+    font-size: 1.4em;
     font-weight: 600;
-    letter-spacing: -1px;
+    letter-spacing: -0.05em;
     line-height: 1.1em;
     margin: 0;
-    padding: 0 2% 10px 0;
-    width: 69%;
-    display: inline-block;
+    width: 30%;
 }
 .observation-details h3 a,
 .observation-details h3 a:hover,
@@ -37,25 +32,6 @@
     color: #222222;
     text-decoration: none;
 }
-/*.observation-details h3 > a > span:before {
-    content: "View";
-}
-.observation-details h3 > a > span
-{
-    background-color: rgb(207, 221, 235);
-    border-radius: 10px 10px 10px 10px;
-    color: rgb(255, 255, 255);
-    display: inline-block;
-    font-size: 0.4em;
-    height: 19px;
-    letter-spacing: normal;
-    line-height: 1.2em;
-    padding: 3px 8px;
-    vertical-align: middle;
-}
-.observation-details h3 > a:hover > span {
-    background-color: rgb(27, 131, 235);
-}*/
 .observation-details .observation-options {
     display: inline-block;
     height: 2.1em;
@@ -63,20 +39,11 @@
     vertical-align: top;
     width: 30%;
 }
-/*.activity-item .observation-action-menu {
-    display: inline-block;
-    height: 2.3em;
-    list-style: none outside none;
-    vertical-align: top;
-    width: 19%;
-}
-.activity-item .actions li {
-    display: block;
+.observation-details .sighting-actions {
     float: left;
-    height: 100%;
-    list-style: none outside none;
-    width: 33.334%;
-}*/
+    margin-top: 0.5em;
+    width: 100%;
+}
 .activity-item .actions .button {
     display: inline-block;
     padding: 0;
@@ -94,7 +61,8 @@
 }
 .activity-item .actions a.add-note-button,
 .activity-item .actions .edit-observation-button,
-.activity-item .actions .view-button {
+.activity-item .actions .view-button,
+.activity-item .actions .add-identification-button {
     font-size: 1.1em;
     line-height: 1.5em;
     padding: 4px 22px;
@@ -135,10 +103,9 @@
 }
 .observation-details .images
 {
-    display: inline-block;
-    padding-right: 2%;
-    vertical-align: top;
-    width: 69%;
+    float: left;
+    padding-right: 1em;
+    width: 70%;
 }
 .observation-details .images .preview
 {
@@ -201,11 +168,10 @@
 }
 .observation-details .info
 {
-    display: inline-block;
+    float: left;
     width: 30%;
 }
 .observation-details .user,
-.sighting-note .user,
 .sighting .user
 {
     display: block;
@@ -220,54 +186,54 @@
 .sightingadded-activity-item .user {
     display: none;
 }
-.observation .user .media-square-100,
-.observation-details .user .media-square-100,
-.sighting-note .user .media-square-100,
 .sighting .user .media-square-100 {
     display: inline-block;
     width: 35px;
 }
-.observation-details .user > span,
-.sighting-note .user > span,
 .sighting .user > span
 {
     display: inline-block;
     padding-top: 5px;
     vertical-align: top;
 }
-.observation-details .observed,
-.observation-details .observation-projects
+.observation-details .sighting-sighted
 {
+    float: left;
     font-size: 0.875em;
     font-weight: 600;
-    line-height: 1.25em;
+    line-height: 1em;
+    margin-top: 0.7em;
+    width: 100%;
+    padding-top: 0.5em;
+    border-top: 1px dotted rgb(221, 221, 221);
 }
-.observation-details .observation-projects {
-    margin: 20px 0 0;    
+.observation-details .sighting-projects {
+    float: left;
+    margin-top: 0.7em;
+    width: 100%;
 }
-.observation-details .observation-projects-list
-{
-    margin-top: 4px;
-}
-.observation-details .observation-project
+.observation-details .sighting-projects li
 {
     display: block;
     float: left;
-    margin-right: 1.1%;
-    margin-top: 1.1%;
-    width: 32.6%;
+    list-style: none outside none;
+    margin-bottom: 1%;
+    margin-right: 1%;
+    width: 19.2%;
 }
-.observation-details .observation-project:nth-child(3n+0)
-{
+.observation-details .sighting-projects li:nth-child(5n) {
     margin-right: 0;
 }
-.observation-details .observation-projects
-{
-    
+.observation-details .sighting-projects h4 {
+    color: rgb(68, 68, 68);
+    font-size: 0.875em;
+    font-weight: 600;
+    line-height: 1em;
+    padding-bottom: 0.3em;
+    text-shadow: 0 1px 0 rgb(255, 255, 255);
 }
-.observation-details  .observed span
+.observation-details .sighting-sighted span
 {
-    display: block;
     font-weight: 500;
 }
 .observation-details .location
@@ -275,7 +241,9 @@
     font-size: 0.875em;
     font-weight: 600;
     line-height: 1.25em;
-    padding-top: 20px;
+    margin-top: 0.7em;
+    float: left;
+    width: 100%;
 }
 .observation-details .location .map
 {
@@ -305,7 +273,7 @@
 }
 .observation-details .location > span
 {
-    display: block;
+    display: none;
     font-weight: 500;
     padding: 5px 5px 0 0;
 }
@@ -346,7 +314,9 @@
 .home-private > .details {
     width: 100%;
 }
-
+.home-private .tab-bar {
+    padding-bottom: 2%;
+}
 .call-to-action p {
     margin-bottom: 10px;
     margin-top: 10px;
@@ -411,7 +381,7 @@
     background-origin: padding-box;
     background-position: center 0;
     background-repeat: no-repeat;
-    border-radius: 4px 4px 4px 4px;
+    border-radius: 2px;
     box-shadow: 0 1px 2px 0 rgb(51, 51, 51);
     float: left;
     height: 200px;
@@ -425,7 +395,7 @@
     width: 100%;
 }
 .project > .summary .image-media {
-    border-radius: 4px;
+    border-radius: 2px;
     box-shadow: 0 2px 4px 0 rgba(1, 1, 1, 0.9);
     display: block;
     height: 100px;
@@ -468,7 +438,7 @@
 .project > .summary .badges li
 {
     background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 4px 4px 4px 4px;
+    border-radius: 2px;
     color: rgb(255, 255, 255);
     display: inline-block;
     font-size: 0.85em;
@@ -477,7 +447,10 @@
     padding: 5px 7px;
     text-shadow: 0 1px 0 rgb(0, 0, 0);
 }
-
+.project .tab-bar {
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
 
 /******* Project about *******/
 .project-about {
@@ -497,9 +470,6 @@
     line-height: 1.5em;
     margin-bottom: 2%;
     padding: 2%;
-}
-.project-about .project-description p {
-    
 }
 .project-info {
     background-color: rgb(255, 255, 255);
@@ -576,7 +546,9 @@
 /****************************************/
 .projects .project-list
 {
+    float: left;
     padding-top: 50px;
+    position: relative;
 }
 .projects .join-project-button {
     background-color: rgb(82, 177, 82);
@@ -593,135 +565,6 @@
 }
 
 
-/*--- EXPLORE ---*/
-/*.explore-list
-{
-    margin-top:50px;   
-    padding:10px;
-    border: 1px dashed black;
-    height:100%;
-}
-ul.explore-groups
-{
-    list-style: none;
-    display: inline;
-}
-.explore-item .explore-summary 
-{
-    background-image: url("/img/carbon_fibre.png");
-    border: 2px solid #AABBCC;
-    color: white;
-    height: 60px;
-    margin: 5px;
-}
-.explore-item .explore-summary .explore-avatar img
-{
-    margin: 5px;
-    width:50px;
-    height:50px;   
-    border-radius:10 0 0 0;
-}
-.explore-item .explore-summary .explore-name
-{
-    display: inline-block;
-    height: 48px;
-    margin-top: 5px;
-    overflow: hidden;
-    padding: 0;
-    vertical-align: top;
-    width: 115px;
-    font-weight:bold;
-}
-
-.explore-item .explore-details
-{
-    background-color: #EEEEFF;
-    border: 2px solid #DDEEEE;
-    height: 170px;
-    margin: 5px;
-    border-radius: 4px 4px 4px 4px;
-    box-shadow: 0 1px 2px 0 #143658 inset;
-    overflow-x: hidden;
-    overflow-y: hidden;
-}
-.explore-item .explore-details .explore-details-property
-{
-    color: #AAAAAA;
-    display: inline-block;
-    font-size: 0.8em;
-    line-height: 10px;
-    margin: 0;
-    padding: 0 5px;
-}
-.explore-item .explore-details .explore-details-value
-{
-    margin-left: 5px;
-    font-size: 0.9em;
-}
-.explore-item .join-project,
-.explore-item .view-team,
-.explore-item .view-project,
-.explore-item .view-organisation
-{
-    display: inline-block;
-    margin-left: 5px;
-}
-.explore-item .view-team-button,
-.explore-item .view-organisation-button
-{
-    height: 40px;
-    width: 190px; 
-    font-size:1.2em;
-    color:#133A68;
-}
-.explore-item .join-project-button,
-.explore-item .view-project-button
-{
-    color: #133A68;
-    font-size: 1.2em;
-    height: 40px;
-    width: 90px;
-}
-div.explore-item
-{
-    background-color: white;
-    display: inline-block;
-    float: left;
-    height: 300px;
-    margin: 10px;
-    width: 200px;
-    border-radius: 4px 4px 4px 4px;
-    box-shadow: 0 4px 8px 0 #5071A6;
-}
-div.explore-item:hover
-{
-    box-shadow: 0 8px 18px 0 #5071EE;
-}
-div.click-to-explore:hover
-{
-    display:block;
-    position:absolute;
-    background-color:White;
-    height:300px;
-    width:200px;
-    margin:5px;
-    vertical-align:middle;
-    text-align:center;
-}
-div.click-to-explore
-{
-    position:absolute;
-    display:none;
-    background-color:White;
-    height:290px;
-    width:190px;
-    margin:5px;
-    vertical-align:middle;
-    text-align:center;
-    z-index:1000;
-}
-*/
-
 
 .sighting-note-form .observation-details {
     margin-bottom: 2%;
@@ -735,184 +578,772 @@ div.click-to-explore
 }
 
 
-.observation .sighting-notes {
-    float: left;
-}
-.observation .sighting-note {
+
+
+
+
+
+/*
+
+OBSERVATION FULL DETAILS
+
+*/
+.observation .form-details {
     background-color: rgb(255, 255, 255);
-    border-radius: 4px 4px 4px 4px;
-    box-shadow: 0 1px 2px 0 rgb(51, 51, 51);
-    float: left;
-    margin-top: 2%;
-    padding: 2%;
+    border-radius: 2px;
+    box-shadow: 0 1px 1px 1px rgba(51, 51, 51, 0.3);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*.small-sighting-details 
+.sighting-observation-full-details
 {
-    background-color: rgb(249, 249, 249);
-    border-radius: 6px 6px 6px 6px;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.5);
     float: left;
-    margin: 2% 2% 2% 0;
-    padding: 1.5%;
-    right: 2%;
-    width: 39%;
+    width: 100%;
 }
-.small-sighting-details h3 
+.sighting-observation-full-details h3
 {
-    display: inline-block;
-    font-size: 1.3em;
+    float: right;
+    font-size: 1.8125em;
     font-weight: 600;
     letter-spacing: -1px;
-    line-height: 1.1em;
+    line-height: 1.2em;
     margin: 0;
-    padding: 0 2% 5px 0;
-    width: 69%;
+    width: 30%;
 }
-.small-sighting-details h3 a, 
-.small-sighting-details h3 a:hover, 
-.small-sighting-details h3 a:active, 
-.small-sighting-details h3 a:visited {
-    color: rgb(34, 34, 34);
+.sighting-observation-full-details h3 a,
+.sighting-observation-full-details h3 a:hover,
+.sighting-observation-full-details h3 a:active,
+.sighting-observation-full-details h3 a:visited
+{
+    color: #222222;
     text-decoration: none;
 }
-.small-sighting-details .images {
+.sighting-observation-full-details .observation-options {
     display: inline-block;
-    float: left;
-    width: 100%;
+    height: 2.1em;
+    position: relative;
+    vertical-align: top;
+    width: 30%;
 }
-.small-sighting-details .info 
+.sighting-observation-full-details .observation-options .sub-menu-button {
+    right: -10px;
+    top: -8px;
+}
+.sighting-observation-full-details .images
 {
     float: left;
-    padding-top: 11px;
+    padding-right: 1em;
+    vertical-align: top;
+    width: 70%;
+}
+.sighting-observation-full-details .images .preview
+{
+    max-height: 600px;
+    overflow: hidden;
+    text-align: center;
+    width: 100%;
     position: relative;
+}
+.sighting-observation-full-details .images .preview .media-details
+{
+    bottom: 0;
+    position: absolute;
     width: 100%;
 }
-.small-sighting-details .user {
-    display: inline-block;
-    float: left;
+.sighting-observation-full-details .images .preview .overlay
+{
+    background-color: #000000;
+    bottom: 0;
+    height: 100%;
+    opacity: 0.5;
+    position: absolute;
     width: 100%;
+    z-index: 0;
 }
-.small-sighting-details .user .media-square-100 {
+.sighting-observation-full-details .images .preview p.description,
+.sighting-observation-full-details .images .preview p.primary-media
+{
+    color: rgb(255, 255, 255);
+    font-size: 0.85em;
+    line-height: 1.5em;
+    margin: 5px 15px;
+    max-height: 63px;
+    overflow: hidden;
+    position: relative;
+    text-align: left;
+    text-shadow: none;
+    white-space: normal;
+    z-index: 1;
+}
+.sighting-observation-full-details .images .thumbnails > div:nth-child(5n+0)
+{
+    margin-right: 0;
+}
+.sighting-observation-full-details .images .thumbnails .image-media,
+.sighting-observation-full-details .images .thumbnails .video-media,
+.sighting-observation-full-details .images .thumbnails .audio-media
+{
     float: left;
-    width: 30px;
+    height: 19.6%;
+    line-height: 1em;
+    margin-right: 0.5%;
+    margin-top: 0.5%;
+    width: 19.6%;
+    cursor: pointer;
 }
-.small-sighting-details .user span {
+.sighting-observation-full-details .images .thumbnails > div:last-child
+{
+    margin-right: 0;
+}
+.sighting-observation-full-details .info
+{
+    float: left;
+    width: 30%;
+}
+.sighting-observation-full-details .user
+{
     display: block;
+    font-size: 0.875em;
+    font-weight: 600;
+    line-height: 1.7em;
+    vertical-align: top;
+}
+.sighting-observation-full-details .user {
+    margin-bottom: 14px;
+    display: none;
+}
+.sighting-observation-full-details .user .media-square-100 {
+    display: inline-block;
+    width: 35px;
+}
+.sighting-observation-full-details .user > span
+{
+    display: inline-block;
+    padding-top: 5px;
+    vertical-align: top;
+}
+.sighting-observation-full-details .sighting-sighted,
+.sighting-observation-full-details .sighting-added,
+.sighting-observation-full-details .observation-projects
+{
     float: left;
     font-size: 0.875em;
     font-weight: 600;
-    line-height: 1em;
-    margin-left: 5px;
-    margin-top: 8px;
-}
-.small-sighting-details .observed {
-    display: inline-block;
-    float: left;
-    font-size: 0.8em;
-    font-weight: 600;
-    line-height: 1em;
     width: 100%;
 }
-.small-sighting-details .observed span 
+.sighting-observation-full-details .sighting-sighted,
+.sighting-observation-full-details .observation-projects,
+.sighting-observation-full-details .sighting-actions {
+    float: left;
+    padding-top: 0.5em;
+    width: 100%;
+}
+.sighting-observation-full-details .sighting-sighted {
+    margin-top: 0.5em;
+    border-top: 1px dotted rgb(221, 221, 221);
+}
+.sighting-observation-full-details .observation-projects {
+    margin: 20px 0 0;    
+}
+.sighting-observation-full-details .observation-projects-list
+{
+    margin-top: 4px;
+}
+.sighting-observation-full-details .observation-project
+{
+    display: block;
+    float: left;
+    margin-right: 1.1%;
+    margin-top: 1.1%;
+    width: 32.6%;
+}
+.sighting-observation-full-details .observation-project:nth-child(3n+0)
+{
+    margin-right: 0;
+}
+.sighting-observation-full-details .sighting-sighted span,
+.sighting-observation-full-details .sighting-added span
+{
+    font-weight: 500;
+}
+.sighting-observation-full-details .location
+{
+    font-size: 0.875em;
+    font-weight: 600;
+    line-height: 1.25em;
+    padding-top: 0.7em;
+    float: left;
+    width: 100%;
+}
+.sighting-observation-full-details .location .map
+{
+    overflow: hidden;
+    width: 100%;
+}
+@media screen and (min-width: 20em) 
+{
+    .sighting-observation-full-details .location .map
+    {
+        height: 4em;
+    }
+}
+@media screen and (min-width: 37.5em) 
+{
+    .sighting-observation-full-details .location .map
+    {
+        height: 9em;
+    }
+}
+@media screen and (min-width: 64em) 
+{
+    .sighting-observation-full-details .location .map
+    {
+        height: 13.5em;
+    }
+}
+.sighting-observation-full-details .location > span
 {
     display: block;
     font-weight: 500;
-    line-height: 1.5em;
+    padding: 5px 5px 0 0;
 }
-.small-sighting-details .location {
-    display: inline-block;
+.sighting-summary
+{
+    background-color: rgb(249, 249, 249);
+    border-bottom: 1px solid rgb(221, 221, 221);
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
     float: left;
-    font-size: 0.8em;
-    line-height: 1.25em;
-    margin-right: 3%;
-    margin-top: 11px;
-    width: 55%;
-}
-.small-sighting-details .location .map {
-    background-color: rgb(221, 221, 221);
-    display: block;
-    height: 85px;
+    padding: 1em;
     width: 100%;
 }
-.small-sighting-details .projects,
-.small-sighting-details .comments,
-.small-sighting-details .notes {
-    display: block;
-    float: left;
-    font-size: 0.8em;
-    font-weight: 600;
-    padding-top: 6px;
-    width: 42%;
-}
-.small-sighting-details .projects
+.sighting-summary .image-media.media-square-100
 {
-    padding-top: 11px;
+    display: inline-block;
+    float: left;
+    height: 46px;
+    width: 46px;
 }
-.small-sighting-details .projects span,
-.small-sighting-details .comments span,
-.small-sighting-details .notes span {
-    background-color: rgb(215, 230, 245);
-    border-radius: 6px 6px 6px 6px;
-    color: rgb(34, 34, 34);
+.sighting-summary .description
+{
     display: inline-block;
     font-size: 1em;
-    font-weight: 700;
-    height: 26px;
-    line-height: 1.9em;
-    margin-right: 2px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin: 0;
+    padding-left: 0.5em;
+    vertical-align: top;
+}
+.sighting-summary .description > span {
+    display: inline-block;
+    float: left;
+    line-height: 1.6em;
+    text-shadow: 0 1px 0 rgb(255, 255, 255);
+    width: 100%;
+}
+.sighting-summary .description abbr
+{
+    color: rgb(128, 128, 128);
+    display: inline-block;
+    float: left;
+    font-size: 0.85em;
+    font-weight: 400;
+    line-height: 1.2em;
+    text-shadow: 0 1px 0 rgb(255, 255, 255);
+}
+.observation .sighting-projects {
+    float: left;
+    margin-top: 0.7em;
+    width: 100%;
+}
+.observation .sighting-projects li
+{
+    display: block;
+    float: left;
+    list-style: none outside none;
+    margin-bottom: 1%;
+    margin-right: 1%;
+    width: 19.2%;
+}
+.observation .sighting-projects li:nth-child(5n) {
+    margin-right: 0;
+}
+.observation .identifications,
+.observation .sighting-notes {
+    border-top: 1px solid rgb(221, 221, 221);
+    float: left;
+    width: 100%;
+}
+.observation .sighting-projects h4 {
+    color: rgb(68, 68, 68);
+    font-size: 0.875em;
+    font-weight: 600;
+    line-height: 1em;
+    padding-bottom: 0.3em;
+    text-shadow: 0 1px 0 rgb(255, 255, 255);
+}
+.observation .identifications .add-identification-heading,
+.observation .sighting-notes .add-sighting-notes-heading {
+    background-color: rgb(249, 249, 249);
+    float: left;
+    padding: 1em;
+    width: 100%;
+}
+.observation .identifications h4,
+.observation .sighting-notes h4 
+{
+    float: left;
+    width: 70%;
+}
+.observation .identifications .add-identification,
+.observation .sighting-notes .add-sighting-note {
+    border-top: 1px solid rgb(221, 221, 221);
+    float: left;
+    padding: 1em;
     text-align: center;
-    text-shadow: 0 0 1px rgb(255, 255, 255);
-    width: 26px;
-}*/
+    width: 100%;
+}
+.observation .identifications .add-identification .button,
+.observation .sighting-notes .add-sighting-note  .button
+{
+    margin: 0;
+}
+.observation .no-sighting-notes 
+{
+    border-top: 1px solid rgb(221, 221, 221);
+    float: left;
+    padding: 0.5em;
+    width: 100%;
+}
+.observation .no-sighting-notes p {
+    color: rgb(102, 102, 102);
+    font-size: 0.9em;
+    margin: 15px auto;
+    text-align: center;
+    width: 50%;
+}
+.observation .sighting-note {
+    border-top: 1px solid rgb(221, 221, 221);
+    float: left;
+    padding: 0.5em;
+    width: 100%;
+    list-style: none;
+}
+.observation .identifications .identification {
+    border-top: 1px solid rgb(221, 221, 221);
+    float: left;
+    padding: 0.5em;
+    width: 100%;
+    list-style: none;
+}
+.observation .identifications .identification-user,
+.observation .sighting-notes .sighting-note-user {
+    float: left;
+    width: 100%;
+}
+.observation .identifications .identification-info {
+    float: left;
+    padding-right: 1em;
+    width: 70%;
+}
+.observation .identifications .info {
+    float: left;
+    width: 30%;
+}
+.observation .identification-panel
+ {
+    float: left;
+    padding-top: 0.5em;
+    width: 100%;
+}
+.observation .sighting-notes-actions,
+.observation .identification-actions {
+    float: left;
+    width: 100%;
+}
+.observation .identification-summary,
+.observation .sighting-note-summary
+{
+    float: left;
+    width: 100%;
+    border-bottom: 1px dotted rgb(221, 221, 221);
+    padding-bottom: 0.5em;
+}
+.activity-item .identification-summary,
+.activity-item .sighting-note-summary 
+{
+    display: none;
+}
+.observation .identification-summary .image-media.media-square-100,
+.observation .sighting-note-summary .image-media.media-square-100
+{
+    display: inline-block;
+    float: left;
+    height: 40px;
+    width: 40px;
+}
+.observation .identification-summary .description,
+.observation .sighting-note-summary .description
+{
+    display: inline-block;
+    font-size: 0.9em;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin: 0;
+    padding-left: 0.5em;
+    vertical-align: top;
+}
+.observation .identification-summary .description > span,
+.observation .sighting-note-summary .description > span
+{
+    display: inline-block;
+    float: left;
+    line-height: 1.5em;
+    text-shadow: 0 1px 0 rgb(255, 255, 255);
+    width: 100%;
+}
+.observation .identification-summary .description abbr,
+.observation .sighting-note-summary .description abbr
+{
+    color: rgb(128, 128, 128);
+    display: inline-block;
+    float: left;
+    font-size: 0.85em;
+    font-weight: 400;
+    line-height: 1.1em;
+    text-shadow: 0 1px 0 rgb(255, 255, 255);
+}
+.observation .identifications .identification-comments,
+.observation .sighting-notes .sighting-note-comments
+{
+    border-top: 1px dotted rgb(221, 221, 221);
+    float: left;
+    margin-top: 0.5em;
+    padding-top: 0.5em;
+    position: relative;
+    width: 100%;
+}
+
+.observation .identification-comments .image-media.media-square-100, 
+.observation .sighting-note-comments .image-media.media-square-100 {
+    display: block;
+    height: 25px;
+    position: absolute;
+    top: 0.5em;
+    width: 25px;
+}
+.observation .identifications .identification-comments span,
+.observation .sighting-notes .sighting-note-comments span 
+{
+    display: block;
+    font-size: 0.8em;
+    font-weight: 600;
+    line-height: 1.25em;
+    margin-left: 35px;
+}
+.observation .identifications .identification-comments p,
+.observation .sighting-notes .sighting-note-comments p 
+{
+    color: rgb(119, 119, 119);
+    font-size: 0.8em;
+    font-weight: 500;
+    line-height: 1.3em;
+    margin-left: 35px;
+    text-shadow: 0 1px 0 rgb(255, 255, 255);
+}
+.observation .identification-actions .vote-panel,
+.observation .sighting-notes-actions .vote-panel
+{
+    margin-top: 0;
+}
+.observation .sighting-notes .note-info {
+    float: left;
+    padding-right: 1em;
+    width: 70%;
+}
+.observation .sighting-notes .info
+{
+    float: left;
+    width: 30%;
+}
+.observation .sighting-notes .sighting-note-description {
+    float: left;
+    font-size: 0.875em;
+    padding-top: 0.5em;
+    width: 100%;
+}
+.observation .sighting-notes .sighting-note-description span {
+    font-weight: 600;
+}
+.observation .sighting-notes .sighting-note-description p {
+    font-size: 1em;
+    font-weight: 500;
+    line-height: 1.35em;
+    text-shadow: 0 1px 0 rgb(255, 255, 255);
+}
+.observation .sighting-notes .sighting-note-tags {
+    padding-top: 0.5em;
+    float: left;
+    width: 100%;
+}
+.observation .sighting-notes .sighting-note-tags a {
+    background-color: rgb(237, 244, 250);
+    border: 1px solid rgb(171, 208, 245);
+    border-radius: 4px 4px 4px 4px;
+    color: rgb(0, 0, 0);
+    font-size: 0.825em;
+    line-height: inherit;
+    padding: 0.1em 0.4em 0.2em;
+    position: relative;
+    text-decoration: none;
+}
+.observation .sighting-notes .sighting-note-tags a:hover {
+    border-color: rgb(67, 146, 225);
+}
+.observation .sighting-notes .sighting-note-tags span {
+    display: block;
+    font-weight: 600;
+    font-size: 0.875em;
+    margin-bottom: 5px;
+}
+.vote-panel,
+.favourites-panel,
+.identify-panel,
+.describe-panel,
+.comment-panel 
+{
+    background-color: rgb(251, 251, 251);
+    border: 1px solid rgb(221, 221, 221);
+    border-radius: 2px 2px 2px 2px;
+    float: left;
+    height: 79px;
+    margin-right: 2%;
+    padding: 4px;
+    width: 69px;
+}
+.vote-panel,
+.favourites-panel
+{
+    margin-bottom: 2%;
+}
+.identify-panel 
+{
+    clear: left;
+}
+.vote-panel .vote-up,
+.vote-panel .vote-down
+{
+    cursor: pointer;
+    display: inline-block;
+    font-size: 1.5em;
+    font-weight: 700;
+    height: 22px;
+    line-height: 0.8em;
+    margin: 2px 0 0;
+    padding: 0;
+    text-align: center;
+    vertical-align: top;
+    width: 22px;
+}
+.vote-panel .vote-down {
+    float: right;
+    line-height: 0.7em;
+}
+.vote-panel .vote-up.button.user-vote-score1,
+.vote-panel .vote-down.button.user-vote-score-1
+{
+    background-color: rgb(109, 173, 118);
+    border-color: rgb(52, 120, 62);
+}
+.vote-panel .vote-score
+{
+    display: block;
+    font-size: 1.3em;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    padding-top: 2px;
+    text-align: center;
+}
+.vote-panel .vote-label {
+    color: rgb(102, 102, 102);
+    display: block;
+    font-size: 0.75em;
+    line-height: 1em;
+    padding-bottom: 7px;
+    text-align: center;
+}
+.favourites-panel .favourites-button {
+    background-image: url("/img/icons.png");
+    background-position: -191px -140px;
+    background-repeat: no-repeat;
+    background-size: 624% auto;
+    cursor: pointer;
+    height: 41px;
+    margin: 0 auto;
+    width: 41px;
+}
+.favourites-panel .favourites-button:hover 
+{
+    background-position: -191px -183px;
+}
+.favourites-panel .favourites-button:active 
+{
+    background-position: -149px -183px;
+}
+.favourites-panel .favourites-button.selected 
+{
+    background-position: -171px -1px;
+}
+.favourites-panel .favourites-count {
+    display: block;
+    font-size: 0.9em;
+    font-weight: 700;
+    line-height: 1em;
+    padding-top: 2px;
+    text-align: center;
+}
+.favourites-panel .favourites-label 
+{
+    color: rgb(102, 102, 102);
+    display: block;
+    font-size: 0.75em;
+    line-height: 1em;
+    padding-bottom: 5px;
+    text-align: center;
+}
+.identify-panel .identify-icon {
+    background-image: url("/img/icons.png");
+    background-position: -391px -130px;
+    background-size: 1500% auto;
+    display: block;
+    height: 30px;
+    margin: 0 auto;
+    width: 30px;
+}
+.describe-panel .describe-icon {
+    background-image: url("/img/icons.png");
+    background-position: -296px -83px;
+    background-size: 1500% auto;
+    display: block;
+    height: 30px;
+    margin: 0 auto;
+    width: 30px;
+}
+.comment-panel .comment-icon {
+    background-image: url("/img/icons.png");
+    background-position: -391px -83px;
+    background-size: 1500% auto;
+    display: block;
+    height: 30px;
+    margin: 0 auto;
+    width: 30px;
+}
+.identify-panel .identify-count,
+.describe-panel .describe-count,
+.comment-panel .comment-count {
+    display: block;
+    font-size: 0.9em;
+    font-weight: 700;
+    line-height: 1em;
+    margin-bottom: 4px;
+    text-align: center;
+}
+.identify-panel .add-identification-button,
+.describe-panel .add-note-button,
+.comment-panel .add-comment-button {
+    display: block;
+    font-size: 0.8em;
+    line-height: 1.5em;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    width: 100%;
+}
+/***
+BADGES
+***/
+.votes-badge,
+.favourites-badge,
+.identifications-badge,
+.notes-badge,
+.comments-badge 
+{
+    background-color: rgb(251, 251, 251);
+    border: 1px solid rgb(221, 221, 221);
+    border-radius: 2px 2px 2px 2px;
+    display: block;
+    float: left;
+    margin-right: 1.1%;
+    padding: 2px;
+    width: 19.1%;
+}
+.votes-badge.small,
+.favourites-badge.small,
+.identifications-badge.small,
+.notes-badge.small,
+.comments-badge.small
+{
+    padding: 0 6px;
+    width: auto;
+}
+.comments-badge {
+    margin-right: 0;
+}
+.votes-badge .small-icon,
+.favourites-badge .small-icon,
+.identifications-badge .small-icon,
+.notes-badge .small-icon,
+.comments-badge .small-icon {
+    display: block;
+    margin: 0 auto;
+}
+.votes-badge.small .small-icon,
+.favourites-badge.small .small-icon,
+.identifications-badge.small .small-icon,
+.notes-badge.small .small-icon,
+.comments-badge.small .small-icon {
+    display: inline-block;
+}
+.votes-badge .count,
+.favourites-badge .count,
+.identifications-badge .count,
+.notes-badge .count,
+.comments-badge .count 
+{
+    display: block;
+    font-size: 0.8em;
+    font-weight: 600;
+    line-height: 1em;
+    margin-top: 8px;
+    text-align: center;
+    width: 100%;
+}
+.votes-badge.small .count,
+.favourites-badge.small .count,
+.identifications-badge.small .count,
+.notes-badge.small .count,
+.comments-badge.small .count 
+{
+    display: inline-block;
+    margin: 0;
+    width: auto;
+}
+.votes-badge .label,
+.favourites-badge .label,
+.identifications-badge .label,
+.notes-badge .label,
+.comments-badge .label 
+{
+    color: rgb(119, 119, 119);
+    display: block;
+    font-size: 0.7em;
+    line-height: 1em;
+    text-align: center;
+    width: 100%;
+}
+.votes-badge.small .label,
+.favourites-badge.small .label,
+.identifications-badge.small .label,
+.notes-badge.small .label,
+.comments-badge.small .label 
+{
+    display: none;
+}
